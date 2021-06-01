@@ -2,50 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36ED3397533
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:14:30 +0200 (CEST)
-Received: from localhost ([::1]:35796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9B5397548
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:19:30 +0200 (CEST)
+Received: from localhost ([::1]:38326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo5A5-0002wU-Az
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53048)
+	id 1lo5Ev-0004vn-Ee
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lo58X-0001qp-NM; Tue, 01 Jun 2021 10:12:53 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22444)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5Dj-00049D-VY
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:18:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lo58U-0004BP-2u; Tue, 01 Jun 2021 10:12:52 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6D423745709;
- Tue,  1 Jun 2021 16:12:44 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2BE7A7456E3; Tue,  1 Jun 2021 16:12:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2A9CF7456B4;
- Tue,  1 Jun 2021 16:12:44 +0200 (CEST)
-Date: Tue, 1 Jun 2021 16:12:44 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <d86c8379-871f-53d4-03b3-55055fc0b56a@ozlabs.ru>
-Message-ID: <9236fd6d-e231-7b3b-3cec-d17733d04e2c@eik.bme.hu>
-References: <20210520090557.435689-1-aik@ozlabs.ru>
- <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
- <7e71f593-c2b9-5c7-4dd0-2a189bee771@eik.bme.hu>
- <d86c8379-871f-53d4-03b3-55055fc0b56a@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lo5Dg-0007gH-Cw
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:18:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622557091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=U9y1YJWGNcrpuZ8ZMhwKwhTDXuccYSUdGdQqjB/Iau4=;
+ b=XHe11R/Plfq8h8RS+DTUQUXN1PhbQAos7EzzKRFBAtu/Vu51xcpu5sJKDXQt/pLuYP3emI
+ /aMdyjKImj5JfQ01KdrR22Ud6UUSW8oXyRlgOjmslqTMc8guCu4TqUQRBOzxkVB9XbcJv9
+ H2VBpCEiWgij4uucr8vHYI7IDYUwU8o=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-4FsovktqMGixtiF3NOrwcQ-1; Tue, 01 Jun 2021 10:18:10 -0400
+X-MC-Unique: 4FsovktqMGixtiF3NOrwcQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ a12-20020ac8108c0000b029023c90fba3dcso1849379qtj.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 07:18:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U9y1YJWGNcrpuZ8ZMhwKwhTDXuccYSUdGdQqjB/Iau4=;
+ b=ItISRInpxPe9OfvIB2vMTI4fjwu3y86z0ysJH04crWMHKQjse8qy7hNbWhzh5k6H91
+ iHZoShg0gZVKWer/0SDZKcfeK2loe6yYFRBkrmfTNdk76SD88dWM48M10skf41FwkaB7
+ qbCV3pl0vIh3ZHZJdOe+C4l7fvQnJRjPZdS7BjAR97axf3kslZyf0EQl4V5Q901sBG3R
+ ccS9fj+5YC2THP2f3Mz/Kwz+m1/wEJ7AAUQK1EAuNroGvv1+YxF+2j9grz7TCX0TUIGP
+ k6rITcurNWzYGKKkPwywolcoM9kHmcAiTSBtuy5lkSy6UpstGUdnpHUq+2RXyIbSB8Xz
+ KAVA==
+X-Gm-Message-State: AOAM531tfoCgEYCQlKWirk7YBqGS0lejwhirePn1tCYQfQSSqtPi2urq
+ hvYCzdp6JwsBIw4ogMBg6zXpJCoKjjnf543WGAuqODJoC6JXwaawsalrxV+g3DACjTWh8WifW61
+ UlGqsN8OHh+QISgQyScOWbFweFQ3/jr0IpaQOlHRpVUOB1OcEUcQfl/Q5HC2EUfOq
+X-Received: by 2002:a37:2751:: with SMTP id n78mr2635630qkn.242.1622557088914; 
+ Tue, 01 Jun 2021 07:18:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6wGoezkGGYlwFdtEEQ7hWu4ejIzqdHiehojbJpVyDGTBH2bqOaSBsNXoT67RrGUyRj/GcJw==
+X-Received: by 2002:a37:2751:: with SMTP id n78mr2635597qkn.242.1622557088588; 
+ Tue, 01 Jun 2021 07:18:08 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
+ by smtp.gmail.com with ESMTPSA id c68sm10535451qkd.112.2021.06.01.07.18.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 07:18:08 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
+Date: Tue,  1 Jun 2021 10:18:05 -0400
+Message-Id: <20210601141805.206582-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-2049439111-1622556764=:5058"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,251 +91,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Juan Quintela <quintela@redhat.com>, huangy81@chinatelecom.cn,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Chuan Zheng <zhengchuan@huawei.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+These two commands are missing when adding the QMP sister commands.  Add them,
+so developers can play with them easier.
 
---3866299591-2049439111-1622556764=:5058
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Chuan Zheng <zhengchuan@huawei.com>
+Cc: huangy81@chinatelecom.cn
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+v2:
+- rebase to "migration/dirtyrate: make sample page count configurable"
+---
+ hmp-commands-info.hx  | 13 ++++++++++++
+ hmp-commands.hx       | 14 +++++++++++++
+ include/monitor/hmp.h |  2 ++
+ migration/dirtyrate.c | 47 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+)
 
-On Tue, 1 Jun 2021, Alexey Kardashevskiy wrote:
-> On 31/05/2021 23:07, BALATON Zoltan wrote:
->> On Sun, 30 May 2021, BALATON Zoltan wrote:
->>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
->>>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
->>>> new file mode 100644
->>>> index 000000000000..a283b7d251a7
->>>> --- /dev/null
->>>> +++ b/hw/ppc/vof.c
->>>> @@ -0,0 +1,1021 @@
->>>> +/*
->>>> + * QEMU PowerPC Virtual Open Firmware.
->>>> + *
->>>> + * This implements client interface from OpenFirmware IEEE1275 on the 
->>>> QEMU
->>>> + * side to leave only a very basic firmware in the VM.
->>>> + *
->>>> + * Copyright (c) 2021 IBM Corporation.
->>>> + *
->>>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>>> + */
->>>> +
->>>> +#include "qemu/osdep.h"
->>>> +#include "qemu-common.h"
->>>> +#include "qemu/timer.h"
->>>> +#include "qemu/range.h"
->>>> +#include "qemu/units.h"
->>>> +#include "qapi/error.h"
->>>> +#include <sys/ioctl.h>
->>>> +#include "exec/ram_addr.h"
->>>> +#include "exec/address-spaces.h"
->>>> +#include "hw/ppc/vof.h"
->>>> +#include "hw/ppc/fdt.h"
->>>> +#include "sysemu/runstate.h"
->>>> +#include "qom/qom-qobject.h"
->>>> +#include "trace.h"
->>>> +
->>>> +#include <libfdt.h>
->>>> +
->>>> +/*
->>>> + * OF 1275 "nextprop" description suggests is it 32 bytes max but
->>>> + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 chars 
->>>> long.
->>>> + */
->>>> +#define OF_PROPNAME_LEN_MAX 64
->>>> +
->>>> +#define VOF_MAX_PATH        256
->>>> +#define VOF_MAX_SETPROPLEN  2048
->>>> +#define VOF_MAX_METHODLEN   256
->>>> +#define VOF_MAX_FORTHCODE   256
->>>> +#define VOF_VTY_BUF_SIZE    256
->>>> +
->>>> +typedef struct {
->>>> +    uint64_t start;
->>>> +    uint64_t size;
->>>> +} OfClaimed;
->>>> +
->>>> +typedef struct {
->>>> +    char *path; /* the path used to open the instance */
->>>> +    uint32_t phandle;
->>>> +} OfInstance;
->>>> +
->>>> +#define VOF_MEM_READ(pa, buf, size) \
->>>> +    address_space_read_full(&address_space_memory, \
->>>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
->>>> +#define VOF_MEM_WRITE(pa, buf, size) \
->>>> +    address_space_write(&address_space_memory, \
->>>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
->>>> +
->>>> +static int readstr(hwaddr pa, char *buf, int size)
->>>> +{
->>>> +    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
->>>> +        return -1;
->>>> +    }
->>>> +    if (strnlen(buf, size) == size) {
->>>> +        buf[size - 1] = '\0';
->>>> +        trace_vof_error_str_truncated(buf, size);
->>>> +        return -1;
->>>> +    }
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
->>>> +                       const char *s1, unsigned nargscheck, unsigned 
->>>> nretcheck)
->>>> +{
->>>> +    if (strcmp(s, s1)) {
->>>> +        return false;
->>>> +    }
->>>> +    if ((nargscheck && (nargs != nargscheck)) ||
->>>> +        (nretcheck && (nret != nretcheck))) {
->>>> +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
->>>> +        return false;
->>>> +    }
->>>> +
->>>> +    return true;
->>>> +}
->>>> +
->>>> +static void prop_format(char *tval, int tlen, const void *prop, int len)
->>>> +{
->>>> +    int i;
->>>> +    const unsigned char *c;
->>>> +    char *t;
->>>> +    const char bin[] = "...";
->>>> +
->>>> +    for (i = 0, c = prop; i < len; ++i, ++c) {
->>>> +        if (*c == '\0' && i == len - 1) {
->>>> +            strncpy(tval, prop, tlen - 1);
->>>> +            return;
->>>> +        }
->>>> +        if (*c < 0x20 || *c >= 0x80) {
->>>> +            break;
->>>> +        }
->>>> +    }
->>>> +
->>>> +    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
->>>> +        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
->>>> +            strcpy(t, bin);
->>>> +            return;
->>>> +        }
->>>> +        if (i && i % 4 == 0 && i != len - 1) {
->>>> +            strcat(t, " ");
->>>> +            ++t;
->>>> +        }
->>>> +        t += sprintf(t, "%02X", *c & 0xFF);
->>>> +    }
->>>> +}
->>>> +
->>>> +static int get_path(const void *fdt, int offset, char *buf, int len)
->>>> +{
->>>> +    int ret;
->>>> +
->>>> +    ret = fdt_get_path(fdt, offset, buf, len - 1);
->>>> +    if (ret < 0) {
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    buf[len - 1] = '\0';
->>>> +
->>>> +    return strlen(buf) + 1;
->>>> +}
->>>> +
->>>> +static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, int 
->>>> len)
->>>> +{
->>>> +    int ret;
->>>> +
->>>> +    ret = fdt_node_offset_by_phandle(fdt, ph);
->>>> +    if (ret < 0) {
->>>> +        return ret;
->>>> +    }
->>>> +
->>>> +    return get_path(fdt, ret, buf, len);
->>>> +}
->>>> +
->>>> +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
->>>> +{
->>>> +    char fullnode[VOF_MAX_PATH];
->>>> +    uint32_t ret = -1;
->>>> +    int offset;
->>>> +
->>>> +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
->>>> +        return (uint32_t) ret;
->>>> +    }
->>>> +
->>>> +    offset = fdt_path_offset(fdt, fullnode);
->>>> +    if (offset >= 0) {
->>>> +        ret = fdt_get_phandle(fdt, offset);
->>>> +    }
->>>> +    trace_vof_finddevice(fullnode, ret);
->>>> +    return (uint32_t) ret;
->>>> +}
->>> 
->>> The Linux init function that runs on pegasos2 here:
->>> 
->>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/kernel/prom_init.c?h=v4.14.234#n2658 
->>> 
->>> calls finddevice once with isa@c and next with isa@C (small and capital C) 
->>> both of which works with the board firmware but with vof the comparison is 
->>> case sensitive and one of these fails so I can't make it work. I don't 
->>> know if this is a problem in libfdt or the vof_finddevice above should do 
->>> something else to get case insensitive comparison.
->> 
->> This fixes the issue with Linux but I'm not sure if there's any better 
->> solution or would it break anything else.
->
-> The bit after "@" is an address and needs to be case insensitive and I'll fix 
-> this indeed. I'm not so sure about the part before "@", I cannot imagine what 
-> could break if I made search insensitive to case. Hm :-/
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ab0c7aa5eea..f8a9141dd8a 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -880,3 +880,16 @@ SRST
+   ``info replay``
+     Display the record/replay information: mode and the current icount.
+ ERST
++
++    {
++        .name       = "dirty_rate",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show dirty rate information",
++        .cmd        = hmp_info_dirty_rate,
++    },
++
++SRST
++  ``info dirty_rate``
++    Display the vcpu dirty rate information.
++ERST
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 2d21fe5ad42..84dcc3aae6c 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1727,3 +1727,17 @@ ERST
+         .flags      = "p",
+     },
+ 
++SRST
++``calc_dirty_rate`` *second*
++  Start a round of dirty rate measurement with the period specified in *second*.
++  The result of the dirty rate measurement may be observed with ``info
++  dirty_rate`` command.
++ERST
++
++    {
++        .name       = "calc_dirty_rate",
++        .args_type  = "second:l,sample_pages_per_GB:l?",
++        .params     = "second [sample_pages_per_GB]",
++        .help       = "start a round of guest dirty rate measurement",
++        .cmd        = hmp_calc_dirty_rate,
++    },
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 605d57287ae..3baa1058e2c 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -129,5 +129,7 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
+ void hmp_replay_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
+ 
+ #endif
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 2ee3890721a..320c56ba2c4 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -20,6 +20,9 @@
+ #include "ram.h"
+ #include "trace.h"
+ #include "dirtyrate.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qmp/qdict.h"
+ 
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+ static struct DirtyRateStat DirtyStat;
+@@ -447,3 +450,47 @@ struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+ {
+     return query_dirty_rate_info();
+ }
++
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    DirtyRateInfo *info = query_dirty_rate_info();
++
++    monitor_printf(mon, "Status: %s\n",
++                   DirtyRateStatus_str(info->status));
++    monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
++                   info->start_time);
++    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
++                   info->sample_pages);
++    monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
++                   info->calc_time);
++    monitor_printf(mon, "Dirty rate: ");
++    if (info->has_dirty_rate) {
++        monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
++    } else {
++        monitor_printf(mon, "(not ready)\n");
++    }
++    g_free(info);
++}
++
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    int64_t sec = qdict_get_try_int(qdict, "second", 0);
++    int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
++    bool has_sample_pages = (sample_pages != -1);
++    Error *err = NULL;
++
++    if (!sec) {
++        monitor_printf(mon, "Incorrect period length specified!\n");
++        return;
++    }
++
++    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "Starting dirty rate measurement with period %"PRIi64
++                   " seconds\n", sec);
++    monitor_printf(mon, "[Please use 'info dirty_rate' to check results]\n");
++}
+-- 
+2.31.1
 
-Fixing the match in the address part is probably enough as the name sent 
-by guests is probably always lower case but the address could be formatted 
-differently and that's what caused the problem. The patch below was only a 
-quick fix to be able to test it further but your fix should work too.
-
-With this and the ld replaced in entry.S I can now boot Linux which is 
-enough to submit the pegasos2 vof patch after an updated patch from you 
-fixes these in vof.
-
-MorphOS still misses something but I'm not sure what as it uses the data 
-gathered from the device tree later without printing diagnostics and fails 
-due to a NULL dereference much after that so it seems to assume some value 
-should exist but I'm not sure what value it needs and where that should 
-come from. Maybe I'll try some more to find out just to make it simpler to 
-boot but since it boots with the board firmware it's enough if Linux works 
-with vof for now.
-
-Regards,
-BALATON Zoltan
-
->>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
->> index a283b7d251..b47bbd509d 100644
->> --- a/hw/ppc/vof.c
->> +++ b/hw/ppc/vof.c
->> @@ -144,12 +144,15 @@ static uint32_t vof_finddevice(const void *fdt, 
->> uint32_t nodeaddr)
->>      char fullnode[VOF_MAX_PATH];
->>      uint32_t ret = -1;
->>      int offset;
->> +    gchar *p;
->>
->>      if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
->>          return (uint32_t) ret;
->>      }
->> 
->> -    offset = fdt_path_offset(fdt, fullnode);
->> +    p = g_ascii_strdown(fullnode, -1);
->> +    offset = fdt_path_offset(fdt, p);
->> +    g_free(p);
->>      if (offset >= 0) {
->>          ret = fdt_get_phandle(fdt, offset);
->>      }
->
->
---3866299591-2049439111-1622556764=:5058--
 
