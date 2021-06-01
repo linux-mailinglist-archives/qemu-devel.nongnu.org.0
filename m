@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDB6397BB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 23:26:11 +0200 (CEST)
-Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7685397BBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 23:28:57 +0200 (CEST)
+Received: from localhost ([::1]:52120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loBtp-0000dj-Ii
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 17:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1loBwW-0004jO-FA
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 17:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loBsS-0008GE-79
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:24:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loBsP-0005pI-1e
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:24:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622582679;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zhj0YZDEgJ7eRp9B4A5XOQs3vFf+KbYfVxdtrTrXgco=;
- b=OTr27t4jW/t3dgYl6q11nBCXoJdcOHb99BEAsxKmiFC/Z86o9m8V7hNRHxkYHetCBFaEa5
- drOQ3TuRUDE0cWEWjc4k1pd/984sD04JBD+VhX+81WMX7cESO91igzcIijK4/mrrMI+JQL
- ipfU5A1C12Elx1O272BzriO7/WbDpPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-x39RzzjWP5qwfMoB_GiFBA-1; Tue, 01 Jun 2021 17:24:36 -0400
-X-MC-Unique: x39RzzjWP5qwfMoB_GiFBA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 376B4802B78;
- Tue,  1 Jun 2021 21:24:35 +0000 (UTC)
-Received: from redhat.com (ovpn-113-154.phx2.redhat.com [10.3.113.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 382665D6D3;
- Tue,  1 Jun 2021 21:24:31 +0000 (UTC)
-Date: Tue, 1 Jun 2021 16:24:29 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/2] block-backend: add drained_poll
-Message-ID: <20210601212429.r2lu7jzh5y3w5e6q@redhat.com>
-References: <20210601055728.90849-1-slp@redhat.com>
- <20210601055728.90849-2-slp@redhat.com>
- <YLZZTgcWUliRhtT2@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loBvI-0003YM-Rx
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:27:40 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40837)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loBvB-0007mg-K7
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 17:27:40 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id j12so436303pgh.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 14:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nxkuFkd8rC221LRzht6yYE9goXLTGYG2T/OW+TscteI=;
+ b=HYBpOJxYi46fGpK0WfULJ/dfLIVrQrNSR6yHIqwLJp4h6Iz93KNfY3i9eUEsnzQRN8
+ lHpDkBE5NM4eUEjOWOd7SsXGqGfwrNv6u9u9v5msx6Ecw8XYpxQfM+7FBF+vmpebL/4W
+ POMjuhISTwICNiZTBuCfbqSIxsTkCztbvqZneb9/0g+uVnu7NUfdP6tD+gM+V1J4a4Rh
+ om07J5KXUL7jdH5ZoeDjT0s3h9xktJHwW2R65dSbMGK67P47jDcOI/gmxfn1+I8XbxoV
+ pu8hc+ZSuRKGHz8fkjoKytOd+7+zUd3Fd7gmr04pYmr4cbO5AfrMKc2FDHCsYXMAVoIH
+ b2pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nxkuFkd8rC221LRzht6yYE9goXLTGYG2T/OW+TscteI=;
+ b=MEZZlKalU+3nXWvwsBxwbr3g/5pMtFBEp2evPQsueil2KaHD4bzXG8fHefJ26byuvn
+ SDLv9rjucxy1ufnC+A52jfnaEcig/21bSOrjYVXd18Pcwrewt8XT5Z0ULXvkpsT7/9Zp
+ V2/gxtuBnX23DX1vvELSiR0yDlEV8C3Ev5KL4/A6L0sv4kANUJEKTmJzbbau/iqqZpQu
+ FvO0qXYTZLxpkNDc9f1LnjeLh+KV1NKu0UzYub3zK+CmxGjOJ0TkBxQsmJymZQAH0adL
+ mEQUWlMk/yDqs5bBvV3OzOVu92jdMZhFkVNpNPd1stE+yaPcjDdfweAi7J6o/fw2EWxC
+ /Dpg==
+X-Gm-Message-State: AOAM532t5wApYiyCTj87HDo6Pzg8fQWGnIpZm4wf29cmHQfyNzNXZ3Zo
+ 7O1+BPX7msgPrjJz2724BozC4g==
+X-Google-Smtp-Source: ABdhPJzprePihZjm7qwAAMz0TPKSR7qXUr7+z9Lgxl6J6ave2nKLIodJLmdl4iEXWtGP9q91oFDB6Q==
+X-Received: by 2002:a05:6a00:124d:b029:2e9:e07c:f290 with SMTP id
+ u13-20020a056a00124db02902e9e07cf290mr9530582pfi.25.1622582851905; 
+ Tue, 01 Jun 2021 14:27:31 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ j2sm2771018pji.34.2021.06.01.14.27.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Jun 2021 14:27:31 -0700 (PDT)
+Subject: Re: [PATCH v2 01/26] s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN
+ handling
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210517142739.38597-1-david@redhat.com>
+ <20210517142739.38597-2-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <731bc385-463c-47e5-0841-f9bed4b48933@linaro.org>
+Date: Tue, 1 Jun 2021 14:27:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YLZZTgcWUliRhtT2@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210517142739.38597-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +90,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 01, 2021 at 05:59:10PM +0200, Kevin Wolf wrote:
-> > +++ b/block/block-backend.c
-> > @@ -2393,8 +2393,13 @@ static void blk_root_drained_begin(BdrvChild *child)
-> >  static bool blk_root_drained_poll(BdrvChild *child)
-> >  {
-> >      BlockBackend *blk = child->opaque;
-> > +    int ret = 0;
-> 
-> It's really a bool.
-> 
-> >      assert(blk->quiesce_counter);
-> > -    return !!blk->in_flight;
-> > +
-> > +    if (blk->dev_ops && blk->dev_ops->drained_poll) {
-> > +        ret = blk->dev_ops->drained_poll(blk->dev_opaque);
-> > +    }
-> > +    return ret || !!blk->in_flight;
-> >  }
-> 
-> Doesn't make a difference for correctness, of course, so whether you
-> change it or not:
-> 
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+On 5/17/21 7:27 AM, David Hildenbrand wrote:
+> @@ -634,6 +664,9 @@ uint64_t HELPER(clfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
+>  
+>      s390_restore_bfp_rounding_mode(env, old_mode);
+>      handle_exceptions(env, xxc_from_m34(m34), GETPC());
+> +    if (float128_is_any_nan(make_float128(h, l))) {
+> +        return 0;
+> +    }
 
-Likewise, with that cosmetic change,
-Reviewed-by: Eric Blake <eblake@redhat.com>
+I wonder if handle_exceptions should return s390_exc.
+Then you can test
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+   exc = handle_exceptions(...);
+   if (unlikely(exc & S390_IEEE_MASK_INVALID)) {
+     ret = 0;
+   }
+   return ret;
 
+
+
+> +++ b/target/s390x/vec_fpu_helper.c
+> @@ -326,6 +326,9 @@ void HELPER(gvec_vcdlg64s)(void *v1, const void *v2, CPUS390XState *env,
+>   
+>   static uint64_t vcgd64(uint64_t a, float_status *s)
+>   {
+> +    if (float64_is_any_nan(a)) {
+> +        return INT64_MIN;
+> +    }
+>       return float64_to_int64(a, s);
+>   }
+>   
+> @@ -349,6 +352,9 @@ void HELPER(gvec_vcgd64s)(void *v1, const void *v2, CPUS390XState *env,
+>   
+>   static uint64_t vclgd64(uint64_t a, float_status *s)
+>   {
+> +    if (float64_is_any_nan(a)) {
+> +        return 0;
+> +    }
+>       return float64_to_uint64(a, s);
+>   }
+
+You do still need to raise invalid, as far as I can see.
+
+
+r~
 
