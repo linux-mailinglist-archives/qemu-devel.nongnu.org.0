@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449273979E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:16:39 +0200 (CEST)
-Received: from localhost ([::1]:56298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8D23979EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:19:28 +0200 (CEST)
+Received: from localhost ([::1]:39988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo8wQ-0007pM-5M
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43288)
+	id 1lo8z9-0007Md-Aw
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:19:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo8qX-0002EQ-1a
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40017)
+ id 1lo8qW-0002E7-O7
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lo8qP-0005cT-37
+ id 1lo8qT-0005gd-Ht
  for qemu-devel@nongnu.org; Tue, 01 Jun 2021 14:10:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622571024;
+ s=mimecast20190719; t=1622571027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FjNwH2SyiBMMgvOrNXP7N0FHQIvLn2EKYHbUu3O+4YQ=;
- b=OH4R7hHK89nrjLfvh++mrftKjRjpcVGwfxsTTK/+dlBHw3iLiXnJ3o7GcKBYZybQQH8YFW
- NiDET9ls7687loexchU4AaKlcXT9HIHAK7tk27mVGIbISXSwd+X7bhlg4/kiLRgIGyEmp+
- tOi6HONwjUdsKQjO1tV12zLlf1FK2io=
+ bh=UwZ76EXiVsD52cBQ/JKosxIyzJwORhxe8vPOye6RqAE=;
+ b=bFuuv8yXlnQwVHiqo8inh3PTxbcbjD8JHgY6kfeg9NRiAgKwDfqOuGqjBbr4biYoPtRTly
+ 2f8C1726uPVNy3egHHdll53w7viQE3Yaee4AqKoKSQ9baWhNkhgiKUKXNTYlgk5Wu5W6oe
+ H6WJy0STcQgrmiJe/GeivPSmRoi8iHI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-daHfunV2M4C7IBqcjUyPQg-1; Tue, 01 Jun 2021 14:10:22 -0400
-X-MC-Unique: daHfunV2M4C7IBqcjUyPQg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-319-VOm6iP3cNu2ZxJtjz7dSfw-1; Tue, 01 Jun 2021 14:10:23 -0400
+X-MC-Unique: VOm6iP3cNu2ZxJtjz7dSfw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A73068015C6;
- Tue,  1 Jun 2021 18:10:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CD57802690;
+ Tue,  1 Jun 2021 18:10:22 +0000 (UTC)
 Received: from localhost (ovpn-112-239.rdu2.redhat.com [10.10.112.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 787B260C4A;
- Tue,  1 Jun 2021 18:10:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47BE75C1BB;
+ Tue,  1 Jun 2021 18:10:22 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/24] i386: keep hyperv_vendor string up-to-date
-Date: Tue,  1 Jun 2021 14:09:58 -0400
-Message-Id: <20210601181014.2568861-9-ehabkost@redhat.com>
+Subject: [PULL 09/24] i386: invert hyperv_spinlock_attempts setting logic with
+ hv_passthrough
+Date: Tue,  1 Jun 2021 14:09:59 -0400
+Message-Id: <20210601181014.2568861-10-ehabkost@redhat.com>
 In-Reply-To: <20210601181014.2568861-1-ehabkost@redhat.com>
 References: <20210601181014.2568861-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -87,68 +88,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-When cpu->hyperv_vendor is not set manually we default to "Microsoft Hv"
-and in 'hv_passthrough' mode we get the information from the host. This
-information is stored in cpu->hyperv_vendor_id[] array but we don't update
-cpu->hyperv_vendor string so e.g. QMP's query-cpu-model-expansion output
-is incorrect.
+There is no need to have this special case: like all other Hyper-V
+enlightenments we can just use kernel's supplied value in hv_passthrough
+mode.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20210422161130.652779-2-vkuznets@redhat.com>
+Message-Id: <20210422161130.652779-3-vkuznets@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c     | 19 +++++++++----------
- target/i386/kvm/kvm.c |  5 +++++
- 2 files changed, 14 insertions(+), 10 deletions(-)
+ target/i386/kvm/kvm.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index d150378c400..48dabc5238a 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6141,17 +6141,16 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
- 
-     /* Hyper-V vendor id */
-     if (!cpu->hyperv_vendor) {
--        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
--    } else {
--        len = strlen(cpu->hyperv_vendor);
--
--        if (len > 12) {
--            warn_report("hv-vendor-id truncated to 12 characters");
--            len = 12;
--        }
--        memset(cpu->hyperv_vendor_id, 0, 12);
--        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
-+        object_property_set_str(OBJECT(cpu), "hv-vendor-id", "Microsoft Hv",
-+                                &error_abort);
-+    }
-+    len = strlen(cpu->hyperv_vendor);
-+    if (len > 12) {
-+        warn_report("hv-vendor-id truncated to 12 characters");
-+        len = 12;
-     }
-+    memset(cpu->hyperv_vendor_id, 0, 12);
-+    memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
- 
-     /* 'Hv#1' interface identification*/
-     cpu->hyperv_interface_id[0] = 0x31237648;
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index d972eb4705b..ce02cb6713c 100644
+index ce02cb6713c..7849e84e9a0 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -1216,6 +1216,11 @@ static int hyperv_handle_properties(CPUState *cs,
-             cpu->hyperv_vendor_id[0] = c->ebx;
-             cpu->hyperv_vendor_id[1] = c->ecx;
-             cpu->hyperv_vendor_id[2] = c->edx;
-+            cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
-+                                           sizeof(cpu->hyperv_vendor_id) + 1);
-+            memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
-+                   sizeof(cpu->hyperv_vendor_id));
-+            cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] = 0;
+@@ -1257,11 +1257,7 @@ static int hyperv_handle_properties(CPUState *cs,
+         c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+         if (c) {
+             env->features[FEAT_HV_RECOMM_EAX] = c->eax;
+-
+-            /* hv-spinlocks may have been overriden */
+-            if (cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_NOTIFY) {
+-                c->ebx = cpu->hyperv_spinlock_attempts;
+-            }
++            cpu->hyperv_spinlock_attempts = c->ebx;
          }
- 
-         c = cpuid_find_entry(cpuid, HV_CPUID_INTERFACE, 0);
+         c = cpuid_find_entry(cpuid, HV_CPUID_NESTED_FEATURES, 0);
+         if (c) {
 -- 
 2.30.2
 
