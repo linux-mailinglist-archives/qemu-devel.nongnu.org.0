@@ -2,84 +2,150 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20719396EA3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 10:17:00 +0200 (CEST)
-Received: from localhost ([::1]:60098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6E1396F29
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 10:43:09 +0200 (CEST)
+Received: from localhost ([::1]:45524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnza6-0004tX-PY
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 04:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55134)
+	id 1lnzzQ-0006uS-Fb
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 04:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lnzZC-0004B6-9J
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 04:16:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31577)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1lnzyN-0006Dm-5I
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 04:42:03 -0400
+Received: from mail-bn7nam10on2078.outbound.protection.outlook.com
+ ([40.107.92.78]:28384 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lnzZ7-0003z9-US
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 04:16:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622535356;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x5RCdGlMFNgGvrvBA/iGiyWF32zFDWAnJeBiWu3LI90=;
- b=jA3guAYBgsbndr5hdU8pd8wbR+GId9wmAjkdBGz/IFEeFgHWKDg9cwke1BE+2MGpgkRYX7
- FpuGxWJGCL6srqqs+0tHq62uHqyz9NhUjQITOoFMn+Iq05U3iEilSHuZF8rYNi9p7G3vSf
- zCzMSJXs0OrNdGXhrOQ2nw5qbUAE0fE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-TziOUjf9O5KtABOGuYzLmQ-1; Tue, 01 Jun 2021 04:15:54 -0400
-X-MC-Unique: TziOUjf9O5KtABOGuYzLmQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- s123-20020a3777810000b02902e9adec2313so11266156qkc.4
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 01:15:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=x5RCdGlMFNgGvrvBA/iGiyWF32zFDWAnJeBiWu3LI90=;
- b=AGp3909M7UoEQcO4rik45N5bBtizL9y01JUoJ+c7ZzknKHY78mXd2juCdgXkt6uF1X
- VF+UNir4LQe6T3ijxjtM6HiL2L3t3zePBk1ng7e9nl8y8mOmFP7Jrmgrh1HViDUBi02d
- /D1PSWb2jdobpdjr72mUErPAfXNlndyB1B4yGgVzYKcTp9D/UMFaTpsZdC0pL+XYVAwr
- EGFnkGoRxO0UTm16zj5olDpXCdvyfNyIHaZ7lkIw1k0OHqaqehdBMIEVcfoIIK5xoFNT
- l6BEfKb/p8TaZm+uidHeS4lmfiS4+drwyCwQKsoiW2WIgeKg1vBnef5jGi1a+77RDBF8
- sEqQ==
-X-Gm-Message-State: AOAM533GCL6rjrejoKBBnbT5I2SiVwfCzbCHoehkwCBaWdN3VfilJIeg
- uNHPDHoKjqVsuPQMfXe6eJYkaKxEpp7JXaDx0Fq3+h+ChuhTVmYDPew0ZfJ7fVagLwHKKkHxTjN
- yi49EHdEvMIi6ghx62H4lcfrRfnKD5Z0=
-X-Received: by 2002:ac8:5a02:: with SMTP id n2mr18533403qta.221.1622535353855; 
- Tue, 01 Jun 2021 01:15:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRirsj7ULRX9ZkBWjGg/vqM/SbRQU2iDYcWMZK1BYePv4oU6jNS22HdeuMamyTbEQYJ9Q98Zs8/uqUyBiD55E=
-X-Received: by 2002:ac8:5a02:: with SMTP id n2mr18533383qta.221.1622535353545; 
- Tue, 01 Jun 2021 01:15:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1lnzyK-0005jA-80
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 04:42:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PrpGNpdQdzyshZgZuXNCbenP43dqZt0yMutbY+PvLCCBphf4MQxl0q2QPpdxxDIbKPB/8sYnmfEFapru8ZZobdjjVy33j86bdvLBabpcm0RwY5qNpSz/mZQZ+HZv3H1bzguWeFga60BtasOlXxdr2PFB89Tkyfh5Ka8V2jSMt87TuXuKtb3dkKr0r2JH1bl2upEqWXdHJnvw0W3XFHj/q2T/Z1Uyj4iBENrLUOam3ntyvv8SylEugyNpcfgoJAbr/R6eGIzxkTRgIkaN4a7gsxMri46lt0XCKpdXYJTQBbOeCl4LZZ9GGCwULjrgiDEhF+1kRyoHTeEyRWtLbUQJ/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BeKRV5YPXdSq8z3WHrQp1H3WJdeMz4bqlV9lJ12BUas=;
+ b=i4dXL3mCtYcENms+mjfTZC5qjN7nmtdL1kydHK5oBP+NcdInGevlxKb0QmH7KfrV3vsikj1tR9t8Ut5AHQgx0Fry8c3NJzb57jcaquvYmMlWsSgEMt2dehvYLHLWdNyj5mifbM4w4K8Jdj9I3AD3HwGLVK+eBTgtIjw5dnuXllPrU7jP3N3uVkjmS4ekowesOQtbiIIuHFp6Vdwe8OnpavI3MyD+VQo94HOMRLvBQcinEypNClFbZ4ggo9ziBMVZvuk2SE9j3vzEQAzZlhCzPlZyJRQ4QgJMnWt4vGur4BydWDH5lEe68ULdvDIm14QVlpoXRREBpF2qhBuf1gED2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BeKRV5YPXdSq8z3WHrQp1H3WJdeMz4bqlV9lJ12BUas=;
+ b=Y6ckdN9Acvrmb4x8ehkYWjskR6lvUsJXqNJuILenl2RAzV88g8kXOMldd3aZACMZjlPX6M3JO5yf4msJ0AAVu8c/buD06fBk74onHflE7TIOJP3uwSR5fdYc4xI/R8p4MGLRwvCeqfjZFSVTSr607CEP2UYwwu7pGZMw0+zT2Go=
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SN6PR12MB2783.namprd12.prod.outlook.com (2603:10b6:805:78::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Tue, 1 Jun
+ 2021 08:26:52 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::1fb:7d59:2c24:615e]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::1fb:7d59:2c24:615e%6]) with mapi id 15.20.4173.030; Tue, 1 Jun 2021
+ 08:26:51 +0000
+From: "Kalra, Ashish" <Ashish.Kalra@amd.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Tobin Feldman-Fitzthum
+ <tobin@linux.ibm.com>, "natet@google.com" <natet@google.com>
+CC: Dov Murik <dovmurik@linux.vnet.ibm.com>, "Lendacky, Thomas"
+ <Thomas.Lendacky@amd.com>, "x86@kernel.org" <x86@kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "srutherford@google.com"
+ <srutherford@google.com>, "seanjc@google.com" <seanjc@google.com>,
+ "rientjes@google.com" <rientjes@google.com>, "Singh, Brijesh"
+ <brijesh.singh@amd.com>, Laszlo Ersek <lersek@redhat.com>, James Bottomley
+ <jejb@linux.ibm.com>, Hubertus Franke <frankeh@us.ibm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [RFC] KVM: x86: Support KVM VMs sharing SEV context
+Thread-Topic: [RFC] KVM: x86: Support KVM VMs sharing SEV context
+Thread-Index: AQHXCot5SNFL8RrPlkCutU8OGpQ4JKp/Ae+AgAAQa4CAdHeyEIAEX2PwgAd1TYA=
+Date: Tue, 1 Jun 2021 08:26:51 +0000
+Message-ID: <SN6PR12MB276727DE9AFD387B11C404418E3E9@SN6PR12MB2767.namprd12.prod.outlook.com>
+References: <20210224085915.28751-1-natet@google.com>
+ <7829472d-741c-1057-c61f-321fcfb5bdcd@linux.ibm.com>
+ <35dde628-f1a8-c3bf-9c7d-7789166b0ee1@redhat.com>
+ <SN6PR12MB276780007C17ADD273EB70FC8E269@SN6PR12MB2767.namprd12.prod.outlook.com>
+ <SN6PR12MB276726B5FEF171E1099B91AC8E239@SN6PR12MB2767.namprd12.prod.outlook.com>
+In-Reply-To: <SN6PR12MB276726B5FEF171E1099B91AC8E239@SN6PR12MB2767.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2021-06-01T08:26:46Z; 
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=c0e1fa55-cc39-48d4-80c0-6013c0b193d0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [183.83.213.75]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4af3b194-64ca-430d-ec50-08d924d701ee
+x-ms-traffictypediagnostic: SN6PR12MB2783:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR12MB27836DE06ED1CD715C6A3F178E3E9@SN6PR12MB2783.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WYoO1CMZfgD8/63EWK2qMxA02W4obudsnFOrCCHeBUzz159EMfLHdqlEOFYok0bvDzZjNImr/iWSthwTchacV2jkIf9IKlTqRz2Wmgx2xKG3hjqJ+idjOQtKpE/1z81MhJPDQP4xWsUGgJjzR3RoF38BR4iTHslTLY2JF6+Q7yQ1eatgjdaU3JWSNDPSZOLsjyeW0Etj5r4TMdu4Cslf4jOsUOK1Z4VW9zgX6jFmBcUyulNDF73s3cMapsk3yOeHC4bc6kGuoJFQD6rfp5pZBzvr3dpl/hjf1qEbh5TyFTnbam3snq+CuOaLKfbn39mnTVfHx0xQtvgpUAAhXK3iqShOY6EIbZEaTmyMlgAmDvuBva80QFSHPCMVX/k9l9ZRd6RPzOwVl4AS41FNfQQ94ntjaKnHfVihwD8vrFY/HpSU4bpIngEZT+N+tofuN+rsOiuxuQAlG8+EZFCFowNNa32BfzSnX3Sn9JIRW8myEO4FUFN5BQZR9A1IArElIGVwMBDQ2onMkli/AF0wwhR5pnDgr8B3M3+7tL6/DHo6i1U8R3M1K6PV5X8Q/r59wodMUFusFssZOyRGM3MFcKcOnPH6xtPPpB5bp1yaf2X1sug=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(396003)(136003)(346002)(376002)(5660300002)(83380400001)(478600001)(53546011)(6506007)(26005)(9686003)(8676002)(86362001)(8936002)(38100700002)(66946007)(66446008)(64756008)(66556008)(7696005)(66476007)(7416002)(110136005)(54906003)(2906002)(4326008)(186003)(122000001)(52536014)(76116006)(316002)(55016002)(33656002)(71200400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?QkRyZ3RYV2FwUzh1cGtBZ1dhQURVd0wydzVkUzd3ajN0Qno2blZsYlhGMWhk?=
+ =?utf-8?B?K2dqSlpicmlCT20yMXNZN2NhOXd5d1JjT216azRjbFFwdnE0THM3Vk9XTUlT?=
+ =?utf-8?B?cm9YaW5ESVZuWEU4WFRQaEhzMllZYzBoSDJqckwzWFRycVZjbHhvQU9nbzVR?=
+ =?utf-8?B?UmIwUVJvVDBSWW1aK0NtY0RUaXJ5QjlaK1ltRm93bUhNbnZSTkJ6RFAwWDhC?=
+ =?utf-8?B?MGxVSEZnS1krS2paMXZ3Q1kzV0JVSml3M2dXd2J3OUVzZ3cwdUN5Qm1pOWZq?=
+ =?utf-8?B?LzhtUGNiNkNrU2xncTdJakdNNklUOForOEVIYVVCZG16WUdsOE1YZkxzUGNO?=
+ =?utf-8?B?WHdBR2JJb2hLWE83dS95R0d0aWtDSWhNZWVsNk5pdTJmcXJtMmVFenVSOTVz?=
+ =?utf-8?B?aHA3eUhWNDRocjljdWdVcGQ2Z1FVOUZ0K2JvZzdGRVNoTlhCc0lZZy9vRkQw?=
+ =?utf-8?B?Z1BTcFd5T0NERk55UGs3bkoxcW1mVU1BaHNsQzB6SDFXSzVqRFhQL3FSWW1E?=
+ =?utf-8?B?TGFoSWM0a2wrQ0dMZUlJSm5YOU9JYy9uaGRoQmI5S3c5WjBLb2w1d25YeGRC?=
+ =?utf-8?B?a2tNZmdacUd6WEZjRUdNMFlENjd0N3FpdUxNb1BkL3ZvVW1VUGwwdEorUEhr?=
+ =?utf-8?B?aVRkcWtFY3NUTGxkb1RxSUdpUkw3WE1XNXFOczk2N2VwNUZiZnNwemE1MmRl?=
+ =?utf-8?B?cFJ3ZlJTdWRRMWZnWTlSSm1MSnRPdlJMcDBTcHlnTHBnVkIyZEFtUjdMNEpN?=
+ =?utf-8?B?SnNWVFZkcEUxb2dXK3Zza0I2NGxtcnd2OEVpdDNQVjZnbmVla0RVcXV1c2Fn?=
+ =?utf-8?B?VUpyTUI3Qi9TYi9JOGRWK3FkUmJHSzExbG1WbFpoTkJkLzZsQXQzei9iQ3E2?=
+ =?utf-8?B?ZHl1aEFVRkV6b3ZGVEVvK1hvVlFiNlRYYXlsNWZtMEdyVE5ZMm45cms4TUFT?=
+ =?utf-8?B?U1poanlieFYvRXViR3lOZ1d0WXJuTVMrZjRGRHp6NUJzYkZTM2FnQTh2Y0VZ?=
+ =?utf-8?B?ZzFkMVlqYWVSL1FQUHFDbGxtUmc2TXhTZlpvNkFqbC91WGhKZTl1Z1gxRTZF?=
+ =?utf-8?B?T2FaYW03TnVDcS90WW85RTRhaFFZaStHbHBSUVhSVk5qaFhnNko3Q1phZ2Ju?=
+ =?utf-8?B?UUpWcnRnZEVHOFNUZzdjMFpiRlhNWGpLWHozdnVwSTE5Z3BxZTE5ZjcweVZ2?=
+ =?utf-8?B?TmM2aWxtQWo1MURXbnNPN3BWUFJPb1VWV2IwM21tTTdyaHRSYUg4cERJRHFv?=
+ =?utf-8?B?UERoVGNiS0U5MUtmdTdvK09vRGRUekd2SDM4SGROY0UwQ3J2OThQeWR0eWNp?=
+ =?utf-8?B?VnRaejJpcG9IZlJNL3A1RytHN0F4YWthcDVVR2NJVkMxUGdaYkgzQlZhUTJV?=
+ =?utf-8?B?cWdNbE9tVys0SjZhdlh4elc4b2tlSWw2a1R6d2FzREVQUUlQRVA0WEtQaWNw?=
+ =?utf-8?B?anh0WnE2L1VWTkh2MEljOUU2elM0eFpLdm42ZkltUEFsNDhkem8yVzZVeVpT?=
+ =?utf-8?B?SDVyZDRqVnJ6VjFGMHdaeklIOU4vSTlsSm9rM0ZIQldXNEJqNlU0VlRSRjN0?=
+ =?utf-8?B?TzhGTTFNMTlnbG5CNnp2UFQ4bWV1TEZaNVBxRzhrZzhYb0V6TnFXZmFycUls?=
+ =?utf-8?B?a3pJbld6b21pTFZSKzVKZFVIZDZ2MUxWRXU5bFFnejFkRUdUaVpWdC9XdFdV?=
+ =?utf-8?B?NDJPQXRrNnp6UDFDNFQ5eGI0UHp2emtNeU1iODVYOUJRS1BiRFJhTzMxODZx?=
+ =?utf-8?Q?3DmSxGIKPZLdPLoLVDO+ITEhah46eGIFGxWDgRb?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210519162903.1172366-1-eperezma@redhat.com>
- <20210519162903.1172366-22-eperezma@redhat.com>
- <755e2d24-946b-775c-e4e9-e81a16e7b6dd@redhat.com>
-In-Reply-To: <755e2d24-946b-775c-e4e9-e81a16e7b6dd@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 1 Jun 2021 10:15:17 +0200
-Message-ID: <CAJaqyWfKTiKeKLLjB9qDf4qJwL420YRo6FrJgozp_tn0Z57pOA@mail.gmail.com>
-Subject: Re: [RFC v3 21/29] vhost: Add VhostIOVATree
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4af3b194-64ca-430d-ec50-08d924d701ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2021 08:26:51.6650 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5iW7mWH53hRl30ENEyEM/qpcys0F/2LlbdVftFhl4NoWI1X5IWgvAjgU9tQh/Anna2eRfTReY/ka4yDLEYdBKw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2783
+Received-SPF: softfail client-ip=40.107.92.78;
+ envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,392 +158,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 31, 2021 at 11:40 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > This tree is able to look for a translated address from a IOVA address.
-> >
-> > At first glance is similar to util/iova-tree. However, SVQ working on
-> > devices with limited IOVA space need more capabilities, like allocating
-> > IOVA chunks or perform reverse translations (qemu addresses to iova).
-> >
-> > Starting a sepparated implementation. Knowing than insertions/deletions
-> > will not be as frequent as searches,
->
->
-> This might not be true if vIOMMU is enabled.
->
-
-Right.
-
->
-> > it uses an ordered array at
-> > implementation.
->
->
-> I wonder how much overhead could g_array be if it needs to grow.
->
-
-I didn't do any tests, actually. But I see this VhostIOVATree as a
-replaceable tool, just to get the buffer translations to work. So I'm
-both ok with change it now and ok to delay it, since they should not
-be hard to do.
-
->
-> >   A different name could be used, but ordered
-> > searchable array is a little bit long though.
->
->
-> Note that we had a very good example for this. That is the kernel iova
-> allocator which is implemented via rbtree.
->
-> Instead of figuring out g_array vs g_tree stuffs, I would simple go with
-> g_tree first (based on util/iova-tree) and borrow the well design kernel
-> iova allocator API to have a generic IOVA one instead of coupling it
-> with vhost. It could be used by other userspace driver in the future:
->
-> init_iova_domain()/put_iova_domain();
->
-> alloc_iova()/free_iova();
->
-> find_iova();
->
-
-We could go that way, but then the iova-tree should be extended to
-support both translations (iova->translated_addr is now implemented in
-iova-tree, the reverse is not). If I understood you correctly,
-borrowing the kernel iova allocator would give us both, right?
-
-Note that it is not coupled to vhost at all except in the name: all
-the implementations only work with hwaddr and void pointers memory.
-Just to illustrate the point, I think it could be a drop-in
-replacement for iova-tree at this moment (with all the
-drawbacks/advantages of an array vs tree).
-
-> Another reference is the iova allocator that is implemented in VFIO.
-
-I will check this too.
-
-Thanks!
-
-
->
-> Thanks
->
->
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-iova-tree.h |  50 ++++++++++
-> >   hw/virtio/vhost-iova-tree.c | 188 +++++++++++++++++++++++++++++++++++=
-+
-> >   hw/virtio/meson.build       |   2 +-
-> >   3 files changed, 239 insertions(+), 1 deletion(-)
-> >   create mode 100644 hw/virtio/vhost-iova-tree.h
-> >   create mode 100644 hw/virtio/vhost-iova-tree.c
-> >
-> > diff --git a/hw/virtio/vhost-iova-tree.h b/hw/virtio/vhost-iova-tree.h
-> > new file mode 100644
-> > index 0000000000..2a44af8b3a
-> > --- /dev/null
-> > +++ b/hw/virtio/vhost-iova-tree.h
-> > @@ -0,0 +1,50 @@
-> > +/*
-> > + * vhost software live migration ring
-> > + *
-> > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.c=
-om>
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#ifndef HW_VIRTIO_VHOST_IOVA_TREE_H
-> > +#define HW_VIRTIO_VHOST_IOVA_TREE_H
-> > +
-> > +#include <gmodule.h>
-> > +
-> > +#include "exec/memory.h"
-> > +
-> > +typedef struct VhostDMAMap {
-> > +    void *translated_addr;
-> > +    hwaddr iova;
-> > +    hwaddr size;                /* Inclusive */
-> > +    IOMMUAccessFlags perm;
-> > +} VhostDMAMap;
-> > +
-> > +typedef enum VhostDMAMapNewRC {
-> > +    VHOST_DMA_MAP_OVERLAP =3D -2,
-> > +    VHOST_DMA_MAP_INVALID =3D -1,
-> > +    VHOST_DMA_MAP_OK =3D 0,
-> > +} VhostDMAMapNewRC;
-> > +
-> > +/**
-> > + * VhostIOVATree
-> > + *
-> > + * Store and search IOVA -> Translated mappings.
-> > + *
-> > + * Note that it cannot remove nodes.
-> > + */
-> > +typedef struct VhostIOVATree {
-> > +    /* Ordered array of reverse translations, IOVA address to qemu mem=
-ory. */
-> > +    GArray *iova_taddr_map;
-> > +} VhostIOVATree;
-> > +
-> > +void vhost_iova_tree_new(VhostIOVATree *iova_rm);
-> > +void vhost_iova_tree_destroy(VhostIOVATree *iova_rm);
-> > +
-> > +const VhostDMAMap *vhost_iova_tree_find_taddr(const VhostIOVATree *iov=
-a_rm,
-> > +                                              const VhostDMAMap *map);
-> > +VhostDMAMapNewRC vhost_iova_tree_insert(VhostIOVATree *iova_rm,
-> > +                                        VhostDMAMap *map);
-> > +
-> > +#endif
-> > diff --git a/hw/virtio/vhost-iova-tree.c b/hw/virtio/vhost-iova-tree.c
-> > new file mode 100644
-> > index 0000000000..dfd7e448b5
-> > --- /dev/null
-> > +++ b/hw/virtio/vhost-iova-tree.c
-> > @@ -0,0 +1,188 @@
-> > +/*
-> > + * vhost software live migration ring
-> > + *
-> > + * SPDX-FileCopyrightText: Red Hat, Inc. 2021
-> > + * SPDX-FileContributor: Author: Eugenio P=C3=A9rez <eperezma@redhat.c=
-om>
-> > + *
-> > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "vhost-iova-tree.h"
-> > +
-> > +#define G_ARRAY_NOT_ZERO_TERMINATED false
-> > +#define G_ARRAY_NOT_CLEAR_ON_ALLOC false
-> > +
-> > +/**
-> > + * Inserts an element after an existing one in garray.
-> > + *
-> > + * @array      The array
-> > + * @prev_elem  The previous element of array of NULL if prepending
-> > + * @map        The DMA map
-> > + *
-> > + * It provides the aditional advantage of being type safe over
-> > + * g_array_insert_val, which accepts a reference pointer instead of a =
-value
-> > + * with no complains.
-> > + */
-> > +static void vhost_iova_tree_insert_after(GArray *array,
-> > +                                         const VhostDMAMap *prev_elem,
-> > +                                         const VhostDMAMap *map)
-> > +{
-> > +    size_t pos;
-> > +
-> > +    if (!prev_elem) {
-> > +        pos =3D 0;
-> > +    } else {
-> > +        pos =3D prev_elem - &g_array_index(array, typeof(*prev_elem), =
-0) + 1;
-> > +    }
-> > +
-> > +    g_array_insert_val(array, pos, *map);
-> > +}
-> > +
-> > +static gint vhost_iova_tree_cmp_iova(gconstpointer a, gconstpointer b)
-> > +{
-> > +    const VhostDMAMap *m1 =3D a, *m2 =3D b;
-> > +
-> > +    if (m1->iova > m2->iova + m2->size) {
-> > +        return 1;
-> > +    }
-> > +
-> > +    if (m1->iova + m1->size < m2->iova) {
-> > +        return -1;
-> > +    }
-> > +
-> > +    /* Overlapped */
-> > +    return 0;
-> > +}
-> > +
-> > +/**
-> > + * Find the previous node to a given iova
-> > + *
-> > + * @array  The ascending ordered-by-translated-addr array of VhostDMAM=
-ap
-> > + * @map    The map to insert
-> > + * @prev   Returned location of the previous map
-> > + *
-> > + * Return VHOST_DMA_MAP_OK if everything went well, or VHOST_DMA_MAP_O=
-VERLAP if
-> > + * it already exists. It is ok to use this function to check if a give=
-n range
-> > + * exists, but it will use a linear search.
-> > + *
-> > + * TODO: We can use bsearch to locate the entry if we save the state i=
-n the
-> > + * needle, knowing that the needle is always the first argument to
-> > + * compare_func.
-> > + */
-> > +static VhostDMAMapNewRC vhost_iova_tree_find_prev(const GArray *array,
-> > +                                                  GCompareFunc compare=
-_func,
-> > +                                                  const VhostDMAMap *m=
-ap,
-> > +                                                  const VhostDMAMap **=
-prev)
-> > +{
-> > +    size_t i;
-> > +    int r;
-> > +
-> > +    *prev =3D NULL;
-> > +    for (i =3D 0; i < array->len; ++i) {
-> > +        r =3D compare_func(map, &g_array_index(array, typeof(*map), i)=
-);
-> > +        if (r =3D=3D 0) {
-> > +            return VHOST_DMA_MAP_OVERLAP;
-> > +        }
-> > +        if (r < 0) {
-> > +            return VHOST_DMA_MAP_OK;
-> > +        }
-> > +
-> > +        *prev =3D &g_array_index(array, typeof(**prev), i);
-> > +    }
-> > +
-> > +    return VHOST_DMA_MAP_OK;
-> > +}
-> > +
-> > +/**
-> > + * Create a new IOVA tree
-> > + *
-> > + * @tree  The IOVA tree
-> > + */
-> > +void vhost_iova_tree_new(VhostIOVATree *tree)
-> > +{
-> > +    assert(tree);
-> > +
-> > +    tree->iova_taddr_map =3D g_array_new(G_ARRAY_NOT_ZERO_TERMINATED,
-> > +                                       G_ARRAY_NOT_CLEAR_ON_ALLOC,
-> > +                                       sizeof(VhostDMAMap));
-> > +}
-> > +
-> > +/**
-> > + * Destroy an IOVA tree
-> > + *
-> > + * @tree  The iova tree
-> > + */
-> > +void vhost_iova_tree_destroy(VhostIOVATree *tree)
-> > +{
-> > +    g_array_unref(g_steal_pointer(&tree->iova_taddr_map));
-> > +}
-> > +
-> > +/**
-> > + * Perform a search on a GArray.
-> > + *
-> > + * @array Glib array
-> > + * @map Map to look up
-> > + * @compare_func Compare function to use
-> > + *
-> > + * Return The found element or NULL if not found.
-> > + *
-> > + * This can be replaced with g_array_binary_search (Since glib 2.62) w=
-hen that
-> > + * is common enough.
-> > + */
-> > +static const VhostDMAMap *vhost_iova_tree_bsearch(const GArray *array,
-> > +                                                  const VhostDMAMap *m=
-ap,
-> > +                                                  GCompareFunc compare=
-_func)
-> > +{
-> > +    return bsearch(map, array->data, array->len, sizeof(*map), compare=
-_func);
-> > +}
-> > +
-> > +/**
-> > + * Find the translated address stored from a IOVA address
-> > + *
-> > + * @tree  The iova tree
-> > + * @map   The map with the memory address
-> > + *
-> > + * Return the stored mapping, or NULL if not found.
-> > + */
-> > +const VhostDMAMap *vhost_iova_tree_find_taddr(const VhostIOVATree *tre=
-e,
-> > +                                              const VhostDMAMap *map)
-> > +{
-> > +    return vhost_iova_tree_bsearch(tree->iova_taddr_map, map,
-> > +                                  vhost_iova_tree_cmp_iova);
-> > +}
-> > +
-> > +/**
-> > + * Insert a new map
-> > + *
-> > + * @tree  The iova tree
-> > + * @map   The iova map
-> > + *
-> > + * Returns:
-> > + * - VHOST_DMA_MAP_OK if the map fits in the container
-> > + * - VHOST_DMA_MAP_INVALID if the map does not make sense (like size o=
-verflow)
-> > + * - VHOST_DMA_MAP_OVERLAP if the tree already contains that map
-> > + * Can query the assignated iova in map.
-> > + */
-> > +VhostDMAMapNewRC vhost_iova_tree_insert(VhostIOVATree *tree,
-> > +                                        VhostDMAMap *map)
-> > +{
-> > +    const VhostDMAMap *prev;
-> > +    int find_prev_rc;
-> > +
-> > +    if (map->translated_addr + map->size < map->translated_addr ||
-> > +        map->iova + map->size < map->iova || map->perm =3D=3D IOMMU_NO=
-NE) {
-> > +        return VHOST_DMA_MAP_INVALID;
-> > +    }
-> > +
-> > +    /* Check for duplicates, and save position for insertion */
-> > +    find_prev_rc =3D vhost_iova_tree_find_prev(tree->iova_taddr_map,
-> > +                                             vhost_iova_tree_cmp_iova,=
- map,
-> > +                                             &prev);
-> > +    if (find_prev_rc =3D=3D VHOST_DMA_MAP_OVERLAP) {
-> > +        return VHOST_DMA_MAP_OVERLAP;
-> > +    }
-> > +
-> > +    vhost_iova_tree_insert_after(tree->iova_taddr_map, prev, map);
-> > +    return VHOST_DMA_MAP_OK;
-> > +}
-> > diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-> > index 8b5a0225fe..cb306b83c6 100644
-> > --- a/hw/virtio/meson.build
-> > +++ b/hw/virtio/meson.build
-> > @@ -11,7 +11,7 @@ softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vh=
-ost-stub.c'))
-> >
-> >   virtio_ss =3D ss.source_set()
-> >   virtio_ss.add(files('virtio.c'))
-> > -virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-b=
-ackend.c', 'vhost-shadow-virtqueue.c'))
-> > +virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-b=
-ackend.c', 'vhost-shadow-virtqueue.c', 'vhost-iova-tree.c'))
-> >   virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c=
-'))
-> >   virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c=
-'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-b=
-alloon.c'))
->
-
+W0FNRCBQdWJsaWMgVXNlXQ0KDQpUbyBhZGQsIHVzaW5nIHRoaXMgYWx0ZXJuYXRpdmUgYXBwcm9h
+Y2ggYW5kIGhhbmRsaW5nIEtWTV9FWElUX0lPIHVzaW5nIGt2bV9oYW5kbGVfaW8sIHN0aWxsIHJl
+cXVpcmVzIA0KQ1BVU3RhdGV7Li59IHN0cnVjdHVyZSBhbmQgdGhlIGJhY2tpbmcgIlg4NkNQVSIg
+c3RydWN0dXJlLCBmb3IgZXhhbXBsZSwgYXMgcGFydCBvZiBrdm1fYXJjaF9wb3N0X3J1bigpDQp0
+byBnZXQgdGhlIE1lbVR4QXR0cnMgbmVlZGVkIGJ5IGt2bV9oYW5kbGVfaW8oKS4NCg0KT3IgdGhl
+IG90aGVyIG9wdGlvbiBpcyB0byBlbWJlZCB0aGUgQ1BVWDg2U3RhdGUgYXMgcGFydCBvZiB0aGUg
+c3RydWN0IHZjcHUgZm9yIHRoZSBtaXJyb3IgVk0sIGFuZCB0aGVuDQp1c2UgaXQgdG8gZ2V0IHRo
+ZSBNZW1UeEF0dHJzLg0KDQpTbyB0aGVyZSBpcyBzdGlsbCBxdWl0ZSBhIGJpdCBvZiBLVk0gY29k
+ZSBkdXBsaWNhdGlvbiBpbiBxZW11IHdpdGggdGhlIGFsdGVybmF0aXZlIGFwcHJvYWNoLCBidXQg
+aXQgaXMNCnByb2JhYmx5IHN0aWxsIGNsZWFuZXIgdGhhbiB0aGUgaW5pdGlhbCBhcHByb2FjaC4N
+Cg0KVGhhbmtzLA0KQXNoaXNoWw0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
+S2FscmEsIEFzaGlzaCANClNlbnQ6IFRodXJzZGF5LCBNYXkgMjcsIDIwMjEgMTA6NTEgQU0NClRv
+OiAnUGFvbG8gQm9uemluaScgPHBib256aW5pQHJlZGhhdC5jb20+OyAnVG9iaW4gRmVsZG1hbi1G
+aXR6dGh1bScgPHRvYmluQGxpbnV4LmlibS5jb20+OyAnbmF0ZXRAZ29vZ2xlLmNvbScgPG5hdGV0
+QGdvb2dsZS5jb20+DQpDYzogJ0RvdiBNdXJpaycgPGRvdm11cmlrQGxpbnV4LnZuZXQuaWJtLmNv
+bT47IExlbmRhY2t5LCBUaG9tYXMgPFRob21hcy5MZW5kYWNreUBhbWQuY29tPjsgJ3g4NkBrZXJu
+ZWwub3JnJyA8eDg2QGtlcm5lbC5vcmc+OyAna3ZtQHZnZXIua2VybmVsLm9yZycgPGt2bUB2Z2Vy
+Lmtlcm5lbC5vcmc+OyAnbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZycgPGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmc+OyAnc3J1dGhlcmZvcmRAZ29vZ2xlLmNvbScgPHNydXRoZXJmb3Jk
+QGdvb2dsZS5jb20+OyAnc2VhbmpjQGdvb2dsZS5jb20nIDxzZWFuamNAZ29vZ2xlLmNvbT47ICdy
+aWVudGplc0Bnb29nbGUuY29tJyA8cmllbnRqZXNAZ29vZ2xlLmNvbT47IFNpbmdoLCBCcmlqZXNo
+IDxicmlqZXNoLnNpbmdoQGFtZC5jb20+OyAnTGFzemxvIEVyc2VrJyA8bGVyc2VrQHJlZGhhdC5j
+b20+OyAnSmFtZXMgQm90dG9tbGV5JyA8amVqYkBsaW51eC5pYm0uY29tPjsgJ0h1YmVydHVzIEZy
+YW5rZScgPGZyYW5rZWhAdXMuaWJtLmNvbT47ICdxZW11LWRldmVsQG5vbmdudS5vcmcnIDxxZW11
+LWRldmVsQG5vbmdudS5vcmc+DQpTdWJqZWN0OiBSRTogW1JGQ10gS1ZNOiB4ODY6IFN1cHBvcnQg
+S1ZNIFZNcyBzaGFyaW5nIFNFViBjb250ZXh0DQoNCltBTUQgUHVibGljIFVzZV0NCg0KTG9va2lu
+ZyBhdCBrdm0gc2VsZnRlc3RzIGluIHRoZSBrZXJuZWwsIEkgdGhpbmsgdGhlIG90aGVyIGFsdGVy
+bmF0aXZlIGlzIHRvIDoNCg0KTWFpbnRhaW4gc2VwYXJhdGUgZGF0YSBzdHJ1Y3R1cmVzIGxpa2Ug
+c3RydWN0IGt2bV92bSwgc3RydWN0IHZjcHUgZm9yIHRoZSBtaXJyb3IgVk0sIGJ1dCB0aGVuIHRo
+YXQgbWVhbnMgcXVpdGUgYSBiaXQgb2YgdGhlIEtWTSBjb2RlIGluIFFlbXUgZm9yIHRoZSBtaXJy
+b3IgVk0gd2lsbCBiZSBkdXBsaWNhdGVkLiANCg0KRm9yIGV4YW1wbGUsIHRoaXMgd2lsbCBhZGQg
+c2VwYXJhdGUgYW5kIGR1cGxpY2F0ZWQgZnVuY3Rpb25hbGl0eSBmb3IgOiANCg0Kdm1fY2hlY2tf
+Y2FwL3ZtX2VuYWJsZV9jYXAsDQp2bV9jcmVhdGUsDQp2Y3B1X3J1biwNCnZjcHVfZ2V0X3JlZ3Ms
+IHZjcHVfc3JlZ3NfZ2V0L3NldCwNCnZjcHVfaW9jdGwsDQp2bV9pb2N0bCwgZXRjLiwgZXRjLg0K
+DQpBbHNvIEkgdGhpbmsgdGhhdCBvbmNlIHRoZSBtaXJyb3IgVk0gc3RhcnRzIGJvb3RpbmcgYW5k
+IHJ1bm5pbmcgdGhlIFVFRkkgY29kZSwgaXQgbWlnaHQgYmUgb25seSBkdXJpbmcgdGhlIFBFSSBv
+ciBEWEUgcGhhc2Ugd2hlcmUgaXQgd2lsbCBzdGFydCBhY3R1YWxseSBydW5uaW5nIHRoZSBNSCBj
+b2RlLCBzbyBtaXJyb3IgVk0gcHJvYmFibHkgc3RpbGwgbmVlZCB0byBoYW5kbGVzIEtWTV9FWElU
+X0lPLCB3aGVuIFNFQyBwaGFzZSBkb2VzIEkvTywgSSBjYW4gc2VlIFBJQyBhY2Nlc3NlcyBhbmQg
+RGVidWcgQWdlbnQgaW5pdGlhbGl6YXRpb24gc3R1ZmYgaW4gU2VjIHN0YXJ0dXAgY29kZS4NCg0K
+VGhhbmtzLA0KQXNoaXNoDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBLYWxy
+YSwgQXNoaXNoDQpTZW50OiBNb25kYXksIE1heSAyNCwgMjAyMSA0OjI5IFBNDQpUbzogUGFvbG8g
+Qm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT47IFRvYmluIEZlbGRtYW4tRml0enRodW0gPHRv
+YmluQGxpbnV4LmlibS5jb20+OyBuYXRldEBnb29nbGUuY29tDQpDYzogRG92IE11cmlrIDxkb3Zt
+dXJpa0BsaW51eC52bmV0LmlibS5jb20+OyBMZW5kYWNreSwgVGhvbWFzIDxUaG9tYXMuTGVuZGFj
+a3lAYW1kLmNvbT47IHg4NkBrZXJuZWwub3JnOyBrdm1Admdlci5rZXJuZWwub3JnOyBsaW51eC1r
+ZXJuZWxAdmdlci5rZXJuZWwub3JnOyBzcnV0aGVyZm9yZEBnb29nbGUuY29tOyBzZWFuamNAZ29v
+Z2xlLmNvbTsgcmllbnRqZXNAZ29vZ2xlLmNvbTsgU2luZ2gsIEJyaWplc2ggPGJyaWplc2guc2lu
+Z2hAYW1kLmNvbT47IExhc3psbyBFcnNlayA8bGVyc2VrQHJlZGhhdC5jb20+OyBKYW1lcyBCb3R0
+b21sZXkgPGplamJAbGludXguaWJtLmNvbT47IEh1YmVydHVzIEZyYW5rZSA8ZnJhbmtlaEB1cy5p
+Ym0uY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQpTdWJqZWN0OiBSRTogW1JGQ10gS1ZNOiB4
+ODY6IFN1cHBvcnQgS1ZNIFZNcyBzaGFyaW5nIFNFViBjb250ZXh0DQoNCltBTUQgUHVibGljIFVz
+ZV0NCg0KSGVsbG8gUGFvbG8sDQoNCkkgYW0gd29ya2luZyBvbiBwcm90b3R5cGUgY29kZSBpbiBx
+ZW11IHRvIHN0YXJ0IGEgbWlycm9yIFZNIHJ1bm5pbmcgaW4gcGFyYWxsZWwgdG8gdGhlIHByaW1h
+cnkgVk0uIEluaXRpYWxseSBJIGhhZCBhbiBpZGVhIG9mIGEgcnVubmluZyBhIGNvbXBsZXRlbHkg
+cGFyYWxsZWwgVk0gbGlrZSB1c2luZyB0aGUgcWVtdeKAmXMgbWljcm92bSBtYWNoaW5lL3BsYXRm
+b3JtLCBidXQgdGhlIG1haW4gaXNzdWUgd2l0aCB0aGlzIGlkZWEgaXMgdGhlIGRpZmZpY3VsdHkg
+aW4gc2hhcmluZyB0aGUgbWVtb3J5IG9mIHByaW1hcnkgVk0gd2l0aCBpdC4NCg0KSGVuY2UsIEkg
+c3RhcnRlZCBleHBsb3JpbmcgcnVubmluZyBhbiBpbnRlcm5hbCB0aHJlYWQgbGlrZSB0aGUgY3Vy
+cmVudCBwZXItdkNQVSB0aHJlYWQocykgaW4gcWVtdS4gVGhlIG1haW4gaXNzdWUgaXMgdGhhdCBx
+ZW11IGhhcyBhIGxvdCBvZiBnbG9iYWwgc3RhdGUsIGVzcGVjaWFsbHkgdGhlIEtWTVN0YXRlIHN0
+cnVjdHVyZSB3aGljaCBpcyBwZXItVk0sIGFuZCBhbGwgdGhlIEtWTSB2Q1BVcyBhcmUgdmVyeSB0
+aWdodGx5IHRpZWQgaW50byBpdC4gSXQgZG9lcyBub3QgbWFrZSBzZW5zZSB0byBhZGQgYSBjb21w
+bGV0ZWx5IG5ldyBLVk1TdGF0ZSBzdHJ1Y3R1cmUgaW5zdGFuY2UgZm9yIHRoZSBtaXJyb3IgVk0g
+YXMgdGhlbiB0aGUgbWlycm9yIFZNIGRvZXMgbm90IHJlbWFpbiBsaWdodHdlaWdodCBhdCBhbGwu
+IA0KDQpIZW5jZSwgdGhlIG1pcnJvciBWTSBpIGFtIGFkZGluZywgaGFzIHRvIGludGVncmF0ZSB3
+aXRoIHRoZSBjdXJyZW50IEtWTVN0YXRlIHN0cnVjdHVyZSBhbmQgdGhlIOKAnGdsb2JhbOKAnSBL
+Vk0gc3RhdGUgaW4gcWVtdSwgdGhpcyByZXF1aXJlZCBhZGRpbmcgc29tZSBwYXJhbGxlbCBLVk0g
+Y29kZSBpbiBxZW11LCBmb3IgZXhhbXBsZSB0byBkbyBpb2N0bCdzIG9uIHRoZSBtaXJyb3IgVk0s
+IHNpbWlsYXIgdG8gdGhlIHByaW1hcnkgVk0uIERldGFpbHMgYmVsb3cgOg0KDQpUaGUgbWlycm9y
+X3ZtX2ZkIGlzIGFkZGVkIHRvIHRoZSBLVk1TdGF0ZSBzdHJ1Y3R1cmUgaXRzZWxmLiANCg0KVGhl
+IHBhcmFsbGVsIGNvZGUgSSBtZW50aW9uZWQgaXMgbGlrZSB0aGUgZm9sbG93aW5nIDoNCg0KI2Rl
+ZmluZSBrdm1fbWlycm9yX3ZtX2VuYWJsZV9jYXAocywgY2FwYWJpbGl0eSwgY2FwX2ZsYWdzLCAu
+Li4pICAgICAgXA0KICAgICh7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgXA0KICAgICAgICBzdHJ1Y3Qga3ZtX2VuYWJsZV9jYXAg
+Y2FwID0geyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KICAgICAgICAgICAgLmNh
+cCA9IGNhcGFiaWxpdHksICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0K
+ICAgICAgICAgICAgLmZsYWdzID0gY2FwX2ZsYWdzLCAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXA0KICAgICAgICB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KICAgICAgICB1aW50NjRfdCBhcmdzX3RtcFtd
+ID0geyBfX1ZBX0FSR1NfXyB9OyAgICAgICAgICAgICAgICAgICAgICAgXA0KICAgICAgICBzaXpl
+X3QgbiA9IE1JTihBUlJBWV9TSVpFKGFyZ3NfdG1wKSwgQVJSQVlfU0laRShjYXAuYXJncykpOyAg
+XA0KICAgICAgICBtZW1jcHkoY2FwLmFyZ3MsIGFyZ3NfdG1wLCBuICogc2l6ZW9mKGNhcC5hcmdz
+WzBdKSk7ICAgICAgICAgXA0KICAgICAgICBrdm1fbWlycm9yX3ZtX2lvY3RsKHMsIEtWTV9FTkFC
+TEVfQ0FQLCAmY2FwKTsgICAgICAgICAgICAgICAgXA0KICAgIH0pDQoNCg0KK2ludCBrdm1fbWly
+cm9yX3ZtX2lvY3RsKEtWTVN0YXRlICpzLCBpbnQgdHlwZSwgLi4uKSB7DQorICAgIGludCByZXQ7
+DQorICAgIHZvaWQgKmFyZzsNCisgICAgdmFfbGlzdCBhcDsNCisNCisgICAgdmFfc3RhcnQoYXAs
+IHR5cGUpOw0KKyAgICBhcmcgPSB2YV9hcmcoYXAsIHZvaWQgKik7DQorICAgIHZhX2VuZChhcCk7
+DQorDQorICAgIHRyYWNlX2t2bV92bV9pb2N0bCh0eXBlLCBhcmcpOw0KKyAgICByZXQgPSBpb2N0
+bChzLT5taXJyb3Jfdm1fZmQsIHR5cGUsIGFyZyk7DQorICAgIGlmIChyZXQgPT0gLTEpIHsNCisg
+ICAgICAgIHJldCA9IC1lcnJubzsNCisgICAgfQ0KKyAgICByZXR1cm4gcmV0Ow0KK30NCisNCg0K
+VGhlIHZjcHUgaW9jdGwgY29kZSB3b3JrcyBhcyBpdCBpcy4gDQoNClRoZSBrdm1fYXJjaF9wdXRf
+cmVnaXN0ZXJzKCkgYWxzbyBuZWVkZWQgYSBtaXJyb3IgVk0gdmFyaWFudCBrdm1fYXJjaF9taXJy
+b3JfcHV0X3JlZ2lzdGVycygpLCBmb3IgcmVhc29ucyBzdWNoIGFzIHNhdmluZyBNU1JzIG9uIHRo
+ZSBtaXJyb3IgVk0gcmVxdWlyZWQgZW5hYmxpbmcgdGhlIGluLWtlcm5lbCBpcnFjaGlwIHN1cHBv
+cnQgb24gdGhlIG1pcnJvciBWTSwgb3RoZXJ3aXNlLCBrdm1fcHV0X21zcnMoKSBmYWlscy4gSGVu
+Y2UsIGt2bV9hcmNoX21pcnJvcl9wdXRfcmVnaXN0ZXJzKCkgbWFrZXMgdGhlIG1pcnJvciBWTSBz
+aW1wbGVyIGJ5IG5vdCBzYXZpbmcgYW55IE1TUnMgYW5kIG5vdCBuZWVkaW5nIHRoZSBpbi1rZXJu
+ZWwgaXJxY2hpcCBzdXBwb3J0Lg0KDQpJIGhhZCBsb3Qgb2YgaXNzdWVzIGluIGR5bmFtaWNhbGx5
+IGFkZGluZyBhIG5ldyB2Q1BVLCBpLmUuLCB0aGUgQ1BVU3RhdGUgc3RydWN0dXJlIGR1ZSB0byBx
+ZW11J3Mgb2JqZWN0IG1vZGVsIChRT00pIHdoaWNoIHJlcXVpcmVzIHRoYXQgZXZlcnkgcWVtdSBz
+dHJ1Y3R1cmUvb2JqZWN0IGhhcyB0byBjb250YWluIHRoZSBwYXJlbnQvYmFzZSBjbGFzcy9vYmpl
+Y3QgYW5kIHRoZW4gYWxsIHRoZSBkZXJpdmVkIGNsYXNzZXMgYWZ0ZXIgdGhhdC4gSXQgd2FzIGRp
+ZmZpY3VsdCB0byBhZGQgYSBuZXcgQ1BVIG9iamVjdCBkeW5hbWljYWxseSwgaGVuY2UgSSBoYXZl
+IHRvIHJldXNlIG9uZSBvZiB0aGUg4oCcLXNtcOKAnSAgY3B1cyBwYXNzZWQgb24gcWVtdSBjb21t
+YW5kIGxpbmUgYXMgdGhlIG1pcnJvciB2Q1BVLiBUaGlzIGFsc28gYXNzaXN0cyBpbiBoYXZpbmcg
+dGhlIFg4NkNQVSAiYmFja2luZyIgc3RydWN0dXJlIGZvciB0aGUgbWlycm9yIHZDUFXigJlzIENQ
+VSBvYmplY3QsIHdoaWNoIGFsbG93cyB1c2luZyBtb3N0IG9mIHRoZSBLVk0gY29kZSBpbiBxZW11
+IGZvciB0aGUgbWlycm9yIHZDUFUuIEFsc28gdGhlIG1pcnJvciB2Q1BVIENQVSBvYmplY3Qgd2ls
+bCBoYXZlIHRoZSBDUFVYODZTdGF0ZSBzdHJ1Y3R1cmUgZW1iZWRkZWQgd2hpY2ggY29udGFpbnMg
+dGhlIGNwdSByZWdpc3RlciBzdGF0ZSBmb3IgdGhlIG1pcnJvciB2Q1BVLiANCg0KVGhlIG1pcnJv
+ciB2Q1BVIGlzIG5vdyBydW5uaW5nIGEgc2ltcGxlciBLVk0gcnVuIGxvb3AsIGl0IGRvZXMgbm90
+IGhhdmUgYW55IGluLWtlcm5lbCBpcnFjaGlwIChpbnRlcnJ1cHQgY29udHJvbGxlcikgb3IgYW55
+IG90aGVyIGt2bWFwaWMgaW50ZXJydXB0IGNvbnRyb2xsZXIgc3VwcG9ydGVkIGFuZCBlbmFibGVk
+IGZvciBpdC4gQXMgb2Ygbm93IGl0IGlzIHN0aWxsIGRvaW5nIGJvdGggSS9PIGFuZCBNTUlPIGhh
+bmRsaW5nLg0KDQpMb29raW5nIGZ3ZC4gdG8gY29tbWVudHMsIGZlZWRiYWNrLCB0aG91Z2h0cyBv
+biB0aGUgYWJvdmUgYXBwcm9hY2guDQoNClRoYW5rcywNCkFzaGlzaA0KDQotLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KRnJvbTogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT4N
+ClNlbnQ6IFRodXJzZGF5LCBNYXJjaCAxMSwgMjAyMSAxMDozMCBBTQ0KVG86IFRvYmluIEZlbGRt
+YW4tRml0enRodW0gPHRvYmluQGxpbnV4LmlibS5jb20+OyBuYXRldEBnb29nbGUuY29tDQpDYzog
+RG92IE11cmlrIDxkb3ZtdXJpa0BsaW51eC52bmV0LmlibS5jb20+OyBMZW5kYWNreSwgVGhvbWFz
+IDxUaG9tYXMuTGVuZGFja3lAYW1kLmNvbT47IHg4NkBrZXJuZWwub3JnOyBrdm1Admdlci5rZXJu
+ZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBzcnV0aGVyZm9yZEBnb29nbGUu
+Y29tOyBzZWFuamNAZ29vZ2xlLmNvbTsgcmllbnRqZXNAZ29vZ2xlLmNvbTsgU2luZ2gsIEJyaWpl
+c2ggPGJyaWplc2guc2luZ2hAYW1kLmNvbT47IEthbHJhLCBBc2hpc2ggPEFzaGlzaC5LYWxyYUBh
+bWQuY29tPjsgTGFzemxvIEVyc2VrIDxsZXJzZWtAcmVkaGF0LmNvbT47IEphbWVzIEJvdHRvbWxl
+eSA8amVqYkBsaW51eC5pYm0uY29tPjsgSHViZXJ0dXMgRnJhbmtlIDxmcmFua2VoQHVzLmlibS5j
+b20+DQpTdWJqZWN0OiBSZTogW1JGQ10gS1ZNOiB4ODY6IFN1cHBvcnQgS1ZNIFZNcyBzaGFyaW5n
+IFNFViBjb250ZXh0DQoNCk9uIDExLzAzLzIxIDE2OjMwLCBUb2JpbiBGZWxkbWFuLUZpdHp0aHVt
+IHdyb3RlOg0KPiBJIGFtIG5vdCBzdXJlIGhvdyB0aGUgbWlycm9yIFZNIHdpbGwgYmUgc3VwcG9y
+dGVkIGluIFFFTVUuIFVzdWFsbHkgDQo+IHRoZXJlIGlzIG9uZSBRRU1VIHByb2Nlc3MgcGVyLXZt
+LiBOb3cgd2Ugd291bGQgbmVlZCB0byBydW4gYSBzZWNvbmQgVk0gDQo+IGFuZCBjb21tdW5pY2F0
+ZSB3aXRoIGl0IGR1cmluZyBtaWdyYXRpb24uIElzIHRoZXJlIGEgd2F5IHRvIGRvIHRoaXMgDQo+
+IHdpdGhvdXQgYWRkaW5nIHNpZ25pZmljYW50IGNvbXBsZXhpdHk/DQoNCkkgY2FuIGFuc3dlciB0
+aGlzIHBhcnQuICBJIHRoaW5rIHRoaXMgd2lsbCBhY3R1YWxseSBiZSBzaW1wbGVyIHRoYW4gd2l0
+aCBhdXhpbGlhcnkgdkNQVXMuICBUaGVyZSB3aWxsIGJlIGEgc2VwYXJhdGUgcGFpciBvZiBWTSt2
+Q1BVIGZpbGUgZGVzY3JpcHRvcnMgd2l0aGluIHRoZSBzYW1lIFFFTVUgcHJvY2VzcywgYW5kIHNv
+bWUgY29kZSB0byBzZXQgdXAgdGhlIG1lbW9yeSBtYXAgdXNpbmcgS1ZNX1NFVF9VU0VSX01FTU9S
+WV9SRUdJT04uDQoNCkhvd2V2ZXIsIHRoZSBjb2RlIHRvIHJ1biB0aGlzIFZNIHdpbGwgYmUgdmVy
+eSBzbWFsbCBhcyB0aGUgVk0gZG9lcyBub3QgaGF2ZSB0byBkbyBNTUlPLCBpbnRlcnJ1cHRzLCBs
+aXZlIG1pZ3JhdGlvbiAob2YgaXRzZWxmKSwgZXRjLiAgSXQganVzdCBzdGFydHMgdXAgYW5kIGNv
+bW11bmljYXRlcyB3aXRoIFFFTVUgdXNpbmcgYSBtYWlsYm94IGF0IGEgcHJlZGV0ZXJtaW5lZCBh
+ZGRyZXNzLg0KDQpJIGFsc28gdGhpbmsgKGJ1dCBJJ20gbm90IDEwMCUgc3VyZSkgdGhhdCB0aGUg
+YXV4aWxpYXJ5IFZNIGRvZXMgbm90IGhhdmUgdG8gd2F0Y2ggY2hhbmdlcyBpbiB0aGUgcHJpbWFy
+eSBWTSdzIG1lbW9yeSBtYXAgKGUuZy4gbWFwcGluZyBhbmQgdW5tYXBwaW5nIG9mIEJBUnMpLiAg
+SW4gUUVNVSB0ZXJtcywgdGhlIGF1eGlsaWFyeSBWTSdzIG1lbW9yeSBtYXAgdHJhY2tzIFJBTUJs
+b2Nrcywgbm90IE1lbW9yeVJlZ2lvbnMsIHdoaWNoIG1ha2VzIHRoaW5ncyBtdWNoIHNpbXBsZXIu
+DQoNClRoZXJlIGFyZSBhbHJlYWR5IG1hbnkgZXhhbXBsZXMgb2YgbWluaSBWTU1zIHJ1bm5pbmcg
+c3BlY2lhbCBwdXJwb3NlIFZNcyBpbiB0aGUga2VybmVsJ3MgdG9vbHMvdGVzdGluZy9zZWxmdGVz
+dHMva3ZtIGRpcmVjdG9yeSwgYW5kIEkgZG9uJ3QgdGhpbmsgdGhlIFFFTVUgY29kZSB3b3VsZCBi
+ZSBhbnkgbW9yZSBjb21wbGV4IHRoYW4gdGhhdC4NCg0KUGFvbG8NCg==
 
