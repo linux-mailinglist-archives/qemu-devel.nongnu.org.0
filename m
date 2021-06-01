@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D7E397237
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 13:19:42 +0200 (CEST)
-Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C9D397238
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 13:19:50 +0200 (CEST)
+Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo2Qv-0002pZ-DR
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 07:19:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
+	id 1lo2R3-0003UG-VY
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 07:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo2Oc-0000NA-AN
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:17:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25598)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo2Ow-0000lC-Oh
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:17:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo2Oa-0003SZ-QI
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:17:18 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lo2Ou-0003eq-0e
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 07:17:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622546236;
+ s=mimecast20190719; t=1622546255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2iPjR3Nk1ihO1wi9fHusdUyudrbfIzUIc139pBywCeY=;
- b=Nn3ckuHSGEE0uvG6qKWbwtEc18I//Gs5+SiTJpj4pgk/76Srtt9SbqjeIYJ9NZkIftbXS1
- sH0lWpAv48RNOkRM5mWDBTcfHcTp+w/+NV6k0bk+RHYkHwW3XoXH0qIVaGLXpjeBBrZMRs
- exOBi2z4jU25r7PnRbSR7ZZpvp4l0l0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-4iCBENc0Pf6AKTPmGLGKfQ-1; Tue, 01 Jun 2021 07:17:12 -0400
-X-MC-Unique: 4iCBENc0Pf6AKTPmGLGKfQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- jz28-20020a17090775fcb02903dc26615f46so3248331ejc.8
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 04:17:12 -0700 (PDT)
+ bh=oXLsxPlFb1/hgvW41egJQjDrDmadFN3cY2lmm+DpXZM=;
+ b=WGhPreXRzpBc85OAwJS9XY9ufGTnMEuRmDKGZMCX/tbxwKONYDatAYg8bBtMxYZnLkfDKF
+ /mMv+WQ1BjgJuZrcxNq7iQoOmAMDO0gIwtZGCf3lFDlfleJTj1abccILIb9XZwQKDeMpir
+ jwdFfI69ZVxKvvZWNnvv+Yab+AUtO2E=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-4THUPOLHNA6ULgpQx5QHww-1; Tue, 01 Jun 2021 07:17:33 -0400
+X-MC-Unique: 4THUPOLHNA6ULgpQx5QHww-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ x8-20020aa7d3880000b029038fe468f5f4so2682629edq.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 04:17:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=2iPjR3Nk1ihO1wi9fHusdUyudrbfIzUIc139pBywCeY=;
- b=GMqqTb66pRHHSksMVru+b9E0O5496H3I1ldxGJW+wHlCYK7cdsQs9XxgIHKfpVGCw4
- cbNcuJOEOtqBOs355A2yKHHL37sojdxdleXJyMhWIu+mwH3xje8hmc7wGzFVnWFbSlDO
- HYlUztnrmahSLAePkghVfHNyRo6/Wq2HIAMZMUaEUy82d8usU2P3rAZfDAVHkB2UnFfC
- UdgXByfhU+l4Do3w4vXIo8foagKeeZ0EQfaXQ5f6S70vJjDC7n69TyHw49HJsBVA4uq9
- iobru9qVht5v/69KXJ1qnmZkYlA2aMwX2KhWKTffTq+Mqti92uW9LZeM83hYA1rQBPqH
- LQ3w==
-X-Gm-Message-State: AOAM532Ss/UtyRuEJDYHq6Y54CcjtjfqG6h6dul7OzGcTXVeCdZeqJXO
- XLYIkyNM6Lcy4LUNCRB49f+5CPXyS9eKZushAYufSh7s4++i7aQTd6xdem3zgnz8qLPCDqF0Mv9
- HTKejL6O3vQBFwkI=
-X-Received: by 2002:a17:906:2854:: with SMTP id
- s20mr28562385ejc.335.1622546231773; 
- Tue, 01 Jun 2021 04:17:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywbJgB1Egr9BxLU1CcbJtyD4Axn8W/B/Ku+X5mLf9k3S6wxdcYdbZcEpVUFUlpjCb5Lf65gA==
-X-Received: by 2002:a17:906:2854:: with SMTP id
- s20mr28562355ejc.335.1622546231607; 
- Tue, 01 Jun 2021 04:17:11 -0700 (PDT)
+ bh=oXLsxPlFb1/hgvW41egJQjDrDmadFN3cY2lmm+DpXZM=;
+ b=rr2M+ahpKUEg0bSNtYosMK1BDDDwbuB/Z5UU2MwhhkXyl8YaqaQQ0CvVvm2BbdroIg
+ ogE6UChxFKJA3X7kjz/1j/q5f96aYqxEKSA/VJQ093hLKgJU24KfpfVK+LIIW1u+adrt
+ MKVkNBz7M9fxCvG+eQNthcytdC71NNu47udPBJm6+j5Zlb0KV0JrVJ0u0aU3qcZzgmg9
+ orNMRSfMXgTiOEC8peLaUbbVC1dmumKoJLwhK0ugZgIZoRfmlYGKUUdwX3/B3BZrI7AS
+ NNzRoNTW1AvcUWaTmxROhGfLqUmPmREY9QF5L6NyR7BAjHwwnpRjOROJ2/yWwMUFJkJw
+ iwMQ==
+X-Gm-Message-State: AOAM532J8+eMvcEU8QURBG8bSyC4olAmvWTtax81letpPYOZGlXAINae
+ UjbJ19rpImLZzoffPqH0UTHIEtIIm/fkYyBG0H9eqB3QBmNipDCkoTAT/gKPV/x6WvPK31QW21D
+ lA/yA5NqyT5jjTEM=
+X-Received: by 2002:a17:906:a12:: with SMTP id
+ w18mr22017513ejf.92.1622546252845; 
+ Tue, 01 Jun 2021 04:17:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxv+5d2TZ1CWQPHAhZEjorrwb1zTrWPQam0MGo7ZhkwW7VFPlKx6VXGJPILobBRFYS+AQZPzg==
+X-Received: by 2002:a17:906:a12:: with SMTP id
+ w18mr22017494ejf.92.1622546252685; 
+ Tue, 01 Jun 2021 04:17:32 -0700 (PDT)
 Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
  by smtp.gmail.com with ESMTPSA id
- j7sm8253257edr.79.2021.06.01.04.17.11
+ ay24sm2765918edb.2.2021.06.01.04.17.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jun 2021 04:17:11 -0700 (PDT)
-Subject: Re: [PATCH v2 27/33] iotests/222: constantly use single quotes for
- strings
+ Tue, 01 Jun 2021 04:17:32 -0700 (PDT)
+Subject: Re: [PATCH v2 28/33] iotests: move 222 to tests/image-fleecing
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210520142205.607501-1-vsementsov@virtuozzo.com>
- <20210520142205.607501-28-vsementsov@virtuozzo.com>
+ <20210520142205.607501-29-vsementsov@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
-Message-ID: <a654db46-aeba-f1b7-5d6c-3107107587bc@redhat.com>
-Date: Tue, 1 Jun 2021 13:17:10 +0200
+Message-ID: <9298d037-e4a3-8415-46fe-11cdd02c0f84@redhat.com>
+Date: Tue, 1 Jun 2021 13:17:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210520142205.607501-28-vsementsov@virtuozzo.com>
+In-Reply-To: <20210520142205.607501-29-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -109,14 +108,16 @@ Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com, den@openvz.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.05.21 16:21, Vladimir Sementsov-Ogievskiy wrote:
-> The file use both single and double quotes for strings. Let's be
-> consistent.
+On 20.05.21 16:22, Vladimir Sementsov-Ogievskiy wrote:
+> Give a good name to test file.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   tests/qemu-iotests/222 | 68 +++++++++++++++++++++---------------------
->   1 file changed, 34 insertions(+), 34 deletions(-)
+>   tests/qemu-iotests/{222 => tests/image-fleecing}         | 0
+>   tests/qemu-iotests/{222.out => tests/image-fleecing.out} | 0
+>   2 files changed, 0 insertions(+), 0 deletions(-)
+>   rename tests/qemu-iotests/{222 => tests/image-fleecing} (100%)
+>   rename tests/qemu-iotests/{222.out => tests/image-fleecing.out} (100%)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
