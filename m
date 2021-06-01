@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBEF397ABD
+	by mail.lfdr.de (Postfix) with ESMTPS id B38E8397ABE
 	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 21:38:17 +0200 (CEST)
-Received: from localhost ([::1]:32978 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loADQ-00042T-4Y
+	id 1loADQ-00044l-Ii
 	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 15:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1loAB0-0001Km-OA; Tue, 01 Jun 2021 15:35:46 -0400
+ id 1loAB3-0001Lw-5K; Tue, 01 Jun 2021 15:35:49 -0400
 Received: from [201.28.113.2] (port=31942 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1loAAy-0002Jl-RX; Tue, 01 Jun 2021 15:35:46 -0400
+ id 1loAB1-0002Jl-N1; Tue, 01 Jun 2021 15:35:48 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 16:35:39 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 16:35:40 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 4F99C80148B;
+ by power9a (Postfix) with ESMTP id CFF4580148C;
  Tue,  1 Jun 2021 16:35:39 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v6 00/14] Base for adding PowerPC 64-bit instructions
-Date: Tue,  1 Jun 2021 16:35:14 -0300
-Message-Id: <20210601193528.2533031-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v6 01/14] target/ppc: Introduce macros to check isa extensions
+Date: Tue,  1 Jun 2021 16:35:15 -0300
+Message-Id: <20210601193528.2533031-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210601193528.2533031-1-matheus.ferst@eldorado.org.br>
+References: <20210601193528.2533031-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Jun 2021 19:35:39.0815 (UTC)
- FILETIME=[4D975370:01D7571D]
+X-OriginalArrivalTime: 01 Jun 2021 19:35:40.0331 (UTC)
+ FILETIME=[4DE60FB0:01D7571D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,87 +61,54 @@ Cc: richard.henderson@linaro.org, f4bug@amsat.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This series provides the basic infrastructure for adding the new 32/64-bit
-instructions in Power ISA 3.1 to target/ppc.
+These will be used by the decodetree trans_* functions
+to early-exit when the instruction set is not enabled.
 
-v6:
-- Rebase on ppc-for-6.1;
-- Fix rebase error in patch 02/14;
-- Fix style errors;
-- REQUIRE_64BIT when L=1 in cmp/cmpi/cmpl/cmpli.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/translate.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-v5:
-- Rebase on ppc-for-6.1;
-- Change copyright line from new files;
-- Remove argument set from PNOP;
-- Add comments to explain helper_cfuged implementation;
-- New REQUIRE_ALTIVEC macro;
-- REQUIRE_ALTIVEC and REQUIRE_INSNS_FLAGS2 in trans_CFUGED;
-- cmp/cmpi/cmpl/cmpli moved to decodetree.
-
-v4:
-- Rebase on ppc-for-6.1;
-- Fold do_ldst_D and do_ldst_X;
-- Add tcg_const_tl, used to share do_ldst_D and do_ldst_X code;
-- Unfold prefixed and non-prefixed loads/stores/addi to let non-prefixed insns use the non-prefixed formats;
-- PNOP invalid suffixes;
-- setbc/setbcr/stnbc/setnbcr implemented;
-- cfuged/vcfuged implemented;
-- addpcis moved to decodetree.
-
-v3:
-- More changes for decodetree.
-- Cleanup exception/is_jmp logic to the point exception is removed.
-- Fold in Luis' isa check for prefixed insn support.
-- Share trans_* between prefixed and non-prefixed instructions.
-- Use macros to minimize the trans_* boilerplate.
-- Fix decode mistake for STHX/STHXU.
-
-v2:
-- Store current pc in ctx instead of insn_size
-- Use separate decode files for 32- and 64-bit instructions
-- Improvements to the exception/is_jmp logic
-- Use translator_loop_temp_check()
-- Moved logic to prevent translation from crossing page boundaries
-- Additional instructions using decodetree: addis, pnop, loads/stores
-- Added check for prefixed insn support in cpu flags
-
-
-Matheus Ferst (5):
-  target/ppc: Implement setbc/setbcr/stnbc/setnbcr instructions
-  target/ppc: Implement cfuged instruction
-  target/ppc: Implement vcfuged instruction
-  target/ppc: Move addpcis to decodetree
-  target/ppc: Move cmp/cmpi/cmpl/cmpli to decodetree
-
-Richard Henderson (9):
-  target/ppc: Introduce macros to check isa extensions
-  target/ppc: Move page crossing check to ppc_tr_translate_insn
-  target/ppc: Add infrastructure for prefixed insns
-  target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
-  target/ppc: Implement PNOP
-  target/ppc: Move D/DS/X-form integer loads to decodetree
-  target/ppc: Implement prefixed integer load instructions
-  target/ppc: Move D/DS/X-form integer stores to decodetree
-  target/ppc: Implement prefixed integer store instructions
-
- target/ppc/cpu.h                           |   1 +
- target/ppc/helper.h                        |   1 +
- target/ppc/insn32.decode                   | 126 +++++++
- target/ppc/insn64.decode                   | 124 +++++++
- target/ppc/int_helper.c                    |  62 ++++
- target/ppc/meson.build                     |   9 +
- target/ppc/translate.c                     | 391 +++++----------------
- target/ppc/translate/fixedpoint-impl.c.inc | 279 +++++++++++++++
- target/ppc/translate/vector-impl.c.inc     |  56 +++
- 9 files changed, 747 insertions(+), 302 deletions(-)
- create mode 100644 target/ppc/insn32.decode
- create mode 100644 target/ppc/insn64.decode
- create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
- create mode 100644 target/ppc/translate/vector-impl.c.inc
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index e16a2721e2..11fd3342a0 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7664,6 +7664,32 @@ static inline void set_avr64(int regno, TCGv_i64 src, bool high)
+     tcg_gen_st_i64(src, cpu_env, avr64_offset(regno, high));
+ }
+ 
++/*
++ * Helpers for trans_* functions to check for specific insns flags.
++ * Use token pasting to ensure that we use the proper flag with the
++ * proper variable.
++ */
++#define REQUIRE_INSNS_FLAGS(CTX, NAME) \
++    do {                                                \
++        if (((CTX)->insns_flags & PPC_##NAME) == 0) {   \
++            return false;                               \
++        }                                               \
++    } while (0)
++
++#define REQUIRE_INSNS_FLAGS2(CTX, NAME) \
++    do {                                                \
++        if (((CTX)->insns_flags2 & PPC2_##NAME) == 0) { \
++            return false;                               \
++        }                                               \
++    } while (0)
++
++/* Then special-case the check for 64-bit so that we elide code for ppc32. */
++#if TARGET_LONG_BITS == 32
++# define REQUIRE_64BIT(CTX)  return false
++#else
++# define REQUIRE_64BIT(CTX)  REQUIRE_INSNS_FLAGS(CTX, 64B)
++#endif
++
+ #include "translate/fp-impl.c.inc"
+ 
+ #include "translate/vmx-impl.c.inc"
 -- 
 2.25.1
 
