@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E412C396E39
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:50:49 +0200 (CEST)
-Received: from localhost ([::1]:55688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88765396E3F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 09:52:25 +0200 (CEST)
+Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lnzAk-0007TI-Sb
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46088)
+	id 1lnzCK-0000mN-MJ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 03:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lnz9n-0006nf-1J
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:49:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47510)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lnzAt-0008EU-Cg
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:50:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lnz9j-00045p-F1
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:49:45 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lnzAr-0004oa-FY
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 03:50:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622533782;
+ s=mimecast20190719; t=1622533852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rSDstF/MKIdl+qo8XRSc6uAnkXPkbkW8XERWyW4qWnw=;
- b=BqjCQaoSKwlAL2yVwC+YjV7yUGJhgPKZ7gYoBDcnlgPmyAMFiQQqTI1m9MoFTa92A5Y8Bq
- 3Xb97u+ybVjBB12jKC/3mMpkWBo4axX34CcKXb9a/uKXuf7MQRLt79Dx+c+7DhTxMvG4Tr
- lZ8DQAUW1wFieiZJLsrWECdet/UuMmk=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-n2fDWPiYN2a3aKi7Px7wUw-1; Tue, 01 Jun 2021 03:49:39 -0400
-X-MC-Unique: n2fDWPiYN2a3aKi7Px7wUw-1
-Received: by mail-qv1-f71.google.com with SMTP id
- h10-20020a0cab0a0000b029020282c64ecfso10841589qvb.19
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 00:49:39 -0700 (PDT)
+ bh=C64e75GgMTRWfcurqOMRagNaQwEx0C5Uf35Lq9xHlK8=;
+ b=BlUwl+Bdw+5p1ZdQZwaxYqFv5O+qI7nwbFF3Sy8C9UnQHZyHLd0NLJ3y6KlKSDNfEZwHGb
+ 6U+kvHPUxT4HFMBliyS+XNtIl6DqYCwDFog8+AJAoE9Q64czfOvGJrRgEQ1Ua0rZjRCIOO
+ N4EKFLPyFJLu/GhA9COxtHGhDxnFmKA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-3Ok82P9RMZ-LyHyMFIzrLw-1; Tue, 01 Jun 2021 03:50:49 -0400
+X-MC-Unique: 3Ok82P9RMZ-LyHyMFIzrLw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ c24-20020aa7c7580000b029038fd7468047so3996540eds.20
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 00:50:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rSDstF/MKIdl+qo8XRSc6uAnkXPkbkW8XERWyW4qWnw=;
- b=qrdp9NZP9PLbNbrRigj1zXwkJFcJ3uut/k+aQQDk18Y25PmMMOuf8gy95/ZDnrfdIZ
- 6uGXrMwIOFWDWnQrj7deLjblf9w0Z/LNB1nIJSwILu0PnFKTHFlbpeewVNniPiwFOwh6
- O5HkSr33jvJcFx1iavJsJGobsRMkWhxrrW0jxmU69psZk/hICZ4vZxlI79ihW5Kllq4R
- /aYtVZEsTsMhRwQuyByZtvtK5j1blgagWle1GbXFHkIwR70Fl6CW+l8oos3G5h9dt2mc
- op0FvjjSY4/FNDWmT4odkiXRGXuqzme9OXrIEkzsGWJNqINbdH8gT5UCoyN7rGABBJmz
- AVTA==
-X-Gm-Message-State: AOAM530PTZpZkKbJRhfgcJuU1jumsVv/iptInDO4AUdxHEtN2fvQAuji
- o+oLIj93JdFLh8hwzQ/TW/jvUk/+N/7h7K1keM/Qy//cU/BaLzKTcyzqXq5Fm5T3au2SWulhad8
- btUdRQp/j4B7rXk9/p7o2ICwYAi1vtRk=
-X-Received: by 2002:a0c:f4ca:: with SMTP id o10mr21151034qvm.9.1622533778738; 
- Tue, 01 Jun 2021 00:49:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw3niCVUVFgzemBipEmvyjkDC/KJL0CLAHtS3COBdIJfPnvrmRGQWIds7pRuGHHzxPkkfBOkUaBIPxAzupjI/M=
-X-Received: by 2002:a0c:f4ca:: with SMTP id o10mr21151012qvm.9.1622533778538; 
- Tue, 01 Jun 2021 00:49:38 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=C64e75GgMTRWfcurqOMRagNaQwEx0C5Uf35Lq9xHlK8=;
+ b=CPBzHKhc9JeH7RHTe+286Cqz4lwCB8ZJ77SWCHkvCLx93BIVh5BzkbS75WTeoNCE4P
+ MN1GoLEJPNPj1XATp4nw2Eo6S77uc7UCTTXfvfkxOlA0sqneZz04F3d9xIPFsCj+Z8Sf
+ MsyUF+AMQ19OUJuqe4JJXros+pW5JDbnZeljlsOox1CRxSao0Y8nCDqxKV076pekg0n3
+ A/kUfrYADBjh98veSXSdnzJG7KDUin4lp6q4HY59xaoQHXCinTfEWC/3TdV1HOovoIgA
+ etluaf2SzWq0rJEmnOKFtUbHwiWJrVB3Vn6k2kYR0vLqddExAlGAoWDLgwVh/3up/XpY
+ F6Pg==
+X-Gm-Message-State: AOAM53397dkjPyFOHLgDljaCkyLcxyr+zp1hMLOb8LT2t4hRA4WgqRJs
+ Uw7xM7EzE3KtKh/zOuQEoXc0DaX2VYF/SFOM/w+fjdJ+BsDSl7QTRKTab1BldjOa8xrXBsTPV/W
+ y3r1xzGz1R4vHzCg=
+X-Received: by 2002:a17:906:27d3:: with SMTP id
+ k19mr6628310ejc.368.1622533848249; 
+ Tue, 01 Jun 2021 00:50:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyfGdEWgOOZuk1qCtNf+qh2HDsHc2wz/lCCw6dgP+ztTtljiJIJW8S1pHvQxfE/r6bgi1ifqA==
+X-Received: by 2002:a17:906:27d3:: with SMTP id
+ k19mr6628271ejc.368.1622533847904; 
+ Tue, 01 Jun 2021 00:50:47 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id bh3sm6857061ejb.19.2021.06.01.00.50.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 00:50:47 -0700 (PDT)
+Date: Tue, 1 Jun 2021 09:50:45 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH] hw/arm/boot: Use NUMA node ID in memory node name
+Message-ID: <20210601075045.ppmceogd5hp5rqcf@gator.home>
+References: <20210601073004.106490-1-gshan@redhat.com>
 MIME-Version: 1.0
-References: <20210519162903.1172366-1-eperezma@redhat.com>
- <20210519162903.1172366-16-eperezma@redhat.com>
- <8ba8f8fa-cab8-24c6-5226-b5ae372cd84b@redhat.com>
-In-Reply-To: <8ba8f8fa-cab8-24c6-5226-b5ae372cd84b@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 1 Jun 2021 09:49:02 +0200
-Message-ID: <CAJaqyWcS5VgO7uK+wU_ENPNd4RAJOLTZo3j3+2XvRfPaT-HoAQ@mail.gmail.com>
-Subject: Re: [RFC v3 15/29] vhost: Add enable_custom_iommu to VhostOps
-To: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20210601073004.106490-1-gshan@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -92,100 +95,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ shan.gavin@gmail.com, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 31, 2021 at 11:02 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=99=
-=E9=81=93:
-> > This operation enable the backend-specific IOTLB entries.
-> >
-> > If a backend support this, it start managing its own entries, and vhost
-> > can disable it through this operation and recover control.
-> >
-> > Every enable/disable operation must also clear all IOTLB device entries=
-.
-> >
-> > At the moment, the only backend that does so is vhost-vdpa. To fully
-> > support these, vdpa needs also to expose a way for vhost subsystem to
-> > map and unmap entries. This will be done in future commits.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
->
-> I think there's probably no need to introduce this helper.
->
-> Instead, we can introduce ops like shadow_vq_start()/stop(). Then the
-> details like this could be hided there.
+On Tue, Jun 01, 2021 at 03:30:04PM +0800, Gavin Shan wrote:
+> We possibly populate empty nodes where memory isn't included and might
+> be hot added at late time. The FDT memory nodes can't be created due
+> to conflicts on their names if multiple empty nodes are specified.
+> For example, the VM fails to start with the following error messages.
+> 
+>   /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64          \
+>   -accel kvm -machine virt,gic-version=host                        \
+>   -cpu host -smp 4,sockets=2,cores=2,threads=1 -m 1024M,maxmem=64G \
+>   -object memory-backend-ram,id=mem0,size=512M                     \
+>   -object memory-backend-ram,id=mem1,size=512M                     \
+>   -numa node,nodeid=0,cpus=0-1,memdev=mem0                         \
+>   -numa node,nodeid=1,cpus=2-3,memdev=mem1                         \
+>   -numa node,nodeid=2                                              \
+>   -numa node,nodeid=3                                              \
+>     :
+>   -device virtio-balloon-pci,id=balloon0,free-page-reporting=yes
+> 
+>   qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: \
+>                        FDT_ERR_EXISTS
+> 
+> This fixes the issue by using NUMA node ID or zero in the memory node
+> name to avoid the conflicting memory node names. With this applied, the
+> VM can boot successfully with above command lines.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  hw/arm/boot.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index d7b059225e..3169bdf595 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -432,7 +432,12 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
+>      char *nodename;
+>      int ret;
+>  
+> -    nodename = g_strdup_printf("/memory@%" PRIx64, mem_base);
+> +    if (numa_node_id >= 0) {
+> +        nodename = g_strdup_printf("/memory@%d", numa_node_id);
+> +    } else {
+> +        nodename = g_strdup("/memory@0");
+> +    }
+> +
+>      qemu_fdt_add_subnode(fdt, nodename);
+>      qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
+>      ret = qemu_fdt_setprop_sized_cells(fdt, nodename, "reg", acells, mem_base,
+> -- 
+> 2.23.0
 >
 
-I'm also fine with your approach, but then the ownership of the shadow
-virtqueue would be splitted between vhost code and the vhost backend
-code.
+Hi Gavin,
 
-With the current code, vhost is in charge for mapping DMA entries, and
-delegates in the backend when the latter has its own means of map [1].
-If we just expose shadow_vq_start/stop, the logic of when to map gets
-somehow duplicated in vhost and in the backend, and it is not obvious
-that future code changes in one side need to be duplicated in the
-backend.
+Is it conventional to use the unit-address like this? If so, can you point
+out where that's documented? If it's not conventional, then we shouldn't
+do it. And then I'm not sure what we should do in this case. Here's a
+couple links I found, but they don't really help...
 
-I understand that this way needs to expose more vhost operations, but
-I think each of these are smaller and fit better in "vhost backend
-implementation of an operation" than just telling the backend that
-shadow vq is started.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
+https://devicetree-specification.readthedocs.io/en/latest/chapter3-devicenodes.html#memory-node
 
-> (And hide the backend deatils (avoid calling vhost_vdpa_dma_map())
-> directly from the vhost.c)
->
-
-Sure, the direct call of vhost_vdpa_dma_map is not intended to be that
-way in the final series, it's just an intermediate step. I could have
-been more explicit about that, sorry.
-
-[1] At the moment it just calls vhost_vdpa_dma_map directly, but this
-should be changed by a vhost_ops, and that op is optional: If not
-present, vIOMMU is used.
-
-> Thanks
->
->
-> > ---
-> >   include/hw/virtio/vhost-backend.h | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> >
-> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhos=
-t-backend.h
-> > index bcb112c166..f8eed2ace5 100644
-> > --- a/include/hw/virtio/vhost-backend.h
-> > +++ b/include/hw/virtio/vhost-backend.h
-> > @@ -128,6 +128,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_d=
-ev *dev);
-> >
-> >   typedef int (*vhost_vring_pause_op)(struct vhost_dev *dev);
-> >
-> > +typedef int (*vhost_enable_custom_iommu_op)(struct vhost_dev *dev,
-> > +                                            bool enable);
-> > +
-> >   typedef int (*vhost_get_iova_range)(struct vhost_dev *dev,
-> >                                       hwaddr *first, hwaddr *last);
-> >
-> > @@ -177,6 +180,7 @@ typedef struct VhostOps {
-> >       vhost_get_device_id_op vhost_get_device_id;
-> >       vhost_vring_pause_op vhost_vring_pause;
-> >       vhost_force_iommu_op vhost_force_iommu;
-> > +    vhost_enable_custom_iommu_op vhost_enable_custom_iommu;
-> >       vhost_get_iova_range vhost_get_iova_range;
-> >   } VhostOps;
-> >
->
+Thanks,
+drew
 
 
