@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4663975DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:57:27 +0200 (CEST)
-Received: from localhost ([::1]:56422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65273975E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 16:58:25 +0200 (CEST)
+Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo5pe-0004W2-Fr
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34726)
+	id 1lo5qb-0006hQ-1t
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 10:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lo5oU-0003AM-6i
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lo5oU-0003Az-Ki
  for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:56:14 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52894
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lo5oO-0007Xx-6b
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:56:13 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 151EWpl9162140; Tue, 1 Jun 2021 10:56:07 -0400
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1lo5oQ-0007Y4-8u
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 10:56:14 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 151EWr8p021007; Tue, 1 Jun 2021 10:56:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=ag0NQqdOJs/acIuSGcMmE1KbFrZ2MoXZlgd7Ov7ZNhg=;
- b=HW0fStW6KBCnLHWNRT+XvkXCIjDgPyUashlrylF1Q/HpOORH3D23Zt8hnRDnDifsV4nY
- 5osJBDT9hrZ8gShMuYb/xjvs7tVNUPnM4gj+5iNAcInp+8IKUM8Bhl4QZnYZ+geLKKyV
- BHvptRhWat+R9Na9berSPhvJyb1qXIYj/ucVrcVMyJwZLLXd+zrHW0QByZQ4JylRfkEs
- fHOwQ6rkydaQ7drLdjWiSv/0sSEttWFfekMHl2xO9PjFvbs6ym8GDm8D53a+V8ZFSeHq
- aV8G69KNm65ViF5JJL9vQX2SD4wmBGjXInjV1OjPtML3S8tY3Jj6NEs6+p/HCAmME2IU mA== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38wntdauby-1
+ bh=FlrWpJ4/4fZzldaQhM4Ow6outkdAeeCA+U7OaKMHJVk=;
+ b=Lp3pz1HyR5ITEUcK1/jQ54ybkFSPeaVb1z7UbLCkTVIwLqgzJi7/sYs621qOSZeDjTHV
+ fRfuBE5n9HTe8UFpnnhQd0S0o8SAbylV4U/P6jRYWWe+uM1DkR/QizTRmSVTMRU4mg4X
+ TsrWhQw0q3p/XQzTFYrHgIERZacnGCMtFTFoEoWT41nyUCtAkFSVXBe8jPWqdM3G4hR3
+ qJqnAvQOVZqIafX/i2VNPIPuDB8oHKi8TI3b0AJ7ZMjrLbkRDLFFD4zqvoyz2rSW1FcO
+ b7okSnX1xXyO9yFAJ9WWmV9yx4bZqyrNyKyhVVn345ZV3vS+BR6ck0T2pveiDj2FLdeA /g== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38wmj6ddsa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 10:56:06 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 151Esa9i032530;
- Tue, 1 Jun 2021 14:56:05 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 38ud889t06-1
+ Tue, 01 Jun 2021 10:56:08 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 151Es3tk010689;
+ Tue, 1 Jun 2021 14:56:06 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 38ud87s01h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 14:56:05 +0000
+ Tue, 01 Jun 2021 14:56:06 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 151EtWI636962778
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 151Eu3XO12190198
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 1 Jun 2021 14:55:32 GMT
+ Tue, 1 Jun 2021 14:56:03 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B6B9AE055;
- Tue,  1 Jun 2021 14:56:02 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2F800AE04D;
+ Tue,  1 Jun 2021 14:56:03 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1BA38AE053;
+ by IMSVA (Postfix) with ESMTP id D64ABAE051;
  Tue,  1 Jun 2021 14:56:02 +0000 (GMT)
 Received: from vm.lan (unknown [9.145.39.144])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
@@ -62,28 +61,29 @@ Received: from vm.lan (unknown [9.145.39.144])
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 1/2] linux-user: Let sigaction query SIGKILL/SIGSTOP
-Date: Tue,  1 Jun 2021 16:55:59 +0200
-Message-Id: <20210601145600.3131040-2-iii@linux.ibm.com>
+Subject: [PATCH 2/2] tests/tcg/linux-test: Check that sigaction can query
+ SIGKILL/SIGSTOP
+Date: Tue,  1 Jun 2021 16:56:00 +0200
+Message-Id: <20210601145600.3131040-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210601145600.3131040-1-iii@linux.ibm.com>
 References: <20210601145600.3131040-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 7ujH6G9RE4jZ3Zit6oJeRUdJ2Jh7sZrO
-X-Proofpoint-GUID: 7ujH6G9RE4jZ3Zit6oJeRUdJ2Jh7sZrO
+X-Proofpoint-ORIG-GUID: DUUqS-xihRm6zYg-Sc2PCLZ8-9DznBRu
+X-Proofpoint-GUID: DUUqS-xihRm6zYg-Sc2PCLZ8-9DznBRu
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-06-01_07:2021-06-01,
  2021-06-01 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 clxscore=1011
+ mlxscore=0 impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2106010098
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -107,31 +107,33 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kernel allows doing this, so let's allow this in qemu as well.
-Valgrind relies on this.
+Verify that querying is allowed, but making changes isn't.
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- linux-user/signal.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ tests/tcg/multiarch/linux-test.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 9016896dcd..bc3431708f 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -851,7 +851,11 @@ int do_sigaction(int sig, const struct target_sigaction *act,
- 
-     trace_signal_do_sigaction_guest(sig, TARGET_NSIG);
- 
--    if (sig < 1 || sig > TARGET_NSIG || sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP) {
-+    if (sig < 1 || sig > TARGET_NSIG) {
-+        return -TARGET_EINVAL;
-+    }
+diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
+index ce033c21c7..cd9d8159bc 100644
+--- a/tests/tcg/multiarch/linux-test.c
++++ b/tests/tcg/multiarch/linux-test.c
+@@ -496,6 +496,15 @@ static void test_signal(void)
+     sigemptyset(&act.sa_mask);
+     act.sa_flags = 0;
+     chk_error(sigaction(SIGSEGV, &act, NULL));
 +
-+    if (act && (sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP)) {
-         return -TARGET_EINVAL;
-     }
++    if (sigaction(SIGKILL, &act, NULL) == 0) {
++        error("sigaction(SIGKILL, &act, NULL) must not succeed");
++    }
++    if (sigaction(SIGSTOP, &act, NULL) == 0) {
++        error("sigaction(SIGSTOP, &act, NULL) must not succeed");
++    }
++    chk_error(sigaction(SIGKILL, NULL, &act));
++    chk_error(sigaction(SIGSTOP, NULL, &act));
+ }
  
+ #define SHM_SIZE 32768
 -- 
 2.31.1
 
