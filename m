@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62927397472
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 15:38:12 +0200 (CEST)
-Received: from localhost ([::1]:56548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB599397479
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 15:39:44 +0200 (CEST)
+Received: from localhost ([::1]:32842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo4ax-0002bV-Gx
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 09:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44490)
+	id 1lo4cR-0005iV-OY
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 09:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1lo4TH-0007Cm-9P
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:30:16 -0400
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:36694)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lo4Vi-000353-Hh
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:32:46 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1lo4TC-0002Oi-PY
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:30:15 -0400
-Received: by mail-lf1-x12a.google.com with SMTP id q1so21821174lfo.3
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 06:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jkQlDO685xDJqrzL2iqgvvvwo6S6SiI7DXtQHAtFDwE=;
- b=J2TEc2TsluRQv/aSFtt9HpGQNKdiHCrBqozRc97ihuc5xiZPS6OqQ3stQTBNhT9JdV
- KFD+pMaw7mLE09bHOlbpjzxoa0ikJ0bebIkNN/Nxm9hiidBxP7VTKhwAYryT6Bliixc9
- 88HROxFQAJw/z368D2tz7tkM1YpZ798OTDEadfycJSP9GEyRlKG1nc585/Ef3ja0751d
- MEji4FkTBSEUwLAh4oc3kfMV7DoRnXzfnz0Q5465WY37VwWPTvFSUP5hDDH9TX/Oiyh3
- +iD0JiScaMb3ZgktZVNoWivg3omtHQywtkwLk8aSHyytQ4Ad8H5DYASrJq+BxwN9WGMN
- 5Q1Q==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lo4Vb-0003v4-Ar
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 09:32:46 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id c5so3172226wrq.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 06:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jVHGwZV9tUn5TYMiH2Iw7LjRsjNZ9Xy06FGVeXptkPA=;
+ b=qFGuVwQVShwKQTi8+hZXp8bLNS106F7PLHEHOeXsYv95z1XtDaKB/18jdiskqFGMHO
+ bIYHemlkGSRmnHvdPmMWwsvH0T1j3kSfwQP9C8yAwXu2mq5M9QG9zvaTnVGECERxV4m9
+ K6a5vd9b69lSkkPFxTdBZWkk3hSUcsN3ExGIi6D9C3Ksu9CCGynmuW/eUS9Re/2omzYI
+ w/ijlYiI9DYMDeBNgW3W+bpGW0jUAIERF8/C0JAMM8FOyxAtD1MFCrJb+9YHwW644XuD
+ Vwq/a63vp8OkOo8v9WbDZQTCGoKLyydYtXG7w5Dm9pb8pXKsMEnEMmstfACqjt+3EBeS
+ 6BJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jkQlDO685xDJqrzL2iqgvvvwo6S6SiI7DXtQHAtFDwE=;
- b=ITal4hNyjDz014+r6k5tjyQeOrUUJ/TYpZjg2Mun5RB3S1nRY3lwjgv3sLFfKALGsD
- c35thj3mplQAOeqR/NiqviYNujp9TH9DSwgaXVnsBUibuys01dn2RHsMgJXcjQJtFxff
- 3ByaRwT0NQxMNHjGEQiicogwetTscJ+oU/Wv1QRfMDDfyoE6wB6m8yx7ir52NGqYkjY/
- /29QFOYM4qGWQkQm5oFnwpHljzEAZ++uRopypA7DQQJqaoAUE4+z6bcpweYdFMLr+5K8
- rseXT7FfrgqdSLnkbvsLHk+UkTNlOhzGMONjE/XXT8a90IAJRBT0BfMFfP49+JR/r8jL
- sb9g==
-X-Gm-Message-State: AOAM530XDyk01ZQL00cfQO4iEoB0S3YPEPzqgpI8GrLpKxN1NSu0BGq5
- zqDKvo7SpY6zKd22ayiv3IfSwMy1/uLYFbuod5w=
-X-Google-Smtp-Source: ABdhPJzei4zXDgEQqyxuNHcw6Z/T2nPFniWQDacaeCUN6yb55DWytOea/sHrBJu7MEsj6XeA+jmy2gxyfJ97IXbkjsY=
-X-Received: by 2002:ac2:5d29:: with SMTP id i9mr18833884lfb.638.1622554208031; 
- Tue, 01 Jun 2021 06:30:08 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jVHGwZV9tUn5TYMiH2Iw7LjRsjNZ9Xy06FGVeXptkPA=;
+ b=Nsjk8vPZVk02WlpQoVcMfPJ8MEPjrUttlzkS4Kv1fm1cLKowKWQzByH30gIs5vdKTv
+ WGnLZPNP40tjlgxf3yTDOM47nFKE/jj0wOMlVzzPpB4IhAY0ua7z9wPAKYFgmlAk4Qhf
+ yPrwQSBnPGp52DHBFTMrCOe7ymfva813kr7u4Xww64eoVD3df5i83OioDpXZRMT0tycL
+ 0/q4yK9cIf/LlNTa5MIG7bqCwekoAngmk84GcOM3xcHy0MJs4IDm77CF+FsrSXqu1a/1
+ 0zyWWR/ZRNQMyRvlic6e3vZ5n1JbBKZiHSPYyZ9FURSb6Vxw5ST8TMjVgBdvv2lmj3Nl
+ bYVA==
+X-Gm-Message-State: AOAM530UIwYgq1NGLJvfuy7zza11VTfUAGTmoMrFnITHtwKi/4L1OBcG
+ CxYpem/Hbc8miv2t/aI10uvhGA==
+X-Google-Smtp-Source: ABdhPJytkikfF+e89/tA226ae0mvMfVr22icVQZAt5HUivyBFhivSSx/t3roZpsJuGngKrrnAfRF1g==
+X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr16654386wru.124.1622554357768; 
+ Tue, 01 Jun 2021 06:32:37 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h6sm3301800wrt.6.2021.06.01.06.32.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 06:32:36 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 19B811FF7E;
+ Tue,  1 Jun 2021 14:32:36 +0100 (BST)
+References: <20210530063712.6832-1-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [RFC PATCH v2 0/3] Cache modelling TCG plugin
+Date: Tue, 01 Jun 2021 14:30:31 +0100
+In-reply-to: <20210530063712.6832-1-ma.mandourr@gmail.com>
+Message-ID: <871r9ld823.fsf@linaro.org>
 MIME-Version: 1.0
-References: <CA+2MQi-_06J1cmLhKAmV1vkPEnvDx6+bOnK06OciYmdymaNruw@mail.gmail.com>
- <87cztmkdlp.fsf@vitty.brq.redhat.com>
- <CA+2MQi_LG57KRRFjMR_zPvJBDaH4z16S5J=c+U+-Ss_Z71Ax7g@mail.gmail.com>
- <87y2c8iia0.fsf@vitty.brq.redhat.com>
- <CA+2MQi-OK5zK_sBtm8k-nnqVPQTSzE1UVTEfQ4KBChMHc=Npzg@mail.gmail.com>
- <87k0no4k4q.fsf@vitty.brq.redhat.com>
-In-Reply-To: <87k0no4k4q.fsf@vitty.brq.redhat.com>
-From: Liang Li <liliang324@gmail.com>
-Date: Tue, 1 Jun 2021 21:29:56 +0800
-Message-ID: <CA+2MQi_1N=HD7z7s6-MOcQ6xS14KxPS=TqjHTrWDdTP7jteMPw@mail.gmail.com>
-Subject: Re: About the performance of hyper-v
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=liliang324@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,106 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tianyu.Lan@microsoft.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-==========================
-> > Analyze events for all VMs, all VCPUs:
-> >              VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-> > Time         Avg time
-> >            MSR_WRITE     924045    89.96%    81.10%      0.42us
-> > 68.42us      1.26us ( +-   0.07% )
-> >            DR_ACCESS      44669     4.35%     2.36%      0.32us
-> > 50.74us      0.76us ( +-   0.32% )
-> >   EXTERNAL_INTERRUPT      29809     2.90%     6.42%      0.66us
-> > 70.75us      3.10us ( +-   0.54% )
-> >               VMCALL      17819     1.73%     5.21%      0.75us
-> > 15.64us      4.20us ( +-   0.33%
-> >
-> > Total Samples:1027227, Total events handled time:1436343.94us.
-> > ===============================
-> >
-> > The result shows the overhead increased.  enable the apicv can help to
-> > reduce the vm-exit
-> > caused by interrupt injection, but on the other side, there are a lot
-> > of vm-exit caused by APIC_EOI.
-> >
-> > When turning off the hyper-v and using the kvm apicv, there is no such
-> > overhead.
+
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+
+> In this RFC patch series, I propose an initial cache modelling TCG
+> plugin. As of now, it models separate L1 data cache and L1 instruction
+> cache. It supports three eviction policies: LRU, random, and FIFO. Once
+> a policy is chosen, it's used for both instruction and data caches.
 >
-> I think I know what's happening. We've asked Windows to use synthetic
-> MSRs to access APIC (HV_APIC_ACCESS_RECOMMENDED) and this can't be
-> accelerated in hardware.
->
-> Could you please try the following hack (KVM):
->
-> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> index c8f2592ccc99..66ee85a83e9a 100644
-> --- a/arch/x86/kvm/cpuid.c
-> +++ b/arch/x86/kvm/cpuid.c
-> @@ -145,6 +145,13 @@ void kvm_update_cpuid_runtime(struct kvm_vcpu *vcpu)
->                                            vcpu->arch.ia32_misc_enable_msr &
->                                            MSR_IA32_MISC_ENABLE_MWAIT);
->         }
-> +
-> +       /* Dirty hack: force HV_DEPRECATING_AEOI_RECOMMENDED. Not to be merged! */
-> +       best = kvm_find_cpuid_entry(vcpu, HYPERV_CPUID_ENLIGHTMENT_INFO, 0);
-> +       if (best) {
-> +               best->eax &= ~HV_X64_APIC_ACCESS_RECOMMENDED;
-> +               best->eax |= HV_DEPRECATING_AEOI_RECOMMENDED;
-> +       }
->  }
->  EXPORT_SYMBOL_GPL(kvm_update_cpuid_runtime);
->
-> > It seems turning on hyper V related features is not always the best
-> > choice for a windows guest.
->
-> Generally it is, we'll just need to make QEMU smarter when setting
-> 'recommendation' bits.
->
+> v1 -> v2: Unlocked dmtx on early return in vcpu_mem_access & removed a
+>           (probably?) bad InsnData free.
+>           This is probably still problematic since it does not free the
+>           ``idata`` allocated for the vcpu_mem_access callback even
+>           once, but if it's placed, it would double-free it.
+>           How do I mitigate this? I need to free the InsnData passed to
+>           vcpu_mem_access only once if we find out that it's an IO
+>           access since we do not need it anymore and it will early
+>           return every time.
 
-Hi Vitaly,
+OK I've done my review, sorry I reviewed 1/3 from the previous series.
+I've made some comments inline in those patches but I think this is an
+excellent start to the project. I think we can get the core plugin
+up-streamed fairly quickly and then spend some time examining better
+integration and possibly enhancing the plugin API.
 
-I have tried your patch and found it can help to reduce the overhead.
-it works as well as
-the  option  "<feature policy='disable' name='hypervisor'/>" is set in
-libvirt xml.
-
-=======with your patch and stimer enabled=====
-Analyze events for all VMs, all VCPUs:
-             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-Time         Avg time
-          APIC_WRITE     172232    78.36%    68.99%      0.70us
-47.71us      1.48us ( +-   0.18% )
-         DR_ACCESS      19136     8.71%     4.42%      0.55us
-4.42us      0.85us ( +-   0.32% )
-  EXTERNAL_INTERRUPT      15921     7.24%    13.84%      0.87us
-55.28us      3.21us ( +-   0.55% )
-              VMCALL       6971     3.17%    10.34%      1.16us
-12.02us      5.48us ( +-   0.49%
-Total Samples:219802, Total events handled time:369310.30us.
-
-===========with hypervisor disabled=========
-
-Analyze events for all VMs, all VCPUs:
-             VM-EXIT    Samples  Samples%     Time%    Min Time    Max
-Time         Avg time
-          APIC_WRITE     200482    78.51%    68.62%      0.64us
-49.51us      1.37us ( +-   0.16% )
-           DR_ACCESS      24235     9.49%     4.92%      0.55us
-3.65us      0.81us ( +-   0.26% )
-  EXTERNAL_INTERRUPT      17084     6.69%    13.20%      0.89us
-56.38us      3.09us ( +-   0.53% )
-              VMCALL       7124     2.79%     9.87%      1.26us
-12.39us      5.54us ( +-   0.49% )
-         EOI_INDUCED       5066     1.98%     1.36%      0.66us
-2.64us      1.07us ( +-   0.25% )
-      IO_INSTRUCTION        591     0.23%     1.27%      3.37us
-673.23us      8.59us ( +-  13.69% )
-Total Samples:255363, Total events handled time:399954.27us.
-
-
-Thanks!
-Liang
+--=20
+Alex Benn=C3=A9e
 
