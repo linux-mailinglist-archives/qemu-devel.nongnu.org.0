@@ -2,44 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934173979B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:04:59 +0200 (CEST)
-Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01633979C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Jun 2021 20:08:34 +0200 (CEST)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lo8l8-0004QG-1l
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41100)
+	id 1lo8ob-0006uM-Nd
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 14:08:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1lo8j6-0003Yq-23; Tue, 01 Jun 2021 14:02:52 -0400
-Received: from [201.28.113.2] (port=45669 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luis.pires@eldorado.org.br>)
- id 1lo8j4-0000D7-1t; Tue, 01 Jun 2021 14:02:51 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 1 Jun 2021 15:02:44 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 5A80580148B;
- Tue,  1 Jun 2021 15:02:44 -0300 (-03)
-From: Luis Pires <luis.pires@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/ppc: fix single-step exception regression
-Date: Tue,  1 Jun 2021 15:02:37 -0300
-Message-Id: <20210601180237.296402-1-luis.pires@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lo8nc-0005gJ-24; Tue, 01 Jun 2021 14:07:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lo8na-0003dE-9T; Tue, 01 Jun 2021 14:07:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5523E60FF3;
+ Tue,  1 Jun 2021 18:07:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622570848;
+ bh=w8DchyzWqw9+gk80xFN+8uEmBWlKM/+aKwKEDZdG3ZM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n55cVKlqaQLYbbLf+eQXW++E3P1hAJVrBWASXRFaAGhx0Ecwe5S5Y7oUz4US7lDzg
+ mOHOrcH8/ZkPhPouaIgnI+fimdglJ4aJWqYwOHgeJLpUuE/ky5uJ192aPT8m6dUO+E
+ q6oLvp/bXeoJ1Rg6mpJh82kiIbI5aRWvMoEVAP9KpyRD2Wml0LnmqWGsPd6BqVZfGs
+ hdd+7WnGcrXew/48/Hr1nw7ACaWL04vonl6G0L9lQ8jgRf1YprCKgAGB+MHja7SfLY
+ FadhVVDR4nhEr59vEIgUF8yMWVhEZVnjaI5ryThp09ZR/2SlcnMRJ7ZyiivCDzh0dJ
+ obRnvEIKguQrQ==
+Date: Tue, 1 Jun 2021 11:07:24 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
+Message-ID: <20210601180724.GA4527@dhcp-10-100-145-180.wdc.com>
+References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
+ <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
+ <20210601143749.1669-2-anaidu.gollu@samsung.com>
+ <20210601171936.GB4506@dhcp-10-100-145-180.wdc.com>
+ <YLZxTlikAcJD98Ut@apples.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 01 Jun 2021 18:02:44.0528 (UTC)
- FILETIME=[52760B00:01D75710]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YLZxTlikAcJD98Ut@apples.localdomain>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,52 +64,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, groug@kaod.org,
- Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 6086c75 (target/ppc: Replace POWERPC_EXCP_BRANCH with
-DISAS_NORETURN) broke the generation of exceptions when
-CPU_SINGLE_STEP or CPU_BRANCH_STEP were set, due to nip always being
-reset to the address of the current instruction.
-This fix leaves nip untouched when generating the exception.
+On Tue, Jun 01, 2021 at 07:41:34PM +0200, Klaus Jensen wrote:
+> On Jun  1 10:19, Keith Busch wrote:
+> > On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
+> > > NVMe Boot Partitions provides an area that may be read by the host
+> > > without initializing queues or even enabling the controller. This
+> > > allows various platform initialization code to be stored on the NVMe
+> > > device instead of some separete medium.
+> > > 
+> > > This patch adds the read support for such an area, as well as support
+> > > for updating the boot partition contents from the host through the
+> > > FW Download and Commit commands.
+> > 
+> > Please provide some details on what platform initilization sequence
+> > running on QEMU is going to make use of this feature.
+> > 
+> 
+> I totally get your reluctance to accept useless features like device
+> self-test and ill-supported ones like write uncorrectable.
+> 
+> But I think this feature qualifies just fine for the device. It is useful
+> for embedded development and while there might not be any qemu boards that
+> wants to use this *right now*, it allows for experimentation. And this is a
+> feature that actually *is* implemented by real products for embedded
+> systems.
 
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
-Reported-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/translate.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index ea200f9637..0dd04696a6 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4646,8 +4646,7 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
-         if (sse & GDBSTUB_SINGLE_STEP) {
-             gen_debug_exception(ctx);
-         } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
--            uint32_t excp = gen_prep_dbgex(ctx);
--            gen_exception(ctx, excp);
-+            gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
-         } else {
-             tcg_gen_exit_tb(NULL, 0);
-         }
-@@ -9128,7 +9127,11 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-         }
-         /* else CPU_SINGLE_STEP... */
-         if (nip <= 0x100 || nip > 0xf00) {
--            gen_exception(ctx, gen_prep_dbgex(ctx));
-+            if (is_jmp == DISAS_EXIT || is_jmp == DISAS_CHAIN) {
-+                /* We have not updated nip yet, so do it now */
-+                gen_update_nip(ctx, nip);
-+            }
-+            gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
-             return;
-         }
-     }
--- 
-2.25.1
-
+That wasn't my request, though. I am well aware of the feature and also
+have hardware that implements it. It just sounds like you haven't
+actually tested this feature under the protocol's intended use cases
+inside this environment. I think that type of testing and a high level
+description of it in the changelog ought to be part of acceptance
+criteria.
 
