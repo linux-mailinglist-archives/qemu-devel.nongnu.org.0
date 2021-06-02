@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA3B398353
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 09:42:28 +0200 (CEST)
-Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3458D39834B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 09:41:32 +0200 (CEST)
+Received: from localhost ([::1]:42624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loLWF-0005ir-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 03:42:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
+	id 1loLVL-0001oJ-7E
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 03:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQf-0000Is-Ff
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32963)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQj-0000LU-1K
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQb-0003u8-0l
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:41 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQc-0003vz-FW
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622619395;
+ s=mimecast20190719; t=1622619397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2eqeKOvBmrC0eKKvq1TmwSg0ldJ96MCY9EK7Yj+EBxY=;
- b=fO4Bwc0Xq4Qb6mAYbzVjsSbq7LQ90IujjGU1bhsUHdvMaapVgLBsv4EFpGkFqokPa0HAB3
- Dunzt31udhkav4P13zUUwbbqylLkgzWRq6J3pejD7QTJ/Ik4BrKkBr68V+gYozzRHhs4nj
- CyECrrAoGr/5B3IMlJVo9Q7J7LrUdGM=
+ bh=NgRKcLK9qdYY7w/xFFlwcjUzNjE5viejz2sZhpICtfc=;
+ b=IL4oU+QvdtZu/0neHyGINzoVOCAuaodTVyDuvWn3WavB2w2BiNwBlomqQdHrB8XNV9qEjl
+ Ptnc6ModMUghbChtdiPrAv7sQ6Si304y5oFlZicoXtFrvXvh9nUIKg2JM++hkCDWp0DiUA
+ mAqxk0cM5jdyjt28aGFX37qc0nqzs4M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-MPwf8Q7RMZuSeBUJSteHLw-1; Wed, 02 Jun 2021 03:36:33 -0400
-X-MC-Unique: MPwf8Q7RMZuSeBUJSteHLw-1
+ us-mta-444-uxb0VdW6Oaq-i-szA47UUw-1; Wed, 02 Jun 2021 03:36:35 -0400
+X-MC-Unique: uxb0VdW6Oaq-i-szA47UUw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C60921854E25;
- Wed,  2 Jun 2021 07:36:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EEB1800D55;
+ Wed,  2 Jun 2021 07:36:34 +0000 (UTC)
 Received: from thuth.com (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA6885C67A;
- Wed,  2 Jun 2021 07:36:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F8E65C729;
+ Wed,  2 Jun 2021 07:36:32 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/17] crypto: bump min gnutls to 3.5.18,
- dropping RHEL-7 support
-Date: Wed,  2 Jun 2021 09:36:00 +0200
-Message-Id: <20210602073606.338994-12-thuth@redhat.com>
+Subject: [PULL 12/17] crypto: drop used conditional check
+Date: Wed,  2 Jun 2021 09:36:01 +0200
+Message-Id: <20210602073606.338994-13-thuth@redhat.com>
 In-Reply-To: <20210602073606.338994-1-thuth@redhat.com>
 References: <20210602073606.338994-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,75 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-It has been over two years since RHEL-8 was released, and thus per the
-platform build policy, we no longer need to support RHEL-7 as a build
-target. This lets us increment the minimum required gnutls version
+The condition being tested has never been set since the day the code was
+first introduced.
 
-Per repology, current shipping versions are:
-
-             RHEL-8: 3.6.14
-      Debian Buster: 3.6.7
- openSUSE Leap 15.2: 3.6.7
-   Ubuntu LTS 18.04: 3.5.18
-   Ubuntu LTS 20.04: 3.6.13
-            FreeBSD: 3.6.15
-          Fedora 33: 3.6.16
-          Fedora 34: 3.7.1
-            OpenBSD: 3.6.15
-     macOS HomeBrew: 3.6.15
-
-Ubuntu LTS 18.04 has the oldest version and so 3.5.18 is the new minimum.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210514120415.1368922-7-berrange@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-[thuth: rebased to use .gitlab-ci.d/buildtest.yml]
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20210514120415.1368922-8-berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/buildtest.yml | 15 ---------------
- configure                  |  2 +-
- 2 files changed, 1 insertion(+), 16 deletions(-)
+ crypto/tlscredsx509.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index fe44a5c2be..b72c57e4df 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -626,21 +626,6 @@ build-coroutine-sigaltstack:
-                     --enable-trace-backends=ftrace
-     MAKE_CHECK_ARGS: check-unit
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index bc503bab55..d9d6f4421e 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -354,11 +354,9 @@ qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
+             reason = "The certificate has been revoked";
+         }
  
--# Most jobs test latest gcrypt or nettle builds
--#
--# These jobs test old gcrypt and nettle from RHEL7
--# which had some API differences.
--crypto-only-gnutls:
--  extends: .native_build_job_template
--  needs:
--    job: amd64-centos7-container
--  variables:
--    IMAGE: centos7
--    TARGETS: x86_64-softmmu x86_64-linux-user
--    CONFIGURE_ARGS: --disable-nettle --disable-gcrypt --enable-gnutls
--    MAKE_CHECK_ARGS: check
--
--
- # Check our reduced build configurations
- build-without-default-devices:
-   extends: .native_build_job_template
-diff --git a/configure b/configure
-index fb8c5187e8..b36df40c27 100755
---- a/configure
-+++ b/configure
-@@ -2801,7 +2801,7 @@ fi
+-#ifndef GNUTLS_1_0_COMPAT
+         if (status & GNUTLS_CERT_INSECURE_ALGORITHM) {
+             reason = "The certificate uses an insecure algorithm";
+         }
+-#endif
  
- if test "$gnutls" != "no"; then
-     pass="no"
--    if $pkg_config --exists "gnutls >= 3.1.18"; then
-+    if $pkg_config --exists "gnutls >= 3.5.18"; then
-         gnutls_cflags=$($pkg_config --cflags gnutls)
-         gnutls_libs=$($pkg_config --libs gnutls)
-         # Packaging for the static libraries is not always correct.
+         error_setg(errp,
+                    "Our own certificate %s failed validation against %s: %s",
 -- 
 2.27.0
 
