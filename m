@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC84398FF3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 18:29:20 +0200 (CEST)
-Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF993990F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 18:51:31 +0200 (CEST)
+Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loTk7-0003wH-AV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 12:29:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
+	id 1loU5a-00018m-CW
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 12:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loTiw-0002XH-8Z
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:28:06 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34536)
+ id 1loU3g-0007NE-8i
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:49:32 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loTiu-0003Ml-Jr
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:28:05 -0400
-Received: by mail-pf1-x434.google.com with SMTP id g6so2615431pfq.1
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 09:28:04 -0700 (PDT)
+ id 1loU3e-0005uL-I1
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:49:31 -0400
+Received: by mail-pf1-x436.google.com with SMTP id u18so2626802pfk.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 09:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3FE9Vr348M4JNOzZzwjWmfKOommZ6lFk5XJoriAEga0=;
- b=ijZo8DINauZfbG7uWoggwAtGPc8yMPaNyRlEr/kNM7sca/LTbKpnb0wAWgaY0zk7mh
- dFj3RdrykCVrflxqgIFgjaBGrYtugCP+Rrub9flzpdkhNDjgv4X7wD1vlvNqqUgv4Qli
- DVoSgHvlBgbdUjz8mWd0NJr/aCXy43FIs12KZVDLVD1bisuKdN5SqECbhQUv82szZs7M
- EZfLW3ybytagbCOcs78QFD73AymAKJgrIOxaBh5sGqDnSnxjDGNIC4hM4dlVZR2L5SeX
- 1CNoVVm/MhO3g9SEVpBHLbHtn6voa3RayloikcEMU7VriK7w7qA29rs92EdCg+gU0ZN3
- 3DiQ==
+ bh=MoPC6xwYEeoAMd6vXQIrdBQ25b0GXY/YyPNdrjh96V0=;
+ b=gQxHktkOmSRRHz40CfJlVbSqkRpxFw8Nvt9I1lcr3KybyKW9F7p/m4h0GuMu5yuaee
+ 40UVYMOD7bntKiQll2meZuZPA4Bx7QqQ6nxfX2vQmjLdgOqGidvSKPiggwJnWC+IYKJi
+ LNp9DDY+yDCaxXRb3RC3NqU/nJYo+yX8yMt5Wmu0ZcuBnPKeTJ5sND3Iwb5K/Y87tke1
+ ahcaYR8F30gykt10dfI6DT1QQXN7O0xK9WNqf3LVAdQYYHZzEfFxL4AINXatHKWMLjG4
+ grMV2Lf2b8V0Nm+zdZd9Mwp9dzdNsCIIosqjOecJ4WSH65OjUYDxFOd9FIbpq8/Xm4oL
+ qOKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3FE9Vr348M4JNOzZzwjWmfKOommZ6lFk5XJoriAEga0=;
- b=pXPEityoWvyjODkVRJUedbxOUbFhyk4Y37tUinSwsmhbnC7LdOirFrghy6miRD9Xuc
- HuLXVe+fSRy0F179JOvv4FYpRE+D5kGacSnKCl5QcdHb+n7EAGkSb22v9HQe7nvXeWbv
- fPXiQuX214Ng8zGMQNbpZsHKfmU7KrA6z70HniwHN7rDy2S0v8P1HxZnYscEUGOYUPiJ
- oaizTX9iJGqRntOV5g5jxTuTEXd3RbCZ5lSVy6AMunNxe7izoKHGawsyUEh4Ub8z/RyU
- lA2Y+TTyr9kC4sBHcwma8GsTm+eEYo8xQUSvQs85Zky3f0Jb9wrLE8tNhD8l+ZwNo7X+
- Vx9Q==
-X-Gm-Message-State: AOAM533Ox+qeW+FaYlGR6vwiFolQGPeCfDSwq0fEsfO5mJLAkvvSro+Q
- ykJZw/HJVqcAjD1S85DeZuMjQQ==
-X-Google-Smtp-Source: ABdhPJx/kjnqZHAlWaMxpK1tw4UgkJH7pgfDW3TsZ9n9xSyPbM+dWKIW9JiYP9p6OgdxmDuzMuiJBw==
-X-Received: by 2002:a63:bc19:: with SMTP id q25mr34845271pge.211.1622651282909; 
- Wed, 02 Jun 2021 09:28:02 -0700 (PDT)
+ bh=MoPC6xwYEeoAMd6vXQIrdBQ25b0GXY/YyPNdrjh96V0=;
+ b=TIs2t2u72xRzp1SzJC0JiRmtQI8ibzRiz3ZjzRGP9xcUT0DXbjtrJXm9tg2C0CTD0C
+ azICbJUGt1gMdJhoiGSG60L5C425VqtH8hKwb8qi/GClQ+vqOGg9LKPe45mces8efTSQ
+ EyIqsqVA4eQdPeOEupX20Ycr4Q7uqFGdPyuIlHrZJRa6yrf/YfIoFosu1Bd4Vcz4e+4x
+ j08KpuGX62bQNOqE/y8vwAp2oA9BzOoqw28bUjdW+6MwXiorNpi/bG49SaT8/wHkBJaH
+ EFqQi3RMTsFCdSN5kbCXX6lvmmhmUx76zZ5njR3tufrwarpQyaBi4JJdYds4gEgOQXtC
+ KSRw==
+X-Gm-Message-State: AOAM532LfEf6vAt7ysih81k2g/KLkHIhovwfL0/qJcakcoI37z/Tm/KP
+ 3HQIaqRHk5KuGA/wjkqI0wM2SuDOI3icVQ==
+X-Google-Smtp-Source: ABdhPJxzye19BbUpJzBCZtGGvsaFMkS9Lv5S2aAUHGZknRC2T52nB1xo93Sq1h26H500L91mzfMZlw==
+X-Received: by 2002:a62:6d07:0:b029:2e9:1e3c:ad54 with SMTP id
+ i7-20020a626d070000b02902e91e3cad54mr27778458pfc.46.1622652568801; 
+ Wed, 02 Jun 2021 09:49:28 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- n2sm244840pgl.59.2021.06.02.09.28.02
+ t23sm296955pgj.9.2021.06.02.09.49.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 09:28:02 -0700 (PDT)
-Subject: Re: [PATCH v2 03/28] softfloat: Move uint_to_float to
- softfloat-parts.c.inc
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
- <20210525150706.294968-4-richard.henderson@linaro.org>
- <8735u0bish.fsf@linaro.org>
+ Wed, 02 Jun 2021 09:49:28 -0700 (PDT)
+Subject: Re: [PATCH v2] target/ppc: fix single-step exception regression
+To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210602125103.332793-1-luis.pires@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f8353d16-9423-575f-63ff-8edbc05d2ac7@linaro.org>
-Date: Wed, 2 Jun 2021 09:28:00 -0700
+Message-ID: <42aa7009-7d69-4fa0-683e-5db624b03b2c@linaro.org>
+Date: Wed, 2 Jun 2021 09:49:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <8735u0bish.fsf@linaro.org>
+In-Reply-To: <20210602125103.332793-1-luis.pires@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -90,23 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: matheus.ferst@eldorado.org.br, qemu-ppc@nongnu.org, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 4:31 AM, Alex Bennée wrote:
->> +        scale = MIN(MAX(scale, -0x10000), 0x10000);
+On 6/2/21 5:51 AM, Luis Pires wrote:
+> Commit 6086c75 (target/ppc: Replace POWERPC_EXCP_BRANCH with
+> DISAS_NORETURN) broke the generation of exceptions when
+> CPU_SINGLE_STEP or CPU_BRANCH_STEP were set, due to nip always being
+> reset to the address of the current instruction.
+> This fix leaves nip untouched when generating the exception.
 > 
-> here but it does seem weird to have an arbitrary limit here
+> Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
+> Reported-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> ---
+> v2:
+>   - Removed incorrect nip update from ppc_tr_tb_stop()
 > 
->> +        p->cls = float_class_normal;
->> +        p->exp = DECOMPOSED_BINARY_POINT - shift + scale;
-> 
-> where it's really a limit on fmt->exp_max. Are we just limiting it to
-> something sane and relying on the eventual repack to detect and overflow
-> condition?
+>   target/ppc/translate.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
-Yep.  This is before and after, mind.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
