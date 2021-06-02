@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17369398AD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:35:32 +0200 (CEST)
-Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC7D398ADB
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:37:36 +0200 (CEST)
+Received: from localhost ([::1]:41538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loR1t-0002xj-WE
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
+	id 1loR3v-0007Ty-EM
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loQft-0002Kc-Az; Wed, 02 Jun 2021 09:12:45 -0400
-Received: from mail-eopbgr30130.outbound.protection.outlook.com
- ([40.107.3.130]:57568 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ id 1loQg7-0002im-9z; Wed, 02 Jun 2021 09:12:59 -0400
+Received: from mail-eopbgr130108.outbound.protection.outlook.com
+ ([40.107.13.108]:50294 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loQfo-0003lC-OM; Wed, 02 Jun 2021 09:12:45 -0400
+ id 1loQfv-0003nQ-W4; Wed, 02 Jun 2021 09:12:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jgo81GAke9KWEVFu2VI7z8fAuhCa7Mi1avuQleyzNTMXInx4HZjuUw7pUdc/req9UmPp23p5A1v3V3uEGH1YoKYp3WDUVZ44asve3KgcLHePQBw5Mez71jdxsIviXDu2XDvJSpf/boROnnT0VPWFd8kh/YeYpiki44UgSt760t6TJAYZfKLQ25iccOcNYo+62FslTvKl2hk7bQV+tpkeLt4KfatD0WcZONrNbS5rJ+F0qhDLVO9crtpopc9XZWpXil9IC2SJQcDFVGeVWcApzXG7MKBLLJZotTj2kL2mJraq3prHyGNsmJi7TirGP4CKTA8Tztsjuib/7HThz7vyEg==
+ b=l0n3EMxiei5eCBSSl7N51arNqtOr2oYGZoszCGx3eIwpMU+JC4yklfh6BiJ5zEJIvvQrjrXdjq0jQN7BFU+64A47M/FPnMo5GX8w2osj5tJWmuYRuVoi7pEpkxgZlMYH0oTRPuiP2CiK9EDeaYA1y4N+i78mz52YYmXXj0jSAbzFHlAIB+6j4kYhAJwrT0ZHnw9C/elXPxxhBzVvyXAT73ykAevyTTmoPhYCHQyg9bGyf7uCUHcRc+fCzxUKTQvHK5iQQuX5OTgqrPUZ55lGtTo4N5TPNJCKnZApCq0jJnXmDLMXUvr6idAprUsg6xpCwv4uQnW/wSegVXXHIIxZqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pm/DX8vEH9U0U4+GCtPJAxsZlteqTAW/fTB5aMXiQYE=;
- b=YcO13mv6RuGMuNzkYIJBx8JOyGucLn6OSx1Yafkxi5+jJJxOUBQzQ1m9pcP2D+B3B3AVkp3MKd3kIg8j7o+F/lcPdg/wuajlprpQBPekjp6lI/nfN96j2TYxJ0LwqQ2+JDGhBf8kwgEt/bMf7EozK5eZjO64jH3c9WhlcmjUfwlsVZTInxOxpiLFOb9k9y+xykP1+7DDjEm0yIXTgOM1DUFB7c4NqmcJLvQN+JIkxYpOzfaHip0b5/e9Ay/9wh/b/A5rOAk84oy3iGxMc4LB8WfVFc4r6ov5t0uZgwYYMQpC1lRFKIPZCFvxNEMrbecDbtEJKbMG6xrc3tI7cnMByQ==
+ bh=SCPQk2Vj1oy/h55SJ19zMBsNknD+DXREd/PLofRnW6o=;
+ b=k9xzshG8XEWmxus/TxvKmA69AjjN0XTu5npybWpSHf0c5ywyg5yeDKpDYeI1uCAhIqMZ71beK4mhO+mqaHKcvd9MibKPl6ao1uwpDH1P8FIYBeF04lSEzUW1GAGNuzeuR7JiR6o5CsdoVErNQMgKAhtdGRrzbY7PJ8y4Dh900ZKJMEg3jS8lIl+ReQD6qLM42MXTc+dm5TE2geyEJiykZUyKVRQTiQPnRR2N8c9Lf99yUrE2jXImWzu+7sWU/d4JJEtpFb8Qc6O1TVQHdu0xxfMv6NH0Z2OjsoaJDLFW1OguVJkkfVUDAl09C93IVw4bggnzvE3ROslif9PCWx+k6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pm/DX8vEH9U0U4+GCtPJAxsZlteqTAW/fTB5aMXiQYE=;
- b=PHtj7pUfdGizThhZ2ZLl65stdUS+vmqxy9URCFT4VnTwj8XfrzU5s6hAX0Ui0v7Yiw4b7z1JYQXbXVPA9Q1/do56jPH1QQdQIXFHFz6ygIjccpCFZZHLZq/wZWRirEJE3OJ5iJdJl1KP5M08A5pvN5afcQT6e2XMvrO2BInBc7g=
+ bh=SCPQk2Vj1oy/h55SJ19zMBsNknD+DXREd/PLofRnW6o=;
+ b=A36GUe50TBQKHHaLzUhFy4nD9AXLicqNdoMt7uo/rC9DMTFE2cDGjG35pYxoZbLP/RSH/EHZmn+XV5bwRxN+kERPhc985pn8nYrCsAzvZICKzU1eSJ2mPzEY1fjdnpdi+T8Gb5JQgijiyJYwkf7fv4HwWjKEKRILxWFhclnLl/A=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -50,9 +50,9 @@ Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v4 30/35] iotests: move 222 to tests/image-fleecing
-Date: Wed,  2 Jun 2021 16:11:03 +0300
-Message-Id: <20210602131108.74979-31-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 31/35] iotests.py: hmp_qemu_io: support qdev
+Date: Wed,  2 Jun 2021 16:11:04 +0300
+Message-Id: <20210602131108.74979-32-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210602131108.74979-1-vsementsov@virtuozzo.com>
 References: <20210602131108.74979-1-vsementsov@virtuozzo.com>
@@ -67,64 +67,63 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.211) by
  HE1PR0501CA0011.eurprd05.prod.outlook.com (2603:10a6:3:1a::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:12:06 +0000
+ 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:12:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fdc95a0d-346a-4d01-0ed3-08d925c8064b
+X-MS-Office365-Filtering-Correlation-Id: 7af6579f-754c-4881-ac43-08d925c80725
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4536:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4536B47B0A75F3620AF83DB7C13D9@AM6PR08MB4536.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:497;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB45365164D92F7B2DA5328FBCC13D9@AM6PR08MB4536.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:431;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Bfu8oRIpqpJPfbjw2V7oQpksu4xLe2gT2J9UciG5UIsTyOLS17q7tB/mpaRl4ZDbS9wfmKG6NWhVRC4B3gU9M9B2lwKJmSit075qKvRA2Cox78K0GjQ0833ilusmOYJFWkWdP28BHVKufMG/kdcu0tgCTDUSOGy4jHrmJfpMCNNKSibPLWppSc3fCd6llPdE5vSyk5oDLnKHCv1mtdulyiq5bDsz8Hb3lI+nTzVOWQctgG3kPLOMreYsQpV2aFBt4BmfLvtovvYSBftxD1p5IG11+51cRVW/KmfVB4fy4n1l0j08Pcf/ccgF3JAZQzouq8dg0Uj9ynXOS8083R0+7GfV/SzO7CeGQl3jTb5dwejsO+CSACSxepnbJBFOuiLlS4SDRlBPOR1K7ti0ramiyOoSI8e43g3T4zqz2LryBNQCIBz8ONiwpwo4m7UfLzlGQdogOUiUiLUzwtb00x+YL9K246sli5xhRXdPB4gufGQkiF1GS41S6L3qQPQZHaptU+T/iz8L/KWEehK0yRBHWU7EwyH//AmhqTRDqxrXI1hw9IEr/aTmzEp41GgN3arwbs1kMFasdFqUvQWWGLtrOYJ0+QAfFVF8/7SwVF+0K7ukusCG+NKdTCQYn4ZY2aDo25zOUENz1q2OgWblPncu6f1hoY0jAsjrx3//W42hJZjV+pMCaSS9c9AEmdxXZkOK
+X-Microsoft-Antispam-Message-Info: RE2/ofWSg0ZsBlS3bSbHpKGpferKeBoR6jbZsg0Q3GJGLcSzgzhO/aYVQ6LUr0LmIGcQyeBUJRbtNfOsbmU1E+12CBll2yOUQ669kEI882Gf3i2V9x7tlRxHPv0hzgXg8EH+BALPwP3IB0RNuJ1tOsjyXSx1F8LDKi+i2I1dTk/Dqk57knZxFYqEBi8Hp0N/hkSWHH8EXMoOj/OkZ6IJ1rPDIAy1RtqkFI5rNmFpdNxCKXF9o2VASYamx7ds146W0f/5jPxX3cRi7SgUft8KrYMTFo5/4EHML/FC3OccebwFed6YyGkAN5x07/b4W9gZUVIQzlwJ+r0BZavkdZ6lshOVotafiVRleFACfHtOvsf0gnKVZgyYbGW4B4ECUEpAvw7+1q2zUEl4+TZVJFpG0phdA4XFUJmQR6nUCTxshdmsy9cob3PK3402nGE1SChnNdV3zorTKg7m4VTLnt/NiZJq9Wt7kgfQQ+GGNRpezZiqQ3fK+OO6MAdriFRdeSG/+qcrD9NIHh/NEcz1tXDhR1VBtMyrdfR2EI/ZUrQAxa5y6pGGB+GpKi7Kkkk4LaH8onURk+9Bm5dcuuy6bz+ze5Vckf6hQgE4llebYmuK0Rkvjb5aQyqI1qurJvpi3al7mfOYbxzDk6futAB4i4CsNwF/FXXdRZLpu2WEaFi8ZP4kRegTdwAyXRWDg+sVVcKC
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(376002)(346002)(366004)(136003)(39840400004)(2906002)(36756003)(316002)(83380400001)(5660300002)(66556008)(1076003)(66476007)(4744005)(6512007)(66946007)(52116002)(7416002)(956004)(8676002)(186003)(6916009)(6486002)(16526019)(6506007)(8936002)(38100700002)(38350700002)(6666004)(2616005)(86362001)(478600001)(4326008)(26005)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?T2vFIoUBhWLKp6tsMCOXs6cid5lpAZYzOt27qt7JHuE7j6KTcOeNwfTeEWuC?=
- =?us-ascii?Q?gyArCASq9GdzXqh1QsYH8oHBck7Lf/2AmSeUe4LXDBbeWf86+PC8AfuHZNfC?=
- =?us-ascii?Q?kpBR4yE0k8FyhjO0OerVt/wkdYawE/r+UGnYM7Fys1Km+ANuyjN+rmBS6PzY?=
- =?us-ascii?Q?5/Sx5bxuOBWoirsbclR+77KANYqJ1A7GL8Bl9ntaP7DyPQPiIVukYcEeS+Wq?=
- =?us-ascii?Q?GE8ujUyQx4fl0sTztcL5HMX2r7upkzwvJP/bg9qwfKILztsSWok/iFo/yfbF?=
- =?us-ascii?Q?D7tybKkbsQhJbt9rBcAWpLAuq43A89kRftujOKM5x+Ca3+ifdeZ8hN4IVCmg?=
- =?us-ascii?Q?2n0I/5415C7OZsBv8CHFKyJTbdjyRvk/A7+rQuFcwamVXM6pzQQzk+YeO4Q/?=
- =?us-ascii?Q?8KSQ1sQ5p2Daoibm/liwKa3zUL8E0EmzY60K/YhwLrabVXyBHGL2RXtAhbKL?=
- =?us-ascii?Q?f14Etd3qKGUQ5gNyRqqH9A6aCKvWB68faF4iuO5w3FpHTk/44qhlJfW0ZhaW?=
- =?us-ascii?Q?bpThDvUtgO3Or/iXAI+BzFg9Syh28r8WRMeFfKz8Fxv8D/KJrCdVK1U5w2I9?=
- =?us-ascii?Q?UBRpnMXMsWVRYn88yGZLRfwb1AIKI87OiFGtV4bbGQ/FzbM+FU2dxR8VmsfF?=
- =?us-ascii?Q?p4FJj81e4bp73g24tb/qEUJnawRmlv0Ohzv+ywC+R779Jyy72m2hpbzjh58s?=
- =?us-ascii?Q?eyykc36MTbrYnLhMC3iSi3eCOFFtdnAwNT1QExruArP8mkrFXgCYK4sRzGBA?=
- =?us-ascii?Q?930wux8WBm0XqKaXCX9rOrAVEA8QA9nH/DMd6C4ZACaoApmAv8l+Si6TmXtS?=
- =?us-ascii?Q?cCJYuP4lU8Exus1Jd3E7ZII9lNuq8+TnmdE7I2S5dh9XUeOoRjf0+JnyDuxj?=
- =?us-ascii?Q?g8wHN9n8ZDhHXRvaDC2t4ibm2P4Ww/kl/Z3eeIx0MAGC4juxHmJKPGWOQ7wy?=
- =?us-ascii?Q?I8Pmr4aS8xRaJS/y/Pggpg3c5ZM+gGIX2gxwIePfxcL323dgSCB8VTcONpA+?=
- =?us-ascii?Q?3aJ3yFtEVEL3ifHN9z5gIPJ1Nk0p/xLy4b98MnRwikZTglnDfiYoRCTCQRxN?=
- =?us-ascii?Q?4FXa41LFIGT8XO5TH54uiYcDjaOhEepzpiEO5VWomzVONLGkRUoHp2TEKJrL?=
- =?us-ascii?Q?m9u96VmpwWjtLE99Jvg4IMSlaWdRLzWk+gB6n5+0/TYFWLb9zW+pzL9gDQtV?=
- =?us-ascii?Q?lAATcHK/zFmyrKI5zNx5Znpi63pCypwc1lNfZ73JMAmEAYQhhm5gUmRWbF7k?=
- =?us-ascii?Q?lQZzu0q/eD7feEWjabq/wwk2/vk9zpJOYIqutTLel4mAeO7esct2psye9YxK?=
- =?us-ascii?Q?fKlzL9dz1Qm0/8NKuiIoP7lY?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?cbOnTzES6ih4UGjWibZfNr2VyWFWLcmsC18a+7Stu1LVexUu6BcNVRn2uJEu?=
+ =?us-ascii?Q?kRqpqT0kSxqfMGxG4tLh2XstXWW7wwA/rigafsKGLzJWnYDjknSj0224MmxU?=
+ =?us-ascii?Q?C6P0AnWid0IeNfdiRfgFni5ujkRhRyVFkYtoDVKjWjDfFTx/LBmHMqvBo0w+?=
+ =?us-ascii?Q?cU3tIZqBhoY69KLpSajbTga8e/qzBKGtKfD8swAUSm37J5d3/0aMQpdh0yyE?=
+ =?us-ascii?Q?nJiEB3h7nrEQu9+wWssl2bczxUpbWMyuy38SWSOJGQcqcxYbcmA20Hs9vBHd?=
+ =?us-ascii?Q?ovc1peJFAZIgv7aLGL2EteYBGgERrIzhrbMXu5nrCjAfpV1AoNr5/V5e4j//?=
+ =?us-ascii?Q?18db0yHqMPeojNfmTOjFRgyV06BEWj1cX2M7IivUHIoRF+lht+yTiR0hMvng?=
+ =?us-ascii?Q?t3jDl7ZhNI2oJLDt3rGWPsLEsVqjLolSa8vfZ/62eTKsa/Squl2tGFH/71cV?=
+ =?us-ascii?Q?I/HOEdyZ5wBXuiTazGs2mly7xYMmh6HPCY4EuDsFu8aBGGEAYwIBuPgDH6Mn?=
+ =?us-ascii?Q?UzW1blLcWR4g4XUe0AenPlOk99llybn3Q4mFIK0EovQPWK9jp/ZAdAIP9UeZ?=
+ =?us-ascii?Q?kdYr4ZjFYSPTaNp7n8WXVUuCaTPqxBBfGr8HirenI53G3IS3x19oc7y45Ufa?=
+ =?us-ascii?Q?kPCbkZmovscvFF2+Bcf0W3N4O/c+ToV9TFwR3uwzDqlfBh8j8tyZds44xyBG?=
+ =?us-ascii?Q?MgP6P/hKqGWj96cTdwNLYUX971v/p4wiVRIzJ9tGGVgdFG9ncFyUEZaBgbq7?=
+ =?us-ascii?Q?ZJ0YnCwHifdGTzxEqnbfjNgP6tZwua3ugiYrT2kFWKBX6gm1kyW9FVK+WeAu?=
+ =?us-ascii?Q?E8KHhGzKvOIefRjbM3sRbF7h2UD6nNBlH+1phULISVemnoJJvXN7LenSlOG7?=
+ =?us-ascii?Q?/vnkuv/YDKNIo+qdSzcKv3zqvJ9w7z91wFQH75Z5rRUhrvvAysV6/5DF0SUR?=
+ =?us-ascii?Q?/XxDn1glj1hvq6O6lfGpUoeHaRnu8g6Viu9lVJ+QHmGvhBIwWQ9/0WtDOecI?=
+ =?us-ascii?Q?sPcC18h8QkLdmvi7kE0daIXYdLkmGmBr1HcQhUjEwXrp6A+rMbmVCJs2DV3j?=
+ =?us-ascii?Q?PEewy1ttC6pavIQ3GzmxeoYQEz2lWUzdb3m84D1NgLFYG977/TWjn/SWdqJ2?=
+ =?us-ascii?Q?sh/Q0Qju7WeK22ve+jcikI4CFYOeBUaKaqTrQJ7Oj6Zts4QsZQLapMKiwITy?=
+ =?us-ascii?Q?/7FEC72E6pd66Y9xpvSUC8GZIz4EkCxlOTO6MNbo1x1NzkoCgAEaZhtz5jWz?=
+ =?us-ascii?Q?99Huu7Hl9LHP+YNkXYLXKZ4EEMEPt9h67ZxH4d6Qbu+D8T7y7dRCAGbfOyyG?=
+ =?us-ascii?Q?MDMl2qoYK7fDfxs48BQ0kHlY?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdc95a0d-346a-4d01-0ed3-08d925c8064b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7af6579f-754c-4881-ac43-08d925c80725
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:12:08.0259 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:12:09.4765 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tXBbDPGxrPgXmTWuzbgLzj3RUWHOExsW/OB5xSa7IWnveJRCjZMbIUq1y22YQ4K8JO2jcb0XX/589Fb4c0fms6BKtPCU9cR3pFPx85CVU9w=
+X-MS-Exchange-CrossTenant-UserPrincipalName: TpM1/IH97U2TddEQ0dxFFNCejL4cytWYqwK9U1QSbUg6fa/9AUyDOuR3m2bySkCG5RfAhVyAqdozIqWno+nEyfH6d6wPcnRfBIIxUBZ/yGI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4536
-Received-SPF: pass client-ip=40.107.3.130;
+Received-SPF: pass client-ip=40.107.13.108;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,25 +139,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Give a good name to test file.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/{222 => tests/image-fleecing}         | 0
- tests/qemu-iotests/{222.out => tests/image-fleecing.out} | 0
- 2 files changed, 0 insertions(+), 0 deletions(-)
- rename tests/qemu-iotests/{222 => tests/image-fleecing} (100%)
- rename tests/qemu-iotests/{222.out => tests/image-fleecing.out} (100%)
+ tests/qemu-iotests/iotests.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/tests/image-fleecing
-similarity index 100%
-rename from tests/qemu-iotests/222
-rename to tests/qemu-iotests/tests/image-fleecing
-diff --git a/tests/qemu-iotests/222.out b/tests/qemu-iotests/tests/image-fleecing.out
-similarity index 100%
-rename from tests/qemu-iotests/222.out
-rename to tests/qemu-iotests/tests/image-fleecing.out
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index c7ec16c082..9fa0162b07 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -655,9 +655,10 @@ def resume_drive(self, drive: str) -> None:
+         self.hmp(f'qemu-io {drive} "remove_break bp_{drive}"')
+ 
+     def hmp_qemu_io(self, drive: str, cmd: str,
+-                    use_log: bool = False) -> QMPMessage:
++                    use_log: bool = False, qdev: bool = False) -> QMPMessage:
+         """Write to a given drive using an HMP command"""
+-        return self.hmp(f'qemu-io {drive} "{cmd}"', use_log=use_log)
++        d = '-d ' if qdev else ''
++        return self.hmp(f'qemu-io {d}{drive} "{cmd}"', use_log=use_log)
+ 
+     def flatten_qmp_object(self, obj, output=None, basestr=''):
+         if output is None:
 -- 
 2.29.2
 
