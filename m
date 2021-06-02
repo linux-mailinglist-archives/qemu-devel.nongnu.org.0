@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25778398524
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:20:10 +0200 (CEST)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 858E2398534
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:23:53 +0200 (CEST)
+Received: from localhost ([::1]:56192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loN2n-0005Al-6v
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55840)
+	id 1loN6O-0007jS-KV
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0t-0002NN-Ap
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:18:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49144)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN1n-00044s-9Q
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:19:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0j-0002LB-Cn
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:18:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN1k-00034N-FR
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:19:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622625479;
+ s=mimecast20190719; t=1622625543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=47S+hKkrRx4hDRMeJz2IyNQwdb7IvNGZaEvXYRCjttw=;
- b=dv+/N5RPgupazt/J5HF5d34t8i+aeB6/QA3OkkLQlFMCH89FrW6y8d2x2oKFFIKWQwxl8B
- Yc11Ue0HMy+yoqTjXkUuxdEsMDTwljfkJGyLFXZxEXMrS7Y2YtLr7TZhBiQHQMREb2hAaD
- mk/t2U8LKR1j8vaLB1HlMrwR4pABjkw=
+ bh=ynhXTHj1vgTX7K0qlPMPEtoJitMeHYDFd80j2X87xgo=;
+ b=HBZ2bI3SJCBiP1zMi6CoCyRetbkuHWO0aEPre4Ze/04yV85U1PaMKA/Af5QEOSAz0r4ktA
+ UxMUGl+Di4YlvCb3jqIPdzrxspW+NuYnpVt0dd9gKhyvEO27aEd+6sius2FbB+I/OSwKXM
+ EetdvTaO8QPUGtQ6ptir6KD9hgolr7E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-eAY0Y5mjMxiaJwZeLpOQuw-1; Wed, 02 Jun 2021 05:17:58 -0400
-X-MC-Unique: eAY0Y5mjMxiaJwZeLpOQuw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-399-ZCv36bf1OWu9FulrqpBE_g-1; Wed, 02 Jun 2021 05:19:00 -0400
+X-MC-Unique: ZCv36bf1OWu9FulrqpBE_g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F84801817;
- Wed,  2 Jun 2021 09:17:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 895C418765A8;
+ Wed,  2 Jun 2021 09:18:42 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB4A75D764;
- Wed,  2 Jun 2021 09:17:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94D9B1043272;
+ Wed,  2 Jun 2021 09:17:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D02BA1800902; Wed,  2 Jun 2021 11:17:27 +0200 (CEST)
+ id DCBAB1800903; Wed,  2 Jun 2021 11:17:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/9] usb-redir module annotations
-Date: Wed,  2 Jun 2021 11:17:24 +0200
-Message-Id: <20210602091727.1023563-7-kraxel@redhat.com>
+Subject: [PATCH 7/9] ccid module annotations
+Date: Wed,  2 Jun 2021 11:17:25 +0200
+Message-Id: <20210602091727.1023563-8-kraxel@redhat.com>
 In-Reply-To: <20210602091727.1023563-1-kraxel@redhat.com>
 References: <20210602091727.1023563-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,20 +93,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/redirect.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/ccid-card-emulated.c | 1 +
+ hw/usb/ccid-card-passthru.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 6a75b0dc4ab2..4ec9326e0582 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -2608,6 +2608,7 @@ static const TypeInfo usbredir_dev_info = {
-     .class_init    = usbredir_class_initfn,
-     .instance_init = usbredir_instance_init,
+diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
+index 5c76bed77aa0..6c8c0355e099 100644
+--- a/hw/usb/ccid-card-emulated.c
++++ b/hw/usb/ccid-card-emulated.c
+@@ -612,6 +612,7 @@ static const TypeInfo emulated_card_info = {
+     .instance_size = sizeof(EmulatedState),
+     .class_init    = emulated_class_initfn,
  };
-+module_obj(TYPE_USB_REDIR);
++module_obj(TYPE_EMULATED_CCID);
  
- static void usbredir_register_types(void)
+ static void ccid_card_emulated_register_types(void)
+ {
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index 7212d0d7fb5e..fa3040fb7154 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -414,6 +414,7 @@ static const TypeInfo passthru_card_info = {
+     .instance_size = sizeof(PassthruState),
+     .class_init    = passthru_class_initfn,
+ };
++module_obj(TYPE_CCID_PASSTHRU);
+ 
+ static void ccid_card_passthru_register_types(void)
  {
 -- 
 2.31.1
