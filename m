@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDBC3986AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 12:38:33 +0200 (CEST)
-Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E293986BE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 12:43:44 +0200 (CEST)
+Received: from localhost ([::1]:41422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loOGe-0003xN-U5
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 06:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1loOLf-000088-Gl
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 06:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loOFp-0003Ej-H4
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 06:37:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24227)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loOFn-0006WY-2v
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 06:37:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622630257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0KXXpXQw0wGro9TcL+loYL2r6puq+AtejU6D233tAPI=;
- b=AZVxUVTHTHE6fYtKWsqxy6Z4s84icz3C+EaEEQr/mQhMnphzY4h29aXNHNVvcw9SxxlwIQ
- RXP+udA2c69Ob16Slhkr2LMx1yKxQ/Bj45qsiJNXTIft5R9QF9/xnkL9XR8USCZ5VSz4lB
- Wus5307uU6O8pzmKS50i4HutLQI3Zss=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-eNuwefq6NmemZbOrr9CbMA-1; Wed, 02 Jun 2021 06:37:35 -0400
-X-MC-Unique: eNuwefq6NmemZbOrr9CbMA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- p5-20020a17090653c5b02903db1cfa514dso483791ejo.13
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 03:37:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1loOKN-00077f-Qy
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 06:42:25 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1loOKM-00019C-0Q
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 06:42:23 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id e18so3137953eje.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 03:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=F9xeZyDlaNbQBKoNYq1yfPg0RJQSH9uwKWlNh/cOuQI=;
+ b=M2gjBVXh5lasraqq0BsQ4G78bKe20f0c6pEvmjbWXVZhAMSDp3nOpAu2vpp34G6FTy
+ i3riAAQVK8PvokfQ1j12x/zl/wGdr9dh32ZaLZj6Uhz8YtGLX1GJ8/Z1AFbNHOeCsQnv
+ /WGqH2TTERIiMTv5dV8sV7GBxRoA1nc+brC7R+IvBWD8ptR9ESAk3OT1VOrzaFalC8qS
+ cXcyeupLunrVtK07MJRGSWg9FpQuy/TLp/56pDyEciWa5zJIATmMUcWw6bgmAJD7Qezq
+ Ah76nnmqjz59S40+wd5a+A+2lBW+N6d8juEziS9U/HxJsEQ1KD2llPS0e8Omp5Z51Veo
+ Nz4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0KXXpXQw0wGro9TcL+loYL2r6puq+AtejU6D233tAPI=;
- b=iXXj2/q4lfl67FaWYXHiOCI4uWPH/CiXFtXFZn/TZsuriuDKgr9V+yoH+MHv2jWMk3
- ljC1kCVSy9/XoSkViWSj2Aus45YrgHvA2LCoWpIDAhmx0urepHcsmd1VMcGrWHEE889u
- fidZ70KEZ1uQwduJgBEJrXr0+lOKzTMhAQMmpbaOYcEILbEpqD9H+RqgGBwgbvfzL45g
- ElL2NsrZY6CUjSL7Nu0BgDuuMod1/0NZ9nQY2wb86zglhv3PsUawLH8KNnNi/r1gkcpP
- E8/ebo2uj4SttUGZQGWWR8wacBs4OqhbvWfQQwwT5t9fX1vYtfveyqQk1tp3q4U5y1C/
- I3yQ==
-X-Gm-Message-State: AOAM530QrP6r11ed/dZ0QkwzcR3QtTDo0exXWwGKa99maDQMeKTX3yox
- nBPEYd1ScC7uU01qrDANZpPurhumhTIWeNH+iDhDXKiAXHosycavZ/r25YRRc8aQn30pXv4LjEg
- 3QDmNuiuLRzqjdE4=
-X-Received: by 2002:aa7:cb92:: with SMTP id r18mr38605154edt.246.1622630252601; 
- Wed, 02 Jun 2021 03:37:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8nSoUl/kZ7VT67bTabNQD1yi2JByh/cumXHWf/G7PvKiOOSUpuAOeVPoRK3340QqTBurCZQ==
-X-Received: by 2002:aa7:cb92:: with SMTP id r18mr38605126edt.246.1622630252339; 
- Wed, 02 Jun 2021 03:37:32 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id a7sm1035940edr.15.2021.06.02.03.37.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 03:37:32 -0700 (PDT)
-Subject: Re: [RFC v4 14/14] MAINTAINERS: update s390x directories
-To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20210524025256.22252-1-acho@suse.com>
- <20210524025256.22252-14-acho@suse.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <329f0492-4a96-fb50-41ff-79760961d110@redhat.com>
-Date: Wed, 2 Jun 2021 12:37:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=F9xeZyDlaNbQBKoNYq1yfPg0RJQSH9uwKWlNh/cOuQI=;
+ b=pIGhWxBHVGzMO8vzGtQfOIaLQ09YdDn0m/or0ywNpvCfFcnZb+OEoSJuO1QHy1CAEI
+ q5I5VnxbE408qIfOrWPIkiB2ULORN5pSFy6T0P2VcdxJeJfUNqRL4lgcpQhk2MiF5cGT
+ sIvi5DcY26aMwzlxfkAvutZAzV4Z/96Iye/uFylKxwGmd5QFcEaZPNEvEmQSlO7cX111
+ vt/oky+AcvoacAegzS1BiD9AwJ2ljAnqGQTrH3ChW7fHLsHKcAffr2K5wl0uhYjl6CiR
+ IFcaEOEfehSt2AuqHYPIoykFBOgdAeUXHXdNcs5TTEhQtq4cZklPXs2NIw2UoI+9TNyF
+ 6GSA==
+X-Gm-Message-State: AOAM532OwZdLAfAY6CYIjlQY1zHTlAseaSQV6J+kp/+gv9b0cN09u59V
+ ZBnEhRTCtj1eJrcCuepV2hFfRW1JAfkiwHa5k+ekSA==
+X-Google-Smtp-Source: ABdhPJwqqsBAlCkJW9AoP+aM+QD2bdgo5h8ZY5KNukCwPJVOMbjjBWe9dVlIGeRMaMH8zVOqjwle6NEwHizVPHempGU=
+X-Received: by 2002:a17:906:d1d2:: with SMTP id
+ bs18mr33770157ejb.56.1622630539324; 
+ Wed, 02 Jun 2021 03:42:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210524025256.22252-14-acho@suse.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210601181014.2568861-1-ehabkost@redhat.com>
+In-Reply-To: <20210601181014.2568861-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 2 Jun 2021 11:41:47 +0100
+Message-ID: <CAFEAcA-vCgYtEuZqZvFS7zazL5JVpiWYJ5kqORw3B9E-Ap1D8Q@mail.gmail.com>
+Subject: Re: [PULL 00/24] x86 queue, 2021-06-01
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,60 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- cfontana@suse.de, pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/24/21 4:52 AM, Cho, Yu-Chen wrote:
-> After the reshuffling, update MAINTAINERS accordingly.
-> Make use of the new directories:
-> 
-> target/s390x/kvm/
-> target/s390x/tcg/
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-> ---
->  MAINTAINERS | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 89741cfc19..8578927961 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -293,7 +293,7 @@ S390 TCG CPUs
->  M: Richard Henderson <richard.henderson@linaro.org>
->  M: David Hildenbrand <david@redhat.com>
->  S: Maintained
-> -F: target/s390x/
-> +F: target/s390x/tcg
->  F: hw/s390x/
->  F: disas/s390.c
->  F: tests/tcg/s390x/
-> @@ -389,14 +389,12 @@ M: Halil Pasic <pasic@linux.ibm.com>
->  M: Cornelia Huck <cohuck@redhat.com>
->  M: Christian Borntraeger <borntraeger@de.ibm.com>
->  S: Supported
-> -F: target/s390x/kvm.c
-> -F: target/s390x/kvm_s390x.h
-> -F: target/s390x/kvm-stub.c
-> +F: target/s390x/kvm/
->  F: target/s390x/ioinst.[ch]
->  F: target/s390x/machine.c
->  F: target/s390x/sigp.c
->  F: target/s390x/cpu_features*.[ch]
-> -F: target/s390x/cpu_models.[ch]
-> +F: target/s390x/cpu_models*.[ch]
->  F: hw/s390x/pv.c
->  F: include/hw/s390x/pv.h
->  F: hw/intc/s390_flic.c
-> 
+On Tue, 1 Jun 2021 at 19:10, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit 52848929b70dcf92a68aedcfd90207be81ba32=
+74:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210528-pull-req=
+uest' into staging (2021-05-30 20:10:30 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/ehabkost/qemu.git tags/x86-next-pull-request
+>
+> for you to fetch changes up to d47b85502b92fe8015d38904cde54eb4d3364326:
+>
+>   sev: add missing firmware error conditions (2021-06-01 09:32:48 -0400)
+>
+> ----------------------------------------------------------------
+> x86 queue, 2021-06-01
+>
+> Features:
+> * Add CPU model versions supporting 'xsaves' (Vitaly Kuznetsov)
+> * Support AVX512 ZMM regs dump (Robert Hoo)
+>
+> Bug fixes:
+> * Use better matching family/model/stepping for generic CPUs
+>   (Daniel P. Berrang=C3=A9)
+>
+> Cleanups:
+> * Hyper-V feature initialization cleanup (Vitaly Kuznetsov)
+> * SEV firmware error list touchups (Connor Kuehl)
+> * Constify CPUCaches and X86CPUDefinition (Philippe Mathieu-Daud=C3=A9)
+> * Document when features can be added to kvm_default_props
+>   (Eduardo Habkost)
+>
 
-Could you squash this in respectively:
-#6 target/s390x: start moving TCG-only code to tcg/
-#12 target/s390x: move kvm files into kvm/
-?
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
