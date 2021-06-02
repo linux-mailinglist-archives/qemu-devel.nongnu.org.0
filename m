@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC7E398AF2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:45:37 +0200 (CEST)
-Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162FD398AFE
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:48:21 +0200 (CEST)
+Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loRBg-0007BE-3t
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:45:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
+	id 1loREK-00031A-3n
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1loRAU-0005vq-3i; Wed, 02 Jun 2021 09:44:22 -0400
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:42691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1loRAS-0005oM-9O; Wed, 02 Jun 2021 09:44:21 -0400
-Received: by mail-qv1-xf41.google.com with SMTP id u33so1288726qvf.9;
- Wed, 02 Jun 2021 06:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=129Pl9OSeUE3s5KLE+dbt5S1ITWq22ra9ssXImBVUdk=;
- b=R7WLlCg809KsuGwbbWqQm/Ad6sqwzSKUBVX3BbtrUgKeXhAuF43MqFuViwFvzD+isf
- I9DmsCTXR2mLWcEsBxMLxM7CQWMuxrf7ZaNOnSSlHVpOJSuRU5hHeGsoaynmNbu2OEnJ
- vH5BHjdtCTZNdWrKFajAucg+e5U1rXn/ZUI8GGRsP8qfrg/WbIB+ULKybmWrQ3Nu9k5g
- 5olYn60rz9eEvQJRCHKrqhciTKf3L3ofCbEnAHkduj39/Q9EXOjIzjsenvfptAgdqkgw
- mdk2n+tuQdGdvjLiJTmeMZvka/zsPUBzjlSCxgw4H5qAUBuurKv87DOQZVoLrhOuqYC4
- Sv/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=129Pl9OSeUE3s5KLE+dbt5S1ITWq22ra9ssXImBVUdk=;
- b=s5MbzSBncq8kF3HAbsJVX3BWQ90nw6A1HczXu6JYvEmkgjgpTYpfFPWE5EVZS2x1b/
- tA1bfe0gflSgcWbpT8cb/OUPk2ycPTJuZBa5CVKaEO72mZuOv7GCkAvzyhKSfpfXck6u
- wSGdufS1B7CNGeaoJ3grIhE/AmViBjI5sauDKwxupMoNgp8ypRJyGmZHFPepFDo9kzCD
- CUG/bZiupanq5uzE//Udi1WeaN7dkExKEJd6xHyr/68qTZyeTqeBu99PYSMlZu/8U4dv
- gPcN6eImUV4rTr9R4beHGxGZI7Qvf3pvsfrvFynKzuBFTu9CwBFJ68MWGevV0qweszN1
- EVjA==
-X-Gm-Message-State: AOAM531llYX3qPw+NTKOhSaWcYRvSPAeUcMVchOIP2GMt9nIMtWupgEz
- dp/CIhS/DuEK7gdqTc3sb7BOM1YBawbCc/lJiLs=
-X-Google-Smtp-Source: ABdhPJzJ1IM7GvIyLG2Ec1ojxpdCcaNeISEKLqwd4bbo2Rzlq6f99UZSFiK5sQc53lMQvxveefSd+iKMgGhS5saljQw=
-X-Received: by 2002:a0c:c184:: with SMTP id n4mr28431158qvh.36.1622641458215; 
- Wed, 02 Jun 2021 06:44:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRBq-0007w6-Vb
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:45:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRBk-0006ry-3i
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:45:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622641539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fCTtJcpo/oazMqztyWZ/VGuLXiJ4Zsyxep5G6lW4vHg=;
+ b=fKJ5Ij4/XfeoKFEmakinoBjDu0zmHPqUqFPYeVNRKwjLL4jLd24pWtZENO+SVlTurl8FSq
+ ci5/LhP4aLW4ypUDy53fsbSkASMkwlgypwsBzNIDkQ9+nFG1ErYzcp4Nno+U0tmzws1fOA
+ rky8NkVKMThs5uODOgd02oDGAVjyfYs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-VCXDNsVbMba__eSgZcGR2A-1; Wed, 02 Jun 2021 09:45:35 -0400
+X-MC-Unique: VCXDNsVbMba__eSgZcGR2A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D883C1882FD7;
+ Wed,  2 Jun 2021 13:45:34 +0000 (UTC)
+Received: from merkur.redhat.com (ovpn-114-240.ams2.redhat.com [10.36.114.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C094B7863C;
+ Wed,  2 Jun 2021 13:45:32 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/20] Block layer patches
+Date: Wed,  2 Jun 2021 15:45:09 +0200
+Message-Id: <20210602134529.231756-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20210525025823.3208218-1-swethajoshi139@gmail.com>
- <331a819e-1745-4d4b-cc4a-82521a58186a@linaro.org>
- <CAFEAcA8RbVafdjn2hkXifAPUF=wxZup20PqPcRpQ1ivtnWCxww@mail.gmail.com>
- <CALf2nm+LFqM2=vDs8=YfyxQSUT-0xxaCiVmcQzrKoOa+zaTtdg@mail.gmail.com>
- <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
- <CALf2nmKhPaWJa944dR+kFAQ1hCLXF0XPwXaHTqJQ-C6EW7ACKg@mail.gmail.com>
- <CAFEAcA9E4s3dST0GJkdg24DDAn90WU1FEmXwoKD6oQmNSB1vVA@mail.gmail.com>
- <CABSBigR1L9sE36eYA0Mq4smx1E9A4umTOKTe_x97foSMkryRnw@mail.gmail.com>
- <CALf2nmLOqtwacgrQ91TTz9_QRUmFS9ZNii2Kk7-tQ7LNp9vw2Q@mail.gmail.com>
-In-Reply-To: <CALf2nmLOqtwacgrQ91TTz9_QRUmFS9ZNii2Kk7-tQ7LNp9vw2Q@mail.gmail.com>
-From: Dongjiu Geng <gengdongjiu1@gmail.com>
-Date: Wed, 2 Jun 2021 21:44:07 +0800
-Message-ID: <CABSBigTga9Xc+RJMN-F=fb_z22Wyh9beoVjRb6o+RA=KDV1ujg@mail.gmail.com>
-Subject: Re: [PATCH_V3] Adding ifdefs to call the respective routines only
- when their configs are enabled
-To: Swetha Joshi <swethajoshi139@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f41;
- envelope-from=gengdongjiu1@gmail.com; helo=mail-qv1-xf41.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,97 +73,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Swetha Joshi <swethajoshi139@gmail.com> =E4=BA=8E2021=E5=B9=B45=E6=9C=8829=
-=E6=97=A5=E5=91=A8=E5=85=AD =E4=B8=8A=E5=8D=883:41=E5=86=99=E9=81=93=EF=BC=
-=9A
->
-> I apologize for the delay, here are the repro steps:
-> 1. Remove CONFIG_ARM_VIRT=3Dy from arm-softmmu.mak
-> 2. In .gitlab-ci.yml, crossbuild.yml and in tests/vm/Makefile.include, in=
- all the places where we disable kvm using -disable-kvm, replace this with =
--enable-kvm
-> 3. Build
+The following changes since commit dd2db39d78431ab5a0b78777afaab3d61e94533e:
 
-According to your steps, I can not see such errors=EF=BC=8Calso your change=
- is
-odd. I suggested you do not this change until you indeed encounter
-errors
+  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2021-06-01 21:23:26 +0100)
 
-diff --git a/default-configs/devices/arm-softmmu.mak
-b/default-configs/devices/arm-softmmu.mak
-index 0500156a0c..f47ab0f3b1 100644
---- a/default-configs/devices/arm-softmmu.mak
-+++ b/default-configs/devices/arm-softmmu.mak
-@@ -6,7 +6,6 @@ CONFIG_ARM_V7M=3Dy
- # CONFIG_PCI_DEVICES=3Dn
- # CONFIG_TEST_DEVICES=3Dn
+are available in the Git repository at:
 
--CONFIG_ARM_VIRT=3Dy
- CONFIG_CUBIEBOARD=3Dy
- CONFIG_EXYNOS4=3Dy
- CONFIG_HIGHBANK=3Dy
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index e94d95ec54..95387c3e5a 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -110,7 +110,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
-                "  VM-BUILD $*")
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
 
- vm-boot-serial-%: $(IMAGES_DIR)/%.img
--       qemu-system-x86_64 -enable-kvm -m 4G -smp 2 -nographic \
-+       qemu-system-x86_64 -disable-kvm -m 4G -smp 2 -nographic \
-                -drive if=3Dnone,id=3Dvblk,cache=3Dwriteback,file=3D"$<" \
-                -netdev user,id=3Dvnet \
-                -device virtio-blk-pci,drive=3Dvblk \
+for you to fetch changes up to b317006a3f1f04191a7981cef83417cb2477213b:
 
+  docs/secure-coding-practices: Describe how to use 'null-co' block driver (2021-06-02 14:29:14 +0200)
 
->
-> You should see errors pointing to these routines: virt_is_acpi_enabled, a=
-cpi_ghes_record_errors
->
-> Thanks,
-> Swetha.
->
-> On Fri, May 28, 2021 at 12:08 AM Dongjiu Geng <gengdongjiu1@gmail.com> wr=
-ote:
->>
->> Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B45=E6=9C=
-=8827=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=882:19=E5=86=99=E9=81=93=
-=EF=BC=9A
->> >
->> > On Wed, 26 May 2021 at 18:32, Swetha Joshi <swethajoshi139@gmail.com> =
-wrote:
->> > >
->> > > Hello,
->> > >
->> > > One of the qemu machines we use has KVM enabled, but we don't want t=
-he CONFIG_ARM_VIRT enabled as it pulls in emulation of a variety of physica=
-l hardware that we don't need. The compilation errors I mentioned are not i=
-n the qemu mainline per say but we see them in one of the qemu derived mach=
-ines we use.
->> >
->> > Sure, but unless you can give me a recipe for reproducing the
->> > build failure in mainline I can't really help...
->>
->> Hi Swetha=EF=BC=8C
->>      Yes,  Can you give a method that how to reproduce the build
->> failure issues? Thanks
->>
->> >
->> > thanks
->> > -- PMM
->
->
->
-> --
-> Regards
->
-> Swetha Joshi.
+----------------------------------------------------------------
+Block layer patches
+
+- NBD server: Fix crashes related to switching between AioContexts
+- file-posix: Workaround for discard/write_zeroes on buggy filesystems
+- Follow-up fixes for the reopen vs. permission changes
+- quorum: Fix error handling for flush
+- block-copy: Refactor copy_range handling
+- docs: Describe how to use 'null-co' block driver
+
+----------------------------------------------------------------
+Lukas Straub (1):
+      block/quorum: Provide .bdrv_co_flush instead of .bdrv_co_flush_to_disk
+
+Philippe Mathieu-Daudé (1):
+      docs/secure-coding-practices: Describe how to use 'null-co' block driver
+
+Sergio Lopez (2):
+      block-backend: add drained_poll
+      nbd/server: Use drained block ops to quiesce the server
+
+Thomas Huth (2):
+      block/file-posix: Fix problem with fallocate(PUNCH_HOLE) on GPFS
+      block/file-posix: Try other fallbacks after invalid FALLOC_FL_ZERO_RANGE
+
+Vladimir Sementsov-Ogievskiy (14):
+      qemu-io-cmds: assert that we don't have .perm requested in no-blk case
+      block/vvfat: child_vvfat_qcow: add .get_parent_aio_context, fix crash
+      block/vvfat: fix vvfat_child_perm crash
+      block: consistently use bdrv_is_read_only()
+      block: drop BlockDriverState::read_only
+      block: drop BlockBackendRootState::read_only
+      block: document child argument of bdrv_attach_child_common()
+      block-backend: improve blk_root_get_parent_desc()
+      block: improve bdrv_child_get_parent_desc()
+      block/vvfat: inherit child_vvfat_qcow from child_of_bds
+      block: simplify bdrv_child_user_desc()
+      block: improve permission conflict error message
+      block-copy: fix block_copy_task_entry() progress update
+      block-copy: refactor copy_range handling
+
+ docs/devel/secure-coding-practices.rst |  9 ++++
+ include/block/block.h                  |  1 +
+ include/block/block_int.h              |  2 -
+ include/sysemu/block-backend.h         |  4 ++
+ block.c                                | 82 ++++++++++++++++++++--------------
+ block/block-backend.c                  | 26 +++++------
+ block/block-copy.c                     | 80 ++++++++++++++++++++++-----------
+ block/commit.c                         |  2 +-
+ block/file-posix.c                     | 29 ++++++++----
+ block/io.c                             |  4 +-
+ block/qapi.c                           |  2 +-
+ block/qcow2-snapshot.c                 |  2 +-
+ block/qcow2.c                          |  5 +--
+ block/quorum.c                         |  2 +-
+ block/snapshot.c                       |  2 +-
+ block/vhdx-log.c                       |  2 +-
+ block/vvfat.c                          | 14 +++---
+ blockdev.c                             |  3 +-
+ nbd/server.c                           | 82 +++++++++++++++++++++++++---------
+ qemu-io-cmds.c                         | 14 +++++-
+ tests/unit/test-block-iothread.c       |  6 ---
+ tests/qemu-iotests/283.out             |  2 +-
+ tests/qemu-iotests/307.out             |  2 +-
+ tests/qemu-iotests/tests/qsd-jobs.out  |  2 +-
+ 24 files changed, 241 insertions(+), 138 deletions(-)
+
 
