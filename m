@@ -2,69 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD604398371
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 09:45:56 +0200 (CEST)
-Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AA7398397
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 09:50:56 +0200 (CEST)
+Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loLZb-0004Do-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 03:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34630)
+	id 1loLeR-00071k-TX
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 03:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQt-00011E-Bp
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54749)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1loLYR-0004Lv-AR; Wed, 02 Jun 2021 03:44:45 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQr-00045w-C7
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622619412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2XoBnZ4etP6u0FFkHsbEemMviUFw8UHp7Kr8RygHgsI=;
- b=Kjb1rsgmWhLiwy/1OiIpSp5LTeyhTeso/1xcV/MawlzYAXmlEAFV/MgRykGJFmm0ldxpuT
- 6JP+nwub5syLl5V0yaKfuTyh22b4/zE3f6PQp1o2EDIM27LgdMf0t2a5u2y2RvT6/ePveZ
- lwxagD6cgZ0kUNeaBhuZEnG8JtnANiU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-N3L3pMgNMZyb4N1FuxF-0A-1; Wed, 02 Jun 2021 03:36:50 -0400
-X-MC-Unique: N3L3pMgNMZyb4N1FuxF-0A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C45FE80362E;
- Wed,  2 Jun 2021 07:36:49 +0000 (UTC)
-Received: from thuth.com (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 880BB5C730;
- Wed,  2 Jun 2021 07:36:48 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 17/17] configure: bump min required CLang to 6.0 / XCode 10.0
-Date: Wed,  2 Jun 2021 09:36:06 +0200
-Message-Id: <20210602073606.338994-18-thuth@redhat.com>
-In-Reply-To: <20210602073606.338994-1-thuth@redhat.com>
-References: <20210602073606.338994-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1loLYM-0000Ah-21; Wed, 02 Jun 2021 03:44:42 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Fw1JB47Frz9sVb; Wed,  2 Jun 2021 17:44:26 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1622619866;
+ bh=TnXFW4m7cFoNScl1t3iGFVDZ6xT3k3/8EWozP1ubLyY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LeLhxmRMMNc7X2ci6Z+vgD8M5SyIRAtnkdLZS/YeaEirvt82BpPuPWXk8YwZJ92T7
+ c1lnP6unGTm7O4HKDLPPc6vHfFwluwl86UPq+abqznZAWuEOGgZMKGk6iBk9GHy0MC
+ gfjyYsI7hPtRTI0AKGeAjRuHmGGC3B3Wiha8gAco=
+Date: Wed, 2 Jun 2021 17:37:06 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Fabiano Rosas <farosas@linux.ibm.com>
+Subject: Re: [RFC PATCH 1/5] target/ppc: powerpc_excp: Move lpes code to
+ where it is used
+Message-ID: <YLc1Im3IuZNW3Ykf@yekko>
+References: <20210601214649.785647-1-farosas@linux.ibm.com>
+ <20210601214649.785647-2-farosas@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XKLdptHGuMBToFQ9"
+Content-Disposition: inline
+In-Reply-To: <20210601214649.785647-2-farosas@linux.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,72 +59,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
 
-Several distros have been dropped since the last time we bumped the
-minimum required CLang version.
+--XKLdptHGuMBToFQ9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Per repology, currently shipping versions are:
+On Tue, Jun 01, 2021 at 06:46:45PM -0300, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-             RHEL-8: 10.0.1
-      Debian Buster: 7.0.1
- openSUSE Leap 15.2: 9.0.1
-   Ubuntu LTS 18.04: 6.0.0
-   Ubuntu LTS 20.04: 10.0.0
-         FreeBSD 12: 8.0.1
-          Fedora 33: 11.0.0
-          Fedora 34: 11.1.0
+Applied to ppc-for-6.1.
 
-With this list Ubuntu LTS 18.04 is the constraint at 6.0.0
+> ---
+>  target/ppc/excp_helper.c | 47 +++++++++++++++++++++-------------------
+>  1 file changed, 25 insertions(+), 22 deletions(-)
+>=20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 04418054f5..5ea8503b46 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -333,7 +333,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+>      CPUPPCState *env =3D &cpu->env;
+>      target_ulong msr, new_msr, vector;
+>      int srr0, srr1, asrr0, asrr1, lev =3D -1;
+> -    bool lpes0;
+> =20
+>      qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
+>                    " =3D> %08x (%02x)\n", env->nip, excp, env->error_code=
+);
+> @@ -365,27 +364,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>          excp =3D powerpc_reset_wakeup(cs, env, excp, &msr);
+>      }
+> =20
+> -    /*
+> -     * Exception targeting modifiers
+> -     *
+> -     * LPES0 is supported on POWER7/8/9
+> -     * LPES1 is not supported (old iSeries mode)
+> -     *
+> -     * On anything else, we behave as if LPES0 is 1
+> -     * (externals don't alter MSR:HV)
+> -     */
+> -#if defined(TARGET_PPC64)
+> -    if (excp_model =3D=3D POWERPC_EXCP_POWER7 ||
+> -        excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+> -        excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+> -        excp_model =3D=3D POWERPC_EXCP_POWER10) {
+> -        lpes0 =3D !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+> -    } else
+> -#endif /* defined(TARGET_PPC64) */
+> -    {
+> -        lpes0 =3D true;
+> -    }
+> -
+>      /*
+>       * Hypervisor emulation assistance interrupt only exists on server
+>       * arch 2.05 server or later. We also don't want to generate it if
+> @@ -473,8 +451,32 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>          msr |=3D env->error_code;
+>          break;
+>      case POWERPC_EXCP_EXTERNAL:  /* External input                      =
+     */
+> +    {
+> +        bool lpes0;
+> +
+>          cs =3D CPU(cpu);
+> =20
+> +        /*
+> +         * Exception targeting modifiers
+> +         *
+> +         * LPES0 is supported on POWER7/8/9
+> +         * LPES1 is not supported (old iSeries mode)
+> +         *
+> +         * On anything else, we behave as if LPES0 is 1
+> +         * (externals don't alter MSR:HV)
+> +         */
+> +#if defined(TARGET_PPC64)
+> +        if (excp_model =3D=3D POWERPC_EXCP_POWER7 ||
+> +            excp_model =3D=3D POWERPC_EXCP_POWER8 ||
+> +            excp_model =3D=3D POWERPC_EXCP_POWER9 ||
+> +            excp_model =3D=3D POWERPC_EXCP_POWER10) {
+> +            lpes0 =3D !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+> +        } else
+> +#endif /* defined(TARGET_PPC64) */
+> +        {
+> +            lpes0 =3D true;
+> +        }
+> +
+>          if (!lpes0) {
+>              new_msr |=3D (target_ulong)MSR_HVB;
+>              new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+> @@ -486,6 +488,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+>              env->spr[SPR_BOOKE_EPR] =3D ldl_phys(cs->as, env->mpic_iack);
+>          }
+>          break;
+> +    }
+>      case POWERPC_EXCP_ALIGN:     /* Alignment exception                 =
+     */
+>          /* Get rS/rD and rA from faulting opcode */
+>          /*
 
-An LLVM version of 6.0.0 corresponds to macOS XCode version of 10.0
-which dates from Sept 2018.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210514120415.1368922-13-berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+--XKLdptHGuMBToFQ9
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/configure b/configure
-index da2e28a3c2..f0c8629dc6 100755
---- a/configure
-+++ b/configure
-@@ -2056,12 +2056,12 @@ fi
- cat > $TMPC << EOF
- #if defined(__clang_major__) && defined(__clang_minor__)
- # ifdef __apple_build_version__
--#  if __clang_major__ < 5 || (__clang_major__ == 5 && __clang_minor__ < 1)
--#   error You need at least XCode Clang v5.1 to compile QEMU
-+#  if __clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 0)
-+#   error You need at least XCode Clang v10.0 to compile QEMU
- #  endif
- # else
--#  if __clang_major__ < 3 || (__clang_major__ == 3 && __clang_minor__ < 4)
--#   error You need at least Clang v3.4 to compile QEMU
-+#  if __clang_major__ < 6 || (__clang_major__ == 6 && __clang_minor__ < 0)
-+#   error You need at least Clang v6.0 to compile QEMU
- #  endif
- # endif
- #elif defined(__GNUC__) && defined(__GNUC_MINOR__)
-@@ -2074,7 +2074,7 @@ cat > $TMPC << EOF
- int main (void) { return 0; }
- EOF
- if ! compile_prog "" "" ; then
--    error_exit "You need at least GCC v7.5 or Clang v3.4 (or XCode Clang v5.1)"
-+    error_exit "You need at least GCC v7.5 or Clang v6.0 (or XCode Clang v10.0)"
- fi
- 
- # Accumulate -Wfoo and -Wno-bar separately.
--- 
-2.27.0
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC3NR8ACgkQbDjKyiDZ
+s5I45RAA0tlnSg2KrIRAPULQ9oSJ21gB1MJeTRQfDAOn5y8VHCHZFXepbV0XVjLO
+7ZsxKvgaUYv4UEK3cttYyZMbGb8A0DhK4Mo2ZGWOqktIT5mGj9wNlKa1PzCp9EGB
+zxqQyYnlcNxZcnVd51GymkK7JezGc3TFRWwl3Qf4bnA/QUg9kTe7mYXfcecfRV4E
+NEPJY3OxW3MIaHCs8k94hynIaEweUnBiBYmDPk+6PMtgViR/b83t92N+MVKmk73W
+ks/kizqGSTKKrF0i2BesYA9D9oBK0RwhWTTkkjRitHzR7FFih4maGxYVl1KNj0o/
+OA80BcUH8UgynrsvXpyfy4YwZ7Edu77taMTdiUw0/AZP0CaQrxduItElUZ7luGH/
+20p6fHXW+slf26eiZ5OqbdQQ3ZxdUzeVBpKcC9NxoShXQcm/yKKgGswr6KLl6Lr3
+ex1Z80WtmDX19yd4e8eUlIVVWqYDU/CjlVvRegY8lLrrCARClQSLV40iHq1XCY6w
+lIOQjpJBLWPAj66m8k/+c1DXVC/ZwmlSSoHiq+9yAtrPckdknXxV+/A+Ew94SrI9
+ewSpcrup6QQ+2Wpx4Lc5RVFx9Fkfv925402y1HiqdMjVvr/vGMggKBves+IHVGf/
+QYH3m1rAy69ocBAWFZ7rIZ8gRAFtQ/Bh0VSWq9hpDp5l/rffyQI=
+=7oNY
+-----END PGP SIGNATURE-----
+
+--XKLdptHGuMBToFQ9--
 
