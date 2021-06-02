@@ -2,142 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E76B39896D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 14:25:45 +0200 (CEST)
-Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D29839897E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 14:27:38 +0200 (CEST)
+Received: from localhost ([::1]:51354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loPwO-0007J8-4i
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 08:25:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
+	id 1loPyD-00019c-FC
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 08:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loPv3-0006cH-RI
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:24:23 -0400
-Received: from mail-eopbgr60115.outbound.protection.outlook.com
- ([40.107.6.115]:5614 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1loPwb-0008A7-TX
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:25:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loPuy-0008NN-GS
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:24:20 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FFpyWg+NCLz11e99i7U2LQeF7iEKSKeS85M4hgS4+sqDcPW7ayY3qQhHerK1clvkv9u4lVbc2X/tpAlADCDpmeGuRunEpbhEaNpP26W4SYTHMWaKj3nseB3M9rz3n8+UYyMCjHgzMR+f3mfVeoF4mSdfM2sBd2KYZPoQ3Az0thConLr/QtDCO0ydpPE/xtXy/63EwrxA7PardQw95nYTLN+WV+9Lx+mXEpddsn5pbR5KDuN5sI7aNkTouhdymgIfjyxMgOfjVcOERdsIkLuTosHFGaXJrWmh70JyV2yakCR5p1z0EC2vpo3nrsWEWOsNB6dipAJyO+GdkZ6hGYRx+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vWc8x+ZLPG6ZQ70r2WlsMpimjmeLiUcTNW5NUBOG/7Q=;
- b=CKtNuuWvGMZJ2oxrxqZAUtgbR2NOAsojJiU87lgMz1i/Lz4FmzVUNfs42lelwZPUcxotTDM4xwa5qegPgEyAcazgqQF9uMONhBDUOA5GGPBMShuiW5C00soNsyKWi3S3pNV9F81IamG49HV0pT957hqmwhFVXo9gAd/+qSDGaxaBRonC5x6FgrT6AVVmHv9tc8IIc5YJVZRZg1vY3/3V+ihORlUi6C0eG2XfFEgxWB2zmC7XqmXntlZig6eA2/IpjLDB6rVDG3lMgpmSc2nc5luoWgW1lshItw96WPxhbuGBYYAjM5vmKCHnXz1PN3BsYP+etCw9reyFp+gi2MAFZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vWc8x+ZLPG6ZQ70r2WlsMpimjmeLiUcTNW5NUBOG/7Q=;
- b=XkjGZ03urfmyaToJSnmucqW9uP51IZ2Ahiwz+Whh0UPzzshT/4Kyt/MUYG4NLZ+845TF+C5Ue+smkJspu0AWlDsUL9tM7jJb91TMQrn6ZS4DxyIR+lZYwkOdRk4Ow1HLuS4HfBpqeW24klXLqQ4nDbBCEN8c0P0nDE73bfYRATY=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Wed, 2 Jun
- 2021 12:24:12 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
- 12:24:12 +0000
-Subject: Re: [PATCH v8] qapi: introduce 'query-kvm-cpuid' action
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- kvm@vger.kernel.org, Denis Lunev <den@openvz.org>
-References: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <f77db186-c553-e618-7f18-475fb943d389@virtuozzo.com>
-Date: Wed, 2 Jun 2021 15:24:09 +0300
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1loPwa-00011A-4V
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:25:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622636755;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=orI2mfz/xyYk0Hga3CuMNy8vdWlBV3ihOX24VrQ1K58=;
+ b=V2q7VcV37XuYvQ5tOXrLpQxFBlBfuD848EpgK07Mg8O2uJanE5jqzWf0mYo/GUfxSIhjDP
+ D253/LMRMpUa3vcOv45aQwNkZ7OqtscUDZnelBsukHZ1XZIC/U5NlXfZ1qrmSPTD/ToS1P
+ AmKhlgBcw+P5qGayxd+ojEqA4HgzAB0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-fGZEK3-sMpSVSDfsMfbw5Q-1; Wed, 02 Jun 2021 08:25:53 -0400
+X-MC-Unique: fGZEK3-sMpSVSDfsMfbw5Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ z3-20020adfdf830000b02901198337bc39so367812wrl.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 05:25:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:subject:reply-to:to:cc:references
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=orI2mfz/xyYk0Hga3CuMNy8vdWlBV3ihOX24VrQ1K58=;
+ b=q9Z2sqRdwIbQAOwMZyblh9h46Uro6tgwZYNygqsNngThTatUTHY9RzPjA3RuJow6cU
+ g3dAO/+nn+06sKseoSCFqfwHGcchSjo3Mw/zlJkcYyCFM2jUQ3S3ozRZALvI0/75JQhF
+ xkHtb5c0WRGl8taTQJmyDb0nSUaJru6XoKYwdARQuWB1b9xMWQhHlOISyiMNHf2pib6D
+ zzD0GQ8I0tnWcsetbz3mWKuLtENH7AMuLnat0YEvVvNQlRwqklnaAk3NQ4OUpIWLUrDP
+ XqjiDjH0Su00w7MfVnsaBwkv1A6dhGAP+wxQjcdbjBmGHd6Cv5iroe9A80EPAkIVd16m
+ MYKA==
+X-Gm-Message-State: AOAM533dahwC0lLbFpnmQilZvi7eDgEP6TTPQSscVjtafbXYbATFmh+P
+ FC5E/nHIyPi0o4MZuOwoeO3Ug05O3tLfTjLh2tagDkGFN2mZgq9jrStujOfW86ksMMDdLAnnKIE
+ WDZMUff8MMr4c6RM=
+X-Received: by 2002:a7b:ce8a:: with SMTP id q10mr18757215wmj.184.1622636752862; 
+ Wed, 02 Jun 2021 05:25:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJDOw1chhYGX2mxETg+EsGPUAoTroXSHXZEPThN56nY4li/6DFqmn2A2ZJu45Z7rsw+0wSdA==
+X-Received: by 2002:a7b:ce8a:: with SMTP id q10mr18757189wmj.184.1622636752661; 
+ Wed, 02 Jun 2021 05:25:52 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id f20sm2955456wmh.41.2021.06.02.05.25.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 05:25:52 -0700 (PDT)
+From: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v4 3/8] hw/arm/virt: Add a machine option to bypass iommu
+ for primary bus
+To: Wang Xingang <wangxingang5@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, shannon.zhaosl@gmail.com, imammedo@redhat.com,
+ mst@redhat.com, marcel.apfelbaum@gmail.com, peter.maydell@linaro.org,
+ ehabkost@redhat.com, richard.henderson@linaro.org, pbonzini@redhat.com
+References: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
+ <1621914605-14724-4-git-send-email-wangxingang5@huawei.com>
+Message-ID: <b1f26e3a-d678-aa50-4e82-71c76c9775b8@redhat.com>
+Date: Wed, 2 Jun 2021 14:25:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.211]
-X-ClientProxiedBy: FR0P281CA0082.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.211) by
- FR0P281CA0082.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.9 via Frontend Transport; Wed, 2 Jun 2021 12:24:11 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 55f76bbd-c6e0-4b5b-b074-08d925c15450
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5494:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5494E353F70C5EA0D5454D02C13D9@AM7PR08MB5494.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kkJ5kAFqjhEVe3zlZ5Di99hLa6RLESkQGZkS8l871H2/9gIiD2GNDwaRE8z3qGzqb8XZfjHgfYdMonmE5oPfNGuWjfatzhsm/7NPvvxFYxQVIIj5paw3svRwv/Bz1dXf2Bvd40ST4BiKST/gPNfOrY8q4j7V+semQCvB4hkkf7TaxSlAKET6K6h0dYnFAWJ16187COrNvOgyiMlwjj9BXST+9CWX6FS3/OYZNnoch6xp8eknQiCsXD0TnXKQbSU+YGIOm764nBhQYALuBsFXFty3wnJzYvLEz1ZFvKdJkh0uLC1nEV6JZtKKALXKr+anR4OK+iEC5KLylbFwgetLQiNKZJ800LMuQ9J/qbZpcohEcicp9wQFEm91yS3C3a5Vpbfk+XtoJ3EC65/VCRvyRstFmY42eg43QhacvsZzlfR/vnr3WpMYRSQWJvRWFJ3uZ6u0yGZuWcjkt9tnddQfQcJv90UphGR2Acd46XJyph4jmzzMelOYIuztQNGsHUnnJJK2hQG2giR305A3P2C2zd4Mo5YPR5HtBwNOdYUnp1dlRDulH2hXhAlfkFqLtmH2EoLrIyFT976L55yD0Z0W/DwcRJ/TSrxR9AMCqrBP5+rWFaQwNtOQjKG9O+IVVCYemGvjnZizF4XrWtWp2Cr/R6Xw+o+kXuV2VLxqyAns7auA3D1BiXkN7HSRvMBp78gTZkspYlOk0feC0f+cd5Hxbg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39830400003)(316002)(16576012)(2906002)(5660300002)(54906003)(956004)(478600001)(2616005)(16526019)(38350700002)(4326008)(36756003)(8936002)(7416002)(6486002)(26005)(107886003)(38100700002)(31696002)(8676002)(66476007)(31686004)(66946007)(52116002)(66556008)(86362001)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dU9uaE1sNVF6NFllZGpkdmg5TGZEZU15MTJ5ZkUvQmxJZmJkQWZxZTdDWXpY?=
- =?utf-8?B?SGhaZG5abXE3SWZIU0lZREZ0TWkwMWEzVlV5dDRoa2Ryekw5K3J2MDFZTFpq?=
- =?utf-8?B?WWlkSUN6TjJNOUZtb1o4M1AreVVQR3I5aURrZzZaZ0lORnl0U205U1piRTEw?=
- =?utf-8?B?dW9DQndzNVBJdWUyT1ZKMkNKbGpFSnlvcDJ2Vlpub3lRSitKMFkwQ09BVjBu?=
- =?utf-8?B?MG56WkFCbTJrS3ArbXdMdzl5OVgxREVtNms2Z3hpQWFwQmpPWWttcDA0dHRw?=
- =?utf-8?B?YWExcDVla05OY1hhaUF1dThUZjR6VUR6WTlsakRQUTFia0hXMG5xZ1lLM01J?=
- =?utf-8?B?KzU5SDFDT01QdkhybEg1QWZNY2s4bU16eVQ5ekhkcXRhckNZYjdEWjZlbDhF?=
- =?utf-8?B?N1RCUGR2RDdhK1NmRHhRSGVTRmdidytma1ZTSnlLelZMZCtrNlZSL2lUWnRY?=
- =?utf-8?B?QmhPU0NObnRvU3V6VnBGNTl0RG45OGJhSkFyVlNXZ2lnMklLK3Q2MmNuR2pl?=
- =?utf-8?B?c1BCbEt1aWI3NktDV2JLc3RzWTdtVGFEU1FFTFRnTkJhbHNqZG83bGpjcHJu?=
- =?utf-8?B?OGxJY0d0R3FiZ2dpVmFRdGM4TitjV0JwWnJrV0FuTm53alE0eVl6RmttdlRk?=
- =?utf-8?B?L3ZNUEVoOUxuNmdVMkZtYkNhd2xsN2ZVdVNjUXArQ3M4ODROYzQzeVpjOFVO?=
- =?utf-8?B?cEFnRzBtemZLSmRxTDJwdmlER2RKYzZ1QVoxSHg1a1dNdm1LeDlOeTNEM09B?=
- =?utf-8?B?cDJ1OTl3UTl0SklXZFhNUW5QUlZNWXdJaTdUaHdKOTAyRnlXYXFKZEVDSXNa?=
- =?utf-8?B?bUYwL1ZmTjlWNDl6T1J4VkhpeldQaGVTUlVpbUMvK0h2RTAwRks3RTlibDg5?=
- =?utf-8?B?eHl1N2xhKzRBcFVkTENpS1Y1c21WTjNZUDh2RWo0ZUFiNGk0dktmMGtGTUxa?=
- =?utf-8?B?STJDK2UzNVNvZTJpc2dFMytiNHp4VnN0MnBJNUMwNEdOZDVoZ285VkZWQ2pp?=
- =?utf-8?B?emI2aG9IYjhoUHY1bXBUL1UyMW9ZcGVHcTM4cktWKy9KQjI2N3NFWC9WZlJL?=
- =?utf-8?B?eUNSTUNPYzIvT01yR2dub29IUFEvcXFRZFhpM1NoY05xc0dHMncrdWlRYmRr?=
- =?utf-8?B?bWRRUHYrMEF6YitOaXMrYUp3QXo3UW5tZS93RlB1Qy9UQWhFTjg1MVNlYTBa?=
- =?utf-8?B?QkkvRFB3QjZmK213R0ZGS3BjKzFORG00S2hRc0Z5NmgvV3hXaHNEVExBdXFL?=
- =?utf-8?B?OE5haUdCc053dW9sRHhHOEV5NFhsUkhnWlVySTNZVG5CMDJ6Q3AvMDZCdElr?=
- =?utf-8?B?Y3VQM0t4R0ZiazdCN2YxNmQwODNMTFFSRUw1VlhiWkhLRzBpV21SYnBPZGZE?=
- =?utf-8?B?MHY0ZXJYV25EaW1ZUituOHF5TytmMHlaS01STGpOaWY0VVNENy9SMlZ1ZlB2?=
- =?utf-8?B?TFRFb0ZERVhTTkxya1hiUUJBWTBkdVFZQjYrTGlNNUFIMS9vemZvcHBCUzVm?=
- =?utf-8?B?VVRoYUltQzg0ZVdKN2UwdGtKRGl2eno3TnVUbzUwWTRUZWFCYmdUOXRYYld5?=
- =?utf-8?B?VGY5NTJyNDJPQ1VJWW4veWhSUlZwSmZkSTRVM1MvL25uZHBMUnVJNUJaWHlF?=
- =?utf-8?B?T2ZPc0kzT3p3YW9VOTRWazZwbUZkT2pKcWFvNEFNYjZsUjJ3dUZnZ2ZFZjRG?=
- =?utf-8?B?NXdDbkhFeTkvemVnL05NbnVqcEZaWmdHMis5clppZ3RlcnMwK2xOSzFxMnJS?=
- =?utf-8?Q?MZZcMfV9dERUKf5IetcyLFw43yPA2o4V+iCho3U?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55f76bbd-c6e0-4b5b-b074-08d925c15450
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 12:24:12.4091 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZAj4kYv5sNj3NLbDURtAuthVex9K29jYPF51+Np+jYgEqX9sThN0GfodOmBKIJUBWwVThJoKynPH5/DdigKBl07sm3JJMGqzsQNIV8Mbius=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5494
-Received-SPF: pass client-ip=40.107.6.115;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <1621914605-14724-4-git-send-email-wangxingang5@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -151,69 +106,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
+Cc: xieyingtai@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-31.05.2021 15:38, Valeriy Vdovin wrote:
-> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
-> get virtualized cpu model info generated by QEMU during VM initialization in
-> the form of cpuid representation.
-> 
+Hi Xingang,
 
-[..]
+On 5/25/21 5:50 AM, Wang Xingang wrote:
+> From: Xingang Wang <wangxingang5@huawei.com>
+>
+> This add a bypass_iommu option for arm virt machine,
+> the option can be used in this manner:
+> qemu -machine virt,iommu=smmuv3,bypass_iommu=true
+This still looks confusing to me. On one hand we say that for the virt
+machine the iommu is set to smmuv3 and we say bypass_iommu=true on the
+virt machine option line
+It is not straightforward that the bypass_iommu only relates to devices
+plugged onto the "default" root bus.
 
->      "ebx": 0,
->    },
->    {
->      "eax": 13,
->      "edx": 1231384169,
->      "in_eax": 0,
->      "ecx": 1818588270,
->      "ebx": 1970169159,
->    },
->    {
->      "eax": 198354,
->      "edx": 126614527,
->    ....
-> 
-> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+At least the name of the property should reflect that I think
 
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-
-> 
-> v2: - Removed leaf/subleaf iterators.
->      - Modified cpu_x86_cpuid to return false in cases when count is
->        greater than supported subleaves.
-
-[..]
-
-> +# @in_eax: CPUID argument in eax
-> +# @in_ecx: CPUID argument in ecx
-> +# @eax: eax
-> +# @ebx: ebx
-> +# @ecx: ecx
-> +# @edx: edx
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'CpuidEntry',
-> +  'data': { 'in_eax' : 'uint32',
-> +            '*in_ecx' : 'uint32',
-
-I'm not sure, probably '-' instead of '_' is preferable in QAPI.
-
-> +            'eax' : 'uint32',
-> +            'ebx' : 'uint32',
-> +            'ecx' : 'uint32',
-> +            'edx' : 'uint32'
-> +          },
-> +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+> ---
+>  hw/arm/virt.c         | 26 ++++++++++++++++++++++++++
+>  include/hw/arm/virt.h |  1 +
+>  2 files changed, 27 insertions(+)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 840758666d..49d8a801ed 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1364,6 +1364,7 @@ static void create_pcie(VirtMachineState *vms)
+>      }
+>  
+>      pci = PCI_HOST_BRIDGE(dev);
+> +    pci->bypass_iommu = vms->bypass_iommu;
+>      vms->bus = pci->bus;
+>      if (vms->bus) {
+>          for (i = 0; i < nb_nics; i++) {
+> @@ -2319,6 +2320,21 @@ static void virt_set_iommu(Object *obj, const char *value, Error **errp)
+>      }
+>  }
+>  
+> +static bool virt_get_bypass_iommu(Object *obj, Error **errp)
+> +{
+> +    VirtMachineState *vms = VIRT_MACHINE(obj);
 > +
+> +    return vms->bypass_iommu;
+> +}
+> +
+> +static void virt_set_bypass_iommu(Object *obj, bool value,
+> +                                              Error **errp)
+> +{
+> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+> +
+> +    vms->bypass_iommu = value;
+> +}
+> +
+>  static CpuInstanceProperties
+>  virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+>  {
+> @@ -2656,6 +2672,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>                                            "Set the IOMMU type. "
+>                                            "Valid values are none and smmuv3");
+>  
+> +    object_class_property_add_bool(oc, "bypass_iommu",
+> +                                   virt_get_bypass_iommu,
+> +                                   virt_set_bypass_iommu);
+> +    object_class_property_set_description(oc, "bypass_iommu",
+> +                                          "Set on/off to enable/disable "
+> +                                          "bypass_iommu for primary bus");
+> +
+>      object_class_property_add_bool(oc, "ras", virt_get_ras,
+>                                     virt_set_ras);
+>      object_class_property_set_description(oc, "ras",
+> @@ -2723,6 +2746,9 @@ static void virt_instance_init(Object *obj)
+>      /* Default disallows iommu instantiation */
+>      vms->iommu = VIRT_IOMMU_NONE;
+>  
+> +    /* The primary bus is attached to iommu by default */
+> +    vms->bypass_iommu = false;
+I don't fully master the PCI topology but I think you should clarify
+which primary bus we talk about. AFAIU PXB's bus also is a primary bus.
 
+Thanks
 
--- 
-Best regards,
-Vladimir
+Eric
+> +
+>      /* Default disallows RAS instantiation */
+>      vms->ras = false;
+>  
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 921416f918..82bceadb82 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -147,6 +147,7 @@ struct VirtMachineState {
+>      OnOffAuto acpi;
+>      VirtGICType gic_version;
+>      VirtIOMMUType iommu;
+> +    bool bypass_iommu;
+>      VirtMSIControllerType msi_controller;
+>      uint16_t virtio_iommu_bdf;
+>      struct arm_boot_info bootinfo;
+
 
