@@ -2,53 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DD9399577
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 23:35:18 +0200 (CEST)
-Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A99B3995D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 00:20:49 +0200 (CEST)
+Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loYWD-0006tC-KX
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 17:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
+	id 1loZEG-0002QJ-1o
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 18:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nolan@sigbus.net>) id 1loYUf-00052n-Ow
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 17:33:41 -0400
-Received: from phong.sigbus.net ([71.19.155.206]:34552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nolan@sigbus.net>) id 1loYUd-0000RI-7B
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 17:33:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigbus.net; s=2020;
- t=1622669615; bh=adG8bbr907CqYZELZ5FWiFDF7ontastZqe+49TgJWcw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=iR72DPaxbtKJWCKrMVafIaYdqfYIEz7TCapBL/3C/5L4W90ZXyibY2ZvBt4nr8TRi
- sHmA2GWD7MNgCuj4vxK6vODC8J5QI1NebEBofWfBnXpC4UxDNVXLcqryTTYueStt+T
- i7I6kfJeKlnmlMQUz2uzNtUekSNJkG6hh3wflfF+U0+V2LvnNgs1qKpxTqir8uhVcn
- kjSL5JH4MJ8NSWJssM691av0Q01hxluLnehiOw96Q8U1EGgzuPvAz6Fr+T97dbMFEo
- CMJOCueiBL26kWeQ61fMMFMF3Qoy+v/PwDf8YF/o3JpIr2dU8FyL2NuggMK3ggE/Tn
- FxSX2B6uqC2ew==
-Subject: Re: [PATCH qemu] Add basic power management to raspi.
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <162137039825.30884.2445825798240809194-0@git.sr.ht>
- <65187b48-2449-e2b4-2d13-ed9ffb6fe2a8@amsat.org>
-From: Nolan <nolan@sigbus.net>
-Message-ID: <7669dd87-e040-a049-e953-9f31a4557ee5@sigbus.net>
-Date: Wed, 2 Jun 2021 14:33:34 -0700
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loZCw-0001aZ-GV
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 18:19:26 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:38686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loZCu-0005lW-Qv
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 18:19:26 -0400
+Received: by mail-pg1-x532.google.com with SMTP id 6so3482794pgk.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 15:19:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fcaz6V6yQMwee8HYp+cmxx/PVQ7N3tswV6x99A/9nhE=;
+ b=EiBx38evshsP8TKGDhD8qW0nT/9HGr2m5C6I7YiahoIoO6O1DyKP5Ic7nw14VzfkXc
+ c4x9ZshWlMgt0HGtGKro1c60C2Yf1EGXpyFU37w14oIxZLQfHKg4TCTkNXYmFIMcIC2T
+ Yk4Gj96YE8CSvzLD9CF9tuDPJRqIzmYRxlwd6/TvJQLlU/bu5ddbV/edvOcAICuIHizy
+ cUmGL8V5Fo5P4M9oKhQ5HHHfsFxbYjQeW9tByvYU6PDUx5nuofdEfGJr3xt5D7zw8iQk
+ JsO8cWZmEtVo1ZU9Y1FRsB+Qa0y0pB9+dnv0epRXrdtOuIDufgn2F6Ixdoq8sG52+dD4
+ OqwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fcaz6V6yQMwee8HYp+cmxx/PVQ7N3tswV6x99A/9nhE=;
+ b=BP5ivjRtIGaZB4Q7K42xC6rP86rKF4NeBql2A2sX7DQmsT83ehSKJ+kdwvGC5O0Tvf
+ VRjwX8wlbjUXAUj9W9jMtGSeNC9I5fqsFO3NAawbXwGrdhr0ReWSH+LtynkxLrhkIdy0
+ c3pfokVROzEfHoJT3tOcX0OIotwL5ucgy9m+sSzpmJk6W8565eRY2zN2XkHJdrm0gUoG
+ 27e9gcI+vZ87lxFHaVAxxn3m9KQn2lSgm/qZqK3oHCsF9q6ddvcYypARCctEhlw9t6NR
+ v8ugPaw8V5EcZSfr6v3ay9X6YS41i+NNl3h151/FQjnodj9WhSPGH9eGVC4e4oZe+KJ6
+ dMTQ==
+X-Gm-Message-State: AOAM530rP9O/5ucbxac6Gp1BUWZXzYqmoYjLQ9T326rQO030UF/3EuTi
+ UbMG5w8FpR22OwOnwYuQ5cW85A==
+X-Google-Smtp-Source: ABdhPJz3m+UxIRZ8aEkhFuFvNNw1P4Eh8Kgil2nUK5GgYoHXoAVP5rqHld26APiqb8LHBBHCAvRZ0w==
+X-Received: by 2002:a63:104a:: with SMTP id 10mr36383135pgq.66.1622672363016; 
+ Wed, 02 Jun 2021 15:19:23 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ 65sm487965pfu.159.2021.06.02.15.19.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 15:19:22 -0700 (PDT)
+Subject: Re: [RFC PATCH] target/ppc: fix address translation bug for hash
+ table mmus
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210602191822.90182-1-bruno.larsen@eldorado.org.br>
+ <d7139129-428a-f6c9-c6e2-e540208d62aa@linaro.org>
+ <39c92ce9-46b8-4847-974c-647c7a5ca2ae@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b689bdd0-4d75-7c4e-189e-922738208dc0@linaro.org>
+Date: Wed, 2 Jun 2021 15:19:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <65187b48-2449-e2b4-2d13-ed9ffb6fe2a8@amsat.org>
+In-Reply-To: <39c92ce9-46b8-4847-974c-647c7a5ca2ae@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=71.19.155.206; envelope-from=nolan@sigbus.net;
- helo=phong.sigbus.net
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,300 +90,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/31/21 4:23 AM, Philippe Mathieu-Daudé wrote:
-> Hi Nolan,
+On 6/2/21 12:58 PM, Bruno Piazera Larsen wrote:
+>> For the use from ppc_cpu_get_phys_page_debug, you'd pass in 
+>> cpu_mmu_index(env, false).
 > 
-> Thanks for your patch!
+> ppc_cpu_get_phys_page_debug has 2 calls to ppc_xlate, one using the data MMU, 
+> the other using the instruction MMU. I'm guessing I should pass both, right?
+
+Yes.
+
+> But here we have another bit that confuses me: cpu_mmu_index returns 0 if in 
+> user mode, or uses the information stored in env to get it, so I don't see how 
+> that would be different from getting directly. Unless the point is to have 
+> ppc_*_xlate be generic and pc_*_debug knows the info in env is correct. Is that it?
+
+The issue is that
+
+(1) ppc_*_xlate should perform the lookup requested, and mmu_idx
+     does not *necessarily* correspond to the current contents of
+     env->msr et al.  See (2).
+
+(2) There is a secondary call to ppc_radix64_partition_scoped_xlate
+     for which the second stage page table should be read
+     with hypervisor permissions, and not the permissions of the
+     original memory access.
+
+     Note that ppc_radix64_check_prot checks msr_pr directly.
+
+     Thus the second stage lookup should use mmu_idx = 5
+     (HV kernel virtual mode).  If I understand things correctly...
+
 > 
-> There is something odd with your email address, which apparently
-> became sourcehut@sigbus.net instead of nolan@sigbus.net.
-
-Ugh, oops. I was trying out sourcehut for this, and reflexively gave 
-them a marker email. I'm pretty sure sourcehut won't sell my email 
-address, so I'll just change it.
-
-> On 5/18/21 10:24 PM, ~nolanl wrote:
->> From: Nolan Leake <nolan@sigbus.net>
 >>
->> This is just enough to make reboot and poweroff work.
-> 
-> Please precise "for Linux kernels", since this doesn't work
-> with firmwares (ideally we should implement the FIRMWARE_NOTIFY_REBOOT
-> property - which Linux sends - to handle the machine reboot/halt
-> via the videocore firmware model).
-
-Thanks, good point re: this being tuned to what Linux (and u-boot) do. 
-Poking around a bit, it looks like 
-"trusted-firmware-a"/"arm-trusted-firmware" uses the same method, as do 
-a couple of bare-metal/hobby OSes. Couldn't immediately figure out what 
-FreeBSD does.
-
-I'm not sure I understand your point about FIRMWARE_NOTIFY_REBOOT, my 
-understanding is that message is there to tell the GPU firmware that 
-we're about to reboot, so it can do things like reload the PCIe USB 
-chip's firmware. In my testing without the watchdog module loaded, my 
-physical pi4 does not reboot, so it appears that sending 
-FIRMWARE_NOTIFY_REBOOT is not enough on its own.
-
->> Notably, the
->> watchdog timer functionality is not yet implemented.
 >>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/64
->> Signed-off-by: Nolan Leake <nolan@sigbus.net>
->> ---
->>   hw/arm/bcm2835_peripherals.c         |  13 ++-
->>   hw/misc/bcm2835_powermgt.c           | 157 +++++++++++++++++++++++++++
->>   hw/misc/meson.build                  |   1 +
->>   include/hw/arm/bcm2835_peripherals.h |   3 +-
->>   include/hw/misc/bcm2835_powermgt.h   |  29 +++++
->>   5 files changed, 201 insertions(+), 2 deletions(-)
->>   create mode 100644 hw/misc/bcm2835_powermgt.c
->>   create mode 100644 include/hw/misc/bcm2835_powermgt.h
+>>> +    const short HV = 1, IR = 2, DR = 3;
+>>> +    bool MSR[3];
+>>> +    MSR[HV] = dmmu_idx & 2,
+>>> +    MSR[IR] = immu_idx & 4,
+>>> +    MSR[DR] = dmmu_idx & 4;
 >>
->> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
->> index dcff13433e..48538c9360 100644
->> --- a/hw/arm/bcm2835_peripherals.c
->> +++ b/hw/arm/bcm2835_peripherals.c
->> @@ -126,6 +126,10 @@ static void bcm2835_peripherals_init(Object *obj)
->>   
->>       object_property_add_const_link(OBJECT(&s->dwc2), "dma-mr",
->>                                      OBJECT(&s->gpu_bus_mr));
->> +
->> +    /* Power Management */
->> +    object_initialize_child(obj, "powermgt", &s->powermgt,
->> +                            TYPE_BCM2835_POWERMGT);
->>   }
->>   
->>   static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->> @@ -364,9 +368,16 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
->>           qdev_get_gpio_in_named(DEVICE(&s->ic), BCM2835_IC_GPU_IRQ,
->>                                  INTERRUPT_USB));
->>   
->> +    /* Power Management */
->> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->powermgt), errp)) {
->> +        return;
->> +    }
->> +
->> +    memory_region_add_subregion(&s->peri_mr, PM_OFFSET,
->> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->powermgt), 0));
->> +
->>       create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
->>       create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
->> -    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
->>       create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
->>       create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
->>       create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
->> diff --git a/hw/misc/bcm2835_powermgt.c b/hw/misc/bcm2835_powermgt.c
->> new file mode 100644
->> index 0000000000..81107ecc8f
->> --- /dev/null
->> +++ b/hw/misc/bcm2835_powermgt.c
->> @@ -0,0 +1,157 @@
->> +/*
->> + * BCM2835 Power Management emulation
->> + *
->> + * Copyright (C) 2017 Marcin Chojnacki <marcinch7@gmail.com>
->> + * Copyright (C) 2021 Nolan Leake <nolan@sigbus.net>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu/log.h"
->> +#include "qemu/module.h"
->> +#include "hw/misc/bcm2835_powermgt.h"
->> +#include "migration/vmstate.h"
->> +#include "sysemu/runstate.h"
->> +
->> +#define PASSWORD 0x5a000000
->> +#define PASSWORD_MASK 0xff000000
->> +
->> +#define R_RSTC 0x1c
->> +#define V_RSTC_RESET 0x20
->> +#define R_RSTS 0x20
->> +#define V_RSTS_POWEROFF 0x555
->> +#define R_WDOG 0x24
->> +
->> +static uint64_t bcm2835_powermgt_read(void *opaque, hwaddr offset,
->> +                                      unsigned size)
->> +{
->> +    BCM2835PowerMgtState *s = (BCM2835PowerMgtState *)opaque;
->> +    uint32_t res = 0;
->> +
->> +    assert(size == 4);
+>> There's no point in the array.  Just use three different scalars (real_mode, 
+>> hv, and pr (note that pr is the major portion of the bug as reported)). 
+>> Additionally, you'll not be distinguishing immu_idx and dmmu_idx, but using 
+>> the single idx that's given.
 > 
-> Instead of this assert, add in bcm2835_powermgt_ops:
-> 
->    .impl.min_access_size = 4,
->    .impl.max_access_size = 4,
+> Ah, yeah, that's the "more complex than necessary, but it was easy for me to 
+> read" part. Scalars are a good solution. In this function in specific, PR 
+> doesn't actually show up anywhere, so I would actually only need 2. Anyway, 
+> will start working on this.
 
-Will do.
+Oh, I'll note that your constants above are wrong.  I think that you should 
+have some common routines in (mmu-)internal.h:
 
->> +
->> +    switch (offset) {
->> +    case R_RSTC:
->> +        res = s->rstc;
->> +        break;
->> +    case R_RSTS:
->> +        res = s->rsts;
->> +        break;
->> +    case R_WDOG:
->> +        res = s->wdog;
->> +        break;
->> +
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP,
->> +                      "bcm2835_powermgt_read: Unknown offset %x\n",
->> +                      (int)offset);
->> +        res = 0;
->> +        break;
->> +    }
->> +
->> +    return res;
->> +}
->> +
->> +static void bcm2835_powermgt_write(void *opaque, hwaddr offset,
->> +                                   uint64_t value, unsigned size)
->> +{
->> +    BCM2835PowerMgtState *s = (BCM2835PowerMgtState *)opaque;
->> +
->> +    assert(size == 4);
-> 
-> (remove this assert too).
+/*
+  * These correspond to the mmu_idx values computed in
+  * hreg_compute_hflags_value.  See the tables therein.
+  */
+static inline bool mmuidx_pr(int idx) { return idx & 1; }
+static inline bool mmuidx_real(int idx) { return idx & 2; }
+static inline bool mmuidx_hv(int idx) { return idx & 4; }
 
-OK.
+because you'll want to use these past mmu-radix64.c.
 
->> +    if ((value & PASSWORD_MASK) != PASSWORD) {
->> +        qemu_log_mask(LOG_GUEST_ERROR,
->> +                      "bcm2835_powermgt_write: Bad password %x at offset %x\n",
-> 
-> Please prefix hexadecimal formats with 0x,
-> 
->> +                      (uint32_t)value, (int)offset);
-> 
-> and do not cast.
+Then you also have a single place to adjust if the mmu_idx are reordered at a 
+later date.
 
-OK.
 
->> +        return;
->> +    }
->> +
->> +    value = value & ~PASSWORD_MASK;
->> +
->> +    switch (offset) {
->> +    case R_RSTC:
->> +        s->rstc = value;
->> +        if (value & V_RSTC_RESET) {
->> +            if ((s->rsts & 0xfff) == V_RSTS_POWEROFF) {
->> +                /* Linux uses partition 63 to indicate halt. */
-> 
-> I'd move this comment with the V_RSTS_POWEROFF definition.
-
-OK.
-
->> +                qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->> +            } else {
->> +                qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
->> +            }
->> +        }
-> 
-> Shouldn't we log the unsupported bits?
-
-I can add that, I didn't originally because the unsupported writes are 
-expected.
-
->> +        break;
->> +    case R_RSTS:
->> +        s->rsts = value;
->> +        break;
->> +    case R_WDOG:
->> +        s->wdog = value;
->> +        break;
->> +
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP,
->> +                      "bcm2835_powermgt_write: Unknown offset %x\n",
->> +                      (int)offset);
-> 
-> Please do not cast, use the proper format.
-
-OK.
-
->> +        break;
->> +    }
->> +}
->> +
->> +static const MemoryRegionOps bcm2835_powermgt_ops = {
->> +    .read = bcm2835_powermgt_read,
->> +    .write = bcm2835_powermgt_write,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->> +};
->> +
->> +static const VMStateDescription vmstate_bcm2835_powermgt = {
->> +    .name = TYPE_BCM2835_POWERMGT,
->> +    .version_id = 1,
->> +    .minimum_version_id = 1,
->> +    .fields = (VMStateField[]) {
->> +        VMSTATE_UINT32(rstc, BCM2835PowerMgtState),
->> +        VMSTATE_UINT32(rsts, BCM2835PowerMgtState),
->> +        VMSTATE_UINT32(wdog, BCM2835PowerMgtState),
->> +        VMSTATE_END_OF_LIST()
->> +    }
->> +};
->> +
->> +static void bcm2835_powermgt_init(Object *obj)
->> +{
->> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(obj);
->> +
->> +    memory_region_init_io(&s->iomem, obj, &bcm2835_powermgt_ops, s,
->> +                          TYPE_BCM2835_POWERMGT, 0x114);
->> +    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
->> +}
->> +
->> +static void bcm2835_powermgt_reset(DeviceState *dev)
->> +{
->> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(dev);
->> +
->> +    s->rstc = 0x00000102;
->> +    s->rsts = 0x00001000;
->> +    s->wdog = 0x00000000;
-> 
-> Where these bits come from?
-
- From my pi4. https://elinux.org/BCM2835_registers agrees (processed 
-from Broadcom source code).
-
->> +}
->> +
->> +static void bcm2835_powermgt_class_init(ObjectClass *klass, void *data)
->> +{
->> +    DeviceClass *dc = DEVICE_CLASS(klass);
->> +
->> +    dc->reset = bcm2835_powermgt_reset;
->> +    dc->vmsd = &vmstate_bcm2835_powermgt;
->> +}
->> +
->> +static TypeInfo bcm2835_powermgt_info = {
->> +    .name          = TYPE_BCM2835_POWERMGT,
->> +    .parent        = TYPE_SYS_BUS_DEVICE,
->> +    .instance_size = sizeof(BCM2835PowerMgtState),
->> +    .class_init    = bcm2835_powermgt_class_init,
->> +    .instance_init = bcm2835_powermgt_init,
->> +};
-> 
-> Minor comments, otherwise:
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-
-I'll make the changes and send a v2.
-
-- nolan
+r~
 
