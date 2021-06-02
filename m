@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F46397DA6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 02:25:11 +0200 (CEST)
-Received: from localhost ([::1]:53546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BB2397DA5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 02:25:05 +0200 (CEST)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loEh3-0006iP-FM
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 20:25:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39506)
+	id 1loEgx-0006gb-KS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 20:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1loEeM-0004Zq-VO; Tue, 01 Jun 2021 20:22:22 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64228
- helo=mx0a-001b2d01.pphosted.com)
+ id 1loEeM-0004Zg-Ms; Tue, 01 Jun 2021 20:22:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1loEeJ-000377-QA; Tue, 01 Jun 2021 20:22:22 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1520FTMP172785; Tue, 1 Jun 2021 20:22:17 -0400
+ id 1loEeK-00037k-AL; Tue, 01 Jun 2021 20:22:22 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15204ena162696; Tue, 1 Jun 2021 20:22:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=ey4h8jdTFXNzm8XSXG1wgvFUOMKv8cvw9xTrJoK/qII=;
- b=T9i3hDQUl6dYsJlX85dfQlfNWYPFndbj25SPJIk1M48xDNzaRpNJ8aHSXWXHK9ea3uyH
- Tod7ZuQ26B2kILLRNpgRKdBf2RK6XYZ452evBLX8l/GqrWf7GoC+x4UaG5WdEX0970eS
- 4fHgtK6sLiwmXm2wt2gyXJjnwzza9jghItSczxblPd1saaRNcZPhzYPwqU2zT2WMDzkT
- pNLomMzSakOhs3919MtQjVlIjQD2j3Wi1ceHROwxFtligUJHx/XzElz8ccMN1S23RdjY
- 2EnGCmQOfyVNbiikNaKlnU3s003wcYvNATiKt70D+ooS793pRdzP5fa6kdygHZjGJC5u Gg== 
+ : date : message-id : in-reply-to : references : content-transfer-encoding
+ : mime-version; s=pp1; bh=3oxkLdzLMiwGVR49MTM8vKjJttzgXQJKVHejqJ/kURA=;
+ b=NbXBYqAU5GZHlAjUCYAN+/sh1JF1a8S3G3c56MBl1WVO9Gf5mcjJosy6kSWYkfV2pdoa
+ uOIwIFuRspCxGJAdO8aLh6PUZomd7BsNaHIqUvMWkDxXm1MO8rSD/3BOJXh8dMjWp0Oj
+ pxGstxbpGUZwsLtL4Fz1nk1JySI/YxJoJIRZY9m+p9L7pKkeF+IvknJqxWxgskHYs1yz
+ 1VmtZwGH5h8mTJjcdNVKCXK/vNxyxl4us6OPu+OiADYPm7V9yN+X+fAweidN4lwof/rS
+ w9g6EcZZ2icfWg65ZWfT0mGPOLo71RvhqvEQpCSAoukkKBgmG69RYqWKufTEhy6GCD7p sA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38wy9jg4ea-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38wy2hre3a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 20:22:17 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1520HDdQ179976;
- Tue, 1 Jun 2021 20:22:16 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 38wy9jg4dq-1
+ Tue, 01 Jun 2021 20:22:18 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15204grR163515;
+ Tue, 1 Jun 2021 20:22:18 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 38wy2hre2t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jun 2021 20:22:16 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1520D5O8016686;
- Wed, 2 Jun 2021 00:22:15 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 38ud88a075-1
+ Tue, 01 Jun 2021 20:22:18 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1520Ewkh022491;
+ Wed, 2 Jun 2021 00:22:16 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma02fra.de.ibm.com with ESMTP id 38w413reqq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Jun 2021 00:22:14 +0000
+ Wed, 02 Jun 2021 00:22:16 +0000
 Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
  [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1520MCEQ29819186
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1520LdUS34341278
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Jun 2021 00:22:12 GMT
+ Wed, 2 Jun 2021 00:21:39 GMT
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC3B6AE051;
- Wed,  2 Jun 2021 00:22:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 166E8AE051;
+ Wed,  2 Jun 2021 00:22:13 +0000 (GMT)
 Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7BF5FAE045;
- Wed,  2 Jun 2021 00:22:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A0D33AE045;
+ Wed,  2 Jun 2021 00:22:12 +0000 (GMT)
 Received: from vm.lan (unknown [9.145.39.144])
  by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  2 Jun 2021 00:22:11 +0000 (GMT)
+ Wed,  2 Jun 2021 00:22:12 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v3 0/2] target/s390x: Fix SIGILL psw.addr reporting
-Date: Wed,  2 Jun 2021 02:22:08 +0200
-Message-Id: <20210602002210.3144559-1-iii@linux.ibm.com>
+Subject: [PATCH v3 1/2] target/s390x: Fix SIGILL psw.addr reporting
+Date: Wed,  2 Jun 2021 02:22:09 +0200
+Message-Id: <20210602002210.3144559-2-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210602002210.3144559-1-iii@linux.ibm.com>
+References: <20210602002210.3144559-1-iii@linux.ibm.com>
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: rkvRd9OuVWGpufwbbxoc_YVrCO3NfLQQ
-X-Proofpoint-GUID: QQC9NPr8KJXv3qaVbdIJW2dxU_usopGr
+X-Proofpoint-ORIG-GUID: z_qgnN5oxYjg5PKI_B7JoLxt5MeAfPzO
+X-Proofpoint-GUID: I2_1QE_RDYqmWgQhMmrEeBmXg_CyetxZ
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
@@ -83,13 +84,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-06-01_12:2021-06-01,
  2021-06-01 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0 adultscore=0
- spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 mlxlogscore=880
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106010161
+ impostorscore=0 adultscore=0
+ spamscore=0 clxscore=1015 mlxscore=0 malwarescore=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106010161
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -114,34 +115,231 @@ Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-s390x puts a wrong value into SIGILL's siginfo_t's psw.addr: it
-should be a pointer to the instruction following the illegal
-instruction, but at the moment it is a pointer to the illegal
-instruction itself. This breaks OpenJDK, which relies on this value.
+When a s390x CPU attempts to execute an illegal instruction, an
+operation exception is recognized. This is a suppressing exception,
+which means that the PSW is advanced by the length of the illegal
+instruction.
 
-Patch 1 fixes the issue, patch 2 adds a test.
+On the real hardware or in qemu-system-s390x the kernel then raises
+SIGILL with si_addr pointing to the suppressed instruction and
+psw.addr containing the updated PSW.
 
-v1: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06592.html
-v1 -> v2: Use a better buglink (Cornelia), simplify the inline asm
-          magic in the test and add an explanation (David).
+Unfortunately qemu-s390x sets both to the address of the suppressed
+instruction at the moment. Fix by sharing the PSW advancement logic
+with qemu-system-s390x and setting si_addr to the address of the
+instruction that raised the exception.
 
-v2: https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06649.html
-v2 -> v3: Fix SIGSEGV handling (found when trying to run valgrind under
-          qemu-user).
+Sharing the PSW advancement logic means, however, that now the helpers
+and the CPU loop must follow the hardware and the kernel a little bit
+more strictly. In particular:
 
-Ilya Leoshkevich (2):
-  target/s390x: Fix SIGILL psw.addr reporting
-  tests/tcg/s390x: Test SIGILL and SIGSEGV handling
+* Unmapped memory accesses should result in a translation rather than
+  in an addressing exception.
+* Protection exception must rewind psw.addr.
+* Translation exception must cause a SIGSEGV.
 
- linux-user/s390x/cpu_loop.c     |  23 ++++-
- target/s390x/excp_helper.c      |  71 +++++++-------
- target/s390x/internal.h         |   1 +
- target/s390x/mem_helper.c       |   2 +-
- tests/tcg/s390x/Makefile.target |   1 +
- tests/tcg/s390x/signal.c        | 163 ++++++++++++++++++++++++++++++++
- 6 files changed, 224 insertions(+), 37 deletions(-)
- create mode 100644 tests/tcg/s390x/signal.c
+While at it, also fix the handling of addressing and privileged
+operation exceptions.
 
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/319
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/s390x/cpu_loop.c | 23 ++++++++++--
+ target/s390x/excp_helper.c  | 71 ++++++++++++++++++++-----------------
+ target/s390x/internal.h     |  1 +
+ target/s390x/mem_helper.c   |  2 +-
+ 4 files changed, 60 insertions(+), 37 deletions(-)
+
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index f2d1215fb1..72ba9170ed 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -21,6 +21,7 @@
+ #include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
++#include "internal.h"
+ 
+ /* s390x masks the fault address it reports in si_addr for SIGSEGV and SIGBUS */
+ #define S390X_FAIL_ADDR_MASK -4096LL
+@@ -29,6 +30,7 @@ void cpu_loop(CPUS390XState *env)
+ {
+     CPUState *cs = env_cpu(env);
+     int trapnr, n, sig;
++    target_ulong excp_psw_addr;
+     target_siginfo_t info;
+     target_ulong addr;
+     abi_long ret;
+@@ -38,6 +40,7 @@ void cpu_loop(CPUS390XState *env)
+         trapnr = cpu_exec(cs);
+         cpu_exec_end(cs);
+         process_queued_cpu_work(cs);
++        excp_psw_addr = env->psw.addr;
+ 
+         switch (trapnr) {
+         case EXCP_INTERRUPT:
+@@ -66,15 +69,29 @@ void cpu_loop(CPUS390XState *env)
+             n = TARGET_TRAP_BRKPT;
+             goto do_signal_pc;
+         case EXCP_PGM:
++            s390_cpu_program_interrupt_advance_psw(env);
+             n = env->int_pgm_code;
+             switch (n) {
+             case PGM_OPERATION:
+-            case PGM_PRIVILEGED:
+                 sig = TARGET_SIGILL;
+                 n = TARGET_ILL_ILLOPC;
+                 goto do_signal_pc;
+-            case PGM_PROTECTION:
++            case PGM_PRIVILEGED:
++                sig = TARGET_SIGILL;
++                n = TARGET_ILL_PRVOPC;
++                goto do_signal_pc;
+             case PGM_ADDRESSING:
++                sig = TARGET_SIGILL;
++                n = TARGET_ILL_ILLADR;
++                goto do_signal_pc;
++            case PGM_PROTECTION:
++                /*
++                 * Protection exception handler is special: it is the only one
++                 * that rewinds psw.addr.
++                 */
++                env->psw.addr = excp_psw_addr;
++                /* FALL THROUGH */
++            case PGM_PAGE_TRANS:
+                 sig = TARGET_SIGSEGV;
+                 /* XXX: check env->error_code */
+                 n = TARGET_SEGV_MAPERR;
+@@ -131,7 +148,7 @@ void cpu_loop(CPUS390XState *env)
+             break;
+ 
+         do_signal_pc:
+-            addr = env->psw.addr;
++            addr = excp_psw_addr;
+         do_signal:
+             info.si_signo = sig;
+             info.si_errno = 0;
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 20625c2c8f..4133e93978 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -82,6 +82,42 @@ void HELPER(data_exception)(CPUS390XState *env, uint32_t dxc)
+     tcg_s390_data_exception(env, dxc, GETPC());
+ }
+ 
++void s390_cpu_program_interrupt_advance_psw(CPUS390XState *env)
++{
++    switch (env->int_pgm_code) {
++    case PGM_PER:
++        if (env->per_perc_atmid & PER_CODE_EVENT_NULLIFICATION) {
++            break;
++        }
++        /* FALL THROUGH */
++    case PGM_OPERATION:
++    case PGM_PRIVILEGED:
++    case PGM_EXECUTE:
++    case PGM_PROTECTION:
++    case PGM_ADDRESSING:
++    case PGM_SPECIFICATION:
++    case PGM_DATA:
++    case PGM_FIXPT_OVERFLOW:
++    case PGM_FIXPT_DIVIDE:
++    case PGM_DEC_OVERFLOW:
++    case PGM_DEC_DIVIDE:
++    case PGM_HFP_EXP_OVERFLOW:
++    case PGM_HFP_EXP_UNDERFLOW:
++    case PGM_HFP_SIGNIFICANCE:
++    case PGM_HFP_DIVIDE:
++    case PGM_TRANS_SPEC:
++    case PGM_SPECIAL_OP:
++    case PGM_OPERAND:
++    case PGM_HFP_SQRT:
++    case PGM_PC_TRANS_SPEC:
++    case PGM_ALET_SPEC:
++    case PGM_MONITOR:
++        /* advance the PSW if our exception is not nullifying */
++        env->psw.addr += env->int_pgm_ilen;
++        break;
++    }
++}
++
+ #if defined(CONFIG_USER_ONLY)
+ 
+ void s390_cpu_do_interrupt(CPUState *cs)
+@@ -95,7 +131,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ {
+     S390CPU *cpu = S390_CPU(cs);
+ 
+-    trigger_pgm_exception(&cpu->env, PGM_ADDRESSING);
++    trigger_pgm_exception(&cpu->env, PGM_PAGE_TRANS);
+     /* On real machines this value is dropped into LowMem.  Since this
+        is userland, simply put this someplace that cpu_loop can find it.  */
+     cpu->env.__excp_addr = address;
+@@ -202,38 +238,7 @@ static void do_program_interrupt(CPUS390XState *env)
+ 
+     assert(ilen == 2 || ilen == 4 || ilen == 6);
+ 
+-    switch (env->int_pgm_code) {
+-    case PGM_PER:
+-        if (env->per_perc_atmid & PER_CODE_EVENT_NULLIFICATION) {
+-            break;
+-        }
+-        /* FALL THROUGH */
+-    case PGM_OPERATION:
+-    case PGM_PRIVILEGED:
+-    case PGM_EXECUTE:
+-    case PGM_PROTECTION:
+-    case PGM_ADDRESSING:
+-    case PGM_SPECIFICATION:
+-    case PGM_DATA:
+-    case PGM_FIXPT_OVERFLOW:
+-    case PGM_FIXPT_DIVIDE:
+-    case PGM_DEC_OVERFLOW:
+-    case PGM_DEC_DIVIDE:
+-    case PGM_HFP_EXP_OVERFLOW:
+-    case PGM_HFP_EXP_UNDERFLOW:
+-    case PGM_HFP_SIGNIFICANCE:
+-    case PGM_HFP_DIVIDE:
+-    case PGM_TRANS_SPEC:
+-    case PGM_SPECIAL_OP:
+-    case PGM_OPERAND:
+-    case PGM_HFP_SQRT:
+-    case PGM_PC_TRANS_SPEC:
+-    case PGM_ALET_SPEC:
+-    case PGM_MONITOR:
+-        /* advance the PSW if our exception is not nullifying */
+-        env->psw.addr += ilen;
+-        break;
+-    }
++    s390_cpu_program_interrupt_advance_psw(env);
+ 
+     qemu_log_mask(CPU_LOG_INT,
+                   "%s: code=0x%x ilen=%d psw: %" PRIx64 " %" PRIx64 "\n",
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index 11515bb617..9f1665ccbf 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -272,6 +272,7 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                    MMUAccessType access_type,
+                                    int mmu_idx, uintptr_t retaddr);
++void s390_cpu_program_interrupt_advance_psw(CPUS390XState *cpu);
+ 
+ 
+ /* fpu_helper.c */
+diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
+index f6a7d29273..dff19cba60 100644
+--- a/target/s390x/mem_helper.c
++++ b/target/s390x/mem_helper.c
+@@ -147,7 +147,7 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
+     flags = page_get_flags(addr);
+     if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE_ORG))) {
+         env->__excp_addr = addr;
+-        flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
++        flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_PAGE_TRANS;
+         if (nonfault) {
+             return flags;
+         }
 -- 
 2.31.1
 
