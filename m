@@ -2,124 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E021398B06
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:50:08 +0200 (CEST)
-Received: from localhost ([::1]:51828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CC4398ABA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:33:07 +0200 (CEST)
+Received: from localhost ([::1]:54326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loRG2-0000T1-BU
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:50:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34892)
+	id 1loQza-0005Tn-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:33:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>)
- id 1loLSN-0004ms-LR; Wed, 02 Jun 2021 03:38:28 -0400
-Received: from mail-bn1nam07on2070.outbound.protection.outlook.com
- ([40.107.212.70]:38563 helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1loQfT-0001H5-JD; Wed, 02 Jun 2021 09:12:19 -0400
+Received: from mail-eopbgr130102.outbound.protection.outlook.com
+ ([40.107.13.102]:43141 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>)
- id 1loLSK-0004vY-BU; Wed, 02 Jun 2021 03:38:26 -0400
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1loQfR-0003M9-5z; Wed, 02 Jun 2021 09:12:19 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=frHt7un2kIryoKC9RwfRdsTrfRIVUqnL1QzN4Ys/2HzOvwstbbPLvUsa+W7um8kaAGXsURF8NXRHvhVmtD+7d3yeDZSDS4lp7U06E7uXu5uYj2RJi2SG2v5QBjol+tRVBNiVMKRyv5CDwoYthSc808QkJDcYdQEvWpGNQMHw0McGHoc0E0MCF0c+SPQ0wqhJIb8x0h+hzQFqaXtkeMIEa+Oqt+v0mB/1G3agFWyj21P9NzhB+EAg9J1dHdgvYbZrOz8FNF5C3Yk+pu4iO1qcwOMRgFwTZuIHUA7L8ltQxfeHhUIPb1ymLlI5ttckvU1YiIUK0VlD29kQKpqCmA6kAQ==
+ b=GzBl4sXJCGUlMajrnjoJ/82uMsukh4r0YqxSJ7LuCEjuzFGjfklCvpwLTs5Qt/1N3VNMJMJhL6ksMwXVWPPNMxeYMYmuwagkEvxBZw0g62CVX0in0IMqHNKE/uLNxf9MaVyhLjoSmjhR5MebQjITPkdibXUegHQeAxim4W+CRXR2yrCSlF1BkVhtkE6YUOSQA0Ik0EuirL3Y/WlfV7gmm9kpDtj+d22YZYnHPI5ExFb+UE7g7mZf0P8UoshNiZ/LJtDzWgHMoUvsUwfKJYZPFSwxti9IjK/pCigT3ycBuI+xxGJ6bKcoMfhSWB8c161OGh7kZDvVBd854NU1S+8sLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bykpJIpJh9iQUL8RZDNZGOw7uLRtIZm/Opzaat+i9Mc=;
- b=NHemcz/j2oLJpVhOlE1dPqp2o6sTjmiML45bTqtQhdoGMrmFLjSBMGlaQEUHHjooXNHY1J8+qODuH/uLVttx+Kband7kBqbZbqSQz29mDE6Tlhuz1AvHS/YAAPJw7ZHm9e0me4nDEk4uKZj8PGqcwByhJ8o7nt7uWojUb8MfyP2Iy6tuJWOBVM2L9HRt3EOxViB3E+GE8CwqAeQuuT2urUhqx9zuBi8LFAwd1hlvid/MiXBlN/gng7m8Yw5MZDMwR0tnvH98lWUj5RcWf4pD9LhRpx2COvcSHtEfUh2qWSTfR3PzVxvQOibXrIPqNecuYXmPDsUHZortRTvoPNQQ3A==
+ bh=Vfqnsp7hFTsT4dqLeM7DgaoDGD1UcygGkQvv816ee3Q=;
+ b=hAPhpulvO0VAmQdPbfdAFLlsPMxnR01YRnb82s1g5EAdqY9ArVo3l5FcJ04iOjtO1imJG0F+Rn0hpWho+Hw40ulKKO+3Pq1RO/U+O/9RbzSGq5MrcGXV/VSZvjBZ9gXajcZUA+LZMKUzTxTDs7Q2qWBD9iXAoO0PdZ/kcn0lbEE/PNls5bDjGG6JugMXtprj2x0QuEWqteKN6DzmVdIjD8QdZl2D0lmnSCyAO6tiRNv+1Rn3rhkufDh3B7K14YRy67XAIQ54LgKjDng/BssbJJ2QxX5HeTFwWBt29LVVTdtjejGNPE8cf2HRTi8iy71D51XGLoaFauV7n8ZIxjfekw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bykpJIpJh9iQUL8RZDNZGOw7uLRtIZm/Opzaat+i9Mc=;
- b=FFPJmnBbK1zq17ZoS/11LrIFH8AQRc1eS2DERfB5rIrluFq4fweaEaCbXdP9e8l1O6TrbGwq9ifAvEBjF2fBmvO17SaQnLV6FNJ+wuIudvN5W46aW0iTNfQH/2rTsc5IfMgRFnitQ5MVGo41b1Axr+1k76SlTx2FyNtOOCr5P1A=
-Received: from BY5PR02MB6980.namprd02.prod.outlook.com (2603:10b6:a03:235::19)
- by SJ0PR02MB7647.namprd02.prod.outlook.com (2603:10b6:a03:320::8)
+ bh=Vfqnsp7hFTsT4dqLeM7DgaoDGD1UcygGkQvv816ee3Q=;
+ b=ALabwhe50Xd6pN9FL9dR3I7z269RmYpikqHrxnFRUfNoUwEyA9SUGlouGbarOMPz7BXApyvryJXRT+32kr1eBeOYa2he8iWdUa+CLO23SnphE412VqwgBwBmN5yUdYE2l/erekBEBqJGKY3TLhXo0rCaoR2SKhj//57dMXfVkXg=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6693.eurprd08.prod.outlook.com (2603:10a6:20b:39c::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Wed, 2 Jun
- 2021 07:38:16 +0000
-Received: from BY5PR02MB6980.namprd02.prod.outlook.com
- ([fe80::fcc5:2059:c841:933e]) by BY5PR02MB6980.namprd02.prod.outlook.com
- ([fe80::fcc5:2059:c841:933e%3]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
- 07:38:16 +0000
-From: Gautam Dawar <gdawar@xilinx.com>
-To: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH 1/2] vhost-vdpa: don't initialize backend_features
-Thread-Topic: [PATCH 1/2] vhost-vdpa: don't initialize backend_features
-Thread-Index: AQHXV1/O69Nz5WwZQU+ZsyIYxtE3mqsAVJnA
-Date: Wed, 2 Jun 2021 07:38:16 +0000
-Message-ID: <BY5PR02MB69805AC4C88DFE9E5172D8BDB13D9@BY5PR02MB6980.namprd02.prod.outlook.com>
-References: <20210602033127.40149-1-jasowang@redhat.com>
-In-Reply-To: <20210602033127.40149-1-jasowang@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [120.89.76.214]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 97886ec5-2c09-404c-2ace-08d92599628f
-x-ms-traffictypediagnostic: SJ0PR02MB7647:
-x-microsoft-antispam-prvs: <SJ0PR02MB764760837C587DE6B1EAB860B13D9@SJ0PR02MB7647.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2150;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mY4qUU4Qr2WwpeHKkYB6YMpmO4ebbQipqIawhIiM+jJk4hftni0vj8gOq1aq1FSSHfGLWi+SVqgtVaApHRc4KaKdn2QVTTio//mi0hD09Gi6QDhEBR2QP19AB+7QtsftQN4xMKaUzICcFGVP+xhqWNk7VyFWx5RKsbRGZkCqOAnzu5URNALMEKNC9TVIkqica3TvGFFY7JMkbMWxg/HSdqxhtv0jUm+KKCPLLnxfgqIbgl+WUKrrf0+5J4VmdUF/GXkvLuUvjdDQRmV4pDRNoqdd2OO39sJHKTK9CBMurbYI65fsJWF1VJh7GPV0WlwLJWbHWYwz5pUmhhnCYcyB+k9QkrfVHxlHPzqQ273SG0Q9+G5dJABRhINPa+hquvv/ix47eOSjVkgAIrtt9vQaq6KnXVPIlLp0gicTe5nyeP9AJ5iMi05l24krR8cJ5UmnyMI0Mu6sAQtbRo7tw0uIK2HMGmdYcm1b7rGwNXEG7Xj/qzkma3n57W0gYcQ7IYl4421Q5TRqoitsZqKAeVTc3LJDSpd5keU7e8+XMveJ4/4EoipF4R2pDvXd7XywIwcMWUz9eCrqggbatAHXagzmy05GU5HN/Gu63F76pFIldZA=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6980.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(366004)(39850400004)(396003)(4326008)(55016002)(71200400001)(478600001)(66556008)(110136005)(55236004)(9686003)(53546011)(2906002)(64756008)(76116006)(66476007)(122000001)(38100700002)(66446008)(5660300002)(316002)(7696005)(33656002)(54906003)(52536014)(8676002)(83380400001)(86362001)(8936002)(26005)(66946007)(6506007)(186003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wG5XOSp0GloTf/EbqFQwYt6BSv9xSoZPn969+TPD0p9whyhfQlxRjMv379b1?=
- =?us-ascii?Q?lmAncVpsqzvGULAMpcgS5wMddP8LRsus0rOn2WnVATsNGvHRsDMXMj03JktV?=
- =?us-ascii?Q?Ysy9cr3aNprsOqg3TLbiHk5aUjo6CGfATbSVEwFO9WWmrfZGOc7lHsuigghP?=
- =?us-ascii?Q?CJD//I2jbKvv8m2rfgAhuFho3SXhif9hH0fxHloWxNmGJWMnTwRQ7Vt3LGtB?=
- =?us-ascii?Q?FWECAvEYrJazqmppAGlctIv91mJXQi4SNQrPeB3COPd3T0NpJ/O+4sNnuVxS?=
- =?us-ascii?Q?X6QTBqd/WNCQKttdk1z8kVc6dJFqUdaFADnB+mCSyuPT0fXtWbuZaFZmUFHp?=
- =?us-ascii?Q?CGCKN//OU2U0ro+y0a7vjkgy7XGyZuUeV3SgpMzy2FRuKDX1LNhiDngFdZ0X?=
- =?us-ascii?Q?x2VqWaLFdRxxWnkCmt3FXdjgCQ78yVQipaATELvkgpPBxiW2yvnXHli+yuuI?=
- =?us-ascii?Q?MOLOGO78PA3HdTpyW0CAaVfooW1bsI6NehLrzX0YxVOGSwpD6h6zMmeY7BQx?=
- =?us-ascii?Q?voQJEYYx+4EISRCA9iGwm/qJWS3ZfnkYSIBuNZU95f1dmDbHE8+ZeidFnomU?=
- =?us-ascii?Q?UokKSvO2/22htYj7in7Vukq7DabBd2ilIVLBcF3v0PmtXYfRbaECw5Z67e05?=
- =?us-ascii?Q?q8ln562GSaSAovmoO3sb+x2w2CLh3at3w81Ch+oNHimh1XgCodulFVVhbGZq?=
- =?us-ascii?Q?KYmFR4HC1gAlB5DmAFaEclru1uLGrgCY9z+6kxQL1gexIIFvWW3ytcP6yT/s?=
- =?us-ascii?Q?jH1ofvXNA9eW6V7TbYbiOsNofHKjuo0Erz+0FLXrV+lY+5691L5bB+5CzLum?=
- =?us-ascii?Q?fV50sl/8wAjyryJWhMZGy9vrhnyhoSypr3sQsKn5UJrBbdjJSZEOqta3CPFH?=
- =?us-ascii?Q?cOnRSEZX9+hz9eVzoBXkAIb0U2Le/GLI2S0pO081QRWC97vYjaGcPKucEtJq?=
- =?us-ascii?Q?C0nVEWylO67vP/fawdJie1suL8EM2PvWPH0SEU9KFCwd7jwZYeiIjMdf2wnc?=
- =?us-ascii?Q?H5Kn5TMhLqbRETjFlmpMEeSn25XxtotDUjgtbLYLOV6VAIh5o8rh7n7ECufg?=
- =?us-ascii?Q?RHkZEYjgL0k29c3fejepgcVIUgHOMQaTV/RoVRRDAfTAqMOHpPEqkpltfmoJ?=
- =?us-ascii?Q?CsYvXLVT3MNZO1lvIi/f6/b+L2sbpg7LIxLv/w1f6tnwmjm4Sm8J87nrBxAd?=
- =?us-ascii?Q?nySO53EBAJ7K2MV2ZHIZGNLZGn5awThck6kna/2vXEJwysp8RN+JAcCuG/2k?=
- =?us-ascii?Q?Op/xL1qo8Vl34vIh3mANfAKr62Vaun7FAslL1Oy6WdEX2ZXwj8LMBIBpdae4?=
- =?us-ascii?Q?13Fc3vI3sWEWi4vOuCj7ygiP?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Wed, 2 Jun
+ 2021 13:11:55 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
+ 13:11:55 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
+ crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
+ pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com
+Subject: [PATCH v4 21/35] block/copy-before-write: initialize block-copy bitmap
+Date: Wed,  2 Jun 2021 16:10:54 +0300
+Message-Id: <20210602131108.74979-22-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210602131108.74979-1-vsementsov@virtuozzo.com>
+References: <20210602131108.74979-1-vsementsov@virtuozzo.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.211]
+X-ClientProxiedBy: HE1PR0501CA0011.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.211) by
+ HE1PR0501CA0011.eurprd05.prod.outlook.com (2603:10a6:3:1a::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:11:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 03b2826f-fa05-4af7-0a2c-08d925c7fec8
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6693:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6693DB4A316853D1A8C7D60AC13D9@AS8PR08MB6693.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:194;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nOdRgRlz3MJDVTpWEic2oTFtPPfxkpiCFoewKmOJwETH3bmyre398DpDYNNPy0z5ON/LP96FbXoFwSqtFxtS+fd5ky2oO5iit2dmfc2NUbsbfs22DstV6h0otSg7q+S3z0z5VurZtE1LFKjprcE+s+zBv7dTxbBtu+/yXW58bxNuX/WptL1P9QeIEnJqP5W5sgq0Td9kCMgB++fHNps3OIxwrBZS2wzqaJgyy1JNlnEwlP/R15ORn+JlCDejZUnslrRp51QHth/hhCzx6kuRcj/iFM2kD2oZwjwlOQDTCjJ4o08zZyu7uKTg+aR/u0nhYhubc5E2aDpOrMiiYeZm7LMgHKeU0CqoIFKsWTGz13+NtmCGsR7e7eEKhAOOH/vFdjTEA5G2z2HjqP3QwpoYLe8ymJLeqnYpB6WnGwyBXd8D41ia09/wg8L9tu08LULtln96lsaKaaHh5TQYYH1S4DnyFGXZ1ci/GVGlaaWQVd6XgIvDA+auCpNJcbXmRkoEX0TR/EnZGn1SiHY2pWhWZyQct16fZP9AA3jScQ2Ac/rj3gaXOoygEvo3BlD0E5grawvoe3DTANYbR6g2+R+ZrwjwGiVcLdgrRSFR4cgTIKtMRa+mQPlETG5tBpmcLNFjshc73YANovslEtX2y68ti/lgTelE6Cg/8oeWTVUGLFh0vj+utnSQbNKDU3K/HQ73
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39840400004)(8936002)(5660300002)(83380400001)(38350700002)(38100700002)(36756003)(1076003)(6486002)(7416002)(4326008)(6512007)(16526019)(186003)(2616005)(956004)(316002)(6916009)(6506007)(66556008)(478600001)(66946007)(66476007)(2906002)(86362001)(52116002)(8676002)(26005)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?d1RlFHuqFzSfk77p5yTxkq5C6uI4aV0P1XWXNa0cobH1OuuPSyAm+ApcDVgH?=
+ =?us-ascii?Q?fFSYzIMKuVGXbDIBnSXsdjwKxH08d8T9QriXE/BKm6oPNjr0rH0huZhFpndl?=
+ =?us-ascii?Q?przk1FLzZpLI2g4ijJV3dde6VC6adq9K4ATCUeXlfWvnkDtOvgu8F7Tt/40C?=
+ =?us-ascii?Q?tRVG6fkwJyyaSipD5+/ABD8wXLc1RQzldquEyXEgaT9aeBXiN2pqIB/Wvg1P?=
+ =?us-ascii?Q?t7FNgGkKJE7RWTrlVPcOXdbPW+Up8ozTFCTqF6hKw9TiI4Z/9JA30cDS9d5L?=
+ =?us-ascii?Q?hO7UNvs+/+oYSELdefRoJ8YPTnjNMdAmRGoQfQndaq0Q2h4K+AXVedkDSnSU?=
+ =?us-ascii?Q?kaTdU5KGHYu54MU6afXfEnl6ta6ef6QDfVN/3vTumnmgbPynNnxNVD5Gmrc2?=
+ =?us-ascii?Q?3XdhmmOTvcT/JWKHu9WSe7olI9V1ON9GoetB/OGDoYA2myyGC/TyYUQN8SnR?=
+ =?us-ascii?Q?hv092jSyAGQAXauAUENoJi3snQ9L5U/OlSO0kniFOAzcszlJIrVv93dc5H7w?=
+ =?us-ascii?Q?odKrWPQ3dnmlJ7o8/OPk5MjmKp00xeWeBcai/ast8XuDKv56RchPxZSNon7B?=
+ =?us-ascii?Q?Vb+wWIonb/bRGCnJSc8f6x8LPuGocLAje0Bcc9wLCIZIX5Jhb0shMZZ73lxo?=
+ =?us-ascii?Q?xsYmZINEq228OzoznJdHIyTm/8wFk7w06WjE4SY/zmVs/LSoTR6MG9irQTkL?=
+ =?us-ascii?Q?gDbPwYyUuhaac1C6G2q5HZltOyf7EemRYQ1a0/Z7phN/L+HQyfRe4FzDtiwc?=
+ =?us-ascii?Q?ae2lH48Ew5YjSY1d+sY2aLpL0qyCU2J32F66MLPrzvkFjXgCFw7vx0l1v7EK?=
+ =?us-ascii?Q?voIdFWVDL1jktduVhWUMt4nasPcL744QaQlwp1aJZuDXoDEhn5Zo3Fl1VXi4?=
+ =?us-ascii?Q?IGxdadi4tcKyDFyAjIUaJpn/tx8J0t3sPhWBZgajTplKIPJR5qT8D76EeYKk?=
+ =?us-ascii?Q?ELyVSj0Oo0yj5tyTESwGmNv454kBzE6sc8nnUZuALpJYe/1OIwbWiyG41YUD?=
+ =?us-ascii?Q?vaYITflTelvt1BaUq1QwBF3/a896gVMyloA3+r3QmjzTZbb+xU9DMu2BMawn?=
+ =?us-ascii?Q?3QcH5kdWRPkPUIyxkfIEJKpKqicTUlm98a0R/wRSg8WmlzwJKbIehw9emfiT?=
+ =?us-ascii?Q?QvYqqf1l+oQfdatOmjBkPQNjE+/fkWjNVJUKSAXIcxGE9nCc5d4UW3Cd7VNc?=
+ =?us-ascii?Q?5GnuVxZc+6QII70z/foNqUk2F9n/X19gvlNZwkJEut/XhVbSeBjlvnBWZOb4?=
+ =?us-ascii?Q?VDl+Y4STD2a2DcLKIneRl8HMtppB/q6Cjy3fiRuKLGgv0dRBJb89bHAJHGpD?=
+ =?us-ascii?Q?efLCWPRyHzeVh7a8xE9nKU47?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03b2826f-fa05-4af7-0a2c-08d925c7fec8
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6980.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97886ec5-2c09-404c-2ace-08d92599628f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2021 07:38:16.2274 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mQl7dBRxVjsCbYVDCiF+8fKsn1I0jJ+/OQ4/qmFaTsUSwhvDrh6sGiSaWCV80oYGZS5/ksGm/VxfJ48td3U7Sw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7647
-Received-SPF: pass client-ip=40.107.212.70; envelope-from=gdawar@xilinx.com;
- helo=NAM02-BN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:11:55.4361 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MEpH+6F1MC9KzGEJqIKk76OWtTt7O9GovkaVpd21MdrU1+ilc1O3jBnS2rGxrrSLTxOC0he888Z9QamhN4nP9rtmQKmIazCeIJRkTkXSdWc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6693
+Received-SPF: pass client-ip=40.107.13.102;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 02 Jun 2021 09:47:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -131,66 +136,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "lulu@redhat.com" <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
+We are going to publish copy-before-write filter to be used in separate
+of backup. Future step would support bitmap for the filter. But let's
+start from full set bitmap.
 
-Pls see my comments inline marked by GD>>
+We have to modify backup, as bitmap is first initialized by
+copy-before-write filter, and then backup modifies it.
 
-Regards,
-Gautam
-
------Original Message-----
-From: Jason Wang <jasowang@redhat.com>=20
-Sent: Wednesday, June 2, 2021 9:01 AM
-To: mst@redhat.com; qemu-devel@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>; lulu@redhat.com; Jason Wang <jasowang=
-@redhat.com>; qemu-stable@nongnu.org
-Subject: [PATCH 1/2] vhost-vdpa: don't initialize backend_features
-
-We used to initialize backend_features during vhost_vdpa_init() regardless =
-whether or not it was supported by vhost. This will lead the unsupported fe=
-atures like VIRTIO_F_IN_ORDER to be included and set to the vhost-vdpa duri=
-ng vhost_dev_start. Because the VIRTIO_F_IN_ORDER is not supported by vhost=
--vdpa so it won't be advertised to guest which will break the datapath.
-
-Fix this by not initializing the backend_features, so the acked_features co=
-uld be built only from guest features via vhost_net_ack_features().
-
-Fixes: 108a64818e69b ("vhost-vdpa: introduce vhost-vdpa backend")
-Cc: qemu-stable@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 3 ---
- 1 file changed, 3 deletions(-)
+ block/backup.c            | 16 +++++++---------
+ block/copy-before-write.c |  4 ++++
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c index 01d2101d=
-09..5fe43a4eb5 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -275,15 +275,12 @@ static void vhost_vdpa_add_status(struct vhost_dev *d=
-ev, uint8_t status)  static int vhost_vdpa_init(struct vhost_dev *dev, void=
- *opaque)  {
-     struct vhost_vdpa *v;
--    uint64_t features;
-     assert(dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_VDPA);
-     trace_vhost_vdpa_init(dev, opaque);
-=20
-     v =3D opaque;
-     v->dev =3D dev;
-     dev->opaque =3D  opaque ;
--    vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
--    dev->backend_features =3D features;
-[GD>>] Should this be initialized with 0 here? I am not sure if  memory all=
-ocated for struct vhost_dev is initialized with 0.
-     v->listener =3D vhost_vdpa_memory_listener;
-     v->msg_type =3D VHOST_IOTLB_MSG_V2;
-=20
---
-2.25.1
+diff --git a/block/backup.c b/block/backup.c
+index 4869f1e5da..687d2882bc 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -233,18 +233,16 @@ static void backup_init_bcs_bitmap(BackupBlockJob *job)
+     BdrvDirtyBitmap *bcs_bitmap = block_copy_dirty_bitmap(job->bcs);
+ 
+     if (job->sync_mode == MIRROR_SYNC_MODE_BITMAP) {
++        bdrv_clear_dirty_bitmap(bcs_bitmap, NULL);
+         ret = bdrv_dirty_bitmap_merge_internal(bcs_bitmap, job->sync_bitmap,
+                                                NULL, true);
+         assert(ret);
+-    } else {
+-        if (job->sync_mode == MIRROR_SYNC_MODE_TOP) {
+-            /*
+-             * We can't hog the coroutine to initialize this thoroughly.
+-             * Set a flag and resume work when we are able to yield safely.
+-             */
+-            block_copy_set_skip_unallocated(job->bcs, true);
+-        }
+-        bdrv_set_dirty_bitmap(bcs_bitmap, 0, job->len);
++    } else if (job->sync_mode == MIRROR_SYNC_MODE_TOP) {
++        /*
++         * We can't hog the coroutine to initialize this thoroughly.
++         * Set a flag and resume work when we are able to yield safely.
++         */
++        block_copy_set_skip_unallocated(job->bcs, true);
+     }
+ 
+     estimate = bdrv_get_dirty_count(bcs_bitmap);
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 1cefcade78..2efe098aae 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -147,6 +147,7 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
+ static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
+ {
+     BDRVCopyBeforeWriteState *s = bs->opaque;
++    BdrvDirtyBitmap *copy_bitmap;
+ 
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+@@ -174,6 +175,9 @@ static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
+         return -EINVAL;
+     }
+ 
++    copy_bitmap = block_copy_dirty_bitmap(s->bcs);
++    bdrv_set_dirty_bitmap(copy_bitmap, 0, bdrv_dirty_bitmap_size(copy_bitmap));
++
+     return 0;
+ }
+ 
+-- 
+2.29.2
 
 
