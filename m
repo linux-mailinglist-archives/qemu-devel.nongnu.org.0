@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C9A39965B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 01:27:58 +0200 (CEST)
-Received: from localhost ([::1]:51762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5F2399664
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 01:33:00 +0200 (CEST)
+Received: from localhost ([::1]:54546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loaHF-0000O4-IR
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 19:27:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45968)
+	id 1loaM7-0002WG-HR
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 19:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loaG0-0007y2-Bz
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:26:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46895)
+ (Exim 4.90_1) (envelope-from <nolan@sigbus.net>) id 1loaLM-0001ir-RL
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:32:12 -0400
+Received: from phong.sigbus.net ([71.19.155.206]:38346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loaFy-0007gb-VP
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:26:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622676398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6GRM2eF2sPqn1Q1exRPr933/xNxENCApp30O3GosJ/c=;
- b=VwR6bFNce8naa4YOOHdnT8jOvasKKItLWgPUey1ZaSSG7ro1VU03K6XImWwNRl86y7LYnF
- d1haLRbzG2mG5iAk6vs/EtzH8/usdUYyBslMGJOyIBnn+QoBlbnwXhPeDKyvwekklxzRUl
- vQkQWJ8svyRSAvC2b0vLqOfQd4+/byQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-E1W3DaZqMiWvTEtfb07D2w-1; Wed, 02 Jun 2021 19:26:35 -0400
-X-MC-Unique: E1W3DaZqMiWvTEtfb07D2w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A31C801B12;
- Wed,  2 Jun 2021 23:26:34 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A663614FD;
- Wed,  2 Jun 2021 23:26:32 +0000 (UTC)
-Subject: Re: [PATCH v8 02/12] accel: Introduce 'query-accels' QMP command
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ (Exim 4.90_1) (envelope-from <nolan@sigbus.net>) id 1loaLK-0002d3-Oo
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:32:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigbus.net; s=2020;
+ t=1622676728; bh=EUtIMZUj4vexH9WITndRzrOGcKbc9pZdOrpXaPQ0q4I=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Fb1TP5DJEuzTQSW13gy9R3sWVmnWGpgUjVIQ1YF/upKOK87OC31Q3sHxBotuZn3Wf
+ FvqpsHNHaXeu4H2lFoSUbCJYwcvFUQbEK5aOkaoX8fFIzp5Iu/DWgpNI+xxWW+Ho22
+ TPqOV6rjVfemIPta3Sqns7VHy2exkEr4EAQsdTe0VQhbyYm/58h+oMnaKVfZk08R8B
+ V0Qq3OiIQfraVI+fyVCdvnQLgrXT4bZ6TZbZoJtENxYwgrn299k2DDg0qE+SuypsHa
+ PSAy+voHGkud718vq4B3J0piV4uJHtRWLNKd9VVc9Aez0T8XwIvwgxglTX09Uaibnv
+ hlV9FGUM6TPvQ==
+Subject: Re: [PATCH qemu] Add basic power management to raspi.
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20210526170432.343588-1-philmd@redhat.com>
- <20210526170432.343588-3-philmd@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <e42a93e4-dfee-2446-f82c-8fec074d4c59@redhat.com>
-Date: Wed, 2 Jun 2021 19:26:31 -0400
+References: <162137039825.30884.2445825798240809194-0@git.sr.ht>
+ <65187b48-2449-e2b4-2d13-ed9ffb6fe2a8@amsat.org>
+ <7669dd87-e040-a049-e953-9f31a4557ee5@sigbus.net>
+ <596d4b19-a1b8-4ae3-d449-376bcd88cbe5@amsat.org>
+From: Nolan <nolan@sigbus.net>
+Message-ID: <9f24edda-8c09-052e-cd3d-fb84946511fa@sigbus.net>
+Date: Wed, 2 Jun 2021 16:32:06 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210526170432.343588-3-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <596d4b19-a1b8-4ae3-d449-376bcd88cbe5@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=71.19.155.206; envelope-from=nolan@sigbus.net;
+ helo=phong.sigbus.net
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,61 +64,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/26/21 1:04 PM, Philippe Mathieu-Daudé wrote:
-> Introduce the 'query-accels' QMP command which returns a list
-> of built-in accelerator names.
->  > - Accelerator is a QAPI enum of all existing accelerators,
+On 6/2/21 4:22 PM, Philippe Mathieu-Daudé wrote:
+> On 6/2/21 11:33 PM, Nolan wrote:
+>> On 5/31/21 4:23 AM, Philippe Mathieu-Daudé wrote:
+>>> Hi Nolan,
+>>>
+>>> Thanks for your patch!
+>>>
+>>> There is something odd with your email address, which apparently
+>>> became sourcehut@sigbus.net instead of nolan@sigbus.net.
+>>
+>> Ugh, oops. I was trying out sourcehut for this, and reflexively gave
+>> them a marker email. I'm pretty sure sourcehut won't sell my email
+>> address, so I'll just change it.
+>>
+>>> On 5/18/21 10:24 PM, ~nolanl wrote:
+>>>> From: Nolan Leake <nolan@sigbus.net>
+>>>>
+>>>> This is just enough to make reboot and poweroff work.
+>>>
+>>> Please precise "for Linux kernels", since this doesn't work
+>>> with firmwares (ideally we should implement the FIRMWARE_NOTIFY_REBOOT
+>>> property - which Linux sends - to handle the machine reboot/halt
+>>> via the videocore firmware model).
+>>
+>> Thanks, good point re: this being tuned to what Linux (and u-boot) do.
+>> Poking around a bit, it looks like
+>> "trusted-firmware-a"/"arm-trusted-firmware" uses the same method, as do
+>> a couple of bare-metal/hobby OSes. Couldn't immediately figure out what
+>> FreeBSD does.
+>>
+>> I'm not sure I understand your point about FIRMWARE_NOTIFY_REBOOT, my
+>> understanding is that message is there to tell the GPU firmware that
+>> we're about to reboot, so it can do things like reload the PCIe USB
+>> chip's firmware. In my testing without the watchdog module loaded, my
+>> physical pi4 does not reboot, so it appears that sending
+>> FIRMWARE_NOTIFY_REBOOT is not enough on its own.
 > 
-> - AcceleratorInfo is a QAPI structure providing accelerator
->    specific information. Currently the common structure base
->    provides the name of the accelerator, while the specific
->    part is empty, but each accelerator can expand it.
+>  From the ARM core point of view, once it sent the FIRMWARE_NOTIFY_REBOOT
+> message, it can't really power-off itself, it waits in a busy loop for
+> the VC to disable its power domain.
 > 
-> - 'query-accels' QMP command returns a list of @AcceleratorInfo
+> hw/misc/bcm2835_property.c is our model of the VC behavior. IMO this
+> should be where QEMU shuts down. How I'd model it is:
 > 
-> For example on a KVM-only build we get:
+> - ARM: sends FIRMWARE_NOTIFY_REBOOT and loops
 > 
->      { "execute": "query-accels" }
->      {
->          "return": [
->              {
->                  "name": "qtest"
->              },
->              {
->                  "name": "kvm"
->              }
->          ]
->      }
+> - VC emulated via property: delays (200ms?) then calls
+>    SHUTDOWN_CAUSE_GUEST_RESET.
 > 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Tested-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v8:
-> - Include code snippet from Markus adding to machine-target.json
->    to be able to use enum values or union branches conditional.
-> - Use accel_find() on enum to be sure the accelerator is enabled
->    at runtime (chat with jsnow / eblake).
-> 
+> (it helps to see hw/misc/bcm2835_property.c as an external component).
 
-Hi Phil -- Unfortunately I think I am going to defer on this one until 
-Markus is back. I need to chat with him about the right way to design 
-this, since I'm also not entirely clear on it myself.
+This is not what I see on my hardware pi4. With the following kernel config:
+...
+CONFIG_RASPBERRYPI_FIRMWARE=y
+...
+CONFIG_BCM2835_WDT=m
+...
 
---js
+if I reboot the machine without the WDT module (but with the firmware 
+module), I get this:
+#  echo b > /proc/sysrq-trigger
+[   54.498768] sysrq: Resetting
+[   54.501713] SMP: stopping secondary CPUs
+[   54.505701] Reboot failed -- System halted
 
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
+and it hangs forever there.
+
+If I load the WDT module, it reboots successfully.
+
+>>>> qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>>>> +            } else {
+>>>> +                qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+>>>> +            }
+>>>> +        }
+>>>
+>>> Shouldn't we log the unsupported bits?
+>>
+>> I can add that, I didn't originally because the unsupported writes are
+>> expected.
+> 
+> I'd prefer we log them, even if unsupported, so in case something
+> behaves oddly we could look at those bits.
+
+In v2, I log the writes, since any side effects they have (notably the 
+watchdog register) are unimplemented. I didn't log the reads, since they 
+actually behave exactly as the real hardware does...
+
+>>>> +static void bcm2835_powermgt_reset(DeviceState *dev)
+>>>> +{
+>>>> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(dev);
+>>>> +
+>>>> +    s->rstc = 0x00000102;
+>>>> +    s->rsts = 0x00001000;
+>>>> +    s->wdog = 0x00000000;
+>>>
+>>> Where these bits come from?
+>>
+>>  From my pi4. https://elinux.org/BCM2835_registers agrees (processed from
+>> Broadcom source code).
+> 
+> OK, so please add a comment referring to
+> https://elinux.org/BCM2835_registers#PM.
+> 
+> Looking forward for v2 :)
+
+Already sent. Is the link comment here worth a v3?
 
 
