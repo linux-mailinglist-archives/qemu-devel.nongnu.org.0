@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B4FE399554
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 23:19:39 +0200 (CEST)
-Received: from localhost ([::1]:36570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B096F399559
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 23:22:46 +0200 (CEST)
+Received: from localhost ([::1]:40796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loYH3-00042p-Ml
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 17:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56242)
+	id 1loYK5-00074z-Qi
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 17:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loYFz-0002vd-Ia
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 17:18:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29505)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loYJG-0006Gy-51
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 17:21:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loYFw-00079i-UE
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 17:18:30 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loYJC-0001Fb-Uv
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 17:21:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622668707;
+ s=mimecast20190719; t=1622668910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=khMubuO+XDDetnqL0qgnH0KOTYy4v72ogaY3YSM5E9c=;
- b=feDPILhiFXuUGDVo1vONBhtji9jk0uY9ObdFCFomEYpy5MRU4VkVCDSE+/Rbc0vr2XhFnu
- A16+xQf8Zu1wtpP2fPxW9EKfrEbfL1oUxWvyfN1UwVS8f3n60I9RzzlK3WNr4MWeyumkZm
- MwG3CZhkTcr0AEastcR7igYKcW0eOA0=
+ bh=d/LDMpZ2c/AjNjQ/JRd7zO8Ppj4147Dy8xmtYvbFEXc=;
+ b=T2nopiePXphrFD893/GDrV4U22szr8GnRaahL6QfeRRjEXqh0qi6xakqsCPM3wllVaI14U
+ XfaXm8l55c/7OSHp4GAubDbn7XNIPtdwqCGgEy6DVCQPWrwrOk5bZVl4qWABE469iAV/9c
+ HkVG7ezAQhCEdBR6N7L81XLVMfkS66k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-jtaSUdphPDehqJgIt0RrNg-1; Wed, 02 Jun 2021 17:18:21 -0400
-X-MC-Unique: jtaSUdphPDehqJgIt0RrNg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-600-KBxKdAJwOqeFSXjNA8nciw-1; Wed, 02 Jun 2021 17:21:47 -0400
+X-MC-Unique: KBxKdAJwOqeFSXjNA8nciw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BFFC10082E2;
- Wed,  2 Jun 2021 21:18:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD33A8015C6;
+ Wed,  2 Jun 2021 21:21:46 +0000 (UTC)
 Received: from redhat.com (ovpn-113-154.phx2.redhat.com [10.3.113.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 743B619D9B;
- Wed,  2 Jun 2021 21:18:19 +0000 (UTC)
-Date: Wed, 2 Jun 2021 16:18:17 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 340E15C1A3;
+ Wed,  2 Jun 2021 21:21:46 +0000 (UTC)
+Date: Wed, 2 Jun 2021 16:21:44 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 10/33] block/nbd: make
- nbd_co_establish_connection_cancel() bs-independent
-Message-ID: <20210602211817.57mtov4ymonmuqz2@redhat.com>
+Subject: Re: [PATCH v3 11/33] block/nbd: rename NBDConnectThread to
+ NBDClientConnection
+Message-ID: <20210602212144.7bsx7csaui6nbnzu@redhat.com>
 References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-11-vsementsov@virtuozzo.com>
+ <20210416080911.83197-12-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210416080911.83197-11-vsementsov@virtuozzo.com>
+In-Reply-To: <20210416080911.83197-12-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,34 +83,25 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 11:08:48AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> nbd_co_establish_connection_cancel() actually needs only pointer to
-> NBDConnectThread. So, make it clean.
+On Fri, Apr 16, 2021 at 11:08:49AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to move connection code to own file and want clear names
+> and APIs.
+
+We are going to move the connection code to its own file, and want
+clear names and APIs first.
+
+> 
+> The structure is shared between user and (possibly) several runs of
+> connect-thread. So it's wrong to call it "thread". Let's rename to
+> something more generic.
+> 
+> Appropriately rename connect_thread and thr variables to conn.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
 > ---
->  block/nbd.c | 16 +++++++---------
->  1 file changed, 7 insertions(+), 9 deletions(-)
+>  block/nbd.c | 137 ++++++++++++++++++++++++++--------------------------
+>  1 file changed, 68 insertions(+), 69 deletions(-)
 > 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index dd97ea0916..dab73bdf3b 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-
->  /*
->   * nbd_co_establish_connection_cancel
-> - * Cancel nbd_co_establish_connection asynchronously: it will finish soon, to
-> - * allow drained section to begin.
-> + * Cancel nbd_co_establish_connection() asynchronously. Note, that it doesn't
-> + * stop the thread itself neither close the socket. It just safely wakes
-> + * nbd_co_establish_connection() sleeping in the yield().
-
-Grammar suggestion:
-
-Note that this function neither directly stops the thread nor closes
-the socket, but rather safely wakes nbd_co_establish_connection()
-which is sleeping in yield(), triggering subsequent cleanup there.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
