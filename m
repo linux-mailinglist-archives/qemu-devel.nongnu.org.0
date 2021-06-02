@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D791D39886A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 13:31:43 +0200 (CEST)
-Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBA6398873
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 13:37:13 +0200 (CEST)
+Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loP66-0002oY-2Q
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 07:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
+	id 1loPBP-0008Fu-Kl
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 07:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1loP4l-0001j0-19
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:30:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1loP4h-0007Bx-Ln
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:30:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622633414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3lrVU0gP3N3BJXaj0dRUAGd6KE633AQCeohxbuKxFws=;
- b=c69+eUsgGQEmw959GSC4CDwXSXh0C0T0U5sZLZ+I/FwxfKK+HzyTZ2EXvvBwZDs0zdmerk
- OsEFqGkFLwHyMSKXfMnihvnYnLwJEQOGU8jk1ni/ZhjmbKqKkk2pz/7eMUeKLbrMpJZV3z
- kEsTcidQsBoTOHTDwwzGEFBPe6qCKKg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-51-oxc2dAd9P4mwasZ86PmFSg-1; Wed, 02 Jun 2021 07:30:12 -0400
-X-MC-Unique: oxc2dAd9P4mwasZ86PmFSg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB72380ED9B;
- Wed,  2 Jun 2021 11:29:54 +0000 (UTC)
-Received: from work-vm (ovpn-113-195.ams2.redhat.com [10.36.113.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F09E469108;
- Wed,  2 Jun 2021 11:29:00 +0000 (UTC)
-Date: Wed, 2 Jun 2021 12:28:58 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [RFC v5 1/6] qmp: add QMP command x-debug-query-virtio
-Message-ID: <YLdreonU8qzB216I@work-vm>
-References: <1616084984-11263-1-git-send-email-jonah.palmer@oracle.com>
- <1616084984-11263-2-git-send-email-jonah.palmer@oracle.com>
- <YFuFl933UxoBKQ1C@work-vm>
- <93c20860-a9bb-0565-a5cc-88525c6ee71e@oracle.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1loPAN-00075l-RV
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:07 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1loPAI-0002bC-5z
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:07 -0400
+Received: by mail-wr1-x431.google.com with SMTP id h8so1933714wrz.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 04:36:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CBKjB2xcpedHpGaJqlGe2j/jW6xHHiFdiu7QRPw+uvY=;
+ b=Ad+SHNX1kKT4ukCzXUsxzDypDfz6xnhIYsGPEqMTUBzfu5SXpktxr25jNHOcCYe0wN
+ sVInWYyVCuJzjCeqWDiY9zMw2AOIp8FuRB/s0uSOx6mymops4vFTRPuUvON/JruRnDwN
+ IW6DgaxzIPENBu8MyM5dFlzU0WN22gPUaknDHuEHdAOUaW5yU559doEvwwVx3gb4IX/b
+ sovJCkghugMIwk0gwcwY00q7Gt0Mm4JHMPfoYA6oidlW9bseK58qeAVry1kEACPXddEp
+ mKlwRnFY66x/TAfzG7NMLdusjnxthMD89bIAUk8CkW04YN71j3NWoHxOd0edVZAUEE1m
+ bq3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=CBKjB2xcpedHpGaJqlGe2j/jW6xHHiFdiu7QRPw+uvY=;
+ b=W/YQCJN94/V2REkGCfy1g/WD67re7su+BoQAFZrDWAZiME0k1e5iH/N4azBJmkd6Tr
+ biBAvRUbbjUHMPUTgTVrQBKRioagbiK5pyBJYIE9b7WMZ+L+IONflC7orEmzpRVEqAvD
+ M/8U7pjcwy5/nXJ92Vu3asvwi312FMnMZkAst6mp3kgqVGOTEEBpI7QE+S7HkkPe7u5v
+ JvGpfM4jS9xtSS/5QavZu60GQf6Wpn1x+ArkA7agU4HZ07Od76F06hL4eHIHOadhsKga
+ NGOJeba8WSxjYiamFy+b6soK2A2IFD22y02yMenVy5cG8BRJCQaiWhgvgfhCaUELnQls
+ qroQ==
+X-Gm-Message-State: AOAM533ORRn4A5IdUSNXdGa7pvyLu6MHJTzZ+59kQUL/vX5Uarw6DyjX
+ O1wNjHodoEZQDyCiu0kGlAbxdg==
+X-Google-Smtp-Source: ABdhPJwHA+TJvRMLGfTad9wP0kXp4q0wbK7ip35RK3Ns3qgy9JgVz467yBA8nxNILlsAVlcVKLfWHg==
+X-Received: by 2002:a5d:6b81:: with SMTP id n1mr21994070wrx.144.1622633760043; 
+ Wed, 02 Jun 2021 04:36:00 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u16sm7066055wru.56.2021.06.02.04.35.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 04:35:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 27C7B1FF7E;
+ Wed,  2 Jun 2021 12:35:58 +0100 (BST)
+References: <20210525150706.294968-1-richard.henderson@linaro.org>
+ <20210525150706.294968-4-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 03/28] softfloat: Move uint_to_float to
+ softfloat-parts.c.inc
+Date: Wed, 02 Jun 2021 12:31:51 +0100
+In-reply-to: <20210525150706.294968-4-richard.henderson@linaro.org>
+Message-ID: <8735u0bish.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <93c20860-a9bb-0565-a5cc-88525c6ee71e@oracle.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,138 +88,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
- amit@kernel.org, michael.roth@amd.com, jasowang@redhat.com, mst@redhat.com,
- david@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu,
- eric.auger@redhat.com, dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, si-wei.liu@oracle.com,
- marcandre.lureau@redhat.com, joao.m.martins@oracle.com, mreitz@redhat.com,
- armbru@redhat.com
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jonah Palmer (jonah.palmer@oracle.com) wrote:
-> 
-> On 3/24/21 2:31 PM, Dr. David Alan Gilbert wrote:
-> > * Jonah Palmer (jonah.palmer@oracle.com) wrote:
-> > > From: Laurent Vivier <lvivier@redhat.com>
-> > > 
-> > <snip>
-> > 
-> > > --- /dev/null
-> > > +++ b/qapi/virtio.json
-> > > @@ -0,0 +1,68 @@
-> > > +##
-> > > +# = Virtio devices
-> > > +##
-> > > +
-> > > +##
-> > > +# @VirtioType:
-> > > +#
-> > > +# An enumeration of Virtio device types.
-> > > +#
-> > > +# Since: 6.0
-> > > +##
-> > > +{ 'enum': 'VirtioType',
-> > > +  'data': [ 'unknown', 'virtio-9p', 'virtio-blk', 'virtio-serial',
-> > > +            'virtio-gpu', 'virtio-input', 'virtio-net', 'virtio-scsi',
-> > > +            'vhost-user-fs', 'vhost-vsock', 'virtio-balloon', 'virtio-crypto',
-> > > +            'virtio-iommu', 'virtio-pmem', 'virtio-rng' ]
-> > Can we make this be a complete list that's in the same order as include/standard-headers/linux/virtio_ids.h
-> > then if we add a few asserts somewhere to make sure we don't screwup, we
-> > don't need to do any translation.
-> > 
-> > Dave
-> 
-> Hi Dave. Just so I understand correctly, you would like me to add all of the entries in the given order?
-> E.g. including 'virtio-rpmsg', ..., 'virtio-mac80211-wlan', etc.? Or just the supported virtio types in
-> the order as it's shown in virtio_ids.h?
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Rename to parts$N_uint_to_float.
+> Reimplement uint64_to_float128 with FloatParts128.
 >
-> Many of these devices may not be supported for introspection.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  fpu/softfloat.c           | 83 ++++++++++++++++-----------------------
+>  fpu/softfloat-parts.c.inc | 23 +++++++++++
+>  2 files changed, 56 insertions(+), 50 deletions(-)
+>
+> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+> index 6404a2997f..db14bd09aa 100644
+> --- a/fpu/softfloat.c
+> +++ b/fpu/softfloat.c
+> @@ -857,6 +857,14 @@ static void parts128_sint_to_float(FloatParts128 *p,=
+ int64_t a,
+>  #define parts_sint_to_float(P, I, Z, S) \
+>      PARTS_GENERIC_64_128(sint_to_float, P)(P, I, Z, S)
+>=20=20
+> +static void parts64_uint_to_float(FloatParts64 *p, uint64_t a,
+> +                                  int scale, float_status *s);
+> +static void parts128_uint_to_float(FloatParts128 *p, uint64_t a,
+> +                                   int scale, float_status *s);
+> +
+> +#define parts_uint_to_float(P, I, Z, S) \
+> +    PARTS_GENERIC_64_128(uint_to_float, P)(P, I, Z, S)
+> +
+>  /*
+>   * Helper functions for softfloat-parts.c.inc, per-size operations.
+>   */
+> @@ -3102,35 +3110,15 @@ float128 int32_to_float128(int32_t a, float_statu=
+s *status)
+>  }
+>=20=20
+>  /*
+> - * Unsigned Integer to float conversions
+> - *
+> - * Returns the result of converting the unsigned integer `a' to the
+> - * floating-point format. The conversion is performed according to the
+> - * IEC/IEEE Standard for Binary Floating-Point Arithmetic.
+> + * Unsigned Integer to floating-point conversions
+>   */
+>=20=20
+> -static FloatParts64 uint_to_float(uint64_t a, int scale, float_status *s=
+tatus)
+> -{
+> -    FloatParts64 r =3D { .sign =3D false };
+> -    int shift;
+> -
+> -    if (a =3D=3D 0) {
+> -        r.cls =3D float_class_zero;
+> -    } else {
+> -        scale =3D MIN(MAX(scale, -0x10000), 0x10000);
 
-Make that list all of the types, and keep it in the same order as the
-header with the same gaps (including one at the start); so that that the QAPI generated enum values
-for 'VirtioType' match the virtio_ids constants; that way you never have
-to convert between the qapi number and the header number.
-(Whenever we do a convert, sooner or later we screwup the convert and
-end up with numbers that don't match!)
+I realise this is translated to:
 
-As you say, only some have support for introspection; so you just need
-to check for support rather than doing a mapping.
+> +
+> +/*
+> + * Unsigned Integer to float conversions
+> + *
+> + * Returns the result of converting the unsigned integer `a' to the
+> + * floating-point format. The conversion is performed according to the
+> + * IEC/IEEE Standard for Binary Floating-Point Arithmetic.
+> + */
+> +static void partsN(uint_to_float)(FloatPartsN *p, uint64_t a,
+> +                                  int scale, float_status *status)
+> +{
+> +    memset(p, 0, sizeof(*p));
+> +
+> +    if (a =3D=3D 0) {
+> +        p->cls =3D float_class_zero;
+> +    } else {
+> +        int shift =3D clz64(a);
+> +        scale =3D MIN(MAX(scale, -0x10000), 0x10000);
 
-Dave
+here but it does seem weird to have an arbitrary limit here=20
 
-> Jonah
-> 
-> > 
-> > > +}
-> > > +
-> > > +##
-> > > +# @VirtioInfo:
-> > > +#
-> > > +# Information about a given VirtIODevice
-> > > +#
-> > > +# @path: VirtIO device canonical path.
-> > > +#
-> > > +# @type: VirtIO device type.
-> > > +#
-> > > +# Since: 6.0
-> > > +#
-> > > +##
-> > > +{ 'struct': 'VirtioInfo',
-> > > +  'data': {
-> > > +    'path': 'str',
-> > > +    'type': 'VirtioType'
-> > > +  }
-> > > +}
-> > > +
-> > > +##
-> > > +# @x-debug-query-virtio:
-> > > +#
-> > > +# Return the list of all VirtIO devices
-> > > +#
-> > > +# Returns: list of @VirtioInfo
-> > > +#
-> > > +# Since: 6.0
-> > > +#
-> > > +# Example:
-> > > +#
-> > > +# -> { "execute": "x-debug-query-virtio" }
-> > > +# <- { "return": [
-> > > +#        {
-> > > +#            "path": "/machine/peripheral-anon/device[3]/virtio-backend",
-> > > +#            "type": "virtio-net"
-> > > +#        },
-> > > +#        {
-> > > +#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
-> > > +#            "type": "virtio-serial"
-> > > +#        },
-> > > +#        {
-> > > +#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
-> > > +#            "type": "virtio-blk"
-> > > +#        }
-> > > +#      ]
-> > > +#    }
-> > > +#
-> > > +##
-> > > +
-> > > +{ 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
-> > > diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> > > index 1c7186e..8f0ae20 100644
-> > > --- a/tests/qtest/qmp-cmd-test.c
-> > > +++ b/tests/qtest/qmp-cmd-test.c
-> > > @@ -95,6 +95,7 @@ static bool query_is_ignored(const char *cmd)
-> > >           "query-gic-capabilities", /* arm */
-> > >           /* Success depends on target-specific build configuration: */
-> > >           "query-pci",              /* CONFIG_PCI */
-> > > +        "x-debug-query-virtio",   /* CONFIG_VIRTIO */
-> > >           /* Success depends on launching SEV guest */
-> > >           "query-sev-launch-measure",
-> > >           /* Success depends on Host or Hypervisor SEV support */
-> > > -- 
-> > > 1.8.3.1
-> > > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +        p->cls =3D float_class_normal;
+> +        p->exp =3D DECOMPOSED_BINARY_POINT - shift + scale;
 
+where it's really a limit on fmt->exp_max. Are we just limiting it to
+something sane and relying on the eventual repack to detect and overflow
+condition?
+
+> +        p->frac_hi =3D a << shift;
+> +    }
+> +}
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
