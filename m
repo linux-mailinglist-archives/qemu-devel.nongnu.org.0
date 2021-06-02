@@ -2,92 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE0B398ECD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 17:37:43 +0200 (CEST)
-Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539D9398F46
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 17:51:50 +0200 (CEST)
+Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loSwA-0003vi-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 11:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
+	id 1loT9o-0005zm-RW
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 11:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loSul-00039M-Pm
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 11:36:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46965)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loSuh-0001FT-Sg
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 11:36:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622648169;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LvgVBQ/AlE9Q3rCM/ofCGi+Bxxj3iA69qcyvLym7BG0=;
- b=RzgTj7/n0CR81jXG6YoNfK+BJw/CfbmUtaPO8i8PAzDaijZ+oZi/wjhhzOK6Ko7c/QSEZR
- 39SK/hfDEyfe74Kf+5hR1o8igGrtVgAD6aMrLH/m2z/18Pr3bUqJl+DakSP+9HyGVv8wuf
- Jze2nr3WUSJ0cR8GFNTUZhdxHKihHTI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-0gB51gW_P0isTCKVqUfLZQ-1; Wed, 02 Jun 2021 11:36:08 -0400
-X-MC-Unique: 0gB51gW_P0isTCKVqUfLZQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- c21-20020a0564021015b029038c3f08ce5aso1638072edu.18
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 08:36:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loT8c-00054r-Jt
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 11:50:34 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44605)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loT8Z-0000v8-Uy
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 11:50:34 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id u18so2493165pfk.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 08:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Gw+wFUZUTey9qK260UYq6cEZEmQaRV36lrtgIe5s720=;
+ b=k8wEXVqur3tHcLmc8fMZJIK1KC+PIj0xqpyqrA2DK2KMouVJLcCzi25UABr9qlfpHj
+ +1auQgJbRPzjx4pIQ9XrKPoRkwDfedsrUxxIu28IT4xeM2rHVPMj3rDK/z8y6Q5ThZ+I
+ MJMkPicn3a7oE0b9acEGXGjhwLiJ42Obd2Z2kL1fbGDnONYqAnv8ZosWm/p01sJxlxsb
+ WaB/Txw2Tlbi8N3eGfuG0E1NxYNfsJkMU3AM1UXqEZ5cjuoxikNxIk7Recf/cxgZbR70
+ GQoq1HoCnDBj7zlvtKf9weYlXpaB60uXE0VBE2+c32kP6lejTbP2uT/ceWR8pEt//hCy
+ 2Liw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LvgVBQ/AlE9Q3rCM/ofCGi+Bxxj3iA69qcyvLym7BG0=;
- b=O63CvnSkEAubMkaWDzwoISEUwT57wSaWCT0EdUImIY9l7ihfjacsE5OonWICIPDdH4
- M3m0wZaqz0LysCRXN2fuHytlM9YW5sWMqb54/MuG1TrwdhgMPV5bnMfhFk10cxgA1KE5
- O7Hgoaht9+rmqzCYhSY4fJ6lJqAu7Ipo2o6zcyWgpsaOGPeoj0FhV+Xhhpz4TVy8yjiS
- UyN7LTfEot9GCAXFT9FfBGS9RyM7bfUYiyl55vdnh3txauyZaUX1Nki8FHS6o/4xDef0
- dW7OqbOKLoLXoCmMCk10bfYuIfjBijqPefF8HPZskFEBsrrCEGG7SOFfvil5S+MnjHwl
- db0g==
-X-Gm-Message-State: AOAM532RWExRlqDQAMhfcimYeFNGUA9UCN32ncgUvIvMik6+W9T+7jnq
- 6OYXpSa3xBTrB1WOAvXrBTIfUCiFtLshvfOgGOvV2BiDGMtVrMdEeDHaNoAIaB+Ag53RUOgP31L
- N6elPxegSLIKRDEQ=
-X-Received: by 2002:aa7:d2d4:: with SMTP id k20mr38410537edr.384.1622648167067; 
- Wed, 02 Jun 2021 08:36:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzttdsanoLbrMma25J176yLWrX7FknQH50/wGHoBrYjBr4rYNGnWAJ6rjb3OP6EL0wPq3eoBA==
-X-Received: by 2002:aa7:d2d4:: with SMTP id k20mr38410525edr.384.1622648166960; 
- Wed, 02 Jun 2021 08:36:06 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id e12sm177390ejk.99.2021.06.02.08.36.06
+ bh=Gw+wFUZUTey9qK260UYq6cEZEmQaRV36lrtgIe5s720=;
+ b=Jx/wL8pVH//C+sxtKQZQY7SrSOmnFgTy/GrhEgqRpAQlwgzskegkEgHqbkB2DpYB3N
+ JH+urciqX0GgLehwiVnx2nWJDkfS4l44X0VbK0dyj+/l1EMkduDKov9ksV/Gt5LiuCBq
+ Ye8YSj78EM71imPWi5V2ozsFr/uMOxya3yB1BoPCVhkpFmREM5bUDBNQnIzmib7QAUh5
+ mTxYrf9MUYx8vX7pz5JKlztPkcBoBBkGqr4Que7EtAyEdC8+bhojJgnCv84LP85qa1x9
+ UYU0oR/ADthJXUOrlEdJWXcF4+akBodMZh4qelQK6caLbIW2g00lrltlSLYYG2t1mn2F
+ e7Og==
+X-Gm-Message-State: AOAM533sgB+wWEx58xjniBopw9Fhh8H+TjFZFmMHxUzabmN4SEwCa+KC
+ 8sL7AFHZGyL3C+OxehDisOb/OA==
+X-Google-Smtp-Source: ABdhPJwHwjNYukZvlVScq6sMXKCZvg4ZE2H3Jla6hlytirXOdn9LYsJdFRgY0s/Yb5ACX9ya823mGQ==
+X-Received: by 2002:a63:1b04:: with SMTP id b4mr15374613pgb.224.1622649029775; 
+ Wed, 02 Jun 2021 08:50:29 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ m18sm86449pff.88.2021.06.02.08.50.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 08:36:06 -0700 (PDT)
-Subject: Re: [RFC PATCH] gitlab: work harder to avoid false positives in
- checkpatch
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210602153247.27651-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6c6136a0-8ecc-06c0-fc89-d98b8645a072@redhat.com>
-Date: Wed, 2 Jun 2021 17:36:05 +0200
+ Wed, 02 Jun 2021 08:50:29 -0700 (PDT)
+Subject: Re: [PATCH] target/ppc: fix single-step exception regression
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210601180237.296402-1-luis.pires@eldorado.org.br>
+ <aa0c8f49-38d3-4ca0-89b8-0807cb57558f@linaro.org> <YLdHZuIlK4VEBlWf@yekko>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <05523c8f-e564-2f61-5a39-eccac11c4f53@linaro.org>
+Date: Wed, 2 Jun 2021 08:50:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210602153247.27651-1-alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YLdHZuIlK4VEBlWf@yekko>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,20 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- berrange@redhat.com, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: matheus.ferst@eldorado.org.br, Luis Pires <luis.pires@eldorado.org.br>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 5:32 PM, Alex Bennée wrote:
-> This copies the behaviour of patchew's configuration to make the diff
-> algorithm generate a minimal diff.
+On 6/2/21 1:55 AM, David Gibson wrote:
+> On Tue, Jun 01, 2021 at 01:27:20PM -0700, Richard Henderson wrote:
+>> On 6/1/21 11:02 AM, Luis Pires wrote:
+>>> +            if (is_jmp == DISAS_EXIT || is_jmp == DISAS_CHAIN) {
+>>> +                /* We have not updated nip yet, so do it now */
+>>> +                gen_update_nip(ctx, nip);
+>>> +            }
+>>
+>> This is incorrect.  Both EXIT and CHAIN *have* updated nip, but to something
+>> that isn't the next instruction.  E.g. return from interrupt.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  .gitlab-ci.d/static_checks.yml | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> Any theories on what's actually causing the regression, then?
+> 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I would have thought the first hunk would have some effect.  But otherwise this 
+is the first I've heard of the problem.  Description?  Reproduction instruction?
 
+
+r~
 
