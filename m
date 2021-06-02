@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECAD3995F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 00:31:07 +0200 (CEST)
-Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E3539964C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 01:23:33 +0200 (CEST)
+Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loZOF-00082G-0n
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 18:31:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38888)
+	id 1loaCx-0003my-Ni
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 19:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loZMe-00073X-QL
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 18:29:28 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:36439)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1loaC6-0002wR-2J; Wed, 02 Jun 2021 19:22:38 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loZMc-0003zg-Gx
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 18:29:28 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 27so3515714pgy.3
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 15:29:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1loaC3-0004yg-TM; Wed, 02 Jun 2021 19:22:37 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id dj8so4913507edb.6;
+ Wed, 02 Jun 2021 16:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=m9Qk/w7QvXXu+r3NEX/SBHk2WUgXUqzciiy8CjIp6zk=;
- b=KH+O3c849kBCZuoTwNvXR1OfLSjunljJk4iIUgf2priNohRWCSPywVMChVJ+wrug/F
- 9FA6Gvh4Z6GNpVTaxrNTP6GI/FqQwj4HMuqUsrxPhaHhifhN83SMvDkLSijjKqFp8amG
- J87WGO7C5RPrFqHLFw3XmwubscjVgQv/Dbu61SOFjm3/7UvqrF28N/8KkPWU7P5xMGhp
- QQnIwG3PjbsxOL/4jfhO/9jp0AaaR9KVuY9wz/3MDBD0tK46JHx0IsipAQSYshJcNd1s
- MMDa+6oWYiNfhQQJ/IlrJDr4M29YoxUEeY5d+59E3A8z+ow5dFey/YdAh0uorTaVwhCk
- rgtQ==
+ bh=OeE4sSQIXdWBJX99O1b2Bq/BDbtf/5JhinWNSdaeAr0=;
+ b=ZvEa8QphO9rHwY6EXCS/PvmDP33RXkRKgVjsa+q4Uxubh9Zjf3m625HXe3/bnh0uva
+ 3yPTByWFmpGSdIM6OvlMA3iqxND3HosicZEanLpnSpcX2Oh8o3Fq1gObx03hr4vXC+eN
+ H6/a8IuqRaajP/mQFf+77DxWX+T+FkoNcThupcOydc1TZpgquvrQCv5sec7tMQOlRyJ+
+ VwZEU2nfhO2ISpoiBlA9x7V3r0O0ePn+VsS5WJFhlhM+xME+rBLjrn8K5I4gdPaEGRwv
+ Y0cZG0tWyb4Vt4Wj4rZj5t/SpW7mD1YPgjTWvklCe61+myh3PILpVR+TJX6ncI+xVuNW
+ Y/4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=m9Qk/w7QvXXu+r3NEX/SBHk2WUgXUqzciiy8CjIp6zk=;
- b=kMavJYL6+6YqzBTtQ/QvFUgNuEXeID8/+57vS0oamA8FAee0OAZTPtHrCLGnOkKuQ2
- yTnqTEVxjN7OPkR3YQO1aygVTN8BKxI6+5OBPSbmhrP1QuIkdcGncxUY+T+VSSreLkAC
- icKhweND8XIeMtPnNygyCxRowlqhLc2ecSyzHWzrMap6PQWocPnORDx/K2mNgRsvBcr3
- im9/Wla8NFgem8g8soNwtGBweWY3Dr1XD7VlORqeakrFR29mF9/xXeDp0Kk/uFIuw1i/
- sGoTpdraBIkXn1CNhtfA+DbohrtLrtrkzjJB0ox1J1nDrKkYHWO5amvBjMwVWSidqeZf
- i+/w==
-X-Gm-Message-State: AOAM530o99QNyWNxhNujdthFhrFeT0rJl89DVBmRCVNRoMS0Zd7LHF4T
- Tw4bXDL6OaVqvhuSZvSRboP12g==
-X-Google-Smtp-Source: ABdhPJyM9XCKop5ib+rcQ8UqGaLwW1FWP7lj/MYZWJ47yP5WVDqmB1t23T4vK3mOSnLH++BxInw3sA==
-X-Received: by 2002:a62:7acd:0:b029:2e9:debc:e813 with SMTP id
- v196-20020a627acd0000b02902e9debce813mr15515592pfc.35.1622672964953; 
- Wed, 02 Jun 2021 15:29:24 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- k7sm386442pjj.46.2021.06.02.15.29.24
+ bh=OeE4sSQIXdWBJX99O1b2Bq/BDbtf/5JhinWNSdaeAr0=;
+ b=fFauO/8EAM0xgajzOEXznprSUqq2Enj7EyKQVnAIoGtn5g5Im1coiTdpBM5dYifp6g
+ MMJn58icb9xpQoywA5Tb8XZPxMv9j9vaNdB37SlQz2lZabbBhaj9vUX+zm4a76l+uUUs
+ qcZf9mXfhYW34z3gs/OwGYT8KRPZ47ubCOphnHQm6AVXLDgskUnskHLgJS1cQtwBsZRw
+ UNPJRCZyOvxg5WSroak7Q+xUvGb7FCiUwK9TUredgqBd8arq8hMwPR1L54YXuIqfX3/K
+ ebE72Yi3Mb2Sv74J/xkEv7dxaadqnIOBaUf0FhOzBfFEU2uxjP5Di97Zp3411K05gTf7
+ Zaiw==
+X-Gm-Message-State: AOAM531F+qm0ToGVkTn/p08lavoOY1VLmfxMzHp/gOejNaKTQP0+dB/W
+ 1Fo14jK+hhzicoTS+dQRfnw=
+X-Google-Smtp-Source: ABdhPJwW68Loz4yoMN6wyBPxurpISzb/Je+7W+QthCAc5D6L/KQqjM4SMOLlZ2HGOWnSwiRI8A0q8w==
+X-Received: by 2002:a05:6402:4252:: with SMTP id
+ g18mr40398333edb.195.1622676154246; 
+ Wed, 02 Jun 2021 16:22:34 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id z22sm225468ejm.71.2021.06.02.16.22.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 15:29:24 -0700 (PDT)
-Subject: Re: [PATCH v2 04/28] softfloat: Move minmax_flags to
- softfloat-parts.c.inc
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
- <20210525150706.294968-5-richard.henderson@linaro.org>
-Message-ID: <272ddf56-38fd-c5c0-c5fa-eec31dc7cd86@linaro.org>
-Date: Wed, 2 Jun 2021 15:29:23 -0700
+ Wed, 02 Jun 2021 16:22:33 -0700 (PDT)
+Subject: Re: [PATCH qemu] Add basic power management to raspi.
+To: Nolan <nolan@sigbus.net>, qemu-devel@nongnu.org
+References: <162137039825.30884.2445825798240809194-0@git.sr.ht>
+ <65187b48-2449-e2b4-2d13-ed9ffb6fe2a8@amsat.org>
+ <7669dd87-e040-a049-e953-9f31a4557ee5@sigbus.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <596d4b19-a1b8-4ae3-d449-376bcd88cbe5@amsat.org>
+Date: Thu, 3 Jun 2021 01:22:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210525150706.294968-5-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <7669dd87-e040-a049-e953-9f31a4557ee5@sigbus.net>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.613,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,23 +89,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/25/21 8:06 AM, Richard Henderson wrote:
-> +    which = parts_minmax(&pa, &pb, s, flags, &float32_params);
-> +    if (unlikely(which < 0)) {
-> +        /* Some sort of nan, need to repack default and silenced nans. */
-> +        return float32_round_pack_canonical(&pa, s);
-> +    }
-> +    return which ? b : a;
+On 6/2/21 11:33 PM, Nolan wrote:
+> On 5/31/21 4:23 AM, Philippe Mathieu-Daudé wrote:
+>> Hi Nolan,
+>>
+>> Thanks for your patch!
+>>
+>> There is something odd with your email address, which apparently
+>> became sourcehut@sigbus.net instead of nolan@sigbus.net.
+> 
+> Ugh, oops. I was trying out sourcehut for this, and reflexively gave
+> them a marker email. I'm pretty sure sourcehut won't sell my email
+> address, so I'll just change it.
+> 
+>> On 5/18/21 10:24 PM, ~nolanl wrote:
+>>> From: Nolan Leake <nolan@sigbus.net>
+>>>
+>>> This is just enough to make reboot and poweroff work.
+>>
+>> Please precise "for Linux kernels", since this doesn't work
+>> with firmwares (ideally we should implement the FIRMWARE_NOTIFY_REBOOT
+>> property - which Linux sends - to handle the machine reboot/halt
+>> via the videocore firmware model).
+> 
+> Thanks, good point re: this being tuned to what Linux (and u-boot) do.
+> Poking around a bit, it looks like
+> "trusted-firmware-a"/"arm-trusted-firmware" uses the same method, as do
+> a couple of bare-metal/hobby OSes. Couldn't immediately figure out what
+> FreeBSD does.
+> 
+> I'm not sure I understand your point about FIRMWARE_NOTIFY_REBOOT, my
+> understanding is that message is there to tell the GPU firmware that
+> we're about to reboot, so it can do things like reload the PCIe USB
+> chip's firmware. In my testing without the watchdog module loaded, my
+> physical pi4 does not reboot, so it appears that sending
+> FIRMWARE_NOTIFY_REBOOT is not enough on its own.
 
-I've just realized that if flush_inputs_to_zero is on, then the result should 
-reflect that rather than returning the denormal.
+From the ARM core point of view, once it sent the FIRMWARE_NOTIFY_REBOOT
+message, it can't really power-off itself, it waits in a busy loop for
+the VC to disable its power domain.
 
-Will fix.
+hw/misc/bcm2835_property.c is our model of the VC behavior. IMO this
+should be where QEMU shuts down. How I'd model it is:
 
+- ARM: sends FIRMWARE_NOTIFY_REBOOT and loops
 
-r~
+- VC emulated via property: delays (200ms?) then calls
+  SHUTDOWN_CAUSE_GUEST_RESET.
+
+(it helps to see hw/misc/bcm2835_property.c as an external component).
+
+>>> qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>>> +            } else {
+>>> +                qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+>>> +            }
+>>> +        }
+>>
+>> Shouldn't we log the unsupported bits?
+> 
+> I can add that, I didn't originally because the unsupported writes are
+> expected.
+
+I'd prefer we log them, even if unsupported, so in case something
+behaves oddly we could look at those bits.
+
+>>> +static void bcm2835_powermgt_reset(DeviceState *dev)
+>>> +{
+>>> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(dev);
+>>> +
+>>> +    s->rstc = 0x00000102;
+>>> +    s->rsts = 0x00001000;
+>>> +    s->wdog = 0x00000000;
+>>
+>> Where these bits come from?
+> 
+> From my pi4. https://elinux.org/BCM2835_registers agrees (processed from
+> Broadcom source code).
+
+OK, so please add a comment referring to
+https://elinux.org/BCM2835_registers#PM.
+
+Looking forward for v2 :)
+
+Phil.
 
