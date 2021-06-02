@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD2399363
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 21:16:24 +0200 (CEST)
-Received: from localhost ([::1]:48102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F67399365
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 21:17:11 +0200 (CEST)
+Received: from localhost ([::1]:50298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loWLn-0007QJ-HD
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 15:16:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36114)
+	id 1loWMY-0000a5-8X
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 15:17:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loWK2-0005yA-S0
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:14:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21379)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loWK0-0003Py-0p
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:14:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622661270;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PVSEGjmWDJ84RlybQS7MeiwLhntK7La+2Sfi2hkKLLw=;
- b=Iw1ArCWQfM6/q0zj8WXszYBNIybH2Gmka5OACXErWCliP2xJqM4zz0s3BKt3hX6pwyzKJx
- 4vT3b2B5smahKu/j/AI1OVMrZ786UXsko8CgxW6mP4hgJcY42yTayDLxZN0b64k2qnkjjP
- dNMJLRf86kaxcm/kQ78zs6kaVJm3wwM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-8G6-2ZuKOyWzF7Dns5cwAg-1; Wed, 02 Jun 2021 15:14:29 -0400
-X-MC-Unique: 8G6-2ZuKOyWzF7Dns5cwAg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82951801817;
- Wed,  2 Jun 2021 19:14:27 +0000 (UTC)
-Received: from redhat.com (ovpn-113-154.phx2.redhat.com [10.3.113.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4C3960BE5;
- Wed,  2 Jun 2021 19:14:26 +0000 (UTC)
-Date: Wed, 2 Jun 2021 14:14:25 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 09/33] block/nbd: bs-independent interface for
- nbd_co_establish_connection()
-Message-ID: <20210602191425.lljb7anvjjjakpzr@redhat.com>
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-10-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1loWKh-0007Q9-CA; Wed, 02 Jun 2021 15:15:15 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1loWKe-0003qV-Ek; Wed, 02 Jun 2021 15:15:15 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id h24so5498983ejy.2;
+ Wed, 02 Jun 2021 12:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WA6KYc5+P4R81g9uO7yz53xcRhgZ4TBfxEwjfMeCSYc=;
+ b=hG7TelvkFKN1V9mrKrYbyb1gPoLanGljb2muqqufKx9Xv9LgdCVzLRlNMAwj1PA6KY
+ 2kJxwZCvC2R7caQusrQHNatgKBSgj/9b6oVg825s7L4NB06lt+MD4Eaf4oYMq2pvCwp1
+ a0VozjPhqbY36ghgf3MQducSzjBUkOEfAas7osXBU9egzkR9q54IMeRXe6deb52jPN6h
+ 7tUNF03rTZambgfywTdEt1OUm0LGifU3WdU287AwXsyGL6ldVhKbMJuVc1NaxLQJBxQp
+ wCRCNhOgMBFDhKgGyi+j4zz/jNhVkTDo2jQVaptFstaqlAI0mTNbFKv3LvptJk96hRdQ
+ 6rQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WA6KYc5+P4R81g9uO7yz53xcRhgZ4TBfxEwjfMeCSYc=;
+ b=bph369DJoW0HiYRXby4xvymGrxYwy9YStNMpi8dMemdVkDNoWtjqPRlCVDsu5kYgQH
+ t+JvivTLOnuVHbz9HxmgF+0EoRMB+z9gGare5GW6sSGjHVk8XqtDVQnwX3dyYsD2Dfkh
+ hlWTTzKYslbURfgjOoITMBViQdCWhbi8xWkpciUVRPs95zt0cp2J9cI0FZaoe1fFYMpo
+ wEwecdr4/J1BQiaK0halImM1nVYYc3d6w56Xd+fEE2O64qNRcTilYrK4rd3kgJX5THWC
+ XbdBlwF/J2T63tOiSKolPPtjjGF0xFtXX0sIOA4z17G9C8XPF+3hdCuo7j3X4WhlYSYB
+ Pwxw==
+X-Gm-Message-State: AOAM5318TzmeKX5EVsv1Hf9IKzbpWvFYF4ZtnfhW/sUEwbEOug4r7Mr5
+ Qt7CG3m3JITXmR2rL4KzjqkmYpRkGse2yz6HbzM=
+X-Google-Smtp-Source: ABdhPJx4NGEElvpreS1SErMI+KM2RtPScKLyDrQGMBXOPDjfbsKyCzTpMR145ZoDigL8OU59z5UTqG8FyJ7HUdtnLnk=
+X-Received: by 2002:a17:906:b296:: with SMTP id
+ q22mr23187349ejz.9.1622661310314; 
+ Wed, 02 Jun 2021 12:15:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210416080911.83197-10-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210522154429.361235-1-josemartins90@gmail.com>
+ <CAKmqyKNSG4ACk-QQ9_0XzAXWr_NPE3sijxbs+6Kz3J=N_k+LMw@mail.gmail.com>
+ <2e3c4d2f-475f-4d02-6be5-a89628cd6815@c-sky.com>
+In-Reply-To: <2e3c4d2f-475f-4d02-6be5-a89628cd6815@c-sky.com>
+From: Jose Martins <josemartins90@gmail.com>
+Date: Wed, 2 Jun 2021 20:14:59 +0100
+Message-ID: <CAC41xo1ftM_WcjNOio2ii-BtqtDh6RTEvsmwO69GU6taOCzYRA@mail.gmail.com>
+Subject: Re: [PATCH v3] target/riscv: fix VS interrupts forwarding to HS
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=josemartins90@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,84 +80,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, rvkagan@yandex-team.ru, den@openvz.org
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 16, 2021 at 11:08:47AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to split connection code to separate file. Now we are
+Hello Zhiwei and Alistair,
 
-to a separate
+I went for a middle-ground solution. I divided the patch into two: one
+fixes the vs interrupt forwarding to the hypervisor, the other removes
+the unnecessary force exception stuff. I just submitted the patch
+series. I hope it's ok with you.
 
-> ready to give nbd_co_establish_connection() clean and bs-independent
-> interface.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
-> ---
->  block/nbd.c | 49 +++++++++++++++++++++++++++++++------------------
->  1 file changed, 31 insertions(+), 18 deletions(-)
-> 
+Jos=C3=A9
 
-> -static int coroutine_fn
-> -nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
-> +/*
-> + * Get a new connection in context of @thr:
-> + *   if thread is running, wait for completion
-
-if the thread is running,...
-
-> + *   if thread is already succeeded in background, and user didn't get the
-
-if the thread already succeeded in the background,...
-
-> + *     result, just return it now
-> + *   otherwise if thread is not running, start a thread and wait for completion
-
-otherwise, the thread is not running, so start...
-
-> + */
-> +static coroutine_fn QIOChannelSocket *
-> +nbd_co_establish_connection(NBDConnectThread *thr, Error **errp)
->  {
-> +    QIOChannelSocket *sioc = NULL;
->      QemuThread thread;
-> -    BDRVNBDState *s = bs->opaque;
-> -    NBDConnectThread *thr = s->connect_thread;
-> -
-> -    assert(!s->sioc);
->  
->      qemu_mutex_lock(&thr->mutex);
->  
-> +    /*
-> +     * Don't call nbd_co_establish_connection() in several coroutines in
-> +     * parallel. Only one call at once is supported.
-> +     */
-> +    assert(!thr->wait_co);
-> +
->      if (!thr->running) {
->          if (thr->sioc) {
->              /* Previous attempt finally succeeded in background */
-> -            goto out;
-> +            sioc = g_steal_pointer(&thr->sioc);
-> +            qemu_mutex_unlock(&thr->mutex);
-
-Worth using QEMU_LOCK_GUARD() here?
-
-> +
-> +            return sioc;
->          }
-> +
->          thr->running = true;
->          error_free(thr->err);
->          thr->err = NULL;
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+On Fri, 28 May 2021 at 01:36, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+>
+> On 5/28/21 6:34 AM, Alistair Francis wrote:
+> > On Sun, May 23, 2021 at 1:45 AM Jose Martins <josemartins90@gmail.com> =
+wrote:
+> >> VS interrupts (2, 6, 10) were not correctly forwarded to hs-mode when
+> >> not delegated in hideleg (which was not being taken into account). Thi=
+s
+> >> was mainly because hs level sie was not always considered enabled when
+> >> it should. The spec states that "Interrupts for higher-privilege modes=
+,
+> >> y>x, are always globally enabled regardless of the setting of the glob=
+al
+> >> yIE bit for the higher-privilege mode." and also "For purposes of
+> >> interrupt global enables, HS-mode is considered more privileged than
+> >> VS-mode, and VS-mode is considered more privileged than VU-mode".
+> >>
+> >> These interrupts should be treated the same as any other kind of
+> >> exception. Therefore, there is no need to "force an hs exception" as t=
+he
+> >> current privilege level, the state of the global ie and of the
+> >> delegation registers should be enough to route the interrupt to the
+> >> appropriate privilege level in riscv_cpu_do_interrupt. Also, these
+> >> interrupts never target m-mode, which is  guaranteed by the hardwiring
+> >> of the corresponding bits in mideleg. The same is true for synchronous
+> >> exceptions, specifically, guest page faults which must be hardwired in
+> >> to zero hedeleg. As such the hs_force_except mechanism can be removed.
+> >>
+> >> Signed-off-by: Jose Martins <josemartins90@gmail.com>
+> > This looks right to me, but this was one of the most confusing parts
+> > of the implementation. I also don't think the patch is too long as
+> > it's mostly just deleting stuff.
+> >
+> > I don't fully understand your concerns Zhiwei, do you mind stating them=
+ again?
+>
+> Hi Alistair,
+>
+> My main concern is the commit message is to complex.
+>
+> I also have a question why force hs exception in current code.
+> Then we can give a brief commit message.
+>
+> Best Regards,
+> Zhiwei
+>
+> >
+> > Alistair
+> >
+> >> ---
+> >> This version of the patch also removes the uneeded hs_force_except
+> >> functions, variables and macro.
+> >>
+> >>   target/riscv/cpu.h        |  2 --
+> >>   target/riscv/cpu_bits.h   |  6 -----
+> >>   target/riscv/cpu_helper.c | 54 +++++++------------------------------=
+--
+> >>   3 files changed, 9 insertions(+), 53 deletions(-)
+> >>
+> >> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> >> index 0a33d387ba..a30a64241a 100644
+> >> --- a/target/riscv/cpu.h
+> >> +++ b/target/riscv/cpu.h
+> >> @@ -337,8 +337,6 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int in=
+terrupt_request);
+> >>   bool riscv_cpu_fp_enabled(CPURISCVState *env);
+> >>   bool riscv_cpu_virt_enabled(CPURISCVState *env);
+> >>   void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+> >> -bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
+> >> -void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
+> >>   bool riscv_cpu_two_stage_lookup(int mmu_idx);
+> >>   int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
+> >>   hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+> >> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> >> index caf4599207..7322f54157 100644
+> >> --- a/target/riscv/cpu_bits.h
+> >> +++ b/target/riscv/cpu_bits.h
+> >> @@ -462,12 +462,6 @@
+> >>
+> >>   /* Virtulisation Register Fields */
+> >>   #define VIRT_ONOFF          1
+> >> -/* This is used to save state for when we take an exception. If this =
+is set
+> >> - * that means that we want to force a HS level exception (no matter w=
+hat the
+> >> - * delegation is set to). This will occur for things such as a second=
+ level
+> >> - * page table fault.
+> >> - */
+> >> -#define FORCE_HS_EXCEP      2
+> >>
+> >>   /* RV32 satp CSR field masks */
+> >>   #define SATP32_MODE         0x80000000
+> >> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> >> index 21c54ef561..babe3d844b 100644
+> >> --- a/target/riscv/cpu_helper.c
+> >> +++ b/target/riscv/cpu_helper.c
+> >> @@ -38,36 +38,24 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool i=
+fetch)
+> >>   #ifndef CONFIG_USER_ONLY
+> >>   static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+> >>   {
+> >> -    target_ulong irqs;
+> >> +    target_ulong virt_enabled =3D riscv_cpu_virt_enabled(env);
+> >>
+> >>       target_ulong mstatus_mie =3D get_field(env->mstatus, MSTATUS_MIE=
+);
+> >>       target_ulong mstatus_sie =3D get_field(env->mstatus, MSTATUS_SIE=
+);
+> >> -    target_ulong hs_mstatus_sie =3D get_field(env->mstatus_hs, MSTATU=
+S_SIE);
+> >>
+> >> -    target_ulong pending =3D env->mip & env->mie &
+> >> -                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+> >> -    target_ulong vspending =3D (env->mip & env->mie &
+> >> -                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
+> >> +    target_ulong pending =3D env->mip & env->mie;
+> >>
+> >>       target_ulong mie    =3D env->priv < PRV_M ||
+> >>                             (env->priv =3D=3D PRV_M && mstatus_mie);
+> >>       target_ulong sie    =3D env->priv < PRV_S ||
+> >>                             (env->priv =3D=3D PRV_S && mstatus_sie);
+> >> -    target_ulong hs_sie =3D env->priv < PRV_S ||
+> >> -                          (env->priv =3D=3D PRV_S && hs_mstatus_sie);
+> >> +    target_ulong hsie   =3D virt_enabled || sie;
+> >> +    target_ulong vsie   =3D virt_enabled && sie;
+> >>
+> >> -    if (riscv_cpu_virt_enabled(env)) {
+> >> -        target_ulong pending_hs_irq =3D pending & -hs_sie;
+> >> -
+> >> -        if (pending_hs_irq) {
+> >> -            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
+> >> -            return ctz64(pending_hs_irq);
+> >> -        }
+> >> -
+> >> -        pending =3D vspending;
+> >> -    }
+> >> -
+> >> -    irqs =3D (pending & ~env->mideleg & -mie) | (pending &  env->mide=
+leg & -sie);
+> >> +    target_ulong irqs =3D
+> >> +            (pending & ~env->mideleg & -mie) |
+> >> +            (pending &  env->mideleg & ~env->hideleg & -hsie) |
+> >> +            (pending &  env->mideleg &  env->hideleg & -vsie);
+> >>
+> >>       if (irqs) {
+> >>           return ctz64(irqs); /* since non-zero */
+> >> @@ -190,24 +178,6 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *en=
+v, bool enable)
+> >>       env->virt =3D set_field(env->virt, VIRT_ONOFF, enable);
+> >>   }
+> >>
+> >> -bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
+> >> -{
+> >> -    if (!riscv_has_ext(env, RVH)) {
+> >> -        return false;
+> >> -    }
+> >> -
+> >> -    return get_field(env->virt, FORCE_HS_EXCEP);
+> >> -}
+> >> -
+> >> -void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
+> >> -{
+> >> -    if (!riscv_has_ext(env, RVH)) {
+> >> -        return;
+> >> -    }
+> >> -
+> >> -    env->virt =3D set_field(env->virt, FORCE_HS_EXCEP, enable);
+> >> -}
+> >> -
+> >>   bool riscv_cpu_two_stage_lookup(int mmu_idx)
+> >>   {
+> >>       return mmu_idx & TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+> >> @@ -896,7 +866,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >>
+> >>       RISCVCPU *cpu =3D RISCV_CPU(cs);
+> >>       CPURISCVState *env =3D &cpu->env;
+> >> -    bool force_hs_execp =3D riscv_cpu_force_hs_excep_enabled(env);
+> >>       uint64_t s;
+> >>
+> >>       /* cs->exception is 32-bits wide unlike mcause which is XLEN-bit=
+s wide
+> >> @@ -925,8 +894,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >>           case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
+> >>           case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
+> >>           case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
+> >> -            force_hs_execp =3D true;
+> >> -            /* fallthrough */
+> >>           case RISCV_EXCP_INST_ADDR_MIS:
+> >>           case RISCV_EXCP_INST_ACCESS_FAULT:
+> >>           case RISCV_EXCP_LOAD_ADDR_MIS:
+> >> @@ -985,8 +952,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >>                   env->hstatus =3D set_field(env->hstatus, HSTATUS_GVA=
+, 0);
+> >>               }
+> >>
+> >> -            if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1=
+) &&
+> >> -                !force_hs_execp) {
+> >> +            if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1=
+)) {
+> >>                   /* Trap to VS mode */
+> >>                   /*
+> >>                    * See if we need to adjust cause. Yes if its VS mod=
+e interrupt
+> >> @@ -1008,7 +974,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >>                   htval =3D env->guest_phys_fault_addr;
+> >>
+> >>                   riscv_cpu_set_virt_enabled(env, 0);
+> >> -                riscv_cpu_set_force_hs_excep(env, 0);
+> >>               } else {
+> >>                   /* Trap into HS mode */
+> >>                   env->hstatus =3D set_field(env->hstatus, HSTATUS_SPV=
+, false);
+> >> @@ -1044,7 +1009,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+> >>
+> >>               /* Trapping to M mode, virt is disabled */
+> >>               riscv_cpu_set_virt_enabled(env, 0);
+> >> -            riscv_cpu_set_force_hs_excep(env, 0);
+> >>           }
+> >>
+> >>           s =3D env->mstatus;
+> >> --
+> >> 2.30.2
+> >>
+> >>
 
