@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA15397FB9
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 05:52:57 +0200 (CEST)
-Received: from localhost ([::1]:33086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE65397FB2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 05:51:20 +0200 (CEST)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loHw8-0002zE-VI
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 23:52:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50748)
+	id 1loHuZ-00068e-1h
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 23:51:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1loHs7-0007hq-VG
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1loHs9-0007hu-8q
  for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:48:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25465)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1loHs5-0006u0-E2
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:48:47 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1loHs7-0006ux-OO
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:48:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622605724;
+ s=mimecast20190719; t=1622605727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5vXyByKTCZKBHoCmVZuTuGfo8z7nKEWFNhjcJpcr9G4=;
- b=JTLsTl7FsEha35H6/6eCdwo4EsIB1WES83+KdpX/EsSCZ5z/HD6b/artS037+R8QZp5SAy
- CQy+tD4qpKIh0BP49DHT+kEXDk9Zwa8JYYog4sv+t+uk48iy/Ndy9KrPmrc5VcQjpxu5Ce
- FFMLjeAh+oOOrCbHFTlO/1zieXoglK4=
+ bh=0QJF2dgoyJUzIYJvDnAloImFPWh7+izxFpQ+sV9WmCw=;
+ b=COSvDTTyEG+fn+06x/YfOFYk1Yoas292NbO5RTcAk1KtG9WzYr8ryWKkU7MHNKhsHWTCCh
+ bUkqtpvlJFJDNdcbikG9Ko90iUuwK7gpuWKqVNMtARXC5ODGRRoE8iAh3a+49WMLfCGM4A
+ Ed14rlcOMCZ6dRfk9k8Id6gofZMlnR8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-TqktAIygM-CaZoNvH0H9aw-1; Tue, 01 Jun 2021 23:48:43 -0400
-X-MC-Unique: TqktAIygM-CaZoNvH0H9aw-1
+ us-mta-213-mPj_Gi9EPz2iRwi7Zshplg-1; Tue, 01 Jun 2021 23:48:45 -0400
+X-MC-Unique: mPj_Gi9EPz2iRwi7Zshplg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7E6E1013725
- for <qemu-devel@nongnu.org>; Wed,  2 Jun 2021 03:48:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1FA0101371C
+ for <qemu-devel@nongnu.org>; Wed,  2 Jun 2021 03:48:44 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-13-199.pek2.redhat.com [10.72.13.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E1B25D6D5;
- Wed,  2 Jun 2021 03:48:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E2975D6D5;
+ Wed,  2 Jun 2021 03:48:43 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v7 09/10] virtio-pci: add support for configure interrupt
-Date: Wed,  2 Jun 2021 11:47:49 +0800
-Message-Id: <20210602034750.23377-10-lulu@redhat.com>
+Subject: [PATCH v7 10/10] virtio-net: add peer_deleted check in
+ virtio_net_handle_rx
+Date: Wed,  2 Jun 2021 11:47:50 +0800
+Message-Id: <20210602034750.23377-11-lulu@redhat.com>
 In-Reply-To: <20210602034750.23377-1-lulu@redhat.com>
 References: <20210602034750.23377-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -79,147 +80,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for configure interrupt, use kvm_irqfd_assign and set the
-gsi to kernel. When the configure notifier was eventfd_signal by host
-kernel, this will finally inject an msix interrupt to guest
+During the test, We found this function will continue running
+while the peer is deleted, this will cause the crash. so add
+check for this. this only exist in  machines type microvm
+
+reproduce step :
+load the VM with
+qemu-system-x86_64 -M microvm
+...
+    -netdev tap,id=tap0,vhost=on,script=no,downscript=no \
+    -device virtio-net-device,netdev=tap0 \
+..
+enter the VM's console
+shutdown the VM
+(gdb) bt
+
+0  0x000055555595b926 in qemu_net_queue_flush (queue=0x0) at ../net/queue.c:275
+1  0x0000555555a046ea in qemu_flush_or_purge_queued_packets (nc=0x555556ccb920, purge=false)
+    at ../net/net.c:624
+2  0x0000555555a04736 in qemu_flush_queued_packets (nc=0x555556ccb920) at ../net/net.c:637
+3  0x0000555555ccc01a in virtio_net_handle_rx (vdev=0x555557360ed0, vq=0x7ffff40d6010)
+    at ../hw/net/virtio-net.c:1401
+4  0x0000555555ce907a in virtio_queue_notify_vq (vq=0x7ffff40d6010) at ../hw/virtio/virtio.c:2346
+5  0x0000555555cec07c in virtio_queue_host_notifier_read (n=0x7ffff40d608c)
+    at ../hw/virtio/virtio.c:3606
+6  0x00005555560376ac in aio_dispatch_handler (ctx=0x555556a857e0, node=0x555556f013d0)
+    at ../util/aio-posix.c:329
+7  0x00005555560377a4 in aio_dispatch_ready_handlers (ctx=0x555556a857e0,
+    ready_list=0x7fffffffdfe0) at ../util/aio-posix.c:359
+8  0x0000555556038209 in aio_poll (ctx=0x555556a857e0, blocking=false) at ../util/aio-posix.c:662
+9  0x0000555555e51c6f in monitor_cleanup () at ../monitor/monitor.c:637
+10 0x0000555555d2d626 in qemu_cleanup () at ../softmmu/runstate.c:821
+11 0x000055555585b19b in main (argc=21, argv=0x7fffffffe1c8, envp=0x7fffffffe278)
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 63 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 3 deletions(-)
+ hw/net/virtio-net.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index f863c89de6..1e03f11a85 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -717,7 +717,8 @@ static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
-     VirtQueue *vq;
- 
-     if (queue_no == VIRTIO_CONFIG_IRQ_IDX) {
--        return -1;
-+        *n = virtio_get_config_notifier(vdev);
-+        *vector = vdev->config_vector;
-     } else {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             return -1;
-@@ -764,6 +765,10 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-     return ret;
- }
- 
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+    return kvm_virtio_pci_vector_use_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
- 
- static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-                         int queue_no)
-@@ -792,6 +797,28 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-     }
- }
- 
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
-+static int virtio_pci_set_config_notifier(DeviceState *d, bool assign)
-+{
-+    VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    EventNotifier *notifier = virtio_get_config_notifier(vdev);
-+    int r = 0;
-+    if (assign) {
-+        r = event_notifier_init(notifier, 0);
-+        virtio_set_notifier_fd_handler(vdev, VIRTIO_CONFIG_IRQ_IDX, true, true);
-+        kvm_virtio_pci_vector_config_use(proxy);
-+    } else {
-+        virtio_set_notifier_fd_handler(vdev, VIRTIO_CONFIG_IRQ_IDX,
-+                                             false, true);
-+        kvm_virtio_pci_vector_config_release(proxy);
-+        event_notifier_cleanup(notifier);
-+    }
-+    return r;
-+}
- static int virtio_pci_vq_vector_unmask(VirtIOPCIProxy *proxy,
-                                        unsigned int queue_no,
-                                        unsigned int vector,
-@@ -873,9 +900,17 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 02033be748..927a808654 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1397,7 +1397,9 @@ static void virtio_net_handle_rx(VirtIODevice *vdev, VirtQueue *vq)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+     int queue_index = vq2q(virtio_get_queue_index(vq));
 -
-+    n = virtio_get_config_notifier(vdev);
-+    ret = virtio_pci_vq_vector_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX,
-+                        vector, msg, n);
-+    if (ret < 0) {
-+        goto config_undo;
-+    }
-     return 0;
- 
-+config_undo:
-+    n = virtio_get_config_notifier(vdev);
-+    virtio_pci_vq_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- undo:
-     vq = virtio_vector_first_queue(vdev, vector);
-     while (vq && unmasked >= 0) {
-@@ -909,6 +944,8 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+    n = virtio_get_config_notifier(vdev);
-+    virtio_pci_vq_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- }
- 
- static void virtio_pci_vector_poll(PCIDevice *dev,
-@@ -942,6 +979,20 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-             msix_set_pending(dev, vector);
-         }
-     }
-+   /*check for config interrupt*/
-+   vector = vdev->config_vector;
-+   notifier = virtio_get_config_notifier(vdev);
-+   if (vector < vector_start || vector >= vector_end ||
-+            !msix_is_masked(dev, vector)) {
++    if (n->nic->peer_deleted) {
 +        return;
-+   }
-+   if (k->guest_notifier_pending) {
-+        if (k->guest_notifier_pending(vdev, VIRTIO_CONFIG_IRQ_IDX)) {
-+            msix_set_pending(dev, vector);
-+        }
-+   } else if (event_notifier_test_and_clear(notifier)) {
-+        msix_set_pending(dev, vector);
-+   }
++    }
+     qemu_flush_queued_packets(qemu_get_subqueue(n->nic, queue_index));
  }
  
- static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-@@ -1002,6 +1053,7 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-         msix_unset_vector_notifiers(&proxy->pci_dev);
-         if (proxy->vector_irqfd) {
-             kvm_virtio_pci_vector_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_config_release(proxy);
-             g_free(proxy->vector_irqfd);
-             proxy->vector_irqfd = NULL;
-         }
-@@ -1029,6 +1081,10 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-                 goto assign_error;
-             }
-         }
-+        r = virtio_pci_set_config_notifier(d, assign);
-+        if (r < 0) {
-+            goto config_error;
-+        }
-         r = msix_set_vector_notifiers(&proxy->pci_dev,
-                                       virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-@@ -1045,7 +1101,8 @@ notifiers_error:
-         assert(assign);
-         kvm_virtio_pci_vector_release(proxy, nvqs);
-     }
--
-+config_error:
-+    kvm_virtio_pci_vector_config_release(proxy);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
 -- 
 2.21.3
 
