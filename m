@@ -2,58 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D1C397DC6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 02:53:23 +0200 (CEST)
-Received: from localhost ([::1]:40330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECB1397E0B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 03:27:34 +0200 (CEST)
+Received: from localhost ([::1]:52548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loF8L-0001HL-GF
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 20:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47032)
+	id 1loFfR-0002aj-HU
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 21:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1loF6y-0000aw-SW
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 20:51:56 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:33142
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1loF6v-00049Q-KK
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 20:51:56 -0400
-HMM_SOURCE_IP: 172.18.0.218:53632.467187551
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-110.184.66.8?logid-285d7faceae64942affe03b7f11c6ff3
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 22AEE280097;
- Wed,  2 Jun 2021 08:51:46 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 285d7faceae64942affe03b7f11c6ff3 for
- zhangzijian@chinatelecom.cn; Wed Jun  2 08:51:46 2021
-X-Transaction-ID: 285d7faceae64942affe03b7f11c6ff3
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v1 0/6] support dirtyrate at the granualrity of vcpu
-To: Peter Xu <peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1loFeT-0001I4-Ls
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 21:26:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1loFeP-0001Q7-Ka
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 21:26:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622597187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bbDoXFvPzQ6QDiG26eSDKpzL1zjS2CjaZ8yFXa2h+9g=;
+ b=WFBarpTEBs1aHAyVPlDUeuNeJ09Aov4Xq7pFlQ5AGoWXTyELS+/NKprSsuDotDld+LVhx7
+ CsgADrdACDdAWHaROSwlMVvOOPJeCSjLG8Q0euF6xIBBcVYLxIf+c3gpiHHkvkmJLdRDeh
+ n/2b4urMxEG1kvvC2KFGAgimis4UJfA=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-VEd0nWVNNueiFqt68_oAtw-1; Tue, 01 Jun 2021 21:26:26 -0400
+X-MC-Unique: VEd0nWVNNueiFqt68_oAtw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ r11-20020a0cb28b0000b02901c87a178503so587623qve.22
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 18:26:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=bbDoXFvPzQ6QDiG26eSDKpzL1zjS2CjaZ8yFXa2h+9g=;
+ b=dFv6ar9OJcpvWacqYBIL1uEiHl1/MIWB9svtf2xVBhXnWu8fB6AMudMvfvj+wUxxTI
+ sYb1N9+oOk196H7JVIGIGMdsdosdZwWv0PyONsHtlsTu9JDdyCt4QxkMWbQbdgf48K3Q
+ N51WZEQGmLESRYgnOTRGeNRmx3fARJ6h9RH3RRVmmGxzEfwAtpNhZHVxCt9UX8RUJGPK
+ 2tQUu9B4mbhAvI88oBC16ZxTZRSbBKenFHmz3+yJQsRc/VyJpnYTarJzzLen50a1TcMy
+ SwD1ktEIFYOhrzFdswdmXm7Z9UbXjo/Ydcf+CyXc1Te69Me4YxXujD9uaiIRHUcUoh9n
+ fHsA==
+X-Gm-Message-State: AOAM532BfEPkaVRV4ma1pOfViFq14dGhuQSVR5E2nOfoj5MRxT3Az/wT
+ TBJ7T7pfzgHwRLiXkOv2LALJzYP6Ud5rSUYC7IYCe94qO2Fk/4oNySTmr/Plqm7b47cLnBY1XxN
+ dYItuKxrYYpdp5x0=
+X-Received: by 2002:ac8:7581:: with SMTP id s1mr4302268qtq.302.1622597185959; 
+ Tue, 01 Jun 2021 18:26:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUfwN3AdXw+a0XCt80C3HeE5tnLSZBgepkGG/HwaRrhHJBeh/IzVMb3GJlykVVF/tKlBlx/g==
+X-Received: by 2002:ac8:7581:: with SMTP id s1mr4302254qtq.302.1622597185735; 
+ Tue, 01 Jun 2021 18:26:25 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-61-184-147-118-108.dsl.bell.ca. [184.147.118.108])
+ by smtp.gmail.com with ESMTPSA id o5sm12242270qkl.25.2021.06.01.18.26.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 18:26:25 -0700 (PDT)
+Date: Tue, 1 Jun 2021 21:26:24 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Hyman Huang <huangy81@chinatelecom.cn>
+Subject: Re: [PATCH v1 2/6] KVM: introduce dirty_pages into CPUState
+Message-ID: <YLbeQMGCl+J3b2JL@t490s>
 References: <cover.1622479161.git.huangy81@chinatelecom.cn>
- <YLase9l34N7i1C6S@t490s>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <a0a70d25-9b3c-3ef0-85d6-c6b7e7453075@chinatelecom.cn>
-Date: Wed, 2 Jun 2021 08:51:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ <78cc154863754a93d88070d1fae9fed6a1ec5f01.1622479161.git.huangy81@chinatelecom.cn>
+ <YLbAoEWOE+no+a7H@t490s>
+ <2749938b-f775-ec5a-6ac5-d59cde656999@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <YLase9l34N7i1C6S@t490s>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <2749938b-f775-ec5a-6ac5-d59cde656999@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.613,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,94 +98,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Chuan Zheng <zhengchuan@huawei.com>,
- =?UTF-8?B?5byg5a2Q5YGl?= <zhangzijian@chinatelecom.cn>,
- Paolo Bonzini <pbonzini@redhat.com>
+ kvm@vger.kernel.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 02, 2021 at 08:27:19AM +0800, Hyman Huang wrote:
+> 在 2021/6/2 7:20, Peter Xu 写道:
+> > On Tue, Jun 01, 2021 at 01:04:06AM +0800, huangy81@chinatelecom.cn wrote:
+> > > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> > > index 044f668a6e..973c193501 100644
+> > > --- a/include/hw/core/cpu.h
+> > > +++ b/include/hw/core/cpu.h
+> > > @@ -375,6 +375,8 @@ struct CPUState {
+> > >       struct kvm_run *kvm_run;
+> > >       struct kvm_dirty_gfn *kvm_dirty_gfns;
+> > >       uint32_t kvm_fetch_index;
+> > > +    uint64_t dirty_pages;
+> > > +    bool stat_dirty_pages;
+> > 
+> > Shall we make this bool a global one?  As I don't think we'll be able to only
+> > enable it on a subset of cpus?
+> Yes, it's a reasonable advice, i'll apply this on the next version
 
-
-在 2021/6/2 5:54, Peter Xu 写道:
-> On Tue, Jun 01, 2021 at 01:02:45AM +0800, huangy81@chinatelecom.cn wrote:
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> Since the Dirty Ring on QEMU part has been merged recently, how to use
->> this feature is under consideration.
->>
->> In the scene of migration, it is valuable to provide a more accurante
->> interface to track dirty memory than existing one, so that the upper
->> layer application can make a wise decision, or whatever. More importantly,
->> dirtyrate info at the granualrity of vcpu could provide a possibility to
->> make migration convergent by imposing restriction on vcpu. With Dirty
->> Ring, we can calculate dirtyrate efficiently and cheaply.
->>
->> The old interface implemented by sampling pages, it consumes cpu
->> resource, and the larger guest memory size become, the more cpu resource
->> it consumes, namely, hard to scale. New interface has no such drawback.
-> 
-> Yong,
-> 
-> Thanks for working on this!
-> 
-> Some high-level comments:
-> 
-> - The layout of the patch looks a bit odd.  E.g., you introduced the new "vcpu"
->    qmp parameter in patch 3, however it's not yet implemented, meanwhile I feel
->    like you squashed mostly all the rest into patch 6.  It's okay to use a
->    single big patch, but IMHO better to not declare that flag in QMP before it's
->    working, so ideally that should be the last patch to do that.
-> 
->    From that POV: patch 1/2/4 look ok to be separated; perhaps squash patch
->    3/5/6 into one single patch to enable the new method as the last one?
-> 
-Yeah previously the concern is make the patch clear and small, however 
-with the comment of each commit, it seems ok. As you said, it's okay to 
-use a single big patch, i'll adjust the patch set style base on your advice.
-> - You used "vcpu" across the patchset to show the per-vcpu new method.  Shall
->    we rename it globally to "per_vcpu" or "vcpu_based"?  A raw "vcpu" looks more
->    like a struct pointer not a boolean.
-> 
-Indeed, actually the initial name of the option is "per_vcpu". : ). i'll 
-fix this.
-> - Using memory_global_dirty_log_start|stop() may not be wise too IMHO, at least
->    we need to make sure it's not during migration, otherwise we could call the
->    stop() before migration ends then that'll be a problem..
-Yeah, this may be a serious problem, thanks for your timely advice.
-> 
->    Maybe we can start to make global_dirty_log a bitmask? Then we define:
-> 
->      GLOBAL_DIRTY_MIGRATION
->      GLOBAL_DIRTY_DIRTY_RATE
-> 
->    All references to global_dirty_log should mostly be untouched because any bit
->    set there should justify that global dirty logging is enabled (either for
->    migration or for dirty rate measurement).
-> 
->    Migration starting half-way of dirty rate measurement seems okay too even
->    taking things like init-all-set into account, afaict.. as long as dirty rate
->    code never touches the qemu dirty bitmap, but only do the accounting when
->    collecting the pages...
-> 
->    Feel free to think more about it on any other potential conflict with
->    migration, but in general seems working to me.
-> 
-I'll apply this on the next version.
-> - Would you consider picking up my HMP patch and let HMP work from the 1st day?
-> 
-> - Please Cc the author of dirty rate too (Chuan Zheng <zhengchuan@huawei.com>),
->    while I already started to do so in this email.
-> 
-I'd be glad to do this above two.
-> Thanks,
-> 
-
-Thanks Peter!
+Or even drop the bool and do the accounting unconditionally?  No need to do +1
+for each pfn, but do it once before returning from kvm_dirty_ring_reap_one().
 
 -- 
-Best regard
+Peter Xu
 
-Hyman Huang(黄勇)
 
