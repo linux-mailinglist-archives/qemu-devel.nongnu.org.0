@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C1B39848E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 10:51:17 +0200 (CEST)
-Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A23398487
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 10:49:55 +0200 (CEST)
+Received: from localhost ([::1]:33896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loMaq-0007dD-HG
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 04:51:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50284)
+	id 1loMZW-0005Uh-3O
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 04:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1loMZn-0006x1-JV
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 04:50:11 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1loMZl-00017Q-IT
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 04:50:11 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id m18so758655wmq.0
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 01:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=7YYA9xuJt1N8IWDu5R6flfmtCM36kudUuQfU89LFjmQ=;
- b=hlaQk9nDM3GiYCpSQDfPiZsrED1Z/PzZijYsRB6odv08PLDw0WzHRjTOlE9O1v6L0X
- mVsumi4MSby5iXuUKzBToID/pOUqSr4xa5b2oNKp3G8g26vDotgpmFNGqCem6ZDuxrXD
- xN7YBKmcnxatvBcjsMg0G7icacRcvYjYIuNrg1lolVWE2H0KsVqbLyBUnvO3o8rfvLVz
- 1i/rQ0/2uHOUb7T4fx9lqHfktpbWvfDiI8FbwFeBxBg1wBLZd8AlCzIF5B+YDa69UsQT
- W1EewAlXKVk0KOaoIVqiD6nVK67eP6M4Ex9GyptzFmZM7iGSTq4TyRh9CNO7wxz9Jsga
- BcwA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1loMYE-0004Lt-VH
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 04:48:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22765)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1loMYC-0008Df-PU
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 04:48:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622623711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B0fS3amoKXDjX2Nq1rP7N8TvBLlRZPXWAOBVcA3zd8A=;
+ b=A2j7oHLpfHHuT08seiFRSbQzkveXPkI2CPw6hHF2D5H0gw3YjXSvycfZ2wmpNRAf4n8JKo
+ XhHoi8ACNZALTnQu2xv2OJUY1b8AqXv8tsh4ua0QAYNSIo30Uu3TYLy6aBz8qZnfG4nFCI
+ 6NMA5hOUeMOKWz2DQquIOioDReMrtoI=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-83J-EO0TMtCoptc0Oo_Vyw-1; Wed, 02 Jun 2021 04:48:30 -0400
+X-MC-Unique: 83J-EO0TMtCoptc0Oo_Vyw-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ v10-20020a17090a7c0ab029015f673a4c30so1229650pjf.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 01:48:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=7YYA9xuJt1N8IWDu5R6flfmtCM36kudUuQfU89LFjmQ=;
- b=gyAn1uYVKEFCWp0e2ig4v03SLCv/pkV1DE1nSAFvtI4B02TD/lLb3/liJWFIE6KOai
- 34vV1Ke4k2xNMwb7YxamYD4VOXfDxFZk0WK2Dxgz4AdWUCkT8IAYgQW5n+KCPwHEql7t
- j2a5bCTYfI3m1PhbLh12nLK3m5RfR48fjv2LQebdgE541DOI1Vo9yF4twqhTP5cLzAUT
- DtTrRPlf5DGqUeyIAqz3dsy2OOgN5JefwuIw2eZNQf/PQZsAU/KeITPx2eypr5gqDqK3
- WUK1QFlWgsA+0glEuD9MD35zXxJcEiRGamCGghEMnSXxRhW+BnmewK/UurvXvXBD6kOM
- VcCA==
-X-Gm-Message-State: AOAM530feNrdY9dqKcDD6634cTdVGOugizNskQU1Z8f9OQ9Ah9YU6KKk
- 70fnLREXp3PI0TXt+2JP+p9NEA==
-X-Google-Smtp-Source: ABdhPJxsYWJ6Ec30T8x/5wgFXiF5wZKEDGL/py/hBX/KzY803RAtkdiccG9pW5LdaHXx9ik9yrTZpg==
-X-Received: by 2002:a05:600c:1551:: with SMTP id
- f17mr3871857wmg.17.1622623807560; 
- Wed, 02 Jun 2021 01:50:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t12sm7749517wre.9.2021.06.02.01.50.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 01:50:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BB1F01FF7E;
- Wed,  2 Jun 2021 09:50:05 +0100 (BST)
-References: <20210601145824.3849-1-alex.bennee@linaro.org>
- <CAD-LL6iQMLG8xFMiAJfQL9y_bfSYOEWn+5ARcfO=kAkr7rqg6Q@mail.gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [RFC PATCH] plugins/api: expose symbol lookup to plugins
-Date: Wed, 02 Jun 2021 09:43:20 +0100
-In-reply-to: <CAD-LL6iQMLG8xFMiAJfQL9y_bfSYOEWn+5ARcfO=kAkr7rqg6Q@mail.gmail.com>
-Message-ID: <87mts8bqgy.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=B0fS3amoKXDjX2Nq1rP7N8TvBLlRZPXWAOBVcA3zd8A=;
+ b=UBXIrPVXW+NGYG7b4Yqp8X/kBjz57SEB+xKgKAJ9BPtqxqcidzCKtp+USI0B8s8GZE
+ n0ckD+LpOmJxN516Kfmjbts/JUpUotD8dU0O7Gd+kl+EtZ+WxdQmuV6bacJ6yK2WwPgt
+ TMnUDQQie3HBfqDZQoqzzgiiIvWNKKTASoNfrW03zktgiyHne3vCGcowLtbtncuVXMmB
+ oHWjyCPcjFlWsQYh2rl1X0VzqzruXKVQHTX1HVyAhiqvB0oELsSMkNxAL6aHwmaAp7C1
+ FZ/qDcPHuBpQ8kEO5ARCghXAY0V6DzOyrKP7/AQryeMNddGc3ZkPH0nJGArWaf048Yjb
+ qUjw==
+X-Gm-Message-State: AOAM530i2+Hpk3A8K/19bJEqS9dwePV9hdVNOEi5ZWyx7vNmtYsYuJei
+ SstJ5/2lg4nCVWbNQEyWXf23DqPzDd3CLsgYZ3kNpa+EQmZWJJfTue9a68NIlvsIxWqrztDZ758
+ 8yBsNbLpbL1RXhpI=
+X-Received: by 2002:a17:90a:5998:: with SMTP id
+ l24mr2832761pji.64.1622623709563; 
+ Wed, 02 Jun 2021 01:48:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqJOCyjbbChGf0P0gsbTmMWg/7XuX7DoNUIzCD+x4GoF8QBC7bO1LWUT74qL0H6Q7+xGTngA==
+X-Received: by 2002:a17:90a:5998:: with SMTP id
+ l24mr2832741pji.64.1622623709311; 
+ Wed, 02 Jun 2021 01:48:29 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id w26sm17144967pgl.50.2021.06.02.01.48.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 01:48:28 -0700 (PDT)
+Subject: Re: [PATCH 1/2] vhost-vdpa: don't initialize backend_features
+To: Gautam Dawar <gdawar@xilinx.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20210602033127.40149-1-jasowang@redhat.com>
+ <BY5PR02MB69805AC4C88DFE9E5172D8BDB13D9@BY5PR02MB6980.namprd02.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <af3abe28-69e3-326a-4867-4afc42856f43@redhat.com>
+Date: Wed, 2 Jun 2021 16:48:19 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <BY5PR02MB69805AC4C88DFE9E5172D8BDB13D9@BY5PR02MB6980.namprd02.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,162 +103,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: minyihh@uci.edu, qemu-devel@nongnu.org, robhenry@microsoft.com,
- Mahmoud Abd Al Ghany <mahmoudabdalghany@outlook.com>,
- aaron@os.amperecomputing.com, "Emilio G. Cota" <cota@braap.org>,
- kuhn.chenqun@huawei.com
+Cc: "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "lulu@redhat.com" <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Gautam:
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+在 2021/6/2 下午3:38, Gautam Dawar 写道:
+> Hi Jason,
+>
+> Pls see my comments inline marked by GD>>
+>
+> Regards,
+> Gautam
+>
+> -----Original Message-----
+> From: Jason Wang <jasowang@redhat.com>
+> Sent: Wednesday, June 2, 2021 9:01 AM
+> To: mst@redhat.com; qemu-devel@nongnu.org
+> Cc: Gautam Dawar <gdawar@xilinx.com>; lulu@redhat.com; Jason Wang <jasowang@redhat.com>; qemu-stable@nongnu.org
+> Subject: [PATCH 1/2] vhost-vdpa: don't initialize backend_features
+>
+> We used to initialize backend_features during vhost_vdpa_init() regardless whether or not it was supported by vhost. This will lead the unsupported features like VIRTIO_F_IN_ORDER to be included and set to the vhost-vdpa during vhost_dev_start. Because the VIRTIO_F_IN_ORDER is not supported by vhost-vdpa so it won't be advertised to guest which will break the datapath.
+>
+> Fix this by not initializing the backend_features, so the acked_features could be built only from guest features via vhost_net_ack_features().
+>
+> Fixes: 108a64818e69b ("vhost-vdpa: introduce vhost-vdpa backend")
+> Cc: qemu-stable@nongnu.org
+> Cc: Gautam Dawar <gdawar@xilinx.com>
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>   hw/virtio/vhost-vdpa.c | 3 ---
+>   1 file changed, 3 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c index 01d2101d09..5fe43a4eb5 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -275,15 +275,12 @@ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)  {
+>       struct vhost_vdpa *v;
+> -    uint64_t features;
+>       assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
+>       trace_vhost_vdpa_init(dev, opaque);
+>   
+>       v = opaque;
+>       v->dev = dev;
+>       dev->opaque =  opaque ;
+> -    vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
+> -    dev->backend_features = features;
+> [GD>>] Should this be initialized with 0 here? I am not sure if  memory allocated for struct vhost_dev is initialized with 0.
 
-> On Tue, Jun 1, 2021 at 4:58 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
->  This is a quality of life helper for plugins so they don't need to
->  re-implement symbol lookup when dumping an address. The strings are
->  constant so don't need to be duplicated. One minor tweak is to return
->  NULL instead of a zero length string to show lookup failed.
->
-> Thank you for implementing this, I found it a really easy addition since =
-you
-> already told me how this is done in the kick-off meeting and I implemente=
-d it
-> but I'm glad you already posted it :D
->
->  Based-on: 20210530063712.6832-4-ma.mandourr@gmail.com
->  Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->  ---
->   include/qemu/qemu-plugin.h |  9 +++++++++
->   contrib/plugins/cache.c    | 10 ++++++++--
->   plugins/api.c              |  6 ++++++
->   3 files changed, 23 insertions(+), 2 deletions(-)
->
->  diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
->  index 97cdfd7761..dc3496f36c 100644
->  --- a/include/qemu/qemu-plugin.h
->  +++ b/include/qemu/qemu-plugin.h
->  @@ -525,6 +525,15 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugi=
-n_id_t id,
->
->   char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
->
->  +/**
->  + * qemu_plugin_insn_symbol() - best effort symbol lookup
->  + * @insn: instruction reference
->  + *
->  + * Return a static string referring to the symbol. This is dependent
->  + * on the binary QEMU is running having provided a symbol table.
->  + */
->  +const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn=
-);
->  +
->   /**
->    * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
->    * @id: plugin ID
->  diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
->  index 1e323494bf..afaa3d9db5 100644
->  --- a/contrib/plugins/cache.c
->  +++ b/contrib/plugins/cache.c
->  @@ -46,6 +46,7 @@ enum AccessResult {
->
->   struct InsnData {
->       char *disas_str;
->  +    const char *symbol;
->       uint64_t addr;
->       uint64_t misses;
->   };
->  @@ -377,10 +378,12 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, str=
-uct qemu_plugin_tb *tb)
->           struct InsnData *idata =3D g_new(struct InsnData, 1);
->
->           ddata->disas_str =3D qemu_plugin_insn_disas(insn);
->  +        ddata->symbol =3D qemu_plugin_insn_symbol(insn);
->           ddata->misses =3D 0;
->           ddata->addr =3D effective_addr;
->
->           idata->disas_str =3D g_strdup(ddata->disas_str);
->  +        idata->symbol =3D qemu_plugin_insn_symbol(insn);
->           idata->misses =3D 0;
->           idata->addr =3D effective_addr;
->
->  @@ -397,8 +400,11 @@ static void print_entry(gpointer data)
->   {
->       struct InsnData *insn =3D (struct InsnData *) data;
->       g_autoptr(GString) xx =3D g_string_new("");
->  -    g_string_append_printf(xx, "0x%" PRIx64 ": %s - misses: %lu\n",
->  -            insn->addr, insn->disas_str, insn->misses);
->  +    g_string_append_printf(xx, "0x%" PRIx64, insn->addr);
->  +    if (insn->symbol) {
->  +        g_string_append_printf(xx, " (%s)", insn->symbol);
->  +    }
->  +    g_string_append_printf(xx, ", %lu, %s\n", insn->misses, insn->disas=
-_str);
->       qemu_plugin_outs(xx->str);
->   }
->
->  diff --git a/plugins/api.c b/plugins/api.c
->  index 817c9b6b69..332e2c60e2 100644
->  --- a/plugins/api.c
->  +++ b/plugins/api.c
->  @@ -233,6 +233,12 @@ char *qemu_plugin_insn_disas(const struct qemu_plug=
-in_insn *insn)
->       return plugin_disas(cpu, insn->vaddr, insn->data->len);
->   }=20
->
->  +const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn)
->  +{
->  +    const char *sym =3D lookup_symbol(insn->vaddr);
->  +    return sym[0] !=3D 0 ? sym : NULL;
->  +}
->  +
->   /*
->    * The memory queries allow the plugin to query information about a
->    * memory access.
->  --=20
->  2.20.1
->
-> How can I address such an addition? Should I add it to my next RFC series
-> under your name using your Signed-off-by line?
 
-Yes, if you git am the patch to your series it will keep my authorship
-and also copy the message-id of the post it came from. When you re-base
-you can add your s-o-b tag to indicate that to the best of your
-knowledge it is code that can be included in the tree (which it is, I
-posted it to qemu-devel ;-).
+See vhost_net_init:
 
-> Also, I think that somethings
-> in my series that you're basing your patch on will be changed, such as ha=
-ving
-> two duplicated entries of InsnData and the stupid name "xx" of the report=
- string
-> How can I base your patch after my edits?
+     struct vhost_net *net = g_new0(struct vhost_net, 1);
 
-You have two choices. Move the patch to the start of your series and
-drop the actual plugin tweaks and make it API only or keep it at the end
-of the series and fix it up when you re-base. Generally you make a note
-"under the line" of the changes so the commit message would look like:
+vhost_dev is embedded in the vhost_net structure. So I think it should 
+be zero.
 
-  plugins/api: expose symbol lookup to plugins
+Thanks
 
-  This is a quality of life helper for plugins so they don't need to
-  re-implement symbol lookup when dumping an address. The strings are
-  constant so don't need to be duplicated. One minor tweak is to return
-  NULL instead of a zero length string to show lookup failed.
 
-  Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-  Message-Id: <20210601145824.3849-1-alex.bennee@linaro.org>
-  Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+>       v->listener = vhost_vdpa_memory_listener;
+>       v->msg_type = VHOST_IOTLB_MSG_V2;
+>   
+> --
+> 2.25.1
+>
 
-  ---
-  v3
-    - included in my tree, fixed up rebase conflicts
-
-This is a useful reference for people reading the patches on the list to
-see what changed. The tooling will drop everything under --- when it is
-applied to a tree.
-
---=20
-Alex Benn=C3=A9e
 
