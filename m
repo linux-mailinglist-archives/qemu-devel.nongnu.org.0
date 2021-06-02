@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284F8398B44
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:59:33 +0200 (CEST)
-Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DD2398B0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:51:13 +0200 (CEST)
+Received: from localhost ([::1]:56676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loRPA-00069w-8b
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44074)
+	id 1loRH6-0003g0-IB
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCY-00025X-SP
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22295)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCb-0002G5-JH
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47070)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCX-0007Qk-2a
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:30 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCX-0007Qw-Fs
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1622641588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X3qJhjfuHd8oHrw6mJz1DwARWVHxy/mLa1EaobjhmGc=;
- b=F+EVjoG8JlKslpM9jnCVgeW8ig+3BH+BhGalC4jRUBHfow+qUT4FFECyvV1tnDxX7C0mCR
- LzqCgf5KRCgeYYYb6107Yyg3oySAYLU8/BFbYZBnn5Lr28ziOWbq8uQAJ/oHh88m50qsen
- Hi9JA98a5j6+pzR5M+LlURu013wCu6A=
+ bh=eIHfk2PxzIMa8nVXOaUPqutAR2SxBNT6tQV5Eo9WgGo=;
+ b=JmFzE5+MPpUW2vYeFrM5Xolc2xHVc77+yHsrhebtFnaBVfTMgKTxnVAYPSZMInTNuJ9FYL
+ D0oQnXDSpTUyOgfDlumXowiTjDRKgJev23DGStHLB0AgmAmncj6fd2ITnAyPvzgal1cGUM
+ D+3Fox4/1I9fLKekBaCXC5NUonL+1Cg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-GMM3kFR8MP-XYeCPCFECIw-1; Wed, 02 Jun 2021 09:46:22 -0400
-X-MC-Unique: GMM3kFR8MP-XYeCPCFECIw-1
+ us-mta-166-Mw62IVzrOiOZeC2ozl3-Xw-1; Wed, 02 Jun 2021 09:46:24 -0400
+X-MC-Unique: Mw62IVzrOiOZeC2ozl3-Xw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E44A08B7CC6;
- Wed,  2 Jun 2021 13:45:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26E8719253F8;
+ Wed,  2 Jun 2021 13:45:52 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 005D519CBE;
- Wed,  2 Jun 2021 13:45:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 369B860BD9;
+ Wed,  2 Jun 2021 13:45:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/20] block/vvfat: inherit child_vvfat_qcow from child_of_bds
-Date: Wed,  2 Jun 2021 15:45:22 +0200
-Message-Id: <20210602134529.231756-14-kwolf@redhat.com>
+Subject: [PULL 14/20] block: simplify bdrv_child_user_desc()
+Date: Wed,  2 Jun 2021 15:45:23 +0200
+Message-Id: <20210602134529.231756-15-kwolf@redhat.com>
 In-Reply-To: <20210602134529.231756-1-kwolf@redhat.com>
 References: <20210602134529.231756-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,46 +82,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Recently we've fixed a crash by adding .get_parent_aio_context handler
-to child_vvfat_qcow. Now we want it to support .get_parent_desc as
-well. child_vvfat_qcow wants to implement own .inherit_options, it's
-not bad. But omitting all other handlers is a bad idea. Let's inherit
-the class from child_of_bds instead, similar to chain_child_class and
-detach_by_driver_cb_class in test-bdrv-drain.c.
+All child classes have this callback. So, drop unreachable code.
+
+Still add an assertion to bdrv_attach_child_common(), to early detect
+bad classes.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210601075218.79249-5-vsementsov@virtuozzo.com>
+Message-Id: <20210601075218.79249-6-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vvfat.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ block.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 86d99c899c..ae9d387da7 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -3127,11 +3127,7 @@ static void vvfat_qcow_options(BdrvChildRole role, bool parent_is_format,
-     qdict_set_default_str(child_options, BDRV_OPT_CACHE_NO_FLUSH, "on");
+diff --git a/block.c b/block.c
+index 94cb7b6637..3c0c3964ec 100644
+--- a/block.c
++++ b/block.c
+@@ -2026,11 +2026,7 @@ bool bdrv_is_writable(BlockDriverState *bs)
+ 
+ static char *bdrv_child_user_desc(BdrvChild *c)
+ {
+-    if (c->klass->get_parent_desc) {
+-        return c->klass->get_parent_desc(c);
+-    }
+-
+-    return g_strdup("another user");
++    return c->klass->get_parent_desc(c);
  }
  
--static const BdrvChildClass child_vvfat_qcow = {
--    .parent_is_bds      = true,
--    .inherit_options    = vvfat_qcow_options,
--    .get_parent_aio_context = child_of_bds_get_parent_aio_context,
--};
-+static BdrvChildClass child_vvfat_qcow;
+ static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
+@@ -2772,6 +2768,7 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
  
- static int enable_write_target(BlockDriverState *bs, Error **errp)
- {
-@@ -3268,6 +3264,8 @@ static BlockDriver bdrv_vvfat = {
+     assert(child);
+     assert(*child == NULL);
++    assert(child_class->get_parent_desc);
  
- static void bdrv_vvfat_init(void)
- {
-+    child_vvfat_qcow = child_of_bds;
-+    child_vvfat_qcow.inherit_options = vvfat_qcow_options;
-     bdrv_register(&bdrv_vvfat);
- }
- 
+     new_child = g_new(BdrvChild, 1);
+     *new_child = (BdrvChild) {
 -- 
 2.30.2
 
