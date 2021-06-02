@@ -2,69 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A436398957
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 14:22:59 +0200 (CEST)
-Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E76B39896D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 14:25:45 +0200 (CEST)
+Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loPti-0005lt-BT
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 08:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50632)
+	id 1loPwO-0007J8-4i
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 08:25:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loPsq-0004cp-J1
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:22:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52271)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1loPv3-0006cH-RI
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:24:23 -0400
+Received: from mail-eopbgr60115.outbound.protection.outlook.com
+ ([40.107.6.115]:5614 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loPsn-0006yh-Lm
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:22:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622636520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oeUBUQJv+o9vOA4jxhKN4gbYl5pc4gp/PiBWj69tlPM=;
- b=WOHIN+DtWfabSBN+t73vh3dXjTWLg7zpbJqjRMzTEaDnjCvDGeBW0KIfALDiXTkjo+eNd8
- ztFy/n29vj/A67Izk+X5Q7SGRgJJsPnoCYjKdTGduvYctzgY/NTh64jqQQ3ja8Rqej6QGs
- fBUwdLPab86etUNRm94ASQTn/ZzcPYA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-18tLu7eUOWyT_p9U6d41Hg-1; Wed, 02 Jun 2021 08:21:58 -0400
-X-MC-Unique: 18tLu7eUOWyT_p9U6d41Hg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E95A2106BB2B;
- Wed,  2 Jun 2021 12:21:56 +0000 (UTC)
-Received: from redhat.com (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46A2662677;
- Wed,  2 Jun 2021 12:21:52 +0000 (UTC)
-Date: Wed, 2 Jun 2021 14:21:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 0/2] block-copy: small fix and refactor
-Message-ID: <YLd33jBVl5k3RAZK@redhat.com>
-References: <20210528141628.44287-1-vsementsov@virtuozzo.com>
- <YLdLrrTszu8MMxPv@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1loPuy-0008NN-GS
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 08:24:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FFpyWg+NCLz11e99i7U2LQeF7iEKSKeS85M4hgS4+sqDcPW7ayY3qQhHerK1clvkv9u4lVbc2X/tpAlADCDpmeGuRunEpbhEaNpP26W4SYTHMWaKj3nseB3M9rz3n8+UYyMCjHgzMR+f3mfVeoF4mSdfM2sBd2KYZPoQ3Az0thConLr/QtDCO0ydpPE/xtXy/63EwrxA7PardQw95nYTLN+WV+9Lx+mXEpddsn5pbR5KDuN5sI7aNkTouhdymgIfjyxMgOfjVcOERdsIkLuTosHFGaXJrWmh70JyV2yakCR5p1z0EC2vpo3nrsWEWOsNB6dipAJyO+GdkZ6hGYRx+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vWc8x+ZLPG6ZQ70r2WlsMpimjmeLiUcTNW5NUBOG/7Q=;
+ b=CKtNuuWvGMZJ2oxrxqZAUtgbR2NOAsojJiU87lgMz1i/Lz4FmzVUNfs42lelwZPUcxotTDM4xwa5qegPgEyAcazgqQF9uMONhBDUOA5GGPBMShuiW5C00soNsyKWi3S3pNV9F81IamG49HV0pT957hqmwhFVXo9gAd/+qSDGaxaBRonC5x6FgrT6AVVmHv9tc8IIc5YJVZRZg1vY3/3V+ihORlUi6C0eG2XfFEgxWB2zmC7XqmXntlZig6eA2/IpjLDB6rVDG3lMgpmSc2nc5luoWgW1lshItw96WPxhbuGBYYAjM5vmKCHnXz1PN3BsYP+etCw9reyFp+gi2MAFZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vWc8x+ZLPG6ZQ70r2WlsMpimjmeLiUcTNW5NUBOG/7Q=;
+ b=XkjGZ03urfmyaToJSnmucqW9uP51IZ2Ahiwz+Whh0UPzzshT/4Kyt/MUYG4NLZ+845TF+C5Ue+smkJspu0AWlDsUL9tM7jJb91TMQrn6ZS4DxyIR+lZYwkOdRk4Ow1HLuS4HfBpqeW24klXLqQ4nDbBCEN8c0P0nDE73bfYRATY=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.22; Wed, 2 Jun
+ 2021 12:24:12 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
+ 12:24:12 +0000
+Subject: Re: [PATCH v8] qapi: introduce 'query-kvm-cpuid' action
+To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Eric Blake
+ <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ kvm@vger.kernel.org, Denis Lunev <den@openvz.org>
+References: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <f77db186-c553-e618-7f18-475fb943d389@virtuozzo.com>
+Date: Wed, 2 Jun 2021 15:24:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
+In-Reply-To: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.211]
+X-ClientProxiedBy: FR0P281CA0082.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <YLdLrrTszu8MMxPv@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eimRaYJeaerGEVBN"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.211) by
+ FR0P281CA0082.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.9 via Frontend Transport; Wed, 2 Jun 2021 12:24:11 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 55f76bbd-c6e0-4b5b-b074-08d925c15450
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5494:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5494E353F70C5EA0D5454D02C13D9@AM7PR08MB5494.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kkJ5kAFqjhEVe3zlZ5Di99hLa6RLESkQGZkS8l871H2/9gIiD2GNDwaRE8z3qGzqb8XZfjHgfYdMonmE5oPfNGuWjfatzhsm/7NPvvxFYxQVIIj5paw3svRwv/Bz1dXf2Bvd40ST4BiKST/gPNfOrY8q4j7V+semQCvB4hkkf7TaxSlAKET6K6h0dYnFAWJ16187COrNvOgyiMlwjj9BXST+9CWX6FS3/OYZNnoch6xp8eknQiCsXD0TnXKQbSU+YGIOm764nBhQYALuBsFXFty3wnJzYvLEz1ZFvKdJkh0uLC1nEV6JZtKKALXKr+anR4OK+iEC5KLylbFwgetLQiNKZJ800LMuQ9J/qbZpcohEcicp9wQFEm91yS3C3a5Vpbfk+XtoJ3EC65/VCRvyRstFmY42eg43QhacvsZzlfR/vnr3WpMYRSQWJvRWFJ3uZ6u0yGZuWcjkt9tnddQfQcJv90UphGR2Acd46XJyph4jmzzMelOYIuztQNGsHUnnJJK2hQG2giR305A3P2C2zd4Mo5YPR5HtBwNOdYUnp1dlRDulH2hXhAlfkFqLtmH2EoLrIyFT976L55yD0Z0W/DwcRJ/TSrxR9AMCqrBP5+rWFaQwNtOQjKG9O+IVVCYemGvjnZizF4XrWtWp2Cr/R6Xw+o+kXuV2VLxqyAns7auA3D1BiXkN7HSRvMBp78gTZkspYlOk0feC0f+cd5Hxbg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39830400003)(316002)(16576012)(2906002)(5660300002)(54906003)(956004)(478600001)(2616005)(16526019)(38350700002)(4326008)(36756003)(8936002)(7416002)(6486002)(26005)(107886003)(38100700002)(31696002)(8676002)(66476007)(31686004)(66946007)(52116002)(66556008)(86362001)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dU9uaE1sNVF6NFllZGpkdmg5TGZEZU15MTJ5ZkUvQmxJZmJkQWZxZTdDWXpY?=
+ =?utf-8?B?SGhaZG5abXE3SWZIU0lZREZ0TWkwMWEzVlV5dDRoa2Ryekw5K3J2MDFZTFpq?=
+ =?utf-8?B?WWlkSUN6TjJNOUZtb1o4M1AreVVQR3I5aURrZzZaZ0lORnl0U205U1piRTEw?=
+ =?utf-8?B?dW9DQndzNVBJdWUyT1ZKMkNKbGpFSnlvcDJ2Vlpub3lRSitKMFkwQ09BVjBu?=
+ =?utf-8?B?MG56WkFCbTJrS3ArbXdMdzl5OVgxREVtNms2Z3hpQWFwQmpPWWttcDA0dHRw?=
+ =?utf-8?B?YWExcDVla05OY1hhaUF1dThUZjR6VUR6WTlsakRQUTFia0hXMG5xZ1lLM01J?=
+ =?utf-8?B?KzU5SDFDT01QdkhybEg1QWZNY2s4bU16eVQ5ekhkcXRhckNZYjdEWjZlbDhF?=
+ =?utf-8?B?N1RCUGR2RDdhK1NmRHhRSGVTRmdidytma1ZTSnlLelZMZCtrNlZSL2lUWnRY?=
+ =?utf-8?B?QmhPU0NObnRvU3V6VnBGNTl0RG45OGJhSkFyVlNXZ2lnMklLK3Q2MmNuR2pl?=
+ =?utf-8?B?c1BCbEt1aWI3NktDV2JLc3RzWTdtVGFEU1FFTFRnTkJhbHNqZG83bGpjcHJu?=
+ =?utf-8?B?OGxJY0d0R3FiZ2dpVmFRdGM4TitjV0JwWnJrV0FuTm53alE0eVl6RmttdlRk?=
+ =?utf-8?B?L3ZNUEVoOUxuNmdVMkZtYkNhd2xsN2ZVdVNjUXArQ3M4ODROYzQzeVpjOFVO?=
+ =?utf-8?B?cEFnRzBtemZLSmRxTDJwdmlER2RKYzZ1QVoxSHg1a1dNdm1LeDlOeTNEM09B?=
+ =?utf-8?B?cDJ1OTl3UTl0SklXZFhNUW5QUlZNWXdJaTdUaHdKOTAyRnlXYXFKZEVDSXNa?=
+ =?utf-8?B?bUYwL1ZmTjlWNDl6T1J4VkhpeldQaGVTUlVpbUMvK0h2RTAwRks3RTlibDg5?=
+ =?utf-8?B?eHl1N2xhKzRBcFVkTENpS1Y1c21WTjNZUDh2RWo0ZUFiNGk0dktmMGtGTUxa?=
+ =?utf-8?B?STJDK2UzNVNvZTJpc2dFMytiNHp4VnN0MnBJNUMwNEdOZDVoZ285VkZWQ2pp?=
+ =?utf-8?B?emI2aG9IYjhoUHY1bXBUL1UyMW9ZcGVHcTM4cktWKy9KQjI2N3NFWC9WZlJL?=
+ =?utf-8?B?eUNSTUNPYzIvT01yR2dub29IUFEvcXFRZFhpM1NoY05xc0dHMncrdWlRYmRr?=
+ =?utf-8?B?bWRRUHYrMEF6YitOaXMrYUp3QXo3UW5tZS93RlB1Qy9UQWhFTjg1MVNlYTBa?=
+ =?utf-8?B?QkkvRFB3QjZmK213R0ZGS3BjKzFORG00S2hRc0Z5NmgvV3hXaHNEVExBdXFL?=
+ =?utf-8?B?OE5haUdCc053dW9sRHhHOEV5NFhsUkhnWlVySTNZVG5CMDJ6Q3AvMDZCdElr?=
+ =?utf-8?B?Y3VQM0t4R0ZiazdCN2YxNmQwODNMTFFSRUw1VlhiWkhLRzBpV21SYnBPZGZE?=
+ =?utf-8?B?MHY0ZXJYV25EaW1ZUituOHF5TytmMHlaS01STGpOaWY0VVNENy9SMlZ1ZlB2?=
+ =?utf-8?B?TFRFb0ZERVhTTkxya1hiUUJBWTBkdVFZQjYrTGlNNUFIMS9vemZvcHBCUzVm?=
+ =?utf-8?B?VVRoYUltQzg0ZVdKN2UwdGtKRGl2eno3TnVUbzUwWTRUZWFCYmdUOXRYYld5?=
+ =?utf-8?B?VGY5NTJyNDJPQ1VJWW4veWhSUlZwSmZkSTRVM1MvL25uZHBMUnVJNUJaWHlF?=
+ =?utf-8?B?T2ZPc0kzT3p3YW9VOTRWazZwbUZkT2pKcWFvNEFNYjZsUjJ3dUZnZ2ZFZjRG?=
+ =?utf-8?B?NXdDbkhFeTkvemVnL05NbnVqcEZaWmdHMis5clppZ3RlcnMwK2xOSzFxMnJS?=
+ =?utf-8?Q?MZZcMfV9dERUKf5IetcyLFw43yPA2o4V+iCho3U?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55f76bbd-c6e0-4b5b-b074-08d925c15450
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 12:24:12.4091 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZAj4kYv5sNj3NLbDURtAuthVex9K29jYPF51+Np+jYgEqX9sThN0GfodOmBKIJUBWwVThJoKynPH5/DdigKBl07sm3JJMGqzsQNIV8Mbius=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5494
+Received-SPF: pass client-ip=40.107.6.115;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,63 +151,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eesposit@redhat.com,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, pbonzini@redhat.com,
- jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---eimRaYJeaerGEVBN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+31.05.2021 15:38, Valeriy Vdovin wrote:
+> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+> get virtualized cpu model info generated by QEMU during VM initialization in
+> the form of cpuid representation.
+> 
 
-Am 02.06.2021 um 11:13 hat Stefan Hajnoczi geschrieben:
-> On Fri, May 28, 2021 at 05:16:26PM +0300, Vladimir Sementsov-Ogievskiy wr=
-ote:
-> > Hi all!
-> >=20
-> > This is my suggestion how to refactor block-copy to avoid extra atomic
-> > operations in=20
-> > "[PATCH v2 0/7] block-copy: protect block-copy internal structures"
-> >=20
-> > Vladimir Sementsov-Ogievskiy (2):
-> >   block-copy: fix block_copy_task_entry() progress update
-> >   block-copy: refactor copy_range handling
-> >=20
-> >  block/block-copy.c | 79 +++++++++++++++++++++++++++++++---------------
-> >  1 file changed, 53 insertions(+), 26 deletions(-)
->=20
-> I posted suggestions for the doc comment on Patch 2, otherwise:
->=20
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+[..]
 
-Thanks, fixed up the comment accordingly and applied to the block
-branch.
+>      "ebx": 0,
+>    },
+>    {
+>      "eax": 13,
+>      "edx": 1231384169,
+>      "in_eax": 0,
+>      "ecx": 1818588270,
+>      "ebx": 1970169159,
+>    },
+>    {
+>      "eax": 198354,
+>      "edx": 126614527,
+>    ....
+> 
+> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
 
-Kevin
 
---eimRaYJeaerGEVBN
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmC3d94ACgkQfwmycsiP
-L9YQ5g/6AgVZ3mJjYcqEf6D0E6vyR3tod2Jpf6IwcORPbz4Jh0Nu9jIRcESRTdjo
-a2M+QClP6nC+hcN34ofNDE/7KJB1tacfFCtVmeeu58xZpCwCnMN7KetoOxJQSdpo
-+sT12BDlMMrtjAWEMaw57mWNk5Ob+LQ0McFUj3rk107P4Tom8pPWxReB/yH5312y
-+PXC9dgwcNpIuX4oNBFO8K8kDUGj4Rfp2qYPvC8CM+Hi/8Q7kjgdK38FOOXNadV9
-rPzWhvOVxOKyBPtChoEjahOfb23jp5kqGsF37VDvQO7Aod4Sv5K8bwRbAnZDETNJ
-3Q/NBF4IBKZutWgir3LJSoPOFiA3C5iDtkJDtYLk6LvA9SxJI81YX4AkqLAkiSJg
-6EArMI3JJyCNyH31E4tPy4pdDXwuGpCuEWonxXr+DxVMaz68rGvUfrVacIOr4DeT
-9y2nlM8zKsgEqi4YqiwB3ET8qR8NqL3tBLi0I71uiBnYm4lud6gowjDuaEj6ZkLB
-OQM2SzA9NPbR207Un4IehL/goSCRnovlW86HBHKePfx+cz6XMXhBEQcBsZjCSvEj
-/gQWqMC0n6eplQCpWem7VyikfSuFe28CkW+drhvArUREg9bXIayVvK1GKgPh3hcT
-8dGIXuatQIfL+2OHAnBnCNrpoEPp4tsc0vWgFcA6aqPVSDxO/dI=
-=j3gi
------END PGP SIGNATURE-----
+> 
+> v2: - Removed leaf/subleaf iterators.
+>      - Modified cpu_x86_cpuid to return false in cases when count is
+>        greater than supported subleaves.
 
---eimRaYJeaerGEVBN--
+[..]
 
+> +# @in_eax: CPUID argument in eax
+> +# @in_ecx: CPUID argument in ecx
+> +# @eax: eax
+> +# @ebx: ebx
+> +# @ecx: ecx
+> +# @edx: edx
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'CpuidEntry',
+> +  'data': { 'in_eax' : 'uint32',
+> +            '*in_ecx' : 'uint32',
+
+I'm not sure, probably '-' instead of '_' is preferable in QAPI.
+
+> +            'eax' : 'uint32',
+> +            'ebx' : 'uint32',
+> +            'ecx' : 'uint32',
+> +            'edx' : 'uint32'
+> +          },
+> +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> +
+
+
+-- 
+Best regards,
+Vladimir
 
