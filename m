@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBAE3980E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 08:08:15 +0200 (CEST)
-Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA14F3980E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 08:07:58 +0200 (CEST)
+Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loK34-00011e-5A
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 02:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44170)
+	id 1loK2n-0000WG-Pb
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 02:07:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1loK1j-0007Iu-3a
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 02:06:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41669)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1loK1m-0007Rr-6y
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 02:06:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1loK1h-0002zs-Ij
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 02:06:50 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1loK1k-00032b-7R
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 02:06:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622614008;
+ s=mimecast20190719; t=1622614011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eoOo5hBfq6NS8rUpAEP97RZdcyUb+otYHU97CawxAkE=;
- b=P0dvh9Q86hqVr3LGYrV8mOxQQ/JIf0V5qobqH/NOmGMjgkkkmeGc9VLmYNAU6a3MZQEN6Y
- /+yLw3Mz0Hao7Jq+tGcjqYPwi63kutimhPH25Zm6xTo5GKmO7lnFs+mqgTFQ1zMvUQkE2U
- 3lOS7ufkXc1vnWY8HOYO+6mj3bN2rXI=
+ bh=fw+cxqfkEz8HnBzm2ZZ9OhnHjwJoctGaOwfdY1ILi/I=;
+ b=hbGA2t1jH/FyQ2eAiwGvSU0/hbvLPulqa7eUgNgwx/mDZwbrM3sD8K5BVg6zg3f/M4UCOM
+ h+pBn+U1hqWOwROX6YlcOqkcUKWdMM/iFo5+BLQnK/VG+1jx9Ve5ji8km7fp40Mrz1jSM6
+ rOn2cycVix6Nd8i8gbxZ6FxkdMrnOgM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-i-8BW7YhMECWo0_mZDDSrQ-1; Wed, 02 Jun 2021 02:06:45 -0400
-X-MC-Unique: i-8BW7YhMECWo0_mZDDSrQ-1
+ us-mta-297-mJPx5hJzN3mHiPMOrlWgFQ-1; Wed, 02 Jun 2021 02:06:49 -0400
+X-MC-Unique: mJPx5hJzN3mHiPMOrlWgFQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D53981C9EC;
- Wed,  2 Jun 2021 06:06:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 110A5192782C;
+ Wed,  2 Jun 2021 06:06:42 +0000 (UTC)
 Received: from toolbox.redhat.com (unknown [10.33.36.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54D5A19C44;
- Wed,  2 Jun 2021 06:05:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0160F131DD;
+ Wed,  2 Jun 2021 06:06:39 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] block-backend: add drained_poll
-Date: Wed,  2 Jun 2021 08:05:51 +0200
-Message-Id: <20210602060552.17433-2-slp@redhat.com>
+Subject: [PATCH v2 2/2] nbd/server: Use drained block ops to quiesce the server
+Date: Wed,  2 Jun 2021 08:05:52 +0200
+Message-Id: <20210602060552.17433-3-slp@redhat.com>
 In-Reply-To: <20210602060552.17433-1-slp@redhat.com>
 References: <20210602060552.17433-1-slp@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +83,172 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow block backends to poll their devices/users to check if they have
-been quiesced when entering a drained section.
+Before switching between AioContexts we need to make sure that we're
+fully quiesced ("nb_requests == 0" for every client) when entering the
+drained section.
 
-This will be used in the next patch to wait for the NBD server to be
-completely quiesced.
+To do this, we set "quiescing = true" for every client on
+".drained_begin" to prevent new coroutines from being created, and
+check if "nb_requests == 0" on ".drained_poll". Finally, once we're
+exiting the drained section, on ".drained_end" we set "quiescing =
+false" and call "nbd_client_receive_next_request()" to resume the
+processing of new requests.
 
+With these changes, "blk_aio_attach()" and "blk_aio_detach()" can be
+reverted to be as simple as they were before f148ae7d36.
+
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1960137
 Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- block/block-backend.c          | 7 ++++++-
- include/sysemu/block-backend.h | 4 ++++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ nbd/server.c | 82 ++++++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 61 insertions(+), 21 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index de5496af66..8fcc2b4b3d 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2393,8 +2393,13 @@ static void blk_root_drained_begin(BdrvChild *child)
- static bool blk_root_drained_poll(BdrvChild *child)
- {
-     BlockBackend *blk = child->opaque;
-+    bool busy = false;
-     assert(blk->quiesce_counter);
--    return !!blk->in_flight;
+diff --git a/nbd/server.c b/nbd/server.c
+index 86a44a9b41..b60ebc3ab6 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1513,6 +1513,11 @@ static void nbd_request_put(NBDRequestData *req)
+     g_free(req);
+ 
+     client->nb_requests--;
 +
-+    if (blk->dev_ops && blk->dev_ops->drained_poll) {
-+        busy = blk->dev_ops->drained_poll(blk->dev_opaque);
++    if (client->quiescing && client->nb_requests == 0) {
++        aio_wait_kick();
 +    }
-+    return busy || !!blk->in_flight;
++
+     nbd_client_receive_next_request(client);
+ 
+     nbd_client_put(client);
+@@ -1530,49 +1535,68 @@ static void blk_aio_attached(AioContext *ctx, void *opaque)
+     QTAILQ_FOREACH(client, &exp->clients, next) {
+         qio_channel_attach_aio_context(client->ioc, ctx);
+ 
++        assert(client->nb_requests == 0);
+         assert(client->recv_coroutine == NULL);
+         assert(client->send_coroutine == NULL);
+-
+-        if (client->quiescing) {
+-            client->quiescing = false;
+-            nbd_client_receive_next_request(client);
+-        }
+     }
  }
  
- static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter)
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 880e903293..5423e3d9c6 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -66,6 +66,10 @@ typedef struct BlockDevOps {
-      * Runs when the backend's last drain request ends.
-      */
-     void (*drained_end)(void *opaque);
-+    /*
-+     * Is the device still busy?
-+     */
-+    bool (*drained_poll)(void *opaque);
- } BlockDevOps;
+-static void nbd_aio_detach_bh(void *opaque)
++static void blk_aio_detach(void *opaque)
+ {
+     NBDExport *exp = opaque;
+     NBDClient *client;
  
- /* This struct is embedded in (the private) BlockBackend struct and contains
++    trace_nbd_blk_aio_detach(exp->name, exp->common.ctx);
++
+     QTAILQ_FOREACH(client, &exp->clients, next) {
+         qio_channel_detach_aio_context(client->ioc);
++    }
++
++    exp->common.ctx = NULL;
++}
++
++static void nbd_drained_begin(void *opaque)
++{
++    NBDExport *exp = opaque;
++    NBDClient *client;
++
++    QTAILQ_FOREACH(client, &exp->clients, next) {
+         client->quiescing = true;
++    }
++}
+ 
+-        if (client->recv_coroutine) {
+-            if (client->read_yielding) {
+-                qemu_aio_coroutine_enter(exp->common.ctx,
+-                                         client->recv_coroutine);
+-            } else {
+-                AIO_WAIT_WHILE(exp->common.ctx, client->recv_coroutine != NULL);
+-            }
+-        }
++static void nbd_drained_end(void *opaque)
++{
++    NBDExport *exp = opaque;
++    NBDClient *client;
+ 
+-        if (client->send_coroutine) {
+-            AIO_WAIT_WHILE(exp->common.ctx, client->send_coroutine != NULL);
+-        }
++    QTAILQ_FOREACH(client, &exp->clients, next) {
++        client->quiescing = false;
++        nbd_client_receive_next_request(client);
+     }
+ }
+ 
+-static void blk_aio_detach(void *opaque)
++static bool nbd_drained_poll(void *opaque)
+ {
+     NBDExport *exp = opaque;
++    NBDClient *client;
+ 
+-    trace_nbd_blk_aio_detach(exp->name, exp->common.ctx);
++    QTAILQ_FOREACH(client, &exp->clients, next) {
++        if (client->nb_requests != 0) {
++            /*
++             * If there's a coroutine waiting for a request on nbd_read_eof()
++             * enter it here so we don't depend on the client to wake it up.
++             */
++            if (client->recv_coroutine != NULL && client->read_yielding) {
++                qemu_aio_coroutine_enter(exp->common.ctx,
++                                         client->recv_coroutine);
++            }
+ 
+-    aio_wait_bh_oneshot(exp->common.ctx, nbd_aio_detach_bh, exp);
++            return true;
++        }
++    }
+ 
+-    exp->common.ctx = NULL;
++    return false;
+ }
+ 
+ static void nbd_eject_notifier(Notifier *n, void *data)
+@@ -1594,6 +1618,12 @@ void nbd_export_set_on_eject_blk(BlockExport *exp, BlockBackend *blk)
+     blk_add_remove_bs_notifier(blk, &nbd_exp->eject_notifier);
+ }
+ 
++static const BlockDevOps nbd_block_ops = {
++    .drained_begin = nbd_drained_begin,
++    .drained_end = nbd_drained_end,
++    .drained_poll = nbd_drained_poll,
++};
++
+ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+                              Error **errp)
+ {
+@@ -1715,8 +1745,17 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+ 
+     exp->allocation_depth = arg->allocation_depth;
+ 
++    /*
++     * We need to inhibit request queuing in the block layer to ensure we can
++     * be properly quiesced when entering a drained section, as our coroutines
++     * servicing pending requests might enter blk_pread().
++     */
++    blk_set_disable_request_queuing(blk, true);
++
+     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
+ 
++    blk_set_dev_ops(blk, &nbd_block_ops, exp);
++
+     QTAILQ_INSERT_TAIL(&exports, exp, next);
+ 
+     return 0;
+@@ -1788,6 +1827,7 @@ static void nbd_export_delete(BlockExport *blk_exp)
+         }
+         blk_remove_aio_context_notifier(exp->common.blk, blk_aio_attached,
+                                         blk_aio_detach, exp);
++        blk_set_disable_request_queuing(exp->common.blk, false);
+     }
+ 
+     for (i = 0; i < exp->nr_export_bitmaps; i++) {
 -- 
 2.26.2
 
