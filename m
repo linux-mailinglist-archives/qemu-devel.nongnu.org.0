@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507193991F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:52:45 +0200 (CEST)
-Received: from localhost ([::1]:51732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326CF3991F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:53:48 +0200 (CEST)
+Received: from localhost ([::1]:55686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loV2q-0004w7-CF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
+	id 1loV3r-0007Zs-9q
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loV1X-00033s-9W
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:51:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42597)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1loV2X-0005K3-Tb
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:52:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loV1U-0000qs-Tr
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:51:23 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1loV2W-0001Te-8N
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:52:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622656280;
+ s=mimecast20190719; t=1622656343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8EHhFfVd5D/7/erJr8lf7/JobK29KVCvN2+rSIsLnlw=;
- b=FSLRniplj0Ma7cEYWKSihOsbYeK5ZbBoFzTbXSuf+CnfDjqoQNo0L0Y++634IytPTymX8u
- yJwTQPH44jkeIC+GtV8STUf+60JJ8AYjWpYPT16V+vFWHaH0JB1NDFil125ZZyPt9yX+yF
- nvufAWiK2FgETnMgPCB2IzZ4Cqh6K7E=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-vDl_6GioM7K0PauO-ft1Bw-1; Wed, 02 Jun 2021 13:51:18 -0400
-X-MC-Unique: vDl_6GioM7K0PauO-ft1Bw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- q18-20020a0564025192b02903888712212fso1825267edd.19
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 10:51:18 -0700 (PDT)
+ bh=5mY/QN8qQJ4iisNz3w/uF2nEXM8rzTTVyrHWBOfpsBw=;
+ b=O7vX2PunrLu8f/HDBitd+P4wrpKNt9CmOk/7+kM5QlMfOPDipk5ZxT9EkAZWtAlX/RLTIy
+ 53mUFVLhgqFrsG0f3PG4aYiJ2x/LoMsinGRzlVVizppr/tgFRs6ePt4qouzkfpVgZUa4zK
+ oSpVvd/oASXVg12pm/Z61CZvBRgeLVo=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-7imbS_wCPHG8lRrA5CeONw-1; Wed, 02 Jun 2021 13:52:22 -0400
+X-MC-Unique: 7imbS_wCPHG8lRrA5CeONw-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ y5-20020a37af050000b02903a9c3f8b89fso2112057qke.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 10:52:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8EHhFfVd5D/7/erJr8lf7/JobK29KVCvN2+rSIsLnlw=;
- b=jvA3SMu/rYTDUrqaIG9V5vT6TSU9SUtNQy3E379x07fotd6fBQgWr6kEYH1cVUAGws
- CJ9NoP1vrPZXiXs4wx/3OnbFWbVzY9JlBYnz9KIRo5N5QT3j52DD7/UyrWnAPLJFDvhY
- Ei8V6W+UJBmL0wNp9XyC4xDg/71cIWWMY8F4ZpK8haQ5q5eWBGxGo2vD/AQpp4sx+YyQ
- XRqh6PiIQkvCZwNGR7tMUm90jpfas3HGGBHlBeHU9AAomWlj+ePd1dMtLLSxhwoU0aRa
- obZx0U9C9HJWYzh2wL4d3QaJbtYIeeTN2AvvvrNfOhzLQ0IhCHAxHp6/lOuNjGH0B/pk
- Hhqg==
-X-Gm-Message-State: AOAM532dRTkWdV1/AtR+HusjZ6CE/96hL8vTh14YFt7Jx0TbYxI70s0d
- c8XPMnydEQkrhU3rxWHx8jMBn3tahc94sm2j16ek5AG8dKxnbYAEcp7Cpy2h0Q1dkO9/C5+wZr9
- KlC5+HKsEUGFsftARkfoqN6xizupXW33yYxlrqI0Bk3zElWRWai9ta8pv0BOiBKFt
-X-Received: by 2002:aa7:c042:: with SMTP id k2mr30645436edo.21.1622656276857; 
- Wed, 02 Jun 2021 10:51:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxk2wIuOgIqDEkYXOr5H7YKt42y2IwHnEKZnvtjkSTsZ9B7f2bd0UDZb6rtcGlBgh+z5WxtPg==
-X-Received: by 2002:aa7:c042:: with SMTP id k2mr30645420edo.21.1622656276563; 
- Wed, 02 Jun 2021 10:51:16 -0700 (PDT)
-Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id q4sm356887edv.24.2021.06.02.10.51.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 10:51:16 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] migration/rdma: Enable use of g_autoptr with struct
- rdma_cm_event
-Date: Wed,  2 Jun 2021 19:51:04 +0200
-Message-Id: <20210602175105.2522032-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210602175105.2522032-1-philmd@redhat.com>
-References: <20210602175105.2522032-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5mY/QN8qQJ4iisNz3w/uF2nEXM8rzTTVyrHWBOfpsBw=;
+ b=faS3Fbh64XYs+kjdnz6nePXSz7HhyoXsuv/vfQ/ihGziWfJHMFWqI29+NKcasHtRSf
+ AxqUA4Kr2iGDqVWA1tDAezcOAh/VC8xJCrd42WhAOFvtNWCCJOycWoSwwRcq30cVfWkn
+ xsVBZPuUsgZZiLluPc4mq5Sz0OdXaLUNuiehJNt74B6iyN4/tgaKq/VR6KpiR3TSlebt
+ XfqAlj8+MjXDgnqjjLnYFduyAvo5TD1gD/Fq/JFYd1GXJ+C1ZSSLv9HfphWIiRDmN8JU
+ ImdRkPZFXjmJHaa9LITiamcllAoWmAexE1PEqeAuHDMHBZEQYsJcvcKOa7XERI4y0rDw
+ +w/A==
+X-Gm-Message-State: AOAM530HXsfuQFqXQUJyg1LBdIKqCaTslVfcGrCSvVjTGzrjkLJ72Vs9
+ yIDDPAMTC6sv3Q3Ik+rMCi98yqO9HdijSdQj+heozkRumAGyC54CpTu+hIKPeM6jYn7OL0upMzH
+ 1eMJOlp7k5uqJe4Ep5/ekgEpDjFTyGIA=
+X-Received: by 2002:ad4:4e47:: with SMTP id eb7mr6727825qvb.40.1622656341909; 
+ Wed, 02 Jun 2021 10:52:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+bhf1O547JpLMGQ/axoL8DR+/r3Tak0UZKjplLdFJ1XoVezPANHBOfdnLaPkucYVsyEtTmpd1cgMe2Sp7tWM=
+X-Received: by 2002:ad4:4e47:: with SMTP id eb7mr6727804qvb.40.1622656341678; 
+ Wed, 02 Jun 2021 10:52:21 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-26-eperezma@redhat.com>
+ <ae560866-4598-3157-a0cb-e0e79b4dca42@redhat.com>
+In-Reply-To: <ae560866-4598-3157-a0cb-e0e79b4dca42@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 2 Jun 2021 19:51:45 +0200
+Message-ID: <CAJaqyWc7OWeQnXHihY=mYp=N+rRJLcbFUsJA-OszD6tyr6v-FQ@mail.gmail.com>
+Subject: Re: [RFC v3 25/29] vhost: Add custom IOTLB translations to SVQ
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -95,194 +92,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Juan Quintela <quintela@redhat.com>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 00f2cfbbec6 ("glib: bump min required glib library version to
-2.48") we can use g_auto/g_autoptr to have the compiler automatically
-free an allocated variable when it goes out of scope, removing this
-burden on the developers.
+On Wed, Jun 2, 2021 at 11:52 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > Use translations added in IOVAReverseMaps in SVQ if the vhost device
+> > does not support the mapping of the full qemu's virtual address space.
+> > In other cases, Shadow Virtqueue still uses the qemu's virtual address
+> > of the buffer pointed by the descriptor, which has been translated
+> > already by qemu's VirtQueue machinery.
+>
+>
+> I'd say let stick to a single kind of translation (iova allocator) that
+> works for all the cases first and add optimizations on top.
+>
 
-Per rdma_cm(7) and rdma_ack_cm_event(3) man pages:
+Ok, I will start from here for the next revision.
 
-  "rdma_ack_cm_event() - Free a communication event.
-
-   All events which are allocated by rdma_get_cm_event() must be
-   released, there should be a one-to-one correspondence between
-   successful gets and acks. This call frees the event structure
-   and any memory that it references."
-
-Since the 'ack' description doesn't explicit the event is also
-released (free'd), it is safer to use the GLib g_autoptr feature.
-The G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro expects a single word
-for the type name, so add a type definition to achieve this.
-Convert to use g_autoptr and remove the rdma_ack_cm_event() calls.
-
-Inspired-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-RFC: build-tested only
----
- migration/rdma.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
-
-diff --git a/migration/rdma.c b/migration/rdma.c
-index b50ebb9183a..b703bf1b918 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -38,6 +38,9 @@
- #include "qom/object.h"
- #include <poll.h>
- 
-+typedef struct rdma_cm_event rdma_cm_event;
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(rdma_cm_event, rdma_ack_cm_event)
-+
- /*
-  * Print and error on both the Monitor and the Log file.
-  */
-@@ -939,7 +942,7 @@ static int qemu_rdma_resolve_host(RDMAContext *rdma, Error **errp)
-     int ret;
-     struct rdma_addrinfo *res;
-     char port_str[16];
--    struct rdma_cm_event *cm_event;
-+    g_autoptr(rdma_cm_event) cm_event = NULL;
-     char ip[40] = "unknown";
-     struct rdma_addrinfo *e;
- 
-@@ -1007,11 +1010,11 @@ route:
-         ERROR(errp, "result not equal to event_addr_resolved %s",
-                 rdma_event_str(cm_event->event));
-         perror("rdma_resolve_addr");
--        rdma_ack_cm_event(cm_event);
-         ret = -EINVAL;
-         goto err_resolve_get_addr;
-     }
-     rdma_ack_cm_event(cm_event);
-+    cm_event = NULL;
- 
-     /* resolve route */
-     ret = rdma_resolve_route(rdma->cm_id, RDMA_RESOLVE_TIMEOUT_MS);
-@@ -1028,11 +1031,9 @@ route:
-     if (cm_event->event != RDMA_CM_EVENT_ROUTE_RESOLVED) {
-         ERROR(errp, "result not equal to event_route_resolved: %s",
-                         rdma_event_str(cm_event->event));
--        rdma_ack_cm_event(cm_event);
-         ret = -EINVAL;
-         goto err_resolve_get_addr;
-     }
--    rdma_ack_cm_event(cm_event);
-     rdma->verbs = rdma->cm_id->verbs;
-     qemu_rdma_dump_id("source_resolve_host", rdma->cm_id->verbs);
-     qemu_rdma_dump_gid("source_resolve_host", rdma->cm_id);
-@@ -1501,7 +1502,7 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, uint64_t *wr_id_out,
-  */
- static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
- {
--    struct rdma_cm_event *cm_event;
-+    g_autoptr(rdma_cm_event) cm_event = NULL;
-     int ret = -1;
- 
-     /*
-@@ -2503,7 +2504,7 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
-                                           .private_data = &cap,
-                                           .private_data_len = sizeof(cap),
-                                         };
--    struct rdma_cm_event *cm_event;
-+    g_autoptr(rdma_cm_event) cm_event = NULL;
-     int ret;
- 
-     /*
-@@ -2544,7 +2545,6 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
-     if (cm_event->event != RDMA_CM_EVENT_ESTABLISHED) {
-         perror("rdma_get_cm_event != EVENT_ESTABLISHED after rdma_connect");
-         ERROR(errp, "connecting to destination!");
--        rdma_ack_cm_event(cm_event);
-         goto err_rdma_source_connect;
-     }
-     rdma->connected = true;
-@@ -2564,8 +2564,6 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
- 
-     trace_qemu_rdma_connect_pin_all_outcome(rdma->pin_all);
- 
--    rdma_ack_cm_event(cm_event);
+>
+> >
+> > Now every element needs to store the previous address also, so VirtQueu=
+e
+> > can consume the elements properly. This adds a little overhead per VQ
+> > element, having to allocate more memory to stash them. As a possible
+> > optimization, this allocation could be avoided if the descriptor is not
+> > a chain but a single one, but this is left undone.
+> >
+> > Checking also for vhost_set_iotlb_callback to send used ring remapping.
+> > This is only needed for kernel, and would print an error in case of
+> > vhost devices with its own mapping (vdpa).
+> >
+> > This could change for other callback, like checking for
+> > vhost_force_iommu, enable_custom_iommu, or another. Another option coul=
+d
+> > be to, at least, extract the check of "is map(used, writable) needed?"
+> > in another function. But at the moment just copy the check used in
+> > vhost_dev_start here.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.c | 134 ++++++++++++++++++++++++++--=
 -
-     rdma->control_ready_expected = 1;
-     rdma->nb_sent = 0;
-     return 0;
-@@ -3279,7 +3277,7 @@ static void rdma_cm_poll_handler(void *opaque)
- {
-     RDMAContext *rdma = opaque;
-     int ret;
--    struct rdma_cm_event *cm_event;
-+    g_autoptr(rdma_cm_event) cm_event = NULL;
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
-     ret = rdma_get_cm_event(rdma->channel, &cm_event);
-@@ -3287,7 +3285,6 @@ static void rdma_cm_poll_handler(void *opaque)
-         error_report("get_cm_event failed %d", errno);
-         return;
-     }
--    rdma_ack_cm_event(cm_event);
- 
-     if (cm_event->event == RDMA_CM_EVENT_DISCONNECTED ||
-         cm_event->event == RDMA_CM_EVENT_DEVICE_REMOVAL) {
-@@ -3317,7 +3314,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-                                             .private_data_len = sizeof(cap),
-                                          };
-     RDMAContext *rdma_return_path = NULL;
--    struct rdma_cm_event *cm_event;
-+    g_autoptr(rdma_cm_event) cm_event = NULL;
-     struct ibv_context *verbs;
-     int ret = -EINVAL;
-     int idx;
-@@ -3328,7 +3325,6 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-     }
- 
-     if (cm_event->event != RDMA_CM_EVENT_CONNECT_REQUEST) {
--        rdma_ack_cm_event(cm_event);
-         goto err_rdma_dest_wait;
-     }
- 
-@@ -3339,7 +3335,6 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-     if (migrate_postcopy() && !rdma->is_return_path) {
-         rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
-         if (rdma_return_path == NULL) {
--            rdma_ack_cm_event(cm_event);
-             goto err_rdma_dest_wait;
-         }
- 
-@@ -3353,7 +3348,6 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-     if (cap.version < 1 || cap.version > RDMA_CONTROL_VERSION_CURRENT) {
-             error_report("Unknown source RDMA version: %d, bailing...",
-                             cap.version);
--            rdma_ack_cm_event(cm_event);
-             goto err_rdma_dest_wait;
-     }
- 
-@@ -3374,6 +3368,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-     verbs = cm_event->id->verbs;
- 
-     rdma_ack_cm_event(cm_event);
-+    cm_event = NULL;
- 
-     trace_qemu_rdma_accept_pin_state(rdma->pin_all);
- 
-@@ -3441,11 +3436,9 @@ static int qemu_rdma_accept(RDMAContext *rdma)
- 
-     if (cm_event->event != RDMA_CM_EVENT_ESTABLISHED) {
-         error_report("rdma_accept not event established");
--        rdma_ack_cm_event(cm_event);
-         goto err_rdma_dest_wait;
-     }
- 
--    rdma_ack_cm_event(cm_event);
-     rdma->connected = true;
- 
-     ret = qemu_rdma_post_recv_control(rdma, RDMA_WRID_READY);
--- 
-2.26.3
+> >   hw/virtio/vhost.c                  |  29 +++++--
+> >   2 files changed, 145 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index 934d3bb27b..a92da979d1 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -10,12 +10,19 @@
+> >   #include "hw/virtio/vhost-shadow-virtqueue.h"
+> >   #include "hw/virtio/vhost.h"
+> >   #include "hw/virtio/virtio-access.h"
+> > +#include "hw/virtio/vhost-iova-tree.h"
+> >
+> >   #include "standard-headers/linux/vhost_types.h"
+> >
+> >   #include "qemu/error-report.h"
+> >   #include "qemu/main-loop.h"
+> >
+> > +typedef struct SVQElement {
+> > +    VirtQueueElement elem;
+> > +    void **in_sg_stash;
+> > +    void **out_sg_stash;
+>
+>
+> Any reason for the trick like this?
+>
+> Can we simply use iovec and iov_copy() here?
+>
+
+At the moment the device writes the buffer directly to the guest's
+memory, and SVQ only translates the descriptor. In this scenario,
+there would be no need for iov_copy, isn't it?
+
+The reason for stash and unstash them was to allow the 1:1 mapping
+with qemu memory and IOMMU and iova allocator to work with less
+changes, In particular, the reason for unstash is that virtqueue_fill,
+expects qemu pointers to set the guest memory page as dirty in
+virtqueue_unmap_sg->dma_memory_unmap.
+
+Now I think that just storing the iova address from the allocator in a
+separated field and using a wrapper to get the IOVA addresses in SVQ
+would be a better idea, so I would change to this if everyone agrees.
+
+Thanks!
+
+> Thanks
+>
+>
 
 
