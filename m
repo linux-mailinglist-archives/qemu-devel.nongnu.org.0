@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443E0398B00
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:48:29 +0200 (CEST)
-Received: from localhost ([::1]:43844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF4B398AFD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:48:04 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loRES-0003Xc-8C
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
+	id 1loRE3-0002Zg-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:48:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRBq-0007ut-T6
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:45:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57442)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRBs-0007zY-9b
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:45:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRBn-0006vD-JB
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:45:45 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRBq-0006xS-K2
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:45:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622641542;
+ s=mimecast20190719; t=1622641546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xG0Z68ORK5zXT+w46I4w/BY01xYr5gUode7xyH2he9Y=;
- b=EW5riP8cu+oNlqR0ezcdg5Jz5l8OGkc4t9QL0xnv9mwHJBSPfLjhosvIWF147+9d1IeubX
- NsBhwTbGVjb2ty79c90jjHSpu0sZf3qLPdpUznpwFnP2U4KLXsGt85ZVZ8oNWOXQogkyG/
- I6zuTiEE0gCh7UM19O3tzxOgbHEFr8g=
+ bh=aV5Y+AO5qhZqScvILJScJW8VzGXWQYW6qK3ZL2yvZY0=;
+ b=ESEogEzj0kmRqKFHQ8G16rnpfqrMwYh1tTP6zs6ZURomDDA62Gt90a2qannrZ0Zf9o2Vb/
+ LobK9gctt3HNMlMdRj1Pk5jxGC+9BIKjTpKACy6WKL+ZNgGYqb1605sm+yPF9FfqV+P4iF
+ USXBeeV2BwatSHYKSyLCnPs5kdvrxWk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-vWc6n08KNXePzuUn44RLsA-1; Wed, 02 Jun 2021 09:45:39 -0400
-X-MC-Unique: vWc6n08KNXePzuUn44RLsA-1
+ us-mta-476-HwtnQihgNl6X74NYRzYiow-1; Wed, 02 Jun 2021 09:45:42 -0400
+X-MC-Unique: HwtnQihgNl6X74NYRzYiow-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 384C11034B04;
- Wed,  2 Jun 2021 13:45:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EBC31009630;
+ Wed,  2 Jun 2021 13:45:37 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 120527596A;
- Wed,  2 Jun 2021 13:45:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57F408C95E;
+ Wed,  2 Jun 2021 13:45:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 01/20] block/quorum: Provide .bdrv_co_flush instead of
- .bdrv_co_flush_to_disk
-Date: Wed,  2 Jun 2021 15:45:10 +0200
-Message-Id: <20210602134529.231756-2-kwolf@redhat.com>
+Subject: [PULL 02/20] qemu-io-cmds: assert that we don't have .perm requested
+ in no-blk case
+Date: Wed,  2 Jun 2021 15:45:11 +0200
+Message-Id: <20210602134529.231756-3-kwolf@redhat.com>
 In-Reply-To: <20210602134529.231756-1-kwolf@redhat.com>
 References: <20210602134529.231756-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,42 +81,45 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-The quorum block driver uses a custom flush callback to handle the
-case when some children return io errors. In that case it still
-returns success if enough children are healthy.
-However, it provides it as the .bdrv_co_flush_to_disk callback, not
-as .bdrv_co_flush. This causes the block layer to do it's own
-generic flushing for the children instead, which doesn't handle
-errors properly.
+Coverity thinks blk may be NULL. It's a false-positive, as described in
+a new comment.
 
-Fix this by providing .bdrv_co_flush instead of
-.bdrv_co_flush_to_disk so the block layer uses the custom flush
-callback.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reported-by: Minghao Yuan <meeho@qq.com>
-Message-Id: <20210518134214.11ccf05f@gecko.fritz.box>
-Tested-by: Zhang Chen <chen.zhang@intel.com>
+Fixes: Coverity CID 1453194
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210519090532.3753-1-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/quorum.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qemu-io-cmds.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/block/quorum.c b/block/quorum.c
-index cfc1436abb..f2c0805000 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -1279,7 +1279,7 @@ static BlockDriver bdrv_quorum = {
-     .bdrv_dirname                       = quorum_dirname,
-     .bdrv_co_block_status               = quorum_co_block_status,
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 998b67186d..e8d862a426 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -92,9 +92,19 @@ static int command(BlockBackend *blk, const cmdinfo_t *ct, int argc,
+         return -EINVAL;
+     }
  
--    .bdrv_co_flush_to_disk              = quorum_co_flush,
-+    .bdrv_co_flush                      = quorum_co_flush,
- 
-     .bdrv_getlength                     = quorum_getlength,
- 
+-    /* Request additional permissions if necessary for this command. The caller
++    /*
++     * Request additional permissions if necessary for this command. The caller
+      * is responsible for restoring the original permissions afterwards if this
+-     * is what it wants. */
++     * is what it wants.
++     *
++     * Coverity thinks that blk may be NULL in the following if condition. It's
++     * not so: in init_check_command() we fail if blk is NULL for command with
++     * both CMD_FLAG_GLOBAL and CMD_NOFILE_OK flags unset. And in
++     * qemuio_add_command() we assert that command with non-zero .perm field
++     * doesn't set this flags. So, the following assertion is to silence
++     * Coverity:
++     */
++    assert(blk || !ct->perm);
+     if (ct->perm && blk_is_available(blk)) {
+         uint64_t orig_perm, orig_shared_perm;
+         blk_get_perm(blk, &orig_perm, &orig_shared_perm);
 -- 
 2.30.2
 
