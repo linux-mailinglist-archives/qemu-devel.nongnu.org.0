@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A55399320
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 21:03:23 +0200 (CEST)
-Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E413399330
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 21:06:43 +0200 (CEST)
+Received: from localhost ([::1]:35254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loW9C-00037I-5e
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 15:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33776)
+	id 1loWCQ-0006fS-C1
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 15:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loW81-000276-Nz
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:02:10 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loW7z-0003oZ-Sf
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:02:09 -0400
-Received: by mail-pf1-x430.google.com with SMTP id q25so2937262pfh.7
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 12:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZwSU2E/6RpKKcXsFr2QAetwN4V6PJytQI5uom63pQ0o=;
- b=lm3uARgMotfALoc8MUIajMC/OoH3fflOxleX6ydNCuuWmVfAhb1q/74xZqsQpkVdBc
- mVNH/YNqt3FiX1QMfuUOTD/NlESn9T7fjYK5rlXwSnbCeOkrYGkN10C78tpEBiz1QB/a
- w2bwgJ9JtL40n+3OmG0DxokJ0ddokNV2Emd5oY3kbOkIBZYp+abprlE4Ye69qXkn9i6a
- i0qw3JeitTCEE7SIrB21SWT84wtN4yCbnQnz+u1OVnRpO1Xk+gqOv89otgywNGfreExe
- tpk0EpSNwLtWUzEHItyHLAhfdOGmuhKMrOXNegAUmDZjGMhPMcerUyKBPMXAOloI7G+q
- ec2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZwSU2E/6RpKKcXsFr2QAetwN4V6PJytQI5uom63pQ0o=;
- b=ENm+PUMW3C3+SxL5XdH/hIAA4iLt97WKRVxNgyYllh8VGCsfqpvH0rU0CXfXpwmIhg
- j33sKlwYd/HBacbr+othPN3pVfbxna1Gh7MheOpUPagbkJfAZcjkTzrgnE+/XW1lxNu8
- W0UFAXjRHHbuckciEgnQrqHeTSQ6hW21MNkblWB13+AZKtrmQyUHaMkkn5rxIRF+ngn1
- bTu0pANk2QzszxUIcoTgLeN4KGIG3p+/s1Tjbh6mUDuvH4sbt2UekDxW8CwlyqqYF866
- m14AtFBHGY9SC94r+1AlBzYv3qJHsHnHH0/WxtMU1RTCcNCxAc9FuGYfRjmotrC6t3Mz
- Lvfw==
-X-Gm-Message-State: AOAM532xt4FNWX9Q6w6Yp9NUBUWHhf9Ru658/q95IHtWj4XHUlACKs4H
- i5oxUfb+aZuVdWKoqXima6nhuG7F0gDA8g==
-X-Google-Smtp-Source: ABdhPJzfwgWzq36ZvmsOMbR+FE1mSYIfUJ85XjQK1rCsmhZzBLHPk0dzbS7mEh8k4DiSVZvBVNfYXA==
-X-Received: by 2002:a63:164f:: with SMTP id 15mr35539723pgw.175.1622660525883; 
- Wed, 02 Jun 2021 12:02:05 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id x9sm462787pgp.5.2021.06.02.12.02.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 12:02:05 -0700 (PDT)
-Subject: Re: [RFC] Adding the A64FX's HPC funtions.
-To: Peter Maydell <peter.maydell@linaro.org>,
- "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
-References: <OS3PR01MB61515F08F0709D9E22B8DDDFE9249@OS3PR01MB6151.jpnprd01.prod.outlook.com>
- <TYCPR01MB6160FB4A9712F3F5E14D8BBAE93E9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
- <CAFEAcA_fZ_jC640XrFUCSk6YxzoSmdwDaMDAXoX47mBFKdS9hg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a56283b3-3bb2-d9a3-9a6e-8175cc17b376@linaro.org>
-Date: Wed, 2 Jun 2021 12:02:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loWB5-0005Jq-OL
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:05:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loWB3-0005go-4N
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:05:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622660714;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yO+bcUaddCzSKZpDO9kBEODFE7ZBdLfmeXnw/JvsPwk=;
+ b=Rqv/RLXPUZvfu9VtqD4cVKEiP7Yt0/U+5AIWfxdjY8+FFsjMJ8ggCjT+HQoRWmV01+RkNS
+ iFqwx26QkfUnartAnMGvsN5gkC9GpUI3bdmnvdBRqfz5FClBMOfae08OYP7kEkTMBG0Ted
+ bQzhW4kC5qGFUtwenEu8hvTcWNfrnV0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-VT4ORtWrOeCOIHdZ1dJzew-1; Wed, 02 Jun 2021 15:05:10 -0400
+X-MC-Unique: VT4ORtWrOeCOIHdZ1dJzew-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 283E5107ACCA;
+ Wed,  2 Jun 2021 19:05:09 +0000 (UTC)
+Received: from redhat.com (ovpn-113-154.phx2.redhat.com [10.3.113.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3979E13470;
+ Wed,  2 Jun 2021 19:05:08 +0000 (UTC)
+Date: Wed, 2 Jun 2021 14:05:06 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 07/33] block/nbd: simplify waking of
+ nbd_co_establish_connection()
+Message-ID: <20210602190506.vdmvpgi7mkfqvhle@redhat.com>
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-8-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_fZ_jC640XrFUCSk6YxzoSmdwDaMDAXoX47mBFKdS9hg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210416080911.83197-8-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,75 +78,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, rvkagan@yandex-team.ru, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/21 8:21 AM, Peter Maydell wrote:
->>> I'm thinking of implementing A64FX HPC extension in qemu.
->>> A64FX [1] is a CPU developed by Fujitsu that implements armv8+SVE.
->>>
->>> [1]
->>> https://github.com/fujitsu/A64FX/blob/master/doc/A64FX_Microarchitecture
->>> _Manual_en_1.4.pdf
->>>
->>> A64FX is a CPU developed for HPC (High Performance Computing), and HPC
->>> extensions [2] are implemented to improve the performance of user programs.
->>>
->>> [2]
->>> https://github.com/fujitsu/A64FX/blob/master/doc/A64FX_Specification_HP
->>> C_Extension_v1_EN.pdf
->>>
->>> The details of each function are described in [2], and the HPC extensions
->>> include
->>> 1) Tag address override
->>> 2) Sector cache
->>> 3) Hardware barrier
->>> 4) Hardware prefetch assist
->>> are implemented.
+On Fri, Apr 16, 2021 at 11:08:45AM +0300, Vladimir Sementsov-Ogievskiy wrote:
 
-Thanks for the pointers.  It looks to me that it'll be easy to implement these 
-in qemu.  We'll need to implement the registers, so that the OS can read back 
-the values, but we do not need to actually do anything with them.
+Grammar suggestions:
 
->>> 1) Is target/arm/helper.c enough to implement the register (ARMCPRegInfo
->>> structure) of HPC extension function of A64FX?
+> Instead of connect_bh, bh_ctx and wait_connect fields we can live with
+> only one link to waiting coroutine, protected by mutex.
 
-Yes.
+Instead of managing connect_bh, bh_ctx, and wait_connect fields, we
+can use a single link to the waiting coroutine with proper mutex
+protection.
 
->>> 2) Is it OK to specify the option to set the HPC extension of A64FX as follows,
->>> for example?
->>>
->>> -M virt -cpu max,a64fx-hpc-sec=on (*sector cache function) -M virt -cpu
->>> max,a64fx-hpc-hwpf=on (*hardware prefetvh assist function) -M virt -cpu
->>> max,a64fx-hpc-hwb=on (*hardware barrier function)
->>>
->>> It is also possible to implement something like -cpu a64fx, but since we don't
->>> know if we can implement it immediately, we assume that we will use the -cpu
->>> max option first.
+> 
+> So new logic is:
+> 
+> nbd_co_establish_connection() sets wait_co under mutex, release the
+> mutex and do yield(). Note, that wait_co may be scheduled by thread
+> immediately after unlocking the mutex. Still, in main thread (or
+> iothread) we'll not reach the code for entering the coroutine until the
+> yield() so we are safe.
 
-My first thought is that -cpu max can simply enable the extensions, without 
-extra flags.  The max cpu has all of the features that we can enable, and as I 
-see it this is just one more.
+nbd_co_establish_connection() sets wait_co under the mutex, releases
+the mutex, then yield()s.  Note that wait_co may be scheduled by the
+thread immediately after unlocking the mutex.  Still, the main thread
+(or iothread) will not reach the code for entering the coroutine until
+the yield(), so we are safe.
 
-I would like to add -cpu a64fx at some point.  But as you say, that need not 
-happen right away.
+> 
+> Both connect_thread_func() and nbd_co_establish_connection_cancel() do
+> the following to handle wait_co:
+> 
+> Under mutex, if thr->wait_co is not NULL, call aio_co_wake() (which
+> never tries to acquire aio context since previous commit, so we are
+> safe to do it under thr->mutex) and set thr->wait_co to NULL.
+> This way we protect ourselves of scheduling it twice.
 
->>> Since there is no example of A64FX function implemented in QEMU, we would
->>> appreciate your comments before we post a patch.
+Under the mutex, if thr_wait_co is not NULL, call aio_co_wake() (the
+previous commit ensures it never tries to acquire the aio context, so
+we are safe even while under thr->mutex), then sets thr->wait_co to
+NULL.  This way, we avoid scheduling the coroutine twice.
 
-We endeavor to enable features by the architectural id registers when possible. 
-  Thus the cpu_isar_feature() checks in helper.c.
+> 
+> Also this commit make nbd_co_establish_connection() less connected to
+> bs (we have generic pointer to the coroutine, not use s->connection_co
+> directly). So, we are on the way of splitting connection API out of
+> nbd.c (which is overcomplicated now).
 
-The microarchitectural document provided does not list all of the system 
-register reset values for the A64FX, and I would be surprised if there were an 
-architectural id register that specified a non-standard extension like this. 
-Thus I would expect to add ARM_FEATURE_A64FX with which to enable these 
-extensions in helper.c.
+Also, this commit reduces the dependence of
+nbd_co_establish_connection() on the internals of bs (we now use a
+generic pointer to the coroutine, instead of direct use of
+s->connection_co).  This is a step towards splitting the connection
+API out of nbd.c.
 
-I can certainly help you with this.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/nbd.c | 49 +++++++++----------------------------------------
+>  1 file changed, 9 insertions(+), 40 deletions(-)
+> 
+
+> +++ b/block/nbd.c
+
+> @@ -101,10 +95,10 @@ typedef struct NBDConnectThread {
+>      QIOChannelSocket *sioc;
+>      Error *err;
+>  
+> -    /* state and bh_ctx are protected by mutex */
+>      QemuMutex mutex;
+> +    /* All further fields are protected by mutex */
+>      NBDConnectThreadState state; /* current state of the thread */
+> -    AioContext *bh_ctx; /* where to schedule bh (NULL means don't schedule) */
+> +    Coroutine *wait_co; /* nbd_co_establish_connection() wait in yield() */
+
+I'm not sure if that comment is the most legible, but I'm not coming
+up with an alternative.  Maybe:
+
+/*
+ * if non-NULL, which coroutine to wake in
+ * nbd_co_establish_connection() after yield()
+ */
 
 
-r~
+But the simplification looks nice, and I didn't spot any obvious
+problems with the refactoring.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
