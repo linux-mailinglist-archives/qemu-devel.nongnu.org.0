@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79E5398A33
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:04:40 +0200 (CEST)
-Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BA3398A35
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:08:46 +0200 (CEST)
+Received: from localhost ([::1]:36262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loQY3-0003WG-JI
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
+	id 1loQc1-0005Mg-G2
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1loQWn-0001yo-82
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:03:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44799)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loQal-0004cQ-Dk
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:07:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1loQWl-00064Q-Ko
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:03:20 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loQag-0000Np-Tz
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:07:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622638998;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1622639241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gknU4n/A3Gn4WaJU0OiXa0O+9VSIyIia9iAzgmbs+HY=;
- b=iS/atiyvUcmOy6l62X/zEktc3d232pl7nW/Au+oUHoBT4KPkOH1q5UFhKk5j7+/dasCZNs
- 4b9HPuex3pJ7uRoKGAhEVNXqPqNR/eYGrkdT4FgJSretBPxqcul6zkrHczMkAq4ooI7IBv
- i7CjWH2uNL2s0ai5NfF2hWFAcnoYuRA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-2W-oaLrgMxKTgFxg1WxQ1w-1; Wed, 02 Jun 2021 09:03:04 -0400
-X-MC-Unique: 2W-oaLrgMxKTgFxg1WxQ1w-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n20-20020a05600c4f94b029017f371265feso2173401wmq.5
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 06:03:04 -0700 (PDT)
+ bh=k+kSOnqgVadNBcsJPadQgch+yIsKtlwFdnRGUUt5Fhs=;
+ b=TVKJp7Ij05S7Cer9S3SokskK/8weO0DXRG/LMz9dNzPM2lFti7TAs4qeQLfQpRUZtkF8uf
+ 8iUr+Z+DJO8/H/Q4pnOy3ou4XBerHA/m1MEg69U5Crooq7UIU8C82f55NwVyYIRwzeLH9T
+ +0jTaoZ6dHT6bap1kWEK85rYaH44VAI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-_vMfG0SyOri4OV-XG5kWuw-1; Wed, 02 Jun 2021 09:07:19 -0400
+X-MC-Unique: _vMfG0SyOri4OV-XG5kWuw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ x9-20020adfffc90000b02901178add5f60so1006096wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 06:07:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=gknU4n/A3Gn4WaJU0OiXa0O+9VSIyIia9iAzgmbs+HY=;
- b=Vx1uis6Mnw0K13TGotppN2PZMmMFBx1ExCLg3bWvxUdzJYq3kRa45vwqwyX/RuFC1a
- jL7xHx5ET1rxSbs85u/MfBYBz08fkjv+ix8++9NCPNNU2aB64nrt4FbQQ93Af945ckRg
- 4pUZqg0mNWmC2OwKVftJ6nGcdK6s2arJTxAVRjfOd8zHL0QARJO7+N+aG5i/YqqzCDGb
- O7JBceBWcDdqJ4PE5Fgp7gxgnOkt+BX0SAdEl74YP5Z5yjRrXkBiRVgBCYPMnLoU15uz
- y8cdXY65JAFYTKp0vjGGhcEPxreboT9FgsgFaIXpdgmtjg+8JkbPXwRwWNaDos4blk58
- 9VjQ==
-X-Gm-Message-State: AOAM532EHkUSjAwR1Pxpa2hBxtRAFAjAiPZ47fLHe5FP9Bp1Aku5ti+N
- zlO5u+9w4/SJlkyLlpz6J0OGfrrwUgtKiTjn87ul7iHSj2avNWMpOAIG5cIw0iD8hGXs9FLFf3v
- fZE+hTSfalP20qC0=
-X-Received: by 2002:a05:600c:3544:: with SMTP id
- i4mr5263373wmq.112.1622638983474; 
- Wed, 02 Jun 2021 06:03:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzfnD92+s4X5LQM4eA5FgZUEcl8uN34p7HSdUDwGy/zTchL6Gq+xN0CRhy8sY7aoaEN9EwA0A==
-X-Received: by 2002:a05:600c:3544:: with SMTP id
- i4mr5263349wmq.112.1622638983268; 
- Wed, 02 Jun 2021 06:03:03 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id a12sm2608336wmj.36.2021.06.02.06.03.01
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=k+kSOnqgVadNBcsJPadQgch+yIsKtlwFdnRGUUt5Fhs=;
+ b=tj3Kga4/sMUY/hOoxlWk2CJ2mKZ6d7m6uFSS499A08sSNrDJhuOJ7yHA80UUKOjHAO
+ bIYjWJDI1HoPBSXDCzx41/I3XTEQyN++r6c/dIyI8sroxLGzbg/8j9Hcd1TZUhypPBbB
+ Y7a5cj4CWL4TZSoHV2YpF6e2iIn+/UQKIagiY0rlIoRTvFNJmWmySvS03mGLX3lLPslc
+ yzQDKxQIJsWRReUcR+rvC01UzcBqCgBqap6z9lv3o5VeAgBYfAlgggXjFtR1K1ytQ1zI
+ nzVDBPDCWixGJHuUERYmseEgNqPjX6iqZj64t53TIstBWjEWTQHO/A8wln+LcIdQLKdh
+ JraQ==
+X-Gm-Message-State: AOAM5335UnQmd9JFUDfIfH40aGRAa3zYY1OB0nSdCtlbLjC0b4gPBZ8/
+ epZ5F8vM7CH3zk9DNmZr8Ghh9A2R6Z/wRKh+7dI8IYREBuBHJeI3kZH063Xk7IP5Jm9vuNf9Gyn
+ J21tt8D0IZ0yoZLBhUaHY9WRsWh/pqAF49fS5Ffgvd1CrvaXWL5JDavl3xZR+xow=
+X-Received: by 2002:a7b:c8ce:: with SMTP id f14mr2221671wml.88.1622639238139; 
+ Wed, 02 Jun 2021 06:07:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypL45nEscpSFMsm5fTHuhzLxwLCXr7hPIuDhaL05nVpxGlb7JeP4PuPHQP1h1s/86/LU+oKw==
+X-Received: by 2002:a7b:c8ce:: with SMTP id f14mr2221644wml.88.1622639237940; 
+ Wed, 02 Jun 2021 06:07:17 -0700 (PDT)
+Received: from thuth.remote.csb (p5791de31.dip0.t-ipconnect.de.
+ [87.145.222.49])
+ by smtp.gmail.com with ESMTPSA id s2sm2652373wmc.21.2021.06.02.06.07.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 06:03:02 -0700 (PDT)
-Subject: Re: [PATCH v4 5/8] hw/pci: Add pci_bus_range to get bus number range
-To: Wang Xingang <wangxingang5@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, shannon.zhaosl@gmail.com, imammedo@redhat.com,
- mst@redhat.com, marcel.apfelbaum@gmail.com, peter.maydell@linaro.org,
- ehabkost@redhat.com, richard.henderson@linaro.org, pbonzini@redhat.com
-References: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
- <1621914605-14724-6-git-send-email-wangxingang5@huawei.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <edcf80ec-7f91-b986-047c-a87c8cc7d669@redhat.com>
-Date: Wed, 2 Jun 2021 15:03:00 +0200
+ Wed, 02 Jun 2021 06:07:17 -0700 (PDT)
+Subject: Re: [PATCH] s390x/kvm: remove unused gs handling
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20210602125050.492500-1-cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <2fa121d9-e2a8-fa42-00db-6b9ec6a13627@redhat.com>
+Date: Wed, 2 Jun 2021 15:07:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <1621914605-14724-6-git-send-email-wangxingang5@huawei.com>
+In-Reply-To: <20210602125050.492500-1-cohuck@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
 X-Spam_bar: ---
@@ -94,7 +86,7 @@ X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,71 +99,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: xieyingtai@huawei.com
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Xingang,
-
-On 5/25/21 5:50 AM, Wang Xingang wrote:
-> From: Xingang Wang <wangxingang5@huawei.com>
->
-> This helps to get the bus number range of a pci bridge hierarchy.
->
-> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+On 02/06/2021 14.50, Cornelia Huck wrote:
+> With commit 0280b3eb7c05 ("s390x/kvm: use cpu model for gscb on
+> compat machines"), we removed any calls to kvm_s390_get_gs()
+> in favour of a different mechanism.
+> 
+> Let's remove the unused kvm_s390_get_gs(), and with it the now
+> unneeded cap_gs as well.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > ---
->  hw/pci/pci.c         | 15 +++++++++++++++
->  include/hw/pci/pci.h |  1 +
->  2 files changed, 16 insertions(+)
->
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 27d588e268..7f18ea5ef5 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -537,6 +537,21 @@ int pci_bus_num(PCIBus *s)
->      return PCI_BUS_GET_CLASS(s)->bus_num(s);
->  }
->  
-Add a doc comment such as "returns the min and max bus numbers of a root
-bus"?
+>   target/s390x/kvm-stub.c  |  5 -----
+>   target/s390x/kvm.c       | 10 +---------
+>   target/s390x/kvm_s390x.h |  1 -
+>   3 files changed, 1 insertion(+), 15 deletions(-)
 
-Besides
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Thanks
-
-Eric
- 
-> +void pci_bus_range(PCIBus *bus, int *min_bus, int *max_bus)
-> +{
-> +    int i;
-> +    *min_bus = *max_bus = pci_bus_num(bus);
-> +
-> +    for (i = 0; i < ARRAY_SIZE(bus->devices); ++i) {
-> +        PCIDevice *dev = bus->devices[i];
-> +
-> +        if (dev && PCI_DEVICE_GET_CLASS(dev)->is_bridge) {
-> +            *min_bus = MIN(*min_bus, dev->config[PCI_SECONDARY_BUS]);
-> +            *max_bus = MAX(*max_bus, dev->config[PCI_SUBORDINATE_BUS]);
-> +        }
-> +    }
-> +}
-> +
->  int pci_bus_numa_node(PCIBus *bus)
->  {
->      return PCI_BUS_GET_CLASS(bus)->numa_node(bus);
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index f4d51b672b..d0f4266e37 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -450,6 +450,7 @@ static inline PCIBus *pci_get_bus(const PCIDevice *dev)
->      return PCI_BUS(qdev_get_parent_bus(DEVICE(dev)));
->  }
->  int pci_bus_num(PCIBus *s);
-> +void pci_bus_range(PCIBus *bus, int *min_bus, int *max_bus);
->  static inline int pci_dev_bus_num(const PCIDevice *dev)
->  {
->      return pci_bus_num(pci_get_bus(dev));
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
