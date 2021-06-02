@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB64398B26
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:55:37 +0200 (CEST)
-Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEAD398B31
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:57:49 +0200 (CEST)
+Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loRLM-0006Re-HD
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
+	id 1loRNU-0002bR-Up
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCP-0001WY-Lt
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23742)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCU-0001pJ-Go
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCN-0007Jw-TE
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRCP-0007L1-Dc
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622641579;
+ s=mimecast20190719; t=1622641580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mkpp5OqanXbInZTG+8hUEoObj4JueAq7ykXfwjTDSKo=;
- b=BgUHn22dLnyXBx3JYZxhTG6iWOxrnapPUYx8ykEF4gSTftyErLgqEDfFhmR0obnZ2g0kR7
- 5P7YqL5M0MkzoHFAI0QXMOslZk02FBMZ1FyHhfxOfGm+BpxRgyYkvNv8drY+x7KizQEpUE
- 9NZocflQr2ESZwmSY+y0Y9Xp+i5qMvs=
+ bh=igWrkTKNYAoinrQsAdI9dJItNXjwsqII+NxMQaz3M/M=;
+ b=SK5VUP/7VVWQLJd19GGtDNTyibNJzfXAt5LHKJqu3rEAjQghqT4B53c1MxCeP31vdynVcl
+ WYCj4Ig1Gu+UwCf39P92zaxxpqPACofmQy5zuNb4yfBTzeKyVPW//BG57GbbYqHfRlaqfT
+ 5NZ0p7fChLPGsvBlrb/Kxv37YhOb4Dg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-Pbtj5aLYN7-qhE6Xi-QAug-1; Wed, 02 Jun 2021 09:46:17 -0400
-X-MC-Unique: Pbtj5aLYN7-qhE6Xi-QAug-1
+ us-mta-570-ywTC6w9tOUaBstOXo9-v6w-1; Wed, 02 Jun 2021 09:46:18 -0400
+X-MC-Unique: ywTC6w9tOUaBstOXo9-v6w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A8A71922965;
- Wed,  2 Jun 2021 13:45:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE090A0CDD;
+ Wed,  2 Jun 2021 13:45:49 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BAD360BD9;
- Wed,  2 Jun 2021 13:45:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C078119CBE;
+ Wed,  2 Jun 2021 13:45:48 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 11/20] block-backend: improve blk_root_get_parent_desc()
-Date: Wed,  2 Jun 2021 15:45:20 +0200
-Message-Id: <20210602134529.231756-12-kwolf@redhat.com>
+Subject: [PULL 12/20] block: improve bdrv_child_get_parent_desc()
+Date: Wed,  2 Jun 2021 15:45:21 +0200
+Message-Id: <20210602134529.231756-13-kwolf@redhat.com>
 In-Reply-To: <20210602134529.231756-1-kwolf@redhat.com>
 References: <20210602134529.231756-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,60 +85,49 @@ From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 We have different types of parents: block nodes, block backends and
 jobs. So, it makes sense to specify type together with name.
 
-While being here also use g_autofree.
+Next, this handler us used to compose an error message about permission
+conflict. And permission conflict occurs in a specific place of block
+graph. We shouldn't report name of parent device (as it refers another
+place in block graph), but exactly and only the name of the node. So,
+use bdrv_get_node_name() directly.
 
-iotest 307 output is updated.
+iotest 283 output is updated.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20210601075218.79249-3-vsementsov@virtuozzo.com>
+Message-Id: <20210601075218.79249-4-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-backend.c      | 9 ++++-----
- tests/qemu-iotests/307.out | 2 +-
- 2 files changed, 5 insertions(+), 6 deletions(-)
+ block.c                    | 2 +-
+ tests/qemu-iotests/283.out | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index d1a33a2c8e..5be32c0c42 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -141,19 +141,18 @@ static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
- static char *blk_root_get_parent_desc(BdrvChild *child)
+diff --git a/block.c b/block.c
+index c0fd363605..94cb7b6637 100644
+--- a/block.c
++++ b/block.c
+@@ -1149,7 +1149,7 @@ int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough)
+ static char *bdrv_child_get_parent_desc(BdrvChild *c)
  {
-     BlockBackend *blk = child->opaque;
--    char *dev_id;
-+    g_autofree char *dev_id = NULL;
- 
-     if (blk->name) {
--        return g_strdup(blk->name);
-+        return g_strdup_printf("block device '%s'", blk->name);
-     }
- 
-     dev_id = blk_get_attached_dev_id(blk);
-     if (*dev_id) {
--        return dev_id;
-+        return g_strdup_printf("block device '%s'", dev_id);
-     } else {
-         /* TODO Callback into the BB owner for something more detailed */
--        g_free(dev_id);
--        return g_strdup("a block device");
-+        return g_strdup("an unnamed block device");
-     }
+     BlockDriverState *parent = c->opaque;
+-    return g_strdup(bdrv_get_device_or_node_name(parent));
++    return g_strdup_printf("node '%s'", bdrv_get_node_name(parent));
  }
  
-diff --git a/tests/qemu-iotests/307.out b/tests/qemu-iotests/307.out
-index daa8ad2da0..66bf2ddb74 100644
---- a/tests/qemu-iotests/307.out
-+++ b/tests/qemu-iotests/307.out
-@@ -53,7 +53,7 @@ exports available: 1
- 
- === Add a writable export ===
- {"execute": "block-export-add", "arguments": {"description": "This is the writable second export", "id": "export1", "name": "export1", "node-name": "fmt", "type": "nbd", "writable": true, "writethrough": true}}
--{"error": {"class": "GenericError", "desc": "Conflicts with use by sda as 'root', which does not allow 'write' on fmt"}}
-+{"error": {"class": "GenericError", "desc": "Conflicts with use by block device 'sda' as 'root', which does not allow 'write' on fmt"}}
- {"execute": "device_del", "arguments": {"id": "sda"}}
+ static void bdrv_child_cb_drained_begin(BdrvChild *child)
+diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
+index 97e62a4c94..c9397bfc44 100644
+--- a/tests/qemu-iotests/283.out
++++ b/tests/qemu-iotests/283.out
+@@ -5,7 +5,7 @@
+ {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
  {"return": {}}
- {"data": {"device": "sda", "path": "/machine/peripheral/sda"}, "event": "DEVICE_DELETED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
+-{"error": {"class": "GenericError", "desc": "Cannot append backup-top filter: Conflicts with use by source as 'image', which does not allow 'write' on base"}}
++{"error": {"class": "GenericError", "desc": "Cannot append backup-top filter: Conflicts with use by node 'source' as 'image', which does not allow 'write' on base"}}
+ 
+ === backup-top should be gone after job-finalize ===
+ 
 -- 
 2.30.2
 
