@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E53398B07
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:50:10 +0200 (CEST)
-Received: from localhost ([::1]:52230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637D2398B0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:52:16 +0200 (CEST)
+Received: from localhost ([::1]:60826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loRG5-0000jY-Ul
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43726)
+	id 1loRI7-0006Ru-FL
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:52:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRC4-0000Cu-TY
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20058)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRC6-0000LF-Na
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRC2-00074V-OH
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:00 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1loRC4-00076a-TT
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 09:46:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622641557;
+ s=mimecast20190719; t=1622641560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5sxgy2f9jgRD2Mv1VSBDcwJ7Rk3aRVaGUNQXV4vp1aI=;
- b=eeDaB93RrZMwkRZh7Xbu4bdp4ATKGcFhA0haYWrE4sVkeb7Bg2Zhlk7EomKlCDo7xNPkiF
- iojNucCEM3YeHQXhzzMLj1WaDN8C9mRgIeF6x0GyWxwPp2I19Oh5AH4IiQms4BPZRvysVU
- Xg0SGpsOsFWsAUoiYVPp8r1emNc7Lj0=
+ bh=uSczhTETjrLOl+SvUO6QOHAEcDO1fonXuQdHChJmCdE=;
+ b=FxIFNm6iLudWJUKLyExXHi3tq//FwKjReXj7kwlFdHpt7nIsRPHinPl4IPME8ck606TQ8w
+ tIcYwlyeiAS2KX8QmIefY81Rg86b3U+Tk5fhDctj6PM++QkgPNnUb8i0e0Tmb9YYhQv1VU
+ d+p+3Nl50wEd5zEj0lUUWnPosQAAlHU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-BFvowecZNGGDWyI70FnGsA-1; Wed, 02 Jun 2021 09:45:55 -0400
-X-MC-Unique: BFvowecZNGGDWyI70FnGsA-1
+ us-mta-507-iDwnJmA9M8i6xzWcp8aPvg-1; Wed, 02 Jun 2021 09:45:58 -0400
+X-MC-Unique: iDwnJmA9M8i6xzWcp8aPvg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 271E7CC62D;
- Wed,  2 Jun 2021 13:45:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 622638B95A4;
+ Wed,  2 Jun 2021 13:45:42 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 378E060BD9;
- Wed,  2 Jun 2021 13:45:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E25160BD9;
+ Wed,  2 Jun 2021 13:45:41 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/20] block: consistently use bdrv_is_read_only()
-Date: Wed,  2 Jun 2021 15:45:14 +0200
-Message-Id: <20210602134529.231756-6-kwolf@redhat.com>
+Subject: [PULL 06/20] block: drop BlockDriverState::read_only
+Date: Wed,  2 Jun 2021 15:45:15 +0200
+Message-Id: <20210602134529.231756-7-kwolf@redhat.com>
 In-Reply-To: <20210602134529.231756-1-kwolf@redhat.com>
 References: <20210602134529.231756-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,194 +82,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-It's better to use accessor function instead of bs->read_only directly.
-In some places use bdrv_is_writable() instead of
-checking both BDRV_O_RDWR set and BDRV_O_INACTIVE not set.
-
-In bdrv_open_common() it's a bit strange to add one more variable, but
-we are going to drop bs->read_only in the next patch, so new ro local
-variable substitutes it here.
+This variable is just a cache for !(bs->open_flags & BDRV_O_RDWR),
+which we have to synchronize everywhere. Let's just drop it and
+consistently use bdrv_is_read_only().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210527154056.70294-2-vsementsov@virtuozzo.com>
+Message-Id: <20210527154056.70294-3-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c                | 11 +++++++----
- block/block-backend.c  |  2 +-
- block/commit.c         |  2 +-
- block/io.c             |  4 ++--
- block/qapi.c           |  2 +-
- block/qcow2-snapshot.c |  2 +-
- block/qcow2.c          |  5 ++---
- block/snapshot.c       |  2 +-
- block/vhdx-log.c       |  2 +-
- 9 files changed, 17 insertions(+), 15 deletions(-)
+ include/block/block_int.h        | 1 -
+ block.c                          | 7 +------
+ tests/unit/test-block-iothread.c | 6 ------
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index b2c8b09d0f..09661a134b 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -843,7 +843,6 @@ struct BlockDriverState {
+      * locking needed during I/O...
+      */
+     int open_flags; /* flags used to open the file, re-used for re-open */
+-    bool read_only; /* if true, the media is read only */
+     bool encrypted; /* if true, the media is encrypted */
+     bool sg;        /* if true, the device is a /dev/sg* */
+     bool probed;    /* if true, format was probed rather than specified */
 diff --git a/block.c b/block.c
-index ef13076c4c..33e99d0c9e 100644
+index 33e99d0c9e..84cb7212f7 100644
 --- a/block.c
 +++ b/block.c
-@@ -1720,6 +1720,7 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
-     QemuOpts *opts;
-     BlockDriver *drv;
-     Error *local_err = NULL;
-+    bool ro;
- 
-     assert(bs->file == NULL);
-     assert(options != NULL && bs->options != options);
-@@ -1772,15 +1773,17 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
- 
-     bs->read_only = !(bs->open_flags & BDRV_O_RDWR);
- 
--    if (use_bdrv_whitelist && !bdrv_is_whitelisted(drv, bs->read_only)) {
--        if (!bs->read_only && bdrv_is_whitelisted(drv, true)) {
-+    ro = bdrv_is_read_only(bs);
-+
-+    if (use_bdrv_whitelist && !bdrv_is_whitelisted(drv, ro)) {
-+        if (!ro && bdrv_is_whitelisted(drv, true)) {
-             ret = bdrv_apply_auto_read_only(bs, NULL, NULL);
-         } else {
-             ret = -ENOTSUP;
-         }
-         if (ret < 0) {
-             error_setg(errp,
--                       !bs->read_only && bdrv_is_whitelisted(drv, true)
-+                       !ro && bdrv_is_whitelisted(drv, true)
-                        ? "Driver '%s' can only be used for read-only devices"
-                        : "Driver '%s' is not whitelisted",
-                        drv->format_name);
-@@ -1792,7 +1795,7 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
-     assert(qatomic_read(&bs->copy_on_read) == 0);
- 
-     if (bs->open_flags & BDRV_O_COPY_ON_READ) {
--        if (!bs->read_only) {
-+        if (!ro) {
-             bdrv_enable_copy_on_read(bs);
-         } else {
-             error_setg(errp, "Can't use copy-on-read on read-only device");
-diff --git a/block/block-backend.c b/block/block-backend.c
-index de5496af66..21b834e9df 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2269,7 +2269,7 @@ void blk_update_root_state(BlockBackend *blk)
-     assert(blk->root);
- 
-     blk->root_state.open_flags    = blk->root->bs->open_flags;
--    blk->root_state.read_only     = blk->root->bs->read_only;
-+    blk->root_state.read_only     = bdrv_is_read_only(blk->root->bs);
-     blk->root_state.detect_zeroes = blk->root->bs->detect_zeroes;
+@@ -265,7 +265,7 @@ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+  * image is inactivated. */
+ bool bdrv_is_read_only(BlockDriverState *bs)
+ {
+-    return bs->read_only;
++    return !(bs->open_flags & BDRV_O_RDWR);
  }
  
-diff --git a/block/commit.c b/block/commit.c
-index b89bb20b75..b7f0c7c061 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -453,7 +453,7 @@ int bdrv_commit(BlockDriverState *bs)
-         return -EBUSY;
+ int bdrv_can_set_read_only(BlockDriverState *bs, bool read_only,
+@@ -317,7 +317,6 @@ int bdrv_apply_auto_read_only(BlockDriverState *bs, const char *errmsg,
+         goto fail;
      }
  
--    ro = backing_file_bs->read_only;
-+    ro = bdrv_is_read_only(backing_file_bs);
+-    bs->read_only = true;
+     bs->open_flags &= ~BDRV_O_RDWR;
  
-     if (ro) {
-         if (bdrv_reopen_set_read_only(backing_file_bs, false, NULL)) {
-diff --git a/block/io.c b/block/io.c
-index 1e826ba9e8..323854d063 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1973,7 +1973,7 @@ bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
- 
-     bdrv_check_request(offset, bytes, &error_abort);
- 
--    if (bs->read_only) {
-+    if (bdrv_is_read_only(bs)) {
-         return -EPERM;
+     return 0;
+@@ -1549,7 +1548,6 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
      }
  
-@@ -3406,7 +3406,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-     if (new_bytes) {
-         bdrv_make_request_serialising(&req, 1);
-     }
--    if (bs->read_only) {
-+    if (bdrv_is_read_only(bs)) {
-         error_setg(errp, "Image is read-only");
-         ret = -EACCES;
-         goto out;
-diff --git a/block/qapi.c b/block/qapi.c
-index 943e7b15ad..dc69341bfe 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -59,7 +59,7 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+     bs->drv = drv;
+-    bs->read_only = !(bs->open_flags & BDRV_O_RDWR);
+     bs->opaque = g_malloc0(drv->instance_size);
  
-     info = g_malloc0(sizeof(*info));
-     info->file                   = g_strdup(bs->filename);
--    info->ro                     = bs->read_only;
-+    info->ro                     = bdrv_is_read_only(bs);
-     info->drv                    = g_strdup(bs->drv->format_name);
-     info->encrypted              = bs->encrypted;
+     if (drv->bdrv_file_open) {
+@@ -1771,8 +1769,6 @@ static int bdrv_open_common(BlockDriverState *bs, BlockBackend *file,
+     trace_bdrv_open_common(bs, filename ?: "", bs->open_flags,
+                            drv->format_name);
  
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 2e98c7f4b6..71ddb08c21 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -1026,7 +1026,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
-     int new_l1_bytes;
-     int ret;
+-    bs->read_only = !(bs->open_flags & BDRV_O_RDWR);
+-
+     ro = bdrv_is_read_only(bs);
  
--    assert(bs->read_only);
-+    assert(bdrv_is_read_only(bs));
+     if (use_bdrv_whitelist && !bdrv_is_whitelisted(drv, ro)) {
+@@ -4548,7 +4544,6 @@ static void bdrv_reopen_commit(BDRVReopenState *reopen_state)
+     bs->explicit_options   = reopen_state->explicit_options;
+     bs->options            = reopen_state->options;
+     bs->open_flags         = reopen_state->flags;
+-    bs->read_only = !(reopen_state->flags & BDRV_O_RDWR);
+     bs->detect_zeroes      = reopen_state->detect_zeroes;
  
-     /* Search the snapshot */
-     snapshot_index = find_snapshot_by_id_and_name(bs, snapshot_id, name);
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 39b91ef940..ee4530cdbd 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1723,8 +1723,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     if (reopen_state->replace_backing_bs) {
+diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
+index 8cf172cb7a..c39e70b2f5 100644
+--- a/tests/unit/test-block-iothread.c
++++ b/tests/unit/test-block-iothread.c
+@@ -194,13 +194,11 @@ static void test_sync_op_truncate(BdrvChild *c)
+     g_assert_cmpint(ret, ==, -EINVAL);
  
-     /* Clear unknown autoclear feature bits */
-     update_header |= s->autoclear_features & ~QCOW2_AUTOCLEAR_MASK;
--    update_header =
--        update_header && !bs->read_only && !(flags & BDRV_O_INACTIVE);
-+    update_header = update_header && bdrv_is_writable(bs);
-     if (update_header) {
-         s->autoclear_features &= QCOW2_AUTOCLEAR_MASK;
-     }
-@@ -1811,7 +1810,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
+     /* Error: Read-only image */
+-    c->bs->read_only = true;
+     c->bs->open_flags &= ~BDRV_O_RDWR;
  
-     /* Repair image if dirty */
--    if (!(flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) && !bs->read_only &&
-+    if (!(flags & BDRV_O_CHECK) && bdrv_is_writable(bs) &&
-         (s->incompatible_features & QCOW2_INCOMPAT_DIRTY)) {
-         BdrvCheckResult result = {0};
+     ret = bdrv_truncate(c, 65536, false, PREALLOC_MODE_OFF, 0, NULL);
+     g_assert_cmpint(ret, ==, -EACCES);
  
-diff --git a/block/snapshot.c b/block/snapshot.c
-index e8ae9a28c1..6702c75e42 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -415,7 +415,7 @@ int bdrv_snapshot_load_tmp(BlockDriverState *bs,
-         error_setg(errp, "snapshot_id and name are both NULL");
-         return -EINVAL;
-     }
--    if (!bs->read_only) {
-+    if (!bdrv_is_read_only(bs)) {
-         error_setg(errp, "Device is not readonly");
-         return -EINVAL;
-     }
-diff --git a/block/vhdx-log.c b/block/vhdx-log.c
-index 404fb5f3cb..7672161d95 100644
---- a/block/vhdx-log.c
-+++ b/block/vhdx-log.c
-@@ -801,7 +801,7 @@ int vhdx_parse_log(BlockDriverState *bs, BDRVVHDXState *s, bool *flushed,
-     }
+-    c->bs->read_only = false;
+     c->bs->open_flags |= BDRV_O_RDWR;
+ }
  
-     if (logs.valid) {
--        if (bs->read_only) {
-+        if (bdrv_is_read_only(bs)) {
-             bdrv_refresh_filename(bs);
-             ret = -EPERM;
-             error_setg(errp,
+@@ -236,13 +234,11 @@ static void test_sync_op_flush(BdrvChild *c)
+     g_assert_cmpint(ret, ==, 0);
+ 
+     /* Early success: Read-only image */
+-    c->bs->read_only = true;
+     c->bs->open_flags &= ~BDRV_O_RDWR;
+ 
+     ret = bdrv_flush(c->bs);
+     g_assert_cmpint(ret, ==, 0);
+ 
+-    c->bs->read_only = false;
+     c->bs->open_flags |= BDRV_O_RDWR;
+ }
+ 
+@@ -256,13 +252,11 @@ static void test_sync_op_blk_flush(BlockBackend *blk)
+     g_assert_cmpint(ret, ==, 0);
+ 
+     /* Early success: Read-only image */
+-    bs->read_only = true;
+     bs->open_flags &= ~BDRV_O_RDWR;
+ 
+     ret = blk_flush(blk);
+     g_assert_cmpint(ret, ==, 0);
+ 
+-    bs->read_only = false;
+     bs->open_flags |= BDRV_O_RDWR;
+ }
+ 
 -- 
 2.30.2
 
