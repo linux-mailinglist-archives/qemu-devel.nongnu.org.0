@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40426398349
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 09:40:53 +0200 (CEST)
-Received: from localhost ([::1]:39868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173D5398343
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 09:40:46 +0200 (CEST)
+Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loLUi-0008PO-AX
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 03:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
+	id 1loLUb-0007yT-3V
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 03:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQN-0008Cu-P5
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32549)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQP-0008HN-FF
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQM-0003lF-3v
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:23 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loLQN-0003mc-S6
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 03:36:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622619381;
+ s=mimecast20190719; t=1622619383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fbNPMCZx+ARmv9Wv3+SeHfacacAGXYtRaEDI0RycHJ0=;
- b=ABUlvyKASzBt0KLyHzOW6I47IPiUPll0kXvm3XUu2y4mMIh6MDjMMY+okKT+Yfw2ZDDyPJ
- aqeYgidg4uYDYLK0c1av5C8x6Bd2QIC8qE0n9kGJ61puw1DNHHbN+sDn8Aw4n9TRt+YmHx
- 1WJXz9FwcN+TeOikhjFyIoNoc7T1c7c=
+ bh=neTjoOdzrbLQcqbDfN53P9XRPHeBdsgyEaVzMOpAxv0=;
+ b=JgTHsuo90vRWTu1VmZauthOuaN2QKnfDded9jZKMvw4hmq1IKeyDLX1FlzCVaARDVAOgA4
+ ROJO3iIpTh2lAYlqOLAIrIJivAJRjtJteEQyNX0UZbQ4qELp5PpbZmk63WGSZLiGPe036Y
+ c4Z1as8q6VopIS/CQynpMZSoIQyRkRg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-JyJHqp8KMrKIljo-4Zeitg-1; Wed, 02 Jun 2021 03:36:19 -0400
-X-MC-Unique: JyJHqp8KMrKIljo-4Zeitg-1
+ us-mta-604-Y8xFAi_QN6-LyDtoTmJi_w-1; Wed, 02 Jun 2021 03:36:21 -0400
+X-MC-Unique: Y8xFAi_QN6-LyDtoTmJi_w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9B23800D55;
- Wed,  2 Jun 2021 07:36:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 338991854E29;
+ Wed,  2 Jun 2021 07:36:20 +0000 (UTC)
 Received: from thuth.com (ovpn-112-40.ams2.redhat.com [10.36.112.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8082A5C729;
- Wed,  2 Jun 2021 07:36:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F28A5C6DE;
+ Wed,  2 Jun 2021 07:36:18 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/17] docs: fix references to docs/specs/tpm.rst
-Date: Wed,  2 Jun 2021 09:35:53 +0200
-Message-Id: <20210602073606.338994-5-thuth@redhat.com>
+Subject: [PULL 05/17] docs: fix references to docs/devel/s390-dasd-ipl.rst
+Date: Wed,  2 Jun 2021 09:35:54 +0200
+Message-Id: <20210602073606.338994-6-thuth@redhat.com>
 In-Reply-To: <20210602073606.338994-1-thuth@redhat.com>
 References: <20210602073606.338994-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,49 +84,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefano Garzarella <sgarzare@redhat.com>
 
-Commit 6e8a3ff6ed ("docs/specs/tpm: reST-ify TPM documentation")
-converted docs/specs/tpm.txt to docs/specs/tpm.rst.
+Commit cc3d15a5ea ("docs: rstfy s390 dasd ipl documentation")
+converted docs/devel/s390-dasd-ipl.txt to docs/devel/s390-dasd-ipl.rst.
 
 We still have several references to the old file, so let's fix them
 with the following command:
 
-  sed -i s/tpm.txt/tpm.rst/ $(git grep -l docs/specs/tpm.txt)
+  sed -i s/s390-dasd-ipl.txt/s390-dasd-ipl.rst/ \
+      $(git grep -l docs/devel/s390-dasd-ipl.txt)
 
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210517151702.109066-5-sgarzare@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20210517151702.109066-6-sgarzare@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/acpi/tpm.c    | 2 +-
- hw/tpm/tpm_ppi.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ pc-bios/s390-ccw/dasd-ipl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/acpi/tpm.c b/hw/acpi/tpm.c
-index b96459e45b..cdc0227536 100644
---- a/hw/acpi/tpm.c
-+++ b/hw/acpi/tpm.c
-@@ -57,7 +57,7 @@ void tpm_build_ppi_acpi(TPMIf *tpm, Aml *dev)
-                aml_operation_region(
-                    "TPP3", AML_SYSTEM_MEMORY,
-                    aml_int(TPM_PPI_ADDR_BASE +
--                           0x15a /* movv, docs/specs/tpm.txt */),
-+                           0x15a /* movv, docs/specs/tpm.rst */),
-                            0x1));
-     field = aml_field("TPP3", AML_BYTE_ACC, AML_NOLOCK, AML_PRESERVE);
-     aml_append(field, aml_named_field("MOVV", 8));
-diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
-index 72d7a3d926..362edcc5c9 100644
---- a/hw/tpm/tpm_ppi.c
-+++ b/hw/tpm/tpm_ppi.c
-@@ -23,7 +23,7 @@
+diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
+index 71cbae2f16..254bb1a15e 100644
+--- a/pc-bios/s390-ccw/dasd-ipl.c
++++ b/pc-bios/s390-ccw/dasd-ipl.c
+@@ -205,7 +205,7 @@ static void run_ipl2(SubChannelId schid, uint16_t cutype, uint32_t addr)
  
- void tpm_ppi_reset(TPMPPI *tpmppi)
+ /*
+  * Limitations in vfio-ccw support complicate the IPL process. Details can
+- * be found in docs/devel/s390-dasd-ipl.txt
++ * be found in docs/devel/s390-dasd-ipl.rst
+  */
+ void dasd_ipl(SubChannelId schid, uint16_t cutype)
  {
--    if (tpmppi->buf[0x15a /* movv, docs/specs/tpm.txt */] & 0x1) {
-+    if (tpmppi->buf[0x15a /* movv, docs/specs/tpm.rst */] & 0x1) {
-         GuestPhysBlockList guest_phys_blocks;
-         GuestPhysBlock *block;
- 
 -- 
 2.27.0
 
