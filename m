@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B23398A96
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:31:42 +0200 (CEST)
-Received: from localhost ([::1]:48720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8913398AB8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:32:45 +0200 (CEST)
+Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loQyD-0001f2-3j
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:31:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
+	id 1loQzE-00056E-Pn
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loQfW-0001Sz-N8; Wed, 02 Jun 2021 09:12:22 -0400
-Received: from mail-eopbgr130102.outbound.protection.outlook.com
- ([40.107.13.102]:43141 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ id 1loQfX-0001Xb-VO; Wed, 02 Jun 2021 09:12:24 -0400
+Received: from mail-am6eur05on2138.outbound.protection.outlook.com
+ ([40.107.22.138]:12054 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loQfU-0003M9-EX; Wed, 02 Jun 2021 09:12:22 -0400
+ id 1loQfW-0003Pp-0J; Wed, 02 Jun 2021 09:12:23 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g4VwzBOC78cvAnk3ZrvUmr07iflr83MGb7yGNAteD6IfV9UVmDpgy5EBXDpnYlku3APW8L/3PpoSy+qRaFiFEQvG9tK9gSsHkCZbz72ybK0ZaeSXEHMIgRMRwZ1c7ZBPRSFrksWTkXP1pBuHVRqhjlpRM+qEHbHCGt99fa1QvpwceMxpIlXUr/Vz5Gja+i0m0W17FH8YNMCU7Sh/viF0S2dgzuyCv8stEJ+ShMwfxRsLzzQjZa4XGGp/B9wU3DG9t0dq66lcL21wquQSRcHX4uh6pMqZNcz11S3TbDBgENDW6EsqceZY5CTfryq4kATjDSYb/DWFUcxXgsJ975Jm3A==
+ b=EoP+H7Gt0kQMwo02RpeuY8e5gmVZFxk94Pgawz9IOHiIZbm6wmo8Xf/voubis1zntj1cJk/y+Nd6scT61LoRdbxwWVoY6Ugigh6CfoJ6kAGiyoQSOb8OrCuNPAX5u5EuOALZ/R5h8VG6VZD/fZSKpoJO+KpPmxcFcLy/cK7Wxol/q3FWWCH2J4asjy+bsV6BCkg15NJn4VLIVjQS0g7qk2lD35ut/He6hbrrC4X77mVCvvDEE5pPk57+FXBESLEFStHGOlRgA5PxpeDZlAkW1DdUfwRfl52DOr2VEgqSYODsliUcnJFZMwnXBrS8xBjGS1VaUg6bN18pHvQs5vR6pQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/p/TS3XFcJAs/p+Fn61YsyKL9qKv/v9dt+kfqgiTOw8=;
- b=Pr9RzOqNvO2Oj2YSoxJtWvz1VvPUzS0marwJHr2U9izzDvEBI4IRoT9M2z7zavq1o5L7dXRByVHGpceSz2vH227K3Ti5RUqbua3CnAD17FAR33vbn1FwZZo9RxqWynw+qO/L30HBQRNw5WUSPliTNhyobnSMkqLRxbwWspMTt3cp/5ltYUI3QTaDyPl9dLFS/aS2EdtJaqBvC410FWbapQPNd4EMK37xf/VWOjEnxxlv6EbdruplKMjPdpijXge6uIRJUMZq1sl7VMARF3EWGwc9Lh8MlBqs3H+uS7d8tURYP/JhQyhFg309Oc8XQ4D6NpZpmkgHVngpvbJ7Jtu6Vw==
+ bh=0Beh5dy+ReulH4eLaq91hbL0yXKg0RNyKzGfNw1S+Hg=;
+ b=CDJz+M1hJEKgMCP75o7j1q3dI+mtClqi24JDm7Yy7QpRiCEaXHhFskB5RTJ/KdR7gxil+GJJRdJYx3dpOdpqsLbfxn9Kj7tB4b2nNPolsn5Ulh5Oep2P3KfMr6PzCGOZwvvJxB5IzWuF1bTqk+Gk+DHVmRl4mVCgl0cVNv8yMxeYGd2VHhmKGDZiBFV6gY8fKdAujZ7scf6uPA7nJLd3Kc0KQ0FqqQi/kfYcfezr54OO1CPfmuseN3VuNtbXnDyPrAw94utr6g5inlR2miYP79zDZwANSuL/8X9WVHNwmB4DqFnTCt/liRmfO36sK5zTSVEeAQk6eMlSZg7XTILEcw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/p/TS3XFcJAs/p+Fn61YsyKL9qKv/v9dt+kfqgiTOw8=;
- b=MFN+vQ9YhPQpsrRz25ymA2SHcXDiCYkjB+4fsdSr58my0sjQf62DwJXw0NUezazLb1VkrePbig+jH4b7cccMBtsYNolX4/l9MnhCXjlqBeUD6aHIO/MqQAikHO6OpQB4ekh5xY4WyVDPYVouGDrcF7GnWB5uH7xYO+aptvxbxW4=
+ bh=0Beh5dy+ReulH4eLaq91hbL0yXKg0RNyKzGfNw1S+Hg=;
+ b=QlX0BtZ3iJ3W3bcjxlyYuQe2uN0T9KXGIobw51qfk/WkWFDJQUOqPnpf9HsT+mh4eEQksUaUce/MjeYjPW/kNY5jsWSwSzF0QbmHE2DAsBlkjRVKgc8TjhPrFDWC7PeGL/Kv7VeW+igBis4PX79MyKcusF9ui5gEXq52SxFpS6s=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6693.eurprd08.prod.outlook.com (2603:10a6:20b:39c::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Wed, 2 Jun
- 2021 13:11:59 +0000
+ 2021 13:12:01 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
- 13:11:59 +0000
+ 13:12:01 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v4 24/35] qapi: publish copy-before-write filter
-Date: Wed,  2 Jun 2021 16:10:57 +0300
-Message-Id: <20210602131108.74979-25-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 25/35] python/qemu/machine.py: refactor _qemu_args()
+Date: Wed,  2 Jun 2021 16:10:58 +0300
+Message-Id: <20210602131108.74979-26-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210602131108.74979-1-vsementsov@virtuozzo.com>
 References: <20210602131108.74979-1-vsementsov@virtuozzo.com>
@@ -67,63 +67,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.211) by
  HE1PR0501CA0011.eurprd05.prod.outlook.com (2603:10a6:3:1a::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:11:58 +0000
+ 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:11:59 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0de80d0e-7adc-4c32-6ff2-08d925c80144
+X-MS-Office365-Filtering-Correlation-Id: 34805408-029f-41b6-c94d-08d925c80221
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6693:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB66931BFD854F14EA69E64B32C13D9@AS8PR08MB6693.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6693D1E104CABCC76B47FBC6C13D9@AS8PR08MB6693.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: djaVYk949fEtFdr7KD7/i8PEbQTdzvI3ahcRqulLjuQTY2I7M1lvM9dgc/8rMpSNALE7Yd/APyx2kMNel9N6pkuP475kfynGB3M8jYCgBIzjgbUVqTDPcYeYrTRyagAXuyv5ftORyjthBFCh+HTRR8vURFMj2y9bEtPbETQhdK1aHMgcZPtvQO3HVsH4A87D7jQDAdHgBTaygHdAB3+Pszy3yGwTbtPrEKPy6EUoDArjNvCMiZOUZFAO/OSvsvC44xBY2YrOO/DfV2AoYY+ywKiVYTtANWbPar5CPtVEA67CWJdp6lAL6aMJETgmKki1Wwhe+hApw6Gnr1fM18u4SFfPJ9J7VZz48bb9GJmMRthrKYYWOBtMJBGD5SLKGqaSS6+NcGTIn+6fB03wDmG84/x6Dg92OA3Na6jLiFD4pDSg3/c2q2hXf7kQjX5/N7BwvuMRxY17FmBYRg8otIqwVCFgwLGdgTj2+2fNniieSGhdSdL0bI7I4p/HySKOM1nw0jYUwHezIsVYRoJFcoEDJQgycvXvhxo0Yo6qQjE1h+RcckTZ7r2nEcbAwFskIzfb6UnhnmDStwNXBXjCnDgzybE6fbrtOFaD0XUlENj77OYmIKDZ1g6k2jMwBUqmmmtkhRggwgYpFfxXn1LXjrSYsTRPVTMA9kOS32+htcZrZiXSZO3B2n9vqoha9WARbQsC
+X-Microsoft-Antispam-Message-Info: kItDZeWnzZsMqAkXsQGDiUiXMmVXUhtDdYvJw1HkyHnn2Qy8j+zSwTJxNUlE5TGCSL7gcOlSeuxAI1JrVbI0a7HmFiW+gsGG//5oEWmfzuCE9TRFKg5k2C1dO/pCOw1JDgJjCpouIU6NYc/qqs7MpE14tM/JkfRMsYShk/JLjOhdQ+HPO16BXS1jD5QFEAChDp8FpbwFQt3a3fp9/BjaCt60RAC1LNJXdiaFCoBJpKSsiSVDc/q1SRF05IKpawZRBINYxWJfGCQLEUMyCqauPuOfeoul3AxAUW1BjOe9Y9ttwxXOKHzFdc+ucADs89jBSp+Ufdb5r3VSsUEg6elC+L9BSfUVuyo64KyQnke7cDZxf7BlDw2b7DdPKdTqGKQSMsFgPrqzawrorcx/ub/kUtL3fWDNZUHT83+2Ib3ZdkgjU+yWwNAS7qj9WiVO9UclZajwQvTJ7v9x91W6znc1tzTiHRjr6KvOyTG5AVY2UybAfR/8tfHDRmnHtNFatyD5HBN2/M1UUBu38aLZsVn7JIMWcHgxiuBl+2kyZXt+W7JRn3sYK0+vUw5sudleAg4jjamoE72xOCYA+zC5jQ+ro6T6cHYuE1hNRqJnjB6rm+JLQcyamGnyHs4OzPfseudzZei4QqzW7l2c+8mzOJzFDtvn9ris91jki8IAV8LNGP+4lrP/PSKd433Pqa4WfIif
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(136003)(366004)(346002)(376002)(39840400004)(8936002)(5660300002)(83380400001)(38350700002)(38100700002)(36756003)(1076003)(6486002)(7416002)(4326008)(6512007)(16526019)(186003)(2616005)(956004)(316002)(6916009)(6506007)(66556008)(478600001)(66946007)(66476007)(2906002)(86362001)(52116002)(8676002)(26005)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?OqwnZ4e6XySRC71GNjH/aHVtTBP0maVjkVTchKYl408nbtICvdbcCppZBmrA?=
- =?us-ascii?Q?Gm64lYj+z4NS+XxDMXA/yLyEJR6q0GS3NPuXCeXBj++xqsirccUhmy35hDhL?=
- =?us-ascii?Q?+CAOuDIZOOdjVt61+gmpT93jE+iW+kfht8jzBZaiEmhvOH0muT7XzD7abRs3?=
- =?us-ascii?Q?HAdz++QcMLKtzcPK2xX6yO8jNnKGK8MPgjbKf39iZXCiCXVYVtTf84biFMlh?=
- =?us-ascii?Q?0Ed0FIa6pXKVYpBr8CrAD8gECl7+Dudlm7fYrbM8wZE321vtwrRUeIY/B74P?=
- =?us-ascii?Q?HuJHrvDelAc2Afu/jVU0/Ji3fcrMgXvB57qT6CVWObvEEUeRZmyCnzz5w97L?=
- =?us-ascii?Q?CLYhmMKTFU7R1I00kuYOIqYyOVOTj3lj4BlX2T7dalSgvQZRPSpuzqofpm97?=
- =?us-ascii?Q?9hMsw61SJGrYVzUGtPM0c646iwDx5R9WB2n+pJNILVKHuLFFvDl2z2e+EH5Z?=
- =?us-ascii?Q?JWfOoF6tgJdLo2nXfKN9Yy4znWeMxeRr72JGURZWoY808RlqHYJbLJpSGx1F?=
- =?us-ascii?Q?JUxhgo7NHEZFb/H+8D1YUFDyolJwjhIx51B5gRXzqU0kNttCTZYCLGzg4n4S?=
- =?us-ascii?Q?KQT/FRGvR6RK0C8vVjlqhtNftKwPc+6voQftlYZYdqXiQtqGPKpJT/RwU/Mc?=
- =?us-ascii?Q?vvLDtj5mFASJJt8X/lTsh9fv3hle/frXhWiqVeqR6R2h0do8mw1qMK7CM649?=
- =?us-ascii?Q?tcOoq7BTt8bxSU0loCHjH6R9Scw0O12zh1uhYUiY6p6TJST+Jfp1LWm1JJtJ?=
- =?us-ascii?Q?uWlZXxv1pHeIpDQx9tU9bPFqHRo57dblMmSMHdgBQJAhLTKHXkcj9F7FFatu?=
- =?us-ascii?Q?mSkGihLbsFAnlckQETTTBVWdDVQjzoV3rVEXGIwoYGCjd42zA3++QioziOQx?=
- =?us-ascii?Q?JIfnmrpf1yaLkrEPXUNZgLksjzp+qe3/PU+FBvALuj1XTrenM5osyfbv61yx?=
- =?us-ascii?Q?kKEx1aIG7AmIGlc0bdgllGgdKWW6rrW3DE9v/q2yfqXQdjS8qAXf0hOqg5K6?=
- =?us-ascii?Q?XLsLOI17eXWgp/2/RzafSAnx/INmzo0UGivFq5mF8CNf01qr5hZLVVVVrN49?=
- =?us-ascii?Q?rVCzju/y72Q8jsBHuWrdu5HHM3vL3WEzr1fpvEUJVb9t29btrNh4A1PMJOt4?=
- =?us-ascii?Q?6O4hYPHF6XdUHOItFme29xAW5prTDjU8qEWHtZjewbDE3qyL/UHcTBNi46b3?=
- =?us-ascii?Q?leZVjG7PqZJVHf1fC1AHpLv8YdcH6a7zpXEQB6eq2+gNjGIv0uIaZ+SIP+aP?=
- =?us-ascii?Q?Y0KtO7Oz0Zm8Qh16r0D6OZW1e8cictia+ar6zHhdTncfDAOoXVENbiJknu6F?=
- =?us-ascii?Q?YOvCKZjGqpTgaztsUzUjgMP9?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?qqhQH7c/54bjkmvlyI7x/DIv/1nvPHed/vLu6ff78MWO1MmowNvfCZY4FhZ1?=
+ =?us-ascii?Q?tG4M0L2QuHlS7bqdCKkOznyggozA+v3dwNdEq6emzLED1O6A9DexysGrbiGA?=
+ =?us-ascii?Q?eNsupBcIGO/iaGsiHGBBwfG4lwJf8PhVGDYanVQqyO4YTIztlSDyLwzwPPi1?=
+ =?us-ascii?Q?ye7mG+Q5RMZbzPFmu1itxUGQCwpkOmmsq0sgPrOP+oTKF1WiJxu/V8MnttL1?=
+ =?us-ascii?Q?26oX7RQAWzQfdFdTfIyAURbtRUG7gAz1VkGNfNsGxfzOiJhqTkE+4cKZnaQf?=
+ =?us-ascii?Q?OMa3CUwPsZHV2F9+mEuJ5DqbmMQ08W+fPsGiEIis99KJcXLb9sMFf75Bexba?=
+ =?us-ascii?Q?fQzFQOxzVGq1+fTWcwHoPh6LWT3enZTC++4T+N/rx5KnSctH/5ikAVoSputX?=
+ =?us-ascii?Q?3P9aSvO+t2H3+ASjTZId4YwIjAYbRSyHlKo2v/2nQMjzAvDKI/7qmc5fwWpy?=
+ =?us-ascii?Q?TC8rXupWEOyiwy3OIR4gneM1JExJs5OeXsrte0qWP/sQgHtD9UmYiBRdnEac?=
+ =?us-ascii?Q?ssr6Q6uO95syONJW9J3PJYap2DLeOG0V+3lwq9yrTUqsL0MbFbzDfFd1w2pm?=
+ =?us-ascii?Q?2zuIM7ReHfT4MdXq4tAWLApjtmGH2W2WTBklMTCn9pwrm2xg3PHgT6IkLQdm?=
+ =?us-ascii?Q?WHBncM7q9xixf6d98ObYsXqpz8r40f08xOhFg+MneWVARgjrUTs0zvz5UBep?=
+ =?us-ascii?Q?3Z/u+CqFr5aQGNP+I4vyPBtALSbi4nxWkj5iM3njWhdYxQ7aBgOHHR7C0d0s?=
+ =?us-ascii?Q?ez4OQmQ98y3/cXSRQR8L4JmJ+ex3FTa2l2YrVRSNMS99Tr+eFAVWIrKjUSuc?=
+ =?us-ascii?Q?yG63OS+Oqg/N7ni6f33QrSdeVTxASmWeC0ERxfJ7RNZzclxKQPVmXVoT/oCn?=
+ =?us-ascii?Q?2yiRxgVKYdzn/6ifNw82PIRImrXjt3Gf+0VAOLssP1UYWMHQDrFc1xRddlxC?=
+ =?us-ascii?Q?MwbiHlnp5WULmwRKd69PR6vHRfR6mOUYvrerDNX0R0oaYg2jR/6UgT6q4Qkx?=
+ =?us-ascii?Q?2co88nNJonNVzhQ/PrGC7cKmoBrDXIZEFju6D7VqqaNT/BEDSfFNgDieRp8Z?=
+ =?us-ascii?Q?5ls5+gfLoej62HwiPdnmwULQZrGJfQSCk5+h+HN8bTj0yciE+KgyuK1IOXU/?=
+ =?us-ascii?Q?LInjhzNuunfZgZTX1M9z4iiyuk8uB9E0nzy+5R3SoKAsP/tfagQvseiU/OuI?=
+ =?us-ascii?Q?M5Et49Txb5zcHkn+qfSSdVF9YxFQJjZhwL35r44cmcRkDuaDZXf8+Wqdq/PH?=
+ =?us-ascii?Q?XqaLJNT7Xr9g+untg8UpQG9gtcpoqF75nr95m71IrjReRaKZ/+2RDLiOkl/R?=
+ =?us-ascii?Q?feEkIFnnbI3hxb+1TOIW/4rv?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0de80d0e-7adc-4c32-6ff2-08d925c80144
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34805408-029f-41b6-c94d-08d925c80221
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:11:59.6048 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:12:01.0256 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P6rAsEHlv6ZBGkVnB0hwfJgaa1btYrWMb2MBChP3nP79VtxQcrFXqGJ0wAFenAPIm9i5lAmres/3b3uhSRv5EXcPhuzm2alI43/3VstRqkU=
+X-MS-Exchange-CrossTenant-UserPrincipalName: JweEHCYjSab7MyHUs1yb0m9xTTUUPfPi1eeAGvKEwryBPPFDregDf0L+ZDlBVqMzJAB1NFEpAw/hW3u2Nw3CxDBn9W2Q7xwCkk8fYpvmPeA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6693
-Received-SPF: pass client-ip=40.107.13.102;
+Received-SPF: pass client-ip=40.107.22.138;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,72 +140,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ - use shorter construction
+ - don't create new dict if not needed
+ - drop extra unpacking key-val arguments
+ - drop extra default values
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ python/qemu/machine.py | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 2ea294129e..6c1ce86235 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2808,15 +2808,17 @@
- # @blklogwrites: Since 3.0
- # @blkreplay: Since 4.2
- # @compress: Since 5.0
-+# @copy-before-write: Since 6.1
- #
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDriver',
-   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
--            'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps',
--            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
--            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
--            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-+            'cloop', 'compress', 'copy-before-write', 'copy-on-read', 'dmg',
-+            'file', 'ftp', 'ftps', 'gluster', 'host_cdrom', 'host_device',
-+            'http', 'https', 'iscsi', 'luks', 'nbd', 'nfs', 'null-aio',
-+            'null-co', 'nvme', 'parallels', 'preallocate', 'qcow', 'qcow2',
-+            'qed', 'quorum', 'raw', 'rbd',
-             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
-             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 6e44bda337..ff35f2cd6c 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -541,14 +541,12 @@ def _qmp(self) -> qmp.QEMUMonitorProtocol:
+         return self._qmp_connection
  
-@@ -3937,6 +3939,25 @@
-   'base': 'BlockdevOptionsGenericFormat',
-   'data': { '*bottom': 'str' } }
+     @classmethod
+-    def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
+-        qmp_args = dict()
+-        for key, value in args.items():
+-            if _conv_keys:
+-                qmp_args[key.replace('_', '-')] = value
+-            else:
+-                qmp_args[key] = value
+-        return qmp_args
++    def _qmp_args(cls, conv_keys: bool,
++                  args: Dict[str, Any]) -> Dict[str, Any]:
++        if conv_keys:
++            return {k.replace('_', '-'): v for k, v in args.items()}
++        else:
++            return args
  
-+##
-+# @BlockdevOptionsCbw:
-+#
-+# Driver specific block device options for the copy-before-write driver,
-+# which does so called copy-before-write operations: when data is
-+# written to the filter, the filter firstly reads corresponding blocks
-+# from its file child and copies them to @target child. After successful
-+# copying the write request is propagated to file child. If copying
-+# failed, the original write request is failed too and no data is written
-+# to file child.
-+#
-+# @target: The target for copy-before-write operations.
-+#
-+# Since: 6.1
-+##
-+{ 'struct': 'BlockdevOptionsCbw',
-+  'base': 'BlockdevOptionsGenericFormat',
-+  'data': { 'target': 'BlockdevRef' } }
-+
- ##
- # @BlockdevOptions:
- #
-@@ -3989,6 +4010,7 @@
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-       'compress':   'BlockdevOptionsGenericFormat',
-+      'copy-before-write':'BlockdevOptionsCbw',
-       'copy-on-read':'BlockdevOptionsCor',
-       'dmg':        'BlockdevOptionsGenericFormat',
-       'file':       'BlockdevOptionsFile',
+     def qmp(self, cmd: str,
+             conv_keys: bool = True,
+@@ -556,7 +554,7 @@ def qmp(self, cmd: str,
+         """
+         Invoke a QMP command and return the response dict
+         """
+-        qmp_args = self._qmp_args(conv_keys, **args)
++        qmp_args = self._qmp_args(conv_keys, args)
+         return self._qmp.cmd(cmd, args=qmp_args)
+ 
+     def command(self, cmd: str,
+@@ -567,7 +565,7 @@ def command(self, cmd: str,
+         On success return the response dict.
+         On failure raise an exception.
+         """
+-        qmp_args = self._qmp_args(conv_keys, **args)
++        qmp_args = self._qmp_args(conv_keys, args)
+         return self._qmp.command(cmd, **qmp_args)
+ 
+     def get_qmp_event(self, wait: bool = False) -> Optional[QMPMessage]:
 -- 
 2.29.2
 
