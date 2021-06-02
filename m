@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40737398876
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 13:38:15 +0200 (CEST)
-Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440B439887C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 13:43:10 +0200 (CEST)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loPCQ-0001To-BW
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 07:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
+	id 1loPHB-0003bz-Bt
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 07:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1loPB6-00009S-7h
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44140)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1loPFy-0002rV-Ez
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:41:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1loPB3-00036B-MH
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:51 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1loPFw-00062I-Nv
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:41:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622633807;
+ s=mimecast20190719; t=1622634111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JVMFCMVk5F81sXN2BL6u43VAyk7L6rMGBpmJimkq1RQ=;
- b=TvWwljh66UKlZVLtMY5qetsI9yMxQ45TYGYuUMsIwhL+ZTCPs5I6zyDeU0iY6oBw7KK53K
- f8h/kjwBIMV6TPQ9TmaqjT5OeBy6AF1U6HbM3oZfvNzQwLp5dNhpMh8X8zCsEMRAFB1o5p
- 3QhkkHz3llPp4CQ8rkDenYWVnA/g8vw=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-EGx1RRnOM9aaq59Kw9RVfQ-1; Wed, 02 Jun 2021 07:36:46 -0400
-X-MC-Unique: EGx1RRnOM9aaq59Kw9RVfQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- q7-20020a1709063607b02903f57f85ac45so518286ejb.15
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 04:36:45 -0700 (PDT)
+ bh=nGVw3y1tFlwkaYhGlvAJzCghjoy5zEx/xuEP/98sV1I=;
+ b=aUoLibXHnrrdyHP+Yo+dH3uJ8awS14JVjNxamv04uCAQAVUSDQb2NdOGX2qd/TnizrdeU+
+ CQBvM+VRXz9J5w6Y+tAZSL9H+WWME8J3mZUOCUnkYRHpamK/KMbxliUPBgcDwiJAt/EVm3
+ vy3rQi1RVRJXZiPpGXDgdRS7hrlisKY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-8Hj-YEcTP2ChN2wyYrzEVQ-1; Wed, 02 Jun 2021 07:41:50 -0400
+X-MC-Unique: 8Hj-YEcTP2ChN2wyYrzEVQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ h18-20020a1709063992b02903d59b32b039so530970eje.12
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 04:41:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JVMFCMVk5F81sXN2BL6u43VAyk7L6rMGBpmJimkq1RQ=;
- b=sA9FpvzJH6Q97s3fCw6gk28AV9WPdVPM5pVYa+jS2E2tKX3wLOhQUmBjx0fG4ZF21G
- vmELGo5ngcMkAbuN3mXCOutdPYMCL/VSoX77wJezypkXU4xOK+QuccrhviftOGOKJoCt
- BJw4nl2mSARD5FYej+pD6tTgLr3mbXWyLAgJVtwXQqi9r3HNGcrKMrxckRpN09KWvvVl
- N7prOca+wuPEyqe7lb7HzLjBrQrHXhp5kjMKt8+jZ7GB4ictzScEz5FungFnphOFL6cz
- ThrHfPNNMVye2/FG6AOKdvhqCwsYZPstTUXlFsnpNo9OM3g3BRk/eDI+rwR/9H4OGcQ1
- JdYw==
-X-Gm-Message-State: AOAM531S/s6/ZlDI2D9bQZch1oHsXKvEe/gFqZbBcs6kMW30HyQ/upm+
- Kbp8a+0oujhL+7qvhEta13lbWhRj14edbYGy0zkv2/8TyAQ0TKY/7ThEU2jI7yEvF1LdSUyzVwE
- IrjGn1Gdr9QnuS0U=
-X-Received: by 2002:aa7:d5cf:: with SMTP id d15mr12086270eds.342.1622633804885; 
- Wed, 02 Jun 2021 04:36:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkmElh63Wx4J1PdgP03I1z5LyKGOZ8PczJGGBte8UThvw/YMhTyCBv57vTFZfTCcX+c2hKrQ==
-X-Received: by 2002:aa7:d5cf:: with SMTP id d15mr12086247eds.342.1622633804611; 
- Wed, 02 Jun 2021 04:36:44 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id d15sm1161163edu.86.2021.06.02.04.36.43
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=nGVw3y1tFlwkaYhGlvAJzCghjoy5zEx/xuEP/98sV1I=;
+ b=HQ/9qGzn4JrvE1R9d1XsrBZn3IIv0YVdT9tl0Q3Ig/LOXBeXM/yG0oPDbB8t4hZFKJ
+ Ew/DDTGhMS3WyYhK66h5A6TgHC/HBza4fNmBntugDv09nuxOut2lUhqY0E6BHYTiq489
+ oQKlxUMi9efOUx/bIR16rBkZ2xla0JrJ3DVbL+xy47lxK6dnS+TFWiBESPHD74QVTQZu
+ 8E2S3N2ZOTapYfXBfiR/Vr4jVGK18T+fYljTDlD6nTQkQV2oKeBhi/E/9NPd23dZGo9C
+ mQQj7GBeE5Of3Bmr5HlZ2oaxn6cMSLIKvqPeTdFYiKL51npgWpG4gPrkN3q/1NUhgw07
+ Qr9g==
+X-Gm-Message-State: AOAM532ZeK/BxAxuXIaIvtqMpNyqjNZtYvvxnoP8dghxKHldx/T4HAn+
+ jus6guL3X/gZgq6LAh8Eu8mg/3sLN5YmHk84a3BDzofM2BRMjMX9qyGP7fHqhoi6XmC5TOJht8a
+ zCOPpPYoh/U8Uvyo=
+X-Received: by 2002:a17:906:bcd5:: with SMTP id
+ lw21mr17975304ejb.346.1622634108906; 
+ Wed, 02 Jun 2021 04:41:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAyCEp9/avgNeyhKoqMSeX3b/LAdFB9LvQ82hcge/oFYGdUN5+3gpimpTrlar09fcoN07nKw==
+X-Received: by 2002:a17:906:bcd5:: with SMTP id
+ lw21mr17975293ejb.346.1622634108704; 
+ Wed, 02 Jun 2021 04:41:48 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id c19sm1210613edv.36.2021.06.02.04.41.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 04:36:44 -0700 (PDT)
-Date: Wed, 2 Jun 2021 13:36:42 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH] hw/arm/boot: Use NUMA node ID in memory node name
-Message-ID: <20210602113642.axaxxgnw2haghas4@gator.home>
-References: <20210601073004.106490-1-gshan@redhat.com>
- <20210601075045.ppmceogd5hp5rqcf@gator.home>
- <e50c52e7-a8d5-c269-cebf-caf1688c629e@redhat.com>
+ Wed, 02 Jun 2021 04:41:48 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v6 01/19] i386: keep hyperv_vendor string up-to-date
+In-Reply-To: <20210430230705.pdxvufj73haq5hno@habkost.net>
+References: <20210422161130.652779-1-vkuznets@redhat.com>
+ <20210422161130.652779-2-vkuznets@redhat.com>
+ <20210430230705.pdxvufj73haq5hno@habkost.net>
+Date: Wed, 02 Jun 2021 13:41:46 +0200
+Message-ID: <87tumg1ojp.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e50c52e7-a8d5-c269-cebf-caf1688c629e@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,120 +96,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- shan.gavin@gmail.com, eric.auger@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 02, 2021 at 11:09:32AM +1000, Gavin Shan wrote:
-> Hi Drew,
-> 
-> On 6/1/21 5:50 PM, Andrew Jones wrote:
-> > On Tue, Jun 01, 2021 at 03:30:04PM +0800, Gavin Shan wrote:
-> > > We possibly populate empty nodes where memory isn't included and might
-> > > be hot added at late time. The FDT memory nodes can't be created due
-> > > to conflicts on their names if multiple empty nodes are specified.
-> > > For example, the VM fails to start with the following error messages.
-> > > 
-> > >    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64          \
-> > >    -accel kvm -machine virt,gic-version=host                        \
-> > >    -cpu host -smp 4,sockets=2,cores=2,threads=1 -m 1024M,maxmem=64G \
-> > >    -object memory-backend-ram,id=mem0,size=512M                     \
-> > >    -object memory-backend-ram,id=mem1,size=512M                     \
-> > >    -numa node,nodeid=0,cpus=0-1,memdev=mem0                         \
-> > >    -numa node,nodeid=1,cpus=2-3,memdev=mem1                         \
-> > >    -numa node,nodeid=2                                              \
-> > >    -numa node,nodeid=3                                              \
-> > >      :
-> > >    -device virtio-balloon-pci,id=balloon0,free-page-reporting=yes
-> > > 
-> > >    qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: \
-> > >                         FDT_ERR_EXISTS
-> > > 
-> > > This fixes the issue by using NUMA node ID or zero in the memory node
-> > > name to avoid the conflicting memory node names. With this applied, the
-> > > VM can boot successfully with above command lines.
-> > > 
-> > > Signed-off-by: Gavin Shan <gshan@redhat.com>
-> > > ---
-> > >   hw/arm/boot.c | 7 ++++++-
-> > >   1 file changed, 6 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> > > index d7b059225e..3169bdf595 100644
-> > > --- a/hw/arm/boot.c
-> > > +++ b/hw/arm/boot.c
-> > > @@ -432,7 +432,12 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
-> > >       char *nodename;
-> > >       int ret;
-> > > -    nodename = g_strdup_printf("/memory@%" PRIx64, mem_base);
-> > > +    if (numa_node_id >= 0) {
-> > > +        nodename = g_strdup_printf("/memory@%d", numa_node_id);
-> > > +    } else {
-> > > +        nodename = g_strdup("/memory@0");
-> > > +    }
-> > > +
-> > >       qemu_fdt_add_subnode(fdt, nodename);
-> > >       qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
-> > >       ret = qemu_fdt_setprop_sized_cells(fdt, nodename, "reg", acells, mem_base,
-> 
-> [...]
-> 
-> > 
-> > Is it conventional to use the unit-address like this? If so, can you point
-> > out where that's documented? If it's not conventional, then we shouldn't
-> > do it. And then I'm not sure what we should do in this case. Here's a
-> > couple links I found, but they don't really help...
-> > 
-> > https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
-> > https://devicetree-specification.readthedocs.io/en/latest/chapter3-devicenodes.html#memory-node
-> > 
-> 
-> As stated in the document (section 2.2.1.1). It's conventional to take the first
-> address of 'reg' property as unit-address, but it's not mandatory as I understand:
-> 
-> (1) In section 2.2.1.1, the bus can specify additional format to unit-address.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-The bus type we're using is the physical memory map. Does it allow this
-use of the unit-address? I still haven't seen that documented anywhere.
-
-> (2) The device node name isn't used to identify the device node in Linux kernel.
->     They are actually identified by 'device_type' property.
->     (drivers/of/fdt.c::early_init_dt_scan_memory())
-
-This doesn't matter. We can't change DT node name formats just because
-they may not impact Linux. We need to follow the DT standard and the Linux
-convention.
-
-> 
-> I think it's still nice to include the unit-address in meory node's name. For the
-> conflicting nodes, we add more suffix like below. I can update the code in v2 if
-> it's preferred way to go.
-
-I don't think we should change the semantics of the unit address at all,
-not without either a) finding a document that says our use is OK or b)
-getting it documented in the Linux kernel first.
-
-Thanks,
-drew
-
-> 
->    memory@0
->    memory@0-0                               # For empty NUMA node
->    memory@0-1                               # For empty NUMA node
->    memory@80000000
->    memory@80000000-0                        # For empty NUMA node
->    memory@80000000-1                        # For empty NUMA node
-> 
-> ---
-> 
-> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
-> 
-> The unit-address must match the first address specified in the reg property of the node.
-> If the node has no reg property, the @unit-address must be omitted and the node-name
-> alone differentiates the node from other nodes at the same level in the tree. The binding
-> for a particular bus may specify additional, more specific requirements for the format
-> of reg and the unit-address.
+> On Thu, Apr 22, 2021 at 06:11:12PM +0200, Vitaly Kuznetsov wrote:
+>> When cpu->hyperv_vendor is not set manually we default to "Microsoft Hv"
+>> and in 'hv_passthrough' mode we get the information from the host. This
+>> information is stored in cpu->hyperv_vendor_id[] array but we don't update
+>> cpu->hyperv_vendor string so e.g. QMP's query-cpu-model-expansion output
+>> is incorrect.
 >
+> I was confused for a while because this can't happen until patch
+> 15/19 is applied.  Probably worth a note in the commit message
+> indicating that hyperv_handle_properties() will be called by
+> x86_cpu_expand_features() in the future.
+>
+>> 
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>>  target/i386/cpu.c     | 19 +++++++++----------
+>>  target/i386/kvm/kvm.c |  5 +++++
+>>  2 files changed, 14 insertions(+), 10 deletions(-)
+>> 
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index ad99cad0e7ce..2d05df232329 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -6665,17 +6665,16 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
+>>  
+>>      /* Hyper-V vendor id */
+>>      if (!cpu->hyperv_vendor) {
+>> -        memcpy(cpu->hyperv_vendor_id, "Microsoft Hv", 12);
+>> -    } else {
+>> -        len = strlen(cpu->hyperv_vendor);
+>> -
+>> -        if (len > 12) {
+>> -            warn_report("hv-vendor-id truncated to 12 characters");
+>> -            len = 12;
+>> -        }
+>> -        memset(cpu->hyperv_vendor_id, 0, 12);
+>> -        memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
+>> +        object_property_set_str(OBJECT(cpu), "hv-vendor-id", "Microsoft Hv",
+>> +                                &error_abort);
+>> +    }
+>> +    len = strlen(cpu->hyperv_vendor);
+>> +    if (len > 12) {
+>> +        warn_report("hv-vendor-id truncated to 12 characters");
+>> +        len = 12;
+>>      }
+>> +    memset(cpu->hyperv_vendor_id, 0, 12);
+>> +    memcpy(cpu->hyperv_vendor_id, cpu->hyperv_vendor, len);
+>
+> Existing issue: hardcoded 12 as the size of hyperv_vendor_id here
+> (compare with the code you add below using sizeof()).  I don't
+> think this should hold the whole series, so it can be fixed in a
+> follow up patch if necessary.
+>
+
+Agreed, adding a patch to change '12' to sizeof().
+
+>>  
+>>      /* 'Hv#1' interface identification*/
+>>      cpu->hyperv_interface_id[0] = 0x31237648;
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index 7fe9f527103c..ab073a5e9c44 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -1215,6 +1215,11 @@ static int hyperv_handle_properties(CPUState *cs,
+>>              cpu->hyperv_vendor_id[0] = c->ebx;
+>>              cpu->hyperv_vendor_id[1] = c->ecx;
+>>              cpu->hyperv_vendor_id[2] = c->edx;
+>> +            cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
+>> +                                           sizeof(cpu->hyperv_vendor_id) + 1);
+>> +            memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
+>> +                   sizeof(cpu->hyperv_vendor_id));
+>> +            cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] = 0;
+>
+> I don't like having to do manual g_realloc() + memcpy() here
+> (calling object_property_set_str() would be simpler), but I
+> believe it will be easier to clean this up after this whole
+> series is applied.
+
+The problem here is that object_property_set_str() only works with
+NULL-terminated strings and 'hyperv_vendor_id' doesn't have it (that's
+why I explicitly do 'cpu->hyperv_vendor[sizeof(cpu->hyperv_vendor_id)] =
+0'). We could've converted 'hyperv_vendor_id' to a char[13] array to
+accomodate for '\0', but 
+
+              cpu->hyperv_vendor_id[0] = c->ebx;
+              cpu->hyperv_vendor_id[1] = c->ecx;
+              cpu->hyperv_vendor_id[2] = c->edx;
+
+assignments will have to be converted to something and this won't look
+natural.
+
+-- 
+Vitaly
 
 
