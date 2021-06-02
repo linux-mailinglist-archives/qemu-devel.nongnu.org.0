@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C70E39944A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 22:09:07 +0200 (CEST)
-Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AB73994D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 22:48:43 +0200 (CEST)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loXAo-0001DH-7N
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 16:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
+	id 1loXn8-0005A1-Gv
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 16:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1loX8y-0000Tv-P7
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:07:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54634)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1loXku-00033H-6Y
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:46:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1loX8v-0003vW-Nb
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:07:11 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1loXkr-0003UH-Kn
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:46:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622664428;
+ s=mimecast20190719; t=1622666781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3v52PfsaT30sKUAAy/WRNne/iT+HV2M6SwWP2fJ8GSA=;
- b=bbK+DFgovVX2KWoXXW48DIdtbGfjxzBIA7MCDdWI1l9BwCeDFft1o38HnXv1FZTybKvPVT
- CQ4QZvp7e+P5r97bfm926pLOgof4dHeBG1/ozrJG/ccNDmtLT4A9oOhlXt7TFIx5DofGzv
- 2pVa/7QVkT1hzY5eHANKY90Q8mOGJmU=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-EJjImnsJPC2i9A5tqYtJ1Q-1; Wed, 02 Jun 2021 16:07:06 -0400
-X-MC-Unique: EJjImnsJPC2i9A5tqYtJ1Q-1
-Received: by mail-oo1-f71.google.com with SMTP id
- f8-20020a4ab6480000b029023de979bd74so2113494ooo.7
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 13:07:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3v52PfsaT30sKUAAy/WRNne/iT+HV2M6SwWP2fJ8GSA=;
- b=cRAV9XvOOlS2tF7ZuU16VpdgaA+S/GTkps7pFCUHaaF9sfzVkyRnm6rWdvFWiDw6J8
- fx77fhlMEdTRD0b5eYn0qPbo/pK5LZxMSbUID/DgWNbdMVgHj+h5VUJHUyM/c+UVI4/t
- rrFktoaqqybbWZdMyuSw33MownF2p+qCV9vv8Al9AGMsYVV3bdATYGGwSz+pMMlTVIkb
- 1d5A6IlPrbuEL7ubv14okJhYABAqbpwTJ6tgrzIUxK0FvUOYavv0fOXC6uT2gX++8KaM
- DqAwPfrjEu+q0yYP4bhWRV/O9CWgBqKkfoupyWfvbOv7yR40v3tHFNAIaJ09iWbguHDB
- FwRg==
-X-Gm-Message-State: AOAM532iqfuImBRQXWF8WDNYIrW+n/tu7x2/U9VcxinVR06Pf/Qsc7WS
- IMei7nXYzIQkJphkT0+DJMEM2QOEjRQZw2XCLb+Ih9bqXkhXYHg5Z2+xX7g8XFozSGyDzkpLIOH
- V3jz+Dcl8vYK3tUo=
-X-Received: by 2002:a05:6830:308a:: with SMTP id
- f10mr26957957ots.147.1622664425858; 
- Wed, 02 Jun 2021 13:07:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKevnl+n1wEzLkMjMfbyAHDYzhS7NebeW/H90pEKdSed1evCGuoFHPUN4bds2IlPtYli93RQ==
-X-Received: by 2002:a05:6830:308a:: with SMTP id
- f10mr26957949ots.147.1622664425682; 
- Wed, 02 Jun 2021 13:07:05 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
- by smtp.gmail.com with ESMTPSA id
- f2sm181379otp.77.2021.06.02.13.07.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 13:07:05 -0700 (PDT)
-Subject: Re: [PATCH v2 1/3] doc: Fix some mistakes in the SEV documentation
-To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org
-References: <a7c5ee6c056d840f46028f4a817c16a9862bdd9e.1619208498.git.thomas.lendacky@amd.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <ca2ed16c-536c-1e8e-1392-5ba944c3d6ca@redhat.com>
-Date: Wed, 2 Jun 2021 15:07:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=D8fWrgOG9Hk0hqlNjfFvw8chC1CGhtL7stGkspHEUqA=;
+ b=RIxIPmydU5JzA7w3Yhpz8Bqb0gihIhvPQhPewP2oF/CalPjA3XIBTC0The8fZHxLhouI+V
+ s+wTVLDPBvgC1fJOhGZhLwAefxi0mK1UWyOW6tbuHi0lOD68WpeSFAoHJi8UqXxTDmSZnB
+ //zYFGVDP9XSbYAy0LnrWdqV9Zoxl1Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-eBIpqtchNV6_iFBoQ3F1-g-1; Wed, 02 Jun 2021 16:46:08 -0400
+X-MC-Unique: eBIpqtchNV6_iFBoQ3F1-g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 774D71020C36;
+ Wed,  2 Jun 2021 20:46:07 +0000 (UTC)
+Received: from localhost (ovpn-119-154.rdu2.redhat.com [10.10.119.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2835E272;
+ Wed,  2 Jun 2021 20:46:05 +0000 (UTC)
+Date: Wed, 2 Jun 2021 10:22:12 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] target/i386/sev: Ensure sev_fw_errlist is sync with
+ update-linux-headers
+Message-ID: <20210602142212.siv7c33hsxiik36y@habkost.net>
+References: <20210219180131.2061072-1-philmd@redhat.com>
+ <665ebe97-fbe2-2273-0a02-1a94351c1e1c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a7c5ee6c056d840f46028f4a817c16a9862bdd9e.1619208498.git.thomas.lendacky@amd.com>
+In-Reply-To: <665ebe97-fbe2-2273-0a02-1a94351c1e1c@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIMWL_WL_HIGH=-0.371, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,25 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Hrdina <phrdina@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/23/21 3:08 PM, Tom Lendacky wrote:
-> From: Tom Lendacky <thomas.lendacky@amd.com>
-> 
-> Fix some spelling and grammar mistakes in the amd-memory-encryption.txt
-> file. No new information added.
-> 
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+On Wed, Jun 02, 2021 at 12:48:18PM +0200, Philippe Mathieu-Daudé wrote:
+> This patch was supposed to go via Eduardo's tree but he
+> missed it, can it go via qemu-trivial instead?
 
-For the series:
+My apologies, again.  I'm still behind on my qemu-devel backlog,
+and this was still buried in my inbox.
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+> 
+> On 2/19/21 7:01 PM, Philippe Mathieu-Daudé wrote:
+> > Ensure sev_fw_errlist[] is updated after running
+> > the update-linux-headers.sh script.
+> > 
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > ---
+> > Based-on: <20210218151633.215374-1-ckuehl@redhat.com>
+> > ---
+> >  target/i386/sev.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/target/i386/sev.c b/target/i386/sev.c
+> > index 37690ae809c..92c69a23769 100644
+> > --- a/target/i386/sev.c
+> > +++ b/target/i386/sev.c
+> > @@ -87,7 +87,7 @@ typedef struct __attribute__((__packed__)) SevInfoBlock {
+> >  static SevGuestState *sev_guest;
+> >  static Error *sev_mig_blocker;
+> >  
+> > -static const char *const sev_fw_errlist[] = {
+> > +static const char *const sev_fw_errlist[SEV_RET_MAX] = {
+> >      [SEV_RET_SUCCESS]                = "",
+> >      [SEV_RET_INVALID_PLATFORM_STATE] = "Platform state is invalid",
+> >      [SEV_RET_INVALID_GUEST_STATE]    = "Guest state is invalid",
+> > @@ -114,6 +114,8 @@ static const char *const sev_fw_errlist[] = {
+> >      [SEV_RET_RESOURCE_LIMIT]         = "Required firmware resource depleted",
+> >      [SEV_RET_SECURE_DATA_INVALID]    = "Part-specific integrity check failure",
+> >  };
+> > +/* Ensure sev_fw_errlist[] is updated after running update-linux-headers.sh */
+> > +QEMU_BUILD_BUG_ON(SEV_RET_SECURE_DATA_INVALID + 1 != SEV_RET_MAX);
+
+A mechanism to notify us when sev_fw_errlist needs to be updated
+would be useful, but I'm not sure I agree with this change.
+I expect update-linux-headers patches always consist of 100%
+automated changes.  This patch would require a manual update of
+target/i386/sev.c to be included in the same commit as
+the header update.
+
+
+> >  
+> >  #define SEV_FW_MAX_ERROR      ARRAY_SIZE(sev_fw_errlist)
+> >  
+> > @@ -160,6 +162,7 @@ fw_error_to_str(int code)
+> >      if (code < 0 || code >= SEV_FW_MAX_ERROR) {
+> >          return "unknown error";
+> >      }
+> > +    assert(sev_fw_errlist[code]);
+> >  
+> >      return sev_fw_errlist[code];
+> >  }
+> > 
+> 
+
+-- 
+Eduardo
 
 
