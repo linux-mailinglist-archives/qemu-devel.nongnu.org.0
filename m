@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBA6398873
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 13:37:13 +0200 (CEST)
-Received: from localhost ([::1]:58966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40737398876
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 13:38:15 +0200 (CEST)
+Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loPBP-0008Fu-Kl
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 07:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38678)
+	id 1loPCQ-0001To-BW
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 07:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1loPAN-00075l-RV
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:07 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1loPAI-0002bC-5z
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:07 -0400
-Received: by mail-wr1-x431.google.com with SMTP id h8so1933714wrz.8
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 04:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CBKjB2xcpedHpGaJqlGe2j/jW6xHHiFdiu7QRPw+uvY=;
- b=Ad+SHNX1kKT4ukCzXUsxzDypDfz6xnhIYsGPEqMTUBzfu5SXpktxr25jNHOcCYe0wN
- sVInWYyVCuJzjCeqWDiY9zMw2AOIp8FuRB/s0uSOx6mymops4vFTRPuUvON/JruRnDwN
- IW6DgaxzIPENBu8MyM5dFlzU0WN22gPUaknDHuEHdAOUaW5yU559doEvwwVx3gb4IX/b
- sovJCkghugMIwk0gwcwY00q7Gt0Mm4JHMPfoYA6oidlW9bseK58qeAVry1kEACPXddEp
- mKlwRnFY66x/TAfzG7NMLdusjnxthMD89bIAUk8CkW04YN71j3NWoHxOd0edVZAUEE1m
- bq3g==
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1loPB6-00009S-7h
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1loPB3-00036B-MH
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 07:36:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622633807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JVMFCMVk5F81sXN2BL6u43VAyk7L6rMGBpmJimkq1RQ=;
+ b=TvWwljh66UKlZVLtMY5qetsI9yMxQ45TYGYuUMsIwhL+ZTCPs5I6zyDeU0iY6oBw7KK53K
+ f8h/kjwBIMV6TPQ9TmaqjT5OeBy6AF1U6HbM3oZfvNzQwLp5dNhpMh8X8zCsEMRAFB1o5p
+ 3QhkkHz3llPp4CQ8rkDenYWVnA/g8vw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-EGx1RRnOM9aaq59Kw9RVfQ-1; Wed, 02 Jun 2021 07:36:46 -0400
+X-MC-Unique: EGx1RRnOM9aaq59Kw9RVfQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ q7-20020a1709063607b02903f57f85ac45so518286ejb.15
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 04:36:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CBKjB2xcpedHpGaJqlGe2j/jW6xHHiFdiu7QRPw+uvY=;
- b=W/YQCJN94/V2REkGCfy1g/WD67re7su+BoQAFZrDWAZiME0k1e5iH/N4azBJmkd6Tr
- biBAvRUbbjUHMPUTgTVrQBKRioagbiK5pyBJYIE9b7WMZ+L+IONflC7orEmzpRVEqAvD
- M/8U7pjcwy5/nXJ92Vu3asvwi312FMnMZkAst6mp3kgqVGOTEEBpI7QE+S7HkkPe7u5v
- JvGpfM4jS9xtSS/5QavZu60GQf6Wpn1x+ArkA7agU4HZ07Od76F06hL4eHIHOadhsKga
- NGOJeba8WSxjYiamFy+b6soK2A2IFD22y02yMenVy5cG8BRJCQaiWhgvgfhCaUELnQls
- qroQ==
-X-Gm-Message-State: AOAM533ORRn4A5IdUSNXdGa7pvyLu6MHJTzZ+59kQUL/vX5Uarw6DyjX
- O1wNjHodoEZQDyCiu0kGlAbxdg==
-X-Google-Smtp-Source: ABdhPJwHA+TJvRMLGfTad9wP0kXp4q0wbK7ip35RK3Ns3qgy9JgVz467yBA8nxNILlsAVlcVKLfWHg==
-X-Received: by 2002:a5d:6b81:: with SMTP id n1mr21994070wrx.144.1622633760043; 
- Wed, 02 Jun 2021 04:36:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u16sm7066055wru.56.2021.06.02.04.35.58
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JVMFCMVk5F81sXN2BL6u43VAyk7L6rMGBpmJimkq1RQ=;
+ b=sA9FpvzJH6Q97s3fCw6gk28AV9WPdVPM5pVYa+jS2E2tKX3wLOhQUmBjx0fG4ZF21G
+ vmELGo5ngcMkAbuN3mXCOutdPYMCL/VSoX77wJezypkXU4xOK+QuccrhviftOGOKJoCt
+ BJw4nl2mSARD5FYej+pD6tTgLr3mbXWyLAgJVtwXQqi9r3HNGcrKMrxckRpN09KWvvVl
+ N7prOca+wuPEyqe7lb7HzLjBrQrHXhp5kjMKt8+jZ7GB4ictzScEz5FungFnphOFL6cz
+ ThrHfPNNMVye2/FG6AOKdvhqCwsYZPstTUXlFsnpNo9OM3g3BRk/eDI+rwR/9H4OGcQ1
+ JdYw==
+X-Gm-Message-State: AOAM531S/s6/ZlDI2D9bQZch1oHsXKvEe/gFqZbBcs6kMW30HyQ/upm+
+ Kbp8a+0oujhL+7qvhEta13lbWhRj14edbYGy0zkv2/8TyAQ0TKY/7ThEU2jI7yEvF1LdSUyzVwE
+ IrjGn1Gdr9QnuS0U=
+X-Received: by 2002:aa7:d5cf:: with SMTP id d15mr12086270eds.342.1622633804885; 
+ Wed, 02 Jun 2021 04:36:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkmElh63Wx4J1PdgP03I1z5LyKGOZ8PczJGGBte8UThvw/YMhTyCBv57vTFZfTCcX+c2hKrQ==
+X-Received: by 2002:aa7:d5cf:: with SMTP id d15mr12086247eds.342.1622633804611; 
+ Wed, 02 Jun 2021 04:36:44 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id d15sm1161163edu.86.2021.06.02.04.36.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 04:35:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27C7B1FF7E;
- Wed,  2 Jun 2021 12:35:58 +0100 (BST)
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
- <20210525150706.294968-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 03/28] softfloat: Move uint_to_float to
- softfloat-parts.c.inc
-Date: Wed, 02 Jun 2021 12:31:51 +0100
-In-reply-to: <20210525150706.294968-4-richard.henderson@linaro.org>
-Message-ID: <8735u0bish.fsf@linaro.org>
+ Wed, 02 Jun 2021 04:36:44 -0700 (PDT)
+Date: Wed, 2 Jun 2021 13:36:42 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH] hw/arm/boot: Use NUMA node ID in memory node name
+Message-ID: <20210602113642.axaxxgnw2haghas4@gator.home>
+References: <20210601073004.106490-1-gshan@redhat.com>
+ <20210601075045.ppmceogd5hp5rqcf@gator.home>
+ <e50c52e7-a8d5-c269-cebf-caf1688c629e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e50c52e7-a8d5-c269-cebf-caf1688c629e@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,104 +95,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ shan.gavin@gmail.com, eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 02, 2021 at 11:09:32AM +1000, Gavin Shan wrote:
+> Hi Drew,
+> 
+> On 6/1/21 5:50 PM, Andrew Jones wrote:
+> > On Tue, Jun 01, 2021 at 03:30:04PM +0800, Gavin Shan wrote:
+> > > We possibly populate empty nodes where memory isn't included and might
+> > > be hot added at late time. The FDT memory nodes can't be created due
+> > > to conflicts on their names if multiple empty nodes are specified.
+> > > For example, the VM fails to start with the following error messages.
+> > > 
+> > >    /home/gavin/sandbox/qemu.main/build/qemu-system-aarch64          \
+> > >    -accel kvm -machine virt,gic-version=host                        \
+> > >    -cpu host -smp 4,sockets=2,cores=2,threads=1 -m 1024M,maxmem=64G \
+> > >    -object memory-backend-ram,id=mem0,size=512M                     \
+> > >    -object memory-backend-ram,id=mem1,size=512M                     \
+> > >    -numa node,nodeid=0,cpus=0-1,memdev=mem0                         \
+> > >    -numa node,nodeid=1,cpus=2-3,memdev=mem1                         \
+> > >    -numa node,nodeid=2                                              \
+> > >    -numa node,nodeid=3                                              \
+> > >      :
+> > >    -device virtio-balloon-pci,id=balloon0,free-page-reporting=yes
+> > > 
+> > >    qemu-system-aarch64: FDT: Failed to create subnode /memory@80000000: \
+> > >                         FDT_ERR_EXISTS
+> > > 
+> > > This fixes the issue by using NUMA node ID or zero in the memory node
+> > > name to avoid the conflicting memory node names. With this applied, the
+> > > VM can boot successfully with above command lines.
+> > > 
+> > > Signed-off-by: Gavin Shan <gshan@redhat.com>
+> > > ---
+> > >   hw/arm/boot.c | 7 ++++++-
+> > >   1 file changed, 6 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> > > index d7b059225e..3169bdf595 100644
+> > > --- a/hw/arm/boot.c
+> > > +++ b/hw/arm/boot.c
+> > > @@ -432,7 +432,12 @@ static int fdt_add_memory_node(void *fdt, uint32_t acells, hwaddr mem_base,
+> > >       char *nodename;
+> > >       int ret;
+> > > -    nodename = g_strdup_printf("/memory@%" PRIx64, mem_base);
+> > > +    if (numa_node_id >= 0) {
+> > > +        nodename = g_strdup_printf("/memory@%d", numa_node_id);
+> > > +    } else {
+> > > +        nodename = g_strdup("/memory@0");
+> > > +    }
+> > > +
+> > >       qemu_fdt_add_subnode(fdt, nodename);
+> > >       qemu_fdt_setprop_string(fdt, nodename, "device_type", "memory");
+> > >       ret = qemu_fdt_setprop_sized_cells(fdt, nodename, "reg", acells, mem_base,
+> 
+> [...]
+> 
+> > 
+> > Is it conventional to use the unit-address like this? If so, can you point
+> > out where that's documented? If it's not conventional, then we shouldn't
+> > do it. And then I'm not sure what we should do in this case. Here's a
+> > couple links I found, but they don't really help...
+> > 
+> > https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
+> > https://devicetree-specification.readthedocs.io/en/latest/chapter3-devicenodes.html#memory-node
+> > 
+> 
+> As stated in the document (section 2.2.1.1). It's conventional to take the first
+> address of 'reg' property as unit-address, but it's not mandatory as I understand:
+> 
+> (1) In section 2.2.1.1, the bus can specify additional format to unit-address.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+The bus type we're using is the physical memory map. Does it allow this
+use of the unit-address? I still haven't seen that documented anywhere.
 
-> Rename to parts$N_uint_to_float.
-> Reimplement uint64_to_float128 with FloatParts128.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> (2) The device node name isn't used to identify the device node in Linux kernel.
+>     They are actually identified by 'device_type' property.
+>     (drivers/of/fdt.c::early_init_dt_scan_memory())
+
+This doesn't matter. We can't change DT node name formats just because
+they may not impact Linux. We need to follow the DT standard and the Linux
+convention.
+
+> 
+> I think it's still nice to include the unit-address in meory node's name. For the
+> conflicting nodes, we add more suffix like below. I can update the code in v2 if
+> it's preferred way to go.
+
+I don't think we should change the semantics of the unit address at all,
+not without either a) finding a document that says our use is OK or b)
+getting it documented in the Linux kernel first.
+
+Thanks,
+drew
+
+> 
+>    memory@0
+>    memory@0-0                               # For empty NUMA node
+>    memory@0-1                               # For empty NUMA node
+>    memory@80000000
+>    memory@80000000-0                        # For empty NUMA node
+>    memory@80000000-1                        # For empty NUMA node
+> 
 > ---
->  fpu/softfloat.c           | 83 ++++++++++++++++-----------------------
->  fpu/softfloat-parts.c.inc | 23 +++++++++++
->  2 files changed, 56 insertions(+), 50 deletions(-)
+> 
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#sect-node-names
+> 
+> The unit-address must match the first address specified in the reg property of the node.
+> If the node has no reg property, the @unit-address must be omitted and the node-name
+> alone differentiates the node from other nodes at the same level in the tree. The binding
+> for a particular bus may specify additional, more specific requirements for the format
+> of reg and the unit-address.
 >
-> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-> index 6404a2997f..db14bd09aa 100644
-> --- a/fpu/softfloat.c
-> +++ b/fpu/softfloat.c
-> @@ -857,6 +857,14 @@ static void parts128_sint_to_float(FloatParts128 *p,=
- int64_t a,
->  #define parts_sint_to_float(P, I, Z, S) \
->      PARTS_GENERIC_64_128(sint_to_float, P)(P, I, Z, S)
->=20=20
-> +static void parts64_uint_to_float(FloatParts64 *p, uint64_t a,
-> +                                  int scale, float_status *s);
-> +static void parts128_uint_to_float(FloatParts128 *p, uint64_t a,
-> +                                   int scale, float_status *s);
-> +
-> +#define parts_uint_to_float(P, I, Z, S) \
-> +    PARTS_GENERIC_64_128(uint_to_float, P)(P, I, Z, S)
-> +
->  /*
->   * Helper functions for softfloat-parts.c.inc, per-size operations.
->   */
-> @@ -3102,35 +3110,15 @@ float128 int32_to_float128(int32_t a, float_statu=
-s *status)
->  }
->=20=20
->  /*
-> - * Unsigned Integer to float conversions
-> - *
-> - * Returns the result of converting the unsigned integer `a' to the
-> - * floating-point format. The conversion is performed according to the
-> - * IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-> + * Unsigned Integer to floating-point conversions
->   */
->=20=20
-> -static FloatParts64 uint_to_float(uint64_t a, int scale, float_status *s=
-tatus)
-> -{
-> -    FloatParts64 r =3D { .sign =3D false };
-> -    int shift;
-> -
-> -    if (a =3D=3D 0) {
-> -        r.cls =3D float_class_zero;
-> -    } else {
-> -        scale =3D MIN(MAX(scale, -0x10000), 0x10000);
 
-I realise this is translated to:
-
-> +
-> +/*
-> + * Unsigned Integer to float conversions
-> + *
-> + * Returns the result of converting the unsigned integer `a' to the
-> + * floating-point format. The conversion is performed according to the
-> + * IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-> + */
-> +static void partsN(uint_to_float)(FloatPartsN *p, uint64_t a,
-> +                                  int scale, float_status *status)
-> +{
-> +    memset(p, 0, sizeof(*p));
-> +
-> +    if (a =3D=3D 0) {
-> +        p->cls =3D float_class_zero;
-> +    } else {
-> +        int shift =3D clz64(a);
-> +        scale =3D MIN(MAX(scale, -0x10000), 0x10000);
-
-here but it does seem weird to have an arbitrary limit here=20
-
-> +        p->cls =3D float_class_normal;
-> +        p->exp =3D DECOMPOSED_BINARY_POINT - shift + scale;
-
-where it's really a limit on fmt->exp_max. Are we just limiting it to
-something sane and relying on the eventual repack to detect and overflow
-condition?
-
-> +        p->frac_hi =3D a << shift;
-> +    }
-> +}
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
