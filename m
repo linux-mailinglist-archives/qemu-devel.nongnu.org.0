@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4B7397E76
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 04:08:14 +0200 (CEST)
-Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D8F397F26
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 04:36:37 +0200 (CEST)
+Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loGIn-0004Gs-EB
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 22:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33278)
+	id 1loGkG-00013T-KN
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 22:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loGI2-0003Q1-Ch
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 22:07:26 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loGI0-00047M-EM
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 22:07:25 -0400
-Received: by mail-pl1-x630.google.com with SMTP id e7so295881plj.7
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 19:07:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P6soOheKeKBX/bO55GWtKn6aDK79/Oblvy0sX9/aDio=;
- b=mZ2XfhAO+KAi4hDX/hgWo3fjbZO7Mk7vCBIc5MZxXqi4PWBHahNvbLQpW9uWMrupO2
- k9TSsScCejxoB57pA8r4b465Ldk/zLTNRppLTGFImoXbLsqPJMCRcahfuOEigKEH+Qjh
- RI+FVJZp5gNqzmCIEdwJmG35k2U4B3SgrAEiXnDo4QnswpTyhZkHqF5KTwdZ1ZQ5NSi4
- w3w5UzSzodVI6dAE/bRfKW7dsEdePRzxqYE69q0ZAZP8qNLio+eKQzDDX7dvzJaS7toq
- V4BuP9jvrOow/+vAcJque24bp1WHwjd7jMZgVL7jno65vhdlSWwJfB2jB6dtsManc6ot
- nTAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=P6soOheKeKBX/bO55GWtKn6aDK79/Oblvy0sX9/aDio=;
- b=ewW8SdVQNRWr5XWVwCJ1/jstUETlthdDzPfAHh4car+Iw7JHtld2KXfT/9tVxAPcEB
- DfbQ+lyk4lj17h5v46puFIumvn6CD/3RN3a8AVu2ACne1L2NR9G6Lz12lVrsqghAAUa1
- APidAmcQgwEttU40SNPpxj1afxUi701y2FmKiDUQlTw/VqKYQ7/I02UoNEGe8PeRfsQo
- P8oQNLjhKD0fcfKD+bvYSP87hJkqxHof/msJmPbRWT+5i9WPLCchEEaXBPNQklr5Ydga
- DdANBR1Y9b+R23lUm3pa23pZ/OZxxdPyWDiOfRUaHbmjSsFgHoo1NdujEv98/0Lk8V8x
- Bo1A==
-X-Gm-Message-State: AOAM530puNanrUiq1cwjS98oZIfsdu2cblBOJSB2CzywWE7EckzwD1tI
- 7PCXpoakYtnXpfX1VTzWhFezaBWRob7LhQ==
-X-Google-Smtp-Source: ABdhPJzz8iCiZI1XaRq4ulHKViODioo28vnxSGy+o85AjGiDMg6zAnpgtPg/vwW0KtklOWI3jd97pA==
-X-Received: by 2002:a17:90a:ab0c:: with SMTP id
- m12mr27926281pjq.179.1622599642690; 
- Tue, 01 Jun 2021 19:07:22 -0700 (PDT)
-Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
- [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id g3sm5309879pfk.188.2021.06.01.19.07.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jun 2021 19:07:22 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Mark LDS{MIN,MAX} as signed operations
-Date: Tue,  1 Jun 2021 19:07:20 -0700
-Message-Id: <20210602020720.47679-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1loGjS-0000Lt-Uc
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 22:35:46 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:32618
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>) id 1loGjP-0005an-10
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 22:35:46 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AAJPIs6D7pLoSGMrlHemQ55DYdb4zR+YMi2TD?=
+ =?us-ascii?q?tnoBLSC9F/b0qynAppomPGDP4gr5NEtApTniAtjkfZq/z+8X3WB5B97LMzUO01?=
+ =?us-ascii?q?HYTr2Kg7GD/xTQXwX69sN4kZxrarVCDrTLZmRSvILX5xaZHr8brOW6zA=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.83,241,1616428800"; d="scan'208";a="109117211"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 02 Jun 2021 10:35:36 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+ by cn.fujitsu.com (Postfix) with ESMTP id B18654C369F4;
+ Wed,  2 Jun 2021 10:35:32 +0800 (CST)
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 2 Jun 2021 10:35:32 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Wed, 2 Jun 2021 10:35:31 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH] migration/rdma: Fix cm event use after free
+Date: Wed, 2 Jun 2021 10:35:06 +0800
+Message-ID: <20210602023506.3821293-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: B18654C369F4.AAC7C
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,70 +64,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The operands to tcg_gen_atomic_fetch_s{min,max}_i64 must
-be signed, so that the inputs are properly extended.
-Zero extend the result afterward, as needed.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/364
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 ---
- target/arm/translate-a64.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ migration/rdma.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index ceac0ee2bd..d6906d9012 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -3355,8 +3355,9 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
-     int o3_opc = extract32(insn, 12, 4);
-     bool r = extract32(insn, 22, 1);
-     bool a = extract32(insn, 23, 1);
--    TCGv_i64 tcg_rs, clean_addr;
-+    TCGv_i64 tcg_rs, tcg_rt, clean_addr;
-     AtomicThreeOpFn *fn = NULL;
-+    MemOp mop = s->be_data | size | MO_ALIGN;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 1cdb4561f32..d90b29a4b51 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -1539,16 +1539,20 @@ static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
  
-     if (is_vector || !dc_isar_feature(aa64_atomics, s)) {
-         unallocated_encoding(s);
-@@ -3377,9 +3378,11 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
-         break;
-     case 004: /* LDSMAX */
-         fn = tcg_gen_atomic_fetch_smax_i64;
-+        mop |= MO_SIGN;
-         break;
-     case 005: /* LDSMIN */
-         fn = tcg_gen_atomic_fetch_smin_i64;
-+        mop |= MO_SIGN;
-         break;
-     case 006: /* LDUMAX */
-         fn = tcg_gen_atomic_fetch_umax_i64;
-@@ -3422,6 +3425,7 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+                 if (pfds[1].revents) {
+                     ret = rdma_get_cm_event(rdma->channel, &cm_event);
+-                    if (!ret) {
+-                        rdma_ack_cm_event(cm_event);
++                    if (ret) {
++                        error_report("failed to get cm event while wait "
++                                     "completion channel");
++                        return -EPIPE;
+                     }
+ 
+                     error_report("receive cm event while wait comp channel,"
+                                  "cm event is %d", cm_event->event);
+                     if (cm_event->event == RDMA_CM_EVENT_DISCONNECTED ||
+                         cm_event->event == RDMA_CM_EVENT_DEVICE_REMOVAL) {
++                        rdma_ack_cm_event(cm_event);
+                         return -EPIPE;
+                     }
++                    rdma_ack_cm_event(cm_event);
+                 }
+                 break;
+ 
+@@ -3285,7 +3289,6 @@ static void rdma_cm_poll_handler(void *opaque)
+         error_report("get_cm_event failed %d", errno);
+         return;
      }
+-    rdma_ack_cm_event(cm_event);
  
-     tcg_rs = read_cpu_reg(s, rs, true);
-+    tcg_rt = cpu_reg(s, rt);
+     if (cm_event->event == RDMA_CM_EVENT_DISCONNECTED ||
+         cm_event->event == RDMA_CM_EVENT_DEVICE_REMOVAL) {
+@@ -3298,12 +3301,14 @@ static void rdma_cm_poll_handler(void *opaque)
+                 rdma->return_path->error_state = -EPIPE;
+             }
+         }
++        rdma_ack_cm_event(cm_event);
  
-     if (o3_opc == 1) { /* LDCLR */
-         tcg_gen_not_i64(tcg_rs, tcg_rs);
-@@ -3430,8 +3434,11 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
-     /* The tcg atomic primitives are all full barriers.  Therefore we
-      * can ignore the Acquire and Release bits of this instruction.
-      */
--    fn(cpu_reg(s, rt), clean_addr, tcg_rs, get_mem_index(s),
--       s->be_data | size | MO_ALIGN);
-+    fn(tcg_rt, clean_addr, tcg_rs, get_mem_index(s), mop);
-+
-+    if ((mop & MO_SIGN) && size != MO_64) {
-+        tcg_gen_ext32u_i64(tcg_rt, tcg_rt);
-+    }
+         if (mis->migration_incoming_co) {
+             qemu_coroutine_enter(mis->migration_incoming_co);
+         }
+         return;
+     }
++    rdma_ack_cm_event(cm_event);
  }
  
- /*
+ static int qemu_rdma_accept(RDMAContext *rdma)
 -- 
-2.25.1
+2.30.2
+
+
 
 
