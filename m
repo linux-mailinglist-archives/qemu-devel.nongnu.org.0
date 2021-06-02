@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C7F398FF4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 18:29:23 +0200 (CEST)
-Received: from localhost ([::1]:41062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC84398FF3
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 18:29:20 +0200 (CEST)
+Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loTkA-00044O-5i
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 12:29:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33684)
+	id 1loTk7-0003wH-AV
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 12:29:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loTiz-0002a0-CA
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:28:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loTiw-0003OC-QV
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:28:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622651286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oCFBhlJsT4XmaqymF41dgYrn8wzzWPIPFIMVROsR89w=;
- b=iBpQ+P9XVijrkyycFcrzDzBxHsJdbVwn3eIV59TdVEmY246Lj9oWBzUu4u2rloyg4+rbl1
- 5YrAcPa3z0HNXoOOS4pp+wmamwD/0qv1QC9Zq9wlN5A1VJPgOsbXvDxSNLmxH0kteUqa/3
- 1p1TA+MRBIruUJ8cNSa2raFD/zgnHa4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-qmfDzRt4MIijFl7S7Qx9mQ-1; Wed, 02 Jun 2021 12:28:03 -0400
-X-MC-Unique: qmfDzRt4MIijFl7S7Qx9mQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A9F81013726;
- Wed,  2 Jun 2021 16:28:01 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0379A5C1A3;
- Wed,  2 Jun 2021 16:27:47 +0000 (UTC)
-Subject: Re: [PULL v2 00/44] Python patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210601233118.1103509-1-jsnow@redhat.com>
- <CAFEAcA9J97B2XqC-9vnej2pb=rLjAJv9KnT4buU4BVU20pmy4A@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <de2077e8-ef8a-dbd5-5485-57261275c0d3@redhat.com>
-Date: Wed, 2 Jun 2021 12:27:47 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loTiw-0002XH-8Z
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:28:06 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loTiu-0003Ml-Jr
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 12:28:05 -0400
+Received: by mail-pf1-x434.google.com with SMTP id g6so2615431pfq.1
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 09:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3FE9Vr348M4JNOzZzwjWmfKOommZ6lFk5XJoriAEga0=;
+ b=ijZo8DINauZfbG7uWoggwAtGPc8yMPaNyRlEr/kNM7sca/LTbKpnb0wAWgaY0zk7mh
+ dFj3RdrykCVrflxqgIFgjaBGrYtugCP+Rrub9flzpdkhNDjgv4X7wD1vlvNqqUgv4Qli
+ DVoSgHvlBgbdUjz8mWd0NJr/aCXy43FIs12KZVDLVD1bisuKdN5SqECbhQUv82szZs7M
+ EZfLW3ybytagbCOcs78QFD73AymAKJgrIOxaBh5sGqDnSnxjDGNIC4hM4dlVZR2L5SeX
+ 1CNoVVm/MhO3g9SEVpBHLbHtn6voa3RayloikcEMU7VriK7w7qA29rs92EdCg+gU0ZN3
+ 3DiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3FE9Vr348M4JNOzZzwjWmfKOommZ6lFk5XJoriAEga0=;
+ b=pXPEityoWvyjODkVRJUedbxOUbFhyk4Y37tUinSwsmhbnC7LdOirFrghy6miRD9Xuc
+ HuLXVe+fSRy0F179JOvv4FYpRE+D5kGacSnKCl5QcdHb+n7EAGkSb22v9HQe7nvXeWbv
+ fPXiQuX214Ng8zGMQNbpZsHKfmU7KrA6z70HniwHN7rDy2S0v8P1HxZnYscEUGOYUPiJ
+ oaizTX9iJGqRntOV5g5jxTuTEXd3RbCZ5lSVy6AMunNxe7izoKHGawsyUEh4Ub8z/RyU
+ lA2Y+TTyr9kC4sBHcwma8GsTm+eEYo8xQUSvQs85Zky3f0Jb9wrLE8tNhD8l+ZwNo7X+
+ Vx9Q==
+X-Gm-Message-State: AOAM533Ox+qeW+FaYlGR6vwiFolQGPeCfDSwq0fEsfO5mJLAkvvSro+Q
+ ykJZw/HJVqcAjD1S85DeZuMjQQ==
+X-Google-Smtp-Source: ABdhPJx/kjnqZHAlWaMxpK1tw4UgkJH7pgfDW3TsZ9n9xSyPbM+dWKIW9JiYP9p6OgdxmDuzMuiJBw==
+X-Received: by 2002:a63:bc19:: with SMTP id q25mr34845271pge.211.1622651282909; 
+ Wed, 02 Jun 2021 09:28:02 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ n2sm244840pgl.59.2021.06.02.09.28.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 09:28:02 -0700 (PDT)
+Subject: Re: [PATCH v2 03/28] softfloat: Move uint_to_float to
+ softfloat-parts.c.inc
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210525150706.294968-1-richard.henderson@linaro.org>
+ <20210525150706.294968-4-richard.henderson@linaro.org>
+ <8735u0bish.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f8353d16-9423-575f-63ff-8edbc05d2ac7@linaro.org>
+Date: Wed, 2 Jun 2021 09:28:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9J97B2XqC-9vnej2pb=rLjAJv9KnT4buU4BVU20pmy4A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <8735u0bish.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,63 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 12:07 PM, Peter Maydell wrote:
-> On Wed, 2 Jun 2021 at 00:31, John Snow <jsnow@redhat.com> wrote:
->>
->> The following changes since commit 52848929b70dcf92a68aedcfd90207be81ba3274:
->>
->>    Merge remote-tracking branch 'remotes/kraxel/tags/usb-20210528-pull-request' into staging (2021-05-30 20:10:30 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/jsnow/qemu.git tags/python-pull-request
->>
->> for you to fetch changes up to 6b9c277797879ce41ed20deb6737f4156cc279b3:
->>
->>    gitlab: add python linters to CI (2021-06-01 16:21:21 -0400)
->>
->> ----------------------------------------------------------------
->> Pull request
->>
->> V2:
->>   - Squashed in fixup for
->>     'Python: add utility function for retrieving port redirection'
->>   - Rebased on today's upstream
->>
->> CI here:
->> https://gitlab.com/jsnow/qemu/-/pipelines/313202814
->>
+On 6/2/21 4:31 AM, Alex Bennée wrote:
+>> +        scale = MIN(MAX(scale, -0x10000), 0x10000);
 > 
+> here but it does seem weird to have an arbitrary limit here
 > 
-> Applied, thanks.
+>> +        p->cls = float_class_normal;
+>> +        p->exp = DECOMPOSED_BINARY_POINT - shift + scale;
 > 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-> for any user-visible changes.
-> 
-> -- PMM
-> 
+> where it's really a limit on fmt->exp_max. Are we just limiting it to
+> something sane and relying on the eventual repack to detect and overflow
+> condition?
 
-Yay!!!
+Yep.  This is before and after, mind.
 
-Shouldn't be any user-visible changes yet, but there are some 
-developer-visible ones. (The new CI tests now protecting our python 
-code, chiefly.) I don't think it's appropriate matter for the changelog.
-
-Thank you!
-
-🎉
-
+r~
 
