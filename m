@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767283991FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:54:16 +0200 (CEST)
-Received: from localhost ([::1]:58042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C986D399204
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:57:20 +0200 (CEST)
+Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loV4J-0000jD-Ir
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:54:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
+	id 1loV7H-0005T7-KB
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1loV2r-0006L3-22; Wed, 02 Jun 2021 13:52:45 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45874)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1loV5l-00047E-NW
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:55:45 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:40870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1loV2p-0001m0-6K; Wed, 02 Jun 2021 13:52:44 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id dg27so3904784edb.12;
- Wed, 02 Jun 2021 10:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=z91/lUstfHfJB/OXs2S66wKXDOW5G7UA9KsSrmTjORY=;
- b=bp9KwO+aII7+FRDY0hE115XUhDVFy7OaYmt7YHWpcvpHH+Ii0+hR2HGY4u7NZC8XdN
- vrYChVx7lqrMBAkycpt8W7tlJtwJzIJeu5w2LUlR0F4Qo+NjQEFOuVfakWtCAMg6bA2I
- qF3z0rCIXW0Kj/ycnScFwTxhdHumdi/OaRiqRG9jyN5mx6nSVPiPM1XRYuScexu/AWcq
- 2oaUf47K21gxnWC13QNyRbL2ONZj4b7HMdwj/keKY7P9yf60UWyum04Hhf5j73lHUj4D
- bsvgGR3ZO4yK9s5exLNeXI+YLQpTnhOipMQ0vCKcc3XnEOD+qikq8twscZaMBWMYC8tE
- b8kw==
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1loV5i-0003VY-LN
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:55:45 -0400
+Received: by mail-qt1-x834.google.com with SMTP id i12so2456847qtr.7
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 10:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:message-id:in-reply-to:references:subject
+ :mime-version; bh=X5AkO0X8sZGuBy1hlAgQEn2iABIuWhSmYCETlKtNlZk=;
+ b=eM/nULHZfnoG3PbMN0AvwQeTktnjHSMrnKeAI5718vcUkTdN8AUj5zZQAOkSeJxnJf
+ SrWNtxGK74aP6XmO0gyu8zvvg4Z2b37vuBZJEDgeWVHVYLsd8Hh4xiSD7UeBgMY1mtMy
+ 1lrSYp+gOGlt7Zk8PHD3zXuA7EDbvMZmlVBEZUzOXkpDfwTk8Zer0tDETVqZ57CtoMk4
+ hSpfxDusNeCGLw/4tQ0izpObKgPhDqwp/zuatk5GLcZ8Al7+Rk88kb1Qz2jPkVInEmnw
+ vT+q0LysOx0d6mpqA+0HH6Q6S0OmuOObmB7bt0KclbMpPNd21VO6mcfgnrT7+3glansh
+ 5ZnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=z91/lUstfHfJB/OXs2S66wKXDOW5G7UA9KsSrmTjORY=;
- b=jPPAQJvu5KyHbA/agrOriyVU1D3lGs62JCqFIWxWHEZ4slxLVWeIf+Fb4bhTZXtY4R
- N3oz104c6cWWicwRqyA8BaeD3G6Q+zI9/Wg/bvPts/QLsvr86M1hWNcCEALMt9ZQWGr1
- qx6cZjRiciUkywbpzoWSpxHhHuufY6LF7c3L36uy6Op+JCAmdwI16X/Ribb+1SILFUnk
- Jk2WjuG/6H8A+Ys6o2pkVm1wTs7MWqlZ1FLa82K8DH/E0PNnvF/9GHb+2FRfyjuXAoDt
- /FBhBA32OPHJ79e2SXWsFvFYmdMEHSTrfx8z3Yl+yLL1AgeBY7hsLzhRjvScLsi29q25
- sG/Q==
-X-Gm-Message-State: AOAM530knvZZt6d+y5Nlp6T+MtcVVhzdUIRM4s1XPvICRsER4uN5y2BT
- zYm/GG2XO+WMHYSWe3wMReQ=
-X-Google-Smtp-Source: ABdhPJwiV7QGmFOQZq4WrlxTtHsPpFtNZKQ+ucqhLH+U3NFlI21vgAs5Jg3/3mSYfZB+rKf6DG4UJQ==
-X-Received: by 2002:a50:9fe5:: with SMTP id c92mr32414637edf.93.1622656360692; 
- Wed, 02 Jun 2021 10:52:40 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id y5sm233184ejd.68.2021.06.02.10.52.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 10:52:39 -0700 (PDT)
-Subject: Re: [PATCH 1/3] misc: Fix "havn't" typo
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20210602170759.2500248-1-f4bug@amsat.org>
- <20210602170759.2500248-2-f4bug@amsat.org>
- <CP2PR80MB3668A422060CEA5B25ABE451DA3D9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6ff21611-5e47-7bc2-5477-fe5201386355@amsat.org>
-Date: Wed, 2 Jun 2021 19:52:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+ :references:subject:mime-version;
+ bh=X5AkO0X8sZGuBy1hlAgQEn2iABIuWhSmYCETlKtNlZk=;
+ b=fPxvPfhR8aTw9ZhI+AOHavAXX+AeseRmAkI+x5kCvCtGkAbukV1gISXHr9T5p0FVJ2
+ Aic1lMApzifdhO+pahNq2Nd0bqIlJorTFqCKXauqiVDvEmp23U1tL+RMQNvqzhLezFYo
+ P4CioTKedUs4S4O2xJY8YjbCh7Npk8Mv/xv9EeatBzkE4dtBnCb3SJHoYAbuNOnXaEhA
+ Wpj6uWjSzpTaIy9dHEI4ExaaJhE2+ZEcr9iwdju/neN01p/pX7ROFsDEyV1DxdbxTsA1
+ /DuRwadg+ld2wqEAcCCmKeNjCvrfUZrAgmVT7l2RVkDm71G8jqaJsNwSfgiy6WwVXV1t
+ GMzQ==
+X-Gm-Message-State: AOAM533uql3IHJv94xOJMtRpPld8LzyjmXONZ7MegHwI5l+Ce3Mn72s5
+ gr9XD5HwgAYpHgL41LLC2O8Ktg==
+X-Google-Smtp-Source: ABdhPJwiefxuzUD3czzjbJaqquhhkTmTwtkWYwY4FLjqXWkA4g6iKkkzGfOC2F2I+/39cSVF/033AA==
+X-Received: by 2002:ac8:4f4f:: with SMTP id i15mr2169583qtw.215.1622656540681; 
+ Wed, 02 Jun 2021 10:55:40 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-stsvon1503w-grc-21-142-114-142-78.dsl.bell.ca. [142.114.142.78])
+ by smtp.gmail.com with ESMTPSA id 7sm300472qtu.38.2021.06.02.10.55.39
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 02 Jun 2021 10:55:39 -0700 (PDT)
+Date: Wed, 2 Jun 2021 13:55:38 -0400
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <2235C492-01C2-4925-BCD0-F57D5BD40777@getmailspring.com>
+In-Reply-To: <CAFEAcA9wAnK11NNObOrqV8MMgf7h9=Q2nNarEe+GY0SNPPuneQ@mail.gmail.com>
+References: <CAFEAcA9wAnK11NNObOrqV8MMgf7h9=Q2nNarEe+GY0SNPPuneQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] GICv3 LPI and ITS feature implementation
+X-Mailer: Mailspring
 MIME-Version: 1.0
-In-Reply-To: <CP2PR80MB3668A422060CEA5B25ABE451DA3D9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
+Content-Type: multipart/alternative; boundary="60b7c61a_4229d044_14ea"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x834.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.613,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,41 +82,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- "open list:ARM TCG target" <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 7:25 PM, Luis Fernando Fujita Pires wrote:
-> From: Philippe Mathieu-Daudé
->> Fix havn't -> haven't typo.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/usb/desc-msos.c         | 2 +-
->>  target/s390x/translate.c   | 6 ++++--
->>  tcg/tcg-op.c               | 2 +-
->>  tcg/arm/tcg-target.c.inc   | 6 ++++--
->>  tcg/sparc/tcg-target.c.inc | 6 ++++--
->>  5 files changed, 14 insertions(+), 8 deletions(-)
->> -    /* Validate that the "compressed" encoding we selected above is valid.
->> -       I.e. we havn't make two different original fields overlap.  */
->> +    /*
->> +     * Validate that the "compressed" encoding we selected above is valid.
->> +     * I.e. we haven't make two different original fields overlap.
->> +     */
-> 
-> haven't make -> haven't made?
+--60b7c61a_4229d044_14ea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Oops yes... Thanks!
+This is due to missing IORT acpi data,applicable with latest ITS changes.
+Will be sharing a separate review with new files.
 
-> 
-> Other than that,
-> 
-> Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+On May 18 2021, at 10:46 am, Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Fri, 30 Apr 2021 at 00:42, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+> >
+> > This patchset implements qemu device model for enabling physical
+> > LPI support and ITS functionality in GIC as per GICv3 specification.
+> > Both flat table and 2 level tables are implemented.The ITS commands
+> > for adding/deleting ITS table entries,trigerring LPI interrupts are
+> > implemented.Translated LPI interrupt ids are processed by redistributor
+> > to determine priority and set pending state appropriately before
+> > forwarding the same to cpu interface.
+> > The ITS feature support has been added to sbsa-ref platform as well as
+> > virt platform,wherein the emulated functionality co-exists with kvm
+> > kernel functionality.
+> >
+> > Changes in v3:
+> > - review comments addressed
+> >
+> > Shashi Mallela (8):
+> > hw/intc: GICv3 ITS initial framework
+> > hw/intc: GICv3 ITS register definitions added
+> > hw/intc: GICv3 ITS command queue framework
+> > hw/intc: GICv3 ITS Command processing
+> > hw/intc: GICv3 ITS Feature enablement
+> > hw/intc: GICv3 redistributor ITS processing
+> > hw/arm/sbsa-ref: add ITS support in SBSA GIC
+> > hw/arm/virt: add ITS support in virt GIC
+>
+> Something in here breaks "make check":
+> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=./qemu-img
+> G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-from-laptop/qemu/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=./qemu-system-aarch64 tests/qtest/bios-tables-test
+> --tap -k
+>
+> Looking for expected file 'tests/data/acpi/virt/FACP'
+> Using expected file 'tests/data/acpi/virt/FACP'
+> Looking for expected file 'tests/data/acpi/virt/APIC'
+> Using expected file 'tests/data/acpi/virt/APIC'
+> Looking for expected file 'tests/data/acpi/virt/GTDT'
+> Using expected file 'tests/data/acpi/virt/GTDT'
+> Looking for expected file 'tests/data/acpi/virt/MCFG'
+> Using expected file 'tests/data/acpi/virt/MCFG'
+> Looking for expected file 'tests/data/acpi/virt/SPCR'
+> Using expected file 'tests/data/acpi/virt/SPCR'
+> Looking for expected file 'tests/data/acpi/virt/IORT'
+> **
+> ERROR:../../tests/qtest/bios-tables-test.c:385:load_expected_aml:
+> assertion failed: (exp_sdt.aml_file)
+> ERROR qtest-aarch64/bios-tables-test - Bail out!
+> ERROR:../../tests/qtest/bios-tables-test.c:385:load_expected_aml:
+> assertion failed: (exp_sdt.aml_file)
+>
+> (and then it hangs)
+> -- PMM
+--60b7c61a_4229d044_14ea
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+<div>This is due to missing IORT acpi data,applicable with latest ITS cha=
+nges.</div><div>Will be sharing a separate review with&nbsp; new files.</=
+div><br><div class=3D=22gmail=5Fquote=5Fattribution=22>On May 18 2021, at=
+ 10:46 am, Peter Maydell &lt;peter.maydell=40linaro.org&gt; wrote:</div><=
+blockquote><div><div>On =46ri, 30 Apr 2021 at 00:42, Shashi Mallela &lt;s=
+hashi.mallela=40linaro.org&gt; wrote:</div><div>&gt;</div><div>&gt; This =
+patchset implements qemu device model for enabling physical</div><div>&gt=
+; LPI support and ITS functionality in GIC as per GICv3 specification.</d=
+iv><div>&gt; Both flat table and 2 level tables are implemented.The ITS c=
+ommands</div><div>&gt; for adding/deleting ITS table entries,trigerring L=
+PI interrupts are</div><div>&gt; implemented.Translated LPI interrupt ids=
+ are processed by redistributor</div><div>&gt; to determine priority and =
+set pending state appropriately before</div><div>&gt; forwarding the same=
+ to cpu interface.</div><div>&gt; The ITS feature support has been added =
+to sbsa-ref platform as well as</div><div>&gt; virt platform,wherein the =
+emulated functionality co-exists with kvm</div><div>&gt; kernel functiona=
+lity.</div><div>&gt;</div><div>&gt; Changes in v3:</div><div>&gt; - revie=
+w comments addressed</div><div>&gt;</div><div>&gt; Shashi Mallela (8):</d=
+iv><div>&gt; hw/intc: GICv3 ITS initial framework</div><div>&gt; hw/intc:=
+ GICv3 ITS register definitions added</div><div>&gt; hw/intc: GICv3 ITS c=
+ommand queue framework</div><div>&gt; hw/intc: GICv3 ITS Command processi=
+ng</div><div>&gt; hw/intc: GICv3 ITS =46eature enablement</div><div>&gt; =
+hw/intc: GICv3 redistributor ITS processing</div><div>&gt; hw/arm/sbsa-re=
+f: add ITS support in SBSA GIC</div><div>&gt; hw/arm/virt: add ITS suppor=
+t in virt GIC</div><br><div>Something in here breaks =22make check=22:</d=
+iv><br><div>MALLOC=5FPERTURB=5F=3D=24=7BMALLOC=5FPERTURB=5F:-=24(( =24=7B=
+RANDOM:-0=7D % 255 + 1))=7D</div><div>QTEST=5FQEMU=5FIMG=3D./qemu-img</di=
+v><div>G=5FTEST=5FDBUS=5FDAEMON=3D/home/petmay01/linaro/qemu-from-laptop/=
+qemu/tests/dbus-vmstate-daemon.sh</div><div>QTEST=5FQEMU=5FBINARY=3D./qem=
+u-system-aarch64 tests/qtest/bios-tables-test</div><div>--tap -k</div><br=
+><div>Looking for expected file 'tests/data/acpi/virt/=46ACP'</div><div>U=
+sing expected file 'tests/data/acpi/virt/=46ACP'</div><div>Looking for ex=
+pected file 'tests/data/acpi/virt/APIC'</div><div>Using expected file 'te=
+sts/data/acpi/virt/APIC'</div><div>Looking for expected file 'tests/data/=
+acpi/virt/GTDT'</div><div>Using expected file 'tests/data/acpi/virt/GTDT'=
+</div><div>Looking for expected file 'tests/data/acpi/virt/MC=46G'</div><=
+div>Using expected file 'tests/data/acpi/virt/MC=46G'</div><div>Looking f=
+or expected file 'tests/data/acpi/virt/SPCR'</div><div>Using expected fil=
+e 'tests/data/acpi/virt/SPCR'</div><div>Looking for expected file 'tests/=
+data/acpi/virt/IORT'</div><div>**</div><div>ERROR:../../tests/qtest/bios-=
+tables-test.c:385:load=5Fexpected=5Faml:</div><div>assertion failed: (exp=
+=5Fsdt.aml=5Ffile)</div><div>ERROR qtest-aarch64/bios-tables-test - Bail =
+out=21</div><div>ERROR:../../tests/qtest/bios-tables-test.c:385:load=5Fex=
+pected=5Faml:</div><div>assertion failed: (exp=5Fsdt.aml=5Ffile)</div><br=
+><div>(and then it hangs)</div><br><div>-- PMM</div></div></blockquote>
+--60b7c61a_4229d044_14ea--
+
 
