@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C429398D56
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 16:44:17 +0200 (CEST)
-Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB54398E08
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 17:11:47 +0200 (CEST)
+Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loS6S-00089W-BK
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 10:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
+	id 1loSX3-0001ZH-C2
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 11:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1loS52-0007PX-U4
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 10:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57633)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loSTk-0003wf-5E
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 11:08:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1loS4x-00025P-RP
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 10:42:47 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1loSTg-0003JR-Qw
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 11:08:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622644963;
+ s=mimecast20190719; t=1622646494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6oNWyqfo/U8TwIZJJ+kzVnAJ+SlvbQAXatMWLoC8Dok=;
- b=D/E7u18x9z0g3Qyl6Yrqm0lPgXHpsi402rsondJq/ys21gfn0h7EY7crYwjmkKFXLideNF
- AjpOvtG+fpnRrM6CEocVovg+J6qJTu96YpRdQLh0qoeqVYO9t4jjRf/Oog4R68Is2k3Dp9
- WQVvaUnrUTyAB/x8STLmej2lkj2uhKk=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-dISUmv1zM5CEJgT9NiQUhQ-1; Wed, 02 Jun 2021 10:42:40 -0400
-X-MC-Unique: dISUmv1zM5CEJgT9NiQUhQ-1
-Received: by mail-ua1-f71.google.com with SMTP id
- 78-20020a9f26540000b02902426fc5ddd3so1110451uag.16
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 07:42:39 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=I6p+KBcPxhcxhCk4URhd00+j5agpaxomT4LMWyre5+k=;
+ b=V+TmQ27dp+cHY4/WV0pQMBo86N2WWVE2gjNDK+Y2IjuxsT0zII3/OXKGVbsi11zZ8CY9l4
+ RFkDRcEinRhSHI6drB6P2Qf+QrhOafiWazVd6aFJmzhbRlG6bQ+EYufOirIBPadQXIHUwr
+ 4+e94qjAPcIAqh5c3JTxwlG5JY4ir50=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-gLi98vToOxabTcioVL0-PQ-1; Wed, 02 Jun 2021 11:08:12 -0400
+X-MC-Unique: gLi98vToOxabTcioVL0-PQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ c24-20020aa7c7580000b029038fd7468047so1571530eds.20
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 08:08:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6oNWyqfo/U8TwIZJJ+kzVnAJ+SlvbQAXatMWLoC8Dok=;
- b=N479lrEhVVqfOb4LERlsfsoLuGEBm2F7icsPUUsoS+LVa+9PsXUu0TIfL71xg4NpwP
- o5Bs7AtMfaVbMIJWLP0Pq3ChiYT+RSojvrFJCrBnGXOrqztLhiY3FRTTJyNghD5udIuY
- aMe17yLY1s8S6AG5x/vknpuaGppGToEiAk/R1w2Wx+odsSIilGJlFpPPyzA3DLuyE4uW
- KMNMPLV6n1c4KOIPimBT2xnEvWRo4YsNdEzZDJ4L8i3FLPpa3cgmjA35yGJEfdjF7Ac5
- J/eCWgsfshYpLCmC1Lcd8OlgRmFoZutGSjFrOx4St/ivjgQl9pMa4Ezl/Ru2QxW1lJnS
- VWpg==
-X-Gm-Message-State: AOAM531AtgwB5t09JGMs/O2g1kD5+/1pgoT6x6i+5sMwxKTAYi3SN3xb
- Hs3sJ1oohzvmDjWulWGuQEFPl1TxaWxS6C0s3NTEgYnK/3tG+zZC99aeXSegVM2ZiNW8ElM+iy2
- mvL10Dc+Eu/6dSeG+H3sfA7xSH3W1C1w=
-X-Received: by 2002:a67:8cc6:: with SMTP id o189mr9485586vsd.50.1622644959456; 
- Wed, 02 Jun 2021 07:42:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyrlNrihKRH3kl2S21zgyE0ardGqwfA/+KCv72FOotTd823+5aVgqsszNCHOHPIy2TWBkyWnJmw0+Zf0PSvoTg=
-X-Received: by 2002:a67:8cc6:: with SMTP id o189mr9485549vsd.50.1622644959214; 
- Wed, 02 Jun 2021 07:42:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I6p+KBcPxhcxhCk4URhd00+j5agpaxomT4LMWyre5+k=;
+ b=bDAklMTYk4UwWtBEsE+1atdfVfy3sYxMRLLrTIK8UJfaFkIkEk+bbxs5LLXfS33x6r
+ 3nn5jq6EIlPVXxRGKkhGhzxx3jYdAQiwAp/pJCt9YZLBM+T/GP4Xt2Uklbokw0Mh8DP7
+ E7XIEXIGvNHyuQPyNLMvZ+8xBv7fz4qIq5HTCAiYx0bJtGAHPMlqlWOVUq16HhV9wYJL
+ o1+uuR12oY1pIkv/WFVvN/9JLd7D/IETeKVIh03bZm1n41rjIAVY/16SxQRe8wSYQetf
+ yx1Wvll+5ZD/qVBupmZqG9rSDuWSWB/kLwxZMk9gM8+H3C509zh4/2DD23mjcxwQLPWA
+ WT4A==
+X-Gm-Message-State: AOAM5316BlohP6CMqL+1m1tnHMmvWJvD2cP1IYkPchNXSWMB1ZIEgXcc
+ 2l0vIWEcUMoICjU7gipzUyvxHfRYaqInKpTaprs9WJu/A+w0SYdCtF9uDEcaoZ27B/bTfX0opb2
+ LnwXJqcTnHKvORGiKi8WoVxeUUsDpafKNrQ3cNe6aLWk3nr2zH5mYS4wgOwfH/b/e
+X-Received: by 2002:aa7:c983:: with SMTP id c3mr17145809edt.58.1622646490928; 
+ Wed, 02 Jun 2021 08:08:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywxDd0dgkgmafNVDTq+ze9DzFR2ULQoF2YeUlKQVLWcvYQAyMiZBlt2x27GrRNEplxneCouw==
+X-Received: by 2002:aa7:c983:: with SMTP id c3mr17145775edt.58.1622646490679; 
+ Wed, 02 Jun 2021 08:08:10 -0700 (PDT)
+Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id v21sm108857edt.48.2021.06.02.08.08.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 08:08:10 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] buildsys: Restore listing binaries/tools/helpers in 'make
+ help' target
+Date: Wed,  2 Jun 2021 17:08:09 +0200
+Message-Id: <20210602150809.2471467-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <20210526205601.263444-1-willianr@redhat.com>
- <20210526205601.263444-2-willianr@redhat.com>
- <20210526234123.GA1727861@amachine.somewhere>
- <CAKJDGDbfD8dvDSRJHOs1H9gUnEeijAzWagbTMJzJcHj27ep_wQ@mail.gmail.com>
- <CA+bd_6KVZ+66sPWhiOvG6C+emgGUx25y5FJ8gO8o4X=h=jd6Bg@mail.gmail.com>
-In-Reply-To: <CA+bd_6KVZ+66sPWhiOvG6C+emgGUx25y5FJ8gO8o4X=h=jd6Bg@mail.gmail.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 2 Jun 2021 11:42:12 -0300
-Message-ID: <CAKJDGDYePLgD8JVnUDn7dWJKtOs=S_pAdONTLxt2B543nDLvPQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] tests/acceptance: change armbian archive to a faster
- host
-To: Cleber Rosa Junior <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -93,110 +92,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 2, 2021 at 11:08 AM Cleber Rosa Junior <crosa@redhat.com> wrote:
->
->
->
-> On Thu, May 27, 2021 at 9:45 AM Willian Rampazzo <wrampazz@redhat.com> wrote:
->>
->> On Wed, May 26, 2021 at 8:41 PM Cleber Rosa <crosa@redhat.com> wrote:
->> >
->> > On Wed, May 26, 2021 at 05:56:01PM -0300, Willian Rampazzo wrote:
->> > > The current host for the image
->> > > Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz
->> > > (archive.armbian.com) is extremely slow in the last couple of weeks,
->> > > making the job running the test
->> > > tests/system/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08
->> > > for the first time when the image is not yet on GitLab cache, time out
->> > > while the image is being downloaded.
->> > >
->> > > This changes the host to one faster, so new users with an empty cache
->> > > are not impacted.
->> > >
->> > > Signed-off-by: Willian Rampazzo <willianr@redhat.com>
->> > > ---
->> > >  tests/acceptance/boot_linux_console.py | 3 ++-
->> > >  1 file changed, 2 insertions(+), 1 deletion(-)
->> > >
->> > > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->> > > index 276a53f146..51c23b822c 100644
->> > > --- a/tests/acceptance/boot_linux_console.py
->> > > +++ b/tests/acceptance/boot_linux_console.py
->> > > @@ -804,7 +804,8 @@ def test_arm_orangepi_bionic_20_08(self):
->> > >          # to 1036 MiB, but the underlying filesystem is 1552 MiB...
->> > >          # As we expand it to 2 GiB we are safe.
->> > >
->> > > -        image_url = ('https://archive.armbian.com/orangepipc/archive/'
->> > > +        image_url = ('https://armbian.systemonachip.net/'
->> > > +                     'archive/orangepipc/archive/'
->> >
->> > Hi Willian,
->> >
->> > I was pretty annoyed by my pipeline failures, that I came up with:
->> >
->> >    https://gitlab.com/cleber.gnu/qemu/-/commit/917b3e376e682e9c35c6f7f597ffca110c719e13
->> >
->> > To prove that it was a GitLab <-> archive.arbian.com issue.
->>
->> When I tried both links, the slow link, and this new link, on my
->> machine, I could see the slow link is also slow locally. Not as slow
->> as on GitLab, but 10 times slower than this new link. I was thinking
->> about open an issue on GitLab. In the worst case, they will say it is
->> not their fault, but a problem on the other end.
->>
->> > But I wonder:
->> >
->> >  1. how susceptible to the same situation is this other mirror?
->>
->> Unfortunately, having tests depending on external artifacts will bring
->> this kind of situation. Unless GitLab is doing traffic shaping, we
->> will never know how susceptible an external server is to any kind of
->> instability.
->>
->> >  2. how trustworthy is this mirror, say, stability wise? Maybe
->> >     people in the armbian community would have some info?
->>
->> This new link is the same link that
->> https://www.armbian.com/orange-pi-pc/ "Archived versions" is pointing,
->> so I consider it an official mirror from Armbian. That's why I have
->> not thought much about changing it.
->>
->> Now, stability wise, we never know :) I don't think we have this
->> answer for any of the links related to external artifacts QEMU
->> acceptance tests use.
->>
->> >
->> > Depending on the feedback we get about, this can be a very valid
->> > hotfix/workaround indeed.  But the core issues we need to look into
->> > are:
->> >
->> >  a. applying a timeout when fetching assets.  If the asset fails to be
->> >     fetched within the timeout, the test simply gets canceled.
->>
->> But this is failing during the download before the test starts, or in
->> the pre-phase. The test suite was not created and Avocado don't have a
->> mapping asset <=> test yet.
->>
->
-> Right. But my point is that if it times out, then this "best effort" attempt would fail (but not abort the job).  Then, during the test itself, considering `cancel_on_missing=True`, the test would also cancel when it fails to access the asset.
->
-> A canceled test is what we want here, and not a stuck job.  That's why I still think the timeout may be a solution.
->
+When switching to Meson (commit 7fd51e68c34, 2020-08-21) we lost many
+targets listed in 'make help':
+- target specific binaries
+  commit 5e6d1573b49 ("remove Makefile.target")
+- tools and helpers
+  commit c3a0ee847a5 ("configure, Makefile; remove TOOLS and HELPERS-y variable")
 
-Okay, got it! I opened an issue to track this feature:
-https://github.com/avocado-framework/avocado/issues/4643
+Since 'ninja' is not officially supported, but 'make' still is,
+restore a similar list of make targets (extracted from ninja).
+The targets are not described as before, but it is still more
+useful to users rather than nothing listed at all.
 
-Anyway, for now, I think changing the URL gives us some time until we
-have the problem again :)
+Now we get:
 
-> Thanks,
-> - Cleber.
->
+  $ make help
+    GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone slirp
+  Architecture specific targets:
+    qemu-system-aarch64
+    qemu-system-alpha
+    qemu-system-arm
+    qemu-system-avr
+    ...
+    qemu-x86_64
+    qemu-xtensaeb
+    qemu-xtensa
+
+  Generic targets:
+    all                            - Build all
+    dir/file.o                     - Build specified target only
+    install                        - Install QEMU
+    ctags/gtags/TAGS               - Generate tags file for editors
+    cscope                         - Generate cscope index
+    sparse                         - Run sparse on the QEMU source
+
+  Tools and helper targets:
+    contrib/elf2dmp/elf2dmp
+    contrib/ivshmem-client/ivshmem-client
+    contrib/ivshmem-server/ivshmem-server
+    contrib/vhost-user-blk/vhost-user-blk
+    contrib/vhost-user-gpu/vhost-user-gpu
+    contrib/vhost-user-input/vhost-user-input
+    contrib/vhost-user-scsi/vhost-user-scsi
+    fsdev/virtfs-proxy-helper
+    qemu-bridge-helper
+    qemu-edid
+    qemu-img
+    qemu-io
+    qemu-keymap
+    qemu-nbd
+    qemu-pr-helper
+    qga/qemu-ga
+    storage-daemon/qemu-storage-daemon
+    tools/virtiofsd/virtiofsd
+
+  Cleaning targets:
+    clean                          - Remove most generated files but keep the config
+    distclean                      - Remove all generated files
+    dist                           - Build a distributable tarball
+  ...
+
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/227
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ Makefile | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 30f19d33bb3..f2c5ce2e5fe 100644
+--- a/Makefile
++++ b/Makefile
+@@ -286,6 +286,9 @@ print-help = @$(call print-help-run,$1,$2)
+ 
+ .PHONY: help
+ help:
++	@echo  'Architecture specific targets:'
++	@ninja -t targets all | sed -ne 's/\(.*\): cpp_LINKER.*/  \1/p'
++	@echo  ''
+ 	@echo  'Generic targets:'
+ 	$(call print-help,all,Build all)
+ 	$(call print-help,dir/file.o,Build specified target only)
+@@ -294,6 +297,10 @@ help:
+ 	$(call print-help,cscope,Generate cscope index)
+ 	$(call print-help,sparse,Run sparse on the QEMU source)
+ 	@echo  ''
++	@echo  'Tools and helper targets:'
++	@ninja -t targets all | sed -ne 's/\(.*\): c_LINKER.*/  \1/p' \
++		| sort | egrep -v '^  (subprojects|tests|target)'
++	@echo  ''
+ ifeq ($(CONFIG_PLUGIN),y)
+ 	@echo  'Plugin targets:'
+ 	$(call print-help,plugins,Build the example TCG plugins)
+-- 
+2.26.3
 
 
