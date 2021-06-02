@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79ECA3994B5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 22:39:52 +0200 (CEST)
-Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABBF3994CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 22:47:28 +0200 (CEST)
+Received: from localhost ([::1]:41900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loXeZ-0001Nw-4S
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 16:39:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50028)
+	id 1loXlv-0003dv-A8
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 16:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1loXdc-0000hI-Sk
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:38:52 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1loXdb-00073R-73
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:38:52 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z8so3548944wrp.12
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 13:38:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ikiqaTOSZtQ61js9gZ5sZPtzLt/Q6fQF2W8C/82rh3k=;
- b=mgpOrMQ+IFQiaCyuaYS5rcTPpZP/Ja2RKUK+hOpVkTGGYjpkAcQV9ShwzKvCYwXE0R
- QSPvLEL4+9/HdaU/ieY+aQSURHn2OSZmKQHURQIHgdNa/i7860zTuhRyO6wm3EJl8JxX
- 64qRHiii3Ja3ktrxnoj4ghON1P9LWfaWZToF8u0SbYA2i8lhSFHP53MCvq88HwPx39ph
- g8ipwQrApAcNUe00LR7f3W058Iv7p7VCTbj9InzjMyd+JJni3W6JZZ36CPWutFInBceH
- oys1fqHWeMop09wSngrLhUNfmjmt+qG/Be1luc4ajgoj0/KMuN5PsEGeBM5P27yYVeld
- ya0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ikiqaTOSZtQ61js9gZ5sZPtzLt/Q6fQF2W8C/82rh3k=;
- b=lxa3qajizblQic/L19HnO7i/UETUFcQTqSmxHEiq+a4uEUbfBuFFg+kd8nkwKfUWeW
- DiiUruUZ1/jYFsV5/7UC4wAqVutXY0+Z6B7NwS5nYfOrfRe68SCS16LvuhJacOx09TF1
- UThLQTE/4mGwvnmtCqmAbnrUUMIUItUslk/KC2wYL+fAtB4SUb4GRqLLb08NksREHkCp
- JNWxZYa25ClBqWiHPlKpiM1A0SF847UhbJGRVBL4ZmUzS2e/MkNrl4EuBw/Q/x6ck7Oj
- Ig1RGhjSqPZm/hm584vetPpARbfTCU6iHQcSV6EZaCtmiXj4668EfOH6lhdO4dwxKQmg
- fTaw==
-X-Gm-Message-State: AOAM532Q10taVg7g0X61emXxLt0CbsKwXvYn+Ci/0tFZIeV24JLgmMfB
- OVYKl1i8tT9ThD+9gjb8ydAC6g==
-X-Google-Smtp-Source: ABdhPJyG9aMnn2rChirHQ3fiez29JvT2f72/Mj7X2bxCWdvFdPHi/oj/uXs7DY3XpgI9jkuxIY3Erw==
-X-Received: by 2002:a5d:58c8:: with SMTP id o8mr2995100wrf.299.1622666329218; 
- Wed, 02 Jun 2021 13:38:49 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u8sm3581115wmq.29.2021.06.02.13.38.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 13:38:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 72B301FF7E;
- Wed,  2 Jun 2021 21:38:47 +0100 (BST)
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
- <20210525150706.294968-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/28] softfloat: Move minmax_flags to
- softfloat-parts.c.inc
-Date: Wed, 02 Jun 2021 21:36:38 +0100
-In-reply-to: <20210525150706.294968-5-richard.henderson@linaro.org>
-Message-ID: <87wnrc9f3c.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1loXkk-0002ip-6y
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:46:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1loXkf-0003FZ-P6
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 16:46:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622666767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MaJkGqCRd62/z/KrcCCUMeTbWp2LlOC2T7zrXxn/tg8=;
+ b=QvKC9DiHIwTfHGYpkeQhmXm97YJ6FCFENDvWtO+3jqgLrcxdrhjnvo93migvxjpyKwQjEH
+ uSPJbkVerDp8wLIvjPD0nj5CfU2Wnqrex5yTgdiUdnO+S1o4IZ1n4jTPNievAyfiwxOn+i
+ LoLaOD1X/FANfSp57R0FlnEnuyDqaa8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-ftUovkHqOzyTza5n908Vqw-1; Wed, 02 Jun 2021 16:46:06 -0400
+X-MC-Unique: ftUovkHqOzyTza5n908Vqw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2048030A1;
+ Wed,  2 Jun 2021 20:46:05 +0000 (UTC)
+Received: from localhost (ovpn-119-154.rdu2.redhat.com [10.10.119.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4FA5687F6;
+ Wed,  2 Jun 2021 20:46:04 +0000 (UTC)
+Date: Wed, 2 Jun 2021 16:46:04 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v8] qapi: introduce 'query-kvm-cpuid' action
+Message-ID: <20210602204604.crsxvqixkkll4ef4@habkost.net>
+References: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
+ <266974fa-da6c-d0fc-ce12-6a7ce1752fa6@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <266974fa-da6c-d0fc-ce12-6a7ce1752fa6@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,62 +76,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Rename to parts$N_minmax.  Combine 3 bool arguments to a bitmask,
-> return a tri-state value to indicate nan vs unchanged operand.
-> Introduce ftype_minmax functions as a common optimization point.
-> Fold bfloat16 expansions into the same macro as the other types.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Jun 02, 2021 at 08:17:28PM +0200, Philippe Mathieu-Daudé wrote:
+> Hi Valeriy,
+> 
+> (Sorry for not looking earlier than v8)
+> 
+> On 5/31/21 2:38 PM, Valeriy Vdovin wrote:
+> > Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+> > get virtualized cpu model info generated by QEMU during VM initialization in
+> > the form of cpuid representation.
+> > 
+> > Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+> > command line option. From there it takes the name of the model as the basis for
+> > feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
+> > that state if additional cpu features should be present on the virtual cpu or
+> > excluded from it (tokens '+'/'-' or '=on'/'=off').
+> > After that QEMU checks if the host's cpu can actually support the derived
+> > feature set and applies host limitations to it.
+> > After this initialization procedure, virtual cpu has it's model and
+> > vendor names, and a working feature set and is ready for identification
+> > instructions such as CPUID.
+> > 
+> > Currently full output for this method is only supported for x86 cpus.
+> > 
+> > To learn exactly how virtual cpu is presented to the guest machine via CPUID
+> > instruction, new qapi method can be used. By calling 'query-kvm-cpuid'
+> > method, one can get a full listing of all CPUID leafs with subleafs which are
+> > supported by the initialized virtual cpu.
+> > 
+> > Other than debug, the method is useful in cases when we would like to
+> > utilize QEMU's virtual cpu initialization routines and put the retrieved
+> > values into kernel CPUID overriding mechanics for more precise control
+> > over how various processes perceive its underlying hardware with
+> > container processes as a good example.
+> > 
+> > Output format:
+> > The output is a plain list of leaf/subleaf agrument combinations, that
+> > return 4 words in registers EAX, EBX, ECX, EDX.
+> > 
+> > Use example:
+> > qmp_request: {
+> >   "execute": "query-kvm-cpuid"
+> > }
+> > 
+> > qmp_response: [
+> >   {
+> >     "eax": 1073741825,
+> >     "edx": 77,
+> >     "in_eax": 1073741824,
+> >     "ecx": 1447775574,
+> >     "ebx": 1263359563,
+> >   },
+> >   {
+> >     "eax": 16777339,
+> >     "edx": 0,
+> >     "in_eax": 1073741825,
+> >     "ecx": 0,
+> >     "ebx": 0,
+> >   },
+> >   {
+> >     "eax": 13,
+> >     "edx": 1231384169,
+> >     "in_eax": 0,
+> >     "ecx": 1818588270,
+> >     "ebx": 1970169159,
+> >   },
+> >   {
+> >     "eax": 198354,
+> >     "edx": 126614527,
+> >   ....
+> > 
+> > Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> 
 > ---
-<snip>
-> -        switch (a.cls) {
-> -        case float_class_normal:
-> -            a_exp =3D a.exp;
-> -            break;
-> -        case float_class_inf:
-> -            a_exp =3D INT_MAX;
-> -            break;
-> -        case float_class_zero:
-> -            a_exp =3D INT_MIN;
-> -            break;
-> -        default:
-> -            g_assert_not_reached();
-> -            break;
-> -        }
-> -        switch (b.cls) {
-> -        case float_class_normal:
-> -            b_exp =3D b.exp;
-> -            break;
-> -        case float_class_inf:
-> -            b_exp =3D INT_MAX;
-> -            break;
-> -        case float_class_zero:
-> -            b_exp =3D INT_MIN;
-> -            break;
-> -        default:
-> -            g_assert_not_reached();
-> -            break;
-> -        }
-> -
-<snip>
-> +    if (unlikely(ab_mask !=3D float_cmask_normal)) {
-> +        switch (a->cls) {
-> +        case float_class_normal:
-> +            break;
-> +        case float_class_inf:
-> +            a_exp =3D INT16_MAX;
+> 
+> > 
+> > v2: - Removed leaf/subleaf iterators.
+> >     - Modified cpu_x86_cpuid to return false in cases when count is
+> >       greater than supported subleaves.
+> > v3: - Fixed structure name coding style.
+> >     - Added more comments
+> >     - Ensured buildability for non-x86 targets.
+> > v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
+> >     - Fixed comments.
+> >     - Removed target check in qmp_query_cpu_model_cpuid.
+> > v5: - Added error handling code in qmp_query_cpu_model_cpuid
+> > v6: - Fixed error handling code. Added method to query_error_class
+> > v7: - Changed implementation in favor of cached cpuid_data for
+> >       KVM_SET_CPUID2
+> > v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
+> >     - Modified documentation to qmp method
+> >     - Removed helper struct declaration
+> > ---
+> 
+> ^ Below this '---' go your comments.
+> 
+> >  qapi/machine-target.json   | 43 ++++++++++++++++++++++++++++++++++++++
+> >  target/i386/kvm/kvm.c      | 37 ++++++++++++++++++++++++++++++++
+> >  tests/qtest/qmp-cmd-test.c |  1 +
+> >  3 files changed, 81 insertions(+)
+> > 
+> > diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> > index e7811654b7..a83180dd24 100644
+> > --- a/qapi/machine-target.json
+> > +++ b/qapi/machine-target.json
+> > @@ -329,3 +329,46 @@
+> >  ##
+> >  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+> >    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> > +
+> > +##
+> > +# @CpuidEntry:
+> > +#
+> > +# A single entry of a CPUID response.
+> > +#
+> > +# One entry holds full set of information (leaf) returned to the guest in response
+> > +# to it calling a CPUID instruction with eax, ecx used as the agruments to that
+> > +# instruction. ecx is an optional argument as not all of the leaves support it.
+> > +#
+> > +# @in_eax: CPUID argument in eax
+> > +# @in_ecx: CPUID argument in ecx
+> > +# @eax: eax
+> > +# @ebx: ebx
+> > +# @ecx: ecx
+> > +# @edx: edx
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'CpuidEntry',
+> > +  'data': { 'in_eax' : 'uint32',
+> > +            '*in_ecx' : 'uint32',
+> > +            'eax' : 'uint32',
+> > +            'ebx' : 'uint32',
+> > +            'ecx' : 'uint32',
+> > +            'edx' : 'uint32'
+> > +          },
+> > +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> 
+> What about other accelerators?
+> 
+> > +
+> > +##
+> > +# @query-kvm-cpuid:
+> > +#
+> > +# Returns raw data from the KVM CPUID table for the first VCPU.
+> > +# The KVM CPUID table defines the response to the CPUID
+> > +# instruction when executed by the guest operating system.
+> 
+> What is specific to KVM here?
+> 
+> What about 'query-accel-cpuid' or 'query-vm-cpu-id'?
 
-We've gone from min/max of our internal representation to INT16_MIN/MAX
-- I guess that doesn't break until we get to Float256 but why the change?
+The implementation is KVM-specific.  I believe it's a reasonable
+compromise because the implementation is trivial, and a raw copy
+of the KVM CPUID table makes it a more useful (KVM-specific)
+debugging/testing mechanism.
 
+I don't really mind how the command is called, but I would prefer
+to add a more complex abstraction only if maintainers of other
+accelerators are interested and volunteer to provide similar
+functionality.  I don't want to introduce complexity for use
+cases that may not even exist.
 
---=20
-Alex Benn=C3=A9e
+> 
+> > +#
+> > +# Returns: a list of CpuidEntry
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'command': 'query-kvm-cpuid',
+> > +  'returns': ['CpuidEntry'],
+> > +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> ...
+> > diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+> > index c98b78d033..48add3ada1 100644
+> > --- a/tests/qtest/qmp-cmd-test.c
+> > +++ b/tests/qtest/qmp-cmd-test.c
+> > @@ -46,6 +46,7 @@ static int query_error_class(const char *cmd)
+> >          { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
+> >          { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
+> >          { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
+> > +        { "query-kvm-cpuid", ERROR_CLASS_GENERIC_ERROR },
+> >          { NULL, -1 }
+> >      };
+> >      int i;
+> > 
+> 
+
+-- 
+Eduardo
+
 
