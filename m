@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FAF397F9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 05:42:25 +0200 (CEST)
-Received: from localhost ([::1]:36800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F479397FA8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 05:45:52 +0200 (CEST)
+Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loHlw-00032A-Ea
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 23:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49010)
+	id 1loHpH-0005Cw-5V
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 23:45:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loHl8-0002FA-G8
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:41:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20977)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loHo6-0003uV-Kp
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:44:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loHl6-0000kn-MV
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:41:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1loHo4-0003WE-6f
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:44:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622605291;
+ s=mimecast20190719; t=1622605475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gk5NfyARHfUptZ2Z0H199/YFdsxj0zh4wGs09gHWl+g=;
- b=iZDKOaPdEmadWWSAwCg3/doPjQhw/hdA7BJeBAG9/QqwScjrjZ+Z2xYp/17Xz5f6SBcMg2
- G19OVZJTEFELhNJ/MTdt0uRWZWiRGBDnNaL2N4Mb43N+YJ1FuziaQfeMbyriHRv0m0ayYh
- 6aRt4jbdP4MGvWNewn2AzW6aeX3ZGn8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-C8wg2kmsPeGflq4igNB7TA-1; Tue, 01 Jun 2021 23:41:28 -0400
-X-MC-Unique: C8wg2kmsPeGflq4igNB7TA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m27-20020a056000025bb0290114d19822edso407592wrz.21
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 20:41:28 -0700 (PDT)
+ bh=T03zX1j7Xj+a8n9mAt4NHTzivR2tnmQyWE59her6X/o=;
+ b=FcG3FZKw38i2pdU1ZEmAnd827Oyt6vIljwj7Ni7BlkIZ367hd3p+4EAgXvaDjKDM33x2EL
+ O1YzHtjzGzV+BOIBdtOM8apl1xqa+PEV12QlP+7PGCC50SIDBTSkw+RoUBDxuyK3Kt3aSz
+ TJ7bdD/C6/8NZzNQheHflKUSE6B1K7c=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-D9p7rYhoNf-JXjtP_kjXmQ-1; Tue, 01 Jun 2021 23:44:34 -0400
+X-MC-Unique: D9p7rYhoNf-JXjtP_kjXmQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h18-20020a05600c3512b029018434eb1bd8so1607176wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 20:44:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gk5NfyARHfUptZ2Z0H199/YFdsxj0zh4wGs09gHWl+g=;
- b=Cu8cwcEcrSw3ivIlImOeAvN3Y1rNYdfBKsc3BhtvEnitIB5rQ1iYYEe39JNMwOX59s
- YHk0AkwQQV4grbI9OXEWX0THouMThTr4PiSrMn7HzrFYsT2u812iQWdDUrxEpuHbRwAC
- chb6h+LZVTR3ani4d48eP4DG/GCX9eYJr4xddaeD66q9D5PHNnSaRuqUzZoSvEwDI1BM
- 655Pc/85KNGrJtrxhKQsnPCumD6GN7EuBTMVeM4lqvIbWBMhiPqv112AXxsC5kJSgo9+
- mnRdk4ShJmuMo0ZaPp0N9C5p65x3Lv2bQlhHhiqjCQJRD1gTdJn8wksoGKTzGR8KvRUv
- HVIw==
-X-Gm-Message-State: AOAM530e3nhAwHFRMTpkgZs5XPrXjTOMpejVjhPPx2tUE5/d8fcXJe1a
- F3a76Fxo88jZThS76Kfyk1Ji1N6jHd7OWUUAupufKvvpORnP4Sf9oWo12+QBMxl+5WryxvfjqgR
- xpe7iPpzNciuxWWY=
-X-Received: by 2002:adf:fb90:: with SMTP id a16mr27331206wrr.360.1622605287816; 
- Tue, 01 Jun 2021 20:41:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzC41U3w8ROMzBt9O6ZJRc8+hwsLgjYQWrwgueGYgAguWVy0Fo/4iM/uqu3SBQWy8zU0h6LwQ==
-X-Received: by 2002:adf:fb90:: with SMTP id a16mr27331183wrr.360.1622605287505; 
- Tue, 01 Jun 2021 20:41:27 -0700 (PDT)
+ bh=T03zX1j7Xj+a8n9mAt4NHTzivR2tnmQyWE59her6X/o=;
+ b=QgrVluUob0K5rnPvEgq+AxWvYGtLKzvH5Nm7g6uU/po520YZIjtsb4Y1tIPTzc4sip
+ Q4ZdgWChmVzLA0MLWjIWhBd1t8jX0QIMxvmFSp8OmyFPGdSFMkhQi4QwmXnTJejfphTK
+ euBhWSbgB6FiafEuS1cfhpZuQE0+TqHqcjexfnpwrGGhSix7n5GXVkIwFSFnrIuAUShx
+ BfTLK8uJDdDI+dgLsBfkqTYM70uCqEbdFdUUi48tb0FiJWXZsouz+gXP/dIfInCcr1k8
+ vR1iSIJfzM6uv6YAp0IfyLEc1hcPaSMWuVRTdQeIICwqmcKRuEEiubzlp/thPT3U6+pw
+ U8RQ==
+X-Gm-Message-State: AOAM532/yd0JAbEWNoyJB7To4/arf+AIg0b9GdIxHjr8E3ak2MdeYnbV
+ JET/QZSupY8GZCCDZ3ofj1UWmELX18gBB9jHkPXgQnFFwXvQ7Wo2F9Kf6JySnz7G1y6ydtpxnOa
+ uln3ffpKakBTMo9M=
+X-Received: by 2002:a1c:bc09:: with SMTP id m9mr12632833wmf.143.1622605472928; 
+ Tue, 01 Jun 2021 20:44:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCDHmLhLa79+lQTQgLauJFXxReAg7CPc4Tla3BY+RzS+8CvhQd0nBt7O6L80M8OF8MWqf9zg==
+X-Received: by 2002:a1c:bc09:: with SMTP id m9mr12632819wmf.143.1622605472735; 
+ Tue, 01 Jun 2021 20:44:32 -0700 (PDT)
 Received: from thuth.remote.csb (p5791de31.dip0.t-ipconnect.de.
  [87.145.222.49])
- by smtp.gmail.com with ESMTPSA id b135sm1231857wmb.5.2021.06.01.20.41.26
+ by smtp.gmail.com with ESMTPSA id j101sm5713938wrj.66.2021.06.01.20.44.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jun 2021 20:41:27 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] vhost-user-blk-test: fix Coverity open(2) false
- positives
+ Tue, 01 Jun 2021 20:44:32 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] ui/vdagent: fix clipboard info memory leak in
+ error path
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20210601155755.216949-1-stefanha@redhat.com>
- <20210601155755.216949-2-stefanha@redhat.com>
+ <20210601155755.216949-3-stefanha@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <749babce-e80d-9950-c8de-689cf27b5807@redhat.com>
-Date: Wed, 2 Jun 2021 05:41:25 +0200
+Message-ID: <67c212eb-2f80-b36c-e169-62f7caee1376@redhat.com>
+Date: Wed, 2 Jun 2021 05:44:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210601155755.216949-2-stefanha@redhat.com>
+In-Reply-To: <20210601155755.216949-3-stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -87,7 +87,7 @@ X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,128 +108,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 01/06/2021 17.57, Stefan Hajnoczi wrote:
-> Coverity checks that the file descriptor return value of open(2) is
-> checked and used. Normally this is helpful in identifying real bugs but
-> vhost-user-blk-test opens /dev/null as stdin and stdout after fork.
+> If the size of a VD_AGENT_CLIPBOARD_GRAB message is invalid we leak info
+> when returning early.
 > 
-> In this case we don't need to look at the return value because these
-> open(2) calls cannot fail in any reasonable environment. We already know
-> their return values ahead of time since we closed stdin and stdout
-> previously. open(2) is guaranteed to pick the lowest available fd
-> number.
+> Thanks to Coverity for spotting this:
 > 
-> Silence Coverity by introducing code that checks what we already know to
-> be true.
+> *** CID 1453266:  Resource leaks  (RESOURCE_LEAK)
+> /qemu/ui/vdagent.c: 465 in vdagent_chr_recv_clipboard()
+> 459             info = qemu_clipboard_info_new(&vd->cbpeer, s);
+> 460             if (size > sizeof(uint32_t) * 10) {
+> 461                 /*
+> 462                  * spice has 6 types as of 2021. Limiting to 10 entries
+> 463                  * so we we have some wiggle room.
+> 464                  */
+>>>>      CID 1453266:  Resource leaks  (RESOURCE_LEAK)
+>>>>      Variable "info" going out of scope leaks the storage it points to.
+> 465                 return;
+> 466             }
+> 467             while (size >= sizeof(uint32_t)) {
+> 468                 trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t *)data));
+> 469                 switch (*(uint32_t *)data) {
+> 470                 case VD_AGENT_CLIPBOARD_UTF8_TEXT:
 > 
-> ** CID 1453270:  Resource leaks  (RESOURCE_LEAK)
-> /qemu/tests/qtest/vhost-user-blk-test.c: 920 in start_vhost_user_blk()
-> 
-> ________________________________________________________________________________________________________
-> *** CID 1453270:  Resource leaks  (RESOURCE_LEAK)
-> /qemu/tests/qtest/vhost-user-blk-test.c: 920 in start_vhost_user_blk()
-> 914              * Close standard file descriptors so tap-driver.pl pipe detects when
-> 915              * our parent terminates.
-> 916              */
-> 917             close(0);
-> 918             close(1);
-> 919             open("/dev/null", O_RDONLY);
->>>>      CID 1453270:  Resource leaks  (RESOURCE_LEAK)
->>>>      Ignoring handle opened by "open("/dev/null", 1)" leaks it.
-> 920             open("/dev/null", O_WRONLY);
-> 921
-> 922             execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
-> 923             exit(1);
-> 924         }
-> 925         g_string_free(storage_daemon_command, true);
-> 
-> ** CID 1453269:  Error handling issues  (NEGATIVE_RETURNS)
-> /qemu/tests/qtest/vhost-user-blk-test.c: 829 in create_listen_socket()
-> 
-> ________________________________________________________________________________________________________
-> *** CID 1453269:  Error handling issues  (NEGATIVE_RETURNS)
-> /qemu/tests/qtest/vhost-user-blk-test.c: 829 in create_listen_socket()
-> 823         char *path;
-> 824
-> 825         /* No race because our pid makes the path unique */
-> 826         path = g_strdup_printf("/tmp/qtest-%d-sock.XXXXXX", getpid());
-> 827         tmp_fd = mkstemp(path);
-> 828         g_assert_cmpint(tmp_fd, >=, 0);
->>>>      CID 1453269:  Error handling issues  (NEGATIVE_RETURNS)
->>>>      "tmp_fd" is passed to a parameter that cannot be negative.
-> 829         close(tmp_fd);
-> 830         unlink(path);
-> 831
-> 832         *fd = qtest_socket_server(path);
-> 833         g_test_queue_destroy(destroy_file, path);
-> 834         return path;
-> 
-> ** CID 1453268:    (CHECKED_RETURN)
-> /qemu/tests/qtest/vhost-user-blk-test.c: 920 in start_vhost_user_blk()
-> /qemu/tests/qtest/vhost-user-blk-test.c: 919 in start_vhost_user_blk()
-> 
-> ________________________________________________________________________________________________________
-> *** CID 1453268:    (CHECKED_RETURN)
-> /qemu/tests/qtest/vhost-user-blk-test.c: 920 in start_vhost_user_blk()
-> 914              * Close standard file descriptors so tap-driver.pl pipe detects when
-> 915              * our parent terminates.
-> 916              */
-> 917             close(0);
-> 918             close(1);
-> 919             open("/dev/null", O_RDONLY);
->>>>      CID 1453268:    (CHECKED_RETURN)
->>>>      Calling "open("/dev/null", 1)" without checking return value. This library function may fail and return an error code. [Note: The source code implementation of the function has been overridden by a builtin model.]
-> 920             open("/dev/null", O_WRONLY);
-> 921
-> 922             execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
-> 923             exit(1);
-> 924         }
-> 925         g_string_free(storage_daemon_command, true);
-> /qemu/tests/qtest/vhost-user-blk-test.c: 919 in start_vhost_user_blk()
-> 913             /*
-> 914              * Close standard file descriptors so tap-driver.pl pipe detects when
-> 915              * our parent terminates.
-> 916              */
-> 917             close(0);
-> 918             close(1);
->>>>      CID 1453268:    (CHECKED_RETURN)
->>>>      Calling "open("/dev/null", 0)" without checking return value. This library function may fail and return an error code. [Note: The source code implementation of the function has been overridden by a builtin model.]
-> 919             open("/dev/null", O_RDONLY);
-> 920             open("/dev/null", O_WRONLY);
-> 921
-> 922             execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
-> 923             exit(1);
-> 924         }
-> 
+> Fixes: f0349f4d8947ad32d0fa4678cbf5dbb356fcbda1 ("ui/vdagent: add clipboard support")
+> Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   tests/qtest/vhost-user-blk-test.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
+>   ui/vdagent.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-> index 8796c74ca4..c5c4667759 100644
-> --- a/tests/qtest/vhost-user-blk-test.c
-> +++ b/tests/qtest/vhost-user-blk-test.c
-> @@ -910,14 +910,18 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->                      storage_daemon_command->str);
->       pid_t pid = fork();
->       if (pid == 0) {
-> +        int fd;
-> +
->           /*
->            * Close standard file descriptors so tap-driver.pl pipe detects when
->            * our parent terminates.
->            */
->           close(0);
-> +        fd = open("/dev/null", O_RDONLY);
-> +        g_assert_cmpint(fd, ==, 0);
->           close(1);
-> -        open("/dev/null", O_RDONLY);
-> -        open("/dev/null", O_WRONLY);
-> +        fd = open("/dev/null", O_WRONLY);
-> +        g_assert_cmpint(fd, ==, 1);
->   
->           execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
->           exit(1);
+> diff --git a/ui/vdagent.c b/ui/vdagent.c
+> index a253a8fe63..8fc54d330e 100644
+> --- a/ui/vdagent.c
+> +++ b/ui/vdagent.c
+> @@ -456,7 +456,6 @@ static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
+>       switch (msg->type) {
+>       case VD_AGENT_CLIPBOARD_GRAB:
+>           trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
+> -        info = qemu_clipboard_info_new(&vd->cbpeer, s);
+>           if (size > sizeof(uint32_t) * 10) {
+>               /*
+>                * spice has 6 types as of 2021. Limiting to 10 entries
+> @@ -464,6 +463,7 @@ static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
+>                */
+>               return;
+>           }
+> +        info = qemu_clipboard_info_new(&vd->cbpeer, s);
+>           while (size >= sizeof(uint32_t)) {
+>               trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t *)data));
+>               switch (*(uint32_t *)data) {
 > 
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
