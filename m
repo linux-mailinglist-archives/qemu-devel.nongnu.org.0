@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCF7399353
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 21:13:23 +0200 (CEST)
-Received: from localhost ([::1]:39430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E773F399354
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 21:13:52 +0200 (CEST)
+Received: from localhost ([::1]:41124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loWIs-0001VI-Jl
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 15:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35430)
+	id 1loWJM-0002dN-0b
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 15:13:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1loWH7-0008ED-0p
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:11:33 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:46701)
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1loWHQ-0000U2-6V; Wed, 02 Jun 2021 15:11:52 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1loWH4-0001au-1e
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 15:11:32 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id b9so5394129ejc.13
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 12:11:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gEBlWTqqbQ/WstFOo6dKhZ1DayOTP2LTUDvw5I5JPOo=;
- b=vKOZNXCrgZFC/oU+4840uBBa+7eVh+FLqKVK13FhcQeboCmmlKCedODzfNNG5jQwYA
- zHAkrSmGVHeXIPvQ6MN1AQXI5lULrMuxSADXJri2y/jeASoIq59bVLL+6HQSqha4Cui2
- fGtjBIeWZ6+u16rGwHPf7kEewhD/+y9N259sJAnAIgt6TN7bzTrVbgEzbvB0jBEK+xTh
- /mktbX9s+7eZG+Utlq3NZIiqBjr5GsAwU9LTXwIA2I+VhFtK+gMGG1whsFlK/wLSO2c4
- QVWXo9HEWjbsq7xYdsxPaimyTzLuJJ6uHCW6xd9qzU6+4iUbb65iWPM/W3z3Ol7CKt0P
- Og1A==
+ (Exim 4.90_1) (envelope-from <josemartins90@gmail.com>)
+ id 1loWHO-0001qF-5l; Wed, 02 Jun 2021 15:11:51 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso4417794wmh.4; 
+ Wed, 02 Jun 2021 12:11:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zgH9k2F3cSshfOu3hyyfavKK1zDqFyZbj3vWJ7RA2xQ=;
+ b=eGZrxEOtR7pcKd9ZDQX6Jap8yYfYjA2qJYlFRMo4ueGIvRwuTanRwflrrAZrFFz9RE
+ Gfe0WY+T6XuhI6zBPHFEsKU67ZY67tRormHQGBRJtV6NEv0VViKuscZ2lgmiI/4D4Tjh
+ gcwsItWWLK7wwh+JJPedjLIn23dpN9t6x03UTAHrWQw+zAAKklTSsKalLUI//22Sj6p2
+ eiwbiH70Pn7Wzn0RW5hyJR78B7sOP5mIwp9BZ17P5YGb6Sihqau67uyxSK0kXo1pi855
+ jVVObMiqxpYdz6/li7ieHbu3BPR6VMQI7PIFJWlPdErkLGkrTAlNKXe06JPw9XCuRSeS
+ mQuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gEBlWTqqbQ/WstFOo6dKhZ1DayOTP2LTUDvw5I5JPOo=;
- b=QOQnbMMuBOnfu9y2nBRjRixX0++RGCK4ENMSLnK8NDZpCatrgU0E/dsLUvTRFqWUBr
- nbLJ8zwgiYJlFtlgFsVrSMI+p6TUCatpI2kxAUneF4iGN78iwa4v049NYgpKplZkWEnN
- syAEXg/UHv6MYVrwMmyM5/3sPo/BEpKwttFMqgX74JOXwGa2jHhia+/r4/dhakvdWEB/
- 0UxSaRGE1KP0lYIXyU/587gRjYGC9m79l2aIhwHNB8kL4h2OuilCvQdIESDKM7IQsrZ9
- VMNowZW6I+uwkjlV7weKRc6oI400u32+8Yu439OLIzBhxSEH0kGrerxSZtPg3gplSQYz
- OyYA==
-X-Gm-Message-State: AOAM531dCpvyAzjHbMey1cQfT690CdO/cSGNSyVvmzrUgKwD80HJz+4z
- 69z5j3Fs5IknNh2k4qa4xn6jV+PAxNgGkhvNemLLMQ==
-X-Google-Smtp-Source: ABdhPJxw25Aelr8eFwYWwWnx6OMgbCSyJm25sanmDM0oUFBdEP5hemctDXpJ3lxsyBQmPrOMsd5LmnYWvo9QEy/3NX0=
-X-Received: by 2002:a17:906:5299:: with SMTP id
- c25mr20105482ejm.85.1622661088322; 
- Wed, 02 Jun 2021 12:11:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zgH9k2F3cSshfOu3hyyfavKK1zDqFyZbj3vWJ7RA2xQ=;
+ b=ifHeaMC0vrVJAeWMzLrpfQcSLvSD82Molgc9qrE/xZvWED37r+EDt+GyVM/SiYteJ4
+ sqht75IkmFu5/QwbYVr6n2zICNUU4T8HFykbMOVe0TwW3nLwcrfZZku+um8Fng1O1w7M
+ FEUIiMvgVe4qbmAUyvjB3a3hbf/P5OCTZhm2v1yddyLTbh8PJ324u7srIz7zwrypnUZ4
+ VUfgJ38h3orDKVTOLpeNQHz5CN28VYmJRh1SXbu8rtdtTWrIFFiAHAihh6t2mOqmnMEG
+ RqEZI/cPh8u9L/EGn/gNNl8x5SA8qVxJFQ7Gckdq+rwfSf1NOGCmZCP1nD5aN5OYSM8A
+ x4Tg==
+X-Gm-Message-State: AOAM532IXSxkHVMl/5mp1j3XezM6xsoBp39s2phN3noGYiykxq4QYAlr
+ R+lg1dSjeuhjzFmwHm7bbMgs73iN8vrBEB5B
+X-Google-Smtp-Source: ABdhPJz0Nr5q46gqG/CCjbSTaD7jQ+dqNJfv4Gh4JCYCCNwPaBsZHuQpX+XeXbObql1FyxkbpD11xg==
+X-Received: by 2002:a05:600c:4f0f:: with SMTP id
+ l15mr6566810wmq.143.1622661107443; 
+ Wed, 02 Jun 2021 12:11:47 -0700 (PDT)
+Received: from asus.. ([83.144.170.28])
+ by smtp.gmail.com with ESMTPSA id n2sm635304wmb.32.2021.06.02.12.11.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 12:11:46 -0700 (PDT)
+From: Jose Martins <josemartins90@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] target/riscv: fix hypervisor exceptions
+Date: Wed,  2 Jun 2021 20:11:23 +0100
+Message-Id: <20210602191125.525742-1-josemartins90@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <OS3PR01MB61515F08F0709D9E22B8DDDFE9249@OS3PR01MB6151.jpnprd01.prod.outlook.com>
- <TYCPR01MB6160FB4A9712F3F5E14D8BBAE93E9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
- <CAFEAcA_fZ_jC640XrFUCSk6YxzoSmdwDaMDAXoX47mBFKdS9hg@mail.gmail.com>
- <a56283b3-3bb2-d9a3-9a6e-8175cc17b376@linaro.org>
-In-Reply-To: <a56283b3-3bb2-d9a3-9a6e-8175cc17b376@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 2 Jun 2021 20:10:56 +0100
-Message-ID: <CAFEAcA8-KXp204HD=LcUo8CHQX-ioCMzL8kaOyHTUP9KQz-TAA@mail.gmail.com>
-Subject: Re: [RFC] Adding the A64FX's HPC funtions.
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=josemartins90@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,48 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Jose Martins <josemartins90@gmail.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Jun 2021 at 20:02, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> On 6/1/21 8:21 AM, Peter Maydell wrote:
-> >>> 2) Is it OK to specify the option to set the HPC extension of A64FX as follows,
-> >>> for example?
-> >>>
-> >>> -M virt -cpu max,a64fx-hpc-sec=on (*sector cache function) -M virt -cpu
-> >>> max,a64fx-hpc-hwpf=on (*hardware prefetvh assist function) -M virt -cpu
-> >>> max,a64fx-hpc-hwb=on (*hardware barrier function)
-> >>>
-> >>> It is also possible to implement something like -cpu a64fx, but since we don't
-> >>> know if we can implement it immediately, we assume that we will use the -cpu
-> >>> max option first.
->
-> My first thought is that -cpu max can simply enable the extensions, without
-> extra flags.  The max cpu has all of the features that we can enable, and as I
-> see it this is just one more.
+This patch series fixes the forwarding of VS-level execptions to HS-mode and
+removes unecessary code previously used for the routing of exceptions to    
+HS-mode.
 
-I dunno, because it's not an architectural feature, it's an implementation
-feature. We can rely on architectural features not to step on each others'
-toes, but there's no guarantee that some other impdef feature might not
-clash with these a64fx ones.
+Jose Martins (2):
+  target/riscv: fix VS interrupts forwarding to HS
+  target/riscv: remove force HS exception
 
-Also, how does the guest OS typically detect the presence of these
-features? If it does it by looking for MIDR etc values that say
-"this is an A64FX" then -cpu max won't trigger that.
+ target/riscv/cpu.h        |  2 --
+ target/riscv/cpu_bits.h   |  6 -----
+ target/riscv/cpu_helper.c | 54 +++++++--------------------------------
+ 3 files changed, 9 insertions(+), 53 deletions(-)
 
-> I would like to add -cpu a64fx at some point.  But as you say, that need not
-> happen right away.
+-- 
+2.30.2
 
-I think it would be worth scoping out how much work the a64fx CPU
-would require (ie what else does it need beyond these extensions
-and whatever features we currently implement?). If that's not a
-lot of work it might be simpler to just add it (possibly even
-add it but with one or two of its features as not-yet-implemented.)
-
-thanks
--- PMM
 
