@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3453B39852E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:22:26 +0200 (CEST)
-Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25778398524
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:20:10 +0200 (CEST)
+Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loN4z-0002gO-4g
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
+	id 1loN2n-0005Al-6v
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0w-0002OR-It
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:18:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34213)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0t-0002NN-Ap
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:18:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0t-0002PD-2j
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:18:13 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0j-0002LB-Cn
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:18:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622625489;
+ s=mimecast20190719; t=1622625479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rQZiTj29EkUI3JcZ8Wr4DuhMvRhsE3YMv7zgpWxKx8Q=;
- b=e+xG639KcxjgrrOibuJBjjbIw9/7XrLDS+s6i4AtfOnHEMLDsgYTevQLC6qbALaWNLR90O
- vcTvXspXu8Q+vnRAwqPncfgJ2cplNm3ry+WzrhnQ6jEDgFY17KngcvEkOG6DS5P4xV++FX
- scab6JJy21rjc6aF/wd7mWGGFmkdmG8=
+ bh=47S+hKkrRx4hDRMeJz2IyNQwdb7IvNGZaEvXYRCjttw=;
+ b=dv+/N5RPgupazt/J5HF5d34t8i+aeB6/QA3OkkLQlFMCH89FrW6y8d2x2oKFFIKWQwxl8B
+ Yc11Ue0HMy+yoqTjXkUuxdEsMDTwljfkJGyLFXZxEXMrS7Y2YtLr7TZhBiQHQMREb2hAaD
+ mk/t2U8LKR1j8vaLB1HlMrwR4pABjkw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-6URUVil8Ohm66DnZJADnRg-1; Wed, 02 Jun 2021 05:18:07 -0400
-X-MC-Unique: 6URUVil8Ohm66DnZJADnRg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-249-eAY0Y5mjMxiaJwZeLpOQuw-1; Wed, 02 Jun 2021 05:17:58 -0400
+X-MC-Unique: eAY0Y5mjMxiaJwZeLpOQuw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E79B8042A3;
- Wed,  2 Jun 2021 09:18:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F84801817;
+ Wed,  2 Jun 2021 09:17:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC6586A045;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB4A75D764;
  Wed,  2 Jun 2021 09:17:43 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C56591800901; Wed,  2 Jun 2021 11:17:27 +0200 (CEST)
+ id D02BA1800902; Wed,  2 Jun 2021 11:17:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/9] audio module annotations
-Date: Wed,  2 Jun 2021 11:17:23 +0200
-Message-Id: <20210602091727.1023563-6-kraxel@redhat.com>
+Subject: [PATCH 6/9] usb-redir module annotations
+Date: Wed,  2 Jun 2021 11:17:24 +0200
+Message-Id: <20210602091727.1023563-7-kraxel@redhat.com>
 In-Reply-To: <20210602091727.1023563-1-kraxel@redhat.com>
 References: <20210602091727.1023563-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,19 +93,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/spiceaudio.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/usb/redirect.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index 999bfbde47c5..a8d370fe6f31 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -317,3 +317,5 @@ static void register_audio_spice(void)
-     audio_driver_register(&spice_audio_driver);
- }
- type_init(register_audio_spice);
-+
-+module_dep("ui-spice-core");
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 6a75b0dc4ab2..4ec9326e0582 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -2608,6 +2608,7 @@ static const TypeInfo usbredir_dev_info = {
+     .class_init    = usbredir_class_initfn,
+     .instance_init = usbredir_instance_init,
+ };
++module_obj(TYPE_USB_REDIR);
+ 
+ static void usbredir_register_types(void)
+ {
 -- 
 2.31.1
 
