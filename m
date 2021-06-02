@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786A1397E0C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 03:29:04 +0200 (CEST)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4B7397E76
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 04:08:14 +0200 (CEST)
+Received: from localhost ([::1]:35654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loFgt-00045K-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 21:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52858)
+	id 1loGIn-0004Gs-EB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 22:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1loFen-00028z-QX
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 21:26:53 -0400
-Received: from mga03.intel.com ([134.134.136.65]:7160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1loFel-0001cI-8K
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 21:26:53 -0400
-IronPort-SDR: o/QthKxMNvXUp4ZuIoyslZJqqsINiQU2fuBjOzoA4gI3Jrcic8senaITuXOd1fXQ++m1de0O8T
- uLJ9y+enJwRw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10002"; a="203710332"
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="203710332"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 18:26:46 -0700
-IronPort-SDR: wehWSk+nuy0mEWYl9b3SfkNuXo9DPFfOKnTXFBOF5zET+7mp9Y0YpEFcr6JMUnlZh7/ONDaaNe
- Kptb/hBBj+HQ==
-X-IronPort-AV: E=Sophos;i="5.83,241,1616482800"; d="scan'208";a="479507043"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.0.151])
- ([10.238.0.151])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jun 2021 18:26:45 -0700
-Subject: Re: [PATCH v4] i386: Add ratelimit for bus locks acquired in guest
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210521043820.29678-1-chenyi.qiang@intel.com>
- <20210527211904.sjmkely4t4ragxva@habkost.net>
- <e9b152b8-daad-aaa4-c89d-35fd839f2ae4@intel.com>
- <20210601181837.dl5tcyqywtoidu57@habkost.net>
- <20210601201051.keixbycislhcsgkc@habkost.net>
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-Message-ID: <ef608081-a9f9-6d8c-41d5-d29d028a128e@intel.com>
-Date: Wed, 2 Jun 2021 09:26:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loGI2-0003Q1-Ch
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 22:07:26 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loGI0-00047M-EM
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 22:07:25 -0400
+Received: by mail-pl1-x630.google.com with SMTP id e7so295881plj.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 19:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P6soOheKeKBX/bO55GWtKn6aDK79/Oblvy0sX9/aDio=;
+ b=mZ2XfhAO+KAi4hDX/hgWo3fjbZO7Mk7vCBIc5MZxXqi4PWBHahNvbLQpW9uWMrupO2
+ k9TSsScCejxoB57pA8r4b465Ldk/zLTNRppLTGFImoXbLsqPJMCRcahfuOEigKEH+Qjh
+ RI+FVJZp5gNqzmCIEdwJmG35k2U4B3SgrAEiXnDo4QnswpTyhZkHqF5KTwdZ1ZQ5NSi4
+ w3w5UzSzodVI6dAE/bRfKW7dsEdePRzxqYE69q0ZAZP8qNLio+eKQzDDX7dvzJaS7toq
+ V4BuP9jvrOow/+vAcJque24bp1WHwjd7jMZgVL7jno65vhdlSWwJfB2jB6dtsManc6ot
+ nTAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P6soOheKeKBX/bO55GWtKn6aDK79/Oblvy0sX9/aDio=;
+ b=ewW8SdVQNRWr5XWVwCJ1/jstUETlthdDzPfAHh4car+Iw7JHtld2KXfT/9tVxAPcEB
+ DfbQ+lyk4lj17h5v46puFIumvn6CD/3RN3a8AVu2ACne1L2NR9G6Lz12lVrsqghAAUa1
+ APidAmcQgwEttU40SNPpxj1afxUi701y2FmKiDUQlTw/VqKYQ7/I02UoNEGe8PeRfsQo
+ P8oQNLjhKD0fcfKD+bvYSP87hJkqxHof/msJmPbRWT+5i9WPLCchEEaXBPNQklr5Ydga
+ DdANBR1Y9b+R23lUm3pa23pZ/OZxxdPyWDiOfRUaHbmjSsFgHoo1NdujEv98/0Lk8V8x
+ Bo1A==
+X-Gm-Message-State: AOAM530puNanrUiq1cwjS98oZIfsdu2cblBOJSB2CzywWE7EckzwD1tI
+ 7PCXpoakYtnXpfX1VTzWhFezaBWRob7LhQ==
+X-Google-Smtp-Source: ABdhPJzz8iCiZI1XaRq4ulHKViODioo28vnxSGy+o85AjGiDMg6zAnpgtPg/vwW0KtklOWI3jd97pA==
+X-Received: by 2002:a17:90a:ab0c:: with SMTP id
+ m12mr27926281pjq.179.1622599642690; 
+ Tue, 01 Jun 2021 19:07:22 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id g3sm5309879pfk.188.2021.06.01.19.07.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jun 2021 19:07:22 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Mark LDS{MIN,MAX} as signed operations
+Date: Tue,  1 Jun 2021 19:07:20 -0700
+Message-Id: <20210602020720.47679-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210601201051.keixbycislhcsgkc@habkost.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=chenyi.qiang@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.613,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,65 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The operands to tcg_gen_atomic_fetch_s{min,max}_i64 must
+be signed, so that the inputs are properly extended.
+Zero extend the result afterward, as needed.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/364
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/translate-a64.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-On 6/2/2021 4:10 AM, Eduardo Habkost wrote:
-> On Tue, Jun 01, 2021 at 02:18:37PM -0400, Eduardo Habkost wrote:
->> On Mon, May 31, 2021 at 01:14:54PM +0800, Chenyi Qiang wrote:
->>>
->>>
->>> On 5/28/2021 5:19 AM, Eduardo Habkost wrote:
->>>> On Fri, May 21, 2021 at 12:38:20PM +0800, Chenyi Qiang wrote:
->>>> [...]
->>>>> @@ -4222,6 +4247,15 @@ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run)
->>>>>        }
->>>>>    }
->>>>> +static void kvm_rate_limit_on_bus_lock(void)
->>>>> +{
->>>>> +    uint64_t delay_ns = ratelimit_calculate_delay(&bus_lock_ratelimit_ctrl, 1);
->>>>> +
->>>>> +    if (delay_ns) {
->>>>> +        g_usleep(delay_ns / SCALE_US);
->>>>> +    }
->>>>> +}
->>>>> +
->>>>>    MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>>>>    {
->>>>>        X86CPU *x86_cpu = X86_CPU(cpu);
->>>>> @@ -4237,6 +4271,9 @@ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run)
->>>>>        } else {
->>>>>            env->eflags &= ~IF_MASK;
->>>>>        }
->>>>> +    if (run->flags & KVM_RUN_X86_BUS_LOCK) {
->>>>
->>>> Does the KVM API guarantee that KVM_RUN_X86_BUS_LOCK will never
->>>> be set if KVM_BUS_LOCK_DETECTION_EXIT isn't enabled?  (Otherwise
->>>> we risk crashing in ratelimit_calculate_delay() above if rate
->>>> limiting is disabled).
->>>>
->>>
->>> Yes. KVM_RUN_X86_BUS_LOCK flag is set when bus lock VM exit happens. Bus
->>> lock VM exit is disabled by default and can only be enabled through the
->>> KVM_BUS_LOCK_DETECTION_EXIT capability.
->>
->> I'm queueing on x86-next, thanks!
-> 
-> This breaks the build.  Is there a linux-headers update patch I've missed?
-> 
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index ceac0ee2bd..d6906d9012 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -3355,8 +3355,9 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     int o3_opc = extract32(insn, 12, 4);
+     bool r = extract32(insn, 22, 1);
+     bool a = extract32(insn, 23, 1);
+-    TCGv_i64 tcg_rs, clean_addr;
++    TCGv_i64 tcg_rs, tcg_rt, clean_addr;
+     AtomicThreeOpFn *fn = NULL;
++    MemOp mop = s->be_data | size | MO_ALIGN;
+ 
+     if (is_vector || !dc_isar_feature(aa64_atomics, s)) {
+         unallocated_encoding(s);
+@@ -3377,9 +3378,11 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+         break;
+     case 004: /* LDSMAX */
+         fn = tcg_gen_atomic_fetch_smax_i64;
++        mop |= MO_SIGN;
+         break;
+     case 005: /* LDSMIN */
+         fn = tcg_gen_atomic_fetch_smin_i64;
++        mop |= MO_SIGN;
+         break;
+     case 006: /* LDUMAX */
+         fn = tcg_gen_atomic_fetch_umax_i64;
+@@ -3422,6 +3425,7 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     }
+ 
+     tcg_rs = read_cpu_reg(s, rs, true);
++    tcg_rt = cpu_reg(s, rt);
+ 
+     if (o3_opc == 1) { /* LDCLR */
+         tcg_gen_not_i64(tcg_rs, tcg_rs);
+@@ -3430,8 +3434,11 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+     /* The tcg atomic primitives are all full barriers.  Therefore we
+      * can ignore the Acquire and Release bits of this instruction.
+      */
+-    fn(cpu_reg(s, rt), clean_addr, tcg_rs, get_mem_index(s),
+-       s->be_data | size | MO_ALIGN);
++    fn(tcg_rt, clean_addr, tcg_rs, get_mem_index(s), mop);
++
++    if ((mop & MO_SIGN) && size != MO_64) {
++        tcg_gen_ext32u_i64(tcg_rt, tcg_rt);
++    }
+ }
+ 
+ /*
+-- 
+2.25.1
 
-Thanks for the queue and sorry for forgetting to submit the 
-linux-headers update patch.
-
-> ../target/i386/kvm/kvm.c: In function 'kvm_arch_init':
-> ../target/i386/kvm/kvm.c:2322:42: error: 'KVM_CAP_X86_BUS_LOCK_EXIT' undeclared (first use in this function); did you mean 'KVM_CAP_X86_DISABLE_EXITS'?
->               ret = kvm_check_extension(s, KVM_CAP_X86_BUS_LOCK_EXIT);
->                                            ^~~~~~~~~~~~~~~~~~~~~~~~~
->                                            KVM_CAP_X86_DISABLE_EXITS
-> 
 
