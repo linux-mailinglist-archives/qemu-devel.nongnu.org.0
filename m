@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D038B398AD2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:35:10 +0200 (CEST)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1A2398A99
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 15:31:53 +0200 (CEST)
+Received: from localhost ([::1]:49702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loR1Z-00029t-QD
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
+	id 1loQyO-0002KG-3M
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 09:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loQg5-0002cs-Oy; Wed, 02 Jun 2021 09:12:57 -0400
+ id 1loQg8-0002mx-9g; Wed, 02 Jun 2021 09:13:00 -0400
 Received: from mail-eopbgr30130.outbound.protection.outlook.com
  ([40.107.3.130]:57568 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1loQfy-0003lC-Pn; Wed, 02 Jun 2021 09:12:55 -0400
+ id 1loQg6-0003lC-G0; Wed, 02 Jun 2021 09:13:00 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lpszw5eb21uIQJ+9S5V11Lx2yF8XXmBNIPTxwEuiY0CQhPtXYg9IXw87gsz9P7b00oHlkQghvNa9hZmDVeGNkeZ+amdOc0lIZS8pF8MxdnuhMTQsmBcPsEMi5/JCRUpgZDvZG2n2o2fNYIjNH5a9jM3NFuaM44x2mffRVsi1V6EIgPxayER5vDp8XUvVd+AvXb+HHuUOlfZTMLgM176I0Khrt+ybeC/x2i17P6nc/TFxPuY1fLyPAlc9sHzO7MF3oqmyjbI2+6VQtm98k5AMze81aHu4Mz1xHkY90h7wYZOU6aQPdNoe/Url0N4mYe4njeffeV6cs4mjcAdFp+tKaA==
+ b=C8iz3qjjEF+jXOanEQHrjSj2Fpc9OgbKRiJhGPZz44kjlEYjUVqxQmEHHvJSoQvA26GjWkA4DySuiFB+k0LPO3X+1LEFcuWJWHsGuOc2ElnZw+MeW1aZogQjgH4ppZ232Izkp0Y7Fx7rRFX6uo3mGOiWvrTvzJMawIOngXADyBBDALijyWPSshyh2mMJaftSElRJaSkxkGiB+6/eAiQEyeXlm9/xhsXW3DIkiQIYElqMBIhFISsSHWZ92827wk4poRltu0CehjgkuQBJtkoS0dobK72PGWoM8NPSG1utAnWkNcWdAmS2/xiU//zUPo6Xj1NxzwAIN4pmYPgmjMBTYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HfTynrtFoOtQlEZdXbg/sqJjKgrWrpnDM9PaHle0IOc=;
- b=TKgqa1RzAvidi/2J6Wv0+uvn7HO+fkL+TUO6E7lQwxJi7e/kNaxwfABjoy9O29dBf0yQw/B3oAgf3FE/5wXFMTlsKmlmryEIZSH9XzbTpeMDMNtTnuunMGBUkppvUpHxqXj8fCfGuVsw+lrxbcYGi6wyszWVrc4Jux7uzA2ZNoLLGmR60ofFpcCw6pfPUUMfAocjA8zPr0UNoracWaXz9mJ/h7h9YQrlets8B90RXfJ0c+2VeLoX6cJUQkR1hAtYuL8dDwGdfBw1+DX8ECIOD+Vqn3wBR+Jv8Ps8pM/mB6qS/2Y1I9TjsuR333ek/aUVrwZo8vCkTHPM/Jo2k3/S7w==
+ bh=0Fdt/9kXHN1yQLBrMNRdUEjvnHhIP48yC5QLgDEN0ag=;
+ b=JYG1Xsn1420Ev29ta4bwLdqxK5vztuiHX25gJq/wHuQUJFmSey7vjh/8Y6SxZ4+qgiVN0JK4vY0PEqt+0xCxAWwO829Msskqd93vIzFCGwoMDTJbE0910l+A0UmxTkCXVU9cyuw+x16hQcyr9oNRQRrxwciawxTKIxrGBvc86MUzUaBsaooIcF5bg9Ikc13Nu3BNf9Icn5Q3EefOeXWXLqrXgoeNoYPeH1CSEHu1lZIkW5tSkwCwP+Pc81pEYIxgb8EXBkZ9a6u++CrSsPKSEnuvu+Vd77RvNK2o11Y4DGUciqzA+DXrx847W03psfUaH3X4Lkearfizm9oIDDg62A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HfTynrtFoOtQlEZdXbg/sqJjKgrWrpnDM9PaHle0IOc=;
- b=czsrqjqWJYqbE+ag+PcmKTyIwCzaL7o6/hQHuWdGON/uV+XpiV2XFFMYNaQ3OPMQ9BqyBlaAeGad4WS1dKbpCLpivuIB0SyOP5SyECpMwK8WJ9dFmTz/ZWnJPehoc/ZLD6p6yLPNIXZIyxd0FwrDqqR81bSpBjlvVsiULEUmXhQ=
+ bh=0Fdt/9kXHN1yQLBrMNRdUEjvnHhIP48yC5QLgDEN0ag=;
+ b=Puaad1bVRUulrAfMc9kdeEiLrmUJ147fogkN6xKLbgKU8ylgnDlnwE1Mjnr30XoPzQutr8s09WKLajKBL7oy9N4+WPK8olwdQAQsZxLOLVM7dFtJlCHm+S4ZdMy15Z+Tn8a3vhJ53sSlZ60E+r38ldFRIm16N/dfikKsx4DgBr8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -50,9 +50,10 @@ Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v4 33/35] iotests/image-fleecing: rename tgt_node
-Date: Wed,  2 Jun 2021 16:11:06 +0300
-Message-Id: <20210602131108.74979-34-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 34/35] iotests/image-fleecing: prepare for adding new
+ test-case
+Date: Wed,  2 Jun 2021 16:11:07 +0300
+Message-Id: <20210602131108.74979-35-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210602131108.74979-1-vsementsov@virtuozzo.com>
 References: <20210602131108.74979-1-vsementsov@virtuozzo.com>
@@ -67,52 +68,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.211) by
  HE1PR0501CA0011.eurprd05.prod.outlook.com (2603:10a6:3:1a::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:12:11 +0000
+ 15.20.4195.15 via Frontend Transport; Wed, 2 Jun 2021 13:12:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 15780ef4-ec7b-4743-8f25-08d925c808cb
+X-MS-Office365-Filtering-Correlation-Id: 9f018933-e04d-487f-0c13-08d925c809a4
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4536:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4536D559706ADBB93C640D67C13D9@AM6PR08MB4536.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:431;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4536FC159ADAEC89DB3A4545C13D9@AM6PR08MB4536.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:478;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: b6cBtgjFYyhSbJbTxCitOPS5aPKdckSFOpHrkfO0gqwpyR1tcIxBDqmb0vYqb7G7dw/abb5xtZOkTBH54dcKoiEPl91DBeXC/Zn3q/AEeZvx090pb0Om0OrHOmznLMmmMfZNNL1zgfjEIeP2O5+IxbR4i+lJ8owoXjelSZv1V9F3Gv0UAWsfCSRlhLIaPPxTtYtn2y5APFrzMrnLZsPykOB6A9485RhTbi8NtUR/RW7dglYwSWkhh9OWXLYfjemg+GG3osfG0mA8ilE+ptl7ChG6vQhcOCjJDVbJXWWRaYzX/+XfmQ3jZEOANDLqrZD14wJQRIgiSwk4S8WyyKkny+9vXnbGtwbn7fbtvux07ojZ2QlfQX45Wbt5TgI0Z2vVwO3C7hzr430vWQNvl0LY1Pu6XBU8I/RX/rSC+cM6eQNBlBFgcLSzpUHCyT2RJU+HEF54R6EOJnwJR51Q0uOcRVx7tlozQNncfdLX+XJxSpMwV96Ld0X9lqrpQo6xxMUCnnCxDvdzEcRF7Vj/Ba2DfuR376j89xY5rt6N0vLihCQ4RH+AR3D/ciAzEpuZBkF64e+w2xcF24KduYF3aAK6BUOIBtHzhnZCf2lUWmJT2POIF6lpG6+wT6Zx6CBFfUUtJdAX3pPmXWWXhNQlPb1VXlalxk6lodImlOf86z1Q+NZ+f2z2X/vXEg6fBZoXNIZ3
+X-Microsoft-Antispam-Message-Info: /YLAiZRe4zSHsycWh07cdx1OaNqXkGkw54xvMN6tFukiXS3z1Yf9Zn3VoZt3+RC7olu7gj4hO4ec6c0EineyPLrTb2ZBpgMA8JyjgwKXAo6VRDhVwTqUOzZ6bVw6EmRPSYUmQWkciWaVJCr7bFDh9iI8co1HZjC7N+kRj2Dv170VwsY6QZgokWhRxZpJJTkjL9StlqUfwvuUDFAm13DeuKla0rhgGKRkZixNhVMFNy3C38gSZ7N42vkp4/sPxTUGyywkO4Owq1yCuwpp+B9KH6j2KtOMK5xfgJPO4ZxbO08Om8UKxO6moKyjvRMtnB91z8Z8A6iGCAio4bznEZ/adb1HNNGnnM2f2Dnh5fqYzRuVK83IGc0r5XV199yd2bQLHLHzPE+Uh0oJkwzN0QCOqcfrmHP0lWZKXOklKTmS5nNIV6qwyXN0krDHRhm0xg+QgM8s3MiI3CK8u4su0HOQ0F3nHc3+67okctlh7Er34oXL5zbyp7o6AJpYAW+/s8GbS4/wqsadF5ZLtFSLblOzg4feMnQEobg2/20BuKq6RzPfenLrtcLEtgEjjPolZFxebk99D6wduSk7rLlDDjRrtud5/Ue9qX+X1aAfCHmL0beHQuUtySUGfIASbqu3LhQVO4WTnZwtMSIeNNUaNOlOPGF0EYCk6AV62T+f1gQvbqjagpM27DVtOFQ1JkeRDYNq
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(396003)(376002)(346002)(366004)(136003)(39840400004)(2906002)(36756003)(316002)(83380400001)(5660300002)(66556008)(1076003)(66476007)(6512007)(66946007)(52116002)(7416002)(956004)(8676002)(186003)(6916009)(6486002)(16526019)(6506007)(8936002)(38100700002)(38350700002)(6666004)(2616005)(86362001)(478600001)(4326008)(26005)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Gn6arGLnNt2WgMje3pyUOLO5xCJNKCKm8JodMWjht1hllrwosw7eZwHILANA?=
- =?us-ascii?Q?xAovDx9LGmNWXbS084Jd+x4jrKozVhdkXS7oJuNav+O5xtaUwr5bTh4CNVLT?=
- =?us-ascii?Q?oxm+NO6whChiRpp0DhoyRX4XWQk7UYe9emZ0Tol2FIBT66vs735T+tfTXVRc?=
- =?us-ascii?Q?klKI/6yk5mhH2sDezks0PSeb6K1UfXUi3KxvzkkELSQGTDexd6s674TMaeY3?=
- =?us-ascii?Q?cpm9mhfBalYWwtKOBnVjQf+nBQU7ZNh91duET1SOmdho/1bQuDhimVXnxHmi?=
- =?us-ascii?Q?t3I9kQj5KNAPXjFDGrGgxjpWqU6EJm7VyblCO1IQQKmsgwuRONw4sa1nt2Lm?=
- =?us-ascii?Q?p291I19SAxojjmeesCFDSU9uUDfOO+q4L49YqPXvWDFpD+rg9J21vC/mqZcL?=
- =?us-ascii?Q?q4qNRLi2ZwSWMf2PnNPFF2MAtGGsNZKAc+qbb3KiDUBM1BXoqWoayUoGe8Zq?=
- =?us-ascii?Q?n2ZUkwKk+eoNjdKUoefzAfZGcvLQFG1uQnFp82VlpBIGCqg71+xD63iSczpg?=
- =?us-ascii?Q?FN38Rd0raQ9zTL0k5hzCUeRlNI9Smgoiq4L9k6C0YLIogqJU5MxnC52j69UU?=
- =?us-ascii?Q?/MeK3llN+L7cFUHkJWQ3jY+0py2Lx5WmJKwIPB+ynrj/+Iqtcdul6OPpd8MO?=
- =?us-ascii?Q?2cE+O2m6zAlb6RLlVc+EGtDLvCVgHQWxX/4+kE2YvnQD+UPorGRZjh7MhabF?=
- =?us-ascii?Q?oIO5GKfm7jlZF899PRPQ5g2JnuS215Ho/hqyDhTuzpoALwGqAargo1A4QuG8?=
- =?us-ascii?Q?nnW5rERt4clyoz6fuadrZk1SA+OnsOiykBcZETaWjZ2oOAuI4eWDvWX8pZoJ?=
- =?us-ascii?Q?rf2NFIJfjfSh2VAOeatwwwK3KAz9QXCtC6ug38haLuwKa3AfO2eOVL447/oc?=
- =?us-ascii?Q?+sdJdhKbcNLwgCpe2ErKAFV69h7kbMvCAp5zVj33/oo0Eh1J0EFnEbdZ8+V8?=
- =?us-ascii?Q?Bxlhytph9YEY56O6nO6vwbVEyUqlsORZTEEZP9ToWbxTmMqD1J7nH8swKYP6?=
- =?us-ascii?Q?TV/ySjPiGxENdrAxhE5yV+3R1GrCntwCBAWyr4ZsaEJccqhNryb9ATs2IAUJ?=
- =?us-ascii?Q?2MfKG9fewOJ5FqeZGIdLvTUcJpSvESCFSCehjDqwRpnWyGJbNN0dc+SJ9y+l?=
- =?us-ascii?Q?3douZJ142MbA/gbTeGsNuVQMrFTl2d8luwLFO3ZCxXA9uud92X6ZgPVryIo+?=
- =?us-ascii?Q?32O5jP17E6C14I1n8WQgGscogphfknxnlub/oSHzHw05TOUtdWJAfyc+66Hf?=
- =?us-ascii?Q?QuVoDgJe36axWQZaLxUHog1uzr3vibwA2PMILwKPELVqr8WhfdoNGzk8Hvoa?=
- =?us-ascii?Q?kVTEVMivYTgDa7H+8rQbF2KY?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?YGQf7PqQVh627euwtpaby7z2WVjCMnHlvbAYlj3AcAchPg1LLSqoQllsu9NR?=
+ =?us-ascii?Q?YlxZN+QKtXY4E2yDuspyF86Clf9KUn79LaBmlmDrZQEiL2p2J63BkXWVfenU?=
+ =?us-ascii?Q?g8Y9S96yL4Zu3AVc/R4R5FxOFdBfIkzOwM8CvcgVy5CZegxpMgfX0C0hkfup?=
+ =?us-ascii?Q?DWnGJPapbAFRzc+mIMYnDUtffittzdvaURjLZPyDR3chSeQl7uuDA2IYjj5O?=
+ =?us-ascii?Q?jmkT5Z+vxv7/eAJoj13XOsdMUCzSjlQ6ojotfFl+zjcxtceP7ToqEl1a8ggV?=
+ =?us-ascii?Q?JmAOLc/ps4NWmqtDq9nfwNORTW9/fDBdY5DznXzeR7s+1LQJQbNfeigxQuDC?=
+ =?us-ascii?Q?TR9Od/1AEWXjgMWkWhi1Qx5qXgs3sjdNRw5xxg5EFNIVvJQFURGyQifX3AWH?=
+ =?us-ascii?Q?dQOhuzFeVFKcQieFTZGi56nm3kBwjOFHFaxKF2eIxuMAhgUYQ3MyXXzUKKEI?=
+ =?us-ascii?Q?vhxfXYTxWexCAqjRB7SmXvtf1g4z64VrLqdqqrChg0bsABtt/lRwbY8l2pgM?=
+ =?us-ascii?Q?FSrcgWXBd/YxRsfszgQArl7AErg4zsoVGd4LqrWQ6n5xIop1fNZqkfzHmQ40?=
+ =?us-ascii?Q?vDW/BDxV+JRXNFAS1i++mMvPf1+wpxpjEM20H7xqnBvYDw5CZDjmBJqWmpep?=
+ =?us-ascii?Q?8p2mir8+bV0yOBXTOF9v9dfCBSywjOq+/9nW0PJMyawA4OmLwJs1DVTwX3Wc?=
+ =?us-ascii?Q?Y562mdvwVDeNGun+QaK762/NPHxaFrA3cKNPtzo+BIJ/fXZfFPZWQ5NVFU7f?=
+ =?us-ascii?Q?ItYyVyzfI781D0ESEP+Y/6z3b5Nb7Rekb+FJSPtIhiE23oFzEKo22TvCffz5?=
+ =?us-ascii?Q?l9MPe47AE9GkB+v0ZPXokt5k9qi2shPLQDDkreJlhIXiR3QQx2W0GP/8l0qE?=
+ =?us-ascii?Q?kDIzFXepNDPfvq2mJs6unrI0S1azTbci7r0rq+aHxJWzBdHq8E0Vp8ii017X?=
+ =?us-ascii?Q?BxZH9wWHgGtYBU2HTGd8S2JHRVJPyEE0lzjX3guPchqehtkmzyi1XvAxdjLH?=
+ =?us-ascii?Q?RzWbOevuB7SCnNfC9bUoUKin71RBDS9knXx8nR8JXr+zg8FAJOVF/pIiUJNI?=
+ =?us-ascii?Q?JthI8QcTQX/IWYzT9sDoCJVwYeqNyLZ4Dr1M/IlMMIn6+lzjRBE9GHPSuMeb?=
+ =?us-ascii?Q?Ex7jeR7i7bOZBz9GMbU0HQYuU2sqFEWESt5/3YB+CuCmo545QcGtOpCAfO4U?=
+ =?us-ascii?Q?RgEsWCnXdZvJL4HJyiUxhZvb0n77TLp9WYiJIw5WnF351c0EPU/O/uG46r1W?=
+ =?us-ascii?Q?PNhXpedo9vbnuwEdFywlrmvUzQJJcdsoBwvGdab7D0UVEJPmRrL2MUNCAx6T?=
+ =?us-ascii?Q?feH791zbR3d4OPIjdqjlqf0A?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15780ef4-ec7b-4743-8f25-08d925c808cb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f018933-e04d-487f-0c13-08d925c809a4
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:12:12.2444 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2021 13:12:13.6382 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Etsur6bjI5rQNZGLM9UUSXYRbuOsFxUGcaKd60B0VhqvtciJL5yMJS/qJYVr4tp9OKpvSu6x0MSCkiKivLVsCnAqP69h4rmvn4ZOUa7dt58=
+X-MS-Exchange-CrossTenant-UserPrincipalName: n12kN2I5Dy0y5ExE+YYcdo6DFqHuMvBVorwQmLXGxBCP95XPli+BDov/DJP4GUvN61GqCyprYB8RdXP8sf2D+OyX6vmaSoFIi+GGG3qVyDw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4536
 Received-SPF: pass client-ip=40.107.3.130;
  envelope-from=vsementsov@virtuozzo.com;
@@ -140,81 +141,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Actually target of backup(sync=None) is not a final backup target:
-image fleecing is intended to be used with external tool, which will
-copy data from fleecing node to some real backup target.
-
-Also, we are going to add a test case for "push backup with fleecing",
-where instead of exporting fleecing node by NBD, we'll start a backup
-job from fleecing node to real backup target.
-
-To avoid confusion, let's rename temporary fleecing node now.
+We are going to add a test-case with some behavior modifications. So,
+let's prepare a function to be reused.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/tests/image-fleecing | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ tests/qemu-iotests/tests/image-fleecing | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
-index 961941bb27..ec4ef5f3f6 100755
+index ec4ef5f3f6..e210c00d28 100755
 --- a/tests/qemu-iotests/tests/image-fleecing
 +++ b/tests/qemu-iotests/tests/image-fleecing
-@@ -71,6 +71,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+@@ -48,12 +48,7 @@ remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
+              ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
+              ('0xcd', '0x3ff0000', '64k')] # patterns[3]
+ 
+-with iotests.FilePath('base.img') as base_img_path, \
+-     iotests.FilePath('fleece.img') as fleece_img_path, \
+-     iotests.FilePath('nbd.sock',
+-                      base_dir=iotests.sock_dir) as nbd_sock_path, \
+-     iotests.VM() as vm:
+-
++def do_test(base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('--- Setting up images ---')
      log('')
  
-     src_node = 'source'
-+    tmp_node = 'temp'
-     vm.add_blockdev(f'driver={iotests.imgfmt},file.driver=file,'
-                     f'file.filename={base_img_path},node-name={src_node}')
-     vm.add_device('virtio-scsi')
-@@ -82,12 +83,11 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('--- Setting up Fleecing Graph ---')
-     log('')
- 
--    tgt_node = 'fleeceNode'
- 
--    # create tgt_node backed by src_node
-+    # create tmp_node backed by src_node
-     log(vm.qmp('blockdev-add', {
-         'driver': 'qcow2',
--        'node-name': tgt_node,
-+        'node-name': tmp_node,
-         'file': {
-             'driver': 'file',
-             'filename': fleece_img_path,
-@@ -99,19 +99,19 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log(vm.qmp('blockdev-backup',
-                job_id='fleecing',
-                device=src_node,
--               target=tgt_node,
-+               target=tmp_node,
-                sync='none'))
+@@ -163,3 +158,15 @@ with iotests.FilePath('base.img') as base_img_path, \
  
      log('')
-     log('--- Setting up NBD Export ---')
-     log('')
- 
--    nbd_uri = 'nbd+unix:///%s?socket=%s' % (tgt_node, nbd_sock_path)
-+    nbd_uri = 'nbd+unix:///%s?socket=%s' % (tmp_node, nbd_sock_path)
-     log(vm.qmp('nbd-server-start',
-                {'addr': { 'type': 'unix',
-                           'data': { 'path': nbd_sock_path } } }))
- 
--    log(vm.qmp('nbd-server-add', device=tgt_node))
-+    log(vm.qmp('nbd-server-add', device=tmp_node))
- 
-     log('')
-     log('--- Sanity Check ---')
-@@ -149,7 +149,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     assert e is not None
-     log(e, filters=[iotests.filter_qmp_event])
-     log(vm.qmp('nbd-server-stop'))
--    log(vm.qmp('blockdev-del', node_name=tgt_node))
-+    log(vm.qmp('blockdev-del', node_name=tmp_node))
-     vm.shutdown()
- 
-     log('')
+     log('Done')
++
++
++def test():
++    with iotests.FilePath('base.img') as base_img_path, \
++         iotests.FilePath('fleece.img') as fleece_img_path, \
++         iotests.FilePath('nbd.sock',
++                          base_dir=iotests.sock_dir) as nbd_sock_path, \
++         iotests.VM() as vm:
++        do_test(base_img_path, fleece_img_path, nbd_sock_path, vm)
++
++
++test()
 -- 
 2.29.2
 
