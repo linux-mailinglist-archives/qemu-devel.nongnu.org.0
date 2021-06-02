@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5F2399664
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 01:33:00 +0200 (CEST)
-Received: from localhost ([::1]:54546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713D539966C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 01:40:24 +0200 (CEST)
+Received: from localhost ([::1]:58694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loaM7-0002WG-HR
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 19:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46410)
+	id 1loaTH-0005h6-2P
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 19:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nolan@sigbus.net>) id 1loaLM-0001ir-RL
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:32:12 -0400
-Received: from phong.sigbus.net ([71.19.155.206]:38346)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loaRR-0004fn-4E
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:38:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nolan@sigbus.net>) id 1loaLK-0002d3-Oo
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:32:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigbus.net; s=2020;
- t=1622676728; bh=EUtIMZUj4vexH9WITndRzrOGcKbc9pZdOrpXaPQ0q4I=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=Fb1TP5DJEuzTQSW13gy9R3sWVmnWGpgUjVIQ1YF/upKOK87OC31Q3sHxBotuZn3Wf
- FvqpsHNHaXeu4H2lFoSUbCJYwcvFUQbEK5aOkaoX8fFIzp5Iu/DWgpNI+xxWW+Ho22
- TPqOV6rjVfemIPta3Sqns7VHy2exkEr4EAQsdTe0VQhbyYm/58h+oMnaKVfZk08R8B
- V0Qq3OiIQfraVI+fyVCdvnQLgrXT4bZ6TZbZoJtENxYwgrn299k2DDg0qE+SuypsHa
- PSAy+voHGkud718vq4B3J0piV4uJHtRWLNKd9VVc9Aez0T8XwIvwgxglTX09Uaibnv
- hlV9FGUM6TPvQ==
-Subject: Re: [PATCH qemu] Add basic power management to raspi.
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <162137039825.30884.2445825798240809194-0@git.sr.ht>
- <65187b48-2449-e2b4-2d13-ed9ffb6fe2a8@amsat.org>
- <7669dd87-e040-a049-e953-9f31a4557ee5@sigbus.net>
- <596d4b19-a1b8-4ae3-d449-376bcd88cbe5@amsat.org>
-From: Nolan <nolan@sigbus.net>
-Message-ID: <9f24edda-8c09-052e-cd3d-fb84946511fa@sigbus.net>
-Date: Wed, 2 Jun 2021 16:32:06 -0700
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loaRM-0007CL-PI
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 19:38:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622677104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pACcass5TPhj8fXo4C596TqN6mpXOOHDCQvliZ7jF9A=;
+ b=JHyN6pODbkUM5/iYB+rgRwl+JZcYL3WE4SVJ6c4Sn7yfeX3fGTN3dQ/4fqZGa/vTzfVSlb
+ aLFoAKPa9+AFirjljJA8Oy/ab5/5ZPG+MSv6IHiPt0qC/lY+3i0TXOn0r3WqoptXDlmrqa
+ BugWXwzKzLIZVlmXrRgc6i1lHQgW2vM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-382-P3Fl_uXiOUy5Le0E7DcX8Q-1; Wed, 02 Jun 2021 19:38:21 -0400
+X-MC-Unique: P3Fl_uXiOUy5Le0E7DcX8Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C9E3107ACF4;
+ Wed,  2 Jun 2021 23:38:20 +0000 (UTC)
+Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 975E6131E7;
+ Wed,  2 Jun 2021 23:38:18 +0000 (UTC)
+Subject: Re: [PATCH v4 25/35] python/qemu/machine.py: refactor _qemu_args()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210602131108.74979-1-vsementsov@virtuozzo.com>
+ <20210602131108.74979-26-vsementsov@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <e3d89875-2d78-10eb-a531-d53ce460c562@redhat.com>
+Date: Wed, 2 Jun 2021 19:38:17 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <596d4b19-a1b8-4ae3-d449-376bcd88cbe5@amsat.org>
+In-Reply-To: <20210602131108.74979-26-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=71.19.155.206; envelope-from=nolan@sigbus.net;
- helo=phong.sigbus.net
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,116 +82,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 4:22 PM, Philippe Mathieu-Daudé wrote:
-> On 6/2/21 11:33 PM, Nolan wrote:
->> On 5/31/21 4:23 AM, Philippe Mathieu-Daudé wrote:
->>> Hi Nolan,
->>>
->>> Thanks for your patch!
->>>
->>> There is something odd with your email address, which apparently
->>> became sourcehut@sigbus.net instead of nolan@sigbus.net.
->>
->> Ugh, oops. I was trying out sourcehut for this, and reflexively gave
->> them a marker email. I'm pretty sure sourcehut won't sell my email
->> address, so I'll just change it.
->>
->>> On 5/18/21 10:24 PM, ~nolanl wrote:
->>>> From: Nolan Leake <nolan@sigbus.net>
->>>>
->>>> This is just enough to make reboot and poweroff work.
->>>
->>> Please precise "for Linux kernels", since this doesn't work
->>> with firmwares (ideally we should implement the FIRMWARE_NOTIFY_REBOOT
->>> property - which Linux sends - to handle the machine reboot/halt
->>> via the videocore firmware model).
->>
->> Thanks, good point re: this being tuned to what Linux (and u-boot) do.
->> Poking around a bit, it looks like
->> "trusted-firmware-a"/"arm-trusted-firmware" uses the same method, as do
->> a couple of bare-metal/hobby OSes. Couldn't immediately figure out what
->> FreeBSD does.
->>
->> I'm not sure I understand your point about FIRMWARE_NOTIFY_REBOOT, my
->> understanding is that message is there to tell the GPU firmware that
->> we're about to reboot, so it can do things like reload the PCIe USB
->> chip's firmware. In my testing without the watchdog module loaded, my
->> physical pi4 does not reboot, so it appears that sending
->> FIRMWARE_NOTIFY_REBOOT is not enough on its own.
+On 6/2/21 9:10 AM, Vladimir Sementsov-Ogievskiy wrote:
+>   - use shorter construction
+>   - don't create new dict if not needed
+>   - drop extra unpacking key-val arguments
+>   - drop extra default values
 > 
->  From the ARM core point of view, once it sent the FIRMWARE_NOTIFY_REBOOT
-> message, it can't really power-off itself, it waits in a busy loop for
-> the VC to disable its power domain.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+Sorry, I shuffled around the Python stuff and this doesn't apply 
+anymore. I have applied it myself for review, though.
+
+(I don't anticipate any more major shake-ups from this point forward. 
+Thanks for your help on reviews for that series.)
+
+> ---
+>   python/qemu/machine.py | 18 ++++++++----------
+>   1 file changed, 8 insertions(+), 10 deletions(-)
 > 
-> hw/misc/bcm2835_property.c is our model of the VC behavior. IMO this
-> should be where QEMU shuts down. How I'd model it is:
+> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+> index 6e44bda337..ff35f2cd6c 100644
+> --- a/python/qemu/machine.py
+> +++ b/python/qemu/machine.py
+> @@ -541,14 +541,12 @@ def _qmp(self) -> qmp.QEMUMonitorProtocol:
+>           return self._qmp_connection
+>   
+>       @classmethod
+> -    def _qmp_args(cls, _conv_keys: bool = True, **args: Any) -> Dict[str, Any]:
+> -        qmp_args = dict()
+> -        for key, value in args.items():
+> -            if _conv_keys:
+> -                qmp_args[key.replace('_', '-')] = value
+> -            else:
+> -                qmp_args[key] = value
+> -        return qmp_args
+> +    def _qmp_args(cls, conv_keys: bool,
+> +                  args: Dict[str, Any]) -> Dict[str, Any]:
+> +        if conv_keys:
+> +            return {k.replace('_', '-'): v for k, v in args.items()}
+> +        else:
+> +            return args
+
+qemu/machine/machine.py:558:8: R1705: Unnecessary "else" after "return" 
+(no-else-return)
+
+Also, can you try using Dict[str, object] instead? This keeps stricter 
+type checking enabled for callers trying to utilize the return value. On 
+my review branch (based on master, not kwolf's staging branch) it passes 
+Python linting and iotests 297, so it should hopefully not be a hassle.
+
+>   
+>       def qmp(self, cmd: str,
+>               conv_keys: bool = True,
+> @@ -556,7 +554,7 @@ def qmp(self, cmd: str,
+>           """
+>           Invoke a QMP command and return the response dict
+>           """
+> -        qmp_args = self._qmp_args(conv_keys, **args)
+> +        qmp_args = self._qmp_args(conv_keys, args)
+>           return self._qmp.cmd(cmd, args=qmp_args)
+>   
+>       def command(self, cmd: str,
+> @@ -567,7 +565,7 @@ def command(self, cmd: str,
+>           On success return the response dict.
+>           On failure raise an exception.
+>           """
+> -        qmp_args = self._qmp_args(conv_keys, **args)
+> +        qmp_args = self._qmp_args(conv_keys, args)
+>           return self._qmp.command(cmd, **qmp_args)
+>   
+>       def get_qmp_event(self, wait: bool = False) -> Optional[QMPMessage]:
 > 
-> - ARM: sends FIRMWARE_NOTIFY_REBOOT and loops
-> 
-> - VC emulated via property: delays (200ms?) then calls
->    SHUTDOWN_CAUSE_GUEST_RESET.
-> 
-> (it helps to see hw/misc/bcm2835_property.c as an external component).
 
-This is not what I see on my hardware pi4. With the following kernel config:
-...
-CONFIG_RASPBERRYPI_FIRMWARE=y
-...
-CONFIG_BCM2835_WDT=m
-...
+With those items addressed:
 
-if I reboot the machine without the WDT module (but with the firmware 
-module), I get this:
-#  echo b > /proc/sysrq-trigger
-[   54.498768] sysrq: Resetting
-[   54.501713] SMP: stopping secondary CPUs
-[   54.505701] Reboot failed -- System halted
-
-and it hangs forever there.
-
-If I load the WDT module, it reboots successfully.
-
->>>> qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->>>> +            } else {
->>>> +                qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
->>>> +            }
->>>> +        }
->>>
->>> Shouldn't we log the unsupported bits?
->>
->> I can add that, I didn't originally because the unsupported writes are
->> expected.
-> 
-> I'd prefer we log them, even if unsupported, so in case something
-> behaves oddly we could look at those bits.
-
-In v2, I log the writes, since any side effects they have (notably the 
-watchdog register) are unimplemented. I didn't log the reads, since they 
-actually behave exactly as the real hardware does...
-
->>>> +static void bcm2835_powermgt_reset(DeviceState *dev)
->>>> +{
->>>> +    BCM2835PowerMgtState *s = BCM2835_POWERMGT(dev);
->>>> +
->>>> +    s->rstc = 0x00000102;
->>>> +    s->rsts = 0x00001000;
->>>> +    s->wdog = 0x00000000;
->>>
->>> Where these bits come from?
->>
->>  From my pi4. https://elinux.org/BCM2835_registers agrees (processed from
->> Broadcom source code).
-> 
-> OK, so please add a comment referring to
-> https://elinux.org/BCM2835_registers#PM.
-> 
-> Looking forward for v2 :)
-
-Already sent. Is the link comment here worth a v3?
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
