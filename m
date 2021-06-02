@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F968399127
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:09:12 +0200 (CEST)
-Received: from localhost ([::1]:45250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017E0399128
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:09:18 +0200 (CEST)
+Received: from localhost ([::1]:45858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loUMg-0003qi-Rm
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41888)
+	id 1loUMn-0004FD-2z
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:09:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1loULf-0001tP-3L; Wed, 02 Jun 2021 13:08:07 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:39427)
+ id 1loULl-00027P-14; Wed, 02 Jun 2021 13:08:13 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:38449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1loULd-0007OJ-GW; Wed, 02 Jun 2021 13:08:06 -0400
-Received: by mail-ej1-x634.google.com with SMTP id l1so4928509ejb.6;
- Wed, 02 Jun 2021 10:08:04 -0700 (PDT)
+ id 1loULj-0007Rf-F9; Wed, 02 Jun 2021 13:08:12 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id o5so3803900edc.5;
+ Wed, 02 Jun 2021 10:08:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JGPis0AW+aaH4wBbSop936myvgD2dj3LgszAZSmfYV8=;
- b=RHfTLCVu6mWIFdLUE8yzTZn4nY+/VHYjsoY9lWtLMCtgxUmV7/f7Ae/8EeViEjL91z
- 4MKyZl4p380USIjAZ0uJTOpWZuY6WNNyYGIsPPB4ngCUsITyL34KgJGKXWFii26SOOwG
- K1coHH4kD2upBUJpcd/vVmstcmxVhcvGplXskf0FrqmNDD8Nu/mkImpte4M5CFLefXKL
- 2lzgHaN11ib26n19CuHP0lykDfvbzXpVnuTOaxpzXS05Mje9sw7CVPp0AwRbGbTA84Md
- 7z1wB8yXOX7k7LsUL7cyvz/KkbLfdKtzRBd5X/JAPcKl3NEETQws9HCKAYCCphAOxkls
- s/XA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=u/ZsVviC897AX/fmYNgwrrdG9aX9qUp4BnyCpR7wyLc=;
+ b=aWeF3ovzmPD/6fbybhIrVmLFMh9dE557t1aWIRfRYs4/OHWbZ4lodlX0zuH5klquh5
+ DDIuwA4p3FnBbKYCpdbZdpVNHiuvtaFEXPuugdiyPDforDEcqGaQBUbSxplC2rthzt8p
+ Tje+V2UgJdqdcN4dkZqLRr+zTAV1VXskoD+fbdeVbL4JGSiHo8Jp4F3jyBCQSyAAHImF
+ d6+m1wUTP9xSOVZD+BnvvgSXvgDqrzEMI4+y7mOShYW1HUqAhAvZElT5wsREFKlO/a7v
+ NEeaztSfDyj8SvXQvZseDz2eDoPge7vVp9XVxNFQuaGw/gOAlofNSmRFocGQ7VDmy/YV
+ Wu2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=JGPis0AW+aaH4wBbSop936myvgD2dj3LgszAZSmfYV8=;
- b=ZxuuOiOMNSdpES3/Z4jEjBSu7DTEEmJl49U8VLiwDjZkSczNedMWU5E/KQJ3nIaukH
- ZyXn9OSrSQD3OJLgtCF4YEx4u9knOjWKL7e/i1EdqOeuOzEx4ikA3sg1H2AqR6ohiQWz
- 3CZBuzMbAOh1ffouUEp8GrFjHgdqqPFIW8aDL22O1btSNLze0OVSDrN3CgyRjIGPSChT
- 5/R2YaKg/zAhJPtOrDUeyK0PWue5reLN0TbKSQqhmm21JymcvNdX2NdWIdzxmiQOOmpo
- REoFw55/0dk8uvCoj5nlJCuH437NLHsIfrsc4rDYv9Zy4A/vn9U4hkDLV3sHcl2+BWLC
- QHzA==
-X-Gm-Message-State: AOAM530Z8QRog11LFk5tud/ZVl1wgHnEjYuXLxSFJAHBYP4dPxEGKTdU
- kBrT/KTXZVmBC5m+jmqA8nsq960VxiGYDA==
-X-Google-Smtp-Source: ABdhPJwTreU1kY/nXSvCFBvP94OYqA41D6OeqbwB8f3yifGkCgoQArl/PMU0+dIDEsEbBmCqSoOOoQ==
-X-Received: by 2002:a17:906:278f:: with SMTP id
- j15mr28531334ejc.388.1622653683221; 
- Wed, 02 Jun 2021 10:08:03 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=u/ZsVviC897AX/fmYNgwrrdG9aX9qUp4BnyCpR7wyLc=;
+ b=pAKPwF16bTF/LDXoPEZ0xtqdUAyIZ2GuScxHwfjsNrejOw0lvIk+UUhr9yr7JQiQqB
+ wq67lMRQVYazlPmnl+3Zyoj32vqyVozpibHdxx3ZygxATrUH7DKaQMOxODeCCOk9Xzad
+ OBFl7vC50aBflGTFTN/jzfLEKHBQ1w71kYtekx8VZZRuONznMA6CwEeXHQZ6G3+OEivC
+ J0dUbsk2TIodLadEBTMoT4dZgedHozlX/N4q9P/Ffa80od1ZyJ3wJXmGizdp9InYo4oy
+ JQThlEIMVm0YoShHnGtLwuyRmbOBOGkX9pfC52ztu6zG/GczfVMPP49yqd61vqdd+v9z
+ LXUA==
+X-Gm-Message-State: AOAM532RMS7/xHoAtnQWcmt/1DSE8nwNbEDLsc9LJ2Xajgtz+5L3erPi
+ bkeT7RryBfErXuk3N3FjRUwn67XACqhaTg==
+X-Google-Smtp-Source: ABdhPJwt4ZobbgYGrAEQ1MtOokJ63M63+7w9+fCI3K48BD6jajL25g9Xzgnc8W4koGIKxS4uau/7zg==
+X-Received: by 2002:aa7:d74b:: with SMTP id a11mr2900858eds.95.1622653688588; 
+ Wed, 02 Jun 2021 10:08:08 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id h7sm298407ejp.24.2021.06.02.10.08.00
+ by smtp.gmail.com with ESMTPSA id bn7sm290410ejb.111.2021.06.02.10.08.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 10:08:01 -0700 (PDT)
+ Wed, 02 Jun 2021 10:08:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] trivial: Fix some typos
-Date: Wed,  2 Jun 2021 19:07:56 +0200
-Message-Id: <20210602170759.2500248-1-f4bug@amsat.org>
+Subject: [PATCH 1/3] misc: Fix "havn't" typo
+Date: Wed,  2 Jun 2021 19:07:57 +0200
+Message-Id: <20210602170759.2500248-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210602170759.2500248-1-f4bug@amsat.org>
+References: <20210602170759.2500248-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x634.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,32 +83,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-trivial@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ "open list:ARM TCG target" <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix few typos:=0D
-. Uncoditional -> Unconditional=0D
-. havn't -> haven't=0D
-. stdin -> stdio=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  misc: Fix "havn't" typo=0D
-  target/mips: Fix 'Uncoditional' typo=0D
-  scripts/oss-fuzz: Fix typo in documentation=0D
-=0D
- hw/usb/desc-msos.c                             | 2 +-=0D
- target/mips/tcg/translate.c                    | 6 +++---=0D
- target/s390x/translate.c                       | 6 ++++--=0D
- tcg/tcg-op.c                                   | 2 +-=0D
- tcg/arm/tcg-target.c.inc                       | 6 ++++--=0D
- tcg/sparc/tcg-target.c.inc                     | 6 ++++--=0D
- scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py | 2 +-=0D
- 7 files changed, 18 insertions(+), 12 deletions(-)=0D
-=0D
--- =0D
-2.26.3=0D
-=0D
+Fix havn't -> haven't typo.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/usb/desc-msos.c         | 2 +-
+ target/s390x/translate.c   | 6 ++++--
+ tcg/tcg-op.c               | 2 +-
+ tcg/arm/tcg-target.c.inc   | 6 ++++--
+ tcg/sparc/tcg-target.c.inc | 6 ++++--
+ 5 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/hw/usb/desc-msos.c b/hw/usb/desc-msos.c
+index 3a5ad7c8d0f..836e38c67e1 100644
+--- a/hw/usb/desc-msos.c
++++ b/hw/usb/desc-msos.c
+@@ -181,7 +181,7 @@ static int usb_desc_msos_prop(const USBDesc *desc, uint8_t *dest)
+ 
+     if (desc->msos->Label) {
+         /*
+-         * Given as example in the specs.  Havn't figured yet where
++         * Given as example in the specs.  Haven't figured yet where
+          * this label shows up in the windows gui.
+          */
+         length += usb_desc_msos_prop_str(dest+length, MSOS_REG_SZ,
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index e243624d2a6..f3124a52207 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -6270,8 +6270,10 @@ static void extract_field(DisasFields *o, const DisasField *f, uint64_t insn)
+         abort();
+     }
+ 
+-    /* Validate that the "compressed" encoding we selected above is valid.
+-       I.e. we havn't make two different original fields overlap.  */
++    /*
++     * Validate that the "compressed" encoding we selected above is valid.
++     * I.e. we haven't make two different original fields overlap.
++     */
+     assert(((o->presentC >> f->indexC) & 1) == 0);
+     o->presentC |= 1 << f->indexC;
+     o->presentO |= 1 << f->indexO;
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index dcc2ed0bbc8..869dc6cdd29 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -2695,7 +2695,7 @@ void tcg_gen_goto_tb(unsigned idx)
+     /* We only support two chained exits.  */
+     tcg_debug_assert(idx <= TB_EXIT_IDXMAX);
+ #ifdef CONFIG_DEBUG_TCG
+-    /* Verify that we havn't seen this numbered exit before.  */
++    /* Verify that we haven't seen this numbered exit before.  */
+     tcg_debug_assert((tcg_ctx->goto_tb_issue_mask & (1 << idx)) == 0);
+     tcg_ctx->goto_tb_issue_mask |= 1 << idx;
+ #endif
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 8457108a87a..751fcd96930 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -2127,8 +2127,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ 
+ static void tcg_target_init(TCGContext *s)
+ {
+-    /* Only probe for the platform and capabilities if we havn't already
+-       determined maximum values at compile time.  */
++    /*
++     * Only probe for the platform and capabilities if we haven't already
++     * determined maximum values at compile time.
++     */
+ #ifndef use_idiv_instructions
+     {
+         unsigned long hwcap = qemu_getauxval(AT_HWCAP);
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 3d50f985c6c..520b91d8b10 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -1689,8 +1689,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ 
+ static void tcg_target_init(TCGContext *s)
+ {
+-    /* Only probe for the platform and capabilities if we havn't already
+-       determined maximum values at compile time.  */
++    /*
++     * Only probe for the platform and capabilities if we haven't already
++     * determined maximum values at compile time.
++     */
+ #ifndef use_vis3_instructions
+     {
+         unsigned long hwcap = qemu_getauxval(AT_HWCAP);
+-- 
+2.26.3
+
 
