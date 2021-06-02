@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3621397F60
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 05:17:23 +0200 (CEST)
-Received: from localhost ([::1]:55302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2988397F65
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 05:18:35 +0200 (CEST)
+Received: from localhost ([::1]:57530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loHNi-0003od-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 23:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45548)
+	id 1loHOs-0005Qk-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Jun 2021 23:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1loHM1-000312-BJ
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:15:37 -0400
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:36438)
+ id 1loHMy-000498-O7
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:16:36 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:42909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1loHLz-0004y9-7l
- for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:15:37 -0400
-Received: by mail-il1-x134.google.com with SMTP id e7so816595ils.3
- for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 20:15:34 -0700 (PDT)
+ id 1loHMt-0005gy-PR
+ for qemu-devel@nongnu.org; Tue, 01 Jun 2021 23:16:36 -0400
+Received: by mail-io1-xd33.google.com with SMTP id k22so979489ioa.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Jun 2021 20:16:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=TPkpwluhJAROvlOc0h48vOErBeWjsOfdGXGlqCa+xxE=;
- b=X8Yb5d1eA5I1u9lXBAa+8xlFJi308EUxEwQAU6sZUxK6rmWphoO6KvdTRF5HaFNi3g
- SdhWf9emslIWwvGPmFZUcHnFrNYbS0DvU5GT8Urbf5nXRBy0Am3TaDh4DIng6GFnE4NE
- MAeSqxleMjSEE8m6mxxZNFpU5id8cXoI/QciI+rwZ6uCajySemvsC19KcMBnTQIvb9I1
- h+ovw1GxvX4dGynd7w4cIj1777vNPJel2xn0P4WGvj4aOv01ZjwshFAoOSpjEbhVUwoR
- AIHoYAyZz4UnDlto04zQoqFyoK4NYUk6850hMy6jfFbW/swxPhcWvX3Gcuk82+aQMMn0
- 0ZEg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dV9cTe75nFt6zw0mtqfup6YSHaJ8ULSeBsnI6ayToB4=;
+ b=inqafwcHvQJKeP88SHqE+QD5r5+rTC7FWPvn5GwBcB0njI/016aK5TkEFWZ87zmWJW
+ Dciz9OMyNPsFm960CbFu1IkA0Kz+mEHiQTvULzFyaXxeVS7wUGkcdeisKoynw/O0979s
+ 095tSu07LcM6lhNflNt7UTte2Fl2uD/m6gOuCAtea9ae9bnvEMEGV3MpgnK4oMWCK+0L
+ zzoFwWb41/UOmjZw3e6OHTHjtHiuizR6sdb03s0Mr0zR0ZTtCsdXc8i8nPWMAF+NFUBR
+ 4xpd9o2GkjGW1z2q/RaviWc5geuqotIP4aILAg3nyRbRynSipx+MqzWJ01/7I/5gvZJi
+ edTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=TPkpwluhJAROvlOc0h48vOErBeWjsOfdGXGlqCa+xxE=;
- b=eL6YjXLSRgJWfH1EGXwIaAIOKDn9e29SwkOEG5i87lJyd8aqFfx2E3T1N9sHXwsf7r
- 7SaNdC7c7TQcWmQFG/ySeTHuZDtXnzN6duVKlcKulmZMrU7hmvkuSGMpFvOX3a1wymZt
- 7wKTfTNh5t8E4DHjAnAMxvg0M1sibXi+LKi30nsBnShQ2+F8rw/nsCOA2OLtWGyxAptY
- o5DhjlPwVEQEIEvDjiv3oHDkGdXo9DielO9zEMf3iQ1HyevSGLrl6x4po9viYcXl4C/f
- mTzOVYBkkUF2es7o2Mnj11SBM0zYAlsdvnMlQjXAiU3gzpSRiyqlKGDAPJA/J1LIVEth
- KgiQ==
-X-Gm-Message-State: AOAM530+IzFO7U0uL/K9QLHUIOZ1EixLhYBmMTnpP9v7+r2As/uMFVpW
- giqeJwntzmRmGhg3Z2rS1vppzgsCmwpABe4PaWPwnvZBaR0=
-X-Google-Smtp-Source: ABdhPJzu8NvQTkfZ6gbzkoW6GLnTzlfMtGfp9vC6BfL8jADb9GQ1rnLIaMFjaFcGK0J80zCbtAuzRUNQcAMHELTlex4=
-X-Received: by 2002:a05:6e02:1e0d:: with SMTP id
- g13mr14331263ila.178.1622603734051; 
- Tue, 01 Jun 2021 20:15:34 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=dV9cTe75nFt6zw0mtqfup6YSHaJ8ULSeBsnI6ayToB4=;
+ b=UAA6xQGd4zukw/TdWjwKCyCyj027/WELiHH9Aby1y/tnraKnpOZ4Pxj5RkF5ZLRWXo
+ dsNZxWGPeDhGATp0kACNVn/ZUj0pmm00OOZgQHoMDePnWxFiC7qfdQ4+m/XfWTc8EKCT
+ U82vi5wHxTYpDHl90SNcniUYZMLiZunWQyw8qlHhNkDrZ3406fVzXgz8dNNuSmzGNxjD
+ 1KNp4D4gtn1OudxbrwfeTcXm5ha2AtWbedezlk9mAQUfyvOjkumPwivEE+TATJgNMm9j
+ xMMmKNYyMQWco410mq3yHD0H81ZEPkC4zLh+88KWy4ExFSxoh/zBPuV30XZXur+ulDkc
+ YjYA==
+X-Gm-Message-State: AOAM5325wQ6Frrl+icElgzG/0Nk7t2NrGPxkpZ36VhZkog2NcznC61HI
+ Vev/tpdJZmnZyqfWsFQVPYIqwjxtHGVravI67vhDV6CeIP1N2A==
+X-Google-Smtp-Source: ABdhPJzlEJcE/SDU86IOaj3Cc3v8EV6jBrA97eZtzAGoE1/sYGfYMfKeU27XxAIqYlnkJ/qI0F3NXkNPQCg9CYlgCKU=
+X-Received: by 2002:a05:6602:18:: with SMTP id
+ b24mr23544654ioa.1.1622603790593; 
+ Tue, 01 Jun 2021 20:16:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210530063712.6832-1-ma.mandourr@gmail.com>
- <20210530063712.6832-3-ma.mandourr@gmail.com>
-In-Reply-To: <20210530063712.6832-3-ma.mandourr@gmail.com>
+ <20210530063712.6832-4-ma.mandourr@gmail.com>
+In-Reply-To: <20210530063712.6832-4-ma.mandourr@gmail.com>
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
-Date: Wed, 2 Jun 2021 05:15:23 +0200
-Message-ID: <CAD-LL6hgFzRKn7Y=gYG-2Zshx5Lkx4naBEO6jfSmUVmsW9wKvg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/3] plugins: cache: Enabled parameterization and
- added trace printing
-To: qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000002ded8305c3bfdfdd"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=ma.mandourr@gmail.com; helo=mail-il1-x134.google.com
+Date: Wed, 2 Jun 2021 05:16:19 +0200
+Message-ID: <CAD-LL6gPpN2G0sZcXEN1edjk2ZtpCMCpg1BKfdwjsOpEkqVtzg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 3/3] plugins: cache: Added FIFO and LRU eviction
+ policies.
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000008cb3f005c3bfe26b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,155 +79,281 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Emilio G. Cota" <cota@braap.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002ded8305c3bfdfdd
+--0000000000008cb3f005c3bfe26b
 Content-Type: text/plain; charset="UTF-8"
-
-CC'ing Emilio
 
 On Sun, May 30, 2021 at 8:37 AM Mahmoud Mandour <ma.mandourr@gmail.com>
 wrote:
 
-> Made both icache and dcache configurable through plugin arguments
-> and added memory trace printing in a separate file.
+> Now one of the three eviction policies can be chosen as an argument. On
+> not specifying an argument, LRU is used by default.
 >
 > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 > ---
->  contrib/plugins/cache.c | 68 +++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 66 insertions(+), 2 deletions(-)
+>  contrib/plugins/cache.c | 159 ++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 146 insertions(+), 13 deletions(-)
 >
 > diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-> index 8c9d1dd538..fa0bf1dd40 100644
+> index fa0bf1dd40..1e323494bf 100644
 > --- a/contrib/plugins/cache.c
 > +++ b/contrib/plugins/cache.c
-> @@ -22,7 +22,7 @@ static GRand *rng;
+> @@ -18,6 +18,8 @@
+>
+>  QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+>
+> +static bool fifo, lru, rnd;
+> +
+>  static GRand *rng;
 >  static GHashTable *dmiss_ht;
 >  static GHashTable *imiss_ht;
+> @@ -55,6 +57,8 @@ struct CacheBlock {
 >
-> -static GMutex dmtx, imtx;
-> +static GMutex dmtx, imtx, fmtx;
+>  struct CacheSet {
+>      struct CacheBlock *blocks;
+> +    uint16_t *priorities;
+> +    GQueue *evict_queue;
+>  };
 >
->  static int limit;
->  static bool sys;
-> @@ -33,6 +33,8 @@ static uint64_t dmisses;
->  static uint64_t imem_accesses;
->  static uint64_t imisses;
->
-> +FILE *tracefile;
-> +
->  static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
->
->  enum AccessResult {
-> @@ -205,6 +207,16 @@ static void vcpu_mem_access(unsigned int cpu_index,
-> qemu_plugin_meminfo_t info,
->      insn_addr = ((struct InsnData *) userdata)->addr;
->      effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) :
-> vaddr;
->
-> +    if (tracefile) {
-> +        g_mutex_lock(&fmtx);
-> +        g_autoptr(GString) rep = g_string_new("");
-> +        bool is_store = qemu_plugin_mem_is_store(info);
-> +        g_string_append_printf(rep, "%c: 0x%" PRIx64,
-> +                is_store ? 'S' : 'L', effective_addr);
-> +        fprintf(tracefile, "%s\n", rep->str);
-> +        g_mutex_unlock(&fmtx);
-> +    }
-> +
->      if (access_cache(dcache, effective_addr) == MISS) {
->          struct InsnData *insn = get_or_create(dmiss_ht, userdata,
-> insn_addr);
->          insn->misses++;
-> @@ -221,11 +233,20 @@ static void vcpu_insn_exec(unsigned int vcpu_index,
-> void *userdata)
->      g_mutex_lock(&imtx);
->      addr = ((struct InsnData *) userdata)->addr;
->
-> +    if (tracefile) {
-> +        g_mutex_lock(&fmtx);
-> +        g_autoptr(GString) rep = g_string_new("");
-> +        g_string_append_printf(rep, "I: 0x%" PRIx64, addr);
-> +        fprintf(tracefile, "%s\n", rep->str);
-> +        g_mutex_unlock(&fmtx);
-> +    }
-> +
->      if (access_cache(icache, addr) == MISS) {
->          struct InsnData *insn = get_or_create(imiss_ht, userdata, addr);
->          insn->misses++;
->          imisses++;
->      }
-> +
->      imem_accesses++;
->      g_mutex_unlock(&imtx);
+>  struct Cache {
+> @@ -93,6 +97,84 @@ static inline uint64_t extract_set(struct Cache *cache,
+> uint64_t addr)
+>      return (addr & cache->set_mask) >> (pow_of_two(cache->blksize));
 >  }
-> @@ -352,6 +373,15 @@ static void plugin_exit()
 >
->      g_mutex_unlock(&dmtx);
->      g_mutex_unlock(&imtx);
+> +static void lru_priorities_init(struct Cache *cache)
+> +{
+> +    int i, j;
 > +
-> +    if (tracefile) {
-> +        fclose(tracefile);
+> +    for (i = 0; i < cache->num_sets; i++) {
+> +        cache->sets[i].priorities = g_new(uint16_t, cache->assoc);
+> +        for (j = 0; j < cache->assoc; j++) {
+> +            cache->sets[i].priorities[j] = cache->assoc - j - 1;
+> +        }
 > +    }
 > +}
 > +
-> +static bool bad_cache_params(int blksize, int assoc, int cachesize)
+> +static void lru_update_on_miss(struct Cache *cache,
+> +                                      int set_idx,
+> +                                      int blk_idx)
 > +{
-> +    return (cachesize % blksize) != 0 || (cachesize % (blksize * assoc)
-> != 0);
+> +    int i;
+> +
+> +    for (i = 0; i < cache->assoc; i++) {
+> +        cache->sets[set_idx].priorities[i]++;
+> +    }
+> +
+> +    cache->sets[set_idx].priorities[blk_idx] = 0;
+> +}
+> +
+> +static void lru_update_on_hit(struct Cache *cache,
+> +                                         int set_idx,
+> +                                         int blk_idx)
+> +{
+> +    uint16_t blk_priority;
+> +    int i;
+> +
+> +    blk_priority = cache->sets[set_idx].priorities[blk_idx];
+> +    for (i = 0; i < cache->assoc; i++) {
+> +        if (cache->sets[set_idx].priorities[i] < blk_priority) {
+> +            cache->sets[set_idx].priorities[i]++;
+> +        }
+> +    }
+> +    cache->sets[set_idx].priorities[blk_idx] = 0;
+> +}
+> +
+> +static int lru_get_lru_block(struct Cache *cache, int set_idx)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < cache->assoc; i++) {
+> +        if (cache->sets[set_idx].priorities[i] == cache->assoc - 1) {
+> +            return i;
+> +        }
+> +    }
+> +
+> +    g_assert_not_reached();
+> +}
+> +
+> +static void fifo_init(struct Cache *cache)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < cache->num_sets; i++) {
+> +        cache->sets[i].evict_queue = g_queue_new();
+> +    }
+> +}
+> +
+> +static int fifo_get_first_in_block(struct Cache *cache, int set)
+> +{
+> +    GQueue *q = cache->sets[set].evict_queue;
+> +    return GPOINTER_TO_INT(g_queue_pop_tail(q));
+> +}
+> +
+> +static void fifo_update_on_miss(struct Cache *cache,
+> +                                int set,
+> +                                int blk_idx)
+> +{
+> +    GQueue *q = cache->sets[set].evict_queue;
+> +    g_queue_push_head(q, GINT_TO_POINTER(blk_idx));
+> +}
+> +
+> +
+>  static struct Cache *cache_init(int blksize, int assoc, int cachesize)
+>  {
+>      struct Cache *cache;
+> @@ -113,6 +195,12 @@ static struct Cache *cache_init(int blksize, int
+> assoc, int cachesize)
+>      cache->set_mask = ((cache->num_sets - 1) <<
+> (pow_of_two(cache->blksize)));
+>      cache->tag_mask = ~(cache->set_mask | cache->blk_mask);
+>
+> +    if (lru) {
+> +        lru_priorities_init(cache);
+> +    } else if (fifo) {
+> +        fifo_init(cache);
+> +    }
+> +
+>      return cache;
 >  }
 >
->  QEMU_PLUGIN_EXPORT
-> @@ -377,14 +407,48 @@ int qemu_plugin_install(qemu_plugin_id_t id, const
-> qemu_info_t *info,
+> @@ -131,12 +219,20 @@ static int get_invalid_block(struct Cache *cache,
+> uint64_t set)
+>      return -1;
+>  }
 >
+> -static int get_replaced_block(struct Cache *cache)
+> +static int get_replaced_block(struct Cache *cache, int set)
+>  {
+> -    return g_rand_int_range(rng, 0, cache->assoc);
+> +    if (rnd) {
+> +        return g_rand_int_range(rng, 0, cache->assoc);
+> +    } else if (lru) {
+> +        return lru_get_lru_block(cache, set);
+> +    } else if (fifo) {
+> +        return fifo_get_first_in_block(cache, set);
+> +    }
+> +
+> +    g_assert_not_reached();
+>  }
+>
+> -static bool in_cache(struct Cache *cache, uint64_t addr)
+> +static int in_cache(struct Cache *cache, uint64_t addr)
+>  {
+>      int i;
+>      uint64_t tag, set;
+> @@ -147,29 +243,39 @@ static bool in_cache(struct Cache *cache, uint64_t
+> addr)
+>      for (i = 0; i < cache->assoc; i++) {
+>          if (cache->sets[set].blocks[i].tag == tag &&
+>                  cache->sets[set].blocks[i].valid) {
+> -            return true;
+> +            return i;
+>          }
+>      }
+>
+> -    return false;
+> +    return -1;
+>  }
+>
+>  static enum AccessResult access_cache(struct Cache *cache, uint64_t addr)
+>  {
+>      uint64_t tag, set;
+> -    int replaced_blk;
+> -
+> -    if (in_cache(cache, addr)) {
+> -        return HIT;
+> -    }
+> +    int hit_blk, replaced_blk;
+>
+>      tag = extract_tag(cache, addr);
+>      set = extract_set(cache, addr);
+> +    hit_blk = in_cache(cache, addr);
+> +
+> +    if (hit_blk != -1) {
+> +        if (lru) {
+> +            lru_update_on_hit(cache, set, hit_blk);
+> +        }
+> +        return HIT;
+> +    }
+>
+>      replaced_blk = get_invalid_block(cache, set);
+>
+>      if (replaced_blk == -1) {
+> -        replaced_blk = get_replaced_block(cache);
+> +        replaced_blk = get_replaced_block(cache, set);
+> +    }
+> +
+> +    if (lru) {
+> +        lru_update_on_miss(cache, set, replaced_blk);
+> +    } else if (fifo) {
+> +        fifo_update_on_miss(cache, set, replaced_blk);
+>      }
+>
+>      cache->sets[set].blocks[replaced_blk].tag = tag;
+> @@ -307,6 +413,11 @@ static void free_cache(struct Cache *cache)
+>  {
+>      for (int i = 0; i < cache->num_sets; i++) {
+>          g_free(cache->sets[i].blocks);
+> +        if (lru) {
+> +            g_free(cache->sets[i].priorities);
+> +        } else if (fifo) {
+> +            g_queue_free(cache->sets[i].evict_queue);
+> +        }
+>      }
+>
+>      g_free(cache->sets);
+> @@ -403,8 +514,6 @@ int qemu_plugin_install(qemu_plugin_id_t id, const
+> qemu_info_t *info,
+>      iblksize = 64;
+>      icachesize = iblksize * iassoc * 32;
+>
+> -    rng = g_rand_new();
+> -
 >      for (i = 0; i < argc; i++) {
 >          char *opt = argv[i];
-> -        if (g_str_has_prefix(opt, "limit=")) {
-> +        if (g_str_has_prefix(opt, "I=")) {
-> +            gchar **toks = g_strsplit(opt + 2, " ", -1);
-> +            if (g_strv_length(toks) != 3) {
-> +                fprintf(stderr, "option parsing failed: %s\n", opt);
-> +                return -1;
-> +            }
-> +            icachesize = g_ascii_strtoull(toks[0], NULL, 10);
-> +            iassoc = g_ascii_strtoull(toks[1], NULL, 10);
-> +            iblksize = g_ascii_strtoull(toks[2], NULL, 10);
-> +        } else if (g_str_has_prefix(opt, "D=")) {
-> +            gchar **toks = g_strsplit(opt + 2, " ", -1);
-> +            if (g_strv_length(toks) != 3) {
-> +                fprintf(stderr, "option parsing failed: %s\n", opt);
-> +                return -1;
-> +            }
-> +            dcachesize = g_ascii_strtoull(toks[0], NULL, 10);
-> +            dassoc = g_ascii_strtoull(toks[1], NULL, 10);
-> +            dblksize = g_ascii_strtoull(toks[2], NULL, 10);
-> +        } else if (g_str_has_prefix(opt, "limit=")) {
->              limit = g_ascii_strtoull(opt + 6, NULL, 10);
-> +        } else if (g_str_has_prefix(opt, "tracefile=")) {
-> +            char *file_name = opt + 10;
-> +            tracefile = fopen(file_name, "w");
-> +            if (!tracefile) {
-> +                fprintf(stderr, "could not open: %s for writing\n",
+>          if (g_str_has_prefix(opt, "I=")) {
+> @@ -433,6 +542,22 @@ int qemu_plugin_install(qemu_plugin_id_t id, const
+> qemu_info_t *info,
+>              if (!tracefile) {
+>                  fprintf(stderr, "could not open: %s for writing\n",
 > file_name);
+>              }
+> +        } else if (g_str_has_prefix(opt, "evict=")) {
+> +            if (lru || rnd || fifo) {
+> +                fprintf(stderr, "eviction policy specified more than
+> once\n");
+> +                return -1;
+> +            }
+> +            gchar *policy = opt + 6;
+> +            if (g_strcmp0(policy, "rand") == 0) {
+> +                rnd = true;
+> +            } else if (g_strcmp0(policy, "lru") == 0) {
+> +                lru = true;
+> +            } else if (g_strcmp0(policy, "fifo") == 0) {
+> +                fifo = true;
+> +            } else {
+> +                fprintf(stderr, "invalid eviction policy: %s\n", opt);
+> +                return -1;
 > +            }
 >          } else {
 >              fprintf(stderr, "option parsing failed: %s\n", opt);
 >              return -1;
->          }
+> @@ -449,6 +574,14 @@ int qemu_plugin_install(qemu_plugin_id_t id, const
+> qemu_info_t *info,
+>          return -1;
 >      }
 >
-> +    if (bad_cache_params(iblksize, iassoc, icachesize)) {
-> +        fprintf(stderr, "icache cannot be constructed from given
-> parameters\n");
-> +        return -1;
+> +    if (!rnd && !lru && !fifo) {
+> +        lru = true;
 > +    }
 > +
-> +    if (bad_cache_params(dblksize, dassoc, dcachesize)) {
-> +        fprintf(stderr, "dcache cannot be constructed from given
-> parameters\n");
-> +        return -1;
+> +    if (rnd) {
+> +        rng = g_rand_new();
 > +    }
 > +
 >      dcache = cache_init(dblksize, dassoc, dcachesize);
@@ -238,188 +363,325 @@ wrote:
 > 2.25.1
 >
 >
+CC'ing Emilio
 
---0000000000002ded8305c3bfdfdd
+--0000000000008cb3f005c3bfe26b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">CC&#39;ing Emilio</div><br><div class=3D"gmail_quote"><div=
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
  dir=3D"ltr" class=3D"gmail_attr">On Sun, May 30, 2021 at 8:37 AM Mahmoud M=
 andour &lt;<a href=3D"mailto:ma.mandourr@gmail.com">ma.mandourr@gmail.com</=
 a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Ma=
-de both icache and dcache configurable through plugin arguments<br>
-and added memory trace printing in a separate file.<br>
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">No=
+w one of the three eviction policies can be chosen as an argument. On<br>
+not specifying an argument, LRU is used by default.<br>
 <br>
 Signed-off-by: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com"=
  target=3D"_blank">ma.mandourr@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0contrib/plugins/cache.c | 68 +++++++++++++++++++++++++++++++++++++++-=
+=C2=A0contrib/plugins/cache.c | 159 ++++++++++++++++++++++++++++++++++++---=
 -<br>
-=C2=A01 file changed, 66 insertions(+), 2 deletions(-)<br>
+=C2=A01 file changed, 146 insertions(+), 13 deletions(-)<br>
 <br>
 diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c<br>
-index 8c9d1dd538..fa0bf1dd40 100644<br>
+index fa0bf1dd40..1e323494bf 100644<br>
 --- a/contrib/plugins/cache.c<br>
 +++ b/contrib/plugins/cache.c<br>
-@@ -22,7 +22,7 @@ static GRand *rng;<br>
+@@ -18,6 +18,8 @@<br>
+<br>
+=C2=A0QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;<b=
+r>
+<br>
++static bool fifo, lru, rnd;<br>
++<br>
+=C2=A0static GRand *rng;<br>
 =C2=A0static GHashTable *dmiss_ht;<br>
 =C2=A0static GHashTable *imiss_ht;<br>
+@@ -55,6 +57,8 @@ struct CacheBlock {<br>
 <br>
--static GMutex dmtx, imtx;<br>
-+static GMutex dmtx, imtx, fmtx;<br>
+=C2=A0struct CacheSet {<br>
+=C2=A0 =C2=A0 =C2=A0struct CacheBlock *blocks;<br>
++=C2=A0 =C2=A0 uint16_t *priorities;<br>
++=C2=A0 =C2=A0 GQueue *evict_queue;<br>
+=C2=A0};<br>
 <br>
-=C2=A0static int limit;<br>
-=C2=A0static bool sys;<br>
-@@ -33,6 +33,8 @@ static uint64_t dmisses;<br>
-=C2=A0static uint64_t imem_accesses;<br>
-=C2=A0static uint64_t imisses;<br>
-<br>
-+FILE *tracefile;<br>
-+<br>
-=C2=A0static enum qemu_plugin_mem_rw rw =3D QEMU_PLUGIN_MEM_RW;<br>
-<br>
-=C2=A0enum AccessResult {<br>
-@@ -205,6 +207,16 @@ static void vcpu_mem_access(unsigned int cpu_index, qe=
-mu_plugin_meminfo_t info,<br>
-=C2=A0 =C2=A0 =C2=A0insn_addr =3D ((struct InsnData *) userdata)-&gt;addr;<=
-br>
-=C2=A0 =C2=A0 =C2=A0effective_addr =3D hwaddr ? qemu_plugin_hwaddr_phys_add=
-r(hwaddr) : vaddr;<br>
-<br>
-+=C2=A0 =C2=A0 if (tracefile) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_mutex_lock(&amp;fmtx);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autoptr(GString) rep =3D g_string_new(&quot;=
-&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool is_store =3D qemu_plugin_mem_is_store(inf=
-o);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_string_append_printf(rep, &quot;%c: 0x%&quot=
-; PRIx64,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 is_store ? &#39;S&=
-#39; : &#39;L&#39;, effective_addr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(tracefile, &quot;%s\n&quot;, rep-&gt;s=
-tr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_mutex_unlock(&amp;fmtx);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (access_cache(dcache, effective_addr) =3D=3D MISS) {=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct InsnData *insn =3D get_or_create(d=
-miss_ht, userdata, insn_addr);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0insn-&gt;misses++;<br>
-@@ -221,11 +233,20 @@ static void vcpu_insn_exec(unsigned int vcpu_index, v=
-oid *userdata)<br>
-=C2=A0 =C2=A0 =C2=A0g_mutex_lock(&amp;imtx);<br>
-=C2=A0 =C2=A0 =C2=A0addr =3D ((struct InsnData *) userdata)-&gt;addr;<br>
-<br>
-+=C2=A0 =C2=A0 if (tracefile) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_mutex_lock(&amp;fmtx);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autoptr(GString) rep =3D g_string_new(&quot;=
-&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_string_append_printf(rep, &quot;I: 0x%&quot;=
- PRIx64, addr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(tracefile, &quot;%s\n&quot;, rep-&gt;s=
-tr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_mutex_unlock(&amp;fmtx);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (access_cache(icache, addr) =3D=3D MISS) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct InsnData *insn =3D get_or_create(i=
-miss_ht, userdata, addr);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0insn-&gt;misses++;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0imisses++;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0imem_accesses++;<br>
-=C2=A0 =C2=A0 =C2=A0g_mutex_unlock(&amp;imtx);<br>
+=C2=A0struct Cache {<br>
+@@ -93,6 +97,84 @@ static inline uint64_t extract_set(struct Cache *cache, =
+uint64_t addr)<br>
+=C2=A0 =C2=A0 =C2=A0return (addr &amp; cache-&gt;set_mask) &gt;&gt; (pow_of=
+_two(cache-&gt;blksize));<br>
 =C2=A0}<br>
-@@ -352,6 +373,15 @@ static void plugin_exit()<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0g_mutex_unlock(&amp;dmtx);<br>
-=C2=A0 =C2=A0 =C2=A0g_mutex_unlock(&amp;imtx);<br>
++static void lru_priorities_init(struct Cache *cache)<br>
++{<br>
++=C2=A0 =C2=A0 int i, j;<br>
 +<br>
-+=C2=A0 =C2=A0 if (tracefile) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fclose(tracefile);<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; cache-&gt;num_sets; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cache-&gt;sets[i].priorities =3D g_new(uint16_=
+t, cache-&gt;assoc);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; j &lt; cache-&gt;assoc; j++) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cache-&gt;sets[i].priorities[j] =
+=3D cache-&gt;assoc - j - 1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 }<br>
 +}<br>
 +<br>
-+static bool bad_cache_params(int blksize, int assoc, int cachesize)<br>
++static void lru_update_on_miss(struct Cache *cache,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int set_idx,<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int blk_idx)<br=
+>
 +{<br>
-+=C2=A0 =C2=A0 return (cachesize % blksize) !=3D 0 || (cachesize % (blksize=
- * assoc) !=3D 0);<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; cache-&gt;assoc; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cache-&gt;sets[set_idx].priorities[i]++;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 cache-&gt;sets[set_idx].priorities[blk_idx] =3D 0;<br>
++}<br>
++<br>
++static void lru_update_on_hit(struct Cache *cache,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0in=
+t set_idx,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0in=
+t blk_idx)<br>
++{<br>
++=C2=A0 =C2=A0 uint16_t blk_priority;<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 blk_priority =3D cache-&gt;sets[set_idx].priorities[blk_idx]=
+;<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; cache-&gt;assoc; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cache-&gt;sets[set_idx].priorities[i] &lt;=
+ blk_priority) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cache-&gt;sets[set_idx].prioriti=
+es[i]++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 cache-&gt;sets[set_idx].priorities[blk_idx] =3D 0;<br>
++}<br>
++<br>
++static int lru_get_lru_block(struct Cache *cache, int set_idx)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; cache-&gt;assoc; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cache-&gt;sets[set_idx].priorities[i] =3D=
+=3D cache-&gt;assoc - 1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return i;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 g_assert_not_reached();<br>
++}<br>
++<br>
++static void fifo_init(struct Cache *cache)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; cache-&gt;num_sets; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cache-&gt;sets[i].evict_queue =3D g_queue_new(=
+);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static int fifo_get_first_in_block(struct Cache *cache, int set)<br>
++{<br>
++=C2=A0 =C2=A0 GQueue *q =3D cache-&gt;sets[set].evict_queue;<br>
++=C2=A0 =C2=A0 return GPOINTER_TO_INT(g_queue_pop_tail(q));<br>
++}<br>
++<br>
++static void fifo_update_on_miss(struct Cache *cache,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int set,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int blk_idx)<br>
++{<br>
++=C2=A0 =C2=A0 GQueue *q =3D cache-&gt;sets[set].evict_queue;<br>
++=C2=A0 =C2=A0 g_queue_push_head(q, GINT_TO_POINTER(blk_idx));<br>
++}<br>
++<br>
++<br>
+=C2=A0static struct Cache *cache_init(int blksize, int assoc, int cachesize=
+)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0struct Cache *cache;<br>
+@@ -113,6 +195,12 @@ static struct Cache *cache_init(int blksize, int assoc=
+, int cachesize)<br>
+=C2=A0 =C2=A0 =C2=A0cache-&gt;set_mask =3D ((cache-&gt;num_sets - 1) &lt;&l=
+t; (pow_of_two(cache-&gt;blksize)));<br>
+=C2=A0 =C2=A0 =C2=A0cache-&gt;tag_mask =3D ~(cache-&gt;set_mask | cache-&gt=
+;blk_mask);<br>
+<br>
++=C2=A0 =C2=A0 if (lru) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lru_priorities_init(cache);<br>
++=C2=A0 =C2=A0 } else if (fifo) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fifo_init(cache);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0return cache;<br>
 =C2=A0}<br>
 <br>
-=C2=A0QEMU_PLUGIN_EXPORT<br>
-@@ -377,14 +407,48 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qe=
-mu_info_t *info,<br>
+@@ -131,12 +219,20 @@ static int get_invalid_block(struct Cache *cache, uin=
+t64_t set)<br>
+=C2=A0 =C2=A0 =C2=A0return -1;<br>
+=C2=A0}<br>
 <br>
+-static int get_replaced_block(struct Cache *cache)<br>
++static int get_replaced_block(struct Cache *cache, int set)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 return g_rand_int_range(rng, 0, cache-&gt;assoc);<br>
++=C2=A0 =C2=A0 if (rnd) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return g_rand_int_range(rng, 0, cache-&gt;asso=
+c);<br>
++=C2=A0 =C2=A0 } else if (lru) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return lru_get_lru_block(cache, set);<br>
++=C2=A0 =C2=A0 } else if (fifo) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return fifo_get_first_in_block(cache, set);<br=
+>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 g_assert_not_reached();<br>
+=C2=A0}<br>
+<br>
+-static bool in_cache(struct Cache *cache, uint64_t addr)<br>
++static int in_cache(struct Cache *cache, uint64_t addr)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int i;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t tag, set;<br>
+@@ -147,29 +243,39 @@ static bool in_cache(struct Cache *cache, uint64_t ad=
+dr)<br>
+=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; cache-&gt;assoc; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (cache-&gt;sets[set].blocks[i].tag =3D=
+=3D tag &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cache-&gt;set=
+s[set].blocks[i].valid) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return i;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 return false;<br>
++=C2=A0 =C2=A0 return -1;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static enum AccessResult access_cache(struct Cache *cache, uint64_t a=
+ddr)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t tag, set;<br>
+-=C2=A0 =C2=A0 int replaced_blk;<br>
+-<br>
+-=C2=A0 =C2=A0 if (in_cache(cache, addr)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return HIT;<br>
+-=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 int hit_blk, replaced_blk;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0tag =3D extract_tag(cache, addr);<br>
+=C2=A0 =C2=A0 =C2=A0set =3D extract_set(cache, addr);<br>
++=C2=A0 =C2=A0 hit_blk =3D in_cache(cache, addr);<br>
++<br>
++=C2=A0 =C2=A0 if (hit_blk !=3D -1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (lru) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lru_update_on_hit(cache, set, hi=
+t_blk);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return HIT;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0replaced_blk =3D get_invalid_block(cache, set);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (replaced_blk =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 replaced_blk =3D get_replaced_block(cache);<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 replaced_blk =3D get_replaced_block(cache, set=
+);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (lru) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lru_update_on_miss(cache, set, replaced_blk);<=
+br>
++=C2=A0 =C2=A0 } else if (fifo) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fifo_update_on_miss(cache, set, replaced_blk);=
+<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0cache-&gt;sets[set].blocks[replaced_blk].tag =3D tag;<b=
+r>
+@@ -307,6 +413,11 @@ static void free_cache(struct Cache *cache)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0for (int i =3D 0; i &lt; cache-&gt;num_sets; i++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(cache-&gt;sets[i].blocks);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (lru) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(cache-&gt;sets[i].priorit=
+ies);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (fifo) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_queue_free(cache-&gt;sets[i].e=
+vict_queue);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0g_free(cache-&gt;sets);<br>
+@@ -403,8 +514,6 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu=
+_info_t *info,<br>
+=C2=A0 =C2=A0 =C2=A0iblksize =3D 64;<br>
+=C2=A0 =C2=A0 =C2=A0icachesize =3D iblksize * iassoc * 32;<br>
+<br>
+-=C2=A0 =C2=A0 rng =3D g_rand_new();<br>
+-<br>
 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; argc; i++) {<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *opt =3D argv[i];<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_str_has_prefix(opt, &quot;limit=3D&quot;=
-)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_str_has_prefix(opt, &quot;I=3D&quot;)) {=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gchar **toks =3D g_strsplit(opt =
-+ 2, &quot; &quot;, -1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_strv_length(toks) !=3D 3) =
-{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
-uot;option parsing failed: %s\n&quot;, opt);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 icachesize =3D g_ascii_strtoull(=
-toks[0], NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iassoc =3D g_ascii_strtoull(toks=
-[1], NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iblksize =3D g_ascii_strtoull(to=
-ks[2], NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (g_str_has_prefix(opt, &quot;D=3D&qu=
-ot;)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gchar **toks =3D g_strsplit(opt =
-+ 2, &quot; &quot;, -1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_strv_length(toks) !=3D 3) =
-{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
-uot;option parsing failed: %s\n&quot;, opt);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dcachesize =3D g_ascii_strtoull(=
-toks[0], NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dassoc =3D g_ascii_strtoull(toks=
-[1], NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dblksize =3D g_ascii_strtoull(to=
-ks[2], NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (g_str_has_prefix(opt, &quot;limit=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (g_str_has_prefix(opt, &quot;I=3D&quot=
+;)) {<br>
+@@ -433,6 +542,22 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qem=
+u_info_t *info,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!tracefile) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stder=
+r, &quot;could not open: %s for writing\n&quot;, file_name);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (g_str_has_prefix(opt, &quot;evict=
 =3D&quot;)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0limit =3D g_ascii_strtoull(=
-opt + 6, NULL, 10);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (g_str_has_prefix(opt, &quot;tracefi=
-le=3D&quot;)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *file_name =3D opt + 10;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tracefile =3D fopen(file_name, &=
-quot;w&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!tracefile) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (lru || rnd || fifo) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
-uot;could not open: %s for writing\n&quot;, file_name);<br>
+uot;eviction policy specified more than once\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gchar *policy =3D opt + 6;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_strcmp0(policy, &quot;rand=
+&quot;) =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rnd =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (g_strcmp0(policy, &qu=
+ot;lru&quot;) =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lru =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (g_strcmp0(policy, &qu=
+ot;fifo&quot;) =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fifo =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
+uot;invalid eviction policy: %s\n&quot;, opt);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;optio=
 n parsing failed: %s\n&quot;, opt);<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+@@ -449,6 +574,14 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qem=
+u_info_t *info,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-+=C2=A0 =C2=A0 if (bad_cache_params(iblksize, iassoc, icachesize)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;icache cannot be constru=
-cted from given parameters\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 if (!rnd &amp;&amp; !lru &amp;&amp; !fifo) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 lru =3D true;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 if (bad_cache_params(dblksize, dassoc, dcachesize)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;dcache cannot be constru=
-cted from given parameters\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 if (rnd) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rng =3D g_rand_new();<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
 =C2=A0 =C2=A0 =C2=A0dcache =3D cache_init(dblksize, dassoc, dcachesize);<br=
@@ -429,8 +691,8 @@ cted from given parameters\n&quot;);<br>
 <br>
 -- <br>
 2.25.1<br>
-<br>
-</blockquote></div>
+<br></blockquote><div><br></div><div>CC&#39;ing Emilio=C2=A0</div></div></d=
+iv>
 
---0000000000002ded8305c3bfdfdd--
+--0000000000008cb3f005c3bfe26b--
 
