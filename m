@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28E039851C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:17:53 +0200 (CEST)
-Received: from localhost ([::1]:34152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3E9398517
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:16:42 +0200 (CEST)
+Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loN0b-00013L-0O
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:17:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
+	id 1loMzR-0007aB-Ec
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1loMwG-0003PL-Ff
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:13:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1loMwE-0007uX-TM
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:13:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622625202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3Vx0DBN0wKDjG3AGM2bLcX4cwB1jkbZgkyknHQSFNr4=;
- b=ZbnVvStUnqJV6ePqAz/723o1hRhp4EB7J9u0bj1If911rOGMtLz2fv/r6oy/N7ySD1K0gN
- tUJ30YB+kySQozsKTzI035dOsxgxNDk/mWqEPKMDZJYqKfctuBF36LHjAGarGTmuWoILnn
- jbM6o65WQPQaaVDYn4c8vuXFBLu9Wys=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-oGH_76ENNeqc3L0-lFM3Hg-1; Wed, 02 Jun 2021 05:13:20 -0400
-X-MC-Unique: oGH_76ENNeqc3L0-lFM3Hg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87799501E0;
- Wed,  2 Jun 2021 09:13:19 +0000 (UTC)
-Received: from localhost (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E4565C648;
- Wed,  2 Jun 2021 09:13:19 +0000 (UTC)
-Date: Wed, 2 Jun 2021 10:13:18 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 0/2] block-copy: small fix and refactor
-Message-ID: <YLdLrrTszu8MMxPv@stefanha-x1.localdomain>
-References: <20210528141628.44287-1-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1loMxK-0005Io-Rt
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:14:30 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1loMxG-0000BD-Ng
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:14:30 -0400
+Received: by mail-wr1-x431.google.com with SMTP id v23so1498932wrd.10
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 02:14:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xIH6bL45vjmevFqM3xaicdNZm66VlThcNQpUH+k5f4c=;
+ b=Z+cVwpucmB0OWi4YbqG17MFMDFptGcnOR3QxySfDDPcADQ13BNLkM3DvTcEbYiB9Wa
+ 9NGcHlDHlcdI9yiOh8dikN/iwcuV2BWZ8r4AR+3sOLKhmKtX0Bc0NpqqyieklgaKq4+B
+ v/lQQqfvPfZaNFf/zS+4AfDvLHIGRuSc1pDlS8VVp/iy/wYy82x8Lqpzr2z8pJ7Xw3dT
+ uGGZNVbZVEY6Oxi2ymeAeOCGhxj0PnPmkRYLyHYaulJ9nvHnsF+1vy2/19qgvFIAi8t8
+ J9xrVMYPQf7yiiWl0Z7K9gE5LmnBsCTsL7KiPUYCNGAdyo/x7jGvEZMdbJsIYUGbGRfB
+ nWXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=xIH6bL45vjmevFqM3xaicdNZm66VlThcNQpUH+k5f4c=;
+ b=IC/BZSXKlrBRd9HU6NNr+bI3OS/rxaSYulTGwtcPY0487ZGTmipnlF6dW+0tJD7GR8
+ tYtRffCZfqXjXTn3UooL1CDziCt+4luzrtYTSKitel8uDzbbps8y6V4GxS/22lAhVfJK
+ 8kvns4cl+Up8DhMefYgvzf43WUASnMCshtpV8D4dPzZXOauWzyUQSu2gYjS0mKq0U7JZ
+ q6/eJXD9njsvzHArPlsBMtxUioq+u3lWFaEYa7Qo9NBubTE8uGV8V39Ev+XLYlEZRijm
+ 0sSA5YP6OwFOZYEswBatpu+PFZz3ou4IlZQZ+oSgFeVeAMYAJmwS0V60ENyOMADSFE0N
+ rTaw==
+X-Gm-Message-State: AOAM533x5F/mQkVRFvX7ReNeM9YquuPY+hGziVLGLBRSXYsXlLhBJnXY
+ JN0e7UVUpxxlWc2vlvbOLg6V8Q==
+X-Google-Smtp-Source: ABdhPJxaHAOz1/JF6inUxxlhWmPOuRuIrrMHDK48oEDXNzAGy+qztKGXFOWOsAnH6F4P/qFHHu3u4Q==
+X-Received: by 2002:adf:fc11:: with SMTP id i17mr27456186wrr.374.1622625264339; 
+ Wed, 02 Jun 2021 02:14:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f14sm5927989wry.40.2021.06.02.02.14.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 02:14:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3DCE41FF7E;
+ Wed,  2 Jun 2021 10:14:22 +0100 (BST)
+References: <20210602020720.47679-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] target/arm: Mark LDS{MIN,MAX} as signed operations
+Date: Wed, 02 Jun 2021 10:14:17 +0100
+In-reply-to: <20210602020720.47679-1-richard.henderson@linaro.org>
+Message-ID: <87k0ncbpch.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210528141628.44287-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gVRSxmVHlYy9ri8J"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,51 +86,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, eesposit@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, pbonzini@redhat.com,
- jsnow@redhat.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gVRSxmVHlYy9ri8J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 28, 2021 at 05:16:26PM +0300, Vladimir Sementsov-Ogievskiy wrot=
-e:
-> Hi all!
->=20
-> This is my suggestion how to refactor block-copy to avoid extra atomic
-> operations in=20
-> "[PATCH v2 0/7] block-copy: protect block-copy internal structures"
->=20
-> Vladimir Sementsov-Ogievskiy (2):
->   block-copy: fix block_copy_task_entry() progress update
->   block-copy: refactor copy_range handling
->=20
->  block/block-copy.c | 79 +++++++++++++++++++++++++++++++---------------
->  1 file changed, 53 insertions(+), 26 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-I posted suggestions for the doc comment on Patch 2, otherwise:
+> The operands to tcg_gen_atomic_fetch_s{min,max}_i64 must
+> be signed, so that the inputs are properly extended.
+> Zero extend the result afterward, as needed.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/364
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
---gVRSxmVHlYy9ri8J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmC3S64ACgkQnKSrs4Gr
-c8isUAf9G/dTR1EqcWwClWm+w9rKLHv6JfaQWjW6RQDhNXY5rGP0TSomHCedGOG8
-Rwb6x2pJ4SDQKtfXSHOL0RZBHNTd/qJXzNQAVSSnp37/0GxxQgaLeOzxps8cQ02Z
-5qc+5aRlcUHXrINtuNEI/s34DmkbPK9Gnu//Dvs0E31ScJK6VlMZ7/QNCzRjEkAK
-wA9VF4fqpT2i7WN2zUrBYINYb2c240rqabaVb/5pDAZqxC3hzS1ytjwI+ZSZnIuO
-hCx4DoB+0LTOMXkwH7JEVTJY1CF1E/luIDlTbPKqJfZzQHvLjkJ8qIZJSCfEFGCa
-+4/StTxTolcb+S2Gc8hG3UlEUcRyow==
-=dC4O
------END PGP SIGNATURE-----
-
---gVRSxmVHlYy9ri8J--
-
+--=20
+Alex Benn=C3=A9e
 
