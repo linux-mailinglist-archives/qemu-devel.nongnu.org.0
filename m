@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CB839923F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 20:10:53 +0200 (CEST)
-Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5C0399224
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 20:05:38 +0200 (CEST)
+Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loVKO-0000sF-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 14:10:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51352)
+	id 1loVFJ-0000F9-Jk
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 14:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1loVBO-00016a-1W
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 14:01:34 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35659)
+ id 1loVDd-0006IZ-5D
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 14:03:53 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:35677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1loVBM-0007Bg-Br
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 14:01:33 -0400
-Received: by mail-ed1-x533.google.com with SMTP id ba2so2249042edb.2
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 11:01:31 -0700 (PDT)
+ id 1loVDb-0008Ue-Ds
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 14:03:52 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id ba2so2258010edb.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 11:03:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rI4Z3aelTil49JmdVbpqcMQvlLMTBSZ1QxenWE7aFtM=;
- b=FLiHX9Q3ZA1FvNBcrpL2z2SNUxFTQNCOQirikNm5nPRHeNPdB+X6RdhWW32+Z5LkDI
- fRkv7sleLAf3iKBzh/mBCRWe2FqbQpKJHuWmiBfAk1Ann0PdIVQgsrwZLCASjHL5J0nv
- s84q0/k+ElR/xdVhPeo2GbjeU/waQUXu7CZ/wHOJi3guDGqcNN4lW72VHh6v2G315cec
- vV3omCCxINZSoTTuHYpse24CNI5gTDTE1Bj9qHy2QsenA9Bi3iMBh+p9EpElf032rLi8
- vn2/cFodXR3HmEB2tn1USvVZHTTqOfkHYXPxUb8bJ0Oeqsq1JS40onoESovCUey7Hmfq
- XmRA==
+ bh=RK0EWTJNs1Za15yPa0XDToq0GOI2BZn/PkkLAkngyOI=;
+ b=ITgHgzrVsPMIRvDWDEApBCRjRLJVQAAY/4CoiLwPkROC7Pr5J0zK80mmZaqC2uQNBq
+ rRKiWqZXwsn0j6V6qDAyFZWgNO2Khrhvb1IUkNLgwRZscb3XvMHfzYumZARIREALnWpb
+ Gz/d0cF2Ys3vLWYIKLhwonGg2W+6qlGnD3CKcsJUBYXtQno4isOkcVhJDsT52WsfQiXY
+ /ZLvCcCto5HKUD9EQYfstwHyriUoocpvIQ09iuwJbYNo3kaKS3AKBpFztFHcCy4xxCjV
+ n5pOgiUCopnP1tA3GmzXr7mMp+tmFvUweNK/9+L9SWFVZvN6rl8ZQLZAv0xL+MZrV0Cf
+ SFMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rI4Z3aelTil49JmdVbpqcMQvlLMTBSZ1QxenWE7aFtM=;
- b=EPOBFk+h8P6zIuMywoRaKroEYvsAN+40/MX15WZe2qSn2hdtzfW+q+P0562STgglGA
- zfkKGOQDnmxUzUoVOOFwI2iEyFCxVYeJ0uBWutLJwDw9kFP7+70N4cpaP9SzYsiR6JJj
- jwkbqztMneYw8T28KRdixzFeNJcMvpfOipEH5tp47WX+I0qS37Ql7udYSfsuBPrQca0J
- NLJyx0sfXEF3ys8Dh1j1QAmQrZQusumMej3idq0z153wOJkyaAYGAsk/J9jZtOzGnHFt
- shFcXf50rl02bY9h3mSrPc+gHuOAT4NzjsjlcES6/x75ksUtp6UGHSHriwK0kQLXJ9Li
- C0AQ==
-X-Gm-Message-State: AOAM533w3PKWetjpVU71keol2dAmLjefsuzMXGBnD8ppUgACpjB0zUNM
- FakkLbUn7M0UuVHh9YvzkxLZwHnodRQYDg==
-X-Google-Smtp-Source: ABdhPJyIR25GRyZi2RSdPMSXu/Sk59KSMt+DXy0GbNKpuwkv2t21IXFKrnoFaygF1jw/mHNBQbKTyQ==
-X-Received: by 2002:aa7:db16:: with SMTP id t22mr24810263eds.49.1622656890680; 
- Wed, 02 Jun 2021 11:01:30 -0700 (PDT)
+ bh=RK0EWTJNs1Za15yPa0XDToq0GOI2BZn/PkkLAkngyOI=;
+ b=a/V/2mItW0VrE5zNLGzvBbBNLS1sEJE53q64yDl4DR0zcuNZ5SsQFAeSjJyZJ0QBSQ
+ iEonOEDXBdd50goGh0wo/wwhudrD5d9yc6R/skAtu6IyCDyA7ODf234vdKx9Ia24bfre
+ VZb1WUYu/aDGbJgqr51l7/d4TSTa2SS34RRcf3Fi7g03FBd0KGzDkPP0qs8h7KCrLfmE
+ x8Q4KIdZdURBwhc7PShLetNd6xjPcLhfIQTACe5U3TWS6dSuTBRqtsXTsaqYTp6RckOM
+ OZRTcMnQTpnIRyr1naTmFzZLG9PLgdIMaATC0BngFT6yzUy8BuC6aviy5N3tlNB9Osb8
+ f4wg==
+X-Gm-Message-State: AOAM533b0nlUfSUfT0qovw4nBSWgLWGAwaeek/gJaVnJS7XceOw6dB90
+ cOgEOJRi1T6THaJmeFfKjgrdz5AAHobI/g==
+X-Google-Smtp-Source: ABdhPJyl24Ixmi7Wj9Ex2ekjquxlNEFAG7SUcFx8d/QDb+/UgGdCkG2XYEGEc13+3zjvd8toqjtl7g==
+X-Received: by 2002:a05:6402:1d06:: with SMTP id
+ dg6mr15716775edb.132.1622657029627; 
+ Wed, 02 Jun 2021 11:03:49 -0700 (PDT)
 Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id w11sm399577ede.54.2021.06.02.11.01.29
+ by smtp.gmail.com with ESMTPSA id gn26sm322251ejc.6.2021.06.02.11.03.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 11:01:30 -0700 (PDT)
-Subject: Re: [PATCH v7 23/27] tcg/tci: Split out tci_qemu_ld, tci_qemu_st
+ Wed, 02 Jun 2021 11:03:49 -0700 (PDT)
+Subject: Re: [PATCH v7 25/27] tcg/tci: Remove the qemu_ld/st_type macros
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210601150106.12761-1-richard.henderson@linaro.org>
- <20210601150106.12761-24-richard.henderson@linaro.org>
+ <20210601150106.12761-26-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6cef4f63-2529-db6e-61df-68c114f2c8f3@amsat.org>
-Date: Wed, 2 Jun 2021 20:01:29 +0200
+Message-ID: <8a82c50c-5d82-6a8a-30c0-80249c4f185f@amsat.org>
+Date: Wed, 2 Jun 2021 20:03:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210601150106.12761-24-richard.henderson@linaro.org>
+In-Reply-To: <20210601150106.12761-26-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,12 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/1/21 5:01 PM, Richard Henderson wrote:
-> We can share this code between 32-bit and 64-bit loads and stores.
+> These macros are only used in one place.  By expanding,
+> we get to apply some common-subexpression elimination
+> and create some local variables.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/tci.c | 183 +++++++++++++++++++++---------------------------------
->  1 file changed, 71 insertions(+), 112 deletions(-)
+>  tcg/tci.c | 165 +++++++++++++++++++++++++++++++++---------------------
+>  1 file changed, 100 insertions(+), 65 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
