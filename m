@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29835398523
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:20:03 +0200 (CEST)
-Received: from localhost ([::1]:39386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FE0F398525
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 11:20:34 +0200 (CEST)
+Received: from localhost ([::1]:41362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loN2g-0004gj-3y
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55754)
+	id 1loN3B-00060s-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 05:20:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0W-0001wJ-FX
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:17:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29983)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0U-0001rs-Tu
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:17:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0T-0002DT-IK
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:17:48 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1loN0M-000297-Nt
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 05:17:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622625464;
+ s=mimecast20190719; t=1622625456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=adTVVJEPZdSvV0XUZRnaYT48XleLc7OPqo1SzNBkzbY=;
- b=Gi3JCz+yhftXAbhn2fB+gWE5z7cFHlTSeonHDKgsgACIk/q60F6IqVnPKTadbVqK6Vk0hw
- I9xAQok5URrd5nnMF36KIasffBG3tqWz7/I/Bpv8pON61R3pjDE/LM4My8GXAqA9pCHQPY
- Z+5HUs+p9dyvGunFKIZQ/psc82Wtubk=
+ bh=RM5MHuSldTCJkVJYzW/tgcOS3v6/2/Fa9OcJ8hyKu9s=;
+ b=Pp9kCo/bAy8zSnC8uZSZxFqlcPYv+HNM47yLvniCcrd8N5JZKN3ofJUprB/QwHcboAx/BR
+ E8SSz7hCJ2C1ohXxjAfdzYKuve3Fm6AE1zIl5WJHKxdOQ/edHZgRBS7jzCsB0IFTtgLTGq
+ kfgG9PdNvxXPImsVwBIjnU2ai5I/wJo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-bIO2USUYOkK5VCRydZ9PnA-1; Wed, 02 Jun 2021 05:17:43 -0400
-X-MC-Unique: bIO2USUYOkK5VCRydZ9PnA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-403-DPpB68pnNBW4EBRy3ipq3w-1; Wed, 02 Jun 2021 05:17:33 -0400
+X-MC-Unique: DPpB68pnNBW4EBRy3ipq3w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 536CC107ACE6;
- Wed,  2 Jun 2021 09:17:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40207107ACE3;
+ Wed,  2 Jun 2021 09:17:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-84.ams2.redhat.com
  [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0356B1002EF0;
- Wed,  2 Jun 2021 09:17:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C47345D9D0;
+ Wed,  2 Jun 2021 09:17:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8401C180087D; Wed,  2 Jun 2021 11:17:27 +0200 (CEST)
+ id 91EC1180087E; Wed,  2 Jun 2021 11:17:27 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/9] Add module metadata macros, add qxl module annotations
-Date: Wed,  2 Jun 2021 11:17:19 +0200
-Message-Id: <20210602091727.1023563-2-kraxel@redhat.com>
+Subject: [PATCH 2/9] add qemu-modinfo utility
+Date: Wed,  2 Jun 2021 11:17:20 +0200
+Message-Id: <20210602091727.1023563-3-kraxel@redhat.com>
 In-Reply-To: <20210602091727.1023563-1-kraxel@redhat.com>
 References: <20210602091727.1023563-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,69 +91,223 @@ Cc: Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stealing an idea from the linux kernel:  Place module metadata
-in an .modinfo elf section.  This patch adds macros and qxl module
-annotations as example.
+For now only dump metadata.
+
+TODO:
+ * store in some file format (json?).
+ * make qemu parse it, replace hard-coded lists in util/module.c
+ * fix windows (seems to not have glob).
+ * do we need non-elf support?
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/qemu/module.h | 18 ++++++++++++++++++
- hw/display/qxl.c      |  4 ++++
- 2 files changed, 22 insertions(+)
+ qemu-modinfo.c | 182 +++++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build    |   3 +
+ 2 files changed, 185 insertions(+)
+ create mode 100644 qemu-modinfo.c
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 944d403cbd15..afb9656ba4e7 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -73,4 +73,22 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
- void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
- 
+diff --git a/qemu-modinfo.c b/qemu-modinfo.c
+new file mode 100644
+index 000000000000..ecd5f6c3adf2
+--- /dev/null
++++ b/qemu-modinfo.c
+@@ -0,0 +1,182 @@
 +/*
-+ * objdump -t -s -j .modinfo ${module}.so
++ * QEMU module parser
++ *
++ * read modules, find modinfo section, parse & store metadata.
++ *
++ * Copyright Red Hat, Inc. 2021
++ *
++ * Authors:
++ *     Gerd Hoffmann <kraxel@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
 + */
++#include "qemu/osdep.h"
++#include "elf.h"
++#include <glob.h>
 +
-+#define ___PASTE(a, b) a##b
-+#define __PASTE(a, b) ___PASTE(a, b)
++#define Elf_Ehdr Elf64_Ehdr
++#define Elf_Shdr Elf64_Shdr
++#define ELFCLASS ELFCLASS64
 +
-+#define modinfo(kind, value)                             \
-+    static const char __PASTE(kind, __LINE__)[]          \
-+        __attribute__((__used__))                        \
-+        __attribute__((section(".modinfo")))             \
-+        __attribute__((aligned(1)))                      \
-+        = stringify(kind) "=" value
++static const char *moddir = CONFIG_QEMU_MODDIR;
++static const char *dsosuf = CONFIG_HOST_DSOSUF;
 +
-+#define module_obj(name) modinfo(obj, name)
-+#define module_dep(name) modinfo(dep, name)
-+#define module_arch(name) modinfo(arch, name)
++static void modinfo(const char *module, char *info, size_t size)
++{
++    size_t pos = 0, len;
 +
- #endif
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 6e1f8ff1b2a7..84f99088e0a0 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -2522,6 +2522,7 @@ static const TypeInfo qxl_primary_info = {
-     .parent        = TYPE_PCI_QXL,
-     .class_init    = qxl_primary_class_init,
- };
-+module_obj("qxl-vga");
++    fprintf(stderr, "%s\n", module);
++    do {
++        fprintf(stderr, "  -> %s\n", info + pos);
++        len = strlen(info + pos) + 1;
++        pos += len;
++    } while (pos < size);
++}
++
++static void elf_read_section_hdr(FILE *fp, Elf_Ehdr *ehdr,
++                                 int section, Elf_Shdr *shdr)
++{
++    size_t pos, len;
++    int ret;
++
++    pos = ehdr->e_shoff + section * ehdr->e_shentsize;
++    len = MIN(ehdr->e_shentsize, sizeof(*shdr));
++
++    ret = fseek(fp, pos, SEEK_SET);
++    if (ret != 0) {
++        fprintf(stderr, "seek error\n");
++        exit(1);
++    }
++
++    memset(shdr, 0, sizeof(*shdr));
++    ret = fread(shdr, len, 1, fp);
++    if (ret != 1) {
++        fprintf(stderr, "read error\n");
++        exit(1);
++    }
++}
++
++static void *elf_read_section(FILE *fp, Elf_Ehdr *ehdr,
++                              int section, size_t *size)
++{
++    Elf_Shdr shdr;
++    void *data;
++    int ret;
++
++    elf_read_section_hdr(fp, ehdr, section, &shdr);
++    if (shdr.sh_offset && shdr.sh_size) {
++        ret = fseek(fp, shdr.sh_offset, SEEK_SET);
++        if (ret != 0) {
++            fprintf(stderr, "seek error\n");
++            exit(1);
++        }
++
++        data = g_malloc(shdr.sh_size);
++        ret = fread(data, shdr.sh_size, 1, fp);
++        if (ret != 1) {
++            fprintf(stderr, "read error\n");
++            exit(1);
++        }
++        *size = shdr.sh_size;
++    } else {
++        data = NULL;
++        *size = 0;
++    }
++    return data;
++}
++
++static void elf_parse_module(const char *module)
++{
++    Elf_Ehdr ehdr;
++    Elf_Shdr shdr;
++    FILE *fp;
++    int ret, i;
++    char *str;
++    size_t str_size;
++    char *info;
++    size_t info_size;
++
++    fp = fopen(module, "r");
++    if (NULL == fp) {
++        fprintf(stderr, "open %s: %s\n", module, strerror(errno));
++        exit(1);
++    }
++
++    ret = fread(&ehdr, sizeof(ehdr), 1, fp);
++    if (ret != 1) {
++        fprintf(stderr, "read error (%s)\n", module);
++        exit(1);
++    }
++
++    if (ehdr.e_ident[EI_MAG0] != ELFMAG0 ||
++        ehdr.e_ident[EI_MAG1] != ELFMAG1 ||
++        ehdr.e_ident[EI_MAG2] != ELFMAG2 ||
++        ehdr.e_ident[EI_MAG3] != ELFMAG3) {
++        fprintf(stderr, "not an elf file (%s)\n", module);
++        exit(1);
++    }
++    if (ehdr.e_ident[EI_CLASS] != ELFCLASS64) {
++        fprintf(stderr, "elf class mismatch (%s)\n", module);
++        exit(1);
++    }
++    if (ehdr.e_shoff == 0) {
++        fprintf(stderr, "no section header (%s)\n", module);
++        exit(1);
++    }
++
++    /* read string table */
++    if (ehdr.e_shstrndx == 0) {
++        fprintf(stderr, "no section strings (%s)\n", module);
++        exit(1);
++    }
++    str = elf_read_section(fp, &ehdr, ehdr.e_shstrndx, &str_size);
++    if (NULL == str) {
++        fprintf(stderr, "no section strings (%s)\n", module);
++        exit(1);
++    }
++
++    /* find and read modinfo section */
++    info = NULL;
++    for (i = 0; i < ehdr.e_shnum; i++) {
++        elf_read_section_hdr(fp, &ehdr, i, &shdr);
++        if (!shdr.sh_name) {
++            continue;
++        }
++        if (strcmp(str + shdr.sh_name, ".modinfo") == 0) {
++            info = elf_read_section(fp, &ehdr, i, &info_size);
++        }
++    }
++
++    if (info) {
++        modinfo(module, info, info_size);
++    }
++
++    fclose(fp);
++}
++
++int main(int argc, char **argv)
++{
++    char *pattern;
++    glob_t files;
++    int ret, i;
++
++    if (argc > 1) {
++        moddir = argv[1];
++    }
++
++    pattern = g_strdup_printf("%s/*%s", moddir, dsosuf);
++    ret = glob(pattern, 0, NULL, &files);
++    if (ret != 0) {
++        fprintf(stderr, "glob(%s) failed: %d\n", pattern, ret);
++        exit(1);
++    }
++
++    for (i = 0; i < files.gl_pathc; i++) {
++        elf_parse_module(files.gl_pathv[i]);
++    }
++
++    globfree(&files);
++    g_free(pattern);
++    return 0;
++}
+diff --git a/meson.build b/meson.build
+index a45f1a844f13..179e92aa7ae1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2358,6 +2358,9 @@ if xkbcommon.found()
+                            dependencies: [qemuutil, xkbcommon], install: have_tools)
+ endif
  
- static void qxl_secondary_class_init(ObjectClass *klass, void *data)
- {
-@@ -2538,6 +2539,7 @@ static const TypeInfo qxl_secondary_info = {
-     .parent        = TYPE_PCI_QXL,
-     .class_init    = qxl_secondary_class_init,
- };
-+module_obj("qxl");
- 
- static void qxl_register_types(void)
- {
-@@ -2547,3 +2549,5 @@ static void qxl_register_types(void)
- }
- 
- type_init(qxl_register_types)
++qemu_modinfo = executable('qemu-modinfo', files('qemu-modinfo.c') + genh,
++                          dependencies: [glib], install: have_tools)
 +
-+module_dep("ui-spice-core");
+ if have_tools
+   qemu_img = executable('qemu-img', [files('qemu-img.c'), hxdep],
+              dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
 -- 
 2.31.1
 
