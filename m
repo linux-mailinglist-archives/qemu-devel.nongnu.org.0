@@ -2,131 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A5A39914D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:18:01 +0200 (CEST)
-Received: from localhost ([::1]:53762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F69439915D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Jun 2021 19:20:17 +0200 (CEST)
+Received: from localhost ([::1]:56410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loUVE-0001zL-ES
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
+	id 1loUXQ-0003vi-9U
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 13:20:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1loURT-0000wA-NP; Wed, 02 Jun 2021 13:14:07 -0400
-Received: from mail-sn1anam02on2136.outbound.protection.outlook.com
- ([40.107.96.136]:15677 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1loUWA-0003Bx-Bl
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:18:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1loURQ-0002uq-9L; Wed, 02 Jun 2021 13:14:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dM11RiiRC666aTwKc0buDJEwnn69U4uniNrbqA//FWumVrZVjPTrLdf5f94M0Kjb5xD4NgEXnqYvqaNsCGnGWdRUjQdEhOAd9yDsMSGCPFYvS9REcJ6naGAOLk9fW8b1GyBgKgnImpQ9xwcfKmLMeKKoAhqPjzSFb5WQJ+MtDPA4gJD7ot1hq3m8HGP8j/uKmVqdmD8fAVq9KZE9MbLWPUXy3XMxC9QnVpB7FiJBdyPRkfWL3HJiOD4eJd0aY20NS+76X2tIhqWbSh1R4pCtyOGlUMJbK78O7MBeA4pwZwE9gv5212WkujHeXa4cO+N3dJmYhYRUuXiccnpiDWLY9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i+VxR/MuV0abL3CVgjgzJkSR6/RBnrF+GaujOlmFmOs=;
- b=KIgvtRbtniDw1nc6KrF4unrs1ZPtJ4Po/ErstraMUCYilUvIXcNtIEYHx2NAXOYV398DqnvFUpEFFzYOFbCsZ5DOcvfYOODjy6Rn1vVD6r46m4RGGuTDZrZvNOaRCdMGq2bM+kxHIn9pDbYYhnhJUzarFkfTayWT68j2RGJBjJPJAWMlg/WGdwC6XP8dHG1bCwo7PrGpgWopFfFnIDj8HH1buf8iCz3zolZIhduZoEDIDJL27zBbp71jkjclR4hkEMwTgj/UbNzjoVVUrXY33dtNVofOoaiCV6hxfGbJ1GM3vRXOxB0QybhvJvjHh9r4hXqHcHUBJZTANcvkwtmydw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
- header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i+VxR/MuV0abL3CVgjgzJkSR6/RBnrF+GaujOlmFmOs=;
- b=R+jaSIDupYp2h6Lntl4nC0pOKa7z3EwA+2+Kd+76EX3Z+GB4wPmEXA1+bUm41fNRn8jQtaVLCSIxH/mg1yp7AHCWGNLr+/igf/fW05Yy4ulipmpPcgIrZGzhKU2UEPMvp/EWQQNV6zcaBzYLbiGdfzx5xLq9HQU/B46P2QWvoHCgaD7wBTJU0K4Ke8UzRYCtcZoLsOr+FSRH2DI9sQ4HwbFLrXChxIHZBrLDMZDl50o7KFF2y8mqfmxqxh4hA86Hn+OudF2rA02eWVg4CTIR/MRLoL9sNsHxcoJt9sCAhJUjkcEkRciwk5ao/USrpQ/NrbyB7hS5TqnmMFh3aovXZg==
-Received: from CP2PR80MB3668.lamprd80.prod.outlook.com (2603:10d6:102:31::10)
- by CP0PR80MB4867.lamprd80.prod.outlook.com (2603:10d6:103:1a::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Wed, 2 Jun
- 2021 17:14:00 +0000
-Received: from CP2PR80MB3668.lamprd80.prod.outlook.com
- ([fe80::dccd:868e:fcb8:72c3]) by CP2PR80MB3668.lamprd80.prod.outlook.com
- ([fe80::dccd:868e:fcb8:72c3%2]) with mapi id 15.20.4173.030; Wed, 2 Jun 2021
- 17:14:00 +0000
-From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-To: Richard Henderson <richard.henderson@linaro.org>, David Gibson
- <david@gibson.dropbear.id.au>
-Subject: RE: [PATCH] target/ppc: fix single-step exception regression
-Thread-Topic: [PATCH] target/ppc: fix single-step exception regression
-Thread-Index: AQHXVxBU9E5hMo8t2EeokhgnMWT6mqr/muoAgADQ5wCAAHQQAIAAFw0A
-Date: Wed, 2 Jun 2021 17:13:59 +0000
-Message-ID: <CP2PR80MB36689DC84E5FCC34626F29C2DA3D9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-References: <20210601180237.296402-1-luis.pires@eldorado.org.br>
- <aa0c8f49-38d3-4ca0-89b8-0807cb57558f@linaro.org> <YLdHZuIlK4VEBlWf@yekko>
- <05523c8f-e564-2f61-5a39-eccac11c4f53@linaro.org>
-In-Reply-To: <05523c8f-e564-2f61-5a39-eccac11c4f53@linaro.org>
-Accept-Language: pt-BR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
-x-originating-ip: [177.9.76.249]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 13eb99e9-78df-4744-75cd-08d925e9d032
-x-ms-traffictypediagnostic: CP0PR80MB4867:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CP0PR80MB48675520E2027D4A01108D0EDA3D9@CP0PR80MB4867.lamprd80.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sZOLwtERkLNoIQPq8/Bpa+kzt078cflVuIIB8GiEAA/pTjg41KA0812O2n5OkIy8x5JANngAsHw1IrcbuxskNtt6MhFIfZLqAu9aq41AO2IZ36pgXDiKBke4qYnswapDjNJXFuDa1/h6csA6MVtHRDfnmORgTKlUUOOS5DIEDaWAGziAHmTWq243oy8sLbLPjtmB5eTsv0qMobApgZTdN6x20Nr3MXIY2Icsny7dReeQlgbgCOukdC7ZSdG3GpD5AnwkzOTL0emQi0zYb7b7fzfB+VvkacorZrFy+gN/CVBH8JNfyVr6vqw9VQl89MKneChElOB89bHYSzjf4pfPN3jyux+efz7PpmZHHns2jvCB/qLz/mfix+0/VI2GbmvTmAzWsNm0cgw1TRD/oULq9VNtKNojzAQDPDtyM9SXQaMHTrxh3OuFkQcugW9M7qYuiHR1aKZ5qGcHnTwlPH3wTf253sEVsuFQ+2RAzOBCGhI/aKBmHdiKCSRqC2JotgFYwNq/hoCIe9KS/qIQ0mEeSke0+poDne7OsElpWoZfu+/eic4gT+EBLufVoEi+f6dQAym//OiGbTpI67xs1J3JsmI5+eFQZMPkdr1cOw3nUx2dvjvuDJaxcqZVGbuLS5NoEP0pDv+yExY43RBXqagRI7fOHCTjB8jhA9QkVdMkENvCCEcOpGblR+mcyk6+Bczts5Umc3G+C+drB48zgcGe5RAuyEgW1PuqL31o7nnWzLk=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CP2PR80MB3668.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39840400004)(396003)(366004)(346002)(376002)(136003)(55016002)(186003)(478600001)(8676002)(26005)(9686003)(316002)(53546011)(83380400001)(6506007)(2906002)(7696005)(71200400001)(86362001)(66556008)(76116006)(5660300002)(52536014)(4326008)(66476007)(110136005)(66946007)(64756008)(54906003)(122000001)(8936002)(38100700002)(33656002)(66446008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?QmNVT1lteWNWNkdnN1FJNERjcTRoZXpJcmZ5T2dQNjhwcCtYeUNmZWNvQXlm?=
- =?utf-8?B?NmlFYnk2NHVrU3ZCNjY0azV4b0NMZXhONHdnRTdiUGJYd3NzM1g5SEovbno3?=
- =?utf-8?B?S0wzdzhMRFhXYXU3OTJtY1VZQXVQN2tpWTdiZFlocGJOSk91TFk2ZkNOSDl0?=
- =?utf-8?B?dXBVMTU4RkwvaEd0dHE2YUlHWGNqczcyTTA2SFA5eTM4WmZIUmE1MjEyamNy?=
- =?utf-8?B?ZXdleTEwS1R0aFVXN0w2MnRFNGNveGEzMExSUzhrbUUzaElwYlZ5Qjg4QzdE?=
- =?utf-8?B?enJ0a0F1UDZ3c1lHSkJjQlpGWmR0WGx4THZCUjdwWmswQy9DbXpYTTlTb1dr?=
- =?utf-8?B?SFhmd2Q1V2x3bklVMlJRcTNTN0tGS1FjREdDM24zR2d1STVxMGRFemFNRHNC?=
- =?utf-8?B?U0Fud2lRUWxmTUdhNXFkYmd2dTJ3Zm5ySjM0d2c4Smd0MCtYL1A0K1crQjFS?=
- =?utf-8?B?L3FGdU1rMWx6U1lUQnRMazVWZ21ZZ0REcENHMHBGOEg3akduK2lzamN2UlFP?=
- =?utf-8?B?RGsxdElWcHphRmgrV2NxckFTQ0ljZVRpcHRVUWxLSUdvZDRyOUZrWnlDUTU5?=
- =?utf-8?B?WDZodDJ2MUI2Uk9xSVZkRHpndG1wcXhVcUxRb0U0dlNkOEtqRVB1UGtEYnNM?=
- =?utf-8?B?ZTluTm1jMnNWdnhBcmRaS0w2bjBqUWFsQzFHajg2NWdiSi9VSE5SdERBZkEr?=
- =?utf-8?B?dWhLelZIVUhFaHZ2b2FWRk91NGdDYnhtcUpkdHN5Wkd6RitGWktwRWVZNEk4?=
- =?utf-8?B?RFZ2YjJKVHV1Q29VT1F4cElNRkdNSjVYd1FmVUY3aEFOQWhqOHNmdXBqUmJ5?=
- =?utf-8?B?WklDcncxMi9mTUtjM05rY1lLNHhiWWtyRW1qdjduOUY2aWZUY1FnWGpTNVIx?=
- =?utf-8?B?R0YzMTBoZjBDVmdRclIrTWhtR1VLaGs0dlRKUmlFYjZmMVV0V0NGeGdIaDBO?=
- =?utf-8?B?OXF0NWRURTV0cDRwRE1xRmVoYkJvT0xSbEFGNWZNMEJGUDZNKzdySGFXaXkr?=
- =?utf-8?B?Q2RDYXRJZFVsQ1Q1LytKd0lLTXR4VmZ2eThmaGRaTzlMYW8wUmh1ajZkWXg3?=
- =?utf-8?B?ZWhKTENwNlVmYldCWS9SQmxEYkp3YlJ3bnNxNldJNzNVbWhOVmpMOWplM0ls?=
- =?utf-8?B?YWF5eG9aSnp6WkFuYXhLbFV5djRxc3lmREZqRFBCblBFZHBXa3lLb1B3aWtB?=
- =?utf-8?B?UVFKUGFDcVk1TVhOR0dsVjBqS0xmYm11R0JLbThFVm51eVVvUzczMmNBL3lx?=
- =?utf-8?B?c3UzVE1Na2hmM3ZLbWphTWZPMkhKaXlud2tSVStOZERJd0dJSjA3K3dBSjd1?=
- =?utf-8?B?bU1RS2dNWlN4SzYrZHNkWUt4M1o4cGUxM3R4RDJQdjQrU2hpQjNEVkhMNnFG?=
- =?utf-8?B?MlErZDExcCtDQVBNejVjUXZYRHNDaWZBMlZmQlhQT2xzb0UrVmVDTDNHOFI1?=
- =?utf-8?B?S3lqajcxNmQ0NjBhS2x2Qmg1QkdnOURVVjIyQlg1Z3VUREFSci9nZkswclg4?=
- =?utf-8?B?NTFJUjE3c05qVk8zT0VVNWszKzJWYkdWNWhIRWdJMm9wb0tSRnd2eGgwSEFM?=
- =?utf-8?B?dkhuUUFLQmxtcndTVHBxNUJ6R0x1d3c5WERDUnhQUWFNZUplWU9CN1hzcGVy?=
- =?utf-8?B?a2JGQlpXTkxBUS9IZzIwNVpXN0hqYlBYaVdZR0g0cm03SzlWZWYvMDJhemh3?=
- =?utf-8?B?RGNiU0UwdGFMTDBMeVhHa25ma0xDNjVzSThBZHRQRldUUTJRRVlQVm1EcFcw?=
- =?utf-8?Q?R2CFPvuCsOPmTSG4Nc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1loUW6-0005uH-4L
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 13:18:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622654332;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xovbcFW9Wm9BbkSEO13VkXeQ1uurzgptVRyNw1Dc8eQ=;
+ b=QL8N6yUQRlCu2aEwzyfLVDS+SVtcZk3ulegLnhqg56QlvbLQBrD4BLer0KXPbM7Rxd+Lgf
+ zLAIQrHL6ofGLJNqOITuCNGu4aqvKVd9DCJ3OwprMJjGzr1T0TyXRfk1Ha+qCjNwevgPZW
+ vcWxF/iYabbVIqbT6I4ePh68G1mSsuI=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-IYYHcBU_NcCtRVjD8H6tzw-1; Wed, 02 Jun 2021 13:18:50 -0400
+X-MC-Unique: IYYHcBU_NcCtRVjD8H6tzw-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ w8-20020a05651c1028b02900f6e4f47184so935037ljm.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 10:18:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xovbcFW9Wm9BbkSEO13VkXeQ1uurzgptVRyNw1Dc8eQ=;
+ b=cI/rwFBB2IUfBRIcJCB4qbhv6o5fOpmA1Cg2Vh0biz6sa0t66YrF4sfqlzuX/FFBwc
+ E+S+fbxHEpx5lXezVzeFUOiS3Yfxa9xz8nihBqR3ekuEjPLqvukxnAmLXfNVjshkIF6s
+ 1f+wZr1jllMXAk3LqHjA5tGsaWON6qBRrXYAKYghmu6qDArcgStMAqhIGGMuHvlVfQxx
+ suyEYlv+vnQUVf+75470luTrTFXL8EJlcPNAnicbFkPFPwLt/76DR3rUzWX7zm2/MYej
+ qLfILWY5HZjcBV9mGdWQeBcF658wDymq4vZTh4whBqzjbp1vmbjX9ipFEQfsTuklkMhb
+ AAhw==
+X-Gm-Message-State: AOAM532G5LtiZrpg6bqSU6osOZI7bnPNNQ4TLpudG/qcpXwlDWBqawfX
+ s7FWC9Nejnktbyhwm0VI+kdL8IwOyiPDRhHVX0BaRDU3wC4qmKxZm6geoddCi/2ThwDMbjPgDT9
+ 5xr6SZCo/a++1meIpW0mfzM8EgJev5hI=
+X-Received: by 2002:a05:651c:211f:: with SMTP id
+ a31mr25721897ljq.39.1622654328773; 
+ Wed, 02 Jun 2021 10:18:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxzi7Wpxw4ORbBF02lG/+qj81ez7J1opAAO9RkINC8UIoekJh+u2TR26jAefMDji3a0tQl0wOoQve1ckKrOrFo=
+X-Received: by 2002:a05:651c:211f:: with SMTP id
+ a31mr25721869ljq.39.1622654328470; 
+ Wed, 02 Jun 2021 10:18:48 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: eldorado.org.br
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CP2PR80MB3668.lamprd80.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13eb99e9-78df-4744-75cd-08d925e9d032
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2021 17:13:59.9152 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kJpd/i9ArVuhpMoS3bgDp86hzpv4stRMfa5nCxkfju+WtPUFfPQNAuDYjTffH761rXMbIwyq/mToWyj3EUOBjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP0PR80MB4867
-Received-SPF: pass client-ip=40.107.96.136;
- envelope-from=luis.pires@eldorado.org.br;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-18-eperezma@redhat.com>
+ <bfd680e5-9434-3fbe-3119-1f3c5fc42f4c@redhat.com>
+In-Reply-To: <bfd680e5-9434-3fbe-3119-1f3c5fc42f4c@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 2 Jun 2021 19:18:10 +0200
+Message-ID: <CAJaqyWf7M1fjrd+kr-2bcYj+ibrqZVoREZuTiJ0i+p6dA+Dukw@mail.gmail.com>
+Subject: Re: [RFC v3 17/29] vhost: Shadow virtqueue buffers forwarding
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,42 +94,356 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matheus Kowalczuk Ferst <matheus.ferst@eldorado.org.br>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "groug@kaod.org" <groug@kaod.org>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+
-IE9uIDYvMi8yMSAxOjU1IEFNLCBEYXZpZCBHaWJzb24gd3JvdGU6DQo+ID4gT24gVHVlLCBKdW4g
-MDEsIDIwMjEgYXQgMDE6Mjc6MjBQTSAtMDcwMCwgUmljaGFyZCBIZW5kZXJzb24gd3JvdGU6DQo+
-ID4+IE9uIDYvMS8yMSAxMTowMiBBTSwgTHVpcyBQaXJlcyB3cm90ZToNCj4gPj4+ICsgICAgICAg
-ICAgICBpZiAoaXNfam1wID09IERJU0FTX0VYSVQgfHwgaXNfam1wID09IERJU0FTX0NIQUlOKSB7
-DQo+ID4+PiArICAgICAgICAgICAgICAgIC8qIFdlIGhhdmUgbm90IHVwZGF0ZWQgbmlwIHlldCwg
-c28gZG8gaXQgbm93ICovDQo+ID4+PiArICAgICAgICAgICAgICAgIGdlbl91cGRhdGVfbmlwKGN0
-eCwgbmlwKTsNCj4gPj4+ICsgICAgICAgICAgICB9DQo+ID4+DQo+ID4+IFRoaXMgaXMgaW5jb3Jy
-ZWN0LiAgQm90aCBFWElUIGFuZCBDSEFJTiAqaGF2ZSogdXBkYXRlZCBuaXAsIGJ1dCB0bw0KPiA+
-PiBzb21ldGhpbmcgdGhhdCBpc24ndCB0aGUgbmV4dCBpbnN0cnVjdGlvbi4gIEUuZy4gcmV0dXJu
-IGZyb20gaW50ZXJydXB0Lg0KPiA+DQo+ID4gQW55IHRoZW9yaWVzIG9uIHdoYXQncyBhY3R1YWxs
-eSBjYXVzaW5nIHRoZSByZWdyZXNzaW9uLCB0aGVuPw0KPiA+DQo+IA0KPiBJIHdvdWxkIGhhdmUg
-dGhvdWdodCB0aGUgZmlyc3QgaHVuayB3b3VsZCBoYXZlIHNvbWUgZWZmZWN0LiAgQnV0IG90aGVy
-d2lzZSB0aGlzDQo+IGlzIHRoZSBmaXJzdCBJJ3ZlIGhlYXJkIG9mIHRoZSBwcm9ibGVtLiAgRGVz
-Y3JpcHRpb24/ICBSZXByb2R1Y3Rpb24gaW5zdHJ1Y3Rpb24/DQoNCldoaWxlIHRyeWluZyB0byBk
-ZWJ1ZyBoaXMgaW1wbGVtZW50YXRpb24gZm9yIG9uZSBvZiB0aGUgbmV3IFBvd2VyIElTQSAzLjEg
-aW5zdHJ1Y3Rpb25zLCBNYXRoZXVzIChjYydlZCkgaGl0IGEgcHJvYmxlbSB3aGVyZSBoZSdkIGdl
-dCBhIFNJR1NFR1Ygd2hlbiB1c2luZyBnZGIgdG8gZGVidWcgYSBwcm9jZXNzIGluc2lkZSBhIGd1
-ZXN0IGFmdGVyIGNvbW1pdCA2MDg2Yzc1Lg0KDQpTdGVwcyB0byByZXByb2R1Y2U6DQotIEluc2lk
-ZSBhIHBwYzY0IFZNIChydW5uaW5nIHdpdGggcWVtdS1zeXN0ZW0pLCBydW4gZ2RiIHRvIHN0YXJ0
-IGRlYnVnZ2luZyBhbnkgcHJvZ3JhbSAoSSB0ZXN0ZWQgd2l0aCAvYmluL2xzLCAvYmluL3RydWUg
-YW5kIGFsc28gYSBzaW1wbGUgaGVsbG8gd29ybGQpDQotIFJ1biB0aGUgYmluYXJ5IGZyb20gd2l0
-aGluIGdkYiBhbmQgeW91J2xsIGdldCBhIFNJR1NFR1YNClJ1bm5pbmcgdGhlIHNhbWUgcHJvZ3Jh
-bSBvdXRzaWRlIGdkYiB3b3JrcyBmaW5lLg0KDQpCeSBsb29raW5nIGF0IDYwODZjNzUsIEkgbm90
-aWNlZCB0aGlzIHdhcyBoYXBwZW5pbmcgYmVjYXVzZSB3aGVuIGdlbl9leGNlcHRpb24oKSB3YXMg
-Y2FsbGVkIGZyb20gZ2VuX2xvb2t1cF9hbmRfZ290b19wdHIoKSAoZHVlIHRvIENQVV9TSU5HTEVf
-U1RFUCB8IENQVV9CUkFOQ0hfU1RFUCksIG5pcCB3YXMgYmVpbmcgcmVzZXQgdG8gY3R4LT5jaWEu
-IEJlZm9yZSB0aGF0IGNvbW1pdCB0aGlzIGRpZG4ndCBoYXBwZW4sIGJlY2F1c2UgY3R4LT5leGNl
-cHRpb24gIT0gUE9XRVJQQ19FWENQX05PTkUuDQoNCi0tDQpMdWlzIFBpcmVzDQpJbnN0aXR1dG8g
-ZGUgUGVzcXVpc2FzIEVMRE9SQURPDQpBdmlzbyBMZWdhbCAtIERpc2NsYWltZXIgPGh0dHBzOi8v
-d3d3LmVsZG9yYWRvLm9yZy5ici9kaXNjbGFpbWVyLmh0bWw+DQoNCg==
+On Wed, Jun 2, 2021 at 11:51 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=99=
+=E9=81=93:
+> > Initial version of shadow virtqueue that actually forward buffers. The
+> > exposed addresses are the qemu's virtual address, so devices with IOMMU
+> > that does not allow full mapping of qemu's address space does not work
+> > at the moment.
+> >
+> > Also for simplicity it only supports modern devices, that expects vring
+> > in little endian, with split ring and no event idx or indirect
+> > descriptors.
+> >
+> > It reuses the VirtQueue code for the device part. The driver part is
+> > based on Linux's virtio_ring driver, but with stripped functionality
+> > and optimizations so it's easier to review.
+> >
+> > Later commits will solve some of these concerns.
+>
+>
+> It would be more more easier to review if you squash those
+> "enhancements" into this patch.
+>
+
+Ok, they will be in the same commit for the next version.
+
+>
+> >
+> > Code also need to map used ring (device part) as RW in, and only in,
+> > vhost-net. To map (or call vhost_device_iotlb_miss) inconditionally
+> > would print an error in case of vhost devices with its own mapping
+> > (vdpa).
+>
+>
+> I think we should not depend on the IOTLB miss. Instead, we should
+> program the device IOTLB before starting the svq. Or is there anything
+> that prevent you from doing this?
+>
+
+Sorry for being unclear, that is what I meant in the message: No other
+device than kernel vhost needs the map (as "sent iotlb miss ahead"),
+so we must make it conditional. Doing it unconditionally would make
+nothing but an error appear on the screen, but it is incorrect anyway.
+
+Is it clearer this way?
+
+>
+> > To know if this call is needed, vhost_sw_live_migration_start_vq and
+> > vhost_sw_live_migration_stop copy the test performed in
+> > vhost_dev_start. Testing for the actual backend type could be cleaner,
+> > or checking for non-NULL vhost_force_iommu, enable_custom_iommu, or
+> > another vhostOp. We could extract this test in its own function too,
+> > so its name could give a better hint. Just copy the vhost_dev_start
+> > check at the moment.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.c | 205 +++++++++++++++++++++++++++-=
+-
+> >   hw/virtio/vhost.c                  | 134 ++++++++++++++++++-
+> >   2 files changed, 325 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index ff50f12410..6d767fe248 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -9,6 +9,7 @@
+> >
+> >   #include "hw/virtio/vhost-shadow-virtqueue.h"
+> >   #include "hw/virtio/vhost.h"
+> > +#include "hw/virtio/virtio-access.h"
+> >
+> >   #include "standard-headers/linux/vhost_types.h"
+> >
+> > @@ -48,9 +49,93 @@ typedef struct VhostShadowVirtqueue {
+> >
+> >       /* Virtio device */
+> >       VirtIODevice *vdev;
+> > +
+> > +    /* Map for returning guest's descriptors */
+> > +    VirtQueueElement **ring_id_maps;
+> > +
+> > +    /* Next head to expose to device */
+> > +    uint16_t avail_idx_shadow;
+> > +
+> > +    /* Next free descriptor */
+> > +    uint16_t free_head;
+> > +
+> > +    /* Last seen used idx */
+> > +    uint16_t shadow_used_idx;
+> > +
+> > +    /* Next head to consume from device */
+> > +    uint16_t used_idx;
+> >   } VhostShadowVirtqueue;
+> >
+> > -/* Forward guest notifications */
+> > +static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
+> > +                                    const struct iovec *iovec,
+> > +                                    size_t num, bool more_descs, bool =
+write)
+> > +{
+> > +    uint16_t i =3D svq->free_head, last =3D svq->free_head;
+> > +    unsigned n;
+> > +    uint16_t flags =3D write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
+> > +    vring_desc_t *descs =3D svq->vring.desc;
+> > +
+> > +    if (num =3D=3D 0) {
+> > +        return;
+> > +    }
+> > +
+> > +    for (n =3D 0; n < num; n++) {
+> > +        if (more_descs || (n + 1 < num)) {
+> > +            descs[i].flags =3D flags | cpu_to_le16(VRING_DESC_F_NEXT);
+> > +        } else {
+> > +            descs[i].flags =3D flags;
+> > +        }
+> > +        descs[i].addr =3D cpu_to_le64((hwaddr)iovec[n].iov_base);
+> > +        descs[i].len =3D cpu_to_le32(iovec[n].iov_len);
+> > +
+> > +        last =3D i;
+> > +        i =3D cpu_to_le16(descs[i].next);
+> > +    }
+> > +
+> > +    svq->free_head =3D le16_to_cpu(descs[last].next);
+> > +}
+> > +
+> > +static unsigned vhost_shadow_vq_add_split(VhostShadowVirtqueue *svq,
+> > +                                          VirtQueueElement *elem)
+> > +{
+> > +    int head;
+> > +    unsigned avail_idx;
+> > +    vring_avail_t *avail =3D svq->vring.avail;
+> > +
+> > +    head =3D svq->free_head;
+> > +
+> > +    /* We need some descriptors here */
+> > +    assert(elem->out_num || elem->in_num);
+> > +
+> > +    vhost_vring_write_descs(svq, elem->out_sg, elem->out_num,
+> > +                            elem->in_num > 0, false);
+> > +    vhost_vring_write_descs(svq, elem->in_sg, elem->in_num, false, tru=
+e);
+> > +
+> > +    /*
+> > +     * Put entry in available array (but don't update avail->idx until=
+ they
+> > +     * do sync).
+> > +     */
+> > +    avail_idx =3D svq->avail_idx_shadow & (svq->vring.num - 1);
+> > +    avail->ring[avail_idx] =3D cpu_to_le16(head);
+> > +    svq->avail_idx_shadow++;
+> > +
+> > +    /* Expose descriptors to device */
+>
+>
+> It's better to describe the detail order.
+>
+> E.g "Update avail index after the descriptor is wrote"
+>
+
+Agree, I will replace it with your wording.
+
+>
+> > +    smp_wmb();
+> > +    avail->idx =3D cpu_to_le16(svq->avail_idx_shadow);
+> > +
+> > +    return head;
+> > +
+> > +}
+> > +
+> > +static void vhost_shadow_vq_add(VhostShadowVirtqueue *svq,
+> > +                                VirtQueueElement *elem)
+> > +{
+> > +    unsigned qemu_head =3D vhost_shadow_vq_add_split(svq, elem);
+> > +
+> > +    svq->ring_id_maps[qemu_head] =3D elem;
+> > +}
+> > +
+> > +/* Handle guest->device notifications */
+> >   static void vhost_handle_guest_kick(EventNotifier *n)
+> >   {
+> >       VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtqueu=
+e,
+> > @@ -60,7 +145,67 @@ static void vhost_handle_guest_kick(EventNotifier *=
+n)
+> >           return;
+> >       }
+> >
+> > -    event_notifier_set(&svq->kick_notifier);
+> > +    /* Make available as many buffers as possible */
+> > +    do {
+> > +        if (virtio_queue_get_notification(svq->vq)) {
+> > +            /* No more notifications until process all available */
+> > +            virtio_queue_set_notification(svq->vq, false);
+> > +        }
+> > +
+> > +        while (true) {
+> > +            VirtQueueElement *elem =3D virtqueue_pop(svq->vq, sizeof(*=
+elem));
+> > +            if (!elem) {
+> > +                break;
+> > +            }
+> > +
+> > +            vhost_shadow_vq_add(svq, elem);
+> > +            event_notifier_set(&svq->kick_notifier);
+> > +        }
+> > +
+> > +        virtio_queue_set_notification(svq->vq, true);
+> > +    } while (!virtio_queue_empty(svq->vq));
+> > +}
+> > +
+> > +static bool vhost_shadow_vq_more_used(VhostShadowVirtqueue *svq)
+> > +{
+> > +    if (svq->used_idx !=3D svq->shadow_used_idx) {
+> > +        return true;
+> > +    }
+> > +
+> > +    /* Get used idx must not be reordered */
+> > +    smp_rmb();
+> > +    svq->shadow_used_idx =3D cpu_to_le16(svq->vring.used->idx);
+> > +
+> > +    return svq->used_idx !=3D svq->shadow_used_idx;
+> > +}
+> > +
+> > +static VirtQueueElement *vhost_shadow_vq_get_buf(VhostShadowVirtqueue =
+*svq)
+> > +{
+> > +    vring_desc_t *descs =3D svq->vring.desc;
+> > +    const vring_used_t *used =3D svq->vring.used;
+> > +    vring_used_elem_t used_elem;
+> > +    uint16_t last_used;
+> > +
+> > +    if (!vhost_shadow_vq_more_used(svq)) {
+> > +        return NULL;
+> > +    }
+> > +
+> > +    last_used =3D svq->used_idx & (svq->vring.num - 1);
+> > +    used_elem.id =3D le32_to_cpu(used->ring[last_used].id);
+> > +    used_elem.len =3D le32_to_cpu(used->ring[last_used].len);
+> > +
+> > +    if (unlikely(used_elem.id >=3D svq->vring.num)) {
+> > +        error_report("Device %s says index %u is available", svq->vdev=
+->name,
+> > +                     used_elem.id);
+> > +        return NULL;
+> > +    }
+> > +
+> > +    descs[used_elem.id].next =3D svq->free_head;
+> > +    svq->free_head =3D used_elem.id;
+> > +
+> > +    svq->used_idx++;
+> > +    svq->ring_id_maps[used_elem.id]->len =3D used_elem.len;
+> > +    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
+> >   }
+> >
+> >   /* Forward vhost notifications */
+> > @@ -69,17 +214,33 @@ static void vhost_shadow_vq_handle_call_no_test(Ev=
+entNotifier *n)
+> >       VhostShadowVirtqueue *svq =3D container_of(n, VhostShadowVirtqueu=
+e,
+> >                                                call_notifier);
+> >       EventNotifier *masked_notifier;
+> > +    VirtQueue *vq =3D svq->vq;
+> >
+> >       masked_notifier =3D svq->masked_notifier.n;
+> >
+> > -    if (!masked_notifier) {
+> > -        unsigned n =3D virtio_get_queue_index(svq->vq);
+> > -        virtio_queue_invalidate_signalled_used(svq->vdev, n);
+> > -        virtio_notify_irqfd(svq->vdev, svq->vq);
+> > -    } else if (!svq->masked_notifier.signaled) {
+> > -        svq->masked_notifier.signaled =3D true;
+> > -        event_notifier_set(svq->masked_notifier.n);
+> > -    }
+> > +    /* Make as many buffers as possible used. */
+> > +    do {
+> > +        unsigned i =3D 0;
+> > +
+> > +        /* TODO: Use VRING_AVAIL_F_NO_INTERRUPT */
+> > +        while (true) {
+> > +            g_autofree VirtQueueElement *elem =3D vhost_shadow_vq_get_=
+buf(svq);
+> > +            if (!elem) {
+> > +                break;
+> > +            }
+> > +
+> > +            assert(i < svq->vring.num);
+> > +            virtqueue_fill(vq, elem, elem->len, i++);
+> > +        }
+> > +
+> > +        virtqueue_flush(vq, i);
+> > +        if (!masked_notifier) {
+> > +            virtio_notify_irqfd(svq->vdev, svq->vq);
+>
+>
+> Any reason that you don't use virtio_notify() here?
+>
+
+No reason but to make sure guest_notifier is used. I'm not sure if
+this is an implementation detail though.
+
+I can test to switch to virtio_notify, what would be the advantage here?
+
+>
+> > +        } else if (!svq->masked_notifier.signaled) {
+> > +            svq->masked_notifier.signaled =3D true;
+> > +            event_notifier_set(svq->masked_notifier.n);
+> > +        }
+>
+>
+> This is an example of the extra complexity if you do shadow virtqueue at
+.> virtio level.
+>
+> If you do everything at e.g vhost-vdpa, you don't need to care about
+> masked_notifer at all.
+>
+
+Correct me if I'm wrong, what you mean is to use the backend
+vhost_set_vring_call to set the guest notifier (from SVQ point of
+view), and then set it unconditionally. The function
+vhost_virtqueue_mask would set the masked one by itself, no
+modification is needed here.
+
+Backend would still need a conditional checking if SVQ is enabled, so
+it either sends call_fd to backend or to SVQ. The call to
+virtqueue_fill, would still be needed if we don't want to duplicate
+all the device virtio's logic in the vhost-vdpa backend.
+
+Another possibility would be to just store guest_notifier in SVQ, and
+replace it with masked notifier and back. I think this is more aligned
+with what you have in mind, but it still needs changes to
+vhost_virtqueue_mask. Note that the boolean store
+masked_notifier.signaled is just a (maybe premature) optimization to
+skip the unneeded write syscall, but it could be omitted for brevity.
+Or maybe a cleaner solution is to use io_uring for this write? :).
+
+Thanks!
+
+> Thanks
+>
+
 
