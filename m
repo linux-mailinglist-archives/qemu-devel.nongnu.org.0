@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8E939A609
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:44:18 +0200 (CEST)
-Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E927C39A637
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:49:04 +0200 (CEST)
+Received: from localhost ([::1]:35962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqS9-0001Wj-10
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
+	id 1loqWl-0002Zh-Ue
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:49:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loqIk-0008H0-Vg
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:34:34 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41617)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1loqJU-0001Hk-1l
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:35:20 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1loqIj-0003dY-By
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:34:34 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id r1so5561573pgk.8
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 09:34:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1loqJR-00049w-Dy
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:35:19 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id f17so3788482wmf.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 09:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bKDSG/vl6Zm3HS8Ctg5GZll8yhBsX/63RfDYUvFsIuQ=;
- b=yW8k0wbY/ErFpRIAPoR3dNni782JNfEs1iSTqKrcJFSj0Ns4JJcpq5HQqk6PgaZP6J
- Ev1toebWfuaiqovvi6WyRfqx4wYgP+MtM3ZwPHZK3v6ppI5uXCde2aetBoUhEb6AlvpP
- moX027YRqVTWUGo5Z9qYSxIVlnx67u1Bdd8oiyMg0Bi1Fz9YAZzZ1TGwsFygebw9nNhX
- 76Zr3jUP4I24v6SEC4Lm2FJG+gVTsCuNd8WWCwJ9Kv0WKUE2VNHDSkbS0rlnXsh4bJzt
- mWjO1HFbL7I+vnRC9bt7x73WYyuqZuS0lXpdJK1b1bO+xahaJmiBDWV7EA9JOfzIDSlx
- Wb5g==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1U8mIaOG/L9eebI1ltOY5TQfAOYqKG/5BNej4pH0fCQ=;
+ b=bBpUUJEgqi3XKKQLjscbxCJ+zm+ZNB5iIq3Do5vbR5g+7sWFqnLq3swl7K3EpOSO9T
+ NkzuXWsjkl06h2bDrSgiHQWr1mtEMGpgle6EvC1OkMCDusBnRPMqUV/qJJp1yLz3XZzB
+ cXead+OMxJmnT8QAKhpkhUxWg3SIbjtEW2a/m3MwzQy+cwcHx74bPPlkwPW207F/40ve
+ dguPB0rgFj4dCwYaeoLY+cmQedxJ9F9oLxmdSEWHLnQUX6OHl+kxvAxoGXPQTcW3SOIn
+ MgD/fo3Qirs7Hvq1V6qDnlV35ZNp/U1zdZ2Q0fPik68K88MsDgiTprN0Ppy+n3JCxyFi
+ H9FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bKDSG/vl6Zm3HS8Ctg5GZll8yhBsX/63RfDYUvFsIuQ=;
- b=F8Em8pUmBzx0hr7tHD1CaW1umRDgvPLpOVXq43KEdU8LpYZ8CbC0RlJkVFOu4GbItE
- XereJGQM0DjvGxGOfIt/a9hZ/JXF2VH0KPf0hmduOxMM70MsT80RgK7K28j7JtclmBMq
- etYtwTLZI8mh5Mo6ECBOTLq6TRZtaxVvZRPCDHnlWinU+8lWig8dJHS728FiLJe+k2/z
- o4GoXAJxwgPJ0QbcFqdCcVaaqRm+wkEMkGoS0U5mmzbq6bKySQ8EyWAGqhKh1vuPX6ko
- P3w6vhWIjfV9QCUqjvawlZ7TONTu+q30J3dhjj5ySZCU/nnfrrxWTdvTgLL5XM30uKLF
- gRMw==
-X-Gm-Message-State: AOAM533CqAL0r6uFdNFsYsZE8aSX5OHmIKrutn704Xnm718c0bx7XFVw
- orxnXpHPDlrERIQtQlAskwIpjQ==
-X-Google-Smtp-Source: ABdhPJxH0QMHjxyMO1skZCf50cll7rEvQWN74W9MJwFZ/XDVJhfZ5gcv7XcNFIc/HnUWBYJLjYHSBw==
-X-Received: by 2002:a65:6487:: with SMTP id e7mr330625pgv.27.1622738070685;
- Thu, 03 Jun 2021 09:34:30 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- t24sm2655666pji.56.2021.06.03.09.34.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Jun 2021 09:34:30 -0700 (PDT)
-Subject: Re: [PATCH 1/6] target/microblaze: Use the IEC binary prefix
- definitions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210603090310.2749892-1-f4bug@amsat.org>
- <20210603090310.2749892-2-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <72e0b8d0-5350-75b4-e87d-28c0b0a67ac4@linaro.org>
-Date: Thu, 3 Jun 2021 09:34:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=1U8mIaOG/L9eebI1ltOY5TQfAOYqKG/5BNej4pH0fCQ=;
+ b=TWMveLvFyAsnbyTKzeYS/+Oh/uwnbc4kgTSEePSziAGZZJhKk4/B0jk4F7zKq7PH0L
+ Cngm2EFnGm4zmmKixf7QTZ4boXEretS9JmUeMbblPEtGqmdE61HfMHOCLE22WjEX2aCw
+ 0rbC1nd3heCklvLyT7EF6NEomDkXOHfHM9IhVb6zb8Lj035yR8Rq8KfdgG4Jbw4Xj9vv
+ DP1WnWugH4PsJ5j0ITt+kb32UF1aPOTkazDLnSPrYmSqEeGj2MbksqiR0nKhyEzHgRxV
+ 1UYBOdbaBh5rmAgfhaz2mcHgtj07/1GtN1ka3HXRo0xScQ09/7eTufu+PRoh1TcgiP5z
+ Tfdg==
+X-Gm-Message-State: AOAM533YFJdJmqxgGAAR1uEG4gYGUG93e4TuvrNnSX5gjme68RtWILkd
+ zSmjpyoV4QTMj4WlkSpsau/A1Q==
+X-Google-Smtp-Source: ABdhPJx/Dt00VjdGBS38U8MEgGct2dpVWvgFzUIoj16S+TWmpLTzu4oa2J6EQEPmPW2UxW45fWnfWA==
+X-Received: by 2002:a05:600c:3650:: with SMTP id
+ y16mr11918053wmq.92.1622738115842; 
+ Thu, 03 Jun 2021 09:35:15 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u8sm4271696wrb.77.2021.06.03.09.35.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 09:35:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D79C31FF7E;
+ Thu,  3 Jun 2021 17:35:13 +0100 (BST)
+References: <20210526170432.343588-1-philmd@redhat.com>
+ <20210526170432.343588-11-philmd@redhat.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v8 10/12] qtest/bios-tables-test: Rename TCG specific tests
+Date: Thu, 03 Jun 2021 17:35:08 +0100
+In-reply-to: <20210526170432.343588-11-philmd@redhat.com>
+Message-ID: <87zgw67vpa.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210603090310.2749892-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,32 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/21 2:03 AM, Philippe Mathieu-Daudé wrote:
->   static unsigned int tlb_decode_size(unsigned int f)
->   {
->       static const unsigned int sizes[] = {
-> -        1 * 1024, 4 * 1024, 16 * 1024, 64 * 1024, 256 * 1024,
-> -        1 * 1024 * 1024, 4 * 1024 * 1024, 16 * 1024 * 1024
-> +        1 * KiB, 4 * KiB, 16 * KiB, 64 * KiB, 256 * KiB,
-> +        1 * MiB, 4 * MiB, 16 * MiB
->       };
->       assert(f < ARRAY_SIZE(sizes));
->       return sizes[f];
 
-I guess this is clearer, but I'll also note that this is 4**f KiB, so could 
-just as well be computed by
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-     assert(f < 8);
-     return KiB << (f * 2);
+> Some tests require TCG, but don't have '_tcg' in their name,
+> while others do. Unify the test names by adding 'tcg' to the
+> TCG specific tests.
+>
+> Reported-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Either way,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-r~
+--=20
+Alex Benn=C3=A9e
 
