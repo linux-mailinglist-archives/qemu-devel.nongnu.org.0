@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF6739AD51
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 23:57:14 +0200 (CEST)
-Received: from localhost ([::1]:53034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A0139AE00
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 00:28:52 +0200 (CEST)
+Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lovKz-0002vi-Aw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 17:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58564)
+	id 1lovpb-0006C7-0C
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 18:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lov6I-00031Q-0E
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:42:02 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:51717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lov68-0001BK-SU
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:42:01 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id k5so4450753pjj.1
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 14:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ori3kQInJnhP2zXvcphOploFKdQaCYd2KPPI3jAHsoY=;
- b=boTVXF1OxYGm20ZWUQdw9ZBqE2YGnoJKqBela9vUfdP4AYOsE9cY88A5iCOH3Fnk2M
- jWbQILkygqIMezBp+y5BSlIOT/11JUrd9Ureos/H1mAodpYk6CRctGsgVb6pLK6lGmgk
- 2Cy7bnaEKAwqWsXDKpsQdh2SSNS3Vk3ll/CYE6rcKFZtP20EYBJPIPQ/Of+smOzzPpsD
- g++gC6JTD79V2cXM8Fmf39Di4sGfwioFZGyu8fHBaZcE9koC+t+3l3AwcN58hF12s9qE
- 5A1L1FYjrpFsL0QlJ76OdbW6oQcXA5gewI6BnljBP6aTLjfcsaW40m6AFM/GFhIJJ5/q
- WsYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ori3kQInJnhP2zXvcphOploFKdQaCYd2KPPI3jAHsoY=;
- b=JcdkqNKDs3iyAe3LK7dryiSE+tRCw683MWakRw/MRHSbxzQSjZ7sj2Zvhcjq8rZLRl
- KkPwOcQ8Sw0162ylDT7s7BTs3X1zaL6XhujwVesJ76nWyfG3Sce2KIKT+iYvH/YE4+CI
- 6yzuCE+eX4KNb+FdTMt2XzD1Cj54xj7IAkzYLYnlspeYK/eBDb66F04Fomhsx3VgiCS8
- Iau0osdBshx8P8+TkvU1hPjRXw/7wlUz3U6182Va4cwRBotUdVcOrjYvEudVcP9GNv6R
- KjbcTtdVP9IWItbVtbswIc+9/rOAf42XNKYZm5TT3sy3q7WvORpZor2c+JJxKWgTvVeU
- PX1g==
-X-Gm-Message-State: AOAM532X7ik+5TEE1PUrLbdq6giudb0e2ZewHxX5OSmOdG4DfgTkQXpf
- ZcsoICeapHKiRujgrJaWq2YItnqyJSmMaw==
-X-Google-Smtp-Source: ABdhPJwP0jiS65FvNqN3nklSu9UEclf5lNONEo4sEynz1e3LINbd2gcfoXXLBhukbYqQAyirw/EdbQ==
-X-Received: by 2002:a17:90a:b885:: with SMTP id
- o5mr13366707pjr.91.1622756511533; 
- Thu, 03 Jun 2021 14:41:51 -0700 (PDT)
-Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
- [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id p65sm40115pfb.62.2021.06.03.14.41.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 14:41:51 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 29/29] softfloat: Use hard-float for {u}int64_to_float{32,64}
-Date: Thu,  3 Jun 2021 14:41:31 -0700
-Message-Id: <20210603214131.629841-30-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210603214131.629841-1-richard.henderson@linaro.org>
-References: <20210603214131.629841-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lovoq-0005Xe-SP
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:28:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lovoo-0005yL-RU
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:28:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622759281;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MD2CkL1j6q9aeF4rXo9093xzeIYR8qI6iXcdvr+wKIo=;
+ b=VkVXzQExOWtmQfac3uh4DbPUfQ7/pQrkTp9LFPIDaQKMcF3M+ue30RMmEdB8LZwWX/qYfc
+ Wrmh/PXVGBqzthz/9AIHQl0u09gyuXIwPa7XG9nEWFfMsT/WIH7cQuFGPwyyTwKurRoJj0
+ T5nYg2vxWvCQTF3iBftGHsSUOvd4UDk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-LYdN-H8DNuihTkzSr0esjQ-1; Thu, 03 Jun 2021 18:27:59 -0400
+X-MC-Unique: LYdN-H8DNuihTkzSr0esjQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D58501E0
+ for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 22:27:58 +0000 (UTC)
+Received: from localhost (ovpn-120-94.rdu2.redhat.com [10.10.120.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88749500DB;
+ Thu,  3 Jun 2021 22:27:58 +0000 (UTC)
+Date: Thu, 3 Jun 2021 18:27:57 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v7 1/9] i386: avoid hardcoding '12' as 'hyperv_vendor_id'
+ length
+Message-ID: <20210603222757.w3r5vhgc3pro6p2i@habkost.net>
+References: <20210603114835.847451-1-vkuznets@redhat.com>
+ <20210603114835.847451-2-vkuznets@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210603114835.847451-2-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,82 +79,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the normal case of no additional scaling, this reduces the
-profile contribution of int64_to_float64 to the testcase in the
-linked issue from 0.81% to 0.04%.
+On Thu, Jun 03, 2021 at 01:48:27PM +0200, Vitaly Kuznetsov wrote:
+> While this is very unlikely to change, let's avoid hardcoding '12' as
+> 'hyperv_vendor_id' length.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/134
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- fpu/softfloat.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 5026f518b0..1cb162882b 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -3559,6 +3559,13 @@ float32 int64_to_float32_scalbn(int64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
- 
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float32 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
-+
-     parts64_sint_to_float(&p, a, scale, status);
-     return float32_round_pack_canonical(&p, status);
- }
-@@ -3592,6 +3599,13 @@ float64 int64_to_float64_scalbn(int64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
- 
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float64 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
-+
-     parts_sint_to_float(&p, a, scale, status);
-     return float64_round_pack_canonical(&p, status);
- }
-@@ -3726,6 +3740,13 @@ float32 uint64_to_float32_scalbn(uint64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
- 
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float32 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
-+
-     parts_uint_to_float(&p, a, scale, status);
-     return float32_round_pack_canonical(&p, status);
- }
-@@ -3759,6 +3780,13 @@ float64 uint64_to_float64_scalbn(uint64_t a, int scale, float_status *status)
- {
-     FloatParts64 p;
- 
-+    /* Without scaling, there are no overflow concerns. */
-+    if (likely(scale == 0) && can_use_fpu(status)) {
-+        union_float64 ur;
-+        ur.h = a;
-+        return ur.s;
-+    }
-+
-     parts_uint_to_float(&p, a, scale, status);
-     return float64_round_pack_canonical(&p, status);
- }
 -- 
-2.25.1
+Eduardo
 
 
