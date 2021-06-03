@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FFE39A93A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:31:34 +0200 (CEST)
-Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2872239A942
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:33:26 +0200 (CEST)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lorBt-0007Xs-7H
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
+	id 1lorDh-0000su-5B
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
- id 1lorAl-0006GL-SL; Thu, 03 Jun 2021 13:30:23 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:46733)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lorCd-00009y-1A
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:32:19 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:34574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
- id 1lorAk-00083W-0y; Thu, 03 Jun 2021 13:30:23 -0400
-Received: by mail-oi1-x231.google.com with SMTP id c13so1494686oib.13;
- Thu, 03 Jun 2021 10:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pKkVLuhrzeOnyydHupQnlnuJakoccLmuIMSdJnpq4mo=;
- b=PLdMz9lrXO1zGAO50lgceWjkIyuddG/DaHvIWJsvLdxLQfOk32ia2qNeT5ByoZHghJ
- S9G4TGbZAAT4/HM5emZ2ZZlZBYSUSGBcIOhxPbixrg8ocLcY+BHh4qtJ8lnUybK8oCFO
- IWlBqkyCwMe5Gnbt0nMQ/Vxu8oZDWto7OQ0qGnOzHJdDnByCzJxZvPFeB2POEsxnvz2R
- 3LsHK4KM6N2UhQQ5lDfxaNOfhrXWfGuUtzxtSlS8Y5Kf443JD7EWFeoPvUmV3EPj2Dn9
- fMyXZZASQ9E0BUV2gACcYZtEc3lEj3SYqi76ahCDjwAEURd8BrEu+kZlEOgT7GK6RcFn
- bBTA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lorCY-0000dc-0X
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:32:16 -0400
+Received: by mail-pl1-x636.google.com with SMTP id u9so3181305plr.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 10:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Ojv3lyZP05LSTz/CocStel96pEzCyn6miUiV/L99x5w=;
+ b=sCzKJDx7Xtx2MlVTGO8gAu6wu/1hrJphuoD5YGKhEi9ljXV5a1G9zU6pydpmu61S6U
+ e8SYDMdH7+XGpZMlxm7iKT76CP0zd1KNkbQb9Bl+INwWvvv/29lFWQh4lP5nSAvzY7/v
+ 2kQhc1azhRrgKQBJeRgxMj7NkFK1OvzzrqtU4zDtaUcaaP8otu47mg93kR9hoiFOOShb
+ rY/sqtDxuHwOOvKAnzhRdPQymB1RYQwgcWaaoojgw+cjGNLcHTVlDaWXrzVakmdbs1Ya
+ w2ZBFtydi9jhXTbqH3U6VBAMzVkrLYPdZoZ1tYZO0S9Bb3keezcIdWyEeIPruj893Zzg
+ rzBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pKkVLuhrzeOnyydHupQnlnuJakoccLmuIMSdJnpq4mo=;
- b=NE5qqZPORZMqD1bnZwQddAZ1UOzoC1EAs9nUKP5dfJ+TpT5dE4niP//8u2zVX6jfJW
- 4CavCJVIgcT1ngXb/fY18g4buD2IlggFqzXqbzWs4hfQvPZ5cEyiEpJpmmRQ948w4jTT
- JLIwGja9/NcX3R64iCrR1Oucqq7MjGyCDBXqx32nfroh01LQKTgmnHKc3WsIYpV9VS46
- BhNyh5nMkLkyUAbyFJodsT9ShU1P/Z0LcHDXnz0RZeSmQ5P9oL6MZlXxucZsUBs2OXcG
- Bf4O/YDNuj6c/mx9ss+wo3KBfDwCElbyDT1uCXcl5PNqdB3Ieu6jgYC3xoqTqo1vdafe
- +08g==
-X-Gm-Message-State: AOAM533ZDiTuYXI8kMoCAm1VsGT1LHkT5UGnnVfqbb0V84qoHt6uigpq
- Sbc6xoGGGAKqlhAswaIkNl0m8DqrcG5tqty/Hwo=
-X-Google-Smtp-Source: ABdhPJxAuVYJMLzCvBrgbx3lXCG4ycVrJq2Eldv3ogXv+qbvpBitVRngT+Mihx6LW/HKzpAZ/91NDvRz+Y198leOlrY=
-X-Received: by 2002:aca:2417:: with SMTP id n23mr7948955oic.111.1622741420436; 
- Thu, 03 Jun 2021 10:30:20 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ojv3lyZP05LSTz/CocStel96pEzCyn6miUiV/L99x5w=;
+ b=SCQ4AFUSNKohnm95uR4bM/XHjo1Lb3SMTXPpk+Pv4Xnwtqvf/6iEbibmaoFKZLmZFU
+ XUyWbGVLmhLtnVihJF/q6TdoCndDQ2XzIKZ8HQHCQ18WSkOVhraNmazaAtkUIQuSSiPw
+ p9DoWm/um2zWWIEucSpVOIBQC5gzB26BHkWbg+r5M31oT/WjwCO6EmIN9OsjX2j2C8Ez
+ TRegi7LngZrptqd+mVNvOsL1+kM5+pQ4+h+UNHCYCmDfNmLIF43MZE3AFQXVZoNqsTAT
+ U7aZNe7NzRVF5qfbU2WdsYe6zfQLme3392Dz4/i4VQcF5xuwGxKn60ovUoOniR9kTTiH
+ NIcg==
+X-Gm-Message-State: AOAM530W8xLeLRlVgFmXZgf3RNPPuo+XEAbjBaSKIIpST3CsJuu58nBx
+ un9gFf+Zeyog9QIt0YbIPt/okw==
+X-Google-Smtp-Source: ABdhPJyLgmVAEZIXNEsNUOuE1RpfOGcrpe0g2fAtOrAv/xL+KYl7Ui6D39MW0w6BPdm8fGsG3ww2ag==
+X-Received: by 2002:a17:90a:f88:: with SMTP id 8mr1136181pjz.231.1622741532411; 
+ Thu, 03 Jun 2021 10:32:12 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ f139sm2714663pfa.38.2021.06.03.10.32.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 10:32:12 -0700 (PDT)
+Subject: Re: [PATCH v2 13/26] s390x/tcg: Implement 32/128 bit for VECTOR FP
+ (ADD|DIVIDE|MULTIPLY|SUBTRACT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210517142739.38597-1-david@redhat.com>
+ <20210517142739.38597-14-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <61326501-266c-35a9-5c24-75eee5246b62@linaro.org>
+Date: Thu, 3 Jun 2021 10:32:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210525025823.3208218-1-swethajoshi139@gmail.com>
- <331a819e-1745-4d4b-cc4a-82521a58186a@linaro.org>
- <CAFEAcA8RbVafdjn2hkXifAPUF=wxZup20PqPcRpQ1ivtnWCxww@mail.gmail.com>
- <CALf2nm+LFqM2=vDs8=YfyxQSUT-0xxaCiVmcQzrKoOa+zaTtdg@mail.gmail.com>
- <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
- <CALf2nmKhPaWJa944dR+kFAQ1hCLXF0XPwXaHTqJQ-C6EW7ACKg@mail.gmail.com>
- <CAFEAcA9E4s3dST0GJkdg24DDAn90WU1FEmXwoKD6oQmNSB1vVA@mail.gmail.com>
- <CABSBigR1L9sE36eYA0Mq4smx1E9A4umTOKTe_x97foSMkryRnw@mail.gmail.com>
- <CALf2nmLOqtwacgrQ91TTz9_QRUmFS9ZNii2Kk7-tQ7LNp9vw2Q@mail.gmail.com>
- <CAFEAcA8oAtjVom+BXtcgao4O252ipmFzv-iNTSzDaJChcQkr9g@mail.gmail.com>
-In-Reply-To: <CAFEAcA8oAtjVom+BXtcgao4O252ipmFzv-iNTSzDaJChcQkr9g@mail.gmail.com>
-From: Swetha Joshi <swethajoshi139@gmail.com>
-Date: Thu, 3 Jun 2021 10:30:09 -0700
-Message-ID: <CALf2nmKgaZiBOfEWpMt4Yq-NyCYrsFNPwb1hZ0adwoXUs4T6pA@mail.gmail.com>
-Subject: Re: [PATCH_V3] Adding ifdefs to call the respective routines only
- when their configs are enabled
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ed710205c3dfedad"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=swethajoshi139@gmail.com; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+In-Reply-To: <20210517142739.38597-14-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,79 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Dongjiu Geng <gengdongjiu1@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ed710205c3dfedad
-Content-Type: text/plain; charset="UTF-8"
+On 5/17/21 7:27 AM, David Hildenbrand wrote:
+> In case of 128bit, we always have a single element. Add new helpers for
+> reading/writing 32/128 bit floats.
+> 
+> Signed-off-by: David Hildenbrand<david@redhat.com>
+> ---
+>   target/s390x/helper.h           |  8 ++++
+>   target/s390x/translate_vx.c.inc | 85 +++++++++++++++++++++++++++++----
+>   target/s390x/vec_fpu_helper.c   | 74 ++++++++++++++++++++++++++--
+>   3 files changed, 153 insertions(+), 14 deletions(-)
 
-Oh okay, thank you. I will test this by eod today!
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-On Thu, Jun 3, 2021 at 10:22 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Fri, 28 May 2021 at 20:41, Swetha Joshi <swethajoshi139@gmail.com>
-> wrote:
-> >
-> > I apologize for the delay, here are the repro steps:
-> > 1. Remove CONFIG_ARM_VIRT=y from arm-softmmu.mak
-> > 2. In .gitlab-ci.yml, crossbuild.yml and in tests/vm/Makefile.include,
-> in all the places where we disable kvm using -disable-kvm, replace this
-> with -enable-kvm
-> > 3. Build
->
-> Thanks; I reproduced the link errors and have sent a patchset
-> that I hope fixes this:
-> https://patchew.org/QEMU/20210603171259.27962-1-peter.maydell@linaro.org/
->
-> If you could test that it works for you that would be great.
->
-> -- PMM
->
--- 
-Regards
-
-Swetha Joshi.
-
---000000000000ed710205c3dfedad
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div dir=3D"auto">Oh okay, thank you. I will test this by eo=
-d today!=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br><div =
-class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Thu, Jun 3, 2021 at 10:22 AM Peter Maydell &lt;<a href=3D"mailto:peter.may=
-dell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
-h:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,20=
-4,204)">On Fri, 28 May 2021 at 20:41, Swetha Joshi &lt;<a href=3D"mailto:sw=
-ethajoshi139@gmail.com" target=3D"_blank">swethajoshi139@gmail.com</a>&gt; =
-wrote:<br>
-&gt;<br>
-&gt; I apologize for the delay, here are the repro steps:<br>
-&gt; 1. Remove CONFIG_ARM_VIRT=3Dy from arm-softmmu.mak<br>
-&gt; 2. In .gitlab-ci.yml, crossbuild.yml and in tests/vm/Makefile.include,=
- in all the places where we disable kvm using -disable-kvm, replace this wi=
-th -enable-kvm<br>
-&gt; 3. Build<br>
-<br>
-Thanks; I reproduced the link errors and have sent a patchset<br>
-that I hope fixes this:<br>
-<a href=3D"https://patchew.org/QEMU/20210603171259.27962-1-peter.maydell@li=
-naro.org/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/20=
-210603171259.27962-1-peter.maydell@linaro.org/</a><br>
-<br>
-If you could test that it works for you that would be great.<br>
-<br>
--- PMM<br>
-</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
-data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Regards<div><br></div><=
-div>Swetha Joshi.</div></div></div>
-
---000000000000ed710205c3dfedad--
+r~
 
