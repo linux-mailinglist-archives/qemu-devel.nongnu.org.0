@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99F539A1C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 15:03:40 +0200 (CEST)
-Received: from localhost ([::1]:50892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CFB39A1E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 15:10:54 +0200 (CEST)
+Received: from localhost ([::1]:59206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lon0d-0004it-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 09:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39000)
+	id 1lon7d-0002aW-SK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 09:10:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lomvV-0000pI-2z
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:58:21 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:45646)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lon4d-0006ka-R1; Thu, 03 Jun 2021 09:07:47 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lomvT-0006fO-CC
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:58:20 -0400
-Received: by mail-ed1-x535.google.com with SMTP id dg27so6963564edb.12
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 05:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NUoyPqNKBI+zbdIKugNnM1LHEZPj+FEDOImWQ084pVc=;
- b=EJrevWmSwPRTjY/jyp8oeyL0Zp3AQNzYIO1ML2mzYMG1+vxDX101Xe+niD7xPm71q2
- /2Knak6OVcqCPAgtQGnfAyJH1fnKgDB/p8/JA+F2zXPYqMHl9LJXtJeyydO4gEmqZ6Hw
- uGcs9jG5gyteLEl3sR8rpIbZW7IVFfYMDDqwyxFh+eh7YCf8iUVx+HcQ53s+iNPQe2/7
- Myu5IWxxJt49C6d0xujwZ8rzfCgDYxUjryJmr6Cd3ViGmXdp0oL+fThVW2z9lnmI3CbI
- NSk59N1XhsTDnRKflk28Pca4LigYK2ua1Z6Qt/KN3tyGWKV9o2oq+11iSevg+Qz13h4o
- /Xrw==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lon4a-0004Jj-RJ; Thu, 03 Jun 2021 09:07:47 -0400
+Received: by mail-ej1-x634.google.com with SMTP id k25so3635401eja.9;
+ Thu, 03 Jun 2021 06:07:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PiNTM2c384SSv/ytr4y+ww2bjjfzFNNy9ENY+1sZIGs=;
+ b=jsUJmaVZlAIxv2HctHoZADAC4jrgZnir9fd6DS8e/raRo6NLz6Lj9akLxLY7z+QcNO
+ UKfj8VrP9n5pUfZqovg61PY167ys7QjRJSOaf4gejP6gXXO2oVLdrilYpiUi0wSiOg4e
+ bX9JO0Pn++zDdp14+GCjgmDcNvHuahp98a1fEPQP2fX0VHfaJFbqLJFDRp/+Odjed/rH
+ DIdOPcM8zkcsOcC9BxpaQdYhnWvcCgabOC9aRrptBRPa1Qb2DNTu5tmOo0rkzjlmxkll
+ LCc6F2d66hy7ROy5ZyD0XTeLsFuabwj/0nz06k8xu3xtoIK2MPRcCCgUDvWszjruGvhW
+ Ji/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NUoyPqNKBI+zbdIKugNnM1LHEZPj+FEDOImWQ084pVc=;
- b=lIIZvNR0+psyMEglAxZ0BDBY6kKKd6JPADXdUot6B+ms1uyxGMpRRTfL/LoWAbMKUa
- XjaO03xv2gHtNm8sCpqdFWa5/glHe4/nr9HUmONEndgdwBivJL7kVHu+yss0k5jKTUbh
- xWFE5dbzdyQcRUn4mx4GqA2k2PjTdrbA6zIBH65/Zts3dSlIHjUk4K2m7oaM7Ai5iHRq
- JzjpyzLtQoHirsLaAaQQW0WD2Tlg0RShobp3JYzQkobvfoglap+epTmwmQJAQJcZac+z
- MRsPYF5vdhA4HXoRiDcFXqg43OdEcjVwG9SPj4Lb78Gyl7pOnexkXjVcAt7RDHKCPQR1
- 3fJQ==
-X-Gm-Message-State: AOAM532O5V4lmRDen3TEfM9KQ4K/8hJZp7qf1Tustz0MsnwgceJSycEM
- njyekXP7D/M92UYsh8Rp84Qbihl77NakE96UAYnWQA==
-X-Google-Smtp-Source: ABdhPJzLYaE9C2OE2Ibxl0Ou0SlvBwyZJ1tpMJSdTQEYzUFdjxGbzWTlujCuOXxY13F6MQghXm66JWPLUscT7FJvaNA=
-X-Received: by 2002:a05:6402:416:: with SMTP id
- q22mr43573093edv.204.1622725097699; 
- Thu, 03 Jun 2021 05:58:17 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=PiNTM2c384SSv/ytr4y+ww2bjjfzFNNy9ENY+1sZIGs=;
+ b=A47KgojUuwFhJ4WL3AbRHtuVQcVgAFVKL7aL/vMxo1u4X7+PQ9YzRUypH/FGmfog0T
+ FDagrhVMjIv1gnaQAsfO7UiHY7QIt4ylZegR2YpQJPJypN5+cLYktujtYEEfQMnQTsUe
+ W0dy3sF8vh6+j9mIcw4xXhulyejguUhnQjtdgzRsTi8WigkVF5z9uEKy1r8WjPCg+kZ0
+ s2pgCDn1VWdM+S0BxGq3PK+K+1cuvG23D87FOH9pWSsJfvr9IXcJcNchMQkRDdxo8+AU
+ Dkn9eHGzrqHpEu2XDwcCEo3FvhjEAmngh/1aWCS53xgy44NTdlD3Xxw9g9gW+3YUbegd
+ JIUQ==
+X-Gm-Message-State: AOAM531YB9QBgff8zJw7YtG8h5RUz3bcMJJuWZ6DPW0KE+0GA/dbkrbv
+ n4Q2InfJJuhRbNw17dvmRU4jsiyAAIfQ6A==
+X-Google-Smtp-Source: ABdhPJxjHhOX554KU780kDggGqza4sjJPwK9i3FlWEj/5BhQAHnuv5Q2wcQt3dO63p8DVN4mdQSx1g==
+X-Received: by 2002:a17:906:1444:: with SMTP id
+ q4mr39050924ejc.459.1622725661767; 
+ Thu, 03 Jun 2021 06:07:41 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id dh18sm1734855edb.92.2021.06.03.06.07.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 06:07:41 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] iscsi: always link libm into the module
+Date: Thu,  3 Jun 2021 15:07:30 +0200
+Message-Id: <20210603130732.208065-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210525225817.400336-1-richard.henderson@linaro.org>
-In-Reply-To: <20210525225817.400336-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Jun 2021 13:57:45 +0100
-Message-ID: <CAFEAcA_ghPyRbDkGhSonZWaMVFXt8Keapjr48WT0t=dzVz6qnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] target/arm: Implement BFloat16
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,30 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021 at 23:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Whee!  All prerequisites are now merged.
->
-> Patches missing r-b:
->
->   05-softfpu-Add-float_round_to_odd_inf.patch
->   06-target-arm-Implement-bfloat16-dot-product-vector.patch
->   07-target-arm-Implement-bfloat16-dot-product-indexed.patch
->   11-linux-user-aarch64-Enable-hwcap-bits-for-bfloat16.patch
->   12-target-arm-Enable-BFloat16-extensions.patch
->
-> Per the question of whether additional checks vs VFP or NEON
-> are required, I have disabled BF16 when either VFP or NEON are
-> also disabled.  Which seems like a similarly reasonable choice.
+Depending on the configuration of QEMU, some binaries might not need libm
+at all.  In that case libiscsi, which uses exp(), will fail to load.
+This series makes sure that libm is linked in the module explicitly.
 
+Paolo
 
+Paolo Bonzini (2):
+  meson: allow optional dependencies for block modules
+  iscsi: link libm into the module
 
-Applied to target-arm.next, thanks.
+ block/meson.build | 18 +++++++++---------
+ meson.build       |  4 ++--
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
--- PMM
+-- 
+2.31.1
+
 
