@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C495A39A66B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:56:45 +0200 (CEST)
-Received: from localhost ([::1]:51280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2763939A67F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:59:49 +0200 (CEST)
+Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqeC-0006Mk-Q4
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:56:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47692)
+	id 1loqh9-0000L1-VD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:59:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1loqVy-0002X1-Mv
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:48:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53242)
+ id 1loqgE-00080Z-W4
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:58:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1loqVw-0005Hz-QC
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:48:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B2D161026;
- Thu,  3 Jun 2021 16:48:08 +0000 (UTC)
-Date: Thu, 3 Jun 2021 17:48:06 +0100
+ id 1loqgC-0004ha-LA
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:58:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E671B61159;
+ Thu,  3 Jun 2021 16:58:42 +0000 (UTC)
+Date: Thu, 3 Jun 2021 17:58:40 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v13 5/8] KVM: arm64: Save/restore MTE registers
-Message-ID: <20210603164805.GF20338@arm.com>
+Subject: Re: [PATCH v13 6/8] KVM: arm64: Expose KVM_ARM_CAP_MTE
+Message-ID: <20210603165840.GG20338@arm.com>
 References: <20210524104513.13258-1-steven.price@arm.com>
- <20210524104513.13258-6-steven.price@arm.com>
+ <20210524104513.13258-7-steven.price@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210524104513.13258-6-steven.price@arm.com>
+In-Reply-To: <20210524104513.13258-7-steven.price@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
  helo=mail.kernel.org
@@ -67,41 +67,11 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 11:45:10AM +0100, Steven Price wrote:
-> diff --git a/arch/arm64/include/asm/kvm_mte.h b/arch/arm64/include/asm/kvm_mte.h
-> new file mode 100644
-> index 000000000000..eae4bce9e269
-> --- /dev/null
-> +++ b/arch/arm64/include/asm/kvm_mte.h
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020 ARM Ltd.
-
-You may want to update some of the years.
-
-> + */
-> +#ifndef __ASM_KVM_MTE_H
-> +#define __ASM_KVM_MTE_H
-> +
-> +#ifdef __ASSEMBLY__
-> +
-> +#include <asm/sysreg.h>
-> +
-> +#ifdef CONFIG_ARM64_MTE
-> +
-> +.macro mte_switch_to_guest g_ctxt, h_ctxt, reg1
-> +alternative_if_not ARM64_MTE
-> +	b	.L__skip_switch\@
-> +alternative_else_nop_endif
-> +	mrs	\reg1, hcr_el2
-> +	and	\reg1, \reg1, #(HCR_ATA)
-> +	cbz	\reg1, .L__skip_switch\@
-
-Nitpick: TBZ would be shorter, though you need the bit number.
-
-The patch looks fine (as per my understanding of the KVM context
-switching code):
+On Mon, May 24, 2021 at 11:45:11AM +0100, Steven Price wrote:
+> It's now safe for the VMM to enable MTE in a guest, so expose the
+> capability to user space.
+> 
+> Signed-off-by: Steven Price <steven.price@arm.com>
 
 Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 
