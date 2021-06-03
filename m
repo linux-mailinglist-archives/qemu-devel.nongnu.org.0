@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F882399C9E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:32:55 +0200 (CEST)
-Received: from localhost ([::1]:48268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A57399CB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:38:46 +0200 (CEST)
+Received: from localhost ([::1]:42360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loimc-0004jd-4m
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
+	id 1loisH-0002g0-4D
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid4-0006Xv-Uh; Thu, 03 Jun 2021 04:23:02 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51083 helo=ozlabs.org)
+ id 1loid5-0006bW-N8; Thu, 03 Jun 2021 04:23:03 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37967 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid2-00006c-NS; Thu, 03 Jun 2021 04:23:02 -0400
+ id 1loid3-00006m-9L; Thu, 03 Jun 2021 04:23:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5m2zqJz9srX; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
+ id 4Fwf5m3zpZz9ssP; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708556;
- bh=gmvEzfEJLJG9fd+QDD+EwrSDGGewIy13/ewbJWE2MdY=;
+ bh=1WCJYZ50Pe+A8r1Fv9ah67jWoC8sPscr5xxPRWW5WPA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kTvXVkc3nEkDs6b9tBtPePL+sXF8A8nH/8wPfdLUr4epqXtAnQTFxi1S+7CYZnE9x
- ERc98wcsjSqsAgf9q8GaRNuYD3WSWP6wfAOPFEJnOB/8iFIMrjMtXF8gWPDQjaaWDX
- m29b7hxYBnBGM1tRADEWi+rkx7r0dsTlv7MoxMT8=
+ b=EUF086VrqIVfz6Hlj40pQ3EsOLD/qfScV1Bi1Y6PBA/IdHU5nX5CVXDXWGZexVKIh
+ B34Emi/BYFtST/pteKl0um4KH2LYHDBYQqcJva1oH613LTNx8zzHVXHH/rKCLYlrGm
+ M/SEJKKUFJv+odVecpem6aw50rGzRdCql4hjJmuQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 17/42] target/ppc: removed mentions to DO_PPC_STATISTICS
-Date: Thu,  3 Jun 2021 18:22:06 +1000
-Message-Id: <20210603082231.601214-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/42] monitor: removed cpustats command
+Date: Thu,  3 Jun 2021 18:22:07 +1000
+Message-Id: <20210603082231.601214-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
@@ -58,6 +58,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -65,83 +66,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-Removed the commented out definition and all ifdefs relating to
-PPC_DUMP_STATISTICS, as it's hardly ever used.
+Since ppc was the last architecture to collect these statistics and
+it is currently phasing this collection out, the command that would query
+this information is being removed.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Message-Id: <20210526202104.127910-4-bruno.larsen@eldorado.org.br>
+Message-Id: <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ hmp-commands-info.hx | 13 -------------
+ monitor/misc.c       | 11 -----------
+ 2 files changed, 24 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index b494bd8b9c..5c56e33c3c 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -47,7 +47,6 @@
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ab0c7aa5ee..b2347a6aea 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -500,19 +500,6 @@ SRST
+     Show the current VM UUID.
+ ERST
  
- /* Include definitions for instructions classes and implementations flags */
- /* #define PPC_DEBUG_DISAS */
--/* #define DO_PPC_STATISTICS */
- 
- #ifdef PPC_DEBUG_DISAS
- #  define LOG_DISAS(...) qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__)
-@@ -217,12 +216,9 @@ struct opc_handler_t {
-     uint64_t type2;
-     /* handler */
-     void (*handler)(DisasContext *ctx);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-     const char *oname;
- #endif
--#if defined(DO_PPC_STATISTICS)
--    uint64_t count;
--#endif
- };
- 
- /* SPR load/store helpers */
-@@ -8546,7 +8542,7 @@ static int register_direct_insn(opc_handler_t **ppc_opcodes,
-     if (insert_in_table(ppc_opcodes, idx, handler) < 0) {
-         printf("*** ERROR: opcode %02x already assigned in main "
-                "opcode table\n", idx);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-         printf("           Registered handler '%s' - new handler '%s'\n",
-                ppc_opcodes[idx]->oname, handler->oname);
- #endif
-@@ -8570,7 +8566,7 @@ static int register_ind_in_table(opc_handler_t **table,
-         if (!is_indirect_opcode(table[idx1])) {
-             printf("*** ERROR: idx %02x already assigned to a direct "
-                    "opcode\n", idx1);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-             printf("           Registered handler '%s' - new handler '%s'\n",
-                    ind_table(table[idx1])[idx2]->oname, handler->oname);
- #endif
-@@ -8581,7 +8577,7 @@ static int register_ind_in_table(opc_handler_t **table,
-         insert_in_table(ind_table(table[idx1]), idx2, handler) < 0) {
-         printf("*** ERROR: opcode %02x already assigned in "
-                "opcode table %02x\n", idx2, idx1);
--#if defined(DO_PPC_STATISTICS) || defined(PPC_DUMP_CPU)
-+#if defined(PPC_DUMP_CPU)
-         printf("           Registered handler '%s' - new handler '%s'\n",
-                ind_table(table[idx1])[idx2]->oname, handler->oname);
- #endif
-@@ -9036,10 +9032,6 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         gen_invalid(ctx);
-     }
- 
--#if defined(DO_PPC_STATISTICS)
--    handler->count++;
--#endif
+-    {
+-        .name       = "cpustats",
+-        .args_type  = "",
+-        .params     = "",
+-        .help       = "show CPU statistics",
+-        .cmd        = hmp_info_cpustats,
+-    },
 -
-     translator_loop_temp_check(&ctx->base);
+-SRST
+-  ``info cpustats``
+-    Show CPU statistics.
+-ERST
+-
+ #if defined(CONFIG_SLIRP)
+     {
+         .name       = "usernet",
+diff --git a/monitor/misc.c b/monitor/misc.c
+index f3a393ea59..1539e18557 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -369,17 +369,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+     }
  }
  
+-static void hmp_info_cpustats(Monitor *mon, const QDict *qdict)
+-{
+-    CPUState *cs = mon_get_cpu(mon);
+-
+-    if (!cs) {
+-        monitor_printf(mon, "No CPU available\n");
+-        return;
+-    }
+-    cpu_dump_statistics(cs, 0);
+-}
+-
+ static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
+ {
+     const char *name = qdict_get_try_str(qdict, "name");
 -- 
 2.31.1
 
