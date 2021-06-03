@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF72839A59E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:18:46 +0200 (CEST)
-Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893B639A57F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:13:10 +0200 (CEST)
+Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loq3R-0007SX-SK
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35806)
+	id 1lopy1-0001ov-HC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopks-0000vw-GS
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:34 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41505)
+ id 1lopkv-00016l-Tw
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:37 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkq-00078z-OG
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:34 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h8so6355561wrz.8
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:32 -0700 (PDT)
+ id 1lopks-0007AW-Gq
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:37 -0400
+Received: by mail-wr1-x429.google.com with SMTP id i94so1346781wri.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=VDBN3NMYfdiVq5Oflec7BhDX1CHc12wtHAjxegZUl9g=;
- b=C0mbUOgoqoGUpNEBTOx+1RBYD9Q3tPxMjprzaBHH0E9njvYbS+UJeyElc962eZEnBa
- QPp0KiMDqCIbCI+/DEw2CmHr2bHsgLSPbv/4neKee0jyh4zVDIeWLCGAWEnSQ1oE68RI
- O+En8wC3qv8y/6/dRIvqKUXYOQygo3vu4HU+8W/VIgFKt0ixBPlOFDfwvcU/ujcvA+ux
- cWSYCMnSQbLwaYif4AFolT23y5iwBlPdwlNHQc2nHJt1ws9Mp2eSPO0lxfb2XpG08yuG
- fZPuHSpYgswTkLrslL13GbT0anpCi103gACQgtyeWqSCkkbIgggm40sj2fo7KsBLZpu4
- RUyw==
+ bh=grpJYafjNW+ukFyoPqAiBJXGevYi02tanX+BC8ln2iM=;
+ b=FOOB2ILcray/Zxz9fQPHfQ+w7kGTC8USftSK6RO58oTgZjLhIr8s67H8gp7PhfEhX3
+ OIQLdRkK9KseK6RzIRwTEIzlkpRitjlzH5tMuQafUofD3JFeV3LjlD/3etMzl2eoEHY6
+ CS88ENvMkOvQllS+heCNS+heY0nG4pxzZ6zpg7uQaj7Yy9fgrBlgUO4VTeZDAL2L9mGQ
+ m1u6ENXXUNTgUKQxm4TtD/Urq2PuilgAn50TEL8rx/Sdv9q+7V1vgZ05eXiIvvn7DhoZ
+ 6wPwKFc9H1KQWva8s1KxvOn4zKnew6hCHn0A7i9OB5++ZaMRvz5NwUMM/aaDAAFInXfG
+ iBUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VDBN3NMYfdiVq5Oflec7BhDX1CHc12wtHAjxegZUl9g=;
- b=J4h5DwGjaezxnV75znR+k1xasmW6V6Aafwl+RMdlmUjzhDEHTS/XDfDNIeZUD/PW2m
- 0eH5NwH+KoXF8uH47kREknY7+Q0zvZOKYhf2G6bojh++krYLEGZ4s7yYczBjxnuAOvXf
- KgqPW+QQcQWKgzTedPyEn1VKJO74h8Lj1Iw//0eeDzNc+yG59j13bUBHlW+BWxP1eg/O
- g19uPTkO0JYGOL19GvK3TDtHlcnjLZPHrvj/AXOHujvr2MIPkRXFLQCBUZzrhXcBgp7e
- O/wwEd3/rL75BDVCcocDURRN5gczHmvsMUTRIpXOggiZfeUeE2hN3IzimebiJIpdAnfE
- EX9A==
-X-Gm-Message-State: AOAM5302wWe7Q4VUzV4yksLURv5+KdtktZ/WheXsZwiycHiXR6H95KRB
- 1OHk8NITEKd2XXWwbUcaJeFxpTmp2re9V2Np
-X-Google-Smtp-Source: ABdhPJywwoK1zTWc52yaUgLoNdhDvw7ewgfQBivi/l/aE10Cf0XMVlL+vdcZx9XYLeVJs7A5N/SHTA==
-X-Received: by 2002:a5d:4203:: with SMTP id n3mr682358wrq.132.1622735971507;
- Thu, 03 Jun 2021 08:59:31 -0700 (PDT)
+ bh=grpJYafjNW+ukFyoPqAiBJXGevYi02tanX+BC8ln2iM=;
+ b=U4P20jQAwpoTtvfb6riuyIgyQFyKmuLF86JBbBAT8dAKhfuKpw2hbH4d8ETUqfP3Hb
+ yJ1EDALyB8wN2I158SZ/XyanHe7NSE850KlgtJZi8QnbYlR6rhGTf9t+BUbHay28jD9V
+ DNR1dVwUNdbUemoBWZXnAisPDkMlbrYsP/GDBPIMocbZ4dBgwzQix/cpaK/DTcRciaKf
+ aMQN3KxZpzm8yvbgdgpBWdYmUwoe9zGMev3/sp92nRx6m7OfzsX06GubqFai9hJ/mU9q
+ R0D/PzBGUYRENqvVy79aaFFjPwwtZWmKUax6FAzSE3RHodjy6OUcW8ABNYCxf/ct4yNU
+ Wj3w==
+X-Gm-Message-State: AOAM532n4nrW3aBinD2ePGuCOrXMv93O1sB2b1pVOg3zfnldUzvgPq/H
+ +Yb20b0VWBfxNGXkcBs907L3AYYU66ks21Gd
+X-Google-Smtp-Source: ABdhPJxyxgDXHONcJmI7CYldjJxl70eEQFLsgk5SaambYLYSpev4luMp7mDQJifFv9JjE524Oq5GMQ==
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr645972wrs.418.1622735973292; 
+ Thu, 03 Jun 2021 08:59:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.30
+ by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:59:31 -0700 (PDT)
+ Thu, 03 Jun 2021 08:59:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/45] target/arm: Enable BFloat16 extensions
-Date: Thu,  3 Jun 2021 16:58:46 +0100
-Message-Id: <20210603155904.26021-28-peter.maydell@linaro.org>
+Subject: [PULL 28/45] hvf: Move assert_hvf_ok() into common directory
+Date: Thu,  3 Jun 2021 16:58:47 +0100
+Message-Id: <20210603155904.26021-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,88 +86,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Alexander Graf <agraf@csgraf.de>
 
-Disable BF16 again for !have_neon and !have_vfp during realize.
+Until now, Hypervisor.framework has only been available on x86_64 systems.
+With Apple Silicon shipping now, it extends its reach to aarch64. To
+prepare for support for multiple architectures, let's start moving common
+code out into its own accel directory.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210525225817.400336-13-richard.henderson@linaro.org
+This patch moves assert_hvf_ok() and introduces generic build infrastructure.
+
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+Message-id: 20210519202253.76782-2-agraf@csgraf.de
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c     | 3 +++
- target/arm/cpu64.c   | 3 +++
- target/arm/cpu_tcg.c | 1 +
- 3 files changed, 7 insertions(+)
+ include/sysemu/hvf_int.h | 18 +++++++++++++++
+ accel/hvf/hvf-all.c      | 47 ++++++++++++++++++++++++++++++++++++++++
+ target/i386/hvf/hvf.c    | 33 +---------------------------
+ MAINTAINERS              |  8 +++++++
+ accel/hvf/meson.build    |  6 +++++
+ accel/meson.build        |  1 +
+ 6 files changed, 81 insertions(+), 32 deletions(-)
+ create mode 100644 include/sysemu/hvf_int.h
+ create mode 100644 accel/hvf/hvf-all.c
+ create mode 100644 accel/hvf/meson.build
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 9ad6f5911b6..9cddfd6a442 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1473,6 +1473,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+new file mode 100644
+index 00000000000..3deb4cfacc4
+--- /dev/null
++++ b/include/sysemu/hvf_int.h
+@@ -0,0 +1,18 @@
++/*
++ * QEMU Hypervisor.framework (HVF) support
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++/* header to be included in HVF-specific code */
++
++#ifndef HVF_INT_H
++#define HVF_INT_H
++
++#include <Hypervisor/hv.h>
++
++void assert_hvf_ok(hv_return_t ret);
++
++#endif
+diff --git a/accel/hvf/hvf-all.c b/accel/hvf/hvf-all.c
+new file mode 100644
+index 00000000000..f185b0830a7
+--- /dev/null
++++ b/accel/hvf/hvf-all.c
+@@ -0,0 +1,47 @@
++/*
++ * QEMU Hypervisor.framework support
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ * Contributions after 2012-01-13 are licensed under the terms of the
++ * GNU GPL, version 2 or (at your option) any later version.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qemu/error-report.h"
++#include "sysemu/hvf.h"
++#include "sysemu/hvf_int.h"
++
++void assert_hvf_ok(hv_return_t ret)
++{
++    if (ret == HV_SUCCESS) {
++        return;
++    }
++
++    switch (ret) {
++    case HV_ERROR:
++        error_report("Error: HV_ERROR");
++        break;
++    case HV_BUSY:
++        error_report("Error: HV_BUSY");
++        break;
++    case HV_BAD_ARGUMENT:
++        error_report("Error: HV_BAD_ARGUMENT");
++        break;
++    case HV_NO_RESOURCES:
++        error_report("Error: HV_NO_RESOURCES");
++        break;
++    case HV_NO_DEVICE:
++        error_report("Error: HV_NO_DEVICE");
++        break;
++    case HV_UNSUPPORTED:
++        error_report("Error: HV_UNSUPPORTED");
++        break;
++    default:
++        error_report("Unknown Error");
++    }
++
++    abort();
++}
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index f044181d061..32f42f15924 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -51,6 +51,7 @@
+ #include "qemu/error-report.h"
  
-         u = cpu->isar.id_isar6;
-         u = FIELD_DP32(u, ID_ISAR6, JSCVT, 0);
-+        u = FIELD_DP32(u, ID_ISAR6, BF16, 0);
-         cpu->isar.id_isar6 = u;
+ #include "sysemu/hvf.h"
++#include "sysemu/hvf_int.h"
+ #include "sysemu/runstate.h"
+ #include "hvf-i386.h"
+ #include "vmcs.h"
+@@ -76,38 +77,6 @@
  
-         u = cpu->isar.mvfr0;
-@@ -1513,6 +1514,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+ HVFState *hvf_state;
  
-         t = cpu->isar.id_aa64isar1;
-         t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 0);
-+        t = FIELD_DP64(t, ID_AA64ISAR1, BF16, 0);
-         t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 0);
-         cpu->isar.id_aa64isar1 = t;
+-static void assert_hvf_ok(hv_return_t ret)
+-{
+-    if (ret == HV_SUCCESS) {
+-        return;
+-    }
+-
+-    switch (ret) {
+-    case HV_ERROR:
+-        error_report("Error: HV_ERROR");
+-        break;
+-    case HV_BUSY:
+-        error_report("Error: HV_BUSY");
+-        break;
+-    case HV_BAD_ARGUMENT:
+-        error_report("Error: HV_BAD_ARGUMENT");
+-        break;
+-    case HV_NO_RESOURCES:
+-        error_report("Error: HV_NO_RESOURCES");
+-        break;
+-    case HV_NO_DEVICE:
+-        error_report("Error: HV_NO_DEVICE");
+-        break;
+-    case HV_UNSUPPORTED:
+-        error_report("Error: HV_UNSUPPORTED");
+-        break;
+-    default:
+-        error_report("Unknown Error");
+-    }
+-
+-    abort();
+-}
+-
+ /* Memory slots */
+ hvf_slot *hvf_find_overlap_slot(uint64_t start, uint64_t size)
+ {
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 96a4eeb5a59..de5426f6724 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -436,7 +436,15 @@ M: Roman Bolshakov <r.bolshakov@yadro.com>
+ W: https://wiki.qemu.org/Features/HVF
+ S: Maintained
+ F: target/i386/hvf/
++
++HVF
++M: Cameron Esfahani <dirty@apple.com>
++M: Roman Bolshakov <r.bolshakov@yadro.com>
++W: https://wiki.qemu.org/Features/HVF
++S: Maintained
++F: accel/hvf/
+ F: include/sysemu/hvf.h
++F: include/sysemu/hvf_int.h
  
-@@ -1528,6 +1530,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         u = cpu->isar.id_isar6;
-         u = FIELD_DP32(u, ID_ISAR6, DP, 0);
-         u = FIELD_DP32(u, ID_ISAR6, FHM, 0);
-+        u = FIELD_DP32(u, ID_ISAR6, BF16, 0);
-         u = FIELD_DP32(u, ID_ISAR6, I8MM, 0);
-         cpu->isar.id_isar6 = u;
+ WHPX CPUs
+ M: Sunil Muthuswamy <sunilmut@microsoft.com>
+diff --git a/accel/hvf/meson.build b/accel/hvf/meson.build
+new file mode 100644
+index 00000000000..227b11cd717
+--- /dev/null
++++ b/accel/hvf/meson.build
+@@ -0,0 +1,6 @@
++hvf_ss = ss.source_set()
++hvf_ss.add(files(
++  'hvf-all.c',
++))
++
++specific_ss.add_all(when: 'CONFIG_HVF', if_true: hvf_ss)
+diff --git a/accel/meson.build b/accel/meson.build
+index b44ba30c864..dfd808d2c8e 100644
+--- a/accel/meson.build
++++ b/accel/meson.build
+@@ -2,6 +2,7 @@ specific_ss.add(files('accel-common.c'))
+ softmmu_ss.add(files('accel-softmmu.c'))
+ user_ss.add(files('accel-user.c'))
  
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d561dc7accc..1c23187d1a5 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -661,6 +661,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, SB, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, SPECRES, 1);
-+        t = FIELD_DP64(t, ID_AA64ISAR1, BF16, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR1, LRCPC, 2); /* ARMv8.4-RCPC */
-         t = FIELD_DP64(t, ID_AA64ISAR1, I8MM, 1);
-@@ -708,6 +709,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64ZFR0, SVEVER, 1);
-         t = FIELD_DP64(t, ID_AA64ZFR0, AES, 2);  /* PMULL */
-         t = FIELD_DP64(t, ID_AA64ZFR0, BITPERM, 1);
-+        t = FIELD_DP64(t, ID_AA64ZFR0, BFLOAT16, 1);
-         t = FIELD_DP64(t, ID_AA64ZFR0, SHA3, 1);
-         t = FIELD_DP64(t, ID_AA64ZFR0, SM4, 1);
-         t = FIELD_DP64(t, ID_AA64ZFR0, I8MM, 1);
-@@ -731,6 +733,7 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_ISAR6, FHM, 1);
-         u = FIELD_DP32(u, ID_ISAR6, SB, 1);
-         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-+        u = FIELD_DP32(u, ID_ISAR6, BF16, 1);
-         u = FIELD_DP32(u, ID_ISAR6, I8MM, 1);
-         cpu->isar.id_isar6 = u;
- 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 2e0e508f0e9..d2d97115ea1 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -968,6 +968,7 @@ static void arm_max_initfn(Object *obj)
-         t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-         t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-         t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, BF16, 1);
-         t = FIELD_DP32(t, ID_ISAR6, I8MM, 1);
-         cpu->isar.id_isar6 = t;
- 
++subdir('hvf')
+ subdir('qtest')
+ subdir('kvm')
+ subdir('tcg')
 -- 
 2.20.1
 
