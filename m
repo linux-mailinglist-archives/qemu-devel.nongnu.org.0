@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A57399CB8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:38:46 +0200 (CEST)
-Received: from localhost ([::1]:42360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9EA399CE3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:42:43 +0200 (CEST)
+Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loisH-0002g0-4D
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
+	id 1loiw6-0006Qo-95
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid5-0006bW-N8; Thu, 03 Jun 2021 04:23:03 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37967 helo=ozlabs.org)
+ id 1loidP-0007EP-KM; Thu, 03 Jun 2021 04:23:23 -0400
+Received: from ozlabs.org ([203.11.71.1]:43379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid3-00006m-9L; Thu, 03 Jun 2021 04:23:03 -0400
+ id 1loidN-00007a-Tf; Thu, 03 Jun 2021 04:23:23 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5m3zpZz9ssP; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
+ id 4Fwf5m64F8z9t0T; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708556;
- bh=1WCJYZ50Pe+A8r1Fv9ah67jWoC8sPscr5xxPRWW5WPA=;
+ bh=TGxB2/SNSQI/w9xsrRzt5fR1jbniS6RCQhYL+mH5Hv8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EUF086VrqIVfz6Hlj40pQ3EsOLD/qfScV1Bi1Y6PBA/IdHU5nX5CVXDXWGZexVKIh
- B34Emi/BYFtST/pteKl0um4KH2LYHDBYQqcJva1oH613LTNx8zzHVXHH/rKCLYlrGm
- M/SEJKKUFJv+odVecpem6aw50rGzRdCql4hjJmuQ=
+ b=Gul3ZNGh/DzdDdOVo+F5fDFEafAjb8gHBqU8xb5sJVBA5WiK0ljJ7UlorRNsJnGHG
+ 4YExS6/N41ULE9ykiuOUeZxRB44m23zy/Xu23Id5PRqeMt8JY9K7WlYzYce6626Clz
+ adAyvhIhUEAMRcN4SV/sjCoS8GoYNIr4omLlqGpU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 18/42] monitor: removed cpustats command
-Date: Thu,  3 Jun 2021 18:22:07 +1000
-Message-Id: <20210603082231.601214-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/42] ppc/pef.c: initialize cgs->ready in kvmppc_svm_init()
+Date: Thu,  3 Jun 2021 18:22:08 +1000
+Message-Id: <20210603082231.601214-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,77 +57,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Ram Pai <linuxram@us.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Since ppc was the last architecture to collect these statistics and
-it is currently phasing this collection out, the command that would query
-this information is being removed.
+QEMU is failing to launch a CGS pSeries guest in a host that has PEF
+support:
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Message-Id: <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+qemu-system-ppc64: ../softmmu/vl.c:2585: qemu_machine_creation_done: Assertion `machine->cgs->ready' failed.
+Aborted
+
+This is happening because we're not setting the cgs->ready flag that is
+asserted in qemu_machine_creation_done() during machine start.
+
+cgs->ready is set in s390_pv_kvm_init() and sev_kvm_init(). Let's set it
+in kvmppc_svm_init() as well.
+
+Reported-by: Ram Pai <linuxram@us.ibm.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20210528201619.52363-1-danielhb413@gmail.com>
+Acked-by: Ram Pai <linuxram@us.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hmp-commands-info.hx | 13 -------------
- monitor/misc.c       | 11 -----------
- 2 files changed, 24 deletions(-)
+ hw/ppc/pef.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index ab0c7aa5ee..b2347a6aea 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -500,19 +500,6 @@ SRST
-     Show the current VM UUID.
- ERST
+diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+index 573be3ed79..cc44d5e339 100644
+--- a/hw/ppc/pef.c
++++ b/hw/ppc/pef.c
+@@ -41,7 +41,7 @@ struct PefGuest {
+     ConfidentialGuestSupport parent_obj;
+ };
  
--    {
--        .name       = "cpustats",
--        .args_type  = "",
--        .params     = "",
--        .help       = "show CPU statistics",
--        .cmd        = hmp_info_cpustats,
--    },
--
--SRST
--  ``info cpustats``
--    Show CPU statistics.
--ERST
--
- #if defined(CONFIG_SLIRP)
-     {
-         .name       = "usernet",
-diff --git a/monitor/misc.c b/monitor/misc.c
-index f3a393ea59..1539e18557 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -369,17 +369,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+-static int kvmppc_svm_init(Error **errp)
++static int kvmppc_svm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ {
+ #ifdef CONFIG_KVM
+     static Error *pef_mig_blocker;
+@@ -65,6 +65,8 @@ static int kvmppc_svm_init(Error **errp)
+     /* NB: This can fail if --only-migratable is used */
+     migrate_add_blocker(pef_mig_blocker, &error_fatal);
+ 
++    cgs->ready = true;
++
+     return 0;
+ #else
+     g_assert_not_reached();
+@@ -102,7 +104,7 @@ int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+         return -1;
      }
+ 
+-    return kvmppc_svm_init(errp);
++    return kvmppc_svm_init(cgs, errp);
  }
  
--static void hmp_info_cpustats(Monitor *mon, const QDict *qdict)
--{
--    CPUState *cs = mon_get_cpu(mon);
--
--    if (!cs) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--    cpu_dump_statistics(cs, 0);
--}
--
- static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
- {
-     const char *name = qdict_get_try_str(qdict, "name");
+ int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp)
 -- 
 2.31.1
 
