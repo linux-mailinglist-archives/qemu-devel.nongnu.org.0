@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400D6399B48
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 09:10:10 +0200 (CEST)
-Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A50399B4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 09:12:00 +0200 (CEST)
+Received: from localhost ([::1]:48520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lohUW-00005n-QR
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 03:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53774)
+	id 1lohWJ-00039O-E2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 03:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lohSL-0007jY-1n
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:07:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37396)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lohTK-00004z-UT
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:08:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lohSI-0001JG-Rv
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:07:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lohTF-0001pi-4S
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:08:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622704069;
+ s=mimecast20190719; t=1622704127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fk/CbWZNmd/RgDSPQvbfSP+NWGV/dUxy74EtEH15H+Y=;
- b=MvUovN8y2ZGyaRbPwF8M/3VyVLI1yDngh5LEwk0UksRoDKu1aiTunPolh4AApCw8jNYpib
- jQy+DBrZzQekPjmbVp9W2KLg9RIWB78QcFdzg1TJV9FZ5FeUQ1n+c3jQ8auR1RsWgHikZa
- +imazCIqZCEICZnmvaMP1ff8+nvmyJQ=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531--eY8-zIIMW-vPu6uR3xq0A-1; Thu, 03 Jun 2021 03:07:48 -0400
-X-MC-Unique: -eY8-zIIMW-vPu6uR3xq0A-1
-Received: by mail-ej1-f71.google.com with SMTP id
- z1-20020a1709068141b02903cd421d7803so1577260ejw.22
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 00:07:48 -0700 (PDT)
+ bh=L4/6mIOtOdHLsx+0vZviyP3fDK7Dee4kc2xkN24Bu5w=;
+ b=cJKWXw+Ylu8rIGrVKb+d3hwHl49jmNMuNl+/yvpQqHBzV67wa0UFt11vZwbU/W4eveAepk
+ IrbH7InygaTdbrudaBKDNllW+Q98iA4FC01fOtJKTqnHVVd+Hq6Bjo5xYFom5GQW2JX8vF
+ ySGTmsIEug87xTaOu7DPsUWqRKQR5TE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-r7eZ9nBnM8K7yv9HKzf1Rw-1; Thu, 03 Jun 2021 03:08:46 -0400
+X-MC-Unique: r7eZ9nBnM8K7yv9HKzf1Rw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ h16-20020a0564020950b029038cbdae8cbaso2785954edz.6
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 00:08:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Fk/CbWZNmd/RgDSPQvbfSP+NWGV/dUxy74EtEH15H+Y=;
- b=e4MzPxbxvi2P9LHNXA2T/OZay7mhwKL4/UXOsYBwP+OZRRwVnxoRJokaqEfElgEENT
- oqJN0tWUkG/hBea9DfuZVc48x3O1/iy25rWtWsmvBBf/r06ado5qGD7v7mgrVjUbuC1f
- Z1O7C+HScplkFziECI/61obPfc+F0t3LReH+hTCRiFlC47rcfvDHfT0rZ7e7JFwHH2ux
- EfbGpat0DonOrT6BNMz5+dsgBp9zMI3Zk7GIjdqqc36Jjtxn3AaKDGB/jQM8Mw1RMBoB
- EfCIxBR9BYo5y7SpZ29Rdy6lyyTPzqpheaeP3KTwyJvpQLZaP1IC92ofboy/OxpAhqOp
- HeTA==
-X-Gm-Message-State: AOAM530FP+r6fD8RXCRAjoqfEcWoERn+ycm37+Jmbm8GnklJoDVQYE6E
- jS1l/iyugTKQ8SDo+YNb3z5MrjIGnd8lUGnneq+iolK/yr4qAdWu1W/dqSdwDQ4cDnSaqnEsd+k
- nHFkXq8ibFHeSKio=
-X-Received: by 2002:a05:6402:4394:: with SMTP id
- o20mr43352993edc.357.1622704067286; 
- Thu, 03 Jun 2021 00:07:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbQYyjUb8FfNq/hxz/kNcuQMdDpCBj3bdWDaW7mlgy2zOVossS9leYIe/MIBC7exM3bPdiMg==
-X-Received: by 2002:a05:6402:4394:: with SMTP id
- o20mr43352979edc.357.1622704067129; 
- Thu, 03 Jun 2021 00:07:47 -0700 (PDT)
+ bh=L4/6mIOtOdHLsx+0vZviyP3fDK7Dee4kc2xkN24Bu5w=;
+ b=q89QO/GoBQp1VokM9dxZDqeIwM/RVoZVuJjAFeHUNaOmAZI68muLovgKx2ezmlelhY
+ Ysj3coKQlNBB8v52ddB3p8k3TDdVvGHlRkAaDqKiglTghJxG+wV3aTZhTJ7df9WIc3fc
+ xsGKROhwFq85udGQkIp8W4cqmvNuR4ZpPowACTu99ubPfTrH4e1biVfiFDoGi+wwuTK0
+ 1zyj8IGrF+bwYlDjwhb6U1axYVQMNHgRChJgoMX0ENLfBxb3H3V/xMyfNC7eBHOTas2q
+ qwmWPdR60gJ1JNdJvV7De+y1Had+dvgcNOL+v8vWysfALk0XP7hHYLDGHZrkJ+F6v1jt
+ 1Ulg==
+X-Gm-Message-State: AOAM531Lif2PTa81Op8lPVAYrvX9SIZlKXqGO3d67gxdSd2Cyu6LORdE
+ 0wQ85fKrxL1jaqlAzOuRR/T8HX2Zxp/gVyEQjAxhyRxBMrjJpkFNGcb8n2O1pakaCHzyPwO0qtY
+ 9N6m+2qetAbIwTdc=
+X-Received: by 2002:a05:6402:524d:: with SMTP id
+ t13mr42707001edd.209.1622704125130; 
+ Thu, 03 Jun 2021 00:08:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPkAJdd7zI5S6mYT1FVejNcPKSl+zYNTeSWbaqowcd8+kIjcP0ZqAOvAzHeD5SkgQhVhoYGQ==
+X-Received: by 2002:a05:6402:524d:: with SMTP id
+ t13mr42706984edd.209.1622704124963; 
+ Thu, 03 Jun 2021 00:08:44 -0700 (PDT)
 Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id bh3sm1116033ejb.19.2021.06.03.00.07.46
+ by smtp.gmail.com with ESMTPSA id am5sm1098674ejc.28.2021.06.03.00.08.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Jun 2021 00:07:46 -0700 (PDT)
-Subject: Re: [PATCH v3 02/19] python/qmp: Fix type of SocketAddrT
+ Thu, 03 Jun 2021 00:08:44 -0700 (PDT)
+Subject: Re: [PATCH v3 08/19] scripts/qom-fuse: apply flake8 rules
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20210603003719.1321369-1-jsnow@redhat.com>
- <20210603003719.1321369-3-jsnow@redhat.com>
+ <20210603003719.1321369-9-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1a683bfc-dc92-1740-e736-f44fb045e090@redhat.com>
-Date: Thu, 3 Jun 2021 09:07:45 +0200
+Message-ID: <b6634965-9c4f-0176-f5d2-7b6619a60e2e@redhat.com>
+Date: Thu, 3 Jun 2021 09:08:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210603003719.1321369-3-jsnow@redhat.com>
+In-Reply-To: <20210603003719.1321369-9-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,19 +108,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/3/21 2:37 AM, John Snow wrote:
-> In porting the qom tools, qmp-shell, etc; it becomes evident that this
-> type is wrong.
-> 
-> This is an integer, not a string. We didn't catch this before because
-> none of QEMUMonitorProtocol's *users* happen to be checked, and the
-> internal logic of this class is otherwise self-consistent. Additionally,
-> mypy was not introspecting into the socket() interface to realize we
-> were passing a bad type for AF_INET. Fixed now.
+> flake8 still has one warning because of the sys.path hack, but that will
+> be going away by the end of this patch series.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/qmp/__init__.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/qmp/qom-fuse | 81 +++++++++++++++++++++++---------------------
+>  1 file changed, 43 insertions(+), 38 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
