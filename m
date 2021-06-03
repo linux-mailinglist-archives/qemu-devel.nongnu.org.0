@@ -2,138 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC9739A98D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:50:57 +0200 (CEST)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EF639A98F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:52:20 +0200 (CEST)
+Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lorUe-0000qZ-IV
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38138)
+	id 1lorVz-0002fv-Ja
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lorTi-0008RP-Qo; Thu, 03 Jun 2021 13:49:58 -0400
-Received: from mail-am6eur05on2128.outbound.protection.outlook.com
- ([40.107.22.128]:2240 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lorV4-0001y8-4d
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:51:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lorTf-0001Oq-9x; Thu, 03 Jun 2021 13:49:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A0qwH4eslUwHXULjA1apW4rMaohBDKU5mIOTb7YA/FnEuyNqkV7uF/K+Te3lE/1tp9P+gGgzVAUobUJ8EhSpwA2PyO8NmASs2zrN17flPERFZL2DELzjAAxDQsstmISwQsY4urxi1fOOxQzJW0f7SHQLuJFiAMQakQQu8TKiIkr4lGFKDBvfOJs89jMx7HPRtwFFI3+G1ZpAH3/3I3s7fWUPqUk6fwUGwpNGtWDGeae0sNeBFLM6jB/ET898mN5Mb8VCrHMxlRU4jEEvztGS9EKiJa3BhwTcwNrLdVDYTWv90H6AQEDIn+GnqzEyw4BhW+VlTUN4vwpwkNhOuU2gng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQz59KY/QBkWHUe0OndlTUSAEi1PdG7KzF74L2EXLO8=;
- b=UEw2A8rra+w7FDrRV0qQlyKObQvBJ07mAtS5TtMxim0Tqxk3+qFMrFzmkmR1tsDs+GKzvUSvfTFn+EVbMz+/P+0qCqA6O6bidVoRX/GbobiO3kyKp+fe0MTcA2aHg3FsBw1n4EJUrFGpSnVNWjEZdUZE7FD4zXmM9a8IgyZddvFmR3UAc0jPnsoJ+41hmoMUYRNdS8kZQD56s0oMEPTEMGluVCjvna/GiK1ZZo1rsmg6Rp9IAh8Y0H4S+nsYQ4o30H1VjNeQD8QJbdAZXjNisjBpzMZgLo7pgnFgIRnOnBdkT/LmDZG5a0AJ2OPRFZ+y1yXybb3tRTGkbiAA+MDYvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQz59KY/QBkWHUe0OndlTUSAEi1PdG7KzF74L2EXLO8=;
- b=my9AhzEsDsvYUZKy7iUrQcPlnIYskjmm4UHjZ5kgGgudGoyR2L4FBLDHSQc5STdqPzbZWP1RIIIsFafR9mdgpWD736hqWlN4132luUPOdWanDT/0nKGPbNAUJ2tpxNEDh1JLM6ArLR3iS8g6l8iDAGddmEG3B6GDBAiTF08iWUk=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1780.eurprd08.prod.outlook.com (2603:10a6:203:39::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.27; Thu, 3 Jun
- 2021 17:49:52 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Thu, 3 Jun 2021
- 17:49:52 +0000
-Subject: Re: [PATCH v3 17/33] nbd/client-connection: implement connection retry
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kwolf@redhat.com, rvkagan@yandex-team.ru, den@openvz.org
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-18-vsementsov@virtuozzo.com>
- <20210603161722.benugy4v7jsropwv@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a7848468-3932-4ed6-884d-64a1b1813ec4@virtuozzo.com>
-Date: Thu, 3 Jun 2021 20:49:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <20210603161722.benugy4v7jsropwv@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.243]
-X-ClientProxiedBy: PR1P264CA0028.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:19f::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lorV0-00029g-QX
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:51:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622742677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5RVvLxA82EeFFv1TqLly9r9j8ut5VLfo/uroY/XEKoU=;
+ b=KGu5a5XAQXjZ/vOCrkaQ6gfYhnR6kDi/6nCT+EmxYLTwDrDZqZ2xIvHokw1xio8FqYVdCC
+ fng6OPlSXqJgTj/Ry2L/irhZdUXa3u2XZ3gk1bqImG4OmtFSsV1A7TwkJEER2T08Wb0xTJ
+ mHNb8fPbu5CSrY1l+iIJR5qLq37JKk4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-IaDoevZTPxexRJn-27bfmA-1; Thu, 03 Jun 2021 13:51:15 -0400
+X-MC-Unique: IaDoevZTPxexRJn-27bfmA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C818DD120;
+ Thu,  3 Jun 2021 17:51:14 +0000 (UTC)
+Received: from work-vm (ovpn-114-217.ams2.redhat.com [10.36.114.217])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 985B75D6AB;
+ Thu,  3 Jun 2021 17:51:12 +0000 (UTC)
+Date: Thu, 3 Jun 2021 18:51:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 2/2] migration/rdma: Enable use of g_autoptr with
+ struct rdma_cm_event
+Message-ID: <YLkWjnJRd2g7Y7ny@work-vm>
+References: <20210602175105.2522032-1-philmd@redhat.com>
+ <20210602175105.2522032-3-philmd@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.243) by
- PR1P264CA0028.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19f::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.20 via Frontend Transport; Thu, 3 Jun 2021 17:49:51 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1321502f-35bf-4beb-9952-08d926b7fd40
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1780:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB178033DBF223B2021D82CA11C13C9@AM5PR0801MB1780.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eIHlHc3jCHTia+Y7etVYlHBj97vP3gPr0yZ/lUy3YLh5KzZ1o7daU93ZLojqnY3T3w1NIAhSTUix7hb39JThnO1WZ9Ga8X42mmIOjm53qB4UNlN1syKyWw5W5/NQr79WinNVl9OisH7Y5CqnMy5rKFN/OlXP9fYwNkDuUCkTg97HnNOhICkdh/NtwGOLM7C2lGT0GhLLF0qDCXeTkWihotoiClC/nk65bHqTghS7L+irAT96oUWxQzbN9xVZ3gKn5/JLcQbEfdlQrzIDFdeaj5RG/eLL512mD/BQnA5mAaRI+1pmuMWUOK0DLChu8qlW0WTZ4WFRg8U51/huOaYU/3jaHA/cu8LcBp23+ptZBkbHf80HX5T89BOOPKebDdjIuVq6n940AUglGrkrVHvk6DPWIuwyatQhnZgTwKikGnmYVGiJR0ufG1MIQnd593jIGpRCvWGAIJK0upyUzcKRvIOitwn2Af96d44yf2PGlr5mOmE+Oz6QMiFQYqf7n1wPsD5ukpPg+yR/PqkMLQcJaDwQKxKVyzegwkpdGvWZODxH9P3PnSOy6Sq0Tb5VHxhSuBcJ/txGRztxLMFh7J1eZVN+v6cnmDrMODU8YO5x170ctwFacy6eErcbI6AOUr6YIyasO3KpWIsJhu2El58Mp7k10TsKmnAsOWHWPW0pRSmuAgmTJsggVmLoUXZiXQkXs4ZgXKYDeSfHCVMTMJehScywYF0jwGWBE5W4gsNho1g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(376002)(39840400004)(346002)(5660300002)(2906002)(31696002)(6486002)(36756003)(66946007)(2616005)(956004)(4326008)(186003)(478600001)(86362001)(52116002)(66476007)(8936002)(16576012)(6916009)(31686004)(316002)(8676002)(38100700002)(38350700002)(66556008)(83380400001)(26005)(16526019)(107886003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TjVCTHZ4VHQxUmRlVVVFRktxS2lCdGMycnpSSmNtOC9VSjRsZWZhNTdXOTJS?=
- =?utf-8?B?MlhUMnozc0MwNlM1ZDIxYldRV1QvWjl6NHhVQ044TjRzUHBjK2R5eUdhVEpp?=
- =?utf-8?B?dHZxejZPbi9VMi9HR1d0VGVxS1Y2bzNFWW5XZ29uKzI1U0xSNDZSNU9JQS9X?=
- =?utf-8?B?VSs3NlZKNDVTaWN1NGtHMVJwM1ZaT2IySEt5Z1hka3FtM3BsQm5XRURodEdJ?=
- =?utf-8?B?OTlTdWk1RUI3WHlQaXZqWWF5ckQ4OUJMRDBESytjOVBMOEFhbFNQQmpqdXNs?=
- =?utf-8?B?dU9IelVmUGFOZHhaMEpYRmcwOVYyNVk2V1k3YVZXWGwybmxjcGdnTTQvSm0y?=
- =?utf-8?B?SEEvOXFZMU43NlpqeVp4VE8xMkVRSmFMQU9yeHdiUkFhdm8vd2NQTDUwUXY0?=
- =?utf-8?B?NVN1UkxWMUcxOXFPcUdTV2NERnRHMEdJTlBSR3Uya2RvNUJTTVpNUUZyTTFZ?=
- =?utf-8?B?TVhObVhDenk1dC83ci9KNDJ4OW9Vc3JGaTdneC9QSjlnR3NwampOQ1NDVnJa?=
- =?utf-8?B?cmJ5am9raHhlOG5JYXNOdVgyOXE2bnJkRzZsUDZkZXEyV1pua01ta2RmQmxx?=
- =?utf-8?B?bFcxNEZONElVa0dncTBKM2tnbk9HRzZnbHdLTE1LdldyMzZudlpWd2ZMSDVj?=
- =?utf-8?B?R3dYRDh0VEdRMmtJZjlsekg3ZUhnL1NDbUdoaHcxcEZsbFlreWZ5MlUwcU9y?=
- =?utf-8?B?UUtQR3YvR1Nvc3VNWGdXWDhtOUhhblBtNWZ1dE9KYlFKeElON0RWbUFNZUNy?=
- =?utf-8?B?akRpYUVGT2FCc0EyOXUvSVNML0xxSWN5SE9CM1RjVDJ6MkNka05xbHpmVUZr?=
- =?utf-8?B?YldWYVBsUUgySjBKT0M5d3UxcVY3cnA4VEVWdnk2Vmw5ZUxhUEFlYTJJSWp2?=
- =?utf-8?B?eXdCKzBQNUNzclUxV2kxd3R4ZWRCQ1VHL3JJbjg1bHE1V1NCYXpld21EU3Js?=
- =?utf-8?B?OU1kY1VEakN6RUdRME80eFMyZW9GK0NqS3B0YllvZ2o2azY2M1crV0pCK0JB?=
- =?utf-8?B?NGErTUJJdDlybSszdFc3eWtoWFlkQWpjTS9heW5qNWpvbkF4ZEN0SW5LVU9m?=
- =?utf-8?B?M1hQOHhkeVZNTHB2MEFrSmdweXVRNWFWMklNckwwK04wVFJGSjdmanVxY21z?=
- =?utf-8?B?U2JVb092UUpLdTJGNURSOVR0RjRXclBvdVJiR3JVNVVRaWJhQlJwSVJmN2VP?=
- =?utf-8?B?RzROdVV1ZjRqbzRxN1pVVmFmbXUrMXMwTllVUEp0R1JxblczTkdOd1FEdzZS?=
- =?utf-8?B?bkh4U2RCaURDc1F0NWtRWnZodHk4STNVMDlPZHFYZ1FTT2tBU1M0YjVPdEg2?=
- =?utf-8?B?Zi92ZVBYeHZ3SWhZdjBZZitrb2JQdnJlQ2RNUlg2ZWE4U2pZZTJFRmhZUkhE?=
- =?utf-8?B?M0dpdjRTYlU2Q2x0aWVsTEl2UHNVSVFKejJnaXdiNXhjei9FNXRqNXJQSnRj?=
- =?utf-8?B?ejlaZ1RVWlo5TTNxQmwzdkVaMVJITWRQZHZOMytsMUM1TTVWblRnNkdYenRT?=
- =?utf-8?B?NWFrb3VCb2VWRy9XcGlBbnQreXNyaXJMQnI4YlpkaHpNZFVhQ2tQNS9UOTZ4?=
- =?utf-8?B?QzdYRzhjUTVJdi9sUWFyelVTVzY2N0VZVEJWVnhEQkcxSmtCTnlCcFpTOVg5?=
- =?utf-8?B?T1JCV1ZaNEhRRHFwRHo3WDFEbEtSejlzUkh3TEgwYlVwTXIyQW16Z3VBTjRT?=
- =?utf-8?B?dFRRVS9YRHVDRVlTMVVic3ZNMzk1MDJZd3hVV0E1UDdPeXprVEpkRDdpRzJ4?=
- =?utf-8?Q?tCXMrS4zMGzlr8czvKiKGiR+iWTiHWJuuyuzixN?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1321502f-35bf-4beb-9952-08d926b7fd40
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 17:49:52.0948 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iIwzMccIQTLc3cPdNqzDAQeq0atW5rrOv27l6WRMzNgpKvBEVmisKlXbHgQCNKsAcKhl5ba+KYUAIYqiJZer1H/CZo/dqHlcisacfUC8jvE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1780
-Received-SPF: pass client-ip=40.107.22.128;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210602175105.2522032-3-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,143 +82,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.06.2021 19:17, Eric Blake wrote:
-> On Fri, Apr 16, 2021 at 11:08:55AM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> Add an option for thread to retry connection until success. We'll use
+* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> Since 00f2cfbbec6 ("glib: bump min required glib library version to
+> 2.48") we can use g_auto/g_autoptr to have the compiler automatically
+> free an allocated variable when it goes out of scope, removing this
+> burden on the developers.
 > 
-> for a thread to retry connection until it succeeds.
+> Per rdma_cm(7) and rdma_ack_cm_event(3) man pages:
 > 
->> nbd/client-connection both for reconnect and for initial connection in
->> nbd_open(), so we need a possibility to use same NBDClientConnection
->> instance to connect once in nbd_open() and then use retry semantics for
->> reconnect.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   include/block/nbd.h     |  2 ++
->>   nbd/client-connection.c | 55 +++++++++++++++++++++++++++++------------
->>   2 files changed, 41 insertions(+), 16 deletions(-)
->>
->> +++ b/nbd/client-connection.c
->> @@ -36,6 +36,8 @@ struct NBDClientConnection {
->>       NBDExportInfo initial_info;
->>       bool do_negotiation;
->>   
->> +    bool do_retry;
->> +
->>       /*
->>        * Result of last attempt. Valid in FAIL and SUCCESS states.
->>        * If you want to steal error, don't forget to set pointer to NULL.
->> @@ -52,6 +54,15 @@ struct NBDClientConnection {
->>       Coroutine *wait_co; /* nbd_co_establish_connection() wait in yield() */
->>   };
->>   
->> +/*
->> + * The function isn't protected by any mutex, so call it when thread is not
+>   "rdma_ack_cm_event() - Free a communication event.
 > 
-> so only call it when the thread is not yet running
+>    All events which are allocated by rdma_get_cm_event() must be
+>    released, there should be a one-to-one correspondence between
+>    successful gets and acks. This call frees the event structure
+>    and any memory that it references."
 > 
-> or maybe even
+> Since the 'ack' description doesn't explicit the event is also
+> released (free'd), it is safer to use the GLib g_autoptr feature.
+> The G_DEFINE_AUTOPTR_CLEANUP_FUNC() macro expects a single word
+> for the type name, so add a type definition to achieve this.
+> Convert to use g_autoptr and remove the rdma_ack_cm_event() calls.
 > 
-> only call it when the client connection attempt has not yet started
-> 
->> + * running.
->> + */
->> +void nbd_client_connection_enable_retry(NBDClientConnection *conn)
->> +{
->> +    conn->do_retry = true;
->> +}
->> +
->>   NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
->>                                                  bool do_negotiation,
->>                                                  const char *export_name,
->> @@ -144,24 +155,37 @@ static void *connect_thread_func(void *opaque)
->>       NBDClientConnection *conn = opaque;
->>       bool do_free;
->>       int ret;
->> +    uint64_t timeout = 1;
->> +    uint64_t max_timeout = 16;
->> +
->> +    while (true) {
->> +        conn->sioc = qio_channel_socket_new();
->> +
->> +        error_free(conn->err);
->> +        conn->err = NULL;
->> +        conn->updated_info = conn->initial_info;
->> +
->> +        ret = nbd_connect(conn->sioc, conn->saddr,
->> +                          conn->do_negotiation ? &conn->updated_info : NULL,
->> +                          conn->tlscreds, &conn->ioc, &conn->err);
->> +        conn->updated_info.x_dirty_bitmap = NULL;
->> +        conn->updated_info.name = NULL;
-> 
-> I'm not quite sure I follow the allocation here: if we passed in
-> &conn->updated_info which got modified in-place by nbd_connect, then
-> are we risking a memory leak by ignoring the x_dirty_bitmap and name
-> set by that call?
+> Inspired-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Yes, that looks strange :\. Will check when prepare new version and fix or leave a comment here.
+It's unclear to me whether the changes in qemu_rdma_accept are legal
+rdma or not.
+If we look at the err_rdma_dest_wait: path, it does a
+qemu_rdma_cleanup(rdma) before the exit; that does rdma_disconnect's and
+calls loads of other rdma/ibv cleanup calls to destroy state - is there
+any ordering requirement saying you're supposed to clean up your
+cm_event's before you nuke the rest of the channel? It feels like you
+probably should - but I have no idea if it's a requirement.
 
-> 
->> +
->> +        if (ret < 0) {
->> +            object_unref(OBJECT(conn->sioc));
->> +            conn->sioc = NULL;
->> +            if (conn->do_retry) {
->> +                sleep(timeout);
-> 
-> This is a bare sleep in a function not marked as coroutine_fn.  Do we
-> need to instead use coroutine sleep for better response to an early
-> exit if initialization is taking too long?
+Dave
 
-We are in a separate, by-hand created thread, which knows nothing about coroutines, iothreads, aio contexts etc.. I think bare sleep is what should be here.
-
+> ---
+> RFC: build-tested only
+> ---
+>  migration/rdma.c | 27 ++++++++++-----------------
+>  1 file changed, 10 insertions(+), 17 deletions(-)
 > 
->> +                if (timeout < max_timeout) {
->> +                    timeout *= 2;
->> +                }
->> +                continue;
->> +            }
->> +        }
->>   
->> -    conn->sioc = qio_channel_socket_new();
->> -
->> -    error_free(conn->err);
->> -    conn->err = NULL;
->> -    conn->updated_info = conn->initial_info;
->> -
->> -    ret = nbd_connect(conn->sioc, conn->saddr,
->> -                      conn->do_negotiation ? &conn->updated_info : NULL,
->> -                      conn->tlscreds, &conn->ioc, &conn->err);
->> -    if (ret < 0) {
->> -        object_unref(OBJECT(conn->sioc));
->> -        conn->sioc = NULL;
->> +        break;
->>       }
->>   
->> -    conn->updated_info.x_dirty_bitmap = NULL;
->> -    conn->updated_info.name = NULL;
->> -
->>       WITH_QEMU_LOCK_GUARD(&conn->mutex) {
->>           assert(conn->running);
->>           conn->running = false;
->> @@ -172,7 +196,6 @@ static void *connect_thread_func(void *opaque)
->>           do_free = conn->detached;
->>       }
->>   
->> -
->>       if (do_free) {
->>           nbd_client_connection_do_free(conn);
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index b50ebb9183a..b703bf1b918 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -38,6 +38,9 @@
+>  #include "qom/object.h"
+>  #include <poll.h>
+>  
+> +typedef struct rdma_cm_event rdma_cm_event;
+> +G_DEFINE_AUTOPTR_CLEANUP_FUNC(rdma_cm_event, rdma_ack_cm_event)
+> +
+>  /*
+>   * Print and error on both the Monitor and the Log file.
+>   */
+> @@ -939,7 +942,7 @@ static int qemu_rdma_resolve_host(RDMAContext *rdma, Error **errp)
+>      int ret;
+>      struct rdma_addrinfo *res;
+>      char port_str[16];
+> -    struct rdma_cm_event *cm_event;
+> +    g_autoptr(rdma_cm_event) cm_event = NULL;
+>      char ip[40] = "unknown";
+>      struct rdma_addrinfo *e;
+>  
+> @@ -1007,11 +1010,11 @@ route:
+>          ERROR(errp, "result not equal to event_addr_resolved %s",
+>                  rdma_event_str(cm_event->event));
+>          perror("rdma_resolve_addr");
+> -        rdma_ack_cm_event(cm_event);
+>          ret = -EINVAL;
+>          goto err_resolve_get_addr;
+>      }
+>      rdma_ack_cm_event(cm_event);
+> +    cm_event = NULL;
+>  
+>      /* resolve route */
+>      ret = rdma_resolve_route(rdma->cm_id, RDMA_RESOLVE_TIMEOUT_MS);
+> @@ -1028,11 +1031,9 @@ route:
+>      if (cm_event->event != RDMA_CM_EVENT_ROUTE_RESOLVED) {
+>          ERROR(errp, "result not equal to event_route_resolved: %s",
+>                          rdma_event_str(cm_event->event));
+> -        rdma_ack_cm_event(cm_event);
+>          ret = -EINVAL;
+>          goto err_resolve_get_addr;
+>      }
+> -    rdma_ack_cm_event(cm_event);
+>      rdma->verbs = rdma->cm_id->verbs;
+>      qemu_rdma_dump_id("source_resolve_host", rdma->cm_id->verbs);
+>      qemu_rdma_dump_gid("source_resolve_host", rdma->cm_id);
+> @@ -1501,7 +1502,7 @@ static uint64_t qemu_rdma_poll(RDMAContext *rdma, uint64_t *wr_id_out,
+>   */
+>  static int qemu_rdma_wait_comp_channel(RDMAContext *rdma)
+>  {
+> -    struct rdma_cm_event *cm_event;
+> +    g_autoptr(rdma_cm_event) cm_event = NULL;
+>      int ret = -1;
+>  
+>      /*
+> @@ -2503,7 +2504,7 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
+>                                            .private_data = &cap,
+>                                            .private_data_len = sizeof(cap),
+>                                          };
+> -    struct rdma_cm_event *cm_event;
+> +    g_autoptr(rdma_cm_event) cm_event = NULL;
+>      int ret;
+>  
+>      /*
+> @@ -2544,7 +2545,6 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
+>      if (cm_event->event != RDMA_CM_EVENT_ESTABLISHED) {
+>          perror("rdma_get_cm_event != EVENT_ESTABLISHED after rdma_connect");
+>          ERROR(errp, "connecting to destination!");
+> -        rdma_ack_cm_event(cm_event);
+>          goto err_rdma_source_connect;
+>      }
+>      rdma->connected = true;
+> @@ -2564,8 +2564,6 @@ static int qemu_rdma_connect(RDMAContext *rdma, Error **errp, bool return_path)
+>  
+>      trace_qemu_rdma_connect_pin_all_outcome(rdma->pin_all);
+>  
+> -    rdma_ack_cm_event(cm_event);
+> -
+>      rdma->control_ready_expected = 1;
+>      rdma->nb_sent = 0;
+>      return 0;
+> @@ -3279,7 +3277,7 @@ static void rdma_cm_poll_handler(void *opaque)
+>  {
+>      RDMAContext *rdma = opaque;
+>      int ret;
+> -    struct rdma_cm_event *cm_event;
+> +    g_autoptr(rdma_cm_event) cm_event = NULL;
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+>  
+>      ret = rdma_get_cm_event(rdma->channel, &cm_event);
+> @@ -3287,7 +3285,6 @@ static void rdma_cm_poll_handler(void *opaque)
+>          error_report("get_cm_event failed %d", errno);
+>          return;
+>      }
+> -    rdma_ack_cm_event(cm_event);
+>  
+>      if (cm_event->event == RDMA_CM_EVENT_DISCONNECTED ||
+>          cm_event->event == RDMA_CM_EVENT_DEVICE_REMOVAL) {
+> @@ -3317,7 +3314,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>                                              .private_data_len = sizeof(cap),
+>                                           };
+>      RDMAContext *rdma_return_path = NULL;
+> -    struct rdma_cm_event *cm_event;
+> +    g_autoptr(rdma_cm_event) cm_event = NULL;
+>      struct ibv_context *verbs;
+>      int ret = -EINVAL;
+>      int idx;
+> @@ -3328,7 +3325,6 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>      }
+>  
+>      if (cm_event->event != RDMA_CM_EVENT_CONNECT_REQUEST) {
+> -        rdma_ack_cm_event(cm_event);
+>          goto err_rdma_dest_wait;
+>      }
+>  
+> @@ -3339,7 +3335,6 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>      if (migrate_postcopy() && !rdma->is_return_path) {
+>          rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
+>          if (rdma_return_path == NULL) {
+> -            rdma_ack_cm_event(cm_event);
+>              goto err_rdma_dest_wait;
+>          }
+>  
+> @@ -3353,7 +3348,6 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>      if (cap.version < 1 || cap.version > RDMA_CONTROL_VERSION_CURRENT) {
+>              error_report("Unknown source RDMA version: %d, bailing...",
+>                              cap.version);
+> -            rdma_ack_cm_event(cm_event);
+>              goto err_rdma_dest_wait;
+>      }
+>  
+> @@ -3374,6 +3368,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>      verbs = cm_event->id->verbs;
+>  
+>      rdma_ack_cm_event(cm_event);
+> +    cm_event = NULL;
+>  
+>      trace_qemu_rdma_accept_pin_state(rdma->pin_all);
+>  
+> @@ -3441,11 +3436,9 @@ static int qemu_rdma_accept(RDMAContext *rdma)
+>  
+>      if (cm_event->event != RDMA_CM_EVENT_ESTABLISHED) {
+>          error_report("rdma_accept not event established");
+> -        rdma_ack_cm_event(cm_event);
+>          goto err_rdma_dest_wait;
+>      }
+>  
+> -    rdma_ack_cm_event(cm_event);
+>      rdma->connected = true;
+>  
+>      ret = qemu_rdma_post_recv_control(rdma, RDMA_WRID_READY);
+> -- 
+> 2.26.3
 > 
-> Spurious hunk?
-> 
-
-wull drop
-
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
