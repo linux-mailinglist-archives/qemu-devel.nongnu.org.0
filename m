@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E1639A56E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:09:41 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B1D39A589
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:14:04 +0200 (CEST)
+Received: from localhost ([::1]:36018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lopue-00041F-8W
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35720)
+	id 1lopyt-0004in-Cl
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkm-0000U3-GS
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:28 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:43879)
+ id 1lopko-0000ae-4M
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:30 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkk-00072u-4u
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:28 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 3-20020a05600c0243b029019f2f9b2b8aso4003466wmj.2
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:25 -0700 (PDT)
+ id 1lopkl-00074V-RE
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:29 -0400
+Received: by mail-wr1-x430.google.com with SMTP id c5so6357059wrq.9
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DbowXcdu9vOd8m84UlV9CpOz43bP7gTR7Ye+RlDD208=;
- b=SDibF8LOnI9UJjin5yTnDpmJ2QSyIv/XvyADnyxxNxTBT4/SE8oOGlHWeYj3YRowpK
- 7+BLzIeHfCKAgSCk3WdZEUnA/aM9tOklWbMKAPD7jjH0vdQktJZ7H4OQxjiRT4MYgXaW
- jXxbNDYkcAcKVRpV4BkdJK+UM98JBvI0ao25T1U2eRQRU87gborHi/MRNZ/5S5u6E+iA
- CS21MSxC+38mT1wLveGCuEfnn/uzUuktUj41/bhbPeprHRvKlmqAw/1c5D+wx0Fmu4T5
- 42wbOK4MRTcyvbr8O6Js2CRnKWO2h5A0unBOtZqT2j4kqKjtRI3NwrX5InKil4Yn5tia
- tDPA==
+ bh=Aj1Km1MiMk9Lh1J6X4cFHMg3xXpJIdcMFaRVOA0WAbw=;
+ b=nKIKci65m4T9JoYhNsq8YXEu0O6ujBGlRFRtCqBkjKiu+t1YLiURe8A1QOtgnAeUeJ
+ GNuywaGSpOmtbarfLGiOgAAx9Se9XNhwk/g7TIxvVDtXFH+780ooja7bqNdmI7vzBEkv
+ YY8YDqiud+o70za2ONoPrQK1WtGkcxXH1l6LnZTwrfQr1fvAJCFVnYaQcMZf4L9ii9N7
+ 0tM0bTPnv/8/zvIPOEHOzxt+x9K3US5lObD5Ugzge1dWZgeE0wp+lO6ddtcTk7HiUprW
+ wd/aVZb6OBk9rmHZIPKiGp2tlo8xy/asrsltJyf5Ny7E6nQ5X+XZisxN/UOwHe+Nu4OO
+ 3sCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DbowXcdu9vOd8m84UlV9CpOz43bP7gTR7Ye+RlDD208=;
- b=fGCfwrZuYKe/txCWEnjyPgH5opKhVYzARgNSrb+365SFCdggSyuZoEx8K9FBGwrT7C
- b7bDBXkRYP4oAoyVdyz3fRNJy6E19uPAdqA0BQfbtuIuda738AW7k5J09VKIIveHqyFy
- IzxqjHKrg8Z0Xlkez7RT7IxCoQcGfQ/S8SRxMX9zKAXuxrGu98UVXcTvmYcKvv34diPS
- Pbi3700MkRpFu8W1s3oDTKdLlCpao+Hc9kiZ1cOR3xSboyZUstjxcBddY9K7oonjoG/V
- 00flVtHa4/rLclEi1JSfXBoBKGnpiCMGIEfy0FZI84AZSbKD3BtyLVh1AZXiNoJH2rgV
- fbcQ==
-X-Gm-Message-State: AOAM530iR00F4h4nmadhLgyoiE5bKjH7BeKC3u+POCRJqSNKlWaNMi8L
- ARDa4tfTSLIeCS4lAtaqPjwzzH7LFoYIvAK2
-X-Google-Smtp-Source: ABdhPJysjiLpeGmP27Fxw/Ee8GIOuTrDVHA8U+Uaf3fmkgZNEY7l0OeEgNu4qQ5dCMRO5ERWTv06JQ==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr29618146wmc.12.1622735964788; 
- Thu, 03 Jun 2021 08:59:24 -0700 (PDT)
+ bh=Aj1Km1MiMk9Lh1J6X4cFHMg3xXpJIdcMFaRVOA0WAbw=;
+ b=WSFSco8C12uKtLdNXDlJ5t2OSIlH+jx4dRAKJe9ccnrNx+DK5ZOTnl/Rnvdz3EfBOV
+ cLyawlQwfKbramxzsHri4wELoH6YAS0DU3DmzPtzmSBaE76eo6tNw/qyNt0Cf8iadvFh
+ zfu3zzzn+odpw2mieuoMiRmyvb4L1cqBGhoysA5ean/gmZx1wZPrqLM3xZUF0AvfoyLn
+ O0o/v6grZU626dgq3Ih2dkoefwOQ6VNS1lA+QVqr1SE9zfsoJ6cnWU/KTYtjOP/X7enh
+ snbbxT8YrbrPeGDwQG9xKIWRe6ojcmay5XoQBAOVJFhZw53xsNMwFlYumqIhOht75TUi
+ 7zmA==
+X-Gm-Message-State: AOAM533zIPBRzK98f3OGMtiJDNAvG84fitEV8HHunsD79RkaMhWMLrIb
+ iiIg0fdnrYcpNW/Qa3mT9SZqzlael/wKtD0h
+X-Google-Smtp-Source: ABdhPJyAqHSoAH0mVGthYRMmmuV+VafcEIwyjhoL386GaSx7pkK1UL9yKF3Qq+fU2/w2Fl0rjC+qRw==
+X-Received: by 2002:adf:f382:: with SMTP id m2mr654722wro.394.1622735966523;
+ Thu, 03 Jun 2021 08:59:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.23
+ by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:59:24 -0700 (PDT)
+ Thu, 03 Jun 2021 08:59:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/45] target/arm: Implement bfloat16 dot product (indexed)
-Date: Thu,  3 Jun 2021 16:58:41 +0100
-Message-Id: <20210603155904.26021-23-peter.maydell@linaro.org>
+Subject: [PULL 23/45] target/arm: Implement bfloat16 matrix multiply accumulate
+Date: Thu,  3 Jun 2021 16:58:42 +0100
+Message-Id: <20210603155904.26021-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,184 +88,186 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is BFDOT for both AArch64 AdvSIMD and SVE,
-and VDOT.BF16 for AArch32 NEON.
+This is BFMMLA for both AArch64 AdvSIMD and SVE,
+and VMMLA.BF16 for AArch32 NEON.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210525225817.400336-8-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525225817.400336-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.h           |  2 ++
+ target/arm/helper.h           |  3 +++
  target/arm/neon-shared.decode |  2 ++
- target/arm/sve.decode         |  3 +++
- target/arm/translate-a64.c    | 41 +++++++++++++++++++++++++++--------
+ target/arm/sve.decode         |  6 +++--
+ target/arm/translate-a64.c    | 10 +++++++++
  target/arm/translate-neon.c   |  9 ++++++++
  target/arm/translate-sve.c    | 12 ++++++++++
- target/arm/vec_helper.c       | 20 +++++++++++++++++
- 7 files changed, 80 insertions(+), 9 deletions(-)
+ target/arm/vec_helper.c       | 42 ++++++++++++++++++++++++++++++++++-
+ 7 files changed, 81 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index de2f5331dcc..376c1cef0f6 100644
+index 376c1cef0f6..af75d7f25f2 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -1004,6 +1004,8 @@ DEF_HELPER_FLAGS_5(gvec_usmmla_b, TCG_CALL_NO_RWG,
- 
- DEF_HELPER_FLAGS_5(gvec_bfdot, TCG_CALL_NO_RWG,
+@@ -1007,6 +1007,9 @@ DEF_HELPER_FLAGS_5(gvec_bfdot, TCG_CALL_NO_RWG,
+ DEF_HELPER_FLAGS_5(gvec_bfdot_idx, TCG_CALL_NO_RWG,
                     void, ptr, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_5(gvec_bfdot_idx, TCG_CALL_NO_RWG,
-+                   void, ptr, ptr, ptr, ptr, i32)
  
++DEF_HELPER_FLAGS_5(gvec_bfmmla, TCG_CALL_NO_RWG,
++                   void, ptr, ptr, ptr, ptr, i32)
++
  #ifdef TARGET_AARCH64
  #include "helper-a64.h"
+ #include "helper-sve.h"
 diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
-index 31a0839bbb0..fa3cf14e3a6 100644
+index fa3cf14e3a6..4e0a25d27c1 100644
 --- a/target/arm/neon-shared.decode
 +++ b/target/arm/neon-shared.decode
-@@ -81,6 +81,8 @@ VUSDOT_scalar  1111 1110 1 . 00 .... .... 1101 . q:1 index:1 0 vm:4 \
-                vn=%vn_dp vd=%vd_dp
- VSUDOT_scalar  1111 1110 1 . 00 .... .... 1101 . q:1 index:1 1 vm:4 \
-                vn=%vn_dp vd=%vd_dp
-+VDOT_b16_scal  1111 1110 0 . 00 .... .... 1101 . q:1 index:1 0 vm:4 \
-+               vn=%vn_dp vd=%vd_dp
+@@ -67,6 +67,8 @@ VUMMLA         1111 1100 0.10 .... .... 1100 .1.1 .... \
+                vm=%vm_dp vn=%vn_dp vd=%vd_dp
+ VUSMMLA        1111 1100 1.10 .... .... 1100 .1.0 .... \
+                vm=%vm_dp vn=%vn_dp vd=%vd_dp
++VMMLA_b16      1111 1100 0.00 .... .... 1100 .1.0 .... \
++               vm=%vm_dp vn=%vn_dp vd=%vd_dp
  
- %vfml_scalar_q0_rm 0:3 5:1
- %vfml_scalar_q1_index 5:1 3:1
+ VCMLA_scalar   1111 1110 0 . rot:2 .... .... 1000 . q:1 index:1 0 vm:4 \
+                vn=%vn_dp vd=%vd_dp size=1
 diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index a7429b293fe..51f87e8937e 100644
+index 51f87e8937e..6c17898deed 100644
 --- a/target/arm/sve.decode
 +++ b/target/arm/sve.decode
-@@ -1633,3 +1633,6 @@ FMLALB_zzxw     01100100 10 1 ..... 0100.0 ..... .....     @rrxr_3a esz=2
- FMLALT_zzxw     01100100 10 1 ..... 0100.1 ..... .....     @rrxr_3a esz=2
- FMLSLB_zzxw     01100100 10 1 ..... 0110.0 ..... .....     @rrxr_3a esz=2
- FMLSLT_zzxw     01100100 10 1 ..... 0110.1 ..... .....     @rrxr_3a esz=2
-+
-+### SVE2 floating-point bfloat16 dot-product (indexed)
-+BFDOT_zzxz      01100100 01 1 ..... 010000 ..... .....     @rrxr_2 esz=2
+@@ -1568,8 +1568,10 @@ SQRDCMLAH_zzzz  01000100 esz:2 0 rm:5 0011 rot:2 rn:5 rd:5  ra=%reg_movprfx
+ USDOT_zzzz      01000100 .. 0 ..... 011 110 ..... .....  @rda_rn_rm
+ 
+ ### SVE2 floating point matrix multiply accumulate
+-
+-FMMLA           01100100 .. 1 ..... 111001 ..... .....  @rda_rn_rm
++{
++  BFMMLA        01100100 01 1 ..... 111 001 ..... .....  @rda_rn_rm_e0
++  FMMLA         01100100 .. 1 ..... 111 001 ..... .....  @rda_rn_rm
++}
+ 
+ ### SVE2 Memory Gather Load Group
+ 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 3c36de3df20..71de75e568b 100644
+index 71de75e568b..9ce2f5a7d43 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -13449,8 +13449,22 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
-             return;
+@@ -12235,6 +12235,13 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
          }
+         feature = dc_isar_feature(aa64_fcma, s);
          break;
--    case 0x0f: /* SUDOT, USDOT */
--        if (is_scalar || (size & 1) || !dc_isar_feature(aa64_i8mm, s)) {
-+    case 0x0f:
-+        switch (size) {
-+        case 0: /* SUDOT */
-+        case 2: /* USDOT */
-+            if (is_scalar || !dc_isar_feature(aa64_i8mm, s)) {
-+                unallocated_encoding(s);
-+                return;
-+            }
-+            break;
-+        case 1: /* BFDOT */
-+            if (is_scalar || !dc_isar_feature(aa64_bf16, s)) {
-+                unallocated_encoding(s);
-+                return;
-+            }
-+            break;
-+        default:
-             unallocated_encoding(s);
-             return;
-         }
-@@ -13570,13 +13584,22 @@ static void disas_simd_indexed(DisasContext *s, uint32_t insn)
-                          u ? gen_helper_gvec_udot_idx_b
-                          : gen_helper_gvec_sdot_idx_b);
-         return;
--    case 0x0f: /* SUDOT, USDOT */
--        gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
--                         extract32(insn, 23, 1)
--                         ? gen_helper_gvec_usdot_idx_b
--                         : gen_helper_gvec_sudot_idx_b);
--        return;
--
-+    case 0x0f:
-+        switch (extract32(insn, 22, 2)) {
-+        case 0: /* SUDOT */
-+            gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
-+                             gen_helper_gvec_sudot_idx_b);
-+            return;
-+        case 1: /* BFDOT */
-+            gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
-+                             gen_helper_gvec_bfdot_idx);
-+            return;
-+        case 2: /* USDOT */
-+            gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, index,
-+                             gen_helper_gvec_usdot_idx_b);
++    case 0x1d: /* BFMMLA */
++        if (size != MO_16 || !is_q) {
++            unallocated_encoding(s);
 +            return;
 +        }
-+        g_assert_not_reached();
-     case 0x11: /* FCMLA #0 */
-     case 0x13: /* FCMLA #90 */
-     case 0x15: /* FCMLA #180 */
++        feature = dc_isar_feature(aa64_bf16, s);
++        break;
+     case 0x1f: /* BFDOT */
+         switch (size) {
+         case 1:
+@@ -12328,6 +12335,9 @@ static void disas_simd_three_reg_same_extra(DisasContext *s, uint32_t insn)
+         }
+         return;
+ 
++    case 0xd: /* BFMMLA */
++        gen_gvec_op4_ool(s, is_q, rd, rn, rm, rd, 0, gen_helper_gvec_bfmmla);
++        return;
+     case 0xf: /* BFDOT */
+         switch (size) {
+         case 1:
 diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index 9460857b2ad..8099767792b 100644
+index 8099767792b..9d227a1e13d 100644
 --- a/target/arm/translate-neon.c
 +++ b/target/arm/translate-neon.c
-@@ -390,6 +390,15 @@ static bool trans_VSUDOT_scalar(DisasContext *s, arg_VSUDOT_scalar *a)
-                         gen_helper_gvec_sudot_idx_b);
+@@ -4126,3 +4126,12 @@ static bool trans_VUSMMLA(DisasContext *s, arg_VUSMMLA *a)
+     return do_neon_ddda(s, 7, a->vd, a->vn, a->vm, 0,
+                         gen_helper_gvec_usmmla_b);
  }
- 
-+static bool trans_VDOT_b16_scal(DisasContext *s, arg_VDOT_b16_scal *a)
++
++static bool trans_VMMLA_b16(DisasContext *s, arg_VMMLA_b16 *a)
 +{
 +    if (!dc_isar_feature(aa32_bf16, s)) {
 +        return false;
 +    }
-+    return do_neon_ddda(s, a->q * 6, a->vd, a->vn, a->vm, a->index,
-+                        gen_helper_gvec_bfdot_idx);
++    return do_neon_ddda(s, 7, a->vd, a->vn, a->vm, 0,
++                        gen_helper_gvec_bfmmla);
 +}
-+
- static bool trans_VFML_scalar(DisasContext *s, arg_VFML_scalar *a)
- {
-     int opr_sz;
 diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index ed290827ad2..6f020306357 100644
+index 6f020306357..4f575dc3343 100644
 --- a/target/arm/translate-sve.c
 +++ b/target/arm/translate-sve.c
-@@ -8665,3 +8665,15 @@ static bool trans_BFDOT_zzzz(DisasContext *s, arg_rrrr_esz *a)
+@@ -8677,3 +8677,15 @@ static bool trans_BFDOT_zzxz(DisasContext *s, arg_rrxr_esz *a)
      }
      return true;
  }
 +
-+static bool trans_BFDOT_zzxz(DisasContext *s, arg_rrxr_esz *a)
++static bool trans_BFMMLA(DisasContext *s, arg_rrrr_esz *a)
 +{
 +    if (!dc_isar_feature(aa64_sve_bf16, s)) {
 +        return false;
 +    }
 +    if (sve_access_check(s)) {
-+        gen_gvec_ool_zzzz(s, gen_helper_gvec_bfdot_idx,
-+                          a->rd, a->rn, a->rm, a->ra, a->index);
++        gen_gvec_ool_zzzz(s, gen_helper_gvec_bfmmla,
++                          a->rd, a->rn, a->rm, a->ra, 0);
 +    }
 +    return true;
 +}
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 7eefcd06eae..74a497f38ca 100644
+index 74a497f38ca..27e9bdd3299 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -2452,3 +2452,23 @@ void HELPER(gvec_bfdot)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
+@@ -2385,7 +2385,7 @@ static void do_mmla_b(void *vd, void *vn, void *vm, void *va, uint32_t desc,
+          * Process the entire segment at once, writing back the
+          * results only after we've consumed all of the inputs.
+          *
+-         * Key to indicies by column:
++         * Key to indices by column:
+          *          i   j                  i             j
+          */
+         sum0 = a[H4(0 + 0)];
+@@ -2472,3 +2472,43 @@ void HELPER(gvec_bfdot_idx)(void *vd, void *vn, void *vm,
      }
      clear_tail(d, opr_sz, simd_maxsz(desc));
  }
 +
-+void HELPER(gvec_bfdot_idx)(void *vd, void *vn, void *vm,
-+                            void *va, uint32_t desc)
++void HELPER(gvec_bfmmla)(void *vd, void *vn, void *vm, void *va, uint32_t desc)
 +{
-+    intptr_t i, j, opr_sz = simd_oprsz(desc);
-+    intptr_t index = simd_data(desc);
-+    intptr_t elements = opr_sz / 4;
-+    intptr_t eltspersegment = MIN(16 / 4, elements);
++    intptr_t s, opr_sz = simd_oprsz(desc);
 +    float32 *d = vd, *a = va;
 +    uint32_t *n = vn, *m = vm;
 +
-+    for (i = 0; i < elements; i += eltspersegment) {
-+        uint32_t m_idx = m[i + H4(index)];
++    for (s = 0; s < opr_sz / 4; s += 4) {
++        float32 sum00, sum01, sum10, sum11;
 +
-+        for (j = i; j < i + eltspersegment; j++) {
-+            d[j] = bfdotadd(a[j], n[j], m_idx);
-+        }
++        /*
++         * Process the entire segment at once, writing back the
++         * results only after we've consumed all of the inputs.
++         *
++         * Key to indicies by column:
++         *               i   j           i   k             j   k
++         */
++        sum00 = a[s + H4(0 + 0)];
++        sum00 = bfdotadd(sum00, n[s + H4(0 + 0)], m[s + H4(0 + 0)]);
++        sum00 = bfdotadd(sum00, n[s + H4(0 + 1)], m[s + H4(0 + 1)]);
++
++        sum01 = a[s + H4(0 + 1)];
++        sum01 = bfdotadd(sum01, n[s + H4(0 + 0)], m[s + H4(2 + 0)]);
++        sum01 = bfdotadd(sum01, n[s + H4(0 + 1)], m[s + H4(2 + 1)]);
++
++        sum10 = a[s + H4(2 + 0)];
++        sum10 = bfdotadd(sum10, n[s + H4(2 + 0)], m[s + H4(0 + 0)]);
++        sum10 = bfdotadd(sum10, n[s + H4(2 + 1)], m[s + H4(0 + 1)]);
++
++        sum11 = a[s + H4(2 + 1)];
++        sum11 = bfdotadd(sum11, n[s + H4(2 + 0)], m[s + H4(2 + 0)]);
++        sum11 = bfdotadd(sum11, n[s + H4(2 + 1)], m[s + H4(2 + 1)]);
++
++        d[s + H4(0 + 0)] = sum00;
++        d[s + H4(0 + 1)] = sum01;
++        d[s + H4(2 + 0)] = sum10;
++        d[s + H4(2 + 1)] = sum11;
 +    }
 +    clear_tail(d, opr_sz, simd_maxsz(desc));
 +}
