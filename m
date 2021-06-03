@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B1E39A5A4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:21:26 +0200 (CEST)
-Received: from localhost ([::1]:57960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A7539A54F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:07:30 +0200 (CEST)
+Received: from localhost ([::1]:44154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loq61-00055I-71
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1lopsX-00071F-8H
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:07:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkf-0008OB-CB
+ id 1lopkf-0008Pp-Ok
  for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:21 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40571)
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkd-0006ua-1o
+ id 1lopkd-0006v3-Bz
  for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:21 -0400
-Received: by mail-wr1-x431.google.com with SMTP id y7so1751532wrh.7
+Received: by mail-wr1-x42e.google.com with SMTP id c5so6356602wrq.9
  for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ipQH9FuAs2789OheroE8XiY1nFKS7axl26Lt0pkbQjg=;
- b=N2yHLRfEC7B5dRQAt6YxfyZsYlhXhwhCE/FKk4yBSGzhHno5HO1KkIQRS3SXi3iMHA
- pQzq6hj9EQr4acjjzvXRDNmozlv5RxdAN4DcGlvR/YQduOsR9a1uad5VJHQii2M/ggtA
- kt0KgFLhV42534ZPYBIvBtlEhaDnaI/13HGC0sfHqCbvPCrDH5WeFlVxYz8SdlpjKhFy
- aNghuST+gbWKw7+2tSe3Kzoqf1g1clfCiUXnZM+TuMYQV+PlC9fAhVke4VsB3ySRe5ru
- trqIWTXFRNAGhdSR956f82YWAdD5rQNKVY5ney+iW/ecaJTkVdJEZF1W2Cn/vhMBNJ1+
- kEeA==
+ bh=/gg8JIdwvW0DYrrjVDsWjQEmdjygTIDM1ioXoiWVJ3A=;
+ b=cLAxiIvbc2YBk81gNKQb3tXBjIZ8X7Ktv7lDlUYIIRm/lPnjoC7QITyOQPtQFASA49
+ EhK0+wkE1ojiTw+2Mg/UywTl/t/PUvb5noyTMqGtO0P9Rq00kCcNlN1jHzNV2BZWrbwo
+ 3MPDIar+EkjHbTri96hyCWXLHiUdjCGDQ6VoJQQRtRMwIE9bNQOiWAvhW37hAU4a79HZ
+ C9HLP3Ti4SXTKvJLugy9DbrDl07hETPhDI2RdjrID99GTvnxVT+hL95NyVSIlaLUThTJ
+ IzN68WJBrQ70ulA3jTHOdLZDgzj3aJkI2QG32du+GL1mpAbihQMEn81pRfE4M/PG88TF
+ HR0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ipQH9FuAs2789OheroE8XiY1nFKS7axl26Lt0pkbQjg=;
- b=Gcska2nlo+Llu1RFXMCxg0apEQix/SrHdTktr1ev47YL2KzkJsqvGHMZ6BCYcDET4F
- T4D7j1wbis96bbr4r7Z29spYloUV8pw+B62rxUEgpwjebDy6TaV6uSW+me5Xs3I2SmK5
- 0VYUKl1XcCafQ9I64Rwylh9egC/rrIobgst/pRZ3tF5vBZTlhzYkeNnu5KvOB88U16kA
- GKoI9sOKf1W4WGZMidZa2tu3VskxcU3uX6VZpc4RXNJIqgOermqVVCWJS6r57nGSeJ+J
- yJ7w7J9I4+mZa1cWFCFfIVYFDFG/X5z4VWdXgmxry/jVURcIb0IDaq4dNHxAw6g43GHe
- e/fQ==
-X-Gm-Message-State: AOAM531xA5DLufjwyUP/s8HDPbvH8uV8dVPAIWipgWX4nIS4mponElcR
- ka2WFoOduKhvvBosLHymxGeYshk6zQ0DiP6u
-X-Google-Smtp-Source: ABdhPJxNjACtSVf2xKz7HRb+O//F95a8lWQhgsh1E3Fu/QUAiaOAjmcU2SGyXvc7s0yCE75RFqHbRw==
-X-Received: by 2002:adf:e54f:: with SMTP id z15mr637101wrm.141.1622735957379; 
- Thu, 03 Jun 2021 08:59:17 -0700 (PDT)
+ bh=/gg8JIdwvW0DYrrjVDsWjQEmdjygTIDM1ioXoiWVJ3A=;
+ b=eb8VUx0RRcihVmfEOr8lstUdi/0ZwjvTPpA/8YpDbwjh1qFhVF64HQ5G6hR9r9wfgJ
+ 6ysHsC60WYDavbaknLHZZ4xI7aNv6Zwc0GnvF7TOp+CGt4EdAekZh9LMgEksWy97ogY4
+ 5CX6eCM75GDygS0u9Od3zvKhUtMj0l7xzvcAysZ+uDXkSQHwnBB6UN/d+mXRP8hX9r8u
+ z+gbjZ8ITpELAGyetViqB3Fq4C3Vfmd3ecfYqIcUVvfw7TxchYUL7rizv4+9kuZpBtaT
+ eFyp0YJQtIw6kUiEzXxDn+6Qd9r7vDqbgn4VqXQpEkYztnb7aW23TB8El5w+NTuTIiWh
+ Ae4g==
+X-Gm-Message-State: AOAM531ZGw5oHPNAP0Gs0sZDnkczlo8J/Z0OeQu8l9jkfzDDaA3ESPu1
+ v9f9sgWgY7Cd4MRMH0avv3zstS9sKXsxoAIZ
+X-Google-Smtp-Source: ABdhPJzPFQkT/XzKiF95U4LYPNhN40p9xJcnsJ1O1/EtSlHu5O8ZlQLLJcM5DC4h8gmlZzsNF8haHA==
+X-Received: by 2002:adf:f346:: with SMTP id e6mr622841wrp.179.1622735958013;
+ Thu, 03 Jun 2021 08:59:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.16
+ by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 03 Jun 2021 08:59:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/45] target/arm: use raise_exception_ra for stack limit
- exception
-Date: Thu,  3 Jun 2021 16:58:34 +0100
-Message-Id: <20210603155904.26021-16-peter.maydell@linaro.org>
+Subject: [PULL 16/45] target/arm: Add isar_feature_{aa32, aa64, aa64_sve}_bf16
+Date: Thu,  3 Jun 2021 16:58:35 +0100
+Message-Id: <20210603155904.26021-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,63 +86,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jamie Iles <jamie@nuviainc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The sequence cpu_restore_state() + raise_exception() is equivalent to
-raise_exception_ra(), so use that instead.  (In this case we never
-cared about the syndrome value, because M-profile doesn't use the
-syndrome; the old code was just written unnecessarily awkwardly.)
+Note that the SVE BFLOAT16 support does not require SVE2,
+it is an independent extension.
 
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Jamie Iles <jamie@nuviainc.com>
-[PMM: Retain edited version of comment; rewrite commit message]
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210525225817.400336-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c  | 5 +----
- target/arm/op_helper.c | 9 +++------
- 2 files changed, 4 insertions(+), 10 deletions(-)
+ target/arm/cpu.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index eda74e55450..074c5434550 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2601,10 +2601,7 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-             limit = is_psp ? env->v7m.psplim[false] : env->v7m.msplim[false];
- 
-             if (val < limit) {
--                CPUState *cs = env_cpu(env);
--
--                cpu_restore_state(cs, GETPC(), true);
--                raise_exception(env, EXCP_STKOF, 0, 1);
-+                raise_exception_ra(env, EXCP_STKOF, 0, 1, GETPC());
-             }
- 
-             if (is_psp) {
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 4132f5e430f..e98fd863057 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -95,15 +95,12 @@ void HELPER(v8m_stackcheck)(CPUARMState *env, uint32_t newvalue)
-      * raising an exception if the limit is breached.
-      */
-     if (newvalue < v7m_sp_limit(env)) {
--        CPUState *cs = env_cpu(env);
--
-         /*
-          * Stack limit exceptions are a rare case, so rather than syncing
--         * PC/condbits before the call, we use cpu_restore_state() to
--         * get them right before raising the exception.
-+         * PC/condbits before the call, we use raise_exception_ra() so
-+         * that cpu_restore_state() will sort them out.
-          */
--        cpu_restore_state(cs, GETPC(), true);
--        raise_exception(env, EXCP_STKOF, 0, 1);
-+        raise_exception_ra(env, EXCP_STKOF, 0, 1, GETPC());
-     }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 5f234834c0d..be9a4dceae1 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3792,6 +3792,11 @@ static inline bool isar_feature_aa32_predinv(const ARMISARegisters *id)
+     return FIELD_EX32(id->id_isar6, ID_ISAR6, SPECRES) != 0;
  }
  
++static inline bool isar_feature_aa32_bf16(const ARMISARegisters *id)
++{
++    return FIELD_EX32(id->id_isar6, ID_ISAR6, BF16) != 0;
++}
++
+ static inline bool isar_feature_aa32_i8mm(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->id_isar6, ID_ISAR6, I8MM) != 0;
+@@ -4153,6 +4158,11 @@ static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >= 2;
+ }
+ 
++static inline bool isar_feature_aa64_bf16(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, BF16) != 0;
++}
++
+ static inline bool isar_feature_aa64_fp_simd(const ARMISARegisters *id)
+ {
+     /* We always set the AdvSIMD and FP fields identically.  */
+@@ -4297,6 +4307,11 @@ static inline bool isar_feature_aa64_sve2_bitperm(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BITPERM) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_sve_bf16(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BFLOAT16) != 0;
++}
++
+ static inline bool isar_feature_aa64_sve2_sha3(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SHA3) != 0;
 -- 
 2.20.1
 
