@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45B83998C5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:57:37 +0200 (CEST)
-Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FCC3998BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:55:44 +0200 (CEST)
+Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loeUC-0007Z5-Pw
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53182)
+	id 1loeSN-00031D-RF
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQV-00009h-QV
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:47 -0400
-Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49334)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQW-0000DX-PQ
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:48 -0400
+Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQT-0004cF-KS
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:47 -0400
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQV-0004cu-0Q
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1622692424; bh=7sctv2SUHw3h8CDnfDZqs/enyZL8iCa0g+y8p5P8n4k=;
+ t=1622692426; bh=/n4salk8eA40cBPApIq39FMgOsuRQeGTuhkECctA9h8=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=yJk2SRHmQwn4QkFVo2zF9NxnCDITsozzT2NbA+1Vxet0ZZjwBtZVOJs4hu2bD4mLh
- 4KYCNLk6C9TNGRUqYKhniYDWArp/idhpPhHpb6/iUlptGWuxvTYxteFmgjQOYf+9z4
- rmqAYJTtYHx4Qxn7fvVKG3VBM6gZZPITY5kzC2F6F8VqNdRSr6F8gEVBSKQNraYjD6
- n82GHiQD0VZhia8wwaAjnVSW/gqW2QgN/zwNRqxOpSnwUHIdUauQNYwV27UsO5873y
- wufKxob2BcLR5LizSsrWq0rI3FrGizYdgiJtOCX+I5L6UZjXgejDIWcsa3GDvLOjr8
- aFmO7uupdc64g==
+ b=pC2CKGugJ2xtWPJDr+fLtxirls/Cz6y/uHD9ZYays7aaN3XfFCyRbkWgWSZ2O0KQy
+ duUWGCXBAE8WVuMN8n15zY+vPKt2DV/7OmBZc2XLM+se/SMdJv1xH/czWjOQiNT910
+ BTlAIlMxTPkvz4mDufqJxoW7Zwh7LRb9xo1IDtPaKdZyVFM+/vD9nS562eQl5ymrBi
+ IuK3xN8Ng+3dtK1xqzbjjcCeXmIEUNhBHsdM2f6asEbPWpGQKHMXgtTN5gccTEp+Bn
+ nPmpIkUix6s15H/nZc/Tkq7vixrfJzw6S8H8b7mt7gGr9dsZhTLfL9yXs84mzgAdKD
+ G0cxaO2vtwkqQ==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 1A1FA4A0368;
- Thu,  3 Jun 2021 03:53:44 +0000 (UTC)
+ by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 919624A0327;
+ Thu,  3 Jun 2021 03:53:45 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>
-Subject: [PATCH 7/8] Provide a Console Terminal Block in the HWRPB.
-Date: Wed,  2 Jun 2021 20:53:16 -0700
-Message-Id: <20210603035317.6814-8-thorpej@me.com>
+Subject: [PATCH 8/8] Fixes for seconday CPU start-up.
+Date: Wed,  2 Jun 2021 20:53:17 -0700
+Message-Id: <20210603035317.6814-9-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
 References: <20210603035317.6814-1-thorpej@me.com>
@@ -47,7 +47,7 @@ X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c
  =?UTF-8?Q?=5F01_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
  bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=786
  mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2106030024
 Received-SPF: pass client-ip=17.58.23.185; envelope-from=thorpej@me.com;
@@ -74,209 +74,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide a Console Terminal Block in the HWRPB so that operating systems
-that depend on it can correctly initialize the console device.  In addition
-to defining and filling out the structures, there are a couple of other
-key changes:
+Changes to make secondary CPU start-up work on NetBSD, which depends
+on some specific behavior in the architecture specification:
 
-- Redefine the a2 register passed by Qemu at start-up to also include
-  some configuration flags, in addition to the CPU count, and define
-  a flag to mirror the "-nographics" option.
+- Change the internal swppal() function to take the new VPTPTR and
+  Procedure Value as explicit arguments.  Adapt do_start() to the
+  new the new swppal() signature.
 
-- We need to initialize the HWRPB *after* initializing VGA, so that
-  we'll know if a VGA device is present and in which slot for filling
-  out the CTB.
+- In do_start_wait(), extract the new VPTPTR and PV from the relevant
+  HWRPB fields, which will have been initialized by the OS, and pass
+  them to swppal().
+
+- In the SWPPAL PAL call, get the value to stuff into PV (r27) from
+  a4 (r20), and add a comment describing why this implementation detail
+  is allowed by the architecture specification.
 
 Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- hwrpb.h  | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- init.c   | 32 +++++++++++++++++++++++++++++---
- protos.h |  2 ++
- vgaio.c  |  2 ++
- 4 files changed, 87 insertions(+), 3 deletions(-)
+ init.c | 25 ++++++++++++++++---------
+ pal.S  | 13 ++++++++++---
+ 2 files changed, 26 insertions(+), 12 deletions(-)
 
-diff --git a/hwrpb.h b/hwrpb.h
-index 2166bad..1531e68 100644
---- a/hwrpb.h
-+++ b/hwrpb.h
-@@ -146,6 +146,60 @@ struct crb_struct {
- 	struct vf_map_struct map[1];
- };
- 
-+struct ctb_struct {
-+	unsigned long type;
-+	unsigned long unit;
-+	unsigned long res0;
-+	unsigned long len;
-+	unsigned long ipl;
-+	unsigned long tintr_vec;
-+	unsigned long rintr_vec;
-+	unsigned long term_type;
-+	unsigned long keybd_type;
-+	unsigned long keybd_trans;
-+	unsigned long keybd_map;
-+	unsigned long keybd_state;
-+	unsigned long keybd_last;
-+	unsigned long font_us;
-+	unsigned long font_mcs;
-+	unsigned long font_width;
-+	unsigned long font_height;
-+	unsigned long mon_width;
-+	unsigned long mon_height;
-+	unsigned long dpi;
-+	unsigned long planes;
-+	unsigned long cur_width;
-+	unsigned long cur_height;
-+	unsigned long head_cnt;
-+	unsigned long opwindow;
-+	unsigned long head_offset;
-+	unsigned long putchar;
-+	unsigned long io_state;
-+	unsigned long listen_state;
-+	unsigned long xaddr;
-+	unsigned long turboslot;
-+	unsigned long server_off;
-+	unsigned long line_off;
-+	unsigned char csd;
-+};
-+
-+#define CTB_NONE	0x00
-+#define CTB_PRINTERPORT	0x02
-+#define CTB_GRAPHICS	0x03
-+#define CTB_TYPE4	0x04
-+
-+/*
-+ * Format of the Console Terminal Block Type 4 `turboslot' field:
-+ *
-+ *  63                   40 39       32 31     24 23      16 15   8 7    0
-+ *  |      reserved        |  channel  |  hose   | bus type |  bus | slot |
-+ */
-+
-+#define CTB_TURBOSLOT_TYPE_TC           0       /* TURBOchannel */
-+#define CTB_TURBOSLOT_TYPE_ISA          1       /* ISA */
-+#define CTB_TURBOSLOT_TYPE_EISA         2       /* EISA */
-+#define CTB_TURBOSLOT_TYPE_PCI          3       /* PCI */
-+
- struct memclust_struct {
- 	unsigned long start_pfn;
- 	unsigned long numpages;
 diff --git a/init.c b/init.c
-index b3919b6..aee5cef 100644
+index aee5cef..bfe4d96 100644
 --- a/init.c
 +++ b/init.c
-@@ -36,11 +36,20 @@
- 
- #define HZ	1024
- 
-+/* Upon entry, register a2 contains configuration information from the VM:
-+
-+   bits 0-5 -- ncpus
-+   bit  6   -- "nographics" option (used to initialize CTB)  */
-+
-+#define CONFIG_NCPUS(x)      ((x) & 63)
-+#define CONFIG_NOGRAPHICS(x) ((x) & (1ull << 6))
-+
- struct hwrpb_combine {
-   struct hwrpb_struct hwrpb;
-   struct percpu_struct processor[4];
-   struct memdesc_struct md;
-   struct memclust_struct mc[2];
-+  struct ctb_struct ctb;
-   struct crb_struct crb;
-   struct procdesc_struct proc_dispatch;
-   struct procdesc_struct proc_fixup;
-@@ -59,6 +68,8 @@ struct hwrpb_combine hwrpb __attribute__((aligned(PAGE_SIZE)));
- 
- void *last_alloc;
- bool have_vga;
-+unsigned int pci_vga_bus;
-+unsigned int pci_vga_dev;
- 
- static void *
- alloc (unsigned long size, unsigned long align)
-@@ -136,12 +147,13 @@ init_page_table(void)
+@@ -313,14 +313,16 @@ init_i8259 (void)
  }
  
- static void
--init_hwrpb (unsigned long memsize, unsigned long cpus)
-+init_hwrpb (unsigned long memsize, unsigned long config)
+ static void __attribute__((noreturn))
+-swppal(void *entry, void *pcb)
++swppal(void *entry, void *pcb, unsigned long vptptr, unsigned long pv)
  {
-   unsigned long pal_pages;
-   unsigned long amask;
-   unsigned long i;
-   unsigned long proc_type = EV4_CPU;
-+  unsigned long cpus = CONFIG_NCPUS(config);
-   
-   hwrpb.hwrpb.phys_addr = PA(&hwrpb);
+   register int variant __asm__("$16") = 2;	/* OSF/1 PALcode */
+   register void *pc __asm__("$17") = entry;
+   register unsigned long pa_pcb __asm__("$18") = PA(pcb);
+-  register unsigned long vptptr __asm__("$19") = VPTPTR;
++  register unsigned long newvptptr __asm__("$19") = vptptr;
++  register unsigned long newpv __asm__("$20") = pv;
  
-@@ -226,6 +238,19 @@ init_hwrpb (unsigned long memsize, unsigned long cpus)
-   hwrpb.mc[1].start_pfn = pal_pages;
-   hwrpb.mc[1].numpages = (memsize >> PAGE_SHIFT) - pal_pages;
+-  asm("call_pal 0x0a" : : "r"(variant), "r"(pc), "r"(pa_pcb), "r"(vptptr));
++  asm("call_pal 0x0a" : :
++      "r"(variant), "r"(pc), "r"(pa_pcb), "r"(newvptptr), "r"(newpv));
+   __builtin_unreachable ();
+ }
  
-+  hwrpb.hwrpb.ctbt_offset = offsetof(struct hwrpb_combine, ctb);
-+  hwrpb.hwrpb.ctb_size = sizeof(hwrpb.ctb);
-+  if (have_vga && !CONFIG_NOGRAPHICS(config))
-+    {
-+      hwrpb.ctb.term_type = CTB_GRAPHICS;
-+      hwrpb.ctb.turboslot = (CTB_TURBOSLOT_TYPE_PCI << 16) |
-+			    (pci_vga_bus << 8) | pci_vga_dev;
-+    }
-+  else
-+    {
-+      hwrpb.ctb.term_type = CTB_PRINTERPORT;
-+    }
+@@ -339,7 +341,9 @@ do_start(unsigned long memsize, void (*kernel_entry)(void),
+   vgahw_init();
+   init_hwrpb(memsize, config);
+ 
+-  swppal(kernel_entry ? kernel_entry : do_console, &pcb);
++  void *new_pc = kernel_entry ? kernel_entry : do_console;
 +
-   hwrpb.hwrpb.crb_offset = offsetof(struct hwrpb_combine, crb);
-   hwrpb.crb.dispatch_va = &hwrpb.proc_dispatch;
-   hwrpb.crb.dispatch_pa = PA(&hwrpb.proc_dispatch);
-@@ -300,18 +325,19 @@ swppal(void *entry, void *pcb)
++  swppal(new_pc, &pcb, VPTPTR, (unsigned long)new_pc);
  }
  
  void
--do_start(unsigned long memsize, void (*kernel_entry)(void), unsigned long cpus)
-+do_start(unsigned long memsize, void (*kernel_entry)(void),
-+         unsigned long config)
- {
-   last_alloc = _end;
+@@ -354,14 +358,16 @@ do_start_wait(unsigned long cpuid)
+ 	{
+ 	  /* ??? The only message I know of is "START\r\n".
+ 	     I can't be bothered to verify more than 4 characters.  */
+-	  /* ??? The Linux kernel fills in, but does not require,
+-	     CPU_restart_data.  It just sets that to the same address
+-	     as CPU_restart itself.  Our swppal *does* put the PC into
+-	     $26 and $27, the latter of which the kernel does rely upon.  */
++
++	  /* Use use a private extension to SWPPAL to get the
++	     CPU_restart_data into $27.  Linux fills it in, but does
++	     not require it. Other operating systems, however, do use
++	     CPU_restart_data as part of secondary CPU start-up.  */
  
-   init_page_table();
--  init_hwrpb(memsize, cpus);
-   init_pcb();
-   init_i8259();
-   uart_init();
-   ps2port_setup();
-   pci_setup();
-   vgahw_init();
-+  init_hwrpb(memsize, config);
+ 	  unsigned int len = hwrpb.processor[cpuid].ipc_buffer[0];
+ 	  unsigned int msg = hwrpb.processor[cpuid].ipc_buffer[1];
+ 	  void *CPU_restart = hwrpb.hwrpb.CPU_restart;
++	  unsigned long CPU_restart_data = hwrpb.hwrpb.CPU_restart_data;
+ 	  __sync_synchronize();
+ 	  hwrpb.hwrpb.rxrdy = 0;
  
-   swppal(kernel_entry ? kernel_entry : do_console, &pcb);
- }
-diff --git a/protos.h b/protos.h
-index 0d90be8..44ad233 100644
---- a/protos.h
-+++ b/protos.h
-@@ -222,6 +222,8 @@ extern unsigned long crb_fixup(unsigned long vptptr, unsigned long hwrpb);
+@@ -369,7 +375,8 @@ do_start_wait(unsigned long cpuid)
+ 	    {
+ 	      /* Set bootstrap in progress */
+ 	      hwrpb.processor[cpuid].flags |= 1;
+-	      swppal(CPU_restart, hwrpb.processor[cpuid].hwpcb);
++	      swppal(CPU_restart, hwrpb.processor[cpuid].hwpcb,
++		     hwrpb.hwrpb.vptb, CPU_restart_data);
+ 	    }
+ 	}
+     }
+diff --git a/pal.S b/pal.S
+index 015a829..7e3a62c 100644
+--- a/pal.S
++++ b/pal.S
+@@ -566,6 +566,8 @@ ENDFN	CallPal_Cserve_Cont
+  *	r17 (a1) = New PC
+  *	r18 (a2) = New PCB
+  *	r19 (a3) = New VptPtr
++ *	r20 (a4) = New Procedure Value (to place into $27)
++ *	           (Non-standard; See note below.)
+  * 
+  * OUTPUT PARAMETERS:
+  *
+@@ -574,10 +576,15 @@ ENDFN	CallPal_Cserve_Cont
+  *			1 - Unknown PALcode variant
+  *			2 - Known PALcode variant, but PALcode not loaded
+  *
+- *	r26 (ra) = r27 (pv) = New PC
++ *	r26 (ra) = New PC
++ *	r27 (pv) = From r20
+  *		Note that this is non-architected, but is relied on by
+  *		the usage of SwpPal within our own console code in order
+- *		to simplify its use within C code.
++ *		to simplify its use within C code.  We can get away with
++ *		the extra non-standard argument (in $20) because as
++ *		architected, all registers except SP and R0 are
++ *		UNPREDICTABLE; therefore private internal usage is
++ *		fine.
+  *
   */
+ 	ORG_CALL_PAL_PRIV(0x0A)
+@@ -624,7 +631,7 @@ CallPal_SwpPal_Cont:
+ 	mtpr	$31, qemu_tbia		// Flush TLB for new PTBR
  
- extern bool have_vga;
-+extern unsigned int pci_vga_bus;
-+extern unsigned int pci_vga_dev;
- 
- extern void do_console(void);
- extern void entInt(void);
-diff --git a/vgaio.c b/vgaio.c
-index 2dd7eb7..1fb0d52 100644
---- a/vgaio.c
-+++ b/vgaio.c
-@@ -570,6 +570,8 @@ vgahw_init(void)
- 
-  found:
-   have_vga = 1;
-+  pci_vga_bus = PCI_BUS(bdf);
-+  pci_vga_dev = PCI_SLOT(bdf);
- 
-   vmode_g = find_vga_entry(3);
- 
+ 	mov	a1, $26
+-	mov	a1, $27
++	mov	a4, $27
+ 	hw_ret	(a1)
+ ENDFN	CallPal_SwpPal_Cont
+ 	.previous
 -- 
 2.30.2
 
