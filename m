@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3876B39A49C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 17:32:40 +0200 (CEST)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AB939A505
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 17:53:10 +0200 (CEST)
+Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lopKn-0000Qg-By
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 11:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55276)
+	id 1lopef-0000mL-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 11:53:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lopJh-0007tZ-K0
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:31:29 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:43961)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lopcl-0007bD-Nf
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:51:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1lopJb-0003gN-T7
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:31:29 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id r17so6285669qkp.10
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GsGSIN6YngO/9fCDgOZikd363sKy8U9y9xizVKSOFeQ=;
- b=GSozqxKTM+Y0mT23+QeAVGiUJdY9n8SuzJ+wuCRSlL1wJDHoSSlN2yPXSDskZDJGWD
- 1tJIqwM8CtqDc32okeXeQAkdy7SGhYXtBig5S/IHeJiAM0FxBl0au6MVF5F7bQ/c2wj0
- eLN4hc5tTz3xGImXeK91sQee7NxsM+3oLFMydW6ASDqgNrl49KseEPnjjwH6KgGkgoHt
- 3tyZUJtmX0TX3Di+rs5oXWiHh+HB9c37pHLUFiVYZCZdMtK2kvMxCD4EPypzlskYd1Be
- 7bqt+0ZDsMhLHGygmOZu3IE0Q8yRZtjBsEeUdcxTs7vddZ7K+H9Lefspjcy6KZo94bjz
- hjxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GsGSIN6YngO/9fCDgOZikd363sKy8U9y9xizVKSOFeQ=;
- b=nr04BeqMtWegDc1fkzYtGF5+tinxOeZVdkQET19p8qChzGlVjUBhCtpEi/u5NWPD01
- dzVlK6VIZAmHelos8bDpe6s6T8F3aD2EkDJskmhLXKPPyEVZAFeBv0zDkw5buGCb3zN+
- McP8im7dm73O4vWtuafm2ajsDEAGbZ+NUSd5P81Vg4C/5nvWhUSJoOvRV+rVFpbILZPw
- iL7nRd2QzZ8JHSAJebcAdMJTfd1hVGmhcYeNrlfVG3sr1rXLNr7nnFsw0aVWaQLj2D7z
- KQ84KuCguVfSvkjR36s/NHE2FIOhWryp0Gi4eISvw3nfN2MBQ6CBMgZo9MQNboBegkIQ
- zljw==
-X-Gm-Message-State: AOAM532NKkLckrzkUJxT1TJsCZSHFYye1YXWK9muq9XIdSuxEL+8rZRR
- NwYexz9wtdNG86JF/weAhpcPOg==
-X-Google-Smtp-Source: ABdhPJxD3jRswDCHbbX9IYdaOhTcR7SuYFQFxvFKrcrL77pdJs6sx3pVe4eRhe+Nw7i961gpUAmQaw==
-X-Received: by 2002:a37:9c15:: with SMTP id f21mr192774qke.128.1622734282491; 
- Thu, 03 Jun 2021 08:31:22 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-21-142-114-142-78.dsl.bell.ca. [142.114.142.78])
- by smtp.gmail.com with ESMTPSA id s5sm2153495qkg.88.2021.06.03.08.31.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:31:22 -0700 (PDT)
-Message-ID: <e2e1b2e1aa54669c0b73dde83f0e20636835e1ab.camel@linaro.org>
-Subject: Re: [PATCH v4 7/8] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-From: shashi.mallela@linaro.org
-To: Leif Lindholm <leif@nuviainc.com>
-Date: Thu, 03 Jun 2021 11:31:21 -0400
-In-Reply-To: <20210603114254.mkqr4jnpfqkx3m6w@leviathan>
-References: <20210602180042.111347-1-shashi.mallela@linaro.org>
- <20210602180042.111347-8-shashi.mallela@linaro.org>
- <20210603114254.mkqr4jnpfqkx3m6w@leviathan>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lopci-00016O-D9
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:51:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lopce-0007cz-VJ
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 15:51:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EB7CA2E8187
+ for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 15:51:04 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Jun 2021 15:36:12 -0000
+From: Alexander Bulekov <1878054@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <158921780313.11557.11335648957795976711.malonedeb@wampee.canonical.com>
+ <162273245710.14875.8195844138371269690.malone@gac.canonical.com>
+Message-Id: <20210603152950.fjeurmsc5guxetqm@mozz.bu.edu>
+Subject: Re: [Bug 1878054] Re: Hang with high CPU usage in sdhci_data_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: 12f64e5c4b30f9c9dba46439c1947ad27982b3ed
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,126 +71,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, rad@semihalf.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Reply-To: Bug 1878054 <1878054@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2021-06-03 at 12:42 +0100, Leif Lindholm wrote:
-> On Wed, Jun 02, 2021 at 14:00:41 -0400, Shashi Mallela wrote:
-> > Included creation of ITS as part of SBSA platform GIC
-> > initialization.
-> > 
-> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > ---
-> >  hw/arm/sbsa-ref.c | 26 +++++++++++++++++++++++---
-> >  1 file changed, 23 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> > index 43c19b4923..3d9c073636 100644
-> > --- a/hw/arm/sbsa-ref.c
-> > +++ b/hw/arm/sbsa-ref.c
-> > @@ -34,7 +34,7 @@
-> >  #include "hw/boards.h"
-> >  #include "hw/ide/internal.h"
-> >  #include "hw/ide/ahci_internal.h"
-> > -#include "hw/intc/arm_gicv3_common.h"
-> > +#include "hw/intc/arm_gicv3_its_common.h"
-> >  #include "hw/loader.h"
-> >  #include "hw/pci-host/gpex.h"
-> >  #include "hw/qdev-properties.h"
-> > @@ -64,6 +64,7 @@ enum {
-> >      SBSA_CPUPERIPHS,
-> >      SBSA_GIC_DIST,
-> >      SBSA_GIC_REDIST,
-> > +    SBSA_GIC_ITS,
-> >      SBSA_SECURE_EC,
-> >      SBSA_GWDT,
-> >      SBSA_GWDT_REFRESH,
-> > @@ -107,6 +108,7 @@ static const MemMapEntry sbsa_ref_memmap[] = {
-> >      [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
-> >      [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
-> >      [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
-> 
-> It seems customary in QEMU to flag gaps in memory space (although
-> admittedly, we'd already failed to do so here). This patch leaves a
-> gap of 0x00010000. Is there a particular reason?
-> 
-> > +    [SBSA_GIC_ITS] =            { 0x44090000, 0x00020000 },
-> 
-> And then again a gap (the one we already had).
-> 
-> /
->     Leif
->
-> No specific reason,but from ITS point of view tried to stay within 
-> the GIC's 0x40060000 to 0x50000000 zone.The gap of 0x00010000 would 
-> also account for future GIC additions like virtual LPI support.
->
-> 
-> >      [SBSA_SECURE_EC] =          { 0x50000000, 0x00001000 },
-> >      [SBSA_GWDT_REFRESH] =       { 0x50010000, 0x00001000 },
-> >      [SBSA_GWDT_CONTROL] =       { 0x50011000, 0x00001000 },
-> > @@ -377,7 +379,20 @@ static void create_secure_ram(SBSAMachineState
-> > *sms,
-> >      memory_region_add_subregion(secure_sysmem, base, secram);
-> >  }
-> >  
-> > -static void create_gic(SBSAMachineState *sms)
-> > +static void create_its(SBSAMachineState *sms)
-> > +{
-> > +    DeviceState *dev;
-> > +
-> > +    dev = qdev_new(TYPE_ARM_GICV3_ITS);
-> > +    SysBusDevice *s = SYS_BUS_DEVICE(dev);
-> > +
-> > +    object_property_set_link(OBJECT(dev), "parent-gicv3",
-> > OBJECT(sms->gic),
-> > +                             &error_abort);
-> > +    sysbus_realize_and_unref(s, &error_fatal);
-> > +    sysbus_mmio_map(s, 0, sbsa_ref_memmap[SBSA_GIC_ITS].base);
-> > +}
-> > +
-> > +static void create_gic(SBSAMachineState *sms, MemoryRegion *mem)
-> >  {
-> >      unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
-> >      SysBusDevice *gicbusdev;
-> > @@ -404,6 +419,10 @@ static void create_gic(SBSAMachineState *sms)
-> >      qdev_prop_set_uint32(sms->gic, "len-redist-region-count", 1);
-> >      qdev_prop_set_uint32(sms->gic, "redist-region-count[0]",
-> > redist0_count);
-> >  
-> > +    object_property_set_link(OBJECT(sms->gic), "sysmem",
-> > OBJECT(mem),
-> > +                                 &error_fatal);
-> > +    qdev_prop_set_bit(sms->gic, "has-lpi", true);
-> > +
-> >      gicbusdev = SYS_BUS_DEVICE(sms->gic);
-> >      sysbus_realize_and_unref(gicbusdev, &error_fatal);
-> >      sysbus_mmio_map(gicbusdev, 0,
-> > sbsa_ref_memmap[SBSA_GIC_DIST].base);
-> > @@ -450,6 +469,7 @@ static void create_gic(SBSAMachineState *sms)
-> >          sysbus_connect_irq(gicbusdev, i + 3 * smp_cpus,
-> >                             qdev_get_gpio_in(cpudev,
-> > ARM_CPU_VFIQ));
-> >      }
-> > +    create_its(sms);
-> >  }
-> >  
-> >  static void create_uart(const SBSAMachineState *sms, int uart,
-> > @@ -762,7 +782,7 @@ static void sbsa_ref_init(MachineState
-> > *machine)
-> >  
-> >      create_secure_ram(sms, secure_sysmem);
-> >  
-> > -    create_gic(sms);
-> > +    create_gic(sms, sysmem);
-> >  
-> >      create_uart(sms, SBSA_UART, sysmem, serial_hd(0));
-> >      create_uart(sms, SBSA_SECURE_UART, secure_sysmem,
-> > serial_hd(1));
-> > -- 
-> > 2.27.0
-> > 
+I think to fix the reproducer we can swap the if=3Dsd for if=3Dnone:
+qemu-system-i386 -M pc-q35-5.0 \
+-qtest stdio \
+-device sdhci-pci,sd-spec-version=3D3 -device sd-card,drive=3Dmydrive \
+-drive if=3Dnone,index=3D0,file=3Dnull-co://,format=3Draw,id=3Dmydrive \
+-nographic -nographic -serial none -monitor none < attachment2
 
+I confirmed that this reproducer triggers the high-cpu usage for the
+QEMU 5.2 build I got from Debian.
+
+That said, this no longer times-out in my 6.0 build, so I think this is
+fixed.
+
+-Alex
+
+On 210603 1500, Thomas Huth wrote:
+> The latest version of QEMU seems to refuse the provided command line:
+> =
+
+> qemu-system-i386: -drive if=3Dsd,index=3D0,file=3Dnull-
+> co://,format=3Draw,id=3Dmydrive: machine type does not support
+> if=3Dsd,bus=3D0,unit=3D0
+> =
+
+> ... is there still a way to reproduce this issue with the latest QEMU
+> version?
+> =
+
+> ** Changed in: qemu
+>        Status: New =3D> Incomplete
+> =
+
+> -- =
+
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1878054
+> =
+
+> Title:
+>   Hang with high CPU usage in sdhci_data_transfer
+> =
+
+> Status in QEMU:
+>   Incomplete
+> =
+
+> Bug description:
+>   Hello,
+>   While fuzzing, I found an input that causes QEMU to hang with 100% CPU =
+usage.
+>   I have waited several minutes, and QEMU is still unresponsive. Using gd=
+b, It
+>   appears that it is stuck in an sdhci_data_transfer:
+> =
+
+>   #0   memory_region_access_valid (mr=3D<optimized out>, addr=3D0x1028492=
+0, size=3D<optimized out>, is_write=3D0xff, attrs=3D...) at /home/alxndr/De=
+velopment/qemu/memory.c:1378
+>   #1   memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimi=
+zed out>, data=3D<optimized out>, op=3DMO_32, attrs=3D...) at /home/alxndr/=
+Development/qemu/memory.c:1463
+>   #2   flatview_write_continue (fv=3D<optimized out>, addr=3D0x10284920, =
+attrs=3D..., ptr=3D<optimized out>, len=3D0xb7, addr1=3D0x5555582798e0, l=
+=3D<optimized out>, mr=3D0x5555582798e0 <io_mem_unassigned>) at /home/alxnd=
+r/Development/qemu/exec.c:3137
+>   #3   flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+>   #4   address_space_write (as=3D<optimized out>, addr=3D<optimized out>,=
+ attrs=3D..., buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development/q=
+emu/exec.c:3268
+>   #5   address_space_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, add=
+r=3D0x5555582798e0, attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, le=
+n=3D0x4, is_write=3D0xb8, is_write@entry=3D0x1) at
+>   /home/alxndr/Development/qemu/exec.c:3278
+>   #6   dma_memory_rw_relaxed (as=3D0x5555572509ac <unassigned_mem_ops+44>=
+, addr=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTIO=
+N_FROM_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:87
+>   #7   dma_memory_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FROM=
+_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:110
+>   #8   dma_memory_write (as=3D0x5555572509ac <unassigned_mem_ops+44>, add=
+r=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Develop=
+ment/qemu/include/sysemu/dma.h:122
+>   #9   sdhci_sdma_transfer_multi_blocks (s=3D<optimized out>) at /home/al=
+xndr/Development/qemu/hw/sd/sdhci.c:618
+>   #10  sdhci_data_transfer (opaque=3D0x61e000021080) at /home/alxndr/Deve=
+lopment/qemu/hw/sd/sdhci.c:891
+>   #11  sdhci_send_command (s=3D0x61e000021080) at /home/alxndr/Developmen=
+t/qemu/hw/sd/sdhci.c:364
+>   #12  sdhci_write (opaque=3D<optimized out>, offset=3D0xc, val=3D<optimi=
+zed out>, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/sd/sd=
+hci.c:1158
+>   #13  memory_region_write_accessor (mr=3D<optimized out>, addr=3D<optimi=
+zed out>, value=3D<optimized out>, size=3D<optimized out>, shift=3D<optimiz=
+ed out>, mask=3D<optimized out>, attrs=3D...) at
+>   /home/alxndr/Development/qemu/memory.c:483
+>   #14  access_with_adjusted_size (addr=3D<optimized out>, value=3D<optimi=
+zed out>, size=3D<optimized out>, access_size_min=3D<optimized out>, access=
+_size_max=3D<optimized out>, access_fn=3D<optimized out>, mr=3D0x61e0000219=
+f0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+>   #15  memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimi=
+zed out>, data=3D0x1ffe0ff, op=3D<optimized out>, attrs=3D...) at /home/alx=
+ndr/Development/qemu/memory.c:1476
+>   #16  flatview_write_continue (fv=3D<optimized out>, addr=3D0xe106800c, =
+attrs=3D..., ptr=3D<optimized out>, len=3D0xff3, addr1=3D0x5555582798e0, l=
+=3D<optimized out>, mr=3D0x61e0000219f0) at /home/alxndr/Development/qemu/e=
+xec.c:3137
+>   #17  flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+>   #18  address_space_write (as=3D<optimized out>, addr=3D<optimized out>,=
+ attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, buf@entry=3D0x6210000=
+8ad00, len=3D0x4) at /home/alxndr/Development/qemu/exec.c:3268
+>   #19  qtest_process_command (chr=3D<optimized out>, chr@entry=3D0x555558=
+27c040 <qtest_chr>, words=3D<optimized out>) at /home/alxndr/Development/qe=
+mu/qtest.c:567
+>   #20  qtest_process_inbuf (chr=3D0x55555827c040 <qtest_chr>, inbuf=3D0x6=
+1900000f640) at /home/alxndr/Development/qemu/qtest.c:710
+> =
+
+>   =
+
+>   I am attaching the qtest commands for reproducing it.
+>   I can reproduce it in a qemu 5.0 build using:
+> =
+
+>   qemu-system-i386 -M pc-q35-5.0 -qtest stdio -device sdhci-pci,sd-spec-
+>   version=3D3 -device sd-card,drive=3Dmydrive -drive if=3Dsd,index=3D0,fi=
+le
+>   =3Dnull-co://,format=3Draw,id=3Dmydrive -nographic -nographic -serial n=
+one
+>   -monitor none < attachment
+> =
+
+>   Please let me know if I can provide any further info.
+>   -Alex
+> =
+
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1878054/+subscriptions
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878054
+
+Title:
+  Hang with high CPU usage in sdhci_data_transfer
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that causes QEMU to hang with 100% CPU us=
+age.
+  I have waited several minutes, and QEMU is still unresponsive. Using gdb,=
+ It
+  appears that it is stuck in an sdhci_data_transfer:
+
+  #0   memory_region_access_valid (mr=3D<optimized out>, addr=3D0x10284920,=
+ size=3D<optimized out>, is_write=3D0xff, attrs=3D...) at /home/alxndr/Deve=
+lopment/qemu/memory.c:1378
+  #1   memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D<optimized out>, op=3DMO_32, attrs=3D...) at /home/alxndr/De=
+velopment/qemu/memory.c:1463
+  #2   flatview_write_continue (fv=3D<optimized out>, addr=3D0x10284920, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xb7, addr1=3D0x5555582798e0, l=3D<=
+optimized out>, mr=3D0x5555582798e0 <io_mem_unassigned>) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #3   flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #4   address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development/qem=
+u/exec.c:3268
+  #5   address_space_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, len=
+=3D0x4, is_write=3D0xb8, is_write@entry=3D0x1) at
+  /home/alxndr/Development/qemu/exec.c:3278
+  #6   dma_memory_rw_relaxed (as=3D0x5555572509ac <unassigned_mem_ops+44>, =
+addr=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_=
+FROM_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:87
+  #7   dma_memory_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D0=
+x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FROM_DEV=
+ICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:110
+  #8   dma_memory_write (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Developm=
+ent/qemu/include/sysemu/dma.h:122
+  #9   sdhci_sdma_transfer_multi_blocks (s=3D<optimized out>) at /home/alxn=
+dr/Development/qemu/hw/sd/sdhci.c:618
+  #10  sdhci_data_transfer (opaque=3D0x61e000021080) at /home/alxndr/Develo=
+pment/qemu/hw/sd/sdhci.c:891
+  #11  sdhci_send_command (s=3D0x61e000021080) at /home/alxndr/Development/=
+qemu/hw/sd/sdhci.c:364
+  #12  sdhci_write (opaque=3D<optimized out>, offset=3D0xc, val=3D<optimize=
+d out>, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/sd/sdhc=
+i.c:1158
+  #13  memory_region_write_accessor (mr=3D<optimized out>, addr=3D<optimize=
+d out>, value=3D<optimized out>, size=3D<optimized out>, shift=3D<optimized=
+ out>, mask=3D<optimized out>, attrs=3D...) at
+  /home/alxndr/Development/qemu/memory.c:483
+  #14  access_with_adjusted_size (addr=3D<optimized out>, value=3D<optimize=
+d out>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_s=
+ize_max=3D<optimized out>, access_fn=3D<optimized out>, mr=3D0x61e0000219f0=
+, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #15  memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D0x1ffe0ff, op=3D<optimized out>, attrs=3D...) at /home/alxnd=
+r/Development/qemu/memory.c:1476
+  #16  flatview_write_continue (fv=3D<optimized out>, addr=3D0xe106800c, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xff3, addr1=3D0x5555582798e0, l=3D=
+<optimized out>, mr=3D0x61e0000219f0) at /home/alxndr/Development/qemu/exec=
+.c:3137
+  #17  flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #18  address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, buf@entry=3D0x62100008a=
+d00, len=3D0x4) at /home/alxndr/Development/qemu/exec.c:3268
+  #19  qtest_process_command (chr=3D<optimized out>, chr@entry=3D0x55555827=
+c040 <qtest_chr>, words=3D<optimized out>) at /home/alxndr/Development/qemu=
+/qtest.c:567
+  #20  qtest_process_inbuf (chr=3D0x55555827c040 <qtest_chr>, inbuf=3D0x619=
+00000f640) at /home/alxndr/Development/qemu/qtest.c:710
+
+  =
+
+  I am attaching the qtest commands for reproducing it.
+  I can reproduce it in a qemu 5.0 build using:
+
+  qemu-system-i386 -M pc-q35-5.0 -qtest stdio -device sdhci-pci,sd-spec-
+  version=3D3 -device sd-card,drive=3Dmydrive -drive if=3Dsd,index=3D0,file
+  =3Dnull-co://,format=3Draw,id=3Dmydrive -nographic -nographic -serial none
+  -monitor none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878054/+subscriptions
 
