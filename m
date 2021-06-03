@@ -2,87 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755D1399E7F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 12:08:57 +0200 (CEST)
-Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42678399EE0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 12:23:05 +0200 (CEST)
+Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lokHY-0008Rj-1D
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 06:08:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59640)
+	id 1lokVD-0000CW-Lr
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 06:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lokD4-0007Hw-AN; Thu, 03 Jun 2021 06:04:18 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:42321)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lokUE-0007ov-IZ
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 06:22:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lokD0-0007W6-Sc; Thu, 03 Jun 2021 06:04:17 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id EC31B5C01B9;
- Thu,  3 Jun 2021 06:04:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 03 Jun 2021 06:04:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=hIMowiXzKMAOe9nzCsg5VlTSgfh
- qIB5zToftu6rUMns=; b=QeL0UbqfG/zGjGnGa7+3wa90PXQvdQL0jicGFZIQVli
- X4n1Mf7ExZRBI/1NQsxReowWI3k7hwgIll6SYNGaCcYMpYHPQPDylONJSJ/fDjgK
- zGhw2cn26suZMNEVz76rupQmdVb6BBqySk4G2eeUBMnQNehhc7TF50WClr7rovmV
- ivI5JCEUoexqbDnPMsvXNPEdIL4IAU9z2MlHBPhgeBg6ioTgCn8D4QWrKXBYFLHe
- y922nDcobo09/ODLFE8iBU1MF//bV9iedK7aKtqNkc9MeQlkT8l7Bm0Fx9D2OkVs
- iU4pfwyIwZD0hg+hgGVxJcO2Wdl3Y/QS2tf0SDe9sGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hIMowi
- XzKMAOe9nzCsg5VlTSgfhqIB5zToftu6rUMns=; b=KTIm9ZbN6RtRis6AosXDfZ
- JNe8ajMt9ZPn82Sf4MOGeSHJBpLegox+31uQ9BYYxOdH01dQZ8LHytXL/UKwb+sc
- l3pGxJYNHAar2X1Dy6YchgRACJzvKrfaKMQ1temQ0MzmFWDkZh8qbtFzMZVI39ze
- a+0pWdZ/YBkzLayuCRl2gYO9CbhnP5lp/4en4SK8+umHa//vcP5SSftxisLQ2p7g
- kByDJVb7ysYplzjO1rQN276aSrucLq4U/tNjPnBGy+z+JZqN5xuKZCbP12WxavP/
- +R/BDvKJL++U1Y91Vk1w1axQiUoZNSkbbqXkxNSLQM6jnSIDIY0CI00fjL5hDfSA
- ==
-X-ME-Sender: <xms:Gam4YF_iXYiZJ2IRlIPESXG6a_4DeW27EgzrEBRYzqwB3h4n_1EdcA>
- <xme:Gam4YJvY5MJM-b7UjnDdHCjFzljn-ZK_4lu4W1EES9l0kWVsdJi-jsnKU22QobIqP
- mwMuj79Xzu2fSSOZFo>
-X-ME-Received: <xmr:Gam4YDDUT6ZVd7yPvH8fb-IfFAoS9xib-Qo7PDW_1bz7JMv5QE6IJFzomlmSUESHPRe5__ijsg6kF6REdoNPrNqkSwt5gGsAEQPl_EUZLBSnU71Vjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelledgvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Gam4YJfkwwmxo-ZNAodM6XgIdt-buyuWSfEpxbcWMzduHSN3WaGBYg>
- <xmx:Gam4YKPCPxFijMXFnqDMCZeKlS50JYG35wKR9i99Jo7xfAx1m5sl7g>
- <xmx:Gam4YLntLuo589xxNwNKkTEhaYNingDQ7Ita7WUAYkoum-2LEpYxHQ>
- <xmx:G6m4YJe_cX61G1xZqS28086uSCWlLfVaheKQGqj3NBAKGwpbUDZmqw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Jun 2021 06:04:08 -0400 (EDT)
-Date: Thu, 3 Jun 2021 12:04:06 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 1/2] hw/nvme: add support for boot partiotions
-Message-ID: <YLipFmd3ePdqgyXU@apples.localdomain>
-References: <20210601143749.1669-1-anaidu.gollu@samsung.com>
- <CGME20210601144234epcas5p153e855ad673876cf67e57d4b539dc274@epcas5p1.samsung.com>
- <20210601143749.1669-2-anaidu.gollu@samsung.com>
- <YLilZqgEZyQjnRwX@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lokU6-0002cv-E9
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 06:21:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622715712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EBx+dxShfWKCTRlMGDgqHGBWc+r0JSlX09y+WZHOi8A=;
+ b=ZGOuz+/alg9JX8WnGhR+ZTaBHrvtec6tTja2+5cKPONSxwnv5KtGTYbNFpJQQvtjTAJkNR
+ 1ooN/dItwnV4MZXKjdm3RNBCIIFVWL0V3IoS0ONkh7Zz+qj0kd/oqw5PZIEwJBY42svUtl
+ xNrHrJl6Z/RInfSUXTrwo1aZambaJaQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-g_6oUD8rPrO2L1jiftqwPA-1; Thu, 03 Jun 2021 06:21:51 -0400
+X-MC-Unique: g_6oUD8rPrO2L1jiftqwPA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y7-20020aa7ce870000b029038fd7cdcf3bso3011478edv.15
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 03:21:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EBx+dxShfWKCTRlMGDgqHGBWc+r0JSlX09y+WZHOi8A=;
+ b=ZVcUy+MuWaKHPbyWpHMozX8vYBkWycqUaar3Zq5tiIb1ZRg4niAzu1BA8461jnO/LU
+ n1e4BGR+zMd6RlYGsMZUa4of6tkZ417CMwaECbSypBKlBeGhjNDxWuRzWG6n7WNZ6gfV
+ O1HoaZ7ROHYqy3fHMCiZ2MmvY4/zfFcM0eiym24YBKcPHiskMbNrd4snwmdCx3kw/OEU
+ QrssN8I1ks+lBbh+zi+v3l+NMVQXPKPQrFeMLojymEcnvt3enSNHRNvTHDlMyD/HJ6y6
+ +jRgQKdhwLw5o9xmll5CvyNp2jSTsBdYtlptFCYenz1JevUTrzCXlvf7zRhk8z3vTi+B
+ LW0g==
+X-Gm-Message-State: AOAM530u1qXzK7xuzjYMzdJ6mWw25jhiVv4D0+ad5S37vmPIf3zbXFSa
+ Y1FFSW81LEUFk2TgegiABRQsFnv3US9TA7K9RWCXMpXJsu+4EfDnCfIqMDONib+4s+WVNRK3tZS
+ pphEwKole1WMCPJ0=
+X-Received: by 2002:a17:906:16cb:: with SMTP id
+ t11mr12094570ejd.112.1622715709493; 
+ Thu, 03 Jun 2021 03:21:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw70fvEtrNQ2mv6DxfN8XucRojGi7Eypfu4S15XmSWTwtIHrHBoPKzbZ75pBSBvVxYv8AdUQg==
+X-Received: by 2002:a17:906:16cb:: with SMTP id
+ t11mr12094550ejd.112.1622715709219; 
+ Thu, 03 Jun 2021 03:21:49 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ o21sm696984ejg.49.2021.06.03.03.21.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 03:21:48 -0700 (PDT)
+Subject: Re: [PATCH] iotests/check: move general long options to double dash
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210526181659.365531-1-vsementsov@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <a266b46d-77b7-b71b-4515-22a02dbf0d04@redhat.com>
+Date: Thu, 3 Jun 2021 12:21:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="P6CmUhi2sPShoJ4e"
-Content-Disposition: inline
-In-Reply-To: <YLilZqgEZyQjnRwX@stefanha-x1.localdomain>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210526181659.365531-1-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,102 +102,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- mreitz@redhat.com, kbusch@kernel.org
+Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---P6CmUhi2sPShoJ4e
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Jun  3 10:48, Stefan Hajnoczi wrote:
->On Tue, Jun 01, 2021 at 08:07:48PM +0530, Gollu Appalanaidu wrote:
->> @@ -5546,6 +5665,47 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr of=
-fset, uint64_t data,
->>          NVME_GUEST_ERR(pci_nvme_ub_mmiowr_cmbsz_readonly,
->>                         "invalid write to read only CMBSZ, ignored");
->>          return;
->> +    case 0x44:  /* BPRSEL */
->> +        n->bar.bprsel =3D data & 0xffffffff;
->> +        size_t bp_len =3D NVME_BPRSEL_BPRSZ(n->bar.bprsel) * 4 * KiB;
->> +        int64_t bp_offset =3D NVME_BPRSEL_BPROF(n->bar.bprsel) * 4 * Ki=
-B;
->> +        int64_t off =3D 0;
->> +        struct nvme_bp_read_ctx *ctx;
->> +
->> +        trace_pci_nvme_mmio_bprsel(data, n->bar.bprsel,
->> +                                   NVME_BPRSEL_BPID(n->bar.bpinfo),
->> +                                   bp_offset, bp_len);
->> +
->> +        if (bp_len + bp_offset > n->bp_size) {
->> +            NVME_BPINFO_CLEAR_BRS(n->bar.bpinfo);
->> +            NVME_BPINFO_SET_BRS(n->bar.bpinfo, NVME_BPINFO_BRS_ERROR);
->> +            return;
->> +        }
->> +
->> +        off =3D NVME_BPRSEL_BPID(n->bar.bpinfo) * n->bp_size + bp_offse=
-t;
->> +
->> +        NVME_BPINFO_CLEAR_BRS(n->bar.bpinfo);
->> +        NVME_BPINFO_SET_BRS(n->bar.bpinfo, NVME_BPINFO_BRS_READING);
->> +
->> +        ctx =3D g_new(struct nvme_bp_read_ctx, 1);
->> +
->> +        ctx->n =3D n;
->> +
->> +        pci_dma_sglist_init(&ctx->qsg, &n->parent_obj, 1);
->> +
->> +        qemu_sglist_add(&ctx->qsg, n->bar.bpmbl, bp_len);
->> +
->> +        dma_blk_read(n->blk_bp, &ctx->qsg, off , BDRV_SECTOR_SIZE,
->> +                     nvme_bp_read_cb, ctx);
->
->The returned BlockAIOCB is not stored. Two questions:
->
+On 26/05/2021 20:16, Vladimir Sementsov-Ogievskiy wrote:
+> So, the change:
+> 
+>    -makecheck -> --makecheck
+>    -valgrind  -> --valgrind
+>    -nocache   -> --nocache
+>    -misalign  -> --misalign
+> 
+> Motivation:
+> 
+> 1. Several long options are already have double dash:
+>    --dry-run, --color, --groups, --exclude-groups, --start-from
+> 
+> 2. -misalign is used to add --misalign option (two dashes) to qemu-io
+> 
+> 3. qemu-io and qemu-nbd has --nocache option (two dashes)
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/check-block.sh         | 2 +-
+>   tests/qemu-iotests/check     | 8 ++++----
+>   tests/qemu-iotests/common.rc | 4 ++--
+>   3 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tests/check-block.sh b/tests/check-block.sh
+> index f86cb863de..90619454d3 100755
+> --- a/tests/check-block.sh
+> +++ b/tests/check-block.sh
+> @@ -77,7 +77,7 @@ export PYTHONUTF8=1
+>   
+>   ret=0
+>   for fmt in $format_list ; do
+> -    ${PYTHON} ./check -makecheck -$fmt $group || ret=1
+> +    ${PYTHON} ./check --makecheck -$fmt $group || ret=1
+>   done
+>   
+>   exit $ret
+> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> index 2dd529eb75..3f3962dd75 100755
+> --- a/tests/qemu-iotests/check
+> +++ b/tests/qemu-iotests/check
+> @@ -32,11 +32,11 @@ def make_argparser() -> argparse.ArgumentParser:
+>   
+>       p.add_argument('-n', '--dry-run', action='store_true',
+>                      help='show me, do not run tests')
+> -    p.add_argument('-makecheck', action='store_true',
+> +    p.add_argument('--makecheck', action='store_true',
+>                      help='pretty print output for make check')
+>   
+>       p.add_argument('-d', dest='debug', action='store_true', help='debug')
+> -    p.add_argument('-misalign', action='store_true',
+> +    p.add_argument('--misalign', action='store_true',
+>                      help='misalign memory allocations')
+>       p.add_argument('--color', choices=['on', 'off', 'auto'],
+>                      default='auto', help="use terminal colors. The default "
+> @@ -46,7 +46,7 @@ def make_argparser() -> argparse.ArgumentParser:
+>       mg = g_env.add_mutually_exclusive_group()
+>       # We don't set default for cachemode, as we need to distinguish default
+>       # from user input later.
+> -    mg.add_argument('-nocache', dest='cachemode', action='store_const',
+> +    mg.add_argument('--nocache', dest='cachemode', action='store_const',
+>                       const='none', help='set cache mode "none" (O_DIRECT), '
+>                       'sets CACHEMODE environment variable')
+>       mg.add_argument('-c', dest='cachemode',
+> @@ -85,7 +85,7 @@ def make_argparser() -> argparse.ArgumentParser:
+>       g_bash.add_argument('-o', dest='imgopts',
+>                           help='options to pass to qemu-img create/convert, '
+>                           'sets IMGOPTS environment variable')
+> -    g_bash.add_argument('-valgrind', action='store_true',
+> +    g_bash.add_argument('--valgrind', action='store_true',
+>                           help='use valgrind, sets VALGRIND_QEMU environment '
+>                           'variable')
+>   
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+> index cbbf6d7c7f..e2f81cd41b 100644
+> --- a/tests/qemu-iotests/common.rc
+> +++ b/tests/qemu-iotests/common.rc
+> @@ -124,7 +124,7 @@ fi
+>   
+>   # Set the variables to the empty string to turn Valgrind off
+>   # for specific processes, e.g.
+> -# $ VALGRIND_QEMU_IO= ./check -qcow2 -valgrind 015
+> +# $ VALGRIND_QEMU_IO= ./check -qcow2 --valgrind 015
+>   
+>   : ${VALGRIND_QEMU_VM=$VALGRIND_QEMU}
+>   : ${VALGRIND_QEMU_IMG=$VALGRIND_QEMU}
+> @@ -134,7 +134,7 @@ fi
+>   
+>   # The Valgrind own parameters may be set with
+>   # its environment variable VALGRIND_OPTS, e.g.
+> -# $ VALGRIND_OPTS="--leak-check=yes" ./check -qcow2 -valgrind 015
+> +# $ VALGRIND_OPTS="--leak-check=yes" ./check -qcow2 --valgrind 015
 
-Thanks for these comments Stefan, I've commented below how I think they
-can be resolved.
+Ok I see why the short options do not make sense to have double dash, 
+but if we want full consistency why fmt is left with one dash? Like 
+"-qcow2", should we also change that? (that change might be more complex 
+to do)
 
->1. Can the guest allocate unbounded amounts of QEMU memory (struct
->   nvme_bp_read_ctx) by repeatedly writing to this register?
->
+Thank you,
+Emanuele
 
-Yeah, the QSQ should just be a member of the controller struct and then=20
-have that as the cb_arg to dma_blk_read. Then, the QSG can be=20
-initialized and the host address added when BPMBL is written instead of=20
-here.
-
-We don't want the QSG to change while the read is in progress, so the=20
-write to BPMBL should check BPINFO.BRS and not do anything if the QSG is=20
-"in use". The spec says that the host *shall* not modify the registers=20
-when a read is in progress, so we can safely just ignore the write.
-
->2. What happens if the NVMe device is hot unplugged or reset while a
->   boot partition read request is in flight?
-
-The spec also says that the host *shall* not reset or shutdown the=20
-controller while a read is in progress, but again, we need to protect=20
-QEMU so the aiocb must be saved on the controller struct and cancelled=20
-appropriately.
-
---P6CmUhi2sPShoJ4e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC4qRAACgkQTeGvMW1P
-DelJrwgAxYsfgIMMlNT4KUbl3F7x0mQnJluTvT70tEiiXG4A/9bii+kIl0Ni2qFV
-rovoVY18aIDdAXrJ4sQHMBSvIqr53LdvPOSkURQT26/hKpFbqB95TmGCaPPNJKfr
-+4JF4wWSDPpABuIXOZ7nBkwdgDogVWuJd/RvUMv5PFM2H9t98XBDHaBfYW5ZjxC8
-wQGUFksWJlsh10m0Aj1ykc9Nyo7N1p6NaH8BmgQ483GvdWhMMBV5WGm+vsAMui6s
-NliT+eHvzYYYidPLRN7NijnO8wiDD2t/xzfh6lgp7o9hvkRz5IVQVQ4PwrbdFmtL
-UCjHcRrftApc2KTCnQQeDLAR+/Krcw==
-=ajuX
------END PGP SIGNATURE-----
-
---P6CmUhi2sPShoJ4e--
 
