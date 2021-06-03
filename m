@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A0139AE00
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 00:28:52 +0200 (CEST)
-Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8AD39AE07
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 00:29:58 +0200 (CEST)
+Received: from localhost ([::1]:42032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lovpb-0006C7-0C
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 18:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
+	id 1lovqf-0007eq-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 18:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lovoq-0005Xe-SP
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:28:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55306)
+ id 1lovpL-0006Jo-K5
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:28:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lovoo-0005yL-RU
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:28:03 -0400
+ id 1lovpJ-0006JW-V8
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:28:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622759281;
+ s=mimecast20190719; t=1622759313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MD2CkL1j6q9aeF4rXo9093xzeIYR8qI6iXcdvr+wKIo=;
- b=VkVXzQExOWtmQfac3uh4DbPUfQ7/pQrkTp9LFPIDaQKMcF3M+ue30RMmEdB8LZwWX/qYfc
- Wrmh/PXVGBqzthz/9AIHQl0u09gyuXIwPa7XG9nEWFfMsT/WIH7cQuFGPwyyTwKurRoJj0
- T5nYg2vxWvCQTF3iBftGHsSUOvd4UDk=
+ bh=H9OT0vBjxvUlrSdJaD8SfGT6MM6tvYgE1wbXMoUtkhk=;
+ b=Pl6Kh+m3dsuEI0lYjR8tie/m2jvy5hjaVY72DjNQS6SHo/De79VcmygNWtIGc32uxcy7JS
+ xRgyM0goOLACoSNarZ8HTOM/T3m4RM/FkaEkS7u9NgBCk28vnwzoY8S90uZPu8GwerD9Xe
+ IiQuWaTKRkjoJqPkDYQYGPDzMkSbfm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-LYdN-H8DNuihTkzSr0esjQ-1; Thu, 03 Jun 2021 18:27:59 -0400
-X-MC-Unique: LYdN-H8DNuihTkzSr0esjQ-1
+ us-mta-584-X8MDl0uxPbqvviC7q2PGbg-1; Thu, 03 Jun 2021 18:28:31 -0400
+X-MC-Unique: X8MDl0uxPbqvviC7q2PGbg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D58501E0
- for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 22:27:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00262501E0
+ for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 22:28:31 +0000 (UTC)
 Received: from localhost (ovpn-120-94.rdu2.redhat.com [10.10.120.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88749500DB;
- Thu,  3 Jun 2021 22:27:58 +0000 (UTC)
-Date: Thu, 3 Jun 2021 18:27:57 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC5B761093;
+ Thu,  3 Jun 2021 22:28:30 +0000 (UTC)
+Date: Thu, 3 Jun 2021 18:28:30 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v7 1/9] i386: avoid hardcoding '12' as 'hyperv_vendor_id'
- length
-Message-ID: <20210603222757.w3r5vhgc3pro6p2i@habkost.net>
+Subject: Re: [PATCH v7 2/9] i386: clarify 'hv-passthrough' behavior
+Message-ID: <20210603222830.k6gjik6reqvkxwis@habkost.net>
 References: <20210603114835.847451-1-vkuznets@redhat.com>
- <20210603114835.847451-2-vkuznets@redhat.com>
+ <20210603114835.847451-3-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210603114835.847451-2-vkuznets@redhat.com>
+In-Reply-To: <20210603114835.847451-3-vkuznets@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
@@ -84,11 +83,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 03, 2021 at 01:48:27PM +0200, Vitaly Kuznetsov wrote:
-> While this is very unlikely to change, let's avoid hardcoding '12' as
-> 'hyperv_vendor_id' length.
-> 
-> No functional change intended.
+On Thu, Jun 03, 2021 at 01:48:28PM +0200, Vitaly Kuznetsov wrote:
+> Clarify the fact that 'hv-passthrough' only enables features which are
+> already known to QEMU and that it overrides all other 'hv-*' settings.
 > 
 > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 
