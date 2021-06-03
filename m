@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8179739A665
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:55:36 +0200 (CEST)
-Received: from localhost ([::1]:49044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8E939A609
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:44:18 +0200 (CEST)
+Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqd5-0004jw-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:55:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47098)
+	id 1loqS9-0001Wj-10
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1loqUV-0007w4-AU
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:46:44 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57994)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loqIk-0008H0-Vg
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:34:34 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1loqUK-00042D-4D
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:46:42 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1loqUG-0002NM-1Z
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 16:46:28 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2792E2E8197
- for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 16:46:26 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loqIj-0003dY-By
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:34:34 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id r1so5561573pgk.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 09:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bKDSG/vl6Zm3HS8Ctg5GZll8yhBsX/63RfDYUvFsIuQ=;
+ b=yW8k0wbY/ErFpRIAPoR3dNni782JNfEs1iSTqKrcJFSj0Ns4JJcpq5HQqk6PgaZP6J
+ Ev1toebWfuaiqovvi6WyRfqx4wYgP+MtM3ZwPHZK3v6ppI5uXCde2aetBoUhEb6AlvpP
+ moX027YRqVTWUGo5Z9qYSxIVlnx67u1Bdd8oiyMg0Bi1Fz9YAZzZ1TGwsFygebw9nNhX
+ 76Zr3jUP4I24v6SEC4Lm2FJG+gVTsCuNd8WWCwJ9Kv0WKUE2VNHDSkbS0rlnXsh4bJzt
+ mWjO1HFbL7I+vnRC9bt7x73WYyuqZuS0lXpdJK1b1bO+xahaJmiBDWV7EA9JOfzIDSlx
+ Wb5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bKDSG/vl6Zm3HS8Ctg5GZll8yhBsX/63RfDYUvFsIuQ=;
+ b=F8Em8pUmBzx0hr7tHD1CaW1umRDgvPLpOVXq43KEdU8LpYZ8CbC0RlJkVFOu4GbItE
+ XereJGQM0DjvGxGOfIt/a9hZ/JXF2VH0KPf0hmduOxMM70MsT80RgK7K28j7JtclmBMq
+ etYtwTLZI8mh5Mo6ECBOTLq6TRZtaxVvZRPCDHnlWinU+8lWig8dJHS728FiLJe+k2/z
+ o4GoXAJxwgPJ0QbcFqdCcVaaqRm+wkEMkGoS0U5mmzbq6bKySQ8EyWAGqhKh1vuPX6ko
+ P3w6vhWIjfV9QCUqjvawlZ7TONTu+q30J3dhjj5ySZCU/nnfrrxWTdvTgLL5XM30uKLF
+ gRMw==
+X-Gm-Message-State: AOAM533CqAL0r6uFdNFsYsZE8aSX5OHmIKrutn704Xnm718c0bx7XFVw
+ orxnXpHPDlrERIQtQlAskwIpjQ==
+X-Google-Smtp-Source: ABdhPJxH0QMHjxyMO1skZCf50cll7rEvQWN74W9MJwFZ/XDVJhfZ5gcv7XcNFIc/HnUWBYJLjYHSBw==
+X-Received: by 2002:a65:6487:: with SMTP id e7mr330625pgv.27.1622738070685;
+ Thu, 03 Jun 2021 09:34:30 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ t24sm2655666pji.56.2021.06.03.09.34.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 09:34:30 -0700 (PDT)
+Subject: Re: [PATCH 1/6] target/microblaze: Use the IEC binary prefix
+ definitions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210603090310.2749892-1-f4bug@amsat.org>
+ <20210603090310.2749892-2-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <72e0b8d0-5350-75b4-e87d-28c0b0a67ac4@linaro.org>
+Date: Thu, 3 Jun 2021 09:34:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Jun 2021 16:33:03 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <1896298@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee mslade th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <160046874518.13612.4861858859499751315.malonedeb@gac.canonical.com>
- <20210525164541.17985-1-alex.bennee@linaro.org>
-Message-Id: <8735ty9acu.fsf@linaro.org>
-Subject: [Bug 1896298] Re: [RFC PATCH] accel/tcg: change default codegen
- buffer size for i386-softmmu
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: 29c6598fabffa7f2ded36fe30f1e0c57a974133a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210603090310.2749892-2-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,63 +90,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896298 <1896298@bugs.launchpad.net>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On 6/3/21 2:03 AM, Philippe Mathieu-Daudé wrote:
+>   static unsigned int tlb_decode_size(unsigned int f)
+>   {
+>       static const unsigned int sizes[] = {
+> -        1 * 1024, 4 * 1024, 16 * 1024, 64 * 1024, 256 * 1024,
+> -        1 * 1024 * 1024, 4 * 1024 * 1024, 16 * 1024 * 1024
+> +        1 * KiB, 4 * KiB, 16 * KiB, 64 * KiB, 256 * KiB,
+> +        1 * MiB, 4 * MiB, 16 * MiB
+>       };
+>       assert(f < ARRAY_SIZE(sizes));
+>       return sizes[f];
 
-> There are two justifications for making this change. The first is that
-> i386 emulation is typically for smaller machines where having a 1gb of
-> generated code is overkill for basic emulation. The second is the
-> propensity of self-modifying code (c.f. Doom/edit) utilised on i386
-> systems can trigger a rapid growth in invalidated and re-translated
-> buffers. This is seen in bug #283. Execution is still inefficient but
-> at least the host memory isn't so aggressively used up.
->
-> That said it's still really just a sticking plaster for user
-> convenience.
+I guess this is clearer, but I'll also note that this is 4**f KiB, so could 
+just as well be computed by
 
-ping?
+     assert(f < 8);
+     return KiB << (f * 2);
+
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
--- =
-
-Alex Benn=C3=A9e
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896298
-
-Title:
-  TCG memory leak with FreeDOS 'edit'
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  qemu trunk as of today leaks memory FAST when freedos' edit is
-  running.
-
-  To reproduce, download:
-
-  https://www.ibiblio.org/pub/micro/pc-
-  stuff/freedos/files/repositories/1.3/cdrom.iso
-
-  Then run:
-
-  $ qemu-system-i386 -cdrom cdrom.iso
-
-  select your language then select "return to DOS", then type
-
-  > edit
-
-  it will consume memory at ~10MB/s
-
-  This does NOT happen when adding -enable-kvm
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896298/+subscriptions
+r~
 
