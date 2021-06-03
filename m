@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9EA399CE3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:42:43 +0200 (CEST)
-Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360CF399CA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:35:17 +0200 (CEST)
+Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loiw6-0006Qo-95
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39730)
+	id 1loiou-00024u-8X
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidP-0007EP-KM; Thu, 03 Jun 2021 04:23:23 -0400
-Received: from ozlabs.org ([203.11.71.1]:43379)
+ id 1loid6-0006e8-8y; Thu, 03 Jun 2021 04:23:04 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47615 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidN-00007a-Tf; Thu, 03 Jun 2021 04:23:23 -0400
+ id 1loid4-00007b-32; Thu, 03 Jun 2021 04:23:04 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5m64F8z9t0T; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
+ id 4Fwf5m54rDz9sxS; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708556;
- bh=TGxB2/SNSQI/w9xsrRzt5fR1jbniS6RCQhYL+mH5Hv8=;
+ bh=ySCPvq1ufsopI2v0SGDmuGJ5hbUYRmpkBaKTSEhwp7Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Gul3ZNGh/DzdDdOVo+F5fDFEafAjb8gHBqU8xb5sJVBA5WiK0ljJ7UlorRNsJnGHG
- 4YExS6/N41ULE9ykiuOUeZxRB44m23zy/Xu23Id5PRqeMt8JY9K7WlYzYce6626Clz
- adAyvhIhUEAMRcN4SV/sjCoS8GoYNIr4omLlqGpU=
+ b=fhxZAPDL8xbvOr2kcn81RR8vPNAkdfsZvzFdpdUBSYPNGYXZ8/1zTrtp6mOmN/Fvv
+ nUW/XcF3g7SkyCJUlI263NjL1Uz2Oh6o8+XwgmpRE5o0S6uAniB0zpxMg1Gnf1vbXn
+ ykDTCiIed4ENQKjd3tad8T1/gG3PmouLqHywmGvE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 19/42] ppc/pef.c: initialize cgs->ready in kvmppc_svm_init()
-Date: Thu,  3 Jun 2021 18:22:08 +1000
-Message-Id: <20210603082231.601214-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/42] hw/core/cpu: removed cpu_dump_statistics function
+Date: Thu,  3 Jun 2021 18:22:09 +1000
+Message-Id: <20210603082231.601214-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,66 +57,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ram Pai <linuxram@us.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-QEMU is failing to launch a CGS pSeries guest in a host that has PEF
-support:
+No more architectures set the pointer to dump_statistics, so there's no
+point in keeping it, or the related cpu_dump_statistics function.
 
-qemu-system-ppc64: ../softmmu/vl.c:2585: qemu_machine_creation_done: Assertion `machine->cgs->ready' failed.
-Aborted
-
-This is happening because we're not setting the cgs->ready flag that is
-asserted in qemu_machine_creation_done() during machine start.
-
-cgs->ready is set in s390_pv_kvm_init() and sev_kvm_init(). Let's set it
-in kvmppc_svm_init() as well.
-
-Reported-by: Ram Pai <linuxram@us.ibm.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210528201619.52363-1-danielhb413@gmail.com>
-Acked-by: Ram Pai <linuxram@us.ibm.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Message-Id: <20210526202104.127910-6-bruno.larsen@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20210531145629.21300-2-bruno.larsen@eldorado.org.br>
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pef.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/core/cpu-common.c  |  9 ---------
+ include/hw/core/cpu.h | 12 ------------
+ 2 files changed, 21 deletions(-)
 
-diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-index 573be3ed79..cc44d5e339 100644
---- a/hw/ppc/pef.c
-+++ b/hw/ppc/pef.c
-@@ -41,7 +41,7 @@ struct PefGuest {
-     ConfidentialGuestSupport parent_obj;
- };
- 
--static int kvmppc_svm_init(Error **errp)
-+static int kvmppc_svm_init(ConfidentialGuestSupport *cgs, Error **errp)
- {
- #ifdef CONFIG_KVM
-     static Error *pef_mig_blocker;
-@@ -65,6 +65,8 @@ static int kvmppc_svm_init(Error **errp)
-     /* NB: This can fail if --only-migratable is used */
-     migrate_add_blocker(pef_mig_blocker, &error_fatal);
- 
-+    cgs->ready = true;
-+
-     return 0;
- #else
-     g_assert_not_reached();
-@@ -102,7 +104,7 @@ int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-         return -1;
+diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+index 9530e266ec..e2f5a64604 100644
+--- a/hw/core/cpu-common.c
++++ b/hw/core/cpu-common.c
+@@ -109,15 +109,6 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
      }
- 
--    return kvmppc_svm_init(errp);
-+    return kvmppc_svm_init(cgs, errp);
  }
  
- int pef_kvm_reset(ConfidentialGuestSupport *cgs, Error **errp)
+-void cpu_dump_statistics(CPUState *cpu, int flags)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-
+-    if (cc->dump_statistics) {
+-        cc->dump_statistics(cpu, flags);
+-    }
+-}
+-
+ void cpu_reset(CPUState *cpu)
+ {
+     device_cold_reset(DEVICE(cpu));
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 044f668a6e..6b3bd3a1d4 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -92,7 +92,6 @@ struct SysemuCPUOps;
+  * @has_work: Callback for checking if there is work to do.
+  * @memory_rw_debug: Callback for GDB memory access.
+  * @dump_state: Callback for dumping state.
+- * @dump_statistics: Callback for dumping statistics.
+  * @get_arch_id: Callback for getting architecture-dependent CPU ID.
+  * @set_pc: Callback for setting the Program Counter register. This
+  *       should have the semantics used by the target architecture when
+@@ -134,7 +133,6 @@ struct CPUClass {
+     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+                            uint8_t *buf, int len, bool is_write);
+     void (*dump_state)(CPUState *cpu, FILE *, int flags);
+-    void (*dump_statistics)(CPUState *cpu, int flags);
+     int64_t (*get_arch_id)(CPUState *cpu);
+     void (*set_pc)(CPUState *cpu, vaddr value);
+     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+@@ -534,16 +532,6 @@ enum CPUDumpFlags {
+  */
+ void cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ 
+-/**
+- * cpu_dump_statistics:
+- * @cpu: The CPU whose state is to be dumped.
+- * @flags: Flags what to dump.
+- *
+- * Dump CPU statistics to the current monitor if we have one, else to
+- * stdout.
+- */
+-void cpu_dump_statistics(CPUState *cpu, int flags);
+-
+ #ifndef CONFIG_USER_ONLY
+ /**
+  * cpu_get_phys_page_attrs_debug:
 -- 
 2.31.1
 
