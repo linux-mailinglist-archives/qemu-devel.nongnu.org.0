@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9393998C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:57:37 +0200 (CEST)
-Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464843998C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:58:52 +0200 (CEST)
+Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loeUC-0007XP-6w
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53112)
+	id 1loeVP-0002Kl-DP
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQO-0008C9-AL
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:40 -0400
-Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49125)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQQ-0008H4-99
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:42 -0400
+Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQM-0004W1-D8
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:40 -0400
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQO-0004Y6-Nl
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1622692417; bh=FAkF1k+wfmz9Tc1lkkvl9YzkzESvXUgL0M6Q3SDhe3M=;
+ t=1622692419; bh=hxX3lW6G5H4ooVs5K1Wg9MuwXQMZOQOBKRZ+VQtVT+I=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=nbgawdWdGmMu4zqEmZxvCZPeuQN9j7ZoTgO2Rb3C/8t1ltGBxO6GARQbm3a97Hmcc
- b+nX6eOftJBkxHqu6xtW//ChGXzaRvDUexG2vuWzZsVuQKGViYYU7d3WXbQQMVXo9F
- 4Shxe+g6ISzeZZea3plKcfzi7hP+xC6tC32fLybZV0gosIAnvAQOrySzsrMlef5BD+
- TJ31Xx2hmkhwo3wCfZINsdumLBa6thMa2b8ITHfX73I+d8ajofhuO1rB3ZUJvIB1JT
- THEH6JhYyhHxCHrJTw6tD+v/KmNqcrC8/djK/BoUXhrexMVa8iGnbYsNsc/TL1zWBK
- wu4Jz2QMXSN6w==
+ b=fQg1AheaLdCnzMAs+MysgIrU5JY8UVq+CUT/+el49UaMYUmsbEVtuV5G9Nj3iZiwU
+ dWapvpX6LcnTcWpxYoxSmujDAZNYQNww4Q0h57NqKjeeh71cod5qAGYWQsu7f1VjwM
+ 6/PLRbthVNM/O/HT5ew4FcepYrwvxMd9Jca81zI+NME1a+OJZFYt0Ujk6HCidcZAfZ
+ i5M2Ur/8fDDkZngl/cba/4azq4uQZ0REgQMFmml/jdnVTH2qaXkrPsSBKwsLwhrbWu
+ xHDpR63TAdHF1jVChBILfEYERngCvmzyL2h3QCYVF20h1CVBU+XeMD7M8V5Vi2pN+M
+ 70DocpeSJ9l1Q==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 11BB24A02FA;
- Thu,  3 Jun 2021 03:53:37 +0000 (UTC)
+ by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 761F04A03E7;
+ Thu,  3 Jun 2021 03:53:39 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>
-Subject: [PATCH 3/8] Fix initialization of the hwrpb.hwrpb.cpuid field.
-Date: Wed,  2 Jun 2021 20:53:12 -0700
-Message-Id: <20210603035317.6814-4-thorpej@me.com>
+Subject: [PATCH 4/8] Make some PCI macros available to other files.  NFC.
+Date: Wed,  2 Jun 2021 20:53:13 -0700
+Message-Id: <20210603035317.6814-5-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
 References: <20210603035317.6814-1-thorpej@me.com>
@@ -47,7 +47,7 @@ X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c
  =?UTF-8?Q?=5F01_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
  bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=755
  mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2106030024
 Received-SPF: pass client-ip=17.58.23.185; envelope-from=thorpej@me.com;
@@ -74,94 +74,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize the hwrpb.hwrpb.cpuid field with the primary CPU ID, not
-the processor type, as per the architecture specification.  Some
-operating systems check and assert this.
-
-Improve a couple of comments.
+Move PCI_DEVFN(), PCI_BUS(), PCI_SLOT(), and PCI_FUNC() to pci.h.
 
 Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- init.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ pci.c | 4 ----
+ pci.h | 5 +++++
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/init.c b/init.c
-index 429a9ad..b3919b6 100644
---- a/init.c
-+++ b/init.c
-@@ -141,6 +141,7 @@ init_hwrpb (unsigned long memsize, unsigned long cpus)
-   unsigned long pal_pages;
-   unsigned long amask;
-   unsigned long i;
-+  unsigned long proc_type = EV4_CPU;
-   
-   hwrpb.hwrpb.phys_addr = PA(&hwrpb);
+diff --git a/pci.c b/pci.c
+index 87a101c..ba05adb 100644
+--- a/pci.c
++++ b/pci.c
+@@ -31,10 +31,6 @@
+ #include "pci_regs.h"
  
-@@ -162,12 +163,12 @@ init_hwrpb (unsigned long memsize, unsigned long cpus)
-   switch (__builtin_alpha_implver())
-     {
-     case 0: /* EV4 */
--      hwrpb.hwrpb.cpuid = EV4_CPU;
-+      proc_type = EV4_CPU;
-       hwrpb.hwrpb.max_asn = 63;
-       break;
  
-     case 1: /* EV5 */
--      hwrpb.hwrpb.cpuid
-+      proc_type
- 	= ((amask & 0x101) == 0x101 ? PCA56_CPU		/* MAX+BWX */
- 	   : amask & 1 ? EV56_CPU			/* BWX */
- 	   : EV5_CPU);
-@@ -175,11 +176,16 @@ init_hwrpb (unsigned long memsize, unsigned long cpus)
-       break;
+-#define PCI_DEVFN(slot, func)	((((slot) & 0x1f) << 3) | ((func) & 0x07))
+-#define PCI_BUS(devfn)		((devfn) >> 8)
+-#define PCI_SLOT(devfn)		(((devfn) >> 3) & 0x1f)
+-#define PCI_FUNC(devfn)		((devfn) & 0x07)
+ #define PCI_SLOT_MAX		32
+ #define PCI_FUNC_MAX		8
+ #define PCI_REGION_ROM		6
+diff --git a/pci.h b/pci.h
+index b751c6f..b4a4f80 100644
+--- a/pci.h
++++ b/pci.h
+@@ -60,6 +60,11 @@ extern void pci_config_maskw(int bdf, int addr, uint16_t off, uint16_t on);
  
-     case 2: /* EV6 */
--      hwrpb.hwrpb.cpuid = (amask & 4 ? EV67_CPU : EV6_CPU);  /* CIX */
-+      proc_type = (amask & 4 ? EV67_CPU : EV6_CPU);     /* CIX */
-       hwrpb.hwrpb.max_asn = 255;
-       break;
-     }
+ extern int pci_next(int bdf, int *pmax);
  
-+  /* This field is the WHAMI of the primary CPU.  Just initialize
-+     this to 0; CPU #0 is always the primary on real Alpha systems
-+     (except for the TurboLaser).  */
-+  hwrpb.hwrpb.cpuid = 0;
++#define PCI_DEVFN(slot, func)	((((slot) & 0x1f) << 3) | ((func) & 0x07))
++#define PCI_BUS(devfn)		((devfn) >> 8)
++#define PCI_SLOT(devfn)		(((devfn) >> 3) & 0x1f)
++#define PCI_FUNC(devfn)		((devfn) & 0x07)
 +
-   hwrpb.hwrpb.pagesize = PAGE_SIZE;
-   hwrpb.hwrpb.pa_bits = 40;
-   hwrpb.hwrpb.sys_type = SYS_TYPE;
-@@ -187,9 +193,18 @@ init_hwrpb (unsigned long memsize, unsigned long cpus)
-   hwrpb.hwrpb.sys_revision = SYS_REVISION;
-   for (i = 0; i < cpus; ++i)
-     {
--      /* ??? Look up these bits.  Snagging the value examined by the kernel. */
-+      /* Set the following PCS flags:
-+	 (bit 2) Processor Available
-+	 (bit 3) Processor Present
-+	 (bit 6) PALcode Valid
-+	 (bit 7) PALcode Memory Valid
-+	 (bit 8) PALcode Loaded
-+
-+	 ??? We really should be intializing the PALcode memory and
-+	 scratch space fields if we're setting PMV, or not set PMV,
-+	 but Linux checks for it, so...  */
-       hwrpb.processor[i].flags = 0x1cc;
--      hwrpb.processor[i].type = hwrpb.hwrpb.cpuid;
-+      hwrpb.processor[i].type = proc_type;
-     }
- 
-   hwrpb.hwrpb.intr_freq = HZ * 4096;
-@@ -257,8 +272,8 @@ init_i8259 (void)
-   outb(0x04, PORT_PIC1_DATA);	/* ICW3: slave control INTC2 */
-   outb(0x01, PORT_PIC1_DATA);	/* ICW4 */
- 
--  /* Initialize level triggers.  The CY82C693UB that's on real alpha
--     hardware doesn't have this; this is a PIIX extension.  However,
-+  /* Initialize level triggers.  The CY82C693UB that's on some real alpha
-+     systems controls these differently; we assume a PIIX here.  However,
-      QEMU doesn't implement regular level triggers.  */
-   outb(0xff, PORT_PIC2_ELCR);
-   outb(0xff, PORT_PIC1_ELCR);
+ #define foreachpci(BDF, MAX)				\
+ 	for (MAX = 0x0100, BDF = pci_next(0, &MAX);	\
+ 	     BDF >= 0;					\
 -- 
 2.30.2
 
