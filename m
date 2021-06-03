@@ -2,45 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50CD39A81A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:18:56 +0200 (CEST)
-Received: from localhost ([::1]:50916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8914F39A81C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:20:32 +0200 (CEST)
+Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqzf-00033F-K8
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55060)
+	id 1lor1D-0006Ni-HA
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:20:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1loquh-0004W0-Ri
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:13:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37060)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1loquf-0005iy-IH
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:13:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 95F3961420;
- Thu,  3 Jun 2021 17:13:39 +0000 (UTC)
-Date: Thu, 3 Jun 2021 18:13:37 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v13 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
-Message-ID: <20210603171336.GH20338@arm.com>
-References: <20210524104513.13258-1-steven.price@arm.com>
- <20210524104513.13258-8-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loqxX-0001GY-Sm
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:16:43 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1loqxU-0007Qa-V4
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:16:43 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ k22-20020a17090aef16b0290163512accedso3729330pjz.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 10:16:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FtNAMkyuR6DdTqQtDmmjUjfmQ1AjtIwvxI4mVzNAENM=;
+ b=fRbH8wLeK5VDMsZcHAhko31in/jmmXvvSymfwmIcMr7es8mTskeCQ5Rv7qY8CMl8Ol
+ Rj4xwAsowSwfpem95tmbDYfo3kSX0VjyccfCH36k9V9GMqi5l97srSZJJ8Yr3MSPwf7m
+ l2B7fTThwwtmx/6xn6kZbpc7lAMH73aQc0CUbOGhCtqAWpnqX1T4OXziWhNUuEJloMt/
+ vuoZzwpjHn0gskpGf7arxRDNn6Z+RwKPklRXRJ1gqO6cmIegDxdFhl9zwlyeQdlzjnoL
+ LCKRFsrZUydqU2pCxGm8kvW146kouj3B0I0LJ/ET7PC2hSSXF9N9qBhQwocLsc9resYl
+ qIog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FtNAMkyuR6DdTqQtDmmjUjfmQ1AjtIwvxI4mVzNAENM=;
+ b=Q+2OiYNtQVjzjoyyz3pxyjXuQTAC/yQoYuZCYfYNqEkr7dmDUfEqBhyOoHIm0v/sHt
+ mkSEh+CfIfIQ3aZUbpmNzXWrrqqpls4Dp6IltOl7aOPGhxN+30dVtoNvf5B2yGsOtJG+
+ LqdQTxD/0mTP+89JB8usoeZV4i29B4AeVMgTrVrBOJ4paiYs7Dl2UPOkEuxud4DiIhgO
+ RLXqt93Lh72eMlnIXtIaKEQS/7B56iWi49VgPJy7INE4oPeAit4RQHsxr3q++wXerrW/
+ e0TLPIUm4+jovNnDVbxrGzlGUJEJZ4B4i4KLtrMgsdRYS8m7az47LS3Nn/fsHvQUkO2Q
+ KM8w==
+X-Gm-Message-State: AOAM533mLnNHDqO+5yY83NxVIYqxVX5tU5tUimAYHGGP4CQS+Qtx6pze
+ bcB9P6dAtsCDsHSG/vMZdwWIWA==
+X-Google-Smtp-Source: ABdhPJyonSCDztWwjgUBcQKqXjG4PDkPeYI5nQUIA6tUWxwDpjj255hmim3ijKBWy/8BchZwtqZskA==
+X-Received: by 2002:a17:902:7d83:b029:105:8b10:629e with SMTP id
+ a3-20020a1709027d83b02901058b10629emr220260plm.0.1622740599371; 
+ Thu, 03 Jun 2021 10:16:39 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ h16sm1325077pfk.119.2021.06.03.10.16.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 10:16:39 -0700 (PDT)
+Subject: Re: [PATCH v2 04/26] s390x/tcg: Simplify vop64_2() handling
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210517142739.38597-1-david@redhat.com>
+ <20210517142739.38597-5-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <64d0fa38-7f8d-b6ed-d871-68b97fa20d9e@linaro.org>
+Date: Thu, 3 Jun 2021 10:16:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524104513.13258-8-steven.price@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210517142739.38597-5-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,69 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 11:45:12AM +0100, Steven Price wrote:
-> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-> index 24223adae150..b3edde68bc3e 100644
-> --- a/arch/arm64/include/uapi/asm/kvm.h
-> +++ b/arch/arm64/include/uapi/asm/kvm.h
-> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
->  	__u32 reserved[12];
->  };
->  
-> +struct kvm_arm_copy_mte_tags {
-> +	__u64 guest_ipa;
-> +	__u64 length;
-> +	void __user *addr;
-> +	__u64 flags;
-> +	__u64 reserved[2];
-> +};
-> +
-> +#define KVM_ARM_TAGS_TO_GUEST		0
-> +#define KVM_ARM_TAGS_FROM_GUEST		1
-> +
->  /* If you need to interpret the index values, here is the key: */
->  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
->  #define KVM_REG_ARM_COPROC_SHIFT	16
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index e89a5e275e25..baa33359e477 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -1345,6 +1345,13 @@ long kvm_arch_vm_ioctl(struct file *filp,
->  
->  		return 0;
->  	}
-> +	case KVM_ARM_MTE_COPY_TAGS: {
-> +		struct kvm_arm_copy_mte_tags copy_tags;
-> +
-> +		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
-> +			return -EFAULT;
-> +		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
-> +	}
+On 5/17/21 7:27 AM, David Hildenbrand wrote:
+> +#define DEF_GVEC_VOP2_FN(NAME, FN, BITS)                                       \
+> +void HELPER(gvec_##NAME##BITS)(void *v1, const void *v2, CPUS390XState *env,   \
+> +                               uint32_t desc)                                  \
+> +{                                                                              \
+> +    const uint8_t erm = extract32(simd_data(desc), 4, 4);                      \
+> +    const uint8_t se = extract32(simd_data(desc), 3, 1);                       \
 
-I wonder whether we need an update of the user structure following a
-fault, like how much was copied etc. In case of an error, some tags were
-copied and the VMM may want to skip the page before continuing. But here
-there's no such information provided.
+bool for se?  The argumemt to vopN_2 is bool...
 
-On the ptrace interface, we return 0 on the syscall if any bytes were
-copied and update iov_len to such number. Maybe you want to still return
-an error here but updating copy_tags.length would be nice (and, of
-course, a copy_to_user() back).
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Catalin
+r~
 
