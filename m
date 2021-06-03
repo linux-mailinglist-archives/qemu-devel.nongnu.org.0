@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B16399CFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:46:02 +0200 (CEST)
-Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6060A399CBA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:38:51 +0200 (CEST)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loizJ-000595-KS
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:46:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39834)
+	id 1loisM-000365-Co
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidb-0007gh-Ii; Thu, 03 Jun 2021 04:23:36 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43681 helo=ozlabs.org)
+ id 1loida-0007gI-BG; Thu, 03 Jun 2021 04:23:36 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53305 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidV-0000Ed-H1; Thu, 03 Jun 2021 04:23:35 -0400
+ id 1loidW-0000G1-S0; Thu, 03 Jun 2021 04:23:34 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5p1ZfVz9t18; Thu,  3 Jun 2021 18:22:37 +1000 (AEST)
+ id 4Fwf5p432Gz9t1r; Thu,  3 Jun 2021 18:22:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708558;
- bh=U8ptKq4R/vSM+KbfyKdCmuyb5Mf+3aN2n9WZQJLU7wE=;
+ bh=OL8anpbvcwrlrNWVj1Sfzf402aUXv92xHzon4EhJ+n4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AbebrUNmDehsN4UOQsvIkSJlTB7bNC5JFDue6IFelaLtmrs3Ch/+fwP+q7YjAllC1
- 9xAh6hzd9L6rdaCURIKdrL1nUUky2iuHW+ZgG+TQbY6SMcG6HcuYvPMbqSUv+lzlc6
- /yF0gvOBX6XOoGi9i2/0Df2NJmhzlfffpYY/6B/4=
+ b=hWtfPmholyKUUXcsRGNvDaE/ZIhzbebgojU+Opgs3i9vhDq3ByX/PdXYOTfImbxDW
+ 7+nl6zGwjw9snSCvYSX03S/wXSnwc9VmvKX5aUlA4w9QX0TZ57jzbGsQDjmmI52hpr
+ +mHAx2IyntcYgV7KmDw+tmKwKtllKhthFinTEP+Q=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 26/42] target/ppc: powerpc_excp: Remove dump_syscall_vectored
-Date: Thu,  3 Jun 2021 18:22:15 +1000
-Message-Id: <20210603082231.601214-27-david@gibson.dropbear.id.au>
+Subject: [PULL 27/42] target/ppc: powerpc_excp: Consolidade TLB miss code
+Date: Thu,  3 Jun 2021 18:22:16 +1000
+Message-Id: <20210603082231.601214-28-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,48 +64,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-This function is identical to dump_syscall, so use the latter for
-system call vectored as well.
+The only difference in the code for Instruction fetch, Data load and
+Data store TLB miss errors is that when called from an unsupported
+processor (i.e. not one of 602, 603, 603e, G2, 7x5 or 74xx), they
+abort with a message specific to the operation type (insn fetch, data
+load/store).
+
+If a processor does not support those interrupts we should not be
+registering them in init_excp_<proc> to begin with, so that error
+message would never be used.
+
+I'm leaving the message in for completeness, but making it generic and
+consolidating the three interrupts into the same case statement body.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20210601214649.785647-3-farosas@linux.ibm.com>
+Message-Id: <20210601214649.785647-4-farosas@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/excp_helper.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ target/ppc/excp_helper.c | 37 ++-----------------------------------
+ 1 file changed, 2 insertions(+), 35 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 5ea8503b46..9e3aae1c96 100644
+index 9e3aae1c96..fd147e2a37 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -70,18 +70,6 @@ static inline void dump_syscall(CPUPPCState *env)
-                   ppc_dump_gpr(env, 8), env->nip);
- }
- 
--static inline void dump_syscall_vectored(CPUPPCState *env)
--{
--    qemu_log_mask(CPU_LOG_INT, "syscall r0=%016" PRIx64
--                  " r3=%016" PRIx64 " r4=%016" PRIx64 " r5=%016" PRIx64
--                  " r6=%016" PRIx64 " r7=%016" PRIx64 " r8=%016" PRIx64
--                  " nip=" TARGET_FMT_lx "\n",
--                  ppc_dump_gpr(env, 0), ppc_dump_gpr(env, 3),
--                  ppc_dump_gpr(env, 4), ppc_dump_gpr(env, 5),
--                  ppc_dump_gpr(env, 6), ppc_dump_gpr(env, 7),
--                  ppc_dump_gpr(env, 8), env->nip);
--}
--
- static inline void dump_hcall(CPUPPCState *env)
- {
-     qemu_log_mask(CPU_LOG_INT, "hypercall r3=%016" PRIx64
-@@ -564,7 +552,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+@@ -689,52 +689,20 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+                   "is not implemented yet !\n");
          break;
-     case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                     */
-         lev = env->error_code;
--        dump_syscall_vectored(env);
-+        dump_syscall(env);
-         env->nip += 4;
-         new_msr |= env->msr & ((target_ulong)1 << MSR_EE);
-         new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+     case POWERPC_EXCP_IFTLB:     /* Instruction fetch TLB error              */
+-        switch (excp_model) {
+-        case POWERPC_EXCP_602:
+-        case POWERPC_EXCP_603:
+-        case POWERPC_EXCP_603E:
+-        case POWERPC_EXCP_G2:
+-            goto tlb_miss_tgpr;
+-        case POWERPC_EXCP_7x5:
+-            goto tlb_miss;
+-        case POWERPC_EXCP_74xx:
+-            goto tlb_miss_74xx;
+-        default:
+-            cpu_abort(cs, "Invalid instruction TLB miss exception\n");
+-            break;
+-        }
+-        break;
+     case POWERPC_EXCP_DLTLB:     /* Data load TLB miss                       */
+-        switch (excp_model) {
+-        case POWERPC_EXCP_602:
+-        case POWERPC_EXCP_603:
+-        case POWERPC_EXCP_603E:
+-        case POWERPC_EXCP_G2:
+-            goto tlb_miss_tgpr;
+-        case POWERPC_EXCP_7x5:
+-            goto tlb_miss;
+-        case POWERPC_EXCP_74xx:
+-            goto tlb_miss_74xx;
+-        default:
+-            cpu_abort(cs, "Invalid data load TLB miss exception\n");
+-            break;
+-        }
+-        break;
+     case POWERPC_EXCP_DSTLB:     /* Data store TLB miss                      */
+         switch (excp_model) {
+         case POWERPC_EXCP_602:
+         case POWERPC_EXCP_603:
+         case POWERPC_EXCP_603E:
+         case POWERPC_EXCP_G2:
+-        tlb_miss_tgpr:
+             /* Swap temporary saved registers with GPRs */
+             if (!(new_msr & ((target_ulong)1 << MSR_TGPR))) {
+                 new_msr |= (target_ulong)1 << MSR_TGPR;
+                 hreg_swap_gpr_tgpr(env);
+             }
+-            goto tlb_miss;
++            /* fall through */
+         case POWERPC_EXCP_7x5:
+-        tlb_miss:
+ #if defined(DEBUG_SOFTWARE_TLB)
+             if (qemu_log_enabled()) {
+                 const char *es;
+@@ -769,7 +737,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+             msr |= ((env->last_way + 1) & (env->nb_ways - 1)) << 17;
+             break;
+         case POWERPC_EXCP_74xx:
+-        tlb_miss_74xx:
+ #if defined(DEBUG_SOFTWARE_TLB)
+             if (qemu_log_enabled()) {
+                 const char *es;
+@@ -799,7 +766,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+             msr |= env->error_code; /* key bit */
+             break;
+         default:
+-            cpu_abort(cs, "Invalid data store TLB miss exception\n");
++            cpu_abort(cs, "Invalid TLB miss exception\n");
+             break;
+         }
+         break;
 -- 
 2.31.1
 
