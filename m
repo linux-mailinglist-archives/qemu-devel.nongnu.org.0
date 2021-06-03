@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0EF39A51F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 17:56:50 +0200 (CEST)
-Received: from localhost ([::1]:46234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DA839A520
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 17:56:51 +0200 (CEST)
+Received: from localhost ([::1]:46324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lopiD-0005Jp-Qp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 11:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34170)
+	id 1lopiE-0005NP-Ti
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 11:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopgv-0003ch-N3
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:55:30 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopgt-00043D-Ql
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:55:29 -0400
-Received: by mail-ej1-x636.google.com with SMTP id ce15so9987163ejb.4
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:55:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1xYosbAQMh8z6PamZTAEZodmIu/fMkFmaGJh9ZEQMDY=;
- b=HB97XGfX7+56mkWVn8ugKtzWgv7l9pmXCuEnd2NPwv2tugrsvanLlqm+ML1RNxByR4
- jzxPN4dobiQJ4CacZQo5xVe0V5EGshvLPStMd/50TGHLD4e98TiTWd8UZCRZS/vlQckI
- D/IuUSTvaRxmyVejE3dm3OiUB5krpV/+FBQErDYB64iyyDoQVlYPhZQk2fvgwPgLAlVW
- BpDJfYcl4nUJV46o6kHWLPafGwana9/RYnWnhYEvQLGFsX9mBWQ35hAErb2b2653vv44
- bmT+L0gNXsdgO2lMxYDlJGI6LYT5/5f0tlMD8SzxYtoXIeCB6KsSrVhw9RmPDaPXehdW
- i+fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1xYosbAQMh8z6PamZTAEZodmIu/fMkFmaGJh9ZEQMDY=;
- b=GzMk7DrarHDRGn+d5YIkfz8rBBe0daW0Q1W5vRxEQE8sQL7x5G7scwxdAVP7Aab4V+
- 3g/dMAdzbZ4EHgVzkWlGwPRASw7e2OI+dqBnmcDjjumpjdvnCuXLfxx0sJWhoyUPrDBv
- avh+mT9e1QkMmjvZMh9HK3i8hTXrSMD38A+1eP0w9KM4ZBKSdHkfG+V6bf+PHioCSckg
- 1QOrHisw5SIAEwpcyp6kw+JXza1j/4t+UYUoLOL8liF3VV6kfq650myF6cfrj1WSutl8
- 7YGDWsBPRp0tFa2m0qNMB+y4qkI6YMN8UvLjEBTqx2ENwNG9S7zIT3cQ13JCVlffUWDt
- usuA==
-X-Gm-Message-State: AOAM531vmV+VzCdqdbCGv/icOn0saDVYn18ISPrKEfSQbR5HkbBtiXbP
- 2E68Go8y1ADkNDhVGspLasJ64pF4a4+RJXvBGlLG/Q==
-X-Google-Smtp-Source: ABdhPJwu/RqJ2Li1iIQ6lkgC5e/cVQk31byyfQGdxDNNA8erVYHC/ehZxl7ervOBV9No/EFd8WOGDuonzEC1uZ9Pnug=
-X-Received: by 2002:a17:906:5299:: with SMTP id c25mr53841ejm.85.1622735725881; 
- Thu, 03 Jun 2021 08:55:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1loph2-0003eR-8Y
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:55:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21283)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lopgz-00046V-24
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:55:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622735731;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=b7qU7/27IWwyDOlpWr6HBIQ6/ivj+oq2t3/5q6YUdp0=;
+ b=MSbLzEc1Y99CRIPhyWPJ0ow7EHzknw+dXxfmI1BBDPIv9Oie2RyEUHpF0laODz99Cn4oRY
+ QTpAf1SOhYhlHZvou1Q3LkILoxEI0OSrOwqq1SBxD9kUykbXvfISs7TiOVElVbHO6ezLuJ
+ a2KsWlz5Ba5F2sZGt8Yh5bZE22kGEvc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-B2oMTomHM7SRygO_jewmwA-1; Thu, 03 Jun 2021 11:55:29 -0400
+X-MC-Unique: B2oMTomHM7SRygO_jewmwA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A6CE1020C38;
+ Thu,  3 Jun 2021 15:55:27 +0000 (UTC)
+Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AC3D18A61;
+ Thu,  3 Jun 2021 15:55:26 +0000 (UTC)
+Date: Thu, 3 Jun 2021 10:55:24 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 14/33] nbd: move connection code from block/nbd to
+ nbd/client-connection
+Message-ID: <20210603155524.ihyq2pjyp7a46rvb@redhat.com>
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-15-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210527142340.1352791-1-kraxel@redhat.com>
- <20210527142340.1352791-3-kraxel@redhat.com>
-In-Reply-To: <20210527142340.1352791-3-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Jun 2021 16:54:53 +0100
-Message-ID: <CAFEAcA_kNW3kovQkSgz24KA8Y6EmcaDEMDp-oJTi+W4noLmY6A@mail.gmail.com>
-Subject: Re: [PULL 02/23] vhost-user-gpu: fix resource leak in
- 'vg_resource_create_2d' (CVE-2021-3544)
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210416080911.83197-15-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,52 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Li Qiang <liq3ea@163.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, rvkagan@yandex-team.ru, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 27 May 2021 at 15:28, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> From: Li Qiang <liq3ea@163.com>
->
-> Call 'vugbm_buffer_destroy' in error path to avoid resource leak.
->
-> Fixes: CVE-2021-3544
-> Reported-by: Li Qiang <liq3ea@163.com>
-> Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
-> Signed-off-by: Li Qiang <liq3ea@163.com>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Message-Id: <20210516030403.107723-3-liq3ea@163.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+On Fri, Apr 16, 2021 at 11:08:52AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> We now have bs-independent connection API, which consists of four
+> functions:
+> 
+>   nbd_client_connection_new()
+>   nbd_client_connection_unref()
+>   nbd_co_establish_connection()
+>   nbd_co_establish_connection_cancel()
+> 
+> Move them to a separate file together with NBDClientConnection
+> structure which becomes private to the new API.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  contrib/vhost-user-gpu/vhost-user-gpu.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user=
--gpu/vhost-user-gpu.c
-> index f73f292c9f72..b5e153d0d648 100644
-> --- a/contrib/vhost-user-gpu/vhost-user-gpu.c
-> +++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-> @@ -349,6 +349,7 @@ vg_resource_create_2d(VuGpu *g,
->          g_critical("%s: resource creation failed %d %d %d",
->                     __func__, c2d.resource_id, c2d.width, c2d.height);
->          g_free(res);
-> +        vugbm_buffer_destroy(&res->buffer);
->          cmd->error =3D VIRTIO_GPU_RESP_ERR_OUT_OF_MEMORY;
->          return;
->      }
+>  include/block/nbd.h     |  11 +++
+>  block/nbd.c             | 187 -----------------------------------
+>  nbd/client-connection.c | 212 ++++++++++++++++++++++++++++++++++++++++
+>  nbd/meson.build         |   1 +
 
-Hi; Coverity reports this as a use-after-free: we free 'res'
-and then on the next line we pass a pointer into this freed
-memory to vugbm_buffer_destroy(), which dereferences it.
-Probably the two lines should be in the other order ?
+> +++ b/include/block/nbd.h
+> @@ -406,4 +406,15 @@ const char *nbd_info_lookup(uint16_t info);
+>  const char *nbd_cmd_lookup(uint16_t info);
+>  const char *nbd_err_lookup(int err);
+>  
+> +/* nbd/client-connection.c */
+> +typedef struct NBDClientConnection NBDClientConnection;
+> +
+> +NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr);
+> +void nbd_client_connection_release(NBDClientConnection *conn);
+> +
+> +QIOChannelSocket *coroutine_fn
+> +nbd_co_establish_connection(NBDClientConnection *conn, Error **errp);
 
-(CID 1453812)
+To me, the placement of coroutine_fn looks a bit odd here, like it is
+the name of a pointer declaration.  But I see that we have precedence
+for doing it that way (such as block.c:bdrv_co_enter()); the
+difference being that none of the other locations split the return
+type on one line and the function name on another.  I don't really
+have any changes to suggest, though, so I'm fine keeping it the way
+you wrote.
 
-thanks
--- PMM
+> +++ b/nbd/client-connection.c
+
+There may be fallout in v4 based on what you tweak in the code that
+got moved here, but the split to a new file looks sane to me.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
