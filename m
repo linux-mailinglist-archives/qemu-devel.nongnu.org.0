@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAB839A340
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:33:09 +0200 (CEST)
-Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225EA39A359
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:35:01 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1looPD-0000Mf-MN
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35682)
+	id 1looR2-0004zV-3g
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1looJd-0005ie-E1
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:27:21 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38598)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1looJt-0006Hn-Tz
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:27:37 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1looJb-0000J5-Rk
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:27:21 -0400
-Received: by mail-ej1-x629.google.com with SMTP id og14so4230708ejc.5
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 07:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eiNYKdEymzNvK37Wm5/uHgaRQxlBgWOvTJMeH6EfWJI=;
- b=pXv9TyuhdBwI4/dhVffFBp8GzmauTf896baQ9e71K7sEsoo3K6DLbD8apTcOgYsmya
- XxgV3qdQ0aStrqfRIotbwmek6jnyGJHRD1hifFkwaSRT0wxmOSr/iJsgE7yvKFJAsgZX
- lb2Bwi1VBrqwvzlW3n+zWxVhaRe3admwBREGoS/gbntf2djtc9poJwZPSACsoXcffMyO
- 4gjp8opQ/L4OFKD/+AK8EYhiX4gcVKYn8gEzYjq+qMPq0Ki3qHq6YtpsjmptXT0AZRX2
- WQcyyJHSp2G6wcUYQnGNV+yMSGwhI69Ahws0quwR05TisPzaalvBEpyMGTXAY7bz5YYN
- ArtA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1looJr-0000T0-9O
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:27:37 -0400
+Received: by mail-wr1-x435.google.com with SMTP id h8so6031841wrz.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 07:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=e+okjPgqMgYm7eX8jb7cgHNxes+OELAp2nBDgBijeQpyyMWhwggFi5VVEkV85+BJZ6
+ zkBfGlsmLnIKthWdF5KsFoq0DjAt4mnj3/usLPlugaj+rrqxfKEzQGkHPU6Upm7XDZpq
+ Bc1+Ekk2eJkkM4Zk/cFFGy8qlYfHWjfc+7pZ6rCT+Tse6eCfOLQg1YbyOYDKA69JpJNq
+ SG2TkoYCLqrjlHuIdkivrtl25PKgQ+KjLMpRn0qEZ62modwc0mnLVfeFyRdef0FhJHtb
+ Ed+O9BDB8tJhRBeE1+isrhWsO33L3JORjaflgCuRgbtWLR6JMvH638XVdFOw5CPZ7oMG
+ JM4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eiNYKdEymzNvK37Wm5/uHgaRQxlBgWOvTJMeH6EfWJI=;
- b=OovpeIq+AafrHLTLMTaCh+MnS/NcCaMgGDYw6g0n1++eoBA8k94PSxwRik0wJQWNRK
- rS5ALr3BvKEt5GPiiYeF+imbjd1/xbhM7tUui6YvfLOpgHP6DgQBTdMq5xGJvvc2tFWy
- UIF86DaqAOnpgVEOspJpDbcRdosjdkdrZI+QUHHBG24r/twrjgWHPC/ERdv8XKCMxeCL
- Mu5AfiNrwdlaIkJYIwrH4/ubynl4CmC4PnF8XQ+18gMUxnymBDv39DI7hqJ1YyW4CpKd
- ZDuA2Gjg4sZY1xqfDAFft/pL2lEAwAxgzEe1xgPp3chmAVyiAeNrkWsw6LrUnl0AMudO
- Ub9w==
-X-Gm-Message-State: AOAM531L5B01M8Pt32zoDk6a9KvHTPg1B4Gw2FArD7OmKqhOO3TuUtfy
- 9Vrv/ZL2IYoe9KxIbAndL+EIfirtpiSpKA==
-X-Google-Smtp-Source: ABdhPJyklr70PpOmSHAo2yJ6lPy0AvlXFQJWl91Ct/7TgpPdqgvNjLLtCNzhubNnBNjNo57YWmtXzA==
-X-Received: by 2002:a17:906:2612:: with SMTP id
- h18mr22979668ejc.417.1622730438622; 
- Thu, 03 Jun 2021 07:27:18 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- p13sm1562747ejr.87.2021.06.03.07.27.17 for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=QcAgN+LRnGGb36X480sLhcoiIDvrHxf0rMaAdkjLyDETd7PiJArIcYUfvu45QDMQMl
+ 2JuzzIS5Borgzw0U8oRwGJ1WT0WC3ge44RPJaZs+OyCys4MUwmsLz5KBCL8uqN529iJ1
+ 3lVjxo36NmTfami3cYoLaiDlEoijk87eBHWwvj32Fm5Kih1WQM0ojUuZ4s93lBZq28GG
+ 8ZVsG+SRV4klwI3limAafQOny1YreWK8erluWQltBma0QxnZ8ikAMfATtNoCkkFQOsNv
+ OeUi6eG2CbmQR8qFzRWSjwAsWyyOfmc5hNdON8FJVu7qEWcdJeyPGC75sdKvFwx2IT5P
+ jyAA==
+X-Gm-Message-State: AOAM5321RtD6whjigqI7A9nquir484z/XUbT+SlA9srUp65klBHgRtvW
+ GUI/WGbLfHMXYuZ4bY5jHnf6SQ==
+X-Google-Smtp-Source: ABdhPJz0CGegPFUZL4ToZl9E2hzy/O7XkPw+BAdm1JOaA8ScEhxPhjBar6yedSPcS2waNgh43zuzBw==
+X-Received: by 2002:adf:d23a:: with SMTP id k26mr294040wrh.68.1622730453731;
+ Thu, 03 Jun 2021 07:27:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h46sm4110383wrh.44.2021.06.03.07.27.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 07:27:18 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/i386: tcg: fix switching from 16-bit to 32-bit
- tasks or vice versa
-Date: Thu,  3 Jun 2021 16:27:14 +0200
-Message-Id: <20210603142714.224210-4-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210603142714.224210-1-pbonzini@redhat.com>
-References: <20210603142714.224210-1-pbonzini@redhat.com>
+ Thu, 03 Jun 2021 07:27:32 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1E7BD1FF7E;
+ Thu,  3 Jun 2021 15:27:32 +0100 (BST)
+References: <20210525150706.294968-1-richard.henderson@linaro.org>
+ <20210525150706.294968-22-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 21/28] softfloat: Convert floatx80 to integer to
+ FloatParts
+Date: Thu, 03 Jun 2021 15:27:26 +0100
+In-reply-to: <20210525150706.294968-22-richard.henderson@linaro.org>
+Message-ID: <87k0nb81m3.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,33 +88,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The format of the task state segment is governed by bit 3 in the
-descriptor type field.  On a task switch, the format for saving
-is given by the current value of TR's type field, while the
-format for loading is given by the new descriptor.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/seg_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 2112c5fc51..3ed20ca31d 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -319,7 +319,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
-     }
- 
-     /* save the current state in the old TSS */
--    if (type & 8) {
-+    if (old_type & 8) {
-         /* 32 bit */
-         cpu_stl_kernel_ra(env, env->tr.base + 0x20, next_eip, retaddr);
-         cpu_stl_kernel_ra(env, env->tr.base + 0x24, old_eflags, retaddr);
--- 
-2.31.1
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
