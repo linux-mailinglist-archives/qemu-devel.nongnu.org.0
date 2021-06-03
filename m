@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCAF39A919
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:24:57 +0200 (CEST)
-Received: from localhost ([::1]:41848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA2239A920
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:26:25 +0200 (CEST)
+Received: from localhost ([::1]:45116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lor5U-0008DR-Ve
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
+	id 1lor6u-0002Mb-R3
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:26:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lor4V-0006iR-D1
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:23:55 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:53237)
+ id 1lor5x-0001RQ-2q
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:25:25 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:39680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lor4T-0004Ao-PL
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:23:55 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id h16so4056727pjv.2
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 10:23:52 -0700 (PDT)
+ id 1lor5u-00051V-Iv
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:25:24 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id k15so5402653pfp.6
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 10:25:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xsDZJB0e0ZSEvN7GsDDsnhhcwSOAmK6XaCr9o8TRIPs=;
- b=N4jBgW7+ZZnLhe18cY/1lru3sohxPuFeT126+9fNti5jfH1+OkxQ+3TRs4SXuDdwqP
- s8xVDaHulBhV3L/oWALxMf9EOPtfDiLO9IDHkbpnm/sfUUsYQ44NFMXY3Jp17O7KmN5H
- 5MTEVfHEd66zazgU39qm96oKyc0/Now/cDl5allXj0TFaoRK2/Fs6qJNDrxA3CYUfjMf
- QQK7uX/Z1rgeSieBmdNHXNfFBmZQ5/HpSG2Z/fo5qam/Tf5U6h/tWHhiJMWVu3+yDuFZ
- BKcqhpo/RiS46wjITA15nObT7gVBLcXxgqWOVweG8MEKYodYRDy9MZq/Am6YJ5BQVINm
- UR7g==
+ bh=FXjBrc/n5IOancEwJAEX2KJhF6ui+4lM02FJ/reccQ4=;
+ b=ROxMUNwyqBpQQMtig1iK88FbxB7aUyRgr8WOCH9llZzHa1H8NGEcYHWvk/zV4fhU2J
+ gx0xXCFAGuJVh6ZhSukQH55106hBstH8rKXxLmNxGAOqPfKlnpeZwfjS4/JnXLlneJpU
+ 24AJojMs0D3ek8zqQsg7dn2LYMNa5EYDxcuIzB35U6C9AUUJFOmolt9v//lb0CUdyIKU
+ a7ShzU03KTqmIiwpN4Cfz4pfYrqpHnxoxr06+dv1IfM48ach1yfMkV9ex0VT9bVY3Mqv
+ 806npL8dFqL+2Z4gR3xcJJU9MnyTv/ifKAFXn61oM2ANpH3mS4u/gYQL1n2hFzBA+OZQ
+ bnGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xsDZJB0e0ZSEvN7GsDDsnhhcwSOAmK6XaCr9o8TRIPs=;
- b=hh1dWrhFn8oQf+kH1TeLNrpvrzFNtvUU76JwEUGVfUQJm6wB4sov8rNqlkBZAfDa0H
- 3KzVE6isn/XCvpP2Pu8RuDDdthCwA8WowTW3lfYWlKRxWCKYlNINr59klyTDmdzdhgAT
- A5NATAA6BwbdhRQG3XAPb4dcmfS8mVKL7griJGiMqr4/FuSJKdNwh3WtvvHHAo7Lkchr
- 2N/eWRq/sO5lkzQD4xqKIkcpZBbukxTCFZ+9n5Bg3+cxrJMustgyKsZfkqjkz3boMeg2
- wN7dCR1Mj9C3mqAAFeUE1fctaoPy2OmgyJaaNeDzSn/oDCPFSA3rDqmk2zegtoLCa7Nu
- I8FA==
-X-Gm-Message-State: AOAM5328Z/SwW/sustj82fM1CipmH9+3SmJuRzOWh0nM/NOlQzT2zvql
- mZXiU1kv+xji0xfs6KzSsVA1NQ==
-X-Google-Smtp-Source: ABdhPJzYWNtanthqX93zgXC6Q4Rumni7iwvwKKQOPwiNZO6uBgSr3tJe851+TAqOzKJ5gj9w9s3pZg==
-X-Received: by 2002:a17:90a:a087:: with SMTP id
- r7mr12434853pjp.84.1622741031970; 
- Thu, 03 Jun 2021 10:23:51 -0700 (PDT)
+ bh=FXjBrc/n5IOancEwJAEX2KJhF6ui+4lM02FJ/reccQ4=;
+ b=D3AzYY1Gm6nWsLdpZodu6W06Sh/IpLFzdmXnYro+uJAgfELJA2h1zUDzUvXgwwylSe
+ MkXc6jModJpA0yppYKVNcqomKsI88i/qN6B92KBZPuAkXp/RXWNoTMjZsqgvj2lM8a9d
+ OG7nPDYSRZ4JJXzvKD+NZotsAFuzvrlH5EhtWJH4js5u1YrlSners900QViNT5pYaglF
+ vgwe3UzZuPl/yA9O6shVzHPNXv83Ln0j+45oPD5soZSURLVpHzC34Be2uFeVB0rD42Qm
+ ye9yN7gmvAP2iK58xkhnlFbKhwdDDnwY35TlvBrWT2HUyZIPDYQIB2Ft8emUYnqf6Rw7
+ Hniw==
+X-Gm-Message-State: AOAM532wW9Jas/CC3nWGEp4Ik7jorjQ/+K8Ic1WRt8asu34XXqOdVqua
+ 7Tj9VA4n9Cb/dkj8llSRrVs6cg==
+X-Google-Smtp-Source: ABdhPJxR2MO9MzUVYel5OjlGYeNh5eZmdLZHRb+IPIt2Bz8/T0ZGKd5AjDA4RlzyF2oH7rhuXZdSSQ==
+X-Received: by 2002:a62:d411:0:b029:2b5:fce4:7e64 with SMTP id
+ a17-20020a62d4110000b02902b5fce47e64mr117924pfh.15.1622741121205; 
+ Thu, 03 Jun 2021 10:25:21 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- f3sm2710500pfd.21.2021.06.03.10.23.51
+ h13sm2444668pfv.213.2021.06.03.10.25.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Jun 2021 10:23:51 -0700 (PDT)
-Subject: Re: [PATCH v2 08/26] s390x/tcg: Simplify vfll32() handling
+ Thu, 03 Jun 2021 10:25:20 -0700 (PDT)
+Subject: Re: [PATCH v2 09/26] s390x/tcg: Simplify vflr64() handling
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20210517142739.38597-1-david@redhat.com>
- <20210517142739.38597-9-david@redhat.com>
+ <20210517142739.38597-10-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b8837038-38b1-07f1-815d-6d83478c097f@linaro.org>
-Date: Thu, 3 Jun 2021 10:23:50 -0700
+Message-ID: <e8e80a30-db1d-2083-d79f-4ea4d29bfc82@linaro.org>
+Date: Thu, 3 Jun 2021 10:25:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210517142739.38597-9-david@redhat.com>
+In-Reply-To: <20210517142739.38597-10-david@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -101,9 +101,9 @@ On 5/17/21 7:27 AM, David Hildenbrand wrote:
 > Signed-off-by: David Hildenbrand<david@redhat.com>
 > ---
 >   target/s390x/helper.h           |  1 -
->   target/s390x/translate_vx.c.inc |  6 +-----
->   target/s390x/vec_fpu_helper.c   | 21 +++++----------------
->   3 files changed, 6 insertions(+), 22 deletions(-)
+>   target/s390x/translate_vx.c.inc |  3 +--
+>   target/s390x/vec_fpu_helper.c   | 29 +++++++----------------------
+>   3 files changed, 8 insertions(+), 25 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
