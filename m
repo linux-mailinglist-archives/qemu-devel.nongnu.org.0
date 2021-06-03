@@ -2,44 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324FA39A5E7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:40:31 +0200 (CEST)
-Received: from localhost ([::1]:41452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713A139A5CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:34:21 +0200 (CEST)
+Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqOU-0002UZ-6V
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:40:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
+	id 1loqIW-0005ka-Cs
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lopm4-0003JG-Ml
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:00:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45004)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lopnt-0006VP-Oj
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:02:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1loplv-0007pU-LK
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:00:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F074613DC;
- Thu,  3 Jun 2021 16:00:33 +0000 (UTC)
-Date: Thu, 3 Jun 2021 17:00:31 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v13 4/8] KVM: arm64: Introduce MTE VM feature
-Message-ID: <20210603160031.GE20338@arm.com>
-References: <20210524104513.13258-1-steven.price@arm.com>
- <20210524104513.13258-5-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lopnr-0000ZE-94
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:02:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622736158;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=89dIYAnVO7ALu1c76YdlwrSKiYK6oFWHMn25Xp6mU0c=;
+ b=F5AJjNpeJtNKswBcymarcCXuoPLfOXVnReVCtdSVDkWgqJabQ1pBcizNmnflL+UnQgmtv6
+ A4VYpnIIk0zCkmkt31RtsXksYiEstSXiXbrtkgLhxm2fIzOa8i9yELoWXdET2HVHhD9p+G
+ foAFnujTFunJHoDWD+iwpx2q35yiIig=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-w00S3aM5P72YH-xg5vjYhA-1; Thu, 03 Jun 2021 12:02:37 -0400
+X-MC-Unique: w00S3aM5P72YH-xg5vjYhA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ f1-20020a1709064941b02903f6b5ef17bfso2102733ejt.20
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 09:02:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=89dIYAnVO7ALu1c76YdlwrSKiYK6oFWHMn25Xp6mU0c=;
+ b=EQbV3XGR/oXB+cAjEmcQjusJeWTjbnskNAt1tNLc4fV/pMSrAP1TPbS9+jgJ5jpVUY
+ D1IT58E1gG3lUYAgPkmZkfDquGJlztmp3vFH5kX/HM21QMMDBPXAJ1XWC7y+ENDbYkou
+ EMD2g6VaOxN74c/HFO/p+ux3/0gV2kRb1GgpjjvG6USi7/GoeRB+9e2H/gg8OoaHS0cC
+ aeYPHx311rkmC74qgP/xXy8V4/7n/ujhMN26eE3wbrNVgVEAvwNTkmuw7K1zrZ/E0akq
+ RZorLSg+seNcH5QEFpQ3pM/8ZrzekayEmwDVF7pJdIsvuMHCpl1Zpg+fgh0HZf3DDnZ5
+ eMWw==
+X-Gm-Message-State: AOAM5307zBqncELpEaFSSToy0FE8XyUE2HQGYPbh0vT+lNQNNzdyHfFC
+ jXsbnNlicvjhYx1TFgQLHimhrPr7IiyXXVPI6rzl7UWQbehGyZpLTSIp5WjV/0MshzPdqmUsgOI
+ a52aKl+9M/+3qGw8=
+X-Received: by 2002:aa7:c913:: with SMTP id b19mr151735edt.323.1622736154631; 
+ Thu, 03 Jun 2021 09:02:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy8PzlUOK0ZbuxDD9exgYuzAHoQWI1M8HQAc5LwUM7UJjDgjSZxCKeWLXK5lG7vDGCBGoK1Q==
+X-Received: by 2002:aa7:c913:: with SMTP id b19mr151708edt.323.1622736154405; 
+ Thu, 03 Jun 2021 09:02:34 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m15sm1674823eji.39.2021.06.03.09.02.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 09:02:33 -0700 (PDT)
+Subject: Re: [RFC PATCH] docs/specs: QMP configuration design specification
+To: Mirela Grujic <mirela.grujic@greensocs.com>, qemu-devel@nongnu.org
+References: <20210601100729.23006-1-mirela.grujic@greensocs.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a3d3febe-d2ec-6917-01ab-2c31fee1eee2@redhat.com>
+Date: Thu, 3 Jun 2021 18:02:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524104513.13258-5-steven.price@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210601100729.23006-1-mirela.grujic@greensocs.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,128 +100,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: edgar.iglesias@xilinx.com, damien.hedde@greensocs.com, jsnow@redhat.com,
+ mark.burton@greensocs.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 11:45:09AM +0100, Steven Price wrote:
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index c5d1f3c87dbd..226035cf7d6c 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -822,6 +822,42 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
->  	return PAGE_SIZE;
->  }
->  
-> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
-> +			     unsigned long size)
-> +{
-> +	if (kvm_has_mte(kvm)) {
+On 01/06/21 12:07, Mirela Grujic wrote:
+> diff --git a/docs/specs/qmp-configuration.txt b/docs/specs/qmp-configuration.txt
+> new file mode 100644
+> index 0000000000..69ff49cae6
+> --- /dev/null
+> +++ b/docs/specs/qmp-configuration.txt
 
-Nitpick (less indentation):
+docs/specs is not the right place, as it is for guest devices.  But this 
+is completely irrelevant to the proposal, which doesn't need to live in 
+docs/ at all.  So forget about it. :)
 
-	if (!kvm_has_mte(kvm))
-		return 0;
+In general this is a good starting point.  We can either deprecate or 
+stabilize x-machine-init once there is enough code written to have a 
+working qemu-qmp-* binary.  Then we will know whether an 
+accel-created->machine-init transition is needed or can be left implicit.
 
-> +		/*
-> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
-> +		 * the VM will be able to see the page's tags and therefore
-> +		 * they must be initialised first. If PG_mte_tagged is set,
-> +		 * tags have already been initialised.
-> +		 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
-> +		 * that may not support tags.
-> +		 */
-> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
-> +		struct page *page = pfn_to_online_page(pfn);
+For now, what you propose is a very nice compromise that allows parallel 
+work on machine/accel configuration on one hand, and device 
+configuration on the other hand.  One other reason why that works well 
+is that we have more or less opposite interests (I care mostly about 
+machine/accel for example) so that's a natural way to split the work.
+
+Thanks!
+
+Paolo
+
+> @@ -0,0 +1,112 @@
 > +
-> +		if (!page)
-> +			return -EFAULT;
+> +Overview
+> +--------
 > +
-> +		for (i = 0; i < nr_pages; i++, page++) {
-> +			/*
-> +			 * There is a potential (but very unlikely) race
-> +			 * between two VMs which are sharing a physical page
-> +			 * entering this at the same time. However by splitting
-> +			 * the test/set the only risk is tags being overwritten
-> +			 * by the mte_clear_page_tags() call.
-> +			 */
-
-And I think the real risk here is when the page is writable by at least
-one of the VMs sharing the page. This excludes KSM, so it only leaves
-the MAP_SHARED mappings.
-
-> +			if (!test_bit(PG_mte_tagged, &page->flags)) {
-> +				mte_clear_page_tags(page_address(page));
-> +				set_bit(PG_mte_tagged, &page->flags);
-> +			}
-> +		}
-
-If we want to cover this race (I'd say in a separate patch), we can call
-mte_sync_page_tags(page, __pte(0), false, true) directly (hopefully I
-got the arguments right). We can avoid the big lock in most cases if
-kvm_arch_prepare_memory_region() sets a VM_MTE_RESET (tag clear etc.)
-and __alloc_zeroed_user_highpage() clears the tags on allocation (as we
-do for VM_MTE but the new flag would not affect the stage 1 VMM page
-attributes).
-
-> +	}
+> +The QMP configuration in the context of this design stands for customizing an
+> +existing machine using the QEMU Monitor Protocol (QMP). The requirement for such
+> +a configuration comes from the use cases where a complete system-on-chip can be
+> +customized: from the number of cores, available peripherals, memories, IRQ
+> +mapping, etc. Our goal is to enable the emulation of customized platforms
+> +without requiring modifications in QEMU, and thus the QEMU recompilation.
 > +
-> +	return 0;
-> +}
+> +We will perform the QMP configuration from a QMP client that will communicate
+> +with QEMU via a socket. As an example of a QMP client, we will include a script,
+> +namely the QMP configurator, that will read QMP commands from a configuration
+> +file and send them to QEMU, one by one. The configuration file will be a text
+> +file that includes only a list of QMP commands to be executed.
 > +
->  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
->  			  struct kvm_memory_slot *memslot, unsigned long hva,
->  			  unsigned long fault_status)
-> @@ -971,8 +1007,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
->  	if (writable)
->  		prot |= KVM_PGTABLE_PROT_W;
->  
-> -	if (fault_status != FSC_PERM && !device)
-> +	if (fault_status != FSC_PERM && !device) {
-> +		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
-> +		if (ret)
-> +			goto out_unlock;
-
-Maybe it was discussed in a previous version, why do we need this in
-addition to kvm_set_spte_gfn()?
-
+> +We will start QEMU with the -preconfig command-line option, thus QEMU will wait
+> +for the QMP configuration at an early initialization phase, before the machine
+> +initialization. The following configuration flow will rely on the machine
+> +initialization phases. In each initialization phase, a set of QMP commands will
+> +be available for configuring the machine and advancing it to the next
+> +initialization phase. Upon reaching the final initialization phase, the machine
+> +shall be ready to run. We specify detailed configuration flow in
+> +"QMP configuration flow in QEMU."
 > +
->  		clean_dcache_guest_page(pfn, vma_pagesize);
-> +	}
->  
->  	if (exec_fault) {
->  		prot |= KVM_PGTABLE_PROT_X;
-> @@ -1168,12 +1209,17 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
->  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
->  {
->  	kvm_pfn_t pfn = pte_pfn(range->pte);
-> +	int ret;
->  
->  	if (!kvm->arch.mmu.pgt)
->  		return 0;
->  
->  	WARN_ON(range->end - range->start != 1);
->  
-> +	ret = sanitise_mte_tags(kvm, pfn, PAGE_SIZE);
-> +	if (ret)
-> +		return false;
 > +
->  	/*
->  	 * We've moved a page around, probably through CoW, so let's treat it
->  	 * just like a translation fault and clean the cache to the PoC.
+> +QMP configurator
+> +----------------
+> +
+> +We decided to include the QMP configurator, a QMP client script that will
+> +communicate with QEMU, to automate the configuration. The QMP configurator will
+> +read the QMP commands from the configuration file, send each QMP command to
+> +QEMU, and quit at the end or exit earlier in the case of an error. We have not
+> +envisioned the QMP configurator to be interactive. For debugging purposes, one
+> +could use the QMP shell instead (scripts/qmp/qmp-shell).
+> +
+> +
+> +QMP configuration file
+> +----------------------
+> +
+> +The QMP configuration file will be a text file that includes only a list of
+> +QMP commands which configure the machine. QMP commands in the configuration file
+> +shall be in the same format and order as if they were issued using the QMP
+> +shell. The QMP configurator will convert each command into JSON format before
+> +sending it to QEMU, similarly as the QMP shell does.
+> +
+> +There are several ways to create a configuration file. One approach is to
+> +manually create a list of QMP commands which specify how to configure the
+> +machine. Another convenient method is to generate QMP commands from existing
+> +descriptions, such as the device tree or a proprietary format. Either way, the
+> +creation of the configuration file is out of the scope of this work.
+> +
+> +However, along with the QMP configurator, we will include an example of the
+> +machine and its configuration file to demonstrate the QMP configuration
+> +approach.
+> +
+> +
+> +QMP configuration flow in QEMU
+> +------------------------------
+> +
+> +We will build the QMP configuration flow on top of the machine initialization
+> +phases, that are:
+> +1) no-machine: machine does not exist yet (current_machine == NULL)
+> +2) machine-created: machine exists, but its accelerator does not
+> +   (current_machine->accelerator == NULL)
+> +3) accel-created: machine's accelerator is configured
+> +   (current_machine->accelerator != NULL), but machine class's init() has not
+> +   been called (no properties validated, machine_init_done notifiers not
+> +   registered, no sysbus, etc.)
+> +4) initialized: machine class's init() has been called, thus machine properties
+> +   are validated, machine_init_done notifiers registered, sysbus realized, etc.
+> +   Devices added at this phase are considered to be cold-plugged.
+> +5) ready: machine_init_done notifiers are called, then QEMU is ready to start
+> +   CPUs. Devices added at this phase are considered to be hot-plugged.
+> +
+> +We can stop QEMU today using the -preconfig command-line option at phase 3
+> +('accel-created'). This option was introduced to enable the QMP configuration of
+> +parameters that affect the machine initialization. We cannot add devices at
+> +this point because the machine class's init() has not been called, thus sysbus
+> +does not exist yet (a device cannot be added because there is no bus to attach
+> +it to).
+> +
+> +QEMU can be also stopped using the -S command-line option at the machine 'ready'
+> +phase. However, it is too late to add devices at this phase because the machine
+> +is already configured, and any devices added at this point are considered to be
+> +hot-plugged.
+> +
+> +Since the existing -preconfig command-line option stops QEMU too early, and the
+> +-S option stops too late, we need a way to stop QEMU in between (after the
+> +machine is initialized and before it becomes ready).
+> +
+> +We will reuse the existing -preconfig command-line option to stop QEMU at the
+> +'accel-created' phase. Then, we will add a QMP command, namely 'x-machine-init',
+> +to advance and stop the machine in the next initialization phase
+> +('initialized' phase). We will configure the machine during this phase using the
+> +existing 'device_add' QMP command. Note that the use of 'device_add' QMP command
+> +is currently not allowed before the machine is ready. We will enable the use of
+> +'device_add' during the 'initialized' phase.
+> +
+> +Once we complete the configuration, we will advance the machine to the 'ready'
+> +phase using the existing 'x-exit-preconfig' command. Upon the execution of
+> +'x-exit-preconfig' command, the machine will immediately start running the guest
+> +unless the -S option is provided as the command-line argument.
+> +
+> +We will also implement a QMP command to query the current machine initialization
+> +phase, namely the 'query-machine-phase' command.
+> +
+> +--------------------------------------------------------------------------------
+> +
+> +This work is supported by Xilinx, SiFive, and Greensocs.
+> +
+> 
 
-Otherwise the patch looks fine.
-
--- 
-Catalin
 
