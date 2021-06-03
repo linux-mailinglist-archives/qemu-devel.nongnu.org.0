@@ -2,62 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FCC3998BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:55:44 +0200 (CEST)
-Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765C03999AF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 07:17:02 +0200 (CEST)
+Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loeSN-00031D-RF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
+	id 1lofj3-000615-1x
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 01:17:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQW-0000DX-PQ
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:48 -0400
-Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49386)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lofi2-000596-9j
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 01:15:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQV-0004cu-0Q
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1622692426; bh=/n4salk8eA40cBPApIq39FMgOsuRQeGTuhkECctA9h8=;
- h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=pC2CKGugJ2xtWPJDr+fLtxirls/Cz6y/uHD9ZYays7aaN3XfFCyRbkWgWSZ2O0KQy
- duUWGCXBAE8WVuMN8n15zY+vPKt2DV/7OmBZc2XLM+se/SMdJv1xH/czWjOQiNT910
- BTlAIlMxTPkvz4mDufqJxoW7Zwh7LRb9xo1IDtPaKdZyVFM+/vD9nS562eQl5ymrBi
- IuK3xN8Ng+3dtK1xqzbjjcCeXmIEUNhBHsdM2f6asEbPWpGQKHMXgtTN5gccTEp+Bn
- nPmpIkUix6s15H/nZc/Tkq7vixrfJzw6S8H8b7mt7gGr9dsZhTLfL9yXs84mzgAdKD
- G0cxaO2vtwkqQ==
-Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
- [67.180.181.196])
- by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 919624A0327;
- Thu,  3 Jun 2021 03:53:45 +0000 (UTC)
-From: Jason Thorpe <thorpej@me.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Thorpe <thorpej@me.com>
-Subject: [PATCH 8/8] Fixes for seconday CPU start-up.
-Date: Wed,  2 Jun 2021 20:53:17 -0700
-Message-Id: <20210603035317.6814-9-thorpej@me.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
-References: <20210603035317.6814-1-thorpej@me.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lofhy-0004ik-R1
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 01:15:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622697352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NF7BbDNEmt5kCPFhivpaabrNBSzSfGcarJNMqjVtwNI=;
+ b=WJ6GAybWESh64oB0Hi/iBgBbYKX+AWql1CYE8P/LH08ZAlqWPAMKbn9v9va5BgkZdZi4VQ
+ UBSoYw4NFogTu5pAROSgS+3Mkcc2yh6N2807jhIOTa1732WapFmzT/J4c/axXtpzS6EIy2
+ /jHmaKfhjGuW8Cdg3kngNL9WuNplFiM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-DKc81s1FOoGOLgNtZKtBKA-1; Thu, 03 Jun 2021 01:15:50 -0400
+X-MC-Unique: DKc81s1FOoGOLgNtZKtBKA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j6-20020a05600c1906b029019e9c982271so2982362wmq.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 22:15:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NF7BbDNEmt5kCPFhivpaabrNBSzSfGcarJNMqjVtwNI=;
+ b=iuiZXroXeOYn2zSjTrdCsMs5pnv8tYfeaq/YGRKz2aLLS/IDBMnVBca1pQ5ka3R8Tu
+ hBKHNJKk0G/TjQqJjPY4Su9Q5ko62QfAsjq0dXSWKhDtEWOPAAr+zjpncEKQC4+N03kt
+ 6NrkQXYpIZ0OgdEwZBiqgHSEFQIqbrBwTGeg1Yzbc369/hB1i9yCLfCSeBOs7f7NJibJ
+ gzCZL56zvie+6pe77a8/VknJfpxjEcdyGUtCIEm0869w0PLiscQzhilBRLS4tWhohzmM
+ U/wTGBl6yAnXMIcVf0k3owqOxI7yALuDe2pDlyaemRnMtB2oaGPiXmOz0TxL2971m242
+ n8pA==
+X-Gm-Message-State: AOAM53238oZmskcC1onoHymD7uE1jVhTavkxjHrjtoGmgnaSDzwCbz9J
+ BjY/DgdnrqgR6sRQthpgSsop+sik0TDwS8I/YFY2BtEdsGJvVo0Pd5MxhNxC//NXfYf9M8YWD8e
+ n8xpgeiTcQS3NHAkDG1HZCwfTCztmvSG6v9OPXIhRMY76RRlJlWQud/HBgbV0nnc=
+X-Received: by 2002:a05:600c:410c:: with SMTP id
+ j12mr12479932wmi.117.1622697349509; 
+ Wed, 02 Jun 2021 22:15:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1mXTL54cqBzeMTEcwGhAHBOi+lAITLBoKiHPGaEggSy4dx+/zFjMG4klONG/Arwx4p2eL7A==
+X-Received: by 2002:a05:600c:410c:: with SMTP id
+ j12mr12479905wmi.117.1622697349227; 
+ Wed, 02 Jun 2021 22:15:49 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575772.dip0.t-ipconnect.de.
+ [217.87.87.114])
+ by smtp.gmail.com with ESMTPSA id h14sm4410984wmb.1.2021.06.02.22.15.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jun 2021 22:15:48 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] GitLab: Add "Bug" issue reporting template
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210603001129.1319515-1-jsnow@redhat.com>
+ <20210603001129.1319515-2-jsnow@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <63c9c30a-68c4-60a6-f65f-866301a25e8d@redhat.com>
+Date: Thu, 3 Jun 2021 07:15:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.391,18.0.761,17.0.607.475.0000000_definitions?=
- =?UTF-8?Q?=3D2021-06-03=5F01:2021-06-02=5F03,2021-06-03=5F01,2020-04-07?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=786
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2106030024
-Received-SPF: pass client-ip=17.58.23.185; envelope-from=thorpej@me.com;
- helo=mr85p00im-ztdg06011101.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210603001129.1319515-2-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,134 +104,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes to make secondary CPU start-up work on NetBSD, which depends
-on some specific behavior in the architecture specification:
+On 03/06/2021 02.11, John Snow wrote:
+> Based loosely on libvirt's template, written by Peter Krempa.
+> 
+> CC: Peter Krempa <pkrempa@redhat.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   .gitlab/issue_templates/bug.md | 63 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 63 insertions(+)
+>   create mode 100644 .gitlab/issue_templates/bug.md
 
-- Change the internal swppal() function to take the new VPTPTR and
-  Procedure Value as explicit arguments.  Adapt do_start() to the
-  new the new swppal() signature.
-
-- In do_start_wait(), extract the new VPTPTR and PV from the relevant
-  HWRPB fields, which will have been initialized by the OS, and pass
-  them to swppal().
-
-- In the SWPPAL PAL call, get the value to stuff into PV (r27) from
-  a4 (r20), and add a comment describing why this implementation detail
-  is allowed by the architecture specification.
-
-Signed-off-by: Jason Thorpe <thorpej@me.com>
----
- init.c | 25 ++++++++++++++++---------
- pal.S  | 13 ++++++++++---
- 2 files changed, 26 insertions(+), 12 deletions(-)
-
-diff --git a/init.c b/init.c
-index aee5cef..bfe4d96 100644
---- a/init.c
-+++ b/init.c
-@@ -313,14 +313,16 @@ init_i8259 (void)
- }
- 
- static void __attribute__((noreturn))
--swppal(void *entry, void *pcb)
-+swppal(void *entry, void *pcb, unsigned long vptptr, unsigned long pv)
- {
-   register int variant __asm__("$16") = 2;	/* OSF/1 PALcode */
-   register void *pc __asm__("$17") = entry;
-   register unsigned long pa_pcb __asm__("$18") = PA(pcb);
--  register unsigned long vptptr __asm__("$19") = VPTPTR;
-+  register unsigned long newvptptr __asm__("$19") = vptptr;
-+  register unsigned long newpv __asm__("$20") = pv;
- 
--  asm("call_pal 0x0a" : : "r"(variant), "r"(pc), "r"(pa_pcb), "r"(vptptr));
-+  asm("call_pal 0x0a" : :
-+      "r"(variant), "r"(pc), "r"(pa_pcb), "r"(newvptptr), "r"(newpv));
-   __builtin_unreachable ();
- }
- 
-@@ -339,7 +341,9 @@ do_start(unsigned long memsize, void (*kernel_entry)(void),
-   vgahw_init();
-   init_hwrpb(memsize, config);
- 
--  swppal(kernel_entry ? kernel_entry : do_console, &pcb);
-+  void *new_pc = kernel_entry ? kernel_entry : do_console;
-+
-+  swppal(new_pc, &pcb, VPTPTR, (unsigned long)new_pc);
- }
- 
- void
-@@ -354,14 +358,16 @@ do_start_wait(unsigned long cpuid)
- 	{
- 	  /* ??? The only message I know of is "START\r\n".
- 	     I can't be bothered to verify more than 4 characters.  */
--	  /* ??? The Linux kernel fills in, but does not require,
--	     CPU_restart_data.  It just sets that to the same address
--	     as CPU_restart itself.  Our swppal *does* put the PC into
--	     $26 and $27, the latter of which the kernel does rely upon.  */
-+
-+	  /* Use use a private extension to SWPPAL to get the
-+	     CPU_restart_data into $27.  Linux fills it in, but does
-+	     not require it. Other operating systems, however, do use
-+	     CPU_restart_data as part of secondary CPU start-up.  */
- 
- 	  unsigned int len = hwrpb.processor[cpuid].ipc_buffer[0];
- 	  unsigned int msg = hwrpb.processor[cpuid].ipc_buffer[1];
- 	  void *CPU_restart = hwrpb.hwrpb.CPU_restart;
-+	  unsigned long CPU_restart_data = hwrpb.hwrpb.CPU_restart_data;
- 	  __sync_synchronize();
- 	  hwrpb.hwrpb.rxrdy = 0;
- 
-@@ -369,7 +375,8 @@ do_start_wait(unsigned long cpuid)
- 	    {
- 	      /* Set bootstrap in progress */
- 	      hwrpb.processor[cpuid].flags |= 1;
--	      swppal(CPU_restart, hwrpb.processor[cpuid].hwpcb);
-+	      swppal(CPU_restart, hwrpb.processor[cpuid].hwpcb,
-+		     hwrpb.hwrpb.vptb, CPU_restart_data);
- 	    }
- 	}
-     }
-diff --git a/pal.S b/pal.S
-index 015a829..7e3a62c 100644
---- a/pal.S
-+++ b/pal.S
-@@ -566,6 +566,8 @@ ENDFN	CallPal_Cserve_Cont
-  *	r17 (a1) = New PC
-  *	r18 (a2) = New PCB
-  *	r19 (a3) = New VptPtr
-+ *	r20 (a4) = New Procedure Value (to place into $27)
-+ *	           (Non-standard; See note below.)
-  * 
-  * OUTPUT PARAMETERS:
-  *
-@@ -574,10 +576,15 @@ ENDFN	CallPal_Cserve_Cont
-  *			1 - Unknown PALcode variant
-  *			2 - Known PALcode variant, but PALcode not loaded
-  *
-- *	r26 (ra) = r27 (pv) = New PC
-+ *	r26 (ra) = New PC
-+ *	r27 (pv) = From r20
-  *		Note that this is non-architected, but is relied on by
-  *		the usage of SwpPal within our own console code in order
-- *		to simplify its use within C code.
-+ *		to simplify its use within C code.  We can get away with
-+ *		the extra non-standard argument (in $20) because as
-+ *		architected, all registers except SP and R0 are
-+ *		UNPREDICTABLE; therefore private internal usage is
-+ *		fine.
-  *
-  */
- 	ORG_CALL_PAL_PRIV(0x0A)
-@@ -624,7 +631,7 @@ CallPal_SwpPal_Cont:
- 	mtpr	$31, qemu_tbia		// Flush TLB for new PTBR
- 
- 	mov	a1, $26
--	mov	a1, $27
-+	mov	a4, $27
- 	hw_ret	(a1)
- ENDFN	CallPal_SwpPal_Cont
- 	.previous
--- 
-2.30.2
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
