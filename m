@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316D4399B58
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 09:16:49 +0200 (CEST)
-Received: from localhost ([::1]:56404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82403399B66
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 09:20:21 +0200 (CEST)
+Received: from localhost ([::1]:59088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lohay-00007i-0G
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 03:16:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
+	id 1loheO-00022p-Kk
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 03:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lohZz-0007q5-FG
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:15:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36831)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lohdQ-0001Mh-ED
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:19:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lohZw-0006ID-GX
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:15:47 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lohdO-00006H-VB
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 03:19:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622704543;
+ s=mimecast20190719; t=1622704758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E5/QVOVGz0Xad2g5V43ATbb5LclTUXww4V5olQXA0S4=;
- b=BzGAyCxzJY4juw3wRh0Cga2/SL/0rtJ2e7kZTgLmci71u1X1MMz+kZTLYtEMvQhKwkNF+g
- g+UBFIkbgIDEaReLiv9U9knKu+c0jfPwCPmH6LIVGB63O2V5q/Gcc1pi1eudOvW+GwuTBu
- l+o61OLUJRsf41eAl5hUibKtVSakb9I=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-OklzktoHMimHIIXnLozjWw-1; Thu, 03 Jun 2021 03:15:42 -0400
-X-MC-Unique: OklzktoHMimHIIXnLozjWw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- w1-20020a1709064a01b02903f1e4e947c9so157297eju.16
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 00:15:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E5/QVOVGz0Xad2g5V43ATbb5LclTUXww4V5olQXA0S4=;
- b=muTY3Rq1iyIjaBP+Pe+fTkXtLXiRCxsqVo9RMWpQVNlipKaGhBkzTeGf6QUoDH+Adj
- 6bIsgQJ3GJW/KW+dUMWpS14gGomEP6oJHtOHMh/2RxAbBgZQ8ekoYcXiL1qroO2TKgf1
- ODfozlez0oVE64XttiorL9uQE9y8IL+EoqSxnZQvpkUr2ClzJuSLD2dpTU05UZQQJalR
- FLtqdijMX25Ms3KsDz2lW5joCIUAQwbBRkILqtgqmvpYbS/AwnaQuUo7Vq/XlJTIccEy
- YqtGvV5mXoaZgO1yNYEpXzIkn6Xw7YC5hExjpiWxTlONH3SQyzc8S4HfUPEaNPAulWCr
- QPDw==
-X-Gm-Message-State: AOAM531utJreH0dlFrVXtfpyJg9g/AKkz1jPzv+SkHmK1xKg5eK2wzGi
- 90L76g5vkq/MMmqPLI0La8HI5veCfusvX1rnDOJVuhHZWXNt/ZSqAJgGjiynrQakx0cGsiQlvO4
- vlI7oncWX0LWi7BM=
-X-Received: by 2002:a17:906:24d8:: with SMTP id
- f24mr20405732ejb.188.1622704540788; 
- Thu, 03 Jun 2021 00:15:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5AUhSQH4Wf9Mn6CnbdbMguTAS6j3nQlSnkuYlL6R8vPr2eIK8jRy7X9B5j7yR16ngRmDbgw==
-X-Received: by 2002:a17:906:24d8:: with SMTP id
- f24mr20405713ejb.188.1622704540571; 
- Thu, 03 Jun 2021 00:15:40 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id kx3sm1083286ejc.44.2021.06.03.00.15.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Jun 2021 00:15:39 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] Gitlab: Add issue templates
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210603001129.1319515-1-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6026d3aa-467b-1552-ea7b-af13bc1ef13f@redhat.com>
-Date: Thu, 3 Jun 2021 09:15:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=MufRtWOsFu0e/NLwFY7IWXMEGA/DUhM+WhtEFGwBMaU=;
+ b=bUQCL8jakd1qwub6Vgh1qJv86bT22U1zcOeFakn2nMA2lY3KR6Do3FTtRGe0x4rPtfzJSN
+ 04F3gG+/SCXZ97hO7NxZ2oBzJ5H8eYasS2S3rH/VS/NyIbZV3R1ZNM+enyOU6VfWvgGxL+
+ S5/YR2CWx1bLdUxKkVLTRyEbx4LCGUg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-604-kxoim4yaOHe21s_nAkxzBA-1; Thu, 03 Jun 2021 03:19:16 -0400
+X-MC-Unique: kxoim4yaOHe21s_nAkxzBA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A288180FD66;
+ Thu,  3 Jun 2021 07:19:15 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
+ [10.36.113.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4673010013D7;
+ Thu,  3 Jun 2021 07:19:15 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D82BB18000B4; Thu,  3 Jun 2021 09:19:13 +0200 (CEST)
+Date: Thu, 3 Jun 2021 09:19:13 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Brad Smith <brad@comstyle.com>
+Subject: Re: [PATCH] tests/vm: update NetBSD to 9.2
+Message-ID: <20210603071913.adshtxhd5bhqmutn@sirius.home.kraxel.org>
+References: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210603001129.1319515-1-jsnow@redhat.com>
+In-Reply-To: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.371,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.613, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,23 +78,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Philippe =?utf-8?B?PT91bmtub3duLThiaXQ/UT9NYXRoaWV1LURhdWQ9QzM9QTk/?=
+ =?utf-8?Q?=3D?= <philmd@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/21 2:11 AM, John Snow wrote:
-> John Snow (2):
->   GitLab: Add "Bug" issue reporting template
->   GitLab: Add "Feature Request" issue template.
+On Wed, Jun 02, 2021 at 01:21:49PM -0400, Brad Smith wrote:
+> tests/vm: update NetBSD to 9.2
 > 
->  .gitlab/issue_templates/bug.md             | 63 ++++++++++++++++++++++
->  .gitlab/issue_templates/feature_request.md | 32 +++++++++++
->  2 files changed, 95 insertions(+)
+> Signed-off-by: Brad Smith <brad@comstyle.com>
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
 
 
