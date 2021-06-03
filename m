@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BF53998BC
+	by mail.lfdr.de (Postfix) with ESMTPS id C262E3998BD
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:55:17 +0200 (CEST)
-Received: from localhost ([::1]:45352 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loeRv-0002Bg-TZ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
+	id 1loeRw-0002IG-Qh
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQM-0008Bi-Kt
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:38 -0400
-Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49043)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQO-0008Ce-Hc
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:40 -0400
+Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQK-0004TV-JO
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:38 -0400
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQL-0004Ul-Pg
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1622692414; bh=EbNMzVw3vepneA/DE3G4SKL1cFt4MHiKmcOsX+NpZNM=;
+ t=1622692415; bh=6fuwTOnKe3pbhQJSv2OGto/xrzO5sDNh7V4OdjwtqrU=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=Vjpnaic0qpvTTZsmx41Lf7zkrkNBcyKaK9u32LwcGudAdd7uN+/z4zDaOpW6Rjg19
- jUffq3l2j26jfugwa5dgdNxRyOLssu4KYSxnIGNAie96AnRMWk9iVx3gC4JqhhlkGG
- cyhFQPuspjT7PpAVotzsmi8dCUrl0lTqbh83SqXihzU3HR6IYKhhEZdvBCOCRJuUGi
- /khwqaMmDyDYsX0MNvhdnE0gVK2JfPxsSScMNgJKHGyKjsw/15rvlzDw1mBjdqP8fQ
- r+RNHjsgdbBAhT2QWDWvCpWwgVuO18GhYTyFl+hKxBF1nyMIHbhFphY9CkiMfG4JZv
- 1cV5l3GCELzzQ==
+ b=GjjVLkgx5e+maDveOF0m1mfyL4iGAuey8Xv/r4Zq+msGohZDpcZPsfDtYxvPMSqTJ
+ n4Q/XlfWkq/eVxRoodgoFa/mzE3INW6ZRB8HPTEX0r7b20Yp+jkgPj7YoJjSEP0tFp
+ 1vFSOLYsxxJ/5YJFgq8wi9dMv/pd9UghG/G7ReJ+QdD9mwvunmK3A3Snj8ftTl2qkT
+ Drvbu9tUKwPVLUua6HgtjMIANdTnybxF5zrLSZ72KrQzIYC3zf8zmCCGVf4EEqTP+o
+ 9+bcGARR/m+QuaGpSpxTiycMYlcpHeXHZbt8pHhGIhtx1SZ6eFeVpKSwqOi3eX/gXR
+ g1vsyjNETb3Tg==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 89F394A0101;
- Thu,  3 Jun 2021 03:53:33 +0000 (UTC)
+ by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 263434A02ED;
+ Thu,  3 Jun 2021 03:53:35 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>
-Subject: [PATCH 1/8] Make qemu-palcode build environment standalone. NFC.
-Date: Wed,  2 Jun 2021 20:53:10 -0700
-Message-Id: <20210603035317.6814-2-thorpej@me.com>
+Subject: [PATCH 2/8] Fix delivery of unaligned access exceptions.
+Date: Wed,  2 Jun 2021 20:53:11 -0700
+Message-Id: <20210603035317.6814-3-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
 References: <20210603035317.6814-1-thorpej@me.com>
@@ -47,7 +47,7 @@ X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c
  =?UTF-8?Q?=5F01_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
  bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=890
  mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2106030024
 Received-SPF: pass client-ip=17.58.23.185; envelope-from=thorpej@me.com;
@@ -74,115 +74,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Don't include system headers.  Instead, provide standalone definitions
-and declarations of types needed and functions used by the PALcode that
-are compatible with the standard Alpha / GCC ABI.
+In the unaligned access exception vector, actually pass the return PC
+in the exception frame.  This is required in order for unaligned access
+fixup handlers in the operating system to work.
 
 Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- init.c   |  2 --
- memcpy.c |  2 +-
- memset.c |  2 +-
- printf.c |  4 +---
- protos.h | 30 +++++++++++++++++++++++++-----
- 5 files changed, 28 insertions(+), 12 deletions(-)
+ pal.S | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/init.c b/init.c
-index b53bab6..429a9ad 100644
---- a/init.c
-+++ b/init.c
-@@ -18,8 +18,6 @@
-    along with this program; see the file COPYING.  If not see
-    <http://www.gnu.org/licenses/>.  */
+diff --git a/pal.S b/pal.S
+index 64941a8..015a829 100644
+--- a/pal.S
++++ b/pal.S
+@@ -278,7 +278,7 @@ Pal_Unalign:
+ 	blbs	p6, MchkBugCheck
+ 	addq	p6, 4, p6		// increment past the faulting insn
  
--#include <string.h>
--#include <stddef.h>
- #include "hwrpb.h"
- #include "osf.h"
- #include "ioport.h"
-diff --git a/memcpy.c b/memcpy.c
-index b6bbb74..9e1e913 100644
---- a/memcpy.c
-+++ b/memcpy.c
-@@ -8,7 +8,7 @@
-  * This is a reasonably optimized memcpy() routine.
-  */
+-	STACK_FRAME p0, p1, p2, 1
++	STACK_FRAME p0, p6, p2, 1
  
--#include <string.h>
-+#include "protos.h"
- 
- /*
-  * Note that the C code is written to be optimized into good assembly. However,
-diff --git a/memset.c b/memset.c
-index e8481dc..f9b0a6d 100644
---- a/memset.c
-+++ b/memset.c
-@@ -19,7 +19,7 @@
-    <http://www.gnu.org/licenses/>.  */
- 
- 
--#include <string.h>
-+#include "protos.h"
- 
- void *memset(void *optr, int ival, unsigned long size)
- {
-diff --git a/printf.c b/printf.c
-index 469b82c..0e1e128 100644
---- a/printf.c
-+++ b/printf.c
-@@ -18,10 +18,8 @@
-    along with this program; see the file COPYING.  If not see
-    <http://www.gnu.org/licenses/>.  */
- 
--#include <stdarg.h>
--#include <stdbool.h>
--#include <string.h>
- #include "console.h"
-+#include "protos.h"
- 
- static int print_buf_pad(char *buf, int buflen, char *p, int width, int pad)
- {
-diff --git a/protos.h b/protos.h
-index 3ed1381..0d90be8 100644
---- a/protos.h
-+++ b/protos.h
-@@ -21,11 +21,31 @@
- #ifndef PROTOS_H
- #define PROTOS_H 1
- 
--#include <stdint.h>
--#include <stdbool.h>
--#include <stddef.h>
--#include <string.h>
--
-+/* Stand-alone definitions for various types, compatible with
-+   the Alpha Linux ABI and GCC.  This eliminates dependencies
-+   on external headers.  */
-+typedef unsigned char  uint8_t;
-+typedef unsigned short uint16_t;
-+typedef unsigned int   uint32_t;
-+typedef unsigned long  uint64_t;
-+typedef unsigned long  size_t;
-+
-+#define bool           _Bool
-+#define true           1
-+#define false          0
-+
-+#define offsetof(type, member) __builtin_offsetof(type, member)
-+
-+typedef __builtin_va_list va_list;
-+#define va_start(ap, last)     __builtin_va_start((ap), (last))
-+#define va_arg                 __builtin_va_arg
-+#define va_end(ap)             __builtin_va_end(ap)
-+
-+#define NULL                   ((void *)0)
-+
-+extern void *memset(void *, int, size_t);
-+extern void *memcpy(void *, const void *, size_t);
-+extern size_t strlen(const char *);
- 
- /*
-  * Call_Pal functions.
+ 	mfpr	p0, ptEntUna
+ 	mfpr	$gp, ptKgp
 -- 
 2.30.2
 
