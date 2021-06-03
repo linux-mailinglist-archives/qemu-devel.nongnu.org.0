@@ -2,63 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26B339A19F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:55:29 +0200 (CEST)
-Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CEA39A198
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:54:04 +0200 (CEST)
+Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lomsi-0005jD-TJ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
+	id 1lomrL-0003qg-I3
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lomqN-0002QL-Fc; Thu, 03 Jun 2021 08:53:03 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2423)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lomqN-0002QM-Gl
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:53:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lomqF-0002fC-31; Thu, 03 Jun 2021 08:53:02 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Fwm2N0lmYzYqSp;
- Thu,  3 Jun 2021 20:50:04 +0800 (CST)
-Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 3 Jun 2021 20:52:48 +0800
-Received: from [10.174.185.226] (10.174.185.226) by
- dggpemm500009.china.huawei.com (7.185.36.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 3 Jun 2021 20:52:48 +0800
-Subject: Re: [PATCH v4 6/8] hw/arm/virt-acpi-build: Add explicit IORT idmap
- for smmuv3 node
-To: <eric.auger@redhat.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
- <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-References: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
- <1621914605-14724-7-git-send-email-wangxingang5@huawei.com>
- <196dc14c-cb5d-463d-1479-dadac7ffd88e@redhat.com>
-From: Xingang Wang <wangxingang5@huawei.com>
-Message-ID: <59c3d64b-a337-d566-e4f4-486e6739c6f7@huawei.com>
-Date: Thu, 3 Jun 2021 20:52:46 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lomqG-0002in-Uy
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:53:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622724776;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y7PuQPI8nN1y8AZoq4Dl9plPUahwL5w4DnSjtsFfKsU=;
+ b=PyubOOQs4CGIJ2yehDJJ5i4IbO199sPhSmM7hFeB2nmTNLJj4GYzmluK5aR49gb4pncNFu
+ 7CO+A5ZtWkalLoRZkg/SH/EVgI8QNyMjb0B+qn3xS48oYRx+72gXgZBQGexvbIUS/6pSgx
+ t4WkNXp5vxvzAjtlf4RF13XRMlOJSO8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-egaIdO4hNO-lWr1joF6yQg-1; Thu, 03 Jun 2021 08:52:53 -0400
+X-MC-Unique: egaIdO4hNO-lWr1joF6yQg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ x9-20020a5d49090000b0290118d8746e06so2415876wrq.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 05:52:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y7PuQPI8nN1y8AZoq4Dl9plPUahwL5w4DnSjtsFfKsU=;
+ b=o7lLQ/XzpnN9OCnmHwReFwtRMOV5Q+ACWzuxMLYlWL37GM5m/7Y7KTyIxDQLaP9Zkw
+ 7jGA1bp1AFC63uG5+xA2yH6Uit8ABRt2lJWPrAAidOLLLjWo1OpA0xARBssSYpqNR8NV
+ qp6dMqlnVYau7tp0uQhIku6HUdLBWV17caZPZTVMETaMYvtVgdq+ZDh1hBhKBBYXSjFM
+ tDlSYb2CQeA0iL6zou9wTxOX0iLaLY5nQs4q1zFVZP8mbG5wtffOPP4IekJzfAHj+vYm
+ S40m2GU7pHdemwe6RQXNR78ase/E4cmOQ5lmI32WpCrzD7P+ZziuRyWJvlXiHqFdF7xZ
+ r1mA==
+X-Gm-Message-State: AOAM53388TV73iw0h9IF4xTPv244QC58fofFyLabfNQ0oNbcL12iEYwT
+ DhYp5v4X6HqS06mDIPuhHQKBHop0NLYIyJm/5senHSQLP7v8UeTBBzKr+CYeWWy+PEu536hBUBO
+ c9pkmqcWpZK2WA+w=
+X-Received: by 2002:a7b:c20d:: with SMTP id x13mr7410722wmi.49.1622724772556; 
+ Thu, 03 Jun 2021 05:52:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJylTSWUOzozzGAlFi1Ncj3l0aZm2hUOXaekyN8ZhXWvW09b3HvSn5cj3JKL5WvTJOxV1vRkDQ==
+X-Received: by 2002:a7b:c20d:: with SMTP id x13mr7410690wmi.49.1622724772297; 
+ Thu, 03 Jun 2021 05:52:52 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ o6sm3748789wre.73.2021.06.03.05.52.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 05:52:51 -0700 (PDT)
+Subject: Re: [PATCH v4 05/15] qemu-iotests: delay QMP socket timers
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210520075236.44723-1-eesposit@redhat.com>
+ <20210520075236.44723-6-eesposit@redhat.com>
+ <5bde3128-e972-3653-308b-4faa4eb52bb6@virtuozzo.com>
+ <bbf2c63d-662b-541e-6a65-1419f650e066@redhat.com>
+ <1570614c-7c0e-694e-b5fd-d7814da88964@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <973eca91-8b54-1655-3ed7-3513e0f6a13c@redhat.com>
+Date: Thu, 3 Jun 2021 14:52:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <196dc14c-cb5d-463d-1479-dadac7ffd88e@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <1570614c-7c0e-694e-b5fd-d7814da88964@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.226]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500009.china.huawei.com (7.185.36.225)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangxingang5@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.603,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,258 +105,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
 
-On 2021/6/2 22:21, Eric Auger wrote:
-> Hi Xingang,
-> 
-> On 5/25/21 5:50 AM, Wang Xingang wrote:
->> From: Xingang Wang <wangxingang5@huawei.com>
+
+On 03/06/2021 14:25, Vladimir Sementsov-Ogievskiy wrote:
+> 03.06.2021 14:03, Emanuele Giuseppe Esposito wrote:
 >>
->> This add explicit IORT idmap info according to pci root bus number
->> range, and only add smmu idmap for those which does not bypass iommu.
+>>>
+>>> So, you just make the class do nothing.. I'd prefer something like this:
+>>>
+>>> @contextmanager
+>>> def NoTimeout:
+>>>     yield
+>>>
+>>> if qemu_gdb:
+>>>    Timeout = NoTimeout
 >>
->> For idmap directly to ITS node, this split the whole RID mapping to
->> smmu idmap and its idmap. So this should cover the whole idmap for
->> through/bypass SMMUv3 node.
->>
->> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
->> ---
->>   hw/arm/virt-acpi-build.c | 135 +++++++++++++++++++++++++++++++++------
->>   1 file changed, 116 insertions(+), 19 deletions(-)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index 60fe2e65a7..f63a57dcfa 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -44,6 +44,7 @@
->>   #include "hw/acpi/tpm.h"
->>   #include "hw/pci/pcie_host.h"
->>   #include "hw/pci/pci.h"
->> +#include "hw/pci/pci_bus.h"
->>   #include "hw/pci-host/gpex.h"
->>   #include "hw/arm/virt.h"
->>   #include "hw/mem/nvdimm.h"
->> @@ -237,16 +238,82 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
->>       aml_append(scope, dev);
->>   }
->>   
->> +/* Build the iort ID mapping to SMMUv3 for a given PCI host bridge */
->> +static int
->> +iort_host_bridges(Object *obj, void *opaque)
->> +{
->> +    GArray *idmap_blob = opaque;
->> +
->> +    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
->> +        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
->> +
->> +        if (bus && !pci_bus_bypass_iommu(bus)) {
->> +            int min_bus, max_bus;
-> extra line needed
-Done, Thanks.
->> +            pci_bus_range(bus, &min_bus, &max_bus);
->> +
->> +            AcpiIortIdMapping idmap = {
->> +                .input_base = min_bus << 8,
->> +                .id_count = (max_bus - min_bus + 1) << 8,
->> +            };
->> +            g_array_append_val(idmap_blob, idmap);
->> +        }
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->> +static int iort_idmap_compare(gconstpointer a, gconstpointer b)
->> +{
->> +    AcpiIortIdMapping *idmap_a = (AcpiIortIdMapping *)a;
->> +    AcpiIortIdMapping *idmap_b = (AcpiIortIdMapping *)b;
->> +
->> +    return idmap_a->input_base - idmap_b->input_base;
->> +}
->> +
->>   static void
->>   build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>   {
->> -    int nb_nodes, iort_start = table_data->len;
->> -    AcpiIortIdMapping *idmap;
->> +    int i, nb_nodes, rc_map_count, iort_start = table_data->len;
->> +    AcpiIortIdMapping *idmap, *range;
->>       AcpiIortItsGroup *its;
->>       AcpiIortTable *iort;
->>       AcpiIortSmmu3 *smmu;
->>       size_t node_size, iort_node_offset, iort_length, smmu_offset = 0;
->>       AcpiIortRC *rc;
->> +    GArray *smmu_idmap_ranges =
->> +        g_array_new(false, true, sizeof(AcpiIortIdMapping));
->> +    GArray *its_idmap_ranges =
->> +        g_array_new(false, true, sizeof(AcpiIortIdMapping));
->> +
->> +    object_child_foreach_recursive(object_get_root(),
->> +                                   iort_host_bridges, smmu_idmap_ranges);
->> +
->> +    g_array_sort(smmu_idmap_ranges, iort_idmap_compare);
->> +
->> +    AcpiIortIdMapping next_range = {
->> +        .input_base = 0,
->> +    };
->> +
->> +    /*
->> +     * Build the iort ID mapping to ITS directly,
->> +     * split the whole RID input range by RID mapping to SMMU node
->> +     */
->> +    for (i = 0; i < smmu_idmap_ranges->len; i++) {
->> +        idmap = &g_array_index(smmu_idmap_ranges, AcpiIortIdMapping, i);
->> +
->> +        if (next_range.input_base < idmap->input_base) {
->> +            next_range.id_count = idmap->input_base - next_range.input_base;
->> +            g_array_append_val(its_idmap_ranges, next_range);
->> +        }
->> +
->> +        next_range.input_base = idmap->input_base + idmap->id_count;
->> +    }
->> +
->> +    /* Append the last ITS ID mapping */
->> +    if (next_range.input_base < 0xFFFF) {
->> +        next_range.id_count = 0xFFFF - next_range.input_base;
->> +        g_array_append_val(its_idmap_ranges, next_range);
->> +    }
->>   
->>       iort = acpi_data_push(table_data, sizeof(*iort));
->>   
->> @@ -280,13 +347,13 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>   
->>           /* SMMUv3 node */
->>           smmu_offset = iort_node_offset + node_size;
->> -        node_size = sizeof(*smmu) + sizeof(*idmap);
->> +        node_size = sizeof(*smmu) + sizeof(*idmap) * smmu_idmap_ranges->len;
->>           iort_length += node_size;
->>           smmu = acpi_data_push(table_data, node_size);
->>   
->>           smmu->type = ACPI_IORT_NODE_SMMU_V3;
->>           smmu->length = cpu_to_le16(node_size);
->> -        smmu->mapping_count = cpu_to_le32(1);
->> +        smmu->mapping_count = cpu_to_le32(smmu_idmap_ranges->len);
->>           smmu->mapping_offset = cpu_to_le32(sizeof(*smmu));
->>           smmu->base_address = cpu_to_le64(vms->memmap[VIRT_SMMU].base);
->>           smmu->flags = cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE);
->> @@ -295,23 +362,32 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>           smmu->sync_gsiv = cpu_to_le32(irq + 2);
->>           smmu->gerr_gsiv = cpu_to_le32(irq + 3);
->>   
->> -        /* Identity RID mapping covering the whole input RID range */
->> -        idmap = &smmu->id_mapping_array[0];
->> -        idmap->input_base = 0;
->> -        idmap->id_count = cpu_to_le32(0xFFFF);
->> -        idmap->output_base = 0;
->>           /* output IORT node is the ITS group node (the first node) */
->> -        idmap->output_reference = cpu_to_le32(iort_node_offset);
->> +        for (i = 0; i < smmu_idmap_ranges->len; i++) {
->> +            idmap = &smmu->id_mapping_array[i];
->> +            range = &g_array_index(smmu_idmap_ranges, AcpiIortIdMapping, i);
->> +
->> +            idmap->input_base = cpu_to_le32(range->input_base);
->> +            idmap->id_count = cpu_to_le32(range->id_count);
->> +            idmap->output_base = cpu_to_le32(range->input_base);
->> +            idmap->output_reference = cpu_to_le32(iort_node_offset);
->> +        }
-> I don't really get this extra complexity. Can't the SMMU -> ITS mapping
-> be a direct mapping covering the whole range of RIDs.
-> Do you really need to match the input ID range? I don't think so.
+>> I am not sure I understand what you want to do here.
+>> I have a basic understanding of @contextmanager, but can you explain 
+>> more what you want to do?
 > 
-> Bypassed RIDs should only affect RC mappings to me.
-
-Thanks, I will simplify this, only one idmap covering the whole RIDs is
-needed here. I have retested and it worked.
-
->>       }
->>   
->>       /* Root Complex Node */
->> -    node_size = sizeof(*rc) + sizeof(*idmap);
->> +    if (vms->iommu == VIRT_IOMMU_SMMUV3) {
->> +        rc_map_count = smmu_idmap_ranges->len + its_idmap_ranges->len;
->> +    } else {
->> +        rc_map_count = 1;
->> +    }
->> +
->> +    node_size = sizeof(*rc) + sizeof(*idmap) * rc_map_count;
->>       iort_length += node_size;
->>       rc = acpi_data_push(table_data, node_size);
->>   
->>       rc->type = ACPI_IORT_NODE_PCI_ROOT_COMPLEX;
->>       rc->length = cpu_to_le16(node_size);
->> -    rc->mapping_count = cpu_to_le32(1);
->> +    rc->mapping_count = cpu_to_le32(rc_map_count);
->>       rc->mapping_offset = cpu_to_le32(sizeof(*rc));
->>   
->>       /* fully coherent device */
->> @@ -319,20 +395,41 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>       rc->memory_properties.memory_flags = 0x3; /* CCA = CPM = DCAS = 1 */
->>       rc->pci_segment_number = 0; /* MCFG pci_segment */
->>   
->> -    /* Identity RID mapping covering the whole input RID range */
->> -    idmap = &rc->id_mapping_array[0];
->> -    idmap->input_base = 0;
->> -    idmap->id_count = cpu_to_le32(0xFFFF);
->> -    idmap->output_base = 0;
->> -
->>       if (vms->iommu == VIRT_IOMMU_SMMUV3) {
->>           /* output IORT node is the smmuv3 node */
-> maybe add a comment saying translated RIDs connect to SMMU node
-Done.
->> -        idmap->output_reference = cpu_to_le32(smmu_offset);
->> +        for (i = 0; i < smmu_idmap_ranges->len; i++) {
->> +            idmap = &rc->id_mapping_array[i];
->> +            range = &g_array_index(smmu_idmap_ranges, AcpiIortIdMapping, i);
->> +
->> +            idmap->input_base = cpu_to_le32(range->input_base);
->> +            idmap->id_count = cpu_to_le32(range->id_count);
->> +            idmap->output_base = cpu_to_le32(range->input_base);
->> +            idmap->output_reference = cpu_to_le32(smmu_offset);
->> +        }
->> +
-> add comment saying bypassed RIDs connect to ITS directly?
-Done.
->> +        /* output IORT node is the ITS group node (the first node) */
->> +        for (i = 0; i < its_idmap_ranges->len; i++) {
->> +            idmap = &rc->id_mapping_array[smmu_idmap_ranges->len + i];
->> +            range = &g_array_index(its_idmap_ranges, AcpiIortIdMapping, i);
->> +
->> +            idmap->input_base = cpu_to_le32(range->input_base);
->> +            idmap->id_count = cpu_to_le32(range->id_count);
->> +            idmap->output_base = cpu_to_le32(range->input_base);
->> +            idmap->output_reference = cpu_to_le32(iort_node_offset);
->> +        }
->>       } else {
->> +        /* Identity RID mapping covering the whole input RID range */
->> +        idmap = &rc->id_mapping_array[0];
->> +        idmap->input_base = cpu_to_le32(0);
->> +        idmap->id_count = cpu_to_le32(0xFFFF);
->> +        idmap->output_base = cpu_to_le32(0);
->>           /* output IORT node is the ITS group node (the first node) */
->>           idmap->output_reference = cpu_to_le32(iort_node_offset);
->>       }
->>   
->> +    g_array_free(smmu_idmap_ranges, true);
->> +    g_array_free(its_idmap_ranges, true);
->> +
->>       /*
->>        * Update the pointer address in case table_data->data moves during above
->>        * acpi_data_push operations.
-> Thanks
+> With qemu_gdb you make the class do absolutely nothing. So, it's just 
+> provides an interface of context manager, but does nothing.
 > 
-> Eric
+>>> @contextmanager
+>>> def NoTimeout:
+>>>     yield
 > 
-> .
+> is the same thing: it's context manager, so you can do
 > 
+> with NoTimeout():
+>    ....
+> 
+> but that context manager does absolutely nothing.
+> 
+> 
+> @contextmanager gives you a simple way to create a context manager. You 
+> define a function which has yield point. So, everything before yield is  
+> __enter__, everything after yield is __exit__. And you can return a 
+> value by yield, it will be a return value of __enter__.
+> 
+> 
+> So, what I meant: keep Timeout class as is and just add code that I 
+> suggested after it.
 
-Thanks
+Oh okay. I didn't know Timeout = NoTimeout was possible (and I didn't 
+know where to put it anyways). Looks cleaner than the normal ifs, will 
+apply this change and send v5.
 
-Xingang
+Thank you,
+Emanuele
 
-.
 
