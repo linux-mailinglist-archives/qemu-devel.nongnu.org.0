@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB5739A033
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 13:51:54 +0200 (CEST)
-Received: from localhost ([::1]:56626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D991E39A048
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 13:53:32 +0200 (CEST)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loltB-0003aN-3I
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 07:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
+	id 1lolul-0007jD-St
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 07:53:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lolqC-0004qa-U5
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60706)
+ id 1lolqD-0004s1-Ky
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lolq9-00021Z-T0
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:48 -0400
+ id 1lolqB-00022o-Qx
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622720925;
+ s=mimecast20190719; t=1622720927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3QCY58JX8hnn40e/d2Qq11GOt2O++6pCaxA+8FKsrUs=;
- b=Siaad9xbBdKLGgCBxyv1wlIFyobE6r8q5fCUkR8NyEDj5Nny8Av0DX1p/YY1avVbs6Z8N2
- 6nfB8clr7//ZqH9AEoostNp7RktizuUymfZejgabnjK1AydyVFIL7p2fqEoPbJq+AX2rvJ
- bRbRDBkNWo1wED3dHJ7lo/h9PPXGt30=
+ bh=xL+X0F0Ai06zrlvOnlOoPjnfjRWpxoxzgv6QaQOdKBQ=;
+ b=ZZIOUTj4+M67KAdJXQTtw5pzR9LrLmhTLgu1QI7RaY/THQfScqt6RTV8+h/z7cC0+Ri37k
+ /29A7qkTvlRZrROulXrnhJu7U4l+RIr5IaCfCw3l9W2IMPe78q1/jojt4roCYLW7GQvXFl
+ 2nwdC04t2a66gyJGvvY02ng/9EFGWrw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-oDx5cUpLN-Ke9lP9xY6Uvw-1; Thu, 03 Jun 2021 07:48:43 -0400
-X-MC-Unique: oDx5cUpLN-Ke9lP9xY6Uvw-1
+ us-mta-256-H5CnCdZuO1uEuLd3EkXWeQ-1; Thu, 03 Jun 2021 07:48:45 -0400
+X-MC-Unique: H5CnCdZuO1uEuLd3EkXWeQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1935E6A2B2
- for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 11:48:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 136DC8015F5
+ for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 11:48:45 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E8F319704;
- Thu,  3 Jun 2021 11:48:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D6EF17A75;
+ Thu,  3 Jun 2021 11:48:43 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v7 2/9] i386: clarify 'hv-passthrough' behavior
-Date: Thu,  3 Jun 2021 13:48:28 +0200
-Message-Id: <20210603114835.847451-3-vkuznets@redhat.com>
+Subject: [PATCH v7 3/9] i386: hardcode supported eVMCS version to '1'
+Date: Thu,  3 Jun 2021 13:48:29 +0200
+Message-Id: <20210603114835.847451-4-vkuznets@redhat.com>
 In-Reply-To: <20210603114835.847451-1-vkuznets@redhat.com>
 References: <20210603114835.847451-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -84,32 +84,66 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clarify the fact that 'hv-passthrough' only enables features which are
-already known to QEMU and that it overrides all other 'hv-*' settings.
+Currently, the only eVMCS version, supported by KVM (and described in TLFS)
+is '1'. When Enlightened VMCS feature is enabled, QEMU takes the supported
+eVMCS version range (from KVM_CAP_HYPERV_ENLIGHTENED_VMCS enablement) and
+puts it to guest visible CPUIDs. When (and if) eVMCS ver.2 appears a
+problem on migration is expected: it doesn't seem to be possible to migrate
+from a host supporting eVMCS ver.2 to a host, which only support eVMCS
+ver.1.
+
+Hardcode eVMCS ver.1 as the result of 'hv-evmcs' enablement for now. Newer
+eVMCS versions will have to have their own enablement options (e.g.
+'hv-evmcs=2').
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- docs/hyperv.txt | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ docs/hyperv.txt       |  2 +-
+ target/i386/kvm/kvm.c | 16 +++++++++++-----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index e53c581f4586..a51953daa833 100644
+index a51953daa833..000638a2fd38 100644
 --- a/docs/hyperv.txt
 +++ b/docs/hyperv.txt
-@@ -209,8 +209,11 @@ In some cases (e.g. during development) it may make sense to use QEMU in
- 'pass-through' mode and give Windows guests all enlightenments currently
- supported by KVM. This pass-through mode is enabled by "hv-passthrough" CPU
- flag.
--Note: enabling this flag effectively prevents migration as supported features
--may differ between target and destination.
-+Note: "hv-passthrough" flag only enables enlightenments which are known to QEMU
-+(have corresponding "hv-*" flag) and copies "hv-spinlocks="/"hv-vendor-id="
-+values from KVM to QEMU. "hv-passthrough" overrides all other "hv-*" settings on
-+the command line. Also, enabling this flag effectively prevents migration as the
-+list of enabled enlightenments may differ between target and destination hosts.
+@@ -170,7 +170,7 @@ Recommended: hv-frequencies
+ 3.16. hv-evmcs
+ ===============
+ The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
+-enabled, it provides Enlightened VMCS feature to the guest. The feature
++enabled, it provides Enlightened VMCS version 1 feature to the guest. The feature
+ implements paravirtualized protocol between L0 (KVM) and L1 (Hyper-V)
+ hypervisors making L2 exits to the hypervisor faster. The feature is Intel-only.
+ Note: some virtualization features (e.g. Posted Interrupts) are disabled when
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index c676ee8b38a7..d57eede5dc81 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1490,13 +1490,19 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+         ret = kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_ENLIGHTENED_VMCS, 0,
+                                   (uintptr_t)&evmcs_version);
  
+-        if (ret < 0) {
+-            fprintf(stderr, "Hyper-V %s is not supported by kernel\n",
+-                    kvm_hyperv_properties[HYPERV_FEAT_EVMCS].desc);
++        /*
++         * KVM is required to support EVMCS ver.1. as that's what 'hv-evmcs'
++         * option sets. Note: we hardcode the maximum supported eVMCS version
++         * to '1' as well so 'hv-evmcs' feature is migratable even when (and if)
++         * ver.2 is implemented. A new option (e.g. 'hv-evmcs=2') will then have
++         * to be added.
++         */
++        if (ret < 0 || (uint8_t)evmcs_version > 1) {
++            error_report("Hyper-V %s verson 1 is not supported by kernel",
++                         kvm_hyperv_properties[HYPERV_FEAT_EVMCS].desc);
+             return ret;
+         }
+-
+-        cpu->hyperv_nested[0] = evmcs_version;
++        cpu->hyperv_nested[0] = (1 << 8) | 1;
+     }
  
- 4. Useful links
+     return 0;
 -- 
 2.31.1
 
