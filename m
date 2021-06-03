@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEBD399D5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 11:05:25 +0200 (CEST)
-Received: from localhost ([::1]:38234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E681A399D71
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 11:09:36 +0200 (CEST)
+Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lojI5-0006PS-1Q
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 05:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47614)
+	id 1lojM8-0006Z7-0X
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 05:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lojGE-0003uG-Df
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:31 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36444)
+ id 1lojGJ-0004Bh-Ba
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:35 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:33307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lojGD-0000B8-42
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:30 -0400
-Received: by mail-ed1-x531.google.com with SMTP id w21so6129647edv.3
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 02:03:28 -0700 (PDT)
+ id 1lojGH-0000Fq-Uk
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:35 -0400
+Received: by mail-ed1-x529.google.com with SMTP id f5so1221626eds.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 02:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5sevVFrnb8PFEJqb8tjfwJ5PpGOfYaPfNnd2GAELM28=;
- b=spT1DOgqGrG7fS96sbEzZX1jWqOkX2yKvAoAzo/hvMRUZkMejLSHUVomZU9dmDXk83
- ySsS+9wV1BZrS3dtOPrronExChdfjh70HI8N8pkeXHduZP4CLl07xVYoWNnf0c5gOTst
- jL9pu2WCTaFKrdqRmVhKB8Sy302lGnnI1uobLGH9RaDhdcZ2S6S4neMBVRa/8uy8uCls
- jt7Ajotnu++pIHuK9VGw3lldH5ebGy5Ph3ZA/umO+yhMIQLXbL1CpaRMei4E9LvNJ4AH
- LtO91kbKzV4qvV252XgDgKiI9GrGqVkE3R7Bkc0kavQKepjcQy00NquCvU9P1t8ADyFU
- xKyw==
+ bh=aPYdoGgpX0ZUspn+3dr8FCwIyeB5KG9UkLhwzhTVuOg=;
+ b=Eq+Fk8yQD30VFL6oOz6NItDgBROJ1Qec+eLXguO1ZdLG8IYAVemLbbY7KePaXUz3D6
+ DYffV6lnBh+nvNcvwUrDSY3J1vU2v78nxN3l3zGYARTfMRp1pBYpjBmlFnUJsqzOCd+a
+ wxRtYKnVu4xYFx56rp0Fv2EsCLOReU4uvjrmVTAkrEkt114sqoXTovIxqHU42ykcHJaf
+ 5uMxI5TF3oek6Wj2GuGD/rrAtjuu/2Qp1ZAYQDqhiHzplOoVECq30UpcpHU0cFN0QeRJ
+ E15CzZE0BGCDrSy4jvf6Qi/1W4MEVl/UONaMvtl/42KfwbGZwgtCdOc2X0RCnNEPs7h8
+ 2BHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5sevVFrnb8PFEJqb8tjfwJ5PpGOfYaPfNnd2GAELM28=;
- b=B8PWEiJkv7IDBPAaC1wiiLsx9/ExD/Ie+A9+5LH6Yjn3VGwwFQnJFzCCOMm4Lu0TAt
- OkOdT1DWHuKA80FalqZKB7t3aHuzaxvdQTr+yMuhgj0yd4/rLNWT5XBYLKsWWrSoyxcU
- NKzw5FHs0iGqxwdB2JYRMcWjpZuOAl1rtydVlk5N77LNBL0wUqoQJI7a/jJiik7TWmQf
- 3gS2+szukPWLqitOrFbqFWJBm1Qvg61TVXm6NStTB/+l5QiYJvuQlJkwKC6sSz3WkfA8
- BdhGoTaAi0mxwMkYlCNTPuBDsvkoIzswJmqam74u2mE7PS8SDKytUUmBlHz9pbU0d2En
- Y4yA==
-X-Gm-Message-State: AOAM531whg0+jHLiF6LUj34/76WDxemXHjpQ+Z/qMCJUpZEIIhSn2mRh
- eq36eZJoO328I9LsqmOjRnJBLNWXJjzKig==
-X-Google-Smtp-Source: ABdhPJw0l2ndqqHOCmeS+6Z9vZBweHDQFaWjuseXXATWzkfB7GmQ5MF7ZBMv8gmWSBMlKW2L9/tk2g==
-X-Received: by 2002:aa7:ca50:: with SMTP id j16mr11466174edt.158.1622711007594; 
- Thu, 03 Jun 2021 02:03:27 -0700 (PDT)
+ bh=aPYdoGgpX0ZUspn+3dr8FCwIyeB5KG9UkLhwzhTVuOg=;
+ b=hbtkRS/glzvYVOKsmcod3zekakOPMnpMRKOlwzgDUI/x3vZb57LplI/MQryW20uPkW
+ uESux5auMxqLdezJB9fSkQM6y/6wuBZt+qcu3fajaTCZj+6BureFEdlzwInR0JzIYevb
+ DFFAx64IbLVxsE3NYEWA0qtzM3Bqn+3e1RR1Tv4jkx9eJbpkZXEnq2zDQ6kmvfHDMKfv
+ 3rpF/szDqHzmN3YM6wpwXNF0NrhgsnWoHIfgqd0f/IXCNCtmBAwKRytNLMfpB+qJHFHM
+ bVf81jvwdoP6vmM0HcaLAfiP4DU2BY9iKFc6PRnA9UkEk523mLTdyvGl7kP0lIgzjJau
+ DAwg==
+X-Gm-Message-State: AOAM5326x9YXQNKht+XSaTPAsDqwCpjvQd5F572Zc/S5GXkWkI4Ms0/9
+ is1Ir4SgbGv7O/rMWtLmy7X/wl7tMKBEXg==
+X-Google-Smtp-Source: ABdhPJyQ2hSmNBO3nLzxUeH0kAaoNbgrHsqjdXf7LNBgWW93RAUmxRyOG2Z+7aPismMUQRhGmaS/zw==
+X-Received: by 2002:a05:6402:44:: with SMTP id
+ f4mr43212973edu.364.1622711012437; 
+ Thu, 03 Jun 2021 02:03:32 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id i12sm1412143edx.13.2021.06.03.02.03.26
+ by smtp.gmail.com with ESMTPSA id f26sm1420082edu.31.2021.06.03.02.03.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 02:03:27 -0700 (PDT)
+ Thu, 03 Jun 2021 02:03:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] target/microblaze: Assert transaction failures have
- exception enabled
-Date: Thu,  3 Jun 2021 11:03:07 +0200
-Message-Id: <20210603090310.2749892-4-f4bug@amsat.org>
+Subject: [PATCH 4/6] target/microblaze: Fix Exception Status Register 'Cause'
+ definitions
+Date: Thu,  3 Jun 2021 11:03:08 +0200
+Message-Id: <20210603090310.2749892-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210603090310.2749892-1-f4bug@amsat.org>
 References: <20210603090310.2749892-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,29 +94,33 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If exceptions are disabled, we must not get a transaction failure.
-Assert they are enabled passed that point.
+See 'MicroBlaze Processor Reference Guide' UG081 (v9.0),
+Table 1-11: "Exception Status Register (ESR)".
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/microblaze/op_helper.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ target/microblaze/cpu.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index 8d20522ee88..1048e656e27 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -122,9 +122,7 @@ void mb_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-                   access_type == MMU_INST_FETCH ? "INST_FETCH" :
-                   (access_type == MMU_DATA_LOAD ? "DATA_LOAD" : "DATA_STORE"));
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index e4bba8a7551..42b9ad8d313 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -95,10 +95,10 @@ typedef struct CPUMBState CPUMBState;
+ #define          ESR_EC_FPU             6
+ #define          ESR_EC_PRIVINSN        7
+ #define          ESR_EC_STACKPROT       7  /* Same as PRIVINSN.  */
+-#define          ESR_EC_DATA_STORAGE    8
+-#define          ESR_EC_INSN_STORAGE    9
+-#define          ESR_EC_DATA_TLB        10
+-#define          ESR_EC_INSN_TLB        11
++#define          ESR_EC_DATA_STORAGE    16
++#define          ESR_EC_INSN_STORAGE    17
++#define          ESR_EC_DATA_TLB        18
++#define          ESR_EC_INSN_TLB        19
+ #define          ESR_EC_MASK            31
  
--    if (!(env->msr & MSR_EE)) {
--        return;
--    }
-+    assert(env->msr & MSR_EE);
- 
-     if (access_type == MMU_INST_FETCH) {
-         if (!cpu->cfg.iopb_bus_exception) {
+ /* Floating Point Status Register (FSR) Bits */
 -- 
 2.26.3
 
