@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FE339A5A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:23:02 +0200 (CEST)
-Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6D939A5B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:29:14 +0200 (CEST)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loq7Z-0001cW-6u
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36102)
+	id 1loqDZ-0003Mu-J3
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl9-00024X-JB
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:51 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39703)
+ id 1loplA-00028C-En
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:52 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl6-0007KS-VL
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:51 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l2so6392064wrw.6
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:48 -0700 (PDT)
+ id 1lopl7-0007Ke-KU
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:52 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id h3so3717350wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Cds5GGFqPsxZEQ8A/Oi3ANjhdDr2P17DFeabFdjzF8U=;
- b=uiIkQukl2KEQBueWUw4rXpRwFeNgRLPaa1AcADpNGq0WHim2TPVfWsq8On4RpuEJsc
- Pui+qyTZapmEmfwSqezn8qxtWzQsmWw6c8TQuLo6wxvxfWjWhHXMjxvbpGzNnO0kcw25
- Bm/YLh7eQQU+J9XHZg1VqusSYaVrghbEl1AEF60hw6zjX8nUNsNNL6gcVUyjVX/rDsbE
- 7+HsCYwaGhdM7O+4er3aQ/oZ11TeJU7vUh0LBMhF4rD3zHDckPOg/H4pPPNzzGSkkk6L
- H2wYO21sQOEg8GT0ZIAXBWInb5VyWN+nWZghmx6ZItK/ycJRW8ctLTg0hTBIkmgt2v5Q
- FxOA==
+ bh=30mcllybotT9ZUvdTQo+V2rYRwrN4iGSwp36CDv+3mQ=;
+ b=CCfcSFZTAHO8albR41Cod11K51K6gLTJdUWQImjQXZJjDu8wJ+6BWeqECsOvyM/ZyV
+ yKbXKAYhwTSDVg7PWSy+g6gcv6A9wKri+t7jcqL7QGDDc0dLm1ycFZqJCzr/2EEKggoD
+ D5FgIK2g9Db1dMIw1WRQURQLzoAsrZQZ6OragXHEy0ktpkZA4JfFV9xj1x5RDfvYRLZb
+ 1nkNWyMg0eUpC/CWAK2t4/KXDC7AyCaaz8UKyolq0LAjMMPVs9LJg3LrgnoQMB4Knljr
+ bsrfxd8mOZ6n/w1cpOS3mHfBwefDYQy7wxAuw1Io5thZ9+uOZx850IS0rCEsjcUXs8oQ
+ Fh9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cds5GGFqPsxZEQ8A/Oi3ANjhdDr2P17DFeabFdjzF8U=;
- b=LkvAjU0b5KIxAsrmEK9FcXREPM8Q6o5/BH/5o/CRJ7TLG3+puDQFPz/F1YdALM8Tyz
- XruX+XSSp7y4FK38wzJ0wrchDhL0mBEScV8YuqNO2DHQ1lWME1RlFJkwoZpsXJJQAXgP
- KnuqVSyiQSy9SpnYJU6QXKcmwyRJ1p7v40CmTNvaLM4hCMJQgkjsSrE3jjv6AWtsM2s2
- v+dfo/fcEN7Dtgj6isKpbOt3Hv4JQTJDwpFlISQcpWZxFlqkYCeh+5VYGHGbcXsnrNqx
- ws3ASZd+zhPFIPgng9UTQ9rnMEHtZI+u9hl7m3RlN+wCJ5768IYKK5ETJ9sElgNzRQff
- WNpg==
-X-Gm-Message-State: AOAM530YRwgfQE9CqTQu6g5c70tDXaU3zFvGiEQFWJnDUNk9/1hSaAGf
- faN9mSLXgAH+8ApKiEqPWcECXLTCHr2x+bBN
-X-Google-Smtp-Source: ABdhPJzawrOlK5DqRuxYPHQUfBufIGIk0aqbdTM8/8BPR2fWoeVocJjtfXJSJPhB+x0vjQ+3XlXN5w==
-X-Received: by 2002:adf:f54a:: with SMTP id j10mr612427wrp.383.1622735987690; 
- Thu, 03 Jun 2021 08:59:47 -0700 (PDT)
+ bh=30mcllybotT9ZUvdTQo+V2rYRwrN4iGSwp36CDv+3mQ=;
+ b=anY2TdzYJgDzDAB//J56GV9Au4YrV3X3Wn1d2Aug9NActCpfTL15BoAejCt3cZMXlp
+ /VhZEpuJYLRxcAyK/GiiFDWMlIeIUWbnoUKcIFzQALM6b6thV8fdTsox+fxx1msEG3sw
+ Xn6XjaJceOHLXKjKd3VTpolDgcX0SnCMw0tZUuad+Zyv+043iz+B3Kv6FlOhPFEYqQ7m
+ 82Hpx0f7IDxWEVP0oB7CmxrdsxyN+vveOTVaWE997gOuYYWt7c/r1MwchVKjtm9r2JlT
+ yC7aZrPIKqwydwYjbq9iVY3ZN/v8HctQ8SuhqWo+Mncu5o1/hAp8xlmqSUWVnCH0MvMf
+ 18bA==
+X-Gm-Message-State: AOAM530Fz6HueKfoMG9KY0LRcw8+JCiL30PVv7UQqw3YFLmK+WJgoA9y
+ /5UNNUVJrd24hdOElSf7rzYAl8d2QRWFv0vG
+X-Google-Smtp-Source: ABdhPJwLpZtaRdSNoQlMhJvFQs1W27a1wM/B5Yk+o9PWsklO+fNeDvXY0TJ3JYyQD1xmfTM/6WjLAA==
+X-Received: by 2002:a7b:cd9a:: with SMTP id y26mr11030967wmj.133.1622735988300; 
+ Thu, 03 Jun 2021 08:59:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.47
  for <qemu-devel@nongnu.org>
@@ -54,18 +54,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Thu, 03 Jun 2021 08:59:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/45] tests/qtest/hd-geo-test: Fix checks on mkstemp() return
- value
-Date: Thu,  3 Jun 2021 16:59:01 +0100
-Message-Id: <20210603155904.26021-43-peter.maydell@linaro.org>
+Subject: [PULL 43/45] tests/qtest/pflash-cfi02-test: Avoid potential integer
+ overflow
+Date: Thu,  3 Jun 2021 16:59:02 +0100
+Message-Id: <20210603155904.26021-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,42 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity notices that the checks against mkstemp() failing in
-create_qcow2_with_mbr() are wrong: mkstemp returns -1 on failure but
-the check is just "g_assert(fd)".  Fix to use "g_assert(fd >= 0)",
-matching the correct check in create_test_img().
+Coverity points out that we calculate a 64-bit value using 32-bit
+arithmetic; add the cast to force the multiply to be done as 64-bits.
+(The overflow will never happen with the current test data.)
 
-Fixes: Coverity CID 1432274
+Fixes: Coverity CID 1432320
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20210525134458.6675-4-peter.maydell@linaro.org
+Message-id: 20210525134458.6675-5-peter.maydell@linaro.org
 ---
- tests/qtest/hd-geo-test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/pflash-cfi02-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-index f7b7cfbc2d1..113126ae06c 100644
---- a/tests/qtest/hd-geo-test.c
-+++ b/tests/qtest/hd-geo-test.c
-@@ -464,7 +464,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
+diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
+index 60db81a3a2b..6168edc821a 100644
+--- a/tests/qtest/pflash-cfi02-test.c
++++ b/tests/qtest/pflash-cfi02-test.c
+@@ -406,7 +406,7 @@ static void test_geometry(const void *opaque)
+ 
+     for (int region = 0; region < nb_erase_regions; ++region) {
+         for (uint32_t i = 0; i < c->nb_blocs[region]; ++i) {
+-            uint64_t byte_addr = i * c->sector_len[region];
++            uint64_t byte_addr = (uint64_t)i * c->sector_len[region];
+             g_assert_cmphex(flash_read(c, byte_addr), ==, bank_mask(c));
+         }
      }
- 
-     fd = mkstemp(raw_path);
--    g_assert(fd);
-+    g_assert(fd >= 0);
-     close(fd);
- 
-     fd = open(raw_path, O_WRONLY);
-@@ -474,7 +474,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
-     close(fd);
- 
-     fd = mkstemp(qcow2_path);
--    g_assert(fd);
-+    g_assert(fd >= 0);
-     close(fd);
- 
-     qemu_img_path = getenv("QTEST_QEMU_IMG");
 -- 
 2.20.1
 
