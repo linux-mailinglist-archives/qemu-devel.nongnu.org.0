@@ -2,134 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E4339A0AB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:17:13 +0200 (CEST)
-Received: from localhost ([::1]:56488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2EC39A0B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:21:21 +0200 (CEST)
+Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lomHf-0007jp-KF
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
+	id 1lomLg-0001dM-SN
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lomFm-0006fO-JP; Thu, 03 Jun 2021 08:15:14 -0400
-Received: from mail-vi1eur05on2100.outbound.protection.outlook.com
- ([40.107.21.100]:37281 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1lomKD-0000lh-NT; Thu, 03 Jun 2021 08:19:49 -0400
+Received: from mail-eopbgr80123.outbound.protection.outlook.com
+ ([40.107.8.123]:63108 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lomFi-0002gb-2Q; Thu, 03 Jun 2021 08:15:13 -0400
+ id 1lomK4-0005Tv-Ma; Thu, 03 Jun 2021 08:19:49 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B4wHJhRIt39foKsJ1ewIeQeeTshQHCqgX+VG9Xz8MjsaeB7Xxpo5CBm4bscr3LFfEaTTObqT7+9IG4BkJvj4eRR8sPq0csliY6VXfRsce3cROzeunYuE5jWGSMvcb1i5lefXKvgF6qTu5BLWXOwEdKK+6SMBz1sCz9MPXkPhzmwT8uX2q6A4+NBSkc2QyIFIsju2ZURCvAHzhX0+tQyCJ4Q/jx4aPGCvjRPiGw5T2oywhUPhPHpEupmyJ/JLQ1dxacbLq+A/DDaQwpi2nwb+eWWbqFOwr6/sCM637i7XaSg/kmNn+TuLLONaIO8T0QoRaNn4qh5m2LOdD4vu9dPxjw==
+ b=EJF2xTUkKVrb9+yt1DWPst2UbTZUwUuykpIfNaoHipejGGzwhXaeI9rRYba9u0DWaY+zwOs9NtMKAYQi7RG+g+mvjpobAt5lKvVjdQ6wHqewZ+uFRVnTMAQO0/UiPyJxh9Hs9CWBaGnel8tjB/T+WzFIYQ2rz02l+cUiFlaGP+l27ENnnBsMTqVbydnpT2ZB9lFGoFWZi8Gw5uA8kTTh6cJeRv+9rUzv+OJr4KF0iZl+653vhTrGoeq3R+YTfTfXraT7GIYBIBiQMPBG9dg4uiLR6XnfPbnrRHTSz73p4HhwGxeElsNEFFk5ltmELN+o+BOXJxzT0iPSQ8nTIk6kTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0r+aOKFelD2eBVMPQSooPdrcG+dbWjCeX7zvHIeA87o=;
- b=cFg+QCrFVmYX6WP110egEog3gm5AZr8O5aqCcIwi/MIwbFV27WfSyjNp66OdIdfCSlKIU1wIgCshnkMe4IKKwHGbb3WruwnyEPu/ThLXUDF7239n5SHGz3tmShbFZN9KxCE9G+4s9rPQcatxayooU+8QDAAVFbXqyz41xs0d8hxaXRE/rVEhJWnp+OrHgrwO/LLw5agwHvAtPR8dYh5ZyWtmhcU1erm2pOrtuhOip9qVrxNMq/nx7rSq8rjmR6Ud8DvnH6EP2XGal4PwJlj20pxaFF/OpjEg3J12OdQD2nEgc54ItEH9adgP3bYbysTsUVL5slH7MUJB2BUvo/ewvw==
+ bh=8EdWwLPFT6+5lWkBnTRAsjVHeyThwuRGGcqcr4GucKs=;
+ b=dDng2vYt2oQboKJsVn/eVOA/fac8alEZXGNe/07s4XvowIHly3RB8/pWgz1X+hje0DEpOhwG7osePkk1R+v3oXCVDhfhr5OFZv4kiSclz2Ckmr1kjn+fqqcMAuG00vfexXhacpIJFXiyz5m3y3yF30FzXlsADO8BGtcu7atLlaXOwnXD/+oPvrPY7Y0MAAwSX74kNdThiGWicZMF+d0gUBJ93ZwHHcmF9CGzgEsnqgZUtMcQaOgF/a7YlNMUCK4jCBrFtatUApyjtrY5v9qtlbH+AU7H9L96RUCT4tos/5l9r9yiDE+gHWTASOpeLrGmCJiOIur58YzSsYzDD57fww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0r+aOKFelD2eBVMPQSooPdrcG+dbWjCeX7zvHIeA87o=;
- b=IiM7ssmOLtyHlX5EiuTUnPHXcffqpY9b5LBOzIMMVVOVQADsoJpMuCSBWPAJq1gu6XG3SWrotN36DQR2R9HmjbvhNbjydzh4ymrs7UB0cw6zcZADfUnbot+rANLp7yrEZHVjdklM6GZ3mBAdhp/jCMOSei+xWQ1de6LcDw9srYs=
+ bh=8EdWwLPFT6+5lWkBnTRAsjVHeyThwuRGGcqcr4GucKs=;
+ b=nZikFvwUz+aW8mDv1jV23OKhJDBcV1T6Hex1QVlpHdpvVYQ4QsByL00QSB6zJ74A5E1v2tcIiJWRBSLpRGjzZLsEU6w3xGztqEcrXZknjOhI0c3e6QBrw93kglvzkVbLMpk+dnTv3BgQNXIBjO8Svc2thbrDcqd8Kp+JKWXTl3A=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6807.eurprd08.prod.outlook.com (2603:10a6:20b:395::7)
+ by AM6PR08MB3286.eurprd08.prod.outlook.com (2603:10a6:209:40::27)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Thu, 3 Jun
- 2021 12:15:05 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Thu, 3 Jun
+ 2021 12:19:36 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Thu, 3 Jun 2021
- 12:15:05 +0000
+ 12:19:36 +0000
 Subject: Re: [PATCH] iotests/check: move general long options to double dash
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
 Cc: kwolf@redhat.com, mreitz@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+ eesposit@redhat.com
 References: <20210526181659.365531-1-vsementsov@virtuozzo.com>
- <a266b46d-77b7-b71b-4515-22a02dbf0d04@redhat.com>
+ <3d086c41-80c0-a970-367d-00e19ce55817@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <fe4ba3d5-5fda-8729-100a-83e0db088304@virtuozzo.com>
-Date: Thu, 3 Jun 2021 15:15:03 +0300
+Message-ID: <ebfba20f-badc-422b-f71d-28b9280f65cb@virtuozzo.com>
+Date: Thu, 3 Jun 2021 15:19:34 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
-In-Reply-To: <a266b46d-77b7-b71b-4515-22a02dbf0d04@redhat.com>
+In-Reply-To: <3d086c41-80c0-a970-367d-00e19ce55817@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [185.215.60.243]
-X-ClientProxiedBy: AM0PR04CA0118.eurprd04.prod.outlook.com
- (2603:10a6:208:55::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.243) by
- AM0PR04CA0118.eurprd04.prod.outlook.com (2603:10a6:208:55::23) with Microsoft
+ FRYP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.15 via Frontend Transport; Thu, 3 Jun 2021 12:15:04 +0000
+ 15.20.4219.10 via Frontend Transport; Thu, 3 Jun 2021 12:19:35 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 959e4e6a-a755-48cb-057c-08d92689388c
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6807:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6807E7DBE5C0F14DDD98C8D3C13C9@AS8PR08MB6807.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: daea8aef-cb5c-4790-35e9-08d92689da44
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3286:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3286B4CD4A11F632244D49ECC13C9@AM6PR08MB3286.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yR5BJKDRrNmKbnyV2qxDsVXUM3kO+Doh74G1VD3qF7NbVKpEpys637LPs/DuOXQR85UYm+5lxIxZYi9tOkiOp4ixzSHE/VCOoQ38PM7PuiYZowJIbtQy0xBXWY40zC7Afd253QWx8zKEpMkrqbmbjz7vxS5N4Cm3w3RY0IF48Joi28Zq7Csz8li/TBheQRJ4nf0yql0MEUp3h2GVyfyunJudVS4PSYuWdLnYJPAlucyzJSSlBzim1EYnqtKbtqSKY4KLujee81YFR5MZs7Zdy/fLiBN2QHcwW/T7Yv/6BjH8lrKhGuHO+Jc7o2ffGTnOxT99KUjo8eKHjF9w3UzrJFbSEfapFFsDdlLSDKiha3GUrzWBoo+kDmCx/EERdCX0pSj1BXP60Y2OhXpj4obBxXF33f3a77byqAJxPV8/aSj+njCJhGXuVdSWKgRTwoJCgHlqAS+ZwFHVyPzdrpcyoKcUORZcQxlY09/GAxap5jElqJv/tU3qCYPMpvgNapZ5v8Onzby0r+D31Umlvk30OBmiN4RU7+XuIU9Tpv7ty6BmEliYX8P3xleoVCQB9hW5YTU3tVg/b96FuPYRrDQZNsLeHdm/cv/A94vJbq4h2hbzoVFJYwImVzeGokRiNOMrA13bI2M3W5jfZaZvU0Qsg+r+A2p4D0zC1iF8i4Fkq5QiM/DkU8X+n39hKQTBjH80mVm5SpGu/XKgcvpstQESo5TsACuIH5XGanmNQKZQXy0=
+X-Microsoft-Antispam-Message-Info: wd+iKakbTIBjYBy9CP1bj+Di9s/uJP01jrIpxNtwO4HShX6s0imlrEutWKUvEGKacjm8SiF5At9CNuZ7Ml7s23LDJltxPbCla0Vr70UcTyWl/9XDFE9LjsUo8tWJsrn0tJuaw77fbt5R9vhfqfUMWOAee7N1Q2yUzmtK1+XmnVEpjG8m3Ty6f3iWKFfk/9502PuDIhLoalSWaSqRSUiMqsI/8kW3hWlHTTdb2WdOGUuEYnon34u2DCDmgVtJCcDG0xX1RUlWCxPnUvCfnExzBn9FrKh7mIKN2gKJRZtvQD1mA1Oub5NazVOPh9ozMN2AXRAa0J8AdoCivgabzTNPflf5gOhwQzwQoRXGJPp7Z6nIeKlNHt38+PQE7jhp9QnCzO4WKyHwGrF1WiIunrMJr6akMTaiCfIbplLL7ArPmM6/blHprFlQ3H/rXpx9RI/IAl61VkerfEG87lMl9hEweQBszsqc/YpDJNl4sI/tBnFJrZcC+btIrkwUyWCXorCx6CN7GWfOk63zXjReFa3eUDbKIvURh9Adlc4XFK8DKD5SbgDOFl/6N7l67/A/kiuz9tE1Ja6dv6KeXfsabyaNqjSTN/+7cL6V93KOtlmUGO/pVTu+s7CCbaLgwYh3TVvLl1aDPuMgSVd1/7pRJOLyyAcrHlivcX2lpwMHgy8nQhLZsRoUEhisjZi1jw5ZtBxvPd0c+YkXABaJnra59u3PnbHvHMmQ7gz+wiYTnq8QvVU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(376002)(346002)(136003)(366004)(31686004)(66946007)(5660300002)(66556008)(66476007)(316002)(16576012)(956004)(2616005)(4326008)(8936002)(478600001)(8676002)(6486002)(2906002)(186003)(36756003)(38100700002)(38350700002)(86362001)(52116002)(53546011)(16526019)(31696002)(26005)(83380400001)(43740500002)(45980500001);
+ SFS:(4636009)(136003)(39840400004)(376002)(346002)(366004)(396003)(8676002)(36756003)(6486002)(5660300002)(16526019)(16576012)(186003)(31696002)(26005)(4744005)(66476007)(4326008)(52116002)(31686004)(66556008)(66946007)(53546011)(8936002)(316002)(86362001)(38350700002)(2616005)(2906002)(956004)(478600001)(38100700002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TnZmRDZpSXZzaVNaNkpTN2w0cDFkTWQ0YmZMb3pKWFEraU5LRnpiSWhpQjQz?=
- =?utf-8?B?QVpnZ1FJT2lRTHJ4TnVpZ251YWdnS3JSUDFkbGhmQjhZK2h1a2ZyOUJJMmRE?=
- =?utf-8?B?NENGbGh1Y04xZHAyam1nMVFhTXc0a2gyS01MT1NPcERTNXNuOW4ySmpFZGF2?=
- =?utf-8?B?bXVldFd2dE5CUWdYZUVKTC91WUN5azA3dkw4SzRHNHBuL1cycmZvcWZOa0Nh?=
- =?utf-8?B?ZXErcWc0Y00xd0RDSW5razlyb3ZacUYrMmp3T1hmRE56NWQ1S055Uzk5SjRk?=
- =?utf-8?B?cHlOUVJmMEJWdVBDM0d5TGlzNTB5SXpkZU5kOVd2WHJuSCt4aW9uZXpXcjEy?=
- =?utf-8?B?K0hwMVdSQ3VxYlN6bUJuczFDeWRWcG5Ra2JmQXFQeXQ1Z1ovcXYxejcydmV1?=
- =?utf-8?B?Rytxa2l2WFBnMDhnSXM5VVN4dnB0emN6Z3d6b3Vjd2Y2c2NneHQ2UjV5SURz?=
- =?utf-8?B?TldBMDNPMmYxWVExSnNTRHVPQnVEdjNIT09FcjVSKzlyeWhOUGhxeXQrQ3lm?=
- =?utf-8?B?SFVEWlBKcUFVS0xoVzhMVUdERkhYMXlZWjRlcitUR290TWc1bjV6MDFlOWc2?=
- =?utf-8?B?d2pzRXBCbWhrNTJpcjJZNCtrV3JkWEpZTFBUR3I4QlJCbFBmWG1zYldSdHdT?=
- =?utf-8?B?T3ZQcy9iRDN2OTluRWthSWJtZ1llUERFMTlnWXkvN2hDR1VRTENsVEc5TnRk?=
- =?utf-8?B?ZldTQnlyQktSNmF2Uitrc1ZSUnNRVlJQMDNGVFBCcXNnSENhYnczQW5TeW05?=
- =?utf-8?B?Yy9wS1RuMFNyMlgwM2k3R3IybXhaeEIvWFJ3d2R1TkxlTzZ6WW1EeTZPa0My?=
- =?utf-8?B?alplT05XT1RyckdyeVZCYnJYcTluQWo5enIzMzg0ZC9DZ0JyQW1GZFBBYlFy?=
- =?utf-8?B?NG41Rk1uUGgwa0h1M3oxNmloN00wN2E1eFBVdnplSzFzaWoyT01zWndiV2lB?=
- =?utf-8?B?T0xsSTJlbnFyOU1jSjdNcnNBR3FEQUc0Y2E5Q0ltNGpJVUhtM24wUDJpYXBv?=
- =?utf-8?B?YS8zbVRNTW0zZkxHQnNhVW5RcnZ2Ly81SEo2UFU4NGtjYy9lTjRNYXNwcTFv?=
- =?utf-8?B?TnBJMFhQdjVsY1VPemovajhWazRPYWVaaHZtVzdEb1gxVkIxSUt3RkV1bFJh?=
- =?utf-8?B?cSs0NHd6cXorcmd3TFRHU05Fa1ZlcGpTSVBDV3dramtvTWFnOU9mNlVYZmpN?=
- =?utf-8?B?b0xSTUNrTXcydS90SnVTb1lOZHJ5Z1JRd1R6VXl1VDFCQU4yc2t3M2sxVjlN?=
- =?utf-8?B?OWprWDRUYWFWeDM5SnZjckhLK3BUTU9pWFI2Z1lwaFB1R1NNTVZCUjRYOFhv?=
- =?utf-8?B?bS9mVC9UNytvbCt0Ni9lajRUSTRRNWVjVGZ3TGw3M2NubkljMXBSeFZGcUF4?=
- =?utf-8?B?QWJ1VWkwUFo1Q3EwMU9PT3p4Mkk4Q0dYd2xncHU3eXZyWStiSEFsVCtESC9J?=
- =?utf-8?B?MFFLNDZ4eFk5Zkl4M0c1QVBmRWZJazRxZTQvbklMQ2h6VDArZ0tBOHBRZ2xn?=
- =?utf-8?B?Vmd2SXh3UzNOVUwwdzFlYXFxZ1B6ODJVN3FQcCtIODlkRFJTUk82VGtZUXhF?=
- =?utf-8?B?c2l5S2p6aGtsOGlLa1BNOTVqMVVNK1RVb3RaVjZUTHZjeVl2VjE0YkEyMkpE?=
- =?utf-8?B?VTdXanFaYmQvNzFDNHlFK05xOGU4L29OYUFvVTUvVnd4dkFnZER2WG9tcGNz?=
- =?utf-8?B?dlAwdkpsL0Z1aVkwb0gwY3Q4djd4NkZmSUdBL1luSWV6V0VaaWpPcEZKMVBn?=
- =?utf-8?Q?ZdPEO1EgOISiNlDXEsP1mjnsbOv09/KqowGYR1I?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RXJUcGtlNk1aVFlpMVM3WEhWcnY3VVh0RFVIZHpKZHNaUVh5VjNKSnlIcE53?=
+ =?utf-8?B?MUdRQkRrKy9ibThhc3NWMjdJSmRlWlhrUjNrZXc5TzAvOG5Fbm91RU1HZDdr?=
+ =?utf-8?B?T3BCTWJ5R1FSS29xUHhnNGNjN0x3cEd0Zm94ZjJEdlBzTm5pcmdlc2RRanVm?=
+ =?utf-8?B?RzJ3cHRJTUlrRlBtZWtDdDZYcHNGV0QvNEhPVUhUczZTc0g2OFk3TmhpbzRF?=
+ =?utf-8?B?dnZuNnFLRUZYSERScTJ2Ly9LRFhQYy84Z05ZUndoNi8rNUZxSlNabzlZZnE3?=
+ =?utf-8?B?ZTVTbzM3WmsyMFVSK1NjbUowVkZ2VXZZbDFsQ25JYTZ2ZE5peDY0Z1ptWk9l?=
+ =?utf-8?B?cUtGazB1YkE5ZGkzZnNaY3k0U1NwUDQ2dURxWk1QaWorQzdMY1RraWZVUlE1?=
+ =?utf-8?B?UDlrdUVRUTcveW1EaHVveEtKZHNxZEFmVXE5ZC9yUmcyTXhvclJ6azM3a3p1?=
+ =?utf-8?B?YlRVc1JBbEN4UlNpN2RRY1VocFFpMURyalpzZWF1ZjI0MDZsY1VhUnBkR1pN?=
+ =?utf-8?B?MHVTYS83TzhYQUNGNVpJdEdib2JrQXplYkZnY0xrTHNNODFISHFnbTY0dXBv?=
+ =?utf-8?B?dGZVWDB4bmtVY1VDRnpZYVc5V1cwTXlvNzFZK3hmcm5xMWI5c0dWbm1hdkFS?=
+ =?utf-8?B?cHVUNmtlNUlabEYySmVMeGprd2tGUzk3UngwN3BpOUxxWGNuZkI5ajdScmVS?=
+ =?utf-8?B?Z1prUWRUWnUzM3ludGkzMUJZREJub205ekhUVmZPRlJlOXk3TEJnZkkwcE1J?=
+ =?utf-8?B?dEJsZytTekN4Y1ZRRXFtNldQQjVxT1VUSC9KeFU4Ykp0VGEwUDE2ME5mYXZD?=
+ =?utf-8?B?QzNuUzdRUFFadzVPVHA0N2FWdmJCeE1vb2tCV2J3Wm1WKzkzei95SXV2eTJX?=
+ =?utf-8?B?MTUyZnVtMG1NR3UzeGs3eklvTUFaRStPOG5lL005ejc1KzRXbnA3cXRVdnNH?=
+ =?utf-8?B?alErTlhDQXJDTUUydUlaVUFoeXZlYzgyeUdjRnJlTmdvR1ZJNWFvTTJpU2dC?=
+ =?utf-8?B?MUdjcGJpL1lmaE16UVBZeUNaNm5mYXk4bUJ5M24wR29RTGdYVHRHZWpHY1JG?=
+ =?utf-8?B?M2RYVnJ1MklKbEVZd1ljelBpYm9xTDlCbUROR3plN2RGQXU5UkdkV3k4eWhh?=
+ =?utf-8?B?RisyZEQvblpjOFRicHJQdkswQWl5emFEL2pZM1UrdXFkdVJNRXF5MCsveHdH?=
+ =?utf-8?B?ZThsNVFyR3IrSDlNdUVaUUVDd3p0QkpYcVlyVGJFbWJDWmo5VVYvYWE4ZDJ6?=
+ =?utf-8?B?citXd2tSdUZrd0xjWnRYOTRGNWN5ZzRKa3pUNVZ6ZUlZaXhKTzR6UTNVUERY?=
+ =?utf-8?B?QnJvZU1nNSt5MUhsQ1EwMklobkhCWHRvRTRiRzk3QkZzUjFOTkh4TjllenlT?=
+ =?utf-8?B?c25ocHExalZna00wMTZ3ZlYwNHpMMGFWd1NDbFZSQWJKUGxhOFZCMmVuVnlh?=
+ =?utf-8?B?cE15bS9GRmtlUFZXVHJndTZNbkhDbEkvYW9vdDZFSGhUTTlqdEZxcnVZYUR4?=
+ =?utf-8?B?OG11UVQ5Y2JIQWZ5Z09iWlhqYS8reDBEa0ZkaE43WU16enRvK1h3YktwOFhU?=
+ =?utf-8?B?TU5oUU1SdzNXd04yOU9ON0R1SHVKcnU1SXNoWEdBY2tNRk5oTkU1dzJRdktr?=
+ =?utf-8?B?eGxPTlZSZkFIZG1JTVlHaTRQS2g1M1c1S24yMXhZZHpJb0JzSkJ3blBCSllM?=
+ =?utf-8?B?ZGNQb1R3VEVxVkc2QktjYUxqbXY0YXNJVXZNUTlQcitiUXVJRUJ5NWl2YU5z?=
+ =?utf-8?Q?8zPcPRQfHWfdWiar+ijBNbxXGRDYIuSwfhllBNM?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 959e4e6a-a755-48cb-057c-08d92689388c
+X-MS-Exchange-CrossTenant-Network-Message-Id: daea8aef-cb5c-4790-35e9-08d92689da44
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 12:15:05.2951 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 12:19:36.4850 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sv5LfWZQtrLEzLnOa8zWRh/t2vbnHOkGZcU94x5vPAUDWFI78C+j9L9o4PVs0YYThklb/H0AVkQHNdMhVkKc1x7Dm49JevXGV6l8EaS9ktA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6807
-Received-SPF: pass client-ip=40.107.21.100;
+X-MS-Exchange-CrossTenant-UserPrincipalName: w2Nlgl8wV0hwUJIRMSkYzmBzb+mqjAzbrZBZ1iOYIi3djb0iO7AF0XaBpQy1Bdhww2N4ysnmoR59MOmBUVsJu12HGg8AoMT83O5Ptt61mno=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3286
+Received-SPF: pass client-ip=40.107.8.123;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -147,10 +147,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.06.2021 13:21, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> On 26/05/2021 20:16, Vladimir Sementsov-Ogievskiy wrote:
+03.06.2021 14:38, Paolo Bonzini wrote:
+> On 26/05/21 20:16, Vladimir Sementsov-Ogievskiy wrote:
 >> So, the change:
 >>
 >>    -makecheck -> --makecheck
@@ -166,79 +164,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 >> 2. -misalign is used to add --misalign option (two dashes) to qemu-io
 >>
 >> 3. qemu-io and qemu-nbd has --nocache option (two dashes)
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/check-block.sh         | 2 +-
->>   tests/qemu-iotests/check     | 8 ++++----
->>   tests/qemu-iotests/common.rc | 4 ++--
->>   3 files changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/tests/check-block.sh b/tests/check-block.sh
->> index f86cb863de..90619454d3 100755
->> --- a/tests/check-block.sh
->> +++ b/tests/check-block.sh
->> @@ -77,7 +77,7 @@ export PYTHONUTF8=1
->>   ret=0
->>   for fmt in $format_list ; do
->> -    ${PYTHON} ./check -makecheck -$fmt $group || ret=1
->> +    ${PYTHON} ./check --makecheck -$fmt $group || ret=1
->>   done
->>   exit $ret
->> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
->> index 2dd529eb75..3f3962dd75 100755
->> --- a/tests/qemu-iotests/check
->> +++ b/tests/qemu-iotests/check
->> @@ -32,11 +32,11 @@ def make_argparser() -> argparse.ArgumentParser:
->>       p.add_argument('-n', '--dry-run', action='store_true',
->>                      help='show me, do not run tests')
->> -    p.add_argument('-makecheck', action='store_true',
->> +    p.add_argument('--makecheck', action='store_true',
->>                      help='pretty print output for make check')
->>       p.add_argument('-d', dest='debug', action='store_true', help='debug')
->> -    p.add_argument('-misalign', action='store_true',
->> +    p.add_argument('--misalign', action='store_true',
->>                      help='misalign memory allocations')
->>       p.add_argument('--color', choices=['on', 'off', 'auto'],
->>                      default='auto', help="use terminal colors. The default "
->> @@ -46,7 +46,7 @@ def make_argparser() -> argparse.ArgumentParser:
->>       mg = g_env.add_mutually_exclusive_group()
->>       # We don't set default for cachemode, as we need to distinguish default
->>       # from user input later.
->> -    mg.add_argument('-nocache', dest='cachemode', action='store_const',
->> +    mg.add_argument('--nocache', dest='cachemode', action='store_const',
->>                       const='none', help='set cache mode "none" (O_DIRECT), '
->>                       'sets CACHEMODE environment variable')
->>       mg.add_argument('-c', dest='cachemode',
->> @@ -85,7 +85,7 @@ def make_argparser() -> argparse.ArgumentParser:
->>       g_bash.add_argument('-o', dest='imgopts',
->>                           help='options to pass to qemu-img create/convert, '
->>                           'sets IMGOPTS environment variable')
->> -    g_bash.add_argument('-valgrind', action='store_true',
->> +    g_bash.add_argument('--valgrind', action='store_true',
->>                           help='use valgrind, sets VALGRIND_QEMU environment '
->>                           'variable')
->> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
->> index cbbf6d7c7f..e2f81cd41b 100644
->> --- a/tests/qemu-iotests/common.rc
->> +++ b/tests/qemu-iotests/common.rc
->> @@ -124,7 +124,7 @@ fi
->>   # Set the variables to the empty string to turn Valgrind off
->>   # for specific processes, e.g.
->> -# $ VALGRIND_QEMU_IO= ./check -qcow2 -valgrind 015
->> +# $ VALGRIND_QEMU_IO= ./check -qcow2 --valgrind 015
->>   : ${VALGRIND_QEMU_VM=$VALGRIND_QEMU}
->>   : ${VALGRIND_QEMU_IMG=$VALGRIND_QEMU}
->> @@ -134,7 +134,7 @@ fi
->>   # The Valgrind own parameters may be set with
->>   # its environment variable VALGRIND_OPTS, e.g.
->> -# $ VALGRIND_OPTS="--leak-check=yes" ./check -qcow2 -valgrind 015
->> +# $ VALGRIND_OPTS="--leak-check=yes" ./check -qcow2 --valgrind 015
 > 
-> Ok I see why the short options do not make sense to have double dash, but if we want full consistency why fmt is left with one dash? Like "-qcow2", should we also change that? (that change might be more complex to do)
+> Just like for QEMU, let me reiterate that this is generally not an improvement.
 > 
+> Double-dash options give extra information to the user that short (single-dash) options can be combined, while this is not the case for iotests/check.
 
-I was afraid that changing format and protocol options would be more painful, as they are used often. And decided that we still can get more consistency, keeping other options similar..
+You can combine short options for check script, as argparse supports it.
+
+We don't have many short options yet.. But something like
+
+./check -ng auto
+
+makes sense and works..
+
 
 -- 
 Best regards,
