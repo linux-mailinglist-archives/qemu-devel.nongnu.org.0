@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3376739A034
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 13:51:54 +0200 (CEST)
-Received: from localhost ([::1]:56622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5234139A053
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 13:55:01 +0200 (CEST)
+Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loltB-0003aE-4F
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 07:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50512)
+	id 1lolwC-0002b7-85
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 07:55:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lolqK-0005Ee-7U
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52569)
+ id 1lolqM-0005Mi-Ay
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lolqI-00026k-GU
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:56 -0400
+ id 1lolqK-00028M-Gz
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 07:48:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622720933;
+ s=mimecast20190719; t=1622720936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=34qKPvNzu1oFZe/knosJ1iPvRUUAV4SkRvnh5ZZbcUs=;
- b=WP53FlsTG6AEqspR+5/2qMXj73KFrNRQAdxs2W0tzvobPGph2RSqy7hnMoBQ0z6eIwauXs
- mBP/+YF+472/5mx8WqJO4jPaeeoh3iZPQ9CDz6cjwJs9FSVPeehCsQnI0YRXr36YFyxbU1
- U27ZI462e11FBNNFVslvmCrtYazVu7I=
+ bh=pz2/710VPhARJiG6WmvfqdeuMcSC/SrTvFoQu6eAoJI=;
+ b=CJLwP7gGqnTefU9T43Z7Rf/esrpSRQPTSDWe31+iripsLJHeu8HdjW+2OQdEmJoPItf2tm
+ gx1Ym5U3ZKUUAhR4EUeGsHn5TjS9lRG0WP2f5hNAmbYrIP84Y/136vsbz6Dcr8MeID2hVS
+ GVRB095s0v9EqCSFBpVwq8hJNFpZnrw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-zPjZAuE2Mmq8OtJ6fE_MvQ-1; Thu, 03 Jun 2021 07:48:52 -0400
-X-MC-Unique: zPjZAuE2Mmq8OtJ6fE_MvQ-1
+ us-mta-570-3AybSlHePPKI2OsjTqHwtw-1; Thu, 03 Jun 2021 07:48:54 -0400
+X-MC-Unique: 3AybSlHePPKI2OsjTqHwtw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9B06101372D
- for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 11:48:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9A971013724
+ for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 11:48:53 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7835B1A868;
- Thu,  3 Jun 2021 11:48:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 264671A8A0;
+ Thu,  3 Jun 2021 11:48:51 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org,
 	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v7 5/9] i386: expand Hyper-V features during CPU feature
- expansion time
-Date: Thu,  3 Jun 2021 13:48:31 +0200
-Message-Id: <20210603114835.847451-6-vkuznets@redhat.com>
+Subject: [PATCH v7 6/9] i386: kill off hv_cpuid_check_and_set()
+Date: Thu,  3 Jun 2021 13:48:32 +0200
+Message-Id: <20210603114835.847451-7-vkuznets@redhat.com>
 In-Reply-To: <20210603114835.847451-1-vkuznets@redhat.com>
 References: <20210603114835.847451-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -85,111 +84,167 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
-need to expand and set the corresponding CPUID leaves early. Modify
-x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
-specific kvm_hv_get_supported_cpuid() instead of
-kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
-as Hyper-V specific CPUID leaves intersect with KVM's.
+hv_cpuid_check_and_set() does too much:
+- Checks if the feature is supported by KVM;
+- Checks if all dependencies are enabled;
+- Sets the feature bit in cpu->hyperv_features for 'passthrough' mode.
 
-Note, early expansion will only happen when KVM supports system wide
-KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
+To reduce the complexity, move all the logic except for dependencies
+check out of it. Also, in 'passthrough' mode we don't really need to
+check dependencies because KVM is supposed to provide a consistent
+set anyway.
 
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/cpu.c          |  4 ++++
- target/i386/kvm/kvm-stub.c |  5 +++++
- target/i386/kvm/kvm.c      | 24 ++++++++++++++++++++----
- target/i386/kvm/kvm_i386.h |  1 +
- 4 files changed, 30 insertions(+), 4 deletions(-)
+ target/i386/kvm/kvm.c | 104 +++++++++++++++---------------------------
+ 1 file changed, 36 insertions(+), 68 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b2d8e5713911..159b7aa8f073 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5990,6 +5990,10 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-     if (env->cpuid_xlevel2 == UINT32_MAX) {
-         env->cpuid_xlevel2 = env->cpuid_min_xlevel2;
-     }
-+
-+    if (kvm_enabled()) {
-+        kvm_hyperv_expand_features(cpu, errp);
-+    }
- }
- 
- /*
-diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-index 92f49121b8fa..f6e7e4466e1a 100644
---- a/target/i386/kvm/kvm-stub.c
-+++ b/target/i386/kvm/kvm-stub.c
-@@ -39,3 +39,8 @@ bool kvm_hv_vpindex_settable(void)
- {
-     return false;
- }
-+
-+bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
-+{
-+    abort();
-+}
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a5f8553af921..650fdd970d6e 100644
+index 650fdd970d6e..93f9b5a457d5 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -1217,13 +1217,22 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
-  * of 'hv_passthrough' mode and fills the environment with all supported
-  * Hyper-V features.
-  */
--static bool hyperv_expand_features(CPUState *cs, Error **errp)
-+bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
+@@ -1145,16 +1145,12 @@ static bool hyperv_feature_supported(CPUState *cs, int feature)
+     return true;
+ }
+ 
+-static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
++/* Checks that all feature dependencies are enabled */
++static bool hv_feature_check_deps(X86CPU *cpu, int feature, Error **errp)
  {
 -    X86CPU *cpu = X86_CPU(cs);
-+    CPUState *cs = CPU(cpu);
+     uint64_t deps;
+     int dep_feat;
+ 
+-    if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
+-        return 0;
+-    }
+-
+     deps = kvm_hyperv_properties[feature].dependencies;
+     while (deps) {
+         dep_feat = ctz64(deps);
+@@ -1162,26 +1158,12 @@ static int hv_cpuid_check_and_set(CPUState *cs, int feature, Error **errp)
+             error_setg(errp, "Hyper-V %s requires Hyper-V %s",
+                        kvm_hyperv_properties[feature].desc,
+                        kvm_hyperv_properties[dep_feat].desc);
+-            return 1;
++            return false;
+         }
+         deps &= ~(1ull << dep_feat);
+     }
+ 
+-    if (!hyperv_feature_supported(cs, feature)) {
+-        if (hyperv_feat_enabled(cpu, feature)) {
+-            error_setg(errp, "Hyper-V %s is not supported by kernel",
+-                       kvm_hyperv_properties[feature].desc);
+-            return 1;
+-        } else {
+-            return 0;
+-        }
+-    }
+-
+-    if (cpu->hyperv_passthrough) {
+-        cpu->hyperv_features |= BIT(feature);
+-    }
+-
+-    return 0;
++    return true;
+ }
+ 
+ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
+@@ -1220,6 +1202,8 @@ static uint32_t hv_build_cpuid_leaf(CPUState *cs, uint32_t func, int reg)
+ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
+ {
+     CPUState *cs = CPU(cpu);
++    Error *local_err = NULL;
++    int feat;
  
      if (!hyperv_enabled(cpu))
          return true;
+@@ -1275,53 +1259,37 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
  
-+    /*
-+     * When kvm_hyperv_expand_features is called at CPU feature expansion
-+     * time per-CPU kvm_state is not available yet so we can only proceed
-+     * when KVM_CAP_SYS_HYPERV_CPUID is supported.
-+     */
-+    if (!cs->kvm_state &&
-+        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
-+        return true;
+         cpu->hyperv_spinlock_attempts =
+             hv_cpuid_get_host(cs, HV_CPUID_ENLIGHTMENT_INFO, R_EBX);
+-    }
+ 
+-    /* Features */
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RELAXED, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_VAPIC, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_TIME, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_CRASH, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RESET, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_VPINDEX, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_RUNTIME, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_SYNIC, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_FREQUENCIES, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_REENLIGHTENMENT, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_TLBFLUSH, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_EVMCS, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_IPI, errp)) {
+-        return false;
+-    }
+-    if (hv_cpuid_check_and_set(cs, HYPERV_FEAT_STIMER_DIRECT, errp)) {
+-        return false;
++        /*
++         * Mark feature as enabled in 'cpu->hyperv_features' as
++         * hv_build_cpuid_leaf() uses this info to build guest CPUIDs.
++         */
++        for (feat = 0; feat < ARRAY_SIZE(kvm_hyperv_properties); feat++) {
++            if (hyperv_feature_supported(cs, feat)) {
++                cpu->hyperv_features |= BIT(feat);
++            }
++        }
++    } else {
++        /* Check features availability and dependencies */
++        for (feat = 0; feat < ARRAY_SIZE(kvm_hyperv_properties); feat++) {
++            /* If the feature was not requested skip it. */
++            if (!hyperv_feat_enabled(cpu, feat)) {
++                continue;
++            }
 +
-     if (cpu->hyperv_passthrough) {
-         cpu->hyperv_vendor_id[0] =
-             hv_cpuid_get_host(cs, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
-@@ -1565,8 +1574,15 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     env->apic_bus_freq = KVM_APIC_BUS_FREQUENCY;
- 
--    /* Paravirtualization CPUIDs */
--    if (!hyperv_expand_features(cs, &local_err)) {
-+    /*
-+     * kvm_hyperv_expand_features() is called here for the second time in case
-+     * KVM_CAP_SYS_HYPERV_CPUID is not supported. While we can't possibly handle
-+     * 'query-cpu-model-expansion' in this case as we don't have a KVM vCPU to
-+     * check which Hyper-V enlightenments are supported and which are not, we
-+     * can still proceed and check/expand Hyper-V enlightenments here so legacy
-+     * behavior is preserved.
-+     */
-+    if (!kvm_hyperv_expand_features(cpu, &local_err)) {
-         error_report_err(local_err);
-         return -ENOSYS;
++            /* Check if the feature is supported by KVM */
++            if (!hyperv_feature_supported(cs, feat)) {
++                error_setg(errp, "Hyper-V %s is not supported by kernel",
++                           kvm_hyperv_properties[feat].desc);
++                return false;
++            }
++
++            /* Check dependencies */
++            if (!hv_feature_check_deps(cpu, feat, &local_err)) {
++                error_propagate(errp, local_err);
++                return false;
++            }
++        }
      }
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index dc725083891c..54667b35f09c 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -47,6 +47,7 @@ bool kvm_has_x2apic_api(void);
- bool kvm_has_waitpkg(void);
  
- bool kvm_hv_vpindex_settable(void);
-+bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
- 
- uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
- 
+     /* Additional dependencies not covered by kvm_hyperv_properties[] */
 -- 
 2.31.1
 
