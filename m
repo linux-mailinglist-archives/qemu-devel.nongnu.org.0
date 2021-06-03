@@ -2,74 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2C939A5DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:38:18 +0200 (CEST)
-Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324FA39A5E7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:40:31 +0200 (CEST)
+Received: from localhost ([::1]:41452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqML-0005Tj-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36032)
+	id 1loqOU-0002UZ-6V
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:40:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl6-0001sy-LA
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:48 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl4-0007IL-KQ
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:48 -0400
-Received: by mail-wr1-x435.google.com with SMTP id l2so6391937wrw.6
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=qtE21tz0j/XuMTe0sitQ70UbPqN5imUOWXQe5LhVK1Q=;
- b=ZHGerY4o50xyISuWhrJ3KszUJudtYUf2KA3+ncS9sh0C/RMEMqTtgZ/ZsqEIwutNPx
- 3VrJB+SJlkSeNqwt9ih7jw5htumcCWOxeSDstsq1hvIC4hpxKNRbIQwpXC/0TuEdQFBB
- wTkOut0QDOWt+9nOyhIO0PExz+K2qJg/ZXA2JU+341seDoiqF4+FlZqwiHk3ydb7IcA6
- ouTN/Z6jtktS8oNJS/kQNnsOCP6Y04ggavgcJyIejAJz202T6Q0yKCO32dZAOhu1YfKY
- d04gMIiM2TRrmiHm+/CT6+XEPMzJC2K4WNgLbUo1tpfimKlZ/EqA0Jj1iGgFMSG7azWa
- NSdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qtE21tz0j/XuMTe0sitQ70UbPqN5imUOWXQe5LhVK1Q=;
- b=Fv35mYTt2gukuQquflS6zJn3ElFLIYfjB8X9SOG+PhF0IBCSgB3ia9D2NPPnirvnRf
- htP3o7lq4asAVaY7xLQYrGyqFqKRPv1voFJZd3Nbvu38USU20dUTTK8BQFv+TZtqlX73
- cYrFlstxwU6RdXA0e0Z6s1xUiBDexZU9dpMyJo3G4HZNdSo38jQw0Eo5kCvlckZO+h4Z
- sTADXyYsCgU1MH00K6aoM5wcYnvwLpnUBSnkBHgrEkyAqHGLTBvogT0ZEk199coj+NyI
- PMhLZzixGEgxP6u+2lQPgHFJcjS7nmAUXmX/6x3SYRBMngqpmOcnKXnixNqwqzvygTE1
- tq0Q==
-X-Gm-Message-State: AOAM532dGYSXKnIf3UQ/8ptBeN/9e0YJfjr4pn3fBqIrGghzaeG5QfNp
- oD1NsUCDUfebf4ByqAwazHjpG7pW5PUeLu3R
-X-Google-Smtp-Source: ABdhPJztqYPIn2V3gU20o4i7QvXWF8Fwka3PmSqTRDtoY/Y8ZmlJ4R/XtV4c7DROQ9gp4iHLDU6crg==
-X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr682293wru.124.1622735985352;
- Thu, 03 Jun 2021 08:59:45 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.44
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:59:45 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 39/45] hvf: Simplify post reset/init/loadvm hooks
-Date: Thu,  3 Jun 2021 16:58:58 +0100
-Message-Id: <20210603155904.26021-40-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
-References: <20210603155904.26021-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lopm4-0003JG-Ml
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:00:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45004)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1loplv-0007pU-LK
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 12:00:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F074613DC;
+ Thu,  3 Jun 2021 16:00:33 +0000 (UTC)
+Date: Thu, 3 Jun 2021 17:00:31 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v13 4/8] KVM: arm64: Introduce MTE VM feature
+Message-ID: <20210603160031.GE20338@arm.com>
+References: <20210524104513.13258-1-steven.price@arm.com>
+ <20210524104513.13258-5-steven.price@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210524104513.13258-5-steven.price@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,104 +53,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Graf <agraf@csgraf.de>
+On Mon, May 24, 2021 at 11:45:09AM +0100, Steven Price wrote:
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index c5d1f3c87dbd..226035cf7d6c 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -822,6 +822,42 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+>  	return PAGE_SIZE;
+>  }
+>  
+> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
+> +			     unsigned long size)
+> +{
+> +	if (kvm_has_mte(kvm)) {
 
-The hooks we have that call us after reset, init and loadvm really all
-just want to say "The reference of all register state is in the QEMU
-vcpu struct, please push it".
+Nitpick (less indentation):
 
-We already have a working pushing mechanism though called cpu->vcpu_dirty,
-so we can just reuse that for all of the above, syncing state properly the
-next time we actually execute a vCPU.
+	if (!kvm_has_mte(kvm))
+		return 0;
 
-This fixes PSCI resets on ARM, as they modify CPU state even after the
-post init call has completed, but before we execute the vCPU again.
+> +		/*
+> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
+> +		 * the VM will be able to see the page's tags and therefore
+> +		 * they must be initialised first. If PG_mte_tagged is set,
+> +		 * tags have already been initialised.
+> +		 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
+> +		 * that may not support tags.
+> +		 */
+> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
+> +		struct page *page = pfn_to_online_page(pfn);
+> +
+> +		if (!page)
+> +			return -EFAULT;
+> +
+> +		for (i = 0; i < nr_pages; i++, page++) {
+> +			/*
+> +			 * There is a potential (but very unlikely) race
+> +			 * between two VMs which are sharing a physical page
+> +			 * entering this at the same time. However by splitting
+> +			 * the test/set the only risk is tags being overwritten
+> +			 * by the mte_clear_page_tags() call.
+> +			 */
 
-To also make the scheme work for x86, we have to make sure we don't
-move stale eflags into our env when the vcpu state is dirty.
+And I think the real risk here is when the page is writable by at least
+one of the VMs sharing the page. This excludes KSM, so it only leaves
+the MAP_SHARED mappings.
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Message-id: 20210519202253.76782-13-agraf@csgraf.de
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- accel/hvf/hvf-accel-ops.c | 27 +++++++--------------------
- target/i386/hvf/x86hvf.c  |  5 ++++-
- 2 files changed, 11 insertions(+), 21 deletions(-)
+> +			if (!test_bit(PG_mte_tagged, &page->flags)) {
+> +				mte_clear_page_tags(page_address(page));
+> +				set_bit(PG_mte_tagged, &page->flags);
+> +			}
+> +		}
 
-diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index ded918c443d..d1691be9896 100644
---- a/accel/hvf/hvf-accel-ops.c
-+++ b/accel/hvf/hvf-accel-ops.c
-@@ -205,39 +205,26 @@ static void hvf_cpu_synchronize_state(CPUState *cpu)
-     }
- }
- 
--static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
--                                              run_on_cpu_data arg)
-+static void do_hvf_cpu_synchronize_set_dirty(CPUState *cpu,
-+                                             run_on_cpu_data arg)
- {
--    hvf_put_registers(cpu);
--    cpu->vcpu_dirty = false;
-+    /* QEMU state is the reference, push it to HVF now and on next entry */
-+    cpu->vcpu_dirty = true;
- }
- 
- static void hvf_cpu_synchronize_post_reset(CPUState *cpu)
- {
--    run_on_cpu(cpu, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
--}
--
--static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
--                                             run_on_cpu_data arg)
--{
--    hvf_put_registers(cpu);
--    cpu->vcpu_dirty = false;
-+    run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
- }
- 
- static void hvf_cpu_synchronize_post_init(CPUState *cpu)
- {
--    run_on_cpu(cpu, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
--}
--
--static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
--                                              run_on_cpu_data arg)
--{
--    cpu->vcpu_dirty = true;
-+    run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
- }
- 
- static void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
- {
--    run_on_cpu(cpu, do_hvf_cpu_synchronize_pre_loadvm, RUN_ON_CPU_NULL);
-+    run_on_cpu(cpu, do_hvf_cpu_synchronize_set_dirty, RUN_ON_CPU_NULL);
- }
- 
- static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 28cfee4f608..2ced2c24784 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -433,7 +433,10 @@ int hvf_process_events(CPUState *cpu_state)
-     X86CPU *cpu = X86_CPU(cpu_state);
-     CPUX86State *env = &cpu->env;
- 
--    env->eflags = rreg(cpu_state->hvf->fd, HV_X86_RFLAGS);
-+    if (!cpu_state->vcpu_dirty) {
-+        /* light weight sync for CPU_INTERRUPT_HARD and IF_MASK */
-+        env->eflags = rreg(cpu_state->hvf->fd, HV_X86_RFLAGS);
-+    }
- 
-     if (cpu_state->interrupt_request & CPU_INTERRUPT_INIT) {
-         cpu_synchronize_state(cpu_state);
+If we want to cover this race (I'd say in a separate patch), we can call
+mte_sync_page_tags(page, __pte(0), false, true) directly (hopefully I
+got the arguments right). We can avoid the big lock in most cases if
+kvm_arch_prepare_memory_region() sets a VM_MTE_RESET (tag clear etc.)
+and __alloc_zeroed_user_highpage() clears the tags on allocation (as we
+do for VM_MTE but the new flag would not affect the stage 1 VMM page
+attributes).
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  			  struct kvm_memory_slot *memslot, unsigned long hva,
+>  			  unsigned long fault_status)
+> @@ -971,8 +1007,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>  	if (writable)
+>  		prot |= KVM_PGTABLE_PROT_W;
+>  
+> -	if (fault_status != FSC_PERM && !device)
+> +	if (fault_status != FSC_PERM && !device) {
+> +		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
+> +		if (ret)
+> +			goto out_unlock;
+
+Maybe it was discussed in a previous version, why do we need this in
+addition to kvm_set_spte_gfn()?
+
+> +
+>  		clean_dcache_guest_page(pfn, vma_pagesize);
+> +	}
+>  
+>  	if (exec_fault) {
+>  		prot |= KVM_PGTABLE_PROT_X;
+> @@ -1168,12 +1209,17 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+>  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+>  {
+>  	kvm_pfn_t pfn = pte_pfn(range->pte);
+> +	int ret;
+>  
+>  	if (!kvm->arch.mmu.pgt)
+>  		return 0;
+>  
+>  	WARN_ON(range->end - range->start != 1);
+>  
+> +	ret = sanitise_mte_tags(kvm, pfn, PAGE_SIZE);
+> +	if (ret)
+> +		return false;
+> +
+>  	/*
+>  	 * We've moved a page around, probably through CoW, so let's treat it
+>  	 * just like a translation fault and clean the cache to the PoC.
+
+Otherwise the patch looks fine.
+
 -- 
-2.20.1
-
+Catalin
 
