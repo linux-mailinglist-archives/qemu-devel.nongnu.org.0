@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B9E399CFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:46:28 +0200 (CEST)
-Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DE1399D36
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:53:44 +0200 (CEST)
+Received: from localhost ([::1]:39868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loizj-0006gD-GC
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40034)
+	id 1loj6l-0005DJ-3A
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loie6-0008Lf-2t; Thu, 03 Jun 2021 04:24:06 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57145 helo=ozlabs.org)
+ id 1loie6-0008Li-4G; Thu, 03 Jun 2021 04:24:06 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59657 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidx-0000cV-SH; Thu, 03 Jun 2021 04:24:01 -0400
+ id 1loidy-0000cc-E0; Thu, 03 Jun 2021 04:24:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5s1btgz9t5H; Thu,  3 Jun 2021 18:22:40 +1000 (AEST)
+ id 4Fwf5s5HgHz9t6S; Thu,  3 Jun 2021 18:22:40 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708561;
- bh=W0eEheTbDJ3WJbjQVn97v55ot8/Dy8ULgRERo6bK4C4=;
+ bh=lznL8IteIEJZwg67FqGurw6QmprSyuWvhZaAKobZq/A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h7i6t6qmFSc1XYLAQZxZW9b/CGoL8tGfUtMgqnlfI5FZBheg7KhKj1sbiT1BuGTuk
- 9/AcwsxA1nR21mGrCUEpvg93tBbSkXMAkbeWAY9gEQN5f7fw1O5XT1HKBUke0fPweC
- eNYUp/rggVPDGHyBjnUcd/XHe/MxddlbVjOB2/0I=
+ b=N/AHrEiPSc2z/t/uJDHlu/zq/FKxfPHgcwyI9c2pdKIPoTgvZV7467YjE1R4UdR73
+ wnRouKqWMrzWxFf0V7hLG4boSxgDBU8rltp3eTDA+AReKT4EYgq9/+bBEL9Ksvg4qh
+ GUiX/bl9F9erhjZbiDnlrBUa+BwXmLt5xCfHPxuE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 38/42] target/ppc: Implement cfuged instruction
-Date: Thu,  3 Jun 2021 18:22:27 +1000
-Message-Id: <20210603082231.601214-39-david@gibson.dropbear.id.au>
+Subject: [PULL 39/42] target/ppc: Implement vcfuged instruction
+Date: Thu,  3 Jun 2021 18:22:28 +1000
+Message-Id: <20210603082231.601214-40-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,134 +66,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210601193528.2533031-12-matheus.ferst@eldorado.org.br>
+Message-Id: <20210601193528.2533031-13-matheus.ferst@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/helper.h                        |  1 +
- target/ppc/insn32.decode                   |  4 ++
- target/ppc/int_helper.c                    | 62 ++++++++++++++++++++++
- target/ppc/translate/fixedpoint-impl.c.inc | 12 +++++
- 4 files changed, 79 insertions(+)
+ target/ppc/insn32.decode               |  7 ++++
+ target/ppc/translate.c                 |  1 +
+ target/ppc/translate/vector-impl.c.inc | 56 ++++++++++++++++++++++++++
+ 3 files changed, 64 insertions(+)
+ create mode 100644 target/ppc/translate/vector-impl.c.inc
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index ea9f2a236c..c517b9f025 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -46,6 +46,7 @@ DEF_HELPER_4(divwe, tl, env, tl, tl, i32)
- DEF_HELPER_FLAGS_1(popcntb, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_2(cmpb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_3(sraw, tl, env, tl, tl)
-+DEF_HELPER_FLAGS_2(cfuged, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- #if defined(TARGET_PPC64)
- DEF_HELPER_FLAGS_2(cmpeqb, TCG_CALL_NO_RWG_SE, i32, tl, tl)
- DEF_HELPER_FLAGS_1(popcntw, TCG_CALL_NO_RWG_SE, tl, tl)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index bc69c70493..d4044d9069 100644
+index d4044d9069..77edf407ab 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -87,6 +87,10 @@ STDUX           011111 ..... ..... ..... 0010110101 -   @X
- ADDI            001110 ..... ..... ................     @D
- ADDIS           001111 ..... ..... ................     @D
+@@ -23,6 +23,9 @@
+ %ds_si          2:s14  !function=times_4
+ @DS             ...... rt:5 ra:5 .............. ..      &D si=%ds_si
  
-+## Fixed-Point Logical Instructions
++&VX             vrt vra vrb
++@VX             ...... vrt:5 vra:5 vrb:5 .......... .   &VX
 +
-+CFUGED          011111 ..... ..... ..... 0011011100 -   @X
+ &X              rt ra rb
+ @X              ...... rt:5 ra:5 rb:5 .......... .      &X
+ 
+@@ -97,3 +100,7 @@ SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
+ SETBCR          011111 ..... ..... ----- 0110100000 -   @X_bi
+ SETNBC          011111 ..... ..... ----- 0111000000 -   @X_bi
+ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
 +
- ### Move To/From System Register Instructions
++## Vector Bit Manipulation Instruction
++
++VCFUGED         000100 ..... ..... ..... 10101001101    @VX
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 3c3cb1b664..ed5515f8e2 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7538,6 +7538,7 @@ static int times_4(DisasContext *ctx, int x)
+ #include "translate/vmx-impl.c.inc"
  
- SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 41f8477d4b..efa833ef64 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -320,6 +320,68 @@ target_ulong helper_popcntb(target_ulong val)
- }
- #endif
+ #include "translate/vsx-impl.c.inc"
++#include "translate/vector-impl.c.inc"
  
-+uint64_t helper_cfuged(uint64_t src, uint64_t mask)
+ #include "translate/dfp-impl.c.inc"
+ 
+diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translate/vector-impl.c.inc
+new file mode 100644
+index 0000000000..117ce9b137
+--- /dev/null
++++ b/target/ppc/translate/vector-impl.c.inc
+@@ -0,0 +1,56 @@
++/*
++ * Power ISA decode for Vector Facility instructions
++ *
++ * Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#define REQUIRE_ALTIVEC(CTX) \
++    do {                                                \
++        if (unlikely(!(CTX)->altivec_enabled)) {        \
++            gen_exception((CTX), POWERPC_EXCP_VPU);     \
++            return true;                                \
++        }                                               \
++    } while (0)
++
++static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
 +{
-+    /*
-+     * Instead of processing the mask bit-by-bit from the most significant to
-+     * the least significant bit, as described in PowerISA, we'll handle it in
-+     * blocks of 'n' zeros/ones from LSB to MSB. To avoid the decision to use
-+     * ctz or cto, we negate the mask at the end of the loop.
-+     */
-+    target_ulong m, left = 0, right = 0;
-+    unsigned int n, i = 64;
-+    bool bit = false; /* tracks if we are processing zeros or ones */
++    TCGv_i64 tgt, src, mask;
 +
-+    if (mask == 0 || mask == -1) {
-+        return src;
-+    }
-+
-+    /* Processes the mask in blocks, from LSB to MSB */
-+    while (i) {
-+        /* Find how many bits we should take */
-+        n = ctz64(mask);
-+        if (n > i) {
-+            n = i;
-+        }
-+
-+        /*
-+         * Extracts 'n' trailing bits of src and put them on the leading 'n'
-+         * bits of 'right' or 'left', pushing down the previously extracted
-+         * values.
-+         */
-+        m = (1ll << n) - 1;
-+        if (bit) {
-+            right = ror64(right | (src & m), n);
-+        } else {
-+            left = ror64(left | (src & m), n);
-+        }
-+
-+        /*
-+         * Discards the processed bits from 'src' and 'mask'. Note that we are
-+         * removing 'n' trailing zeros from 'mask', but the logical shift will
-+         * add 'n' leading zeros back, so the population count of 'mask' is kept
-+         * the same.
-+         */
-+        src >>= n;
-+        mask >>= n;
-+        i -= n;
-+        bit = !bit;
-+        mask = ~mask;
-+    }
-+
-+    /*
-+     * At the end, right was ror'ed ctpop(mask) times. To put it back in place,
-+     * we'll shift it more 64-ctpop(mask) times.
-+     */
-+    if (bit) {
-+        n = ctpop64(mask);
-+    } else {
-+        n = 64 - ctpop64(mask);
-+    }
-+
-+    return left | (right >> n);
-+}
-+
- /*****************************************************************************/
- /* PowerPC 601 specific instructions (POWER bridge) */
- target_ulong helper_div(CPUPPCState *env, target_ulong arg1, target_ulong arg2)
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index 5f9845fa40..50933a3b9d 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -227,3 +227,15 @@ TRANS(SETBC, do_set_bool_cond, false, false)
- TRANS(SETBCR, do_set_bool_cond, false, true)
- TRANS(SETNBC, do_set_bool_cond, true, false)
- TRANS(SETNBCR, do_set_bool_cond, true, true)
-+
-+static bool trans_CFUGED(DisasContext *ctx, arg_X *a)
-+{
-+    REQUIRE_64BIT(ctx);
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-+#if defined(TARGET_PPC64)
-+    gen_helper_cfuged(cpu_gpr[a->ra], cpu_gpr[a->rt], cpu_gpr[a->rb]);
-+#else
-+    qemu_build_not_reached();
-+#endif
++    REQUIRE_ALTIVEC(ctx);
++
++    tgt = tcg_temp_new_i64();
++    src = tcg_temp_new_i64();
++    mask = tcg_temp_new_i64();
++
++    /* centrifuge lower double word */
++    get_cpu_vsrl(src, a->vra + 32);
++    get_cpu_vsrl(mask, a->vrb + 32);
++    gen_helper_cfuged(tgt, src, mask);
++    set_cpu_vsrl(a->vrt + 32, tgt);
++
++    /* centrifuge higher double word */
++    get_cpu_vsrh(src, a->vra + 32);
++    get_cpu_vsrh(mask, a->vrb + 32);
++    gen_helper_cfuged(tgt, src, mask);
++    set_cpu_vsrh(a->vrt + 32, tgt);
++
++    tcg_temp_free_i64(tgt);
++    tcg_temp_free_i64(src);
++    tcg_temp_free_i64(mask);
++
 +    return true;
 +}
 -- 
