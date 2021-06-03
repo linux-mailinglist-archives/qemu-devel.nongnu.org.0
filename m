@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A7539A54F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:07:30 +0200 (CEST)
-Received: from localhost ([::1]:44154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FE439A581
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:13:25 +0200 (CEST)
+Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lopsX-00071F-8H
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
+	id 1lopyG-0002xp-Db
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:13:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkf-0008Pp-Ok
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:21 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42623)
+ id 1lopkk-0000L4-Li
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:26 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkd-0006v3-Bz
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:21 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id c5so6356602wrq.9
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:18 -0700 (PDT)
+ id 1lopke-0006wH-7V
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:26 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id i94so1345973wri.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/gg8JIdwvW0DYrrjVDsWjQEmdjygTIDM1ioXoiWVJ3A=;
- b=cLAxiIvbc2YBk81gNKQb3tXBjIZ8X7Ktv7lDlUYIIRm/lPnjoC7QITyOQPtQFASA49
- EhK0+wkE1ojiTw+2Mg/UywTl/t/PUvb5noyTMqGtO0P9Rq00kCcNlN1jHzNV2BZWrbwo
- 3MPDIar+EkjHbTri96hyCWXLHiUdjCGDQ6VoJQQRtRMwIE9bNQOiWAvhW37hAU4a79HZ
- C9HLP3Ti4SXTKvJLugy9DbrDl07hETPhDI2RdjrID99GTvnxVT+hL95NyVSIlaLUThTJ
- IzN68WJBrQ70ulA3jTHOdLZDgzj3aJkI2QG32du+GL1mpAbihQMEn81pRfE4M/PG88TF
- HR0A==
+ bh=0dZUtAFjQWxKrKqvrClsTUtAI33YGQrz6/E16mdLOUw=;
+ b=DUT9gH0R/cseY0y1ajDGVODkt2lpPUVjQdIpI+5Bs/g/BoP7yL65Kw/dlnIoCuuetn
+ bqLxWNUPtK6kZ3ZfenrIDxY9aW+OLmk1PEo4Bzqa0gwujxkZPOSJ6Q5A6084e7JLJZKg
+ 3k1Y1mo6hU8yv+irsdQtWGvwM1RGIXNuAbCOjoPaY0KzR06tcIVS/FQ/DA/AVGIVphJn
+ JVOBFUeMxbujoaZdghiO92LX0x6rfjy63I3nTFpKXPmt7d0KzNy5l4lbcnf+SXJHJ1tG
+ 8Mlsw+OreXXeFEI2uviyLlglzXA0IZRnO5s7P/6+5S4NiqeQzCKZn9Ds81OIv6HGpxme
+ NpeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/gg8JIdwvW0DYrrjVDsWjQEmdjygTIDM1ioXoiWVJ3A=;
- b=eb8VUx0RRcihVmfEOr8lstUdi/0ZwjvTPpA/8YpDbwjh1qFhVF64HQ5G6hR9r9wfgJ
- 6ysHsC60WYDavbaknLHZZ4xI7aNv6Zwc0GnvF7TOp+CGt4EdAekZh9LMgEksWy97ogY4
- 5CX6eCM75GDygS0u9Od3zvKhUtMj0l7xzvcAysZ+uDXkSQHwnBB6UN/d+mXRP8hX9r8u
- z+gbjZ8ITpELAGyetViqB3Fq4C3Vfmd3ecfYqIcUVvfw7TxchYUL7rizv4+9kuZpBtaT
- eFyp0YJQtIw6kUiEzXxDn+6Qd9r7vDqbgn4VqXQpEkYztnb7aW23TB8El5w+NTuTIiWh
- Ae4g==
-X-Gm-Message-State: AOAM531ZGw5oHPNAP0Gs0sZDnkczlo8J/Z0OeQu8l9jkfzDDaA3ESPu1
- v9f9sgWgY7Cd4MRMH0avv3zstS9sKXsxoAIZ
-X-Google-Smtp-Source: ABdhPJzPFQkT/XzKiF95U4LYPNhN40p9xJcnsJ1O1/EtSlHu5O8ZlQLLJcM5DC4h8gmlZzsNF8haHA==
-X-Received: by 2002:adf:f346:: with SMTP id e6mr622841wrp.179.1622735958013;
+ bh=0dZUtAFjQWxKrKqvrClsTUtAI33YGQrz6/E16mdLOUw=;
+ b=QFNlSNWclfQfY5fQlhX/I88fbhbpe8ptOSCwkhAnNu6gTdDS1S3+ZRzli1RQFMrb9K
+ Rer6KswZBhwt39y9GgJQlrA9k3NLVAmarp75+PSDHv7KQTE/joK3Yq6funEm53I6m94w
+ kV0PSGImH93uflozoGhvuDRVe+0UFEn0LUipl2tnSuRrAU7fNhiEaae2Rjpvj9s3OsKB
+ 5wlPnYMzcyxylM0HWIQDayMzG41Vm4+RnUYF/vD4PE3acjxzq9LhipSnmKNbFGZqRrAE
+ 7mcGKg6Y7RE1hJyT5SCFZSOYx+z453zmSG8l0iSPh2z2zvKmP2vs+mt9if9ybGTImBD1
+ ZHYQ==
+X-Gm-Message-State: AOAM533mgiVCodrQUNnUQJ7adPYugfUXOMJXpSr8dgSHgvcGIyShZMCw
+ 393CV2Yzv6EGyg/vDoFwqtoMJ0/MvNuK1nQF
+X-Google-Smtp-Source: ABdhPJwwmBIF6/zBcJHbIMIBRuWn1XyD/vcG+mMHYsBJrXDosST+6v3SKO78bk9SYSPXo2V9yGK3zg==
+X-Received: by 2002:a5d:4c48:: with SMTP id n8mr601050wrt.327.1622735958929;
  Thu, 03 Jun 2021 08:59:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.17
+ by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:59:17 -0700 (PDT)
+ Thu, 03 Jun 2021 08:59:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/45] target/arm: Add isar_feature_{aa32, aa64, aa64_sve}_bf16
-Date: Thu,  3 Jun 2021 16:58:35 +0100
-Message-Id: <20210603155904.26021-17-peter.maydell@linaro.org>
+Subject: [PULL 17/45] target/arm: Unify unallocated path in disas_fp_1src
+Date: Thu,  3 Jun 2021 16:58:36 +0100
+Message-Id: <20210603155904.26021-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,57 +88,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Note that the SVE BFLOAT16 support does not require SVE2,
-it is an independent extension.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210525225817.400336-2-richard.henderson@linaro.org
+Message-id: 20210525225817.400336-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ target/arm/translate-a64.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 5f234834c0d..be9a4dceae1 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3792,6 +3792,11 @@ static inline bool isar_feature_aa32_predinv(const ARMISARegisters *id)
-     return FIELD_EX32(id->id_isar6, ID_ISAR6, SPECRES) != 0;
- }
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index d6906d9012c..95c2853f39f 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -6501,8 +6501,7 @@ static void disas_fp_1src(DisasContext *s, uint32_t insn)
+     int rd = extract32(insn, 0, 5);
  
-+static inline bool isar_feature_aa32_bf16(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->id_isar6, ID_ISAR6, BF16) != 0;
-+}
-+
- static inline bool isar_feature_aa32_i8mm(const ARMISARegisters *id)
- {
-     return FIELD_EX32(id->id_isar6, ID_ISAR6, I8MM) != 0;
-@@ -4153,6 +4158,11 @@ static inline bool isar_feature_aa64_dcpodp(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, DPB) >= 2;
- }
+     if (mos) {
+-        unallocated_encoding(s);
+-        return;
++        goto do_unallocated;
+     }
  
-+static inline bool isar_feature_aa64_bf16(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, BF16) != 0;
-+}
-+
- static inline bool isar_feature_aa64_fp_simd(const ARMISARegisters *id)
- {
-     /* We always set the AdvSIMD and FP fields identically.  */
-@@ -4297,6 +4307,11 @@ static inline bool isar_feature_aa64_sve2_bitperm(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BITPERM) != 0;
- }
+     switch (opcode) {
+@@ -6511,8 +6510,7 @@ static void disas_fp_1src(DisasContext *s, uint32_t insn)
+         /* FCVT between half, single and double precision */
+         int dtype = extract32(opcode, 0, 2);
+         if (type == 2 || dtype == type) {
+-            unallocated_encoding(s);
+-            return;
++            goto do_unallocated;
+         }
+         if (!fp_access_check(s)) {
+             return;
+@@ -6524,8 +6522,7 @@ static void disas_fp_1src(DisasContext *s, uint32_t insn)
  
-+static inline bool isar_feature_aa64_sve_bf16(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, BFLOAT16) != 0;
-+}
-+
- static inline bool isar_feature_aa64_sve2_sha3(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64zfr0, ID_AA64ZFR0, SHA3) != 0;
+     case 0x10 ... 0x13: /* FRINT{32,64}{X,Z} */
+         if (type > 1 || !dc_isar_feature(aa64_frint, s)) {
+-            unallocated_encoding(s);
+-            return;
++            goto do_unallocated;
+         }
+         /* fall through */
+     case 0x0 ... 0x3:
+@@ -6547,8 +6544,7 @@ static void disas_fp_1src(DisasContext *s, uint32_t insn)
+             break;
+         case 3:
+             if (!dc_isar_feature(aa64_fp16, s)) {
+-                unallocated_encoding(s);
+-                return;
++                goto do_unallocated;
+             }
+ 
+             if (!fp_access_check(s)) {
+@@ -6557,11 +6553,12 @@ static void disas_fp_1src(DisasContext *s, uint32_t insn)
+             handle_fp_1src_half(s, opcode, rd, rn);
+             break;
+         default:
+-            unallocated_encoding(s);
++            goto do_unallocated;
+         }
+         break;
+ 
+     default:
++    do_unallocated:
+         unallocated_encoding(s);
+         break;
+     }
 -- 
 2.20.1
 
