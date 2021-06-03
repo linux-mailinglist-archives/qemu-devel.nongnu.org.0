@@ -2,143 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9FA39A0EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:31:09 +0200 (CEST)
-Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766B839A121
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:35:05 +0200 (CEST)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lomVA-0006iy-5B
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:31:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
+	id 1lomYy-0004ce-GY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:35:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lomTd-0005wE-NC
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:29:33 -0400
-Received: from mail-eopbgr80128.outbound.protection.outlook.com
- ([40.107.8.128]:47429 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1lomXc-0003XP-CZ
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:33:40 -0400
+Received: from mail-bn7nam10on2076.outbound.protection.outlook.com
+ ([40.107.92.76]:12608 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lomTP-0003aY-25
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:29:29 -0400
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1lomXY-0006FD-44
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:33:39 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=auOowhG1/NY2cDOE47nEyboflAwF3wIFxQIlGX0YEOf30ZkPsjH7qtd0iJR78a4Jr2dNPePZEeHtQxkypMJA4592qOT6jbQ4ejl3AJbkiXVNGol6u2BdQuwv41KZqPY9421KbxMAlYDv7S+hPtVkUZ+nNh3oDwSvcyHI8J5CKH8bs1lM1s62izhQk2ufbdFtnKuHAQjT7e8eRojZhdS67PT/3lqMiKyDnXxFZVpt/0xzeaLBQmrm/ZvMO1/HAbUS8y7TYDD/cxPQhRejwkhlAP/fvlkVpYBGcsscTnGF/YgA86udE3V5ynlZ7pt7NBwiPwjb/mXc4dCuhOc4xoAhGQ==
+ b=R6voUxvXxUpICTcYucErMZeH8PEoeKCQYMFEXXyEsStAguq4BLgNN4BS8GZ9AhlKTqjoOCNyvIAaxCq1RMyyYVnAQ0AGxF5jbKF/CBkP7HN0k5u8f/lb7eOIUkr2N89ordoGSyWpVXmY80BzFLOSUceeAsC5y9jDIhS61YtzLLxgF8TPDPioxMDaZSSpgFhFNvcLG52xh4F/HVFphGtAYijU4llpR/6/7pSoLZnph/+9o+1MQGh+HKRigjaqCxIccUvcZHVvlNC1E3y+ZjshvMnyzl3nis8JSBWMxz68bss2OUk45iUTOZ/4vbwvTRxh0HDLFxnC3esW0C1Yw5FYEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1RYnXFW0oEzuHfiakC7o9zWRvken7NLBJ/RdDZnwcec=;
- b=aPQPw4jz8Gll4qfzTFraMfbhw7x56ogQhnpimJOFqYXOJKSsGab6zgx5O18MUEerSW9CteiXTlvi5bHEDiX1JLp5GG8ZsaYTXUpIN5TljcfNpiyfrQldwCOF+HzMySRd/pNPK6sVnRApzScvUDdWD9OgBQIdUWcHBacmCLOCPX2UghWabOfAE3IzeiEmSMVSomj0dvoJYPZ+nrzdK+QTFcvpLH2w8y+apj+vX6r4YXSyv0Ex1UXIkyyPul+cCAH7EjrVRr8RrfLfSsh5UTzIVgDbtzfKd685RBHtkswRQT6FkezSAoBThjyl/E1To5kSrz45CgCqxBOGgaNRctgEWA==
+ bh=DEBi41BnYF39FHQxTCBk4tq8dNfwovBH3juGmovA9sg=;
+ b=CSDoVocEayK8kSg7JAPbP652yW84c0FJfmwjiFpmEBT7Cvx0dA6f4XFwsLUIqYY0yhaimCEUuD4GT9HrkiGgs2cRGX4EcroaLTmUH31TwYwS79jF5yYbs5Ye2C59ZtiZMp5mLqqiZq9RWf+3A0PyyZSrUOpgmzpq8zgC2IrDsVQ6VSvTu8EqPkNfoxotzbWv0Evz/Lx2s/FSXBBF403e4YI9B5lKTtvgxFiHuQijTI/pI3Nq5H5JuNdB0q3Dl8d3BMDjmKhKFZU5e+ogxQ3AJsOFlL8ueqxtcq6M3bSI87UfIO76RjG7kcQaoImN2MgtNz97QtNJU35kAQR8QYgUnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1RYnXFW0oEzuHfiakC7o9zWRvken7NLBJ/RdDZnwcec=;
- b=P3h26o3k6xe2IhQte51XVzwAnH5zsxaEDi0LheXp1GIJ9OhPuZ6u5cc12VUYqTeRgz0qPC7fQmXfj0gZWOOcVgQyETVYJhrKeg2zWVFQvNadckEOHY0+AYq5ZvD2ZIghKR6okjjn4d1Hl5g7pWJfTnrV92N8kfQcIwAJPIU0rBU=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB5127.eurprd08.prod.outlook.com (2603:10a6:20b:e1::16)
+ bh=DEBi41BnYF39FHQxTCBk4tq8dNfwovBH3juGmovA9sg=;
+ b=BfS50lvI1kRJ8gsKvIm6d1SmZ4vsUtoS6T8w6j2rmE+imC/nrya4+YfqKXhRmD9J5WFbUyc1zr5WTZL6o8mfaa11ZnLE9TWDh7tGDFI6t9uQ7guGPpoESyg0bBvjW/Ii8MgkgwEhY6hTJkbg7ICPdpyFj3bQizgzCqd9F68ACGc=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
+ by SN6PR12MB2717.namprd12.prod.outlook.com (2603:10b6:805:68::29)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Thu, 3 Jun
- 2021 12:29:15 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Thu, 3 Jun 2021
- 12:29:15 +0000
-Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- kvm@vger.kernel.org, Denis Lunev <den@openvz.org>
-References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <bfa92991-94c8-6212-0a42-9b5b01bcca05@virtuozzo.com>
-Date: Thu, 3 Jun 2021 15:29:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
-In-Reply-To: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.29; Thu, 3 Jun
+ 2021 12:18:31 +0000
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::9898:5b48:a062:db94]) by SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::9898:5b48:a062:db94%6]) with mapi id 15.20.4173.030; Thu, 3 Jun 2021
+ 12:18:31 +0000
+Cc: brijesh.singh@amd.com
+Subject: Re: [PATCH] sev: sev_get_attestation_report use g_autofree
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, ckuehl@redhat.com
+References: <20210603113017.34922-1-dgilbert@redhat.com>
+From: Brijesh Singh <brijesh.singh@amd.com>
+Message-ID: <0733cbaf-293e-9c77-b85a-4575b31755d4@amd.com>
+Date: Thu, 3 Jun 2021 07:18:27 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
+In-Reply-To: <20210603113017.34922-1-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.243]
-X-ClientProxiedBy: AM0PR02CA0029.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+Content-Language: en-US
+X-Originating-IP: [70.112.153.56]
+X-ClientProxiedBy: SA9PR13CA0146.namprd13.prod.outlook.com
+ (2603:10b6:806:27::31) To SN6PR12MB2718.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::22)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.243) by
- AM0PR02CA0029.eurprd02.prod.outlook.com (2603:10a6:208:3e::42) with Microsoft
+Received: from Brijeshs-MacBook-Pro.local (70.112.153.56) by
+ SA9PR13CA0146.namprd13.prod.outlook.com (2603:10b6:806:27::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.22 via Frontend Transport; Thu, 3 Jun 2021 12:29:13 +0000
+ 15.20.4219.10 via Frontend Transport; Thu, 3 Jun 2021 12:18:29 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 16ed2311-595b-4c02-53c7-08d9268b3301
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5127:
+X-MS-Office365-Filtering-Correlation-Id: 3bf3beb9-2c47-414a-937d-08d92689b38c
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2717:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB512715CD26B4E213FAC734F6C13C9@AM6PR08MB5127.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <SN6PR12MB27173D2B670816CDEB4E320BE53C9@SN6PR12MB2717.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:41;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: L5Qvatqv0fEnaZYppxsFB8qay6Y+MYm+m/mmDQv2F+bgslOvSUhu/zSgZveVX/O1anI7ygS+/cYbQD8Y90XvT1vMJ5JvNe4fCZSa6P6A5B4GsGUe3Q9nDNcDRbYdb4SmBz34P0bNtDH2gmS/Ccza3enKXMd72ZeOvG/OCnHEcP7CNpED/UmfHW7BS4YIajDA1OoYZBZ3Ogtney4GHAsLPZYy6WXYUJvwwkBb2j/hmvxmPxK6kFwCOFgixuyJHIij+5OprjF451dxz1IIpwsUqTeRSLQDNe9ZFMKtoJz2ow3dTMslYAd3w+vmB4pK0Bb+C2cIj1y/RGJcauGazPCVD71SH2lSAULTFGr+fSaVZhCC5rQf5KeM11/JmRd9myBpqaTZ5vh6e0LOvtRrsYbboS+yCBHphqEx/btpXa0lKNJm2c9gSPfnm1+qIvmIn8T90G7qkPvu8abpQAm+VN3rMkKySlNJkSRAS36sjqpqGYQzt64mLSZ54xdxsKcnM3uEFXTp50qkemrgOaqmfEEmy+4UxPdjOUhWMpAgFy7kjS78Mqh7svh14xltXGKRIWC+tBiC9jAxv7L/wE6u1ELDO2pVYLka9T5hptFnFlRgT1MQFRZJInoP2EaxDUFnRGtIJ7o/p6G2zAvhTSNqQOvfLYvumxalyZ5cJhudaOjwFb4m8zlX7SFlH3NPJRYV3lelsSG3LFzWzVr9GaZfH2gK8qYUJTyjLH+C4F6n12FKDRM=
+X-Microsoft-Antispam-Message-Info: BVh0KFuvPmi5a8K3KzThio3RL4Ql1b834mRhy1u9uh57Utzwkf1TAJgHGzsx6YpQu+DrAUXcOUV6aaUgVoL1Bk6EfSr4iETg7Xkfteww3CDNxzncVznlKpqIAoFq+SrNLS0avmLGKiaZVmMY/5scbS0ghTSyPTnHX4bvQLcf0wXfhrXkGYPBtrskvdH9rCipzfUB+UizKcpJIMDGHZVHQro02XLf5UEVVPPRrt6PonMzvB7A585S4okjOx2zqkVO2xiQRahX6n+xNZy5jd+uQGwpL1GV4CVLeKs9cFeIPuXYTpIuKel/n7kdySgUY9Hbh7dBluQgHb157JFkMnoHMSutpI2Vn7jR7qv3a21XhCml8+Mva4CjfSeGR981BE/pHLQVNPIw4B3/xEcTIz9Zs34+0mngU7GiDAbvxCk8Wz+KN8lzkUoFQs0yM8vxZ4jV3DdDBOuZTfBc97r7Kkjj7t4O75oaTYrTty+uxuAGh10RPaoLwx9/Y6Ravpc/KI5qF3LJXhiTIBaQEnaKcKM/WNruwipa3OKF0crVOLvNaFZQ+AEEjvIEBQkLzhyfhZ+MO0WzyuuA2wlwl6+NTU8B5528tAPxZ+KwsLod6XpEZTNr3XMKMVedjlEcb630J6IY58NGq+5Qi60rBsgvDzAq3Msu5g3MZn0gqSGaJto3ditQ+RCN/S9yqQOfLU+9EpFVzbxufRmwqnP5DMk+JmPzK1RhZ2dsAqlVYNmfeUjvEEE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39840400004)(366004)(376002)(396003)(38350700002)(38100700002)(956004)(6486002)(31686004)(7416002)(31696002)(316002)(107886003)(8676002)(8936002)(2616005)(66946007)(186003)(478600001)(54906003)(66476007)(5660300002)(52116002)(4326008)(26005)(86362001)(36756003)(2906002)(16576012)(83380400001)(66556008)(16526019)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?amFyaXYrRFB4Lzcyb2l0dkV4TCtLT0J0V0lzTHhUY1RyOGRSV3ZoYmN6T2lh?=
- =?utf-8?B?cmFXTnAvN0hWOERMSE5xVDhjeEwvV0t2QkZhRkFWS1NoTEhLVTU5UkpwV212?=
- =?utf-8?B?a0lnWnYrMTgzVk84Ym5jQ2RPNnJrU3FLRTBMZ2d5ZVJCejNIUmFOcGpLdEN0?=
- =?utf-8?B?Q09UOHcrUUluK29XWFUxbks1VDh1RkZtQ0dLb3BKT2pGVEhYaXplcVJUdGFR?=
- =?utf-8?B?aENUS29Nb2Rla2NqNjNoSVhBVERjNzUraTdMVlIxN2d4a3JmY0o1WlJMU3g4?=
- =?utf-8?B?WDJQSUU3bGpKeWdpVlMvaFJZQ050MXFMdU5CMm1VZFVzQzNKYjRqeEQ4cGhn?=
- =?utf-8?B?WnZKaFQ2QllrTDVMc3Y1dGNnVWJyQjNJTk9meHdoQm96RkIxVFFtQ3BTc2h2?=
- =?utf-8?B?Q042bFB3VU8rT2s2MDR3ZlN6MTJXQ3RwU0szU3lzTFI2YUJoZXM2bHM3MklP?=
- =?utf-8?B?ZStwN2tvWXJtRXFPekJ0TU5qd2lUK0lqdXpYZ0xxalQyMC8xcWxXd0dnRHgw?=
- =?utf-8?B?aTAyV0RlVHlseU5kTFZRY0xTMi8xVnJzYnBOcnVmSzU1UU1tbmVpZ3Bub1NR?=
- =?utf-8?B?RSsyTjlyN3NGU21YZEN0WjNzUTd1aG9udEp5S3NPUUp5SEQzd21UaTJIa1Fl?=
- =?utf-8?B?S25qcXJHYnBHMHJTQnM1Y2ZBU1hJM0xsSHNsRHF0c205MzhVc1pVRDZaWDFD?=
- =?utf-8?B?R01jVVBuM282bU5zc0RUNHNPZDloRHBYeVBBVHNKUXlzc09UcDgxdzJIV0Jh?=
- =?utf-8?B?ck5GZzBlWXA5bkZyam40UjhjZmJxQU5CUUltQVVyQlVrRHl0MXIyeDJqT0hQ?=
- =?utf-8?B?WCt6NmxjdVRpc3ljdlRRS21DQkFMeEFPZWRWZVRaK0orMmpKbGZick5rQzZU?=
- =?utf-8?B?S2hYV1Z1N204TFNwd1l0UnR3cGJleXUrM3hjMllPZTVmZ3F6blc2YWZXN3BR?=
- =?utf-8?B?RmpMSGZrWVR4TXlPcnp3YlpQdWNVaTdzQ0dlcHBWNjRJVlFZK1VHTmVGaVlP?=
- =?utf-8?B?SHloelNPZFh1eXR4MDhuU0Q5dWxjYmEwbzhMQ3h6TktnZW1QZ0tVY2xSZity?=
- =?utf-8?B?NkNBbWIyYlErTUFUb25pTkhoMDJia1VFMFk1ZkZOc3FkNC8wS05abnVFa2tV?=
- =?utf-8?B?OTlzU3VPNC9Vc2lDWVROdDNObDJ1SkFkUzlUSFhXRFRJaXRtSHNjN2FJamk4?=
- =?utf-8?B?SlZmTkVHMHNtcGt4cUgvbDZMRVNDNzlvNE51aWEwS1pyMVIvNnlzMG12bm8r?=
- =?utf-8?B?VUpyOTFkWjFOTllOb2VoYmNEUUhtTmpPWUtaMkFvWDc1OTBEUEMyeGJpd0JX?=
- =?utf-8?B?QXg2ODBZMjZzU0w2SVV0YU9OUE1BNllxb0pIeDZlYk40dzhCRVpxQkJlc2lr?=
- =?utf-8?B?dWpTU1VLRlMya3BkUTQ1TWoxT1MrMEdtTGEzRW8vQjErL1VFcmwveUoxU0U2?=
- =?utf-8?B?TFJUSWd1aUpCQ0hDRHZWbU14QlllSm1xbTN1Q0xxSlVYb2VCUTdoZGx3TlR3?=
- =?utf-8?B?aWw3NzJkaGNzMzhTc25qVnVDNGtRNnpvdnNlaml6WUZ5WU5mWVZkMzB6MmFD?=
- =?utf-8?B?d1pxNm9mSTVmUWIzSVJBeG5yN1VBY2dYckJZSzNKRTI0T2hYcW81NjBicStp?=
- =?utf-8?B?MnZwWjVhd3U3c0dDeldNQ1I1cVZrNEFtT05DUit2QWFka2t1elgvMUd4ejlH?=
- =?utf-8?B?NThnQWtZa2czSGQ2bnVoMEpTZEZUdHVaM2xtZU9uZjlPUVB5dUI0bmhTR0tY?=
- =?utf-8?Q?7uwOxYkVTekriDjGsLZ/hHaAwD4PWImZYXeTG21?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16ed2311-595b-4c02-53c7-08d9268b3301
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(39860400002)(136003)(366004)(376002)(44832011)(2616005)(66946007)(66476007)(956004)(66556008)(6506007)(83380400001)(2906002)(31686004)(8676002)(5660300002)(31696002)(6486002)(16526019)(26005)(86362001)(186003)(36756003)(53546011)(6512007)(4326008)(316002)(478600001)(38350700002)(38100700002)(52116002)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UTZYNVErNTdqQkVVNUNBeVVsZW03V1N2UDZ6N0JGMkpGeG83VVcvcXozeGdC?=
+ =?utf-8?B?MVdDeHY0N3N1bjRUcXI3cS9aRkVGVG0xY2hibnp0cC8ya0tUUk9uMXJ1TCtT?=
+ =?utf-8?B?NXJReG1Xa3duby92VVJZOWxaZjhJcUFNY1BRM1VUa2NzWE9kcExvYzBDTnJB?=
+ =?utf-8?B?NnIrbkt0c2Y5WkJyQmx0dmZEWFdDbllzTmVqNTFnbCtyREswa3dXSkExRERk?=
+ =?utf-8?B?dGhaYVdvV0oyUnEvcXFtRWtwZ2d3RmNQcndqeGp2d2Z1a2JZYzlPb2o0V0lk?=
+ =?utf-8?B?d3plbTNYT2NVb2JwempWR3pIUjNNTDVPcE9XYTlFSFc2S2FOT2VKUm1mWlZ1?=
+ =?utf-8?B?NGRrVWtwMVl1V3ZDbjJkYWQ0SFcvb2VnQktYNjhmQWluRTlvSVBQbGJGTlJy?=
+ =?utf-8?B?M1N3QkpkUXZhbnFJZkM3TjdkcmoxSGdTR3AzamhGZitvWWYyRlFSUTI3UzU5?=
+ =?utf-8?B?VnFuS0dYTVdOUnNxNlJKQmR2Tm4rbTAxL3dubUtBZnJ5eDgyTzNjVjZ3aVpO?=
+ =?utf-8?B?MER4YUlHQWIxTHM0K1ljdi9IOGtxOERGclZmVTVDVXViUmFRcVNNbWZwUE1X?=
+ =?utf-8?B?aXdCZlhVSUlzRGVqZnNnRTlzNXcvMVJBQmRWWGMzUmt6c2xESThOT3k0ejdP?=
+ =?utf-8?B?Qmp1a2VzWUlnaHUyUzUyQ2RNNThDbnZ3OWh1L3R6N2lKa3ZMR2dOZldEclNv?=
+ =?utf-8?B?VzJGRTNyeDFxcHB0RUpGc2c5R1BkeWFUb3gvbkFRbWROa3ZtWXRXSTRwcnNG?=
+ =?utf-8?B?ZTBGcWMzcW4rTmVhMmx6NnordWxQSVhZT21jYUV4NjJkZG9Vbkl1VlFIejdm?=
+ =?utf-8?B?bjZnQU1NQjZHS0pKcVlVWGRibDMwOHd2bG5IOVE4SzFjSFBNbEZBUHhhSmtp?=
+ =?utf-8?B?ZzBXazdtdmZVYW5BckZMZ29PUmllSXhjMnliTGZ3d3A0RHkrc2VZR0xWR2VG?=
+ =?utf-8?B?QUExRk1pd2ZqemFveHdpSlhGblprTE5BRm14K0d2Y1BKM3JkN2Q1d3NEWHZP?=
+ =?utf-8?B?cWEwV2srMzNMKzN5dE0zTHVaWmxmSjVtalMvK2twSXRuUDBqM2ZkRE12TW5n?=
+ =?utf-8?B?cnM4WlpjQlpCc2QvQkkrNDUzcFo4OXprZmljOTVtT0FJdGRYOXhGUkVCMzBs?=
+ =?utf-8?B?YXBCMlZLRE5ndG9rVXRtbVNEUytIUGUzZ0JUZys2MCsrOEFXQWRHUEhzRFRT?=
+ =?utf-8?B?SlBFRUN6Mzh2eWQ3TDduQk14VlhQMGNBMUw0YWNBWVFxalVHNXJYNS9NaUdy?=
+ =?utf-8?B?bXR2NjZLMmx3UzdjY0ZIWjlqMUgwM3lGbUdLaTdabG1UTHE5QUowTDZYVkp3?=
+ =?utf-8?B?bkFCOWJydzV2TWcyVE9mRE9tSWZ3RFFqeXBhYjl3S0FibnFSVWNmOEQwdWxK?=
+ =?utf-8?B?YjQyQ3FmSy8wMGYvd3ZocWU3SVA4ZVp3TmU3aTBkM00vTldsazlLZDZ1aUdD?=
+ =?utf-8?B?b2Z0b0U3eDFDQmpZN1Y0K05ySzQ0amcxK3I2TzF2cE50eGtsdW9FQWxzSGdK?=
+ =?utf-8?B?aC8wQzNibWRVZ25TUnc5blBTaDJkTlg1SXJmc3FXMi9abkNhVWJwT1liVkFU?=
+ =?utf-8?B?OHR6ODJoN1l6V1Fxc3V3SjhyM1FOb1MxdjFtMVgyR0Y1YmVJSXRESUhjT0x5?=
+ =?utf-8?B?bkFBRWNKaDY2TC85dU9FK21uU2tyTTE3dkJPNnJmUTkyZzV0aGFkYmVTQlRv?=
+ =?utf-8?B?MFM0VGJtcnlCNm04cU9YQldUZE45dHlLOVlqRkFEU0t0MHl2WkZ2c3BicW16?=
+ =?utf-8?Q?XcDlbwhjsfOe+N3vdb9nqLxNG3s/r0PG3E9AUg8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bf3beb9-2c47-414a-937d-08d92689b38c
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 12:29:14.8765 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 12:18:31.5834 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nFTr9FKumHNlW6p8QZty4YyRYD2Bffgv8sb82ZsXsaXXMdkujMtahqHE3ls3BqAolmrt8lFYhF+fxA7gCZXatGmowBKDJI8phy/yt3uIcO0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5127
-Received-SPF: pass client-ip=40.107.8.128;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7,
+X-MS-Exchange-CrossTenant-UserPrincipalName: PT3g+O/jpMsRnFSY31NJ6fhP/kLu61Ygem4uh4a0dYq2/zIDaJ0gSTuZMAc5jYvFz9SxmUaxBiTccO4c2f7lFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2717
+Received-SPF: softfail client-ip=40.107.92.76;
+ envelope-from=brijesh.singh@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -154,90 +148,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.06.2021 12:07, Valeriy Vdovin wrote:
-> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
-> get virtualized cpu model info generated by QEMU during VM initialization in
-> the form of cpuid representation.
-> 
-> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
-> command line option. From there it takes the name of the model as the basis for
-> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
-> that state if additional cpu features should be present on the virtual cpu or
-> excluded from it (tokens '+'/'-' or '=on'/'=off').
-> After that QEMU checks if the host's cpu can actually support the derived
-> feature set and applies host limitations to it.
-> After this initialization procedure, virtual cpu has it's model and
-> vendor names, and a working feature set and is ready for identification
-> instructions such as CPUID.
-> 
-> Currently full output for this method is only supported for x86 cpus.
-> 
-> To learn exactly how virtual cpu is presented to the guest machine via CPUID
-> instruction, new qapi method can be used. By calling 'query-kvm-cpuid'
-> method, one can get a full listing of all CPUID leafs with subleafs which are
-> supported by the initialized virtual cpu.
-> 
-> Other than debug, the method is useful in cases when we would like to
-> utilize QEMU's virtual cpu initialization routines and put the retrieved
-> values into kernel CPUID overriding mechanics for more precise control
-> over how various processes perceive its underlying hardware with
-> container processes as a good example.
-> 
-> Output format:
-> The output is a plain list of leaf/subleaf agrument combinations, that
-> return 4 words in registers EAX, EBX, ECX, EDX.
-> 
-> Use example:
-> qmp_request: {
->    "execute": "query-kvm-cpuid"
-> }
-> 
-> qmp_response: {
->    "return": [
->      {
->        "eax": 1073741825,
->        "edx": 77,
->        "in-eax": 1073741824,
->        "ecx": 1447775574,
->        "ebx": 1263359563
->      },
->      {
->        "eax": 16777339,
->        "edx": 0,
->        "in-eax": 1073741825,
->        "ecx": 0,
->        "ebx": 0
->      },
->      {
->        "eax": 13,
->        "edx": 1231384169,
->        "in-eax": 0,
->        "ecx": 1818588270,
->        "ebx": 1970169159
->      },
->      {
->        "eax": 198354,
->        "edx": 126614527,
->        "in-eax": 1,
->        "ecx": 2176328193,
->        "ebx": 2048
->      },
->      ....
->      {
->        "eax": 12328,
->        "edx": 0,
->        "in-eax": 2147483656,
->        "ecx": 0,
->        "ebx": 0
+
+On 6/3/21 6:30 AM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> Removes a whole bunch of g_free's and a goto.
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+
+Reviewed-by: Brijesh Singh <brijesh.singh@amd.com>
+
+thanks
+
+> ---
+>  target/i386/sev.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+>
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 83df8c09f6..0bd976b4d0 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -500,8 +500,8 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+>      struct kvm_sev_attestation_report input = {};
+>      SevAttestationReport *report = NULL;
+>      SevGuestState *sev = sev_guest;
+> -    guchar *data;
+> -    guchar *buf;
+> +    g_autofree guchar *data = NULL;
+> +    g_autofree guchar *buf = NULL;
+>      gsize len;
+>      int err = 0, ret;
+>  
+> @@ -521,7 +521,6 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+>      if (len != sizeof(input.mnonce)) {
+>          error_setg(errp, "SEV: mnonce must be %zu bytes (got %" G_GSIZE_FORMAT ")",
+>                  sizeof(input.mnonce), len);
+> -        g_free(buf);
+>          return NULL;
 >      }
->    ]
-> }
-> 
-> Signed-off-by: Valeriy Vdovin<valeriy.vdovin@virtuozzo.com>
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
--- 
-Best regards,
-Vladimir
+>  
+> @@ -532,7 +531,6 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+>          if (err != SEV_RET_INVALID_LEN) {
+>              error_setg(errp, "failed to query the attestation report length "
+>                      "ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
+> -            g_free(buf);
+>              return NULL;
+>          }
+>      }
+> @@ -547,7 +545,7 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+>      if (ret) {
+>          error_setg_errno(errp, errno, "Failed to get attestation report"
+>                  " ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
+> -        goto e_free_data;
+> +        return NULL;
+>      }
+>  
+>      report = g_new0(SevAttestationReport, 1);
+> @@ -555,9 +553,6 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
+>  
+>      trace_kvm_sev_attestation_report(mnonce, report->data);
+>  
+> -e_free_data:
+> -    g_free(data);
+> -    g_free(buf);
+>      return report;
+>  }
+>  
 
