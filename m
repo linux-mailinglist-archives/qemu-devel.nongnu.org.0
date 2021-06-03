@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF19139A264
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 15:41:30 +0200 (CEST)
-Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFED39A26F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 15:44:55 +0200 (CEST)
+Received: from localhost ([::1]:44224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lonbF-0002Ta-Mj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 09:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50574)
+	id 1loneY-0001O5-Hh
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 09:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lonXZ-00037z-1J; Thu, 03 Jun 2021 09:37:41 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:40711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lonXX-0000Ah-4U; Thu, 03 Jun 2021 09:37:40 -0400
-Received: by mail-ed1-x533.google.com with SMTP id t3so7142998edc.7;
- Thu, 03 Jun 2021 06:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zbEKtWwYtPu17XYhL91Y3v+VjithiK8Jl8+pLNVJebs=;
- b=mhvapHKuR1ywaKvJavFkXZyniMR3SkGYpBU6Uns9o1ZmhTM+GwWsgUu39pQqCvF4R8
- pxIAm/La2sUFscOGIn7vgheBBNuZcjeF1nw5YqEnggkYiPh5Paw5q8GYXlXVq5Pz1wyq
- oTRuzQgUqkVRjxdyCZyi7w2EqVEWyiDvn7DFf7E+q7KyVQOCh3k8dDzcPtwrA2MRGEoD
- DiYjeZ6Is0PCuYmbWe7PT402K587K40y1h/7OTNpGvu1fKNgVmRQkYZOBUZLEGZI7m2b
- EbvILEM3X1Q0HCe0DNaaaOTMgVp09lanjn3cZ7pPmIVvsCnA6zSRWKjr7kaTrHN/6fIQ
- eoUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zbEKtWwYtPu17XYhL91Y3v+VjithiK8Jl8+pLNVJebs=;
- b=WMDOZXfK3ZK1kh+JWUShzhsq71pGw1FFP0Ukpa6Mi3GtsS0lyT4FFDYonODw4RK83X
- pC2J8ycvdOsaKyg7rp06LeE8fB1/kM8HMv07lYx731alTymEKN3LtwOW2KlertHwULFS
- F+b9b1cbOtnIhaB8tc3ffFKWZSMdznmOSInRGlt41Ov4gxQ7+ZBW2fvM4pDJqJ4nfwA3
- QqMn1OFFIsAk61rrqzuzAcMGlRnFZUtJ4J+Xcz01i22sD0/I9wMQSss4Wif1w6wNaQcK
- J0o8k2OchSEbXW3qR+VFCQy7nf6wlFyBmT3evdYWZMDrbAvU+WH/mfvpGJwPvH4qzUe+
- nCRw==
-X-Gm-Message-State: AOAM530sT+FVgrAA5ctbfM7pBmffUW1rRSy6RR3N8bLys/nqB2gX8HdS
- ZKmTMCZzETI7dwms05zEigjJYcAJTW5+/g==
-X-Google-Smtp-Source: ABdhPJzUPLjoEg1MNh1ia7sNM9vnPIzltpdI9w7CIxkxY1zHcxxPXfchpL+LZYNpe65eN9SEX3N8Gg==
-X-Received: by 2002:a05:6402:4310:: with SMTP id
- m16mr43878029edc.279.1622727457527; 
- Thu, 03 Jun 2021 06:37:37 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id e24sm1555369ejb.52.2021.06.03.06.37.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 06:37:37 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/7] block: detect DKIOCGETBLOCKCOUNT/SIZE before use
-Date: Thu,  3 Jun 2021 15:37:22 +0200
-Message-Id: <20210603133722.218465-8-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210603133722.218465-1-pbonzini@redhat.com>
-References: <20210603133722.218465-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lond5-0008DA-Dg
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 09:43:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lond2-00049t-5w
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 09:43:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622727798;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IukVIaHJsvV0qNOgzXsrP52JR+4uxdgzWrlBqYDKnSQ=;
+ b=POlSEC2JkfSGALv3yrUO5TmJf9ZyxTFJ8yZcHQ5VFoWDo9zjOhu+EPklruMtiQ/9rl7zYY
+ eZf8OZIF5vWcSnWPTNY8QSTBJsJyDtFev+HL1cybdQCs9pfZSe0GXxsKZvqfNhUFcrvgaU
+ ywAxaQ3Frf4MMgBkeTeAQGLtdJeIOz8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-cvqkjDw6NPqjrjRkpOqHJw-1; Thu, 03 Jun 2021 09:43:10 -0400
+X-MC-Unique: cvqkjDw6NPqjrjRkpOqHJw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 863B51020C37;
+ Thu,  3 Jun 2021 13:43:06 +0000 (UTC)
+Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 339D92B1CD;
+ Thu,  3 Jun 2021 13:42:59 +0000 (UTC)
+Subject: Re: [PATCH v2 1/2] GitLab: Add "Bug" issue reporting template
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210521173818.255817-1-jsnow@redhat.com>
+ <20210521173818.255817-2-jsnow@redhat.com>
+ <YLdN4OcxSD0fJOvD@stefanha-x1.localdomain>
+ <e6cda390-d1ac-723c-47a4-135abb7717a5@redhat.com>
+ <YLiWL2LB3+sbrpJm@stefanha-x1.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <bf374dbe-da80-6354-d316-e401e6680377@redhat.com>
+Date: Thu, 3 Jun 2021 09:42:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YLiWL2LB3+sbrpJm@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,79 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Warner Losh <imp@bsdimp.com>,
- Joelle van Dyne <j@getutm.app>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joelle van Dyne <j@getutm.app>
+On 6/3/21 4:43 AM, Stefan Hajnoczi wrote:
+> On Wed, Jun 02, 2021 at 12:09:47PM -0400, John Snow wrote:
+>> On 6/2/21 5:22 AM, Stefan Hajnoczi wrote:
+>>> On Fri, May 21, 2021 at 01:38:17PM -0400, John Snow wrote:
+>>>> +## Host environment
+>>>> + - Operating system: (Windows 10 21H1, Fedora 34, etc.)
+>>>> + - OS/kernel version: (For POSIX hosts, use `uname -a`)
+>>>> + - Architecture: (x86, ARM, s390x, etc.)
+>>>> + - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
+>>>
+>>> Is this necessary since we ask for the command-line below?
+>>>
+>>
+>> Not strictly, IF the entire form is filled out. I had noticed some bugs in
+>> gitlab where reporters seem to be aware of what kind of QEMU they are
+>> running, but are unable to procure the command line invocation. (it is being
+>> launched through docker, virsh, etc.) *
+>>
+>> It's redundant, but I am operating on the belief that the CLI may not always
+>> be available. I don't expect people to not file a bug because they can't
+>> find it.
+>>
+>> I think of it as a prompt to get a more detailed report on the first try. Is
+>> it worth keeping?
+>>
+>> *(Aside: maybe a wiki "how to report a bug" page could have a small section
+>> on identifying the command line arguments when QEMU is being launched via
+>> vmm/boxes/virsh/docker and so on.)
+> 
+> It didn't occur to me that the fields were optional :).
+> 
+> For me personally, long bug reporting templates reduce the chance that I
+> will report a bug.
+> 
+> Stefan
+> 
 
-iOS hosts do not have these defined so we fallback to the
-default behaviour.
+Yeah, it's a delicate balance. I want to imply they're mandatory. I 
+don't want to call them optional, because then people may not feel 
+compulsed to spend the effort to fill them out. I want them to feel a 
+little compulsed. :)
 
-Co-authored-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Joelle van Dyne <j@getutm.app>
-Message-Id: <20210315180341.31638-4-j@getutm.app>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/file-posix.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+On the other hand, sometimes these fields just won't apply, or there are 
+reasons you can't fill them all out. A lot of reporters do not know how 
+to build QEMU from source, or repeat a libvirt problem using 'raw' QEMU. 
+Sometimes it's OK to file a less-than-perfect report. As you say, I 
+don't want the barrier of entry to be too high.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 5821e1afed..4e2f7cf508 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2322,8 +2322,11 @@ static int64_t raw_getlength(BlockDriverState *bs)
- again:
- #endif
-     if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
-+        size = 0;
- #ifdef DIOCGMEDIASIZE
--        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
-+        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size)) {
-+            size = 0;
-+        }
- #elif defined(DIOCGPART)
-         {
-                 struct partinfo pi;
-@@ -2332,9 +2335,7 @@ again:
-                 else
-                         size = 0;
-         }
--        if (size == 0)
--#endif
--#if defined(__APPLE__) && defined(__MACH__)
-+#elif defined(DKIOCGETBLOCKCOUNT) && defined(DKIOCGETBLOCKSIZE)
-         {
-             uint64_t sectors = 0;
-             uint32_t sector_size = 0;
-@@ -2342,19 +2343,15 @@ again:
-             if (ioctl(fd, DKIOCGETBLOCKCOUNT, &sectors) == 0
-                && ioctl(fd, DKIOCGETBLOCKSIZE, &sector_size) == 0) {
-                 size = sectors * sector_size;
--            } else {
--                size = lseek(fd, 0LL, SEEK_END);
--                if (size < 0) {
--                    return -errno;
--                }
-             }
-         }
--#else
--        size = lseek(fd, 0LL, SEEK_END);
-+#endif
-+        if (size == 0) {
-+            size = lseek(fd, 0LL, SEEK_END);
-+        }
-         if (size < 0) {
-             return -errno;
-         }
--#endif
- #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-         switch(s->type) {
-         case FTYPE_CD:
--- 
-2.31.1
+Adding more instructions like "Hey, this field is optional if you have a 
+CLI for us" just makes the template even longer and perhaps more 
+intimidating, so I tried to keep it brief. Not my specialty ...
+
+There's kind of a weird balance of implying things going on here. I 
+suspect we will just have to try one approach and then change it as we 
+observe how it gets used.
+
+Don't think I'll solve it from the privacy of my own mind :)
+
+Thanks for looking.
+--js
 
 
