@@ -2,49 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598C5399C98
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:30:13 +0200 (CEST)
-Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F6D399D0D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:48:57 +0200 (CEST)
+Received: from localhost ([::1]:52702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loik0-0006id-EH
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:30:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39514)
+	id 1loj28-0003JQ-Op
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid4-0006Ut-A3; Thu, 03 Jun 2021 04:23:02 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42595 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
+ id 1loigW-00079J-21
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 04:26:36 -0400
+Received: from mail-vi1eur04hn0320.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0e::320]:46513
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid2-00006L-5t; Thu, 03 Jun 2021 04:23:02 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5m0qqhz9sj1; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1622708556;
- bh=uFqM6+kztxtnCKgW0x7sUJWlL/TgvWROgw3xHW39HYw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FqhM9Zg30BvCfJ7bZHljVmEu6BPdhW2vm1/HY1YcdfLX4kWfPmUf1WZvzTQqWVx80
- CV6DaOG2tEhw6hU48p4VCTpqDFIbRi93Uq8/8cdoiWP0uEjKKx3VQgNArPh6Re25vh
- 3S8NKEM3QGCzgiqE2pR+Y1q0idjXmPmqXUAbEgQ4=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org
-Subject: [PULL 14/42] target/ppc: created tcg-stub.c file
-Date: Thu,  3 Jun 2021 18:22:03 +1000
-Message-Id: <20210603082231.601214-15-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
-References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
+ id 1loigS-0002LJ-AI
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 04:26:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZV0nvupFMiJ0+ArR/30qj7kcWD9bOOXQAa//c+iKnGIC2cbvEKGaYQFFqKyIQzYW7cOJlDyUC+45cjP/r9aAr/3zybndC1o8MCHzdU2efJkFMdQbW+647uBmg0K6LAnY5pKeNz0faZehwtG+WM7T9S9YsBUREiDySUCW2Drlu0DtedfyABbVpp64hkW7Y88q0HgtHC3kr7byl3jc/owbjeaENzFvyKta5/iQV5G+BsDRamOfaKHArvMwP3cJoY0UVklpsNRY772jp7EVwrXSV4GDgT3oZ0LvCYDFlAaEjx76ZCvxq8nfvA3vVuPJ+Rdrg1L+4Rnlm4aYcW0zjx/XJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EWf5Bc0WoYlywTDE3lMFRzBR3XTAtIS0gi1wqtV41VY=;
+ b=Q2/T54/Z9Sm5A7GUpkxYOZA0lbtQbG0EulwXRGJiuKi5gNtU1CV3AP3DS1B37VHjWDvDM7kAI3jkFIUG1cMsDJHLNHX29hu5+PZwjIYeVGUQ9uDd072K0tyYvjTFsSiAcny0Ycwr05Ktl6qcYUzf6eB5OvJ3ZEzy1/6rl1MFnINYQNVLPXJXfvbYGclbATQY775PrRaTI5/X4ZQNehOc3ILBHFDzevJlXoMSrNXYGAJGZWdGVO1sjcbo8tRVw1fDu9VAF6lwk95dKRu9RBDdR2zggigjE/qFm50RU2uK74x0HvnF34wQ1tl8YUvvfUdyO7bI8ZkKDJxjV0EMw3yCHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EWf5Bc0WoYlywTDE3lMFRzBR3XTAtIS0gi1wqtV41VY=;
+ b=GGGjmzbkjzW0PjCBRzRWjOheVi8H+jaf5uC6Gq+4I803dQW4C/Mb2zi5ozzAGTPW+6u86hvCd+iemnYpk2u1GLXA/k+t8p42mXN5oubJZEqQNYw/+pQs/3FN5MohU5rZNIxwQ93QdloaKL3wBUTCJWbZ1PRrXf9RCZLsPsyWWLI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB5988.eurprd08.prod.outlook.com (2603:10a6:20b:283::19)
+ by AM8PR08MB6419.eurprd08.prod.outlook.com (2603:10a6:20b:316::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Thu, 3 Jun
+ 2021 08:21:19 +0000
+Received: from AM9PR08MB5988.eurprd08.prod.outlook.com
+ ([fe80::7d3f:e291:9411:c50f]) by AM9PR08MB5988.eurprd08.prod.outlook.com
+ ([fe80::7d3f:e291:9411:c50f%7]) with mapi id 15.20.4195.022; Thu, 3 Jun 2021
+ 08:21:19 +0000
+Date: Thu, 3 Jun 2021 11:21:12 +0300
+From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ kvm@vger.kernel.org, Denis Lunev <den@openvz.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v8] qapi: introduce 'query-kvm-cpuid' action
+Message-ID: <20210603082112.GA473080@dhcp-172-16-24-191.sw.ru>
+References: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
+ <20210602205102.icdqspki66rwvc3n@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210602205102.icdqspki66rwvc3n@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [185.231.240.5]
+X-ClientProxiedBy: AM0PR03CA0001.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::14) To AM9PR08MB5988.eurprd08.prod.outlook.com
+ (2603:10a6:20b:283::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from dhcp-172-16-24-191.sw.ru (185.231.240.5) by
+ AM0PR03CA0001.eurprd03.prod.outlook.com (2603:10a6:208:14::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.20 via Frontend Transport; Thu, 3 Jun 2021 08:21:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a71ec6e1-df4b-46da-e1c7-08d92668908c
+X-MS-TrafficTypeDiagnostic: AM8PR08MB6419:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM8PR08MB64197995C9B7349274F15BDE873C9@AM8PR08MB6419.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
+ IPV:NLI; SFV:SPM; H:AM9PR08MB5988.eurprd08.prod.outlook.com; PTR:; CAT:OSPM;
+ SFS:(4636009)(39840400004)(366004)(376002)(396003)(346002)(136003)(7416002)(52116002)(7696005)(6506007)(6916009)(83380400001)(478600001)(107886003)(4326008)(2906002)(1076003)(38350700002)(38100700002)(6666004)(5660300002)(33656002)(36756003)(9686003)(16526019)(186003)(26005)(54906003)(316002)(66556008)(66476007)(66946007)(55016002)(956004)(8676002)(86362001)(44832011)(8936002)(30126003);
+ DIR:OUT; SFP:1501; 
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Lc78FTdQtFo7rtdTcNpmlFf6jt6FappOBcQdA18THif+9lkO8QKhAWuY6lwz?=
+ =?us-ascii?Q?CIv0ptxjCZnV/bVlCrRsEflOgJO6Unm+rr1GYI2+pU1m2xOHltSrAY4CNi7q?=
+ =?us-ascii?Q?d7E40vTp/7splihUbQ6voOkYd9lRqHdP7JJtR89ELwUz0cbBydfs4iX2gi3L?=
+ =?us-ascii?Q?yfTG+3Ymqv+OUfQfsVW+vuhlJ4su0k5vSXP0qZFzlwyDY1SN7BnfagFD1AJZ?=
+ =?us-ascii?Q?xbtSDhB33FhPyBfXa22axkywE5RS77vEVdd/HxU1u7YzuVAhE1fOGlJ+0PCQ?=
+ =?us-ascii?Q?LUJI/WxzIYaKZ+ihJzI3egFHEZgWlne+Sr+6jP2I6gPQTDHi+f9ZZXmX0/Gi?=
+ =?us-ascii?Q?ibYdj4gg/VDqrkJ6+VZaZZr8p18LNa2DHOBF69AEFuQZxEhdAcGdjsNYxSlJ?=
+ =?us-ascii?Q?3K4ggSoVyifqKPPbnH1BituaRlD/HdoIytWI6WohB28fgjEWbtM+c+ja1Cid?=
+ =?us-ascii?Q?b/p9TXcWy0BXMFX/Nm4q3OYe1MrEs2uYot21gFgIStSD3Y5PLDbHDKboeK4/?=
+ =?us-ascii?Q?MP5OQI7kA02rz8GTVIlJanBpQTynRDMjEXw/agf8oCvlIZT+GaNOA5rvNFgb?=
+ =?us-ascii?Q?GtaJX6z2OKsKWV5Eufx0cTk2pBgSAlyU65gVjdSYtNNRJexKPfoD/qvBjuMk?=
+ =?us-ascii?Q?LP327+fr9QyIXUWIl1aB7+Tord74deqdv1yd77Bh91qzSQhtvUF+upkiyAfG?=
+ =?us-ascii?Q?BsM53VDW1A9NyIDDxGWQUiURQit2U4+br9FehUdZbg4LNJuwIHQbPlEzynGM?=
+ =?us-ascii?Q?gJ843DaPxJYN2laHlE2dApnNrNYjTaijNMXj9J8SwVAdw3gn2i+fUP3Ek/nj?=
+ =?us-ascii?Q?MXqKJWJXRuMfpjyZuoBHkqywv+K5AooM080aEPZ/zVq1ReznGvxyUQHgULAa?=
+ =?us-ascii?Q?uwQzasExYGm5AFXwqCD3dW1f/lsOP1s3rpG8DHRmWrhySztN2PYSS+u5rVJ2?=
+ =?us-ascii?Q?b3r39xQcL6L91inbu/F0SqFj99KrzE7NGV7IA96lnxI=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?LFcmAvActGaOjXzn1tbXT91fPpkj1ZE1lhzzmBTkg4nOWkmaSq0Vb1BJUJti?=
+ =?us-ascii?Q?IcAWpU/N1VqsAUacAcBPEYjPhPGWOs9BQN5ba43DqwxTECfkmocsxkn3Uk4U?=
+ =?us-ascii?Q?UiqAeXpiPObdcOMwCOxwwGM1afWvp2z/K/UYOHQiXbXwiMEaeWSw4rMLxvui?=
+ =?us-ascii?Q?hPVparJ6R44rkgLJRfrgamXM6gFc6kR+3TN9dnfmSEHs6ar/N34NrmKg1cyh?=
+ =?us-ascii?Q?YAT+rW3t9V8FtGv2GyLJe3sHmRQqAojTcoC9tPcUKjG2V9fKnjFiY8SRW5fa?=
+ =?us-ascii?Q?Lqm2d/ZoLqQEOlPyoZYLoxF6rCnyEwltVLgLCbvdJO8bvsPFPgblaf4KAdgJ?=
+ =?us-ascii?Q?UZLbhQBCs6q4HsC19OTxCagvrTrH+eOWSMMJTm8hCg3fSzdnPTgtEJjm3NSI?=
+ =?us-ascii?Q?wRLk2zEI+HuNII75rk8aR+Zjxz63gnSvJwX52GnYYVdBXSyARnYKcQ5tj7wB?=
+ =?us-ascii?Q?ZKLndwTD85Gg4ZPHcdxBzFTI08auu/txeyQu5h+Esg5veZMWaSN4bwjAIpaF?=
+ =?us-ascii?Q?gm67kS0NnLx8dCD7khJxU+knwjRB8O3vzfTeQ7ty9hSALUy+WaS8cuhnF5Zu?=
+ =?us-ascii?Q?xKH51qzgda5/qhyAYa6GPNZ8EUPL0d+hPIA/7ODTDWGghr5drp0J3YNVARHU?=
+ =?us-ascii?Q?YVhN4nH1iq8Y4cmrj3EDonZ4jLSgFtUHGw8IZMP7G+cCvbqlR3IdHlA9QM53?=
+ =?us-ascii?Q?e4RNx1kidYaG01zNggyc9zAuYshiATxRXisWhVYDdrAGhsKrgQ08zW0yzFhj?=
+ =?us-ascii?Q?vXMA7SSS9U/HNEzDGOgH2xgQDblnRC1Zed3AwO6nVlYtZg7AyLgtA3Iwbv6h?=
+ =?us-ascii?Q?PNGubv8+kQBKtDHfpcS1YOuDS5DEZHsubgUagWT+jaOUXlIPEr2UM6bcoHKM?=
+ =?us-ascii?Q?EdEh45g5LdhDdvlefnXRuCcwZVcdu40/UIu7Zc62T9bUnwIDtZN/5GtNC8b2?=
+ =?us-ascii?Q?9KNq8LB0Z5wlZKFZ2+lHy3BRWeGhj3XvkwOw1BjjeK1QizgumAb00pxPTtiq?=
+ =?us-ascii?Q?dY9/vIPJ2FNzLT2SbfCQu/bGkiCFVHuq2mPLpYytkHSk7OXeDC0nLLTGxAIa?=
+ =?us-ascii?Q?WkCsUQqsjZ/BO8CdZocLvR/5r1CCEitTan6NKUWqiEQeHyfmC1Vz5d20q7kj?=
+ =?us-ascii?Q?vIrQGS4Zk6iS0bu1ECg3AmOEZKSOnPHohS4DIlYox4PoNuXhyil4CNI0/I3K?=
+ =?us-ascii?Q?PwCfLcBdWJBUz79gd3dyCBSgSeLMGa0OzG+3CFneQp5ecpob0QWgsihY2hmL?=
+ =?us-ascii?Q?3nDKdmwqFk4VYzwQvHEYNYkdbawjsR9ryQbEBh5a9bL9UnNN6nS5etC0zuzi?=
+ =?us-ascii?Q?OqX1hq3Gqj3xzAXSrIfRCdui?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a71ec6e1-df4b-46da-e1c7-08d92668908c
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB5988.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 08:21:19.5322 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HvPHC//Sck83tSPPHPi4GpRO71uOpdsrCI/stQH757TgLI0kDLgyNkyffqyawhGOsl+Oe/r9FrbHDv/OSFEx7w2OPGL5jgbI0x28f/+PB7Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6419
+Received-SPF: pass client-ip=2a01:111:f400:fe0e::320;
+ envelope-from=Valeriy.Vdovin@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,95 +160,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+On Wed, Jun 02, 2021 at 03:51:02PM -0500, Eric Blake wrote:
+> On Mon, May 31, 2021 at 03:38:06PM +0300, Valeriy Vdovin wrote:
+> > Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+> > get virtualized cpu model info generated by QEMU during VM initialization in
+> > the form of cpuid representation.
+> > 
+> > 
+> > Use example:
+> > qmp_request: {
+> >   "execute": "query-kvm-cpuid"
+> > }
+> > 
+> > qmp_response: [
+> >   {
+> >     "eax": 1073741825,
+> >     "edx": 77,
+> >     "in_eax": 1073741824,
+> >     "ecx": 1447775574,
+> >     "ebx": 1263359563,
+> >   },
+> 
+> JSON does not permit a trailing ',' before '}'; which means you did
+> not actually paste an actual QMP response here.
+> 
 
-Created a file with stubs needed to compile disabling TCG. *_ppc_opcodes
-were created to make cpu_init.c have a few less ifdefs, since they are
-not needed. softmmu_resize_hpt_* have to be created because the compiler
-can't automatically know they aren't used, but they should never be
-reached.
+I actually did paste it. Here is a python code-snippet of my test script
+that I've used to extract the above response:
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Message-Id: <20210525115355.8254-4-bruno.larsen@eldorado.org.br>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- target/ppc/meson.build |  4 ++++
- target/ppc/tcg-stub.c  | 45 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 target/ppc/tcg-stub.c
-
-diff --git a/target/ppc/meson.build b/target/ppc/meson.build
-index d1aa7d5d39..848e625302 100644
---- a/target/ppc/meson.build
-+++ b/target/ppc/meson.build
-@@ -28,6 +28,10 @@ ppc_softmmu_ss.add(files(
-   'mmu_helper.c',
-   'monitor.c',
- ))
-+ppc_softmmu_ss.add(when: 'CONFIG_TCG', if_false: files(
-+  'tcg-stub.c'
-+))
-+
- ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
-   'compat.c',
-   'mmu-book3s-v3.c',
-diff --git a/target/ppc/tcg-stub.c b/target/ppc/tcg-stub.c
-new file mode 100644
-index 0000000000..aadcf59d26
---- /dev/null
-+++ b/target/ppc/tcg-stub.c
-@@ -0,0 +1,45 @@
-+/*
-+ *  PowerPC CPU initialization for qemu.
-+ *
-+ *  Copyright (C) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "hw/ppc/spapr.h"
-+
-+void create_ppc_opcodes(PowerPCCPU *cpu, Error **errp)
-+{
-+}
-+
-+void destroy_ppc_opcodes(PowerPCCPU *cpu)
-+{
-+}
-+
-+target_ulong softmmu_resize_hpt_prepare(PowerPCCPU *cpu,
-+                                        SpaprMachineState *spapr,
-+                                        target_ulong shift)
-+{
-+    g_assert_not_reached();
-+}
-+
-+target_ulong softmmu_resize_hpt_commit(PowerPCCPU *cpu,
-+                                       SpaprMachineState *spapr,
-+                                       target_ulong flags,
-+                                       target_ulong shift)
-+{
-+    g_assert_not_reached();
-+}
--- 
-2.31.1
-
+  self.__p.stdin.writelines([cmdstring])
+  self.__p.stdin.flush()
+  out = self.__p.stdout.readline()
+  print(out)
+  resp = json.loads(out)['return']
+  pretty = json.dumps(resp, indent=2)
+  print('qmp_response: {}'.format(pretty)) <- this is what I've copied.
+> > ---
+> >  qapi/machine-target.json   | 43 ++++++++++++++++++++++++++++++++++++++
+> >  target/i386/kvm/kvm.c      | 37 ++++++++++++++++++++++++++++++++
+> >  tests/qtest/qmp-cmd-test.c |  1 +
+> >  3 files changed, 81 insertions(+)
+> > 
+> > diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> > index e7811654b7..a83180dd24 100644
+> > --- a/qapi/machine-target.json
+> > +++ b/qapi/machine-target.json
+> > @@ -329,3 +329,46 @@
+> >  ##
+> >  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+> >    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> > +
+> > +##
+> > +# @CpuidEntry:
+> > +#
+> > +# A single entry of a CPUID response.
+> > +#
+> > +# One entry holds full set of information (leaf) returned to the guest in response
+> > +# to it calling a CPUID instruction with eax, ecx used as the agruments to that
+> 
+> arguments
+> 
+> > +# instruction. ecx is an optional argument as not all of the leaves support it.
+> 
+> Is there a default value of ecx for when it is not provided by the
+> user but needed by the leaf?  Or is it an error if ecx is omitted in
+> that case?  Similarly, is it an error if ecx is provided but not
+> needed?
+> 
+> > +#
+> > +# @in_eax: CPUID argument in eax
+> > +# @in_ecx: CPUID argument in ecx
+> 
+> Should be in-eax, in-ecx.
+> 
+> > +# @eax: eax
+> > +# @ebx: ebx
+> > +# @ecx: ecx
+> > +# @edx: edx
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'CpuidEntry',
+> > +  'data': { 'in_eax' : 'uint32',
+> > +            '*in_ecx' : 'uint32',
+> > +            'eax' : 'uint32',
+> > +            'ebx' : 'uint32',
+> > +            'ecx' : 'uint32',
+> > +            'edx' : 'uint32'
+> > +          },
+> > +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> > +
+> > +##
+> > +# @query-kvm-cpuid:
+> > +#
+> > +# Returns raw data from the KVM CPUID table for the first VCPU.
+> > +# The KVM CPUID table defines the response to the CPUID
+> > +# instruction when executed by the guest operating system.
+> > +#
+> > +# Returns: a list of CpuidEntry
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'command': 'query-kvm-cpuid',
+> > +  'returns': ['CpuidEntry'],
+> > +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> 
+> -- 
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+> 
 
