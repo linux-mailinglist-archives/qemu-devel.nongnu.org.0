@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7494239A332
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:30:12 +0200 (CEST)
-Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C0839A325
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:28:05 +0200 (CEST)
+Received: from localhost ([::1]:53482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1looMD-0003nq-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1looKK-0005rm-7w
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1looGq-0001Ib-FL
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:24:28 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:59740)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1looIC-0003mH-V6
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:25:53 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1looGo-0006qb-BR
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:24:28 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2F175219E0;
- Thu,  3 Jun 2021 14:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622730265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tbjClczC5gLA40sfe00ZY+sFYsbC5ZyzMkvNM/TuESQ=;
- b=QtkRLvg20PZ7YGn5NdiCEJqPNf/Zv4bL7TFdEkY/JxW421v/6SjTYeMzpQJWDR8yeQ/n0B
- IXN/AKOLFp0q0dE3YTa/BNyMttqWLdwzjxcHUQqrh0isc6WUrEbF+Oa2zrr8ij5s4/qjBR
- tdd0CqmYVRj/rMGSry9xqlxnZn7wdFo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622730265;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tbjClczC5gLA40sfe00ZY+sFYsbC5ZyzMkvNM/TuESQ=;
- b=Sh/r/huz0fYA2VtYIU9Uh3QGx7jUNzl5QyUDMS/jCGiulDIPzy6ilhGFDHeW63qb9Dhi5D
- 7yxfes146ZMYyVAw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 8E6E0118DD;
- Thu,  3 Jun 2021 14:24:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622730265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tbjClczC5gLA40sfe00ZY+sFYsbC5ZyzMkvNM/TuESQ=;
- b=QtkRLvg20PZ7YGn5NdiCEJqPNf/Zv4bL7TFdEkY/JxW421v/6SjTYeMzpQJWDR8yeQ/n0B
- IXN/AKOLFp0q0dE3YTa/BNyMttqWLdwzjxcHUQqrh0isc6WUrEbF+Oa2zrr8ij5s4/qjBR
- tdd0CqmYVRj/rMGSry9xqlxnZn7wdFo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622730265;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tbjClczC5gLA40sfe00ZY+sFYsbC5ZyzMkvNM/TuESQ=;
- b=Sh/r/huz0fYA2VtYIU9Uh3QGx7jUNzl5QyUDMS/jCGiulDIPzy6ilhGFDHeW63qb9Dhi5D
- 7yxfes146ZMYyVAw==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id R/s+IBjmuGDDSQAALh3uQQ
- (envelope-from <cfontana@suse.de>); Thu, 03 Jun 2021 14:24:24 +0000
-Subject: Re: [PATCH v2 0/2] Fixes for "Windows fails to boot"
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Siddharth Chandrasekaran <sidcha@amazon.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>
-References: <20210603123001.17843-1-cfontana@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <1da75e95-1255-652e-1ca3-d23a8f6bf392@suse.de>
-Date: Thu, 3 Jun 2021 16:24:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1looIA-0007oF-0o
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:25:52 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id m18so6070094wrv.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 07:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=my3C2xgu6CBvnSO8eoBqZ2nBUmTxzkz1U8gk6fnovurWpB59YuHnq//BZmq8EQrXNP
+ EJxTwTSRSU4IwP9X9LN7JgxB5SDOW6N+Qt6YPpj9tP6CkB/j6XZBg20/DvF3KIj2AHuj
+ BlNu9CSmfjjzbRZwL6dEvb2YtfiVosPo8ufZ/OW9pkPJdve8bgJQl3ABP+eaZfzxfDO6
+ LdHA82DaOcmRk6FufZZoZI7DjBzw94bosIgqu+yv6Swsvi3h/od/F/KByq3yN0eqvDUM
+ deZPWpOLpX2Kb3J8H567DslNBnvV2oCXU88Rvz2XOdE9GEOCqJAiuuOnxIR6WnFNt5zh
+ aR0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
+ b=YmcQYuCdC6qRn8C70CqR3V3arZRifw05JfGHe5iKCvgs2iyJjSzFIM0aosiw9XQ5M3
+ 6BTJ1fFokm6llksCdqI/SelWE3eLY4pNFmL5sOTKZ/i689ykwvWAA8y4dwLrCTXP5S/F
+ Wi91yZoIFfOFy6O1Qtqyew/bVUr2zbrXnk2C77BdEl3F87c3URtz90H7sXaYxNtsulCj
+ FV8KMi0TX11iuE6/6UXtjLSwwVtpiOx7bZQuV60ud3b7CWJvLr8BHQNpYAkJgR3qcnRq
+ a2sqmFdl0l8rfn8AqMD07P4441r8TBaW5+ZxeziWo7NVUtYhMA8tFQWf7OknzQ+Ih7Aw
+ p8sg==
+X-Gm-Message-State: AOAM532QPgwh59Z7WprPg2hzPhXo7vXo2bhiar8ntz/OaqNtmZWCjAzL
+ 7ckcOAw9NKVqPr7AJiu2KsIBkg==
+X-Google-Smtp-Source: ABdhPJzYV6qlPXX0pPSq8Sc2rMgD642FVRPd7hGspEcHjKZU80fPjr4dK/Xys1djvUjMMIHVY+xQ4Q==
+X-Received: by 2002:a5d:54c8:: with SMTP id x8mr245323wrv.109.1622730348610;
+ Thu, 03 Jun 2021 07:25:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f14sm3493238wry.40.2021.06.03.07.25.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 07:25:46 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0D0E21FF7E;
+ Thu,  3 Jun 2021 15:25:46 +0100 (BST)
+References: <20210525150706.294968-1-richard.henderson@linaro.org>
+ <20210525150706.294968-18-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 17/28] softfloat: Convert floatx80_round to FloatParts
+Date: Thu, 03 Jun 2021 15:25:41 +0100
+In-reply-to: <20210525150706.294968-18-richard.henderson@linaro.org>
+Message-ID: <87v96v81p1.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210603123001.17843-1-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,45 +87,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>
+Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/21 2:29 PM, Claudio Fontana wrote:
-> v1 -> v2:
->  * moved hyperv realizefn call before cpu expansion (Vitaly)
->  * added more comments (Eduardo)
->  * fixed references to commit ids (Eduardo)
-> 
-> The combination of Commits:
-> f5cc5a5c ("i386: split cpu accelerators from cpu.c"...)                                                                              
-> 30565f10 ("cpu: call AccelCPUClass::cpu_realizefn in"...) 
-> 
-> introduced two bugs that break cpu max and host in the refactoring,
-> by running initializations in the wrong order.
-> 
-> This small series of two patches is an attempt to correct the situation.
-> 
-> Please provide your test results and feedback, thanks!
-> 
-> Claudio
-> 
-> Claudio Fontana (2):
->   i386: reorder call to cpu_exec_realizefn in x86_cpu_realizefn
->   i386: run accel_cpu_instance_init as instance_post_init
-> 
->  target/i386/cpu.c         | 89 +++++++++++++++++++++++++--------------
->  target/i386/kvm/kvm-cpu.c | 12 +++++-
->  2 files changed, 68 insertions(+), 33 deletions(-)
-> 
 
-Btw, CI/CD is all green, but as mentioned, it does not seem to catch these kind of issues.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-https://gitlab.com/hw-claudio/qemu/-/pipelines/314286751
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-C.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
