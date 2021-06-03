@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0746D399D6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 11:08:02 +0200 (CEST)
-Received: from localhost ([::1]:46396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA381399D60
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 11:05:26 +0200 (CEST)
+Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lojKb-0003V9-3X
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 05:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47546)
+	id 1lojI5-0006Si-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 05:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lojG0-0003nc-Nj
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:16 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34808)
+ id 1lojG4-0003qM-Tk
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:21 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lojFy-0008SU-B1
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:16 -0400
-Received: by mail-ej1-x636.google.com with SMTP id g8so8168520ejx.1
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 02:03:13 -0700 (PDT)
+ id 1lojG3-0008Vn-EF
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:03:20 -0400
+Received: by mail-ej1-x635.google.com with SMTP id k7so8068096ejv.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 02:03:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=osXGq53UvZ57uuTLXwvdVHc4OxoEbaQE10RT0WZMp6M=;
- b=BFT4QKH0D/xOXYsrDr45W8BefFEqgGk/KDEBNqomQC8RwtiU8/aX6gnbX4a4T7Ogys
- 4lFxXsXX3X1JJBFP5b5NyBYHWupf9NRa5NXSpCy5UzkMyJ2npee/tTwZQwnyVI1qj1VE
- JTxNH3uKSkqdr2bJsNjmzMSM/QRkYu7vNkBzx8Rcy/t3FlGoaJwalf2nNtE/PyRZEv7h
- Zqjj5r1R/PPx7B5G2KglEzZlMY49cpXw75T32bzxqSVdQgSfoRkynl21R8ktd0WLcvpv
- vYG1qkLRcviHqBNmiksKQWrP9W9YYaeZ4vobQd3nOWBaRFhSwX+nLXBLwmBEQ+LLtVWB
- Rh2Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ycDqdBNMfE6sy0aNiEZr8G7a3sAQ4DzhtUJazHFG448=;
+ b=Gb1x1GerQQu/ps4AXoeAG0KMSGDYzaSDzSNDL7UCCzwonF03v50XjR3qAczlHcK5/B
+ GNaXbKvfKw3CXgKa6CSouH/FSFQclrEH50LobGdXLNOeKxE/xV1TSHWoCcQqwQ1nzNOe
+ ZCYqdNhI7jmt7zLxF6tc9VS6/A6pujkOU75JzPxLhYb9hNoh6rqG+Zj1TmI80DnVsy9/
+ qKsrLtSzyLykBfI10cw2pQWoqMKHRm0DSzoCqFyIcTxa0/oHROkPs5TIqsh54B7Q/tMd
+ vO29QNkdFNgVFS+v59SbS3UYSTKdyijdarIK8ZNbipsuIjpyRXkcbIlamvXibtvW4Mws
+ qPdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=osXGq53UvZ57uuTLXwvdVHc4OxoEbaQE10RT0WZMp6M=;
- b=HWJD6Rhfb/qnDrc6DXvub4RoNeon40Py5bcsMZ64RoiWmiLDd77uUMFcI6bJfdhmL7
- COkMZcl9y4P7yy9Kowqm053VNiZaw9L2XvWUhP7U3mMiAFPqjqxpGfXTzTcqjs4V+XRF
- nFzEt6UAsogDakiemB3J5yqgYvpakk7YbP4mwlyofhfHa41F17pn7f0t9UBi3feqijzI
- TZi8kvnu5wsZz1Lf5xt9jeC2ra1n4K8WtOV80ZH9v+h2iIWUv6uT8fwcGF1q0dVIv9p8
- jHuioShepUbBZhNKYOxXsqjBAKVwhDOcpMebp0t9lIbFCboH9RMVl3PecnJucoPCTiVE
- 3Rhw==
-X-Gm-Message-State: AOAM532YpuMoamg+SKCHTssjWIVtpgQTKK5WJowFkEDcS3DR41Stw90A
- vkxwO+28D7jWXtofvspoAfhKOiLrZI2SUg==
-X-Google-Smtp-Source: ABdhPJx87ZZHPp/NIF1z9eiN3SnPjwe/ffUgw0AOfoiw6jsHkFXDODDjFdin5VIsIzsY+g3WD80S0Q==
-X-Received: by 2002:a17:906:c00f:: with SMTP id
- e15mr40644353ejz.458.1622710992605; 
- Thu, 03 Jun 2021 02:03:12 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ycDqdBNMfE6sy0aNiEZr8G7a3sAQ4DzhtUJazHFG448=;
+ b=mPmSkvhfv1sDkEN2m8mAcdtYbfNSpDDYYN7p4tGo7X4WnaXDDmJwkW92D3/mCZZCML
+ ElcCYzhHUUIROrvsGoWvDSvONBUPs8sKdJnJt6nRD1mAxGKD263XqOGPcJ9jim9vEbsA
+ z0wa7WSZIa9eyt8mXIpe9lRKPyswiIJKsOynQDAw63vD5LJGPIr5mzISS/Ofq+KovwWl
+ YchpYp8ZVIRQMdZAwdUvggekJst44ndUphUPtt+byLDgGamshrLBfUrJlnovD8pXyW5k
+ MdOgdOhwIvhr7xkieBYStt3OojM7KXXfbTXahRdqMPUhi5YqcyJ5wTKFvqdcXF4yoVGX
+ L0Ig==
+X-Gm-Message-State: AOAM530h/bkSGXur7fiqF2XeMb1T73HN6th0E2Qm35eCUAIF2SvHBs9o
+ GsgH6oZbbj1dMDAXaZY1AtBWtYEw8S5Hqw==
+X-Google-Smtp-Source: ABdhPJwso4LzkdxtufJAanXZwFgGzbjUIjTPycJPJsabexUSQrZuEUzbFauLC0IUYu3bjJdsvtfSSg==
+X-Received: by 2002:a17:906:180a:: with SMTP id
+ v10mr5955483eje.22.1622710997629; 
+ Thu, 03 Jun 2021 02:03:17 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id z19sm491653edr.77.2021.06.03.02.03.11
+ by smtp.gmail.com with ESMTPSA id z19sm491776edr.77.2021.06.03.02.03.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 02:03:12 -0700 (PDT)
+ Thu, 03 Jun 2021 02:03:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] target/microblaze: Clean up MMU translation failed path
-Date: Thu,  3 Jun 2021 11:03:04 +0200
-Message-Id: <20210603090310.2749892-1-f4bug@amsat.org>
+Subject: [PATCH 1/6] target/microblaze: Use the IEC binary prefix definitions
+Date: Thu,  3 Jun 2021 11:03:05 +0200
+Message-Id: <20210603090310.2749892-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210603090310.2749892-1-f4bug@amsat.org>
+References: <20210603090310.2749892-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,39 +93,36 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,=0D
-=0D
-While reviewing/auditing how each arch handles failed MMU=0D
-transactions, I noticed some confusing code regarding the=0D
-On-chip Peripheral Bus (OPB) interface which is currently=0D
-not implemented. I took some notes and re-ordered the code=0D
-a bit, resulting in this series.=0D
-=0D
-Q: Should we exit gracefully in mb_cpu_realizefn() if the=0D
-user requests features that are not implemented?=0D
-=0D
-Thanks,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  target/microblaze: Use the IEC binary prefix definitions=0D
-  target/microblaze: Extract FPU helpers to fpu_helper.c=0D
-  target/microblaze: Assert transaction failures have exception enabled=0D
-  target/microblaze: Fix Exception Status Register 'Cause' definitions=0D
-  target/microblaze: Replace magic values by proper definitions=0D
-  target/microblaze: Set OPB bits in tlb_fill, not in transaction_failed=0D
-=0D
- target/microblaze/cpu.h        |   8 +-=0D
- target/microblaze/fpu_helper.c | 308 +++++++++++++++++++++++++++++++++=0D
- target/microblaze/helper.c     |  35 +++-=0D
- target/microblaze/mmu.c        |   5 +-=0D
- target/microblaze/op_helper.c  | 304 +-------------------------------=0D
- target/microblaze/meson.build  |   1 +=0D
- 6 files changed, 349 insertions(+), 312 deletions(-)=0D
- create mode 100644 target/microblaze/fpu_helper.c=0D
-=0D
--- =0D
-2.26.3=0D
-=0D
+IEC binary prefixes ease code review: the unit is explicit.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/microblaze/mmu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/target/microblaze/mmu.c b/target/microblaze/mmu.c
+index cc40f275eaf..1481e2769f1 100644
+--- a/target/microblaze/mmu.c
++++ b/target/microblaze/mmu.c
+@@ -19,14 +19,15 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ 
+ static unsigned int tlb_decode_size(unsigned int f)
+ {
+     static const unsigned int sizes[] = {
+-        1 * 1024, 4 * 1024, 16 * 1024, 64 * 1024, 256 * 1024,
+-        1 * 1024 * 1024, 4 * 1024 * 1024, 16 * 1024 * 1024
++        1 * KiB, 4 * KiB, 16 * KiB, 64 * KiB, 256 * KiB,
++        1 * MiB, 4 * MiB, 16 * MiB
+     };
+     assert(f < ARRAY_SIZE(sizes));
+     return sizes[f];
+-- 
+2.26.3
+
 
