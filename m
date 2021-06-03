@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B372D399C80
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:25:30 +0200 (CEST)
-Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC64399C82
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:25:40 +0200 (CEST)
+Received: from localhost ([::1]:46346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loifR-0001Ln-PF
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39318)
+	id 1loifa-0001UQ-W9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loicv-000679-1F; Thu, 03 Jun 2021 04:22:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:60975)
+ id 1loid0-0006Bg-3Y; Thu, 03 Jun 2021 04:22:58 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37263 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loicr-0008Mu-4l; Thu, 03 Jun 2021 04:22:52 -0400
+ id 1loicw-0008Sp-K0; Thu, 03 Jun 2021 04:22:57 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5l36wlz9sW7; Thu,  3 Jun 2021 18:22:35 +1000 (AEST)
+ id 4Fwf5l3mPsz9sWQ; Thu,  3 Jun 2021 18:22:35 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708555;
- bh=NWB1xy/sFRdzmWQdFVAiLtnVWqABzqojU0A/qxH6WcA=;
+ bh=GuuWT+AZB91HvaEk+6OnldMA9W+8/0jQEHwPTYN/pJI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H1nez9ZyCaOWi5vPED7i7iiQARGOaui7YDteKi1dixPA9IeBjGTOL9+IHfDWBG7J8
- kdb91oVqJY2DSczO1V8mxP84+ZBMi4c6kpxYndwLH4hp2lrjTd1rNRwspiQUAt1A8s
- M6z5FDz3nAp9rH6OYWFGd4M307/Uuf4ma85XvH7U=
+ b=SBcXWk4HFqmXB1tpQqAP0gGWK4OmYnEHP+BOgX3/ySwD174Qpdn3jv/wYOElFEbuW
+ WxeMOyWPIY8nhihg31MKeoodWhLG84/dHJyoSsYfibw8n/0Win6sAro0NBGBo+9mC7
+ YwNnnVQQRjhvH3nWKnWVH7gr6m3yxKL3DZ+pYmjs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 04/42] target/ppc: removed unnecessary inclusion of
- helper-proto.h
-Date: Thu,  3 Jun 2021 18:21:53 +1000
-Message-Id: <20210603082231.601214-5-david@gibson.dropbear.id.au>
+Subject: [PULL 05/42] spapr: Don't hijack current_machine->boot_order
+Date: Thu,  3 Jun 2021 18:21:54 +1000
+Message-Id: <20210603082231.601214-6-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,75 +57,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+From: Greg Kurz <groug@kaod.org>
 
-These files included helper-proto.h, but didn't use or declare any
-helpers, so the #include has been removed
+QEMU 6.0 moved all the -boot variables to the machine. Especially, the
+removal of the boot_order static changed the handling of '-boot once'
+from:
 
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210521201759.85475-6-bruno.larsen@eldorado.org.br>
+    if (boot_once) {
+        qemu_boot_set(boot_once, &error_fatal);
+        qemu_register_reset(restore_boot_order, g_strdup(boot_order));
+    }
+
+to
+
+    if (current_machine->boot_once) {
+        qemu_boot_set(current_machine->boot_once, &error_fatal);
+        qemu_register_reset(restore_boot_order,
+                            g_strdup(current_machine->boot_order));
+    }
+
+This means that we now register as subsequent boot order a copy
+of current_machine->boot_once that was just set with the previous
+call to qemu_boot_set(), i.e. we never transition away from the
+once boot order.
+
+It is certainly fragile^Wwrong for the spapr code to hijack a
+field of the base machine type object like that. The boot order
+rework simply turned this software boundary violation into an
+actual bug.
+
+Have the spapr code to handle that with its own field in
+SpaprMachineState. Also kfree() the initial boot device
+string when "once" was used.
+
+Fixes: 4b7acd2ac821 ("vl: clean up -boot variables")
+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1960119
+Cc: pbonzini@redhat.com
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20210521160735.1901914-1-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu_init.c    | 1 -
- target/ppc/gdbstub.c     | 1 -
- target/ppc/mmu-hash32.c  | 1 -
- target/ppc/mmu-radix64.c | 1 -
- 4 files changed, 4 deletions(-)
+ hw/ppc/spapr.c         | 8 +++++---
+ include/hw/ppc/spapr.h | 3 +++
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 7bdb443114..310dfbd26a 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -43,7 +43,6 @@
- #include "fpu/softfloat.h"
- #include "qapi/qapi-commands-machine-target.h"
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c23bcc4490..4dd90b75cc 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1005,7 +1005,7 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+     _FDT(chosen = fdt_add_subnode(fdt, 0, "chosen"));
  
--#include "exec/helper-proto.h"
- #include "helper_regs.h"
- #include "internal.h"
- #include "spr_tcg.h"
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index 9339e7eafe..308b98fc90 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -20,7 +20,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/gdbstub.h"
--#include "exec/helper-proto.h"
- #include "internal.h"
+     if (reset) {
+-        const char *boot_device = machine->boot_order;
++        const char *boot_device = spapr->boot_device;
+         char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
+         size_t cb = 0;
+         char *bootlist = get_boot_devices_list(&cb);
+@@ -2376,8 +2376,10 @@ static SaveVMHandlers savevm_htab_handlers = {
+ static void spapr_boot_set(void *opaque, const char *boot_device,
+                            Error **errp)
+ {
+-    MachineState *machine = MACHINE(opaque);
+-    machine->boot_order = g_strdup(boot_device);
++    SpaprMachineState *spapr = SPAPR_MACHINE(opaque);
++
++    g_free(spapr->boot_device);
++    spapr->boot_device = g_strdup(boot_device);
+ }
  
- static int ppc_gdb_register_len_apple(int n)
-diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index 744a763f44..9f0a497657 100644
---- a/target/ppc/mmu-hash32.c
-+++ b/target/ppc/mmu-hash32.c
-@@ -21,7 +21,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "exec/helper-proto.h"
- #include "sysemu/kvm.h"
- #include "kvm_ppc.h"
- #include "internal.h"
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 7972153f23..b6d191c1d8 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -20,7 +20,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "exec/helper-proto.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
- #include "kvm_ppc.h"
+ static void spapr_create_lmb_dr_connectors(SpaprMachineState *spapr)
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index bbf817af46..f05219f75e 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -223,6 +223,9 @@ struct SpaprMachineState {
+     int fwnmi_machine_check_interlock;
+     QemuCond fwnmi_machine_check_interlock_cond;
+ 
++    /* Set by -boot */
++    char *boot_device;
++
+     /*< public >*/
+     char *kvm_type;
+     char *host_model;
 -- 
 2.31.1
 
