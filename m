@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA28439A362
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:35:17 +0200 (CEST)
-Received: from localhost ([::1]:49502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5FD39A341
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:33:21 +0200 (CEST)
+Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1looRI-0005se-QT
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35374)
+	id 1looPQ-0000zK-N9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1looIp-0004Gr-QQ
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:26:33 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:47024)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1looJd-0005h7-2C
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:27:21 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:40875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1looIo-0008E4-82
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:26:31 -0400
-Received: by mail-wr1-x435.google.com with SMTP id a11so4171378wrt.13
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 07:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=AUGy+ODpnOQT5nx2oo5uQ8POV0KMg3D2AeSx0yiCNLbCgDuhgLOFtiw3GaxwxOlMiP
- YaUVFNreix9ttcaECn9CUw+7zaX1YCoKM4rnMozi7ZTBTlAepoODmqPmouYAUg2Bumr7
- 44zRwNzOq0aVA22R9Xca3ES5TeF00KA60oJ/CBZOj5SZEUKY9e+C8B2/DSSpmEHF8H+H
- Tv+Yr2RBfDnfNQkABhn5igUf3mOEtgPOGrpc2TxMXDUFbuhHzfEsjHHfR6iPXp1+P5Jz
- 9brbMQubbP1Up4YkdHfBLDgbrtm7YlyfnpAOsEk9EL0eFGRZfrhVj3N0+4dQDadpU+NH
- pXXQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1looJb-0000IT-7d
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:27:20 -0400
+Received: by mail-ed1-x532.google.com with SMTP id t3so7345894edc.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 07:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=cMD/MQJK6RuY6kQefUquuNuGpcrRXIPINqzY23mVatU=;
+ b=pbZuXFr7Br2cSmjYWWLCXuPupneXHm2z+UnvP4BH5AwJ2+Tuukz4+uXxVDUvTDdkYX
+ hTV+gmZU+bKcUz3jlbweMZqEucEVi1JdDfpw8M6F33HXAEzUpW8jcuOZE8oVjAm1jJ7P
+ xn/JUeFuKkxlyJvxkAVrdF4hXyHR/qT1E7b2260Q3CcUrJwUN+1LXA7fTTKaz+WHrWDv
+ 6H+mq6j1/rg7BowON/vnZVlkawfLS/eY5RNU/IX9mjpXydBvDBw8LbSb3FBBDbgCIi+W
+ 1Ouapxjr9jqA4NCiyCRw2OK81OMsDAP5tnI5k8V2IGDu1cRedOZI+flY149KEV57JnAb
+ dCFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=rt5ZVv28ByZM2pHLB4hWCLwB/rUXGAYkNf09e8x/hzhcOW8QASJhQ3VWBgCOA9eTNo
- yO/mOSsKiaNq6bPld5KWVDujHKR1v2XTovJwDg6Y2Ug+ZWpahDVMGTAchNcfTVF0aOOQ
- 3OJn0LrVRJZ1j0cbc2692wvCfXxPeBMIgfJqMr+bdjCITlwCkcjgh/3HiztFDsf6TQ3Y
- oogYivPjiAAHH94RnN+h/VSUOdnCoSbLAh5TMYoKZCr726DcJkSQj9D1y7uWqJZil2o6
- h13pMkcPKYw+ESVPX8aYOPzQsVd/EeDSzSgDJEGRGhZBQRA2wkj2MCnKimY05c21EPnH
- c8Zg==
-X-Gm-Message-State: AOAM532J+m6QgGk+X3a8PbhqiCp8OTjL46BnTaAq4FWrCOD1kyiVsWPi
- Vuqy+MgcgK66TdjWvNqZGttN7g==
-X-Google-Smtp-Source: ABdhPJxmMs7XUi4FkJ8Yg7Z53NszjW6yIEhR5Vq76DqBa/Mr2IPtNm1Nwx1Ar2d+5mYv5/WJDO9SHA==
-X-Received: by 2002:a5d:4c4b:: with SMTP id n11mr236017wrt.269.1622730388865; 
- Thu, 03 Jun 2021 07:26:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p9sm2804000wmq.48.2021.06.03.07.26.27
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=cMD/MQJK6RuY6kQefUquuNuGpcrRXIPINqzY23mVatU=;
+ b=Ksx7KoJfn3q9mT4DSB5lz1Yy2EjSjNqpmqWMJzYckWRPgqwHSvR+O6sdIQzT/wWmUc
+ EMgEgIo6tUDRf4bcBb435C+vH2IwrcjNMZBkksAUyQVRNC2NgALPQlee2D1OYDePeQn9
+ h/scNb/1t19BPXqOpuXQtzETwf0KbCnwhTpnXONZCNLA9QtE3rCGIR1a12ACtyufxE02
+ g+9MqYzmqz8ZhqA22do1Dem8+pksUJEAn1Ozn3MpK4mEfeTK6SqppLE7B4iAQCkkX8IS
+ YE7Mpou3OhxdFblqIzei/2aavEt4NyBiywo84P4dMOVgVyqoIn2jVgo5XGDZF+0bb9hD
+ RZ/Q==
+X-Gm-Message-State: AOAM531dHki5SFOwVCprtkmeCRE8yjRuv/8n0SCaYws7MCav35qVUun5
+ QcfJ/cAmJcl4n9lTRmdyWKxEhsVhmeuxiw==
+X-Google-Smtp-Source: ABdhPJxX19lyHmgqx0nfueYsSSdCGmlpg99Sea1JIlrm2yM1h26yjw1XynMX+hUmXFF34HNoqIP69A==
+X-Received: by 2002:a05:6402:4c5:: with SMTP id n5mr90195edw.322.1622730437923; 
+ Thu, 03 Jun 2021 07:27:17 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ p13sm1562747ejr.87.2021.06.03.07.27.17 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 07:26:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E4461FF7E;
- Thu,  3 Jun 2021 15:26:27 +0100 (BST)
-References: <20210525150706.294968-1-richard.henderson@linaro.org>
- <20210525150706.294968-20-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 19/28] softfloat: Convert integer to floatx80 to
- FloatParts
-Date: Thu, 03 Jun 2021 15:26:22 +0100
-In-reply-to: <20210525150706.294968-20-richard.henderson@linaro.org>
-Message-ID: <87pmx381nw.fsf@linaro.org>
+ Thu, 03 Jun 2021 07:27:17 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/3] target/i386: tcg: fix loading of registers from 16-bit TSS
+Date: Thu,  3 Jun 2021 16:27:13 +0200
+Message-Id: <20210603142714.224210-3-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210603142714.224210-1-pbonzini@redhat.com>
+References: <20210603142714.224210-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,17 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+According to the manual, the high 16-bit of the registers are preserved
+when switching to a 16-bit task.  Implement this in switch_tss_ra.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/tcg/seg_helper.c | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index 547b959689..2112c5fc51 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -277,8 +277,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
+         new_eip = cpu_lduw_kernel_ra(env, tss_base + 0x0e, retaddr);
+         new_eflags = cpu_lduw_kernel_ra(env, tss_base + 0x10, retaddr);
+         for (i = 0; i < 8; i++) {
+-            new_regs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x12 + i * 2),
+-                                             retaddr) | 0xffff0000;
++            new_regs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x12 + i * 2), retaddr);
+         }
+         for (i = 0; i < 4; i++) {
+             new_segs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x22 + i * 2),
+@@ -391,19 +390,17 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
+     env->eip = new_eip;
+     eflags_mask = TF_MASK | AC_MASK | ID_MASK |
+         IF_MASK | IOPL_MASK | VM_MASK | RF_MASK | NT_MASK;
+-    if (!(type & 8)) {
+-        eflags_mask &= 0xffff;
++    if (type & 8) {
++        cpu_load_eflags(env, new_eflags, eflags_mask);
++        for (i = 0; i < 8; i++) {
++            env->regs[i] = new_regs[i];
++        }
++    } else {
++        cpu_load_eflags(env, new_eflags, eflags_mask & 0xffff);
++        for (i = 0; i < 8; i++) {
++            env->regs[i] = (env->regs[i] & 0xffff0000) | new_regs[i];
++        }
+     }
+-    cpu_load_eflags(env, new_eflags, eflags_mask);
+-    /* XXX: what to do in 16 bit case? */
+-    env->regs[R_EAX] = new_regs[0];
+-    env->regs[R_ECX] = new_regs[1];
+-    env->regs[R_EDX] = new_regs[2];
+-    env->regs[R_EBX] = new_regs[3];
+-    env->regs[R_ESP] = new_regs[4];
+-    env->regs[R_EBP] = new_regs[5];
+-    env->regs[R_ESI] = new_regs[6];
+-    env->regs[R_EDI] = new_regs[7];
+     if (new_eflags & VM_MASK) {
+         for (i = 0; i < 6; i++) {
+             load_seg_vm(env, i, new_segs[i]);
+-- 
+2.31.1
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
---=20
-Alex Benn=C3=A9e
 
