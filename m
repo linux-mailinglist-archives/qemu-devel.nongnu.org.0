@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C3D39987A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:14:56 +0200 (CEST)
-Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF0B39989F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:35:58 +0200 (CEST)
+Received: from localhost ([::1]:35376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lodot-0004g5-TV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:14:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47582)
+	id 1loe9E-0002q4-NS
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lodo9-0003zt-4w
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:14:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56288)
+ id 1loe8S-00028T-Hy
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:35:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lodo7-0005A0-9U
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:14:08 -0400
+ id 1loe8N-00069e-US
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:35:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622690046;
+ s=mimecast20190719; t=1622691302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EdxrEtb0sFDVJQB6XAX1IEbvLZt1yFIQv0NEiyIEt2A=;
- b=L0yMw8GHoWZ/L0YEtZ60cw7Tj9uNJSJGoFPUv/oqa5v/OZr1TWNcesxHw6Qgmw8vvtQIs+
- Tkw815AacG6twbuAbYrTtgIh65TcSZLLzphEtFkjMO24AvMnoyKTUTqD2aycuH1BKHocpg
- K/YryCxYXmH+HmO6RenTysO3qJsQNRI=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-T29UP0ULNWuC5_0eQSe36A-1; Wed, 02 Jun 2021 23:14:04 -0400
-X-MC-Unique: T29UP0ULNWuC5_0eQSe36A-1
-Received: by mail-pl1-f198.google.com with SMTP id
- n14-20020a170902e54eb029010d602977ecso840721plf.7
- for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 20:14:04 -0700 (PDT)
+ bh=48L635BSRt1BmHf2HxDC20epOuKm/S3is/vj04LbT5Y=;
+ b=YWwpgHhGbntDkhauNy2qe0v2E/EcF4oA1hC1uC1g8tRQ4kbI0UXQMzinKlU4ADb3eS9DSU
+ XpngJWq6qXOFC0ci2CD4NATjKuDTvcepEpcavji/WkEQ65dYNpb7LR0P/naNYrP+/WWoq1
+ hZarn4syM3oZ/Kpyelhg7yU9krA1Oh4=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-QryyNo7zOTG6Os7X6IjHPA-1; Wed, 02 Jun 2021 23:34:45 -0400
+X-MC-Unique: QryyNo7zOTG6Os7X6IjHPA-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ t2-20020a170902b202b02900ec9b8c34b6so2013522plr.15
+ for <qemu-devel@nongnu.org>; Wed, 02 Jun 2021 20:34:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=EdxrEtb0sFDVJQB6XAX1IEbvLZt1yFIQv0NEiyIEt2A=;
- b=EzbHfzLOweKSLhzubzekSMQ8r9YWlnfb4SlYTcqdhk4prvENtAC1kPX/K1bznRn+CL
- Rk+GSQZHz9llsLsXMyjRAvoMxs4A/wJ3SV0EqMfyx591NFxkANhnOOwIgxc1VfAUyH3q
- NYmVtiyeDb2wtWM2lkiGHlvH4RVxgyQNWMBoh9G5j39815oAZwuBqemZ3H9hcfJb9E/D
- cLjLu1c7kbRjwjeJxvTgxJyLlzjG1B8nk+lFPt5R4+qcGzUOC7A217j9+WJgAWZ+zUK/
- ptCEJwXYW55gm0EA3DS02YpVg3KUddkLxV94y49UbK1+LhkllToQXSOtymmrTSYeNK49
- 8scg==
-X-Gm-Message-State: AOAM533DGcVORs3VCanlGNSXN+6hIt4Ktu6KwMJFiVXMLem+8az/cquX
- 7Tk3Ro2846+erdz2PBg0HJkVXK0BCkigva5IVSMW35WCfRWKyZqBa21IJHdLASdHN+crn/jAWYW
- B5LscxoGwd1e3YkE=
-X-Received: by 2002:a17:90a:3c83:: with SMTP id
- g3mr3413980pjc.123.1622690043475; 
- Wed, 02 Jun 2021 20:14:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSnP7Gue7BFOqyvRj3lFOXLF4HGINngfq0sXShIpRyjFb/Y3dp8DjJaHnp1TJwjNQBll87DA==
-X-Received: by 2002:a17:90a:3c83:: with SMTP id
- g3mr3413950pjc.123.1622690043246; 
- Wed, 02 Jun 2021 20:14:03 -0700 (PDT)
+ bh=48L635BSRt1BmHf2HxDC20epOuKm/S3is/vj04LbT5Y=;
+ b=hONs2Iz7kGIBYZ+7hDUpmcThamJNG4N33X90DjTCUMstQJEG03BqnJ1PDYbBaCtrx0
+ 8u9cZwRxT/BsjDhocrl93pR2LyNEHptkYWZvg67r52goOFkcH9e/qADzSmnlba/PL/yc
+ OXnJ95fvDOle61Y0foFcuN1asNopmotK02hV9dcn19YT92q066g5geDzs+7F2sLVIU3M
+ 1raC4b0HMBlCGN5PP/eI4kaK7Pk5/aq8Iy91spG0ezdlEAGDvO7Q7w86mYvkDbCTaSgn
+ ybcjkmKBmAgbvCHKesKhr4OHk0vdejSUYFA+DqiqqR5rMcRTLtikD3J+9dx/vQ1K3vgy
+ rRVg==
+X-Gm-Message-State: AOAM532mtP0NFDwBnmMQS8ib1imNHGUyOYT7U5Hq15uhE4VHKdXDatwq
+ a5wAp9H8Fn6qoqb1z5lYZolTFarPMUX2TRzTa3m913EB+drLNIMD8qu5kF0qzW5dPRKGYTiYCXm
+ pJ0telf2UOVUb6Vk=
+X-Received: by 2002:a17:90b:3a88:: with SMTP id
+ om8mr2502393pjb.99.1622691284732; 
+ Wed, 02 Jun 2021 20:34:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUBWbCDaEeeBsquw/GPmzqzqM4sMD+Sj49eD9YhOIICBq0aLipP5lRhrpxVosRVUQ2YY4BVA==
+X-Received: by 2002:a17:90b:3a88:: with SMTP id
+ om8mr2502328pjb.99.1622691283914; 
+ Wed, 02 Jun 2021 20:34:43 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id j4sm693066pjv.7.2021.06.02.20.13.58
+ by smtp.gmail.com with ESMTPSA id y73sm788924pfb.129.2021.06.02.20.34.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jun 2021 20:14:02 -0700 (PDT)
-Subject: Re: [RFC v3 13/29] vhost: Add vhost_get_iova_range operation
+ Wed, 02 Jun 2021 20:34:43 -0700 (PDT)
+Subject: Re: [RFC v3 17/29] vhost: Shadow virtqueue buffers forwarding
 To: Eugenio Perez Martin <eperezma@redhat.com>
 References: <20210519162903.1172366-1-eperezma@redhat.com>
- <20210519162903.1172366-14-eperezma@redhat.com>
- <e0114c64-2620-7a72-6445-3035ceb748ac@redhat.com>
- <CAJaqyWeL-0KjsBcXs1tYdvn9xLAK-x0Sb+RFuzPgngXxYtF9uw@mail.gmail.com>
- <b9dd6708-015e-d451-b368-f9376c00f6ad@redhat.com>
- <CAJaqyWf+=-nwOsS=zZEhmiTA_TotVMQibUgE0grCMZgXVDNpxg@mail.gmail.com>
+ <20210519162903.1172366-18-eperezma@redhat.com>
+ <bfd680e5-9434-3fbe-3119-1f3c5fc42f4c@redhat.com>
+ <CAJaqyWf7M1fjrd+kr-2bcYj+ibrqZVoREZuTiJ0i+p6dA+Dukw@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <90cd3551-f05b-0270-b5ed-890f578c01b9@redhat.com>
-Date: Thu, 3 Jun 2021 11:13:56 +0800
+Message-ID: <66d83472-7cde-76e6-5e23-a85037156206@redhat.com>
+Date: Thu, 3 Jun 2021 11:34:33 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWf+=-nwOsS=zZEhmiTA_TotVMQibUgE0grCMZgXVDNpxg@mail.gmail.com>
+In-Reply-To: <CAJaqyWf7M1fjrd+kr-2bcYj+ibrqZVoREZuTiJ0i+p6dA+Dukw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -37
 X-Spam_score: -3.8
@@ -116,141 +114,403 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/6/1 下午3:17, Eugenio Perez Martin 写道:
-> On Thu, May 27, 2021 at 6:51 AM Jason Wang <jasowang@redhat.com> wrote:
+在 2021/6/3 上午1:18, Eugenio Perez Martin 写道:
+> On Wed, Jun 2, 2021 at 11:51 AM Jason Wang <jasowang@redhat.com> wrote:
 >>
->> 在 2021/5/27 上午1:49, Eugenio Perez Martin 写道:
->>> On Wed, May 26, 2021 at 3:14 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> 在 2021/5/20 上午12:28, Eugenio Pérez 写道:
->>>>> For simplicity, If a device does not support this operation it means
->>>>> that it can handle full (uint64_t)-1 iova address.
->>>> Note that, we probably need a separated patch for this.
->>>>
->>> Actually the comment is not in the right commit, the next one is the
->>> one that uses it. Is that what you mean?
+>> 在 2021/5/20 上午12:28, Eugenio Pérez 写道:
+>>> Initial version of shadow virtqueue that actually forward buffers. The
+>>> exposed addresses are the qemu's virtual address, so devices with IOMMU
+>>> that does not allow full mapping of qemu's address space does not work
+>>> at the moment.
+>>>
+>>> Also for simplicity it only supports modern devices, that expects vring
+>>> in little endian, with split ring and no event idx or indirect
+>>> descriptors.
+>>>
+>>> It reuses the VirtQueue code for the device part. The driver part is
+>>> based on Linux's virtio_ring driver, but with stripped functionality
+>>> and optimizations so it's easier to review.
+>>>
+>>> Later commits will solve some of these concerns.
 >>
->> No, it's about the following suggestions.
+>> It would be more more easier to review if you squash those
+>> "enhancements" into this patch.
 >>
->>
->>>> And we need to this during vhost-vdpa initialization. If GPA is out of
->>>> the range, we need to fail the start of vhost-vdpa.
->>
->> Note that this is for non-IOMMU case. For the case of vIOMMU we probably
->> need to validate it against address width or other similar attributes.
->>
-> Right.
+> Ok, they will be in the same commit for the next version.
 >
-> What should qemu do if the memory of the guest gets expanded outside
-> of the range? I think there is not a clear way to fail the memory
-> addition, isn't it?
+>>> Code also need to map used ring (device part) as RW in, and only in,
+>>> vhost-net. To map (or call vhost_device_iotlb_miss) inconditionally
+>>> would print an error in case of vhost devices with its own mapping
+>>> (vdpa).
+>>
+>> I think we should not depend on the IOTLB miss. Instead, we should
+>> program the device IOTLB before starting the svq. Or is there anything
+>> that prevent you from doing this?
+>>
+> Sorry for being unclear, that is what I meant in the message: No other
+> device than kernel vhost needs the map (as "sent iotlb miss ahead"),
+> so we must make it conditional. Doing it unconditionally would make
+> nothing but an error appear on the screen, but it is incorrect anyway.
+>
+> Is it clearer this way?
 
 
-I'm not sure, but I guess there should be a way to fail the memory hot-add.
+So what I'm worrying is the following code:
 
-(otherwise we can introduce the error reporting for them)
+int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write)
+{
+...
+
+     if (dev->shadow_vqs_enabled) {
+         /* Shadow virtqueue translations in its Virtual Address Space */
+         const VhostDMAMap *result;
+         const VhostDMAMap needle = {
+             .iova = iova,
+         };
+
+         result = vhost_iova_tree_find_taddr(&dev->iova_map, &needle);
+         ...
+
+}
+
+I wonder the reason for doing that (sorry if I've asked this in the 
+previous version).
+
+I think the correct way is to use map those in the device IOTLB before, 
+instead of using the miss.
+
+Then we can have a unified code for vhost-vDPA and vhost-kernel.
+
+
+>
+>>> To know if this call is needed, vhost_sw_live_migration_start_vq and
+>>> vhost_sw_live_migration_stop copy the test performed in
+>>> vhost_dev_start. Testing for the actual backend type could be cleaner,
+>>> or checking for non-NULL vhost_force_iommu, enable_custom_iommu, or
+>>> another vhostOp. We could extract this test in its own function too,
+>>> so its name could give a better hint. Just copy the vhost_dev_start
+>>> check at the moment.
+>>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>>    hw/virtio/vhost-shadow-virtqueue.c | 205 +++++++++++++++++++++++++++--
+>>>    hw/virtio/vhost.c                  | 134 ++++++++++++++++++-
+>>>    2 files changed, 325 insertions(+), 14 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+>>> index ff50f12410..6d767fe248 100644
+>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
+>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+>>> @@ -9,6 +9,7 @@
+>>>
+>>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
+>>>    #include "hw/virtio/vhost.h"
+>>> +#include "hw/virtio/virtio-access.h"
+>>>
+>>>    #include "standard-headers/linux/vhost_types.h"
+>>>
+>>> @@ -48,9 +49,93 @@ typedef struct VhostShadowVirtqueue {
+>>>
+>>>        /* Virtio device */
+>>>        VirtIODevice *vdev;
+>>> +
+>>> +    /* Map for returning guest's descriptors */
+>>> +    VirtQueueElement **ring_id_maps;
+>>> +
+>>> +    /* Next head to expose to device */
+>>> +    uint16_t avail_idx_shadow;
+>>> +
+>>> +    /* Next free descriptor */
+>>> +    uint16_t free_head;
+>>> +
+>>> +    /* Last seen used idx */
+>>> +    uint16_t shadow_used_idx;
+>>> +
+>>> +    /* Next head to consume from device */
+>>> +    uint16_t used_idx;
+>>>    } VhostShadowVirtqueue;
+>>>
+>>> -/* Forward guest notifications */
+>>> +static void vhost_vring_write_descs(VhostShadowVirtqueue *svq,
+>>> +                                    const struct iovec *iovec,
+>>> +                                    size_t num, bool more_descs, bool write)
+>>> +{
+>>> +    uint16_t i = svq->free_head, last = svq->free_head;
+>>> +    unsigned n;
+>>> +    uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
+>>> +    vring_desc_t *descs = svq->vring.desc;
+>>> +
+>>> +    if (num == 0) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    for (n = 0; n < num; n++) {
+>>> +        if (more_descs || (n + 1 < num)) {
+>>> +            descs[i].flags = flags | cpu_to_le16(VRING_DESC_F_NEXT);
+>>> +        } else {
+>>> +            descs[i].flags = flags;
+>>> +        }
+>>> +        descs[i].addr = cpu_to_le64((hwaddr)iovec[n].iov_base);
+>>> +        descs[i].len = cpu_to_le32(iovec[n].iov_len);
+>>> +
+>>> +        last = i;
+>>> +        i = cpu_to_le16(descs[i].next);
+>>> +    }
+>>> +
+>>> +    svq->free_head = le16_to_cpu(descs[last].next);
+>>> +}
+>>> +
+>>> +static unsigned vhost_shadow_vq_add_split(VhostShadowVirtqueue *svq,
+>>> +                                          VirtQueueElement *elem)
+>>> +{
+>>> +    int head;
+>>> +    unsigned avail_idx;
+>>> +    vring_avail_t *avail = svq->vring.avail;
+>>> +
+>>> +    head = svq->free_head;
+>>> +
+>>> +    /* We need some descriptors here */
+>>> +    assert(elem->out_num || elem->in_num);
+>>> +
+>>> +    vhost_vring_write_descs(svq, elem->out_sg, elem->out_num,
+>>> +                            elem->in_num > 0, false);
+>>> +    vhost_vring_write_descs(svq, elem->in_sg, elem->in_num, false, true);
+>>> +
+>>> +    /*
+>>> +     * Put entry in available array (but don't update avail->idx until they
+>>> +     * do sync).
+>>> +     */
+>>> +    avail_idx = svq->avail_idx_shadow & (svq->vring.num - 1);
+>>> +    avail->ring[avail_idx] = cpu_to_le16(head);
+>>> +    svq->avail_idx_shadow++;
+>>> +
+>>> +    /* Expose descriptors to device */
+>>
+>> It's better to describe the detail order.
+>>
+>> E.g "Update avail index after the descriptor is wrote"
+>>
+> Agree, I will replace it with your wording.
+>
+>>> +    smp_wmb();
+>>> +    avail->idx = cpu_to_le16(svq->avail_idx_shadow);
+>>> +
+>>> +    return head;
+>>> +
+>>> +}
+>>> +
+>>> +static void vhost_shadow_vq_add(VhostShadowVirtqueue *svq,
+>>> +                                VirtQueueElement *elem)
+>>> +{
+>>> +    unsigned qemu_head = vhost_shadow_vq_add_split(svq, elem);
+>>> +
+>>> +    svq->ring_id_maps[qemu_head] = elem;
+>>> +}
+>>> +
+>>> +/* Handle guest->device notifications */
+>>>    static void vhost_handle_guest_kick(EventNotifier *n)
+>>>    {
+>>>        VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
+>>> @@ -60,7 +145,67 @@ static void vhost_handle_guest_kick(EventNotifier *n)
+>>>            return;
+>>>        }
+>>>
+>>> -    event_notifier_set(&svq->kick_notifier);
+>>> +    /* Make available as many buffers as possible */
+>>> +    do {
+>>> +        if (virtio_queue_get_notification(svq->vq)) {
+>>> +            /* No more notifications until process all available */
+>>> +            virtio_queue_set_notification(svq->vq, false);
+>>> +        }
+>>> +
+>>> +        while (true) {
+>>> +            VirtQueueElement *elem = virtqueue_pop(svq->vq, sizeof(*elem));
+>>> +            if (!elem) {
+>>> +                break;
+>>> +            }
+>>> +
+>>> +            vhost_shadow_vq_add(svq, elem);
+>>> +            event_notifier_set(&svq->kick_notifier);
+>>> +        }
+>>> +
+>>> +        virtio_queue_set_notification(svq->vq, true);
+>>> +    } while (!virtio_queue_empty(svq->vq));
+>>> +}
+>>> +
+>>> +static bool vhost_shadow_vq_more_used(VhostShadowVirtqueue *svq)
+>>> +{
+>>> +    if (svq->used_idx != svq->shadow_used_idx) {
+>>> +        return true;
+>>> +    }
+>>> +
+>>> +    /* Get used idx must not be reordered */
+>>> +    smp_rmb();
+>>> +    svq->shadow_used_idx = cpu_to_le16(svq->vring.used->idx);
+>>> +
+>>> +    return svq->used_idx != svq->shadow_used_idx;
+>>> +}
+>>> +
+>>> +static VirtQueueElement *vhost_shadow_vq_get_buf(VhostShadowVirtqueue *svq)
+>>> +{
+>>> +    vring_desc_t *descs = svq->vring.desc;
+>>> +    const vring_used_t *used = svq->vring.used;
+>>> +    vring_used_elem_t used_elem;
+>>> +    uint16_t last_used;
+>>> +
+>>> +    if (!vhost_shadow_vq_more_used(svq)) {
+>>> +        return NULL;
+>>> +    }
+>>> +
+>>> +    last_used = svq->used_idx & (svq->vring.num - 1);
+>>> +    used_elem.id = le32_to_cpu(used->ring[last_used].id);
+>>> +    used_elem.len = le32_to_cpu(used->ring[last_used].len);
+>>> +
+>>> +    if (unlikely(used_elem.id >= svq->vring.num)) {
+>>> +        error_report("Device %s says index %u is available", svq->vdev->name,
+>>> +                     used_elem.id);
+>>> +        return NULL;
+>>> +    }
+>>> +
+>>> +    descs[used_elem.id].next = svq->free_head;
+>>> +    svq->free_head = used_elem.id;
+>>> +
+>>> +    svq->used_idx++;
+>>> +    svq->ring_id_maps[used_elem.id]->len = used_elem.len;
+>>> +    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
+>>>    }
+>>>
+>>>    /* Forward vhost notifications */
+>>> @@ -69,17 +214,33 @@ static void vhost_shadow_vq_handle_call_no_test(EventNotifier *n)
+>>>        VhostShadowVirtqueue *svq = container_of(n, VhostShadowVirtqueue,
+>>>                                                 call_notifier);
+>>>        EventNotifier *masked_notifier;
+>>> +    VirtQueue *vq = svq->vq;
+>>>
+>>>        masked_notifier = svq->masked_notifier.n;
+>>>
+>>> -    if (!masked_notifier) {
+>>> -        unsigned n = virtio_get_queue_index(svq->vq);
+>>> -        virtio_queue_invalidate_signalled_used(svq->vdev, n);
+>>> -        virtio_notify_irqfd(svq->vdev, svq->vq);
+>>> -    } else if (!svq->masked_notifier.signaled) {
+>>> -        svq->masked_notifier.signaled = true;
+>>> -        event_notifier_set(svq->masked_notifier.n);
+>>> -    }
+>>> +    /* Make as many buffers as possible used. */
+>>> +    do {
+>>> +        unsigned i = 0;
+>>> +
+>>> +        /* TODO: Use VRING_AVAIL_F_NO_INTERRUPT */
+>>> +        while (true) {
+>>> +            g_autofree VirtQueueElement *elem = vhost_shadow_vq_get_buf(svq);
+>>> +            if (!elem) {
+>>> +                break;
+>>> +            }
+>>> +
+>>> +            assert(i < svq->vring.num);
+>>> +            virtqueue_fill(vq, elem, elem->len, i++);
+>>> +        }
+>>> +
+>>> +        virtqueue_flush(vq, i);
+>>> +        if (!masked_notifier) {
+>>> +            virtio_notify_irqfd(svq->vdev, svq->vq);
+>>
+>> Any reason that you don't use virtio_notify() here?
+>>
+> No reason but to make sure guest_notifier is used. I'm not sure if
+> this is an implementation detail though.
+
+
+The difference is that virtio_notify() will go through the memory API 
+which will finally go to irqfd in this case.
+
+
+>
+> I can test to switch to virtio_notify, what would be the advantage here?
+
+
+Probably no.
+
+
+>
+>>> +        } else if (!svq->masked_notifier.signaled) {
+>>> +            svq->masked_notifier.signaled = true;
+>>> +            event_notifier_set(svq->masked_notifier.n);
+>>> +        }
+>>
+>> This is an example of the extra complexity if you do shadow virtqueue at
+> .> virtio level.
+>> If you do everything at e.g vhost-vdpa, you don't need to care about
+>> masked_notifer at all.
+>>
+> Correct me if I'm wrong, what you mean is to use the backend
+> vhost_set_vring_call to set the guest notifier (from SVQ point of
+> view), and then set it unconditionally. The function
+> vhost_virtqueue_mask would set the masked one by itself, no
+> modification is needed here.
+
+
+Something like this, from the point of vhost, it doesn't even need to 
+know whether or not the notifier is masked or not. All it needs is to 
+write to the eventfd set via vq call.
+
+
+>
+> Backend would still need a conditional checking if SVQ is enabled, so
+> it either sends call_fd to backend or to SVQ.
+
+
+Yes.
+
+
+> The call to
+> virtqueue_fill, would still be needed if we don't want to duplicate
+> all the device virtio's logic in the vhost-vdpa backend.
+
+
+Yes, you can make the buffer forwarding a common library then it could 
+be used other vhost backend in the future.
+
+The point is to avoid touching vhost protocols to reduce the changeset 
+and have someting minimal for our requirements (vhost-vDPA mainly).
+
+
+>
+> Another possibility would be to just store guest_notifier in SVQ, and
+> replace it with masked notifier and back. I think this is more aligned
+> with what you have in mind, but it still needs changes to
+> vhost_virtqueue_mask. Note that the boolean store
+> masked_notifier.signaled is just a (maybe premature) optimization to
+> skip the unneeded write syscall, but it could be omitted for brevity.
+> Or maybe a cleaner solution is to use io_uring for this write? :).
+
+
+Looks like not what I meant :)
+
+To clarify, it works like:
+
+1) record the vq call fd1 during vhost_vdpa_set_vring_call
+2) when svq is not enabled, set this fd1 to vhost-VDPA via 
+VHOST_SET_VRING_CALL
+3) when svq is enabled, initialize and set fd2 to vhost-vDPA, poll and 
+handle guest kick via fd1 and rely fd1 to fd2
+
+So we don't need to care much about the masking, in the svq codes, we 
+just stick to use the fd that is set via recent vhost_vdpa_set_vring_call().
+
+That means, if virtqueue is masked, we're using mased_notifier actually, 
+but it's totally transparent to us.
+
+So the idea is behave like a normal vhost-vDPA backend, and hide the 
+shadowing from the virtio codes.
 
 Thanks
 
 
 >
+> Thanks!
+>
 >> Thanks
 >>
->>
->>> Right, that is still to-do.
->>>
->>> Maybe a series with just these two commits and failing the start if
->>> GPA is not in the range, as you say, would help to split the amount of
->>> changes.
->>>
->>> I will send it if no more comments arise about it.
->>>
->>> Thanks!
->>>
->>>> THanks
->>>>
->>>>
->>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>>> ---
->>>>>     include/hw/virtio/vhost-backend.h |  5 +++++
->>>>>     hw/virtio/vhost-vdpa.c            | 18 ++++++++++++++++++
->>>>>     hw/virtio/trace-events            |  1 +
->>>>>     3 files changed, 24 insertions(+)
->>>>>
->>>>> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
->>>>> index 94d3323905..bcb112c166 100644
->>>>> --- a/include/hw/virtio/vhost-backend.h
->>>>> +++ b/include/hw/virtio/vhost-backend.h
->>>>> @@ -36,6 +36,7 @@ struct vhost_vring_addr;
->>>>>     struct vhost_scsi_target;
->>>>>     struct vhost_iotlb_msg;
->>>>>     struct vhost_virtqueue;
->>>>> +struct vhost_vdpa_iova_range;
->>>>>
->>>>>     typedef int (*vhost_backend_init)(struct vhost_dev *dev, void *opaque);
->>>>>     typedef int (*vhost_backend_cleanup)(struct vhost_dev *dev);
->>>>> @@ -127,6 +128,9 @@ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
->>>>>
->>>>>     typedef int (*vhost_vring_pause_op)(struct vhost_dev *dev);
->>>>>
->>>>> +typedef int (*vhost_get_iova_range)(struct vhost_dev *dev,
->>>>> +                                    hwaddr *first, hwaddr *last);
->>>>> +
->>>>>     typedef struct VhostOps {
->>>>>         VhostBackendType backend_type;
->>>>>         vhost_backend_init vhost_backend_init;
->>>>> @@ -173,6 +177,7 @@ typedef struct VhostOps {
->>>>>         vhost_get_device_id_op vhost_get_device_id;
->>>>>         vhost_vring_pause_op vhost_vring_pause;
->>>>>         vhost_force_iommu_op vhost_force_iommu;
->>>>> +    vhost_get_iova_range vhost_get_iova_range;
->>>>>     } VhostOps;
->>>>>
->>>>>     extern const VhostOps user_ops;
->>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
->>>>> index 01d2101d09..74fe92935e 100644
->>>>> --- a/hw/virtio/vhost-vdpa.c
->>>>> +++ b/hw/virtio/vhost-vdpa.c
->>>>> @@ -579,6 +579,23 @@ static bool  vhost_vdpa_force_iommu(struct vhost_dev *dev)
->>>>>         return true;
->>>>>     }
->>>>>
->>>>> +static int vhost_vdpa_get_iova_range(struct vhost_dev *dev,
->>>>> +                                     hwaddr *first, hwaddr *last)
->>>>> +{
->>>>> +    int ret;
->>>>> +    struct vhost_vdpa_iova_range range;
->>>>> +
->>>>> +    ret = vhost_vdpa_call(dev, VHOST_VDPA_GET_IOVA_RANGE, &range);
->>>>> +    if (ret != 0) {
->>>>> +        return ret;
->>>>> +    }
->>>>> +
->>>>> +    *first = range.first;
->>>>> +    *last = range.last;
->>>>> +    trace_vhost_vdpa_get_iova_range(dev, *first, *last);
->>>>> +    return ret;
->>>>> +}
->>>>> +
->>>>>     const VhostOps vdpa_ops = {
->>>>>             .backend_type = VHOST_BACKEND_TYPE_VDPA,
->>>>>             .vhost_backend_init = vhost_vdpa_init,
->>>>> @@ -611,4 +628,5 @@ const VhostOps vdpa_ops = {
->>>>>             .vhost_get_device_id = vhost_vdpa_get_device_id,
->>>>>             .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
->>>>>             .vhost_force_iommu = vhost_vdpa_force_iommu,
->>>>> +        .vhost_get_iova_range = vhost_vdpa_get_iova_range,
->>>>>     };
->>>>> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
->>>>> index c62727f879..5debe3a681 100644
->>>>> --- a/hw/virtio/trace-events
->>>>> +++ b/hw/virtio/trace-events
->>>>> @@ -52,6 +52,7 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
->>>>>     vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
->>>>>     vhost_vdpa_set_owner(void *dev) "dev: %p"
->>>>>     vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
->>>>> +vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
->>>>>
->>>>>     # virtio.c
->>>>>     virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
 
 
