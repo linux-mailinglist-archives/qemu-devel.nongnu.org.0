@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E06399CC7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:41:12 +0200 (CEST)
-Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF040399CC5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:40:37 +0200 (CEST)
+Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loiud-0000bP-4Z
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39624)
+	id 1loiu4-0007I3-U6
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:40:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid9-0006kg-Ar; Thu, 03 Jun 2021 04:23:09 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44211 helo=ozlabs.org)
+ id 1loid8-0006kf-WC; Thu, 03 Jun 2021 04:23:09 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35139 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loid7-0000A1-2L; Thu, 03 Jun 2021 04:23:07 -0400
+ id 1loid7-00009x-1Q; Thu, 03 Jun 2021 04:23:06 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5n2vfpz9t0k; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
+ id 4Fwf5n1SKFz9t0G; Thu,  3 Jun 2021 18:22:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708557;
- bh=iY3fhUNzEBXBbQPoeCEyR9Ec2rbI6inTAeHcoKCPmgQ=;
+ bh=htJwkmdEBbsymybJehM454Yf26ExzUBMxLyreHSRH2I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DFp0W92P6uDq1vy1MoekNU23nM2x0gkm3/nf5JWYlqW4Ll7/EB9vo/jaFAYQX128A
- xYR2ZgGeXbG8cut/MtDfrpoXA64IQX+aGPKYbGgaEIhR0MV6gwxW+9q4s7hWmvGsfg
- Ihf/cLsHFaVd6XqewwR+debPQmyWQhZMmlKt6wq0=
+ b=l/sRccCTc8ByhO0/mzCSyVliU8ZK+i4PsYJiHv+PcrA0YVhBurkB6du9HJnTYVbuz
+ cIf1rf0TVKmOg8GE2GslJ5d0A7XA1WFh1vj4s8BQheYz4l9h/2TK1x3hfvm96Fpttz
+ dVwwYJiafwrG+WtyZUsbVXjkJ6+q30yd1Xou7Y7k=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 21/42] HMP: added info cpustats to removed_features.rst
-Date: Thu,  3 Jun 2021 18:22:10 +1000
-Message-Id: <20210603082231.601214-22-david@gibson.dropbear.id.au>
+Subject: [PULL 22/42] target/ppc: removed GEN_OPCODE decision tree
+Date: Thu,  3 Jun 2021 18:22:11 +1000
+Message-Id: <20210603082231.601214-23-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
@@ -57,43 +57,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lucas Mateus <lucas.araujo@eldorado.org.br>, qemu-devel@nongnu.org,
- Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-Documented the removal of the HMP command info cpustats
+since both, PPC_DO_STATISTICS and PPC_DUMP_CPU, are obsoleted as
+target/ppc moves to decodetree, we can remove this ifdef based decision
+tree, and only have what is now the standard option for the macro.
 
 Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-Message-Id: <20210531145629.21300-3-bruno.larsen@eldorado.org.br>
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
-Reviewed-by: Lucas Mateus <lucas.araujo@eldorado.org.br>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-[dwg: Fix a Sphinx formatting error]
+Message-Id: <20210531145629.21300-4-bruno.larsen@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- docs/system/removed-features.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/ppc/translate.c | 79 ------------------------------------------
+ 1 file changed, 79 deletions(-)
 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 5a462ac568..1d22195b1d 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -249,6 +249,11 @@ Use ``migrate-set-parameters`` and ``info migrate-parameters`` instead.
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 5c56e33c3c..4b66563998 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1341,7 +1341,6 @@ typedef struct opcode_t {
+ /*****************************************************************************/
+ /* PowerPC instructions table                                                */
  
- Use ``migrate-set-parameters`` instead.
+-#if defined(DO_PPC_STATISTICS)
+ #define GEN_OPCODE(name, op1, op2, op3, invl, _typ, _typ2)                    \
+ {                                                                             \
+     .opc1 = op1,                                                              \
+@@ -1353,7 +1352,6 @@ typedef struct opcode_t {
+         .type = _typ,                                                         \
+         .type2 = _typ2,                                                       \
+         .handler = &gen_##name,                                               \
+-        .oname = stringify(name),                                             \
+     },                                                                        \
+     .oname = stringify(name),                                                 \
+ }
+@@ -1369,7 +1367,6 @@ typedef struct opcode_t {
+         .type = _typ,                                                         \
+         .type2 = _typ2,                                                       \
+         .handler = &gen_##name,                                               \
+-        .oname = stringify(name),                                             \
+     },                                                                        \
+     .oname = stringify(name),                                                 \
+ }
+@@ -1384,7 +1381,6 @@ typedef struct opcode_t {
+         .type = _typ,                                                         \
+         .type2 = _typ2,                                                       \
+         .handler = &gen_##name,                                               \
+-        .oname = onam,                                                        \
+     },                                                                        \
+     .oname = onam,                                                            \
+ }
+@@ -1399,7 +1395,6 @@ typedef struct opcode_t {
+         .type = _typ,                                                         \
+         .type2 = _typ2,                                                       \
+         .handler = &gen_##name,                                               \
+-        .oname = stringify(name),                                             \
+     },                                                                        \
+     .oname = stringify(name),                                                 \
+ }
+@@ -1414,83 +1409,9 @@ typedef struct opcode_t {
+         .type = _typ,                                                         \
+         .type2 = _typ2,                                                       \
+         .handler = &gen_##name,                                               \
+-        .oname = onam,                                                        \
+     },                                                                        \
+     .oname = onam,                                                            \
+ }
+-#else
+-#define GEN_OPCODE(name, op1, op2, op3, invl, _typ, _typ2)                    \
+-{                                                                             \
+-    .opc1 = op1,                                                              \
+-    .opc2 = op2,                                                              \
+-    .opc3 = op3,                                                              \
+-    .opc4 = 0xff,                                                             \
+-    .handler = {                                                              \
+-        .inval1  = invl,                                                      \
+-        .type = _typ,                                                         \
+-        .type2 = _typ2,                                                       \
+-        .handler = &gen_##name,                                               \
+-    },                                                                        \
+-    .oname = stringify(name),                                                 \
+-}
+-#define GEN_OPCODE_DUAL(name, op1, op2, op3, invl1, invl2, _typ, _typ2)       \
+-{                                                                             \
+-    .opc1 = op1,                                                              \
+-    .opc2 = op2,                                                              \
+-    .opc3 = op3,                                                              \
+-    .opc4 = 0xff,                                                             \
+-    .handler = {                                                              \
+-        .inval1  = invl1,                                                     \
+-        .inval2  = invl2,                                                     \
+-        .type = _typ,                                                         \
+-        .type2 = _typ2,                                                       \
+-        .handler = &gen_##name,                                               \
+-    },                                                                        \
+-    .oname = stringify(name),                                                 \
+-}
+-#define GEN_OPCODE2(name, onam, op1, op2, op3, invl, _typ, _typ2)             \
+-{                                                                             \
+-    .opc1 = op1,                                                              \
+-    .opc2 = op2,                                                              \
+-    .opc3 = op3,                                                              \
+-    .opc4 = 0xff,                                                             \
+-    .handler = {                                                              \
+-        .inval1  = invl,                                                      \
+-        .type = _typ,                                                         \
+-        .type2 = _typ2,                                                       \
+-        .handler = &gen_##name,                                               \
+-    },                                                                        \
+-    .oname = onam,                                                            \
+-}
+-#define GEN_OPCODE3(name, op1, op2, op3, op4, invl, _typ, _typ2)              \
+-{                                                                             \
+-    .opc1 = op1,                                                              \
+-    .opc2 = op2,                                                              \
+-    .opc3 = op3,                                                              \
+-    .opc4 = op4,                                                              \
+-    .handler = {                                                              \
+-        .inval1  = invl,                                                      \
+-        .type = _typ,                                                         \
+-        .type2 = _typ2,                                                       \
+-        .handler = &gen_##name,                                               \
+-    },                                                                        \
+-    .oname = stringify(name),                                                 \
+-}
+-#define GEN_OPCODE4(name, onam, op1, op2, op3, op4, invl, _typ, _typ2)        \
+-{                                                                             \
+-    .opc1 = op1,                                                              \
+-    .opc2 = op2,                                                              \
+-    .opc3 = op3,                                                              \
+-    .opc4 = op4,                                                              \
+-    .handler = {                                                              \
+-        .inval1  = invl,                                                      \
+-        .type = _typ,                                                         \
+-        .type2 = _typ2,                                                       \
+-        .handler = &gen_##name,                                               \
+-    },                                                                        \
+-    .oname = onam,                                                            \
+-}
+-#endif
  
-+``info cpustats`` (removed in 6.1)
-+''''''''''''''''''''''''''''''''''
-+
-+This command didn't produce any output already. Removed with no replacement.
-+
- Guest Emulator ISAs
- -------------------
- 
+ /* Invalid instruction */
+ static void gen_invalid(DisasContext *ctx)
 -- 
 2.31.1
 
