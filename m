@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31A039AD36
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 23:50:37 +0200 (CEST)
-Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB9539AD52
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 23:57:19 +0200 (CEST)
+Received: from localhost ([::1]:53534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lovEa-0000va-Rm
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 17:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58512)
+	id 1lovL4-0003HX-Ru
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 17:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lov6E-0002n6-BW
+ id 1lov6E-0002mB-0e
  for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:58 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46710)
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:43698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lov65-00019t-Df
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:58 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id n12so6135335pgs.13
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 14:41:47 -0700 (PDT)
+ id 1lov65-00019x-Dn
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:57 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ l10-20020a17090a150ab0290162974722f2so4698503pja.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 14:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=twxGPFxgWB1P5xQ1RYx4pfDaFXjrIGQz83jyD9yknr8=;
- b=Aml6nMmyEnTkoq2DjSRWzEHpIbXUJXJjdaiDZvE2JF4e+QwJBF0mZ6gUgaIXLFtxjY
- x5eNLIZtz2Re5GEp0snW/Ggr9XDUZ6IyhCMWSTBIE6swRyNvWNA6LeRmSbqgg2WzdzPp
- 2OVdWekRZ+kS+ejbAAkh7WCP6IoeyREbkAGwh0oQdgu+pqKJL1tp3apfmKv1DViWLFpj
- 9CvLtx02t5ULn+MHhf0ffYkKTgM27Wg4bFOY8o2eaCP4+vKdXCMBgScRxefEU8R6tj61
- QADPJLVSK+o+6Pus591cQ0Ef3GOcY8WVKWy/aGqVmMt14HRLylPCEMZ7UUgNbAtecfb2
- KImg==
+ bh=eDlW17rU8x/GJbEZkz3v/6Nuf9ddIpOuVKL6VdfQvSc=;
+ b=B1jqC3pH0WXJBFPhb9AbXf2X67Cd/mvjZfX7Ir1wV1+ZnKOfLdy/+gu4Jmrj6D8Whg
+ XugecYvY54nL4j6SVaI1Jo+m3jmCSd/UR/I8HkieRhXkQJ04TxrPIPaQACRqN8GCq8BR
+ fuQ1hkzPv6fv4zrl6SdkiEvahMtIpa2hYCX7Y5gzomBTcIdK5aE/T2sq/i4usqciqhds
+ MrLvMe3D/WYim8YOEHiwYld0k83a+TbUxUOHhPHmEg/xePYRmxWABpJ44SEh5pzV9XYo
+ +2qGh+pY201pAgLh+7nHJpUxBXa+Uw0QIsmQt7GpXw4QSt8XShY7OMlkfe4CzO08H9Ae
+ WH0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=twxGPFxgWB1P5xQ1RYx4pfDaFXjrIGQz83jyD9yknr8=;
- b=E8P4nm15bm0swbvME+yri9f5UYn6DRKY4wy1lPpJr+h08D0fg5KcCHsdcYiDifZ62O
- JCqaKYaC/Re9sVDiHkbafh4s4ofFYN/zCORQ8RpOn5YYxAcUQ5XidQJ659TSWhv/yIqp
- Wv2kQ2WCbbB/UKYU2nZy31nHN2/nZw4n6R1MZL1MAYBFiRw69nP4bPKM5X4aExlIAeJi
- /SKTYXdpcbevx+LaK6/X6H9jFJrdnTADRxXARJhCDlfxDD0eOWi1K1xgW91MvZ+7lbWC
- 6DjjMMFOhtXvI7d4a7fa9qvPn96/L5ACUqoN+6YjLg+joOI+Z95o6WWKsOHiArC3xQjW
- Ed8A==
-X-Gm-Message-State: AOAM530W82+OXN2pANZ5Q2TTmO1uCfqPutEm9kWOiWy/NNimnznVNW7o
- SLBufaDAdfyWA5YKc+HZjtH3kHgtbwxR/w==
-X-Google-Smtp-Source: ABdhPJwwV3b9vf5ZcpTQljpzEYTdHpwG2H/30VcyLkSiTc3shdVDzT8Lttu3bhnEDxta+gb/Nj8JkA==
-X-Received: by 2002:a63:7e11:: with SMTP id z17mr1479444pgc.9.1622756506431;
- Thu, 03 Jun 2021 14:41:46 -0700 (PDT)
+ bh=eDlW17rU8x/GJbEZkz3v/6Nuf9ddIpOuVKL6VdfQvSc=;
+ b=B0Lc6UvK2yva3mO8oGKBvQNA3E013GLJggxJbYzqjSu0kAGwoj4Fod0V4DGHGn0z93
+ FHELoTP27qysNjheuTK5H7qIrew+BaAqmsfjsaXFg1/J6LlX+/3dYkWR4RqiFKDoWd+z
+ mWW5VfbPYGINw60H1Z2gH67swvpBFSGXYb05ly35QNormj7y7pcD1Os27SzAGUQRgDF0
+ hAezcu3hj2uk3aExkquc7l2ny8B07yIafHlYECMoQyy1ypztbZGHHuJC8R4TDhw8/A/X
+ LjApuQlPvN/dYfLEXnE6YehUhddN2SnT73mPJ8HZfonr2w437UinRgwtqhgKvIZvfcnW
+ yTnA==
+X-Gm-Message-State: AOAM5316TpPkAP6sIG1Bz/L289v+QJdMhnCLY8WGjeiv3P3rke0DNl7i
+ 7+fUh++8HXJ0PZoT+pfdzag1ZA0RkFS00A==
+X-Google-Smtp-Source: ABdhPJykl6ATaiz7M2EQyGJG+GxvqO0xUISIWzPUBtdiYKq8E0pUxJ/9EZykmBigsLbplUOzt4s36A==
+X-Received: by 2002:a17:902:d643:b029:ef:62cd:eeed with SMTP id
+ y3-20020a170902d643b02900ef62cdeeedmr1120652plh.42.1622756507220; 
+ Thu, 03 Jun 2021 14:41:47 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id p65sm40115pfb.62.2021.06.03.14.41.45
+ by smtp.gmail.com with ESMTPSA id p65sm40115pfb.62.2021.06.03.14.41.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 03 Jun 2021 14:41:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/29] softfloat: Convert floatx80 float conversions to
- FloatParts
-Date: Thu,  3 Jun 2021 14:41:23 -0700
-Message-Id: <20210603214131.629841-22-richard.henderson@linaro.org>
+Subject: [PULL 22/29] softfloat: Convert floatx80 to integer to FloatParts
+Date: Thu,  3 Jun 2021 14:41:24 -0700
+Message-Id: <20210603214131.629841-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210603214131.629841-1-richard.henderson@linaro.org>
 References: <20210603214131.629841-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,545 +90,387 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the last use of commonNaNT and all of the routines
-that use it, so remove all of them for Werror.
-
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c                | 276 ++++++++-------------------------
- fpu/softfloat-specialize.c.inc | 175 ---------------------
- 2 files changed, 67 insertions(+), 384 deletions(-)
+ fpu/softfloat.c | 336 ++++++------------------------------------------
+ 1 file changed, 42 insertions(+), 294 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index be7583780d..acaab6a127 100644
+index acaab6a127..5a2a872408 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -2561,6 +2561,73 @@ float128 float64_to_float128(float64 a, float_status *s)
-     return float128_round_pack_canonical(&p128, s);
+@@ -2829,6 +2829,28 @@ static int64_t float128_to_int64_scalbn(float128 a, FloatRoundMode rmode,
+     return parts_float_to_sint(&p, rmode, scale, INT64_MIN, INT64_MAX, s);
  }
  
-+float32 floatx80_to_float32(floatx80 a, float_status *s)
-+{
-+    FloatParts64 p64;
-+    FloatParts128 p128;
-+
-+    if (floatx80_unpack_canonical(&p128, a, s)) {
-+        parts_float_to_float_narrow(&p64, &p128, s);
-+    } else {
-+        parts_default_nan(&p64, s);
-+    }
-+    return float32_round_pack_canonical(&p64, s);
-+}
-+
-+float64 floatx80_to_float64(floatx80 a, float_status *s)
-+{
-+    FloatParts64 p64;
-+    FloatParts128 p128;
-+
-+    if (floatx80_unpack_canonical(&p128, a, s)) {
-+        parts_float_to_float_narrow(&p64, &p128, s);
-+    } else {
-+        parts_default_nan(&p64, s);
-+    }
-+    return float64_round_pack_canonical(&p64, s);
-+}
-+
-+float128 floatx80_to_float128(floatx80 a, float_status *s)
++static int32_t floatx80_to_int32_scalbn(floatx80 a, FloatRoundMode rmode,
++                                        int scale, float_status *s)
 +{
 +    FloatParts128 p;
 +
-+    if (floatx80_unpack_canonical(&p, a, s)) {
-+        parts_float_to_float(&p, s);
-+    } else {
++    if (!floatx80_unpack_canonical(&p, a, s)) {
 +        parts_default_nan(&p, s);
 +    }
-+    return float128_round_pack_canonical(&p, s);
++    return parts_float_to_sint(&p, rmode, scale, INT32_MIN, INT32_MAX, s);
 +}
 +
-+floatx80 float32_to_floatx80(float32 a, float_status *s)
-+{
-+    FloatParts64 p64;
-+    FloatParts128 p128;
-+
-+    float32_unpack_canonical(&p64, a, s);
-+    parts_float_to_float_widen(&p128, &p64, s);
-+    return floatx80_round_pack_canonical(&p128, s);
-+}
-+
-+floatx80 float64_to_floatx80(float64 a, float_status *s)
-+{
-+    FloatParts64 p64;
-+    FloatParts128 p128;
-+
-+    float64_unpack_canonical(&p64, a, s);
-+    parts_float_to_float_widen(&p128, &p64, s);
-+    return floatx80_round_pack_canonical(&p128, s);
-+}
-+
-+floatx80 float128_to_floatx80(float128 a, float_status *s)
++static int64_t floatx80_to_int64_scalbn(floatx80 a, FloatRoundMode rmode,
++                                        int scale, float_status *s)
 +{
 +    FloatParts128 p;
 +
-+    float128_unpack_canonical(&p, a, s);
-+    parts_float_to_float(&p, s);
-+    return floatx80_round_pack_canonical(&p, s);
++    if (!floatx80_unpack_canonical(&p, a, s)) {
++        parts_default_nan(&p, s);
++    }
++    return parts_float_to_sint(&p, rmode, scale, INT64_MIN, INT64_MAX, s);
 +}
 +
- /*
-  * Round to integral value
-  */
-@@ -5046,42 +5113,6 @@ static float128 normalizeRoundAndPackFloat128(bool zSign, int32_t zExp,
+ int8_t float16_to_int8(float16 a, float_status *s)
+ {
+     return float16_to_int8_scalbn(a, s->float_rounding_mode, 0, s);
+@@ -2889,6 +2911,16 @@ int64_t float128_to_int64(float128 a, float_status *s)
+     return float128_to_int64_scalbn(a, s->float_rounding_mode, 0, s);
+ }
  
++int32_t floatx80_to_int32(floatx80 a, float_status *s)
++{
++    return floatx80_to_int32_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
++int64_t floatx80_to_int64(floatx80 a, float_status *s)
++{
++    return floatx80_to_int64_scalbn(a, s->float_rounding_mode, 0, s);
++}
++
+ int16_t float16_to_int16_round_to_zero(float16 a, float_status *s)
+ {
+     return float16_to_int16_scalbn(a, float_round_to_zero, 0, s);
+@@ -2944,6 +2976,16 @@ int64_t float128_to_int64_round_to_zero(float128 a, float_status *s)
+     return float128_to_int64_scalbn(a, float_round_to_zero, 0, s);
+ }
+ 
++int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *s)
++{
++    return floatx80_to_int32_scalbn(a, float_round_to_zero, 0, s);
++}
++
++int64_t floatx80_to_int64_round_to_zero(floatx80 a, float_status *s)
++{
++    return floatx80_to_int64_scalbn(a, float_round_to_zero, 0, s);
++}
++
+ int16_t bfloat16_to_int16(bfloat16 a, float_status *s)
+ {
+     return bfloat16_to_int16_scalbn(a, s->float_rounding_mode, 0, s);
+@@ -4160,127 +4202,6 @@ bfloat16 bfloat16_squash_input_denormal(bfloat16 a, float_status *status)
+     return a;
  }
  
 -/*----------------------------------------------------------------------------
--| Returns the result of converting the single-precision floating-point value
--| `a' to the extended double-precision floating-point format.  The conversion
--| is performed according to the IEC/IEEE Standard for Binary Floating-Point
--| Arithmetic.
+-| Takes a 64-bit fixed-point value `absZ' with binary point between bits 6
+-| and 7, and returns the properly rounded 32-bit integer corresponding to the
+-| input.  If `zSign' is 1, the input is negated before being converted to an
+-| integer.  Bit 63 of `absZ' must be zero.  Ordinarily, the fixed-point input
+-| is simply rounded to an integer, with the inexact exception raised if the
+-| input cannot be represented exactly as an integer.  However, if the fixed-
+-| point input is too large, the invalid exception is raised and the largest
+-| positive or negative integer is returned.
 -*----------------------------------------------------------------------------*/
 -
--floatx80 float32_to_floatx80(float32 a, float_status *status)
+-static int32_t roundAndPackInt32(bool zSign, uint64_t absZ,
+-                                 float_status *status)
 -{
--    bool aSign;
--    int aExp;
--    uint32_t aSig;
+-    int8_t roundingMode;
+-    bool roundNearestEven;
+-    int8_t roundIncrement, roundBits;
+-    int32_t z;
 -
--    a = float32_squash_input_denormal(a, status);
--    aSig = extractFloat32Frac( a );
--    aExp = extractFloat32Exp( a );
--    aSign = extractFloat32Sign( a );
--    if ( aExp == 0xFF ) {
--        if (aSig) {
--            floatx80 res = commonNaNToFloatx80(float32ToCommonNaN(a, status),
--                                               status);
--            return floatx80_silence_nan(res, status);
+-    roundingMode = status->float_rounding_mode;
+-    roundNearestEven = ( roundingMode == float_round_nearest_even );
+-    switch (roundingMode) {
+-    case float_round_nearest_even:
+-    case float_round_ties_away:
+-        roundIncrement = 0x40;
+-        break;
+-    case float_round_to_zero:
+-        roundIncrement = 0;
+-        break;
+-    case float_round_up:
+-        roundIncrement = zSign ? 0 : 0x7f;
+-        break;
+-    case float_round_down:
+-        roundIncrement = zSign ? 0x7f : 0;
+-        break;
+-    case float_round_to_odd:
+-        roundIncrement = absZ & 0x80 ? 0 : 0x7f;
+-        break;
+-    default:
+-        abort();
+-    }
+-    roundBits = absZ & 0x7F;
+-    absZ = ( absZ + roundIncrement )>>7;
+-    if (!(roundBits ^ 0x40) && roundNearestEven) {
+-        absZ &= ~1;
+-    }
+-    z = absZ;
+-    if ( zSign ) z = - z;
+-    if ( ( absZ>>32 ) || ( z && ( ( z < 0 ) ^ zSign ) ) ) {
+-        float_raise(float_flag_invalid, status);
+-        return zSign ? INT32_MIN : INT32_MAX;
+-    }
+-    if (roundBits) {
+-        float_raise(float_flag_inexact, status);
+-    }
+-    return z;
+-
+-}
+-
+-/*----------------------------------------------------------------------------
+-| Takes the 128-bit fixed-point value formed by concatenating `absZ0' and
+-| `absZ1', with binary point between bits 63 and 64 (between the input words),
+-| and returns the properly rounded 64-bit integer corresponding to the input.
+-| If `zSign' is 1, the input is negated before being converted to an integer.
+-| Ordinarily, the fixed-point input is simply rounded to an integer, with
+-| the inexact exception raised if the input cannot be represented exactly as
+-| an integer.  However, if the fixed-point input is too large, the invalid
+-| exception is raised and the largest positive or negative integer is
+-| returned.
+-*----------------------------------------------------------------------------*/
+-
+-static int64_t roundAndPackInt64(bool zSign, uint64_t absZ0, uint64_t absZ1,
+-                               float_status *status)
+-{
+-    int8_t roundingMode;
+-    bool roundNearestEven, increment;
+-    int64_t z;
+-
+-    roundingMode = status->float_rounding_mode;
+-    roundNearestEven = ( roundingMode == float_round_nearest_even );
+-    switch (roundingMode) {
+-    case float_round_nearest_even:
+-    case float_round_ties_away:
+-        increment = ((int64_t) absZ1 < 0);
+-        break;
+-    case float_round_to_zero:
+-        increment = 0;
+-        break;
+-    case float_round_up:
+-        increment = !zSign && absZ1;
+-        break;
+-    case float_round_down:
+-        increment = zSign && absZ1;
+-        break;
+-    case float_round_to_odd:
+-        increment = !(absZ0 & 1) && absZ1;
+-        break;
+-    default:
+-        abort();
+-    }
+-    if ( increment ) {
+-        ++absZ0;
+-        if ( absZ0 == 0 ) goto overflow;
+-        if (!(absZ1 << 1) && roundNearestEven) {
+-            absZ0 &= ~1;
 -        }
--        return packFloatx80(aSign,
--                            floatx80_infinity_high,
--                            floatx80_infinity_low);
 -    }
--    if ( aExp == 0 ) {
--        if ( aSig == 0 ) return packFloatx80( aSign, 0, 0 );
--        normalizeFloat32Subnormal( aSig, &aExp, &aSig );
+-    z = absZ0;
+-    if ( zSign ) z = - z;
+-    if ( z && ( ( z < 0 ) ^ zSign ) ) {
+- overflow:
+-        float_raise(float_flag_invalid, status);
+-        return zSign ? INT64_MIN : INT64_MAX;
 -    }
--    aSig |= 0x00800000;
--    return packFloatx80( aSign, aExp + 0x3F80, ( (uint64_t) aSig )<<40 );
+-    if (absZ1) {
+-        float_raise(float_flag_inexact, status);
+-    }
+-    return z;
 -
 -}
 -
  /*----------------------------------------------------------------------------
- | Returns the remainder of the single-precision floating-point value `a'
- | with respect to the corresponding value `b'.  The operation is performed
-@@ -5318,43 +5349,6 @@ float32 float32_log2(float32 a, float_status *status)
-     return normalizeRoundAndPackFloat32(zSign, 0x85, zSig, status);
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the double-precision floating-point value
--| `a' to the extended double-precision floating-point format.  The conversion
--| is performed according to the IEC/IEEE Standard for Binary Floating-Point
--| Arithmetic.
--*----------------------------------------------------------------------------*/
--
--floatx80 float64_to_floatx80(float64 a, float_status *status)
--{
--    bool aSign;
--    int aExp;
--    uint64_t aSig;
--
--    a = float64_squash_input_denormal(a, status);
--    aSig = extractFloat64Frac( a );
--    aExp = extractFloat64Exp( a );
--    aSign = extractFloat64Sign( a );
--    if ( aExp == 0x7FF ) {
--        if (aSig) {
--            floatx80 res = commonNaNToFloatx80(float64ToCommonNaN(a, status),
--                                               status);
--            return floatx80_silence_nan(res, status);
--        }
--        return packFloatx80(aSign,
--                            floatx80_infinity_high,
--                            floatx80_infinity_low);
--    }
--    if ( aExp == 0 ) {
--        if ( aSig == 0 ) return packFloatx80( aSign, 0, 0 );
--        normalizeFloat64Subnormal( aSig, &aExp, &aSig );
--    }
--    return
--        packFloatx80(
--            aSign, aExp + 0x3C00, (aSig | UINT64_C(0x0010000000000000)) << 11);
--
--}
--
- /*----------------------------------------------------------------------------
- | Returns the remainder of the double-precision floating-point value `a'
- | with respect to the corresponding value `b'.  The operation is performed
-@@ -5665,104 +5659,6 @@ int64_t floatx80_to_int64_round_to_zero(floatx80 a, float_status *status)
- 
+ | Normalizes the subnormal single-precision floating-point value represented
+ | by the denormalized significand `aSig'.  The normalized exponent and
+@@ -5486,179 +5407,6 @@ float64 float64_log2(float64 a, float_status *status)
+     return normalizeRoundAndPackFloat64(zSign, 0x408, zSig, status);
  }
  
 -/*----------------------------------------------------------------------------
 -| Returns the result of converting the extended double-precision floating-
--| point value `a' to the single-precision floating-point format.  The
+-| point value `a' to the 32-bit two's complement integer format.  The
 -| conversion is performed according to the IEC/IEEE Standard for Binary
--| Floating-Point Arithmetic.
+-| Floating-Point Arithmetic---which means in particular that the conversion
+-| is rounded according to the current rounding mode.  If `a' is a NaN, the
+-| largest positive integer is returned.  Otherwise, if the conversion
+-| overflows, the largest integer with the same sign as `a' is returned.
 -*----------------------------------------------------------------------------*/
 -
--float32 floatx80_to_float32(floatx80 a, float_status *status)
+-int32_t floatx80_to_int32(floatx80 a, float_status *status)
 -{
 -    bool aSign;
--    int32_t aExp;
+-    int32_t aExp, shiftCount;
 -    uint64_t aSig;
 -
 -    if (floatx80_invalid_encoding(a)) {
 -        float_raise(float_flag_invalid, status);
--        return float32_default_nan(status);
+-        return 1 << 31;
 -    }
 -    aSig = extractFloatx80Frac( a );
 -    aExp = extractFloatx80Exp( a );
 -    aSign = extractFloatx80Sign( a );
--    if ( aExp == 0x7FFF ) {
--        if ( (uint64_t) ( aSig<<1 ) ) {
--            float32 res = commonNaNToFloat32(floatx80ToCommonNaN(a, status),
--                                             status);
--            return float32_silence_nan(res, status);
--        }
--        return packFloat32( aSign, 0xFF, 0 );
--    }
--    shift64RightJamming( aSig, 33, &aSig );
--    if ( aExp || aSig ) aExp -= 0x3F81;
--    return roundAndPackFloat32(aSign, aExp, aSig, status);
+-    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) aSign = 0;
+-    shiftCount = 0x4037 - aExp;
+-    if ( shiftCount <= 0 ) shiftCount = 1;
+-    shift64RightJamming( aSig, shiftCount, &aSig );
+-    return roundAndPackInt32(aSign, aSig, status);
 -
 -}
 -
 -/*----------------------------------------------------------------------------
 -| Returns the result of converting the extended double-precision floating-
--| point value `a' to the double-precision floating-point format.  The
+-| point value `a' to the 32-bit two's complement integer format.  The
 -| conversion is performed according to the IEC/IEEE Standard for Binary
--| Floating-Point Arithmetic.
+-| Floating-Point Arithmetic, except that the conversion is always rounded
+-| toward zero.  If `a' is a NaN, the largest positive integer is returned.
+-| Otherwise, if the conversion overflows, the largest integer with the same
+-| sign as `a' is returned.
 -*----------------------------------------------------------------------------*/
 -
--float64 floatx80_to_float64(floatx80 a, float_status *status)
+-int32_t floatx80_to_int32_round_to_zero(floatx80 a, float_status *status)
 -{
 -    bool aSign;
--    int32_t aExp;
--    uint64_t aSig, zSig;
+-    int32_t aExp, shiftCount;
+-    uint64_t aSig, savedASig;
+-    int32_t z;
 -
 -    if (floatx80_invalid_encoding(a)) {
 -        float_raise(float_flag_invalid, status);
--        return float64_default_nan(status);
+-        return 1 << 31;
 -    }
 -    aSig = extractFloatx80Frac( a );
 -    aExp = extractFloatx80Exp( a );
 -    aSign = extractFloatx80Sign( a );
--    if ( aExp == 0x7FFF ) {
--        if ( (uint64_t) ( aSig<<1 ) ) {
--            float64 res = commonNaNToFloat64(floatx80ToCommonNaN(a, status),
--                                             status);
--            return float64_silence_nan(res, status);
--        }
--        return packFloat64( aSign, 0x7FF, 0 );
+-    if ( 0x401E < aExp ) {
+-        if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) aSign = 0;
+-        goto invalid;
 -    }
--    shift64RightJamming( aSig, 1, &zSig );
--    if ( aExp || aSig ) aExp -= 0x3C01;
--    return roundAndPackFloat64(aSign, aExp, zSig, status);
+-    else if ( aExp < 0x3FFF ) {
+-        if (aExp || aSig) {
+-            float_raise(float_flag_inexact, status);
+-        }
+-        return 0;
+-    }
+-    shiftCount = 0x403E - aExp;
+-    savedASig = aSig;
+-    aSig >>= shiftCount;
+-    z = aSig;
+-    if ( aSign ) z = - z;
+-    if ( ( z < 0 ) ^ aSign ) {
+- invalid:
+-        float_raise(float_flag_invalid, status);
+-        return aSign ? (int32_t) 0x80000000 : 0x7FFFFFFF;
+-    }
+-    if ( ( aSig<<shiftCount ) != savedASig ) {
+-        float_raise(float_flag_inexact, status);
+-    }
+-    return z;
 -
 -}
 -
 -/*----------------------------------------------------------------------------
 -| Returns the result of converting the extended double-precision floating-
--| point value `a' to the quadruple-precision floating-point format.  The
+-| point value `a' to the 64-bit two's complement integer format.  The
 -| conversion is performed according to the IEC/IEEE Standard for Binary
--| Floating-Point Arithmetic.
+-| Floating-Point Arithmetic---which means in particular that the conversion
+-| is rounded according to the current rounding mode.  If `a' is a NaN,
+-| the largest positive integer is returned.  Otherwise, if the conversion
+-| overflows, the largest integer with the same sign as `a' is returned.
 -*----------------------------------------------------------------------------*/
 -
--float128 floatx80_to_float128(floatx80 a, float_status *status)
+-int64_t floatx80_to_int64(floatx80 a, float_status *status)
 -{
 -    bool aSign;
--    int aExp;
--    uint64_t aSig, zSig0, zSig1;
+-    int32_t aExp, shiftCount;
+-    uint64_t aSig, aSigExtra;
 -
 -    if (floatx80_invalid_encoding(a)) {
 -        float_raise(float_flag_invalid, status);
--        return float128_default_nan(status);
+-        return 1ULL << 63;
 -    }
 -    aSig = extractFloatx80Frac( a );
 -    aExp = extractFloatx80Exp( a );
 -    aSign = extractFloatx80Sign( a );
--    if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) {
--        float128 res = commonNaNToFloat128(floatx80ToCommonNaN(a, status),
--                                           status);
--        return float128_silence_nan(res, status);
+-    shiftCount = 0x403E - aExp;
+-    if ( shiftCount <= 0 ) {
+-        if ( shiftCount ) {
+-            float_raise(float_flag_invalid, status);
+-            if (!aSign || floatx80_is_any_nan(a)) {
+-                return INT64_MAX;
+-            }
+-            return INT64_MIN;
+-        }
+-        aSigExtra = 0;
 -    }
--    shift128Right( aSig<<1, 0, 16, &zSig0, &zSig1 );
--    return packFloat128( aSign, aExp, zSig0, zSig1 );
+-    else {
+-        shift64ExtraRightJamming( aSig, 0, shiftCount, &aSig, &aSigExtra );
+-    }
+-    return roundAndPackInt64(aSign, aSig, aSigExtra, status);
+-
+-}
+-
+-/*----------------------------------------------------------------------------
+-| Returns the result of converting the extended double-precision floating-
+-| point value `a' to the 64-bit two's complement integer format.  The
+-| conversion is performed according to the IEC/IEEE Standard for Binary
+-| Floating-Point Arithmetic, except that the conversion is always rounded
+-| toward zero.  If `a' is a NaN, the largest positive integer is returned.
+-| Otherwise, if the conversion overflows, the largest integer with the same
+-| sign as `a' is returned.
+-*----------------------------------------------------------------------------*/
+-
+-int64_t floatx80_to_int64_round_to_zero(floatx80 a, float_status *status)
+-{
+-    bool aSign;
+-    int32_t aExp, shiftCount;
+-    uint64_t aSig;
+-    int64_t z;
+-
+-    if (floatx80_invalid_encoding(a)) {
+-        float_raise(float_flag_invalid, status);
+-        return 1ULL << 63;
+-    }
+-    aSig = extractFloatx80Frac( a );
+-    aExp = extractFloatx80Exp( a );
+-    aSign = extractFloatx80Sign( a );
+-    shiftCount = aExp - 0x403E;
+-    if ( 0 <= shiftCount ) {
+-        aSig &= UINT64_C(0x7FFFFFFFFFFFFFFF);
+-        if ( ( a.high != 0xC03E ) || aSig ) {
+-            float_raise(float_flag_invalid, status);
+-            if ( ! aSign || ( ( aExp == 0x7FFF ) && aSig ) ) {
+-                return INT64_MAX;
+-            }
+-        }
+-        return INT64_MIN;
+-    }
+-    else if ( aExp < 0x3FFF ) {
+-        if (aExp | aSig) {
+-            float_raise(float_flag_inexact, status);
+-        }
+-        return 0;
+-    }
+-    z = aSig>>( - shiftCount );
+-    if ( (uint64_t) ( aSig<<( shiftCount & 63 ) ) ) {
+-        float_raise(float_flag_inexact, status);
+-    }
+-    if ( aSign ) z = - z;
+-    return z;
 -
 -}
 -
  /*----------------------------------------------------------------------------
  | Rounds the extended double-precision floating-point value `a'
  | to the precision provided by floatx80_rounding_precision and returns the
-@@ -5935,44 +5831,6 @@ floatx80 floatx80_mod(floatx80 a, floatx80 b, float_status *status)
-     return floatx80_modrem(a, b, true, &quotient, status);
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the quadruple-precision floating-point
--| value `a' to the extended double-precision floating-point format.  The
--| conversion is performed according to the IEC/IEEE Standard for Binary
--| Floating-Point Arithmetic.
--*----------------------------------------------------------------------------*/
--
--floatx80 float128_to_floatx80(float128 a, float_status *status)
--{
--    bool aSign;
--    int32_t aExp;
--    uint64_t aSig0, aSig1;
--
--    aSig1 = extractFloat128Frac1( a );
--    aSig0 = extractFloat128Frac0( a );
--    aExp = extractFloat128Exp( a );
--    aSign = extractFloat128Sign( a );
--    if ( aExp == 0x7FFF ) {
--        if ( aSig0 | aSig1 ) {
--            floatx80 res = commonNaNToFloatx80(float128ToCommonNaN(a, status),
--                                               status);
--            return floatx80_silence_nan(res, status);
--        }
--        return packFloatx80(aSign, floatx80_infinity_high,
--                                   floatx80_infinity_low);
--    }
--    if ( aExp == 0 ) {
--        if ( ( aSig0 | aSig1 ) == 0 ) return packFloatx80( aSign, 0, 0 );
--        normalizeFloat128Subnormal( aSig0, aSig1, &aExp, &aSig0, &aSig1 );
--    }
--    else {
--        aSig0 |= UINT64_C(0x0001000000000000);
--    }
--    shortShift128Left( aSig0, aSig1, 15, &aSig0, &aSig1 );
--    return roundAndPackFloatx80(80, aSign, aExp, aSig0, aSig1, status);
--
--}
--
- /*----------------------------------------------------------------------------
- | Returns the remainder of the quadruple-precision floating-point value `a'
- | with respect to the corresponding value `b'.  The operation is performed
-diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-index c895733e79..95e5325f67 100644
---- a/fpu/softfloat-specialize.c.inc
-+++ b/fpu/softfloat-specialize.c.inc
-@@ -256,14 +256,6 @@ floatx80 floatx80_default_nan(float_status *status)
- const floatx80 floatx80_infinity
-     = make_floatx80_init(floatx80_infinity_high, floatx80_infinity_low);
- 
--/*----------------------------------------------------------------------------
--| Internal canonical NaN format.
--*----------------------------------------------------------------------------*/
--typedef struct {
--    bool sign;
--    uint64_t high, low;
--} commonNaNT;
--
- /*----------------------------------------------------------------------------
- | Returns 1 if the half-precision floating-point value `a' is a quiet
- | NaN; otherwise returns 0.
-@@ -379,46 +371,6 @@ bool float32_is_signaling_nan(float32 a_, float_status *status)
-     }
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the single-precision floating-point NaN
--| `a' to the canonical NaN format.  If `a' is a signaling NaN, the invalid
--| exception is raised.
--*----------------------------------------------------------------------------*/
--
--static commonNaNT float32ToCommonNaN(float32 a, float_status *status)
--{
--    commonNaNT z;
--
--    if (float32_is_signaling_nan(a, status)) {
--        float_raise(float_flag_invalid, status);
--    }
--    z.sign = float32_val(a) >> 31;
--    z.low = 0;
--    z.high = ((uint64_t)float32_val(a)) << 41;
--    return z;
--}
--
--/*----------------------------------------------------------------------------
--| Returns the result of converting the canonical NaN `a' to the single-
--| precision floating-point format.
--*----------------------------------------------------------------------------*/
--
--static float32 commonNaNToFloat32(commonNaNT a, float_status *status)
--{
--    uint32_t mantissa = a.high >> 41;
--
--    if (status->default_nan_mode) {
--        return float32_default_nan(status);
--    }
--
--    if (mantissa) {
--        return make_float32(
--            (((uint32_t)a.sign) << 31) | 0x7F800000 | (a.high >> 41));
--    } else {
--        return float32_default_nan(status);
--    }
--}
--
- /*----------------------------------------------------------------------------
- | Select which NaN to propagate for a two-input operation.
- | IEEE754 doesn't specify all the details of this, so the
-@@ -785,48 +737,6 @@ bool float64_is_signaling_nan(float64 a_, float_status *status)
-     }
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the double-precision floating-point NaN
--| `a' to the canonical NaN format.  If `a' is a signaling NaN, the invalid
--| exception is raised.
--*----------------------------------------------------------------------------*/
--
--static commonNaNT float64ToCommonNaN(float64 a, float_status *status)
--{
--    commonNaNT z;
--
--    if (float64_is_signaling_nan(a, status)) {
--        float_raise(float_flag_invalid, status);
--    }
--    z.sign = float64_val(a) >> 63;
--    z.low = 0;
--    z.high = float64_val(a) << 12;
--    return z;
--}
--
--/*----------------------------------------------------------------------------
--| Returns the result of converting the canonical NaN `a' to the double-
--| precision floating-point format.
--*----------------------------------------------------------------------------*/
--
--static float64 commonNaNToFloat64(commonNaNT a, float_status *status)
--{
--    uint64_t mantissa = a.high >> 12;
--
--    if (status->default_nan_mode) {
--        return float64_default_nan(status);
--    }
--
--    if (mantissa) {
--        return make_float64(
--              (((uint64_t) a.sign) << 63)
--            | UINT64_C(0x7FF0000000000000)
--            | (a.high >> 12));
--    } else {
--        return float64_default_nan(status);
--    }
--}
--
- /*----------------------------------------------------------------------------
- | Takes two double-precision floating-point values `a' and `b', one of which
- | is a NaN, and returns the appropriate NaN result.  If either `a' or `b' is a
-@@ -946,55 +856,6 @@ floatx80 floatx80_silence_nan(floatx80 a, float_status *status)
-     return a;
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the extended double-precision floating-
--| point NaN `a' to the canonical NaN format.  If `a' is a signaling NaN, the
--| invalid exception is raised.
--*----------------------------------------------------------------------------*/
--
--static commonNaNT floatx80ToCommonNaN(floatx80 a, float_status *status)
--{
--    floatx80 dflt;
--    commonNaNT z;
--
--    if (floatx80_is_signaling_nan(a, status)) {
--        float_raise(float_flag_invalid, status);
--    }
--    if (a.low >> 63) {
--        z.sign = a.high >> 15;
--        z.low = 0;
--        z.high = a.low << 1;
--    } else {
--        dflt = floatx80_default_nan(status);
--        z.sign = dflt.high >> 15;
--        z.low = 0;
--        z.high = dflt.low << 1;
--    }
--    return z;
--}
--
--/*----------------------------------------------------------------------------
--| Returns the result of converting the canonical NaN `a' to the extended
--| double-precision floating-point format.
--*----------------------------------------------------------------------------*/
--
--static floatx80 commonNaNToFloatx80(commonNaNT a, float_status *status)
--{
--    floatx80 z;
--
--    if (status->default_nan_mode) {
--        return floatx80_default_nan(status);
--    }
--
--    if (a.high >> 1) {
--        z.low = UINT64_C(0x8000000000000000) | a.high >> 1;
--        z.high = (((uint16_t)a.sign) << 15) | 0x7FFF;
--    } else {
--        z = floatx80_default_nan(status);
--    }
--    return z;
--}
--
- /*----------------------------------------------------------------------------
- | Takes two extended double-precision floating-point values `a' and `b', one
- | of which is a NaN, and returns the appropriate NaN result.  If either `a' or
-@@ -1087,42 +948,6 @@ bool float128_is_signaling_nan(float128 a, float_status *status)
-     }
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the quadruple-precision floating-point NaN
--| `a' to the canonical NaN format.  If `a' is a signaling NaN, the invalid
--| exception is raised.
--*----------------------------------------------------------------------------*/
--
--static commonNaNT float128ToCommonNaN(float128 a, float_status *status)
--{
--    commonNaNT z;
--
--    if (float128_is_signaling_nan(a, status)) {
--        float_raise(float_flag_invalid, status);
--    }
--    z.sign = a.high >> 63;
--    shortShift128Left(a.high, a.low, 16, &z.high, &z.low);
--    return z;
--}
--
--/*----------------------------------------------------------------------------
--| Returns the result of converting the canonical NaN `a' to the quadruple-
--| precision floating-point format.
--*----------------------------------------------------------------------------*/
--
--static float128 commonNaNToFloat128(commonNaNT a, float_status *status)
--{
--    float128 z;
--
--    if (status->default_nan_mode) {
--        return float128_default_nan(status);
--    }
--
--    shift128Right(a.high, a.low, 16, &z.high, &z.low);
--    z.high |= (((uint64_t)a.sign) << 63) | UINT64_C(0x7FFF000000000000);
--    return z;
--}
--
- /*----------------------------------------------------------------------------
- | Takes two quadruple-precision floating-point values `a' and `b', one of
- | which is a NaN, and returns the appropriate NaN result.  If either `a' or
 -- 
 2.25.1
 
