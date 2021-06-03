@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C686539A408
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 17:12:10 +0200 (CEST)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3876B39A49C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 17:32:40 +0200 (CEST)
+Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lop0z-0005oX-9J
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 11:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49504)
+	id 1lopKn-0000Qg-By
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 11:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1loozV-0004Rz-Nr
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:10:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1loozT-0005R7-21
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:10:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622733033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r8y0AvcHRCELm6t/Y7P+BjVBOZqRiYHk7yUx7sxCtpU=;
- b=Q3UV1fh3r8PwxZHU8ghXlKKOqXfioCjl3ygOLSBUfZPzduXDFxjEgdRQ90Yvp+lf8/da/T
- b8oCOM1/RryEWQ5yUgjdesu6uwC/GVsaJruzlKpHEVAxZjNmxGKprcU72PbmjxYf+1LA61
- ehuhe1pseIhxEr0/CcLfPNmSiX0phEA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-oAXHGHOAPf20_wIfCwdhUQ-1; Thu, 03 Jun 2021 11:10:30 -0400
-X-MC-Unique: oAXHGHOAPf20_wIfCwdhUQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- df3-20020a05640230a3b029039179c0f290so1739425edb.13
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:10:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1lopJh-0007tZ-K0
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:31:29 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:43961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1lopJb-0003gN-T7
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:31:29 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id r17so6285669qkp.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:31:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GsGSIN6YngO/9fCDgOZikd363sKy8U9y9xizVKSOFeQ=;
+ b=GSozqxKTM+Y0mT23+QeAVGiUJdY9n8SuzJ+wuCRSlL1wJDHoSSlN2yPXSDskZDJGWD
+ 1tJIqwM8CtqDc32okeXeQAkdy7SGhYXtBig5S/IHeJiAM0FxBl0au6MVF5F7bQ/c2wj0
+ eLN4hc5tTz3xGImXeK91sQee7NxsM+3oLFMydW6ASDqgNrl49KseEPnjjwH6KgGkgoHt
+ 3tyZUJtmX0TX3Di+rs5oXWiHh+HB9c37pHLUFiVYZCZdMtK2kvMxCD4EPypzlskYd1Be
+ 7bqt+0ZDsMhLHGygmOZu3IE0Q8yRZtjBsEeUdcxTs7vddZ7K+H9Lefspjcy6KZo94bjz
+ hjxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=r8y0AvcHRCELm6t/Y7P+BjVBOZqRiYHk7yUx7sxCtpU=;
- b=Z1u89bRZPuh0ep/yVNyX9DltU2reUEstIcu+2Ukf9XQ4X8XP1bsvJKILV1VUzi+myk
- 7xN+l/1xu5rQu2QuqXVt62cIkCYINBN8syUet1NnBZDJAwEP6JFjdGEhKIE/J6SwTH4N
- ZmrGKwm9QV3tFu68ki4XUlMTmLOhqLvDNZTdACvNEHXa0nT/aNUsjCChJ5SD1p8KN7Tp
- paTNThMlXK2SzvRwa/1zFXgD8B8MWAh4QID2KT0e5N993IkCGtEQfxUPXScnDLNGHyrR
- vzWDFdnCrXow5Gc542d4uOu/xOkECOOzVjKEIMXLhY9wcQTYhhl7H0FS3zlGbHdncHww
- qjfA==
-X-Gm-Message-State: AOAM533HcoEJprDSq1KACbRxGS3t8jsoPMhvFYk5bAcXH8+YFYqYhcqa
- 4VpXdSaZJrbII4mcwof4K7hBHUy2K6vlpSdo2i+UPhS7YYv56To6gZoJsLGsBdXWyXBoYiLEWj4
- 2U4I8XHBBaC/F7FkUYYZY4G99s56z168=
-X-Received: by 2002:a17:906:5049:: with SMTP id e9mr92442ejk.30.1622733029718; 
- Thu, 03 Jun 2021 08:10:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzXExNHlLRtb/OkWZpkOmOaNpXpFo8+ae0qrvE/zQ9qIkCSJWcNHLOqSmhPcUrpGrQW1q721OTF9ztEbGKzpqU=
-X-Received: by 2002:a17:906:5049:: with SMTP id e9mr92419ejk.30.1622733029525; 
- Thu, 03 Jun 2021 08:10:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210603123001.17843-1-cfontana@suse.de>
- <1da75e95-1255-652e-1ca3-d23a8f6bf392@suse.de>
-In-Reply-To: <1da75e95-1255-652e-1ca3-d23a8f6bf392@suse.de>
-From: Cleber Rosa Junior <crosa@redhat.com>
-Date: Thu, 3 Jun 2021 11:10:17 -0400
-Message-ID: <CA+bd_6K1BOSeswTszBGJrq4Z9F_KpPsSuOL-cLbYWGAfvjPEMA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Fixes for "Windows fails to boot"
-To: Claudio Fontana <cfontana@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ca5e5105c3ddf91e"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GsGSIN6YngO/9fCDgOZikd363sKy8U9y9xizVKSOFeQ=;
+ b=nr04BeqMtWegDc1fkzYtGF5+tinxOeZVdkQET19p8qChzGlVjUBhCtpEi/u5NWPD01
+ dzVlK6VIZAmHelos8bDpe6s6T8F3aD2EkDJskmhLXKPPyEVZAFeBv0zDkw5buGCb3zN+
+ McP8im7dm73O4vWtuafm2ajsDEAGbZ+NUSd5P81Vg4C/5nvWhUSJoOvRV+rVFpbILZPw
+ iL7nRd2QzZ8JHSAJebcAdMJTfd1hVGmhcYeNrlfVG3sr1rXLNr7nnFsw0aVWaQLj2D7z
+ KQ84KuCguVfSvkjR36s/NHE2FIOhWryp0Gi4eISvw3nfN2MBQ6CBMgZo9MQNboBegkIQ
+ zljw==
+X-Gm-Message-State: AOAM532NKkLckrzkUJxT1TJsCZSHFYye1YXWK9muq9XIdSuxEL+8rZRR
+ NwYexz9wtdNG86JF/weAhpcPOg==
+X-Google-Smtp-Source: ABdhPJxD3jRswDCHbbX9IYdaOhTcR7SuYFQFxvFKrcrL77pdJs6sx3pVe4eRhe+Nw7i961gpUAmQaw==
+X-Received: by 2002:a37:9c15:: with SMTP id f21mr192774qke.128.1622734282491; 
+ Thu, 03 Jun 2021 08:31:22 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-stsvon1503w-grc-21-142-114-142-78.dsl.bell.ca. [142.114.142.78])
+ by smtp.gmail.com with ESMTPSA id s5sm2153495qkg.88.2021.06.03.08.31.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jun 2021 08:31:22 -0700 (PDT)
+Message-ID: <e2e1b2e1aa54669c0b73dde83f0e20636835e1ab.camel@linaro.org>
+Subject: Re: [PATCH v4 7/8] hw/arm/sbsa-ref: add ITS support in SBSA GIC
+From: shashi.mallela@linaro.org
+To: Leif Lindholm <leif@nuviainc.com>
+Date: Thu, 03 Jun 2021 11:31:21 -0400
+In-Reply-To: <20210603114254.mkqr4jnpfqkx3m6w@leviathan>
+References: <20210602180042.111347-1-shashi.mallela@linaro.org>
+ <20210602180042.111347-8-shashi.mallela@linaro.org>
+ <20210603114254.mkqr4jnpfqkx3m6w@leviathan>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x72d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,138 +86,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, Siddharth Chandrasekaran <sidcha@amazon.de>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, rad@semihalf.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ca5e5105c3ddf91e
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Jun 3, 2021 at 10:29 AM Claudio Fontana <cfontana@suse.de> wrote:
-
-> On 6/3/21 2:29 PM, Claudio Fontana wrote:
-> > v1 -> v2:
-> >  * moved hyperv realizefn call before cpu expansion (Vitaly)
-> >  * added more comments (Eduardo)
-> >  * fixed references to commit ids (Eduardo)
-> >
-> > The combination of Commits:
-> > f5cc5a5c ("i386: split cpu accelerators from cpu.c"...)
+On Thu, 2021-06-03 at 12:42 +0100, Leif Lindholm wrote:
+> On Wed, Jun 02, 2021 at 14:00:41 -0400, Shashi Mallela wrote:
+> > Included creation of ITS as part of SBSA platform GIC
+> > initialization.
+> > 
+> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> > ---
+> >  hw/arm/sbsa-ref.c | 26 +++++++++++++++++++++++---
+> >  1 file changed, 23 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> > index 43c19b4923..3d9c073636 100644
+> > --- a/hw/arm/sbsa-ref.c
+> > +++ b/hw/arm/sbsa-ref.c
+> > @@ -34,7 +34,7 @@
+> >  #include "hw/boards.h"
+> >  #include "hw/ide/internal.h"
+> >  #include "hw/ide/ahci_internal.h"
+> > -#include "hw/intc/arm_gicv3_common.h"
+> > +#include "hw/intc/arm_gicv3_its_common.h"
+> >  #include "hw/loader.h"
+> >  #include "hw/pci-host/gpex.h"
+> >  #include "hw/qdev-properties.h"
+> > @@ -64,6 +64,7 @@ enum {
+> >      SBSA_CPUPERIPHS,
+> >      SBSA_GIC_DIST,
+> >      SBSA_GIC_REDIST,
+> > +    SBSA_GIC_ITS,
+> >      SBSA_SECURE_EC,
+> >      SBSA_GWDT,
+> >      SBSA_GWDT_REFRESH,
+> > @@ -107,6 +108,7 @@ static const MemMapEntry sbsa_ref_memmap[] = {
+> >      [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
+> >      [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
+> >      [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
+> 
+> It seems customary in QEMU to flag gaps in memory space (although
+> admittedly, we'd already failed to do so here). This patch leaves a
+> gap of 0x00010000. Is there a particular reason?
+> 
+> > +    [SBSA_GIC_ITS] =            { 0x44090000, 0x00020000 },
+> 
+> And then again a gap (the one we already had).
+> 
+> /
+>     Leif
 >
-> > 30565f10 ("cpu: call AccelCPUClass::cpu_realizefn in"...)
-> >
-> > introduced two bugs that break cpu max and host in the refactoring,
-> > by running initializations in the wrong order.
-> >
-> > This small series of two patches is an attempt to correct the situation.
-> >
-> > Please provide your test results and feedback, thanks!
-> >
-> > Claudio
-> >
-> > Claudio Fontana (2):
-> >   i386: reorder call to cpu_exec_realizefn in x86_cpu_realizefn
-> >   i386: run accel_cpu_instance_init as instance_post_init
-> >
-> >  target/i386/cpu.c         | 89 +++++++++++++++++++++++++--------------
-> >  target/i386/kvm/kvm-cpu.c | 12 +++++-
-> >  2 files changed, 68 insertions(+), 33 deletions(-)
-> >
+> No specific reason,but from ITS point of view tried to stay within 
+> the GIC's 0x40060000 to 0x50000000 zone.The gap of 0x00010000 would 
+> also account for future GIC additions like virtual LPI support.
 >
-> Btw, CI/CD is all green, but as mentioned, it does not seem to catch these
-> kind of issues.
->
->
-Hi Claudio,
-
-Not familiar with the specifics of this bug, but can it be caught by
-attempting to boot an image other than Windows?  If so, we can consider
-adding a test along the lines of tests/acceptance/boot_linux_console.py.
-
-Thanks,
-- Cleber.
-
-
-> https://gitlab.com/hw-claudio/qemu/-/pipelines/314286751
->
-> C.
->
->
->
-
---000000000000ca5e5105c3ddf91e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 3, 2021 at 10:29 AM Claud=
-io Fontana &lt;<a href=3D"mailto:cfontana@suse.de">cfontana@suse.de</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 6/3/2=
-1 2:29 PM, Claudio Fontana wrote:<br>
-&gt; v1 -&gt; v2:<br>
-&gt;=C2=A0 * moved hyperv realizefn call before cpu expansion (Vitaly)<br>
-&gt;=C2=A0 * added more comments (Eduardo)<br>
-&gt;=C2=A0 * fixed references to commit ids (Eduardo)<br>
-&gt; <br>
-&gt; The combination of Commits:<br>
-&gt; f5cc5a5c (&quot;i386: split cpu accelerators from cpu.c&quot;...)=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
-&gt; 30565f10 (&quot;cpu: call AccelCPUClass::cpu_realizefn in&quot;...) <b=
-r>
-&gt; <br>
-&gt; introduced two bugs that break cpu max and host in the refactoring,<br=
->
-&gt; by running initializations in the wrong order.<br>
-&gt; <br>
-&gt; This small series of two patches is an attempt to correct the situatio=
-n.<br>
-&gt; <br>
-&gt; Please provide your test results and feedback, thanks!<br>
-&gt; <br>
-&gt; Claudio<br>
-&gt; <br>
-&gt; Claudio Fontana (2):<br>
-&gt;=C2=A0 =C2=A0i386: reorder call to cpu_exec_realizefn in x86_cpu_realiz=
-efn<br>
-&gt;=C2=A0 =C2=A0i386: run accel_cpu_instance_init as instance_post_init<br=
->
-&gt; <br>
-&gt;=C2=A0 target/i386/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 89 ++++++++=
-+++++++++++++++++--------------<br>
-&gt;=C2=A0 target/i386/kvm/kvm-cpu.c | 12 +++++-<br>
-&gt;=C2=A0 2 files changed, 68 insertions(+), 33 deletions(-)<br>
-&gt; <br>
-<br>
-Btw, CI/CD is all green, but as mentioned, it does not seem to catch these =
-kind of issues.<br>
-<br></blockquote><div><br></div><div>Hi Claudio,</div><div><br></div><div>N=
-ot familiar with the specifics of this bug, but can it be caught by attempt=
-ing to boot an image other than Windows?=C2=A0 If so, we can consider addin=
-g a test along the lines of tests/acceptance/boot_linux_console.py.</div><d=
-iv><br></div><div>Thanks,</div><div>- Cleber.=C2=A0=C2=A0=C2=A0</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<a href=3D"https://gitlab.com/hw-claudio/qemu/-/pipelines/314286751" rel=3D=
-"noreferrer" target=3D"_blank">https://gitlab.com/hw-claudio/qemu/-/pipelin=
-es/314286751</a><br>
-<br>
-C.<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000ca5e5105c3ddf91e--
+> 
+> >      [SBSA_SECURE_EC] =          { 0x50000000, 0x00001000 },
+> >      [SBSA_GWDT_REFRESH] =       { 0x50010000, 0x00001000 },
+> >      [SBSA_GWDT_CONTROL] =       { 0x50011000, 0x00001000 },
+> > @@ -377,7 +379,20 @@ static void create_secure_ram(SBSAMachineState
+> > *sms,
+> >      memory_region_add_subregion(secure_sysmem, base, secram);
+> >  }
+> >  
+> > -static void create_gic(SBSAMachineState *sms)
+> > +static void create_its(SBSAMachineState *sms)
+> > +{
+> > +    DeviceState *dev;
+> > +
+> > +    dev = qdev_new(TYPE_ARM_GICV3_ITS);
+> > +    SysBusDevice *s = SYS_BUS_DEVICE(dev);
+> > +
+> > +    object_property_set_link(OBJECT(dev), "parent-gicv3",
+> > OBJECT(sms->gic),
+> > +                             &error_abort);
+> > +    sysbus_realize_and_unref(s, &error_fatal);
+> > +    sysbus_mmio_map(s, 0, sbsa_ref_memmap[SBSA_GIC_ITS].base);
+> > +}
+> > +
+> > +static void create_gic(SBSAMachineState *sms, MemoryRegion *mem)
+> >  {
+> >      unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
+> >      SysBusDevice *gicbusdev;
+> > @@ -404,6 +419,10 @@ static void create_gic(SBSAMachineState *sms)
+> >      qdev_prop_set_uint32(sms->gic, "len-redist-region-count", 1);
+> >      qdev_prop_set_uint32(sms->gic, "redist-region-count[0]",
+> > redist0_count);
+> >  
+> > +    object_property_set_link(OBJECT(sms->gic), "sysmem",
+> > OBJECT(mem),
+> > +                                 &error_fatal);
+> > +    qdev_prop_set_bit(sms->gic, "has-lpi", true);
+> > +
+> >      gicbusdev = SYS_BUS_DEVICE(sms->gic);
+> >      sysbus_realize_and_unref(gicbusdev, &error_fatal);
+> >      sysbus_mmio_map(gicbusdev, 0,
+> > sbsa_ref_memmap[SBSA_GIC_DIST].base);
+> > @@ -450,6 +469,7 @@ static void create_gic(SBSAMachineState *sms)
+> >          sysbus_connect_irq(gicbusdev, i + 3 * smp_cpus,
+> >                             qdev_get_gpio_in(cpudev,
+> > ARM_CPU_VFIQ));
+> >      }
+> > +    create_its(sms);
+> >  }
+> >  
+> >  static void create_uart(const SBSAMachineState *sms, int uart,
+> > @@ -762,7 +782,7 @@ static void sbsa_ref_init(MachineState
+> > *machine)
+> >  
+> >      create_secure_ram(sms, secure_sysmem);
+> >  
+> > -    create_gic(sms);
+> > +    create_gic(sms, sysmem);
+> >  
+> >      create_uart(sms, SBSA_UART, sysmem, serial_hd(0));
+> >      create_uart(sms, SBSA_SECURE_UART, secure_sysmem,
+> > serial_hd(1));
+> > -- 
+> > 2.27.0
+> > 
 
 
