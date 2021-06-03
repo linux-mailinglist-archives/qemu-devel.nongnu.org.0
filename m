@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0A839A5C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:32:59 +0200 (CEST)
-Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A77439A5D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:36:30 +0200 (CEST)
+Received: from localhost ([::1]:57660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqHC-0002XA-ET
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35950)
+	id 1loqKb-00024K-7d
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl1-0001Xr-Ok
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:43 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41502)
+ id 1lopl4-0001k1-KE
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:46 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkz-0007FE-OL
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:43 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h8so6356006wrz.8
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:41 -0700 (PDT)
+ id 1lopl1-0007Gt-TN
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:46 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id l2so6391798wrw.6
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/Ll9YC3gq0ZRPtZyXFyJvlXQyvVNNe2QT4j+IfKDeno=;
- b=j78OhndX4+41/3JlpnQNd4vKrvQwd9EcIHh18l4a8lwch0adzhe2rp9QG5b+65gPC9
- zB4QcqNrF+uwGix7EikcxNi3S4mcFMtVOeQQSGDHSsPzYjFJ3bjDaJjS/w9FpllxQHaa
- SdSrwUvxrCsbaDfinG1leWtZlKwuXVoWRwRn88Y8cLnCChN/O7/6m0sR+NCKPNJUAzS9
- YHSE8v/T6RXBJpqaSSSTmVvOq8P9HYVxIdluvwHzFucKANNDi1djtFaRh78LJix/vc1O
- UtnLl26dRjBN+9aJWYluKsQJ+z05WBtbRknoIPuAA+fPcGV/TNJWJnwoPl3KT6uHCr1g
- q13A==
+ bh=3PfyOcvq1w6hCVD63GrC8BHoocc1N1VvGMbNNUzkllA=;
+ b=aDzczgryLDAFLWmtR9g4liN5IGG3wWLeRpfhX+wdK3WQNU8oaSSDDwX66KcOFbrUCh
+ DWk57Lxt5vJAEQjSIoiwWwUSGenL6zqHz8o1CN4fCTAKZMeYJ1CtPnZtJn+TWVivtyzU
+ 2/wEPRDfmzbybeBZJXCxL9T9EbgiPtmqCoTezD9vYwvFdWkLzsA/28gRQ+q23LQWWobN
+ AzzoaAkEvpk1yYO7vfZ2JPw+v9jZx2rfDgU7V195tCn2youRIdXs+3KU2lyCXa+xKU+R
+ 9B9DCbF0iRxjPEsTi8lKp1D5y8Nx5SDav4gdK3hH47vxqeEZYDN0GfEnmmhrOHNjuDs/
+ gtgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/Ll9YC3gq0ZRPtZyXFyJvlXQyvVNNe2QT4j+IfKDeno=;
- b=YZhIoSu8p8vS8bWgDg5Ot5l+3xSHlujQP4kChXV1xZCM/Fd2mvL+zA50MEAz+7gFAc
- 24BbK0rS8KWTzbyMOxIi9tahRe/Clp6bYfTyo4KVpNbr/Dg9bnE7mfTuAI0lq+8d8Te+
- f6hkChXxFWuSi79wbDz3P0Eg1kKGuzDyyG+Mcr7hIRRQHXCaAoGvkbfnx0RhoInDwfnr
- eBE+f59sQdkWqUmOTYMJmgou190rvUbhn/oZ7uA26XHH4jX0d1Lzf1bB4mrpQWoFT4Bf
- /XFcmBOn4NZqCQEU/dNe6sd0AG8WTyxOuG2NH+h4B5KUwkv52Mv2u3ko1JYwFCeJ5iTG
- W/VQ==
-X-Gm-Message-State: AOAM530rMsChDcEOnZRe8KMyQTcCBChXvmRuncy9uwR2jOKFYOXXmc9M
- btRYO77zDH6xUE592oAPHNAIenFGRh2fW6Qw
-X-Google-Smtp-Source: ABdhPJwUd67m+EoAHM7iH3S+u8TN+tEuxduhq+Uo/11Pk+iMoJ6T4TqM9rdddMLF+1RMJyTFIJ+fPQ==
-X-Received: by 2002:adf:f346:: with SMTP id e6mr624224wrp.179.1622735980410;
- Thu, 03 Jun 2021 08:59:40 -0700 (PDT)
+ bh=3PfyOcvq1w6hCVD63GrC8BHoocc1N1VvGMbNNUzkllA=;
+ b=tpgb1J6NEvu+8taMeQlZ5p+k/X6oRO8fO2hyzROe+QQNh9Py0tNYVBCl5lRrbuclrl
+ 8UvOxodB0cnnIQ8gd1y7oBGqOqattnSIpGVS3JZ8C5V9aS6uSPtC3wsMI6VuYubC6AzR
+ H9oTzTSlfMrtO3Lr/SSIellebnQkIEW8k7yYR6wGPTOPox/USO2jf41k5u2si8pCDmrr
+ 4PsCQW5qModCsKs5r2Qlvy+LPrqdxAhKWxe5K/pEIoyZij/x7NpQYiwSrqK+VtcPtsBA
+ vCwN4oIGNFU34wMrnp+VQuN4PePLlGuZ91qzyA4Pdw9smA3w5nzWFpd/iOQkXQpZ8udo
+ u3vg==
+X-Gm-Message-State: AOAM533yexIbYpbeGyK+gHhIDnHxyDX1rC3hnlxcKq9/2KlTVJfqmY6j
+ nZIYaoLqBGrKR36jnAwIY/MsrbrMsmQ35nkV
+X-Google-Smtp-Source: ABdhPJzu/PbNwKZqbtmJOYAotRd5dWftFE4MX8S+umF1STtZdzUb8qAJVRd6iihEqPMGA2/VFYE7aA==
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr646531wrs.418.1622735982639; 
+ Thu, 03 Jun 2021 08:59:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.39
+ by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:59:40 -0700 (PDT)
+ Thu, 03 Jun 2021 08:59:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/45] hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
-Date: Thu,  3 Jun 2021 16:58:52 +0100
-Message-Id: <20210603155904.26021-34-peter.maydell@linaro.org>
+Subject: [PULL 36/45] hvf: Make synchronize functions static
+Date: Thu,  3 Jun 2021 16:58:55 +0100
+Message-Id: <20210603155904.26021-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,45 +88,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Graf <agraf@csgraf.de>
 
-The ARM version of Hypervisor.framework no longer defines these two
-types, so let's just revert to standard ones.
+The hvf accel synchronize functions are only used as input for local
+callback functions, so we can make them static.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
-Message-id: 20210519202253.76782-7-agraf@csgraf.de
+Message-id: 20210519202253.76782-10-agraf@csgraf.de
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
+ accel/hvf/hvf-accel-ops.h | 3 ---
  accel/hvf/hvf-accel-ops.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
+diff --git a/accel/hvf/hvf-accel-ops.h b/accel/hvf/hvf-accel-ops.h
+index f6192b56f0c..018a4e22f6d 100644
+--- a/accel/hvf/hvf-accel-ops.h
++++ b/accel/hvf/hvf-accel-ops.h
+@@ -13,8 +13,5 @@
+ #include "sysemu/cpus.h"
+ 
+ int hvf_vcpu_exec(CPUState *);
+-void hvf_cpu_synchronize_post_reset(CPUState *);
+-void hvf_cpu_synchronize_post_init(CPUState *);
+-void hvf_cpu_synchronize_pre_loadvm(CPUState *);
+ 
+ #endif /* HVF_CPUS_H */
 diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index 5bec7b4d6dc..7370fcfba09 100644
+index 3b599ac57ce..69741ce7081 100644
 --- a/accel/hvf/hvf-accel-ops.c
 +++ b/accel/hvf/hvf-accel-ops.c
-@@ -109,7 +109,7 @@ static int do_hvf_set_memory(hvf_slot *slot, hv_memory_flags_t flags)
-     macslot->present = 1;
-     macslot->gpa_start = slot->start;
-     macslot->size = slot->size;
--    ret = hv_vm_map((hv_uvaddr_t)slot->mem, slot->start, slot->size, flags);
-+    ret = hv_vm_map(slot->mem, slot->start, slot->size, flags);
-     assert_hvf_ok(ret);
-     return 0;
+@@ -214,7 +214,7 @@ static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
+     cpu->vcpu_dirty = false;
  }
-@@ -253,12 +253,12 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
-     /* protect region against writes; begin tracking it */
-     if (on) {
-         slot->flags |= HVF_SLOT_LOG;
--        hv_vm_protect((hv_gpaddr_t)slot->start, (size_t)slot->size,
-+        hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
-                       HV_MEMORY_READ);
-     /* stop tracking region*/
-     } else {
-         slot->flags &= ~HVF_SLOT_LOG;
--        hv_vm_protect((hv_gpaddr_t)slot->start, (size_t)slot->size,
-+        hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
-                       HV_MEMORY_READ | HV_MEMORY_WRITE);
-     }
+ 
+-void hvf_cpu_synchronize_post_reset(CPUState *cpu)
++static void hvf_cpu_synchronize_post_reset(CPUState *cpu)
+ {
+     run_on_cpu(cpu, do_hvf_cpu_synchronize_post_reset, RUN_ON_CPU_NULL);
+ }
+@@ -226,7 +226,7 @@ static void do_hvf_cpu_synchronize_post_init(CPUState *cpu,
+     cpu->vcpu_dirty = false;
+ }
+ 
+-void hvf_cpu_synchronize_post_init(CPUState *cpu)
++static void hvf_cpu_synchronize_post_init(CPUState *cpu)
+ {
+     run_on_cpu(cpu, do_hvf_cpu_synchronize_post_init, RUN_ON_CPU_NULL);
+ }
+@@ -237,7 +237,7 @@ static void do_hvf_cpu_synchronize_pre_loadvm(CPUState *cpu,
+     cpu->vcpu_dirty = true;
+ }
+ 
+-void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
++static void hvf_cpu_synchronize_pre_loadvm(CPUState *cpu)
+ {
+     run_on_cpu(cpu, do_hvf_cpu_synchronize_pre_loadvm, RUN_ON_CPU_NULL);
  }
 -- 
 2.20.1
