@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B38539A2E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:14:11 +0200 (CEST)
-Received: from localhost ([::1]:59520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6214E39A2E7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 16:17:56 +0200 (CEST)
+Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loo6s-0006BL-6L
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59520)
+	id 1looAV-0000hZ-CG
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 10:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loo5l-0005Sx-7r
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:13:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1loo5i-00077g-Sa
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:13:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622729577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z7mB1DwRxZ6CtO7TJUuEG49GqBnu4whMHyNxFV0863U=;
- b=iakNNx6s580zPKQPMUvTZ2g5vlH+D6fIUioB+va79taDE+mYI+YLDDXxtpjbT/cH/Xvvvj
- vAPa4L3N5NUAsA11RwqUNVf53mfDW1urtMC7+IlolTrGQl1rHEDz28OrtOSz3/dyH7FU4Q
- 2cgyThvKedv/H+dX/8b3W2+fFaN2NFE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-Hkf87-QbM1mOPK0RcdjZTQ-1; Thu, 03 Jun 2021 10:12:54 -0400
-X-MC-Unique: Hkf87-QbM1mOPK0RcdjZTQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 414326D246;
- Thu,  3 Jun 2021 14:12:53 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE11910023AB;
- Thu,  3 Jun 2021 14:12:21 +0000 (UTC)
-Subject: Re: [PATCH v3 1/2] GitLab: Add "Bug" issue reporting template
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210603001129.1319515-1-jsnow@redhat.com>
- <20210603001129.1319515-2-jsnow@redhat.com>
- <YLiWt21tQdFJo/4c@stefanha-x1.localdomain> <YLie2HCFd5asHyga@redhat.com>
- <YLjCc37t9meGQZ1q@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <5713fc0b-7b49-6931-b293-8e79e4df5439@redhat.com>
-Date: Thu, 3 Jun 2021 10:12:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1loo8v-00082h-L8
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:16:17 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:39276
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1loo8s-0000y0-Ce
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 10:16:17 -0400
+HMM_SOURCE_IP: 172.18.0.48:43350.1944152304
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.39?logid-4635ad37ca0946d7a5dce8d7170400e8
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id C3F03280029;
+ Thu,  3 Jun 2021 22:16:02 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 4635ad37ca0946d7a5dce8d7170400e8 for
+ qemu-devel@nongnu.org; Thu Jun  3 22:16:01 2021
+X-Transaction-ID: 4635ad37ca0946d7a5dce8d7170400e8
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] tests/migration: parse the thread-id key of CpuInfoFast
+Date: Thu,  3 Jun 2021 22:19:53 +0800
+Message-Id: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <YLjCc37t9meGQZ1q@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,79 +62,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?=
+ <huangy81@chinatelecom.cn>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/3/21 7:52 AM, Stefan Hajnoczi wrote:
-> On Thu, Jun 03, 2021 at 10:20:24AM +0100, Daniel P. Berrang� wrote:
->> On Thu, Jun 03, 2021 at 09:45:43AM +0100, Stefan Hajnoczi wrote:
->>> On Wed, Jun 02, 2021 at 08:11:28PM -0400, John Snow wrote:
->>>> Based loosely on libvirt's template, written by Peter Krempa.
->>>>
->>>> CC: Peter Krempa <pkrempa@redhat.com>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> ---
->>>>   .gitlab/issue_templates/bug.md | 63 ++++++++++++++++++++++++++++++++++
->>>>   1 file changed, 63 insertions(+)
->>>>   create mode 100644 .gitlab/issue_templates/bug.md
->>>>
->>>> diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
->>>> new file mode 100644
->>>> index 00000000000..9445777252b
->>>> --- /dev/null
->>>> +++ b/.gitlab/issue_templates/bug.md
->>>> @@ -0,0 +1,63 @@
->>>> +<!--
->>>> +This is the upstream QEMU issue tracker.
->>>> +
->>>> +Before submitting a bug, please attempt to reproduce your problem using
->>>> +the latest development version of QEMU, built from source. See
->>>> +https://www.qemu.org/download/#source for instructions on how to do
->>>> +this.
->>>
->>> It's likely that those unfamiliar with QEMU, especially non-developers,
->>> won't be able to do this:
->>>
->>> The wording requires the reader to figure out that "latest development
->>> version of QEMU" is none of the big 6.0.0, 5.2.0, etc download links at
->>> the top of the page but the small text "The latest development happens
->>> on the master branch" sentence below the fold. Then they need to look
->>> around the page to find out how to download the master branch and build
->>> from source.
->>>
->>> I suggest referring directly to the build instructions instead of
->>> requiring the reader to make several connections in order to do what
->>> we're (indirectly) asking:
->>>
->>>    Before submitting a bug, please attempt to reproduce the problem with
->>>    the latest qemu.git master built from source. See the "To download and
->>>    build QEMU from git" section at https://www.qemu.org/download/#source
->>>    for instructions.
->>
->> I do wonder if this will discourage people from submitting  a bug report,
->> if they're unable to actually do this. We have a fairly frequent stream
->> of users who seek help trying to build QEMU - usually they fail to even
->> get the right depedancies installed.
->>
->> Perhaps word it so it doesn't come across as such a strict sounding
->> requirement ? I'm not entirely happy with the below text, but something
->> more forgiving like:
->>
->>     If you are able to, it will facilitate QEMU bug triage if an attempt
->>     is made to reproduce the problem with the latest qemu.git master
->>     built from source. ...etc..
-> 
-> Sounds good.
-> 
-> Stefan
-> 
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-I agree, thank you for this suggestion. I will work this in.
+thread_id in CpuInfoFast is deprecated, parse thread-id instead
+after execute qmp query-cpus-fast. fix this so that test can
+go smoothly.
 
---js
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ tests/migration/guestperf/engine.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 208e095794..9e16fa92d2 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -113,7 +113,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+         vcpus = src.command("query-cpus-fast")
+         src_threads = []
+         for vcpu in vcpus:
+-            src_threads.append(vcpu["thread_id"])
++            src_threads.append(vcpu["thread-id"])
+ 
+         # XXX how to get dst timings on remote host ?
+ 
+-- 
+2.24.3
 
 
