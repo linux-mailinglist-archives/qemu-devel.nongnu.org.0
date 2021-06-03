@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A3B39A946
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:34:32 +0200 (CEST)
-Received: from localhost ([::1]:56196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7137039A94A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 19:35:38 +0200 (CEST)
+Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lorEl-0002TD-CR
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1lorFp-00042c-EV
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 13:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lorDe-0001Ll-9S
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:33:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lorDb-000161-Ch
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:33:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622741597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dMM6bNhLEKxZHetUzKOGQIe41YG57f9FE1odJgEss94=;
- b=Aqzk9Wd6LF+GFcJFl92RmrOuyIuWr0bkb7+WhfhrTCbfeLOgITK0qC+byq7M0hKZ+6t4Rl
- f97hWVU1mGXNYpuixBG5FN5X3k81MoBu9pknQHLio/AaAIg6yXbBbGNS4/h+BkTPXpodqC
- K0dbYASnQ+PlpisUUy0czG+IoUquZY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-yAXa2Z33PKORiFe_DbmsMA-1; Thu, 03 Jun 2021 13:33:14 -0400
-X-MC-Unique: yAXa2Z33PKORiFe_DbmsMA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D3518DD120;
- Thu,  3 Jun 2021 17:33:13 +0000 (UTC)
-Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACFE75D9F2;
- Thu,  3 Jun 2021 17:33:12 +0000 (UTC)
-Date: Thu, 3 Jun 2021 12:33:11 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 3/7] block: add max_hw_transfer to BlockLimits
-Message-ID: <20210603173311.abker673xq6qscww@redhat.com>
-References: <20210603133722.218465-1-pbonzini@redhat.com>
- <20210603133722.218465-4-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lorEK-0002co-HL
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:34:04 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:43711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lorEH-0001Q3-Mg
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 13:34:04 -0400
+Received: by mail-pf1-x431.google.com with SMTP id t28so5410330pfg.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 10:34:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5ebPXcAGyABqkZLBco58ovh5j0OE6ZrDrGu0Ab3O7Zs=;
+ b=ze87pFqTWRSVBTunE6xBsss6Njf+e7qWPP/JDTS4ObrU/nocUMBXE9Ui2EPN1I/qIp
+ Ckb1fIYW/ek0bBfeOBDMbCA0ZBUkwJJ/Xs+I5dzEZkxLzh6hs08EfwCmVgTH+G2BKdeC
+ Iqcv7osp1CnKSVI4KOBqfmvMTmebUQCUNullNy/Rm/GSXWHvlmf7CwMxxth3rFFD1qqM
+ wv6ymSf6pcmGrr80ZDmDlmxlf0+ADhyQM35nCUgzYFH5xPrvYMmvAEa/PBT1UfANaiZ8
+ ObF9mMpepF5nuATWIFqMufz4Lm/qZiVufkA12xpuSIsrgUZXVMMHSZq9lcKp8ZN1P6b6
+ 18hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5ebPXcAGyABqkZLBco58ovh5j0OE6ZrDrGu0Ab3O7Zs=;
+ b=YzTMmBWMO7j3F5h7VJUVIGsZGb5KuN39jIwtT1HOr6swQIKkT235uLfS2+1+ftsrd4
+ fWm2Ym+/gmK2Hh0t4XobglMwsVp2dFCwGMeDEk0ZOxEfnxZZTQXyZeAoAmi+LX1fY/kN
+ XfKEObIxzhrML/IMTdCxNOuN53aqMr9NRft2KlUMV9tDUmS03XEaarVtfaBc9sNtIhPH
+ G21HgvSMCQii0ancGFR5V8IuhukL/OHX2igwfke912h72fM+ZQdpg6OXkhELcLLSvOpz
+ XA5x5/+zBJF1uZMNQAl/hQmYOF47wlS62pZuu+4O6b9g0vLH7TfpsEngksa67HcN9pOr
+ pvQA==
+X-Gm-Message-State: AOAM533C/QLgL3vI7CA2aKaacKP45oq0GfWNkO+bKaamRCFJDPtnCrZl
+ rfRVX6m069AMLBKvtd9Z6pqn7Q==
+X-Google-Smtp-Source: ABdhPJzuxlgy9tTr017jz/kMdyPK4DxPXkseUqmBhDa70rGCYEiSSQQiYnxCBUYGGhEhPVvXR5I8gg==
+X-Received: by 2002:a62:60c4:0:b029:2ca:ebf7:cd0d with SMTP id
+ u187-20020a6260c40000b02902caebf7cd0dmr425419pfb.71.1622741640293; 
+ Thu, 03 Jun 2021 10:34:00 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ x13sm3239308pja.3.2021.06.03.10.33.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 10:33:59 -0700 (PDT)
+Subject: Re: [PATCH v2 14/26] s390x/tcg: Implement 32/128 bit for VECTOR (LOAD
+ FP INTEGER|FP SQUARE ROOT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210517142739.38597-1-david@redhat.com>
+ <20210517142739.38597-15-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4d59d23f-e330-b186-e5fb-03930a4384e5@linaro.org>
+Date: Thu, 3 Jun 2021 10:33:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210603133722.218465-4-pbonzini@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210517142739.38597-15-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,72 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 03, 2021 at 03:37:18PM +0200, Paolo Bonzini wrote:
-> For block host devices, I/O can happen through either the kernel file
-> descriptor I/O system calls (preadv/pwritev, io_submit, io_uring)
-> or the SCSI passthrough ioctl SG_IO.
-> 
-> In the latter case, the size of each transfer can be limited by the
-> HBA, while for file descriptor I/O the kernel is able to split and
-> merge I/O in smaller pieces as needed.  Applying the HBA limits to
-> file descriptor I/O results in more system calls and suboptimal
-> performance, so this patch splits the max_transfer limit in two:
-> max_transfer remains valid and is used in general, while max_hw_transfer
-> is limited to the maximum hardware size.  max_hw_transfer can then be
-> included by the scsi-generic driver in the block limits page, to ensure
-> that the stricter hardware limit is used.
-> 
+On 5/17/21 7:27 AM, David Hildenbrand wrote:
+> Signed-off-by: David Hildenbrand<david@redhat.com>
+> ---
+>   target/s390x/helper.h           |  4 ++
+>   target/s390x/translate_vx.c.inc | 74 ++++++++++++++++++++++++++-------
+>   target/s390x/vec_fpu_helper.c   | 46 +++++++++++++++++++-
+>   3 files changed, 109 insertions(+), 15 deletions(-)
 
-> +/* Returns the maximum hardware transfer length, in bytes; guaranteed nonzero */
-> +uint64_t blk_get_max_hw_transfer(BlockBackend *blk)
-> +{
-> +    BlockDriverState *bs = blk_bs(blk);
-> +    uint64_t max = INT_MAX;
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This is an unaligned value; should we instead round it down to the
-request_alignment granularity?
-
-> +
-> +    if (bs) {
-> +        max = MIN_NON_ZERO(bs->bl.max_hw_transfer, bs->bl.max_transfer);
-> +    }
-> +    return max;
-> +}
-> +
->  /* Returns the maximum transfer length, in bytes; guaranteed nonzero */
->  uint32_t blk_get_max_transfer(BlockBackend *blk)
->  {
-
-> +++ b/include/block/block_int.h
-> @@ -695,6 +695,13 @@ typedef struct BlockLimits {
->       * clamped down. */
->      uint32_t max_transfer;
->  
-> +    /* Maximal hardware transfer length in bytes.  Applies whenever
-
-Leading /* on its own line, per our style.
-
-> +     * transfers to the device bypass the kernel I/O scheduler, for
-> +     * example with SG_IO.  If larger than max_transfer or if zero,
-> +     * blk_get_max_hw_transfer will fall back to max_transfer.
-> +     */
-
-Should we mandate any additional requirements on this value such as
-multiple of request_alignment or even power-of-2?
-
-> +    uint64_t max_hw_transfer;
-> +
->      /* memory alignment, in bytes so that no bounce buffer is needed */
->      size_t min_mem_alignment;
->  
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
