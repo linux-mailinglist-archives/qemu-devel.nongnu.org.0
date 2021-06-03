@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BB9399DC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 11:29:20 +0200 (CEST)
-Received: from localhost ([::1]:56248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22ABC399DCB
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 11:30:24 +0200 (CEST)
+Received: from localhost ([::1]:58794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lojfE-0004zd-0H
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 05:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52226)
+	id 1lojgF-0006ih-2S
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 05:30:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <li.zhang@ionos.com>)
- id 1lojbv-0008Tq-Tb
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:25:55 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:39452)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lojcJ-0000LQ-Ua
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:26:19 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:41905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <li.zhang@ionos.com>)
- id 1lojbs-00070T-0d
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:25:55 -0400
-Received: by mail-ej1-x629.google.com with SMTP id l1so8218034ejb.6
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 02:25:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=h6Ua2yEXeghDj4R6ii7OflIvsUSEilnFg1lFBgZMZos=;
- b=BHmW3aA89UuZVWzwv5DkTl9raSBlgb0CpTRAC4mntbDDnMtnJBcM8IMrtmEf/43Uy+
- iiciPfMssDX5WYyGYG1ewUTQnvy35CAz+56dsRcyeJjOYjucwOyw6GptLQxyS4hiPk6k
- 3NTkOb/UaT05z7rNm1/KNp6FZjjgzzNL2r3cpUW6hBbf+Ri0pewbOn5z0GbixuCfmgGY
- uR/1+SWzmPIEtxNvJiP1j3nrv5hLYWPVl+LHpFnQXnVfju2SxGq3hhfRnOfUQn0yW46p
- 194U/BS6NVU4n0aI2vMWWlxTacODZHCRm190smfscYg12XJtObxDahRz9a1IGCzw3u+W
- hhoQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lojc9-000790-DG
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 05:26:19 -0400
+Received: by mail-ej1-x633.google.com with SMTP id gb17so8200783ejc.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 02:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GorE4xsm/htsgMDGcvXKtyL9UTi7osxfQmz+9ybXRH0=;
+ b=a3pwRxb9mEcLNLJHMGx1yBoql7H6NxMDjrNm57oYLV0K/JAKBC+mFc74bekXPRGK6/
+ 5yEunE9e5Z14vn8RxR1IKzjgY73SoqwJ2qgyvj2Sd86QXQZ1d4CD2cDEbs762GbTGmXw
+ QcyyBPxueSxpxfnSqYycjFPN0jCUtP2MfvizofgZRcjROqzeJaBxVVXE5/gRduP3vv/f
+ 43XTRwfuj2bHiZtxoE8UJnD2bg/rp7Nr8W2fw9oYsbCaPQpTjjLc1M0e2QXjcwL6kznx
+ ByidzJhj8JnuQB2s3+rN9C5muHMnpRfmBbJwKiE7N9kzjgc2f7iPngIdHod3Dlx70kQd
+ W4zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=h6Ua2yEXeghDj4R6ii7OflIvsUSEilnFg1lFBgZMZos=;
- b=LWighenbujw5dY3pp0V0KFt6Q1ZS5jri/isD7N3+PnhD91RfYQKfijKdpsLsmq9b3t
- aAiqEGMvrY3mr8BGMCjF5/0DFqMMYRjGpWr1yMkj/hWF+P5RGUHKxMZJ4toTfziA0ltd
- LNsszN6L3FMjLfUNIeGkMqlNiDypl/33NS9T89N3irEHkUwY2kg94fj0aw6fYuh1lUaZ
- VLee40DOdKp3QvEAtoiZrlEDf28gG73cpmzNDcRRWzQ39APo/9xu7gXZ1rCL52fh2QD3
- du8jvC2Y5UvOBTkzgvTEKATgGZLV5pOrcTLj8i4Cf5kkm3hM46q0iy0FAscF/TRT/i75
- Ip4Q==
-X-Gm-Message-State: AOAM531HdjNY+Bbc0zVFwfQuhj+tMsM7wSyFH0Td8szT5Q16/utjWyyu
- RyC7/GGwOxHTToi3s2OdWsbwH8K+7O/WMsWDmgvQWzNy+nGPu56C
-X-Google-Smtp-Source: ABdhPJz9T0DpVhPlxVwIpCTpQSHrh7BnATkp/FgYAN3UsK8onTgU7/L5qlcqQxE8rA7qPvjh+mFsvaRAL77WhGqwpiI=
-X-Received: by 2002:a17:906:a95:: with SMTP id
- y21mr12561709ejf.522.1622712346314; 
- Thu, 03 Jun 2021 02:25:46 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GorE4xsm/htsgMDGcvXKtyL9UTi7osxfQmz+9ybXRH0=;
+ b=etKD7tweEjZ2iJ31YIQvWcn8lNG+iCuUoscRYIgTeAJ+dmVZAlmqCUEWp9dN7GnLuV
+ /dnTsrIHBxcQPHuUepd6OYBDU6VTpaWas/ik5DSoLMR8H4WLkDLNUF6ClETyDfvnKvT6
+ CZR9FVDElxDa9Fd+R9AjmhHgpcTWKukB8sTK0C/poEIZbn+lKx9FxYScvspiIC3OcpEZ
+ YgmaZY6Vk8O/ie8N4SE5fl4zXzSjduobfuNsvnxhfkvyhV2/5tb0mVfIWu99tzBfaw7v
+ OjZvSFsMpI4Pv/hzJtG6NAFlV+Z4xk00U/f+1M6bcrHdhisrVYb0iTfgSQQWBIwzNslW
+ SfYw==
+X-Gm-Message-State: AOAM530D3EhiCV+QuWv8v6sJN/5zx08xm8zlSM4L+gdLf7PgoDiycBvz
+ 3Z0sCJGUqMtNlCpr3Aopv4yJtUAfKuT5Wg==
+X-Google-Smtp-Source: ABdhPJwMgSqCDX8Tldbx7rzxHtr+8utcIOh863HXKH5HlrW7zW4P3R1NDZTx/mQIjlJJmpYXIST47Q==
+X-Received: by 2002:a17:906:9455:: with SMTP id
+ z21mr16357205ejx.491.1622712367953; 
+ Thu, 03 Jun 2021 02:26:07 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id du16sm1214439ejc.42.2021.06.03.02.26.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Jun 2021 02:26:07 -0700 (PDT)
+Subject: Re: [PATCH 0/8] PALcode fixes required to run NetBSD/alpha.
+To: Jason Thorpe <thorpej@me.com>, qemu-devel@nongnu.org
+References: <20210603035317.6814-1-thorpej@me.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <fd38a88e-d04f-be18-d756-df6281d881e3@amsat.org>
+Date: Thu, 3 Jun 2021 11:26:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-From: Li Zhang <li.zhang@ionos.com>
-Date: Thu, 3 Jun 2021 11:25:35 +0200
-Message-ID: <CAEM4iGGTcVydhHix-9=GJf6PHrZCdpx1iygV9vJ05bVNC0QN-g@mail.gmail.com>
-Subject: Migration: multifd problems
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000f99f1e05c3d92883"
-Received-SPF: permerror client-ip=2a00:1450:4864:20::629;
- envelope-from=li.zhang@ionos.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NUMERIC_HTTP_ADDR=1.242, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_PERMERROR=0.01, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.613,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,86 +89,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Emilio G. Cota" <cota@braap.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f99f1e05c3d92883
-Content-Type: text/plain; charset="UTF-8"
+Cc'ing Richard & Emilio.
 
-Hi all,
+On 6/3/21 5:53 AM, Jason Thorpe wrote:
+> Included here are a set of patches that fix issues in qemu-palcode needed
+> to run NetBSD/alpha under Qemu.  Some fix garden-variety bugs, some fix
+> deviations from the architecture specification or behavior of the SRM
+> console on real Alpha hardware.
+> 
+> Two of the changes (patch 6 and patch 7) also require other fixes in
+> Qemu itself, which will be submitted separately.  However, the changes
+> are fully compatible with existing Qemu alpha VMs because Linux does
+> not use the the SRM PCI interrupt mapping information (it has its own
+> tables for the system variations it supports) or the Console Terminal
+> Block in the HWRPB.
+> 
+> Jason Thorpe (8):
+>   Make qemu-palcode build environment standalone. NFC.
+>   Fix delivery of unaligned access exceptions.
+>   Fix initialization of the hwrpb.hwrpb.cpuid field.
+>   Make some PCI macros available to other files.  NFC.
+>   Fix incorrect initialization of PCI BARs.
+>   Provide interrupt mapping information in PCI config registers.
+>   Provide a Console Terminal Block in the HWRPB.
+>   Fixes for seconday CPU start-up.
+> 
+>  hwrpb.h       | 54 +++++++++++++++++++++++++++++++
+>  init.c        | 88 +++++++++++++++++++++++++++++++++++++++------------
+>  memcpy.c      |  2 +-
+>  memset.c      |  2 +-
+>  pal.S         | 15 ++++++---
+>  pci.c         | 31 +++++++++++++-----
+>  pci.h         |  5 +++
+>  printf.c      |  4 +--
+>  protos.h      | 30 +++++++++++++++---
+>  sys-clipper.h | 27 ++++++++++++++++
+>  vgaio.c       |  2 ++
+>  11 files changed, 218 insertions(+), 42 deletions(-)
+> 
 
-I tried live migration with multifd enabled. The guest on the source side
-hangs there when it is migrated with the setting multifd-channels = 16.  It
-works well when set multifd-channels as 2,4, 8.
-Qemu version: qemu-6.0.50:
-Latest commit:  commit c313e52e6459de2e9064767083a0c949c476e32b
-
-Qemu command line:
-source side:
-qemu-system-x86_64 --machine pc,accel=kvm,usb=off,dump-guest-core=off -smp
-40 -m 1024 --nographic \
-    -device pci-bridge,id=pci_bridge1,bus=pci.0,chassis_nr=1 \
-    -drive
-file=./CentOS.raw,if=none,id=drive-virtio-disk0,format=raw,cache=none,aio=native
-\
-    -device
-virtio-blk-pci,scsi=off,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=0
-\
-    -serial telnet:localhost:4444,server,nowait
-
-Destination side:
-qemu-system-x86_64  --machine pc,accel=kvm,usb=off,dump-guest-core=off -smp
-40 -m 1024 --nographic \
-    -device pci-bridge,id=pci_bridge1,bus=pci.0,chassis_nr=1 \
-    -drive
-file=./CentOS.raw,if=none,id=drive-virtio-disk0,format=raw,cache=none,aio=native
-\
-    -device
-virtio-blk-pci,scsi=off,drive=drive-virtio-disk0,id=virtio-disk0,bootindex=0
-\
-    -serial telnet:localhost:4444,server,nowait \
-    -incoming tcp:10.43.16.29:4446,server,wait
-
-Setting of migration:
-# migrate_set_capability multifd on
-# migrate_set_parameter multifd-channels 16
-# migrate_set_parameter max-bandwidth 4G
-
-Any ideas?
-
-Thanks
-Li
-
---000000000000f99f1e05c3d92883
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi all,=C2=A0<div><br></div><div>I tried live migration wi=
-th multifd enabled. The guest on the source side hangs there when it is mig=
-rated with the setting=C2=A0multifd-channels=C2=A0=3D 16.=C2=A0 It works we=
-ll when set multifd-channels as 2,4, 8.=C2=A0</div><div>Qemu version: qemu-=
-6.0.50:=C2=A0</div><div>Latest commit:=C2=A0 commit c313e52e6459de2e9064767=
-083a0c949c476e32b</div><div><br></div><div>Qemu command line:=C2=A0</div><d=
-iv>source side:=C2=A0</div><div>qemu-system-x86_64 --machine pc,accel=3Dkvm=
-,usb=3Doff,dump-guest-core=3Doff -smp 40 -m 1024 --nographic \<br>=C2=A0 =
-=C2=A0 -device pci-bridge,id=3Dpci_bridge1,bus=3Dpci.0,chassis_nr=3D1 \<br>=
-=C2=A0 =C2=A0 -drive file=3D./CentOS.raw,if=3Dnone,id=3Ddrive-virtio-disk0,=
-format=3Draw,cache=3Dnone,aio=3Dnative \<br>=C2=A0 =C2=A0 -device virtio-bl=
-k-pci,scsi=3Doff,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk0,bootindex=3D0=
- \<br>=C2=A0 =C2=A0 -serial telnet:localhost:4444,server,nowait<br></div><d=
-iv><br></div><div>Destination side:=C2=A0</div><div>qemu-system-x86_64 =C2=
-=A0--machine pc,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -smp 40 -m 1024=
- --nographic \<br>=C2=A0 =C2=A0 -device pci-bridge,id=3Dpci_bridge1,bus=3Dp=
-ci.0,chassis_nr=3D1 \<br>=C2=A0 =C2=A0 -drive file=3D./CentOS.raw,if=3Dnone=
-,id=3Ddrive-virtio-disk0,format=3Draw,cache=3Dnone,aio=3Dnative \<br>=C2=A0=
- =C2=A0 -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk0,id=3Dv=
-irtio-disk0,bootindex=3D0 \<br>=C2=A0 =C2=A0 -serial telnet:localhost:4444,=
-server,nowait \<br>=C2=A0 =C2=A0 -incoming tcp:<a href=3D"http://10.43.16.2=
-9:4446">10.43.16.29:4446</a>,server,wait<br></div><div><br></div><div>Setti=
-ng of migration:=C2=A0</div><div># migrate_set_capability multifd on<br># m=
-igrate_set_parameter multifd-channels 16<br># migrate_set_parameter max-ban=
-dwidth 4G<br></div><div>=C2=A0</div><div>Any ideas?=C2=A0</div><div><br></d=
-iv><div>Thanks</div><div>Li</div></div>
-
---000000000000f99f1e05c3d92883--
 
