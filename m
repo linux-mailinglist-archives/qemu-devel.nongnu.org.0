@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E15939AD0C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 23:43:19 +0200 (CEST)
-Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9D039AD17
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 23:46:36 +0200 (CEST)
+Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lov7V-0004q0-VU
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 17:43:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58202)
+	id 1lovAh-000663-PC
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 17:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lov5u-0001zP-GU
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:38 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:42605)
+ id 1lov5w-00025j-Sl
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:40 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:47023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lov5r-0000zu-BK
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:38 -0400
-Received: by mail-pg1-x535.google.com with SMTP id t8so6149200pgb.9
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 14:41:34 -0700 (PDT)
+ id 1lov5s-000117-1f
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 17:41:40 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id u126so1935757pfu.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 14:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jExZoW94fQf1KTDSzPZo60kTKr+L9V1ApVnhdi+DwN4=;
- b=omRWt91qfFzA3nkkwRbpAZIY+cSyYlCri9Bj5NJ4zOYe2ZfSLMB+r+wtG5kI2wNG+Y
- r8XWdO6XgS+8pxSJpYT/qrv+C+d30RFlHrurwvwbdjXq7Kdd4uV+YDa1hKyql1vDs5XX
- IIODnjr9NzdkV7TaG/XLrR+YwLakawYTnY8LM/A70OokKXkAC7lLVYobUEDJYIj3QVG2
- J+lOzXQ0dlT5ZVNFAci5r5oJfLCrjipO9fooRlddtp4FRmmnMVKbe9K63n1pAdJiTOUR
- raSxAmGqjgGqCYTYgpgL0pqJC6XuL+Qss/CGLcDaoHOlsxGfvboSkfxELULBT6G/k57X
- rkTw==
+ bh=/O3G+s5zkrQ27z7duiC08BP2nW9q9ClatbZtV+eVQt0=;
+ b=AdXiEiXz11/DSAfCNJlFbgdN1GA1QAjYQX+j1qseJZEdu0oxXrsxodCmygAuVA5JRU
+ jDX4bpxKJFI2qVyRwwJi6Lu4LIr+xtVYgPV0e8fBdedH1babfzDGHY5OKjOJ8QIQo0ou
+ YdyI0jQK+/+Uf4hMDT2WMdFgNBwOXbpaFiOUObtlpjKByUAHWLDJdtbnULk8mdT/FShP
+ mK6pEVZUl7zvhJQSMLOU77AYLc3pTJA/hxSYiEe9LYh3JAtZCUMEaWDsHKs+jxjqyqK5
+ tg7v+aDO/2pWFxY2YNvuwWbjl5u0RavUp2R3NT62pZ6GVvTvafOfMeLf5zszK6CnpHRJ
+ iz2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jExZoW94fQf1KTDSzPZo60kTKr+L9V1ApVnhdi+DwN4=;
- b=EjTLwQKNvYVM7NyshoicmvN//KfMEPEPtQOmH/2tT8yTdRESt+Dlabouh+ubKfQdJ3
- Zu5r/NNmInMQfUiKu303RJB/gX5OfAnZcDlHFtsX+9cB28wzmWNSvwj8XUn0T5sr6326
- zC7tn157A00nL4ZbJHjkKWvyGec0eJphY9DQR6YFBiHb35b7lzutXpEKDn8CWr9lEN3o
- y0fKa5LzEbuAaWugpJ8k0t9Cdp52I6k5NH8Sx+OE43sjM3pwg3V6mNgIDWVOyH9OqYaa
- HtEqWNr8nSEyKWL1eYf93n2NnDDWSoziLNL4ZjX/etIU5Yw879Wp8jZalNcv7B3XLsPc
- WLLw==
-X-Gm-Message-State: AOAM530/vroE5hyDJtzXxGck1YS8eVmBAw596iavrLvpgc3lFf4wjpX9
- nOSuS99ZPr9ci79h9OxSrWaJOxLuxDpc/Q==
-X-Google-Smtp-Source: ABdhPJzpdE+pzVSyyjTIysF9sRjfPSZ6u6++fWd7ZXhehDhio03UoRw1cgdnGCKGOT8b20kHILoOdA==
-X-Received: by 2002:a62:3344:0:b029:24c:735c:4546 with SMTP id
- z65-20020a6233440000b029024c735c4546mr1409766pfz.1.1622756494055; 
+ bh=/O3G+s5zkrQ27z7duiC08BP2nW9q9ClatbZtV+eVQt0=;
+ b=NvAk19pSV/hdHK49RrCBfOPSWaDsqKVnJvgpfbx/eSoHrgwlgNOiEfuO+k0fByoYGr
+ RC8zWPs7JsE3rlqbXWeEKPQiIx7vM/G6RnqpAhSy8Fsi1+WsMMdZ6Yfmpp5YSdWIjbSE
+ zt6QYIawQj11vjBajpp9/6gZoakMRbBgTg1IPqL5TNrjqAB9rtOCQk/sgL+wV3w1rXyH
+ gJQNDmAjf3W+Ybv3413dbopASz1uvouDmXt5KqZ7UyK8wOLtGLyyJ9ET2j6zCxpLd3kM
+ NN3tZ/hVJUqngC31CF3YCcUgVdknLMaKOzUAMXBi+UZ9OZKHRj9CHGtONA8PJdstAEuN
+ BGMQ==
+X-Gm-Message-State: AOAM5327eMUkf6UXH2oz7tHBax9wUIwwtBuy4xKh42ld1xOL641PnAlt
+ yNvDewDDD5755nbSLdwez/8oFvq2Q7Iq4g==
+X-Google-Smtp-Source: ABdhPJw6C1uqfHrCsBLhS/ERYIRyrVUG79bLDe2I6pCfqNi2YtXXCmDj/dRSlmQ4gpTdWusyU6pA4g==
+X-Received: by 2002:a63:4b42:: with SMTP id k2mr1481437pgl.33.1622756494694;
  Thu, 03 Jun 2021 14:41:34 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id p65sm40115pfb.62.2021.06.03.14.41.33
+ by smtp.gmail.com with ESMTPSA id p65sm40115pfb.62.2021.06.03.14.41.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 14:41:33 -0700 (PDT)
+ Thu, 03 Jun 2021 14:41:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/29] softfloat: Move int_to_float to softfloat-parts.c.inc
-Date: Thu,  3 Jun 2021 14:41:04 -0700
-Message-Id: <20210603214131.629841-3-richard.henderson@linaro.org>
+Subject: [PULL 03/29] softfloat: Move uint_to_float to softfloat-parts.c.inc
+Date: Thu,  3 Jun 2021 14:41:05 -0700
+Message-Id: <20210603214131.629841-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210603214131.629841-1-richard.henderson@linaro.org>
 References: <20210603214131.629841-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,258 +89,189 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename to parts$N_sint_to_float.
-Reimplement int{32,64}_to_float128 with FloatParts128.
+Rename to parts$N_uint_to_float.
+Reimplement uint64_to_float128 with FloatParts128.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat.c           | 136 +++++++++++---------------------------
- fpu/softfloat-parts.c.inc |  32 +++++++++
- 2 files changed, 70 insertions(+), 98 deletions(-)
+ fpu/softfloat.c           | 83 ++++++++++++++++-----------------------
+ fpu/softfloat-parts.c.inc | 23 +++++++++++
+ 2 files changed, 56 insertions(+), 50 deletions(-)
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 3181678ea9..6404a2997f 100644
+index 6404a2997f..db14bd09aa 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -849,6 +849,14 @@ static uint64_t parts128_float_to_uint(FloatParts128 *p, FloatRoundMode rmode,
- #define parts_float_to_uint(P, R, Z, M, S) \
-     PARTS_GENERIC_64_128(float_to_uint, P)(P, R, Z, M, S)
+@@ -857,6 +857,14 @@ static void parts128_sint_to_float(FloatParts128 *p, int64_t a,
+ #define parts_sint_to_float(P, I, Z, S) \
+     PARTS_GENERIC_64_128(sint_to_float, P)(P, I, Z, S)
  
-+static void parts64_sint_to_float(FloatParts64 *p, int64_t a,
++static void parts64_uint_to_float(FloatParts64 *p, uint64_t a,
 +                                  int scale, float_status *s);
-+static void parts128_sint_to_float(FloatParts128 *p, int64_t a,
++static void parts128_uint_to_float(FloatParts128 *p, uint64_t a,
 +                                   int scale, float_status *s);
 +
-+#define parts_sint_to_float(P, I, Z, S) \
-+    PARTS_GENERIC_64_128(sint_to_float, P)(P, I, Z, S)
++#define parts_uint_to_float(P, I, Z, S) \
++    PARTS_GENERIC_64_128(uint_to_float, P)(P, I, Z, S)
 +
  /*
   * Helper functions for softfloat-parts.c.inc, per-size operations.
   */
-@@ -2940,42 +2948,15 @@ uint64_t bfloat16_to_uint64_round_to_zero(bfloat16 a, float_status *s)
+@@ -3102,35 +3110,15 @@ float128 int32_to_float128(int32_t a, float_status *status)
  }
  
  /*
-- * Integer to float conversions
+- * Unsigned Integer to float conversions
 - *
-- * Returns the result of converting the two's complement integer `a'
-- * to the floating-point format. The conversion is performed according
-- * to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
-+ * Signed integer to floating-point conversions
+- * Returns the result of converting the unsigned integer `a' to the
+- * floating-point format. The conversion is performed according to the
+- * IEC/IEEE Standard for Binary Floating-Point Arithmetic.
++ * Unsigned Integer to floating-point conversions
   */
  
--static FloatParts64 int_to_float(int64_t a, int scale, float_status *status)
+-static FloatParts64 uint_to_float(uint64_t a, int scale, float_status *status)
 -{
 -    FloatParts64 r = { .sign = false };
+-    int shift;
 -
 -    if (a == 0) {
 -        r.cls = float_class_zero;
 -    } else {
--        uint64_t f = a;
--        int shift;
--
--        r.cls = float_class_normal;
--        if (a < 0) {
--            f = -f;
--            r.sign = true;
--        }
--        shift = clz64(f);
 -        scale = MIN(MAX(scale, -0x10000), 0x10000);
--
+-        shift = clz64(a);
+-        r.cls = float_class_normal;
 -        r.exp = DECOMPOSED_BINARY_POINT - shift + scale;
--        r.frac = f << shift;
+-        r.frac = a << shift;
 -    }
 -
 -    return r;
 -}
 -
- float16 int64_to_float16_scalbn(int64_t a, int scale, float_status *status)
+ float16 uint64_to_float16_scalbn(uint64_t a, int scale, float_status *status)
  {
--    FloatParts64 pa = int_to_float(a, scale, status);
+-    FloatParts64 pa = uint_to_float(a, scale, status);
 -    return float16_round_pack_canonical(&pa, status);
 +    FloatParts64 p;
 +
-+    parts_sint_to_float(&p, a, scale, status);
++    parts_uint_to_float(&p, a, scale, status);
 +    return float16_round_pack_canonical(&p, status);
  }
  
- float16 int32_to_float16_scalbn(int32_t a, int scale, float_status *status)
-@@ -3010,8 +2991,10 @@ float16 int8_to_float16(int8_t a, float_status *status)
+ float16 uint32_to_float16_scalbn(uint32_t a, int scale, float_status *status)
+@@ -3165,8 +3153,10 @@ float16 uint8_to_float16(uint8_t a, float_status *status)
  
- float32 int64_to_float32_scalbn(int64_t a, int scale, float_status *status)
+ float32 uint64_to_float32_scalbn(uint64_t a, int scale, float_status *status)
  {
--    FloatParts64 pa = int_to_float(a, scale, status);
+-    FloatParts64 pa = uint_to_float(a, scale, status);
 -    return float32_round_pack_canonical(&pa, status);
 +    FloatParts64 p;
 +
-+    parts64_sint_to_float(&p, a, scale, status);
++    parts_uint_to_float(&p, a, scale, status);
 +    return float32_round_pack_canonical(&p, status);
  }
  
- float32 int32_to_float32_scalbn(int32_t a, int scale, float_status *status)
-@@ -3041,8 +3024,10 @@ float32 int16_to_float32(int16_t a, float_status *status)
+ float32 uint32_to_float32_scalbn(uint32_t a, int scale, float_status *status)
+@@ -3196,8 +3186,10 @@ float32 uint16_to_float32(uint16_t a, float_status *status)
  
- float64 int64_to_float64_scalbn(int64_t a, int scale, float_status *status)
+ float64 uint64_to_float64_scalbn(uint64_t a, int scale, float_status *status)
  {
--    FloatParts64 pa = int_to_float(a, scale, status);
+-    FloatParts64 pa = uint_to_float(a, scale, status);
 -    return float64_round_pack_canonical(&pa, status);
 +    FloatParts64 p;
 +
-+    parts_sint_to_float(&p, a, scale, status);
++    parts_uint_to_float(&p, a, scale, status);
 +    return float64_round_pack_canonical(&p, status);
  }
  
- float64 int32_to_float64_scalbn(int32_t a, int scale, float_status *status)
-@@ -3070,15 +3055,12 @@ float64 int16_to_float64(int16_t a, float_status *status)
-     return int64_to_float64_scalbn(a, 0, status);
+ float64 uint32_to_float64_scalbn(uint32_t a, int scale, float_status *status)
+@@ -3225,15 +3217,12 @@ float64 uint16_to_float64(uint16_t a, float_status *status)
+     return uint64_to_float64_scalbn(a, 0, status);
  }
  
 -/*
-- * Returns the result of converting the two's complement integer `a'
-- * to the bfloat16 format.
+- * Returns the result of converting the unsigned integer `a' to the
+- * bfloat16 format.
 - */
 -
- bfloat16 int64_to_bfloat16_scalbn(int64_t a, int scale, float_status *status)
+ bfloat16 uint64_to_bfloat16_scalbn(uint64_t a, int scale, float_status *status)
  {
--    FloatParts64 pa = int_to_float(a, scale, status);
+-    FloatParts64 pa = uint_to_float(a, scale, status);
 -    return bfloat16_round_pack_canonical(&pa, status);
 +    FloatParts64 p;
 +
-+    parts_sint_to_float(&p, a, scale, status);
++    parts_uint_to_float(&p, a, scale, status);
 +    return bfloat16_round_pack_canonical(&p, status);
  }
  
- bfloat16 int32_to_bfloat16_scalbn(int32_t a, int scale, float_status *status)
-@@ -3106,6 +3088,19 @@ bfloat16 int16_to_bfloat16(int16_t a, float_status *status)
-     return int64_to_bfloat16_scalbn(a, 0, status);
+ bfloat16 uint32_to_bfloat16_scalbn(uint32_t a, int scale, float_status *status)
+@@ -3261,6 +3250,14 @@ bfloat16 uint16_to_bfloat16(uint16_t a, float_status *status)
+     return uint64_to_bfloat16_scalbn(a, 0, status);
  }
  
-+float128 int64_to_float128(int64_t a, float_status *status)
++float128 uint64_to_float128(uint64_t a, float_status *status)
 +{
 +    FloatParts128 p;
 +
-+    parts_sint_to_float(&p, a, 0, status);
++    parts_uint_to_float(&p, a, 0, status);
 +    return float128_round_pack_canonical(&p, status);
 +}
 +
-+float128 int32_to_float128(int32_t a, float_status *status)
-+{
-+    return int64_to_float128(a, status);
-+}
-+
- /*
-  * Unsigned Integer to float conversions
-  *
-@@ -4956,28 +4951,6 @@ floatx80 int32_to_floatx80(int32_t a, float_status *status)
+ /* Float Min/Max */
+ /* min() and max() functions. These can't be implemented as
+  * 'compare and pick one input' because that would mishandle
+@@ -4972,20 +4969,6 @@ floatx80 int64_to_floatx80(int64_t a, float_status *status)
  
  }
  
 -/*----------------------------------------------------------------------------
--| Returns the result of converting the 32-bit two's complement integer `a' to
--| the quadruple-precision floating-point format.  The conversion is performed
+-| Returns the result of converting the 64-bit unsigned integer `a'
+-| to the quadruple-precision floating-point format.  The conversion is performed
 -| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
 -*----------------------------------------------------------------------------*/
 -
--float128 int32_to_float128(int32_t a, float_status *status)
+-float128 uint64_to_float128(uint64_t a, float_status *status)
 -{
--    bool zSign;
--    uint32_t absA;
--    int8_t shiftCount;
--    uint64_t zSig0;
--
--    if ( a == 0 ) return packFloat128( 0, 0, 0, 0 );
--    zSign = ( a < 0 );
--    absA = zSign ? - a : a;
--    shiftCount = clz32(absA) + 17;
--    zSig0 = absA;
--    return packFloat128( zSign, 0x402E - shiftCount, zSig0<<shiftCount, 0 );
--
+-    if (a == 0) {
+-        return float128_zero;
+-    }
+-    return normalizeRoundAndPackFloat128(0, 0x406E, 0, a, status);
 -}
 -
  /*----------------------------------------------------------------------------
- | Returns the result of converting the 64-bit two's complement integer `a'
- | to the extended double-precision floating-point format.  The conversion
-@@ -4999,39 +4972,6 @@ floatx80 int64_to_floatx80(int64_t a, float_status *status)
- 
- }
- 
--/*----------------------------------------------------------------------------
--| Returns the result of converting the 64-bit two's complement integer `a' to
--| the quadruple-precision floating-point format.  The conversion is performed
--| according to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
--*----------------------------------------------------------------------------*/
--
--float128 int64_to_float128(int64_t a, float_status *status)
--{
--    bool zSign;
--    uint64_t absA;
--    int8_t shiftCount;
--    int32_t zExp;
--    uint64_t zSig0, zSig1;
--
--    if ( a == 0 ) return packFloat128( 0, 0, 0, 0 );
--    zSign = ( a < 0 );
--    absA = zSign ? - a : a;
--    shiftCount = clz64(absA) + 49;
--    zExp = 0x406E - shiftCount;
--    if ( 64 <= shiftCount ) {
--        zSig1 = 0;
--        zSig0 = absA;
--        shiftCount -= 64;
--    }
--    else {
--        zSig1 = absA;
--        zSig0 = 0;
--    }
--    shortShift128Left( zSig0, zSig1, shiftCount, &zSig0, &zSig1 );
--    return packFloat128( zSign, zExp, zSig0, zSig1 );
--
--}
--
- /*----------------------------------------------------------------------------
- | Returns the result of converting the 64-bit unsigned integer `a'
- | to the quadruple-precision floating-point format.  The conversion is performed
+ | Returns the result of converting the single-precision floating-point value
+ | `a' to the extended double-precision floating-point format.  The conversion
 diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
-index 483bdc0e21..b7486f02db 100644
+index b7486f02db..2eb7bb96b3 100644
 --- a/fpu/softfloat-parts.c.inc
 +++ b/fpu/softfloat-parts.c.inc
-@@ -883,3 +883,35 @@ static uint64_t partsN(float_to_uint)(FloatPartsN *p, FloatRoundMode rmode,
-     float_raise(flags, s);
-     return r;
+@@ -915,3 +915,26 @@ static void partsN(sint_to_float)(FloatPartsN *p, int64_t a,
+     p->exp = DECOMPOSED_BINARY_POINT - shift + scale;
+     p->frac_hi = f << shift;
  }
 +
 +/*
-+ * Integer to float conversions
++ * Unsigned Integer to float conversions
 + *
-+ * Returns the result of converting the two's complement integer `a'
-+ * to the floating-point format. The conversion is performed according
-+ * to the IEC/IEEE Standard for Binary Floating-Point Arithmetic.
++ * Returns the result of converting the unsigned integer `a' to the
++ * floating-point format. The conversion is performed according to the
++ * IEC/IEEE Standard for Binary Floating-Point Arithmetic.
 + */
-+static void partsN(sint_to_float)(FloatPartsN *p, int64_t a,
-+                                  int scale, float_status *s)
++static void partsN(uint_to_float)(FloatPartsN *p, uint64_t a,
++                                  int scale, float_status *status)
 +{
-+    uint64_t f = a;
-+    int shift;
-+
 +    memset(p, 0, sizeof(*p));
 +
 +    if (a == 0) {
 +        p->cls = float_class_zero;
-+        return;
++    } else {
++        int shift = clz64(a);
++        scale = MIN(MAX(scale, -0x10000), 0x10000);
++        p->cls = float_class_normal;
++        p->exp = DECOMPOSED_BINARY_POINT - shift + scale;
++        p->frac_hi = a << shift;
 +    }
-+
-+    p->cls = float_class_normal;
-+    if (a < 0) {
-+        f = -f;
-+        p->sign = true;
-+    }
-+    shift = clz64(f);
-+    scale = MIN(MAX(scale, -0x10000), 0x10000);
-+
-+    p->exp = DECOMPOSED_BINARY_POINT - shift + scale;
-+    p->frac_hi = f << shift;
 +}
 -- 
 2.25.1
