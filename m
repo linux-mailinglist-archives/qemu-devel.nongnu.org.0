@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9881F39A5B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:27:49 +0200 (CEST)
-Received: from localhost ([::1]:57266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F6939A5A2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:20:47 +0200 (CEST)
+Received: from localhost ([::1]:56334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loqCC-0007PF-Ir
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36034)
+	id 1loq5N-0003lT-Ts
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl6-0001tw-VD
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:48 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37675)
+ id 1lopl8-0001z9-5T
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:50 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopl5-0007JG-8n
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:48 -0400
-Received: by mail-wr1-x432.google.com with SMTP id i94so1347433wri.4
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:46 -0700 (PDT)
+ id 1lopl6-0007K5-AI
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:49 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q5so6407880wrm.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=umKlYqbHmDGAhLtrJPTkOzCMHctMqp53oORvJhnAQvE=;
- b=b+RnnyTY02ccACDmzEG/ArDgV8bq5ySPA4SWnzClpJOcltvl6Paxt2nQ9IT8Ie41SY
- 5+NWJmHwqTx16eEmHcLtUs2YIPe3meswxn4rmIHoPY+vVG3wYrVbokSLfEk6X3Fr70CF
- 3oWKxCcN6eVWHMf3jSvt4sNMoC9ef1Pq4fFZ54kZjCF2Xj5I2OrBujTkJG6LWrKpZjV3
- Bu6IIawr5nQjq/EoXaL8oCQfKtQtacPJzF1s72DxVg+VKLiYFqfQuRb5CjZxaX+Ya4Wn
- wYG3ZnmISu4QptrV0ZDwt8TYQDl5nNft+AEB3cBFiJYRsNkzFXvQ+5TE1wRVsU1dCvqg
- JIjQ==
+ bh=ppBM5sB9swc2F+kqmAJujcvoKiiJMssttgA/rEBYgGw=;
+ b=CwNIqLZXIQC31giBISFJAPVPjZYJgWg00bwsxWqB5pMhs9qj/0AOD4pDigXdFliqeN
+ lofXGTqGMreH8z11gaN0QL2ubvJZdvKPsw2gRqSun8RgbZl7AzIAz5FKoeJkfdaukUQ2
+ aCIYOGvPRdUhvKAhZh4WsCai/N5egwAnDsWa0Q9ccCHV+HfvIkKH1ICfIR6cbzZXBVtV
+ Os0ovdad/Xt0tKYQSdkYVa9toDT7xRB4wy/PRn9TCZD6Sr3Jdr9vDUdICPibREjiWkM0
+ 3UfRQXtBqjR9Mpth7tS1IH3phhTHlKGCj5sP2UWTnaEgRQIcG/dTQ0SHIMjT1IvjvsJF
+ eBBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=umKlYqbHmDGAhLtrJPTkOzCMHctMqp53oORvJhnAQvE=;
- b=Sixu+jQRRopHW4wukmMU89b1ssjpfpiU02lQaLpgdexkEGQpeZLH9g6ai03/RfivdD
- 0GhQjio1mVZtJl2qChzNrdL3idoKVMKugZjplI9yOS1yJzaoJxWa1TmvMAT70SKrot7s
- rG0oet938aJ2atK4J7pEiUgNX7NoiYlUEwfbitetttDsNlCqtiNEQMhB1VTszS+Zt4tU
- 1WCOH2wR8ZrMh2HlRnEKP8U2snCM2BAhDXShfm0ELmS4v4L6pzgKOyCzYBY8zUv1xo5E
- Gwr2wjeVcg9hYi8jncd8/uhMd4vpJIT2TYKHfhnxnNPsXq4xSCoiQFc/H/zqryuTGEm0
- nHiw==
-X-Gm-Message-State: AOAM531JyBhYDc2dyLPljkVvcaXO1IOR2Gecq4sjle75Eq678EEZnzb+
- DA+1BJ6c7br4/Xt1JTJshjaMTVwfmrnBJ/DJ
-X-Google-Smtp-Source: ABdhPJyEqxyyrVpgee4JqvtfdzF/GnYthKftmB7ShRWoHZs+grwcN7BxJcrWSz71164S9YZl4hXqKQ==
-X-Received: by 2002:a5d:6d85:: with SMTP id l5mr660817wrs.22.1622735985936;
- Thu, 03 Jun 2021 08:59:45 -0700 (PDT)
+ bh=ppBM5sB9swc2F+kqmAJujcvoKiiJMssttgA/rEBYgGw=;
+ b=QdiruyQYh4+beAyQt6k4v2Xfn1vdBaaBc6+DVV5OJdHZ68o7Lxw0lgG6K8soWBDDxH
+ Qq1LR5wPCtkDmUR4vHyvPEF9AJuKIKEzCcNGXq8jpgIacgnHfE2W0VUWK8vwXRzzDbm0
+ CxjQbLUVImmkXCBB90MhpcdjCMUwEA51XMewe8RkFnCjk+xukshntcdXyJHoBtwbYTMg
+ 5H7OFRmNYVKN6vxij8kBCRHK/A0I8y7rUjZW1EYfyxlKwduEGOE6lP44KeQsomx4iBFm
+ VcyHOkUMp46qaU+EzCb8vacLGK8PKsY+QeoQXJFEfbcSAAFi531Wv00LTICIXungQZCD
+ Ngxw==
+X-Gm-Message-State: AOAM530nTRZtvtYzoBgSUpIeq2U4F9LLiPGHD9VUxeeMrutKdbMnIcm4
+ x4hKegwYkuJKxdCpTS9tojdi7uwKziRkYvmK
+X-Google-Smtp-Source: ABdhPJyg1V+g/rkvxFFlNSww61TGh8ArJRyiSL87s479QaBBd6k878ETSWu8RfbJk4igc41/+Lqllw==
+X-Received: by 2002:adf:f90c:: with SMTP id b12mr647307wrr.409.1622735987065; 
+ Thu, 03 Jun 2021 08:59:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.45
+ by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jun 2021 08:59:45 -0700 (PDT)
+ Thu, 03 Jun 2021 08:59:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/45] tests/qtest/bios-tables-test: Check for dup2() failure
-Date: Thu,  3 Jun 2021 16:58:59 +0100
-Message-Id: <20210603155904.26021-41-peter.maydell@linaro.org>
+Subject: [PULL 41/45] tests/qtest/e1000e-test: Check qemu_recv() succeeded
+Date: Thu,  3 Jun 2021 16:59:00 +0100
+Message-Id: <20210603155904.26021-42-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,40 +86,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity notes that we don't check for dup2() failing.  Add some
-assertions so that if it does ever happen we get some indication.
-(This is similar to how we handle other "don't expect this syscall to
-fail" checks in this test code.)
+The e1000e_send_verify() test calls qemu_recv() but doesn't
+check that the call succeeded, which annoys Coverity. Add
+an explicit test check for the length of the data.
 
-Fixes: Coverity CID 1432346
+(This is a test check, not a "we assume this syscall always
+succeeds", so we use g_assert_cmpint() rather than g_assert().)
+
+Fixes: Coverity CID 1432324
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20210525134458.6675-2-peter.maydell@linaro.org
+Message-id: 20210525134458.6675-3-peter.maydell@linaro.org
 ---
- tests/qtest/bios-tables-test.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/qtest/e1000e-test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 156d4174aa3..51d3a4e2390 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -489,10 +489,14 @@ static void test_acpi_asl(test_data *data)
-                                                  exp_sdt->asl_file, sdt->asl_file);
-                     int out = dup(STDOUT_FILENO);
-                     int ret G_GNUC_UNUSED;
-+                    int dupret;
+diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
+index fc226fdfeb5..0273fe4c156 100644
+--- a/tests/qtest/e1000e-test.c
++++ b/tests/qtest/e1000e-test.c
+@@ -93,7 +93,8 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
+     /* Check data sent to the backend */
+     ret = qemu_recv(test_sockets[0], &recv_len, sizeof(recv_len), 0);
+     g_assert_cmpint(ret, == , sizeof(recv_len));
+-    qemu_recv(test_sockets[0], buffer, 64, 0);
++    ret = qemu_recv(test_sockets[0], buffer, 64, 0);
++    g_assert_cmpint(ret, >=, 5);
+     g_assert_cmpstr(buffer, == , "TEST");
  
--                    dup2(STDERR_FILENO, STDOUT_FILENO);
-+                    g_assert(out >= 0);
-+                    dupret = dup2(STDERR_FILENO, STDOUT_FILENO);
-+                    g_assert(dupret >= 0);
-                     ret = system(diff) ;
--                    dup2(out, STDOUT_FILENO);
-+                    dupret = dup2(out, STDOUT_FILENO);
-+                    g_assert(dupret >= 0);
-                     close(out);
-                     g_free(diff);
-                 }
+     /* Free test data buffer */
 -- 
 2.20.1
 
