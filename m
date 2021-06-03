@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF8E39AE58
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 00:45:17 +0200 (CEST)
-Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3189B39AE7B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 01:01:23 +0200 (CEST)
+Received: from localhost ([::1]:56348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1low5U-0006rt-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 18:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
+	id 1lowL3-0002Hb-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 19:01:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1low41-0004lW-Hh
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:43:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49699)
+ id 1lowKD-0001Vg-VI
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 19:00:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1low40-00086u-0Q
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 18:43:45 -0400
+ id 1lowK9-0002cq-8d
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 19:00:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622760223;
+ s=mimecast20190719; t=1622761223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IJP7kTzhAnFvJktcK/QAnw7ssGTnWUtsyY3a5hEoVtg=;
- b=cpOTXyHA5RG9J7nlM8+VzUyuff2FdlP9/H/qlpzLGbcBnsF63kjZGG1MVILHMsaaYXVvBJ
- pRT8YisDY6B5UYJrsTVJyp8WKO7vJ4T/G6vfbO1REPNqunEclo5Q1MIZwMS7jUfMxRPGD5
- KLJrg2o8py6SDva15CcSBAoiEJ4KhFs=
+ bh=2StMICL2h/U8ZR7MBZv0yZEprCiFsE0qUcyQNh2yFn8=;
+ b=hczOaS1jqDkCbu5TdIQBME9s+QVdVn94I1OmQOjvit6X3bRqP0WN4ISYkzfFft/lDIT2Mc
+ AlpifEzTLhv/6ZITh+iZ+rKJ6ly/hJEsDsCCedA4uQEwHkMMnwglWfPWLXoCJad9pK9fYP
+ 7lxmlYCvCxHST8kP22yIW2vElqne9pU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-pV4idEI5NIiF5gjzQTYXKg-1; Thu, 03 Jun 2021 18:43:42 -0400
-X-MC-Unique: pV4idEI5NIiF5gjzQTYXKg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-470-feaMxbOUO8-lkHDW5b1MYw-1; Thu, 03 Jun 2021 19:00:21 -0400
+X-MC-Unique: feaMxbOUO8-lkHDW5b1MYw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06705180FD6D
- for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 22:43:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0FAB8018A7
+ for <qemu-devel@nongnu.org>; Thu,  3 Jun 2021 23:00:20 +0000 (UTC)
 Received: from localhost (ovpn-120-94.rdu2.redhat.com [10.10.120.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF7B7E155;
- Thu,  3 Jun 2021 22:43:40 +0000 (UTC)
-Date: Thu, 3 Jun 2021 18:43:39 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B9775DEAD;
+ Thu,  3 Jun 2021 23:00:17 +0000 (UTC)
+Date: Thu, 3 Jun 2021 19:00:17 -0400
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v7 7/9] i386: HV_HYPERCALL_AVAILABLE privilege bit is
- always needed
-Message-ID: <20210603224339.6ymiqarbb4gw5lzl@habkost.net>
+Subject: Re: [PATCH v7 8/9] i386: Hyper-V SynIC requires
+ POST_MESSAGES/SIGNAL_EVENTS priviliges
+Message-ID: <20210603230017.3goxm7fdu5fpdkdw@habkost.net>
 References: <20210603114835.847451-1-vkuznets@redhat.com>
- <20210603114835.847451-8-vkuznets@redhat.com>
+ <20210603114835.847451-9-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210603114835.847451-8-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210603114835.847451-9-vkuznets@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,20 +84,62 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 03, 2021 at 01:48:33PM +0200, Vitaly Kuznetsov wrote:
-> According to TLFS, Hyper-V guest is supposed to check
-> HV_HYPERCALL_AVAILABLE privilege bit before accessing
-> HV_X64_MSR_GUEST_OS_ID/HV_X64_MSR_HYPERCALL MSRs but at least some
-> Windows versions ignore that. As KVM is very permissive and allows
-> accessing these MSRs unconditionally, no issue is observed. We may,
-> however, want to tighten the checks eventually. Conforming to the
-> spec is probably also a good idea.
-> 
-> Enable HV_HYPERCALL_AVAILABLE bit unconditionally.
+On Thu, Jun 03, 2021 at 01:48:34PM +0200, Vitaly Kuznetsov wrote:
+> When Hyper-V SynIC is enabled, we may need to allow Windows guests to make
+> hypercalls (POST_MESSAGES/SIGNAL_EVENTS). No issue is currently observed
+> because KVM is very permissive, allowing these hypercalls regarding of
+> guest visible CPUid bits.
 > 
 > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  target/i386/kvm/hyperv-proto.h | 6 ++++++
+>  target/i386/kvm/kvm.c          | 6 ++++++
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+> index e30d64b4ade4..5fbb385cc136 100644
+> --- a/target/i386/kvm/hyperv-proto.h
+> +++ b/target/i386/kvm/hyperv-proto.h
+> @@ -38,6 +38,12 @@
+>  #define HV_ACCESS_FREQUENCY_MSRS     (1u << 11)
+>  #define HV_ACCESS_REENLIGHTENMENTS_CONTROL  (1u << 13)
+>  
+> +/*
+> + * HV_CPUID_FEATURES.EBX bits
+> + */
+> +#define HV_POST_MESSAGES             (1u << 4)
+> +#define HV_SIGNAL_EVENTS             (1u << 5)
+> +
+>  /*
+>   * HV_CPUID_FEATURES.EDX bits
+>   */
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index a3897d4d8788..6a32d43e6ec1 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -1343,6 +1343,12 @@ static int hyperv_fill_cpuids(CPUState *cs,
+>      /* Unconditionally required with any Hyper-V enlightenment */
+>      c->eax |= HV_HYPERCALL_AVAILABLE;
+>  
+> +    /* SynIC and Vmbus devices require messages/signals hypercalls */
+> +    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
+> +        !cpu->hyperv_synic_kvm_only) {
+> +        c->ebx |= HV_POST_MESSAGES | HV_SIGNAL_EVENTS;
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Why exactly is the hyperv_synic_kvm_only check needed?
+
+Is the hyperv_synic_kvm_only check the only reason this was done
+here and not at kvm_hyperv_properties?
+
+
+> +    }
+> +
+>      /* Not exposed by KVM but needed to make CPU hotplug in Windows work */
+>      c->edx |= HV_CPU_DYNAMIC_PARTITIONING_AVAILABLE;
+>  
+> -- 
+> 2.31.1
+> 
 
 -- 
 Eduardo
