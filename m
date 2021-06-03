@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0D739A592
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:15:46 +0200 (CEST)
-Received: from localhost ([::1]:41038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155CE39A546
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 18:04:54 +0200 (CEST)
+Received: from localhost ([::1]:35512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loq0X-0008Ds-AD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:15:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35556)
+	id 1lopq0-0000yG-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 12:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkf-0008Mj-07
+ id 1lopkf-0008Ow-IK
  for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:21 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42683)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lopkb-0006s8-1f
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:20 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- o2-20020a05600c4fc2b029019a0a8f959dso4008968wmq.1
+ id 1lopkb-0006sz-Mc
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 11:59:21 -0400
+Received: by mail-wr1-x429.google.com with SMTP id i94so1345793wri.4
  for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 08:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=e18UyqU2eD7I5G09WnQcZF/NFS28TUDyqVO+oXWqCrE=;
- b=zrhdj446QonT4WtFtWW0XFMA75zadna0J164675iGPNO/quBER5LsR0K950FD/lYxe
- 6kMZ1cUo79F0SA7TYI+5ytytJ/kxZo1JKNFoEmFYbdDCpGIiQZnQeWBPgRzPufRgdmPc
- UsmCNerAyMdJBfrOc6CApZvUNpUlowtB7nXxhykbHRMd4UKUtSi87PiD7Fcpapqpq3F+
- HFtjGecktXZutI5m2XC2vrKQSSiDC5kubuwmyolYrME92kPLknEUJnPM89zgPN9xUH8V
- rkorimTJnq5/tr6sI0InwFXLOI2dJxl2ohrzhoBm7dcpKvhKpK33HGmcCn/h/ywWiDGp
- RbOw==
+ bh=1HGwW18TMom6V5l1tSNExxNgCY2lniDgLOtuVE6oASQ=;
+ b=BbpPOUxVlrgQ+aHjxZlWfiQxnjVFN01Nd3KWpSmRUbatZJU3QuyGc4sjVCW7gkMUmI
+ 1abfIhaC8xGiLSLQjzM1e54PRVlR4+NGSdGqHWiKEjXE9dNX9u4rHLMsjVQ8F2HSePcy
+ bTJz7KJuFpOvRtGk/ptIlj4fDzUS9e80/k92WRSgVVWKj0wEzO5tTo6pVoOTmqZNYU/t
+ YTcmQmao9UxlvkLNzw5Bo+YGtOieVUuoyCxJzXf6x1Hd6goKlrwoAOuxgOAF2/OQVU8u
+ TDYiBpX2wFDc0M1t0rxge3xP57F7Q35Rk8NsAXqg27o79CoIxgtNInoaOut0EoEEye0W
+ LglA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e18UyqU2eD7I5G09WnQcZF/NFS28TUDyqVO+oXWqCrE=;
- b=VTB1Vc7aGHOJR+JpujXIqNbb78IqaTODlL3mIsVxWS3+vnjdwvK8HhwxdCS9f/U3oM
- tqnsHfcLHFpOcF8jrt8A4jefshHJAdW+ki+O4xNg6w0mf47YEYMS46oi02c/iwUN/kjn
- vNdfGDaZGkK0Ngxdc8DhMlpqPxVmvdKq8E48c8RVxIIi2Whzexi335ffTsdAbzjCOK/S
- XWRApA9DcNfwyIpsG/Wv+RlLEis0zIi99U1VfUT/Kr9RCNLmFE8C8iRnYOPlIuFfpyJh
- 1qAzt5X8+A/nwuY/9s+GEEtu2x1Ghcml/KUo6yGE06adP6+a6hBnmWWR4JyXzCgTez9I
- IUvg==
-X-Gm-Message-State: AOAM5328tAv3clmxNNlxt2608bPAIwy3FFSnrOp4GGGoTcwWZ56nXroF
- kK2VQjjNOpkOGVNP9XyI5dqTATDNHmf1a/tL
-X-Google-Smtp-Source: ABdhPJx8Yb7iWHsfO9y1IUemPQYVpcgWElIssd2UdOH5FEYh58rrl59ptVBEhQ0Ejr2SPQnJWyZDMQ==
-X-Received: by 2002:a7b:c210:: with SMTP id x16mr9608354wmi.105.1622735955505; 
- Thu, 03 Jun 2021 08:59:15 -0700 (PDT)
+ bh=1HGwW18TMom6V5l1tSNExxNgCY2lniDgLOtuVE6oASQ=;
+ b=pfKq5Kd/INcq1JskvkL9mjkINtaVwn7L9XE5knYx8Wi0lROKHDfnFqupQw98x9RAyQ
+ zNxpIxX1SuqVcCJpekW6lB1CSiExuV7ZbnYdLLX3WqECAfyN5+dD9p5RVJSWcl90HUcM
+ dPPnV27vfgIcE5OKmtJJ7FuAOlSa//EPRiBGhCIW9qo23MAaqeoEUxDrYtLt/ZoJuKwV
+ 9XdFLcJaMRESyNh90bzSHVb/N07NJXWXSILwrrOZRhb6NqgIo+pJlCelnLShkyzuoa7j
+ Wcoce6LtZqc8n0Zh/H89THAV55fqNdobeT1WH+W7VXQyvnVDpDMJR1hGWyemboTAF7gC
+ dUKA==
+X-Gm-Message-State: AOAM530DeYVXsqQUsC4WSym5SmXhKOzks+0pBFkdIbIseF/de/Ou/Q83
+ sWM4gGG3uut1ntEUUK6c6xoqBdng4QHNkIzE
+X-Google-Smtp-Source: ABdhPJwNUFKY7fDBbIrPO7+lJSXkn0lC18G3FP7yP3Bd7jij6ijlmfIOtPlOj7VFIFn0N/xNanaetg==
+X-Received: by 2002:a5d:6546:: with SMTP id z6mr682702wrv.100.1622735956096;
+ Thu, 03 Jun 2021 08:59:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id m7sm3856470wrv.35.2021.06.03.08.59.15
  for <qemu-devel@nongnu.org>
@@ -55,17 +54,16 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Thu, 03 Jun 2021 08:59:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/45] target/arm: fix missing exception class
-Date: Thu,  3 Jun 2021 16:58:31 +0100
-Message-Id: <20210603155904.26021-13-peter.maydell@linaro.org>
+Subject: [PULL 13/45] target/arm: fold do_raise_exception into raise_exception
+Date: Thu,  3 Jun 2021 16:58:32 +0100
+Message-Id: <20210603155904.26021-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210603155904.26021-1-peter.maydell@linaro.org>
 References: <20210603155904.26021-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,58 +88,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jamie Iles <jamie@nuviainc.com>
 
-The DAIF and PAC checks used raise_exception_ra to raise an exception
-and unwind CPU state but raise_exception_ra is currently designed for
-handling data aborts as the syndrome is partially precomputed and
-encoded in the TB and then merged in merge_syn_data_abort when handling
-the data abort.  Using raise_exception_ra for DAIF and PAC checks
-results in an empty syndrome being retrieved from data[2] in
-restore_state_to_opc and setting ESR to 0.  This manifested as:
+Now that there are no other users of do_raise_exception, fold it into
+raise_exception.
 
-  kvm [571]: Unknown exception class: esr: 0x000000 –
-  Unknown/Uncategorized
-
-when launching a KVM guest when the host qemu used a CPU supporting
-EL2+pointer authentication and enabling pointer authentication in the
-guest.
-
-Rework raise_exception_ra such that the state is restored before raising
-the exception so that the exception is not clobbered by
-restore_state_to_opc.
-
-Fixes: 0d43e1a2d29a ("target/arm: Add PAuth helpers")
 Cc: Richard Henderson <richard.henderson@linaro.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Jamie Iles <jamie@nuviainc.com>
-[PMM: added comment]
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/op_helper.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ target/arm/op_helper.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index efcb6009927..1a95972bcc5 100644
+index 1a95972bcc5..4132f5e430f 100644
 --- a/target/arm/op_helper.c
 +++ b/target/arm/op_helper.c
-@@ -63,8 +63,15 @@ void raise_exception(CPUARMState *env, uint32_t excp,
- void raise_exception_ra(CPUARMState *env, uint32_t excp, uint32_t syndrome,
-                         uint32_t target_el, uintptr_t ra)
+@@ -27,8 +27,8 @@
+ #define SIGNBIT (uint32_t)0x80000000
+ #define SIGNBIT64 ((uint64_t)1 << 63)
+ 
+-static CPUState *do_raise_exception(CPUARMState *env, uint32_t excp,
+-                                    uint32_t syndrome, uint32_t target_el)
++void raise_exception(CPUARMState *env, uint32_t excp,
++                     uint32_t syndrome, uint32_t target_el)
  {
+     CPUState *cs = env_cpu(env);
+ 
+@@ -49,14 +49,6 @@ static CPUState *do_raise_exception(CPUARMState *env, uint32_t excp,
+     cs->exception_index = excp;
+     env->exception.syndrome = syndrome;
+     env->exception.target_el = target_el;
+-
+-    return cs;
+-}
+-
+-void raise_exception(CPUARMState *env, uint32_t excp,
+-                     uint32_t syndrome, uint32_t target_el)
+-{
 -    CPUState *cs = do_raise_exception(env, excp, syndrome, target_el);
--    cpu_loop_exit_restore(cs, ra);
-+    CPUState *cs = env_cpu(env);
-+
-+    /*
-+     * restore_state_to_opc() will set env->exception.syndrome, so
-+     * we must restore CPU state here before setting the syndrome
-+     * the caller passed us, and cannot use cpu_loop_exit_restore().
-+     */
-+    cpu_restore_state(cs, ra, true);
-+    raise_exception(env, excp, syndrome, target_el);
+     cpu_loop_exit(cs);
  }
  
- uint64_t HELPER(neon_tbl)(CPUARMState *env, uint32_t desc,
 -- 
 2.20.1
 
