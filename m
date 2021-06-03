@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B31399C9C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:31:23 +0200 (CEST)
-Received: from localhost ([::1]:42974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8247399C9F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:33:54 +0200 (CEST)
+Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loil8-0001E3-DT
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
+	id 1loinZ-0006xI-Qx
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loicz-0006Ap-Rz; Thu, 03 Jun 2021 04:22:57 -0400
-Received: from ozlabs.org ([203.11.71.1]:58735)
+ id 1loid1-0006Ht-C2; Thu, 03 Jun 2021 04:22:59 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44805 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loicx-0008Tg-Pv; Thu, 03 Jun 2021 04:22:57 -0400
+ id 1loicy-0008Ti-7V; Thu, 03 Jun 2021 04:22:59 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5l51TSz9sXM; Thu,  3 Jun 2021 18:22:35 +1000 (AEST)
+ id 4Fwf5l5pkKz9sXS; Thu,  3 Jun 2021 18:22:35 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708555;
- bh=CxNpNH2dbmilmOghts3oQ25jvJ0in3mmDow968zrNRM=;
+ bh=3GWslL8pQ1dQy2K6BpFHFxFuBQVHitpzrqC1llhg8MU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LRsc/yQdeKGGBuF3F6TZ0Z0/0dgiEjmQquICHl+CvCbAdxV1yjxoLfHQaZXyJp/ze
- UFVngv75bu0eyiNGnAKgyTjPOunww9wWie4F/1RXrRA7uHmN51VCRYN7uNaWHs8+ni
- 0/OLX/AkO8u5zcVEFfEccbAxZgfjnUL90cum35zM=
+ b=L3WoP5F9YpJV49fXQmibwkyv1xku6SD7C2XkaoKLZZ8bqf4MABxjNKpFMm3BMcj37
+ EJC0S5Gy18w97F8wh3Em7Rtz544JWuZAs81F6ieh6kslg+vAKiq6w9Fb06XQSF4j9M
+ jyELrSPsub7xiN6pn8JZV24lUum0p+LH8eS9xjhk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 07/42] spapr: nvdimm: Forward declare and move the definitions
-Date: Thu,  3 Jun 2021 18:21:56 +1000
-Message-Id: <20210603082231.601214-8-david@gibson.dropbear.id.au>
+Subject: [PULL 09/42] target/ppc: fold ppc_store_ptcr into it's only caller
+Date: Thu,  3 Jun 2021 18:21:58 +1000
+Message-Id: <20210603082231.601214-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
@@ -58,74 +58,118 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Shivaprasad G Bhat <sbhat@linux.ibm.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
 
-The subsequent patches add definitions which tend to get
-the compilation to cyclic dependency. So, prepare with
-forward declarations, move the definitions and clean up.
+ppc_store_ptcr, defined in mmu_helper.c, was only used by
+helper_store_ptcr, in misc_helper.c. To avoid possible confusion,
+the function was folded into the helper.
 
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Message-Id: <162133925415.610.11584121797866216417.stgit@4f1e6f2bd33e>
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Message-Id: <20210526143516.125582-1-bruno.larsen@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_nvdimm.c         | 12 ++++++++++++
- include/hw/ppc/spapr_nvdimm.h | 14 ++------------
- 2 files changed, 14 insertions(+), 12 deletions(-)
+ target/ppc/cpu.h         |  1 -
+ target/ppc/misc_helper.c | 24 +++++++++++++++++++++++-
+ target/ppc/mmu_helper.c  | 28 ----------------------------
+ 3 files changed, 23 insertions(+), 30 deletions(-)
 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 252204e25f..3f57a8b6fa 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -35,6 +35,18 @@
- /* SCM device is unable to persist memory contents */
- #define PAPR_PMEM_UNARMED PPC_BIT(0)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index cab33a3680..27e4661dce 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1290,7 +1290,6 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  
-+/*
-+ * The nvdimm size should be aligned to SCM block size.
-+ * The SCM block size should be aligned to SPAPR_MEMORY_BLOCK_SIZE
-+ * in order to have SCM regions not to overlap with dimm memory regions.
-+ * The SCM devices can have variable block sizes. For now, fixing the
-+ * block size to the minimum value.
-+ */
-+#define SPAPR_MINIMUM_SCM_BLOCK_SIZE SPAPR_MEMORY_BLOCK_SIZE
-+
-+/* Have an explicit check for alignment */
-+QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
-+
- bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp)
+ #if !defined(CONFIG_USER_ONLY)
+ void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
+-void ppc_store_ptcr(CPUPPCState *env, target_ulong value);
+ #endif /* !defined(CONFIG_USER_ONLY) */
+ void ppc_store_msr(CPUPPCState *env, target_ulong value);
+ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
+diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+index 442b12652c..c33f5f39b9 100644
+--- a/target/ppc/misc_helper.c
++++ b/target/ppc/misc_helper.c
+@@ -23,6 +23,7 @@
+ #include "exec/helper-proto.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
++#include "mmu-book3s-v3.h"
+ 
+ #include "helper_regs.h"
+ 
+@@ -116,7 +117,28 @@ void helper_store_sdr1(CPUPPCState *env, target_ulong val)
+ void helper_store_ptcr(CPUPPCState *env, target_ulong val)
  {
-diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-index 73be250e2a..764f999f54 100644
---- a/include/hw/ppc/spapr_nvdimm.h
-+++ b/include/hw/ppc/spapr_nvdimm.h
-@@ -11,19 +11,9 @@
- #define HW_SPAPR_NVDIMM_H
+     if (env->spr[SPR_PTCR] != val) {
+-        ppc_store_ptcr(env, val);
++        PowerPCCPU *cpu = env_archcpu(env);
++        target_ulong ptcr_mask = PTCR_PATB | PTCR_PATS;
++        target_ulong patbsize = val & PTCR_PATS;
++
++        qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, val);
++
++        assert(!cpu->vhyp);
++        assert(env->mmu_model & POWERPC_MMU_3_00);
++
++        if (val & ~ptcr_mask) {
++            error_report("Invalid bits 0x"TARGET_FMT_lx" set in PTCR",
++                         val & ~ptcr_mask);
++            val &= ptcr_mask;
++        }
++
++        if (patbsize > 24) {
++            error_report("Invalid Partition Table size 0x" TARGET_FMT_lx
++                         " stored in PTCR", patbsize);
++            return;
++        }
++
++        env->spr[SPR_PTCR] = val;
+         tlb_flush(env_cpu(env));
+     }
+ }
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 37986c59ba..475d9f81b4 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -2030,34 +2030,6 @@ void ppc_tlb_invalidate_one(CPUPPCState *env, target_ulong addr)
  
- #include "hw/mem/nvdimm.h"
--#include "hw/ppc/spapr.h"
- 
--/*
-- * The nvdimm size should be aligned to SCM block size.
-- * The SCM block size should be aligned to SPAPR_MEMORY_BLOCK_SIZE
-- * inorder to have SCM regions not to overlap with dimm memory regions.
-- * The SCM devices can have variable block sizes. For now, fixing the
-- * block size to the minimum value.
-- */
--#define SPAPR_MINIMUM_SCM_BLOCK_SIZE SPAPR_MEMORY_BLOCK_SIZE
+ /*****************************************************************************/
+ /* Special registers manipulation */
+-#if defined(TARGET_PPC64)
+-void ppc_store_ptcr(CPUPPCState *env, target_ulong value)
+-{
+-    PowerPCCPU *cpu = env_archcpu(env);
+-    target_ulong ptcr_mask = PTCR_PATB | PTCR_PATS;
+-    target_ulong patbsize = value & PTCR_PATS;
 -
--/* Have an explicit check for alignment */
--QEMU_BUILD_BUG_ON(SPAPR_MINIMUM_SCM_BLOCK_SIZE % SPAPR_MEMORY_BLOCK_SIZE);
-+typedef struct SpaprDrc SpaprDrc;
-+typedef struct SpaprMachineState SpaprMachineState;
+-    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
+-
+-    assert(!cpu->vhyp);
+-    assert(env->mmu_model & POWERPC_MMU_3_00);
+-
+-    if (value & ~ptcr_mask) {
+-        error_report("Invalid bits 0x"TARGET_FMT_lx" set in PTCR",
+-                     value & ~ptcr_mask);
+-        value &= ptcr_mask;
+-    }
+-
+-    if (patbsize > 24) {
+-        error_report("Invalid Partition Table size 0x" TARGET_FMT_lx
+-                     " stored in PTCR", patbsize);
+-        return;
+-    }
+-
+-    env->spr[SPR_PTCR] = value;
+-}
+-
+-#endif /* defined(TARGET_PPC64) */
  
- int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-                            void *fdt, int *fdt_start_offset, Error **errp);
+ /* Segment registers load and store */
+ target_ulong helper_load_sr(CPUPPCState *env, target_ulong sr_num)
 -- 
 2.31.1
 
