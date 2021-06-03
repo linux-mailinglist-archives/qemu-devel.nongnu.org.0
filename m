@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A624399CC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:41:07 +0200 (CEST)
-Received: from localhost ([::1]:51390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A9D399CEA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:43:55 +0200 (CEST)
+Received: from localhost ([::1]:36524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loiuY-0000Gs-A1
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39836)
+	id 1loixH-0000mM-1A
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidb-0007gi-OI; Thu, 03 Jun 2021 04:23:36 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54637 helo=ozlabs.org)
+ id 1loie0-0008Fg-E1; Thu, 03 Jun 2021 04:24:00 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60737 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidZ-0000YB-55; Thu, 03 Jun 2021 04:23:35 -0400
+ id 1loidx-0000bu-1p; Thu, 03 Jun 2021 04:23:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5q5Pvsz9t2p; Thu,  3 Jun 2021 18:22:39 +1000 (AEST)
+ id 4Fwf5r13vGz9t54; Thu,  3 Jun 2021 18:22:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1622708559;
- bh=ztbthMJY1sb70wNeuiduPWgqKUX4JcbHO+Ql/jratVs=;
+ d=gibson.dropbear.id.au; s=201602; t=1622708560;
+ bh=7HbCeEYP4Knr/13RSg7pmc7d1IGZGsIdCR9HfHS96C0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=APYO1oQGgi38m3zvgmltf4v6dmbKPXvqwsXYGFHWQIgBQbepKiYynhJAqk5U37etm
- rln9LnQZCdxKyHqt46JtqI8LeU8CQgZK4ekaDR+V954kp0S/HrStqig2q8LLICoeT2
- DL/dY8wp6FKD81QfEKOuCHf0OAcAmqb3IcgZn9Ko=
+ b=JcAizsZa6lMoTkBqaiewruOCC8wAJg/HDvdXF7L4EtIUQr/GJmLjLi173+2d9aJ22
+ biswcspGo1uzWUJPam0z4JZQvj1XFxhEZDnx+jNky8EbinamMvUfZPPBGiBtc8Srle
+ UGyrB0hyH9ejq230fBZPyrvzrBIrwE6HQPMKGNFI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 36/42] target/ppc: Implement prefixed integer store instructions
-Date: Thu,  3 Jun 2021 18:22:25 +1000
-Message-Id: <20210603082231.601214-37-david@gibson.dropbear.id.au>
+Subject: [PULL 37/42] target/ppc: Implement setbc/setbcr/stnbc/setnbcr
+ instructions
+Date: Thu,  3 Jun 2021 18:22:26 +1000
+Message-Id: <20210603082231.601214-38-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
@@ -57,79 +58,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Implements the following PowerISA v3.1 instructions:
+setbc: Set Boolean Condition
+setbcr: Set Boolean Condition Reverse
+setnbc: Set Negative Boolean Condition
+setnbcr: Set Negative Boolean Condition Reverse
+
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210601193528.2533031-10-matheus.ferst@eldorado.org.br>
+Message-Id: <20210601193528.2533031-11-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/insn64.decode                   | 12 ++++++++++++
- target/ppc/translate/fixedpoint-impl.c.inc |  4 ++++
- 2 files changed, 16 insertions(+)
+ target/ppc/insn32.decode                   | 10 ++++++++++
+ target/ppc/translate/fixedpoint-impl.c.inc | 23 ++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
-index 547bd1736f..72c5944a53 100644
---- a/target/ppc/insn64.decode
-+++ b/target/ppc/insn64.decode
-@@ -39,6 +39,18 @@ PLWA            000001 00 0--.-- .................. \
- PLD             000001 00 0--.-- .................. \
-                 111001 ..... ..... ................     @PLS_D
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 00ec0f4328..bc69c70493 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -26,6 +26,9 @@
+ &X              rt ra rb
+ @X              ...... rt:5 ra:5 rb:5 .......... .      &X
  
-+### Fixed-Point Store Instructions
++&X_bi           rt bi
++@X_bi           ...... rt:5 bi:5 ----- .......... -     &X_bi
 +
-+PSTW            000001 10 0--.-- .................. \
-+                100100 ..... ..... ................     @PLS_D
-+PSTB            000001 10 0--.-- .................. \
-+                100110 ..... ..... ................     @PLS_D
-+PSTH            000001 10 0--.-- .................. \
-+                101100 ..... ..... ................     @PLS_D
-+
-+PSTD            000001 00 0--.-- .................. \
-+                111101 ..... ..... ................     @PLS_D
-+
- ### Fixed-Point Arithmetic Instructions
+ ### Fixed-Point Load Instructions
  
- PADDI           000001 10 0--.-- ..................     \
+ LBZ             100010 ..... ..... ................     @D
+@@ -83,3 +86,10 @@ STDUX           011111 ..... ..... ..... 0010110101 -   @X
+ 
+ ADDI            001110 ..... ..... ................     @D
+ ADDIS           001111 ..... ..... ................     @D
++
++### Move To/From System Register Instructions
++
++SETBC           011111 ..... ..... ----- 0110000000 -   @X_bi
++SETBCR          011111 ..... ..... ----- 0110100000 -   @X_bi
++SETNBC          011111 ..... ..... ----- 0111000000 -   @X_bi
++SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
 diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index adeee33289..2d2d874146 100644
+index 2d2d874146..5f9845fa40 100644
 --- a/target/ppc/translate/fixedpoint-impl.c.inc
 +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -142,24 +142,28 @@ TRANS(STB, do_ldst_D, false, true, MO_UB)
- TRANS(STBX, do_ldst_X, false, true, MO_UB)
- TRANS(STBU, do_ldst_D, true, true, MO_UB)
- TRANS(STBUX, do_ldst_X, true, true, MO_UB)
-+TRANS(PSTB, do_ldst_PLS_D, false, true, MO_UB)
- 
- /* Store Halfword */
- TRANS(STH, do_ldst_D, false, true, MO_UW)
- TRANS(STHX, do_ldst_X, false, true, MO_UW)
- TRANS(STHU, do_ldst_D, true, true, MO_UW)
- TRANS(STHUX, do_ldst_X, true, true, MO_UW)
-+TRANS(PSTH, do_ldst_PLS_D, false, true, MO_UW)
- 
- /* Store Word */
- TRANS(STW, do_ldst_D, false, true, MO_UL)
- TRANS(STWX, do_ldst_X, false, true, MO_UL)
- TRANS(STWU, do_ldst_D, true, true, MO_UL)
- TRANS(STWUX, do_ldst_X, true, true, MO_UL)
-+TRANS(PSTW, do_ldst_PLS_D, false, true, MO_UL)
- 
- /* Store Doubleword */
- TRANS64(STD, do_ldst_D, false, true, MO_Q)
- TRANS64(STDX, do_ldst_X, false, true, MO_Q)
- TRANS64(STDU, do_ldst_D, true, true, MO_Q)
- TRANS64(STDUX, do_ldst_X, true, true, MO_Q)
-+TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
- 
- /*
-  * Fixed-Point Arithmetic Instructions
+@@ -204,3 +204,26 @@ static bool trans_PNOP(DisasContext *ctx, arg_PNOP *a)
+ {
+     return true;
+ }
++
++static bool do_set_bool_cond(DisasContext *ctx, arg_X_bi *a, bool neg, bool rev)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    uint32_t mask = 0x08 >> (a->bi & 0x03);
++    TCGCond cond = rev ? TCG_COND_EQ : TCG_COND_NE;
++    TCGv temp = tcg_temp_new();
++
++    tcg_gen_extu_i32_tl(temp, cpu_crf[a->bi >> 2]);
++    tcg_gen_andi_tl(temp, temp, mask);
++    tcg_gen_setcondi_tl(cond, cpu_gpr[a->rt], temp, 0);
++    if (neg) {
++        tcg_gen_neg_tl(cpu_gpr[a->rt], cpu_gpr[a->rt]);
++    }
++    tcg_temp_free(temp);
++
++    return true;
++}
++
++TRANS(SETBC, do_set_bool_cond, false, false)
++TRANS(SETBCR, do_set_bool_cond, false, true)
++TRANS(SETNBC, do_set_bool_cond, true, false)
++TRANS(SETNBCR, do_set_bool_cond, true, true)
 -- 
 2.31.1
 
