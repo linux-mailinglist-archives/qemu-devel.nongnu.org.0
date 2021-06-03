@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C533998BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:55:18 +0200 (CEST)
-Received: from localhost ([::1]:45470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BF53998BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:55:17 +0200 (CEST)
+Received: from localhost ([::1]:45352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loeRx-0002G7-BS
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:55:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53098)
+	id 1loeRv-0002Bg-TZ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:55:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQN-0008Bq-3I
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:39 -0400
-Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:48971)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQM-0008Bi-Kt
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:38 -0400
+Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQL-0004R9-I3
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQK-0004TV-JO
  for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1622692411; bh=dL+zcZZiU/CnjMPQcQH05c+x5HsV2lQKbnc4gX3WvfA=;
+ t=1622692414; bh=EbNMzVw3vepneA/DE3G4SKL1cFt4MHiKmcOsX+NpZNM=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=qER24Qoo8OIRLm9pZ3LlykTDzrG2Aa5hX6tmHaLglKD5RsiEVAg64CcoQ8YJESeU+
- smJ6iSAH6sMmjOBV47SGhJ89uxhjiFPUkg/t7JTsuDFer0zC6nXi32aYNnFBkBTK3E
- pRYVPptHlbmpnmZlYL8KErJOp6bsPuirJpxZoyNLea5JFFsvz8FDGsD1zgordoTLbU
- W7Ga+T66MOf9AFe/rmOXh40Kk8iEFoK8YJ/ZnrIL7Xop1psONKgecSg8mCdATX3Aem
- Kqh6ZOq0KErVquOJ9MJpPRrGPWaY0M8AXjoOdIAMYwDQLdyk64bOoOEtvx70sC/IIu
- qAwrIPuiv52Qg==
+ b=Vjpnaic0qpvTTZsmx41Lf7zkrkNBcyKaK9u32LwcGudAdd7uN+/z4zDaOpW6Rjg19
+ jUffq3l2j26jfugwa5dgdNxRyOLssu4KYSxnIGNAie96AnRMWk9iVx3gC4JqhhlkGG
+ cyhFQPuspjT7PpAVotzsmi8dCUrl0lTqbh83SqXihzU3HR6IYKhhEZdvBCOCRJuUGi
+ /khwqaMmDyDYsX0MNvhdnE0gVK2JfPxsSScMNgJKHGyKjsw/15rvlzDw1mBjdqP8fQ
+ r+RNHjsgdbBAhT2QWDWvCpWwgVuO18GhYTyFl+hKxBF1nyMIHbhFphY9CkiMfG4JZv
+ 1cV5l3GCELzzQ==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id C30894A011E;
- Thu,  3 Jun 2021 03:53:30 +0000 (UTC)
+ by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 89F394A0101;
+ Thu,  3 Jun 2021 03:53:33 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>
-Subject: [PATCH 0/8] PALcode fixes required to run NetBSD/alpha.
-Date: Wed,  2 Jun 2021 20:53:09 -0700
-Message-Id: <20210603035317.6814-1-thorpej@me.com>
+Subject: [PATCH 1/8] Make qemu-palcode build environment standalone. NFC.
+Date: Wed,  2 Jun 2021 20:53:10 -0700
+Message-Id: <20210603035317.6814-2-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
+References: <20210603035317.6814-1-thorpej@me.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
@@ -72,41 +74,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Included here are a set of patches that fix issues in qemu-palcode needed
-to run NetBSD/alpha under Qemu.  Some fix garden-variety bugs, some fix
-deviations from the architecture specification or behavior of the SRM
-console on real Alpha hardware.
+Don't include system headers.  Instead, provide standalone definitions
+and declarations of types needed and functions used by the PALcode that
+are compatible with the standard Alpha / GCC ABI.
 
-Two of the changes (patch 6 and patch 7) also require other fixes in
-Qemu itself, which will be submitted separately.  However, the changes
-are fully compatible with existing Qemu alpha VMs because Linux does
-not use the the SRM PCI interrupt mapping information (it has its own
-tables for the system variations it supports) or the Console Terminal
-Block in the HWRPB.
+Signed-off-by: Jason Thorpe <thorpej@me.com>
+---
+ init.c   |  2 --
+ memcpy.c |  2 +-
+ memset.c |  2 +-
+ printf.c |  4 +---
+ protos.h | 30 +++++++++++++++++++++++++-----
+ 5 files changed, 28 insertions(+), 12 deletions(-)
 
-Jason Thorpe (8):
-  Make qemu-palcode build environment standalone. NFC.
-  Fix delivery of unaligned access exceptions.
-  Fix initialization of the hwrpb.hwrpb.cpuid field.
-  Make some PCI macros available to other files.  NFC.
-  Fix incorrect initialization of PCI BARs.
-  Provide interrupt mapping information in PCI config registers.
-  Provide a Console Terminal Block in the HWRPB.
-  Fixes for seconday CPU start-up.
-
- hwrpb.h       | 54 +++++++++++++++++++++++++++++++
- init.c        | 88 +++++++++++++++++++++++++++++++++++++++------------
- memcpy.c      |  2 +-
- memset.c      |  2 +-
- pal.S         | 15 ++++++---
- pci.c         | 31 +++++++++++++-----
- pci.h         |  5 +++
- printf.c      |  4 +--
- protos.h      | 30 +++++++++++++++---
- sys-clipper.h | 27 ++++++++++++++++
- vgaio.c       |  2 ++
- 11 files changed, 218 insertions(+), 42 deletions(-)
-
+diff --git a/init.c b/init.c
+index b53bab6..429a9ad 100644
+--- a/init.c
++++ b/init.c
+@@ -18,8 +18,6 @@
+    along with this program; see the file COPYING.  If not see
+    <http://www.gnu.org/licenses/>.  */
+ 
+-#include <string.h>
+-#include <stddef.h>
+ #include "hwrpb.h"
+ #include "osf.h"
+ #include "ioport.h"
+diff --git a/memcpy.c b/memcpy.c
+index b6bbb74..9e1e913 100644
+--- a/memcpy.c
++++ b/memcpy.c
+@@ -8,7 +8,7 @@
+  * This is a reasonably optimized memcpy() routine.
+  */
+ 
+-#include <string.h>
++#include "protos.h"
+ 
+ /*
+  * Note that the C code is written to be optimized into good assembly. However,
+diff --git a/memset.c b/memset.c
+index e8481dc..f9b0a6d 100644
+--- a/memset.c
++++ b/memset.c
+@@ -19,7 +19,7 @@
+    <http://www.gnu.org/licenses/>.  */
+ 
+ 
+-#include <string.h>
++#include "protos.h"
+ 
+ void *memset(void *optr, int ival, unsigned long size)
+ {
+diff --git a/printf.c b/printf.c
+index 469b82c..0e1e128 100644
+--- a/printf.c
++++ b/printf.c
+@@ -18,10 +18,8 @@
+    along with this program; see the file COPYING.  If not see
+    <http://www.gnu.org/licenses/>.  */
+ 
+-#include <stdarg.h>
+-#include <stdbool.h>
+-#include <string.h>
+ #include "console.h"
++#include "protos.h"
+ 
+ static int print_buf_pad(char *buf, int buflen, char *p, int width, int pad)
+ {
+diff --git a/protos.h b/protos.h
+index 3ed1381..0d90be8 100644
+--- a/protos.h
++++ b/protos.h
+@@ -21,11 +21,31 @@
+ #ifndef PROTOS_H
+ #define PROTOS_H 1
+ 
+-#include <stdint.h>
+-#include <stdbool.h>
+-#include <stddef.h>
+-#include <string.h>
+-
++/* Stand-alone definitions for various types, compatible with
++   the Alpha Linux ABI and GCC.  This eliminates dependencies
++   on external headers.  */
++typedef unsigned char  uint8_t;
++typedef unsigned short uint16_t;
++typedef unsigned int   uint32_t;
++typedef unsigned long  uint64_t;
++typedef unsigned long  size_t;
++
++#define bool           _Bool
++#define true           1
++#define false          0
++
++#define offsetof(type, member) __builtin_offsetof(type, member)
++
++typedef __builtin_va_list va_list;
++#define va_start(ap, last)     __builtin_va_start((ap), (last))
++#define va_arg                 __builtin_va_arg
++#define va_end(ap)             __builtin_va_end(ap)
++
++#define NULL                   ((void *)0)
++
++extern void *memset(void *, int, size_t);
++extern void *memcpy(void *, const void *, size_t);
++extern size_t strlen(const char *);
+ 
+ /*
+  * Call_Pal functions.
 -- 
 2.30.2
 
