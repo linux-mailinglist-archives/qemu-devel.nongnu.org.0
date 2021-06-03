@@ -2,92 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98B039A145
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:41:31 +0200 (CEST)
-Received: from localhost ([::1]:49568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C34D39A155
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:44:06 +0200 (CEST)
+Received: from localhost ([::1]:53270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lomfC-0007gV-RD
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:41:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33556)
+	id 1lomhh-0001y0-K3
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lomdW-0006W9-Bf
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:39:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33121)
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lomg7-000109-Au; Thu, 03 Jun 2021 08:42:27 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lomdO-0001x4-KV
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:39:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622723976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tdqHVmVflfqyxt27O1b6+VXH2djfui6Z/YNcJOL9zrU=;
- b=dtEfB4UmoCuZZp+zho8irxyKRoOzHTK62Ob0E1xnLauI4ipC9a97l1mFpcGLiikAbDmJTZ
- s9UlNS8H7exwrwCEtOv637yLSWhghvEKnvx9qkDIkdpGwXb24bUUVZRTj7eOi9lVOPODCj
- bVQkIMH2QG9e3KNr0GOXJgKZNvUYnBc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-T-cpWVAcPRiJl9aGr8WMSA-1; Thu, 03 Jun 2021 08:39:34 -0400
-X-MC-Unique: T-cpWVAcPRiJl9aGr8WMSA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- d8-20020a0564020008b0290387d38e3ce0so3197794edu.1
- for <qemu-devel@nongnu.org>; Thu, 03 Jun 2021 05:39:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tdqHVmVflfqyxt27O1b6+VXH2djfui6Z/YNcJOL9zrU=;
- b=LCE1bUXP2YNj2QcdL48NOLgYPo4oz3RWM1f2hOY1k8UTTGUHYEuDkFID7eD2vnSlu5
- JBzRkPJ5znDrnJAJ2WpAYYzzEoSUxCdhwpXnPK9wwVtRlmAS0ts4Umb2PkMPh0sv+K2I
- 4Pa5E5kbMQ590+vUlo1ZwMxBFxBAJ5MuHQEz2nnZJhJKB35aJx9WDgGqoj8ICHg2Mltc
- R2yiQmspHaMRG1toEr/rr9txqjBz0ozteHdv05PypQsH7ibr3PvLROTgoAfqsK80q6ec
- sY2QvIkE1xyRuAZ7Pyko9jP88qmBOfAmEzQtB/rAq3C1t/CVNNpNoO4aN27y+hYntAN0
- f1HA==
-X-Gm-Message-State: AOAM531yokas8yISovD7cxMWvGK8l42NIBNjzlpqTxVliZcyzk62QuLP
- +zdxrzOsS0ojxOAT97/eqtgH9miyIHdNLfGweLVADiNvSUWGpoX+NHeRoa0aDa7LtP1sRNzUNw6
- G23eWY1LJEZQpaFVKSSrerde4Q24Jj2UwynNCMS9Zp9RnRoWVvoJmMRcWLrT2EVxe
-X-Received: by 2002:a17:907:1ca9:: with SMTP id
- nb41mr39071022ejc.279.1622723973128; 
- Thu, 03 Jun 2021 05:39:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1499tuZqGhA4ARasMjhZ9QjVToLdv5A5mwFZXTvdh7tzuvbGtML4+jbLrwYvV1GSzWNZlDw==
-X-Received: by 2002:a17:907:1ca9:: with SMTP id
- nb41mr39071011ejc.279.1622723972852; 
- Thu, 03 Jun 2021 05:39:32 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id a97sm1763578edf.72.2021.06.03.05.39.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Jun 2021 05:39:32 -0700 (PDT)
-Subject: Re: [PATCH] hw/intc/arm_gicv3_cpuif: Tolerate spurious EOIR writes
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
-References: <20210603110012.1182530-1-jean-philippe@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <31c4e422-5451-3c0a-f5e6-df75559c9a9b@redhat.com>
-Date: Thu, 3 Jun 2021 14:39:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
+ id 1lomg4-0003eP-2k; Thu, 03 Jun 2021 08:42:26 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Fwllq3dhhz1BHLx;
+ Thu,  3 Jun 2021 20:37:27 +0800 (CST)
+Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 3 Jun 2021 20:42:11 +0800
+Received: from [10.174.185.226] (10.174.185.226) by
+ dggpemm500009.china.huawei.com (7.185.36.225) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 3 Jun 2021 20:42:11 +0800
+Subject: Re: [PATCH v4 1/8] hw/pci/pci_host: Allow bypass iommu for pci host
+To: <eric.auger@redhat.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
+ <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
+References: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
+ <1621914605-14724-2-git-send-email-wangxingang5@huawei.com>
+ <4fed8139-c5f0-8b96-4b98-69374d31c10e@redhat.com>
+From: Xingang Wang <wangxingang5@huawei.com>
+Message-ID: <45364475-8e0c-8af6-de24-64a3aa605514@huawei.com>
+Date: Thu, 3 Jun 2021 20:42:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20210603110012.1182530-1-jean-philippe@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <4fed8139-c5f0-8b96-4b98-69374d31c10e@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.174.185.226]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500009.china.huawei.com (7.185.36.225)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangxingang5@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.603,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,49 +70,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: xieyingtai@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jean-Philippe,
+Hi Eric,
 
-On 6/3/21 1:00 PM, Jean-Philippe Brucker wrote:
-> Commit 382c7160d1cd ("hw/intc/arm_gicv3_cpuif: Fix EOIR write access
-> check logic") added an assert_not_reached() if the guest writes the EOIR
-> register while no interrupt is active.
+On 2021/6/2 20:18, Eric Auger wrote:
+> Hi Xingang,
 > 
-> It turns out some software does this: EDK2, in GicV3ExitBootServicesEvent(),
-> unconditionally write EOIR for all interrupts that it manages. This now
-> causes QEMU to abort when running UEFI on a VM with GICv3. Although it
-> is UNPREDICTABLE behavior and EDK2 does need fixing, the punishment
-> seems a little harsh, especially since icc_eoir_write() already
-> tolerates writes of nonexistent interrupt numbers. Simply ignore
-> spurious EOIR writes.
-> 
-> Fixes: 382c7160d1cd ("hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic")
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  hw/intc/arm_gicv3_cpuif.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-> index 81f94c7f4a..1d0964c9bf 100644
-> --- a/hw/intc/arm_gicv3_cpuif.c
-> +++ b/hw/intc/arm_gicv3_cpuif.c
-> @@ -1357,7 +1357,8 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
->          }
->          break;
->      default:
-> -        g_assert_not_reached();
-> +        /* No interrupt was active, this is UNPREDICTABLE. Ignore it. */
+> On 5/25/21 5:49 AM, Wang Xingang wrote:
+>> From: Xingang Wang <wangxingang5@huawei.com>
+>>
+>> This add a bypass_iommu property for pci host, which indicates
+>> whether devices attached to the pci root bus will bypass iommu.
+>> In pci_device_iommu_address_space(), add a bypass_iommu check
+>> to avoid getting iommu address space for devices bypass iommu.
+>>
+>> Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+>> ---
+>>   hw/pci/pci.c              | 18 +++++++++++++++++-
+>>   hw/pci/pci_host.c         |  2 ++
+>>   include/hw/pci/pci.h      |  1 +
+>>   include/hw/pci/pci_host.h |  1 +
+>>   4 files changed, 21 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>> index 377084f1a8..27d588e268 100644
+>> --- a/hw/pci/pci.c
+>> +++ b/hw/pci/pci.c
+>> @@ -416,6 +416,22 @@ const char *pci_root_bus_path(PCIDevice *dev)
+>>       return rootbus->qbus.name;
+>>   }
+>>   
+>> +bool pci_bus_bypass_iommu(PCIBus *bus)
+>> +{
+>> +    PCIBus *rootbus = bus;
+>> +    PCIHostState *host_bridge;
+>> +
+>> +    if (!pci_bus_is_root(bus)) {
+>> +        rootbus = pci_device_root_bus(bus->parent_dev);
+>> +    }
+>> +
+>> +    host_bridge = PCI_HOST_BRIDGE(rootbus->qbus.parent);
+>> +
+>> +    assert(host_bridge->bus == rootbus);
+>> +
+>> +    return host_bridge->bypass_iommu;
+>> +}
+>> +
+>>   static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
+>>                                 MemoryRegion *address_space_mem,
+>>                                 MemoryRegion *address_space_io,
+>> @@ -2718,7 +2734,7 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+>>   
+>>           iommu_bus = parent_bus;
+>>       }
+>> -    if (iommu_bus && iommu_bus->iommu_fn) {
+>> +    if (!pci_bus_bypass_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
+>>           return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
+>>       }
+>>       return &address_space_memory;
+>> diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+>> index 8ca5fadcbd..2768db53e6 100644
+>> --- a/hw/pci/pci_host.c
+>> +++ b/hw/pci/pci_host.c
+>> @@ -222,6 +222,8 @@ const VMStateDescription vmstate_pcihost = {
+>>   static Property pci_host_properties_common[] = {
+>>       DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
+>>                        mig_enabled, true),
+>> +    DEFINE_PROP_BOOL("pci-host-bypass-iommu", PCIHostState,
+>> +                     bypass_iommu, false),
+> "bypass-iommu" may be sufficient.
 
-A qemu_log_mask(LOG_GUEST_ERROR, ...) call here could be useful,
-do you mind adding it?
+Thanks, will fix this.
 
-> +        return;
->      }
->  
->      icc_drop_prio(cs, grp);
 > 
-
+> Besides:
+> 
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Thanks
+> 
+> Eric
+> 
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
+>>   
+>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+>> index 6be4e0c460..f4d51b672b 100644
+>> --- a/include/hw/pci/pci.h
+>> +++ b/include/hw/pci/pci.h
+>> @@ -480,6 +480,7 @@ void pci_for_each_bus(PCIBus *bus,
+>>   
+>>   PCIBus *pci_device_root_bus(const PCIDevice *d);
+>>   const char *pci_root_bus_path(PCIDevice *dev);
+>> +bool pci_bus_bypass_iommu(PCIBus *bus);
+>>   PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn);
+>>   int pci_qdev_find_device(const char *id, PCIDevice **pdev);
+>>   void pci_bus_get_w64_range(PCIBus *bus, Range *range);
+>> diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+>> index 52e038c019..c6f4eb4585 100644
+>> --- a/include/hw/pci/pci_host.h
+>> +++ b/include/hw/pci/pci_host.h
+>> @@ -43,6 +43,7 @@ struct PCIHostState {
+>>       uint32_t config_reg;
+>>       bool mig_enabled;
+>>       PCIBus *bus;
+>> +    bool bypass_iommu;
+>>   
+>>       QLIST_ENTRY(PCIHostState) next;
+>>   };
+> 
+> .
+> 
 
