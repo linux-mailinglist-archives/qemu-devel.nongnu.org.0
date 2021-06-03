@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EBC399D09
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:47:52 +0200 (CEST)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC4A399CE2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:42:43 +0200 (CEST)
+Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loj15-0001G2-UB
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39832)
+	id 1loiw6-0006Mf-Am
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidb-0007gf-ET; Thu, 03 Jun 2021 04:23:36 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50687 helo=ozlabs.org)
+ id 1loidn-0007tW-2A; Thu, 03 Jun 2021 04:23:47 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48377 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1loidX-0000Gh-SH; Thu, 03 Jun 2021 04:23:35 -0400
+ id 1loidk-0000Tl-Eg; Thu, 03 Jun 2021 04:23:46 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fwf5p5xFbz9t1Q; Thu,  3 Jun 2021 18:22:38 +1000 (AEST)
+ id 4Fwf5p6vbjz9t1s; Thu,  3 Jun 2021 18:22:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1622708558;
- bh=xI0yU8K+AIE6+Ph7gQtn9MOOEp3goTTC14cj4zuAKiA=;
+ bh=j9TUNzCEGVnAmFrOpn95U8c7ggjH9tgYiGBE/L9na0U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YGQn5EEhMcr2EubEFcITB1dWpgiCT/fWjFQ/7pc51DButk7FsBBV//zmfkbP2p/w7
- zb9hW2x+tSOoO1EO8Y7YuJ3rFC6bNIWNk1cu1xUERXuF0J7vrhSV+LMc8r7xUnnquc
- aiHQZ4YcyjPqMZJH6FO8/T3QyxBeKgd1UAzIaRlA=
+ b=ktPlR2HlU4CZVOrzXbDTN0G5En/x4gqqu9Hhh37ELw7PH0kJRVSAcNLwW1n5RhYkf
+ i5VN10Bz+uyqMdTiGm3RFFRLVUn1vQ+33kFsi+w4PKF4rSPWNz44PFc/LtrrxatWix
+ I/349Rj7E2A0Je7FF3u04tb1+6TCQghdNorhmHk0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 29/42] target/ppc: Move page crossing check to
- ppc_tr_translate_insn
-Date: Thu,  3 Jun 2021 18:22:18 +1000
-Message-Id: <20210603082231.601214-30-david@gibson.dropbear.id.au>
+Subject: [PULL 30/42] target/ppc: Add infrastructure for prefixed insns
+Date: Thu,  3 Jun 2021 18:22:19 +1000
+Message-Id: <20210603082231.601214-31-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210603082231.601214-1-david@gibson.dropbear.id.au>
 References: <20210603082231.601214-1-david@gibson.dropbear.id.au>
@@ -58,52 +57,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Luis Pires <luis.pires@eldorado.org.br>, qemu-ppc@nongnu.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-With prefixed instructions, the number of instructions
-remaining until the page crossing is no longer constant.
-
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210601193528.2533031-3-matheus.ferst@eldorado.org.br>
+Message-Id: <20210601193528.2533031-4-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/ppc/cpu.h                           |  1 +
+ target/ppc/insn32.decode                   | 18 +++++++++++
+ target/ppc/insn64.decode                   | 18 +++++++++++
+ target/ppc/meson.build                     |  9 ++++++
+ target/ppc/translate.c                     | 37 ++++++++++++++++++----
+ target/ppc/translate/fixedpoint-impl.c.inc | 18 +++++++++++
+ 6 files changed, 95 insertions(+), 6 deletions(-)
+ create mode 100644 target/ppc/insn32.decode
+ create mode 100644 target/ppc/insn64.decode
+ create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index b7ae4902e4..b4de0db7ff 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -144,6 +144,7 @@ enum {
+     POWERPC_EXCP_ALIGN_PROT    = 0x04,  /* Access cross protection boundary  */
+     POWERPC_EXCP_ALIGN_BAT     = 0x05,  /* Access cross a BAT/seg boundary   */
+     POWERPC_EXCP_ALIGN_CACHE   = 0x06,  /* Impossible dcbz access            */
++    POWERPC_EXCP_ALIGN_INSN    = 0x07,  /* Pref. insn x-ing 64-byte boundary */
+     /* Exception subtypes for POWERPC_EXCP_PROGRAM                           */
+     /* FP exceptions                                                         */
+     POWERPC_EXCP_FP            = 0x10,
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+new file mode 100644
+index 0000000000..a3a8ae06bf
+--- /dev/null
++++ b/target/ppc/insn32.decode
+@@ -0,0 +1,18 @@
++#
++# Power ISA decode for 32-bit insns (opcode space 0)
++#
++# Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licenses/>.
++#
+diff --git a/target/ppc/insn64.decode b/target/ppc/insn64.decode
+new file mode 100644
+index 0000000000..a38b1f84dc
+--- /dev/null
++++ b/target/ppc/insn64.decode
+@@ -0,0 +1,18 @@
++#
++# Power ISA decode for 64-bit prefixed insns (opcode space 0 and 1)
++#
++# Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licenses/>.
++#
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+index a6a53a8d5c..a4f18ff414 100644
+--- a/target/ppc/meson.build
++++ b/target/ppc/meson.build
+@@ -20,6 +20,15 @@ ppc_ss.add(when: 'CONFIG_TCG', if_true: files(
+ 
+ ppc_ss.add(libdecnumber)
+ 
++gen = [
++  decodetree.process('insn32.decode',
++                     extra_args: '--static-decode=decode_insn32'),
++  decodetree.process('insn64.decode',
++                     extra_args: ['--static-decode=decode_insn64',
++                                  '--insnwidth=64']),
++]
++ppc_ss.add(gen)
++
+ ppc_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+ ppc_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user_only_helper.c'))
+ 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 11fd3342a0..d2c9fd9dd7 100644
+index d2c9fd9dd7..f3f464c654 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -8821,9 +8821,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+@@ -7690,6 +7690,10 @@ static inline void set_avr64(int regno, TCGv_i64 src, bool high)
+ # define REQUIRE_64BIT(CTX)  REQUIRE_INSNS_FLAGS(CTX, 64B)
+ #endif
  
-     if (ctx->singlestep_enabled & (CPU_SINGLE_STEP | GDBSTUB_SINGLE_STEP)) {
-         ctx->base.max_insns = 1;
--    } else {
--        int bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
--        ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
-     }
++#include "decode-insn32.c.inc"
++#include "decode-insn64.c.inc"
++#include "translate/fixedpoint-impl.c.inc"
++
+ #include "translate/fp-impl.c.inc"
+ 
+ #include "translate/vmx-impl.c.inc"
+@@ -8850,11 +8854,18 @@ static bool ppc_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
+     return true;
  }
  
-@@ -8874,6 +8871,12 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
++static bool is_prefix_insn(DisasContext *ctx, uint32_t insn)
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    return opc1(insn) == 1;
++}
++
+ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = cs->env_ptr;
++    target_ulong pc;
+     uint32_t insn;
+     bool ok;
+ 
+@@ -8862,18 +8873,32 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     LOG_DISAS("nip=" TARGET_FMT_lx " super=%d ir=%d\n",
+               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
+ 
+-    ctx->cia = ctx->base.pc_next;
+-    insn = translator_ldl_swap(env, ctx->base.pc_next, need_byteswap(ctx));
+-    ctx->base.pc_next += 4;
++    ctx->cia = pc = ctx->base.pc_next;
++    insn = translator_ldl_swap(env, pc, need_byteswap(ctx));
++    ctx->base.pc_next = pc += 4;
+ 
+-    ok = decode_legacy(cpu, ctx, insn);
++    if (!is_prefix_insn(ctx, insn)) {
++        ok = (decode_insn32(ctx, insn) ||
++              decode_legacy(cpu, ctx, insn));
++    } else if ((pc & 63) == 0) {
++        /*
++         * Power v3.1, section 1.9 Exceptions:
++         * attempt to execute a prefixed instruction that crosses a
++         * 64-byte address boundary (system alignment error).
++         */
++        gen_exception_err(ctx, POWERPC_EXCP_ALIGN, POWERPC_EXCP_ALIGN_INSN);
++        ok = true;
++    } else {
++        uint32_t insn2 = translator_ldl_swap(env, pc, need_byteswap(ctx));
++        ctx->base.pc_next = pc += 4;
++        ok = decode_insn64(ctx, deposit64(insn2, 32, 32, insn));
++    }
+     if (!ok) {
          gen_invalid(ctx);
      }
  
-+    /* End the TB when crossing a page boundary. */
-+    if (ctx->base.is_jmp == DISAS_NEXT &&
-+        !(ctx->base.pc_next & ~TARGET_PAGE_MASK)) {
-+        ctx->base.is_jmp = DISAS_TOO_MANY;
-+    }
-+
-     translator_loop_temp_check(&ctx->base);
- }
+     /* End the TB when crossing a page boundary. */
+-    if (ctx->base.is_jmp == DISAS_NEXT &&
+-        !(ctx->base.pc_next & ~TARGET_PAGE_MASK)) {
++    if (ctx->base.is_jmp == DISAS_NEXT && !(pc & ~TARGET_PAGE_MASK)) {
+         ctx->base.is_jmp = DISAS_TOO_MANY;
+     }
  
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+new file mode 100644
+index 0000000000..be75085cee
+--- /dev/null
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -0,0 +1,18 @@
++/*
++ * Power ISA decode for Fixed-Point Facility instructions
++ *
++ * Copyright (c) 2021 Instituto de Pesquisas Eldorado (eldorado.org.br)
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
 -- 
 2.31.1
 
