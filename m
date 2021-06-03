@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464843998C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 05:58:52 +0200 (CEST)
-Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EE23998C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 06:00:12 +0200 (CEST)
+Received: from localhost ([::1]:60264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loeVP-0002Kl-DP
-	for lists+qemu-devel@lfdr.de; Wed, 02 Jun 2021 23:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
+	id 1loeWh-0003nu-F8
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 00:00:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQQ-0008H4-99
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:42 -0400
-Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49196)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQS-0008Nl-1Y
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:44 -0400
+Received: from mr85p00im-ztdg06011101.me.com ([17.58.23.185]:49246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQO-0004Y6-Nl
- for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:42 -0400
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1loeQQ-0004ZW-Cx
+ for qemu-devel@nongnu.org; Wed, 02 Jun 2021 23:53:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1622692419; bh=hxX3lW6G5H4ooVs5K1Wg9MuwXQMZOQOBKRZ+VQtVT+I=;
+ t=1622692421; bh=51QABy2AfwMyeOxLab936/CmhWU0ZyM9ggOJL3COhfI=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=fQg1AheaLdCnzMAs+MysgIrU5JY8UVq+CUT/+el49UaMYUmsbEVtuV5G9Nj3iZiwU
- dWapvpX6LcnTcWpxYoxSmujDAZNYQNww4Q0h57NqKjeeh71cod5qAGYWQsu7f1VjwM
- 6/PLRbthVNM/O/HT5ew4FcepYrwvxMd9Jca81zI+NME1a+OJZFYt0Ujk6HCidcZAfZ
- i5M2Ur/8fDDkZngl/cba/4azq4uQZ0REgQMFmml/jdnVTH2qaXkrPsSBKwsLwhrbWu
- xHDpR63TAdHF1jVChBILfEYERngCvmzyL2h3QCYVF20h1CVBU+XeMD7M8V5Vi2pN+M
- 70DocpeSJ9l1Q==
+ b=W2njIIcLwWsrFf92ETkTGxDUe5fOZ6ZYNZZyoWI+57jewF/pqftfIPHfwP2+WUNKH
+ u5qegVMSZ0d1fq48kQiDdlNLN8G9DI24y7Bc4FWqhxQ7Mo2lyn8l+KFs8OcRpy3cIX
+ tFFsu4uQ3+A6n1pIebwFv4lKS3t6Uw0TC6EkBu7H/vAtdj3lB3+OL3yKqPFwG5zB/W
+ rJIQSbHLqodNM0EFcJSgCH9Nsj6fTeJnM4bZ+J3QHAiXvZA7yGPfeim6bccjWiyXen
+ 6XZ/vRql2Y2grq19kGYeabsSAOF4f72eYs8a++iEtBcm4Up1WymqXBOApWIDg86Guc
+ DcKUWP8aGbYnQ==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id 761F04A03E7;
- Thu,  3 Jun 2021 03:53:39 +0000 (UTC)
+ by mr85p00im-ztdg06011101.me.com (Postfix) with ESMTPSA id EA1574A011E;
+ Thu,  3 Jun 2021 03:53:40 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>
-Subject: [PATCH 4/8] Make some PCI macros available to other files.  NFC.
-Date: Wed,  2 Jun 2021 20:53:13 -0700
-Message-Id: <20210603035317.6814-5-thorpej@me.com>
+Subject: [PATCH 5/8] Fix incorrect initialization of PCI BARs.
+Date: Wed,  2 Jun 2021 20:53:14 -0700
+Message-Id: <20210603035317.6814-6-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210603035317.6814-1-thorpej@me.com>
 References: <20210603035317.6814-1-thorpej@me.com>
@@ -47,7 +47,7 @@ X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c
  =?UTF-8?Q?=5F01_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
  bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=755
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=827
  mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2106030024
 Received-SPF: pass client-ip=17.58.23.185; envelope-from=thorpej@me.com;
@@ -74,45 +74,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move PCI_DEVFN(), PCI_BUS(), PCI_SLOT(), and PCI_FUNC() to pci.h.
+Only program a BAR as a 64-bit MEM BAR if it really is a 64-bit MEM BAR.
+Fixes an issue with the CMD646 IDE controller under NetBSD.
+
+Improve some debug/info messages.
 
 Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- pci.c | 4 ----
- pci.h | 5 +++++
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ pci.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/pci.c b/pci.c
-index 87a101c..ba05adb 100644
+index ba05adb..5e9c906 100644
 --- a/pci.c
 +++ b/pci.c
-@@ -31,10 +31,6 @@
- #include "pci_regs.h"
+@@ -84,7 +84,7 @@ pci_setup_device(int bdf, uint32_t *p_io_base, uint32_t *p_mem_base)
+   device_id = pci_config_readw(bdf, PCI_DEVICE_ID);
+   class_id = pci_config_readw(bdf, PCI_CLASS_DEVICE);
  
+-  printf("PCI: %02x:%02x:%x class %04x id %04x:%04x\r\n",
++  printf("PCI: %d:%d:%d class %04x id %04x:%04x\r\n",
+ 	 PCI_BUS(bdf), PCI_SLOT(bdf), PCI_FUNC(bdf),
+          class_id, vendor_id, device_id);
  
--#define PCI_DEVFN(slot, func)	((((slot) & 0x1f) << 3) | ((func) & 0x07))
--#define PCI_BUS(devfn)		((devfn) >> 8)
--#define PCI_SLOT(devfn)		(((devfn) >> 3) & 0x1f)
--#define PCI_FUNC(devfn)		((devfn) & 0x07)
- #define PCI_SLOT_MAX		32
- #define PCI_FUNC_MAX		8
- #define PCI_REGION_ROM		6
-diff --git a/pci.h b/pci.h
-index b751c6f..b4a4f80 100644
---- a/pci.h
-+++ b/pci.h
-@@ -60,6 +60,11 @@ extern void pci_config_maskw(int bdf, int addr, uint16_t off, uint16_t on);
+@@ -118,9 +118,10 @@ pci_setup_device(int bdf, uint32_t *p_io_base, uint32_t *p_mem_base)
+ 	  *p_base = addr + size;
+ 	  pci_config_writel(bdf, ofs, addr);
  
- extern int pci_next(int bdf, int *pmax);
+-	  printf("PCI:   region %d: %08x\r\n", region, addr);
++	  printf("PCI:   region %d (BAR %02x): %08x\r\n", region, ofs, addr);
  
-+#define PCI_DEVFN(slot, func)	((((slot) & 0x1f) << 3) | ((func) & 0x07))
-+#define PCI_BUS(devfn)		((devfn) >> 8)
-+#define PCI_SLOT(devfn)		(((devfn) >> 3) & 0x1f)
-+#define PCI_FUNC(devfn)		((devfn) & 0x07)
-+
- #define foreachpci(BDF, MAX)				\
- 	for (MAX = 0x0100, BDF = pci_next(0, &MAX);	\
- 	     BDF >= 0;					\
+-	  if ((val & PCI_BASE_ADDRESS_MEM_TYPE_MASK)
++	  if ((old & PCI_BASE_ADDRESS_SPACE_IO) == 0 &&
++	      (old & PCI_BASE_ADDRESS_MEM_TYPE_MASK)
+ 	      == PCI_BASE_ADDRESS_MEM_TYPE_64)
+ 	    {
+ 	      pci_config_writel(bdf, ofs + 4, 0);
 -- 
 2.30.2
 
