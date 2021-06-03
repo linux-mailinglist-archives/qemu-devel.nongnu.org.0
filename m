@@ -2,138 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1333C39A0C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:27:23 +0200 (CEST)
-Received: from localhost ([::1]:34560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9FA39A0EE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 14:31:09 +0200 (CEST)
+Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lomRW-0004Zx-3B
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:27:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58200)
+	id 1lomVA-0006iy-5B
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 08:31:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lomPv-0003CX-3p; Thu, 03 Jun 2021 08:25:43 -0400
-Received: from mail-eopbgr80108.outbound.protection.outlook.com
- ([40.107.8.108]:60768 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1lomTd-0005wE-NC
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:29:33 -0400
+Received: from mail-eopbgr80128.outbound.protection.outlook.com
+ ([40.107.8.128]:47429 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lomPq-00019s-KO; Thu, 03 Jun 2021 08:25:42 -0400
+ id 1lomTP-0003aY-25
+ for qemu-devel@nongnu.org; Thu, 03 Jun 2021 08:29:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cDTjv4elFmT0uDvenf/XFZbeRxezM9yTpRD8Z1sqWtg0dlGtaTrAKVu/ROekWWK5qC65nDsYYe99VDuf9hbbhe9++4A9h1gXu36/9UhP8TlAjqEDbXu5AZOCvV+pBYklw6abY6N3dPIZTrWwT4sW6QTWWEanE2HQ3G7Ud8mAIaBEcue5Sd7tohxhB9YkPVnlqNFiw+FcMuTSUNRcMGEP2s1c3lQ9RciwtP4I+UTQ/iG0X+6Ti5CuxE0bhnEtNoNjzxYkL2yFghGVo33TAIjwTVwp+i0iVKvgjOu7z4TXquWDXPZz9vRY0gfRIhBJcqDmr7c9Nq3ep4Nvblo2VT0p0g==
+ b=auOowhG1/NY2cDOE47nEyboflAwF3wIFxQIlGX0YEOf30ZkPsjH7qtd0iJR78a4Jr2dNPePZEeHtQxkypMJA4592qOT6jbQ4ejl3AJbkiXVNGol6u2BdQuwv41KZqPY9421KbxMAlYDv7S+hPtVkUZ+nNh3oDwSvcyHI8J5CKH8bs1lM1s62izhQk2ufbdFtnKuHAQjT7e8eRojZhdS67PT/3lqMiKyDnXxFZVpt/0xzeaLBQmrm/ZvMO1/HAbUS8y7TYDD/cxPQhRejwkhlAP/fvlkVpYBGcsscTnGF/YgA86udE3V5ynlZ7pt7NBwiPwjb/mXc4dCuhOc4xoAhGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ND9X1WU408zV4h2aLRdLVorfD+YcUhVB73tDvzz99O8=;
- b=YI+HVBDm+1VAHezOl3He6XsSN0rmE6kDnl4Vlj8SKDzHtEKuV17hv0BwSJedAX52qM5T0xhJxmCRs5DkKOfWErkw7nfilRsdNPfUS/dZAgEdHYbjyFf/nXg9gcmDSONAJkTiLDXOI61v26kkxmaNoj8rJ6C91P3W31ISMKlBoSWV5LumD2Jk0PyAHa62vz4wjufJZm8sPzQEONL/bqSvJouQLjoSr2jHDuWAoFqUstzJgbcsVWg9xy6uoN66JgV8Na1RiSkBfBLSteeeLtMZW0y0Ncz98BEK4490MRxgiD/GYheIdcbl0uEC6UGpWRXRD8OJSRhe3ZgSq3kfCwkqwA==
+ bh=1RYnXFW0oEzuHfiakC7o9zWRvken7NLBJ/RdDZnwcec=;
+ b=aPQPw4jz8Gll4qfzTFraMfbhw7x56ogQhnpimJOFqYXOJKSsGab6zgx5O18MUEerSW9CteiXTlvi5bHEDiX1JLp5GG8ZsaYTXUpIN5TljcfNpiyfrQldwCOF+HzMySRd/pNPK6sVnRApzScvUDdWD9OgBQIdUWcHBacmCLOCPX2UghWabOfAE3IzeiEmSMVSomj0dvoJYPZ+nrzdK+QTFcvpLH2w8y+apj+vX6r4YXSyv0Ex1UXIkyyPul+cCAH7EjrVRr8RrfLfSsh5UTzIVgDbtzfKd685RBHtkswRQT6FkezSAoBThjyl/E1To5kSrz45CgCqxBOGgaNRctgEWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ND9X1WU408zV4h2aLRdLVorfD+YcUhVB73tDvzz99O8=;
- b=qIGLfX7Dj4UPfmDGDllF6MXzLmooHkBcpk2FRqMWqESwa6RPQMRNfOQz6/XGo4P9MdtHzToYmeBDmL1QFQbPLQ12pxy0Ash4u8A0P9LXegJ28j1WWzxr8FHUbnFz3LEVBO7YICpvNYiD/FTP+16Ur36Wr2eoTdfHjdvy+laTBLg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+ bh=1RYnXFW0oEzuHfiakC7o9zWRvken7NLBJ/RdDZnwcec=;
+ b=P3h26o3k6xe2IhQte51XVzwAnH5zsxaEDi0LheXp1GIJ9OhPuZ6u5cc12VUYqTeRgz0qPC7fQmXfj0gZWOOcVgQyETVYJhrKeg2zWVFQvNadckEOHY0+AYq5ZvD2ZIghKR6okjjn4d1Hl5g7pWJfTnrV92N8kfQcIwAJPIU0rBU=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6119.eurprd08.prod.outlook.com (2603:10a6:20b:290::10)
+ by AM6PR08MB5127.eurprd08.prod.outlook.com (2603:10a6:20b:e1::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Thu, 3 Jun
- 2021 12:25:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.21; Thu, 3 Jun
+ 2021 12:29:15 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%7]) with mapi id 15.20.4173.030; Thu, 3 Jun 2021
- 12:25:35 +0000
-Subject: Re: [PATCH v4 05/15] qemu-iotests: delay QMP socket timers
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
-References: <20210520075236.44723-1-eesposit@redhat.com>
- <20210520075236.44723-6-eesposit@redhat.com>
- <5bde3128-e972-3653-308b-4faa4eb52bb6@virtuozzo.com>
- <bbf2c63d-662b-541e-6a65-1419f650e066@redhat.com>
+ 12:29:15 +0000
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Eric Blake
+ <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ kvm@vger.kernel.org, Denis Lunev <den@openvz.org>
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <1570614c-7c0e-694e-b5fd-d7814da88964@virtuozzo.com>
-Date: Thu, 3 Jun 2021 15:25:33 +0300
+Message-ID: <bfa92991-94c8-6212-0a42-9b5b01bcca05@virtuozzo.com>
+Date: Thu, 3 Jun 2021 15:29:12 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
-In-Reply-To: <bbf2c63d-662b-541e-6a65-1419f650e066@redhat.com>
+In-Reply-To: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.243]
-X-ClientProxiedBy: AM3PR07CA0112.eurprd07.prod.outlook.com
- (2603:10a6:207:7::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR02CA0029.eurprd02.prod.outlook.com
+ (2603:10a6:208:3e::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.243) by
- AM3PR07CA0112.eurprd07.prod.outlook.com (2603:10a6:207:7::22) with Microsoft
+ AM0PR02CA0029.eurprd02.prod.outlook.com (2603:10a6:208:3e::42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.9 via Frontend Transport; Thu, 3 Jun 2021 12:25:34 +0000
+ 15.20.4195.22 via Frontend Transport; Thu, 3 Jun 2021 12:29:13 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b3d27053-00f5-415c-5a6c-08d9268aafe2
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6119:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB611913E3BD5E90D844D8B39FC13C9@AS8PR08MB6119.eurprd08.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 16ed2311-595b-4c02-53c7-08d9268b3301
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5127:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB512715CD26B4E213FAC734F6C13C9@AM6PR08MB5127.eurprd08.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oxJ8qlIyxYf+8m10oZVbXNmUhDFGUbZD89q4UWd3JDZGiwavCVYwr7Cad+UL1KTB1Ncj5uKtAJSsgSfogsIIKZhVIcoZYP5bJKcudBscQIs6DYg9Xxpz2s7NyJ4JN4Si9EsWhQoSMzQp9UYyARe11+Df9YgvSt3VPN4bL+uj8UIUXvFxBT+A+D48Yrnnqc9Y9gxp1BALngmyoq6J6g+PNQBO+5rpule1e0CwMbqlKcN8y4b/8GdV+Qbz1TEW16D2PCfIi00fzBjIdCk2wKrV8w6bECZ6aqnzb4bjvCAteNyD7M1hP7xZEPSTwCiqzgtGMz+xZ0xP/Q+9SOdzHTpCnMS3I76N3T4uzRf2Pg6Nf478I8GgBF+gCLd178EBSvhsFghLTRTy9T7x2BoUSy8btr+7qtZXRS0H7/5WczjO33V+38ENABbm9DYtIbnTebm1+U+YMwmGQyKkofoIG8KzWCXCblbuntDHcdrMN2QAXjoqmLVGj3bCUK7/nVNScH3pj4+YUOyxVT/ilWAoNimxJqrniCy8YLXqAVX586A7Nry0HKa8ItxAKxOuIPg9a3U8v53uVEhGJjrAEUT8NTkOjlcyfOtVKXLM+lQTkmneOB+PA/hrI4GK+8XMYodHGDxNlDj0xbd1HeqmKLc8Oethurs6F5joUXrGJuSODzeqn1vl6uYP9zx16rlPDtZ/Gc+TiiZZxz3AAbq7R0/LzBFWxA==
+X-Microsoft-Antispam-Message-Info: L5Qvatqv0fEnaZYppxsFB8qay6Y+MYm+m/mmDQv2F+bgslOvSUhu/zSgZveVX/O1anI7ygS+/cYbQD8Y90XvT1vMJ5JvNe4fCZSa6P6A5B4GsGUe3Q9nDNcDRbYdb4SmBz34P0bNtDH2gmS/Ccza3enKXMd72ZeOvG/OCnHEcP7CNpED/UmfHW7BS4YIajDA1OoYZBZ3Ogtney4GHAsLPZYy6WXYUJvwwkBb2j/hmvxmPxK6kFwCOFgixuyJHIij+5OprjF451dxz1IIpwsUqTeRSLQDNe9ZFMKtoJz2ow3dTMslYAd3w+vmB4pK0Bb+C2cIj1y/RGJcauGazPCVD71SH2lSAULTFGr+fSaVZhCC5rQf5KeM11/JmRd9myBpqaTZ5vh6e0LOvtRrsYbboS+yCBHphqEx/btpXa0lKNJm2c9gSPfnm1+qIvmIn8T90G7qkPvu8abpQAm+VN3rMkKySlNJkSRAS36sjqpqGYQzt64mLSZ54xdxsKcnM3uEFXTp50qkemrgOaqmfEEmy+4UxPdjOUhWMpAgFy7kjS78Mqh7svh14xltXGKRIWC+tBiC9jAxv7L/wE6u1ELDO2pVYLka9T5hptFnFlRgT1MQFRZJInoP2EaxDUFnRGtIJ7o/p6G2zAvhTSNqQOvfLYvumxalyZ5cJhudaOjwFb4m8zlX7SFlH3NPJRYV3lelsSG3LFzWzVr9GaZfH2gK8qYUJTyjLH+C4F6n12FKDRM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(136003)(39840400004)(376002)(4326008)(2906002)(478600001)(31686004)(36756003)(31696002)(86362001)(38350700002)(38100700002)(316002)(66946007)(16526019)(5660300002)(2616005)(66556008)(66476007)(52116002)(26005)(54906003)(186003)(16576012)(956004)(8676002)(6486002)(8936002)(45980500001)(43740500002);
+ SFS:(4636009)(346002)(136003)(39840400004)(366004)(376002)(396003)(38350700002)(38100700002)(956004)(6486002)(31686004)(7416002)(31696002)(316002)(107886003)(8676002)(8936002)(2616005)(66946007)(186003)(478600001)(54906003)(66476007)(5660300002)(52116002)(4326008)(26005)(86362001)(36756003)(2906002)(16576012)(83380400001)(66556008)(16526019)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TVdMV1orV1RMeU94L1dMTlhKWklGS090akpTQ013eWkrT2JWYzJrcWxDSVRL?=
- =?utf-8?B?RXR4Z1g1NmZEbHdrSW5lMlM1dGh3MWtDa3VkME5RdFlHUTBiSmRzazNHVVhw?=
- =?utf-8?B?S3VhZUpIMTBteGJrekNDdkxWdXMvTjZRRE4zSjh1N09hNVNmRkxoTU50TGdK?=
- =?utf-8?B?Ni9peDQ0b0JCTXdIWnBZSDd6Z2M2K21CMlIvZjZFZHA3d2Y5S0VwS0F2bkVi?=
- =?utf-8?B?Ym42UFY4aVpBZEMxM2xPTmdYM0V3cUdmMUxGSHpnK0thdXJSOE5MRlpZOFVq?=
- =?utf-8?B?Tk1DRTlES0czZUs1VGRvUW5idUIrek5JUEdOQU9hV2NqRmRtY29TNHlXNkcy?=
- =?utf-8?B?Z2loV2txZVRUVFVTRHJJanpXMVBmenR4b1lqWXFkUmFuN3Y4U3lYclROTWtO?=
- =?utf-8?B?S3lZVHZBQTlvVVlaTVhTeElXWHdrV1BGNS8wVmU1RmZta0JVUGl0NGtzek1u?=
- =?utf-8?B?YndmbktnSHF3QmQ2UWVZKzR5RXBDeU11WmR1NDVIUisvNFh0Ui9VWVBMTitt?=
- =?utf-8?B?RW1LbkNraGJmd05rRkhmVHFERFA5bnBGTkRMU250NDlWNC9MUzZiVWllUFhD?=
- =?utf-8?B?V1ZWb1FCdUh4V0QycHpVekI0cTA3R1pHR3FtK1VuNzJVYUc2cXdPWWlKMGxR?=
- =?utf-8?B?SnpoaHBDK3Yydytub05VOTIyNGpWcnN4bDNDbnBYNUVJc25ZNzlOMkVrSC9G?=
- =?utf-8?B?eTR4Y0dLTHNmWmx3WkpuZzhNUkFEWVF6NmdhazFxZzNLMUM2c2tRT0d4VEhv?=
- =?utf-8?B?OXV0N080a093ZUUrRTgxc0wrS2NyM2VDU2FWYkdqcUdQTENEcXh4OWc3K3I0?=
- =?utf-8?B?K0RIQ3Q4KzNhUGg0ckFFdGlVZVd3RU9oNlBrY1RuOHYzQ3pwVTZLR2pXMTJO?=
- =?utf-8?B?T3B4RHVoY3JrVDZjK3l2RWxJaXlPWkdjZ2hXUVRPRWUvQWIrc2RZa1lVaE54?=
- =?utf-8?B?UitNK1cxZ0V5bzRFL0Q5TDhVMTZaZ2hVYmFrSTk1dVRVb05SZnYvTzJuM2Vv?=
- =?utf-8?B?aUt1dzJsTFl0Vk1ta3pHWGNiN0hJQ1UyeWhsRlVWRFFPSWREWXArVDRmeWVh?=
- =?utf-8?B?QlN2R0VHdHdHMjE1WU1PRm9YU3ZGeTdTSkFERnMrNFdWVzl6Y3NhRDFBVmxw?=
- =?utf-8?B?emYzaCtaWnRKOGx5YWp4YlR6ZUpNRDVnRjdURXlGdllVUEhUaWxQU0lXeDdM?=
- =?utf-8?B?eG9IZHlCTUxpRzRrQ1JpVjJiSGZhdUxhNytoNzNHbnU1bTViTU1MYkJjcTNS?=
- =?utf-8?B?YzlWVmxLK1MyaVZvOWpBRnM2VmZ3eDYxeVFRbUdjWXZxRmhqOVlGSlBkNnBU?=
- =?utf-8?B?QjMrY1RlaGJlSlY2QnVNYTNYMm9CS1VxYVJ4WEhoVGZBVW5JeU5nZEpVYjFE?=
- =?utf-8?B?diswUU55NUdWL1VUVUVvMjRMZ3BNQUVseUF6dHJuRnpwZXI5Mml4Q0tueWZ1?=
- =?utf-8?B?RkJpbTBaL1ZmdUpDazh2NDZVVWNzT1hRZkFnOG9iZzJmLzBWaVhZNUJaNzNh?=
- =?utf-8?B?N0xJaVJuWG0zK0RkbGIremoyWkoxblIvMGRjYmx0eGRBVkV3cTFMbXgxbUlU?=
- =?utf-8?B?ejQ1SDUzakNYM0hrVlFqSjdXMFBLbUFsZHZqWkd2NWZiMXoreGR4WmxVeitk?=
- =?utf-8?B?Ym1TUHp5N1ZYRm5rK3dNaG0xdUhQa2p0cG1SNUxBdDJNck80MFBnT1RLa1FG?=
- =?utf-8?B?R1Q2WWJYeS93ZElMbWlWcm1Sd3B1Wko5WE9OMG9HajlpMW8zR1dOanBLWS9X?=
- =?utf-8?Q?BsRdxHMQDNqKXMdaQaaSXdAHdnMcHNI+xCahlG+?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?amFyaXYrRFB4Lzcyb2l0dkV4TCtLT0J0V0lzTHhUY1RyOGRSV3ZoYmN6T2lh?=
+ =?utf-8?B?cmFXTnAvN0hWOERMSE5xVDhjeEwvV0t2QkZhRkFWS1NoTEhLVTU5UkpwV212?=
+ =?utf-8?B?a0lnWnYrMTgzVk84Ym5jQ2RPNnJrU3FLRTBMZ2d5ZVJCejNIUmFOcGpLdEN0?=
+ =?utf-8?B?Q09UOHcrUUluK29XWFUxbks1VDh1RkZtQ0dLb3BKT2pGVEhYaXplcVJUdGFR?=
+ =?utf-8?B?aENUS29Nb2Rla2NqNjNoSVhBVERjNzUraTdMVlIxN2d4a3JmY0o1WlJMU3g4?=
+ =?utf-8?B?WDJQSUU3bGpKeWdpVlMvaFJZQ050MXFMdU5CMm1VZFVzQzNKYjRqeEQ4cGhn?=
+ =?utf-8?B?WnZKaFQ2QllrTDVMc3Y1dGNnVWJyQjNJTk9meHdoQm96RkIxVFFtQ3BTc2h2?=
+ =?utf-8?B?Q042bFB3VU8rT2s2MDR3ZlN6MTJXQ3RwU0szU3lzTFI2YUJoZXM2bHM3MklP?=
+ =?utf-8?B?ZStwN2tvWXJtRXFPekJ0TU5qd2lUK0lqdXpYZ0xxalQyMC8xcWxXd0dnRHgw?=
+ =?utf-8?B?aTAyV0RlVHlseU5kTFZRY0xTMi8xVnJzYnBOcnVmSzU1UU1tbmVpZ3Bub1NR?=
+ =?utf-8?B?RSsyTjlyN3NGU21YZEN0WjNzUTd1aG9udEp5S3NPUUp5SEQzd21UaTJIa1Fl?=
+ =?utf-8?B?S25qcXJHYnBHMHJTQnM1Y2ZBU1hJM0xsSHNsRHF0c205MzhVc1pVRDZaWDFD?=
+ =?utf-8?B?R01jVVBuM282bU5zc0RUNHNPZDloRHBYeVBBVHNKUXlzc09UcDgxdzJIV0Jh?=
+ =?utf-8?B?ck5GZzBlWXA5bkZyam40UjhjZmJxQU5CUUltQVVyQlVrRHl0MXIyeDJqT0hQ?=
+ =?utf-8?B?WCt6NmxjdVRpc3ljdlRRS21DQkFMeEFPZWRWZVRaK0orMmpKbGZick5rQzZU?=
+ =?utf-8?B?S2hYV1Z1N204TFNwd1l0UnR3cGJleXUrM3hjMllPZTVmZ3F6blc2YWZXN3BR?=
+ =?utf-8?B?RmpMSGZrWVR4TXlPcnp3YlpQdWNVaTdzQ0dlcHBWNjRJVlFZK1VHTmVGaVlP?=
+ =?utf-8?B?SHloelNPZFh1eXR4MDhuU0Q5dWxjYmEwbzhMQ3h6TktnZW1QZ0tVY2xSZity?=
+ =?utf-8?B?NkNBbWIyYlErTUFUb25pTkhoMDJia1VFMFk1ZkZOc3FkNC8wS05abnVFa2tV?=
+ =?utf-8?B?OTlzU3VPNC9Vc2lDWVROdDNObDJ1SkFkUzlUSFhXRFRJaXRtSHNjN2FJamk4?=
+ =?utf-8?B?SlZmTkVHMHNtcGt4cUgvbDZMRVNDNzlvNE51aWEwS1pyMVIvNnlzMG12bm8r?=
+ =?utf-8?B?VUpyOTFkWjFOTllOb2VoYmNEUUhtTmpPWUtaMkFvWDc1OTBEUEMyeGJpd0JX?=
+ =?utf-8?B?QXg2ODBZMjZzU0w2SVV0YU9OUE1BNllxb0pIeDZlYk40dzhCRVpxQkJlc2lr?=
+ =?utf-8?B?dWpTU1VLRlMya3BkUTQ1TWoxT1MrMEdtTGEzRW8vQjErL1VFcmwveUoxU0U2?=
+ =?utf-8?B?TFJUSWd1aUpCQ0hDRHZWbU14QlllSm1xbTN1Q0xxSlVYb2VCUTdoZGx3TlR3?=
+ =?utf-8?B?aWw3NzJkaGNzMzhTc25qVnVDNGtRNnpvdnNlaml6WUZ5WU5mWVZkMzB6MmFD?=
+ =?utf-8?B?d1pxNm9mSTVmUWIzSVJBeG5yN1VBY2dYckJZSzNKRTI0T2hYcW81NjBicStp?=
+ =?utf-8?B?MnZwWjVhd3U3c0dDeldNQ1I1cVZrNEFtT05DUit2QWFka2t1elgvMUd4ejlH?=
+ =?utf-8?B?NThnQWtZa2czSGQ2bnVoMEpTZEZUdHVaM2xtZU9uZjlPUVB5dUI0bmhTR0tY?=
+ =?utf-8?Q?7uwOxYkVTekriDjGsLZ/hHaAwD4PWImZYXeTG21?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3d27053-00f5-415c-5a6c-08d9268aafe2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16ed2311-595b-4c02-53c7-08d9268b3301
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 12:25:34.9109 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2021 12:29:14.8765 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PSlewiWsitQNQYjg8OPNvBhKYjQ421rRwPccKOCrW3ccjRWDpKwhmf3YecOi/+dbty2DqYfVEl6bmcqRacWeU74Bb0SB/++97MyzE9tuqVY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6119
-Received-SPF: pass client-ip=40.107.8.108;
+X-MS-Exchange-CrossTenant-UserPrincipalName: nFTr9FKumHNlW6p8QZty4YyRYD2Bffgv8sb82ZsXsaXXMdkujMtahqHE3ls3BqAolmrt8lFYhF+fxA7gCZXatGmowBKDJI8phy/yt3uIcO0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5127
+Received-SPF: pass client-ip=40.107.8.128;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_NONE=-0.0001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -151,58 +154,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.06.2021 14:03, Emanuele Giuseppe Esposito wrote:
+03.06.2021 12:07, Valeriy Vdovin wrote:
+> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+> get virtualized cpu model info generated by QEMU during VM initialization in
+> the form of cpuid representation.
 > 
->>
->> So, you just make the class do nothing.. I'd prefer something like this:
->>
->> @contextmanager
->> def NoTimeout:
->>     yield
->>
->> if qemu_gdb:
->>    Timeout = NoTimeout
+> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+> command line option. From there it takes the name of the model as the basis for
+> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
+> that state if additional cpu features should be present on the virtual cpu or
+> excluded from it (tokens '+'/'-' or '=on'/'=off').
+> After that QEMU checks if the host's cpu can actually support the derived
+> feature set and applies host limitations to it.
+> After this initialization procedure, virtual cpu has it's model and
+> vendor names, and a working feature set and is ready for identification
+> instructions such as CPUID.
 > 
-> I am not sure I understand what you want to do here.
-> I have a basic understanding of @contextmanager, but can you explain more what you want to do?
-
-With qemu_gdb you make the class do absolutely nothing. So, it's just provides an interface of context manager, but does nothing.
-
->> @contextmanager
->> def NoTimeout:
->>     yield
-
-is the same thing: it's context manager, so you can do
-
-with NoTimeout():
-   ....
-
-but that context manager does absolutely nothing.
-
-
-@contextmanager gives you a simple way to create a context manager. You define a function which has yield point. So, everything before yield is  __enter__, everything after yield is __exit__. And you can return a value by yield, it will be a return value of __enter__.
-
-
-So, what I meant: keep Timeout class as is and just add code that I suggested after it.
-
-
+> Currently full output for this method is only supported for x86 cpus.
 > 
-> Alternatively, I send the patch as-is, and then you can send this change.
-
-OK for me.
-
+> To learn exactly how virtual cpu is presented to the guest machine via CPUID
+> instruction, new qapi method can be used. By calling 'query-kvm-cpuid'
+> method, one can get a full listing of all CPUID leafs with subleafs which are
+> supported by the initialized virtual cpu.
 > 
-> Thank you,
-> Emanuele
+> Other than debug, the method is useful in cases when we would like to
+> utilize QEMU's virtual cpu initialization routines and put the retrieved
+> values into kernel CPUID overriding mechanics for more precise control
+> over how various processes perceive its underlying hardware with
+> container processes as a good example.
 > 
->>
->>
->> anyway:
->>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>
+> Output format:
+> The output is a plain list of leaf/subleaf agrument combinations, that
+> return 4 words in registers EAX, EBX, ECX, EDX.
 > 
+> Use example:
+> qmp_request: {
+>    "execute": "query-kvm-cpuid"
+> }
+> 
+> qmp_response: {
+>    "return": [
+>      {
+>        "eax": 1073741825,
+>        "edx": 77,
+>        "in-eax": 1073741824,
+>        "ecx": 1447775574,
+>        "ebx": 1263359563
+>      },
+>      {
+>        "eax": 16777339,
+>        "edx": 0,
+>        "in-eax": 1073741825,
+>        "ecx": 0,
+>        "ebx": 0
+>      },
+>      {
+>        "eax": 13,
+>        "edx": 1231384169,
+>        "in-eax": 0,
+>        "ecx": 1818588270,
+>        "ebx": 1970169159
+>      },
+>      {
+>        "eax": 198354,
+>        "edx": 126614527,
+>        "in-eax": 1,
+>        "ecx": 2176328193,
+>        "ebx": 2048
+>      },
+>      ....
+>      {
+>        "eax": 12328,
+>        "edx": 0,
+>        "in-eax": 2147483656,
+>        "ecx": 0,
+>        "ebx": 0
+>      }
+>    ]
+> }
+> 
+> Signed-off-by: Valeriy Vdovin<valeriy.vdovin@virtuozzo.com>
 
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 -- 
 Best regards,
