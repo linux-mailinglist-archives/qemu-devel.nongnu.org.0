@@ -2,92 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29091399C4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:15:12 +0200 (CEST)
-Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9776B399C87
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Jun 2021 10:27:17 +0200 (CEST)
+Received: from localhost ([::1]:54770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1loiVS-0003Yw-MC
-	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36986)
+	id 1loihA-000771-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 03 Jun 2021 04:27:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1loiTv-0002rj-DN
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 04:13:35 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:57814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1loiTt-0002Ju-8C
- for qemu-devel@nongnu.org; Thu, 03 Jun 2021 04:13:35 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9CEA2219E0;
- Thu,  3 Jun 2021 08:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622708011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d0hAS/+JOqW0pC3+f93GRJjQSSlwZsp5HUXVeOPm3Jo=;
- b=zTArNU/5QZWIzv6BbzAdGNlKCvtSflyt7ZEnAIQnggkZxRdnA3YHyeE8/2wPmFopHJ1D+Q
- PAVP/R/IYaWRWrW0GMQHOUmOifWA1kth+MXP80BmwaAbYnq++pzn2JTStpg6/0kOVxr45/
- NxT5K6+RE9qCPGfFmUErArPsJkLikTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622708011;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d0hAS/+JOqW0pC3+f93GRJjQSSlwZsp5HUXVeOPm3Jo=;
- b=5NS+Hn6Xf811hAr0jc4ckcfOjeY4w0YCaXHbymHmUpJVXwqYldlAQrxgmZW6ULKo9l1rY0
- jsKMzVgDdwFT0GBQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 1F35A118DD;
- Thu,  3 Jun 2021 08:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622708011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d0hAS/+JOqW0pC3+f93GRJjQSSlwZsp5HUXVeOPm3Jo=;
- b=zTArNU/5QZWIzv6BbzAdGNlKCvtSflyt7ZEnAIQnggkZxRdnA3YHyeE8/2wPmFopHJ1D+Q
- PAVP/R/IYaWRWrW0GMQHOUmOifWA1kth+MXP80BmwaAbYnq++pzn2JTStpg6/0kOVxr45/
- NxT5K6+RE9qCPGfFmUErArPsJkLikTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622708011;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d0hAS/+JOqW0pC3+f93GRJjQSSlwZsp5HUXVeOPm3Jo=;
- b=5NS+Hn6Xf811hAr0jc4ckcfOjeY4w0YCaXHbymHmUpJVXwqYldlAQrxgmZW6ULKo9l1rY0
- jsKMzVgDdwFT0GBQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id y7WWBSuPuGAFKAAALh3uQQ
- (envelope-from <cfontana@suse.de>); Thu, 03 Jun 2021 08:13:31 +0000
-Subject: Re: [PATCH 1/2] i386: reorder call to cpu_exec_realizefn in
- x86_cpu_realizefn
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210529091313.16708-1-cfontana@suse.de>
- <20210529091313.16708-2-cfontana@suse.de>
- <20210601184832.teij5fkz6dvyctrp@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <dade01d5-071e-75f7-481f-01f6d2ba907c@suse.de>
-Date: Thu, 3 Jun 2021 10:13:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1loicu-000676-VH; Thu, 03 Jun 2021 04:22:55 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46653 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1loicr-0008Ms-4p; Thu, 03 Jun 2021 04:22:52 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Fwf5l0nXqz9sVb; Thu,  3 Jun 2021 18:22:35 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1622708555;
+ bh=c9ng99w72BtSY6o67WDdLGAx8mg5iXQt09NTXK/jS8Q=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QHW85h3q+uq2B1+ScnWhGaaf3Ub2+MiWyQLZkaiPdDeZ0vYxUPUe78xobbOSv5Fq7
+ +XvtlsLUyhww1V7nvpEzCOAfHxr0FZzADmeco/lBEFYHAuWu3Cn0u9dOSzn64gwtL9
+ R3NP/mvWj9MFwuCoKLH71uJ9a+g6oN6egTVPD3ks=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org,
+	groug@kaod.org
+Subject: [PULL 00/42] ppc-for-6.1 queue 20210603
+Date: Thu,  3 Jun 2021 18:21:49 +1000
+Message-Id: <20210603082231.601214-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210601184832.teij5fkz6dvyctrp@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.613,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,225 +56,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
- Siddharth Chandrasekaran <sidcha@amazon.de>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/21 8:48 PM, Eduardo Habkost wrote:
-> +Vitaly
-> 
-> On Sat, May 29, 2021 at 11:13:12AM +0200, Claudio Fontana wrote:
->> we need to expand features first, before we attempt to check them
->> in the accel realizefn code called by cpu_exec_realizefn().
->>
->> At the same time we need checks for code_urev and host_cpuid_required,
->> and modifications to cpu->mwait to happen after the initial setting
->> of them inside the accel realizefn code.
-> 
-> I miss an explanation why those 3 steps need to happen after
-> accel realizefn.
-> 
-> I'm worried by the fragility of the ordering.  If there are
-> specific things that must be done before/after
-> cpu_exec_realizefn(), this needs to be clear in the code.
+The following changes since commit 8c345b3e6a736d4985b2bca6f7f24b985900de63:
 
-Hi Eduardo,
+  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-06-02' into staging (2021-06-02 17:08:11 +0100)
 
-indeed the initialization and realization code for x86 appears to be very sensitive to ordering.
-This continues to be the case after the fix.
+are available in the Git repository at:
 
-cpu_exec_realizefn
+  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.1-20210603
 
+for you to fetch changes up to eba3c766fe355a4e593c1ee6944770f80b68acad:
 
+  target/ppc: fix single-step exception regression (2021-06-03 18:10:31 +1000)
 
-> 
->>
->> Partial Fix.
->>
->> Fixes: 48afe6e4eabf ("i386: split cpu accelerators from cpu.c, using AccelCPUClass")
-> 
-> Shouldn't this be
->   f5cc5a5c1686 ("i386: split cpu accelerators from cpu.c, using AccelCPUClass")
-> ?
-> 
-> Also, it looks like part of the ordering change was made in
-> commit 30565f10e907 ("cpu: call AccelCPUClass::cpu_realizefn in
-> cpu_exec_realizefn").
-> 
-> 
-> 
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  target/i386/cpu.c | 56 +++++++++++++++++++++++------------------------
->>  1 file changed, 28 insertions(+), 28 deletions(-)
->>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index 9e211ac2ce..6bcb7dbc2c 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -6133,34 +6133,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->>      Error *local_err = NULL;
->>      static bool ht_warned;
->>  
->> -    /* Process Hyper-V enlightenments */
->> -    x86_cpu_hyperv_realize(cpu);
-> 
-> Vitaly, is this reordering going to affect the Hyper-V cleanup
-> work you are doing?  It seems harmless and it makes sense to keep
-> the "realize" functions close together, but I'd like to confirm.
-> 
->> -
->> -    cpu_exec_realizefn(cs, &local_err);
->> -    if (local_err != NULL) {
->> -        error_propagate(errp, local_err);
->> -        return;
->> -    }
->> -
->> -    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
->> -        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
->> -        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
->> -        goto out;
->> -    }
->> -
->> -    if (cpu->ucode_rev == 0) {
->> -        /* The default is the same as KVM's.  */
->> -        if (IS_AMD_CPU(env)) {
->> -            cpu->ucode_rev = 0x01000065;
->> -        } else {
->> -            cpu->ucode_rev = 0x100000000ULL;
->> -        }
->> -    }
->> -
->> -    /* mwait extended info: needed for Core compatibility */
->> -    /* We always wake on interrupt even if host does not have the capability */
->> -    cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
->> -
->>      if (cpu->apic_id == UNASSIGNED_APIC_ID) {
->>          error_setg(errp, "apic-id property was not initialized properly");
->>          return;
->> @@ -6190,6 +6162,34 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->>             & CPUID_EXT2_AMD_ALIASES);
->>      }
->>  
->> +    /* Process Hyper-V enlightenments */
->> +    x86_cpu_hyperv_realize(cpu);
->> +
->> +    cpu_exec_realizefn(cs, &local_err);
-> 
-> I'm worried by the reordering of cpu_exec_realizefn().  That
-> function does a lot, and reordering it might have even more
-> unwanted side effects.
-> 
-> I wonder if it wouldn't be easier to revert commit 30565f10e907
-> ("cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn").
+----------------------------------------------------------------
+ppc patch queue 2021-06-03
 
-the part that is wrong in that commit does not I think have to do with where the accel_cpu::cpu_realizefn() is called, but rather
-the move of the call to cpu_exec_realizefn (now including the accel_cpu::cpu_realizefn) to the very beginning of the function.
+Next batch of ppc target patches.  Highlights are:
+ * A fix for a regression with single-step mode
+ * Start of moving ppc to use decodetree
+ * Implementation of some POWER10 64-bit prefixed instructions
+ * Several cleanups to softmmu code
+ * Continued progress towards allowing --disable-tcg
+ * Fix for the POWER PEF implementation
+ * Fix for LPCR handling of hotplugged CPUs
+ * Assorted other bugfixes and cleanups
 
-This was done due to the fact that the accel-specific code needs to be called before the code:
+This patchset does contain a couple of changes to code outside my
+normal scope of maintainership, related to the removal of cpu_dump and
+cpu_statistics hooks.  ppc was the last target arch implementing these
+at all, and they didn't really do anything there either.  The patches
+should have relevant acks.
 
-* if (cpu->ucode_rev == 0) {
+----------------------------------------------------------------
+Bruno Larsen (billionai) (17):
+      target/ppc: cleaned error_report from ppc_store_sdr1
+      target/ppc: moved ppc_store_lpcr and ppc_store_msr to cpu.c
+      target/ppc: reduce usage of fpscr_set_rounding_mode
+      target/ppc: removed unnecessary inclusion of helper-proto.h
+      target/ppc: fold ppc_store_ptcr into it's only caller
+      target/ppc: used ternary operator when registering MAS
+      target/ppc: added ifdefs around TCG-only code
+      target/ppc: created tcg-stub.c file
+      target/ppc: updated meson.build to support disable-tcg
+      target/ppc: remove ppc_cpu_dump_statistics
+      target/ppc: removed mentions to DO_PPC_STATISTICS
+      monitor: removed cpustats command
+      hw/core/cpu: removed cpu_dump_statistics function
+      HMP: added info cpustats to removed_features.rst
+      target/ppc: removed GEN_OPCODE decision tree
+      target/ppc: removed all mentions to PPC_DUMP_CPU
+      target/ppc: overhauled and moved logic of storing fpscr
 
-(meaning "use default if nothing accelerator specific has been set"), as this could be set by accel-specific code,
+Daniel Henrique Barboza (1):
+      ppc/pef.c: initialize cgs->ready in kvmppc_svm_init()
 
-* cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
+Fabiano Rosas (3):
+      target/ppc: powerpc_excp: Move lpes code to where it is used
+      target/ppc: powerpc_excp: Remove dump_syscall_vectored
+      target/ppc: powerpc_excp: Consolidade TLB miss code
 
-(as the mwait is written to by cpu "host" kvm/hvf-specific code when enabling cpu pm),
+Greg Kurz (1):
+      spapr: Don't hijack current_machine->boot_order
 
-* if (cpu->phys_bits && ...
+Luis Pires (1):
+      target/ppc: fix single-step exception regression
 
-(as the phys bits can be set by calling the host CPUID)
+Mahesh Salgaonkar (1):
+      spapr: Fix EEH capability issue on KVM guest for PCI passthru
 
-But I missed there that we cannot move the call before the expansion of cpu features,
-as the accel realize code checks and enables additional features assuming expansion has already happened.
+Matheus Ferst (5):
+      target/ppc: Implement setbc/setbcr/stnbc/setnbcr instructions
+      target/ppc: Implement cfuged instruction
+      target/ppc: Implement vcfuged instruction
+      target/ppc: Move addpcis to decodetree
+      target/ppc: Move cmp/cmpi/cmpl/cmpli to decodetree
 
-This was what was breaking the cpu "host" phys bits, even after correcting the cpu instance initialization order,
-as the KVM/HVF -specific code would do the adjustment of phys bits to match the host only if:
+Nicholas Piggin (2):
+      spapr: Remove stale comment about power-saving LPCR bits
+      spapr: Set LPCR to current AIL mode when starting a new CPU
 
-* if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
+Richard Henderson (9):
+      target/ppc: Introduce macros to check isa extensions
+      target/ppc: Move page crossing check to ppc_tr_translate_insn
+      target/ppc: Add infrastructure for prefixed insns
+      target/ppc: Move ADDI, ADDIS to decodetree, implement PADDI
+      target/ppc: Implement PNOP
+      target/ppc: Move D/DS/X-form integer loads to decodetree
+      target/ppc: Implement prefixed integer load instructions
+      target/ppc: Move D/DS/X-form integer stores to decodetree
+      target/ppc: Implement prefixed integer store instructions
 
+Shivaprasad G Bhat (2):
+      spapr: nvdimm: Forward declare and move the definitions
+      spapr: nvdimm: Fix the persistent-memory root node name in device tree
 
-
-> 
-> 
->> +    if (local_err != NULL) {
->> +        error_propagate(errp, local_err);
->> +        return;
->> +    }
->> +
->> +    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
->> +        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
->> +        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
->> +        goto out;
->> +    }
->> +
->> +    if (cpu->ucode_rev == 0) {
->> +        /* The default is the same as KVM's.  */
->> +        if (IS_AMD_CPU(env)) {
->> +            cpu->ucode_rev = 0x01000065;
->> +        } else {
->> +            cpu->ucode_rev = 0x100000000ULL;
->> +        }
->> +    }
->> +
->> +    /* mwait extended info: needed for Core compatibility */
->> +    /* We always wake on interrupt even if host does not have the capability */
->> +    cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
->> +
-> 
-> The dependency between those lines and cpu_exec_realizefn() is
-> completely unclear here.  What can we do to make this clearer and
-> less fragile?
-
-Should I add something similar to my comment above?
-
-There _is_ something already in the patch that I added as I detected these dependencies,
-but I notably did not mention the mwait one, and missed completely the cpu expansion issue.
-
-It's in kvm-cpu.c:
-
-static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
-{
-    /*                                                                                                                                      
-     * The realize order is important, since x86_cpu_realize() checks if                                                                    
-     * nothing else has been set by the user (or by accelerators) in                                                                        
-     * cpu->ucode_rev and cpu->phys_bits.                                                                                                   
-     *                                                                                                                                      
-     * realize order:                                                                                                                       
-     * kvm_cpu -> host_cpu -> x86_cpu                                                                                                       
-     */
-
-Maybe there is a better place to document this, where we could also describe in more detail the other dependencies?
-
-On my side the main question would be: did I miss some other order dependency?
-
-Knowing exactly what the current code assumptions are, and where those dependencies lie
-would be preferable I think compared with reverting the commits.
-
-Something able to cover this with reliable tests would be a good way to feel more confident with the resolution,
-to make sure that something else is not hiding in there..
-
-> 
-> Note that this is not a comment on this fix, specifically, but on
-> how the initialization ordering is easy to break here.
-> 
-> 
->>      /* For 64bit systems think about the number of physical bits to present.
->>       * ideally this should be the same as the host; anything other than matching
->>       * the host can cause incorrect guest behaviour.
->> -- 
->> 2.26.2
->>
-> 
-
-Thanks,
-
-Claudio
+ docs/system/removed-features.rst           |   5 +
+ hmp-commands-info.hx                       |  13 -
+ hw/core/cpu-common.c                       |   9 -
+ hw/ppc/pef.c                               |   6 +-
+ hw/ppc/spapr.c                             |   8 +-
+ hw/ppc/spapr_nvdimm.c                      |  16 +-
+ hw/ppc/spapr_pci_vfio.c                    |  40 +-
+ hw/ppc/spapr_rtas.c                        |  15 +-
+ include/hw/core/cpu.h                      |  12 -
+ include/hw/ppc/spapr.h                     |   3 +
+ include/hw/ppc/spapr_nvdimm.h              |  14 +-
+ monitor/misc.c                             |  11 -
+ target/ppc/cpu.c                           |  68 ++-
+ target/ppc/cpu.h                           |  15 +-
+ target/ppc/cpu_init.c                      | 216 +---------
+ target/ppc/excp_helper.c                   | 119 +++---
+ target/ppc/fpu_helper.c                    | 246 +----------
+ target/ppc/gdbstub.c                       |   7 +-
+ target/ppc/helper.h                        |   1 +
+ target/ppc/insn32.decode                   | 126 ++++++
+ target/ppc/insn64.decode                   | 124 ++++++
+ target/ppc/int_helper.c                    |  62 +++
+ target/ppc/internal.h                      |   2 -
+ target/ppc/meson.build                     |  20 +-
+ target/ppc/misc_helper.c                   |  40 +-
+ target/ppc/mmu-hash32.c                    |   1 -
+ target/ppc/mmu-hash64.c                    |  11 +-
+ target/ppc/mmu-radix64.c                   |   1 -
+ target/ppc/mmu_helper.c                    |  44 +-
+ target/ppc/tcg-stub.c                      |  45 ++
+ target/ppc/translate.c                     | 637 ++++-------------------------
+ target/ppc/translate/fixedpoint-impl.c.inc | 279 +++++++++++++
+ target/ppc/translate/vector-impl.c.inc     |  56 +++
+ 33 files changed, 1064 insertions(+), 1208 deletions(-)
+ create mode 100644 target/ppc/insn32.decode
+ create mode 100644 target/ppc/insn64.decode
+ create mode 100644 target/ppc/tcg-stub.c
+ create mode 100644 target/ppc/translate/fixedpoint-impl.c.inc
+ create mode 100644 target/ppc/translate/vector-impl.c.inc
 
