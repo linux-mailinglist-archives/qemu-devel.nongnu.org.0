@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DE539BE86
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 19:21:40 +0200 (CEST)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834E139BE56
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 19:17:25 +0200 (CEST)
+Received: from localhost ([::1]:37994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpDVr-0003Ho-Un
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 13:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33768)
+	id 1lpDRk-0000b4-Ir
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 13:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCkt-00007q-Gi
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:33:07 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36769)
+ id 1lpDNJ-000860-Fh
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 13:12:49 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:43792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCkf-0002D5-N2
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:33:07 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- n17-20020a7bc5d10000b0290169edfadac9so8286499wmk.1
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 09:32:53 -0700 (PDT)
+ id 1lpDNH-00023E-Fr
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 13:12:49 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 3-20020a05600c0243b029019f2f9b2b8aso6011193wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 10:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6HF2MyB2aBKBLReV9F/D4V7kzFy2KuqmCJBZnZnN5/0=;
- b=JWn9SNFgYVkwm9qFq/ksZND+Q+z/XCqtk48kb3QP45cWyRSsmNqgqmsHUqttVuYsSe
- GLDs7ZsoewEUqx87JkjllAhteaaDzYlqbrdm2HYKXfNPG4/0YC0VmD7nnO+X2G7+BL0r
- eLKUCW8coqNhB3fbZn993pa21hz/mXbTTTxehLtXQ0rhpVXQU8LX0awYCbg/rYOLoXib
- ru8UftqTEIsFdFbAtIXjZQR5kTBLQaLmF18qU8RHN+sFSOgCrc5lcLPM+VBcir4cF1OJ
- QCSVxGT79Zwydj5v/K7b5GfZu2dBlQZIC1Zn8vZbYoMGGeG5qK6Pd8f+JXoXxZHOxjdp
- BNyw==
+ bh=fVwtDg6NmbYUbWbKcWKwD4v1KnbubfIiGX4wXK52zzM=;
+ b=OLH7eO1BVxQh5ug2adTu2a83X1SkMbpcY1UBwmeZ1id1G8thQFyPecmAOGW+PujpY9
+ UY6BDvhqOYbxj8sjZ0WpvNvJ5sC1/b8L0TEe8PdX4Oa+gyTFnvftb/YSlOx01C0bfR5y
+ gBr7U5PidbWbwR3359Fy2SOMdw+WHNTo14koav2SLGiSd4Ow7cASXq13rmVjvMkwsTI/
+ 9SRdrg+rK/yvjXyP06u24oYW/4DhqsVCBoifC4JBctypNLOUZxYJwSh8N43ZjTxL4AE4
+ 7DbWU5gg4Ixa7jV6vjaMBQXGnXvWxCM0C5PctPIYFQVm8KgFblPB7tv0tg/zrmnsefr2
+ LqIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6HF2MyB2aBKBLReV9F/D4V7kzFy2KuqmCJBZnZnN5/0=;
- b=U1FamiIenaXQ8dD1LRhkBY/fvygukGbEpQfScfNkWfVrB5m5YHwtrwFr+ckYpFNB38
- sEU7MTeXrn0QAw76VEkVCnwpwsYxUppaPZGW4ckWVuDPozqble/hf9LcAaVQTVS/fEqW
- 6Cer9rLF4Mc9PHQUYIazPxxFC2tzQRjcCa7Tm+1GY3qddFWQs0L9REXFkVjMFlcaiyec
- gKC53p2b/CiacOm7M0TRtRzWvJZ1GYyEv9Drt4tWd7wvnhA+BX/dSQgm852pEh4uZbpq
- NwJfmY+W1Ky8Alw585n81Xo7k3fH9MEZnlq5JkN1oYcERN5lIAnybwjqxm3pteXfj2HU
- osrQ==
-X-Gm-Message-State: AOAM5338cFIw1UQnVOUdvxaZikUajUM6ADWp+gfA/bzTPDYWcKklSBeK
- iffF7r0x39f3HwLs5E0HWm2ewg==
-X-Google-Smtp-Source: ABdhPJzlOqvd2yCmX9rj1EKu/hDCy4KqDY7vREHS4K8eOptVQ3tOi3B1Szy+ltFbBWknpSJL9WAK8A==
-X-Received: by 2002:a05:600c:3544:: with SMTP id
- i4mr4691118wmq.112.1622824372346; 
- Fri, 04 Jun 2021 09:32:52 -0700 (PDT)
+ bh=fVwtDg6NmbYUbWbKcWKwD4v1KnbubfIiGX4wXK52zzM=;
+ b=k7YFZMNjkZjfTnSPX7DzvyRngpuQFpNiIUGNY+VD7wp+pOgMWAIL2d2YPsjW+Dxnvc
+ 0QtSDPJJvx3SfQo4OG9L50NhIMGw4Y6ONk/Tzp1U9RJJuXZE7xoOj1unWHR8ZX8nKGvU
+ W2LfQkBFkhpGk4ZEFQ4P0zT1ZHsWrqaBNdibad0zw95yqpx5q2H5gupR3Prl92WwgVHa
+ CBaWkqmFz31sLDFEg3uTHyQ2XenI2xF+MI8V9p0qIThQHwuN04kQq9lQRD0MCNcDywoN
+ DI56VjmgmIL8WE91k7Ua6Sg/h90xSSRF2gg80bCbSEotgo6itRMPPhJKOGZOfJ8tFIQT
+ 5bgg==
+X-Gm-Message-State: AOAM533jf8r7zBUjN2ySrGpSDKD3XTNfDMbQLYGOjq2QdK9OldUJoQYq
+ z+4Q/7vwp+LRYthfBuhZmbgu6Q==
+X-Google-Smtp-Source: ABdhPJzqmFc5Sye3awnzV+RZLn3bmLsb4kOEj0HE/lNSpyDqm+m8JYKlPFdLlVAoFyTooJ83MVfiqQ==
+X-Received: by 2002:a1c:6004:: with SMTP id u4mr4668413wmb.110.1622826763890; 
+ Fri, 04 Jun 2021 10:12:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l10sm7192329wrm.2.2021.06.04.09.32.43
+ by smtp.gmail.com with ESMTPSA id r4sm2614512wrt.26.2021.06.04.10.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 09:32:51 -0700 (PDT)
+ Fri, 04 Jun 2021 10:12:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B8E8E1FFCF;
- Fri,  4 Jun 2021 16:53:19 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id A55A01FFD6;
+ Fri,  4 Jun 2021 16:53:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 57/99] target/arm: remove kvm include file for PSCI and
- arm-powerctl
-Date: Fri,  4 Jun 2021 16:52:30 +0100
-Message-Id: <20210604155312.15902-58-alex.bennee@linaro.org>
+Subject: [PATCH v16 65/99] tests: device-introspect-test: cope with ARM
+ TCG-only devices
+Date: Fri,  4 Jun 2021 16:52:38 +0100
+Message-Id: <20210604155312.15902-66-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210604155312.15902-1-alex.bennee@linaro.org>
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,50 +88,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-The QEMU PSCI implementation is not used for KVM,
-we do not need the kvm constants header.
+Skip the test_device_intro_concrete for now for ARM KVM-only build,
+as on ARM we currently build devices for ARM that are not
+compatible with a KVM-only build.
 
+We can remove this workaround when we fix this in KConfig etc,
+and we only list and build machines that are compatible with KVM
+for KVM-only builds.
+
+Alternative implementation provided by Alex.
+
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/arm-powerctl.h | 2 --
- target/arm/psci.c         | 1 -
- 2 files changed, 3 deletions(-)
+ tests/qtest/device-introspect-test.c | 32 +++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/arm-powerctl.h b/target/arm/arm-powerctl.h
-index 37c8a04f0a..35e048ce14 100644
---- a/target/arm/arm-powerctl.h
-+++ b/target/arm/arm-powerctl.h
-@@ -11,8 +11,6 @@
- #ifndef QEMU_ARM_POWERCTL_H
- #define QEMU_ARM_POWERCTL_H
+diff --git a/tests/qtest/device-introspect-test.c b/tests/qtest/device-introspect-test.c
+index bbec166dbc..cb8bf6e37d 100644
+--- a/tests/qtest/device-introspect-test.c
++++ b/tests/qtest/device-introspect-test.c
+@@ -305,6 +305,24 @@ static void test_abstract_interfaces(void)
+     qtest_quit(qts);
+ }
  
--#include "kvm-consts.h"
--
- #define QEMU_ARM_POWERCTL_RET_SUCCESS QEMU_PSCI_RET_SUCCESS
- #define QEMU_ARM_POWERCTL_INVALID_PARAM QEMU_PSCI_RET_INVALID_PARAMS
- #define QEMU_ARM_POWERCTL_ALREADY_ON QEMU_PSCI_RET_ALREADY_ON
-diff --git a/target/arm/psci.c b/target/arm/psci.c
-index 6709e28013..800c4a55d8 100644
---- a/target/arm/psci.c
-+++ b/target/arm/psci.c
-@@ -19,7 +19,6 @@
- #include "qemu/osdep.h"
- #include "cpu.h"
- #include "exec/helper-proto.h"
--#include "kvm-consts.h"
- #include "qemu/main-loop.h"
- #include "sysemu/runstate.h"
- #include "internals.h"
++/*
++ * XXX currently we build also boards for ARM that are incompatible with KVM.
++ * We therefore need to check this explicitly, and only test virt for kvm-only
++ * arm builds.
++ * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
++ * are built for the kvm-only build, we could remove this.
++ */
++static bool skip_machine_tests(void)
++{
++#ifndef CONFIG_TCG
++    const char *arch = qtest_get_arch();
++    if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
++        return true;
++    }
++#endif /* !CONFIG_TCG */
++    return false;
++}
++
+ static void add_machine_test_case(const char *mname)
+ {
+     char *path, *args;
+@@ -329,11 +347,15 @@ int main(int argc, char **argv)
+     qtest_add_func("device/introspect/none", test_device_intro_none);
+     qtest_add_func("device/introspect/abstract", test_device_intro_abstract);
+     qtest_add_func("device/introspect/abstract-interfaces", test_abstract_interfaces);
+-    if (g_test_quick()) {
+-        qtest_add_data_func("device/introspect/concrete/defaults/none",
+-                            g_strdup(common_args), test_device_intro_concrete);
+-    } else {
+-        qtest_cb_for_every_machine(add_machine_test_case, true);
++
++    if (!skip_machine_tests()) {
++        if (g_test_quick()) {
++            qtest_add_data_func("device/introspect/concrete/defaults/none",
++                                g_strdup(common_args),
++                                test_device_intro_concrete);
++        } else {
++            qtest_cb_for_every_machine(add_machine_test_case, true);
++        }
+     }
+ 
+     return g_test_run();
 -- 
 2.20.1
 
