@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE4E39BBC7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:25:25 +0200 (CEST)
-Received: from localhost ([::1]:48246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35DA39BBAD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:21:32 +0200 (CEST)
+Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpBhN-0001Es-2U
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:25:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
+	id 1lpBdb-0007u0-VV
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa7-0007qh-HI
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:55 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33520)
+ id 1lpBa8-0007tj-9b
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:56 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa5-0008Es-RP
+ id 1lpBa6-0008Fo-GV
  for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:55 -0400
-Received: by mail-ej1-x630.google.com with SMTP id g20so15137864ejt.0
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:17:53 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id c10so15018340eja.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nEr88gMBuvavyMpSy3KEuJq9doTqO0h81BlSUvT2wpg=;
- b=DC+Dk/PmlLRaDaqUaQPMBCaPerQIsf4Jw0xRPU/gPms4D8ltQPVvSS79UxPJ/fkhbP
- s3wbQuSGNiE6ffDuNxxWB9p2/ldebvOJNP1LEU/t779NXZhky9I6YViDdZkmqWiPP87A
- l+wtCqwYyDGR41gDH7PQpUld2BlK6xpONzqzjH6H+J1HPy5X7mxkhhSCjoWpZvv6TMVl
- EpWbl2G10ja2HFA/kDo0pDn5gdUuJCW3XUJOb7lWvcm4ifNF8RNwcqic6fw4SBPBtG13
- 10HkDFluNaV994E+t2LactJSUxok29q+aXZWzAT8cK6izwUXCHC1r8CpUFA+Dg6OvzQz
- XLUA==
+ bh=K1tL+erQPidZ36ddRBBO4262j1mjJRCxWQU+9QCKKGQ=;
+ b=a/NLM2AhJ15m16EdB1eYSIQ+wUpyG8BoVpeUanRPFF9CnlCoMpIdPJF4GKozAeUQJy
+ y/HV6unNrYFFcFy2a5SuhlpOl1bAq4l3bTdUvjRIckFhKB++yEonvgZ3JbfIw+ukG/AN
+ oTDkf8LPg3wMYnHGIplqnK5C/RX+qyshlxzqysxNmSLFR5+/FPDEVLz/8hgKx+lnhEz5
+ YxoDurSVYwp0/w3pjdDLgUgJyZuEexcnQlR+E+eYZbsseqWQE+kAU7AQL9E4m9NiHHeZ
+ +B1eAwGyMn2sOrV9EbGdgfLOWUHOlSXQ46x8wKr6tz8zSflAkaR8trVOHyj8YEeRWHGY
+ cgOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nEr88gMBuvavyMpSy3KEuJq9doTqO0h81BlSUvT2wpg=;
- b=pNDxvRVFy0lddDXplIvjwQWvX8eOoOVeUw8nv31WKVvByDhQB4zawbkYgbRHrEkT3N
- PDAOdcdrtcCPGQ1HDeETyxzokjaR2TXwB+MBCjUVlkQM/2wLm/ME8wdirLeJPak2yzMk
- KppALBV2LYcG4dX5zvw1e7QBNKLNQOvZHQ/G4XYMmq8sQ9O9vtkRJ7VjcwFArNFQmfFj
- btT83PFAPlgMCYOuzu8IIIxn+ore6nrFjCxXTuqWyJbnOt5QlC1pDLUevKLNBXXfaJef
- tcBTvn4CbpPAjVa9IXmIQWFjZFfqMy4XlyYOY13ClmV8gBCEyPopWG/Ec/QLfj0N/VXf
- qyFg==
-X-Gm-Message-State: AOAM531jUWSzjud9HR4TbC/eRrgLOMtpo0ZREG7V3c4JEsmZmc2la641
- 2H/VP/FD8WhMNC9joPW+AQiXOzMhQ/RuEQ==
-X-Google-Smtp-Source: ABdhPJzLxoMKCDxNK/OEOaq6Vakaw+jEt96b0UnZRuIUClPCHx8U0MSNzLho/NoWnNWs0IOw6z+msg==
-X-Received: by 2002:a17:906:a281:: with SMTP id
- i1mr4579252ejz.307.1622819872513; 
- Fri, 04 Jun 2021 08:17:52 -0700 (PDT)
+ bh=K1tL+erQPidZ36ddRBBO4262j1mjJRCxWQU+9QCKKGQ=;
+ b=RcLKb4X80fnmanfy5tQF+0tt9qWak9I6G7729xJl2u5ylYUjJvHq2BhIFtUEROKYN5
+ 15vZsHziLlQ7sGQjyNq6UmUjoerlTub3F8tolIc+WJQCxQSicrl4fyE0TgwWWitHgBoa
+ utKnBinoWnE+psY5zw7bmTnfujJLq8Dn0DK4i6d8gf4lw8ih7kX47a9x4cmlgC7bWiPm
+ ynbv6BcJiYlMlVGtrxO0BptLgb04dzL4DLqyGaKrzLO4TXU6qGoRasrOaFWDwVqGJdbf
+ uSPWaFqGWhOgT3JsfZ+Ln1Zsgfys8NNbfcFdBKDWi1+oG67gT+XuePRt8OT17coOb3NX
+ w4Lg==
+X-Gm-Message-State: AOAM53082SFiyuyP28NqFxz9H+aJd0wyVbO53UU+Rf661LdImnUDRocq
+ jXZbZAf3jmSmHSF8CLDTCaszgYjlv0whLg==
+X-Google-Smtp-Source: ABdhPJxfMOag6/CCgbNag4pw9+YYRGikLotVzmRmMMhWFDkl0uHOx/iZlpIjAt075xtZm/yn6i2YGg==
+X-Received: by 2002:a17:906:40ca:: with SMTP id
+ a10mr4664362ejk.181.1622819873211; 
+ Fri, 04 Jun 2021 08:17:53 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- w1sm2402451eds.37.2021.06.04.08.17.51
+ w1sm2402451eds.37.2021.06.04.08.17.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 04 Jun 2021 08:17:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/13] target/i386: Fix decode of cr8
-Date: Fri,  4 Jun 2021 17:17:39 +0200
-Message-Id: <20210604151745.310318-8-pbonzini@redhat.com>
+Subject: [PULL 08/13] tests/qtest/virtio-scsi-test: add unmap large LBA with
+ 4k blocks test
+Date: Fri,  4 Jun 2021 17:17:40 +0200
+Message-Id: <20210604151745.310318-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604151745.310318-1-pbonzini@redhat.com>
 References: <20210604151745.310318-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,36 +86,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Kit Westneat <kit.westneat@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Kit Westneat <kit.westneat@gmail.com>
 
-A recent cleanup did not recognize that there are two ways
-to encode cr8: one via the LOCK and the other via REX.
+Add test for issue #345
 
-Fixes: 7eff2e7c
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/380
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210602035511.96834-1-richard.henderson@linaro.org>
+Signed-off-by: Kit Westneat <kit.westneat@gmail.com>
+Message-Id: <20210603142022.676395-1-kit.westneat@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/translate.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/virtio-scsi-test.c | 51 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 834186bcae..a7f5c0c8f2 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -8091,6 +8091,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         case 2:
-         case 3:
-         case 4:
-+        case 8:
-             break;
-         default:
-             goto unknown_op;
+diff --git a/tests/qtest/virtio-scsi-test.c b/tests/qtest/virtio-scsi-test.c
+index 1b7ecc1c8f..8ceb12aacd 100644
+--- a/tests/qtest/virtio-scsi-test.c
++++ b/tests/qtest/virtio-scsi-test.c
+@@ -200,6 +200,42 @@ static void test_unaligned_write_same(void *obj, void *data,
+     qvirtio_scsi_pci_free(vs);
+ }
+ 
++/* Test UNMAP with a large LBA, issue #345 */
++static void test_unmap_large_lba(void *obj, void *data,
++                                      QGuestAllocator *t_alloc)
++{
++    QVirtioSCSI *scsi = obj;
++    QVirtioSCSIQueues *vs;
++    const uint8_t unmap[VIRTIO_SCSI_CDB_SIZE] = {
++        0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x18, 0x00
++    };
++
++    /*
++     * Default null-co device size is 2**30
++     * LBA 0x7fff is ~ 1/8 into device, with 4k blocks
++     * if check_lba_range incorrectly using 512 bytes, will trigger sense error
++     */
++    uint8_t unmap_params[0x18] = {
++        0x00, 0x16, /* unmap data length */
++        0x00, 0x10, /* unmap block descriptor data length */
++        0x00, 0x00, 0x00, 0x00, /* reserved */
++        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7f, 0xff, /* LBA */
++        0x00, 0x00, 0x03, 0xff, /* sector count */
++        0x00, 0x00, 0x00, 0x00, /* reserved */
++    };
++    struct virtio_scsi_cmd_resp resp;
++
++    alloc = t_alloc;
++    vs = qvirtio_scsi_init(scsi->vdev);
++
++    virtio_scsi_do_command(vs, unmap, NULL, 0, unmap_params,
++                           sizeof(unmap_params), &resp);
++    g_assert_cmphex(resp.response, ==, 0);
++    g_assert_cmphex(resp.status, !=, CHECK_CONDITION);
++
++    qvirtio_scsi_pci_free(vs);
++}
++
+ static void test_write_to_cdrom(void *obj, void *data,
+                                 QGuestAllocator *t_alloc)
+ {
+@@ -293,6 +329,17 @@ static void *virtio_scsi_setup(GString *cmd_line, void *arg)
+     return arg;
+ }
+ 
++static void *virtio_scsi_setup_4k(GString *cmd_line, void *arg)
++{
++    g_string_append(cmd_line,
++                    " -drive file=blkdebug::null-co://,"
++                    "file.image.read-zeroes=on,"
++                    "if=none,id=dr1,format=raw "
++                    "-device scsi-hd,drive=dr1,lun=0,scsi-id=1"
++                    ",logical_block_size=4k,physical_block_size=4k");
++    return arg;
++}
++
+ static void *virtio_scsi_setup_cd(GString *cmd_line, void *arg)
+ {
+     g_string_append(cmd_line,
+@@ -323,6 +370,10 @@ static void register_virtio_scsi_test(void)
+     qos_add_test("unaligned-write-same", "virtio-scsi",
+                  test_unaligned_write_same, &opts);
+ 
++    opts.before = virtio_scsi_setup_4k;
++    qos_add_test("large-lba-unmap", "virtio-scsi",
++                 test_unmap_large_lba, &opts);
++
+     opts.before = virtio_scsi_setup_cd;
+     qos_add_test("write-to-cdrom", "virtio-scsi", test_write_to_cdrom, &opts);
+ 
 -- 
 2.31.1
 
