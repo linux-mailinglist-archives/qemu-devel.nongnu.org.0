@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AED39BD64
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:39:39 +0200 (CEST)
-Received: from localhost ([::1]:49402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2590339BD53
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:35:58 +0200 (CEST)
+Received: from localhost ([::1]:39522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpCrC-0003gN-NU
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
+	id 1lpCnd-0005J2-80
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCIT-0000oO-SM
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:03:45 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34524)
+ id 1lpCHd-0007mT-2k
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:02:53 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCHy-0005wT-48
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:03:45 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso4509129wmc.1
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 09:03:06 -0700 (PDT)
+ id 1lpCHW-0005lY-Fo
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:02:52 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a11so7945916wrt.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 09:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pdzAt2AXoQ9lDlpGyixAMgmXVwO3iRo3io77IDow6qA=;
- b=SQwdWupWuVopNCIEc/t23+QezyJZGaovRIliiKt2U9V3Op00Yl5bJlEbyEXdYtMH8X
- EpLpAWljNaRn1hn7vda6/LVVJAicIUk6kc5TAzIXILxujTM2Et1Iqac4mYGSXY8HfGjz
- hhOmDvQZqqBJjX2RTfMwc3wJnRi8NHrILaRoTb4V59+QAb7zZ5YTgcaurAWv2ShcpxXi
- JWqf/yRjvOXG/gthaknmD8myejdZgjHo9RWRzoltujdmoW7l25lYwHvFB1ctsiwrD9BI
- QpDRIZ7no008gl5ofVa4eV7wr23lZYNjED81G5rM8rAXvU7tv+YDHdEKnu4SdyHcAY5X
- R4jw==
+ bh=CQtnS34z/bTDeAgJgcVIAWI8dJCWeYn70HUU46NLGbY=;
+ b=H0rLFfDc/pCqx9gywa70LgA0sqr+1pwSHDZ5ngyterzlPj3IH3yrQdI5bLBbXVJJLr
+ jdmc70IcuslrmQ2O7hz9DXhd3AjHVNvsxy8RcMKakr88RhbxsGmD5+cAhE/75auadcYk
+ SEEufDxnaMPvUy+IRqaWWuUPhcmKVZVCf0K54lLn65Hwx+PbVo4ztol9Ed3NduddEw2+
+ JyD1odli0EoBxDPM+vngFKhBQXrCS9AvMvb/SDYmxWiQbh6Qbl3L+8Zc94rhkFQmPeZx
+ YRdEH3LBbcD38fj5fplHGBFOUptDDgilijaKQtsRDz1Yge4DHl2N63AmRpvPthm+OXdb
+ atVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pdzAt2AXoQ9lDlpGyixAMgmXVwO3iRo3io77IDow6qA=;
- b=CxyHMCAZMob5ZJ8bRzMHX+gx4EFXLXvv0wAdKSLJmuoSDbMz/NlTSvxqx3L/R8aXx5
- BzDiBTt/dJxuHp7BRBp1uQi/9E8Fj+QvgvE0kXn72TBBjkYAM5OKSPrdnmPHZzzi9aVh
- O84drVFG0uuak/PoK8UZfncq+odIpz6CsMlnVL3zd45i8lWfeHvqsGG6j2ol+LBJWvJi
- V1Tb08l0cljtVljp7hp8QX6UF3lGw6mj5nl11YvU0fNzA+ih2oISXBP7Ost3FCxsRFNb
- PjFwLglzJCXDV2QxRfPDCDeFdQ8pVM5cg0j8s3UetO0Z8wHiC8WJptvL98RrDYwVs0+9
- 1nUQ==
-X-Gm-Message-State: AOAM533EGP5/dGxBErLqMsXLFc6vjy7WnrngkUX2emsWAEHQ6uZGSNDF
- zKT7MEAWO5aa+BzbDOiX52+L0g==
-X-Google-Smtp-Source: ABdhPJxFZyWrY6CVppaRmUsSYj1Ec5/KlmbX717CKXs9sfM0imnuQxprKctoxFhlq66lDRKa4PuAHA==
-X-Received: by 2002:a7b:c853:: with SMTP id c19mr4464373wml.30.1622822585348; 
- Fri, 04 Jun 2021 09:03:05 -0700 (PDT)
+ bh=CQtnS34z/bTDeAgJgcVIAWI8dJCWeYn70HUU46NLGbY=;
+ b=BYnhGMpNIhk1ib0L+H84+5rXubrrjjbeDhSpMWySzGOYWBQiAQkl/KG648+dFBvvSJ
+ M9mN516NxhxPwSu2GxwgAhk+x0RSM+K9jpYYFJURRzZnStIcoDb2Ev2DM59X7rMjPYSf
+ F8prIRkYoWlIFRV44p7SznbsNudPCPmEC+ra0RuhhU9Mx9jeqbyBYBkQVweMjX7e+qyQ
+ yRmx3VV3a3QkXreBD4Ia9kLGna+Ko55E2H5SE9D9CPi4H1zjUnO8AgYXAHb8bZoGgt3m
+ +cqKSU1gn/qQ7l5UCznpvAJFqYbZqeKMfn37ZUtZxwGSNFfi5Hi420B2e55ponieHOLy
+ ODSw==
+X-Gm-Message-State: AOAM533AT65owVk5Bvg40e0b38DU5EwSi4wb7V+cTaQX3tL4NRXKxGn1
+ Oy6E3NPtC8Xh6MJiBXSAceDDLg==
+X-Google-Smtp-Source: ABdhPJxFeXOQi0NKJJPefjGea33wcnMzfjCBVdkvzknTv7zPjZz8E660Ym9vaT4QPChZhvZ9Gj6yVg==
+X-Received: by 2002:a05:6000:1282:: with SMTP id
+ f2mr4511680wrx.67.1622822565245; 
+ Fri, 04 Jun 2021 09:02:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r7sm11380294wma.9.2021.06.04.09.02.46
+ by smtp.gmail.com with ESMTPSA id p1sm6127310wmc.11.2021.06.04.09.02.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 09:02:56 -0700 (PDT)
+ Fri, 04 Jun 2021 09:02:43 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 455B01FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 5A4751FFC3;
  Fri,  4 Jun 2021 16:53:18 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 43/99] target/arm: move a15 cpu model away from the
- TCG-only models
-Date: Fri,  4 Jun 2021 16:52:16 +0100
-Message-Id: <20210604155312.15902-44-alex.bennee@linaro.org>
+Subject: [PATCH v16 44/99] target/arm: fixup sve_exception_el code style
+ before move
+Date: Fri,  4 Jun 2021 16:52:17 +0100
+Message-Id: <20210604155312.15902-45-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210604155312.15902-1-alex.bennee@linaro.org>
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,222 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-Cortex-A15 is the only ARM cpu class we need in KVM too.
-
-We will be able to move it to tcg/ once the board code and configurations
-are fixed.
+before moving over sve_exception_el from the helper code,
+cleanup the style.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/cpu32.h   |  4 +++
- target/arm/cpu32.c   | 73 ++++++++++++++++++++++++++++++++++++++++++++
- target/arm/cpu_tcg.c | 67 ----------------------------------------
- 3 files changed, 77 insertions(+), 67 deletions(-)
+ target/arm/tcg/helper.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/cpu32.h b/target/arm/cpu32.h
-index 128d0c9247..abd575d47d 100644
---- a/target/arm/cpu32.h
-+++ b/target/arm/cpu32.h
-@@ -21,8 +21,12 @@
- #ifndef ARM_CPU32_H
- #define ARM_CPU32_H
+diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
+index 9dd83911f2..1c69a69d5a 100644
+--- a/target/arm/tcg/helper.c
++++ b/target/arm/tcg/helper.c
+@@ -261,7 +261,8 @@ static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
+ }
+ #endif /* TARGET_AARCH64 */
  
-+#include "cpregs.h"
-+
- void arm32_cpu_dump_state(CPUState *cs, FILE *f, int flags);
- void arm32_cpu_class_init(ObjectClass *oc, void *data);
- void arm32_cpu_register(const ARMCPUInfo *info);
-+void cortex_a15_initfn(Object *obj);
-+extern const ARMCPRegInfo cortexa15_cp_reginfo[];
+-/* Return the exception level to which exceptions should be taken
++/*
++ * Return the exception level to which exceptions should be taken
+  * via SVEAccessTrap.  If an exception should be routed through
+  * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
+  * take care of raising that exception.
+@@ -275,7 +276,8 @@ int sve_exception_el(CPUARMState *env, int el)
+     if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+         bool disabled = false;
  
- #endif /* ARM_CPU32_H */
-diff --git a/target/arm/cpu32.c b/target/arm/cpu32.c
-index c03f420ba2..a6ba91ae08 100644
---- a/target/arm/cpu32.c
-+++ b/target/arm/cpu32.c
-@@ -43,8 +43,81 @@
- #include "cpu-mmu.h"
- #include "cpu32.h"
+-        /* The CPACR.ZEN controls traps to EL1:
++        /*
++         * The CPACR.ZEN controls traps to EL1:
+          * 0, 2 : trap EL0 and EL1 accesses
+          * 1    : trap only EL0 accesses
+          * 3    : trap no accesses
+@@ -301,7 +303,8 @@ int sve_exception_el(CPUARMState *env, int el)
+         }
+     }
  
-+#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-+
-+#ifndef CONFIG_USER_ONLY
-+static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+
+-    /* CPTR_EL2.  Since TZ and TFP are positive,
 +    /*
-+     * Linux wants the number of processors from here.
-+     * Might as well set the interrupt-controller bit too.
-+     */
-+    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
-+}
-+#endif
-+
-+const ARMCPRegInfo cortexa15_cp_reginfo[] = {
-+#ifndef CONFIG_USER_ONLY
-+    { .name = "L2CTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
-+      .access = PL1_RW, .resetvalue = 0, .readfn = a15_l2ctlr_read,
-+      .writefn = arm_cp_write_ignore, },
-+#endif
-+    { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    REGINFO_SENTINEL
-+};
-+
-+void cortex_a15_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a15";
-+    set_feature(&cpu->env, ARM_FEATURE_V7VE);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
-+    cpu->midr = 0x412fc0f1;
-+    cpu->reset_fpsid = 0x410430f0;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x11111111;
-+    cpu->ctr = 0x8444c004;
-+    cpu->reset_sctlr = 0x00c50078;
-+    cpu->isar.id_pfr0 = 0x00001131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x02010555;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x20000000;
-+    cpu->isar.id_mmfr2 = 0x01240000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232041;
-+    cpu->isar.id_isar3 = 0x11112131;
-+    cpu->isar.id_isar4 = 0x10011142;
-+    cpu->isar.dbgdidr = 0x3515f021;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
-+    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
-+    define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
-+}
-+
-+#endif /* !CONFIG_USER_ONLY || !TARGET_AARCH64 */
-+
- /* we can move this to tcg/ after the cleanup of ARM boards configurations */
- static const ARMCPUInfo arm32_cpus[] = {
-+#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-+    { .name = "cortex-a15",  .initfn = cortex_a15_initfn },
-+#endif /* !CONFIG_USER_ONLY || !TARGET_AARCH64 */
- };
- 
- static gchar *arm_gdb_arch_name(CPUState *cs)
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 09eff9bfd2..fe422498c7 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -378,30 +378,6 @@ static void cortex_a9_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
- }
- 
--#ifndef CONFIG_USER_ONLY
--static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
--{
--    MachineState *ms = MACHINE(qdev_get_machine());
--
--    /*
--     * Linux wants the number of processors from here.
--     * Might as well set the interrupt-controller bit too.
--     */
--    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
--}
--#endif
--
--static const ARMCPRegInfo cortexa15_cp_reginfo[] = {
--#ifndef CONFIG_USER_ONLY
--    { .name = "L2CTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
--      .access = PL1_RW, .resetvalue = 0, .readfn = a15_l2ctlr_read,
--      .writefn = arm_cp_write_ignore, },
--#endif
--    { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
--      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
--};
--
- static void cortex_a7_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -448,48 +424,6 @@ static void cortex_a7_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
- }
- 
--static void cortex_a15_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a15";
--    set_feature(&cpu->env, ARM_FEATURE_V7VE);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
--    cpu->midr = 0x412fc0f1;
--    cpu->reset_fpsid = 0x410430f0;
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x11111111;
--    cpu->ctr = 0x8444c004;
--    cpu->reset_sctlr = 0x00c50078;
--    cpu->isar.id_pfr0 = 0x00001131;
--    cpu->isar.id_pfr1 = 0x00011011;
--    cpu->isar.id_dfr0 = 0x02010555;
--    cpu->id_afr0 = 0x00000000;
--    cpu->isar.id_mmfr0 = 0x10201105;
--    cpu->isar.id_mmfr1 = 0x20000000;
--    cpu->isar.id_mmfr2 = 0x01240000;
--    cpu->isar.id_mmfr3 = 0x02102211;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232041;
--    cpu->isar.id_isar3 = 0x11112131;
--    cpu->isar.id_isar4 = 0x10011142;
--    cpu->isar.dbgdidr = 0x3515f021;
--    cpu->clidr = 0x0a200023;
--    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
--    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
--    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
--    define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
--}
--
- static void cortex_m0_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1022,7 +956,6 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-     { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
-     { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
-     { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
--    { .name = "cortex-a15",  .initfn = cortex_a15_initfn },
-     { .name = "cortex-m0",   .initfn = cortex_m0_initfn,
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-m3",   .initfn = cortex_m3_initfn,
++     * CPTR_EL2.  Since TZ and TFP are positive,
+      * they will be zero when EL2 is not present.
+      */
+     if (el <= 2 && arm_is_el2_enabled(env)) {
 -- 
 2.20.1
 
