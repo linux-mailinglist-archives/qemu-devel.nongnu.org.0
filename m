@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7872839BCE8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:20:03 +0200 (CEST)
-Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE68939BCFA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:22:14 +0200 (CEST)
+Received: from localhost ([::1]:45652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpCYE-00006Q-5l
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
+	id 1lpCaH-0004pe-Ey
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCI4-0008Ny-7X
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:03:20 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43536)
+ id 1lpC8m-0003Vk-CZ
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:53:44 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCHd-0005qK-JY
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:03:19 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u7so4384708wrs.10
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 09:02:53 -0700 (PDT)
+ id 1lpC8i-0000EG-8p
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:53:44 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ t4-20020a1c77040000b029019d22d84ebdso8196543wmi.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/YG66hyD1VOf/fOI4qw/ZTnuURBGgVxAEUhf5rfH4Y0=;
- b=fC6Z4tu+Pi3NnHTTj1S95aaBJf3XfPsnkTphTm3RJjD9o+QNOsVgm5+CQjJfyd/Dg5
- 9OGU/p8Bks+cAY+zoQLH9We4C7sZ4Z0aGsBQ3/HuSvmqop3xpF5PJ4PaSxq7OA3b0zR7
- qi3pjjl6cbWqRNsaBJZ3nc8Y7v4fq05u+nGUQUrI1/qHk1VJp1mJYv2u0Oa2MswHYHNH
- XHFwNy0XxbKpSK9lnXN9sJBLlyheeBYHkfNUh6Mfd7UBMVjuJCdimNpaKaMgudOU9W3B
- bDlb9dOz5UVokJn+7Qj6z+52HyHAsa0ObA3nDgEXyQevHJE0jGD/weNGp9eUlgM1zHkV
- xYQw==
+ bh=dsyKHQJNOhAXErDDhKEWsE1reIuTyEMwEV0R3vqvPqo=;
+ b=ylkJNz4GI+pdjTJ8e7ZpdDZFzkDAO/0NVJO2mS/6czgbyE6dMwlXVTNjBmjnDCJ8ib
+ LmDB1Aqtb57TQEIhiutaZ/3S7KYR6grnTepTaLHA8faoCcmB3x0EgXex7SXoAyniTgW5
+ S4GemIN4svMgYyh/o63H7UXSy16BEZnxnYCFk8NxSfN3m3QN67FGLvzLT4/ZKeONndCF
+ tc/wpq9AeQmfO0fYSptBj65S10PhJfIS4qRXu0ZQ1GII+8HbxzKc0+8ccDRLmfoYVLDA
+ hmhDtF3YAh0mEd0xaBLnD/ZLghicvwnI35Krb42+buE9jYLn/lx3o2OVrm+IGdlwUIA7
+ SjNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/YG66hyD1VOf/fOI4qw/ZTnuURBGgVxAEUhf5rfH4Y0=;
- b=iYQ7S68iJbwXjm422NppglgOwbABL4rvo2MA8m8XukRkqTldtSF6pnFhR6Opl8mE5Y
- ncJNzFq2q6uGyL49JJKyLY82M8TY3WEMr5m26eGYHfYmD4CyCMS4M5HA79FoxDXQfi4i
- /fbwyXjl64dbasbbnp3fs76TPsjJ5TEefCwAtsLPsoPWN23pOl14XTcq8z5Mk8khI9MM
- G4Zb3tKzofGkucgV0rSzafRZaXtdnJaB3jV50i+5m5xgZHDAwEeSYgl1xKicTxbE6dMW
- hwex5cWFVnAfxOjThaRokZRnb36nTxX5mgC+bURxebxqaUecN9sAkIi9wWE/LrcVCPMK
- NSYQ==
-X-Gm-Message-State: AOAM532speN1Dqmx4QLpl/tUf3vb37yzmTsaGJZtFQqiZ+jOhvMNqOn2
- WXW1Cm9Pe10Vdc2c+VnyuuZ8FA==
-X-Google-Smtp-Source: ABdhPJxoNh4ZssVD5lwFM3Dx5OLmXna9H8Fq7cYBY7tnC0SQE6H+rLqFNc9rVxR8bEvO5OPslTURRQ==
-X-Received: by 2002:adf:f98a:: with SMTP id f10mr4644621wrr.143.1622822572137; 
- Fri, 04 Jun 2021 09:02:52 -0700 (PDT)
+ bh=dsyKHQJNOhAXErDDhKEWsE1reIuTyEMwEV0R3vqvPqo=;
+ b=gnwC4d/K8AOc3+qsgPWRQJdWzK4HDy2BPUgHBSCXxZXfOLReHR2EVu5UtcpycrhBbU
+ HUQ/z1McU5b9GM58mh5MFA2YcAn36X0DBJXbgJGFqRJPfgnPsYCYORLq53bmOmCiFkg+
+ yUu72DT8lUywJGS/v+jjq34D2dZECo9fVW25G8py7ezz3b0SIZOP5hjKpimiB3yPrbuJ
+ T/dgh5ccgMxbnJmKe6S0GiQajE87H5l4vvVksJSq2Xtngdpj23l/innWSuSikrsHGP7y
+ 8lk22NBKqzRSAGUGumIdgMIlWpDuTUMRAjavMAgm2Ac0TR4pIdBqv0qAvjey7fa6zIE6
+ lMIA==
+X-Gm-Message-State: AOAM530H2HS1ayJuvGlBalK11vEZJyF241F7mHgwnVeu+Dg01PtYPBWW
+ F6my2t3zT0YydQRH/WtUT8+UjA==
+X-Google-Smtp-Source: ABdhPJz8C3AWDs1VwBlGFojha1Z5+/DCrGZ9Kapu/NrazzA8jjF5qNukKeJCJdI7Sqo2HS08z0V7nQ==
+X-Received: by 2002:a1c:8016:: with SMTP id b22mr4252034wmd.43.1622822018959; 
+ Fri, 04 Jun 2021 08:53:38 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm6843694wrp.21.2021.06.04.09.02.40
+ by smtp.gmail.com with ESMTPSA id c23sm9110099wme.37.2021.06.04.08.53.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 09:02:43 -0700 (PDT)
+ Fri, 04 Jun 2021 08:53:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C56E20021;
+ by zen.linaroharston (Postfix) with ESMTP id 96AC31FF92;
  Fri,  4 Jun 2021 16:53:24 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 94/99] target/arm: move CONFIG_V7M out of default-devices
-Date: Fri,  4 Jun 2021 16:53:07 +0100
-Message-Id: <20210604155312.15902-95-alex.bennee@linaro.org>
+Subject: [PATCH v16 96/99] tests/qtest: split the cdrom-test into arm/aarch64
+Date: Fri,  4 Jun 2021 16:53:09 +0100
+Message-Id: <20210604155312.15902-97-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210604155312.15902-1-alex.bennee@linaro.org>
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,71 +87,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:IDE" <qemu-block@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently select CONFIG_V7M for a bunch of our m-profile devices.
-The last sticking point is translate.c which cannot be compiled
-without expecting v7m support. Express this dependency in Kconfig
-rather than in default devices as a stepping stone to a fully
-configurable translate.c.
-
-While we are at it we also need to select ARM_COMPATIBLE_SEMIHOSTING
-as that is implied for M profile machines.
+The assumption that the qemu-system-aarch64 image can run all 32 bit
+machines is about to be broken and besides it's not likely this is
+improving out coverage by much. Test the "virt" machine for both arm
+and aarch64 as it can be used by either architecture.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- default-configs/devices/arm-softmmu.mak | 3 ---
- hw/arm/Kconfig                          | 3 +++
- target/arm/tcg/sysemu/meson.build       | 5 ++++-
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ tests/qtest/cdrom-test.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-index 0500156a0c..4114aa9e35 100644
---- a/default-configs/devices/arm-softmmu.mak
-+++ b/default-configs/devices/arm-softmmu.mak
-@@ -1,8 +1,5 @@
- # Default configuration for arm-softmmu
- 
--# TODO: ARM_V7M is currently always required - make this more flexible!
--CONFIG_ARM_V7M=y
--
- # CONFIG_PCI_DEVICES=n
- # CONFIG_TEST_DEVICES=n
- 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 67723d9ea6..afaf807c92 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -296,7 +296,10 @@ config ZYNQ
- 
- config ARM_V7M
-     bool
-+    # currently v7M must be included in a TCG build due to translate.c
-+    default y if TCG && (ARM || AARCH64)
-     select PTIMER
-+    select ARM_COMPATIBLE_SEMIHOSTING
- 
- config ALLWINNER_A10
-     bool
-diff --git a/target/arm/tcg/sysemu/meson.build b/target/arm/tcg/sysemu/meson.build
-index 56e4b5ccea..520f305deb 100644
---- a/target/arm/tcg/sysemu/meson.build
-+++ b/target/arm/tcg/sysemu/meson.build
-@@ -1,7 +1,10 @@
- arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'debug_helper.c',
--  'm_helper.c',
-   'mte_helper.c',
-   'tcg-cpu.c',
-   'tlb_helper.c',
- ))
-+
-+arm_softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files(
-+  'm_helper.c',
-+))
+diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+index 5af944a5fb..1e74354624 100644
+--- a/tests/qtest/cdrom-test.c
++++ b/tests/qtest/cdrom-test.c
+@@ -220,13 +220,16 @@ int main(int argc, char **argv)
+             "magnum", "malta", "pica61", NULL
+         };
+         add_cdrom_param_tests(mips64machines);
+-    } else if (g_str_equal(arch, "arm") || g_str_equal(arch, "aarch64")) {
++    } else if (g_str_equal(arch, "arm")) {
+         const char *armmachines[] = {
+             "realview-eb", "realview-eb-mpcore", "realview-pb-a8",
+             "realview-pbx-a9", "versatileab", "versatilepb", "vexpress-a15",
+             "vexpress-a9", "virt", NULL
+         };
+         add_cdrom_param_tests(armmachines);
++    } else if (g_str_equal(arch, "aarch64")) {
++        const char *aarch64machines[] = { "virt", NULL };
++        add_cdrom_param_tests(aarch64machines);
+     } else {
+         const char *nonemachine[] = { "none", NULL };
+         add_cdrom_param_tests(nonemachine);
 -- 
 2.20.1
 
