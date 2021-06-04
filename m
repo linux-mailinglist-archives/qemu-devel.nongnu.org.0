@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9862C39BFA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:32:16 +0200 (CEST)
-Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD3539BFC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:37:18 +0200 (CEST)
+Received: from localhost ([::1]:42422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpEcB-00058c-8N
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44420)
+	id 1lpEh3-0001Il-Gm
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lpEax-00042N-8Z
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:31:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lpEar-0006P3-76
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:30:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622831451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=O1kZdVethSQd8w4HypkAbNjfuR9lRl1iSiIggPwdb74=;
- b=h6WhLdhDBuSYR2PrFrlV2hF+oaIx6giOwXXwenNJWvQnS8RdjGm67Kv60I7D/CXsmX9wUD
- sJ26J7dNRLkb7wGIvTC94OWDxcgEFzuJdTFOikwT4yfFBU/uvP6WHZ1Y6GlNxNPMwojTIx
- S5MWJfbgIfpEr1M5zxjlhdwFAPIhkUs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-ewtyJ_4hPnmzB5vP0m_LTw-1; Fri, 04 Jun 2021 14:30:48 -0400
-X-MC-Unique: ewtyJ_4hPnmzB5vP0m_LTw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D193D107ACF5;
- Fri,  4 Jun 2021 18:30:45 +0000 (UTC)
-Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B79AA60D06;
- Fri,  4 Jun 2021 18:30:32 +0000 (UTC)
-Date: Fri, 4 Jun 2021 13:30:31 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v5 00/11] 64bit block-layer: part II
-Message-ID: <20210604183031.kvwotfxtxmlkq32m@redhat.com>
-References: <20210505075001.45041-1-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lpEf3-00073y-Fz
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:35:13 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35339)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lpEey-0000vG-Pl
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:35:11 -0400
+Received: by mail-pg1-x536.google.com with SMTP id o9so5727856pgd.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 11:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LdUaco4sECfF9IUAX5NrMCB86rw92BNPZvWQqOKvyas=;
+ b=Bga0f/A17eVlsm7gkf5292g0WXtr9pgDlmH7Ywq0Dt+B5L3qXA3QfvmMV+ASY9eGOH
+ jFmge7WNhsSTaIBKE+UJCQaczL7Ty4v/7XhV39PMMfh/Tpz4on7eBekuJY+gxgCGhb8c
+ hb38VAeOAj7Qp/2kQkYw/lM3LiYzYgTH2okOn5npStEGpHngCt/wLYlWTPJ7DrkoIlVu
+ sWQUglP9Cnn8FIuhB1A8x/uxJmvV2iSzQEkB9OhL9l8TzVB0IsY0/x8KvkzP7z2UoO0J
+ Rt3vv8rfpVf4LKtc1mz+82xG7OXVN7bW9qnXZXfRjg6ucmaCDxOnk0lJj/uiNFHTkd3h
+ b1xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LdUaco4sECfF9IUAX5NrMCB86rw92BNPZvWQqOKvyas=;
+ b=q+DpsOwS5AzGqEd4G///C+bhltMPHGSv9E4i6eg4LLrZ9yzT3NUhTZCrTHLrh1jjp4
+ V4aIhnE1kyprSFOUBN/5gOEQSNhtPDhn8Tt3qphOqyl/emvP9EFitVYct+1RH+PhNoQr
+ ANCuiiho4/zC7ANTS2CD9tg622Gsb2GWoM51DmiDIT7hKWizf8jr04GP0bjMT4ANF3pb
+ jp5Z8HCC1EyN4LaeDnlGsvvcbxDs+3BnsTJ1axtSRXOdDc/kgRWvLD4GSoG5BGiEAUAW
+ lNwNceU4Nr22MHVst1Z9ywcqbBaSxTP3gA+XbmhpVRRttwwcPeSOsOGA7CMTeeOWGFAX
+ Jbug==
+X-Gm-Message-State: AOAM531g6qxjy3VWaEg06Dc7iZL69eIn3mlfRo8Yh7U0xwrsh4j0kQDr
+ dtgPIOWJ/gQChMFgdH0UFBHQq0jcoYLpgA==
+X-Google-Smtp-Source: ABdhPJzlz7oKubsWVmyLtqdL0iAEvF8f4fL5XWu+6QBGA6DkhmHkYdx96OPfAToW9xXpfsO8DSc0xQ==
+X-Received: by 2002:a63:5619:: with SMTP id k25mr6405747pgb.92.1622831707195; 
+ Fri, 04 Jun 2021 11:35:07 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id m2sm2620578pgu.85.2021.06.04.11.35.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 11:35:06 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] target/arm: Decode fixes for aarch64
+Date: Fri,  4 Jun 2021 11:35:03 -0700
+Message-Id: <20210604183506.916654-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210505075001.45041-1-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,42 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, integration@gluster.org,
- Alberto Garcia <berto@igalia.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- qemu-block@nongnu.org, Jason Dillaman <dillaman@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, Liu Yuan <namei.unix@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Ari Sundholm <ari@tuxera.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 05, 2021 at 10:49:50AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> v5: rebase on master, fix block comments style and over-80 line.
-> 01: s/{}/()/ in subject, so that email not to be mangled.
+A couple of printfs left over from the beginning of time,
+and asserts that are reachable because of lack of decode.
 
-Don't worry too much about that; if it happens again on v6, I can
-manually fix the commit on my side or else pull the commit directly
-from your repo (if you provide a link) rather than via 'git am'
-through the mailing list.
 
-> 
-> part II aims to update block drivers to int64_t.
-> 
-> I remind that main aim of this update of the whole block-layer to 64bit
-> is to implement 64bit write-zeroes NBD request.
-> 
-> Vladimir Sementsov-Ogievskiy (11):
+r~
 
-I got through patches 1-6 in your v4 posting (our mails crossed), so
-I'll assume those are similar, and resume my review with patch 7 in
-this posting.
+
+Richard Henderson (3):
+  target/arm: Diagnose UNALLOCATED in disas_simd_two_reg_misc_fp16
+  target/arm: Remove fprintf from disas_simd_mod_imm
+  target/arm: Diagnose UNALLOCATED in disas_simd_three_reg_same_fp16
+
+ target/arm/translate-a64.c | 87 +++++++++++++++++++++++---------------
+ 1 file changed, 52 insertions(+), 35 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.25.1
 
 
