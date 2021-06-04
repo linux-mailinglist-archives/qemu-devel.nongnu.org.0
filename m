@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABBF639B582
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 11:09:45 +0200 (CEST)
-Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CCF39B58E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 11:11:06 +0200 (CEST)
+Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp5po-000248-NH
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 05:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38726)
+	id 1lp5r7-0003gg-Tm
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 05:11:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lp5oe-0001CE-Aw
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:08:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lp5oZ-00054C-UV
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:08:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622797706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lp5pu-0002ob-5V
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:09:50 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:60588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lp5pr-0005z7-CF
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:09:49 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8AAFA1FD4C;
+ Fri,  4 Jun 2021 09:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622797784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mWHDjY1Tb/SObcrBR82cQ8DhE1k0VePqR0dWrT0cmAU=;
- b=HJAO6qPIW14oiLY8TLoAUPzpY/7g9+d1Yokcl/taRI1QsXokcXiUob2kxdSV94DmmPxuBp
- fP2FgM5WdlFozlqEt99VdanuvgVXMkcLi4f79OsqrVrSgOJ+5BoiPlmQWGilhjHa9F6EI7
- 4x933kzGhti7nRgxhkq0zOsVf8ZXUH8=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-8nCoq8H9Ot27vQOJg3-dhg-1; Fri, 04 Jun 2021 05:08:22 -0400
-X-MC-Unique: 8nCoq8H9Ot27vQOJg3-dhg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- l6-20020a3770060000b02902fa5329f2b4so6081916qkc.18
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 02:08:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mWHDjY1Tb/SObcrBR82cQ8DhE1k0VePqR0dWrT0cmAU=;
- b=DVapnVQM55d4qQ4jYNZduiY2nPlrSNcXhykPC14AK8KheSpG/vSAy+618+QloC1BUe
- fKLWnydk8LPF64Y8Ys+FJvfz05j+YmUZ2eQxgU5oDJHVaAeT+qm0rgukU4F0t3AKbcNu
- B98viq/9YwojnP+/dzWAASyohk9LlIYdMAts2lV2Oydrq3XN7ITdDDtI1oEu+4vT+QrL
- SDtwcbb94T5TnTK1qqxMMmpA6umdjF2InYo05xNm/YOjtSIB9dSoReDwSczSra5zbUW7
- IvkbHeq18DEHaiRe+I5900L/QuOK5Gyw5VhJvlLforcZq8LRW5U4mNwoDrBgskAB1bX4
- zUFQ==
-X-Gm-Message-State: AOAM532MfCxEX2uAEwoPdYuYUA8RFZlkVunxuBH1fqIGcPXfF4amqQy+
- o3caYlWIv3vhLvaDeHGYa3jvdxxuAzt5YD7miAPbuRn6tsI8AHIsiTKKVH7ZmNBRywc3oGbSfDs
- wvDbEabCckpwdNQrU5GAbAueIgOcZcYQ=
-X-Received: by 2002:ad4:4e47:: with SMTP id eb7mr3533925qvb.40.1622797702121; 
- Fri, 04 Jun 2021 02:08:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBqrPbVIW9sKIDbCk4epPX5SZkvbzpBqdvWSL9X9YNWY3qFoPHK9qzVr5suxOaMc5c5Y8KrslJm76jNRmRohM=
-X-Received: by 2002:ad4:4e47:: with SMTP id eb7mr3533906qvb.40.1622797701888; 
- Fri, 04 Jun 2021 02:08:21 -0700 (PDT)
+ bh=dXJAdLmHZiklaDXBmI+ZwwQjv1UO+sMym3L2Js7/B54=;
+ b=j2l/sEV6o5PYy/D/rHWl+BVUx6SrNPPQtZ5p7zuiNwgdNUi0Cf0fFFy8/CsTjnbCbokNWW
+ Y8p3mGhEnS4q4rpRRevyLIQpett6A9o/tmz8MnrtX/EC1r3N9N6VKpcLZ1sRxRztMsFwrs
+ CZBFfvP4XnKD6nXiROqcyzUVeQXaEXc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622797784;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dXJAdLmHZiklaDXBmI+ZwwQjv1UO+sMym3L2Js7/B54=;
+ b=TmZ1tZh2QhPWuZ2jccsF6zPfPOXMQ+pzvEAo4INVVxMDRMaW4ou7TEEMVbnKESl+cX/tux
+ emixfx09IKT0hfBA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id D8629118DD;
+ Fri,  4 Jun 2021 09:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622797784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dXJAdLmHZiklaDXBmI+ZwwQjv1UO+sMym3L2Js7/B54=;
+ b=j2l/sEV6o5PYy/D/rHWl+BVUx6SrNPPQtZ5p7zuiNwgdNUi0Cf0fFFy8/CsTjnbCbokNWW
+ Y8p3mGhEnS4q4rpRRevyLIQpett6A9o/tmz8MnrtX/EC1r3N9N6VKpcLZ1sRxRztMsFwrs
+ CZBFfvP4XnKD6nXiROqcyzUVeQXaEXc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622797784;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dXJAdLmHZiklaDXBmI+ZwwQjv1UO+sMym3L2Js7/B54=;
+ b=TmZ1tZh2QhPWuZ2jccsF6zPfPOXMQ+pzvEAo4INVVxMDRMaW4ou7TEEMVbnKESl+cX/tux
+ emixfx09IKT0hfBA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id 4kmKMdftuWBEZQAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Fri, 04 Jun 2021 09:09:43 +0000
+Subject: Re: [PATCH v2 0/2] Fixes for "Windows fails to boot"
+From: Claudio Fontana <cfontana@suse.de>
+To: Cleber Rosa Junior <crosa@redhat.com>
+References: <20210603123001.17843-1-cfontana@suse.de>
+ <1da75e95-1255-652e-1ca3-d23a8f6bf392@suse.de>
+ <CA+bd_6K1BOSeswTszBGJrq4Z9F_KpPsSuOL-cLbYWGAfvjPEMA@mail.gmail.com>
+ <2e5edcf2-6958-82db-511c-724165a8ddfb@suse.de>
+ <dd1eb78c-9534-3d00-1a51-c03f1fd3ad16@suse.de>
+Message-ID: <6fb2de83-755f-f373-b0df-d72b274a33df@suse.de>
+Date: Fri, 4 Jun 2021 11:09:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20210519162903.1172366-1-eperezma@redhat.com>
- <20210519162903.1172366-26-eperezma@redhat.com>
- <ae560866-4598-3157-a0cb-e0e79b4dca42@redhat.com>
- <CAJaqyWc7OWeQnXHihY=mYp=N+rRJLcbFUsJA-OszD6tyr6v-FQ@mail.gmail.com>
- <316a88dc-2d78-e36b-50d7-d0243bceb898@redhat.com>
-In-Reply-To: <316a88dc-2d78-e36b-50d7-d0243bceb898@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 4 Jun 2021 11:07:45 +0200
-Message-ID: <CAJaqyWfHhiiktOw_zVJoT8MPA2_JpADN44fw+nZLLY4387kNHA@mail.gmail.com>
-Subject: Re: [RFC v3 25/29] vhost: Add custom IOTLB translations to SVQ
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <dd1eb78c-9534-3d00-1a51-c03f1fd3ad16@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,146 +101,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Harpreet Singh Anand <hanand@xilinx.com>,
- Xiao W Wang <xiao.w.wang@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, Siddharth Chandrasekaran <sidcha@amazon.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 3, 2021 at 5:39 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/6/3 =E4=B8=8A=E5=8D=881:51, Eugenio Perez Martin =E5=86=99=
-=E9=81=93:
-> > On Wed, Jun 2, 2021 at 11:52 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> =E5=9C=A8 2021/5/20 =E4=B8=8A=E5=8D=8812:28, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> >>> Use translations added in IOVAReverseMaps in SVQ if the vhost device
-> >>> does not support the mapping of the full qemu's virtual address space=
-.
-> >>> In other cases, Shadow Virtqueue still uses the qemu's virtual addres=
-s
-> >>> of the buffer pointed by the descriptor, which has been translated
-> >>> already by qemu's VirtQueue machinery.
-> >>
-> >> I'd say let stick to a single kind of translation (iova allocator) tha=
-t
-> >> works for all the cases first and add optimizations on top.
-> >>
-> > Ok, I will start from here for the next revision.
-> >
-> >>> Now every element needs to store the previous address also, so VirtQu=
-eue
-> >>> can consume the elements properly. This adds a little overhead per VQ
-> >>> element, having to allocate more memory to stash them. As a possible
-> >>> optimization, this allocation could be avoided if the descriptor is n=
-ot
-> >>> a chain but a single one, but this is left undone.
-> >>>
-> >>> Checking also for vhost_set_iotlb_callback to send used ring remappin=
-g.
-> >>> This is only needed for kernel, and would print an error in case of
-> >>> vhost devices with its own mapping (vdpa).
-> >>>
-> >>> This could change for other callback, like checking for
-> >>> vhost_force_iommu, enable_custom_iommu, or another. Another option co=
-uld
-> >>> be to, at least, extract the check of "is map(used, writable) needed?=
-"
-> >>> in another function. But at the moment just copy the check used in
-> >>> vhost_dev_start here.
-> >>>
-> >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>> ---
-> >>>    hw/virtio/vhost-shadow-virtqueue.c | 134 +++++++++++++++++++++++++=
-+---
-> >>>    hw/virtio/vhost.c                  |  29 +++++--
-> >>>    2 files changed, 145 insertions(+), 18 deletions(-)
-> >>>
-> >>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
-dow-virtqueue.c
-> >>> index 934d3bb27b..a92da979d1 100644
-> >>> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> >>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> >>> @@ -10,12 +10,19 @@
-> >>>    #include "hw/virtio/vhost-shadow-virtqueue.h"
-> >>>    #include "hw/virtio/vhost.h"
-> >>>    #include "hw/virtio/virtio-access.h"
-> >>> +#include "hw/virtio/vhost-iova-tree.h"
-> >>>
-> >>>    #include "standard-headers/linux/vhost_types.h"
-> >>>
-> >>>    #include "qemu/error-report.h"
-> >>>    #include "qemu/main-loop.h"
-> >>>
-> >>> +typedef struct SVQElement {
-> >>> +    VirtQueueElement elem;
-> >>> +    void **in_sg_stash;
-> >>> +    void **out_sg_stash;
-> >>
-> >> Any reason for the trick like this?
-> >>
-> >> Can we simply use iovec and iov_copy() here?
-> >>
-> > At the moment the device writes the buffer directly to the guest's
-> > memory, and SVQ only translates the descriptor. In this scenario,
-> > there would be no need for iov_copy, isn't it?
->
->
-> It depends on which kinds of translation you used.
->
-> If I read the code correctly, stash is used for storing HVAs after the
-> HVA->IOVA translation.
->
-> This looks exactly the work of iov (and do we guarantee the there will
-> be a 1:1 translation?)
->
-> And if the mapping is 1:1 you can simply use iov_copy().
->
-> But this wont' be a option if we will always use iova allocator.
->
+On 6/4/21 9:01 AM, Claudio Fontana wrote:
+> On 6/4/21 8:32 AM, Claudio Fontana wrote:
+>> On 6/3/21 5:10 PM, Cleber Rosa Junior wrote:
+>>> On Thu, Jun 3, 2021 at 10:29 AM Claudio Fontana <cfontana@suse.de> wrote:
+>>>
+>>>> On 6/3/21 2:29 PM, Claudio Fontana wrote:
+>>>>> v1 -> v2:
+>>>>>  * moved hyperv realizefn call before cpu expansion (Vitaly)
+>>>>>  * added more comments (Eduardo)
+>>>>>  * fixed references to commit ids (Eduardo)
+>>>>>
+>>>>> The combination of Commits:
+>>>>> f5cc5a5c ("i386: split cpu accelerators from cpu.c"...)
+>>>>
+>>>>> 30565f10 ("cpu: call AccelCPUClass::cpu_realizefn in"...)
+>>>>>
+>>>>> introduced two bugs that break cpu max and host in the refactoring,
+>>>>> by running initializations in the wrong order.
+>>>>>
+>>>>> This small series of two patches is an attempt to correct the situation.
+>>>>>
+>>>>> Please provide your test results and feedback, thanks!
+>>>>>
+>>>>> Claudio
+>>>>>
+>>>>> Claudio Fontana (2):
+>>>>>   i386: reorder call to cpu_exec_realizefn in x86_cpu_realizefn
+>>>>>   i386: run accel_cpu_instance_init as instance_post_init
+>>>>>
+>>>>>  target/i386/cpu.c         | 89 +++++++++++++++++++++++++--------------
+>>>>>  target/i386/kvm/kvm-cpu.c | 12 +++++-
+>>>>>  2 files changed, 68 insertions(+), 33 deletions(-)
+>>>>>
+>>>>
+>>>> Btw, CI/CD is all green, but as mentioned, it does not seem to catch these
+>>>> kind of issues.
+>>>>
+>>>>
+>>> Hi Claudio,
+>>>
+>>> Not familiar with the specifics of this bug, but can it be caught by
+>>> attempting to boot an image other than Windows?  If so, we can consider
+>>> adding a test along the lines of tests/acceptance/boot_linux_console.py.
+>>>
+>>> Thanks,
+>>> - Cleber.
+>>
+>> Hello Cleber,
+>>
+>> yes, all that seems to be required is the "host" cpu, q35 machine, and the firmware ./OVMF_CODE.secboot.fd and ./OVMF_VARS.secboot.fd :
+>>
+>> ./build/x86_64-softmmu/qemu-system-x86_64 \
+>>         -cpu host \
+>>         -enable-kvm \
+>>         -m 4G \
+>>         -machine q35,smm=on \
+>>         -drive if=pflash,format=raw,readonly=on,unit=0,file="./OVMF_CODE.secboot.fd" \
+>>         -drive if=pflash,format=raw,unit=1,file="./OVMF_VARS.secboot.fd"
+>>
+>> With the bugged code, the firmware does not boot, and the cpu does not get into 64-bit long mode.
+>> Applying the patches the firmware boots normally and we get the TianoCore Logo and text output.
+>>
+>> Adding something like -display none -serial stdio would also generate text in the OK case that could be "expected" by a test:
+>>
+>> BdsDxe: failed to load Boot0001 "UEFI QEMU DVD-ROM QM00005 " from PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x2,0xFFFF,0x0): Not Found
+>>
+>>>> Start PXE over IPv4.
+>>
+>> even without using any guest to boot at all, just the firmware.
+>> I used this Fedora package for the test, containing the firmware: edk2-ovmf-20200801stable-1.fc33.noarch.rpm
+>>
+>> I looked briefly at tests/acceptance/boot_linux_console.py, but did not see where such a test of firmware could be inserted,
+>> could you advise?
+> 
+> 
+> Nm I think I got it, will create a new boot_OVMF_fc33.py test.
+> 
+> Thanks, C
 
-Right, the stash is only used in case of iova allocator. In case of
-1:1 translation, svq->iova_map is never !NULL and _stash/_unstash
-functions are never called.
+Question: do all of these acceptance tests require manual launch?
 
-And yes, I could have used iov_copy [1], but the check of overlapping
-would have been unnecessary. It was like using memmove vs memset in my
-head.
+At least this is what I got in my CI at:
 
-Thanks!
+https://gitlab.com/hw-claudio/qemu
 
-[1] I thought you meant iov_to_buf in your last mail, so please omit
-the part of the buffer copy in my answer :).
+I seem to have to explicitly click on the acceptance tests to manually launch them.
+Or am I missing something?
 
->
-> >
-> > The reason for stash and unstash them was to allow the 1:1 mapping
-> > with qemu memory and IOMMU and iova allocator to work with less
-> > changes, In particular, the reason for unstash is that virtqueue_fill,
-> > expects qemu pointers to set the guest memory page as dirty in
-> > virtqueue_unmap_sg->dma_memory_unmap.
-> >
-> > Now I think that just storing the iova address from the allocator in a
-> > separated field and using a wrapper to get the IOVA addresses in SVQ
-> > would be a better idea, so I would change to this if everyone agrees.
->
->
-> I agree.
->
-> Thanks
->
->
-> >
-> > Thanks!
-> >
-> >> Thanks
-> >>
-> >>
->
+Thanks,
 
+Claudio
 
