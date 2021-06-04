@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4320139BF50
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:07:17 +0200 (CEST)
-Received: from localhost ([::1]:48674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD1539BF61
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:11:43 +0200 (CEST)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpEE0-0008PG-76
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37584)
+	id 1lpEII-00037z-Pu
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lpED9-0007iX-5i
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:06:23 -0400
-Received: from mga06.intel.com ([134.134.136.31]:43274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lpED6-0007g9-Jp
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:06:22 -0400
-IronPort-SDR: /4cJkHD4IDxhADlfP4d4d2yWgeGO7s9zVsCONMibbmSz945mk4nmkUvNGOlRxzr7wlchbtZIw8
- HQR1weU8FQ2A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10005"; a="265503673"
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="265503673"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2021 11:06:12 -0700
-IronPort-SDR: FViysA1+u/glgpfiI5inubkPaBrUpNSKtAOgX5GxHP4nBFA07txec9UidRLgxHGIQBzeRItHvV
- 6d3oY2iGrizg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,248,1616482800"; d="scan'208";a="448343400"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga008.fm.intel.com with ESMTP; 04 Jun 2021 11:06:10 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 4 Jun 2021 11:06:10 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 4 Jun 2021 11:06:09 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
- Fri, 4 Jun 2021 11:06:09 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] virtio-gpu: move scanout_id sanity check
-Thread-Topic: [PATCH] virtio-gpu: move scanout_id sanity check
-Thread-Index: AQHXWRZmU00u0sYuj0aR08ldSJEIHKsEJYoA
-Date: Fri, 4 Jun 2021 18:06:09 +0000
-Message-ID: <b917d889e28c4775acf5d2f89abb48b8@intel.com>
-References: <20210604075029.1201478-1-kraxel@redhat.com>
-In-Reply-To: <20210604075029.1201478-1-kraxel@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lpEGT-00014W-S3
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:09:49 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:55094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lpEGS-0000lY-91
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:09:49 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AA09821A33;
+ Fri,  4 Jun 2021 18:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622830186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UcJ8Ss+di3pg6dYPtTz7J3aIqSaQXYBo+UFgZYb1RHI=;
+ b=reg/vZNYgfuHliLmGgEpvU1IOqrT2sjJl50oi55oLg2yhOCimEf+8KNqh8ru7aeoPBwUKZ
+ lqxOmfGQB8Ww9U2glvcHYGihqrpfvyXz2DhOaFN0TVSmZRr4cD6nChqXk4cbDB2TwQmbc5
+ z3ILp6u4Bp4TGdVYepDavd6jUGD4UaI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622830186;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UcJ8Ss+di3pg6dYPtTz7J3aIqSaQXYBo+UFgZYb1RHI=;
+ b=EDsAQXOYVppMwgzNs/APFDdhNmlKQ377NMXKFIR/zLPN7h5wRVwU7izb+8jIdonx4+iCCk
+ s3N9NF6IaRhcXhAw==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 63917118DD;
+ Fri,  4 Jun 2021 18:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622830186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UcJ8Ss+di3pg6dYPtTz7J3aIqSaQXYBo+UFgZYb1RHI=;
+ b=reg/vZNYgfuHliLmGgEpvU1IOqrT2sjJl50oi55oLg2yhOCimEf+8KNqh8ru7aeoPBwUKZ
+ lqxOmfGQB8Ww9U2glvcHYGihqrpfvyXz2DhOaFN0TVSmZRr4cD6nChqXk4cbDB2TwQmbc5
+ z3ILp6u4Bp4TGdVYepDavd6jUGD4UaI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622830186;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UcJ8Ss+di3pg6dYPtTz7J3aIqSaQXYBo+UFgZYb1RHI=;
+ b=EDsAQXOYVppMwgzNs/APFDdhNmlKQ377NMXKFIR/zLPN7h5wRVwU7izb+8jIdonx4+iCCk
+ s3N9NF6IaRhcXhAw==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id RVOZFmpsumC8TwAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Fri, 04 Jun 2021 18:09:46 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa Junior <crosa@redhat.com>
+Subject: [PATCH v1 0/2] add x86 acceptance test for the "host" cpu bug
+Date: Fri,  4 Jun 2021 20:09:43 +0200
+Message-Id: <20210604180945.9330-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=vivek.kasireddy@intel.com; helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +86,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+This is a new acceptance test that verifies the ability to boot the OVMF
+"sec" binaries, that were previously broken by the i386 refactoring,
+due to improper ordering of x86_64 cpu initialization and realization.
 
+Claudio Fontana (2):
+  tests/acceptance: move pkg extraction to avocado_qemu/
+  tests/acceptance: add OVMF firmware test to cover x86_64 "host" cpu bug
 
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-bounces+vivek.kasireddy=3Dintel.com@nongnu.o=
-rg> On
-> Behalf Of Gerd Hoffmann
-> Sent: Friday, June 04, 2021 12:50 AM
-> To: qemu-devel@nongnu.org
-> Cc: Alexander Bulekov <alxndr@bu.edu>; Gerd Hoffmann <kraxel@redhat.com>;
-> Michael S. Tsirkin <mst@redhat.com>
-> Subject: [PATCH] virtio-gpu: move scanout_id sanity check
->=20
-> Checking scanout_id in virtio_gpu_do_set_scanout() is too late, for the
-> "resource_id =3D=3D 0" case (aka disable scanout) the scanout_id is used
-> unchecked.  Move the check into the callers to fix that.
->=20
-> Fixes: e64d4b6a9bc3 ("virtio-gpu: Refactor virtio_gpu_set_scanout")
-> Fixes: 32db3c63ae11 ("virtio-gpu: Add virtio_gpu_set_scanout_blob")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/383
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/virtio-gpu.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 4d549377cbc1..e183f4ecdaa5 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -610,12 +610,6 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
->      struct virtio_gpu_scanout *scanout;
->      uint8_t *data;
->=20
-> -    if (scanout_id >=3D g->parent_obj.conf.max_outputs) {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
- %d",
-> -                      __func__, scanout_id);
-> -        *error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-> -        return;
-> -    }
->      scanout =3D &g->parent_obj.scanout[scanout_id];
->=20
->      if (r->x > fb->width ||
-> @@ -694,6 +688,13 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
->      trace_virtio_gpu_cmd_set_scanout(ss.scanout_id, ss.resource_id,
->                                       ss.r.width, ss.r.height, ss.r.x, ss=
-.r.y);
->=20
-> +    if (ss.scanout_id >=3D g->parent_obj.conf.max_outputs) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
- %d",
-> +                      __func__, ss.scanout_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-> +        return;
-> +    }
-> +
->      if (ss.resource_id =3D=3D 0) {
->          virtio_gpu_disable_scanout(g, ss.scanout_id);
->          return;
-> @@ -730,6 +731,13 @@ static void virtio_gpu_set_scanout_blob(VirtIOGPU *g=
-,
->                                            ss.r.width, ss.r.height, ss.r.=
-x,
->                                            ss.r.y);
->=20
-> +    if (ss.scanout_id >=3D g->parent_obj.conf.max_outputs) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
- %d",
-> +                      __func__, ss.scanout_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-> +        return;
-> +    }
-> +
->      if (ss.resource_id =3D=3D 0) {
->          virtio_gpu_disable_scanout(g, ss.scanout_id);
->          return;
-> --
-> 2.31.1
->=20
+ tests/acceptance/avocado_qemu/__init__.py |  38 ++++++++
+ tests/acceptance/boot_linux_console.py    | 104 +++++++---------------
+ tests/acceptance/boot_ovmf_fc33.py        |  75 ++++++++++++++++
+ tests/acceptance/boot_xen.py              |   7 +-
+ tests/acceptance/replay_kernel.py         |  23 ++---
+ tests/acceptance/tcg_plugins.py           |   5 +-
+ 6 files changed, 166 insertions(+), 86 deletions(-)
+ create mode 100644 tests/acceptance/boot_ovmf_fc33.py
+
+-- 
+2.26.2
 
 
