@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC06C39BBA2
+	by mail.lfdr.de (Postfix) with ESMTPS id D29DF39BBA3
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:19:38 +0200 (CEST)
-Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpBbl-000296-RP
+	id 1lpBbl-00024a-RK
 	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:19:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa5-0007mP-Q2
+ id 1lpBa5-0007lt-1D
  for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:53 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34721)
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa3-0008DS-82
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:53 -0400
-Received: by mail-ed1-x534.google.com with SMTP id cb9so11615262edb.1
+ id 1lpBa3-0008De-8K
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:52 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id o5so11605441edc.5
  for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PjUTCXCnxwAcJKYCDMyAMuStN1x2DBiriMNfDrPFCPg=;
- b=LeSCSxgBbCM/8lxCi6h8l7Y53wIESzK0wpCe33YliSU9fdLsRZqoCfGCoMKQvvYj4w
- Odqa2FolQjmO+PFxOm4wOFiwHnpPiHYGRGk9DwQaijU/doR2i0F/mBoSgSyhOCNYD1S3
- cE7eq7wgir5WDBR1LdUp+a+ifxugelWmmXSebxsALb0Qfq13badvUh4SUMYv3T/pRxgs
- nGg9AnDwD3iASavD5xFVmQRjlsVTOHXzaowX5croDyckpJIOSkQM7TFDwAG4dhH9dM3W
- VVLmSHznjrrqtkm+sXWzCRP97mK4HT48V7Zjx0VoQIjpOjpb9ci3Vo+SCMyUMZ4Fjdct
- /KLg==
+ bh=qqYqnrlenFog4cY4zspWeuI8Xg7nEVqv+lvAE9Po+qM=;
+ b=G5GygwHXh10kbJxn2Yj1BH6NFKy4/e7U8pe4gkh2iEvh1fKC4z2V9ppCvbGmIF45Ul
+ 3JueG1fvQ5ja1rUTkAyP3JUEMiO+xAEYTgCWCDPrBC8pG0FqlhES3Qz7Xb2hmZ8mkl+z
+ pmCkeih3aQq3PMv6vlDw8vvLIhYLp8TZBMT8yAKmHI7YzSeD2nJPyEsm3/sWoEgz/gMg
+ Jt9b7w2TzcfqXvFpasTbav0un3kErIqzL92HTtwyB4orBVwMJeXOxQOKsAK7qZ5renE2
+ nKCZ3Bf60FqdZ4mnCJi5GdcRESQ35VRQ5CpTQqGNYNWA+2CYXUwbBuV2h7GU3aPQb318
+ vXWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PjUTCXCnxwAcJKYCDMyAMuStN1x2DBiriMNfDrPFCPg=;
- b=jFEw9b73/DePjHIGOJp18TWduBICWp3bxD8SKasJEcay0Xioo9swym9DW4Mfs0hZMF
- gx1L5PCIw+JmOLdtP4rmaQs7wUS9lJ3f+D4JffcD1bta5P35pqx0RSMLmJU3ch25lp5s
- ZW4WlRzH8hd0EnjJxAMwyWs+6c349S7IAa82G7zX0xt2mcUrR5w0L882DIcwaBG2xQ1x
- yUB5Or3P6KImJEhnqmVcun9SWfpWkRCzG/y0CwvVEgjZpD7JNVdo2SdY7pGh7Z3b8sT7
- uB4SRyB0JnheD5iwVoQKjotIFEKwtN+3tyyv5rfwUQULF6e3GPRK3EHhIjYYX82Fr/V/
- EGvA==
-X-Gm-Message-State: AOAM530IL8iwieUlHcb4NgX6hXn6PieZG4WdAPqevtmy3m/MnA2zmxDJ
- WCqZDfgi+iwCXwntX21SW5tAfwioLxmtXA==
-X-Google-Smtp-Source: ABdhPJwgTljB7IZK8lGbWA2j7i0a+f0jBt2DjKOEoC3YxCJ1gvGVSho7hYSFRuZ2XQwrh6kJnwwhCA==
-X-Received: by 2002:a05:6402:1d38:: with SMTP id
- dh24mr5358474edb.18.1622819868124; 
+ bh=qqYqnrlenFog4cY4zspWeuI8Xg7nEVqv+lvAE9Po+qM=;
+ b=p1AG3YfeB7h2i77V+NweNhOhehavu6h8M3UwjMuzbog+0Fo8gjpfyTiRHxm+w5x0pk
+ cLgK7NtioxfDr1eyXZU1d/FAKVVaRXdknBFpkveWDB0P0EdgNj/KAYgFFKH3eYcMsrGV
+ HWZBWMlys2xJquN1fxtVK4vmvasQMdK6Xc0HIHdJz9TI0g6WoduKpGLVmxyV10S+7N9M
+ Nf4Td1QrNCDcLXHnp7Cs9BQfWFPLdnf3oKQ7sNGyD/WGql9tUfZ3/CgkXfUgO02/yuXM
+ c7/YnXiANrWu/NXuuGEhteElbDwdKdlj/JHmdFlHQsB1mepWeG6YzeFt0YKHRnE16NyH
+ rAYA==
+X-Gm-Message-State: AOAM531Ik8R+seSG2RE7UnSHSFQ4ulj2LCIkXOUN59qqCHv78zJZzP1Q
+ yq9QROck6oGUyWHODHDgEzcrMQR93NAhlw==
+X-Google-Smtp-Source: ABdhPJwLAZCrDPcm9dDROFzuK8RhiXDfuZkUqH1sgGkk5EIGC7G5GUO9eFzLsGr9mNCtrynVdsurJQ==
+X-Received: by 2002:aa7:cfc7:: with SMTP id r7mr1992044edy.13.1622819868906;
  Fri, 04 Jun 2021 08:17:48 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- w1sm2402451eds.37.2021.06.04.08.17.47 for <qemu-devel@nongnu.org>
+ w1sm2402451eds.37.2021.06.04.08.17.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 08:17:47 -0700 (PDT)
+ Fri, 04 Jun 2021 08:17:48 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/13] meson: allow optional dependencies for block modules
-Date: Fri,  4 Jun 2021 17:17:33 +0200
-Message-Id: <20210604151745.310318-2-pbonzini@redhat.com>
+Subject: [PULL 02/13] iscsi: link libm into the module
+Date: Fri,  4 Jun 2021 17:17:34 +0200
+Message-Id: <20210604151745.310318-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604151745.310318-1-pbonzini@redhat.com>
 References: <20210604151745.310318-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,57 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yi Sun <yisun@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now all dependencies for block modules are passed to
-module_ss.add(when: ...), so they are mandatory.  In the next patch we
-will need to add a libm dependency to a module, but libm does not exist
-on all systems.  So, modify the creation of module_ss and modsrc so that
-dependencies can also be passed to module_ss.add(if_true: ...).
+Depending on the configuration of QEMU, some binaries might not need libm
+at all.  In that case libiscsi, which uses exp(), will fail to load.
+Link it in the module explicitly.
 
-While touching the array, remove the useless dependency of the curl
-module on glib.  glib is always linked in QEMU and in fact all other
-block modules also need it, but they don't have to specify it.
-
+Reported-by: Yi Sun <yisun@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/meson.build | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ block/meson.build | 2 +-
+ meson.build       | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/block/meson.build b/block/meson.build
-index e687c54dbc..9e3388f633 100644
+index 9e3388f633..01861e1545 100644
 --- a/block/meson.build
 +++ b/block/meson.build
-@@ -71,19 +71,19 @@ block_modules = {}
- 
- modsrc = []
+@@ -73,7 +73,7 @@ modsrc = []
  foreach m : [
--  [curl, 'curl', [curl, glib], 'curl.c'],
--  [glusterfs, 'gluster', glusterfs, 'gluster.c'],
--  [libiscsi, 'iscsi', libiscsi, 'iscsi.c'],
--  [libnfs, 'nfs', libnfs, 'nfs.c'],
--  [libssh, 'ssh', libssh, 'ssh.c'],
--  [rbd, 'rbd', rbd, 'rbd.c'],
-+  [curl, 'curl', files('curl.c')],
-+  [glusterfs, 'gluster', files('gluster.c')],
-+  [libiscsi, 'iscsi', files('iscsi.c')],
-+  [libnfs, 'nfs', files('nfs.c')],
-+  [libssh, 'ssh', files('ssh.c')],
-+  [rbd, 'rbd', files('rbd.c')],
- ]
-   if m[0].found()
-+    module_ss = ss.source_set()
-+    module_ss.add(when: m[0], if_true: m[2])
-     if enable_modules
--      modsrc += files(m[3])
-+      modsrc += module_ss.all_sources()
-     endif
--    module_ss = ss.source_set()
--    module_ss.add(when: m[2], if_true: files(m[3]))
-     block_modules += {m[1] : module_ss}
-   endif
- endforeach
+   [curl, 'curl', files('curl.c')],
+   [glusterfs, 'gluster', files('gluster.c')],
+-  [libiscsi, 'iscsi', files('iscsi.c')],
++  [libiscsi, 'iscsi', [files('iscsi.c'), libm]],
+   [libnfs, 'nfs', files('nfs.c')],
+   [libssh, 'ssh', files('ssh.c')],
+   [rbd, 'rbd', files('rbd.c')],
+diff --git a/meson.build b/meson.build
+index a45f1a844f..913cf2a41a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -163,7 +163,7 @@ if targetos != 'linux' and get_option('multiprocess').enabled()
+ endif
+ multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
+ 
+-m = cc.find_library('m', required: false)
++libm = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ winmm = []
+ socket = []
+@@ -1899,7 +1899,7 @@ util_ss.add_all(trace_ss)
+ util_ss = util_ss.apply(config_all, strict: false)
+ libqemuutil = static_library('qemuutil',
+                              sources: util_ss.sources() + stub_ss.sources() + genh,
+-                             dependencies: [util_ss.dependencies(), m, glib, socket, malloc, pixman])
++                             dependencies: [util_ss.dependencies(), libm, glib, socket, malloc, pixman])
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: genh + version_res)
+ 
 -- 
 2.31.1
 
