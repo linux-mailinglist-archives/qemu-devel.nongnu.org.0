@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D22D39C239
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 23:19:14 +0200 (CEST)
-Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB02A39C253
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 23:25:32 +0200 (CEST)
+Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpHDl-0004Kf-Db
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 17:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49232)
+	id 1lpHJr-0006HZ-Ro
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 17:25:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lpHCa-0003dF-6Q
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 17:18:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lpHCW-0006RS-70
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 17:17:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622841473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OI6zsPfx5okuSaahk8+HGebatqzqVlKR7FYmZQsVsLk=;
- b=Jtq9Y4Jz+khNdUIZ9h5xjMHmsN8LgX+aptOj++MQ/HjKLyoEh7MdWUIMZxrcaI4QfhBVrV
- F3bLFQZeBm6zyuzBne6Jp1TAOz6LIFbZeQGuRml5chFlbhz8oykbATQjHdsH0md7RDPO5X
- GI21d512KFXnvksBQX7By7+Pgkh/5Lo=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-pCBN5OiAOX-hgcQjD1tlmw-1; Fri, 04 Jun 2021 17:17:52 -0400
-X-MC-Unique: pCBN5OiAOX-hgcQjD1tlmw-1
-Received: by mail-oo1-f71.google.com with SMTP id
- n62-20020a4a53410000b0290246a4799849so5723141oob.8
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 14:17:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lpHIR-0005M8-0K
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 17:24:03 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:41792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lpHIK-0002A2-Rs
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 17:24:02 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id r1so8851610pgk.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 14:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9cuhrvDS6Oe5GMt/RbqcFA1uOEgOG8TedSRL9cEKj0s=;
+ b=KYHKemfT5uXSGq2Bs5e0FsKHXbXy0Zi6BFBz/9YFv8qQzhc+quflSUgmlandV8qRGO
+ v+x1WBCiYAMGZRdHleNn17i+JRspq4DAfXcJTlYsXnmtT8SBbbaycT+ZJfOJrvUACti0
+ pNzB1/mrMsfrNFtw7zl63/bDz+P68RKFV97mAfTyK8XUvBuOOYxxjU5AyJf6YzOR7iEK
+ EPZYrdFKSIUQWTK/vrQrvBpFMnMdZbgMP3n5gGKd+qyGkboUoIJElyVYqez660LG7Wei
+ 5o/JhKZIadSRrVNCzD/L0EtpaKNTMKdGYLGQr+Ny3pI+2RecR/YKPpGdQD0FwcRaiKI8
+ nJoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OI6zsPfx5okuSaahk8+HGebatqzqVlKR7FYmZQsVsLk=;
- b=WCP37BwtZYJrBctKvAViHcPrz3pE35ESqt3OmwSJ7JEhr4MSLHaMbJe8w8LKuW9pJw
- Fdhgnrq8ZtAgD1KI67fNd6TaFmXbhl/kzwHdCE/Xwgma46XrFCOyyn6ai8RzLYNfJe+Q
- i7u9K5XgRp2Ir/A93mTWnNe74c6Lzs+kNcePwDQq4q04MTkeeF4ACNg6h0+WlcAmu84T
- //NZanytDwC+iR6pRIvXtfN1voJz1w4NcSTppLoZJBleqvIsmHdnI0n9pVaoYfWsh3WJ
- sg2a2L7xMI43yELOVZLJuS5vxLFJPMpRgihP++ndxrW/x8m+qWCVaoROuPTPqozTCmB0
- GCLw==
-X-Gm-Message-State: AOAM532q47x+cBsck416zjLzoIsVKaC6XikFBg1oJpd7B2xomUqaFyq4
- Al0H6Hmd/b0FT7ZLG/ipRudigVtBZ+1yWfU9+y2oPAQ0oGoRvVkse+xQG/MS2n98EKEx8FmHd+v
- 87PP9tSccj+oGBkY=
-X-Received: by 2002:a4a:85ca:: with SMTP id u10mr5157850ooh.80.1622841471386; 
- Fri, 04 Jun 2021 14:17:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6KjIo2nKhml7WLd/fBiAVJU8fMe/l0OFwAulbZMkBZGAfhX1+d3ywlWFMUYkiPrSlvZGOmw==
-X-Received: by 2002:a4a:85ca:: with SMTP id u10mr5157844ooh.80.1622841471199; 
- Fri, 04 Jun 2021 14:17:51 -0700 (PDT)
-Received: from [192.168.0.112] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
+ bh=9cuhrvDS6Oe5GMt/RbqcFA1uOEgOG8TedSRL9cEKj0s=;
+ b=VR1AulkdjGnOxudVMdTOS+KZKrfmnoJwg2hr9STAD2nmKoO/bvxsdWz2oKQwLhrDQP
+ YUTBYf6qbFLjdEIKsVRd6b8J3DbbySNdCAwDn3C4HlBMCmSxOgjnJzc6Qd6oEXzJGpVa
+ DvwPQzbZ0YynL+L3D2UGWV412cnnf8YFzapzZEshMRsXwt8uGjOa79NH9OcKoIEocAxp
+ 8WAuf/fHZbHQ9C7fAZGZuNXdBbNGuLkTpFrifVmGokkTC19P3w5MuJ6+MPWi9swggHGj
+ WKqCuQF9B7s6M36TuiAgwuCJ2VSHhLZyGB/vYpvkeIjGCPHEMo3vg6fjHl38WG3QqWcN
+ DIOg==
+X-Gm-Message-State: AOAM533R44qs7UQS8fXSCDKdVQ1nRukXNhUbSMaPdYVDdQAkpUS5mV6X
+ p4d3wvEU5ovdX/kKCPiaCrRsvg==
+X-Google-Smtp-Source: ABdhPJw81vFVqevyqxlInxIsaWlqOCpKcznYnzdut0ki8lpzpvUPoqMu5anyNtvxgRr+gUB8TEzg0A==
+X-Received: by 2002:a65:4948:: with SMTP id q8mr6843725pgs.375.1622841835185; 
+ Fri, 04 Jun 2021 14:23:55 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- q6sm676461oot.40.2021.06.04.14.17.50
+ n23sm2696786pgv.76.2021.06.04.14.23.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 14:17:50 -0700 (PDT)
-Subject: Re: [Virtio-fs] [PATCH 0/9] virtiofsd: Allow using file handles
- instead of O_PATH FDs
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org, virtio-fs@redhat.com
-References: <20210604161337.16048-1-mreitz@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <1ee5dea9-64d9-dc33-bc29-9caea1d59f07@redhat.com>
-Date: Fri, 4 Jun 2021 16:17:49 -0500
+ Fri, 04 Jun 2021 14:23:54 -0700 (PDT)
+Subject: Re: [PATCH v16 14/99] accel: add cpu_reset
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210604155312.15902-1-alex.bennee@linaro.org>
+ <20210604155312.15902-15-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3dfdf0a7-8113-3162-fe00-f497f1191d48@linaro.org>
+Date: Fri, 4 Jun 2021 14:23:53 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604161337.16048-1-mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210604155312.15902-15-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,59 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>,
+ "open list:X86 KVM CPUs" <kvm@vger.kernel.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/21 11:13 AM, Max Reitz wrote:
-> Hi,
+On 6/4/21 8:51 AM, Alex Bennée wrote:
+> From: Claudio Fontana<cfontana@suse.de>
 > 
-> This is the C virtiofsd equivalent to
-> https://gitlab.com/virtio-fs/virtiofsd-rs/-/merge_requests/26.  As such,
-> the summary is pretty much the same:
+> in cpu_reset(), implemented in the common cpu.c,
+> add a call to a new accel_cpu_reset(), which ensures that the CPU accel
+> interface is also reset when the CPU is reset.
 > 
-> Storing an O_PATH file descriptor in every lo_inode object means we have
-> a lot of FDs open, which is sometimes bad.  This series adds an option
-> (-o inode_file_handles) that will make virtiofsd attempt to generate a
-> file handle for new inodes and store that instead of an FD.  When an FD
-> is needed for a given inode, we open the handle.
+> Use this first for x86/kvm, simply moving the kvm_arch_reset_vcpu() call.
 > 
-> To accomplish this, lo_inode.fd is should not be accessed directly
-> anymore, but only through helper functions (mainly lo_inode_fd() and
-> lo_inode_open()).  A TempFd object is added to hide the difference
-> between FDs that are bound to the lo_inode object (and so need not be
-> closed after use) and temporary FDs from open_by_handle_at() (which do
-> need to be closed after use).
-> 
-> To prevent the problem I spent a long time talking about (if we don’t
-> have an FD open for every inode, the inode can be deleted, its ID
-> reused, and then the lookup in lo_data.inodes will find the old deleted
-> inode), patch 7 adds a second hash table lo_data.inodes_by_handle that
-> maps file handles to lo_inode objects.  (Because file handles include a
-> generation ID, so we can discern between the old and the new inode.)
-> 
-> Patch 9 is completely optional, but I just really felt compelled to
-> write it.
-> 
-> 
-> Max Reitz (9):
->   virtiofsd: Add TempFd structure
->   virtiofsd: Use lo_inode_open() instead of openat()
->   virtiofsd: Add lo_inode_fd() helper
->   virtiofsd: Let lo_fd() return a TempFd
->   virtiofsd: Let lo_inode_open() return a TempFd
->   virtiofsd: Add lo_inode.fhandle
->   virtiofsd: Add inodes_by_handle hash table
->   virtiofsd: Optionally fill lo_inode.fhandle
->   virtiofsd: Add lazy lo_do_find()
-> 
->  tools/virtiofsd/helper.c              |   3 +
->  tools/virtiofsd/passthrough_ll.c      | 809 +++++++++++++++++++++-----
->  tools/virtiofsd/passthrough_seccomp.c |   2 +
->  3 files changed, 667 insertions(+), 147 deletions(-)
-> 
+> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   include/hw/core/accel-cpu.h | 2 ++
+>   include/qemu/accel.h        | 6 ++++++
+>   accel/accel-common.c        | 9 +++++++++
+>   hw/core/cpu-common.c        | 3 ++-
+>   target/i386/cpu.c           | 4 ----
+>   target/i386/kvm/kvm-cpu.c   | 6 ++++++
+>   6 files changed, 25 insertions(+), 5 deletions(-)
 
-For the series:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
-
+r~
 
