@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC2D39C36B
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 00:23:50 +0200 (CEST)
-Received: from localhost ([::1]:43044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B4B39C385
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 00:28:34 +0200 (CEST)
+Received: from localhost ([::1]:46342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpIEH-0001El-55
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 18:23:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57352)
+	id 1lpIIr-0003tE-HX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 18:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpIDS-0000Ke-GB
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 18:22:58 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41612)
+ id 1lpIHu-0002YR-Hk
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 18:27:34 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:43583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpIDQ-0006ic-0d
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 18:22:58 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id r1so8950611pgk.8
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 15:22:55 -0700 (PDT)
+ id 1lpIHt-0001Ly-09
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 18:27:34 -0400
+Received: by mail-pf1-x433.google.com with SMTP id t28so8442794pfg.10
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 15:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/vVU8pBQVJDjKO3VMXMlpL20KJGeRAcgu4Dt+exOHmQ=;
- b=eKIaX+gCVuxaG/Teu7QlbOIbN/Aw/UBO99y4uGgsPM8b07R+bimkCHcGNSd6bXtSNz
- uCEXnBmf1GdZn+74gdYycB20X7yfSkE+LMeUEY8tv1MCE1iSwtabaOkFoCcOYsYsR9vq
- jyUiIb/UR2t1MjR9KGKJyWdHXIYoY6jNetGpEOy9ZjTTEBqBhECOg0bdha/xMytWLDWg
- 2u62nJiEEch/KwNlhztoufE8A+MFz004EOFaILyR9khD7YAl9m/RABiJpwfoVWXHkMm+
- zexdh7o20EIQUi6C4PQh1KBH480NkqXqnggTDJMsSouKLgQvkSFdUTGoll1WHUTTUW34
- Z9QQ==
+ bh=7selQ+sKpOlsFc3S4SdzFtHuywRIusSg7hbeeXt3k0E=;
+ b=jb4teQ+WyUhE1k1MZEhRsg2EiLycxd5y4SA0fFMe4W1WWOxgQPASMGZoOM0RxpusYR
+ JWoerb2cm9SXEFq6m4N9LqBZuXTBOHQjOS3+GlFs0YyGMI1S47EZxql8SAOmwyeo4s8O
+ NIloUbL3qJPYZ4TynOKXwM/p3gKpa54UxT1PB3Iux5gFsj0hn4YJK0Uqm77Aysq5koY6
+ fn4XyORDyLYTBYsN437lGLfQBwPt/PD4goaSqJ/xDMtH2YD6jCSZAOvKCtVEe02zTGD6
+ FeVnpVqVYeBwokv9inzeDS7MzydOlLTeJW8I79wrXalztB2bBy73kjuW5Z41ZFLAMNnX
+ Mzdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/vVU8pBQVJDjKO3VMXMlpL20KJGeRAcgu4Dt+exOHmQ=;
- b=i/VsAiERdhJdHPXhDDKShXe2FNemNn/iMgxP5enI/rmzNSgTOxWpzPq7j88hnx3fWi
- sdOhc4npuwJRSPWJM7LFpF9p67ZdWA54+rbkuxZVpJ2cpCCQY1DBjaDG76FF7RqOHGJL
- Q8wQpjjVD+idsKZe7LfuWuUoJD6TfxSuWyXlNu7OEulBvHIsCUruuaiGblgE8KOOA/XV
- +OJYPoSScIPBI8tnEfNA9kILCa5oj+APrdRJ7CVKWyhTzlp18BaRjjO2GfWnzjSRuIdK
- vZIBcOVRZeHND1J+JMVABB1f1AQ5Qdi5gkPujyeSImWZ1bMnHJLeCEZRuWnshtPWMen6
- SDNQ==
-X-Gm-Message-State: AOAM531OiXMUNRIsTfIsTqZca30L4cSCWhAO3ykoxd9k0bCAQmyL29+m
- 07JEU3b7FQoMi1Zn7eqcINHHvQ==
-X-Google-Smtp-Source: ABdhPJzMO9k4y8hdcfgUNgNYt4AzZTUpgVbKoOee7yIX9GgBNQOOQ5fbIj9S8vLm/awZCZSRhlyqyQ==
-X-Received: by 2002:a62:1c48:0:b029:2ea:1c13:e229 with SMTP id
- c69-20020a621c480000b02902ea1c13e229mr6766749pfc.17.1622845374013; 
- Fri, 04 Jun 2021 15:22:54 -0700 (PDT)
+ bh=7selQ+sKpOlsFc3S4SdzFtHuywRIusSg7hbeeXt3k0E=;
+ b=ou/P1so1nHQP2ymmTY4xxRspKO091XFuAY/PB72T1CFUIW/pHx9koWIUARGnFW5bBA
+ GrNhelmEBWOMlWSpWxqpdz/ofkUwGXT+rM1o9nHueQxeyywqcwd5yRhb+pLDRURBJ2gG
+ nx4MnCoyrIgHNRTB0HYJ52ubsYllat/ECMUSSPXZHVWk+2mwlcIwzft9XdoNejxeo84+
+ /9BCIJi8jYJ07p8d5CTZgA/ywyJTX9AgK7rfBGO3vwCZcpEEAwmzhOaQFx1t2C5uMI1Q
+ ApCj0LeY2zgZQdEMFYl6AR9ZpFAd7h8ue6JBS0xghLACRgLt8/vGYNUV1W91YMP/uDhz
+ oKxw==
+X-Gm-Message-State: AOAM532pcDJ1vmLq1b/jJjSV8mtTScKNkW5qG3tg2e9g5y+Ui1G5eHHl
+ kvheecd8EO9u/LH0xOyz+MBNtg==
+X-Google-Smtp-Source: ABdhPJwG9Dg5ORDlIh36z/Wv2WIH0cgvCeajDyLLLkEn4qMNljpBYj0UFlgJrfs911TnM94HxwCAtw==
+X-Received: by 2002:a63:594f:: with SMTP id j15mr7152873pgm.244.1622845651569; 
+ Fri, 04 Jun 2021 15:27:31 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- c24sm2574921pfn.63.2021.06.04.15.22.53
+ w1sm2577325pfi.162.2021.06.04.15.27.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 15:22:53 -0700 (PDT)
-Subject: Re: [PATCH v16 37/99] target/arm: move sve_zcr_len_for_el to
- common_cpu
+ Fri, 04 Jun 2021 15:27:31 -0700 (PDT)
+Subject: Re: [PATCH v16 38/99] target/arm: move arm_sctlr away from tcg helpers
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-38-alex.bennee@linaro.org>
+ <20210604155312.15902-39-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <de00c5c1-6c76-7618-6c73-b8283736ff4d@linaro.org>
-Date: Fri, 4 Jun 2021 15:22:51 -0700
+Message-ID: <1f1e6052-15eb-d443-c75c-6cd4b37c7c8e@linaro.org>
+Date: Fri, 4 Jun 2021 15:27:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-38-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-39-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -99,15 +97,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 6/4/21 8:52 AM, Alex Bennée wrote:
 > From: Claudio Fontana<cfontana@suse.de>
 > 
-> it is required by arch-dump.c and cpu.c, so apparently
-> we need this for KVM too
+> this function is used for kvm too, add it to the
+> cpu-common module.
 > 
 > Signed-off-by: Claudio Fontana<cfontana@suse.de>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   target/arm/cpu-common.c | 43 +++++++++++++++++++++++++++++++++++++++++
->   target/arm/tcg/helper.c | 33 -------------------------------
->   2 files changed, 43 insertions(+), 33 deletions(-)
+>   target/arm/cpu-common.c | 11 +++++++++++
+>   target/arm/tcg/helper.c | 11 -----------
+>   2 files changed, 11 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
