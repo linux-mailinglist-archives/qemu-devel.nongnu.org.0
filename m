@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E0639BC16
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:38:27 +0200 (CEST)
-Received: from localhost ([::1]:33092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DDA39BC26
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:43:04 +0200 (CEST)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpBty-0002NM-Ew
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:38:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
+	id 1lpByR-0004f1-JE
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lpBt3-00012Q-Jf
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:37:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45429)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lpBsy-0005Ah-VI
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:37:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622821043;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MSm+fmRnDd5dwMoZ0v368kBHeXfAm7WWS4fSrO5fzD0=;
- b=dnWMAdsZMqt4I/9nI2x1fIebSvjP1mIOqRdik/NPAGRCmCMgjENl4zgZRpYLWXwe4Uyfo6
- 0tISiJ2c9R7T/66Hzcy4ECjaC3NxCvCtZxYz5h5wjsK3mo5a2gA/MWtq+nyVXKuDharg5+
- BsUxM/N+GDb6t83Jrn6SjngmfPPh8mA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-8KGAaDoHOViKiy9qVQpv2w-1; Fri, 04 Jun 2021 11:37:19 -0400
-X-MC-Unique: 8KGAaDoHOViKiy9qVQpv2w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A066E8015F8
- for <qemu-devel@nongnu.org>; Fri,  4 Jun 2021 15:37:18 +0000 (UTC)
-Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61679687CE;
- Fri,  4 Jun 2021 15:37:18 +0000 (UTC)
-Date: Fri, 4 Jun 2021 10:37:16 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 07/28] qtest: add a QOM object for qtest
-Message-ID: <20210604153716.5doeeoiaxgh6ots7@redhat.com>
-References: <20210524164131.383778-1-pbonzini@redhat.com>
- <20210524164131.383778-8-pbonzini@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20210524164131.383778-8-pbonzini@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1lpBxd-00040A-Kb
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:42:13 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:47012)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1lpBxb-0000TO-JR
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:42:13 -0400
+Received: by mail-pg1-x533.google.com with SMTP id n12so8152620pgs.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=33SRl1YfQ3+xJsgyy8/JuSOsANsjOYQ1jNGTBbx0TO8=;
+ b=a0+pcg0yGu0bTKAP/hxbUMvG9wROMMmGvoVrT6hTKa9SIxgEf6/gG9rRqiHF1xf6oM
+ QMa892uYL+3Z/P8uY6ML8dff4sfX09q4PfKk51k9kel+Y8TUoJjvApUTEEwgxi89Arva
+ 8JgxKv9vLGq3XgDvXDgrCfuY7h5bCTM0pumO/knOWM2e76kkm9ylr1rqSXMAqbiT5u+9
+ J+d9iQ7c2O3jmRTpw2qgM4jQ0F2/AbRhpWjpx+96Gh+bzIJTQ6PW3MnQ6JzTBOwblTKn
+ bdDhwBLeJtCrHE5EtteSFlqBmlRox4Q0B463IxKrNb8QbOwHbNNbRJabmA9oudseHH8O
+ wiUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=33SRl1YfQ3+xJsgyy8/JuSOsANsjOYQ1jNGTBbx0TO8=;
+ b=seP+p+W3zAVCkRgO8v9pajQqFkdY8nbaJu3xsi0Vh1WKOu/EK5vA5cOAnhL521u4gw
+ xjZhCOTBDvwH4eupjV8qVf9znlxpB+sVJ5mBvvxwjKpAJc9WSsusSbh6OEVGQX4qoj7V
+ GDeGGo8Y89h2J1HMKPPnPkers1mHrxk9Wa7KCF19UtyGE9G+frRyCfugxUUaoywAA/IB
+ Os3Dgx3N1Gjrkl7jku8gWWqiWayho0sXMw58P9PjJ9lQ187MyAqpaf3cS6Art/AYqAfY
+ 4YuOtuQ8rrjPSKftP3zNgM6KgxmCb7DhCU14AqZ2cHnA+MdjtQSQzzrYzMgzOiZVMKzT
+ 7rgw==
+X-Gm-Message-State: AOAM532l86636cWJdd0nn3gFWHdyEKIRbNaM4kD3WJKQ+l6jcA2zatzT
+ PwkPAsDYuoGBL70eHh4hSz71BA==
+X-Google-Smtp-Source: ABdhPJx0Kv2e+KDKk+pDpKZwOYovhICtl5q+vZSs3OZ2MFVI0bDcG3TnqcWBtW+rOHHV116jvJEAew==
+X-Received: by 2002:a63:1a12:: with SMTP id a18mr5563062pga.117.1622821329036; 
+ Fri, 04 Jun 2021 08:42:09 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id c11sm4969577pjr.32.2021.06.04.08.42.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 08:42:08 -0700 (PDT)
+Date: Fri, 04 Jun 2021 08:42:08 -0700 (PDT)
+X-Google-Original-Date: Fri, 04 Jun 2021 08:42:05 PDT (-0700)
+Subject: Re: [PATCH] linux-user/elfload: Implement ELF_HWCAP for RISC-V
+In-Reply-To: <8644f703-2d57-0698-01e3-bdd006d614ee@linaro.org>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: richard.henderson@linaro.org
+Message-ID: <mhng-1f040769-406a-4741-b919-4aff078d9d5a@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=palmer@dabbelt.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,49 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: frank.chang@sifive.com, kito.cheng@sifive.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 24, 2021 at 06:41:10PM +0200, Paolo Bonzini wrote:
-> The qtest server right now can only be created using the -qtest
-> and -qtest-log options.  Allow an alternative way to create it
-> using "-object qtest,chardev=...,log=...".
-> 
-> This is part of the long term plan to make more (or all) of
-> QEMU configurable through QMP and preconfig mode.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  qapi/qom.json   |  17 +++++
->  softmmu/qtest.c | 185 +++++++++++++++++++++++++++++++++++++++++++++---
->  softmmu/vl.c    |   5 +-
->  3 files changed, 196 insertions(+), 11 deletions(-)
-> 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index 4f48035831..f7ef30f940 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -644,6 +644,21 @@
->  { 'struct': 'PrManagerHelperProperties',
->    'data': { 'path': 'str' } }
->  
-> +##
-> +# @QtestProperties:
-> +#
-> +# Properties for qtest objects.
-> +#
-> +# @chardev: the chardev to be used to receive qtest commands on.
-> +#
-> +# @log: the path to a log file
-> +#
-> +# Since: 6.0
+On Fri, 04 Jun 2021 08:30:30 PDT (-0700), richard.henderson@linaro.org wrote:
+> On 6/3/21 11:33 PM, Kito Cheng wrote:
+>> RISC-V define the hwcap as same as content of misa, but it only take lower
+>> 26-bits.
+>
+> As far as I can see linux only passes IMAFDC, not all 26 bits.
 
-Do we need a followup patch to correct this to 6.1?
+We decided to play it safe here and only pass through ISA string bits 
+that we understood well enough that we could commit to keeping stable 
+WRT userspace.  As a concrete example: we now have hardware with an 
+implemnetation of v-0.7.1, which is an incompatible draft of the V 
+extension.  There's some ambiguity as to whether or not that is a RISC-V 
+V extension implenetation, so we're just being careful and avoiding 
+passing any of thess bits to userspace.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+More importantly: this coorelation between letters and extensions 
+doesn't really reflect the reality of the ISA any more, as now we have a 
+much richer encoding for standard extensions.  The single-letter 
+encoding is probably going to fall apart for some of these more 
+complicated extensions, so we're not quite sure what we're going to do 
+here because a bunch of ABIs were designed with single-letter 
+extensibility in mind.
 
+For now I think it's safest to have QEMU be careful here, so we don't 
+end up with a proliferation of these mushy ABIs into userspace.  I 
+wouldn't be opposed to adding a more explicit "get the ISA string I can 
+use in my program" syscall (maybe a prctl?) to Linux, but it'd be best 
+if we go hash that out on the mailing lists first.
 
