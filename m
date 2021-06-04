@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D7C39B3A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:14:49 +0200 (CEST)
-Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F87B39B3D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:26:05 +0200 (CEST)
+Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp42Z-0002eq-8o
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:14:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43164)
+	id 1lp4DU-0006lz-3e
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:26:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lp3hT-0005nj-Od; Fri, 04 Jun 2021 02:52:59 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:45429)
+ id 1lp3hU-0005oo-IN; Fri, 04 Jun 2021 02:53:00 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:51627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lp3hQ-0007Qr-Sm; Fri, 04 Jun 2021 02:52:59 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 0AEFB5C0067;
- Fri,  4 Jun 2021 02:52:56 -0400 (EDT)
+ id 1lp3hS-0007Rs-Bd; Fri, 04 Jun 2021 02:53:00 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8EF095C0125;
+ Fri,  4 Jun 2021 02:52:57 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 04 Jun 2021 02:52:56 -0400
+ by compute4.internal (MEProxy); Fri, 04 Jun 2021 02:52:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=DgVk06gsWbu2P
- bm1tsUU/M+KEU9VbHBChIq9TACYFIw=; b=MZ0bdDbfY0DvcUAwbeQkiHRv/nbNs
- JEJxiZxK7ZOlZMiG6PVoPNqfEWaVQ1Brq/v7+sJnuw4fgdCTEpiUa+Zs+u9AcHE8
- KVMaFgGMD3jYWCsXfc46ppNXxBEbMAAcMqF6ZIaoT38+L213qdKcvHxDDzeimPyz
- IxN6bB0wdqLHFEamDLI4jCFKh0cwfGHV63dfb4melow/pvjqjqtsklpxR7/V0McG
- X0J9kx13gXrQyfKPO6bNkd55CrqGeH4h5QNgJ7NY4O7Qy0yY/+WtN31Z+yYvriSO
- oMXZylS9fm0IWYguMu1YhjH4D51Yc5iw8IYYGR+SqCdymubF0IOq7cDDw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=eXoNzefnSLE0h
+ rggIq+TpJSf3MzkeP+DxA5YcbuFbb4=; b=fGhSUWZ+f4T4RLMn/Lfqb+L3JtjC3
+ D6+9XREfGBSUUExw8nhua0yBR8nKbyL5Oru+fUoX6MbxYLHqqKkewuhPTHlJpTSJ
+ BdLnZkunmjguDa4qqjyzhKtRkpErlqkEy8Vg9IdltVZ4fXt8MBiUl3OjA7wd6akm
+ vnyjpoC8z4neNrr4sygO/JUXkyItIDKxJsYPkDpa4QUJfWiBpFXubAYWO//kA48E
+ KVgzhAsms+KvOFavmlvpVHbK8eW1E1XBx4s0q0M3nOc3OUwsXi69ZVZiCOULuubf
+ ogovx+judKFAQCVyCzxB9SUhe20YibDhkTClrX6aU+rL9BILysGTGYeog==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=DgVk06gsWbu2Pbm1tsUU/M+KEU9VbHBChIq9TACYFIw=; b=kMp2R01t
- qQm2ILlR4WxBVl3+gpH3E+x8Q7P+wq279t/jIgdWZdtufh112FwBieyXZTjUzUlA
- vJVUkC9x4koD3pNoHFjBYDvd/ZTaAefJ78VxKehuhNQ64QaLDzEUbbF7GzDpTuLn
- U5XfIBXwuYWHpE9vKKUITYy5r1PxykFaqIvmoTDzhguMblVrPdKJkwnL1jmEQi4v
- j9LdnqQnfpa7w+iOadfWzx/EduM5NCvlpCOYKPx9wHbshxCoNpqC5fYnOpH87WiO
- zgQwnS8fIXA+4Poc1SmGorsXiixYKTsXM8pCNmKrFS9qKDNTr+dil40sFGSoQPnO
- JXugQnDpegWuxQ==
-X-ME-Sender: <xms:x825YI6n2PdmYSF0UlXxXRgxjxDof-BOC-YlYlNeNj76h0DAvN77zQ>
- <xme:x825YJ4HpxDC0mMHoM5rM_8xGz2hM5xmVS4hgOMyEOjCNTtEvtsY-ot6f_uZ4Pzj4
- 9_yEqDQ4rD_QBhpb-Y>
-X-ME-Received: <xmr:x825YHeK_ii40WxeAiayk3ibwpPBCBCdwlSfMqyLd4xuresfwv_JKTNiBLRhmdof8SToykbR4BDrO1Tdom7E9rlK61Gy8X1idHcjzN5p8Q>
+ fm3; bh=eXoNzefnSLE0hrggIq+TpJSf3MzkeP+DxA5YcbuFbb4=; b=vfvMG+B2
+ 1K9lV5AZqgaMQfVR02bv+NNcPWwZgQ1G/6utdaVu14yEvWPhQzHhz5xkbcvVNXtv
+ ru80Dpc1TJs1+dvAgyWu1itxxxX18pRSXfffjMcvMd5P9nZ/EYZTGpNqsxo6GubG
+ rGHsd8qwiVTg96o/m50sbplC8jvww7zcdSs4uIAG6GAram8Dvgdi/X7H1RHFUA66
+ DbLbc4tcMooAa0qE4jF9EX39Q/JhU5hNf0vyi89vYhJvkgnQcuz7wIP5k2qnTNKL
+ VKcHPO6jpJ2BBmETuuD8ZIGRK5qSz4O2/+u7D//4B8wbQcQq6f9+iNp/NTUQ0VRH
+ lb0lM90LmjvrxA==
+X-ME-Sender: <xms:yc25YGdXrtZuhY5EzU2_Ke2aXFzHjdba4QIhhgQbD7AYyr9ju_8GJQ>
+ <xme:yc25YAPdqzeJkKltaTzkASohTeKj6Cy4ssgaJigarI4_eLZDtnyGLcBMvXBK84cEF
+ p7ErrlFBM6EjS0lnX4>
+X-ME-Received: <xmr:yc25YHgk4mxZAp46L3pBTRUTgXNh65L4FoWDFo-GOE9okS1HQpD6JaBT5j8PVsj_Wo-qszpazBeUeKbK-Gbkc4p7miI02LCa-xKpx0fDow>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedttddguddtkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -54,18 +54,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedttddguddtkecutefuodetgg
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
  gfeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:x825YNJKX0G8yXRN7nvT-zCBxB-hYQpyevdb0MloDC8rqjH2vKeHKg>
- <xmx:x825YMJLp8R441Q4zh01L1FZJzin03oQtpbkQe8Bzc2hGuT-eaHFbQ>
- <xmx:x825YOwpCp1EX7uE665IBWfWydGougBY7b-UijpnLJHsUegwn64ktw>
- <xmx:yM25YFq1eS5EfqePa5A5QSV8YQUuIPyY9-fI7t92V9ehlWNsIgvmzg>
+X-ME-Proxy: <xmx:yc25YD_DkHyD26RH3jcA-Z7FB2QIp8n3WPma5Oug5-CgS2jlcDh1sQ>
+ <xmx:yc25YCuAZfUzD5jrE4O-OeFW6DYk8jqeHQUAf-h5N7nU5Xss3mhGOA>
+ <xmx:yc25YKHQ6J9HnT1_XPeZ4vSNqTcHNHsXBwf025B6qIyXajUEsmi7PA>
+ <xmx:yc25YP-tIrL4NOEZKyZce5iNLIwIccYbf3U0BeT9zY28ECcV7rhm4Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Jun 2021 02:52:54 -0400 (EDT)
+ 4 Jun 2021 02:52:56 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 08/11] hw/nvme: reimplement the copy command to allow aio
+Subject: [RFC PATCH 09/11] hw/nvme: reimplement zone reset to allow
  cancellation
-Date: Fri,  4 Jun 2021 08:52:34 +0200
-Message-Id: <20210604065237.873228-9-its@irrelevant.dk>
+Date: Fri,  4 Jun 2021 08:52:35 +0200
+Message-Id: <20210604065237.873228-10-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604065237.873228-1-its@irrelevant.dk>
 References: <20210604065237.873228-1-its@irrelevant.dk>
@@ -101,283 +101,199 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Before this patch the code would issue several aios simultaneously
-without saving a reference to the aiocb. Without the aiocb reference the
-individual copies cannot be canceled.
+Prior to this patch, the aios associated with zone reset are submitted
+anonymously (no reference saved to the aiocb from the blk_aio call).
 
-Fix this by issuing copies of the ranges one after another.
+Fix this by resetting the zones one after another, saving a reference to
+the aiocb for each reset.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 705 +++++++++++++++++++++++--------------------
- hw/nvme/trace-events |   3 +-
- 2 files changed, 373 insertions(+), 335 deletions(-)
+ hw/nvme/ctrl.c       | 288 +++++++++++++++++++++++++------------------
+ hw/nvme/trace-events |   2 +-
+ 2 files changed, 169 insertions(+), 121 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 04027c80ad90..fb65a4f12d1f 100644
+index fb65a4f12d1f..f430a75a3fc5 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -2078,226 +2078,6 @@ out:
-     nvme_aio_zone_reset_complete_cb(opaque, ret);
+@@ -1685,6 +1685,29 @@ static uint16_t nvme_zrm_close(NvmeNamespace *ns, NvmeZone *zone)
+     }
  }
  
--struct nvme_copy_ctx {
--    int copies;
--    uint8_t *bounce;
--    uint8_t *mbounce;
--    uint32_t nlb;
--    NvmeCopySourceRange *ranges;
--};
--
--struct nvme_copy_in_ctx {
++static uint16_t nvme_zrm_reset(NvmeNamespace *ns, NvmeZone *zone)
++{
++    switch (nvme_get_zone_state(zone)) {
++    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
++    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
++        nvme_aor_dec_open(ns);
++        /* fallthrough */
++    case NVME_ZONE_STATE_CLOSED:
++        nvme_aor_dec_active(ns);
++        /* fallthrough */
++    case NVME_ZONE_STATE_FULL:
++        zone->w_ptr = zone->d.zslba;
++        zone->d.wp = zone->w_ptr;
++        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_EMPTY);
++        /* fallthrough */
++    case NVME_ZONE_STATE_EMPTY:
++        return NVME_SUCCESS;
++
++    default:
++        return NVME_ZONE_INVAL_TRANSITION;
++    }
++}
++
+ static void nvme_zrm_auto_transition_zone(NvmeNamespace *ns)
+ {
+     NvmeZone *zone;
+@@ -2005,79 +2028,6 @@ out:
+     nvme_verify_cb(ctx, ret);
+ }
+ 
+-struct nvme_zone_reset_ctx {
 -    NvmeRequest *req;
--    QEMUIOVector iov;
--    NvmeCopySourceRange *range;
+-    NvmeZone    *zone;
 -};
 -
--static void nvme_copy_complete_cb(void *opaque, int ret)
+-static void nvme_aio_zone_reset_complete_cb(void *opaque, int ret)
 -{
--    NvmeRequest *req = opaque;
+-    struct nvme_zone_reset_ctx *ctx = opaque;
+-    NvmeRequest *req = ctx->req;
 -    NvmeNamespace *ns = req->ns;
--    struct nvme_copy_ctx *ctx = req->opaque;
+-    NvmeZone *zone = ctx->zone;
+-    uintptr_t *resets = (uintptr_t *)&req->opaque;
 -
 -    if (ret) {
--        block_acct_failed(blk_get_stats(ns->blkconf.blk), &req->acct);
 -        nvme_aio_err(req, ret);
 -        goto out;
 -    }
 -
--    block_acct_done(blk_get_stats(ns->blkconf.blk), &req->acct);
--
--out:
--    if (ns->params.zoned) {
--        NvmeCopyCmd *copy = (NvmeCopyCmd *)&req->cmd;
--        uint64_t sdlba = le64_to_cpu(copy->sdlba);
--        NvmeZone *zone = nvme_get_zone_by_slba(ns, sdlba);
--
--        nvme_advance_zone_wp(ns, zone, ctx->nlb);
+-    switch (nvme_get_zone_state(zone)) {
+-    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+-    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+-        nvme_aor_dec_open(ns);
+-        /* fall through */
+-    case NVME_ZONE_STATE_CLOSED:
+-        nvme_aor_dec_active(ns);
+-        /* fall through */
+-    case NVME_ZONE_STATE_FULL:
+-        zone->w_ptr = zone->d.zslba;
+-        zone->d.wp = zone->w_ptr;
+-        nvme_assign_zone_state(ns, zone, NVME_ZONE_STATE_EMPTY);
+-        /* fall through */
+-    default:
+-        break;
 -    }
 -
--    g_free(ctx->bounce);
--    g_free(ctx->mbounce);
+-out:
 -    g_free(ctx);
+-
+-    (*resets)--;
+-
+-    if (*resets) {
+-        return;
+-    }
 -
 -    nvme_enqueue_req_completion(nvme_cq(req), req);
 -}
 -
--static void nvme_copy_cb(void *opaque, int ret)
+-static void nvme_aio_zone_reset_cb(void *opaque, int ret)
 -{
--    NvmeRequest *req = opaque;
+-    struct nvme_zone_reset_ctx *ctx = opaque;
+-    NvmeRequest *req = ctx->req;
 -    NvmeNamespace *ns = req->ns;
--    struct nvme_copy_ctx *ctx = req->opaque;
+-    NvmeZone *zone = ctx->zone;
 -
--    trace_pci_nvme_copy_cb(nvme_cid(req));
+-    trace_pci_nvme_aio_zone_reset_cb(nvme_cid(req), zone->d.zslba);
 -
 -    if (ret) {
 -        goto out;
 -    }
 -
 -    if (ns->lbaf.ms) {
--        NvmeCopyCmd *copy = (NvmeCopyCmd *)&req->cmd;
--        uint64_t sdlba = le64_to_cpu(copy->sdlba);
--        int64_t offset = nvme_moff(ns, sdlba);
+-        int64_t offset = nvme_moff(ns, zone->d.zslba);
 -
--        qemu_iovec_reset(&req->sg.iov);
--        qemu_iovec_add(&req->sg.iov, ctx->mbounce, nvme_m2b(ns, ctx->nlb));
--
--        req->aiocb = blk_aio_pwritev(ns->blkconf.blk, offset, &req->sg.iov, 0,
--                                     nvme_copy_complete_cb, req);
+-        blk_aio_pwrite_zeroes(ns->blkconf.blk, offset,
+-                              nvme_m2b(ns, ns->zone_size), BDRV_REQ_MAY_UNMAP,
+-                              nvme_aio_zone_reset_complete_cb, ctx);
 -        return;
 -    }
 -
 -out:
--    nvme_copy_complete_cb(opaque, ret);
--}
--
--static void nvme_copy_in_complete(NvmeRequest *req)
--{
--    NvmeNamespace *ns = req->ns;
--    NvmeCopyCmd *copy = (NvmeCopyCmd *)&req->cmd;
--    struct nvme_copy_ctx *ctx = req->opaque;
--    uint64_t sdlba = le64_to_cpu(copy->sdlba);
--    uint16_t status;
--
--    trace_pci_nvme_copy_in_complete(nvme_cid(req));
--
--    block_acct_done(blk_get_stats(ns->blkconf.blk), &req->acct);
--
--    if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
--        uint8_t prinfor = (copy->control[0] >> 4) & 0xf;
--        uint8_t prinfow = (copy->control[2] >> 2) & 0xf;
--        uint16_t nr = copy->nr + 1;
--        NvmeCopySourceRange *range;
--        uint64_t slba;
--        uint32_t nlb;
--        uint16_t apptag, appmask;
--        uint32_t reftag;
--        uint8_t *buf = ctx->bounce, *mbuf = ctx->mbounce;
--        size_t len, mlen;
--        int i;
--
--        for (i = 0; i < nr; i++) {
--            range = &ctx->ranges[i];
--            slba = le64_to_cpu(range->slba);
--            nlb = le16_to_cpu(range->nlb) + 1;
--            len = nvme_l2b(ns, nlb);
--            mlen = nvme_m2b(ns, nlb);
--            apptag = le16_to_cpu(range->apptag);
--            appmask = le16_to_cpu(range->appmask);
--            reftag = le32_to_cpu(range->reftag);
--
--            status = nvme_dif_check(ns, buf, len, mbuf, mlen, prinfor, slba,
--                                    apptag, appmask, &reftag);
--            if (status) {
--                goto invalid;
--            }
--
--            buf += len;
--            mbuf += mlen;
--        }
--
--        apptag = le16_to_cpu(copy->apptag);
--        appmask = le16_to_cpu(copy->appmask);
--        reftag = le32_to_cpu(copy->reftag);
--
--        if (prinfow & NVME_RW_PRINFO_PRACT) {
--            size_t len = nvme_l2b(ns, ctx->nlb);
--            size_t mlen = nvme_m2b(ns, ctx->nlb);
--
--            status = nvme_check_prinfo(ns, prinfow, sdlba, reftag);
--            if (status) {
--                goto invalid;
--            }
--
--            nvme_dif_pract_generate_dif(ns, ctx->bounce, len, ctx->mbounce,
--                                        mlen, apptag, &reftag);
--        } else {
--            status = nvme_dif_check(ns, ctx->bounce, len, ctx->mbounce, mlen,
--                                    prinfow, sdlba, apptag, appmask, &reftag);
--            if (status) {
--                goto invalid;
--            }
--        }
--    }
--
--    status = nvme_check_bounds(ns, sdlba, ctx->nlb);
--    if (status) {
--        goto invalid;
--    }
--
--    if (ns->params.zoned) {
--        NvmeZone *zone = nvme_get_zone_by_slba(ns, sdlba);
--
--        status = nvme_check_zone_write(ns, zone, sdlba, ctx->nlb);
--        if (status) {
--            goto invalid;
--        }
--
--        status = nvme_zrm_auto(ns, zone);
--        if (status) {
--            goto invalid;
--        }
--
--        zone->w_ptr += ctx->nlb;
--    }
--
--    qemu_iovec_init(&req->sg.iov, 1);
--    qemu_iovec_add(&req->sg.iov, ctx->bounce, nvme_l2b(ns, ctx->nlb));
--
--    block_acct_start(blk_get_stats(ns->blkconf.blk), &req->acct, 0,
--                     BLOCK_ACCT_WRITE);
--
--    req->aiocb = blk_aio_pwritev(ns->blkconf.blk, nvme_l2b(ns, sdlba),
--                                 &req->sg.iov, 0, nvme_copy_cb, req);
--
--    return;
--
--invalid:
--    req->status = status;
--
--    g_free(ctx->bounce);
--    g_free(ctx);
--
--    nvme_enqueue_req_completion(nvme_cq(req), req);
--}
--
--static void nvme_aio_copy_in_cb(void *opaque, int ret)
--{
--    struct nvme_copy_in_ctx *in_ctx = opaque;
--    NvmeRequest *req = in_ctx->req;
--    NvmeNamespace *ns = req->ns;
--    struct nvme_copy_ctx *ctx = req->opaque;
--
--    qemu_iovec_destroy(&in_ctx->iov);
--    g_free(in_ctx);
--
--    trace_pci_nvme_aio_copy_in_cb(nvme_cid(req));
--
--    if (ret) {
--        nvme_aio_err(req, ret);
--    }
--
--    ctx->copies--;
--
--    if (ctx->copies) {
--        return;
--    }
--
--    if (req->status) {
--        block_acct_failed(blk_get_stats(ns->blkconf.blk), &req->acct);
--
--        g_free(ctx->bounce);
--        g_free(ctx->mbounce);
--        g_free(ctx);
--
--        nvme_enqueue_req_completion(nvme_cq(req), req);
--
--        return;
--    }
--
--    nvme_copy_in_complete(req);
+-    nvme_aio_zone_reset_complete_cb(opaque, ret);
 -}
 -
  struct nvme_compare_ctx {
      struct {
          QEMUIOVector iov;
-@@ -2698,153 +2478,412 @@ static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_NO_COMPLETE;
+@@ -3363,41 +3313,6 @@ static uint16_t nvme_finish_zone(NvmeNamespace *ns, NvmeZone *zone,
+     return nvme_zrm_finish(ns, zone);
  }
  
-+typedef struct NvmeCopyAIOCB {
+-static uint16_t nvme_reset_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                                NvmeZoneState state, NvmeRequest *req)
+-{
+-    uintptr_t *resets = (uintptr_t *)&req->opaque;
+-    struct nvme_zone_reset_ctx *ctx;
+-
+-    switch (state) {
+-    case NVME_ZONE_STATE_EMPTY:
+-        return NVME_SUCCESS;
+-    case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+-    case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+-    case NVME_ZONE_STATE_CLOSED:
+-    case NVME_ZONE_STATE_FULL:
+-        break;
+-    default:
+-        return NVME_ZONE_INVAL_TRANSITION;
+-    }
+-
+-    /*
+-     * The zone reset aio callback needs to know the zone that is being reset
+-     * in order to transition the zone on completion.
+-     */
+-    ctx = g_new(struct nvme_zone_reset_ctx, 1);
+-    ctx->req = req;
+-    ctx->zone = zone;
+-
+-    (*resets)++;
+-
+-    blk_aio_pwrite_zeroes(ns->blkconf.blk, nvme_l2b(ns, zone->d.zslba),
+-                          nvme_l2b(ns, ns->zone_size), BDRV_REQ_MAY_UNMAP,
+-                          nvme_aio_zone_reset_cb, ctx);
+-
+-    return NVME_NO_COMPLETE;
+-}
+-
+ static uint16_t nvme_offline_zone(NvmeNamespace *ns, NvmeZone *zone,
+                                   NvmeZoneState state, NvmeRequest *req)
+ {
+@@ -3526,12 +3441,144 @@ out:
+     return status;
+ }
+ 
++typedef struct NvmeZoneResetAIOCB {
 +    BlockAIOCB common;
 +    BlockAIOCB *aiocb;
 +    NvmeRequest *req;
 +    QEMUBH *bh;
 +    int ret;
 +
-+    NvmeCopySourceRange *ranges;
-+    int nr;
++    bool all;
 +    int idx;
-+
-+    uint8_t *bounce;
-+    QEMUIOVector iov;
-+    struct {
-+        BlockAcctCookie read;
-+        BlockAcctCookie write;
-+    } acct;
-+
-+    uint32_t reftag;
-+    uint64_t slba;
-+
 +    NvmeZone *zone;
-+} NvmeCopyAIOCB;
++} NvmeZoneResetAIOCB;
 +
-+static void nvme_copy_cancel(BlockAIOCB *aiocb)
++static void nvme_zone_reset_cancel(BlockAIOCB *aiocb)
 +{
-+    NvmeCopyAIOCB *iocb = container_of(aiocb, NvmeCopyAIOCB, common);
++    NvmeZoneResetAIOCB *iocb = container_of(aiocb, NvmeZoneResetAIOCB, common);
++    NvmeRequest *req = iocb->req;
++    NvmeNamespace *ns = req->ns;
++
++    iocb->idx = ns->num_zones;
 +
 +    iocb->ret = -ECANCELED;
-+    iocb->idx = iocb->nr;
 +
 +    if (iocb->aiocb) {
 +        blk_aio_cancel_async(iocb->aiocb);
@@ -385,285 +301,103 @@ index 04027c80ad90..fb65a4f12d1f 100644
 +    }
 +}
 +
-+static const AIOCBInfo nvme_copy_aiocb_info = {
-+    .aiocb_size   = sizeof(NvmeCopyAIOCB),
-+    .cancel_async = nvme_copy_cancel,
++static const AIOCBInfo nvme_zone_reset_aiocb_info = {
++    .aiocb_size = sizeof(NvmeZoneResetAIOCB),
++    .cancel_async = nvme_zone_reset_cancel,
 +};
 +
-+static void nvme_copy_bh(void *opaque)
++static void nvme_zone_reset_bh(void *opaque)
 +{
-+    NvmeCopyAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeNamespace *ns = req->ns;
-+    BlockAcctStats *stats = blk_get_stats(ns->blkconf.blk);
++    NvmeZoneResetAIOCB *iocb = opaque;
 +
-+    if (iocb->idx != iocb->nr) {
-+        req->cqe.result = cpu_to_le32(iocb->idx);
-+    }
-+
-+    qemu_iovec_destroy(&iocb->iov);
-+    g_free(iocb->bounce);
++    iocb->common.cb(iocb->common.opaque, iocb->ret);
 +
 +    qemu_bh_delete(iocb->bh);
 +    iocb->bh = NULL;
-+
-+    if (iocb->ret < 0) {
-+        block_acct_failed(stats, &iocb->acct.read);
-+        block_acct_failed(stats, &iocb->acct.write);
-+    } else {
-+        block_acct_done(stats, &iocb->acct.read);
-+        block_acct_done(stats, &iocb->acct.write);
-+    }
-+
-+    iocb->common.cb(iocb->common.opaque, iocb->ret);
 +    qemu_aio_unref(iocb);
 +}
 +
-+static void nvme_copy_cb(void *opaque, int ret);
++static void nvme_zone_reset_cb(void *opaque, int ret);
 +
-+static void nvme_copy_out_completed_cb(void *opaque, int ret)
++static void nvme_zone_reset_epilogue_cb(void *opaque, int ret)
 +{
-+    NvmeCopyAIOCB *iocb = opaque;
++    NvmeZoneResetAIOCB *iocb = opaque;
 +    NvmeRequest *req = iocb->req;
 +    NvmeNamespace *ns = req->ns;
-+    NvmeCopySourceRange *range = &iocb->ranges[iocb->idx];
-+    uint32_t nlb = le32_to_cpu(range->nlb) + 1;
++    int64_t moff;
++    int count;
 +
 +    if (ret < 0) {
-+        nvme_copy_cb(iocb, ret);
-+        return;
-+    }
-+
-+    if (ns->params.zoned) {
-+        nvme_advance_zone_wp(ns, iocb->zone, nlb);
-+    }
-+
-+    iocb->idx++;
-+    iocb->slba += nlb;
-+    nvme_copy_cb(iocb, 0);
-+}
-+
-+static void nvme_copy_out_cb(void *opaque, int ret)
-+{
-+    NvmeCopyAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeNamespace *ns = req->ns;
-+    NvmeCopySourceRange *range;
-+    uint32_t nlb;
-+    size_t mlen;
-+    uint8_t *mbounce;
-+
-+    if (ret < 0) {
-+        nvme_copy_cb(iocb, ret);
++        nvme_zone_reset_cb(iocb, ret);
 +        return;
 +    }
 +
 +    if (!ns->lbaf.ms) {
-+        nvme_copy_out_completed_cb(iocb, 0);
++        nvme_zone_reset_cb(iocb, 0);
 +        return;
 +    }
 +
-+    range = &iocb->ranges[iocb->idx];
-+    nlb = le32_to_cpu(range->nlb) + 1;
++    moff = nvme_moff(ns, iocb->zone->d.zslba);
++    count = nvme_m2b(ns, ns->zone_size);
 +
-+    mlen = nvme_m2b(ns, nlb);
-+    mbounce = iocb->bounce + nvme_l2b(ns, nlb);
-+
-+    qemu_iovec_reset(&iocb->iov);
-+    qemu_iovec_add(&iocb->iov, mbounce, mlen);
-+
-+    iocb->aiocb = blk_aio_pwritev(ns->blkconf.blk, nvme_moff(ns, iocb->slba),
-+                                  &iocb->iov, 0, nvme_copy_out_completed_cb,
-+                                  iocb);
-+
++    iocb->aiocb = blk_aio_pwrite_zeroes(ns->blkconf.blk, moff, count,
++                                        BDRV_REQ_MAY_UNMAP,
++                                        nvme_zone_reset_cb, iocb);
 +    return;
 +}
 +
-+static void nvme_copy_in_completed_cb(void *opaque, int ret)
++static void nvme_zone_reset_cb(void *opaque, int ret)
 +{
-+    NvmeCopyAIOCB *iocb = opaque;
++    NvmeZoneResetAIOCB *iocb = opaque;
 +    NvmeRequest *req = iocb->req;
 +    NvmeNamespace *ns = req->ns;
-+    NvmeCopySourceRange *range;
-+    uint32_t nlb;
-+    size_t len;
-+    uint16_t status;
-+
-+    if (ret < 0) {
-+        nvme_copy_cb(iocb, ret);
-+        return;
-+    }
-+
-+    range = &iocb->ranges[iocb->idx];
-+    nlb = le32_to_cpu(range->nlb) + 1;
-+    len = nvme_l2b(ns, nlb);
-+
-+    trace_pci_nvme_copy_out(iocb->slba, nlb);
-+
-+    if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
-+        NvmeCopyCmd *copy = (NvmeCopyCmd *)&req->cmd;
-+
-+        uint16_t prinfor = ((copy->control[0] >> 4) & 0xf);
-+        uint16_t prinfow = ((copy->control[2] >> 2) & 0xf);
-+
-+        uint16_t apptag = le16_to_cpu(range->apptag);
-+        uint16_t appmask = le16_to_cpu(range->appmask);
-+        uint32_t reftag = le32_to_cpu(range->reftag);
-+
-+        uint64_t slba = le64_to_cpu(range->slba);
-+        size_t mlen = nvme_m2b(ns, nlb);
-+        uint8_t *mbounce = iocb->bounce + nvme_l2b(ns, nlb);
-+
-+        status = nvme_dif_check(ns, iocb->bounce, len, mbounce, mlen, prinfor,
-+                                slba, apptag, appmask, &reftag);
-+        if (status) {
-+            goto invalid;
-+        }
-+
-+        apptag = le16_to_cpu(copy->apptag);
-+        appmask = le16_to_cpu(copy->appmask);
-+
-+        if (prinfow & NVME_PRINFO_PRACT) {
-+            status = nvme_check_prinfo(ns, prinfow, iocb->slba, iocb->reftag);
-+            if (status) {
-+                goto invalid;
-+            }
-+
-+            nvme_dif_pract_generate_dif(ns, iocb->bounce, len, mbounce, mlen,
-+                                        apptag, &iocb->reftag);
-+        } else {
-+            status = nvme_dif_check(ns, iocb->bounce, len, mbounce, mlen,
-+                                    prinfow, iocb->slba, apptag, appmask,
-+                                    &iocb->reftag);
-+            if (status) {
-+                goto invalid;
-+            }
-+        }
-+    }
-+
-+    status = nvme_check_bounds(ns, iocb->slba, nlb);
-+    if (status) {
-+        goto invalid;
-+    }
-+
-+    if (ns->params.zoned) {
-+        status = nvme_check_zone_write(ns, iocb->zone, iocb->slba, nlb);
-+        if (status) {
-+            goto invalid;
-+        }
-+
-+        iocb->zone->w_ptr += nlb;
-+    }
-+
-+    qemu_iovec_reset(&iocb->iov);
-+    qemu_iovec_add(&iocb->iov, iocb->bounce, len);
-+
-+    iocb->aiocb = blk_aio_pwritev(ns->blkconf.blk, nvme_l2b(ns, iocb->slba),
-+                                  &iocb->iov, 0, nvme_copy_out_cb, iocb);
-+
-+    return;
-+
-+invalid:
-+    req->status = status;
-+    iocb->aiocb = NULL;
-+    if (iocb->bh) {
-+        qemu_bh_schedule(iocb->bh);
-+    }
-+}
-+
-+static void nvme_copy_in_cb(void *opaque, int ret)
-+{
-+    NvmeCopyAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeNamespace *ns = req->ns;
-+    NvmeCopySourceRange *range;
-+    uint64_t slba;
-+    uint32_t nlb;
-+
-+    if (ret < 0) {
-+        nvme_copy_cb(iocb, ret);
-+        return;
-+    }
-+
-+    if (!ns->lbaf.ms) {
-+        nvme_copy_in_completed_cb(iocb, 0);
-+        return;
-+    }
-+
-+    range = &iocb->ranges[iocb->idx];
-+    slba = le64_to_cpu(range->slba);
-+    nlb = le32_to_cpu(range->nlb) + 1;
-+
-+    qemu_iovec_reset(&iocb->iov);
-+    qemu_iovec_add(&iocb->iov, iocb->bounce + nvme_l2b(ns, nlb),
-+                   nvme_m2b(ns, nlb));
-+
-+    iocb->aiocb = blk_aio_preadv(ns->blkconf.blk, nvme_moff(ns, slba),
-+                                 &iocb->iov, 0, nvme_copy_in_completed_cb,
-+                                 iocb);
-+    return;
-+}
-+
-+static void nvme_copy_cb(void *opaque, int ret)
-+{
-+    NvmeCopyAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeNamespace *ns = req->ns;
-+    NvmeCopySourceRange *range;
-+    uint64_t slba;
-+    uint32_t nlb;
-+    size_t len;
-+    uint16_t status;
 +
 +    if (ret < 0) {
 +        iocb->ret = ret;
 +        goto done;
 +    }
 +
-+    if (iocb->idx == iocb->nr) {
-+        goto done;
-+    }
++    if (iocb->zone) {
++        nvme_zrm_reset(ns, iocb->zone);
 +
-+    range = &iocb->ranges[iocb->idx];
-+    slba = le64_to_cpu(range->slba);
-+    nlb = le32_to_cpu(range->nlb) + 1;
-+    len = nvme_l2b(ns, nlb);
-+
-+    trace_pci_nvme_copy_source_range(slba, nlb);
-+
-+    if (nlb > le16_to_cpu(ns->id_ns.mssrl)) {
-+        status = NVME_CMD_SIZE_LIMIT | NVME_DNR;
-+        goto invalid;
-+    }
-+
-+    status = nvme_check_bounds(ns, slba, nlb);
-+    if (status) {
-+        goto invalid;
-+    }
-+
-+    if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
-+        status = nvme_check_dulbe(ns, slba, nlb);
-+        if (status) {
-+            goto invalid;
++        if (!iocb->all) {
++            goto done;
 +        }
 +    }
 +
-+    if (ns->params.zoned) {
-+        status = nvme_check_zone_read(ns, slba, nlb);
-+        if (status) {
-+            goto invalid;
++    while (iocb->idx < ns->num_zones) {
++        NvmeZone *zone = &ns->zone_array[iocb->idx++];
++
++        switch (nvme_get_zone_state(zone)) {
++        case NVME_ZONE_STATE_EMPTY:
++            if (!iocb->all) {
++                goto done;
++            }
++
++            continue;
++
++        case NVME_ZONE_STATE_EXPLICITLY_OPEN:
++        case NVME_ZONE_STATE_IMPLICITLY_OPEN:
++        case NVME_ZONE_STATE_CLOSED:
++        case NVME_ZONE_STATE_FULL:
++            iocb->zone = zone;
++            break;
++
++        default:
++            continue;
 +        }
++
++        trace_pci_nvme_zns_zone_reset(zone->d.zslba);
++
++        iocb->aiocb = blk_aio_pwrite_zeroes(ns->blkconf.blk,
++                                            nvme_l2b(ns, zone->d.zslba),
++                                            nvme_l2b(ns, ns->zone_size),
++                                            BDRV_REQ_MAY_UNMAP,
++                                            nvme_zone_reset_epilogue_cb,
++                                            iocb);
++        return;
 +    }
 +
-+    qemu_iovec_reset(&iocb->iov);
-+    qemu_iovec_add(&iocb->iov, iocb->bounce, len);
-+
-+    iocb->aiocb = blk_aio_preadv(ns->blkconf.blk, nvme_l2b(ns, slba),
-+                                 &iocb->iov, 0, nvme_copy_in_cb, iocb);
-+    return;
-+
-+invalid:
-+    req->status = status;
 +done:
 +    iocb->aiocb = NULL;
 +    if (iocb->bh) {
@@ -671,219 +405,78 @@ index 04027c80ad90..fb65a4f12d1f 100644
 +    }
 +}
 +
-+
- static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
  {
+     NvmeCmd *cmd = (NvmeCmd *)&req->cmd;
      NvmeNamespace *ns = req->ns;
-     NvmeCopyCmd *copy = (NvmeCopyCmd *)&req->cmd;
--
-+    NvmeCopyAIOCB *iocb = blk_aio_get(&nvme_copy_aiocb_info, ns->blkconf.blk,
-+                                      nvme_misc_cb, req);
-     uint16_t nr = copy->nr + 1;
-     uint8_t format = copy->control[0] & 0xf;
--    uint8_t prinfor = (copy->control[0] >> 4) & 0xf;
--    uint8_t prinfow = (copy->control[2] >> 2) & 0xf;
-+    uint16_t prinfor = ((copy->control[0] >> 4) & 0xf);
-+    uint16_t prinfow = ((copy->control[2] >> 2) & 0xf);
+     NvmeZone *zone;
+-    uintptr_t *resets;
++    NvmeZoneResetAIOCB *iocb;
+     uint8_t *zd_ext;
+     uint32_t dw13 = le32_to_cpu(cmd->cdw13);
+     uint64_t slba = 0;
+@@ -3542,7 +3589,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+     enum NvmeZoneProcessingMask proc_mask = NVME_PROC_CURRENT_ZONE;
  
--    uint32_t nlb = 0;
--    uint8_t *bounce = NULL, *bouncep = NULL;
--    uint8_t *mbounce = NULL, *mbouncep = NULL;
--    struct nvme_copy_ctx *ctx;
-     uint16_t status;
--    int i;
+     action = dw13 & 0xff;
+-    all = dw13 & 0x100;
++    all = !!(dw13 & 0x100);
  
-     trace_pci_nvme_copy(nvme_cid(req), nvme_nsid(ns), nr, format);
+     req->status = NVME_SUCCESS;
  
-+    iocb->ranges = NULL;
-+    iocb->zone = NULL;
-+
-     if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps) &&
-         ((prinfor & NVME_PRINFO_PRACT) != (prinfow & NVME_PRINFO_PRACT))) {
--        return NVME_INVALID_FIELD | NVME_DNR;
-+        status = NVME_INVALID_FIELD | NVME_DNR;
-+        goto invalid;
-     }
+@@ -3586,21 +3633,22 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+         break;
  
-     if (!(n->id_ctrl.ocfs & (1 << format))) {
-         trace_pci_nvme_err_copy_invalid_format(format);
--        return NVME_INVALID_FIELD | NVME_DNR;
-+        status = NVME_INVALID_FIELD | NVME_DNR;
-+        goto invalid;
-     }
- 
-     if (nr > ns->id_ns.msrc + 1) {
--        return NVME_CMD_SIZE_LIMIT | NVME_DNR;
--    }
+     case NVME_ZONE_ACTION_RESET:
+-        resets = (uintptr_t *)&req->opaque;
 -
--    ctx = g_new(struct nvme_copy_ctx, 1);
--    ctx->ranges = g_new(NvmeCopySourceRange, nr);
--
--    status = nvme_h2c(n, (uint8_t *)ctx->ranges,
--                      nr * sizeof(NvmeCopySourceRange), req);
--    if (status) {
--        goto out;
--    }
--
--    for (i = 0; i < nr; i++) {
--        uint64_t slba = le64_to_cpu(ctx->ranges[i].slba);
--        uint32_t _nlb = le16_to_cpu(ctx->ranges[i].nlb) + 1;
--
--        if (_nlb > le16_to_cpu(ns->id_ns.mssrl)) {
--            status = NVME_CMD_SIZE_LIMIT | NVME_DNR;
--            goto out;
+-        if (all) {
+-            proc_mask = NVME_PROC_OPENED_ZONES | NVME_PROC_CLOSED_ZONES |
+-                NVME_PROC_FULL_ZONES;
 -        }
--
--        status = nvme_check_bounds(ns, slba, _nlb);
--        if (status) {
--            goto out;
--        }
--
--        if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
--            status = nvme_check_dulbe(ns, slba, _nlb);
--            if (status) {
--                goto out;
--            }
--        }
--
--        if (ns->params.zoned) {
--            status = nvme_check_zone_read(ns, slba, _nlb);
--            if (status) {
--                goto out;
--            }
--        }
--
--        nlb += _nlb;
--    }
--
--    if (nlb > le32_to_cpu(ns->id_ns.mcl)) {
-         status = NVME_CMD_SIZE_LIMIT | NVME_DNR;
--        goto out;
-+        goto invalid;
-     }
+         trace_pci_nvme_reset_zone(slba, zone_idx, all);
  
--    bounce = bouncep = g_malloc(nvme_l2b(ns, nlb));
--    if (ns->lbaf.ms) {
--        mbounce = mbouncep = g_malloc(nvme_m2b(ns, nlb));
-+    iocb->ranges = g_new(NvmeCopySourceRange, nr);
-+
-+    status = nvme_h2c(n, (uint8_t *)iocb->ranges,
-+                      sizeof(NvmeCopySourceRange) * nr, req);
-+    if (status) {
-+        goto invalid;
-     }
+-        *resets = 1;
++        iocb = blk_aio_get(&nvme_zone_reset_aiocb_info, ns->blkconf.blk,
++                           nvme_misc_cb, req);
  
--    block_acct_start(blk_get_stats(ns->blkconf.blk), &req->acct, 0,
--                     BLOCK_ACCT_READ);
-+    iocb->slba = le64_to_cpu(copy->sdlba);
+-        status = nvme_do_zone_op(ns, zone, proc_mask, nvme_reset_zone, req);
++        iocb->req = req;
++        iocb->bh = qemu_bh_new(nvme_zone_reset_bh, iocb);
++        iocb->ret = 0;
++        iocb->all = all;
++        iocb->idx = zone_idx;
++        iocb->zone = NULL;
  
--    ctx->bounce = bounce;
--    ctx->mbounce = mbounce;
--    ctx->nlb = nlb;
--    ctx->copies = 1;
-+    if (ns->params.zoned) {
-+        iocb->zone = nvme_get_zone_by_slba(ns, iocb->slba);
-+        if (!iocb->zone) {
-+            status = NVME_LBA_RANGE | NVME_DNR;
-+            goto invalid;
-+        }
+-        (*resets)--;
++        req->aiocb = &iocb->common;
++        nvme_zone_reset_cb(iocb, 0);
  
--    req->opaque = ctx;
--
--    for (i = 0; i < nr; i++) {
--        uint64_t slba = le64_to_cpu(ctx->ranges[i].slba);
--        uint32_t nlb = le16_to_cpu(ctx->ranges[i].nlb) + 1;
--
--        size_t len = nvme_l2b(ns, nlb);
--        int64_t offset = nvme_l2b(ns, slba);
--
--        trace_pci_nvme_copy_source_range(slba, nlb);
--
--        struct nvme_copy_in_ctx *in_ctx = g_new(struct nvme_copy_in_ctx, 1);
--        in_ctx->req = req;
--
--        qemu_iovec_init(&in_ctx->iov, 1);
--        qemu_iovec_add(&in_ctx->iov, bouncep, len);
--
--        ctx->copies++;
--
--        blk_aio_preadv(ns->blkconf.blk, offset, &in_ctx->iov, 0,
--                       nvme_aio_copy_in_cb, in_ctx);
--
--        bouncep += len;
--
--        if (ns->lbaf.ms) {
--            len = nvme_m2b(ns, nlb);
--            offset = nvme_moff(ns, slba);
--
--            in_ctx = g_new(struct nvme_copy_in_ctx, 1);
--            in_ctx->req = req;
--
--            qemu_iovec_init(&in_ctx->iov, 1);
--            qemu_iovec_add(&in_ctx->iov, mbouncep, len);
--
--            ctx->copies++;
--
--            blk_aio_preadv(ns->blkconf.blk, offset, &in_ctx->iov, 0,
--                           nvme_aio_copy_in_cb, in_ctx);
--
--            mbouncep += len;
-+        status = nvme_zrm_auto(ns, iocb->zone);
-+        if (status) {
-+            goto invalid;
-         }
-     }
+-        return *resets ? NVME_NO_COMPLETE : req->status;
++        return NVME_NO_COMPLETE;
  
--    /* account for the 1-initialization */
--    ctx->copies--;
-+    iocb->req = req;
-+    iocb->bh = qemu_bh_new(nvme_copy_bh, iocb);
-+    iocb->ret = 0;
-+    iocb->nr = nr;
-+    iocb->idx = 0;
-+    iocb->reftag = le32_to_cpu(copy->reftag);
-+    iocb->bounce = g_malloc_n(le16_to_cpu(ns->id_ns.mssrl),
-+                              ns->lbasz + ns->lbaf.ms);
- 
--    if (!ctx->copies) {
--        nvme_copy_in_complete(req);
--    }
-+    qemu_iovec_init(&iocb->iov, 1);
-+
-+    block_acct_start(blk_get_stats(ns->blkconf.blk), &iocb->acct.read, 0,
-+                     BLOCK_ACCT_READ);
-+    block_acct_start(blk_get_stats(ns->blkconf.blk), &iocb->acct.write, 0,
-+                     BLOCK_ACCT_WRITE);
-+
-+    req->aiocb = &iocb->common;
-+    nvme_copy_cb(iocb, 0);
- 
-     return NVME_NO_COMPLETE;
- 
--out:
--    g_free(ctx->ranges);
--    g_free(ctx);
--
-+invalid:
-+    g_free(iocb->ranges);
-+    qemu_aio_unref(iocb);
-     return status;
- }
- 
+     case NVME_ZONE_ACTION_OFFLINE:
+         if (all) {
 diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index a3e11346865e..cd65f8b28895 100644
+index cd65f8b28895..dc00c2860db7 100644
 --- a/hw/nvme/trace-events
 +++ b/hw/nvme/trace-events
-@@ -30,8 +30,7 @@ pci_nvme_dif_prchk_apptag(uint16_t apptag, uint16_t elbat, uint16_t elbatm) "app
- pci_nvme_dif_prchk_reftag(uint32_t reftag, uint32_t elbrt) "reftag 0x%"PRIx32" elbrt 0x%"PRIx32""
- pci_nvme_copy(uint16_t cid, uint32_t nsid, uint16_t nr, uint8_t format) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu16" format 0x%"PRIx8""
- pci_nvme_copy_source_range(uint64_t slba, uint32_t nlb) "slba 0x%"PRIx64" nlb %"PRIu32""
--pci_nvme_copy_in_complete(uint16_t cid) "cid %"PRIu16""
--pci_nvme_copy_cb(uint16_t cid) "cid %"PRIu16""
-+pci_nvme_copy_out(uint64_t slba, uint32_t nlb) "slba 0x%"PRIx64" nlb %"PRIu32""
- pci_nvme_verify(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba 0x%"PRIx64" nlb %"PRIu32""
- pci_nvme_verify_mdata_in_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
- pci_nvme_verify_cb(uint16_t cid, uint8_t prinfo, uint16_t apptag, uint16_t appmask, uint32_t reftag) "cid %"PRIu16" prinfo 0x%"PRIx8" apptag 0x%"PRIx16" appmask 0x%"PRIx16" reftag 0x%"PRIx32""
+@@ -44,7 +44,6 @@ pci_nvme_compare_data_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_compare_mdata_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_aio_discard_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_aio_copy_in_cb(uint16_t cid) "cid %"PRIu16""
+-pci_nvme_aio_zone_reset_cb(uint16_t cid, uint64_t zslba) "cid %"PRIu16" zslba 0x%"PRIx64""
+ pci_nvme_aio_flush_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize, uint16_t qflags) "create submission queue, addr=0x%"PRIx64", sqid=%"PRIu16", cqid=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16""
+ pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
+@@ -100,6 +99,7 @@ pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open zone, slba=%
+ pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
+ pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) "finish zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
+ pci_nvme_reset_zone(uint64_t slba, uint32_t zone_idx, int all) "reset zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
++pci_nvme_zns_zone_reset(uint64_t zslba) "zslba 0x%"PRIx64""
+ pci_nvme_offline_zone(uint64_t slba, uint32_t zone_idx, int all) "offline zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
+ pci_nvme_set_descriptor_extension(uint64_t slba, uint32_t zone_idx) "set zone descriptor extension, slba=%"PRIu64", idx=%"PRIu32""
+ pci_nvme_zd_extension_set(uint32_t zone_idx) "set descriptor extension for zone_idx=%"PRIu32""
 -- 
 2.31.1
 
