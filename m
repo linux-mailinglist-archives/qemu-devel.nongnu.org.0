@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C2A39BBAB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:21:31 +0200 (CEST)
-Received: from localhost ([::1]:33084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95A339BBB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:23:00 +0200 (CEST)
+Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpBda-0007q3-Bk
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
+	id 1lpBf1-0004a8-Qu
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa5-0007lv-2y
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:53 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:45844)
+ id 1lpBa6-0007mj-6V
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:54 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa3-0008EQ-KH
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:52 -0400
-Received: by mail-ed1-x535.google.com with SMTP id dg27so11548627edb.12
+ id 1lpBa4-0008EY-R0
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:53 -0400
+Received: by mail-ed1-x532.google.com with SMTP id ba2so9857094edb.2
  for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GjSj1BvMv7SkGTnFgml+cFr3Qod8iyQlPdCz9aegSrI=;
- b=GWEVTHaR8Fcs9geqyVtIzcmgFPqFMYqz+IbtZPoN6505YtiGmrv+N1Wivj6KGJOLwZ
- odCxKRoJqm4yHaavI6RZgsLtoRl/4cNihcjzAJq70IC3UPfc6uW+mTLR/WENkt7UQ00t
- bO2941X7NdNvKvQgTlPWe2qNXWrhIlO6EhZuMFCqGpmQ/p8jSaMO2dZsNJ4NEegoYFjt
- TbF7CSPQAKzl7AhPmNViDDtHokOTP+9JkP240d80/p5LYBu6X0n2UFIzqUqaGDpXjxBg
- qCfIhPMB72ae7eV7KsS4gt6GbmbU/6VsUgAvJR/I+0FOvLxMgQ8iYnhQPUM388Q5M/SB
- 4iSg==
+ bh=cMD/MQJK6RuY6kQefUquuNuGpcrRXIPINqzY23mVatU=;
+ b=IKkFGxW+gAbEOez0Fzp2hQg+gzkuYQ2/sk7rr23eubSwCCS+YfbupkE08FEgY0Pzs3
+ LI9UQQGSJldEHCaA55NryZGmIp+tGDUZvucuzIhodwvaxGzvCHMmP/E4qFHSPG+MMyYo
+ 2AWjzhSGbDsaRJogdjTluSbqfaKPmnS2hYyh93BBT3DPJgx0b644J+tKm4Xj+2XJJr51
+ dlOmGCMvXbI7eF6zjaX8hc9CCR/vmuzFh4lYT9bEKQQY3tblwDup51WIzkZ1Vk4Jsx9K
+ YjAwk0OnkIEHYj4waixL7wx3PZFlD2TQy+23MQLtmufeMJ1KxQb3g2hkMO2e8gVhQ+ZJ
+ bp0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GjSj1BvMv7SkGTnFgml+cFr3Qod8iyQlPdCz9aegSrI=;
- b=iHmUTwR9PNzZ9gK2y3PtBPNeV9cMVwsx+s954E1yUy+uKGXwCFFGk3+t/7nSTxFT0q
- c8ZAZV2FDAJVNtXnY1SU1Iz6drpDbhNwnXERnSPfZt2wTQ+ZhCbDfgJqoowKTg/shr28
- kD7ijff/BLQPMCWRYV6WAffMhYtiPJ+KmpxDymJBqMW8fVaijiN3IYj1t/qa3bNZKMLr
- J03F4aar4djnAp7PWqrC2fZXqJrUGL/gi+Nl3u61FcCpSdQmIkv1Rzk1V4PsfSTts7jH
- tEOee0eWUJ8wkL3QEOkL09/8cHEojRzwg7qeGUfZQ7Av7+3nu+TwAeB+egNjaIpEYdUu
- Cu3w==
-X-Gm-Message-State: AOAM530DKsJIFcthR1/WRtcHWE/0bSZftRR5pj4j0p99X8ycgeHZWUbl
- mbUyVIoQdW/2WenVzraime03Fy/erDuFKQ==
-X-Google-Smtp-Source: ABdhPJw9qIN5tpMQG/DOus7qdL+TIc5J3RCfCj9IA+p+tTl8kYgWhZWJsw9QJRRxxcJUvAlwCskmKg==
-X-Received: by 2002:a05:6402:524b:: with SMTP id
- t11mr5192861edd.327.1622819870385; 
- Fri, 04 Jun 2021 08:17:50 -0700 (PDT)
+ bh=cMD/MQJK6RuY6kQefUquuNuGpcrRXIPINqzY23mVatU=;
+ b=FgjZ4hv0YXr4HQh8z5RxWPC8zTylmK3aBRkTSAPB8MH3mNx7B0BZHAKr8fNhp8aq5x
+ DyLjoXD43beVxTAjusFN9JSbHULwZNk/0ob7JwgSDpfML1t3KWmm0YfAQfBhoCNsFQu+
+ fgU6qQ4Y9jA3wVMie+5HiuvMJXkKf41rhQy3Cfa1mq0MQXshP+sGY5mwZjHKat14O5JT
+ kEvlXT5/iMR2FO8eVEbucp2TcSJDQufkDuCAkm5CToRxsMWPeP9DrMMyYDWNTMGMZAng
+ ICoQYjrzt8WvY9mlmCaMd0dqxuCj9aLHOF+DgTm9U2yYHQ9aNbs0wPjhvYlCA/DEylNS
+ +j5A==
+X-Gm-Message-State: AOAM532Y98moHrU6MzzHzMT3IySV1U2b3Ry2cPNjlKJX7uaIGSMsFk0x
+ 8v0V1bocDJO78VAaT3EurLRSnMjvNfU2sA==
+X-Google-Smtp-Source: ABdhPJy6sD9sAOao9e11LBu4Rm48m9/EjQYJI/faD0Xt/iv5zdOxo6TPjQlalSKC5/RXDYjRgQTWEA==
+X-Received: by 2002:a05:6402:5194:: with SMTP id
+ q20mr5429369edd.356.1622819871084; 
+ Fri, 04 Jun 2021 08:17:51 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- w1sm2402451eds.37.2021.06.04.08.17.49
+ w1sm2402451eds.37.2021.06.04.08.17.50 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 04 Jun 2021 08:17:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/13] target/i386: tcg: fix segment register offsets for
- 16-bit TSS
-Date: Fri,  4 Jun 2021 17:17:36 +0200
-Message-Id: <20210604151745.310318-5-pbonzini@redhat.com>
+Subject: [PULL 05/13] target/i386: tcg: fix loading of registers from 16-bit
+ TSS
+Date: Fri,  4 Jun 2021 17:17:37 +0200
+Message-Id: <20210604151745.310318-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604151745.310318-1-pbonzini@redhat.com>
 References: <20210604151745.310318-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,43 +86,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TSS offsets in the manuals have only 2-byte slots for the
-segment registers.  QEMU incorrectly uses 4-byte slots, so
-that SS overlaps the LDT selector.
+According to the manual, the high 16-bit of the registers are preserved
+when switching to a 16-bit task.  Implement this in switch_tss_ra.
 
-Resolves: #382
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/seg_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/tcg/seg_helper.c | 25 +++++++++++--------------
+ 1 file changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 2f6cdc8239..547b959689 100644
+index 547b959689..2112c5fc51 100644
 --- a/target/i386/tcg/seg_helper.c
 +++ b/target/i386/tcg/seg_helper.c
-@@ -281,7 +281,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
-                                              retaddr) | 0xffff0000;
+@@ -277,8 +277,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
+         new_eip = cpu_lduw_kernel_ra(env, tss_base + 0x0e, retaddr);
+         new_eflags = cpu_lduw_kernel_ra(env, tss_base + 0x10, retaddr);
+         for (i = 0; i < 8; i++) {
+-            new_regs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x12 + i * 2),
+-                                             retaddr) | 0xffff0000;
++            new_regs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x12 + i * 2), retaddr);
          }
          for (i = 0; i < 4; i++) {
--            new_segs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x22 + i * 4),
-+            new_segs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x22 + i * 2),
-                                              retaddr);
-         }
-         new_ldt = cpu_lduw_kernel_ra(env, tss_base + 0x2a, retaddr);
-@@ -349,7 +349,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
-         cpu_stw_kernel_ra(env, env->tr.base + (0x12 + 6 * 2), env->regs[R_ESI], retaddr);
-         cpu_stw_kernel_ra(env, env->tr.base + (0x12 + 7 * 2), env->regs[R_EDI], retaddr);
-         for (i = 0; i < 4; i++) {
--            cpu_stw_kernel_ra(env, env->tr.base + (0x22 + i * 4),
-+            cpu_stw_kernel_ra(env, env->tr.base + (0x22 + i * 2),
-                               env->segs[i].selector, retaddr);
-         }
+             new_segs[i] = cpu_lduw_kernel_ra(env, tss_base + (0x22 + i * 2),
+@@ -391,19 +390,17 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
+     env->eip = new_eip;
+     eflags_mask = TF_MASK | AC_MASK | ID_MASK |
+         IF_MASK | IOPL_MASK | VM_MASK | RF_MASK | NT_MASK;
+-    if (!(type & 8)) {
+-        eflags_mask &= 0xffff;
++    if (type & 8) {
++        cpu_load_eflags(env, new_eflags, eflags_mask);
++        for (i = 0; i < 8; i++) {
++            env->regs[i] = new_regs[i];
++        }
++    } else {
++        cpu_load_eflags(env, new_eflags, eflags_mask & 0xffff);
++        for (i = 0; i < 8; i++) {
++            env->regs[i] = (env->regs[i] & 0xffff0000) | new_regs[i];
++        }
      }
+-    cpu_load_eflags(env, new_eflags, eflags_mask);
+-    /* XXX: what to do in 16 bit case? */
+-    env->regs[R_EAX] = new_regs[0];
+-    env->regs[R_ECX] = new_regs[1];
+-    env->regs[R_EDX] = new_regs[2];
+-    env->regs[R_EBX] = new_regs[3];
+-    env->regs[R_ESP] = new_regs[4];
+-    env->regs[R_EBP] = new_regs[5];
+-    env->regs[R_ESI] = new_regs[6];
+-    env->regs[R_EDI] = new_regs[7];
+     if (new_eflags & VM_MASK) {
+         for (i = 0; i < 6; i++) {
+             load_seg_vm(env, i, new_segs[i]);
 -- 
 2.31.1
 
