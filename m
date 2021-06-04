@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4479139B3A8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:17:02 +0200 (CEST)
-Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D0C39B3B2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:19:18 +0200 (CEST)
+Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp44j-0004b2-1P
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:17:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43270)
+	id 1lp46v-0001GZ-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lp3hq-0006AJ-Tf; Fri, 04 Jun 2021 02:53:22 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:59517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lp3hp-0007UJ-Bd; Fri, 04 Jun 2021 02:53:22 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id A23CF5C0183;
- Fri,  4 Jun 2021 02:53:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 04 Jun 2021 02:53:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=x9FBgPafdBo06
- 8BWa6Ub975vbv9lj7osZprVgyerY30=; b=AvRB4LeiDyCi6pPAEmYddxn/8VMit
- DIa7etNMfIdqbjhPBAb+DBmD1MQtsuzp2jLKaHHV5swO41l0tQ/yw0txgg4sUI1i
- Tui6CbH+3+wpnxf22xd77qWdXfGw+y7UJ2TRoVwXLpWDTr+jC8wHT7c3zOCkpy3F
- gHC6ENIzoNA7nDdfH7cfPPosaMBpCFSEDhx8xtDjZzH0/E8QDqRPa6T+cwLSXyqv
- Yb9YVj2VPfnA1wQER4ylMwSQuEClQ27Wi0idqfeA0zsFpMHLIBFKA5iSDWijkK5w
- xFMn8cGjVBcNkLFOanpa4LCrd6ITQL0TbYFNP6/00xy2zdkuJzV3FZ85g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=x9FBgPafdBo068BWa6Ub975vbv9lj7osZprVgyerY30=; b=vdmOievN
- wUTYaJlO7dOkm6otd2nmhyKF+qDUDhCwSp3OE1wWJLY0bwZidfEPcqkH0BzMgBBy
- 80yIAVG8yAejg3OAW4d3WYeI6Oru+YzxGUl68yAuI37Pohdpl9LCWQfYa7PMt9CP
- YOGGHmURpPpkVG7BBw8FNXar3vTk3oeGKdZJkV43Hal7aWxENamlVbAazahWX2eM
- YW1dNDMVMf8b+HvNqU75MR9yoBPWxlPTTQFNR3KXZdClUGDfswWi9+vLejinLN68
- zFjxV5C0o8WRTHSQWbSzQ4O5zfow6URYLrA0IETQatX0WJUYrMLIXsFALw79TXvF
- To8cf85R+1umCw==
-X-ME-Sender: <xms:zM25YGsGVSOFb6Ozy38HHUzWfhECSuG2dfJCkICiLz6X7MYJmtsCnA>
- <xme:zM25YLf5kWulYIpy4X954UdQ-G_8Z_T5MrDtrVmkmK_Q0Il-aiOmX_ITxbawWJXVv
- m2jTNF-5DqsUFtWcpo>
-X-ME-Received: <xmr:zM25YBwVltHdFOvte4elR2TChrqUYmUfsGhVrLVufw47PrdWKC8J_oTjBYcbJBKGQZGRvc0f1EATBRrgbPq6kT8BDOKLfiVZU3sPnJfrWg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedttddguddtkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:zM25YBORkRZ0rfuneNosfFuyhltHYUUVt7wJcM1oKIRSxrVThiZ9jQ>
- <xmx:zM25YG-bGdgesWaCmRRn1THqRQxLbPYNRwyV0ENe9DymxuoC02EYWg>
- <xmx:zM25YJWExxHB40ZosRa6IGCj9MlAvPBB0ubmWBfwOohuf_FI-MPq6A>
- <xmx:zM25YLNfWS26NagpPePd3Ocbbug8Rmjv654tS_JxVU16VWHTdYh5xg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Jun 2021 02:52:59 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 11/11] Partially revert "hw/block/nvme: drain namespaces
- on sq deletion"
-Date: Fri,  4 Jun 2021 08:52:37 +0200
-Message-Id: <20210604065237.873228-12-its@irrelevant.dk>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210604065237.873228-1-its@irrelevant.dk>
-References: <20210604065237.873228-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lp3pp-0004KQ-T1
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:01:39 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:49054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lp3pk-0004EB-2k
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:01:37 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 321961FD47;
+ Fri,  4 Jun 2021 07:01:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622790090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
+ b=CbMEH7nSu0vh4K0FGMJnhpRViSW/qSFctXgTI/nbPeOwI3eozjJ3zMsOi4cJvXwSnEAuK1
+ 9qcNAZvbGZO2n8oQRzFXLFmajtBurpGRrDqayAbOmPuLYka2xTPOeGvXnL/gxS6X4FzGjB
+ oYN2K+tHrHah7qpFh6+dlybiGeUc7pk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622790090;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
+ b=WZWbbIBQ38P/a9rkmG6c8e3PmayjzkjcQkqFcKJxnXxq/xg9YNSc2Nvuv8OjmrkSdo4OZ6
+ pntYy5iCEmOwXHCQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 80260118DD;
+ Fri,  4 Jun 2021 07:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1622790090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
+ b=CbMEH7nSu0vh4K0FGMJnhpRViSW/qSFctXgTI/nbPeOwI3eozjJ3zMsOi4cJvXwSnEAuK1
+ 9qcNAZvbGZO2n8oQRzFXLFmajtBurpGRrDqayAbOmPuLYka2xTPOeGvXnL/gxS6X4FzGjB
+ oYN2K+tHrHah7qpFh6+dlybiGeUc7pk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1622790090;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
+ b=WZWbbIBQ38P/a9rkmG6c8e3PmayjzkjcQkqFcKJxnXxq/xg9YNSc2Nvuv8OjmrkSdo4OZ6
+ pntYy5iCEmOwXHCQ==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id xOZrHMnPuWBzMQAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Fri, 04 Jun 2021 07:01:29 +0000
+Subject: Re: [PATCH v2 0/2] Fixes for "Windows fails to boot"
+From: Claudio Fontana <cfontana@suse.de>
+To: Cleber Rosa Junior <crosa@redhat.com>
+References: <20210603123001.17843-1-cfontana@suse.de>
+ <1da75e95-1255-652e-1ca3-d23a8f6bf392@suse.de>
+ <CA+bd_6K1BOSeswTszBGJrq4Z9F_KpPsSuOL-cLbYWGAfvjPEMA@mail.gmail.com>
+ <2e5edcf2-6958-82db-511c-724165a8ddfb@suse.de>
+Message-ID: <dd1eb78c-9534-3d00-1a51-c03f1fd3ad16@suse.de>
+Date: Fri, 4 Jun 2021 09:01:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <2e5edcf2-6958-82db-511c-724165a8ddfb@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,67 +100,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, Siddharth Chandrasekaran <sidcha@amazon.de>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 6/4/21 8:32 AM, Claudio Fontana wrote:
+> On 6/3/21 5:10 PM, Cleber Rosa Junior wrote:
+>> On Thu, Jun 3, 2021 at 10:29 AM Claudio Fontana <cfontana@suse.de> wrote:
+>>
+>>> On 6/3/21 2:29 PM, Claudio Fontana wrote:
+>>>> v1 -> v2:
+>>>>  * moved hyperv realizefn call before cpu expansion (Vitaly)
+>>>>  * added more comments (Eduardo)
+>>>>  * fixed references to commit ids (Eduardo)
+>>>>
+>>>> The combination of Commits:
+>>>> f5cc5a5c ("i386: split cpu accelerators from cpu.c"...)
+>>>
+>>>> 30565f10 ("cpu: call AccelCPUClass::cpu_realizefn in"...)
+>>>>
+>>>> introduced two bugs that break cpu max and host in the refactoring,
+>>>> by running initializations in the wrong order.
+>>>>
+>>>> This small series of two patches is an attempt to correct the situation.
+>>>>
+>>>> Please provide your test results and feedback, thanks!
+>>>>
+>>>> Claudio
+>>>>
+>>>> Claudio Fontana (2):
+>>>>   i386: reorder call to cpu_exec_realizefn in x86_cpu_realizefn
+>>>>   i386: run accel_cpu_instance_init as instance_post_init
+>>>>
+>>>>  target/i386/cpu.c         | 89 +++++++++++++++++++++++++--------------
+>>>>  target/i386/kvm/kvm-cpu.c | 12 +++++-
+>>>>  2 files changed, 68 insertions(+), 33 deletions(-)
+>>>>
+>>>
+>>> Btw, CI/CD is all green, but as mentioned, it does not seem to catch these
+>>> kind of issues.
+>>>
+>>>
+>> Hi Claudio,
+>>
+>> Not familiar with the specifics of this bug, but can it be caught by
+>> attempting to boot an image other than Windows?  If so, we can consider
+>> adding a test along the lines of tests/acceptance/boot_linux_console.py.
+>>
+>> Thanks,
+>> - Cleber.
+> 
+> Hello Cleber,
+> 
+> yes, all that seems to be required is the "host" cpu, q35 machine, and the firmware ./OVMF_CODE.secboot.fd and ./OVMF_VARS.secboot.fd :
+> 
+> ./build/x86_64-softmmu/qemu-system-x86_64 \
+>         -cpu host \
+>         -enable-kvm \
+>         -m 4G \
+>         -machine q35,smm=on \
+>         -drive if=pflash,format=raw,readonly=on,unit=0,file="./OVMF_CODE.secboot.fd" \
+>         -drive if=pflash,format=raw,unit=1,file="./OVMF_VARS.secboot.fd"
+> 
+> With the bugged code, the firmware does not boot, and the cpu does not get into 64-bit long mode.
+> Applying the patches the firmware boots normally and we get the TianoCore Logo and text output.
+> 
+> Adding something like -display none -serial stdio would also generate text in the OK case that could be "expected" by a test:
+> 
+> BdsDxe: failed to load Boot0001 "UEFI QEMU DVD-ROM QM00005 " from PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x2,0xFFFF,0x0): Not Found
+> 
+>>> Start PXE over IPv4.
+> 
+> even without using any guest to boot at all, just the firmware.
+> I used this Fedora package for the test, containing the firmware: edk2-ovmf-20200801stable-1.fc33.noarch.rpm
+> 
+> I looked briefly at tests/acceptance/boot_linux_console.py, but did not see where such a test of firmware could be inserted,
+> could you advise?
 
-This partially reverts commit 98f84f5a4eca5c03e32fff20f246d9b4b96d6422.
 
-Since all "multi aio" commands are now reimplemented to properly track
-the nested aiocbs, we can revert the "hack" that was introduced to make
-sure all requests we're properly drained upon sq deletion.
+Nm I think I got it, will create a new boot_OVMF_fc33.py test.
 
-The revert is partial since we keep the assert that no outstanding
-requests remain on the submission queue after the explicit cancellation.
+Thanks, C
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ee77abd19661..d25c5d8187e9 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -3886,7 +3886,6 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
-     NvmeSQueue *sq;
-     NvmeCQueue *cq;
-     uint16_t qid = le16_to_cpu(c->qid);
--    uint32_t nsid;
- 
-     if (unlikely(!qid || nvme_check_sqid(n, qid))) {
-         trace_pci_nvme_err_invalid_del_sq(qid);
-@@ -3898,22 +3897,8 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
-     sq = n->sq[qid];
-     while (!QTAILQ_EMPTY(&sq->out_req_list)) {
-         r = QTAILQ_FIRST(&sq->out_req_list);
--        if (r->aiocb) {
--            blk_aio_cancel(r->aiocb);
--        }
--    }
--
--    /*
--     * Drain all namespaces if there are still outstanding requests that we
--     * could not cancel explicitly.
--     */
--    if (!QTAILQ_EMPTY(&sq->out_req_list)) {
--        for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
--            NvmeNamespace *ns = nvme_ns(n, nsid);
--            if (ns) {
--                nvme_ns_drain(ns);
--            }
--        }
-+        assert(r->aiocb);
-+        blk_aio_cancel(r->aiocb);
-     }
- 
-     assert(QTAILQ_EMPTY(&sq->out_req_list));
--- 
-2.31.1
+> 
+>>
+>>
+>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/314286751
+>>>
+>>> C.
+>>>
+>>>
+>>>
+>>
+> 
 
 
