@@ -2,92 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D0C39B3B2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:19:18 +0200 (CEST)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB5239B3B7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:21:13 +0200 (CEST)
+Received: from localhost ([::1]:37966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp46v-0001GZ-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44864)
+	id 1lp48m-0003L0-4z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lp3pp-0004KQ-T1
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:01:39 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:49054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lp3pk-0004EB-2k
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:01:37 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 321961FD47;
- Fri,  4 Jun 2021 07:01:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622790090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lp47M-0002J8-1y
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:19:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47361)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lp47I-0007Zl-2k
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:19:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1622791178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
- b=CbMEH7nSu0vh4K0FGMJnhpRViSW/qSFctXgTI/nbPeOwI3eozjJ3zMsOi4cJvXwSnEAuK1
- 9qcNAZvbGZO2n8oQRzFXLFmajtBurpGRrDqayAbOmPuLYka2xTPOeGvXnL/gxS6X4FzGjB
- oYN2K+tHrHah7qpFh6+dlybiGeUc7pk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622790090;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
- b=WZWbbIBQ38P/a9rkmG6c8e3PmayjzkjcQkqFcKJxnXxq/xg9YNSc2Nvuv8OjmrkSdo4OZ6
- pntYy5iCEmOwXHCQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 80260118DD;
- Fri,  4 Jun 2021 07:01:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622790090; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
- b=CbMEH7nSu0vh4K0FGMJnhpRViSW/qSFctXgTI/nbPeOwI3eozjJ3zMsOi4cJvXwSnEAuK1
- 9qcNAZvbGZO2n8oQRzFXLFmajtBurpGRrDqayAbOmPuLYka2xTPOeGvXnL/gxS6X4FzGjB
- oYN2K+tHrHah7qpFh6+dlybiGeUc7pk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622790090;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zpwSvRIOPuN7nGMcI/8bmjjz9EyzET4w0yLLXrnv2h4=;
- b=WZWbbIBQ38P/a9rkmG6c8e3PmayjzkjcQkqFcKJxnXxq/xg9YNSc2Nvuv8OjmrkSdo4OZ6
- pntYy5iCEmOwXHCQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id xOZrHMnPuWBzMQAALh3uQQ
- (envelope-from <cfontana@suse.de>); Fri, 04 Jun 2021 07:01:29 +0000
-Subject: Re: [PATCH v2 0/2] Fixes for "Windows fails to boot"
-From: Claudio Fontana <cfontana@suse.de>
-To: Cleber Rosa Junior <crosa@redhat.com>
-References: <20210603123001.17843-1-cfontana@suse.de>
- <1da75e95-1255-652e-1ca3-d23a8f6bf392@suse.de>
- <CA+bd_6K1BOSeswTszBGJrq4Z9F_KpPsSuOL-cLbYWGAfvjPEMA@mail.gmail.com>
- <2e5edcf2-6958-82db-511c-724165a8ddfb@suse.de>
-Message-ID: <dd1eb78c-9534-3d00-1a51-c03f1fd3ad16@suse.de>
-Date: Fri, 4 Jun 2021 09:01:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=gTNdndLN4Cy/Lef1Rv6xqsNhe3UqKCPBd4NuS/1MRgQ=;
+ b=dMkgUynZKbGoFvOsiGsNDOfk6ajPodPQ8nPaq88D1l+EY1VfEMd2aIye01itAfBiMjkkAV
+ GhIXwy8IFRcTYnwmyEFZkoTo8PUBTe6TegNg/Vz5k7nxpAz2lVzjQbIWj0XtW0beZPTgon
+ v/fk9bzaq71d3L7y1QI48YWHBgmLU5Q=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-yLngQJk-PYCGAdQq_nBtkw-1; Fri, 04 Jun 2021 03:19:36 -0400
+X-MC-Unique: yLngQJk-PYCGAdQq_nBtkw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ h23-20020aa7c5d70000b029038fed7b27d5so4497144eds.21
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 00:19:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gTNdndLN4Cy/Lef1Rv6xqsNhe3UqKCPBd4NuS/1MRgQ=;
+ b=sqpwVOH5kPSn8nrLNSzLNUpRUro9EBM7KKTZzbY3eh5mHEV3E5syhP1Pa6KWTAlhLA
+ qnBofNXpXUWeUOfgEK5jPHdyKtPY+RK6Jg5GQ6Dcz5GudCBlfgvzRkvQ0dYpt0Rx1L8d
+ dpeaG3ZrkLTPaL3zBF6G2WkWaX0eHWCJPGDsMy7VkWt0yOIaNGluiyFvUm0rbDSXlpcC
+ +ELEedHcMBRhqkzhnODSsio5UEqVjZknqUtlh7TeFnMEW5KdBEVkjNNY1aTC+ifFV6hm
+ yAA5go+W1Riq2NE8vNWNwDIH1SldTovLeaBLv409UEuexcXJL7eF+d6zALA2vaFvGCdO
+ +ohA==
+X-Gm-Message-State: AOAM530LYpxlEycWaD/FZNnf2FZDQ+0KycPuOfftp7JKLgbTwHedMFYy
+ OBDe3OlGw/MtXrDCLTwWWhmWazQRlTTNo48WpRuLMUZCppBOsqKVOvCOAJCv8kffQKQ4AUqBeiQ
+ fjCdKtGjW3ItaL0E=
+X-Received: by 2002:a17:906:63d2:: with SMTP id
+ u18mr2901749ejk.186.1622791175674; 
+ Fri, 04 Jun 2021 00:19:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSyaWiPC3bB6A0wzPdvd2+2ZRKUV5PHmheAjKk2Gor8OnxBshctV8QHiJoQ9iMT6QGkwEp2Q==
+X-Received: by 2002:a17:906:63d2:: with SMTP id
+ u18mr2901722ejk.186.1622791175420; 
+ Fri, 04 Jun 2021 00:19:35 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d24sm2782252edr.95.2021.06.04.00.19.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Jun 2021 00:19:34 -0700 (PDT)
+Subject: Re: [PATCH] iotests/check: move general long options to double dash
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210526181659.365531-1-vsementsov@virtuozzo.com>
+ <3d086c41-80c0-a970-367d-00e19ce55817@redhat.com>
+ <ebfba20f-badc-422b-f71d-28b9280f65cb@virtuozzo.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2ed9f244-722f-83ed-dd53-205e1833dc27@redhat.com>
+Date: Fri, 4 Jun 2021 09:19:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <2e5edcf2-6958-82db-511c-724165a8ddfb@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ebfba20f-badc-422b-f71d-28b9280f65cb@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.603,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,107 +105,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, Siddharth Chandrasekaran <sidcha@amazon.de>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, eesposit@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/21 8:32 AM, Claudio Fontana wrote:
-> On 6/3/21 5:10 PM, Cleber Rosa Junior wrote:
->> On Thu, Jun 3, 2021 at 10:29 AM Claudio Fontana <cfontana@suse.de> wrote:
+On 03/06/21 14:19, Vladimir Sementsov-Ogievskiy wrote:
 >>
->>> On 6/3/21 2:29 PM, Claudio Fontana wrote:
->>>> v1 -> v2:
->>>>  * moved hyperv realizefn call before cpu expansion (Vitaly)
->>>>  * added more comments (Eduardo)
->>>>  * fixed references to commit ids (Eduardo)
->>>>
->>>> The combination of Commits:
->>>> f5cc5a5c ("i386: split cpu accelerators from cpu.c"...)
->>>
->>>> 30565f10 ("cpu: call AccelCPUClass::cpu_realizefn in"...)
->>>>
->>>> introduced two bugs that break cpu max and host in the refactoring,
->>>> by running initializations in the wrong order.
->>>>
->>>> This small series of two patches is an attempt to correct the situation.
->>>>
->>>> Please provide your test results and feedback, thanks!
->>>>
->>>> Claudio
->>>>
->>>> Claudio Fontana (2):
->>>>   i386: reorder call to cpu_exec_realizefn in x86_cpu_realizefn
->>>>   i386: run accel_cpu_instance_init as instance_post_init
->>>>
->>>>  target/i386/cpu.c         | 89 +++++++++++++++++++++++++--------------
->>>>  target/i386/kvm/kvm-cpu.c | 12 +++++-
->>>>  2 files changed, 68 insertions(+), 33 deletions(-)
->>>>
->>>
->>> Btw, CI/CD is all green, but as mentioned, it does not seem to catch these
->>> kind of issues.
->>>
->>>
->> Hi Claudio,
->>
->> Not familiar with the specifics of this bug, but can it be caught by
->> attempting to boot an image other than Windows?  If so, we can consider
->> adding a test along the lines of tests/acceptance/boot_linux_console.py.
->>
->> Thanks,
->> - Cleber.
+>> Double-dash options give extra information to the user that short 
+>> (single-dash) options can be combined, while this is not the case for 
+>> iotests/check.
 > 
-> Hello Cleber,
+> You can combine short options for check script, as argparse supports it.
 > 
-> yes, all that seems to be required is the "host" cpu, q35 machine, and the firmware ./OVMF_CODE.secboot.fd and ./OVMF_VARS.secboot.fd :
+> We don't have many short options yet.. But something like
 > 
-> ./build/x86_64-softmmu/qemu-system-x86_64 \
->         -cpu host \
->         -enable-kvm \
->         -m 4G \
->         -machine q35,smm=on \
->         -drive if=pflash,format=raw,readonly=on,unit=0,file="./OVMF_CODE.secboot.fd" \
->         -drive if=pflash,format=raw,unit=1,file="./OVMF_VARS.secboot.fd"
+> ./check -ng auto
 > 
-> With the bugged code, the firmware does not boot, and the cpu does not get into 64-bit long mode.
-> Applying the patches the firmware boots normally and we get the TianoCore Logo and text output.
-> 
-> Adding something like -display none -serial stdio would also generate text in the OK case that could be "expected" by a test:
-> 
-> BdsDxe: failed to load Boot0001 "UEFI QEMU DVD-ROM QM00005 " from PciRoot(0x0)/Pci(0x1F,0x2)/Sata(0x2,0xFFFF,0x0): Not Found
-> 
->>> Start PXE over IPv4.
-> 
-> even without using any guest to boot at all, just the firmware.
-> I used this Fedora package for the test, containing the firmware: edk2-ovmf-20200801stable-1.fc33.noarch.rpm
-> 
-> I looked briefly at tests/acceptance/boot_linux_console.py, but did not see where such a test of firmware could be inserted,
-> could you advise?
+> makes sense and works..
 
+Oh, I missed that.  Then it's okay, thanks!
 
-Nm I think I got it, will create a new boot_OVMF_fc33.py test.
-
-Thanks, C
-
-
-> 
->>
->>
->>> https://gitlab.com/hw-claudio/qemu/-/pipelines/314286751
->>>
->>> C.
->>>
->>>
->>>
->>
-> 
+paolo
 
 
