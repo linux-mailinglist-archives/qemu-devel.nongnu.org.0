@@ -2,93 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2787139B90F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 14:32:33 +0200 (CEST)
-Received: from localhost ([::1]:54038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C0B39B93A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 14:53:25 +0200 (CEST)
+Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp903-00010X-Qc
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 08:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
+	id 1lp9KG-0000H7-8J
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 08:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lp8yr-00083B-25
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 08:31:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lp8yl-0006IT-I2
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 08:31:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622809868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lG7dSREqElH8jKVOiQUlSy/RFN2E+0RLk/qq3ZkRJrM=;
- b=OOyZPYLuc2hsDxO5YbA7X7363btE1wSexPHxSCE/ifx8UyPM5Of57dmSaAsRGr+UHE9vdF
- WYlHiZhkU4eCOmXloxKZiHQwUxspOSJeAt8jMGkU2nmFtxyS33UxdlkMU+XezusFs2mbMq
- y/2W2/NH4JXO8E1J6TSAYfPDFeknQ4c=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-CobCpeOsODynZ4vlovVjqA-1; Fri, 04 Jun 2021 08:31:06 -0400
-X-MC-Unique: CobCpeOsODynZ4vlovVjqA-1
-Received: by mail-pf1-f199.google.com with SMTP id
- j206-20020a6280d70000b02902e9e02e1654so5323171pfd.6
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 05:31:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=lG7dSREqElH8jKVOiQUlSy/RFN2E+0RLk/qq3ZkRJrM=;
- b=RAk3OScB++qSS6d7tBPI7b1QAF/JVJUXvFixX34nsBpLiRJeJQ2VDXDnSx1HI92jdC
- v15wxjxDEVLhuLm2ejNiJhmzCyyiUR3FNBrMVUCwgJM620doRfwli8GmLW3cp/dtzErq
- 5INO31atktZcHLaEL0lV39dCRzrY8MIV32e3R687bf365sAHQaQJgl1QRYZdIHmyh8nP
- JLbE9y52SAtiDoIsr+vGj6vzHvLTmS220cPtrgw52EWWA0VVd8C6qmvchdrh7iuctp/8
- u+BlGFW3Dgm+8F52cbOhYHGpK7TOKxFNBbByer5Db1fMDDvPrgOPVH4fjpWJIXeoX6i0
- SaKg==
-X-Gm-Message-State: AOAM530X6FV565Af7+nlvDSKe60oL9/+rjqP6Z+znaExCbbaKYQaGo07
- OALkXBvOeCg3M4hnRL9It98djIfyg8ssWcxArg6gP5c7Fy2v9W5yEaNRDtSPNW3QHGK1O+hNDVN
- wp3k+EkNHwcDukAQsWU1bVItrI4yxFi6Qy6ILJweqF7xWOe8ykW6+S0urBW1YRkgel5c=
-X-Received: by 2002:a05:6a00:1a54:b029:2d8:695e:c893 with SMTP id
- h20-20020a056a001a54b02902d8695ec893mr4281659pfv.27.1622809864696; 
- Fri, 04 Jun 2021 05:31:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZIn8GN9gqlbv95AAjX4rBxUXRYfzR2hTA9s+CCmo0vOS38G/DEmYbTQiLOSybFG5fV7X5Hw==
-X-Received: by 2002:a05:6a00:1a54:b029:2d8:695e:c893 with SMTP id
- h20-20020a056a001a54b02902d8695ec893mr4281626pfv.27.1622809864296; 
- Fri, 04 Jun 2021 05:31:04 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id g18sm1748316pfi.199.2021.06.04.05.31.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 05:31:03 -0700 (PDT)
-Subject: Re: [PULL 0/7] Net patches
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210604073617.69622-1-jasowang@redhat.com>
- <CAFEAcA_GAdd6vFc9mxDuJY3WKb9L5XH9m40T4Z2anQHQqrewKA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <5b5eaa20-5764-3480-256b-cd1759bf3c59@redhat.com>
-Date: Fri, 4 Jun 2021 20:30:57 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.2
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lp9Ih-0007Ct-MU
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 08:51:47 -0400
+Received: from foss.arm.com ([217.140.110.172]:59236)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lp9Id-0003a6-Ke
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 08:51:46 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB57D2B;
+ Fri,  4 Jun 2021 05:51:41 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2AA943F774;
+ Fri,  4 Jun 2021 05:51:39 -0700 (PDT)
+Subject: Re: [PATCH v13 4/8] KVM: arm64: Introduce MTE VM feature
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210524104513.13258-1-steven.price@arm.com>
+ <20210524104513.13258-5-steven.price@arm.com>
+ <20210603160031.GE20338@arm.com>
+ <a0810f3b-4f13-e8b5-7057-a9de1201887a@arm.com>
+ <20210604113658.GD31173@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <2265cbf6-d643-9122-79a8-90198ea16c64@arm.com>
+Date: Fri, 4 Jun 2021 13:51:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_GAdd6vFc9mxDuJY3WKb9L5XH9m40T4Z2anQHQqrewKA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210604113658.GD31173@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.59,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,50 +61,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2021/6/4 下午6:37, Peter Maydell 写道:
-> On Fri, 4 Jun 2021 at 08:36, Jason Wang <jasowang@redhat.com> wrote:
->> The following changes since commit 92f8c6fef13b31ba222c4d20ad8afd2b79c4c28e:
+On 04/06/2021 12:36, Catalin Marinas wrote:
+> On Fri, Jun 04, 2021 at 11:42:11AM +0100, Steven Price wrote:
+>> On 03/06/2021 17:00, Catalin Marinas wrote:
+>>> On Mon, May 24, 2021 at 11:45:09AM +0100, Steven Price wrote:
+>>>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>>>> index c5d1f3c87dbd..226035cf7d6c 100644
+>>>> --- a/arch/arm64/kvm/mmu.c
+>>>> +++ b/arch/arm64/kvm/mmu.c
+>>>> @@ -822,6 +822,42 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+>>>>  	return PAGE_SIZE;
+>>>>  }
+>>>>  
+>>>> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
+>>>> +			     unsigned long size)
+>>>> +{
+>>>> +	if (kvm_has_mte(kvm)) {
+>>>> +		/*
+>>>> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
+>>>> +		 * the VM will be able to see the page's tags and therefore
+>>>> +		 * they must be initialised first. If PG_mte_tagged is set,
+>>>> +		 * tags have already been initialised.
+>>>> +		 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
+>>>> +		 * that may not support tags.
+>>>> +		 */
+>>>> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
+>>>> +		struct page *page = pfn_to_online_page(pfn);
+>>>> +
+>>>> +		if (!page)
+>>>> +			return -EFAULT;
+>>>> +
+>>>> +		for (i = 0; i < nr_pages; i++, page++) {
+>>>> +			/*
+>>>> +			 * There is a potential (but very unlikely) race
+>>>> +			 * between two VMs which are sharing a physical page
+>>>> +			 * entering this at the same time. However by splitting
+>>>> +			 * the test/set the only risk is tags being overwritten
+>>>> +			 * by the mte_clear_page_tags() call.
+>>>> +			 */
+>>>
+>>> And I think the real risk here is when the page is writable by at least
+>>> one of the VMs sharing the page. This excludes KSM, so it only leaves
+>>> the MAP_SHARED mappings.
+>>>
+>>>> +			if (!test_bit(PG_mte_tagged, &page->flags)) {
+>>>> +				mte_clear_page_tags(page_address(page));
+>>>> +				set_bit(PG_mte_tagged, &page->flags);
+>>>> +			}
+>>>> +		}
+>>>
+>>> If we want to cover this race (I'd say in a separate patch), we can call
+>>> mte_sync_page_tags(page, __pte(0), false, true) directly (hopefully I
+>>> got the arguments right). We can avoid the big lock in most cases if
+>>> kvm_arch_prepare_memory_region() sets a VM_MTE_RESET (tag clear etc.)
+>>> and __alloc_zeroed_user_highpage() clears the tags on allocation (as we
+>>> do for VM_MTE but the new flag would not affect the stage 1 VMM page
+>>> attributes).
 >>
->>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210525' into staging (2021-05-25 16:17:06 +0100)
+>> To be honest I'm coming round to just exporting a
+>> mte_prepare_page_tags() function which does the clear/set with the lock
+>> held. I doubt it's such a performance critical path that it will cause
+>> any noticeable issues. Then if we run into performance problems in the
+>> future we can start experimenting with extra VM flags etc as necessary.
+> 
+> It works for me.
+> 
+>> And from your later email:
+>>> Another idea: if VM_SHARED is found for any vma within a region in
+>>> kvm_arch_prepare_memory_region(), we either prevent the enabling of MTE
+>>> for the guest or reject the memory slot if MTE was already enabled.
+>>>
+>>> An alternative here would be to clear VM_MTE_ALLOWED so that any
+>>> subsequent mprotect(PROT_MTE) in the VMM would fail in
+>>> arch_validate_flags(). MTE would still be allowed in the guest but in
+>>> the VMM for the guest memory regions. We can probably do this
+>>> irrespective of VM_SHARED. Of course, the VMM can still mmap() the
+>>> memory initially with PROT_MTE but that's not an issue IIRC, only the
+>>> concurrent mprotect().
 >>
->> are available in the git repository at:
+>> This could work, but I worry that it's potential fragile. Also the rules
+>> for what user space can do are not obvious and may be surprising. I'd
+>> also want to look into the likes of mremap() to see how easy it would be
+>> to ensure that we couldn't end up with VM_SHARED (or VM_MTE_ALLOWED)
+>> memory sneaking into a memslot.
 >>
->>    https://github.com/jasowang/qemu.git tags/net-pull-request
+>> Unless you think it's worth complicating the ABI in the hope of avoiding
+>> the big lock overhead I think it's probably best to stick with the big
+>> lock at least until we have more data on the overhead.
+> 
+> It's up to Marc but I think for now just make it safe and once we get
+> our hands on hardware, we can assess the impact. For example, starting
+> multiple VMs simultaneously will contend on such big lock but we have an
+> option to optimise it by setting PG_mte_tagged on allocation via a new
+> VM_* flag.
+> 
+> For my last suggestion above, changing the VMM ABI afterwards is a bit
+> tricky, so we could state now that VM_SHARED and MTE are not allowed
+> (though it needs a patch to enforce it). That's assuming that mprotect()
+> in the VMM cannot race with the user_mem_abort() on another CPU which
+> makes the lock necessary anyway.
+> 
+>>>> +	}
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>>>>  			  struct kvm_memory_slot *memslot, unsigned long hva,
+>>>>  			  unsigned long fault_status)
+>>>> @@ -971,8 +1007,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>>>>  	if (writable)
+>>>>  		prot |= KVM_PGTABLE_PROT_W;
+>>>>  
+>>>> -	if (fault_status != FSC_PERM && !device)
+>>>> +	if (fault_status != FSC_PERM && !device) {
+>>>> +		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
+>>>> +		if (ret)
+>>>> +			goto out_unlock;
+>>>
+>>> Maybe it was discussed in a previous version, why do we need this in
+>>> addition to kvm_set_spte_gfn()?
 >>
->> for you to fetch changes up to 90322e646e87c1440661cb3ddbc0cc94309d8a4f:
->>
->>    MAINTAINERS: Added eBPF maintainers information. (2021-06-04 15:25:46 +0800)
->>
->> ----------------------------------------------------------------
->>
->> ----------------------------------------------------------------
->> Andrew Melnychenko (7):
->>        net/tap: Added TUNSETSTEERINGEBPF code.
->>        net: Added SetSteeringEBPF method for NetClientState.
->>        ebpf: Added eBPF RSS program.
->>        ebpf: Added eBPF RSS loader.
->>        virtio-net: Added eBPF RSS to virtio-net.
->>        docs: Added eBPF documentation.
->>        MAINTAINERS: Added eBPF maintainers information.
->
-> Checkpatch reports a lot of hardcoded tabs -- can you fix those,
-> please, or are they deliberate?
+>> kvm_set_spte_gfn() is only used for the MMU notifier path (e.g. if a
+>> memslot is changed by the VMM). For the initial access we will normally
+>> fault the page into stage 2 with user_mem_abort().
+> 
+> Right. Can we move the sanitise_mte_tags() call to
+> kvm_pgtable_stage2_map() instead or we don't have the all the
+> information needed?
 
+I tried that before: kvm_pgtable_stage2_map() is shared with the
+hypervisor so sadly we can't go poking around in the host as this breaks
+on nVHE. I mentioned it in the v12 cover letter but it was in a wall of
+text:
 
-It's the automated generated bpf skeleton header. So I think we can just 
-leave it as is.
+ * Move the code to sanitise tags out of user_mem_abort() into its own
+   function. Also call this new function from kvm_set_spte_gfn() as that
+   path was missing the sanitising.
 
-Thanks
+   Originally I was going to move the code all the way down to
+   kvm_pgtable_stage2_map(). Sadly as that also part of the EL2
+   hypervisor this breaks nVHE as the code needs to perform actions in
+   the host.
 
+The only other option I could see would be to provide a wrapper for
+kvm_pgtable_stage2_map() in mmu.c which could do the sanitising as
+necessary. But considering we know the call site in
+kvm_phys_addr_ioremap() doesn't need handling (PROT_DEVICE is always
+specified) and there's only two more, it seemed easier just to add the
+two calls necessary to the new sanitise_mte_tags().
 
->
-> thanks
-> -- PMM
->
+We also have a direct pointer to 'kvm' this way which is much nicer than
+pointer chasing it out of the kvm_pgtable structure.
 
+Steve
 
