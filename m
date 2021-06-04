@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668AE39C115
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 22:14:02 +0200 (CEST)
-Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FDD39C117
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 22:14:08 +0200 (CEST)
+Received: from localhost ([::1]:50452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpGCf-0008MR-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 16:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37788)
+	id 1lpGCl-0000Ck-59
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 16:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpGAw-0005cW-WC
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 16:12:15 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:40607)
+ id 1lpGAz-0005d2-1v
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 16:12:17 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpGAv-0005H5-0x
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 16:12:14 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- jz2-20020a17090b14c2b0290162cf0b5a35so8035251pjb.5
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 13:12:12 -0700 (PDT)
+ id 1lpGAv-0005Hn-E3
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 16:12:16 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ pi6-20020a17090b1e46b029015cec51d7cdso6475962pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 13:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l2UwELGiZnIKpdCkZaYqqVJXOdc/mS9I96df+41M4E4=;
- b=DOYKphavfnwBWqRQ3EmJkxvc/IcP9akw0ENodpKSGPFANTZUNNIzhhlXS/zfa1qudJ
- sSqy4lDq7TYMsZj8JAN6tFmASgDGSD8KyqYk/fZ0Mx/MLDKe2BXRKwSZudsyw/Mqn07a
- hCpAgmTCXjSMEgzUMj65g8cPJfhIR2npD54Prlhy8TOPY/uJiOw/nNkKp6GQyT8sdSab
- J7QUCTxpv7RDh8Ty/q5Bki8mtfQrt+d8nB+pNzL9QcRha5BqLvFN8glN/sF1qBmeLbjW
- Q72coPVkUHQ+8f/3zGg+XQKDUpQF7Jiw+S7qkOyGAtyP5EPTqvzX97GUkJPCUuLrvley
- +2bw==
+ bh=uhnv3DU/ab7lvFoOWhro8SY6YuqOZ4zZG1TsE9eSUIo=;
+ b=LsnID9M0mQbsIrOv6l8JaAX0UXp3Xcnb9vzhFbMQyk1KQ5ADFLtmd1uOFLoYGENCOO
+ wpwbsVqklpozFJBKSmgXbqaR71zRlBI58wloJV4azRQezKPnL3j7omJX+5aVSJUmF9cy
+ MMlcTdfSpFmpLpLgUQptFa/Fz+sf8BVA1Mx8RihoqCi7Qm+c/7IpTEAy4m34//28WU9e
+ qRB5dacvjIrtJAGKYdwe5rQ8o+PBwlWvb87nXrRxVI+V9jlk3eFlkKYATZ+BOk0xZrQE
+ ZHaWb28rP7W4uuJr1Mv3Ts95Ah8wKqrkn6fckNl4iA/ToYJeXTSC3/uMTsdcd64YBAy3
+ GK2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l2UwELGiZnIKpdCkZaYqqVJXOdc/mS9I96df+41M4E4=;
- b=d9mbHqckxHmume8MQfWp4OeCM7DgZzdS7izcSZOFxO7KJ1shidDDu3xHIlU0soMY1S
- CcVAvho2eThD6wv5EypAzbRzAMT7oLapF+nQddIQcrxZpZmLqi844cWqj/ix0Gm3G6YW
- mryQ6SidP6zQy6o7CKPpsLRkhGZc2PCcb51VmuUOWnsS1Qd36sJfS/N9/ONjCY+BPVT2
- Bm3UsHjTOKPXV8Xn8ENyhejJFfGbYkwJpqTZXvOojc0fdc4lCchk0C8jpyl7T4OYE1qL
- Ew3/6W4vNk62rFb1zACMOAOA01JMVnyf1sM/SDEiFmJR3rQSQ12RUVqQ4DRyjtEvAqRL
- 0JMQ==
-X-Gm-Message-State: AOAM531YpAYVWUffGmXtZQoDL8quQjz7RB+5ScRKvmngo7MEGFsU4j6q
- 7XLfOkYsPE6UI0k2PoCtOkp/l/WqJlVSTg==
-X-Google-Smtp-Source: ABdhPJwmP1VPCAsO47KvLCO3e196ARr1Y4FqKJbKc9bofbrUIbezQlRU8KW3Nk3SNqu2dTxkOuTcqw==
-X-Received: by 2002:a17:902:b58a:b029:fe:735f:ddbf with SMTP id
- a10-20020a170902b58ab02900fe735fddbfmr5852830pls.68.1622837531497; 
- Fri, 04 Jun 2021 13:12:11 -0700 (PDT)
+ bh=uhnv3DU/ab7lvFoOWhro8SY6YuqOZ4zZG1TsE9eSUIo=;
+ b=b02a/CkEw1folffFY8Uy4A3FIDw3ykazKDF0NW+pUfn76qH6sUwUHeWlTJIVa1H8GA
+ 2KLvSDXvfkPsSlqtsBIAIaH+fF5aLN//pHwLOx2mflXAj/OK/gX8WcHEXD4Ec97ucju6
+ +w34suRGG6uMbiBdWFOPtV8SYK6rTubGwMPClwBzM4AjnXaQExgD/+qT26H+IceNMhot
+ vQs7i8heeHuhR/Hpnp5Ea2rKqsIMe8+h7m8+iyhIywsxImYBmvCbSJ7arLM2eGA0nFes
+ qTPf3w5kNjepSaMMTMyysn9T7W2uqBLsZ2QAP+/tmm6iGTjWgVQORLJ179ZTNg/arQJ8
+ WzTQ==
+X-Gm-Message-State: AOAM533kF0TQXZHP1HqrOihBPSK2KhnM7fpWno46Zn2WuPEVVfVN/owB
+ 4vJtrGLSXrOC1vkiGGub/+MgkVcsI4hBlg==
+X-Google-Smtp-Source: ABdhPJwJ/JmI0bwtn4sH+HoLwpCbSU06J0hPQgMtuG0n0ub1vzuSlWDC4ygMm8bBGMEN/EbxGTfZbQ==
+X-Received: by 2002:a17:902:a50b:b029:f7:820f:fd1c with SMTP id
+ s11-20020a170902a50bb02900f7820ffd1cmr6018701plq.69.1622837532033; 
+ Fri, 04 Jun 2021 13:12:12 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id a129sm2422599pfa.118.2021.06.04.13.12.11
@@ -56,16 +56,16 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Fri, 04 Jun 2021 13:12:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/15] tcg: Change parameters for tcg_target_const_match
-Date: Fri,  4 Jun 2021 13:11:56 -0700
-Message-Id: <20210604201210.920136-2-richard.henderson@linaro.org>
+Subject: [PULL 02/15] tcg/arm: Add host vector framework
+Date: Fri,  4 Jun 2021 13:11:57 -0700
+Message-Id: <20210604201210.920136-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210604201210.920136-1-richard.henderson@linaro.org>
 References: <20210604201210.920136-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,202 +89,349 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change the return value to bool, because that's what is should
-have been from the start.  Pass the ct mask instead of the whole
-TCGArgConstraint, as that's the only part that's relevant.
+Add registers and function stubs.  The functionality
+is disabled via use_neon_instructions defined to 0.
 
-Change the value argument to int64_t.  We will need the extra
-width for 32-bit hosts wanting to match vector constants.
+We must still include results for the mandatory opcodes in
+tcg_target_op_def, as all opcodes are checked during tcg init.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c                    | 5 ++---
- tcg/aarch64/tcg-target.c.inc | 5 +----
- tcg/arm/tcg-target.c.inc     | 5 +----
- tcg/i386/tcg-target.c.inc    | 4 +---
- tcg/mips/tcg-target.c.inc    | 5 +----
- tcg/ppc/tcg-target.c.inc     | 4 +---
- tcg/riscv/tcg-target.c.inc   | 4 +---
- tcg/s390/tcg-target.c.inc    | 5 +----
- tcg/sparc/tcg-target.c.inc   | 5 +----
- tcg/tci/tcg-target.c.inc     | 6 ++----
- 10 files changed, 12 insertions(+), 36 deletions(-)
+ tcg/arm/tcg-target-con-set.h |   4 ++
+ tcg/arm/tcg-target-con-str.h |   1 +
+ tcg/arm/tcg-target.h         |  48 ++++++++++++--
+ tcg/arm/tcg-target.opc.h     |  12 ++++
+ tcg/arm/tcg-target.c.inc     | 117 +++++++++++++++++++++++++++++------
+ 5 files changed, 158 insertions(+), 24 deletions(-)
+ create mode 100644 tcg/arm/tcg-target.opc.h
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index db806a6658..0dc271aac9 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -148,8 +148,7 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg, TCGReg arg1,
- static bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
-                         TCGReg base, intptr_t ofs);
- static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target);
--static int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                  const TCGArgConstraint *arg_ct);
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct);
- #ifdef TCG_TARGET_NEED_LDST_LABELS
- static int tcg_out_ldst_finalize(TCGContext *s);
+diff --git a/tcg/arm/tcg-target-con-set.h b/tcg/arm/tcg-target-con-set.h
+index ab63e089c2..27aced5391 100644
+--- a/tcg/arm/tcg-target-con-set.h
++++ b/tcg/arm/tcg-target-con-set.h
+@@ -13,11 +13,14 @@ C_O0_I1(r)
+ C_O0_I2(r, r)
+ C_O0_I2(r, rIN)
+ C_O0_I2(s, s)
++C_O0_I2(w, r)
+ C_O0_I3(s, s, s)
+ C_O0_I4(r, r, rI, rI)
+ C_O0_I4(s, s, s, s)
+ C_O1_I1(r, l)
+ C_O1_I1(r, r)
++C_O1_I1(w, r)
++C_O1_I1(w, wr)
+ C_O1_I2(r, 0, rZ)
+ C_O1_I2(r, l, l)
+ C_O1_I2(r, r, r)
+@@ -26,6 +29,7 @@ C_O1_I2(r, r, rIK)
+ C_O1_I2(r, r, rIN)
+ C_O1_I2(r, r, ri)
+ C_O1_I2(r, rZ, rZ)
++C_O1_I2(w, w, w)
+ C_O1_I4(r, r, r, rI, rI)
+ C_O1_I4(r, r, rIN, rIK, 0)
+ C_O2_I1(r, r, l)
+diff --git a/tcg/arm/tcg-target-con-str.h b/tcg/arm/tcg-target-con-str.h
+index a0ab7747db..255a1ae0e2 100644
+--- a/tcg/arm/tcg-target-con-str.h
++++ b/tcg/arm/tcg-target-con-str.h
+@@ -11,6 +11,7 @@
+ REGS('r', ALL_GENERAL_REGS)
+ REGS('l', ALL_QLOAD_REGS)
+ REGS('s', ALL_QSTORE_REGS)
++REGS('w', ALL_VECTOR_REGS)
+ 
+ /*
+  * Define constraint letters for constants:
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index 8d1fee6327..a9dc09bd08 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -78,19 +78,38 @@ typedef enum {
+     TCG_REG_R13,
+     TCG_REG_R14,
+     TCG_REG_PC,
++
++    TCG_REG_Q0,
++    TCG_REG_Q1,
++    TCG_REG_Q2,
++    TCG_REG_Q3,
++    TCG_REG_Q4,
++    TCG_REG_Q5,
++    TCG_REG_Q6,
++    TCG_REG_Q7,
++    TCG_REG_Q8,
++    TCG_REG_Q9,
++    TCG_REG_Q10,
++    TCG_REG_Q11,
++    TCG_REG_Q12,
++    TCG_REG_Q13,
++    TCG_REG_Q14,
++    TCG_REG_Q15,
++
++    TCG_AREG0 = TCG_REG_R6,
++    TCG_REG_CALL_STACK = TCG_REG_R13,
+ } TCGReg;
+ 
+-#define TCG_TARGET_NB_REGS 16
++#define TCG_TARGET_NB_REGS 32
+ 
+ #ifdef __ARM_ARCH_EXT_IDIV__
+ #define use_idiv_instructions  1
+ #else
+ extern bool use_idiv_instructions;
  #endif
-@@ -4078,7 +4077,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-         ts = arg_temp(arg);
- 
-         if (ts->val_type == TEMP_VAL_CONST
--            && tcg_target_const_match(ts->val, ts->type, arg_ct)) {
-+            && tcg_target_const_match(ts->val, ts->type, arg_ct->ct)) {
-             /* constant is OK for instruction */
-             const_args[i] = 1;
-             new_args[i] = ts->val;
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 5bd366f2d4..27cde314a9 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -277,11 +277,8 @@ static bool is_shimm1632(uint32_t v32, int *cmode, int *imm8)
-     }
- }
- 
--static int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                  const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    int ct = arg_ct->ct;
 -
-     if (ct & TCG_CT_CONST) {
-         return 1;
-     }
++#define use_neon_instructions  0
+ 
+ /* used for function call generation */
+-#define TCG_REG_CALL_STACK		TCG_REG_R13
+ #define TCG_TARGET_STACK_ALIGN		8
+ #define TCG_TARGET_CALL_ALIGN_ARGS	1
+ #define TCG_TARGET_CALL_STACK_OFFSET	0
+@@ -128,9 +147,26 @@ extern bool use_idiv_instructions;
+ #define TCG_TARGET_HAS_direct_jump      0
+ #define TCG_TARGET_HAS_qemu_st8_i32     0
+ 
+-enum {
+-    TCG_AREG0 = TCG_REG_R6,
+-};
++#define TCG_TARGET_HAS_v64              use_neon_instructions
++#define TCG_TARGET_HAS_v128             use_neon_instructions
++#define TCG_TARGET_HAS_v256             0
++
++#define TCG_TARGET_HAS_andc_vec         0
++#define TCG_TARGET_HAS_orc_vec          0
++#define TCG_TARGET_HAS_not_vec          0
++#define TCG_TARGET_HAS_neg_vec          0
++#define TCG_TARGET_HAS_abs_vec          0
++#define TCG_TARGET_HAS_roti_vec         0
++#define TCG_TARGET_HAS_rots_vec         0
++#define TCG_TARGET_HAS_rotv_vec         0
++#define TCG_TARGET_HAS_shi_vec          0
++#define TCG_TARGET_HAS_shs_vec          0
++#define TCG_TARGET_HAS_shv_vec          0
++#define TCG_TARGET_HAS_mul_vec          0
++#define TCG_TARGET_HAS_sat_vec          0
++#define TCG_TARGET_HAS_minmax_vec       0
++#define TCG_TARGET_HAS_bitsel_vec       0
++#define TCG_TARGET_HAS_cmpsel_vec       0
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+diff --git a/tcg/arm/tcg-target.opc.h b/tcg/arm/tcg-target.opc.h
+new file mode 100644
+index 0000000000..7a4578e9b4
+--- /dev/null
++++ b/tcg/arm/tcg-target.opc.h
+@@ -0,0 +1,12 @@
++/*
++ * Copyright (c) 2019 Linaro
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or
++ * (at your option) any later version.
++ *
++ * See the COPYING file in the top-level directory for details.
++ *
++ * Target-specific opcodes for host vector expansion.  These will be
++ * emitted by tcg_expand_vec_op.  For those familiar with GCC internals,
++ * consider these to be UNSPEC with names.
++ */
 diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 8457108a87..eb4f42e53d 100644
+index eb4f42e53d..4770d0c537 100644
 --- a/tcg/arm/tcg-target.c.inc
 +++ b/tcg/arm/tcg-target.c.inc
-@@ -301,11 +301,8 @@ static inline int check_fit_imm(uint32_t imm)
-  * mov operand2:     values represented with x << (2 * y), x < 0x100
-  * add, sub, eor...: ditto
-  */
--static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                         const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    int ct;
--    ct = arg_ct->ct;
-     if (ct & TCG_CT_CONST) {
-         return 1;
-     } else if ((ct & TCG_CT_CONST_ARM) && check_fit_imm(val)) {
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 415c5c0796..34113388ef 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -210,10 +210,8 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
- }
+@@ -40,22 +40,10 @@ bool use_idiv_instructions;
  
- /* test if a constant matches the constraint */
--static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                         const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    int ct = arg_ct->ct;
-     if (ct & TCG_CT_CONST) {
-         return 1;
+ #ifdef CONFIG_DEBUG_TCG
+ static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
+-    "%r0",
+-    "%r1",
+-    "%r2",
+-    "%r3",
+-    "%r4",
+-    "%r5",
+-    "%r6",
+-    "%r7",
+-    "%r8",
+-    "%r9",
+-    "%r10",
+-    "%r11",
+-    "%r12",
+-    "%r13",
+-    "%r14",
+-    "%pc",
++    "%r0",  "%r1",  "%r2",  "%r3",  "%r4",  "%r5",  "%r6",  "%r7",
++    "%r8",  "%r9",  "%r10", "%r11", "%r12", "%sp",  "%r14", "%pc",
++    "%q0",  "%q1",  "%q2",  "%q3",  "%q4",  "%q5",  "%q6",  "%q7",
++    "%q8",  "%q9",  "%q10", "%q11", "%q12", "%q13", "%q14", "%q15",
+ };
+ #endif
+ 
+@@ -75,6 +63,20 @@ static const int tcg_target_reg_alloc_order[] = {
+     TCG_REG_R3,
+     TCG_REG_R12,
+     TCG_REG_R14,
++
++    TCG_REG_Q0,
++    TCG_REG_Q1,
++    TCG_REG_Q2,
++    TCG_REG_Q3,
++    /* Q4 - Q7 are call-saved, and skipped. */
++    TCG_REG_Q8,
++    TCG_REG_Q9,
++    TCG_REG_Q10,
++    TCG_REG_Q11,
++    TCG_REG_Q12,
++    TCG_REG_Q13,
++    TCG_REG_Q14,
++    TCG_REG_Q15,
+ };
+ 
+ static const int tcg_target_call_iarg_regs[4] = {
+@@ -85,6 +87,7 @@ static const int tcg_target_call_oarg_regs[2] = {
+ };
+ 
+ #define TCG_REG_TMP  TCG_REG_R12
++#define TCG_VEC_TMP  TCG_REG_Q15
+ 
+ enum arm_cond_code_e {
+     COND_EQ = 0x0,
+@@ -238,6 +241,7 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+ #define TCG_CT_CONST_ZERO 0x800
+ 
+ #define ALL_GENERAL_REGS  0xffffu
++#define ALL_VECTOR_REGS   0xffff0000u
+ 
+ /*
+  * r0-r2 will be overwritten when reading the tlb entry (softmmu only)
+@@ -2117,6 +2121,22 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_qemu_st_i64:
+         return TARGET_LONG_BITS == 32 ? C_O0_I3(s, s, s) : C_O0_I4(s, s, s, s);
+ 
++    case INDEX_op_st_vec:
++        return C_O0_I2(w, r);
++    case INDEX_op_ld_vec:
++    case INDEX_op_dupm_vec:
++        return C_O1_I1(w, r);
++    case INDEX_op_dup_vec:
++        return C_O1_I1(w, wr);
++    case INDEX_op_dup2_vec:
++    case INDEX_op_add_vec:
++    case INDEX_op_sub_vec:
++    case INDEX_op_xor_vec:
++    case INDEX_op_or_vec:
++    case INDEX_op_and_vec:
++    case INDEX_op_cmp_vec:
++        return C_O1_I2(w, w, w);
++
+     default:
+         g_assert_not_reached();
      }
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 8b16726242..5944448b2a 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -193,11 +193,8 @@ static inline bool is_p2m1(tcg_target_long val)
- }
- 
- /* test if a constant matches the constraint */
--static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                         const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+@@ -2126,12 +2146,18 @@ static void tcg_target_init(TCGContext *s)
  {
--    int ct;
--    ct = arg_ct->ct;
-     if (ct & TCG_CT_CONST) {
-         return 1;
-     } else if ((ct & TCG_CT_CONST_ZERO) && val == 0) {
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 838ccfa42d..795701442b 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -238,10 +238,8 @@ static bool reloc_pc14(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
- }
- 
- /* test if a constant matches the constraint */
--static int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                  const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    int ct = arg_ct->ct;
-     if (ct & TCG_CT_CONST) {
-         return 1;
+     /* Only probe for the platform and capabilities if we havn't already
+        determined maximum values at compile time.  */
+-#ifndef use_idiv_instructions
++#if !defined(use_idiv_instructions) || !defined(use_neon_instructions)
+     {
+         unsigned long hwcap = qemu_getauxval(AT_HWCAP);
++#ifndef use_idiv_instructions
+         use_idiv_instructions = (hwcap & HWCAP_ARM_IDIVA) != 0;
++#endif
++#ifndef use_neon_instructions
++        use_neon_instructions = (hwcap & HWCAP_ARM_NEON) != 0;
++#endif
      }
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index ef43147040..da7eecafc5 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -145,10 +145,8 @@ static inline tcg_target_long sextreg(tcg_target_long val, int pos, int len)
- }
- 
- /* test if a constant matches the constraint */
--static int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                  const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    int ct = arg_ct->ct;
-     if (ct & TCG_CT_CONST) {
-         return 1;
+ #endif
++
+     if (__ARM_ARCH < 7) {
+         const char *pl = (const char *)qemu_getauxval(AT_PLATFORM);
+         if (pl != NULL && pl[0] == 'v' && pl[1] >= '4' && pl[1] <= '9') {
+@@ -2139,7 +2165,7 @@ static void tcg_target_init(TCGContext *s)
+         }
      }
-diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index af8dfe81ac..5fe073f09a 100644
---- a/tcg/s390/tcg-target.c.inc
-+++ b/tcg/s390/tcg-target.c.inc
-@@ -417,11 +417,8 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
+ 
+-    tcg_target_available_regs[TCG_TYPE_I32] = 0xffff;
++    tcg_target_available_regs[TCG_TYPE_I32] = ALL_GENERAL_REGS;
+ 
+     tcg_target_call_clobber_regs = 0;
+     tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_R0);
+@@ -2149,10 +2175,29 @@ static void tcg_target_init(TCGContext *s)
+     tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_R12);
+     tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_R14);
+ 
++    if (use_neon_instructions) {
++        tcg_target_available_regs[TCG_TYPE_V64]  = ALL_VECTOR_REGS;
++        tcg_target_available_regs[TCG_TYPE_V128] = ALL_VECTOR_REGS;
++
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q0);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q1);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q2);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q3);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q8);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q9);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q10);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q11);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q12);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q13);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q14);
++        tcg_regset_set_reg(tcg_target_call_clobber_regs, TCG_REG_Q15);
++    }
++
+     s->reserved_regs = 0;
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_CALL_STACK);
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP);
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_PC);
++    tcg_regset_set_reg(s->reserved_regs, TCG_VEC_TMP);
  }
  
- /* Test if a constant matches the constraint. */
--static int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                  const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+ static inline void tcg_out_ld(TCGContext *s, TCGType type, TCGReg arg,
+@@ -2186,6 +2231,42 @@ static inline void tcg_out_movi(TCGContext *s, TCGType type,
+     tcg_out_movi32(s, COND_AL, ret, arg);
+ }
+ 
++static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
++                            TCGReg rd, TCGReg rs)
++{
++    g_assert_not_reached();
++}
++
++static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
++                             TCGReg rd, TCGReg base, intptr_t offset)
++{
++    g_assert_not_reached();
++}
++
++static void tcg_out_dupi_vec(TCGContext *s, TCGType type, unsigned vece,
++                             TCGReg rd, int64_t v64)
++{
++    g_assert_not_reached();
++}
++
++static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
++                           unsigned vecl, unsigned vece,
++                           const TCGArg *args, const int *const_args)
++{
++    g_assert_not_reached();
++}
++
++int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
++{
++    return 0;
++}
++
++void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
++                       TCGArg a0, ...)
++{
++    g_assert_not_reached();
++}
++
+ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
  {
--    int ct = arg_ct->ct;
--
-     if (ct & TCG_CT_CONST) {
-         return 1;
-     }
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 3d50f985c6..ce39ac2d86 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -341,11 +341,8 @@ static bool patch_reloc(tcg_insn_unit *src_rw, int type,
- }
- 
- /* test if a constant matches the constraint */
--static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                         const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    int ct = arg_ct->ct;
--
-     if (ct & TCG_CT_CONST) {
-         return 1;
-     }
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index ee6cdfec71..823ecd5d35 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -789,11 +789,9 @@ static inline bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
- }
- 
- /* Test if a constant matches the constraint. */
--static int tcg_target_const_match(tcg_target_long val, TCGType type,
--                                  const TCGArgConstraint *arg_ct)
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- {
--    /* No need to return 0 or 1, 0 or != 0 is good enough. */
--    return arg_ct->ct & TCG_CT_CONST;
-+    return ct & TCG_CT_CONST;
- }
- 
- static void tcg_target_init(TCGContext *s)
+     int i;
 -- 
 2.25.1
 
