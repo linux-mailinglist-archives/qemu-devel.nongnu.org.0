@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2E639BBC0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:24:20 +0200 (CEST)
-Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE4E39BBC7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:25:25 +0200 (CEST)
+Received: from localhost ([::1]:48246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpBgJ-000855-K4
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
+	id 1lpBhN-0001Es-2U
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:25:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa6-0007oP-Su
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:54 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43802)
+ id 1lpBa7-0007qh-HI
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:55 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lpBa5-0008El-Dq
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:54 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id ci15so15031781ejc.10
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:17:52 -0700 (PDT)
+ id 1lpBa5-0008Es-RP
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:17:55 -0400
+Received: by mail-ej1-x630.google.com with SMTP id g20so15137864ejt.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eiNYKdEymzNvK37Wm5/uHgaRQxlBgWOvTJMeH6EfWJI=;
- b=Mnfbe1FkriWov1Ka8xnjxJj5CwAJvdA3lMd4lk+RQZVjt427WzOWohp+93aQZVMjhG
- 3ihVQXCpujK6FJtQLlpMuUoCV0DbHw7u1g3nIlXEQxbLgfDWFpOryzQg5Wuup4CmNDfz
- ZRDo4HU9sG/DYk06tcT5MGPcjjxr2PAJyr0RzxngL+oA3kWXNYqPwmaevl2yUSyciS+B
- tIcLAp+GYv4r16d0XdIpg6vDZxvbTk9QAsFRhOqkAd3cQnHELWA+qi1ekHWoaj/Sdte7
- ck8wZnyofH8Mt1r0E7zbpWBAI5C84XhtqOe8pzOHphzkJqqH1RILqtPMBcADXgIMpvjG
- U8Zw==
+ bh=nEr88gMBuvavyMpSy3KEuJq9doTqO0h81BlSUvT2wpg=;
+ b=DC+Dk/PmlLRaDaqUaQPMBCaPerQIsf4Jw0xRPU/gPms4D8ltQPVvSS79UxPJ/fkhbP
+ s3wbQuSGNiE6ffDuNxxWB9p2/ldebvOJNP1LEU/t779NXZhky9I6YViDdZkmqWiPP87A
+ l+wtCqwYyDGR41gDH7PQpUld2BlK6xpONzqzjH6H+J1HPy5X7mxkhhSCjoWpZvv6TMVl
+ EpWbl2G10ja2HFA/kDo0pDn5gdUuJCW3XUJOb7lWvcm4ifNF8RNwcqic6fw4SBPBtG13
+ 10HkDFluNaV994E+t2LactJSUxok29q+aXZWzAT8cK6izwUXCHC1r8CpUFA+Dg6OvzQz
+ XLUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eiNYKdEymzNvK37Wm5/uHgaRQxlBgWOvTJMeH6EfWJI=;
- b=BrAuv/qwRRRYR/GXWgKJWNZAgDHj4iRImefjjmt7ayK6s9IZdbGog/6iQ9WlH/9Rfr
- 82rqZowyQ1/rgyC6bFm8F0O3w7bpQjuxE1kas0oYonicZQBpV2P/9AeTqKHjmoFeOc5D
- pszZvKN+RYduIPRp1l1b9oOhkeKoax1acgLNDYNgxzgVvG5wTke4us1G84+yyhWfZo+Q
- ev0cQrLAmcAITQM7AmfWJOpO2CTBKQ/KpVn3XEzN3IHejII3d0QoIyHNu155yLCJu1Uk
- Nif3D+nrl9d5RgEkvEuXsHNadP9fHC4+1IAYo9418HttWJeppx3NXBx7iAK1qNVJK5i3
- 1TRA==
-X-Gm-Message-State: AOAM531GynYSUnElr+R5vDzExxXENprVNtkH6w+T3D9eGr5BTh+hxXAF
- TwcK2ao5y2hTTbjkK4rZUNEF4wjpHdX/jQ==
-X-Google-Smtp-Source: ABdhPJzbbQyCpsNl2I5XmdeRjllnXXlSO+RxVoH0ka1Ott/ZWCINp7jPvJ/ctjPk46wp0UPFMChn1w==
-X-Received: by 2002:a17:906:606:: with SMTP id
- s6mr4602330ejb.206.1622819871768; 
- Fri, 04 Jun 2021 08:17:51 -0700 (PDT)
+ bh=nEr88gMBuvavyMpSy3KEuJq9doTqO0h81BlSUvT2wpg=;
+ b=pNDxvRVFy0lddDXplIvjwQWvX8eOoOVeUw8nv31WKVvByDhQB4zawbkYgbRHrEkT3N
+ PDAOdcdrtcCPGQ1HDeETyxzokjaR2TXwB+MBCjUVlkQM/2wLm/ME8wdirLeJPak2yzMk
+ KppALBV2LYcG4dX5zvw1e7QBNKLNQOvZHQ/G4XYMmq8sQ9O9vtkRJ7VjcwFArNFQmfFj
+ btT83PFAPlgMCYOuzu8IIIxn+ore6nrFjCxXTuqWyJbnOt5QlC1pDLUevKLNBXXfaJef
+ tcBTvn4CbpPAjVa9IXmIQWFjZFfqMy4XlyYOY13ClmV8gBCEyPopWG/Ec/QLfj0N/VXf
+ qyFg==
+X-Gm-Message-State: AOAM531jUWSzjud9HR4TbC/eRrgLOMtpo0ZREG7V3c4JEsmZmc2la641
+ 2H/VP/FD8WhMNC9joPW+AQiXOzMhQ/RuEQ==
+X-Google-Smtp-Source: ABdhPJzLxoMKCDxNK/OEOaq6Vakaw+jEt96b0UnZRuIUClPCHx8U0MSNzLho/NoWnNWs0IOw6z+msg==
+X-Received: by 2002:a17:906:a281:: with SMTP id
+ i1mr4579252ejz.307.1622819872513; 
+ Fri, 04 Jun 2021 08:17:52 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- w1sm2402451eds.37.2021.06.04.08.17.51 for <qemu-devel@nongnu.org>
+ w1sm2402451eds.37.2021.06.04.08.17.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 08:17:51 -0700 (PDT)
+ Fri, 04 Jun 2021 08:17:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/13] target/i386: tcg: fix switching from 16-bit to 32-bit
- tasks or vice versa
-Date: Fri,  4 Jun 2021 17:17:38 +0200
-Message-Id: <20210604151745.310318-7-pbonzini@redhat.com>
+Subject: [PULL 07/13] target/i386: Fix decode of cr8
+Date: Fri,  4 Jun 2021 17:17:39 +0200
+Message-Id: <20210604151745.310318-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210604151745.310318-1-pbonzini@redhat.com>
 References: <20210604151745.310318-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,32 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The format of the task state segment is governed by bit 3 in the
-descriptor type field.  On a task switch, the format for saving
-is given by the current value of TR's type field, while the
-format for loading is given by the new descriptor.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+A recent cleanup did not recognize that there are two ways
+to encode cr8: one via the LOCK and the other via REX.
+
+Fixes: 7eff2e7c
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/380
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210602035511.96834-1-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/tcg/seg_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/tcg/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 2112c5fc51..3ed20ca31d 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -319,7 +319,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
-     }
- 
-     /* save the current state in the old TSS */
--    if (type & 8) {
-+    if (old_type & 8) {
-         /* 32 bit */
-         cpu_stl_kernel_ra(env, env->tr.base + 0x20, next_eip, retaddr);
-         cpu_stl_kernel_ra(env, env->tr.base + 0x24, old_eflags, retaddr);
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 834186bcae..a7f5c0c8f2 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -8091,6 +8091,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         case 2:
+         case 3:
+         case 4:
++        case 8:
+             break;
+         default:
+             goto unknown_op;
 -- 
 2.31.1
 
