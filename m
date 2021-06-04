@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60DB39B36C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 08:58:15 +0200 (CEST)
-Received: from localhost ([::1]:38310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC19839B356
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 08:57:50 +0200 (CEST)
+Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp3mY-0000Tb-L1
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 02:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42980)
+	id 1lp3m9-0008TB-5M
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 02:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lp3hF-0005V4-FD; Fri, 04 Jun 2021 02:52:45 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:50019)
+ id 1lp3hG-0005X0-QT; Fri, 04 Jun 2021 02:52:46 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:58307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lp3hD-0007G5-8i; Fri, 04 Jun 2021 02:52:45 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id CE6AA5C0125;
- Fri,  4 Jun 2021 02:52:41 -0400 (EDT)
+ id 1lp3hE-0007HU-P2; Fri, 04 Jun 2021 02:52:46 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 06D2B5C0172;
+ Fri,  4 Jun 2021 02:52:44 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 04 Jun 2021 02:52:41 -0400
+ by compute1.internal (MEProxy); Fri, 04 Jun 2021 02:52:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm3; bh=yZxRCJvt2JwzD/sDDRBryqk/69
- 7bHZBUTOvB3xH3CYM=; b=B253lAsDG6KSLaH5YUN/VxCaXOWpkuVQTR+CaYvpKC
- diDIXa6HRCl0grGvn6kNPRQ/HWzzUwFqWAKqJ07WIjVSBwd8p0w9fQwV1e0t+HZY
- 5LnMvfJca/rL7X5nmpJFAeig1yYZxyUjS85m/uJL0p8yVZBMsaQQGRq8jcv/WY70
- 7qFO7Ht3J81kiGTMP0NMxCYI08d2XgzgBMOK7m5LNiTRAxVo4sz96KCsN3ExkuGz
- m6llVQGFhdPcaznmubxFFjkEDIHaO3+ygmB2dIR2hmijKNlCh9WEe5jezOsevM3f
- KlxspT2uLpYB42qTWgmWTfKK3pxUUITwNt8LKjEyEh9g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=glz2jdk1GQ5nl
+ sbk9WSR1QrpHK//qhNVz4gbqmja2ns=; b=O99bKlBYEO8T3IPP+iSv7eU5iFnMc
+ D0VMUkW5tFmjFbF7pVuVe/tC7F1loEExvvmMwL+mLaLUeSUZ2gqH4PIOxxsZOphO
+ Av2qW/wFwynlbAZfQlWDrap9CzRaImW66lZQpmgQBi405UZ+Wg0EgK7bYdnJf5RM
+ 3eJkUDPetlW0t04WgJ/TEg/f28YTD2IhrNdH7yB8PKGDBqu27ZyBNOPUdCCeEHZ6
+ igAWIKWEOgSL1KFiGrNWSrJKkmR5gcS/UIqzFJPFSKfEe8ltTmWLG46e7BpxarSx
+ ZZX1RDlhqVQIF+Uv2TgbfaVSysLU3rTauMy3eNdVBPHW3y9TiIa5mUWRA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yZxRCJ
- vt2JwzD/sDDRBryqk/697bHZBUTOvB3xH3CYM=; b=S2Q4mKZnw+ZpmKgUj+G7mJ
- dZxFV7I5A3chuHQLkR0Ig5mBrIpi4FZ6G9gyeU5pOGp/ZoDMqJqgCDR+tpfT0wzn
- XuNv6XsY6BxhfhjB4xoE+R5dJgfPS5mKf8rRDfe6M3SSECUIw9B5Xv5hsnflBZUz
- NID/fxCbonDHtpg4E1SS1dVR+43gxeG/qwgYEXnj+QVQCLQ/Hy+MvEGMTYatKbRk
- QyWpzDndeddwuETJrtBWRAs4Euc8wwhfLbO27ZNX97gBPLeohmSH4HvSD23AzwR2
- bAav/qKbz7f+4MGR43Re6h0zEmu2YLtQ+Ww8MwUkIi38RQYsZcrkx/Kh6ra+9mtg
- ==
-X-ME-Sender: <xms:uM25YF_jlhliqV1RbMT70qUXzlrzW4B-SiNa4TfC4FEEkFY8lIDvKw>
- <xme:uM25YJtFELuvXUvprp5wts7oZkpCl6Eg8OuCK71IKqYuAIXJk4132MMswEun25F2K
- DN1S9nP2MIPPXKeEgk>
-X-ME-Received: <xmr:uM25YDA9u9CRHp07Ae2ttpW3k4wRHxqMO0EQHhTmRBV0NcRqXnXTCIzSOSkmtFQYjyQ1SI1oexaqdYKB3pMn2Hw9aco5JLVaCnVucB5PJQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=glz2jdk1GQ5nlsbk9WSR1QrpHK//qhNVz4gbqmja2ns=; b=DUne8TAM
+ gLw/V/URGlCzk5A/wWpbM/OiZ1nKdM9Zi96fk2E85NN6nMkpRFpm7MrQnXjPKjB7
+ J9cpjP9yGuyYANJ9x2B078+DZipx3Ddh91VjTn+r//9wbLu4WWVRbCfpixvR3tv6
+ Bh/oBNT8VFCMGmEA6Z30MhYmCRojYV8fdnb1IOk9VumqHvoql9N4yfl//a43h1+n
+ rrUbYGAZ4YBDiZeBAIPelpuQbiDLXAgkFBflbJx4AgEZTaQxJK7HAcwtHPntAg82
+ EJAdw334QnSEuUCtmx9xPzVFhlVQgEAaFDLOB4kwfc4lT3L/h441OTsAmS67Xjrv
+ DOuP4+dPaYKBNg==
+X-ME-Sender: <xms:u825YKrXsgzrzCFR6MSiksH-f_EmIciEQ6uWc-9MMcoNIm061fh9WA>
+ <xme:u825YIqrlpoUOWoIuLyt-rml3mhZbPVW-hpMDPMwDaxwDSiBayvvl6GhOLabeLRne
+ Z9zfyobFRl0j6SaOBU>
+X-ME-Received: <xmr:u825YPNd3fa57IP-j9s-6iM-yESSG7wrp_dnl70WVMlpyC8kH6e7zN7lSg_ZPrvF98WB1zYMQvN4S5JeFrMOWizieu1r-WPyelUDIdbKXg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedttddguddtkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeg
- hfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:uM25YJeZ1WWK3wcXz36o6Fz8WOouiRA2b_VPR7O70EqnswJM9kMlqA>
- <xmx:uM25YKPTZwlFhApZLbAE0tAAhhTKWpO2Jv16Mh6sOkCwYnK_3IAKXQ>
- <xmx:uM25YLkqhD676z0d1w_1QotS4J5v_tuCP6Kr54_HJyvCT7l1LwowQQ>
- <xmx:uc25YJdsUjy_io7gSwnjCTr3unU60UW8YTqstr4NIrzrte2ECKxg5A>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:u825YJ6-kJkjQ72FHNF94R1ebSVWJGCWWo30ZdPbSkygZnEo7VVJ7Q>
+ <xmx:u825YJ7hzme0KIj0lGJI_h_qPUT2dXEp0zjj0eo-5kQWirD3D4EjPA>
+ <xmx:u825YJigWJRnXC_sYtA8xTO_eOeOobLDpvw9ZfR1Nclep15HpniiWQ>
+ <xmx:vM25YEYsitpXh7L991oJ8UhBsXk-_Dlnt769wrxSy5tVRF59y04Xbw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Jun 2021 02:52:39 -0400 (EDT)
+ 4 Jun 2021 02:52:41 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 00/11] hw/nvme: reimplement all multi-aio commands with
- custom aiocbs
-Date: Fri,  4 Jun 2021 08:52:26 +0200
-Message-Id: <20210604065237.873228-1-its@irrelevant.dk>
+Subject: [RFC PATCH 01/11] hw/nvme: reimplement flush to allow cancellation
+Date: Fri,  4 Jun 2021 08:52:27 +0200
+Message-Id: <20210604065237.873228-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210604065237.873228-1-its@irrelevant.dk>
+References: <20210604065237.873228-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
  helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -98,50 +98,306 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This series reimplements flush, dsm, copy, zone reset and format nvm to=0D
-allow cancellation. I posted an RFC back in March ("hw/block/nvme:=0D
-convert ad-hoc aio tracking to aiocb") and I've applied some feedback=0D
-from Stefan and reimplemented the remaining commands.=0D
-=0D
-The basic idea is to define custom AIOCBs for these commands. The custom=0D
-AIOCB takes care of issuing all the "nested" AIOs one by one instead of=0D
-blindly sending them off simultaneously without tracking the returned=0D
-aiocbs.=0D
-=0D
-I've kept the RFC since I'm still new to using the block layer like=0D
-this. I was hoping that Stefan could find some time to look over this -=0D
-this is a huge series, so I don't expect non-nvme folks to spend a large=0D
-amount of time on it, but I would really like feedback on my approach in=0D
-the reimplementation of flush and format. Those commands are special in=0D
-that may issue AIOs to multiple namespaces and thus, to multiple block=0D
-backends. Since this device does not support iothreads, I've opted for=0D
-simply always returning the main loop aio context, but I wonder if this=0D
-is acceptable or not. It might be the case that this should contain an=0D
-assert of some kind, in case someone starts adding iothread support.=0D
-=0D
-Klaus Jensen (11):=0D
-  hw/nvme: reimplement flush to allow cancellation=0D
-  hw/nvme: add nvme_block_status_all helper=0D
-  hw/nvme: reimplement dsm to allow cancellation=0D
-  hw/nvme: save reftag when generating pi=0D
-  hw/nvme: remove assert from nvme_get_zone_by_slba=0D
-  hw/nvme: use prinfo directly in nvme_check_prinfo and nvme_dif_check=0D
-  hw/nvme: add dw0/1 to the req completion trace event=0D
-  hw/nvme: reimplement the copy command to allow aio cancellation=0D
-  hw/nvme: reimplement zone reset to allow cancellation=0D
-  hw/nvme: reimplement format nvm to allow cancellation=0D
-  Partially revert "hw/block/nvme: drain namespaces on sq deletion"=0D
-=0D
- hw/nvme/nvme.h       |   10 +-=0D
- include/block/nvme.h |    8 +=0D
- hw/nvme/ctrl.c       | 1861 ++++++++++++++++++++++++------------------=0D
- hw/nvme/dif.c        |   64 +-=0D
- hw/nvme/trace-events |   21 +-=0D
- 5 files changed, 1102 insertions(+), 862 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Prior to this patch, a broadcast flush would result in submitting
+multiple "fire and forget" aios (no reference saved to the aiocbs
+returned from the blk_aio_flush calls).
+
+Fix this by issuing the flushes one after another.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/nvme.h       |   2 +
+ hw/nvme/ctrl.c       | 205 ++++++++++++++++++++++++++-----------------
+ hw/nvme/trace-events |   6 +-
+ 3 files changed, 129 insertions(+), 84 deletions(-)
+
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 81a35cda142b..95730ff2bec5 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -27,6 +27,8 @@
+ #define NVME_MAX_CONTROLLERS 32
+ #define NVME_MAX_NAMESPACES  256
+ 
++QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROADCAST - 1);
++
+ typedef struct NvmeCtrl NvmeCtrl;
+ typedef struct NvmeNamespace NvmeNamespace;
+ 
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 40a7efcea914..f49268741427 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -1781,19 +1781,11 @@ static inline bool nvme_is_write(NvmeRequest *req)
+ static void nvme_misc_cb(void *opaque, int ret)
+ {
+     NvmeRequest *req = opaque;
+-    NvmeNamespace *ns = req->ns;
+ 
+-    BlockBackend *blk = ns->blkconf.blk;
+-    BlockAcctCookie *acct = &req->acct;
+-    BlockAcctStats *stats = blk_get_stats(blk);
+-
+-    trace_pci_nvme_misc_cb(nvme_cid(req), blk_name(blk));
++    trace_pci_nvme_misc_cb(nvme_cid(req));
+ 
+     if (ret) {
+-        block_acct_failed(stats, acct);
+         nvme_aio_err(req, ret);
+-    } else {
+-        block_acct_done(stats, acct);
+     }
+ 
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+@@ -1909,41 +1901,6 @@ static void nvme_aio_format_cb(void *opaque, int ret)
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+ }
+ 
+-struct nvme_aio_flush_ctx {
+-    NvmeRequest     *req;
+-    NvmeNamespace   *ns;
+-    BlockAcctCookie acct;
+-};
+-
+-static void nvme_aio_flush_cb(void *opaque, int ret)
+-{
+-    struct nvme_aio_flush_ctx *ctx = opaque;
+-    NvmeRequest *req = ctx->req;
+-    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
+-
+-    BlockBackend *blk = ctx->ns->blkconf.blk;
+-    BlockAcctCookie *acct = &ctx->acct;
+-    BlockAcctStats *stats = blk_get_stats(blk);
+-
+-    trace_pci_nvme_aio_flush_cb(nvme_cid(req), blk_name(blk));
+-
+-    if (!ret) {
+-        block_acct_done(stats, acct);
+-    } else {
+-        block_acct_failed(stats, acct);
+-        nvme_aio_err(req, ret);
+-    }
+-
+-    (*num_flushes)--;
+-    g_free(ctx);
+-
+-    if (*num_flushes) {
+-        return;
+-    }
+-
+-    nvme_enqueue_req_completion(nvme_cq(req), req);
+-}
+-
+ static void nvme_verify_cb(void *opaque, int ret)
+ {
+     NvmeBounceContext *ctx = opaque;
+@@ -2858,56 +2815,142 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
+     return NVME_NO_COMPLETE;
+ }
+ 
++typedef struct NvmeFlushAIOCB {
++    BlockAIOCB common;
++    BlockAIOCB *aiocb;
++    NvmeRequest *req;
++    QEMUBH *bh;
++    int ret;
++
++    NvmeNamespace *ns;
++    uint32_t nsid;
++    bool broadcast;
++} NvmeFlushAIOCB;
++
++static void nvme_flush_cancel(BlockAIOCB *acb)
++{
++    NvmeFlushAIOCB *iocb = container_of(acb, NvmeFlushAIOCB, common);
++
++    if (iocb->aiocb) {
++        blk_aio_cancel_async(iocb->aiocb);
++        return;
++    }
++
++    iocb->ret = -ECANCELED;
++}
++
++static AioContext *nvme_flush_get_aio_context(BlockAIOCB *acb)
++{
++    return qemu_get_aio_context();
++}
++
++static const AIOCBInfo nvme_flush_aiocb_info = {
++    .aiocb_size = sizeof(NvmeFlushAIOCB),
++    .cancel_async = nvme_flush_cancel,
++    .get_aio_context = nvme_flush_get_aio_context,
++};
++
++static void nvme_flush_ns_cb(void *opaque, int ret)
++{
++    NvmeFlushAIOCB *iocb = opaque;
++    NvmeNamespace *ns = iocb->ns;
++
++    if (ret < 0) {
++        iocb->ret = ret;
++        goto out;
++    }
++
++    if (ns) {
++        trace_pci_nvme_flush_ns(iocb->nsid);
++
++        iocb->ns = NULL;
++        iocb->aiocb = blk_aio_flush(ns->blkconf.blk, nvme_flush_ns_cb, iocb);
++        return;
++    }
++
++out:
++    iocb->aiocb = NULL;
++    qemu_bh_schedule(iocb->bh);
++}
++
++static void nvme_flush_bh(void *opaque)
++{
++    NvmeFlushAIOCB *iocb = opaque;
++    NvmeRequest *req = iocb->req;
++    NvmeCtrl *n = nvme_ctrl(req);
++    int i;
++
++    if (iocb->ret < 0) {
++        goto done;
++    }
++
++    if (iocb->broadcast) {
++        for (i = iocb->nsid + 1; i <= NVME_MAX_NAMESPACES; i++) {
++            iocb->ns = nvme_ns(n, i);
++            if (iocb->ns) {
++                iocb->nsid = i;
++                break;
++            }
++        }
++    }
++
++    if (!iocb->ns) {
++        goto done;
++    }
++
++    nvme_flush_ns_cb(iocb, 0);
++    return;
++
++done:
++    qemu_bh_delete(iocb->bh);
++    iocb->bh = NULL;
++
++    iocb->common.cb(iocb->common.opaque, iocb->ret);
++
++    qemu_aio_unref(iocb);
++
++    return;
++}
++
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+ {
++    NvmeFlushAIOCB *iocb;
+     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+-    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
+     uint16_t status;
+-    struct nvme_aio_flush_ctx *ctx;
+-    NvmeNamespace *ns;
+ 
+-    trace_pci_nvme_flush(nvme_cid(req), nsid);
++    iocb = qemu_aio_get(&nvme_flush_aiocb_info, NULL, nvme_misc_cb, req);
+ 
+-    if (nsid != NVME_NSID_BROADCAST) {
+-        req->ns = nvme_ns(n, nsid);
+-        if (unlikely(!req->ns)) {
+-            return NVME_INVALID_FIELD | NVME_DNR;
++    iocb->req = req;
++    iocb->bh = qemu_bh_new(nvme_flush_bh, iocb);
++    iocb->ret = 0;
++    iocb->ns = NULL;
++    iocb->nsid = 0;
++    iocb->broadcast = (nsid == NVME_NSID_BROADCAST);
++
++    if (!iocb->broadcast) {
++        if (!nvme_nsid_valid(n, nsid)) {
++            status = NVME_INVALID_NSID | NVME_DNR;
++            goto out;
+         }
+ 
+-        block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
+-                         BLOCK_ACCT_FLUSH);
+-        req->aiocb = blk_aio_flush(req->ns->blkconf.blk, nvme_misc_cb, req);
+-        return NVME_NO_COMPLETE;
+-    }
+-
+-    /* 1-initialize; see comment in nvme_dsm */
+-    *num_flushes = 1;
+-
+-    for (int i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+-        ns = nvme_ns(n, i);
+-        if (!ns) {
+-            continue;
++        iocb->ns = nvme_ns(n, nsid);
++        if (!iocb->ns) {
++            status = NVME_INVALID_FIELD | NVME_DNR;
++            goto out;
+         }
+ 
+-        ctx = g_new(struct nvme_aio_flush_ctx, 1);
+-        ctx->req = req;
+-        ctx->ns = ns;
+-
+-        (*num_flushes)++;
+-
+-        block_acct_start(blk_get_stats(ns->blkconf.blk), &ctx->acct, 0,
+-                         BLOCK_ACCT_FLUSH);
+-        blk_aio_flush(ns->blkconf.blk, nvme_aio_flush_cb, ctx);
++        iocb->nsid = nsid;
+     }
+ 
+-    /* account for the 1-initialization */
+-    (*num_flushes)--;
++    req->aiocb = &iocb->common;
++    qemu_bh_schedule(iocb->bh);
+ 
+-    if (*num_flushes) {
+-        status = NVME_NO_COMPLETE;
+-    } else {
+-        status = req->status;
+-    }
++    return NVME_NO_COMPLETE;
++
++out:
++    qemu_bh_delete(iocb->bh);
++    iocb->bh = NULL;
++    qemu_aio_unref(iocb);
+ 
+     return status;
+ }
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ea33d0ccc383..ce6b6ffe9604 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -7,16 +7,16 @@ pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
+ pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
+ pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
+ pci_nvme_map_sgl(uint8_t typ, uint64_t len) "type 0x%"PRIx8" len %"PRIu64""
+-pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid %"PRIu32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
++pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid 0x%"PRIx32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
+-pci_nvme_flush(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
++pci_nvme_flush_ns(uint32_t nsid) "nsid 0x%"PRIx32""
+ pci_nvme_format(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
+ pci_nvme_format_ns(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
+ pci_nvme_format_cb(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
+ pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+-pci_nvme_misc_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
++pci_nvme_misc_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_dif_rw(uint8_t pract, uint8_t prinfo) "pract 0x%"PRIx8" prinfo 0x%"PRIx8""
+ pci_nvme_dif_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_dif_rw_mdata_in_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+-- 
+2.31.1
+
 
