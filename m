@@ -2,96 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D7239B3C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:22:33 +0200 (CEST)
-Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8C939B3DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 09:29:11 +0200 (CEST)
+Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp4A4-0005Md-Ds
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:22:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47358)
+	id 1lp4GU-0000W8-Qr
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 03:29:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lp48u-0004Fk-TU
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:21:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40297)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lp4Fj-0008FP-24
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:28:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lp48p-0000DX-P1
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:21:20 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lp4Fh-0004LC-AN
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 03:28:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622791274;
+ s=mimecast20190719; t=1622791700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9HqIOwbtiOSHOQgYB8AsPBltcERJ0L6E1je0jKpcnmk=;
- b=c7My9whFj+j7LleVCb2PnWCoYX3pmhDIBzZvnFVxFLBz301TLCjO6QA0/IY6v3DxkTepV7
- yfXXETNyJtv4CXhmlpsgGs3NIff6/U2xpcW7Tdl+Q/WKOb+9SAJAwtctpBm/5vXEzTvH8y
- rG/l7xxnvXP5+t6hbpYn4c+BMBVD20w=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-06utC2ylMguTGintBAI5JQ-1; Fri, 04 Jun 2021 03:21:13 -0400
-X-MC-Unique: 06utC2ylMguTGintBAI5JQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- q7-20020aa7cc070000b029038f59dab1c5so4544856edt.23
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 00:21:13 -0700 (PDT)
+ bh=qzMtTkHCI1LfHpnXZoXy8EbSozyT4UL1igT7AKjx8Q8=;
+ b=CRwms094nsqe1EEDP6L5cMhlFfA8bNf/2Q+RtKH3dHYDt30/XQSgNdyRg7owXAgmuPLIlo
+ xrd0KI/mII88amvobjkSYEfSUftsuGRdH6XVPgspB6cMxzOkfUfzOBdJh829ePudkayAlP
+ bSfsnEY3O0D7NXlg3EBloUhlLcc4Cyg=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-d4DCGzdkNMymSbAsW8h7rA-1; Fri, 04 Jun 2021 03:28:19 -0400
+X-MC-Unique: d4DCGzdkNMymSbAsW8h7rA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ b10-20020a170906194ab02903ea7d084cd3so3056516eje.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 00:28:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9HqIOwbtiOSHOQgYB8AsPBltcERJ0L6E1je0jKpcnmk=;
- b=Ks7b6VQ5HhKIEWqctkOPwGtpWlGuJ0qGLJCA5vwaMUOb/CSSNJZ3gRYf/kL5CVqNVu
- NNtblVQVEVTpYsMJ2V9Q8wpA8QttjKW1qiqS51GGNlL6yVRKw6la6yYPheCzc0IwLii/
- 8noJRWPY6kxERoUgAsIBrpvVa3o0LqZhUBs39FkGd8fiT4PLe+oIWrrKAifpFYx20yE4
- TeXjcUFW0pqFJsj+ZcsGeZiCnT06WoIHh0PjVzEK3/Jf5FBEWZ53/pUkYg4i5om/R5n7
- O+1lcKRRgGsd34Y5tKy1cpr+A7SKni8ScVuRZAVqi3Zepb+tv+3zEqLklyyFvLR0igFX
- FtyQ==
-X-Gm-Message-State: AOAM5325eZ32L2dBrfXyo06SFSF6f5+XFj47Vjt+T79TuCYbM3aFjpEV
- eiU8dyPdOcN2tUHqKTqgmWS8iJL/ZGkwVQ+Nb1+FAslESH6BG4qkssjoVWTGsCPsfwMRPfNh0YM
- giJnja0/0tbOl3D8=
-X-Received: by 2002:a05:6402:10c9:: with SMTP id
- p9mr3275720edu.370.1622791272522; 
- Fri, 04 Jun 2021 00:21:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzykwvdQeVGPadwVVQ/2ACRDjzx0O2FnoTZB+YipgKeRr/Mx0AhTnphUCFM1BK9lqEqXYfkTg==
-X-Received: by 2002:a05:6402:10c9:: with SMTP id
- p9mr3275695edu.370.1622791272264; 
- Fri, 04 Jun 2021 00:21:12 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rl12sm2372992ejb.94.2021.06.04.00.21.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 00:21:11 -0700 (PDT)
-Subject: Re: [PATCH v3 3/7] block: add max_hw_transfer to BlockLimits
-To: Eric Blake <eblake@redhat.com>
-References: <20210603133722.218465-1-pbonzini@redhat.com>
- <20210603133722.218465-4-pbonzini@redhat.com>
- <20210603173311.abker673xq6qscww@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9affbb63-5af3-2b68-a0c5-f9c42280a611@redhat.com>
-Date: Fri, 4 Jun 2021 09:21:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=qzMtTkHCI1LfHpnXZoXy8EbSozyT4UL1igT7AKjx8Q8=;
+ b=JU9LCQkgwLHRIS6YXiwKp94Bqxkp8ToWwFcFa6Fz/Sz8XNXRWrjA2wdgS9j1XbKggx
+ EL1NNAegsx05yyd5otwc+PQSANb2fJygq7rk6wg0s6/1pHFpm3gFf9ZhTsl6gn8r/bxs
+ 5BZ8bzfGfeRwetr5bcaMiPohPswy0Glo92suT98MLftvBvlmGayP2RRG/iwaR0amXYt/
+ GFCSvifOn31xs7e1+SvBH7GhjVgIE3xrVV0IFfpOL2p84p0tGBgV2rw74lfOfHDMnOwI
+ 9589nenNqtX0g+mbVXI9Yv4EHuidNrQpKqkkCw77jDxwxT/1+91rZ8etCueeE8mwLyBh
+ YSEQ==
+X-Gm-Message-State: AOAM531A2I1LzzS15kRQ0fb8l/ZxM/HmNC7K1cLCaMGf3hbrP2BeGKcU
+ kXLupYxwfexdUZ+4HpeewXvLf81obkXCWhh198+wLY0KNlEgzSpYCrQm72JoXik7UPFBM1OCYxA
+ oq2+M+zHcmD1YVYE=
+X-Received: by 2002:a17:906:80c8:: with SMTP id
+ a8mr2827835ejx.195.1622791697818; 
+ Fri, 04 Jun 2021 00:28:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQ+gRdezLvoae22U1ZS19JwekMocwGgOUoW2+39TXZR/Q8nkOAK6d4djrqmpPILRc0FKl3JA==
+X-Received: by 2002:a17:906:80c8:: with SMTP id
+ a8mr2827815ejx.195.1622791697557; 
+ Fri, 04 Jun 2021 00:28:17 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id br21sm2457876ejb.124.2021.06.04.00.28.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 00:28:17 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v7 3/9] i386: hardcode supported eVMCS version to '1'
+In-Reply-To: <20210603223506.no7j7jais3qixdhs@habkost.net>
+References: <20210603114835.847451-1-vkuznets@redhat.com>
+ <20210603114835.847451-4-vkuznets@redhat.com>
+ <20210603223506.no7j7jais3qixdhs@habkost.net>
+Date: Fri, 04 Jun 2021 09:28:15 +0200
+Message-ID: <877dja1434.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210603173311.abker673xq6qscww@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.37,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,52 +96,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/06/21 19:33, Eric Blake wrote:
->> +/* Returns the maximum hardware transfer length, in bytes; guaranteed nonzero */
->> +uint64_t blk_get_max_hw_transfer(BlockBackend *blk)
->> +{
->> +    BlockDriverState *bs = blk_bs(blk);
->> +    uint64_t max = INT_MAX;
-> 
-> This is an unaligned value; should we instead round it down to the
-> request_alignment granularity?
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-See below...
+> On Thu, Jun 03, 2021 at 01:48:29PM +0200, Vitaly Kuznetsov wrote:
+>> Currently, the only eVMCS version, supported by KVM (and described in TLFS)
+>> is '1'. When Enlightened VMCS feature is enabled, QEMU takes the supported
+>> eVMCS version range (from KVM_CAP_HYPERV_ENLIGHTENED_VMCS enablement) and
+>> puts it to guest visible CPUIDs. When (and if) eVMCS ver.2 appears a
+>> problem on migration is expected: it doesn't seem to be possible to migrate
+>> from a host supporting eVMCS ver.2 to a host, which only support eVMCS
+>> ver.1.
+>
+> Isn't it possible and safe to expose eVMCS ver.1 to the guest on
+> a host that supports ver.2?
 
->> +++ b/include/block/block_int.h
->> @@ -695,6 +695,13 @@ typedef struct BlockLimits {
->>        * clamped down. */
->>       uint32_t max_transfer;
->>   
->> +    /* Maximal hardware transfer length in bytes.  Applies whenever
-> 
-> Leading /* on its own line, per our style.
+We expose the supported range, guest is free to use any eVMCS version in
+the range (see below):
 
-The whole file still uses this style, I can change it if desired or do 
-it later for the whole file or even the whole block subsystem.
+>
+>> 
+>> Hardcode eVMCS ver.1 as the result of 'hv-evmcs' enablement for now. Newer
+>> eVMCS versions will have to have their own enablement options (e.g.
+>> 'hv-evmcs=2').
+>> 
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>>  docs/hyperv.txt       |  2 +-
+>>  target/i386/kvm/kvm.c | 16 +++++++++++-----
+>>  2 files changed, 12 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+>> index a51953daa833..000638a2fd38 100644
+>> --- a/docs/hyperv.txt
+>> +++ b/docs/hyperv.txt
+>> @@ -170,7 +170,7 @@ Recommended: hv-frequencies
+>>  3.16. hv-evmcs
+>>  ===============
+>>  The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
+>> -enabled, it provides Enlightened VMCS feature to the guest. The feature
+>> +enabled, it provides Enlightened VMCS version 1 feature to the guest. The feature
+>>  implements paravirtualized protocol between L0 (KVM) and L1 (Hyper-V)
+>>  hypervisors making L2 exits to the hypervisor faster. The feature is Intel-only.
+>>  Note: some virtualization features (e.g. Posted Interrupts) are disabled when
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index c676ee8b38a7..d57eede5dc81 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -1490,13 +1490,19 @@ static int hyperv_init_vcpu(X86CPU *cpu)
+>>          ret = kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_ENLIGHTENED_VMCS, 0,
+>>                                    (uintptr_t)&evmcs_version);
+>>  
+>> -        if (ret < 0) {
+>> -            fprintf(stderr, "Hyper-V %s is not supported by kernel\n",
+>> -                    kvm_hyperv_properties[HYPERV_FEAT_EVMCS].desc);
+>> +        /*
+>> +         * KVM is required to support EVMCS ver.1. as that's what 'hv-evmcs'
+>> +         * option sets. Note: we hardcode the maximum supported eVMCS version
+>> +         * to '1' as well so 'hv-evmcs' feature is migratable even when (and if)
+>> +         * ver.2 is implemented. A new option (e.g. 'hv-evmcs=2') will then have
+>> +         * to be added.
+>> +         */
+>> +        if (ret < 0 || (uint8_t)evmcs_version > 1) {
+>
+> Wait, do you really want to get a fatal error every time, after a
+> kernel upgrade?
+>
 
->> +     * transfers to the device bypass the kernel I/O scheduler, for
->> +     * example with SG_IO.  If larger than max_transfer or if zero,
->> +     * blk_get_max_hw_transfer will fall back to max_transfer.
->> +     */
-> 
-> Should we mandate any additional requirements on this value such as
-> multiple of request_alignment or even power-of-2?
+Here, evmcs_version (returned by kvm_vcpu_enable_cap()) represents a
+*range* of supported eVMCS versions:
 
-Certainly not power of 2.  Multiple of request_alignment probably makes 
-sense, but max_transfer doesn't have that limit.
+(evmcs_highest_supported_version << 8) | evmcs_lowest_supported_version
 
-Paolo
+Currently, this is 0x101 [1..1] range.
 
->> +    uint64_t max_hw_transfer;
->> +
->>       /* memory alignment, in bytes so that no bounce buffer is needed */
->>       size_t min_mem_alignment;
->>   
-> 
+The '(uint8_t)evmcs_version > 1' check here means 'eVMCS v1' is no
+longer supported by KVM. This is not going to happen any time soon, but
+I can imagine in 10 years or so we'll be dropping v1 so the range (in
+theory) can be [10..2] -- which would mean eVMCS ver. 1 is NOT
+supported. And we can't proceed then.
+
+> I was expecting this:
+>
+>   vcpu_evmcs_version = 1; /* hardcoded, but can become configurable later */
+>   ...
+>   kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_ENLIGHTENED_VMCS, 0, (uintptr_t)&supported_evmcs_version);
+>   if (ret < 0 || supported_evmcs_version < vcpu_evmcs_version) {
+>     error_setg(...);
+>     return;
+>   }
+>   cpu->hyperv_nested[0] = vcpu_evmcs_version;
+>
+>
+>> +            error_report("Hyper-V %s verson 1 is not supported by kernel",
+>> +                         kvm_hyperv_properties[HYPERV_FEAT_EVMCS].desc);
+>>              return ret;
+>>          }
+>> -
+>> -        cpu->hyperv_nested[0] = evmcs_version;
+>> +        cpu->hyperv_nested[0] = (1 << 8) | 1;
+>>      }
+>>  
+>>      return 0;
+>> -- 
+>> 2.31.1
+>> 
+
+-- 
+Vitaly
 
 
