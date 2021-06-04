@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5A039BCD6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:16:03 +0200 (CEST)
-Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EE239BD1B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 18:29:03 +0200 (CEST)
+Received: from localhost ([::1]:44966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpCUL-0007Vx-Vs
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48158)
+	id 1lpCgw-0006c7-5C
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 12:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCHY-0007eY-RI
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:02:49 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51043)
+ id 1lpCRI-0002x6-4v
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:12:52 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpCHR-0005hM-Ap
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:02:48 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id f20so1465561wmg.0
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 09:02:40 -0700 (PDT)
+ id 1lpCRC-0003pF-QP
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 12:12:51 -0400
+Received: by mail-wr1-x436.google.com with SMTP id z8so9831954wrp.12
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 09:12:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eXvK+3AOQ6m3KywdrH0nWhrBTBSo/h3FF5G5cv3gKts=;
- b=TbUh/sVvJMx2lNXgKLs7LZ0ebdn2mcV+RRTLFTzw3w5qWuePqnwfVzScSvBwDekxth
- MVQXhGkyRJe7GfusnmnqJtzvdnS8/j93G3XsmjqVJo0m8yZFfPWm4N/3/TjBjbvizsfz
- mtJDpJ35Ad7WELaz3hOz2w2ipyVEGl6HE13nJ0PfMbu0476nH0Lydqf2aBn0KC54ftjj
- 6N+H1FwRdSlbVLETp9yvNPUflnNH2Cczal+yz08ocYVs2Z1ee3n5DdrzjyRhLco6vINo
- 9iuhoaP13DvCM/y5rhqQcTX25f1WXoa3ahLqpPS5oafJrvzt9k/4qKLxDS7fthS5VGLY
- hw9Q==
+ bh=GCSulBcboNnhY3ZaOpOOMESbDYWsZSCOIUDwjeQhgs4=;
+ b=K+VlibPVepMujXzNtGQBh8v6ArVzXuqim/LVzd/SGYDgZ3mc7+iMaFoQDQXX3M4gGL
+ aWVwCUi3SkYIRe1Z9lWGra7axoT6/IU6M2sADR8uUOPXeINsSaSvuXx32flCfe5Jsfjx
+ FVF4tX662du1+bT1+ya8eb0NUpvTrqWlVdnIYz5LkLGs5HF9pmkegoV8gq4PwJWZ2QJv
+ UDlvk66hlV5iDUzeCxAk79SNiRU8BUh0WlEsAlAEBdDiKCEQZ2N8kmDYrRaAeOF/SW/H
+ PPJBb0dQH+xIeQ4LbRPz9fhyVdjHIqyDuFrC/VE/VoBtscSUXfJFjBVhUW788lYIhh+W
+ fauw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eXvK+3AOQ6m3KywdrH0nWhrBTBSo/h3FF5G5cv3gKts=;
- b=TBYnTdi0GWrDu6zSxAx3YXeLVLu/2GAiRn1fY/cNgFpVcM2QF6gS2tbC5uqCrr+pUT
- cJDTp0lfYasvsB3uZXR5juLAYsryGyiz0dwX6961Mq2/UdYEnTCf1/ZDV1x7uiYiG35F
- 3haIIVQxV6AqXx+rR+yT4oWChsgqexhun3THvwrnHtuC/WwaIViqOPiXRmZ+OR1Fh9cm
- 7loCF9L9vUUVBtHsuvuur+sAzPOgEq1DxVd3cgqmsSeI0vsR408LOCH2ZzK8BslXDd/p
- kCNkyPhqfFeAjPQfMqVwKvRwR4IxHnVsW39KjnhqPa5nj4QwjcWfPYVh56m6cFawWFRA
- 9Xcg==
-X-Gm-Message-State: AOAM533CEKUwcsWiRXxECQrTDixrDYqZzNR8MSe+DdJVydq5JJlTPrC5
- 1GP1BvaiQEyVUa1b4W5tsknkMg==
-X-Google-Smtp-Source: ABdhPJxmHzQFLq/Bcz/LHLmuMY4y8Iw0IJ9oewIfbwvB9WKxAvugHjiYeYIdZS4k0SgtXj5ar4QJiQ==
-X-Received: by 2002:a1c:1bd8:: with SMTP id b207mr4229149wmb.80.1622822559175; 
- Fri, 04 Jun 2021 09:02:39 -0700 (PDT)
+ bh=GCSulBcboNnhY3ZaOpOOMESbDYWsZSCOIUDwjeQhgs4=;
+ b=KxKJaoK6xJM4xWIDSR3Ou4GwQfrPqwM2heNqW057pOp0lfKPrupk8r4Exc+0awIGXX
+ 9xwb01qeJX3rND/W/dlhqxdIX0F9YzjOde3dPs3BNqx65Ea33UzFSPifrtnC9x9f9Zw+
+ 5ttA4y0lqZiOvR+MrVDI8LQ43f4/HiZxIUN5w248D2oQ6PYKX2qCdr42dFP3pbtekfVt
+ MPxCxVBc8k5kT/o7ylxLSbaKdjkQUpGaouLNGVkKpsAoxuegehSSqbxrPc8i7Q5rp8GS
+ WjcTse+QoCNpAYRh3MYfNC+cHXzntCQ11gXKRWaaWIDopzPyVofSP+NRCrHu4b5RHhpp
+ jHlA==
+X-Gm-Message-State: AOAM531obpmzttaupgYFs8knokcRfppXnlkzAjET9Jv0Kqd9qMMv7Ias
+ K86xryKP6WF40wTmkWVDzjjDzA==
+X-Google-Smtp-Source: ABdhPJxYSAESxB7xbZSoXwJlOSK7MnCMaJLqh0xi9M1nKIQeORgpSl0F1J8eshvzFMjr0tbVTWKNjQ==
+X-Received: by 2002:adf:df02:: with SMTP id y2mr4641178wrl.120.1622823165406; 
+ Fri, 04 Jun 2021 09:12:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x10sm7174349wrt.65.2021.06.04.09.02.37
+ by smtp.gmail.com with ESMTPSA id l8sm9299316wrf.0.2021.06.04.09.12.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 09:02:37 -0700 (PDT)
+ Fri, 04 Jun 2021 09:12:42 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 959141FFAB;
- Fri,  4 Jun 2021 16:53:14 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1BDFF1FFAE;
+ Fri,  4 Jun 2021 16:53:15 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 21/99] target/arm: tcg: split tlb_helper user-only and
- sysemu-only parts
-Date: Fri,  4 Jun 2021 16:51:54 +0100
-Message-Id: <20210604155312.15902-22-alex.bennee@linaro.org>
+Subject: [PATCH  v16 24/99] target/arm: split off cpu-sysemu.c
+Date: Fri,  4 Jun 2021 16:51:57 +0100
+Message-Id: <20210604155312.15902-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210604155312.15902-1-alex.bennee@linaro.org>
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,317 +86,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Claudio Fontana <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
+move work is needed later on to split things into
+tcg-specific portions and kvm-specific portions of this
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/tcg/tlb_helper.h        | 17 ++++++
- target/arm/tcg/sysemu/tlb_helper.c | 83 +++++++++++++++++++++++++
- target/arm/tcg/tlb_helper.c        | 97 ++----------------------------
- target/arm/tcg/user/tlb_helper.c   | 32 ++++++++++
- target/arm/tcg/sysemu/meson.build  |  1 +
- target/arm/tcg/user/meson.build    |  1 +
- 6 files changed, 138 insertions(+), 93 deletions(-)
- create mode 100644 target/arm/tcg/tlb_helper.h
- create mode 100644 target/arm/tcg/sysemu/tlb_helper.c
- create mode 100644 target/arm/tcg/user/tlb_helper.c
+ target/arm/internals.h  |   8 ++-
+ target/arm/cpu-sysemu.c | 105 ++++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.c        |  83 -------------------------------
+ target/arm/meson.build  |   1 +
+ 4 files changed, 113 insertions(+), 84 deletions(-)
+ create mode 100644 target/arm/cpu-sysemu.c
 
-diff --git a/target/arm/tcg/tlb_helper.h b/target/arm/tcg/tlb_helper.h
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 886db56b58..8809334228 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1202,4 +1202,10 @@ static inline uint64_t useronly_maybe_clean_ptr(uint32_t desc, uint64_t ptr)
+     return ptr;
+ }
+ 
+-#endif
++#ifndef CONFIG_USER_ONLY
++void arm_cpu_set_irq(void *opaque, int irq, int level);
++void arm_cpu_kvm_set_irq(void *opaque, int irq, int level);
++bool arm_cpu_virtio_is_big_endian(CPUState *cs);
++#endif /* !CONFIG_USER_ONLY */
++
++#endif /* TARGET_ARM_INTERNALS_H */
+diff --git a/target/arm/cpu-sysemu.c b/target/arm/cpu-sysemu.c
 new file mode 100644
-index 0000000000..6ce3d315cf
+index 0000000000..db1c8cb245
 --- /dev/null
-+++ b/target/arm/tcg/tlb_helper.h
-@@ -0,0 +1,17 @@
++++ b/target/arm/cpu-sysemu.c
+@@ -0,0 +1,105 @@
 +/*
-+ * ARM TLB (Translation lookaside buffer) helpers.
++ * QEMU ARM CPU
 + *
-+ * This code is licensed under the GNU GPL v2 or later.
++ * Copyright (c) 2012 SUSE LINUX Products GmbH
 + *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see
++ * <http://www.gnu.org/licenses/gpl-2.0.html>
 + */
-+#ifndef TLB_HELPER_H
-+#define TLB_HELPER_H
 +
-+#include "cpu.h"
-+
-+void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
-+                                     MMUAccessType access_type,
-+                                     int mmu_idx, ARMMMUFaultInfo *fi);
-+
-+#endif /* TLB_HELPER_H */
-diff --git a/target/arm/tcg/sysemu/tlb_helper.c b/target/arm/tcg/sysemu/tlb_helper.c
-new file mode 100644
-index 0000000000..586f602989
---- /dev/null
-+++ b/target/arm/tcg/sysemu/tlb_helper.c
-@@ -0,0 +1,83 @@
-+/*
-+ * ARM TLB (Translation lookaside buffer) helpers.
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
 +#include "qemu/osdep.h"
 +#include "cpu.h"
 +#include "internals.h"
-+#include "exec/exec-all.h"
-+#include "tcg/tlb_helper.h"
++#include "sysemu/hw_accel.h"
++#include "kvm_arm.h"
 +
-+/*
-+ * arm_cpu_do_transaction_failed: handle a memory system error response
-+ * (eg "no device/memory present at address") by raising an external abort
-+ * exception
-+ */
-+void arm_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-+                                   vaddr addr, unsigned size,
-+                                   MMUAccessType access_type,
-+                                   int mmu_idx, MemTxAttrs attrs,
-+                                   MemTxResult response, uintptr_t retaddr)
++void arm_cpu_set_irq(void *opaque, int irq, int level)
 +{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    ARMMMUFaultInfo fi = {};
++    ARMCPU *cpu = opaque;
++    CPUARMState *env = &cpu->env;
++    CPUState *cs = CPU(cpu);
++    static const int mask[] = {
++        [ARM_CPU_IRQ] = CPU_INTERRUPT_HARD,
++        [ARM_CPU_FIQ] = CPU_INTERRUPT_FIQ,
++        [ARM_CPU_VIRQ] = CPU_INTERRUPT_VIRQ,
++        [ARM_CPU_VFIQ] = CPU_INTERRUPT_VFIQ
++    };
 +
-+    /* now we have a real cpu fault */
-+    cpu_restore_state(cs, retaddr, true);
-+
-+    fi.ea = arm_extabort_type(response);
-+    fi.type = ARMFault_SyncExternal;
-+    arm_deliver_fault(cpu, addr, access_type, mmu_idx, &fi);
-+}
-+
-+bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    ARMMMUFaultInfo fi = {};
-+    hwaddr phys_addr;
-+    target_ulong page_size;
-+    int prot, ret;
-+    MemTxAttrs attrs = {};
-+    ARMCacheAttrs cacheattrs = {};
-+
-+    /*
-+     * Walk the page table and (if the mapping exists) add the page
-+     * to the TLB.  On success, return true.  Otherwise, if probing,
-+     * return false.  Otherwise populate fsr with ARM DFSR/IFSR fault
-+     * register format, and signal the fault.
-+     */
-+    ret = get_phys_addr(&cpu->env, address, access_type,
-+                        core_to_arm_mmu_idx(&cpu->env, mmu_idx),
-+                        &phys_addr, &attrs, &prot, &page_size,
-+                        &fi, &cacheattrs);
-+    if (likely(!ret)) {
-+        /*
-+         * Map a single [sub]page. Regions smaller than our declared
-+         * target page size are handled specially, so for those we
-+         * pass in the exact addresses.
-+         */
-+        if (page_size >= TARGET_PAGE_SIZE) {
-+            phys_addr &= TARGET_PAGE_MASK;
-+            address &= TARGET_PAGE_MASK;
-+        }
-+        /* Notice and record tagged memory. */
-+        if (cpu_isar_feature(aa64_mte, cpu) && cacheattrs.attrs == 0xf0) {
-+            arm_tlb_mte_tagged(&attrs) = true;
-+        }
-+
-+        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
-+                                prot, mmu_idx, page_size);
-+        return true;
-+    } else if (probe) {
-+        return false;
++    if (level) {
++        env->irq_line_state |= mask[irq];
 +    } else {
-+        /* now we have a real cpu fault */
-+        cpu_restore_state(cs, retaddr, true);
-+        arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
++        env->irq_line_state &= ~mask[irq];
++    }
++
++    switch (irq) {
++    case ARM_CPU_VIRQ:
++        assert(arm_feature(env, ARM_FEATURE_EL2));
++        arm_cpu_update_virq(cpu);
++        break;
++    case ARM_CPU_VFIQ:
++        assert(arm_feature(env, ARM_FEATURE_EL2));
++        arm_cpu_update_vfiq(cpu);
++        break;
++    case ARM_CPU_IRQ:
++    case ARM_CPU_FIQ:
++        if (level) {
++            cpu_interrupt(cs, mask[irq]);
++        } else {
++            cpu_reset_interrupt(cs, mask[irq]);
++        }
++        break;
++    default:
++        g_assert_not_reached();
 +    }
 +}
-diff --git a/target/arm/tcg/tlb_helper.c b/target/arm/tcg/tlb_helper.c
-index 3107f9823e..77aefc274d 100644
---- a/target/arm/tcg/tlb_helper.c
-+++ b/target/arm/tcg/tlb_helper.c
-@@ -9,6 +9,7 @@
- #include "cpu.h"
- #include "internals.h"
- #include "exec/exec-all.h"
-+#include "tcg/tlb_helper.h"
- 
- static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
-                                             unsigned int target_el,
-@@ -49,9 +50,9 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
-     return syn;
++
++void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
++{
++#ifdef CONFIG_KVM
++    ARMCPU *cpu = opaque;
++    CPUARMState *env = &cpu->env;
++    CPUState *cs = CPU(cpu);
++    uint32_t linestate_bit;
++    int irq_id;
++
++    switch (irq) {
++    case ARM_CPU_IRQ:
++        irq_id = KVM_ARM_IRQ_CPU_IRQ;
++        linestate_bit = CPU_INTERRUPT_HARD;
++        break;
++    case ARM_CPU_FIQ:
++        irq_id = KVM_ARM_IRQ_CPU_FIQ;
++        linestate_bit = CPU_INTERRUPT_FIQ;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    if (level) {
++        env->irq_line_state |= linestate_bit;
++    } else {
++        env->irq_line_state &= ~linestate_bit;
++    }
++    kvm_arm_set_irq(cs->cpu_index, KVM_ARM_IRQ_TYPE_CPU, irq_id, !!level);
++#endif
++}
++
++bool arm_cpu_virtio_is_big_endian(CPUState *cs)
++{
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
++
++    cpu_synchronize_state(cs);
++    return arm_cpu_data_is_big_endian(env);
++}
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index ad65b60b04..bd8413c161 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -649,89 +649,6 @@ void arm_cpu_update_vfiq(ARMCPU *cpu)
+     }
  }
  
--static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
--                                            MMUAccessType access_type,
--                                            int mmu_idx, ARMMMUFaultInfo *fi)
-+void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
-+                                     MMUAccessType access_type,
-+                                     int mmu_idx, ARMMMUFaultInfo *fi)
- {
-     CPUARMState *env = &cpu->env;
-     int target_el;
-@@ -122,93 +123,3 @@ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-     fi.type = ARMFault_Alignment;
-     arm_deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
- }
--
--#if !defined(CONFIG_USER_ONLY)
--
--/*
-- * arm_cpu_do_transaction_failed: handle a memory system error response
-- * (eg "no device/memory present at address") by raising an external abort
-- * exception
-- */
--void arm_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
--                                   vaddr addr, unsigned size,
--                                   MMUAccessType access_type,
--                                   int mmu_idx, MemTxAttrs attrs,
--                                   MemTxResult response, uintptr_t retaddr)
+-#ifndef CONFIG_USER_ONLY
+-static void arm_cpu_set_irq(void *opaque, int irq, int level)
 -{
--    ARMCPU *cpu = ARM_CPU(cs);
--    ARMMMUFaultInfo fi = {};
+-    ARMCPU *cpu = opaque;
+-    CPUARMState *env = &cpu->env;
+-    CPUState *cs = CPU(cpu);
+-    static const int mask[] = {
+-        [ARM_CPU_IRQ] = CPU_INTERRUPT_HARD,
+-        [ARM_CPU_FIQ] = CPU_INTERRUPT_FIQ,
+-        [ARM_CPU_VIRQ] = CPU_INTERRUPT_VIRQ,
+-        [ARM_CPU_VFIQ] = CPU_INTERRUPT_VFIQ
+-    };
 -
--    /* now we have a real cpu fault */
--    cpu_restore_state(cs, retaddr, true);
+-    if (level) {
+-        env->irq_line_state |= mask[irq];
+-    } else {
+-        env->irq_line_state &= ~mask[irq];
+-    }
 -
--    fi.ea = arm_extabort_type(response);
--    fi.type = ARMFault_SyncExternal;
--    arm_deliver_fault(cpu, addr, access_type, mmu_idx, &fi);
+-    switch (irq) {
+-    case ARM_CPU_VIRQ:
+-        assert(arm_feature(env, ARM_FEATURE_EL2));
+-        arm_cpu_update_virq(cpu);
+-        break;
+-    case ARM_CPU_VFIQ:
+-        assert(arm_feature(env, ARM_FEATURE_EL2));
+-        arm_cpu_update_vfiq(cpu);
+-        break;
+-    case ARM_CPU_IRQ:
+-    case ARM_CPU_FIQ:
+-        if (level) {
+-            cpu_interrupt(cs, mask[irq]);
+-        } else {
+-            cpu_reset_interrupt(cs, mask[irq]);
+-        }
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
 -}
 -
--#endif /* !defined(CONFIG_USER_ONLY) */
--
--bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                      MMUAccessType access_type, int mmu_idx,
--                      bool probe, uintptr_t retaddr)
+-static void arm_cpu_kvm_set_irq(void *opaque, int irq, int level)
 -{
--    ARMCPU *cpu = ARM_CPU(cs);
--    ARMMMUFaultInfo fi = {};
+-#ifdef CONFIG_KVM
+-    ARMCPU *cpu = opaque;
+-    CPUARMState *env = &cpu->env;
+-    CPUState *cs = CPU(cpu);
+-    uint32_t linestate_bit;
+-    int irq_id;
 -
--#ifdef CONFIG_USER_ONLY
--    int flags = page_get_flags(useronly_clean_ptr(address));
--    if (flags & PAGE_VALID) {
--        fi.type = ARMFault_Permission;
--    } else {
--        fi.type = ARMFault_Translation;
+-    switch (irq) {
+-    case ARM_CPU_IRQ:
+-        irq_id = KVM_ARM_IRQ_CPU_IRQ;
+-        linestate_bit = CPU_INTERRUPT_HARD;
+-        break;
+-    case ARM_CPU_FIQ:
+-        irq_id = KVM_ARM_IRQ_CPU_FIQ;
+-        linestate_bit = CPU_INTERRUPT_FIQ;
+-        break;
+-    default:
+-        g_assert_not_reached();
 -    }
--    fi.level = 3;
 -
--    /* now we have a real cpu fault */
--    cpu_restore_state(cs, retaddr, true);
--    arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
--#else
--    hwaddr phys_addr;
--    target_ulong page_size;
--    int prot, ret;
--    MemTxAttrs attrs = {};
--    ARMCacheAttrs cacheattrs = {};
--
--    /*
--     * Walk the page table and (if the mapping exists) add the page
--     * to the TLB.  On success, return true.  Otherwise, if probing,
--     * return false.  Otherwise populate fsr with ARM DFSR/IFSR fault
--     * register format, and signal the fault.
--     */
--    ret = get_phys_addr(&cpu->env, address, access_type,
--                        core_to_arm_mmu_idx(&cpu->env, mmu_idx),
--                        &phys_addr, &attrs, &prot, &page_size,
--                        &fi, &cacheattrs);
--    if (likely(!ret)) {
--        /*
--         * Map a single [sub]page. Regions smaller than our declared
--         * target page size are handled specially, so for those we
--         * pass in the exact addresses.
--         */
--        if (page_size >= TARGET_PAGE_SIZE) {
--            phys_addr &= TARGET_PAGE_MASK;
--            address &= TARGET_PAGE_MASK;
--        }
--        /* Notice and record tagged memory. */
--        if (cpu_isar_feature(aa64_mte, cpu) && cacheattrs.attrs == 0xf0) {
--            arm_tlb_mte_tagged(&attrs) = true;
--        }
--
--        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
--                                prot, mmu_idx, page_size);
--        return true;
--    } else if (probe) {
--        return false;
+-    if (level) {
+-        env->irq_line_state |= linestate_bit;
 -    } else {
--        /* now we have a real cpu fault */
--        cpu_restore_state(cs, retaddr, true);
--        arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
+-        env->irq_line_state &= ~linestate_bit;
 -    }
+-    kvm_arm_set_irq(cs->cpu_index, KVM_ARM_IRQ_TYPE_CPU, irq_id, !!level);
 -#endif
 -}
-diff --git a/target/arm/tcg/user/tlb_helper.c b/target/arm/tcg/user/tlb_helper.c
-new file mode 100644
-index 0000000000..9f24c96ba0
---- /dev/null
-+++ b/target/arm/tcg/user/tlb_helper.c
-@@ -0,0 +1,32 @@
-+/*
-+ * ARM TLB (Translation lookaside buffer) helpers.
-+ *
-+ * This code is licensed under the GNU GPL v2 or later.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "internals.h"
-+#include "exec/exec-all.h"
-+#include "tcg/tlb_helper.h"
-+
-+bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    ARMMMUFaultInfo fi = {};
-+
-+    int flags = page_get_flags(useronly_clean_ptr(address));
-+    if (flags & PAGE_VALID) {
-+        fi.type = ARMFault_Permission;
-+    } else {
-+        fi.type = ARMFault_Translation;
-+    }
-+    fi.level = 3;
-+
-+    /* now we have a real cpu fault */
-+    cpu_restore_state(cs, retaddr, true);
-+    arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
-+}
-diff --git a/target/arm/tcg/sysemu/meson.build b/target/arm/tcg/sysemu/meson.build
-index 1a4d7a0940..8f5e955cbd 100644
---- a/target/arm/tcg/sysemu/meson.build
-+++ b/target/arm/tcg/sysemu/meson.build
-@@ -1,4 +1,5 @@
- arm_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'debug_helper.c',
-   'mte_helper.c',
-+  'tlb_helper.c',
- ))
-diff --git a/target/arm/tcg/user/meson.build b/target/arm/tcg/user/meson.build
-index e681e5f5a1..cdca5d970c 100644
---- a/target/arm/tcg/user/meson.build
-+++ b/target/arm/tcg/user/meson.build
-@@ -1,3 +1,4 @@
- arm_user_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'mte_helper.c',
-+  'tlb_helper.c',
+-
+-static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
+-{
+-    ARMCPU *cpu = ARM_CPU(cs);
+-    CPUARMState *env = &cpu->env;
+-
+-    cpu_synchronize_state(cs);
+-    return arm_cpu_data_is_big_endian(env);
+-}
+-
+-#endif
+-
+ static int
+ print_insn_thumb1(bfd_vma pc, disassemble_info *info)
+ {
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index a9fdada0cc..b75392e3e9 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -17,6 +17,7 @@ arm_softmmu_ss = ss.source_set()
+ arm_softmmu_ss.add(files(
+   'arch_dump.c',
+   'arm-powerctl.c',
++  'cpu-sysemu.c',
+   'machine.c',
+   'monitor.c',
  ))
 -- 
 2.20.1
