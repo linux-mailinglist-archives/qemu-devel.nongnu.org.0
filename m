@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0511C39B7DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 13:28:07 +0200 (CEST)
-Received: from localhost ([::1]:55370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4DB39B814
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 13:37:54 +0200 (CEST)
+Received: from localhost ([::1]:36598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp7zi-0001iH-5E
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 07:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
+	id 1lp89B-00007k-BW
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 07:37:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lp7ya-0000NV-9q
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:26:56 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lp7yY-0005ve-9R
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:26:56 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id g20so14030356ejt.0
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 04:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hTMwjlD5zF3D4lnSUr4kCcDJIRKHz5AISad1ppcTRws=;
- b=Fhn9VEA3s5HCS0HRGddus2hEgYcDE/OgZleInaos6SjhpV89kNAp5t96Caqwxpwssi
- zaG29IiQXkVIuzDiCJbl5xfbVSHBIR+GVX+1jO7oi3GOsM3iQOfW1mH0DQGtxiJmz+1p
- JLkc1fFzTrpdo9XHG98PH1ta1S/EbeUOgYXeggJGNb33woUrxDKpJcjD0xAIVtBUDcx6
- f7G+duQXSw0s2DYZMq26aS66fZ1ZBer5sI51R0khSWHI3Os2gGHGmQy3bDtbqaXwm/eJ
- VZ/XlMG/YVwVL3piewsy88AGqVZ8tjcNpNfbyq4aQV1Hzj8xgkduWzFdm7sMao6czdwH
- YCaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hTMwjlD5zF3D4lnSUr4kCcDJIRKHz5AISad1ppcTRws=;
- b=U/OS+2FINcRee+wC/Y3bozSPIAtoAgCynMr00ApClCLHNpwmoNrk3kDxpAG4Ukn+eZ
- zV3Mfy33AVXqkhQD4Ujvhb5seC0BKEOMWuMizdhcfn5tsBcJcGAF+WhTndNGE5JOkodz
- IEL1y0ZEkH2w8OLcogQAnvlNRdwmq0V2WcRP2ym7/4marlTcNa9w9tVd287oar/XM2TL
- H5V1kdEFHNAjxMt2bcgtEzNuluU8/qjqgBKjVBn4TSUkvOx1lMGvqQj7K458JOO6XfGa
- eVVFHRa8ZvHpSbyaZlLzCoJjtadQyjyzU2G1AgV21C65zfnw7HqhXL2VYwMA/Jo20F9r
- Ig9Q==
-X-Gm-Message-State: AOAM532d5SltYG8xB5KX8LafROubSM8q/wn7Zh/giKqsincgnNZIdY+h
- UJKJK4+t+11wKLwXoQlerXJ2xEDa23kR6mLWmo0=
-X-Google-Smtp-Source: ABdhPJybnYugJ8B6aQXG/KrsIfPA9l0V87QRTIai4XUaP7XRXAapCLXlSsRhFRcDjJfSDb2JKBwUMs5DbJHK5+K5XWk=
-X-Received: by 2002:a17:906:e88:: with SMTP id
- p8mr3752367ejf.105.1622806012807; 
- Fri, 04 Jun 2021 04:26:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lp88T-0007up-ST
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:37:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lp88Q-0004NR-88
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:37:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B1C7B61423;
+ Fri,  4 Jun 2021 11:37:01 +0000 (UTC)
+Date: Fri, 4 Jun 2021 12:36:59 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v13 4/8] KVM: arm64: Introduce MTE VM feature
+Message-ID: <20210604113658.GD31173@arm.com>
+References: <20210524104513.13258-1-steven.price@arm.com>
+ <20210524104513.13258-5-steven.price@arm.com>
+ <20210603160031.GE20338@arm.com>
+ <a0810f3b-4f13-e8b5-7057-a9de1201887a@arm.com>
 MIME-Version: 1.0
-References: <20210514173110.1397741-1-berrange@redhat.com>
- <YLnnqWIyNnO7V5+C@redhat.com>
-In-Reply-To: <YLnnqWIyNnO7V5+C@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 4 Jun 2021 15:26:41 +0400
-Message-ID: <CAJ+F1CJBgocFFqSHDaWKgrtJ73UgvFGYsEsA+3tG_=DYHbYJbg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] docs: add user facing docs for secret passing and
- authorization controls
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000eece9505c3eef77f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a0810f3b-4f13-e8b5-7057-a9de1201887a@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,131 +55,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000eece9505c3eef77f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jun 04, 2021 at 11:42:11AM +0100, Steven Price wrote:
+> On 03/06/2021 17:00, Catalin Marinas wrote:
+> > On Mon, May 24, 2021 at 11:45:09AM +0100, Steven Price wrote:
+> >> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> >> index c5d1f3c87dbd..226035cf7d6c 100644
+> >> --- a/arch/arm64/kvm/mmu.c
+> >> +++ b/arch/arm64/kvm/mmu.c
+> >> @@ -822,6 +822,42 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+> >>  	return PAGE_SIZE;
+> >>  }
+> >>  
+> >> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
+> >> +			     unsigned long size)
+> >> +{
+> >> +	if (kvm_has_mte(kvm)) {
+> >> +		/*
+> >> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
+> >> +		 * the VM will be able to see the page's tags and therefore
+> >> +		 * they must be initialised first. If PG_mte_tagged is set,
+> >> +		 * tags have already been initialised.
+> >> +		 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
+> >> +		 * that may not support tags.
+> >> +		 */
+> >> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
+> >> +		struct page *page = pfn_to_online_page(pfn);
+> >> +
+> >> +		if (!page)
+> >> +			return -EFAULT;
+> >> +
+> >> +		for (i = 0; i < nr_pages; i++, page++) {
+> >> +			/*
+> >> +			 * There is a potential (but very unlikely) race
+> >> +			 * between two VMs which are sharing a physical page
+> >> +			 * entering this at the same time. However by splitting
+> >> +			 * the test/set the only risk is tags being overwritten
+> >> +			 * by the mte_clear_page_tags() call.
+> >> +			 */
+> > 
+> > And I think the real risk here is when the page is writable by at least
+> > one of the VMs sharing the page. This excludes KSM, so it only leaves
+> > the MAP_SHARED mappings.
+> > 
+> >> +			if (!test_bit(PG_mte_tagged, &page->flags)) {
+> >> +				mte_clear_page_tags(page_address(page));
+> >> +				set_bit(PG_mte_tagged, &page->flags);
+> >> +			}
+> >> +		}
+> > 
+> > If we want to cover this race (I'd say in a separate patch), we can call
+> > mte_sync_page_tags(page, __pte(0), false, true) directly (hopefully I
+> > got the arguments right). We can avoid the big lock in most cases if
+> > kvm_arch_prepare_memory_region() sets a VM_MTE_RESET (tag clear etc.)
+> > and __alloc_zeroed_user_highpage() clears the tags on allocation (as we
+> > do for VM_MTE but the new flag would not affect the stage 1 VMM page
+> > attributes).
+> 
+> To be honest I'm coming round to just exporting a
+> mte_prepare_page_tags() function which does the clear/set with the lock
+> held. I doubt it's such a performance critical path that it will cause
+> any noticeable issues. Then if we run into performance problems in the
+> future we can start experimenting with extra VM flags etc as necessary.
 
-On Fri, Jun 4, 2021 at 12:44 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+It works for me.
 
-> ping for any reviewers for docs
->
-> On Fri, May 14, 2021 at 06:31:06PM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > These are an important of the overall QEMU network backend security
-> > controls but never previously documented aside from in blog posts.
-> >
-> > Daniel P. Berrang=C3=A9 (4):
-> >   docs: document how to pass secret data to QEMU
-> >   docs: document usage of the authorization framework
-> >   docs: recommend SCRAM-SHA-256 SASL mech instead of SHA-1 variant
-> >   sasl: remove comment about obsolete kerberos versions
-> >
-> >  docs/system/authz.rst        | 263 +++++++++++++++++++++++++++++++++++
-> >  docs/system/index.rst        |   2 +
-> >  docs/system/secrets.rst      | 162 +++++++++++++++++++++
-> >  docs/system/vnc-security.rst |   7 +-
-> >  qemu.sasl                    |  15 +-
-> >  5 files changed, 437 insertions(+), 12 deletions(-)
-> >  create mode 100644 docs/system/authz.rst
-> >  create mode 100644 docs/system/secrets.rst
->
+> And from your later email:
+> > Another idea: if VM_SHARED is found for any vma within a region in
+> > kvm_arch_prepare_memory_region(), we either prevent the enabling of MTE
+> > for the guest or reject the memory slot if MTE was already enabled.
+> > 
+> > An alternative here would be to clear VM_MTE_ALLOWED so that any
+> > subsequent mprotect(PROT_MTE) in the VMM would fail in
+> > arch_validate_flags(). MTE would still be allowed in the guest but in
+> > the VMM for the guest memory regions. We can probably do this
+> > irrespective of VM_SHARED. Of course, the VMM can still mmap() the
+> > memory initially with PROT_MTE but that's not an issue IIRC, only the
+> > concurrent mprotect().
+> 
+> This could work, but I worry that it's potential fragile. Also the rules
+> for what user space can do are not obvious and may be surprising. I'd
+> also want to look into the likes of mremap() to see how easy it would be
+> to ensure that we couldn't end up with VM_SHARED (or VM_MTE_ALLOWED)
+> memory sneaking into a memslot.
+> 
+> Unless you think it's worth complicating the ABI in the hope of avoiding
+> the big lock overhead I think it's probably best to stick with the big
+> lock at least until we have more data on the overhead.
 
-lgtm
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+It's up to Marc but I think for now just make it safe and once we get
+our hands on hardware, we can assess the impact. For example, starting
+multiple VMs simultaneously will contend on such big lock but we have an
+option to optimise it by setting PG_mte_tagged on allocation via a new
+VM_* flag.
 
->
-> > --
-> > 2.31.1
-> >
-> >
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
->
+For my last suggestion above, changing the VMM ABI afterwards is a bit
+tricky, so we could state now that VM_SHARED and MTE are not allowed
+(though it needs a patch to enforce it). That's assuming that mprotect()
+in the VMM cannot race with the user_mem_abort() on another CPU which
+makes the lock necessary anyway.
 
---=20
-Marc-Andr=C3=A9 Lureau
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+> >>  			  struct kvm_memory_slot *memslot, unsigned long hva,
+> >>  			  unsigned long fault_status)
+> >> @@ -971,8 +1007,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+> >>  	if (writable)
+> >>  		prot |= KVM_PGTABLE_PROT_W;
+> >>  
+> >> -	if (fault_status != FSC_PERM && !device)
+> >> +	if (fault_status != FSC_PERM && !device) {
+> >> +		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
+> >> +		if (ret)
+> >> +			goto out_unlock;
+> > 
+> > Maybe it was discussed in a previous version, why do we need this in
+> > addition to kvm_set_spte_gfn()?
+> 
+> kvm_set_spte_gfn() is only used for the MMU notifier path (e.g. if a
+> memslot is changed by the VMM). For the initial access we will normally
+> fault the page into stage 2 with user_mem_abort().
 
---000000000000eece9505c3eef77f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Right. Can we move the sanitise_mte_tags() call to
+kvm_pgtable_stage2_map() instead or we don't have the all the
+information needed?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 4, 2021 at 12:44 PM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">ping for any reviewers for docs<br>
-<br>
-On Fri, May 14, 2021 at 06:31:06PM +0100, Daniel P. Berrang=C3=A9 wrote:<br=
->
-&gt; These are an important of the overall QEMU network backend security<br=
->
-&gt; controls but never previously documented aside from in blog posts.<br>
-&gt; <br>
-&gt; Daniel P. Berrang=C3=A9 (4):<br>
-&gt;=C2=A0 =C2=A0docs: document how to pass secret data to QEMU<br>
-&gt;=C2=A0 =C2=A0docs: document usage of the authorization framework<br>
-&gt;=C2=A0 =C2=A0docs: recommend SCRAM-SHA-256 SASL mech instead of SHA-1 v=
-ariant<br>
-&gt;=C2=A0 =C2=A0sasl: remove comment about obsolete kerberos versions<br>
-&gt; <br>
-&gt;=C2=A0 docs/system/authz.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 263 +++++++++=
-++++++++++++++++++++++++++<br>
-&gt;=C2=A0 docs/system/index.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02=
- +<br>
-&gt;=C2=A0 docs/system/secrets.rst=C2=A0 =C2=A0 =C2=A0 | 162 ++++++++++++++=
-+++++++<br>
-&gt;=C2=A0 docs/system/vnc-security.rst |=C2=A0 =C2=A07 +-<br>
-&gt;=C2=A0 qemu.sasl=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 15 +-<br>
-&gt;=C2=A0 5 files changed, 437 insertions(+), 12 deletions(-)<br>
-&gt;=C2=A0 create mode 100644 docs/system/authz.rst<br>
-&gt;=C2=A0 create mode 100644 docs/system/secrets.rst<br></blockquote><div>=
-<br></div><div>lgtm</div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a hr=
-ef=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&g=
-t;=C2=A0 <br></div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-&gt; <br>
-&gt; -- <br>
-&gt; 2.31.1<br>
-&gt; <br>
-&gt; <br>
-<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000eece9505c3eef77f--
+-- 
+Catalin
 
