@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6290539B9EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:34:23 +0200 (CEST)
-Received: from localhost ([::1]:45172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0215939BA22
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:47:05 +0200 (CEST)
+Received: from localhost ([::1]:52276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp9xu-0002Dl-Fe
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:34:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
+	id 1lpAAB-0007lR-IB
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lp9wz-0001Zb-Ra
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:33:25 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lp9ww-0005nZ-PQ
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:33:25 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id g8so14579831ejx.1
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 06:33:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pxl86Hm7EmMSHUy+GitYRgWKiG2eUMZqev0TomRsQq4=;
- b=IJqLs/qz2Xe622bcCtoz+Zm4fOyNuYKmp8GCsc9jZ3D4H72OfG6O998ZBWnJGpJGD7
- wY3aJXpwqLRXHLwQ/ph3c9tmvdDLJlqPObpO4nbXb/i98sZvfxGcV0pQeSfM9zhmowMg
- QPNl8P7vCoiY1JQ/LKRkj5zZxk/BDWn72w0l6hc5zdRKPlMhBSZER3QGrPUVGBN+P0Ro
- ChVZ8pYaMEBGqNtf0fx27lqrgp9SuKGAklIGJwEY3WobqdFzGdg/ZFY8zi3yrq6oQOMg
- Noala6acouml/gkUzBJe+n9Zq/m3RMRydpIt28M8tFG9rSKf70V59FOBaCPlubBvJK85
- C6lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pxl86Hm7EmMSHUy+GitYRgWKiG2eUMZqev0TomRsQq4=;
- b=Uzv7jQ2jTV7g5P4xXchHODuylGEQEZP24EnHfZyUagPBXKxZqCIFW1t0BvtfnV2VSd
- wFv0fEs3y4blgEedZAGh0NXJi1eTO2evhPe5FXFkeI21cVtaNvzKlo1+r/O1w+0KfgfI
- yuLb9V4bU0eUplpREbD83+y+HrcprJDagrtAQsC0S4LrSd0ug34VANFncI8njUqmQIPC
- 7J8zFECVli3zxzMIheRoh/h57FHgSQexCMb3+IKEEb4idXMzqz3vEQAxb3Rqq+cac4WE
- zoD9gq0LNh2zCyEz0bOYWTp3SsMQEI4WEM68PhHL/OaN7Y1Alc6ef1+1Nm8/Zdfuuk2z
- Rb/w==
-X-Gm-Message-State: AOAM533sI6cxP84+kL2C2C0Wk1ni7Eu38sMz+gr14XwN/AqvyDCIFbr6
- 9ANixG/kTR0S/hP4eMSfP6lkL7tpA0/ri7y8aWUO4A==
-X-Google-Smtp-Source: ABdhPJyzSD7gFhhQZo4S/PS580uxOjtLt9wqmVHENv+A/05pqVER8LLmJPL6M/N+3emeVCFMEw5hgMGjIm+krdJ4F5k=
-X-Received: by 2002:a17:906:b294:: with SMTP id
- q20mr4120262ejz.382.1622813600059; 
- Fri, 04 Jun 2021 06:33:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lpA9C-00074g-W4
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:46:03 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:44989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lpA9B-0005Wh-3C
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:46:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=cGDbvTk5oUtW0jTrYn82Ig/ZGjoz4S43f18HsQC6w+w=; b=iKaSuzKbp1iFx8O7Cv+4LrJrbt
+ E5Q9VOvSFxqCIbBLvVBpHBX7aA+R4VvRg/sIYB3rc6jIGFGhICLbEmbP+c8vYNATd/ldJAJwSLqXo
+ t8+GDdDvGQ97XnWypAfuFwnTQ9K47wpQtmFrAECXyFj1l9B5e5I5rTXGDeYRYtwua+3FkmNK/R5CE
+ k7G4jT1fkQ0a4Wh+Re8RD5NCgDhMFzr0IgMPXk4Pc/EKTAh5c36+HvZPL1xhVEDsFdC8I3QVIYBEa
+ RzYWp7haJ1sz6p3MrgNmIabw/IS+XskX0yjwbiljo8jiQUuECC+14p+wzXOj3X96t1rduqohJCBxG
+ dF6v46TvCmJYLdUqw8POBdyvFyFAJlfRlLq++jinQh1ENQTkc3wGV3rqfaZP68VHSPpVwjJDQsO1F
+ 8vyfKZ4+vR/Eitc5ghJs+fLrMMLIBvpx/GT2HGZMykOTPZAUnrd3UIStTYrBAUNzByXoVqo0rglFi
+ poVJWqCVOPITu4mLj6skqShAIOtCIiRi2m6eeScsCTJ1DeapfUHB10TOduZ540kQAt4Qag1IMuBhs
+ wicUOh+kwPdEyNYI8L64K3Yx8rLPXOc3cVoHNBJNXVCwVM55H6ZJjgL5t85QV2bxhTXVClzIAQTIs
+ uQKSAwXslFisv4QzElC5hQkfaB3XhOxRpO6E9z0jw=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 2/3] 9pfs: capture root stat
+Date: Fri, 04 Jun 2021 15:45:58 +0200
+Message-ID: <3855995.j4n3Whajus@silver>
+In-Reply-To: <e6a33f077cf0675f51bff979e976f8472cfe027d.1622135592.git.qemu_oss@crudebyte.com>
+References: <cover.1622135592.git.qemu_oss@crudebyte.com>
+ <e6a33f077cf0675f51bff979e976f8472cfe027d.1622135592.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-References: <20210604120915.286195-1-pbonzini@redhat.com>
- <155dcb87-c6ab-de58-e2cd-c6bfb478c56b@amsat.org>
- <YLonThBK4yhIEgfL@redhat.com>
-In-Reply-To: <YLonThBK4yhIEgfL@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Jun 2021 14:32:46 +0100
-Message-ID: <CAFEAcA-dhCg0VTLJH11ZUO=-aQwtufvMyXqqrkyJY-isCzxFsw@mail.gmail.com>
-Subject: Re: [PATCH] vnc: avoid deprecation warnings for SASL on OS X
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,27 +65,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Jun 2021 at 14:15, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote
-> VNC/SASL isn't going anywhere. It is fully supported on Linux and a
-> critically important security feature.
->
-> If macOS removes SASL, that sucks for macOS users, but then in that case =
-I
-> assume HomeBrew/MacPorts would bring it back to life, because SASL is an
-> important feature for many apps.
+On Donnerstag, 27. Mai 2021 19:04:11 CEST Christian Schoenebeck wrote:
+> We already capture the QID of the exported 9p root path, i.e. to
+> prevent client access outside the defined, exported filesystem's tree.
+> This is currently checked by comparing the root QID with another FID's
+> QID.
+> 
+> The problem with the latter is that resolving a QID of any given 9p path
+> can only be done on 9p server's main thread, that's because it might
+> mutate the server's state if inode remapping is enabled.
+> 
+> For that reason also capture the POSIX stat info of the root path for
+> being able to identify on any (e.g. worker) thread whether an
+> arbitrary given path is identical to the export root.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p.c | 10 +++++++++-
+>  hw/9pfs/9p.h |  1 +
+>  2 files changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 89aa07db78..825de1561d 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1400,6 +1400,7 @@ static void coroutine_fn v9fs_attach(void *opaque)
+>      size_t offset = 7;
+>      V9fsQID qid;
+>      ssize_t err;
+> +    struct stat stbuf;
+> 
+>      v9fs_string_init(&uname);
+>      v9fs_string_init(&aname);
+> @@ -1422,7 +1423,13 @@ static void coroutine_fn v9fs_attach(void *opaque)
+>          clunk_fid(s, fid);
+>          goto out;
+>      }
+> -    err = fid_to_qid(pdu, fidp, &qid);
+> +    err = v9fs_co_lstat(pdu, &fidp->path, &stbuf);
+> +    if (err < 0) {
+> +        err = -EINVAL;
+> +        clunk_fid(s, fid);
+> +        goto out;
+> +    }
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+>      if (err < 0) {
+>          err = -EINVAL;
+>          clunk_fid(s, fid);
+> @@ -1455,6 +1462,7 @@ static void coroutine_fn v9fs_attach(void *opaque)
+>      err += offset;
+> 
+>      memcpy(&s->root_qid, &qid, sizeof(qid));
+> +    memcpy(&s->root_st, &stbuf, sizeof(struct stat));
 
-Also, Apple marked these things deprecated 5 years ago and haven't
-dropped them yet, so they're clearly not in a particular hurry...
-(they probably mostly wanted to nudge mac-native apps onto whatever
-their own-brand API for this is, would be my guess).
+I'll make that sizeof(stbuf) instead to match with common code style here.
 
-thanks
--- PMM
+>      trace_v9fs_attach_return(pdu->tag, pdu->id,
+>                               qid.type, qid.version, qid.path);
+>  out:
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 00381591ff..6f0b4c78c0 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -356,6 +356,7 @@ struct V9fsState {
+>      Error *migration_blocker;
+>      V9fsConf fsconf;
+>      V9fsQID root_qid;
+> +    struct stat root_st;
+>      dev_t dev_id;
+>      struct qht qpd_table;
+>      struct qht qpp_table;
+
+
 
