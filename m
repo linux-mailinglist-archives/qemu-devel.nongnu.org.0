@@ -2,79 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9827B39B982
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:08:17 +0200 (CEST)
-Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F390B39B996
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:12:16 +0200 (CEST)
+Received: from localhost ([::1]:55074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp9Ye-0008R8-AW
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
+	id 1lp9cW-0005dY-3Y
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lp9Xc-00072H-KA
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:07:12 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lp9Xa-0004nk-Pm
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:07:12 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id r11so11024931edt.13
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 06:07:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+Wm/srC1ybRngXXc0fJ+6M035ytiMlq1ubcMqMZlqK8=;
- b=Rj8ieoeg1glmDIJPN5Jdnc36ECXvhOiWVDGpPcyOjQ3jPYK+S5V2mgOzAkLJWoPLeg
- wFsqyjG80qAh/9BBPA1SBQmrhwhUAzHwB1BpXMiSMBvnd6Nt6xtB7bzO9Rxm96Hzhujb
- cXLFS/TS6ZEY/xEXc67TYCmeoCsl5+8BH6sJjRkk4LnPg+6hd7Nolpk/wdy/cegPx7ue
- ZhhQMrIN2MMshhOk9kGREesJknA1AknLfvZqAIpnNZeGYbbjCCg7rEOevcpdq5YG0PEd
- eIIuzt5RX3/OMnNF58pT5ZXICCUwKkvbw7kR1jC1WRgXMKMWXUbTNgNitDRWPBfonKX1
- uU+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+Wm/srC1ybRngXXc0fJ+6M035ytiMlq1ubcMqMZlqK8=;
- b=DUAuTAl/Lr7fj0j4II7CAMuslg9l6FZJtSe3539ynFGTZjqAEHS1i0m2RYjjtddhOw
- Cg+I/VXrWN/G60yWgzwWulyxIURlLhk2PU24cug91ZUD/G45DmxIQWvDtY3RNcUUiBwy
- xpsAKe2ZvatLA3YaWRUHR6oc1l5Zgk+kH9JsfOphwa/S1gJu+5RubzK41DoZx0dDjwcd
- o1+l5uMKI3b/bnoRo2n2OEszAAcmcH0zRMjmoMGkxBIxUlm9/W+Cyi0OY/mdaWCllhDf
- DDflaOTB82TbHHW24rEROLhKrCPULuodbup3r34LySy98g35ChlI3XuFXrMc7eCrrRN7
- BoQA==
-X-Gm-Message-State: AOAM532yH1LWRyUpZJT6lTI6F5TuHwvFjxnB2zTfj9VlA+/zUDYFm5eD
- THVZ7Ugnp9hop8nAUb8uBzk=
-X-Google-Smtp-Source: ABdhPJwsVCQp9cLXwtlEq66scMU7P2GEyP7I/4fZZrAr3nkaUtVADlfEcJ+IPQuRqG9bnh+HW2UHWw==
-X-Received: by 2002:aa7:c84a:: with SMTP id g10mr4538404edt.326.1622812027730; 
- Fri, 04 Jun 2021 06:07:07 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id c7sm2785159ejs.26.2021.06.04.06.07.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 06:07:06 -0700 (PDT)
-Subject: Re: [PATCH] vnc: avoid deprecation warnings for SASL on OS X
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210604120915.286195-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <155dcb87-c6ab-de58-e2cd-c6bfb478c56b@amsat.org>
-Date: Fri, 4 Jun 2021 15:07:05 +0200
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lp9aO-00031T-Hv
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:10:04 -0400
+Received: from foss.arm.com ([217.140.110.172]:59606)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lp9aH-0006ax-Ka
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:10:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72B462B;
+ Fri,  4 Jun 2021 06:09:55 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BA0CD3F774;
+ Fri,  4 Jun 2021 06:09:52 -0700 (PDT)
+Subject: Re: [PATCH v13 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210524104513.13258-1-steven.price@arm.com>
+ <20210524104513.13258-8-steven.price@arm.com>
+ <20210603171336.GH20338@arm.com>
+ <02c7682e-5fb6-29eb-9105-02e3521756a2@arm.com>
+ <20210604114233.GE31173@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <b3c869e3-b693-5e3f-3748-1c62b01e9b22@arm.com>
+Date: Fri, 4 Jun 2021 14:09:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604120915.286195-1-pbonzini@redhat.com>
+In-Reply-To: <20210604114233.GE31173@arm.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.59,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.59,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,57 +61,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/21 2:09 PM, Paolo Bonzini wrote:
-> Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-> all files that use SASL API need to disable -Wdeprecated-declarations.
-> Remove the only use that is outside vnc-auth-sasl.c and add the
-> relevant #pragma GCC diagnostic there.
+On 04/06/2021 12:42, Catalin Marinas wrote:
+> On Fri, Jun 04, 2021 at 12:15:56PM +0100, Steven Price wrote:
+>> On 03/06/2021 18:13, Catalin Marinas wrote:
+>>> On Mon, May 24, 2021 at 11:45:12AM +0100, Steven Price wrote:
+>>>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>>>> index 24223adae150..b3edde68bc3e 100644
+>>>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>>>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>>>> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+>>>>  	__u32 reserved[12];
+>>>>  };
+>>>>  
+>>>> +struct kvm_arm_copy_mte_tags {
+>>>> +	__u64 guest_ipa;
+>>>> +	__u64 length;
+>>>> +	void __user *addr;
+>>>> +	__u64 flags;
+>>>> +	__u64 reserved[2];
+>>>> +};
+>>>> +
+>>>> +#define KVM_ARM_TAGS_TO_GUEST		0
+>>>> +#define KVM_ARM_TAGS_FROM_GUEST		1
+>>>> +
+>>>>  /* If you need to interpret the index values, here is the key: */
+>>>>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+>>>>  #define KVM_REG_ARM_COPROC_SHIFT	16
+>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>>>> index e89a5e275e25..baa33359e477 100644
+>>>> --- a/arch/arm64/kvm/arm.c
+>>>> +++ b/arch/arm64/kvm/arm.c
+>>>> @@ -1345,6 +1345,13 @@ long kvm_arch_vm_ioctl(struct file *filp,
+>>>>  
+>>>>  		return 0;
+>>>>  	}
+>>>> +	case KVM_ARM_MTE_COPY_TAGS: {
+>>>> +		struct kvm_arm_copy_mte_tags copy_tags;
+>>>> +
+>>>> +		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
+>>>> +			return -EFAULT;
+>>>> +		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
+>>>> +	}
+>>>
+>>> I wonder whether we need an update of the user structure following a
+>>> fault, like how much was copied etc. In case of an error, some tags were
+>>> copied and the VMM may want to skip the page before continuing. But here
+>>> there's no such information provided.
+>>>
+>>> On the ptrace interface, we return 0 on the syscall if any bytes were
+>>> copied and update iov_len to such number. Maybe you want to still return
+>>> an error here but updating copy_tags.length would be nice (and, of
+>>> course, a copy_to_user() back).
+>>
+>> Good idea - as you suggest I'll make it update length with the number of
+>> bytes not processed. Although in general I think we're expecting the VMM
+>> to know where the memory is so this is more of a programming error - but
+>> could still be useful for debugging.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  ui/vnc-auth-sasl.c | 20 ++++++++++++++++++++
->  ui/vnc-auth-sasl.h |  1 +
->  ui/vnc.c           | 10 ++--------
->  3 files changed, 23 insertions(+), 8 deletions(-)
-> 
-> diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
-> index df7dc08e9f..cf65a0b161 100644
-> --- a/ui/vnc-auth-sasl.c
-> +++ b/ui/vnc-auth-sasl.c
-> @@ -28,10 +28,30 @@
->  #include "vnc.h"
->  #include "trace.h"
->  
-> +/*
-> + * Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-> + * files that use SASL API need to disable -Wdeprecated-declarations.
-> + */
-> +#ifdef CONFIG_DARWIN
-> +#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-> +#endif
-> +
->  /* Max amount of data we send/recv for SASL steps to prevent DOS */
->  #define SASL_DATA_MAX_LEN (1024 * 1024)
->  
->  
-> +bool vnc_sasl_server_init(Error **errp)
-> +{
-> +    int saslErr = sasl_server_init(NULL, "qemu");
+> Or update it to the number of bytes copied to be consistent with
+> ptrace()'s iov.len. On success, the structure is effectively left
+> unchanged.
 
-What is the plan once these functions are removed for the
-distribution? Is there a replacement or should we start warning
-the users here and in docs/system/deprecated.rst VNC/SASL will
-go away soon?
+I was avoiding that because it confuses the error code when the initial
+copy_from_user() fails. In that case the structure is clearly unchanged,
+so you can only tell from a -EFAULT return that nothing happened. By
+returning the number of bytes left you can return an error code along
+with the information that the copy only half completed.
 
-> +    if (saslErr != SASL_OK) {
-> +        error_setg(errp, "Failed to initialize SASL auth: %s",
-> +                   sasl_errstring(saslErr, NULL, NULL));
-> +        return false;
-> +    }
-> +    return true;
-> +}
+It also seems cleaner to leave the structure unchanged if e.g. the flags
+or reserved fields are invalid rather than having to set length=0 to
+signal that nothing was done.
+
+Although I do feel like arguing whether to use a ptrace() interface or a
+copy_{to,from}_user() interface is somewhat ridiculous considering
+neither are exactly considered good.
+
+Rather than changing the structure we could return either an error code
+(if nothing was copied) or the number of bytes left. That way ioctl()==0
+means complete success, >0 means partial success and <0 means complete
+failure and provides a detailed error code. The ioctl() can be repeated
+(with adjusted pointers) if it returns >0 and a detailed error is needed.
+
+Steve
 
