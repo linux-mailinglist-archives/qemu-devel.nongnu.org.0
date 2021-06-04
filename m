@@ -2,83 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5393939BF64
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:12:51 +0200 (CEST)
-Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008D939BF95
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:27:25 +0200 (CEST)
+Received: from localhost ([::1]:52206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpEJO-0004fS-Cv
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
+	id 1lpEXU-0005Mj-0V
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lpEGV-000176-EU
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:09:51 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:52642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lpEGS-0000lc-Hw
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:09:51 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6B9FB1FD47;
- Fri,  4 Jun 2021 18:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622830187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t/CFClYqrFXR8F8FDCj/sYttFkBajfb4rlQduic3Yss=;
- b=H9n8Dei39s6amYYPGG8LnunB/hbe1JMO8ilP5dKtPsjZxxGkybBTkeViRIEPD/NTlVvOFU
- RrJ2QO//U5ZqTR/njCaRA7qTnUIvLA/+AbfFHvpYyeiIDHyJ0h87LHAQG92AdXW0cDTLTx
- 1BUwXF+QcoIJmjb2jxEXBGl6H4NwuEc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622830187;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t/CFClYqrFXR8F8FDCj/sYttFkBajfb4rlQduic3Yss=;
- b=XK9KwCppE9MBoAD5T6eeLsgO3xB+B55NHeVHGA9BbD9YDlmHh+Xj1mCJIBJO6l9n69ErTQ
- Xe+6Jl+kWOypxCCg==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 1A45F118DD;
- Fri,  4 Jun 2021 18:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1622830187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t/CFClYqrFXR8F8FDCj/sYttFkBajfb4rlQduic3Yss=;
- b=H9n8Dei39s6amYYPGG8LnunB/hbe1JMO8ilP5dKtPsjZxxGkybBTkeViRIEPD/NTlVvOFU
- RrJ2QO//U5ZqTR/njCaRA7qTnUIvLA/+AbfFHvpYyeiIDHyJ0h87LHAQG92AdXW0cDTLTx
- 1BUwXF+QcoIJmjb2jxEXBGl6H4NwuEc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1622830187;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t/CFClYqrFXR8F8FDCj/sYttFkBajfb4rlQduic3Yss=;
- b=XK9KwCppE9MBoAD5T6eeLsgO3xB+B55NHeVHGA9BbD9YDlmHh+Xj1mCJIBJO6l9n69ErTQ
- Xe+6Jl+kWOypxCCg==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id UMnhBGtsumC8TwAALh3uQQ
- (envelope-from <cfontana@suse.de>); Fri, 04 Jun 2021 18:09:47 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa Junior <crosa@redhat.com>
-Subject: [PATCH v1 2/2] tests/acceptance: add OVMF firmware test to cover
- x86_64 "host" cpu bug
-Date: Fri,  4 Jun 2021 20:09:45 +0200
-Message-Id: <20210604180945.9330-3-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210604180945.9330-1-cfontana@suse.de>
-References: <20210604180945.9330-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lpETi-0003Pw-3S
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:23:30 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:59153)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lpETd-0000nu-AN
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:23:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=8sgYhNfYdBTjy8pUefMu9BJT6+D0M10LX8FPgMGYjOw=; b=C42Et3ekUHVS1Li0xkNs5eHEmQ
+ IDWKmVjAmPmlXmNcYqzakbPRN+8z6ayFGEM07Q05PD/dqGouOmx6AUxfm/W1ayovFhCoy90wVaLG2
+ y7R/eXlZGbgF44nmxF3O6eOzOGq2AYguYIUiVFVCWedu2X+RaU4pR3+EIz9zBeYqO2L0ffkKpwAGU
+ 8/1tzRCyyg9UJHzRSy604h7Ez7eNMRGjyeCN3bfwlVdmikF3hNcmQd98wDNlzkMimE6J+WfTAIAy+
+ R0qALuZvztqLYy8YJobf6YhY8QrExKP6FWtQcHT1okXPykvbVh5SU4gZTairqPY6tEBVq9nYktsaL
+ doR4xLyCYlDDExvh8qEjToHRPLmTUWKi+ERd0KeJ6A9jRqSK+FXK25G+p7VJKvGeeIgaRksqBvae/
+ 91KuWu9JqtM0zVXybxkaqnZxwg2+E5VJaBBad9a/F9RUF9oIazYHgq4bzVKfEztINpAkUPAbf7ry6
+ rrCTWwvBFcmA5yq5Vab6JnqkHbo1UNJ9FD+Y1RfyIhfUV4NNABBihUsitDOfehPSykvxBYRhZPyBs
+ I/Z+GZjL+CfwGlkVHp1hNwpqXatVZkdZ9lacGKna8AOSm8PqNUaGY67HMvZyXRWMncIgLSzghgM5n
+ k+ExscsO+vK1WndjDqGoTeAPin9ClscauwSk8TCds=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 0/7] 9pfs: Twalk optimization
+Date: Fri, 04 Jun 2021 20:23:21 +0200
+Message-ID: <2022289.dxTFu3Ykd5@silver>
+In-Reply-To: <20210604183128.23142868@bahia.lan>
+References: <cover.1622821729.git.qemu_oss@crudebyte.com>
+ <20210604183128.23142868@bahia.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,110 +65,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-recent refactoring of i386 broke OVMF firmware with a wrong initialization
-order for host cpu. This test covers this issue for potential regressions.
+On Freitag, 4. Juni 2021 18:31:28 CEST Greg Kurz wrote:
+> On Fri, 4 Jun 2021 17:48:49 +0200
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > This patch set reduces latency of Twalk handling by reducing the amount of
+> > thread hops, similar to previous Treaddir optimization.
+> > 
+> > The performance gain of this patch set is not as spectacular as previously
+> > with Treaddir, but there is definitely a measurable difference.
+> > 
+> > The actualy performance optimization is patch 7. With the benchmark of
+> > patch 2, the runtime of the Twalk test was cut in half. In real world
+> > tests
+> > I measured a performance gain (i.e. running an entire guest OS, and hence
+> > mixed with all other kinds of 9p requests) of about 2%, again measured in
+> > a
+> > mix, not concentrated on Twalk alone.
+> > 
+> > v1 -> v2:
+> >   * Added a separate [NEW PATCH 1] for fixing not_same_qid() semantic.
+> 
+> Strangely, patch 1 appears between patch 3 and 4 in my email client.
 
-For the actual fixes, see:
-commit ("i386: run accel_cpu_instance_init as post_init"),
-commit ("i386: reorder call to cpu_exec_realizefn"),
+My bad, I forgot to take care about the time stamps of the individual patches 
+this time.
 
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- tests/acceptance/boot_ovmf_fc33.py | 75 ++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
- create mode 100644 tests/acceptance/boot_ovmf_fc33.py
+> >   * Code style: use sizeof(var-name) instead of sizeof(type-name)
+> >   
+> >     [PATCH 3].
+> >   
+> >   * Split out dropping fid_to_qid() into separate [PATCH 4].
+> >   
+> >   * Split out replacing not_same_qid() by same_stat_id() into separate
+> >   
+> >     [PATCH 5].
+> >   
+> >   * Split out dropping root_qid into separate [PATCH 6].
+> 
+> I could have a look at all the patches except the last one. LGTM.
+> You can add my R-b for patches 1 and 3 to 6.
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/tests/acceptance/boot_ovmf_fc33.py b/tests/acceptance/boot_ovmf_fc33.py
-new file mode 100644
-index 0000000000..c0c4e0e394
---- /dev/null
-+++ b/tests/acceptance/boot_ovmf_fc33.py
-@@ -0,0 +1,75 @@
-+# Functional test that boots OVMF firmware with cpu host.
-+#
-+# This test was added to capture x86 "host" cpu initialization and realization
-+# ordering problems.
-+#
-+# Copyright (c) 2021 SUSE LLC
-+#
-+# Author:
-+#  Claudio Fontana <cfontana@suse.de>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+import time
-+
-+from avocado_qemu import Test
-+from avocado_qemu import extract_from_rpm
-+from avocado_qemu import wait_for_console_pattern
-+from avocado.utils import process
-+from avocado.utils.path import find_command, CmdNotFoundError
-+
-+class FirmwareTest(Test):
-+    def wait_for_firmware_message(self, success_message):
-+        wait_for_console_pattern(self, success_message, failure_message=None)
-+
-+class BootOVMF(FirmwareTest):
-+    """
-+    Boots OVMF secureboot and checks for a specific message.
-+    If we do not see the message, it's an ERROR that we express via a timeout.
-+    """
-+    timeout = 10
-+
-+    def test_cpu_host_x86(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        :avocado: tags=machine:q35
-+        :avocado: tags=cpu:host
-+        :avocado: tags=accel:kvm
-+        """
-+        self.require_accelerator("kvm")
-+
-+        rpm_url = ('https://download-ib01.fedoraproject.org/'
-+                   'pub/fedora/linux/updates/33/Everything/x86_64/Packages/e/'
-+                   'edk2-ovmf-20200801stable-3.fc33.noarch.rpm')
-+        rpm_hash = '45e1001313dc2deed9b41a532ef090682a11ccd1'
-+        rpm_path = self.fetch_asset(rpm_url, asset_hash=rpm_hash)
-+
-+        # Note the use of "./" at the beginning of the paths in the rpm,
-+        # it is not an accident, see extract_from_rpm in avocado_qemu/
-+
-+        ovmf_code_sec = extract_from_rpm(self, rpm_path,
-+                                  './usr/share/edk2/ovmf/OVMF_CODE.secboot.fd')
-+        ovmf_vars_sec = extract_from_rpm(self, rpm_path,
-+                                  './usr/share/edk2/ovmf/OVMF_VARS.secboot.fd')
-+
-+        # at this point the ovmf code should be reachable in the tmp dir; we
-+        # can use this sleep to debug issues with the extraction above.
-+        #time.sleep(3600)
-+
-+        self.vm.set_console()
-+        self.vm.add_args(
-+            '-accel', 'kvm',
-+            '-cpu', 'host',
-+            '-machine', 'q35,smm=on',
-+            '-m', '4G',
-+            '-drive',
-+               'if=pflash,format=raw,readonly=on,unit=0,file=' + ovmf_code_sec,
-+            '-drive',
-+               'if=pflash,format=raw,unit=1,file=' + ovmf_vars_sec,
-+            '-display', 'none',
-+            '-serial', 'stdio')
-+        self.vm.launch()
-+        console_pattern = 'BdsDxe: failed to load Boot0001'
-+        self.wait_for_firmware_message(success_message=console_pattern);
--- 
-2.26.2
+Queued patches 1, 3..6 on 9p.next:
+
+https://github.com/cschoenebeck/qemu/commits/9p.next
+
+Thanks!
+
+> I'll try to find some time for patch 7 next week.
+> 
+
+Twalk can be tricky, so no hurry! It takes what it takes.
+
+> > Christian Schoenebeck (7):
+> >   9pfs: fix not_same_qid()
+> >   9pfs: Twalk benchmark
+> >   9pfs: capture root stat
+> >   9pfs: drop fid_to_qid()
+> >   9pfs: replace not_same_qid() by same_stat_id()
+> >   9pfs: drop root_qid
+> >   9pfs: reduce latency of Twalk
+> >  
+> >  hw/9pfs/9p.c                 | 128 +++++++++++++++++++++++------------
+> >  hw/9pfs/9p.h                 |   2 +-
+> >  tests/qtest/virtio-9p-test.c |  30 ++++++++
+> >  3 files changed, 116 insertions(+), 44 deletions(-)
+
+Best regards,
+Christian Schoenebeck
+
 
 
