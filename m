@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B0039B5C2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 11:19:31 +0200 (CEST)
-Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5199F39B5D7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 11:22:02 +0200 (CEST)
+Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp5zG-0005BI-AK
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 05:19:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40380)
+	id 1lp61h-0002Ra-8Z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 05:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lp5xg-0002Fz-2W
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:17:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60237)
+ id 1lp5xj-0002Hm-AR
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:17:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lp5xd-0002wY-Bx
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:17:51 -0400
+ id 1lp5xf-0002xO-QD
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 05:17:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622798268;
+ s=mimecast20190719; t=1622798271;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BEyjPhDYu888mBXKgEgYrXHbdeIod5R+ZZmN8CRaIrg=;
- b=aAA4JXVlnAvVJZ4ifUv8Ah+mNgH51bGJgSZ5Puu1O/aCL3/Vncsyy21yWQrNp+LeP0mplZ
- 9ZEmUbxhMYBMSejW+yyeTgdPPBcvhzAiE+k77Yw70AO54OrlFxfM7OclqtFEjk9IQ5C7OG
- +fRxWvVj7jSHNWsISaEjU0pzxQmfGKQ=
+ bh=M+OgVN/q+HT1l3GQFIJXwHX0ZByEXAa+u0ctJOkBjaU=;
+ b=Iydqj6uKLxbls/BihhNqIX7amCE0l4NrvgcKGGMNlU5ZCe75SgYK2vvD1dZjkCrLnAicyc
+ uafWCnD5MwVbeHsCqTe/EUibO2RR9X1WH7IBETD8FqFok0d0eO3b0lLZe/M5p4v967MiYv
+ SzrvaMPB7+u444iwRx1Dqwxt2WSK2x8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-Dd0GxU-DNnyh0jrqwd0k3A-1; Fri, 04 Jun 2021 05:17:45 -0400
-X-MC-Unique: Dd0GxU-DNnyh0jrqwd0k3A-1
+ us-mta-190-Ac1_3BJONcWiOF-7q93GqQ-1; Fri, 04 Jun 2021 05:17:48 -0400
+X-MC-Unique: Ac1_3BJONcWiOF-7q93GqQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 796E1107ACC7;
- Fri,  4 Jun 2021 09:17:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 448416D4E0;
+ Fri,  4 Jun 2021 09:17:47 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-43.ams2.redhat.com
  [10.36.115.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD7976A044;
- Fri,  4 Jun 2021 09:17:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBEFF60CEC;
+ Fri,  4 Jun 2021 09:17:44 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 04/16] docs/devel/testing: add debug section to the QEMU
- iotests chapter
-Date: Fri,  4 Jun 2021 11:17:11 +0200
-Message-Id: <20210604091723.13419-5-eesposit@redhat.com>
+Subject: [PATCH v5 05/16] qemu-iotests: add option to attach gdbserver
+Date: Fri,  4 Jun 2021 11:17:12 +0200
+Message-Id: <20210604091723.13419-6-eesposit@redhat.com>
 In-Reply-To: <20210604091723.13419-1-eesposit@redhat.com>
 References: <20210604091723.13419-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -89,34 +88,118 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the "Debugging a test case" section, in preparation
-to the additional flags that will be added in the next patches.
+Define --gdb flag and GDB_OPTIONS environment variable
+to python tests to attach a gdbserver to each qemu instance.
+This patch only adds and parses this flag, it does not yet add
+the implementation for it.
+
+if --gdb is not provided but $GDB_OPTIONS is set, ignore the
+environment variable.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- docs/devel/testing.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tests/qemu-iotests/check      |  6 +++++-
+ tests/qemu-iotests/iotests.py |  5 +++++
+ tests/qemu-iotests/testenv.py | 17 +++++++++++++++--
+ 3 files changed, 25 insertions(+), 3 deletions(-)
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4e42392810..9d6a8f8636 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -224,6 +224,14 @@ another application on the host may have locked the file, possibly leading to a
- test failure.  If using such devices are explicitly desired, consider adding
- ``locking=off`` option to disable image locking.
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 3f3962dd75..1dba4218c0 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -36,6 +36,9 @@ def make_argparser() -> argparse.ArgumentParser:
+                    help='pretty print output for make check')
  
-+Debugging a test case
-+-----------------------
-+The following options to the ``check`` script can be useful when debugging
-+a failing test:
-+
-+* ``-d`` (debug) just increases the logging verbosity, showing
-+  for example the QMP commands and answers.
-+
- Test case groups
- ----------------
+     p.add_argument('-d', dest='debug', action='store_true', help='debug')
++    p.add_argument('--gdb', action='store_true',
++                   help="start gdbserver with $GDB_OPTIONS options \
++                        ('localhost:12345' if $GDB_OPTIONS is empty)")
+     p.add_argument('--misalign', action='store_true',
+                    help='misalign memory allocations')
+     p.add_argument('--color', choices=['on', 'off', 'auto'],
+@@ -114,7 +117,8 @@ if __name__ == '__main__':
+     env = TestEnv(imgfmt=args.imgfmt, imgproto=args.imgproto,
+                   aiomode=args.aiomode, cachemode=args.cachemode,
+                   imgopts=args.imgopts, misalign=args.misalign,
+-                  debug=args.debug, valgrind=args.valgrind)
++                  debug=args.debug, valgrind=args.valgrind,
++                  gdb=args.gdb)
  
+     if len(sys.argv) > 1 and sys.argv[-len(args.tests)-1] == '--':
+         if not args.tests:
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 6b0db4ce54..c86f239d81 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -74,6 +74,11 @@
+ qemu_prog = os.environ.get('QEMU_PROG', 'qemu')
+ qemu_opts = os.environ.get('QEMU_OPTIONS', '').strip().split(' ')
+ 
++gdb_qemu_env = os.environ.get('GDB_OPTIONS')
++qemu_gdb = []
++if gdb_qemu_env:
++    qemu_gdb = ['gdbserver'] + gdb_qemu_env.strip().split(' ')
++
+ imgfmt = os.environ.get('IMGFMT', 'raw')
+ imgproto = os.environ.get('IMGPROTO', 'file')
+ output_dir = os.environ.get('OUTPUT_DIR', '.')
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 0c3fe75636..8501c6caf5 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -27,6 +27,7 @@
+ import glob
+ from typing import List, Dict, Any, Optional, ContextManager
+ 
++DEF_GDB_OPTIONS = 'localhost:12345'
+ 
+ def isxfile(path: str) -> bool:
+     return os.path.isfile(path) and os.access(path, os.X_OK)
+@@ -72,7 +73,8 @@ class TestEnv(ContextManager['TestEnv']):
+                      'QEMU_NBD_OPTIONS', 'IMGOPTS', 'IMGFMT', 'IMGPROTO',
+                      'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
+                      'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
+-                     'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_']
++                     'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_',
++                     'GDB_OPTIONS']
+ 
+     def prepare_subprocess(self, args: List[str]) -> Dict[str, str]:
+         if self.debug:
+@@ -178,7 +180,8 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
+                  imgopts: Optional[str] = None,
+                  misalign: bool = False,
+                  debug: bool = False,
+-                 valgrind: bool = False) -> None:
++                 valgrind: bool = False,
++                 gdb: bool = False) -> None:
+         self.imgfmt = imgfmt
+         self.imgproto = imgproto
+         self.aiomode = aiomode
+@@ -186,6 +189,15 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
+         self.misalign = misalign
+         self.debug = debug
+ 
++        if gdb:
++            self.gdb_options = os.getenv('GDB_OPTIONS', DEF_GDB_OPTIONS)
++            if not self.gdb_options:
++                # cover the case 'export GDB_OPTIONS='
++                self.gdb_options = DEF_GDB_OPTIONS
++        elif 'GDB_OPTIONS' in os.environ:
++            # to not propagate it in prepare_subprocess()
++            del os.environ['GDB_OPTIONS']
++
+         if valgrind:
+             self.valgrind_qemu = 'y'
+ 
+@@ -285,6 +297,7 @@ def print_env(self) -> None:
+ TEST_DIR      -- {TEST_DIR}
+ SOCK_DIR      -- {SOCK_DIR}
+ SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
++GDB_OPTIONS   -- {GDB_OPTIONS}
+ """
+ 
+         args = collections.defaultdict(str, self.get_env())
 -- 
 2.30.2
 
