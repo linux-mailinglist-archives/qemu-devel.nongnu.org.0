@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB46339B983
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:08:22 +0200 (CEST)
-Received: from localhost ([::1]:47192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9827B39B982
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:08:17 +0200 (CEST)
+Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp9Yj-0000GC-TN
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
+	id 1lp9Ye-0008R8-AW
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1lp9Xn-00078u-Mb
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:07:23 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:47014)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lp9Xc-00072H-KA
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:07:12 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1lp9Xk-0004sg-GZ
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:07:23 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id b9so14347125ejc.13
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 06:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=G0RLPIkH7hpCKHh0hBYO5x2ioarQya+jGRF5wm/ztP0=;
- b=Z0Sg1muU83prq88JKS2honOVtVv0h1sc3Z7Xe1Hx2WsfB4EzgADqC0QgOOej5bMHoV
- jstXy2U1WoxoAEn5jAPL6fHyAaQp+n+xFS/kcgcFXFGnlgfuEDT/viWEG/xzScKWvo75
- E0K4pXDOAS+/4diL8hCu321IECn7UN1pEtPBwpgWLpYc+fEBCCrVimj8QCZkE8lLrenk
- dnmjZzKKlNuRcOTEc9UWPxA0WrIAeJ4wXQAQoqrf+uIMiDwhrhL+SIapQ0ioogRHCy/J
- vgAma/1fs9JaL+och3cc7fqg7pyAe4youb8u+w5vZeTntAOWdPrrOEhSjCM/xyQnfxxG
- fL7g==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lp9Xa-0004nk-Pm
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:07:12 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id r11so11024931edt.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 06:07:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+Wm/srC1ybRngXXc0fJ+6M035ytiMlq1ubcMqMZlqK8=;
+ b=Rj8ieoeg1glmDIJPN5Jdnc36ECXvhOiWVDGpPcyOjQ3jPYK+S5V2mgOzAkLJWoPLeg
+ wFsqyjG80qAh/9BBPA1SBQmrhwhUAzHwB1BpXMiSMBvnd6Nt6xtB7bzO9Rxm96Hzhujb
+ cXLFS/TS6ZEY/xEXc67TYCmeoCsl5+8BH6sJjRkk4LnPg+6hd7Nolpk/wdy/cegPx7ue
+ ZhhQMrIN2MMshhOk9kGREesJknA1AknLfvZqAIpnNZeGYbbjCCg7rEOevcpdq5YG0PEd
+ eIIuzt5RX3/OMnNF58pT5ZXICCUwKkvbw7kR1jC1WRgXMKMWXUbTNgNitDRWPBfonKX1
+ uU+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=G0RLPIkH7hpCKHh0hBYO5x2ioarQya+jGRF5wm/ztP0=;
- b=AirCOLAaAbsnsAmqoAhy7F8FYy2WHTs+oBxaoZLrNpfV85I4E44BQ5au9a5oWza4I9
- voDf35X6GF9oCZmlaGv/WIL8gANhg+XZyBrJfV0UpUndGVet/cslu5qzJgUSKoak9UK7
- kUKKhP66/WvyR7Sr8brcYV3Kv+i2lodyq31Pk2fblBPN8ckvd69fob+Qi9w3ne74IOaf
- tv+qE3rK1SFqv7P8O1/QOawWjhFDaDW3sDP3lTfCCFKOEYaAfosK3RvVMGYEnFFUQHSS
- QTgULeneD5/WRhVuIk/QVhtm23liw18y9pfcLqv1gcYm9Iw5rLD1n1VoFrEbEvUevO9A
- MnzA==
-X-Gm-Message-State: AOAM533HCOlpK5PuP4VSV0bEcEdQUVsfdBZkK9CWxPUS5MJX5z1QmTPF
- yZv3LZXIQFjXD4cIffBBeGEpcQ==
-X-Google-Smtp-Source: ABdhPJzNYB5i8o/cc1z1HNgBGdf8vxdnd+dnpgHEblZ7pSA6LrwHU1lSkdLHFd1tC5Ih9mqMiO6wvQ==
-X-Received: by 2002:a17:906:509:: with SMTP id
- j9mr1601327eja.149.1622812037488; 
- Fri, 04 Jun 2021 06:07:17 -0700 (PDT)
-Received: from localhost.localdomain (adsl-84-226-111-173.adslplus.ch.
- [84.226.111.173])
- by smtp.gmail.com with ESMTPSA id p9sm3189265edh.61.2021.06.04.06.07.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 06:07:17 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PATCH v2] hw/intc/arm_gicv3_cpuif: Tolerate spurious EOIR writes
-Date: Fri,  4 Jun 2021 15:03:53 +0200
-Message-Id: <20210604130352.1887560-1-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.31.1
+ bh=+Wm/srC1ybRngXXc0fJ+6M035ytiMlq1ubcMqMZlqK8=;
+ b=DUAuTAl/Lr7fj0j4II7CAMuslg9l6FZJtSe3539ynFGTZjqAEHS1i0m2RYjjtddhOw
+ Cg+I/VXrWN/G60yWgzwWulyxIURlLhk2PU24cug91ZUD/G45DmxIQWvDtY3RNcUUiBwy
+ xpsAKe2ZvatLA3YaWRUHR6oc1l5Zgk+kH9JsfOphwa/S1gJu+5RubzK41DoZx0dDjwcd
+ o1+l5uMKI3b/bnoRo2n2OEszAAcmcH0zRMjmoMGkxBIxUlm9/W+Cyi0OY/mdaWCllhDf
+ DDflaOTB82TbHHW24rEROLhKrCPULuodbup3r34LySy98g35ChlI3XuFXrMc7eCrrRN7
+ BoQA==
+X-Gm-Message-State: AOAM532yH1LWRyUpZJT6lTI6F5TuHwvFjxnB2zTfj9VlA+/zUDYFm5eD
+ THVZ7Ugnp9hop8nAUb8uBzk=
+X-Google-Smtp-Source: ABdhPJwsVCQp9cLXwtlEq66scMU7P2GEyP7I/4fZZrAr3nkaUtVADlfEcJ+IPQuRqG9bnh+HW2UHWw==
+X-Received: by 2002:aa7:c84a:: with SMTP id g10mr4538404edt.326.1622812027730; 
+ Fri, 04 Jun 2021 06:07:07 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id c7sm2785159ejs.26.2021.06.04.06.07.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Jun 2021 06:07:06 -0700 (PDT)
+Subject: Re: [PATCH] vnc: avoid deprecation warnings for SASL on OS X
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210604120915.286195-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <155dcb87-c6ab-de58-e2cd-c6bfb478c56b@amsat.org>
+Date: Fri, 4 Jun 2021 15:07:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x62e.google.com
+In-Reply-To: <20210604120915.286195-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.59,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,57 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, shashi.mallela@linaro.org,
- qemu-arm@nongnu.org, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 382c7160d1cd ("hw/intc/arm_gicv3_cpuif: Fix EOIR write access
-check logic") added an assert_not_reached() if the guest writes the EOIR
-register while no interrupt is active.
+On 6/4/21 2:09 PM, Paolo Bonzini wrote:
+> Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
+> all files that use SASL API need to disable -Wdeprecated-declarations.
+> Remove the only use that is outside vnc-auth-sasl.c and add the
+> relevant #pragma GCC diagnostic there.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  ui/vnc-auth-sasl.c | 20 ++++++++++++++++++++
+>  ui/vnc-auth-sasl.h |  1 +
+>  ui/vnc.c           | 10 ++--------
+>  3 files changed, 23 insertions(+), 8 deletions(-)
+> 
+> diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
+> index df7dc08e9f..cf65a0b161 100644
+> --- a/ui/vnc-auth-sasl.c
+> +++ b/ui/vnc-auth-sasl.c
+> @@ -28,10 +28,30 @@
+>  #include "vnc.h"
+>  #include "trace.h"
+>  
+> +/*
+> + * Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
+> + * files that use SASL API need to disable -Wdeprecated-declarations.
+> + */
+> +#ifdef CONFIG_DARWIN
+> +#pragma GCC diagnostic warning "-Wdeprecated-declarations"
+> +#endif
+> +
+>  /* Max amount of data we send/recv for SASL steps to prevent DOS */
+>  #define SASL_DATA_MAX_LEN (1024 * 1024)
+>  
+>  
+> +bool vnc_sasl_server_init(Error **errp)
+> +{
+> +    int saslErr = sasl_server_init(NULL, "qemu");
 
-It turns out some software does this: EDK2, in
-GicV3ExitBootServicesEvent(), unconditionally write EOIR for all
-interrupts that it manages. This now causes QEMU to abort when running
-UEFI on a VM with GICv3. Although it is UNPREDICTABLE behavior and EDK2
-does need fixing, the punishment seems a little harsh, especially since
-icc_eoir_write() already tolerates writes of nonexistent interrupt
-numbers. Display a guest error and tolerate spurious EOIR writes.
+What is the plan once these functions are removed for the
+distribution? Is there a replacement or should we start warning
+the users here and in docs/system/deprecated.rst VNC/SASL will
+go away soon?
 
-Fixes: 382c7160d1cd ("hw/intc/arm_gicv3_cpuif: Fix EOIR write access check logic")
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
-v2: Added qemu_log_mask() (so I didn't keep the Reviewed-by tag)
-v1: https://lore.kernel.org/qemu-devel/20210603110012.1182530-1-jean-philippe@linaro.org/
-
----
- hw/intc/arm_gicv3_cpuif.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-index 81f94c7f4a..3e0641aff9 100644
---- a/hw/intc/arm_gicv3_cpuif.c
-+++ b/hw/intc/arm_gicv3_cpuif.c
-@@ -14,6 +14,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/bitops.h"
-+#include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "trace.h"
- #include "gicv3_internal.h"
-@@ -1357,7 +1358,9 @@ static void icc_eoir_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         }
-         break;
-     default:
--        g_assert_not_reached();
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: IRQ %d isn't active\n", __func__, irq);
-+        return;
-     }
- 
-     icc_drop_prio(cs, grp);
--- 
-2.31.1
-
+> +    if (saslErr != SASL_OK) {
+> +        error_setg(errp, "Failed to initialize SASL auth: %s",
+> +                   sasl_errstring(saslErr, NULL, NULL));
+> +        return false;
+> +    }
+> +    return true;
+> +}
 
