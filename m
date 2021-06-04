@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CA739B9A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:16:19 +0200 (CEST)
-Received: from localhost ([::1]:57392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC0139B9D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 15:28:09 +0200 (CEST)
+Received: from localhost ([::1]:35988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp9gQ-0007RE-AT
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59088)
+	id 1lp9rr-0004Hw-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 09:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lp9fQ-0006dL-Ay
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:15:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25558)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lp9r8-0003cN-KH; Fri, 04 Jun 2021 09:27:22 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lp9fH-0001ZN-OX
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 09:15:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622812505;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Kby6XJJsLGihjNrIfnXNOp6dMP5PaCQZvLwkEq+d/RY=;
- b=eyl44w8SHr/tJh/LWA4ZMZxmpYLc4jLmuX83U0FwSZJb9TNCQJ6tFFum2VJkRxUKdYI/+h
- rply45kuV3MjRPTICv1le0uOTNi7xYXggFMqIKwzxYFwVFydEU9Iy0sx2dvIqNInFGL/Nm
- 52dZAoa5A8/4pI4yOyura0XHR7T0a5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-a1wuv932MESq0yQirwER1A-1; Fri, 04 Jun 2021 09:14:59 -0400
-X-MC-Unique: a1wuv932MESq0yQirwER1A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB3EA801817;
- Fri,  4 Jun 2021 13:14:58 +0000 (UTC)
-Received: from redhat.com (ovpn-114-239.ams2.redhat.com [10.36.114.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E8EB5E26F;
- Fri,  4 Jun 2021 13:14:56 +0000 (UTC)
-Date: Fri, 4 Jun 2021 14:14:54 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] vnc: avoid deprecation warnings for SASL on OS X
-Message-ID: <YLonThBK4yhIEgfL@redhat.com>
-References: <20210604120915.286195-1-pbonzini@redhat.com>
- <155dcb87-c6ab-de58-e2cd-c6bfb478c56b@amsat.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lp9r5-0001rM-8n; Fri, 04 Jun 2021 09:27:22 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 239C07457ED;
+ Fri,  4 Jun 2021 15:27:13 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id D27B97456E3; Fri,  4 Jun 2021 15:27:12 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D0BEC7456B4;
+ Fri,  4 Jun 2021 15:27:12 +0200 (CEST)
+Date: Fri, 4 Jun 2021 15:27:12 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+In-Reply-To: <YLnGbJJGP8XqRqoj@yekko>
+Message-ID: <8966ef58-7695-436c-97f9-566c129eb7c@eik.bme.hu>
+References: <20210520090557.435689-1-aik@ozlabs.ru>
+ <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
+ <7e71f593-c2b9-5c7-4dd0-2a189bee771@eik.bme.hu>
+ <d86c8379-871f-53d4-03b3-55055fc0b56a@ozlabs.ru>
+ <9236fd6d-e231-7b3b-3cec-d17733d04e2c@eik.bme.hu>
+ <YLnGbJJGP8XqRqoj@yekko>
 MIME-Version: 1.0
-In-Reply-To: <155dcb87-c6ab-de58-e2cd-c6bfb478c56b@amsat.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1041377941-1622813232=:71104"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,68 +60,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 04, 2021 at 03:07:05PM +0200, Philippe Mathieu-DaudÃ© wrote:
-> On 6/4/21 2:09 PM, Paolo Bonzini wrote:
-> > Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-> > all files that use SASL API need to disable -Wdeprecated-declarations.
-> > Remove the only use that is outside vnc-auth-sasl.c and add the
-> > relevant #pragma GCC diagnostic there.
-> > 
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  ui/vnc-auth-sasl.c | 20 ++++++++++++++++++++
-> >  ui/vnc-auth-sasl.h |  1 +
-> >  ui/vnc.c           | 10 ++--------
-> >  3 files changed, 23 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
-> > index df7dc08e9f..cf65a0b161 100644
-> > --- a/ui/vnc-auth-sasl.c
-> > +++ b/ui/vnc-auth-sasl.c
-> > @@ -28,10 +28,30 @@
-> >  #include "vnc.h"
-> >  #include "trace.h"
-> >  
-> > +/*
-> > + * Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-> > + * files that use SASL API need to disable -Wdeprecated-declarations.
-> > + */
-> > +#ifdef CONFIG_DARWIN
-> > +#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-> > +#endif
-> > +
-> >  /* Max amount of data we send/recv for SASL steps to prevent DOS */
-> >  #define SASL_DATA_MAX_LEN (1024 * 1024)
-> >  
-> >  
-> > +bool vnc_sasl_server_init(Error **errp)
-> > +{
-> > +    int saslErr = sasl_server_init(NULL, "qemu");
-> 
-> What is the plan once these functions are removed for the
-> distribution? Is there a replacement or should we start warning
-> the users here and in docs/system/deprecated.rst VNC/SASL will
-> go away soon?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-VNC/SASL isn't going anywhere. It is fully supported on Linux and a
-critically important security feature.
+--3866299591-1041377941-1622813232=:71104
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-If macOS removes SASL, that sucks for macOS users, but then in that case I
-assume HomeBrew/MacPorts would bring it back to life, because SASL is an
-important feature for many apps.
+On Fri, 4 Jun 2021, David Gibson wrote:
+> On Tue, Jun 01, 2021 at 04:12:44PM +0200, BALATON Zoltan wrote:
+>> On Tue, 1 Jun 2021, Alexey Kardashevskiy wrote:
+>>> On 31/05/2021 23:07, BALATON Zoltan wrote:
+>>>> On Sun, 30 May 2021, BALATON Zoltan wrote:
+>>>>> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
+>>>>>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..a283b7d251a7
+>>>>>> --- /dev/null
+>>>>>> +++ b/hw/ppc/vof.c
+>>>>>> @@ -0,0 +1,1021 @@
+>>>>>> +/*
+>>>>>> + * QEMU PowerPC Virtual Open Firmware.
+>>>>>> + *
+>>>>>> + * This implements client interface from OpenFirmware
+>>>>>> IEEE1275 on the QEMU
+>>>>>> + * side to leave only a very basic firmware in the VM.
+>>>>>> + *
+>>>>>> + * Copyright (c) 2021 IBM Corporation.
+>>>>>> + *
+>>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>>>>>> + */
+>>>>>> +
+>>>>>> +#include "qemu/osdep.h"
+>>>>>> +#include "qemu-common.h"
+>>>>>> +#include "qemu/timer.h"
+>>>>>> +#include "qemu/range.h"
+>>>>>> +#include "qemu/units.h"
+>>>>>> +#include "qapi/error.h"
+>>>>>> +#include <sys/ioctl.h>
+>>>>>> +#include "exec/ram_addr.h"
+>>>>>> +#include "exec/address-spaces.h"
+>>>>>> +#include "hw/ppc/vof.h"
+>>>>>> +#include "hw/ppc/fdt.h"
+>>>>>> +#include "sysemu/runstate.h"
+>>>>>> +#include "qom/qom-qobject.h"
+>>>>>> +#include "trace.h"
+>>>>>> +
+>>>>>> +#include <libfdt.h>
+>>>>>> +
+>>>>>> +/*
+>>>>>> + * OF 1275 "nextprop" description suggests is it 32 bytes max but
+>>>>>> + * LoPAPR defines "ibm,query-interrupt-source-number" which
+>>>>>> is 33 chars long.
+>>>>>> + */
+>>>>>> +#define OF_PROPNAME_LEN_MAX 64
+>>>>>> +
+>>>>>> +#define VOF_MAX_PATH        256
+>>>>>> +#define VOF_MAX_SETPROPLEN  2048
+>>>>>> +#define VOF_MAX_METHODLEN   256
+>>>>>> +#define VOF_MAX_FORTHCODE   256
+>>>>>> +#define VOF_VTY_BUF_SIZE    256
+>>>>>> +
+>>>>>> +typedef struct {
+>>>>>> +    uint64_t start;
+>>>>>> +    uint64_t size;
+>>>>>> +} OfClaimed;
+>>>>>> +
+>>>>>> +typedef struct {
+>>>>>> +    char *path; /* the path used to open the instance */
+>>>>>> +    uint32_t phandle;
+>>>>>> +} OfInstance;
+>>>>>> +
+>>>>>> +#define VOF_MEM_READ(pa, buf, size) \
+>>>>>> +    address_space_read_full(&address_space_memory, \
+>>>>>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+>>>>>> +#define VOF_MEM_WRITE(pa, buf, size) \
+>>>>>> +    address_space_write(&address_space_memory, \
+>>>>>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+>>>>>> +
+>>>>>> +static int readstr(hwaddr pa, char *buf, int size)
+>>>>>> +{
+>>>>>> +    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
+>>>>>> +        return -1;
+>>>>>> +    }
+>>>>>> +    if (strnlen(buf, size) == size) {
+>>>>>> +        buf[size - 1] = '\0';
+>>>>>> +        trace_vof_error_str_truncated(buf, size);
+>>>>>> +        return -1;
+>>>>>> +    }
+>>>>>> +    return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
+>>>>>> +                       const char *s1, unsigned nargscheck,
+>>>>>> unsigned nretcheck)
+>>>>>> +{
+>>>>>> +    if (strcmp(s, s1)) {
+>>>>>> +        return false;
+>>>>>> +    }
+>>>>>> +    if ((nargscheck && (nargs != nargscheck)) ||
+>>>>>> +        (nretcheck && (nret != nretcheck))) {
+>>>>>> +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
+>>>>>> +        return false;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    return true;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void prop_format(char *tval, int tlen, const void *prop, int len)
+>>>>>> +{
+>>>>>> +    int i;
+>>>>>> +    const unsigned char *c;
+>>>>>> +    char *t;
+>>>>>> +    const char bin[] = "...";
+>>>>>> +
+>>>>>> +    for (i = 0, c = prop; i < len; ++i, ++c) {
+>>>>>> +        if (*c == '\0' && i == len - 1) {
+>>>>>> +            strncpy(tval, prop, tlen - 1);
+>>>>>> +            return;
+>>>>>> +        }
+>>>>>> +        if (*c < 0x20 || *c >= 0x80) {
+>>>>>> +            break;
+>>>>>> +        }
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
+>>>>>> +        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
+>>>>>> +            strcpy(t, bin);
+>>>>>> +            return;
+>>>>>> +        }
+>>>>>> +        if (i && i % 4 == 0 && i != len - 1) {
+>>>>>> +            strcat(t, " ");
+>>>>>> +            ++t;
+>>>>>> +        }
+>>>>>> +        t += sprintf(t, "%02X", *c & 0xFF);
+>>>>>> +    }
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int get_path(const void *fdt, int offset, char *buf, int len)
+>>>>>> +{
+>>>>>> +    int ret;
+>>>>>> +
+>>>>>> +    ret = fdt_get_path(fdt, offset, buf, len - 1);
+>>>>>> +    if (ret < 0) {
+>>>>>> +        return ret;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    buf[len - 1] = '\0';
+>>>>>> +
+>>>>>> +    return strlen(buf) + 1;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int phandle_to_path(const void *fdt, uint32_t ph,
+>>>>>> char *buf, int len)
+>>>>>> +{
+>>>>>> +    int ret;
+>>>>>> +
+>>>>>> +    ret = fdt_node_offset_by_phandle(fdt, ph);
+>>>>>> +    if (ret < 0) {
+>>>>>> +        return ret;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    return get_path(fdt, ret, buf, len);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
+>>>>>> +{
+>>>>>> +    char fullnode[VOF_MAX_PATH];
+>>>>>> +    uint32_t ret = -1;
+>>>>>> +    int offset;
+>>>>>> +
+>>>>>> +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
+>>>>>> +        return (uint32_t) ret;
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    offset = fdt_path_offset(fdt, fullnode);
+>>>>>> +    if (offset >= 0) {
+>>>>>> +        ret = fdt_get_phandle(fdt, offset);
+>>>>>> +    }
+>>>>>> +    trace_vof_finddevice(fullnode, ret);
+>>>>>> +    return (uint32_t) ret;
+>>>>>> +}
+>>>>>
+>>>>> The Linux init function that runs on pegasos2 here:
+>>>>>
+>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arch/powerpc/kernel/prom_init.c?h=v4.14.234#n2658
+>>>>>
+>>>>> calls finddevice once with isa@c and next with isa@C (small and
+>>>>> capital C) both of which works with the board firmware but with
+>>>>> vof the comparison is case sensitive and one of these fails so I
+>>>>> can't make it work. I don't know if this is a problem in libfdt
+>>>>> or the vof_finddevice above should do something else to get case
+>>>>> insensitive comparison.
+>>>>
+>>>> This fixes the issue with Linux but I'm not sure if there's any
+>>>> better solution or would it break anything else.
+>>>
+>>> The bit after "@" is an address and needs to be case insensitive and
+>>> I'll fix this indeed. I'm not so sure about the part before "@", I
+>>> cannot imagine what could break if I made search insensitive to case. Hm
+>>> :-/
+>>
+>> Fixing the match in the address part is probably enough as the name sent by
+>> guests is probably always lower case
+>
+> I'm confused, I thought you just said that it looked for both isa@c
+> and isa@C, which seems to contradict guests always using lower case.
 
+I mean the part before the @ sign (that is the name part, "isa" above) is 
+always lower case. I haven't seen guests trying to query that with other 
+than lower case but the part after @ can be different even in the same 
+guest code just a few lines apart as in the Linux kernel. So fixing the 
+comparison to e.g. do toupper in the address part after @ should work I 
+think even if we continue to do case sensitive comparison in the name 
+part. Alexey said he'll fix that so there's no problem.
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+BALATON Zoltam
+--3866299591-1041377941-1622813232=:71104--
 
