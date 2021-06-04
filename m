@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F297439B74F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 12:45:04 +0200 (CEST)
-Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7973939B748
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 12:43:53 +0200 (CEST)
+Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp7K3-0000pg-VH
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 06:45:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
+	id 1lp7Iu-00088o-Ei
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 06:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1lp7HG-0004nS-TC
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 06:42:10 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1lp7HF-0000y2-00
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 06:42:10 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id n4so8836120wrw.3
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 03:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uvdNDXFBOUJoDp6hqKDAGLdFqIuBk6H7HqU2AY0dX5U=;
- b=F4vgMm5aKw7vmRH5OUSNYb4wFHPVVgTCWonl8rnP+03gR3JteOhoErVy5PBVm8R+z5
- 2TubCpik0SJveZExyqAoKNkyrw1GRKIFiTSPR1yfIbkIQaGIefS6ODI+kSf9r6P+2r/D
- BGlg8GlUgnHXskmmfYI8LE6Q4N3jebfPq/PMsdvR1Jl8oDxSnafXwe1TagMet77/PXVG
- SJVLtdZhPiaQlPd03HgwJjkGTW/zaBtkJhljDEIglmTO9mLMXT95DYQFyo1V9iCRZrcP
- 2IEdoZqtlvGnmtrDGXiLhr//nQgoDn39+BVW55RKPbKnlX6kjxEGKDxDwALWh9WrcnTp
- tMQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uvdNDXFBOUJoDp6hqKDAGLdFqIuBk6H7HqU2AY0dX5U=;
- b=mpUluTcUbPNNlm/EPOlhLnkg/SRCmjNbpwqslCuGThSqtpy4cOsuV6YGZFtcAl1tVK
- 8aJ07hQluH5cyrvUaUGVocJuWth3mmgyYs2TErvmUkML+5YILZFZ2mLWchgSHeZusSHe
- PPO85xCRF5lD9KkLsUBQR451MkowpWjNVn4cN5hRKug0pdU3SXYSdNHf6NcOpTH8glax
- WbU3NrFmOrICIxv1j90x5Uso5xdZ1S3MPMCmzxmVk+92EsewtsqXEq5Iza3Vj+mp/AXB
- bre8qfC6AO31mQcdggBO/3SGypW9X8baPax+1ZE8uU3lpBSluejaqwGRPs60+M7WUvxa
- 56Ww==
-X-Gm-Message-State: AOAM5329ObdCzN7WqfMjeUn1NffIdHDyTRlImTUgoz6loLVkaJcVEvap
- GCiN9NLX5K6WKbACXsrVrwtHQg==
-X-Google-Smtp-Source: ABdhPJw2z+yensAfdk8EqV2hLuQ13k05PGxAT+bQEPYguCHOCHAdZZXN9hTibgZLCfKbdWS3M9pvZA==
-X-Received: by 2002:a05:6000:6:: with SMTP id h6mr3218833wrx.24.1622803327045; 
- Fri, 04 Jun 2021 03:42:07 -0700 (PDT)
-Received: from leviathan (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
- [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id x7sm6897992wre.8.2021.06.04.03.42.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 03:42:06 -0700 (PDT)
-Date: Fri, 4 Jun 2021 11:42:04 +0100
-From: Leif Lindholm <leif@nuviainc.com>
-To: shashi.mallela@linaro.org
-Subject: Re: [PATCH v4 7/8] hw/arm/sbsa-ref: add ITS support in SBSA GIC
-Message-ID: <20210604104204.z3hhm2cxesnm2jx2@leviathan>
-References: <20210602180042.111347-1-shashi.mallela@linaro.org>
- <20210602180042.111347-8-shashi.mallela@linaro.org>
- <20210603114254.mkqr4jnpfqkx3m6w@leviathan>
- <e2e1b2e1aa54669c0b73dde83f0e20636835e1ab.camel@linaro.org>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lp7HV-0005jU-EL
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 06:42:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:56570)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lp7HR-00016c-UR
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 06:42:24 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF7C312FC;
+ Fri,  4 Jun 2021 03:42:18 -0700 (PDT)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4917C3F73D;
+ Fri,  4 Jun 2021 03:42:16 -0700 (PDT)
+Subject: Re: [PATCH v13 4/8] KVM: arm64: Introduce MTE VM feature
+To: Catalin Marinas <catalin.marinas@arm.com>
+References: <20210524104513.13258-1-steven.price@arm.com>
+ <20210524104513.13258-5-steven.price@arm.com>
+ <20210603160031.GE20338@arm.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <a0810f3b-4f13-e8b5-7057-a9de1201887a@arm.com>
+Date: Fri, 4 Jun 2021 11:42:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e2e1b2e1aa54669c0b73dde83f0e20636835e1ab.camel@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210603160031.GE20338@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.603,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,134 +59,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, rad@semihalf.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Marc Zyngier <maz@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 03, 2021 at 11:31:21 -0400, shashi.mallela@linaro.org wrote:
-> On Thu, 2021-06-03 at 12:42 +0100, Leif Lindholm wrote:
-> > On Wed, Jun 02, 2021 at 14:00:41 -0400, Shashi Mallela wrote:
-> > > Included creation of ITS as part of SBSA platform GIC
-> > > initialization.
-> > > 
-> > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > > ---
-> > >  hw/arm/sbsa-ref.c | 26 +++++++++++++++++++++++---
-> > >  1 file changed, 23 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-> > > index 43c19b4923..3d9c073636 100644
-> > > --- a/hw/arm/sbsa-ref.c
-> > > +++ b/hw/arm/sbsa-ref.c
-> > > @@ -34,7 +34,7 @@
-> > >  #include "hw/boards.h"
-> > >  #include "hw/ide/internal.h"
-> > >  #include "hw/ide/ahci_internal.h"
-> > > -#include "hw/intc/arm_gicv3_common.h"
-> > > +#include "hw/intc/arm_gicv3_its_common.h"
-> > >  #include "hw/loader.h"
-> > >  #include "hw/pci-host/gpex.h"
-> > >  #include "hw/qdev-properties.h"
-> > > @@ -64,6 +64,7 @@ enum {
-> > >      SBSA_CPUPERIPHS,
-> > >      SBSA_GIC_DIST,
-> > >      SBSA_GIC_REDIST,
-> > > +    SBSA_GIC_ITS,
-> > >      SBSA_SECURE_EC,
-> > >      SBSA_GWDT,
-> > >      SBSA_GWDT_REFRESH,
-> > > @@ -107,6 +108,7 @@ static const MemMapEntry sbsa_ref_memmap[] = {
-> > >      [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
-> > >      [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
-> > >      [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
-> > 
-> > It seems customary in QEMU to flag gaps in memory space (although
-> > admittedly, we'd already failed to do so here). This patch leaves a
-> > gap of 0x00010000. Is there a particular reason?
-> > 
-> > > +    [SBSA_GIC_ITS] =            { 0x44090000, 0x00020000 },
-> > 
-> > And then again a gap (the one we already had).
-> > 
-> > No specific reason,but from ITS point of view tried to stay within 
-> > the GIC's 0x40060000 to 0x50000000 zone.The gap of 0x00010000 would 
-> > also account for future GIC additions like virtual LPI support.
-
-Right. I was more thinking 64kB isn't much space to extend into.
-Would it be worth pushing the ITS either all the way up to just below
-0x50000000, 0x48000000, or 0x45000000?
-
-Either way, the gap(s) would be good to point out with comments, and
-potential future use. I only noticed this one on like the third pass
-of reading.
-
-/
-    Leif
-
-> > >      [SBSA_SECURE_EC] =          { 0x50000000, 0x00001000 },
-> > >      [SBSA_GWDT_REFRESH] =       { 0x50010000, 0x00001000 },
-> > >      [SBSA_GWDT_CONTROL] =       { 0x50011000, 0x00001000 },
-> > > @@ -377,7 +379,20 @@ static void create_secure_ram(SBSAMachineState
-> > > *sms,
-> > >      memory_region_add_subregion(secure_sysmem, base, secram);
-> > >  }
-> > >  
-> > > -static void create_gic(SBSAMachineState *sms)
-> > > +static void create_its(SBSAMachineState *sms)
-> > > +{
-> > > +    DeviceState *dev;
-> > > +
-> > > +    dev = qdev_new(TYPE_ARM_GICV3_ITS);
-> > > +    SysBusDevice *s = SYS_BUS_DEVICE(dev);
-> > > +
-> > > +    object_property_set_link(OBJECT(dev), "parent-gicv3",
-> > > OBJECT(sms->gic),
-> > > +                             &error_abort);
-> > > +    sysbus_realize_and_unref(s, &error_fatal);
-> > > +    sysbus_mmio_map(s, 0, sbsa_ref_memmap[SBSA_GIC_ITS].base);
-> > > +}
-> > > +
-> > > +static void create_gic(SBSAMachineState *sms, MemoryRegion *mem)
-> > >  {
-> > >      unsigned int smp_cpus = MACHINE(sms)->smp.cpus;
-> > >      SysBusDevice *gicbusdev;
-> > > @@ -404,6 +419,10 @@ static void create_gic(SBSAMachineState *sms)
-> > >      qdev_prop_set_uint32(sms->gic, "len-redist-region-count", 1);
-> > >      qdev_prop_set_uint32(sms->gic, "redist-region-count[0]",
-> > > redist0_count);
-> > >  
-> > > +    object_property_set_link(OBJECT(sms->gic), "sysmem",
-> > > OBJECT(mem),
-> > > +                                 &error_fatal);
-> > > +    qdev_prop_set_bit(sms->gic, "has-lpi", true);
-> > > +
-> > >      gicbusdev = SYS_BUS_DEVICE(sms->gic);
-> > >      sysbus_realize_and_unref(gicbusdev, &error_fatal);
-> > >      sysbus_mmio_map(gicbusdev, 0,
-> > > sbsa_ref_memmap[SBSA_GIC_DIST].base);
-> > > @@ -450,6 +469,7 @@ static void create_gic(SBSAMachineState *sms)
-> > >          sysbus_connect_irq(gicbusdev, i + 3 * smp_cpus,
-> > >                             qdev_get_gpio_in(cpudev,
-> > > ARM_CPU_VFIQ));
-> > >      }
-> > > +    create_its(sms);
-> > >  }
-> > >  
-> > >  static void create_uart(const SBSAMachineState *sms, int uart,
-> > > @@ -762,7 +782,7 @@ static void sbsa_ref_init(MachineState
-> > > *machine)
-> > >  
-> > >      create_secure_ram(sms, secure_sysmem);
-> > >  
-> > > -    create_gic(sms);
-> > > +    create_gic(sms, sysmem);
-> > >  
-> > >      create_uart(sms, SBSA_UART, sysmem, serial_hd(0));
-> > >      create_uart(sms, SBSA_SECURE_UART, secure_sysmem,
-> > > serial_hd(1));
-> > > -- 
-> > > 2.27.0
-> > > 
+On 03/06/2021 17:00, Catalin Marinas wrote:
+> On Mon, May 24, 2021 at 11:45:09AM +0100, Steven Price wrote:
+>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>> index c5d1f3c87dbd..226035cf7d6c 100644
+>> --- a/arch/arm64/kvm/mmu.c
+>> +++ b/arch/arm64/kvm/mmu.c
+>> @@ -822,6 +822,42 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+>>  	return PAGE_SIZE;
+>>  }
+>>  
+>> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
+>> +			     unsigned long size)
+>> +{
+>> +	if (kvm_has_mte(kvm)) {
 > 
+> Nitpick (less indentation):
+> 
+> 	if (!kvm_has_mte(kvm))
+> 		return 0;
+
+Thanks, will change.
+
+>> +		/*
+>> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
+>> +		 * the VM will be able to see the page's tags and therefore
+>> +		 * they must be initialised first. If PG_mte_tagged is set,
+>> +		 * tags have already been initialised.
+>> +		 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
+>> +		 * that may not support tags.
+>> +		 */
+>> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
+>> +		struct page *page = pfn_to_online_page(pfn);
+>> +
+>> +		if (!page)
+>> +			return -EFAULT;
+>> +
+>> +		for (i = 0; i < nr_pages; i++, page++) {
+>> +			/*
+>> +			 * There is a potential (but very unlikely) race
+>> +			 * between two VMs which are sharing a physical page
+>> +			 * entering this at the same time. However by splitting
+>> +			 * the test/set the only risk is tags being overwritten
+>> +			 * by the mte_clear_page_tags() call.
+>> +			 */
+> 
+> And I think the real risk here is when the page is writable by at least
+> one of the VMs sharing the page. This excludes KSM, so it only leaves
+> the MAP_SHARED mappings.
+> 
+>> +			if (!test_bit(PG_mte_tagged, &page->flags)) {
+>> +				mte_clear_page_tags(page_address(page));
+>> +				set_bit(PG_mte_tagged, &page->flags);
+>> +			}
+>> +		}
+> 
+> If we want to cover this race (I'd say in a separate patch), we can call
+> mte_sync_page_tags(page, __pte(0), false, true) directly (hopefully I
+> got the arguments right). We can avoid the big lock in most cases if
+> kvm_arch_prepare_memory_region() sets a VM_MTE_RESET (tag clear etc.)
+> and __alloc_zeroed_user_highpage() clears the tags on allocation (as we
+> do for VM_MTE but the new flag would not affect the stage 1 VMM page
+> attributes).
+
+To be honest I'm coming round to just exporting a
+mte_prepare_page_tags() function which does the clear/set with the lock
+held. I doubt it's such a performance critical path that it will cause
+any noticeable issues. Then if we run into performance problems in the
+future we can start experimenting with extra VM flags etc as necessary.
+
+And from your later email:
+> Another idea: if VM_SHARED is found for any vma within a region in
+> kvm_arch_prepare_memory_region(), we either prevent the enabling of MTE
+> for the guest or reject the memory slot if MTE was already enabled.
+> 
+> An alternative here would be to clear VM_MTE_ALLOWED so that any
+> subsequent mprotect(PROT_MTE) in the VMM would fail in
+> arch_validate_flags(). MTE would still be allowed in the guest but in
+> the VMM for the guest memory regions. We can probably do this
+> irrespective of VM_SHARED. Of course, the VMM can still mmap() the
+> memory initially with PROT_MTE but that's not an issue IIRC, only the
+> concurrent mprotect().
+
+This could work, but I worry that it's potential fragile. Also the rules
+for what user space can do are not obvious and may be surprising. I'd
+also want to look into the likes of mremap() to see how easy it would be
+to ensure that we couldn't end up with VM_SHARED (or VM_MTE_ALLOWED)
+memory sneaking into a memslot.
+
+Unless you think it's worth complicating the ABI in the hope of avoiding
+the big lock overhead I think it's probably best to stick with the big
+lock at least until we have more data on the overhead.
+
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>>  			  struct kvm_memory_slot *memslot, unsigned long hva,
+>>  			  unsigned long fault_status)
+>> @@ -971,8 +1007,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>>  	if (writable)
+>>  		prot |= KVM_PGTABLE_PROT_W;
+>>  
+>> -	if (fault_status != FSC_PERM && !device)
+>> +	if (fault_status != FSC_PERM && !device) {
+>> +		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
+>> +		if (ret)
+>> +			goto out_unlock;
+> 
+> Maybe it was discussed in a previous version, why do we need this in
+> addition to kvm_set_spte_gfn()?
+
+kvm_set_spte_gfn() is only used for the MMU notifier path (e.g. if a
+memslot is changed by the VMM). For the initial access we will normally
+fault the page into stage 2 with user_mem_abort().
+
+>> +
+>>  		clean_dcache_guest_page(pfn, vma_pagesize);
+>> +	}
+>>  
+>>  	if (exec_fault) {
+>>  		prot |= KVM_PGTABLE_PROT_X;
+>> @@ -1168,12 +1209,17 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+>>  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+>>  {
+>>  	kvm_pfn_t pfn = pte_pfn(range->pte);
+>> +	int ret;
+>>  
+>>  	if (!kvm->arch.mmu.pgt)
+>>  		return 0;
+>>  
+>>  	WARN_ON(range->end - range->start != 1);
+>>  
+>> +	ret = sanitise_mte_tags(kvm, pfn, PAGE_SIZE);
+>> +	if (ret)
+>> +		return false;
+>> +
+>>  	/*
+>>  	 * We've moved a page around, probably through CoW, so let's treat it
+>>  	 * just like a translation fault and clean the cache to the PoC.
+> 
+> Otherwise the patch looks fine.
+> 
+
+Thanks for the review.
+
+Steve
 
