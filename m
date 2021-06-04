@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101A239BB6C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:06:57 +0200 (CEST)
-Received: from localhost ([::1]:41866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1079E39BB70
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 17:08:04 +0200 (CEST)
+Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpBPU-0001fA-5B
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56286)
+	id 1lpBQZ-0004If-5q
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 11:08:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lpBNY-000854-98
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:04:56 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:39854)
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1lpBPV-0002up-Nk; Fri, 04 Jun 2021 11:06:57 -0400
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:40599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1lpBNR-000750-0F
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 11:04:56 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id n133so14123318ybf.6
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 08:04:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <swethajoshi139@gmail.com>)
+ id 1lpBPQ-00006L-On; Fri, 04 Jun 2021 11:06:57 -0400
+Received: by mail-oo1-xc32.google.com with SMTP id
+ j17-20020a0568200231b029024900620310so1032943oob.7; 
+ Fri, 04 Jun 2021 08:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H22iWUkJAvxVtrUjcMEdfluwByw97M8A4pQcCCm4EpQ=;
- b=qJ/mgRTLM+YGjdiYYmuIMF+nK4bhn7xfAUUwqMmwT+/JFHl5MskiJoQBz7PV++5FGf
- 2NKqTIMpzMemH0dNvK3lt4DONLQuslSu0lnMgkro6fLDiWOC7BpcE4BRR9zwDHhnho5p
- XrccGnGInoHOyRbC6GZeKVl8o/9hSj6+RVIkU0GfrCUcz3t8xtkA3UkTrHH4PKrWTHN/
- TybV8ReppALixqxNklKAlh1BfqaF9I+XP/1M2UDbjEOpOW1R1BVWiQsmNiytVW7QaYNV
- 8HF9xiuxjafwjp389gdxXPo1Q4uJ4Vtlutq7DtsaKqirpnlpuf63KaG6kAOsxuGyI0gF
- N38w==
+ :cc; bh=TjjX2Rnv95rJTzf3m9Yuf2udKchqjycu38PflHn6i+g=;
+ b=bFYEC4yHLiexoM6CxYI8cbXzh7yXcC/kQaOdTI7X51xofE2rveMWb2hbPiUK0CapEO
+ UzFeTAssGz1h3o30ROq7eGJT1CpDgPSl2KkLpVHXA2K1H6aIDFERJWMTqGgA8MeLG9Mw
+ 9UqPyVHHFGL0brY86Go2AZJc/WTwel8hm39xuVQNAbaLgVWrHiyEUCwTCLTvEGxLABXC
+ 3WGyVkYUneg8bM9WcOM89KzDs9UiZZ0O9pq4+uCnOOOX4DboXrXT/3G8Ne7/Y1MjcZoq
+ qwt/n83C3uiIKL5VU1gXihLchH2v6VWwd5HgEzV2kC1vYqGd60wM2+M9OIirtifCm8TS
+ vnCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=H22iWUkJAvxVtrUjcMEdfluwByw97M8A4pQcCCm4EpQ=;
- b=HwIzHFECnaptqsg0+3g39MYt9djNErqDB0vTiIzuFYDVyPgf7QcNb/Y4Po+I0ODQwq
- hq+NzMrfVyeKzDNQoGAe6Z0kTLlPKi+BqTwGhMCoUziFfwzPA7ceNL8Qs3Kyx5byMigM
- SE0fxzIuY1sY7cWBzFwTzO9l+dzONzXMrEWWqE6WmzSnQGH7pnCmlWSm0jvTvZpc5z1a
- 1XoQ37CYCM0H2i/gCFGtUG9oPiCh0kMyuIVYt+jAfKumpPJfPEN9eXwbP02TuQjuZpdl
- CSmYgG7PW8rDM5m3RvRHk8wtMTe8wqXJNK6qi+rhgZ8O3molDkaV3ellG5qMpHjloNTG
- vyIQ==
-X-Gm-Message-State: AOAM533+np3PIM+TC5I0znfx8NiHFnIhD0LUZgnOzL+vudexxuvGqI14
- NX9g8tfhHS/G2BiJ04qCyMblK9/HrtOMfREHFXolQ9rT2MyDqg==
-X-Google-Smtp-Source: ABdhPJy3s+3GAr0zsAPWm/nAXLMsXLLohYdgFkbx8Ge0thaXhnYEtKPaECSq158+URGX4aeggAjPyRj8q8EdGjPUzQM=
-X-Received: by 2002:a25:9c88:: with SMTP id y8mr5330412ybo.294.1622819087707; 
- Fri, 04 Jun 2021 08:04:47 -0700 (PDT)
+ bh=TjjX2Rnv95rJTzf3m9Yuf2udKchqjycu38PflHn6i+g=;
+ b=B2eg9h+stzqjVNEpPSU8pulCBc81QVxDKXmi820aR7MxTxd+/6aN5zsWsnmxpC52PB
+ tNNbDW9ZjxqQ9tfsHVCrzTS6wKhhJfVpDJgSMAwzMyRSCHlA1TWm3OZF+3ijKRoKpM6h
+ seSWgzeboCMQ5UuXMY8bX5lOc/Cr23YOjZWW7L4vy9AYqkgrIjW40ZfGOMlhh5R+fEjJ
+ J03CdVoK1Apmsp0wVyv9PUlkBUju1Msyurt2na1BduhKYidWJ2V3gQtn6cYM2+K1LZAT
+ ScEin/uEuaDvThBqSI+BLqs6IDCKeJ/F5lcBWtwe4w6fsFkeUGBdu9VBF1Lzl81HL/NG
+ tCPw==
+X-Gm-Message-State: AOAM532LdfAWpPJgjc6Wfx/Ms+YkLwr4y4tQdpyNCujoaktEksTc/y3Z
+ bJYlFUOeVz0rBSP6o3k5EF8E0Y+/9YcbhZfUx+U=
+X-Google-Smtp-Source: ABdhPJx+3xntftUBlLr9FKrCBHZ46/kuIsX08yA74WAEpV7MtKji/ovRmNaVjJHo1xwV22h1hth1VrL03+0kTBjMOcQ=
+X-Received: by 2002:a05:6820:386:: with SMTP id
+ r6mr3951873ooj.25.1622819211043; 
+ Fri, 04 Jun 2021 08:06:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210530150112.74411-1-ziqiaokong@gmail.com>
- <20210530150112.74411-2-ziqiaokong@gmail.com>
-In-Reply-To: <20210530150112.74411-2-ziqiaokong@gmail.com>
-From: Ziqiao Kong <ziqiaokong@gmail.com>
-Date: Fri, 4 Jun 2021 23:04:36 +0800
-Message-ID: <CAM0BWNAu5YCXnp+fxcQcWeQnosjJq_VegiibW77bh6mdZpQ3Ow@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] target/i386: Correct implementation for FCS, FIP, 
- FDS and FDP
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+References: <20210525025823.3208218-1-swethajoshi139@gmail.com>
+ <331a819e-1745-4d4b-cc4a-82521a58186a@linaro.org>
+ <CAFEAcA8RbVafdjn2hkXifAPUF=wxZup20PqPcRpQ1ivtnWCxww@mail.gmail.com>
+ <CALf2nm+LFqM2=vDs8=YfyxQSUT-0xxaCiVmcQzrKoOa+zaTtdg@mail.gmail.com>
+ <CAFEAcA-oX0JR80UYzYKvczHsfxWG6oH3Pg4pbM6ByDe57XEHHw@mail.gmail.com>
+ <CALf2nmKhPaWJa944dR+kFAQ1hCLXF0XPwXaHTqJQ-C6EW7ACKg@mail.gmail.com>
+ <CAFEAcA9E4s3dST0GJkdg24DDAn90WU1FEmXwoKD6oQmNSB1vVA@mail.gmail.com>
+ <CABSBigR1L9sE36eYA0Mq4smx1E9A4umTOKTe_x97foSMkryRnw@mail.gmail.com>
+ <CALf2nmLOqtwacgrQ91TTz9_QRUmFS9ZNii2Kk7-tQ7LNp9vw2Q@mail.gmail.com>
+ <CAFEAcA8oAtjVom+BXtcgao4O252ipmFzv-iNTSzDaJChcQkr9g@mail.gmail.com>
+ <CALf2nmKgaZiBOfEWpMt4Yq-NyCYrsFNPwb1hZ0adwoXUs4T6pA@mail.gmail.com>
+ <CALf2nmLLZ5smxqYJyA+_MPunaQqaM7-Ub9CVurTE1pM0ErOS+w@mail.gmail.com>
+ <CAFEAcA9GM72tvOLDZfW=TmvV=DN1cAeXJ_MScWb3oivAR7X9LQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9GM72tvOLDZfW=TmvV=DN1cAeXJ_MScWb3oivAR7X9LQ@mail.gmail.com>
+From: Swetha Joshi <swethajoshi139@gmail.com>
+Date: Fri, 4 Jun 2021 08:06:38 -0700
+Message-ID: <CALf2nmJ-uRf=8Bq2hotai7MOD9uRVUQ0YHS667AjfVKJDYd4Qg@mail.gmail.com>
+Subject: Re: [PATCH_V3] Adding ifdefs to call the respective routines only
+ when their configs are enabled
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009be5d505c3f20ab6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
+ envelope-from=swethajoshi139@gmail.com; helo=mail-oo1-xc32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,237 +90,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Dongjiu Geng <gengdongjiu1@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+--0000000000009be5d505c3f20ab6
+Content-Type: text/plain; charset="UTF-8"
 
-Sorry again for the previous duplicate emails.
+Can y oh I let me know once it goes in mainline? Thanks!
 
-On Sun, May 30, 2021 at 11:05 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
+On Fri, Jun 4, 2021 at 2:03 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Fri, 4 Jun 2021 at 06:26, Swetha Joshi <swethajoshi139@gmail.com>
+> wrote:
+> >
+> > Hello, I have tested this patch with our qemu and it works, thank you.
 >
-> Update FCS:FIP and FDS:FDP according to the Intel Manual Vol.1 8.1.8. Note that
-> CPUID.(EAX=07H,ECX=0H):EBX[bit 13] is not implemented by design in this patch
-> and will be added along with TCG features flag in a separate patch later.
+> Thanks for testing.
 >
-> Signed-off-by: Ziqiao Kong <ziqiaokong@gmail.com>
-> ---
-> Sorry for the duplicate emails due to my bad network. The v7 has no
-> difference from v6 and is sent just for clarification.
-> Changes since v5:
-> - Improve code indention in translate.c.
-> Changes since v4:
-> - Remove the dead code about CPUID_7_0_EBX_FCS_FDS.
-> - Rewrite the commit message.
-> ---
->  target/i386/cpu.h            |  2 ++
->  target/i386/tcg/fpu_helper.c | 32 +++++++++++--------------
->  target/i386/tcg/translate.c  | 45 +++++++++++++++++++++++++++++++++++-
->  3 files changed, 59 insertions(+), 20 deletions(-)
+> > What are the next steps for this patch? So is it approved and ready to
+> go in mainline?
 >
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index da72aa5228..147dadcce0 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1455,6 +1455,8 @@ typedef struct CPUX86State {
->      FPReg fpregs[8];
->      /* KVM-only so far */
->      uint16_t fpop;
-> +    uint16_t fpcs;
-> +    uint16_t fpds;
->      uint64_t fpip;
->      uint64_t fpdp;
+> It will go in once it has been code-reviewed.
 >
-> diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-> index 1b30f1bb73..d953f04bb5 100644
-> --- a/target/i386/tcg/fpu_helper.c
-> +++ b/target/i386/tcg/fpu_helper.c
-> @@ -728,6 +728,10 @@ void helper_fninit(CPUX86State *env)
->  {
->      env->fpus = 0;
->      env->fpstt = 0;
-> +    env->fpcs = 0;
-> +    env->fpds = 0;
-> +    env->fpip = 0;
-> +    env->fpdp = 0;
->      cpu_set_fpuc(env, 0x37f);
->      env->fptags[0] = 1;
->      env->fptags[1] = 1;
-> @@ -2357,19 +2361,19 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
->          cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
->          cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
->          cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
-> -        cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
-> -        cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
-> -        cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
-> -        cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
-> +        cpu_stl_data_ra(env, ptr + 12, env->fpip, retaddr); /* fpip */
-> +        cpu_stl_data_ra(env, ptr + 16, env->fpcs, retaddr); /* fpcs */
-> +        cpu_stl_data_ra(env, ptr + 20, env->fpdp, retaddr); /* fpoo */
-> +        cpu_stl_data_ra(env, ptr + 24, env->fpds, retaddr); /* fpos */
->      } else {
->          /* 16 bit */
->          cpu_stw_data_ra(env, ptr, env->fpuc, retaddr);
->          cpu_stw_data_ra(env, ptr + 2, fpus, retaddr);
->          cpu_stw_data_ra(env, ptr + 4, fptag, retaddr);
-> -        cpu_stw_data_ra(env, ptr + 6, 0, retaddr);
-> -        cpu_stw_data_ra(env, ptr + 8, 0, retaddr);
-> -        cpu_stw_data_ra(env, ptr + 10, 0, retaddr);
-> -        cpu_stw_data_ra(env, ptr + 12, 0, retaddr);
-> +        cpu_stw_data_ra(env, ptr + 6, env->fpip, retaddr);
-> +        cpu_stw_data_ra(env, ptr + 8, env->fpcs, retaddr);
-> +        cpu_stw_data_ra(env, ptr + 10, env->fpdp, retaddr);
-> +        cpu_stw_data_ra(env, ptr + 12, env->fpds, retaddr);
->      }
->  }
+> -- PMM
 >
-> @@ -2436,17 +2440,7 @@ static void do_fsave(CPUX86State *env, target_ulong ptr, int data32,
->      }
->
->      /* fninit */
-> -    env->fpus = 0;
-> -    env->fpstt = 0;
-> -    cpu_set_fpuc(env, 0x37f);
-> -    env->fptags[0] = 1;
-> -    env->fptags[1] = 1;
-> -    env->fptags[2] = 1;
-> -    env->fptags[3] = 1;
-> -    env->fptags[4] = 1;
-> -    env->fptags[5] = 1;
-> -    env->fptags[6] = 1;
-> -    env->fptags[7] = 1;
-> +    helper_fninit(env);
->  }
->
->  void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 5c1b7b87c5..4c57ee5c26 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -5930,6 +5930,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->          /* floats */
->      case 0xd8 ... 0xdf:
->          {
-> +            TCGv last_addr = tcg_temp_new();
-> +            int last_seg;
-> +            bool update_fdp = false;
-> +            bool update_fip = true;
-> +
->              if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
->                  /* if CR0.EM or CR0.TS are set, generate an FPU exception */
->                  /* XXX: what to do if illegal op ? */
-> @@ -5942,7 +5947,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->              op = ((b & 7) << 3) | ((modrm >> 3) & 7);
->              if (mod != 3) {
->                  /* memory op */
-> -                gen_lea_modrm(env, s, modrm);
-> +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
-> +                TCGv ea = gen_lea_modrm_1(s, a);
-> +
-> +                update_fdp = true;
-> +                last_seg = a.def_seg;
-> +                tcg_gen_mov_tl(last_addr, ea);
-> +                gen_lea_v_seg(s, s->aflag, ea, a.def_seg, s->override);
-> +
->                  switch (op) {
->                  case 0x00 ... 0x07: /* fxxxs */
->                  case 0x10 ... 0x17: /* fixxxl */
-> @@ -6070,20 +6082,24 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                  case 0x0c: /* fldenv mem */
->                      gen_helper_fldenv(cpu_env, s->A0,
->                                        tcg_const_i32(dflag - 1));
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x0d: /* fldcw mem */
->                      tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
->                                          s->mem_index, MO_LEUW);
->                      gen_helper_fldcw(cpu_env, s->tmp2_i32);
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x0e: /* fnstenv mem */
->                      gen_helper_fstenv(cpu_env, s->A0,
->                                        tcg_const_i32(dflag - 1));
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x0f: /* fnstcw mem */
->                      gen_helper_fnstcw(s->tmp2_i32, cpu_env);
->                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
->                                          s->mem_index, MO_LEUW);
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x1d: /* fldt mem */
->                      gen_helper_fldt_ST0(cpu_env, s->A0);
-> @@ -6095,15 +6111,18 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                  case 0x2c: /* frstor mem */
->                      gen_helper_frstor(cpu_env, s->A0,
->                                        tcg_const_i32(dflag - 1));
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x2e: /* fnsave mem */
->                      gen_helper_fsave(cpu_env, s->A0,
->                                       tcg_const_i32(dflag - 1));
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x2f: /* fnstsw mem */
->                      gen_helper_fnstsw(s->tmp2_i32, cpu_env);
->                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
->                                          s->mem_index, MO_LEUW);
-> +                    update_fip = update_fdp = false;
->                      break;
->                  case 0x3c: /* fbld */
->                      gen_helper_fbld_ST0(cpu_env, s->A0);
-> @@ -6146,6 +6165,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                      case 0: /* fnop */
->                          /* check exceptions (FreeBSD FPU probe) */
->                          gen_helper_fwait(cpu_env);
-> +                        update_fip = update_fdp = false;
->                          break;
->                      default:
->                          goto unknown_op;
-> @@ -6315,9 +6335,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                          break;
->                      case 2: /* fclex */
->                          gen_helper_fclex(cpu_env);
-> +                        update_fip = update_fdp = false;
->                          break;
->                      case 3: /* fninit */
->                          gen_helper_fninit(cpu_env);
-> +                        update_fip = update_fdp = false;
->                          break;
->                      case 4: /* fsetpm (287 only, just do nop here) */
->                          break;
-> @@ -6438,6 +6460,27 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->                      goto unknown_op;
->                  }
->              }
-> +
-> +            if (update_fip) {
-> +                tcg_gen_ld32u_tl(s->T0, cpu_env,
-> +                                 offsetof(CPUX86State, segs[R_CS].selector));
-> +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpcs));
-> +
-> +                tcg_gen_movi_tl(s->T0, pc_start - s->cs_base);
-> +                tcg_gen_st_tl(s->T0, cpu_env, offsetof(CPUX86State, fpip));
-> +            }
-> +
-> +            if (update_fdp) {
-> +                if (s->override >= 0) {
-> +                    last_seg = s->override;
-> +                }
-> +                tcg_gen_ld32u_tl(s->T0, cpu_env,
-> +                                 offsetof(CPUX86State,
-> +                                 segs[last_seg].selector));
-> +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpds));
-> +
-> +                tcg_gen_st_tl(last_addr, cpu_env, offsetof(CPUX86State, fpdp));
-> +            }
->          }
->          break;
->          /************************/
-> --
-> 2.25.1
->
+-- 
+Regards
+
+Swetha Joshi.
+
+--0000000000009be5d505c3f20ab6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Can y oh I let me know once it goes in mainline? Thanks!=
+=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Fri, Jun 4, 2021 at 2:03 AM Peter Maydell &lt;<a href=3D"mail=
+to:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-colo=
+r:rgb(204,204,204)">On Fri, 4 Jun 2021 at 06:26, Swetha Joshi &lt;<a href=
+=3D"mailto:swethajoshi139@gmail.com" target=3D"_blank">swethajoshi139@gmail=
+.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hello, I have tested this patch with our qemu and it works, thank you.=
+<br>
+<br>
+Thanks for testing.<br>
+<br>
+&gt; What are the next steps for this patch? So is it approved and ready to=
+ go in mainline?<br>
+<br>
+It will go in once it has been code-reviewed.<br>
+<br>
+-- PMM<br>
+</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
+data-smartmail=3D"gmail_signature"><div dir=3D"ltr">Regards<div><br></div><=
+div>Swetha Joshi.</div></div></div>
+
+--0000000000009be5d505c3f20ab6--
 
