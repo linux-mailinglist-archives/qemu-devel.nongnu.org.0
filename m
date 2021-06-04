@@ -2,138 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9437639B21A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 07:41:24 +0200 (CEST)
-Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B26839B2A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 08:32:54 +0200 (CEST)
+Received: from localhost ([::1]:51248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp2aB-0004dN-KW
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 01:41:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60778)
+	id 1lp3O0-0005qY-NX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 02:32:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lp2Yh-0003no-GA; Fri, 04 Jun 2021 01:39:54 -0400
-Received: from mail-am6eur05on2127.outbound.protection.outlook.com
- ([40.107.22.127]:20961 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lp3LN-0003he-NA; Fri, 04 Jun 2021 02:30:09 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45647 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lp2Yf-00010f-Fd; Fri, 04 Jun 2021 01:39:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nBjDNexuCDlpJVVBg5G6q4Qj7dHI2kYQcFwbR27mUQQhNxboSFFvT0Ae6OfmoTKGC5JjIoNOZWLgR5Mql0DIr/L2gNP9Bu9n7HeffZuKbX32zJelyWct6VcZHGvU6VfGV5nQp+Niuzc8mJHzB8Ubwe6yb+792WEHjprGEBNC6TkwTzQV+oer2pzdnjkXUgT+Ep5sHYh/7zDBJeIoGE2c9Eb5mnuvqZuFb9Tqe0YUczJi6xHmywLnJ4NLvkZSO1y3VVQQBqhBn6tscX2HNNwnPX5Mtx4VRAOV3HkV26Ei+udkahNXNr7EYdDY0lmpamBSFgjpjQc3YMo92gJcmLaUwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pkf0coJDMgcrtBrTMAW+qIBJgthbc4EoVaSPlAbV3dc=;
- b=B1I7R0oB1ThgtUJzlrY+eE2GlP53cgk7KYBBmGjS139jbbuhvMKb6lWouXDQhOa5MygNYUdsAvsvzYJKG75hj8CU6ezukZuSnmK8ccTWLtBs8Gb9kksUFD6owAyKFWoOiI4xrBe3sNjAv1i8RwoZVSMKH65JMUeX9UQhFuIEtAKGXWqukMA8eM88RzLkWYse2HTzcobxyj3qe9hJFwtN8rwX08IYsWNimbN7unj1/n2EYo2d3DJJBCkZCiaAcTvQ816fFDi32+sYsXy6DuPdf7sypLLaxO9jRuUWs/AT1ReQegZU/ScZ8au4sud7Il1fQS0fL85tWJcq2yOR8d6Svw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pkf0coJDMgcrtBrTMAW+qIBJgthbc4EoVaSPlAbV3dc=;
- b=At7DlJBY97ckSxRe8fYwbigk0tEzQ+gQjFmRkTPGB+WC+bu25VhSew1jyHZG/e/V7HpAGreW5qL/zp5AVrISJk+HPpTLS8304nuIVae4eYJalcsf1JGDyCH6MT2EreqlcRxePPQubL5RFwN942NNpWIp3RLKEWPfYOg/zhaNdew=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6742.eurprd08.prod.outlook.com (2603:10a6:20b:351::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Fri, 4 Jun
- 2021 05:39:45 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.024; Fri, 4 Jun 2021
- 05:39:45 +0000
-Subject: Re: [PATCH v3 33/33] block/nbd: drop connection_co
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kwolf@redhat.com, rvkagan@yandex-team.ru, den@openvz.org
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-34-vsementsov@virtuozzo.com>
- <20210603212746.45kjkbxit62w3hup@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <ccaecc79-c8bf-deb1-4910-f42b504d55ce@virtuozzo.com>
-Date: Fri, 4 Jun 2021 08:39:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210603212746.45kjkbxit62w3hup@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.253]
-X-ClientProxiedBy: PR0P264CA0198.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1f::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lp3LK-0001cR-Tk; Fri, 04 Jun 2021 02:30:09 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4FxCYP3lJwz9sTD; Fri,  4 Jun 2021 16:30:01 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1622788201;
+ bh=RxZ+qd9UCQEzxRHfpdkXHjkknmiY3KGE6Q4usJg5YHU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Aa2FyYKelhnd4Y8yk2irxEMboyuqEV4EVuxbsYnZrztyLWF2zF/lv1QBS6x0kP8I7
+ kB7kXIrlkJPBPZ1bD1Z9l3pNzTbfTww2YQK6p/tRpsKPjCqTflVQsjXueDoQkBwu2z
+ mfnhmGAomTPkGFqX0NSFDxVAQGNHxU2SKGWwerqU=
+Date: Fri, 4 Jun 2021 16:19:43 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+Message-ID: <YLnF/9H6aFzNhu5+@yekko>
+References: <20210520090557.435689-1-aik@ozlabs.ru>
+ <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.253) by
- PR0P264CA0198.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1f::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.21 via Frontend Transport; Fri, 4 Jun 2021 05:39:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 401543f0-9214-4bf4-ba76-08d9271b2895
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6742:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB67420BD440FD16C2220F427CC13B9@AS8PR08MB6742.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +5+pGCAATkjn6I/7SzzisadVr0a3PqOnoO+2thd6tXM/k6QLfTtZs6u4h8cfGy2V67j4waAhVP1dvIJV3l90N9tT5kawyoXs6Tqfwxl2wJno7NWIT42IqSjWLeTk2fIzybvr6w8XmLq3WDZnSuo/KYGEfwTmxZ08d9B3QXOYm3nq51kueDFKZT5iMu0GQH4RM5N6HKpsLDvrfe3p0HjdKZ2QHmqfuR+nyWhEOY+zHhN5XC8Y8WGhVpgGb4ptrweY8QBosJOebFLkRG/UZ30bjI4+LPkM6agarLypeAx4HwfZkGWpIC+Ouje/GaSlYu7ELkFF6GP3sm1K6MLqyepo0b/ByCi3qcfPwHYyiaX8MEOCCPbyNJIqyKp2xQ5gOeoroKmK5xZVEENy9+PbUsSQ38V/lHUSEUZR0XY0kAMoesjXqYF5Zrk5zQ8jWonrKngWrsy8qR6QJzuzlX5iiFOzhIi0Z1Rf2KM/2bUbO3w+H9xlZeE/IFfdkjOhFyr1EnCSjCQ7svCF4I/pf3p8Krv9Mb/GibTz3eEDiPUWG/g5+g5OXWP3uRJR+bQWufrrT0GB5f/HjGA/YAjRSjGFDdfqv7LVpYMTB1r5AnHA1JIJFzqYfI9CPeKf06PlvKWQUkJzcgbg1V03HHfXMm66zo4TvIBhxNuNRziPqRLivTdU24TZ5XlLZSyAqECnpIoppZZ++Rp9gnHaXdZRBDD2Yp3KRcZiDndqpv1Dwrrjrg4633c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(366004)(39840400004)(396003)(36756003)(16526019)(186003)(8936002)(6916009)(31696002)(6486002)(316002)(86362001)(5660300002)(38100700002)(38350700002)(8676002)(478600001)(26005)(2906002)(52116002)(4326008)(16576012)(107886003)(83380400001)(31686004)(956004)(66476007)(66946007)(2616005)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?YytBTEJmYXNmcURvd0pZTjl5S2UzNmtoOGI5QWJKYzhFdmRyTE9BZUZLRVBq?=
- =?utf-8?B?WTZjSHN2RUIycGhweTdhM0N4SElMSlptdkRuaWgveVdCVzBpcnRjQzROTXpR?=
- =?utf-8?B?QUw4MnZtYzVWNDVCWENkd2dMWUcwVWVxZ1pGYWx4S1RrRVJKdzFhWWJjS2w2?=
- =?utf-8?B?UGs3VDZCOUtSNGRtU0RpQXdhY3BKZ1JCY3VWczFIcTNKNlloQkdtdEI1TlZQ?=
- =?utf-8?B?OE53RG43WHhRRDJuWFBWZDdFbVZqMVdvaEYxTGxCTmE1QXBZN0tXSDI4Slc2?=
- =?utf-8?B?K0F5blRaZVZNbmVkNEdCU2xhdU9iWWk5VjRDa2lrNTk1L1BQUUhRS3QwTE5M?=
- =?utf-8?B?NUZBUmE2WlYrZEN1aEVmNU9YM21qQkZtTUJGV0VjQ3RFUDVrR1FYQktsak91?=
- =?utf-8?B?Qjdra0F4WFZFWWJTdFdTWXRxN3dHaHFiU1lmYTlic1c5NVZIeVpYdXdiYnB3?=
- =?utf-8?B?NXllTEFwVnVlTmxKMDdoUU9GNW9jZzczYzdWQVY3QUFoNjV6T1lXL2k2NVd4?=
- =?utf-8?B?L2FaQnBaSVp1bVZNVnhkWDc2OEd5TXZnS1VZTkhXTGlxRW1Rb2RmcWNscGo3?=
- =?utf-8?B?Y1hOM1NzYjFwWi9ham41a3M0M2Znb3UzWDR6VE5zSlpOR0Viejd4K1NLQ01v?=
- =?utf-8?B?S2d2T0Rjb204ZWxsR243N01BOHBtcnNWWm1SVnc0MHBxS1JiRjBNNWxmRnln?=
- =?utf-8?B?UlRjOThDbHFlaWE2bFJQbE43ZjZpWFRtZHczMks0K000ZXJ5OVZtUjJtb0pE?=
- =?utf-8?B?b3FaTFdWTEZQRGZUelkrSHFidmU5VzZGRjVQSGtMWFl1bWREUUo1NHcwS2Fh?=
- =?utf-8?B?Q0dHODFzTkdDVnBQd0V2N1RhM3I1bWZZUThxWHVETEN3b3BJSzdTZG1zbEVy?=
- =?utf-8?B?UTV5ZmMxNFVxOVlZeFduU29qc1R0d2hBc3Y5UlVNMWRIdkdmY244aWRLeSs2?=
- =?utf-8?B?aXJPSm40aERSRTkwOUxBWFJ2N3cyUWJwam52angvSnhCUGxZL0JZMVhuZVht?=
- =?utf-8?B?YlFZOVB5VWp4ZDViNmpmSzk4TkhZcHVFMHFGcTQ2SGJTRVhxNEluSk9RTjVT?=
- =?utf-8?B?M1hUeVY3UVBBeHU1WCtLVzBNdjZDQkJ1WHhBTXJkcGJNTDdTOHpOU0RVWS9t?=
- =?utf-8?B?VjQ5c0JBT0FScTNWVjNqc0k5eEtXcElGeGV1T211MVUrcThocDdLOGZOVmlH?=
- =?utf-8?B?T2dJeWRtM0VBMDluUlN4WERFUXZiMUxvbWxKZ3RiRkxGTktxbUEvL1Z4bEwv?=
- =?utf-8?B?aExWc0h2dmlVSnpHWHNCaUFtaEdpNCtaN2NBTStadzlSdmlVY09Od253S0lO?=
- =?utf-8?B?TkY4aW4ySjRyaGl3Qm1JZXJJdmloSEhWNXRhRVNkenlpMmFaZHlKd05PaTRT?=
- =?utf-8?B?UFloSTd1REhKNngyamJzSG9oRG5sQkhMQjVHUDVmUEVOaUdIWmZ2dyt2VHVB?=
- =?utf-8?B?UEhsOEl3Z2txRDhlUndTaW9jL2U0Q0tkU1dwV085Z1pwdHlKeWdPcG56c3h1?=
- =?utf-8?B?ek41ZUNGc2hSNUZwU3J2SlJTaG4rN09UNFl3d0x6aVlDUFhRNkZwejZqWEpu?=
- =?utf-8?B?L0VyeTQwMGNoSENXWTZaYjY1RmprVmhFSEpzY0o0RkFqQVNtbzZMUjhjSE1W?=
- =?utf-8?B?SGlwamxMendIUDRIZ1JaOFBzOGc4cDhIamZKMTNRRUZRNy9aa3JVRXc0Q2Mw?=
- =?utf-8?B?aW9DSHY0alFRUTRZNnIyaVhGNUwyQ0lVaHVQTGY4NVJhMzgzT2NpR2lwaEN2?=
- =?utf-8?Q?rVP7ZOLNT39Yji5s88UJxpsAZCFf/n8fWNOug4g?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 401543f0-9214-4bf4-ba76-08d9271b2895
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2021 05:39:44.9013 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VsAzWUeURWx4bHLBaaOLujRJG2rqMUzMdZXjd69KJ5kBbpoC5N8RXLkmI5x7f/RhFgkfH4vaBbEk1UL8eR3sOEWKCzYqkKnv+bD/dI7hLDM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6742
-Received-SPF: pass client-ip=40.107.22.127;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.603, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="D/HlGNB0XeaFDsOt"
+Content-Disposition: inline
+In-Reply-To: <c13d557a-5feb-33ad-33ec-22a28cddb8d@eik.bme.hu>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,128 +58,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-04.06.2021 00:27, Eric Blake wrote:
-> On Fri, Apr 16, 2021 at 11:09:11AM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> OK, that's a big rewrite of the logic.
->>
->> Pre-patch we have an always running coroutine - connection_co. It does
->> reply receiving and reconnecting. And it leads to a lot of difficult
->> and unobvious code around drained sections and context switch. We also
->> abuse bs->in_flight counter which is increased for connection_co and
->> temporary decreased in points where we want to allow drained section to
->> begin. One of these place is in another file: in nbd_read_eof() in
->> nbd/client.c.
->>
->> We also cancel reconnect and requests waiting for reconnect on drained
->> begin which is not correct.
->>
->> Let's finally drop this always running coroutine and go another way:
->>
->> 1. reconnect_attempt() goes to nbd_co_send_request and called under
->>     send_mutex
->>
->> 2. We do receive headers in request coroutine. But we also should
->>     dispatch replies for another pending requests. So,
->>     nbd_connection_entry() is turned into nbd_receive_replies(), which
->>     does reply dispatching until it receive another request headers, and
->>     returns when it receive the requested header.
->>
->> 3. All old staff around drained sections and context switch is dropped.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/nbd.c  | 376 ++++++++++++++++-----------------------------------
->>   nbd/client.c |   2 -
->>   2 files changed, 119 insertions(+), 259 deletions(-)
->>
-> 
->> -static coroutine_fn void nbd_connection_entry(void *opaque)
->> +static coroutine_fn void nbd_receive_replies(BDRVNBDState *s, uint64_t handle)
->>   {
->> -    BDRVNBDState *s = opaque;
->>       uint64_t i;
->>       int ret = 0;
->>       Error *local_err = NULL;
->>   
->> -    while (qatomic_load_acquire(&s->state) != NBD_CLIENT_QUIT) {
->> -        /*
->> -         * The NBD client can only really be considered idle when it has
->> -         * yielded from qio_channel_readv_all_eof(), waiting for data. This is
->> -         * the point where the additional scheduled coroutine entry happens
->> -         * after nbd_client_attach_aio_context().
->> -         *
->> -         * Therefore we keep an additional in_flight reference all the time and
->> -         * only drop it temporarily here.
->> -         */
->> +    i = HANDLE_TO_INDEX(s, handle);
->> +    if (s->receive_co) {
->> +        assert(s->receive_co != qemu_coroutine_self());
->>   
->> -        if (nbd_client_connecting(s)) {
->> -            nbd_co_reconnect_loop(s);
->> -        }
->> +        /* Another request coroutine is receiving now */
->> +        s->requests[i].receiving = true;
->> +        qemu_coroutine_yield();
->> +        assert(!s->requests[i].receiving);
->>   
->> -        if (!nbd_client_connected(s)) {
->> -            continue;
->> +        if (s->receive_co != qemu_coroutine_self()) {
->> +            /*
->> +             * We are either failed or done, caller uses nbd_client_connected()
->> +             * to distinguish.
->> +             */
->> +            return;
->>           }
->> +    }
->> +
->> +    assert(s->receive_co == 0 || s->receive_co == qemu_coroutine_self());
-> 
-> s/0/NULL/ here
-> 
->> +    s->receive_co = qemu_coroutine_self();
->>   
->> +    while (nbd_client_connected(s)) {
->>           assert(s->reply.handle == 0);
->>           ret = nbd_receive_reply(s->bs, s->ioc, &s->reply, &local_err);
->>   
->> @@ -522,8 +380,21 @@ static coroutine_fn void nbd_connection_entry(void *opaque)
->>               local_err = NULL;
->>           }
->>           if (ret <= 0) {
->> -            nbd_channel_error(s, ret ? ret : -EIO);
->> -            continue;
->> +            ret = ret ? ret : -EIO;
->> +            nbd_channel_error(s, ret);
->> +            goto out;
->> +        }
->> +
->> +        if (!nbd_client_connected(s)) {
->> +            ret = -EIO;
->> +            goto out;
->> +        }
->> +
->> +        i = HANDLE_TO_INDEX(s, s->reply.handle);
->> +
->> +        if (s->reply.handle == handle) {
->> +            ret = 0;
->> +            goto out;
->>           }
->>   
->>           /*
-> 
-> I know your followup said there is more work to do before v4, but I
-> look forward to seeing it.
-> 
 
+--D/HlGNB0XeaFDsOt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Great thanks for reviewing this huge series! Now is my turn to make v4.
+On Sun, May 30, 2021 at 07:33:01PM +0200, BALATON Zoltan wrote:
+> Hello,
+>=20
+> Two more problems I've found while testing with pegasos2 but I'm not sure
+> how to fix them:
+>=20
+> On Thu, 20 May 2021, Alexey Kardashevskiy wrote:
+> > diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+> > new file mode 100644
+> > index 000000000000..a283b7d251a7
+> > --- /dev/null
+> > +++ b/hw/ppc/vof.c
+> > @@ -0,0 +1,1021 @@
+> > +/*
+> > + * QEMU PowerPC Virtual Open Firmware.
+> > + *
+> > + * This implements client interface from OpenFirmware IEEE1275 on the =
+QEMU
+> > + * side to leave only a very basic firmware in the VM.
+> > + *
+> > + * Copyright (c) 2021 IBM Corporation.
+> > + *
+> > + * SPDX-License-Identifier: GPL-2.0-or-later
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu-common.h"
+> > +#include "qemu/timer.h"
+> > +#include "qemu/range.h"
+> > +#include "qemu/units.h"
+> > +#include "qapi/error.h"
+> > +#include <sys/ioctl.h>
+> > +#include "exec/ram_addr.h"
+> > +#include "exec/address-spaces.h"
+> > +#include "hw/ppc/vof.h"
+> > +#include "hw/ppc/fdt.h"
+> > +#include "sysemu/runstate.h"
+> > +#include "qom/qom-qobject.h"
+> > +#include "trace.h"
+> > +
+> > +#include <libfdt.h>
+> > +
+> > +/*
+> > + * OF 1275 "nextprop" description suggests is it 32 bytes max but
+> > + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 char=
+s long.
+> > + */
+> > +#define OF_PROPNAME_LEN_MAX 64
+> > +
+> > +#define VOF_MAX_PATH        256
+> > +#define VOF_MAX_SETPROPLEN  2048
+> > +#define VOF_MAX_METHODLEN   256
+> > +#define VOF_MAX_FORTHCODE   256
+> > +#define VOF_VTY_BUF_SIZE    256
+> > +
+> > +typedef struct {
+> > +    uint64_t start;
+> > +    uint64_t size;
+> > +} OfClaimed;
+> > +
+> > +typedef struct {
+> > +    char *path; /* the path used to open the instance */
+> > +    uint32_t phandle;
+> > +} OfInstance;
+> > +
+> > +#define VOF_MEM_READ(pa, buf, size) \
+> > +    address_space_read_full(&address_space_memory, \
+> > +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+> > +#define VOF_MEM_WRITE(pa, buf, size) \
+> > +    address_space_write(&address_space_memory, \
+> > +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
+> > +
+> > +static int readstr(hwaddr pa, char *buf, int size)
+> > +{
+> > +    if (VOF_MEM_READ(pa, buf, size) !=3D MEMTX_OK) {
+> > +        return -1;
+> > +    }
+> > +    if (strnlen(buf, size) =3D=3D size) {
+> > +        buf[size - 1] =3D '\0';
+> > +        trace_vof_error_str_truncated(buf, size);
+> > +        return -1;
+> > +    }
+> > +    return 0;
+> > +}
+> > +
+> > +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
+> > +                       const char *s1, unsigned nargscheck, unsigned n=
+retcheck)
+> > +{
+> > +    if (strcmp(s, s1)) {
+> > +        return false;
+> > +    }
+> > +    if ((nargscheck && (nargs !=3D nargscheck)) ||
+> > +        (nretcheck && (nret !=3D nretcheck))) {
+> > +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
+> > +        return false;
+> > +    }
+> > +
+> > +    return true;
+> > +}
+> > +
+> > +static void prop_format(char *tval, int tlen, const void *prop, int le=
+n)
+> > +{
+> > +    int i;
+> > +    const unsigned char *c;
+> > +    char *t;
+> > +    const char bin[] =3D "...";
+> > +
+> > +    for (i =3D 0, c =3D prop; i < len; ++i, ++c) {
+> > +        if (*c =3D=3D '\0' && i =3D=3D len - 1) {
+> > +            strncpy(tval, prop, tlen - 1);
+> > +            return;
+> > +        }
+> > +        if (*c < 0x20 || *c >=3D 0x80) {
+> > +            break;
+> > +        }
+> > +    }
+> > +
+> > +    for (i =3D 0, c =3D prop, t =3D tval; i < len; ++i, ++c) {
+> > +        if (t >=3D tval + tlen - sizeof(bin) - 1 - 2 - 1) {
+> > +            strcpy(t, bin);
+> > +            return;
+> > +        }
+> > +        if (i && i % 4 =3D=3D 0 && i !=3D len - 1) {
+> > +            strcat(t, " ");
+> > +            ++t;
+> > +        }
+> > +        t +=3D sprintf(t, "%02X", *c & 0xFF);
+> > +    }
+> > +}
+> > +
+> > +static int get_path(const void *fdt, int offset, char *buf, int len)
+> > +{
+> > +    int ret;
+> > +
+> > +    ret =3D fdt_get_path(fdt, offset, buf, len - 1);
+> > +    if (ret < 0) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    buf[len - 1] =3D '\0';
+> > +
+> > +    return strlen(buf) + 1;
+> > +}
+> > +
+> > +static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, in=
+t len)
+> > +{
+> > +    int ret;
+> > +
+> > +    ret =3D fdt_node_offset_by_phandle(fdt, ph);
+> > +    if (ret < 0) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    return get_path(fdt, ret, buf, len);
+> > +}
+> > +
+> > +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
+> > +{
+> > +    char fullnode[VOF_MAX_PATH];
+> > +    uint32_t ret =3D -1;
+> > +    int offset;
+> > +
+> > +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
+> > +        return (uint32_t) ret;
+> > +    }
+> > +
+> > +    offset =3D fdt_path_offset(fdt, fullnode);
+> > +    if (offset >=3D 0) {
+> > +        ret =3D fdt_get_phandle(fdt, offset);
+> > +    }
+> > +    trace_vof_finddevice(fullnode, ret);
+> > +    return (uint32_t) ret;
+> > +}
+>=20
+> The Linux init function that runs on pegasos2 here:
+>=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/arc=
+h/powerpc/kernel/prom_init.c?h=3Dv4.14.234#n2658
+>=20
+> calls finddevice once with isa@c and next with isa@C (small and capital C)
+> both of which works with the board firmware but with vof the comparison is
+> case sensitive and one of these fails so I can't make it work. I don't kn=
+ow
+> if this is a problem in libfdt or the vof_finddevice above should do
+> something else to get case insensitive comparison.
 
--- 
-Best regards,
-Vladimir
+This is kind of a subtle incompatibility between the traditional OF
+world and the flat tree world.  In traditional OF, the unit address
+(bit after the @) doesn't exist as a string.  Instead when you do the
+finddevice it will parse that address and compare it against the 'reg'
+properties for each of the relevant nodes.  Since that's an integer
+comparison, case doesn't enter into it.
+
+But, how to parse (and write) addresses depends on the bus, so the
+firmware has to understand each bus type and act accordingly.  That
+doesn't really work in the world of minimal firmwares dor the flat
+tree.  So instead, we just incorporate a pre-formatted unit address in
+the flat tree directly.  Most of the time that works fine, but there
+are some edge cases like the one you've hit.
+
+> > +static const void *getprop(const void *fdt, int nodeoff, const char *p=
+ropname,
+> > +                           int *proplen, bool *write0)
+> > +{
+> > +    const char *unit, *prop;
+> > +
+> > +    /*
+> > +     * The "name" property is not actually stored as a property in the=
+ FDT,
+> > +     * we emulate it by returning a pointer to the node's name and adj=
+ust
+> > +     * proplen to include only the name but not the unit.
+> > +     */
+> > +    if (strcmp(propname, "name") =3D=3D 0) {
+> > +        prop =3D fdt_get_name(fdt, nodeoff, proplen);
+> > +        if (!prop) {
+> > +            *proplen =3D 0;
+> > +            return NULL;
+> > +        }
+> > +
+> > +        unit =3D memchr(prop, '@', *proplen);
+> > +        if (unit) {
+> > +            *proplen =3D unit - prop;
+> > +        }
+> > +        *proplen +=3D 1;
+> > +
+> > +        /*
+> > +         * Since it might be cut at "@" and there will be no trailing =
+zero
+> > +         * in the prop buffer, tell the caller to write zero at the en=
+d.
+> > +         */
+> > +        if (write0) {
+> > +            *write0 =3D true;
+> > +        }
+> > +        return prop;
+> > +    }
+> > +
+> > +    if (write0) {
+> > +        *write0 =3D false;
+> > +    }
+> > +    return fdt_getprop(fdt, nodeoff, propname, proplen);
+> > +}
+>=20
+> MorphOS checks the name property of the root node ("/") to decide what
+> platform it runs on so we may need to be able to set this property on /
+> where it should return "bplan,Pegasos2", therefore the above maybe should=
+ do
+> getprop first and only generate name property if it's not set (or at least
+> check if we're on the root node and allow setting name property there). (=
+On
+> Macs the root node is named "device-tree" and this was before found to be
+> needed for MorphOS.)
+
+Ah.  Hrm.  Have to think about what to do about that.
+
+> Other than the above two problems, I've found that getting the device tree
+> from vof returns it in reverse order compared to the board firmware if I =
+add
+> it the expected order. This may or may not be a problem but to avoid it I
+> can build the tree in reverse order then it comes out right so unless
+> there's an easy fix this should not cause a problem but may worth a comme=
+nt
+> somewhere.
+
+The order of things in the device tree *should* never matter.  If it
+does, that's definitely a client bug... but of course that doesn't
+necessarily mean we won't have to work around it in practice.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--D/HlGNB0XeaFDsOt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC5xfsACgkQbDjKyiDZ
+s5LMJBAA4wv3+ZkcYDEg1QVYU7Na0xLf+UgP8zJ6eREizhqmBQLmFfH3wpxfLVVu
+Kp6dc0seBN8b/84NPZSOAvafurUYsEyRUzdaYE2PMMx0eqY1JxAbaEmgb0SvLaCU
+nJSibWlgUsksuc0R9IVqXVZ8GwLVBTHDeI9QeJ4e/ziWDSW68V8eUaUl49tURklB
+mqc979uTE1WKM/KkaLT6bC7S4QxUVxJC/RUMImfFsymWHHXBNGxJDzpMFUIwbibV
+HGClNUWv8iZjzp1F6MQVgCfU3nbM2fEbbMIitQktvW49JGovngD16FDM9Q0eWCzC
+215vJEaUxQxa7y50c4Phsj6nlPx3LE5m3K6Phbzcal7raGyfCnlbWKuElbVsAgQV
+wnNFsj672Tj/y2qL3ft0/lBE481kQdzUcqzqDffSODdPrdz/yFWyoRVl2YdBlOlm
+4vfTXmmvLFUeuTOGvIWEgwg8S0uENMPwvxMenA+wtPyf2MEWXrVwIgLOOqIo9Haa
+DkAx6uWlelZorMQ1IPINYx8yKTIzsAlEGpDH26rhQJFbOQHcZF0V9kj8RwqDP8Os
+trW4bYpODdS17xnkfnhWMOgfy1J2Im5drj8+v0BzjM/TuMUxwKSuc6LMYGWXRyX5
+ujht/M1ZdwQHUbAssd6+4qVdZrpxxbIUpEYBUsUusftxoqFfMGk=
+=7oE0
+-----END PGP SIGNATURE-----
+
+--D/HlGNB0XeaFDsOt--
 
