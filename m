@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD01439BF97
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:27:37 +0200 (CEST)
-Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F55D39BF84
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 20:24:25 +0200 (CEST)
+Received: from localhost ([::1]:38212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpEXg-00064H-Rk
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:27:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
+	id 1lpEUa-0004Pn-0i
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 14:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpET5-00011x-I5
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:22:51 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43682)
+ id 1lpET4-0000w1-6Q
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:22:50 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpET3-0000Pe-BV
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:22:51 -0400
-Received: by mail-wr1-x430.google.com with SMTP id u7so4751492wrs.10
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 11:22:48 -0700 (PDT)
+ id 1lpET0-0000Nr-RO
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 14:22:49 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ h22-20020a05600c3516b02901a826f84095so1132628wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 11:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z78Q04mjV1LVORaYbrxDOeNi35S151UOcJPYVSic2GM=;
- b=pLtkDC7HeIb5DEaEcC2s1iOeouuq9rjcmMc+Kk30tJVcE1JDU/4vmaqp5SmD5mCm5M
- 9hj+qudJQ5wpDfqSmCPh/lyYumOBD6tOLgRFB1M+1ueJlBUnp6v3azI9VPbOlZz5Fpc1
- MeAj7MYliku+hdpw28dZui6NktZB51xZ0PkoO2CHR11jOqw7LJlplIo/bXUqvMdDKfc8
- 9OUCrlAqhWCteLCR2SRfV5R5UwCO61Y162qoxVO/dm2TPwrMkv1rmXeQ0ZofhBbsKShW
- Vh4SQR2uvuRCKV3QSJDuVYkwaX8mag4gZaEWTcZnZz5Wn0R+7xMiBYpVdPpwOjjD/XEq
- sPRw==
+ bh=Fs4mHduSC7s6AOHhF5ZFH6VJI9TQw9c8e27N4ga4IHk=;
+ b=Zh1DBO0X4/prlBXa4eTG/cGDvDbmsYYxiDHeHH9PZIqK0MpqCcOy7uFZdUBwJr21Bz
+ kYWhxtwC8YrhMEV6UP8OKobH2ZnOQcH2ZVGI0dJ3fxU/ewTm1EQhHVwSwsajpmTHUssB
+ piqKQ981vZQE/WI3JvPk/uCSE6qQieRdb3C6ohSPkb0YneMxPqL5WTMzJfFCCm3cSHer
+ CzY2310Dbbnf6Aue0xfxGh8s7VH3D2lJcuWrFvlAr811KKEKRNX50V1u75UQfQPDLpmw
+ sBO14K8fqQumR6v9fX9lUlXt8/KCOAUiNixfT6iV5hEQqqkBlY/u6n0wGcvYkZIlUVIy
+ BnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z78Q04mjV1LVORaYbrxDOeNi35S151UOcJPYVSic2GM=;
- b=cC/ZsI4gexJONXIQ1hAt8tutFr5lsbZ1WG3d8OEzm3Mr3N46eRROqxyBgp3LBQoK3u
- GqE9QLrcavmrJcI1KwyokUA5QqIDB3/Ot+k2U2Qa4daDFvWDG4im9IOBNDq8YWv8yX5p
- MH5H6yab8lI1wWi5ABmaxry5xX+erfv6N+539GdNYAKLg/K+0m1ZAKIUXH2lnoR8ET7s
- 4gFM8cOaGv3n9dUlZs7rHK9imavzDUH1toS/W4NOfnKoIciuljGp9Oof9g7mgrkIHSY6
- ZVBx26eN9nwKlAXFADNqJRskWQiCzTptqAV72KpngJS//FDifQudVBulr+J+OEbRrlss
- 8Yqw==
-X-Gm-Message-State: AOAM530Dsyt1TxifY5NYd6nKSgWEcEF5a6MzqGetCLYDg/u6QEJEszhg
- vG5F4FNgJQDj4RBeZ8zWco47JA==
-X-Google-Smtp-Source: ABdhPJxBP2fgeakgxaALJTsQCBA5MGIMYnHyB/Sz+ndNiq80a0IfaBGzZL4/61IFdt+q0TVeu3i9Sg==
-X-Received: by 2002:adf:ee85:: with SMTP id b5mr5168329wro.95.1622830967926;
- Fri, 04 Jun 2021 11:22:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x7sm8156479wre.8.2021.06.04.11.22.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=Fs4mHduSC7s6AOHhF5ZFH6VJI9TQw9c8e27N4ga4IHk=;
+ b=ah/yPV2MHxoEaW5qLDZYEsVAvEsLwTco1x+pPwfB5m2hz/AFu7TwHi5KneYhmuWw0/
+ wjlLHDGQfmJzTxIhvGJX0LE7hFXtPPsBpqCan0+aWyhD98Fng/34xrXh9/EocyX9ZQLs
+ On7zdOF4rHrnmXg5CabqZtQVgwgYxlDKLghC/ZPcSmKYtODUKygKhHOgem9Z+IWeCP6t
+ Y5249oym6sm1ZSVNMOfjQK1N5g0I/F1De3XcM7aFbzB8D2T4Lg6PRPsimTPI0YakytHk
+ Jllg/UuhMx7gqH9Lb866t7HFc93SwGMzpw8H/ZIpUMV0fVwqC51jRq3xsQrCPMBh5caE
+ 2Avg==
+X-Gm-Message-State: AOAM532w9mJHZ4tHleSewpJIgclDK6PkHS+80bD9BO/pAuHS1KSA6P/+
+ gCXhr0jKNB67eHWEEZ3bGdqSIg==
+X-Google-Smtp-Source: ABdhPJwlQaIdkNsdFsknvM0aojJ5EidOEExpMRnPs4QLGrEd/w/BBGqXRCUDYfhQGgfYx7d58QKawg==
+X-Received: by 2002:a1c:bc06:: with SMTP id m6mr4965227wmf.74.1622830965405;
  Fri, 04 Jun 2021 11:22:45 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q19sm9085241wmc.44.2021.06.04.11.22.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jun 2021 11:22:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2F1161FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 8F0421FFBD;
  Fri,  4 Jun 2021 16:53:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 34/99] target/arm: move arm_hcr_el2_eff from tcg/ to
- common_cpu
-Date: Fri,  4 Jun 2021 16:52:07 +0100
-Message-Id: <20210604155312.15902-35-alex.bennee@linaro.org>
+Subject: [PATCH  v16 37/99] target/arm: move sve_zcr_len_for_el to common_cpu
+Date: Fri,  4 Jun 2021 16:52:10 +0100
+Message-Id: <20210604155312.15902-38-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210604155312.15902-1-alex.bennee@linaro.org>
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,179 +87,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-we will need this for KVM too, especially for Nested support.
+it is required by arch-dump.c and cpu.c, so apparently
+we need this for KVM too
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/cpu-common.c | 68 +++++++++++++++++++++++++++++++++++++++++
- target/arm/tcg/helper.c | 68 -----------------------------------------
- 2 files changed, 68 insertions(+), 68 deletions(-)
+ target/arm/cpu-common.c | 43 +++++++++++++++++++++++++++++++++++++++++
+ target/arm/tcg/helper.c | 33 -------------------------------
+ 2 files changed, 43 insertions(+), 33 deletions(-)
 
 diff --git a/target/arm/cpu-common.c b/target/arm/cpu-common.c
-index 694e5d73f3..040e06392a 100644
+index 040e06392a..a34f7f19d8 100644
 --- a/target/arm/cpu-common.c
 +++ b/target/arm/cpu-common.c
-@@ -231,3 +231,71 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
-     mask &= ~CACHED_CPSR_BITS;
-     env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
+@@ -299,3 +299,46 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
+ 
+     return ret;
  }
 +
 +/*
-+ * Return the effective value of HCR_EL2.
-+ * Bits that are not included here:
-+ * RW       (read from SCR_EL3.RW as needed)
++ * these are AARCH64-only, but due to the chain of dependencies,
++ * between HELPER prototypes, hflags, cpreg definitions and functions in
++ * tcg/ etc, it becomes incredibly messy to add what should be here:
++ *
++ * #ifdef TARGET_AARCH64
 + */
-+uint64_t arm_hcr_el2_eff(CPUARMState *env)
++
++static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
 +{
-+    uint64_t ret = env->cp15.hcr_el2;
++    uint32_t end_len;
 +
-+    if (!arm_is_el2_enabled(env)) {
-+        /*
-+         * "This register has no effect if EL2 is not enabled in the
-+         * current Security state".  This is ARMv8.4-SecEL2 speak for
-+         * !(SCR_EL3.NS==1 || SCR_EL3.EEL2==1).
-+         *
-+         * Prior to that, the language was "In an implementation that
-+         * includes EL3, when the value of SCR_EL3.NS is 0 the PE behaves
-+         * as if this field is 0 for all purposes other than a direct
-+         * read or write access of HCR_EL2".  With lots of enumeration
-+         * on a per-field basis.  In current QEMU, this is condition
-+         * is arm_is_secure_below_el3.
-+         *
-+         * Since the v8.4 language applies to the entire register, and
-+         * appears to be backward compatible, use that.
-+         */
-+        return 0;
++    end_len = start_len &= 0xf;
++    if (!test_bit(start_len, cpu->sve_vq_map)) {
++        end_len = find_last_bit(cpu->sve_vq_map, start_len);
++        assert(end_len < start_len);
 +    }
-+
-+    /*
-+     * For a cpu that supports both aarch64 and aarch32, we can set bits
-+     * in HCR_EL2 (e.g. via EL3) that are RES0 when we enter EL2 as aa32.
-+     * Ignore all of the bits in HCR+HCR2 that are not valid for aarch32.
-+     */
-+    if (!arm_el_is_aa64(env, 2)) {
-+        uint64_t aa32_valid;
-+
-+        /*
-+         * These bits are up-to-date as of ARMv8.6.
-+         * For HCR, it's easiest to list just the 2 bits that are invalid.
-+         * For HCR2, list those that are valid.
-+         */
-+        aa32_valid = MAKE_64BIT_MASK(0, 32) & ~(HCR_RW | HCR_TDZ);
-+        aa32_valid |= (HCR_CD | HCR_ID | HCR_TERR | HCR_TEA | HCR_MIOCNCE |
-+                       HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_TTLBIS);
-+        ret &= aa32_valid;
-+    }
-+
-+    if (ret & HCR_TGE) {
-+        /* These bits are up-to-date as of ARMv8.6.  */
-+        if (ret & HCR_E2H) {
-+            ret &= ~(HCR_VM | HCR_FMO | HCR_IMO | HCR_AMO |
-+                     HCR_BSU_MASK | HCR_DC | HCR_TWI | HCR_TWE |
-+                     HCR_TID0 | HCR_TID2 | HCR_TPCP | HCR_TPU |
-+                     HCR_TDZ | HCR_CD | HCR_ID | HCR_MIOCNCE |
-+                     HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_ENSCXT |
-+                     HCR_TTLBIS | HCR_TTLBOS | HCR_TID5);
-+        } else {
-+            ret |= HCR_FMO | HCR_IMO | HCR_AMO;
-+        }
-+        ret &= ~(HCR_SWIO | HCR_PTW | HCR_VF | HCR_VI | HCR_VSE |
-+                 HCR_FB | HCR_TID1 | HCR_TID3 | HCR_TSC | HCR_TACR |
-+                 HCR_TSW | HCR_TTLB | HCR_TVM | HCR_HCD | HCR_TRVM |
-+                 HCR_TLOR);
-+    }
-+
-+    return ret;
++    return end_len;
 +}
++
++/*
++ * Given that SVE is enabled, return the vector length for EL.
++ */
++uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
++{
++    ARMCPU *cpu = env_archcpu(env);
++    uint32_t zcr_len = cpu->sve_max_vq - 1;
++
++    if (el <= 1) {
++        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
++    }
++    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
++        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
++    }
++    if (arm_feature(env, ARM_FEATURE_EL3)) {
++        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
++    }
++
++    return sve_zcr_get_valid_len(cpu, zcr_len);
++}
++
++/* #endif TARGET_AARCH64 , see matching comment above */
 diff --git a/target/arm/tcg/helper.c b/target/arm/tcg/helper.c
-index d32f9659bc..e85e2bfed9 100644
+index a4630b4039..93fa3fa2a9 100644
 --- a/target/arm/tcg/helper.c
 +++ b/target/arm/tcg/helper.c
-@@ -261,74 +261,6 @@ static int arm_gdb_set_svereg(CPUARMState *env, uint8_t *buf, int reg)
+@@ -322,39 +322,6 @@ int sve_exception_el(CPUARMState *env, int el)
+     return 0;
  }
- #endif /* TARGET_AARCH64 */
  
--/*
-- * Return the effective value of HCR_EL2.
-- * Bits that are not included here:
-- * RW       (read from SCR_EL3.RW as needed)
-- */
--uint64_t arm_hcr_el2_eff(CPUARMState *env)
+-static uint32_t sve_zcr_get_valid_len(ARMCPU *cpu, uint32_t start_len)
 -{
--    uint64_t ret = env->cp15.hcr_el2;
+-    uint32_t end_len;
 -
--    if (!arm_is_el2_enabled(env)) {
--        /*
--         * "This register has no effect if EL2 is not enabled in the
--         * current Security state".  This is ARMv8.4-SecEL2 speak for
--         * !(SCR_EL3.NS==1 || SCR_EL3.EEL2==1).
--         *
--         * Prior to that, the language was "In an implementation that
--         * includes EL3, when the value of SCR_EL3.NS is 0 the PE behaves
--         * as if this field is 0 for all purposes other than a direct
--         * read or write access of HCR_EL2".  With lots of enumeration
--         * on a per-field basis.  In current QEMU, this is condition
--         * is arm_is_secure_below_el3.
--         *
--         * Since the v8.4 language applies to the entire register, and
--         * appears to be backward compatible, use that.
--         */
--        return 0;
+-    end_len = start_len &= 0xf;
+-    if (!test_bit(start_len, cpu->sve_vq_map)) {
+-        end_len = find_last_bit(cpu->sve_vq_map, start_len);
+-        assert(end_len < start_len);
 -    }
--
--    /*
--     * For a cpu that supports both aarch64 and aarch32, we can set bits
--     * in HCR_EL2 (e.g. via EL3) that are RES0 when we enter EL2 as aa32.
--     * Ignore all of the bits in HCR+HCR2 that are not valid for aarch32.
--     */
--    if (!arm_el_is_aa64(env, 2)) {
--        uint64_t aa32_valid;
--
--        /*
--         * These bits are up-to-date as of ARMv8.6.
--         * For HCR, it's easiest to list just the 2 bits that are invalid.
--         * For HCR2, list those that are valid.
--         */
--        aa32_valid = MAKE_64BIT_MASK(0, 32) & ~(HCR_RW | HCR_TDZ);
--        aa32_valid |= (HCR_CD | HCR_ID | HCR_TERR | HCR_TEA | HCR_MIOCNCE |
--                       HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_TTLBIS);
--        ret &= aa32_valid;
--    }
--
--    if (ret & HCR_TGE) {
--        /* These bits are up-to-date as of ARMv8.6.  */
--        if (ret & HCR_E2H) {
--            ret &= ~(HCR_VM | HCR_FMO | HCR_IMO | HCR_AMO |
--                     HCR_BSU_MASK | HCR_DC | HCR_TWI | HCR_TWE |
--                     HCR_TID0 | HCR_TID2 | HCR_TPCP | HCR_TPU |
--                     HCR_TDZ | HCR_CD | HCR_ID | HCR_MIOCNCE |
--                     HCR_TID4 | HCR_TICAB | HCR_TOCU | HCR_ENSCXT |
--                     HCR_TTLBIS | HCR_TTLBOS | HCR_TID5);
--        } else {
--            ret |= HCR_FMO | HCR_IMO | HCR_AMO;
--        }
--        ret &= ~(HCR_SWIO | HCR_PTW | HCR_VF | HCR_VI | HCR_VSE |
--                 HCR_FB | HCR_TID1 | HCR_TID3 | HCR_TSC | HCR_TACR |
--                 HCR_TSW | HCR_TTLB | HCR_TVM | HCR_HCD | HCR_TRVM |
--                 HCR_TLOR);
--    }
--
--    return ret;
+-    return end_len;
 -}
 -
- /* Return the exception level to which exceptions should be taken
-  * via SVEAccessTrap.  If an exception should be routed through
-  * AArch64.AdvSIMDFPAccessTrap, return 0; fp_exception_el should
+-/*
+- * Given that SVE is enabled, return the vector length for EL.
+- */
+-uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+-{
+-    ARMCPU *cpu = env_archcpu(env);
+-    uint32_t zcr_len = cpu->sve_max_vq - 1;
+-
+-    if (el <= 1) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[1]);
+-    }
+-    if (el <= 2 && arm_feature(env, ARM_FEATURE_EL2)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[2]);
+-    }
+-    if (arm_feature(env, ARM_FEATURE_EL3)) {
+-        zcr_len = MIN(zcr_len, 0xf & (uint32_t)env->vfp.zcr_el[3]);
+-    }
+-
+-    return sve_zcr_get_valid_len(cpu, zcr_len);
+-}
+-
+ void hw_watchpoint_update(ARMCPU *cpu, int n)
+ {
+     CPUARMState *env = &cpu->env;
 -- 
 2.20.1
 
