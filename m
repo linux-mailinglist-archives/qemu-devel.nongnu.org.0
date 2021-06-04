@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4DB39B814
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 13:37:54 +0200 (CEST)
-Received: from localhost ([::1]:36598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C9F39B835
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 13:43:57 +0200 (CEST)
+Received: from localhost ([::1]:39892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lp89B-00007k-BW
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 07:37:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
+	id 1lp8F2-0002gl-IF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 07:43:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lp88T-0007up-ST
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:37:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53974)
+ id 1lp8Dr-0001Sb-SH
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:42:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lp88Q-0004NR-88
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:37:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B1C7B61423;
- Fri,  4 Jun 2021 11:37:01 +0000 (UTC)
-Date: Fri, 4 Jun 2021 12:36:59 +0100
+ id 1lp8Do-0007vi-Uq
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 07:42:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 89B72613E9;
+ Fri,  4 Jun 2021 11:42:36 +0000 (UTC)
+Date: Fri, 4 Jun 2021 12:42:34 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v13 4/8] KVM: arm64: Introduce MTE VM feature
-Message-ID: <20210604113658.GD31173@arm.com>
+Subject: Re: [PATCH v13 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+Message-ID: <20210604114233.GE31173@arm.com>
 References: <20210524104513.13258-1-steven.price@arm.com>
- <20210524104513.13258-5-steven.price@arm.com>
- <20210603160031.GE20338@arm.com>
- <a0810f3b-4f13-e8b5-7057-a9de1201887a@arm.com>
+ <20210524104513.13258-8-steven.price@arm.com>
+ <20210603171336.GH20338@arm.com>
+ <02c7682e-5fb6-29eb-9105-02e3521756a2@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a0810f3b-4f13-e8b5-7057-a9de1201887a@arm.com>
+In-Reply-To: <02c7682e-5fb6-29eb-9105-02e3521756a2@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
  helo=mail.kernel.org
@@ -69,133 +69,65 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 04, 2021 at 11:42:11AM +0100, Steven Price wrote:
-> On 03/06/2021 17:00, Catalin Marinas wrote:
-> > On Mon, May 24, 2021 at 11:45:09AM +0100, Steven Price wrote:
-> >> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> >> index c5d1f3c87dbd..226035cf7d6c 100644
-> >> --- a/arch/arm64/kvm/mmu.c
-> >> +++ b/arch/arm64/kvm/mmu.c
-> >> @@ -822,6 +822,42 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
-> >>  	return PAGE_SIZE;
-> >>  }
+On Fri, Jun 04, 2021 at 12:15:56PM +0100, Steven Price wrote:
+> On 03/06/2021 18:13, Catalin Marinas wrote:
+> > On Mon, May 24, 2021 at 11:45:12AM +0100, Steven Price wrote:
+> >> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> >> index 24223adae150..b3edde68bc3e 100644
+> >> --- a/arch/arm64/include/uapi/asm/kvm.h
+> >> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> >> @@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+> >>  	__u32 reserved[12];
+> >>  };
 > >>  
-> >> +static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
-> >> +			     unsigned long size)
-> >> +{
-> >> +	if (kvm_has_mte(kvm)) {
-> >> +		/*
-> >> +		 * The page will be mapped in stage 2 as Normal Cacheable, so
-> >> +		 * the VM will be able to see the page's tags and therefore
-> >> +		 * they must be initialised first. If PG_mte_tagged is set,
-> >> +		 * tags have already been initialised.
-> >> +		 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
-> >> +		 * that may not support tags.
-> >> +		 */
-> >> +		unsigned long i, nr_pages = size >> PAGE_SHIFT;
-> >> +		struct page *page = pfn_to_online_page(pfn);
+> >> +struct kvm_arm_copy_mte_tags {
+> >> +	__u64 guest_ipa;
+> >> +	__u64 length;
+> >> +	void __user *addr;
+> >> +	__u64 flags;
+> >> +	__u64 reserved[2];
+> >> +};
 > >> +
-> >> +		if (!page)
+> >> +#define KVM_ARM_TAGS_TO_GUEST		0
+> >> +#define KVM_ARM_TAGS_FROM_GUEST		1
+> >> +
+> >>  /* If you need to interpret the index values, here is the key: */
+> >>  #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+> >>  #define KVM_REG_ARM_COPROC_SHIFT	16
+> >> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> >> index e89a5e275e25..baa33359e477 100644
+> >> --- a/arch/arm64/kvm/arm.c
+> >> +++ b/arch/arm64/kvm/arm.c
+> >> @@ -1345,6 +1345,13 @@ long kvm_arch_vm_ioctl(struct file *filp,
+> >>  
+> >>  		return 0;
+> >>  	}
+> >> +	case KVM_ARM_MTE_COPY_TAGS: {
+> >> +		struct kvm_arm_copy_mte_tags copy_tags;
+> >> +
+> >> +		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
 > >> +			return -EFAULT;
-> >> +
-> >> +		for (i = 0; i < nr_pages; i++, page++) {
-> >> +			/*
-> >> +			 * There is a potential (but very unlikely) race
-> >> +			 * between two VMs which are sharing a physical page
-> >> +			 * entering this at the same time. However by splitting
-> >> +			 * the test/set the only risk is tags being overwritten
-> >> +			 * by the mte_clear_page_tags() call.
-> >> +			 */
-> > 
-> > And I think the real risk here is when the page is writable by at least
-> > one of the VMs sharing the page. This excludes KSM, so it only leaves
-> > the MAP_SHARED mappings.
-> > 
-> >> +			if (!test_bit(PG_mte_tagged, &page->flags)) {
-> >> +				mte_clear_page_tags(page_address(page));
-> >> +				set_bit(PG_mte_tagged, &page->flags);
-> >> +			}
-> >> +		}
-> > 
-> > If we want to cover this race (I'd say in a separate patch), we can call
-> > mte_sync_page_tags(page, __pte(0), false, true) directly (hopefully I
-> > got the arguments right). We can avoid the big lock in most cases if
-> > kvm_arch_prepare_memory_region() sets a VM_MTE_RESET (tag clear etc.)
-> > and __alloc_zeroed_user_highpage() clears the tags on allocation (as we
-> > do for VM_MTE but the new flag would not affect the stage 1 VMM page
-> > attributes).
-> 
-> To be honest I'm coming round to just exporting a
-> mte_prepare_page_tags() function which does the clear/set with the lock
-> held. I doubt it's such a performance critical path that it will cause
-> any noticeable issues. Then if we run into performance problems in the
-> future we can start experimenting with extra VM flags etc as necessary.
-
-It works for me.
-
-> And from your later email:
-> > Another idea: if VM_SHARED is found for any vma within a region in
-> > kvm_arch_prepare_memory_region(), we either prevent the enabling of MTE
-> > for the guest or reject the memory slot if MTE was already enabled.
-> > 
-> > An alternative here would be to clear VM_MTE_ALLOWED so that any
-> > subsequent mprotect(PROT_MTE) in the VMM would fail in
-> > arch_validate_flags(). MTE would still be allowed in the guest but in
-> > the VMM for the guest memory regions. We can probably do this
-> > irrespective of VM_SHARED. Of course, the VMM can still mmap() the
-> > memory initially with PROT_MTE but that's not an issue IIRC, only the
-> > concurrent mprotect().
-> 
-> This could work, but I worry that it's potential fragile. Also the rules
-> for what user space can do are not obvious and may be surprising. I'd
-> also want to look into the likes of mremap() to see how easy it would be
-> to ensure that we couldn't end up with VM_SHARED (or VM_MTE_ALLOWED)
-> memory sneaking into a memslot.
-> 
-> Unless you think it's worth complicating the ABI in the hope of avoiding
-> the big lock overhead I think it's probably best to stick with the big
-> lock at least until we have more data on the overhead.
-
-It's up to Marc but I think for now just make it safe and once we get
-our hands on hardware, we can assess the impact. For example, starting
-multiple VMs simultaneously will contend on such big lock but we have an
-option to optimise it by setting PG_mte_tagged on allocation via a new
-VM_* flag.
-
-For my last suggestion above, changing the VMM ABI afterwards is a bit
-tricky, so we could state now that VM_SHARED and MTE are not allowed
-(though it needs a patch to enforce it). That's assuming that mprotect()
-in the VMM cannot race with the user_mem_abort() on another CPU which
-makes the lock necessary anyway.
-
+> >> +		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
 > >> +	}
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-> >>  			  struct kvm_memory_slot *memslot, unsigned long hva,
-> >>  			  unsigned long fault_status)
-> >> @@ -971,8 +1007,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-> >>  	if (writable)
-> >>  		prot |= KVM_PGTABLE_PROT_W;
-> >>  
-> >> -	if (fault_status != FSC_PERM && !device)
-> >> +	if (fault_status != FSC_PERM && !device) {
-> >> +		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
-> >> +		if (ret)
-> >> +			goto out_unlock;
 > > 
-> > Maybe it was discussed in a previous version, why do we need this in
-> > addition to kvm_set_spte_gfn()?
+> > I wonder whether we need an update of the user structure following a
+> > fault, like how much was copied etc. In case of an error, some tags were
+> > copied and the VMM may want to skip the page before continuing. But here
+> > there's no such information provided.
+> > 
+> > On the ptrace interface, we return 0 on the syscall if any bytes were
+> > copied and update iov_len to such number. Maybe you want to still return
+> > an error here but updating copy_tags.length would be nice (and, of
+> > course, a copy_to_user() back).
 > 
-> kvm_set_spte_gfn() is only used for the MMU notifier path (e.g. if a
-> memslot is changed by the VMM). For the initial access we will normally
-> fault the page into stage 2 with user_mem_abort().
+> Good idea - as you suggest I'll make it update length with the number of
+> bytes not processed. Although in general I think we're expecting the VMM
+> to know where the memory is so this is more of a programming error - but
+> could still be useful for debugging.
 
-Right. Can we move the sanitise_mte_tags() call to
-kvm_pgtable_stage2_map() instead or we don't have the all the
-information needed?
+Or update it to the number of bytes copied to be consistent with
+ptrace()'s iov.len. On success, the structure is effectively left
+unchanged.
 
 -- 
 Catalin
