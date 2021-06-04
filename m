@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227F739BEFE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 19:41:02 +0200 (CEST)
-Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3804A39BEEC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Jun 2021 19:36:36 +0200 (CEST)
+Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpDob-0003OT-7k
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 13:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48894)
+	id 1lpDkJ-0002e2-91
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 13:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpDNR-0000C7-2p
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 13:12:57 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39727)
+ id 1lpDNJ-00085O-9j
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 13:12:49 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lpDNO-00026v-8d
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 13:12:56 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id l2so10038506wrw.6
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 10:12:53 -0700 (PDT)
+ id 1lpDND-000221-DN
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 13:12:49 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id f2so9990706wri.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 10:12:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N2NTbq9Py2mVkZ2OrcWx1tG3NJj+ueFdRocasaLiPrE=;
- b=K6Ipp5UbFGTiZ7yJ0xV0HroliU+7IgUEBKIVe9AxjeCP+A/5S7bLlSk3dic9g3/NHw
- Ros0hQNEjdNBVKIQEsoiTXb6qE5L2IOt6yw0nedPoudxYQmbF7pCNl9zLTCCh32jJSiQ
- JZzMwjkZRY6AMGaiQoJKdgPUKpqziwfaLx7ICKuVwbf0p6ikA7JBmQKluzhxE4nc2jTN
- ZpGjjO6HM8DmAng9D3rQEBwCFXaVa5ofnGfsnOBHQrFONgBX6a2v5pd/q7gE9G6O6DV9
- ir52Yz0/pLd2EhnkMwjXaAW0Yll2zqOEQlZAnuxZLq3FvzCOG7d1eU8ENSkWZfcxphhf
- YTXA==
+ bh=o/tJR1h7wyxWfcVFJmfREs1+Cr3yNNSSbrFc5jF6cQA=;
+ b=F17fSk9tH+3glWMuB2pYiu12CQG/zDLd2tnt+EnAyX0IeSqzDIoPv5mfOure8ZXVyR
+ Qp10cis8SUg8o9kwLqvxVS3SCMQFHUr0jktZeV6PkaVY0Y1eyIo5IUaiCHbnZhav08oS
+ qlWW2DjOA6O70OXL/PV4fPVS6M9pzdTBwVcmQ+cRuM40JHH9jqeaxJAbmQUJPn+7ubrK
+ VRkSRdf2fAdSmBsCDp7b5qX39ZCZcTAuHGzeH+yywdAJAXpIOZ1nFcdZSLYVRpYqO5Mr
+ DlgDZk72YXd236CeJ18iePRpmkpOSVL7VeUQdlDGtZBE8dEqBFvuiaU779ZW4bJ07vzo
+ G2sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N2NTbq9Py2mVkZ2OrcWx1tG3NJj+ueFdRocasaLiPrE=;
- b=CuCEYwHt2xSkYrr8F0BvyzWFtb5wx2xIQFqww4XRUFV4fnUjTcr/n8DpiE37Fa/PsQ
- fK8tE/CwyiyPb8ZpaCjk1JzdXRaueX82QeKE7rG4s7Nyely94ZlqSRYgmuA8v7f/Jtra
- tmo9WCGZdJI6M/JfUATBi0XIIpZkR0ngfkMpzcAfWklYZJeUq4vzdTir9GlP8RiPxqd+
- Sud4tQ79zJjO5oY/V055kd4sD0QB8+3K/xPB4+dNYkriLoBuh4Je7Xczf2axl3+cUPIJ
- Wur9zzndnOpJXfWvGig6Xp7hHnEEcyM35lcWuQct48UdZ6r43ViGI7Orxpp2ciEcwgkw
- I0Qg==
-X-Gm-Message-State: AOAM533gS/HKHR3dvnTUdzmfTgX4a1RE1PYM4baJ8gSFn+f0cLbGgoy5
- ziyJH94IwNhz+eNYonyTiY8fAg==
-X-Google-Smtp-Source: ABdhPJwPL829SA5abXI/tMRr3J/KLRiieXqWC2Hr2beErYmFIXgVCimpH2A5fuqIU6HGsYbj6kwgdg==
-X-Received: by 2002:adf:f1c3:: with SMTP id z3mr4807739wro.375.1622826772968; 
- Fri, 04 Jun 2021 10:12:52 -0700 (PDT)
+ bh=o/tJR1h7wyxWfcVFJmfREs1+Cr3yNNSSbrFc5jF6cQA=;
+ b=Uxg7vX5/ZClQv+RK2NQZl+d4B6EJT/rd44ANFkoaFlbziEGfhBlbg+xVohg30+Ieav
+ FFMkV8gEU6TlVFLlZsAC/yGMOoubzDNsqd1UvI6PcUo14fwy4v7ytfYOULk0Y0SD4sUG
+ CGo1IsV7BT+1Vr0ONppHdyi2IlDgV/okniw9IU0PmGiOVngfQecLAl10geeJFBAJx2aS
+ m1bhbsy437MsYYul65ahWddOHd8PESPlfrzAkFUjTf8hTo6JNwXGGmi7Pt+Bvh3L6Nkw
+ kIbjWxa1uQD4dxgiD8j2dWM6SxDiFkFIHsmhWf6d/h3CBN4TrmFQCou4TRKHlpVsQmNg
+ urkw==
+X-Gm-Message-State: AOAM532NPpJCr5bH6QbbcXZjKNDFxfDWlK16+5L7yg8H6zJA8m+raohX
+ e/Ov5cmBw6/Byq0lDmeTQVDb4JYBynE5xQ==
+X-Google-Smtp-Source: ABdhPJyDeD1zN6fJc3JKD9SywbNY00He/tlkwmdX/RiIdS3Cnttnnc/MxMJr1qWoLx7+p58lF0hb0w==
+X-Received: by 2002:adf:e54f:: with SMTP id z15mr4970797wrm.141.1622826761870; 
+ Fri, 04 Jun 2021 10:12:41 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s7sm22532wmh.38.2021.06.04.10.12.41
+ by smtp.gmail.com with ESMTPSA id 92sm7893175wrp.88.2021.06.04.10.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jun 2021 10:12:46 -0700 (PDT)
+ Fri, 04 Jun 2021 10:12:38 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 79E9F1FFD4;
+ by zen.linaroharston (Postfix) with ESMTP id BB9381FFD7;
  Fri,  4 Jun 2021 16:53:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 63/99] tests/qtest: skip bios-tables-test
- test_acpi_oem_fields_virt for KVM
-Date: Fri,  4 Jun 2021 16:52:36 +0100
-Message-Id: <20210604155312.15902-64-alex.bennee@linaro.org>
+Subject: [PATCH v16 66/99] tests: do not run qom-test on all machines for ARM
+ KVM-only
+Date: Fri,  4 Jun 2021 16:52:39 +0100
+Message-Id: <20210604155312.15902-67-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210604155312.15902-1-alex.bennee@linaro.org>
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,43 +87,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Claudio Fontana <cfontana@suse.de>
 
-test is TCG-only.
+on ARM we currently list and build all machines, even when
+building KVM-only, without TCG.
+
+Until we fix this (and we only list and build machines that are
+compatible with KVM), only test specifically using the "virt"
+machine in this case.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qtest/bios-tables-test.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/qtest/qom-test.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 762d154b34..f8fe4b8efe 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1484,6 +1484,13 @@ static void test_acpi_oem_fields_virt_tcg(void)
-     };
-     char *args;
+diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
+index eb34af843b..b0a6d10148 100644
+--- a/tests/qtest/qom-test.c
++++ b/tests/qtest/qom-test.c
+@@ -90,7 +90,27 @@ int main(int argc, char **argv)
+ {
+     g_test_init(&argc, &argv, NULL);
  
++    /*
++     * XXX currently we build also boards for ARM that are incompatible with KVM.
++     * We therefore need to check this explicitly, and only test virt for kvm-only
++     * arm builds.
++     * After we do the work of Kconfig etc to ensure that only KVM-compatible boards
++     * are built for the kvm-only build, we could remove this.
++     */
 +#ifndef CONFIG_TCG
-+    if (data.tcg_only) {
-+        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
-+        return;
-+    }
-+#endif /* CONFIG_TCG */
++    {
++        const char *arch = qtest_get_arch();
 +
-     args = test_acpi_create_args(&data,
-                                  "-cpu cortex-a57 "OEM_TEST_ARGS, true);
-     data.qts = qtest_init(args);
++        if (strcmp(arch, "arm") == 0 || strcmp(arch, "aarch64") == 0) {
++            add_machine_test_case("virt");
++            goto add_machine_test_done;
++        }
++    }
++#endif /* !CONFIG_TCG */
++
+     qtest_cb_for_every_machine(add_machine_test_case, g_test_quick());
++    goto add_machine_test_done;
+ 
++ add_machine_test_done:
+     return g_test_run();
+ }
 -- 
 2.20.1
 
