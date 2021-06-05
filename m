@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C305939CA9A
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:02:59 +0200 (CEST)
-Received: from localhost ([::1]:35518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 417D939CA9B
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:04:47 +0200 (CEST)
+Received: from localhost ([::1]:37662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpbZS-0001ib-Rf
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
+	id 1lpbbC-0003Eb-Ai
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:04:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbYL-0000ji-F8; Sat, 05 Jun 2021 15:01:49 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:43827)
+ id 1lpbaB-0002YC-PT; Sat, 05 Jun 2021 15:03:43 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:53997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbYJ-0007cy-DY; Sat, 05 Jun 2021 15:01:49 -0400
+ id 1lpbaA-0000Ca-18; Sat, 05 Jun 2021 15:03:43 -0400
 Received: from [192.168.100.1] ([82.142.12.38]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MMXcP-1m7PgO3mVT-00Jchd; Sat, 05 Jun 2021 21:01:44 +0200
-Subject: Re: [PATCH] i386/kvm: The value passed to strerror should be positive
-To: Dmitry Voronetskiy <davoronetskiy@gmail.com>, qemu-devel@nongnu.org
-References: <20210519113528.12474-1-davoronetskiy@gmail.com>
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N9dkB-1lLTzQ4BOP-015Web; Sat, 05 Jun 2021 21:03:38 +0200
+Subject: Re: [PATCH] meson: Fix 'interpretor' typo
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210521103423.2780345-1-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <9e73bc57-13cb-3ab8-1f8d-01182de2e423@vivier.eu>
-Date: Sat, 5 Jun 2021 21:01:42 +0200
+Message-ID: <7d9abdeb-575d-3ec5-904b-bc676313ca14@vivier.eu>
+Date: Sat, 5 Jun 2021 21:03:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210519113528.12474-1-davoronetskiy@gmail.com>
+In-Reply-To: <20210521103423.2780345-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Knyw1PANWskZGYnyzv2b3I4U5Ugd1iv9F81205sSr1yCIV4RYWH
- U6zwSAxSkZkJ6qs8m8nEK/Mqi9vCSjm0LDd7DBjRiWpxLG8+GVwkChR6mlLb14d1XUq3o8G
- AMwXYUPigFFRAjQgfKzj+y7LlmmmoX+K0PT7C+/B9VOfFLgkg/wamIZG9XccQwm3ZWV1Aaa
- is/qlaL8tjSWP3JfdM2bA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9dD++n0uhXg=:GdlJiK5ZKSXsS6ihqQ2Z/3
- vS5hY8PEgIzTk/skHv/gPTTGuRNWrBqopQAJGKrEJPZ3uDeXVBCB57Q+CQWKLld9646ow0jHL
- 4OwELVXxCwoTuaN5CR0bLtVXTVTb7CSXMAbszOv6yhEpiMWLrdVUc4xuHiWj/j3XRvCqapkcj
- HLAftsA4LV5zgNE7eqyGFpuJW/hH4vWGJq8vAIVymWM00sRSPTFJWO+89AVtM+QhlodME0U2o
- R/N8bVCz6y5MTzQmI3HeU/jzUzmIbmaRd3B3ALP1f3umUnbxtv+FCajKCjtYYYqF90WA9nv5F
- ld7Wlphutg0xhUdtw4hMKy9HXRF54ND/VpPru5aaATBxSe5pz4by+Cyq6A8Qclgm9PudQiJ7v
- bF6oLsKJpCz71Jfvd6LdtJynFXvqKnQxcjb9elstLo+bgibNTvylnvriPAY3H6dGLyrfAvApU
- uMXHpzwuBVlXX2Mru7htxx3BvOvFC5WQQGO0Ja/Hli31A0NzDbv+fjSRW+YEKQsQ9zxsEOXSE
- wS4BYBe58bLUXxVeFKU4pA=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:SHyIamiO4nTJns2LQfNY5mw98EkBjtAR3VWgba5CGmO46rXHKW6
+ ow06B37NBR/DzwtJ3AV8eS1i+vHGkwmfl1UbJt/8qtrfVU9qkLa9OZXi4O2OLjVyVjbg3kt
+ 08CrBYmwPsGxBao6do3op1XvVR1kzlUEgtvQqy9l4lDVVrYkbDOgUYvyxqU17VC5bsAY7NV
+ LXEd2B/BCBTISPZVhFS6A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:C4kXDvYIJxM=:mJGaIYnv/xS+VYy5vezEW1
+ yhiRbRqoUTaiYekyuANHAUJuZJsBSDE5eYEbMMG5xcHJrWu/b6tYpIPRVmjHclGgD4vlC5n/b
+ bD2BpmQI29ZGE5/6mQAwUOtTdf0ZloooaIgvI0V+X6sVlb3poRLGcB6VeFhd6lPic0AZo9u/4
+ ogwBwcNsloiJTTw4KjivorVstc7XqVfbn0kPOTjpX+MrklV+hP/YlWnCVh5FWWdcGKsCT/pAx
+ mWOEjEoUrpwAhEklPXXO4GupzJigbDYdxdDns4Z7lHgODp4S+5Ips41/8oWghkXx/u1twaiqd
+ TO9zfN2GSuNMrD8y540UgXnPU/aY7LgAhnduGaPem/b+HAFstVk/I1kzL5h8VKD/qd2abB3yJ
+ yoDnDdAUDefI7EgFP7D88sYKa5u5C/0/YTK/o5gLYFP5KuH5fF3Pe8lBbK6+6jD+zYGOlyCro
+ E0Slop2XXnd1ZFtZAG6tuMd5+FdxnCd8g1FDLodvFQveSTQvawGOrZGKKIsUvgaVGNgWxXdl9
+ U2HaU3FWrf1hEssw1knVM4=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.59,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,156 +67,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Dmitry Voronetskiy <vda1999@yandex.ru>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/05/2021 à 13:35, Dmitry Voronetskiy a écrit :
-> From: Dmitry Voronetskiy <vda1999@yandex.ru>
+Le 21/05/2021 à 12:34, Philippe Mathieu-Daudé a écrit :
+> Fix a typo from commit fa2f7b0b9b7 ("meson: Warn when TCI is
+> selected but TCG backend is available").
 > 
-> Signed-off-by: Dmitry Voronetskiy <vda1999@yandex.ru>
-> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/i386/kvm/apic.c   |  2 +-
->  hw/i386/kvm/clock.c  |  4 ++--
->  hw/i386/kvm/i8254.c  | 10 +++++-----
->  hw/i386/kvm/i8259.c  |  4 ++--
->  hw/i386/kvm/ioapic.c |  4 ++--
->  5 files changed, 12 insertions(+), 12 deletions(-)
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
-> index 52ff490910..1e89ca0899 100644
-> --- a/hw/i386/kvm/apic.c
-> +++ b/hw/i386/kvm/apic.c
-> @@ -145,7 +145,7 @@ static void kvm_apic_put(CPUState *cs, run_on_cpu_data data)
->  
->      ret = kvm_vcpu_ioctl(CPU(s->cpu), KVM_SET_LAPIC, &kapic);
->      if (ret < 0) {
-> -        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(ret));
-> +        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(-ret));
->          abort();
->      }
->  }
-> diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
-> index efbc1e0d12..df70b4a033 100644
-> --- a/hw/i386/kvm/clock.c
-> +++ b/hw/i386/kvm/clock.c
-> @@ -105,7 +105,7 @@ static void kvm_update_clock(KVMClockState *s)
->  
->      ret = kvm_vm_ioctl(kvm_state, KVM_GET_CLOCK, &data);
->      if (ret < 0) {
-> -        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(ret));
-> +        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(-ret));
->                  abort();
->      }
->      s->clock = data.clock;
-> @@ -189,7 +189,7 @@ static void kvmclock_vm_state_change(void *opaque, bool running,
->          data.clock = s->clock;
->          ret = kvm_vm_ioctl(kvm_state, KVM_SET_CLOCK, &data);
->          if (ret < 0) {
-> -            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(ret));
-> +            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(-ret));
->              abort();
->          }
->  
-> diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-> index c558893961..fa68669e8a 100644
-> --- a/hw/i386/kvm/i8254.c
-> +++ b/hw/i386/kvm/i8254.c
-> @@ -104,7 +104,7 @@ static void kvm_pit_get(PITCommonState *pit)
->      if (kvm_has_pit_state2()) {
->          ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT2, &kpit);
->          if (ret < 0) {
-> -            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(ret));
-> +            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(-ret));
->              abort();
->          }
->          pit->channels[0].irq_disabled = kpit.flags & KVM_PIT_FLAGS_HPET_LEGACY;
-> @@ -115,7 +115,7 @@ static void kvm_pit_get(PITCommonState *pit)
->           */
->          ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT, &kpit);
->          if (ret < 0) {
-> -            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(ret));
-> +            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(-ret));
->              abort();
->          }
->      }
-> @@ -180,7 +180,7 @@ static void kvm_pit_put(PITCommonState *pit)
->      if (ret < 0) {
->          fprintf(stderr, "%s failed: %s\n",
->                  kvm_has_pit_state2() ? "KVM_SET_PIT2" : "KVM_SET_PIT",
-> -                strerror(ret));
-> +                strerror(-ret));
->          abort();
->      }
->  }
-> @@ -272,7 +272,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
->      }
->      if (ret < 0) {
->          error_setg(errp, "Create kernel PIC irqchip failed: %s",
-> -                   strerror(ret));
-> +                   strerror(-ret));
->          return;
->      }
->      switch (s->lost_tick_policy) {
-> @@ -286,7 +286,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
->              if (ret < 0) {
->                  error_setg(errp,
->                             "Can't disable in-kernel PIT reinjection: %s",
-> -                           strerror(ret));
-> +                           strerror(-ret));
->                  return;
->              }
->          }
-> diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
-> index 3f8bf69e9c..d61bae4dc3 100644
-> --- a/hw/i386/kvm/i8259.c
-> +++ b/hw/i386/kvm/i8259.c
-> @@ -43,7 +43,7 @@ static void kvm_pic_get(PICCommonState *s)
->      chip.chip_id = s->master ? KVM_IRQCHIP_PIC_MASTER : KVM_IRQCHIP_PIC_SLAVE;
->      ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
->      if (ret < 0) {
-> -        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
-> +        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
->          abort();
->      }
->  
-> @@ -96,7 +96,7 @@ static void kvm_pic_put(PICCommonState *s)
->  
->      ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
->      if (ret < 0) {
-> -        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
-> +        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
->          abort();
->      }
->  }
-> diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
-> index 71a563181e..ee7c8ef68b 100644
-> --- a/hw/i386/kvm/ioapic.c
-> +++ b/hw/i386/kvm/ioapic.c
-> @@ -62,7 +62,7 @@ static void kvm_ioapic_get(IOAPICCommonState *s)
->      chip.chip_id = KVM_IRQCHIP_IOAPIC;
->      ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
->      if (ret < 0) {
-> -        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
-> +        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
->          abort();
->      }
->  
-> @@ -95,7 +95,7 @@ static void kvm_ioapic_put(IOAPICCommonState *s)
->  
->      ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
->      if (ret < 0) {
-> -        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
-> +        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
->          abort();
->      }
->  }
+> diff --git a/meson.build b/meson.build
+> index 1559e8d873a..230a0e4b558 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -247,7 +247,7 @@
+>        error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
+>      endif
+>    elif get_option('tcg_interpreter')
+> -    warning('Use of the TCG interpretor is not recommended on this host')
+> +    warning('Use of the TCG interpreter is not recommended on this host')
+>      warning('architecture. There is a native TCG execution backend available')
+>      warning('which provides substantially better performance and reliability.')
+>      warning('It is strongly recommended to remove the --enable-tcg-interpreter')
 > 
 
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
