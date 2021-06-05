@@ -2,137 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B4139C8D2
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 15:31:52 +0200 (CEST)
-Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4847239C8EB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 15:52:21 +0200 (CEST)
+Received: from localhost ([::1]:45260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpWP1-0001e9-Uj
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 09:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51176)
+	id 1lpWip-0008Ia-Uq
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 09:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lpWOD-0000yw-PJ; Sat, 05 Jun 2021 09:31:01 -0400
-Received: from mail-eopbgr30091.outbound.protection.outlook.com
- ([40.107.3.91]:42726 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ id 1lpWhe-0007Cn-BR; Sat, 05 Jun 2021 09:51:06 -0400
+Received: from mail-eopbgr60093.outbound.protection.outlook.com
+ ([40.107.6.93]:1323 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lpWOB-0000pl-W8; Sat, 05 Jun 2021 09:31:01 -0400
+ id 1lpWhZ-0005Ro-7v; Sat, 05 Jun 2021 09:51:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OZSYDWnxCgsxuhc2ifylNXWJ+FzGkABECVuuEP5CrZoC88bB/eK5EUtW3iFI4oM0lSUebcjpE5jJFOJZqLkPMIo76YgYVH7QCavz4Vkvafj52l1RpWFtpU/Kucyr//Vcju7InnXs+Hwonq5EphmcgNKUX9L6/Tbatgp78o5GwdgE7QRxSBcBRCa5PT2Mfq9xrfK2gwSHLMDIiFldODHj32iXdzqV4za/i8ponmT17BKxopjlBd6qaBXo0MmAkA/xgRUhJihSnurRismifTuu/eLUoH2XUjnTDe+cXI3/8XloJoh//PM60JwB67M/Wcjo1XCgF+Op2zNVn0aRnst4Fw==
+ b=JlbSfSmlE1eQ+acZrVYl+pMW8UdEdNT3N2dpZMNFMnM+d10aeTAYd/qNspnQGi5axZ9HD1xIlQ4mCZyoxFsmH9qWqLzjf9Y892dzajjuWd2NkdtCRu4k3fj8NPTQUm6oMDTyN0fwkRfzBfn2DHU/q04qBDV4Z08NrjCf8cVGfhROhEEJxzG/zGSgHcQZiQ10Pjv+DVtjKSr4Aq5C+KjRO8emsVkwuPsJUPDE/tSUGMp/woG7wcQHMWJnyE8KbP7mf/8xRQL+Q4it2lA7AW6ymodj+Tm4n3vgX4R3LeF/XoT5AAWtUoiJ/F0HtGnHOLS+wESR02tymrp+JbqrTyMpuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aId1oz9nbNksEwCFmpyoGIcU3KQVhNaBpXEwe+ys9/c=;
- b=WDCTerFt7pOCBtoNEzoPnCdLATCWxunhi9vvF8PwAGIEKo45nLsd545qTcHUOzmJRRmonkaDxoNpS13zQt3zXC8RIDG1A/pm5YudmwUoP4B7+KNPonyrvWwjTu8idxBFtwOmHtD3f6fnMKUwskOUYqOIqgjEKFjm7OHfgvRq6e7VYCeZyydwS4NaRmUbNFyZ2kdiYnkeWjwQLmYkdpS+CDCabiOqBhZZRU2tut0xt7H3a0hy5TTwrZ1nBFRh7YAg9xHgynm2ljITq3wxNZkgp6q3n/qpX6J0pqEm4bbW+czpwOEYPGMUzTvL09V4UXCdXkm4uomdS+/u4RwffC/+Uw==
+ bh=WGb0oPLgqjW8z3UiryP6XWeTCD4XIiClr2oasgzrhH0=;
+ b=AsfS/iQO953CsYeem68E3irlsBP3Dzxdln7nMCvDifRnetlTQCNAX/lKz7xIpc7xtpUT2bHSLqpzN6sOYJTqnx3le9GbR2TZQUQ5GycpgzCptejK1zFy3MQZpATFsCAEnOuL5tzRBDoxIk1oFK4oGJwYdmuRqZbPDAAjjmSnEMwrHrw5HsNNUW5DsHt/k0j5+cwQ7RE4Kmz+8q7Abb9wfktCsq4NAFj6ofxUbNeAOJ8ZJ8hpP37/OjF16BmuC50FZvKLMMQHIA2etTU5pA8KOE1Ij0TVUrSyKKPCLO4k58t+QGtmsezhG6iDtoppEyBfn0xS9NJQqMCKcv4GiuF0Bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aId1oz9nbNksEwCFmpyoGIcU3KQVhNaBpXEwe+ys9/c=;
- b=Fuzw6fBOZl5CR8sDUliqRhfTyx9L3WVY7bnY/pHnkuvwOLXDILB7iS3v0zjXZCpDtnFS8ekq58lXuFvQxIz7BjcE7z0+V1h+/GtxfNrmgqtpR0RsgChCeVR9LxQIH2Tr0vH8mn9VB+k8+yzazXXw3uONns5s+UBSNe+ygisuHFA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+ bh=WGb0oPLgqjW8z3UiryP6XWeTCD4XIiClr2oasgzrhH0=;
+ b=HgrauU7rkyeNVT8p/RTCq7OzX7ElBkp0mHxyh9i3Qf5v6vl1Jh3TzNgOXnZNnmLbghyH7XlmG6rL8pZ1qIjZ4a3MHYvQJqGSuJ2nnWNGRP0lu+36teOHhg6GMVfJp4aV3xOwlHFAgnYD5PPJ7EkQMSlqrY78nMhpWdJTX6eCqdc=
+Authentication-Results: gluster.org; dkim=none (message not signed)
+ header.d=none;gluster.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3896.eurprd08.prod.outlook.com (2603:10a6:20b:83::10)
+ by AM6PR08MB4088.eurprd08.prod.outlook.com (2603:10a6:20b:a9::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Sat, 5 Jun
- 2021 13:30:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Sat, 5 Jun
+ 2021 13:50:56 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.029; Sat, 5 Jun 2021
- 13:30:55 +0000
-Subject: Re: [PATCH v5 02/16] python: Reduce strictness of pylint's
- duplicate-code check
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210604091723.13419-1-eesposit@redhat.com>
- <20210604091723.13419-3-eesposit@redhat.com>
+ 13:50:56 +0000
+Subject: Re: [PATCH v5 07/11] block: use int64_t instead of int in driver
+ write_zeroes handlers
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, stefanha@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, John Snow <jsnow@redhat.com>,
+ Ari Sundholm <ari@tuxera.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Peter Lieven <pl@kamp.de>,
+ Fam Zheng <fam@euphon.net>, Alberto Garcia <berto@igalia.com>,
+ "open list:GLUSTER" <integration@gluster.org>
+References: <20210505075001.45041-1-vsementsov@virtuozzo.com>
+ <20210505075001.45041-8-vsementsov@virtuozzo.com>
+ <20210604200939.2wcnh2spynqlbepb@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <399f8d2b-f66b-c516-e04e-b9ee1654a0b2@virtuozzo.com>
-Date: Sat, 5 Jun 2021 16:30:53 +0300
+Message-ID: <3eab12d7-7cf4-1ed4-3572-51ee22ec9a2d@virtuozzo.com>
+Date: Sat, 5 Jun 2021 16:50:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210604091723.13419-3-eesposit@redhat.com>
+In-Reply-To: <20210604200939.2wcnh2spynqlbepb@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.208]
-X-ClientProxiedBy: PR3P189CA0086.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:b4::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR06CA0127.eurprd06.prod.outlook.com
+ (2603:10a6:208:ab::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.208) by
- PR3P189CA0086.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:b4::31) with Microsoft
+ AM0PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:208:ab::32) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.15 via Frontend Transport; Sat, 5 Jun 2021 13:30:54 +0000
+ 15.20.4195.22 via Frontend Transport; Sat, 5 Jun 2021 13:50:55 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dc402f7d-6a85-4dcb-52d5-08d928262547
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3896:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB38961CF005A1D3B22C7F5639C13A9@AM6PR08MB3896.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Office365-Filtering-Correlation-Id: 4ddf96b3-a35b-4ba3-8210-08d92828f137
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4088:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4088F198C5A8EAD0A0EFFF20C13A9@AM6PR08MB4088.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:283;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kLEpSnYc6EPIYV/p+Nyp02fX8s410szD8fyNItsmoOouc6xOO09KmuBDRqvl3X21bcdrquFXbzwDvsuSp9HgqygZcwS6JP9T1QapeAhnff82e7UE9nkWfpcKvmA8aEIPpqnZ/JlCeWrcO1UnrMn0ntP30kHi4wEMODbibQFKRoFF5/N2Ht7q7gmJ14okWcl9YAGXcAByAThmy3JFFqnWbfaBS8fJYldwIf7BfVOol/hwJ5LKhWMVX9KFxM/ZtEjZU1YiEKc9ld/m12RBCXbvioCaI3AaFLm+oLHtzAhwEwj5nAUayWfPPO2FvoTrM81AU3+50Q6hBFQxR5+mHR44XZHvqH4YhtgzlYHaPCYaquBr8R/iZN8Q0/TiOEMLRZYUmhtXM13lAluBuJ6lxATGX8VKXGMPk/y+UCjFblGI0v0rBNSJ/z7Wkimxiw3FLOiYOOGWf5qaDlg4TLoIs/CFSKFZo7zdEz0uOPFT6mO2RNuSD0Jeb1xDvFnEkXqIgEg6ftnKRT6Agufm+V2k5wyI/4A3KHzev96Ehuo3JQHHkFncCZfUiRZrwNREVnVZh7UNhFIJifKB92ROLcz6+O4kI2gOUBpPXMGuGd1FoqCZdzmNALKxZc+s3b28CQuCEx3YtowXpY++HO60V+4rP7H8HVk1AoGBdNDzOpxI6Vs26QPRXrQYAkM5WHCpfdEfRotCzqqFkbIXtYJAbMXWrJlKqRlzbAAGCfvV9iDT5kpQvk5Zyacmd7tYL0M1YAVFhHYh9F5C8+0Qe4ndZuFnJjNoRNd+qM8cAFN9uU+TU+NrZWQkirtiKY2Oh3DB9GqjmgY2p6uqgf+QHF5HPC5wKwsTFw==
+X-Microsoft-Antispam-Message-Info: FhKiPZ5S4SbE+4PAsjj+fZ0qiTzWq+eTLCjXZNeq2SBA89qloDiX4RfTLCWSfd4ZTqBTfDlfco3wzbPy3sQaccpgOzSoLwgM9TsoWBGRvUTHj6DTcbFBWuUucsyiKuJDCYhvOv9zCc/AdqmQnlRs5KxcNctJuvuvESg/CK+/FsMCZ/t1NtZ9Frhyh5kOjFleXUe2g+VEZ1om5jWskQ+utqLsS8c603g5uFP/gRP+BKrgTJsOVFyH40yDDBmsPR2BbaX2h/DlSBHlwKaSKZouEiFrWxoN7nauio4jjld65R0/7JbNITwr76kmuXB+W5y2aeHmc1X4nRJTsYwS2iaTOmWgJAG0UMaE8AxNWryKPFPWJF//C9IklfLSrL+mR1IhcfPfo4kn1eyOwKCGEL+ENL+ZTOcmhSIte7v4bT8q1FyRX9LN+BZBsFxtBJb4mB+kcHU2YWzdzcfyOVrAapY9RVJoh52QpMMfP2+kaI4kVufzaVOF0WwsXfy2/sRmAfU7Hni9qr4h/ux2TiftSg0PX3iaZqFcyHJidIY0d68xqapAd15MkT3K9nQ3DjTYMQdDF5FVmNrqIbmqWBbi9vlgwE7TJpV9VP3NSi9y8mgBzidWLj6AqSVtvErD4VMN3DIenZx0sRvunVoHvetn1ahrhGnE38RrHocFuCC+P2jdatTprnuCwy3lsSynuF26bQTTPEKJv2XQTmmWftwCiiEMifKccqQ8ptCrdzjAigapSkk=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(366004)(39830400003)(396003)(376002)(2906002)(38350700002)(86362001)(54906003)(31686004)(4326008)(52116002)(5660300002)(8676002)(2616005)(83380400001)(6486002)(38100700002)(66946007)(16526019)(4744005)(31696002)(16576012)(316002)(8936002)(26005)(36756003)(478600001)(956004)(66556008)(66476007)(186003)(43740500002)(45980500001);
+ SFS:(4636009)(396003)(39830400003)(136003)(366004)(346002)(376002)(36756003)(2906002)(5660300002)(31686004)(6916009)(478600001)(54906003)(66556008)(66476007)(66946007)(83380400001)(16526019)(38350700002)(38100700002)(4326008)(186003)(956004)(2616005)(52116002)(31696002)(86362001)(8936002)(316002)(8676002)(7416002)(16576012)(6486002)(26005)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?aWZjKzN0YVdwd0o4M1crMS9zVHp2UnczSUNuTFdpbU80c1ZNam9ESk16b1JE?=
- =?utf-8?B?MGVQb3BWcE1kT0d6UmJaK201emZ2RnFMMTBuUjhRODBZd21vS1pKN2lxUW12?=
- =?utf-8?B?akRsdVJOeEdxdis3bmRvTWkwS0xMbXpXOXJDUWswT1cxTkYrUkJnZkYrVmls?=
- =?utf-8?B?cGFNWGtpY2lNanl2TC9XTmRHM2p4Z1BXZzB3Rnk1eWV5T3NqYTVyNlZOaGd4?=
- =?utf-8?B?N3JRRE1PTEE5Z1V6bWRCeW5wVzVmREtNQ3F2S1lBSkFlbUtuR2k2VEY4Nk41?=
- =?utf-8?B?UDFWd2R0SExtcDhwWlFMSy96eURicWNnZjJzYncxODFmeUlPSEEybCtNZ3U0?=
- =?utf-8?B?TG5zVzluWVJLTy9KUzl4WVh6djEwejd5bVBZSmtSQk96UEx3TGp4N04wdDJ3?=
- =?utf-8?B?VmZyNGg1OGl3RnNsNFg5QWtaZW9tTVNldUw2RGE2bER6ZHVxMjhXZXpqUGFm?=
- =?utf-8?B?dTRNS29ZNm1SWFBYcUNScG9xcDQxN3g2dTdFWmRIMjYwQ0NSQUFKTzRRZjZH?=
- =?utf-8?B?bFJtK3NMRUxveXZwY25jc2U3TldjWkV1WFhXaUl1am1ZcU54cHZDdEtuZkQy?=
- =?utf-8?B?K3kzQXN5WVMvYUhoM2xBYTRaeWtUUSs4OTd1aktxdTR0VzhHUGkzdmFDQmYy?=
- =?utf-8?B?ZVh4TnltUEFQSjBFRzQxQnEvZ2RCOEsxNTgxTzVHMU5ZWE9XekVpWkI0WDlx?=
- =?utf-8?B?S1lEamt4OGljbG5qY1hSZTVkOCtGWGIyeGtUL1dFU0VBUkluM1V3ekdqbWNj?=
- =?utf-8?B?V0pWN2FZME8wU1Y1NXVJcnZIQ09nVUMxRGpEZ015SEVoZUg1dkxEMlV6VlVK?=
- =?utf-8?B?b0ZZbDFmZXF1OHVkTlA3SFFIY0JRYlBaL05JcERLSDNSQjIzMGlQdld1VFQx?=
- =?utf-8?B?VG1SZmVuMVoxWTR0clY4MTBCem40azRMVFlEZHRNTHZ3Q1ZRWWFHcHI2dW9O?=
- =?utf-8?B?YnN5eXA0Nkw5bWFRc2dxcnIwbU82K09mMkpnamFIMTA2ekcwUHZXdkpmTTlG?=
- =?utf-8?B?OFY4aWRObFIvbGl0RVYzak5EcFM2MkZtRnlDUnpvQ2M3dzJPeDRDSnZabE1s?=
- =?utf-8?B?U3pjT05BbDZBckoxbHR4MS9BSGlXaHB1aDVqbDdEek8vVHd5WHFJdmdLdFFN?=
- =?utf-8?B?MlZzOGQ3VzVWRDg0WHNtQmtndVNMTzBNelduLzdqZUxOWFlYTEQ5WE9PVU9h?=
- =?utf-8?B?RmZpM294UDR4R1ROZmxGcG4xVWlqSUJMYllvWFJkTE4rT1NDSE8zaldRNVAz?=
- =?utf-8?B?dWJBdFVady9rM3VoeEV2eTdvSlM1QXNuS2tPQzV6dWZsN1I1WjI5dERSR3Ez?=
- =?utf-8?B?RWRtOHltWHRxbCsveVJkNmxGTUYyTHhlcHpEVjZVSDEwWjAxTEVSQWNBaDBS?=
- =?utf-8?B?dnRJQkY4eVh5STh5dUtFZ3JuU0ZnY0ZQMlgzNUVxRS9EdnBVNndUWGlOek9T?=
- =?utf-8?B?bHZFU1dqREZhcFdVY1czcDZMWU9HaloyT0pOQVlLRTFsQzFnSzNpZ3ZGZ3gz?=
- =?utf-8?B?K0xVR3VDTTlpaGpuZk5uOG9XUGxjKzBtNGRtSlBoTCtkRWRtT3YvamZTVFc4?=
- =?utf-8?B?ZmJsOHlqaGRYTnE0WUNjTVRlczJZQWZlbmdvc0xtaUhPblhHaUJ4Q3JhK09L?=
- =?utf-8?B?QmJUczREbHUrMkJONG4xQzkyZ0EvcHZxOVVJZ3IxRXFhT2hQMXBzRXY5TjhY?=
- =?utf-8?B?YXZNQkMyMTV3bmtuRjBuTkcxWWw1aGZtZk5GWlVoRGtBdmNBdENVTVhQL2Ru?=
- =?utf-8?Q?SPPPuUFh16BixwVQsPQ+BCbOsOSndLDugxqXFyl?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UXdNZS9PRlJIUEZ5MEcxZkhVWm1pMkdTQ21UNjNjT0lNNTZnK2tEVUY0YW5K?=
+ =?utf-8?B?Y1pUTE8vaWZTMlo4YVJpWE9XUVRrek1WK3RnU2tJdU5hUFk5bGV4S0UxakxG?=
+ =?utf-8?B?TjAxMWVMczZXUDFVd3lvMGN4WVp2Vkg0dnhHWVNmMUVlNmlHbWJMYnZkSU5I?=
+ =?utf-8?B?Y0Ivb1RnWjZVT2dncU95WThPTStpR2o4VDFCTmJPNE5FQ1N5RnlWVktIYy8y?=
+ =?utf-8?B?SUFOVndyS2lRS3UzMC9nbmFmcVozL1M4Z3R3TDZwTDdOTjZGaHhSbTN5a2JV?=
+ =?utf-8?B?Qm9HbWJpSXFlOVdBOVRUcDRmMDVQQmJ1RlZDZVZRd2htQUhDelJuV3FXM3hw?=
+ =?utf-8?B?ZmV2ak5reWlVeHlZdDJ5OGtTdHh4WVUzZlUyNlBNUm1SREtuUXlscDliOVVl?=
+ =?utf-8?B?R3VzT2t5aXY2d2NhZC9mUitJN2VBK0ZEdkJ2OFI2TW02aEEzaWZGWHlnNTlh?=
+ =?utf-8?B?STdJeURaRkhBb2VyNE5tNXlDU05peG8xa29OSXhCYit4QmFvZjZ1bUdQVWNv?=
+ =?utf-8?B?azc2eS9NUDhrdXRHS3ZJUlhEMGFBR1BQNjgrVVB2a0JxTDlaeHUyVTloWDBF?=
+ =?utf-8?B?NkpoNDlNbjVwcFdxRkJhU2VrQWxxTnd4UW94RGY5cEQvWlRSSG1WelhLbGpR?=
+ =?utf-8?B?S2lUZnRlNjVIMEM1SHVibXkyK2czUGt6UXNoM0RDdmRsK0RRVzhHVVcyVEZs?=
+ =?utf-8?B?Vy9EbkpTRGxxdGh4RURSazFDcHRPUEZBN2VVTTVqWmtjUWpEUnRTNkF0RVVh?=
+ =?utf-8?B?UzNnVFlzNUtoVzRvdy8vSUxzS2dlWENFM21JMVE4VmNXWTZ3c2ozb3kybCtv?=
+ =?utf-8?B?bjQwZ1dpK0xhbzIya0VOZHNvVGlkQUx3SkhndFBjWWFHRVB1UVhaRlBGQ09w?=
+ =?utf-8?B?QjhPT1BzU0V1Z2lSS2VNUllUWUF6WDFnSjdjTTlXR2xyWm05a0g1RHc5bTFO?=
+ =?utf-8?B?SDFXUE9haUQ3RGU1TU1xSjdER3p4czJIRmg4UkxVcG4wbFBxS1JXNVJIZVlK?=
+ =?utf-8?B?L2ZrSVRTSHVqcTErbHpsZE1TY0dyOXRheUgyMlZPTDNvOWhSV1MvRnhmL0tR?=
+ =?utf-8?B?c0hocDhWbVBiUFlmdnRuUWNrRmxsSnBnRENqMEZKWElsR0VBdkhJWFRPS3Rw?=
+ =?utf-8?B?RkJtNk9SZ2M1L3ZxU2UrK2QyUlpSS2t4QjVYMTlRQU5HZnplT0VoQnozTVRN?=
+ =?utf-8?B?NHlObVpoSjViVDhpZjhIcyttcW5tcXdtMXhVYzh5Sm1GSFF0c0JsYTRvUllu?=
+ =?utf-8?B?K2w2bWtsNWhCaFlMWlNRZzlLYzNtdXFWS1dZZ3RhUkdEOS84WlVOcTFrNUJD?=
+ =?utf-8?B?WDNkVHVOQUVHOHVwc2NKOWFGQ3lOQTB5a1RnRXBSVTc3NXZvbmVDOENHWU9S?=
+ =?utf-8?B?cmFqTGtpbnRWeGNGT1BmRk5iWjBIYkxYSkhOL1VYbmEzZkIxcmZWRzJlLzlr?=
+ =?utf-8?B?OGI1Z0NhSnFKSTJ0K0hkeG9ZNHVpbzBBai9GTUtQQzJDWWtyWW5BMDg1ZGs0?=
+ =?utf-8?B?OVlEWVEybHdPcHNNVXdCNzZhdnFKbVVLNnhBRmpQV2M0TEppaGFqS3ZBT29S?=
+ =?utf-8?B?Z2swWXgyTmRUUWk1bDQyb005NFozdzBDbDNRYTRBT1pzVnVBbi9DOG90RjNL?=
+ =?utf-8?B?SEdsMFF6bXZmL3F5ODVyNjRxeWVsenB2VDJSV2NZQzQzNlJ6YVVRNFBJa2NZ?=
+ =?utf-8?B?ODRQbjlYQ0NmbTRRTmx1TERwTVhYQ0J1cGlrTDFyeGI5bk56RlQxTURPeTNj?=
+ =?utf-8?Q?jxuJz+SdNlq+lBckhL48nyb/TvA+Vdkzj6xo1Sa?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc402f7d-6a85-4dcb-52d5-08d928262547
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ddf96b3-a35b-4ba3-8210-08d92828f137
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2021 13:30:54.9592 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2021 13:50:56.2028 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 05Z4bBQ3V6qpI7BBw2voDdGd72MSPPaqWt1qLtP0ngfcFyXJ0ZgAKeGS8YonV0FGxgTrLKZFIufRrYWEUaStmMybDLFqa8yuoA2Vsrhkt8k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3896
-Received-SPF: pass client-ip=40.107.3.91;
+X-MS-Exchange-CrossTenant-UserPrincipalName: JYwNuxBokpDF1r3ZcBDT1ZtY9gCLjGLhRqYVp8GRAK4w8EbLBZ02aMxbVFg++FZF9EqIdGnhSTptrY1SsLT9jGlMxh0spfmVa30MI20iBGg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4088
+Received-SPF: pass client-ip=40.107.6.93;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_LOW=-0.7,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -150,25 +154,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-04.06.2021 12:17, Emanuele Giuseppe Esposito wrote:
-> From: John Snow<jsnow@redhat.com>
+04.06.2021 23:09, Eric Blake wrote:
+> On Wed, May 05, 2021 at 10:49:57AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> We are generally moving to int64_t for both offset and bytes parameters
+>> on all io paths.
+>>
+>> Main motivation is realization of 64-bit write_zeroes operation for
+>> fast zeroing large disk chunks, up to the whole disk.
+>>
+>> We chose signed type, to be consistent with off_t (which is signed) and
+>> with possibility for signed return type (where negative value means
+>> error).
+>>
+>> So, convert driver write_zeroes handlers bytes parameter to int64_t.
+>>
+>> The only caller of all updated function is bdrv_co_do_pwrite_zeroes().
+>>
+>> bdrv_co_do_pwrite_zeroes() itself is of course OK with widening of
+>> callee parameter type. Also, bdrv_co_do_pwrite_zeroes()'s
+>> max_write_zeroes is limited to INT_MAX. So, updated functions all are
+>> safe, the will not get "bytes" larger than before.
 > 
-> Pylint prior to 2.8.3 (We pin at >= 2.8.0) includes function and method
-> signatures as part of its duplicate checking algorithm. This check does
-> not listen to pragmas, so the only way to disable it is to turn it off
-> completely or increase the minimum duplicate lines so that it doesn't
-> trigger for functions with long, multi-line signatures.
+> they
 > 
-> When we decide to upgrade to pylint 2.8.3 or greater, we will be able to
-> use 'ignore-signatures = true' to the config instead.
+>>
+>> Still, let's look through all updated functions, and add assertions to
+>> the ones which are actually unprepared to values larger than INT_MAX.
+>> For these drivers also set explicit max_pwrite_zeroes limit.
+>>
+>> Let's go:
+>>
+>> backup-top: Calls backup_top_cbw() and bdrv_co_pwrite_zeroes, both
+>>    have 64bit argument.
 > 
-> I'd prefer not to keep us on the very bleeding edge of pylint if I can
-> help it -- 2.8.3 came out only three days ago at time of writing.
+> backup_top_cbw has uint64_t argument (at least on current qemu.git; I
+> didn't spot if it was changed in the meantime earlier in this series
+> or if I'm missing review of a prerequisite), but we're safe since the
+> block layer does not pass in negative values.
 > 
-> See:https://github.com/PyCQA/pylint/pull/4474
-> Signed-off-by: John Snow<jsnow@redhat.com>
+>>
+>> blkdebug: calculations can't overflow, thanks to
+>>    bdrv_check_qiov_request() in generic layer. rule_check() and
+>>    bdrv_co_pwrite_zeroes() both have 64bit argument.
+> 
+> rule_check() is another function currently using uint64_t.
+> 
+>>
+>> blklogwrites: pass to blk_log_writes_co_log() with 64bit argument.
+> 
+> That, and struct BlkLogWritesFileReq, still use uint64_t.
+> 
+>>
+>> blkreply, copy-on-read, filter-compress: pass to bdrv_co_pwrite_zeroes() which is OK
+> 
+> blkreplay
+> 
+>>
+>> file-posix: both handler calls raw_do_pwrite_zeroes, which is updated.
+>>    In raw_do_pwrite_zeroes() calculations are OK due to
+>>    bdrv_check_qiov_request(), bytes go to RawPosixAIOData::aio_nbytes
+>>    which is uint64_t.
+> 
+> We also have to check where that uint64_t gets handed;
+> handle_aiocb_write_zeroes_block() passes a uint64_t[2] to
+> ioctl(BLKZEROOUT), handle_aiocb_write_zeroes() calls do_fallocate()
+> which takes off_t (and we compile to always have 64-bit off_t), as
+> does handle_aiocb_write_zeroes_unmap.  All look safe.
+> 
+>>
+>> gluster: bytes go to GlusterAIOCB::size which is int64_t and to
+>>    glfs_zerofill_async works with off_t.
+>>
+>> iscsi: Aha, here we deal with iscsi_writesame16_task() that has
+>>    uint32_t num_blocks argument and iscsi_writesame16_task() has
+> 
+> s/16/10/
+> 
+>>    uint16_t argument. Make comments, add assertions and clarify
+>>    max_pwrite_zeroes calculation.
+>>    iscsi_allocmap_() functions already has int64_t argument
+>>    is_byte_request_lun_aligned is simple to update, do it.
+>>
+>> mirror_top: pass to bdrv_mirror_top_do_write which has uint16_t
+> 
+> s/16/64/
+> 
+>>    argument
+>>
+>> nbd: Aha, here we have protocol limitation, and NBDRequest::len is
+>>    uint32_t. max_pwrite_zeroes is cleanly set to 32bit value, so we are
+>>    OK for now.
+>>
+>> nvme: Again, protocol limitation. And no inherent limit for
+>>    write-zeroes at all. But from code that calculates cdw12 it's obvious
+>>    that we do have limit and alignment. Let's clarify it. Also,
+>>    obviously the code is not prepared to bytes=0. Let's handle this
+> 
+> to handle bytes=0
+> 
+>>    case too.
+>>    trace events already 64bit
+>>
+>> qcow2: offset + bytes and alignment still works good (thanks to
+>>    bdrv_check_qiov_request()), so tail calculation is OK
+>>    qcow2_subcluster_zeroize() has 64bit argument, should be OK
+>>    trace events updated
+>>
+>> qed: qed_co_request wants int nb_sectors. Also in code we have size_t
+>>    used for request length which may be 32bit.. So, let's just keep
+> 
+> Double dot looks odd.
+> 
+>>    INT_MAX as a limit (aligning it down to pwrite_zeroes_alignment) and
+>>    don't care.
+> 
+> Yeah, even when size_t is 64-bit, qed is not our high priority so
+> sticking to 32-bit limit encourages people to switch away from qed ;)
+> 
+>>
+>> raw-format: Is OK. raw_adjust_offset and bdrv_co_pwrite_zeroes are both
+>>    64bit.
+> 
+> I probably already mentioned it in earlier reviews, but hopefully by
+> the end of the series, we clean up raw_adjust_offset() to take
+> int64_t* instead of uint64_t* to get rid of ugly casts.  Doesn't have
+> to be done in this patch.
+> 
+>>
+>> throttle: Both throttle_group_co_io_limits_intercept() and
+>>    bdrv_co_pwrite_zeroes() are 64bit.
+>>
+>> vmdk: pass to vmdk_pwritev which is 64bit
+>>
+>> quorum: pass to quorum_co_pwritev() which is 64bit
+>>
+>> preallocated: pass to handle_write() and bdrv_co_pwrite_zeroes(), both
+> 
+> File is named preallocate.c, the 'd' seems odd. Worth sorting this
+> before qcow2 in the commit message?
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+I think yes
+
+> 
+>>    64bit.
+>>
+>> Hooray!
+>>
+>> At this point all block drivers are prepared to 64bit write-zero
+>> requests or has explicitly set max_pwrite_zeroes.
+> 
+> are prepared to support 64bit write-zero requests, or have explicitly set
+> 
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+> 
+>> +++ b/block/iscsi.c
+>> @@ -1205,15 +1205,16 @@ out_unlock:
+>>   
+>>   static int
+>>   coroutine_fn iscsi_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+>> -                                    int bytes, BdrvRequestFlags flags)
+>> +                                    int64_t bytes, BdrvRequestFlags flags)
+>>   {
+>>       IscsiLun *iscsilun = bs->opaque;
+>>       struct IscsiTask iTask;
+>>       uint64_t lba;
+>> -    uint32_t nb_blocks;
+>> +    uint64_t nb_blocks;
+>>       bool use_16_for_ws = iscsilun->use_16_for_rw;
+>>       int r = 0;
+>>   
+>> +
+>>       if (!is_byte_request_lun_aligned(offset, bytes, iscsilun)) {
+> 
+> Why the added blank line here?
+
+mistake
+
+> 
+>>           return -ENOTSUP;
+>>       }
+>> @@ -1250,11 +1251,21 @@ coroutine_fn iscsi_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+>>       iscsi_co_init_iscsitask(iscsilun, &iTask);
+>>   retry:
+>>       if (use_16_for_ws) {
+>> +        /*
+>> +         * iscsi_writesame16_task num_blocks argument is uint32_t. We rely here
+>> +         * on our max_pwrite_zeroes limit.
+>> +         */
+>> +        assert(nb_blocks < UINT32_MAX);
+>>           iTask.task = iscsi_writesame16_task(iscsilun->iscsi, iscsilun->lun, lba,
+>>                                               iscsilun->zeroblock, iscsilun->block_size,
+>>                                               nb_blocks, 0, !!(flags & BDRV_REQ_MAY_UNMAP),
+>>                                               0, 0, iscsi_co_generic_cb, &iTask);
+>>       } else {
+>> +        /*
+>> +         * iscsi_writesame10_task num_blocks argument is uint16_t. We rely here
+>> +         * on our max_pwrite_zeroes limit.
+>> +         */
+>> +        assert(nb_blocks < UINT16_MAX);
+>>           iTask.task = iscsi_writesame10_task(iscsilun->iscsi, iscsilun->lun, lba,
+>>                                               iscsilun->zeroblock, iscsilun->block_size,
+>>                                               nb_blocks, 0, !!(flags & BDRV_REQ_MAY_UNMAP),
+> 
+> Thanks - these assertions and comments are indeed a lifesaver for
+> future maintenance.
+> 
+>> @@ -2074,10 +2085,10 @@ static void iscsi_refresh_limits(BlockDriverState *bs, Error **errp)
+>>           bs->bl.pdiscard_alignment = iscsilun->block_size;
+>>       }
+>>   
+>> -    if (iscsilun->bl.max_ws_len < 0xffffffff / block_size) {
+>> -        bs->bl.max_pwrite_zeroes =
+>> -            iscsilun->bl.max_ws_len * iscsilun->block_size;
+>> -    }
+>> +    bs->bl.max_pwrite_zeroes =
+>> +        MIN_NON_ZERO(iscsilun->bl.max_ws_len * iscsilun->block_size,
+>> +                     max_xfer_len * iscsilun->block_size);
+> 
+> Works because max_xfer_len is 0xffff if we are stuck using
+> writesame10, or 0xffffffff if we are able to use writesame16.
+> 
+>> +++ b/block/nvme.c
+>> @@ -1266,19 +1266,29 @@ static coroutine_fn int nvme_co_flush(BlockDriverState *bs)
+>>   
+>>   static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
+>>                                                 int64_t offset,
+>> -                                              int bytes,
+>> +                                              int64_t bytes,
+>>                                                 BdrvRequestFlags flags)
+>>   {
+>>       BDRVNVMeState *s = bs->opaque;
+>>       NVMeQueuePair *ioq = s->queues[INDEX_IO(0)];
+>>       NVMeRequest *req;
+>> -
+>> -    uint32_t cdw12 = ((bytes >> s->blkshift) - 1) & 0xFFFF;
+>> +    uint32_t cdw12;
+>>   
+>>       if (!s->supports_write_zeroes) {
+>>           return -ENOTSUP;
+>>       }
+>>   
+>> +    if (bytes == 0) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    cdw12 = ((bytes >> s->blkshift) - 1) & 0xFFFF;
+>> +    /*
+>> +     * We should not loose information. pwrite_zeroes_alignment and
+> 
+> lose (this is a common English typo; "lose" rhymes with "use" and is
+> opposite of "gain", while "loose" rhymes with "goose" and is opposite
+> of "tighten")
+> 
+>> +++ b/block/qed.c
+> 
+>> @@ -1408,6 +1409,12 @@ static int coroutine_fn bdrv_qed_co_pwrite_zeroes(BlockDriverState *bs,
+>>        */
+>>       QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, NULL, bytes);
+>>   
+>> +    /*
+>> +     * QED is not prepared for 62bit write-zero requests, so rely on
+> 
+> 64bit
+> 
+>> +     * max_pwrite_zeroes.
+>> +     */
+>> +    assert(bytes <= INT_MAX);
+>> +
+>>       /* Fall back if the request is not aligned */
+>>       if (qed_offset_into_cluster(s, offset) ||
+>>           qed_offset_into_cluster(s, bytes)) {
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> 
+
+Thanks!
 
 -- 
 Best regards,
