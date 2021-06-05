@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCDC39C534
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 04:45:32 +0200 (CEST)
-Received: from localhost ([::1]:48158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CCD39C58A
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 05:40:16 +0200 (CEST)
+Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpMJX-0000yT-2Q
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 22:45:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1lpNAV-0000Z2-FF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 23:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faraz.shahbazker@gmail.com>)
- id 1lpJcX-0003mN-T7
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 19:52:57 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:37600)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lpN9a-00087H-Bn
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 23:39:18 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faraz.shahbazker@gmail.com>)
- id 1lpJcU-0007F9-2w
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 19:52:57 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id u7so5461152plq.4
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 16:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lpN9Y-00022E-Ol
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 23:39:18 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id o9so6537944pgd.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 20:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EVUfBPinzr9Ka2CgQjyF1O2tCkyLWojg9G0kyR1uAuM=;
- b=TFIDkyhzcuY57iTXrh9UUV9X49PXFCZbkCLqr7M3B12gyU0lCgL5w+5TGviFjWhmfF
- idL+lt1GFn1d4TT3Pqyqd5GvaMvIpIN9vTvM/RF/2QIPOr4wFvsLNYqIBiDN/eM8cEM6
- iglZbqHP+lmL7ZTr/UzH1vRg/KkpiQdQvWQOs9A4atCdgwK4/Ni+SiKHZGaJZOj12mbA
- KxsfIA3dIB3ZhdTZnoJCUWHheerlCoFaXLyjyjejVRx4Xl2reatuC0Nt9W5a0LqaavZB
- dNddYbtQQuuypccndzX1xWRWq/EpnZG6xB0PmZx/fOqbFRGffxqezURpR0tQYLRIEZGh
- N39w==
+ bh=wfnaLuPEEPfaThVtUJBDi8gBMKeb4fLTPe3iiDSJSAU=;
+ b=xGnWyKsECDHQD6m03UzkUsJy43RfYRgZnkh8Y2oBEXsTudz09EQd8DM6oxtydNJ6DR
+ DENJleoTs+EIihgUCijtfitbqdni6cu/JqHiRNPifEbaTMUENN6kfPJRgHMySBCizHwB
+ EmmgmVs2xvBqmvPyENAXEag47ef6eNxlc36BFkiz60vzEPdSX33SAbLABVEVPdpDBwCQ
+ oDZZQHvQowaVEZiuOQ4c1nERDitntTwP0sJmaCTnk4sTFlb7Nso8m1gZKbNR+ZCay4C2
+ 41YRn5gHKv1na0uNuds7l02LZnjonRLvN7fpyzCGmYRyJ83g6+rBLnjepxSkVE2kCmRw
+ oOiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EVUfBPinzr9Ka2CgQjyF1O2tCkyLWojg9G0kyR1uAuM=;
- b=DwIbbv3pzn2MkIeDUs89KgDv6gi0hMpkwjkzEQV9vZWlsCzzih9jq/APY/maop/dUf
- WyHk8PZwQ8+91x3RDbuMPZIwNqxvhYZuJwsv7w6Nrui1bABYtx9OGYApL6ffeBR2KlA9
- YmvdyUjiKLZb/g7IQco5D/VPVZb4p9HW+9u8Y7zor9+cgHbUjqVG+QU9tgR4+t9DtC/5
- NoNFzyuTBZ4+SnGoGxlpwH5F7Kkh75hAfob63ioiVv9xDQZxawPIJFW7gE0YzEyAYzo0
- gCg9X1eVgFYDiMW/JV49QaewgPQq7JZWYdC43vmMfhSb3I6EbLwp8MrpaU9+R+6VO7FZ
- 3Jng==
-X-Gm-Message-State: AOAM530Nujzwj1E1oFu12imZdi+hULYHrk0IG2+meiuJTaHjd1Ynyjqo
- ywo8abePh+8J/DfvoyD6YO4=
-X-Google-Smtp-Source: ABdhPJwhWishoyH2HWYwPKn6nMw1X4EWaD2BsdZkV49p4QALeL5kU/wMz68ZyIfNJ9jcbu3jvODo2Q==
-X-Received: by 2002:a17:90b:4d82:: with SMTP id
- oj2mr7378912pjb.61.1622850772440; 
- Fri, 04 Jun 2021 16:52:52 -0700 (PDT)
-Received: from [192.168.43.9] ([123.201.54.87])
- by smtp.gmail.com with ESMTPSA id ei10sm593602pjb.8.2021.06.04.16.52.47
+ bh=wfnaLuPEEPfaThVtUJBDi8gBMKeb4fLTPe3iiDSJSAU=;
+ b=spDVq9ylmivcMvMoY3P1OsrRXJ05quheQpGHbOwAuugcQUb/Yq5vciGXo8NKDx6IDz
+ kKY0eXr6sSmPQpSlhzpf/ifFP1cTw+YxrQ/DJ7IhFknb6dMNoKapY0hHtZPnDwDqWxnr
+ roRzvLLVa0F5Y/8klAIfZ/oWIZUXfwAMqtyMm2Bnd2M2uh6vKzyScnWmIVEaVyK1uIT+
+ Anx4ll3NYRAwuuc/82vQ62ufqpEvsEGPgLiDH6eNX/JJAdRD2/1YD4Y5wOrL2oeiNEdA
+ VbI11jwZqWoQn90akQhLVCcI4yPSUlfn5UubzveOOs2/fduPj3GOLPwX4YsF3abW1CRS
+ tEBw==
+X-Gm-Message-State: AOAM533nso1Hz/1P7Z1e1wiOIYzJ1igDSurNqwxmc0Tfdst64EaMfOGW
+ aRMutcGmOzjYY8A6P9jPpOm99w==
+X-Google-Smtp-Source: ABdhPJycUnc1Uom6Ne+pXT23ySe3KUidovqpYlGarLcNeFNRy+puxWF7wopEuP05iI8Fx3xlr6U9RQ==
+X-Received: by 2002:a63:338c:: with SMTP id z134mr7965537pgz.167.1622864355076; 
+ Fri, 04 Jun 2021 20:39:15 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ s20sm5942589pjn.23.2021.06.04.20.39.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 16:52:52 -0700 (PDT)
-Subject: Re: [PATCH v11 08/46] target/mips: Add emulation of nanoMIPS 16-bit
- branch instructions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-References: <1534789014-8310-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1534789014-8310-9-git-send-email-aleksandar.markovic@rt-rk.com>
- <CAAdtpL7jGOxhaqA-gLSRX_6FktEm89AMW-xkV=n+mEjWd-O1iA@mail.gmail.com>
-From: Faraz Shahbazker <faraz.shahbazker@gmail.com>
-Message-ID: <fb33be73-743f-65a0-7803-9e62f659f889@gmail.com>
-Date: Sat, 5 Jun 2021 05:22:39 +0530
+ Fri, 04 Jun 2021 20:39:14 -0700 (PDT)
+Subject: Re: [PATCH v16 54/99] target/arm: move TCGCPUOps to tcg/tcg-cpu.c
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210604155312.15902-1-alex.bennee@linaro.org>
+ <20210604155312.15902-55-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a7d172e8-9602-e150-296f-1d760f5c6b38@linaro.org>
+Date: Fri, 4 Jun 2021 20:39:12 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL7jGOxhaqA-gLSRX_6FktEm89AMW-xkV=n+mEjWd-O1iA@mail.gmail.com>
+In-Reply-To: <20210604155312.15902-55-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=faraz.shahbazker@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
 X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 04 Jun 2021 22:43:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,56 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Dimitrije Nikolic <dnikolic@wavecomp.com>,
- Stefan Markovic <smarkovic@wavecomp.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, faraz.shahbazker@mediatek.com,
- Petar Jovanovic <pjovanovic@wavecomp.com>, Paul Burton <pburton@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/29/21 7:22 PM, Philippe Mathieu-Daudé wrote:
-> On Mon, Aug 20, 2018 at 8:17 PM Aleksandar Markovic
-> <aleksandar.markovic@rt-rk.com> wrote:
->>
->> From: Stefan Markovic <smarkovic@wavecomp.com>
->>
->> Add emulation of nanoMIPS 16-bit branch instructions.
->> ...
->> +        /* Compare two registers */
->> +        case OPC_BPOSGE32:
->> +            tcg_gen_setcondi_tl(TCG_COND_GE, bcond, t0, 32);
+On 6/4/21 8:52 AM, Alex Bennée wrote:
+> From: Claudio Fontana<cfontana@suse.de>
 > 
-> This opcode implementation seems incomplete, per the ISA manual:
+> move the TCGCPUOps interface to tcg/tcg-cpu.c
+> in preparation for the addition of the TCG accel-cpu class.
 > 
-> If a control transfer instruction (CTI) is executed in the forbidden
-> slot of a branch or jump, Release 6 implementations are required to
-> signal a Reserved Instruction Exception. A CTI is considered to be one
-> of the following instructions: branch, jump, NAL (Release 6), ERET,
-> ERETNC (Release 5), DERET, WAIT, or PAUSE (Release 2). An instruction
-> is in the forbidden slot if it is the instruction following the
-> branch.
-> 
+> Signed-off-by: Claudio Fontana<cfontana@suse.de>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   target/arm/cpu.h           |   1 -
+>   target/arm/internals.h     |   5 -
+>   target/arm/tcg/tcg-cpu.h   |   6 +
+>   target/arm/cpu-sysemu.c    |   4 +
+>   target/arm/cpu.c           | 210 +---------------------------------
+>   target/arm/cpu_tcg.c       |   2 +-
+>   target/arm/tcg/helper.c    |   1 +
+>   target/arm/tcg/tcg-cpu.c   | 229 +++++++++++++++++++++++++++++++++++++
+>   target/arm/tcg/meson.build |   1 +
+>   9 files changed, 244 insertions(+), 215 deletions(-)
+>   create mode 100644 target/arm/tcg/tcg-cpu.c
 
-This also stems from mistakes in the DSP instruction manual. The 
-description text for BPOSGE32C in the nanoMIPS32 DSP manual has been 
-blindly copy pasted from microMIPS32 DSP manual. As per the nanoMIPS32 
-Instruction Set Technical Reference Manual, Revision 1.01, Chapter 1, 
-Introduction, p12 [1] :
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-"branch delay slots and forbidden slots have been removed."
-
-[1] 
-https://s3-eu-west-1.amazonaws.com/downloads-mips/I7200/I7200+product+launch/MIPS_nanomips32_ISA_TRM_01_01_MD01247.pdf
-
-The nanoMIPS architecture is not a revision of MIPS release 6, but an 
-entirely new architecture that happens to have a lot in common with MIPS 
-release 6. Using the same target sources to implement both means we get 
-quite a bit of code reuse, but also that we have to be cognizant of such 
-differences.
-
-- farazS
+r~
 
