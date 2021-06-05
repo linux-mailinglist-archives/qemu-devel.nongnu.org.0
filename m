@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D9739CAB2
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:15:24 +0200 (CEST)
-Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B6139CAB4
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:17:07 +0200 (CEST)
+Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpblT-0001oM-4A
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:15:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
+	id 1lpbn8-0003KM-NL
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbk2-0000SZ-7x; Sat, 05 Jun 2021 15:13:54 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:42205)
+ id 1lpblz-0002eV-CE; Sat, 05 Jun 2021 15:15:55 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:47311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbk0-0006ua-EU; Sat, 05 Jun 2021 15:13:53 -0400
+ id 1lpblx-00089V-Lv; Sat, 05 Jun 2021 15:15:55 -0400
 Received: from [192.168.100.1] ([82.142.12.38]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MyK9S-1lSJ431BFM-00yh5M; Sat, 05 Jun 2021 21:13:47 +0200
-Subject: Re: [PATCH v2] linux-user/syscall: Constify bitmask_transtbl
- fcntl/mmap flags_tlb[]
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210517055243.830491-1-f4bug@amsat.org>
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MNtjq-1m0XzJ1kqG-00OFDC; Sat, 05 Jun 2021 21:15:49 +0200
+Subject: Re: [PATCH] docs: fix broken reference
+To: John Snow <jsnow@redhat.com>, qemu-trivial@nongnu.org
+References: <20210511192950.2061326-1-jsnow@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <04d15030-721a-2e5f-61cb-92f2c6ae55d1@vivier.eu>
-Date: Sat, 5 Jun 2021 21:13:46 +0200
+Message-ID: <1cd8a36e-d181-df9b-534c-8644eb2d59ab@vivier.eu>
+Date: Sat, 5 Jun 2021 21:15:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210517055243.830491-1-f4bug@amsat.org>
+In-Reply-To: <20210511192950.2061326-1-jsnow@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jW1L6VQKNGQEwSBu9WsBhg5rnhQLTpHKm/W6fSeL7unpwjJ8iUi
- Xb1zeEmSHX4vI9jP42HM3M+VJjwmi6KoKymej2PssJGsANQh7AFkS4EQfrQMBR41MDqt2H3
- e4redo5d0fHBw3sPqDGwU3Lfq7Gt19xfxFNHnFDYIxGxbOAWDOZAHJfDa6eiKwkqPkqIERY
- 8qpZiairQB/iLdViL8MkQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:k+apq9XIDsE=:i+vOpXtr8DhCgLtDuWCkmF
- 4hFqNQV6CRFIxfzhvt9OwQ/Trd2ySJdco4ttIqO+WVG9qyzgQ0tqaTnnR6O7NR0D/3ayzshe4
- Riw9+GZgSgejYkStaesBHT6r6hH+T9FgVuxTIt1Wxi16Vksil5if4V161mWAqhIW0c6RImC+B
- US0wa/QtQ/GgOx9ja1WH8xtjTjE0br9lIhJj1y3kFpTdrMltcEmfgXhJWhw4Y44Bl+VNxqkd9
- W2OtJCi1BvHeQLmbGQYnM8jnsZztRNoSq4Zbdd9j2JNS54g3Oty0Zi3fGGQc13j+d0/+Zgmyd
- tQsoVxJVXdYCR1oEqKv2M/PTc1pTYnpUJ6Wp0pkalnRCv+M6mdMc3V4MjXXdauekFf5mtBNXs
- eXyTuUWwk5S9uqzfsUfBXRhAZT3t/Vk/5oxOceSLztwr33/2iWTg2p36jcYryty6taK4KUNR4
- oij4VPkkgaDiPrsjPe0CYbnJSZiGlZdRSqXyDbP3kZ6QmEU8Tgss6d8cItSYZFeEbuCRalNTY
- iFqa1ZxQj23e8iojTrfpCA=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vUngjT9MLLZYN12Nv6aHIELADydkZSliAwHKjZ0z1LFW5J0ydUT
+ Jk81q3aKGchFciT+lh1uLA12MjsT3F8ZVYQpywYWggk3oMuMj8EvjOLf2/EAYh1ct7m/Oux
+ AEpg6jDyUBfV+Eg1ZHwC0WM+FZrEPPHknPGRQHf81BM1j8gLq8B6c4lf7siTi5xjcfA5AjK
+ CP2S7hPFsy/mveayuMfgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2AkgLH6GB1U=:yrgjjgwnv80gJ+wvTba65j
+ th6j3bztOTtMt2fXgdC/F7TDCLTLvkwnIoHaIXPc4t+dkusJNamL9H1obepoKL1tXoqytG7n4
+ pFOEwi5xIq6XKm2+2gxy5b3Pq4bLA1pSFxXbQptO5U3KHRpvC+CkGojPMqO44kdJx/pEjtwho
+ H/5c9LC6DFIq6P8G5aq93WIuky5jgeOwlIzqC8FE30o/VDu+Me2jNM1hod38FE/9LQlceNX1o
+ IWSH3JoRcwho2thi8PyYXNH8iCB1BplDdy5KI4bdv1aVCkArZrFFakBTnWuizseyYxLLm3nMa
+ 0FVqXsqwHPe9Ra91PbSgVC3L7L3HBQP7EN57T/DEZPXLjs4LQuY+7ryQuZ8GM4q4ioZpHl0NU
+ ItEd1deB+FHDkIfWROyzDx7BuGdmyPdf/ozoewxC97Rd/h86nEa8jyxwo5regRJZ9Uv1H8nRV
+ KRr1d3MBMUPSbn/z23fgvT1DD7Ie32FWPzPxts6UxniSRo/xVHrY/FtjLoc5TpwhWxTwqr8oB
+ vZtz7/LXfTCc1UfnenaEMM=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.59,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,48 +66,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Bin Meng <bmeng.cn@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/05/2021 à 07:52, Philippe Mathieu-Daudé a écrit :
-> Keep bitmask_transtbl in .rodata by marking the arrays const.
+Le 11/05/2021 à 21:29, John Snow a écrit :
+> Long story short, we need a space here for the reference to work
+> correctly.
 > 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> Longer story:
+> 
+> Without the space, kerneldoc generates a line like this:
+> 
+> one of :c:type:`MemoryListener.region_add\(\) <MemoryListener>`,:c:type:`MemoryListener.region_del\(\)
+> 
+> Sphinx does not process the role information correctly, so we get this
+> (my pseudo-notation) construct:
+> 
+> <text>,:c:type:</text>
+> <reference target="MemoryListener">MemoryListener.region_del()</reference>
+> 
+> which does not reference the desired entity, and leaves some extra junk
+> in the rendered output. See
+> https://qemu-project.gitlab.io/qemu/devel/memory.html#c.MemoryListener
+> member log_start for an example of the broken output as it looks today.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  linux-user/syscall.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  include/exec/memory.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 95d79ddc437..64f486743a9 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -365,7 +365,7 @@ _syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
->  _syscall2(int, membarrier, int, cmd, int, flags)
->  #endif
->  
-> -static bitmask_transtbl fcntl_flags_tbl[] = {
-> +static const bitmask_transtbl fcntl_flags_tbl[] = {
->    { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
->    { TARGET_O_ACCMODE,   TARGET_O_RDWR,      O_ACCMODE,   O_RDWR,      },
->    { TARGET_O_CREAT,     TARGET_O_CREAT,     O_CREAT,     O_CREAT,     },
-> @@ -6062,7 +6062,7 @@ static const StructEntry struct_termios_def = {
->      .print = print_termios,
->  };
->  
-> -static bitmask_transtbl mmap_flags_tbl[] = {
-> +static const bitmask_transtbl mmap_flags_tbl[] = {
->      { TARGET_MAP_SHARED, TARGET_MAP_SHARED, MAP_SHARED, MAP_SHARED },
->      { TARGET_MAP_PRIVATE, TARGET_MAP_PRIVATE, MAP_PRIVATE, MAP_PRIVATE },
->      { TARGET_MAP_FIXED, TARGET_MAP_FIXED, MAP_FIXED, MAP_FIXED },
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 5728a681b27..3b9ca696061 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -571,7 +571,7 @@ struct MemoryListener {
+>       * @log_start:
+>       *
+>       * Called during an address space update transaction, after
+> -     * one of #MemoryListener.region_add(),#MemoryListener.region_del() or
+> +     * one of #MemoryListener.region_add(), #MemoryListener.region_del() or
+>       * #MemoryListener.region_nop(), if dirty memory logging clients have
+>       * become active since the last transaction.
+>       *
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
