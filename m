@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B6139CAB4
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:17:07 +0200 (CEST)
-Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8A039CAB5
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:19:05 +0200 (CEST)
+Received: from localhost ([::1]:52206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpbn8-0003KM-NL
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
+	id 1lpbp2-0005hn-VR
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpblz-0002eV-CE; Sat, 05 Jun 2021 15:15:55 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:47311)
+ id 1lpboA-0004qS-6Y; Sat, 05 Jun 2021 15:18:10 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpblx-00089V-Lv; Sat, 05 Jun 2021 15:15:55 -0400
+ id 1lpbo7-00010k-32; Sat, 05 Jun 2021 15:18:10 -0400
 Received: from [192.168.100.1] ([82.142.12.38]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MNtjq-1m0XzJ1kqG-00OFDC; Sat, 05 Jun 2021 21:15:49 +0200
-Subject: Re: [PATCH] docs: fix broken reference
-To: John Snow <jsnow@redhat.com>, qemu-trivial@nongnu.org
-References: <20210511192950.2061326-1-jsnow@redhat.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MRBac-1m3qsG0t1w-00N6y1; Sat, 05 Jun 2021 21:18:00 +0200
+Subject: Re: [PATCH] target/nios2: fix page-fit instruction count
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <162072241046.823357.10485774346114851009.stgit@pasha-ThinkPad-X280>
+ <7ff230df-8173-1dae-3750-a40b0588f13d@ispras.ru>
+ <aa23def1-fdf1-905c-94fc-954fea420762@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <1cd8a36e-d181-df9b-534c-8644eb2d59ab@vivier.eu>
-Date: Sat, 5 Jun 2021 21:15:48 +0200
+Message-ID: <19ffcdb7-8266-7c67-aef8-e7173d3bd976@vivier.eu>
+Date: Sat, 5 Jun 2021 21:17:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210511192950.2061326-1-jsnow@redhat.com>
+In-Reply-To: <aa23def1-fdf1-905c-94fc-954fea420762@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vUngjT9MLLZYN12Nv6aHIELADydkZSliAwHKjZ0z1LFW5J0ydUT
- Jk81q3aKGchFciT+lh1uLA12MjsT3F8ZVYQpywYWggk3oMuMj8EvjOLf2/EAYh1ct7m/Oux
- AEpg6jDyUBfV+Eg1ZHwC0WM+FZrEPPHknPGRQHf81BM1j8gLq8B6c4lf7siTi5xjcfA5AjK
- CP2S7hPFsy/mveayuMfgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2AkgLH6GB1U=:yrgjjgwnv80gJ+wvTba65j
- th6j3bztOTtMt2fXgdC/F7TDCLTLvkwnIoHaIXPc4t+dkusJNamL9H1obepoKL1tXoqytG7n4
- pFOEwi5xIq6XKm2+2gxy5b3Pq4bLA1pSFxXbQptO5U3KHRpvC+CkGojPMqO44kdJx/pEjtwho
- H/5c9LC6DFIq6P8G5aq93WIuky5jgeOwlIzqC8FE30o/VDu+Me2jNM1hod38FE/9LQlceNX1o
- IWSH3JoRcwho2thi8PyYXNH8iCB1BplDdy5KI4bdv1aVCkArZrFFakBTnWuizseyYxLLm3nMa
- 0FVqXsqwHPe9Ra91PbSgVC3L7L3HBQP7EN57T/DEZPXLjs4LQuY+7ryQuZ8GM4q4ioZpHl0NU
- ItEd1deB+FHDkIfWROyzDx7BuGdmyPdf/ozoewxC97Rd/h86nEa8jyxwo5regRJZ9Uv1H8nRV
- KRr1d3MBMUPSbn/z23fgvT1DD7Ie32FWPzPxts6UxniSRo/xVHrY/FtjLoc5TpwhWxTwqr8oB
- vZtz7/LXfTCc1UfnenaEMM=
+X-Provags-ID: V03:K1:7RkHgN7uO0YxxzT34ZsRlWVypIaw4uwq7t6wtxKqVAHOGRgs6ZS
+ Mhwli8BnJwGLhmZAtxvXGnqpf61ifmnsjZziRRswowLnPdxJ6XDG2rmm1OVi3lvV4lN4QRJ
+ ZvzRALKNQpvMDNaqU2BsYI2ltpix4m4NTz6aeoiJV+7iAi8ENtN2R72k7WM5YDdk/FIZnL8
+ CVCGOXxvl268gv5Rl6rTw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kJPyT16/YrM=:kMuKMnwZ45ANJjy1JaFNuj
+ DqTpsPysQmLtPDU7HrmJ1nI9YdfNXsDaxSQ98OuAKEXd4ztvIl1S5PSdXRFhGnwcOtA/5wAMX
+ 3r4z8w9guI9EhDA1nUPesXwRucLFn1Y/12iirzDAl09RwIFNuRnoetz1GapwHAnI3ZC2ne0RJ
+ iygy4lU7J/IfMkC7ynIeX8Q/rcyQECfmJ9K8ecgD1OZEL50rtsiSiD6vO/sQ25MWubu0ZOhL1
+ AuegwFNNsxcP80NRwhxlhYB/xMmZY4Q0cAZ6aN1kOl0SAd0a1QnTMn7s9Hrji5rokzK+kUHFH
+ AW4xT2jFe8IoVpvHgGWXZ/4N1IWiOB7tIANnExPe81A0fPCWEbIBcpB+O+kR+qrf2O+acfgB9
+ UuL192GkfVHCFyVlxl8aW8Bzvo+MLkJA5HFjYGYfXiGUurM5J9+Ff5QIJ+nFf9pvL7wNRCbWq
+ EcKS7TamISGIG/AphcFbxhVhu0vgHU7rVv4XsxXRyjBX2k7lzMuXpb/8eXIXPqdCumVYZDCLz
+ fc2+4apC8X0sJyp4a0FZGw=
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -24
@@ -66,56 +69,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: marex@denx.de, pbonzini@redhat.com, crwulff@gmail.com,
+ qemu-trivial <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/05/2021 à 21:29, John Snow a écrit :
-> Long story short, we need a space here for the reference to work
-> correctly.
-> 
-> 
-> Longer story:
-> 
-> Without the space, kerneldoc generates a line like this:
-> 
-> one of :c:type:`MemoryListener.region_add\(\) <MemoryListener>`,:c:type:`MemoryListener.region_del\(\)
-> 
-> Sphinx does not process the role information correctly, so we get this
-> (my pseudo-notation) construct:
-> 
-> <text>,:c:type:</text>
-> <reference target="MemoryListener">MemoryListener.region_del()</reference>
-> 
-> which does not reference the desired entity, and leaves some extra junk
-> in the rendered output. See
-> https://qemu-project.gitlab.io/qemu/devel/memory.html#c.MemoryListener
-> member log_start for an example of the broken output as it looks today.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  include/exec/memory.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 5728a681b27..3b9ca696061 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -571,7 +571,7 @@ struct MemoryListener {
->       * @log_start:
->       *
->       * Called during an address space update transaction, after
-> -     * one of #MemoryListener.region_add(),#MemoryListener.region_del() or
-> +     * one of #MemoryListener.region_add(), #MemoryListener.region_del() or
->       * #MemoryListener.region_nop(), if dirty memory logging clients have
->       * become active since the last transaction.
->       *
-> 
+Le 25/05/2021 à 16:28, Richard Henderson a écrit :
+> Laurent, how about through trivial?
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
+> 
+> r~
+> 
+> On 5/24/21 11:40 PM, Pavel Dovgalyuk wrote:
+>> ping
+>>
+>> On 11.05.2021 11:40, Pavel Dovgalyuk wrote:
+>>> This patch fixes calculation of number of the instructions
+>>> that fit the current page. It prevents creation of the translation
+>>> blocks that cross the page boundaries. It is required for deterministic
+>>> exception generation in icount mode.
+>>>
+>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   target/nios2/translate.c |    2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+>>> index 9824544eb3..399f22d938 100644
+>>> --- a/target/nios2/translate.c
+>>> +++ b/target/nios2/translate.c
+>>> @@ -829,7 +829,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+>>>       /* Set up instruction counts */
+>>>       num_insns = 0;
+>>>       if (max_insns > 1) {
+>>> -        int page_insns = (TARGET_PAGE_SIZE - (tb->pc & TARGET_PAGE_MASK)) / 4;
+>>> +        int page_insns = (TARGET_PAGE_SIZE - (tb->pc & ~TARGET_PAGE_MASK)) / 4;
+>>>           if (max_insns > page_insns) {
+>>>               max_insns = page_insns;
+>>>           }
+>>>
+>>
+> 
+> 
 
 
