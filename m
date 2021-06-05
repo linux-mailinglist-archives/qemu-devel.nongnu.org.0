@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEAD39C9E4
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 18:34:14 +0200 (CEST)
-Received: from localhost ([::1]:39304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C7039C9F7
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 18:55:40 +0200 (CEST)
+Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpZFV-0005bD-LJ
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 12:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48956)
+	id 1lpZaF-0001ro-4i
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 12:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpZDs-0003up-EK
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 12:32:32 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:46846)
+ id 1lpZZJ-0000w8-RO
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 12:54:41 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpZDp-0007a3-Ij
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 12:32:32 -0400
-Received: by mail-pl1-x635.google.com with SMTP id e1so6215173pld.13
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 09:32:29 -0700 (PDT)
+ id 1lpZZH-0002VU-H2
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 12:54:41 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 27so10387598pgy.3
+ for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 09:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gG4e7Uh9+IJ15/BlXfh6KJGlCMUHqhEZ3fJEfi6uFqY=;
- b=o5t6RPPo+F2Lm0GOQZKqYa0kwD/gJUycTnvCy3jCthHKqofSRemjH7V4SU03HFoy4m
- eDtW65SCHfIFqC4gMKEL3HQ5xhWCFEvPr5P7EAtTIYxjZUl9UDJ3pgsghe+1QAAXENL2
- tKd+v5DPwA58+F5lOf6dyZKQkgv4GetFkGryZbnUiUw+xxRZCUPkvXUpuqnl3iNauJRk
- lw5UkroEViGc5K077ZU45Z7iXI1UTNSdbXiLY20xqujrAwJieX62/MGthCbDIfo6K38J
- 7rsdSB8cyZX0qypN0dM8qaFnZaOcybH6qD0bgip6d/bnkMxf5P3Qu12J2gkrP+6FJ9us
- 6Enw==
+ bh=ZO+DyZ1fUy+kvlyAg/MjXMo6ajXXE+n+Yb2OEz6f7nc=;
+ b=vMY34mpuXRs68p1nxehZQpprEc0HXkHOpSHTzgrwHog0HkABXHukqJwgrqi+BGqOKQ
+ eiEEpwdByoEfBFQ12mWqJSZC6l9I21yuaAB3L8qeWWqzwD/Sdv1lNjcehhgqy3pJWC2+
+ EkfqbpzQ2HuYmRHq2Mgx0/qeCOazHG2UjsnipfD5IkSUyGM+uVFYoG/7pPt5utpPf8eZ
+ FZmfsoDVE8xgC4ra3Dyi2g068tFv5H+CA0dqzMbYGtYCWs0oFX8oKmduf2TN/u76dl+6
+ W/Q9qaOsqvJfZk2ttEJzO7n0m1Z/mxU+MUN3D6Lr380Ca+alluJ6HGHvp9VbffPzNIdI
+ BoIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gG4e7Uh9+IJ15/BlXfh6KJGlCMUHqhEZ3fJEfi6uFqY=;
- b=SYQaDiwEZ4naeMO+9rdtIqU4gVjBoTx9pswDBwel/bI3GggyIyYYCQWZw+STggaybw
- D1LHAfaSWXclVNeN/xi0+6+7zOAvpi0giSnOBFTJOn0s2yZIslVHQtabGJgYIjqXZ0nV
- hT1nekF7H1k3rqdGHIlxM5Qtl0I3/qSBAK07Q9rvXDNrjHQE3Z8Sdc5qH6Q76PTu6TiZ
- kFH42qL+mWI6R2viWgTNEgJjF5U62BFcMZJjCq7cf6YnlcZY52JoaRJSHxDe6oIl8xhn
- uh4iQyPhfao/V6v+RjX+JfjD7BLd33CAJqOj/SRDzFokhTD5nk4ZiOJ6i8za5sfL5UJ9
- wfNw==
-X-Gm-Message-State: AOAM531stlkwTbz+HzR419gq+lV+Z3vlgITeKHNYHUZL/c/5bFC6Mm4B
- poLgPesAAOEnDzS0wok9FokrmA==
-X-Google-Smtp-Source: ABdhPJzaDbTcHf4mMZTidtz11rlPIgPln1X4/ps+cYBs2SqMBHuGQs5af6C8wn6cg67d+XBq4XRznw==
-X-Received: by 2002:a17:90a:de07:: with SMTP id
- m7mr23301197pjv.100.1622910748376; 
- Sat, 05 Jun 2021 09:32:28 -0700 (PDT)
+ bh=ZO+DyZ1fUy+kvlyAg/MjXMo6ajXXE+n+Yb2OEz6f7nc=;
+ b=AJ2Quk69U5pNeAaA5ae+EgMmLBlxsep+N3QvTi1ZmVYkF3ZrqZWTXB8UazCyjKbT+m
+ ArILW+4DH5luxNgrhRm2fDs6FeRW2Tqe1eT57dtwb4W8R70YVUWoToXIZHCY74Bdl4BH
+ Fv5/wskWEQKlRPcqcSMmuZJ6zer33u/i3chkrseQRHlc1zCTOHXSzYB6gtjLv5X23z7e
+ x2LZzKng000YoJLx1GLDib1gyabEgvfYgMtwGKOyxvevgFS5LaSYuq6ree9UiaF0MHPY
+ SlqFeMDdctGY8A0zDWz6TtBBdsy0nZyaG1a32c0ro/yt4YzWWvOh+nJMTjIiz8Z98eIi
+ KoKA==
+X-Gm-Message-State: AOAM531rDZPMJIoZbVYXsMjTKIRNLytlzDinxYNNAafdHbXKyF96po2v
+ LOegy15n6Kt8NUYUyem0kaADvQ==
+X-Google-Smtp-Source: ABdhPJz8BP3o1RjtwcF9OL1mG7c2/1PDTArAAE/KXp7tmRfo5Ob3Jt+d4b+FGj89EGi8HqRf/+ZAfw==
+X-Received: by 2002:a63:5052:: with SMTP id q18mr10438460pgl.349.1622912077894; 
+ Sat, 05 Jun 2021 09:54:37 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- s23sm7248663pjg.15.2021.06.05.09.32.27
+ u21sm4471193pfh.163.2021.06.05.09.54.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 09:32:28 -0700 (PDT)
-Subject: Re: [PATCH v16 66/99] tests: do not run qom-test on all machines for
- ARM KVM-only
+ Sat, 05 Jun 2021 09:54:37 -0700 (PDT)
+Subject: Re: [PATCH v16 69/99] target/arm: add tcg cpu accel class
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-67-alex.bennee@linaro.org>
+ <20210604155312.15902-70-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eb4a45cc-8cd8-b5dd-a767-50a4e17d9cd3@linaro.org>
-Date: Sat, 5 Jun 2021 09:32:26 -0700
+Message-ID: <17f14974-a922-dcda-4eb4-8754bf1fd45c@linaro.org>
+Date: Sat, 5 Jun 2021 09:54:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-67-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-70-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
 X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,30 +89,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/4/21 8:52 AM, Alex Bennée wrote:
-> From: Claudio Fontana<cfontana@suse.de>
+> From: Claudio Fontana <cfontana@suse.de>
 > 
-> on ARM we currently list and build all machines, even when
-> building KVM-only, without TCG.
+> move init, realizefn and reset code into it.
 > 
-> Until we fix this (and we only list and build machines that are
-> compatible with KVM), only test specifically using the "virt"
-> machine in this case.
-> 
-> Signed-off-by: Claudio Fontana<cfontana@suse.de>
-> Cc: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   tests/qtest/qom-test.c | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
+>   target/arm/tcg/tcg-cpu.h        |  4 ++-
+>   target/arm/cpu.c                | 44 ++------------------------
+>   target/arm/tcg/sysemu/tcg-cpu.c | 27 ++++++++++++++++
+>   target/arm/tcg/tcg-cpu-models.c | 10 +++---
+>   target/arm/tcg/tcg-cpu.c        | 55 +++++++++++++++++++++++++++++++--
+>   5 files changed, 92 insertions(+), 48 deletions(-)
+> 
+> diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
+> index d93c6a6749..dd08587949 100644
+> --- a/target/arm/tcg/tcg-cpu.h
+> +++ b/target/arm/tcg/tcg-cpu.h
+> @@ -22,15 +22,17 @@
+>   
+>   #include "cpu.h"
+>   #include "hw/core/tcg-cpu-ops.h"
+> +#include "hw/core/accel-cpu.h"
 
-Similarly, qtest_has_accel.
+Ideally we'd have a qemu/typedef.h entry so this include isn't needed...
+
+>   
+>   void arm_cpu_synchronize_from_tb(CPUState *cs,
+>                                    const TranslationBlock *tb);
+>   
+> -extern struct TCGCPUOps arm_tcg_ops;
+> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
+
+... simply for this declaration.
+Also, can we now remove the tcg-cpu-ops.h include?
+
+> @@ -1467,7 +1429,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>       cc->disas_set_info = arm_disas_set_info;
+>   
+>   #ifdef CONFIG_TCG
+> -    cc->tcg_ops = &arm_tcg_ops;
+> +    cc->init_accel_cpu = tcg_arm_init_accel_cpu;
+>   #endif /* CONFIG_TCG */
+
+Is this already inside tcg_enabled()?  Because otherwise it looks as if this is 
+overwriting a field also used by kvm.  Whereas the code that's being replaced 
+set a field only used by tcg.
+
+KVM sets its hooks differently, via kvm_cpu_accel_register_types, so I don't 
+understand this hook at all.  But it seems like there should not be two 
+different ways to set acc->cpu_instance_init.
+
 
 r~
 
