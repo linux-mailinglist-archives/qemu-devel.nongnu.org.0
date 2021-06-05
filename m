@@ -2,98 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1576939CA41
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 19:40:44 +0200 (CEST)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFBF39CA57
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 19:58:55 +0200 (CEST)
+Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpaHr-0007YL-5R
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 13:40:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58624)
+	id 1lpaZS-0002sb-0a
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 13:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lpaFh-0006hA-4K
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 13:38:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lpaFc-000192-SX
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 13:38:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622914702;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ivf6812iM8CeK9tl6ewbIOVisANVzieyQXXYg/M7g7w=;
- b=OqKQdRkqssWfEhwnzhKfIwSwdKCypQkUVIuI9xXdSyp7qOK7Z8SLZRxmFcf1Bp0WLf768Y
- Uei7Uw3EOFCs94hVLJDnPGUaWsM0VdhhJ7oE3VCmHFTpzosA5aiz6Hkm/JZ0xLfxcVs3GO
- pf1ks0GgSDQlrWKSfulbvlARi3E/wxY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-SEA1N5IXNomHPP-ZCmIayg-1; Sat, 05 Jun 2021 13:38:19 -0400
-X-MC-Unique: SEA1N5IXNomHPP-ZCmIayg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- c21-20020a0564021015b029038c3f08ce5aso6997363edu.18
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 10:38:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
+ id 1lpaQt-00010P-7x
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 13:50:03 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <email@aabouzied.com>)
+ id 1lpaQo-0007Hg-Cm
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 13:50:02 -0400
+Received: by mail-wr1-x430.google.com with SMTP id i94so7489037wri.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 10:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=aabouzied-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BWHGYOMOGXj9Bfk4fh/SWSYr0ToL9M8g89Z+9rCbxeM=;
+ b=YzIWl2fH+v0S2yTE4CbLSMe/uEu0pnSn1qS0m6eg9dRiDJDFLdv/xc0CJ+1l0u/3LZ
+ S+8pYRUlCxfwX5Tg6bCOwUZIQSLmCWJ9Hu7i3xV5tYsbs9lONUs2qiR1C3erXT0f5ATR
+ mfMuh4envN29I1jzjn5o2qMdSahrHzfB842BCu3Vb8kN/jdr5t2Jma1Y8giOgjHcuRKJ
+ +0/vj4o1ArIoJYt7LAwai88lULK5O4cPxbV23rBzC7F6t1kWcAjZX1eP9a2L8caOZGUy
+ 1Icl4KVeLXB5pInQf8q5IbJ5LuUkpqQRFtslRMgsx4Avpe96j3PQh+szvmrL3r+Ldpla
+ 4WAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Ivf6812iM8CeK9tl6ewbIOVisANVzieyQXXYg/M7g7w=;
- b=ZYn7xt+gvmqavbS/cJASqbIlvyBnHzbhEaH36awQvuu6ngF70cCkVKGer8hmZ4hc8L
- FnoXrRQs6xEpSYKyzy8GC4LW67yTEpFzdb36z6KhUzTolfvXJeWrcFQRwC98oMBxxzlm
- xaXTTABPCVgoxKYY/4aQMHwqnCG3v26WhCSu4vKMSMUbcvPVafiZnxBJyD4U/Hl4ojxa
- 7etAjz+Rp7oNs+NZjYULXV2BptMAAXuAYsWKN4ywQdT3tXRajFNWvjtCqfKf2Ie7hgGh
- sb255GeydXkECFACH2OKUlbV2bwcyiyRXjmj9ivpNrCgG92MDosPZk31kUBw6Tmcvur4
- YFNg==
-X-Gm-Message-State: AOAM532j9RQk8eGpiQGTHRovATjhDZYIgfCNwXGIGMQGh2kMRugqA2B4
- eDmVDxkVcpXcMf87BoXHa1xwcBTlVkILRyskLXxdDdLtWGW/b0DnwWoGLfjb5/Co/qVB8wWE0qY
- 0l1h04Ljkx4c8sRtn39ffyMEtWQVaetg2+ERZn3Qr2lNQkSqs7UzBjKHqSkWDeA0I76c=
-X-Received: by 2002:a17:906:22c7:: with SMTP id
- q7mr9891434eja.547.1622914698148; 
- Sat, 05 Jun 2021 10:38:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3EBdEcNx3Ej3fTVLzJ+NrMfWWkUNdk+tWFmF5NxzOOQitRsFdVNT9FS6jepOihkeUEybuTQ==
-X-Received: by 2002:a17:906:22c7:: with SMTP id
- q7mr9891412eja.547.1622914697819; 
- Sat, 05 Jun 2021 10:38:17 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- qq26sm3139691ejb.6.2021.06.05.10.38.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 10:38:17 -0700 (PDT)
-Subject: Re: [PATCH v5 10/16] qemu-iotests: extend the check script to prepare
- supporting valgrind for python tests
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210604091723.13419-1-eesposit@redhat.com>
- <20210604091723.13419-11-eesposit@redhat.com>
- <de6439dc-c20f-f138-496f-5bc4ca5d8f97@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <4fec3474-e3e0-6f7d-eec8-bef25738ef2e@redhat.com>
-Date: Sat, 5 Jun 2021 19:38:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ bh=BWHGYOMOGXj9Bfk4fh/SWSYr0ToL9M8g89Z+9rCbxeM=;
+ b=l2wuX0lvEEkw0F/s7HyARE2TZH7sqENPWqizvyhc0kkoms2b2c9QOrirpgOgvhyxkF
+ IfsdE/qHbhDp1JqiB15ll5E96u25RJFB7FUJj+EDmm8ctwN3ZmLai0MpvrNJ4NtGvY1k
+ ib7n/ubVJ4HlaB8CmvInYdbI+7J2tcKlnD9C7Kj2aZSNuz3cxasaMi3PUoDJUp3pqKGj
+ pzpCcMx5j+2gi1313c3b1ouU+TCQUj7/w2id/3PJN6x3Xp2KM/C/vDV39SnmxEd3zASz
+ SQoGUMTLW4LnO5PNF47hg3xQU5JCDu10VL32+b5EQeYbZANRW4BFjglWCFwLXqYGJXjM
+ DAfw==
+X-Gm-Message-State: AOAM531+DRGVGe7iND1TwZ2dS/Mz2hQwIAnSjl4rIqsXZ0wVgn+FkcQS
+ hhnggS95yVtkwe6lZt1jPy/fGHV1DKI3kHW3ck0=
+X-Google-Smtp-Source: ABdhPJyLdFZY4iLJe6qFfgEn9hpxjPzJ5SZkGpzBo8cyujiffDmhln829v7+1ZhVcj+UWFCtS1exiw==
+X-Received: by 2002:a5d:6952:: with SMTP id r18mr9285115wrw.392.1622915395742; 
+ Sat, 05 Jun 2021 10:49:55 -0700 (PDT)
+Received: from pythagoras.localdomain ([154.177.90.187])
+ by smtp.gmail.com with ESMTPSA id v7sm11812056wrf.82.2021.06.05.10.49.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Jun 2021 10:49:55 -0700 (PDT)
+From: Ahmed Abouzied <email@aabouzied.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] Remove leading underscores from QEMU defines
+Date: Sat,  5 Jun 2021 19:49:38 +0200
+Message-Id: <20210605174938.13782-1-email@aabouzied.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <de6439dc-c20f-f138-496f-5bc4ca5d8f97@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::430;
+ envelope-from=email@aabouzied.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,116 +80,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-trivial@nongnu.org, thuth@redhat.com,
+ Ahmed Abouzied <email@aabouzied.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Leading underscores followed by a capital letter or underscore are
+reserved by the C standard.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/369
 
-On 05/06/2021 15:28, Vladimir Sementsov-Ogievskiy wrote:
-> 04.06.2021 12:17, Emanuele Giuseppe Esposito wrote:
->> Currently, the check script only parses the option and sets the
->> VALGRIND_QEMU environmental variable to "y".
->> Add another local python variable that prepares the command line,
->> identical to the one provided in the test scripts.
->>
->> Because the python script does not know in advance the valgrind
->> PID to assign to the log file name, use the "%p" flag in valgrind
->> log file name that automatically puts the process PID at runtime.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   tests/qemu-iotests/check      |  7 ++++---
->>   tests/qemu-iotests/iotests.py | 11 +++++++++++
->>   tests/qemu-iotests/testenv.py |  1 +
->>   3 files changed, 16 insertions(+), 3 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
->> index 1dba4218c0..e6aa110715 100755
->> --- a/tests/qemu-iotests/check
->> +++ b/tests/qemu-iotests/check
->> @@ -39,6 +39,10 @@ def make_argparser() -> argparse.ArgumentParser:
->>       p.add_argument('--gdb', action='store_true',
->>                      help="start gdbserver with $GDB_OPTIONS options \
->>                           ('localhost:12345' if $GDB_OPTIONS is empty)")
->> +    p.add_argument('--valgrind', action='store_true',
->> +                    help='use valgrind, sets VALGRIND_QEMU environment '
->> +                    'variable')
->> +
->>       p.add_argument('--misalign', action='store_true',
->>                      help='misalign memory allocations')
->>       p.add_argument('--color', choices=['on', 'off', 'auto'],
->> @@ -88,9 +92,6 @@ def make_argparser() -> argparse.ArgumentParser:
->>       g_bash.add_argument('-o', dest='imgopts',
->>                           help='options to pass to qemu-img 
->> create/convert, '
->>                           'sets IMGOPTS environment variable')
->> -    g_bash.add_argument('--valgrind', action='store_true',
->> -                        help='use valgrind, sets VALGRIND_QEMU 
->> environment '
->> -                        'variable')
->>       g_sel = p.add_argument_group('test selecting options',
->>                                    'The following options specify test 
->> set '
->> diff --git a/tests/qemu-iotests/iotests.py 
->> b/tests/qemu-iotests/iotests.py
->> index c547e8c07b..3fa1bd0ab5 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
->> @@ -96,6 +96,17 @@
->>       sys.stderr.write('Please run this test via the "check" script\n')
->>       sys.exit(os.EX_USAGE)
->> +qemu_valgrind = []
->> +if os.environ.get('VALGRIND_QEMU') == "y" and \
->> +    os.environ.get('NO_VALGRIND') != "y":
-> 
-> Hmm, interesting, why do you need additional NO_VALGRIND variable
+Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
+---
+ include/fpu/softfloat-helpers.h             | 4 ++--
+ include/hw/usb/dwc2-regs.h                  | 4 ++--
+ include/hw/usb/xlnx-usb-subsystem.h         | 4 ++--
+ include/hw/usb/xlnx-versal-usb2-ctrl-regs.h | 4 ++--
+ include/qemu/plugin-memory.h                | 4 ++--
+ include/qemu/selfmap.h                      | 4 ++--
+ include/user/syscall-trace.h                | 4 ++--
+ plugins/plugin.h                            | 4 ++--
+ tests/qtest/fuzz/qos_fuzz.h                 | 4 ++--
+ tests/tcg/minilib/minilib.h                 | 4 ++--
+ 10 files changed, 20 insertions(+), 20 deletions(-)
 
-To maintain consistency with the bash tests, where we have:
-
-# Valgrind bug #409141 https://bugs.kde.org/show_bug.cgi?id=409141
-# Until valgrind 3.16+ is ubiquitous, we must work around a hang in
-# valgrind when issuing sigkill. Disable valgrind for this invocation.
-_NO_VALGRIND()
-{
-     NO_VALGRIND="y" "$@"
-}
-
-
-> 
->> +    valgrind_logfile = "--log-file=" + test_dir
->> +    # %p allows to put the valgrind process PID, since
->> +    # we don't know it a priori (subprocess.Popen is
->> +    # not yet invoked)
->> +    valgrind_logfile += "/%p.valgrind"
->> +
->> +    qemu_valgrind = ['valgrind', valgrind_logfile, 
->> '--error-exitcode=99']
->> +
->>   socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 
->> 'socket_scm_helper')
->>   luks_default_secret_object = 'secret,id=keysec0,data=' + \
->> diff --git a/tests/qemu-iotests/testenv.py 
->> b/tests/qemu-iotests/testenv.py
->> index 8501c6caf5..8bf154376f 100644
->> --- a/tests/qemu-iotests/testenv.py
->> +++ b/tests/qemu-iotests/testenv.py
->> @@ -298,6 +298,7 @@ def print_env(self) -> None:
->>   SOCK_DIR      -- {SOCK_DIR}
->>   SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}
->>   GDB_OPTIONS   -- {GDB_OPTIONS}
->> +VALGRIND_QEMU -- {VALGRIND_QEMU}
->>   """
->>           args = collections.defaultdict(str, self.get_env())
->>
-> 
-> 
-> 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
+diff --git a/include/fpu/softfloat-helpers.h b/include/fpu/softfloat-helpers.h
+index 34f4cf92ae..a98d759cd3 100644
+--- a/include/fpu/softfloat-helpers.h
++++ b/include/fpu/softfloat-helpers.h
+@@ -48,8 +48,8 @@ this code that are retained.
+ ===============================================================================
+ */
+ 
+-#ifndef _SOFTFLOAT_HELPERS_H_
+-#define _SOFTFLOAT_HELPERS_H_
++#ifndef SOFTFLOAT_HELPERS_H
++#define SOFTFLOAT_HELPERS_H
+ 
+ #include "fpu/softfloat-types.h"
+ 
+diff --git a/include/hw/usb/dwc2-regs.h b/include/hw/usb/dwc2-regs.h
+index 40af23a0ba..a7eb531485 100644
+--- a/include/hw/usb/dwc2-regs.h
++++ b/include/hw/usb/dwc2-regs.h
+@@ -39,8 +39,8 @@
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
+-#ifndef __DWC2_HW_H__
+-#define __DWC2_HW_H__
++#ifndef DWC2_HW_H
++#define DWC2_HW_H
+ 
+ #define HSOTG_REG(x)	(x)
+ 
+diff --git a/include/hw/usb/xlnx-usb-subsystem.h b/include/hw/usb/xlnx-usb-subsystem.h
+index 739bef7f45..999e423951 100644
+--- a/include/hw/usb/xlnx-usb-subsystem.h
++++ b/include/hw/usb/xlnx-usb-subsystem.h
+@@ -22,8 +22,8 @@
+  * THE SOFTWARE.
+  */
+ 
+-#ifndef _XLNX_VERSAL_USB_SUBSYSTEM_H_
+-#define _XLNX_VERSAL_USB_SUBSYSTEM_H_
++#ifndef XLNX_VERSAL_USB_SUBSYSTEM_H
++#define XLNX_VERSAL_USB_SUBSYSTEM_H
+ 
+ #include "hw/usb/xlnx-versal-usb2-ctrl-regs.h"
+ #include "hw/usb/hcd-dwc3.h"
+diff --git a/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h b/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
+index 975a717627..b76dce0419 100644
+--- a/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
++++ b/include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
+@@ -23,8 +23,8 @@
+  * THE SOFTWARE.
+  */
+ 
+-#ifndef _XLNX_USB2_REGS_H_
+-#define _XLNX_USB2_REGS_H_
++#ifndef XLNX_USB2_REGS_H
++#define XLNX_USB2_REGS_H
+ 
+ #define TYPE_XILINX_VERSAL_USB2_CTRL_REGS "xlnx.versal-usb2-ctrl-regs"
+ 
+diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
+index fbbe99474b..b36def27d7 100644
+--- a/include/qemu/plugin-memory.h
++++ b/include/qemu/plugin-memory.h
+@@ -6,8 +6,8 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+ 
+-#ifndef _PLUGIN_MEMORY_H_
+-#define _PLUGIN_MEMORY_H_
++#ifndef PLUGIN_MEMORY_H
++#define PLUGIN_MEMORY_H
+ 
+ struct qemu_plugin_hwaddr {
+     bool is_io;
+diff --git a/include/qemu/selfmap.h b/include/qemu/selfmap.h
+index 8382c4c779..80cf920fba 100644
+--- a/include/qemu/selfmap.h
++++ b/include/qemu/selfmap.h
+@@ -6,8 +6,8 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+ 
+-#ifndef _SELFMAP_H_
+-#define _SELFMAP_H_
++#ifndef SELFMAP_H
++#define SELFMAP_H
+ 
+ typedef struct {
+     unsigned long start;
+diff --git a/include/user/syscall-trace.h b/include/user/syscall-trace.h
+index 42e3b48b03..614cfacfa5 100644
+--- a/include/user/syscall-trace.h
++++ b/include/user/syscall-trace.h
+@@ -7,8 +7,8 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+ 
+-#ifndef _SYSCALL_TRACE_H_
+-#define _SYSCALL_TRACE_H_
++#ifndef SYSCALL_TRACE_H
++#define SYSCALL_TRACE_H
+ 
+ #include "trace/trace-root.h"
+ 
+diff --git a/plugins/plugin.h b/plugins/plugin.h
+index 55017e3581..b13677d0dc 100644
+--- a/plugins/plugin.h
++++ b/plugins/plugin.h
+@@ -9,8 +9,8 @@
+  * SPDX-License-Identifier: GPL-2.0-or-later
+  */
+ 
+-#ifndef _PLUGIN_INTERNAL_H_
+-#define _PLUGIN_INTERNAL_H_
++#ifndef PLUGIN_INTERNAL_H
++#define PLUGIN_INTERNAL_H
+ 
+ #include <gmodule.h>
+ #include "qemu/qht.h"
+diff --git a/tests/qtest/fuzz/qos_fuzz.h b/tests/qtest/fuzz/qos_fuzz.h
+index 477f11b02b..63d8459b71 100644
+--- a/tests/qtest/fuzz/qos_fuzz.h
++++ b/tests/qtest/fuzz/qos_fuzz.h
+@@ -10,8 +10,8 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
+-#ifndef _QOS_FUZZ_H_
+-#define _QOS_FUZZ_H_
++#ifndef QOS_FUZZ_H
++#define QOS_FUZZ_H
+ 
+ #include "tests/qtest/fuzz/fuzz.h"
+ #include "tests/qtest/libqos/qgraph.h"
+diff --git a/tests/tcg/minilib/minilib.h b/tests/tcg/minilib/minilib.h
+index e23361380a..17d0f2f314 100644
+--- a/tests/tcg/minilib/minilib.h
++++ b/tests/tcg/minilib/minilib.h
+@@ -9,8 +9,8 @@
+  * SPDX-License-Identifier: GPL-2.0-only
+  */
+ 
+-#ifndef _MINILIB_H_
+-#define _MINILIB_H_
++#ifndef MINILIB_H
++#define MINILIB_H
+ 
+ /*
+  * Provided by the individual arch
+-- 
+2.25.1
 
 
