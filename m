@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E0239CB7D
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 00:42:15 +0200 (CEST)
-Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B3539CB7E
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 00:44:27 +0200 (CEST)
+Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpeze-0007hu-K9
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 18:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44856)
+	id 1lpf1m-00015S-Q6
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 18:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpeyq-0006NF-MD
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:41:24 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:42887)
+ id 1lpf13-0000B5-FW
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:43:41 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:43772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpeyo-0007SU-DY
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:41:24 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id v13so6543628ple.9
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 15:41:21 -0700 (PDT)
+ id 1lpf12-0000OT-1S
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:43:41 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ l10-20020a17090a150ab0290162974722f2so8050628pja.2
+ for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 15:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gaLWJfHje98Gjm2MMF1fHfleodIABZfvjbmBqYOUzMw=;
- b=LuY2KFD5SXmOLauhC0t96AT/CjnG3Vg8f4VdzdypbvcMpmRmO06gY281v3iH4r8b9z
- omWdJHjDSwnv9EQDCSf1QIJxdQ0v8WOpNlNfdwvXlSBlfrx6Snxdg5miUaF58AHu4kDx
- Oupzv4gs+OYaW4xVUgEgu2nfwvKLJugbw0Pe/kUKWhECphU7Pkw1SGkLfRImmMd0iXbC
- TbrMHEroUHlbAzWl/jgwIH3R7at+vsdlIIQnSEkmgfnPWwRNSs311eYk3DWqIhg0wO6K
- xXOhY/+9ou9sc8/i7KtXP/HO3dz7IFbVUGZ5GnJv6mGS0vKHCYODNbu23NwvkIM6ocCx
- 4iDQ==
+ bh=1fzCTVj2OFU1+Ln2ryp4HC89w7XBy7JHTQdlAeMMRq8=;
+ b=O/3/6hdBLSdUHSRsY2VIWTeX7Aafss84pEsj67mF3kDIXqqcjmqoCmsFnx0M46YDes
+ gPBxOvlds+Lk/dgvzWckJs3PEZER2V+At/SKO7kFsAzMSDYdxj75eeT77RQsmO4dd21R
+ JqPDql5tumZ77eaHF/Bf+bPEc67NhT2T4QfVup2sqUSwbqOvEcNCSn1ORTf7C8uYq7sU
+ HGHvrD4vVeYIfWgdRcaq6aw+b/xrAbWM3gLayIdLsz2FZx+jqmkwUOvDzjf9hewmtPbK
+ kwJ810fmxcTXUD1pk1aFMzBWeZMXwf3Cxpd/S3qgyZf4mPv0w88fmKlzNJltDtifPFca
+ OiXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gaLWJfHje98Gjm2MMF1fHfleodIABZfvjbmBqYOUzMw=;
- b=G7EyfOhpnsBWHkQdfXxg7Tp1zanCJdg4GX7iXk6lvWpYUmW37BbFEYw9H/r0tjw14F
- vvlHf6GFQMdZeAFQsMEV3u9tYpc7071u423caq9Etdm+cdhXKrIxqAGpyv0uw0mk89gv
- MiI0BzTGYxLGF5BcjXdRDLHcfWeBwoCqhL4Nmuppvn3EMXrahbfEYFKXwlrZdgkhVkr8
- v0rEnBaLoMxOJA5739hkiBRRh5U571kmtPvKFE3QFARNrVoDDtxKktk9s1H47mGAuUAa
- S5Mtxgu97pB6kRWbEEgEXwauTgs8shOUJtvuIfLZ8hoULnK08p24upOjGGytX2tMiCOl
- kQIA==
-X-Gm-Message-State: AOAM5333ciSUddq27LTkLzNhNkWtMVAWP8qpoQ/yf2aW57xbhICNRk61
- Gl8WCe4uoQw8ozBUKnnyZp+biA==
-X-Google-Smtp-Source: ABdhPJwQf1Q8e+JfLyJxMa1w5iscotQcdsasPeRYHfNL0EEzk1Y6BbxqI3UApopQrLAVhWtr4z8f8Q==
-X-Received: by 2002:a17:902:b609:b029:ec:e80d:7ebd with SMTP id
- b9-20020a170902b609b02900ece80d7ebdmr10952521pls.75.1622932880549; 
- Sat, 05 Jun 2021 15:41:20 -0700 (PDT)
+ bh=1fzCTVj2OFU1+Ln2ryp4HC89w7XBy7JHTQdlAeMMRq8=;
+ b=EmxfndNDz25pkywzaTu85RKBhjYzyMSlNSUVr+9EZFO7Ez44F0FcPtL5WZVdl/Asfg
+ yz9SZFyeAbmxrS/leUwwhB216nm9iTG0Ji2kd2yri5Ra0sUAi9fP/XxDP0yglpRB//Dx
+ 1LBh0WKL3ORjFMhAwMaRxTRfH3eGbCvilmFsNRiOExYXgkeD5wqCOIZE7YdCuIo6v8Pb
+ XPmoSleBrgi5RI0k9boS88mKRGc5lTb9npxwriJEmLLZRbsg7Dk5QNu3LY1bAGnhe5pd
+ 8Ju1yPlOot93RXhXwd9DeyJLMJtKgwvulg2yW8kDJzSy3222c5TiubRiZtSCWjPolpiE
+ j4nQ==
+X-Gm-Message-State: AOAM533bme3Wv7D+jv34gZC/NTz7fn/xkuOHjXh7jGbpyvkTI2CU9Ysf
+ r3Kt2OeYlaiSQlC0zo3ELLyBHg==
+X-Google-Smtp-Source: ABdhPJwaUHXxdCZlr2j17TK6p8Q7BDbVgBl7wgnpH8+wiKVsJdI9HU7fMPO4ypEeqhOKJ4qyqk/fYg==
+X-Received: by 2002:a17:90a:7c4b:: with SMTP id
+ e11mr24919323pjl.73.1622933018654; 
+ Sat, 05 Jun 2021 15:43:38 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- o139sm4827009pfd.96.2021.06.05.15.41.19
+ i21sm4662080pfd.219.2021.06.05.15.43.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 15:41:20 -0700 (PDT)
-Subject: Re: [PATCH v16 94/99] target/arm: move CONFIG_V7M out of
- default-devices
+ Sat, 05 Jun 2021 15:43:38 -0700 (PDT)
+Subject: Re: [PATCH v16 95/99] hw/arm: add dependency on OR_IRQ for XLNX_VERSAL
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-95-alex.bennee@linaro.org>
+ <20210604155312.15902-96-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <393ec928-55e9-1608-358f-2b5d4dbee96e@linaro.org>
-Date: Sat, 5 Jun 2021 15:41:18 -0700
+Message-ID: <8097a8b7-d530-4199-7419-28bec27d2ae9@linaro.org>
+Date: Sat, 5 Jun 2021 15:43:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-95-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-96-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
 X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,21 +96,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/4/21 8:53 AM, Alex Bennée wrote:
->   config ARM_V7M
->       bool
-> +    # currently v7M must be included in a TCG build due to translate.c
-> +    default y if TCG && (ARM || AARCH64)
->       select PTIMER
-> +    select ARM_COMPATIBLE_SEMIHOSTING
+> We need this functionality due to:
+> 
+>      /* XRAM IRQs get ORed into a single line.  */
+>      object_initialize_child(OBJECT(s), "xram-irq-orgate",
+>                              &s->lpd.xram.irq_orgate, TYPE_OR_IRQ);
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   hw/arm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
 
-I don't really understand "default", because if one were to set ARM_V7M=n in 
-the config, things wouldn't work.  But I guess the comment sort-of covers that.
-
-I'll give you an
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-
-anyway, because it does seem an improvement for the --disable-tcg case.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
