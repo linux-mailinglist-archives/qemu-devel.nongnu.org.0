@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D68239C501
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 04:20:24 +0200 (CEST)
-Received: from localhost ([::1]:38764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643ED39C506
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 04:23:40 +0200 (CEST)
+Received: from localhost ([::1]:41240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpLvC-0000oO-Ms
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 22:20:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55258)
+	id 1lpLyN-0002cM-G6
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 22:23:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpLuK-0008Js-1L
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 22:19:28 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:36728)
+ id 1lpLxK-0001n4-0E
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 22:22:34 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpLuI-00085X-0w
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 22:19:27 -0400
-Received: by mail-pg1-x529.google.com with SMTP id 27so9287742pgy.3
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 19:19:25 -0700 (PDT)
+ id 1lpLxD-0001gO-3u
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 22:22:33 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ m13-20020a17090b068db02901656cc93a75so8439799pjz.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 19:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YbevpYdZY/gCcPsEQXvJLBVaZ25kgXVXhCedwdEsmb8=;
- b=VtGrweiFUnMqPnkV8YQ44tN8u+QrbVLjg3ywsa/swD8PitmU2B0I6L4HJoqXgnA1rZ
- yezdlY5U260doiui10FfDJ7yDAOBtk+a/MtiupyDnsEdzv36HBLvFIuPbtGl6xH+YSYx
- PC3yVzcqurZd63aMQmWIxI276cagBxuBsLxCXErQ3XhOBcAmTTZpzhhwXjQoZEvccpgc
- JzpiYO+WEDhbMVw8Pbp2HQZ4Qu/MJqyLADrgf/sDoLVommHO96sVvGXGlau9NOaIkENr
- OUH3IiUsB/CNeG0kPHDp0IS9N7PmYyON3FHd4EvGrx8cLjn8C1znLECQY6lKHt8zPcpq
- AB5A==
+ bh=n+5rtVGtMSoon0Yri20dzis+2zLVd4SJGR9BVhMsug4=;
+ b=vGBN1DEcnAhl4Kj7g5nv9glgarXTeUknxqRJhwZR8j/VtE8F5rNClZX9Ivj/o4vTcm
+ Il9x0KAxKOe8yYU1WGcIPyJi0p8+OGXn+Zqr2cLK9p50A0Y9IN/9gntxRYOYeuymuOBK
+ 13lxqsV2J20694txXE95OBoOyBPpzjVlj61XdMhOsfCeZp4c5vNPPGNPthmYgKj+aMxZ
+ D+WUE8Wg37D5fqexHxvGsB5XKm30svCFSeXFUvM49Pe28mI+MdsMPHolafouchXzLIyH
+ KC/BJmzkMVcUVKUzPFdljo+Dt7oP2DlXN1bqWWV9+HN7F4dHVqwowRY5NMPGkam1Yk1T
+ MgVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YbevpYdZY/gCcPsEQXvJLBVaZ25kgXVXhCedwdEsmb8=;
- b=Fd6M0K90Xw/7kZt2fu0bejZfC4wxY1Rx0xYFTtfWNwDveUXxoXBEiHmd3dlx3qr8Q3
- PZDuykfiwf99puwg3IinkOLr4jFBiGcy2m6Oa08p/SubNOKpzI6eTUH3scGdTRS9YED1
- QrOZxLYDLk6uLZY8zO7+oOfKtZ8nmHNGN1TdY5PhuNwngHFUb0hyLoO3mLl9JCwJSP5x
- ix/PygCfFEnyDu2QBvX9dbFgUe/Us7numt3fVbeWav1ovu1AMxDo8XTrhYS9lKp0oTv2
- V6xE8zjFtmUNx1qTjAYuBAGhLbQrduAkGURyqoXkBZS8/KIpwWG8GaO40GOb7pB8FTKF
- Y86w==
-X-Gm-Message-State: AOAM53141ED16OIPGXO7QY7Zj7UgEJrQWbDZKvRTaElCAN/2gTNSXSeH
- UIHxBcyTaUrwIps2TGW/v7weCA==
-X-Google-Smtp-Source: ABdhPJzN7c8UbbRu6gkz8m3lknml6Sw85uiikqGgFAeLxZ0pDGon/sW91rUPg+CWduZmQPfEWLA0tA==
-X-Received: by 2002:aa7:8392:0:b029:2db:4a7:d866 with SMTP id
- u18-20020aa783920000b02902db04a7d866mr7381853pfm.66.1622859564187; 
- Fri, 04 Jun 2021 19:19:24 -0700 (PDT)
+ bh=n+5rtVGtMSoon0Yri20dzis+2zLVd4SJGR9BVhMsug4=;
+ b=s7Q5AwUgUowUbkxdtH7sCEmBLe/y5qd8q+Lce6kabTtKKy8QASVJaTIJ5RbwG1UJUM
+ s7VBCAeF1ShZQxXJ1sFaXzTex9MN9y92nkakZs6IArr7lDGITdi6R8iOzOg3+gbnj4EN
+ x3rd+Buk7fpMkbEK9swKQe9ErHxgR3XB61OGJZhZ4HUF6ZB3dmde7bibrhmzSkBEZCG2
+ eQN/lF2AIe/ofllrBvrC+O+Wg6iHXDHber+V+Pr1Lt6FurYrl/RO8d5LFMfny7/JBWXV
+ JqlJd9m9gD51YZE3FqKmqgpk3qeYhzDbHk1uuZs3RW3+krFbNtG1JYHyizp5Dvl6RKQB
+ PE8A==
+X-Gm-Message-State: AOAM5305jFkEyNG+Mk6QNlUAhbOoo32IgQvcmExDFj5hB/dV+Sz2B3Sq
+ LYyMQ2KlfLIFjBU18/sWusP+tQ==
+X-Google-Smtp-Source: ABdhPJxeW31AWiomQ9Gd1XBIKMY2ozbp9Kea3dTfEJB9z23Lp933H+pl+hnSlWqCeIwOx6rgjR8z9A==
+X-Received: by 2002:a17:902:9a45:b029:101:81d0:c5a3 with SMTP id
+ x5-20020a1709029a45b029010181d0c5a3mr7212479plv.52.1622859745641; 
+ Fri, 04 Jun 2021 19:22:25 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- i21sm2712317pfd.219.2021.06.04.19.19.23
+ a25sm2749939pff.54.2021.06.04.19.22.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 19:19:23 -0700 (PDT)
-Subject: Re: [PATCH v16 51/99] target/arm: move exception code out of
- tcg/helper.c
+ Fri, 04 Jun 2021 19:22:25 -0700 (PDT)
+Subject: Re: [PATCH v16 52/99] target/arm: rename handle_semihosting to
+ tcg_handle_semihosting
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-52-alex.bennee@linaro.org>
+ <20210604155312.15902-53-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8a3aa04e-917b-cfb2-124f-10a23062e81c@linaro.org>
-Date: Fri, 4 Jun 2021 19:19:21 -0700
+Message-ID: <4dcc5f77-e010-363a-367c-59effb15d4fd@linaro.org>
+Date: Fri, 4 Jun 2021 19:22:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-52-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-53-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
 X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,34 +100,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 6/4/21 8:52 AM, Alex Bennée wrote:
 > From: Claudio Fontana<cfontana@suse.de>
 > 
-> cpu-sysemu.c:
-> 
-> we need this sysemu code for KVM too, so we move the code to
-> cpu-sysemu.c so we can reach a builable state.
-> 
-> There will be further split later on in dedicated
-> exception modules for 32 and 64bit, after we make more
-> necessary changes to be able to split TARGET_AARCH64-only code.
-> 
-> tcg/sysemu/tcg-cpu.c:
-> 
-> the TCG-specific code we put in tcg/sysemu/, in preparation
-> for the addition of the tcg-cpu accel-cpu ARM subclass.
+> make it clearer from the name that this is a tcg-only function.
 > 
 > Signed-off-by: Claudio Fontana<cfontana@suse.de>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   target/arm/tcg/tcg-cpu.h          |  31 ++
->   target/arm/cpu-sysemu.c           | 670 +++++++++++++++++++++++++++
->   target/arm/tcg/helper.c           | 734 ------------------------------
->   target/arm/tcg/sysemu/tcg-cpu.c   |  73 +++
->   target/arm/tcg/sysemu/meson.build |   1 +
->   5 files changed, 775 insertions(+), 734 deletions(-)
->   create mode 100644 target/arm/tcg/tcg-cpu.h
->   create mode 100644 target/arm/tcg/sysemu/tcg-cpu.c
+>   target/arm/tcg/tcg-cpu.h        | 2 +-
+>   target/arm/cpu-sysemu.c         | 2 +-
+>   target/arm/tcg/sysemu/tcg-cpu.c | 2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
