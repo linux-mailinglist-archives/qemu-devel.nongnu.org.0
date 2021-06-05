@@ -2,70 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A880539C82B
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 14:34:41 +0200 (CEST)
-Received: from localhost ([::1]:37504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA86C39C8CB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 15:23:57 +0200 (CEST)
+Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpVVf-0004WL-V2
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 08:34:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1lpWHM-00007a-Dd
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 09:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lpVU2-0003BK-Qw
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 08:32:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44057)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lpWGI-0007mQ-1o; Sat, 05 Jun 2021 09:22:50 -0400
+Received: from mail-eopbgr10132.outbound.protection.outlook.com
+ ([40.107.1.132]:45776 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lpVTy-0006lB-Ku
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 08:32:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1622896374;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t7RhKwuiQCmztjvYtfuTqLMQ5n48THL/aL9f+dwUDl0=;
- b=F70NWTiAPulggJBLDYKuLqxdMGMwAXvNa1aoOGTK0Hue0d7vSMR+cXE3jBawE2E9saWfyo
- nrvYrydlbaF8LoRBZ82ydkgJG/PrmKqmD61Sd1kXRbH19gQsgC/VuBmBgzAZqqf4oAgzoY
- 8l5Je4mKrLZKxKR/4wA8wmNyx2/moBo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-iBPaOqfcOEyVz9B-xiFRlw-1; Sat, 05 Jun 2021 08:32:50 -0400
-X-MC-Unique: iBPaOqfcOEyVz9B-xiFRlw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A334D803625;
- Sat,  5 Jun 2021 12:32:49 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE51A19C79;
- Sat,  5 Jun 2021 12:32:39 +0000 (UTC)
-Date: Sat, 5 Jun 2021 14:32:38 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Wang Xingang <wangxingang5@huawei.com>
-Subject: Re: [PATCH v4 0/8] IOMMU: Add support for IOMMU Bypass Feature
-Message-ID: <20210605143238.2e52b08a@redhat.com>
-In-Reply-To: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
-References: <1621914605-14724-1-git-send-email-wangxingang5@huawei.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lpWGF-0003sY-8l; Sat, 05 Jun 2021 09:22:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z/KyaUoH6Ev98jHOtUYqffSKRFB1mquTFaz26UFZiLLEdhHkerQ5rfLV3PchOl3Fc7pIDdH+EQwf+ptfiyYuYrrLkKVNu8PudZW1+q47Tl1fmgbhlySR9708z0Kb6uwBPs7MaHaTQLx60tJjU0r8kL9y343SdTXzqdPbaVnsLlnlpoVrskzZSmUpvjJf+y5xRZuZX9SOK0KkzMesbSXD9dxNMSGYDTmcActhPy0eZ8UAWL3xBrPJ98AdJFGZ/qm//KgZnfVt50aMBXUek3RwWMb2TXWyN8A7DFpYLLEGKG9VNTsj91VTMCRRdpqB+u3GxnWwlWm/PM26BmmHh9bX1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mWhiff84Q7bnC6jB6qgGubX5F4BmYKsBu9j4SAd6rfo=;
+ b=X+ZTQPvO8AEpj3nqFMuAQEi4NMjBeU194IzCFNrOJwUdoJbThxaX/6Kiu2B2x5BQm9FWcKD/wvn9J6SchuDgELaOWoUIwDQhzlQjFSUCDMiznaGNJQJBP2lvDwtCCZi/qVE8IZ9xA37a6cxvGT8xksWVWNxbKDC+SkTe1WF2+Uxo8uAHVKREsXsFd/RtrBKVBOG7zsiicgqhaG+benUuj7y3XxRYRq+D1sa9eszCEwFZtiVmwlUTvqexw3/tFTIRhKdpaxgrMqZSRVtICn498lnALy4VcNW0QPq6bbnOI9tEfLDEzzh+EZIEFdZwat4HZjhWRpFfjTZGhwrsfa88zQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mWhiff84Q7bnC6jB6qgGubX5F4BmYKsBu9j4SAd6rfo=;
+ b=lzowkStsdMQwfzfVwUSyq6pzIr8OlPoWa0PuwM858MBFz8M2P+kejmWYTCwRNYitTBiFaRfMabbsRE3bjmneqg/QmUZf5vzc9Ix1Fqjyy/f+RvDCDXBO4xv8D9j0aKc7V7WZZ+aY+a3sGGwGGuJwNmrRCBQ22bXDhmPqzMRzZng=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2450.eurprd08.prod.outlook.com (2603:10a6:203:a0::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Sat, 5 Jun
+ 2021 13:22:42 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.029; Sat, 5 Jun 2021
+ 13:22:42 +0000
+Subject: Re: [PATCH v5 09/16] docs/devel/testing: add --gdb option to the
+ debugging section of QEMU iotests
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210604091723.13419-1-eesposit@redhat.com>
+ <20210604091723.13419-10-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <2117203d-f7f3-a72b-5da1-f093b994fb09@virtuozzo.com>
+Date: Sat, 5 Jun 2021 16:22:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210604091723.13419-10-eesposit@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Originating-IP: [185.215.60.208]
+X-ClientProxiedBy: PR3PR09CA0010.eurprd09.prod.outlook.com
+ (2603:10a6:102:b7::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.208) by
+ PR3PR09CA0010.eurprd09.prod.outlook.com (2603:10a6:102:b7::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4195.20 via Frontend Transport; Sat, 5 Jun 2021 13:22:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6c0fa1fc-519a-4170-4de1-08d92824ffd5
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2450:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB2450B2FD062293A6D17D3416C13A9@AM5PR0802MB2450.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 62QAsD5BClfQZS59s8RVcFCgpT35FQ+UOLPSN+9tJ8Uz4eIZCcS59U70Ibpjb2Ifh95H7Z/7KBsAd5I/3DIbQaAyyyOS6XFMdcA2iMKmVNU14FKJ24GNnE0qY/xTF47sT6nfEDCrGvmc72I2UT9gUgcITLfIENQZgaZ6YbT4Bj6xiTOfnzKNwxyju+b74ZGdylmxs4IYBMVwaQdGcmETAs4AamUek5z0Aq55yraPQxc5XIxmWrGQXadQsy6fY3lBzNBxpG7B7bywfTzJDmuMWwsgMt27N8CmrqpUtKaIpTIDeWjuE4gg8FxfbHGuwq6DAqo17V0c8EnoG4Fvb1aEt7KJ8FUWlF9/8EmrA9zhn1y8GksfTuuvWF5fh1qyld0nU01nwucLYSuLrMS3Wt4lVfE5roUfqukTsFXI8YaliNR99PyzLsrz4OQgCCLeCgfiWp3tE2dsyHKwaH/P545SWQKOH2nve2QNX4cnjuNdDzna1BbJvT8QfJZy/4Kh/SSx85K2La6/kUkipYGDUV0uSytUUkULaemn+eXpQTOF7eBgRzsvXWq/SFFraMPy+UW+sbcf+uSs68Q7JBEYevcohLflwLjj7xo+JZ9sSzI2h9iK781nmMfJkMl7x5Oi3NVMowZ4OzDMLz6q0g0HSIpHSbkQB2c+JmRju9FmHx8HPYf6H1reD1t93C4cjthw4XcYsnhZ8C6H7OrwN3T0ayWEethZIs3xPh6UfYIJAgm9gIs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(396003)(366004)(39830400003)(136003)(52116002)(36756003)(316002)(31696002)(26005)(2616005)(4326008)(2906002)(956004)(16576012)(186003)(16526019)(54906003)(5660300002)(31686004)(38100700002)(8936002)(86362001)(38350700002)(478600001)(66556008)(6486002)(66476007)(66946007)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?U1MxQTBPcHIzcXg1dDhoUGRFLzhpNVJvMWFEQUNEY0hjbFVpL245VXNRdDN6?=
+ =?utf-8?B?VThzZkNEVUh4Y3JoQTFuSFFYaW5qdjZHQWZ5cnp3ekdyRVUvaDdYQXM5SXQ2?=
+ =?utf-8?B?Nml6MFlIU3FBTXBVcjVEanIzSzBHRll3Yjhtemc0MCtvbTJIZTQ5dUE2ditk?=
+ =?utf-8?B?azJPSW51ZUozMGpwM1oydFBkd2RvOWJReUJLMVc0bVNacDg5UmV1TWdpNnh0?=
+ =?utf-8?B?OVlzSVZmVkJ1RXJVbzdkYVhmcE1xMmsrcm9raitEeVZTS0hyWXVlSzF4QmZD?=
+ =?utf-8?B?ZGFiTWdMMm4wc1hLT081THZzNnYybjd2Y00raHBYclR0NmxPcElTK3RFd0Z2?=
+ =?utf-8?B?Ly9FWDJSOUI3eDZ6bVU4M3pHbkw5aDl2Nk5iR1NJaDNjclRiU0RSdTg2OVhD?=
+ =?utf-8?B?TGViYm1wdUFqYjE3RUQ3VTVwZGZCRU1qcmFBSkNRUDk2MUE0RDFWRVd0L2h1?=
+ =?utf-8?B?VkxHUkp2UnpvNW45NmtLeURRVHFFemNpb1dvSHZ6eEFuM1RTTHk5UmpnVFNl?=
+ =?utf-8?B?anJDcnArUldWdDdLeWlaR1kyY1l6Sm5hTFF2WXkwVXNQUWxZNStBbXcrTGMr?=
+ =?utf-8?B?R0x3bVFHY0p2dTR2UDdnVHpibTNHNWpTY1c5NUZFUU84N1JSSXRTZmRPQUw5?=
+ =?utf-8?B?WTVQajZQRzlsaUEwNGlITHlnd2hYc0ptMDJMTkVNaVBaQ2JVbzdPWlR1NVlx?=
+ =?utf-8?B?ZzNrRVRrRlVvU0hUdFhvTWM3TUl1aUFVbVhwV2pnamJlOFV2U2twaGUxdVJW?=
+ =?utf-8?B?YW9uQkoxcEhhY2JsRkJja3FpbFhhV0Z0MHlMaTZJTldlTlFDMktQQWc5MjBT?=
+ =?utf-8?B?Tko2OEhjTkNxUmZjSGxmU3BQcE1ocE9qZm14OHBiYmFWYk5ES2NDaThuNzYy?=
+ =?utf-8?B?WnVoYm16K3JUR0ZWa0twVHpKVzd5R3BZOWpHdEFVL3dGa3kvaGd0UEFlWll3?=
+ =?utf-8?B?dHpBVktQZ3FiV3phVkt1N0w1YVJOc0ZJZnpnaVNLTDFVQVNHUUg0b00wU2Vr?=
+ =?utf-8?B?QzBZMGxoci8zeHFRY25tYXk0M0tKckozZzhud21aVWEzVUdYakpMaksvY2R5?=
+ =?utf-8?B?VHJkeFJhUy9qbXNVRktrUXRUeTBSa2xzQW5qOXFPaWNyUWlvbHhVZ2o4NG1a?=
+ =?utf-8?B?SnFkMDdyOWl6MjdiVFV4d3M1aXFBLzhHVEc0Z2Zic2hVMUpPV3haQnpJd08w?=
+ =?utf-8?B?cURjRUdlUlgxODc1QUpJSkFhaDVvM3RQbUxhTW1HTk5ETEFJNVIxcVpETnd6?=
+ =?utf-8?B?eGtqd3dMN2FUWW5PQlZRS1ZWYi9rNWNDeDZmeHk2dHlObXJ5TnNXcHUyMi9C?=
+ =?utf-8?B?MmRnTTRENGVSQk10R0pXMjkvOFlZS0RsUUhTZG1ZSFY0eTF5eFluZHVyR28w?=
+ =?utf-8?B?KzlUbUhXd0JCWC9vV09zMjFLdDAxZmtSa0RRdGtyblpMcGQxUFplRVNTOFQv?=
+ =?utf-8?B?N2xHQUVOSk1XWEx2NkR0M0lsKzVnRUFrRDNXamFrWHkrbEl3WEN3SXBDb2wy?=
+ =?utf-8?B?OCsrVEl3bkVteWxiWHI0dnBxUllPcnVwdXNvUEdLZ2pxQXEzT0dNR3pKMHVm?=
+ =?utf-8?B?dzNjK2VFRHpIMFYzdTZvL2R1TzdHMWE2VEd1NzZyM0x4dVhoNjVLNWx5MEpY?=
+ =?utf-8?B?QytTb0xrN0NjNU5ZejlBWVBIR1d2eUErc00vZEEwcmtDcXZBMEQyMnlNSWZk?=
+ =?utf-8?B?bnFsc25SSGhudTZoNkRNTXB2TGpqNFhySCtMZkFKdzBCc3IyTnI5U0o0YVhs?=
+ =?utf-8?Q?jRIcZtpiwKdL2y40aSAfEJQnwSPFq7dZ2I+WbVF?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c0fa1fc-519a-4170-4de1-08d92824ffd5
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2021 13:22:42.6963 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ABz+AlygxzSKj4A24/rD/uRmdt3a2/p4MzijaAndqJbvIHCnJWK9z2RQmu4ql5zsm3AVDrxdsGC6gmI8vz2CXG3GP56vAxbZr2BI7hukWX0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2450
+Received-SPF: pass client-ip=40.107.1.132;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.373,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.59, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,82 +147,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, peter.maydell@linaro.org, ehabkost@redhat.com,
- mst@redhat.com, shannon.zhaosl@gmail.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 May 2021 03:49:57 +0000
-Wang Xingang <wangxingang5@huawei.com> wrote:
+04.06.2021 12:17, Emanuele Giuseppe Esposito wrote:
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   docs/devel/testing.rst | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+> 
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 9d6a8f8636..11a0359218 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -229,6 +229,17 @@ Debugging a test case
+>   The following options to the ``check`` script can be useful when debugging
+>   a failing test:
+>   
+> +* ``--gdb`` wraps every QEMU invocation in a ``gdbserver``, which waits for a
+> +  connection from a gdb client.  The options given to ``gdbserver`` (e.g. the
+> +  address on which to listen for connections) are taken from the ``$GDB_OPTIONS``
+> +  environment variable.  By default (if ``$GDB_OPTIONS`` is empty), it listens on
+> +  ``localhost:12345``.
+> +  It is possible to connect to it for example with
+> +  ``gdb -iex "target remote $addr"``, where ``$addr`` is the address
+> +  ``gdbserver`` listens on.
+> +  If the ``-gdb`` option is not used, ``$GDB_OPTIONS`` is ignored,
 
-> From: Xingang Wang <wangxingang5@huawei.com>
-> 
-> These patches add support for configure bypass_iommu on/off for
-> pci root bus, including primary bus and pxb root bus. At present,
-> all root bus will go through iommu when iommu is configured,
-> which is not flexible, because in many situations the need for using
-> iommu and bypass iommu aften exists at the same time.
+Then, --gdb here too
 
-'many situations' doesn't describe why bypass is needed,
-can you provide a use-cases here and what are security implications
-when bypass is allowed.
-(PS: the later probably should be documented somewhere in the docs/option description)
- 
-> So this add option to enable/disable bypass_iommu for primary bus
-> and pxb root bus. The bypass_iommu property is set to false default,
-> meaning that devcies will go through iommu if no explicit configuration
-> is added. When bypass_iommu is enabled for the root bus, devices
-> attached to it will bypass iommu, otherwise devices will go through
-> iommu.
-> 
-> This feature can be used in this manner:
-> arm: -machine virt,iommu=smmuv3,bypass_iommu=true
-> x86: -machine q35,bypass_iommu=true
-> pxb: -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,bypass_iommu=true 
-> 
-> History:
-> 
-> v3 -> v4:
-> - simplify the logic in building the IORT idmap
-> 
-> v2 -> v3:
-> - rebase on top of v6.0.0-rc4
-> - Took into account Eric's comments, replace with a bypass_iommu
->   proerty 
-> - When building the IORT idmap, cover the whole RID space
-> 
-> v1 -> v2:
-> - rebase on top of v6.0.0-rc0
-> - Fix some issues
-> - Took into account Eric's comments, and remove the PCI_BUS_IOMMU flag,
->   replace it with a property in PCIHostState.
-> - Add support for x86 iommu option
-> 
-> Xingang Wang (8):
->   hw/pci/pci_host: Allow bypass iommu for pci host
->   hw/pxb: Add a bypass iommu property
->   hw/arm/virt: Add a machine option to bypass iommu for primary bus
->   hw/i386: Add a pc machine option to bypass iommu for primary bus
->   hw/pci: Add pci_bus_range to get bus number range
->   hw/arm/virt-acpi-build: Add explicit IORT idmap for smmuv3 node
->   hw/i386/acpi-build: Add explicit scope in DMAR table
->   hw/i386/acpi-build: Add bypass_iommu check when building IVRS table
-> 
->  hw/arm/virt-acpi-build.c            | 135 ++++++++++++++++++++++++----
->  hw/arm/virt.c                       |  26 ++++++
->  hw/i386/acpi-build.c                |  70 ++++++++++++++-
->  hw/i386/pc.c                        |  18 ++++
->  hw/pci-bridge/pci_expander_bridge.c |   3 +
->  hw/pci-host/q35.c                   |   1 +
->  hw/pci/pci.c                        |  33 ++++++-
->  hw/pci/pci_host.c                   |   2 +
->  include/hw/arm/virt.h               |   1 +
->  include/hw/i386/pc.h                |   1 +
->  include/hw/pci/pci.h                |   2 +
->  include/hw/pci/pci_host.h           |   1 +
->  12 files changed, 270 insertions(+), 23 deletions(-)
+> +  regardless on whether it is set or not.
+> +
+>   * ``-d`` (debug) just increases the logging verbosity, showing
+>     for example the QMP commands and answers.
+>   
 > 
 
+
+-- 
+Best regards,
+Vladimir
 
