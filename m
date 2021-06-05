@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CDE539CAB9
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:24:45 +0200 (CEST)
-Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0548939CABB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:27:56 +0200 (CEST)
+Received: from localhost ([::1]:34478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpbuW-00033y-Gd
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:24:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44224)
+	id 1lpbxb-0004vC-2u
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbtR-0002CV-UA; Sat, 05 Jun 2021 15:23:37 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:58457)
+ id 1lpbwr-00045R-FD; Sat, 05 Jun 2021 15:27:09 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:55803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbtO-0004OA-B8; Sat, 05 Jun 2021 15:23:37 -0400
+ id 1lpbwp-0006ka-Jz; Sat, 05 Jun 2021 15:27:09 -0400
 Received: from [192.168.100.1] ([82.142.12.38]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M7s1M-1lkfwJ0lQA-0051mu; Sat, 05 Jun 2021 21:23:29 +0200
-Subject: Re: [PATCH] target/hppa: Remove unused 'memory.h' header
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MAwTn-1leMSd2293-00BKXA; Sat, 05 Jun 2021 21:26:54 +0200
+Subject: Re: [PATCH] memory: Display MemoryRegion name in read/write ops trace
+ events
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20210517101558.1040191-1-f4bug@amsat.org>
+References: <20210307074833.143106-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <cf677039-ff7c-2da0-b4af-dbaf8c5b6302@vivier.eu>
-Date: Sat, 5 Jun 2021 21:23:28 +0200
+Message-ID: <a485b223-9d6b-eb88-1c42-c47209d64b1d@vivier.eu>
+Date: Sat, 5 Jun 2021 21:26:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210517101558.1040191-1-f4bug@amsat.org>
+In-Reply-To: <20210307074833.143106-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oVh+O0s4JgacQDghyq7W7X1vhrBWokt35uZ9zyyJ/F7mb7aWuuM
- wTGNM6ObeCV8f+MDl+t98bzaHK59ctE9vt5GDCo4DrtSoZWcR586+wU4c2N+oFBt6j5VU9J
- eUWf/XmmxY9vn3kskpw4rTtTbAED8SK9XArY6EU3kQtwC8ex2THvQsaehwImii12EWCYS96
- mf92x103HYJtH0CkhLQWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1PNApR4T2Nw=:c9Wd+6mVIuNtfSxZNZVNJO
- pttbJpvsk4ZC+IeX1T08T8rz/NqZ0VqhyGpb9WWS1YXhmqHBXjZutb2qExpiPbnuR+SvvWd4N
- ZD7MDVU4kLXyHlQdnVHr4BJ4uRu5BMTL1U75/BhgjW9H7NWBIHhhAfmtiJASg9N9Ij4hZuAIe
- eLjeOg5kRbYumBODEoUouXe/8oGoaGsFFCHEgmXulQVKEFLqrsgeC3lmVnXZqD+E+80dD9ZL8
- w0yhJnCDuOMkt/EQUJP8rI6QX7mDf9aweDPmU3++te7kWV0kyND6VWrIdZkOsfk7cQr4rn+VW
- oFeEQVZYcCK4nHvRfMFx83fXZWMgUsdl6SVcsc51QSDD1O7BBTeqt2npf/x6eI15XU0XFmqfp
- LJ7GOVkEpSAPK5j/wHFUxyR5yNL3l0oo6j44ZEOs+1mZNLEpSKItyQcqXZjbg+tR7jJYOQXRn
- ZENjH4k1dtB99o5iY680Mc8peyWm9CN2r0mGbXzljvm8KNGfARfaJnZmKKnjTSSKRZEVWgALL
- sHvKBa47oIHtckGUVRpiko=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nGNZ/n1YkRlsvBmxQT3belgKcuqEU9ghXeXF14XR4WC/CvYWMUI
+ 3/7w/Qk2Wtk8lcDnvWXxwl036ViYi2J4ptL976aRDN6dgc/3vPSiTBA3q7dloQNYEUuoOo9
+ ODzCJ/Ac6c9swm8wenXkifS//pLXSjRP1XBrP1+ceV728OWyw+Sl+YL3Bm3B4EGZXhED17A
+ YH96KY+SqDLA2fl412meg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eOUy4Q2W/Ng=:tOeZVRI/pjOuP9g0V/gPy1
+ lzOCDvICD8/XxJXLBVPRJO3mf90lQuSYWvMBglZN42TWraBvBMX2wy43+GPCcNzp4/kYigu59
+ GE/BqkNMnGm75qPi5jqwymLFiiJE3zKTjDzyaIenPlD+kjPMH9VU1J5esli5gLO8mfP2pMqCr
+ 7NtAOk1haYT0pn3UoFYOFXTLZVbc74Aft+RP1DwbzI4nqbjdzPdfmcnpnWcbplz5zetktCQn/
+ BlqDBWOdivVSPQgCjGpsSPoXcvaxRMurcATf2v2lp+po/2tViH75EMilcBus+0oBEyUXeogsK
+ o19RAGh+Oxks4lj4wKxYd3N/mZTlkUrLjdBI+AS2mjsGHOJsW8pL6AFBvW0N5wB1kB+C1edV3
+ h+1YNrHzgsFS6lTIpFGO0jXQnjYfKm7okMtaNNcqOEUCqk9QCWCag9xyHVvozRap2BlmMsUFa
+ Oy/kJLRZu4QqnXAkQGybo3NwddaJLTTGoUCnwKZjMLMW6hWZarcCI5Wq2uJiD1rUzNChlAtuw
+ HFDFIEDLUSl4Z48ngldSo4=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.59,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,33 +68,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/05/2021 à 12:15, Philippe Mathieu-Daudé a écrit :
+Le 07/03/2021 à 08:48, Philippe Mathieu-Daudé a écrit :
+> MemoryRegion names is cached on first call to memory_region_name(),
+> so displaying the name is trace events is cheap. Add it for read /
+> write ops.
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/hppa/cpu.h | 1 -
->  1 file changed, 1 deletion(-)
+>  softmmu/memory.c     | 12 ++++++++----
+>  softmmu/trace-events |  4 ++--
+>  2 files changed, 10 insertions(+), 6 deletions(-)
 > 
-> diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
-> index 61178fa6a2a..748270bfa31 100644
-> --- a/target/hppa/cpu.h
-> +++ b/target/hppa/cpu.h
-> @@ -22,7 +22,6 @@
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 874a8fccdee..d4d9ab8828e 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -444,7 +444,8 @@ static MemTxResult  memory_region_read_accessor(MemoryRegion *mr,
+>          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
+>      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
+>          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+> -        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
+> +        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size,
+> +                                     memory_region_name(mr));
+>      }
+>      memory_region_shift_read_access(value, shift, mask, tmp);
+>      return MEMTX_OK;
+> @@ -466,7 +467,8 @@ static MemTxResult memory_region_read_with_attrs_accessor(MemoryRegion *mr,
+>          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
+>      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
+>          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+> -        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
+> +        trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size,
+> +                                     memory_region_name(mr));
+>      }
+>      memory_region_shift_read_access(value, shift, mask, tmp);
+>      return r;
+> @@ -486,7 +488,8 @@ static MemTxResult memory_region_write_accessor(MemoryRegion *mr,
+>          trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp, size);
+>      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_WRITE)) {
+>          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+> -        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
+> +        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size,
+> +                                      memory_region_name(mr));
+>      }
+>      mr->ops->write(mr->opaque, addr, tmp, size);
+>      return MEMTX_OK;
+> @@ -506,7 +509,8 @@ static MemTxResult memory_region_write_with_attrs_accessor(MemoryRegion *mr,
+>          trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp, size);
+>      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_WRITE)) {
+>          hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
+> -        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
+> +        trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size,
+> +                                      memory_region_name(mr));
+>      }
+>      return mr->ops->write_with_attrs(mr->opaque, addr, tmp, size, attrs);
+>  }
+> diff --git a/softmmu/trace-events b/softmmu/trace-events
+> index b80ca042e1f..359fb37cc8d 100644
+> --- a/softmmu/trace-events
+> +++ b/softmmu/trace-events
+> @@ -9,8 +9,8 @@ cpu_in(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
+>  cpu_out(unsigned int addr, char size, unsigned int val) "addr 0x%x(%c) value %u"
 >  
->  #include "cpu-qom.h"
->  #include "exec/cpu-defs.h"
-> -#include "exec/memory.h"
->  
->  /* PA-RISC 1.x processors have a strong memory model.  */
->  /* ??? While we do not yet implement PA-RISC 2.0, those processors have
+>  # memory.c
+> -memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+> -memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+> +memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
+> +memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
+>  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
 > 
 
-Applied to my trivial-patches branch.
-
-Thanks,
-Laurent
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
