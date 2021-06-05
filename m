@@ -2,81 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C7039C9F7
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 18:55:40 +0200 (CEST)
-Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43F839CA3A
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 19:35:31 +0200 (CEST)
+Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpZaF-0001ro-4i
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 12:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51842)
+	id 1lpaCo-0005IA-7v
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 13:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpZZJ-0000w8-RO
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 12:54:41 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpZZH-0002VU-H2
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 12:54:41 -0400
-Received: by mail-pg1-x531.google.com with SMTP id 27so10387598pgy.3
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 09:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZO+DyZ1fUy+kvlyAg/MjXMo6ajXXE+n+Yb2OEz6f7nc=;
- b=vMY34mpuXRs68p1nxehZQpprEc0HXkHOpSHTzgrwHog0HkABXHukqJwgrqi+BGqOKQ
- eiEEpwdByoEfBFQ12mWqJSZC6l9I21yuaAB3L8qeWWqzwD/Sdv1lNjcehhgqy3pJWC2+
- EkfqbpzQ2HuYmRHq2Mgx0/qeCOazHG2UjsnipfD5IkSUyGM+uVFYoG/7pPt5utpPf8eZ
- FZmfsoDVE8xgC4ra3Dyi2g068tFv5H+CA0dqzMbYGtYCWs0oFX8oKmduf2TN/u76dl+6
- W/Q9qaOsqvJfZk2ttEJzO7n0m1Z/mxU+MUN3D6Lr380Ca+alluJ6HGHvp9VbffPzNIdI
- BoIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZO+DyZ1fUy+kvlyAg/MjXMo6ajXXE+n+Yb2OEz6f7nc=;
- b=AJ2Quk69U5pNeAaA5ae+EgMmLBlxsep+N3QvTi1ZmVYkF3ZrqZWTXB8UazCyjKbT+m
- ArILW+4DH5luxNgrhRm2fDs6FeRW2Tqe1eT57dtwb4W8R70YVUWoToXIZHCY74Bdl4BH
- Fv5/wskWEQKlRPcqcSMmuZJ6zer33u/i3chkrseQRHlc1zCTOHXSzYB6gtjLv5X23z7e
- x2LZzKng000YoJLx1GLDib1gyabEgvfYgMtwGKOyxvevgFS5LaSYuq6ree9UiaF0MHPY
- SlqFeMDdctGY8A0zDWz6TtBBdsy0nZyaG1a32c0ro/yt4YzWWvOh+nJMTjIiz8Z98eIi
- KoKA==
-X-Gm-Message-State: AOAM531rDZPMJIoZbVYXsMjTKIRNLytlzDinxYNNAafdHbXKyF96po2v
- LOegy15n6Kt8NUYUyem0kaADvQ==
-X-Google-Smtp-Source: ABdhPJz8BP3o1RjtwcF9OL1mG7c2/1PDTArAAE/KXp7tmRfo5Ob3Jt+d4b+FGj89EGi8HqRf/+ZAfw==
-X-Received: by 2002:a63:5052:: with SMTP id q18mr10438460pgl.349.1622912077894; 
- Sat, 05 Jun 2021 09:54:37 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- u21sm4471193pfh.163.2021.06.05.09.54.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 09:54:37 -0700 (PDT)
-Subject: Re: [PATCH v16 69/99] target/arm: add tcg cpu accel class
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-70-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <17f14974-a922-dcda-4eb4-8754bf1fd45c@linaro.org>
-Date: Sat, 5 Jun 2021 09:54:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-70-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1lpaC1-0004ZR-80
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 13:34:41 -0400
+Received: from mail-co1nam11on2042.outbound.protection.outlook.com
+ ([40.107.220.42]:11360 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gdawar@xilinx.com>) id 1lpaBy-0007hF-SB
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 13:34:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jLESsMzPEXL2OU41SGUdxa0YehqILKUPJQb7JuogZp+ooAwe15K98PQjHocDRClnaXCmKZZSRDrDBn/EruyrEtwkA2Z73dASl8IxQlidwCn35LxTeLBgX8TQK42tR1TfXwxpO3bjADjQH2pXW8VSYaR3hUVYuvmtPgbD1vEvFZGOPn82klhLh0KKIeKBMjGkjI5exRDsvEsUktKw5QoVYYC7hUCnfOMUgsMfNH9LznSZOk+erqG4f1y/Y9YuNH5HjrKjCctYxFPxPxZ8XYLhRfysdsbAEfPg8v9oWo/GNQrb1ItNxKbHe5W7538XVtuqgADBUyVxfwyKTgZuojCqwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dUY2EpUOJN00SNvE9pLEz+CLdXulmC3um+rtz7Q1bH4=;
+ b=ESRU6ShetW9nFuxnJn9v6FQ8C/uFsng0Jbfticipa29oDMRxDObxcTsVAgfrO2ZqbPRwtwsN7j6RH+f5bSaT6Vv8J22fNI+8vcxdsuqfjF8fvnVxbVo6q+WCzWdGnYH/qPczgyZegzIiKOzYjZWiPfCIbQ0A4ycDkzRrXB10zy8XkGJLIJ9FbzG7GnDIkJlUH6vUSxUSAnl4Jo41hoMm5P28AyHhiApR26QntTAKHX/h2UfqADeys/tmho2jf0IDRcR6r1anYws9k1jm2zPJu0frYiBvse0GSXnUgz7K8IiNhqNMNaD4TOgxTYRrdoR691qbTTCM6eBqCwTEp6NejA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dUY2EpUOJN00SNvE9pLEz+CLdXulmC3um+rtz7Q1bH4=;
+ b=Fk6+n5o5YZglzo3kDOQBro736hUkoWa38svEo27phXijPK2Lx7Wxdo2kjiuOTxF+xzqCtnUCZyvpIyXQ/51grgGcA3njn4Kqjl6ghK30Leaz82KNmgUJCsTPb7lkOVqOKU4fDyYWaBciYVdZMMr7+wHwIOaPRDulOdOImc5okko=
+Received: from BY5PR02MB6980.namprd02.prod.outlook.com (2603:10b6:a03:235::19)
+ by BY5PR02MB6068.namprd02.prod.outlook.com (2603:10b6:a03:1fe::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Sat, 5 Jun
+ 2021 17:19:34 +0000
+Received: from BY5PR02MB6980.namprd02.prod.outlook.com
+ ([fe80::2196:718c:a639:be1e]) by BY5PR02MB6980.namprd02.prod.outlook.com
+ ([fe80::2196:718c:a639:be1e%4]) with mapi id 15.20.4195.029; Sat, 5 Jun 2021
+ 17:19:33 +0000
+From: Gautam Dawar <gdawar@xilinx.com>
+To: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 2/2] vhost-vdpa: remove the unused
+ vhost_vdpa_get_acked_features()
+Thread-Topic: [PATCH 2/2] vhost-vdpa: remove the unused
+ vhost_vdpa_get_acked_features()
+Thread-Index: AQHXV1/P1cJhWdYjeEWNFro8/RD916sFrpTA
+Date: Sat, 5 Jun 2021 17:19:33 +0000
+Message-ID: <BY5PR02MB6980AA337402F4FBD3F14301B13A9@BY5PR02MB6980.namprd02.prod.outlook.com>
+References: <20210602033127.40149-1-jasowang@redhat.com>
+ <20210602033127.40149-2-jasowang@redhat.com>
+In-Reply-To: <20210602033127.40149-2-jasowang@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [122.176.224.118]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: adf837f4-3e36-44a3-6a14-08d928461657
+x-ms-traffictypediagnostic: BY5PR02MB6068:
+x-microsoft-antispam-prvs: <BY5PR02MB60688A1F90E7B3DBE1FC9DDCB13A9@BY5PR02MB6068.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:316;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fQyt12qyMbB0mzJdDAqv19t9Z6opG7IxhrwFXF9InKvFeESAw6u2Do6VUZ2qr/+IIwdHbnlma3wnezyNeqZTVzPDdGgTPUoj6ysWaXPbxMz6ANj3Q9vTaXKB8qwf0/5OAvXAlLJIyLHPCxY4iaUxF+ZAnWoKokd165CuLDaF9CFx5ceDTk7X0802vBuYknjivYAG85LK1qx5QQgMsnuQXD9CtesK6R8/WCQAXm4KRjN3MqTMHmnx8Rklwd+hFfmHcfS2+mD2TMg5mrAzO/F845KQibsO2/VasT4iwSZ/whay8A1JveT/32fqfzz6wf4+aaa0SQI3XAV/hpaV2MyyFRlOtx6k4+7qsDoFx1jO+77WUxac6louCaUA3SWrHKR2ggil1t5bF2dr3dkc7garwMs6lwCL89RxANYBHIa7ylyGGIASn39brJbkKdAa1LMEUUMVnt+Gw5wuY69YoQcwsRC5+BhtKuB7Bf3HyTT4Q4HLtvZtBcTxaO/zHFdDfvhjWbvaKwbOCE33mbPUG6ZQUM3EbRpH9OMN6j2L7lHyzXXs9MfIUQ/2kYr+y6gLuRmaz+n8o7ELOLAfm7ahx6mveFUnSloA+HmlEbhEFjiBhcs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6980.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(346002)(366004)(396003)(39850400004)(38100700002)(5660300002)(122000001)(4326008)(7696005)(186003)(2906002)(52536014)(66446008)(316002)(64756008)(76116006)(66476007)(66946007)(8936002)(478600001)(66556008)(83380400001)(110136005)(71200400001)(26005)(55236004)(33656002)(86362001)(55016002)(6506007)(8676002)(9686003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DDJ2GCAVdkXR0JbhlcDXiWh4rV5Ydaag3zffxok7lEkN+qPJNy/eK38l/J8M?=
+ =?us-ascii?Q?qsieh38oe6UXWk/zXLB1k9TMZaYIXV8rIAFksd1eYmT3HDjNYvOd7UNaUiWb?=
+ =?us-ascii?Q?jT5LRpOkUmhZ6vg+TklsocIJ7P75zhOoKvYbHiwtvO3Ty2QKa4ybeWFxa2im?=
+ =?us-ascii?Q?7RsSRWz60W5Jn1LAEbwHvXy7FC+GcGrvIRGgUw4ab14lIOTGcQqNZ1dP7nAe?=
+ =?us-ascii?Q?p0+WhMGg/gukFRqSJMond0v0TagN2H2CSBfWiZWy/ryoLIl7ZpyYds5FilWU?=
+ =?us-ascii?Q?jfcswm83Gtrp2W2HvYU0b0ynqiTUKISjDy5jxK3wCd0wQ6x+rwLEvY9AAplz?=
+ =?us-ascii?Q?kV/42ndHBpQN1XrmQmEW8TWxUQnGNc8yIYq0cUa3wgLJp4UD1z8MpnPM0RXy?=
+ =?us-ascii?Q?AvjVAA3mUk5OroWrFtYyAZYyJROwh93as6pIlTkHdpdVWxAEJfoRGbia/27u?=
+ =?us-ascii?Q?xe3zsiQ0RneGUqMAmBOgY7aJEwAhfZpI/iWGtEr02j6NMrKjPlv4biabazik?=
+ =?us-ascii?Q?nq1G6stIULmlhSHh7D6c0gZM30FL07TYRVod8dBCYD9ab3EIIzn20kwFCGec?=
+ =?us-ascii?Q?oXNewBgLQ892QFDey086UXcnit4dMU2QwszNEcG870HdB5tb/tPOuQ7Vrqbm?=
+ =?us-ascii?Q?h+uulqFfVMltuENU7SZ1vqxb5WVhjdmg+OysrYoH/go9AQ2QBuCbPyTfvL8Z?=
+ =?us-ascii?Q?fZoKvoianLQilygSmf0j5sb/7YCFJHeZP9P7ybb50xY7k76RsD5EBepmzjtV?=
+ =?us-ascii?Q?j4dz4XSiwYA2At/1V5hGXqHHTljlmloQmRQr4rJX5D5jg0o9VxN/xsMGvk6o?=
+ =?us-ascii?Q?sYSTRRPfjqycxbpKe/FCAK2cvmAhR+9OUwTo1R5YQRDkwJgBq3tn7hQtzdo6?=
+ =?us-ascii?Q?zmQIuSTiZELLKyOpa45Ys5U0gZHK45A9vYvS3f5QsQ5UBL7/8W/kx2M8LuwF?=
+ =?us-ascii?Q?T308I5593Y9nQQ6Bw5uRSE+GbPWz2yIrhUOXmF9OvXAkQY7ZWW62c3dYcIUf?=
+ =?us-ascii?Q?KF9627yHuV2ALW0kDd1IS5BvF5l1U1sYONObIv4UEUmh/4VSQ237YRgrL8R5?=
+ =?us-ascii?Q?G5b9EznmZLHHbKXwln+C6ac7ZuIIWya1loVvLV3hSNZlNsWdkvP4qpwSUsO/?=
+ =?us-ascii?Q?jYAE+nHu087D503fxR3piqz7Va+Jp5UcrWeCawXhAPT1R5YXJKMuZVqQyPrA?=
+ =?us-ascii?Q?9jlqkKnrvBG9h4GDRDiR8Kf3q8RbDOaeBFKiBLi1GPUeJUQbVTOyBjm+wIxC?=
+ =?us-ascii?Q?xh9sF6BkKRO0g+eRRbdBlyJ3yybSCxOep7G6MXqeiEtvLnNzTWR7KNoTRX7w?=
+ =?us-ascii?Q?inNwLvp+ZGoo2xLFNy1m7ghD?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6980.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: adf837f4-3e36-44a3-6a14-08d928461657
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2021 17:19:33.5353 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gpECA1I6XcgVdya2klWmBbJer86IX0N2Clm3jC55l6N43uA9+B4JmNZrv5QBSTGqTUCyhPtwwlNOoWKY6u5h7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6068
+Received-SPF: pass client-ip=40.107.220.42; envelope-from=gdawar@xilinx.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,65 +132,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Peter Maydell <peter.maydell@linaro.org>
+Cc: "lulu@redhat.com" <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/21 8:52 AM, Alex Bennée wrote:
-> From: Claudio Fontana <cfontana@suse.de>
-> 
-> move init, realizefn and reset code into it.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   target/arm/tcg/tcg-cpu.h        |  4 ++-
->   target/arm/cpu.c                | 44 ++------------------------
->   target/arm/tcg/sysemu/tcg-cpu.c | 27 ++++++++++++++++
->   target/arm/tcg/tcg-cpu-models.c | 10 +++---
->   target/arm/tcg/tcg-cpu.c        | 55 +++++++++++++++++++++++++++++++--
->   5 files changed, 92 insertions(+), 48 deletions(-)
-> 
-> diff --git a/target/arm/tcg/tcg-cpu.h b/target/arm/tcg/tcg-cpu.h
-> index d93c6a6749..dd08587949 100644
-> --- a/target/arm/tcg/tcg-cpu.h
-> +++ b/target/arm/tcg/tcg-cpu.h
-> @@ -22,15 +22,17 @@
->   
->   #include "cpu.h"
->   #include "hw/core/tcg-cpu-ops.h"
-> +#include "hw/core/accel-cpu.h"
+No user for this helper, let's remove it.
 
-Ideally we'd have a qemu/typedef.h entry so this include isn't needed...
+[GD>>]  These patches seem unrelated to me. Do you think they should be par=
+t of one patch series?
 
->   
->   void arm_cpu_synchronize_from_tb(CPUState *cs,
->                                    const TranslationBlock *tb);
->   
-> -extern struct TCGCPUOps arm_tcg_ops;
-> +void tcg_arm_init_accel_cpu(AccelCPUClass *accel_cpu, CPUClass *cc);
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ include/net/vhost-vdpa.h | 1 -
+ net/vhost-vdpa.c         | 9 ---------
+ 2 files changed, 10 deletions(-)
 
-... simply for this declaration.
-Also, can we now remove the tcg-cpu-ops.h include?
+diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h index 45e3=
+4b7cfc..b81f9a6f2a 100644
+--- a/include/net/vhost-vdpa.h
++++ b/include/net/vhost-vdpa.h
+@@ -15,7 +15,6 @@
+ #define TYPE_VHOST_VDPA "vhost-vdpa"
+=20
+ struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc); -uint64_t =
+vhost_vdpa_get_acked_features(NetClientState *nc);
+=20
+ extern const int vdpa_feature_bits[];
+=20
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c index fe659ec9e2..8dc86332=
+a6 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -66,15 +66,6 @@ VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *=
+nc)
+     return s->vhost_net;
+ }
+=20
+-uint64_t vhost_vdpa_get_acked_features(NetClientState *nc) -{
+-    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+-    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+-    s->acked_features =3D vhost_net_get_acked_features(s->vhost_net);
+-
+-    return s->acked_features;
+-}
+-
+ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)  {
+     uint32_t device_id;
+--
+2.25.1
 
-> @@ -1467,7 +1429,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
->       cc->disas_set_info = arm_disas_set_info;
->   
->   #ifdef CONFIG_TCG
-> -    cc->tcg_ops = &arm_tcg_ops;
-> +    cc->init_accel_cpu = tcg_arm_init_accel_cpu;
->   #endif /* CONFIG_TCG */
-
-Is this already inside tcg_enabled()?  Because otherwise it looks as if this is 
-overwriting a field also used by kvm.  Whereas the code that's being replaced 
-set a field only used by tcg.
-
-KVM sets its hooks differently, via kvm_cpu_accel_register_types, so I don't 
-understand this hook at all.  But it seems like there should not be two 
-different ways to set acc->cpu_instance_init.
-
-
-r~
 
