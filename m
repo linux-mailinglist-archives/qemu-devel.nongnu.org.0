@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B3539CB7E
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 00:44:27 +0200 (CEST)
-Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D602B39CB81
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 00:49:20 +0200 (CEST)
+Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpf1m-00015S-Q6
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 18:44:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
+	id 1lpf6V-0003dt-VW
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 18:49:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpf13-0000B5-FW
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:43:41 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:43772)
+ id 1lpf57-0002Ff-0q
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:47:53 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpf12-0000OT-1S
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:43:41 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- l10-20020a17090a150ab0290162974722f2so8050628pja.2
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 15:43:39 -0700 (PDT)
+ id 1lpf54-0002sw-S9
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 18:47:52 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id r1so10827710pgk.8
+ for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 15:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1fzCTVj2OFU1+Ln2ryp4HC89w7XBy7JHTQdlAeMMRq8=;
- b=O/3/6hdBLSdUHSRsY2VIWTeX7Aafss84pEsj67mF3kDIXqqcjmqoCmsFnx0M46YDes
- gPBxOvlds+Lk/dgvzWckJs3PEZER2V+At/SKO7kFsAzMSDYdxj75eeT77RQsmO4dd21R
- JqPDql5tumZ77eaHF/Bf+bPEc67NhT2T4QfVup2sqUSwbqOvEcNCSn1ORTf7C8uYq7sU
- HGHvrD4vVeYIfWgdRcaq6aw+b/xrAbWM3gLayIdLsz2FZx+jqmkwUOvDzjf9hewmtPbK
- kwJ810fmxcTXUD1pk1aFMzBWeZMXwf3Cxpd/S3qgyZf4mPv0w88fmKlzNJltDtifPFca
- OiXA==
+ bh=r6VP0pXIEj88RVIUu2JrN1BVS4aVkNElXgnqgzu4/4M=;
+ b=n4IW5WFoEj+FqkKdlPDp9gLzTQyzGwfVRMIwj2K6OVh5DvBla/0C5/x2xcJhECHcVK
+ Cz1lgrGiqtqf5qe2f183ynSib7o1wKWoEgQh2qJbWcb2K5MBnEkLDRbXlTWAaiTRUWuC
+ fQYM5DfvDNyzdMOPHmH/1PrbfR817rlqKMQ53hsc+AHC1j5+vjuDCu+u8PIhCYtq+oSo
+ yLtwUo8egftZ4gJHh5OHcYZCUX1HPQ/xJ2Jf6oDLK8iJbaEUnbAMArWHLvdWma5ydDwQ
+ bL8xOwYpLmI3sTV41uFlVrtSlLJzkEGNiUpa6fvEYznOgs2qwvs4RHkH+PFYYlWLr7dQ
+ PuoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1fzCTVj2OFU1+Ln2ryp4HC89w7XBy7JHTQdlAeMMRq8=;
- b=EmxfndNDz25pkywzaTu85RKBhjYzyMSlNSUVr+9EZFO7Ez44F0FcPtL5WZVdl/Asfg
- yz9SZFyeAbmxrS/leUwwhB216nm9iTG0Ji2kd2yri5Ra0sUAi9fP/XxDP0yglpRB//Dx
- 1LBh0WKL3ORjFMhAwMaRxTRfH3eGbCvilmFsNRiOExYXgkeD5wqCOIZE7YdCuIo6v8Pb
- XPmoSleBrgi5RI0k9boS88mKRGc5lTb9npxwriJEmLLZRbsg7Dk5QNu3LY1bAGnhe5pd
- 8Ju1yPlOot93RXhXwd9DeyJLMJtKgwvulg2yW8kDJzSy3222c5TiubRiZtSCWjPolpiE
- j4nQ==
-X-Gm-Message-State: AOAM533bme3Wv7D+jv34gZC/NTz7fn/xkuOHjXh7jGbpyvkTI2CU9Ysf
- r3Kt2OeYlaiSQlC0zo3ELLyBHg==
-X-Google-Smtp-Source: ABdhPJwaUHXxdCZlr2j17TK6p8Q7BDbVgBl7wgnpH8+wiKVsJdI9HU7fMPO4ypEeqhOKJ4qyqk/fYg==
-X-Received: by 2002:a17:90a:7c4b:: with SMTP id
- e11mr24919323pjl.73.1622933018654; 
- Sat, 05 Jun 2021 15:43:38 -0700 (PDT)
+ bh=r6VP0pXIEj88RVIUu2JrN1BVS4aVkNElXgnqgzu4/4M=;
+ b=IjM0C0ibtwJ0muUGfUxZiR9No2yWRL2A1/cnUzBDHBj4ztUqALM3Nrev5UbvcJbw5b
+ k4U/CoNxGdKQXHu7SJBgN2pZF1jvFdb4DsBDRvYhO2G9/D1Fv1nJibsEgQLOJzvNYnjk
+ 6cq1d/yxnjGNjoWggM1p6f+vMTV2OmwP3qYP2awWgvtWZq5DIc59OnfPMfZibKIaV7fy
+ Og2pCl8QPd69JF7v8vrWZwl+JFdfwxqG289rliwXY1DSMGLu48l7wb3PnQECNoqlXcCH
+ Yqtj3/M1+LGkzSsMMSozute3apd7gvCP/LuShf2eC9o6vVnoQgHyZSldm/HxstGA/z6J
+ nniQ==
+X-Gm-Message-State: AOAM533h+eWwqLvdh2OEzyJyDXF6frsz4I1PAvpUxLS54njOnwoPiI6W
+ DPamPUV7hQa7Kr4b77IkjLh6Lw==
+X-Google-Smtp-Source: ABdhPJxt7XuMc3vDEswXNsPuY51lf96dhruj0fOOgYcDiZm91AI4f2XdRVKXvU1lbK8rkS4mJ053Cw==
+X-Received: by 2002:a63:f306:: with SMTP id l6mr11557464pgh.46.1622933268401; 
+ Sat, 05 Jun 2021 15:47:48 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- i21sm4662080pfd.219.2021.06.05.15.43.38
+ i21sm4664892pfd.219.2021.06.05.15.47.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 15:43:38 -0700 (PDT)
-Subject: Re: [PATCH v16 95/99] hw/arm: add dependency on OR_IRQ for XLNX_VERSAL
+ Sat, 05 Jun 2021 15:47:47 -0700 (PDT)
+Subject: Re: [PATCH v16 96/99] tests/qtest: split the cdrom-test into
+ arm/aarch64
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-96-alex.bennee@linaro.org>
+ <20210604155312.15902-97-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8097a8b7-d530-4199-7419-28bec27d2ae9@linaro.org>
-Date: Sat, 5 Jun 2021 15:43:37 -0700
+Message-ID: <fdb8ac5d-e6c6-0e13-e8df-f1e3e022c98d@linaro.org>
+Date: Sat, 5 Jun 2021 15:47:46 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-96-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-97-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
 X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,23 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:IDE" <qemu-block@nongnu.org>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/4/21 8:53 AM, Alex Bennée wrote:
-> We need this functionality due to:
-> 
->      /* XRAM IRQs get ORed into a single line.  */
->      object_initialize_child(OBJECT(s), "xram-irq-orgate",
->                              &s->lpd.xram.irq_orgate, TYPE_OR_IRQ);
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   hw/arm/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
+> The assumption that the qemu-system-aarch64 image can run all 32 bit
+> machines is about to be broken...
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Um, what?
+
 
 r~
+
+
+
+  and besides it's not likely this is
+> improving out coverage by much. Test the "virt" machine for both arm
+> and aarch64 as it can be used by either architecture.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   tests/qtest/cdrom-test.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+> index 5af944a5fb..1e74354624 100644
+> --- a/tests/qtest/cdrom-test.c
+> +++ b/tests/qtest/cdrom-test.c
+> @@ -220,13 +220,16 @@ int main(int argc, char **argv)
+>               "magnum", "malta", "pica61", NULL
+>           };
+>           add_cdrom_param_tests(mips64machines);
+> -    } else if (g_str_equal(arch, "arm") || g_str_equal(arch, "aarch64")) {
+> +    } else if (g_str_equal(arch, "arm")) {
+>           const char *armmachines[] = {
+>               "realview-eb", "realview-eb-mpcore", "realview-pb-a8",
+>               "realview-pbx-a9", "versatileab", "versatilepb", "vexpress-a15",
+>               "vexpress-a9", "virt", NULL
+>           };
+>           add_cdrom_param_tests(armmachines);
+> +    } else if (g_str_equal(arch, "aarch64")) {
+> +        const char *aarch64machines[] = { "virt", NULL };
+> +        add_cdrom_param_tests(aarch64machines);
+>       } else {
+>           const char *nonemachine[] = { "none", NULL };
+>           add_cdrom_param_tests(nonemachine);
+> 
+
 
