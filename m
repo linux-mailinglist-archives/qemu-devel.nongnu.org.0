@@ -2,129 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5349E39C8F8
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 16:09:46 +0200 (CEST)
-Received: from localhost ([::1]:53830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA9D39C90B
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 16:28:48 +0200 (CEST)
+Received: from localhost ([::1]:60036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpWzh-0006UB-08
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 10:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56872)
+	id 1lpXI7-000368-G5
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 10:28:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lpWyT-0005eC-VL; Sat, 05 Jun 2021 10:08:29 -0400
-Received: from mail-eopbgr60096.outbound.protection.outlook.com
- ([40.107.6.96]:61062 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1lpXHK-0002JY-77; Sat, 05 Jun 2021 10:27:58 -0400
+Received: from mail-vi1eur05on2110.outbound.protection.outlook.com
+ ([40.107.21.110]:13793 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lpWyP-0008M4-W6; Sat, 05 Jun 2021 10:08:29 -0400
+ id 1lpXHD-0004A3-M9; Sat, 05 Jun 2021 10:27:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NLGCnzcIgEC4wgb71tF2zQ21xAT8NG5/K+pSDPXYT7CX+OAg+Rny/p/uU7r6LVQSSiaRuHZLA9w/nXSD232SDuSf2iE9Im3zOcY9DR7xA/RyA3jfoXygYIrEV6zGMz2QCPzH47eY61x1dypyT/n/eDVE6ej515wnwThrN/yaDyNtB+a7xm72+/Cvbvk7WA4ZxhopyDQylo43CP8TEOCml+9FRXTP95OAVp86mnTOC4bERsFtJ+eq2+NfVqUJ9AR5bwjg2a+BVhbmVDudMqas+u0Zq8wyCzWrw7VYnlObyE5A1Dq39TrZJz9YHIw4m00tr2HYWxtejgAdgpGMQiPo9w==
+ b=elFQ6sKCyT3JNZsaiePNjvBvDFpZMRz9micKUmUwjkRpzLD989YIs4TLSz2sVN+iVE0oEZTmu5AObCLaNeR/+os3xwmGEcJMMx4/obNUAPmGcZssoH/0jPJM0EmFFd0M1dGvmHWMBU5/+2aDMbJ1RH4wxC92q0b4Pio0/ANTgI2jncIBapjq5odNMM2p0PVP1upTL4+K95/yc7hI5NOeAMWkElSgR2dAagWrGHQRqzE5szy6XoglQ+gB9TCNdqG4C6n3Ye9zZsqH3UGpp1omnbHr2Tf2K/kI2OClyHzsUc6D5wHucFQH0ALczRrAGpDvMAwXjPxgNGdfhwUjfWS3tQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CVnzKt6EdnEIktEth++qtKvkOfSAq2ANcyash4mcQ3w=;
- b=V6n3wRQoApA5O6eiHD7fOpLOPGNTzJ8RZOGz5PovGs9M3ZooXwFe3vJGyN+MrTJ+2Qwomyb9qFG8MH7uELtqsRQ7Q3SLBhiA4j+xif4lQ5xHr2N6i8NsWIq00WS10ixLGvPD9IME9KzoRqWoiqXCpDNkuxzf2uHQlDCqp9j6PelRX/Ex9DyKrYsCZ4lzegA8qh0/V8fdsN56fFmvRz+Z8WQnhhU9o8rssxnB+Fksss8TwBZ43rgbycxJ9gc21LIkJhFqVsIBjPtmxVI6OJoHdhEVZwdDGo+vj5r3JSybg6yjInL4kdly167IWZg9/z6SN+5+Bvuqt1KRfJVuzisSpg==
+ bh=Y9oBCqTLy4dsUlU25hb5/y/rlE4ARaB7JVZFeQft9+Y=;
+ b=N1LXaBshPYVu6QOQVhgl1D2918suAEZmOyoDc7yxzWr56UaG67vR0loFh2fFbVWc34H5e3uTKfIqGCD3Djb0iy9n9MsqWXIvVqpwVHzf8/KGL2cy6/i0D+o643GVa+5oSqgN8mEUQf0ee9n47lSOgJwrX5ZLqq4UOl777BeJIRclcNwMm4JRDpv7eObVLEaEfixJh/uWrb4rM1Ptjk7jq7fL4G4JfPWmuErt7QJRWwc0J3ZDm8PJ20attuF1TERGkye+bmX5YPv8CepsZCgDGbrd7E4PtqNfNdXObvyfQ/0Yi5QKXafUbs1sh5CbRXOOjs5aJ5baEl7nG4R/6dnptg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CVnzKt6EdnEIktEth++qtKvkOfSAq2ANcyash4mcQ3w=;
- b=RaAJgD9yR6hk27Wfg0L7IkLdej0+oxcJ4mmrKYn9ph3E32a/koDjVgy6qxgxVbDVZVx0+klvyfFJr3uHs6pRf/6P1vjnJkGcwgVzviurmXuiSrE1kZFyjRyZMj6MFHq7eFbMSHvG8SebGisp9Rw4koXEqsL0vVManR7V+SNbaIg=
+ bh=Y9oBCqTLy4dsUlU25hb5/y/rlE4ARaB7JVZFeQft9+Y=;
+ b=p92w/SaeT5TQNE3dM1d3kgxk9cAzYwz4ZI/PUF+e313YY5DLDdoV4ip1cw5ORHOpN9RFv0HcbCYmDI5Qsh1nFdNWv/cTkiIMgerPcJ8bAK306eLBX7l6xHWbKW9Mi8cRf+kc1LHyueN6+EWXhCkJrxY93teKSbEw5z7YOQ3NlKU=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB5253.eurprd08.prod.outlook.com (2603:10a6:20b:ec::33)
+ by AM5PR0801MB1777.eurprd08.prod.outlook.com (2603:10a6:203:3a::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.25; Sat, 5 Jun
- 2021 14:08:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.26; Sat, 5 Jun
+ 2021 14:27:46 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.029; Sat, 5 Jun 2021
- 14:08:21 +0000
-Subject: Re: [PATCH RFC 0/3] python/iotests: Run iotest linters during Python
- CI
+ 14:27:46 +0000
+Subject: Re: [PATCH RFC 2/3] iotests: split 'linters.py' off from 297
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Cc: Max Reitz <mreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 References: <20210604163907.1511224-1-jsnow@redhat.com>
+ <20210604163907.1511224-3-jsnow@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <5a67879f-bcfa-5805-48f2-ce38bf8c3a03@virtuozzo.com>
-Date: Sat, 5 Jun 2021 17:08:19 +0300
+Message-ID: <ba007a36-6e8f-29da-16a3-92f1599602c2@virtuozzo.com>
+Date: Sat, 5 Jun 2021 17:27:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210604163907.1511224-1-jsnow@redhat.com>
+In-Reply-To: <20210604163907.1511224-3-jsnow@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.208]
-X-ClientProxiedBy: AM8P191CA0017.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0058.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.208) by
- AM8P191CA0017.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::22) with Microsoft
+ FR3P281CA0058.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4b::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4195.21 via Frontend Transport; Sat, 5 Jun 2021 14:08:20 +0000
+ 15.20.4219.9 via Frontend Transport; Sat, 5 Jun 2021 14:27:45 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd974ce2-ddd4-4666-60f0-08d9282b6052
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5253:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB52532A2A1F4FAD00AE96062DC13A9@AM6PR08MB5253.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Office365-Filtering-Correlation-Id: 220eaf82-a7fb-4c42-c712-08d9282e16b0
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1777:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB17774DA83DAA435052447360C13A9@AM5PR0801MB1777.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EzqHHG2XNViqT6/4k9/dZRL9xt7nSEYK2FHTau3X+9Ik9soRzauvom7jqYH3+U4CvJRw2hayaYDOdSpY5GHLKppmps98J2xlVA5IcDdH1Qrkx9gLY58njPSqXN0GoeHaYXCNFVVSItBVw8tEx97Udy+PANQoiNQ6Vowim93rNfDx1eAU0QVdZL/qVDaQxM44WDg+1/LqfYxSZ43JOoi42q5pBuf3tmrUtrkgTICCJHkDznAIrKhCF69XtpOsFbK5wYUyj8OPx3Lllz9v30djYyRiBgB0wF9e9P5x8kLDkepfqmcD8Wl/sPyZO8Zh+868CsBAfP0WED9+mG9c0O/DR1pLjz8/CB/kesByY6fvsbug5Mgd8330bWfhHxIlGAjHQxOZ190dbvLTGc5aLAqiKYBjGc3kzHZf7LUoMcxApblcbhBjywTeZtzqjpODgH3bFrLjamxjRAsWDxnbv27hZCIF3WYP4rCayd286OfsPvKePhoEmncZ4GGKfdX0x8+LQnHngm3Te04v1Xijqw+djHzYFV+826P6Pp09UFlMyB6IB9/N6aYXwJ9r0tI33Ylob8DOXu6coBrKgrT68Ajb6xHcG/s1cMjxTlCTYxsSZv8itbInnAg7VvMaZYx3MnzuTseK58h+yi+aIzcYXK2O3oqcg7TyWhVnKyIHbM/p4UL3/ZWkIwes15cX/we5ddRoZMLvthdTpO3Iu4VdQ9bLYWbWIIikL2xj8bElE4eb8mc=
+X-Microsoft-Antispam-Message-Info: 9rXxgusLGppoTB6UsL7Jkd1OVxv1BAdYAG5fym9SrcbMEdbndFrPYS0IShTZh5bsHZugutrGSEItUeq2HpPQYNzbEWF3xA38pCAcQlx360HIs+s/VFu19KC+PkYVt5KdjyDr+FSg5gYhYLUhloQmJEO1ZdT4VESRC4l9uwK0wEKPXGeU+7GJBNhTDjh34svwYPsbcypmr5rgMCoTpKlREQNtytxjkZ6yCoaYnh2oPYSBtALI0IwyvEBXz7qT1v/HFeBQPVXUGIJ1Rw7Pdv2a9S9ZgOq9rbuwy8pe+DvnOJnDgrt6BBXD4PGXSS1EmhvXBlDe5E19hpuX67QuacmiXPNT2GWJQocD+SKQVGIm0Ogg4KuMVWacryhrLY9X01bv/6YxzeK6gmzQbN0vj64gNy5BdjlHcPnfX92/vmvhVW1cDS8E+59WYsZTt+4QqZb9YV4PwBhgYNEPDU3P5ybB3TD5r6XKuyxHYfn2j1nOAA5Am7G28GQFTfX333DZdzlsH3HDIV2RtTgnLBM8zSmP7fdSQOLRuWbVmDqX0/HQwQcnVD85UJUoCdWG7xbDYIbb7QOuuX3eMSkb9I7nR7H4t2h+knCDRFi4ByCn8KuQXHGdPOWx0rR8nVWBei3FNVuIk+Vlv42iLBIjl5e13/YCnBUHuoGnaMTdQaJJAxFWtzDBhFDQur/CYYLjKLDelAJWFpMUHpByiDuekUubNVPjJM5bU48GnVFGktQRZhRZAx+vFSW5j1quhD7UHBE9dKI01Vr41Az2L3vlGz0/TDW4tEpADS+4p9/dTKrR/6rGzkBkqvE888BmrS6sydoRozc7I2no20KQrKwSOeMRAHkoaHLg0rMk4GE+XT1R85zRcvk=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(346002)(136003)(396003)(39830400003)(31686004)(52116002)(31696002)(2906002)(6486002)(5660300002)(36756003)(83380400001)(16526019)(26005)(186003)(30864003)(66476007)(66556008)(66946007)(16576012)(38350700002)(54906003)(316002)(38100700002)(956004)(478600001)(4326008)(8676002)(8936002)(86362001)(2616005)(43740500002)(45980500001);
+ SFS:(4636009)(136003)(376002)(366004)(39840400004)(346002)(396003)(38350700002)(38100700002)(26005)(8936002)(54906003)(478600001)(956004)(2616005)(5660300002)(36756003)(31686004)(86362001)(66946007)(66476007)(4326008)(2906002)(52116002)(66556008)(16526019)(186003)(83380400001)(8676002)(31696002)(316002)(6486002)(16576012)(21314003)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eW0yMi8zNjFaVkdidkZja09vbE1TTmpEMUVMZURMdmZzdzloWGdkcytYVTk3?=
- =?utf-8?B?UkFENkVnazNJb2NPL2lxdldMUUtDalRyMGVYcWtwUG5zblI3bFhsS2srOEVJ?=
- =?utf-8?B?Q3NEVXF4bHJsQVBGY1g5Zy9aOWExVVZGM3hPOHdQSU1SdDRJcGlXdzlnRXBX?=
- =?utf-8?B?K2VZUENkSnJHQ1BFYWRlZ0RzYXI4VmNtYUJxd1pIYmJxamlGaXpXN3Z4QzBy?=
- =?utf-8?B?MmVLQ0pabXNFL2paRURZN29URXdOT1hLSWhBS2FnYkZxcmJpN0xvdlVtUEJJ?=
- =?utf-8?B?QktpVEdGTkVtSXBsZ3VyMGh3MGpITkxOdFFOQVZLRGVMRG43U3l2T2ErOTNl?=
- =?utf-8?B?Tm0rOExHaXhoZjFXMTJ4YWtnRkQzSnJBcjJZOVpYeUVkdnBGMkpNNHZMbHRs?=
- =?utf-8?B?VVJuREgyMHNzWEsra0hzTE1BL1dmekNLTHRDT3ZSckY5aVloNlRhajZwVHVH?=
- =?utf-8?B?ZllYaHYrVnJnVC8rVU9YZGlIS2FjaWpIdXhnQVA5SWdJZHRKSkRLbTVFNUsr?=
- =?utf-8?B?MG01Qm4xY3R2VjJCSHVQa3ZRdkFyVXlZT0MrbzQ1TiswUUVyeWtEN1RtV2Vp?=
- =?utf-8?B?ZG1lNVY1eGc0RG9SeWlTMnlZZDNqYmRUWmVZeWl6dElJd3ViMVdrMVpjTnNV?=
- =?utf-8?B?dEZpclVnRENONWE4WmJ0cnJNNXEvdFdaN0ZIai9MVktvZkQvZnhIS1NZbGVx?=
- =?utf-8?B?ejdaMEVsbTJWUmRIdE52UThydnA4eGplT3RNOFpJZDFLNmd2UXNBV09BUDR5?=
- =?utf-8?B?KzRJNFNGR244ci9pWGF5eTQyOGVGWVl6V0ppQWtiT25BSHQ5eVVqcStxN1FP?=
- =?utf-8?B?clRBZnZ3T0gvcG9jMm9salpRcUdPY1BUb2tJeWVQMGhBeVVGOUNzNnFMUi96?=
- =?utf-8?B?YThlNjdLTG9pcUdNdElGc0ozMlpnVEZ5bU9PQjk3Q2c4cVNWdGx3eVJtZFRH?=
- =?utf-8?B?VERGK2xqcndJOGt2bUZITTZFQ3JIRnBtRUhNY3krdkZuRmNJbHZRREJmZXg3?=
- =?utf-8?B?WkdqY2NVM0ZsVDJJaGVpaWloL3BYT0FjQmhKYVpEeWNCYTl2dHhzaVF6c1li?=
- =?utf-8?B?VWZydVZtK0szWVo4b0hycUE4aUJyQWo4c1kvY1grbUUxWnpHQVBUYVR6SEVi?=
- =?utf-8?B?U21DOTVIaUhMNXZxSzRvVWtLMlJLQXl3aHY5MnpsT2hYMys1a0pibW9iRi9p?=
- =?utf-8?B?Umo4V0xLTC9OK2V2SDlDNUhvclFicVh6VnlvVU1QVmgrNmFZblpzay9ZWWNz?=
- =?utf-8?B?TlhzbkV6MVdlSVdib2hNU0pVQytXYVgxWGdSY3R1RWhLM0owV3F6c2dGUmU1?=
- =?utf-8?B?OVUvYTU3aE9TaFBxdGEwZTRuZ1pTMmdlRmFYMzBmNUtlWTUrL1ZsQy9SK014?=
- =?utf-8?B?WC9jQW1vVzcxejZVRmZTYjFUVkhQL1Jmbmp2YzlQYU0vUjlHZDROZTNSQ0lu?=
- =?utf-8?B?cGxoL1F4SER2Z0M0U2JPSzM5aXN6eVNoS2dhc0RJNWxtb29iRHluQkFWdzh6?=
- =?utf-8?B?MDhqMk5FckJVV1U3UUN6UkRidXVMRzZaMHdOTU1aN1YyOXRxdnB0ZEZoRDZV?=
- =?utf-8?B?Q09qK0ZaekpPbnBuenRaNDBjckRMdXlROUVEQTFGMUloY05sNWpNSjB5a3d3?=
- =?utf-8?B?YVkwL1hTSlpYdkJPNWNTVkxkSUZsd25CRFcxd2pwdWZ2ekNONEhWT1pNTWRz?=
- =?utf-8?B?bGZlZmdmRmY3d0N6Q1lONU9MUDNyandwb212bHVNNDJEdUFqU3JxSkdmQXVo?=
- =?utf-8?Q?CZqYhpNQOUyjhbsLRGFdvRk+xQCXolrTrOt7SzX?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TEhZM1ZGbDAycDM5V1Q1TUNmbFJOM2hBUUJWS0ovVmY1YTV4THl0MEs5VHdD?=
+ =?utf-8?B?L2VkTHBTNmtXWEl3bEhsT2NoYzBxYVloSXp0VEtKOWdBeUo3ZjQ1eU5vWmNS?=
+ =?utf-8?B?MmhOU3h6RERBZmJrRlJOS2doTk0rRGVwanZQMyt6YXYwdExMR2s0bnFlNEl4?=
+ =?utf-8?B?MGpvNW55NVl4U1ptdUV3cVFQV3B1VDRXSVFLU2lwUU9JTlJnRDNabldZalN4?=
+ =?utf-8?B?L0NsNVYwNThMOGhWQ3phY0xJZzBINmphL1Z6SnZzdUxmdlI3bzVnTExYWU1l?=
+ =?utf-8?B?bjJKZXF1RjBpbXA0TzVDOHFZOTdPaTJ3NzJIZ3F0aHU5MnRyakREaU5FUjZm?=
+ =?utf-8?B?bHEvTmR5U2YxU25KcmhjT200UEhSMUNWQk1jZlBwdW1rNFZSSEl0MGRMQ3Mw?=
+ =?utf-8?B?QjQ3SzVydnZmUVFleE5JWElwdUxyN0NTVXFzRVhSakdSUTcyNFFUVlRlNzQ4?=
+ =?utf-8?B?clZVd0pzcnBTWGYyempOZEFlUVVpUW15Wm1OeXJadnExQlJFdHpYYkk4bWUr?=
+ =?utf-8?B?Z29hdS83TEs0dHVPR3ZiQ1BTaDNJNzFtNjBtOHZIZ0xHNCtyRE1NUSsrd1hU?=
+ =?utf-8?B?dWUxdW44L242bHFra3FzdC9VOHR2cEI2VEVOZS8xMnNaUWl2SzNheDJsbGJD?=
+ =?utf-8?B?dGJjd0JCUis4U3hLMmJ4dWxVQjVQUE1GcFo0OGMxRU1jQUc5SWJuMjhQNXhk?=
+ =?utf-8?B?Tkgwb0Fvd0pWUDd5RUFoV0QwRFdoRnMxSWhpU2NTOUxiWWRxUjZyUWNIdXJ4?=
+ =?utf-8?B?K2U3TlM0Mkw1MUhlTjl6Q1FFeGs0bDNwTFZtaGtSTzNUTTYvcmYyT1N4SG5O?=
+ =?utf-8?B?bWlRTkpwdG0xSlBQK21sVDJLM1pxeUVKQk54Y3I0SE5ob3VhUVZydGplWEpH?=
+ =?utf-8?B?MnN0MWxOQStVNnhwM0p3aDZlYUVZR0s5YzhNTEs4MnZQV1IwTzJ4NWlRVVU2?=
+ =?utf-8?B?cmRGOU5LQzZWRFZMWEVvVWlYRE9zVHh5ZXdaMUdRajJ5cjg5QjMySFJzOFdB?=
+ =?utf-8?B?b3pGdk9sbTdjR29TaDBmMmlKSzBFR0JPZjNCT3dzMmx2Z2xsUlQySXpScGlB?=
+ =?utf-8?B?dDM5WGFpeThOZlgwSnB3bThYUmRvVG9UNFU2U3hoamdmdE16emlCbkNMTi94?=
+ =?utf-8?B?aFhidWZzVlpMSlJIa0ZoY3VHRmlWWU80L1F2aU9qdzNCRDg3TkdmTCtjQWRt?=
+ =?utf-8?B?WFZXbjY0N2YrTWEzVEZDUk5wYkdKczhsbExKVUNHZjZqSnlveEtmdW5sWTdS?=
+ =?utf-8?B?cmo0THdxNDRuY3FYTGJHMFJ2M0xYVlZpQjEvYnNKRUE3NmZKNXJCUVBuUm41?=
+ =?utf-8?B?SHM0UTdvSy9pdjRjaEJ6ditYbHE3K0lRbFFlY3Y2b20zaVhKb3dtN2tQU0tB?=
+ =?utf-8?B?Sk1GanZ6SGV0ZGlGVXFLN0FwQVlVMU1UWThrQUVXT2Jwd0lKelk2QmJHOUNN?=
+ =?utf-8?B?dUlVWGl2SitxWngrWGQxTWcyUHFWRVQyai9QZEFaQmo3NHVHVHJPdEc5Y085?=
+ =?utf-8?B?WldzTEVwcU4zamowNXRoVTNqNUllalFJdm44TWM3ZDRmYkJOcjk0OU51anVW?=
+ =?utf-8?B?ckhrVjVnMVFXcm5XS1Y4MnFvaUZkdkYrbTFQUzVGcjBTckhEK0pmQVhjdU96?=
+ =?utf-8?B?MkRIdW9sYnRvWjhEQVhTRUlTcXdOaDlRK01YY2FqS2llZ0dZMHNQZ09Md3Aw?=
+ =?utf-8?B?V0Y5NmtGdHphWGsvWXJBMWNFc1pxclgvVXRkc25zcnNZZE9VakxCUEFIOG9W?=
+ =?utf-8?Q?/VKh8rJ9Bx4bKmEu6sMRR1IBAxDRMI8636IFRfh?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd974ce2-ddd4-4666-60f0-08d9282b6052
+X-MS-Exchange-CrossTenant-Network-Message-Id: 220eaf82-a7fb-4c42-c712-08d9282e16b0
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2021 14:08:21.5736 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2021 14:27:46.5459 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e9B4R33knMoo1tST4dJElVPMsnPhP+B5dMpyVePMmsMpbgr3TDnKRZgEX80rhb8G+ViFP5mpRhUK2qdNf5fA6RePfFX443dDJG4ueDCfxfA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5253
-Received-SPF: pass client-ip=40.107.6.96;
+X-MS-Exchange-CrossTenant-UserPrincipalName: BN1mv3iLyHFBCWeB0NJtayxBmqHuyIBwdfFHHvEDCKobP9xc4krcDtPxoI9ahQ5rgNiZvVBp4gMJN8HgCarXEfbQX7ZvgjLjDGBafTyM5gA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1777
+Received-SPF: pass client-ip=40.107.21.110;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -149,191 +149,127 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 04.06.2021 19:39, John Snow wrote:
-> Since iotests are such a heavy and prominent user of the Python qemu.qmp
-> and qemu.machine packages, it would be convenient if the Python linting
-> suite also checked this client for any possible regressions introduced
-> by shifting around signatures, types, or interfaces in these packages.
+> Refactor the core function of the linting configuration out of 297 and
+> into a new file called linters.py.
+> 
+> Now, linters.py represents an invocation of the linting scripts that
+> more resembles a "normal" execution of pylint/mypy, like you'd expect to
+> use if 'qemu' was a bona-fide package you obtained from PyPI.
+> 
+> 297, by contrast, now represents the iotests-specific configuration bits
+> you need to get it to function correctly as a part of iotests, and with
+> 'qemu' as a namespace package that isn't "installed" to the current
+> environment, but just lives elsewhere in our source tree.
+> 
+> By doing this, we will able to run the same linting configuration from
+> the Python CI tests without calling iotest logging functions or messing
+> around with PYTHONPATH / MYPYPATH.
+> 
+> iotest 297 continues to operate in a standalone fashion for now --
+> presumably, it's convenient for block maintainers and contributors to
+> run in this manner.
+> 
+> See the following commit for how this is used from the Python packaging side.
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> 
+> ---
+> 
+> - It's a big glob of a patch. Sorry. I can work it into smaller pieces
+>    if the idea is well received.
 
-I think that's a right idea.
-
-> 
-> (Of course, we'd eventually find those problems when iotest 297 ran, but
-> with increasing distance between Python development and Block
-> development, the risk of an accidental breakage in this regard
-> increases. I, personally, know to run iotests (and especially 297) after
-> changing Python code, but not everyone in the future might.)
-> 
-> Add the ability for the Python CI to run the iotest linters too, which
-> means that iotests would be checked against:
-> 
-> - Python 3.6, using a frozen set of packages using 'pipenv'
-> - Python 3.6 through Python 3.10 inclusive, using 'tox' and the latest
->    versions of mypy/pylint that happen to be installed during test
->    time. (This CI test is allowed to fail with a warning, and can serve
->    as a bellwether for when new incompatible changes may disrupt the
->    linters. Testing against old and new Python interpreters alike can
->    help surface incompatibility issues we may need to be aware of.)
-> 
-> It also means that you can cd to ./python and:
-> 
-> - "make venv-check", if you have Python 3.6 and pipenv installed. (On
->    Fedora: `dnf install python36` or `dnf install python3.6`) This will
->    set up a venv with exactly the same versions of all packages and their
->    dependencies as the CI test does. After this series, it will run the
->    iotest linters, too.
-> 
-> - "make check-tox", if you have Python 3.6 through Python 3.10
->    installed. (On Fedora: `dnf install python3-tox python3.10`) This will
->    set up five different venvs, one for each Python version, and run all
->    of the Python linters against each. After this series, it will also
->    include the iotest linters.
-
-So, it doesn't run from "make check"?
+If at least split movement from other refactoring, would be good
 
 > 
-> "John, that's annoying. None of those invocations are free from some
-> kind of annoying dependency. Not everyone runs Fedora!"
+> - I change the invocations of mypy/pylint to "python3 -m pylint" and
+>    "python3 -m mypy" respectively, which causes these linters to use the
+>    virtual environment's preferred version. This forces the test to use the
+>    test environments curated by the CI jobs.
 > 
-> Yeah, yeah. This series doesn't *remove* iotest 297 either. It continues
-> to work just fine! There's also a slightly more involved method that
-> will run on "any version you happen to have", but the setup is more
-> laborious, and I haven't made a Makefile invocation to canonize it yet:
+> - If you have installed Fedora's pylint package that provides
+>    "pylint-3", the above trick will still work correctly.
 > 
->> cd /python
->> python3 -m venv ~/.cache/qemu-venv/
->> source ~/.cache/qemu-venv/bin/activate
->> make develop
->> make check
->> deactivate
+> - Checking for "pylint-3" specifically in 297 was left
+>    alone. Theoretically, this check could be broadened to simply look for
+>    the presence of a 'pylint' module to allow it to be more permissive.
 > 
-> - This uses whatever version of Python you happen to have, and doesn't
->    require pipenv or tox.
-> - It should work on any distro with any python3 >= 3.6.0
-> - use 'activate.[fish|csh] as desired to enter the venv. (I use FiSH!)
-> - This will run the linters with correct versions against the qemu
->    packages installed into this venv.
-> 
-> Example outputs from the three different local execution methods, in
-> order as outlined above:
-> 
-> jsnow@scv ~/s/q/python (python-package-iotest)> make venv-check
-> make[1]: Entering directory '/home/jsnow/src/qemu/python'
-> JOB ID     : f5f383275da6b9d5eb5fe717e463f47f18980d07
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.28-f5f3832/job.log
->   (1/5) tests/flake8.sh: PASS (0.43 s)
->   (2/5) tests/iotests.sh: PASS (9.93 s)
->   (3/5) tests/isort.sh: PASS (0.24 s)
->   (4/5) tests/mypy.sh: PASS (0.25 s)
->   (5/5) tests/pylint.sh: PASS (3.66 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 14.85 s
-> make[1]: Leaving directory '/home/jsnow/src/qemu/python'
-> 
-> jsnow@scv ~/s/q/python (python-package-iotest)> make check-tox
-> GLOB sdist-make: /home/jsnow/src/qemu/python/setup.py
-> py36 inst-nodeps: /home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip
-> py36 installed: appdirs==1.4.4,astroid==2.5.6,avocado-framework==88.1,distlib==0.3.2,filelock==3.0.12,flake8==3.9.2,fusepy==3.0.1,importlib-metadata==4.5.0,importlib-resources==5.1.4,isort==5.8.0,lazy-object-proxy==1.6.0,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,packaging==20.9,pluggy==0.13.1,py==1.10.0,pycodestyle==2.7.0,pyflakes==2.3.1,pylint==2.8.3,pyparsing==2.4.7,qemu @ file:///home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip,six==1.16.0,toml==0.10.2,tox==3.23.1,typed-ast==1.4.3,typing-extensions==3.10.0.0,virtualenv==20.4.7,wrapt==1.12.1,zipp==3.4.1
-> py36 run-test-pre: PYTHONHASHSEED='1077404307'
-> py36 run-test: commands[0] | make check
-> JOB ID     : 8d6a98b947956794e83943950a66dea2e2ee2f0b
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.29-8d6a98b/job.log
->   (1/5) tests/flake8.sh:  PASS (0.36 s)
->   (2/5) tests/iotests.sh:  PASS (9.64 s)
->   (3/5) tests/isort.sh:  PASS (0.19 s)
->   (4/5) tests/mypy.sh:  PASS (0.24 s)
->   (5/5) tests/pylint.sh:  PASS (3.64 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 14.38 s
-> py37 inst-nodeps: /home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip
-> py37 installed: appdirs==1.4.4,astroid==2.5.6,avocado-framework==88.1,distlib==0.3.2,filelock==3.0.12,flake8==3.9.2,fusepy==3.0.1,importlib-metadata==4.5.0,isort==5.8.0,lazy-object-proxy==1.6.0,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,packaging==20.9,pluggy==0.13.1,py==1.10.0,pycodestyle==2.7.0,pyflakes==2.3.1,pylint==2.8.3,pyparsing==2.4.7,qemu @ file:///home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip,six==1.16.0,toml==0.10.2,tox==3.23.1,typed-ast==1.4.3,typing-extensions==3.10.0.0,virtualenv==20.4.7,wrapt==1.12.1,zipp==3.4.1
-> py37 run-test-pre: PYTHONHASHSEED='1077404307'
-> py37 run-test: commands[0] | make check
-> JOB ID     : 97419c5769a56797e1a9b4d91586d6face9be5a2
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.29-97419c5/job.log
->   (1/5) tests/flake8.sh:  PASS (0.34 s)
->   (2/5) tests/iotests.sh:  PASS (10.42 s)
->   (3/5) tests/isort.sh:  PASS (0.16 s)
->   (4/5) tests/mypy.sh:  PASS (0.20 s)
->   (5/5) tests/pylint.sh:  PASS (3.52 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 15.01 s
-> py38 inst-nodeps: /home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip
-> py38 installed: appdirs==1.4.4,astroid==2.5.6,avocado-framework==88.1,distlib==0.3.2,filelock==3.0.12,flake8==3.9.2,fusepy==3.0.1,isort==5.8.0,lazy-object-proxy==1.6.0,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,packaging==20.9,pluggy==0.13.1,py==1.10.0,pycodestyle==2.7.0,pyflakes==2.3.1,pylint==2.8.3,pyparsing==2.4.7,qemu @ file:///home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip,six==1.16.0,toml==0.10.2,tox==3.23.1,typed-ast==1.4.3,typing-extensions==3.10.0.0,virtualenv==20.4.7,wrapt==1.12.1
-> py38 run-test-pre: PYTHONHASHSEED='1077404307'
-> py38 run-test: commands[0] | make check
-> JOB ID     : 1be3a502bea18cdf537426778719dce1d0c9c3a0
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.30-1be3a50/job.log
->   (1/5) tests/flake8.sh:  PASS (0.29 s)
->   (2/5) tests/iotests.sh:  PASS (9.17 s)
->   (3/5) tests/isort.sh:  PASS (0.14 s)
->   (4/5) tests/mypy.sh:  PASS (0.20 s)
->   (5/5) tests/pylint.sh:  PASS (3.21 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 13.32 s
-> py39 inst-nodeps: /home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip
-> py39 installed: appdirs==1.4.4,astroid==2.5.6,avocado-framework==88.1,distlib==0.3.2,filelock==3.0.12,flake8==3.9.2,fusepy==3.0.1,isort==5.8.0,lazy-object-proxy==1.6.0,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,packaging==20.9,pluggy==0.13.1,py==1.10.0,pycodestyle==2.7.0,pyflakes==2.3.1,pylint==2.8.3,pyparsing==2.4.7,qemu @ file:///home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip,six==1.16.0,toml==0.10.2,tox==3.23.1,typed-ast==1.4.3,typing-extensions==3.10.0.0,virtualenv==20.4.7,wrapt==1.12.1
-> py39 run-test-pre: PYTHONHASHSEED='1077404307'
-> py39 run-test: commands[0] | make check
-> JOB ID     : 0323fcaf5137caab9fbca3e91bc0338ae6cb81dc
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.30-0323fca/job.log
->   (1/5) tests/flake8.sh:  PASS (0.26 s)
->   (2/5) tests/iotests.sh:  PASS (10.03 s)
->   (3/5) tests/isort.sh:  PASS (0.14 s)
->   (4/5) tests/mypy.sh:  PASS (0.19 s)
->   (5/5) tests/pylint.sh:  PASS (3.39 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 14.37 s
-> py310 inst-nodeps: /home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip
-> py310 installed: appdirs==1.4.4,astroid==2.5.6,avocado-framework==88.1,distlib==0.3.2,filelock==3.0.12,flake8==3.9.2,fusepy==3.0.1,isort==5.8.0,lazy-object-proxy==1.6.0,mccabe==0.6.1,mypy==0.812,mypy-extensions==0.4.3,packaging==20.9,pluggy==0.13.1,py==1.10.0,pycodestyle==2.7.0,pyflakes==2.3.1,pylint==2.8.3,pyparsing==2.4.7,qemu @ file:///home/jsnow/src/qemu/python/.tox/.tmp/package/1/qemu-0.6.1.0a1.zip,six==1.16.0,toml==0.10.2,tox==3.23.1,typed-ast==1.4.3,typing-extensions==3.10.0.0,virtualenv==20.4.7,wrapt==1.12.1
-> py310 run-test-pre: PYTHONHASHSEED='1077404307'
-> py310 run-test: commands[0] | make check
-> JOB ID     : 88f99ef4b76af4e48e9b1cd845d276d1c29d32dd
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.30-88f99ef/job.log
->   (1/5) tests/flake8.sh:  PASS (0.26 s)
->   (2/5) tests/iotests.sh:  PASS (13.34 s)
->   (3/5) tests/isort.sh:  PASS (0.15 s)
->   (4/5) tests/mypy.sh:  PASS (0.33 s)
->   (5/5) tests/pylint.sh:  PASS (3.40 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 17.76 s
-> _______________________________________________________________ summary ________________________________________________________________
->    py36: commands succeeded
->    py37: commands succeeded
->    py38: commands succeeded
->    py39: commands succeeded
->    py310: commands succeeded
->    congratulations :)
-> 
-> (qemu-venv) jsnow@scv ~/s/q/python (python-package-iotest)> make check
-> JOB ID     : d4d3abff53bef6f41b5e2d10d889040d3a698208
-> JOB LOG    : /home/jsnow/avocado/job-results/job-2021-06-04T12.22-d4d3abf/job.log
->   (1/5) tests/flake8.sh: PASS (0.27 s)
->   (2/5) tests/iotests.sh: PASS (10.30 s)
->   (3/5) tests/isort.sh: PASS (0.15 s)
->   (4/5) tests/mypy.sh: PASS (0.19 s)
->   (5/5) tests/pylint.sh: PASS (3.40 s)
-> RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 14.65 s
-> 
-> John Snow (3):
->    python: expose typing information via PEP 561
->    iotests: split 'linters.py' off from 297
->    python: Add iotest linters to test suite
-> 
->   python/qemu/machine/py.typed  |   0
->   python/qemu/qmp/py.typed      |   0
->   python/qemu/utils/py.typed    |   0
->   python/setup.cfg              |   3 +
->   python/tests/iotests.sh       |   2 +
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
 >   tests/qemu-iotests/297        |  88 ++++-------------------
 >   tests/qemu-iotests/linters.py | 130 ++++++++++++++++++++++++++++++++++
->   7 files changed, 148 insertions(+), 75 deletions(-)
->   create mode 100644 python/qemu/machine/py.typed
->   create mode 100644 python/qemu/qmp/py.typed
->   create mode 100644 python/qemu/utils/py.typed
->   create mode 100755 python/tests/iotests.sh
+>   2 files changed, 143 insertions(+), 75 deletions(-)
 >   create mode 100644 tests/qemu-iotests/linters.py
 > 
+> diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+> index 433b732336..5c753279fc 100755
+> --- a/tests/qemu-iotests/297
+> +++ b/tests/qemu-iotests/297
+> @@ -17,98 +17,36 @@
+>   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>   
+>   import os
+> -import re
+>   import shutil
+
+[..]
+
+> -    # fixed (in tests, at least)
+>       env = os.environ.copy()
+> -    qemu_module_path = os.path.join(os.path.dirname(__file__),
+> -                                    '..', '..', 'python')
+> +    qemu_module_path = os.path.join(
+> +        os.path.dirname(__file__),
+> +        '..', '..', 'python'
+> +    )
+
+Hmm, you made 3 lines from 2 :) ... If rename to python_path it will fit into one line. I'm not sure that it's better.
+
+> +
+>       try:
+>           env['PYTHONPATH'] += os.pathsep + qemu_module_path
+>       except KeyError:
+>           env['PYTHONPATH'] = qemu_module_path
+> -    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
+> -                   env=env, check=False)
+>   
+> -    print('=== mypy ===')
+> -    sys.stdout.flush()
+> -
+> -    # We have to call mypy separately for each file.  Otherwise, it
+> -    # will interpret all given files as belonging together (i.e., they
+> -    # may not both define the same classes, etc.; most notably, they
+> -    # must not both define the __main__ module).
+>       env['MYPYPATH'] = env['PYTHONPATH']
+> -    for filename in files:
+> -        p = subprocess.run(('mypy',
+> -                            '--warn-unused-configs',
+> -                            '--disallow-subclassing-any',
+> -                            '--disallow-any-generics',
+> -                            '--disallow-incomplete-defs',
+> -                            '--disallow-untyped-decorators',
+> -                            '--no-implicit-optional',
+> -                            '--warn-redundant-casts',
+> -                            '--warn-unused-ignores',
+> -                            '--no-implicit-reexport',
+> -                            '--namespace-packages',
+> -                            filename),
+> -                           env=env,
+> -                           check=False,
+> -                           stdout=subprocess.PIPE,
+> -                           stderr=subprocess.STDOUT,
+> -                           universal_newlines=True)
+>   
+> -        if p.returncode != 0:
+> -            print(p.stdout)
+> +    for linter in ('pylint-3', 'mypy'):
+> +        if shutil.which(linter) is None:
+> +            iotests.notrun(f'{linter} not found')
+>   
+> +    iotests.script_main(lambda: linters.run_linters(files, env=env))
+
+Why to use lambda, and not just pass main to script_main?
+
+Or, may be, use iotests.script_initialize() at top, and keep the whole script at top indentation level?
 
 
 -- 
