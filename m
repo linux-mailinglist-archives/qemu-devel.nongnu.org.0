@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A5339CAB8
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:23:21 +0200 (CEST)
-Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDE539CAB9
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 21:24:45 +0200 (CEST)
+Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpbtA-0001It-1A
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:23:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44066)
+	id 1lpbuW-00033y-Gd
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 15:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbs7-0000Oj-PB; Sat, 05 Jun 2021 15:22:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:50591)
+ id 1lpbtR-0002CV-UA; Sat, 05 Jun 2021 15:23:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:58457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lpbs6-0003Zv-7A; Sat, 05 Jun 2021 15:22:15 -0400
+ id 1lpbtO-0004OA-B8; Sat, 05 Jun 2021 15:23:37 -0400
 Received: from [192.168.100.1] ([82.142.12.38]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MkHIV-1l51hr0vur-00kfKb; Sat, 05 Jun 2021 21:22:10 +0200
-Subject: Re: [PATCH] hw/display/macfb: Classify the "nubus-macfb" as display
- device
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210531073255.46286-1-thuth@redhat.com>
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M7s1M-1lkfwJ0lQA-0051mu; Sat, 05 Jun 2021 21:23:29 +0200
+Subject: Re: [PATCH] target/hppa: Remove unused 'memory.h' header
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210517101558.1040191-1-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <6602eb6a-fa5f-8c7d-9658-d6fbcc3d6aa6@vivier.eu>
-Date: Sat, 5 Jun 2021 21:22:08 +0200
+Message-ID: <cf677039-ff7c-2da0-b4af-dbaf8c5b6302@vivier.eu>
+Date: Sat, 5 Jun 2021 21:23:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210531073255.46286-1-thuth@redhat.com>
+In-Reply-To: <20210517101558.1040191-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:q8Vc1Cuji3HejJm8DD+OH+Qh6um+ow6tYV+5R7lZtef7Fhg7Rui
- +Tn0m9XI+XzWL3fNRQ2s7/Rst+9+nE/Yyng6aN6VmKL1ePvjl7Ij2loA31y0g9+KNd4qKpb
- tzCGpJbP0pCPV+TrMSZGdNvrINXmCpGl6Hnp8PZPGv1sL5TGju3w6r5i7Z69LlaRBHXTD0o
- UHNARyvnMHqfXYTLdl/uA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cEb4ugzFvAc=:WsieSwESoy3ypV3d3DoixS
- l1t6LlGIMkLECSlG0GVkRQzTCMAW464El6h2ChmHMLz8vQ0UTkrwntyzGGAtRcxC/ftiF+zVi
- SgQu5i4OyluATaaLhftG5fYWQtZrdzbjxtSw9vewGeGTRe4FH4JXeDHzblx3LWRQdo6aMzM0Z
- oWSRTTcWV06pxfMSmDJn9fgMncYwkPIuVfCtrSJrluHG/+80MZ0kXSHkXicw+Qjzzw4fhB4P6
- EUzXwpXOflTLajxLarFmdxPlK42I3I309+nPz+icHvyotdw22b+GsuFX1lQX238VKJzowtoam
- 848wBoroMwSOerVLSs9HwmRbeLIJt7WDYB01RIrpZKUJjAkTHI0W4sjV/PZkJq2ieNIHlDZ4N
- /TqgM4Puh/D9/vXmXSaKlipSgCnhvJQx/odctP0ww3spXxtCLV+mTzelxbATytxnxbBN+xdO6
- pl1pPZKvNpIA1xWV11EE4FZDFWSPG7m72dE945jGRi/opQKq07DkQLeTUoC3FR7vm6CsYIYYc
- cMtgNc/Evm3JkBPDrsoS7Q=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:oVh+O0s4JgacQDghyq7W7X1vhrBWokt35uZ9zyyJ/F7mb7aWuuM
+ wTGNM6ObeCV8f+MDl+t98bzaHK59ctE9vt5GDCo4DrtSoZWcR586+wU4c2N+oFBt6j5VU9J
+ eUWf/XmmxY9vn3kskpw4rTtTbAED8SK9XArY6EU3kQtwC8ex2THvQsaehwImii12EWCYS96
+ mf92x103HYJtH0CkhLQWg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1PNApR4T2Nw=:c9Wd+6mVIuNtfSxZNZVNJO
+ pttbJpvsk4ZC+IeX1T08T8rz/NqZ0VqhyGpb9WWS1YXhmqHBXjZutb2qExpiPbnuR+SvvWd4N
+ ZD7MDVU4kLXyHlQdnVHr4BJ4uRu5BMTL1U75/BhgjW9H7NWBIHhhAfmtiJASg9N9Ij4hZuAIe
+ eLjeOg5kRbYumBODEoUouXe/8oGoaGsFFCHEgmXulQVKEFLqrsgeC3lmVnXZqD+E+80dD9ZL8
+ w0yhJnCDuOMkt/EQUJP8rI6QX7mDf9aweDPmU3++te7kWV0kyND6VWrIdZkOsfk7cQr4rn+VW
+ oFeEQVZYcCK4nHvRfMFx83fXZWMgUsdl6SVcsc51QSDD1O7BBTeqt2npf/x6eI15XU0XFmqfp
+ LJ7GOVkEpSAPK5j/wHFUxyR5yNL3l0oo6j44ZEOs+1mZNLEpSKItyQcqXZjbg+tR7jJYOQXRn
+ ZENjH4k1dtB99o5iY680Mc8peyWm9CN2r0mGbXzljvm8KNGfARfaJnZmKKnjTSSKRZEVWgALL
+ sHvKBa47oIHtckGUVRpiko=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
 X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.59,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,37 +67,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 31/05/2021 à 09:32, Thomas Huth a écrit :
-> The "nubus-macfb" currently shows up as uncategorized device in
-> the output of "-device help". Put it into the display category
-> to fix this ugliness.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Le 17/05/2021 à 12:15, Philippe Mathieu-Daudé a écrit :
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/display/macfb.c | 1 +
->  1 file changed, 1 insertion(+)
+>  target/hppa/cpu.h | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index ff8bdb846b..d8183b9bbd 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-> @@ -450,6 +450,7 @@ static void macfb_nubus_class_init(ObjectClass *klass, void *data)
->      dc->desc = "Nubus Macintosh framebuffer";
->      dc->reset = macfb_nubus_reset;
->      dc->vmsd = &vmstate_macfb;
-> +    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
->      device_class_set_props(dc, macfb_nubus_properties);
->  }
+> diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+> index 61178fa6a2a..748270bfa31 100644
+> --- a/target/hppa/cpu.h
+> +++ b/target/hppa/cpu.h
+> @@ -22,7 +22,6 @@
 >  
+>  #include "cpu-qom.h"
+>  #include "exec/cpu-defs.h"
+> -#include "exec/memory.h"
+>  
+>  /* PA-RISC 1.x processors have a strong memory model.  */
+>  /* ??? While we do not yet implement PA-RISC 2.0, those processors have
 > 
-
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
