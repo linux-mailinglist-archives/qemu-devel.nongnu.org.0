@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CCD39C58A
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 05:40:16 +0200 (CEST)
-Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E4A39C597
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Jun 2021 05:54:28 +0200 (CEST)
+Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpNAV-0000Z2-FF
-	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 23:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
+	id 1lpNOF-0003O0-Kt
+	for lists+qemu-devel@lfdr.de; Fri, 04 Jun 2021 23:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpN9a-00087H-Bn
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 23:39:18 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35564)
+ id 1lpNMk-0002SF-Rz
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 23:52:54 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpN9Y-00022E-Ol
- for qemu-devel@nongnu.org; Fri, 04 Jun 2021 23:39:18 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id o9so6537944pgd.2
- for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 20:39:16 -0700 (PDT)
+ id 1lpNMi-0004kE-Hw
+ for qemu-devel@nongnu.org; Fri, 04 Jun 2021 23:52:54 -0400
+Received: by mail-pl1-x631.google.com with SMTP id c13so5671429plz.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Jun 2021 20:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wfnaLuPEEPfaThVtUJBDi8gBMKeb4fLTPe3iiDSJSAU=;
- b=xGnWyKsECDHQD6m03UzkUsJy43RfYRgZnkh8Y2oBEXsTudz09EQd8DM6oxtydNJ6DR
- DENJleoTs+EIihgUCijtfitbqdni6cu/JqHiRNPifEbaTMUENN6kfPJRgHMySBCizHwB
- EmmgmVs2xvBqmvPyENAXEag47ef6eNxlc36BFkiz60vzEPdSX33SAbLABVEVPdpDBwCQ
- oDZZQHvQowaVEZiuOQ4c1nERDitntTwP0sJmaCTnk4sTFlb7Nso8m1gZKbNR+ZCay4C2
- 41YRn5gHKv1na0uNuds7l02LZnjonRLvN7fpyzCGmYRyJ83g6+rBLnjepxSkVE2kCmRw
- oOiw==
+ bh=L1gom5IMTTGQCgkbERZIWS2Ac0AV86l1CCiwTuO/joI=;
+ b=XFCKQiV4FtaUqIaJ1utvHsb1sFX4hEHw3yAXyBhfah6KvZeT4Pj247N8Ij3aql+ytv
+ H0V/NTn5eaarYvjhUMh9gtKiQqgRk/EBZNzuOVrTMl0PbS6icaXSI1QOhpTw6w7GTT3v
+ 08tq9JauI1VVcZW0SYrDATDp9ekApxYmzcMDbzDIYi6gZFGgoCYJB5dyrP1B7ZK2t94H
+ +qB537fHHlyWjrBovLrdbZUk6gStsTTW0AV0rkN0ozPknI4H1UryOySzV95sSEKOnbC/
+ i0gPB4/TiMPFIkyYxQ+MffBzQbvl0Iba53i4FsI5VgLPwfT333o6aIuj76sKJ4/SnM1s
+ +cQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wfnaLuPEEPfaThVtUJBDi8gBMKeb4fLTPe3iiDSJSAU=;
- b=spDVq9ylmivcMvMoY3P1OsrRXJ05quheQpGHbOwAuugcQUb/Yq5vciGXo8NKDx6IDz
- kKY0eXr6sSmPQpSlhzpf/ifFP1cTw+YxrQ/DJ7IhFknb6dMNoKapY0hHtZPnDwDqWxnr
- roRzvLLVa0F5Y/8klAIfZ/oWIZUXfwAMqtyMm2Bnd2M2uh6vKzyScnWmIVEaVyK1uIT+
- Anx4ll3NYRAwuuc/82vQ62ufqpEvsEGPgLiDH6eNX/JJAdRD2/1YD4Y5wOrL2oeiNEdA
- VbI11jwZqWoQn90akQhLVCcI4yPSUlfn5UubzveOOs2/fduPj3GOLPwX4YsF3abW1CRS
- tEBw==
-X-Gm-Message-State: AOAM533nso1Hz/1P7Z1e1wiOIYzJ1igDSurNqwxmc0Tfdst64EaMfOGW
- aRMutcGmOzjYY8A6P9jPpOm99w==
-X-Google-Smtp-Source: ABdhPJycUnc1Uom6Ne+pXT23ySe3KUidovqpYlGarLcNeFNRy+puxWF7wopEuP05iI8Fx3xlr6U9RQ==
-X-Received: by 2002:a63:338c:: with SMTP id z134mr7965537pgz.167.1622864355076; 
- Fri, 04 Jun 2021 20:39:15 -0700 (PDT)
+ bh=L1gom5IMTTGQCgkbERZIWS2Ac0AV86l1CCiwTuO/joI=;
+ b=GWQxhEQk2jb3n8HUCrjlbxb5254ZWreRVpm4fXCaWqv76qCJa+lsIUY6yqAMTaXXdd
+ UWAqnFpXvY1jjbc9PlemdIlAYiUkmHdKHo65XX0RgwTxIkdpbYYd7pbq/huVqPLxd8BJ
+ EMKdeUkUmTDwEy/M7UxkcrInHALDfdoDMsnZH7FcCQEISZ9FrVH5u5piwCYS0gOmyqkB
+ ta6wiRRSD7Vj1xJSlME8kN9N3dinhkFaH1tvnt79fUfbeXeTDkSQFoTkc531Y3Z5xq+e
+ udBlioSIsB60mB7f+f6HsQUZIq+2g9jb5wYwJ6nPs647qeitK2vLTjAyXdicbpu/xzkr
+ x3mA==
+X-Gm-Message-State: AOAM5303f6Rp9Tsz3LwuNFUe0g2v4NkxfwriGodACyHdYGP5jxeK+17t
+ 24ruk8JHwN2+0o3j7NeUPL9LSg==
+X-Google-Smtp-Source: ABdhPJwmT1Z++t9qr6DJtu7zNtH9mevoC2r4iGDbM+uJ5/qBWESZQbtJQhU7Cpxt9UFIL0CMDqcgvQ==
+X-Received: by 2002:a17:902:bb8e:b029:f8:b497:825c with SMTP id
+ m14-20020a170902bb8eb02900f8b497825cmr7432977pls.82.1622865170570; 
+ Fri, 04 Jun 2021 20:52:50 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- s20sm5942589pjn.23.2021.06.04.20.39.14
+ i1sm2713601pfc.206.2021.06.04.20.52.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Jun 2021 20:39:14 -0700 (PDT)
-Subject: Re: [PATCH v16 54/99] target/arm: move TCGCPUOps to tcg/tcg-cpu.c
+ Fri, 04 Jun 2021 20:52:50 -0700 (PDT)
+Subject: Re: [PATCH v16 59/99] MAINTAINERS: update arm kvm maintained files to
+ all in target/arm/kvm/
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-55-alex.bennee@linaro.org>
+ <20210604155312.15902-60-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a7d172e8-9602-e150-296f-1d760f5c6b38@linaro.org>
-Date: Fri, 4 Jun 2021 20:39:12 -0700
+Message-ID: <1bb22a16-2698-8530-d3d8-1308fadfdcbf@linaro.org>
+Date: Fri, 4 Jun 2021 20:52:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-55-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-60-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -89,31 +91,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>
+Cc: qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/4/21 8:52 AM, Alex Bennée wrote:
 > From: Claudio Fontana<cfontana@suse.de>
 > 
-> move the TCGCPUOps interface to tcg/tcg-cpu.c
-> in preparation for the addition of the TCG accel-cpu class.
-> 
 > Signed-off-by: Claudio Fontana<cfontana@suse.de>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   target/arm/cpu.h           |   1 -
->   target/arm/internals.h     |   5 -
->   target/arm/tcg/tcg-cpu.h   |   6 +
->   target/arm/cpu-sysemu.c    |   4 +
->   target/arm/cpu.c           | 210 +---------------------------------
->   target/arm/cpu_tcg.c       |   2 +-
->   target/arm/tcg/helper.c    |   1 +
->   target/arm/tcg/tcg-cpu.c   | 229 +++++++++++++++++++++++++++++++++++++
->   target/arm/tcg/meson.build |   1 +
->   9 files changed, 244 insertions(+), 215 deletions(-)
->   create mode 100644 target/arm/tcg/tcg-cpu.c
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
