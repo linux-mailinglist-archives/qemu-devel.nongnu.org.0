@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EB839D11C
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 21:47:07 +0200 (CEST)
-Received: from localhost ([::1]:34048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877DA39D11D
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 21:47:18 +0200 (CEST)
+Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpyji-0003rj-7j
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 15:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38976)
+	id 1lpyjt-00042f-Jg
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 15:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lpyhs-0002UZ-6q
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 15:45:12 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:48346
+ id 1lpyhz-0002Yc-6U
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 15:45:19 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:48354
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lpyhp-0000AP-NA
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 15:45:12 -0400
-HMM_SOURCE_IP: 172.18.0.48:37880.1957847651
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lpyhx-0000Mw-0K
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 15:45:19 -0400
+HMM_SOURCE_IP: 172.18.0.48:38422.1897353182
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.138.181.182?logid-c43a7dc85dfc40c3ae18987d4da3dd2e
+Received: from clientip-182.138.181.182?logid-0cfa608cce0a4325b40733fec42fd495
  (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id C2D272800AA;
- Mon,  7 Jun 2021 03:44:59 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 5D50F2800AC;
+ Mon,  7 Jun 2021 03:45:16 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id c43a7dc85dfc40c3ae18987d4da3dd2e for
- qemu-devel@nongnu.org; Mon Jun  7 03:44:59 2021
-X-Transaction-ID: c43a7dc85dfc40c3ae18987d4da3dd2e
+ by app0024 with ESMTP id 0cfa608cce0a4325b40733fec42fd495 for
+ qemu-devel@nongnu.org; Mon Jun  7 03:45:15 2021
+X-Transaction-ID: 0cfa608cce0a4325b40733fec42fd495
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] support dirtyrate at the granualrity of vcpu 
-Date: Mon,  7 Jun 2021 03:44:53 +0800
-Message-Id: <cover.1623007591.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v2 1/6] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
+Date: Mon,  7 Jun 2021 03:45:09 +0800
+Message-Id: <4cc0039fc3ad6145136770cf3b0f056c09a2910b.1623007591.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1623007591.git.huangy81@chinatelecom.cn>
+References: <cover.1623007591.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -69,81 +71,137 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+From: Peter Xu <peterx@redhat.com>
 
-v2:
-- rebase to "migration/dirtyrate: make sample page count configurable"
+These two commands are missing when adding the QMP sister commands.
+Add them, so developers can play with them easier.
 
-- rename "vcpu" to "per_vcpu" to show the per-vcpu method
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ hmp-commands-info.hx  | 13 ++++++++++++
+ hmp-commands.hx       | 14 +++++++++++++
+ include/monitor/hmp.h |  2 ++
+ migration/dirtyrate.c | 47 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+)
 
-- squash patch 5/6 into a single one, squash patch 1/2 also 
-
-- pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
-
-- make global_dirty_log a bitmask to make sure both migration and dirty
-  could not intefer with each other
-
-- add memory free callback to prevent memory leaking 
-
-the most different of v2 fron v1 is that we make the global_dirty_log a 
-bitmask. the reason is dirty rate measurement may start or stop dirty
-logging during calculation. this conflict with migration because stop
-dirty log make migration leave dirty pages out then that'll be a problem.
-
-make global_dirty_log a bitmask can let both migration and dirty
-rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
-GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
-for, migration or dirty rate.
-    
-all references to global_dirty_log should be untouched because any bit
-set there should justify that global dirty logging is enabled.
-
-v1:
-
-Since the Dirty Ring on QEMU part has been merged recently, how to use
-this feature is under consideration.
-
-In the scene of migration, it is valuable to provide a more accurante
-interface to track dirty memory than existing one, so that the upper
-layer application can make a wise decision, or whatever. More
-importantly,
-dirtyrate info at the granualrity of vcpu could provide a possibility to
-make migration convergent by imposing restriction on vcpu. With Dirty
-Ring, we can calculate dirtyrate efficiently and cheaply.
-
-The old interface implemented by sampling pages, it consumes cpu 
-resource, and the larger guest memory size become, the more cpu resource
-it consumes, namely, hard to scale. New interface has no such drawback.
-
-Please review, thanks !
-
-Best Regards !
-
-Hyman Huang(黄勇) (5):
-  KVM: introduce dirty_pages and kvm_dirty_ring_enabled
-  migration/dirtyrate: add per-vcpu option for calc-dirty-rate
-  migration/dirtyrate: adjust struct DirtyRateStat
-  memory: make global_dirty_log a bitmask
-  migration/dirtyrate: implement dirty-ring dirtyrate calculation
-
-Peter Xu (1):
-  hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
-
- accel/kvm/kvm-all.c    |   7 +
- hmp-commands-info.hx   |  13 ++
- hmp-commands.hx        |  15 ++
- include/exec/memory.h  |  13 +-
- include/hw/core/cpu.h  |   1 +
- include/monitor/hmp.h  |   2 +
- include/sysemu/kvm.h   |   1 +
- migration/dirtyrate.c  | 334 +++++++++++++++++++++++++++++++++++++----
- migration/dirtyrate.h  |  19 ++-
- migration/ram.c        |   8 +-
- migration/trace-events |   5 +
- qapi/migration.json    |  29 +++-
- softmmu/memory.c       |  36 +++--
- 13 files changed, 435 insertions(+), 48 deletions(-)
-
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index b2347a6aea..fb59c27200 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -867,3 +867,16 @@ SRST
+   ``info replay``
+     Display the record/replay information: mode and the current icount.
+ ERST
++
++    {
++        .name       = "dirty_rate",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show dirty rate information",
++        .cmd        = hmp_info_dirty_rate,
++    },
++
++SRST
++  ``info dirty_rate``
++    Display the vcpu dirty rate information.
++ERST
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 2d21fe5ad4..84dcc3aae6 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1727,3 +1727,17 @@ ERST
+         .flags      = "p",
+     },
+ 
++SRST
++``calc_dirty_rate`` *second*
++  Start a round of dirty rate measurement with the period specified in *second*.
++  The result of the dirty rate measurement may be observed with ``info
++  dirty_rate`` command.
++ERST
++
++    {
++        .name       = "calc_dirty_rate",
++        .args_type  = "second:l,sample_pages_per_GB:l?",
++        .params     = "second [sample_pages_per_GB]",
++        .help       = "start a round of guest dirty rate measurement",
++        .cmd        = hmp_calc_dirty_rate,
++    },
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 605d57287a..3baa1058e2 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -129,5 +129,7 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
+ void hmp_replay_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
+ 
+ #endif
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 2ee3890721..320c56ba2c 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -20,6 +20,9 @@
+ #include "ram.h"
+ #include "trace.h"
+ #include "dirtyrate.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qmp/qdict.h"
+ 
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+ static struct DirtyRateStat DirtyStat;
+@@ -447,3 +450,47 @@ struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+ {
+     return query_dirty_rate_info();
+ }
++
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    DirtyRateInfo *info = query_dirty_rate_info();
++
++    monitor_printf(mon, "Status: %s\n",
++                   DirtyRateStatus_str(info->status));
++    monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
++                   info->start_time);
++    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
++                   info->sample_pages);
++    monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
++                   info->calc_time);
++    monitor_printf(mon, "Dirty rate: ");
++    if (info->has_dirty_rate) {
++        monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
++    } else {
++        monitor_printf(mon, "(not ready)\n");
++    }
++    g_free(info);
++}
++
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    int64_t sec = qdict_get_try_int(qdict, "second", 0);
++    int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
++    bool has_sample_pages = (sample_pages != -1);
++    Error *err = NULL;
++
++    if (!sec) {
++        monitor_printf(mon, "Incorrect period length specified!\n");
++        return;
++    }
++
++    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "Starting dirty rate measurement with period %"PRIi64
++                   " seconds\n", sec);
++    monitor_printf(mon, "[Please use 'info dirty_rate' to check results]\n");
++}
 -- 
 2.18.2
 
