@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA2C39D124
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 21:49:56 +0200 (CEST)
-Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E8639D13A
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 22:13:57 +0200 (CEST)
+Received: from localhost ([::1]:51712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpymR-0001ak-Nf
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 15:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
+	id 1lpz9f-0000Lf-V8
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 16:13:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lpyl7-0007vx-U9
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 15:48:33 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:53775
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lpyl4-0002Ih-1X
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 15:48:33 -0400
-HMM_SOURCE_IP: 172.18.0.48:48892.1543330404
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.138.181.182?logid-baa950ca4f4f4834beb503197da15895
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 94F5F28009F;
- Mon,  7 Jun 2021 03:48:29 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id baa950ca4f4f4834beb503197da15895 for
- qemu-devel@nongnu.org; Mon Jun  7 03:48:28 2021
-X-Transaction-ID: baa950ca4f4f4834beb503197da15895
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] migration/dirtyrate: implement dirty-ring dirtyrate
- calculation
-Date: Mon,  7 Jun 2021 03:48:23 +0800
-Message-Id: <a930f410178862fda49ae2c613a0757c7e07e006.1623007591.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1623007591.git.huangy81@chinatelecom.cn>
-References: <cover.1623007591.git.huangy81@chinatelecom.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.219;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lpz8S-0007j5-2R
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 16:12:40 -0400
+Received: from pv34p98im-ztdg02172101.me.com ([17.143.234.142]:41298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lpz8P-0001Lz-AW
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 16:12:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1623010355; bh=zy5q5tw44Cz/86v7yUEZ5SHm13S/pjK8zj479XSc0nM=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=uii4TT2gM1bEc029ziRDXApOQnx2qiAV75zUz76cgvpx/GEoEUEDa7hTgQpbhXwy+
+ mFknGcVQ8YQtkw/zJW0APiMtNdlrTxZ/nENadjsAkyLdJ5kldQKOWXxx/dK85Xpa2J
+ 6FjHS6bX1ZLVbNXpnGs27xFxjB7UOy0cxKdSEfe3mEYGxw5Ilq8PlaWYO2b3vFBFMM
+ dmNdHpTe9//qMZ2SLNSjrP1wRAajvFEvpJPOtpRNDicp2uA3mHQw7Mo1FwV7F/u3Qz
+ pzSdSsTMfRJTGQMHFDQWC9TXpGU7C44xEDhHuvQkxpGA3Ec7m5gtjPlfuc/0r4s8ku
+ B6gVUoNIa8sIQ==
+Received: from smtpclient.apple (c-67-180-181-196.hsd1.ca.comcast.net
+ [67.180.181.196])
+ by pv34p98im-ztdg02172101.me.com (Postfix) with ESMTPSA id 8D1275400D6;
+ Sun,  6 Jun 2021 20:12:34 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.43\))
+Subject: Re: [PATCH 7/8] Provide a Console Terminal Block in the HWRPB.
+From: Jason Thorpe <thorpej@me.com>
+In-Reply-To: <00e68b2d-0f5e-8c3b-f7b4-91977e5bb60f@linaro.org>
+Date: Sun, 6 Jun 2021 13:12:33 -0700
+Cc: qemu-devel@nongnu.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5B3E571D-09AD-43D7-8F1F-912EF5A81EDB@me.com>
+References: <20210603035317.6814-1-thorpej@me.com>
+ <20210603035317.6814-8-thorpej@me.com>
+ <00e68b2d-0f5e-8c3b-f7b4-91977e5bb60f@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-Mailer: Apple Mail (2.3654.80.0.2.43)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-06_15:2021-06-04,
+ 2021-06-06 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=837 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2009150000 definitions=main-2106060165
+Received-SPF: pass client-ip=17.143.234.142; envelope-from=thorpej@me.com;
+ helo=pv34p98im-ztdg02172101.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,377 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-use dirty ring feature to implement dirtyrate calculation.
-to enable it, set vcpu option as true in calc-dirty-rate.
 
-add per_vcpu as mandatory option in calc_dirty_rate, to calculate
-dirty rate for vcpu, and use hmp cmd:
-(qemu) calc_dirty_rate 1 on
+> On Jun 6, 2021, at 12:27 PM, Richard Henderson =
+<richard.henderson@linaro.org> wrote:
+>=20
+> On 6/2/21 8:53 PM, Jason Thorpe wrote:
+>> +  hwrpb.hwrpb.ctbt_offset =3D offsetof(struct hwrpb_combine, ctb);
+>> +  hwrpb.hwrpb.ctb_size =3D sizeof(hwrpb.ctb);
+>> +  if (have_vga && !CONFIG_NOGRAPHICS(config))
+>> +    {
+>> +      hwrpb.ctb.term_type =3D CTB_GRAPHICS;
+>> +      hwrpb.ctb.turboslot =3D (CTB_TURBOSLOT_TYPE_PCI << 16) |
+>> +			    (pci_vga_bus << 8) | pci_vga_dev;
+>> +    }
+>> +  else
+>> +    {
+>> +      hwrpb.ctb.term_type =3D CTB_PRINTERPORT;
+>> +    }
+>=20
+> I'm concerned that you're initializing only 1 or 2 slots of 34.
+>=20
+> It would seem that at a bare minimum the struct should be zeroed, and =
+the device-independent header (4 slots) should be set.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- hmp-commands.hx        |   7 +-
- migration/dirtyrate.c  | 226 ++++++++++++++++++++++++++++++++++++++---
- migration/trace-events |   5 +
- 3 files changed, 220 insertions(+), 18 deletions(-)
+I'll rework it.
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 84dcc3aae6..cc24ab2ab1 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1736,8 +1736,9 @@ ERST
- 
-     {
-         .name       = "calc_dirty_rate",
--        .args_type  = "second:l,sample_pages_per_GB:l?",
--        .params     = "second [sample_pages_per_GB]",
--        .help       = "start a round of guest dirty rate measurement",
-+        .args_type  = "second:l,per_vcpu:b,sample_pages_per_GB:l?",
-+        .params     = "second on|off [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement, "
-+                      "calculate for vcpu use on|off",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 055145c24c..e432118f49 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -16,6 +16,9 @@
- #include "cpu.h"
- #include "exec/ramblock.h"
- #include "qemu/rcu_queue.h"
-+#include "qemu/main-loop.h"
-+#include "sysemu/kvm.h"
-+#include "sysemu/runstate.h"
- #include "qapi/qapi-commands-migration.h"
- #include "ram.h"
- #include "trace.h"
-@@ -23,9 +26,38 @@
- #include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "qapi/qmp/qdict.h"
-+#include "exec/memory.h"
-+
-+typedef enum {
-+    CALC_NONE = 0,
-+    CALC_DIRTY_RING,
-+    CALC_SAMPLE_PAGES,
-+} CalcMethod;
-+
-+typedef struct DirtyPageRecord {
-+    int64_t start_pages;
-+    int64_t end_pages;
-+} DirtyPageRecord;
-+
-+static DirtyPageRecord *dirty_pages;
- 
- static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
- static struct DirtyRateStat DirtyStat;
-+static CalcMethod last_method = CALC_NONE;
-+bool register_powerdown_callback = false;
-+
-+static void dirtyrate_powerdown_req(Notifier *n, void *opaque)
-+{
-+    if (last_method == CALC_DIRTY_RING) {
-+        g_free(DirtyStat.method.vcpu.rates);
-+        DirtyStat.method.vcpu.rates = NULL;
-+    }
-+    trace_dirtyrate_powerdown_callback();
-+}
-+
-+static Notifier dirtyrate_powerdown_notifier = {
-+    .notify = dirtyrate_powerdown_req
-+};
- 
- static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
- {
-@@ -72,6 +104,7 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
- {
-     int64_t dirty_rate = DirtyStat.dirty_rate;
-     struct DirtyRateInfo *info = g_malloc0(sizeof(DirtyRateInfo));
-+    DirtyRateVcpuList *head = NULL, **tail = &head;
- 
-     if (qatomic_read(&CalculatingState) == DIRTY_RATE_STATUS_MEASURED) {
-         info->has_dirty_rate = true;
-@@ -81,7 +114,22 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
--    info->sample_pages = DirtyStat.sample_pages;
-+
-+    if (last_method == CALC_DIRTY_RING) {
-+        int i = 0;
-+        info->per_vcpu = true;
-+        info->has_vcpu_dirty_rate = true;
-+        for (i = 0; i < DirtyStat.method.vcpu.nvcpu; i++) {
-+            DirtyRateVcpu *rate = g_malloc0(sizeof(DirtyRateVcpu));
-+            rate->id = DirtyStat.method.vcpu.rates[i].id;
-+            rate->dirty_rate = DirtyStat.method.vcpu.rates[i].dirty_rate;
-+            QAPI_LIST_APPEND(tail, rate);
-+        }
-+        info->vcpu_dirty_rate = head;
-+    } else {
-+        info->has_sample_pages = true;
-+        info->sample_pages = DirtyStat.sample_pages;
-+    }
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-@@ -94,15 +142,37 @@ static void init_dirtyrate_stat(int64_t start_time,
-     DirtyStat.dirty_rate = -1;
-     DirtyStat.start_time = start_time;
-     DirtyStat.calc_time = config.sample_period_seconds;
--    DirtyStat.sample_pages = config.sample_pages_per_gigabytes;
--
--    if (config.per_vcpu) {
--        DirtyStat.method.vcpu.nvcpu = -1;
--        DirtyStat.method.vcpu.rates = NULL;
--    } else {
--        DirtyStat.method.vm.total_dirty_samples = 0;
--        DirtyStat.method.vm.total_sample_count = 0;
--        DirtyStat.method.vm.total_block_mem_MB = 0;
-+    DirtyStat.sample_pages =
-+        config.per_vcpu ? -1 : config.sample_pages_per_gigabytes;
-+
-+    if (unlikely(!register_powerdown_callback)) {
-+        qemu_register_powerdown_notifier(&dirtyrate_powerdown_notifier);
-+        register_powerdown_callback = true;
-+    }
-+
-+    switch (last_method) {
-+    case CALC_NONE:
-+    case CALC_SAMPLE_PAGES:
-+        if (config.per_vcpu) {
-+            DirtyStat.method.vcpu.nvcpu = -1;
-+            DirtyStat.method.vcpu.rates = NULL;
-+        } else {
-+            DirtyStat.method.vm.total_dirty_samples = 0;
-+            DirtyStat.method.vm.total_sample_count = 0;
-+            DirtyStat.method.vm.total_block_mem_MB = 0;
-+        }
-+        break;
-+    case CALC_DIRTY_RING:
-+        if (!config.per_vcpu) {
-+            g_free(DirtyStat.method.vcpu.rates);
-+            DirtyStat.method.vcpu.rates = NULL;
-+            DirtyStat.method.vm.total_dirty_samples = 0;
-+            DirtyStat.method.vm.total_sample_count = 0;
-+            DirtyStat.method.vm.total_block_mem_MB = 0;
-+        }
-+        break;
-+    default:
-+        break;
-     }
- }
- 
-@@ -316,7 +386,7 @@ find_block_matched(RAMBlock *block, int count,
- }
- 
- static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
--                                  int block_count)
-+                                   int block_count)
- {
-     struct RamblockDirtyInfo *block_dinfo = NULL;
-     RAMBlock *block = NULL;
-@@ -340,14 +410,125 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
-     return true;
- }
- 
--static void calculate_dirtyrate(struct DirtyRateConfig config)
-+static void record_dirtypages(CPUState *cpu, bool start)
-+{
-+    if (start) {
-+        dirty_pages[cpu->cpu_index].start_pages = cpu->dirty_pages;
-+    } else {
-+        dirty_pages[cpu->cpu_index].end_pages = cpu->dirty_pages;
-+    }
-+}
-+
-+static void dirtyrate_global_dirty_log_start(void)
-+{
-+    /* dirty logging is enabled already */
-+    if (global_dirty_log) {
-+        return;
-+    }
-+
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+    trace_dirtyrate_dirty_log_start();
-+}
-+
-+static void dirtyrate_global_dirty_log_stop(void)
-+{
-+    /* migration is in process, do not stop dirty logging,
-+     * just clear the GLOBAL_DIRTY_DIRTY_RATE bit */
-+    if (global_dirty_log & GLOBAL_DIRTY_MIGRATION) {
-+        global_dirty_log &= ~(GLOBAL_DIRTY_DIRTY_RATE);
-+        return;
-+    }
-+
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_stop(GLOBAL_DIRTY_DIRTY_RATE);
-+    qemu_mutex_unlock_iothread();
-+    trace_dirtyrate_dirty_log_stop();
-+}
-+
-+static int64_t do_calculate_dirtyrate_vcpu(int idx)
-+{
-+    uint64_t memory_size_MB;
-+    int64_t time_s;
-+    uint64_t start_pages = dirty_pages[idx].start_pages;
-+    uint64_t end_pages = dirty_pages[idx].end_pages;
-+    uint64_t dirty_pages = 0;
-+
-+    /* uint64_t over the INT64_MAX */
-+    if (unlikely(end_pages < start_pages)) {
-+        dirty_pages = INT64_MAX - start_pages + end_pages + 1;
-+    } else {
-+        dirty_pages = end_pages - start_pages;
-+    }
-+
-+    memory_size_MB = (dirty_pages * TARGET_PAGE_SIZE) >> 20;
-+    time_s = DirtyStat.calc_time;
-+
-+    trace_dirtyrate_do_calculate_vcpu(idx, dirty_pages, time_s);
-+
-+    return memory_size_MB / time_s;
-+}
-+
-+static void calculate_dirtyrate_vcpu(struct DirtyRateConfig config)
-+{
-+    CPUState *cpu;
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    uint64_t dirtyrate = 0;
-+    uint64_t dirtyrate_sum = 0;
-+    int nvcpu = 0;
-+    int i = 0;
-+
-+    CPU_FOREACH(cpu) {
-+        nvcpu++;
-+    }
-+
-+    dirty_pages = g_malloc0(sizeof(*dirty_pages) * nvcpu);
-+
-+    dirtyrate_global_dirty_log_start();
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(cpu, true);
-+    }
-+
-+    DirtyStat.method.vcpu.nvcpu = nvcpu;
-+    if (last_method != CALC_DIRTY_RING) {
-+        DirtyStat.method.vcpu.rates =
-+            g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
-+    }
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    CPU_FOREACH(cpu) {
-+        record_dirtypages(cpu, false);
-+    }
-+
-+    dirtyrate_global_dirty_log_stop();
-+
-+    for (i = 0; i < DirtyStat.method.vcpu.nvcpu; i++) {
-+        dirtyrate = do_calculate_dirtyrate_vcpu(i);
-+        DirtyStat.method.vcpu.rates[i].id = i;
-+        DirtyStat.method.vcpu.rates[i].dirty_rate = dirtyrate;
-+        dirtyrate_sum += dirtyrate;
-+    }
-+
-+    DirtyStat.dirty_rate = dirtyrate_sum / DirtyStat.method.vcpu.nvcpu;
-+    g_free(dirty_pages);
-+}
-+
-+static void calculate_dirtyrate_sample_vm(struct DirtyRateConfig config)
- {
-     struct RamblockDirtyInfo *block_dinfo = NULL;
-     int block_count = 0;
-     int64_t msec = 0;
-     int64_t initial_time;
- 
--    rcu_register_thread();
-     rcu_read_lock();
-     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
-@@ -364,13 +545,24 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
-     if (!compare_page_hash_info(block_dinfo, block_count)) {
-         goto out;
-     }
--
-     update_dirtyrate(msec);
- 
- out:
-     rcu_read_unlock();
-     free_ramblock_dirty_info(block_dinfo, block_count);
--    rcu_unregister_thread();
-+}
-+
-+static void calculate_dirtyrate(struct DirtyRateConfig config)
-+{
-+    if (config.per_vcpu) {
-+        calculate_dirtyrate_vcpu(config);
-+        last_method = CALC_DIRTY_RING;
-+    } else {
-+        calculate_dirtyrate_sample_vm(config);
-+        last_method = CALC_SAMPLE_PAGES;
-+    }
-+
-+    trace_dirtyrate_calculate(DirtyStat.dirty_rate);
- }
- 
- void *get_dirtyrate_thread(void *arg)
-@@ -379,6 +571,8 @@ void *get_dirtyrate_thread(void *arg)
-     int ret;
-     int64_t start_time;
- 
-+    rcu_register_thread();
-+
-     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-     if (ret == -1) {
-@@ -396,6 +590,8 @@ void *get_dirtyrate_thread(void *arg)
-     if (ret == -1) {
-         error_report("change dirtyrate state failed.");
-     }
-+
-+    rcu_unregister_thread();
-     return NULL;
- }
- 
-diff --git a/migration/trace-events b/migration/trace-events
-index 860c4f4025..4c5a658665 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -330,6 +330,11 @@ get_ramblock_vfn_hash(const char *idstr, uint64_t vfn, uint32_t crc) "ramblock n
- calc_page_dirty_rate(const char *idstr, uint32_t new_crc, uint32_t old_crc) "ramblock name: %s, new crc: %" PRIu32 ", old crc: %" PRIu32
- skip_sample_ramblock(const char *idstr, uint64_t ramblock_size) "ramblock name: %s, ramblock size: %" PRIu64
- find_page_matched(const char *idstr) "ramblock %s addr or size changed"
-+dirtyrate_calculate(int64_t dirtyrate) "dirty rate: %" PRIi64
-+dirtyrate_do_calculate_vcpu(int idx, uint64_t pages, int64_t seconds) "vcpu[%d]: dirty %"PRIu64 " pages in %"PRIi64 " seconds"
-+dirtyrate_powerdown_callback(void) ""
-+dirtyrate_dirty_log_start(void) ""
-+dirtyrate_dirty_log_stop(void) ""
- 
- # block.c
- migration_block_init_shared(const char *blk_device_name) "Start migration for %s with shared base image"
--- 
-2.18.2
+> I notice you're setting term_type (offset 56) and not type (offset 0), =
+which is where my documentation says that CTB_GRAPHICS goes (Console =
+Interface Architecture 2.3.8.2 Console Terminal Block Table).
+
+It could be that the value was mirrored in both fields.  I'll =
+investigate further.
+
+> I'm also confused that this
+>=20
+>> + * Format of the Console Terminal Block Type 4 `turboslot' field:
+>=20
+> says "type 4", but you're actually using type 3 (GRAPHICS) above.
+
+Yes.  The GRAPHICS type was originally just for the TURBOchannel =
+systems, but when the first AlphaStations landed, SRM continued using =
+GRAPHICS as the "term_type" ... it's entirely possible that the "type" =
+field was in fact set to MULTIPURPOSE in that case.
+
+> But I do see that what you're filling in is exactly what netbsd =
+examines -- no header checks, no size checks, or anything.  And that =
+openbsd has an exact copy of that code.
+
+I'll see if I can figure out what Digital Unix does.
+
+-- thorpej
 
 
