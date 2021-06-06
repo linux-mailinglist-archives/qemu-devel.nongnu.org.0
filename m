@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E591B39D008
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 18:38:37 +0200 (CEST)
-Received: from localhost ([::1]:35640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D717839D00C
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 18:41:24 +0200 (CEST)
+Received: from localhost ([::1]:41822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpvnI-0001KB-EX
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 12:38:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1lpvpz-0005gF-B9
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 12:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lpvlY-000724-Jm; Sun, 06 Jun 2021 12:36:48 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:58755)
+ id 1lpvlZ-00072O-D6; Sun, 06 Jun 2021 12:36:49 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:42967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lpvlV-0004Rh-Rt; Sun, 06 Jun 2021 12:36:47 -0400
+ id 1lpvlV-0004Rf-RQ; Sun, 06 Jun 2021 12:36:49 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C7494746FDC;
+ by localhost (Postfix) with SMTP id CB635746FDD;
  Sun,  6 Jun 2021 18:36:40 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A69CA74634B; Sun,  6 Jun 2021 18:36:40 +0200 (CEST)
-Message-Id: <16763926cad112e259e66c24864cdacbc83b6983.1622994395.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1622994395.git.balaton@eik.bme.hu>
-References: <cover.1622994395.git.balaton@eik.bme.hu>
+ id A1E7D745709; Sun,  6 Jun 2021 18:36:40 +0200 (CEST)
+Message-Id: <cover.1622994395.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [RFC PATCH 1/5] Misc VOF fixes
+Subject: [RFC PATCH 0/5] ppc/Pegasos2 VOF
 Date: Sun, 06 Jun 2021 17:46:35 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,82 +56,50 @@ Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/vof.c        |  11 +++++++----
- pc-bios/vof.bin     | Bin 3784 -> 3784 bytes
- pc-bios/vof/entry.S |   2 +-
- 3 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
-index a283b7d251..ac95be9666 100644
---- a/hw/ppc/vof.c
-+++ b/hw/ppc/vof.c
-@@ -144,12 +144,15 @@ static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
-     char fullnode[VOF_MAX_PATH];
-     uint32_t ret = -1;
-     int offset;
-+    gchar *p;
- 
-     if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
-         return (uint32_t) ret;
-     }
- 
--    offset = fdt_path_offset(fdt, fullnode);
-+    p = g_ascii_strdown(fullnode, -1);
-+    offset = fdt_path_offset(fdt, p);
-+    g_free(p);
-     if (offset >= 0) {
-         ret = fdt_get_phandle(fdt, offset);
-     }
-@@ -160,14 +163,14 @@ static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
- static const void *getprop(const void *fdt, int nodeoff, const char *propname,
-                            int *proplen, bool *write0)
- {
--    const char *unit, *prop;
-+    const char *unit, *prop = fdt_getprop(fdt, nodeoff, propname, proplen);
- 
-     /*
-      * The "name" property is not actually stored as a property in the FDT,
-      * we emulate it by returning a pointer to the node's name and adjust
-      * proplen to include only the name but not the unit.
-      */
--    if (strcmp(propname, "name") == 0) {
-+    if (!prop && strcmp(propname, "name") == 0) {
-         prop = fdt_get_name(fdt, nodeoff, proplen);
-         if (!prop) {
-             *proplen = 0;
-@@ -193,7 +196,7 @@ static const void *getprop(const void *fdt, int nodeoff, const char *propname,
-     if (write0) {
-         *write0 = false;
-     }
--    return fdt_getprop(fdt, nodeoff, propname, proplen);
-+    return prop;
- }
- 
- static uint32_t vof_getprop(const void *fdt, uint32_t nodeph, uint32_t pname,
-diff --git a/pc-bios/vof.bin b/pc-bios/vof.bin
-index 7e4c3742deae3c1904f4b2bf03ef72576b12d532..1ec670be82134adcb5ae128732aff6e371281360 100755
-GIT binary patch
-delta 14
-VcmX>hdqQ@D4kKgpW?jbFyZ|U11hoJF
+Based-on: <20210520090557.435689-1-aik@ozlabs.ru>
+^ That is v20 of Alexey's VOF patch
 
-delta 14
-VcmX>hdqQ@D4kP31&AN=Uc>yYn1swnY
+Hello,
 
-diff --git a/pc-bios/vof/entry.S b/pc-bios/vof/entry.S
-index 569688714c..f8066775ec 100644
---- a/pc-bios/vof/entry.S
-+++ b/pc-bios/vof/entry.S
-@@ -30,7 +30,7 @@ ENTRY(_prom_entry)
- 	bl prom_entry
- 	nop
- 	mtlr    %r31
--	ld      %r31,104(%r1)
-+	lwz     %r31,104(%r1)
- 	addi    %r1,%r1,112
- 	blr
- 
+Posting these for early review now. I plan to rebase on the next VOF
+patch that hopefully fixes those points that I had to circumvent in
+patch 1 for now. I've reported these before but now all of those that
+are needed for pegasos2 are in one place. Other points I've reported
+could be clean ups but not sttictly needed.
+
+With this series on top of VOF v20 I can now boot Linux and MorphOS on
+pegasos2 without needing a firmware blob so I hope this is enough to
+get this board in 6.1 and also have it enabled so users can start
+using it. That means that VOF will also be merged by then. This now
+gives VOF another use case that may help it getting finished.
+
+I've also updated my development tree with this series here:
+
+https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
+
+Please review so I can do any needed changes together with the rebase
+on next VOF patch so we don't miss 6.1 this time.
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (5):
+  Misc VOF fixes
+  ppc/pegasos2: Introduce Pegasos2MachineState structure
+  target/ppc: Allow virtual hypervisor on CPU without HV
+  ppc/pegasos2: Use Virtual Open Firmware as firmware replacement
+  ppc/pegasos2: Implement some RTAS functions with VOF
+
+ default-configs/devices/ppc-softmmu.mak |   2 +-
+ hw/ppc/Kconfig                          |   1 +
+ hw/ppc/pegasos2.c                       | 780 +++++++++++++++++++++++-
+ hw/ppc/vof.c                            |  11 +-
+ pc-bios/vof.bin                         | Bin 3784 -> 3784 bytes
+ pc-bios/vof/entry.S                     |   2 +-
+ target/ppc/cpu.c                        |   2 +-
+ 7 files changed, 776 insertions(+), 22 deletions(-)
+
 -- 
 2.21.4
 
