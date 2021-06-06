@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433FB39CBD8
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 02:29:29 +0200 (CEST)
-Received: from localhost ([::1]:40620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E5239CBEE
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 02:33:31 +0200 (CEST)
+Received: from localhost ([::1]:42832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpgfP-00078a-Qe
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 20:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56436)
+	id 1lpgjK-0000Sb-JZ
+	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 20:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpgeP-0006RO-Pk
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 20:28:25 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:38442)
+ id 1lpgiZ-00087H-Uj
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 20:32:43 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:46670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lpgeN-0000W0-00
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 20:28:25 -0400
-Received: by mail-pg1-x532.google.com with SMTP id 6so10944959pgk.5
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 17:28:22 -0700 (PDT)
+ id 1lpgiY-000390-Cn
+ for qemu-devel@nongnu.org; Sat, 05 Jun 2021 20:32:43 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id e1so6616486pld.13
+ for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 17:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=mmE8sMs83/0vm8GMO5yMPhyHYwK+srj02hoA1IPnEbQ=;
- b=jtOvcGAqMlr5St/BkKUhmhhFn9gnwvliHszh13XpRzZXH2jR1DayHHNsWiFk/Owlxn
- 5/DLSTkbRAY1o6FkUwkrwCrqOfV2QO3KUI8Z+NXkZ+7rcU54CaDTM6+dZj9I/TQIwgnx
- MvQBv4VmIk7iJZi03osdD7UYETaNf4gwBF98YVU2hHKPfC7HJ39z8mfbpeMhdogJ1nfl
- yae2KBWC0QdMk3xRV0Qg0lo9bW5hrSz1OYHGbQ5JHotCoge9D/vPzouqdiozNKULJmZ9
- iVztu/9ctXZQ8oKya3s/IJe8MCqTYa2uHsOFRPAAHD1uhPDxxrtCf4tAl4OKaBxwDYPI
- GbfA==
+ bh=/eGLohZarLgkRkEyAt3lkNg3P9LmCQKZdbpFSJiqwx0=;
+ b=YXEoBQHD+GY7qa4f+4aX6xncE3bUfNdJL9Y36gJ3jNy8b15pLj8Lpg1EAescBK4ckQ
+ AU9Ei0LhQdskt8Umir6S+d9294+WwJwKfQYXGx/27ZS2VJC39GR8M2mXpLEJpXmRlAyg
+ JlnQv1CnB9zTDl+fF5xwrZX9PTrCPnkXxD2ohm+bMBCXoE8JZNLMTaaaYX1AvxTrbl1Z
+ S5WuVFUZO7clIyydeD+EZUrm3yz+fj/exJTT57VfO8OsBP97ID0a80gaGp7X59EZFVeG
+ ZIBQRDzG9y++zgX7oI/i1DRLAtvpOEnAG30Sn6DEsyDYF6jLiQ8jqeCeSvsh9zdXuk6R
+ cUYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mmE8sMs83/0vm8GMO5yMPhyHYwK+srj02hoA1IPnEbQ=;
- b=n83gLC0l4sgRlNUvhnPuhUP4E3ibFPI6BJTYYUeWRGmOUKfL17/BFkR8NeObGF1RhM
- sDQozE62GWe9suurkK+yUlqRu4zeroLu4ma4PsUIzLsze4LboBPXrhp6g0OPnqLkhZEf
- VZsZ0a+ej2MsOM3GrHuq0lUNMcffFE3opo/cZeDaQ65SPbwgNPIErSzqGtJx1p6zh4mm
- 8YcnJYsie1wI6AEeqgculsVliEzk46nvehizRPk0f9vDdXAlMD2bRmlgZAZEsjqoT78e
- TkyIg/hFE4TsB6SHHwE1UdHE3oI8EOw6M7XiHNcM5jbxMRtZKNMK1/wY7LxOQdQ6n5Bt
- xQFg==
-X-Gm-Message-State: AOAM531azjbQJPHnsWATLN/MBtdAs9LA+Cb1PhNcOpcC0qOz9M3x2asy
- vxXze1dBoeghkF7AGbSfgJCOspN2wt2L3w==
-X-Google-Smtp-Source: ABdhPJzSk/UpHKvFl7Wd3M5BeQ3oG1lbvx3htkDnvAnVwyKUbSwxeZaMxaKVrNboPijMHRX92YMwEw==
-X-Received: by 2002:a63:8f46:: with SMTP id r6mr11888214pgn.182.1622939301282; 
- Sat, 05 Jun 2021 17:28:21 -0700 (PDT)
+ bh=/eGLohZarLgkRkEyAt3lkNg3P9LmCQKZdbpFSJiqwx0=;
+ b=EFhgztXWgrjaX/FnJnnRq/HCiajl1rg0yEE2Fl+yKRUdREIes6LQ5m2Ln9Hz3eW5Sp
+ h6VMoOibm6bUlmjh/vgn6BNuW87u4tTIK1dNhPm0eQM4aciJmKb+YHWtxe7rEyeNbsBT
+ UNct4L1gbPXOLW40Ch4Fh0eXY840irZ4xX/QojUHnt767tYD7sC13Tel3ra0KXzy3a/m
+ 3JM2HguVDPPLNxZ7lRFDrZJ/3cs55XzSO6fLA/sJSTzYSAek4FhQR3KXZuikrbVifAIb
+ fYgaFiz/h7oJv8jlsdmi8xUk8N7hvH5Xn1J6a6KHl3AK1SRp0jCSB5pkXgkQgg8lbVUG
+ W4Ow==
+X-Gm-Message-State: AOAM531OrLpfp/NQJB/9F8iGOwkT9wDkQZSfBITqQC6Mf1wVe5HSrF2X
+ ondrRGuteyz8ydjxdgToCpL/FGIvn/B56A==
+X-Google-Smtp-Source: ABdhPJwTe3el8WjgJ9hFOtDJKgolql5SkOjwSqp2TRLb+pheuSyfCOSMxFjAxaHztQ0m4BHqHhbBmQ==
+X-Received: by 2002:a17:903:4106:b029:10d:22fa:13d4 with SMTP id
+ r6-20020a1709034106b029010d22fa13d4mr11218817pld.78.1622939560703; 
+ Sat, 05 Jun 2021 17:32:40 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- j16sm5552669pgh.69.2021.06.05.17.28.20
+ x13sm9228186pja.3.2021.06.05.17.32.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 17:28:20 -0700 (PDT)
-Subject: Re: [PATCH 3/8] Fix initialization of the hwrpb.hwrpb.cpuid field.
+ Sat, 05 Jun 2021 17:32:40 -0700 (PDT)
+Subject: Re: [PATCH 4/8] Make some PCI macros available to other files. NFC.
 To: Jason Thorpe <thorpej@me.com>, qemu-devel@nongnu.org
 References: <20210603035317.6814-1-thorpej@me.com>
- <20210603035317.6814-4-thorpej@me.com>
+ <20210603035317.6814-5-thorpej@me.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b89efddf-4960-07c4-1c13-f2eb80c44117@linaro.org>
-Date: Sat, 5 Jun 2021 17:28:18 -0700
+Message-ID: <828ec620-9565-4bcb-9e7a-944f854682d9@linaro.org>
+Date: Sat, 5 Jun 2021 17:32:39 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210603035317.6814-4-thorpej@me.com>
+In-Reply-To: <20210603035317.6814-5-thorpej@me.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -92,34 +93,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/2/21 8:53 PM, Jason Thorpe wrote:
-> Initialize the hwrpb.hwrpb.cpuid field with the primary CPU ID, not
-> the processor type, as per the architecture specification.  Some
-> operating systems check and assert this.
-> 
-> Improve a couple of comments.
+> Move PCI_DEVFN(), PCI_BUS(), PCI_SLOT(), and PCI_FUNC() to pci.h.
 > 
 > Signed-off-by: Jason Thorpe<thorpej@me.com>
 > ---
->   init.c | 29 ++++++++++++++++++++++-------
->   1 file changed, 22 insertions(+), 7 deletions(-)
+>   pci.c | 4 ----
+>   pci.h | 5 +++++
+>   2 files changed, 5 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-> @@ -257,8 +272,8 @@ init_i8259 (void)
->    outb(0x04, PORT_PIC1_DATA);	/* ICW3: slave control INTC2 */
->    outb(0x01, PORT_PIC1_DATA);	/* ICW4 */
->  
-> -  /* Initialize level triggers.  The CY82C693UB that's on real alpha
-> -     hardware doesn't have this; this is a PIIX extension.  However,
-> +  /* Initialize level triggers.  The CY82C693UB that's on some real alpha
-> +     systems controls these differently; we assume a PIIX here.  However,
->       QEMU doesn't implement regular level triggers.  */
->    outb(0xff, PORT_PIC2_ELCR);
->    outb(0xff, PORT_PIC1_ELCR);
-
-I'll split this out to a separate patch.
-
 
 r~
 
