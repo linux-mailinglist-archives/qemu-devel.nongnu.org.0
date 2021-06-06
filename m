@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0224539D089
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 20:56:53 +0200 (CEST)
-Received: from localhost ([::1]:42134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09ACF39D085
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 20:49:49 +0200 (CEST)
+Received: from localhost ([::1]:39260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lpxx6-00045l-3U
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 14:56:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59706)
+	id 1lpxqG-0001fV-48
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 14:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lpxw3-0003JX-7k
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 14:55:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34430)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lpxnj-0006jL-3M; Sun, 06 Jun 2021 14:47:11 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lpxvx-0001px-T4
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 14:55:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lpxvu-0007CM-Sk
- for <qemu-devel@nongnu.org>; Sun, 06 Jun 2021 18:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D6CF22E8135
- for <qemu-devel@nongnu.org>; Sun,  6 Jun 2021 18:55:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lpxnh-0004V2-Ob; Sun, 06 Jun 2021 14:47:10 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c5so14854313wrq.9;
+ Sun, 06 Jun 2021 11:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jU2+5eoGGzDM3UL6JWyyWl0RPadzYcsQmTtSNIYMRaQ=;
+ b=VDIOO9G6eOy/JOguL8J+EyPI2wH9FtNWe0Vdgn1EEUFry1R4yzdjRwfKqz4a6UNCbO
+ mRRC0GYrRE2hwxdth+NEvHWq5mw8bMubLUv8cxIHsd+A9W5bavFyLE3wxLDTyGgIQBDI
+ PnsbJZD5r+69lGArexDmQ8W2Ybw2laerowz6HR4lLMgDP8TOSCqcbGD+BiulcvRgc+qf
+ V16bObgKx0Z4qJ56jAQmUTNK5T7FDpp24tSUg+GfSiLLRf+34EIueJtanViITV9NIc5/
+ Y27FppmB4M4tEw3uZowW0XMmONnWRZsCSitjW1VJU6UDVpBeCoxE9PX2nSRJFxIdg/qe
+ qAtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jU2+5eoGGzDM3UL6JWyyWl0RPadzYcsQmTtSNIYMRaQ=;
+ b=VlF56Yytj8G1P0L7QTUcyBRjDsLWrbnlsRHPYQqF7wD1Yaff+fu8SId7SEprGgHm3e
+ CspQ8C358udsEGZu9pxq9dKX7iy+XQAB577Szh2hZcfLRAYsxPBctKkowD+/oIEjeufV
+ 3mkBsWSVDYjjwkBVrLcgLYyeTb8rG6ZYJrcOuKOqG4fm4aCyMvafovo761W+khgSRsED
+ AyatcsjlRejCseD77eb4XtanbAVPpHKZbvCHCbxMleUATR2IiKPq1gsiFk3GWbFNDqQj
+ G76M/AsNZIL05ayuMG+Ec3K+Ea+FCHWBNSEGILAbOG2iJVhGHBuqOx+BY76tHVwEGIHf
+ kjCg==
+X-Gm-Message-State: AOAM532Eu0b/dDf+ic0arHh/bQWFBnAayOw+YK4X8DYpgiEA4J/AopUm
+ 7jmoaOJVPbRTKwSdSR2g6DJAz4hxW7NyRQ==
+X-Google-Smtp-Source: ABdhPJyy/O6TUn7QGMQWrdwsQjstYEI2O++oze0fM6VQkDn8BLvfkOW+i9dTAi84mShbGq8IzcvtJw==
+X-Received: by 2002:adf:fd4f:: with SMTP id h15mr13683618wrs.245.1623005227759; 
+ Sun, 06 Jun 2021 11:47:07 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id d3sm12960595wrs.41.2021.06.06.11.47.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 06 Jun 2021 11:47:07 -0700 (PDT)
+Subject: Re: [PATCH 3/3] target/arm: Diagnose UNALLOCATED in
+ disas_simd_three_reg_same_fp16
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210604183506.916654-1-richard.henderson@linaro.org>
+ <20210604183506.916654-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b0f0b290-f530-df91-3878-89e6cbaf1d5d@amsat.org>
+Date: Sun, 6 Jun 2021 20:47:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 06 Jun 2021 18:46:24 -0000
-From: cyrozap <1920013@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cyrozap laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: cyrozap (cyrozap)
-X-Launchpad-Bug-Modifier: cyrozap (cyrozap)
-References: <161607017744.16047.7761702341537087563.malonedeb@gac.canonical.com>
-Message-Id: <162300518453.14291.1168449455334561957.malone@gac.canonical.com>
-Subject: [Bug 1920013] Re: Unable to pass-through PCIe devices from a ppc64le
- host to an x86_64 guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: 5f3eb6a563c56c7549b45b4dc0fc459fa2e7a566
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210604183506.916654-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,65 +88,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1920013 <1920013@bugs.launchpad.net>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've moved this bug over to GitLab here: https://gitlab.com/qemu-
-project/qemu/-/issues/391
+On 6/4/21 8:35 PM, Richard Henderson wrote:
+> This fprintf+assert has been in place since the beginning.
+> It is after to the fp_access_check, so we need to move the
+> check up.  Fold that in to the pairwise filter.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate-a64.c | 82 +++++++++++++++++++++++---------------
+>  1 file changed, 50 insertions(+), 32 deletions(-)
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #391
-   https://gitlab.com/qemu-project/qemu/-/issues/391
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1920013
-
-Title:
-  Unable to pass-through PCIe devices from a ppc64le host to an x86_64
-  guest
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Attempting to pass through a PCIe device from a ppc64le host to an
-  x86_64 guest with QEMU v5.2.0-3031-g571d413b5d (built from git master)
-  fails with the following error:
-
-      include/exec/memory.h:43:IOMMU_MEMORY_REGION: Object 0x10438eb00
-  is not an instance of type qemu:iommu-memory-region
-
-  To reproduce this issue, simply run the following command on a POWER9
-  system:
-
-      qemu-system-x86_64 -machine q35 -device vfio-pci,host=3D$DBSF
-
-  Where $DBSF is a domain:bus:slot.function PCIe device address.
-
-  This also fails with QEMU 3.1.0 (from Debian Buster), so I assume this
-  has never worked. Helpfully, the error message it prints seems to
-  indicate where the problem is:
-
-      hw/vfio/spapr.c:147:vfio_spapr_create_window: Object 0x164473510
-  is not an instance of type qemu:iommu-memory-region
-
-  My kernel (Linux v5.8.0 plus some small unrelated patches) is built
-  with the page size set to 4k, so this issue shouldn't be due to a page
-  size mismatch. And as I stated earlier, my host arch is ppc64le, so it
-  shouldn't be an endianness issue, either.
-
-  I assume this should be possible (in theory) since I've seen reports
-  of others getting PCIe passthrough working with aarch64 guests on
-  x86_64 hosts, but of course that (passthrough to weird guest arch on
-  x86) is somewhat the opposite of what I'm trying to do (passthrough to
-  x86 on weird host arch) so I don't know for sure. If it is possible,
-  I'm willing to develop a fix myself, but I'm almost completely
-  unfamiliar with QEMU's internals so if anyone has any advice on where
-  to start I'd greatly appreciate it.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1920013/+subscriptions
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
