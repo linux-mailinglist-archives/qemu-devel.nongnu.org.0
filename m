@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA29D39CC20
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 03:50:57 +0200 (CEST)
-Received: from localhost ([::1]:53712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B26439CF96
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Jun 2021 16:39:58 +0200 (CEST)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lphwG-0004Mb-EJ
-	for lists+qemu-devel@lfdr.de; Sat, 05 Jun 2021 21:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37380)
+	id 1lptwT-0002XR-BU
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 10:39:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lphv4-0003h1-9x
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 21:49:42 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lphv1-0001t1-Ti
- for qemu-devel@nongnu.org; Sat, 05 Jun 2021 21:49:42 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id k5so7731683pjj.1
- for <qemu-devel@nongnu.org>; Sat, 05 Jun 2021 18:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=WbZED075KCbC1wmCSKGIM8T/R7C+1QsxJgZkECsSDZ4=;
- b=eNkjFvai3pJGCZNb3Ser931mNiOwD3jv3V2FX1kvWSeitW4PC8xd1R1ig+DigeVT+Z
- lt4aTlgA34JJn2ywgJxk2DnKPIj8nlmTTEEdUwP7dwCsjwt2/Q2rR8QdF8wbeh7Rjnf2
- C3CjDujhEAV7RyzcZXjBAoNL7w5BgNywnVgB9mAxfTtnowVcjUyWBLb3UeD7NI45etg/
- aIWMHSSOWvrZNLNTMuDZaIOd5SeEQ75TzExZ6lPGJLvv29yxIHU/tUCrXcWqu97xGGmS
- zwBGVttFOlRTqB9PVGmIxWqis84Gyn9JbWyyE+u5/f6/atxdP5CE9ucjGCMtDF1CRKwr
- XfbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WbZED075KCbC1wmCSKGIM8T/R7C+1QsxJgZkECsSDZ4=;
- b=NCiVwEeODwDv2meocn5ukuEpTU6YlbTsKGOzCtovw0Rpsu1/+nRkySiErU38FKrDWa
- 6B1OlhKDeR2B34z5rv8ghfMJ6vtAoy2ZcW0EDIV2oq9mkOMhoWgvWsfyYZVnD4FcndIb
- Ey1lnq7PHPZ600GFLSkHULQxnOwlpidF3VDFKeNm7RveK+AWDVpauU9VFd7iOKbs+w+y
- y07aMxdelDbfpWpAdzmgxE2g1WD7rsAbm08kQAAq2POVkfbATmep/Oruht8eO4E7f06i
- J2kT7qsKnznFyexLUeaZxv0kwmEf6MtmBa4T3iLFQHwoDrmFTVvVo45ZsjjD/sOrsO64
- 2eOg==
-X-Gm-Message-State: AOAM533ChOoLqWzxv5OGX1YK9fQbsI96IqmiRDp2c+QEhFrpiokY0tbP
- Hu8QzZQhQczira0BeEsoyRQ0mc3P32Z9cQ==
-X-Google-Smtp-Source: ABdhPJwotrAO0v62fG7RPCbu1VmdnxtSvAZ039h6eFcy7LyDo8mYQl4m5A4kMSGtYGncwKXNE/me7g==
-X-Received: by 2002:a17:90b:d95:: with SMTP id
- bg21mr1147978pjb.115.1622944177427; 
- Sat, 05 Jun 2021 18:49:37 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- w10sm4834395pfg.196.2021.06.05.18.49.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Jun 2021 18:49:37 -0700 (PDT)
-Subject: Re: [PATCH 6/8] Provide interrupt mapping information in PCI config
- registers.
-To: Jason Thorpe <thorpej@me.com>, qemu-devel@nongnu.org
-References: <20210603035317.6814-1-thorpej@me.com>
- <20210603035317.6814-7-thorpej@me.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b58dc5ca-3082-3a21-dc76-1547b6435927@linaro.org>
-Date: Sat, 5 Jun 2021 18:49:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210603035317.6814-7-thorpej@me.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.59,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1lptu7-0006dK-MB
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 10:37:34 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:46031)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1lptu5-0006qf-QD
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 10:37:31 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 1854F3AF63;
+ Sun,  6 Jun 2021 23:37:28 +0900 (JST)
+Received: from localhost.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id BA2AD1C0567;
+ Sun,  6 Jun 2021 23:37:27 +0900 (JST)
+Date: Sun, 06 Jun 2021 23:31:57 +0900
+Message-ID: <s59pmwzm5cy.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 01/11] hw/char: Renesas SCI module.
+In-Reply-To: <CAFEAcA81RvbdVV=+p8keYxuysz3aKg9nM2cK3Fo_eBefBvjQTQ@mail.gmail.com>
+References: <20210527052122.97103-1-ysato@users.sourceforge.jp>
+ <20210527052122.97103-2-ysato@users.sourceforge.jp>
+ <CAFEAcA81RvbdVV=+p8keYxuysz3aKg9nM2cK3Fo_eBefBvjQTQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (arm-unknown-linux-androideabi) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.224.55.15;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail03.asahi-net.or.jp
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_VALIDITY_RPBL=1.31, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,45 +59,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/2/21 8:53 PM, Jason Thorpe wrote:
-> Use system-specific information to program the interrupt line register
-> with the interrupt mappings, which is what the SRM console does on real
-> hardware; some operating systems (e.g. NetBSD) use this information
-> rather than having interrupt mappings tables for every possible system
-> variation.
+On Fri, 04 Jun 2021 18:09:44 +0900,
+Peter Maydell wrote:
 > 
-> Signed-off-by: Jason Thorpe <thorpej@me.com>
+> On Thu, 27 May 2021 at 06:30, Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
+> >
+> > This module supported SCI / SCIa / SCIF.
+> >
+> > Hardware manual.
+> > SCI / SCIF
+> > https://www.renesas.com/us/en/doc/products/mpumcu/001/r01uh0457ej0401_sh7751.pdf
+> > SCIa
+> > https://www.renesas.com/us/en/doc/products/mpumcu/doc/rx_family/r01uh0033ej0140_rx62n.pdf
+> >
+> > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> > ---
+> >  include/hw/char/renesas_sci.h |  129 +++-
+> >  hw/char/renesas_sci.c         | 1039 +++++++++++++++++++++++++++------
+> >  2 files changed, 966 insertions(+), 202 deletions(-)
+> 
+> This patch is much too large to review. Could you split it up into
+> multiple logical pieces, please?
 
-Thanks.
+OK. I will snt v2.
 
-> +  /* Map the interrupt and program the IRQ into the line register.
-> +     Some operating systems rely on the Console providing this information
-> +     in order to avoid having mapping tables for every possible system
-> +     variation.  */
-> +
-> +  const uint8_t pin = pci_config_readb(bdf, PCI_INTERRUPT_PIN);
-> +  const uint8_t slot = PCI_SLOT(bdf);
-> +  const int irq = MAP_PCI_INTERRUPT(slot, pin, class_id);
-> +
-> +  if (irq == -1)
-> +    {
-> +      /* No interrupt mapping.  */
-> +      pci_config_writeb(bdf, PCI_INTERRUPT_LINE, 0xff);
-> +    }
-> +  else
-> +    {
-> +      pci_config_writeb(bdf, PCI_INTERRUPT_LINE, irq);
-> +    }
+> 
+> >
+> > diff --git a/include/hw/char/renesas_sci.h b/include/hw/char/renesas_sci.h
+> > index a4764e3eee..ae9554db60 100644
+> > --- a/include/hw/char/renesas_sci.h
+> > +++ b/include/hw/char/renesas_sci.h
+> > @@ -1,54 +1,137 @@
+> >  /*
+> >   * Renesas Serial Communication Interface
+> >   *
+> > - * Copyright (c) 2018 Yoshinori Sato
+> > + * Copyright (c) 2020 Yoshinori Sato
+> > + *
+> > + * This code is licensed under the GPL version 2 or later.
+> >   *
+> > - * SPDX-License-Identifier: GPL-2.0-or-later
+> 
+> Did you have a reason for deleting the SPDX line ?
+> 
+> >   */
+> >
+> > -#ifndef HW_CHAR_RENESAS_SCI_H
+> > -#define HW_CHAR_RENESAS_SCI_H
+> > -
+> 
+> Why have you deleted the multiple-include guard?
+> 
+> thanks
+> -- PMM
 
-I've folded this non-distinction into the functional interface.
-
-> +#define MAP_PCI_INTERRUPT(SLOT, PIN, CLASS_ID)			\
-
-I've turned this into a static inline.
-
-
-r~
+-- 
+Yoshinori Sato
 
