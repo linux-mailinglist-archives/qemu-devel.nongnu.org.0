@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D1E39D3A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 05:52:37 +0200 (CEST)
-Received: from localhost ([::1]:33540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E5239D3AE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 05:55:20 +0200 (CEST)
+Received: from localhost ([::1]:43884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq6JY-0006Jw-5Y
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 23:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
+	id 1lq6MB-0004pf-4D
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 23:55:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lq6Hr-0003bl-CX; Sun, 06 Jun 2021 23:50:51 -0400
-Received: from ozlabs.org ([203.11.71.1]:58991)
+ id 1lq6Hr-0003bn-D5; Sun, 06 Jun 2021 23:50:51 -0400
+Received: from ozlabs.org ([203.11.71.1]:60947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lq6Hk-0002bw-4o; Sun, 06 Jun 2021 23:50:50 -0400
+ id 1lq6Hk-0002cR-5J; Sun, 06 Jun 2021 23:50:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fyzt21JF7z9sVt; Mon,  7 Jun 2021 13:50:34 +1000 (AEST)
+ id 4Fyzt221tLz9sWk; Mon,  7 Jun 2021 13:50:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1623037834;
- bh=gDAAwAXQ1NBX53bStlrsM17dD9tCq0jYWdU0IZPd8I0=;
+ bh=Ry3WmpzD8HZdPu6uItN19d1pEf5ZKRjEjSnextsZrbM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C8lLXbuLRdBg3qa3/iR1sgV+sm45fAC2XZ7DgMTl9PVTA7BDMRgccNUyTX7oZcLET
- Oa3ErbomVVPSZ4w7iGIAhgHkZiXerhhZ+i5MuCwSpE0anF7wd79g0KbWtl3O9ORbhJ
- Yt4okLAO6yACuIVuqt+xl6UEZVPDs30IwUYfA9lI=
-Date: Mon, 7 Jun 2021 12:24:19 +1000
+ b=FhNcwbYgXY7yKZXuQUmjAc/gkr7+FQT62Dp+UO4MyzCKw3Wpj93Npp/QDwGlJJxRb
+ Xux9FFB7dVOvyKq7bkd0KmUCnT+B9e7OBR5GwB9FoWwqYI/R+ZF1vJ1ckZt//imMdl
+ 1fTB+Bf/9qov486COGsbQoV7BrJvUg9eN9lhVzAc=
+Date: Mon, 7 Jun 2021 12:25:00 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 2/2] spapr: use DEVICE_UNPLUG_ERROR to report unplug
- errors
-Message-ID: <YL2DUyScuuTWHaQ+@yekko>
+Subject: Re: [PATCH v2 0/2] DEVICE_UNPLUG_ERROR QAPI event
+Message-ID: <YL2DfJNFSfB+/2Hi@yekko>
 References: <20210604200353.1206897-1-danielhb413@gmail.com>
- <20210604200353.1206897-3-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ozjBXDsE+w4eyMHm"
+ protocol="application/pgp-signature"; boundary="TmH0WOESEfoyG3kn"
 Content-Disposition: inline
-In-Reply-To: <20210604200353.1206897-3-danielhb413@gmail.com>
+In-Reply-To: <20210604200353.1206897-1-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,90 +63,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ozjBXDsE+w4eyMHm
+--TmH0WOESEfoyG3kn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 04, 2021 at 05:03:53PM -0300, Daniel Henrique Barboza wrote:
-> Linux Kernel 5.12 is now unisolating CPU DRCs in the device_removal
-> error path, signalling that the hotunplug process wasn't successful.
-> This allow us to send a DEVICE_UNPLUG_ERROR in drc_unisolate_logical()
-> to signal this error to the management layer.
+On Fri, Jun 04, 2021 at 05:03:51PM -0300, Daniel Henrique Barboza wrote:
+> Hi,
 >=20
-> We also have another error path in spapr_memory_unplug_rollback() for
-> configured LMB DRCs. Kernels older than 5.13 will not unisolate the LMBs
-> in the hotunplug error path, but it will reconfigure them.  Let's send
-> the DEVICE_UNPLUG_ERROR event in that code path as well to cover the
-> case of older kernels.
+> This is the v2 of a series that started with 2 events,
+> DEVICE_UNPLUG_ERROR and DEVICE_NOT_DELETED [1]. After discussions in v1
+> we reached the conclussion that the DEVICE_NOT_DELETED wasn't doing much
+> of anything. It was an event that was trying to say 'I think something
+> happen, but I'm not sure', forcing the QAPI listener to inspect the
+> guest itself to see what went wrong, or just wait for some sort of
+> internal timeout (as Libvirt will do) and fail the operation regardless.
 >=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> During this period between v1 and this v2 the PowerPC kernel was changed
+> to add a reliable error report mechanism in the device_removal path of
+> CPUs, which in turn gave QEMU the opportunity to do the same. This made
+> the DEVICE_UNPLUG_ERROR more relevant because now we can report CPU and
+> DIMM hotunplug errors.
+>=20
+>=20
+> changes from v1:
+> - former patches 1 and 2: dropped
+> - patch 1 (former 3): changed the version to '6.1'
+> - patch 2 (former 4): add a DEVICE_UNPLUG_ERROR event in the device
+>   unplug error path of CPUs and DIMMs
+>=20
+> [1] v1 link:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg04682.html
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+It would be nice to add a patch making x86 also issue the new error
+format (as well as the old) on memory hot unplug errors.
 
-> ---
+>=20
+>=20
+>=20
+> Daniel Henrique Barboza (2):
+>   qapi/machine.json: add DEVICE_UNPLUG_ERROR QAPI event
+>   spapr: use DEVICE_UNPLUG_ERROR to report unplug errors
+>=20
 >  hw/ppc/spapr.c     |  2 +-
 >  hw/ppc/spapr_drc.c | 15 +++++++++------
->  2 files changed, 10 insertions(+), 7 deletions(-)
+>  qapi/machine.json  | 23 +++++++++++++++++++++++
+>  3 files changed, 33 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c23bcc4490..29aa2f467d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3639,7 +3639,7 @@ void spapr_memory_unplug_rollback(SpaprMachineState=
- *spapr, DeviceState *dev)
->       */
->      qapi_error =3D g_strdup_printf("Memory hotunplug rejected by the gue=
-st "
->                                   "for device %s", dev->id);
-> -    qapi_event_send_mem_unplug_error(dev->id, qapi_error);
-> +    qapi_event_send_device_unplug_error(dev->id, qapi_error);
->  }
-> =20
->  /* Callback to be called during DRC release. */
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index a2f2634601..0e1a8733bc 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -17,6 +17,8 @@
->  #include "hw/ppc/spapr_drc.h"
->  #include "qom/object.h"
->  #include "migration/vmstate.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-events-machine.h"
->  #include "qapi/visitor.h"
->  #include "qemu/error-report.h"
->  #include "hw/ppc/spapr.h" /* for RTAS return codes */
-> @@ -160,6 +162,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
->           * means that the kernel is refusing the removal.
->           */
->          if (drc->unplug_requested && drc->dev) {
-> +            const char qapi_error_fmt[] =3D "Device hotunplug rejected b=
-y the "
-> +                                          "guest for device %s";
-> +            g_autofree char *qapi_error =3D NULL;
-> +
->              if (spapr_drc_type(drc) =3D=3D SPAPR_DR_CONNECTOR_TYPE_LMB) {
->                  spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> =20
-> @@ -167,13 +173,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
->              }
-> =20
->              drc->unplug_requested =3D false;
-> -            error_report("Device hotunplug rejected by the guest "
-> -                         "for device %s", drc->dev->id);
-> +            error_report(qapi_error_fmt, drc->dev->id);
-> =20
-> -            /*
-> -             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
-> -             * it is implemented.
-> -             */
-> +            qapi_error =3D g_strdup_printf(qapi_error_fmt, drc->dev->id);
-> +            qapi_event_send_device_unplug_error(drc->dev->id, qapi_error=
-);
->          }
-> =20
->          return RTAS_OUT_SUCCESS; /* Nothing to do */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -156,25 +117,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ozjBXDsE+w4eyMHm
+--TmH0WOESEfoyG3kn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC9g1MACgkQbDjKyiDZ
-s5Ig5Q/7BZxH7bbaahtMEdfC739VyBfvpyYA5My42M4lZrxxtgLhXhVRuj6dgMXy
-RvqYXHnYbTIJDJQybxTivc9WASSX2C33xsCvl3pp8m3nodRFmVvyPiB0D2wJu4fE
-eIlIEg1C5e7zlE4a6896FYUeKkJYSHLOjt//xvkTnJqQkdlYutsKuOQjUKX+Rx8+
-xshjxVvcNgDwd8Dzii2kQuszv7NEUbySsu1vYb9p8O9kl49paeqSHyWevHrSiJSY
-hjEVRXnFnGWvoUfy13kyECG3rXdZKl0nyj8RCDR+D1TNE1TqRqiMSJIEJA+SIB0Y
-0IdEhuPrLzZjmkZM7T7bc84tR7V6LTMfGeMCFp09R8hXWXc09tvobrAV5e2Jd8Xt
-mhk4SngPJt4So3n07LIuiGroNCDH1fy6JFO2jU/j58aS7wCqcVGdKOQpEFnmMCI+
-iQ+NcXYfKY9MQ3Sf957xRia1WjHfbzZeoHG4B8uEQK//5Q0C51G3ij/+OavJ+uXP
-ywR+Q/q4wDNhhWkq+EhDT9C76wda4XMyBCbhgnDZAbyfii0wHAtxLcAzFw/qHCo5
-52a6NJrN9hRB40YRyZ7Dk9MyoG5qY2Hi9Op7d0248K3WyPsHytOq+UdNzwtI4GMh
-35YvbeBu57vtVVnDSD4b6IeaUnzCA3vVW0dsxcsLrP/TSuqUrFg=
-=SU7w
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC9g3wACgkQbDjKyiDZ
+s5KFtQ/9FPtvwycrSsvykGGwo7dDfFsIsT51H2YItjntjbBGP6OOm3Roz5PXTvFJ
+Ztx9CEcp2pMZcvukuyj/lsQg6ch7l2RKYEdNfhuojmau111gqzkYglVDDuxh9/YA
+DKpv3WKK9VyEWJisv76/LpUYCw/+fMivTg7OxUipt9J6iXxr0V+EASMRM7no3Jw9
+BxlfuEKcT1yHuGZJBBOYt48AHON0id9GO052KoytQOzTwGZM8g9vRV+mkM8x9srj
+S8sE5elGTVJ/OOmhdCQg/mbBiATnR32RMZi7JvqOPDUkk0AoytXPEFIu985ZQBHQ
+dEkM15ISw/wlMl228ev665ks13OrXYH9qPsb4t1QBc1HY+xQRznK99dOz/eQQ0pf
+frOWI7Kx3MagpeXSvVgu/e9NvYUBSxhO8WdoudbfyVGw31rz9j0JPoqcPAvtLYmi
+xtKE2nuOYuM0FbnZnWudPW4L0x7hrGHdUMtvY/dCHWWgNhJMlDvLYCvopP+zkT6m
+Ma9vcgcdx9EZ17bSNbq+7BOoSMfaCuZa6n2GNIwh4YtjeX5Zp4e2/1ughote574p
+/NPFE1oKpLVT63Eh6XgsBM3kzN1kthm+u6lL0Cuf72wGQC6y+5rodr+ZOreGtIAk
+HMU2Qz7z3fasZ9gTRB4lXqNqmoO5EEyTHo8FH5WB7xs8/bQHsLI=
+=f/1/
 -----END PGP SIGNATURE-----
 
---ozjBXDsE+w4eyMHm--
+--TmH0WOESEfoyG3kn--
 
