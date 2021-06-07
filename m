@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A642839E854
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:22:25 +0200 (CEST)
-Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F31639E825
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:13:23 +0200 (CEST)
+Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLlQ-0000bZ-Ga
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:22:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37794)
+	id 1lqLcg-00017S-L7
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXE-0004SR-FA
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39062)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLX4-0004Ju-IS
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWy-0006YF-OM
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:43 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWy-0006Wi-3M
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096448;
+ s=mimecast20190719; t=1623096445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6I1ffH67Oby/X5z1JMtzleyrDhl2w0HdTScRKZu2wHk=;
- b=ctLrRs7lfquP7Pg5MLS7Ng5i/KlzHJ9ZLKj1ghuLhvfZepTk0H82HMo9S7BwDwDjOoEeuT
- yNxPTdcS5I+GS56p4DaBoCZKViZ6MzRrccW4OBQAAkYst/2S2lmsituoE1uVsnrcCw09Nj
- 2MrANXUivtu4lqizDVKUTDvG+cDJ+5Y=
+ bh=+UWpmj4W74ZQ6psp83CzBWcMlKbSUwNHNbqQljXJPJs=;
+ b=SAtGwZnRXkH2o7sZWr6j6KI5sUHqDm2107z+YhMqluKXvmfWTZU0BnTdan+RwYhphtLRfZ
+ EOYIOiXGodCLMlhBUrT4b7gs1bjUxV3J4Z/d/E3WdcdGNk46jgi1hoy/OR1h5zIsii/iyI
+ RQvAgW/fm2i8j5cqBga9du0OHyUGqSg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-481-hpqAkDckMUWLXq2LGbK_EA-1; Mon, 07 Jun 2021 16:07:24 -0400
-X-MC-Unique: hpqAkDckMUWLXq2LGbK_EA-1
+ us-mta-250-XkM1FuS2P1O_IFfEksk6lA-1; Mon, 07 Jun 2021 16:07:24 -0400
+X-MC-Unique: XkM1FuS2P1O_IFfEksk6lA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A6FB19251CE;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E132D8042D1;
  Mon,  7 Jun 2021 20:07:17 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4EC055C1C2;
- Mon,  7 Jun 2021 20:07:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 349F15C1C2;
+ Mon,  7 Jun 2021 20:07:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/42] scripts/qmp-shell: Fix "FuzzyJSON" parser
-Date: Mon,  7 Jun 2021 16:06:30 -0400
-Message-Id: <20210607200649.1840382-24-jsnow@redhat.com>
+Subject: [PATCH 24/42] scripts/qmp-shell: refactor QMPCompleter
+Date: Mon,  7 Jun 2021 16:06:31 -0400
+Message-Id: <20210607200649.1840382-25-jsnow@redhat.com>
 In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
 References: <20210607200649.1840382-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,59 +82,43 @@ Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not sure when this regressed (Or maybe if it was ever working right
-to begin with?), but the Python AST requires you to change "Names" to
-"Constants" in order to truly convert `false` to `False`.
+list is a generic type, but we expect to use strings directly. We could
+subclass list[str], but pylint does not presently understand that
+invocation.
+
+Change this class to envelop a list instead of *being* a list, for
+simpler mypy typing.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ scripts/qmp/qmp-shell | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index aa148517a8..847d34890f 100755
+index 847d34890f..73694035b2 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -95,18 +95,19 @@ class QMPShellError(Exception):
- class FuzzyJSON(ast.NodeTransformer):
-     """
-     This extension of ast.NodeTransformer filters literal "true/false/null"
--    values in an AST and replaces them by proper "True/False/None" values that
--    Python can properly evaluate.
-+    values in a Python AST and replaces them by proper "True/False/None" values
-+    that Python can properly evaluate.
-     """
- 
-     @classmethod
--    def visit_Name(cls, node):  # pylint: disable=invalid-name
-+    def visit_Name(cls,  # pylint: disable=invalid-name
-+                   node: ast.Name) -> ast.AST:
-         if node.id == 'true':
--            node.id = 'True'
-+            return ast.Constant(value=True)
-         if node.id == 'false':
--            node.id = 'False'
-+            return ast.Constant(value=False)
-         if node.id == 'null':
--            node.id = 'None'
-+            return ast.Constant(value=None)
-         return node
+@@ -78,9 +78,17 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu import qmp
  
  
-@@ -174,10 +175,9 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-             # Try once again as FuzzyJSON:
-             try:
-                 tree = ast.parse(val, mode='eval')
--                return ast.literal_eval(FuzzyJSON().visit(tree))
--            except SyntaxError:
--                pass
--            except ValueError:
-+                transformed = FuzzyJSON().visit(tree)
-+                return ast.literal_eval(transformed)
-+            except (SyntaxError, ValueError):
-                 pass
-         return val
- 
+-class QMPCompleter(list):
+-    def complete(self, text, state):
+-        for cmd in self:
++class QMPCompleter:
++    # NB: Python 3.9+ will probably allow us to subclass list[str] directly,
++    # but pylint as of today does not know that List[str] is simply 'list'.
++    def __init__(self) -> None:
++        self._matches: List[str] = []
++
++    def append(self, value: str) -> None:
++        return self._matches.append(value)
++
++    def complete(self, text: str, state: int) -> Optional[str]:
++        for cmd in self._matches:
+             if cmd.startswith(text):
+                 if state == 0:
+                     return cmd
 -- 
 2.31.1
 
