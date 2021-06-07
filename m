@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A7839D8CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 11:31:59 +0200 (CEST)
-Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A401639D921
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 11:55:03 +0200 (CEST)
+Received: from localhost ([::1]:44312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqBby-0000sn-2e
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 05:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60548)
+	id 1lqByH-0007cD-Su
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 05:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lqBa9-00080k-Mm
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:30:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20218)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lqBrf-0006HW-AW; Mon, 07 Jun 2021 05:48:11 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:37121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lqBa7-0003dL-A7
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:30:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623058201;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qhipt81FtNyyQCPk5RwxunI4IZboMI/pxbp4lI1nqm8=;
- b=DLzCHCIyZCq3ifIq0XccipPv6/9X2eLtj5lKb73X8auiC6GoANziJIHxcXTgX8V1ar+JTB
- PjdT1VaYtrpUTRPXtFrjyA3GYd+aZ1dhZ8NY7BTHuHYYpSiOQAdrPORAnUvz7CGdAEL3aw
- +BFimcQ63rl8G2orHZ4gxcfGQnATNbw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-BNGeY9xGPnyrQTCBw_kA5w-1; Mon, 07 Jun 2021 05:30:00 -0400
-X-MC-Unique: BNGeY9xGPnyrQTCBw_kA5w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d5-20020a0560001865b0290119bba6e1c7so3622224wri.20
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 02:30:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qhipt81FtNyyQCPk5RwxunI4IZboMI/pxbp4lI1nqm8=;
- b=YmdosXftQBbNfd7GZoVh6tege8AF2/4TJ4MiQEnZ/33AtXMqfoLSZGs9ooTzUrIsZ7
- jG3ReyZFGWTTYvT6uVpwKetaYVqL4Ww36xbbsDbt0xcD0rQ30eCHGIhWOhGspk/TECQ6
- PJRA0AFrAOmMBq39yUyEx7YkQpDUN8Tjjp9VVT2X9qRhkQjnnOd965AO6HBBOqpnS2m9
- y3++0EVk0LG1RNZrDLwOw7LK/GbQHDVom/GCnLD4xr4B100De8shcStGG77fGdBODky7
- Lc6tLmUVVzPnsSV98doLcOFVPlz9PIGOpYaaThuGUwhFp4eVl46gLYj6E24FiT1A5FWl
- ElMw==
-X-Gm-Message-State: AOAM533EqGQJEu8SVw2ISCMauNUDDaHs6XqgRLU+Vgoj5zGCMpRhTaEw
- zU/xTDyLxymTG4rUWHv1ir95wllMk7sEM7NR2ykc4/lb9hJE1hh6WYwqbzq2k6k2BN9nYhxUTKt
- cAYo5P5DfAXBlWLw6ruDByLjlZDaEpIJiSr77NxYLZHvMUGnjVstuQfIUEedjjzV42vw=
-X-Received: by 2002:adf:fac6:: with SMTP id a6mr16646981wrs.251.1623058199019; 
- Mon, 07 Jun 2021 02:29:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzQ8SNX8dYem6JYfXlU+eKy+cWA88mHeVQxhpSNTIqzEHDzojvUaOrjCOM/uMoRrAr5DpSxdA==
-X-Received: by 2002:adf:fac6:: with SMTP id a6mr16646961wrs.251.1623058198784; 
- Mon, 07 Jun 2021 02:29:58 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id q5sm15547498wrm.15.2021.06.07.02.29.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 02:29:58 -0700 (PDT)
-Subject: Re: [PATCH v4 6/6] blkdebug: protect rules and suspended_reqs with a
- lock
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210604100741.18966-1-eesposit@redhat.com>
- <20210604100741.18966-7-eesposit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <88a81cbc-fbe7-08b6-f6f0-5a050dfc89f2@redhat.com>
-Date: Mon, 7 Jun 2021 11:29:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lqBrc-0006mJ-7t; Mon, 07 Jun 2021 05:48:11 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id 8DBF21871;
+ Mon,  7 Jun 2021 05:48:01 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 07 Jun 2021 05:48:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=wVsbsiCnyGrAVUo2+ULTy1z644
+ kgj43z2iD6dpbvPwc=; b=Ifp9xIvH73sIUCtzG+T6/b1bOYcBNjaD+1DcIs74tb
+ SAz+y7CiuDiC5qHMvRxQAJlHYeOmLX7vSsVmY+I6jDC13JCed6Glnk2UdmXJxUyR
+ rSb8VSYGGGIG4JuhnO51OB6wX7Sl783R8KpkrbpLLk2CFvZp+adGqhL0tMwhwEs3
+ 9sp86NIQQOKYug3y/J0jUAIULStnTra97UW77HSUjppayadlkrN6FI39zt1anVPU
+ g/PICEMpCd8dtc5iqG92UMXi/JeEXpDsyKi1R08h+SnfF6/DuXZ+tH9Xm3/aJy5U
+ z55mFTeBMYdRR3Dg+psnPGW2vCU4J3fzW7HKpKoqBDpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=wVsbsiCnyGrAVUo2+
+ ULTy1z644kgj43z2iD6dpbvPwc=; b=nh4/i97nM0toQSF51RjTPlDXPyy2BZl4X
+ p0+7frzR51XNkJsdmrolkZgvsIczPJHWINMinfRmtfeiGMujrHggKmBoYaoGOshG
+ oFCcZ0VBYrHaYhLLhmO5bK6QAqdmuCP+vSPaIi6DF4oUSOLb8JsYHxGs0PndXjB3
+ LvD7DmdPTihRRXFlMZIkcm46S6tQmN8ldp5WEGXgFmeHdjo5AS+NF7q0UXFBGz/0
+ H8UsPvNKVv11+3nKxSOwkjluRXJrHzcwR4ZYhAfY5fDXfu1GDr/d6Pa3dOfvsCpE
+ FqSFy1fuaSWHxczASJOGedePNjcAFBxCQcQQohFR3SI+MN4XLE7pA==
+X-ME-Sender: <xms:UOu9YIQmYbfsCI_wfihWvoxS_Cm5QcHKWUhx7bMYkD-heWZz_vkJww>
+ <xme:UOu9YFwanp6fTeHBmJjZffOyU2CnB8hn2z83WS_oQqKZeNZhkrFmYmRs5gx_Ybfur
+ ilszWlPPBoQKxKCWUQ>
+X-ME-Received: <xmr:UOu9YF05MKHyNTC51Lk6ErJVAdvP5-M99cB-2cShUoO9O9WCRIOcB25bkMwp2VC5HbjbzqAfzNsPXb8zCV0XZiENDGqYyL754Q8b7KixFw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpeeuueejhedtheehhfegtdehgeelteefteegffevleefffdvhfeiudffudelkeeikeen
+ ucffohhmrghinhepghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:UOu9YMBmscGr7JjZ4gy5CIr4xpktjHNatTPCy958o2QTlql1zQnlwA>
+ <xmx:UOu9YBgEHVCYiekC8VDynB_h-T-280u2p75X3qAOgR-dmwI6wrZIIA>
+ <xmx:UOu9YIrqDkWJJyfsHWBDkeKORAeD7xiGp2kRCEHFAmelsr48O1E1UA>
+ <xmx:Ueu9YBf6MMU9lMDZsXU6Azv0lo1T0gHnPnbM2h-2VSKnGnwXBn1fqw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Jun 2021 05:47:59 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/nvme: fix missing check for PMR capability
+Date: Mon,  7 Jun 2021 11:47:57 +0200
+Message-Id: <20210607094757.29661-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210604100741.18966-7-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,46 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-stable@nongnu.org, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/06/21 12:07, Emanuele Giuseppe Esposito wrote:
-> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
-> +        new_state = s->state;
-> +        QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
-> +            process_rule(bs, rule, actions_count, &new_state);
-> +        }
-> +        s->state = new_state;
->       }
->   
->       while (actions_count[ACTION_SUSPEND] > 0) {
->           qemu_coroutine_yield();
->           actions_count[ACTION_SUSPEND]--;
->       }
-> -
-> -    s->state = new_state;
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This changes the semantics by moving the state change *before* the yield 
-instead of after:
+Qiang Liu reported that an access on an unknown address is triggered in
+memory_region_set_enabled because a check on CAP.PMRS is missing for the
+PMRCTL register write when no PMR is configured.
 
-- before the series, the new state was assigned after all yields (and 
-could be overwritten by other coroutines during the yield).  Until patch 
-4, the situation is more or less the same even though the ordering 
-changed in the processing of actions (suspend actions are processed last).
+Cc: qemu-stable@nongnu.org
+Fixes: 75c3c9de961d ("hw/block/nvme: disable PMR at boot up")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/362
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-- with patch 5 new_state became a local variable, so it couldn't be 
-overwritten by the yields
-
-- now it is a local variable and is assigned before the yields.  The 
-yields can write s->state just like before.
-
-So it's a bit messy.  Moving s->state = new_state before the yields 
-makes sense, but I'd do that in patch 5 to avoid the temporary change in 
-semantics.
-
-Paolo
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 0bcaf7192f99..463772602c4e 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5583,6 +5583,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+                        "invalid write to PMRCAP register, ignored");
+         return;
+     case 0xe04: /* PMRCTL */
++        if (!NVME_CAP_PMRS(n->bar.cap)) {
++            return;
++        }
++
+         n->bar.pmrctl = data;
+         if (NVME_PMRCTL_EN(data)) {
+             memory_region_set_enabled(&n->pmr.dev->mr, true);
+-- 
+2.31.1
 
 
