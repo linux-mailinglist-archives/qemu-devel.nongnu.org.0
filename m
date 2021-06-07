@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA6039E7F7
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:02:12 +0200 (CEST)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409BA39E800
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:04:02 +0200 (CEST)
+Received: from localhost ([::1]:46764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLRr-0007C9-51
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35112)
+	id 1lqLTd-0000YZ-BF
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:04:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqLPo-0006Ao-Rz
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:00:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24529)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqLSL-00088r-ON
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:02:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqLPm-0001ye-R2
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:00:04 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqLSK-0003aw-B4
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:02:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096001;
+ s=mimecast20190719; t=1623096159;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KAYB5Xetz4WWo4QYwAjVl/WN4p5swTDmW5v9XUMAxsw=;
- b=RjmJ7Y5QEveMobe4l1wAYX3G9LKRCq/IK5THi7q468ONWz7LEE8vAXEPRGVbl2piBGw7CN
- F/ftIwe0U6kNL1wXvSbeVIB4T1eXdpcleHzqotDbdTuRIro2j5Md5l0lzIFXQs/eJ2SCT5
- dwY+X2R2fhVEKa4brQ8AcZKZ/6M8BfE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-TdLxpd_tPsikOOqMzPhDKg-1; Mon, 07 Jun 2021 15:59:58 -0400
-X-MC-Unique: TdLxpd_tPsikOOqMzPhDKg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t14-20020adfe44e0000b029011851efa802so8238904wrm.11
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 12:59:57 -0700 (PDT)
+ bh=/xutDqlmGs1ex4yHTW2RXyvEpeYWmIy4tU368dstec4=;
+ b=A+jKFao2C2noCnHXdRy16p8VD/p1iU/rZ/xDYNtXkafqZwaZok/x5q8SAY6Ku208B8GtNp
+ TVgB8vGB3mxT9xILoSwvFa+rZ1X6otkM0rTpxKB4S1ndATmvN8y+O5CTCncjxhcSbyzzdp
+ ++s9B/nvoO/34OEtdEDOEwB1tPOpzRg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590--0nyoUdtPU67yBu4jhS3cg-1; Mon, 07 Jun 2021 16:02:38 -0400
+X-MC-Unique: -0nyoUdtPU67yBu4jhS3cg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x9-20020a5d49090000b0290118d8746e06so8314176wrq.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 13:02:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=KAYB5Xetz4WWo4QYwAjVl/WN4p5swTDmW5v9XUMAxsw=;
- b=nB9XFEB1d4vfbYCelWmkhcdxGrpCVNPk33TZcJSn6oD1Jk2wLiONzVQp/jj73RkYgP
- SJgtfiIL28DogOztODCSYBJ//5xbsFZZFQ1HKGWSOUbWHHsBKnTdi3CPfuaEv6CwM8o1
- /P7Vnh4g3Sip5QwH+eP9iirHg4hYACWGnDiWtDelay6asHq+v6GdT6UAYgW1Gvmv1oZv
- j+oGFdYtegScQeV7U5N0VsR90pIkezmw6kGMBvtARWhDoo4y42tuyJz2he1jT0138I9+
- 54rW0ETp5vttTnmn4dQFPyvnu/DppIvxVnWeBnGoe8wAH0/fOPqebWwC6B9IU5B17gvn
- kxGg==
-X-Gm-Message-State: AOAM532jMyEmshWyPg2GzhOVl3sOSIeG1b3mlJnkaA5jsWpPUw35yAYN
- 1yShHczNjcjOw56Xj3BBuyTsIXHVZpzhEOB9ZeJll08HgUq3fu5wnE1T4e4wNqGQDDNlqFxEndn
- QJzuJcfb2/5tTQtg=
-X-Received: by 2002:adf:f211:: with SMTP id p17mr18507094wro.173.1623095996909; 
- Mon, 07 Jun 2021 12:59:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJypIYLMamWD8/DGm/RekJTcWcgZPXblLH/5op0sp8wBsor5D3YNG28RuNweEn1esaxuT8mihg==
-X-Received: by 2002:adf:f211:: with SMTP id p17mr18507074wro.173.1623095996662; 
- Mon, 07 Jun 2021 12:59:56 -0700 (PDT)
+ bh=/xutDqlmGs1ex4yHTW2RXyvEpeYWmIy4tU368dstec4=;
+ b=KvfwtSQjDHNG7CUYXSywsdC5FbRbwF3WGuxHzd+Fpk3npUTuG64C66bMO7wKazz0RR
+ 9UzlB6okLc762nvQmpcl98vYplJ4KYmOeN5myBqFy0tUkCVfqYsMlCDP46ZCjUlAZGAj
+ tO0/tMbpXrHF/HEkW0sCuTapwv92fu4Wh3etG1h17BeIuAzQSmeG5e/X7xgZi7Va9Qg5
+ 48oXJruHTOhwgeueLuP4fNon/bJbiIRilm4GA8mA+UN0b62fBFCaVBoTOz5PRg6R3ItG
+ 5CjysTYz3YG4Z8qp0TbU8jnvaTgFcv70yO68C1Vnqf7exnfWLTyoN+XiwZwwesikUUaD
+ eyCA==
+X-Gm-Message-State: AOAM531MmWobqfsb+E01RaUSzJ2U5OmplIhNUgeF6IYTrLWYHzPbwbb+
+ y65vMJVvMs2Rrh7M0s+c7dWUuzLncozSxSON4WSVWk/a2T00qD7epbaPWauJlgEbPjz6xpVbdAk
+ TIo2R81M2R4zUnTg=
+X-Received: by 2002:a05:600c:5125:: with SMTP id
+ o37mr684493wms.175.1623096157549; 
+ Mon, 07 Jun 2021 13:02:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyF0uOBm0maN8LNSJrTCVBps9bsdk4PVY9RPLMnVoZv33PUCyRJIAOFCRhcFeAfuQZrB98u5A==
+X-Received: by 2002:a05:600c:5125:: with SMTP id
+ o37mr684465wms.175.1623096157274; 
+ Mon, 07 Jun 2021 13:02:37 -0700 (PDT)
 Received: from [192.168.3.132] (p5b0c6188.dip0.t-ipconnect.de. [91.12.97.136])
  by smtp.gmail.com with ESMTPSA id
- r18sm17582990wro.62.2021.06.07.12.59.55
+ b62sm15979942wmh.47.2021.06.07.13.02.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 12:59:56 -0700 (PDT)
-Subject: Re: [PATCH v3 24/26] linux-user: elf: s390x: Prepare for Vector
- enhancements facility
+ Mon, 07 Jun 2021 13:02:36 -0700 (PDT)
+Subject: Re: [PATCH v3 23/26] s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210607110338.31058-1-david@redhat.com>
- <20210607110338.31058-25-david@redhat.com>
- <9c585f97-b28d-c491-7969-42b2f1e2d968@linaro.org>
+ <20210607110338.31058-24-david@redhat.com>
+ <f8495083-ac37-1b5b-74a6-164d628cf1f2@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <1a1f269c-9edf-92af-4244-0ea9cdd9a64c@redhat.com>
-Date: Mon, 7 Jun 2021 21:59:55 +0200
+Message-ID: <98ecc2c3-0487-43e6-c5be-47907bc067a0@redhat.com>
+Date: Mon, 7 Jun 2021 22:02:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <9c585f97-b28d-c491-7969-42b2f1e2d968@linaro.org>
+In-Reply-To: <f8495083-ac37-1b5b-74a6-164d628cf1f2@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -89,7 +90,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,24 +109,27 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.06.21 18:25, Richard Henderson wrote:
+On 07.06.21 18:20, Richard Henderson wrote:
 > On 6/7/21 4:03 AM, David Hildenbrand wrote:
->> +++ b/include/elf.h
->> @@ -605,6 +605,7 @@ typedef struct {
->>    #define HWCAP_S390_HIGH_GPRS    512
->>    #define HWCAP_S390_TE           1024
->>    #define HWCAP_S390_VXRS         2048
->> +#define HWCAP_S390_VXRS_EXT     8192
+>> +static S390MinMaxRes vfmin_res(uint16_t dcmask_a, uint16_t dcmask_b,
+>> +                               S390MinMaxType type, float_status *s)
+>> +{
+>> +    const bool neg_a = dcmask_a & DCMASK_NEGATIVE;
 > 
-> Probably best to fill in all of the values, even if we don't use them right
-> now. Also, not the fault of this patch, but I don't think this belongs in
-> include/elf.h.  This is linux specific, not some part of the elf specification.
+> Minor nits:
+> Only used in the zero block.
+> 
+>> +    const bool nan_a = dcmask_a & DCMASK_NAN;
+>> +    const bool nan_b = dcmask_b & DCMASK_NAN;
+> 
+> Only used in the nan block.
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> r~
 > 
 
-I can most certainly add all currently defined ones for s390x.
-
-We do have the same defines "misplaced" for other archs as well. I'd 
-like to avoid cleaning that up as part of this series. Thanks!
+Indeed, will move these into the blocks -- thanks!
 
 -- 
 Thanks,
