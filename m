@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E17B39D849
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 11:07:45 +0200 (CEST)
-Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E339D88D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 11:21:11 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqBEV-0005KD-W8
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 05:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56738)
+	id 1lqBRV-0001j4-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 05:21:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqBDY-0004ap-6p
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:06:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59802)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lqBQA-0000r8-O4
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:19:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqBDV-0005uf-HG
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:06:43 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lqBQ8-0005aT-AU
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:19:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623056800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623057583;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MbkvEggg+QM2uzgoTSpWCMiBNIAPM6bB2jUooCZoEN4=;
- b=VOSW5idp81lInUy4UCKD33ahuQD40UEeDeBi4Y6zcToqDxTqAluDsyeyQ1jib9nAv2nFIg
- bVrdpn2Q316kBqjSXJ4nb8QwbGRKP7yic9OqWZuKzpMh6URq7W3DvjVNYgJ93tukbMyfmy
- mYBmXmSu878P01cEscaAC4Z8aRt8UVY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-3MOPjGKSPQGY4apTlO8E3A-1; Mon, 07 Jun 2021 05:06:39 -0400
-X-MC-Unique: 3MOPjGKSPQGY4apTlO8E3A-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e11-20020a056000178bb0290119c11bd29eso2715873wrg.2
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 02:06:39 -0700 (PDT)
+ bh=bFdNlErOxTqFKbmwI105aIqMjRySxdMaBEh8q3km9rs=;
+ b=UvsVwNC6WOvBg1N2HhdSCkFHoQovpfcqQ7xEvnErrnPP2iBriMQQFDJyOhkztiuezKhGlp
+ LQNyS3cAsPirDYRxNCRE4m+K1JjL6r3Xhj1GGl5Sn7onqAEbSiJ1IhlM4xq0BsHduQTmqx
+ RL6KRnwvVib0gRE4uyMtrM6fiKSrCUw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-Bdatbe7xOw-dLTia6nuyMQ-1; Mon, 07 Jun 2021 05:19:42 -0400
+X-MC-Unique: Bdatbe7xOw-dLTia6nuyMQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ x9-20020adfffc90000b02901178add5f60so7600348wrs.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 02:19:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=MbkvEggg+QM2uzgoTSpWCMiBNIAPM6bB2jUooCZoEN4=;
- b=iMoUSbF2obpYWW1/mAURDUUx3GfrwnGQYY5AHL3G/AP8siZZLJzMiMIuiCxYtj8kmw
- XKfhjAJlSAkGmD0cBPSYSgodes7kuiM/6rOpBNNPXr+wOPaihFCpqHPWDmQvpTG3kcWj
- dmDXk0UW6N2v/tlimXIUjS7kQ/H7LFRvqLQFVHAUpUV5fVzfl28TSLbZMarMk2Xl2MIA
- wO443cvcs7UhrOP1H7u84ZWE4GstSVuckpnELfbGUO/u1ozjzc3BDYWbcAyFmxrEydt9
- EErWTLOxBY22QWGFY89vJwSvXRc3hTE8vWPxIbvrsFFH3H7exe+XkYSZr8i5Rfq4xrSF
- E1/w==
-X-Gm-Message-State: AOAM531NSGvjU1rEEKGfQDyBRNfCYH2r0D27o+TQIbpn3gXB7ha9jyyF
- wRFxk3b8QugmFNC7ESLjEoyb7t9leg5YCTjXR6mcE3eTs8eaaHbMLZ15D7TjYeShkYibKUkT/NN
- C7xAfZ1XVIwMxGmU=
-X-Received: by 2002:a1c:a184:: with SMTP id k126mr15936624wme.82.1623056798439; 
- Mon, 07 Jun 2021 02:06:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmi6uYhIQXyJU3cOJV1Te+Ztyz7ZPYnCiHtvAhaI6cU2ZBVzg4lyqFxvjjUHrXxSOchzCYRg==
-X-Received: by 2002:a1c:a184:: with SMTP id k126mr15936595wme.82.1623056798142; 
- Mon, 07 Jun 2021 02:06:38 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6188.dip0.t-ipconnect.de. [91.12.97.136])
- by smtp.gmail.com with ESMTPSA id
- h9sm13353156wmb.35.2021.06.07.02.06.37
+ :content-transfer-encoding:content-language;
+ bh=bFdNlErOxTqFKbmwI105aIqMjRySxdMaBEh8q3km9rs=;
+ b=XmkbPpYzluPxDumdrb8QrSbAWX1dEKrU4G8Rv5WYLY1HhyruID2iaZaHS9k3P6Nlx8
+ F9Wd7ui7xFO2FBMYRsgzSG1E1X3rKsm6ExbpkFCQyZYhuVk6hUY00ADlKdlWN2obbKTy
+ QZgE5sAdvD9UQpZMkWn/UdUq3FvefP4052Dh0eIOR5wX+rdIvpvlaQDh4C00eholajvU
+ tpzw9LIyUPgIJW+zOj0XI1IxPzEQzC67efrwMtMbNkog+GhR7uWPnlF9X/QwBeSLmRUO
+ LZGOO4JKLN4r9JNRoEX4QtgZ+mT66tBqOSOD+OGgQpH7H3OohsAqYNHS1jfPZvwW5VIH
+ 1i0g==
+X-Gm-Message-State: AOAM532CUNZLPncD56z8w/c3LBqqLHUSwZv3y7ND2tyWpe3LwZXrzBKG
+ CGFPgN267BnxrNkd3spCEdTtLdEGoa6Ds1qkxfAWlsk5Q41S2Gzg1Q+rWIQbilXOlGxrnEo2gIN
+ Gsyej2FwuwVnbxb4=
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr16301436wrw.389.1623057581400; 
+ Mon, 07 Jun 2021 02:19:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxyCHznnakSW+xXXw/5ZBi9nqwVSp4xPGtJItzytlxZknu745IScFJpNUNmz8XinMrMa7r3Hw==
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr16301411wrw.389.1623057581065; 
+ Mon, 07 Jun 2021 02:19:41 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id r7sm21072609wma.9.2021.06.07.02.19.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 02:06:37 -0700 (PDT)
-Subject: Re: [PATCH v2 24/26] s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210517142739.38597-1-david@redhat.com>
- <20210517142739.38597-25-david@redhat.com>
- <f02310d9-9655-0d4c-5fa5-480f8e4eec9a@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <52f61460-ab82-af00-04a7-11aefd6c3f65@redhat.com>
-Date: Mon, 7 Jun 2021 11:06:37 +0200
+ Mon, 07 Jun 2021 02:19:40 -0700 (PDT)
+Subject: Re: [RESEND] Multiple SMMUv3 instances on PCI Bus and PCI Host Bridge
+To: Nicolin Chen <nicolinc@nvidia.com>, miaoyubo@huawei.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20210604231613.GC15599@Asurada-Nvidia>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <a349744d-762b-74b9-352b-ad0a7b16dfec@redhat.com>
+Date: Mon, 7 Jun 2021 11:19:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <f02310d9-9655-0d4c-5fa5-480f8e4eec9a@linaro.org>
+In-Reply-To: <20210604231613.GC15599@Asurada-Nvidia>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -101,79 +102,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: eric.auger@redhat.com
+Cc: vdumpa@nvidia.com, praithatha@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.06.21 20:13, Richard Henderson wrote:
-> On 5/17/21 7:27 AM, David Hildenbrand wrote:
->> +    if (unlikely(nan_a || nan_b)) {
-> 
-> Perhaps better as (dcmask_a | dcmask_b) & DCMASK_NAN ?
-> 
->> +        if (sig_a || sig_b) {
-> 
-> Similarly.
-> 
+Hi,
+On 6/5/21 1:16 AM, Nicolin Chen wrote:
+> (Resending as my previous mail didn't go through mailing lists)
+>
+> Hello Eric, Yubo, and other QEMU developers,
+>
+> I am having a problem with links between vSMMU and PCI Host Bridge,
+> using ARM-VIRT (64-bit; ACPI) + SMMUv3 (nested translation) setup.
+>
+> Firstly, I am very new to the areas of QEMU, PCI and ACPI. So some
+> of my thoughts/ideas below might not sound very reasonable to you.
+>
+> My goal here is to create two vSMMU instances in QEMU level and to
+> link them to different passthrough devices: each vSMMU has my local
+> feature that reads/writes through a VFIO mdev interface to talk to
+> Host OS, so it has to be two vSMMU instances in the QEMU level for
+> my use case.
+>
+> As we know, QEMU by default has only one PCI root bus (PCIE.0) that
+> links to a default vSMMU (let's call it vSMMU0). And I learned that
+> now ARM-VIRT has PCI gpex feature. So I was planning to create one
+> host bridge (PCIE.128) to link to a different instance (vSMMU1) --
+> later on I can pass through different PCI devices to either PCIE.0
+> or PCIE.128 for different mdev pathways.
+>
+> I then tried to add a PCI Host Bridge using the following commands
+> that created one default vSMMU instance, as my first experiment.
+>
+> /home/ubuntu/qemu-system-aarch64
+>     -machine virt,accel=kvm,gic-version=3,iommu=smmuv3 \
+>     -cpu host -smp cpus=1 -m 1G -nographic -monitor none -display none \
+>     -kernel /boot/Image -bios /usr/share/AAVMF/AAVMF_CODE.fd \
+>     -initrd /home/ubuntu/buildroot-20200422-aarch64-qemu-test-rootfs.cpio \
+>     -object memory-backend-ram,size=1G,id=m0 \
+>     -numa node,cpus=0,nodeid=0,memdev=m0 \
+>     -device pxb-pcie,id=pxb-pcie.128,bus=pcie.0,bus_nr=128,numa_node=0 \
+>     -device pcie-root-port,id=pcie.128,bus=pxb-pcie.128,slot=1,addr=0,io-reserve=0 \
+>     -device vfio-pci,host=0003:01:00.0,rombar=0,bus=pcie.128
+>
+> However I found that PCIE.128 was also added to vSMMU0, which feels
+> like that PCIE.128 treated PCIE.0 root bus as a parent device so it
+> was added to the parent's vSMMU too.
+>
+> Then I tried another experiment with the following hack, hoping that
+> it would link vSMMU0 to PCIE.128 instead of PCIE.0:
+>
+> @@ -385,13 +387,13 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>      /* fully coherent device */
+>      rc->memory_properties.cache_coherency = cpu_to_le32(1);
+>      rc->memory_properties.memory_flags = 0x3; /* CCA = CPM = DCAS = 1 */
+>      rc->pci_segment_number = bus_num; /* MCFG pci_segment */
+> +    rc->pci_segment_number = cpu_to_le32(bus_num); /* MCFG pci_segment */
+>
+>      /* Identity RID mapping covering the whole input RID range */
+>      idmap = &rc->id_mapping_array[0];
+>      idmap->input_base = 0;
+>      idmap->id_count = cpu_to_le32(0xFFFF);
+> -    idmap->output_base = 0;
+> +    idmap->output_base = cpu_to_le32(bus_num << 16);
+>
+> Yet, I found it's not successful either: the vSMMU instance was not
+> added to either PCIE.0 or PCIE.128.
+>
+> So I started to have questions in my mind:
+> (1) Can PCI host bridge (PCIE.128) add to a different vSMMU without
+>     following PCIE.0's SMMU setup?
+changes need to be made in hw/arm/virt.c
+create_smmu() is passed the primary bus the iommu is attached to.
+Currently arm virt only supports one smmu instance. So playing with qemu
+options is not sufficient.
+Besides that, effectively there are IORT changes needed because you need
+to route RCs to the different SMMU instances, ie. some RIDs need to
+reach SMMU#0 and others #SMMU#1.
+You can get inspired of "[PATCH v4 6/8] hw/arm/virt-acpi-build: Add
+explicit IORT idmap for smmuv3 node for this kind of changes."
 
-Will do, thanks.
+Thanks
 
->> +    } else if (unlikely(inf_a && inf_b)) {
->> +        switch (type) {
->> +        case S390_MINMAX_TYPE_JAVA:
->> +            return neg_a && !neg_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
->> +        case S390_MINMAX_TYPE_C_MACRO:
->> +        case S390_MINMAX_TYPE_CPP:
->> +            return neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
->> +        case S390_MINMAX_TYPE_F:
->> +            return !neg_a && neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
->> +        default:
->> +            g_assert_not_reached();
->> +        }
-> 
-> I don't understand why inf_a && inf_b gets a special case.  Inf is
-> well-ordered. If the arguments are equal you can't tell the difference between
-> them, so it doesn't matter whether A or B is returned.
-> 
-> I would pass this case along to S390_MINMAX_RES_MINMAX.
-
-Thinking about it, that makes sense. I have no clue why the PoP has 
-these special cases expressed in the tables, at least it managed to 
-confuse me.
-
-> 
->> +    } else if (unlikely(zero_a && zero_b)) {
->> +        switch (type) {
->> +        case S390_MINMAX_TYPE_JAVA:
->> +            return neg_a && !neg_b ? S390_MINMAX_RES_A : S390_MINMAX_RES_B;
-> 
-> If neg_a && neg_b, both A and B are -0, and you can't distinguish them.  So
-> this would seem to simplify to
-
-Another case of "let's make the tables inconsistent to confuse David".
-
-> 
->       neg_a ? S390_MINMAX_RES_A : S390_MINMAX_RES_B
-> 
->> +        case S390_MINMAX_TYPE_C_MACRO:
->> +            return S390_MINMAX_RES_B;
->> +        case S390_MINMAX_TYPE_F:
->> +            return !neg_a && neg_b ? S390_MINMAX_RES_B : S390_MINMAX_RES_A;
-> 
-> Similarly if !neg_a && !neg_b, both A and B are +0.
-> 
-> Otherwise this looks good.
-
-Agreed, thanks!
-
-
--- 
-Thanks,
-
-David / dhildenb
+Eric
+> (2) If the answer to (1) is yes, is there any way to have two pairs
+>     of PCI+vSMMU?
+> (3) If the answer to (1) is no, how can I correctly change the iort
+>     table to link vSMMU to PCIE.128?
+>
+> Thanks
+> Nic
+>
 
 
