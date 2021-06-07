@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE79939E4FF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:11:10 +0200 (CEST)
-Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B199B39E50B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:14:25 +0200 (CEST)
+Received: from localhost ([::1]:46644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqImL-0008Vr-OO
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
+	id 1lqIpU-0007fj-LA
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqIaS-0007Uc-D3
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:56 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50874)
+ id 1lqIaa-0007Xs-1m
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:59:01 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqIaC-0007w8-OI
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:51 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id d184so130381wmd.0
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:36 -0700 (PDT)
+ id 1lqIaD-0007wS-IS
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:58 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a11so16558638wrt.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dsfWk4RgZnVdekDcntrGGEvaZTH7s3WlSeioagute4g=;
- b=cK86Jo3xRhQT6CF8lT4IxxG60z5N5laORThXccw+US46zbH/nItWq3NTCYjrI6M6eI
- 2GPJDFhx3C+MtzVAXlwHLJMYATwRq0ho0u1PE9IuVj1FQfucwHV6JRX9xzCAPUvnEeNS
- CY7pDxgFtTRhepiB3LRSL5hmdXE0Or0Da1lHuIfwf6D6NWA0yf/jKV5PHQoWWjf5p3/4
- 98C0/QYakgAu/AaxDF5WabV84Oq9F1QOH9WqVTHEr+Q8xTIJwB3JywLnk82JqVuizrgR
- tz2J8kDipsauNJZbkjLH05xriY9m8E+cYAj2WxF7qRRIXobOqMm+4Gc1uq7L0vaGc8Qf
- RUdg==
+ bh=8Vw8HCdQuc72QNtYY1HMST7xyxh7hPAptN30nR4g61U=;
+ b=wnrZ6aVy4zPhteDx0VrTiqe1YlYNzPQpHwQB4hFa4mDgqHEB63JRYpd72ahDzJl+BG
+ lSNpIVLyQDCr1HEHl6d7o0VQ9evodMFL0w0mfFxVJ10LEO1c9RfyENbQnAMhg89aszRf
+ bz3/BanB5AXuAOrAr+cbnLl5QArtGhdi01+MLbRWzMdx2Cl8YP/AzKRoYHm7bFmrxo1s
+ IjLjXF3LOTzVfHTh5FfN9vAZRejkwB4SoMeKQEOHNo9q5obIpJjdEgfWTwM3EBuDCop4
+ 1AZH+RQ4ruMqejZS2YVAODSXlOx5pGl8Yq5A6SIZGZr2kr4eFYtlWT6FaXUtBS6/g3hS
+ 4mcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dsfWk4RgZnVdekDcntrGGEvaZTH7s3WlSeioagute4g=;
- b=JqoQb2LnP/NKQofZGA/pfyGiood1GTDdY6XihuL3/6lDbC+wT4fUqY4JDzP0zIxyil
- Od5ToGQho0p7aQxjWWsbO1tJp3O5mx9ic3tP2yej2uVXZ6p4SSVHRafpg/MiCExh2ef8
- 5BA96x1LC8vY1BH0jdBrQx2THo3uX1LKkDXoohOFFvZJaULVa0nkrFaBc30eoB3CbTUQ
- +dn2Zpj4tSdd8BP2t0VqDLugCVpfiUwkn8QeuESMgfTDsW2NLt9KXJe5SvolqGSPBM7b
- AveLVCukqLsdfR3SWbaoXLhV4zCYypIMncf7JFISURTq9SsnHGyp7gjNSCSwIbieoDHP
- Mf0A==
-X-Gm-Message-State: AOAM532XDX7qRJcc/ssixY18SW8QjI1PucabYYMtbY+O6FGBkUB18KFv
- YwlVQ2ETPc2Az62CEzYaDIL2zQ==
-X-Google-Smtp-Source: ABdhPJxH/WoqyrlA+wFfQXwMcRL5BElpHEOdpPCmgdxBZnO/HMahrNpbnV2DLxfg4Yca4pH4uTyJMg==
-X-Received: by 2002:a05:600c:4ec8:: with SMTP id g8mr93120wmq.62.1623085115455; 
- Mon, 07 Jun 2021 09:58:35 -0700 (PDT)
+ bh=8Vw8HCdQuc72QNtYY1HMST7xyxh7hPAptN30nR4g61U=;
+ b=ZgZ4kl8KIN3SLew2SKf35dUUDAEPa4nMalrqeq/409BgOmuxoZf4MSCMVUVfmis7QH
+ nvmECDZ8eQmCPse4ewS3NPpAOR5WZkW1wtOBv5gBJeoXAQ3BSCICXJngrrYitrQA8ecx
+ z5WZIKlefeKT6hQpQJ/BluQKNvrVPWsII3iTAlB3qHUkYxTQUJDVH2F9YihmcPC1f4Um
+ kJJ5MD0eqFNKCKUyj3o+2jnwDGHtdiYslKEulei0wBEzcrDRCRQeTlUTUhHalD7jJZDF
+ s5Tl7kpiUE3d4oDjAyD1SpZnwvJDuCNoDveTuBVO7Xl/tPpPPgmwcldkBNL1LUBbL8D7
+ ELkA==
+X-Gm-Message-State: AOAM5304vqZhq5KuxrLe+GVjucnttV6YOnG8d8B465Ixp3Y2Vazng8X9
+ I1nzJMhhV8ErMLAU6nj/wUmgxQ==
+X-Google-Smtp-Source: ABdhPJw4Eh7RgwIPsVeroSlKapK7cwPlx5qgZpxRLQtg6x4GAr+D7D3tlztrLRLiSQnFsaxF7CTyOQ==
+X-Received: by 2002:a5d:5243:: with SMTP id k3mr18358046wrc.19.1623085116139; 
+ Mon, 07 Jun 2021 09:58:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n10sm18891677wre.95.2021.06.07.09.58.34
+ by smtp.gmail.com with ESMTPSA id n10sm18891677wre.95.2021.06.07.09.58.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 07 Jun 2021 09:58:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 14/55] target/arm: Implement MVE VCLS
-Date: Mon,  7 Jun 2021 17:57:40 +0100
-Message-Id: <20210607165821.9892-15-peter.maydell@linaro.org>
+Subject: [PATCH 15/55] bitops.h: Provide hswap32(), hswap64(),
+ wswap64() swapping operations
+Date: Mon,  7 Jun 2021 17:57:41 +0100
+Message-Id: <20210607165821.9892-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210607165821.9892-1-peter.maydell@linaro.org>
 References: <20210607165821.9892-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,68 +88,95 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VCLS insn.
+Currently the ARM SVE helper code defines locally some utility
+functions for swapping 16-bit halfwords within 32-bit or 64-bit
+values and for swapping 32-bit words within 64-bit values,
+parallel to the byte-swapping bswap16/32/64 functions.
+
+We want these also for the ARM MVE code, and they're potentially
+generally useful for other targets, so move them to bitops.h.
+(We don't put them in bswap.h with the bswap* functions because
+they are implemented in terms of the rotate operations also
+defined in bitops.h, and including bitops.h from bswap.h seems
+better avoided.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-mve.h    | 4 ++++
- target/arm/mve.decode      | 1 +
- target/arm/mve_helper.c    | 7 +++++++
- target/arm/translate-mve.c | 1 +
- 4 files changed, 13 insertions(+)
+ include/qemu/bitops.h   | 29 +++++++++++++++++++++++++++++
+ target/arm/sve_helper.c | 20 --------------------
+ 2 files changed, 29 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index c5c1315b161..bdd6675ea14 100644
---- a/target/arm/helper-mve.h
-+++ b/target/arm/helper-mve.h
-@@ -33,6 +33,10 @@ DEF_HELPER_FLAGS_3(mve_vstrb_h, TCG_CALL_NO_WG, void, env, ptr, i32)
- DEF_HELPER_FLAGS_3(mve_vstrb_w, TCG_CALL_NO_WG, void, env, ptr, i32)
- DEF_HELPER_FLAGS_3(mve_vstrh_w, TCG_CALL_NO_WG, void, env, ptr, i32)
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index a72f69fea85..03213ce952c 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -291,6 +291,35 @@ static inline uint64_t ror64(uint64_t word, unsigned int shift)
+     return (word >> shift) | (word << ((64 - shift) & 63));
+ }
  
-+DEF_HELPER_FLAGS_3(mve_vclsb, TCG_CALL_NO_WG, void, env, ptr, ptr)
-+DEF_HELPER_FLAGS_3(mve_vclsh, TCG_CALL_NO_WG, void, env, ptr, ptr)
-+DEF_HELPER_FLAGS_3(mve_vclsw, TCG_CALL_NO_WG, void, env, ptr, ptr)
++/**
++ * hswap32 - swap 16-bit halfwords within a 32-bit value
++ * @h: value to swap
++ */
++static inline uint32_t hswap32(uint32_t h)
++{
++    return rol32(h, 16);
++}
 +
- DEF_HELPER_FLAGS_3(mve_vclzb, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vclzh, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vclzw, TCG_CALL_NO_WG, void, env, ptr, ptr)
-diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 24999bf703e..adceef91597 100644
---- a/target/arm/mve.decode
-+++ b/target/arm/mve.decode
-@@ -68,4 +68,5 @@ VLDR_VSTR        1110110 1 a:1 . w:1 . .... ... 111110 .......   @vldr_vstr \
- 
- # Vector miscellaneous
- 
-+VCLS             1111 1111 1 . 11 .. 00 ... 0 0100 01 . 0 ... 0 @1op
- VCLZ             1111 1111 1 . 11 .. 00 ... 0 0100 11 . 0 ... 0 @1op
-diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index b7c44f57c09..071c9070593 100644
---- a/target/arm/mve_helper.c
-+++ b/target/arm/mve_helper.c
-@@ -238,6 +238,13 @@ static uint32_t mask_to_bytemask4(uint16_t mask)
-         mve_advance_vpt(env);                                           \
-     }
- 
-+#define DO_CLS_B(N)   (clrsb32(N) - 24)
-+#define DO_CLS_H(N)   (clrsb32(N) - 16)
++/**
++ * hswap64 - swap 16-bit halfwords within a 64-bit value
++ * @h: value to swap
++ */
++static inline uint64_t hswap64(uint64_t h)
++{
++    uint64_t m = 0x0000ffff0000ffffull;
++    h = rol64(h, 32);
++    return ((h & m) << 16) | ((h >> 16) & m);
++}
 +
-+DO_1OP(vclsb, 1, int8_t, H1, DO_CLS_B)
-+DO_1OP(vclsh, 2, int16_t, H2, DO_CLS_H)
-+DO_1OP(vclsw, 4, int32_t, H4, clrsb32)
++/**
++ * wswap64 - swap 32-bit words within a 64-bit value
++ * @h: value to swap
++ */
++static inline uint64_t wswap64(uint64_t h)
++{
++    return rol64(h, 32);
++}
 +
- #define DO_CLZ_B(N)   (clz32(N) - 24)
- #define DO_CLZ_H(N)   (clz32(N) - 16)
+ /**
+  * extract32:
+  * @value: the value to extract the bit field from
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 46a957b6fb0..15aa0a74982 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -247,26 +247,6 @@ static inline uint64_t expand_pred_s(uint8_t byte)
+     return word[byte & 0x11];
+ }
  
-diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 6bbc2df35c1..3c6897548a2 100644
---- a/target/arm/translate-mve.c
-+++ b/target/arm/translate-mve.c
-@@ -210,3 +210,4 @@ static bool do_1op(DisasContext *s, arg_1op *a, MVEGenOneOpFn fn)
-     }
- 
- DO_1OP(VCLZ, vclz)
-+DO_1OP(VCLS, vcls)
+-/* Swap 16-bit words within a 32-bit word.  */
+-static inline uint32_t hswap32(uint32_t h)
+-{
+-    return rol32(h, 16);
+-}
+-
+-/* Swap 16-bit words within a 64-bit word.  */
+-static inline uint64_t hswap64(uint64_t h)
+-{
+-    uint64_t m = 0x0000ffff0000ffffull;
+-    h = rol64(h, 32);
+-    return ((h & m) << 16) | ((h >> 16) & m);
+-}
+-
+-/* Swap 32-bit words within a 64-bit word.  */
+-static inline uint64_t wswap64(uint64_t h)
+-{
+-    return rol64(h, 32);
+-}
+-
+ #define LOGICAL_PPPP(NAME, FUNC) \
+ void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc)  \
+ {                                                                         \
 -- 
 2.20.1
 
