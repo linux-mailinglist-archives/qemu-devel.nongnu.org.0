@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F5D39DFE8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:02:15 +0200 (CEST)
-Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E217B39DFF5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:05:29 +0200 (CEST)
+Received: from localhost ([::1]:37834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqGla-00060k-B5
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:02:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35984)
+	id 1lqGoi-0007oB-W1
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:05:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqGkH-0005JC-JO
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:00:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53473)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqGnh-00070m-EB
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:04:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqGkA-0001LU-JY
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:00:52 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqGnd-0003ZW-IL
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:04:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623078045;
+ s=mimecast20190719; t=1623078260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EkpjOsOas2F5drTotwrBlVtxcPSDBeL4KOmoFDgm7sA=;
- b=GcWtU3zL6rfflo3X00VifWjtFP3Al64y+tHvBG5A7I16zRdSmdWxG+rWxQal/8xPYJ+v4W
- inAZJK9d82pldMpP62tkJXWJ0gso3JHs+DSNlkAzbbj/ceX/HiZ+YwUzhNh5Adhji9XqeI
- CCGxpzURcoDNjslzs33chZmKb5uY8bQ=
+ bh=YUJLzf0Kpd7dTtWp9jhK9pY8DKzWyoT68HmVsM2+gSo=;
+ b=e34YihChvmjC9wx1FYhbfsnKX/9nolCDzgLg+CTtAnX8lG3O1wbFlTP5GIUPx6FGG1Bslc
+ 5wnBWbJMctMpGH5wDFK0yUqLh5iCA9FCHigdEwDBEfuCn8s30znX23/ZU2UXlCCnK1Q0m0
+ 0F2bN5MB9R1dmZ2e7ehn7vEmQxHaY/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580--uQHRD3jMX2DSeR6xIACTg-1; Mon, 07 Jun 2021 11:00:38 -0400
-X-MC-Unique: -uQHRD3jMX2DSeR6xIACTg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-208-S2OUXQA2P9ORHvMhWdHZCw-1; Mon, 07 Jun 2021 11:04:18 -0400
+X-MC-Unique: S2OUXQA2P9ORHvMhWdHZCw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3C38030A0;
- Mon,  7 Jun 2021 15:00:37 +0000 (UTC)
-Received: from work-vm (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 312015C1C2;
- Mon,  7 Jun 2021 15:00:30 +0000 (UTC)
-Date: Mon, 7 Jun 2021 16:00:28 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] migration/rdma: Use huge page register VM memory
-Message-ID: <YL40jJgKFQBnq3Us@work-vm>
-References: <51819991cecb42f6a619768bc61d0bfd@kingsoft.com>
- <YL4qh35GquFrbSfq@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44266893E01;
+ Mon,  7 Jun 2021 15:03:29 +0000 (UTC)
+Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B58F2614FC;
+ Mon,  7 Jun 2021 15:03:27 +0000 (UTC)
+Date: Mon, 7 Jun 2021 10:03:25 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v5 08/11] block/io: allow 64bit write-zeroes requests
+Message-ID: <20210607150325.y44r33u5o26lsdl7@redhat.com>
+References: <20210505075001.45041-1-vsementsov@virtuozzo.com>
+ <20210505075001.45041-9-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <YL4qh35GquFrbSfq@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210505075001.45041-9-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,99 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sunhao2 =?utf-8?B?W+WtmeaYil0=?= <sunhao2@kingsoft.com>,
- YANGFENG1 =?utf-8?B?W+adqOWzsF0=?= <YANGFENG1@kingsoft.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- DENGLINWEN =?utf-8?B?W+mCk+ael+aWh10=?= <DENGLINWEN@kingsoft.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- LIZHAOXIN1 =?utf-8?B?W+adjueFp+mRq10=?= <LIZHAOXIN1@kingsoft.com>
+Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Mon, Jun 07, 2021 at 01:57:02PM +0000, LIZHAOXIN1 [李照鑫] wrote:
-> > When using libvirt for RDMA live migration, if the VM memory is too large,
-> > it will take a lot of time to deregister the VM at the source side, resulting
-> > in a long downtime (VM 64G, deregister vm time is about 400ms).
-> >     
-> > Although the VM's memory uses 2M huge pages, the MLNX driver still uses 4K
-> > pages for pin memory, as well as for unpin. So we use huge pages to skip the
-> > process of pin memory and unpin memory to reduce downtime.
-> >    
-> > The test environment:
-> > kernel: linux-5.12
-> > MLNX: ConnectX-4 LX
-> > libvirt command:
-> > virsh migrate --live --p2p --persistent --copy-storage-inc --listen-address \
-> > 0.0.0.0 --rdma-pin-all --migrateuri rdma://192.168.0.2 [VM] qemu+tcp://192.168.0.2/system
-> >     
-> > Signed-off-by: lizhaoxin <lizhaoxin1@kingsoft.com>
-> > 
-> > diff --git a/migration/rdma.c b/migration/rdma.c
-> > index 1cdb4561f3..9823449297 100644
-> > --- a/migration/rdma.c
-> > +++ b/migration/rdma.c
-> > @@ -1123,13 +1123,26 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
-> >      RDMALocalBlocks *local = &rdma->local_ram_blocks;
-> >  
-> >      for (i = 0; i < local->nb_blocks; i++) {
-> > -        local->block[i].mr =
-> > -            ibv_reg_mr(rdma->pd,
-> > -                    local->block[i].local_host_addr,
-> > -                    local->block[i].length,
-> > -                    IBV_ACCESS_LOCAL_WRITE |
-> > -                    IBV_ACCESS_REMOTE_WRITE
-> > -                    );
-> > +        if (strcmp(local->block[i].block_name,"pc.ram") == 0) {
+On Wed, May 05, 2021 at 10:49:58AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Now, when all drivers are updated by previous commit, we can drop two
+
+s/Now, when/Now that/
+
+> last limiters on write-zeroes path: INT_MAX in
+> bdrv_co_do_pwrite_zeroes() and bdrv_check_request32() in
+> bdrv_co_pwritev_part().
 > 
-> 'pc.ram' is an x86 architecture specific name, so this will still
-> leave a problem on other architectures I assume.
+> Now everything is prepared for implementing incredibly cool and fast
+> big-write-zeroes in NBD and qcow2. And any other driver which wants it
+> of course.
 
-Yes, and also break even on PC when using NUMA.
-I think the thing to do here is to call qemu_ram_pagesize on the
-RAMBlock; 
+I got a chuckle out of this incredibly cool description ;)
 
-  if (qemu_ram_pagesize(RAMBlock....) != qemu_real_host_page_size)
-     it's a huge page
-
-I guess it's probably best to do that in qemu_rdma_init_one_block or
-something?
-
-I wonder how that all works when there's a mix of different huge page
-sizes?
-
-Dave
-
-> > +            local->block[i].mr =
-> > +                ibv_reg_mr(rdma->pd,
-> > +                        local->block[i].local_host_addr,
-> > +                        local->block[i].length,
-> > +                        IBV_ACCESS_LOCAL_WRITE |
-> > +                        IBV_ACCESS_REMOTE_WRITE |
-> > +                        IBV_ACCESS_ON_DEMAND |
-> > +                        IBV_ACCESS_HUGETLB
-> > +                        );
-> > +        } else {
-> > +            local->block[i].mr =
-> > +                ibv_reg_mr(rdma->pd,
-> > +                        local->block[i].local_host_addr,
-> > +                        local->block[i].length,
-> > +                        IBV_ACCESS_LOCAL_WRITE |
-> > +                        IBV_ACCESS_REMOTE_WRITE
-> > +                        );
-> > +        }
-> > +
-> >          if (!local->block[i].mr) {
-> >              perror("Failed to register local dest ram block!\n");
-> >              break;
 > 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/io.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
