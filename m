@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D5739E2DB
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:26:01 +0200 (CEST)
-Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357CF39E2E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:30:06 +0200 (CEST)
+Received: from localhost ([::1]:43552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqI4d-0002PR-BW
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52952)
+	id 1lqI8b-0006g9-9I
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:30:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqI3l-0001gc-Bk
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:25:05 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:42866)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqI7U-0005yv-J4
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:28:56 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqI3j-0002VK-JS
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:25:05 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id s14so12580120pfd.9
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:25:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqI7R-0004S6-Io
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:28:55 -0400
+Received: by mail-wr1-x429.google.com with SMTP id l2so18362959wrw.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eQn9/FXWt73CaPaomH5nQjlWWGHxzFdzkwo4S8w4ZkY=;
- b=KPa+n5umeTlo2k+MSbpnLavyHvrFNK3xFMt7bV2agPTGK9Y7HgnS5Sn1QhxhF6t8Rq
- iTNEFlz9Ha8wwZh7neae3UXOOoZ/dOCrZwgN2f56Ee2LOB0ZjdVuhSZAa/iC2Jawdt/K
- d6nmu0Tm6z4jlqyz11CHuCHMapZLGgov8T2G7gxd9gEY65oLFviEqK4QK4Dz2LKDnQD0
- q9Xp4jbOi0xZBB90PyURdu4wI+wfBYZk/IF+0dg6jIRAK4eLQvCOxhr2MsUzRV2KKrtL
- ZLWalvB/W/nMx4RW/ffUbXHZEkCp0Ln9xa7ogmgJo3x7RrIwMwhA7R/zlQhIGFsuo1rV
- PEtA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=9KusYLifo12Ku23BZt1UMcNw60du6duvQLjSlXkgr6g=;
+ b=F/1k42dgDV5I7B7vijyH2VrgPwsOsz3elcDKPRXQ5U0AhtdcNuYcmp2TeGhqFFOQdS
+ ORoXb29r6e8RpTkvV+2bNqUT00zC0cNj07iU8lgMV/jQp+SR/YqvGagsvZ4iYzel9mZ3
+ +hNdP+jrd4uwpKWqHRDdobE5ENEYbhKn3gJXhaR1Fy+Zcv1V9Bj95XewlxButOR/0W4M
+ ChVZ10ByQ3pEWFUxUfcmkLJT0vywArU4ihJTYRETDRjoNr1V/5VyQOAGQl9kFhbqqz9w
+ NNRY/b6Yzi7wJcwRzI0wacezzrSMcSvrSwvKxaw33A9AGT0jD28Rmlp1nyzxtPKhihRK
+ +ZyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eQn9/FXWt73CaPaomH5nQjlWWGHxzFdzkwo4S8w4ZkY=;
- b=AgsNlG2uaFsfRyrnf21fvS7B2gFb91Y1Xinqt2tqAPsDa0XbqA94INJ0HM909vGf1/
- 81OLHWZO3OzB3x4gPfq9iAOdi/BIu02A1T9BX/0StvpDyCdH61KxtBnYjyASD8c+EtFd
- v8UMDwUNYF0iObeatVEvv+QvVJGh2Ufk4tVPXoyLCjcmRUlhaUeElohtzur+RDv8tCwR
- +j2fIUl9iUBmpBeygZlg/2YdyEJy1mg42At2QJZCLmbHfqh/P2Wa4c0blfCHyFDupQeB
- v+H0amh0vXQN9W2NSJpOCrnirdB8eMbW+Wx/E1tBNISpv8wfb73mmTpX/l/UEzdWuBBa
- aWpQ==
-X-Gm-Message-State: AOAM531eUoeB6vhK9kkaY2Q/1aunXz9WIkpQr4IIKbuyX45g50YFeVrs
- EwOd/rIs7vKPx6Cx6yZQVulLSQ==
-X-Google-Smtp-Source: ABdhPJxl7QWXk+kQ7Qi5vRZWoqq5NrlnEWf4ncP37NsiMP81K8B8eePp0CMJwFQp0vb/dJZA5F1poA==
-X-Received: by 2002:a63:dd48:: with SMTP id g8mr18187928pgj.102.1623083102109; 
- Mon, 07 Jun 2021 09:25:02 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- o8sm6288824pfp.48.2021.06.07.09.25.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 09:25:01 -0700 (PDT)
-Subject: Re: [PATCH v3 24/26] linux-user: elf: s390x: Prepare for Vector
- enhancements facility
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210607110338.31058-1-david@redhat.com>
- <20210607110338.31058-25-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9c585f97-b28d-c491-7969-42b2f1e2d968@linaro.org>
-Date: Mon, 7 Jun 2021 09:25:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=9KusYLifo12Ku23BZt1UMcNw60du6duvQLjSlXkgr6g=;
+ b=Nbm4QVGKnuz79CUaW7jkzslTP6WJOvRnbi7JcAA30ipAjKJx41KXie2jElo0qozad9
+ 71Dtz3cf02wq/S7qEd/rQ4P+uQApLB+tODo9qbTzjT45tC5GU4LtwAK/HGXaVy3B2uby
+ GiXeeq3TMOT0QObef0/tP+kFP54e4vtynFCLHd4/dGxMY3tEobLjzMj/HzbpU7EQRqW7
+ uLRGXIe5aidQBCuiBRA1pX+7hcJ5WegvNkU8XkkDq2jm8P+oLoP5dKul+5uds2rr+ILw
+ U8HEOrTRH+pQnuMN863D6Dayc2QFvNpXoRSg1KclhXCebyMo3Oasv57/ojTwml04yH8C
+ QFWg==
+X-Gm-Message-State: AOAM533bNUqbol8NPFlMAkzH24ORUOYnKpSczKTnOLx3euVUZK1qP1DG
+ TlupgkZToXt7kBDEbQRIa0S01w==
+X-Google-Smtp-Source: ABdhPJwNbtWH0SffwT8b6pi8K6LBBkXShC/a8YI3fLG3ANB8/cRnL0Poo2pzl7s/Y+ctflmPJpImmQ==
+X-Received: by 2002:adf:f5c9:: with SMTP id k9mr17291532wrp.180.1623083332144; 
+ Mon, 07 Jun 2021 09:28:52 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m23sm226913wms.2.2021.06.07.09.28.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 09:28:51 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8FD001FF7E;
+ Mon,  7 Jun 2021 17:28:50 +0100 (BST)
+References: <20210527041405.391567-1-richard.henderson@linaro.org>
+ <20210527041405.391567-4-richard.henderson@linaro.org>
+ <871r9dod1w.fsf@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
+Date: Mon, 07 Jun 2021 17:28:33 +0100
+In-reply-to: <871r9dod1w.fsf@linaro.org>
+Message-ID: <87y2blmyf1.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210607110338.31058-25-david@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,24 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: mmorrell@tachyum.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 4:03 AM, David Hildenbrand wrote:
-> +++ b/include/elf.h
-> @@ -605,6 +605,7 @@ typedef struct {
->   #define HWCAP_S390_HIGH_GPRS    512
->   #define HWCAP_S390_TE           1024
->   #define HWCAP_S390_VXRS         2048
-> +#define HWCAP_S390_VXRS_EXT     8192
 
-Probably best to fill in all of the values, even if we don't use them right 
-now.  Also, not the fault of this patch, but I don't think this belongs in 
-include/elf.h.  This is linux specific, not some part of the elf specification.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+>
+>> Create a new exception flag for reporting input denormals that are not
+>> flushed to zero, they are normalized and treated as normal numbers.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+<snip>
+>
+> Anyway other than that observation seems OK to me:
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-r~
+I of course meant:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
