@@ -2,94 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414E839D6B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 10:05:39 +0200 (CEST)
-Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D759739D6D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 10:12:43 +0200 (CEST)
+Received: from localhost ([::1]:59826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqAGP-00075a-Ru
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 04:05:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
+	id 1lqANG-0000Ul-Vm
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 04:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqAEy-0006Mx-Ry
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 04:04:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50936)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lqAM0-00089o-Ix; Mon, 07 Jun 2021 04:11:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqAEw-0000oV-Cc
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 04:04:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623053045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nlDixlYYITAaETlQ/yB50SlyueGiW+90/9kVKM0vohM=;
- b=iVSRDvTgIW/I+gInDtbT7ItfqEJHHQsr/VvTkBDKhPl0X92swhZ0xNxPlzLII2VwkMYkrC
- jO8Jo2rSCtczY6iob9pWI0kl1Kilxn7p1wG52/K/OIyav52NTa4wZ4BM9aHPGECJ18DThx
- yyfeeBfD18vF8cRgnf5csv/FYwxbecs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-i8bvaLLkOnGtcaKEkL3mCA-1; Mon, 07 Jun 2021 04:04:03 -0400
-X-MC-Unique: i8bvaLLkOnGtcaKEkL3mCA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n2-20020a05600c3b82b02901aeb7a4ac06so718478wms.5
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 01:04:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:references:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=nlDixlYYITAaETlQ/yB50SlyueGiW+90/9kVKM0vohM=;
- b=YRTbZtCUkRubys4SVA/O9Yb4xUrC3OcAyVXPusRwJ0r3FU7MivnZXqHWGk6JiZPR2y
- FmaRQpkCvYgNGTb9U0zONv11+n4HRe1eRdzkoti6p2RKS1NyuRCKFNoiE9IBiJDQVumC
- d3QkHgfXOK0jf851qtm0eBwb9bO11BB9NaYzoThSqPTjRScENR1Db/dGUqLvhK9xiKNY
- 7eeCHT8Fs/3GczOf0V2N7lf0FH7nXIWoMCd8TTMCPl1WOqFomkyIvA67OhQHwnestnqc
- Yj0J7OVrX4Z3/q4V9A4AHgUhEpqPaIOXwmUPs8bmQFAN37JkonB9Bjt0eqHKrYw0xNHg
- elSQ==
-X-Gm-Message-State: AOAM5302Rks31i2DTYIdVkoepfmk7CJDLJcgLRRcxqPWGiLcWTwpxbNj
- 3Sszejnr72h1Fk9OcbzQQJB5s3dHBnpkI5ggjJq8V/dfbGdFjhCYb/6Uzc8MtwhnmtAOlamVWad
- OkyJtc12OdxAQ+tw=
-X-Received: by 2002:a1c:f019:: with SMTP id a25mr16218592wmb.64.1623053041956; 
- Mon, 07 Jun 2021 01:04:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw35zIptACkmFE9RYSgFt/ncrdKxXNoB5vkuWv0PGLtN4N8FJ5xpmwzil4uC271gL7OVwdWgg==
-X-Received: by 2002:a1c:f019:: with SMTP id a25mr16218569wmb.64.1623053041760; 
- Mon, 07 Jun 2021 01:04:01 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6188.dip0.t-ipconnect.de. [91.12.97.136])
- by smtp.gmail.com with ESMTPSA id
- b10sm14295354wrt.24.2021.06.07.01.04.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 01:04:01 -0700 (PDT)
-From: David Hildenbrand <david@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210517142739.38597-1-david@redhat.com>
- <20210517142739.38597-2-david@redhat.com>
- <731bc385-463c-47e5-0841-f9bed4b48933@linaro.org>
- <87dbbb72-e6e7-3904-ea9e-4bd17905b3f2@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v2 01/26] s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN
- handling
-Message-ID: <3135116a-65d4-efef-82c0-998c76290e9b@redhat.com>
-Date: Mon, 7 Jun 2021 10:04:00 +0200
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1lqALy-0005Nx-B7; Mon, 07 Jun 2021 04:11:24 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 157854oc113432; Mon, 7 Jun 2021 04:11:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XAAFz4RkHGi6fZ6W0G15z04/chvNvZNQwUzIWwLnx2s=;
+ b=jkKTIbyth6M7q28oV8CuJ63MEo2ynBn55gyxxDklO2phfXvfH0PwB6XHgH6ACcqlHPlv
+ sXwxoLKpBsU0bAzbATwODHQauChuDkA3001LOZf9NGSzryQBaibHIhVLb0xOjPRgBN/B
+ VKl5FMFUW6deOvexQ3jaHQn1y72WJGEdCWG5/W/G8bGyCLBlrRrtU81ogxNt5xJZnhgb
+ 6tDH/iLUHnCETs9n+NvXNqHXDddA5zKNh7eTodxDmOwvMCQLUKZwxWPZt7FjpPn/ih7Q
+ x1qY5kb00h/3279I2YpMdm2+0AOjfSA3K03DY5Ie1etyj/XBKwY2XsaXS5n7Woim9CNV cQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 391fd9gjtr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Jun 2021 04:11:15 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15785MxL115208;
+ Mon, 7 Jun 2021 04:11:15 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 391fd9gjs7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Jun 2021 04:11:15 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15788mHt017997;
+ Mon, 7 Jun 2021 08:11:12 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04fra.de.ibm.com with ESMTP id 3900w88dq6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Jun 2021 08:11:12 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1578ARqV31261152
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Jun 2021 08:10:27 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2823142047;
+ Mon,  7 Jun 2021 08:11:10 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D50A242045;
+ Mon,  7 Jun 2021 08:11:09 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.37.245])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  7 Jun 2021 08:11:09 +0000 (GMT)
+Subject: Re: [PATCH] s390x/kvm: remove unused gs handling
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20210602125050.492500-1-cohuck@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <4784d0a9-8bb6-2b80-65b9-c00e2ca354ac@de.ibm.com>
+Date: Mon, 7 Jun 2021 10:11:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <87dbbb72-e6e7-3904-ea9e-4bd17905b3f2@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210602125050.492500-1-cohuck@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XwWYX3WUi3omtPszeZpH_ezb5vmj7B4z
+X-Proofpoint-GUID: 5Ou_KThOpWYGdCv_eSitbaTFoQ0OM3UJ
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-07_07:2021-06-04,
+ 2021-06-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 mlxscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104190000 definitions=main-2106070064
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,45 +112,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.06.21 11:50, David Hildenbrand wrote:
-> On 01.06.21 23:27, Richard Henderson wrote:
->> On 5/17/21 7:27 AM, David Hildenbrand wrote:
->>> @@ -634,6 +664,9 @@ uint64_t HELPER(clfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
->>>    
->>>        s390_restore_bfp_rounding_mode(env, old_mode);
->>>        handle_exceptions(env, xxc_from_m34(m34), GETPC());
->>> +    if (float128_is_any_nan(make_float128(h, l))) {
->>> +        return 0;
->>> +    }
->>
->> I wonder if handle_exceptions should return s390_exc.
->> Then you can test
->>
->>      exc = handle_exceptions(...);
->>      if (unlikely(exc & S390_IEEE_MASK_INVALID)) {
->>        ret = 0;
->>      }
->>      return ret;
->>
+
+
+On 02.06.21 14:50, Cornelia Huck wrote:
+> With commit 0280b3eb7c05 ("s390x/kvm: use cpu model for gscb on
+> compat machines"), we removed any calls to kvm_s390_get_gs()
+> in favour of a different mechanism.
 > 
-> I'll give it a thought if that makes things easier.
+> Let's remove the unused kvm_s390_get_gs(), and with it the now
+> unneeded cap_gs as well.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 
-Looking at partsN(float_to_uint), we also raise float_flag_invalid in 
-other cases, for example with float_class_inf. So IIUC, your proposal 
-would also set "ret = 0" in case our input is +inf, which would be wrong.
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
-
--- 
-Thanks,
-
-David / dhildenb
-
+> ---
+>   target/s390x/kvm-stub.c  |  5 -----
+>   target/s390x/kvm.c       | 10 +---------
+>   target/s390x/kvm_s390x.h |  1 -
+>   3 files changed, 1 insertion(+), 15 deletions(-)
+> 
+> diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
+> index 9970b5a8c705..8a308cfebb68 100644
+> --- a/target/s390x/kvm-stub.c
+> +++ b/target/s390x/kvm-stub.c
+> @@ -49,11 +49,6 @@ int kvm_s390_get_ri(void)
+>       return 0;
+>   }
+>   
+> -int kvm_s390_get_gs(void)
+> -{
+> -    return 0;
+> -}
+> -
+>   int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_low)
+>   {
+>       return -ENOSYS;
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index 4fb3bbfef506..23889245877a 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -154,7 +154,6 @@ static int cap_async_pf;
+>   static int cap_mem_op;
+>   static int cap_s390_irq;
+>   static int cap_ri;
+> -static int cap_gs;
+>   static int cap_hpage_1m;
+>   static int cap_vcpu_resets;
+>   static int cap_protected;
+> @@ -369,9 +368,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>           }
+>       }
+>       if (cpu_model_allowed()) {
+> -        if (kvm_vm_enable_cap(s, KVM_CAP_S390_GS, 0) == 0) {
+> -            cap_gs = 1;
+> -        }
+> +        kvm_vm_enable_cap(s, KVM_CAP_S390_GS, 0);
+>       }
+>   
+>       /*
+> @@ -2039,11 +2036,6 @@ int kvm_s390_get_ri(void)
+>       return cap_ri;
+>   }
+>   
+> -int kvm_s390_get_gs(void)
+> -{
+> -    return cap_gs;
+> -}
+> -
+>   int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state)
+>   {
+>       struct kvm_mp_state mp_state = {};
+> diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
+> index 25bbe98b2514..05a5e1e6f46d 100644
+> --- a/target/s390x/kvm_s390x.h
+> +++ b/target/s390x/kvm_s390x.h
+> @@ -27,7 +27,6 @@ void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
+>   int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu);
+>   int kvm_s390_get_hpage_1m(void);
+>   int kvm_s390_get_ri(void);
+> -int kvm_s390_get_gs(void);
+>   int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
+>   int kvm_s390_get_clock_ext(uint8_t *tod_high, uint64_t *tod_clock);
+>   int kvm_s390_set_clock(uint8_t tod_high, uint64_t tod_clock);
+> 
 
