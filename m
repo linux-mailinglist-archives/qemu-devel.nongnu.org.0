@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C12E39E090
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:33:33 +0200 (CEST)
-Received: from localhost ([::1]:35474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E877339E08F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:33:32 +0200 (CEST)
+Received: from localhost ([::1]:35544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqHFr-00021M-Dv
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42462)
+	id 1lqHFr-00023y-W6
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEZ-0000GW-Va
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37248)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEb-0000Gx-QO
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEV-00029A-Cy
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:10 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEa-0002Br-8i
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623079926;
+ s=mimecast20190719; t=1623079931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tS3fh42pSztgEM+8BG0zwbpPJtZX3iyUdEjmnKh4xK4=;
- b=d0Ikp9R2XEhutO34IeSy9ShKhsuK5PmUIK6WvTNo2mH8i09Y5UyN7lUylIX1naJstOTyyd
- M3l59wX0MaNYlJ9ZXexfy49o5xaszRLpWwjw3Nv4K7wGMv00+hbIB1q/Ue0QvPY8327z2g
- r/KQFWj2dNzV+EUEht5lTfW192mtfVY=
+ bh=UtJ4P3cEqbwxIn8w1BNM1Sv2xZQ9vGWLHYrDiV6wZiQ=;
+ b=aRKc6ImonK2v7jy1AkTsLcgpwxAYEjKxPZ8MIdciTnrGqzv1k22gKJJ3nkiAsdDb6qIaCx
+ aKA2w2dQwB1JXpQMzRlGts1QNc25D/Ofo9qP67pt6BvRI+F7O+fSh9TRzVnXO666kexlkF
+ zCEM2Ct8YygWzKoD2zoPmAE8MT3sGiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326--jv-9Yx7Pu25rS8Iv8q45g-1; Mon, 07 Jun 2021 11:32:03 -0400
-X-MC-Unique: -jv-9Yx7Pu25rS8Iv8q45g-1
+ us-mta-332-TxmFX0uhOHODx1mnxi3glQ-1; Mon, 07 Jun 2021 11:32:09 -0400
+X-MC-Unique: TxmFX0uhOHODx1mnxi3glQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49EC980EDAA;
- Mon,  7 Jun 2021 15:32:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B62BF80EDA7;
+ Mon,  7 Jun 2021 15:32:07 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 273365D9D3;
- Mon,  7 Jun 2021 15:32:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A04BF5D9D3;
+ Mon,  7 Jun 2021 15:32:02 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/2] GitLab: Add "Bug" issue reporting template
-Date: Mon,  7 Jun 2021 11:31:54 -0400
-Message-Id: <20210607153155.1760158-2-jsnow@redhat.com>
+Subject: [PATCH v4 2/2] GitLab: Add "Feature Request" issue template.
+Date: Mon,  7 Jun 2021 11:31:55 -0400
+Message-Id: <20210607153155.1760158-3-jsnow@redhat.com>
 In-Reply-To: <20210607153155.1760158-1-jsnow@redhat.com>
 References: <20210607153155.1760158-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,85 +85,55 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based loosely on libvirt's template, written by Peter Krempa.
+Based on Peter Krempa's libvirt template, feature.md.
 
 CC: Peter Krempa <pkrempa@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab/issue_templates/bug.md | 64 ++++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
- create mode 100644 .gitlab/issue_templates/bug.md
+ .gitlab/issue_templates/feature_request.md | 32 ++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 .gitlab/issue_templates/feature_request.md
 
-diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+diff --git a/.gitlab/issue_templates/feature_request.md b/.gitlab/issue_templates/feature_request.md
 new file mode 100644
-index 0000000000..e910f7b1c2
+index 0000000000..fc58ca2763
 --- /dev/null
-+++ b/.gitlab/issue_templates/bug.md
-@@ -0,0 +1,64 @@
++++ b/.gitlab/issue_templates/feature_request.md
+@@ -0,0 +1,32 @@
 +<!--
 +This is the upstream QEMU issue tracker.
 +
-+If you are able to, it will greatly facilitate bug triage if you attempt
-+to reproduce the problem with the latest qemu.git master built from
-+source. See https://www.qemu.org/download/#source for instructions on
-+how to do this.
++Please note that QEMU, like most open source projects, relies on
++contributors who have motivation, skills and available time to work on
++implementing particular features.
 +
-+QEMU generally supports the last two releases advertised on
-+https://www.qemu.org/. Problems with distro-packaged versions of QEMU
-+older than this should be reported to the distribution instead.
++Feature requests can be helpful for determining demand and interest, but
++they are not a guarantee that a contributor will volunteer to implement
++it. We welcome and encourage even draft patches to implement a feature
++be sent to the mailing list where it can be discussed and developed
++further by the community.
 +
-+See https://www.qemu.org/contribute/report-a-bug/ for additional
-+guidance.
-+
-+If this is a security issue, please consult
-+https://www.qemu.org/contribute/security-process/
++Thank you for your interest in helping us to make QEMU better!
 +-->
 +
-+## Host environment
-+ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
-+ - OS/kernel version: (For POSIX hosts, use `uname -a`)
-+ - Architecture: (x86, ARM, s390x, etc.)
-+ - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
-+ - QEMU version: (e.g. `qemu-system-x86_64 --version`)
-+ - QEMU command line:
-+   <!--
-+   Give the smallest, complete command line that exhibits the problem.
-+
-+   If you are using libvirt, virsh, or vmm, you can likely find the QEMU
-+   command line arguments in /var/log/libvirt/qemu/$GUEST.log.
-+   -->
-+   ```
-+   ./qemu-system-x86_64 -M q35 -m 4096 -enable-kvm -hda fedora32.qcow2
-+   ```
-+
-+## Emulated/Virtualized environment
-+ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
-+ - OS/kernel version: (For POSIX guests, use `uname -a`.)
-+ - Architecture: (x86, ARM, s390x, etc.)
++## Goal
++<!-- Describe the final result you want to achieve. Avoid design specifics. -->
 +
 +
-+## Description of problem
-+<!-- Describe the problem, including any error/crash messages seen. -->
-+
-+
-+## Steps to reproduce
-+1.
-+2.
-+3.
++## Technical details
++<!-- Describe technical details, design specifics, suggestions, versions, etc. -->
 +
 +
 +## Additional information
 +
-+<!--
-+Attach logs, stack traces, screenshots, etc. Compress the files if necessary.
-+If using libvirt, libvirt logs and XML domain information may be relevant.
-+-->
 +
 +<!--
 +The line below ensures that proper tags are added to the issue.
 +Please do not remove it.
 +-->
-+/label ~"kind::Bug"
++/label ~"kind::Feature Request"
 -- 
 2.31.1
 
