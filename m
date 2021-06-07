@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBAC39E83E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:19:47 +0200 (CEST)
-Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEC239E859
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:23:33 +0200 (CEST)
+Received: from localhost ([::1]:58440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLis-0001iO-JP
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37688)
+	id 1lqLmR-0004K1-M0
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLX1-0004F0-V6
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLX2-0004G7-Cn
  for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34549)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWt-0006Ux-DC
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWy-0006WZ-13
  for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096442;
+ s=mimecast20190719; t=1623096445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VTvYJjV0DdCsRUQ2Qj9FZq4CydYoH9OZSoyEzd+P5O4=;
- b=A3GSwaYBaBf69R5SfY+93RX6hj8esO3G0zqi60ZRqGvS2Llx3pCimsZ5EKPxua7q3cd2qS
- IJPrsx36I03LFnZR419qDmAh3NdA2PxGwLnuGPHfB3Jp+H2RhzBAL958770x4heDgrsw0T
- p6IpnPhG/Hv48Q8ArUtZABR9f2HKTDY=
+ bh=f7z4slaRs6UmoJ1JXsZshdZkQIHhnb0hvpgKg0Fce+w=;
+ b=NbZw/cr9025MAzWT1RxY8wAj9R+eBmj0WHsaloCBhft+xoR3//6JKYQxJm4kPEYcY5yO15
+ mUytjNT1OUDBMDvCt/jda+gBqBV11SjgshWo3hQcEz4kHR62EdUN2xbFp7nZ7VPJrD4gKK
+ 8hgST8xA/4n+garT/JzH7wR/ZRdveU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-W94eu-0IPjOGLihYocCOGw-1; Mon, 07 Jun 2021 16:07:19 -0400
-X-MC-Unique: W94eu-0IPjOGLihYocCOGw-1
+ us-mta-389-MT9dcRzCMT-HHz_lqpDZOg-1; Mon, 07 Jun 2021 16:07:24 -0400
+X-MC-Unique: MT9dcRzCMT-HHz_lqpDZOg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53D3A80EDB9;
- Mon,  7 Jun 2021 20:07:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25F1B107B466;
+ Mon,  7 Jun 2021 20:07:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92BEE5C1C2;
- Mon,  7 Jun 2021 20:07:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE9435C1C2;
+ Mon,  7 Jun 2021 20:07:07 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/42] scripts/qmp-shell: remove if-raise-else patterns
-Date: Mon,  7 Jun 2021 16:06:22 -0400
-Message-Id: <20210607200649.1840382-16-jsnow@redhat.com>
+Subject: [PATCH 16/42] scripts/qmp-shell: use isinstance() instead of type()
+Date: Mon,  7 Jun 2021 16:06:23 -0400
+Message-Id: <20210607200649.1840382-17-jsnow@redhat.com>
 In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
 References: <20210607200649.1840382-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,46 +82,33 @@ Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shushes pylint. I don't always mind these patterns personally, but I'm
-not as sure that I want to remove the warning from pylint's repertoire
-entirely. Oh well.
+A bit more idiomatic, and quiets some linter warnings.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/qmp/qmp-shell | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 80cd432607..bf7a49dfc1 100755
+index bf7a49dfc1..970f43dd00 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -204,8 +204,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-                 if type(parent[optpath[-1]]) is dict:
+@@ -195,13 +195,13 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+             for path in optpath[:-1]:
+                 curpath.append(path)
+                 obj = parent.get(path, {})
+-                if type(obj) is not dict:
++                if not isinstance(obj, dict):
                      msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
                      raise QMPShellError(msg.format('.'.join(curpath)))
--                else:
--                    raise QMPShellError(f'Cannot set "{key}" multiple times')
-+                raise QMPShellError(f'Cannot set "{key}" multiple times')
-             parent[optpath[-1]] = value
- 
-     def __build_cmd(self, cmdline):
-@@ -309,13 +308,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         except EOFError:
-             print()
-             return False
-+
-         if cmdline == '':
-             for event in self.get_events():
-                 print(event)
-             self.clear_events()
-             return True
--        else:
--            return self._execute_cmd(cmdline)
-+
-+        return self._execute_cmd(cmdline)
- 
-     def set_verbosity(self, verbose):
-         self._verbose = verbose
+                 parent[path] = obj
+                 parent = obj
+             if optpath[-1] in parent:
+-                if type(parent[optpath[-1]]) is dict:
++                if isinstance(parent[optpath[-1]], dict):
+                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
+                     raise QMPShellError(msg.format('.'.join(curpath)))
+                 raise QMPShellError(f'Cannot set "{key}" multiple times')
 -- 
 2.31.1
 
