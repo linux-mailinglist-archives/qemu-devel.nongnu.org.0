@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F31639E825
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:13:23 +0200 (CEST)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F6C39E82B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:15:21 +0200 (CEST)
+Received: from localhost ([::1]:52408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLcg-00017S-L7
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
+	id 1lqLea-0006eg-Ka
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:15:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLX4-0004Ju-IS
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24409)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWy-00045Y-BE
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWy-0006Wi-3M
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:32 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWr-0006Tv-Om
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096445;
+ s=mimecast20190719; t=1623096441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+UWpmj4W74ZQ6psp83CzBWcMlKbSUwNHNbqQljXJPJs=;
- b=SAtGwZnRXkH2o7sZWr6j6KI5sUHqDm2107z+YhMqluKXvmfWTZU0BnTdan+RwYhphtLRfZ
- EOYIOiXGodCLMlhBUrT4b7gs1bjUxV3J4Z/d/E3WdcdGNk46jgi1hoy/OR1h5zIsii/iyI
- RQvAgW/fm2i8j5cqBga9du0OHyUGqSg=
+ bh=iN1p6DfzIVIssCxn/al08/xzeOUyneYx8OUH3UbSuKQ=;
+ b=HSORugfmeHGRBGR7gQupE/YAEKBnRtio9r8xHBZuBL0wBjx6KSurAgioeK0C5ZXV56NNk9
+ kaC/HMncM0UnHAvnWNKGWB7vNNg/p5BpLLC6SpoHSbygyT0OP3vwuKLlAZIfnJb5yqJLXD
+ NSiKjx3qDvvTDGmGLqC6LQCUFua9XbQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-XkM1FuS2P1O_IFfEksk6lA-1; Mon, 07 Jun 2021 16:07:24 -0400
-X-MC-Unique: XkM1FuS2P1O_IFfEksk6lA-1
+ us-mta-48-B8wM4bSmPdCDpjDMJQnjtw-1; Mon, 07 Jun 2021 16:07:19 -0400
+X-MC-Unique: B8wM4bSmPdCDpjDMJQnjtw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E132D8042D1;
- Mon,  7 Jun 2021 20:07:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C527F108C22E;
+ Mon,  7 Jun 2021 20:07:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 349F15C1C2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1379E5C1C2;
  Mon,  7 Jun 2021 20:07:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/42] scripts/qmp-shell: refactor QMPCompleter
-Date: Mon,  7 Jun 2021 16:06:31 -0400
-Message-Id: <20210607200649.1840382-25-jsnow@redhat.com>
+Subject: [PATCH 25/42] scripts/qmp-shell: initialize completer early
+Date: Mon,  7 Jun 2021 16:06:32 -0400
+Message-Id: <20210607200649.1840382-26-jsnow@redhat.com>
 In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
 References: <20210607200649.1840382-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,43 +82,27 @@ Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-list is a generic type, but we expect to use strings directly. We could
-subclass list[str], but pylint does not presently understand that
-invocation.
-
-Change this class to envelop a list instead of *being* a list, for
-simpler mypy typing.
+Add an empty completer as a more type-safe placeholder instead of
+'None'.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ scripts/qmp/qmp-shell | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 847d34890f..73694035b2 100755
+index 73694035b2..670361322c 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -78,9 +78,17 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qmp
- 
- 
--class QMPCompleter(list):
--    def complete(self, text, state):
--        for cmd in self:
-+class QMPCompleter:
-+    # NB: Python 3.9+ will probably allow us to subclass list[str] directly,
-+    # but pylint as of today does not know that List[str] is simply 'list'.
-+    def __init__(self) -> None:
-+        self._matches: List[str] = []
-+
-+    def append(self, value: str) -> None:
-+        return self._matches.append(value)
-+
-+    def complete(self, text: str, state: int) -> Optional[str]:
-+        for cmd in self._matches:
-             if cmd.startswith(text):
-                 if state == 0:
-                     return cmd
+@@ -125,7 +125,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+     def __init__(self, address, pretty=False, verbose=False):
+         super().__init__(self.parse_address(address))
+         self._greeting = None
+-        self._completer = None
++        self._completer = QMPCompleter()
+         self._pretty = pretty
+         self._transmode = False
+         self._actions = list()
 -- 
 2.31.1
 
