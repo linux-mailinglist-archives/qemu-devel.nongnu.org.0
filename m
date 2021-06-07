@@ -2,147 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F6939D939
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 12:01:40 +0200 (CEST)
-Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A346839D94B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 12:08:09 +0200 (CEST)
+Received: from localhost ([::1]:54300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqC4h-0003Y2-EJ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 06:01:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
+	id 1lqCAy-0006OC-J4
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 06:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=785b62de8=Niklas.Cassel@wdc.com>)
- id 1lqC2F-0002Wa-Oz; Mon, 07 Jun 2021 05:59:07 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:19448)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lqC3Z-0003WR-CK; Mon, 07 Jun 2021 06:00:30 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:44373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=785b62de8=Niklas.Cassel@wdc.com>)
- id 1lqC29-0004eg-Vg; Mon, 07 Jun 2021 05:59:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623059940; x=1654595940;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=s9PgsUskqvbSNAA/vLcjTnhWfG73wHItM7wgFL63waY=;
- b=lmMHxfnYf7cItYs3HVnJ02mQ87DMPt2qAvcC6BKEi1do8pabqvaDCekh
- bGGyqDgm0XGnCBqzApNaAxBUCkbSohjkLt7YM8DO7gl8Qc0YpNeLJmvJK
- rly/3oh3q7oh/E3LxiATaWh+s9NRce9sCO5GmWZwzZevX1HirZDKIZDQH
- TGA+Tz4kF85qmVb12Ytt+Flzmrn9/BvBT+dvV45eFzdFL/eAFug/WRfQ5
- xJ8p24jE8+DyHTcVz6JRCv48f7HWfoL7Cz3bsIZjGQQ0Zqb9VB54V6UKj
- lUb1io+drvDzjp0Cpi7LJJhM0T0oEDAG3lbzoHhuUHdn9MM3D+qSN8mMz w==;
-IronPort-SDR: c/YmPRMqoKem8C+wXD/nBZ/QFaqqVrCXl62fxvezACW3UsqvBbxC6mMTN/d0BbqceGFa1pKgJX
- 5YeBsFkjSyQ1ZZh9Ubpv70NLhteueBFwr5X+dc2oQlIOFZd3Xwd5z19VXDTVPJZE0++E97Z+7w
- 00F4PIkFVlC1P5Wxg7IzASnKhSq4NhTUfTyEDjD2yWUKBdxuhrvUAyarnrPP1zpqDZ/gVLSJOY
- 47Gjvh8lXDzuYH9Sx502/wJJz9fScMVMoBVGbT5pFAOt6eGXJIWrO8Omr7wjcfzFRbG1PCktOP
- e7M=
-X-IronPort-AV: E=Sophos;i="5.83,254,1616428800"; d="scan'208";a="175757895"
-Received: from mail-dm6nam12lp2168.outbound.protection.outlook.com (HELO
- NAM12-DM6-obe.outbound.protection.outlook.com) ([104.47.59.168])
- by ob1.hgst.iphmx.com with ESMTP; 07 Jun 2021 17:58:55 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WcZwJLAwDazz2EX7QTN6yTO3KukUvWb67GV1FQMS8ArIM/d9uF0nO68BwJGcm72trCxGuQf+RzcqeWc/sDRG6BfsmuhyYR8WZGiBNtv4O5qmAsmKNlARdJTWewMDfmf2IELBkwfRiN8zAmE++bvTeDVLJwwcgR689CNBrEKNrsIuNkaDF/w4nA8pWGrxQcTEEEL9U63kzw7MzM+gotVcKwXp+mYem3m87lK+MCxYc57PzQo7wEUDWHaSeHw22RCNk2mIVJuiYFNhif9T/pjUmSaU0qj9Q+T9RMxT3T+7ebJFZLKpFhfc34/tjx0T9oVsR1rMHIo0feWOIQFmioE1hA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ykk4O4lCJxBVCU5rqLkBgWE/cFStJgUVZORsu+/bNNk=;
- b=lR0DvLJYxuBLreBb9oP9J4JJsn0SlvgFOAzmbXgjd5EGHGEADmm1IfQdRldK+z4d9eqC1379TVmuZDP3+MJ39hRh4lylt+6pU77bPweK65RK9cv1aUUr0SP6mEhog0MyjkS9oetGCQjXOXWZQ7t+AeAi9PxWZ9DbgnUFtrNqCuBdIvwaXsGcpe1WToq5S4zIYzFQv36G3FtEXAQfGr2eNcjmLEqqGcMHzEv46lSNd6BwFvE6hk6xTm9b16cITS8OPEiarravA9DpRysBo67mj/64M4+Y3s/leXSBosJ+m0zAc56uvIf/iJo+jHTNJWMDTdkAZMmUiLe7WKU0JKsh9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ykk4O4lCJxBVCU5rqLkBgWE/cFStJgUVZORsu+/bNNk=;
- b=Pt4zF3hBMWpOkG72unBv2SFeaaet1DGm+PvUWBAd12agMd084n84bDRN4wKEvT5IWw+/Ni0ZjX8d0qiP5IU6BeP833+bR2L9WZJZwI9b3j+h1OChdLSlR8HVz1/hyRVK9jEyrooQUTyxYsdZgert+8upB3G6q6n67l4Y+bQhfqk=
-Received: from PH0PR04MB7158.namprd04.prod.outlook.com (2603:10b6:510:8::18)
- by PH0PR04MB7704.namprd04.prod.outlook.com (2603:10b6:510:4c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Mon, 7 Jun
- 2021 09:58:56 +0000
-Received: from PH0PR04MB7158.namprd04.prod.outlook.com
- ([fe80::45d7:388e:5cbb:ae1e]) by PH0PR04MB7158.namprd04.prod.outlook.com
- ([fe80::45d7:388e:5cbb:ae1e%6]) with mapi id 15.20.4195.030; Mon, 7 Jun 2021
- 09:58:56 +0000
-From: Niklas Cassel <Niklas.Cassel@wdc.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH] hw/nvme: add param to control auto zone transitioning to
- zone state closed
-Thread-Topic: [PATCH] hw/nvme: add param to control auto zone transitioning to
- zone state closed
-Thread-Index: AQHXU7FRNLQ7NeS/402zZyMJ0bJ5NKr4wCQAgAT/kwCAAEIzAIAAxqYAgAmWJACAAAFagA==
-Date: Mon, 7 Jun 2021 09:58:56 +0000
-Message-ID: <YL3t3RJ8exPXcYJc@x1-carbon>
-References: <20210528110459.65387-1-Niklas.Cassel@wdc.com>
- <YLDSfrUIPaZxk6VD@apples.localdomain> <YLUD4BggUinxUBGl@x1-carbon>
- <YLU7aJDjk8L8JMIi@apples.localdomain> <YLXiDGRgboJc6RUu@x1-carbon>
- <YL3suv6IRJfoHl0u@apples.localdomain>
-In-Reply-To: <YL3suv6IRJfoHl0u@apples.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: irrelevant.dk; dkim=none (message not signed)
- header.d=none;irrelevant.dk; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [85.226.244.4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f5d8add4-501a-426c-4c4c-08d9299add2e
-x-ms-traffictypediagnostic: PH0PR04MB7704:
-x-microsoft-antispam-prvs: <PH0PR04MB770408AAB885016630FB577AF2389@PH0PR04MB7704.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: VRelZPBl/G3vsZLeExHVk18aH+HpQrDcZmqRyAEJD+CsbeIao/EpeuIQU8FBUw5C7JXSB7XeXbAoqqllPPy2oDzVZDlR2C8ZRJeIjB5rdbWnW/2rfvc2uXaRlDGjC8Y0/LZqKP9jBXCW4y7eCED+PE805wr2/XK4HpVxf+ghcIjYZOzRy4wQhZT3qs9jsdzm4RbnDU04Y7UoRaInyG3J3CzqBCH56zRVMCwKeKgf+P1atrk6CAdd3wRw1EQvMg9VxQ7bFuRNPOa4HKoe8avrllT79WME16YdWxQDfL2JBwmb9zERYms6GfimAH2vB1gx3zWOsAg9M9Ml+XnFzXk6G2MOnmWVWZiKSLUujJaJB6FVlh3TjReo94tYdMhvm/92QK77HrdaXP+IAMqZfMDnnivpa9K9dYt+KjhlshIryW2zsWsolRf8KeyXZBEguhXysDdEhNn6TTVcrWda8sXHdArh0zBQ1j3ibTWlkIw64vcKmoB3s8MrctB8geHuzQn+5gh5qMcdJGcgGGhac2qyjIyhS1Dve7sn+yH7hSvh2C9DobIVU3gBgalLktqrLPvgHZ3/X6cU2EV+6PSrzQ3bV05imasCh/EO21Mdf5h4LTE=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR04MB7158.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(6486002)(83380400001)(5660300002)(86362001)(6512007)(186003)(9686003)(38100700002)(122000001)(66446008)(6916009)(91956017)(66946007)(66476007)(33716001)(76116006)(64756008)(66556008)(316002)(26005)(54906003)(71200400001)(30864003)(8936002)(8676002)(2906002)(478600001)(4326008)(6506007);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?+guz1HCuxMEqm9JMFtifi+W2qvP0bGxcaEDBrzWEY1r2zTSTy1lteRPFxmim?=
- =?us-ascii?Q?soCIpjZUFRUPOHTynesJkSAEb4UXk0D/pzWZrECKNOlNPa11fx0kij6WVi/4?=
- =?us-ascii?Q?moYPr9pK9itpsTo47UgBFBvjSoQbCRCpRJ43hMkJZ+1wUStUL+po8whO6RPC?=
- =?us-ascii?Q?IFHfybiV610tENLVaa+0VPhExLd/vTnm2UBBkJlbU2tYWQ6H1lEGgneujvhk?=
- =?us-ascii?Q?z/KX6P9fbi2mfOkVUX/TE4RQkOWhljLndFpxKcEsNPBckeQU3LdJnCwf7Dig?=
- =?us-ascii?Q?E8++wBu5X1jbbM1cvebaipLCFpG0KEp+MHspvOk/lh9h3lUCFeC0Jq8XEGN5?=
- =?us-ascii?Q?ioOjNXGN3wCGFWD7QN2mu8k7gWf6Zes1eNXKVJJmtO/HoiRQJ2afMEmXh7m2?=
- =?us-ascii?Q?+d8Pi+h1czp1CLiip5mderk2Ppv67oIyLzB6I9KdkZkCsqKEt4ByUSt6Jp+t?=
- =?us-ascii?Q?e9NGwr5o26P701MGN97QnvuFc9MCw7HJSzuma23CGHsQDrMEuqidTxRiT3n5?=
- =?us-ascii?Q?K6u2D2K2o5CIBkT0xBK7AwtPaog32jUTx2WPz8Mhu6B2H/CUl6vF0XtwItxv?=
- =?us-ascii?Q?ifaKwNqBIBbwpdz36QstyaV+wHbkvkdeXS/hnsigQoh6gDoVLyu8w4HKwfv2?=
- =?us-ascii?Q?zkTiVTlrVq0iJheGc3fobXM+NOs6gw8HU/9gC78AUpDNFE5J70ApLuPsbHwd?=
- =?us-ascii?Q?C0oxuswXPjgj52JZJ8svCC75piTuH89GXYRow0A+wgve3Bnq1lvGx9SxwSxt?=
- =?us-ascii?Q?722EtDnGMuUuQUO0fzVP3AnWkQtvBehmPZW6BwoCqbtgDgnkGTeHemJbcoSH?=
- =?us-ascii?Q?7C+EYFnvSydnJD01H9TkRuJKWYmJ8hxNMiktleA/Z6ptFSZJ8CuavTcwzO9i?=
- =?us-ascii?Q?YTpoxu3zjg68SLrnYec1QuuHWDPZ2h+shgf7sQATxFnKH8mj/ulJ+GXcA857?=
- =?us-ascii?Q?MVPQ5vAqbYNCXb0Ab2TSxUsuRb1UBD+/oJuTCdXBdmWczOGlVgbgyDKxbsha?=
- =?us-ascii?Q?8FOG3gnwiXXxVP+dmJDJ71oUSfQefF554xj42ng10TXR75e658hKVEpeRDbV?=
- =?us-ascii?Q?q2g2DCyRlnYWtdY/g2mfjMBynJKXYJ7KXAsSR/F7SOOBD2jZOXqlHc9ISkik?=
- =?us-ascii?Q?Qs8JOos7tAWgxzYwDyO1roPAcDK0jnx7MopkgFVgJx++MA80c3SIxqzHtYCj?=
- =?us-ascii?Q?tn7gir8Ap1bfBPYrd/K+lFM8givUu6cjScvvtn9Xehco7mMgEGVG1LHwoCiV?=
- =?us-ascii?Q?LDnbQlsdfvJv6aWao3A38qCXeDHR4Y39bHPMQJ5ZZM6hyH9Exnf59nfwrZox?=
- =?us-ascii?Q?tBUBkDKP909FzT+ayYSvmFBv?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <2DF24A033E537A44B3E6BC4BFC950159@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lqC3T-0005Xt-1Z; Mon, 07 Jun 2021 06:00:29 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id DE7245C0183;
+ Mon,  7 Jun 2021 06:00:21 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 07 Jun 2021 06:00:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=dVx7TWb8LHtlwwcFFKdHrpDJtR7
+ KJS22MQ2o/VtjB7g=; b=F90pwqD4EurDjYkmQB16kObtowqu0ClB+pujdx953VA
+ Xk4ZQ/ggMKOzYo3LS5U8whaHQuDLYNf/1/06HVVYNCsC+yXsssU/MaEZDWjrNdCW
+ PrdEbmyft7sUKLs4iUlbofWHrvENkJiM943OCnyicdMuTkDmf+CMZoBx4PdMD1KR
+ JQUiQxgmRoXjJUDsbLkrI6dLd6mdmeIZHOKQiUp+Si2cwrzUazbx9SBB1f5NEUyY
+ Em2R2fb8t5Lap4mBS7B//ud6BhqC2+JA5GBFvqmpv8UYrT8Ie0eHwwJvt3enybTC
+ ZdvYVuJ7Hn6i8Vi8cZu0JbxuMCfZGioTQLmcMkQ2m/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=dVx7TW
+ b8LHtlwwcFFKdHrpDJtR7KJS22MQ2o/VtjB7g=; b=JeJc3DGjPMAxIipNh5xDXB
+ WzvXltaN5alT1Ctnp4v69sOBnYlRSNZRe0uLupyAeB8Q6Q1sFF5+vtWQN3HoMn7K
+ R9KNBi6cS8WVPqqLvH8q9ftBMfGXCwIRSoEUMM+TVrOZ7W/unWKT1wsjBJY/mIAM
+ /v+GJk8l+FAXCTzNNyV6Z3T5ae17/IY4RPGEbOj5SfQVy2gUwK1uYParwAtmnZfw
+ 2rxHUJlCPmvrZoxRkv+EDaRHMVuWBqkqf8JyeiBAa85E8NsK6/QbsBTmdjkBGy1k
+ Mjc/kljXoXqGD6jhJ4sWH25uVZItvSoPQWrs4RFvZLELgbS5yyujk9Bn9pcmJx5Q
+ ==
+X-ME-Sender: <xms:M-69YCOZTAe_dr7BZErBM8uzhMHeUqKP81ToaOcEFV4VoDBhOHGj0A>
+ <xme:M-69YA_CbLsxPf3YIXdw3TCAVcv80feJ7wNAr09leG-ODDQvMiF1JYOLm2RW8D_A3
+ bzGAJPvoglpd6p-vlg>
+X-ME-Received: <xmr:M-69YJRy3GK-igMR24zrFjpVV6SRHoYsVcxItEdA-N-Pk8OFRlNq3dq5ltcLS9Eif2i5qmcCX2DTid8JqPqbI2XalkfRS2lnEzS57mJGQ8nxzvgR8Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:M-69YCstIWSS6Yc6H8uC08wWus3BccKoqoa94ZPYcwXAx-sy0Xxm7w>
+ <xmx:M-69YKehnJpFM8WA8oIb4pBVPdhA8XKO9pEbAFSdraDgu_dDW-dy-Q>
+ <xmx:M-69YG16x-Z4WI2dUJ7KKBl6lNej84SGp1q_mS4Fu4lq8piuHyPHsA>
+ <xmx:Ne69YBwonXWlC87KZaYmpFVgmJ38NuvT2mYLLyUP8cMe1F_E0oNqGQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Jun 2021 06:00:18 -0400 (EDT)
+Date: Mon, 7 Jun 2021 12:00:16 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [RFC PATCH 00/11] hw/nvme: reimplement all multi-aio commands
+ with custom aiocbs
+Message-ID: <YL3uMOfMBKGM9KpQ@apples.localdomain>
+References: <20210604065237.873228-1-its@irrelevant.dk>
+ <6addc825-917e-e3b3-f2b3-af311beb6b00@virtuozzo.com>
+ <YL259FilxX0aqFYb@apples.localdomain>
+ <a9104cf3-efed-524b-803f-b49d93fd062f@virtuozzo.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7158.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5d8add4-501a-426c-4c4c-08d9299add2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2021 09:58:56.0842 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /7hA0GczVLDlcsPawa/nU+FH7e6V7MO1gFcvUNyzPv6c2E9nVdXMR/g5gzC2qg78wsb6+o3SdBd19a0Ci6PzPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7704
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=785b62de8=Niklas.Cassel@wdc.com; helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jNkIszTEyoLDpk23"
+Content-Disposition: inline
+In-Reply-To: <a9104cf3-efed-524b-803f-b49d93fd062f@virtuozzo.com>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -155,316 +96,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 07, 2021 at 11:54:02AM +0200, Klaus Jensen wrote:
-> On Jun  1 07:30, Niklas Cassel wrote:
-> > On Mon, May 31, 2021 at 09:39:20PM +0200, Klaus Jensen wrote:
-> > > On May 31 15:42, Niklas Cassel wrote:
-> > > > On Fri, May 28, 2021 at 01:22:38PM +0200, Klaus Jensen wrote:
-> > > > > On May 28 11:05, Niklas Cassel wrote:
-> > > > > > From: Niklas Cassel <niklas.cassel@wdc.com>
-> > > > > >
-> > > > > > In the Zoned Namespace Command Set Specification, chapter
-> > > > > > 2.5.1 Managing resources
-> > > > > >
-> > > > > > "The controller may transition zones in the ZSIO:Implicitly Ope=
-ned state
-> > > > > > to the ZSC:Closed state for resource management purposes."
-> > > > > >
-> > > > > > The word may in this sentence means that automatically transiti=
-oning
-> > > > > > an implicitly opened zone to closed is completely optional.
-> > > > > >
-> > > > > > Add a new parameter so that the user can control if this automa=
-tic
-> > > > > > transitioning should be performed or not.
-> > > > > >
-> > > > > > Being able to control this can help with verifying that e.g. a =
-user-space
-> > > > > > program behaves properly even without this optional ZNS feature=
-.
-> > > > > >
-> > > > > > The default value is set to true, in order to not change the ex=
-isting
-> > > > > > behavior.
-> > > > > >
-> > > > > > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-> > > > > > ---
-> > > > > > hw/nvme/ctrl.c | 9 ++++++++-
-> > > > > > hw/nvme/ns.c   | 2 ++
-> > > > > > hw/nvme/nvme.h | 1 +
-> > > > > > 3 files changed, 11 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > > > > > index 40a7efcea9..d00f0297a5 100644
-> > > > > > --- a/hw/nvme/ctrl.c
-> > > > > > +++ b/hw/nvme/ctrl.c
-> > > > > > @@ -141,6 +141,11 @@
-> > > > > >  *
-> > > > > >  *     zoned.cross_read=3D<enable RAZB, default: false>
-> > > > > >  *         Setting this property to true enables Read Across Zo=
-ne Boundaries.
-> > > > > > + *
-> > > > > > + *     zoned.auto_transition=3D<enable auto resource managemen=
-t, default: true>
-> > > > > > + *         Indicates if zones in zone state implicitly opened =
-can be
-> > > > > > + *         automatically transitioned to zone state closed for=
- resource
-> > > > > > + *         management purposes.
-> > > > > >  */
-> > > > > >
-> > > > > > #include "qemu/osdep.h"
-> > > > > > @@ -1699,7 +1704,9 @@ static uint16_t nvme_zrm_open_flags(NvmeN=
-amespace *ns, NvmeZone *zone,
-> > > > > >         /* fallthrough */
-> > > > > >
-> > > > > >     case NVME_ZONE_STATE_CLOSED:
-> > > > > > -        nvme_zrm_auto_transition_zone(ns);
-> > > > > > +        if (ns->params.auto_transition_zones) {
-> > > > > > +            nvme_zrm_auto_transition_zone(ns);
-> > > > > > +        }
-> > > > > >         status =3D nvme_aor_check(ns, act, 1);
-> > > > > >         if (status) {
-> > > > > >             return status;
-> > > > > > diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-> > > > > > index 3fec9c6273..31dee43d30 100644
-> > > > > > --- a/hw/nvme/ns.c
-> > > > > > +++ b/hw/nvme/ns.c
-> > > > > > @@ -531,6 +531,8 @@ static Property nvme_ns_props[] =3D {
-> > > > > >                        params.max_open_zones, 0),
-> > > > > >     DEFINE_PROP_UINT32("zoned.descr_ext_size", NvmeNamespace,
-> > > > > >                        params.zd_extension_size, 0),
-> > > > > > +    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeNamespace,
-> > > > > > +                     params.auto_transition_zones, true),
-> > > > > >     DEFINE_PROP_END_OF_LIST(),
-> > > > > > };
-> > > > > >
-> > > > > > diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-> > > > > > index 81a35cda14..bd86054db2 100644
-> > > > > > --- a/hw/nvme/nvme.h
-> > > > > > +++ b/hw/nvme/nvme.h
-> > > > > > @@ -100,6 +100,7 @@ typedef struct NvmeNamespaceParams {
-> > > > > >     uint32_t max_active_zones;
-> > > > > >     uint32_t max_open_zones;
-> > > > > >     uint32_t zd_extension_size;
-> > > > > > +    bool     auto_transition_zones;
-> > > > > > } NvmeNamespaceParams;
-> > > > > >
-> > > > > > typedef struct NvmeNamespace {
-> > > > > > --
-> > > > > > 2.31.1
-> > > > > >
-> > > > >
-> > > > > Looks good Niklas!
-> > > > >
-> > > > > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> > > >
-> > > > In reality, it is the controller that does the auto transitioning.
-> > > >
-> > > > In theory, one namespace could be attached to two different control=
-lers,
-> > > > and I guess, in that case, it depends on if the controller that we =
-used
-> > > > when doing the write supports auto transitioning or not, that deter=
-mines
-> > > > if a zone will be auto transitioned or not.
-> > > >
-> > > > If we were to change this to be a parameter of the controller inste=
-ad
-> > > > of a parameter of the namespace, we would require to refactor a lot=
- of
-> > > > code in the regular write path. As we currently don't have any Nvme=
-Request
-> > > > object in nvme_zrm_open_flags().
-> > > >
-> > > > Thoughts?
-> > > >
-> > >=20
-> > > I think you are right. This should be controller-specific behavior. I=
- took
-> > > the liberty of moving the parameter; the refactor is minimal.
-> > >=20
-> > >=20
-> > > From: Niklas Cassel <niklas.cassel@wdc.com>
-> > >=20
-> > > In the Zoned Namespace Command Set Specification, chapter
-> > > 2.5.1 Managing resources
-> > >=20
-> > > "The controller may transition zones in the ZSIO:Implicitly Opened st=
-ate
-> > > to the ZSC:Closed state for resource management purposes."
-> > >=20
-> > > The word may in this sentence means that automatically transitioning
-> > > an implicitly opened zone to closed is completely optional.
-> > >=20
-> > > Add a new parameter so that the user can control if this automatic
-> > > transitioning should be performed or not.
-> > >=20
-> > > Being able to control this can help with verifying that e.g. a user-s=
-pace
-> > > program behaves properly even without this optional ZNS feature.
-> > >=20
-> > > The default value is set to true, in order to not change the existing
-> > > behavior.
-> > >=20
-> > > Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-> > > [k.jensen: moved parameter to controller]
-> > > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > > ---
-> > >  hw/nvme/nvme.h |  1 +
-> > >  hw/nvme/ctrl.c | 32 ++++++++++++++++++++++----------
-> > >  2 files changed, 23 insertions(+), 10 deletions(-)
-> > >=20
-> > > diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-> > > index 81a35cda142b..93a7e0e5380e 100644
-> > > --- a/hw/nvme/nvme.h
-> > > +++ b/hw/nvme/nvme.h
-> > > @@ -382,6 +382,7 @@ typedef struct NvmeParams {
-> > >      uint8_t  vsl;
-> > >      bool     use_intel_id;
-> > >      uint8_t  zasl;
-> > > +    bool     auto_transition_zones;
-> > >      bool     legacy_cmb;
-> > >  } NvmeParams;
-> > > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> > > index 40a7efcea914..8dd9cb2ccbf3 100644
-> > > --- a/hw/nvme/ctrl.c
-> > > +++ b/hw/nvme/ctrl.c
-> > > @@ -34,6 +34,7 @@
-> > >   *              aerl=3D<N[optional]>,aer_max_queued=3D<N[optional]>,=
- \
-> > >   *              mdts=3D<N[optional]>,vsl=3D<N[optional]>, \
-> > >   *              zoned.zasl=3D<N[optional]>, \
-> > > + *              zoned.auto_transition=3D<on|off[optional]>, \
-> > >   *              subsys=3D<subsys_id>
-> > >   *      -device nvme-ns,drive=3D<drive_id>,bus=3D<bus_name>,nsid=3D<=
-nsid>,\
-> > >   *              zoned=3D<true|false[optional]>, \
-> > > @@ -100,6 +101,11 @@
-> > >   *   the minimum memory page size (CAP.MPSMIN). The default value is=
- 0 (i.e.
-> > >   *   defaulting to the value of `mdts`).
-> > >   *
-> > > + * - `zoned.auto_transition`
-> > > + *   Indicates if zones in zone state implicitly opened can be autom=
-atically
-> > > + *   transitioned to zone state closed for resource management purpo=
-ses.
-> > > + *   Defaults to 'on'.
-> > > + *
-> > >   * nvme namespace device parameters
-> > >   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >   * - `shared`
-> > > @@ -1686,8 +1692,8 @@ enum {
-> > >      NVME_ZRM_AUTO =3D 1 << 0,
-> > >  };
-> > > -static uint16_t nvme_zrm_open_flags(NvmeNamespace *ns, NvmeZone *zon=
-e,
-> > > -                                    int flags)
-> > > +static uint16_t nvme_zrm_open_flags(NvmeCtrl *n, NvmeNamespace *ns,
-> > > +                                    NvmeZone *zone, int flags)
-> > >  {
-> > >      int act =3D 0;
-> > >      uint16_t status;
-> > > @@ -1699,7 +1705,9 @@ static uint16_t nvme_zrm_open_flags(NvmeNamespa=
-ce *ns, NvmeZone *zone,
-> > >          /* fallthrough */
-> > >      case NVME_ZONE_STATE_CLOSED:
-> > > -        nvme_zrm_auto_transition_zone(ns);
-> > > +        if (n->params.auto_transition_zones) {
-> > > +            nvme_zrm_auto_transition_zone(ns);
-> > > +        }
-> > >          status =3D nvme_aor_check(ns, act, 1);
-> > >          if (status) {
-> > >              return status;
-> > > @@ -1735,14 +1743,16 @@ static uint16_t nvme_zrm_open_flags(NvmeNames=
-pace *ns, NvmeZone *zone,
-> > >      }
-> > >  }
-> > > -static inline uint16_t nvme_zrm_auto(NvmeNamespace *ns, NvmeZone *zo=
-ne)
-> > > +static inline uint16_t nvme_zrm_auto(NvmeCtrl *n, NvmeNamespace *ns,
-> > > +                                     NvmeZone *zone)
-> > >  {
-> > > -    return nvme_zrm_open_flags(ns, zone, NVME_ZRM_AUTO);
-> > > +    return nvme_zrm_open_flags(n, ns, zone, NVME_ZRM_AUTO);
-> > >  }
-> > > -static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zo=
-ne)
-> > > +static inline uint16_t nvme_zrm_open(NvmeCtrl *n, NvmeNamespace *ns,
-> > > +                                     NvmeZone *zone)
-> > >  {
-> > > -    return nvme_zrm_open_flags(ns, zone, 0);
-> > > +    return nvme_zrm_open_flags(n, ns, zone, 0);
-> > >  }
-> > >  static void nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
-> > > @@ -2283,7 +2293,7 @@ static void nvme_copy_in_complete(NvmeRequest *=
-req)
-> > >              goto invalid;
-> > >          }
-> > > -        status =3D nvme_zrm_auto(ns, zone);
-> > > +        status =3D nvme_zrm_auto(nvme_ctrl(req), ns, zone);
-> > >          if (status) {
-> > >              goto invalid;
-> > >          }
-> > > @@ -3080,7 +3090,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, Nvme=
-Request *req, bool append,
-> > >              goto invalid;
-> > >          }
-> > > -        status =3D nvme_zrm_auto(ns, zone);
-> > > +        status =3D nvme_zrm_auto(n, ns, zone);
-> > >          if (status) {
-> > >              goto invalid;
-> > >          }
-> > > @@ -3169,7 +3179,7 @@ enum NvmeZoneProcessingMask {
-> > >  static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-> > >                                 NvmeZoneState state, NvmeRequest *req=
-)
-> > >  {
-> > > -    return nvme_zrm_open(ns, zone);
-> > > +    return nvme_zrm_open(nvme_ctrl(req), ns, zone);
-> > >  }
-> > >  static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
-> > > @@ -6259,6 +6269,8 @@ static Property nvme_props[] =3D {
-> > >      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, =
-false),
-> > >      DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, fals=
-e),
-> > >      DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-> > > +    DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-> > > +                     params.auto_transition_zones, true),
-> > >      DEFINE_PROP_END_OF_LIST(),
-> > >  };
-> > > --
-> > > 2.31.1
-> > >=20
-> >=20
-> > Thanks a lot Klaus! I really appreciate it.
-> >=20
-> > My initial thought was to add a new flag in the enum where NVME_ZRM_AUT=
-O is.
-> > But I think that would just make the code harder to read.
-> > You simply check the parameter directly, which is more obvious to the r=
-eader,
-> > so I think patch looks good!
-> >=20
->=20
-> Can I add your reviewed-by on this? :)
 
-Yes, of course:
+--jNkIszTEyoLDpk23
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Niklas Cassel <niklas.cassel@wdc.com>
+On Jun  7 10:11, Vladimir Sementsov-Ogievskiy wrote:
+>07.06.2021 09:17, Klaus Jensen wrote:
+>>On Jun=C2=A0 7 08:14, Vladimir Sementsov-Ogievskiy wrote:
+>>>04.06.2021 09:52, Klaus Jensen wrote:
+>>>>
+>>>>I've kept the RFC since I'm still new to using the block layer like
+>>>>this. I was hoping that Stefan could find some time to look over this -
+>>>>this is a huge series, so I don't expect non-nvme folks to spend a large
+>>>>amount of time on it, but I would really like feedback on my approach in
+>>>>the reimplementation of flush and format.
+>>>
+>>>If I understand your code correctly, you do stat next io operation=20
+>>>from call-back of a previous. It works, and it is similar to haw=20
+>>>mirror block-job was operating some time ago (still it maintained=20
+>>>several in-flight requests simultaneously, but I'm about using _aio_=20
+>>>functions). Still, now mirror doesn't use _aio_ functions like this.
+>>>
+>>>Better approach to call several io functions of block layer=20
+>>>one-by-one is creating a coroutine. You may just add a coroutine=20
+>>>function, that does all your linear logic as you want, without any=20
+>>>callbacks like:
+>>>
+>>>nvme_co_flush()
+>>>{
+>>>=C2=A0 for (...) {
+>>>=C2=A0=C2=A0=C2=A0=C2=A0 blk_co_flush();
+>>>=C2=A0 }
+>>>}
+>>>
+>>>(and you'll need qemu_coroutine_create() and qemu_coroutine_enter()=20
+>>>to start a coroutine).
+>>>
+>>
+>>So, this is definitely a tempting way to implement this. I must admit=20
+>>that I did not consider it like this because I thought this was at the=20
+>>wrong level of abstraction (looked to me like this was something that=20
+>>belonged in block/, not hw/). Again, I referred to the Trim=20
+>>implementation in hw/ide as the source of inspiration on the=20
+>>sequential AIOCB approach.
+>
+>No, I think it's OK from abstraction point of view. Everybody is=20
+>welcome to use coroutines if it is appropriate and especially for doing=20
+>sequential IOs :)
+>Actually, it's just more efficient: the way I propose, you create one=20
+>coroutine, which does all your logic as you want, when blk_aio_=20
+>functions actually create a coroutine under the hood each time (I don't=20
+>think that it noticeably affects performance, but logic becomes more=20
+>straightforward)
+>
+>The only problem is that for this way we don't have cancellation API,=20
+>so you can't use it for cancellation anyway :(
+>
 
-However, in many projects you can't have a Reviewed-by that is the same as
-the author, but perhaps that is not the case in QEMU.
+Yeah, I'm not really feeling up for adding that :P
 
+>>
+>>>Still, I'm not sure that moving from simultaneous issuing several IO=20
+>>>commands to sequential is good idea..
+>>>And this way you of course can't use blk_aio_canel.. This leads to my=20
+>>>last doubt:
+>>>
+>>>One more thing I don't understand after fast look at the series: how=20
+>>>cancelation works? It seems to me, that you just call cancel on=20
+>>>nested AIOCBs, produced by blk_<io_functions>, but no one of them=20
+>>>implement cancel.. I see only four implementations of .cancel_async=20
+>>>callback in the whole Qemu code: in iscsi, in ide/core.c, in=20
+>>>dma-helpers.c and in thread-pool.c.. Seems no one is related to=20
+>>>blk_aio_flush() and other blk_* functions you call in the series. Or,=20
+>>>what I miss?
+>>>
+>>
+>>Right now, cancellation is only initiated by the device when a=20
+>>submission queue is deleted. This causes blk_aio_cancel() to be called=20
+>>on each BlockAIOCB (NvmeRequest.aiocb) for outstanding requests. In=20
+>>most cases this BlockAIOCB is a DMAAIOCB from softmmu/dma-helpers.c,=20
+>>which implements .cancel_async. Prior to this patchset, Flush, DSM,=20
+>>Copy and so on, did not have any BlockAIOCB to cancel since we did not=20
+>>keep references to the ongoing AIOs.
+>
+>Hmm. Looking at flush for example, I don't see how DMAAIOCB comes.
+>
+>You do
+>
+>  iocb->aiocb =3D blk_aio_flush(ns->blkconf.blk, nvme_flush_ns_cb, iocb);
+>
+>it calls blk_aio_prwv(), it calls blk_aio_get() with=20
+>blk_aio_em_aiocb_info, that doesn't implement .cancel_async..
+>
 
-Kind regards,
-Niklas=
+I meant that most I/O in the regular path (read/write) are using the dma=20
+helpers (since they do DMA). We might use the blk_aio_p{read,write}=20
+directly when we read from/write to memory on the device (the controller=20
+memory buffer), but it is not the common case.
+
+You are correct that BlkAioEmAIOCB does not implement cancel, but the=20
+"wrapper" (NvmeFlushAIOCB) *does*. This means that, from the NVMe=20
+controller perspective, we can cancel the flush in between=20
+(un-cancellable blk_aio_flush-initiated) flushes to multiple namespaces.
+
+>>
+>>The blk_aio_cancel() call is synchronous, but it does call=20
+>>bdrv_aio_cancel_async() which calls the .cancel_async callback if=20
+>>implemented. This means that we can now cancel ongoing DSM or Copy=20
+>>commands while they are processing their individual LBA ranges. So=20
+>>while blk_aio_cancel() subsequently waits for the AIO to complete this=20
+>>may cause them to complete earlier than if they had run to full=20
+>>completion (i.e. if they did not implement .cancel_async).
+>>
+>>There are two things I'd like to do subsequent to this patch series:
+>>
+>> =C2=A0 1. Fix the Abort command to actually do something. Currently the=
+=20
+>> command is a no-op (which is allowed by the spec), but I'd like it to=20
+>> actually cancel the command that the host specified.
+>>
+>> =C2=A0 2. Make submission queue deletion asynchronous.
+>>
+>>The infrastructure provided by this refactor should allow this if I am=20
+>>not mistaken.
+>>
+>>Overall, I think this "sequentialization" makes it easier to reason=20
+>>about cancellation, but that might just be me ;)
+>>
+>
+>I just don't like sequential logic simulated on top of aio-callback=20
+>async API, which in turn is simulated on top of coroutine-driven=20
+>sequential API (which is made on top of real async block API=20
+>(thread-based or linux-aio based, etc)) :)
+
+Ha! Yes, we are not exactly improving on that layering here ;)
+
+> Still I can't suggest now an alternative that supports cancellation.=20
+>But I still think that cancellation doesn't work for blk_aio_flush and=20
+>friends either..
+>
+
+The aiocb from blk_aio_flush is considered "un-cancellable" I guess (by=20
+design from the block layer), but the NVMe command "Flush" is=20
+cancellable from the perspective of the NVMe controller. Or at least,=20
+that's what I am intending to do here.
+
+--jNkIszTEyoLDpk23
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC97i8ACgkQTeGvMW1P
+DenSxAgAtVXV9HilcxB5mz0+ZWnIPChsGmx24W9ZxOstyh7DyhWRmfN5rQ+jua4s
+12TYQIkgOFwteQpJbejGsHcB3Wy739Ux+9JDzm9vUsycyZkVybFNnzi5l5IGn8M6
+DsUdOCoRJGZdTbbXbSwI5Wfi9wz5hO8egQZaAdxhvfjgcJe7Og6XPijW7WJCCUO8
+DkrNJVpzVaOC5zhkExKwDTzYEuW5C9XCkvYQIUGOYRztjCdf2wS0ZboBKZ4j+e8f
+FTCJ2PHf0Mm0tukGcSIvh2cB5PObvQIGCrC7DWJUCDt1d0st0FRldNZquQQPk0Xa
+gPBNd+XyvrPqQNvM95uu5zP8wcKo1g==
+=iaTj
+-----END PGP SIGNATURE-----
+
+--jNkIszTEyoLDpk23--
 
