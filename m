@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319D039DD8B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 15:23:56 +0200 (CEST)
-Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA9139DD96
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 15:29:32 +0200 (CEST)
+Received: from localhost ([::1]:51344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqFEQ-0001Bc-R7
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 09:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45418)
+	id 1lqFJr-00044e-PB
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 09:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqFCk-0008D8-JE
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:22:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21873)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqFIk-00035d-LA
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:28:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqFCi-0006J6-27
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:22:09 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqFIf-0001sA-Pz
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:28:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623072126;
+ s=mimecast20190719; t=1623072496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ligBG8t7toEqlQ4LBakBBJBXAcIpfWM9FfVkfI+tJYQ=;
- b=GKda1tvTdlA/eRKxLm7BPvF8tQPaEC86TOqx0J6NAtOiyGz7yjvcl4CzGqdhz5Ry189rlv
- eDYEPnwHFy8mMpvydUDdfZSHo6IPr8BbRb4dsnCd5+Fk4gV6PRjQCzFTLX1t4ypFfhsKpE
- ux++Q6iFZCRzdTn3siIgYasgZrGHATM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-K35OjY6oPK2GnsokB4iLKw-1; Mon, 07 Jun 2021 09:22:03 -0400
-X-MC-Unique: K35OjY6oPK2GnsokB4iLKw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t14-20020adfe44e0000b029011851efa802so7813093wrm.11
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 06:22:03 -0700 (PDT)
+ bh=xnOFIgJ8ql3FFLMO+TnZR5CSTO/o8h4V9DXMaf4EYn8=;
+ b=NwxP3v6H6OuuHOnw1KExsX92tzdA6/C8pQF6EtfKdJXt6Hlc6Agh0fSiof0Vms6NtJa7PW
+ qk3IX92fMZ2hLDoq0ArQuluI+134Z65a580OP/lwsLmzwEf+aY5bEQYaXyOQe8qF7W2r8z
+ oRrNEY6MyJeheQ12L/HLlEeSnHpnaz8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-P8cvcX1kP_6a6INhLURzwQ-1; Mon, 07 Jun 2021 09:28:15 -0400
+X-MC-Unique: P8cvcX1kP_6a6INhLURzwQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ n14-20020a5d484e0000b029011993ecb409so5996190wrs.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 06:28:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ligBG8t7toEqlQ4LBakBBJBXAcIpfWM9FfVkfI+tJYQ=;
- b=GGUGfi0u0JAvDcf6JF/IplS0rC6XC3f5zMUkFMfxjMRskqbEkvDtgyEBnZSZ4QzHDY
- d7epHA602ZDyjGHZibjhY+9QhK8TNxpIRyQycyDLrIb5py/yp3sN3f/0U0cUB0wOT0kH
- get1SVLeDguz4cs5yd29gVcpvbTmR9BVrH7pLkXYcFL6Obu4GsZbh/fxQRgOR1wbb8D4
- j65XciPcz9oa2vP3Gycu1luTTyQ3cfej1OCXp5j2NZCaWXALq99UFPS0iRTXohkwbAKg
- IUFXqy1SSNGUqlf8yqo9PjQKysYM4fmmbAhxjuPsEd41yLo1Ih0JkkgyuI3c6kRS+YT/
- fmGw==
-X-Gm-Message-State: AOAM531Na1nj39jqq7bNC11GUAf65et1ggag/0oFH6MxsfX7ZeE+lG0p
- Xev/uYIPW4v69gRM2g4BiWoGG0EFA/vCrj7IYk5vV5upUGrF0ggeEGCpHZ80EbDrP4klKFq5ptK
- 63RO9e4TtkSRwOwU=
-X-Received: by 2002:adf:fa48:: with SMTP id y8mr11350875wrr.387.1623072122675; 
- Mon, 07 Jun 2021 06:22:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzQ5SXZARInTJIDZXVlPKB1IVIAKT3tN8qyzWjZEvdRDnIV8h5sh6X8z6nXswhJ89WgDvcSVw==
-X-Received: by 2002:adf:fa48:: with SMTP id y8mr11350848wrr.387.1623072122415; 
- Mon, 07 Jun 2021 06:22:02 -0700 (PDT)
+ bh=xnOFIgJ8ql3FFLMO+TnZR5CSTO/o8h4V9DXMaf4EYn8=;
+ b=Q430rd046hsFJXTNWIPcuYULxBqV7GN4NQMK/rT9Btr6khR6Kebjq3+TTjxzW0ZEuU
+ krCI6VePy6jzMp4qS+8sKmqTyP2CxgtmuNUKIeWws8Tkc4F5S6WHnPQxOLjVzKYg+xdM
+ cdvlCHQaj92oyL81ifrQ73G9uJUMU0vQJgCXU7fBQAUUU9n+vVnswtKm9WeZh9dTt+U6
+ PjZhpXBuwWMO+RKY2li3/iJQjZF4QjsYm6FYjcSQzUe4lHqp9ZpXeG8Hh+X2lpUOQ8tP
+ eRM008oBPnrJh18gAu6+zEMbz+2v/3dH+icMslkTEZlvEepVKldOphX7XBblbf413kX1
+ tCGw==
+X-Gm-Message-State: AOAM531DLneZ/MypHe0GbwimuMx6LzMpejxGFLld5BraEL3nj8t5YHCz
+ kzTsNw6iIN+fJK/jeT5WqwgyaLOsLOw2dsAjAQmh4ERyVTsGBcH1Nq3PzL9jvEC9JrKCasdYAgD
+ c1wBh3wr1wwCXmfc=
+X-Received: by 2002:a5d:44d2:: with SMTP id z18mr17075919wrr.358.1623072494600; 
+ Mon, 07 Jun 2021 06:28:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxaTtC89CyDOf7YZg6jA858ISAaDzrC5F+yPLudqOiDhx6hFjsfTHUQOxE/OnUVcuByS8Q9yA==
+X-Received: by 2002:a5d:44d2:: with SMTP id z18mr17075894wrr.358.1623072494382; 
+ Mon, 07 Jun 2021 06:28:14 -0700 (PDT)
 Received: from thuth.remote.csb (pd957536e.dip0.t-ipconnect.de.
  [217.87.83.110])
- by smtp.gmail.com with ESMTPSA id p6sm16412674wrf.51.2021.06.07.06.22.01
+ by smtp.gmail.com with ESMTPSA id k8sm13473462wrp.3.2021.06.07.06.28.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 06:22:01 -0700 (PDT)
-Subject: Re: [PATCH v16 04/99] qtest/arm-cpu-features: Use generic
- qtest_has_accel() to check for KVM
+ Mon, 07 Jun 2021 06:28:13 -0700 (PDT)
+Subject: Re: [PATCH v16 06/99] qtest/arm-cpu-features: Remove TCG fallback to
+ KVM specific tests
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
+ qemu-devel@nongnu.org
 References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-5-alex.bennee@linaro.org>
+ <20210604155312.15902-7-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d5162188-bea4-24ed-189b-198f9d3ed55d@redhat.com>
-Date: Mon, 7 Jun 2021 15:22:00 +0200
+Message-ID: <3e4942e4-be35-ab51-e290-3faa6c67d4a2@redhat.com>
+Date: Mon, 7 Jun 2021 15:28:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210604155312.15902-5-alex.bennee@linaro.org>
+In-Reply-To: <20210604155312.15902-7-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -104,83 +103,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 04/06/2021 17.51, Alex Bennée wrote:
 > From: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> Use the recently added generic qtest_has_accel() method to
-> check if KVM is available.
+> sve_tests_sve_off_kvm() and test_query_cpu_model_expansion_kvm()
+> tests are now only being run if KVM is available. Drop the TCG
+> fallback.
 > 
-> Suggested-by: Claudio Fontana <cfontana@suse.de>
+> Suggested-by: Andrew Jones <drjones@redhat.com>
 > Reviewed-by: Andrew Jones <drjones@redhat.com>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210505125806.1263441-5-philmd@redhat.com>
+> Message-Id: <20210505125806.1263441-7-philmd@redhat.com>
 > ---
->   tests/qtest/arm-cpu-features.c | 25 +------------------------
->   1 file changed, 1 insertion(+), 24 deletions(-)
+>   tests/qtest/arm-cpu-features.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-> index 8252b85bb8..7f4b252127 100644
+> index 66300c3bc2..b1d406542f 100644
 > --- a/tests/qtest/arm-cpu-features.c
 > +++ b/tests/qtest/arm-cpu-features.c
-> @@ -26,21 +26,6 @@
->                       "  'arguments': { 'type': 'full', "
->   #define QUERY_TAIL  "}}"
+> @@ -21,7 +21,7 @@
+>   #define SVE_MAX_VQ 16
 >   
-> -static bool kvm_enabled(QTestState *qts)
-> -{
-> -    QDict *resp, *qdict;
-> -    bool enabled;
-> -
-> -    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
-> -    g_assert(qdict_haskey(resp, "return"));
-> -    qdict = qdict_get_qdict(resp, "return");
-> -    g_assert(qdict_haskey(qdict, "enabled"));
-> -    enabled = qdict_get_bool(qdict, "enabled");
-> -    qobject_unref(resp);
-> -
-> -    return enabled;
-> -}
-> -
->   static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
->   {
->       return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-> @@ -493,14 +478,6 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->   
->       qts = qtest_init(MACHINE_KVM "-cpu max");
->   
-> -    /*
-> -     * These tests target the 'host' CPU type, so KVM must be enabled.
-> -     */
-> -    if (!kvm_enabled(qts)) {
-> -        qtest_quit(qts);
-> -        return;
-> -    }
-> -
->       /* Enabling and disabling kvm-no-adjvtime should always work. */
->       assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
->       assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
-> @@ -624,7 +601,7 @@ int main(int argc, char **argv)
->        * order avoid attempting to run an AArch32 QEMU with KVM on
->        * AArch64 hosts. That won't work and isn't easy to detect.
->        */
-> -    if (g_str_equal(qtest_get_arch(), "aarch64")) {
-> +    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
->           qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
->                               NULL, test_query_cpu_model_expansion_kvm);
+>   #define MACHINE     "-machine virt,gic-version=max -accel tcg "
+> -#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
+> +#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
 
-I think this is wrong: query-kvm checks whether kvm is *enabled*, while your 
-new function only checks whether kvm has been built into the binary. There 
-is still the possibility that kvm has been built into the binary, but is not 
-available on the host, so in that case the test will fail now.
+Same comment as with patch 04/99: I think this is wrong. You're mixing up 
+whether an accelerator has been built into the binary with the fact whether 
+an accelerator is available and usable. There are plenty of cases where e.g. 
+kvm is built into the binary but not usable during runtime, e.g. because:
+1) The kernel does not support it
+2) The current host CPU does not support it
+3) There are problems with the permission to /dev/kvm
+etc.
 
-Thus please drop / rework this patch.
+I think we either need the fallback mechanism to tcg or you need to properly 
+check whether KVM is usable, too.
 
   Thomas
 
