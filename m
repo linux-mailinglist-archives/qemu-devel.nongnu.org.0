@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE57F39E186
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:10:26 +0200 (CEST)
-Received: from localhost ([::1]:46490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BE539E17A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:08:18 +0200 (CEST)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqHpZ-00058s-OQ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
+	id 1lqHnV-0002gj-Bu
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqHjf-0007Mu-K2
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:04:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqHjb-0001Mi-Dq
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:04:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623081852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=msVP/QFUOqa/WgoKQbgfuKB22Fo7Vc71OBfppDmmc/s=;
- b=bIT+ea7ncwBjEXsnzN/79ZjIB8cpD205wWTpJdg93CWtTi/HKYJHITwgzvXfXCFNiDfPvs
- g5SSJia4JMxjgH47y3G7WstYlZ5f3fZQGo8PgigPddssFbEBflWlDJb7VAQN5Z/pBaVWK8
- mFDAbWOXpa/4Sympdr9KrcskbtXEey0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-2amW7rZvPrKDUu80RH-4hw-1; Mon, 07 Jun 2021 12:04:08 -0400
-X-MC-Unique: 2amW7rZvPrKDUu80RH-4hw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 643421012D9C;
- Mon,  7 Jun 2021 16:04:07 +0000 (UTC)
-Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 154AC5B4A7;
- Mon,  7 Jun 2021 16:03:52 +0000 (UTC)
-Date: Mon, 7 Jun 2021 11:03:50 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH 2/9] replace machine phase_check with
- machine_is_initialized/ready calls
-Message-ID: <20210607160350.h7kqpwua6hfb7c62@redhat.com>
-References: <20210513082549.114275-1-mirela.grujic@greensocs.com>
- <20210513082549.114275-3-mirela.grujic@greensocs.com>
- <dcaf4794-0661-afae-a256-5043be20aa5b@redhat.com>
- <164d41e2-262f-0dab-17d6-c280428687cd@greensocs.com>
- <dd18ebb7-9583-86b8-e368-afef3b71e5ef@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqHl0-0000Hi-70
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:05:42 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:46654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqHky-0002Ct-GG
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:05:41 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id e1so8936585pld.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2+BFUj0K1lmuhedrLyvXZC4X1M6e648XSonZM2jKLcw=;
+ b=I0E1AGFkwm5N6MAdIJDhklpty3jUSosRL5u2x4FYDhL3ZUt2XVkYn7mHmXwWFViAVn
+ L4BoCFwbXCysbSq983cCcYGQnUAWfUbUD/+ypaQUEIhQffc41ZINIWnGwQv+0ujUoq9F
+ JG6NvhR7pyXhEnzfqrIBgRFQ/+MMG7gvU6rjpNZZ96awmswQTALaL7vK+fir4mxclm/K
+ Rt5R7tnfYoiHVUdTHdxuT+RH0Y8SSLpu4M+kLsyC8SuGlr173Igw8mOifmK6Rj85Tu31
+ PAQ5nGWtiTTgh52ZLgBTM7cyrqLZqEAbr48sVabwM0fyKsEuYQ5+FDtp5mHpcJ5EKOcp
+ CuyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2+BFUj0K1lmuhedrLyvXZC4X1M6e648XSonZM2jKLcw=;
+ b=Wu+ss3UNQXh6V6fNcVth7NseGJIIl0i3IX3IXwzYU9DZoyrORuoj9xS0M8O5PDVe7M
+ x3mqiBi21mJwSbGzTUKq9iBVsLmvOq3JAKC/cnoebJJudMXk53LsO1Xvu0HEDNLXn3JB
+ yEtYEHr6jn/9EVgWhpoVoNOvrLZXacwafBTDcra/Xh6svXgk6q/D8HwKajsbnvo4wyxw
+ 7h+7dPVoHAsH4k2sOq0s1NVtKrKdnRr7+wgvDywyZnh63I1GY16DwwejsX4HVd1P7RnJ
+ XrwLojX4uLG20a624yJt28b+yEFxixm9sDXeCH1JNScXCYO4r0nciskogs79giTRWxuQ
+ z0lQ==
+X-Gm-Message-State: AOAM530+CSCwiwAl4xLQO4ZrVWTK+wj2KGNRahAvoA50XUlXvbh/abQb
+ hZFlVDY0DF/5G1OwckoOdkKvBA==
+X-Google-Smtp-Source: ABdhPJwvi0GmsRohEYBtv+a7bJc4A0vmKOXQVIveAils3NpT+58QBW4t2HRN5rlw6dBi6HgzHs1WdA==
+X-Received: by 2002:a17:902:e843:b029:109:4dbc:d4ed with SMTP id
+ t3-20020a170902e843b02901094dbcd4edmr18802873plg.74.1623081938777; 
+ Mon, 07 Jun 2021 09:05:38 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ f13sm8599773pfa.207.2021.06.07.09.05.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Jun 2021 09:05:38 -0700 (PDT)
+Subject: Re: [PATCH v3 01/26] s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN
+ handling
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210607110338.31058-1-david@redhat.com>
+ <20210607110338.31058-2-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bb67f143-3aac-2660-7458-c811fdd0e790@linaro.org>
+Date: Mon, 7 Jun 2021 09:05:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <dd18ebb7-9583-86b8-e368-afef3b71e5ef@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210607110338.31058-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,31 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, edgar.iglesias@xilinx.com,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- mark.burton@greensocs.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Mirela Grujic <mirela.grujic@greensocs.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 14, 2021 at 11:14:23PM +0200, Paolo Bonzini wrote:
-> On 14/05/21 15:13, Mirela Grujic wrote:
-> > However, if you believe it should rather be just renamed I can do so.
+On 6/7/21 4:03 AM, David Hildenbrand wrote:
+> In case we encounter a NaN, we have to return the smallest possible
+> number, corresponding to either 0 or the maximum negative number. This
+> seems to differ from IEEE handling as implemented in softfloat, whereby
+> we return the biggest possible number.
 > 
-> I am just not sure it's such an advantage to replace phase_check with
-> separate functions.  The rename is a constraint of QAPI, so we have to live
-> with the long names.
+> While at it, use float32_to_uint64() in the CLGEB handler.
+> 
+> Signed-off-by: David Hildenbrand<david@redhat.com>
+> ---
+>   target/s390x/fpu_helper.c     | 41 +++++++++++++++++++++++++++++++----
+>   target/s390x/vec_fpu_helper.c |  8 +++++--
+>   2 files changed, 43 insertions(+), 6 deletions(-)
 
-You can also use 'prefix':'...' as part of the QAPI 'enum' declaration
-to pick a shorter name for the C enum (see for example BlkdebugEvent
-in block-core.json).
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
