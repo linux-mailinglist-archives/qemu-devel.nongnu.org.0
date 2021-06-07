@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B283E39E022
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:20:03 +0200 (CEST)
-Received: from localhost ([::1]:54034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0563339E040
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:24:14 +0200 (CEST)
+Received: from localhost ([::1]:57314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqH2o-0003KV-Er
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:20:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
+	id 1lqH6r-0005ia-25
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:24:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lqGzu-0006yR-GQ
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:17:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51127)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lqGzp-0003BC-NC
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:17:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623079015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9EgKYFRnOa10Iszzd4UnozFDR1K7njxUG06DFyTVaFM=;
- b=NisSzTVaoaThAfJAqaxgKTFORaBhzVbdS8t8prAo7Kv/hVn7T8eXiUVD1EF3GLAwyaqP8T
- LK1bRkbpoiXzG8bspgsqah9eSVMeNYPkhq/WkNTWPDjdFhPbztruUYVEXl8mflPE9ZXmAs
- UD7/niD3msVGQM9FqstdvYG0i8Iy2Z8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-_nZ_In3WN_KqTf3QjooXqg-1; Mon, 07 Jun 2021 11:16:54 -0400
-X-MC-Unique: _nZ_In3WN_KqTf3QjooXqg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 128-20020a1c04860000b0290196f3c0a927so6925495wme.3
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 08:16:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqH5a-00052D-E7
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:22:54 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42667)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqH5X-0006Ia-BJ
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:22:53 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id i34so7637196pgl.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 08:22:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jeJvAzvkyzHhV5+53LU4/cs5nY4fklN2BOaz2BwcFH4=;
+ b=b90x1YCnfq9aZCS+k34ScRdN0ol1mWD784rQJBKoUA0lfxy6dWhu+Qmez+9hH1Fx6p
+ Uk3DgxSeUcl7yJqpvaRQzjsvUP1s8E2bLYwR2NNDF4Skbj+9FOZ6ThiSwH4KX775K31L
+ YGB3S/ogP83RUG5KMwwoxJEJN7VNwWuoQpWJmUQgq7a2rB5S0TidEZuLT6cekWxGDJDj
+ DpOtCmTj1igcOoIFmbcW/ocAON7pXDF+QWasOpWRrA0SMKGNjiQf/IocKTg3xE9JCDg9
+ Zik++l7+X40SQu3xY5uI13qpJiqJC7EydoduFGiTjZjMt0M4yHAQynIvjIK6DQ/DVTQg
+ E5Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9EgKYFRnOa10Iszzd4UnozFDR1K7njxUG06DFyTVaFM=;
- b=d0B7J9lWfwkNVka+sJHC51C2U2dPWNIj+iuLItqFoiZKC61l5FJlk7CxGYgI6P/jHh
- ADwQqXa56EQjT18blVByd752bosPkdYMNZm8Kfv/pL69RhuLD7QdTkg5vb/QSa/er9QR
- wDpT7IL5a7yrXgGLFym3wnmwbBjW/eCn4f8+Fxua+aIEbPPV60QfbDUVNAHHrCUp26gs
- eR2m93eA24fyCFO+a63OeXbmnUpkchvAlzGLuO0zUea+4frN8bfjpAwBRG+kN1r+t+vN
- xDd5AUFOiGFisZZjRT/M2UMhUcEpFxDF6FQYIO/WL3xQ/pGZa4jURxsq0Ti+N6jFgti/
- WkRQ==
-X-Gm-Message-State: AOAM5321dWOa0bA0ZTyUfdgpUzBbRjFDiJDYTpPcHpZjsUmq0R4sPHVR
- seBuzaup681I50Icxb5aZhUvrkOSs25iTpSdnwa2DjOyuFG49hNZGD5fgY/CTC5ilkn6+Ct3a+E
- JppMGAvYY212+ges=
-X-Received: by 2002:a5d:6a41:: with SMTP id t1mr10732889wrw.113.1623079013112; 
- Mon, 07 Jun 2021 08:16:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwaYZplo83Guhm91cvarxdN2TdP3OoDxkZL60rdrSzW8isUITY/kpfxUtOIoffhz/TOVRHEdg==
-X-Received: by 2002:a5d:6a41:: with SMTP id t1mr10732873wrw.113.1623079012967; 
- Mon, 07 Jun 2021 08:16:52 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ bh=jeJvAzvkyzHhV5+53LU4/cs5nY4fklN2BOaz2BwcFH4=;
+ b=bIyJp3B8BplMcN5kLl2EL3RlfsOuSl/QEZU4OrdYd86PsX+izLI6S7pYF6LrOp+J0M
+ tsRyIxT9v9gBuhn4smveSyq5rAqAVj9QHjfE+/j8e8lGKQLLERxNUomXop1xSOuAK6Ci
+ wYVfKcT/ncC04XPYT4JKB78GypUyH4/jZlyZbj3HBDJaJNBn8wFhOriAF/JC8jR0pKx8
+ IQClnn8DAMfJhDFtA4aK56IHxhoHCLb9GyJx4Q3c+Et22Uk939fkaTOGgoQHlevQvdBQ
+ VWeKg6FMyez3fbNDrjxyDIcg09jBLohwQl1hLATrxsb0tlb0gvkHQsMPhEU9e8F4pgYd
+ 79VQ==
+X-Gm-Message-State: AOAM531dPtR3WhsjeWNk47yVPZ6sOnmtwVFDlGX0JMEQSa/HLwMMPca5
+ kGu6bwK9rOLFD0AttEsDck+zVw==
+X-Google-Smtp-Source: ABdhPJytUJumx8AuFmZwC4yLzz6s0X78FN7p7QHXG6+h+zTACwd4cH5kOrgoIVkjMGTJFiRFX2Cn/Q==
+X-Received: by 2002:a63:4b0f:: with SMTP id y15mr15177613pga.227.1623079368853; 
+ Mon, 07 Jun 2021 08:22:48 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- l2sm16034348wrp.21.2021.06.07.08.16.52
+ f13sm8533384pfa.207.2021.06.07.08.22.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 08:16:52 -0700 (PDT)
-Subject: Re: [PATCH 0/2] block-copy: small fix and refactor
-To: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210528141628.44287-1-vsementsov@virtuozzo.com>
- <YLdLrrTszu8MMxPv@stefanha-x1.localdomain> <YLd33jBVl5k3RAZK@redhat.com>
- <151b2470-9c6c-cda9-a77b-64cdb10a7550@redhat.com>
- <YL42y/CZIFJ6ICLB@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <c8a57c4b-544c-a5a6-728e-390a924d34ba@redhat.com>
-Date: Mon, 7 Jun 2021 17:16:51 +0200
+ Mon, 07 Jun 2021 08:22:48 -0700 (PDT)
+Subject: Re: [PATCH] tcg: Introduce tcg_remove_ops_after
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210604212747.959028-1-richard.henderson@linaro.org>
+ <CAFEAcA-EFkuWb8aHhiiN7Wu9n302A8hdoHUzn7txOVhEyOX=Fg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5c934f15-765e-d3bc-7ea7-9aa112d1fd39@linaro.org>
+Date: Mon, 7 Jun 2021 08:22:46 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YL42y/CZIFJ6ICLB@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA-EFkuWb8aHhiiN7Wu9n302A8hdoHUzn7txOVhEyOX=Fg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,57 +88,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, jsnow@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 07/06/2021 17:10, Kevin Wolf wrote:
-> Am 03.06.2021 um 09:38 hat Paolo Bonzini geschrieben:
->> On 02/06/21 14:21, Kevin Wolf wrote:
->>> Am 02.06.2021 um 11:13 hat Stefan Hajnoczi geschrieben:
->>>> On Fri, May 28, 2021 at 05:16:26PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->>>>> Hi all!
->>>>>
->>>>> This is my suggestion how to refactor block-copy to avoid extra atomic
->>>>> operations in
->>>>> "[PATCH v2 0/7] block-copy: protect block-copy internal structures"
->>>>>
->>>>> Vladimir Sementsov-Ogievskiy (2):
->>>>>     block-copy: fix block_copy_task_entry() progress update
->>>>>     block-copy: refactor copy_range handling
->>>>>
->>>>>    block/block-copy.c | 79 +++++++++++++++++++++++++++++++---------------
->>>>>    1 file changed, 53 insertions(+), 26 deletions(-)
->>>>
->>>> I posted suggestions for the doc comment on Patch 2, otherwise:
->>>>
->>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>>
->>> Thanks, fixed up the comment accordingly and applied to the block
->>> branch.
->>
->> I'm a bit confused.  Vladimir said in his review of Emanuele's patches
->> that he was okay with patch 7 and that he would rebase this
->> refactoring on top of it.
->>
->> Vladimir's main complaint for the s->method state machine was the
->> extra lines of code.  Here we have just as many new lines of code and
->> new parameters that are passed by reference.  Kevin, can you please
->> look at Emanuele's patches and possibly unqueue the second patch here?
->> It seems to me that it should have been tagged as RFC.
+On 6/7/21 6:51 AM, Peter Maydell wrote:
+>> +void tcg_remove_ops_after(TCGOp *op);
 > 
-> Sorry, I was not aware that Vladimir intended to rebase this one. This
-> has already landed in master, so if rebasing the other patch is a real
-> problem, we'd have to revert this one first.
->
-It shouldn't be a problem, I have already rebased on top of it. I will 
-re-spin a new series with this and other minor (and hopefully final) 
-fixes soon.
+> A doc comment would be nice.
 
-Emanuele
+Fair enough.
 
+> This looks OK as far as TCG proper goes, but is it going to confuse
+> the TCG plugin infrastructure if a frontend generates a bunch of
+> TCG IR and then winds back the insn stream and generates something
+> else instead ? I see some calls from tcg/ into plugin related
+> functions, so I'm not sure...
+
+Mm.  Didn't think about that Friday.  But looking now, if you wind back to 
+dc->insn_start, everything will be fine.
+
+The plugin stuff will put stuff in the stream, and then go back and 
+post-process it.  But it does not record anything on the side, so if the stuff 
+is no longer in the stream all's well.
+
+
+r~
 
