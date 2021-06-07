@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A6D39E83D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:19:43 +0200 (CEST)
-Received: from localhost ([::1]:41416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C037939E84D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:21:44 +0200 (CEST)
+Received: from localhost ([::1]:49970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLio-0001NT-4w
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37556)
+	id 1lqLkl-00076T-PD
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:21:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWu-000428-CF
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51466)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWy-000455-8O
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWs-0006Ue-Kj
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLWs-0006Up-Tn
  for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1623096442;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m3eZVpU1OwgWErmk/8aUvtXTtENNJP+HSbODrndiE8U=;
- b=VC1EsrxFoDY2F0VdVPgtZsncw1rZluRsE/7PLtQ8sF0mMfMGcCM10oFPhNM1IRnS0yYO6U
- uQlrID9xKQWsAGeO8DdZlDU6U77uDynv4osSv5q5yUs4rvLMtUZask11K9GKQVuIvgU3Lj
- qyvIwOpKyjDyo8KnAvpTHkKXVc/MRhc=
+ bh=zHI3sotISO/+EmTZzDwTpTwkGuvzwEiSH5pIT1imIFE=;
+ b=B56SAK7DoJzdfXPKU/IC7HExJYJa3QEOyO1V2PYser4x5RYyjuT5m6N2mKEOm8i0NPdH27
+ hx+7s6964LqP2yoFYqqr7zDXeOt7rISZN9YM+poq55jxmACyebvCrPKSm7tbNCbiPCqkBg
+ UVcWVko6efVkFrLYADceAtOLUlCDvjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-gwo6osCfO1qPNFtJTgxf-g-1; Mon, 07 Jun 2021 16:07:21 -0400
-X-MC-Unique: gwo6osCfO1qPNFtJTgxf-g-1
+ us-mta-582-E9P5vzJdNsCZBPRNz1Ka2g-1; Mon, 07 Jun 2021 16:07:21 -0400
+X-MC-Unique: E9P5vzJdNsCZBPRNz1Ka2g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E495910067A3;
- Mon,  7 Jun 2021 20:06:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E37C18BA29A;
+ Mon,  7 Jun 2021 20:07:01 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10A515C1C2;
- Mon,  7 Jun 2021 20:06:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17C895C1C2;
+ Mon,  7 Jun 2021 20:07:00 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/42] scripts/qmp-shell: Use python3-style super()
-Date: Mon,  7 Jun 2021 16:06:15 -0400
-Message-Id: <20210607200649.1840382-9-jsnow@redhat.com>
+Subject: [PATCH 09/42] scripts/qmp-shell: declare verbose in __init__
+Date: Mon,  7 Jun 2021 16:06:16 -0400
+Message-Id: <20210607200649.1840382-10-jsnow@redhat.com>
 In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
 References: <20210607200649.1840382-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,42 +82,25 @@ Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Linters get angry when we don't define state at init time.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qmp/qmp-shell | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index f354549bf2..3066e37ae5 100755
+index 3066e37ae5..4027454324 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -112,7 +112,7 @@ class FuzzyJSON(ast.NodeTransformer):
- #       _execute_cmd()). Let's design a better one.
- class QMPShell(qmp.QEMUMonitorProtocol):
-     def __init__(self, address, pretty=False):
--        super(QMPShell, self).__init__(self.parse_address(address))
-+        super().__init__(self.parse_address(address))
-         self._greeting = None
-         self._completer = None
-         self._pretty = pretty
-@@ -281,7 +281,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         return True
+@@ -120,6 +120,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         self._actions = list()
+         self._histfile = os.path.join(os.path.expanduser('~'),
+                                       '.qmp-shell_history')
++        self._verbose = False
  
-     def connect(self, negotiate: bool = True):
--        self._greeting = super(QMPShell, self).connect(negotiate)
-+        self._greeting = super().connect(negotiate)
-         self.__completer_setup()
- 
-     def show_banner(self, msg='Welcome to the QMP low-level shell!'):
-@@ -322,7 +322,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
- 
- class HMPShell(QMPShell):
-     def __init__(self, address):
--        QMPShell.__init__(self, address)
-+        super().__init__(address)
-         self.__cpu_index = 0
- 
-     def __cmd_completion(self):
+     def _fill_completion(self):
+         cmds = self.cmd('query-commands')
 -- 
 2.31.1
 
