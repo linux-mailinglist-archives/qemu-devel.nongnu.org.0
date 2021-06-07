@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3961439E51C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:17:37 +0200 (CEST)
-Received: from localhost ([::1]:57734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89DA39E564
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:28:46 +0200 (CEST)
+Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqIsZ-0006i6-L6
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:17:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
+	id 1lqJ3N-0002mG-K3
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqIb3-0007wK-Hc
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:59:29 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:44993)
+ id 1lqIay-0007lf-Al
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:59:24 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqIaX-000831-Qv
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:59:29 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- p13-20020a05600c358db029019f44afc845so51469wmq.3
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:54 -0700 (PDT)
+ id 1lqIaW-00083C-Uy
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:59:24 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id o127so89799wmo.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gAJbwUpQBJlwWgZB9PVIfQPSDW4ziRgxMQ3yiyqe2ao=;
- b=aUmxFFtZQWJo5CTaV9SLT3Wnif6/6MGQ/QMfscFfpC0FK1vqatawqoC/KiELenVhBL
- oBuC/3UAwlXgnuAE/iXF8pH+umTxhCyTAlg36C9S6GQbENj1wsSlhFqv8aw7SpY3ID+N
- DcgOJR0ynyxZ5WXnsqLCrGPoGYvtVHn9yz1pea4dLPKcyHcos6ZYaIuYkdmpQhGcFzkp
- 2+RrNxROpSRmWD+8yi6y7cHtRnP0Pp7eHnpmQHYzAD/adx7iF922aSLjafyO7AURZ4tA
- 6gkLrG/bMCup0gNUOK2rmM6snrM1WMle63g1XB6tpwigA5m99mU07lNiUdUgtUmPE1H/
- jayg==
+ bh=zIwanJ3AQdDQdQ1ALSTjRK7X+97mJn2Se8diVqTisuk=;
+ b=MrgTTp1t7XftpPzgJSCedOUijNGkGUPIdSOM3QVD86TLoZGFdr5qEFuTm6LB6+ZJhi
+ /3p9ScWndW9BBK1lzEbYFYUnVE5+k01d6v4niKA2g7iLqGLoXCLtOhgFOkLBmEAOEF5O
+ nWwbptE0ql9kvE8fBqO5FrrIuibsOT0Y6p33TMnT97TBy93bfh5fQmSJZmIbChAFSUs/
+ 3HyZ5cJN7s0auQit1EOaxjlkOaL2FhO93ldtL0aneBmndlEFjIteALfZsozI8fTVZIGq
+ AzJK+rv9tQ93ebZP8h0wpO2C5mRcWLcYFuLiKVJ5SpEXvIdr+UTLHBZspkQT0NmiEXdW
+ 8C4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gAJbwUpQBJlwWgZB9PVIfQPSDW4ziRgxMQ3yiyqe2ao=;
- b=XPOw/cGkx1+wLPIKZnxY4BvntAJwDS5MHMcrtVdqGGozmMWvtKZTX9MJaXPYZ5A3Wc
- fYcdQdGyR5gs+pKfV/CkepYgTVSKFY3xypAtOOjdqQ2VATrneSiun4O9KjUlvjsyKjXD
- 6k8kOM70SzvA0/dxwWu2jJ8zLv31plIE5QK5u3+hc9oOkJRLWldrbSnJwq/wWJOBg4XT
- CV+pLakMKcNvydcJxm7OoQLnaD2GxOH/maiQDmz2aXcNQY41fedcXOlSmo2JCKy7iMmg
- IH8zxok4hFrJflDZ6pTNK/thqpTrqBM2qKToSrOIXtR6xLTl+9nuk1JuLYJ7f6sIjH2X
- 50ng==
-X-Gm-Message-State: AOAM531IKNGmldqtzWqIA5ozwFW77wg7AkwN5BrXW4RWaJlJHVRf59sV
- bFZEh1ZFvR1YF25mvXt89Md28JPy4fv14sHI
-X-Google-Smtp-Source: ABdhPJxl/+YUo2QUoaZuv/eE1fiSOIEgSZR9nyQI6gZfZRqH6i6rn6+SBitkMYPNWEHxCTn/gHNWeg==
-X-Received: by 2002:a7b:cc8f:: with SMTP id p15mr57730wma.111.1623085133706;
- Mon, 07 Jun 2021 09:58:53 -0700 (PDT)
+ bh=zIwanJ3AQdDQdQ1ALSTjRK7X+97mJn2Se8diVqTisuk=;
+ b=PzdityQHQvUkqgtOLIO4t3ybQ5SIGPcIS8iRsQeKP11rIv2w9FMixwOVmWHZDCAle4
+ nkGHNFMik0mzLr82pJ6po2vhgBbsR9e28ilVqMGeb2zhtHYmlKuvmxitbrb6vYW/kEOj
+ XlLGyhr3M/O7klvGCHEm41JVBG1aDzkZuEWLU8m1Dq7HvPj1DqjEGj1wvhLoNKJ72d4e
+ aWdq3lhwdNaOpiX9yHaBl61MhdAUcZdZY6yDqOlzEX9/V5TnzLwVoEwcmA1oHiP0tcRx
+ anEagbZqFU5Mhi+cPt6aMRtF0NbeZeXSsRAFOi47TrPw3pH5yRVWK6+2uQfQl/XtBIIX
+ S1YQ==
+X-Gm-Message-State: AOAM53374zURKJpzo0Rlc8b+/68TdKbYvX4SBt7aJUzdVoWzA23LjQ82
+ kcEm4xRqFKqOCGfr8aHNqo+2DhqQMtA/DXYi
+X-Google-Smtp-Source: ABdhPJzaJvxKKVYsgmQyR6s247Xid6dIQhBQSOBM6B39uTIr97LjiOxZTCSq33LTVlQHiMUQn3GlMQ==
+X-Received: by 2002:a7b:cf18:: with SMTP id l24mr74397wmg.160.1623085134420;
+ Mon, 07 Jun 2021 09:58:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id n10sm18891677wre.95.2021.06.07.09.58.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 09:58:53 -0700 (PDT)
+ Mon, 07 Jun 2021 09:58:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 38/55] target/arm: Implement MVE VQADD and VQSUB
-Date: Mon,  7 Jun 2021 17:58:04 +0100
-Message-Id: <20210607165821.9892-39-peter.maydell@linaro.org>
+Subject: [PATCH 39/55] target/arm: Implement MVE VQDMULH and VQRDMULH (scalar)
+Date: Mon,  7 Jun 2021 17:58:05 +0100
+Message-Id: <20210607165821.9892-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210607165821.9892-1-peter.maydell@linaro.org>
 References: <20210607165821.9892-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,162 +87,104 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VQADD and VQSUB insns, which perform saturating
-addition of a scalar to each element.  Note that individual bytes of
-each result element are used or discarded according to the predicate
-mask, but FPSCR.QC is only set if the predicate mask for the lowest
-byte of the element is set.
+Implement the MVE VQDMULH and VQRDMULH scalar insns, which multiply
+elements by the scalar, double, possibly round, take the high half
+and saturate.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-mve.h    | 16 ++++++++++
- target/arm/mve.decode      |  5 +++
- target/arm/mve_helper.c    | 62 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c |  4 +++
- 4 files changed, 87 insertions(+)
+ target/arm/helper-mve.h    |  8 ++++++++
+ target/arm/mve.decode      |  3 +++
+ target/arm/mve_helper.c    | 25 +++++++++++++++++++++++++
+ target/arm/translate-mve.c |  2 ++
+ 4 files changed, 38 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 1f77a661b9b..a1acc44e40e 100644
+index a1acc44e40e..9bab04305a7 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -175,6 +175,22 @@ DEF_HELPER_FLAGS_4(mve_vhsubu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vhsubu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vhsubu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+@@ -191,6 +191,14 @@ DEF_HELPER_FLAGS_4(mve_vqsubu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vqsubu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vqsubu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  
-+DEF_HELPER_FLAGS_4(mve_vqadds_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqadds_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqadds_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vqdmulh_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vqdmulh_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vqdmulh_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_4(mve_vqaddu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqaddu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqaddu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vqsubs_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqsubs_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqsubs_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vqsubu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqsubu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vqsubu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vqrdmulh_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vqrdmulh_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vqrdmulh_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 +
  DEF_HELPER_FLAGS_4(mve_vbrsrb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vbrsrh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vbrsrw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index e189e2de648..c85227c675a 100644
+index c85227c675a..47ce6ebb83b 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -167,6 +167,11 @@ VHADD_S_scalar   1110 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
- VHADD_U_scalar   1111 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
- VHSUB_S_scalar   1110 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
- VHSUB_U_scalar   1111 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
-+
-+VQADD_S_scalar   1110 1110 0 . .. ... 0 ... 0 1111 . 110 .... @2scalar
-+VQADD_U_scalar   1111 1110 0 . .. ... 0 ... 0 1111 . 110 .... @2scalar
-+VQSUB_S_scalar   1110 1110 0 . .. ... 0 ... 1 1111 . 110 .... @2scalar
-+VQSUB_U_scalar   1111 1110 0 . .. ... 0 ... 1 1111 . 110 .... @2scalar
+@@ -174,6 +174,9 @@ VQSUB_S_scalar   1110 1110 0 . .. ... 0 ... 1 1111 . 110 .... @2scalar
+ VQSUB_U_scalar   1111 1110 0 . .. ... 0 ... 1 1111 . 110 .... @2scalar
  VBRSR            1111 1110 0 . .. ... 1 ... 1 1110 . 110 .... @2scalar
  
++VQDMULH_scalar   1110 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
++VQRDMULH_scalar  1111 1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
++
  # Predicate operations
+ %mask_22_13      22:1 13:3
+ VPST             1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 25426fae992..41c4f2033f6 100644
+index 41c4f2033f6..6e2da6ac8bc 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -477,6 +477,33 @@ DO_2OP_U(vhaddu, do_vhadd_u)
- DO_2OP_S(vhsubs, do_vhsub_s)
- DO_2OP_U(vhsubu, do_vhsub_u)
+@@ -505,6 +505,24 @@ static inline int32_t do_sat_bhw(int64_t val, int64_t min, int64_t max, bool *s)
+ #define DO_UQSUB_H(n, m, s) do_sat_bhw((int64_t)n - m, 0, UINT16_MAX, s)
+ #define DO_UQSUB_W(n, m, s) do_sat_bhw((int64_t)n - m, 0, UINT32_MAX, s)
  
-+static inline int32_t do_sat_bhw(int64_t val, int64_t min, int64_t max, bool *s)
-+{
-+    if (val > max) {
-+        *s = true;
-+        return max;
-+    } else if (val < min) {
-+        *s = true;
-+        return min;
-+    }
-+    return val;
-+}
++/*
++ * For QDMULH and QRDMULH we simplify "double and shift by esize" into
++ * "shift by esize-1", adjusting the QRDMULH rounding constant to match.
++ */
++#define DO_QDMULH_B(n, m, s) do_sat_bhw(((int64_t)n * m) >> 7, \
++                                        INT8_MIN, INT8_MAX, s)
++#define DO_QDMULH_H(n, m, s) do_sat_bhw(((int64_t)n * m) >> 15, \
++                                        INT16_MIN, INT16_MAX, s)
++#define DO_QDMULH_W(n, m, s) do_sat_bhw(((int64_t)n * m) >> 31, \
++                                        INT32_MIN, INT32_MAX, s)
 +
-+#define DO_SQADD_B(n, m, s) do_sat_bhw((int64_t)n + m, INT8_MIN, INT8_MAX, s)
-+#define DO_SQADD_H(n, m, s) do_sat_bhw((int64_t)n + m, INT16_MIN, INT16_MAX, s)
-+#define DO_SQADD_W(n, m, s) do_sat_bhw((int64_t)n + m, INT32_MIN, INT32_MAX, s)
++#define DO_QRDMULH_B(n, m, s) do_sat_bhw(((int64_t)n * m + (1 << 6)) >> 7, \
++                                         INT8_MIN, INT8_MAX, s)
++#define DO_QRDMULH_H(n, m, s) do_sat_bhw(((int64_t)n * m + (1 << 14)) >> 15, \
++                                         INT16_MIN, INT16_MAX, s)
++#define DO_QRDMULH_W(n, m, s) do_sat_bhw(((int64_t)n * m + (1 << 30)) >> 31, \
++                                         INT32_MIN, INT32_MAX, s)
 +
-+#define DO_UQADD_B(n, m, s) do_sat_bhw((int64_t)n + m, 0, UINT8_MAX, s)
-+#define DO_UQADD_H(n, m, s) do_sat_bhw((int64_t)n + m, 0, UINT16_MAX, s)
-+#define DO_UQADD_W(n, m, s) do_sat_bhw((int64_t)n + m, 0, UINT32_MAX, s)
-+
-+#define DO_SQSUB_B(n, m, s) do_sat_bhw((int64_t)n - m, INT8_MIN, INT8_MAX, s)
-+#define DO_SQSUB_H(n, m, s) do_sat_bhw((int64_t)n - m, INT16_MIN, INT16_MAX, s)
-+#define DO_SQSUB_W(n, m, s) do_sat_bhw((int64_t)n - m, INT32_MIN, INT32_MAX, s)
-+
-+#define DO_UQSUB_B(n, m, s) do_sat_bhw((int64_t)n - m, 0, UINT8_MAX, s)
-+#define DO_UQSUB_H(n, m, s) do_sat_bhw((int64_t)n - m, 0, UINT16_MAX, s)
-+#define DO_UQSUB_W(n, m, s) do_sat_bhw((int64_t)n - m, 0, UINT32_MAX, s)
- 
  #define DO_2OP_SCALAR(OP, ESIZE, TYPE, H, FN)                           \
      void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vn,   \
-@@ -495,6 +522,27 @@ DO_2OP_U(vhsubu, do_vhsub_u)
-         mve_advance_vpt(env);                                           \
-     }
+                                 uint32_t rm)                            \
+@@ -575,6 +593,13 @@ DO_2OP_SAT_SCALAR(vqsubs_scalarb, 1, int8_t, H1, DO_SQSUB_B)
+ DO_2OP_SAT_SCALAR(vqsubs_scalarh, 2, int16_t, H2, DO_SQSUB_H)
+ DO_2OP_SAT_SCALAR(vqsubs_scalarw, 4, int32_t, H4, DO_SQSUB_W)
  
-+#define DO_2OP_SAT_SCALAR(OP, ESIZE, TYPE, H, FN)                       \
-+    void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vn,   \
-+                                uint32_t rm)                            \
-+    {                                                                   \
-+        TYPE *d = vd, *n = vn;                                          \
-+        TYPE m = rm;                                                    \
-+        uint16_t mask = mve_element_mask(env);                          \
-+        unsigned e;                                                     \
-+        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
-+            bool sat = false;                                           \
-+            TYPE r = FN(n[H(e)], m, &sat);                              \
-+            uint64_t bytemask = mask_to_bytemask##ESIZE(mask);          \
-+            d[H(e)] &= ~bytemask;                                       \
-+            d[H(e)] |= (r & bytemask);                                  \
-+            if (sat && (mask & 1)) {                                    \
-+                env->vfp.qc[0] = 1;                                     \
-+            }                                                           \
-+        }                                                               \
-+        mve_advance_vpt(env);                                           \
-+    }
-+
- /* provide unsigned 2-op scalar helpers for all sizes */
- #define DO_2OP_SCALAR_U(OP, FN)                 \
-     DO_2OP_SCALAR(OP##b, 1, uint8_t, H1, FN)    \
-@@ -513,6 +561,20 @@ DO_2OP_SCALAR_U(vhaddu_scalar, do_vhadd_u)
- DO_2OP_SCALAR_S(vhsubs_scalar, do_vhsub_s)
- DO_2OP_SCALAR_U(vhsubu_scalar, do_vhsub_u)
- 
-+DO_2OP_SAT_SCALAR(vqaddu_scalarb, 1, uint8_t, H1, DO_UQADD_B)
-+DO_2OP_SAT_SCALAR(vqaddu_scalarh, 2, uint16_t, H2, DO_UQADD_H)
-+DO_2OP_SAT_SCALAR(vqaddu_scalarw, 4, uint32_t, H4, DO_UQADD_W)
-+DO_2OP_SAT_SCALAR(vqadds_scalarb, 1, int8_t, H1, DO_SQADD_B)
-+DO_2OP_SAT_SCALAR(vqadds_scalarh, 2, int16_t, H2, DO_SQADD_H)
-+DO_2OP_SAT_SCALAR(vqadds_scalarw, 4, int32_t, H4, DO_SQADD_W)
-+
-+DO_2OP_SAT_SCALAR(vqsubu_scalarb, 1, uint8_t, H1, DO_UQSUB_B)
-+DO_2OP_SAT_SCALAR(vqsubu_scalarh, 2, uint16_t, H2, DO_UQSUB_H)
-+DO_2OP_SAT_SCALAR(vqsubu_scalarw, 4, uint32_t, H4, DO_UQSUB_W)
-+DO_2OP_SAT_SCALAR(vqsubs_scalarb, 1, int8_t, H1, DO_SQSUB_B)
-+DO_2OP_SAT_SCALAR(vqsubs_scalarh, 2, int16_t, H2, DO_SQSUB_H)
-+DO_2OP_SAT_SCALAR(vqsubs_scalarw, 4, int32_t, H4, DO_SQSUB_W)
++DO_2OP_SAT_SCALAR(vqdmulh_scalarb, 1, int8_t, H1, DO_QDMULH_B)
++DO_2OP_SAT_SCALAR(vqdmulh_scalarh, 2, int16_t, H2, DO_QDMULH_H)
++DO_2OP_SAT_SCALAR(vqdmulh_scalarw, 4, int32_t, H4, DO_QDMULH_W)
++DO_2OP_SAT_SCALAR(vqrdmulh_scalarb, 1, int8_t, H1, DO_QRDMULH_B)
++DO_2OP_SAT_SCALAR(vqrdmulh_scalarh, 2, int16_t, H2, DO_QRDMULH_H)
++DO_2OP_SAT_SCALAR(vqrdmulh_scalarw, 4, int32_t, H4, DO_QRDMULH_W)
 +
  static inline uint32_t do_vbrsrb(uint32_t n, uint32_t m)
  {
      m &= 0xff;
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 45a71a22853..254ff2a01b2 100644
+index 254ff2a01b2..4d08067c1e2 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -469,6 +469,10 @@ DO_2OP_SCALAR(VHADD_S_scalar, vhadds_scalar)
- DO_2OP_SCALAR(VHADD_U_scalar, vhaddu_scalar)
- DO_2OP_SCALAR(VHSUB_S_scalar, vhsubs_scalar)
- DO_2OP_SCALAR(VHSUB_U_scalar, vhsubu_scalar)
-+DO_2OP_SCALAR(VQADD_S_scalar, vqadds_scalar)
-+DO_2OP_SCALAR(VQADD_U_scalar, vqaddu_scalar)
-+DO_2OP_SCALAR(VQSUB_S_scalar, vqsubs_scalar)
-+DO_2OP_SCALAR(VQSUB_U_scalar, vqsubu_scalar)
+@@ -473,6 +473,8 @@ DO_2OP_SCALAR(VQADD_S_scalar, vqadds_scalar)
+ DO_2OP_SCALAR(VQADD_U_scalar, vqaddu_scalar)
+ DO_2OP_SCALAR(VQSUB_S_scalar, vqsubs_scalar)
+ DO_2OP_SCALAR(VQSUB_U_scalar, vqsubu_scalar)
++DO_2OP_SCALAR(VQDMULH_scalar, vqdmulh_scalar)
++DO_2OP_SCALAR(VQRDMULH_scalar, vqrdmulh_scalar)
  DO_2OP_SCALAR(VBRSR, vbrsr)
  
  static bool do_long_dual_acc(DisasContext *s, arg_vmlaldav *a,
