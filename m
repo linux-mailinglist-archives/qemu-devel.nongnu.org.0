@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD0D39E498
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:57:22 +0200 (CEST)
-Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4E539E4B2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:03:13 +0200 (CEST)
+Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqIYz-00066q-F1
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
+	id 1lqIee-0002mf-SG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:03:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lqIWH-0003gM-2y; Mon, 07 Jun 2021 12:54:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4228
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1lqIWD-0006OO-D8; Mon, 07 Jun 2021 12:54:32 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 157Gip7j105277; Mon, 7 Jun 2021 12:54:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=C1Avky/BuPwD5XRMCWWrvP5lsobvpOAGiY9AKss3SfI=;
- b=JTk+F197IOSNzHi4XMoSkXZsym/3cbhpLGVz4PHT//QHO3U5ZbhxmADWxJ0ghIIe/tU9
- Rqr6xsKXF1RyC1ADOc60uybIOpN1jKP23EdrN54xmofMe8L3GKwdA1SZX+va22tsfPqP
- /0TpXUsKhGitFCMSTHM7QQVRntFYwXeNpjD0rHdW9QveYN+bO5nEizPp/t10vOjv0Irl
- D65zKJw4QNMpoHCoFci5OLkoHGDPovWEAvQxNh5Am1+Hm+RIA1XpXSL52zgxMNOvysWp
- AjMPBH91Fq4NcVOqHHqdhfl8ZB4U1L35I6HoQMVLC+5zndvnOrcIKBRty8g8TsAHwWU6 iA== 
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 391q8907vy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Jun 2021 12:54:19 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 157GmnM7025558;
- Mon, 7 Jun 2021 16:54:19 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 3900w8rrsk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Jun 2021 16:54:19 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 157GsIYJ29098486
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Jun 2021 16:54:18 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 436997805F;
- Mon,  7 Jun 2021 16:54:18 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8ED8B7805C;
- Mon,  7 Jun 2021 16:54:17 +0000 (GMT)
-Received: from localhost (unknown [9.211.96.193])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon,  7 Jun 2021 16:54:17 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [RFC PATCH 5/5] target/ppc: powerpc_excp: Move interrupt
- raising code to QOM
-In-Reply-To: <YL2ZdhfEojgOCYIR@yekko>
-References: <20210601214649.785647-1-farosas@linux.ibm.com>
- <20210601214649.785647-6-farosas@linux.ibm.com> <YL2ZdhfEojgOCYIR@yekko>
-Date: Mon, 07 Jun 2021 13:54:15 -0300
-Message-ID: <87zgw1vcnc.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lqIa4-0006vb-Nr
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:28 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33443)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lqIa2-0007pH-5U
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:28 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a20so18490511wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tJBWtf2dptBFGcJLE65OD9AhMJPoRLlsLZOH1JzSaZs=;
+ b=TBJbKw5tG6RQpollMFlGJewPTSqqbjy8zsqpKQ1oEYc5eAhwCYzIbxJCtux9ZXbMLw
+ HZuMKv8d/4SU6wK9AH1wWPVqh0ka9WZpDEOs1lFbNZ77v6yXX+QL5Ri3JC4bmjFL5Vjy
+ iG/XAH4mPDbQ5KOtyhWYOwF2jz+2vEGixkXIFLnvH2KxtZOnrle7nJ35VZkiHUy4hRVi
+ 2nQdh0L/3TxPijBZlAzHUuDQyh0568wOtVbTuBXJ36Lj13OIYXXUle2FO+nb79934+pC
+ hg0+98C34YMPK7F5SMvwhRPHgrjZFTrXzBwITEIbTwjmTVi29atU6M8PyBZjAh7XvnJA
+ VprA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tJBWtf2dptBFGcJLE65OD9AhMJPoRLlsLZOH1JzSaZs=;
+ b=R8q8qW+iW3LuPjwoUVYwppHPXmNaEcxJwKqZwU017UMRTFxk2+JyW6+X0Na8zM8Ab7
+ oJpOiggqs0ecqhLK8r4uYd4PzVeKVE5HuDRepvhpyqtBz3owxWayT85rhax2t3KuR1di
+ StanpRqM5oJcX3U7xN8MFhdveoaAxLL3JdAxyEg9NRHcOZEYiFy3gGMVIWUWw2JYjQIN
+ KP32DaJseN7t5mUmXSiibgbhgFf5d/IO2Td287lkBLA8GAXqpFWbKjVE7MP26Juou/gA
+ FF/83iowcke2Cspea0bBcgGVBWEeYIDh7ZktCsO3BYM3lwZ7FuvschaCLRzxu278UtM8
+ OAFQ==
+X-Gm-Message-State: AOAM533/SoLq1ZlecFcKmtDsoBglvlobo9ouy6qp3bhY853taOCmacmx
+ y9ArDtTXJVbNQSEc4ECvmj+Yug==
+X-Google-Smtp-Source: ABdhPJwxs30yqRw4yuw/WvIIK2qHNESf6KzDo73mtp8aKqNX/cZOoKlMmiNx1amK0ZmFz0XLRXD+CQ==
+X-Received: by 2002:a5d:58c1:: with SMTP id o1mr17767518wrf.420.1623085104152; 
+ Mon, 07 Jun 2021 09:58:24 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id n10sm18891677wre.95.2021.06.07.09.58.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 09:58:23 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/55] target/arm: First slice of MVE implementation
+Date: Mon,  7 Jun 2021 17:57:26 +0100
+Message-Id: <20210607165821.9892-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bAZYxCZwc05M1aBHCxugQCXjcSElNMDQ
-X-Proofpoint-ORIG-GUID: bAZYxCZwc05M1aBHCxugQCXjcSElNMDQ
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-07_14:2021-06-04,
- 2021-06-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=918 spamscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0
- malwarescore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106070117
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,84 +81,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Gibson <david@gibson.dropbear.id.au> writes:
+This patchseries provides an initial slice of the MVE
+implementation. (MVE is "vector instructions for M-profile", also
+known as Helium).
 
-> On Tue, Jun 01, 2021 at 06:46:49PM -0300, Fabiano Rosas wrote:
->> +typedef void (*ppc_intr_fn_t)(PowerPCCPU *cpu, PPCInterrupt *intr,
->> +                              int excp_model, ppc_intr_args *regs,
->> +                              bool *ignore);
->
-> Hmm.  Using this signature kind of enforces that we dispatch based on
-> which exception *then* then the exception model.  I think that's
-> backwards: since what vectors exist and make sense depends on the
-> exception model, I think we should ideally be splitting on model
-> first, then exception type.
->
-> Now, a lot of the existing code is exception-then-model and changing
-> that is a long term project, but I don't think we should lock
-> ourselves further into doing it the backwards way.
+This is not complete support by a long way -- it covers only about 35%
+of the decode patterns for MVE, and it implements only the slow-path
+"we need predication, drop out to a helper function" versions of
+insns. I send it out for two reasons:
 
-Ok, so assuming one C file per exception model, I see three options:
+ * if there's something I need to change about the general structure
+   or the way I'm implementing insns, I want to know now rather than
+   after I've implemented the other two thirds of the ISA
 
- i) exception --> model (current):
+ * if I hold onto the whole patchset until I've got a complete MVE
+   implementation it'll be 150+ patches, 10000 lines of code, and
+   a nightmare to code review
 
- Interrupt code separate from models. One implementation for each
- interrupt that takes the model as argument. Models opt-in which
- interrupts they want (according to the ISA).
+The series covers:
+ * framework for MVE decode, including infrastructure for
+   handling predication, PSR.ECI, etc
+ * tail-predication forms of low-overhead-loop insns (LCTP, WLSTP, LETP)
+ * basic (non-gather) loads and stores
+ * pretty much all the integer 2-operand vector and scalar insns
+ * most of the integer 1-operand insns
+ * a handful of other insns
 
- ii) model --> exception:
+(Unfortunately the v8M Arm ARM does not provide a nice neatly
+separated list of encodings the way the SVE2 XML does.  I ended up
+just pulling all the decode patterns out of the Arm ARM insn
+descriptions and then hand-sorting them into what looked like common
+formats. So the insns implemented aren't following a 100% logical
+order.)
 
- Interrupt code inside each model file. The model implements only the
- interrupts which exist (according to ISA). There would be duplication
- since several models would implement the same system reset, machine
- check, program, etc.
+As noted above, the implementation here is purely the slow-path
+fully-generic "call helpers that can handle predication". I do
+want to implement a fast-path for "we know we have no predication,
+so we can generate inline vector code", but I'd like to do that
+as a series of followup patches once the main MVE code has landed.
+That will (a) make it easier to review, I hope (b) mean we get to
+"at least functional" MVE quicker and (c) allow people to bisect
+any regressions to the "add fastpath" patch.
 
- iii) model --> exception w/ generic interrupts:
+Almost nothing in this patchseries is "live code", because no CPU sets
+the ID register bits to turn on MVE.  The exception is the handling of
+PSR.ECI/ICI, which is enabled at least as far as the ICI bits go for
+M-profile CPUs (thus fixing the missing corner-case requirement that
+trying to execute a non-continuable insn with non-zero ICI should
+fault).
 
- Generic interrupt code separate from models. One implementation for
- each generic interrupt. Models opt-in which interrupts they want
- (according to the ISA). Models override generic implementation with
- model-specific ones.
+My view is that if these patches get through code review we're better
+off with them in upstream git rather than outside it; open to
+arguments to the contrary.
 
-Option (i) leads to the most code reuse; (ii) makes each model and its
-interrupts into one comprehensive unit; (iii) avoids duplication of the
-generic code.
+Patch 1 is RTH's recently posted tcg_remove_ops_after() patch,
+which we need for the PSR.ECI handling (which indeed is the
+justification for having that new function in the first place).
 
->> +
->> +struct ppc_intr_args {
->> +    target_ulong nip;
->> +    target_ulong msr;
->> +    target_ulong new_nip;
->> +    target_ulong new_msr;
->> +    int sprn_srr0;
->> +    int sprn_srr1;
->> +    int sprn_asrr0;
->> +    int sprn_asrr1;
->> +    int lev;
->> +};
->> +
->> +struct PPCInterrupt {
->
-> Having an info/dispatch structure for each vector makes sense..
->
->> +    Object parent;
->
-> ..but making it a QOM object really seems like overkill.  In fact
-> making it a QOM object at least somewhat exposes the internal
-> structure to the user via QMP, which I really don't think we want to
-> do.
+You can also get this patchset here:
+ https://git.linaro.org/people/peter.maydell/qemu-arm.git mve-drop-1
 
-I'm using QOM code mainly to facilitate the id->function mapping. I'll
-remove the QOM layer and implement my own.
+thanks
+-- PMM
 
->> +
->> +    int id;
->> +    const char *name;
->> +    target_ulong addr;
->> +    ppc_intr_fn_t setup_regs;
->> +};
+Peter Maydell (54):
+  target/arm: Enable FPSCR.QC bit for MVE
+  target/arm: Handle VPR semantics in existing code
+  target/arm: Add handling for PSR.ECI/ICI
+  target/arm: Let vfp_access_check() handle late NOCP checks
+  target/arm: Implement MVE LCTP
+  target/arm: Implement MVE WLSTP insn
+  target/arm: Implement MVE DLSTP
+  target/arm: Implement MVE LETP insn
+  target/arm: Add framework for MVE decode
+  target/arm: Implement MVE VLDR/VSTR (non-widening forms)
+  target/arm: Implement widening/narrowing MVE VLDR/VSTR insns
+  target/arm: Implement MVE VCLZ
+  target/arm: Implement MVE VCLS
+  bitops.h: Provide hswap32(), hswap64(), wswap64() swapping operations
+  target/arm: Implement MVE VREV16, VREV32, VREV64
+  target/arm: Implement MVE VMVN (register)
+  target/arm: Implement MVE VABS
+  target/arm: Implement MVE VNEG
+  target/arm: Implement MVE VDUP
+  target/arm: Implement MVE VAND, VBIC, VORR, VORN, VEOR
+  target/arm: Implement MVE VADD, VSUB, VMUL
+  target/arm: Implement MVE VMULH
+  target/arm: Implement MVE VRMULH
+  target/arm: Implement MVE VMAX, VMIN
+  target/arm: Implement MVE VABD
+  target/arm: Implement MVE VHADD, VHSUB
+  target/arm: Implement MVE VMULL
+  target/arm: Implement MVE VMLALDAV
+  target/arm: Implement MVE VMLSLDAV
+  include/qemu/int128.h: Add function to create Int128 from int64_t
+  target/arm: Implement MVE VRMLALDAVH, VRMLSLDAVH
+  target/arm: Implement MVE VADD (scalar)
+  target/arm: Implement MVE VSUB, VMUL (scalar)
+  target/arm: Implement MVE VHADD, VHSUB (scalar)
+  target/arm: Implement MVE VBRSR
+  target/arm: Implement MVE VPST
+  target/arm: Implement MVE VQADD and VQSUB
+  target/arm: Implement MVE VQDMULH and VQRDMULH (scalar)
+  target/arm: Implement MVE VQDMULL scalar
+  target/arm: Implement MVE VQDMULH, VQRDMULH (vector)
+  target/arm: Implement MVE VQADD, VQSUB (vector)
+  target/arm: Implement MVE VQSHL (vector)
+  target/arm: Implement MVE VQRSHL
+  target/arm: Implement MVE VSHL insn
+  target/arm: Implement MVE VRSHL
+  target/arm: Implement MVE VQDMLADH and VQRDMLADH
+  target/arm: Implement MVE VQDMLSDH and VQRDMLSDH
+  target/arm: Implement MVE VQDMULL (vector)
+  target/arm: Implement MVE VRHADD
+  target/arm: Implement MVE VADC, VSBC
+  target/arm: Implement MVE VCADD
+  target/arm: Implement MVE VHCADD
+  target/arm: Implement MVE VADDV
+  target/arm: Make VMOV scalar <-> gpreg beatwise for MVE
+
+Richard Henderson (1):
+  tcg: Introduce tcg_remove_ops_after
+
+ include/qemu/bitops.h         |   29 +
+ include/qemu/int128.h         |   10 +
+ include/tcg/tcg.h             |    1 +
+ target/arm/helper-mve.h       |  357 +++++++++
+ target/arm/helper.h           |    2 +
+ target/arm/internals.h        |   11 +
+ target/arm/translate-a32.h    |    4 +
+ target/arm/translate.h        |   19 +
+ target/arm/mve.decode         |  261 +++++++
+ target/arm/t32.decode         |   15 +-
+ target/arm/m_helper.c         |   54 +-
+ target/arm/mve_helper.c       | 1343 +++++++++++++++++++++++++++++++++
+ target/arm/sve_helper.c       |   20 -
+ target/arm/translate-m-nocp.c |   16 +-
+ target/arm/translate-mve.c    |  865 +++++++++++++++++++++
+ target/arm/translate-vfp.c    |  152 +++-
+ target/arm/translate.c        |  301 +++++++-
+ target/arm/vfp_helper.c       |    3 +-
+ tcg/tcg.c                     |   13 +
+ target/arm/meson.build        |    3 +
+ 20 files changed, 3408 insertions(+), 71 deletions(-)
+ create mode 100644 target/arm/helper-mve.h
+ create mode 100644 target/arm/mve.decode
+ create mode 100644 target/arm/mve_helper.c
+ create mode 100644 target/arm/translate-mve.c
+
+-- 
+2.20.1
+
 
