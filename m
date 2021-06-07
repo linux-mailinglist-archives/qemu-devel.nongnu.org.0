@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF6D39DB59
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 13:30:24 +0200 (CEST)
-Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6247839DB35
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 13:26:20 +0200 (CEST)
+Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqDSZ-0000tj-Py
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 07:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48380)
+	id 1lqDOd-000824-CO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 07:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lqD7c-0002G1-Fn
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 07:08:44 -0400
-Received: from foss.arm.com ([217.140.110.172]:51194)
+ id 1lqD7j-0002UL-Gr
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 07:08:51 -0400
+Received: from foss.arm.com ([217.140.110.172]:51218)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lqD7X-0007ZP-Eo
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 07:08:44 -0400
+ (envelope-from <steven.price@arm.com>) id 1lqD7d-0007aK-Ro
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 07:08:51 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 942B6143D;
- Mon,  7 Jun 2021 04:08:38 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3673D11D4;
+ Mon,  7 Jun 2021 04:08:45 -0700 (PDT)
 Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B2F5E3F73D;
- Mon,  7 Jun 2021 04:08:35 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9B0D3F73D;
+ Mon,  7 Jun 2021 04:08:41 -0700 (PDT)
 From: Steven Price <steven.price@arm.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
  Will Deacon <will@kernel.org>
-Subject: [PATCH v14 2/8] arm64: Handle MTE tags zeroing in
- __alloc_zeroed_user_highpage()
-Date: Mon,  7 Jun 2021 12:08:10 +0100
-Message-Id: <20210607110816.25762-3-steven.price@arm.com>
+Subject: [PATCH v14 4/8] KVM: arm64: Introduce MTE VM feature
+Date: Mon,  7 Jun 2021 12:08:12 +0100
+Message-Id: <20210607110816.25762-5-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210607110816.25762-1-steven.price@arm.com>
 References: <20210607110816.25762-1-steven.price@arm.com>
@@ -69,75 +68,231 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Catalin Marinas <catalin.marinas@arm.com>
+Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+for a VM. This will expose the feature to the guest and automatically
+tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+storage) to ensure that the guest cannot see stale tags, and so that
+the tags are correctly saved/restored across swap.
 
-Currently, on an anonymous page fault, the kernel allocates a zeroed
-page and maps it in user space. If the mapping is tagged (PROT_MTE),
-set_pte_at() additionally clears the tags under a spinlock to avoid a
-race on the page->flags. In order to optimise the lock, clear the page
-tags on allocation in __alloc_zeroed_user_highpage() if the vma flags
-have VM_MTE set.
+Actually exposing the new capability to user space happens in a later
+patch.
 
-Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 Signed-off-by: Steven Price <steven.price@arm.com>
 ---
- arch/arm64/include/asm/page.h |  6 ++++--
- arch/arm64/mm/fault.c         | 21 +++++++++++++++++++++
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ arch/arm64/include/asm/kvm_emulate.h |  3 ++
+ arch/arm64/include/asm/kvm_host.h    |  3 ++
+ arch/arm64/include/asm/mte.h         |  4 +++
+ arch/arm64/kernel/mte.c              | 17 +++++++++++
+ arch/arm64/kvm/hyp/exception.c       |  3 +-
+ arch/arm64/kvm/mmu.c                 | 42 +++++++++++++++++++++++++++-
+ arch/arm64/kvm/sys_regs.c            |  7 +++++
+ include/uapi/linux/kvm.h             |  1 +
+ 8 files changed, 78 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/include/asm/page.h b/arch/arm64/include/asm/page.h
-index 012cffc574e8..97853570d0f1 100644
---- a/arch/arm64/include/asm/page.h
-+++ b/arch/arm64/include/asm/page.h
-@@ -13,6 +13,7 @@
- #ifndef __ASSEMBLY__
- 
- #include <linux/personality.h> /* for READ_IMPLIES_EXEC */
-+#include <linux/types.h>
- #include <asm/pgtable-types.h>
- 
- struct page;
-@@ -28,8 +29,9 @@ void copy_user_highpage(struct page *to, struct page *from,
- void copy_highpage(struct page *to, struct page *from);
- #define __HAVE_ARCH_COPY_HIGHPAGE
- 
--#define __alloc_zeroed_user_highpage(movableflags, vma, vaddr) \
--	alloc_page_vma(GFP_HIGHUSER | __GFP_ZERO | movableflags, vma, vaddr)
-+struct page *__alloc_zeroed_user_highpage(gfp_t movableflags,
-+					  struct vm_area_struct *vma,
-+					  unsigned long vaddr);
- #define __HAVE_ARCH_ALLOC_ZEROED_USER_HIGHPAGE
- 
- #define clear_user_page(page, vaddr, pg)	clear_page(page)
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 871c82ab0a30..5a03428e97f3 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -921,3 +921,24 @@ void do_debug_exception(unsigned long addr_if_watchpoint, unsigned int esr,
- 	debug_exception_exit(regs);
+diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+index f612c090f2e4..6bf776c2399c 100644
+--- a/arch/arm64/include/asm/kvm_emulate.h
++++ b/arch/arm64/include/asm/kvm_emulate.h
+@@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+ 	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+ 	    vcpu_el1_is_32bit(vcpu))
+ 		vcpu->arch.hcr_el2 |= HCR_TID2;
++
++	if (kvm_has_mte(vcpu->kvm))
++		vcpu->arch.hcr_el2 |= HCR_ATA;
  }
- NOKPROBE_SYMBOL(do_debug_exception);
-+
-+/*
-+ * Used during anonymous page fault handling.
-+ */
-+struct page *__alloc_zeroed_user_highpage(gfp_t movableflags,
-+					  struct vm_area_struct *vma,
-+					  unsigned long vaddr)
+ 
+ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 7cd7d5c8c4bc..afaa5333f0e4 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -132,6 +132,8 @@ struct kvm_arch {
+ 
+ 	u8 pfr0_csv2;
+ 	u8 pfr0_csv3;
++	/* Memory Tagging Extension enabled for the guest */
++	bool mte_enabled;
+ };
+ 
+ struct kvm_vcpu_fault_info {
+@@ -769,6 +771,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+ #define kvm_arm_vcpu_sve_finalized(vcpu) \
+ 	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
+ 
++#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+ #define kvm_vcpu_has_pmu(vcpu)					\
+ 	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
+ 
+diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+index 347ef38a35f7..be1de541a11c 100644
+--- a/arch/arm64/include/asm/mte.h
++++ b/arch/arm64/include/asm/mte.h
+@@ -37,6 +37,7 @@ void mte_free_tag_storage(char *storage);
+ /* track which pages have valid allocation tags */
+ #define PG_mte_tagged	PG_arch_2
+ 
++void mte_prepare_page_tags(struct page *page);
+ void mte_sync_tags(pte_t old_pte, pte_t pte);
+ void mte_copy_page_tags(void *kto, const void *kfrom);
+ void mte_thread_init_user(void);
+@@ -53,6 +54,9 @@ int mte_ptrace_copy_tags(struct task_struct *child, long request,
+ /* unused if !CONFIG_ARM64_MTE, silence the compiler */
+ #define PG_mte_tagged	0
+ 
++static inline void mte_prepare_page_tags(struct page *page)
 +{
-+	struct page *page;
-+	bool tagged = system_supports_mte() && (vma->vm_flags & VM_MTE);
++}
+ static inline void mte_sync_tags(pte_t old_pte, pte_t pte)
+ {
+ }
+diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+index ae0a3c68fece..b120f82a2258 100644
+--- a/arch/arm64/kernel/mte.c
++++ b/arch/arm64/kernel/mte.c
+@@ -72,6 +72,23 @@ static void mte_sync_page_tags(struct page *page, pte_t old_pte,
+ 	spin_unlock_irqrestore(&tag_sync_lock, flags);
+ }
+ 
++void mte_prepare_page_tags(struct page *page)
++{
++	unsigned long flags;
 +
-+	page = alloc_page_vma(GFP_HIGHUSER | __GFP_ZERO | movableflags, vma,
-+			      vaddr);
-+	if (tagged && page) {
-+		mte_clear_page_tags(page_address(page));
-+		page_kasan_tag_reset(page);
-+		set_bit(PG_mte_tagged, &page->flags);
++	spin_lock_irqsave(&tag_sync_lock, flags);
++
++	/* Recheck with the lock held */
++	if (test_bit(PG_mte_tagged, &page->flags))
++		goto out;
++
++	mte_clear_page_tags(page_address(page));
++	set_bit(PG_mte_tagged, &page->flags);
++
++out:
++	spin_unlock_irqrestore(&tag_sync_lock, flags);
++}
++
+ void mte_sync_tags(pte_t old_pte, pte_t pte)
+ {
+ 	struct page *page = pte_page(pte);
+diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+index 73629094f903..56426565600c 100644
+--- a/arch/arm64/kvm/hyp/exception.c
++++ b/arch/arm64/kvm/hyp/exception.c
+@@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+ 	new |= (old & PSR_C_BIT);
+ 	new |= (old & PSR_V_BIT);
+ 
+-	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
++	if (kvm_has_mte(vcpu->kvm))
++		new |= PSR_TCO_BIT;
+ 
+ 	new |= (old & PSR_DIT_BIT);
+ 
+diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+index c5d1f3c87dbd..ed7c624e7362 100644
+--- a/arch/arm64/kvm/mmu.c
++++ b/arch/arm64/kvm/mmu.c
+@@ -822,6 +822,36 @@ transparent_hugepage_adjust(struct kvm_memory_slot *memslot,
+ 	return PAGE_SIZE;
+ }
+ 
++static int sanitise_mte_tags(struct kvm *kvm, kvm_pfn_t pfn,
++			     unsigned long size)
++{
++	unsigned long i, nr_pages = size >> PAGE_SHIFT;
++	struct page *page;
++
++	if (!kvm_has_mte(kvm))
++		return 0;
++
++	/*
++	 * The page will be mapped in stage 2 as Normal Cacheable, so
++	 * the VM will be able to see the page's tags and therefore
++	 * they must be initialised first. If PG_mte_tagged is set,
++	 * tags have already been initialised.
++	 * pfn_to_online_page() is used to reject ZONE_DEVICE pages
++	 * that may not support tags.
++	 */
++	page = pfn_to_online_page(pfn);
++
++	if (!page)
++		return -EFAULT;
++
++	for (i = 0; i < nr_pages; i++, page++) {
++		if (!test_bit(PG_mte_tagged, &page->flags))
++			mte_prepare_page_tags(page);
 +	}
 +
-+	return page;
++	return 0;
 +}
++
+ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+ 			  struct kvm_memory_slot *memslot, unsigned long hva,
+ 			  unsigned long fault_status)
+@@ -971,8 +1001,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+ 	if (writable)
+ 		prot |= KVM_PGTABLE_PROT_W;
+ 
+-	if (fault_status != FSC_PERM && !device)
++	if (fault_status != FSC_PERM && !device) {
++		ret = sanitise_mte_tags(kvm, pfn, vma_pagesize);
++		if (ret)
++			goto out_unlock;
++
+ 		clean_dcache_guest_page(pfn, vma_pagesize);
++	}
+ 
+ 	if (exec_fault) {
+ 		prot |= KVM_PGTABLE_PROT_X;
+@@ -1168,12 +1203,17 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+ bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+ 	kvm_pfn_t pfn = pte_pfn(range->pte);
++	int ret;
+ 
+ 	if (!kvm->arch.mmu.pgt)
+ 		return 0;
+ 
+ 	WARN_ON(range->end - range->start != 1);
+ 
++	ret = sanitise_mte_tags(kvm, pfn, PAGE_SIZE);
++	if (ret)
++		return false;
++
+ 	/*
+ 	 * We've moved a page around, probably through CoW, so let's treat it
+ 	 * just like a translation fault and clean the cache to the PoC.
+diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+index 76ea2800c33e..4a98902eaf1a 100644
+--- a/arch/arm64/kvm/sys_regs.c
++++ b/arch/arm64/kvm/sys_regs.c
+@@ -1047,6 +1047,13 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+ 		break;
+ 	case SYS_ID_AA64PFR1_EL1:
+ 		val &= ~FEATURE(ID_AA64PFR1_MTE);
++		if (kvm_has_mte(vcpu->kvm)) {
++			u64 pfr, mte;
++
++			pfr = read_sanitised_ftr_reg(SYS_ID_AA64PFR1_EL1);
++			mte = cpuid_feature_extract_unsigned_field(pfr, ID_AA64PFR1_MTE_SHIFT);
++			val |= FIELD_PREP(FEATURE(ID_AA64PFR1_MTE), mte);
++		}
+ 		break;
+ 	case SYS_ID_AA64ISAR1_EL1:
+ 		if (!vcpu_has_ptrauth(vcpu))
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 3fd9a7e9d90c..8c95ba0fadda 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1082,6 +1082,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_SGX_ATTRIBUTE 196
+ #define KVM_CAP_VM_COPY_ENC_CONTEXT_FROM 197
+ #define KVM_CAP_PTP_KVM 198
++#define KVM_CAP_ARM_MTE 199
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.20.1
 
