@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9350739E99E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 00:29:41 +0200 (CEST)
-Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF1939E9B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 00:39:02 +0200 (CEST)
+Received: from localhost ([::1]:52028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqNka-0004I7-Km
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 18:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
+	id 1lqNtd-0007Tk-44
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 18:39:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqNjX-0003Er-PR
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 18:28:37 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44812)
+ id 1lqNsu-0006ni-Oc
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 18:38:16 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:45807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqNjV-0006r4-Tr
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 18:28:35 -0400
-Received: by mail-pg1-x530.google.com with SMTP id y11so6812362pgp.11
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 15:28:32 -0700 (PDT)
+ id 1lqNst-000316-Ad
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 18:38:16 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ z3-20020a17090a3983b029016bc232e40bso978800pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 15:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mTAneNeedfm1uGaVjj26rdeGIk1K/eAP05nx/fPFUPA=;
- b=Uojmb9dHYWkVFy43oC38HcGq/xCxkuGlLt/pUhyI/Tb8MSm2dbV0huxtDiNvi8xmNH
- 136WUZJungE+49l0RBULoKdG2ufN/P82Wh04Cn3Lib5d/iMcKOXEWGMNq3pLVdxINwCX
- Yq5t0kIHsJekpMdzge861FO7hdrKIfAWESe0IKh/JmebMC0c+JHRqBqxuFPPzo8rtwU8
- 6QCeS7DCUA3vndt0dfyrig+T/xLLLUAXncGQO+av1kwGzG5LDOZD7fOs+rk567LXbRWr
- 85HLY0HRiVPJG77hfSZaH7Yg9ppavfVS7zpGOfIxLjw7Jzavlsd8Ilo2+Ym2FsoJrPTA
- CUTg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wHu2qa61wxcTPBbLqtde1CTPIw7+XCGrGTMr7yCftB8=;
+ b=IKWVbGdJz1uxAwKxabTSU7v1Zx/LekAC9/rrugpMAlyWBhaFf91bTYmdDE734yYHEI
+ 65tRCx0l2ZLSGE/3Xa81Mdq4HLiTHBThVxxnpLyix0Bck+HZbVOmblszWqx7CIhas+ls
+ GtPimzK0bXNwkfA3Rzz6eINxzVEMb9RTJ3oWx34Z4oEFid1eTeHX4jFfUpKYFOZbHiD6
+ UjzBZA7Ss9AwVShqQGFXTwUw8ppzrq43KyJARELUlEO3uUAYN8zaL/is9q4JMwiFRbt0
+ hFQ4YUdZPlQrPkKCqoyI4l+AjRS1UvuWahK7+vx2LAgtdFP+fkBel87QrR8baBWv1swI
+ Qp0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mTAneNeedfm1uGaVjj26rdeGIk1K/eAP05nx/fPFUPA=;
- b=kk+ELlIsxeWFLvptukaVuy2/pMpuiHQYc1Yld7aJEZvwLyyEi3pgXQy7gHxKm6LahV
- KD0ogVf5nLGQWe7t5UZfgAXO5nEgcRqd1tdqha//Z2h15NK2WfyQzgqJOKJE4OpMr1n8
- YZr+jTVErS73wvE8Ars3qdOr4X7fDbrzt0vNnMgLoYh/39Joc2GCpugAcV0U4Im/dcd1
- 103+30t14rwxA12GM+hUJd5LoJxeVXpkRRP7menXBucuTc9Va5khEiY2zy+v8Zd4qRvD
- OtLtm0CQJe0t8f82J78CxCUeBrbDqQ2YSBJOms3Act1wCEgNBitihsu6MQ8dyipGxAfT
- a8SA==
-X-Gm-Message-State: AOAM531cU8nJORT3gyeGgBhbLMImIdxDofvxOIbRAr0lRMDFYPESJtOE
- YCgz7YfIFlgKIsY5KyZjBZrQKQ==
-X-Google-Smtp-Source: ABdhPJwCpChl3IcYVQ/Qjc9HNkC1vm8VdxKDQcVTdtGT7QppTl0Ol0dZSJoSvl/YAuBj69TAZ671HQ==
-X-Received: by 2002:a05:6a00:23c2:b029:2f1:b41b:21ca with SMTP id
- g2-20020a056a0023c2b02902f1b41b21camr3037932pfc.13.1623104911731; 
- Mon, 07 Jun 2021 15:28:31 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- p36sm9637157pgm.74.2021.06.07.15.28.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 15:28:31 -0700 (PDT)
-Subject: Re: [PULL 25/29] softfloat: Convert float32_exp2 to FloatParts
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210603214131.629841-1-richard.henderson@linaro.org>
- <20210603214131.629841-26-richard.henderson@linaro.org>
- <CAFEAcA9Ufm3hkfawYQz45N2ekRxRJhMOzN3+fD-5gtRshQQj5w@mail.gmail.com>
+ bh=wHu2qa61wxcTPBbLqtde1CTPIw7+XCGrGTMr7yCftB8=;
+ b=QWIF7aK+RjEsoUKzuZGv6KQDQL5DAom8XXEoYPyrMLmf0weCE+8mRGQWJPNbPUSiEv
+ c038VnMScykiKgEN2gkeA1nz5gRd8V9gukIEDPz/LLZR1XdkKrNwSamkXFpJ5+aPF46e
+ /0xgfidCofIJM29TuY1x5zeyZzggFGR/NSgcpECbAz5VpPwFYV3TMANvd/R3iU9z4vyl
+ KHuWmFR0gkNYVhLhVP4T9Do+PZPctrB5RNcI1pc7kRS8P7ZRsvzcUk4JVyexG8jJlQDL
+ ljn5IUrLTMtXbqAS6ellej2NhqEFiLkZc5ZsXMj9/54WrngKhD45N4owUioTlyqOPzPk
+ +zCQ==
+X-Gm-Message-State: AOAM530QyvNJS2hYqOTc2oO8WMo/jBQbHUY6cyDZ+7qsmIokUkNb9uqb
+ EvmvVauKfCwdBZLXhDzD7yBUA9TDUFoMew==
+X-Google-Smtp-Source: ABdhPJyU3dQAcYvXTg3m42wh6uhdZjpiQTx54URG5OGyj5gNbyRwNX8kuCmi3GbTDxC9M67Q7R36qA==
+X-Received: by 2002:a17:90a:520f:: with SMTP id
+ v15mr22374453pjh.23.1623105493387; 
+ Mon, 07 Jun 2021 15:38:13 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id j17sm8955223pff.77.2021.06.07.15.38.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 15:38:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <22c1d82b-7c86-3b69-0a28-df77a63f95c3@linaro.org>
-Date: Mon, 7 Jun 2021 15:28:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+To: qemu-devel@nongnu.org
+Subject: [PATCH] softfloat: Fix tp init in float32_exp2
+Date: Mon,  7 Jun 2021 15:38:12 -0700
+Message-Id: <20210607223812.110596-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9Ufm3hkfawYQz45N2ekRxRJhMOzN3+fD-5gtRshQQj5w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,24 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 2:07 PM, Peter Maydell wrote:
->> +    FloatParts64 xp, xnp, tp, rp;
-> 
-> Coverity points out that we declare tp here without initializing it...
-...
->> +    float64_unpack_canonical(&xnp, float64_ln2, status);
->> +    xp = *parts_mul(&xp, &tp, status);
-> 
-> ...and then here we pass &tp to parts_mul() which looks at
-> its various fields. Missing initializer of some sort ?
+Typo in the conversion to FloatParts64.
 
-Typo in the unpack; should have been tp.
+Fixes: 572c4d862ff2
+Fixes: Coverity CID 1457457
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ fpu/softfloat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 1cb162882b..4d0160fe9c 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -4818,7 +4818,7 @@ float32 float32_exp2(float32 a, float_status *status)
+ 
+     float_raise(float_flag_inexact, status);
+ 
+-    float64_unpack_canonical(&xnp, float64_ln2, status);
++    float64_unpack_canonical(&tp, float64_ln2, status);
+     xp = *parts_mul(&xp, &tp, status);
+     xnp = xp;
+ 
+-- 
+2.25.1
 
-r~
 
