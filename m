@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA6439E867
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:27:25 +0200 (CEST)
-Received: from localhost ([::1]:47786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A762739E858
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:23:28 +0200 (CEST)
+Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLqF-0007dT-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37938)
+	id 1lqLmR-0004Mr-Nw
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXN-0004nM-9U
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51768)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXP-0004vz-GD
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLX4-0006b6-Bm
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:53 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLX5-0006bE-Ux
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096453;
+ s=mimecast20190719; t=1623096454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=La2XoCWtUSupmNGpFMLMOVf/SbpI42raeAiGn2vtP5c=;
- b=I/eRtJMfhPm+jdGsrxyP7AOBdnJq6PAljq2SfNvreIdQUG3jMeAFUEkwdvQXiOdBK0Lyeo
- pZnzOnamfmLAdxMZSNFaIMy+zUL9K9dutV5KRaUG4W9KNN2KTUd3LzMQAQGfSWsRAKRZ90
- 6DTPtfJLtC4LvOxjAp7k5mx2tuzaalo=
+ bh=eRnQF8+6II9xrALDRpJDJ+WoC32D8OjwWM8myOHUUmI=;
+ b=a4Uo9tBhPqxeWdkezb/QOy2xOd2ihSy9SVKVueFqPkQ3UC0tN4dt63I3i3vMqFoMJZkkgK
+ YPQpT2FHed+X2efLjNCMYZNO1L3TPlF9xuSkuf+sDDP7XQ4r0Hejqu1X/HJRYHzspTZf8W
+ Rf4VoXvIGtKJGlUSFsZNWSkwY0eYO+k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-j_Z1OsdOP9Sg-VHWAw3bFA-1; Mon, 07 Jun 2021 16:07:32 -0400
-X-MC-Unique: j_Z1OsdOP9Sg-VHWAw3bFA-1
+ us-mta-16-iZughClPNhyrwcVoh2fAUg-1; Mon, 07 Jun 2021 16:07:33 -0400
+X-MC-Unique: iZughClPNhyrwcVoh2fAUg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 800CD805EFF;
- Mon,  7 Jun 2021 20:07:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A60CB107ACCD;
+ Mon,  7 Jun 2021 20:07:32 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 554E25C1C2;
- Mon,  7 Jun 2021 20:07:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7EA95C1C2;
+ Mon,  7 Jun 2021 20:07:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 36/42] scripts/qmp-shell: convert usage comment to docstring
-Date: Mon,  7 Jun 2021 16:06:43 -0400
-Message-Id: <20210607200649.1840382-37-jsnow@redhat.com>
+Subject: [PATCH 37/42] scripts/qmp-shell: remove double-underscores
+Date: Mon,  7 Jun 2021 16:06:44 -0400
+Message-Id: <20210607200649.1840382-38-jsnow@redhat.com>
 In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
 References: <20210607200649.1840382-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,159 +82,166 @@ Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nice usage comment should be a docstring instead of a comment, so
-that it's visible from other python tooling.
+They're not needed; single underscore is enough to express intent that
+these methods are "internal". double underscore is used as a weak name
+mangling, but that isn't beneficial for us here.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 128 ++++++++++++++++++++++++------------------
- 1 file changed, 72 insertions(+), 56 deletions(-)
+ scripts/qmp/qmp-shell | 52 +++++++++++++++++++++----------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 8d5845ab48..82fe16cff8 100755
+index 82fe16cff8..40ff9e0a82 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -1,7 +1,5 @@
- #!/usr/bin/env python3
- #
--# Low-level QEMU shell on top of QMP.
--#
- # Copyright (C) 2009, 2010 Red Hat Inc.
- #
- # Authors:
-@@ -10,60 +8,78 @@
- # This work is licensed under the terms of the GNU GPL, version 2.  See
- # the COPYING file in the top-level directory.
- #
--# Usage:
--#
--# Start QEMU with:
--#
--# # qemu [...] -qmp unix:./qmp-sock,server
--#
--# Run the shell:
--#
--# $ qmp-shell ./qmp-sock
--#
--# Commands have the following format:
--#
--#    < command-name > [ arg-name1=arg1 ] ... [ arg-nameN=argN ]
--#
--# For example:
--#
--# (QEMU) device_add driver=e1000 id=net1
--# {u'return': {}}
--# (QEMU)
--#
--# key=value pairs also support Python or JSON object literal subset notations,
--# without spaces. Dictionaries/objects {} are supported as are arrays [].
--#
--#    example-command arg-name1={'key':'value','obj'={'prop':"value"}}
--#
--# Both JSON and Python formatting should work, including both styles of
--# string literal quotes. Both paradigms of literal values should work,
--# including null/true/false for JSON and None/True/False for Python.
--#
--#
--# Transactions have the following multi-line format:
--#
--#    transaction(
--#    action-name1 [ arg-name1=arg1 ] ... [arg-nameN=argN ]
--#    ...
--#    action-nameN [ arg-name1=arg1 ] ... [arg-nameN=argN ]
--#    )
--#
--# One line transactions are also supported:
--#
--#    transaction( action-name1 ... )
--#
--# For example:
--#
--#     (QEMU) transaction(
--#     TRANS> block-dirty-bitmap-add node=drive0 name=bitmap1
--#     TRANS> block-dirty-bitmap-clear node=drive0 name=bitmap0
--#     TRANS> )
--#     {"return": {}}
--#     (QEMU)
--#
--# Use the -v and -p options to activate the verbose and pretty-print options,
--# which will echo back the properly formatted JSON-compliant QMP that is being
--# sent to QEMU, which is useful for debugging and documentation generation.
-+
-+"""
-+Low-level QEMU shell on top of QMP.
-+
-+usage: qmp-shell [-h] [-H] [-N] [-v] [-p] qmp_server
-+
-+positional arguments:
-+  qmp_server            < UNIX socket path | TCP address:port >
-+
-+optional arguments:
-+  -h, --help            show this help message and exit
-+  -H, --hmp             Use HMP interface
-+  -N, --skip-negotiation
-+                        Skip negotiate (for qemu-ga)
-+  -v, --verbose         Verbose (echo commands sent and received)
-+  -p, --pretty          Pretty-print JSON
-+
-+
-+Start QEMU with:
-+
-+# qemu [...] -qmp unix:./qmp-sock,server
-+
-+Run the shell:
-+
-+$ qmp-shell ./qmp-sock
-+
-+Commands have the following format:
-+
-+   < command-name > [ arg-name1=arg1 ] ... [ arg-nameN=argN ]
-+
-+For example:
-+
-+(QEMU) device_add driver=e1000 id=net1
-+{'return': {}}
-+(QEMU)
-+
-+key=value pairs also support Python or JSON object literal subset notations,
-+without spaces. Dictionaries/objects {} are supported as are arrays [].
-+
-+   example-command arg-name1={'key':'value','obj'={'prop':"value"}}
-+
-+Both JSON and Python formatting should work, including both styles of
-+string literal quotes. Both paradigms of literal values should work,
-+including null/true/false for JSON and None/True/False for Python.
-+
-+
-+Transactions have the following multi-line format:
-+
-+   transaction(
-+   action-name1 [ arg-name1=arg1 ] ... [arg-nameN=argN ]
-+   ...
-+   action-nameN [ arg-name1=arg1 ] ... [arg-nameN=argN ]
-+   )
-+
-+One line transactions are also supported:
-+
-+   transaction( action-name1 ... )
-+
-+For example:
-+
-+    (QEMU) transaction(
-+    TRANS> block-dirty-bitmap-add node=drive0 name=bitmap1
-+    TRANS> block-dirty-bitmap-clear node=drive0 name=bitmap0
-+    TRANS> )
-+    {"return": {}}
-+    (QEMU)
-+
-+Use the -v and -p options to activate the verbose and pretty-print options,
-+which will echo back the properly formatted JSON-compliant QMP that is being
-+sent to QEMU, which is useful for debugging and documentation generation.
-+"""
-+
- import argparse
- import ast
- import json
+@@ -171,7 +171,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         for cmd in cmds['return']:
+             self._completer.append(cmd['name'])
+ 
+-    def __completer_setup(self) -> None:
++    def _completer_setup(self) -> None:
+         self._completer = QMPCompleter()
+         self._fill_completion()
+         readline.set_history_length(1024)
+@@ -196,7 +196,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+             LOG.warning(msg)
+ 
+     @classmethod
+-    def __parse_value(cls, val: str) -> object:
++    def _parse_value(cls, val: str) -> object:
+         try:
+             return int(val)
+         except ValueError:
+@@ -221,9 +221,9 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                 pass
+         return val
+ 
+-    def __cli_expr(self,
+-                   tokens: Sequence[str],
+-                   parent: qmp.QMPObject) -> None:
++    def _cli_expr(self,
++                  tokens: Sequence[str],
++                  parent: qmp.QMPObject) -> None:
+         for arg in tokens:
+             (key, sep, val) = arg.partition('=')
+             if sep != '=':
+@@ -231,7 +231,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                     f"Expected a key=value pair, got '{arg!s}'"
+                 )
+ 
+-            value = self.__parse_value(val)
++            value = self._parse_value(val)
+             optpath = key.split('.')
+             curpath = []
+             for path in optpath[:-1]:
+@@ -249,7 +249,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                 raise QMPShellError(f'Cannot set "{key}" multiple times')
+             parent[optpath[-1]] = value
+ 
+-    def __build_cmd(self, cmdline: str) -> Optional[QMPMessage]:
++    def _build_cmd(self, cmdline: str) -> Optional[QMPMessage]:
+         """
+         Build a QMP input object from a user provided command-line in the
+         following format:
+@@ -289,13 +289,13 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+             if cmdargs[-1] == ')':
+                 cmdargs.pop(-1)
+                 finalize = True
+-            self.__cli_expr(cmdargs[1:], action['data'])
++            self._cli_expr(cmdargs[1:], action['data'])
+             self._actions.append(action)
+-            return self.__build_cmd(')') if finalize else None
++            return self._build_cmd(')') if finalize else None
+ 
+         # Standard command: parse and return it to be executed.
+         qmpcmd = {'execute': cmdargs[0], 'arguments': {}}
+-        self.__cli_expr(cmdargs[1:], qmpcmd['arguments'])
++        self._cli_expr(cmdargs[1:], qmpcmd['arguments'])
+         return qmpcmd
+ 
+     def _print(self, qmp_message: object) -> None:
+@@ -306,7 +306,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+ 
+     def _execute_cmd(self, cmdline: str) -> bool:
+         try:
+-            qmpcmd = self.__build_cmd(cmdline)
++            qmpcmd = self._build_cmd(cmdline)
+         except QMPShellError as err:
+             print(
+                 f"Error while parsing command line: {err!s}\n"
+@@ -329,7 +329,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+ 
+     def connect(self, negotiate: bool = True) -> None:
+         self._greeting = super().connect(negotiate)
+-        self.__completer_setup()
++        self._completer_setup()
+ 
+     def show_banner(self,
+                     msg: str = 'Welcome to the QMP low-level shell!') -> None:
+@@ -377,10 +377,10 @@ class HMPShell(QMPShell):
+     def __init__(self, address: qmp.SocketAddrT,
+                  pretty: bool = False, verbose: bool = False):
+         super().__init__(address, pretty, verbose)
+-        self.__cpu_index = 0
++        self._cpu_index = 0
+ 
+-    def __cmd_completion(self) -> None:
+-        for cmd in self.__cmd_passthrough('help')['return'].split('\r\n'):
++    def _cmd_completion(self) -> None:
++        for cmd in self._cmd_passthrough('help')['return'].split('\r\n'):
+             if cmd and cmd[0] != '[' and cmd[0] != '\t':
+                 name = cmd.split()[0]  # drop help text
+                 if name == 'info':
+@@ -396,22 +396,22 @@ class HMPShell(QMPShell):
+                 self._completer.append(name)
+                 self._completer.append('help ' + name)  # help completion
+ 
+-    def __info_completion(self) -> None:
+-        for cmd in self.__cmd_passthrough('info')['return'].split('\r\n'):
++    def _info_completion(self) -> None:
++        for cmd in self._cmd_passthrough('info')['return'].split('\r\n'):
+             if cmd:
+                 self._completer.append('info ' + cmd.split()[1])
+ 
+-    def __other_completion(self) -> None:
++    def _other_completion(self) -> None:
+         # special cases
+         self._completer.append('help info')
+ 
+     def _fill_completion(self) -> None:
+-        self.__cmd_completion()
+-        self.__info_completion()
+-        self.__other_completion()
++        self._cmd_completion()
++        self._info_completion()
++        self._other_completion()
+ 
+-    def __cmd_passthrough(self, cmdline: str,
+-                          cpu_index: int = 0) -> QMPMessage:
++    def _cmd_passthrough(self, cmdline: str,
++                         cpu_index: int = 0) -> QMPMessage:
+         return self.cmd_obj({
+             'execute': 'human-monitor-command',
+             'arguments': {
+@@ -425,14 +425,14 @@ class HMPShell(QMPShell):
+             # trap the cpu command, it requires special setting
+             try:
+                 idx = int(cmdline.split()[1])
+-                if 'return' not in self.__cmd_passthrough('info version', idx):
++                if 'return' not in self._cmd_passthrough('info version', idx):
+                     print('bad CPU index')
+                     return True
+-                self.__cpu_index = idx
++                self._cpu_index = idx
+             except ValueError:
+                 print('cpu command takes an integer argument')
+                 return True
+-        resp = self.__cmd_passthrough(cmdline, self.__cpu_index)
++        resp = self._cmd_passthrough(cmdline, self._cpu_index)
+         if resp is None:
+             print('Disconnected')
+             return False
 -- 
 2.31.1
 
