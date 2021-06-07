@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F306639E5F9
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:56:03 +0200 (CEST)
-Received: from localhost ([::1]:53990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196E939E5E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:50:54 +0200 (CEST)
+Received: from localhost ([::1]:35770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqJTn-0006JA-1e
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:56:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36186)
+	id 1lqJOl-0002W5-NO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqIvl-00074i-PG
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:20:53 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38405)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqIvg-0000Qs-PH
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:20:53 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- t4-20020a1c77040000b029019d22d84ebdso152920wmi.3
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 10:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=SLm0vW/OirZ0zkzxBTAqwrO3Zyis9xnqm+BWXxoFCrs=;
- b=gerL5CHV3KcPb6Qhuk3831D1bBFRLhTyEy7s0uLWuJ1Zwk5sJ4Y2Wm4AbpwpZ2DXIL
- OzhOVwXA31FFpkyt1eydzc8ASzMIGcqttFPvJ1N8dBCzoeJWwxUR2IU6qCFlJgDJhHx+
- oy55GlhwWTyuXjfHn/GURBuw2ng2pdS/H4OjPz/u3kZalplxCKmM8VS8nJOOserYSYDx
- 6qyVjB3htJm534/QcZt28u1UTdxSYbgcYNNWAKzRJEubAy2Yadap1gPDU11ON14EgsC8
- vHKag/X7yJ2n3D8hGDZIvF+x1CR0/u67Yx1+U1wrgUUAkZNwe8IRblh7K7YJ8U9+tD31
- UAVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=SLm0vW/OirZ0zkzxBTAqwrO3Zyis9xnqm+BWXxoFCrs=;
- b=lMl85A8wdmLErlprjinQimgGEFuETCrvpYeg4ygJdD/Zn8IpV+ecpGMHehsiN1rXan
- 4MX5wwYFHrRzJQW8E8RhAwbj33HkaWOY0MpJ/I8nrQ4UeIBTQbExg+zXiM4Iyn9dRUdr
- BDILoK+oE60TCCU/fWeEM54qZBSAyXZ3/HD2QwBp83CM+i8UIWM5GuTtWuvXk0smLnhc
- 5BngtioUyVebHUzGoSgWg90EgXJKHnbmBAA1AUXnq9XGmdk+iju9p3vpOChoodL6VtOC
- mKChFxfBg3Jkfd+sAw3Cii2iO3a9JF0eGmhnMQNx7xMdlBQwji0hjwOKEE0mfOdXVwEB
- UHdQ==
-X-Gm-Message-State: AOAM533OYDm2zajrz/U+fwwrt6s4sjNM9o94Y11JHLdlgkuyskExoM55
- nulSyEI56uzj7DxqsLbqH1EZ47sDwLMR1Q==
-X-Google-Smtp-Source: ABdhPJxsBANHf14SrooCh0M2Mc6u7E505vFhWRPLSTtv6c0xezCrCbw0WfSi15Oxz78zBmFYAFhcmQ==
-X-Received: by 2002:a05:600c:5122:: with SMTP id
- o34mr9884472wms.168.1623086447262; 
- Mon, 07 Jun 2021 10:20:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y26sm8026148wma.33.2021.06.07.10.20.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 10:20:46 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9C2BE1FF7E;
- Mon,  7 Jun 2021 18:20:45 +0100 (BST)
-References: <20210527041405.391567-1-richard.henderson@linaro.org>
- <20210527041405.391567-4-richard.henderson@linaro.org>
- <871r9dod1w.fsf@linaro.org>
- <31a70d8a-0b1c-9641-e2bf-3625690fa6b6@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
-Date: Mon, 07 Jun 2021 18:19:17 +0100
-In-reply-to: <31a70d8a-0b1c-9641-e2bf-3625690fa6b6@linaro.org>
-Message-ID: <87pmwxmw0i.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqIyC-0002Tz-Ds
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:23:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqIy7-0001Lj-IQ
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:23:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623086598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=i1TVAADkI/cdPTRzvsXFG0rl+ETi8JbcrWDKPqHFnvE=;
+ b=I+e27/gaqgPVUwQ5JbcxtP0Cf9JjJfGZTG+DFOfol8FBXMkj9jTep2N8LtBsHDBy8pIKnv
+ VBZ3QQtXeyoNE+Wmm1gglgBA1ZwAlmOLAQ4T9x3VJMMJVVbdzxYJwZzxhXbS7ov4ZuZX6u
+ QePtApS4pOVpxND/9urHrmmGzzAA01o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-Fap85uZAPfyqIj_j8Wxysg-1; Mon, 07 Jun 2021 13:23:16 -0400
+X-MC-Unique: Fap85uZAPfyqIj_j8Wxysg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C11D6180FD64;
+ Mon,  7 Jun 2021 17:23:15 +0000 (UTC)
+Received: from thuth.com (ovpn-112-83.ams2.redhat.com [10.36.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5A1C5D6D3;
+ Mon,  7 Jun 2021 17:23:14 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs/interop/live-block-operations: Do not hard-code the QEMU
+ binary name
+Date: Mon,  7 Jun 2021 19:23:11 +0200
+Message-Id: <20210607172311.915385-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,28 +74,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mmorrell@tachyum.com, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In downstream, we want to use a different name for the QEMU binary,
+and some people might also use the docs for non-x86 binaries, that's
+why we already created the |qemu_system| placeholder in the past.
+Use it now in the live-block-operations doc, too.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/interop/live-block-operations.rst | 32 +++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
-> On 6/7/21 8:35 AM, Alex Benn=C3=A9e wrote:
->> So I'm guessing Emilio had the original flush code split was to avoid
->> multiple checks against s->flush_inputs_to_zero in the code. The was
->> possibly a good reason, comparing the before/after of float32_mul:
->
-> I assumed that the most important thing now is that we test
-> floatN_is_denormal only once -- the test for flush_inputs_to_zero is
-> fairly trivial.
->
-> If you've got a better ordering of operations for this, do tell.
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index 1073b930dc..477d085f54 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -127,13 +127,15 @@ Interacting with a QEMU instance
+ 
+ To show some example invocations of command-line, we will use the
+ following invocation of QEMU, with a QMP server running over UNIX
+-socket::
++socket:
+ 
+-    $ ./qemu-system-x86_64 -display none -no-user-config \
+-        -M q35 -nodefaults -m 512 \
+-        -blockdev node-name=node-A,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./a.qcow2 \
+-        -device virtio-blk,drive=node-A,id=virtio0 \
+-        -monitor stdio -qmp unix:/tmp/qmp-sock,server=on,wait=off
++.. parsed-literal::
++
++  $ |qemu_system| -display none -no-user-config -nodefaults \\
++    -m 512 -blockdev \\
++    node-name=node-A,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./a.qcow2 \\
++    -device virtio-blk,drive=node-A,id=virtio0 \\
++    -monitor stdio -qmp unix:/tmp/qmp-sock,server=on,wait=off
+ 
+ The ``-blockdev`` command-line option, used above, is available from
+ QEMU 2.9 onwards.  In the above invocation, notice the ``node-name``
+@@ -692,14 +694,16 @@ And start the destination QEMU (we already have the source QEMU running
+ -- discussed in the section: `Interacting with a QEMU instance`_)
+ instance, with the following invocation.  (As noted earlier, for
+ simplicity's sake, the destination QEMU is started on the same host, but
+-it could be located elsewhere)::
+-
+-    $ ./qemu-system-x86_64 -display none -no-user-config \
+-        -M q35 -nodefaults -m 512 \
+-        -blockdev node-name=node-TargetDisk,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./target-disk.qcow2 \
+-        -device virtio-blk,drive=node-TargetDisk,id=virtio0 \
+-        -S -monitor stdio -qmp unix:./qmp-sock2,server=on,wait=off \
+-        -incoming tcp:localhost:6666
++it could be located elsewhere):
++
++.. parsed-literal::
++
++  $ |qemu_system| -display none -no-user-config -nodefaults \\
++    -m 512 -blockdev \\
++    node-name=node-TargetDisk,driver=qcow2,file.driver=file,file.node-name=file,file.filename=./target-disk.qcow2 \\
++    -device virtio-blk,drive=node-TargetDisk,id=virtio0 \\
++    -S -monitor stdio -qmp unix:./qmp-sock2,server=on,wait=off \\
++    -incoming tcp:localhost:6666
+ 
+ Given the disk image chain on source QEMU::
+ 
+-- 
+2.27.0
 
-What I really want is to know which instructions translate into the if
-(s->flush_inputs_to_zero) and verifying that is only checked once. Maybe
-I'm just suspicious of compilers ability to optimise things away...
-
---=20
-Alex Benn=C3=A9e
 
