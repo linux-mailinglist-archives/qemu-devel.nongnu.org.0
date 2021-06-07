@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B153739EA3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 01:39:59 +0200 (CEST)
-Received: from localhost ([::1]:36962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706C139EA46
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 01:44:11 +0200 (CEST)
+Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqOqc-0003Gl-OM
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 19:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38980)
+	id 1lqOug-00015O-GX
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 19:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lqOot-0001VU-5I
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:11 -0400
-Received: from mga06.intel.com ([134.134.136.31]:2273)
+ id 1lqOp1-0001ge-6d
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:19 -0400
+Received: from mga06.intel.com ([134.134.136.31]:2298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lqOoq-00071e-Lv
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:10 -0400
-IronPort-SDR: /2lq37VON4ZU9ruqGlyglNtAdmBpJj5mldbEBZRYlI+AJxp0Cw70WW5JqoWxEaeo+RjDT0koNA
- TGuXgL3bbxwA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="265889544"
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="265889544"
+ id 1lqOox-00076S-S1
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:18 -0400
+IronPort-SDR: MinnM8QctrEw7PR6leNqCDnRb96mSQ+z80EUz+vhGb6W+dxZC0/H2WpPtEogh21WDAW5XP/wCp
+ l/c4hDKyT47w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="265889546"
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="265889546"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jun 2021 16:38:02 -0700
-IronPort-SDR: /qu5dv6PcLrQDX3HBQhgaXcvthfDwACiVyjbrB6BmbDl9+I6OKBnTQQSu+xL2lujSr3PqRjcoA
- AjQkjEruZ9pA==
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="551403343"
+IronPort-SDR: WpzcFKjSP0nDfz2Tn4MCIYOyIgC7YsyI9YSF1DsjPfbYt+U0P0ytCUUyIUdCWI6yIle43hqmgJ
+ 9SJSpQBBAPTQ==
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="551403345"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jun 2021 16:38:02 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/5] virtio-gpu: Add implicit (and default) sync mechanism
- for blobs
-Date: Mon,  7 Jun 2021 16:25:25 -0700
-Message-Id: <20210607232530.454435-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v1 1/5] ui/gtk: Create a common release_dmabuf helper
+Date: Mon,  7 Jun 2021 16:25:26 -0700
+Message-Id: <20210607232530.454435-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607232530.454435-1-vivek.kasireddy@intel.com>
+References: <20210607232530.454435-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.31;
@@ -60,47 +61,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dongwon Kim <dongwon.kim@intel.com>, Tina Zhang <tina.zhang@intel.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the Guest and Host are using Blob resources, there is a chance
-that they may use the underlying storage associated with a Blob at
-the same time leading to glitches such as flickering or tearing.
-To prevent these from happening, the Host needs to ensure that it
-waits until its Blit is completed by the Host GPU before returning
-control back to the Guest from resource_flush().
-
-This should be the default behavior regardless of the type of Guest
-that is using Blob resources but would be particularly useful for 
-Guests that are using frontbuffer rendering such as Linux with X
-or Windows 10, etc.
+Since the texture release mechanism is same for both gtk-egl
+and gtk-glarea, move the helper from gtk-egl to common gtk
+code so that it can be shared by both gtk backends.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Tina Zhang <tina.zhang@intel.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ include/ui/gtk.h |  2 --
+ ui/gtk-egl.c     |  8 --------
+ ui/gtk.c         | 11 ++++++++++-
+ 3 files changed, 10 insertions(+), 11 deletions(-)
 
-Vivek Kasireddy (5):
-  ui/gtk: Create a common release_dmabuf helper
-  ui: Add a helper to wait on a dmabuf sync object
-  ui/egl: Add egl helpers to help with synchronization
-  ui: Create sync objects only for blobs
-  virtio-gpu: Make resource_flush wait on the sync object for blobs
-
- hw/display/virtio-gpu-udmabuf.c | 30 ++++++++++++++++++++++
- hw/display/virtio-gpu.c         |  1 +
- include/hw/virtio/virtio-gpu.h  |  2 ++
- include/ui/console.h            |  8 ++++++
- include/ui/egl-helpers.h        |  4 +++
- include/ui/gtk.h                |  2 --
- ui/console.c                    | 10 ++++++++
- ui/egl-helpers.c                | 44 +++++++++++++++++++++++++++++++++
- ui/gtk-egl.c                    | 18 ++++++++------
- ui/gtk-gl-area.c                |  8 ++++++
- ui/gtk.c                        | 26 ++++++++++++++++++-
- 11 files changed, 142 insertions(+), 11 deletions(-)
-
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 9516670ebc..e6cbf0507c 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -178,8 +178,6 @@ void gd_egl_cursor_dmabuf(DisplayChangeListener *dcl,
+                           uint32_t hot_x, uint32_t hot_y);
+ void gd_egl_cursor_position(DisplayChangeListener *dcl,
+                             uint32_t pos_x, uint32_t pos_y);
+-void gd_egl_release_dmabuf(DisplayChangeListener *dcl,
+-                           QemuDmaBuf *dmabuf);
+ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+ void gtk_egl_init(DisplayGLMode mode);
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 2a2e6d3a17..b671181272 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -249,14 +249,6 @@ void gd_egl_cursor_position(DisplayChangeListener *dcl,
+     vc->gfx.cursor_y = pos_y * vc->gfx.scale_y;
+ }
+ 
+-void gd_egl_release_dmabuf(DisplayChangeListener *dcl,
+-                           QemuDmaBuf *dmabuf)
+-{
+-#ifdef CONFIG_GBM
+-    egl_dmabuf_release_texture(dmabuf);
+-#endif
+-}
+-
+ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+                           uint32_t x, uint32_t y, uint32_t w, uint32_t h)
+ {
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b..6132bab52f 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -575,6 +575,14 @@ static bool gd_has_dmabuf(DisplayChangeListener *dcl)
+     return vc->gfx.has_dmabuf;
+ }
+ 
++static void gd_gl_release_dmabuf(DisplayChangeListener *dcl,
++                                 QemuDmaBuf *dmabuf)
++{
++#ifdef CONFIG_GBM
++    egl_dmabuf_release_texture(dmabuf);
++#endif
++}
++
+ /** DisplayState Callbacks (opengl version) **/
+ 
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+@@ -593,6 +601,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_scanout_disable  = gd_gl_area_scanout_disable,
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
++    .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
+ };
+ 
+@@ -615,8 +624,8 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_scanout_dmabuf   = gd_egl_scanout_dmabuf,
+     .dpy_gl_cursor_dmabuf    = gd_egl_cursor_dmabuf,
+     .dpy_gl_cursor_position  = gd_egl_cursor_position,
+-    .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
+     .dpy_gl_update           = gd_egl_scanout_flush,
++    .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
+ };
+ 
 -- 
 2.30.2
 
