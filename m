@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435E839D4E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 08:22:21 +0200 (CEST)
-Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA7539D4EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 08:24:13 +0200 (CEST)
+Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq8eS-0003ob-5j
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 02:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
+	id 1lq8gG-0006iK-Hg
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 02:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lq8Zr-0002UT-N2; Mon, 07 Jun 2021 02:17:36 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:47795)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lq8dn-0004Ot-1n
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 02:21:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lq8Zo-0000E5-6E; Mon, 07 Jun 2021 02:17:35 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 76A2A5C0105;
- Mon,  7 Jun 2021 02:17:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 07 Jun 2021 02:17:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=V2ROap6G/1gEmb93eTT49NYbFHi
- Uj5/JSijMqUyKG0Y=; b=eQmfXz/z2F00Wv9bPuTrrYWGEDUvXD5hpVwYcUlk1ps
- GtjU55ut1jNjEpbkoh2BM6+YOBRl32D/oCMu37C0pfU/PynKy9ZR8OyJn2j1K8UA
- KjinV91DslowjSJtChIT7dnz1WUJlBnJF79Ls+VyZ4igGAQ8xkBDcArAid+PvrEp
- j1m4o+eue6a+E5Q1MDw5Vm6WU9yeJv5LALK72CnDjKb3azav88fmGBq+brUxwlUW
- nGY3GNc/Z+tG5CoPmXjEu8A1RjadmzUsLoY6OOMfRz2YlGFOb+PnfdASFQG7i4zn
- p1q2UHKltuuOO3OD2pPBgSeif0JnZuSLOMRCb+IcJoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=V2ROap
- 6G/1gEmb93eTT49NYbFHiUj5/JSijMqUyKG0Y=; b=tXolgj51JElnFw/5CeL1I1
- GXwfVzIkRZCFsnca6fdoa/HKF+d9YsNlOJ6a+ACNac3rtEpUsdDCXEufCnv1TWCL
- OeWDLWVVi+MoXkqfWKPxK9z07nGFBOOYDk4LfA9dVd/fhFRH4GLKwip1Y90/iXpP
- pJgzAN+EkMnrtUNVpEZufvU/eTVE1B3xQlLyKbdA38iKFzOZEgoQYWhFXdQF4DuK
- yC4ndlYZygQa/rB8igxHPEXmGILEs0bZIdmUf9+TtzSVL53OmnXNFT+28upfx0Co
- rh8KwbWGvna8EZzCWFD9mSalWFOdDC70Z4oB44MzqydLcbQewnS5s76UG5XnNGOQ
- ==
-X-ME-Sender: <xms:97m9YEWVSOVXRkCiVUUC1JZfb5vM9mx6AyME5eoHqFTNYS2Y3fnkRg>
- <xme:97m9YImolY-SbNCDnvMzj8KidtPtmf3cLRtsJEVxwhcND1isGSVoFrOCbDnU5_wT6
- v1LyMY092idPB1rANY>
-X-ME-Received: <xmr:97m9YIYw0LuUbVkZaaYbZRpVyY1EoqSNje3zmjzbHbv9D-wbILEsaevHXm5OHhK-zBUrCnl4sM2UJNeQHhs0y_Tj-NtmL6LbrH8x29YiMY21FTuKSQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtiedguddtfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:97m9YDV5qDciiSN0WSzRdvUBB7QlYpRztRaLb0Ht9CwkdxXXxOiDQQ>
- <xmx:97m9YOn9wP7xwrN2VY2Cpii5exNM1Zv_BH-_B8nBN7guIjdmIT1mtA>
- <xmx:97m9YIcO_n1zYBqkaAcR-MX90Jox2jNP3AGXJuV1y4ecrXgGA6EFYw>
- <xmx:-bm9YI5GpMSCW8zIMbfq1nEl-6Jqpug8fm8xFSk1Jt0xHdA37OvZkA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jun 2021 02:17:25 -0400 (EDT)
-Date: Mon, 7 Jun 2021 08:17:24 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [RFC PATCH 00/11] hw/nvme: reimplement all multi-aio commands
- with custom aiocbs
-Message-ID: <YL259FilxX0aqFYb@apples.localdomain>
-References: <20210604065237.873228-1-its@irrelevant.dk>
- <6addc825-917e-e3b3-f2b3-af311beb6b00@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lq8dk-00035K-1t
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 02:21:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623046895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rb13MJx3FVuXNrPBnv3qwXzKGVCjIbBypefMp4vai7s=;
+ b=SmuDdi8sBUzmthpj7U+IcT0+zlX66PxMjDDydn1TR+ZAQ1f/nlshierBntQY0mVx+i2VAN
+ 2FHp2I53eMEjjs83boEwAZZAEvQetM+kAqJqY4zUKcuNF0QLk2oU+mHswyB8KRzr1/9CR2
+ yXhcjWXMSYLQEpNJbTDGlWwq0vLkPiI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-0ZXzJqyWMKmOkNqArW0PuQ-1; Mon, 07 Jun 2021 02:21:31 -0400
+X-MC-Unique: 0ZXzJqyWMKmOkNqArW0PuQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ n8-20020a1709067b48b02904171dc68f87so388152ejo.21
+ for <qemu-devel@nongnu.org>; Sun, 06 Jun 2021 23:21:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Rb13MJx3FVuXNrPBnv3qwXzKGVCjIbBypefMp4vai7s=;
+ b=ctzn/vxtaaCBELkgUdNhQiHxrHPaYUvG4wSA5kD6ePY7jaZjyV1Cu/7zTz3XnBK94N
+ fYNbVOlFvq2a2igRF5bPDJRqoNKgL0730258u7qvGPK+a7dvxUsnTeY9Q8fd77Yn+vfW
+ hdPYJTncwQOHB+DTqIcIgkqrmq4nWBkSOK5aNL6rVJoBdkUu6bfEXw1gyq3/ydrlsDFd
+ lFlYkHsptozlyni8YeeLq8tXiDCKIFLsLhG5S/yZc67v3t0bGtrJoGdbu5tVaZMJIZV3
+ BkRNw+4uFNzpQZ8snZYka4mPvwVFL3g13YruAcPsSDK4H8AjmQGo0bdoZ0WbVUgZ8pKJ
+ f0zw==
+X-Gm-Message-State: AOAM532Q4y2+ukj2nvJWGl9gvQEx/DZ52Hp3pnPEfIsQspyr1IU6F4OD
+ oiUyITedlPCMlWVmTvkA/5cSZsmHu1pGQyXjXwRM1V/l+Q1aOrG3nCC7k8LdCpcBXgEKOEcKMKj
+ BqrHI08CB0dvICKNclovqY843LbB0jjM=
+X-Received: by 2002:a17:907:7808:: with SMTP id
+ la8mr14301851ejc.13.1623046890762; 
+ Sun, 06 Jun 2021 23:21:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxw7Mn18G5RXDK5JZWgc4SsHz6ZPxDM2Qk799sr+txW7+yideKscvagLEHZxpZpSmjzPYwLokQPp5t1lP2QrMk=
+X-Received: by 2002:a17:907:7808:: with SMTP id
+ la8mr14301841ejc.13.1623046890535; 
+ Sun, 06 Jun 2021 23:21:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1cCdtjzY52UAbVM4"
-Content-Disposition: inline
-In-Reply-To: <6addc825-917e-e3b3-f2b3-af311beb6b00@virtuozzo.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210602034750.23377-1-lulu@redhat.com>
+ <20210602034750.23377-11-lulu@redhat.com>
+ <08a7316a-688a-faca-df7d-938e522a2423@redhat.com>
+In-Reply-To: <08a7316a-688a-faca-df7d-938e522a2423@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Mon, 7 Jun 2021 14:20:54 +0800
+Message-ID: <CACLfguWwDfMQLvVrn+h2VZHj7Aed6ciA3TSmr=LTmhj1KPYyqQ@mail.gmail.com>
+Subject: Re: [PATCH v7 10/10] virtio-net: add peer_deleted check in
+ virtio_net_handle_rx
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000005d4e3505c4270d7d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,196 +92,215 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---1cCdtjzY52UAbVM4
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+--0000000000005d4e3505c4270d7d
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Vladimir,
-
-Thanks for taking the time to look through this!
-
-I'll try to comment on all your observations below.
-
-On Jun  7 08:14, Vladimir Sementsov-Ogievskiy wrote:
->04.06.2021 09:52, Klaus Jensen wrote:
->>From: Klaus Jensen <k.jensen@samsung.com>
->>
->>This series reimplements flush, dsm, copy, zone reset and format nvm to
->>allow cancellation. I posted an RFC back in March ("hw/block/nvme:
->>convert ad-hoc aio tracking to aiocb") and I've applied some feedback
->>from Stefan and reimplemented the remaining commands.
->>
->>The basic idea is to define custom AIOCBs for these commands. The custom
->>AIOCB takes care of issuing all the "nested" AIOs one by one instead of
->>blindly sending them off simultaneously without tracking the returned
->>aiocbs.
->
->I'm not familiar with nvme. But intuitively, isn't it less efficient to=20
->send mutltiple commands one-by-one? Overall, wouldn't it be slower?
-
-No, you are right, it is of course slower overall.
-
->In block layer we mostly do opposite transition: instead of doing IO=20
->operations one-by-one, run them simultaneously to make a non-empty=20
->queue on a device.. Even on one device. This way overall performance is=20
->increased.
->
-
-Of these commands, Copy is the only one that I would consider optimizing=20
-like this. But the most obvious use of the Copy command is host-driven=20
-garbage collection in the context of zoned namespaces. And I would not=20
-consider that operation to be performance critical in terms of latency.=20
-All regular I/O commands are "one aiocb" and doesnt need any of this.=20
-And we already "parallelize" this heavily.
-
->If you need to store nested AIOCBs, you may store them in a list for=20
->example, and cancel in a loop, keeping simultaneous start for all=20
->flushes.. If you send two flushes on two different disks, what's the=20
->reason to wait for first flush finish before issuing the second?
->
-
-Keeping a list of returned aiocbs was my initial approach actually. But=20
-when I looked at hw/ide I got the impression that the AIOCB approach was=20
-the right one. My first approach involved adding an aiocblist to the=20
-core NvmeRequest structure, but I ended up killing that approach because=20
-I didnt want to deal with it on the normal I/O path.
-
-But you are absolutely correct that waiting for the first flush to=20
-finish is suboptimal.
-
->>
->>I've kept the RFC since I'm still new to using the block layer like
->>this. I was hoping that Stefan could find some time to look over this -
->>this is a huge series, so I don't expect non-nvme folks to spend a large
->>amount of time on it, but I would really like feedback on my approach in
->>the reimplementation of flush and format.
->
->If I understand your code correctly, you do stat next io operation from=20
->call-back of a previous. It works, and it is similar to haw mirror=20
->block-job was operating some time ago (still it maintained several=20
->in-flight requests simultaneously, but I'm about using _aio_=20
->functions). Still, now mirror doesn't use _aio_ functions like this.
->
->Better approach to call several io functions of block layer one-by-one=20
->is creating a coroutine. You may just add a coroutine function, that=20
->does all your linear logic as you want, without any callbacks like:
->
->nvme_co_flush()
->{
->   for (...) {
->      blk_co_flush();
->   }
->}
->
->(and you'll need qemu_coroutine_create() and qemu_coroutine_enter() to=20
->start a coroutine).
->
-
-So, this is definitely a tempting way to implement this. I must admit=20
-that I did not consider it like this because I thought this was at the=20
-wrong level of abstraction (looked to me like this was something that=20
-belonged in block/, not hw/). Again, I referred to the Trim=20
-implementation in hw/ide as the source of inspiration on the sequential=20
-AIOCB approach.
-
->Still, I'm not sure that moving from simultaneous issuing several IO=20
->commands to sequential is good idea..
->And this way you of course can't use blk_aio_canel.. This leads to my last=
- doubt:
->
->One more thing I don't understand after fast look at the series: how=20
->cancelation works? It seems to me, that you just call cancel on nested=20
->AIOCBs, produced by blk_<io_functions>, but no one of them implement=20
->cancel.. I see only four implementations of .cancel_async callback in=20
->the whole Qemu code: in iscsi, in ide/core.c, in dma-helpers.c and in=20
->thread-pool.c.. Seems no one is related to blk_aio_flush() and other=20
->blk_* functions you call in the series. Or, what I miss?
->
-
-Right now, cancellation is only initiated by the device when a=20
-submission queue is deleted. This causes blk_aio_cancel() to be called=20
-on each BlockAIOCB (NvmeRequest.aiocb) for outstanding requests. In most=20
-cases this BlockAIOCB is a DMAAIOCB from softmmu/dma-helpers.c, which=20
-implements .cancel_async. Prior to this patchset, Flush, DSM, Copy and=20
-so on, did not have any BlockAIOCB to cancel since we did not keep=20
-references to the ongoing AIOs.
-
-The blk_aio_cancel() call is synchronous, but it does call=20
-bdrv_aio_cancel_async() which calls the .cancel_async callback if=20
-implemented. This means that we can now cancel ongoing DSM or Copy=20
-commands while they are processing their individual LBA ranges. So while=20
-blk_aio_cancel() subsequently waits for the AIO to complete this may=20
-cause them to complete earlier than if they had run to full completion=20
-(i.e. if they did not implement .cancel_async).
-
-There are two things I'd like to do subsequent to this patch series:
-
-   1. Fix the Abort command to actually do something. Currently the=20
-   command is a no-op (which is allowed by the spec), but I'd like it to=20
-   actually cancel the command that the host specified.
-
-   2. Make submission queue deletion asynchronous.
-
-The infrastructure provided by this refactor should allow this if I am=20
-not mistaken.
-
-Overall, I think this "sequentialization" makes it easier to reason=20
-about cancellation, but that might just be me ;)
+On Thu, Jun 3, 2021 at 2:58 PM Jason Wang <jasowang@redhat.com> wrote:
 
 >
->>Those commands are special in
->>that may issue AIOs to multiple namespaces and thus, to multiple block
->>backends. Since this device does not support iothreads, I've opted for
->>simply always returning the main loop aio context, but I wonder if this
->>is acceptable or not. It might be the case that this should contain an
->>assert of some kind, in case someone starts adding iothread support.
->>
->>Klaus Jensen (11):
->>   hw/nvme: reimplement flush to allow cancellation
->>   hw/nvme: add nvme_block_status_all helper
->>   hw/nvme: reimplement dsm to allow cancellation
->>   hw/nvme: save reftag when generating pi
->>   hw/nvme: remove assert from nvme_get_zone_by_slba
->>   hw/nvme: use prinfo directly in nvme_check_prinfo and nvme_dif_check
->>   hw/nvme: add dw0/1 to the req completion trace event
->>   hw/nvme: reimplement the copy command to allow aio cancellation
->>   hw/nvme: reimplement zone reset to allow cancellation
->>   hw/nvme: reimplement format nvm to allow cancellation
->>   Partially revert "hw/block/nvme: drain namespaces on sq deletion"
->>
->>  hw/nvme/nvme.h       |   10 +-
->>  include/block/nvme.h |    8 +
->>  hw/nvme/ctrl.c       | 1861 ++++++++++++++++++++++++------------------
->>  hw/nvme/dif.c        |   64 +-
->>  hw/nvme/trace-events |   21 +-
->>  5 files changed, 1102 insertions(+), 862 deletions(-)
->>
+> =E5=9C=A8 2021/6/2 =E4=B8=8A=E5=8D=8811:47, Cindy Lu =E5=86=99=E9=81=93:
+> > During the test, We found this function will continue running
+> > while the peer is deleted, this will cause the crash. so add
+> > check for this. this only exist in  machines type microvm
+>
+>
+> Any idea why it only happens on microvm?
+>
+>
+> >
+> > reproduce step :
+> > load the VM with
+> > qemu-system-x86_64 -M microvm
+> > ...
+> >      -netdev tap,id=3Dtap0,vhost=3Don,script=3Dno,downscript=3Dno \
+> >      -device virtio-net-device,netdev=3Dtap0 \
+> > ..
+> > enter the VM's console
+> > shutdown the VM
+> > (gdb) bt
+> >
+> > 0  0x000055555595b926 in qemu_net_queue_flush (queue=3D0x0) at
+> ../net/queue.c:275
+>
+>
+> So which piece of code trigger this? When the nc has a NIC peer we don't
+> free it until the NIC is freed.
+>
+>
+> > 1  0x0000555555a046ea in qemu_flush_or_purge_queued_packets
+> (nc=3D0x555556ccb920, purge=3Dfalse)
+> >      at ../net/net.c:624
+> > 2  0x0000555555a04736 in qemu_flush_queued_packets (nc=3D0x555556ccb920=
+)
+> at ../net/net.c:637
+> > 3  0x0000555555ccc01a in virtio_net_handle_rx (vdev=3D0x555557360ed0,
+> vq=3D0x7ffff40d6010)
+> >      at ../hw/net/virtio-net.c:1401
+> > 4  0x0000555555ce907a in virtio_queue_notify_vq (vq=3D0x7ffff40d6010) a=
+t
+> ../hw/virtio/virtio.c:2346
+> > 5  0x0000555555cec07c in virtio_queue_host_notifier_read
+> (n=3D0x7ffff40d608c)
+> >      at ../hw/virtio/virtio.c:3606
+> > 6  0x00005555560376ac in aio_dispatch_handler (ctx=3D0x555556a857e0,
+> node=3D0x555556f013d0)
+> >      at ../util/aio-posix.c:329
+> > 7  0x00005555560377a4 in aio_dispatch_ready_handlers (ctx=3D0x555556a85=
+7e0,
+> >      ready_list=3D0x7fffffffdfe0) at ../util/aio-posix.c:359
+> > 8  0x0000555556038209 in aio_poll (ctx=3D0x555556a857e0, blocking=3Dfal=
+se)
+> at ../util/aio-posix.c:662
+> > 9  0x0000555555e51c6f in monitor_cleanup () at ../monitor/monitor.c:637
+> > 10 0x0000555555d2d626 in qemu_cleanup () at ../softmmu/runstate.c:821
+> > 11 0x000055555585b19b in main (argc=3D21, argv=3D0x7fffffffe1c8,
+> envp=3D0x7fffffffe278)
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >   hw/net/virtio-net.c | 4 +++-
+> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index 02033be748..927a808654 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -1397,7 +1397,9 @@ static void virtio_net_handle_rx(VirtIODevice
+> *vdev, VirtQueue *vq)
+> >   {
+> >       VirtIONet *n =3D VIRTIO_NET(vdev);
+> >       int queue_index =3D vq2q(virtio_get_queue_index(vq));
+> > -
+> > +    if (n->nic->peer_deleted) {
+> > +        return;
+>
+>
+> This needs to be fixed in the network core instead of virtio-net.
+>
+> Thanks
+>
+>
+> sure I will fix this problem
+
+> > +    }
+> >       qemu_flush_queued_packets(qemu_get_subqueue(n->nic, queue_index))=
+;
+> >   }
+> >
 >
 >
 
---1cCdtjzY52UAbVM4
-Content-Type: application/pgp-signature; name="signature.asc"
+--0000000000005d4e3505c4270d7d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 3, 2021 at 2:58 PM Jason =
+Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowang@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+=E5=9C=A8 2021/6/2 =E4=B8=8A=E5=8D=8811:47, Cindy Lu =E5=86=99=E9=81=93:<br=
+>
+&gt; During the test, We found this function will continue running<br>
+&gt; while the peer is deleted, this will cause the crash. so add<br>
+&gt; check for this. this only exist in=C2=A0 machines type microvm<br>
+<br>
+<br>
+Any idea why it only happens on microvm?<br>
+<br>
+<br>
+&gt;<br>
+&gt; reproduce step :<br>
+&gt; load the VM with<br>
+&gt; qemu-system-x86_64 -M microvm<br>
+&gt; ...<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 -netdev tap,id=3Dtap0,vhost=3Don,script=3Dno,downs=
+cript=3Dno \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 -device virtio-net-device,netdev=3Dtap0 \<br>
+&gt; ..<br>
+&gt; enter the VM&#39;s console<br>
+&gt; shutdown the VM<br>
+&gt; (gdb) bt<br>
+&gt;<br>
+&gt; 0=C2=A0 0x000055555595b926 in qemu_net_queue_flush (queue=3D0x0) at ..=
+/net/queue.c:275<br>
+<br>
+<br>
+So which piece of code trigger this? When the nc has a NIC peer we don&#39;=
+t <br>
+free it until the NIC is freed.<br>
+<br>
+<br>
+&gt; 1=C2=A0 0x0000555555a046ea in qemu_flush_or_purge_queued_packets (nc=
+=3D0x555556ccb920, purge=3Dfalse)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 at ../net/net.c:624<br>
+&gt; 2=C2=A0 0x0000555555a04736 in qemu_flush_queued_packets (nc=3D0x555556=
+ccb920) at ../net/net.c:637<br>
+&gt; 3=C2=A0 0x0000555555ccc01a in virtio_net_handle_rx (vdev=3D0x555557360=
+ed0, vq=3D0x7ffff40d6010)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 at ../hw/net/virtio-net.c:1401<br>
+&gt; 4=C2=A0 0x0000555555ce907a in virtio_queue_notify_vq (vq=3D0x7ffff40d6=
+010) at ../hw/virtio/virtio.c:2346<br>
+&gt; 5=C2=A0 0x0000555555cec07c in virtio_queue_host_notifier_read (n=3D0x7=
+ffff40d608c)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 at ../hw/virtio/virtio.c:3606<br>
+&gt; 6=C2=A0 0x00005555560376ac in aio_dispatch_handler (ctx=3D0x555556a857=
+e0, node=3D0x555556f013d0)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 at ../util/aio-posix.c:329<br>
+&gt; 7=C2=A0 0x00005555560377a4 in aio_dispatch_ready_handlers (ctx=3D0x555=
+556a857e0,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ready_list=3D0x7fffffffdfe0) at ../util/aio-posix.=
+c:359<br>
+&gt; 8=C2=A0 0x0000555556038209 in aio_poll (ctx=3D0x555556a857e0, blocking=
+=3Dfalse) at ../util/aio-posix.c:662<br>
+&gt; 9=C2=A0 0x0000555555e51c6f in monitor_cleanup () at ../monitor/monitor=
+.c:637<br>
+&gt; 10 0x0000555555d2d626 in qemu_cleanup () at ../softmmu/runstate.c:821<=
+br>
+&gt; 11 0x000055555585b19b in main (argc=3D21, argv=3D0x7fffffffe1c8, envp=
+=3D0x7fffffffe278)<br>
+&gt;<br>
+&gt; Signed-off-by: Cindy Lu &lt;<a href=3D"mailto:lulu@redhat.com" target=
+=3D"_blank">lulu@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0hw/net/virtio-net.c | 4 +++-<br>
+&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c<br>
+&gt; index 02033be748..927a808654 100644<br>
+&gt; --- a/hw/net/virtio-net.c<br>
+&gt; +++ b/hw/net/virtio-net.c<br>
+&gt; @@ -1397,7 +1397,9 @@ static void virtio_net_handle_rx(VirtIODevice *v=
+dev, VirtQueue *vq)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VirtIONet *n =3D VIRTIO_NET(vdev);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int queue_index =3D vq2q(virtio_get_queue_in=
+dex(vq));<br>
+&gt; -<br>
+&gt; +=C2=A0 =C2=A0 if (n-&gt;nic-&gt;peer_deleted) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+<br>
+<br>
+This needs to be fixed in the network core instead of virtio-net.<br>
+<br>
+Thanks<br>
+<br>
+<br></blockquote><div>sure I will fix this problem=C2=A0=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_flush_queued_packets(qemu_get_subqueue(=
+n-&gt;nic, queue_index));<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+<br>
+</blockquote></div></div>
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmC9ue8ACgkQTeGvMW1P
-DemEOwf/SQ8YXyINOtlwrtQ4t+w/3SbuSl/qPWZTjCMcYUSZ492c8LcyN4WX8kVT
-2ax036483ydWMtTC/yoMUGbXs1trnJn7brXZgTmBGjRvA3yEOkA485P0otesdcHm
-pXEWtBTIPTsgD2bngOK1ENCVjPItx08LaNufdIgga68zWOZ2OktZsIABOSDSQ5Fx
-ktjWBQmm9qmvL+j+jt9v4PdBjTupx9I3r4zg2p9AgExIDLDU84VxkpVBkGBy25L2
-dOp/gZ189NYLhNpztDJnNPNuRRcopqJ+b7sHvdt1N2z5rSuHI+2SdpGfOEoPwRLW
-yPbQsXD4B+cGJVt4fu62fLlb5aqP0g==
-=N7VA
------END PGP SIGNATURE-----
+--0000000000005d4e3505c4270d7d--
 
---1cCdtjzY52UAbVM4--
 
