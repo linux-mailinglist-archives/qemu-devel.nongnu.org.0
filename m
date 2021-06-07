@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC34439E796
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:37:57 +0200 (CEST)
-Received: from localhost ([::1]:57468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED93439E79A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:39:29 +0200 (CEST)
+Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqL4O-0004GS-Sl
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59994)
+	id 1lqL5t-0006N2-0w
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=7858c8838=sidcha@amazon.de>)
- id 1lqL3H-0003ZU-Be
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:36:47 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:13833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=7858c8838=sidcha@amazon.de>)
- id 1lqL3E-0004JX-N5
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:36:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1623094605; x=1654630605;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3OIyzRHmDgMowmJ2Eo4aqFZIO2AdOEYwfOVmpKiyKgM=;
- b=MBqGllK8YPrLs0BAORq0OXfDG+RU5HC1iua2mS7y7OarN3vWkVkkvfsw
- Lhn/EJReD+eDaxJMK4DZJIvMaf5ZZpcd8ZrvYfQ96kYJef+GUQ5s6zLRa
- SC/dpc0iXQOkg3oS9VeTCliYvILdzTTnwj/vnq5AXjbaw1Tn5NDF+9KCr w=;
-X-IronPort-AV: E=Sophos;i="5.83,255,1616457600"; d="scan'208";a="129662956"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
- email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com) ([10.25.36.210])
- by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 07 Jun 2021 19:36:35 +0000
-Received: from EX13D28EUC003.ant.amazon.com
- (iad55-ws-svc-p15-lb9-vlan3.iad.amazon.com [10.40.159.166])
- by email-inbound-relay-1d-474bcd9f.us-east-1.amazon.com (Postfix) with ESMTPS
- id AB033A2265; Mon,  7 Jun 2021 19:36:33 +0000 (UTC)
-Received: from uc8bbc9586ea454.ant.amazon.com (10.43.160.137) by
- EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Mon, 7 Jun 2021 19:36:29 +0000
-Date: Mon, 7 Jun 2021 21:36:25 +0200
-From: Siddharth Chandrasekaran <sidcha@amazon.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
-CC: Siddharth Chandrasekaran <sidcha.dev@gmail.com>, Alexander Graf
- <graf@amazon.com>, Evgeny Iakovlev <eyakovl@amazon.de>, Liran Alon
- <liran@amazon.com>, Ioannis Aslanidis <iaslan@amazon.de>,
- <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-Subject: Re: [PATCH 0/6] Handle hypercall code overlay page in userspace
-Message-ID: <20210607193624.GA7976@uc8bbc9586ea454.ant.amazon.com>
-References: <cover.1621885749.git.sidcha@amazon.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqL4e-000534-9n
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:38:13 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqL4b-0005Ej-S5
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:38:11 -0400
+Received: by mail-wr1-x433.google.com with SMTP id z8so18867727wrp.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 12:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jwzinfTO4lfFDUVnW0Smnnlxm9fGMekxeI5wBEJkEbA=;
+ b=FaC2baEXTNh+GKgvxZPd3zmj9QUWBJtuStoPLV/F1bI2XSCX0wfsfdC4/PmHcvHQN3
+ TKHghUlNf2O8cJJH5JmDI8fpfVwSpocq2O2Dk9yW9EeBvdupERSLy3WQ31bNjtPunNyl
+ N/p5Xedn2InMZEsfNysIenuydZ6o/wtgCu5H74yjjT5DA/U7P9O376hu+Zn6tXQrTZMn
+ RnRLEhKS53ktXecDzEnE/BRrRGaw/8d2TaDMR7NZ5eSOM6kh/kkrU44K/THHCmvfFBYf
+ 7cMtNZ2j2rtg/ahAalE9IS1av3NF4lUtmOVUT4mMUIQZTYKGWC+7oYNu+WM73ktoJnO4
+ F6/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jwzinfTO4lfFDUVnW0Smnnlxm9fGMekxeI5wBEJkEbA=;
+ b=j2Ksa+0hINPnB97rtWwF17i1feFNSOaBFXQE2qvk6eHQmVAdeB94rlkKdDdEtduXgh
+ qVWhvTeeE6Z+IZTKgJ7L5ArQ9PgiV9wQ+LkvFPiHJ7EFWKzQCM/cb9D9zflzKey8vjA1
+ JNWjv5PECoRsz1Wso+s3AtR6OOTRXnx13rDqZ+i9sMmceSmVtCDjQpWcWT27bm/B53eW
+ SxRe72iQM5mV9VWmnhZ+fynsY7C17fXJ5eKSB5i95Tt0KRxLlDvEGrRQqpNAzJg8LGLa
+ OZ8H7xnTXIu0wC6bogvVatjwYv+fVtTvjn2f61GnB7DX4gOoOmVHYGbfCP/78GH8hiuW
+ nHmA==
+X-Gm-Message-State: AOAM530s+qfsv+1rOyaPj0nq4+NzBGlQg8yJD9YEcrUfeun/IstOd/ZW
+ eFC4SgrL6k+Dx0U0dJKHvgvTMQ==
+X-Google-Smtp-Source: ABdhPJy+UeP7WC5TLYMsCJxujbnFifC8+/eFaBz8NGINGeUWl3siMarLQgcdK5T/M2cVXS6qD1nq9w==
+X-Received: by 2002:adf:de03:: with SMTP id b3mr18788341wrm.15.1623094688109; 
+ Mon, 07 Jun 2021 12:38:08 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h9sm484978wmm.33.2021.06.07.12.38.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jun 2021 12:38:06 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A0C4B1FF7E;
+ Mon,  7 Jun 2021 20:38:05 +0100 (BST)
+References: <20210502231844.1977630-1-richard.henderson@linaro.org>
+ <20210502231844.1977630-2-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 01/28] meson: Split out tcg/meson.build
+Date: Mon, 07 Jun 2021 20:38:01 +0100
+In-reply-to: <20210502231844.1977630-2-richard.henderson@linaro.org>
+Message-ID: <87mts1mpnm.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cover.1621885749.git.sidcha@amazon.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.43.160.137]
-X-ClientProxiedBy: EX13D27UWB002.ant.amazon.com (10.43.161.167) To
- EX13D28EUC003.ant.amazon.com (10.43.164.43)
-Precedence: Bulk
-Received-SPF: pass client-ip=207.171.190.10;
- envelope-from=prvs=7858c8838=sidcha@amazon.de; helo=smtp-fw-33001.amazon.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,24 +87,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A reminder email to bring these up on your inboxes :). Would love
-to hear your thoughts on them.
 
-~ Sid.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
-
+--=20
+Alex Benn=C3=A9e
 
