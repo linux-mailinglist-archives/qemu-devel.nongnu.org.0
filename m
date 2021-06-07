@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4370739D288
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 03:20:08 +0200 (CEST)
-Received: from localhost ([::1]:33944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CB639D28B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 03:23:15 +0200 (CEST)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq3vy-0003Dx-Sl
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 21:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40816)
+	id 1lq3z0-0006ra-U3
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 21:23:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lq3qa-0005Y2-HY
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:14:32 -0400
-Received: from [42.123.76.228] (port=47794 helo=chinatelecom.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lq3pZ-0003yQ-W5
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:14:08 -0400
-HMM_SOURCE_IP: 172.18.0.48:60748.791983158
+ id 1lq3wa-0004dC-Sg
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:20:44 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:49309
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lq3wY-0000Wn-6S
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:20:44 -0400
+HMM_SOURCE_IP: 172.18.0.218:41712.897474470
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.138.181.182?logid-563a6af5169d4a62a342ee8f158fb98f
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id CD15D280132;
- Mon,  7 Jun 2021 09:12:20 +0800 (CST)
+Received: from clientip-182.138.181.182?logid-0124981a5a3c45efa7eb3d3c061ab6a6
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 4E8E1280137;
+ Mon,  7 Jun 2021 09:12:43 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 563a6af5169d4a62a342ee8f158fb98f for
- qemu-devel@nongnu.org; Mon Jun  7 09:12:20 2021
-X-Transaction-ID: 563a6af5169d4a62a342ee8f158fb98f
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 0124981a5a3c45efa7eb3d3c061ab6a6 for
+ qemu-devel@nongnu.org; Mon Jun  7 09:12:42 2021
+X-Transaction-ID: 0124981a5a3c45efa7eb3d3c061ab6a6
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
+X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/7] KVM: introduce dirty_pages and kvm_dirty_ring_enabled
-Date: Mon,  7 Jun 2021 09:12:14 +0800
-Message-Id: <5fd7f4b444d14447649982ed44c5ddc5ebde635c.1623027729.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v3 4/7] migration/dirtyrate: add per-vcpu option for
+ calc-dirty-rate
+Date: Mon,  7 Jun 2021 09:12:36 +0800
+Message-Id: <19ad91782f5798844c42e34683fda833f9d1928a.1623027729.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1623027729.git.huangy81@chinatelecom.cn>
 References: <cover.1623027729.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 42.123.76.228 (deferred)
 Received-SPF: pass client-ip=42.123.76.228;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- T_SPF_HELO_TEMPERROR=0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,75 +74,199 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-dirty_pages is used to calculate dirtyrate via dirty ring, when
-enabled, kvm-reaper will increase the dirty pages after gfns
-being dirtied.
-
-kvm_dirty_ring_enabled shows if kvm-reaper is working. dirtyrate
-thread could use it to check if measurement can base on dirty
-ring feature.
+calculate dirtyrate for each vcpu if vcpu is true, add the
+dirtyrate of each vcpu to the return value also.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- accel/kvm/kvm-all.c   | 7 +++++++
- include/hw/core/cpu.h | 1 +
- include/sysemu/kvm.h  | 1 +
- 3 files changed, 9 insertions(+)
+ migration/dirtyrate.c | 45 ++++++++++++++++++++++++++++++++++++++-----
+ migration/dirtyrate.h |  1 +
+ qapi/migration.json   | 29 ++++++++++++++++++++++++++--
+ 3 files changed, 68 insertions(+), 7 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c7ec538850..bc012f0bee 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -469,6 +469,7 @@ int kvm_init_vcpu(CPUState *cpu, Error **errp)
-     cpu->kvm_fd = ret;
-     cpu->kvm_state = s;
-     cpu->vcpu_dirty = true;
-+    cpu->dirty_pages = 0;
- 
-     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
-     if (mmap_size < 0) {
-@@ -743,6 +744,7 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
-         count++;
-     }
-     cpu->kvm_fetch_index = fetch;
-+    cpu->dirty_pages += count;
- 
-     return count;
- }
-@@ -2293,6 +2295,11 @@ bool kvm_vcpu_id_is_valid(int vcpu_id)
-     return vcpu_id >= 0 && vcpu_id < kvm_max_vcpu_id(s);
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 320c56ba2c..5947c688f6 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -397,8 +397,11 @@ void *get_dirtyrate_thread(void *arg)
+     return NULL;
  }
  
-+bool kvm_dirty_ring_enabled(void)
-+{
-+    return kvm_state->kvm_dirty_ring_size ? true : false;
-+}
-+
- static int kvm_init(MachineState *ms)
+-void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+-                         int64_t sample_pages, Error **errp)
++void qmp_calc_dirty_rate(int64_t calc_time,
++                         bool per_vcpu,
++                         bool has_sample_pages,
++                         int64_t sample_pages,
++                         Error **errp)
  {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 4e0ea68efc..80fcb1d563 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -374,6 +374,7 @@ struct CPUState {
-     struct kvm_run *kvm_run;
-     struct kvm_dirty_gfn *kvm_dirty_gfns;
-     uint32_t kvm_fetch_index;
-+    uint64_t dirty_pages;
+     static struct DirtyRateConfig config;
+     QemuThread thread;
+@@ -419,6 +422,12 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+         return;
+     }
  
-     /* Used for events with 'vcpu' and *without* the 'disabled' properties */
-     DECLARE_BITMAP(trace_dstate_delayed, CPU_TRACE_DSTATE_MAX_EVENTS);
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee12d..7b22aeb6ae 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -547,4 +547,5 @@ bool kvm_cpu_check_are_resettable(void);
++    if (has_sample_pages && per_vcpu) {
++        error_setg(errp, "per-vcpu and sample-pages are mutually exclusive, "
++                         "only one of then can be specified!\n");
++        return;
++    }
++
+     if (has_sample_pages) {
+         if (!is_sample_pages_valid(sample_pages)) {
+             error_setg(errp, "sample-pages is out of range[%d, %d].",
+@@ -430,6 +439,15 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+         sample_pages = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
+     }
  
- bool kvm_arch_cpu_check_are_resettable(void);
++    /*
++     * Vcpu method only works when kvm dirty ring is enabled.
++     */
++    if (per_vcpu && !kvm_dirty_ring_enabled()) {
++        error_setg(errp, "dirty ring is disabled or conflict with migration"
++                         "use sample method or remeasure later.");
++        return;
++    }
++
+     /*
+      * Init calculation state as unstarted.
+      */
+@@ -442,6 +460,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
  
-+bool kvm_dirty_ring_enabled(void);
- #endif
+     config.sample_period_seconds = calc_time;
+     config.sample_pages_per_gigabytes = sample_pages;
++    config.per_vcpu = per_vcpu;
+     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+                        (void *)&config, QEMU_THREAD_DETACHED);
+ }
+@@ -459,13 +478,22 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
+                    DirtyRateStatus_str(info->status));
+     monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
+                    info->start_time);
+-    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
+-                   info->sample_pages);
+     monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
+                    info->calc_time);
++    if (info->has_sample_pages) {
++        monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
++                       info->sample_pages);
++    }
+     monitor_printf(mon, "Dirty rate: ");
+     if (info->has_dirty_rate) {
+         monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
++        if (info->per_vcpu && info->has_vcpu_dirty_rate) {
++            DirtyRateVcpuList *rate, *head = info->vcpu_dirty_rate;
++            for (rate = head; rate != NULL; rate = rate->next) {
++                monitor_printf(mon, "vcpu[%"PRIi64"], Dirty rate: %"PRIi64"\n",
++                               rate->value->id, rate->value->dirty_rate);
++            }
++        }
+     } else {
+         monitor_printf(mon, "(not ready)\n");
+     }
+@@ -477,6 +505,7 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
+     int64_t sec = qdict_get_try_int(qdict, "second", 0);
+     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
+     bool has_sample_pages = (sample_pages != -1);
++    bool per_vcpu = qdict_get_try_bool(qdict, "per_vcpu", false);
+     Error *err = NULL;
+ 
+     if (!sec) {
+@@ -484,7 +513,13 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
+         return;
+     }
+ 
+-    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
++    if (has_sample_pages && per_vcpu) {
++        monitor_printf(mon, "per_vcpu and sample_pages are mutually exclusive, "
++                       "only one of then can be specified!\n");
++        return;
++    }
++
++    qmp_calc_dirty_rate(sec, per_vcpu, has_sample_pages, sample_pages, &err);
+     if (err) {
+         hmp_handle_error(mon, err);
+         return;
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index e1fd29089e..ec82716b40 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -43,6 +43,7 @@
+ struct DirtyRateConfig {
+     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+     int64_t sample_period_seconds; /* time duration between two sampling */
++    bool per_vcpu; /* calculate dirtyrate for each vcpu using dirty ring */
+ };
+ 
+ /*
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 770ae54c17..7eef988182 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1708,6 +1708,21 @@
+ { 'event': 'UNPLUG_PRIMARY',
+   'data': { 'device-id': 'str' } }
+ 
++##
++# @DirtyRateVcpu:
++#
++# Dirty rate of vcpu.
++#
++# @id: vcpu index.
++#
++# @dirty-rate: dirty rate.
++#
++# Since: 6.1
++#
++##
++{ 'struct': 'DirtyRateVcpu',
++  'data': { 'id': 'int', 'dirty-rate': 'int64' } }
++
+ ##
+ # @DirtyRateStatus:
+ #
+@@ -1743,6 +1758,10 @@
+ # @sample-pages: page count per GB for sample dirty pages
+ #                the default value is 512 (since 6.1)
+ #
++# @per-vcpu: calculate dirtyrate for each vcpu (Since 6.1)
++#
++# @vcpu-dirty-rate: dirtyrate for each vcpu (Since 6.1)
++#
+ # Since: 5.2
+ #
+ ##
+@@ -1751,7 +1770,9 @@
+            'status': 'DirtyRateStatus',
+            'start-time': 'int64',
+            'calc-time': 'int64',
+-           'sample-pages': 'uint64'} }
++           '*sample-pages': 'uint64',
++           'per-vcpu': 'bool',
++           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
+ 
+ ##
+ # @calc-dirty-rate:
+@@ -1760,6 +1781,10 @@
+ #
+ # @calc-time: time in units of second for sample dirty pages
+ #
++# @per-vcpu: calculate vcpu dirty rate if true, the default value is
++#            false, note that the per-vcpu and sample-pages are mutually
++#            exclusive (since 6.1)
++#
+ # @sample-pages: page count per GB for sample dirty pages
+ #                the default value is 512 (since 6.1)
+ #
+@@ -1769,7 +1794,7 @@
+ #   {"command": "calc-dirty-rate", "data": {"calc-time": 1, 'sample-pages': 512} }
+ #
+ ##
+-{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', '*sample-pages': 'int'} }
++{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64', 'per-vcpu': 'bool', '*sample-pages': 'int'} }
+ 
+ ##
+ # @query-dirty-rate:
 -- 
 2.18.2
 
