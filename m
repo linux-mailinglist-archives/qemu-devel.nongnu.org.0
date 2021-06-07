@@ -2,44 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B14E39D3BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 06:02:01 +0200 (CEST)
-Received: from localhost ([::1]:36000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A46439D3BD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 06:01:34 +0200 (CEST)
+Received: from localhost ([::1]:35184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq6Sc-0001ih-FP
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 00:02:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41836)
+	id 1lq6SD-00019i-4a
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 00:01:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lq6I8-0003zL-A9; Sun, 06 Jun 2021 23:51:09 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:53423)
+ id 1lq6Pg-00075O-A6; Sun, 06 Jun 2021 23:58:56 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48629 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lq6Hw-0002qa-UB; Sun, 06 Jun 2021 23:51:07 -0400
+ id 1lq6Pe-0007RX-GU; Sun, 06 Jun 2021 23:58:56 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fyzt25LhCz9sf8; Mon,  7 Jun 2021 13:50:34 +1000 (AEST)
+ id 4Fz03b4Rb1z9sT6; Mon,  7 Jun 2021 13:58:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1623037834;
- bh=fnFNoCBfHwB4DdyMQH2CKhj+WMmhaGaGgO0dhzD2aLY=;
+ d=gibson.dropbear.id.au; s=201602; t=1623038331;
+ bh=mV8ib3f1msaftXonM+x4Yhyomn2b+ILhmwZntahsw94=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mK7Rs7LDCBdoMBV5mhRaNj/K98vLjoacVTVbgzsJsslqlIXBskdXB342uu5O9kOY4
- DLLVjMeKFMIUQSoYZ3hnRCqZ/RC739j7YKwwY/JJVSa8wddASKZZVKJNjbhNM/Upjs
- 7gZTksCnfXYp6XU8hJ0Yrtj76rpRkrvDZGQKd7a4=
-Date: Mon, 7 Jun 2021 13:50:28 +1000
+ b=RLoXQP6KVeB1JVRgKLVckEo1NWax49Wvl9Pt8g9Fpu6Mq88SM06S0Rx4G1H1emT4b
+ G5LQDtXXXq7P02PxBxlJle6ZPenn6mCw4L0jW4wqn9SxqhtQsXsh7nGoc7ijEi+Rk9
+ yt41GsJheZjjwPNITgDX5OzfYMd1wqJA/l2IJSpc=
+Date: Mon, 7 Jun 2021 13:52:10 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH 02/11] target/ppc: moved ppc_store_sdr1 to cpu.c
-Message-ID: <YL2XhNfG6OPiaR5V@yekko>
-References: <20210512140813.112884-1-bruno.larsen@eldorado.org.br>
- <20210512140813.112884-3-bruno.larsen@eldorado.org.br>
- <YJyiDaBAK48lVaDF@yekko>
- <52622a11-522b-cc04-6382-7c4f5328710c@eldorado.org.br>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [RFC PATCH] target/ppc: removed usage of ppc_store_sdr1 in kvm.c
+Message-ID: <YL2X6m6mpXQ4cfof@yekko>
+References: <20210601184242.122895-1-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Pz/593kA/nQofU3J"
+ protocol="application/pgp-signature"; boundary="+DDARd3aRRs07dny"
 Content-Disposition: inline
-In-Reply-To: <52622a11-522b-cc04-6382-7c4f5328710c@eldorado.org.br>
+In-Reply-To: <20210601184242.122895-1-bruno.larsen@eldorado.org.br>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,49 +57,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: "open list:Overall KVM CPUs" <kvm@vger.kernel.org>, farosas@linux.ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, matheus.ferst@eldorado.org.br,
+ luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Pz/593kA/nQofU3J
+--+DDARd3aRRs07dny
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 31, 2021 at 03:17:47PM -0300, Bruno Piazera Larsen wrote:
+On Tue, Jun 01, 2021 at 03:42:42PM -0300, Bruno Larsen (billionai) wrote:
+> The only use of this function in kvm.c is right after using the KVM
+> ioctl to get the registers themselves, so there is no need to do the
+> error checks done by ppc_store_sdr1.
 >=20
-> On 13/05/2021 00:50, David Gibson wrote:
-> > On Wed, May 12, 2021 at 11:08:04AM -0300, Bruno Larsen (billionai) wrot=
-e:
-> > > Moved this function that is required in !TCG cases into a
-> > > common code file
-> > The reasons it's needed by !TCG are kind of bogus, related to
-> > weirdness in the way KVM PR works.  But it's fair not to care about
-> > that right now, so, applied to ppc-for-6.1.
-> Now that the future is here, I was looking into why might the reasons be
-> bogus. From what I can see, what should be happening is just storing what
-> was retrieved by the kvm ioctl, right? Am I missing something?
+> The probable reason this was here before is because of the hack where
+> KVM PR stores the hash table size along with the SDR1 information, but
+> since ppc_store_sdr1 would also store that information, there should be
+> no need to do any extra processing here.
+>=20
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> ---
+>=20
+> This change means we won't have to compile ppc_store_sdr1 when we get
+> disable-tcg working, but I'm not working on that code motion just yet
+> since Lucas is dealing with the same file.
+>=20
+> I'm sending this as an RFC because I'm pretty sure I'm missing
+> something, but from what I can see, this is all we'd need
 
-Actually, I was mixing this up with something else.  We invoke
-ppc_store_sdr1() in several places from !TCG code.  From explicitly
-KVM code in kvmppc_book_get_sregs() - since we more or less trust KVM
-we could in theory just store directly to the value.  However we also
-use it in common code in machine.c in the loadvm path.  I don't want
-to bypass ppc_store_sdr1() there so that we have a common place for
-all SDR1 updates, for sanity checking and any secondary alterations we
-need.
+I don't think this is a good idea.  Even though it's not strictly
+necessary for KVM, I'd prefer to have a common entry point for SDR1
+updates to reduce confusion.  Plus this won't be sufficient to fix
+things for !TCG builds, since we still have the common calls on the
+loadvm path.
 
-So having this in common code is the right thing to do.
-
-(In case you care, the "bogus reason" thing I was thinking of in
-connection to SDR1 handling is actually the special
-encode_hpt_for_kvm_pr() case in kvmppc_but_books_sregs.  That's there
-because KVM PR requires us to inform us of the *qemu userspace*
-location of the hash table for PAPR guests via the SDR1 value, which
-doesn't really make sense)
+>=20
+>  target/ppc/kvm.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 104a308abb..3f52a7189d 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1159,7 +1159,11 @@ static int kvmppc_get_books_sregs(PowerPCCPU *cpu)
+>      }
+> =20
+>      if (!cpu->vhyp) {
+> -        ppc_store_sdr1(env, sregs.u.s.sdr1);
+> +        /*
+> +         * We have just gotten the SDR1, there should be no
+> +         * reason to do error checking.... right?
+> +         */
+> +        env->spr[SPR_SDR1] =3D sregs.u.s.sdr1;
+>      }
+> =20
+>      /* Sync SLB */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -110,25 +126,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Pz/593kA/nQofU3J
+--+DDARd3aRRs07dny
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC9l4IACgkQbDjKyiDZ
-s5IJ0A/9FDvRV62fy3zVFj8tE5Q8hY+iVFLUr6YoR5olxnUBx85Cf7vZhVXW8hTz
-pSEmQAUwBXg1BYoIvelGMtSgomeYpJH5fr6JMjOsjBnKBMEORH1KilVJh9pd1UId
-UrQxFPjz0z/3bD+NAOv0MSpTW2fZpbsJIY6yJce/Jk5HNhWAEEMmA6OC5tuwvzoZ
-QYiaxJcSj4Gvf0hT6IfWNjrXrOkMvl1pbvWL5jrRmCmGsRakaSMi1rstgVl9RIoK
-Qjvn4TEVFN/Zv7gj183AL6Ouf+szGXHNyKxnkSAmmiahWlNPR+mFvItzANtMPPXW
-Q4eBAHfTcrfxuMOMbqY74VxcsWPTq4Wt/U+Ox3bSvLcEgFE8I4SIl+HV99AH4at1
-7CsXE9bnzTtvHJKJuk6s/fY3HQw56PzKl52Gu4tk8KtRhv7tkQcMFkPdLUDkW8P5
-pXIEl3ki3GdyPHyK09S5F+Eqn5XVdi2ymU0Gmx/Tv35ZA7UMdXWA/nhVnce9UHIG
-ZnWKZh1k3hi9E34Q9tye7eFWPR/b1OEKZrXleUuLVhn3YqeFiiEkhaNwbSwWVYXa
-1cBJcWi3j5pB/8YIH5010h+Fc8sD6aep02bcO8b9fpH2sBrIctM4NtSS+1pCajZ9
-0tNVgyOWuQjOL2s+igrgReK5fyPfAuRAYphaY3PbLi49zRflCIc=
-=AKoX
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC9l+oACgkQbDjKyiDZ
+s5Lfuw//XmNsvqY9rzssSKrU0tClRdUqyJy/wdFCA89+8uuOuUGSNaJznRLCbgZd
+FnezH8KKbxxn8wo0BnZG6roUeJE47+FBUB4RzS+WCXShXNJI5yu5HbzfPWFaGOyq
+3rOgFEI8Og3pC62e7Fng9bSsL2XDwU9EAp7zAJVPn07kimp4Jsyr0Na3LXppR04h
+GbWDLKztvOiLcOHbuQT7WTykoyB36WrfF/EEoGjUaYhGw9N4rbJPfTIYS6gG/0Jm
+CfvyVpKs0eNJoY1axiAVKoWKZR60zWhL5wabNj8l8iRi5zt2yocQeEvsZxy6HsII
+lREmw39NhfbqGdTv50BnNaEGitlk+EEMRxhDdPE9+zQh+UHEkVGU6eTnsyoPvDU+
+Q5V0yWcIgi+9aHlSPJ+74YWgfRDoW2rGJAY5etieJPmke2jLWkw/uuhY3VU0czmy
+GfRDnHpbIFSePT0Vz7oYQCRXVg1bFp0nxmbO1VkuFpkgEi6njmsOUUzyURNY/kAs
+VgFlXvwaUbdbEbkhr8KxnXmNuU4vT2QbMttUZvY+rAkQKUVRzk2hTAQ97O0q+6+6
+O93ar8TQLQ9iUz1e90zMz5xKq+JFvt3XUCEfomXMRKtz3YZpzOFaVmpY2oFsSctT
+mq0DbIxYqu3K20qjw/WkgfVY9W9u0lbwasiZZMpUnyQZymRvkb8=
+=8/jU
 -----END PGP SIGNATURE-----
 
---Pz/593kA/nQofU3J--
+--+DDARd3aRRs07dny--
 
