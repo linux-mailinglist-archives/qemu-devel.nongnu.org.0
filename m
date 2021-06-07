@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E217B39DFF5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:05:29 +0200 (CEST)
-Received: from localhost ([::1]:37834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C6239DFF9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:07:13 +0200 (CEST)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqGoi-0007oB-W1
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:05:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37076)
+	id 1lqGqO-0001Kr-2u
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqGnh-00070m-EB
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:04:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59432)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqGp2-0000CQ-7q
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:05:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqGnd-0003ZW-IL
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:04:25 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqGp0-0004dy-88
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:05:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623078260;
+ s=mimecast20190719; t=1623078345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YUJLzf0Kpd7dTtWp9jhK9pY8DKzWyoT68HmVsM2+gSo=;
- b=e34YihChvmjC9wx1FYhbfsnKX/9nolCDzgLg+CTtAnX8lG3O1wbFlTP5GIUPx6FGG1Bslc
- 5wnBWbJMctMpGH5wDFK0yUqLh5iCA9FCHigdEwDBEfuCn8s30znX23/ZU2UXlCCnK1Q0m0
- 0F2bN5MB9R1dmZ2e7ehn7vEmQxHaY/Y=
+ bh=3DyOzf/C00VRIGFukQ/pHctD+X8KGYjy+nJItPolnR4=;
+ b=B75uUBEpbfUFovPmmqzUyWFx7lWNVFBbo22B557jaIZcaRtjdWEgMtzBseaYn+AxcobxD4
+ su9/UsNtLLsMQiYFzcRyGyQScjaMEA0eZmQUTsj9iS4dAsOMvQuA6+3z90JIA4pZ9nHAfi
+ fmoqZrySSxApNDE8RUT+0XY9XhvPzOI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-S2OUXQA2P9ORHvMhWdHZCw-1; Mon, 07 Jun 2021 11:04:18 -0400
-X-MC-Unique: S2OUXQA2P9ORHvMhWdHZCw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-384-OcFm_R5OMyGme8DFAQgszw-1; Mon, 07 Jun 2021 11:05:43 -0400
+X-MC-Unique: OcFm_R5OMyGme8DFAQgszw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44266893E01;
- Mon,  7 Jun 2021 15:03:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25002801106;
+ Mon,  7 Jun 2021 15:05:41 +0000 (UTC)
 Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B58F2614FC;
- Mon,  7 Jun 2021 15:03:27 +0000 (UTC)
-Date: Mon, 7 Jun 2021 10:03:25 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A52C5D9C0;
+ Mon,  7 Jun 2021 15:05:36 +0000 (UTC)
+Date: Mon, 7 Jun 2021 10:05:34 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v5 08/11] block/io: allow 64bit write-zeroes requests
-Message-ID: <20210607150325.y44r33u5o26lsdl7@redhat.com>
+Subject: Re: [PATCH v5 09/11] block: make BlockLimits::max_pdiscard 64bit
+Message-ID: <20210607150534.ualdyymx5vdaelge@redhat.com>
 References: <20210505075001.45041-1-vsementsov@virtuozzo.com>
- <20210505075001.45041-9-vsementsov@virtuozzo.com>
+ <20210505075001.45041-10-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210505075001.45041-9-vsementsov@virtuozzo.com>
+In-Reply-To: <20210505075001.45041-10-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,27 +82,31 @@ Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 05, 2021 at 10:49:58AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Now, when all drivers are updated by previous commit, we can drop two
-
-s/Now, when/Now that/
-
-> last limiters on write-zeroes path: INT_MAX in
-> bdrv_co_do_pwrite_zeroes() and bdrv_check_request32() in
-> bdrv_co_pwritev_part().
+On Wed, May 05, 2021 at 10:49:59AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to support 64 bit discard requests. Now update the
+> limit variable. It's absolutely safe. The variable is set in some
+> drivers, and used in bdrv_co_pdiscard().
 > 
-> Now everything is prepared for implementing incredibly cool and fast
-> big-write-zeroes in NBD and qcow2. And any other driver which wants it
-> of course.
+> Update also max_pdiscard variable in bdrv_co_pdiscard(), so that
+> bdrv_co_pdiscard() is now prepared to 64bit requests. The remaining
 
-I got a chuckle out of this incredibly cool description ;)
+s/to/for/
 
+> logic including num, offset and bytes variables is already
+> supporting 64bit requests.
+> 
+> So the only thing that prevents 64 bit requests is limiting
+> max_pdiscard variable to INT_MAX in bdrv_co_pdiscard().
+> We'll drop this limitation after updating all block drivers.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block/io.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  include/block/block_int.h | 11 ++++++-----
+>  block/io.c                |  3 ++-
+>  2 files changed, 8 insertions(+), 6 deletions(-)
 >
+
+Deceptively simple for what it entails, but I agree that we are safe.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
