@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C2C39DF43
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 16:52:09 +0200 (CEST)
-Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F5D39DFE8
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:02:15 +0200 (CEST)
+Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqGbo-0002hx-0f
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 10:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33682)
+	id 1lqGla-00060k-B5
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:02:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqGao-0001mq-QG
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:51:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36646)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lqGkH-0005JC-JO
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:00:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqGal-0003C4-MZ
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:51:06 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lqGkA-0001LU-JY
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:00:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623077462;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1623078045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3KQaQPp5Gq0tNLM1nY32bXdRFBHq9Nnac4WikS2um94=;
- b=JPLDzzXgs5cVz9byU/YGZL8RaX8lHFJQi+UUxSYu52g7pshcUFYiQmlF5E82g8Sfu75onw
- bZgG0VPsFBQc7PqbHkqkivu7xJtZm9iP/4mbpl8vwKbBAh9EqC0DBkqoReIoT8fJrwAEvL
- xXTXauAp5PkPBfvY7Gh+OSEBPUHVhtI=
+ bh=EkpjOsOas2F5drTotwrBlVtxcPSDBeL4KOmoFDgm7sA=;
+ b=GcWtU3zL6rfflo3X00VifWjtFP3Al64y+tHvBG5A7I16zRdSmdWxG+rWxQal/8xPYJ+v4W
+ inAZJK9d82pldMpP62tkJXWJ0gso3JHs+DSNlkAzbbj/ceX/HiZ+YwUzhNh5Adhji9XqeI
+ CCGxpzURcoDNjslzs33chZmKb5uY8bQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-voy6h4ZtP1GXa5rr86lCAQ-1; Mon, 07 Jun 2021 10:50:59 -0400
-X-MC-Unique: voy6h4ZtP1GXa5rr86lCAQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-580--uQHRD3jMX2DSeR6xIACTg-1; Mon, 07 Jun 2021 11:00:38 -0400
+X-MC-Unique: -uQHRD3jMX2DSeR6xIACTg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F37CE9F92B;
- Mon,  7 Jun 2021 14:50:57 +0000 (UTC)
-Received: from redhat.com (ovpn-114-203.ams2.redhat.com [10.36.114.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D663B19D9D;
- Mon,  7 Jun 2021 14:50:49 +0000 (UTC)
-Date: Mon, 7 Jun 2021 15:50:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PULL 5/8] gitlab: work harder to avoid false positives in
- checkpatch
-Message-ID: <YL4yRyLgD1avZdRE@redhat.com>
-References: <20210607143303.28572-1-alex.bennee@linaro.org>
- <20210607143303.28572-6-alex.bennee@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A3C38030A0;
+ Mon,  7 Jun 2021 15:00:37 +0000 (UTC)
+Received: from work-vm (ovpn-114-228.ams2.redhat.com [10.36.114.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 312015C1C2;
+ Mon,  7 Jun 2021 15:00:30 +0000 (UTC)
+Date: Mon, 7 Jun 2021 16:00:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] migration/rdma: Use huge page register VM memory
+Message-ID: <YL40jJgKFQBnq3Us@work-vm>
+References: <51819991cecb42f6a619768bc61d0bfd@kingsoft.com>
+ <YL4qh35GquFrbSfq@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210607143303.28572-6-alex.bennee@linaro.org>
+In-Reply-To: <YL4qh35GquFrbSfq@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,52 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: sunhao2 =?utf-8?B?W+WtmeaYil0=?= <sunhao2@kingsoft.com>,
+ YANGFENG1 =?utf-8?B?W+adqOWzsF0=?= <YANGFENG1@kingsoft.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ DENGLINWEN =?utf-8?B?W+mCk+ael+aWh10=?= <DENGLINWEN@kingsoft.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ LIZHAOXIN1 =?utf-8?B?W+adjueFp+mRq10=?= <LIZHAOXIN1@kingsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 07, 2021 at 03:33:00PM +0100, Alex Bennée wrote:
-> This copies the behaviour of patchew's configuration to make the diff
-> algorithm generate a minimal diff.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Mon, Jun 07, 2021 at 01:57:02PM +0000, LIZHAOXIN1 [李照鑫] wrote:
+> > When using libvirt for RDMA live migration, if the VM memory is too large,
+> > it will take a lot of time to deregister the VM at the source side, resulting
+> > in a long downtime (VM 64G, deregister vm time is about 400ms).
+> >     
+> > Although the VM's memory uses 2M huge pages, the MLNX driver still uses 4K
+> > pages for pin memory, as well as for unpin. So we use huge pages to skip the
+> > process of pin memory and unpin memory to reduce downtime.
+> >    
+> > The test environment:
+> > kernel: linux-5.12
+> > MLNX: ConnectX-4 LX
+> > libvirt command:
+> > virsh migrate --live --p2p --persistent --copy-storage-inc --listen-address \
+> > 0.0.0.0 --rdma-pin-all --migrateuri rdma://192.168.0.2 [VM] qemu+tcp://192.168.0.2/system
+> >     
+> > Signed-off-by: lizhaoxin <lizhaoxin1@kingsoft.com>
+> > 
+> > diff --git a/migration/rdma.c b/migration/rdma.c
+> > index 1cdb4561f3..9823449297 100644
+> > --- a/migration/rdma.c
+> > +++ b/migration/rdma.c
+> > @@ -1123,13 +1123,26 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
+> >      RDMALocalBlocks *local = &rdma->local_ram_blocks;
+> >  
+> >      for (i = 0; i < local->nb_blocks; i++) {
+> > -        local->block[i].mr =
+> > -            ibv_reg_mr(rdma->pd,
+> > -                    local->block[i].local_host_addr,
+> > -                    local->block[i].length,
+> > -                    IBV_ACCESS_LOCAL_WRITE |
+> > -                    IBV_ACCESS_REMOTE_WRITE
+> > -                    );
+> > +        if (strcmp(local->block[i].block_name,"pc.ram") == 0) {
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Message-Id: <20210602153247.27651-1-alex.bennee@linaro.org>
+> 'pc.ram' is an x86 architecture specific name, so this will still
+> leave a problem on other architectures I assume.
+
+Yes, and also break even on PC when using NUMA.
+I think the thing to do here is to call qemu_ram_pagesize on the
+RAMBlock; 
+
+  if (qemu_ram_pagesize(RAMBlock....) != qemu_real_host_page_size)
+     it's a huge page
+
+I guess it's probably best to do that in qemu_rdma_init_one_block or
+something?
+
+I wonder how that all works when there's a mix of different huge page
+sizes?
+
+Dave
+
+> > +            local->block[i].mr =
+> > +                ibv_reg_mr(rdma->pd,
+> > +                        local->block[i].local_host_addr,
+> > +                        local->block[i].length,
+> > +                        IBV_ACCESS_LOCAL_WRITE |
+> > +                        IBV_ACCESS_REMOTE_WRITE |
+> > +                        IBV_ACCESS_ON_DEMAND |
+> > +                        IBV_ACCESS_HUGETLB
+> > +                        );
+> > +        } else {
+> > +            local->block[i].mr =
+> > +                ibv_reg_mr(rdma->pd,
+> > +                        local->block[i].local_host_addr,
+> > +                        local->block[i].length,
+> > +                        IBV_ACCESS_LOCAL_WRITE |
+> > +                        IBV_ACCESS_REMOTE_WRITE
+> > +                        );
+> > +        }
+> > +
+> >          if (!local->block[i].mr) {
+> >              perror("Failed to register local dest ram block!\n");
+> >              break;
 > 
-> diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
-> index 8e30872164..7e685c6a65 100644
-> --- a/.gitlab-ci.d/static_checks.yml
-> +++ b/.gitlab-ci.d/static_checks.yml
-> @@ -3,7 +3,11 @@ check-patch:
->    image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
->    needs:
->      job: amd64-centos8-container
-> -  script: .gitlab-ci.d/check-patch.py
-> +  script:
-> +    - git config --local diff.renamelimit 0
-> +    - git config --local diff.renames True
-> +    - git config --local diff.algorithm histogram
-> +    - .gitlab-ci.d/check-patch.py
-
-No objection to merging this patch as is, but I wonder if we ought to
-make scripts/checkpatch.pl set these options explicitly when it runs
-git, eg
-
-   git -c diff.renamelimit=0 -c diff.renames=True ...etc show
-
-so that everyone who runs checkpatch.pl benefits from the improvement.
-
-Regards,
-Daniel
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
