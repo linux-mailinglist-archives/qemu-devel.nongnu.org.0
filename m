@@ -2,65 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF1339D20D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 00:53:09 +0200 (CEST)
-Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8013939D289
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 03:23:02 +0200 (CEST)
+Received: from localhost ([::1]:38528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq1dk-0001yL-2z
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 18:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
+	id 1lq3yn-0006Qm-D5
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 21:23:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kallolkernel@gmail.com>)
- id 1lq1d2-0001K0-Cu
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 18:52:24 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kallolkernel@gmail.com>)
- id 1lq1d0-0002s5-Ri
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 18:52:24 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id og14so18171521ejc.5
- for <qemu-devel@nongnu.org>; Sun, 06 Jun 2021 15:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=wcAkMaw0SllUMobELfXDZm6VyuCNoalJutydeuw6yT0=;
- b=p9jfA0uT2scxa7rUo+QVhu08O1EyLpomA5TUPfskTHFzWGA6IlEf4ph9Uf2VhXJPKd
- JV0tgG0aQgjnKoFDJP1vCFoIq0OS4VrmW7SM8iy/HtCi/823eViOcTMhZj5aGmOhp2K3
- rUz2wvM9djPJyTpBzTiJDPgGxfg0amQoo0M/k56Ac7bhDTOsYaXKuZWJ8YpcxqXfYFiV
- /a4xurcgVrQ6+Aa9O4QDx/iujhwg+gD/UjeIni+z5fsnX2dKfT/FgeoBh5VCafohnCNI
- JzmDqwzZ65U2U+GmWuzCChQ+Rv+TXme4n1falP4+A36fz3Lu/01E0PA3sJKUktr/AyZS
- x9uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=wcAkMaw0SllUMobELfXDZm6VyuCNoalJutydeuw6yT0=;
- b=aFGGsiCPetyxGdi16koiZdS6T4WeVJnWdrzZvAWW6ZjW87RgFj5WwpqcjgXRxw6woD
- mJbcuBYJbGQTLtcuCvXNSnxyWebPvQOhrPAh7qIA8Ov3ydO7KZr2m2oUGkvxpSb0ggJl
- P1meyzc+w9Bt3X7MJbDWkRifGuVwcMYLZTjYNVoBhqFVGmu8U38nuG4nwD4l+ZSGsvCY
- zLXKycmIKG5wyhgRKjAgeg2sKKKRxV5ZjCrq0woYbUQnvpOkS6pPzDOen6cVtPqxzJyz
- eEKLMrYxLnv87xQa1ZBGTjdIzP80bazZVtfzJxejkseLjkfg9/YPxUzUqMzjpCiG5ScM
- Le9A==
-X-Gm-Message-State: AOAM53133h0pw+Cr93C7aiuqzS3VEYhNnReg17wT8fBQR0m9Mu4aIhPW
- bEZBM0yqWttkhFB33RezSVubh4qF0PuWNL7WowKiduqNDig=
-X-Google-Smtp-Source: ABdhPJxV/R/lCKvSzx3Om9o5ub86zpGwZMbXFUii9r6bwIy735gb4tFr2InjnkmFW6chANC3RvC6jKiMNkbH2AYSwWo=
-X-Received: by 2002:a17:906:b754:: with SMTP id
- fx20mr14345640ejb.201.1623019939963; 
- Sun, 06 Jun 2021 15:52:19 -0700 (PDT)
-MIME-Version: 1.0
-From: Kallol Biswas <kallolkernel@gmail.com>
-Date: Sun, 6 Jun 2021 15:52:07 -0700
-Message-ID: <CANcxk1j5qrz5zOqXMdYCb9U17jar8OMWybyFUEaRyK7SPwe8Og@mail.gmail.com>
-Subject: debug script for QEMU/KVM
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1lq3wP-0004MT-UJ
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:20:33 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:42278
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1lq3wL-0000Mv-14
+ for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:20:33 -0400
+HMM_SOURCE_IP: 172.18.0.218:46184.12785836
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.138.181.182?logid-41a7c846a31c4f1380ba32cb305780fc
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 98CA02800C7;
+ Mon,  7 Jun 2021 09:11:18 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 41a7c846a31c4f1380ba32cb305780fc for
+ qemu-devel@nongnu.org; Mon Jun  7 09:11:19 2021
+X-Transaction-ID: 41a7c846a31c4f1380ba32cb305780fc
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=kallolkernel@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Subject: [PATCH v3 0/7] support dirtyrate at the granualrity of vcpu  
+Date: Mon,  7 Jun 2021 09:11:11 +0800
+Message-Id: <cover.1623027729.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,23 +62,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-   I am planning to develop an open source debug package that will
-bring visibility to a KVM
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-It will navigate through the data structures and display information
-in a text file and on a web page.
+v3:
+- pick up "migration/dirtyrate: make sample page count configurable" to
+  make patchset apply master correctly
 
-I have never worked on Qemu/KVM and so a guideline from a book like
-Qiang Li's book "Qemu/KVM Source Code Analysis and Application" would
-be great. Unfortunately there is no english version.
+v2:
+- rebase to "migration/dirtyrate: make sample page count configurable"
 
-It seems the Qemu developers have blogs that I can follow to get
-familiar with  the design and data structures of QEMU/KVM. I would
-like to start with memory virtualization data structures.
+- rename "vcpu" to "per_vcpu" to show the per-vcpu method
 
-How can I find Qiang Li's blog and other qemu-developers' blogs?
+- squash patch 5/6 into a single one, squash patch 1/2 also 
+
+- pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
+
+- make global_dirty_log a bitmask to make sure both migration and dirty
+  could not intefer with each other
+
+- add memory free callback to prevent memory leaking 
+
+the most different of v2 fron v1 is that we make the global_dirty_log a 
+bitmask. the reason is dirty rate measurement may start or stop dirty
+logging during calculation. this conflict with migration because stop
+dirty log make migration leave dirty pages out then that'll be a
+problem.
+
+make global_dirty_log a bitmask can let both migration and dirty
+rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
+GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
+for, migration or dirty rate.
+    
+all references to global_dirty_log should be untouched because any bit
+set there should justify that global dirty logging is enabled.
+
+Please review, thanks !
+
+v1:
+
+Since the Dirty Ring on QEMU part has been merged recently, how to use
+this feature is under consideration.
+
+In the scene of migration, it is valuable to provide a more accurante
+interface to track dirty memory than existing one, so that the upper
+layer application can make a wise decision, or whatever. More
+importantly,
+dirtyrate info at the granualrity of vcpu could provide a possibility to
+make migration convergent by imposing restriction on vcpu. With Dirty
+Ring, we can calculate dirtyrate efficiently and cheaply.
+
+The old interface implemented by sampling pages, it consumes cpu 
+resource, and the larger guest memory size become, the more cpu resource
+it consumes, namely, hard to scale. New interface has no such drawback.
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang(黄勇) (6):
+  migration/dirtyrate: make sample page count configurable
+  KVM: introduce dirty_pages and kvm_dirty_ring_enabled
+  migration/dirtyrate: add per-vcpu option for calc-dirty-rate
+  migration/dirtyrate: adjust struct DirtyRateStat
+  memory: make global_dirty_log a bitmask
+  migration/dirtyrate: implement dirty-ring dirtyrate calculation
+
+Peter Xu (1):
+  hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
+
+ accel/kvm/kvm-all.c    |   7 +
+ hmp-commands-info.hx   |  13 ++
+ hmp-commands.hx        |  15 ++
+ include/exec/memory.h  |  13 +-
+ include/hw/core/cpu.h  |   1 +
+ include/monitor/hmp.h  |   2 +
+ include/sysemu/kvm.h   |   1 +
+ migration/dirtyrate.c  | 347 ++++++++++++++++++++++++++++++++++++++---
+ migration/dirtyrate.h  |  27 +++-
+ migration/ram.c        |   8 +-
+ migration/trace-events |   5 +
+ qapi/migration.json    |  38 ++++-
+ softmmu/memory.c       |  36 +++--
+ 13 files changed, 468 insertions(+), 45 deletions(-)
+
+-- 
+2.18.2
+
 
