@@ -2,94 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4E339D88D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 11:21:11 +0200 (CEST)
-Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7000A39D8A5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 11:24:05 +0200 (CEST)
+Received: from localhost ([::1]:55512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqBRV-0001j4-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 05:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58776)
+	id 1lqBUK-0003M0-Hv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 05:24:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lqBQA-0000r8-O4
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:19:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43517)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lqBTD-0002gX-3O; Mon, 07 Jun 2021 05:22:55 -0400
+Received: from out28-4.mail.aliyun.com ([115.124.28.4]:52598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lqBQ8-0005aT-AU
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 05:19:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623057583;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bFdNlErOxTqFKbmwI105aIqMjRySxdMaBEh8q3km9rs=;
- b=UvsVwNC6WOvBg1N2HhdSCkFHoQovpfcqQ7xEvnErrnPP2iBriMQQFDJyOhkztiuezKhGlp
- LQNyS3cAsPirDYRxNCRE4m+K1JjL6r3Xhj1GGl5Sn7onqAEbSiJ1IhlM4xq0BsHduQTmqx
- RL6KRnwvVib0gRE4uyMtrM6fiKSrCUw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-Bdatbe7xOw-dLTia6nuyMQ-1; Mon, 07 Jun 2021 05:19:42 -0400
-X-MC-Unique: Bdatbe7xOw-dLTia6nuyMQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- x9-20020adfffc90000b02901178add5f60so7600348wrs.5
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 02:19:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=bFdNlErOxTqFKbmwI105aIqMjRySxdMaBEh8q3km9rs=;
- b=XmkbPpYzluPxDumdrb8QrSbAWX1dEKrU4G8Rv5WYLY1HhyruID2iaZaHS9k3P6Nlx8
- F9Wd7ui7xFO2FBMYRsgzSG1E1X3rKsm6ExbpkFCQyZYhuVk6hUY00ADlKdlWN2obbKTy
- QZgE5sAdvD9UQpZMkWn/UdUq3FvefP4052Dh0eIOR5wX+rdIvpvlaQDh4C00eholajvU
- tpzw9LIyUPgIJW+zOj0XI1IxPzEQzC67efrwMtMbNkog+GhR7uWPnlF9X/QwBeSLmRUO
- LZGOO4JKLN4r9JNRoEX4QtgZ+mT66tBqOSOD+OGgQpH7H3OohsAqYNHS1jfPZvwW5VIH
- 1i0g==
-X-Gm-Message-State: AOAM532CUNZLPncD56z8w/c3LBqqLHUSwZv3y7ND2tyWpe3LwZXrzBKG
- CGFPgN267BnxrNkd3spCEdTtLdEGoa6Ds1qkxfAWlsk5Q41S2Gzg1Q+rWIQbilXOlGxrnEo2gIN
- Gsyej2FwuwVnbxb4=
-X-Received: by 2002:a5d:6443:: with SMTP id d3mr16301436wrw.389.1623057581400; 
- Mon, 07 Jun 2021 02:19:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxyCHznnakSW+xXXw/5ZBi9nqwVSp4xPGtJItzytlxZknu745IScFJpNUNmz8XinMrMa7r3Hw==
-X-Received: by 2002:a5d:6443:: with SMTP id d3mr16301411wrw.389.1623057581065; 
- Mon, 07 Jun 2021 02:19:41 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id r7sm21072609wma.9.2021.06.07.02.19.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 02:19:40 -0700 (PDT)
-Subject: Re: [RESEND] Multiple SMMUv3 instances on PCI Bus and PCI Host Bridge
-To: Nicolin Chen <nicolinc@nvidia.com>, miaoyubo@huawei.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20210604231613.GC15599@Asurada-Nvidia>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <a349744d-762b-74b9-352b-ad0a7b16dfec@redhat.com>
-Date: Mon, 7 Jun 2021 11:19:39 +0200
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lqBT9-0007ZR-E9; Mon, 07 Jun 2021 05:22:54 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0888319|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.712603-0.0019428-0.285454;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KOqbo0Y_1623057764; 
+Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KOqbo0Y_1623057764)
+ by smtp.aliyun-inc.com(10.147.42.22); Mon, 07 Jun 2021 17:22:44 +0800
+Subject: Re: TCG op for 32 bit only cpu on qemu-riscv64
+To: Alistair Francis <alistair23@gmail.com>
+References: <97935519-42c8-71c8-3d87-30aa4cafc909@c-sky.com>
+ <CAKmqyKNHX0p5OxE1Y+1bwUeQ1uXu_DTwTnYgK3xxB9tu9Ax_nA@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <e82c9f94-4367-2ed6-7c7c-846e8a270876@c-sky.com>
+Date: Mon, 7 Jun 2021 17:22:44 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210604231613.GC15599@Asurada-Nvidia>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAKmqyKNHX0p5OxE1Y+1bwUeQ1uXu_DTwTnYgK3xxB9tu9Ax_nA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=115.124.28.4; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-4.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,97 +59,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: vdumpa@nvidia.com, praithatha@nvidia.com
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-On 6/5/21 1:16 AM, Nicolin Chen wrote:
-> (Resending as my previous mail didn't go through mailing lists)
->
-> Hello Eric, Yubo, and other QEMU developers,
->
-> I am having a problem with links between vSMMU and PCI Host Bridge,
-> using ARM-VIRT (64-bit; ACPI) + SMMUv3 (nested translation) setup.
->
-> Firstly, I am very new to the areas of QEMU, PCI and ACPI. So some
-> of my thoughts/ideas below might not sound very reasonable to you.
->
-> My goal here is to create two vSMMU instances in QEMU level and to
-> link them to different passthrough devices: each vSMMU has my local
-> feature that reads/writes through a VFIO mdev interface to talk to
-> Host OS, so it has to be two vSMMU instances in the QEMU level for
-> my use case.
->
-> As we know, QEMU by default has only one PCI root bus (PCIE.0) that
-> links to a default vSMMU (let's call it vSMMU0). And I learned that
-> now ARM-VIRT has PCI gpex feature. So I was planning to create one
-> host bridge (PCIE.128) to link to a different instance (vSMMU1) --
-> later on I can pass through different PCI devices to either PCIE.0
-> or PCIE.128 for different mdev pathways.
->
-> I then tried to add a PCI Host Bridge using the following commands
-> that created one default vSMMU instance, as my first experiment.
->
-> /home/ubuntu/qemu-system-aarch64
->     -machine virt,accel=kvm,gic-version=3,iommu=smmuv3 \
->     -cpu host -smp cpus=1 -m 1G -nographic -monitor none -display none \
->     -kernel /boot/Image -bios /usr/share/AAVMF/AAVMF_CODE.fd \
->     -initrd /home/ubuntu/buildroot-20200422-aarch64-qemu-test-rootfs.cpio \
->     -object memory-backend-ram,size=1G,id=m0 \
->     -numa node,cpus=0,nodeid=0,memdev=m0 \
->     -device pxb-pcie,id=pxb-pcie.128,bus=pcie.0,bus_nr=128,numa_node=0 \
->     -device pcie-root-port,id=pcie.128,bus=pxb-pcie.128,slot=1,addr=0,io-reserve=0 \
->     -device vfio-pci,host=0003:01:00.0,rombar=0,bus=pcie.128
->
-> However I found that PCIE.128 was also added to vSMMU0, which feels
-> like that PCIE.128 treated PCIE.0 root bus as a parent device so it
-> was added to the parent's vSMMU too.
->
-> Then I tried another experiment with the following hack, hoping that
-> it would link vSMMU0 to PCIE.128 instead of PCIE.0:
->
-> @@ -385,13 +387,13 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->      /* fully coherent device */
->      rc->memory_properties.cache_coherency = cpu_to_le32(1);
->      rc->memory_properties.memory_flags = 0x3; /* CCA = CPM = DCAS = 1 */
->      rc->pci_segment_number = bus_num; /* MCFG pci_segment */
-> +    rc->pci_segment_number = cpu_to_le32(bus_num); /* MCFG pci_segment */
->
->      /* Identity RID mapping covering the whole input RID range */
->      idmap = &rc->id_mapping_array[0];
->      idmap->input_base = 0;
->      idmap->id_count = cpu_to_le32(0xFFFF);
-> -    idmap->output_base = 0;
-> +    idmap->output_base = cpu_to_le32(bus_num << 16);
->
-> Yet, I found it's not successful either: the vSMMU instance was not
-> added to either PCIE.0 or PCIE.128.
->
-> So I started to have questions in my mind:
-> (1) Can PCI host bridge (PCIE.128) add to a different vSMMU without
->     following PCIE.0's SMMU setup?
-changes need to be made in hw/arm/virt.c
-create_smmu() is passed the primary bus the iommu is attached to.
-Currently arm virt only supports one smmu instance. So playing with qemu
-options is not sufficient.
-Besides that, effectively there are IORT changes needed because you need
-to route RCs to the different SMMU instances, ie. some RIDs need to
-reach SMMU#0 and others #SMMU#1.
-You can get inspired of "[PATCH v4 6/8] hw/arm/virt-acpi-build: Add
-explicit IORT idmap for smmuv3 node for this kind of changes."
 
-Thanks
-
-Eric
-> (2) If the answer to (1) is yes, is there any way to have two pairs
->     of PCI+vSMMU?
-> (3) If the answer to (1) is no, how can I correctly change the iort
->     table to link vSMMU to PCIE.128?
+On 6/7/21 2:22 PM, Alistair Francis wrote:
+> On Mon, Jun 7, 2021 at 1:09 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>> Hi Alistair,
+>>
+>> As I see,  we are moving  on to remove TARGET_RISCV64 macro.
+>>
+>> I have some questions:
+>>
+>> 1) Which tcg op should use when translate an instruction for 32bit cpu.
+>> The tcg_*_i64, tcg_*_i32 or tcg_*_tl?
+>> I see some API such as gen_get_gpr that are using the tcg_*_tl. But I am
+>> not sure if it is
+>> right for 32bit cpu.
+> Do you mean for an instruction that only runs on a 32-bit CPU (and not RV64)?
 >
-> Thanks
-> Nic
->
+> If the instruction only supports a 32-bit value then tcg_*_i32
+> otherwise tcg_*_tl is probably the best bet.
 
+Thanks. I think you are right.
+
+>
+>> 2) Do we should have a sign-extend 64 bit register(bit 31 as the sign
+>> bit)  for 32 bit cpu?
+> I'm not clear what you mean. Can you point to a spec that you are
+> trying to implement?
+
+I am implementing RVP to get rid of TARGET_RISCV64. After we have 
+recognized an instruction only used by a 32-bit CPU,
+
+1) Should we only use the lowest 32bits of the 64bits register in RV64?
+
+TCGv s;
+TCGv_i32 s32;
+s = tcg_new_temp();
+s32 = tcg_new_temp_i32();
+gen_get_gpr(src1, a->rs1);
+tcg_gen_trunc_tl_i32(s32, s);
+
+Then we can use TCGv_i32 s32  to stand for rs1 register.
+
+2) After some tcg ops(tcg_*_i32), when we write back to destination 
+register, should we sign-extend
+the 32 bit register before call get_set_gpr()?
+
+Best Regards,
+Zhiwei
+
+>
+> Alistair
+>
+>> Best Regards,
+>> Zhiwei
+>>
+>>
 
