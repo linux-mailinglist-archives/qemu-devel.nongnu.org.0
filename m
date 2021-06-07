@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD9F39E736
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:07:58 +0200 (CEST)
-Received: from localhost ([::1]:40030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3477C39E737
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:07:59 +0200 (CEST)
+Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqKbN-0007oF-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:07:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53826)
+	id 1lqKbO-0007oN-7O
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:07:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqKSj-00063R-IK
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 14:59:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqKSf-0006U5-9r
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 14:59:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623092336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/2iz8TMifcSG3zxZ53J28uLPK5ZLr+GblniXuJuf7es=;
- b=FcBRDHR3UBhEP9C6lyCmWL1R1A2Nk6nabHHzMwvu/+dWFe+nZ+PoDfcAmqMQCFtITR0Imn
- qu2yBDrtknzWeaAciUmZFEysHOebrCFYdhpmc4vcMGZjCBKIhd9ow9VN1JSAQG1RaUro2M
- WlGHfzCOH5nVUfF9uy5B+ATB9WZizb8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-ZKN39_KBO4aUCZCGpxKbKg-1; Mon, 07 Jun 2021 14:58:55 -0400
-X-MC-Unique: ZKN39_KBO4aUCZCGpxKbKg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A1F3800D62;
- Mon,  7 Jun 2021 18:58:54 +0000 (UTC)
-Received: from work-vm (ovpn-114-228.ams2.redhat.com [10.36.114.228])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7580C60C04;
- Mon,  7 Jun 2021 18:58:50 +0000 (UTC)
-Date: Mon, 7 Jun 2021 19:58:47 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] docs/tools/virtiofsd: Fix bad rst syntax
-Message-ID: <YL5sZ8xprsuG/S0D@work-vm>
-References: <20210607180015.924571-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqKWX-0007Lq-HI
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:02:57 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:46812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqKWU-0000Yz-Nx
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:02:57 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id e1so9242675pld.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 12:02:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=IogJ4EgXE09hhfFSsEPXnX6rF2sCqwWjLk1pAGv5Ny0=;
+ b=j8GUaApCtePsKuL++puUnSSOpPSAxLeP4rK2c0uVuYkQkFsOJC/cdc8oEmZZUUjslb
+ WXbw6tqwbiMM+tH0WaHRnzNHYJKfOslgbQkKURf4vKKOuRB+SJPqQdzqmhjXOvaV+bzN
+ HjFiNWSb8ctPzf+rflpQtpuL0tVlFhCV7IWxOZN1k2Y2YP9vTJD2+wyuxm+0hJ1CWUuI
+ vJEpKzlzSVHvJM46uwgQu3MZmWbYQsFSkFrh/cTfZAUXRqEEPEE/4hJeW2uLDwGYBpWT
+ PAu2jiNnj+FG/q3h/DT7KUm2D7k3a0T1XY5LGZf9Fudpq13cJIFlG8SQurPf5kE8Zr5D
+ RTxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IogJ4EgXE09hhfFSsEPXnX6rF2sCqwWjLk1pAGv5Ny0=;
+ b=KQtu/i3H/57lWGzOlHd5ozWLAXxUGNBF4hcy+w0uGmaoaQzAtZJgP1ZrcsSYu0F4RL
+ Uo6zb5lofsRieKyww06J8xHOg+uJ3xk1p/fTnVdFL7G+P2dJNB7rLjTSLEm5+nkHqRuF
+ 5WYvcJr3H3Lc9qo59wp5LjlX+O0GQBKNn9Juau3lXFcnm5/eMmYIZatLnt98YSnnqUhH
+ 3ASCPRAlSrFn1nsYnwpL+9+VRMBkyvDH7sMCdbEMAHID994rIBqrKqgyTvKQ1x+V1Igi
+ 01dBpV30v2p2TRkHS8RlotDNztD81P6Al3g76SivPBZqzE2ekIEeEmx0wm72gQVbftcQ
+ 7m8g==
+X-Gm-Message-State: AOAM533coCoIH6zSybK5eONCtospIMmnqeK6bqkRuQ2UtxzXbQOXYq5Y
+ RBaAdYbg5qXsv3/nRwVF2Fpc5xaFX8jJVA==
+X-Google-Smtp-Source: ABdhPJzaBU4BlcmqrBlzOzzO3J0gVnx/7gkrkYvvPb6VEex3lUMDNBJ2+Pvi2RLta5+Ho9K3E/x4rg==
+X-Received: by 2002:a17:90b:3e89:: with SMTP id
+ rj9mr21316184pjb.114.1623092572906; 
+ Mon, 07 Jun 2021 12:02:52 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ fs24sm13029476pjb.6.2021.06.07.12.02.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Jun 2021 12:02:52 -0700 (PDT)
+Subject: Re: [PATCH 02/55] target/arm: Enable FPSCR.QC bit for MVE
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-3-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dbbeb6cf-3655-c163-e661-19915928f24e@linaro.org>
+Date: Mon, 7 Jun 2021 12:02:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210607180015.924571-1-thuth@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210607165821.9892-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,63 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Thomas Huth (thuth@redhat.com) wrote:
-> For literal blocks, there has to be an empty line after the two colons,
-> and the block itself should be indented.
+On 6/7/21 9:57 AM, Peter Maydell wrote:
+> MVE has an FPSCR.QC bit similar to the A-profile Neon one; when MVE
+> is implemented make the bit writeable, both in the generic "load and
+> store FPSCR" helper functions and in the code for handling the NZCVQC
+> sysreg which we had previously left as "TODO when we implement MVE".
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Thanks,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  docs/tools/virtiofsd.rst | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>   target/arm/translate-vfp.c | 32 +++++++++++++++++++++++---------
+>   target/arm/vfp_helper.c    |  3 ++-
+>   2 files changed, 25 insertions(+), 10 deletions(-)
 > 
-> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> index 265a39b0cf..4911e797cb 100644
-> --- a/docs/tools/virtiofsd.rst
-> +++ b/docs/tools/virtiofsd.rst
-> @@ -239,7 +239,7 @@ xattr-mapping Examples
->  
->  ::
->  
-> --o xattrmap=":prefix:all::user.virtiofs.::bad:all:::"
-> + -o xattrmap=":prefix:all::user.virtiofs.::bad:all:::"
->  
->  
->  This uses two rules, using : as the field separator;
-> @@ -250,7 +250,8 @@ the host set.
->  This is equivalent to the 'map' rule:
->  
->  ::
-> --o xattrmap=":map::user.virtiofs.:"
-> +
-> + -o xattrmap=":map::user.virtiofs.:"
->  
->  2) Prefix 'trusted.' attributes, allow others through
->  
-> @@ -277,7 +278,8 @@ through.
->  This is equivalent to the 'map' rule:
->  
->  ::
-> --o xattrmap="/map/trusted./user.virtiofs./"
-> +
-> + -o xattrmap="/map/trusted./user.virtiofs./"
->  
->  3) Hide 'security.' attributes, and allow everything else
->  
-> -- 
-> 2.27.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+> index d01e465821b..22a619eb2c5 100644
+> --- a/target/arm/translate-vfp.c
+> +++ b/target/arm/translate-vfp.c
+> @@ -784,10 +784,19 @@ static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
+>       {
+>           TCGv_i32 fpscr;
+>           tmp = loadfn(s, opaque);
+> -        /*
+> -         * TODO: when we implement MVE, write the QC bit.
+> -         * For non-MVE, QC is RES0.
+> -         */
+> +        if (dc_isar_feature(aa32_mve, s)) {
+> +            /* QC is only present for MVE; otherwise RES0 */
+> +            TCGv_i32 qc = tcg_temp_new_i32();
+> +            TCGv_i32 zero;
+> +            tcg_gen_andi_i32(qc, tmp, FPCR_QC);
+> +            store_cpu_field(qc, vfp.qc[0]);
+> +            zero = tcg_const_i32(0);
+> +            store_cpu_field(zero, vfp.qc[1]);
+> +            zero = tcg_const_i32(0);
+> +            store_cpu_field(zero, vfp.qc[2]);
+> +            zero = tcg_const_i32(0);
+> +            store_cpu_field(zero, vfp.qc[3]);
+> +        }
 
+Ok I guess.  You could store the same i32 into all elements:
+
+     tcg_gen_gvec_dup_i32(MO_32, offsetof(CPUARMState, vfp.qc),
+                          16, 16, qc);
+
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
