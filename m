@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF24339D504
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 08:35:54 +0200 (CEST)
-Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0373939D516
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 08:38:14 +0200 (CEST)
+Received: from localhost ([::1]:51814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq8rZ-0002sP-IE
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 02:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33110)
+	id 1lq8tp-0005cu-19
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 02:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lq8qa-0001v4-Ny
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 02:34:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37081)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lq8sE-00044r-MT
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 02:36:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lq8qY-0002wE-Mm
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 02:34:52 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lq8sD-00047p-5K
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 02:36:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623047690;
+ s=mimecast20190719; t=1623047792;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DMOPno3042Z6q4EAEGHoAbh9QndGm5TQxzPwDwpz2bU=;
- b=JR0SeKFVQ6r8VNzTQj5zWD5nMwJnI/NIOE2PNcCchG6u0cSFPWr93nj2v3lxhDdcr7mqdP
- m4AN+8kYZ8z0I+mb6yH1YqegVED4nEhmMszIcfvyHx2Gquy3+pWE9JuhGzise4vTvCWkHC
- 4Tvfwahf+RpoBTg0v/s0ZxS8i7BuqG4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-1yZJL_H-Pla6wofGhWXQEA-1; Mon, 07 Jun 2021 02:34:48 -0400
-X-MC-Unique: 1yZJL_H-Pla6wofGhWXQEA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y18-20020a0564022712b029038ffac1995eso8841986edd.12
- for <qemu-devel@nongnu.org>; Sun, 06 Jun 2021 23:34:48 -0700 (PDT)
+ bh=bS6uSZiS+Hvu0+HuFER8vtlzg1RX9XoQm1w50yxT27s=;
+ b=RdmCre7aHkTGPY+s60XFjNrL4gdjBug5fNHMJ5Xaam3ZOFGPzqnuJYmIPdps6ON10WJYjm
+ v6RQ8wkwVKBkXawPQOEnzDCW6lpTEf2Or/X07Lwrm9CqgQoh67Yo2iSxRYp8VT+e+stZuS
+ acc9f328iI4gzuIE4Huczh3vpo2UGks=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-VsRXoUrBMmyM_7owp4DybQ-1; Mon, 07 Jun 2021 02:36:29 -0400
+X-MC-Unique: VsRXoUrBMmyM_7owp4DybQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ p20-20020a1709064994b02903cd421d7803so2069636eju.22
+ for <qemu-devel@nongnu.org>; Sun, 06 Jun 2021 23:36:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=DMOPno3042Z6q4EAEGHoAbh9QndGm5TQxzPwDwpz2bU=;
- b=hZx3a3M2/coNaWmr3L28g0S7iX35XcQMsypjaG+cci8UPK2GhOgoF75ouTR5gp1JgR
- vtGre8M2cvarQ9jFF9GpX4ywuHh8Jes3SXwd5s3dLwTMxyBmeDoU+/GQl35hdOAqBqee
- Xrukekr99KhR8Iu6kph8FsFtne9G9nCRY2yfpyvhDNCNvN1447FHq3J+3Kns7K16KQcs
- Be4XP7/QSphh6ruQUUbXlvSgsebt1llRBhmMovtcr/FbyLAru6Bysjh4J1tPvD4O57nd
- k8qyQ3hwOvkcGZzh0I9T7khkBAGjcA7HoDUukLdYbw5hhLACK0Cp0WcX+BcZqYpXzQRB
- XMGw==
-X-Gm-Message-State: AOAM532XDUDoqxYkhlPnC/vYXvDB3Kw1aeuFmAP0czTg/SGSS7bL3TiH
- 2N4YB+AQ+VT7ymLp8oyHUnvlyjldPBZju3/HczukoeF9hKjQtjvoZVcTwxj/OtY0u7aoGtMgN6a
- yHuE61rEPowAEavrZnS/cwOGlOEoHYJg=
-X-Received: by 2002:a50:ee02:: with SMTP id g2mr18474352eds.333.1623047687346; 
- Sun, 06 Jun 2021 23:34:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwoeRpTfjn0BWRpDMJ7MHmT5itVy0yMEkYtKP/nrPMNb34+7IXfR+4CNz0Zxj7r9kd6NkotjweIiILYtQBBJVo=
-X-Received: by 2002:a50:ee02:: with SMTP id g2mr18474345eds.333.1623047687191; 
- Sun, 06 Jun 2021 23:34:47 -0700 (PDT)
+ bh=bS6uSZiS+Hvu0+HuFER8vtlzg1RX9XoQm1w50yxT27s=;
+ b=GRe8E7XU724vSTGv6Nt+kPMp3itDS4kasfy0/MDA47FGbPvYGG4E345NtoEsTtM9QN
+ 0Iz1ewbeP4gl1Wa5G1i5cBQhKiAewt1bmhWzaBHq8NFtCAx8dOL85FKhp90U7MSytJDa
+ nYLbv+waob6z/vLgahH9QE2twpBQz8LtKr59ignbg6EE+/H6KVybntxGicENg7gTSJ9n
+ poL9C2W8RL7sT/kuntaEZ1lxlR8NwxkFaWBHMQqmnaECuUDghJExRZZ1a9GRLiUI6i+c
+ X1VmsCxI8B0RWU/2IE/GIPnU/Fh1/rEkSczwQrxQdqcSu5hdjyl46KnBYJJoZxv60pJm
+ ypQg==
+X-Gm-Message-State: AOAM5339rvwfBu4DGZvew+KK35qZ9zalzm+iZ1aK5PPtR5gHupqm72is
+ x215Vqsjh4Q4ApOwkIAqJNWAlpAuRl5SOBmolaCl9j/oSn4UKAN3r6FLjnCjpUrva2+58XTb9ts
+ WOwy5UgCeCQmeqKKkD1QKqYciyP2067U=
+X-Received: by 2002:a17:906:4d56:: with SMTP id
+ b22mr15870667ejv.78.1623047788068; 
+ Sun, 06 Jun 2021 23:36:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyDNn5boD4TiEGrWL+z5q1aSFljHICsRfCrwLxdPeQSbgDHVYVxCDHt0zKCinBOHwowlFjNK+MamRmTXXLnWc=
+X-Received: by 2002:a17:906:4d56:: with SMTP id
+ b22mr15870655ejv.78.1623047787873; 
+ Sun, 06 Jun 2021 23:36:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210602034750.23377-1-lulu@redhat.com>
- <20210602034750.23377-6-lulu@redhat.com>
- <655e3a49-229d-d858-3273-90e109dd7779@redhat.com>
-In-Reply-To: <655e3a49-229d-d858-3273-90e109dd7779@redhat.com>
+ <20210602034750.23377-8-lulu@redhat.com>
+ <4d06d28c-8a61-5e2f-f6e3-8061f6bc2001@redhat.com>
+In-Reply-To: <4d06d28c-8a61-5e2f-f6e3-8061f6bc2001@redhat.com>
 From: Cindy Lu <lulu@redhat.com>
-Date: Mon, 7 Jun 2021 14:34:11 +0800
-Message-ID: <CACLfguUNtFLT2wD_QGjfmWKhhmspNxn6JOZXkW1zsKACW_7n5Q@mail.gmail.com>
-Subject: Re: [PATCH v7 05/10] vhost-vdpa: add support for config interrupt
- call back
+Date: Mon, 7 Jun 2021 14:35:52 +0800
+Message-ID: <CACLfguWEieJBONhRfDrOHspcFNfPg=e41tdZ0J2BCxLqjqpC5Q@mail.gmail.com>
+Subject: Re: [PATCH v7 07/10] virtio-mmio: add support for configure interrupt
 To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
@@ -70,7 +71,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -95,72 +96,89 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 3, 2021 at 2:06 PM Jason Wang <jasowang@redhat.com> wrote:
+On Thu, Jun 3, 2021 at 2:36 PM Jason Wang <jasowang@redhat.com> wrote:
 >
 >
 > =E5=9C=A8 2021/6/2 =E4=B8=8A=E5=8D=8811:47, Cindy Lu =E5=86=99=E9=81=93:
-> > Add new call back function in vhost-vdpa, this call back function only
-> > supported in vhost-vdpa backend
+> > Add configure interrupt support for virtio-mmio bus. This
+> > interrupt will working while backend is vhost-vdpa
 > >
 > > Signed-off-by: Cindy Lu <lulu@redhat.com>
 > > ---
-> >   hw/virtio/trace-events | 2 ++
-> >   hw/virtio/vhost-vdpa.c | 7 +++++++
-> >   2 files changed, 9 insertions(+)
+> >   hw/virtio/virtio-mmio.c | 26 ++++++++++++++++++++++++++
+> >   1 file changed, 26 insertions(+)
 > >
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index c62727f879..60a15f0186 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int ind=
-ex, int fd) "dev: %p index:
-> >   vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p featur=
-es: 0x%"PRIx64
-> >   vhost_vdpa_set_owner(void *dev) "dev: %p"
-> >   vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, =
-uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_use=
-r_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> > +vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
+> > diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+> > index 13772d52bb..423267d51c 100644
+> > --- a/hw/virtio/virtio-mmio.c
+> > +++ b/hw/virtio/virtio-mmio.c
+> > @@ -670,7 +670,26 @@ static int virtio_mmio_set_guest_notifier(DeviceSt=
+ate *d, int n, bool assign,
+> >
+> >       return 0;
+> >   }
+> > +static int virtio_mmio_set_config_notifier(DeviceState *d, bool assign=
+)
+> > +{
+> > +    VirtIOMMIOProxy *proxy =3D VIRTIO_MMIO(d);
+> > +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> > +    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> >
+> > +    EventNotifier *notifier =3D virtio_get_config_notifier(vdev);
+> > +    int r =3D 0;
+> > +    if (assign) {
+> > +        r =3D event_notifier_init(notifier, 0);
 >
 >
-> This tracing information is sub-optimal, I think we should show the fd
-> instead of its address here.
+> The return value is ignored.
 >
-> Other looks good.
+will add the check here
+>
+> > +        virtio_set_notifier_fd_handler(vdev, -1, true, false);
+>
+>
+> You'd better use the macro you introduced in patch 1 here?
+>
+sorry, Seems I missed this, I will correct this
+>
+> > +    } else {
+> > +        virtio_set_notifier_fd_handler(vdev, -1, false, false);
+> > +        event_notifier_cleanup(notifier);
+> > +    }
+> > +    if (vdc->guest_notifier_mask && vdev->use_guest_notifier_mask) {
+> > +        vdc->guest_notifier_mask(vdev, -1, !assign);
+> > +    }
+> > +    return r;
+> > +}
+> >   static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
+> >                                              bool assign)
+> >   {
+> > @@ -692,8 +711,15 @@ static int virtio_mmio_set_guest_notifiers(DeviceS=
+tate *d, int nvqs,
+> >               goto assign_error;
+> >           }
+> >       }
+> > +    r =3D virtio_mmio_set_config_notifier(d, assign);
+> > +    if (r < 0) {
+> > +        goto config_assign_error;
+> > +    }
+> >
+> >       return 0;
+> > +config_assign_error:
+> > +    assert(assign);
+> > +    r =3D virtio_mmio_set_config_notifier(d, false);
+>
+>
+> This looks wired. We only have a single configure interrupt, so assign
+> fails should mean unassigned?
 >
 > Thanks
 >
->
-sure, I will fix this
-> > +
+sure Will correct this
 > >
-> >   # virtio.c
-> >   virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsig=
-ned out_num) "elem %p size %zd in_num %u out_num %u"
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 01d2101d09..9ba2a2bed4 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -545,6 +545,12 @@ static int vhost_vdpa_set_vring_call(struct vhost_=
-dev *dev,
-> >       trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
-> >       return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
-> >   }
-> > +static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-> > +                                       int *fd)
-> > +{
-> > +    trace_vhost_vdpa_set_config_call(dev, fd);
-> > +    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
-> > +}
-> >
-> >   static int vhost_vdpa_get_features(struct vhost_dev *dev,
-> >                                        uint64_t *features)
-> > @@ -611,4 +617,5 @@ const VhostOps vdpa_ops =3D {
-> >           .vhost_get_device_id =3D vhost_vdpa_get_device_id,
-> >           .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
-> >           .vhost_force_iommu =3D vhost_vdpa_force_iommu,
-> > +        .vhost_set_config_call =3D vhost_vdpa_set_config_call,
-> >   };
+> >   assign_error:
+> >       /* We get here on assignment failure. Recover by undoing for VQs =
+0 .. n. */
 >
 
 
