@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251EA39DE14
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 15:52:10 +0200 (CEST)
-Received: from localhost ([::1]:45358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAEC39DE18
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 15:53:05 +0200 (CEST)
+Received: from localhost ([::1]:47458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqFfk-00036W-RK
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 09:52:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
+	id 1lqFgf-0004XZ-2E
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 09:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqFe9-0001cG-UW
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:50:29 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:44632)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lqFfm-0003h8-SP
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:52:10 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:39742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqFe8-0007Sl-09
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:50:29 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- p13-20020a05600c358db029019f44afc845so9716wmq.3
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 06:50:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lqFfk-0000Dl-FU
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:52:10 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id l1so26805583ejb.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 06:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=VP5RN4HxCNzhJYlYohYHZp9DSXnjV5OAd2tedW4/09I=;
- b=UkgdEoysgsXsNO3TH5gH3IDTum9rkAXLYo5tsBrs7n/bBcFUh1evd/Y6xzj/pYFsNs
- bWWnNJnNMsbxd9emSP7gzEiQHUYytCC9Xo+IW+ndVyzc8zVT5zkmJM5myJYDfZdMg+FG
- BLapOM2odgCrvWqHIUKN7BLhDLDB6pQXmH/ZPQ4GkuwDrXPBaYHetkKCVL60nlkgwEJt
- ILatJMiKs3KEKryJnrv44n59ktAYWxIwJH5n1WsOKyUIfxZPachowVf9bkrD7QNWA5AK
- G5VKRUXwJyfbLuYcipnCAWhYgaNO947AxUaFd7GqjAe63kPb/4ywFAthyGX0DI/uGUgN
- 83qQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+TDBhkBq5qPqD65EoTuXDFW2B8QqnPLsAWxNaV4SBbs=;
+ b=mxlAKnntmKROJexHMz+68i/qcuqIBgE3RWGCMaR7GXwWGnvI88J/+9Q7cyzFz7AiCs
+ t8XFBqGbQhSchRgGQe5l4lS+vUYYnKntocsRM+V5Y6FZK0itEl0DFIWejY5/17yfSsA8
+ TFrmrfeLbf4hMrzZcP0qEyL8mIFiSEtngU1Hui/7sOCdjlWPBlZS04yJuYrePo3KGg9U
+ my48M+/X8vxpvnF8/KPdY5kr+1P+GIyXVbJQbfJ1PgnE9pOCUfsuAkct2Cuf2n0wsuCe
+ o7aNC7lUbKu+BwO2Vlw3Ex9HOfLvbh1lTxgmKi6deUKv8vUVVux5CyshLwcQmddIMsPp
+ 6Sdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=VP5RN4HxCNzhJYlYohYHZp9DSXnjV5OAd2tedW4/09I=;
- b=J3YPUKBq7YX5dGk4mu0vQKjsujUlaWIS4GFZuFd+i2l6NQKUvdtJVxliD+m4YUF434
- GiEFmYTCg1VT0SlVnGTD8DA56fuSq3S0cvV4OGHwGUHdnGM/KUNqWuVTzT1AR78c/ahM
- IKWC72Dqgh7lbhHsBpJCjx41/1vfZMvJPE3oniknEfAd743hO/VuBcLo2Qv8NL6oP5eC
- b8EIJmpw0O+cDVdQ6BV0DVVoOY1Q17maajGF7Ub/mOIMLKcEft13cJdcsfHE9qGpYNjv
- LtOS9S3F9FVx9LV+lH7eKbe84B8nMeLDb6R6dxE9BrW8ku9czVFnu+frJnJuZm9h2ISw
- OIgg==
-X-Gm-Message-State: AOAM531gch4XNxBHEbWj6tsxr9Apaz910QcoEItvh/FLymqpKi/Ff2sh
- nMmrWZQfcxgADPMywhmOQUS2Pw==
-X-Google-Smtp-Source: ABdhPJymkCkFQFW0P5N9MkwO9F0juLIIwLJhptFbg+KMPoD989MfGvqf61oh559f/ewzmo4bbYGPrA==
-X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr17183723wmk.97.1623073826278; 
- Mon, 07 Jun 2021 06:50:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q3sm16079569wrr.43.2021.06.07.06.50.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 06:50:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 902D21FF7E;
- Mon,  7 Jun 2021 14:50:24 +0100 (BST)
-References: <20210520195142.941261-1-matheus.ferst@eldorado.org.br>
- <bf17cd04-e964-b78b-278e-8b1f2c5554a2@eldorado.org.br>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Subject: Re: [PATCH] scripts/checkpatch.pl: process .c.inc and .h.inc files
- as C source
-Date: Mon, 07 Jun 2021 14:49:54 +0100
-In-reply-to: <bf17cd04-e964-b78b-278e-8b1f2c5554a2@eldorado.org.br>
-Message-ID: <87czsxokbj.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+TDBhkBq5qPqD65EoTuXDFW2B8QqnPLsAWxNaV4SBbs=;
+ b=rJbU/6nUzqg6O0drgBXMs93fuVJqSSKL11AAt1Oe5D0YIvUvXrDYgler+NKKSB8nDn
+ 3Dw1ZQVYDZwDi3tNba0x49coa4ln/y7+Xqm/s9M7WQU96vEgzjcZfHXANDLsbzMfGS9d
+ s3LyD7nyxZnHTqy7aHfovsHHz/0+LEV5qXoEBSUzM+oO7canlTFYbiTX+u6PEsuIqQL5
+ ELPD1ARKQtQH46MxLezaowahl7rit0qDgu9ws+mb3RHxms2a8c/UZXJ829cQ1aXrWNAV
+ f3kcnFO5csysZNFMjlSodFi6PE4BzxR6YXlGynfVBtbetHbWNIOYG9q4LZsRe4f7ewwd
+ QLIQ==
+X-Gm-Message-State: AOAM531HK57E11PWUdlrA1Axh8+hmLKpaaQycLY1s3f/EoRSK0hY0oSR
+ yZqtF7fiKU7veA61Tcw2CjDqM4YhOp/IMe5Qltdqc49Xruw=
+X-Google-Smtp-Source: ABdhPJyr6tU00tPGWYMRBgsaUuaHkzWwmBkR6zByS3ocp57UWRF54avk1PTy0dhbDU3fImZkXHPe4Tvbk84uMz8B8RU=
+X-Received: by 2002:a17:906:b294:: with SMTP id
+ q20mr17663787ejz.382.1623073926747; 
+ Mon, 07 Jun 2021 06:52:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+References: <20210604212747.959028-1-richard.henderson@linaro.org>
+In-Reply-To: <20210604212747.959028-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Jun 2021 14:51:33 +0100
+Message-ID: <CAFEAcA-EFkuWb8aHhiiN7Wu9n302A8hdoHUzn7txOVhEyOX=Fg@mail.gmail.com>
+Subject: Re: [PATCH] tcg: Introduce tcg_remove_ops_after
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,47 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 4 Jun 2021 at 22:27, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Introduce a function to remove everything emitted
+> since a given point.
+>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/tcg/tcg.h |  1 +
+>  tcg/tcg.c         | 13 +++++++++++++
+>  2 files changed, 14 insertions(+)
+>
+> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+> index 74cb345308..6895246fab 100644
+> --- a/include/tcg/tcg.h
+> +++ b/include/tcg/tcg.h
+> @@ -1081,6 +1081,7 @@ TCGOp *tcg_emit_op(TCGOpcode opc);
+>  void tcg_op_remove(TCGContext *s, TCGOp *op);
+>  TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *op, TCGOpcode opc);
+>  TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *op, TCGOpcode opc);
+> +void tcg_remove_ops_after(TCGOp *op);
 
-"Matheus K. Ferst" <matheus.ferst@eldorado.org.br> writes:
+A doc comment would be nice.
 
-> On 20/05/2021 16:51, matheus.ferst@eldorado.org.br wrote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> Change the regex used to determine whether a file should be
->> processed as
->> C source to include .c.inc and .h.inc extensions.
->> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> ---
->>   scripts/checkpatch.pl | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->> index 3d185cceac..bbcd25ae05 100755
->> --- a/scripts/checkpatch.pl
->> +++ b/scripts/checkpatch.pl
->> @@ -12,7 +12,7 @@ use Term::ANSIColor qw(:constants);
->>   my $P =3D $0;
->>   $P =3D~ s@.*/@@g;
->>   -our $SrcFile    =3D qr{\.(?:h|c|cpp|s|S|pl|py|sh)$};
->> +our $SrcFile    =3D qr{\.(?:(h|c)(\.inc)?|cpp|s|S|pl|py|sh)$};
->>     my $V =3D '0.31';
->>   @@ -1671,7 +1671,7 @@ sub process {
->>   		}
->>     # check we are in a valid C source file if not then ignore this
->> hunk
->> -		next if ($realfile !~ /\.(h|c|cpp)$/);
->> +		next if ($realfile !~ /\.((h|c)(\.inc)?|cpp)$/);
->>     # Block comment styles
->>=20=20=20
-> ping
+>  void tcg_optimize(TCGContext *s);
+>
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 0dc271aac9..262dbba1fd 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -2649,6 +2649,19 @@ void tcg_op_remove(TCGContext *s, TCGOp *op)
+>  #endif
+>  }
+>
+> +void tcg_remove_ops_after(TCGOp *op)
+> +{
+> +    TCGContext *s = tcg_ctx;
+> +
+> +    while (true) {
+> +        TCGOp *last = tcg_last_op();
+> +        if (last == op) {
+> +            return;
+> +        }
+> +        tcg_op_remove(s, last);
+> +    }
+> +}
 
-Seeing as checkpatch.pl is in it's own odd fixes silo I might as well
-pick it up for my PR that I'm rolling.
+This looks OK as far as TCG proper goes, but is it going to confuse
+the TCG plugin infrastructure if a frontend generates a bunch of
+TCG IR and then winds back the insn stream and generates something
+else instead ? I see some calls from tcg/ into plugin related
+functions, so I'm not sure...
 
-Queued to pr/070621-testing-updates-1, thanks.
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
