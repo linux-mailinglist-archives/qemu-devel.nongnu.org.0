@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF70539E70F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:02:57 +0200 (CEST)
-Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E64539E72C
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:04:28 +0200 (CEST)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqKWV-0005CW-Kr
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53668)
+	id 1lqKXz-0001H9-9D
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lqKRf-0003yX-7H; Mon, 07 Jun 2021 14:57:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:36131)
+ id 1lqKRb-0003vT-Bs; Mon, 07 Jun 2021 14:57:52 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:37875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lqKRX-0005r7-MF; Mon, 07 Jun 2021 14:57:54 -0400
+ id 1lqKRX-0005r5-MB; Mon, 07 Jun 2021 14:57:51 -0400
 Received: from quad ([82.142.12.38]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mbiak-1lDPNp0Lsc-00dGde; Mon, 07
- Jun 2021 20:57:35 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MPGFZ-1m0RKU3B1B-00PbZh; Mon, 07
+ Jun 2021 20:57:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/11] misc: Correct relative include path
-Date: Mon,  7 Jun 2021 20:57:22 +0200
-Message-Id: <20210607185730.346641-4-laurent@vivier.eu>
+Subject: [PULL 04/11] linux-user/syscall: Constify bitmask_transtbl fcntl/mmap
+ flags_tlb[]
+Date: Mon,  7 Jun 2021 20:57:23 +0200
+Message-Id: <20210607185730.346641-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210607185730.346641-1-laurent@vivier.eu>
 References: <20210607185730.346641-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jw3HQtxNiKPDJMtUHxgYRSZuZy7t4+BPFfUmvx00JH26+BANwLa
- aPyRtu4y30IciCY4W4tbQ3AO3X/rsQxUVb5fU0tKI5jCWCfIFqXXaYiqcB+SsjdMI35WQSZ
- CLF8J5G3i+b/Tt1mseAo5LD4JvtwL0oSddfzPZ4fKwcgzJJSpOUK4PItLObHTmkovj2ge44
- Ro6pw0c1W4etxh7aVow0A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:idTwRSoV58s=:5Wc+ZHyt5fX+vyutrhVQnD
- jCFXJh1GPTDPUU8VEIiFHbPsiH9M2/lBCY5RNe9ZOpg87OWJVprhiYyxrcH0FD6da0zaroRwm
- fmr1kaLMXmr0BQuQLETzRtcqhx+VXWkFI2AICJQK5Z2E0zglBXsPRcNjOwjh9QwCvGGjjF1qW
- L+zg9Y836pRalEvqpwGgSL3YcVDZIw5QgY+4kYgiXqrWfvD48OF76+GXI0zcoGflpF9t6F1oI
- SeZxjOzlBmaCJ4Rn46nZUm1MBXNBScoiWwKNzJ63JpduMhn8a0B3id+hx9UeQOLR0q/PZNQgm
- SZfYrAnnhLKGuzbl0kCQnjNUHNWV096aFFQ2WnBkMuh/3oS2idwV53eL5DesPw3VPuutgHVYR
- 7abj2fcHHUwYghDGPH4XfqGoOA1gv91cQJdLSxurRPbgnA8wTJ8lWqlGpikFCdj/2Gj+ruIt0
- BADa36FDIF891qnY+bgxU59cO9qxqABcrqPoIMCH5LiGcNdIMjrbF7vGfWgSlSOjHJHjqoS/Z
- XRziy91CUNoj6aFlnGwIhM=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:yZTy0uTycdsMYsP4FhFiZpMOCMxuJYoBaI1yti5is/bVfIf+56A
+ YG/oW6AJvkx+VW+kCg/NxE/IfSPzSZLLbwRSMw3F4R9mbQUvHlZxwGUuDFSc3f+z8gJ0hHb
+ 3n/n339B8R5Gyghf3UR5NTR1ab/jgCsx1IDWUBsYMUKpZVb/W6KjAW6fDoIeYUFFh88+78E
+ E/HEP7nb0qXg+K2owZPhw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d/nVhIzL8+g=:/q5g+SacHT/HPSE9Vs7xZ3
+ b+GrZ17Wez35h0b8ziyhcEZYzt+smdxtlLBAGjQUofdAy3cVvsWpEl1AqphDqW0yDE3+Ah8X7
+ YReJv/JfdFQuji7p580pmVy7pG4/ld26178cZ7WTfCieDA5nR1TC6MYJQ+w+muddsEco80uJc
+ l3ou7BR7rs/S0GEfjyA0WVTNOdPEjLttLSf3NII0/xaozZbbURZzlRX9hhzA7AEOzR04fZJv2
+ mQVBcIFb/p+wVkXpg3uYBMMq7puqZsd4NLpg0pN47TbDwDSg/ZLwTRzQp6PErbUh7//CzYezo
+ VDl1+RzHhupRvqXhPeDvKti+YfPW5THxzz1K8N7GQ4v40mkoN8XZsqnsUTJvfuB5lXCvvDPKI
+ e2wC+4kKObfmzOXuzLt/LHWIFBZMz7B1Vk3RJMRiVlYE+9EmF6cbAoQvEuRivBUi05I2zZbyn
+ xP3WtA76ASM9OZNJPTtCQz0qFzU3TKutU3XdLfmxeJxyzyK+8SmgnQuZwJeDVc2600yDtwawQ
+ 1AWPfkXi96JKvFH7uOIqig=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -63,84 +64,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Bin Meng <bmeng.cn@gmail.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Headers should be included from the 'include/' directory,
-not from the root directory.
+Keep bitmask_transtbl in .rodata by marking the arrays const.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210516205034.694788-1-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210517055243.830491-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/gpio/aspeed_gpio.c     | 2 +-
- hw/i386/acpi-common.h     | 6 +++---
- hw/intc/ppc-uic.c         | 2 +-
- include/monitor/monitor.h | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ linux-user/syscall.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index 34d8acb0e37a..6ae0116be70b 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -10,7 +10,7 @@
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
- #include "hw/gpio/aspeed_gpio.h"
--#include "include/hw/misc/aspeed_scu.h"
-+#include "hw/misc/aspeed_scu.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
- #include "hw/irq.h"
-diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-index b12cd73ea5de..a68825acf50b 100644
---- a/hw/i386/acpi-common.h
-+++ b/hw/i386/acpi-common.h
-@@ -1,9 +1,9 @@
- #ifndef HW_I386_ACPI_COMMON_H
- #define HW_I386_ACPI_COMMON_H
--#include "include/hw/acpi/acpi_dev_interface.h"
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index c9f812091c3f..974dd46c9a17 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -365,7 +365,7 @@ _syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
+ _syscall2(int, membarrier, int, cmd, int, flags)
+ #endif
  
--#include "include/hw/acpi/bios-linker-loader.h"
--#include "include/hw/i386/x86.h"
-+#include "hw/acpi/acpi_dev_interface.h"
-+#include "hw/acpi/bios-linker-loader.h"
-+#include "hw/i386/x86.h"
+-static bitmask_transtbl fcntl_flags_tbl[] = {
++static const bitmask_transtbl fcntl_flags_tbl[] = {
+   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
+   { TARGET_O_ACCMODE,   TARGET_O_RDWR,      O_ACCMODE,   O_RDWR,      },
+   { TARGET_O_CREAT,     TARGET_O_CREAT,     O_CREAT,     O_CREAT,     },
+@@ -6062,7 +6062,7 @@ static const StructEntry struct_termios_def = {
+     .print = print_termios,
+ };
  
- /* Default IOAPIC ID */
- #define ACPI_BUILD_IOAPIC_ID 0x0
-diff --git a/hw/intc/ppc-uic.c b/hw/intc/ppc-uic.c
-index 7171de7b3558..60013f2dde34 100644
---- a/hw/intc/ppc-uic.c
-+++ b/hw/intc/ppc-uic.c
-@@ -23,7 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "include/hw/intc/ppc-uic.h"
-+#include "hw/intc/ppc-uic.h"
- #include "hw/irq.h"
- #include "cpu.h"
- #include "hw/ppc/ppc.h"
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index af3887bb71d5..1211d6e6d69f 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -4,7 +4,7 @@
- #include "block/block.h"
- #include "qapi/qapi-types-misc.h"
- #include "qemu/readline.h"
--#include "include/exec/hwaddr.h"
-+#include "exec/hwaddr.h"
- 
- typedef struct MonitorHMP MonitorHMP;
- typedef struct MonitorOptions MonitorOptions;
+-static bitmask_transtbl mmap_flags_tbl[] = {
++static const bitmask_transtbl mmap_flags_tbl[] = {
+     { TARGET_MAP_SHARED, TARGET_MAP_SHARED, MAP_SHARED, MAP_SHARED },
+     { TARGET_MAP_PRIVATE, TARGET_MAP_PRIVATE, MAP_PRIVATE, MAP_PRIVATE },
+     { TARGET_MAP_FIXED, TARGET_MAP_FIXED, MAP_FIXED, MAP_FIXED },
 -- 
 2.31.1
 
