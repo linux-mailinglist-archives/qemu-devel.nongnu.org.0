@@ -2,98 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD9639E73E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:09:53 +0200 (CEST)
-Received: from localhost ([::1]:45284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D44C39E785
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 21:33:11 +0200 (CEST)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqKdE-00038g-8f
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:09:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55732)
+	id 1lqKzm-00027x-03
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 15:33:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lqKbb-00013O-Tz
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:08:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lqKbZ-0003qm-Rz
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 15:08:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623092888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=02F3S6c1rBua5tDLeQNLa6TZca6BAp/DfO06BCkqahM=;
- b=g7J9lr2GaVy0pWB5vo9II2oASzWyXLuoqN67XcAi3/ymm5BsQvt0NRO6OFrOqrHmBLc1L8
- GjfolROq+vj5PoIlgIadqKGWALncHMrJxNtfTlRVUnvNqa4C7OsAkBohztyR+h8BmKed//
- Xzr2xe+UsEbRII5yngA3ouvKga5pxuU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-532-IPrfpDxiM-e39jWxaHurpg-1; Mon, 07 Jun 2021 15:08:07 -0400
-X-MC-Unique: IPrfpDxiM-e39jWxaHurpg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z4-20020adfe5440000b0290114f89c9931so8213313wrm.17
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 12:08:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=02F3S6c1rBua5tDLeQNLa6TZca6BAp/DfO06BCkqahM=;
- b=ihfGo8C6GC6aNndo3XYVTVW9NkNuAPfZ+LshB+atrMT96HAJxFiz/aGfoLC2IRiWHt
- 7IR2Y5n5/4nDCYX5YwGiiLJFzCxmmOr9WQgESL74E2kC7QNfx6zwRwg7tAgHnYrOBmjm
- vBus9aXJ+2q+b0GuB8hQs5Wq7+U/n3U8UkYpSnLskjsXvewAVeyC8NtfNJBP2/J/soFW
- 6wsBWx4cDL3P9Di6ZlNprGT+oX7pjK6xhHX5zOh90zrR0hN2ulS94I40ddh2rxey9CAc
- RcOch9KX2Ijun5pwGGDEgFmPAUjjhZojIT674YJA5BdHBCmgjG+C15CPJ0ymBWodc5ku
- pJCg==
-X-Gm-Message-State: AOAM5302HASVa1+36WaiTwuPp51mOx8QSP2rJWs+3LZZixfIr/yWI1m0
- bhxMs59ThkYxDxh6DAxGCkI7zXbqJcPxKAD1sPbCVhRvFt/o2HaW1HO7LaqPi32G6k4PGLIBbmH
- /CK6EmaUgWrg/sL0=
-X-Received: by 2002:adf:ee4e:: with SMTP id w14mr14015617wro.14.1623092886285; 
- Mon, 07 Jun 2021 12:08:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4hNJVM2hB2RUoZJJrULPJf/y5I52cr1uemxYgSOeCVKYLgoAi6H9ixEwIqzLrkQRHHVeZ2Q==
-X-Received: by 2002:adf:ee4e:: with SMTP id w14mr14015609wro.14.1623092886086; 
- Mon, 07 Jun 2021 12:08:06 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- t9sm10501759wmq.14.2021.06.07.12.08.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 12:08:05 -0700 (PDT)
-Subject: Re: [PATCH 0/2] block-copy: small fix and refactor
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210528141628.44287-1-vsementsov@virtuozzo.com>
- <YLdLrrTszu8MMxPv@stefanha-x1.localdomain> <YLd33jBVl5k3RAZK@redhat.com>
- <151b2470-9c6c-cda9-a77b-64cdb10a7550@redhat.com>
- <YL42y/CZIFJ6ICLB@redhat.com>
- <c8a57c4b-544c-a5a6-728e-390a924d34ba@redhat.com>
- <fecd8d65-b4c5-481e-ea8e-e9a8cb523a39@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <dc4aed87-dfe2-0f9f-77dd-ab47e37977d9@redhat.com>
-Date: Mon, 7 Jun 2021 21:08:04 +0200
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lqKw7-0000C7-FS; Mon, 07 Jun 2021 15:29:23 -0400
+Received: from [201.28.113.2] (port=41930 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lqKw5-00008j-2I; Mon, 07 Jun 2021 15:29:23 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 7 Jun 2021 16:29:15 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 67CD1801387;
+ Mon,  7 Jun 2021 16:29:15 -0300 (-03)
+Subject: Re: [RFC PATCH] target/ppc: fix address translation bug for hash
+ table mmus
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210602191822.90182-1-bruno.larsen@eldorado.org.br>
+ <d7139129-428a-f6c9-c6e2-e540208d62aa@linaro.org>
+ <39c92ce9-46b8-4847-974c-647c7a5ca2ae@eldorado.org.br>
+ <b689bdd0-4d75-7c4e-189e-922738208dc0@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <c79e73b0-f989-575b-0982-672fc9b289eb@eldorado.org.br>
+Date: Mon, 7 Jun 2021 16:29:15 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <fecd8d65-b4c5-481e-ea8e-e9a8cb523a39@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <b689bdd0-4d75-7c4e-189e-922738208dc0@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------61C86F1951D8AD48B965B624"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 07 Jun 2021 19:29:15.0773 (UTC)
+ FILETIME=[6729AAD0:01D75BD3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,93 +62,299 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, jsnow@redhat.com, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------61C86F1951D8AD48B965B624
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-On 07/06/2021 18:18, Vladimir Sementsov-Ogievskiy wrote:
-> 07.06.2021 18:16, Emanuele Giuseppe Esposito wrote:
+On 02/06/2021 19:19, Richard Henderson wrote:
+> On 6/2/21 12:58 PM, Bruno Piazera Larsen wrote:
+>>> For the use from ppc_cpu_get_phys_page_debug, you'd pass in 
+>>> cpu_mmu_index(env, false).
 >>
+>> ppc_cpu_get_phys_page_debug has 2 calls to ppc_xlate, one using the 
+>> data MMU, the other using the instruction MMU. I'm guessing I should 
+>> pass both, right?
+>
+> Yes.
+>
+>> But here we have another bit that confuses me: cpu_mmu_index returns 
+>> 0 if in user mode, or uses the information stored in env to get it, 
+>> so I don't see how that would be different from getting directly. 
+>> Unless the point is to have ppc_*_xlate be generic and pc_*_debug 
+>> knows the info in env is correct. Is that it?
+>
+> The issue is that
+>
+> (1) ppc_*_xlate should perform the lookup requested, and mmu_idx
+>     does not *necessarily* correspond to the current contents of
+>     env->msr et al.  See (2).
+>
+> (2) There is a secondary call to ppc_radix64_partition_scoped_xlate
+>     for which the second stage page table should be read
+>     with hypervisor permissions, and not the permissions of the
+>     original memory access.
+>
+>     Note that ppc_radix64_check_prot checks msr_pr directly.
+>
+>     Thus the second stage lookup should use mmu_idx = 5
+>     (HV kernel virtual mode).  If I understand things correctly...
+>
 >>
->> On 07/06/2021 17:10, Kevin Wolf wrote:
->>> Am 03.06.2021 um 09:38 hat Paolo Bonzini geschrieben:
->>>> On 02/06/21 14:21, Kevin Wolf wrote:
->>>>> Am 02.06.2021 um 11:13 hat Stefan Hajnoczi geschrieben:
->>>>>> On Fri, May 28, 2021 at 05:16:26PM +0300, Vladimir 
->>>>>> Sementsov-Ogievskiy wrote:
->>>>>>> Hi all!
->>>>>>>
->>>>>>> This is my suggestion how to refactor block-copy to avoid extra 
->>>>>>> atomic
->>>>>>> operations in
->>>>>>> "[PATCH v2 0/7] block-copy: protect block-copy internal structures"
->>>>>>>
->>>>>>> Vladimir Sementsov-Ogievskiy (2):
->>>>>>>     block-copy: fix block_copy_task_entry() progress update
->>>>>>>     block-copy: refactor copy_range handling
->>>>>>>
->>>>>>>    block/block-copy.c | 79 
->>>>>>> +++++++++++++++++++++++++++++++---------------
->>>>>>>    1 file changed, 53 insertions(+), 26 deletions(-)
->>>>>>
->>>>>> I posted suggestions for the doc comment on Patch 2, otherwise:
->>>>>>
->>>>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>>>>
->>>>> Thanks, fixed up the comment accordingly and applied to the block
->>>>> branch.
->>>>
->>>> I'm a bit confused.  Vladimir said in his review of Emanuele's patches
->>>> that he was okay with patch 7 and that he would rebase this
->>>> refactoring on top of it.
->>>>
->>>> Vladimir's main complaint for the s->method state machine was the
->>>> extra lines of code.  Here we have just as many new lines of code and
->>>> new parameters that are passed by reference.  Kevin, can you please
->>>> look at Emanuele's patches and possibly unqueue the second patch here?
->>>> It seems to me that it should have been tagged as RFC.
 >>>
->>> Sorry, I was not aware that Vladimir intended to rebase this one. This
->>> has already landed in master, so if rebasing the other patch is a real
->>> problem, we'd have to revert this one first.
 >>>
->> It shouldn't be a problem, I have already rebased on top of it. I will 
->> re-spin a new series with this and other minor (and hopefully final) 
->> fixes soon.
+>>>> +    const short HV = 1, IR = 2, DR = 3;
+>>>> +    bool MSR[3];
+>>>> +    MSR[HV] = dmmu_idx & 2,
+>>>> +    MSR[IR] = immu_idx & 4,
+>>>> +    MSR[DR] = dmmu_idx & 4;
+>>>
+>>> There's no point in the array.  Just use three different scalars 
+>>> (real_mode, hv, and pr (note that pr is the major portion of the bug 
+>>> as reported)). Additionally, you'll not be distinguishing immu_idx 
+>>> and dmmu_idx, but using the single idx that's given.
 >>
-> 
-> Thanks, and sorry for the mess!
-> 
-> Hmm, actually, I said
-> 
->> OK, I'm OK with patch as is. Finally I can refactor it later on top if 
->> needed.. I'll try now do some refactoring, you'll probably want to 
->> base on it, or vise-versa, I'll rebase it later on top of these patches. 
-> 
-> So, I considered both variants. Then I sent patches, everybody in CC, 
-> everybody were silent.
-> 
-> 
-> Honestly, I'm a bit confused too. I find my complains valid 
-> (independently of me being "I'm OK and can refactor later") and you 
-> agreed with them in general. I'm an author and maintainer of the 
-> component. I do refactoring that makes it simple to follow my 
-> suggestion. So for me it's a bit like doing your work for you. And you 
-> ask to roll-back it.
+>> Ah, yeah, that's the "more complex than necessary, but it was easy 
+>> for me to read" part. Scalars are a good solution. In this function 
+>> in specific, PR doesn't actually show up anywhere, so I would 
+>> actually only need 2. Anyway, will start working on this.
+>
+> Oh, I'll note that your constants above are wrong.  I think that you 
+> should have some common routines in (mmu-)internal.h:
+>
+> /*
+>  * These correspond to the mmu_idx values computed in
+>  * hreg_compute_hflags_value.  See the tables therein.
+>  */
+> static inline bool mmuidx_pr(int idx) { return idx & 1; }
+> static inline bool mmuidx_real(int idx) { return idx & 2; }
+> static inline bool mmuidx_hv(int idx) { return idx & 4; }
+>
+> because you'll want to use these past mmu-radix64.c.
+>
+> Then you also have a single place to adjust if the mmu_idx are 
+> reordered at a later date.
+>
+>
+> r~
 
-I think it's useless to discuss about these things now. I rebased, all 
-is clear and I am positive that in the next version we will have 
-something that makes everyone happy :) and if not, feel free to comment it!
+I just tried sending mmu_idx all the way down, but I ran into a very 
+weird bug of gcc. If we have to add one more parameter that GCC can't 
+just optimize away we get at least a slow down of 5x for the first test 
+of check-acceptance (could be more, but the test times out after 900 
+seconds, so I'm not sure). One way that I managed to get around that is 
+saving the current MSR, setting it to 5, and restoring after the xlate 
+call. The code ended up something like:
 
-Emanuele
+int new_idx = (5<<HFLAGS_IMMU_IDX) | (5<<HFLAGS_DMMU_IDX);
+int clr = (7<<HFLAGS_IMMU_IDX) | (7<<HFLAGS_DMMU_IDX);
+int old_idx = env->msr & clr;
+clr = ~clr;
+/* set new msr so we don't need to send the mmu_idx */
+env->msr = (env->msr & clr) | new_idx;
+ret = ppc_radix64_partition_scoped_xlate(...);
+/* restore old mmu_idx */
+env->msr = (env->msr & clr) | old_idx;
 
-> 
-> Still, misunderstanding and the mess with two parallel conflicting 
-> series is my fault, sorry for this. At least I should have answered to 
-> your series when Stefan gave an r-b to my series.
-> 
+That way we continue to use the env as the way to send the variable and 
+avoid what I think is a problem with the compiler's optimization.
 
+Would this be acceptable (with proper documentation in the form of 
+comments, ofc) or do we have to find a better solution that doesn't 
+touch the values of env? I personally don't like it, but I couldn't find 
+a better solution. If you're fine with it, we can use it, otherwise I'll 
+keep looking.
+
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer If
+<https://www.eldorado.org.br/disclaimer.html>
+
+--------------61C86F1951D8AD48B965B624
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 02/06/2021 19:19, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:b689bdd0-4d75-7c4e-189e-922738208dc0@linaro.org">On
+      6/2/21 12:58 PM, Bruno Piazera Larsen wrote:
+      <br>
+      <blockquote type="cite">
+        <blockquote type="cite">For the use from
+          ppc_cpu_get_phys_page_debug, you'd pass in cpu_mmu_index(env,
+          false).
+          <br>
+        </blockquote>
+        <br>
+        ppc_cpu_get_phys_page_debug has 2 calls to ppc_xlate, one using
+        the data MMU, the other using the instruction MMU. I'm guessing
+        I should pass both, right?
+        <br>
+      </blockquote>
+      <br>
+      Yes.
+      <br>
+      <br>
+      <blockquote type="cite">But here we have another bit that confuses
+        me: cpu_mmu_index returns 0 if in user mode, or uses the
+        information stored in env to get it, so I don't see how that
+        would be different from getting directly. Unless the point is to
+        have ppc_*_xlate be generic and pc_*_debug knows the info in env
+        is correct. Is that it?
+        <br>
+      </blockquote>
+      <br>
+      The issue is that
+      <br>
+      <br>
+      (1) ppc_*_xlate should perform the lookup requested, and mmu_idx
+      <br>
+          does not *necessarily* correspond to the current contents of
+      <br>
+          env-&gt;msr et al.  See (2).
+      <br>
+      <br>
+      (2) There is a secondary call to
+      ppc_radix64_partition_scoped_xlate
+      <br>
+          for which the second stage page table should be read
+      <br>
+          with hypervisor permissions, and not the permissions of the
+      <br>
+          original memory access.
+      <br>
+      <br>
+          Note that ppc_radix64_check_prot checks msr_pr directly.
+      <br>
+      <br>
+          Thus the second stage lookup should use mmu_idx = 5
+      <br>
+          (HV kernel virtual mode).  If I understand things correctly...
+      <br>
+      <br>
+      <blockquote type="cite">
+        <br>
+        <blockquote type="cite">
+          <br>
+          <br>
+          <blockquote type="cite">+    const short HV = 1, IR = 2, DR =
+            3;
+            <br>
+            +    bool MSR[3];
+            <br>
+            +    MSR[HV] = dmmu_idx &amp; 2,
+            <br>
+            +    MSR[IR] = immu_idx &amp; 4,
+            <br>
+            +    MSR[DR] = dmmu_idx &amp; 4;
+            <br>
+          </blockquote>
+          <br>
+          There's no point in the array.  Just use three different
+          scalars (real_mode, hv, and pr (note that pr is the major
+          portion of the bug as reported)). Additionally, you'll not be
+          distinguishing immu_idx and dmmu_idx, but using the single idx
+          that's given.
+          <br>
+        </blockquote>
+        <br>
+        Ah, yeah, that's the "more complex than necessary, but it was
+        easy for me to read" part. Scalars are a good solution. In this
+        function in specific, PR doesn't actually show up anywhere, so I
+        would actually only need 2. Anyway, will start working on this.
+        <br>
+      </blockquote>
+      <br>
+      Oh, I'll note that your constants above are wrong.  I think that
+      you should have some common routines in (mmu-)internal.h:
+      <br>
+      <br>
+      /*
+      <br>
+       * These correspond to the mmu_idx values computed in
+      <br>
+       * hreg_compute_hflags_value.  See the tables therein.
+      <br>
+       */
+      <br>
+      static inline bool mmuidx_pr(int idx) { return idx &amp; 1; }
+      <br>
+      static inline bool mmuidx_real(int idx) { return idx &amp; 2; }
+      <br>
+      static inline bool mmuidx_hv(int idx) { return idx &amp; 4; }
+      <br>
+      <br>
+      because you'll want to use these past mmu-radix64.c.
+      <br>
+      <br>
+      Then you also have a single place to adjust if the mmu_idx are
+      reordered at a later date.
+      <br>
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <p>I just tried sending mmu_idx all the way down, but I ran into a
+      very weird bug of gcc. If we have to add one more parameter that
+      GCC can't just optimize away we get at least a slow down of 5x for
+      the first test of check-acceptance (could be more, but the test
+      times out after 900 seconds, so I'm not sure). One way that I
+      managed to get around that is saving the current MSR, setting it
+      to 5, and restoring after the xlate call. The code ended up
+      something like:</p>
+    <p>int new_idx = (5&lt;&lt;HFLAGS_IMMU_IDX) |
+      (5&lt;&lt;HFLAGS_DMMU_IDX);<br>
+      int clr = (7&lt;&lt;HFLAGS_IMMU_IDX) | (7&lt;&lt;HFLAGS_DMMU_IDX);<br>
+      int old_idx = env-&gt;msr &amp; clr;<br>
+      clr = ~clr;<br>
+      /* set new msr so we don't need to send the mmu_idx */<br>
+      env-&gt;msr = (env-&gt;msr &amp; clr) | new_idx;<br>
+      ret = ppc_radix64_partition_scoped_xlate(...);<br>
+      /* restore old mmu_idx */<br>
+      env-&gt;msr = (env-&gt;msr &amp; clr) | old_idx;</p>
+    <p>That way we continue to use the env as the way to send the
+      variable and avoid what I think is a problem with the compiler's
+      optimization.</p>
+    <p>Would this be acceptable (with proper documentation in the form
+      of comments, ofc) or do we have to find a better solution that
+      doesn't touch the values of env? I personally don't like it, but I
+      couldn't find a better solution. If you're fine with it, we can
+      use it, otherwise I'll keep looking.<br>
+    </p>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer If <br>
+      </a></div>
+  </body>
+</html>
+
+--------------61C86F1951D8AD48B965B624--
 
