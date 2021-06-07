@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685E839E5E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:52:23 +0200 (CEST)
-Received: from localhost ([::1]:40520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1A639E5B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:45:27 +0200 (CEST)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqJQD-0005mN-P3
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34462)
+	id 1lqJJV-0007nJ-S8
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lqIoj-0007Nt-38
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:13:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lqIof-0005Nq-1M
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:13:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623086012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bmnitD8CLsJykuGGNZPmXLieFrDdGzrfIgNf5w7iUGc=;
- b=ZSZDpbK6KMyR9uXdCNSPOy9H/SHyGXnMDZwx0INAq7dI0HwvEhBypnhFocum18u7IJCBjW
- 5GVLx17pPVpmYfTgyuJkBG97gUpNVPhE8XDtupfFnFVZf9MiW0+KBy3en9sf2Uc5RF46J7
- M4I7wMCUD/bHHCGiWEwkuzdXOOh7elY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-y6pzawY6Of2WVLaQ8R7-3A-1; Mon, 07 Jun 2021 13:13:26 -0400
-X-MC-Unique: y6pzawY6Of2WVLaQ8R7-3A-1
-Received: by mail-qv1-f69.google.com with SMTP id
- v7-20020a0ccd870000b0290219d3e21c4eso13696978qvm.2
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 10:13:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqItg-0002rc-Tr
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:18:46 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqItb-0007va-RP
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:18:44 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id c5so18463214wrq.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 10:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j5k0oIoIWdvhtoUvcL122b402BM5eBr1x6LJEnAcLN0=;
+ b=ZUunQuvZwv04DiCOB/yTnGnEHBPWxyoWkBu46/YR2xXFTP6/3FMgTo48bcHoko48d+
+ d/GIwsMVznoYc4kXw2/Rsrh13LDHWbZEwyzrK1u8rm7vMUJUTuZIW8bGI24Uq/vidqvJ
+ /XXdl7NvMXW+vKY7YS46K6CobddJVfY/lrOhylbB5F99naeIspR+rvlwXzaRE+HBtQYN
+ OUg7rbK22igC+nvri4KwuVZd+XfGIb8UM/kczn7TDzjbGOWnv/yVWCwk291VTML2Vit3
+ UL730Wuiobm6F7M7qj/UUl6I2BmJlQPPaybs6ixb0IOOiTBUABe14ZXav/AomzlwqV4b
+ Dpnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bmnitD8CLsJykuGGNZPmXLieFrDdGzrfIgNf5w7iUGc=;
- b=Xm+eKnAXZw0hOtRP6qsnCaN2nRwNNaJDiRITQjNn2dip4aLXa6p7hDEPSbz4XKAe51
- c0Ir21vn62Wi2BWLpdffuiLklbTb18k1EehEThs4TDOB/JeXORNxsbTOQEJluBpX2CZq
- gRE9Atn2ZfZ4k9aQ016jO9HQeidPuf+cxfzbLR1TD9mujD3eVVYzbmfpiuYwiFZfvL+h
- ihSWxpAAY6U7LTC15sV4HcKnSNpNCGrN5vtxRCtlexD5Xknr+6mqhfa67yzaMGzuIxam
- 6OnFsbDPeB0owilmAoO+EA2IKNpp4MXfC9m6RsQsABuze/pJaIJO3UTjVJy/ABj/2i6o
- qmkA==
-X-Gm-Message-State: AOAM530ezezE49THmys8xlVHzsfWCt/+b2M50AwfjGo1pY8/dWXA4i2r
- xuAMxgJF+m/FQ2bAxYvH4uy2gaYIPYw0PZi1IboHYoX6rUnXL+ZK20I4dO3VfdvnqYWsOlZG1df
- Cuue9L/X74zGCHQY=
-X-Received: by 2002:ac8:7215:: with SMTP id a21mr13012704qtp.329.1623086006384; 
- Mon, 07 Jun 2021 10:13:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCzuw3QxQGiUaP3Dm2do89eCVE3RDOYL49X9BWl25/GaOHWdiakBEGrVN5tcYNqy4yNxmmBA==
-X-Received: by 2002:ac8:7215:: with SMTP id a21mr13012687qtp.329.1623086006153; 
- Mon, 07 Jun 2021 10:13:26 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca.
- [174.93.75.200])
- by smtp.gmail.com with ESMTPSA id v6sm10006411qkv.54.2021.06.07.10.13.25
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j5k0oIoIWdvhtoUvcL122b402BM5eBr1x6LJEnAcLN0=;
+ b=RHnk0yd9K9SyHvt4P7WL12fLAPLSoNdSy/QmDR+ZRb19rzQI54Ia5apW8PjMXkIaDQ
+ Af1F2vaR+hOPnMf1h54vXWygFyVow/OKDog2SjR9kp/OGkfyap1rw0KbGK9P629qKoEw
+ xWlN+dSS+rXqkFiP0tVlHuv7ZrA/90C8kHwoB0OCiyHcQSHOoAeCS5zvxI/iqwN5bt+k
+ T462e4rzxaoyQE+/ep3VvkeszIK8mFJtyCNzCLSL4OrUhL+/dKFCD3d9V1/2Kuxv+zH9
+ voaGSaOZPGEOLhG95/f+QD/6VTI/3hfpEWtl9pmEyD5RiKyLX56C3f63GhIowDVK5tln
+ qoIA==
+X-Gm-Message-State: AOAM530pW3neKsTxUmiFY7uMtDTQ8EEsw2PRLU9dJ5FhI/qquA7TnHz5
+ PeCh2DtuYFjudpKdM69jCFlljg==
+X-Google-Smtp-Source: ABdhPJzbVhC1/2XglW3ZbVnM4kMoMpoyDiPk6vb8sSloQIVu+5qe8CnX18CVS0QTYepPkKnsuZdfKA==
+X-Received: by 2002:a5d:6482:: with SMTP id o2mr17719684wri.79.1623086318122; 
+ Mon, 07 Jun 2021 10:18:38 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r4sm16692802wre.84.2021.06.07.10.18.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 10:13:25 -0700 (PDT)
-Date: Mon, 7 Jun 2021 13:13:24 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Hyman Huang <huangy81@chinatelecom.cn>
-Subject: Re: [PATCH v3 4/7] migration/dirtyrate: add per-vcpu option for
- calc-dirty-rate
-Message-ID: <YL5TtDPZdpSQhmZ+@t490s>
-References: <cover.1623027729.git.huangy81@chinatelecom.cn>
- <19ad91782f5798844c42e34683fda833f9d1928a.1623027729.git.huangy81@chinatelecom.cn>
- <YL4/U2Kjojyr2wcT@t490s>
- <5ce0a796-f261-6a13-1dc9-27bc52ba033d@chinatelecom.cn>
+ Mon, 07 Jun 2021 10:18:37 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1AED61FF7E;
+ Mon,  7 Jun 2021 18:18:36 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] scripts/checkpatch: roll diff tweaking into checkpatch
+ itself
+Date: Mon,  7 Jun 2021 18:18:29 +0100
+Message-Id: <20210607171829.25111-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <5ce0a796-f261-6a13-1dc9-27bc52ba033d@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,33 +85,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 12:16:03AM +0800, Hyman Huang wrote:
+Rather than relying on external tweaks lets just do it inside
+checkpatch's direct commitish handling which is QEMU specific code
+anyway.
 
-[...]
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ .gitlab-ci.d/static_checks.yml | 3 ---
+ .patchew.yml                   | 3 ---
+ scripts/checkpatch.pl          | 7 ++++++-
+ 3 files changed, 6 insertions(+), 7 deletions(-)
 
-> > Actually I'm also wondering whether dirty log could be anything useful here in
-> > the future as a 3rd mode (then the "*mode" idea should be more useful if so),
-> > basically for old kernels where dirty ring is not there, we can timely call
-> > memory_global_dirty_log_sync() and calculate dirty pages there just like what
-> > we do with dirty rings (without calling migration_bitmap_sync(), so we don't
-> > need to deliver dirty bits from kvmslots to ramblocks, just pick them up from
-> > kvm and do the accounting for pure dirty rate measurement).  That's a wild idea
-> > though, so just raise it up.  Would that be anything useful?
-> uh, actually this idea is what i'm working on to stat the memory heat(trying
-> to reduce the transferred memory in migration), theoretically it can be used
-> for dirty rate measurement also, maybe i could try it after this patchset
-> work having done.
-
-Yes, definitely no need to do that in this series; it just proves that "*mode"
-parameter is better in case a 3rd one could come.  Thanks,
-
+diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+index 7e685c6a65..c5fa4fce26 100644
+--- a/.gitlab-ci.d/static_checks.yml
++++ b/.gitlab-ci.d/static_checks.yml
+@@ -4,9 +4,6 @@ check-patch:
+   needs:
+     job: amd64-centos8-container
+   script:
+-    - git config --local diff.renamelimit 0
+-    - git config --local diff.renames True
+-    - git config --local diff.algorithm histogram
+     - .gitlab-ci.d/check-patch.py
+   variables:
+     GIT_DEPTH: 1000
+diff --git a/.patchew.yml b/.patchew.yml
+index 2638b7f564..1b78262ce5 100644
+--- a/.patchew.yml
++++ b/.patchew.yml
+@@ -138,9 +138,6 @@ testing:
+       script: |
+         #!/bin/bash
+         git rev-parse base > /dev/null || exit 0
+-        git config --local diff.renamelimit 0
+-        git config --local diff.renames True
+-        git config --local diff.algorithm histogram
+         ./scripts/checkpatch.pl --mailback base..
+     docker-mingw@fedora:
+       enabled: true
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bbcd25ae05..cb8eff233e 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -399,7 +399,12 @@ if ($chk_branch) {
+ 	my $num_patches = @patches;
+ 	for my $hash (@patches) {
+ 		my $FILE;
+-		open($FILE, '-|', "git", "show", "--patch-with-stat", $hash) ||
++		open($FILE, '-|', "git",
++                     "-c", "diff.renamelimit=0",
++                     "-c", "diff.renames=True",
++                     "-c", "diff.algorithm=histogram",
++                     "show",
++                     "--patch-with-stat", $hash) ||
+ 			die "$P: git show $hash - $!\n";
+ 		while (<$FILE>) {
+ 			chomp;
 -- 
-Peter Xu
+2.20.1
 
 
