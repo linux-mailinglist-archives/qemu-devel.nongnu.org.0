@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCCA39E87A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:32:12 +0200 (CEST)
-Received: from localhost ([::1]:60474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7EC39E876
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:31:27 +0200 (CEST)
+Received: from localhost ([::1]:58624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLus-0007lU-SZ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
+	id 1lqLuA-0006Ts-2N
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:31:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXR-00052D-8T
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXD-0006cR-Gd
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096460;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FMknIMLrZor1YOnZxmqCPZV/8txVGYQoegX+OqAj16k=;
- b=Cy+PG/+31UOaUGRUHMXDgMUAm6+7Z1OrvgcVEtC9v+K0Jchaic88zkv8evHLZXlw+/3DdC
- rRntM020Q2XIRV2xCtPdS5UfqFo9snxFDx9iY7SyysYXYo+Z5Rj+/lgOz31osk4uzq2H29
- bddQDDiE+vFaIIh3SkIjzudiFqy49UI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-Ugj-7dvKMLClyt1SNQdqZQ-1; Mon, 07 Jun 2021 16:07:38 -0400
-X-MC-Unique: Ugj-7dvKMLClyt1SNQdqZQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17F6910CE780;
- Mon,  7 Jun 2021 20:07:37 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 583245C1C2;
- Mon,  7 Jun 2021 20:07:36 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 42/42] scripts/qmp-shell: add redirection shim
-Date: Mon,  7 Jun 2021 16:06:49 -0400
-Message-Id: <20210607200649.1840382-43-jsnow@redhat.com>
-In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
-References: <20210607200649.1840382-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1lqLhN-00082M-8J
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:18:14 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:45840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1lqLhK-0002mi-1F
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:18:12 -0400
+Received: by mail-il1-x133.google.com with SMTP id b5so17421877ilc.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 13:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JhRI1cpUPMz052xPX2sQSUVtxlyGdKfcS4TX+3XhmX4=;
+ b=Hs7G5GCSEsEIh+48k5yKszrp3P9aIp/6ybMKChEQcmnLu57WpfHj85CHiLZFheY/nX
+ Arzc4mDATxXMjtBe4n3Wk1WpmNg3r6Vo3Na4kjdB+e230ELEnmi4Zwb5gYBmyU1CSOUI
+ 5V1rJyP+VtSYsmqMSqoC7RbFEYtMknp7TSXMqu6ZwR/z50G5nCNixNGw2wwNwRrL+zp4
+ 5yVqfEx5PNTGifGL5uOAypbQaMQvEcMSHfXOpl2klMScv+9lZZlGl9LnLOir9I33qG7z
+ EjO0RFXK83A8zelv8mC+gSOjJu+PwziqiVgstesYHZg9eQ65xanEhKZgBdBqxIPILHAr
+ hQOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JhRI1cpUPMz052xPX2sQSUVtxlyGdKfcS4TX+3XhmX4=;
+ b=Q2ZhZypI+0LCFVDdXYo+C4TGg2DSpQgnEvo8eU18BvfvAvgyjv0RxqnCrpcqOi8lD8
+ oeeIj2HlGpfKUEUf4vLzyeQheEIvYLXe0AfO8zZcY/E8zrooYRSuwgrCmt33AxJOPqta
+ 4/b0G63dpTRdosazKMMmiSng4sXyto7ovnEWT5/P/jvR1yOkKbMlpQiD44rsk1k0oTyk
+ gw21vnfTABcl0t+AKmiN9L5mVSI+2kNZDrxW+nAXeN8D1BxAF7KdLN9tWWbeDjbdEdQi
+ YHXrbVPaqcx0q4pyWR6i7Eg6iN7H39TT/iKDcvHK9LtV7RzlYbUvL+Yav2bd94B4NL2s
+ FHwg==
+X-Gm-Message-State: AOAM530f813hfRXXOJFJOz3hneo39RphRWtmc+fBG918jHCGEI6dVuKU
+ yHnU7lIhYtxPcjQ5TfIyYfQnLgvJl37LPisikz0SZw==
+X-Google-Smtp-Source: ABdhPJzL7lF5f5l9ne/jCuI1MoDeB6Y2yXhpN1boJEZUvLA4lytaotD945JtwFVs4uwGR98kq7J+6j/yxiwIy9L+Vyk=
+X-Received: by 2002:a05:6e02:4e:: with SMTP id
+ i14mr16256036ilr.72.1623097087636; 
+ Mon, 07 Jun 2021 13:18:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <01000179c92c4e24-efe56a44-af19-489d-b9c4-04386251a7de-000000@email.amazonses.com>
+ <20210604133607.GB21481@quicinc.com>
+In-Reply-To: <20210604133607.GB21481@quicinc.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Mon, 7 Jun 2021 14:17:56 -0600
+Message-ID: <CANLsYkya2Y8cGHA2yV7JY12fXLTR_Rx2fWFUDicFgxSCBDBwPg@mail.gmail.com>
+Subject: Re: [Stratos-dev] [PATCH 0/5] virtio: Add vhost-user based RNG service
+To: Srivatsa Vaddagiri <vatsa@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
+ envelope-from=mathieu.poirier@linaro.org; helo=mail-il1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,39 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: stratos-dev@op-lists.linaro.org, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qmp-shell has a new home, add a redirect for a little while as the dust
-settles.
+On Fri, 4 Jun 2021 at 07:36, Srivatsa Vaddagiri <vatsa@codeaurora.org> wrote:
+>
+> * Mathieu Poirier via Stratos-dev <stratos-dev@op-lists.linaro.org> [2021-06-01 20:03:14]:
+>
+> > Hi all,
+> >
+> > This sets adds a vhost-user based random number generator (RNG),
+> > similar to what has been done for i2c and virtiofsd.  In fact
+> > the implementation for vhost-user-rng and vhost-user-rng-pci
+> > follow what was done for vhost-user-i2c.
+>
+> Is there a Rust language based equivalent that is planned as well (just like
+> what was done for virtio-i2c)?
+>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qmp/qmp-shell | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100755 scripts/qmp/qmp-shell
+Yes, that part is in the works.
 
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-new file mode 100755
-index 0000000000..4a20f97db7
---- /dev/null
-+++ b/scripts/qmp/qmp-shell
-@@ -0,0 +1,11 @@
-+#!/usr/bin/env python3
-+
-+import os
-+import sys
-+
-+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
-+from qemu.qmp import qmp_shell
-+
-+
-+if __name__ == '__main__':
-+    qmp_shell.main()
--- 
-2.31.1
-
+> - vatsa
+>
+> --
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
 
