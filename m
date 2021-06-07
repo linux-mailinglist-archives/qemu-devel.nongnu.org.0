@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916DA39D3B4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 05:57:19 +0200 (CEST)
-Received: from localhost ([::1]:51696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D27639D3B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 05:58:13 +0200 (CEST)
+Received: from localhost ([::1]:55446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq6O6-0001hL-JV
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 23:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41754)
+	id 1lq6Oy-0004CJ-Ly
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 23:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lq6Hz-0003rL-0d; Sun, 06 Jun 2021 23:51:00 -0400
-Received: from ozlabs.org ([203.11.71.1]:34261)
+ id 1lq6I8-0003zK-87; Sun, 06 Jun 2021 23:51:09 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:57991 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lq6Ht-0002mS-Sx; Sun, 06 Jun 2021 23:50:58 -0400
+ id 1lq6Hu-0002mR-TX; Sun, 06 Jun 2021 23:51:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Fyzt23WqPz9sXL; Mon,  7 Jun 2021 13:50:34 +1000 (AEST)
+ id 4Fyzt2397Bz9sWl; Mon,  7 Jun 2021 13:50:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1623037834;
- bh=pNEc0SoGn3GBLDe4s7R8HOZYLaxXxNuww0rlGoEtlEs=;
+ bh=FI+ARJLX+EFyVkwN7tkb7U4aLasPv3hUD7Wiw3bVrQk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YuoAT8fQeA3krLIH86gP6e07NZVEIlAfvAbC2WFVzhBVia7m5xYlC/fFGg3HliLic
- hrS12PXrBlg8LLdEuQ3H9ro4SgNrMu8GhFkTTvytkqdgma3tLf6VOPmz/vWcrx3e1j
- cKGbB1Z0Rsh5RVMSvucYYCV9u+VJ3Oc9aAZoKaZ4=
-Date: Mon, 7 Jun 2021 12:32:31 +1000
+ b=oR/C+uatm50/WzIeUX9isSvwxqLDNgPCVCDBkZIaI6B75p1w+go4M6iJQRKE9i9/h
+ liOSEIotiSO/uf1/i7fEKYPc+5kHwBiJFZJ/cH1kTp3TUGR2kX6zny+vwYOHVrqjU4
+ uRWs6X2l6ESenAPu4oYruiHYwGV6GjO5Dbo+vC5Q=
+Date: Mon, 7 Jun 2021 12:34:44 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: Re: [RFC PATCH 3/4] target/ppc: moved ppc_store_sdr1 to mmu_common.c
-Message-ID: <YL2FP1cOKdzLuygK@yekko>
+Subject: Re: [RFC PATCH 4/4] target/ppc: Moved helpers to mmu_helper.c
+Message-ID: <YL2FxOENTj82ycZC@yekko>
 References: <20210602192604.90846-1-lucas.araujo@eldorado.org.br>
- <20210602192604.90846-4-lucas.araujo@eldorado.org.br>
+ <20210602192604.90846-5-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iYv/v4a9j4uVcn7G"
+ protocol="application/pgp-signature"; boundary="sZ82dSBOQe6lxAU/"
 Content-Disposition: inline
-In-Reply-To: <20210602192604.90846-4-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20210602192604.90846-5-lucas.araujo@eldorado.org.br>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -65,117 +65,558 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---iYv/v4a9j4uVcn7G
+--sZ82dSBOQe6lxAU/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 02, 2021 at 04:26:03PM -0300, Lucas Mateus Castro (alqotel) wro=
+On Wed, Jun 02, 2021 at 04:26:04PM -0300, Lucas Mateus Castro (alqotel) wro=
 te:
-> Moved ppc_store_sdr1 to mmu_common.c as it was originally in
-> mmu_helper.c.
+> Moved helpers from target/ppc/mmu-hash64.c to target/ppc/mmu_helpers.c
+> and removed #ifdef CONFIG_TCG and #include exec/helper-proto.h from
+> mmu-hash64.c
 >=20
 > Signed-off-by: Lucas Mateus Castro (alqotel)
 > <lucas.araujo@eldorado.org.br>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-Though it will need a rebase for comments on the earlier patches in
-the series.
+I'd prefer not to do this.  These helpers used to be in
+mmu_helper.c, along with most of the stuff in mmu-*.[ch].  I think the
+division by MMU model is more important than the TCG/!TCG distinction,
+so I'd prefer to keep these here, even if it means ifdefs.  Eventually
+we could consider splitting each of the individual MMU files into
+TCG/!TCG parts, but I don't want to go back to having all the helpers
+for umpteen very different MMU models all lumped into one giant file.
 
 > ---
-> Talking to billionai he commented that ppc_store_sdr1 was at first in
-> mmu_helper.c and was moved as part of the patches to enable the
-> disable-tcg option, now it's being moved back to a file that will be
-> compiled in a !TCG build.
-> ---
->  target/ppc/cpu.c        | 28 ----------------------------
->  target/ppc/mmu_common.c | 28 ++++++++++++++++++++++++++++
->  2 files changed, 28 insertions(+), 28 deletions(-)
+> I had to turn slb_lookup in a non static function as it had calls from
+> the code that was moved to mmu_helper.c and from the code that wasn't
+> moved.
 >=20
-> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-> index c8e87e30f1..5ff00a6c01 100644
-> --- a/target/ppc/cpu.c
-> +++ b/target/ppc/cpu.c
-> @@ -66,34 +66,6 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
->      return env->vscr | (sat << VSCR_SAT);
+> Also perhaps it would be best to create a new file to move the mmu-hash
+> functions that are not compiled in !TCG, personally I thought that
+> moving the helpers in mmu-hash64 to mmu_helpers the better choice.
+> ---
+>  target/ppc/mmu-hash64.c | 219 +---------------------------------------
+>  target/ppc/mmu-hash64.h |   1 +
+>  target/ppc/mmu_helper.c | 209 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 211 insertions(+), 218 deletions(-)
+>=20
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 708dffc31b..d2ded71107 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -32,10 +32,6 @@
+>  #include "mmu-book3s-v3.h"
+>  #include "helper_regs.h"
+> =20
+> -#ifdef CONFIG_TCG
+> -#include "exec/helper-proto.h"
+> -#endif
+> -
+>  /* #define DEBUG_SLB */
+> =20
+>  #ifdef DEBUG_SLB
+> @@ -48,7 +44,7 @@
+>   * SLB handling
+>   */
+> =20
+> -static ppc_slb_t *slb_lookup(PowerPCCPU *cpu, target_ulong eaddr)
+> +ppc_slb_t *slb_lookup(PowerPCCPU *cpu, target_ulong eaddr)
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+>      uint64_t esid_256M, esid_1T;
+> @@ -100,114 +96,6 @@ void dump_slb(PowerPCCPU *cpu)
+>      }
 >  }
 > =20
-> -#ifdef CONFIG_SOFTMMU
-> -void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+> -#ifdef CONFIG_TCG
+> -void helper_slbia(CPUPPCState *env, uint32_t ih)
 > -{
 > -    PowerPCCPU *cpu =3D env_archcpu(env);
-> -    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, valu=
-e);
-> -    assert(!cpu->vhyp);
-> -#if defined(TARGET_PPC64)
-> -    if (mmu_is_64bit(env->mmu_model)) {
-> -        target_ulong sdr_mask =3D SDR_64_HTABORG | SDR_64_HTABSIZE;
-> -        target_ulong htabsize =3D value & SDR_64_HTABSIZE;
+> -    int starting_entry;
+> -    int n;
 > -
-> -        if (value & ~sdr_mask) {
-> -            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
-> -                     " set in SDR1", value & ~sdr_mask);
-> -            value &=3D sdr_mask;
-> -        }
-> -        if (htabsize > 28) {
-> -            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_=
-FMT_lx
-> -                     " stored in SDR1", htabsize);
+> -    /*
+> -     * slbia must always flush all TLB (which is equivalent to ERAT in p=
+pc
+> -     * architecture). Matching on SLB_ESID_V is not good enough, because=
+ slbmte
+> -     * can overwrite a valid SLB without flushing its lookaside informat=
+ion.
+> -     *
+> -     * It would be possible to keep the TLB in synch with the SLB by flu=
+shing
+> -     * when a valid entry is overwritten by slbmte, and therefore slbia =
+would
+> -     * not have to flush unless it evicts a valid SLB entry. However it =
+is
+> -     * expected that slbmte is more common than slbia, and slbia is usua=
+lly
+> -     * going to evict valid SLB entries, so that tradeoff is unlikely to=
+ be a
+> -     * good one.
+> -     *
+> -     * ISA v2.05 introduced IH field with values 0,1,2,6. These all inva=
+lidate
+> -     * the same SLB entries (everything but entry 0), but differ in what
+> -     * "lookaside information" is invalidated. TCG can ignore this and f=
+lush
+> -     * everything.
+> -     *
+> -     * ISA v3.0 introduced additional values 3,4,7, which change what SL=
+Bs are
+> -     * invalidated.
+> -     */
+> -
+> -    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+> -
+> -    starting_entry =3D 1; /* default for IH=3D0,1,2,6 */
+> -
+> -    if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> -        switch (ih) {
+> -        case 0x7:
+> -            /* invalidate no SLBs, but all lookaside information */
 > -            return;
+> -
+> -        case 0x3:
+> -        case 0x4:
+> -            /* also considers SLB entry 0 */
+> -            starting_entry =3D 0;
+> -            break;
+> -
+> -        case 0x5:
+> -            /* treat undefined values as ih=3D=3D0, and warn */
+> -            qemu_log_mask(LOG_GUEST_ERROR,
+> -                          "slbia undefined IH field %u.\n", ih);
+> -            break;
+> -
+> -        default:
+> -            /* 0,1,2,6 */
+> -            break;
 > -        }
 > -    }
-> -#endif /* defined(TARGET_PPC64) */
-> -    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
-> -    env->spr[SPR_SDR1] =3D value;
-> -}
-> -#endif /* CONFIG_SOFTMMU */
 > -
->  /* GDBstub can read and write MSR... */
->  void ppc_store_msr(CPUPPCState *env, target_ulong value)
+> -    for (n =3D starting_entry; n < cpu->hash64_opts->slb_size; n++) {
+> -        ppc_slb_t *slb =3D &env->slb[n];
+> -
+> -        if (!(slb->esid & SLB_ESID_V)) {
+> -            continue;
+> -        }
+> -        if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> -            if (ih =3D=3D 0x3 && (slb->vsid & SLB_VSID_C) =3D=3D 0) {
+> -                /* preserves entries with a class value of 0 */
+> -                continue;
+> -            }
+> -        }
+> -
+> -        slb->esid &=3D ~SLB_ESID_V;
+> -    }
+> -}
+> -
+> -static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+> -                           target_ulong global)
+> -{
+> -    PowerPCCPU *cpu =3D env_archcpu(env);
+> -    ppc_slb_t *slb;
+> -
+> -    slb =3D slb_lookup(cpu, addr);
+> -    if (!slb) {
+> -        return;
+> -    }
+> -
+> -    if (slb->esid & SLB_ESID_V) {
+> -        slb->esid &=3D ~SLB_ESID_V;
+> -
+> -        /*
+> -         * XXX: given the fact that segment size is 256 MB or 1TB,
+> -         *      and we still don't have a tlb_flush_mask(env, n, mask)
+> -         *      in QEMU, we just invalidate all TLBs
+> -         */
+> -        env->tlb_need_flush |=3D
+> -            (global =3D=3D false ? TLB_NEED_LOCAL_FLUSH : TLB_NEED_GLOBA=
+L_FLUSH);
+> -    }
+> -}
+> -
+> -void helper_slbie(CPUPPCState *env, target_ulong addr)
+> -{
+> -    __helper_slbie(env, addr, false);
+> -}
+> -
+> -void helper_slbieg(CPUPPCState *env, target_ulong addr)
+> -{
+> -    __helper_slbie(env, addr, true);
+> -}
+> -#endif
+> -
+>  int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+>                    target_ulong esid, target_ulong vsid)
 >  {
-> diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
-> index d95399d67f..50b8799d71 100644
-> --- a/target/ppc/mmu_common.c
-> +++ b/target/ppc/mmu_common.c
-> @@ -58,6 +58,34 @@
->  #  define LOG_BATS(...) do { } while (0)
->  #endif
+> @@ -260,102 +148,6 @@ int ppc_store_slb(PowerPCCPU *cpu, target_ulong slo=
+t,
+>      return 0;
+>  }
 > =20
-> +#ifdef CONFIG_SOFTMMU
-> +void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
-> +{
-> +    PowerPCCPU *cpu =3D env_archcpu(env);
-> +    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, valu=
-e);
-> +    assert(!cpu->vhyp);
-> +#if defined(TARGET_PPC64)
-> +    if (mmu_is_64bit(env->mmu_model)) {
-> +        target_ulong sdr_mask =3D SDR_64_HTABORG | SDR_64_HTABSIZE;
-> +        target_ulong htabsize =3D value & SDR_64_HTABSIZE;
-> +
-> +        if (value & ~sdr_mask) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
-> +                     " set in SDR1", value & ~sdr_mask);
-> +            value &=3D sdr_mask;
-> +        }
-> +        if (htabsize > 28) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_=
-FMT_lx
-> +                     " stored in SDR1", htabsize);
-> +            return;
-> +        }
-> +    }
-> +#endif /* defined(TARGET_PPC64) */
-> +    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
-> +    env->spr[SPR_SDR1] =3D value;
-> +}
-> +#endif /* CONFIG_SOFTMMU */
-> +
+> -#ifdef CONFIG_TCG
+> -static int ppc_load_slb_esid(PowerPCCPU *cpu, target_ulong rb,
+> -                             target_ulong *rt)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    int slot =3D rb & 0xfff;
+> -    ppc_slb_t *slb =3D &env->slb[slot];
+> -
+> -    if (slot >=3D cpu->hash64_opts->slb_size) {
+> -        return -1;
+> -    }
+> -
+> -    *rt =3D slb->esid;
+> -    return 0;
+> -}
+> -
+> -static int ppc_load_slb_vsid(PowerPCCPU *cpu, target_ulong rb,
+> -                             target_ulong *rt)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    int slot =3D rb & 0xfff;
+> -    ppc_slb_t *slb =3D &env->slb[slot];
+> -
+> -    if (slot >=3D cpu->hash64_opts->slb_size) {
+> -        return -1;
+> -    }
+> -
+> -    *rt =3D slb->vsid;
+> -    return 0;
+> -}
+> -
+> -static int ppc_find_slb_vsid(PowerPCCPU *cpu, target_ulong rb,
+> -                             target_ulong *rt)
+> -{
+> -    CPUPPCState *env =3D &cpu->env;
+> -    ppc_slb_t *slb;
+> -
+> -    if (!msr_is_64bit(env, env->msr)) {
+> -        rb &=3D 0xffffffff;
+> -    }
+> -    slb =3D slb_lookup(cpu, rb);
+> -    if (slb =3D=3D NULL) {
+> -        *rt =3D (target_ulong)-1ul;
+> -    } else {
+> -        *rt =3D slb->vsid;
+> -    }
+> -    return 0;
+> -}
+> -
+> -void helper_store_slb(CPUPPCState *env, target_ulong rb, target_ulong rs)
+> -{
+> -    PowerPCCPU *cpu =3D env_archcpu(env);
+> -
+> -    if (ppc_store_slb(cpu, rb & 0xfff, rb & ~0xfffULL, rs) < 0) {
+> -        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> -                               POWERPC_EXCP_INVAL, GETPC());
+> -    }
+> -}
+> -
+> -target_ulong helper_load_slb_esid(CPUPPCState *env, target_ulong rb)
+> -{
+> -    PowerPCCPU *cpu =3D env_archcpu(env);
+> -    target_ulong rt =3D 0;
+> -
+> -    if (ppc_load_slb_esid(cpu, rb, &rt) < 0) {
+> -        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> -                               POWERPC_EXCP_INVAL, GETPC());
+> -    }
+> -    return rt;
+> -}
+> -
+> -target_ulong helper_find_slb_vsid(CPUPPCState *env, target_ulong rb)
+> -{
+> -    PowerPCCPU *cpu =3D env_archcpu(env);
+> -    target_ulong rt =3D 0;
+> -
+> -    if (ppc_find_slb_vsid(cpu, rb, &rt) < 0) {
+> -        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> -                               POWERPC_EXCP_INVAL, GETPC());
+> -    }
+> -    return rt;
+> -}
+> -
+> -target_ulong helper_load_slb_vsid(CPUPPCState *env, target_ulong rb)
+> -{
+> -    PowerPCCPU *cpu =3D env_archcpu(env);
+> -    target_ulong rt =3D 0;
+> -
+> -    if (ppc_load_slb_vsid(cpu, rb, &rt) < 0) {
+> -        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> -                               POWERPC_EXCP_INVAL, GETPC());
+> -    }
+> -    return rt;
+> -}
+> -#endif
+> -
+>  /* Check No-Execute or Guarded Storage */
+>  static inline int ppc_hash64_pte_noexec_guard(PowerPCCPU *cpu,
+>                                                ppc_hash_pte64_t pte)
+> @@ -1146,15 +938,6 @@ void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, tar=
+get_ulong ptex,
+>      cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
+>  }
+> =20
+> -#ifdef CONFIG_TCG
+> -void helper_store_lpcr(CPUPPCState *env, target_ulong val)
+> -{
+> -    PowerPCCPU *cpu =3D env_archcpu(env);
+> -
+> -    ppc_store_lpcr(cpu, val);
+> -}
+> -#endif
+> -
+>  void ppc_hash64_init(PowerPCCPU *cpu)
+>  {
+>      CPUPPCState *env =3D &cpu->env;
+> diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
+> index 4b8b8e7950..44fd7c9d35 100644
+> --- a/target/ppc/mmu-hash64.h
+> +++ b/target/ppc/mmu-hash64.h
+> @@ -7,6 +7,7 @@
+>  void dump_slb(PowerPCCPU *cpu);
+>  int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
+>                    target_ulong esid, target_ulong vsid);
+> +ppc_slb_t *slb_lookup(PowerPCCPU *cpu, target_ulong eaddr);
+>  hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr=
+);
+>  int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address, int rw,
+>                                  int mmu_idx);
+> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> index dbf7b398cd..6db2678a89 100644
+> --- a/target/ppc/mmu_helper.c
+> +++ b/target/ppc/mmu_helper.c
+> @@ -1361,3 +1361,211 @@ void helper_check_tlb_flush_global(CPUPPCState *e=
+nv)
+> =20
 >  /***********************************************************************=
 ******/
->  /* PowerPC MMU emulation */
 > =20
+> +#if defined(TARGET_PPC64)
+> +void helper_slbia(CPUPPCState *env, uint32_t ih)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    int starting_entry;
+> +    int n;
+> +
+> +    /*
+> +     * slbia must always flush all TLB (which is equivalent to ERAT in p=
+pc
+> +     * architecture). Matching on SLB_ESID_V is not good enough, because=
+ slbmte
+> +     * can overwrite a valid SLB without flushing its lookaside informat=
+ion.
+> +     *
+> +     * It would be possible to keep the TLB in synch with the SLB by flu=
+shing
+> +     * when a valid entry is overwritten by slbmte, and therefore slbia =
+would
+> +     * not have to flush unless it evicts a valid SLB entry. However it =
+is
+> +     * expected that slbmte is more common than slbia, and slbia is usua=
+lly
+> +     * going to evict valid SLB entries, so that tradeoff is unlikely to=
+ be a
+> +     * good one.
+> +     *
+> +     * ISA v2.05 introduced IH field with values 0,1,2,6. These all inva=
+lidate
+> +     * the same SLB entries (everything but entry 0), but differ in what
+> +     * "lookaside information" is invalidated. TCG can ignore this and f=
+lush
+> +     * everything.
+> +     *
+> +     * ISA v3.0 introduced additional values 3,4,7, which change what SL=
+Bs are
+> +     * invalidated.
+> +     */
+> +
+> +    env->tlb_need_flush |=3D TLB_NEED_LOCAL_FLUSH;
+> +
+> +    starting_entry =3D 1; /* default for IH=3D0,1,2,6 */
+> +
+> +    if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> +        switch (ih) {
+> +        case 0x7:
+> +            /* invalidate no SLBs, but all lookaside information */
+> +            return;
+> +
+> +        case 0x3:
+> +        case 0x4:
+> +            /* also considers SLB entry 0 */
+> +            starting_entry =3D 0;
+> +            break;
+> +
+> +        case 0x5:
+> +            /* treat undefined values as ih=3D=3D0, and warn */
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "slbia undefined IH field %u.\n", ih);
+> +            break;
+> +
+> +        default:
+> +            /* 0,1,2,6 */
+> +            break;
+> +        }
+> +    }
+> +
+> +    for (n =3D starting_entry; n < cpu->hash64_opts->slb_size; n++) {
+> +        ppc_slb_t *slb =3D &env->slb[n];
+> +
+> +        if (!(slb->esid & SLB_ESID_V)) {
+> +            continue;
+> +        }
+> +        if (env->mmu_model =3D=3D POWERPC_MMU_3_00) {
+> +            if (ih =3D=3D 0x3 && (slb->vsid & SLB_VSID_C) =3D=3D 0) {
+> +                /* preserves entries with a class value of 0 */
+> +                continue;
+> +            }
+> +        }
+> +
+> +        slb->esid &=3D ~SLB_ESID_V;
+> +    }
+> +}
+> +
+> +static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+> +                           target_ulong global)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    ppc_slb_t *slb;
+> +
+> +    slb =3D slb_lookup(cpu, addr);
+> +    if (!slb) {
+> +        return;
+> +    }
+> +
+> +    if (slb->esid & SLB_ESID_V) {
+> +        slb->esid &=3D ~SLB_ESID_V;
+> +
+> +        /*
+> +         * XXX: given the fact that segment size is 256 MB or 1TB,
+> +         *      and we still don't have a tlb_flush_mask(env, n, mask)
+> +         *      in QEMU, we just invalidate all TLBs
+> +         */
+> +        env->tlb_need_flush |=3D
+> +            (global =3D=3D false ? TLB_NEED_LOCAL_FLUSH : TLB_NEED_GLOBA=
+L_FLUSH);
+> +    }
+> +}
+> +
+> +void helper_slbie(CPUPPCState *env, target_ulong addr)
+> +{
+> +    __helper_slbie(env, addr, false);
+> +}
+> +
+> +void helper_slbieg(CPUPPCState *env, target_ulong addr)
+> +{
+> +    __helper_slbie(env, addr, true);
+> +}
+> +
+> +static int ppc_load_slb_esid(PowerPCCPU *cpu, target_ulong rb,
+> +                             target_ulong *rt)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    int slot =3D rb & 0xfff;
+> +    ppc_slb_t *slb =3D &env->slb[slot];
+> +
+> +    if (slot >=3D cpu->hash64_opts->slb_size) {
+> +        return -1;
+> +    }
+> +
+> +    *rt =3D slb->esid;
+> +    return 0;
+> +}
+> +
+> +static int ppc_load_slb_vsid(PowerPCCPU *cpu, target_ulong rb,
+> +                             target_ulong *rt)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    int slot =3D rb & 0xfff;
+> +    ppc_slb_t *slb =3D &env->slb[slot];
+> +
+> +    if (slot >=3D cpu->hash64_opts->slb_size) {
+> +        return -1;
+> +    }
+> +
+> +    *rt =3D slb->vsid;
+> +    return 0;
+> +}
+> +
+> +static int ppc_find_slb_vsid(PowerPCCPU *cpu, target_ulong rb,
+> +                             target_ulong *rt)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    ppc_slb_t *slb;
+> +
+> +    if (!msr_is_64bit(env, env->msr)) {
+> +        rb &=3D 0xffffffff;
+> +    }
+> +    slb =3D slb_lookup(cpu, rb);
+> +    if (slb =3D=3D NULL) {
+> +        *rt =3D (target_ulong)-1ul;
+> +    } else {
+> +        *rt =3D slb->vsid;
+> +    }
+> +    return 0;
+> +}
+> +
+> +void helper_store_slb(CPUPPCState *env, target_ulong rb, target_ulong rs)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +
+> +    if (ppc_store_slb(cpu, rb & 0xfff, rb & ~0xfffULL, rs) < 0) {
+> +        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> +                               POWERPC_EXCP_INVAL, GETPC());
+> +    }
+> +}
+> +
+> +target_ulong helper_load_slb_esid(CPUPPCState *env, target_ulong rb)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    target_ulong rt =3D 0;
+> +
+> +    if (ppc_load_slb_esid(cpu, rb, &rt) < 0) {
+> +        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> +                               POWERPC_EXCP_INVAL, GETPC());
+> +    }
+> +    return rt;
+> +}
+> +
+> +target_ulong helper_find_slb_vsid(CPUPPCState *env, target_ulong rb)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    target_ulong rt =3D 0;
+> +
+> +    if (ppc_find_slb_vsid(cpu, rb, &rt) < 0) {
+> +        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> +                               POWERPC_EXCP_INVAL, GETPC());
+> +    }
+> +    return rt;
+> +}
+> +
+> +target_ulong helper_load_slb_vsid(CPUPPCState *env, target_ulong rb)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +    target_ulong rt =3D 0;
+> +
+> +    if (ppc_load_slb_vsid(cpu, rb, &rt) < 0) {
+> +        raise_exception_err_ra(env, POWERPC_EXCP_PROGRAM,
+> +                               POWERPC_EXCP_INVAL, GETPC());
+> +    }
+> +    return rt;
+> +}
+> +
+> +void helper_store_lpcr(CPUPPCState *env, target_ulong val)
+> +{
+> +    PowerPCCPU *cpu =3D env_archcpu(env);
+> +
+> +    ppc_store_lpcr(cpu, val);
+> +}
+> +#endif
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -183,25 +624,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---iYv/v4a9j4uVcn7G
+--sZ82dSBOQe6lxAU/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC9hT8ACgkQbDjKyiDZ
-s5I3vw/+PNKn07yOAcymzWZIDj6Uc8djPYmJrRtVkKIfXF8AIkmh5tA7IdMqV08S
-TzFFB+xIxJLmkAN6ulTv72K3XyqsssmtCuBMLrDiiA0AiAueutRtkhLVYBl6Uw0R
-SNbRchB3BS65YihRDWfga1qxEO01D/Ma4svFmwnqYXtZQVIGAX7XJtp1dvWuhT0V
-1hAwVHQaPclE+BNJo99C/KP49+0yEv//Mr8Pa4JnnwNcCaa04ZrFtiOiRNxgjueF
-ktu2GlRnj0Oc8DoC3V8i8xcVuLwTEJ5xCQ+7NpOrRNY6K8jzrinkt0KRNv1sQk24
-zvCAozC4YWOIFL8SYxOl7MSE78+FP9qWoyIReAtrfvlMnifp3Fe+iSodYofUTciC
-nrreUqwrLqwBlzbhJK6Hpa6fyJxl4xJk5+iuYzGBWePkRLfI3v6nnkTCIDD45ZFb
-Zkj/vrwQ6UeGtzUYwUspbAkKJMfvrasSsU8dgfK2pp6Y48dH1+usV69NARoYkoJr
-8w0vc0hwWgDM3N2AdYQeUPZR09XmYu9yRc0WnXhh5M0wl/SLYzge5MgHcd4bEAbb
-PwnBwH1LLoSkIyFVwuW1Q/P5xC4qhGOuW0otjBGO0wkz+nHYD8DySe3mLkRzqPcW
-STS1bXWsN5t9OapOgOLQ/oZhvhgVQQqMnywu1AvtKndJXbC0LBM=
-=6UNY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmC9hcMACgkQbDjKyiDZ
+s5LIghAA05I5/8PhrpwJ9zh333IkkUrsfMrJN3qKemPPZY7l1nkAJlo5sNSBRiVZ
+WFduRcl55huISEPq6Sqlb5yAH4ZB/k87IJFJX6WrJth+M4Sm7xq7NOUMAJfDXaFX
+7oJftZFHfSdEFaLszVmW1T/AhSKuz72DZyt+cBnLy0DJuVjwIsl8ItH/nzAEdBeh
+Cl7AlDXhOfM4uyMwE+I6wdsqX2BLksea7DFXm4pHkwlPbrxemmbNkYDm2VvmqjFf
+dtQknIH3wed7lMLn2AQPjlU60ZnsnmmuTUZIdlaDjD0SaXEpglz7Iy8obHeEAbTD
+z31tm99o9AErVdVd8ACWAM+CVhU9Q44VoXm89pSGYnrqDxDlScnc1b8ifp5rK4gk
+g7Bog6BD2i1O5VYPsdnzyNQR1gVTnX9fZKw2HP4xkyn4+2dv4eOpdkRLkDk+qYc0
+IL3eIp94I1OG/aU0w8o2v5fMZXjNm6M6xpoYqWT3OW6o14gisR/uSJMZEjYdT1Jk
+gyJkzUFxpj/X3uaybui9dit6HkzkTJWzYihNFBBWRf7YY6QCTvCDNft7twfL6x4K
+s3QSv5LYDKJ14n8e2AvpP95gt/S/FaVeWjS4txa1TsljfWxBT9xvJAw4nnhEJTOS
+XJZ27s9tjEKe+xed5hWZbbYFL/EZn8eqO5lD/yFl0ZgibwND2o4=
+=mlDu
 -----END PGP SIGNATURE-----
 
---iYv/v4a9j4uVcn7G--
+--sZ82dSBOQe6lxAU/--
 
