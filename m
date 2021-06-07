@@ -2,46 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B3A39DB72
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 13:35:56 +0200 (CEST)
-Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C344839DB60
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 13:31:24 +0200 (CEST)
+Received: from localhost ([::1]:43092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqDXv-0002Jh-Hs
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 07:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
+	id 1lqDTX-0002tM-QK
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 07:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lqD7d-0002Hf-CP
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 07:08:45 -0400
-Received: from foss.arm.com ([217.140.110.172]:51218)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lqD7a-0007aK-LO
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 07:08:45 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC73E1476;
- Mon,  7 Jun 2021 04:08:41 -0700 (PDT)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD6383F73D;
- Mon,  7 Jun 2021 04:08:38 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v14 3/8] arm64: mte: Sync tags for pages where PTE is untagged
-Date: Mon,  7 Jun 2021 12:08:11 +0100
-Message-Id: <20210607110816.25762-4-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210607110816.25762-1-steven.price@arm.com>
-References: <20210607110816.25762-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lqDRQ-0008GK-AZ; Mon, 07 Jun 2021 07:29:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:44669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1lqDRN-0002H4-Cs; Mon, 07 Jun 2021 07:29:12 -0400
+Received: from [192.168.100.1] ([82.142.12.38]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MMWcT-1m6Vli2bup-00JYE1; Mon, 07 Jun 2021 13:29:01 +0200
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210307074833.143106-1-f4bug@amsat.org>
+ <8892fbd6-a63c-ef02-78f3-935e4f95dbb1@amsat.org>
+ <2def176e-8707-78cc-b524-3fd47456261f@amsat.org>
+ <c4b050f9-8d36-28a5-b5fe-343bbbe0efdb@vivier.eu>
+ <dadd0b69-e613-a0f6-5f81-a62159b41493@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] memory: Display MemoryRegion name in read/write ops trace
+ events
+Message-ID: <a3660d89-0a2b-bb28-8a78-8d8078b71a01@vivier.eu>
+Date: Mon, 7 Jun 2021 13:29:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <dadd0b69-e613-a0f6-5f81-a62159b41493@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:YBO173BZMYbpcVocGaUD8bTNRjqiRV/WbBMIl6iWOEEXjy672AR
+ aXvP+LoN8tYVqZICOBmDDlW74W4u3ly9XQh1EFcrzExPlP4cmpYiwqvisGQl8NYSrlc0djG
+ KlQowM33iWZP+Ri1wrADhvYD/CCZtlKZVgrZrVFn8mIrPXyNv/WX2bsR9XTsEXvil5U/osj
+ pxa5GpSeLMdWTqJKRJh8g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rzZL3tJL4Eg=:lPTgm/muPTReZuXMij/QMj
+ bKRVnyysiIaqN4kyrb3pEjf81907os6+sygCYn+Wjb4xnPWCe7ACFj3df+9rfLMniotNQ1a+i
+ udxzzo9Hxud1xWazpLisO3E6ViBn7Xyp8rsIwmG5YJwASxWZWdnEpIbgi8lEQbQ61IhYBfH6p
+ tOSA2g+bh74bzeHRf2CakUvtmNPQ8/R6x3pvaYWPBZ2IRr9X8/RWLRqNY991jOqEndbV4PvvF
+ VJhs15pLH0mS1Cz17POc23HobHasI9Wf4+YICk6msm6eKLvzk1UiUxDtM/KYv64f496NUudLh
+ EYBrSJlu9xYzeJ1y4qk77URyVH4zGbjWLAL6+Dxe9dsAc+5k6HsYvF3HcaSPn7GuB5XTjyCpm
+ t8zUzmq5wJ1NQcCgHVvnsa9kaixD1aSuooJpqYQOJ76/bCaOAFblIYcREwDn44Ac7CJ26txoE
+ 1an4w2/silbiOm/8f/UUNslIWN+h7+x5J5SEl9rFl041Sl0mjAHv/hIxMvQ9s/vyQcO4zGwMf
+ AGxS+m0BpGH5c+tZ41cue8=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,143 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A KVM guest could store tags in a page even if the VMM hasn't mapped
-the page with PROT_MTE. So when restoring pages from swap we will
-need to check to see if there are any saved tags even if !pte_tagged().
+Le 07/06/2021 à 10:28, Philippe Mathieu-Daudé a écrit :
+> On 6/7/21 9:33 AM, Laurent Vivier wrote:
+>> Le 02/06/2021 à 12:49, Philippe Mathieu-Daudé a écrit :
+>>> Cc'ing qemu-trivial@
+>>>
+>>> On 3/18/21 4:39 PM, Philippe Mathieu-Daudé wrote:
+>>>> ping?
+>>>>
+>>>> On 3/7/21 8:48 AM, Philippe Mathieu-Daudé wrote:
+>>>>> MemoryRegion names is cached on first call to memory_region_name(),
+>>
+>> It is cached on first call but now that it is used in the trace function, does it mean it will be
+>> always allocated in memory?
+> 
+> Yes, this is how memory_region_name() works:
+> 
+> const char *memory_region_name(const MemoryRegion *mr)
+> {
+>     if (!mr->name) {
+>         ((MemoryRegion *)mr)->name =
+>             g_strdup(object_get_canonical_path_component(OBJECT(mr)));
+>     }
+>     return mr->name;
+> }
 
-However don't check pages for which pte_access_permitted() returns false
-as these will not have been swapped out.
+OK, in fact I didn't see it was called from inside a "if
+(trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_XXX))" and was worrying about the memory for
+the string always allocated.
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- arch/arm64/include/asm/mte.h     |  4 ++--
- arch/arm64/include/asm/pgtable.h | 22 +++++++++++++++++++---
- arch/arm64/kernel/mte.c          | 17 +++++++++++++----
- 3 files changed, 34 insertions(+), 9 deletions(-)
+So it looks good.
 
-diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
-index bc88a1ced0d7..347ef38a35f7 100644
---- a/arch/arm64/include/asm/mte.h
-+++ b/arch/arm64/include/asm/mte.h
-@@ -37,7 +37,7 @@ void mte_free_tag_storage(char *storage);
- /* track which pages have valid allocation tags */
- #define PG_mte_tagged	PG_arch_2
- 
--void mte_sync_tags(pte_t *ptep, pte_t pte);
-+void mte_sync_tags(pte_t old_pte, pte_t pte);
- void mte_copy_page_tags(void *kto, const void *kfrom);
- void mte_thread_init_user(void);
- void mte_thread_switch(struct task_struct *next);
-@@ -53,7 +53,7 @@ int mte_ptrace_copy_tags(struct task_struct *child, long request,
- /* unused if !CONFIG_ARM64_MTE, silence the compiler */
- #define PG_mte_tagged	0
- 
--static inline void mte_sync_tags(pte_t *ptep, pte_t pte)
-+static inline void mte_sync_tags(pte_t old_pte, pte_t pte)
- {
- }
- static inline void mte_copy_page_tags(void *kto, const void *kfrom)
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 0b10204e72fc..db5402168841 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -314,9 +314,25 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
- 	if (pte_present(pte) && pte_user_exec(pte) && !pte_special(pte))
- 		__sync_icache_dcache(pte);
- 
--	if (system_supports_mte() &&
--	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
--		mte_sync_tags(ptep, pte);
-+	/*
-+	 * If the PTE would provide user space access to the tags associated
-+	 * with it then ensure that the MTE tags are synchronised.  Although
-+	 * pte_access_permitted() returns false for exec only mappings, they
-+	 * don't expose tags (instruction fetches don't check tags).
-+	 */
-+	if (system_supports_mte() && pte_access_permitted(pte, false) &&
-+	    !pte_special(pte)) {
-+		pte_t old_pte = READ_ONCE(*ptep);
-+		/*
-+		 * We only need to synchronise if the new PTE has tags enabled
-+		 * or if swapping in (in which case another mapping may have
-+		 * set tags in the past even if this PTE isn't tagged).
-+		 * (!pte_none() && !pte_present()) is an open coded version of
-+		 * is_swap_pte()
-+		 */
-+		if (pte_tagged(pte) || (!pte_none(old_pte) && !pte_present(old_pte)))
-+			mte_sync_tags(old_pte, pte);
-+	}
- 
- 	__check_racy_pte_update(mm, ptep, pte);
- 
-diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-index a3583a7fd400..ae0a3c68fece 100644
---- a/arch/arm64/kernel/mte.c
-+++ b/arch/arm64/kernel/mte.c
-@@ -33,10 +33,10 @@ DEFINE_STATIC_KEY_FALSE(mte_async_mode);
- EXPORT_SYMBOL_GPL(mte_async_mode);
- #endif
- 
--static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
-+static void mte_sync_page_tags(struct page *page, pte_t old_pte,
-+			       bool check_swap, bool pte_is_tagged)
- {
- 	unsigned long flags;
--	pte_t old_pte = READ_ONCE(*ptep);
- 
- 	spin_lock_irqsave(&tag_sync_lock, flags);
- 
-@@ -53,6 +53,9 @@ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
- 		}
- 	}
- 
-+	if (!pte_is_tagged)
-+		goto out;
-+
- 	page_kasan_tag_reset(page);
- 	/*
- 	 * We need smp_wmb() in between setting the flags and clearing the
-@@ -69,16 +72,22 @@ static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
- 	spin_unlock_irqrestore(&tag_sync_lock, flags);
- }
- 
--void mte_sync_tags(pte_t *ptep, pte_t pte)
-+void mte_sync_tags(pte_t old_pte, pte_t pte)
- {
- 	struct page *page = pte_page(pte);
- 	long i, nr_pages = compound_nr(page);
- 	bool check_swap = nr_pages == 1;
-+	bool pte_is_tagged = pte_tagged(pte);
-+
-+	/* Early out if there's nothing to do */
-+	if (!check_swap && !pte_is_tagged)
-+		return;
- 
- 	/* if PG_mte_tagged is set, tags have already been initialised */
- 	for (i = 0; i < nr_pages; i++, page++) {
- 		if (!test_bit(PG_mte_tagged, &page->flags))
--			mte_sync_page_tags(page, ptep, check_swap);
-+			mte_sync_page_tags(page, old_pte, check_swap,
-+					   pte_is_tagged);
- 	}
- }
- 
--- 
-2.20.1
+Thanks,
+Laurent
+
 
 
