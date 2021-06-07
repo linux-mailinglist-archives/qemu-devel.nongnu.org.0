@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEEB39DE20
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 15:54:28 +0200 (CEST)
-Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD9539DE68
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 16:13:27 +0200 (CEST)
+Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqFhz-00066F-Bz
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 09:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51164)
+	id 1lqG0M-0003wb-A4
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 10:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1lqFgO-0004iQ-Il
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:52:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1lqFgJ-0000cB-E9
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 09:52:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623073962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IFjWPx+24W56GHbLdW69c+fgZQBZ03BBGSa/oWkKmZk=;
- b=PmnCjraEdG/kg6sG6h6amKA/t6p9wsKoWbHxHpviSdV5DNiI14C57Tscpjja5LvYsWdfdp
- Jc+YX4lt86qhAEuS0Otvf0AVr0HDoxyugZHsIRg/WvqIat42vQn0nLGCVwyS58Q53rOfCk
- J8CraeXp4sVafryOqIj8h6+EydLqhUc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-Ijx2WJsePHG9W3O4AqmNqQ-1; Mon, 07 Jun 2021 09:52:40 -0400
-X-MC-Unique: Ijx2WJsePHG9W3O4AqmNqQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C0C1100945F;
- Mon,  7 Jun 2021 13:52:39 +0000 (UTC)
-Received: from starship (unknown [10.40.194.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A3565D6D3;
- Mon,  7 Jun 2021 13:52:37 +0000 (UTC)
-Message-ID: <fd152c25cea259da55f10e984391d3dd5381ab18.camel@redhat.com>
-Subject: Re: [PATCH v3 0/7] block: file-posix queue
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Date: Mon, 07 Jun 2021 16:52:36 +0300
-In-Reply-To: <20210603133722.218465-1-pbonzini@redhat.com>
-References: <20210603133722.218465-1-pbonzini@redhat.com>
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
+ (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
+ id 1lqFzS-0003GW-BA
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:12:30 -0400
+Received: from mail.kingsoft.com ([114.255.44.145]:42942)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1lqFzK-00043P-Uu
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:12:29 -0400
+X-AuditID: 0a580155-3d1ff7000005011f-0d-60be25ae49a8
+Received: from mail.kingsoft.com (localhost [10.88.1.79])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-2-NODE-85) with SMTP id 91.75.00287.EA52EB06;
+ Mon,  7 Jun 2021 21:57:02 +0800 (HKT)
+Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL4.kingsoft.cn
+ (10.88.1.79) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Mon, 7 Jun
+ 2021 21:57:02 +0800
+Received: from KSbjmail3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3]) by
+ KSBJMAIL3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3%10]) with mapi id
+ 15.01.2176.014; Mon, 7 Jun 2021 21:57:02 +0800
+From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>
+Subject: [PATCH] migration/rdma: Use huge page register VM memory
+Thread-Topic: [PATCH] migration/rdma: Use huge page register VM memory
+Thread-Index: AddbpN+kEXe4Oe1WQuqS3KFy+fOdUQ==
+Date: Mon, 7 Jun 2021 13:57:02 +0000
+Message-ID: <51819991cecb42f6a619768bc61d0bfd@kingsoft.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.88.1.106]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBLMWRmVeSWpSXmKPExsXCFcHor7tOdV+CwbXLMha92+6xWxzv3cFi
+ cWdLH5MDs8eTa5uZPN7vu8oWwBTFZZOSmpNZllqkb5fAlfGxYzVzwTOJiu/N/9kaGKdIdDFy
+ ckgImEi0t69m6mLk4hASmM4ksX7fcxYI5zmjxMlplxlBqoQEdjFKTFjJBmKzCXhKfFp1hg2k
+ SESgn1HixvoHYO3MAj1MEr/ftLKCVAkLOEosXz+BBcQWEXCT+LW6E8rWk7i38jZQNwcHi4CK
+ xOurSSBhXgFriYW7X4EtYxSQlZj26D4TiM0sIC4xd9osVohTBSSW7DnPDGGLSrx8/I8VZIyE
+ gLzE6o/CEOVaEvMafkO1KkpM6X7IDjFeUOLkzCcsExhFZiGZOgtJyywkLbOQtCxgZFnFyFKc
+ m260iRES+KE7GGc0fdQ7xMjEwXiIUYKDWUmE10tmT4IQb0piZVVqUX58UWlOavEhRmkOFiVx
+ 3rVGOxKEBNITS1KzU1MLUotgskwcnFINTLymH9KFn5r1pz6bktLaz75j068nClFMPTJ/9Xeb
+ 6Rieu3YgPiqLx/aNq9Bk1RnmMbNsJ0+/ndqmcG35j2SevvN3krhMLZ2it35odm9Y2PvSlS8u
+ aUn70xv7zmvPeLJCWnebb+Ur/yvPzTYlC/3otP12/esXlSQLxdlfsjY9Pn6xY53+x8sJZQsm
+ py3Mmf5/01aGo548jsyPr0xNuLBUcpLT7sKUJY/V02ujlP1FF/x7Fvf99fZzjEvqd4lpiBqp
+ KiQKGGbVnp1kGXK9I1RV5eHvCfPe3g599qu4Z41P3p5TybsXcZu2XH6wq+Hq6VDDvbPmbyvc
+ d41Dwehb0sajXlwB5wRveuzjWMOi99Jvx3IlluKMREMt5qLiRABbqqSn6wIAAA==
+Received-SPF: pass client-ip=114.255.44.145;
+ envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,59 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>,
+ =?gb2312?B?c3VuaGFvMiBby+/qu10=?= <sunhao2@kingsoft.com>,
+ =?gb2312?B?REVOR0xJTldFTiBbtcvB1s7EXQ==?= <DENGLINWEN@kingsoft.com>,
+ =?gb2312?B?WUFOR0ZFTkcxIFvR7rflXQ==?= <YANGFENG1@kingsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2021-06-03 at 15:37 +0200, Paolo Bonzini wrote:
-> Hi Kevin,
-> 
-> this is a combination of two series that both affect host block device
-> support in block/file-posix.c.  Joelle's series is unchanged, while
-> mine was adjusted according to your review of v2.
-> 
-> v1->v2: add missing patch
-> 
-> v2->v3: add max_hw_transfer to BlockLimits
-> 
-> 
-> Joelle van Dyne (3):
->   block: feature detection for host block support
->   block: check for sys/disk.h
->   block: detect DKIOCGETBLOCKCOUNT/SIZE before use
-> 
-> Paolo Bonzini (4):
->   file-posix: fix max_iov for /dev/sg devices
->   scsi-generic: pass max_segments via max_iov field in BlockLimits
->   block: add max_hw_transfer to BlockLimits
->   file-posix: try BLKSECTGET on block devices too, do not round to power
->     of 2
-> 
->  block.c                        |   2 +-
->  block/block-backend.c          |  12 ++++
->  block/file-posix.c             | 104 ++++++++++++++++++++-------------
->  block/io.c                     |   1 +
->  hw/scsi/scsi-generic.c         |   6 +-
->  include/block/block_int.h      |   7 +++
->  include/sysemu/block-backend.h |   1 +
->  meson.build                    |   7 ++-
->  qapi/block-core.json           |  10 +++-
->  9 files changed, 102 insertions(+), 48 deletions(-)
-> 
-Hi Paolo and everyone!
- 
-I used to have a patch series that was about to fix the block limits of the scsi-block,
-which I think is similar to this patch series.
- 
-Sorry that I kind of forgot about it for too much time.
- 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg768261.html
- 
-I'll need some time to swap-in this area so that I could compare our
-patches to see if we missed something.
- 
-Best regards,
-	Maxim Levitsky
- 
-
+V2hlbiB1c2luZyBsaWJ2aXJ0IGZvciBSRE1BIGxpdmUgbWlncmF0aW9uLCBpZiB0aGUgVk0gbWVt
+b3J5IGlzIHRvbyBsYXJnZSwNCml0IHdpbGwgdGFrZSBhIGxvdCBvZiB0aW1lIHRvIGRlcmVnaXN0
+ZXIgdGhlIFZNIGF0IHRoZSBzb3VyY2Ugc2lkZSwgcmVzdWx0aW5nDQppbiBhIGxvbmcgZG93bnRp
+bWUgKFZNIDY0RywgZGVyZWdpc3RlciB2bSB0aW1lIGlzIGFib3V0IDQwMG1zKS4NCiAgICANCkFs
+dGhvdWdoIHRoZSBWTSdzIG1lbW9yeSB1c2VzIDJNIGh1Z2UgcGFnZXMsIHRoZSBNTE5YIGRyaXZl
+ciBzdGlsbCB1c2VzIDRLDQpwYWdlcyBmb3IgcGluIG1lbW9yeSwgYXMgd2VsbCBhcyBmb3IgdW5w
+aW4uIFNvIHdlIHVzZSBodWdlIHBhZ2VzIHRvIHNraXAgdGhlDQpwcm9jZXNzIG9mIHBpbiBtZW1v
+cnkgYW5kIHVucGluIG1lbW9yeSB0byByZWR1Y2UgZG93bnRpbWUuDQogICANClRoZSB0ZXN0IGVu
+dmlyb25tZW50Og0Ka2VybmVsOiBsaW51eC01LjEyDQpNTE5YOiBDb25uZWN0WC00IExYDQpsaWJ2
+aXJ0IGNvbW1hbmQ6DQp2aXJzaCBtaWdyYXRlIC0tbGl2ZSAtLXAycCAtLXBlcnNpc3RlbnQgLS1j
+b3B5LXN0b3JhZ2UtaW5jIC0tbGlzdGVuLWFkZHJlc3MgXA0KMC4wLjAuMCAtLXJkbWEtcGluLWFs
+bCAtLW1pZ3JhdGV1cmkgcmRtYTovLzE5Mi4xNjguMC4yIFtWTV0gcWVtdSt0Y3A6Ly8xOTIuMTY4
+LjAuMi9zeXN0ZW0NCiAgICANClNpZ25lZC1vZmYtYnk6IGxpemhhb3hpbiA8bGl6aGFveGluMUBr
+aW5nc29mdC5jb20+DQoNCmRpZmYgLS1naXQgYS9taWdyYXRpb24vcmRtYS5jIGIvbWlncmF0aW9u
+L3JkbWEuYw0KaW5kZXggMWNkYjQ1NjFmMy4uOTgyMzQ0OTI5NyAxMDA2NDQNCi0tLSBhL21pZ3Jh
+dGlvbi9yZG1hLmMNCisrKyBiL21pZ3JhdGlvbi9yZG1hLmMNCkBAIC0xMTIzLDEzICsxMTIzLDI2
+IEBAIHN0YXRpYyBpbnQgcWVtdV9yZG1hX3JlZ193aG9sZV9yYW1fYmxvY2tzKFJETUFDb250ZXh0
+ICpyZG1hKQ0KICAgICBSRE1BTG9jYWxCbG9ja3MgKmxvY2FsID0gJnJkbWEtPmxvY2FsX3JhbV9i
+bG9ja3M7DQogDQogICAgIGZvciAoaSA9IDA7IGkgPCBsb2NhbC0+bmJfYmxvY2tzOyBpKyspIHsN
+Ci0gICAgICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQotICAgICAgICAgICAgaWJ2X3JlZ19tcihy
+ZG1hLT5wZCwNCi0gICAgICAgICAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sb2NhbF9ob3N0
+X2FkZHIsDQotICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubGVuZ3RoLA0KLSAg
+ICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19MT0NBTF9XUklURSB8DQotICAgICAgICAgICAg
+ICAgICAgICBJQlZfQUNDRVNTX1JFTU9URV9XUklURQ0KLSAgICAgICAgICAgICAgICAgICAgKTsN
+CisgICAgICAgIGlmIChzdHJjbXAobG9jYWwtPmJsb2NrW2ldLmJsb2NrX25hbWUsInBjLnJhbSIp
+ID09IDApIHsNCisgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubXIgPQ0KKyAgICAgICAgICAg
+ICAgICBpYnZfcmVnX21yKHJkbWEtPnBkLA0KKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2Fs
+LT5ibG9ja1tpXS5sb2NhbF9ob3N0X2FkZHIsDQorICAgICAgICAgICAgICAgICAgICAgICAgbG9j
+YWwtPmJsb2NrW2ldLmxlbmd0aCwNCisgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNT
+X0xPQ0FMX1dSSVRFIHwNCisgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX1JFTU9U
+RV9XUklURSB8DQorICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19PTl9ERU1BTkQg
+fA0KKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfSFVHRVRMQg0KKyAgICAgICAg
+ICAgICAgICAgICAgICAgICk7DQorICAgICAgICB9IGVsc2Ugew0KKyAgICAgICAgICAgIGxvY2Fs
+LT5ibG9ja1tpXS5tciA9DQorICAgICAgICAgICAgICAgIGlidl9yZWdfbXIocmRtYS0+cGQsDQor
+ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxvY2FsX2hvc3RfYWRkciwN
+CisgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubGVuZ3RoLA0KKyAgICAg
+ICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfTE9DQUxfV1JJVEUgfA0KKyAgICAgICAgICAg
+ICAgICAgICAgICAgIElCVl9BQ0NFU1NfUkVNT1RFX1dSSVRFDQorICAgICAgICAgICAgICAgICAg
+ICAgICAgKTsNCisgICAgICAgIH0NCisNCiAgICAgICAgIGlmICghbG9jYWwtPmJsb2NrW2ldLm1y
+KSB7DQogICAgICAgICAgICAgcGVycm9yKCJGYWlsZWQgdG8gcmVnaXN0ZXIgbG9jYWwgZGVzdCBy
+YW0gYmxvY2shXG4iKTsNCiAgICAgICAgICAgICBicmVhazsNCg==
 
