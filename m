@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5EA539E875
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:31:20 +0200 (CEST)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5655639E86B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:29:19 +0200 (CEST)
+Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLu3-0006Hd-QH
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:31:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1lqLs5-0003TU-Hi
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:29:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXS-00056u-JI
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49982)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lqLXN-0004pl-RW
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqLXD-0006bf-MP
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:57 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lqLX3-0006am-Ab
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:07:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623096458;
+ s=mimecast20190719; t=1623096452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zi4NVowHRGZQikoPuHP58GxVmMyYOGnE+BIcdyLxsgE=;
- b=Macz7Fq3R9G1Pqlv5hzHuIOarrNSDyj0cQHQBSLcnDd2rf8Ln/IB02sadVFTAGLyQuD9Kn
- AUKTSWXoAYhye0OxIjbgUKHKFYoj23LxGzbboKHlCGmDGM38Qnoyo8e5+XN6EelmFkwuPd
- 4lheKKpILjXC9ocf6rMQL3QaWxuRB18=
+ bh=Pe7tE/WSfJVmIFTwlSbCgWDs0DqK0LR7aOnHbFEb06k=;
+ b=B7Dm4lvAjtuY7ysvD0+v73oFb9qgVFH0Uj0KUcs97xULdLJ+DvHt9P5PV0MOEqDE7Hj1uf
+ F7KxIlCCHbbGyMlcZ89AhTYYHZaZ+DkG0A0AfD7cPE6T6CogouzJI6hbwfOp3Ul4LtNHbz
+ AB0umDMBZNaIGMwY6R1INsVUdAoFzqY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-mUbzvydrPeOJ26qJ_ELohA-1; Mon, 07 Jun 2021 16:07:37 -0400
-X-MC-Unique: mUbzvydrPeOJ26qJ_ELohA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-557-GTWUEYOhOGCg-VZJAKGzZQ-1; Mon, 07 Jun 2021 16:07:30 -0400
+X-MC-Unique: GTWUEYOhOGCg-VZJAKGzZQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 359F3CC622;
- Mon,  7 Jun 2021 20:07:36 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7975B5C1C2;
- Mon,  7 Jun 2021 20:07:35 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 41/42] python: add qmp-shell entry point
-Date: Mon,  7 Jun 2021 16:06:48 -0400
-Message-Id: <20210607200649.1840382-42-jsnow@redhat.com>
-In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
-References: <20210607200649.1840382-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9F21108C316;
+ Mon,  7 Jun 2021 20:07:29 +0000 (UTC)
+Received: from localhost (ovpn-116-176.gru2.redhat.com [10.97.116.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E181608BA;
+ Mon,  7 Jun 2021 20:07:29 +0000 (UTC)
+Date: Mon, 7 Jun 2021 17:07:27 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 3/4] scripts: helper to generate x86_64 CPU ABI compat
+ info
+Message-ID: <20210607200727.v5b62bbdjuglorz6@habkost.net>
+References: <20210607135843.196595-1-berrange@redhat.com>
+ <20210607135843.196595-4-berrange@redhat.com>
+ <20210607171144.dyzw4bubhsqgafrz@habkost.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210607171144.dyzw4bubhsqgafrz@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -76,33 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-now 'qmp-shell' should be available from the command line when
-installing the python package.
+On Mon, Jun 07, 2021 at 02:11:44PM -0300, Eduardo Habkost wrote:
+> On Mon, Jun 07, 2021 at 02:58:42PM +0100, Daniel P. Berrangé wrote:
+> [...]
+> > +# Assumes externally launched process such as
+> > +#
+> > +#   qemu-system-x86_64 -qmp unix:/tmp/qmp,server,nowait -display none -accel kvm
+> > +#
+> > +# Note different results will be obtained with TCG, as
+> > +# TCG masks out certain features otherwise present in
+> > +# the CPU model definitions, as does KVM.
+> > +
+> > +
+> > +sock = sys.argv[1]
+> > +cmd = sys.argv[2]
+> > +shell = qmp.QEMUMonitorProtocol(sock)
+> > +shell.connect()
+> > +
+> > +models = shell.cmd("query-cpu-definitions")
+> 
+> I would make the script launch QEMU itself, using the QEMUMachine
+> class.
+> 
+> But life is too short for polishing a quick utility script, so:
+> 
+> Acked-by: Eduardo Habkost <ehabkost@redhat.com>
+> 
+> I plan to queue this once I review the rest of the series.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/setup.cfg | 1 +
- 1 file changed, 1 insertion(+)
+I'm queueing patch 1/4 and this one.
 
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 7f3c59d74e..85cecbb41b 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -51,6 +51,7 @@ console_scripts =
-     qom-tree = qemu.qmp.qom:QOMTree.entry_point
-     qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse]
-     qemu-ga-client = qemu.qmp.qemu_ga_client:main
-+    qmp-shell = qemu.qmp.qmp_shell:main
- 
- [flake8]
- extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
+I'm not sure about the lowest common denominator approach for
+generating the CPU models in patch 2/4, but I need to read your
+the cover letter more carefully, to be able to comment.
+
 -- 
-2.31.1
+Eduardo
 
 
