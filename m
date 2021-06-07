@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5A239E44D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:46:52 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD0D39E498
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 18:57:22 +0200 (CEST)
+Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqIOo-00021V-Uy
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:46:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57180)
+	id 1lqIYz-00066q-F1
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 12:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lqINW-0001Cp-PK
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:45:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42941)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lqIWH-0003gM-2y; Mon, 07 Jun 2021 12:54:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4228
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lqINT-00035b-W1
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:45:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623084327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=42y7mhmG0rgwwVZ+qeNLYgWx4DJGBvskztl2B3UE/LI=;
- b=UyJNZrGEaAcyU6fEb6bdX0QEWUSxtghoJ7olwhnsuKauesw9S6duf4TmTJKIzCoAlMAZF0
- 3MW0KXrZ953lIK11yQ+MGh0Ajcaa2CcFEjweZ1gfWFRwCJBtTcSjXuChU+QWcq1xTd+aGc
- yGKaWee5UDd9NJjQw2yaGtVQBxaGZgU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-z_AMm-mwNqKC-1VxVnDhGA-1; Mon, 07 Jun 2021 12:45:25 -0400
-X-MC-Unique: z_AMm-mwNqKC-1VxVnDhGA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D845210074A7
- for <qemu-devel@nongnu.org>; Mon,  7 Jun 2021 16:45:24 +0000 (UTC)
-Received: from localhost (ovpn-116-131.gru2.redhat.com [10.97.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EC3959441;
- Mon,  7 Jun 2021 16:45:24 +0000 (UTC)
-Date: Mon, 7 Jun 2021 13:45:22 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v7 8/9] i386: Hyper-V SynIC requires
- POST_MESSAGES/SIGNAL_EVENTS priviliges
-Message-ID: <20210607164522.qpm5rnjtfyxrrglx@habkost.net>
-References: <20210603114835.847451-1-vkuznets@redhat.com>
- <20210603114835.847451-9-vkuznets@redhat.com>
- <20210603230017.3goxm7fdu5fpdkdw@habkost.net>
- <871r9i13r4.fsf@vitty.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lqIWD-0006OO-D8; Mon, 07 Jun 2021 12:54:32 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 157Gip7j105277; Mon, 7 Jun 2021 12:54:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=C1Avky/BuPwD5XRMCWWrvP5lsobvpOAGiY9AKss3SfI=;
+ b=JTk+F197IOSNzHi4XMoSkXZsym/3cbhpLGVz4PHT//QHO3U5ZbhxmADWxJ0ghIIe/tU9
+ Rqr6xsKXF1RyC1ADOc60uybIOpN1jKP23EdrN54xmofMe8L3GKwdA1SZX+va22tsfPqP
+ /0TpXUsKhGitFCMSTHM7QQVRntFYwXeNpjD0rHdW9QveYN+bO5nEizPp/t10vOjv0Irl
+ D65zKJw4QNMpoHCoFci5OLkoHGDPovWEAvQxNh5Am1+Hm+RIA1XpXSL52zgxMNOvysWp
+ AjMPBH91Fq4NcVOqHHqdhfl8ZB4U1L35I6HoQMVLC+5zndvnOrcIKBRty8g8TsAHwWU6 iA== 
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 391q8907vy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Jun 2021 12:54:19 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 157GmnM7025558;
+ Mon, 7 Jun 2021 16:54:19 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 3900w8rrsk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Jun 2021 16:54:19 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 157GsIYJ29098486
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Jun 2021 16:54:18 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 436997805F;
+ Mon,  7 Jun 2021 16:54:18 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8ED8B7805C;
+ Mon,  7 Jun 2021 16:54:17 +0000 (GMT)
+Received: from localhost (unknown [9.211.96.193])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Mon,  7 Jun 2021 16:54:17 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [RFC PATCH 5/5] target/ppc: powerpc_excp: Move interrupt
+ raising code to QOM
+In-Reply-To: <YL2ZdhfEojgOCYIR@yekko>
+References: <20210601214649.785647-1-farosas@linux.ibm.com>
+ <20210601214649.785647-6-farosas@linux.ibm.com> <YL2ZdhfEojgOCYIR@yekko>
+Date: Mon, 07 Jun 2021 13:54:15 -0300
+Message-ID: <87zgw1vcnc.fsf@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <871r9i13r4.fsf@vitty.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: bAZYxCZwc05M1aBHCxugQCXjcSElNMDQ
+X-Proofpoint-ORIG-GUID: bAZYxCZwc05M1aBHCxugQCXjcSElNMDQ
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-07_14:2021-06-04,
+ 2021-06-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=918 spamscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106070117
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,75 +101,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 04, 2021 at 09:35:27AM +0200, Vitaly Kuznetsov wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
-> > On Thu, Jun 03, 2021 at 01:48:34PM +0200, Vitaly Kuznetsov wrote:
-> >> When Hyper-V SynIC is enabled, we may need to allow Windows guests to make
-> >> hypercalls (POST_MESSAGES/SIGNAL_EVENTS). No issue is currently observed
-> >> because KVM is very permissive, allowing these hypercalls regarding of
-> >> guest visible CPUid bits.
-> >> 
-> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> >> ---
-> >>  target/i386/kvm/hyperv-proto.h | 6 ++++++
-> >>  target/i386/kvm/kvm.c          | 6 ++++++
-> >>  2 files changed, 12 insertions(+)
-> >> 
-> >> diff --git a/target/i386/kvm/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
-> >> index e30d64b4ade4..5fbb385cc136 100644
-> >> --- a/target/i386/kvm/hyperv-proto.h
-> >> +++ b/target/i386/kvm/hyperv-proto.h
-> >> @@ -38,6 +38,12 @@
-> >>  #define HV_ACCESS_FREQUENCY_MSRS     (1u << 11)
-> >>  #define HV_ACCESS_REENLIGHTENMENTS_CONTROL  (1u << 13)
-> >>  
-> >> +/*
-> >> + * HV_CPUID_FEATURES.EBX bits
-> >> + */
-> >> +#define HV_POST_MESSAGES             (1u << 4)
-> >> +#define HV_SIGNAL_EVENTS             (1u << 5)
-> >> +
-> >>  /*
-> >>   * HV_CPUID_FEATURES.EDX bits
-> >>   */
-> >> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> >> index a3897d4d8788..6a32d43e6ec1 100644
-> >> --- a/target/i386/kvm/kvm.c
-> >> +++ b/target/i386/kvm/kvm.c
-> >> @@ -1343,6 +1343,12 @@ static int hyperv_fill_cpuids(CPUState *cs,
-> >>      /* Unconditionally required with any Hyper-V enlightenment */
-> >>      c->eax |= HV_HYPERCALL_AVAILABLE;
-> >>  
-> >> +    /* SynIC and Vmbus devices require messages/signals hypercalls */
-> >> +    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
-> >> +        !cpu->hyperv_synic_kvm_only) {
-> >> +        c->ebx |= HV_POST_MESSAGES | HV_SIGNAL_EVENTS;
-> >
-> > Why exactly is the hyperv_synic_kvm_only check needed?
-> >
-> 
-> 'hyperv_synic_kvm_only' means SynIC is only used for in-KVM stimers and
-> in this case Post Messages / Signal Events hypercalls are not used. KVM
-> will also return an error to the guest directly (as it can't forward
-> them to QEMU). No need to expose HV_POST_MESSAGES | HV_SIGNAL_EVENTS.
-> 
-> > Is the hyperv_synic_kvm_only check the only reason this was done
-> > here and not at kvm_hyperv_properties?
-> >
-> 
-> Yes, basically.
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-Thanks for the clarification!
+> On Tue, Jun 01, 2021 at 06:46:49PM -0300, Fabiano Rosas wrote:
+>> +typedef void (*ppc_intr_fn_t)(PowerPCCPU *cpu, PPCInterrupt *intr,
+>> +                              int excp_model, ppc_intr_args *regs,
+>> +                              bool *ignore);
+>
+> Hmm.  Using this signature kind of enforces that we dispatch based on
+> which exception *then* then the exception model.  I think that's
+> backwards: since what vectors exist and make sense depends on the
+> exception model, I think we should ideally be splitting on model
+> first, then exception type.
+>
+> Now, a lot of the existing code is exception-then-model and changing
+> that is a long term project, but I don't think we should lock
+> ourselves further into doing it the backwards way.
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Ok, so assuming one C file per exception model, I see three options:
 
--- 
-Eduardo
+ i) exception --> model (current):
 
+ Interrupt code separate from models. One implementation for each
+ interrupt that takes the model as argument. Models opt-in which
+ interrupts they want (according to the ISA).
+
+ ii) model --> exception:
+
+ Interrupt code inside each model file. The model implements only the
+ interrupts which exist (according to ISA). There would be duplication
+ since several models would implement the same system reset, machine
+ check, program, etc.
+
+ iii) model --> exception w/ generic interrupts:
+
+ Generic interrupt code separate from models. One implementation for
+ each generic interrupt. Models opt-in which interrupts they want
+ (according to the ISA). Models override generic implementation with
+ model-specific ones.
+
+Option (i) leads to the most code reuse; (ii) makes each model and its
+interrupts into one comprehensive unit; (iii) avoids duplication of the
+generic code.
+
+>> +
+>> +struct ppc_intr_args {
+>> +    target_ulong nip;
+>> +    target_ulong msr;
+>> +    target_ulong new_nip;
+>> +    target_ulong new_msr;
+>> +    int sprn_srr0;
+>> +    int sprn_srr1;
+>> +    int sprn_asrr0;
+>> +    int sprn_asrr1;
+>> +    int lev;
+>> +};
+>> +
+>> +struct PPCInterrupt {
+>
+> Having an info/dispatch structure for each vector makes sense..
+>
+>> +    Object parent;
+>
+> ..but making it a QOM object really seems like overkill.  In fact
+> making it a QOM object at least somewhat exposes the internal
+> structure to the user via QMP, which I really don't think we want to
+> do.
+
+I'm using QOM code mainly to facilitate the id->function mapping. I'll
+remove the QOM layer and implement my own.
+
+>> +
+>> +    int id;
+>> +    const char *name;
+>> +    target_ulong addr;
+>> +    ppc_intr_fn_t setup_regs;
+>> +};
 
