@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9622039E4B1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:03:00 +0200 (CEST)
-Received: from localhost ([::1]:41560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC0139E4CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 19:06:36 +0200 (CEST)
+Received: from localhost ([::1]:51268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqIeR-0001sI-K3
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58862)
+	id 1lqIhv-00005k-9v
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 13:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqIa4-0006vK-0R
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:28 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42854)
+ id 1lqIa5-0006vs-Jm
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:29 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqIa2-0007ps-8Q
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:27 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c5so18396571wrq.9
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:25 -0700 (PDT)
+ id 1lqIa3-0007qc-7X
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 12:58:29 -0400
+Received: by mail-wr1-x431.google.com with SMTP id f2so18390601wri.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 09:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U3o+F7dXXTuRNIJT1bjRgyFBMN63vTycsmuk+MLAR1w=;
- b=jWoYWYco0+YDUugtGfd3I7WLDBKPJYUQP/13p6ddmHaadMMb0C5N3g2fXdNIECbbgv
- s8KdTqo1CojnOPYIhtkiPPiHblZUALVWkRZGfrP7lux5e7hkssj8P6OS65pEB1Lfq96F
- k4FpC3/PgGIIbSysrZcIxVRZjXsBksorq3KXI4YAtvBv3eEta1xhLKy0hPVlecDIf7kb
- CFUz2xkP+6Ro6nm7Aktw8GFOEfx4TztvbJ3WMjYm4WQPA4Wzg+ENof3YiIv+cfP8wdjU
- QR3SHQjk8fRmcChdl1hZHz349JX7MHpmrTssqCrKsNuky0TDGco+4Y0y+OWIvo3ykfsK
- 5wiA==
+ bh=CIujDDcNE7g7Qj8fbS4YkgLm8m2I7lwGWPWf6+KDpnk=;
+ b=x8Qc1BMwrOmydxqbBntBqF2ycgQMPCSpfI2fmXOOit4XEzc0qYIykTOjKCM8jWwWap
+ UJ2g4bjYQRJ95TXN1BBsY4HFAKQ1X+Z5IobV77bZKoiJ61bAmxHhSwPI1Xi/REWeaRzd
+ XNYG4xqZXso+SehdVME1Rx+tf4alc6rbfMfnwLSe0Wpnff5qPt+kIONJW6u8ruLq4D5+
+ USYlbx9Mgc9LhEVb3wn9I6hCNelyrWl/DqKheSeh1aAGsOlN8CyqK0UQNptZRbvL3uLS
+ bpw4R/8Ap0VNDTcTeCK8r5ZhUCKdT0LowWPbzw2ueo8xXP7QUThE3boOYD/ngx3Htahw
+ vdFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U3o+F7dXXTuRNIJT1bjRgyFBMN63vTycsmuk+MLAR1w=;
- b=aC9PHghQ3VmS9FKe/zzsIENazcf2J3fwwX+N4P7sDzQ+TXvFmvDb45DhEXw5xe1/7R
- EmiU15bFN+HuZro4JABTnD55eU9WFHVvnr28tAiMAKXQ0xtU9DbILYYsfrHoAuyPD+EH
- J1+ju/M8o0B3kT+V1zpGJqkslqWzKdYwwPuC0joDBFmujVrnW3nX3+1Vc6EIFCocQxpm
- gImCHTiZaJIjCArf3ZGwnXNGhg0g/CPivcnkHn2lKx+dlb3bPNohU5bz/jl2oPyUDQzz
- xAP8OIqsGEHcFQQVIiWJbZQZfYfBUw0lnbWje5cavzH3QV9V46OukuUGhmzYTgv7AXyV
- wiaQ==
-X-Gm-Message-State: AOAM531IWgzLDPZwN0pPsaIW8yzdO7IxPwfT9cgBX/66osqJrngo25Pw
- IK0IFJD5P6Nmd0SyxbcSKVflQRPrEpl3JFgZ
-X-Google-Smtp-Source: ABdhPJy6B4ikOAphFhFSunKGgC+kVp9sv+ESBT4KynQdQDV2ngGPBV+DLhX5AYSI4o5Gktl5fYMfXQ==
-X-Received: by 2002:adf:e943:: with SMTP id m3mr18064269wrn.384.1623085104944; 
- Mon, 07 Jun 2021 09:58:24 -0700 (PDT)
+ bh=CIujDDcNE7g7Qj8fbS4YkgLm8m2I7lwGWPWf6+KDpnk=;
+ b=SDLZ4G8X1s+ncP5iJ8c9Gc/SbNvhsbMBg9O7TBQN/SigMjA1k0NDNpaJJyPwYiJwTU
+ YcVkYdzO7NLXnSc9PPfiMGppgDJHw7qHSs6/aafiZMTVJqPIg7ZFrkRNESC5iOlAVfd/
+ BAwSPCiaZm46Or5cT8bIgU8wc7GT93RpQbA6cn+1+bi0diLSeiYtbg6I2RQ6sOrW/pKB
+ 1a5FF5siHOfj7wIaYd/msoNfMuwGMUzXIlhhGNe8oeBBc/RKtgGSOOcbiYhDmKaXF89I
+ gfegfSyd3W4kFiiGEFQfkX/o5Mqg2DstboeDoj5navml646sXochkqm40rMTNq4yex9X
+ yZdQ==
+X-Gm-Message-State: AOAM530Zeu3Nfq7lPOIAdfofd/666mfC2er3FM3Y96UqXewkIZWnL6Zu
+ VufHmERGy1h7vvu6eZCUIOnCfbTaMNbjU0xO
+X-Google-Smtp-Source: ABdhPJzimc4ILLc97koVNzWXNuc3E0+dB8OTDNZVk1x54C4zJkiA71s9/kKl1izNAOhv6WauZov7yg==
+X-Received: by 2002:a5d:5243:: with SMTP id k3mr18357427wrc.19.1623085105917; 
+ Mon, 07 Jun 2021 09:58:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n10sm18891677wre.95.2021.06.07.09.58.24
+ by smtp.gmail.com with ESMTPSA id n10sm18891677wre.95.2021.06.07.09.58.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 09:58:24 -0700 (PDT)
+ Mon, 07 Jun 2021 09:58:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 01/55] tcg: Introduce tcg_remove_ops_after
-Date: Mon,  7 Jun 2021 17:57:27 +0100
-Message-Id: <20210607165821.9892-2-peter.maydell@linaro.org>
+Subject: [PATCH 02/55] target/arm: Enable FPSCR.QC bit for MVE
+Date: Mon,  7 Jun 2021 17:57:28 +0100
+Message-Id: <20210607165821.9892-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210607165821.9892-1-peter.maydell@linaro.org>
 References: <20210607165821.9892-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,57 +87,88 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+MVE has an FPSCR.QC bit similar to the A-profile Neon one; when MVE
+is implemented make the bit writeable, both in the generic "load and
+store FPSCR" helper functions and in the code for handling the NZCVQC
+sysreg which we had previously left as "TODO when we implement MVE".
 
-Introduce a function to remove everything emitted
-since a given point.
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210604212747.959028-1-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/tcg/tcg.h |  1 +
- tcg/tcg.c         | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
+ target/arm/translate-vfp.c | 32 +++++++++++++++++++++++---------
+ target/arm/vfp_helper.c    |  3 ++-
+ 2 files changed, 25 insertions(+), 10 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 74cb3453083..6895246fab5 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1081,6 +1081,7 @@ TCGOp *tcg_emit_op(TCGOpcode opc);
- void tcg_op_remove(TCGContext *s, TCGOp *op);
- TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *op, TCGOpcode opc);
- TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *op, TCGOpcode opc);
-+void tcg_remove_ops_after(TCGOp *op);
- 
- void tcg_optimize(TCGContext *s);
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 0dc271aac9f..262dbba1fde 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -2649,6 +2649,19 @@ void tcg_op_remove(TCGContext *s, TCGOp *op)
- #endif
- }
- 
-+void tcg_remove_ops_after(TCGOp *op)
-+{
-+    TCGContext *s = tcg_ctx;
-+
-+    while (true) {
-+        TCGOp *last = tcg_last_op();
-+        if (last == op) {
-+            return;
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index d01e465821b..22a619eb2c5 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -784,10 +784,19 @@ static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
+     {
+         TCGv_i32 fpscr;
+         tmp = loadfn(s, opaque);
+-        /*
+-         * TODO: when we implement MVE, write the QC bit.
+-         * For non-MVE, QC is RES0.
+-         */
++        if (dc_isar_feature(aa32_mve, s)) {
++            /* QC is only present for MVE; otherwise RES0 */
++            TCGv_i32 qc = tcg_temp_new_i32();
++            TCGv_i32 zero;
++            tcg_gen_andi_i32(qc, tmp, FPCR_QC);
++            store_cpu_field(qc, vfp.qc[0]);
++            zero = tcg_const_i32(0);
++            store_cpu_field(zero, vfp.qc[1]);
++            zero = tcg_const_i32(0);
++            store_cpu_field(zero, vfp.qc[2]);
++            zero = tcg_const_i32(0);
++            store_cpu_field(zero, vfp.qc[3]);
 +        }
-+        tcg_op_remove(s, last);
+         tcg_gen_andi_i32(tmp, tmp, FPCR_NZCV_MASK);
+         fpscr = load_cpu_field(vfp.xregs[ARM_VFP_FPSCR]);
+         tcg_gen_andi_i32(fpscr, fpscr, ~FPCR_NZCV_MASK);
+@@ -869,6 +878,11 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
+         break;
+     }
+ 
++    if (regno == ARM_VFP_FPSCR_NZCVQC && !dc_isar_feature(aa32_mve, s)) {
++        /* QC is RES0 without MVE, so NZCVQC simplifies to NZCV */
++        regno = QEMU_VFP_FPSCR_NZCV;
 +    }
-+}
 +
- static TCGOp *tcg_op_alloc(TCGOpcode opc)
- {
-     TCGContext *s = tcg_ctx;
+     switch (regno) {
+     case ARM_VFP_FPSCR:
+         tmp = tcg_temp_new_i32();
+@@ -876,11 +890,11 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
+         storefn(s, opaque, tmp);
+         break;
+     case ARM_VFP_FPSCR_NZCVQC:
+-        /*
+-         * TODO: MVE has a QC bit, which we probably won't store
+-         * in the xregs[] field. For non-MVE, where QC is RES0,
+-         * we can just fall through to the FPSCR_NZCV case.
+-         */
++        tmp = tcg_temp_new_i32();
++        gen_helper_vfp_get_fpscr(tmp, cpu_env);
++        tcg_gen_andi_i32(tmp, tmp, FPCR_NZCVQC_MASK);
++        storefn(s, opaque, tmp);
++        break;
+     case QEMU_VFP_FPSCR_NZCV:
+         /*
+          * Read just NZCV; this is a special case to avoid the
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 496f0034772..8a716600592 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -220,7 +220,8 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
+                                      FPCR_LTPSIZE_LENGTH);
+     }
+ 
+-    if (arm_feature(env, ARM_FEATURE_NEON)) {
++    if (arm_feature(env, ARM_FEATURE_NEON) ||
++        cpu_isar_feature(aa32_mve, cpu)) {
+         /*
+          * The bit we set within fpscr_q is arbitrary; the register as a
+          * whole being zero/non-zero is what counts.
 -- 
 2.20.1
 
