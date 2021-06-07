@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0563339E040
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:24:14 +0200 (CEST)
-Received: from localhost ([::1]:57314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BDE39E092
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:33:44 +0200 (CEST)
+Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqH6r-0005ia-25
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40982)
+	id 1lqHG3-0002jE-6Z
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqH5a-00052D-E7
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:22:54 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqH5X-0006Ia-BJ
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:22:53 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id i34so7637196pgl.9
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 08:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jeJvAzvkyzHhV5+53LU4/cs5nY4fklN2BOaz2BwcFH4=;
- b=b90x1YCnfq9aZCS+k34ScRdN0ol1mWD784rQJBKoUA0lfxy6dWhu+Qmez+9hH1Fx6p
- Uk3DgxSeUcl7yJqpvaRQzjsvUP1s8E2bLYwR2NNDF4Skbj+9FOZ6ThiSwH4KX775K31L
- YGB3S/ogP83RUG5KMwwoxJEJN7VNwWuoQpWJmUQgq7a2rB5S0TidEZuLT6cekWxGDJDj
- DpOtCmTj1igcOoIFmbcW/ocAON7pXDF+QWasOpWRrA0SMKGNjiQf/IocKTg3xE9JCDg9
- Zik++l7+X40SQu3xY5uI13qpJiqJC7EydoduFGiTjZjMt0M4yHAQynIvjIK6DQ/DVTQg
- E5Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jeJvAzvkyzHhV5+53LU4/cs5nY4fklN2BOaz2BwcFH4=;
- b=bIyJp3B8BplMcN5kLl2EL3RlfsOuSl/QEZU4OrdYd86PsX+izLI6S7pYF6LrOp+J0M
- tsRyIxT9v9gBuhn4smveSyq5rAqAVj9QHjfE+/j8e8lGKQLLERxNUomXop1xSOuAK6Ci
- wYVfKcT/ncC04XPYT4JKB78GypUyH4/jZlyZbj3HBDJaJNBn8wFhOriAF/JC8jR0pKx8
- IQClnn8DAMfJhDFtA4aK56IHxhoHCLb9GyJx4Q3c+Et22Uk939fkaTOGgoQHlevQvdBQ
- VWeKg6FMyez3fbNDrjxyDIcg09jBLohwQl1hLATrxsb0tlb0gvkHQsMPhEU9e8F4pgYd
- 79VQ==
-X-Gm-Message-State: AOAM531dPtR3WhsjeWNk47yVPZ6sOnmtwVFDlGX0JMEQSa/HLwMMPca5
- kGu6bwK9rOLFD0AttEsDck+zVw==
-X-Google-Smtp-Source: ABdhPJytUJumx8AuFmZwC4yLzz6s0X78FN7p7QHXG6+h+zTACwd4cH5kOrgoIVkjMGTJFiRFX2Cn/Q==
-X-Received: by 2002:a63:4b0f:: with SMTP id y15mr15177613pga.227.1623079368853; 
- Mon, 07 Jun 2021 08:22:48 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- f13sm8533384pfa.207.2021.06.07.08.22.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 08:22:48 -0700 (PDT)
-Subject: Re: [PATCH] tcg: Introduce tcg_remove_ops_after
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210604212747.959028-1-richard.henderson@linaro.org>
- <CAFEAcA-EFkuWb8aHhiiN7Wu9n302A8hdoHUzn7txOVhEyOX=Fg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5c934f15-765e-d3bc-7ea7-9aa112d1fd39@linaro.org>
-Date: Mon, 7 Jun 2021 08:22:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEn-0000kC-ET
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEl-0002GD-8R
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623079942;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FSS5LwaFSNmdHy9M80wjaIcp3zDmDrZJvXf5a/Pel3U=;
+ b=OfZq/yJ8uY7W9BMPmjy7LPCt6MgrLZ9+u827xP3y8FXLOrf7s53plRRUQlHme6iiFXOVx2
+ xwdhsk8eYLyPyk8UiG1D80kiB73iX5S/R6LfByuS/HxeXeLLOhcJBAfVomjfJokv/5Co/n
+ lc04asQUiAJ1nFnYIpBhKLLVUjxlfeY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-c8NPGLNQO2umhHNkdboC2w-1; Mon, 07 Jun 2021 11:32:03 -0400
+X-MC-Unique: c8NPGLNQO2umhHNkdboC2w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F07859F92B;
+ Mon,  7 Jun 2021 15:32:00 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90CB65D9D3;
+ Mon,  7 Jun 2021 15:31:56 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/2] Gitlab: Add issue templates
+Date: Mon,  7 Jun 2021 11:31:53 -0400
+Message-Id: <20210607153155.1760158-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-EFkuWb8aHhiiN7Wu9n302A8hdoHUzn7txOVhEyOX=Fg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,31 +73,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 6:51 AM, Peter Maydell wrote:
->> +void tcg_remove_ops_after(TCGOp *op);
-> 
-> A doc comment would be nice.
+Add "Bug" and "Feature Request" templates to the Gitlab interface to=0D
+help improve the quality of newly reported issues.=0D
+=0D
+To see what this looks like, I've temporarily allowed my Gitlab fork to=0D
+diverge with these files merged.  See my fork's "new issue" page to see=0D
+it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue=0D
+=0D
+(It's outdated a bit for V4, but you get the idea.)=0D
+=0D
+These patches do not add a "default" template, the user still has to=0D
+select one from the list. I recommend that someone with permissions=0D
+updates the default template:=0D
+=0D
+1. https://gitlab.com/qemu-project/qemu/edit=0D
+2. ctrl+f "Default description template for issues"=0D
+3. Update the default to the (suggested) below:=0D
+=0D
+```=0D
+<!-- Select "Type: Issue" and choose one of the Description templates above=
+. -->=0D
+```=0D
+=0D
+We can use this cover letter to discuss/review the wording on that=0D
+default template which exists outside of repository data.=0D
+=0D
+V4:=0D
+ - Change the "build on master" to be more of a nudge than a mandate,=0D
+   with improved instructions (stefanha, danpb)=0D
+=0D
+V3:=0D
+ - Add pointer to https://www.qemu.org/download/#source=0D
+ - Add pointer to https://www.qemu.org/contribute/security-process/=0D
+ - Remove blurb covering tracing instructions.=0D
+=0D
+V2:=0D
+- Updated both templates based on feedback from Peter, Daniel, and=0D
+  Thomas.=0D
+=0D
+John Snow (2):=0D
+  GitLab: Add "Bug" issue reporting template=0D
+  GitLab: Add "Feature Request" issue template.=0D
+=0D
+ .gitlab/issue_templates/bug.md             | 64 ++++++++++++++++++++++=0D
+ .gitlab/issue_templates/feature_request.md | 32 +++++++++++=0D
+ 2 files changed, 96 insertions(+)=0D
+ create mode 100644 .gitlab/issue_templates/bug.md=0D
+ create mode 100644 .gitlab/issue_templates/feature_request.md=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Fair enough.
-
-> This looks OK as far as TCG proper goes, but is it going to confuse
-> the TCG plugin infrastructure if a frontend generates a bunch of
-> TCG IR and then winds back the insn stream and generates something
-> else instead ? I see some calls from tcg/ into plugin related
-> functions, so I'm not sure...
-
-Mm.  Didn't think about that Friday.  But looking now, if you wind back to 
-dc->insn_start, everything will be fine.
-
-The plugin stuff will put stuff in the stream, and then go back and 
-post-process it.  But it does not record anything on the side, so if the stuff 
-is no longer in the stream all's well.
-
-
-r~
 
