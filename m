@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD71339E87F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:33:36 +0200 (CEST)
-Received: from localhost ([::1]:39604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DD039E8C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 22:53:57 +0200 (CEST)
+Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqLwF-0004PV-UR
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:33:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40014)
+	id 1lqMFv-0003hf-PB
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 16:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1lqLlI-00026n-GO; Mon, 07 Jun 2021 16:22:16 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34468)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqMF0-00030h-EG
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:52:58 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:33645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1lqLlF-0004lN-IT; Mon, 07 Jun 2021 16:22:16 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id q5so19051095wrm.1;
- Mon, 07 Jun 2021 13:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UrBhMUNVv6m9BStZpKSHQzrthLFC0lC1XwEqm2D+7ew=;
- b=qOKy6003ql8bCX4LTH7EWEPAr78ipiI6WlkiSobYGyrULRnalKSTyOQecLu8o2xktw
- K4HtUvg7TCGlyeswvpycU8JnRoBsJzYm8/qQFWgiKw2sGVY6PvHkNQRQJiqqAsQ/Vtem
- p6noQ0FRO703z47vqz3wcPJwM6/K1JLdv7s9I0/mTF2ieI4BxX+8hQtaeMLRzH3I4Eem
- l//1YWZs7UW/Hzviox/GFyMpRDx+UIzehspj57cr/yu1bD5HKLKVt33tpO7jLkB8wFu2
- 99V7nDccuPSzoZRKF4Hllmj/qLqkDJRyIPUIIHj8jjbh8Uu91gb8UDZZ+Ys+iY7VjUBt
- dh2w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqMEy-0002qM-OD
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 16:52:58 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ k22-20020a17090aef16b0290163512accedso587830pjz.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 13:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Gv+u6nzFJ7SPpBY9RouvEvxyfeXIJ1zG9e/GdE5vDlc=;
+ b=tQBq9b7MVvFJQWlzCYXUr+kX7CGyn5xvioBp0ozoWgdaS1giL6Fe4XXm6lgdWZlbpX
+ ALHNXpOPZhA7fusFVVEvyamy9i0jVp9aEOP/ZN6Rgfj9kBIMCmCn8AE+3UdLKMrq2cd8
+ atTzKYPP1jOeIjNe7x1yxZOWHz/PmVrFM8i3zxLb1Vl+EvohHkpIciKUheYHJvi80vXw
+ Cmjfq+/ZTSg0U0Zh/lLQ15E4uBN1fBRdlV1sxvzZEY5/MzYXP2AU1fR+ouX156VuUMms
+ RSQsidgjM8oioZiqP/w9I8jO1+cq5CGgEBt3p5OvTFJ4lzyt/ugZafBi+47e5Ifv2Erz
+ RMEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=UrBhMUNVv6m9BStZpKSHQzrthLFC0lC1XwEqm2D+7ew=;
- b=FaYFFP8h12Mx+pyZ+T57s1fdpTlfU4+fHYIlkBQZK/GVasmVbUr/UIc1q5JaVzVvIc
- Q06cQjt1Lf0mUc1sX9/mplP35aj0aFTgqINVNSYWhzT7F3CfoqDGpbsylFhnrShPcpVT
- AqQyibswcV1o+0jfPjqlnQrAqKVzZnlem3IsXRzUW7yhuSvtXEsFc/YIHpxon9kmKQ5v
- msfyZldfy6tW6RHDX9vkY7vAvP8otPTPZQLFDWaWnQE92uzrlzqDol4aNtW0lQv/pw3f
- FqiZwRUIXeBrMCyuD1K9NRbse6oY6v1vWAmD2k1auyng8XKcyloeJ0jKvjNF4wu6s6pX
- a2wA==
-X-Gm-Message-State: AOAM530xMUVlwpOfxCW1PSd8n5rvAdrEyzPZTgST/5FYP0EWQdIAvJxk
- SYRyI0tEprU0xPYxk6Sea0HU7zgkimWqaw==
-X-Google-Smtp-Source: ABdhPJzzMs/ew9iOjPHiw/0iziIae8kdJT76DrCGy+X/6PAN+V6jrYBRHAmXmoq1HiTE6xSTTVSfUQ==
-X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr19501489wrs.63.1623097330507; 
- Mon, 07 Jun 2021 13:22:10 -0700 (PDT)
-Received: from sparse.redhat.com ([147.161.13.185])
- by smtp.gmail.com with ESMTPSA id t4sm17450979wru.53.2021.06.07.13.22.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 13:22:09 -0700 (PDT)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
-Date: Mon,  7 Jun 2021 23:22:04 +0300
-Message-Id: <20210607202204.1805199-1-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.26.3
+ bh=Gv+u6nzFJ7SPpBY9RouvEvxyfeXIJ1zG9e/GdE5vDlc=;
+ b=GShnGBIzLlPCMJ0AjpYEnjkMc4DynkZ0do0Zy7Ls08wKEwU0P//F1+xQyjIhAJsmz5
+ MEvbWmIVubqX/nNi/MNZ/JGjIRcN4SPv9ffCsVNAqpga7yornRk8fQ7O3Q7FJZNn6Vtv
+ /GRIRqhgVhG3qfk5FPGWrarr8MGho2h3FfsNKuHBBvFwzBnvrAhmcJQ2P9vwswCqhTtn
+ 6LBeOluPK9ZGiYsuq76rQac3NcTFnc7S5+Nv7Mw74RpVCcREJp0JCDW4vTfTvM7+4Rnf
+ hKVT2jOUEYu8wLrUek7H3RgUpgiwQrcs+I1pZSQ005j620O0Gp3mrFXFWWFqxpfVhk/F
+ hK8Q==
+X-Gm-Message-State: AOAM533DQfXmfMc4Ffv3sa9XpHSH5XgI2dN2oAmzrOQcOvsJc1d+QZl8
+ SpG0y6AUqQrnKs9aRJ011vgzcQ==
+X-Google-Smtp-Source: ABdhPJw78Lb8ifOEqzorQa1i9+T4zZQWGn7M42TnvQ2rmw1Quo5Qq7VmualppJ+KB2IXCU1pi1efow==
+X-Received: by 2002:a17:902:fe86:b029:10e:7898:331c with SMTP id
+ x6-20020a170902fe86b029010e7898331cmr19658037plm.22.1623099174357; 
+ Mon, 07 Jun 2021 13:52:54 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ y14sm272476pjr.51.2021.06.07.13.52.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Jun 2021 13:52:53 -0700 (PDT)
+Subject: Re: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210527041405.391567-1-richard.henderson@linaro.org>
+ <20210527041405.391567-4-richard.henderson@linaro.org>
+ <871r9dod1w.fsf@linaro.org> <31a70d8a-0b1c-9641-e2bf-3625690fa6b6@linaro.org>
+ <87pmwxmw0i.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2d66f57e-7ff0-4d57-22e1-d5156665e2fb@linaro.org>
+Date: Mon, 7 Jun 2021 13:52:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <87pmwxmw0i.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=nirsof@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,139 +92,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: mmorrell@tachyum.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When zeroing a cluster in an image with backing file, qemu-img and
-qemu-nbd reported the area as a hole. This does not affect the guest
-since the area is read as zero, but breaks code trying to reconstruct
-the image chain based on qemu-img map or qemu-nbd block status response.
+On 6/7/21 10:19 AM, Alex Bennée wrote:
+>> If you've got a better ordering of operations for this, do tell.
+> 
+> What I really want is to know which instructions translate into the if
+> (s->flush_inputs_to_zero) and verifying that is only checked once. Maybe
+> I'm just suspicious of compilers ability to optimise things away...
 
-Here is simpler reproducer:
 
-    # Create a qcow2 image with a raw backing file:
-    $ qemu-img create base.raw $((4*64*1024))
-    $ qemu-img create -f qcow2 -b base.raw -F raw top.qcow2
 
-    # Write to first 3 clusters of base:
-    $ qemu-io -f raw -c "write -P 65 0 64k" base.raw
-    $ qemu-io -f raw -c "write -P 66 64k 64k" base.raw
-    $ qemu-io -f raw -c "write -P 67 128k 64k" base.raw
 
-    # Write to second cluster of top, hiding second cluster of base:
-    $ qemu-io -f qcow2 -c "write -P 69 64k 64k" top.qcow2
+>   Dump of assembler code for function float32_mul:
+>      0x0000000000895d60 <+0>:	movzbl 0x1(%rdx),%eax
+>      0x0000000000895d64 <+4>:	test   $0x10,%al
+>      0x0000000000895d66 <+6>:	je     0x895e30 <float32_mul+208>
 
-    # Write zeroes to third cluster of top, hiding third cluster of base:
-    $ qemu-io -f qcow2 -c "write -z 128k 64k" top.qcow2
+s->float_exception_flags & float_flag_inexact
 
-This creates:
+>      0x0000000000895d6c <+12>:	cmpb   $0x0,(%rdx)
+>      0x0000000000895d6f <+15>:	jne    0x895e30 <float32_mul+208>
 
-    top:  -D0-
-    base: ABC-
+s->float_rounding_mode == float_round_nearest_even
 
-How current qemu-img and qemu-nbd report the state:
+>      0x0000000000895d75 <+21>:	test   $0x7f800000,%edi
+>      0x0000000000895d7b <+27>:	jne    0x895da0 <float32_mul+64>
+>      0x0000000000895d7d <+29>:	test   $0x7fffffff,%edi
+>      0x0000000000895d83 <+35>:	je     0x895da0 <float32_mul+64>
 
-    $ qemu-img map --output json top.qcow2
-    [{ "start": 0, "length": 65536, "depth": 1, "zero": false, "data": true, "offset": 0},
-    { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-    { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
-    { "start": 196608, "length": 65536, "depth": 1, "zero": true, "data": false, "offset": 196608}]
+float32_is_denormal
 
-    $ qemu-nbd -r -t -f qcow2 top.qcow2 &
-    $ qemu-img map --output json nbd://localhost
-    [{ "start": 0, "length": 131072, "depth": 0, "zero": false, "data": true, "offset": 0},
-    { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false, "offset": 131072}]
+>      0x0000000000895d85 <+37>:	cmpb   $0x0,0x5(%rdx)
+>      0x0000000000895d89 <+41>:	je     0x895e60 <float32_mul+256>
 
-    $ nbdinfo --map nbd://localhost
-             0      131072    0  allocated
-        131072      131072    3  hole,zero
+s->flush_inputs_to_zero
 
-The third extents is reported as a hole in both cases. In qmeu-nbd the
-cluster is merged with forth cluster which is actually a hole.
+>      0x0000000000895d8f <+47>:	or     $0x40,%eax
+>      0x0000000000895d92 <+50>:	and    $0x80000000,%edi
+>      0x0000000000895d98 <+56>:	mov    %al,0x1(%rdx)
 
-This is incorrect since if it was a hole, the third cluster would be
-exposed to the guest. Programs using qemu-nbd output to reconstruct the
-image chain on other storage would be confused and copy only the first 2
-cluster. The results of this copy will be an image exposing the third
-cluster from the base image, corrupting the guest data.
+flush-to-zero and set iflush_denormal
 
-I found that it can be fixed using BDRV_BLOCK_OFFSET_VALID when
-reporting the status of the extent. When we have a valid offset, we
-report based on BDRV_BLOCK_DATA. Otherwise we report based on
-BDRV_BLOCK_ALLOCATED.
+>      0x0000000000895da0 <+64>:	test   $0x7f800000,%esi
+>      0x0000000000895da6 <+70>:	jne    0x895dd0 <float32_mul+112>
+>      0x0000000000895da8 <+72>:	test   $0x7fffffff,%esi
+>      0x0000000000895dae <+78>:	je     0x895dd0 <float32_mul+112>
 
-With this fix we get:
+float32_is_denormal (second operand)
 
-    $ build/qemu-img map --output json top.qcow2
-    [{ "start": 0, "length": 65536, "depth": 1, "zero": false, "data": true, "offset": 0},
-    { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-    { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": true},
-    { "start": 196608, "length": 65536, "depth": 1, "zero": true, "data": false, "offset": 196608}]
+>      0x0000000000895db0 <+80>:	cmpb   $0x0,0x5(%rdx)
+>      0x0000000000895db4 <+84>:	movzbl 0x1(%rdx),%eax
+>      0x0000000000895db8 <+88>:	je     0x895e50 <float32_mul+240>
+>      0x0000000000895dbe <+94>:	or     $0x40,%eax
+>      0x0000000000895dc1 <+97>:	and    $0x80000000,%esi
 
-    $ build/qemu-nbd -r -t -f qcow2 top.qcow2 &
-    $ qemu-img map --output json nbd://localhost
-    [{ "start": 0, "length": 131072, "depth": 0, "zero": false, "data": true, "offset": 0},
-    { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": true, "offset": 131072},
-    { "start": 196608, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": 196608}]
+s->flush_inputs_to_zero,
+flush-to-zero,
+set iflush_denormal.
 
-    $ nbdinfo --map nbd://localhost
-             0      131072    0  allocated
-        131072       65536    2  zero
-        196608       65536    3  hole,zero
+...
 
-The issue was found by ovirt-imageio functional tests:
-https://github.com/oVirt/ovirt-imageio/blob/master/daemon/test/client_test.py
+>      0x0000000000895e50 <+240>:	or     $0x20,%eax
+>      0x0000000000895e53 <+243>:	mov    %al,0x1(%rdx)
+>      0x0000000000895e56 <+246>:	jmpq   0x895dd0 <float32_mul+112>
 
-I did not update any of the existing tests, and I'm sure many tests are
-missing, and the documentation should change to describe the new
-behavior. Posting as is for early review.
+set inorm_denormal (second operand)
 
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-Resolves: https://bugzilla.redhat.com/1968693
----
- nbd/server.c | 8 ++++++--
- qemu-img.c   | 4 +++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+>      0x0000000000895e60 <+256>:	or     $0x20,%eax
+>      0x0000000000895e63 <+259>:	mov    %al,0x1(%rdx)
+>      0x0000000000895e66 <+262>:	jmpq   0x895da0 <float32_mul+64>
 
-diff --git a/nbd/server.c b/nbd/server.c
-index b60ebc3ab6..adf37905d5 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2127,8 +2127,12 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
-             return ret;
-         }
- 
--        flags = (ret & BDRV_BLOCK_DATA ? 0 : NBD_STATE_HOLE) |
--                (ret & BDRV_BLOCK_ZERO ? NBD_STATE_ZERO : 0);
-+        flags = (ret & BDRV_BLOCK_ZERO ? NBD_STATE_ZERO : 0);
-+
-+        if (ret & BDRV_BLOCK_OFFSET_VALID)
-+            flags |= (ret & BDRV_BLOCK_DATA ? 0 : NBD_STATE_HOLE);
-+        else
-+            flags |= (ret & BDRV_BLOCK_ALLOCATED ? 0 : NBD_STATE_HOLE);
- 
-         if (nbd_extent_array_add(ea, num, flags) < 0) {
-             return 0;
-diff --git a/qemu-img.c b/qemu-img.c
-index a5993682aa..6808e12d87 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3039,7 +3039,9 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
-     *e = (MapEntry) {
-         .start = offset,
-         .length = bytes,
--        .data = !!(ret & BDRV_BLOCK_DATA),
-+        .data = !!(has_offset
-+            ? ret & BDRV_BLOCK_DATA
-+            : ret & BDRV_BLOCK_ALLOCATED),
-         .zero = !!(ret & BDRV_BLOCK_ZERO),
-         .offset = map,
-         .has_offset = has_offset,
--- 
-2.26.3
+set inorm_denormal (first operand)
 
+There do seem to be 3 reads/writes to exception_flags for float_raise.
+
+
+r~
 
