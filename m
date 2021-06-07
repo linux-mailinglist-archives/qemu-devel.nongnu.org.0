@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3FC39E919
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 23:23:33 +0200 (CEST)
-Received: from localhost ([::1]:40922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3F5C39E925
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 23:34:55 +0200 (CEST)
+Received: from localhost ([::1]:49386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqMia-00021t-69
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 17:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48996)
+	id 1lqMtW-0008Ac-EG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 17:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqMhf-00016x-EB
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 17:22:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32803)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lqMsB-0007TI-3d
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 17:33:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqMhc-0000ZU-A1
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 17:22:34 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lqMs5-0005KU-7F
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 17:33:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623100951;
+ s=mimecast20190719; t=1623101600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yOlymZxifUJQFyOkD1mP4Lw40LmrDvJfltl/AWyNFlo=;
- b=FIM5RL1b2Xn17EXo/2ZIxpZpV+Eyekz/4YjogYF9Ha8a9PKe9kj0TjwJBOpzCCVOoPB6dh
- HY23FMGCOOq2/YSMYFU9+RX0HD4Zxx3/3awyh6dyJ3dYPpZ8kMVYM2freWfd4GFVaeS6qv
- Pge7XDUEyxrngzRGrzOW+HEvvetxXpY=
+ bh=Gi9SN5q44cdspsTp+WFa91RlV0C2Qj0xzlHFISV0l8s=;
+ b=NgjgAuHWK2jSajoqetNOd5bw/sDNVRr2SRorMdiajYKFIo8GvX5rUhvdPHN6IAf3x7jnVD
+ TlFK6kfUEHpgQB7e1go2bad70ZxZdrir+zmj4ikarrLJvU0b/Wt5djyDZVwWjRt+lZZatr
+ 5kuukS7NsrsT044DZ/0l9WpFnOWwNfw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-_l1Bj9V8OMmMhCDaRM87yQ-1; Mon, 07 Jun 2021 17:22:28 -0400
-X-MC-Unique: _l1Bj9V8OMmMhCDaRM87yQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-479-x-PtNmaxPiWwfVw8Sfcz7g-1; Mon, 07 Jun 2021 17:33:17 -0400
+X-MC-Unique: x-PtNmaxPiWwfVw8Sfcz7g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5355281843F;
- Mon,  7 Jun 2021 21:22:27 +0000 (UTC)
-Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A9F536060F;
- Mon,  7 Jun 2021 21:22:26 +0000 (UTC)
-Date: Mon, 7 Jun 2021 16:22:24 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Nir Soffer <nirsof@gmail.com>
-Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
-Message-ID: <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
-References: <20210607202204.1805199-1-nsoffer@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6585A107ACC7;
+ Mon,  7 Jun 2021 21:33:16 +0000 (UTC)
+Received: from localhost (ovpn-116-176.gru2.redhat.com [10.97.116.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3D855D9C0;
+ Mon,  7 Jun 2021 21:33:12 +0000 (UTC)
+Date: Mon, 7 Jun 2021 18:33:10 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v3 0/4] target/i386/cpu: introduce new CPU models for
+ x86-64 ABI levels
+Message-ID: <20210607213310.wj2223q64xqhgh4g@habkost.net>
+References: <20210607135843.196595-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210607202204.1805199-1-nsoffer@redhat.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210607135843.196595-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -76,248 +80,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Nir Soffer <nsoffer@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 07, 2021 at 11:22:04PM +0300, Nir Soffer wrote:
-> When zeroing a cluster in an image with backing file, qemu-img and
-> qemu-nbd reported the area as a hole. This does not affect the guest
-> since the area is read as zero, but breaks code trying to reconstruct
-> the image chain based on qemu-img map or qemu-nbd block status response.
+On Mon, Jun 07, 2021 at 02:58:39PM +0100, Daniel P. Berrangé wrote:
+> This series is motivated by this blog that describes how RHEL-9
+> will recommend use of the x86-64-v2 microarchitectural ABI level:
+> 
+>   https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level/
+> 
+> The implication of compiling code with -march=x86-64-v2 is that
+> this code will no longer be guaranteed to be runnable on a
+> number of the CPU models exposed by the x86_64 target emulator,
+> most notably qemu64 which is the default.
+> 
+> This series is not proposing to change the QEMU default CPU model
+> for x86_64 target. I show how this is can trivially be done in
+> patch 3, but not suggesting that we actually do that, as upstream
+> is quite conservative in dropping support for old host hardware.
+> 
+> New CPU models
+> ==============
+> 
+> It is instead exploring the possibilities of defining new CPU
+> models in QEMU to closely match the x86-64 uarch ABI levels in
+> a relatively vendor agnostic manner. This could be used by
+> downstream vendors who wish to target specific uarch ABI levels
+> in custom machine types.
+> 
+> One of the nice things about "qemu64" is that its naming presents
+> it as effectively being a vendor-neutral model (if we ignore that
+> vendor=AMD is in fact reported in CPUID).
+> 
+> If we look at the feature set fo x86-64-v2 ABI, we see that the
+> QEMU "Nehalem" model is the closest match. This is also happens
+> to be runnable on AMD Opteron G4/G5 and EPYC hosts. None the less,
+> the use of an Intel specific CPU model name on an AMD host feels
+> uncomfortable.
+> 
+> Vendor neutral naming
+> =====================
+> 
+> The idea behind this series is thus to introduce new CPU model
+> names with vendor neutral naming, to more directly correlate
+> with defined x86-64 uarch ABI levels. We don't want to just
+> invent CPUs with a completely arbitrary set of CPU features as
+> history has shown that brings its own problems. eg a guest
+> uses features A and B, but only does CPUID checks for existence
+> of feature B, assuming that B implies A.
+> 
+> The specification for x86-64 ABI levels uses x86-64-vNN naming
+> but this clashes with QEMU's use of "vNN" for versioning. I
+> felt it would be confusing to end up with CPU model names
+> like  "x86-64-v1-v1". Thus I've used an "-abiNNN" suffix
+> instead. Also note I have an "-abi1" suffix here for the
+> baseline. Arguably we could just drop the suffix entirely for
+> the baseline.
+> 
+> A further note is that we could have used "qemu64" as the
+> naming prefix, eg qemu64-abi2, qemu64-abi3, etc. Alot of
+> people hold negative opinions of the qemu64 model in general
+> though, so I felt a clean break with the past might be
+> desirable, even though the x86-64-abi1 CPU  model is effectively
+> identical to qemu64.
+> 
+> Runnability of new models
+> =========================
+> 
+> The goal of the x86-64-abiNNN CPU models is that they should be
+> runnable on any physical host which supports the CPUIDs features
+> for that uarch ABI level. It is hard to figure out what exact
+> set of CPUID features we should report. The uarch ABI document
+> only specifies the minimum expectation, but we can't define a
+> CPU in QEMU using only the minimum set as that would omit
+> countless important features.
+> 
 
-Trying to reconstruct the image chain based on qemu-nbd block status
-should not be attempted on just base:allocation data, but should also
-take into account qemu:allocation-depth.  From the perspective of the
-core NBD protocol, there is no backing file, so trying to guess what
-the backing file contains without using qemu extensions is unlikely to
-be correct, as shown in your example.  The fact that you could abuse
-it with qemu 5.2 but it broke in 6.0 is not necessarily the sign of a
-regression in 6.0, but rather could be evidence that you have been
-trying to use an undocumented implementation quirk rather than a
-stable interface.
+Do you have a list of features that were not in the ABI document
+but were included in the CPU models you've added?  What exactly
+make them important enough for us, but not important enough for
+the ABI level specification writers?
+
+
+In patch 2/3 you wrote:
+
+| Historically we've found that defining CPU models with an arbitrary
+| combination of CPU features can be problematic, as some guest OS
+| will not check all features they use, and instead assume that if
+| they see feature "XX", then "YY" will always exist. This is reasonable
+| in bare metal, but subject to breakage in virtualization.
+
+Do we know how likely that is?  Any examples where this has
+happened?
+
+What if we simply used the raw list of features from the
+specification, add those as CPU models experimentally, and let
+people report issues if they find them?  Too risky?  Not useful
+in practice?
+
+Maybe we could provide both a "x86-64-abiNN" and a
+"x86-64-abiNN-minimal" CPU model.  We could even use the -minimal
+CPU model definition to write a test case that ensure the
+algorithm you describe below is always being followed.  The name
+should make it clear that the CPU model is more conservative but
+less likely to be useful.
+
+
+> Thus to determine the feature set to use in x86-64-abiNNN CPU
+> models, this series used a script (see patch 4) which did the
+> following:
+> 
+>   * Find list of current CPU models that satisfy ABI NN
+>   * From this list, calculate the lowest common denominator (LCD)
+>     of CPUID features
+>   * From the LCD, find the existing CPU model that has the fewest
+>     extra features over the LCD.
+>   * Use that closest match, minus the extra features
+>     to define x86-64-abiNN
+> 
+> This approach works well for the baseline ABI, and level 2 ABI
+> 
+> For ABI level 3 there is a bit of a larger divergance in feature
+> sets, because the LCD between Intel and EPYC models is relatively
+> large. We omit aes pcid erms invpcid tsc-deadline x2apic pclmulqdq
+> 
+> For ABI level 4 the divergance is small. I believe this is a
+> deceptive situation that arises because currently only Intel
+> CPUs in QEMU are able to satisfy ABI level 4 currently. None
+> of the EPYC CPUs defined in QEMU are able to satisfy it.
+> 
+> I'm concerned that if future EPYC CPU generations are added to
+> QEMU which *do* indeed satisfy x86-64 v4, then QEMU's x86-64-abi4
+> CPUID may prove to be too greedy and thus be unable to run on
+> the future CPUs. In theory we can address this through use of
+> CPU versioning, but ideally we would not have to deal with that.
+
+If no AMD CPU model satisfy v4 yet, maybe we should avoid adding
+any feature that is not present in any known AMD CPUs, unless
+they are already required by the ABI level specification.
+Otherwise, the list is likely to contain Intel features that AMD
+has no plans to implement at all.
+
+Or maybe we should just refrain from adding a x86-64-abi4 CPU
+model until we have a CPU model from AMD that satisfies v4.
 
 > 
-> Here is simpler reproducer:
+> Nested virt caveats
+> ===================
 > 
->     # Create a qcow2 image with a raw backing file:
->     $ qemu-img create base.raw $((4*64*1024))
->     $ qemu-img create -f qcow2 -b base.raw -F raw top.qcow2
-> 
->     # Write to first 3 clusters of base:
->     $ qemu-io -f raw -c "write -P 65 0 64k" base.raw
->     $ qemu-io -f raw -c "write -P 66 64k 64k" base.raw
->     $ qemu-io -f raw -c "write -P 67 128k 64k" base.raw
-> 
->     # Write to second cluster of top, hiding second cluster of base:
->     $ qemu-io -f qcow2 -c "write -P 69 64k 64k" top.qcow2
-> 
->     # Write zeroes to third cluster of top, hiding third cluster of base:
->     $ qemu-io -f qcow2 -c "write -z 128k 64k" top.qcow2
-> 
-> This creates:
-> 
->     top:  -D0-
->     base: ABC-
-> 
-> How current qemu-img and qemu-nbd report the state:
-> 
->     $ qemu-img map --output json top.qcow2
->     [{ "start": 0, "length": 65536, "depth": 1, "zero": false, "data": true, "offset": 0},
->     { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
->     { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
->     { "start": 196608, "length": 65536, "depth": 1, "zero": true, "data": false, "offset": 196608}]
+> A further caveat is that none of these generic models define
+> any VMX feature set. At the very least I believe this means
+> that nested virt can't live migrate, but maybe this breaks
+> ability to use nested virt entirely. I'm unclear what the
+> best approach is to deal with this, that would let the user
+> do both "-cpu x86-64-abi2,svm=on" and "-cpu x86-64-abi2,vmx=on"
 
-Note how this one reports "depth":1 when the backing file is consulted...
+I don't get this part.  Why can't the CPU model include a VMX
+feature set that is the LCD of the VMX-capable CPUs that satisfy
+abiNN?  The VMX feature set is supposed to be just a default when
+using vmx=on.
 
 > 
->     $ qemu-nbd -r -t -f qcow2 top.qcow2 &
->     $ qemu-img map --output json nbd://localhost
->     [{ "start": 0, "length": 131072, "depth": 0, "zero": false, "data": true, "offset": 0},
->     { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false, "offset": 131072}]
+> Side channel mitigation caveats
+> ===============================
+> 
+> Finally none of the x86-64-abiNN models include any of the
+> features related to CPU side channel mitigations. We can't
+> add them without sacrificing the ability to run on some
+> physical hardware that would otherwise satisfy the uarch
+> ABI level.
+> 
+> This makes me a little uneasy. One of the main downsides
+> of using "qemu64" is that it leaves guests vulnerable to the
+> side channel attacks. Introducing new general purpose CPUs
+> that still have this flaw feels undesirable. I don't know
+> whethe to prioritize safety, while sacrificing runability.
 
-...but since NBD has no notion of a backing file, there is nothing
-that qemu can do to report depth information itself.  If you want to
-reconstruct the backing chain, you should be able to further query
-qemu:allocation-depth, and piece the two queries together to get what
-you need:
+That's the biggest caveat for me.
 
-$ ./qemu-nbd -r -t -f qcow2 top.qcow2 -A
-$ nbdinfo --map=qemu:allocation-depth nbd://localhost
-         0      131072    1  local
-    131072      131072    2  backing depth 2
+I believe the default should prioritize safety.  I believe you
+implicitly established that runnability is not an absolute
+requirement when you added features that are required by the ABI
+level specification.
 
-However, _that_ output looks odd - it claims that clusters 0 and 1 are
-local, and 2 and 3 come from a backing file.  Without reading code, I
-would have expected something closer to the qcow2 view, claiming that
-clusters 1 and 2 are local, while 0 and 3 come from a backing file (3
-could also be reported as unallocated, but only if you use a qcow2 as
-the backing file instead of raw, since we have no easy way to
-determine which holes map to file system allocations in raw files).
-
-/me goes to debug...  I'll need to reply in a later email when I've
-spent more time on that.
-
-[Oh, and that reminds me, I would love to patch nbdinfo to let --map
-query all available contexts, not just base:allocation, without having
-to explicitly name alternative --map=FOO... But it missed today's
-stable release of libnbd 1.8]
-
-[The same information can be obtained via qemu-img using
-x-dirty-bitmap and --image-opts, but is so much more of a hack that
-for now I will just refer to iotest 309 instead of spelling it out
-here]
 
 > 
->     $ nbdinfo --map nbd://localhost
->              0      131072    0  allocated
->         131072      131072    3  hole,zero
+> Crypto accelerator caveats
+> ==========================
+> 
+> Similarly I'm not a huge fan of leaving out the "aes"
+> instruction for accelerated crypto, as missing "aes" is
+> also one of the key factors in making qemu64 a bad choice.
+> 
+> If we include 'aes' in x86-64-abi2, then we loose support
+> for Nehalem hosts.
+> 
+> If we include 'aes' in x86-64-abi3 then we further loose
+> support for Dhyana hosts (an EPYC derived CPU).
+> 
+> Wrap up
+> =======
+> 
+> Overall this series shows some CPU models for QEMU that
+> can map to each x86-64 ABI level, but I'm unsure whether
+> it is wise to actually go forward with this idea given
+> the various caveats.
+> 
+> I think they'll mostly only be useful as a built-in default
+> for machine types. If anyone is going to explicitly specify
+> a CPU model they'll almost always be better off picking a
+> vendor specific model or host passthrough. There can be
+> cases where people have a mix of AMD and Intel bare metal
+> machines they need portability across but this feel rare.
 
-This faithfully reflects what qemu-img saw, which is all the more the
-NBD protocol lets us send without the use of extensions like
-qemu:allocation-depth.
+I would prefer to address the problem of poor defaults the
+following way:
+
+- We should start requiring management software to pass a explicit
+  live-migration-policy argument if live migration needs to work
+  (after documenting that and waiting for the deprecation period,
+  of course).
+- If live migration is not required, we can default to host
+  passthrough.
+- If live migration is required, we should stop providing a
+  default CPU model, and requiring it to be configured
+  explicitly.
+
+QEMU doesn't have enough information to choose a good CPU model
+default when live migration is required.  Even if we add the
+x86-64-abiNN CPU models in this series, we have no way to decide
+if abi1, abi2, abi3, or abi4 is a better default, do we?
+
+That doesn't mean the CPU models you are adding aren't useful.
+They may still be useful for management software or for
+downstream vendors to choose their own defaults.
 
 > 
-> The third extents is reported as a hole in both cases. In qmeu-nbd the
-
-qemu
-
-> cluster is merged with forth cluster which is actually a hole.
+> Whatever else comes of this series, at least patch 1 should
+> be useful, giving people an idea of what ABI levels each
+> QEMU CPU can satisfy in the documentation.
 > 
-> This is incorrect since if it was a hole, the third cluster would be
-> exposed to the guest. Programs using qemu-nbd output to reconstruct the
-> image chain on other storage would be confused and copy only the first 2
-> cluster. The results of this copy will be an image exposing the third
-> cluster from the base image, corrupting the guest data.
-
-This is where I disagree - if the NBD protocol exposed the notion of a
-backing file, then reporting a local hole should indeed imply reading
-from the backing file.  But since base NBD protocol does NOT support
-backing images of any sort, you cannot make any assumptions about what
-base:allocation says about holes, other than that the image presented
-over NBD was not fully allocated in some manner at that location.  You
-instead need to fix your tooling to query qemu:allocation-depth if you
-are trying to reconstruct all state known by qemu.
-
+> Changed in v3:
 > 
-> I found that it can be fixed using BDRV_BLOCK_OFFSET_VALID when
-> reporting the status of the extent. When we have a valid offset, we
-> report based on BDRV_BLOCK_DATA. Otherwise we report based on
-> BDRV_BLOCK_ALLOCATED.
-
-That sounds hairy.  As an initial reaction, I'm not sure I like it.
-
+>  - Rebased to resolve conflicts with git master
 > 
-> With this fix we get:
+> Changed in v2:
 > 
->     $ build/qemu-img map --output json top.qcow2
->     [{ "start": 0, "length": 65536, "depth": 1, "zero": false, "data": true, "offset": 0},
->     { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
->     { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": true},
-
-Earlier, this line was "data":false, which made sense - there was no
-offset in either top.qcow2 nor in raw.base at which you could mmap to
-read the actual zeroes that were implied by the unallocated zero
-cluster.  Your change here is reporting "data":true to state that the
-zeroes explicitly come from the "depth":0 layer, although it is a bit
-misleading because we did not actually allocate clusters in top.qcow2
-for reading the zeroes.  In reality, this really IS an instance of a
-qcow2 unallocated cluster, where "data":false fits better for the
-definitions in include/block/block.h.
-
->     { "start": 196608, "length": 65536, "depth": 1, "zero": true, "data": false, "offset": 196608}]
+>  - Don't document any of the CPU aliases, since they vary per
+>    machine type, only the concrete types.
+>  - Formally add the script for re-generating the docs
 > 
->     $ build/qemu-nbd -r -t -f qcow2 top.qcow2 &
->     $ qemu-img map --output json nbd://localhost
->     [{ "start": 0, "length": 131072, "depth": 0, "zero": false, "data": true, "offset": 0},
->     { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": true, "offset": 131072},
->     { "start": 196608, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": 196608}]
-
-Meanwhile, this output is indeed arguably more precise, although it
-differs from the qcow2 output in that you provide an offset for
-cluster 2.
-
+> Daniel P. Berrangé (4):
+>   docs: add a table showing x86-64 ABI compatibility levels
+>   target/i386: define CPU models to model x86-64 ABI levels
+>   scripts: helper to generate x86_64 CPU ABI compat info
+>   NOT FOR MERGE target/i386: use x86-64-abi1 CPU model as default on
+>     x86_64
 > 
->     $ nbdinfo --map nbd://localhost
->              0      131072    0  allocated
->         131072       65536    2  zero
->         196608       65536    3  hole,zero
+>  MAINTAINERS                        |   2 +-
+>  docs/system/cpu-models-x86-abi.csv |  75 +++++++++++
+>  docs/system/cpu-models-x86.rst.inc |  22 ++++
+>  hw/i386/pc_piix.c                  |   3 +
+>  hw/i386/pc_q35.c                   |   3 +
+>  scripts/cpu-x86-uarch-abi.py       | 194 +++++++++++++++++++++++++++++
+>  target/i386/cpu.c                  | 156 +++++++++++++++++++++++
+>  target/i386/cpu.h                  |   2 +-
+>  8 files changed, 455 insertions(+), 2 deletions(-)
+>  create mode 100644 docs/system/cpu-models-x86-abi.csv
+>  create mode 100644 scripts/cpu-x86-uarch-abi.py
 > 
-> The issue was found by ovirt-imageio functional tests:
-> https://github.com/oVirt/ovirt-imageio/blob/master/daemon/test/client_test.py
-> 
-> I did not update any of the existing tests, and I'm sure many tests are
-> missing, and the documentation should change to describe the new
-> behavior. Posting as is for early review.
-> 
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> Resolves: https://bugzilla.redhat.com/1968693
-> ---
->  nbd/server.c | 8 ++++++--
->  qemu-img.c   | 4 +++-
->  2 files changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/nbd/server.c b/nbd/server.c
-> index b60ebc3ab6..adf37905d5 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -2127,8 +2127,12 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
->              return ret;
->          }
->  
-> -        flags = (ret & BDRV_BLOCK_DATA ? 0 : NBD_STATE_HOLE) |
-> -                (ret & BDRV_BLOCK_ZERO ? NBD_STATE_ZERO : 0);
-> +        flags = (ret & BDRV_BLOCK_ZERO ? NBD_STATE_ZERO : 0);
-> +
-> +        if (ret & BDRV_BLOCK_OFFSET_VALID)
-> +            flags |= (ret & BDRV_BLOCK_DATA ? 0 : NBD_STATE_HOLE);
-> +        else
-> +            flags |= (ret & BDRV_BLOCK_ALLOCATED ? 0 : NBD_STATE_HOLE);
-
-This will fall apart on compressed or encrypted images, where data is
-allocated but offset_valid is false.
-
->  
->          if (nbd_extent_array_add(ea, num, flags) < 0) {
->              return 0;
-> diff --git a/qemu-img.c b/qemu-img.c
-> index a5993682aa..6808e12d87 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -3039,7 +3039,9 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
->      *e = (MapEntry) {
->          .start = offset,
->          .length = bytes,
-> -        .data = !!(ret & BDRV_BLOCK_DATA),
-> +        .data = !!(has_offset
-> +            ? ret & BDRV_BLOCK_DATA
-> +            : ret & BDRV_BLOCK_ALLOCATED),
-
-I'm really not sure about this.  You are not only changing what
-qemu-nbd advertises as a server, but also what qemu-img interprets as
-a client.  Are you sure this will still work when you mix-and-match
-old server + new client, or new server + old client?
-
->          .zero = !!(ret & BDRV_BLOCK_ZERO),
->          .offset = map,
->          .has_offset = has_offset,
 > -- 
-> 2.26.3
->
-
-In short, I agree that the current situation is awkward, but I'm not
-sure that this patch is right.  Rather, I'm wondering if we have a bug
-in qemu:allocation-depth, and where once that is fixed, you should be
-using that alongside base:allocation when deciding how to guess on how
-to reconstruct a qcow2 backing chain using only information learned
-over NBD.
+> 2.31.1
+> 
+> 
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Eduardo
 
 
