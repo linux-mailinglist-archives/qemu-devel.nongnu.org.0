@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7C939E62C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 20:05:33 +0200 (CEST)
-Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922D939E62E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 20:06:46 +0200 (CEST)
+Received: from localhost ([::1]:51626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqJcz-0004xn-2B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 14:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33498)
+	id 1lqJe9-0006u8-KT
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 14:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lqIiq-0004y7-3r
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:07:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49920)
+ id 1lqIw3-0007by-SN
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:21:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
- id 1lqIij-0002mm-NC
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:07:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 48E3B6101A;
- Mon,  7 Jun 2021 17:07:17 +0000 (UTC)
-Date: Mon, 7 Jun 2021 18:07:14 +0100
+ id 1lqIw1-0000X3-IS
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 13:21:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4ADD76102A;
+ Mon,  7 Jun 2021 17:21:05 +0000 (UTC)
+Date: Mon, 7 Jun 2021 18:21:02 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v14 2/8] arm64: Handle MTE tags zeroing in
- __alloc_zeroed_user_highpage()
-Message-ID: <20210607170714.GA17957@arm.com>
+Subject: Re: [PATCH v14 7/8] KVM: arm64: ioctl to fetch/store tags in a guest
+Message-ID: <20210607172102.GB17957@arm.com>
 References: <20210607110816.25762-1-steven.price@arm.com>
- <20210607110816.25762-3-steven.price@arm.com>
+ <20210607110816.25762-8-steven.price@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210607110816.25762-3-steven.price@arm.com>
+In-Reply-To: <20210607110816.25762-8-steven.price@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
  helo=mail.kernel.org
@@ -68,24 +67,18 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 07, 2021 at 12:08:10PM +0100, Steven Price wrote:
-> From: Catalin Marinas <catalin.marinas@arm.com>
+On Mon, Jun 07, 2021 at 12:08:15PM +0100, Steven Price wrote:
+> The VMM may not wish to have it's own mapping of guest memory mapped
+> with PROT_MTE because this causes problems if the VMM has tag checking
+> enabled (the guest controls the tags in physical RAM and it's unlikely
+> the tags are correct for the VMM).
 > 
-> Currently, on an anonymous page fault, the kernel allocates a zeroed
-> page and maps it in user space. If the mapping is tagged (PROT_MTE),
-> set_pte_at() additionally clears the tags under a spinlock to avoid a
-> race on the page->flags. In order to optimise the lock, clear the page
-> tags on allocation in __alloc_zeroed_user_highpage() if the vma flags
-> have VM_MTE set.
+> Instead add a new ioctl which allows the VMM to easily read/write the
+> tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
+> while the VMM can still read/write the tags for the purpose of
+> migration.
 > 
-> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
 > Signed-off-by: Steven Price <steven.price@arm.com>
 
-I think you can drop this patch now that Peter's series has been queued
-via the arm64 tree:
-
-https://lore.kernel.org/r/20210602235230.3928842-4-pcc@google.com
-
--- 
-Catalin
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
 
