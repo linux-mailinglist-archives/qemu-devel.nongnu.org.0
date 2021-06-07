@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABD139E6F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 20:59:47 +0200 (CEST)
-Received: from localhost ([::1]:40678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57D939E6F2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 20:59:55 +0200 (CEST)
+Received: from localhost ([::1]:41024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqKTS-0006EG-Hi
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 14:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
+	id 1lqKTa-0006Rq-Dg
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 14:59:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lqKRO-0003YJ-UV; Mon, 07 Jun 2021 14:57:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:55709)
+ id 1lqKRR-0003bz-JN; Mon, 07 Jun 2021 14:57:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:45159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lqKRN-0005jw-4V; Mon, 07 Jun 2021 14:57:38 -0400
+ id 1lqKRP-0005m5-Hx; Mon, 07 Jun 2021 14:57:41 -0400
 Received: from quad ([82.142.12.38]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MGiAs-1lcZ4A3ddy-00Dryg; Mon, 07
- Jun 2021 20:57:33 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N8oKc-1lJvmi1sLG-015q8o; Mon, 07
+ Jun 2021 20:57:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/11] Trivial branch for 6.1 patches
-Date: Mon,  7 Jun 2021 20:57:19 +0200
-Message-Id: <20210607185730.346641-1-laurent@vivier.eu>
+Subject: [PULL 02/11] i386/kvm: The value passed to strerror should be positive
+Date: Mon,  7 Jun 2021 20:57:21 +0200
+Message-Id: <20210607185730.346641-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210607185730.346641-1-laurent@vivier.eu>
+References: <20210607185730.346641-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GJDk0G9hDzlDbH1JPXXvT35MI3SU6/0JEuoYCdzmNLkrUXGtZNZ
- XbWTea/1rIuHMc0Ik6MhZ4FsOVlIZ5boxNr+MsoRGxQ10QfVfQcSI57rxO1Y5dfIdsjVffg
- hd27e0jsRE8PZlrn3i7kL7RMM38pzwNHfCwn0k3mbcJJMQC3ZZDoEywZs4BeMoav33fx4i8
- KJku7PSoxmxQFzZCvgn/A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:r3aqaF0sgwc=:VIABW/TFUJ2BSjBuxgvLr9
- DcqgiECS8Hi+AkZDehSnuWOrBhjflekE3NaN75No0/QP9UcFqX3g3MCWBF8VBsn9hQ9oqygmC
- 1fugOMpqoXmkSHK45phyJmffp9Z9vfcnfIGN+RFjCTahxC3MTfBxmHYMR7XtXt5rRS+LOE5NF
- 3Q/5RskwK9U2L7AzHgLK/ZjG/e5NuqCWUG658U+Q2K68B+/mMckahYnN84L/lXGGCiWR4PCXy
- 0bmDaXcWEH0lpWPytTzGT01tW+bibpR8uId6dhA2QPyPHzYzoyfZYvv13TU6eTnBl0LDxSJ62
- psQt7tS8wf6cBFmyx/+GvsXViLgSPiu+Bp+esFS27K6dwU4WV5/QMKpWCTrbpkWbpN9TZ0Ox4
- wx2IpaTU6ptqn+nvtBOSwB7E36okl9ALl1gCeL7O6if9sui7n43zzKogIZ/oYIQH7mbTiehLQ
- /NM8jwiy6AcJ5uJNyG0yt72K82W0sIr782qaCGddDTcsb3xKw12YbT2Ccj74vFRUemQg/Pym3
- YX4qy19DU+yU4i2TjyWsFg=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:eO/zs/LosSB4wBzM0aA4r3tRMdSTwdd0Km/ye9zr9e4RcmFCEZ/
+ NG94Ksy4W1PrBJweqYF3JG2UiN+V6FX/TGXnIx27dXBfQY6onmT/h/c0M4vvYuT8Rb+1YQm
+ PKyi8/sgTVwJMn5U7mWHtVkl94pLdNIu7mcFgw699wHj3GR/49n/z5iMyj1WdKz6ccVs/rH
+ I5+ioLyCLLPFdJs5/KCMg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+BMpj+m2zGc=:BQbTUC3F7O/lmeqJB8nRCU
+ Jka3c1Zglaiq3uj4tFs/qMaqC6/xKiR5Bpauw63U40XPKq63BrfAGxuTG8E06VMePHGN0S2pO
+ vWHwhW4IExJEtUALwEJZMr09edEfTgVojT1Ijn38IWfLequoZeWbJv9TQYGh4EEF83yNA8a/S
+ 5Uj7RZnMKFi4zSc7/jsng+wQnpVFlnVfCgMkmEv3HZ+cOMyCX3+UczQhe+Terep681zqRuAUZ
+ zPAALbLzONpm3IePw69+vB4AUXRUT498EOl4/Ms0gvUCPOjXiKqzZolZlPRZbP4xJ9En7FVCR
+ 5NNQW7+IKMPSHHv8WZdM98FFUv/wnKFI0M770G7TwgLTGN66wSed7z3iDSFWzodi9qQPRriY+
+ KFQGKid/1isTof5ezi8iW2UFXo/cEsIniNM/XxLrw3U7boeJk9C3BI6AHZpngBdPiVrmAMXTf
+ NgRNRlrKODjNhZ+xU8tuHCtMFnOxVKdMiGGqoZqF2DBZKW42YMu9wcq0/jpoDrH6WM2Da/AdD
+ jXqS8PBkgLtfjVXVgK67uU=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,77 +63,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Dmitry Voronetskiy <vda1999@yandex.ru>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6f398e533f5e259b4f937f4aa9de970f7201d166=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210604' =
-into staging (2021-06-05 11:25:52 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-6.1-pull-request=
-=0D
-=0D
-for you to fetch changes up to df77d45a51412ca84abd7f1490b48c1bccf07057:=0D
-=0D
-  vhost-vdpa: Remove redundant declaration of address_space_memory (2021-06=
--05 21:33:46 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial branch pull request 20210607=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Dmitry Voronetskiy (1):=0D
-  i386/kvm: The value passed to strerror should be positive=0D
-=0D
-John Snow (1):=0D
-  docs: fix broken reference=0D
-=0D
-Pavel Dovgalyuk (1):=0D
-  target/nios2: fix page-fit instruction count=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  target/riscv: Do not include 'pmp.h' in user emulation=0D
-  misc: Correct relative include path=0D
-  linux-user/syscall: Constify bitmask_transtbl fcntl/mmap flags_tlb[]=0D
-  target/hppa: Remove unused 'memory.h' header=0D
-  target/mips: Fix 'Uncoditional' typo=0D
-  scripts/oss-fuzz: Fix typo in documentation=0D
-=0D
-Thomas Huth (1):=0D
-  hw/display/macfb: Classify the "nubus-macfb" as display device=0D
-=0D
-Xie Yongji (1):=0D
-  vhost-vdpa: Remove redundant declaration of address_space_memory=0D
-=0D
- hw/display/macfb.c                             |  1 +=0D
- hw/gpio/aspeed_gpio.c                          |  2 +-=0D
- hw/i386/acpi-common.h                          |  6 +++---=0D
- hw/i386/kvm/apic.c                             |  2 +-=0D
- hw/i386/kvm/clock.c                            |  4 ++--=0D
- hw/i386/kvm/i8254.c                            | 10 +++++-----=0D
- hw/i386/kvm/i8259.c                            |  4 ++--=0D
- hw/i386/kvm/ioapic.c                           |  4 ++--=0D
- hw/intc/ppc-uic.c                              |  2 +-=0D
- hw/virtio/vhost-vdpa.c                         |  1 +=0D
- include/exec/memory.h                          |  2 +-=0D
- include/hw/virtio/vhost-vdpa.h                 |  1 -=0D
- include/monitor/monitor.h                      |  2 +-=0D
- linux-user/syscall.c                           |  4 ++--=0D
- scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py |  2 +-=0D
- target/hppa/cpu.h                              |  1 -=0D
- target/mips/tcg/translate.c                    |  6 +++---=0D
- target/nios2/translate.c                       |  2 +-=0D
- target/riscv/cpu.h                             |  2 ++=0D
- 19 files changed, 30 insertions(+), 28 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+From: Dmitry Voronetskiy <vda1999@yandex.ru>
+
+Signed-off-by: Dmitry Voronetskiy <vda1999@yandex.ru>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20210519113528.12474-1-davoronetskiy@gmail.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/i386/kvm/apic.c   |  2 +-
+ hw/i386/kvm/clock.c  |  4 ++--
+ hw/i386/kvm/i8254.c  | 10 +++++-----
+ hw/i386/kvm/i8259.c  |  4 ++--
+ hw/i386/kvm/ioapic.c |  4 ++--
+ 5 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
+index 52ff49091000..1e89ca0899c2 100644
+--- a/hw/i386/kvm/apic.c
++++ b/hw/i386/kvm/apic.c
+@@ -145,7 +145,7 @@ static void kvm_apic_put(CPUState *cs, run_on_cpu_data data)
+ 
+     ret = kvm_vcpu_ioctl(CPU(s->cpu), KVM_SET_LAPIC, &kapic);
+     if (ret < 0) {
+-        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(ret));
++        fprintf(stderr, "KVM_SET_LAPIC failed: %s\n", strerror(-ret));
+         abort();
+     }
+ }
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index efbc1e0d12c2..df70b4a0338a 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -105,7 +105,7 @@ static void kvm_update_clock(KVMClockState *s)
+ 
+     ret = kvm_vm_ioctl(kvm_state, KVM_GET_CLOCK, &data);
+     if (ret < 0) {
+-        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(ret));
++        fprintf(stderr, "KVM_GET_CLOCK failed: %s\n", strerror(-ret));
+                 abort();
+     }
+     s->clock = data.clock;
+@@ -189,7 +189,7 @@ static void kvmclock_vm_state_change(void *opaque, bool running,
+         data.clock = s->clock;
+         ret = kvm_vm_ioctl(kvm_state, KVM_SET_CLOCK, &data);
+         if (ret < 0) {
+-            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(ret));
++            fprintf(stderr, "KVM_SET_CLOCK failed: %s\n", strerror(-ret));
+             abort();
+         }
+ 
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index c558893961ba..fa68669e8a59 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -104,7 +104,7 @@ static void kvm_pit_get(PITCommonState *pit)
+     if (kvm_has_pit_state2()) {
+         ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT2, &kpit);
+         if (ret < 0) {
+-            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(ret));
++            fprintf(stderr, "KVM_GET_PIT2 failed: %s\n", strerror(-ret));
+             abort();
+         }
+         pit->channels[0].irq_disabled = kpit.flags & KVM_PIT_FLAGS_HPET_LEGACY;
+@@ -115,7 +115,7 @@ static void kvm_pit_get(PITCommonState *pit)
+          */
+         ret = kvm_vm_ioctl(kvm_state, KVM_GET_PIT, &kpit);
+         if (ret < 0) {
+-            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(ret));
++            fprintf(stderr, "KVM_GET_PIT failed: %s\n", strerror(-ret));
+             abort();
+         }
+     }
+@@ -180,7 +180,7 @@ static void kvm_pit_put(PITCommonState *pit)
+     if (ret < 0) {
+         fprintf(stderr, "%s failed: %s\n",
+                 kvm_has_pit_state2() ? "KVM_SET_PIT2" : "KVM_SET_PIT",
+-                strerror(ret));
++                strerror(-ret));
+         abort();
+     }
+ }
+@@ -272,7 +272,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
+     }
+     if (ret < 0) {
+         error_setg(errp, "Create kernel PIC irqchip failed: %s",
+-                   strerror(ret));
++                   strerror(-ret));
+         return;
+     }
+     switch (s->lost_tick_policy) {
+@@ -286,7 +286,7 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
+             if (ret < 0) {
+                 error_setg(errp,
+                            "Can't disable in-kernel PIT reinjection: %s",
+-                           strerror(ret));
++                           strerror(-ret));
+                 return;
+             }
+         }
+diff --git a/hw/i386/kvm/i8259.c b/hw/i386/kvm/i8259.c
+index 3f8bf69e9ca4..d61bae4dc359 100644
+--- a/hw/i386/kvm/i8259.c
++++ b/hw/i386/kvm/i8259.c
+@@ -43,7 +43,7 @@ static void kvm_pic_get(PICCommonState *s)
+     chip.chip_id = s->master ? KVM_IRQCHIP_PIC_MASTER : KVM_IRQCHIP_PIC_SLAVE;
+     ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
+     if (ret < 0) {
+-        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
++        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
+         abort();
+     }
+ 
+@@ -96,7 +96,7 @@ static void kvm_pic_put(PICCommonState *s)
+ 
+     ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
+     if (ret < 0) {
+-        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
++        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
+         abort();
+     }
+ }
+diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+index 71a563181e03..ee7c8ef68bea 100644
+--- a/hw/i386/kvm/ioapic.c
++++ b/hw/i386/kvm/ioapic.c
+@@ -62,7 +62,7 @@ static void kvm_ioapic_get(IOAPICCommonState *s)
+     chip.chip_id = KVM_IRQCHIP_IOAPIC;
+     ret = kvm_vm_ioctl(kvm_state, KVM_GET_IRQCHIP, &chip);
+     if (ret < 0) {
+-        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(ret));
++        fprintf(stderr, "KVM_GET_IRQCHIP failed: %s\n", strerror(-ret));
+         abort();
+     }
+ 
+@@ -95,7 +95,7 @@ static void kvm_ioapic_put(IOAPICCommonState *s)
+ 
+     ret = kvm_vm_ioctl(kvm_state, KVM_SET_IRQCHIP, &chip);
+     if (ret < 0) {
+-        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(ret));
++        fprintf(stderr, "KVM_SET_IRQCHIP failed: %s\n", strerror(-ret));
+         abort();
+     }
+ }
+-- 
+2.31.1
+
 
