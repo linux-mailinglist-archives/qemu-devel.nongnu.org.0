@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BDE39E092
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:33:44 +0200 (CEST)
-Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C12E39E090
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 17:33:33 +0200 (CEST)
+Received: from localhost ([::1]:35474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqHG3-0002jE-6Z
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42510)
+	id 1lqHFr-00021M-Dv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 11:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEn-0000kC-ET
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24189)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEZ-0000GW-Va
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEl-0002GD-8R
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:25 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqHEV-00029A-Cy
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 11:32:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623079942;
+ s=mimecast20190719; t=1623079926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FSS5LwaFSNmdHy9M80wjaIcp3zDmDrZJvXf5a/Pel3U=;
- b=OfZq/yJ8uY7W9BMPmjy7LPCt6MgrLZ9+u827xP3y8FXLOrf7s53plRRUQlHme6iiFXOVx2
- xwdhsk8eYLyPyk8UiG1D80kiB73iX5S/R6LfByuS/HxeXeLLOhcJBAfVomjfJokv/5Co/n
- lc04asQUiAJ1nFnYIpBhKLLVUjxlfeY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tS3fh42pSztgEM+8BG0zwbpPJtZX3iyUdEjmnKh4xK4=;
+ b=d0Ikp9R2XEhutO34IeSy9ShKhsuK5PmUIK6WvTNo2mH8i09Y5UyN7lUylIX1naJstOTyyd
+ M3l59wX0MaNYlJ9ZXexfy49o5xaszRLpWwjw3Nv4K7wGMv00+hbIB1q/Ue0QvPY8327z2g
+ r/KQFWj2dNzV+EUEht5lTfW192mtfVY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-c8NPGLNQO2umhHNkdboC2w-1; Mon, 07 Jun 2021 11:32:03 -0400
-X-MC-Unique: c8NPGLNQO2umhHNkdboC2w-1
+ us-mta-326--jv-9Yx7Pu25rS8Iv8q45g-1; Mon, 07 Jun 2021 11:32:03 -0400
+X-MC-Unique: -jv-9Yx7Pu25rS8Iv8q45g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F07859F92B;
- Mon,  7 Jun 2021 15:32:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49EC980EDAA;
+ Mon,  7 Jun 2021 15:32:02 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90CB65D9D3;
- Mon,  7 Jun 2021 15:31:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 273365D9D3;
+ Mon,  7 Jun 2021 15:32:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/2] Gitlab: Add issue templates
-Date: Mon,  7 Jun 2021 11:31:53 -0400
-Message-Id: <20210607153155.1760158-1-jsnow@redhat.com>
+Subject: [PATCH v4 1/2] GitLab: Add "Bug" issue reporting template
+Date: Mon,  7 Jun 2021 11:31:54 -0400
+Message-Id: <20210607153155.1760158-2-jsnow@redhat.com>
+In-Reply-To: <20210607153155.1760158-1-jsnow@redhat.com>
+References: <20210607153155.1760158-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,56 +85,86 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add "Bug" and "Feature Request" templates to the Gitlab interface to=0D
-help improve the quality of newly reported issues.=0D
-=0D
-To see what this looks like, I've temporarily allowed my Gitlab fork to=0D
-diverge with these files merged.  See my fork's "new issue" page to see=0D
-it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue=0D
-=0D
-(It's outdated a bit for V4, but you get the idea.)=0D
-=0D
-These patches do not add a "default" template, the user still has to=0D
-select one from the list. I recommend that someone with permissions=0D
-updates the default template:=0D
-=0D
-1. https://gitlab.com/qemu-project/qemu/edit=0D
-2. ctrl+f "Default description template for issues"=0D
-3. Update the default to the (suggested) below:=0D
-=0D
-```=0D
-<!-- Select "Type: Issue" and choose one of the Description templates above=
-. -->=0D
-```=0D
-=0D
-We can use this cover letter to discuss/review the wording on that=0D
-default template which exists outside of repository data.=0D
-=0D
-V4:=0D
- - Change the "build on master" to be more of a nudge than a mandate,=0D
-   with improved instructions (stefanha, danpb)=0D
-=0D
-V3:=0D
- - Add pointer to https://www.qemu.org/download/#source=0D
- - Add pointer to https://www.qemu.org/contribute/security-process/=0D
- - Remove blurb covering tracing instructions.=0D
-=0D
-V2:=0D
-- Updated both templates based on feedback from Peter, Daniel, and=0D
-  Thomas.=0D
-=0D
-John Snow (2):=0D
-  GitLab: Add "Bug" issue reporting template=0D
-  GitLab: Add "Feature Request" issue template.=0D
-=0D
- .gitlab/issue_templates/bug.md             | 64 ++++++++++++++++++++++=0D
- .gitlab/issue_templates/feature_request.md | 32 +++++++++++=0D
- 2 files changed, 96 insertions(+)=0D
- create mode 100644 .gitlab/issue_templates/bug.md=0D
- create mode 100644 .gitlab/issue_templates/feature_request.md=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Based loosely on libvirt's template, written by Peter Krempa.
+
+CC: Peter Krempa <pkrempa@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ .gitlab/issue_templates/bug.md | 64 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 .gitlab/issue_templates/bug.md
+
+diff --git a/.gitlab/issue_templates/bug.md b/.gitlab/issue_templates/bug.md
+new file mode 100644
+index 0000000000..e910f7b1c2
+--- /dev/null
++++ b/.gitlab/issue_templates/bug.md
+@@ -0,0 +1,64 @@
++<!--
++This is the upstream QEMU issue tracker.
++
++If you are able to, it will greatly facilitate bug triage if you attempt
++to reproduce the problem with the latest qemu.git master built from
++source. See https://www.qemu.org/download/#source for instructions on
++how to do this.
++
++QEMU generally supports the last two releases advertised on
++https://www.qemu.org/. Problems with distro-packaged versions of QEMU
++older than this should be reported to the distribution instead.
++
++See https://www.qemu.org/contribute/report-a-bug/ for additional
++guidance.
++
++If this is a security issue, please consult
++https://www.qemu.org/contribute/security-process/
++-->
++
++## Host environment
++ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
++ - OS/kernel version: (For POSIX hosts, use `uname -a`)
++ - Architecture: (x86, ARM, s390x, etc.)
++ - QEMU flavor: (qemu-system-x86_64, qemu-aarch64, qemu-img, etc.)
++ - QEMU version: (e.g. `qemu-system-x86_64 --version`)
++ - QEMU command line:
++   <!--
++   Give the smallest, complete command line that exhibits the problem.
++
++   If you are using libvirt, virsh, or vmm, you can likely find the QEMU
++   command line arguments in /var/log/libvirt/qemu/$GUEST.log.
++   -->
++   ```
++   ./qemu-system-x86_64 -M q35 -m 4096 -enable-kvm -hda fedora32.qcow2
++   ```
++
++## Emulated/Virtualized environment
++ - Operating system: (Windows 10 21H1, Fedora 34, etc.)
++ - OS/kernel version: (For POSIX guests, use `uname -a`.)
++ - Architecture: (x86, ARM, s390x, etc.)
++
++
++## Description of problem
++<!-- Describe the problem, including any error/crash messages seen. -->
++
++
++## Steps to reproduce
++1.
++2.
++3.
++
++
++## Additional information
++
++<!--
++Attach logs, stack traces, screenshots, etc. Compress the files if necessary.
++If using libvirt, libvirt logs and XML domain information may be relevant.
++-->
++
++<!--
++The line below ensures that proper tags are added to the issue.
++Please do not remove it.
++-->
++/label ~"kind::Bug"
+-- 
+2.31.1
 
 
