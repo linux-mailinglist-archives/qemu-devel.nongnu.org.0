@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B467739EA44
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 01:43:11 +0200 (CEST)
-Received: from localhost ([::1]:43942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BD239EA40
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 01:40:21 +0200 (CEST)
+Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqOti-00082W-HB
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 19:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
+	id 1lqOqy-0003if-Hq
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 19:40:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lqOoy-0001ab-6z
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:16 -0400
+ id 1lqOp0-0001eo-F2
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:18 -0400
 Received: from mga06.intel.com ([134.134.136.31]:2292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lqOow-00075e-Bn
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:15 -0400
-IronPort-SDR: V4OVUNgfnE0sL6pwcv0oNYJYCAb6y2sCwOsdDmSaRhTGzQ21re41cMlbofo3oqDHjhWAwE/2uA
- sL6fgh5uiGuA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="265889549"
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="265889549"
+ id 1lqOoy-00075e-IB
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 19:38:18 -0400
+IronPort-SDR: My3GQIvBoTWfTTKVhpSNK/+OHvpg2Yffqp9lL2lgX8/LO9pnpvh9/84a5zwJGCQEYxkpr+DhF8
+ QWrJeOfHD8Eg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="265889550"
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="265889550"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jun 2021 16:38:03 -0700
-IronPort-SDR: rZmKqcmORWucPaYKyMe0yxkV78qcjGZTgGB/rYcYSQCWmAbAXNHk4r6xyIvTZ8J/KfApezK0oR
- QTxHoYYozgfw==
-X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="551403355"
+IronPort-SDR: Hw/q880GdlCseJADmHow6U9a5O9C3yKzJK3L+6egRiJaCGV7srqiApG7TwoqrF/lZTw3G6zBv4
+ cbNyGC+9hufw==
+X-IronPort-AV: E=Sophos;i="5.83,256,1616482800"; d="scan'208";a="551403359"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jun 2021 16:38:02 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/5] ui/egl: Add egl helpers to help with synchronization
-Date: Mon,  7 Jun 2021 16:25:28 -0700
-Message-Id: <20210607232530.454435-4-vivek.kasireddy@intel.com>
+Subject: [PATCH v1 4/5] ui: Create sync objects only for blobs
+Date: Mon,  7 Jun 2021 16:25:29 -0700
+Message-Id: <20210607232530.454435-5-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607232530.454435-1-vivek.kasireddy@intel.com>
 References: <20210607232530.454435-1-vivek.kasireddy@intel.com>
@@ -66,139 +66,115 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These egl helpers would be used for creating and waiting on
-a sync object.
+For now, create sync objects only for dmabufs that are blobs.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/console.h     |  2 ++
- include/ui/egl-helpers.h |  3 +++
- ui/egl-helpers.c         | 44 ++++++++++++++++++++++++++++++++++++++++
- ui/gtk.c                 | 15 ++++++++++++++
- 4 files changed, 64 insertions(+)
+ hw/display/virtio-gpu-udmabuf.c |  2 ++
+ include/ui/console.h            |  1 +
+ include/ui/egl-helpers.h        |  1 +
+ ui/gtk-egl.c                    | 10 ++++++++++
+ ui/gtk-gl-area.c                |  8 ++++++++
+ 5 files changed, 22 insertions(+)
 
+diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
+index 3c01a415e7..33e329e8aa 100644
+--- a/hw/display/virtio-gpu-udmabuf.c
++++ b/hw/display/virtio-gpu-udmabuf.c
+@@ -185,6 +185,8 @@ static VGPUDMABuf
+     dmabuf->buf.stride = fb->stride;
+     dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
+     dmabuf->buf.fd = res->dmabuf_fd;
++    dmabuf->buf.blob = true;
++    dmabuf->buf.sync = NULL;
+ 
+     dmabuf->scanout_id = scanout_id;
+     QTAILQ_INSERT_HEAD(&g->dmabuf.bufs, dmabuf, next);
 diff --git a/include/ui/console.h b/include/ui/console.h
-index c3dca61c31..a89f739f10 100644
+index a89f739f10..310d34c67a 100644
 --- a/include/ui/console.h
 +++ b/include/ui/console.h
-@@ -168,6 +168,8 @@ typedef struct QemuDmaBuf {
-     uint64_t  modifier;
-     uint32_t  texture;
+@@ -170,6 +170,7 @@ typedef struct QemuDmaBuf {
      bool      y0_top;
-+    void      *sync;
-+    int       fence_fd;
+     void      *sync;
+     int       fence_fd;
++    bool      blob;
  } QemuDmaBuf;
  
  typedef struct DisplayState DisplayState;
 diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index f1bf8f97fc..5a7575dc13 100644
+index 5a7575dc13..1bc0e31b03 100644
 --- a/include/ui/egl-helpers.h
 +++ b/include/ui/egl-helpers.h
-@@ -45,6 +45,9 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
- 
- void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf);
- void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf);
-+void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf);
-+void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf);
-+void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf);
- 
- #endif
- 
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index 6d0cb2b5cb..47220b66e0 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -76,6 +76,50 @@ void egl_fb_setup_for_tex(egl_fb *fb, int width, int height,
-                               GL_TEXTURE_2D, fb->texture, 0);
- }
- 
-+void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf)
-+{
-+    EGLSyncKHR sync;
-+
-+    if (epoxy_has_egl_extension(qemu_egl_display,
-+                                "EGL_KHR_fence_sync") &&
-+        epoxy_has_egl_extension(qemu_egl_display,
-+                                "EGL_ANDROID_native_fence_sync")) {
-+        sync = eglCreateSyncKHR(qemu_egl_display,
-+				EGL_SYNC_NATIVE_FENCE_ANDROID, NULL);
-+        if (sync != EGL_NO_SYNC_KHR) {
-+            dmabuf->sync = sync;
-+        }
-+    }
-+}
-+
-+void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf)
-+{
-+    if (dmabuf->sync) {
-+        dmabuf->fence_fd = eglDupNativeFenceFDANDROID(qemu_egl_display,
-+                                                      dmabuf->sync);
-+        eglDestroySyncKHR(qemu_egl_display, dmabuf->sync);
-+        dmabuf->sync = NULL;
-+    }
-+}
-+
-+void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf)
-+{
-+    EGLSyncKHR sync;
-+    EGLint attrib_list[] = {
-+        EGL_SYNC_NATIVE_FENCE_FD_ANDROID, dmabuf->fence_fd,
-+        EGL_NONE,
-+    };
-+
-+    sync = eglCreateSyncKHR(qemu_egl_display,
-+                            EGL_SYNC_NATIVE_FENCE_ANDROID, attrib_list);
-+    if (sync != EGL_NO_SYNC_KHR) {
-+        eglClientWaitSyncKHR(qemu_egl_display, sync,
-+                             0, EGL_FOREVER_KHR);
-+        eglDestroySyncKHR(qemu_egl_display, sync);
-+        dmabuf->fence_fd = -1;
-+    }
-+}
-+
- void egl_fb_setup_new_tex(egl_fb *fb, int width, int height)
- {
+@@ -19,6 +19,7 @@ typedef struct egl_fb {
      GLuint texture;
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 6132bab52f..cd884ca26c 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -583,6 +583,19 @@ static void gd_gl_release_dmabuf(DisplayChangeListener *dcl,
+     GLuint framebuffer;
+     bool delete_texture;
++    QemuDmaBuf *dmabuf;
+ } egl_fb;
+ 
+ void egl_fb_destroy(egl_fb *fb);
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index b671181272..b748f51b0b 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -209,6 +209,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+                            QemuDmaBuf *dmabuf)
+ {
+ #ifdef CONFIG_GBM
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++
+     egl_dmabuf_import_texture(dmabuf);
+     if (!dmabuf->texture) {
+         return;
+@@ -217,6 +219,10 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+     gd_egl_scanout_texture(dcl, dmabuf->texture,
+                            false, dmabuf->width, dmabuf->height,
+                            0, 0, dmabuf->width, dmabuf->height);
++
++    if (dmabuf->blob) {
++        vc->gfx.guest_fb.dmabuf = dmabuf;
++    }
  #endif
  }
  
-+static void gd_gl_wait_dmabuf(DisplayChangeListener *dcl,
-+                              QemuDmaBuf *dmabuf)
-+{
-+#ifdef CONFIG_GBM
-+    egl_dmabuf_create_fence(dmabuf);
-+    if (dmabuf->fence_fd <= 0) {
-+        return;
+@@ -281,6 +287,10 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+         egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, !vc->gfx.y0_top);
+     }
+ 
++    if (vc->gfx.guest_fb.dmabuf) {
++        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
 +    }
 +
-+    egl_dmabuf_wait_sync(dmabuf);
-+#endif
-+}
+     eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
+ }
+ 
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index dd5783fec7..94f3b87c42 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -71,6 +71,10 @@ void gd_gl_area_draw(VirtualConsole *vc)
+         surface_gl_render_texture(vc->gfx.gls, vc->gfx.ds);
+     }
+ 
++    if (vc->gfx.guest_fb.dmabuf) {
++        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
++    }
 +
- /** DisplayState Callbacks (opengl version) **/
- 
- static const DisplayChangeListenerOps dcl_gl_area_ops = {
-@@ -602,6 +615,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
-     .dpy_gl_update           = gd_gl_area_scanout_flush,
-     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
-     .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-+    .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
- };
- 
-@@ -626,6 +640,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
-     .dpy_gl_cursor_position  = gd_egl_cursor_position,
-     .dpy_gl_update           = gd_egl_scanout_flush,
-     .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-+    .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
- };
+     glFlush();
+     graphic_hw_gl_flushed(vc->gfx.dcl.con);
+ }
+@@ -231,6 +235,10 @@ void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
+     gd_gl_area_scanout_texture(dcl, dmabuf->texture,
+                                false, dmabuf->width, dmabuf->height,
+                                0, 0, dmabuf->width, dmabuf->height);
++
++    if (dmabuf->blob) {
++        vc->gfx.guest_fb.dmabuf = dmabuf;
++    }
+ #endif
+ }
  
 -- 
 2.30.2
