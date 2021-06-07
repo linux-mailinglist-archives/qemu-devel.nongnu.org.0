@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17BE39DEDA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 16:34:54 +0200 (CEST)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B5439DEDB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 16:34:57 +0200 (CEST)
+Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqGL7-0005T0-ED
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 10:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1lqGLA-0005aM-Hj
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 10:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqGJU-0002yX-BZ
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:33:12 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43728)
+ id 1lqGJV-0002yi-7I
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:33:13 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqGJO-0000JR-D6
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:33:11 -0400
-Received: by mail-wr1-x435.google.com with SMTP id r9so1181245wrz.10
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 07:33:05 -0700 (PDT)
+ id 1lqGJP-0000KO-Gv
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 10:33:13 -0400
+Received: by mail-wm1-x334.google.com with SMTP id h3so10204115wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 07:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=omQaHKzXrrxA4ICQO4h8mvHUVYO3ZKihQGe8gpcF+YA=;
- b=VkuMzPqlyWPJo38QgLePxXtMddAOCIBJn+ApPxtyc/esOAIFy3zO943K0VBsZRoYhe
- XRwgCdVP0CtlkqLfHO+03/ZxRfU/5PJQTkDNS7Px3QbttUMbWspKV5KWR7A5YaM+feyi
- TaeaDJTYCLdETTwg7TU9lQIwqp/xr2nz+XGngEcMVKEFEsYB17fReykx5g9Jm0ZcZ913
- hiV1rvqlyPt6fYYwecm4Fh3QZDaAyZqH1gzw1CCIhCVZRLLF7DP1b+RoxezhQYB8FsTI
- 9shqo4GvLUYeK2XM9Ax9IMEwlsEH8Q2GTw/3mkoyLP4gi9ZcMEkxVW3QWCm9vp8LgaRr
- 8yJw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CD8MK1dqrE7V3HgQu/qknHgJp7sj9gokbgu7xhjg20o=;
+ b=GvMMRDOB0P9flWO2FRxGB40qiMl050eDXyDgNfQkIOfZrvLgCDshzrT1kaJRUoDGew
+ sn3NR5kGmXR8hOzg4UOBTKHTmYxelKFxfA1NnLwPb4P0IzzU/9/WV5qd2bir5ElZOnPi
+ qR2ze1OGWFcs8p6eLdD1me07J6XntRZQRBYBBzm2SF5DQ1tK3b13cCp0UiLBp13+eAn/
+ kGxTPq/X3AMraP7syRFYG7BYeVWsaibn12wTZj6JTo9vO7+BvgzSI2ad9evWoIvsYvQA
+ u5qvLPfeOZi0r327ePVQgcUKfGn4Hqqz/zirF6QRSRG3JCbiuvuCuWfbVuuMXeTozREA
+ niYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=omQaHKzXrrxA4ICQO4h8mvHUVYO3ZKihQGe8gpcF+YA=;
- b=s2NgGzP2KGFMdfhAuqhmuoZUpDKvgn89U34RP3N4P2SO0eTAfwkD5zM3NC9G2urpkc
- D7BaQU/H4ImZm0Dv6mFF857k4ARBjsyU8AHRR1Ejcc2W2/LIzpkZhQSF2li9BAUHLMXB
- 04gAlpovkQcrRkfbe+jx3epHamj0Qj7MzJF2R0wduqOzmdY4jUluU+2SrLLs4TblZlha
- xgbuGWttHj7X2iy631yh0SdyQh7tbWvv1TfUdqMD9IQ5ep9DfWguOVrMElAhqZCFCdxB
- besgPP/aHbtkarIGGM87t1cMVIlqV9pCueFt0/qapmmXB6ytCX+rzBJ0F1y1a1c/FOXs
- NUEw==
-X-Gm-Message-State: AOAM530+mAhTm3/BLnEI+N2zFGm/Z7/OOhbNGkv/eWFP28aWAngy6qwW
- jE0hFt/afWORAMJz4oo+ARiwVg==
-X-Google-Smtp-Source: ABdhPJwpY22ll+m62xIHg/+dlHhJNWRExdzdtlvp8cy2E44u19d23GTcKnUIJmji/ZvPfTcf+sa4sg==
-X-Received: by 2002:a5d:4848:: with SMTP id n8mr18002126wrs.70.1623076384781; 
- Mon, 07 Jun 2021 07:33:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CD8MK1dqrE7V3HgQu/qknHgJp7sj9gokbgu7xhjg20o=;
+ b=nOXIJ87nfQQ8cceWw2/60dKsnX7PHh6MwpxjXAMjgl0rmwnQWRs7mQyK0DTBGwMP3y
+ 8+2EmFR9zJY5zBboV+9qF+dmPzIxPvJeqZqJqvlNke6W6wi495X1I8X3ur1Y6l4tjvfE
+ QxgL2e5pUV+fib/RyEBU/l593PLj0V3Vpqr5ptQFXzAtk6YJ5naEskwPBFilS7eutGZZ
+ DQqfPQs2nGzgStsNNZmSxwV9LTPYx6Lpp8KXX00UZWFc250hzpFzyP5JiitFYWDU0Csx
+ bOiRME3XO0mUWJVMWso5qzucOdTYpWud7vbUA/IGpYmm49W1IiKlEM3AMw7SgmaSoVsM
+ N4Wg==
+X-Gm-Message-State: AOAM5338JT0nVKPtFfvvCe2YdUU4s8aixE5ooNTOWY0OgIVVNno05A/N
+ LBK8rBR1KCzrijNgbnnKInEbjA==
+X-Google-Smtp-Source: ABdhPJxc4z6wTT7zoc2lCj97PVr/xmgGTIFOsSabKkAp6h+xE6VMYEeFxTPEQSTZA2+znAUae5sQOg==
+X-Received: by 2002:a05:600c:47c4:: with SMTP id
+ l4mr16962146wmo.145.1623076385743; 
+ Mon, 07 Jun 2021 07:33:05 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b22sm11517668wmj.22.2021.06.07.07.33.04
+ by smtp.gmail.com with ESMTPSA id u7sm12440623wrt.18.2021.06.07.07.33.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 07 Jun 2021 07:33:04 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A7641FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id A75101FF87;
  Mon,  7 Jun 2021 15:33:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 0/8] testing and misc updates
-Date: Mon,  7 Jun 2021 15:32:55 +0100
-Message-Id: <20210607143303.28572-1-alex.bennee@linaro.org>
+Subject: [PULL 1/8] tests/tcg: add a multiarch signals test to stress test
+ signal delivery
+Date: Mon,  7 Jun 2021 15:32:56 +0100
+Message-Id: <20210607143303.28572-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210607143303.28572-1-alex.bennee@linaro.org>
+References: <20210607143303.28572-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,64 +88,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 6f398e533f5e259b4f937f4aa9de970f7201d166:
+This adds a simple signal test that combines the POSIX timer_create
+with signal delivery across multiple threads. The aim is to provide a
+bit more of a stress test to flush out signal handling issues for
+easily than the occasional random crash we sometimes see in linux-test
+or threadcount.
 
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210604' into staging (2021-06-05 11:25:52 +0100)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210527160319.19834-2-alex.bennee@linaro.org>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-testing-updates-070621-2
-
-for you to fetch changes up to 72205289a0799c6d0a73107198098b830dbea2f9:
-
-  scripts/checkpatch.pl: process .c.inc and .h.inc files as C source (2021-06-07 14:49:30 +0100)
-
-----------------------------------------------------------------
-A few testing and configure updates:
-
-  - add the multiarch signals stress test
-  - fix display of multi-word compiler stanzas in meson
-  - fix quoting of multi-word compiler stazas in configure.sh
-  - tag some acceptance tests as TCG only
-  - make checkpatch test work harder to find clean diffs
-  - split gprof/gconv job to avoid timeouts
-  - fix centos8 VM build by adding --source-path
-  - make checkpatch aware of .h.inc and .c.inc paths
-
-----------------------------------------------------------------
-Alex Bennée (6):
-      tests/tcg: add a multiarch signals test to stress test signal delivery
-      meson.build: fix cosmetics of compiler display
-      tests/tcg/configure.sh: tweak quoting of target_compiler
-      tests/acceptance: tag various arm tests as TCG only
-      gitlab: work harder to avoid false positives in checkpatch
-      tests/vm: expose --source-path to scripts to find extra files
-
-Matheus Ferst (1):
-      scripts/checkpatch.pl: process .c.inc and .h.inc files as C source
-
-Philippe Mathieu-Daudé (1):
-      gitlab-ci: Split gprof-gcov job
-
- meson.build                            |   8 +-
- tests/tcg/multiarch/signals.c          | 149 +++++++++++++++++++++++++++++++++
- .gitlab-ci.d/buildtest.yml             |  17 +++-
- .gitlab-ci.d/static_checks.yml         |   6 +-
- scripts/checkpatch.pl                  |   4 +-
- tests/acceptance/boot_linux_console.py |  18 ++++
- tests/tcg/configure.sh                 |   6 +-
- tests/tcg/multiarch/Makefile.target    |   2 +
- tests/vm/Makefile.include              |   1 +
- tests/vm/basevm.py                     |   4 +
- tests/vm/centos.aarch64                |   2 +-
- 11 files changed, 203 insertions(+), 14 deletions(-)
- create mode 100644 tests/tcg/multiarch/signals.c
-
+diff --git a/tests/tcg/multiarch/signals.c b/tests/tcg/multiarch/signals.c
+new file mode 100644
+index 0000000000..998c8fdefd
+--- /dev/null
++++ b/tests/tcg/multiarch/signals.c
+@@ -0,0 +1,149 @@
++/*
++ * linux-user signal handling tests.
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include <stdarg.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <unistd.h>
++#include <errno.h>
++#include <pthread.h>
++#include <string.h>
++#include <signal.h>
++#include <time.h>
++#include <sys/time.h>
++
++static void error1(const char *filename, int line, const char *fmt, ...)
++{
++    va_list ap;
++    va_start(ap, fmt);
++    fprintf(stderr, "%s:%d: ", filename, line);
++    vfprintf(stderr, fmt, ap);
++    fprintf(stderr, "\n");
++    va_end(ap);
++    exit(1);
++}
++
++static int __chk_error(const char *filename, int line, int ret)
++{
++    if (ret < 0) {
++        error1(filename, line, "%m (ret=%d, errno=%d/%s)",
++               ret, errno, strerror(errno));
++    }
++    return ret;
++}
++
++#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
++
++#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
++
++/*
++ * Thread handling
++ */
++typedef struct ThreadJob ThreadJob;
++
++struct ThreadJob {
++    int number;
++    int sleep;
++    int count;
++};
++
++static pthread_t *threads;
++static int max_threads = 10;
++__thread int signal_count;
++int total_signal_count;
++
++static void *background_thread_func(void *arg)
++{
++    ThreadJob *job = (ThreadJob *) arg;
++
++    printf("thread%d: started\n", job->number);
++    while (total_signal_count < job->count) {
++        usleep(job->sleep);
++    }
++    printf("thread%d: saw %d alarms from %d\n", job->number,
++           signal_count, total_signal_count);
++    return NULL;
++}
++
++static void spawn_threads(void)
++{
++    int i;
++    threads = calloc(sizeof(pthread_t), max_threads);
++
++    for (i = 0; i < max_threads; i++) {
++        ThreadJob *job = calloc(sizeof(ThreadJob), 1);
++        job->number = i;
++        job->sleep = i * 1000;
++        job->count = i * 100;
++        pthread_create(threads + i, NULL, background_thread_func, job);
++    }
++}
++
++static void close_threads(void)
++{
++    int i;
++    for (i = 0; i < max_threads; i++) {
++        pthread_join(threads[i], NULL);
++    }
++    free(threads);
++    threads = NULL;
++}
++
++static void sig_alarm(int sig, siginfo_t *info, void *puc)
++{
++    if (sig != SIGRTMIN) {
++        error("unexpected signal");
++    }
++    signal_count++;
++    __atomic_fetch_add(&total_signal_count, 1, __ATOMIC_SEQ_CST);
++}
++
++static void test_signals(void)
++{
++    struct sigaction act;
++    struct itimerspec it;
++    timer_t tid;
++    struct sigevent sev;
++
++    /* Set up SIG handler */
++    act.sa_sigaction = sig_alarm;
++    sigemptyset(&act.sa_mask);
++    act.sa_flags = SA_SIGINFO;
++    chk_error(sigaction(SIGRTMIN, &act, NULL));
++
++    /* Create POSIX timer */
++    sev.sigev_notify = SIGEV_SIGNAL;
++    sev.sigev_signo = SIGRTMIN;
++    sev.sigev_value.sival_ptr = &tid;
++    chk_error(timer_create(CLOCK_REALTIME, &sev, &tid));
++
++    it.it_interval.tv_sec = 0;
++    it.it_interval.tv_nsec = 1000000;
++    it.it_value.tv_sec = 0;
++    it.it_value.tv_nsec = 1000000;
++    chk_error(timer_settime(tid, 0, &it, NULL));
++
++    spawn_threads();
++
++    do {
++        usleep(1000);
++    } while (total_signal_count < 2000);
++
++    printf("shutting down after: %d signals\n", total_signal_count);
++
++    close_threads();
++
++    chk_error(timer_delete(tid));
++}
++
++int main(int argc, char **argv)
++{
++    test_signals();
++    return 0;
++}
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index a3a751723d..3f283eabe6 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -30,6 +30,8 @@ testthread: LDFLAGS+=-lpthread
+ 
+ threadcount: LDFLAGS+=-lpthread
+ 
++signals: LDFLAGS+=-lrt -lpthread
++
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
+ # additional page sizes are defined we only run the default test.
 -- 
 2.20.1
 
