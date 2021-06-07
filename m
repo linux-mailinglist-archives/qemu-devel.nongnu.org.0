@@ -2,57 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C97F39D29F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 03:31:23 +0200 (CEST)
-Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF80639D34B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Jun 2021 05:10:30 +0200 (CEST)
+Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lq46s-00033V-Ba
-	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 21:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
+	id 1lq5en-0006Gz-Co
+	for lists+qemu-devel@lfdr.de; Sun, 06 Jun 2021 23:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lq40M-00047f-QR
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:24:39 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:44282
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lq40J-0003tz-Kg
- for qemu-devel@nongnu.org; Sun, 06 Jun 2021 21:24:38 -0400
-HMM_SOURCE_IP: 172.18.0.48:58294.1587860453
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-182.138.181.182?logid-8b86a17fa908486d99dd7cd09d5b3943
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id BB69228008E;
- Mon,  7 Jun 2021 09:24:32 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 8b86a17fa908486d99dd7cd09d5b3943 for
- zhengchuan@huawei.com; Mon Jun  7 09:24:33 2021
-X-Transaction-ID: 8b86a17fa908486d99dd7cd09d5b3943
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v3 0/7] support dirtyrate at the granualrity of vcpu
-To: qemu-devel@nongnu.org
-References: <cover.1623027729.git.huangy81@chinatelecom.cn>
-From: Hyman <huangy81@chinatelecom.cn>
-Message-ID: <6b8126ce-2289-f305-9c4d-7d1221e9e68e@chinatelecom.cn>
-Date: Mon, 7 Jun 2021 09:24:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lq5dw-0005WW-1T; Sun, 06 Jun 2021 23:09:36 -0400
+Received: from out28-173.mail.aliyun.com ([115.124.28.173]:36621)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lq5dt-0001wO-KO; Sun, 06 Jun 2021 23:09:35 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.5697423|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_news_journal|0.137546-0.000811601-0.861643;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KOeW5Sv_1623035361; 
+Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KOeW5Sv_1623035361)
+ by smtp.aliyun-inc.com(10.147.41.158);
+ Mon, 07 Jun 2021 11:09:22 +0800
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Subject: TCG op for 32 bit only cpu on qemu-riscv64
+Message-ID: <97935519-42c8-71c8-3d87-30aa4cafc909@c-sky.com>
+Date: Mon, 7 Jun 2021 11:07:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <cover.1623027729.git.huangy81@chinatelecom.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.173; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-173.mail.aliyun.com
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) BAYES_20=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,96 +57,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cc Chuan Zheng <zhengchuan@huawei.com>
+Hi Alistair,
 
-在 2021/6/7 9:11, huangy81@chinatelecom.cn 写道:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> v3:
-> - pick up "migration/dirtyrate: make sample page count configurable" to
->    make patchset apply master correctly
-> 
-> v2:
-> - rebase to "migration/dirtyrate: make sample page count configurable"
-> 
-> - rename "vcpu" to "per_vcpu" to show the per-vcpu method
-> 
-> - squash patch 5/6 into a single one, squash patch 1/2 also
-> 
-> - pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
-> 
-> - make global_dirty_log a bitmask to make sure both migration and dirty
->    could not intefer with each other
-> 
-> - add memory free callback to prevent memory leaking
-> 
-> the most different of v2 fron v1 is that we make the global_dirty_log a
-> bitmask. the reason is dirty rate measurement may start or stop dirty
-> logging during calculation. this conflict with migration because stop
-> dirty log make migration leave dirty pages out then that'll be a
-> problem.
-> 
-> make global_dirty_log a bitmask can let both migration and dirty
-> rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
-> GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
-> for, migration or dirty rate.
->      
-> all references to global_dirty_log should be untouched because any bit
-> set there should justify that global dirty logging is enabled.
-> 
-> Please review, thanks !
-> 
-> v1:
-> 
-> Since the Dirty Ring on QEMU part has been merged recently, how to use
-> this feature is under consideration.
-> 
-> In the scene of migration, it is valuable to provide a more accurante
-> interface to track dirty memory than existing one, so that the upper
-> layer application can make a wise decision, or whatever. More
-> importantly,
-> dirtyrate info at the granualrity of vcpu could provide a possibility to
-> make migration convergent by imposing restriction on vcpu. With Dirty
-> Ring, we can calculate dirtyrate efficiently and cheaply.
-> 
-> The old interface implemented by sampling pages, it consumes cpu
-> resource, and the larger guest memory size become, the more cpu resource
-> it consumes, namely, hard to scale. New interface has no such drawback.
-> 
-> Please review, thanks !
-> 
-> Best Regards !
-> 
-> Hyman Huang(黄勇) (6):
->    migration/dirtyrate: make sample page count configurable
->    KVM: introduce dirty_pages and kvm_dirty_ring_enabled
->    migration/dirtyrate: add per-vcpu option for calc-dirty-rate
->    migration/dirtyrate: adjust struct DirtyRateStat
->    memory: make global_dirty_log a bitmask
->    migration/dirtyrate: implement dirty-ring dirtyrate calculation
-> 
-> Peter Xu (1):
->    hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
-> 
->   accel/kvm/kvm-all.c    |   7 +
->   hmp-commands-info.hx   |  13 ++
->   hmp-commands.hx        |  15 ++
->   include/exec/memory.h  |  13 +-
->   include/hw/core/cpu.h  |   1 +
->   include/monitor/hmp.h  |   2 +
->   include/sysemu/kvm.h   |   1 +
->   migration/dirtyrate.c  | 347 ++++++++++++++++++++++++++++++++++++++---
->   migration/dirtyrate.h  |  27 +++-
->   migration/ram.c        |   8 +-
->   migration/trace-events |   5 +
->   qapi/migration.json    |  38 ++++-
->   softmmu/memory.c       |  36 +++--
->   13 files changed, 468 insertions(+), 45 deletions(-)
-> 
+As I see,  we are moving  on to remove TARGET_RISCV64 macro.
+
+I have some questions:
+
+1) Which tcg op should use when translate an instruction for 32bit cpu. 
+The tcg_*_i64, tcg_*_i32 or tcg_*_tl?
+I see some API such as gen_get_gpr that are using the tcg_*_tl. But I am 
+not sure if it is
+right for 32bit cpu.
+
+2) Do we should have a sign-extend 64 bit register(bit 31 as the sign 
+bit)  for 32 bit cpu?
+
+Best Regards,
+Zhiwei
+
 
