@@ -2,77 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6AE39F2F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:53:55 +0200 (CEST)
-Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC7239F316
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:57:19 +0200 (CEST)
+Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqYQk-0005dQ-7Z
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51698)
+	id 1lqYU2-0003Ui-75
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqYDs-0004iD-Sl
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:40:36 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34361)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqYDo-0001ww-7b
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:40:33 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso1233391wmc.1
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 02:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Vv2J1Eu+1Gs3q5FfU3Miy7oOhq4eBNKPYhz6liN5ugY=;
- b=cYdVyniv8mQg3NRAJpLF+f533QWroQdU2ACIsDvgUHYuSIUCAqm8XZuk9ymaVERZ0B
- j99rqJtI5a89k5dhUWTt9A1mzezkg1Nsyi9KPLT/gHh7gK9Mi8GSRO6LnCVQuNdPIaht
- x8TfFOLelS2IaF1lHFh2jzvfPOxwIrN6K8970+UdZXs+085ttAp/5YV2G5e/H+QQW4Qu
- iO9w2gELNFX2uqS9OXDeedIk7R0N5KjQpBMJmJQmWX+rHL90FBtDItatDNGoAE7ylrNM
- fe2ksQKfe9jn0Gg8593hElAIP4+krzJgH+RQlthD3EBUJCj5SVfv6U7T4DpBdOwGidgT
- uA2w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqYLv-0004uE-Pd
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:48:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55963)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqYLt-0006pC-TF
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:48:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623145733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ztjOwBWVWRcLBeGlv9kV0M01VSWdGwRS4cSf3jXheyY=;
+ b=IB9eyaAH8+gMBFSz/8YSt8yiwBDX0+yk4zxYzzjjorFq6jSnFKxOcxPmcBVx6YXT3c4O+r
+ kqRsEpVWW9UKqBWcFsLRg8bpkNvlp3o1VYxkII/0mB63/1dahwCh5B/y7+BhFgsG+PlD9m
+ FuTTxHjTHU1eMUffXeASEbHhsIY/dQ4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-566-FQkDKMAeOraOIBl3t82RvQ-1; Tue, 08 Jun 2021 05:48:49 -0400
+X-MC-Unique: FQkDKMAeOraOIBl3t82RvQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t14-20020adfe44e0000b029011851efa802so9153495wrm.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 02:48:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Vv2J1Eu+1Gs3q5FfU3Miy7oOhq4eBNKPYhz6liN5ugY=;
- b=fHq0aCpWTX0dRDiGlwpNTtTg0pY6BeWq8LgKoueLax36op6LchiCRwzBziaib07NdO
- YEpUFNRdbMMgSAr7u16FeAjwsyXcZ36oxQcs/g+pVn3eFoijTFpWb3UY0ehyb6PefF4w
- v09z8QGvw8G8cIjQG+iZ7NBsYosdaHsSZ6F9nrPf0QxiSX/aF82AvWLLKtWAQTuzgpee
- ARIuMasgQX1/gr9ldq+RYvwclx2cDUoOp2pRcJ8bS6LN3wGV4uml9TP+Zjke6weaZGET
- hmJtO6GJGxu/BLjQ0plAl4M0ztyDm32YGQvnXFI8TKD8jFpK6Y8Tns27g3drAZO+t6w+
- YsBQ==
-X-Gm-Message-State: AOAM531dyM8o76O/K6IEYwfu9fVnX3yO/tUV4Nw9qAU6nhm/AJ8j3GUv
- VzGcxOaHQeILZc1m8CZcFSW/GeO9foc=
-X-Google-Smtp-Source: ABdhPJzhUgKRNOFBEoixl1RzWQK9uLTjbAy7V5clQMnD/yJoCyedn5ozjGcSvFUcKdTLfMyH6DxlzQ==
-X-Received: by 2002:a1c:1d04:: with SMTP id d4mr20756428wmd.126.1623145230810; 
- Tue, 08 Jun 2021 02:40:30 -0700 (PDT)
-Received: from avogadro.lan ([93.56.169.140])
- by smtp.gmail.com with ESMTPSA id d15sm8608764wri.58.2021.06.08.02.40.30
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 02:40:30 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] vnc: avoid deprecation warnings for SASL on OS X
-Date: Tue,  8 Jun 2021 11:40:17 +0200
-Message-Id: <20210608094017.392673-13-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210608094017.392673-1-pbonzini@redhat.com>
-References: <20210608094017.392673-1-pbonzini@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ztjOwBWVWRcLBeGlv9kV0M01VSWdGwRS4cSf3jXheyY=;
+ b=VylbYmCs5elKBuuNo8GuiogwqssP2WaDiioXVvKy2MizRpbBhfpeRA5EjGolbKPYH+
+ k/zY/+tb9VHML9z/pySmldIxBGqSsx3c6mqKGLjSwwn8UjMQp8phfv3BEpozI+rZsL8+
+ r416xhcn62hCRzzGq+iCfL2EEz/aOjsy/4hZ3O43N2LrSX50Eykry8uOVXD4YADs4IC8
+ cBHVBPyiyB0ZoKVGAvVsP3tj55jbR+qA6NXHOaVi+jYKaJGRvNdFwN8qL+Ibjx/R7NR1
+ AG3bRlzrsnaOsMXz1WZVWn7+syRrhWMCogFxfW3PR9UyIT6Dp/Te42dv8ujeL6cwWaVt
+ 4eHg==
+X-Gm-Message-State: AOAM532CWAmcaF0mVPnYlVcgKIk5MiPUZHAIRQDAMTfckLtLWuIZqU9J
+ xfNGHuRSv5ayyut41ygN88oqVi6Unofvn+O79q7C+J7LfGzdYi4c3kSd7+TBdPo99gRpTP2Lk3V
+ XsPEGQXL8a44JNtg=
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr7725731wrt.281.1623145728692; 
+ Tue, 08 Jun 2021 02:48:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOGbPvTFl5ww25elABEHXjRB2EHWNhddvCsqDnWfFIbxCtToqSdyInTKiTRQb5pl6/UPaeNw==
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr7725702wrt.281.1623145728442; 
+ Tue, 08 Jun 2021 02:48:48 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id z188sm17739635wme.38.2021.06.08.02.48.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 02:48:48 -0700 (PDT)
+Subject: Re: [PATCH v16 03/99] qtest: Add qtest_has_accel() method
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20210604155312.15902-1-alex.bennee@linaro.org>
+ <20210604155312.15902-4-alex.bennee@linaro.org>
+ <088d554c-ef63-0f79-cedb-bdc89b532490@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7410b765-7252-3d19-af96-399fd34d94dc@redhat.com>
+Date: Tue, 8 Jun 2021 11:48:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <088d554c-ef63-0f79-cedb-bdc89b532490@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,92 +101,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-all files that use SASL API need to disable -Wdeprecated-declarations.
-Remove the only use that is outside vnc-auth-sasl.c and add the
-relevant #pragma GCC diagnostic there.
+On 6/7/21 3:16 PM, Thomas Huth wrote:
+> On 04/06/2021 17.51, Alex Bennée wrote:
+>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>
+>> Introduce the qtest_has_accel() method which allows a runtime
+>> query on whether a QEMU instance has an accelerator built-in.
+>>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> Message-Id: <20210505125806.1263441-4-philmd@redhat.com>
+>> ---
+>>   tests/qtest/libqos/libqtest.h |  8 ++++++++
+>>   tests/qtest/libqtest.c        | 29 +++++++++++++++++++++++++++++
+>>   2 files changed, 37 insertions(+)
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210604120915.286195-1-pbonzini@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- ui/vnc-auth-sasl.c | 20 ++++++++++++++++++++
- ui/vnc-auth-sasl.h |  1 +
- ui/vnc.c           | 10 ++--------
- 3 files changed, 23 insertions(+), 8 deletions(-)
+>>   +bool qtest_has_accel(const char *accel_name)
+>> +{
+>> +    bool has_accel = false;
+>> +    QDict *response;
+>> +    QList *accels;
+>> +    QListEntry *accel;
+>> +    QTestState *qts;
+>> +
+>> +    qts = qtest_initf("-accel qtest -machine none");
+>> +    response = qtest_qmp(qts, "{'execute': 'query-accels'}");
+>> +    accels = qdict_get_qlist(response, "return");
+>> +
+>> +    QLIST_FOREACH_ENTRY(accels, accel) {
+>> +        QDict *accel_dict = qobject_to(QDict, qlist_entry_obj(accel));
+>> +        const char *name = qdict_get_str(accel_dict, "name");
+>> +
+>> +        if (g_str_equal(name, accel_name)) {
+>> +            has_accel = true;
+>> +            break;
+>> +        }
+>> +    }
+>> +    qobject_unref(response);
+>> +
+>> +    qtest_quit(qts);
+>> +
+>> +    return has_accel;
+>> +}
+> 
+> This spawns a new instance of QEMU each time the function is called -
+> which could slow down testing quite a bit if a test calls this function
+> quite often. Would it be feasible to cache this information, so that you
+> only have to run a new instance of QEMU once?
 
-diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
-index df7dc08e9f..cf65a0b161 100644
---- a/ui/vnc-auth-sasl.c
-+++ b/ui/vnc-auth-sasl.c
-@@ -28,10 +28,30 @@
- #include "vnc.h"
- #include "trace.h"
- 
-+/*
-+ * Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-+ * files that use SASL API need to disable -Wdeprecated-declarations.
-+ */
-+#ifdef CONFIG_DARWIN
-+#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-+#endif
-+
- /* Max amount of data we send/recv for SASL steps to prevent DOS */
- #define SASL_DATA_MAX_LEN (1024 * 1024)
- 
- 
-+bool vnc_sasl_server_init(Error **errp)
-+{
-+    int saslErr = sasl_server_init(NULL, "qemu");
-+
-+    if (saslErr != SASL_OK) {
-+        error_setg(errp, "Failed to initialize SASL auth: %s",
-+                   sasl_errstring(saslErr, NULL, NULL));
-+        return false;
-+    }
-+    return true;
-+}
-+
- void vnc_sasl_client_cleanup(VncState *vs)
- {
-     if (vs->sasl.conn) {
-diff --git a/ui/vnc-auth-sasl.h b/ui/vnc-auth-sasl.h
-index 1bfb86c6f5..367b8672cc 100644
---- a/ui/vnc-auth-sasl.h
-+++ b/ui/vnc-auth-sasl.h
-@@ -63,6 +63,7 @@ struct VncDisplaySASL {
-     char *authzid;
- };
- 
-+bool vnc_sasl_server_init(Error **errp);
- void vnc_sasl_client_cleanup(VncState *vs);
- 
- size_t vnc_client_read_sasl(VncState *vs);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index b3d4d7b9a5..f0a1550d58 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -4154,14 +4154,8 @@ void vnc_display_open(const char *id, Error **errp)
-     trace_vnc_auth_init(vd, 1, vd->ws_auth, vd->ws_subauth);
- 
- #ifdef CONFIG_VNC_SASL
--    if (sasl) {
--        int saslErr = sasl_server_init(NULL, "qemu");
--
--        if (saslErr != SASL_OK) {
--            error_setg(errp, "Failed to initialize SASL auth: %s",
--                       sasl_errstring(saslErr, NULL, NULL));
--            goto fail;
--        }
-+    if (sasl && !vnc_sasl_server_init(errp)) {
-+        goto fail;
-     }
- #endif
-     vd->lock_key_sync = lock_key_sync;
--- 
-2.31.1
+Good idea!
 
 
