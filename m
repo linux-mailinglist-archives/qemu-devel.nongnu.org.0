@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01BBA3A052D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:34:34 +0200 (CEST)
-Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFF23A0530
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:37:00 +0200 (CEST)
+Received: from localhost ([::1]:40598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqiQj-0002x0-3e
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55156)
+	id 1lqiT6-00056L-2T
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqiPj-0001TP-Oo
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqiPg-0005PK-Si
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623184407;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=N7VKVZijz4h+qXuKo3mrrMVkUU7uBpZSR1piUnI+vWk=;
- b=CgyT2R9y1j1waWlc7c+1q7P8hQ+G75qZrgth0AtaEHBCwjOwI6ZNzkpDpxfIF0ZzL97mfT
- pRHT0UN/OSFSf1Yu2b4C6z+qwocHpwvSJvhWwCeez+5MNbwnpz2BordYt4egBvyhj5gkCg
- O7uIhC2EBWgg14+LNgiXUVnGl/TGqCs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-lC8I6PVuPYCFDFpscY0_cQ-1; Tue, 08 Jun 2021 16:33:26 -0400
-X-MC-Unique: lC8I6PVuPYCFDFpscY0_cQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A9548015C6;
- Tue,  8 Jun 2021 20:33:25 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3809E1001281;
- Tue,  8 Jun 2021 20:33:20 +0000 (UTC)
-Date: Tue, 8 Jun 2021 21:33:17 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] tests/unit/test-char.c: Fix error handling issues
-Message-ID: <YL/UDQmc/H4b9cvZ@redhat.com>
-References: <20210608170607.21902-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lqiSI-0004MV-Ia
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:36:10 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44016)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lqiSG-0006oP-IS
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:36:10 -0400
+Received: by mail-ed1-x534.google.com with SMTP id s6so26042223edu.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mRMbcgEkrVlWgn/EHSYgKjxSkDzL+RBD82gZD8gP/+I=;
+ b=u1L4qB2RHMKYCwngiT8DCc/VwEqjgqBRwbrVcrZiE7rt/QDDNAFiuYPCx0ae5lnOgh
+ iJifLtBqUoiNB/nr1DjP7A1K9Lsgbc8au5alPONjKQvO4IpYtB6rS4/PpyAoWLMSbBhH
+ vpdSN0Cq4LmDGoWGj4PGNsjj6a3ayi0Fcn3CqT8vJJTapOL4eyb1uy1wyBMWycgmk9wQ
+ w4Mpsdwdgk5Wrt6VOylgn9A2KSzPQxPD8SS1DwELMqdbdgVPXJWOL/rRDsQYZPyYzqLw
+ ydxRBwysy45O436CSuXMVpdjzRJbHYBl1+Gd/JYAz3wDn8bKuuwF2m7L3IjDHpjFfrsI
+ 54UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mRMbcgEkrVlWgn/EHSYgKjxSkDzL+RBD82gZD8gP/+I=;
+ b=gwjCG69mG9+OdQmi55Yzv2w5UxwPqwLbKGyaT66r1MGiNnPSx4BR+H0EFCGcGjvEf7
+ fghakFc95Dw7R7jdX1zoa0o2At8MOan5Bh6UQ7bTPLohurQaoyuppPyMWE1h44Pkat9P
+ wpU1cDX/mNpWUDCdJCC7MNh7ip5zD11F3rP1h/x2gnTWHMTcEbxFFCHPH6fboaTtIy9D
+ 8Fy3CUSsLKH2zvlFUMg9nO+RWI+CvYPceXJIsRHqRGy5NCSaJHcKv/L0LSNaMjrcgzJY
+ CGgz+2m40Jsz29wgUNvhxDG8G6VTHelqfuypNkP/mZzq77E3r6Uk2AEesNZpazEWgG8x
+ iWNA==
+X-Gm-Message-State: AOAM533Q/FFZzV+vCFjWdN4NxifIjrUD6F30GKHztYLra01pZxqkfLx4
+ 4saTYXhhY/OR4tfdf1nB96F3ryoG4AGLFW6zkZg=
+X-Google-Smtp-Source: ABdhPJxcG04UVpx70qE4GhkRrncWF/4hlfK5DpyuI36h1iFWx191Sx8cjDtcseRceYcIBIOP+Rq2MgYMxzmVwrGJkUo=
+X-Received: by 2002:aa7:ca1a:: with SMTP id y26mr27162807eds.314.1623184565723; 
+ Tue, 08 Jun 2021 13:36:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210608170607.21902-1-peter.maydell@linaro.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210529185522.78816-1-marcandre.lureau@redhat.com>
+ <CAFEAcA-8DyG7iywZVi0LAiS7RZ_d3Omd2QAn1-32iTHdKR5QZQ@mail.gmail.com>
+ <CAJ+F1CK-S+diFf8fGXe-Drfz6JoNSXzxzmYQ6muRuQw76TRHkA@mail.gmail.com>
+ <CAFEAcA9x3w3jvbGoZ66Xs2dhgJDnkyDVnqy45tpCjYv1uq0vYQ@mail.gmail.com>
+ <CAJ+F1CLxaLHgLCM=7V=uaGyBSpCMqrD-Ktn2UsiNQHf8=CWNfg@mail.gmail.com>
+ <CAFEAcA_kTthg=Y3152r4+eN=iunZy3vGq9J9vFKTog1rmsHsfA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_kTthg=Y3152r4+eN=iunZy3vGq9J9vFKTog1rmsHsfA@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 9 Jun 2021 00:35:53 +0400
+Message-ID: <CAJ+F1C+H7aw+_2+FspPv0nLtfbM=anBrhCaBWVYVhP6o8nqSDg@mail.gmail.com>
+Subject: Re: [PULL 0/2] Libslirp patches
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000071e75e05c4471bd1"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,229 +81,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 06:06:06PM +0100, Peter Maydell wrote:
-> Coverity spots some minor error-handling issues in this test code.
-> These are mostly due to the test code assuming that the glib test
-> macros g_assert_cmpint() and friends will always abort on failure.
-> This is not the case: if the test case chooses to call
-> g_test_set_nonfatal_assertions() then they will mark the test case as
-> a failure and continue.  (This is different to g_assert(),
-> g_assert_not_reached(), and assert(), which really do all always kill
-> the process.) The idea is that you use g_assert() for things
-> which are really assertions, as you would in normal QEMU code,
-> and g_assert_cmpint() and friends for "this check is the thing
-> this test case is testing" checks.
-> 
-> In fact this test case does not currently set assertions to be
-> nonfatal, but we should ideally be aiming to get to a point where we
-> can set that more generally, because the test harness gives much
-> better error reporting (including minor details like "what was the
-> name of the test case that actually failed") than a raw assert/abort
-> does.  So we mostly fix the Coverity nits by making the error-exit
-> path return early if necessary, rather than by converting the
-> g_assert_cmpint()s to g_assert()s.
-> 
-> Fixes: Coverity CID 1432505, 1432514, 1432600, 1451384
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> We had some previous not-very-conclusive discussion about
-> g_assert_foo vs g_assert in this thread:
-> https://lore.kernel.org/qemu-devel/CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com/
-> This patch is in some sense me asserting my opinion about the
-> right thing to do. You might disagree...
+--00000000000071e75e05c4471bd1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In that thread you show a difference in the TAP output when
-g_test_set_nonfatal_assertions is enabled. Instead of it
-reporting an abort, it reports an error against the test
-and carries on running.
+Hi
 
-> I think that improving the quality of the failure reporting
-> in 'make check' is useful, and that we should probably turn
-> on g_test_set_nonfatal_assertions() everywhere. (The worst that
-> can happen is that instead of crashing on the assert we proceed
-> and crash a bit later, I think.) Awkwardly we don't have a single
-> place where we could put that call, so I guess it's a coccinelle
-> script to add it to every test's main() function.
+On Tue, Jun 8, 2021 at 8:55 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-Yes, it is a bit of a philosophical question which behaviour
-is better - immediate exit, vs report & carry on.  In the
-Perl world the normal is to report & carry on so you get
-full results for the entire suite. In python / C world it
-has been more common to immediately exit.
+> On Tue, 8 Jun 2021 at 16:55, Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Mon, Jun 7, 2021 at 4:17 PM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+>
+> >> >> clang sanitizer build: link failure:
+> >> >> subprojects/libslirp/libslirp.so.0.3.0.p/src_arp_table.c.o: In
+> >> >> function `arp_table_add':
+> >> >>
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libsl=
+irp/src/arp_table.c:51:
+> >> >> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> >> >>
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libsl=
+irp/src/arp_table.c:51:
+> >> >> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> >> >>
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libsl=
+irp/src/arp_table.c:51:
+> >> >> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> >> >>
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libsl=
+irp/src/arp_table.c:34:
+> >> >> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> >> >>
+> /home/petmay01/linaro/qemu-for-merges/build/clang/../../subprojects/libsl=
+irp/src/arp_table.c:34:
+> >> >> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> >> >> (and lots more similar)
+> >>
+> >> > I don't get this  when running make vm-build-netbsd. What else am I
+> missing?
+> >>
+> >>
+> >> This isn't NetBSD related, it's just a clang sanitizer build on Linux.
+> >
+> >
+> >
+> > I am running configure with '--enable-sanitizers' --cc=3Dclang
+> --cxx=3Dclang++ --host-cc=3Dclang, I can't reproduce.
+> >
+> > What's your distro? (or meson + clang versions)
+>
+> Ubuntu 18.04.5 LTS (bionic); configure arguments
+> '--cc=3Dclang' '--cxx=3Dclang++' '--enable-gtk'
+> '--extra-cflags=3D-fsanitize=3Dundefined  -fno-sanitize=3Dshift-base
+> -Werror'
+> clang version 6.0.0-1ubuntu2
 
-The report & carry on obviously results in cascading errors
-unless you take extra steps to skip stuff you know is going
-to cascade. You did some examples of that here with the extra
-'goto fail' jumps.
 
-The flipside is that if you have a test that fails 6
-different scenarios it is nice to see all 6 failures upfront,
-instead of having to play whack-a-mole fixing one and then
-discovering the next failure, then fixing that and discovering
-the next failure, etc.
+Per subproject `default_library` was added in 0.54, and we require 0.55.3.
+Why is it trying to build libslirp.so?
 
+I tried to make vm-build-ubuntu.i386 with the following changes:
 
-When we discussed this last on IRC, I suggested that we
-introduce a 'q_test_init' that wraps around g_test_init.
-This q_test_init could set g_test_set_nonfatal_assertions
-and call 'g_test_init'.
+ diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+index 47681b6f87..21d0b64eb1 100755
+--- a/tests/vm/ubuntu.i386
++++ b/tests/vm/ubuntu.i386
+@@ -18,7 +18,7 @@ import ubuntuvm
+ DEFAULT_CONFIG =3D {
+     'install_cmds' : "apt-get update,"\
+                      "apt-get build-dep -y qemu,"\
+-                     "apt-get install -y libfdt-dev language-pack-en
+ninja-build",
++                     "apt-get install -y libfdt-dev language-pack-en
+ninja-build clang",
+ }
 
-This would avoid need for coccinelle script, as a sed
-s/g_test_init/q_test_init/ would suffice. We can stuff
-other logic into q_test_Init if we wanted to. Perhaps
-a private TMPDIR for example.
+ class UbuntuX86VM(ubuntuvm.UbuntuVM):
+@@ -32,7 +32,7 @@ class UbuntuX86VM(ubuntuvm.UbuntuVM):
+         cd $(mktemp -d);
+         sudo chmod a+r /dev/vdb;
+         tar -xf /dev/vdb;
+-        ./configure {configure_opts};
++        ./configure {configure_opts} --cc=3Dclang --cxx=3Dclang++
+--host-cc=3Dclang --extra-cflags=3D'-fsanitize=3Dundefined
+ -fno-sanitize=3Dshift-base -Werror';
+         make --output-sync {target} -j{jobs} {verbose};
+     """
 
->  tests/unit/test-char.c | 36 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 34 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/unit/test-char.c b/tests/unit/test-char.c
-> index 5b3b48ebacd..43630ab57f8 100644
-> --- a/tests/unit/test-char.c
-> +++ b/tests/unit/test-char.c
-> @@ -214,6 +214,10 @@ static void char_mux_test(void)
->      qemu_chr_fe_take_focus(&chr_be2);
->  
->      base = qemu_chr_find("mux-label-base");
-> +    g_assert_nonnull(base);
-> +    if (base == 0) {
-> +        goto fail;
-> +    }
->      g_assert_cmpint(qemu_chr_be_can_write(base), !=, 0);
->  
->      qemu_chr_be_write(base, (void *)"hello", 6);
-> @@ -333,6 +337,7 @@ static void char_mux_test(void)
->      g_assert_cmpint(strlen(data), !=, 0);
->      g_free(data);
->  
-> +fail:
->      qemu_chr_fe_deinit(&chr_be1, false);
->      qemu_chr_fe_deinit(&chr_be2, true);
->  }
-> @@ -486,6 +491,9 @@ static void char_pipe_test(void)
->      chr = qemu_chr_new("pipe", tmp, NULL);
->      g_assert_nonnull(chr);
->      g_free(tmp);
-> +    if (!chr) {
-> +        goto fail;
-> +    }
->  
->      qemu_chr_fe_init(&be, chr, &error_abort);
->  
-> @@ -493,12 +501,20 @@ static void char_pipe_test(void)
->      g_assert_cmpint(ret, ==, 9);
->  
->      fd = open(out, O_RDWR);
-> +    g_assert_cmpint(fd, >=, 0);
-> +    if (fd < 0) {
-> +        goto fail;
-> +    }
->      ret = read(fd, buf, sizeof(buf));
->      g_assert_cmpint(ret, ==, 9);
->      g_assert_cmpstr(buf, ==, "pipe-out");
->      close(fd);
->  
->      fd = open(in, O_WRONLY);
-> +    g_assert_cmpint(fd, >=, 0);
-> +    if (fd < 0) {
-> +        goto fail;
-> +    }
->      ret = write(fd, "pipe-in", 8);
->      g_assert_cmpint(ret, ==, 8);
->      close(fd);
-> @@ -518,6 +534,7 @@ static void char_pipe_test(void)
->  
->      qemu_chr_fe_deinit(&be, true);
->  
-> +fail:
->      g_assert(g_unlink(in) == 0);
->      g_assert(g_unlink(out) == 0);
->      g_assert(g_rmdir(tmp_path) == 0);
-> @@ -556,7 +573,10 @@ static int make_udp_socket(int *port)
->      socklen_t alen = sizeof(addr);
->      int ret, sock = qemu_socket(PF_INET, SOCK_DGRAM, 0);
->  
-> -    g_assert_cmpint(sock, >, 0);
-> +    g_assert_cmpint(sock, >=, 0);
-> +    if (sock < 0) {
-> +        return sock;
-> +    }
->      addr.sin_family = AF_INET ;
->      addr.sin_addr.s_addr = htonl(INADDR_ANY);
->      addr.sin_port = 0;
-> @@ -586,6 +606,9 @@ static void char_udp_test_internal(Chardev *reuse_chr, int sock)
->      } else {
->          int port;
->          sock = make_udp_socket(&port);
-> +        if (sock < 0) {
-> +            return;
-> +        }
->          tmp = g_strdup_printf("udp:127.0.0.1:%d", port);
->          chr = qemu_chr_new("client", tmp, NULL);
->          g_assert_nonnull(chr);
-> @@ -1224,6 +1247,10 @@ static void char_file_fifo_test(void)
->      }
->  
->      fd = open(fifo, O_RDWR);
-> +    g_assert_cmpint(fd, >=, 0);
-> +    if (fd < 0) {
-> +        goto fail;
-> +    }
->      ret = write(fd, "fifo-in", 8);
->      g_assert_cmpint(ret, ==, 8);
->  
-> @@ -1253,6 +1280,7 @@ static void char_file_fifo_test(void)
->  
->      qemu_chr_fe_deinit(&be, true);
->  
-> +fail:
->      g_unlink(fifo);
->      g_free(fifo);
->      g_unlink(out);
-> @@ -1371,7 +1399,7 @@ static int chardev_change_denied(void *opaque)
->  
->  static void char_hotswap_test(void)
->  {
-> -    char *chr_args;
-> +    char *chr_args = NULL;
->      Chardev *chr;
->      CharBackend be;
->  
-> @@ -1385,6 +1413,9 @@ static void char_hotswap_test(void)
->      int port;
->      int sock = make_udp_socket(&port);
->      g_assert_cmpint(sock, >, 0);
-> +    if (sock < 0) {
-> +        goto fail;
-> +    }
->  
->      chr_args = g_strdup_printf("udp:127.0.0.1:%d", port);
->  
-> @@ -1422,6 +1453,7 @@ static void char_hotswap_test(void)
->      object_unparent(OBJECT(chr));
->  
->      qapi_free_ChardevReturn(ret);
-> +fail:
->      g_unlink(filename);
->      g_free(filename);
->      g_rmdir(tmp_path);
-> -- 
-> 2.20.1
-> 
+(or with EXTRA_CONFIGURE_OPTS)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+And it failed with:
 
+[2363/9207] Linking target qemu-system-aarch64
+FAILED: qemu-system-aarch64
+clang++ @qemu-system-aarch64.rsp
+libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: In function
+`helper_atomic_cmpxchgq_le_mmu':
+/tmp/tmp.VkWONZ62bA/build/../accel/tcg/atomic_template.h:86: undefined
+reference to `__atomic_compare_exchange_8'
+libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: In function
+`helper_atomic_xchgq_le_mmu':
+/tmp/tmp.VkWONZ62bA/build/../accel/tcg/atomic_template.h:134: undefined
+reference to `__atomic_exchange_8'
+libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: In function
+`helper_atomic_fetch_addq_le_mmu':
+
+Any idea what I am missing?
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000071e75e05c4471bd1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jun 8, 2021 at 8:55 PM Pete=
+r Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_blank"=
+>peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On Tue, 8 Jun 2021 at 16:55, Marc-Andr=C3=A9 Lurea=
+u<br>
+&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
+re.lureau@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Mon, Jun 7, 2021 at 4:17 PM Peter Maydell &lt;<a href=3D"mailto:pet=
+er.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; w=
+rote:<br>
+<br>
+&gt;&gt; &gt;&gt; clang sanitizer build: link failure:<br>
+&gt;&gt; &gt;&gt; subprojects/libslirp/libslirp.so.0.3.0.p/src_arp_table.c.=
+o: In<br>
+&gt;&gt; &gt;&gt; function `arp_table_add&#39;:<br>
+&gt;&gt; &gt;&gt; /home/petmay01/linaro/qemu-for-merges/build/clang/../../s=
+ubprojects/libslirp/src/arp_table.c:51:<br>
+&gt;&gt; &gt;&gt; undefined reference to `__ubsan_handle_type_mismatch_v1&#=
+39;<br>
+&gt;&gt; &gt;&gt; /home/petmay01/linaro/qemu-for-merges/build/clang/../../s=
+ubprojects/libslirp/src/arp_table.c:51:<br>
+&gt;&gt; &gt;&gt; undefined reference to `__ubsan_handle_type_mismatch_v1&#=
+39;<br>
+&gt;&gt; &gt;&gt; /home/petmay01/linaro/qemu-for-merges/build/clang/../../s=
+ubprojects/libslirp/src/arp_table.c:51:<br>
+&gt;&gt; &gt;&gt; undefined reference to `__ubsan_handle_type_mismatch_v1&#=
+39;<br>
+&gt;&gt; &gt;&gt; /home/petmay01/linaro/qemu-for-merges/build/clang/../../s=
+ubprojects/libslirp/src/arp_table.c:34:<br>
+&gt;&gt; &gt;&gt; undefined reference to `__ubsan_handle_type_mismatch_v1&#=
+39;<br>
+&gt;&gt; &gt;&gt; /home/petmay01/linaro/qemu-for-merges/build/clang/../../s=
+ubprojects/libslirp/src/arp_table.c:34:<br>
+&gt;&gt; &gt;&gt; undefined reference to `__ubsan_handle_type_mismatch_v1&#=
+39;<br>
+&gt;&gt; &gt;&gt; (and lots more similar)<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; I don&#39;t get this=C2=A0 when running make vm-build-netbsd.=
+ What else am I missing?<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; This isn&#39;t NetBSD related, it&#39;s just a clang sanitizer bui=
+ld on Linux.<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; I am running configure with &#39;--enable-sanitizers&#39; --cc=3Dclang=
+ --cxx=3Dclang++ --host-cc=3Dclang, I can&#39;t reproduce.<br>
+&gt;<br>
+&gt; What&#39;s your distro? (or meson + clang versions)<br>
+<br>
+Ubuntu 18.04.5 LTS (bionic); configure arguments<br>
+&#39;--cc=3Dclang&#39; &#39;--cxx=3Dclang++&#39; &#39;--enable-gtk&#39;<br>
+&#39;--extra-cflags=3D-fsanitize=3Dundefined=C2=A0 -fno-sanitize=3Dshift-ba=
+se<br>
+-Werror&#39;<br>
+clang version 6.0.0-1ubuntu2</blockquote><div><br></div><div>Per subproject=
+ `default_library` was added in 0.54, and we require 0.55.3. Why is it tryi=
+ng to build libslirp.so?</div><div><br></div><div>I tried to make vm-build-=
+ubuntu.i386 with the following changes:</div><div><br></div><div>=C2=A0diff=
+ --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386<br>index 47681b6f87..2=
+1d0b64eb1 100755<br>--- a/tests/vm/ubuntu.i386<br>+++ b/tests/vm/ubuntu.i38=
+6<br>@@ -18,7 +18,7 @@ import ubuntuvm<br>=C2=A0DEFAULT_CONFIG =3D {<br>=C2=
+=A0 =C2=A0 =C2=A0&#39;install_cmds&#39; : &quot;apt-get update,&quot;\<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;apt-get build-dep -y qemu,&quot;\<br>- =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;apt-get install -y libf=
+dt-dev language-pack-en ninja-build&quot;,<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;apt-get install -y libfdt-=
+dev language-pack-en ninja-build clang&quot;,<br>=C2=A0}<br>=C2=A0<br>=C2=
+=A0class UbuntuX86VM(ubuntuvm.UbuntuVM):<br>@@ -32,7 +32,7 @@ class UbuntuX=
+86VM(ubuntuvm.UbuntuVM):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd $(mktemp -=
+d);<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sudo chmod a+r /dev/vdb;<br>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0tar -xf /dev/vdb;<br>- =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0./configure {configure_opts};<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0./configur=
+e {configure_opts} --cc=3Dclang --cxx=3Dclang++ --host-cc=3Dclang --extra-c=
+flags=3D&#39;-fsanitize=3Dundefined =C2=A0-fno-sanitize=3Dshift-base -Werro=
+r&#39;;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0make --output-sync {target} -j=
+{jobs} {verbose};<br>=C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;</div><div><br><=
+/div><div>(or with EXTRA_CONFIGURE_OPTS)</div><div><br></div><div>And it fa=
+iled with:</div><div><br></div><div>[2363/9207] Linking target qemu-system-=
+aarch64<br>FAILED: qemu-system-aarch64 <br>clang++ @qemu-system-aarch64.rsp=
+<br>libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: In function `helper_=
+atomic_cmpxchgq_le_mmu&#39;:<br>/tmp/tmp.VkWONZ62bA/build/../accel/tcg/atom=
+ic_template.h:86: undefined reference to `__atomic_compare_exchange_8&#39;<=
+br>libqemu-aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: In function `helper_a=
+tomic_xchgq_le_mmu&#39;:<br>/tmp/tmp.VkWONZ62bA/build/../accel/tcg/atomic_t=
+emplate.h:134: undefined reference to `__atomic_exchange_8&#39;<br>libqemu-=
+aarch64-softmmu.fa.p/accel_tcg_cputlb.c.o: In function `helper_atomic_fetch=
+_addq_le_mmu&#39;:<br></div><div><br></div></div><div>Any idea what I am mi=
+ssing?</div><div><br></div><div>thanks</div><div><br></div><div>-- <br><div=
+ dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></div></div></div>
+
+--00000000000071e75e05c4471bd1--
 
