@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D80939F610
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 14:09:42 +0200 (CEST)
-Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D3439F619
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 14:11:50 +0200 (CEST)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqaY9-0000aR-1T
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 08:09:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54978)
+	id 1lqaaD-0006Ky-AZ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 08:11:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lqaWW-0006Oe-BX
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:08:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28094)
+ id 1lqaWh-0006lP-0V
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:08:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lqaWT-0001JI-UC
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:08:00 -0400
+ id 1lqaWe-0001R8-FA
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:08:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623154077;
+ s=mimecast20190719; t=1623154087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hsOmP1hUYUI1oK1o9o7Og47poQa7lx76Iub8n0k9/Cc=;
- b=Hl/O8mNYm2my3Ge4mrlrBfidKLS63Ulfh2hpQMJG/Mo7rmg0RLM747KNoido8gxPO7hQ63
- tKNNRuB0CUlkYELi/PDjqjuS5kZvgwX4vD/Kaw+pXMWd6P71dy2VOfhahVYSaTtUwuIa2a
- XLd95UNd3H1JCtB2BYqymcrEcdFsdSw=
+ bh=CkzVQBbrGw5qk0dO6uQoe8xO8t0IOOKUd88hnVuog8I=;
+ b=EjpLD+ikVsSmTUW1IjWwCV3fQCROnmDimQbwX/mF2QNLGvgGWqorCyFeU7lg/Y25kPIJ+e
+ ivRq7FxcvvTkaCAbULL1NHrBNdJgKlYY2MOpVENS5uK6ro1ezg9WLIEzfLYmXXtCXZI5od
+ 3qLbNt+T/Ud3peRP/x6n8UHMeCcd68o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-uDtBN3y1Ot2PjXHV-HBRLA-1; Tue, 08 Jun 2021 08:07:54 -0400
-X-MC-Unique: uDtBN3y1Ot2PjXHV-HBRLA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-423-2ivxY8JkNeaKbMXA_ynVZA-1; Tue, 08 Jun 2021 08:08:03 -0400
+X-MC-Unique: 2ivxY8JkNeaKbMXA_ynVZA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1FE2803620
- for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 12:07:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 613C21020C33
+ for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 12:08:02 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6817B620DE;
- Tue,  8 Jun 2021 12:07:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82B43100F49F;
+ Tue,  8 Jun 2021 12:07:57 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/9] qapi: make gen_if/gen_endif take a simple string
-Date: Tue,  8 Jun 2021 16:07:17 +0400
-Message-Id: <20210608120723.2268181-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v5 4/9] qapi: start building an 'if' predicate tree
+Date: Tue,  8 Jun 2021 16:07:18 +0400
+Message-Id: <20210608120723.2268181-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
 References: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,257 +87,363 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Instead of building prepocessor conditions from a list of string, use
-the result generated from QAPISchemaIfCond.cgen().
+The following patches are going to express schema 'if' conditions in a
+target language agnostic way. For that, let's start building a predicate
+tree of the configuration options.
+
+This intermediary steps still uses C-preprocessor expressions as
+the predicates:
+
+"if: [STR, ..]" is translated to a "IfCond -> IfAll ->
+[IfOption, ..]" tree, which will generate "#if STR && .." C code.
+
+Once the boolean operation tree nodes are introduced, the 'if'
+expressions will be converted to replace the C syntax (no more
+!defined(), &&, ...) and based only on option identifiers.
+
+For now, the condition tree will be less expressive than a full C macro
+expression as it will only support these operations: 'all', 'any' and
+'not', the only ones needed so far.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Tested-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/common.py     | 24 +++++++++++-------------
- scripts/qapi/gen.py        |  4 ++--
- scripts/qapi/introspect.py |  4 ++--
- scripts/qapi/schema.py     |  3 +++
- scripts/qapi/types.py      | 20 ++++++++++----------
- scripts/qapi/visit.py      | 12 ++++++------
- 6 files changed, 34 insertions(+), 33 deletions(-)
+ docs/sphinx/qapidoc.py                 |  6 +--
+ scripts/qapi/common.py                 | 53 ++++++++++++++++++++++-
+ scripts/qapi/schema.py                 | 17 ++++++--
+ tests/qapi-schema/doc-good.out         | 12 +++---
+ tests/qapi-schema/qapi-schema-test.out | 58 +++++++++++++-------------
+ tests/qapi-schema/test-qapi.py         |  2 +-
+ 6 files changed, 103 insertions(+), 45 deletions(-)
 
+diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+index b737949007..0f87fb16ce 100644
+--- a/docs/sphinx/qapidoc.py
++++ b/docs/sphinx/qapidoc.py
+@@ -112,12 +112,10 @@ def _make_section(self, title):
+     def _nodes_for_ifcond(self, ifcond, with_if=True):
+         """Return list of Text, literal nodes for the ifcond
+ 
+-        Return a list which gives text like ' (If: cond1, cond2, cond3)', where
+-        the conditions are in literal-text and the commas are not.
++        Return a list which gives text like ' (If: condition)'.
+         If with_if is False, we don't return the "(If: " and ")".
+         """
+-        condlist = intersperse([nodes.literal('', c) for c in ifcond.ifcond],
+-                               nodes.Text(', '))
++        condlist = [nodes.literal('', ifcond.docgen())]
+         if not with_if:
+             return condlist
+ 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 6ad1eeb61d..c305aaf2f1 100644
+index c305aaf2f1..01e3203545 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
 @@ -12,7 +12,7 @@
  # See the COPYING file in the top-level directory.
  
  import re
--from typing import Match, Optional, Sequence
-+from typing import Match, Optional
+-from typing import Match, Optional
++from typing import Match, Optional, Sequence
  
  
  #: Magic string that gets removed along with all space to its right.
-@@ -194,22 +194,20 @@ def guardend(name: str) -> str:
-                  name=c_fname(name).upper())
- 
- 
--def gen_if(ifcond: Sequence[str]) -> str:
--    ret = ''
--    for ifc in ifcond:
--        ret += mcgen('''
-+def gen_if(cond: str) -> str:
-+    if not cond:
-+        return ''
-+    return mcgen('''
- #if %(cond)s
--''', cond=ifc)
--    return ret
-+''', cond=cond)
- 
- 
--def gen_endif(ifcond: Sequence[str]) -> str:
--    ret = ''
--    for ifc in reversed(ifcond):
--        ret += mcgen('''
-+def gen_endif(cond: str) -> str:
-+    if not cond:
-+        return ''
-+    return mcgen('''
- #endif /* %(cond)s */
--''', cond=ifc)
--    return ret
-+''', cond=cond)
- 
- 
- def must_match(pattern: str, string: str) -> Match[str]:
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 1c5b190276..51a597a025 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -95,9 +95,9 @@ def _wrap_ifcond(ifcond: QAPISchemaIfCond, before: str, after: str) -> str:
-     if added[0] == '\n':
-         out += '\n'
-         added = added[1:]
--    out += gen_if(ifcond.ifcond)
-+    out += gen_if(ifcond.cgen())
-     out += added
--    out += gen_endif(ifcond.ifcond)
-+    out += gen_endif(ifcond.cgen())
-     return out
- 
- 
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 77a8c33ad4..474b08fd4d 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -124,10 +124,10 @@ def indent(level: int) -> str:
-         if obj.comment:
-             ret += indent(level) + f"/* {obj.comment} */\n"
-         if obj.ifcond:
--            ret += gen_if(obj.ifcond.ifcond)
-+            ret += gen_if(obj.ifcond.cgen())
-         ret += _tree_to_qlit(obj.value, level)
-         if obj.ifcond:
--            ret += '\n' + gen_endif(obj.ifcond.ifcond)
-+            ret += '\n' + gen_endif(obj.ifcond.cgen())
-         return ret
- 
-     ret = ''
+@@ -214,3 +214,54 @@ def must_match(pattern: str, string: str) -> Match[str]:
+     match = re.match(pattern, string)
+     assert match is not None
+     return match
++
++
++class IfPredicate:
++    """An 'if' condition predicate"""
++
++    def cgen(self) -> str:
++        raise NotImplementedError()
++
++    def docgen(self) -> str:
++        raise NotImplementedError()
++
++
++class IfOption(IfPredicate):
++    def __init__(self, option: str):
++        self.option = option
++
++    def cgen(self) -> str:
++        return self.option
++
++    def docgen(self) -> str:
++        return self.option
++
++    def __repr__(self) -> str:
++        return f"{type(self).__name__}({self.option!r})"
++
++    def __eq__(self, other: object) -> bool:
++        if not isinstance(other, IfOption):
++            return NotImplemented
++        return self.option == other.option
++
++
++class IfAll(IfPredicate):
++    def __init__(self, pred_list: Sequence[IfPredicate]):
++        self.pred_list = pred_list
++
++    def cgen(self) -> str:
++        return " && ".join([p.cgen() for p in self.pred_list])
++
++    def docgen(self) -> str:
++        return " and ".join([p.docgen() for p in self.pred_list])
++
++    def __bool__(self) -> bool:
++        return bool(self.pred_list)
++
++    def __repr__(self) -> str:
++        return f"{type(self).__name__}({self.pred_list!r})"
++
++    def __eq__(self, other: object) -> bool:
++        if not isinstance(other, IfAll):
++            return NotImplemented
++        return self.pred_list == other.pred_list
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index bc357ebbfa..aa4715c519 100644
+index aa4715c519..f52caaeecc 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -29,6 +29,9 @@ class QAPISchemaIfCond:
+@@ -19,7 +19,12 @@
+ import re
+ from typing import Optional
+ 
+-from .common import POINTER_SUFFIX, c_name
++from .common import (
++    POINTER_SUFFIX,
++    IfAll,
++    IfOption,
++    c_name,
++)
+ from .error import QAPIError, QAPISemError, QAPISourceError
+ from .expr import check_exprs
+ from .parser import QAPISchemaParser
+@@ -28,18 +33,22 @@
+ class QAPISchemaIfCond:
      def __init__(self, ifcond=None):
          self.ifcond = ifcond or []
- 
-+    def cgen(self):
-+        return ' && '.join(self.ifcond)
++        self.pred = IfAll([IfOption(opt) for opt in self.ifcond])
 +
++    def docgen(self):
++        return self.pred.docgen()
+ 
+     def cgen(self):
+-        return ' && '.join(self.ifcond)
++        return self.pred.cgen()
+ 
      # Returns true if the condition is not void
      def __bool__(self):
-         return bool(self.ifcond)
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 3673cf0f49..db9ff95bd1 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -51,13 +51,13 @@ def gen_enum_lookup(name: str,
- ''',
-                 c_name=c_name(name))
-     for memb in members:
--        ret += gen_if(memb.ifcond.ifcond)
-+        ret += gen_if(memb.ifcond.cgen())
-         index = c_enum_const(name, memb.name, prefix)
-         ret += mcgen('''
-         [%(index)s] = "%(name)s",
- ''',
-                      index=index, name=memb.name)
--        ret += gen_endif(memb.ifcond.ifcond)
-+        ret += gen_endif(memb.ifcond.cgen())
+-        return bool(self.ifcond)
++        return bool(self.pred)
  
-     ret += mcgen('''
-     },
-@@ -81,12 +81,12 @@ def gen_enum(name: str,
-                 c_name=c_name(name))
- 
-     for memb in enum_members:
--        ret += gen_if(memb.ifcond.ifcond)
-+        ret += gen_if(memb.ifcond.cgen())
-         ret += mcgen('''
-     %(c_enum)s,
- ''',
-                      c_enum=c_enum_const(name, memb.name, prefix))
--        ret += gen_endif(memb.ifcond.ifcond)
-+        ret += gen_endif(memb.ifcond.cgen())
- 
-     ret += mcgen('''
- } %(c_name)s;
-@@ -126,7 +126,7 @@ def gen_array(name: str, element_type: QAPISchemaType) -> str:
- def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) -> str:
-     ret = ''
-     for memb in members:
--        ret += gen_if(memb.ifcond.ifcond)
-+        ret += gen_if(memb.ifcond.cgen())
-         if memb.optional:
-             ret += mcgen('''
-     bool has_%(c_name)s;
-@@ -136,7 +136,7 @@ def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) -> str:
-     %(c_type)s %(c_name)s;
- ''',
-                      c_type=memb.type.c_type(), c_name=c_name(memb.name))
--        ret += gen_endif(memb.ifcond.ifcond)
-+        ret += gen_endif(memb.ifcond.cgen())
-     return ret
+     def __eq__(self, other):
+         if not isinstance(other, QAPISchemaIfCond):
+             return NotImplemented
+-        return self.ifcond == other.ifcond
++        return self.pred == other.pred
  
  
-@@ -159,7 +159,7 @@ def gen_object(name: str, ifcond: QAPISchemaIfCond,
-     ret += mcgen('''
+ class QAPISchemaEntity:
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index 8f54ceff2e..db1d23c6bf 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -12,15 +12,15 @@ enum QType
+ module doc-good.json
+ enum Enum
+     member one
+-        if ['defined(IFONE)']
++        if IfAll([IfOption('defined(IFONE)')])
+     member two
+-    if ['defined(IFCOND)']
++    if IfAll([IfOption('defined(IFCOND)')])
+     feature enum-feat
+ object Base
+     member base1: Enum optional=False
+ object Variant1
+     member var1: str optional=False
+-        if ['defined(IFSTR)']
++        if IfAll([IfOption('defined(IFSTR)')])
+         feature member-feat
+     feature variant1-feat
+ object Variant2
+@@ -29,7 +29,7 @@ object Object
+     tag base1
+     case one: Variant1
+     case two: Variant2
+-        if ['IFTWO']
++        if IfAll([IfOption('IFTWO')])
+     feature union-feat1
+ object q_obj_Variant1-wrapper
+     member data: Variant1 optional=False
+@@ -38,13 +38,13 @@ object q_obj_Variant2-wrapper
+ enum SugaredUnionKind
+     member one
+     member two
+-        if ['IFTWO']
++        if IfAll([IfOption('IFTWO')])
+ object SugaredUnion
+     member type: SugaredUnionKind optional=False
+     tag type
+     case one: q_obj_Variant1-wrapper
+     case two: q_obj_Variant2-wrapper
+-        if ['IFTWO']
++        if IfAll([IfOption('IFTWO')])
+     feature union-feat2
+ alternate Alternate
+     tag type
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index e0b8a5f0b6..e4e0fb173a 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -298,65 +298,65 @@ command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qemu_x-Unio
+ object TestIfStruct
+     member foo: int optional=False
+     member bar: int optional=False
+-        if ['defined(TEST_IF_STRUCT_BAR)']
+-    if ['defined(TEST_IF_STRUCT)']
++        if IfAll([IfOption('defined(TEST_IF_STRUCT_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_STRUCT)')])
+ enum TestIfEnum
+     member foo
+     member bar
+-        if ['defined(TEST_IF_ENUM_BAR)']
+-    if ['defined(TEST_IF_ENUM)']
++        if IfAll([IfOption('defined(TEST_IF_ENUM_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_ENUM)')])
+ object q_obj_TestStruct-wrapper
+     member data: TestStruct optional=False
+ enum TestIfUnionKind
+     member foo
+     member bar
+-        if ['defined(TEST_IF_UNION_BAR)']
+-    if ['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)']
++        if IfAll([IfOption('defined(TEST_IF_UNION_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)')])
+ object TestIfUnion
+     member type: TestIfUnionKind optional=False
+     tag type
+     case foo: q_obj_TestStruct-wrapper
+     case bar: q_obj_str-wrapper
+-        if ['defined(TEST_IF_UNION_BAR)']
+-    if ['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)']
++        if IfAll([IfOption('defined(TEST_IF_UNION_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)')])
+ object q_obj_test-if-union-cmd-arg
+     member union-cmd-arg: TestIfUnion optional=False
+-    if ['defined(TEST_IF_UNION)']
++    if IfAll([IfOption('defined(TEST_IF_UNION)')])
+ command test-if-union-cmd q_obj_test-if-union-cmd-arg -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
+-    if ['defined(TEST_IF_UNION)']
++    if IfAll([IfOption('defined(TEST_IF_UNION)')])
+ alternate TestIfAlternate
+     tag type
+     case foo: int
+     case bar: TestStruct
+-        if ['defined(TEST_IF_ALT_BAR)']
+-    if ['defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)']
++        if IfAll([IfOption('defined(TEST_IF_ALT_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)')])
+ object q_obj_test-if-alternate-cmd-arg
+     member alt-cmd-arg: TestIfAlternate optional=False
+-    if ['defined(TEST_IF_ALT)']
++    if IfAll([IfOption('defined(TEST_IF_ALT)')])
+ command test-if-alternate-cmd q_obj_test-if-alternate-cmd-arg -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
+-    if ['defined(TEST_IF_ALT)']
++    if IfAll([IfOption('defined(TEST_IF_ALT)')])
+ object q_obj_test-if-cmd-arg
+     member foo: TestIfStruct optional=False
+     member bar: TestIfEnum optional=False
+-        if ['defined(TEST_IF_CMD_BAR)']
+-    if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
++        if IfAll([IfOption('defined(TEST_IF_CMD_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_CMD)'), IfOption('defined(TEST_IF_STRUCT)')])
+ command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
+     gen=True success_response=True boxed=False oob=False preconfig=False
+-    if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
++    if IfAll([IfOption('defined(TEST_IF_CMD)'), IfOption('defined(TEST_IF_STRUCT)')])
+ command test-cmd-return-def-three None -> UserDefThree
+     gen=True success_response=True boxed=False oob=False preconfig=False
+ array TestIfEnumList TestIfEnum
+-    if ['defined(TEST_IF_ENUM)']
++    if IfAll([IfOption('defined(TEST_IF_ENUM)')])
+ object q_obj_TEST_IF_EVENT-arg
+     member foo: TestIfStruct optional=False
+     member bar: TestIfEnumList optional=False
+-        if ['defined(TEST_IF_EVT_BAR)']
+-    if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
++        if IfAll([IfOption('defined(TEST_IF_EVT_BAR)')])
++    if IfAll([IfOption('defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)')])
+ event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
+     boxed=False
+-    if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
++    if IfAll([IfOption('defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)')])
+ object FeatureStruct0
+     member foo: int optional=False
+ object FeatureStruct1
+@@ -379,17 +379,17 @@ object FeatureStruct4
+ object CondFeatureStruct1
+     member foo: int optional=False
+     feature feature1
+-        if ['defined(TEST_IF_FEATURE_1)']
++        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+ object CondFeatureStruct2
+     member foo: int optional=False
+     feature feature1
+-        if ['defined(TEST_IF_FEATURE_1)']
++        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+     feature feature2
+-        if ['defined(TEST_IF_FEATURE_2)']
++        if IfAll([IfOption('defined(TEST_IF_FEATURE_2)')])
+ object CondFeatureStruct3
+     member foo: int optional=False
+     feature feature1
+-        if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
++        if IfAll([IfOption('defined(TEST_IF_COND_1)'), IfOption('defined(TEST_IF_COND_2)')])
+ enum FeatureEnum1
+     member eins
+     member zwei
+@@ -429,17 +429,17 @@ command test-command-features3 None -> None
+ command test-command-cond-features1 None -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
+     feature feature1
+-        if ['defined(TEST_IF_FEATURE_1)']
++        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+ command test-command-cond-features2 None -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
+     feature feature1
+-        if ['defined(TEST_IF_FEATURE_1)']
++        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+     feature feature2
+-        if ['defined(TEST_IF_FEATURE_2)']
++        if IfAll([IfOption('defined(TEST_IF_FEATURE_2)')])
+ command test-command-cond-features3 None -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
+     feature feature1
+-        if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
++        if IfAll([IfOption('defined(TEST_IF_COND_1)'), IfOption('defined(TEST_IF_COND_2)')])
+ event TEST_EVENT_FEATURES0 FeatureStruct1
+     boxed=False
+ event TEST_EVENT_FEATURES1 None
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
+index 2ec328b22e..631e255fba 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -95,7 +95,7 @@ def _print_variants(variants):
+     @staticmethod
+     def _print_if(ifcond, indent=4):
+         if ifcond:
+-            print('%sif %s' % (' ' * indent, ifcond.ifcond))
++            print('%sif %s' % (' ' * indent, ifcond.pred))
  
- ''')
--    ret += gen_if(ifcond.ifcond)
-+    ret += gen_if(ifcond.cgen())
-     ret += mcgen('''
- struct %(c_name)s {
- ''',
-@@ -193,7 +193,7 @@ def gen_object(name: str, ifcond: QAPISchemaIfCond,
-     ret += mcgen('''
- };
- ''')
--    ret += gen_endif(ifcond.ifcond)
-+    ret += gen_endif(ifcond.cgen())
- 
-     return ret
- 
-@@ -220,13 +220,13 @@ def gen_variants(variants: QAPISchemaVariants) -> str:
-     for var in variants.variants:
-         if var.type.name == 'q_empty':
-             continue
--        ret += gen_if(var.ifcond.ifcond)
-+        ret += gen_if(var.ifcond.cgen())
-         ret += mcgen('''
-         %(c_type)s %(c_name)s;
- ''',
-                      c_type=var.type.c_unboxed_type(),
-                      c_name=c_name(var.name))
--        ret += gen_endif(var.ifcond.ifcond)
-+        ret += gen_endif(var.ifcond.cgen())
- 
-     ret += mcgen('''
-     } u;
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 67721b2470..56ea516399 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -79,7 +79,7 @@ def gen_visit_object_members(name: str,
- 
-     for memb in members:
-         deprecated = 'deprecated' in [f.name for f in memb.features]
--        ret += gen_if(memb.ifcond.ifcond)
-+        ret += gen_if(memb.ifcond.cgen())
-         if memb.optional:
-             ret += mcgen('''
-     if (visit_optional(v, "%(name)s", &obj->has_%(c_name)s)) {
-@@ -112,7 +112,7 @@ def gen_visit_object_members(name: str,
-             ret += mcgen('''
-     }
- ''')
--        ret += gen_endif(memb.ifcond.ifcond)
-+        ret += gen_endif(memb.ifcond.cgen())
- 
-     if variants:
-         tag_member = variants.tag_member
-@@ -126,7 +126,7 @@ def gen_visit_object_members(name: str,
-         for var in variants.variants:
-             case_str = c_enum_const(tag_member.type.name, var.name,
-                                     tag_member.type.prefix)
--            ret += gen_if(var.ifcond.ifcond)
-+            ret += gen_if(var.ifcond.cgen())
-             if var.type.name == 'q_empty':
-                 # valid variant and nothing to do
-                 ret += mcgen('''
-@@ -142,7 +142,7 @@ def gen_visit_object_members(name: str,
-                              case=case_str,
-                              c_type=var.type.c_name(), c_name=c_name(var.name))
- 
--            ret += gen_endif(var.ifcond.ifcond)
-+            ret += gen_endif(var.ifcond.cgen())
-         ret += mcgen('''
-     default:
-         abort();
-@@ -228,7 +228,7 @@ def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
-                 c_name=c_name(name))
- 
-     for var in variants.variants:
--        ret += gen_if(var.ifcond.ifcond)
-+        ret += gen_if(var.ifcond.cgen())
-         ret += mcgen('''
-     case %(case)s:
- ''',
-@@ -254,7 +254,7 @@ def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
-         ret += mcgen('''
-         break;
- ''')
--        ret += gen_endif(var.ifcond.ifcond)
-+        ret += gen_endif(var.ifcond.cgen())
- 
-     ret += mcgen('''
-     case QTYPE_NONE:
+     @classmethod
+     def _print_features(cls, features, indent=4):
 -- 
 2.29.0
 
