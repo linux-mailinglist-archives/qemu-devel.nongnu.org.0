@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E8E39F118
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:39:25 +0200 (CEST)
-Received: from localhost ([::1]:47282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F7939F10A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:35:22 +0200 (CEST)
+Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqXGe-0001zr-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
+	id 1lqXCi-000825-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:35:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lqX8Z-00042W-PC
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:31:11 -0400
-Received: from mga14.intel.com ([192.55.52.115]:24324)
+ (Exim 4.90_1) (envelope-from <prvs=786c6b92e=graf@amazon.de>)
+ id 1lqX5b-00069l-SH
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:27:59 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:55040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lqX8X-0000K7-Ti
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:31:03 -0400
-IronPort-SDR: fucIQFc80KW4HIp22M+aQo6Fje3395JDbATyRTBIkxx9/Ho4ixAyTHVM8YHO1e+V1tzKVQTmpu
- JONyiFDdIv4A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="204614549"
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="204614549"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:30:55 -0700
-IronPort-SDR: 0WY5fKPPMLUwjepzoqv80+oOuwgL7mzho/uUYxnf4I/Kh+yDBZIklg3Shh8s2ne1+sr8KBmuzO
- OmF+7TvEy5dw==
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="481862959"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:30:52 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>,
-	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 7/7] Fixed calculation error of pkt->header_size in
- fill_pkt_tcp_info()
-Date: Tue,  8 Jun 2021 16:23:31 +0800
-Message-Id: <20210608082331.1949117-8-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210608082331.1949117-1-chen.zhang@intel.com>
-References: <20210608082331.1949117-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <prvs=786c6b92e=graf@amazon.de>)
+ id 1lqX5a-0006yq-60
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:27:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1623140878; x=1654676878;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=rNfCQrNV6O04dXWuzWdC60uvlaZ7im8TRShYIfHAAHI=;
+ b=hH1pBTE1Cto/J3EkAJizzSlsHnEnrbd95m+coXJxXH0N7ZXWCECQ9/GH
+ HoUSwTpDA2/P2fRfj/OkWbDFYoKesBSFL6oN5wkSK77LEUdaPZB9B9fwu
+ DfP6PIkNSqqm5TdW0RL74lYZAOAr221tTQYMpGePmOx19fWVwCmoP4mkF 0=;
+X-IronPort-AV: E=Sophos;i="5.83,257,1616457600"; d="scan'208";a="129758228"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
+ email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.25.36.210])
+ by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 08 Jun 2021 08:27:57 +0000
+Received: from EX13MTAUWC001.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+ by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 7DF48A04B6; Tue,  8 Jun 2021 08:27:56 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.18; Tue, 8 Jun 2021 08:27:56 +0000
+Received: from [192.168.19.4] (10.43.160.137) by EX13D20UWC001.ant.amazon.com
+ (10.43.162.244) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
+ Tue, 8 Jun 2021 08:27:54 +0000
+Message-ID: <270a73f1-43bc-46e7-d0fb-cfd65889f1e6@amazon.com>
+Date: Tue, 8 Jun 2021 10:27:52 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=chen.zhang@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:90.0)
+ Gecko/20100101 Thunderbird/90.0
+Subject: Re: [PATCH 3/6] kvm/i386: Stop using cpu->kvm_msr_buf in
+ kvm_put_one_msr()
+Content-Language: en-US
+To: Siddharth Chandrasekaran <sidcha@amazon.de>, Paolo Bonzini
+ <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
+CC: Siddharth Chandrasekaran <sidcha.dev@gmail.com>, Evgeny Iakovlev
+ <eyakovl@amazon.de>, Liran Alon <liran@amazon.com>, Ioannis Aslanidis
+ <iaslan@amazon.de>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
+References: <cover.1621885749.git.sidcha@amazon.de>
+ <04c81a02c19a47e799e06b9c9ccb97e9a77f5927.1621885749.git.sidcha@amazon.de>
+From: Alexander Graf <graf@amazon.com>
+In-Reply-To: <04c81a02c19a47e799e06b9c9ccb97e9a77f5927.1621885749.git.sidcha@amazon.de>
+X-Originating-IP: [10.43.160.137]
+X-ClientProxiedBy: EX13D41UWB003.ant.amazon.com (10.43.161.243) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Precedence: Bulk
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=207.171.190.10;
+ envelope-from=prvs=786c6b92e=graf@amazon.de; helo=smtp-fw-33001.amazon.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,44 +86,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Li Zhijian <lizhijian@cn.fujitsu.com>,
- "Rao, Lei" <lei.rao@intel.com>, Li Zhijian <lizhijian@fujitsu.com>,
- Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Rao, Lei" <lei.rao@intel.com>
-
-The data pointer has skipped vnet_hdr_len in the function of
-parse_packet_early().So, we can not subtract vnet_hdr_len again
-when calculating pkt->header_size in fill_pkt_tcp_info(). Otherwise,
-it will cause network packet comparsion errors and greatly increase
-the frequency of checkpoints.
-
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-Tested-by: Lukas Straub <lukasstraub2@web.de>
----
- net/colo-compare.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 5b538f4e0b..b100e7b51f 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -211,7 +211,7 @@ static void fill_pkt_tcp_info(void *data, uint32_t *max_ack)
-     pkt->tcp_ack = ntohl(tcphd->th_ack);
-     *max_ack = *max_ack > pkt->tcp_ack ? *max_ack : pkt->tcp_ack;
-     pkt->header_size = pkt->transport_header - (uint8_t *)pkt->data
--                       + (tcphd->th_off << 2) - pkt->vnet_hdr_len;
-+                       + (tcphd->th_off << 2);
-     pkt->payload_size = pkt->size - pkt->header_size;
-     pkt->seq_end = pkt->tcp_seq + pkt->payload_size;
-     pkt->flags = tcphd->th_flags;
--- 
-2.25.1
+CgpPbiAyNC4wNS4yMSAyMTo1NCwgU2lkZGhhcnRoIENoYW5kcmFzZWthcmFuIHdyb3RlOgo+IGt2
+bV9wdXRfb25lX21zcigpIHplcm9zIGNwdS0+a3ZtX21zcl9idWYgYW5kIHVzZXMgaXQgdG8gc2V0
+IG9uZSBNU1IgdG8KPiBLVk0uIEl0IGlzIHByZXR0eSB3YXN0ZWZ1bCBhcyBjcHUtPmt2bV9tc3Jf
+YnVmIGlzIDQwOTYgYnl0ZXMgbG9uZzsKPiBpbnN0ZWFkIHVzZSBhIGxvY2FsIGJ1ZmZlciB0byBh
+dm9pZCBtZW1zZXQuCj4gCj4gQWxzbywgZXhwb3NlIHRoaXMgbWV0aG9kIGZyb20ga3ZtX2kzODYu
+aCBhcyBoeXBlcnYuYyBuZWVkcyB0byBzZXQgTVNScwo+IGluIGEgc3Vic2VxdWVudCBwYXRjaC4K
+PiAKPiBTaWduZWQtb2ZmLWJ5OiBTaWRkaGFydGggQ2hhbmRyYXNla2FyYW4gPHNpZGNoYUBhbWF6
+b24uZGU+CgpSZXZpZXdlZC1ieTogQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9uLmNvbT4KCgpB
+bGV4CgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBHbWJICktyYXVzZW5zdHIu
+IDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hsYWVnZXIs
+IEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0IENoYXJsb3R0ZW5idXJn
+IHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBERSAyODkgMjM3IDg3OQoK
+Cg==
 
 
