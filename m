@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D0639F4F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:30:34 +0200 (CEST)
-Received: from localhost ([::1]:51246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DAF39F4F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:29:26 +0200 (CEST)
+Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqZwH-0003PY-5D
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:30:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
+	id 1lqZvB-0000L3-4p
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpA-0006V8-I3
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:12 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55047)
+ id 1lqZpB-0006WG-9L
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:14 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZp8-0007yp-NA
+ id 1lqZp9-0007z4-I9
  for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:12 -0400
-Received: by mail-wm1-x336.google.com with SMTP id o127so1587171wmo.4
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:10 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l11-20020a05600c4f0bb029017a7cd488f5so1632062wmq.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G61MEnWdFvevbLBmfZeLg3VT1jlEJuO/IOD5W0UALKo=;
- b=ukKAZjCs45KFmOKoMhPw8ChpEtqEl8a1LjM1BCjHzMjE/hwKhUBfg/OIgqRXrfBxm0
- 7+ATOx96j6scP1ozVCjwsRB9susDzw0LLeJm2qgK3o7vRf0yCTJ0nG5r6NZau8PaqQUx
- FvYHGyWyqraW6zjUU5V0eAIDqowWepiNsr3tLln2R2RUpKuMrk6bBbH4dhKQhG8kZqq+
- hrzJIE+MBFWE5hZb6CSWOQVvv5qw8VNE57Dm9QCdKepXgaYtQAUSWxdu0gH7U9FBhXki
- QZNTtiVgZ78xp3CthNwBpwVsMgUQAra9OI2faKFhAbsZAlfO8AdJXfSfAt5dhY+rGAjr
- VIlw==
+ bh=3BHzzehIAd6rLWsdffGUKDOovWe+Q46KfbqgPwO3Ny4=;
+ b=d+eDGFdViaoWBKenOh2tf31JJYKlvU0vf47RcMhuOAZhST5BPQwrcDkMjIdzyL8hd4
+ w4p4yGV5fGNNAZn0z2Yu15TztX7jpInXIYxpu1pqq6TDq+ZcyFHteOXxmBdpzptbkClU
+ Z3tb7OxkB6Zm02R/66cvO9XK2gnxS2zNmGM+3u/ZvVEKyH2ZKn8wMNKEaRGUpXRXloWM
+ uMsPVKDckabXrbFcaWLSl3AAKXTJqrjoxzBdNISN7nTsQaL4RqhW0F5OKkRFuRKIujNr
+ RM5WF84oAR/Kz3mU2466c2/+gOlRFRqoXUmT2ABvmd6kmTY3GWv5brXgnsNCOf5eww4q
+ wVlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=G61MEnWdFvevbLBmfZeLg3VT1jlEJuO/IOD5W0UALKo=;
- b=PxT9lgIxO9ZRRzt50TmI5ZfUlkvTDjPC1KOs0KZJrFWB1Qfx5DtavzgGNWJRV8HKNw
- w5yldBEt8pRthYpQb1F69+fkQGQbtj+orpVhkdWPVmZgOlOeYhXExXLCGTSaGdM3e1Su
- DbPW08wLapV9A36iWmT5Uv0f8I/2qc9JmVtlnq4aGyr0u8fgFHfxntOP3tBFe4kNUFgr
- dbW1sEeNb/2cfZdOB+qURmPAme3a9MfJFGIEeQAW7XW3DP12uWOKewMG+xDfx4vIu6AW
- BfOrUhpyxDkTV4mjfqztzfgKFGHLZNjycCEm5kU6QkACUDhh44J0c80yRHOpZM1/iAed
- nDMA==
-X-Gm-Message-State: AOAM530BU8y2TnHiSX3br/6SpT0aOSD7NnAYIQTypzr855mAZfq0Llbw
- BVccynDH9Dw1UK8CDbWy8gNjc9GoiAjnuw==
-X-Google-Smtp-Source: ABdhPJyfYnBe1A3TjIHxePHyoitCaoVA/49D7YH5Np6SXDb2CX+o/CxTTXzodX+nTc6kkcPmyT8rTw==
-X-Received: by 2002:a7b:cc09:: with SMTP id f9mr21261272wmh.104.1623151389312; 
- Tue, 08 Jun 2021 04:23:09 -0700 (PDT)
+ bh=3BHzzehIAd6rLWsdffGUKDOovWe+Q46KfbqgPwO3Ny4=;
+ b=kiLMe9j/NOkCAg+FaOqA7WAzorKBn4T0YKk/AFwhG5AULw3KJKqp4Ytm6OEGnwrksw
+ zYZT52EJDPVQKO0nKHph5t9zsxA/ULTNiIeXh7uel/8Har77WQnMlasIOGFSH/6EAEuo
+ stRAR+HB0FOIwaRqDXD9399HK8zeTbkmRvxhznLxwk1lhlLufH6FCoZ04fggtMrfYnay
+ IB7iUm6CfS55x3CfAGhH3svv8v6TlM7ibEYD535n6Cfg50JTHsBbK61j5piPTFmT+0E+
+ 6glUwPY6vGwpI55aindqvrw1l/8+KuJmlo6xhmVaP1OIV615nntak2n0I72p8N8qPhMk
+ 2LZg==
+X-Gm-Message-State: AOAM531kPk5SJ369lq59cvBAJzeP6AHyJiSe8kqTXlOjMJtsCeNqeGV5
+ +ZUm+rmfeohg8oZr/X2Chj7gDynO4c1JSg==
+X-Google-Smtp-Source: ABdhPJyrSQkInCe6YwfCqieCVkEvSGXju1IRi9fn7KUx/xtNXnkh5jenWV/cF5ad1pj1Q9Q8yOgC5w==
+X-Received: by 2002:a05:600c:3ba2:: with SMTP id
+ n34mr13265634wms.120.1623151390219; 
+ Tue, 08 Jun 2021 04:23:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.08
+ by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:23:08 -0700 (PDT)
+ Tue, 08 Jun 2021 04:23:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/26] configure, meson: convert libcacard detection to meson
-Date: Tue,  8 Jun 2021 13:22:42 +0200
-Message-Id: <20210608112301.402434-8-pbonzini@redhat.com>
+Subject: [PATCH 08/26] configure, meson: convert libusbredir detection to meson
+Date: Tue,  8 Jun 2021 13:22:43 +0200
+Message-Id: <20210608112301.402434-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608112301.402434-1-pbonzini@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,126 +98,126 @@ Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
  4 files changed, 12 insertions(+), 29 deletions(-)
 
 diff --git a/configure b/configure
-index 651273c023..591acd0750 100755
+index 591acd0750..9a6217a3bf 100755
 --- a/configure
 +++ b/configure
-@@ -372,7 +372,7 @@ trace_file="trace"
- spice="$default_feature"
- spice_protocol="auto"
- rbd="auto"
--smartcard="$default_feature"
-+smartcard="auto"
+@@ -375,7 +375,7 @@ rbd="auto"
+ smartcard="auto"
  u2f="auto"
  libusb="auto"
- usb_redir="$default_feature"
-@@ -1277,9 +1277,9 @@ for opt do
+-usb_redir="$default_feature"
++usb_redir="auto"
+ opengl="$default_feature"
+ cpuid_h="no"
+ avx2_opt="$default_feature"
+@@ -1289,9 +1289,9 @@ for opt do
    ;;
-   --enable-xfsctl) xfs="yes"
+   --enable-libusb) libusb="enabled"
    ;;
--  --disable-smartcard) smartcard="no"
-+  --disable-smartcard) smartcard="disabled"
+-  --disable-usb-redir) usb_redir="no"
++  --disable-usb-redir) usb_redir="disabled"
    ;;
--  --enable-smartcard) smartcard="yes"
-+  --enable-smartcard) smartcard="enabled"
+-  --enable-usb-redir) usb_redir="yes"
++  --enable-usb-redir) usb_redir="enabled"
    ;;
-   --disable-u2f) u2f="disabled"
+   --disable-zlib-test)
    ;;
 @@ -3980,20 +3980,6 @@ EOF
    fi
  fi
  
--# check for smartcard support
--if test "$smartcard" != "no"; then
--    if $pkg_config --atleast-version=2.5.1 libcacard; then
--        libcacard_cflags=$($pkg_config --cflags libcacard)
--        libcacard_libs=$($pkg_config --libs libcacard)
--        smartcard="yes"
+-# check for usbredirparser for usb network redirection support
+-if test "$usb_redir" != "no" ; then
+-    if $pkg_config --atleast-version=0.6 libusbredirparser-0.5; then
+-        usb_redir="yes"
+-        usb_redir_cflags=$($pkg_config --cflags libusbredirparser-0.5)
+-        usb_redir_libs=$($pkg_config --libs libusbredirparser-0.5)
 -    else
--        if test "$smartcard" = "yes"; then
--            feature_not_found "smartcard" "Install libcacard devel"
+-        if test "$usb_redir" = "yes"; then
+-            feature_not_found "usb-redir" "Install usbredir devel"
 -        fi
--        smartcard="no"
+-        usb_redir="no"
 -    fi
 -fi
 -
- # check for usbredirparser for usb network redirection support
- if test "$usb_redir" != "no" ; then
-     if $pkg_config --atleast-version=0.6 libusbredirparser-0.5; then
-@@ -5606,12 +5592,6 @@ if test "$spice" = "yes" ; then
+ ##########################################
+ # check if we have VSS SDK headers for win
+ 
+@@ -5592,12 +5578,6 @@ if test "$spice" = "yes" ; then
    echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
  fi
  
--if test "$smartcard" = "yes" ; then
--  echo "CONFIG_SMARTCARD=y" >> $config_host_mak
--  echo "SMARTCARD_CFLAGS=$libcacard_cflags" >> $config_host_mak
--  echo "SMARTCARD_LIBS=$libcacard_libs" >> $config_host_mak
+-if test "$usb_redir" = "yes" ; then
+-  echo "CONFIG_USB_REDIR=y" >> $config_host_mak
+-  echo "USB_REDIR_CFLAGS=$usb_redir_cflags" >> $config_host_mak
+-  echo "USB_REDIR_LIBS=$usb_redir_libs" >> $config_host_mak
 -fi
 -
- if test "$usb_redir" = "yes" ; then
-   echo "CONFIG_USB_REDIR=y" >> $config_host_mak
-   echo "USB_REDIR_CFLAGS=$usb_redir_cflags" >> $config_host_mak
-@@ -6194,7 +6174,7 @@ if test "$skip_meson" = no; then
+ if test "$opengl" = "yes" ; then
+   echo "CONFIG_OPENGL=y" >> $config_host_mak
+   echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
+@@ -6174,7 +6154,7 @@ if test "$skip_meson" = no; then
          -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
          -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
          -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--        -Dlibusb=$libusb \
-+        -Dlibusb=$libusb -Dsmartcard=$smartcard \
+-        -Dlibusb=$libusb -Dsmartcard=$smartcard \
++        -Dlibusb=$libusb -Dsmartcard=$smartcard -Dusb_redir=$usb_redir \
          -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
          -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
 diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index bd3f8735b9..df9effbb10 100644
+index df9effbb10..4f24b5274d 100644
 --- a/hw/usb/meson.build
 +++ b/hw/usb/meson.build
-@@ -49,7 +49,7 @@ softmmu_ss.add(when: ['CONFIG_POSIX', 'CONFIG_USB_STORAGE_MTP'], if_true: files(
- # smartcard
- softmmu_ss.add(when: 'CONFIG_USB_SMARTCARD', if_true: files('dev-smartcard-reader.c'))
+@@ -64,7 +64,7 @@ if u2f.found()
+ endif
  
--if config_host.has_key('CONFIG_SMARTCARD')
-+if cacard.found()
-   usbsmartcard_ss = ss.source_set()
-   usbsmartcard_ss.add(when: 'CONFIG_USB_SMARTCARD',
-                       if_true: [cacard, files('ccid-card-emulated.c', 'ccid-card-passthru.c')])
+ # usb redirect
+-if config_host.has_key('CONFIG_USB_REDIR')
++if usbredir.found()
+   usbredir_ss = ss.source_set()
+   usbredir_ss.add(when: 'CONFIG_USB',
+                   if_true: [usbredir, files('redirect.c', 'quirks.c')])
 diff --git a/meson.build b/meson.build
-index 2a4a47d281..d2efa6178a 100644
+index d2efa6178a..ae40bdf7c4 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -975,9 +975,10 @@ if 'CONFIG_XEN_BACKEND' in config_host
-                            link_args: config_host['XEN_LIBS'].split())
+@@ -987,9 +987,10 @@ if have_system
+                    kwargs: static_kwargs)
  endif
- cacard = not_found
--if 'CONFIG_SMARTCARD' in config_host
--  cacard = declare_dependency(compile_args: config_host['SMARTCARD_CFLAGS'].split(),
--                              link_args: config_host['SMARTCARD_LIBS'].split())
-+if not get_option('smartcard').auto() or have_system
-+  cacard = dependency('libcacard', required: get_option('smartcard'),
-+                      version: '>=2.5.1', method: 'pkg-config',
-+                      kwargs: static_kwargs)
+ usbredir = not_found
+-if 'CONFIG_USB_REDIR' in config_host
+-  usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
+-                                link_args: config_host['USB_REDIR_LIBS'].split())
++if not get_option('usb_redir').auto() or have_system
++  usbredir = dependency('libusbredirparser-0.5', required: get_option('usb_redir'),
++                        version: '>=0.6', method: 'pkg-config',
++                        kwargs: static_kwargs)
  endif
- u2f = not_found
- if have_system
-@@ -2794,7 +2795,7 @@ summary_info += {'bpf support': libbpf.found()}
- summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
- summary_info += {'rbd support':       rbd.found()}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
--summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
-+summary_info += {'smartcard support': cacard.found()}
+ libusb = not_found
+ if not get_option('libusb').auto() or have_system
+@@ -2798,7 +2799,7 @@ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': cacard.found()}
  summary_info += {'U2F support':       u2f.found()}
  summary_info += {'libusb':            libusb.found()}
- summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
+-summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
++summary_info += {'usb net redir':     usbredir.found()}
+ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
+ summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
+ summary_info += {'libiscsi support':  libiscsi.found()}
 diff --git a/meson_options.txt b/meson_options.txt
-index 02c14d4751..cd9374384e 100644
+index cd9374384e..f7ec9bee27 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -102,6 +102,8 @@ option('sdl_image', type : 'feature', value : 'auto',
-        description: 'SDL Image support for icons')
- option('seccomp', type : 'feature', value : 'auto',
-        description: 'seccomp support')
-+option('smartcard', type : 'feature', value : 'auto',
-+       description: 'CA smartcard emulation support')
- option('snappy', type : 'feature', value : 'auto',
+@@ -108,6 +108,8 @@ option('snappy', type : 'feature', value : 'auto',
         description: 'snappy compression support')
  option('u2f', type : 'feature', value : 'auto',
+        description: 'U2F emulation support')
++option('usb_redir', type : 'feature', value : 'auto',
++       description: 'libusbredir support')
+ option('vnc', type : 'feature', value : 'enabled',
+        description: 'VNC server')
+ option('vnc_jpeg', type : 'feature', value : 'auto',
 -- 
 2.31.1
 
