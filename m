@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD2B39F793
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 15:19:27 +0200 (CEST)
-Received: from localhost ([::1]:52964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCF939F794
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 15:19:35 +0200 (CEST)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqbdf-0002v5-0A
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 09:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
+	id 1lqbdm-00033j-Qy
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 09:19:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqbb1-00087L-2X; Tue, 08 Jun 2021 09:16:43 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36393)
+ id 1lqbb1-00089w-Oi; Tue, 08 Jun 2021 09:16:43 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqbay-0001xm-Vd; Tue, 08 Jun 2021 09:16:42 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- h11-20020a05600c350bb02901b59c28e8b4so1442068wmq.1; 
+ id 1lqbaz-0001yT-GD; Tue, 08 Jun 2021 09:16:43 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id h3so1809129wmq.3;
  Tue, 08 Jun 2021 06:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ikfSr+R6k78Hz4eiit0nQyTHY92c+5jpIVNQZpw7fc0=;
- b=kJqFIWRjxld/d0eIZwtvpHkKnv7dA3UjThqsW6YZ4/2CZsu2NJYig8wLUZGPsXgOd3
- aqTjPoQfEQWFGV/oB7GJOgoRAqPq6P9YZLGLQuLneo+1q7XcZKSeXNoVNaQbCu36AqnC
- fiKBkrEkKi02UHmKqm7uttOxwKDjZDtqOBGQ8wJasCpEVcXTgZwHlJLUFN7wHjibx296
- 0a/PG2q3s+ZzdB0qx1tPVJpcsv5ZA+4pdlPeAH1g3FPbGieSMFCAGE7fySKf0PeBa1QZ
- n+11h/07rltoHxGAJY/3lhV788udQZFeoCJjdj6mRG1K97lK1rxFBflU7QF10/tdUCIF
- i3OA==
+ bh=YWGng/AgwvqijHTZHExWPRs5g9nBRTrMUPBsYX6VZJ8=;
+ b=U/6W5ka/QW/xxR2PDeTaBDl0hmnIE7bT8H3JIxCDcFFVJpir0nBwYc+0yHAeGsbckb
+ Is7vFRibwAVDYcORUNIw1HgvUcvCwiIWbj+T4bwYtsH/OkxAYWhob58ApBARqNIriu51
+ GidW9hDN6mTXcv15AFY+vjsqed5e8YwYrsD6UT/H2y/Og8E+HeTs9n6sFA1gwm3Ol9EH
+ vNdZr2idFrvK5aJbACRkqVtRZAJPHMmc/yotSLuug6o9amvxTMZBtVo7RDjjCGkEcCyR
+ /NHfespABPTdlg3uRCmnFpWg8tER7kirmBe6erM1u+nbzw08Vc10A5QC2Fnbd6nVkWyD
+ MP/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ikfSr+R6k78Hz4eiit0nQyTHY92c+5jpIVNQZpw7fc0=;
- b=mTOlpFPMRwMQPpMXbFodGSO6S376uacJ0J1xDo5BdU6dr4wmpnP3c1CNpVJXN70jLv
- E/TIDZxybEBM4tumE1LEqWJkZ0KVzu+m+PK9jUCCqeMIkf+E2Zbazj62wDJOcKcFUD3V
- DYJcgBs1x9RuswnJodqDkmYqiJo5/PmR/0+JWnl8y+4p30XEODVyHw41yhW1E7UFgOJ8
- Pa64DoX6DpbdxGyXDx1LZcCDJrq4YdcF1nCbrAfY1/f3ozfbKA1Br4PnBg95gfa8tYSD
- 2q4ghyDGyY8JmAuCbT8Ew8gqpFUJ0F/0E5WCkDlcscwD8HfRl4Ibh6jVMNyrCgUmXvMe
- 1TFg==
-X-Gm-Message-State: AOAM5324p7Y32vJ5Q4NgMVJRpq0K6DSNiZi8IgZIKypHQFrjScgMYHym
- a7MxcC1UHoUcdFfWD/RZ7VgsgxvMTcpXhg==
-X-Google-Smtp-Source: ABdhPJyHZCbgb2MasP0d3LP947Ph+4IeNKQ+IHq8KM0IZQooA078r8+YdOZ8N3YrY7aXTZKyllBVBw==
-X-Received: by 2002:a1c:7313:: with SMTP id d19mr21866863wmb.14.1623158199097; 
+ bh=YWGng/AgwvqijHTZHExWPRs5g9nBRTrMUPBsYX6VZJ8=;
+ b=sFGRPwFB0DCRXZo3naabETCtM0IxPJ6cxHPsfSbtbIj+k+If3FzDkEggNHrFgD7Wjo
+ 9VVq9Wh7Xg5LRhB2Ht8ylpJdDYrObaJOjOaHI1arbX5xxhzS5Dn/kYD7Pt3AeY26L9vG
+ 71xlbOtrilkIXQyAgTy+dH/HeIw5bYhIr6k2heE6uRUry2pgV1ZNnrMAPWpmq1oySg0D
+ Z+q1tw6qOWDOCHV0CUO+ZTduIAl4IU1rnSgRTCwdVDBWY0dQU1LicBnkR3+6Ou07d0s6
+ Jp4Wf920fr28wy8mWkZKn6R2gKwRxDlXmDKqNpyChkKgr6vrTZgwY4YGNhBk2yMuiomH
+ r+9g==
+X-Gm-Message-State: AOAM530RRjA1jPHDp7gjri6HjiHr613z38cN6tGJhL5KsjEf7HylHh9s
+ e71npVw/PTPn2oGwq3qOmBee4H0g4axmxw==
+X-Google-Smtp-Source: ABdhPJydqg5lXp6CiFhMM3sjNybhf95l37/9x4hr6nXA7GvGLjK40Iu8pXSgydzDdCw61YtKWv36RA==
+X-Received: by 2002:a1c:f70d:: with SMTP id v13mr21390652wmh.183.1623158199813; 
  Tue, 08 Jun 2021 06:16:39 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i9sm15855686wrn.54.2021.06.08.06.16.38
+ by smtp.gmail.com with ESMTPSA id i9sm15855686wrn.54.2021.06.08.06.16.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 06:16:38 -0700 (PDT)
+ Tue, 08 Jun 2021 06:16:39 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/7] file-posix: try BLKSECTGET on block devices too,
- do not round to power of 2
-Date: Tue,  8 Jun 2021 15:16:31 +0200
-Message-Id: <20210608131634.423904-5-pbonzini@redhat.com>
+Subject: [PATCH v4 5/7] block: feature detection for host block support
+Date: Tue,  8 Jun 2021 15:16:32 +0200
+Message-Id: <20210608131634.423904-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608131634.423904-1-pbonzini@redhat.com>
 References: <20210608131634.423904-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,118 +81,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, Joelle van Dyne <j@getutm.app>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bs->sg is only true for character devices, but block devices can also
-be used with scsi-block and scsi-generic.  Unfortunately BLKSECTGET
-returns bytes in an int for /dev/sgN devices, and sectors in a short
-for block devices, so account for that in the code.
+From: Joelle van Dyne <j@getutm.app>
 
-The maximum transfer also need not be a power of 2 (for example I have
-seen disks with 1280 KiB maximum transfer) so there's no need to pass
-the result through pow2floor.
+On Darwin (iOS), there are no system level APIs for directly accessing
+host block devices. We detect this at configure time.
 
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Message-Id: <20210315180341.31638-2-j@getutm.app>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/file-posix.c | 44 ++++++++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 20 deletions(-)
+ block/file-posix.c   | 33 ++++++++++++++++++++++-----------
+ meson.build          |  6 +++++-
+ qapi/block-core.json | 10 +++++++---
+ 3 files changed, 34 insertions(+), 15 deletions(-)
 
 diff --git a/block/file-posix.c b/block/file-posix.c
-index c9746d3eb6..1439293f63 100644
+index 1439293f63..5821e1afed 100644
 --- a/block/file-posix.c
 +++ b/block/file-posix.c
-@@ -1149,22 +1149,27 @@ static void raw_reopen_abort(BDRVReopenState *state)
-     s->reopen_state = NULL;
- }
+@@ -42,6 +42,8 @@
+ #include "scsi/constants.h"
  
--static int sg_get_max_transfer_length(int fd)
-+static int hdev_get_max_hw_transfer(int fd, struct stat *st)
- {
- #ifdef BLKSECTGET
--    int max_bytes = 0;
--
--    if (ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
--        return max_bytes;
-+    if (S_ISBLK(st->st_mode)) {
-+        unsigned short max_sectors = 0;
-+        if (ioctl(fd, BLKSECTGET, &max_sectors) == 0) {
-+            return max_sectors * 512;
-+        }
-     } else {
--        return -errno;
-+        int max_bytes = 0;
-+        if (ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
-+            return max_bytes;
-+        }
-     }
-+    return -errno;
- #else
-     return -ENOSYS;
+ #if defined(__APPLE__) && (__MACH__)
++#include <sys/ioctl.h>
++#if defined(HAVE_HOST_BLOCK_DEVICE)
+ #include <paths.h>
+ #include <sys/param.h>
+ #include <IOKit/IOKitLib.h>
+@@ -52,6 +54,7 @@
+ //#include <IOKit/storage/IOCDTypes.h>
+ #include <IOKit/storage/IODVDMedia.h>
+ #include <CoreFoundation/CoreFoundation.h>
++#endif /* defined(HAVE_HOST_BLOCK_DEVICE) */
  #endif
+ 
+ #ifdef __sun__
+@@ -180,7 +183,17 @@ typedef struct BDRVRawReopenState {
+     bool check_cache_dropped;
+ } BDRVRawReopenState;
+ 
+-static int fd_open(BlockDriverState *bs);
++static int fd_open(BlockDriverState *bs)
++{
++    BDRVRawState *s = bs->opaque;
++
++    /* this is just to ensure s->fd is sane (its called by io ops) */
++    if (s->fd >= 0) {
++        return 0;
++    }
++    return -EIO;
++}
++
+ static int64_t raw_getlength(BlockDriverState *bs);
+ 
+ typedef struct RawPosixAIOData {
+@@ -3028,6 +3041,7 @@ static BlockStatsSpecific *raw_get_specific_stats(BlockDriverState *bs)
+     return stats;
  }
  
--static int sg_get_max_segments(int fd)
-+static int hdev_get_max_segments(int fd, struct stat *st)
++#if defined(HAVE_HOST_BLOCK_DEVICE)
+ static BlockStatsSpecific *hdev_get_specific_stats(BlockDriverState *bs)
  {
- #ifdef CONFIG_LINUX
-     char buf[32];
-@@ -1173,26 +1178,20 @@ static int sg_get_max_segments(int fd)
-     int ret;
-     int sysfd = -1;
-     long max_segments;
--    struct stat st;
+     BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
+@@ -3037,6 +3051,7 @@ static BlockStatsSpecific *hdev_get_specific_stats(BlockDriverState *bs)
  
--    if (fstat(fd, &st)) {
--        ret = -errno;
--        goto out;
--    }
--
--    if (S_ISCHR(st.st_mode)) {
-+    if (S_ISCHR(st->st_mode)) {
-         if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
-             return ret;
-         }
-         return -ENOTSUP;
-     }
+     return stats;
+ }
++#endif /* HAVE_HOST_BLOCK_DEVICE */
  
--    if (!S_ISBLK(st.st_mode)) {
-+    if (!S_ISBLK(st->st_mode)) {
-         return -ENOTSUP;
-     }
+ static QemuOptsList raw_create_opts = {
+     .name = "raw-create-opts",
+@@ -3252,6 +3267,8 @@ BlockDriver bdrv_file = {
+ /***********************************************/
+ /* host device */
  
-     sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
--                                major(st.st_rdev), minor(st.st_rdev));
-+                                major(st->st_rdev), minor(st->st_rdev));
-     sysfd = open(sysfspath, O_RDONLY);
-     if (sysfd == -1) {
-         ret = -errno;
-@@ -1229,15 +1228,20 @@ out:
- static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     BDRVRawState *s = bs->opaque;
-+    struct stat st;
++#if defined(HAVE_HOST_BLOCK_DEVICE)
 +
-+    if (fstat(s->fd, &st)) {
-+        return;
-+    }
+ #if defined(__APPLE__) && defined(__MACH__)
+ static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
+                                 CFIndex maxPathSize, int flags);
+@@ -3544,16 +3561,6 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
+ }
+ #endif /* linux */
  
--    if (bs->sg) {
--        int ret = sg_get_max_transfer_length(s->fd);
-+    if (bs->sg || S_ISBLK(st.st_mode)) {
-+        int ret = hdev_get_max_hw_transfer(s->fd, &st);
+-static int fd_open(BlockDriverState *bs)
+-{
+-    BDRVRawState *s = bs->opaque;
+-
+-    /* this is just to ensure s->fd is sane (its called by io ops) */
+-    if (s->fd >= 0)
+-        return 0;
+-    return -EIO;
+-}
+-
+ static coroutine_fn int
+ hdev_co_pdiscard(BlockDriverState *bs, int64_t offset, int bytes)
+ {
+@@ -3877,6 +3884,8 @@ static BlockDriver bdrv_host_cdrom = {
+ };
+ #endif /* __FreeBSD__ */
  
-         if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
--            bs->bl.max_hw_transfer = pow2floor(ret);
-+            bs->bl.max_hw_transfer = ret;
-         }
++#endif /* HAVE_HOST_BLOCK_DEVICE */
++
+ static void bdrv_file_init(void)
+ {
+     /*
+@@ -3884,6 +3893,7 @@ static void bdrv_file_init(void)
+      * registered last will get probed first.
+      */
+     bdrv_register(&bdrv_file);
++#if defined(HAVE_HOST_BLOCK_DEVICE)
+     bdrv_register(&bdrv_host_device);
+ #ifdef __linux__
+     bdrv_register(&bdrv_host_cdrom);
+@@ -3891,6 +3901,7 @@ static void bdrv_file_init(void)
+ #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+     bdrv_register(&bdrv_host_cdrom);
+ #endif
++#endif /* HAVE_HOST_BLOCK_DEVICE */
+ }
  
--        ret = sg_get_max_segments(s->fd);
-+        ret = hdev_get_max_segments(s->fd, &st);
-         if (ret > 0) {
-             bs->bl.max_iov = ret;
-         }
+ block_init(bdrv_file_init);
+diff --git a/meson.build b/meson.build
+index 626cf932c1..53150866ac 100644
+--- a/meson.build
++++ b/meson.build
+@@ -183,7 +183,7 @@ if targetos == 'windows'
+                                       include_directories: include_directories('.'))
+ elif targetos == 'darwin'
+   coref = dependency('appleframeworks', modules: 'CoreFoundation')
+-  iokit = dependency('appleframeworks', modules: 'IOKit')
++  iokit = dependency('appleframeworks', modules: 'IOKit', required: false)
+ elif targetos == 'sunos'
+   socket = [cc.find_library('socket'),
+             cc.find_library('nsl'),
+@@ -1089,6 +1089,9 @@ if get_option('cfi')
+   add_global_link_arguments(cfi_flags, native: false, language: ['c', 'cpp', 'objc'])
+ endif
+ 
++have_host_block_device = (targetos != 'darwin' or
++    cc.has_header('IOKit/storage/IOMedia.h'))
++
+ #################
+ # config-host.h #
+ #################
+@@ -1183,6 +1186,7 @@ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
++config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
+ 
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
+ 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 2ea294129e..2dd41be156 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -897,7 +897,8 @@
+   'discriminator': 'driver',
+   'data': {
+       'file': 'BlockStatsSpecificFile',
+-      'host_device': 'BlockStatsSpecificFile',
++      'host_device': { 'type': 'BlockStatsSpecificFile',
++                       'if': 'defined(HAVE_HOST_BLOCK_DEVICE)' },
+       'nvme': 'BlockStatsSpecificNvme' } }
+ 
+ ##
+@@ -2814,7 +2815,9 @@
+ { 'enum': 'BlockdevDriver',
+   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+             'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps',
+-            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
++            'gluster', 'host_cdrom',
++            {'name': 'host_device', 'if': 'defined(HAVE_HOST_BLOCK_DEVICE)' },
++            'http', 'https', 'iscsi',
+             'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+             'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+@@ -3996,7 +3999,8 @@
+       'ftps':       'BlockdevOptionsCurlFtps',
+       'gluster':    'BlockdevOptionsGluster',
+       'host_cdrom': 'BlockdevOptionsFile',
+-      'host_device':'BlockdevOptionsFile',
++      'host_device': { 'type': 'BlockdevOptionsFile',
++                       'if': 'defined(HAVE_HOST_BLOCK_DEVICE)' },
+       'http':       'BlockdevOptionsCurlHttp',
+       'https':      'BlockdevOptionsCurlHttps',
+       'iscsi':      'BlockdevOptionsIscsi',
 -- 
 2.31.1
 
