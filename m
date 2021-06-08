@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A2039F47E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:02:36 +0200 (CEST)
-Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F9F39F4A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:09:50 +0200 (CEST)
+Received: from localhost ([::1]:54956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqZVD-0008E3-UR
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
+	id 1lqZcD-0003GJ-FV
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqZTp-0007KE-16
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:01:09 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41925)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqZbK-0002bt-Pn
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:08:54 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqZTm-0002dX-M7
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:01:08 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id g18so22004164edq.8
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:01:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqZbJ-0007ef-45
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:08:54 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a20so21173762wrc.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:08:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UxHYplQilgAH0I90cgA205y8VSyHLtFGuamK4zfxllU=;
- b=qS1m3OxAijK657xV9CffU8fPFk7otxarmAidjuEKXbNLrtprJRz/rfOxsobE3aqQKz
- MLA2hL4Rrv3Q11UBOPCayut5Nh/HcP9XQI3V2jLVCI5BpFpJtkt5kZ3nbBcJZhMeX/y8
- gvq/rXz3U8wQu3lw9yD5udPzreRryN2VwAxBEoeAxz/OV5UrwbpR/XfeQxYJkkH503fA
- IVc1zHZIII4NqMXqOD6cstwnePDBkz6PBqfELVUwSstIazwDr+Sgnm8ZoRb4azbTVYEx
- Enu3jftpi5FhsGtIT621xG8ArdTPvRsvez/vrBn59b+09Ycq5x8YidfLh3zR4AZfhz6a
- XhGA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4w9qT2s05NUwpAGZ0vfExG/hlx55ZRY+ADV1j6HD8As=;
+ b=Ig5Bkparr3u9uVRzl2sKZheaeJ6E+4u8V1QrioDm/8pDjgkKE4q/JjsuY6vMk3jgKk
+ jzkBDxQgLtd5bs7CybVEkvuJ35va7TumIPf/Fl5CSrxrNor7/GhgUke7ip6Hlp0JREoT
+ bV48Cffyz8jqzwKyAXiLoUluL35IN5B1eHsNIuph1q1Dpad4LYi8qqvkne5XlMr+4Edw
+ zE8X2pEQky5yVG2Jl60LXRnUx5yx9CPyHT4rZOTpZ8wjgjhOEUtTvVnCqTwOPmGeGOb9
+ VulAcq3pSdKHtghZsscq3oUCtPstNMDk9IELA7VCflV/7QC/3MZCdCbqT+CSCiE3Eoan
+ VA9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UxHYplQilgAH0I90cgA205y8VSyHLtFGuamK4zfxllU=;
- b=VQ59t2a5qhZaMwORg04IBB0lfHc9n0qdovhzEIv3sG1oKTw9zqRXEQShGDoRxRKb0M
- NZs4tI6eg01vRqKIJ6cSnlfO7ha8QMAqo7FJ8JR6yo1GG9OF1WNXTmIxGR5F0C6QQ/z2
- BUUp7hUtVNEB+3+FaQ6zBD51H47SjWoXWfG3nDjJhPVEctZK9u8zzBSQ3ZN5mjRkKLVW
- MBAk+MV0a/AQ3YAosaXHhGLppT+wjgg6RDUHT6K2oUedl2rVHLQ8pm632F2IBJXJSpDG
- AOealB+iSdd8QeIuYWW8CnYzcXfuxUSG1pUWACjE+f1uVKF6+1KGSP42xWXcMbK7s2Sw
- qRIg==
-X-Gm-Message-State: AOAM532lt+/8n8AmLw0hfPaDSQPFIcNuPEb/NeGUXdrGoSWM3Cf219SS
- xmFjo57D2pOqcfiEwNQcoLS90j97iCsT1+ta2k49yw==
-X-Google-Smtp-Source: ABdhPJyH44640AlgGdGi0ZKantW3caFYpNnBWLdXmGw3lUR48RXXFuVp6VK4hjY61eVrc/ZUFPmFEq+8qrMQrP9beNQ=
-X-Received: by 2002:aa7:dc12:: with SMTP id b18mr24626347edu.52.1623150064684; 
- Tue, 08 Jun 2021 04:01:04 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=4w9qT2s05NUwpAGZ0vfExG/hlx55ZRY+ADV1j6HD8As=;
+ b=BHfTV94wLDai+zG3JaloIcElXXT7aZenRVzxWp73RxFmWGs2jRXCV+93OWBKlIg7NH
+ Rhv0UjzRWMarw4CklU+pmsAhE8cY2G6h+TJivZkuN3iG7zq2qdABq6oUws2pkiwNDZbP
+ S/WbwYaPAjQKJYbUKWjs8lo/eIR2RiB09J4eRTtBXGv2bMnytHHmOb/rTUA19NKxvbPI
+ a629YoEOROLFzkmFYh1hQRjr5G6IV0q5Fn8fjn+6Uw8GBqxud2DLdqT8RrjvsCmCfdKM
+ lvZ8zN8cHUXkp01OrsuX4xh57KNfwG7rt+yKvmLYXoTUcfmNmpqLNa7iou3vpo5P98ab
+ b9kQ==
+X-Gm-Message-State: AOAM532ziCsXInzfcvKk/6YvF6fHROoJFoI39hHK/srQJBp0CCIin4PB
+ yaz5dEfKnkHhbfI5RcW5unOPl8wgp3W4xQ==
+X-Google-Smtp-Source: ABdhPJzzhYsTxEaRbUaEnG7FS3VNKmVTEYQeuCYdxEeX5EKSlxiUMxPlPwzdgEiJv+d7OTo62fm5lg==
+X-Received: by 2002:adf:f711:: with SMTP id r17mr21747095wrp.69.1623150530564; 
+ Tue, 08 Jun 2021 04:08:50 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z5sm11272065wrv.67.2021.06.08.04.08.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Jun 2021 04:08:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EC9161FF7E;
+ Tue,  8 Jun 2021 12:08:48 +0100 (BST)
+References: <20210502231844.1977630-1-richard.henderson@linaro.org>
+ <20210502231844.1977630-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 04/28] tcg: Remove error return from
+ tcg_region_initial_alloc__locked
+Date: Tue, 08 Jun 2021 12:04:35 +0100
+In-reply-to: <20210502231844.1977630-5-richard.henderson@linaro.org>
+Message-ID: <87eedcmx4v.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210602180042.111347-1-shashi.mallela@linaro.org>
- <20210602180042.111347-9-shashi.mallela@linaro.org>
-In-Reply-To: <20210602180042.111347-9-shashi.mallela@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Jun 2021 12:00:31 +0100
-Message-ID: <CAFEAcA8syVjq8+mo5h1QhyaW1-CP7EaAOFCbjqRHDmum+bR7_Q@mail.gmail.com>
-Subject: Re: [PATCH v4 8/8] hw/arm/virt: add ITS support in virt GIC
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,36 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Jun 2021 at 19:00, Shashi Mallela <shashi.mallela@linaro.org> wrote:
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> All callers immediately assert on error, so move the assert
+> into the function itself.
 >
-> Included creation of ITS as part of virt platform GIC
-> initialization.This Emulated ITS model now co-exists with kvm
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+The change itself seems reasonable although I do find the return values
+of the underlying tcg_region_alloc__locked a little confusing. What we
+are saying is the initial allocation should never fail but subsequent
+allocations aren't actually fails but creation of new regions?
 
-Still missing space after '.'.
+Anyway:
 
-> ITS and is enabled in absence of kvm irq kernel support in a
-> platform.
->
-> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> ---
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I gave you a reviewed-by tag on this patch in v3; please don't
-drop reviewed-by tags unless you make changes to a patch,
-they help reviewers know which parts of the series they don't
-need to look at again.
-
-For the record,
-
-Otherwise,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
