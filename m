@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC7239F316
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:57:19 +0200 (CEST)
-Received: from localhost ([::1]:53638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208D439F31A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:58:26 +0200 (CEST)
+Received: from localhost ([::1]:55980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqYU2-0003Ui-75
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53260)
+	id 1lqYV7-00053b-6s
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqYLv-0004uE-Pd
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:48:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55963)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lqYUI-0004MO-B5
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:57:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqYLt-0006pC-TF
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:48:55 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lqYUC-00044K-O2
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:57:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623145733;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ztjOwBWVWRcLBeGlv9kV0M01VSWdGwRS4cSf3jXheyY=;
- b=IB9eyaAH8+gMBFSz/8YSt8yiwBDX0+yk4zxYzzjjorFq6jSnFKxOcxPmcBVx6YXT3c4O+r
- kqRsEpVWW9UKqBWcFsLRg8bpkNvlp3o1VYxkII/0mB63/1dahwCh5B/y7+BhFgsG+PlD9m
- FuTTxHjTHU1eMUffXeASEbHhsIY/dQ4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-FQkDKMAeOraOIBl3t82RvQ-1; Tue, 08 Jun 2021 05:48:49 -0400
-X-MC-Unique: FQkDKMAeOraOIBl3t82RvQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- t14-20020adfe44e0000b029011851efa802so9153495wrm.11
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 02:48:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ztjOwBWVWRcLBeGlv9kV0M01VSWdGwRS4cSf3jXheyY=;
- b=VylbYmCs5elKBuuNo8GuiogwqssP2WaDiioXVvKy2MizRpbBhfpeRA5EjGolbKPYH+
- k/zY/+tb9VHML9z/pySmldIxBGqSsx3c6mqKGLjSwwn8UjMQp8phfv3BEpozI+rZsL8+
- r416xhcn62hCRzzGq+iCfL2EEz/aOjsy/4hZ3O43N2LrSX50Eykry8uOVXD4YADs4IC8
- cBHVBPyiyB0ZoKVGAvVsP3tj55jbR+qA6NXHOaVi+jYKaJGRvNdFwN8qL+Ibjx/R7NR1
- AG3bRlzrsnaOsMXz1WZVWn7+syRrhWMCogFxfW3PR9UyIT6Dp/Te42dv8ujeL6cwWaVt
- 4eHg==
-X-Gm-Message-State: AOAM532CWAmcaF0mVPnYlVcgKIk5MiPUZHAIRQDAMTfckLtLWuIZqU9J
- xfNGHuRSv5ayyut41ygN88oqVi6Unofvn+O79q7C+J7LfGzdYi4c3kSd7+TBdPo99gRpTP2Lk3V
- XsPEGQXL8a44JNtg=
-X-Received: by 2002:a5d:50c6:: with SMTP id f6mr7725731wrt.281.1623145728692; 
- Tue, 08 Jun 2021 02:48:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOGbPvTFl5ww25elABEHXjRB2EHWNhddvCsqDnWfFIbxCtToqSdyInTKiTRQb5pl6/UPaeNw==
-X-Received: by 2002:a5d:50c6:: with SMTP id f6mr7725702wrt.281.1623145728442; 
- Tue, 08 Jun 2021 02:48:48 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id z188sm17739635wme.38.2021.06.08.02.48.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 02:48:48 -0700 (PDT)
-Subject: Re: [PATCH v16 03/99] qtest: Add qtest_has_accel() method
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-4-alex.bennee@linaro.org>
- <088d554c-ef63-0f79-cedb-bdc89b532490@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7410b765-7252-3d19-af96-399fd34d94dc@redhat.com>
-Date: Tue, 8 Jun 2021 11:48:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ s=mimecast20190719; t=1623146247;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=w9OWg7u6+lyxojj90R9pQCFBEgzqLlceP/aa3ih+OCs=;
+ b=CMqpnX9khtCKsU24UWy2h0uVzKf63uRKuRv3Dz6jAuoEoKro+yeAz0CwZcN+4XKHZzLlMt
+ zMqqpnAvnI/L21DqBdSxxlrTYSp32FhuF32ifaYBEU9tIEMiEup6+Tls/wwXSq+xpqsBYG
+ HQE7TRFXNlZyJDutRdAoiq9Ws0ToK3Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-GcEeUWbDPk2HqtyoCGWo0g-1; Tue, 08 Jun 2021 05:57:23 -0400
+X-MC-Unique: GcEeUWbDPk2HqtyoCGWo0g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 899591009446
+ for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 09:57:22 +0000 (UTC)
+Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3B0E5D6D3;
+ Tue,  8 Jun 2021 09:57:21 +0000 (UTC)
+Date: Tue, 8 Jun 2021 10:57:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 00/12] Machine and OS X changes for 2021-06-08
+Message-ID: <YL8+/iTU/VrJ7oFE@redhat.com>
+References: <20210608094017.392673-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <088d554c-ef63-0f79-cedb-bdc89b532490@redhat.com>
+In-Reply-To: <20210608094017.392673-1-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,61 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, Eric Blake <eblake@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 3:16 PM, Thomas Huth wrote:
-> On 04/06/2021 17.51, Alex Bennée wrote:
->> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->>
->> Introduce the qtest_has_accel() method which allows a runtime
->> query on whether a QEMU instance has an accelerator built-in.
->>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Message-Id: <20210505125806.1263441-4-philmd@redhat.com>
->> ---
->>   tests/qtest/libqos/libqtest.h |  8 ++++++++
->>   tests/qtest/libqtest.c        | 29 +++++++++++++++++++++++++++++
->>   2 files changed, 37 insertions(+)
-
->>   +bool qtest_has_accel(const char *accel_name)
->> +{
->> +    bool has_accel = false;
->> +    QDict *response;
->> +    QList *accels;
->> +    QListEntry *accel;
->> +    QTestState *qts;
->> +
->> +    qts = qtest_initf("-accel qtest -machine none");
->> +    response = qtest_qmp(qts, "{'execute': 'query-accels'}");
->> +    accels = qdict_get_qlist(response, "return");
->> +
->> +    QLIST_FOREACH_ENTRY(accels, accel) {
->> +        QDict *accel_dict = qobject_to(QDict, qlist_entry_obj(accel));
->> +        const char *name = qdict_get_str(accel_dict, "name");
->> +
->> +        if (g_str_equal(name, accel_name)) {
->> +            has_accel = true;
->> +            break;
->> +        }
->> +    }
->> +    qobject_unref(response);
->> +
->> +    qtest_quit(qts);
->> +
->> +    return has_accel;
->> +}
+On Tue, Jun 08, 2021 at 11:40:05AM +0200, Paolo Bonzini wrote:
+> The following changes since commit 6f398e533f5e259b4f937f4aa9de970f7201d166:
 > 
-> This spawns a new instance of QEMU each time the function is called -
-> which could slow down testing quite a bit if a test calls this function
-> quite often. Would it be feasible to cache this information, so that you
-> only have to run a new instance of QEMU once?
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210604' into staging (2021-06-05 11:25:52 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> 
+> for you to fetch changes up to 8f9f729185e3ac8d3c5a65d81eb9e74e229901ea:
+> 
+>   vnc: avoid deprecation warnings for SASL on OS X (2021-06-07 10:20:23 -0400)
+> 
+> ----------------------------------------------------------------
+> * introduce "-M smp" (myself)
+> * avoid deprecation warnings for SASL on macOS 10.11 or newer.
+> 
+> ----------------------------------------------------------------
+> Paolo Bonzini (12):
+>       qom: export more functions for use with non-UserCreatable objects
+>       keyval: introduce keyval_merge
+>       keyval: introduce keyval_parse_into
+>       vl: switch -M parsing to keyval
+>       qemu-option: remove now-dead code
+>       machine: move dies from X86MachineState to CpuTopology
+>       machine: move common smp_parse code to caller
+>       machine: add error propagation to mc->smp_parse
+>       machine: pass QAPI struct to mc->smp_parse
+>       machine: reject -smp dies!=1 for non-PC machines
+>       machine: add smp compound property
+>       vnc: avoid deprecation warnings for SASL on OS X
 
-Good idea!
+None of these changes have any reviewed-by tags. Was this really meant
+to be sent as a PULL before getting reviews ?
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
