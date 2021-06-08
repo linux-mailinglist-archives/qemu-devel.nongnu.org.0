@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F74E39EAD9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:37:48 +0200 (CEST)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6799639EAD8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:37:45 +0200 (CEST)
+Received: from localhost ([::1]:54742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPkZ-000676-5K
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44852)
+	id 1lqPkW-00061q-AD
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:37:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdX-0000Q1-R3
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:31 -0400
+ id 1lqPda-0000WR-TN
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:35 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdV-0004Fk-Pk
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:31 -0400
+ id 1lqPdY-0004Fk-Si
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112228; x=1654648228;
+ t=1623112232; x=1654648232;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kP+k/EAWnoGFZ2cQ6hA3zOL91PKjPYWONLT+lao/1F4=;
- b=jpI/CL8mjHDgDke9EpytlPvvQR1Pm/UXxiKWvb+USxQ1omSTg7sfFSqm
- bmzx2h/XHX0WQxtCGayyBcA/GebcKVYq12kBXIOWrkClvD3yMjyNRBoZu
- V3eWlKXlDi8foKZbrA+MdVH8a/rQaiCqUA5J3T+ZNUtwBYEJXG5lIL9Gf
- /IRB+Di9nRMEWhvPNKFlmFqgaTp5TmRL3MNDH8aTof/1cLSaeW/n14mTO
- x0G4NJIS417k4LkrBhyLSJKFJvkZfFqUWu6z6EbcrtSWw0S9+eKFhVa7+
- UrRE0ANS6rEnnqQL6NGXai4TpyCAzVQvj1eyqa0yeIPV5bOF15Gd0fyND w==;
-IronPort-SDR: 9t+iwQO82AJYfLAKQw2gdDWTbUtnGcD/b6cbaEdQg1rXV8/sQzlNWsZeKm3AcbFskXR/cUJpTT
- Yv3OPeEdj11dNKcWYJKG8aSpCrX4cd6XFWZM3YX90AUr/3V3hKvcT4BU1GnrMSIZ4slLaqzql/
- LqDroJ36dnDh572RIGoRKee65kCwvuw6J1sSbgUu9194o5z+kkIVag11BAIxy7EHgc7crxkSg6
- /YFK+zMCzlJPKc7wMeI3voRg/A6quCxo1TirtzngtlC9qh22UJ+w0ZFewNBpPIseM8/BxD0lsy
- CwU=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087354"
+ bh=F6wk4QwEu8K8q28w1K2XoH1p3HYyOCNiObHtsH940AU=;
+ b=JcqwDY1ms5/Un4FTxm/R4lKDk5rnJtIk65NLMhLjHjhwcRUEky4qk4oh
+ /3dgDQ6/B2CUBzNdTINjJ1uvmxyIwvhh2aVDr94oLMv9tmn7Fptn92+pA
+ clGp/AphLn+UwN9Gr/wvcIP3ra2sdEIQp7e00u1KPQCsfIJ7nz7QsGSB8
+ J7jkxGqfPxjJnpdjgj0MJRr4E4SjX0DHfsEDEivin8sk9x0A/UsS1Iewa
+ ekRSEEUUWUmFNNyYaQ7OY9kj/6X+cxfyu6nMrH6ivq5oC6vGeq2co1Z53
+ nPcV/bGHZOf3Q6S/gGXqCmmTmA08PTeG1idocMkEHmN4tO0RXmwrHlK8O g==;
+IronPort-SDR: rcJ6Y3EHnCglrH+v6CDMKb7B9nBCwSwmaOJjyMaUpa+tFM1LS+BRSiUNGBTUmL70dPU1GxguWL
+ 2IFtv42Qw0+/0KOaMvLFmoIlFG2XcOlFvWkdAux+wK+QdGy4JbWzW/72pGOUAXhOvMpdPjWkCa
+ Xo1sbJqnd2OVn2YyYkXfpmQq89x4gQGSzpjWQ+veEnxiUxhNegOKvi4IaYBHjdA5CH8qVeOBx2
+ ad6tYP9YCXYQv0fLhqq+aLBOv+u5DnHDTn34UaruJnmMx0H7kljXJk+ve+ehjueDU4b5a5MRNi
+ gy4=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087355"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:28 +0800
-IronPort-SDR: SohZ0gQOMnnmfxXIjgown7vGEqwt9UIxb++TUSSa7lxKLpUm9OYUrrqzGo2ex1H5VnGrisX5ms
- cF4p7f5t9mEcukaO7qVaES10nBObbSrX+eIMdRI9FsUjBWc4UPTPZuJqN7/7oz/TOR+2lRGa2I
- HLdidjcEWjFrGGTeaIR9q0+2mii5jA1DgH3+t7xBQBQyEVJD5X7KWnZmKa5jeZ6mIY5rkgDCTT
- TphbPCptFljKHMzsEaxKoHHwsvPdbWPH3PFPUAM59+fkSNFlxiO8uh8ICQVsJU9G0QcSupr2Rt
- IHSUmwbXhWX7O9oE4SpK+pUx
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:31 +0800
+IronPort-SDR: 05nmbZWS2FgIfj3W/UIbK+VNH8TaKx2Kr9fY0z0f1CvEvYZDjXa9C2S7QW+q/ITDL/NjAASacF
+ RPUNb8v16uyuTh6cw5DkVaCOdB51Kw+Rqu1VazSDYocQHnHvNljDJ0Dl0cD+pEZSRXRRJcq2EI
+ hom7X6BPnUb7WF3ylEm6S6CtRFZ3Pl1L/kBsk71ZN1xdgdYZZ/86zjR1sUM+X8Xuaaa7ycz9EF
+ uVykyNfZ1FivTsAfxBysN2ZnXKNsIvLFBp3gD8d6FuhYXZwHR0ho+/nYaLSilR8HKRtlP5sHTX
+ sI0vkShGOa7BTZ2zZ7341R4V
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:09:35 -0700
-IronPort-SDR: TynNMtzUdwDRFjUVnddoyqV1K33gTZD/w7RJpr5qyWt2w6t6PyHdk+8q4jIL26DiyEBq4ILdxM
- iddyldnNirNJst/GIF8lcELrr5aMp3LPK+wDBS+Bhku6vU0ygtQY/JThZgSeLgFvgxmGDt2dVQ
- Qrbdjyj8Z/FYSoAFwQpcuWqPgM9kI4aLAOnDkrQ7h2odvfNlWLeOOPVpMTkhzXseZwYkbORFFg
- RSXJRbHc6ISqby3DIzF1MNL+P6dVY68KBJta6EmDle4AYzkteoj9gjAGJjeAKKjZT9okozXdBM
- 5uw=
+ 07 Jun 2021 17:09:38 -0700
+IronPort-SDR: F3SXequd4K4sAb/OYMlPZ7TMOVy9++Ko4Mlw+NkphqxIqyE0CUW137qbbzxlI5G3hKgYg9dTx7
+ P2f9JOJSxn2Z2k+crwAjxUcrieNSHkgig/U80yzuR5Vggbvn+Wo3OSXQHLLguiIF86LQ+pDqxN
+ of0vd5J3FV4tr5JVJeB6pV6kw/6JjLdXXbkDByp+2lZitNM/tuZHPUMz+gZ4xOleSC3/tzqmtB
+ M5ZRx6ZGHcfZM9A2p1YA2vjO/FScC0H3U7lrbWz8OVy/ga52I4bVYQZdk92Yws3h4NQfBqUbQU
+ 8iI=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:26 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:29 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 06/32] docs/system/riscv: sifive_u: Document '-dtb' usage
-Date: Tue,  8 Jun 2021 10:29:21 +1000
-Message-Id: <20210608002947.1649775-7-alistair.francis@wdc.com>
+Subject: [PULL 07/32] hw/riscv: Use macros for BIOS image names
+Date: Tue,  8 Jun 2021 10:29:22 +1000
+Message-Id: <20210608002947.1649775-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=7863c9c60=alistair.francis@wdc.com;
@@ -99,82 +98,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Update the 'sifive_u' machine documentation to mention the '-dtb'
-option that can be used to pass a custom DTB to QEMU.
+The OpenSBI BIOS image names are used by many RISC-V machines.
+Let's define macros for them.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210430071302.1489082-6-bmeng.cn@gmail.com
+Message-id: 20210430071302.1489082-7-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/sifive_u.rst | 47 +++++++++++++++++++++++++++++-----
- 1 file changed, 41 insertions(+), 6 deletions(-)
+ include/hw/riscv/boot.h | 5 +++++
+ hw/riscv/sifive_u.c     | 6 ++----
+ hw/riscv/spike.c        | 6 ++----
+ hw/riscv/virt.c         | 6 ++----
+ 4 files changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
-index dcdfbda931..32d0a1b85d 100644
---- a/docs/system/riscv/sifive_u.rst
-+++ b/docs/system/riscv/sifive_u.rst
-@@ -36,12 +36,21 @@ Hardware configuration information
- ----------------------------------
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index 11a21dd584..0e89400b09 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -24,6 +24,11 @@
+ #include "hw/loader.h"
+ #include "hw/riscv/riscv_hart.h"
  
- The ``sifive_u`` machine automatically generates a device tree blob ("dtb")
--which it passes to the guest. This provides information about the addresses,
--interrupt lines and other configuration of the various devices in the system.
--Guest software should discover the devices that are present in the generated
--DTB instead of using a DTB for the real hardware, as some of the devices are
--not modeled by QEMU and trying to access these devices may cause unexpected
--behavior.
-+which it passes to the guest, if there is no ``-dtb`` option. This provides
-+information about the addresses, interrupt lines and other configuration of
-+the various devices in the system. Guest software should discover the devices
-+that are present in the generated DTB instead of using a DTB for the real
-+hardware, as some of the devices are not modeled by QEMU and trying to access
-+these devices may cause unexpected behavior.
++#define RISCV32_BIOS_BIN    "opensbi-riscv32-generic-fw_dynamic.bin"
++#define RISCV32_BIOS_ELF    "opensbi-riscv32-generic-fw_dynamic.elf"
++#define RISCV64_BIOS_BIN    "opensbi-riscv64-generic-fw_dynamic.bin"
++#define RISCV64_BIOS_ELF    "opensbi-riscv64-generic-fw_dynamic.elf"
 +
-+If users want to provide their own DTB, they can use the ``-dtb`` option.
-+These DTBs should have the following requirements:
-+
-+* The /cpus node should contain at least one subnode for E51 and the number
-+  of subnodes should match QEMU's ``-smp`` option
-+* The /memory reg size should match QEMU’s selected ram_size via ``-m``
-+* Should contain a node for the CLINT device with a compatible string
-+  "riscv,clint0" if using with OpenSBI BIOS images
+ bool riscv_is_32bit(RISCVHartArrayState *harts);
  
- Boot options
- ------------
-@@ -122,6 +131,32 @@ To boot the newly built Linux kernel in QEMU with the ``sifive_u`` machine:
-       -initrd /path/to/rootfs.ext4 \
-       -append "root=/dev/ram"
+ target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index a32a95d58f..273c86418c 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -560,12 +560,10 @@ static void sifive_u_machine_init(MachineState *machine)
  
-+Alternatively, we can use a custom DTB to boot the machine by inserting a CLINT
-+node in fu540-c000.dtsi in the Linux kernel,
-+
-+.. code-block:: none
-+
-+    clint: clint@2000000 {
-+        compatible = "riscv,clint0";
-+        interrupts-extended = <&cpu0_intc 3 &cpu0_intc 7
-+                               &cpu1_intc 3 &cpu1_intc 7
-+                               &cpu2_intc 3 &cpu2_intc 7
-+                               &cpu3_intc 3 &cpu3_intc 7
-+                               &cpu4_intc 3 &cpu4_intc 7>;
-+        reg = <0x00 0x2000000 0x00 0x10000>;
-+    };
-+
-+with the following command line options:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G \
-+      -display none -serial stdio \
-+      -kernel arch/riscv/boot/Image \
-+      -dtb arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb \
-+      -initrd /path/to/rootfs.ext4 \
-+      -append "root=/dev/ram"
-+
- To build a Linux mainline kernel that can be booted by the ``sifive_u`` machine
- in 32-bit mode, use the rv32_defconfig configuration. A patch is required to
- fix the 32-bit boot issue for Linux kernel v5.10.
+     if (riscv_is_32bit(&s->soc.u_cpus)) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+-                                    "opensbi-riscv32-generic-fw_dynamic.bin",
+-                                    start_addr, NULL);
++                                    RISCV32_BIOS_BIN, start_addr, NULL);
+     } else {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+-                                    "opensbi-riscv64-generic-fw_dynamic.bin",
+-                                    start_addr, NULL);
++                                    RISCV64_BIOS_BIN, start_addr, NULL);
+     }
+ 
+     if (machine->kernel_filename) {
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 4b08816dfa..fead77f0c4 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -258,13 +258,11 @@ static void spike_board_init(MachineState *machine)
+      */
+     if (riscv_is_32bit(&s->soc[0])) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+-                                    "opensbi-riscv32-generic-fw_dynamic.elf",
+-                                    memmap[SPIKE_DRAM].base,
++                                    RISCV32_BIOS_ELF, memmap[SPIKE_DRAM].base,
+                                     htif_symbol_callback);
+     } else {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+-                                    "opensbi-riscv64-generic-fw_dynamic.elf",
+-                                    memmap[SPIKE_DRAM].base,
++                                    RISCV64_BIOS_ELF, memmap[SPIKE_DRAM].base,
+                                     htif_symbol_callback);
+     }
+ 
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 560216d217..4a3cd2599a 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -681,12 +681,10 @@ static void virt_machine_init(MachineState *machine)
+ 
+     if (riscv_is_32bit(&s->soc[0])) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+-                                    "opensbi-riscv32-generic-fw_dynamic.bin",
+-                                    start_addr, NULL);
++                                    RISCV32_BIOS_BIN, start_addr, NULL);
+     } else {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+-                                    "opensbi-riscv64-generic-fw_dynamic.bin",
+-                                    start_addr, NULL);
++                                    RISCV64_BIOS_BIN, start_addr, NULL);
+     }
+ 
+     if (machine->kernel_filename) {
 -- 
 2.31.1
 
