@@ -2,72 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E221639FD38
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 19:07:18 +0200 (CEST)
-Received: from localhost ([::1]:34730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FC939FD78
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 19:20:11 +0200 (CEST)
+Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqfC9-0005xo-Ei
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 13:07:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41156)
+	id 1lqfOc-0002Cb-GD
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 13:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqfB7-0005CU-KT
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:06:13 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqfB5-0008QX-E2
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:06:13 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- k5-20020a05600c1c85b02901affeec3ef8so2512816wms.0
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 10:06:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bXpBgPiJXiqQnwntzx/UB7vSpgvvjvSqLVtGkZWEw6U=;
- b=TOXIe1UqlnWptrz1kx88FnWnZQRPdur+pegMQa3f8Jn6B1LHAkmOP+Q11OoZTurmIH
- tciE2JA0PF7w7fIDex+fE3mGFmqjttVsHF755s3v5J82iCqKbXnFs6pSNwWixSEi0Msy
- UO9pO5M0+x4TZcCTSCQextDx+4eAtpDiUK1Z80TbJTQEw8kRhR1sllSDSrQ9WaEf6CiD
- suTqCz5OUlm8fYWDD1m5hXISYNDM6RZRcbmumVBqIAFxGX64by6IPKB/r9sCztfBEUup
- EA6gr3KFrnDu7VrJb1IcHeJbDs8OPDDOQbqUgXYfViEL7gQB7u4Csip3q9iqw+KJJLtf
- Mjjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bXpBgPiJXiqQnwntzx/UB7vSpgvvjvSqLVtGkZWEw6U=;
- b=r3YsAhot3qvHl7szvWBqQbAA6byKcn5Ad1nGHTHF78vAg2IibVE/xTTEjasa3r0/el
- zdigHabjvRTnnk7cAj1BK9mx4Y8cba5bWlZqaK6I4X6JN5Z5m3LML9NWbRzlQYC9AYc9
- 2Av5k2xtgoL8BWpa+qn2vFakc0SxN1PjepVkXo/7GKmehP1l4rU1/anwoCGCVva2CcpK
- yPqk82/e2f78j/lRHazg/TPVvUbDJQ1AGgL8QzZqodhgbwU1Epd+O4mrUzeSxjv+omR8
- NCaxa/7aT49Zwow6BDyBnywRpUTmQ1besAE+BfQm5Sf0ATX9ooNhApqCVEyBgTq5EugN
- Nl8w==
-X-Gm-Message-State: AOAM5334JUdwqWf8IMEZK87JpBcJkF0cW+OaFXMmwGFU+8sON0+Xh798
- yJEzo9J9hlqBDWBSGhNk1XaWYtHullKrZ7Nj
-X-Google-Smtp-Source: ABdhPJxn6uJXbzVHoqRGqO21amHcczwz1Cq7JVHWr1YS1Z6lkSeH4/H+rOicP/LdXUKRpp2cn/PNAQ==
-X-Received: by 2002:a1c:7907:: with SMTP id l7mr23396928wme.147.1623171969676; 
- Tue, 08 Jun 2021 10:06:09 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x10sm9905783wrt.26.2021.06.08.10.06.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 10:06:09 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/unit/test-char.c: Fix error handling issues
-Date: Tue,  8 Jun 2021 18:06:06 +0100
-Message-Id: <20210608170607.21902-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lqfNo-0001Pk-TM; Tue, 08 Jun 2021 13:19:20 -0400
+Received: from mail-eopbgr00137.outbound.protection.outlook.com
+ ([40.107.0.137]:47939 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lqfNj-0004QI-G7; Tue, 08 Jun 2021 13:19:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b7ZUHNBJpmUB3N77H/M8pjpitFfGNBaIkSTgumo4CMnYSIQ9B75RqY0Oh1z9SrgPUFO/ezZLeUUf7FiCPqgzGaS0zXi5xUNrBzajDmI9yNbEjwmApCSbO4DJeMD6rCs5EAqoj48MgzGDg/FhnjXu9favXQKsUvMtEaiGMsx7S53IDfdzL1lOTCOtcEsw/wL5aZpwMwSmhe3bOaCLg89lsqO0OM6UcruLbbdSTADrU5vMNyHSPdhxgt+IMxZcJAmlKwKthEDJ2S3YARrR7zCCcw4DFZrKYTu087E2f/LK9HLyy+yoan54fx6qVYZEY22tva/k+PtntiEbJHH1vPrRKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FEv1igun2j2fDMUHUUHSz/fI+UWif/45OlHQ8QxFvR8=;
+ b=V5VCExNM9mj8HebiUrSzUM5iIysmEqIiwTGT0plLex0RqIYd434HaicbJfCZhExz/tXIp0NHEiIVk6uBRWKF1O+FG5sfF8zzEEKCtlaAY/Rh0CzwGyjiP1v4mnosmyQGD8usradP/LONjr1NK1vlEnMxOs0mN5LTKr2iPqdC3tKqIW0+qqDLJxX0dAGhDb0pwExVZ3wLpjgs2GWXFJZj8DmPC5VR1MYGAZK6IsyRGM0NqNgqJeexwewAImlqkTZlbF9hobPjskC4r8cX9CTyhwvToPTVzbaC1+WOFoOer1HACP8ntFoXmgGE3hVejTQ43XcokoiwI8D9ZOc8hGqvXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FEv1igun2j2fDMUHUUHSz/fI+UWif/45OlHQ8QxFvR8=;
+ b=cHZO2MY/qLYyh2wvar5sdthf19m37lNYfwLUskIT/fZ50LGei0BrHxo3QkUESuhUMdATRDMIB4wpvITQp6nqYXgUUN9ozn5+MnMPFXxpBk7xHC5nfnAWmzKJ7OVRLEtUI8rv/tkBKEVX3XLwCSjD6gJMWg5dwsqVTI724qkuSvM=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4072.eurprd08.prod.outlook.com (2603:10a6:20b:a8::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Tue, 8 Jun
+ 2021 17:19:11 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
+ 17:19:11 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com, eblake@redhat.com,
+ vsementsov@virtuozzo.com
+Subject: [PATCH] blockdev: fix drive-backup transaction endless drained section
+Date: Tue,  8 Jun 2021 20:18:52 +0300
+Message-Id: <20210608171852.250775-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: HE1PR07CA0006.eurprd07.prod.outlook.com
+ (2603:10a6:7:67::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.215) by
+ HE1PR07CA0006.eurprd07.prod.outlook.com (2603:10a6:7:67::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.9 via Frontend Transport; Tue, 8 Jun 2021 17:19:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1025b6c4-7b3e-4e4a-be46-08d92aa187ee
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4072:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB40728D709A8ED1C96E79DE82C1379@AM6PR08MB4072.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GqYHzIEz4VW1vhUzStv0BecnptLbFLMAIx4uKUESR2G/5UIDBKJ4T0Tvw5PvnKpHvcBo2NwCe7rnKEdoB9YiEn9xwyJvcLxZvAmI7/9YY8eyZyPmyc9HCtBoT+55X0s8muoEdHM85J0982RYcyj2afsM0ZigE3xpbPElmWM5tKcQ1BiboPcDpU13plf/XbNEc1z5aKm5zFKaCli/XF3nM1MwSkJDwsrPpKzs/frxWN2qtdwvs0JlHpPodhdoUvyxgsrBSNO78rTxjuBLZM8cZD70zEU4KrZKicY5D5u0emMECmww68AY0VW5QsvrEHEIcNm5cTPJ2LZt0p8//LpPASaKVhDM+IgO5kxGSpReMzKUG1v5VoQFul0tDvZeVh9uZvcsyeHDiichTGbgIsDT5umf5MT0YsngxGOdBMW/6k3aj4U6W6kBwSxiKtQjNdjpxqKFFp4jTuQFUL2CDsqpOZANaBeJ2QEAa+I0eD31Z4DSsS8xpUWATw5NoQxvN0U3AHrRPWUNFI/EKzApFYvYsWWbU6hG/e8DfwKf4P6MAe2n7jBwjYg5OYEdVhKdahaGXeaVkC/xfcw6FDpuIyyNiU9qovitlw4KDdX6fpkf/OwsoXSIq/Kp5vQHRadpy7z13Yr8xYz1zdyYZl/zaoa9+T4cAhRUVtlVsObvSg+oVyCy4kCFaP+OkbIkIYOygnOybsFZTsrbbDuaKR/3tzB9cO8yKYWbKNll1kTohGeaqxj2o8qb7jBXiLCBRYKyh1W8glof7+cjmWBzXGCM3vSAy0PjiD+w71imoqhr/xro5LueDEKjkipFA5WXxmYT/uV3
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(39840400004)(396003)(376002)(346002)(1076003)(4326008)(6512007)(6486002)(8936002)(36756003)(186003)(66556008)(66476007)(107886003)(66946007)(16526019)(38100700002)(26005)(8676002)(6916009)(478600001)(52116002)(5660300002)(2906002)(956004)(2616005)(6506007)(966005)(83380400001)(6666004)(86362001)(38350700002)(316002)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?58GUEekGld65mjY9lm+z8KJ5dqWiDT3kfi78jBUe1pUshomCZSnZk8vbqXwn?=
+ =?us-ascii?Q?DSMaoZz5/ILzVhkukcUTrvc6aVzpdtDsev4t9ZceiFjAv/qSzmgiCutS2t4H?=
+ =?us-ascii?Q?vxjqzin6WXcOlmQ05mHJq4/3Djw7am8V2Jwcr9CflVESSxkmeNeK7sygrpTH?=
+ =?us-ascii?Q?JcNZVRAjsZ0XZizu1OxwSV1912fCCSgmOPDinqUmCh9smmuHMQrYppqb9ukv?=
+ =?us-ascii?Q?sS2BogP6oyGwVSi7wrqrJp49E5s1PlZGlyKBpuUy8x7qyt+/e0wCIqvPZ1Hx?=
+ =?us-ascii?Q?B09r/B9PAWgdqwqOnf0YETNHt1znfMFC+fYZlledtGM+uiKARIwrt4F6sLfT?=
+ =?us-ascii?Q?f1jtZwhkiYq+zbYgaQk+Hpa60QAEPCWzyO40twWZRZ5X7AmK8pZUI9lfJ2PM?=
+ =?us-ascii?Q?2v1jCOWBHJ90afOLSJah/gopqKgvUs4Z3NiX+sQRT8+Loc0afItGOX2uhuPs?=
+ =?us-ascii?Q?/a7z1hPnAMzzKoV8jGi+A1/RP/UVbMZ/kB/n2ad7LGQ1opzxreRbP9oW5Ily?=
+ =?us-ascii?Q?un+5ylBf+4HwjDW0cW4fe/m/2ZXfd+S5exek6iOW3vjaLODOFre6N/eqQf2O?=
+ =?us-ascii?Q?zq9ziJNxW8PhTbnCaDU5stF0jxzlB2DlnM0IZk0WXLL25Qa8Z1o5gvMxUs9t?=
+ =?us-ascii?Q?03W7xUsrL0JTYYjMea79LaJ3t6pi5ESd0iCEb60mQiRYNFj0xEfXBz4H4bvY?=
+ =?us-ascii?Q?ourryKqS0h3JA/vMHq0YHXiYNDTD4uBOnPJl61VdRXaJiBK2zBbp3xTUoUjd?=
+ =?us-ascii?Q?TChpkDuSiGzDTUYkOH7iNMFB+Bzj/AR3lGILsNX9eK8jBLlFgwdjEVGvvK/Z?=
+ =?us-ascii?Q?oNYikiKQFs7WIj712EnMvYlsIvBZFycx1VXVe9FuNOEr9nWDNhd7P6ew4LA3?=
+ =?us-ascii?Q?Z2V+9ggzL3beR68ATl6fUhHeOjLTgemjn8kELWHTLmwbAVjo/krRGy27uyKU?=
+ =?us-ascii?Q?6Pgy5+1u0RtNWC8vnGvt/fa6JKoxF9HQd2HvLUC/677ibcHKcEl8uqh04kKk?=
+ =?us-ascii?Q?o9NtWdA01fgk4GjbqlsVO11/BXsIjDOG2MtOCcXZK3E7OpArs3LwJ2a8lczw?=
+ =?us-ascii?Q?1XAoF8X8VNphr/RDd6V8l5LqZHCZgiVx4OdOhq7QCpubfYu6r8DBtnynQO9Y?=
+ =?us-ascii?Q?k6Du6b5Jy5IDSrS0cszpz9bbf/FA6pueIfXwqe5+tKHXwAStYrXn8VjfGzZE?=
+ =?us-ascii?Q?zMdm5mry2HYtVgf2rdpYDHUcqLFa/iJaz2+B6VG3zsVh+2PuPXOLj3XY0XRL?=
+ =?us-ascii?Q?ytG/BztW6n78UWV3xeYkXEhvh6mDmcK2yeiqjQRSzd0G6Wib7w8sEdq/JtPa?=
+ =?us-ascii?Q?wv2hev0g18xVAe8RVBYMmWoj?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1025b6c4-7b3e-4e4a-be46-08d92aa187ee
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 17:19:11.1443 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d7rxQ69IF2yf3QCLxLd8ozeZJRxln10eticCTWjgXcotIKeABIrvjAYK63jaGFs1VJBjqC8ejeM8iIjhd1XnEJHqwQQzcl1D2Ua5wrHdrp4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4072
+Received-SPF: pass client-ip=40.107.0.137;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,187 +134,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity spots some minor error-handling issues in this test code.
-These are mostly due to the test code assuming that the glib test
-macros g_assert_cmpint() and friends will always abort on failure.
-This is not the case: if the test case chooses to call
-g_test_set_nonfatal_assertions() then they will mark the test case as
-a failure and continue.  (This is different to g_assert(),
-g_assert_not_reached(), and assert(), which really do all always kill
-the process.) The idea is that you use g_assert() for things
-which are really assertions, as you would in normal QEMU code,
-and g_assert_cmpint() and friends for "this check is the thing
-this test case is testing" checks.
+drive_backup_prepare() does bdrv_drained_begin() in hope that
+bdrv_drained_end() will be called in drive_backup_clean(). Still we
+need to set state->bs for this to work. That's done too late: a lot of
+failure paths in drive_backup_prepare() miss setting state->bs. Fix
+that.
 
-In fact this test case does not currently set assertions to be
-nonfatal, but we should ideally be aiming to get to a point where we
-can set that more generally, because the test harness gives much
-better error reporting (including minor details like "what was the
-name of the test case that actually failed") than a raw assert/abort
-does.  So we mostly fix the Coverity nits by making the error-exit
-path return early if necessary, rather than by converting the
-g_assert_cmpint()s to g_assert()s.
-
-Fixes: Coverity CID 1432505, 1432514, 1432600, 1451384
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: 2288ccfac96281c316db942d10e3f921c1373064
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/399
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
-We had some previous not-very-conclusive discussion about
-g_assert_foo vs g_assert in this thread:
-https://lore.kernel.org/qemu-devel/CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com/
-This patch is in some sense me asserting my opinion about the
-right thing to do. You might disagree...
+ blockdev.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I think that improving the quality of the failure reporting
-in 'make check' is useful, and that we should probably turn
-on g_test_set_nonfatal_assertions() everywhere. (The worst that
-can happen is that instead of crashing on the assert we proceed
-and crash a bit later, I think.) Awkwardly we don't have a single
-place where we could put that call, so I guess it's a coccinelle
-script to add it to every test's main() function.
-
- tests/unit/test-char.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
-
-diff --git a/tests/unit/test-char.c b/tests/unit/test-char.c
-index 5b3b48ebacd..43630ab57f8 100644
---- a/tests/unit/test-char.c
-+++ b/tests/unit/test-char.c
-@@ -214,6 +214,10 @@ static void char_mux_test(void)
-     qemu_chr_fe_take_focus(&chr_be2);
+diff --git a/blockdev.c b/blockdev.c
+index f08192deda..094c085962 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1714,6 +1714,7 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
+     aio_context = bdrv_get_aio_context(bs);
+     aio_context_acquire(aio_context);
  
-     base = qemu_chr_find("mux-label-base");
-+    g_assert_nonnull(base);
-+    if (base == 0) {
-+        goto fail;
-+    }
-     g_assert_cmpint(qemu_chr_be_can_write(base), !=, 0);
++    state->bs = bs;
+     /* Paired with .clean() */
+     bdrv_drained_begin(bs);
  
-     qemu_chr_be_write(base, (void *)"hello", 6);
-@@ -333,6 +337,7 @@ static void char_mux_test(void)
-     g_assert_cmpint(strlen(data), !=, 0);
-     g_free(data);
- 
-+fail:
-     qemu_chr_fe_deinit(&chr_be1, false);
-     qemu_chr_fe_deinit(&chr_be2, true);
- }
-@@ -486,6 +491,9 @@ static void char_pipe_test(void)
-     chr = qemu_chr_new("pipe", tmp, NULL);
-     g_assert_nonnull(chr);
-     g_free(tmp);
-+    if (!chr) {
-+        goto fail;
-+    }
- 
-     qemu_chr_fe_init(&be, chr, &error_abort);
- 
-@@ -493,12 +501,20 @@ static void char_pipe_test(void)
-     g_assert_cmpint(ret, ==, 9);
- 
-     fd = open(out, O_RDWR);
-+    g_assert_cmpint(fd, >=, 0);
-+    if (fd < 0) {
-+        goto fail;
-+    }
-     ret = read(fd, buf, sizeof(buf));
-     g_assert_cmpint(ret, ==, 9);
-     g_assert_cmpstr(buf, ==, "pipe-out");
-     close(fd);
- 
-     fd = open(in, O_WRONLY);
-+    g_assert_cmpint(fd, >=, 0);
-+    if (fd < 0) {
-+        goto fail;
-+    }
-     ret = write(fd, "pipe-in", 8);
-     g_assert_cmpint(ret, ==, 8);
-     close(fd);
-@@ -518,6 +534,7 @@ static void char_pipe_test(void)
- 
-     qemu_chr_fe_deinit(&be, true);
- 
-+fail:
-     g_assert(g_unlink(in) == 0);
-     g_assert(g_unlink(out) == 0);
-     g_assert(g_rmdir(tmp_path) == 0);
-@@ -556,7 +573,10 @@ static int make_udp_socket(int *port)
-     socklen_t alen = sizeof(addr);
-     int ret, sock = qemu_socket(PF_INET, SOCK_DGRAM, 0);
- 
--    g_assert_cmpint(sock, >, 0);
-+    g_assert_cmpint(sock, >=, 0);
-+    if (sock < 0) {
-+        return sock;
-+    }
-     addr.sin_family = AF_INET ;
-     addr.sin_addr.s_addr = htonl(INADDR_ANY);
-     addr.sin_port = 0;
-@@ -586,6 +606,9 @@ static void char_udp_test_internal(Chardev *reuse_chr, int sock)
-     } else {
-         int port;
-         sock = make_udp_socket(&port);
-+        if (sock < 0) {
-+            return;
-+        }
-         tmp = g_strdup_printf("udp:127.0.0.1:%d", port);
-         chr = qemu_chr_new("client", tmp, NULL);
-         g_assert_nonnull(chr);
-@@ -1224,6 +1247,10 @@ static void char_file_fifo_test(void)
+@@ -1813,8 +1814,6 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
+         }
      }
  
-     fd = open(fifo, O_RDWR);
-+    g_assert_cmpint(fd, >=, 0);
-+    if (fd < 0) {
-+        goto fail;
-+    }
-     ret = write(fd, "fifo-in", 8);
-     g_assert_cmpint(ret, ==, 8);
- 
-@@ -1253,6 +1280,7 @@ static void char_file_fifo_test(void)
- 
-     qemu_chr_fe_deinit(&be, true);
- 
-+fail:
-     g_unlink(fifo);
-     g_free(fifo);
-     g_unlink(out);
-@@ -1371,7 +1399,7 @@ static int chardev_change_denied(void *opaque)
- 
- static void char_hotswap_test(void)
- {
--    char *chr_args;
-+    char *chr_args = NULL;
-     Chardev *chr;
-     CharBackend be;
- 
-@@ -1385,6 +1413,9 @@ static void char_hotswap_test(void)
-     int port;
-     int sock = make_udp_socket(&port);
-     g_assert_cmpint(sock, >, 0);
-+    if (sock < 0) {
-+        goto fail;
-+    }
- 
-     chr_args = g_strdup_printf("udp:127.0.0.1:%d", port);
- 
-@@ -1422,6 +1453,7 @@ static void char_hotswap_test(void)
-     object_unparent(OBJECT(chr));
- 
-     qapi_free_ChardevReturn(ret);
-+fail:
-     g_unlink(filename);
-     g_free(filename);
-     g_rmdir(tmp_path);
+-    state->bs = bs;
+-
+     state->job = do_backup_common(qapi_DriveBackup_base(backup),
+                                   bs, target_bs, aio_context,
+                                   common->block_job_txn, errp);
 -- 
-2.20.1
+2.29.2
 
 
