@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47EB3A0521
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:26:50 +0200 (CEST)
-Received: from localhost ([::1]:52332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1C33A0522
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:26:57 +0200 (CEST)
+Received: from localhost ([::1]:52770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqiJF-0001kG-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
+	id 1lqiJM-00022N-LV
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3OdK_YAcKCugfOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com>)
- id 1lqiI0-0008P9-FQ
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:32 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:37468)
+ <3PNK_YAcKCusiRagheRTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--venture.bounces.google.com>)
+ id 1lqiI4-000053-71
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:36 -0400
+Received: from mail-qk1-x749.google.com ([2607:f8b0:4864:20::749]:47060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3OdK_YAcKCugfOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com>)
- id 1lqiHz-0001Ks-1r
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:32 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id
- g9-20020a25ae490000b029052f9e5b7d3fso28262599ybe.4
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:25:30 -0700 (PDT)
+ <3PNK_YAcKCusiRagheRTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--venture.bounces.google.com>)
+ id 1lqiI2-0001Mi-KZ
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:35 -0400
+Received: by mail-qk1-x749.google.com with SMTP id
+ 205-20020a3707d60000b02903aa9208caa2so6492747qkh.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=xhiM5LH9tk8kUEoTgO7t+5DVMEAyK/fb1QRXKuhYQPY=;
- b=fMUpTWBXBYThyj5f1b0CQo7R2n+9XHsKppAfXVk+WoLF+dP8Jn7P+4l9LnsNjf6uwY
- ZlycxhQ0GYapvYsxvZXhWdIHHNHxm4E8EbatVp1d5sNKV5qEI9/3O/2L5S7lf9d709Wy
- z+MsOpORQPWVv4q9GHkpsv4bbAv16OAjZX1YVcppzrIVuyRm1fZQnUtKfA4985gN4ZxP
- lFKgrfz8RHV/InjU+AHDlG2NyrxMu3KPAlDb48mAnUb+jAvJxBpVtxe6VwHdtbatNLXZ
- IUjGW1kAO4Qbrk+XlI1bqlxLqrz+evUXGLGw9WGA1N9oqScCbCU+8t/ReEtGMqBU42zF
- hLRQ==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=BuLZRWh+N1B9P7DN5vdDFIi7K4s3geFpmLZAmBGD7UA=;
+ b=JabcKgumtewW53lGfjBr0Clh49I/rDF/HPglmwCJo4Hh9e4T3rrN9wtEfOQQ2ELm/i
+ QA707y1iRt2EZkOLbboLyFzB/PqV/4Bc3xHpESMDTUnnsKMruGzBaJYpRQ0dY3/2BDjO
+ diBtAQahjlY1XvmMqc+2VvWR9cs2fJQOaYeHuLO2KJZW91AbwsHrPFmYN3VQaZozrFq/
+ K2s8rgsV7riweyK5rnU91Flc0dbvtvkW64ofbllBMjO5mWfv2Ispl0opscgUhI8B9y7u
+ XG+TPmS5h5JmnR8FuSQxYcoNGlaGLTo5SaFO7iCze/UOc0TEl0Zh1B+9VW657YsCmwry
+ fpgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=xhiM5LH9tk8kUEoTgO7t+5DVMEAyK/fb1QRXKuhYQPY=;
- b=uJ7sSZtSygc3hmbbX8yzQ8+4eVW0i/STkTp4WYaV7BSqJzGQYO00ZIUXRZbs9ADy/A
- U5Y6n7sLwbbadg327XDzGv1LhEibL4nk5J9ujIQSOM+xS0/HaK00TqHYtjzd7/cJUtQm
- /inw3rMDYrkP8/ylW/QKlobOpS7rMJJWwZr4zDiWP7oew0nAXOldJ33VMpBMi7QlweCt
- agaVzQYGukwM/XEE33ZqRmf63PxMqgb9dO90Cmkhli0bxwMj9GqfrhpigLQ2m1tC/xYk
- TDGjWzoFlUT6o3r3JUroIDGoPGOyC+4ovZYvlF4AmT/istCbLeUMxIhpN/iSN2MqRag3
- +h0g==
-X-Gm-Message-State: AOAM531/GqK7t3SZsWvMjGBqH4camlgP6FfSAhdrjUzjb/B7IG33q4QA
- TNS/urUstvHIcxewgKodcmLfHqqAog/v
-X-Google-Smtp-Source: ABdhPJwjwR39VANvMnsUp5ei/a6z65YtZAzkJXfskUzD5vYgYoGVVWmSoPOE76usRBlqfuHgV0c574Fhsj8b
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=BuLZRWh+N1B9P7DN5vdDFIi7K4s3geFpmLZAmBGD7UA=;
+ b=UjBdQqXA26gdRw6BvdXR3A2pzTsUuZbC0FcqTyxydJqp8LSH5BXZEIo2IN0h1FgYrb
+ cNaFOClJ8gH7fgm1K+lV5/6OnIPSGwfJrW48KCP09HfvaePZGi8kSjan6md76BoatMGt
+ 98E+98DaEsUP+3LiDo1T/yys+jth/R60jjqn+CZHKaDw8nxc0bAfnnbsgnGbzWNlcDr7
+ mKvlDmGx88f0phlPOINM9Juq02IFzS3ZYDPS48eBboQpFRTJKJ/wlTJO+B9etsLUWjZu
+ uqFOimk22D/g+t1R2iWOd+3XvRmmVQtHAyHmVKUjZ++omHIXgj92ck3vpYlAdf79M0fp
+ ySiQ==
+X-Gm-Message-State: AOAM531u1ctiHU0j7xKlcFJoDiSjAlXZQhVlIchCrzMp6aMQUFx7+KXS
+ 4LBhP2kOy9mR1hs+X/EGmob8+XH67N/L
+X-Google-Smtp-Source: ABdhPJzk3AxJemlRbW8F31QH+M16oDiDF96Py5NVwqPbmE/zCjA6cFlW8NJz/WWNKDfoz5t8bTwknS9qUIng
 X-Received: from venture.svl.corp.google.com
  ([2620:15c:2a3:200:f886:41e8:7e16:711b])
- (user=venture job=sendgmr) by 2002:a25:e803:: with SMTP id
- k3mr32687281ybd.268.1623183929261; Tue, 08 Jun 2021 13:25:29 -0700 (PDT)
-Date: Tue,  8 Jun 2021 13:25:19 -0700
-Message-Id: <20210608202522.2677850-1-venture@google.com>
+ (user=venture job=sendgmr) by 2002:ad4:4ae4:: with SMTP id
+ cp4mr2119815qvb.44.1623183932946; Tue, 08 Jun 2021 13:25:32 -0700 (PDT)
+Date: Tue,  8 Jun 2021 13:25:20 -0700
+In-Reply-To: <20210608202522.2677850-1-venture@google.com>
+Message-Id: <20210608202522.2677850-2-venture@google.com>
 Mime-Version: 1.0
+References: <20210608202522.2677850-1-venture@google.com>
 X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
-Subject: [PATCH v2 0/3] With the pca954x i2c mux available, enable it on
- aspeed and nuvoton BMC boards.
+Subject: [PATCH v2 1/3] hw/arm: gsj add i2c comments
 From: Patrick Venture <venture@google.com>
 To: hskinnemoen@google.com, kfting@nuvoton.com, clg@kaod.org, 
  peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>
+ Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3OdK_YAcKCugfOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com;
- helo=mail-yb1-xb49.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::749;
+ envelope-from=3PNK_YAcKCusiRagheRTbbTYR.PbZdRZh-QRiRYabaTah.beT@flex--venture.bounces.google.com;
+ helo=mail-qk1-x749.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -87,19 +89,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-- Dropped sonorapass patch.
+Adds comments to the board init to identify missing i2c devices.
 
-Patrick Venture (3):
-  hw/arm: gsj add i2c comments
-  hw/arm: gsj add pca9548
-  hw/arm: quanta-q71l add pca954x muxes
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+---
+ hw/arm/npcm7xx_boards.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
- hw/arm/Kconfig          |  2 ++
- hw/arm/aspeed.c         | 11 ++++++++---
- hw/arm/npcm7xx_boards.c | 14 +++++++++++++-
- 3 files changed, 23 insertions(+), 4 deletions(-)
-
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index d4553e3786..9b7a7cd201 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -220,7 +220,21 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
+     at24c_eeprom_init(soc, 9, 0x55, 8192);
+     at24c_eeprom_init(soc, 10, 0x55, 8192);
+ 
+-    /* TODO: Add additional i2c devices. */
++    /*
++     * i2c-11:
++     * - power-brick@36: delta,dps800
++     * - hotswap@15: ti,lm5066i
++     */
++
++    /*
++     * i2c-12:
++     * - ucd90160@6b
++     */
++
++    /*
++     * i2c-15:
++     * - pca9548@75
++     */
+ }
+ 
+ static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
 -- 
 2.32.0.rc1.229.g3e70b5a671-goog
 
