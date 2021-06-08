@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16EA39FFDC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 20:38:31 +0200 (CEST)
-Received: from localhost ([::1]:42804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A4E39FFE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 20:43:09 +0200 (CEST)
+Received: from localhost ([::1]:46392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqgcP-0007Fm-V3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 14:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
+	id 1lqggu-0001W3-7q
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 14:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqgbP-0006LB-0x
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 14:37:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqgbM-0005C6-St
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 14:37:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623177444;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bRYH0FbHv4YgYFHZoW/d/0hqlE3cNUxpDQrp9aEWXJk=;
- b=Ega5XoDENtRAvAmMP4W22LsGFAkvCiFFDwOi/A2tYB+1tUNqalJ+mX42GPtgi5CG0UiADp
- iFb/rRjcuwoI42W9hBQoYBy1F2VbOtv7MTLVgKhxv4iedzxj1VXZlHe07lXQ3f1pDsbXPj
- ZczuaZmeM7pQ620V1TX55o+hUMBi8Ac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-5TW2kQX2MJ-6OMacWqX65A-1; Tue, 08 Jun 2021 14:37:20 -0400
-X-MC-Unique: 5TW2kQX2MJ-6OMacWqX65A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C691926DA2
- for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 18:37:19 +0000 (UTC)
-Received: from work-vm (ovpn-115-50.ams2.redhat.com [10.36.115.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05F5D5C1BB;
- Tue,  8 Jun 2021 18:37:08 +0000 (UTC)
-Date: Tue, 8 Jun 2021 19:37:06 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, berrange@redhat.com, kraxel@redhat.com,
- eblake@redhat.com, armbru@redhat.com, pabeni@redhat.com
-Subject: Re: [PATCH v2 0/5] mptcp support
-Message-ID: <YL+40seTN8bONFSm@work-vm>
-References: <20210421112834.107651-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lqgdQ-0008Nk-Ms; Tue, 08 Jun 2021 14:39:32 -0400
+Received: from [201.28.113.2] (port=8928 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lqgdO-0005m0-PK; Tue, 08 Jun 2021 14:39:32 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 8 Jun 2021 15:39:25 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 64A3880148E;
+ Tue,  8 Jun 2021 15:39:25 -0300 (-03)
+Subject: Re: [RFC PATCH] target/ppc: fix address translation bug for hash
+ table mmus
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210602191822.90182-1-bruno.larsen@eldorado.org.br>
+ <d7139129-428a-f6c9-c6e2-e540208d62aa@linaro.org>
+ <39c92ce9-46b8-4847-974c-647c7a5ca2ae@eldorado.org.br>
+ <b689bdd0-4d75-7c4e-189e-922738208dc0@linaro.org>
+ <c79e73b0-f989-575b-0982-672fc9b289eb@eldorado.org.br>
+ <7198ccf1-f2db-2e39-3778-4083b5d7fa45@linaro.org>
+ <b5834a1f-afaa-a36a-11d6-35a197ad74bc@eldorado.org.br>
+ <cd077bef-c6a5-8041-e0e4-2ac554b96735@linaro.org>
+ <258682ee-0ae6-cf59-e7bf-42879abcde5b@eldorado.org.br>
+Message-ID: <524da033-7d6a-5720-026a-04fbc01e40c3@eldorado.org.br>
+Date: Tue, 8 Jun 2021 15:39:25 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210421112834.107651-1-dgilbert@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <258682ee-0ae6-cf59-e7bf-42879abcde5b@eldorado.org.br>
+Content-Type: multipart/alternative;
+ boundary="------------64929ED9C705C5390AF173BD"
+Content-Language: en-US
+X-OriginalArrivalTime: 08 Jun 2021 18:39:25.0732 (UTC)
+ FILETIME=[9B5F5E40:01D75C95]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +67,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com, quintela@redhat.com
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Hi,
->   This set adds support for multipath TCP (mptcp), and has
-> been tested for migration and (lightly) for NBD.
-> 
->   Multipath-tcp is a bit like bonding, but at L3; you can use
-> it to handle failure, but can also use it to split traffic across
-> multiple interfaces.
-> 
->   Using a pair of 10Gb interfaces, I've managed to get 19Gbps
-> (with the only tuning being using huge pages and turning the MTU up).
-> 
->   It needs a bleeding-edge Linux kernel (in some older ones you get
-> false accept messages for the subflows), and a C lib that has the
-> constants defined (as current glibc does).
-> 
->   To use it you just need to append ,mptcp to an address; for migration:
-> 
->   -incoming tcp:0:4444,mptcp
->   migrate -d tcp:192.168.11.20:4444,mptcp
-> 
-> For nbd:
-> 
->   (qemu) nbd_server_start 0.0.0.0:3333,mptcp=on
-> 
->   -blockdev driver=nbd,server.type=inet,server.host=192.168.11.20,server.port=3333,server.mptcp=on,node-name=nbddisk,export=mydisk \
->   -device virtio-blk,drive=nbddisk,id=disk0
-> 
-> (Many of the other NBD address parsers/forms would need extra work)
-> 
->   All comments welcome.
-> 
-> Dave
+This is a multi-part message in MIME format.
+--------------64929ED9C705C5390AF173BD
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Queued
 
-> 
-> v2
->   Use of if defined(...) in the json file based on feedback
->   A few missing ifdef's (from a bsd build test)
->   Added nbd example.
-> 
-> 
-> Dr. David Alan Gilbert (5):
->   channel-socket: Only set CLOEXEC if we have space for fds
->   io/net-listener: Call the notifier during finalize
->   migration: Add cleanup hook for inwards migration
->   migration/socket: Close the listener at the end
->   sockets: Support multipath TCP
-> 
->  io/channel-socket.c   |  8 ++++----
->  io/dns-resolver.c     |  4 ++++
->  io/net-listener.c     |  3 +++
->  migration/migration.c |  3 +++
->  migration/migration.h |  4 ++++
->  migration/multifd.c   |  5 +++++
->  migration/socket.c    | 24 ++++++++++++++++++------
->  qapi/sockets.json     |  5 ++++-
->  util/qemu-sockets.c   | 23 +++++++++++++++++++++++
->  9 files changed, 68 insertions(+), 11 deletions(-)
-> 
-> -- 
-> 2.31.1
-> 
-> 
+On 08/06/2021 13:37, Bruno Piazera Larsen wrote:
+>
+>
+> On 08/06/2021 12:35, Richard Henderson wrote:
+>> On 6/8/21 7:39 AM, Bruno Piazera Larsen wrote:
+>>>> That's odd.  We already have more arguments than the number of 
+>>>> argument registers...  A 5x slowdown is distinctly odd.
+>>> I did some more digging and the problem is not with 
+>>> ppc_radix64_check_prot, the problem is ppc_radix64_xlate, which 
+>>> currently has 7 arguments and we're increasing to 8. 7 feels like 
+>>> the correct number, but I couldn't find docs supporting it, so I 
+>>> could be wrong.
+>>
+>> According to tcg/ppc/tcg-target.c.inc, there are 8 argument registers 
+>> for ppc hosts.  But now I see you didn't actually say on which host 
+>> you observed the problem...  It's 6 argument registers for x86_64 host.
+>
+> Oh, yes, sorry. I'm experiencing it in a POWER9 machine (ppc64le 
+> architecture). According to tcg this shouldn't be the issue, then, so 
+> idk if that's the real reason or not. All I know is that as soon as 
+> gcc can't optimize an argument away it happens (fprintf in 
+> radix64_xlate, using one of the mmuidx_* functions, defining those as 
+> macros).
+>
+> I'll test it in my x86_64 machine and see if such a slowdown happens. 
+> It's not conclusive evidence, but the function is too complex for me 
+> to follow the disassembly if I can avoid it...
+>
+Test has been done: Slow down also happens on the x86_64 machine (but 
+without change its already 360s, so idk if the slowdown is that 
+dramatic), so it's _probably_ not going over the argument register 
+count. I have no clue what could be. Still working on the struct version 
+to see if anything changes.
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
+--------------64929ED9C705C5390AF173BD
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 08/06/2021 13:37, Bruno Piazera
+      Larsen wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:258682ee-0ae6-cf59-e7bf-42879abcde5b@eldorado.org.br">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 08/06/2021 12:35, Richard
+        Henderson wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:cd077bef-c6a5-8041-e0e4-2ac554b96735@linaro.org">On
+        6/8/21 7:39 AM, Bruno Piazera Larsen wrote: <br>
+        <blockquote type="cite">
+          <blockquote type="cite">That's odd.  We already have more
+            arguments than the number of argument registers...  A 5x
+            slowdown is distinctly odd. <br>
+          </blockquote>
+          I did some more digging and the problem is not with
+          ppc_radix64_check_prot, the problem is ppc_radix64_xlate,
+          which currently has 7 arguments and we're increasing to 8. 7
+          feels like the correct number, but I couldn't find docs
+          supporting it, so I could be wrong. <br>
+        </blockquote>
+        <br>
+        According to tcg/ppc/tcg-target.c.inc, there are 8 argument
+        registers for ppc hosts.  But now I see you didn't actually say
+        on which host you observed the problem...  It's 6 argument
+        registers for x86_64 host. <br>
+      </blockquote>
+      <p>Oh, yes, sorry. I'm experiencing it in a POWER9 machine
+        (ppc64le architecture). According to tcg this shouldn't be the
+        issue, then, so idk if that's the real reason or not. All I know
+        is that as soon as gcc can't optimize an argument away it
+        happens (fprintf in radix64_xlate, using one of the mmuidx_*
+        functions, defining those as macros).<br>
+      </p>
+      <p>I'll test it in my x86_64 machine and see if such a slowdown
+        happens. It's not conclusive evidence, but the function is too
+        complex for me to follow the disassembly if I can avoid it...<br>
+      </p>
+    </blockquote>
+    <p>Test has been done: Slow down also happens on the x86_64 machine
+      (but without change its already 360s, so idk if the slowdown is
+      that dramatic), so it's _probably_ not going over the argument
+      register count. I have no clue what could be. Still working on the
+      struct version to see if anything changes.</p>
+    -- <br>
+    <div class="moz-signature">Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------64929ED9C705C5390AF173BD--
 
