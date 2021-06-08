@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E461039EABC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:32:48 +0200 (CEST)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F74E39EAD9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:37:48 +0200 (CEST)
+Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPfj-0003FU-W4
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44838)
+	id 1lqPkZ-000676-5K
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdU-0000K6-Oo
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:29 -0400
+ id 1lqPdX-0000Q1-R3
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:31 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdS-0004Fk-O5
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:28 -0400
+ id 1lqPdV-0004Fk-Pk
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112225; x=1654648225;
+ t=1623112228; x=1654648228;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gYZCfbmqDYM1ef+uXSltaFNoEyKdG2pAPGPEmS014Qo=;
- b=ZJiuc7bLTAJioc+jG9K9om2yLmh7i9SAYkyCZljBNaDEKexVNUA0R6iJ
- hPkjzPWQ4XGaxeHThXTlGLJFDYpm2gt6sDUjY/DLjyTtpxh42iCMNggdy
- 2plihiy156jR+OHXaTqppHvL587NTLKeev0Nq2VpRQaby4xtC3Up0TX1y
- 5GfuWtVQwUsF8+A+YIq5i+zFxhJVB6qaobW3QvIweQkyNaAEODcU7/rD5
- 0PMnjwV504yqBW2ucPBWwwg3svtai6GcmdmwYXlHsDTP/C9fNCE8Gl+zx
- suCMsIDRfeD8euaEIEIfSOhCK2s1XrvihI2K3jtpOsP2EJvL4OGIBkgHP w==;
-IronPort-SDR: l0834QCcEiN+vzDUuEOp2f0FvuRIOwAb/YgFoMU1f5CwIe5kUUM/Y8MPZFHEy+GHaqek8rttL+
- zRb/fLFMReGmKdrStXacdk87O7467zwSxePG3bvA6PqQrDlSI1cKSCN7o10PlBJ/8zLWM4JnKc
- gDi7Tp3NIjVMeJ/JnLxVAsfs4dIkF989GlD7hus7cFZVQiNcqb3pB4yk2m3fjyxZ2DYvlM0hIh
- O3ParpF98pUjjTzxnh1xs6A83xi7xZ9zB9uqCwkA9/CrYD3SFhffZfXLPF6vT2UJXUMqtjx1je
- utk=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087350"
+ bh=kP+k/EAWnoGFZ2cQ6hA3zOL91PKjPYWONLT+lao/1F4=;
+ b=jpI/CL8mjHDgDke9EpytlPvvQR1Pm/UXxiKWvb+USxQ1omSTg7sfFSqm
+ bmzx2h/XHX0WQxtCGayyBcA/GebcKVYq12kBXIOWrkClvD3yMjyNRBoZu
+ V3eWlKXlDi8foKZbrA+MdVH8a/rQaiCqUA5J3T+ZNUtwBYEJXG5lIL9Gf
+ /IRB+Di9nRMEWhvPNKFlmFqgaTp5TmRL3MNDH8aTof/1cLSaeW/n14mTO
+ x0G4NJIS417k4LkrBhyLSJKFJvkZfFqUWu6z6EbcrtSWw0S9+eKFhVa7+
+ UrRE0ANS6rEnnqQL6NGXai4TpyCAzVQvj1eyqa0yeIPV5bOF15Gd0fyND w==;
+IronPort-SDR: 9t+iwQO82AJYfLAKQw2gdDWTbUtnGcD/b6cbaEdQg1rXV8/sQzlNWsZeKm3AcbFskXR/cUJpTT
+ Yv3OPeEdj11dNKcWYJKG8aSpCrX4cd6XFWZM3YX90AUr/3V3hKvcT4BU1GnrMSIZ4slLaqzql/
+ LqDroJ36dnDh572RIGoRKee65kCwvuw6J1sSbgUu9194o5z+kkIVag11BAIxy7EHgc7crxkSg6
+ /YFK+zMCzlJPKc7wMeI3voRg/A6quCxo1TirtzngtlC9qh22UJ+w0ZFewNBpPIseM8/BxD0lsy
+ CwU=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087354"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:25 +0800
-IronPort-SDR: JXsJISZ8F+aCzwjjwlQhI+pS891C1j/38vUrOh9c1KFXrDe19sOTlCnnZMF/Tm/5qIyYyMfQww
- NkO9C3qvwRMtTlcWjT9StvWknSeu7rIXgwmEexwIssRqL80ZRKWroJ4sHbil5I1e8xajt8hSqO
- gzjArDtJSu0wOGYhPt+uuLTd1zssdToZVRYM6lHpBNFuAuv83XT29vo8pJlegMKPwAueo+rmF4
- 0zN8KGiliozHU74aQjoAKiAd8uhWIIJmbQALxdbAbt/P1/A2W4IwVUS2jQV/K0Tt/YlJEw/iHt
- 3ZIoyeuWS2VXu987VE4R1TSk
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:28 +0800
+IronPort-SDR: SohZ0gQOMnnmfxXIjgown7vGEqwt9UIxb++TUSSa7lxKLpUm9OYUrrqzGo2ex1H5VnGrisX5ms
+ cF4p7f5t9mEcukaO7qVaES10nBObbSrX+eIMdRI9FsUjBWc4UPTPZuJqN7/7oz/TOR+2lRGa2I
+ HLdidjcEWjFrGGTeaIR9q0+2mii5jA1DgH3+t7xBQBQyEVJD5X7KWnZmKa5jeZ6mIY5rkgDCTT
+ TphbPCptFljKHMzsEaxKoHHwsvPdbWPH3PFPUAM59+fkSNFlxiO8uh8ICQVsJU9G0QcSupr2Rt
+ IHSUmwbXhWX7O9oE4SpK+pUx
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:09:32 -0700
-IronPort-SDR: 9Zl7PBAkJ8dFNREWRb06pbZmN/6CVb7RxemeMmolKQ2gb09EmVxJjVuSU+LFOqQkgul/rBF/EN
- i61QPDGvvfDoIqMLfQ64rQ58SQBzbvTFWqtM0be+HB8qoffHTCKEBD50RMECZ+R7RcyLnqDSp/
- 038INFrzpoYcojrs2OqApTaUqYgDX/8frZLVB9Bv7R1YcIo2yKUJp3Y7vOT9aVFKJrqo6NBNZg
- bGGi/hZ43h7czSAyv6PliON4+nA28DsXFufiTTqys+EoEvSaKHW4mnQcofuKpjpnJ31klTiJI9
- Crs=
+ 07 Jun 2021 17:09:35 -0700
+IronPort-SDR: TynNMtzUdwDRFjUVnddoyqV1K33gTZD/w7RJpr5qyWt2w6t6PyHdk+8q4jIL26DiyEBq4ILdxM
+ iddyldnNirNJst/GIF8lcELrr5aMp3LPK+wDBS+Bhku6vU0ygtQY/JThZgSeLgFvgxmGDt2dVQ
+ Qrbdjyj8Z/FYSoAFwQpcuWqPgM9kI4aLAOnDkrQ7h2odvfNlWLeOOPVpMTkhzXseZwYkbORFFg
+ RSXJRbHc6ISqby3DIzF1MNL+P6dVY68KBJta6EmDle4AYzkteoj9gjAGJjeAKKjZT9okozXdBM
+ 5uw=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:23 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:26 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 05/32] docs/system/riscv: Correct the indentation level of
- supported devices
-Date: Tue,  8 Jun 2021 10:29:20 +1000
-Message-Id: <20210608002947.1649775-6-alistair.francis@wdc.com>
+Subject: [PULL 06/32] docs/system/riscv: sifive_u: Document '-dtb' usage
+Date: Tue,  8 Jun 2021 10:29:21 +1000
+Message-Id: <20210608002947.1649775-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=7863c9c60=alistair.francis@wdc.com;
@@ -99,90 +99,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The supported device bullet list has an additional space before each
-entry, which makes a wrong indentation level. Correct it.
+Update the 'sifive_u' machine documentation to mention the '-dtb'
+option that can be used to pass a custom DTB to QEMU.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210430071302.1489082-5-bmeng.cn@gmail.com
+Message-id: 20210430071302.1489082-6-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/microchip-icicle-kit.rst | 20 +++++++--------
- docs/system/riscv/sifive_u.rst             | 30 +++++++++++-----------
- 2 files changed, 25 insertions(+), 25 deletions(-)
+ docs/system/riscv/sifive_u.rst | 47 +++++++++++++++++++++++++++++-----
+ 1 file changed, 41 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
-index 4fe97bce3f..e803131763 100644
---- a/docs/system/riscv/microchip-icicle-kit.rst
-+++ b/docs/system/riscv/microchip-icicle-kit.rst
-@@ -15,16 +15,16 @@ Supported devices
+diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
+index dcdfbda931..32d0a1b85d 100644
+--- a/docs/system/riscv/sifive_u.rst
++++ b/docs/system/riscv/sifive_u.rst
+@@ -36,12 +36,21 @@ Hardware configuration information
+ ----------------------------------
  
- The ``microchip-icicle-kit`` machine supports the following devices:
- 
-- * 1 E51 core
-- * 4 U54 cores
-- * Core Level Interruptor (CLINT)
-- * Platform-Level Interrupt Controller (PLIC)
-- * L2 Loosely Integrated Memory (L2-LIM)
-- * DDR memory controller
-- * 5 MMUARTs
-- * 1 DMA controller
-- * 2 GEM Ethernet controllers
-- * 1 SDHC storage controller
-+* 1 E51 core
-+* 4 U54 cores
-+* Core Level Interruptor (CLINT)
-+* Platform-Level Interrupt Controller (PLIC)
-+* L2 Loosely Integrated Memory (L2-LIM)
-+* DDR memory controller
-+* 5 MMUARTs
-+* 1 DMA controller
-+* 2 GEM Ethernet controllers
-+* 1 SDHC storage controller
+ The ``sifive_u`` machine automatically generates a device tree blob ("dtb")
+-which it passes to the guest. This provides information about the addresses,
+-interrupt lines and other configuration of the various devices in the system.
+-Guest software should discover the devices that are present in the generated
+-DTB instead of using a DTB for the real hardware, as some of the devices are
+-not modeled by QEMU and trying to access these devices may cause unexpected
+-behavior.
++which it passes to the guest, if there is no ``-dtb`` option. This provides
++information about the addresses, interrupt lines and other configuration of
++the various devices in the system. Guest software should discover the devices
++that are present in the generated DTB instead of using a DTB for the real
++hardware, as some of the devices are not modeled by QEMU and trying to access
++these devices may cause unexpected behavior.
++
++If users want to provide their own DTB, they can use the ``-dtb`` option.
++These DTBs should have the following requirements:
++
++* The /cpus node should contain at least one subnode for E51 and the number
++  of subnodes should match QEMU's ``-smp`` option
++* The /memory reg size should match QEMU’s selected ram_size via ``-m``
++* Should contain a node for the CLINT device with a compatible string
++  "riscv,clint0" if using with OpenSBI BIOS images
  
  Boot options
  ------------
-diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
-index 98e7562848..dcdfbda931 100644
---- a/docs/system/riscv/sifive_u.rst
-+++ b/docs/system/riscv/sifive_u.rst
-@@ -9,21 +9,21 @@ Supported devices
+@@ -122,6 +131,32 @@ To boot the newly built Linux kernel in QEMU with the ``sifive_u`` machine:
+       -initrd /path/to/rootfs.ext4 \
+       -append "root=/dev/ram"
  
- The ``sifive_u`` machine supports the following devices:
- 
-- * 1 E51 / E31 core
-- * Up to 4 U54 / U34 cores
-- * Core Level Interruptor (CLINT)
-- * Platform-Level Interrupt Controller (PLIC)
-- * Power, Reset, Clock, Interrupt (PRCI)
-- * L2 Loosely Integrated Memory (L2-LIM)
-- * DDR memory controller
-- * 2 UARTs
-- * 1 GEM Ethernet controller
-- * 1 GPIO controller
-- * 1 One-Time Programmable (OTP) memory with stored serial number
-- * 1 DMA controller
-- * 2 QSPI controllers
-- * 1 ISSI 25WP256 flash
-- * 1 SD card in SPI mode
-+* 1 E51 / E31 core
-+* Up to 4 U54 / U34 cores
-+* Core Level Interruptor (CLINT)
-+* Platform-Level Interrupt Controller (PLIC)
-+* Power, Reset, Clock, Interrupt (PRCI)
-+* L2 Loosely Integrated Memory (L2-LIM)
-+* DDR memory controller
-+* 2 UARTs
-+* 1 GEM Ethernet controller
-+* 1 GPIO controller
-+* 1 One-Time Programmable (OTP) memory with stored serial number
-+* 1 DMA controller
-+* 2 QSPI controllers
-+* 1 ISSI 25WP256 flash
-+* 1 SD card in SPI mode
- 
- Please note the real world HiFive Unleashed board has a fixed configuration of
- 1 E51 core and 4 U54 core combination and the RISC-V core boots in 64-bit mode.
++Alternatively, we can use a custom DTB to boot the machine by inserting a CLINT
++node in fu540-c000.dtsi in the Linux kernel,
++
++.. code-block:: none
++
++    clint: clint@2000000 {
++        compatible = "riscv,clint0";
++        interrupts-extended = <&cpu0_intc 3 &cpu0_intc 7
++                               &cpu1_intc 3 &cpu1_intc 7
++                               &cpu2_intc 3 &cpu2_intc 7
++                               &cpu3_intc 3 &cpu3_intc 7
++                               &cpu4_intc 3 &cpu4_intc 7>;
++        reg = <0x00 0x2000000 0x00 0x10000>;
++    };
++
++with the following command line options:
++
++.. code-block:: bash
++
++  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 8G \
++      -display none -serial stdio \
++      -kernel arch/riscv/boot/Image \
++      -dtb arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb \
++      -initrd /path/to/rootfs.ext4 \
++      -append "root=/dev/ram"
++
+ To build a Linux mainline kernel that can be booted by the ``sifive_u`` machine
+ in 32-bit mode, use the rv32_defconfig configuration. A patch is required to
+ fix the 32-bit boot issue for Linux kernel v5.10.
 -- 
 2.31.1
 
