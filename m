@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C6D39F864
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 16:02:57 +0200 (CEST)
-Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E4039F876
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 16:08:39 +0200 (CEST)
+Received: from localhost ([::1]:55480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqcJk-0005vJ-6T
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 10:02:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
+	id 1lqcPF-00022v-OV
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 10:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lqcHo-0004TG-Tv
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 10:00:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42303)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqcOS-0001NY-De
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 10:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lqcHk-0004qM-5A
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 10:00:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqcON-0000fk-Oi
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 10:07:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623160849;
+ s=mimecast20190719; t=1623161262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2LKZQu1D7TTv+WMM7fVnrP/xRlIJ76tIzC5ZP/OynKU=;
- b=Qp/W9Nv8HrmpmTlViEG5VssBGMHNRlP2ktSOKm5Wt5qbrXE13WZ0irJdUkX0Tv2k48d93q
- NzgJTosoUbOLNiIGFJVb8FC6eWS42UANviGvLoWROz9XFLfJXGIvyb9uBTD+MCi6ca8nUe
- u8sHM+qg7CZNU/xnZjdiz3XuCCaIbGc=
+ bh=L+XshwnpLQ4ETr1+CpvOStuZ0FTFhtpbHHBiYzQWI9Y=;
+ b=crF0WFAJJNI/OAiBsnoV1CsjFADugZfgIDccpfA3gfed5lkqjN9nNgiyuFJ4y+iZZPKDSl
+ 8bu1btVDKL+XZ3o7QyadCFMdu6E0xCCmDx/4cayr0CHcuIJOqUr3kv6B7xdCx+0RhSJ11b
+ PaQ+thB3qjmywFcVBfTbd2rqA1MWfy8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-PP7OmBQUPgmIXkRuCk2Eyw-1; Tue, 08 Jun 2021 10:00:45 -0400
-X-MC-Unique: PP7OmBQUPgmIXkRuCk2Eyw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-595-KYW6fqS2NnKdqpDZ5C8iYA-1; Tue, 08 Jun 2021 10:07:41 -0400
+X-MC-Unique: KYW6fqS2NnKdqpDZ5C8iYA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84292801B15;
- Tue,  8 Jun 2021 14:00:44 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
- [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50AA25D6A1;
- Tue,  8 Jun 2021 14:00:44 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D87AE18003B6; Tue,  8 Jun 2021 16:00:42 +0200 (CEST)
-Date: Tue, 8 Jun 2021 16:00:42 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v1 3/5] ui/egl: Add egl helpers to help with
- synchronization
-Message-ID: <20210608140042.kl26xpevsswiq7ty@sirius.home.kraxel.org>
-References: <20210607232530.454435-1-vivek.kasireddy@intel.com>
- <20210607232530.454435-4-vivek.kasireddy@intel.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 604C3101371B;
+ Tue,  8 Jun 2021 14:07:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
+ [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AE2B5C1BB;
+ Tue,  8 Jun 2021 14:07:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B53CF113865F; Tue,  8 Jun 2021 16:07:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+Subject: Re: A bug of Monitor Chardev ?
+References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
+Date: Tue, 08 Jun 2021 16:07:30 +0200
+In-Reply-To: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com> (Longpeng's
+ message of "Mon, 17 May 2021 14:56:39 +0800")
+Message-ID: <87o8cgxxel.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210607232530.454435-4-vivek.kasireddy@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,28 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: chenjiashang@huawei.com,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+"Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+<longpeng2@huawei.com> writes:
 
-> +        epoxy_has_egl_extension(qemu_egl_display,
-> +                                "EGL_ANDROID_native_fence_sync")) {
+> We find a race during QEMU starting, which would case the QEMU process coredump.
+>
+> <main loop>                             |    <MON iothread>
+>                                         |
+> [1] create MON chardev                  |
+> qemu_create_early_backends              |
+>   chardev_init_func                     |
+>                                         |
+> [2] create MON iothread                 |
+> qemu_create_late_backends               |
+>   mon_init_func                         |
+> 	aio_bh_schedule-----------------------> monitor_qmp_setup_handlers_bh
+> [3] enter main loog                     |    tcp_chr_update_read_handler
+> (* A client come in, e.g. Libvirt *)    |      update_ioc_handlers
+> tcp_chr_new_client                      |
+>   update_ioc_handlers                   |
+>                                         |
+>     [4] create new hup_source           |
+>         s->hup_source = *PTR1*          |
+>           g_source_attach(s->hup_source)|
+>                                         |        [5] remove_hup_source(*PTR1*)
+>                                         |            (create new hup_source)
+>                                         |             s->hup_source = *PTR2*
+>         [6] g_source_attach_unlocked    |
+>               *PTR1* is freed by [5]    |
+> 			
+> Do you have any suggestion to fix this bug ? Thanks!
 
-What about non-android?  Is the name there just for historical reasons?
-Or do we actually need something else for desktop systems?
-
-> +void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf)
-
-See other mail on blocking wait.  Otherwise looks sane.
-
-> +static void gd_gl_wait_dmabuf(DisplayChangeListener *dcl,
-> +                              QemuDmaBuf *dmabuf)
-
-separate patch for the gtk bits please.
-
-thanks,
-  Gerd
+Do we?  We talked, but I'm not sure we reached a conclusion.
 
 
