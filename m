@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B1F39FB36
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:52:58 +0200 (CEST)
-Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A256239FB5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:57:39 +0200 (CEST)
+Received: from localhost ([::1]:47686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqe2D-0006QO-6M
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:52:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1lqe6k-0004a5-Eq
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqdzT-00048B-BM
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:50:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29523)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lqdzM-00059G-Pa
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:50:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623167399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6YzM1pWy/Ekq0Kyuv8BtDPK7VmLM0jQbEaZ+m6/gCfM=;
- b=ClrBIS2tJZjfZEkIWnwAT5Lop7NR2sYNZc2lYr2OgcfNbdrlFYgR0xUP4un6E84//QqxGs
- BlhAZC2ULDFIEwv9D9cToUVi5wemxJKi4NlSpk9r9vDfgAIVgy6wEDM0zkBo7drl0177xi
- 6T0RUYqh/i3NawbKCv6lNg4+SIK34Gw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-ffhkDtviOP6eN2ziUmAlaA-1; Tue, 08 Jun 2021 11:49:52 -0400
-X-MC-Unique: ffhkDtviOP6eN2ziUmAlaA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0711F106BAA6;
- Tue,  8 Jun 2021 15:49:51 +0000 (UTC)
-Received: from [10.10.116.137] (ovpn-116-137.rdu2.redhat.com [10.10.116.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DDC6A5D9E3;
- Tue,  8 Jun 2021 15:49:42 +0000 (UTC)
-Subject: Re: GSoC Intro - TUI interface for QMP
-To: Markus Armbruster <armbru@redhat.com>
-References: <CAN6ztm-J2GoQKkLb=Az0H2Q8UKK4oE3PgXg7g14=T53sQAUyDg@mail.gmail.com>
- <CAN6ztm9JKPo05_qJo1cFGq2P6f1DzB9vu+VZ054e9MdHVkRLog@mail.gmail.com>
- <YKuq242kdKxhvHAr@stefanha-x1.localdomain>
- <CAN6ztm8rpDARg786+yq2S58T2wQ7TWSQ+H_3xgfUnRTbgc0k+A@mail.gmail.com>
- <d45d686b-ca43-821c-e843-cf0f963e4e6e@redhat.com>
- <87czswxuwn.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <1577ce78-bf98-3f3d-7594-2b91d84967ec@redhat.com>
-Date: Tue, 8 Jun 2021 11:49:41 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqe3i-00021i-Oo
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:54:30 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqe3g-0006T7-1d
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:54:30 -0400
+Received: by mail-wr1-x433.google.com with SMTP id f2so22100304wri.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 08:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vpbugow9CxRv3SiLp2GdhwhINeTAZr1vjK1QkIq9ywk=;
+ b=RAEckeNxVy4dI0z/SSc8NI2MiGQQGMc//rVMGm09yTCirL/2kVhsFWsTCXaFVbSpUo
+ w1+MzjT1q53e2NQzje5d7QmpslmHM+K0zfo/o7bmTMbmt05sUNABfaF7Qg7UrSFZ9/7n
+ bZQMO+5I4vaekUjECtXYnv9klebQrJiHo4+qztD31r+PWFhzGJ5uMixVfqKqKHhNCTCV
+ w5UCgdD60SWrYeO6rjotJpDIjLg1pL28u65OrDHcTTczhKEA/7aeqg/JWF8RWvKWL4mI
+ gbNYITSkKelZtezxqqSfEkavnkHx9d72ctFI25uCKd/8h1kEcuaEMjU0jG39CEDsD5Jq
+ 65KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=vpbugow9CxRv3SiLp2GdhwhINeTAZr1vjK1QkIq9ywk=;
+ b=XkUGQGLkl62jXsIPsaetknWqUrJuReQC5giRUFFtY0tZ0q/J9RUSRAZqm/si50h3Ts
+ LQZfriBLs2G29+xxFVqGdD4zfr5HpR5CIXOFtcd2Tv0SJ0sMdJ97uPRmrHqpzkF0vkzM
+ EdnupYrz9/gEwLBRTGa02fkXeTpcTLpGXZgWjkge4A26lgleWspbJvcwjfxllSYPBazE
+ EdzDjI1tzuLBaLWO9sBrMK6Nw91inUcHlPGw/SBWn4ts3TM3QTqf/4k0W2oAmKRf3z6H
+ QDdh06QkszOqDtU45Or3Pyqla84v4VXAo5RX+L4aihCXtRXf5ifKoDj7VWFtemMJvkpk
+ eXuQ==
+X-Gm-Message-State: AOAM532ioJ7SG2CbFJGZjcb2J23wGabKdXE5uAcbzfLkxRfJG7Ir/QUd
+ eJ2gSnxJMCyh6F+iQcAgxRPupA==
+X-Google-Smtp-Source: ABdhPJydlACXGwv1q3omLBp1VBMWxqPAjR/UK7s6YTrBpBTf++uScp2QPsvhqrkESKAqyRyXVDLSeA==
+X-Received: by 2002:adf:ab49:: with SMTP id r9mr23622455wrc.237.1623167666680; 
+ Tue, 08 Jun 2021 08:54:26 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f13sm20276017wrt.86.2021.06.08.08.54.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Jun 2021 08:54:25 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5A24E1FF7E;
+ Tue,  8 Jun 2021 16:54:25 +0100 (BST)
+References: <20210502231844.1977630-1-richard.henderson@linaro.org>
+ <20210502231844.1977630-15-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 14/28] tcg: Introduce tcg_max_ctxs
+Date: Tue, 08 Jun 2021 16:54:18 +0100
+In-reply-to: <20210502231844.1977630-15-richard.henderson@linaro.org>
+Message-ID: <877dj4l5ce.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87czswxuwn.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,56 +87,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, "Niteesh G. S." <niteesh.gs@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/21 11:01 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
-> [...]
-> 
->> A challenge will be where to pull the help text from. The QEMU server
->> is not capable (today) of sending help information over the QMP socket
->> itself.
->>
->> We will need to implement a QMP command inside of QEMU directly that
->> is capable of delivering this information to the client so that it can
->> render it.
->>
->> Since not all versions of QEMU will have this feature, the qmp-shell
->> will need to be able to gracefully deal with the lack of help text,
->> displaying an error indicating that this version of QEMU does not have
->> help information compiled into it.
-> 
-> The doc text is bulky: my bld/docs/manual/interop/qemu-qmp-ref.html is
-> 1.7 MiB and growing.  Less lavish markup results in smaller data.  We
-> may want to store it compressed, or load it on demand.  We might even
-> have to make it compile-time optional for some use cases.
-> 
-> 
 
-ACK, understood.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-raw QAPI directory, including only the json files, is "only" 551.3 kB.
+> Finish the divorce of tcg/ from hw/, and do not take
+> the max cpu value from MachineState; just remember what
+> we were passed in tcg_init.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-I assume we can compile help text to something json (or json-like) and 
-then compress it. Perhaps we could compile something like 
-qapi-help-introspect.json.tgz and load it on-demand from the QEMU binary 
-when help text is requested.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-We could prototype under the experimental QMP command x-help, and limit 
-it to sending help for just one command at a time to limit data transfer.
-
-The client could cache the information. (Against what kind of an 
-identifier? Can QEMU report some kind of token that uniquely identifies 
-its binary or uniquely identifies the set of QAPI commands it supports?)
-
-This has the potential to exceed our capacity this summer, but a 
-prototype experiment might be helpful to inform future work anyway.
-
---js
-
+--=20
+Alex Benn=C3=A9e
 
