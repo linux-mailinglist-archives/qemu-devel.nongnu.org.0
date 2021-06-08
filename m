@@ -2,153 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5895539FACB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:33:47 +0200 (CEST)
-Received: from localhost ([::1]:33786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524D439FAF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:37:02 +0200 (CEST)
+Received: from localhost ([::1]:37466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqdje-0007uP-65
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:33:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50430)
+	id 1lqdmn-0002HX-4T
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:37:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
- id 1lqdil-0007DM-Gg
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:32:51 -0400
-Received: from mail-vi1eur05hn20311.outbound.protection.outlook.com
- ([2a01:111:f400:7d00::311]:42625
- helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
- id 1lqdii-00079a-R9
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:32:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dvWeB2OKKXZyjbLU9VCrPxzja2SOZnW8AwOBYXUw1LyVau2+vqPoLcuBwBk0tUGixrmj/aQz1IRFFaNagxMQhfbUQCk9JC+hwwuKyKo/s3Bf6tq6neKaVFkTqhC8sqa2WnV0BYbj9buyceEuNWrha/nuQlHMx7RsLZetEkVKnHGnVz1Y/c3BbWNCfh+b/YKqreKv0hNAdTPpas8kfSwhHyphtAXSkDqeLEhw0aaVesoS4ZUL6MFlwM2g7Y+CYisJ1UsXsGxZJTn0mvOVWPsSZqDyXGNnkuigKFQQITq6DBxqGPXB/5LJ45sYVQIPBPMyhvYIPRfySAW7WCsnDF5Y1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b5MUkQKkrgl5l2m/0JM4KYouD0nabS8Mhlm9K+J4+hs=;
- b=Vw0DX4MVXuhD73HDu41XwiNlYYwPwlzpf3PoL4WR7FKjyXiVILAXxl4umOsAnkcwMwPWAALA+h2lUW03G4SXcNkV+2p/YhV8aH/NYRCzx6m3J6SrU6cCXArfxtNQRY9VVAdGGfrxBs8KiLqMzJOfLEU2Bvrhb6/iW8W6aGl/kBTMq58hCjjZUCHxaki4UuazW3bBKNeZsswlyTtB8lLJBvW4agkUIzXDpmuIAUFHO/jU+et21GnSWxgpBGi3Ab8WVy4Y47ezAHwiEBf1PUO3tmD5Z/8C8y4OE7fj2phY/30OFmfCwqgyJOtB+K1o1ZPIQ36QYFUZq4tFgZPOOZxVdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b5MUkQKkrgl5l2m/0JM4KYouD0nabS8Mhlm9K+J4+hs=;
- b=tXGEA6y/4yMw3cid/NW0JtgXCXsn8y16SSiiO+ngvWNDZ4MEOAm8Q7ZuhX4aDZXVDa3FgdvdOsNC3v6mRt2VVIU6gMyyrjS9M+f2w0pkblH2tiRrATsEnbq4xONa6Wnsf+AAaa6Js3ivwDAKRXhfNLRWgd7f3tcrOnibD9YwzqM=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB5988.eurprd08.prod.outlook.com (2603:10a6:20b:283::19)
- by AM9PR08MB6114.eurprd08.prod.outlook.com (2603:10a6:20b:287::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.20; Tue, 8 Jun
- 2021 15:27:33 +0000
-Received: from AM9PR08MB5988.eurprd08.prod.outlook.com
- ([fe80::7d3f:e291:9411:c50f]) by AM9PR08MB5988.eurprd08.prod.outlook.com
- ([fe80::7d3f:e291:9411:c50f%7]) with mapi id 15.20.4195.030; Tue, 8 Jun 2021
- 15:27:33 +0000
-Date: Tue, 8 Jun 2021 18:27:28 +0300
-From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- kvm@vger.kernel.org, Denis Lunev <den@openvz.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8] qapi: introduce 'query-kvm-cpuid' action
-Message-ID: <20210608152727.GA958156@dhcp-172-16-24-191.sw.ru>
-References: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
- <87y2bkwfqv.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87y2bkwfqv.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: [185.231.240.5]
-X-ClientProxiedBy: AM0PR10CA0058.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::38) To AM9PR08MB5988.eurprd08.prod.outlook.com
- (2603:10a6:20b:283::19)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqdl1-0000bD-3o
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:35:11 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:44694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqdkx-00006H-Fu
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:35:10 -0400
+Received: by mail-pf1-x435.google.com with SMTP id u18so15955929pfk.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 08:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kzRrtTt2slZtTKaJhSuB2XTtyBZmlMrCOy4zBiuNpaQ=;
+ b=xMubTCyIhNHhJ0fxeGaZ9eAuWxT15Md3c1KGsdJAallIbkFCQKKWa9wrUOBSvyKjtz
+ bbR4eBlkueTo4cZwM6pXIeV1tzoMAVbcQYHkKsHMCbRuaQK1tEVfYYiKiShKMXRycr1X
+ +2cWS9w4v3C3QAIfkpYx+m79mhqYkt69Nc/U8/+pXmpbB79NhC9b23iR+42dzdWggWwi
+ odEIglmq6xwBsV4DHw6TxZjP6LSve0JFGF11/PWzeLXAMzgATEFQJUCE+F9pSv21mxqc
+ GusJsh0RR4APyGV7f2N1Uvh59l7fa21HlBCCQikyp2z0u7Q7F3pQPVHsYzSUfVS9k5LT
+ nceA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kzRrtTt2slZtTKaJhSuB2XTtyBZmlMrCOy4zBiuNpaQ=;
+ b=eDCFeOUaLMnIRX0Kb1t1yUV1ydzeZr7KQSTKYS75iX7DLAAMAnNdXkk56TdT6k7qxz
+ S/TR1uaDON9cZ2HfMTxEUvCpmQaCndcrLh2mFXrDOAvQYKns1Lq3L8KS/55eQwnk78wT
+ 0CNgr6sazIItNEHe+pTx2Y4qRy0dBeHXQ3txDolbiNHWh23nvPpBvamgLnBbLA0Mvqcj
+ XJVZQHrIlJPFcBB+JYDeZLdUH9kENcE7qVNCeag694/xS9bPTzJWrkrhNpFVN01swrnp
+ MP6jtzEL3bcrlIF/AAiblBtBpMjD6EN4XG2R9bRq5AN8SY9WRRf9mO6fn4O5auS4vCyf
+ /TYw==
+X-Gm-Message-State: AOAM530JuKgkmwdsVDdUHhB4bVpjxYnIO8GuoUZsufl+FP4t++BqnIAJ
+ HMjNiX1qedhD1PB2XWRQKsNk1g==
+X-Google-Smtp-Source: ABdhPJy5NlDr+pqGXErWNCP0YooX3VBX1B9jK7uLc4gbjmo2dDHRKROxO09B6UtmK0m0DxTcqhdVUA==
+X-Received: by 2002:a63:be44:: with SMTP id g4mr23441275pgo.425.1623166505805; 
+ Tue, 08 Jun 2021 08:35:05 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ o1sm1992127pjf.56.2021.06.08.08.35.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 08:35:05 -0700 (PDT)
+Subject: Re: [RFC PATCH] target/ppc: fix address translation bug for hash
+ table mmus
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210602191822.90182-1-bruno.larsen@eldorado.org.br>
+ <d7139129-428a-f6c9-c6e2-e540208d62aa@linaro.org>
+ <39c92ce9-46b8-4847-974c-647c7a5ca2ae@eldorado.org.br>
+ <b689bdd0-4d75-7c4e-189e-922738208dc0@linaro.org>
+ <c79e73b0-f989-575b-0982-672fc9b289eb@eldorado.org.br>
+ <7198ccf1-f2db-2e39-3778-4083b5d7fa45@linaro.org>
+ <b5834a1f-afaa-a36a-11d6-35a197ad74bc@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <cd077bef-c6a5-8041-e0e4-2ac554b96735@linaro.org>
+Date: Tue, 8 Jun 2021 08:35:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from dhcp-172-16-24-191.sw.ru (185.231.240.5) by
- AM0PR10CA0058.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::38) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20 via Frontend
- Transport; Tue, 8 Jun 2021 15:27:32 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75b56c1f-22f0-48ea-4ee7-08d92a91f00b
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6114:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM9PR08MB611441B70CF0EDE45CF1E42287379@AM9PR08MB6114.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
- IPV:NLI; SFV:SPM; H:AM9PR08MB5988.eurprd08.prod.outlook.com; PTR:; CAT:OSPM;
- SFS:(4636009)(376002)(346002)(39840400004)(136003)(396003)(366004)(6666004)(316002)(9686003)(1076003)(38100700002)(55016002)(4326008)(7416002)(16526019)(186003)(38350700002)(66946007)(107886003)(4744005)(956004)(36756003)(33656002)(54906003)(8936002)(52116002)(6916009)(7696005)(6506007)(44832011)(8676002)(2906002)(26005)(86362001)(478600001)(66476007)(66556008)(5660300002)(30126003);
- DIR:OUT; SFP:1501; 
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FDSMtsY1D7V+FqZ6RTCFt4CTwDddrCqtHE9efN2Ocm3umwi2iD7WBT+LvFwQ?=
- =?us-ascii?Q?sx3Ipuksep3+ieH+3RJxRXTl60iIfZpLpNwm8dlbAv5DxHcjGvwdpZkKGYyB?=
- =?us-ascii?Q?7jo4LyMDCRZzVhjxAWJsMoyMftclIERD22mW4PJBTyCJMcUIzmKFs6KuJ8pK?=
- =?us-ascii?Q?WhNFQTeND5XJvxEPHNKuCH+5d2c4tdAlKbptn1R6KrluVIDaya4YLyGlFxnG?=
- =?us-ascii?Q?9zaSZ4j8Ez3zpNo4DH66jB2JIFJhGlDCWU9sGiVPQZfGnaEgcGWtSL2YfDQM?=
- =?us-ascii?Q?JqOS5hp1jC+Fd/bo01Zz1zqJmQ2RjGxNtX/cgpLq2B2k7w02S0G3VN2K8+ge?=
- =?us-ascii?Q?lqCW0RZiBJ/XSwEUMa0ug2QqSJsY1OT7J+Y4IXY6K/jhOGM6twf7bw423222?=
- =?us-ascii?Q?zTDGomoFTVqfhEdrqufBALUAxTiF5Vw/DbcxvvTu5WlJm7fDFQZ8ScIxX2/h?=
- =?us-ascii?Q?+HOu4LFdW4O9FEJp3dr3TaAGPEQaf4MVRSOtJ8D/D7E0BFWzY9Xd5I45gqtn?=
- =?us-ascii?Q?BCfg1nxLpwoYMuZpsOWrKPyilXKR1TBtvO08EjJF7cNIGoMtJLq6Gq5tWShM?=
- =?us-ascii?Q?o2fJufuhgAN7IcIEcUKlHoN9azo2YRNtrjm91muBmsSeqwgF8XIaNeY2uCWs?=
- =?us-ascii?Q?NK4V9ZwqpnggbDgfSoQhntijo0sZHjB2Y8VyQHDI4ZP4agh9qFnnaKkshTkP?=
- =?us-ascii?Q?tKOnFjMC0e4xorQmOJRyAFVot9CcrbqXBKSMtBlIOTk7tMt9qVXrahtaw86G?=
- =?us-ascii?Q?7dQNmt1SFwtZmjqsMizRqpk/6mM1Shque3Ti+tEYJ98smMMQrKO//yyJ1I0b?=
- =?us-ascii?Q?VJmwNGw0duiLFNaw63VZ2Vlm2HqjCPqk7TWavvCWBTxXKEGXdGk1Idz9W3nn?=
- =?us-ascii?Q?z9Js0VQyrH6r/M1HygJ9L/EMSDdp3tO/0IOO/CSCh7MceXo4O7vS/Ozn2vgU?=
- =?us-ascii?Q?fz7RiTDmACL5TM0NamhBLLhe0af6MT5s017PvK/jUnM=3D?=
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?KEV5ZVGJ0VQ9Xy6K4M8EFj046XxgYORCA8yC+Sx++vDsJybk2nc82L0dxPST?=
- =?us-ascii?Q?l5xEnUliYsVxlqxrG+llB3txyt8w6Q3ZCiGfOZKbnHh+CsBwV+DfKYsSt8LQ?=
- =?us-ascii?Q?zUybDoFIY88eKs8zlvcsP+0IpkFioXv6lOvLzJKQwJpJ4d8hamwuMRzcA77N?=
- =?us-ascii?Q?mJ3xDKM6kHHQLrDDQPvfwRhDI9VBjLA064GTBOtXzez724heRajn0K43QRqa?=
- =?us-ascii?Q?Io6anf/mUcEqWKv8d3NvaIxPvRBso7sIvZysOcKA886xEurepVfUvVaIuRG3?=
- =?us-ascii?Q?xq3nvbo+KheHorxkwI3Eep4XMozPBPEeVtMy2uI/u9s8T69V7SVHQ64ui99m?=
- =?us-ascii?Q?KqGSwaWt5n3YvZ6t7DZhBvFmuBWtWs8ukslTlna+0Yb97CKeRIGSInCBPsw4?=
- =?us-ascii?Q?zFaAyyXC8+PrbSU0wd1h1l9NlHVZF298zAiI2dcxkFWT+AEsIEhUeju41GPq?=
- =?us-ascii?Q?QPbShDZxhCLmIkBiavNWAFYbvvmcIWGBmPiugELxIJMJOCEXgc4Z/XO89uUD?=
- =?us-ascii?Q?qxo1gpYA1wXYGNUkOBJ9tRgDZP2aELsfSy3KrdaO7X8B9acfcFAWiGjlK9nH?=
- =?us-ascii?Q?Mubf76id/DutcRQfGZ07CA/tInOqXn8LO8XXqRJf+RlZR8I4tm31y4Io4Kps?=
- =?us-ascii?Q?/V2ewoou1UIW3ndXQXtK6pCb0MK3+4cS4v8f7Rwg5ObuirQXANMw3qvrtfLy?=
- =?us-ascii?Q?slmSlA5CV0t+yKjipvTHSCp7+06VwlhWAaDBKEpboU6dxQELFHhi9HeeIAwe?=
- =?us-ascii?Q?WX6xrsaMaxv+yKA1VMDaw7Rx5Vfj+fPwvktwGLYP+fkwP8A/79u8hgZo29f7?=
- =?us-ascii?Q?KMzC7M6OZ1AyLsRfRga8J/ChK9/1hYjSZIlrsUXSrTV+M3idfDNGZ9tw9VM3?=
- =?us-ascii?Q?+0MKfAgPBKzuZkZuiQaa2N88nfqAZrXutk/Ozp9WEpyaLa54CZpTwRVJzSzD?=
- =?us-ascii?Q?BdNpZAlNF202zEZg5I1eY/hw4fB3AJmPjNfnOSEcxvsDUaJV/nGQU/5jp8Rn?=
- =?us-ascii?Q?BvJsFnpSlBGGSlbiuZXLjWIRqFisuzxdVr6aips0MuwQZxTmo0ku24FX2q+x?=
- =?us-ascii?Q?roWOObLc5s8Ar5pu1fJWeDCTdPJbQYuhb0++oGp2+coAHTW7SxHfU/7r/HER?=
- =?us-ascii?Q?BwDVZjhRlH1cMedLfA7AGSMCVY2dJf+dyiqEySunxsF81nV8rXpB2LzTSock?=
- =?us-ascii?Q?XosL5n3TEFBc8uirXe3erBLLAPW6TnFZg/BEq1wB0XC+nBc5CFFVAMvISKAH?=
- =?us-ascii?Q?Z7QrB2R6icnEj61gJ36MW3wkSgT89jCnCnyfXdIuvlVpGFBMuMME9w7o38bo?=
- =?us-ascii?Q?TN4RgmiAC+mvRHMo7rnLmjv7?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75b56c1f-22f0-48ea-4ee7-08d92a91f00b
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB5988.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2021 15:27:33.6260 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TAxrtdfiNhMoonimAkMOY/6Ab7ophv6X+mv3Z7PBTxmqEa2qctzYff7Y39WJPBR5j7gz27a6cjZklqHglE2hMSFEJ3xZtNFVofVFx7ldkaY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6114
-Received-SPF: pass client-ip=2a01:111:f400:7d00::311;
- envelope-from=Valeriy.Vdovin@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+In-Reply-To: <b5834a1f-afaa-a36a-11d6-35a197ad74bc@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -161,14 +94,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 05:14:16PM +0200, Markus Armbruster wrote:
-> Double-checking: this supersedes "[PATCH v7 0/1] qapi: introduce
-> 'query-cpu-model-cpuid' action"?
-> 
-Yes. I've changed the title in response to the changed api name
-and just forgot that I should have linked it to the previous versions
-somehow.
+On 6/8/21 7:39 AM, Bruno Piazera Larsen wrote:
+>> That's odd.  We already have more arguments than the number of argument 
+>> registers...  A 5x slowdown is distinctly odd.
+> I did some more digging and the problem is not with ppc_radix64_check_prot, the 
+> problem is ppc_radix64_xlate, which currently has 7 arguments and we're 
+> increasing to 8. 7 feels like the correct number, but I couldn't find docs 
+> supporting it, so I could be wrong.
+
+According to tcg/ppc/tcg-target.c.inc, there are 8 argument registers for ppc 
+hosts.  But now I see you didn't actually say on which host you observed the 
+problem...  It's 6 argument registers for x86_64 host.
+
+> That means we'd have to define radix_ctx_t (or however we call it) in 
+> radix64.h, setup the struct on ppc_xlate, then pass it to ppc_radix64_xlate.
+
+Well, if you're going to change the xlate interface, you want to do that across 
+all of them.  So, not call it radix_ctx_t.
+
+>  From looking at the code, it seems the most useful bits to put in the struct 
+> are: eaddr, g_addr, h_addr, {h,g}_prot, {g,h}_page_size, mmu_idx and 
+> guest_visible. They all seem reasonable to me, but I might be missing something 
+> again.
+
+I don't think h/g should be in this struct.  I think h/g should use different 
+struct instances, because they are different accesses.
+
+
+r~
 
