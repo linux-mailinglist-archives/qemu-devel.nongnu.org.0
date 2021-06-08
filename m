@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128113A0615
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 23:34:15 +0200 (CEST)
-Received: from localhost ([::1]:44672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7293A0657
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 23:43:18 +0200 (CEST)
+Received: from localhost ([::1]:48050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqjMT-0004GV-5j
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 17:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37274)
+	id 1lqjVF-0006vQ-6E
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 17:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqjLY-0003Pe-Or
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:33:16 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:33421)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqjLV-0000SM-Nv
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:33:16 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id e20so5683762pgg.0
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 14:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=2Xe1Z8SuFDERsT04b3rhXb5qnWkWynznPba8HgCcZ/o=;
- b=ARcBJoVDwhW4l4BwKtMvucPM6Zk8O/szRD2doMYPlxuTqpE8qlS4Z32cgB174K4/+w
- nzL4qWPOa2BLkBIQu2QdO3E6plVY/GfSdbM0XaG2PGKwJFPUKrXmdbg9LmQQicMmMpqr
- CwSHtJdDhVyLsHhefD02rQf9jDxo8C6bnECktiBLjHQX7C17ZAcKu/JH+XL5EqtrMnmI
- Ur4u0gt+Nl+5fQZpTHMDT1lWCZB815aD4w3QUC2Op2r5GKH5F12clK5DRKddOClCgePl
- fDFsKt/tWDnVxsKM75T+aPSVm6yoH5ojx+m9sMoPXA01RjiZrgALUA0g8fKaVTDe1jcm
- sBRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2Xe1Z8SuFDERsT04b3rhXb5qnWkWynznPba8HgCcZ/o=;
- b=gPAYv9Dk0g5zDoaAAREED+EqyRgYxtOgoZf4q9TLi71Ya/9D+MZnXGPvwwPBKJkVou
- 20IBHAxG0loT9alscByg1UpUpNDRkCgGGRZT2fVBEgCnLLvWHG4gn/uiXxGvXdaZtXmB
- buA3f3v8CoPPX8hZ+dNW5D1cwwUYVofKMgz38KwOcYR6peWTpJdE+p5xQy4Ntm/dQO3h
- uCnNZfDv7qrkf1skueF98xj3TM+n/vInsAGLjRuhxqUe1URHGDNh6SXrB8dRLdn1h0Wu
- lQQYxcIttcIqzcSNPpsSTjG8TBFMlGA1s6+r48RbXI6DgFv7yxbJqntU47tf40m3UXgd
- uZUA==
-X-Gm-Message-State: AOAM530jAijam6XGMbEgGRiBUQa3IipwG/R9g0eq8tnDUCnN5hHUtgsl
- +FqJMpXrDqJ8Pyc3Gl8473Mz0rWMlVkMzA==
-X-Google-Smtp-Source: ABdhPJz6E0sSUyh8ui8PpXipT2IR1d0VXVmzm7VkSRRJh7pVNUMxRRKiRjYLHX8atWWaYBKLEfjepA==
-X-Received: by 2002:a63:6284:: with SMTP id w126mr262777pgb.284.1623187991178; 
- Tue, 08 Jun 2021 14:33:11 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- t1sm12559141pgl.40.2021.06.08.14.33.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 14:33:10 -0700 (PDT)
-Subject: Re: [PATCH 11/55] target/arm: Implement MVE VLDR/VSTR (non-widening
- forms)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210607165821.9892-1-peter.maydell@linaro.org>
- <20210607165821.9892-12-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fef05b3a-eb23-fea7-0230-a69207b48e11@linaro.org>
-Date: Tue, 8 Jun 2021 14:33:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210607165821.9892-12-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lqjTz-000625-Tb
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:41:59 -0400
+Received: from mga14.intel.com ([192.55.52.115]:24359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1lqjTw-0004gS-Mg
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:41:59 -0400
+IronPort-SDR: XOgOHlvXPRMW42s5CDKB0dIurqEv6DYnwcjxH/E51NfWDWhu1Dad/ZrAEhPtnA2C4bH35Cui+H
+ BqK3jo8YSGnQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10009"; a="204762601"
+X-IronPort-AV: E=Sophos;i="5.83,259,1616482800"; d="scan'208";a="204762601"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 14:41:49 -0700
+IronPort-SDR: bdOER4nyAvF1QHKBlA0NfKJaHGxeShjhoRbZ6ejgfLcT97xqlFMUFmb++R3S+Cz5gRZUySF3mS
+ 2V69HejxlL2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,259,1616482800"; d="scan'208";a="402217940"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga003.jf.intel.com with ESMTP; 08 Jun 2021 14:41:48 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 8 Jun 2021 14:41:48 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 8 Jun 2021 14:41:47 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
+ Tue, 8 Jun 2021 14:41:47 -0700
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: RE: [PATCH v1 3/5] ui/egl: Add egl helpers to help with
+ synchronization
+Thread-Topic: [PATCH v1 3/5] ui/egl: Add egl helpers to help with
+ synchronization
+Thread-Index: AQHXW/Yp1cSUgBg2DEacxKSD7IoJDKsKmsIAgAAKhVA=
+Date: Tue, 8 Jun 2021 21:41:47 +0000
+Message-ID: <55623dab6e2141d48b26d2dd29266439@intel.com>
+References: <20210607232530.454435-1-vivek.kasireddy@intel.com>
+ <20210607232530.454435-4-vivek.kasireddy@intel.com>
+ <20210608140042.kl26xpevsswiq7ty@sirius.home.kraxel.org>
+In-Reply-To: <20210608140042.kl26xpevsswiq7ty@sirius.home.kraxel.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,94 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 9:57 AM, Peter Maydell wrote:
-> +static uint16_t mve_element_mask(CPUARMState *env)
-> +{
-> +    /*
-> +     * Return the mask of which elements in the MVE vector should be
-> +     * updated. This is a combination of multiple things:
-> +     *  (1) by default, we update every lane in the vector
-> +     *  (2) VPT predication stores its state in the VPR register;
-> +     *  (3) low-overhead-branch tail predication will mask out part
-> +     *      the vector on the final iteration of the loop
-> +     *  (4) if EPSR.ECI is set then we must execute only some beats
-> +     *      of the insn
-> +     * We combine all these into a 16-bit result with the same semantics
-> +     * as VPR.P0: 0 to mask the lane, 1 if it is active.
-> +     * 8-bit vector ops will look at all bits of the result;
-> +     * 16-bit ops will look at bits 0, 2, 4, ...;
-> +     * 32-bit ops will look at bits 0, 4, 8 and 12.
-> +     * Compare pseudocode GetCurInstrBeat(), though that only returns
-> +     * the 4-bit slice of the mask corresponding to a single beat.
-> +     */
-> +    uint16_t mask = extract32(env->v7m.vpr, R_V7M_VPR_P0_SHIFT,
-> +                              R_V7M_VPR_P0_LENGTH);
+Hi Gerd,
+=20
+> > +        epoxy_has_egl_extension(qemu_egl_display,
+> > +                                "EGL_ANDROID_native_fence_sync")) {
+>=20
+> What about non-android?  Is the name there just for historical reasons?
+> Or do we actually need something else for desktop systems?
+[Kasireddy, Vivek] It is not specific to Android:
+https://www.khronos.org/registry/EGL/extensions/ANDROID/EGL_ANDROID_native_=
+fence_sync.txt
 
-Any reason you're not using FIELD_EX32 and and FIELD_DP32 so far in this file?
+I have been using Linux (Fedora 33 for both Guest and Host) as my
+test platform.
 
-> +#define DO_VLDR(OP, ESIZE, LDTYPE, TYPE, H)                             \
-> +    void HELPER(mve_##OP)(CPUARMState *env, void *vd, uint32_t addr)    \
-> +    {                                                                   \
-> +        TYPE *d = vd;                                                   \
-> +        uint16_t mask = mve_element_mask(env);                          \
-> +        unsigned b, e;                                                  \
+>=20
+> > +void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf)
+>=20
+> See other mail on blocking wait.  Otherwise looks sane.
+>=20
+> > +static void gd_gl_wait_dmabuf(DisplayChangeListener *dcl,
+> > +                              QemuDmaBuf *dmabuf)
+>=20
+> separate patch for the gtk bits please.
+[Kasireddy, Vivek] Ok, will do.
 
-esize is redundant with sizeof(type); perhaps just make it a local variable?
+Thanks,
+Vivek
 
-> diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-> index c54d5cb7305..e8bb2372ad9 100644
-> --- a/target/arm/translate-mve.c
-> +++ b/target/arm/translate-mve.c
-> @@ -1,6 +1,6 @@
->   /*
->    *  ARM translation: M-profile MVE instructions
-> -
-> + *
->    *  Copyright (c) 2021 Linaro, Ltd.
+>=20
+> thanks,
+>   Gerd
 
-Is this just diff silliness?  I see that it has decided that helper-mve.h is a 
-rename from translate-mve.c...
-
-> +static bool do_ldst(DisasContext *s, arg_VLDR_VSTR *a, MVEGenLdStFn *fn)
-> +{
-> +    TCGv_i32 addr;
-> +    uint32_t offset;
-> +    TCGv_ptr qreg;
-> +
-> +    if (!dc_isar_feature(aa32_mve, s)) {
-> +        return false;
-> +    }
-> +
-> +    if (a->qd > 7 || !fn) {
-> +        return false;
-> +    }
-
-It's a funny old decode,
-
-   if D then UNDEFINED.
-   d = D:Qd,
-
-Is the spec forward looking to more than 7 Q registers?
-It's tempting to just drop the D:Qd from the decode...
-
-> +static bool trans_VLDR_VSTR(DisasContext *s, arg_VLDR_VSTR *a)
-> +{
-> +    MVEGenLdStFn *ldfns[] = {
-
-static MVEGenLdStFn * const ldfns
-
-> +    MVEGenLdStFn *stfns[] = {
-
-Likewise, though...
-
-> +    return do_ldst(s, a, a->l ? ldfns[a->size] : stfns[a->size]);
-
-... just put em together into a two-dimensional array, with a->l as the second 
-index?
-
-
-r~
 
