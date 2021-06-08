@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2374C39F5C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:56:12 +0200 (CEST)
-Received: from localhost ([::1]:36348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDCF39F5DD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:59:15 +0200 (CEST)
+Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqaL5-0008CM-86
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:56:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51072)
+	id 1lqaO2-0003OJ-4t
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqaHQ-0004Y3-ER
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:52:24 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36831)
+ id 1lqaM9-00011a-Pu
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:57:17 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:46811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqaHN-00008i-O7
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:52:24 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- h11-20020a05600c350bb02901b59c28e8b4so1258485wmq.1
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:52:21 -0700 (PDT)
+ id 1lqaM6-0002so-N9
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:57:17 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ h22-20020a05600c3516b02901a826f84095so1659396wmq.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=r/L9SJndbtdlh+0SWbRUP3MGc54lz0O2mvRRkvdyVGU=;
- b=NU1W5LZSRNARuDziWqmuE23SM9lCc0xFXC/ARnyR3CE+5+pApMkpfDlj29VMkNH1Vk
- ey575nrWuJE8auE8gtr45MXhAP93UvK8eR9IdHYFmWCzygSaL0DVeh/10fHf02XT7uoy
- tMc9cJoUCVea/apY7J+XBw8enOF101YLw5RYldVMTiwbjd5FquCJq9iDULi7drzSXRPr
- H5albAS0gxq5qEk1a0/63q5RZIqTMjKRqnkapqizcC6DSDUvCv05djgIz20KInJ7w3zX
- jPH04JmCIsi3z05FKesKgKU12+38XxX/FCqZQyrJvUJ1cYI02blJSfLy35g57tESiGoe
- 9KCA==
+ bh=vuhgo5BLEb0juLtVS9ee7HJfB5tdDGRe9WWy4ShGUiI=;
+ b=iHhywyPMaNJHf7et00s0AUESqtR07GprKMCsIJsvbc4VRwgyZ4yS/3Ns46D6G4z4j0
+ dQ2eQAw55U+Ej3/DUOI7O0i9S3JSIfZCelCRnh99VNHVpH7BuUkt+sYWz4nM1Prt/JD/
+ oTMrX/+pdikmr+7VF/sJeyxP9klwWKpWBp04FuYBaE8wpmYaCcSrU/pBBl+MeM0yAvmq
+ AUnYByA6WPvE0khxnedM6bC7vqfCLrROGM+ZQXMo6sANJ3YEuSIHBn2K/oi6T3XJYGrD
+ DR/7hr2bHmTw35ExBxGt9cKkZ60/TpJKwFE/zrsANNPfaENnHaSdDzjolUWKYZZo8NAB
+ dASw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=r/L9SJndbtdlh+0SWbRUP3MGc54lz0O2mvRRkvdyVGU=;
- b=OTMdQbq2rkk/CM2lrEo7lY0YqG7Q4Yn4P5Z99FtlTewfiRDlOtOTaJyk+XGs3qV1pX
- DETmASHPBicL8DkzgMqWTq+dpl76ItY5nYx8wO1yuHVpXffzgTFh/UqM3SCPZnf5oAM6
- B40Nc0ZD87uWlpw/gmCrj/pTvaZxSkOcVql089GpEvKQbyB8fukgR3bUBaO5UOOsPN0G
- B5VX3z6PmHxH9oMGFFFJZbNQSESmnldH9dFcJpzHgYy+nz329fEJon2V/W2H52iYcFex
- OKT4DghAmZUNKxC7hxuoAcuTErInNWEUjuqj+mYwAWhMzy5vsz4gBKoFA84/9g3BFe7e
- loSg==
-X-Gm-Message-State: AOAM530S4SUrIXyywBP5Nen3Fndm6Se2oDAXVMhqGjraOS6WHu6i5Znk
- PXaRzsH41BLwA9TFCE6CmXPlDw==
-X-Google-Smtp-Source: ABdhPJyc3UfApKO6I/Oe3MavPE+cPKOoMUYJom0ATZ6T/x8zCuKWQ8DJ0ZzlxxBc4WVjdHk9zmG+Vw==
-X-Received: by 2002:a1c:193:: with SMTP id 141mr3813360wmb.106.1623153140390; 
- Tue, 08 Jun 2021 04:52:20 -0700 (PDT)
+ bh=vuhgo5BLEb0juLtVS9ee7HJfB5tdDGRe9WWy4ShGUiI=;
+ b=f0UqS7FDd4ikPrpbq/6MOQQHCaqGwP04VNCkC4RY83wxq1ejIQlS01B22bV4kHNBrh
+ zLuo1DD5tX8D2+SNBhXguUlWqBwBafy7SPGreGC4B0FomMDfswI2C/2BlxLNVeB6DVlR
+ MQBKNZ3Tn2vjQyelLzF+Yy2AeNsrYlzzt8EWEOH0dSZLWeU0U7+Avsr1CAoszN+l2YG/
+ tgz/SYTBvGu99mLlrX43hs3LvUhcG4fMhiKyNW/kpM1F71mvMkTIEiWP/x5wi7fbcBgO
+ tDE8HrOnTuy2wYZsTF4OBdZ8oSGIBH/VHkcC42bHrJa+mdpWmNVstOv50vVyTinmu69S
+ JIEg==
+X-Gm-Message-State: AOAM530kKSMh7mBbNfV153itdS/R4jvXjt+m+OwC8i+VzzTg2R0c5Xbg
+ uiWVssFKdfadXyvQB7hAh39fCg==
+X-Google-Smtp-Source: ABdhPJzyeSY01P5dHBFjIMyreCHDf1y6OugmKRMqjqPT52IxYM6EM/7TYX7h8dSxY1Ws+/EjT20XAg==
+X-Received: by 2002:a7b:c192:: with SMTP id y18mr3857016wmi.65.1623153432658; 
+ Tue, 08 Jun 2021 04:57:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m3sm20628629wrr.32.2021.06.08.04.52.19
+ by smtp.gmail.com with ESMTPSA id n13sm22292002wrg.75.2021.06.08.04.57.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:52:19 -0700 (PDT)
+ Tue, 08 Jun 2021 04:57:11 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA61A1FF7E;
- Tue,  8 Jun 2021 12:52:18 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id E86031FF7E;
+ Tue,  8 Jun 2021 12:57:10 +0100 (BST)
 References: <20210502231844.1977630-1-richard.henderson@linaro.org>
- <20210502231844.1977630-12-richard.henderson@linaro.org>
+ <20210502231844.1977630-13-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 11/28] tcg: Create tcg_init
-Date: Tue, 08 Jun 2021 12:52:10 +0100
-In-reply-to: <20210502231844.1977630-12-richard.henderson@linaro.org>
-Message-ID: <87tum8lgjx.fsf@linaro.org>
+Subject: Re: [PATCH v3 12/28] accel/tcg: Merge tcg_exec_init into
+ tcg_init_machine
+Date: Tue, 08 Jun 2021 12:55:10 +0100
+In-reply-to: <20210502231844.1977630-13-richard.henderson@linaro.org>
+Message-ID: <87r1hclgbt.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,10 +96,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Perform both tcg_context_init and tcg_region_init.
-> Do not leave this split to the caller.
+> There is only one caller, and shortly we will need access
+> to the MachineState, which tcg_init_machine already has.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/internal.h      |  2 ++
+>  include/sysemu/tcg.h      |  2 --
+>  accel/tcg/tcg-all.c       | 14 +++++++++++++-
+>  accel/tcg/translate-all.c | 21 ++-------------------
+>  4 files changed, 17 insertions(+), 22 deletions(-)
+>
+> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+> index e9c145e0fb..881bc1ede0 100644
+> --- a/accel/tcg/internal.h
+> +++ b/accel/tcg/internal.h
+> @@ -16,5 +16,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu, target_ulo=
+ng pc,
+>                                int cflags);
+>=20=20
+>  void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
+> +void page_init(void);
+> +void tb_htable_init(void);
+>=20=20
+>  #endif /* ACCEL_TCG_INTERNAL_H */
+> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+> index 00349fb18a..53352450ff 100644
+> --- a/include/sysemu/tcg.h
+> +++ b/include/sysemu/tcg.h
+> @@ -8,8 +8,6 @@
+>  #ifndef SYSEMU_TCG_H
+>  #define SYSEMU_TCG_H
+>=20=20
+> -void tcg_exec_init(unsigned long tb_size, int splitwx);
+> -
+>  #ifdef CONFIG_TCG
+>  extern bool tcg_allowed;
+>  #define tcg_enabled() (tcg_allowed)
+> diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+> index 30d81ff7f5..0e83acbfe5 100644
+> --- a/accel/tcg/tcg-all.c
+> +++ b/accel/tcg/tcg-all.c
+> @@ -32,6 +32,7 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/accel.h"
+>  #include "qapi/qapi-builtin-visit.h"
+> +#include "internal.h"
+>=20=20
+>  struct TCGState {
+>      AccelState parent_obj;
+> @@ -109,8 +110,19 @@ static int tcg_init_machine(MachineState *ms)
+>  {
+>      TCGState *s =3D TCG_STATE(current_accel());
+>=20=20
+> -    tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
+> +    tcg_allowed =3D true;
+>      mttcg_enabled =3D s->mttcg_enabled;
+> +
+> +    page_init();
+> +    tb_htable_init();
+> +    tcg_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
+> +
+
+nit: you could clean up to use unit.h definitions, i.e. tb->size * MiB
+
+Otherwise:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
