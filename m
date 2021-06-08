@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E991639FBAD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 18:05:37 +0200 (CEST)
-Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B160039FBFC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 18:08:59 +0200 (CEST)
+Received: from localhost ([::1]:47534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqeES-0002j0-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 12:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55864)
+	id 1lqeHi-0006xn-Ch
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 12:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqe75-0007gq-Qu
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:57:59 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:41657)
+ id 1lqeES-0004iU-6d
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 12:05:36 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lqe74-0007kx-5O
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:57:59 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so2259532wmq.0
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 08:57:57 -0700 (PDT)
+ id 1lqeEQ-0002NH-2k
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 12:05:35 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ h11-20020a05600c350bb02901b59c28e8b4so1849574wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 09:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=5IGT/DPCS+WCeffK9mXJxc5AKMmS/XHkDro1GSeB5iQ=;
- b=Lfh/44+IZ8/1bbDuhcLJU91cI0utDqUf47FOQTxMuBLOLCwb3g3JOELgCwXf6C7mh4
- f2+UcPACiEUx0B2713sDmmEK5/m52YNpzBVk+xS87wrkEKUjn60y8ED/NI/CZ3Z1lLbs
- kBvFYirTMpbEBRt9mDa79tRmZxCUbTPP5fw8yzSDi6PYYqpWa370eyZyrQ9Wbibowak+
- 5jZgBWuGOX2jUtD0OH3Zm+JMcyUojDQNRIq+qT/TqgBuoLzZmbmCrx/gv0iJfQ/HupYq
- QDVfLyllrT6snj8A5sBKs2LhiaUuu4E0xuWfh3YZa1dQOgMYO766SylOEos8Cig++7g0
- 7zNQ==
+ bh=n7oX8BlI6/38oqWf/y24e2nVSiOFKHWr3CTsmqQmNaE=;
+ b=nudpyrdnZCwLIbRf0D+8iN0rO0eFPA9WcYIiT4ablBA5myc2mpQjWIuwcQ5piSNyXP
+ RkUWy+DMzl5Vo1ZxGsG+q2LT/Vy14ct4KYByV3NH2K9zYpzyYxh3YeUCwswTDryG0of6
+ I/ijEGqljzoMxfXslIa33ilM5DnlKbhgZfCdoZ807ANYO5xVYfBxMNt2a6106ehzY8y2
+ dklCpoz6C9hh6f3xBUsoY6ZvZcrjSLomOIaLWOeEUf9HxNyWU/wSHrl1H8rYQt5pCnEZ
+ a/iQNDBg8cnvF4KvnjwHPtunRdlfmc9WjPnOGTSTAj9yGlzwLqQodx3VkWJ9dL62rHIg
+ CwAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=5IGT/DPCS+WCeffK9mXJxc5AKMmS/XHkDro1GSeB5iQ=;
- b=GEOwqpLaN0bOWtAu4XTwNaJ//sXR5E4Pp7Yh2KYelTlasiHFgtwqdqh7cObYeZ9HUS
- /4VWMrAybiHsDmj590UMONIoWSNzT9hpVXsb1CEOqbSfXeouEKCv6dEXFXiRhDcdd539
- 0eE7MuT0gm2LdxyhZwUy6QS4ofF2UARQWVESGGSQGYt1MOaq1JmtOk3j68eiWGQ++upM
- shdSrIpEw++T5M2npIxZYBdPn4uApxejNciz7KgSRKvTOyasVs2IutTGhWAJkj3tWHL2
- Aqhc5AGCNkjXri2wguLDrdn17ltwoGWrFWzThTr8RKrMju3h1hhoGEI2sAc0YCRmYO5U
- 5rKw==
-X-Gm-Message-State: AOAM531g8aN5PNr3i8dr6vF4NF2mfbgAbC1SwVBTj7BFPtr9ZaEhuirz
- +sAPv1+RIaZRM4ydmB6nYHMu83BpSLgxKg==
-X-Google-Smtp-Source: ABdhPJwWCLAgTuTL/d3ZGlVOAWMiF1ZFZ3lp1tsKBsg8fChXAp12/g+1gQ/BXDe+xxvneCtxe6Va4g==
-X-Received: by 2002:a1c:bb45:: with SMTP id l66mr5059769wmf.29.1623167876557; 
- Tue, 08 Jun 2021 08:57:56 -0700 (PDT)
+ bh=n7oX8BlI6/38oqWf/y24e2nVSiOFKHWr3CTsmqQmNaE=;
+ b=GZoW7ltx4MmPH6qO0ak2OKkGanyOF9IC6eM1R2ZQB36D6w+wvmPnjF4LBJhvqOMd/6
+ /NAJpxWHE+Xb0a2aWIUXkgjCikuhEWDpSGLxLE7Z+nc6fUowC7j2QXYakmtlWOYBPshp
+ 1JcuTFzRMWpu7R8dJls6KVtGNKU/nTvYTQSc2e0AEDXJrsJeXwLLTKHzxdG1eGiWBa94
+ J43ZZ9QC5lJ+0OX5Exg6STa0MsuP4aifriq4Ae61/euAAUuY7vo78fYK7jeNTfxbXOPm
+ OyrDO/ez/XZWefKbE3Hpe1O8DF2Fna26ZmhjHPXIKcKW4mcLKxwhU5qsUFnwO4rb2KK0
+ zvjg==
+X-Gm-Message-State: AOAM532/lFumR0OtYoFhGUziUNjGFzwrn3578qqq6yHcTqw1CnDKJdCf
+ KP1+rHJFEYDQIRaHybQOxsgflA==
+X-Google-Smtp-Source: ABdhPJwD3DkMJv3lDN4afmL34TH1ujb6yKzlNZxGb2XxDV3m4m652fVLDkwkoSjft7bTVrLKiZjQRg==
+X-Received: by 2002:a7b:c94a:: with SMTP id i10mr22906621wml.29.1623168332258; 
+ Tue, 08 Jun 2021 09:05:32 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l13sm12835979wrz.34.2021.06.08.08.57.55
+ by smtp.gmail.com with ESMTPSA id m7sm21079015wrv.35.2021.06.08.09.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 08:57:55 -0700 (PDT)
+ Tue, 08 Jun 2021 09:05:30 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 09E401FF7E;
- Tue,  8 Jun 2021 16:57:55 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id ADCD41FF7E;
+ Tue,  8 Jun 2021 17:05:29 +0100 (BST)
 References: <20210502231844.1977630-1-richard.henderson@linaro.org>
- <20210502231844.1977630-16-richard.henderson@linaro.org>
+ <20210502231844.1977630-17-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 15/28] tcg: Move MAX_CODE_GEN_BUFFER_SIZE to
- tcg-target.h
-Date: Tue, 08 Jun 2021 16:56:33 +0100
-In-reply-to: <20210502231844.1977630-16-richard.henderson@linaro.org>
-Message-ID: <874ke8l56k.fsf@linaro.org>
+Subject: Re: [PATCH v3 16/28] tcg: Replace region.end with region.total_size
+Date: Tue, 08 Jun 2021 17:03:20 +0100
+In-reply-to: <20210502231844.1977630-17-richard.henderson@linaro.org>
+Message-ID: <871r9cl4ty.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,40 +95,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Remove the ifdef ladder and move each define into the
-> appropriate header file.
+> A size is easier to work with than an end point,
+> particularly during initial buffer allocation.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> v2: Retain comment about M_C_G_B_S constraint (balaton)
-> ---
->  tcg/aarch64/tcg-target.h |  1 +
->  tcg/arm/tcg-target.h     |  1 +
->  tcg/i386/tcg-target.h    |  2 ++
->  tcg/mips/tcg-target.h    |  6 ++++++
->  tcg/ppc/tcg-target.h     |  2 ++
->  tcg/riscv/tcg-target.h   |  1 +
->  tcg/s390/tcg-target.h    |  3 +++
->  tcg/sparc/tcg-target.h   |  1 +
->  tcg/tci/tcg-target.h     |  1 +
->  tcg/region.c             | 35 +++++++++--------------------------
->  10 files changed, 27 insertions(+), 26 deletions(-)
+>  tcg/region.c | 29 +++++++++++++++++------------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
 >
-> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-> index 5ec30dba25..ef55f7c185 100644
-> --- a/tcg/aarch64/tcg-target.h
-> +++ b/tcg/aarch64/tcg-target.h
-> @@ -15,6 +15,7 @@
->=20=20
->  #define TCG_TARGET_INSN_UNIT_SIZE  4
->  #define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
-> +#define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
->  #undef TCG_TARGET_STACK_GROWSUP
+> diff --git a/tcg/region.c b/tcg/region.c
+> index 9a1e039824..a17f342f38 100644
+> --- a/tcg/region.c
+> +++ b/tcg/region.c
+> @@ -48,7 +48,7 @@ struct tcg_region_state {
+>      /* fields set at init time */
+>      void *start;
+>      void *start_aligned;
+> -    void *end;
+> +    size_t total_size; /* size of entire buffer */
+>      size_t n;
+>      size_t size; /* size of one region */
+>      size_t stride; /* .size + guard size */
 
-As it's a TCG_TARGET feature maybe we should be renaming it while we are
-at it? TCG_TARGET_MAX_CODE_SIZE?
+I'd shuffle that to the end so it scans size < stride < total_size. I
+see we have special handling bellow:
 
-Either way:
+> @@ -279,7 +279,7 @@ static void tcg_region_bounds(size_t curr_region, voi=
+d **pstart, void **pend)
+>          start =3D region.start;
+>      }
+>      if (curr_region =3D=3D region.n - 1) {
+> -        end =3D region.end;
+> +        end =3D region.start_aligned + region.total_size;
+
+So why isn't this end =3D start_aligned + (n * stride)? do we not line up
+for the last region?
+
+Anyway:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
