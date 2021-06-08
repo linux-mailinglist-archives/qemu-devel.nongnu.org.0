@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DAF39F4F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:29:26 +0200 (CEST)
-Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A4539F4E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:25:22 +0200 (CEST)
+Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqZvB-0000L3-4p
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:29:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
+	id 1lqZrE-0000wl-UJ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpB-0006WG-9L
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:14 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41848)
+ id 1lqZpD-0006Wj-8u
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:15 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZp9-0007z4-I9
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:12 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- l11-20020a05600c4f0bb029017a7cd488f5so1632062wmq.0
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:11 -0700 (PDT)
+ id 1lqZpB-000800-AG
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:14 -0400
+Received: by mail-wr1-x434.google.com with SMTP id e11so10954515wrg.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3BHzzehIAd6rLWsdffGUKDOovWe+Q46KfbqgPwO3Ny4=;
- b=d+eDGFdViaoWBKenOh2tf31JJYKlvU0vf47RcMhuOAZhST5BPQwrcDkMjIdzyL8hd4
- w4p4yGV5fGNNAZn0z2Yu15TztX7jpInXIYxpu1pqq6TDq+ZcyFHteOXxmBdpzptbkClU
- Z3tb7OxkB6Zm02R/66cvO9XK2gnxS2zNmGM+3u/ZvVEKyH2ZKn8wMNKEaRGUpXRXloWM
- uMsPVKDckabXrbFcaWLSl3AAKXTJqrjoxzBdNISN7nTsQaL4RqhW0F5OKkRFuRKIujNr
- RM5WF84oAR/Kz3mU2466c2/+gOlRFRqoXUmT2ABvmd6kmTY3GWv5brXgnsNCOf5eww4q
- wVlg==
+ bh=KPzZ7D1UtY+QeqXtKh3Tp3/QcBfmpOIZBp3Ec0jWE6s=;
+ b=rBXdkHHwiB/bEJJ6HHt5QuWWQeYfTFEKerZKdi1KHLMqCf2aV1kZdB7IYpIFP2AMhv
+ sQUc/+u8+wkePc+OLGzf5RRx5mdroEXV5SW420Rw/FJll7IXj7mRUjdBHUAm/GNNrHWD
+ M+ZGfdn1e+tTymh18yfvkpjTa1SZ3flgHPNwEnwh2WM6OcTRjmt9qVvyRMaDK5pG8GgA
+ 6gIA6z0MgfVIRR5dl02WCh8DOg3OP6Rm+51irRFh95j92FveoZ4YAx7ZRoR734jAwFJT
+ Czg5tvJWzacegGvhQo++idptT23baQ2+a7qxTBEbsn3480FF+E7munqzLbOLGSK/KAcs
+ og3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3BHzzehIAd6rLWsdffGUKDOovWe+Q46KfbqgPwO3Ny4=;
- b=kiLMe9j/NOkCAg+FaOqA7WAzorKBn4T0YKk/AFwhG5AULw3KJKqp4Ytm6OEGnwrksw
- zYZT52EJDPVQKO0nKHph5t9zsxA/ULTNiIeXh7uel/8Har77WQnMlasIOGFSH/6EAEuo
- stRAR+HB0FOIwaRqDXD9399HK8zeTbkmRvxhznLxwk1lhlLufH6FCoZ04fggtMrfYnay
- IB7iUm6CfS55x3CfAGhH3svv8v6TlM7ibEYD535n6Cfg50JTHsBbK61j5piPTFmT+0E+
- 6glUwPY6vGwpI55aindqvrw1l/8+KuJmlo6xhmVaP1OIV615nntak2n0I72p8N8qPhMk
- 2LZg==
-X-Gm-Message-State: AOAM531kPk5SJ369lq59cvBAJzeP6AHyJiSe8kqTXlOjMJtsCeNqeGV5
- +ZUm+rmfeohg8oZr/X2Chj7gDynO4c1JSg==
-X-Google-Smtp-Source: ABdhPJyrSQkInCe6YwfCqieCVkEvSGXju1IRi9fn7KUx/xtNXnkh5jenWV/cF5ad1pj1Q9Q8yOgC5w==
-X-Received: by 2002:a05:600c:3ba2:: with SMTP id
- n34mr13265634wms.120.1623151390219; 
- Tue, 08 Jun 2021 04:23:10 -0700 (PDT)
+ bh=KPzZ7D1UtY+QeqXtKh3Tp3/QcBfmpOIZBp3Ec0jWE6s=;
+ b=C7fFWHo/fMQHqYuVdHQGTpmLB+q+F/1QC3Edv7amEXpk5ZT9RHA2eUd+C9JROfFPnF
+ waXoCzi2nMTpIOQacjN6gJV+S76wzudOcNsWJM0H/CoQe9JIPzOI69VXCM1Addt6A7ra
+ JK6z4C9PoFeT2Lyb1VQoHJA6i5x0NmKL37NgyYkWIvbPOkBRPGDjkZPF9bQHFppgi2RT
+ BHHqKDPzi41/syQS/sojXAXg4HRSEFBIlhMEc9GmvTRJ7m1lwgOSmheKWGgDySICq5Er
+ BjeduaFklbPyVeGUh5z2HaIaGEagV++8ie3qxNUFSTLoJmNeFrOfrpsFL+lBK5GnMYBE
+ 5r9Q==
+X-Gm-Message-State: AOAM533j78LQ/K2CuJYMMi6tvQw6ex4MEarJFwF8WuyZBGbBi1u/McY3
+ IvYcJzQsf7ehuFwddunlPTSo6+VN+DWv/g==
+X-Google-Smtp-Source: ABdhPJx44VprtCKaLIoK6QdMoAIkuOqbnd5uiGHaaAKQ0A4Jflb4OPdlKrazRmrusPsjzO6d0QQu1g==
+X-Received: by 2002:adf:e4cf:: with SMTP id v15mr22227895wrm.162.1623151391975; 
+ Tue, 08 Jun 2021 04:23:11 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.09
+ by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:23:09 -0700 (PDT)
+ Tue, 08 Jun 2021 04:23:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/26] configure, meson: convert libusbredir detection to meson
-Date: Tue,  8 Jun 2021 13:22:43 +0200
-Message-Id: <20210608112301.402434-9-pbonzini@redhat.com>
+Subject: [PATCH 10/26] configure, meson: convert virgl detection to meson
+Date: Tue,  8 Jun 2021 13:22:45 +0200
+Message-Id: <20210608112301.402434-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608112301.402434-1-pbonzini@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,130 +89,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure          | 28 ++++------------------------
- hw/usb/meson.build |  2 +-
- meson.build        |  9 +++++----
- meson_options.txt  |  2 ++
- 4 files changed, 12 insertions(+), 29 deletions(-)
+ configure              | 35 ++++-------------------------------
+ hw/display/meson.build |  6 +++---
+ meson.build            | 10 ++++++----
+ meson_options.txt      |  2 ++
+ 4 files changed, 15 insertions(+), 38 deletions(-)
 
 diff --git a/configure b/configure
-index 591acd0750..9a6217a3bf 100755
+index d3351557e9..c2c8c9f2d6 100755
 --- a/configure
 +++ b/configure
-@@ -375,7 +375,7 @@ rbd="auto"
- smartcard="auto"
- u2f="auto"
- libusb="auto"
--usb_redir="$default_feature"
-+usb_redir="auto"
- opengl="$default_feature"
- cpuid_h="no"
- avx2_opt="$default_feature"
-@@ -1289,9 +1289,9 @@ for opt do
+@@ -409,7 +409,7 @@ nettle="auto"
+ gcrypt="auto"
+ auth_pam="auto"
+ vte="auto"
+-virglrenderer="$default_feature"
++virglrenderer="auto"
+ tpm="$default_feature"
+ libssh="$default_feature"
+ live_block_migration=${default_feature:-yes}
+@@ -1399,9 +1399,9 @@ for opt do
    ;;
-   --enable-libusb) libusb="enabled"
+   --enable-vte) vte="enabled"
    ;;
--  --disable-usb-redir) usb_redir="no"
-+  --disable-usb-redir) usb_redir="disabled"
+-  --disable-virglrenderer) virglrenderer="no"
++  --disable-virglrenderer) virglrenderer="disabled"
    ;;
--  --enable-usb-redir) usb_redir="yes"
-+  --enable-usb-redir) usb_redir="enabled"
+-  --enable-virglrenderer) virglrenderer="yes"
++  --enable-virglrenderer) virglrenderer="enabled"
    ;;
-   --disable-zlib-test)
+   --disable-tpm) tpm="no"
    ;;
-@@ -3980,20 +3980,6 @@ EOF
+@@ -4036,28 +4036,6 @@ EOF
    fi
  fi
  
--# check for usbredirparser for usb network redirection support
--if test "$usb_redir" != "no" ; then
--    if $pkg_config --atleast-version=0.6 libusbredirparser-0.5; then
--        usb_redir="yes"
--        usb_redir_cflags=$($pkg_config --cflags libusbredirparser-0.5)
--        usb_redir_libs=$($pkg_config --libs libusbredirparser-0.5)
--    else
--        if test "$usb_redir" = "yes"; then
--            feature_not_found "usb-redir" "Install usbredir devel"
--        fi
--        usb_redir="no"
+-##########################################
+-# virgl renderer probe
+-
+-if test "$virglrenderer" != "no" ; then
+-  cat > $TMPC << EOF
+-#include <virglrenderer.h>
+-int main(void) { virgl_renderer_poll(); return 0; }
+-EOF
+-  virgl_cflags=$($pkg_config --cflags virglrenderer 2>/dev/null)
+-  virgl_libs=$($pkg_config --libs virglrenderer 2>/dev/null)
+-  virgl_version=$($pkg_config --modversion virglrenderer 2>/dev/null)
+-  if $pkg_config virglrenderer >/dev/null 2>&1 && \
+-     compile_prog "$virgl_cflags" "$virgl_libs" ; then
+-    virglrenderer="yes"
+-  else
+-    if test "$virglrenderer" = "yes" ; then
+-      feature_not_found "virglrenderer"
 -    fi
+-    virglrenderer="no"
+-  fi
 -fi
 -
  ##########################################
- # check if we have VSS SDK headers for win
+ # capstone
  
-@@ -5592,12 +5578,6 @@ if test "$spice" = "yes" ; then
-   echo "SPICE_LIBS=$spice_libs" >> $config_host_mak
+@@ -5464,11 +5442,6 @@ fi
+ if test "$have_copy_file_range" = "yes" ; then
+     echo "HAVE_COPY_FILE_RANGE=y" >> $config_host_mak
  fi
- 
--if test "$usb_redir" = "yes" ; then
--  echo "CONFIG_USB_REDIR=y" >> $config_host_mak
--  echo "USB_REDIR_CFLAGS=$usb_redir_cflags" >> $config_host_mak
--  echo "USB_REDIR_LIBS=$usb_redir_libs" >> $config_host_mak
+-if test "$virglrenderer" = "yes" ; then
+-  echo "CONFIG_VIRGL=y" >> $config_host_mak
+-  echo "VIRGL_CFLAGS=$virgl_cflags" >> $config_host_mak
+-  echo "VIRGL_LIBS=$virgl_libs" >> $config_host_mak
 -fi
--
- if test "$opengl" = "yes" ; then
-   echo "CONFIG_OPENGL=y" >> $config_host_mak
-   echo "OPENGL_CFLAGS=$opengl_cflags" >> $config_host_mak
-@@ -6174,7 +6154,7 @@ if test "$skip_meson" = no; then
-         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
-         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--        -Dlibusb=$libusb -Dsmartcard=$smartcard \
-+        -Dlibusb=$libusb -Dsmartcard=$smartcard -Dusb_redir=$usb_redir \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index df9effbb10..4f24b5274d 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -64,7 +64,7 @@ if u2f.found()
- endif
+ if test "$xen" = "enabled" ; then
+   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
+   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
+@@ -6136,7 +6109,7 @@ if test "$skip_meson" = no; then
+         -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
+         -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt -Dauth_pam=$auth_pam \
+         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
+-        -Dattr=$attr -Ddefault_devices=$default_devices \
++        -Dattr=$attr -Ddefault_devices=$default_devices -Dvirglrenderer=$virglrenderer \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+diff --git a/hw/display/meson.build b/hw/display/meson.build
+index e1f473c1df..1e6b707d3c 100644
+--- a/hw/display/meson.build
++++ b/hw/display/meson.build
+@@ -61,7 +61,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
+   hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
  
- # usb redirect
--if config_host.has_key('CONFIG_USB_REDIR')
-+if usbredir.found()
-   usbredir_ss = ss.source_set()
-   usbredir_ss.add(when: 'CONFIG_USB',
-                   if_true: [usbredir, files('redirect.c', 'quirks.c')])
+   virtio_gpu_gl_ss = ss.source_set()
+-  virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL', opengl],
++  virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', virgl, opengl],
+                        if_true: [files('virtio-gpu-gl.c', 'virtio-gpu-virgl.c'), pixman, virgl])
+   hw_display_modules += {'virtio-gpu-gl': virtio_gpu_gl_ss}
+ endif
+@@ -75,7 +75,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
+   hw_display_modules += {'virtio-gpu-pci': virtio_gpu_pci_ss}
+ 
+   virtio_gpu_pci_gl_ss = ss.source_set()
+-  virtio_gpu_pci_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI', 'CONFIG_VIRGL', opengl],
++  virtio_gpu_pci_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI', virgl, opengl],
+                            if_true: [files('virtio-gpu-pci-gl.c'), pixman])
+   hw_display_modules += {'virtio-gpu-pci-gl': virtio_gpu_pci_gl_ss}
+ endif
+@@ -89,7 +89,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
+   hw_display_modules += {'virtio-vga': virtio_vga_ss}
+ 
+   virtio_vga_gl_ss = ss.source_set()
+-  virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', 'CONFIG_VIRGL', opengl],
++  virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', virgl, opengl],
+                        if_true: [files('virtio-vga-gl.c'), pixman])
+   hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
+ endif
 diff --git a/meson.build b/meson.build
-index d2efa6178a..ae40bdf7c4 100644
+index f3af9ee3cf..842831e1fb 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -987,9 +987,10 @@ if have_system
-                    kwargs: static_kwargs)
+@@ -471,9 +471,11 @@ if 'CONFIG_GBM' in config_host
+                            link_args: config_host['GBM_LIBS'].split())
  endif
- usbredir = not_found
--if 'CONFIG_USB_REDIR' in config_host
--  usbredir = declare_dependency(compile_args: config_host['USB_REDIR_CFLAGS'].split(),
--                                link_args: config_host['USB_REDIR_LIBS'].split())
-+if not get_option('usb_redir').auto() or have_system
-+  usbredir = dependency('libusbredirparser-0.5', required: get_option('usb_redir'),
-+                        version: '>=0.6', method: 'pkg-config',
-+                        kwargs: static_kwargs)
+ virgl = not_found
+-if 'CONFIG_VIRGL' in config_host
+-  virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
+-                             link_args: config_host['VIRGL_LIBS'].split())
++if not get_option('virglrenderer').auto() or have_system
++  virgl = dependency('virglrenderer',
++                     method: 'pkg-config',
++                     required: get_option('virglrenderer'),
++                     kwargs: static_kwargs)
  endif
- libusb = not_found
- if not get_option('libusb').auto() or have_system
-@@ -2798,7 +2799,7 @@ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard.found()}
- summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            libusb.found()}
--summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
-+summary_info += {'usb net redir':     usbredir.found()}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
- summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
- summary_info += {'libiscsi support':  libiscsi.found()}
+ curl = not_found
+ if not get_option('curl').auto() or have_block
+@@ -2782,7 +2784,7 @@ summary_info += {'PAM':               pam.found()}
+ summary_info += {'iconv support':     iconv.found()}
+ summary_info += {'curses support':    curses.found()}
+ # TODO: add back version
+-summary_info += {'virgl support':     config_host.has_key('CONFIG_VIRGL')}
++summary_info += {'virgl support':     virgl.found()}
+ summary_info += {'curl support':      curl.found()}
+ summary_info += {'Multipath support': mpathpersist.found()}
+ summary_info += {'VNC support':       vnc.found()}
 diff --git a/meson_options.txt b/meson_options.txt
-index cd9374384e..f7ec9bee27 100644
+index 8af42987f4..a70aedb0eb 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -108,6 +108,8 @@ option('snappy', type : 'feature', value : 'auto',
-        description: 'snappy compression support')
- option('u2f', type : 'feature', value : 'auto',
+@@ -110,6 +110,8 @@ option('u2f', type : 'feature', value : 'auto',
         description: 'U2F emulation support')
-+option('usb_redir', type : 'feature', value : 'auto',
-+       description: 'libusbredir support')
+ option('usb_redir', type : 'feature', value : 'auto',
+        description: 'libusbredir support')
++option('virglrenderer', type : 'feature', value : 'auto',
++       description: 'virgl rendering support')
  option('vnc', type : 'feature', value : 'enabled',
         description: 'VNC server')
  option('vnc_jpeg', type : 'feature', value : 'auto',
