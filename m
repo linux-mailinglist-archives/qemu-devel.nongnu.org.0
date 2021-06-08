@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EC339EAFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:49:34 +0200 (CEST)
-Received: from localhost ([::1]:42086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8211939EAEB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:43:45 +0200 (CEST)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPvx-00029A-JS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45216)
+	id 1lqPqK-00061K-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPex-0003L7-3r
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:59 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19715)
+ id 1lqPey-0003RC-Oz
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:32:00 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPev-0004dW-2T
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:58 -0400
+ id 1lqPev-0004Zo-R3
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:32:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1623112316; x=1654648316;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=i99iDHcZNo0oVeOVNeTskhavG628wLwTWmHMO+xb1Mc=;
- b=XhGU3dAjmKwjYJr5x5vhuA05rc82+Qz/loZaCaVNM8x2cwxpA3hCmk9c
- HUXJcW/3wPloUecbg83MGp4c6XD/3A3GP/qZvDeD+PLUYOEYACOkt54xS
- IqocmgOrPMqIfEMquLXfDEUfr89gG2B2ZTuRUWBt6vqI8UeQtJS+LWN57
- aL7rzDr5IFJmJvy0wYFHA+6s+RATamJLf90F1Rv7Bh+gMydkMPr84KNIH
- 9BlgxPO60CSjUKhjHOx2O2ArUyB9iXQ7RE/FQ2s0oOb2WvlatEbnecSUb
- +tqdWp0bU6sKrNwCspGL88JWP8Q9rpWUjDo4iZ3J682WXQJf2zW+p/Vg/ Q==;
-IronPort-SDR: MvLe9BPxg+k924N7OZvVKBAIpMB9vHr1iYYls91CJJfm2FfQ7wVET3ivSnV3fj0E5jVRhPjLKm
- TC9Hr9UbZcwU0iXaUCMWMEnqeY42AhdlrhNVOBK32HtGVM6flfYKlz6jGfpav7ptRgUZYO6KmD
- VLzSBhAXmPxcSEbCSslukHj1I75cOqcHmmnPra/V/cLVI5N5pudMwdJZVKbIS+WYo4VxvJkNpx
- 4vURGntjHJyVFu9oF0Bv+atLtkwb7nrtqGgxUCBn351x/CgUQwYsUH8/e7G3TppBDYUZLq1kV6
- pnA=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087447"
+ bh=yv3iA5/UO5WIozGqrvfqNLp27TeYQN/BJAgt2OZC7dA=;
+ b=Ry/B53FQPXGon5Wr8897HU0rFBK/BAYfgw10dAWCoeZSpO9DcIVIpfY7
+ mIG3S0eRvCrUFnXwnpYJogIREmhK/+iNpRK/mlimIYRRSGFadBQQCDMhx
+ ki/cyyxq2DTdPbMZtf53GpR/IqNvd38K/b5yTrXm8iz7pnd1tEXBnpH8h
+ 46iJtBQo/GPFC9XnUnsUWJgaGvBRaD+sIqhTvVZlTjf0oB1kA6zREoitV
+ T+uIORXSFkeQUVB4Ip1Osgr5T9VYjGri4Z4npWHOiZEJrXtRr4cy9bA2M
+ qTZXd6UFSHDmnWJbuw9ja800NwalrRtrzGmbVJYr32Pgb0mJ7IFuO20iL Q==;
+IronPort-SDR: wA6dNiAfeEvTMaR968Bl9DKwhTdh61aF6B80CgmHEbQkoF5fcsDwDdQbl58a3eL7FkXVNOncId
+ eN9GNNJrNY/8E+QIasv04XPjnZlgW2Tl2B5lmUwUcG5EYhJsxJItpfGs0i08Pkwh676RUXJO83
+ 4DUqi1cEZjdcjUpFKYDo0Kcg58IgWtgS1BX6D+Moqtol0toFFY9+kVhY8wmNyCsdxfKRGLcspB
+ hgzeOWsquNDGEQYM9zWGe6kBUK7o+vCg1ma9Z/kwIRjqezC4aJAptmuVEl9KvYlLlvOfa/dzQj
+ 93Y=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087455"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:35 +0800
-IronPort-SDR: AP8M+IwJpfrSdM5fbcxBmunz8n2t15+gpfFhHFouXT2oUK5lTOpGDCbXl+3qp4e2KI7KUcA3U0
- rp5Hra0IRHf48t47vNIUiFE1sd6iPz3WZWmuYzP7YC0QojFNFHr5glpYXPfAu6qAbQPFrPEsSw
- K95NrePmVBA6NRJU5+lAhemQ6VMVg52taHamxR8Jn2o8T7OUt3ANvRaN1vJvE28e3DRm59YD0A
- ZJvmAqBi5cxNcpJCVIM+DUVYwJWWcPYGFPygq1V3RXfbBSKC6YqLqCjd/ANo3FIVuT2FWCF2sm
- lkV+bh0Wf9cF51dcoSEaXHKJ
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:39 +0800
+IronPort-SDR: 5FYQ1Gyr9Mxoa0C1iQq+fnYSwmqZxoVepwryx0yONVr1kdMiEGdyi4EeLpJm+ju+RYtAG13uj6
+ 7u/+hlGb0NhT875MWl79c4KHC05ApSFRCr7rwSbskhB2Hdp98F9QjNvVrWRU5MxReEWIeK2rhn
+ ws+e2fM59lfBsJltI7uPM6VueAbCOzjktS9SybQ+psegc6FdLnyQfdmDDzK5xxFMGCGAfG0M9z
+ O7nBuZSqfNAwQGT82oeXWyeYj/DyrGcR0o6uApKvavZj21PwQKIDNmOzHLjnxbRdr18HNfNQm/
+ dIo59uEbHCyhuh9/16dYwD5F
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:10:42 -0700
-IronPort-SDR: 2y7NZ4RjWqHiCUHWylSNSBeksI9e5ZWgtgXCI9CKDlBiRVmE7cdaWCc/5yWg2rl/s6+9OUDtxh
- SMAT6xHG6eYhi8eoX/mFdAiesn+mI4BvO9qdc0azlgFYtYrsXdV4JUmL8EEsciPTO/+hPLvAKV
- gtf4S447UE5R1uPuq9+qrVarSy146O++OCgLWJW+BSQwRFkZUxSJDzYEPmxmRzW4QzX5TU/ZcT
- MdgfetQlC1utAGc+agSUTfaJ4qphSoXBfv/V/PyLPygS0oxojG+GM67GjHn2DFuP5SsejxAeXL
- iIk=
+ 07 Jun 2021 17:10:46 -0700
+IronPort-SDR: M6rrQktuJnTEJWsCj50RW3zZ2OQNMmvbeuFMwl4mzxm+DXrRqiOScVEmsOYo22jNLmtj4CtOYP
+ z+pd3l2N4QXNk4oeglXlzt6yNgd1LXaM+/ZAoGa00N+HDBFZ1zHaCIYua7Kd75jD7hqF7eZRL5
+ 39NrRVywtXaGBlnHZCKRKw64gLLMqFS9/wqKK2b9a16YmefJlrYO7JuM5DjilmF8nx8/ejGN6V
+ v1iItlvZEue7NAXpLN0yPESBlJZ1udpZtyR5aEjXjPtEERney6SCJC7iA/rUV5A00hRhh9iy6r
+ +00=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:33 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:36 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 25/32] target/riscv: rvb: shift ones
-Date: Tue,  8 Jun 2021 10:29:40 +1000
-Message-Id: <20210608002947.1649775-26-alistair.francis@wdc.com>
+Subject: [PULL 26/32] target/riscv: rvb: rotate (left/right)
+Date: Tue,  8 Jun 2021 10:29:41 +1000
+Message-Id: <20210608002947.1649775-27-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -104,137 +104,148 @@ Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210505160620.15723-11-frank.chang@sifive.com
+Message-id: 20210505160620.15723-12-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  8 ++++
- target/riscv/translate.c                | 14 +++++++
- target/riscv/insn_trans/trans_rvb.c.inc | 52 +++++++++++++++++++++++++
- 3 files changed, 74 insertions(+)
+ target/riscv/insn32.decode              |  6 ++++
+ target/riscv/translate.c                | 36 +++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvb.c.inc | 39 +++++++++++++++++++++++++
+ 3 files changed, 81 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 433b601b93..6bc9bbae9e 100644
+index 6bc9bbae9e..71a9a182c0 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -680,11 +680,15 @@ bset       0010100 .......... 001 ..... 0110011 @r
- bclr       0100100 .......... 001 ..... 0110011 @r
- binv       0110100 .......... 001 ..... 0110011 @r
+@@ -682,6 +682,8 @@ binv       0110100 .......... 001 ..... 0110011 @r
  bext       0100100 .......... 101 ..... 0110011 @r
-+slo        0010000 .......... 001 ..... 0110011 @r
-+sro        0010000 .......... 101 ..... 0110011 @r
+ slo        0010000 .......... 001 ..... 0110011 @r
+ sro        0010000 .......... 101 ..... 0110011 @r
++ror        0110000 .......... 101 ..... 0110011 @r
++rol        0110000 .......... 001 ..... 0110011 @r
  
  bseti      00101. ........... 001 ..... 0010011 @sh
  bclri      01001. ........... 001 ..... 0010011 @sh
- binvi      01101. ........... 001 ..... 0010011 @sh
+@@ -689,6 +691,7 @@ binvi      01101. ........... 001 ..... 0010011 @sh
  bexti      01001. ........... 101 ..... 0010011 @sh
-+sloi       00100. ........... 001 ..... 0010011 @sh
-+sroi       00100. ........... 101 ..... 0010011 @sh
+ sloi       00100. ........... 001 ..... 0010011 @sh
+ sroi       00100. ........... 101 ..... 0010011 @sh
++rori       01100. ........... 101 ..... 0010011 @sh
  
  # *** RV64B Standard Extension (in addition to RV32B) ***
  clzw       0110000 00000 ..... 001 ..... 0011011 @r2
-@@ -697,7 +701,11 @@ bsetw      0010100 .......... 001 ..... 0111011 @r
- bclrw      0100100 .......... 001 ..... 0111011 @r
- binvw      0110100 .......... 001 ..... 0111011 @r
+@@ -703,9 +706,12 @@ binvw      0110100 .......... 001 ..... 0111011 @r
  bextw      0100100 .......... 101 ..... 0111011 @r
-+slow       0010000 .......... 001 ..... 0111011 @r
-+srow       0010000 .......... 101 ..... 0111011 @r
+ slow       0010000 .......... 001 ..... 0111011 @r
+ srow       0010000 .......... 101 ..... 0111011 @r
++rorw       0110000 .......... 101 ..... 0111011 @r
++rolw       0110000 .......... 001 ..... 0111011 @r
  
  bsetiw     0010100 .......... 001 ..... 0011011 @sh5
  bclriw     0100100 .......... 001 ..... 0011011 @sh5
  binviw     0110100 .......... 001 ..... 0011011 @sh5
-+sloiw      0010000 .......... 001 ..... 0011011 @sh5
-+sroiw      0010000 .......... 101 ..... 0011011 @sh5
+ sloiw      0010000 .......... 001 ..... 0011011 @sh5
+ sroiw      0010000 .......... 101 ..... 0011011 @sh5
++roriw      0110000 .......... 101 ..... 0011011 @sh5
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index e12240d125..088cf9f767 100644
+index 088cf9f767..c09b93f1b8 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -613,6 +613,20 @@ static void gen_bext(TCGv ret, TCGv arg1, TCGv shamt)
-     tcg_gen_andi_tl(ret, ret, 1);
+@@ -663,6 +663,42 @@ static void gen_packuw(TCGv ret, TCGv arg1, TCGv arg2)
+     tcg_temp_free(t);
  }
  
-+static void gen_slo(TCGv ret, TCGv arg1, TCGv arg2)
++static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
 +{
-+    tcg_gen_not_tl(ret, arg1);
-+    tcg_gen_shl_tl(ret, ret, arg2);
-+    tcg_gen_not_tl(ret, ret);
++    TCGv_i32 t1 = tcg_temp_new_i32();
++    TCGv_i32 t2 = tcg_temp_new_i32();
++
++    /* truncate to 32-bits */
++    tcg_gen_trunc_tl_i32(t1, arg1);
++    tcg_gen_trunc_tl_i32(t2, arg2);
++
++    tcg_gen_rotr_i32(t1, t1, t2);
++
++    /* sign-extend 64-bits */
++    tcg_gen_ext_i32_tl(ret, t1);
++
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t2);
 +}
 +
-+static void gen_sro(TCGv ret, TCGv arg1, TCGv arg2)
++static void gen_rolw(TCGv ret, TCGv arg1, TCGv arg2)
 +{
-+    tcg_gen_not_tl(ret, arg1);
-+    tcg_gen_shr_tl(ret, ret, arg2);
-+    tcg_gen_not_tl(ret, ret);
++    TCGv_i32 t1 = tcg_temp_new_i32();
++    TCGv_i32 t2 = tcg_temp_new_i32();
++
++    /* truncate to 32-bits */
++    tcg_gen_trunc_tl_i32(t1, arg1);
++    tcg_gen_trunc_tl_i32(t2, arg2);
++
++    tcg_gen_rotl_i32(t1, t1, t2);
++
++    /* sign-extend 64-bits */
++    tcg_gen_ext_i32_tl(ret, t1);
++
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t2);
 +}
 +
- static void gen_ctzw(TCGv ret, TCGv arg1)
+ static bool gen_arith(DisasContext *ctx, arg_r *a,
+                       void(*func)(TCGv, TCGv, TCGv))
  {
-     tcg_gen_ori_tl(ret, arg1, (target_ulong)MAKE_64BIT_MASK(32, 32));
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 69e5af44a1..28640322c4 100644
+index 28640322c4..429738db15 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -155,6 +155,30 @@ static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
-     return gen_shifti(ctx, a, gen_bext);
+@@ -179,6 +179,24 @@ static bool trans_sroi(DisasContext *ctx, arg_sroi *a)
+     return gen_shifti(ctx, a, gen_sro);
  }
  
-+static bool trans_slo(DisasContext *ctx, arg_slo *a)
++static bool trans_ror(DisasContext *ctx, arg_ror *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_shift(ctx, a, gen_slo);
++    return gen_shift(ctx, a, tcg_gen_rotr_tl);
 +}
 +
-+static bool trans_sloi(DisasContext *ctx, arg_sloi *a)
++static bool trans_rori(DisasContext *ctx, arg_rori *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_shifti(ctx, a, gen_slo);
++    return gen_shifti(ctx, a, tcg_gen_rotr_tl);
 +}
 +
-+static bool trans_sro(DisasContext *ctx, arg_sro *a)
++static bool trans_rol(DisasContext *ctx, arg_rol *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_shift(ctx, a, gen_sro);
-+}
-+
-+static bool trans_sroi(DisasContext *ctx, arg_sroi *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_shifti(ctx, a, gen_sro);
++    return gen_shift(ctx, a, tcg_gen_rotl_tl);
 +}
 +
  static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
  {
      REQUIRE_64BIT(ctx);
-@@ -238,3 +262,31 @@ static bool trans_bextw(DisasContext *ctx, arg_bextw *a)
+@@ -290,3 +308,24 @@ static bool trans_sroiw(DisasContext *ctx, arg_sroiw *a)
      REQUIRE_EXT(ctx, RVB);
-     return gen_shiftw(ctx, a, gen_bext);
+     return gen_shiftiw(ctx, a, gen_sro);
  }
 +
-+static bool trans_slow(DisasContext *ctx, arg_slow *a)
++static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
 +{
 +    REQUIRE_64BIT(ctx);
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_shiftw(ctx, a, gen_slo);
++    return gen_shiftw(ctx, a, gen_rorw);
 +}
 +
-+static bool trans_sloiw(DisasContext *ctx, arg_sloiw *a)
++static bool trans_roriw(DisasContext *ctx, arg_roriw *a)
 +{
 +    REQUIRE_64BIT(ctx);
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_shiftiw(ctx, a, gen_slo);
++    return gen_shiftiw(ctx, a, gen_rorw);
 +}
 +
-+static bool trans_srow(DisasContext *ctx, arg_srow *a)
++static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
 +{
 +    REQUIRE_64BIT(ctx);
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_shiftw(ctx, a, gen_sro);
-+}
-+
-+static bool trans_sroiw(DisasContext *ctx, arg_sroiw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_shiftiw(ctx, a, gen_sro);
++    return gen_shiftw(ctx, a, gen_rolw);
 +}
 -- 
 2.31.1
