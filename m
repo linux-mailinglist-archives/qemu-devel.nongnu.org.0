@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A98739F6F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 14:40:13 +0200 (CEST)
-Received: from localhost ([::1]:52168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1C239F71F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 14:53:43 +0200 (CEST)
+Received: from localhost ([::1]:56332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqb1f-0006xH-SA
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 08:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33422)
+	id 1lqbEk-0001vp-J1
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 08:53:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqb0j-0005xn-Hj
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:39:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38604)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lqbDH-00010z-Ci
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:52:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqb0g-0003kl-3N
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:39:13 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lqbDE-0003UT-UB
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:52:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623155949;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623156727;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C/Ha0P0JDciacdBK8Vz1Sw31PaRlPh4mfk8EdEBGVEI=;
- b=PlJYnoI5fBlDKB98bxrJuM2/9OP/pVYkPrL1ViMb5eEVHwjFep591oWqPRD9aPKGq9Iggh
- D1EDZEyJVjZC6CxlK7olMxh8jkgGbwPajhtcPaH4GmlEGn4ebrepKw8VR4T+GSKrNsYZaD
- 2YODTTAvIpXEOZbqAwWYVI0JLUJso7k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-azqB3g6VMnOHiotBgD7nMQ-1; Tue, 08 Jun 2021 08:39:05 -0400
-X-MC-Unique: azqB3g6VMnOHiotBgD7nMQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u17-20020a05600c19d1b02901af4c4deac5so695216wmq.7
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 05:39:05 -0700 (PDT)
+ bh=7E4MH+xShyY5P3qvZHkyEEiRTP5Mgl/dYmUjJ7xvntU=;
+ b=f+H/6iR3saQ33SdP1jpOiJWx0RgPArYH6Bu9BsW/3iCrjZnK6ijkAmXN2pjY8mv0Gbcnus
+ oxN2JPfE6BDvukEWKYIRYx970BOPfCzs5ADsaYv3t9DualB0G5ijyH9nFgLcgtI6xSXn6q
+ WNhRkxL0mgEg/tLbBnqz+pa4EL+YOWs=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-ol2gfpcfPkSZM6UOKwDbeA-1; Tue, 08 Jun 2021 08:52:06 -0400
+X-MC-Unique: ol2gfpcfPkSZM6UOKwDbeA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ n17-20020ad444b10000b02902157677ec50so15431862qvt.12
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 05:52:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C/Ha0P0JDciacdBK8Vz1Sw31PaRlPh4mfk8EdEBGVEI=;
- b=qMRjvrYPnDH7chgS1g55524taPunoNGQi10mt304N4D3THzC9sv+zgwPqc/inV0Ch7
- ycS9yC+/fRcwyEXRbEjYj5T2WLJefnhpV8/UmeeSrBOkYGc2ErnO+C0AdvE3uNUTOUB/
- hnuXICKUSsMCcjWwspF2KPNh8t7X1KwQ/GGxvqM7HZ38+qS8jwAEMIZpLI5AXe4JZ4O5
- hk5LFg3XGD7/Yny0cvNTJR28sS/WNMvK4v2Tc4OO5qTKfaMHNeeTHjg0knjcQMRDNeMe
- cyCm+t6aLt4wtcdytwRJe4Qb6wl3LealBEo/UVk6FdloTAuX7FfvN7ggRae6TucodJiv
- y0tg==
-X-Gm-Message-State: AOAM530LHPrxZOG7rQat/MUSDWFosPdf2ncL70HefCTHKx1mpV4hVLLN
- gY2dcifBZOQvzdbxDeaGrIZ6DrICOOU5KNBg5pEWV0R7Qh8EMC9TC/FkBGlDyLPwFfZWN6gUIN9
- avOxYWx5HpbGrYdg=
-X-Received: by 2002:adf:ba02:: with SMTP id o2mr3044922wrg.234.1623155944795; 
- Tue, 08 Jun 2021 05:39:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaIjrT/o/qdnxKqYEJf1tIkCd6/pUUZ6LY20XnpVDwcil3Nv4/QBWOTs4GoVqiIEXUyWPs/w==
-X-Received: by 2002:adf:ba02:: with SMTP id o2mr3044899wrg.234.1623155944602; 
- Tue, 08 Jun 2021 05:39:04 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id j34sm12516576wms.7.2021.06.08.05.39.03
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=7E4MH+xShyY5P3qvZHkyEEiRTP5Mgl/dYmUjJ7xvntU=;
+ b=Q93iPrJn4IOD1MFQ2WwAHjB1zUJQ3noT6SBWXpDj7Pma/7XSZvmrjkYAe4W5haor2F
+ hA8fVOo/KATMdLKB6WHmSAqNgl332Nm9+q3tHRB3UDvaAxKk18nWwfBJHYKTeBF/6lUY
+ fo2J8G9YjacjpFwCRaNWaegnaf4iuz0Qba9/A3r5u6W+fQg7DRm93MZ5XRXIKzRMBUTo
+ HPo8yO4WD/38WlUHZrqLxjOU8b9L9Df8TvKJBodPSqVE5M2f8bnA+CnRKAcy2l9xsdk5
+ 4QmFiAFi/xGp62O+BrIjRN1O5MxXKgTJfxFrzxurOTrReQlaqZBFfcqwF/zoZvLi/pcg
+ fwtg==
+X-Gm-Message-State: AOAM533dzgclbVNJVzWqKCrzYDbrDh2KSOs0jJccZAAySWyxUP7PQjCi
+ JXb74Z+XZ6Mnh0rxpmTq973jWvMc2OR5cgRGcO2SUF3+pSITem2L/wwkL1nrn3eXS9NaisubHZa
+ vMk6h09tVrOANkSk=
+X-Received: by 2002:ad4:4dcb:: with SMTP id cw11mr22690453qvb.54.1623156725812; 
+ Tue, 08 Jun 2021 05:52:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxW6YeWY0CxhxfeI7LlSeO5oubM+0cOa50VD0PwqZchXZnw1Apo+G4/3VSF1tT+COBKwgGtEw==
+X-Received: by 2002:ad4:4dcb:: with SMTP id cw11mr22690430qvb.54.1623156725569; 
+ Tue, 08 Jun 2021 05:52:05 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([201.90.138.4])
+ by smtp.gmail.com with ESMTPSA id a134sm10043985qkg.114.2021.06.08.05.52.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 05:39:04 -0700 (PDT)
-Subject: Re: [PATCH v16 04/99] qtest/arm-cpu-features: Use generic
- qtest_has_accel() to check for KVM
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-5-alex.bennee@linaro.org>
- <d5162188-bea4-24ed-189b-198f9d3ed55d@redhat.com>
- <92071d16-3ff1-0274-2e45-59ed7624f358@redhat.com>
- <e30516ff-a5f8-6785-3988-daae26dc5151@redhat.com>
-Message-ID: <976d1acf-8536-1baa-b5da-c156b0830724@redhat.com>
-Date: Tue, 8 Jun 2021 14:39:03 +0200
+ Tue, 08 Jun 2021 05:52:05 -0700 (PDT)
+Subject: Re: [RFC PATCH] scripts/checkpatch: roll diff tweaking into
+ checkpatch itself
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210607171829.25111-1-alex.bennee@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <9f79bb3d-2f0d-9a5c-00d8-bcca06cb02c6@redhat.com>
+Date: Tue, 8 Jun 2021 09:52:01 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <e30516ff-a5f8-6785-3988-daae26dc5151@redhat.com>
+In-Reply-To: <20210607171829.25111-1-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -91,7 +89,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,134 +102,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: wainersm@redhat.com
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ berrange@redhat.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/21 12:49 PM, Philippe Mathieu-Daudé wrote:
-> On 6/8/21 10:22 AM, Philippe Mathieu-Daudé wrote:
->> On 6/7/21 3:22 PM, Thomas Huth wrote:
->>> On 04/06/2021 17.51, Alex Bennée wrote:
->>>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>
->>>> Use the recently added generic qtest_has_accel() method to
->>>> check if KVM is available.
->>>>
->>>> Suggested-by: Claudio Fontana <cfontana@suse.de>
->>>> Reviewed-by: Andrew Jones <drjones@redhat.com>
->>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>> Message-Id: <20210505125806.1263441-5-philmd@redhat.com>
->>>> ---
->>>>   tests/qtest/arm-cpu-features.c | 25 +------------------------
->>>>   1 file changed, 1 insertion(+), 24 deletions(-)
->>>>
->>>> diff --git a/tests/qtest/arm-cpu-features.c
->>>> b/tests/qtest/arm-cpu-features.c
->>>> index 8252b85bb8..7f4b252127 100644
->>>> --- a/tests/qtest/arm-cpu-features.c
->>>> +++ b/tests/qtest/arm-cpu-features.c
->>>> @@ -26,21 +26,6 @@
->>>>                       "  'arguments': { 'type': 'full', "
->>>>   #define QUERY_TAIL  "}}"
->>>>   -static bool kvm_enabled(QTestState *qts)
->>>> -{
->>>> -    QDict *resp, *qdict;
->>>> -    bool enabled;
->>>> -
->>>> -    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
->>>> -    g_assert(qdict_haskey(resp, "return"));
->>>> -    qdict = qdict_get_qdict(resp, "return");
->>>> -    g_assert(qdict_haskey(qdict, "enabled"));
->>>> -    enabled = qdict_get_bool(qdict, "enabled");
->>>> -    qobject_unref(resp);
->>>> -
->>>> -    return enabled;
->>>> -}
->>>> -
->>>>   static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
->>>>   {
->>>>       return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
->>>> @@ -493,14 +478,6 @@ static void
->>>> test_query_cpu_model_expansion_kvm(const void *data)
->>>>         qts = qtest_init(MACHINE_KVM "-cpu max");
->>>>   -    /*
->>>> -     * These tests target the 'host' CPU type, so KVM must be enabled.
->>>> -     */
->>>> -    if (!kvm_enabled(qts)) {
->>>> -        qtest_quit(qts);
->>>> -        return;
->>>> -    }
->>>> -
->>>>       /* Enabling and disabling kvm-no-adjvtime should always work. */
->>>>       assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
->>>>       assert_set_feature(qts, "host", "kvm-no-adjvtime", true);
->>>> @@ -624,7 +601,7 @@ int main(int argc, char **argv)
->>>>        * order avoid attempting to run an AArch32 QEMU with KVM on
->>>>        * AArch64 hosts. That won't work and isn't easy to detect.
->>>>        */
->>>> -    if (g_str_equal(qtest_get_arch(), "aarch64")) {
->>>> +    if (g_str_equal(qtest_get_arch(), "aarch64") &&
->>>> qtest_has_accel("kvm")) {
->>>>           qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
->>>>                               NULL, test_query_cpu_model_expansion_kvm);
->>>
->>> I think this is wrong: query-kvm checks whether kvm is *enabled*, while
->>> your new function only checks whether kvm has been built into the
->>> binary. There is still the possibility that kvm has been built into the
->>> binary, but is not available on the host, so in that case the test will
->>> fail now.
-> 
-> Not enough coffee earlier. I think this is a documentation problem,
-> query-kvm returns a list of *runtime* accelerators:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg811144.html
-> 
-> IIUC what Paolo said, if something asks for an accelerator that
-> is not present at build-time, then this is a configuration problem,
-> not relevant for the management interface.
 
-Argh no... sigh. So we have 4 cases:
+On 6/7/21 2:18 PM, Alex Bennée wrote:
+> Rather than relying on external tweaks lets just do it inside
+> checkpatch's direct commitish handling which is QEMU specific code
+> anyway.
+>
+> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.d/static_checks.yml | 3 ---
+>   .patchew.yml                   | 3 ---
+ah, there is the patchew configuration file.
+>   scripts/checkpatch.pl          | 7 ++++++-
+>   3 files changed, 6 insertions(+), 7 deletions(-)
 
-1- accelerator not built
-2- accelerator built in as module but not loaded
-3- accelerator built in & loaded but not usable
-4- accelerator built in & loaded and usable
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-QMP query-accels returns "accelerator built in & loaded"
-without precising it is usable.
-
-qtest kvm_enabled() checks if the accelerator is enabled
-without checking it is built-in.
-
-QMP query-kvm returns 'present' as in built-in (so case 1),
-and 'enabled' (a.k.a. 'allowed') updated once init_machine()
-succeeded (so case 4).
-
-So, again, IIUC Paolo, what he said is for the management layer
-1 and 2 are the same, the accelerator is not present.
-
-For qtests, we want the 'usable' case (4) right? Whether the
-accelerator is builtin / loaded is irrelevant.
-
-Could we improve the terminology here? Maybe is_present() and
-is_usable()? Suggestions?
-
-Do we need to add both query-present-accels query-usable-accels
-commands? Is it actually possible to return an array of 'usable'
-accelerators?
-
-Maybe simply add query-present-accels() -> [] and
-query-usable-accel(accel) -> bool.
-
-> 
->>>
->>> Thus please drop / rework this patch.
->>
->> Indeed, this is unfortunate :(
->>
+>
+> diff --git a/.gitlab-ci.d/static_checks.yml b/.gitlab-ci.d/static_checks.yml
+> index 7e685c6a65..c5fa4fce26 100644
+> --- a/.gitlab-ci.d/static_checks.yml
+> +++ b/.gitlab-ci.d/static_checks.yml
+> @@ -4,9 +4,6 @@ check-patch:
+>     needs:
+>       job: amd64-centos8-container
+>     script:
+> -    - git config --local diff.renamelimit 0
+> -    - git config --local diff.renames True
+> -    - git config --local diff.algorithm histogram
+>       - .gitlab-ci.d/check-patch.py
+>     variables:
+>       GIT_DEPTH: 1000
+> diff --git a/.patchew.yml b/.patchew.yml
+> index 2638b7f564..1b78262ce5 100644
+> --- a/.patchew.yml
+> +++ b/.patchew.yml
+> @@ -138,9 +138,6 @@ testing:
+>         script: |
+>           #!/bin/bash
+>           git rev-parse base > /dev/null || exit 0
+> -        git config --local diff.renamelimit 0
+> -        git config --local diff.renames True
+> -        git config --local diff.algorithm histogram
+>           ./scripts/checkpatch.pl --mailback base..
+>       docker-mingw@fedora:
+>         enabled: true
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index bbcd25ae05..cb8eff233e 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -399,7 +399,12 @@ if ($chk_branch) {
+>   	my $num_patches = @patches;
+>   	for my $hash (@patches) {
+>   		my $FILE;
+> -		open($FILE, '-|', "git", "show", "--patch-with-stat", $hash) ||
+> +		open($FILE, '-|', "git",
+> +                     "-c", "diff.renamelimit=0",
+> +                     "-c", "diff.renames=True",
+> +                     "-c", "diff.algorithm=histogram",
+> +                     "show",
+> +                     "--patch-with-stat", $hash) ||
+>   			die "$P: git show $hash - $!\n";
+>   		while (<$FILE>) {
+>   			chomp;
 
 
