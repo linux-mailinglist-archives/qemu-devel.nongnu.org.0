@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D305439EAFA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:48:16 +0200 (CEST)
-Received: from localhost ([::1]:37056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA8339EAE0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:39:31 +0200 (CEST)
+Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPuh-00079b-TD
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45174)
+	id 1lqPmF-0003Ug-1T
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:39:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPek-0002lX-TL
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:46 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19715)
+ id 1lqPel-0002oN-Fi
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:47 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPeh-0004dW-GV
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:46 -0400
+ id 1lqPej-0004Zo-Hd
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112303; x=1654648303;
+ t=1623112304; x=1654648304;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=wQ2jjzM0oeWTMv+l8f/0JkBPS0uot/sIl9sr5X38ris=;
- b=mfRRux56WnDdf3/yoTs10ywcufNREauSfsw3IEpxASgDHih7B+Eu/djo
- IM/TBZMDr9Ew2VAnAg6QOfvqZwDvoG3S1Hata+IXjzcMBzP0zkvexBV9h
- zt2GU92IvvhaprCSGpt98CevaIEqgtViWOyA0TBbiaa2gg6yoW89qhGyq
- ZWkoGaYYCyrMPr3QobMGYMG/imseF3m0+aIfk+eUqyZBdnveCnLtRVgqX
- 1oazhdhMpXL+TzHglQH1DKsZfhOmTOw6L1Jmi0w12SOpnh3hzJE8eb9sy
- 8zVbsDRofb5mYSgBdPnIRSar3XiMZP6NAWrGPjmIWXPuMmAy9wiTFLZO3 Q==;
-IronPort-SDR: yB9aYJ6NeXLv+DKGvHOYid8MSgIWuNEIbyQvKBIw1FsEzVZL6SPGMB8uu0cVj1t6lu9VGKGpqQ
- FrbtuQXY+N2/mSTuWNyyIAoLcYmdRMZFxj/Y+BaK0uY0eGaQIxHABK8o+wF8nFSLqufUAYu0ih
- hHjvx/L8lasuVp+v8EyLyLbN+8D1ax2VF/8QkiprVPf8jSFOeyWHY73wIlqa+iltV2AWElPtz2
- 7m7drwbYgv4945bDAL2vFWU5kB6ElNbkFLT862Qc2SwkPgi/0zhref5TbMRkGdaW1IweRi+AxC
- 5Uc=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087433"
+ bh=UEZf/cSHlcu+CBKQ1ahpaVZ+MBU/lpLrB75MIUjVXNg=;
+ b=nXaPLMQOWQNOjYtP+CUFDqSjGEPcXd9T74OzfLuJBpzEl1c9XFhSbKpT
+ vq9BPG1hQJLOL6PzdYuyAl7wxS7H8l5C66270Kld1EPYwMA5H1dRjKV5s
+ HzLol81enhF+QuxDV+Ty/cgVshmXmir4CsAajfJVgZp+8owvPxqn9OczV
+ A8frO0NgMd2tozIVtp0J8q1CS2OfaTeRlHTzc4Q9O0US/gzSwumKJXO5S
+ KtlJnDxfK5r6wHT0k9btYjpOhAayEhy2LF0NJXzWIy0xReNv2hPUQYM1n
+ 6EXHAjsqpwoh1Dl2wfJRZY/UjZGwIEytZcXIQmmV+ddY5f9WQhbOoQXSL A==;
+IronPort-SDR: vNbIEVsfW1bEx59b3j3iXRXhU+mqA5Msiq6iBwahKjkw0B4XsXwcUP1dhlDhj/4cLqCcgy4yMI
+ +UMc6eHO8GcQ5MayLDlVvuF/ipT3kKgLqqgwgiTJDSiLxsM5i4npcFLd3Ge1F5U1Iimbhb5vhr
+ M0cGLbpsJVdpxE7CoFM6V+0zyJlPO3vcez/1X8FTAKPs3noSpoA1LG82zokbUtqeNgJDlAh+sO
+ 4nnCDBoHlISnNkoSkAFl0SYJ5X0XQ+kzGpocOEd661OFrdumAvk2avIw+O7wgjVk6xtG3tnB40
+ ppo=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087437"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:25 +0800
-IronPort-SDR: MiScLgn1qTtX3ZowaG65L+xU/siP5DAxIMvafaUIrks4G9iyxiuAX6VGUR74bZYZobgO5ayYYC
- W1KRVcnEF3X9QUjLOe/5dlmvehb0nZpImKnA290M+vm+HtTFhKiQM/+aSB4Kj6DpOOiG8bJI4W
- DxqEtVZpQeVDaHZk3L7iON9kp3sM101S4rL52IBwGQa79gErBtUpVrcN4tmR8jLgVoeF/qN8Hi
- vo0JMk4QjyXSESbMYkQbyzjN10zeB3MS6QhbhmeLDkCotMfEoXwHE2z37zMAF3DEn72K89U1dS
- OKhLi2VE8gGaw7ZIXidwZhZ6
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:28 +0800
+IronPort-SDR: OPJzXfZrhw9Fpw/bjXvFc43mBCyepp7jbV1tvmx8X999fWp7qMtx/UvAnRezgfGw+c52TpmPWs
+ 0ZZ3vhXYIHt4xO2HgiGNEefIDxP1L744hDIUvmrknpKDjfgFhuQU9dgHtTHalQViJRY6jzdvjZ
+ 9UdVBGy8cSr/mldAMJkiv8CgYTZRiJ5ZODlG1xnC5Qi/545biQt5P0BjbQf3W6M1OTT/V6Ad9B
+ rnhoEGjb4U2nXDC8SrbiYsmWcPEkCfMlTKQobpHd+lbOMCVn2ah3pScCLlhQATrieY2Id7OfEr
+ 0iU9WNk9Fj2pFmzxsqQD9MII
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:10:32 -0700
-IronPort-SDR: m0H8TVC0BdhQcC/3yQB75WEhDOzTbvDzWeoTI9MPFEkCB67LDMRRhzfzzzYrDCL6J4AHovQ9P9
- MSo9nKZpehUFecwaVgKyh3StAJMtg58nhVzdAdC+hc3eVTibWhp0N7kYldrENglVrQ7qOkU8Or
- tfvcvvn0W50cF9Egv4PomT96EdnFz7k/ucC2gg2Gw9xPN1KKh19zcEFom0Anl9kq5yShtpTQHq
- piLWJG8YnAoLjtzaJjju76XpB6Oe+BnfJhvboa4BTd5PIORCAZjVySijmGiPW7fjRxs7GWROBj
- dRo=
+ 07 Jun 2021 17:10:35 -0700
+IronPort-SDR: hY7gawSsQgW/oyA43a14HSUKQf/GM9XsprSNhVLzqfMc2YxYcnMbM2DlSJONtQJNG7oOtfdjNo
+ aqiUzDj3FN+lCC5zctzYQtmZhTsGGI4Oc788EXaJtpd0i943L0BSQC1R2XUu8n7svfU4ahUNNS
+ 2FVzWwrc1s4eDlPW5iMQiHEQLuYEAtd0Pq5tDTbY0fgETP3awTfyyBbHU4Ef/yDLV4OhqftXMf
+ yldaY2pWgivKOKBOAPjVX+bUlkmh21JCyrQv5KukGERGaQ24XVR3iH9Fkt5lH/+OmfPNtGuTd6
+ v4c=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:22 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:26 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 22/32] target/riscv: rvb: sign-extend instructions
-Date: Tue,  8 Jun 2021 10:29:37 +1000
-Message-Id: <20210608002947.1649775-23-alistair.francis@wdc.com>
+Subject: [PULL 23/32] target/riscv: add gen_shifti() and gen_shiftiw() helper
+ functions
+Date: Tue,  8 Jun 2021 10:29:38 +1000
+Message-Id: <20210608002947.1649775-24-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -92,62 +93,156 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Frank Chang <frank.chang@sifive.com>, alistair23@gmail.com,
- Kito Cheng <kito.cheng@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+Add gen_shifti() and gen_shiftiw() helper functions to reuse the same
+interfaces for immediate shift instructions.
+
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Message-id: 20210505160620.15723-8-frank.chang@sifive.com
+Message-id: 20210505160620.15723-9-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  3 +++
- target/riscv/insn_trans/trans_rvb.c.inc | 12 ++++++++++++
- 2 files changed, 15 insertions(+)
+ target/riscv/translate.c                | 39 ++++++++++++++++++
+ target/riscv/insn_trans/trans_rvi.c.inc | 54 ++-----------------------
+ 2 files changed, 43 insertions(+), 50 deletions(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 81dfdfbafd..9361984634 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -663,6 +663,9 @@ vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
- clz        011000 000000 ..... 001 ..... 0010011 @r2
- ctz        011000 000001 ..... 001 ..... 0010011 @r2
- cpop       011000 000010 ..... 001 ..... 0010011 @r2
-+sext_b     011000 000100 ..... 001 ..... 0010011 @r2
-+sext_h     011000 000101 ..... 001 ..... 0010011 @r2
-+
- andn       0100000 .......... 111 ..... 0110011 @r
- orn        0100000 .......... 110 ..... 0110011 @r
- xnor       0100000 .......... 100 ..... 0110011 @r
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 5a4fc02f70..3d594e8cb4 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -95,6 +95,18 @@ static bool trans_maxu(DisasContext *ctx, arg_maxu *a)
-     return gen_arith(ctx, a, tcg_gen_umax_tl);
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 5f1a3c694f..292cf09932 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -652,6 +652,45 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+     return cpu_ldl_code(env, pc);
  }
  
-+static bool trans_sext_b(DisasContext *ctx, arg_sext_b *a)
++static bool gen_shifti(DisasContext *ctx, arg_shift *a,
++                       void(*func)(TCGv, TCGv, TCGv))
 +{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_unary(ctx, a, tcg_gen_ext8s_tl);
++    if (a->shamt >= TARGET_LONG_BITS) {
++        return false;
++    }
++
++    TCGv source1 = tcg_temp_new();
++    TCGv source2 = tcg_temp_new();
++
++    gen_get_gpr(source1, a->rs1);
++
++    tcg_gen_movi_tl(source2, a->shamt);
++    (*func)(source1, source1, source2);
++
++    gen_set_gpr(a->rd, source1);
++    tcg_temp_free(source1);
++    tcg_temp_free(source2);
++    return true;
 +}
 +
-+static bool trans_sext_h(DisasContext *ctx, arg_sext_h *a)
++static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,
++                        void(*func)(TCGv, TCGv, TCGv))
 +{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_unary(ctx, a, tcg_gen_ext16s_tl);
++    TCGv source1 = tcg_temp_new();
++    TCGv source2 = tcg_temp_new();
++
++    gen_get_gpr(source1, a->rs1);
++    tcg_gen_movi_tl(source2, a->shamt);
++
++    (*func)(source1, source1, source2);
++    tcg_gen_ext32s_tl(source1, source1);
++
++    gen_set_gpr(a->rd, source1);
++    tcg_temp_free(source1);
++    tcg_temp_free(source2);
++    return true;
 +}
 +
- static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
+ static void gen_ctz(TCGv ret, TCGv arg1)
+ {
+     tcg_gen_ctzi_tl(ret, arg1, TARGET_LONG_BITS);
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index bd93f634cf..6e736c9d0d 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -268,54 +268,17 @@ static bool trans_andi(DisasContext *ctx, arg_andi *a)
+ }
+ static bool trans_slli(DisasContext *ctx, arg_slli *a)
+ {
+-    if (a->shamt >= TARGET_LONG_BITS) {
+-        return false;
+-    }
+-
+-    if (a->rd != 0) {
+-        TCGv t = tcg_temp_new();
+-        gen_get_gpr(t, a->rs1);
+-
+-        tcg_gen_shli_tl(t, t, a->shamt);
+-
+-        gen_set_gpr(a->rd, t);
+-        tcg_temp_free(t);
+-    } /* NOP otherwise */
+-    return true;
++    return gen_shifti(ctx, a, tcg_gen_shl_tl);
+ }
+ 
+ static bool trans_srli(DisasContext *ctx, arg_srli *a)
+ {
+-    if (a->shamt >= TARGET_LONG_BITS) {
+-        return false;
+-    }
+-
+-    if (a->rd != 0) {
+-        TCGv t = tcg_temp_new();
+-        gen_get_gpr(t, a->rs1);
+-
+-        tcg_gen_shri_tl(t, t, a->shamt);
+-        gen_set_gpr(a->rd, t);
+-        tcg_temp_free(t);
+-    } /* NOP otherwise */
+-    return true;
++    return gen_shifti(ctx, a, tcg_gen_shr_tl);
+ }
+ 
+ static bool trans_srai(DisasContext *ctx, arg_srai *a)
+ {
+-    if (a->shamt >= TARGET_LONG_BITS) {
+-        return false;
+-    }
+-
+-    if (a->rd != 0) {
+-        TCGv t = tcg_temp_new();
+-        gen_get_gpr(t, a->rs1);
+-
+-        tcg_gen_sari_tl(t, t, a->shamt);
+-        gen_set_gpr(a->rd, t);
+-        tcg_temp_free(t);
+-    } /* NOP otherwise */
+-    return true;
++    return gen_shifti(ctx, a, tcg_gen_sar_tl);
+ }
+ 
+ static bool trans_add(DisasContext *ctx, arg_add *a)
+@@ -377,16 +340,7 @@ static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
+ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
  {
      REQUIRE_64BIT(ctx);
+-    TCGv source1;
+-    source1 = tcg_temp_new();
+-    gen_get_gpr(source1, a->rs1);
+-
+-    tcg_gen_shli_tl(source1, source1, a->shamt);
+-    tcg_gen_ext32s_tl(source1, source1);
+-    gen_set_gpr(a->rd, source1);
+-
+-    tcg_temp_free(source1);
+-    return true;
++    return gen_shiftiw(ctx, a, tcg_gen_shl_tl);
+ }
+ 
+ static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
 -- 
 2.31.1
 
