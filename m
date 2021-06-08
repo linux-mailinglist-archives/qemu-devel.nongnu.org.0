@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CEAB39EAC2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:35:30 +0200 (CEST)
-Received: from localhost ([::1]:46106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E461039EABC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:32:48 +0200 (CEST)
+Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPiL-0000GR-Ax
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
+	id 1lqPfj-0003FU-W4
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:32:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdS-0000Gj-6R
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:26 -0400
+ id 1lqPdU-0000K6-Oo
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:29 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdQ-0004Fk-5E
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:25 -0400
+ id 1lqPdS-0004Fk-O5
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112222; x=1654648222;
+ t=1623112225; x=1654648225;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RreVgW0TwsYnHpKkFHDGAsuxA+rYze7M9JgF6cjSdPc=;
- b=mSe5xW1zMH2Lbv8pStDdYpQqvZG0Yf+VLZXEpYk+S9t11HDrHa0msX57
- m413sgRGfSlFmiXyZvYDDaMY+F0A7gbDllpxTjytjl+r3mjLLnt4ik0LX
- cR0/cRru0X8yQf+/e9b6eEwhMzPoWohUaLDmeWtdTlEd731/w+/IDT9ll
- Zj97R5oEBzVyFknrirGSmm4HIomMcpV1eXWy2Ut13Q/s/vRxmk2wb6PkM
- VEppsS7MDsjRv+o7V7aEULzevGOEuUzsyuZIPaVWKYmEW8HpnVfBGabUg
- cV0w6xkjPkiXgGdN8btMVuvO4A63a9t48YRSVpq6KkIslYZxZwrOA8djo A==;
-IronPort-SDR: IjeZcuNjBnQGcProEhYwu61kXHoytAJUnjCaCRyBvTSSmcCOEWiLAREwYwTdqg6k2xAWbWi6Fk
- LkxVwuLY+QPDN0XjyzYcCJW+fnrzYYbEPWkaqQFxhTcD8Q/JrZCVBg5EmcYm0S44q+CODRm5Ve
- wlmHVRkgy1UQDDWO9ixdaMo9kte62hWQfia3WBYQaRzEJcNv+KOLPp9aDqApFrPXl0BsTkW/GX
- bjz394UQSwewtemDUdDk2SDZXr2rejE3fvfYckyLL7ZH5CTBWeugoq32V22ncdcvsiCDeviAri
- nZI=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087348"
+ bh=gYZCfbmqDYM1ef+uXSltaFNoEyKdG2pAPGPEmS014Qo=;
+ b=ZJiuc7bLTAJioc+jG9K9om2yLmh7i9SAYkyCZljBNaDEKexVNUA0R6iJ
+ hPkjzPWQ4XGaxeHThXTlGLJFDYpm2gt6sDUjY/DLjyTtpxh42iCMNggdy
+ 2plihiy156jR+OHXaTqppHvL587NTLKeev0Nq2VpRQaby4xtC3Up0TX1y
+ 5GfuWtVQwUsF8+A+YIq5i+zFxhJVB6qaobW3QvIweQkyNaAEODcU7/rD5
+ 0PMnjwV504yqBW2ucPBWwwg3svtai6GcmdmwYXlHsDTP/C9fNCE8Gl+zx
+ suCMsIDRfeD8euaEIEIfSOhCK2s1XrvihI2K3jtpOsP2EJvL4OGIBkgHP w==;
+IronPort-SDR: l0834QCcEiN+vzDUuEOp2f0FvuRIOwAb/YgFoMU1f5CwIe5kUUM/Y8MPZFHEy+GHaqek8rttL+
+ zRb/fLFMReGmKdrStXacdk87O7467zwSxePG3bvA6PqQrDlSI1cKSCN7o10PlBJ/8zLWM4JnKc
+ gDi7Tp3NIjVMeJ/JnLxVAsfs4dIkF989GlD7hus7cFZVQiNcqb3pB4yk2m3fjyxZ2DYvlM0hIh
+ O3ParpF98pUjjTzxnh1xs6A83xi7xZ9zB9uqCwkA9/CrYD3SFhffZfXLPF6vT2UJXUMqtjx1je
+ utk=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087350"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:21 +0800
-IronPort-SDR: ucltHIMc7cRpsu6WtJerWeADkSKKeSAp9flKf0EWUWehXzEKyXizZP0BVlgrvnoD/tLb9X45y/
- qqoHgZHcotLSqbnQ/hbFhWsVoMQXNkE8gTy/KlRqR2/Pe/Zdcb2sqY3/rqf5upEppNkzOm3PiU
- VfnVPQxTKYuObQj7Lz+kGx+IOEJ9jDvBUk4SsK31t/MMfZnJ6U0eiailecgD9SYSkrzlt2UHKc
- l+zlCKpJJbBFDMejjpeSF3g+nM2/rq/7XMK9/dMxx18EQP10tIRQJaP6/6LecawXZDY7HR6ENA
- MP5lVyWV/eeDxHvdlkv/p4/j
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:25 +0800
+IronPort-SDR: JXsJISZ8F+aCzwjjwlQhI+pS891C1j/38vUrOh9c1KFXrDe19sOTlCnnZMF/Tm/5qIyYyMfQww
+ NkO9C3qvwRMtTlcWjT9StvWknSeu7rIXgwmEexwIssRqL80ZRKWroJ4sHbil5I1e8xajt8hSqO
+ gzjArDtJSu0wOGYhPt+uuLTd1zssdToZVRYM6lHpBNFuAuv83XT29vo8pJlegMKPwAueo+rmF4
+ 0zN8KGiliozHU74aQjoAKiAd8uhWIIJmbQALxdbAbt/P1/A2W4IwVUS2jQV/K0Tt/YlJEw/iHt
+ 3ZIoyeuWS2VXu987VE4R1TSk
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:09:29 -0700
-IronPort-SDR: KaAtt9xKgzBFzbcvdNkdExNXNx6pZPSAC8HNz1Wu2kOAyinxCcCf2HzzcEAMfjg2MAe8GRNYYz
- FUutIJLkuClkwIvs604tVDTwln8t1lzXjsm5goJvu3U9+m/fC447WqD+LcM7CCqCWySkvXHnZe
- /V/RydyNVW+f4+ohLgmdy4b9PO2EVkkboeczphSd9I8pjzgqNQzaxygr12/n8qC/wEtreiddnj
- GeFIab7tKzUBd2vRaKAtVO4b7Np8jdfOzpMGFsSU9V7d49COg8Bu91OoLx8KLDLhwFE9sLl0N0
- f+k=
+ 07 Jun 2021 17:09:32 -0700
+IronPort-SDR: 9Zl7PBAkJ8dFNREWRb06pbZmN/6CVb7RxemeMmolKQ2gb09EmVxJjVuSU+LFOqQkgul/rBF/EN
+ i61QPDGvvfDoIqMLfQ64rQ58SQBzbvTFWqtM0be+HB8qoffHTCKEBD50RMECZ+R7RcyLnqDSp/
+ 038INFrzpoYcojrs2OqApTaUqYgDX/8frZLVB9Bv7R1YcIo2yKUJp3Y7vOT9aVFKJrqo6NBNZg
+ bGGi/hZ43h7czSAyv6PliON4+nA28DsXFufiTTqys+EoEvSaKHW4mnQcofuKpjpnJ31klTiJI9
+ Crs=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:20 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:23 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 04/32] hw/riscv: Support the official PLIC DT bindings
-Date: Tue,  8 Jun 2021 10:29:19 +1000
-Message-Id: <20210608002947.1649775-5-alistair.francis@wdc.com>
+Subject: [PULL 05/32] docs/system/riscv: Correct the indentation level of
+ supported devices
+Date: Tue,  8 Jun 2021 10:29:20 +1000
+Message-Id: <20210608002947.1649775-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -98,68 +99,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The official DT bindings of PLIC uses "sifive,plic-1.0.0" as the
-compatible string in the upstream Linux kernel. "riscv,plic0" is
-now legacy and has to be kept for backward compatibility of legacy
-systems.
+The supported device bullet list has an additional space before each
+entry, which makes a wrong indentation level. Correct it.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210430071302.1489082-4-bmeng.cn@gmail.com
+Message-id: 20210430071302.1489082-5-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 6 +++++-
- hw/riscv/virt.c     | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ docs/system/riscv/microchip-icicle-kit.rst | 20 +++++++--------
+ docs/system/riscv/sifive_u.rst             | 30 +++++++++++-----------
+ 2 files changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index d3828dc880..a32a95d58f 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -101,6 +101,9 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     static const char * const clint_compat[2] = {
-         "sifive,clint0", "riscv,clint0"
-     };
-+    static const char * const plic_compat[2] = {
-+        "sifive,plic-1.0.0", "riscv,plic0"
-+    };
+diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
+index 4fe97bce3f..e803131763 100644
+--- a/docs/system/riscv/microchip-icicle-kit.rst
++++ b/docs/system/riscv/microchip-icicle-kit.rst
+@@ -15,16 +15,16 @@ Supported devices
  
-     if (ms->dtb) {
-         fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-@@ -270,7 +273,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-         (long)memmap[SIFIVE_U_DEV_PLIC].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-     qemu_fdt_setprop_cell(fdt, nodename, "#interrupt-cells", 1);
--    qemu_fdt_setprop_string(fdt, nodename, "compatible", "riscv,plic0");
-+    qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
-+        (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-     qemu_fdt_setprop(fdt, nodename, "interrupt-controller", NULL, 0);
-     qemu_fdt_setprop(fdt, nodename, "interrupts-extended",
-         cells, (ms->smp.cpus * 4 - 2) * sizeof(uint32_t));
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 5159e7e020..560216d217 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -197,6 +197,9 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-     static const char * const clint_compat[2] = {
-         "sifive,clint0", "riscv,clint0"
-     };
-+    static const char * const plic_compat[2] = {
-+        "sifive,plic-1.0.0", "riscv,plic0"
-+    };
+ The ``microchip-icicle-kit`` machine supports the following devices:
  
-     if (mc->dtb) {
-         fdt = mc->fdt = load_device_tree(mc->dtb, &s->fdt_size);
-@@ -319,7 +322,8 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-             "#address-cells", FDT_PLIC_ADDR_CELLS);
-         qemu_fdt_setprop_cell(fdt, plic_name,
-             "#interrupt-cells", FDT_PLIC_INT_CELLS);
--        qemu_fdt_setprop_string(fdt, plic_name, "compatible", "riscv,plic0");
-+        qemu_fdt_setprop_string_array(fdt, plic_name, "compatible",
-+            (char **)&plic_compat, ARRAY_SIZE(plic_compat));
-         qemu_fdt_setprop(fdt, plic_name, "interrupt-controller", NULL, 0);
-         qemu_fdt_setprop(fdt, plic_name, "interrupts-extended",
-             plic_cells, s->soc[socket].num_harts * sizeof(uint32_t) * 4);
+- * 1 E51 core
+- * 4 U54 cores
+- * Core Level Interruptor (CLINT)
+- * Platform-Level Interrupt Controller (PLIC)
+- * L2 Loosely Integrated Memory (L2-LIM)
+- * DDR memory controller
+- * 5 MMUARTs
+- * 1 DMA controller
+- * 2 GEM Ethernet controllers
+- * 1 SDHC storage controller
++* 1 E51 core
++* 4 U54 cores
++* Core Level Interruptor (CLINT)
++* Platform-Level Interrupt Controller (PLIC)
++* L2 Loosely Integrated Memory (L2-LIM)
++* DDR memory controller
++* 5 MMUARTs
++* 1 DMA controller
++* 2 GEM Ethernet controllers
++* 1 SDHC storage controller
+ 
+ Boot options
+ ------------
+diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
+index 98e7562848..dcdfbda931 100644
+--- a/docs/system/riscv/sifive_u.rst
++++ b/docs/system/riscv/sifive_u.rst
+@@ -9,21 +9,21 @@ Supported devices
+ 
+ The ``sifive_u`` machine supports the following devices:
+ 
+- * 1 E51 / E31 core
+- * Up to 4 U54 / U34 cores
+- * Core Level Interruptor (CLINT)
+- * Platform-Level Interrupt Controller (PLIC)
+- * Power, Reset, Clock, Interrupt (PRCI)
+- * L2 Loosely Integrated Memory (L2-LIM)
+- * DDR memory controller
+- * 2 UARTs
+- * 1 GEM Ethernet controller
+- * 1 GPIO controller
+- * 1 One-Time Programmable (OTP) memory with stored serial number
+- * 1 DMA controller
+- * 2 QSPI controllers
+- * 1 ISSI 25WP256 flash
+- * 1 SD card in SPI mode
++* 1 E51 / E31 core
++* Up to 4 U54 / U34 cores
++* Core Level Interruptor (CLINT)
++* Platform-Level Interrupt Controller (PLIC)
++* Power, Reset, Clock, Interrupt (PRCI)
++* L2 Loosely Integrated Memory (L2-LIM)
++* DDR memory controller
++* 2 UARTs
++* 1 GEM Ethernet controller
++* 1 GPIO controller
++* 1 One-Time Programmable (OTP) memory with stored serial number
++* 1 DMA controller
++* 2 QSPI controllers
++* 1 ISSI 25WP256 flash
++* 1 SD card in SPI mode
+ 
+ Please note the real world HiFive Unleashed board has a fixed configuration of
+ 1 E51 core and 4 U54 core combination and the RISC-V core boots in 64-bit mode.
 -- 
 2.31.1
 
