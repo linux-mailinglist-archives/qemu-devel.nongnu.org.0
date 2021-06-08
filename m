@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402D239F544
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:41:46 +0200 (CEST)
-Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7432139F510
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:35:39 +0200 (CEST)
+Received: from localhost ([::1]:40260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqa77-0007gW-0T
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
+	id 1lqa1B-0006SF-Sk
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:35:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpL-0006nQ-Oj
+ id 1lqZpL-0006lv-8g
  for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:23 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38588)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpI-000847-Vx
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:23 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- t4-20020a1c77040000b029019d22d84ebdso1673874wmi.3
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:19 -0700 (PDT)
+ id 1lqZpI-00084D-VU
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:22 -0400
+Received: by mail-wm1-x333.google.com with SMTP id f17so1604981wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QxIxKqTJzlnO5FbyAsTgEah7iNWff4xl/B3WeX6eUjg=;
- b=qhBlSGE9FjUpoNHuz+uTZYs0BE/57HKNEbjJqf3W51EEww7+RXk9/q8xE+oRPUhDKy
- 84gpraOaHJ8eWJTl3wzwSkkNfZQy0svf3IoJRPBl2hloOE/lxIX9C/vNbJAV84sWQujs
- PM4vLwF5PH4nXDp3iU7qHmbvNOOK1cXyAjR6eT/MV4IIjfgwlH1ZQ47DQYr75z8m9oDj
- alzIB2U1WNDxrQO5JiX5Dma20jxQmAmXkhFhEn80O73whS2ZvEiqiNE7t+jSg173sEaB
- xikyn2l1DKPx5Wwvr/F5tysA+8uZKWpG4LBMJ9aEBzuUF/GwlKG3UciLNyrTCaO7ggCR
- Tf5g==
+ bh=NFLOcSjovIsq0rrJu+JQcv0N5noAupJu88dEwIvRBvs=;
+ b=k7lwZJxT+tGDa0Kp5wJ2ioyIX3cNdBXbn7Nk6/MFhDZyRrASb0uYwJVRRtOIT3MTKy
+ +2EeFALgP79J7rHV82HybsH3k1ixkw4KqZiKVREXQzSoLGcWw1ro8X8vdGHpDuGWFnKr
+ GhpPlYUUusk60/+GDZFT41o3w4sSbTIyPeM1iQhZ5IqJh7UhD4VTsxLK6ME/aV7qj82o
+ muMZ4PFPclOcZTb+mhsmXpR49LG0RdxkVuwQAFhTkVQ8hqz3xsUrLytTVCYAn7U1n4rh
+ dP0MCbXWX/Naom38SpecWwdSs25LO384t/XO1HLR1d1lixSEKsi/Yf66FiuZat00gEC6
+ 8Xog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QxIxKqTJzlnO5FbyAsTgEah7iNWff4xl/B3WeX6eUjg=;
- b=sB4QCGzSwtSVYeCZNdywDJjkj6y0l8Zw69Tg9g8LaxEnOuH8HOy6PON5eWWMLxUQgj
- Z6PjuhRc0ock3VCx3kIjZR4Yb6snBaUdwNvzGYf4i0r336T0s8KTA1CzbVXYUg0YUkEm
- G/P4gwM5sxuE6mW+0RJy87kIoHjyX54srtzLLW37U2rROo3OZrneP5pqzCPgOam0VS6d
- nxqqgCd6T+BQrn0VLNp5Sc1ec0FUjFe1ElYLXHD9uC+YAvQsIYy94dhMEl61U3b4UgLP
- hIsS9AGZTgSroMSh0lpN9PBeK2NLKW4osLceTCO2b38vINByiTBadEL3WmKzmihRwscM
- FQmA==
-X-Gm-Message-State: AOAM531JNtl1l0Fnq0pE4hnfZblJxgyp74n9Y0Y8Cewa5C6pQWrslFwl
- SpUn/wfHUIOSpLPURtsn2jt3BJnOsWW9eQ==
-X-Google-Smtp-Source: ABdhPJzUqceDE1FXqvmax75LvK2u2g+lx/roHLfJkgYGLINVWncqww8rm3ksmFP+c2mkGMx/SbgExA==
-X-Received: by 2002:a05:600c:1c28:: with SMTP id
- j40mr3722757wms.102.1623151398307; 
- Tue, 08 Jun 2021 04:23:18 -0700 (PDT)
+ bh=NFLOcSjovIsq0rrJu+JQcv0N5noAupJu88dEwIvRBvs=;
+ b=dyGPCV5SMvzIspdQvMpwWP0Osoi3qeHBVifrlN7iIbI49UNzxHz0DHXlOFSGCPEhwR
+ 3+7hbKYUYm5ctOBav8ezClTvok4Nv2af0m3x9ZoJ6t6ALGKWQsgeN/7aVb6FLdBEKCKs
+ ozSe6Jy5xHEmRS4fuBazDLHO6pe/b0qPzDci9lmxJ6tx5ZmbwZA7kNPcH2GOtQs2JFRz
+ NrqtTB6sKtcHKAHCCWBuosK9APR6Es6wwkyS3fxajjAbPh1QzfIopcYEf8VN+CygrZjz
+ oOgxFk7mlLuQKRY+QJCu66xLnsjQMowbWtHG9EWyqgzlaRjQLHWWH3kbcNb06QKRglyg
+ 0QWQ==
+X-Gm-Message-State: AOAM533iMMB6g/tOpBvrJQJB9nvAmoPA381c/nBeZIqhN6fe+M1JTIha
+ tzRjetuC6umAYrHQCLrulj3oW/wNWIussA==
+X-Google-Smtp-Source: ABdhPJxAofrY7Ll0s4AavDjEgeIh+vE8iQbv2Vc2tsNIXJ025g/lQPnvmLLqyvHkSrTaBh7WDJvxdQ==
+X-Received: by 2002:a1c:9a45:: with SMTP id c66mr16649376wme.43.1623151399243; 
+ Tue, 08 Jun 2021 04:23:19 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.17
+ by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:23:17 -0700 (PDT)
+ Tue, 08 Jun 2021 04:23:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/26] configure, meson: move CONFIG_IVSHMEM to meson
-Date: Tue,  8 Jun 2021 13:22:52 +0200
-Message-Id: <20210608112301.402434-18-pbonzini@redhat.com>
+Subject: [PATCH 18/26] configure: convert HAVE_BROKEN_SIZE_MAX to meson
+Date: Tue,  8 Jun 2021 13:22:53 +0200
+Message-Id: <20210608112301.402434-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608112301.402434-1-pbonzini@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,78 +87,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a duplicate of CONFIG_EVENTFD, handle it directly in meson.build.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure              | 8 --------
- docs/devel/kconfig.rst | 2 +-
- meson.build            | 5 +++--
- 3 files changed, 4 insertions(+), 11 deletions(-)
+ configure   | 17 -----------------
+ meson.build |  9 +++++++++
+ 2 files changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/configure b/configure
-index 2c0f16488e..c95259435f 100755
+index c95259435f..e11174f810 100755
 --- a/configure
 +++ b/configure
-@@ -5038,11 +5038,6 @@ if test "$mingw32" = "yes" ; then
-     done
+@@ -2375,20 +2375,6 @@ if test "$softmmu" = "no"; then
+     audio_drv_list=""
  fi
  
--# We can only support ivshmem if we have eventfd
--if [ "$eventfd" = "yes" ]; then
--  ivshmem=yes
+-##########################################
+-# Some versions of Mac OS X incorrectly define SIZE_MAX
+-cat > $TMPC << EOF
+-#include <stdint.h>
+-#include <stdio.h>
+-int main(int argc, char *argv[]) {
+-    return printf("%zu", SIZE_MAX);
+-}
+-EOF
+-have_broken_size_max=no
+-if ! compile_object -Werror ; then
+-    have_broken_size_max=yes
 -fi
 -
- # Probe for guest agent support/options
+ ##########################################
+ # L2TPV3 probe
  
- if [ "$guest_agent" != "no" ]; then
-@@ -5638,9 +5633,6 @@ fi
- if test "$have_getrandom" = "yes" ; then
-   echo "CONFIG_GETRANDOM=y" >> $config_host_mak
+@@ -5358,9 +5344,6 @@ if test "$gdbus_codegen" != "" ; then
+     echo "GDBUS_CODEGEN=$gdbus_codegen" >> $config_host_mak
  fi
--if test "$ivshmem" = "yes" ; then
--  echo "CONFIG_IVSHMEM=y" >> $config_host_mak
+ echo "CONFIG_TLS_PRIORITY=\"$tls_priority\"" >> $config_host_mak
+-if test "$have_broken_size_max" = "yes" ; then
+-    echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
 -fi
- if test "$debug_mutex" = "yes" ; then
-   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
+ if test "$have_openpty" = "yes" ; then
+     echo "HAVE_OPENPTY=y" >> $config_host_mak
  fi
-diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
-index cb2d7ffac0..a1cdbec751 100644
---- a/docs/devel/kconfig.rst
-+++ b/docs/devel/kconfig.rst
-@@ -303,5 +303,5 @@ variable::
-     host_kconfig = \
-       ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
-       ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
--      ('CONFIG_IVSHMEM' in config_host ? ['CONFIG_IVSHMEM=y'] : []) + \
-+      (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
-       ...
 diff --git a/meson.build b/meson.build
-index 38f6f193f5..3be3ef0982 100644
+index 3be3ef0982..2a19f6c1bd 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1337,10 +1337,11 @@ if link_language == 'cpp'
-   }
- endif
+@@ -1270,6 +1270,15 @@ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
+ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
  
-+have_ivshmem = config_host.has_key('CONFIG_EVENTFD')
- host_kconfig = \
-   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
-   ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
--  ('CONFIG_IVSHMEM' in config_host ? ['CONFIG_IVSHMEM=y'] : []) + \
-+  (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
-   ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
-   (x11.found() ? ['CONFIG_X11=y'] : []) + \
-   ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
-@@ -2499,7 +2500,7 @@ if have_tools
-                install: true)
-   endif
- 
--  if 'CONFIG_IVSHMEM' in config_host
-+  if have_ivshmem
-     subdir('contrib/ivshmem-client')
-     subdir('contrib/ivshmem-server')
-   endif
++# Some versions of Mac OS X incorrectly define SIZE_MAX
++config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
++    #include <stdint.h>
++    #include <stdio.h>
++    int main(int argc, char *argv[]) {
++        return printf("%zu", SIZE_MAX);
++    }''', args: ['-Werror']))
++
++
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+ strings = ['HOST_DSOSUF', 'CONFIG_IASL']
 -- 
 2.31.1
 
