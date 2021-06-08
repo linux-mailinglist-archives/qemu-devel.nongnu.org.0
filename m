@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9631739F25A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:29:21 +0200 (CEST)
-Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D2F39F27A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:32:45 +0200 (CEST)
+Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqY2y-0004jS-K1
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48536)
+	id 1lqY6G-0003xL-UW
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXyv-0004D0-5P
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:25:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30148)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXy5-00024h-Q7
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:24:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXyr-0000bI-Tw
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:25:08 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXy3-0008Us-2n
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:24:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623144305;
+ s=mimecast20190719; t=1623144254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bx9VQMW6MZM4BMeoasvA3w6Ft805UMYNT7NsWuiKnlo=;
- b=NsdypsmI+P5IbLNNc2aUd2pUhbK3AyvTLax+irgrPlbLDQeoGusQr79s095sIrdgNLZWzJ
- DJl7eyHYw5jl5JhZMg78k5Utn+ZWX8WJSvY94HabR007dDqUc4ARxyj6IBlwzc+6N7AJGo
- +S3g/2fo7vdYHYVAVefA9g9toHZPAYY=
+ bh=9tddF0J8Rfm4efgQEDn+k/6KS0S23rDMpPXDo3BXofA=;
+ b=BSSXINCuEWl02Mh3+/n4ZaDOHL7njVZhMN3DiregKOBlSwfif09FCCFDs63coDJT0yecJ4
+ k9Oswj5LMeqYjNCQVAWCvsnfBRpZrHFiU0iJk6RtKlMNswYyn/Dqx33+QjgCb7rlqblJSq
+ idvoU+cHmpEpaBsqO+Wjfxj26mVXw1g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-KXUyClFkMc6iaZaCMDc0WQ-1; Tue, 08 Jun 2021 05:25:04 -0400
-X-MC-Unique: KXUyClFkMc6iaZaCMDc0WQ-1
+ us-mta-40-uqnJwONiPvOcwwWZ4zLiWw-1; Tue, 08 Jun 2021 05:24:13 -0400
+X-MC-Unique: uqnJwONiPvOcwwWZ4zLiWw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D0A080364C;
- Tue,  8 Jun 2021 09:25:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AFB01020C39;
+ Tue,  8 Jun 2021 09:24:12 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-132.ams2.redhat.com [10.36.115.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC6ED5C1BB;
- Tue,  8 Jun 2021 09:24:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FEA75C1BB;
+ Tue,  8 Jun 2021 09:24:10 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 26/26] s390x/cpumodel: Bump up QEMU model to a
- stripped-down IBM z14 GA2
-Date: Tue,  8 Jun 2021 11:23:37 +0200
-Message-Id: <20210608092337.12221-27-david@redhat.com>
+Subject: [PATCH v4 10/26] s390x/tcg: Simplify wfc64() handling
+Date: Tue,  8 Jun 2021 11:23:21 +0200
+Message-Id: <20210608092337.12221-11-david@redhat.com>
 In-Reply-To: <20210608092337.12221-1-david@redhat.com>
 References: <20210608092337.12221-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,90 +84,57 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG implements everything we need to run basic z14 OS+software.
+... and prepare for 32/128 bit support.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c  |  3 +++
- target/s390x/cpu_models.c   |  4 ++--
- target/s390x/gen-features.c | 15 +++++++++------
- 3 files changed, 14 insertions(+), 8 deletions(-)
+ target/s390x/vec_fpu_helper.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 7af27ca305..e4b18aef49 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -802,7 +802,10 @@ DEFINE_CCW_MACHINE(6_1, "6.1", true);
- 
- static void ccw_machine_6_0_instance_options(MachineState *machine)
+diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
+index 7ca9c892f7..4af59ea66c 100644
+--- a/target/s390x/vec_fpu_helper.c
++++ b/target/s390x/vec_fpu_helper.c
+@@ -201,8 +201,8 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
+                  CPUS390XState *env, bool signal, uintptr_t retaddr)
  {
-+    static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V6_0 };
-+
-     ccw_machine_6_1_instance_options(machine);
-+    s390_set_qemu_cpu_model(0x2964, 13, 2, qemu_cpu_feat);
+     /* only the zero-indexed elements are compared */
+-    const float64 a = s390_vec_read_element64(v1, 0);
+-    const float64 b = s390_vec_read_element64(v2, 0);
++    const float64 a = s390_vec_read_float64(v1, 0);
++    const float64 b = s390_vec_read_float64(v2, 0);
+     uint8_t vxc, vec_exc = 0;
+     int cmp;
+ 
+@@ -217,17 +217,18 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
+     return float_comp_to_cc(env, cmp);
  }
  
- static void ccw_machine_6_0_class_options(MachineClass *mc)
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 050dcf2d42..94090a6e22 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -90,8 +90,8 @@ static S390CPUDef s390_cpu_defs[] = {
-     CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM z15 T02 GA1"),
- };
+-void HELPER(gvec_wfc64)(const void *v1, const void *v2, CPUS390XState *env,
+-                        uint32_t desc)
+-{
+-    env->cc_op = wfc64(v1, v2, env, false, GETPC());
++#define DEF_GVEC_WFC_B(NAME, SIGNAL, BITS)                                     \
++void HELPER(gvec_##NAME##BITS)(const void *v1, const void *v2,                 \
++                               CPUS390XState *env, uint32_t desc)              \
++{                                                                              \
++    env->cc_op = wfc##BITS(v1, v2, env, SIGNAL, GETPC());                      \
+ }
  
--#define QEMU_MAX_CPU_TYPE 0x2964
--#define QEMU_MAX_CPU_GEN 13
-+#define QEMU_MAX_CPU_TYPE 0x3906
-+#define QEMU_MAX_CPU_GEN 14
- #define QEMU_MAX_CPU_EC_GA 2
- static const S390FeatInit qemu_max_cpu_feat_init = { S390_FEAT_LIST_QEMU_MAX };
- static S390FeatBitmap qemu_max_cpu_feat;
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 219b1f9420..242c95ede4 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -706,23 +706,25 @@ static uint16_t qemu_V4_1[] = {
-     S390_FEAT_VECTOR,
- };
- 
--static uint16_t qemu_LATEST[] = {
-+static uint16_t qemu_V6_0[] = {
-     S390_FEAT_ACCESS_EXCEPTION_FS_INDICATION,
-     S390_FEAT_SIDE_EFFECT_ACCESS_ESOP2,
-     S390_FEAT_ESOP,
- };
- 
--/* add all new definitions before this point */
--static uint16_t qemu_MAX[] = {
--    /* generates a dependency warning, leave it out for now */
--    S390_FEAT_MSA_EXT_5,
--    /* features introduced after the z13 */
-+static uint16_t qemu_LATEST[] = {
-     S390_FEAT_INSTRUCTION_EXEC_PROT,
-     S390_FEAT_MISC_INSTRUCTION_EXT2,
-     S390_FEAT_MSA_EXT_8,
-     S390_FEAT_VECTOR_ENH,
- };
- 
-+/* add all new definitions before this point */
-+static uint16_t qemu_MAX[] = {
-+    /* generates a dependency warning, leave it out for now */
-+    S390_FEAT_MSA_EXT_5,
-+};
+-void HELPER(gvec_wfk64)(const void *v1, const void *v2, CPUS390XState *env,
+-                        uint32_t desc)
+-{
+-    env->cc_op = wfc64(v1, v2, env, true, GETPC());
+-}
++#define DEF_GVEC_WFC(NAME, SIGNAL)                                             \
++     DEF_GVEC_WFC_B(NAME, SIGNAL, 64)
 +
- /****** END FEATURE DEFS ******/
++DEF_GVEC_WFC(wfc, false)
++DEF_GVEC_WFC(wfk, true)
  
- #define _YEARS  "2016"
-@@ -839,6 +841,7 @@ static FeatGroupDefSpec QemuFeatDef[] = {
-     QEMU_FEAT_INITIALIZER(V3_1),
-     QEMU_FEAT_INITIALIZER(V4_0),
-     QEMU_FEAT_INITIALIZER(V4_1),
-+    QEMU_FEAT_INITIALIZER(V6_0),
-     QEMU_FEAT_INITIALIZER(LATEST),
-     QEMU_FEAT_INITIALIZER(MAX),
- };
+ typedef bool (*vfc64_fn)(float64 a, float64 b, float_status *status);
+ static int vfc64(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
 -- 
 2.31.1
 
