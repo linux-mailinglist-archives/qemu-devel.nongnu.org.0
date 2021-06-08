@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BAC39F545
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:41:56 +0200 (CEST)
-Received: from localhost ([::1]:55152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA46C39F50D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:34:12 +0200 (CEST)
+Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqa7H-00089f-W5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43768)
+	id 1lqZzm-0003PR-1r
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpP-0006zs-H4
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:27 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55976)
+ id 1lqZpQ-00071X-Bk
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:32 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpN-00087X-KO
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:27 -0400
-Received: by mail-wm1-x334.google.com with SMTP id g204so1584730wmf.5
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:25 -0700 (PDT)
+ id 1lqZpO-00088C-K5
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:28 -0400
+Received: by mail-wm1-x334.google.com with SMTP id l9so1610373wms.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EGBVnS8TDAzYS3n1mdtHDWtzzPZPFr5YshutzoCZnF0=;
- b=HHBN0ecdvVaX0WJ4vLgsHaZO+hIWaa9MfuORC0zSgoYhrDqFuf/lMEFu/lFMygMwBR
- E9KBVly7c6p6i2WIwWlMZHLdQh2fiTSt68OFUwMOZyKH7LRkqo8js7bYdrHwg2NB4DN5
- lQyzlEhe+I8F74hftpBelw5JNvPDLUEayAIalN6yOX5+8Lvb+JbFjipINch0EEQ54BtD
- HOcqbDnxv4QCcJZheT8CnbcN/xvtCiQCX+QELPJeImOMQ17EM6g3/BBAQwVwzOaN8RZT
- M1ipaOJfsf/BpeWpcqZTYMq3LVtHYz6CXqg0yOgqm/ahVbIHJqJ29ujZDek7qUHk/bUj
- s6QQ==
+ bh=+6KgIoYBMJpHpXaS8pJvWzbEpMSL2UNGph/MLhTPZFs=;
+ b=GWNBDPGEnz+SjiYVglAjIIn1bu1l19zBCHeOy9WXzSyw1kxvTyPJWkPdhOg/H/Fl/a
+ b94wQPq8RIR5I9rQN2iCefEkA3YA3rL8a49sF9d40QqLJFYFsKjWxfiO3MMtRBtYC2L4
+ zJr5nstsGIg+ZBmU26eNUa5L1Pke8LaQ0PSZldMvkxYvH+IxzluXjT6C/yhmuwYnD74S
+ eHV/ULi3dvpnsBtFNcNyI7fNFCqIllMzfXiKmWaMBL5W5kinKPMT92/2Gy3m27EZgjq+
+ hT8nOEJiR1W3BlmkLhXX4hJGrxY5u4j9IDNtz081S5C1aOBpLBiG0xqf2XfWR+GfyzD6
+ kqag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EGBVnS8TDAzYS3n1mdtHDWtzzPZPFr5YshutzoCZnF0=;
- b=FeakJgRrPBudabOya08VVpnEBxJX8u7JcdWfuCyCUiLE0Ws0KzE7Jz30gPNWmixeIb
- s2UcVk1M0LnHODUeLAamwAvqyMkhdaStIdcbCJqGVvBMGBsB2C0VABoKp/Zg2KO4Er1p
- A+6w+4OxMKGMoj0VA6ho+KVB88QnUrjM/vS01nuGq3rDzVqmv0t6F3NoiLfR15vplLaS
- W4I50/5VQajDSknomgJcVxFxUMjD8rM1IrFw5BjxTr4Y/SKJMN6hGXTokDsMsi6lUj9w
- 1RtlYgSfqniZJKSw2VJmqew8EoMQNqHcpUZP5EV8k13NupbUwboH4FUvQY1mVUk/aoyD
- fgFg==
-X-Gm-Message-State: AOAM531poWv5i/+RJYopGtC6aDMB6HALEYXMRBE9qY6ke5Z8ntD+7LpG
- IDf1uw1yzgqtlIq46Se0XEYojyljLZUrGA==
-X-Google-Smtp-Source: ABdhPJwLvW3lcg+128M0/Zap8ftdnwEIgr/lcWIYAuNMyb6SwZd6kHiuTb7jiL1M5yZAhNd6hpOzRQ==
-X-Received: by 2002:a7b:c394:: with SMTP id s20mr16953955wmj.33.1623151404457; 
- Tue, 08 Jun 2021 04:23:24 -0700 (PDT)
+ bh=+6KgIoYBMJpHpXaS8pJvWzbEpMSL2UNGph/MLhTPZFs=;
+ b=f0XkPfvDrdsA4rfamuQM2r8lTbwudds4m3P1SikqBPGh67ME2bmVWJ8Xsrjyq0wwAD
+ NaiiFavX2Ucr5nj1Jvw2d54WT+Zlz4+eMhfbca0gAKn6k4TtD67XHBeHPTBKVlbR62P1
+ xP6Ef0Aj236PDj2z7Ql+luRkhV5Tu4N33jxRG/ua6glNAAUdnF0qGH72a8pAxsEJNTN0
+ x3P6BdWWC5+8Z3c4vhyGDSV/npLVuw4N32aV1+Km1pxTUsNuTK1cnS+7cXNjl/KZEI1T
+ we6VSU+3+UV0HwEBBvG9cNv685us2/2gwyPtK2mOn5Db2IhCmzRmwhKZow5a87198dHW
+ 2+5g==
+X-Gm-Message-State: AOAM533kzMqAzQGQbM986eTOnEF611fPJHsvGczYu2lnG3d7FcuZD8Da
+ 1kZbAs/yGLrj+lJ63cuvUkM32OzcA+ua0A==
+X-Google-Smtp-Source: ABdhPJylPtGi99LUrdBjHo2SgoBjgolwxVLosFDQZEvhNbaD4O01PFC7AvSQj1vjaRnz18URYBWZNA==
+X-Received: by 2002:a05:600c:1c28:: with SMTP id
+ j40mr3723235wms.102.1623151405376; 
+ Tue, 08 Jun 2021 04:23:25 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.23
+ by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:23:24 -0700 (PDT)
+ Tue, 08 Jun 2021 04:23:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/26] configure: convert compiler tests to meson, part 4
-Date: Tue,  8 Jun 2021 13:22:59 +0200
-Message-Id: <20210608112301.402434-25-pbonzini@redhat.com>
+Subject: [PATCH 25/26] configure: convert compiler tests to meson, part 5
+Date: Tue,  8 Jun 2021 13:23:00 +0200
+Message-Id: <20210608112301.402434-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608112301.402434-1-pbonzini@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
@@ -87,259 +88,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And remove them from the summary, since now their outcome is verbosely
-included in the meson output.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 137 ----------------------------------------------------
- meson.build |  38 +++++++++++++--
- 2 files changed, 33 insertions(+), 142 deletions(-)
+ configure   | 101 ----------------------------------------------------
+ meson.build |  26 ++++++++++++++
+ 2 files changed, 26 insertions(+), 101 deletions(-)
 
 diff --git a/configure b/configure
-index dd6098e306..87143ca00d 100755
+index 87143ca00d..527a308470 100755
 --- a/configure
 +++ b/configure
-@@ -3511,59 +3511,6 @@ elif test "$jemalloc" = "yes" ; then
-     malloc=jemalloc
+@@ -3395,92 +3395,6 @@ EOF
+   fi
  fi
  
--##########################################
--# signalfd probe
--signalfd="no"
+-# Check for inotify functions when we are building linux-user
+-# emulator.  This is done because older glibc versions don't
+-# have syscall stubs for these implemented.  In that case we
+-# don't provide them even if kernel supports them.
+-#
+-inotify=no
+-cat > $TMPC << EOF
+-#include <sys/inotify.h>
+-
+-int
+-main(void)
+-{
+-	/* try to start inotify */
+-	return inotify_init();
+-}
+-EOF
+-if compile_prog "" "" ; then
+-  inotify=yes
+-fi
+-
+-inotify1=no
+-cat > $TMPC << EOF
+-#include <sys/inotify.h>
+-
+-int
+-main(void)
+-{
+-    /* try to start inotify */
+-    return inotify_init1(0);
+-}
+-EOF
+-if compile_prog "" "" ; then
+-  inotify1=yes
+-fi
+-
+-# check if pipe2 is there
+-pipe2=no
 -cat > $TMPC << EOF
 -#include <unistd.h>
--#include <sys/syscall.h>
--#include <signal.h>
--int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }
--EOF
--
--if compile_prog "" "" ; then
--  signalfd=yes
--fi
--
--# check if optreset global is declared by <getopt.h>
--optreset="no"
--cat > $TMPC << EOF
--#include <getopt.h>
--int main(void) { return optreset; }
--EOF
--
--if compile_prog "" "" ; then
--  optreset=yes
--fi
--
--# check if eventfd is supported
--eventfd=no
--cat > $TMPC << EOF
--#include <sys/eventfd.h>
+-#include <fcntl.h>
 -
 -int main(void)
 -{
--    return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
+-    int pipefd[2];
+-    return pipe2(pipefd, O_CLOEXEC);
 -}
 -EOF
 -if compile_prog "" "" ; then
--  eventfd=yes
+-  pipe2=yes
 -fi
 -
--# check if memfd is supported
--memfd=no
+-# check if accept4 is there
+-accept4=no
 -cat > $TMPC << EOF
--#include <sys/mman.h>
+-#include <sys/socket.h>
+-#include <stddef.h>
 -
 -int main(void)
 -{
--    return memfd_create("foo", MFD_ALLOW_SEALING);
+-    accept4(0, NULL, NULL, SOCK_CLOEXEC);
+-    return 0;
 -}
 -EOF
 -if compile_prog "" "" ; then
--  memfd=yes
+-  accept4=yes
 -fi
 -
- # check for usbfs
- have_usbfs=no
- if test "$linux_user" = "yes"; then
-@@ -3711,66 +3658,6 @@ case "$capstone" in
-     ;;
- esac
- 
--##########################################
--# check if we have fdatasync
--
--fdatasync=no
+-# check if tee/splice is there. vmsplice was added same time.
+-splice=no
 -cat > $TMPC << EOF
 -#include <unistd.h>
--int main(void) {
--#if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
--return fdatasync(0);
--#else
--#error Not supported
--#endif
+-#include <fcntl.h>
+-#include <limits.h>
+-
+-int main(void)
+-{
+-    int len, fd = 0;
+-    len = tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
+-    splice(STDIN_FILENO, NULL, fd, NULL, len, SPLICE_F_MOVE);
+-    return 0;
 -}
 -EOF
 -if compile_prog "" "" ; then
--    fdatasync=yes
--fi
--
--##########################################
--# check if we have madvise
--
--madvise=no
--cat > $TMPC << EOF
--#include <sys/types.h>
--#include <sys/mman.h>
--#include <stddef.h>
--int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }
--EOF
--if compile_prog "" "" ; then
--    madvise=yes
--fi
--
--##########################################
--# check if we have posix_madvise
--
--posix_madvise=no
--cat > $TMPC << EOF
--#include <sys/mman.h>
--#include <stddef.h>
--int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }
--EOF
--if compile_prog "" "" ; then
--    posix_madvise=yes
--fi
--
--##########################################
--# check if we have posix_memalign()
--
--posix_memalign=no
--cat > $TMPC << EOF
--#include <stdlib.h>
--int main(void) {
--    void *p;
--    return posix_memalign(&p, 8, 8);
--}
--EOF
--if compile_prog "" "" ; then
--    posix_memalign=yes
+-  splice=yes
 -fi
 -
  ##########################################
- # check if we have posix_syslog
+ # libnuma probe
  
-@@ -4842,12 +4729,6 @@ fi
- if test "$splice" = "yes" ; then
-   echo "CONFIG_SPLICE=y" >> $config_host_mak
+@@ -4720,24 +4634,9 @@ fi
+ if test "$module_upgrades" = "yes"; then
+   echo "CONFIG_MODULE_UPGRADES=y" >> $config_host_mak
  fi
--if test "$eventfd" = "yes" ; then
--  echo "CONFIG_EVENTFD=y" >> $config_host_mak
+-if test "$pipe2" = "yes" ; then
+-  echo "CONFIG_PIPE2=y" >> $config_host_mak
 -fi
--if test "$memfd" = "yes" ; then
--  echo "CONFIG_MEMFD=y" >> $config_host_mak
+-if test "$accept4" = "yes" ; then
+-  echo "CONFIG_ACCEPT4=y" >> $config_host_mak
+-fi
+-if test "$splice" = "yes" ; then
+-  echo "CONFIG_SPLICE=y" >> $config_host_mak
 -fi
  if test "$have_usbfs" = "yes" ; then
    echo "CONFIG_USBFS=y" >> $config_host_mak
  fi
-@@ -4922,24 +4803,6 @@ fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
--if test "$signalfd" = "yes" ; then
--  echo "CONFIG_SIGNALFD=y" >> $config_host_mak
+-if test "$inotify" = "yes" ; then
+-  echo "CONFIG_INOTIFY=y" >> $config_host_mak
 -fi
--if test "$optreset" = "yes" ; then
--  echo "HAVE_OPTRESET=y" >> $config_host_mak
+-if test "$inotify1" = "yes" ; then
+-  echo "CONFIG_INOTIFY1=y" >> $config_host_mak
 -fi
--if test "$fdatasync" = "yes" ; then
--  echo "CONFIG_FDATASYNC=y" >> $config_host_mak
--fi
--if test "$madvise" = "yes" ; then
--  echo "CONFIG_MADVISE=y" >> $config_host_mak
--fi
--if test "$posix_madvise" = "yes" ; then
--  echo "CONFIG_POSIX_MADVISE=y" >> $config_host_mak
--fi
--if test "$posix_memalign" = "yes" ; then
--  echo "CONFIG_POSIX_MEMALIGN=y" >> $config_host_mak
--fi
- 
- if test "$spice_protocol" = "yes" ; then
-   echo "CONFIG_SPICE_PROTOCOL=y" >> $config_host_mak
+ if test "$gio" = "yes" ; then
+     echo "CONFIG_GIO=y" >> $config_host_mak
+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 4b9bbca7ff..e168e166ad 100644
+index e168e166ad..78fa30adbb 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1275,6 +1275,7 @@ config_host_data.set('CONFIG_CLOCK_ADJTIME', cc.has_function('clock_adjtime'))
+@@ -1271,6 +1271,7 @@ config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+ 
++config_host_data.set('CONFIG_ACCEPT4', cc.has_function('accept4'))
+ config_host_data.set('CONFIG_CLOCK_ADJTIME', cc.has_function('clock_adjtime'))
  config_host_data.set('CONFIG_DUP3', cc.has_function('dup3'))
  config_host_data.set('CONFIG_FALLOCATE', cc.has_function('fallocate'))
- config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'))
-+config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
- config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
- config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
- config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
-@@ -1313,11 +1314,42 @@ config_host_data.set('CONFIG_RTNETLINK',
-                      cc.has_header_symbol('linux/rtnetlink.h', 'IFLA_PROTO_DOWN'))
- config_host_data.set('CONFIG_SYSMACROS',
-                      cc.has_header_symbol('sys/sysmacros.h', 'makedev'))
-+config_host_data.set('HAVE_OPTRESET',
-+                     cc.has_header_symbol('getopt.h', 'optreset'))
- config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
-                      cc.has_member('struct stat', 'st_atim', prefix: '#include <sys/stat.h>'))
- config_host_data.set('HAVE_UTMPX',
-                      cc.has_header_symbol('utmpx.h', 'struct utmpx'))
- 
-+config_host_data.set('CONFIG_EVENTFD', cc.compiles('''
-+  #include <sys/eventfd.h>
-+  int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
-+config_host_data.set('CONFIG_FDATASYNC', cc.compiles(gnu_source_prefix + '''
+@@ -1304,6 +1305,10 @@ config_host_data.set('CONFIG_FIEMAP',
+ config_host_data.set('CONFIG_GETRANDOM',
+                      cc.has_function('getrandom') and
+                      cc.has_header_symbol('sys/random.h', 'GRND_NONBLOCK'))
++config_host_data.set('CONFIG_INOTIFY',
++                     cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
++config_host_data.set('CONFIG_INOTIFY1',
++                     cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
+ config_host_data.set('CONFIG_MACHINE_BSWAP_H',
+                      cc.has_header_symbol('machine/bswap.h', 'bswap32',
+                                           prefix: '''#include <sys/endian.h>
+@@ -1341,6 +1346,15 @@ config_host_data.set('CONFIG_MADVISE', cc.compiles('''
+ config_host_data.set('CONFIG_MEMFD', cc.compiles(gnu_source_prefix + '''
+   #include <sys/mman.h>
+   int main(void) { return memfd_create("foo", MFD_ALLOW_SEALING); }'''))
++config_host_data.set('CONFIG_PIPE2', cc.compiles(gnu_source_prefix + '''
 +  #include <unistd.h>
-+  int main(void) {
-+  #if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
-+  return fdatasync(0);
-+  #else
-+  #error Not supported
-+  #endif
++  #include <fcntl.h>
++
++  int main(void)
++  {
++      int pipefd[2];
++      return pipe2(pipefd, O_CLOEXEC);
 +  }'''))
-+config_host_data.set('CONFIG_MADVISE', cc.compiles(gnu_source_prefix + '''
-+  #include <sys/types.h>
-+  #include <sys/mman.h>
-+  #include <stddef.h>
-+  int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }'''))
-+config_host_data.set('CONFIG_MEMFD', cc.compiles(gnu_source_prefix + '''
-+  #include <sys/mman.h>
-+  int main(void) { return memfd_create("foo", MFD_ALLOW_SEALING); }'''))
-+config_host_data.set('CONFIG_POSIX_MADVISE', cc.compiles(gnu_source_prefix + '''
-+  #include <sys/mman.h>
-+  #include <stddef.h>
-+  int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
-+config_host_data.set('CONFIG_SIGNALFD', cc.compiles(gnu_source_prefix + '''
+ config_host_data.set('CONFIG_POSIX_MADVISE', cc.compiles(gnu_source_prefix + '''
+   #include <sys/mman.h>
+   #include <stddef.h>
+@@ -1350,6 +1364,18 @@ config_host_data.set('CONFIG_SIGNALFD', cc.compiles('''
+   #include <sys/syscall.h>
+   #include <signal.h>
+   int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }'''))
++config_host_data.set('CONFIG_SPLICE', cc.compiles(gnu_source_prefix + '''
 +  #include <unistd.h>
-+  #include <sys/syscall.h>
-+  #include <signal.h>
-+  int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }'''))
++  #include <fcntl.h>
++  #include <limits.h>
++
++  int main(void)
++  {
++    int len, fd = 0;
++    len = tee(STDIN_FILENO, STDOUT_FILENO, INT_MAX, SPLICE_F_NONBLOCK);
++    splice(STDIN_FILENO, NULL, fd, NULL, len, SPLICE_F_MOVE);
++    return 0;
++  }'''))
  config_host_data.set('CONFIG_STATIC_ASSERT', cc.compiles('''
    _Static_assert(1, "success");
    int main(void) {
-@@ -1400,7 +1432,7 @@ if link_language == 'cpp'
-   }
- endif
- 
--have_ivshmem = config_host.has_key('CONFIG_EVENTFD')
-+have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
- host_kconfig = \
-   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
-   ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
-@@ -2721,10 +2753,6 @@ summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
--summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
--summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
--summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
--summary_info += {'posix_memalign':    config_host.has_key('CONFIG_POSIX_MEMALIGN')}
- summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
- summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
- summary_info += {'memory allocator':  get_option('malloc')}
 -- 
 2.31.1
 
