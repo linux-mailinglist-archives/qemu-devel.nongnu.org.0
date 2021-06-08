@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BCE39F10D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:36:52 +0200 (CEST)
-Received: from localhost ([::1]:37272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6018039F105
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:34:44 +0200 (CEST)
+Received: from localhost ([::1]:58206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqXEB-0003YM-0B
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35426)
+	id 1lqXC7-0006l1-0B
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:34:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lqX8W-0003ug-C6
+ id 1lqX8W-0003vK-O3
  for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:31:00 -0400
-Received: from mga07.intel.com ([134.134.136.100]:62324)
+Received: from mga12.intel.com ([192.55.52.136]:25331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lqX8Q-000084-Ln
+ id 1lqX8P-0000Dh-E4
  for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:31:00 -0400
-IronPort-SDR: HZ7yR/q0iNPUb7ioaxlqdzvlPCGZgn+9KgWQKvvfeanj4Ic0htRGzHupG+qcJMa7V0LuZiK3Tk
- Iz5oilOEneuw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="268653426"
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="268653426"
+IronPort-SDR: wslG2XT47xsVf+pJNZyEP2ib/ZNrqoFwfsKV4qQuCQ5tmQahsjAgyYXsRv1DsfzsA9HZENBK0Y
+ tzakdVIw0mrg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10008"; a="184485394"
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="184485394"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:30:47 -0700
-IronPort-SDR: BHYD0t4/L+vKEtGbRTDjPJhoAN6Mcuh2dPB3VGZu7qNaANrkNf+jko2bXG0lG58OIIq0BiY1go
- 86D0O7j5EOCA==
-X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="481862900"
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2021 01:30:44 -0700
+IronPort-SDR: jb9ugDyoX9c52Vq+XLWABnrseESUN9IXresqbIz8iCqDJ2Z/mA96DzLY85TA9V/ohuAiYVsxDT
+ lTud7PZSv2eQ==
+X-IronPort-AV: E=Sophos;i="5.83,257,1616482800"; d="scan'208";a="481862909"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2021 01:30:39 -0700
+ 08 Jun 2021 01:30:42 -0700
 From: Zhang Chen <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>,
 	qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 1/7] Remove some duplicate trace code.
-Date: Tue,  8 Jun 2021 16:23:25 +0800
-Message-Id: <20210608082331.1949117-2-chen.zhang@intel.com>
+Subject: [PATCH 2/7] Fix the qemu crash when guest shutdown during checkpoint
+Date: Tue,  8 Jun 2021 16:23:26 +0800
+Message-Id: <20210608082331.1949117-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210608082331.1949117-1-chen.zhang@intel.com>
 References: <20210608082331.1949117-1-chen.zhang@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=chen.zhang@intel.com; helo=mga07.intel.com
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
+ helo=mga12.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,7 +70,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-There is the same trace code in the colo_compare_packet_payload.
+This patch fixes the following:
+    qemu-system-x86_64: invalid runstate transition: 'colo' ->'shutdown'
+    Aborted (core dumped)
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
@@ -79,33 +81,21 @@ Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/colo-compare.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ softmmu/runstate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 9d1ad99941..c142c08dc6 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -590,19 +590,6 @@ static int colo_packet_compare_other(Packet *spkt, Packet *ppkt)
-     uint16_t offset = ppkt->vnet_hdr_len;
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index ce8977c6a2..15640572c0 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -126,6 +126,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
  
-     trace_colo_compare_main("compare other");
--    if (trace_event_get_state_backends(TRACE_COLO_COMPARE_IP_INFO)) {
--        char pri_ip_src[20], pri_ip_dst[20], sec_ip_src[20], sec_ip_dst[20];
--
--        strcpy(pri_ip_src, inet_ntoa(ppkt->ip->ip_src));
--        strcpy(pri_ip_dst, inet_ntoa(ppkt->ip->ip_dst));
--        strcpy(sec_ip_src, inet_ntoa(spkt->ip->ip_src));
--        strcpy(sec_ip_dst, inet_ntoa(spkt->ip->ip_dst));
--
--        trace_colo_compare_ip_info(ppkt->size, pri_ip_src,
--                                   pri_ip_dst, spkt->size,
--                                   sec_ip_src, sec_ip_dst);
--    }
--
-     if (ppkt->size != spkt->size) {
-         trace_colo_compare_main("Other: payload size of packets are different");
-         return -1;
+     { RUN_STATE_COLO, RUN_STATE_RUNNING },
++    { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
+ 
+     { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
+     { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
 -- 
 2.25.1
 
