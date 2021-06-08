@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDA639EAFE
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:49:38 +0200 (CEST)
-Received: from localhost ([::1]:42390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A0739EB03
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:51:07 +0200 (CEST)
+Received: from localhost ([::1]:48018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPw1-0002LJ-AD
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
+	id 1lqPxS-0006EN-Gy
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPfJ-0004Gl-CQ
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:32:21 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19707)
+ id 1lqPfL-0004R6-QE
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:32:23 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPfH-0004b7-Hs
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:32:21 -0400
+ id 1lqPfK-0004dW-1e
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:32:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112339; x=1654648339;
+ t=1623112341; x=1654648341;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7sUqrMDUBKoHwq/3Udj0wRbDfDnGAD0mYweh7i1I/Ws=;
- b=KjbVyssLeH7qTyHRrGDuPYE1SIZuSIeFgnCZBEp8Jek/DcT6C3FkGNOb
- WDpwZKVslNtdV/IX2O890g8Q3FbS/hsjbEIaRfpRr8mT04te4t9t7awNh
- vyJZH65BdMNoEPqoUMgR5f7LbkWjNZQyIIE8uNHsTCB1a6hi2KtrQRVbW
- 9OApunW9XWHg3Ro1JKIR9U9beDG3TI2im+vtHlnm1RxJS6+jlCGyp5ntf
- lqTvrYl5wee2vC2gbNuoyTubG7i8Kp/e4r1suOo9PIgkjRGBS5QSodMIq
- /8m9ztNFf3eGARdHKTjpaxaF2kuZ9bZKFSUhKmL8cmRiasjrLpengJIdL Q==;
-IronPort-SDR: m3XRI2ZTV1q4msw6WMyUo2eRah5m+dLX5HRIld3WHbblTEMc+3purkfCRLT526O6rbJJ1BLR2p
- Hv1iYUhjo4Xna5RjM3+FsT8+1mLNx/1oHhWGSlUqW3TOXHqRPjvs11Dl3NAPDV0Jf3FR8pEM+a
- JUv3fPID9tloAmQoAEOzY8CjKdk/t7iham9Re0bAKqJ9H2A4KPA5ObtvWOSdfowWfdR2RJidZs
- FD02RqPu0ab+Gt7ck5unSpNhBDF8hq1lCoWec3/D+BGsef8cAjsJcFH6xNRmztZ1f51vDuzvz2
- DqE=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087476"
+ bh=RuDtRDJEQJWkWTiDDCv2n37Ja4ZoSh95S/aQvF4IvVo=;
+ b=YrpS+Rr81mQ9Mp9buxnYySJ97s9NnyFT727d7agIabJsrqPXt8/rjVVd
+ nqY79Atl1m+QIeBDcEoJ0XKxZHJX3m0y45ayOTf7IJCq6BGFFcy/FgCgh
+ Z88QQFCQeX/YzKkZT6YbNAJ2HlGDDpLSLGmLCvjKhWv+5A7mRZ2Xh/czq
+ JVi14yGyjp3OSStoGraajZ0e+z7eod8PJxXLqyQMOYjnK43oHFITzzWnR
+ nYSZylmYo0yppXLRJGKG6zfd+E1CyfVwpKVFNuz4ukDJS6ilyqtKwybWZ
+ 7IXIFCXPyIKwC1CYfB9kX/7VxCFkOvU9i2iJ6c1w3IRd2saTsO1aMkuTx A==;
+IronPort-SDR: cxIN62t3YHRq4J7GMIrXSCfrMQbAwKdDeAvYjaSem9ydpOEHaH3H030nICbNfnDqCJ+FyLS+MJ
+ qfQ59loELtyWRK7mLuGZSh5VttwRqykaDAX8iEZ6XDm52uFQKTm0Lkb2e6b8/V9P6AoFn+aiWs
+ QUcyRPWnpM5clV7ybKrDExQxnkSDws3e4hgjU+sL3nt04hiFLoa1WdMIvGdrlnt8sEEvcXUxzk
+ vq9KAz/xe4+Eo99of4hDTbaXbsqqbIIlJd5yT2n/fM6gdZp050hk0JfxRj0ykdKSXai3TorJOW
+ 3IM=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087480"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:54 +0800
-IronPort-SDR: f3k0DFEqaWcJM6mQXUdqUmhCpgjqPRNu8I/kQGcAxJncCJkbgz0sB7U6aZq1oGoLa/4ow+3BU0
- V3wtUynENWLf3x41c++DieP6l5UNa2HT9CWqyQu8jSz+XznbLqOw9rClKHll2JZT4CUQS2mpoe
- +3pmy//e4offpTNHU8FztGqlqtz7B0xwkcgEVWz17P++KWXCAinUphEuzpwRzteHhBNwvMyPc/
- arRNBCQZwmkdq4FDIK9WP/06m51LCgFZuI1q6ucwfvWDrv8Q8Bqyw7hDiGtH7tvqwL/PAeEs9X
- xqtFiFRNOH8M1WrgT61iAj6B
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:57 +0800
+IronPort-SDR: ypXSyvyMAlBhC1yn1f1NTdSmoLW7rRqoFykBpCCWLfC/rrV7IOYt4RDIKCJHOZhlRIl2gjUai+
+ NW/XgAV3LOR0edFAiXuXi/Nznq8nLtOXdkmPUXRefxr53ekVF4Cwo3rMTOX7Opll+UmZGxNY7j
+ K9DRTnKaKtA+ComSKvOOD2TJaSNyakqPX8ZZUmPEFhCeKAiYmvDgySUa3yTVKqXE+jGCHm1j1J
+ iQNrkSbQdl0L1iHL87aeRiYTB+Zwr6/ky/nE6r2q90JEBVb9IND584U0lw/tK2mrNho79nAoqa
+ slBazzNQheve+b1sR8L315av
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:11:01 -0700
-IronPort-SDR: YtK/ltKe2rAARPWGSV4OQCf8WDtZUPPyeN53PtIYIG/Pm1KwrHoEcsUurhN6bHybSGV6Lvp88i
- 4r4Bq6uJC2xL/pShfInKdZKdzeN3kQp3pjH9PcwU5pBgwm3Npoy4vTcTZqzlShixZt+WuLij+j
- bTPzwNUmmSJroKyvX4/ECeynJLRCeFd9Mr/P962GPElT+3b2/8uD4DPuwGrJkk+P3kNnAvpwkJ
- FOBljc6Gbr2aY2/oKKvlXpwfgh1w+nBVgKfl7U5PqtAh7VPaP9Jsio1FH6vcTGhhpUAU54GRZU
- 8FY=
+ 07 Jun 2021 17:11:04 -0700
+IronPort-SDR: 08qq6Ph5bn9WJQEyG1UFotIkE96+6kfufyKsbFWcKMR+QN76s+Jq3+QRWAV+3GmixIdEmttvDk
+ JUVPmmpBbeNqR4DB1neOEEYT0b6pyF398WXCXDyXo5vyKLwLDgbtz35jpzZmHLHrM9ZuzKg8ly
+ 5ra0DdJCIctoIe1UBPkw/WK148fOvb013zrWfXVAzxYqikxOoUxA28SgER6GyKosq02pMAtyJD
+ zjgAGe/VswoODaFxzuE7wRTCJbEIWzytYux4ggymimf9jIdABtA7CrKKT/U/W5aCylITNKb1hI
+ uOY=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:51 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:55 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 30/32] target/riscv: rvb: add/shift with prefix zero-extend
-Date: Tue,  8 Jun 2021 10:29:45 +1000
-Message-Id: <20210608002947.1649775-31-alistair.francis@wdc.com>
+Subject: [PULL 31/32] target/riscv: rvb: support and turn on B-extension from
+ command line
+Date: Tue,  8 Jun 2021 10:29:46 +1000
+Message-Id: <20210608002947.1649775-32-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -100,86 +101,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kito Cheng <kito.cheng@sifive.com>
 
+B-extension is default off, use cpu rv32 or rv64 with x-b=true to
+enable B-extension.
+
 Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210505160620.15723-16-frank.chang@sifive.com
+Message-id: 20210505160620.15723-17-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  3 +++
- target/riscv/translate.c                |  6 ++++++
- target/riscv/insn_trans/trans_rvb.c.inc | 26 +++++++++++++++++++++++++
- 3 files changed, 35 insertions(+)
+ target/riscv/cpu.h | 1 +
+ target/riscv/cpu.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 287920ee9b..f09f8d5faf 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -720,6 +720,7 @@ gorcw      0010100 .......... 101 ..... 0111011 @r
- sh1add_uw  0010000 .......... 010 ..... 0111011 @r
- sh2add_uw  0010000 .......... 100 ..... 0111011 @r
- sh3add_uw  0010000 .......... 110 ..... 0111011 @r
-+add_uw     0000100 .......... 000 ..... 0111011 @r
- 
- bsetiw     0010100 .......... 001 ..... 0011011 @sh5
- bclriw     0100100 .......... 001 ..... 0011011 @sh5
-@@ -729,3 +730,5 @@ sroiw      0010000 .......... 101 ..... 0011011 @sh5
- roriw      0110000 .......... 101 ..... 0011011 @sh5
- greviw     0110100 .......... 101 ..... 0011011 @sh5
- gorciw     0010100 .......... 101 ..... 0011011 @sh5
-+
-+slli_uw    00001. ........... 001 ..... 0011011 @sh
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index ae9b5f7a2e..c6e8739614 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -765,6 +765,12 @@ GEN_SHADD_UW(1)
- GEN_SHADD_UW(2)
- GEN_SHADD_UW(3)
- 
-+static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
-+{
-+    tcg_gen_ext32u_tl(arg1, arg1);
-+    tcg_gen_add_tl(ret, arg1, arg2);
-+}
-+
- static bool gen_arith(DisasContext *ctx, arg_r *a,
-                       void(*func)(TCGv, TCGv, TCGv))
- {
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index b27114a068..9e81f6e3de 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -410,3 +410,29 @@ static bool trans_sh##SHAMT##add_uw(DisasContext *ctx,        \
- GEN_TRANS_SHADD_UW(1)
- GEN_TRANS_SHADD_UW(2)
- GEN_TRANS_SHADD_UW(3)
-+
-+static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, gen_add_uw);
-+}
-+
-+static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+
-+    TCGv source1 = tcg_temp_new();
-+    gen_get_gpr(source1, a->rs1);
-+
-+    if (a->shamt < 32) {
-+        tcg_gen_deposit_z_tl(source1, source1, a->shamt, 32);
-+    } else {
-+        tcg_gen_shli_tl(source1, source1, a->shamt);
-+    }
-+
-+    gen_set_gpr(a->rd, source1);
-+    tcg_temp_free(source1);
-+    return true;
-+}
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index c0c99c3d8d..de9262c930 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -286,6 +286,7 @@ struct RISCVCPU {
+         bool ext_f;
+         bool ext_d;
+         bool ext_c;
++        bool ext_b;
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ee2523f66b..5702c53c62 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -489,6 +489,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
++        if (cpu->cfg.ext_b) {
++            target_misa |= RVB;
++        }
+         if (cpu->cfg.ext_v) {
+             target_misa |= RVV;
+             if (!is_power_of_2(cpu->cfg.vlen)) {
+@@ -559,6 +562,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
++    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
 -- 
 2.31.1
 
