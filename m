@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97043A065A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 23:43:52 +0200 (CEST)
-Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F04FB3A065C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 23:44:59 +0200 (CEST)
+Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqjVn-00007R-T9
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 17:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39204)
+	id 1lqjWt-0002GC-2Z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 17:44:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lqjUp-00074j-28
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:42:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lqjUk-00056h-S3
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:42:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623188566;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0fgjCWt/RsxGbAO9kAY8ue+uTG/z8jZeRxNZgZD0vIU=;
- b=EvHAer1J4uf4TlpUqeyMzWGTC8cih/gcRuEH4QgxU1unYneoVwiolrECxnc+nYTSZPWE/f
- QDvfmdFGDMXYp01gWd5UeUL8b59LSsRS+FU5O2201F9d4oZnCFO85z/uLeLiBBe4KwaPIW
- cxpA4sraP27WjScumBcqNmPLghaQCWQ=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-kejlmhhBNwejlKILYtcLDg-1; Tue, 08 Jun 2021 17:42:43 -0400
-X-MC-Unique: kejlmhhBNwejlKILYtcLDg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- f17-20020ac87f110000b02901e117339ea7so10148045qtk.16
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 14:42:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqjVR-0008Vr-JP
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:43:29 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqjVO-0005OQ-NK
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 17:43:29 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id x73so16772119pfc.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 14:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=mKdpvDDDh7/f/2lUu+Ih0bHWPmxVoxiRmcXaKviEDVQ=;
+ b=dqLReeTikT4MqdPzXxuFLWNcdsyae0uHfrxCVLmoPUD66R6d+nzlOchoThBR77QGt3
+ gcOXgXqdRbc8Q9VQnOEctq7tSpLNBIKIofnHZGYhO/3WrMl9FPjsljU/W0yhjvlu0Csx
+ sFQiEYLxOPqO0au21dGJb179vWORlm6rxqD8hkI5QhUhH78nMsD/Idv4YtujbjrlhMpj
+ P9O0a7m3wl/crSolMZMamZ5aMlYsfha3R6cTYAuwPUjhqtxQRMe8qCiEJQe/KHUDS3+k
+ xqK+t79luZtYeMkVXeaDniUh2PtVF8ehXoXWXA2zXc2svlyqzadq+WoX8sqybGM98EBa
+ /DbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=0fgjCWt/RsxGbAO9kAY8ue+uTG/z8jZeRxNZgZD0vIU=;
- b=VtRb8fE07AhLsclrIecu2NEEUzHwuasIRyoXuTg/UVq7PYXPKEIQtuViivvDZfOASj
- onakPJ9HHQs1WMqGBAynI6MWUEafjI9/72feljY/o9Z+Jgcw+GvjxCag0neC4VLuSYFL
- AY5t5wWJMnPb1UnjPOVCwQS9PWGykYNrIbov4Ce8Wr/6Q9TB2mq4OnjtiWvngnKTSj6x
- PhEpEEpZKtvwxFgRnJFxlJoS6CvIhvd68ID18XZWNdwTLNIZKyY9sSkFXauayWnkAUKg
- uiNEoyI9mV+oTCyYXDvg7noEXv44mLCGbwAdQ2OcW0JSohMpki0S1WVbTUYpw8Mq9H/4
- 9bPA==
-X-Gm-Message-State: AOAM532Aru/D9sX/mO8SeXjnnqm4hDnUVaZBzxc83dAuMrwBcwOLEDXp
- xQlnaEWO6g9QnxG0kVPp1qqwlqDD7PN+A1DGhAKGpLe6J519GPduq+6ht1A8dUH0QIvlAherzQ1
- En20CdG4CljSaQwg=
-X-Received: by 2002:a05:620a:f03:: with SMTP id
- v3mr24277605qkl.96.1623188562553; 
- Tue, 08 Jun 2021 14:42:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVmwSgpNP8bMUmqxn81Xf/lvqL1AClaelt8LAK7vETcDYLaLr5MlgLBffMQLRzBmnyt6lF3g==
-X-Received: by 2002:a05:620a:f03:: with SMTP id
- v3mr24277574qkl.96.1623188562287; 
- Tue, 08 Jun 2021 14:42:42 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([201.90.138.4])
- by smtp.gmail.com with ESMTPSA id e127sm13015142qkf.62.2021.06.08.14.42.33
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mKdpvDDDh7/f/2lUu+Ih0bHWPmxVoxiRmcXaKviEDVQ=;
+ b=kwowUz200f7zAiyRMqDNqEn6GW1ozeyE33m+U4lEdcL2FzktOow5Tw9CfYTp6z3eAb
+ 2EkGJfyCh/PoquuhjwMut1JpfyMgK38ejfk4pb5LhzZN3hu5pIA55Zo152nejezMX5Sf
+ cfcGYNvBHur0bxCpChhN08BOPnUm0xd0D8/6zhPVD8T9nKWwMs/xCLucRO+Cxr+/Xon1
+ C+F7mzRMl7u8fAP+9M78gZVOdowwCKQJ79qdRw7vwKEH+OOIoVq8kILVmKcqzrTIbU7Q
+ kLHbbcq7SwkBUu+iMqWwgO7lJaVEzmQ8zXvvIiMqHLY6/FmlbVXB1tEHQq7dly54wQY6
+ bCJA==
+X-Gm-Message-State: AOAM533LUfVwgzQ+/U4L68xlRFGpddDuDuWfOMbkrqjiiqK5qHnSqLQ/
+ 5Id8ycvj3YtqIw0LC4XPjQtu1BUduft0Vw==
+X-Google-Smtp-Source: ABdhPJzdDlTVldaOub47beeoRG3m8vOf9Q/o0Q89csMOHgmUs/CgxAT7JMyCCxhCgdgG0iQVj4QfbQ==
+X-Received: by 2002:aa7:9a97:0:b029:2e9:e1fb:2f0d with SMTP id
+ w23-20020aa79a970000b02902e9e1fb2f0dmr1945979pfi.45.1623188604883; 
+ Tue, 08 Jun 2021 14:43:24 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ ei23sm3219385pjb.57.2021.06.08.14.43.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 14:42:41 -0700 (PDT)
-Subject: Re: [PATCH 2/4] Python QEMU utils: introduce a generic feature list
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210608140938.863580-1-crosa@redhat.com>
- <20210608140938.863580-3-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <f2c7ab9f-27b4-aa04-75f5-fcb8a36a4668@redhat.com>
-Date: Tue, 8 Jun 2021 18:42:32 -0300
+ Tue, 08 Jun 2021 14:43:24 -0700 (PDT)
+Subject: Re: [PATCH 11/55] target/arm: Implement MVE VLDR/VSTR (non-widening
+ forms)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-12-peter.maydell@linaro.org>
+ <fef05b3a-eb23-fea7-0230-a69207b48e11@linaro.org>
+Message-ID: <d0b29c94-f143-ca81-82a7-ccbfc2c37281@linaro.org>
+Date: Tue, 8 Jun 2021 14:43:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210608140938.863580-3-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <fef05b3a-eb23-fea7-0230-a69207b48e11@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,164 +92,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 6/8/21 2:33 PM, Richard Henderson wrote:
+> 
+>> +static bool trans_VLDR_VSTR(DisasContext *s, arg_VLDR_VSTR *a)
+>> +{
+>> +    MVEGenLdStFn *ldfns[] = {
+> 
+> static MVEGenLdStFn * const ldfns
+> 
+>> +    MVEGenLdStFn *stfns[] = {
+> 
+> Likewise, though...
+> 
+>> +    return do_ldst(s, a, a->l ? ldfns[a->size] : stfns[a->size]);
+> 
+> ... just put em together into a two-dimensional array, with a->l as the second 
+> index?
 
-On 6/8/21 11:09 AM, Cleber Rosa wrote:
-> Which can be used to check for any "feature" that is available as a
-> QEMU command line option, and that will return its list of available
-> options.
->
-> This is a generalization of the list_accel() utility function, which
-> is itself re-implemented in terms of the more generic feature.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   python/qemu/utils/__init__.py |  2 ++
->   python/qemu/utils/accel.py    | 15 ++----------
->   python/qemu/utils/feature.py  | 44 +++++++++++++++++++++++++++++++++++
->   3 files changed, 48 insertions(+), 13 deletions(-)
->   create mode 100644 python/qemu/utils/feature.py
->
-> diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__.py
-> index 7f1a5138c4..1d0789eaa2 100644
-> --- a/python/qemu/utils/__init__.py
-> +++ b/python/qemu/utils/__init__.py
-> @@ -20,12 +20,14 @@
->   
->   # pylint: disable=import-error
->   from .accel import kvm_available, list_accel, tcg_available
-> +from .feature import list_feature
->   
->   
->   __all__ = (
->       'get_info_usernet_hostfwd_port',
->       'kvm_available',
->       'list_accel',
-> +    'list_feature',
->       'tcg_available',
->   )
->   
-> diff --git a/python/qemu/utils/accel.py b/python/qemu/utils/accel.py
-> index 297933df2a..b5bb80c6d3 100644
-> --- a/python/qemu/utils/accel.py
-> +++ b/python/qemu/utils/accel.py
-> @@ -14,13 +14,11 @@
->   # the COPYING file in the top-level directory.
->   #
->   
-> -import logging
->   import os
-> -import subprocess
->   from typing import List, Optional
->   
-> +from qemu.utils.feature import list_feature
->   
-> -LOG = logging.getLogger(__name__)
->   
->   # Mapping host architecture to any additional architectures it can
->   # support which often includes its 32 bit cousin.
-> @@ -39,16 +37,7 @@ def list_accel(qemu_bin: str) -> List[str]:
->       @raise Exception: if failed to run `qemu -accel help`
->       @return a list of accelerator names.
->       """
-> -    if not qemu_bin:
-> -        return []
-> -    try:
-> -        out = subprocess.check_output([qemu_bin, '-accel', 'help'],
-> -                                      universal_newlines=True)
-> -    except:
-> -        LOG.debug("Failed to get the list of accelerators in %s", qemu_bin)
-> -        raise
-> -    # Skip the first line which is the header.
-> -    return [acc.strip() for acc in out.splitlines()[1:]]
-> +    return list_feature(qemu_bin, 'accel')
->   
->   
->   def kvm_available(target_arch: Optional[str] = None,
-> diff --git a/python/qemu/utils/feature.py b/python/qemu/utils/feature.py
-> new file mode 100644
-> index 0000000000..b4a5f929ab
-> --- /dev/null
-> +++ b/python/qemu/utils/feature.py
-> @@ -0,0 +1,44 @@
-> +"""
-> +QEMU feature module:
-> +
-> +This module provides a utility for discovering the availability of
-> +generic features.
-> +"""
-> +# Copyright (C) 2022 Red Hat Inc.
-Cleber, please, tell me how is the future like! :)
-> +#
-> +# Authors:
-> +#  Cleber Rosa <crosa@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2.  See
-> +# the COPYING file in the top-level directory.
-> +#
-> +
-> +import logging
-> +import subprocess
-> +from typing import List
-> +
-> +
-> +LOG = logging.getLogger(__name__)
-> +
-> +
-> +def list_feature(qemu_bin: str, feature: str) -> List[str]:
-> +    """
-> +    List available options the QEMU binary for a given feature type.
-> +
-> +    By calling a "qemu $feature -help" and parsing its output.
+... or separate VLDR from VSTR.
 
-I understand we need a mean to easily cancel the test if given feature 
-is not present. However, I'm unsure this generic list_feature() is what 
-we need.
-
-The `-accel help` returns a simple list of strings (besides the header, 
-which is dismissed). Whereas `-machine help` returns what could be 
-parsed as a tuple of (name, description).
-
-Another example is `-cpu help` which will print a similar list as 
-`-machine`, plus a section with CPUID flags.
-
-If confess I still don't have a better idea, although I feel it will 
-require a OO design.
-
-Thanks!
-
-- Wainer
-
-> +
-> +    @param qemu_bin (str): path to the QEMU binary.
-> +    @param feature (str): feature name, matching the command line option.
-> +    @raise Exception: if failed to run `qemu -feature help`
-> +    @return a list of available options for the given feature.
-> +    """
-> +    if not qemu_bin:
-> +        return []
-> +    try:
-> +        out = subprocess.check_output([qemu_bin, '-%s' % feature, 'help'],
-> +                                      universal_newlines=True)
-> +    except:
-> +        LOG.debug("Failed to get the list of %s(s) in %s", feature, qemu_bin)
-> +        raise
-> +    # Skip the first line which is the header.
-> +    return [item.split(' ', 1)[0] for item in out.splitlines()[1:]]
-
+r~
 
