@@ -2,39 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8338939FC1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 18:12:55 +0200 (CEST)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD85139FC2F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 18:14:24 +0200 (CEST)
+Received: from localhost ([::1]:34434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqeLW-0005Tw-Gt
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 12:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
+	id 1lqeMx-0000N9-Q0
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 12:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1lqeJs-0003QE-29; Tue, 08 Jun 2021 12:11:13 -0400
-Received: from zamok.crans.org ([2a0c:700:2:0:ec4:7aff:fe59:a1ad]:40968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1lqeJo-0004S8-72; Tue, 08 Jun 2021 12:11:11 -0400
-Received: by zamok.crans.org (Postfix, from userid 11692)
- id 5736AE0117; Tue,  8 Jun 2021 18:10:56 +0200 (CEST)
-From: Alexandre Iooss <erdnaxe@crans.org>
-To: qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH 2/2] stm32vldiscovery: Add the STM32VLDISCOVERY Machine
-Date: Tue,  8 Jun 2021 18:10:28 +0200
-Message-Id: <20210608161028.4159582-3-erdnaxe@crans.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210608161028.4159582-1-erdnaxe@crans.org>
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqeLY-00074N-GP
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 12:12:56 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:41568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqeLW-00054U-8Y
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 12:12:56 -0400
+Received: by mail-pl1-x629.google.com with SMTP id o12so7520710plk.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 09:12:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1E1XQBZx1xISdooT+gbm3/yQ5yplqheeK2tgkNMlSLc=;
+ b=yuYu6PJDd7vZdRcOB9vkmAVZ/9VQc9GoqtERudkGab23WccCBE5swQ4aFMfJuDL2f6
+ 9NVbnpm6Gv2ODwwlLQ6KmX8fAmEyk2dsNpMTqNPYXdumG96mkoIKUdbYVMyqzeM5GPeP
+ xwgnlYSQB97lB8UjYTfRhm+CyS0gIEFwrIOvakn13aVKC46zDP11NREWvTkg15+l1X7f
+ R+2W07k9UppCDNXXTyKDl7D8Wcr7VlDFs2IpzOfMn/YEAiRrP/bl13u15No1voi1Sanv
+ QP7VA1C1YsmTjhmv0SCoLBAvfGSMgbHWGCWK9QVX4YYUhKN8p9qNIgSksJQ3+PqP9seB
+ rv5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1E1XQBZx1xISdooT+gbm3/yQ5yplqheeK2tgkNMlSLc=;
+ b=O/WufXWx2e5gpJs/Vz+cDVlpOmEMOADfe7Ps1fuQIl2pQZkC6LabVWuOm0ciCj27R4
+ h5u3kY7mz+FiNvq+UCbgmsgnQBWSxX75/TVk/uU1Ghya4xI+bS26jCIYCMAvFJqXtZFQ
+ cEuVj00K1qK/bElPWwAboUaQIlCggLFaYDMwv0IOJc8D6nycoeX7nFPp5v2Rlw6aHnEU
+ 5Ci+mHsefgvaFvFjwKO3dzjZfeYf6+ggXtEz+OhHx5LkT1t/826MaGZqAt2Qfy+xWUG6
+ QnghsBrgrk3bIco1rV30dCy1rnFWjnSaa2xifVSrbolhTv0s0WE/2bpJ5IqAXGLx9NkF
+ 1CBw==
+X-Gm-Message-State: AOAM530o91H7KkjqjsDxwgjrtIeCTW15x7IT2AT9bt0KWDMJVVyWRDDi
+ 7V5qBQnOcOCYOr7nyGEs7SOHGBPWB+WQRA==
+X-Google-Smtp-Source: ABdhPJwsBxMq1rPZucCO0YScdTzADxpj0tzDQtgTLpstCzofHoVW3n2XD+TkLzel9g8z+t/5z6rxFQ==
+X-Received: by 2002:a17:902:c951:b029:106:513f:58ff with SMTP id
+ i17-20020a170902c951b0290106513f58ffmr363243pla.37.1623168772556; 
+ Tue, 08 Jun 2021 09:12:52 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ g16sm3108787pgl.22.2021.06.08.09.12.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 09:12:52 -0700 (PDT)
+Subject: Re: [PATCH v3 16/28] tcg: Replace region.end with region.total_size
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210502231844.1977630-1-richard.henderson@linaro.org>
+ <20210502231844.1977630-17-richard.henderson@linaro.org>
+ <871r9cl4ty.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <15bdc94e-727b-cb84-890e-fb9b430f82ec@linaro.org>
+Date: Tue, 8 Jun 2021 09:12:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <871r9cl4ty.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a0c:700:2:0:ec4:7aff:fe59:a1ad;
- envelope-from=erdnaxe@crans.org; helo=zamok.crans.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -48,154 +90,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- "open list:STM32F100" <qemu-arm@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a Cortex-M3 based machine. Information can be found at:
-https://www.st.com/en/evaluation-tools/stm32vldiscovery.html
+On 6/8/21 9:03 AM, Alex Bennée wrote:
+>> @@ -279,7 +279,7 @@ static void tcg_region_bounds(size_t curr_region, void **pstart, void **pend)
+>>           start = region.start;
+>>       }
+>>       if (curr_region == region.n - 1) {
+>> -        end = region.end;
+>> +        end = region.start_aligned + region.total_size;
+> 
+> So why isn't this end = start_aligned + (n * stride)? do we not line up
+> for the last region?
 
-Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
----
- MAINTAINERS                             |  6 +++
- default-configs/devices/arm-softmmu.mak |  1 +
- hw/arm/Kconfig                          |  4 ++
- hw/arm/meson.build                      |  1 +
- hw/arm/stm32vldiscovery.c               | 66 +++++++++++++++++++++++++
- 5 files changed, 78 insertions(+)
- create mode 100644 hw/arm/stm32vldiscovery.c
+Correct.  There's some commentary to that effect in tcg_region_init, but I 
+guess it could stand to be copied here.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 62dfa31800..0aa8016936 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -891,6 +891,12 @@ F: hw/*/stellaris*
- F: include/hw/input/gamepad.h
- F: docs/system/arm/stellaris.rst
- 
-+STM32VLDISCOVERY
-+M: Alexandre Iooss <erdnaxe@crans.org>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/stm32vldiscovery.c
-+
- Versatile Express
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
-diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-index 0500156a0c..cdc0e97f9d 100644
---- a/default-configs/devices/arm-softmmu.mak
-+++ b/default-configs/devices/arm-softmmu.mak
-@@ -18,6 +18,7 @@ CONFIG_CHEETAH=y
- CONFIG_SX1=y
- CONFIG_NSERIES=y
- CONFIG_STELLARIS=y
-+CONFIG_STM32VLDISCOVERY=y
- CONFIG_REALVIEW=y
- CONFIG_VERSATILE=y
- CONFIG_VEXPRESS=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 0bc3ee3e91..dc4e47b721 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -239,6 +239,10 @@ config STELLARIS
-     select STELLARIS_ENET # ethernet
-     select UNIMP
- 
-+config STM32VLDISCOVERY
-+    bool
-+    select STM32F100_SOC
-+
- config STRONGARM
-     bool
-     select PXA2XX
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-index 0e637e6a9e..721a8eb8be 100644
---- a/hw/arm/meson.build
-+++ b/hw/arm/meson.build
-@@ -24,6 +24,7 @@ arm_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
- arm_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview.c'))
- arm_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa-ref.c'))
- arm_ss.add(when: 'CONFIG_STELLARIS', if_true: files('stellaris.c'))
-+arm_ss.add(when: 'CONFIG_STM32VLDISCOVERY', if_true: files('stm32vldiscovery.c'))
- arm_ss.add(when: 'CONFIG_COLLIE', if_true: files('collie.c'))
- arm_ss.add(when: 'CONFIG_VERSATILE', if_true: files('versatilepb.c'))
- arm_ss.add(when: 'CONFIG_VEXPRESS', if_true: files('vexpress.c'))
-diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
-new file mode 100644
-index 0000000000..ab9297bc38
---- /dev/null
-+++ b/hw/arm/stm32vldiscovery.c
-@@ -0,0 +1,66 @@
-+/*
-+ * ST STM32VLDISCOVERY machine
-+ *
-+ * Copyright (c) 2021 Alexandre Iooss <erdnaxe@crans.org>
-+ * Copyright (c) 2014 Alistair Francis <alistair@alistair23.me>
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
-+#include "hw/qdev-properties.h"
-+#include "qemu/error-report.h"
-+#include "hw/arm/stm32f100_soc.h"
-+#include "hw/arm/boot.h"
-+
-+/* stm32vldiscovery implementation is derived from netduinoplus2 */
-+
-+/* Main SYSCLK frequency in Hz (24MHz) */
-+#define SYSCLK_FRQ 24000000ULL
-+
-+static void stm32vldiscovery_init(MachineState *machine)
-+{
-+    DeviceState *dev;
-+
-+    /*
-+     * TODO: ideally we would model the SoC RCC and let it handle
-+     * system_clock_scale, including its ability to define different
-+     * possible SYSCLK sources.
-+     */
-+    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
-+
-+    dev = qdev_new(TYPE_STM32F100_SOC);
-+    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+    armv7m_load_kernel(ARM_CPU(first_cpu),
-+                       machine->kernel_filename,
-+                       FLASH_SIZE);
-+}
-+
-+static void stm32vldiscovery_machine_init(MachineClass *mc)
-+{
-+    mc->desc = "ST STM32VLDISCOVERY (Cortex-M4)";
-+    mc->init = stm32vldiscovery_init;
-+}
-+
-+DEFINE_MACHINE("stm32vldiscovery", stm32vldiscovery_machine_init)
-+
--- 
-2.25.1
 
+r~
 
