@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B1039F535
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:38:12 +0200 (CEST)
-Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483DA39F560
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:43:39 +0200 (CEST)
+Received: from localhost ([::1]:60944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqa3f-0002sY-C7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43722)
+	id 1lqa8v-0003Yn-TP
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpM-0006qZ-NM
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:24 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:43909)
+ id 1lqZpN-0006sm-BQ
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:25 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpK-00084n-Vp
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:24 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 3-20020a05600c0243b029019f2f9b2b8aso1601917wmj.2
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:21 -0700 (PDT)
+ id 1lqZpL-00085M-7t
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:25 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id z8so21122348wrp.12
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QDkAahc/7Evrh6Gg+jrUeAT0alx/Ii7bF4bgVCdmccM=;
- b=lkuEc1bAMWkzY/qiUNjxODgEJn6+AaXEneKPL5EQ4XFMm1MiiEzB0G0CdPWix3KEkk
- rQ52iNfyH7rMerdk1tRswkgK4txBXpm6BUdYE+JONxs1NFNdrhpGV6CyyvBlTtQWfFXk
- zO2S4oK3Qw8o8FknBSnO8hE+BQbK0q1X9ffUlpHWUT9htwlq9KHg2fo0Wrfhnqbs4fOM
- 5gIM5PXGWwY6YWjJV2g8x0MZFu/CUaWYVyWC4PHxMTXIMZf3YxKX9RxkCBt2RRm7a4tv
- YebKPmqmHCR462/3RnaegKtvQf9PmJC68/A70MKMpVdTPuUA5RKLltr14OSINDl1qYY/
- /Pcg==
+ bh=nxQQsAycHrHRuZp2uJOU6Ym9EXI/GhjmjKYDjFLL3UU=;
+ b=S94qKCbPt42FZGt2Jz/1CL4A//d8yNPPfRKqSokRzoquxCFfsv6SYnTHdRjy2zPsdP
+ RIuDwswk7wmEOcqmJ1gdxhVkKl4IafqfWVL8omao9acaNcwGiVJMPthhO4NjX4dENXv4
+ x+HFrXmTMeJFxed70hvgc74lRqI2SkIyV/dAHkb1b3NSqlUsfTylL2pG3Q6OTMOgAga3
+ OfImvZad09OFtXWs+bjm0N2r4ypA/ZjkKMODxU0M1ktAVvkuQr3hfDO8+MOIbXvq6hh8
+ v7Jv5l1+U3tSnHWNGk49w3OfsdgA192Z7/GmOquTU6RKO9bw2AmGBjeoBNUdi4v5oK+I
+ w9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QDkAahc/7Evrh6Gg+jrUeAT0alx/Ii7bF4bgVCdmccM=;
- b=K6iecGMsK/bP1Z2K0V3nYe7IIdFDiMtgerDRAe7eDPrSD6eCyTOxZn3qd+ewnbMP+g
- O1Qy+wHjO2sI7Ag0IB3dARy+XAMgPyUTCmrbeT7tvll8cxVRBBN6bD/b6AnyYdqH3ZJJ
- fkuOV6rRy1Rot6VrrIzjqBbsFOuCLaObESqn6EFJrQy7dmU5HHLvh+Tj6hPn+5xVwUsu
- pp7JGTS0o7qTN2us6ziJFg9a/x7FOZeSLJLdOT7E7Z3XQjKvaGzUOSFffBFi9hxOzZkw
- i+tVEIXJY1+jaDjvv1VMcCuDxRJYwrVeC4D8gcb6jn6sKpNR/vVKx0GdhClm1GA1lW2O
- 8QPA==
-X-Gm-Message-State: AOAM533W1j/jkKsX/j66DdNPPk0O8GRAHTJqLnOXvq/B3nrIKpPuIcy5
- M1ig+CAqk4NW6q/AIVCFQdCuFHGIz+NRQA==
-X-Google-Smtp-Source: ABdhPJyLYQYLeGIsTc0tw+96Lpyp/F193xC4mcWAgwTGUyUlhssxqD3fNBTTH5Dn3iFPh+aN3JSmmA==
-X-Received: by 2002:a05:600c:410c:: with SMTP id
- j12mr21180805wmi.117.1623151401076; 
+ bh=nxQQsAycHrHRuZp2uJOU6Ym9EXI/GhjmjKYDjFLL3UU=;
+ b=lfWgpH/nVZc4lsyGsn1nMWEbCJBbcZVw5d5mgBE9rImtITaMLQqI27N8QsuJu+phqF
+ HGt8Qw3avQwabI/OhBECw2omci/TjUo9UBD3kKh46jCFP6UxeUmuxh+9/ztM3b0pG1KS
+ 5VAOowQYnn3slvgx3Y07g0CmzEyuRumPDm37mvmSiH1jN9IDA1pCozbIsL6hfqFi9DNj
+ lT46kYh95FIBSty1b084eqf3Gn8f1TgF1yZ7DbqC0LbbCxhkqVUCfGoFX6unX1POmAc4
+ CVZgvMmVwZlLq2nF67bf/NlLeAkqvj979mZ2sxaiXOryInl4EKb8kRu66npinuwfPJS7
+ OlwQ==
+X-Gm-Message-State: AOAM5334/bBMuVqS/W+L0RCt4aa9raFM8RpAjECbV/RSFsGIRgXXZ9p/
+ NbWVBDSk0ZFonTDaYckJuJg8eSQ2Exl3zA==
+X-Google-Smtp-Source: ABdhPJwE5acJ2eaH5Z+JEWSkbNYltjiYx2aehltbEefCDDTE9sHoeYOGUKYt4XvY8lgnWOeHNq+C8g==
+X-Received: by 2002:adf:e3cf:: with SMTP id k15mr21673039wrm.403.1623151401895; 
  Tue, 08 Jun 2021 04:23:21 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.20
+ by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:23:20 -0700 (PDT)
+ Tue, 08 Jun 2021 04:23:21 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/26] meson: store dependency('threads') in a variable
-Date: Tue,  8 Jun 2021 13:22:55 +0200
-Message-Id: <20210608112301.402434-21-pbonzini@redhat.com>
+Subject: [PATCH 21/26] configure: convert compiler tests to meson, part 2
+Date: Tue,  8 Jun 2021 13:22:56 +0200
+Message-Id: <20210608112301.402434-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608112301.402434-1-pbonzini@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,44 +87,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It can be useful for has_function checks.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build      | 3 ++-
- util/meson.build | 1 -
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ configure   | 49 -------------------------------------------------
+ meson.build |  4 ++++
+ 2 files changed, 4 insertions(+), 49 deletions(-)
 
+diff --git a/configure b/configure
+index b16c84ca74..7f7f548b1a 100755
+--- a/configure
++++ b/configure
+@@ -3783,46 +3783,6 @@ if compile_prog "" "" ; then
+     posix_syslog=yes
+ fi
+ 
+-##########################################
+-# check if we have sem_timedwait
+-
+-sem_timedwait=no
+-cat > $TMPC << EOF
+-#include <semaphore.h>
+-int main(void) { sem_t s; struct timespec t = {0}; return sem_timedwait(&s, &t); }
+-EOF
+-if compile_prog "" "" ; then
+-    sem_timedwait=yes
+-fi
+-
+-##########################################
+-# check if we have strchrnul
+-
+-strchrnul=no
+-cat > $TMPC << EOF
+-#include <string.h>
+-int main(void);
+-// Use a haystack that the compiler shouldn't be able to constant fold
+-char *haystack = (char*)&main;
+-int main(void) { return strchrnul(haystack, 'x') != &haystack[6]; }
+-EOF
+-if compile_prog "" "" ; then
+-    strchrnul=yes
+-fi
+-
+-#########################################
+-# check if we have st_atim
+-
+-st_atim=no
+-cat > $TMPC << EOF
+-#include <sys/stat.h>
+-#include <stddef.h>
+-int main(void) { return offsetof(struct stat, st_atim); }
+-EOF
+-if compile_prog "" "" ; then
+-    st_atim=yes
+-fi
+-
+ ##########################################
+ # check if trace backend exists
+ 
+@@ -4981,15 +4941,6 @@ fi
+ if test "$inotify1" = "yes" ; then
+   echo "CONFIG_INOTIFY1=y" >> $config_host_mak
+ fi
+-if test "$sem_timedwait" = "yes" ; then
+-  echo "CONFIG_SEM_TIMEDWAIT=y" >> $config_host_mak
+-fi
+-if test "$strchrnul" = "yes" ; then
+-  echo "HAVE_STRCHRNUL=y" >> $config_host_mak
+-fi
+-if test "$st_atim" = "yes" ; then
+-  echo "HAVE_STRUCT_STAT_ST_ATIM=y" >> $config_host_mak
+-fi
+ if test "$gio" = "yes" ; then
+     echo "CONFIG_GIO=y" >> $config_host_mak
+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index fe8f64763b..0f2b05eef6 100644
+index 0f2b05eef6..5e63a21bc1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -164,6 +164,7 @@ endif
- multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
+@@ -1277,12 +1277,14 @@ config_host_data.set('CONFIG_FALLOCATE', cc.has_function('fallocate'))
+ config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'))
+ config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
++config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
+ config_host_data.set('CONFIG_SENDFILE', cc.has_function('sendfile'))
+ config_host_data.set('CONFIG_SETNS', cc.has_function('setns') and cc.has_function('unshare'))
+ config_host_data.set('CONFIG_SYNCFS', cc.has_function('syncfs'))
+ config_host_data.set('CONFIG_SYNC_FILE_RANGE', cc.has_function('sync_file_range'))
+ config_host_data.set('CONFIG_TIMERFD', cc.has_function('timerfd_create'))
+ config_host_data.set('HAVE_OPENPTY', cc.has_function('openpty', dependencies: util))
++config_host_data.set('HAVE_STRCHRNUL', cc.has_function('strchrnul'))
+ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
  
- libm = cc.find_library('m', required: false)
-+threads = dependency('threads')
- util = cc.find_library('util', required: false)
- winmm = []
- socket = []
-@@ -2045,7 +2046,7 @@ util_ss.add_all(trace_ss)
- util_ss = util_ss.apply(config_all, strict: false)
- libqemuutil = static_library('qemuutil',
-                              sources: util_ss.sources() + stub_ss.sources() + genh,
--                             dependencies: [util_ss.dependencies(), libm, glib, socket, malloc, pixman])
-+                             dependencies: [util_ss.dependencies(), libm, threads, glib, socket, malloc, pixman])
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+ config_host_data.set('CONFIG_BYTESWAP_H',
+@@ -1303,6 +1305,8 @@ config_host_data.set('CONFIG_MACHINE_BSWAP_H',
+                                                      #include <sys/types.h>'''))
+ config_host_data.set('CONFIG_PRCTL_PR_SET_TIMERSLACK',
+                      cc.has_header_symbol('sys/prctl.h', 'PR_SET_TIMERSLACK'))
++config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
++                     cc.has_member('struct stat', 'st_atim', prefix: '#include <sys/stat.h>'))
  
-diff --git a/util/meson.build b/util/meson.build
-index 7fe9da60ab..0ffd7f4bde 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -1,4 +1,3 @@
--util_ss.add(dependency('threads'))
- util_ss.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
- util_ss.add(when: 'CONFIG_ATOMIC64', if_false: files('atomic64.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('aio-posix.c'))
+ # Some versions of Mac OS X incorrectly define SIZE_MAX
+ config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
 -- 
 2.31.1
 
