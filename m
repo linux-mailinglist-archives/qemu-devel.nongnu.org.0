@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0EA39EAE2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:39:57 +0200 (CEST)
-Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22BF39EAE1
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:39:33 +0200 (CEST)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPme-0005KH-AR
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
+	id 1lqPmG-0003bF-Op
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdo-0000x7-Ub
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:50 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19647)
+ id 1lqPds-0000zS-Ng
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:52 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdm-0004Fk-Cq
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:48 -0400
+ id 1lqPdp-0004Rf-5O
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112246; x=1654648246;
+ t=1623112248; x=1654648248;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rfJX++WBMUJHi6aa4CHUXmIQ+IPjuDWemrAHtPHxEJo=;
- b=ZVvovAK2cA8Uvzx16IicEIZZvDpr96Jjolqam5NFM2mTcks+ETzobj81
- p9GKBpmDlixB3xBId2960XVMcWDntPdUkuc6b7eZUgiP+xUkNMSKtnpVd
- Nf9UdLV8jeXP4MBel/DtOqvTaljiZtxtHxo2pR/CcWaUbbiWGlSUt5/cc
- JnnWQWft20Zirqa0Qh/tG5WmK1pfVOjkhybHODaIbksrGzrgOjk1Bcj89
- IXCvWuD6//8lAuSmynLhJSErO0BkzjlKhs6qgzYN3meEZoVdOaV1QRJ1z
- YbrqTPBuAA+Kvm5lFYDWxyr9gIQhWXn/uy31jdotfkEdz8Fx0CzXKkLhM A==;
-IronPort-SDR: /lIj8PTz3y7rhyt794MFiY04AB0ibd1tHpVLtpladi9JjfQfEnI97nYYiYvIj8ypqo1pZ7fMNE
- vik/Kf5kZ03yaMJk654TslccmVgiNZmJXOjP6P//e7OF/ud/RTl4OqcLTv3Rd2KVn8D1a6mIqr
- 0Smhc3a/rK1HzVRaHlSd7KO2bFB28ncF5YZk8mmJ7Ovi6dyNGGXISmOKzKELnQaH8RnR7SykYE
- u5QfMMrx9ZXJW0X4Khi/Ffu6PofYaShPpjzsFZKGANyvsGSMq8FuTaETHNNnsbtaUwcxcvihv0
- Tg8=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087370"
+ bh=eQVwOc8ytbfftrLprKiThHJ1CqPUA+jNF5dK8YSmbyg=;
+ b=RIAkSxeKV5BaJsSSuKU+66MNVCUIEQHtAgS8E1SBliI57kZo6amoZSPo
+ 9vYPOiWNevJ1xEoS6A3IU61yqi/fekBymKnNXtdYbw4JPcRY/HAxXpb2V
+ c8HiCs+Ocq9tZXTxe+NS4WM36ECl61F59yhoPznVBWW5eTf34Ey0/3BDT
+ PLfaupI2B8HWRSjpV12IKqq6Y513nD1Bb/VDGXqpkktXZr8rmu6XNnHFJ
+ M7kbHjtLVLCS4yIDCGAgCDQ+880gHei8jwE2DP/jo0/bfWkF8r7og6PPd
+ Cu7ijBfWOwmaUyUuVSE8ABxdwQ+KPq1oUBaZDhJZiNsub3Gwtp3cUOtPE g==;
+IronPort-SDR: keJQCsYQzhdpNWQJCxBYJWY3oYG7sxEStAwOS4rE/kUckntcImwDfOB4IllviSLgp8wrxjkcU/
+ h3nWMgZFYOJjqpjqsMj75PimKG1agF6QegQhNG6Zueinwfr6/XGA6PY+79IH1eXl7vfTZYvhqW
+ H8Cr1JTujwDp8SDN8Y+cQGFn0bzi1tNjFnFNwjpKgPqVUK9z8LDOrU1quaNf6I+Fz9XsjPvovp
+ lie+41lcvKy6ICGBzxArqUo/kdhFSuJ9kQsUGEy25eA2Wm8R7Cee9hilKB1wF6ceJL2Bmsqawo
+ oQM=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087372"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:44 +0800
-IronPort-SDR: bkwIvF/aZErx6sNNp/A0Uf3y7AevttJqm+uJEooyO7Zf1p67GOeXRi/ijPUop53YgaCVbeJFfr
- CF4xP0H68EEJHx7g/KXB9CmUQYQ5dJwZkCsK4Veg7Aku2nhLjHYHfcg/Sw1Py+I4Mov7LzWPH7
- k9eeRC5FllDCUNeHrwFFsmOWdjkVRZPaDHDihFnCMZafikP24m/tcdYL4S0fGcv5dFLbVh00hl
- gsg2nVb9DnKQXf4zrKdaoBQkXb6A81smbsMvlqzdO0q5wC/S3AwpDClVxWb0wtcofxnYRGFkZ+
- KTj5QRZ40FYOiNQm5TH31L8+
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:48 +0800
+IronPort-SDR: bpMO99Ye+wQrKJ20WcfGbKh2+anhxcv+lCSdqmX6Otv12r9xR3bIqbONbx+XIMowdw8gY/ES2v
+ U8VSq+0HhkUYCZQFGFZX4zqw3/NEJe6chjrX5iv6T18z7yB+dL3JK1MyrWwQe2JFwYLXsWVvwz
+ wxd/Nvv9WZUd+TJXnuZuk04t84c7sTwhdKKcJ1ZuIaG598vNTnSvSNb6AHpUPaQIHRJumQUZ6X
+ Detl3YY84qf82v+ekf2i7RjsQ/oaHvAwEImy18NT5HS8bxAS6astyZrQZ3VKUWiIPFqema3vNj
+ 6Q5stIDqTI86WjG6s9BHxPt3
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:09:51 -0700
-IronPort-SDR: TB6qp3ta7GKhfGdmQQiwNgr4DekAH30z6sBsfcyA1TcYoQOji5dv7BfffFYZkbVhdLVZyLjqGT
- g9x3Ujl6+Dd1i3YKHFkngrrnfHcZTUyHt2/XNmLNsb9iHzs9/7dfjjGEWFiY8WxV5lJMHGvcJN
- KbAmzMEAMKbGbrDBf7zcofqHN5xfMIYr7lWWOKAtyqznmWA4QPuXkpJL+EPm5DyPiKtRB85325
- erpZPR3yPkDRXwM3U9K+jzZ/F3YM/320aLxwU3P/tWroRawdNV5iCMtYgiu4bxJqdmmqcOJVHR
- sVI=
+ 07 Jun 2021 17:09:54 -0700
+IronPort-SDR: JpAOAhN6JDmCq2sbnSyRmsrcUQrQFLVjW3dI/BEojG+wlE8fcjCNDS0n/JCeS6skCENx9aMj5H
+ hAP6OehivkoWeKp62jK6F/9l8w1JqUW7I8kDRqhw+7nvWuZBWNL3TsuyTaiehjFhec//uWYejK
+ SHxx/mLdmzMle7uDeM2cF9mZVBRzDfVLyTeBueBco4A3KUk+PMi2OdDJyIpSyzSC4+W0hHhXn9
+ psKXVL7GfRaCbfUQWQNegOmvshq3nAZFDWf2jjdA8WMBQ+9Qpjx8rebuUuzjI3Vkud5a4IigA5
+ ewI=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:41 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:45 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 11/32] target/riscv: Do not include 'pmp.h' in user emulation
-Date: Tue,  8 Jun 2021 10:29:26 +1000
-Message-Id: <20210608002947.1649775-12-alistair.francis@wdc.com>
+Subject: [PULL 12/32] target/riscv: Remove unnecessary riscv_*_names[]
+ declaration
+Date: Tue,  8 Jun 2021 10:29:27 +1000
+Message-Id: <20210608002947.1649775-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -98,34 +99,56 @@ Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-Physical Memory Protection is a system feature.
-Avoid polluting the user-mode emulation by its definitions.
+riscv_excp_names[] and riscv_intr_names[] are only referenced by
+target/riscv/cpu.c locally.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 20210516205333.696094-1-f4bug@amsat.org
+Message-id: 20210514052435.2203156-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h | 2 ++
- 1 file changed, 2 insertions(+)
+ target/riscv/cpu.h | 2 --
+ target/riscv/cpu.c | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7e879fb9ca..0619b491a4 100644
+index 0619b491a4..0b22b0a523 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -97,7 +97,9 @@ enum {
+@@ -320,8 +320,6 @@ static inline bool riscv_feature(CPURISCVState *env, int feature)
  
- typedef struct CPURISCVState CPURISCVState;
+ extern const char * const riscv_int_regnames[];
+ extern const char * const riscv_fpr_regnames[];
+-extern const char * const riscv_excp_names[];
+-extern const char * const riscv_intr_names[];
  
-+#if !defined(CONFIG_USER_ONLY)
- #include "pmp.h"
-+#endif
+ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
+ void riscv_cpu_do_interrupt(CPUState *cpu);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1f1cef1d6a..aa48bca830 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -51,7 +51,7 @@ const char * const riscv_fpr_regnames[] = {
+   "f30/ft10", "f31/ft11"
+ };
  
- #define RV_VLEN_MAX 256
+-const char * const riscv_excp_names[] = {
++static const char * const riscv_excp_names[] = {
+     "misaligned_fetch",
+     "fault_fetch",
+     "illegal_instruction",
+@@ -78,7 +78,7 @@ const char * const riscv_excp_names[] = {
+     "guest_store_page_fault",
+ };
  
+-const char * const riscv_intr_names[] = {
++static const char * const riscv_intr_names[] = {
+     "u_software",
+     "s_software",
+     "vs_software",
 -- 
 2.31.1
 
