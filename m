@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3463A050F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:20:32 +0200 (CEST)
-Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51EB83A0518
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:22:00 +0200 (CEST)
+Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqiD8-0003j6-Ni
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:20:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
+	id 1lqiEZ-0005H8-E4
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqiCL-00032j-VJ
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:19:41 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqiCK-0006hB-CW
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:19:41 -0400
-Received: by mail-ed1-x532.google.com with SMTP id i13so26024870edb.9
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0xlt7UWG2qUDqOVr/8U2eX96PcOZChy5uyR6jnYSEB0=;
- b=Cg5gdqUrqCZUCe+49/yfWc+MODZJQDnkfl20qD28h1+WuGIf/BCp+mTVqMi6j/tTNI
- YxTe3S4M2GvsSKG2WgrVvMVtTPfI+N9/KQeq6/pbmeu+sG0FoYEqJkSxrojfVdHPnzpb
- QtOKeGo2O/3t4wC8MJbr3mFz3Ed8Xs5YR0dhi5Qa4Wj00uXJNvPkZ6X/xpt/3Bi/UaDW
- y16Vq1DhnLOThXpAJPCRD9wiOhWd+3oSHLQVId2TAdGLFU5yj155cLX/plESMiZ1dAXz
- DOdHeX7X9jtpVCRJsM4mKefd3aPCzxs9DD8O+KllvrDJxeRtVTrq7RNi36GHd7aagilv
- Nu+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0xlt7UWG2qUDqOVr/8U2eX96PcOZChy5uyR6jnYSEB0=;
- b=cVToMEy1WsuoA5TDDBz//CMWcmk18jz44CJtcE9bXzfHzjMjtvOiqGj+otWyRNk6aA
- cZfZ9pZKgWLqhlBxLYAuKEj4GyyCveKCpcF6QL3ahmoJmF0+zlEU5y4uMXMXjZKlt4J+
- ffuuDdQ/fBdladCUHb3qidJmN+J2NnVlWihU/mzr7TMy1L87MxzsjHvzrl0awDH1H0Dz
- MPg9g34shqWOVWWp4AsSEpl1K4EYT0/3ezQuwTtcoxT6xwv0iuZRCMNr/tbuJFaqDjfM
- FLzHPP2eNYwDXcmDrRYOH74ZWEpBmbo712XPOsowni0tKkBqHjVDgM7mBnzj3WZ33JJZ
- lWew==
-X-Gm-Message-State: AOAM532B6okRweFj9eG9pMR7YjJ8S99p3C4u0PFaWfhS3OLjIr0zieSI
- O4ZdEH0NotCMQXOIKeVwsBGD1VRhMMnrgYUE324Erg==
-X-Google-Smtp-Source: ABdhPJxUPRYuJMicULF0ZTBwbpIpb+qmK6WHCnSDgQ2TJiRwkCXCWljCnKg4YQSMzn685qCDy1X4SyHCrQc8lPE4qaY=
-X-Received: by 2002:aa7:d755:: with SMTP id a21mr27777705eds.146.1623183578637; 
- Tue, 08 Jun 2021 13:19:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lqiDo-0004cR-W3
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:21:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lqiDi-0007Xh-VO
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:21:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623183665;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=uP1kam469ioHjrBfowFB0csLPpIc0a+/IpTo2tngiUk=;
+ b=ZG5CcLs+fadYCF3mzO/Jv3uCwB1Z5r8ahA7tmKjB6b0T6iau4oO5yB5e/NkmlWJsXsBREh
+ OZDkS5uqtsughS6asVntH7bq60uCVuScuFexKwhpzanyVQ+RDDer6rcCxOZy5vkCBA1ywG
+ T137H9P/f4dbcOautebVJ6HjlUuD40Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-7DDwuWG6MuqNzUlOqWlL4g-1; Tue, 08 Jun 2021 16:21:01 -0400
+X-MC-Unique: 7DDwuWG6MuqNzUlOqWlL4g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B077D8186E6;
+ Tue,  8 Jun 2021 20:21:00 +0000 (UTC)
+Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EFC95D9DC;
+ Tue,  8 Jun 2021 20:20:58 +0000 (UTC)
+Date: Tue, 8 Jun 2021 21:20:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 05/26] configure, meson: convert pam detection to meson
+Message-ID: <YL/RJUcRTCzlLq2y@redhat.com>
+References: <20210608112301.402434-1-pbonzini@redhat.com>
+ <20210608112301.402434-6-pbonzini@redhat.com>
+ <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
 MIME-Version: 1.0
-References: <20210608170607.21902-1-peter.maydell@linaro.org>
- <CAMxuvay_bMs_hRzMjc-bVfFJaqk_Zui8anU-dNam4tUztxcvWQ@mail.gmail.com>
-In-Reply-To: <CAMxuvay_bMs_hRzMjc-bVfFJaqk_Zui8anU-dNam4tUztxcvWQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Jun 2021 21:19:05 +0100
-Message-ID: <CAFEAcA9wHEcHO7GpiWZif2w-CUBmLPJYUgr11su7S2hAPhiuwA@mail.gmail.com>
-Subject: Re: [PATCH] tests/unit/test-char.c: Fix error handling issues
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Jun 2021 at 20:51, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Hi
->
-> On Tue, Jun 8, 2021 at 9:06 PM Peter Maydell <peter.maydell@linaro.org> w=
-rote:
->> I think that improving the quality of the failure reporting
->> in 'make check' is useful, and that we should probably turn
->> on g_test_set_nonfatal_assertions() everywhere. (The worst that
->> can happen is that instead of crashing on the assert we proceed
->> and crash a bit later, I think.) Awkwardly we don't have a single
->> place where we could put that call, so I guess it's a coccinelle
->> script to add it to every test's main() function.
->>
->
-> I don't have any strong opinion on this. But I don't see much sense in
-> having extra code for things that should never happen.
+On Tue, Jun 08, 2021 at 12:45:51PM -0700, Richard Henderson wrote:
+> On 6/8/21 4:22 AM, Paolo Bonzini wrote:
+> > +pam = not_found
+> > +if not get_option('auth_pam').auto() or have_system
+> > +  pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
+> 
+> The condition doesn't look right.
+> Why are we looking for pam if --disable-pam-auth?
+> 
+> Surely
+> 
+>   if not get_option('auth_pam').disabled() and have_system
 
-The point is that I want to make them happen, though...
+This isn't entirely obvious at first glance, but the line after
+the one you quote with the 'required' param makes it "do the
+right thing (tm)".
 
-> I would teach coverity instead that those asserts are always fatal.
+The 'auth_pam' option is a tri-state taking 'enabled', 'disabled'
+and 'auto', with 'auto' being the default state. When a tri-state
+value is passed as the value of the 'required' parameter, then
 
-If you want an assert that's always fatal, that's g_assert().
-These ones are documented as not always fatal.
+   required==enabled   is interpreted as 'required=true'
+   required==auto      is interpreted as 'required=false'
+   required==disabled  means the entire call is a no-op
 
-> Fwiw, none of the tests in glib or gtk seem to use
-> g_test_set_nonfatal_assertions(), probably for similar considerations.
+So this logic:
 
-That's interesting. I did wonder about these APIs, and if glib
-themselves aren't using them that seems like a reason why they're
-so awkward.
+ if not get_option('auth_pam').auto() or have_system
+    pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
+                          required: get_option('auth_pam'),
+			  ...)
 
-thanks
--- PMM
+Means
+
+  => If 'auto' is set, then only look for the library if we're
+     building system emulators. In this case 'required:' will
+     evaluate to 'false', and so we'll gracefully degrade
+     if the library is missing.
+
+
+  => If 'enabled' is set, then we'll look for the library
+     and if it is missing then it is a fatal error as
+     'required' will evaluate to 'true'.
+
+  => If 'disabled' is set, then the 'find_library' call
+     will not look for anything, immediately return a
+     'not found' result and let the caller carry on.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
