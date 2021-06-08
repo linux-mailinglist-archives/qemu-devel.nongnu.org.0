@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A4539F4E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:25:22 +0200 (CEST)
-Received: from localhost ([::1]:34826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E3439F4FF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 13:30:54 +0200 (CEST)
+Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqZrE-0000wl-UJ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:25:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43558)
+	id 1lqZwb-0003w0-SR
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 07:30:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpD-0006Wj-8u
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:15 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36778)
+ id 1lqZpJ-0006iK-5e
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:21 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqZpB-000800-AG
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:14 -0400
-Received: by mail-wr1-x434.google.com with SMTP id e11so10954515wrg.3
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:12 -0700 (PDT)
+ id 1lqZpE-00081W-0W
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 07:23:18 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id a11so19287157wrt.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 04:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KPzZ7D1UtY+QeqXtKh3Tp3/QcBfmpOIZBp3Ec0jWE6s=;
- b=rBXdkHHwiB/bEJJ6HHt5QuWWQeYfTFEKerZKdi1KHLMqCf2aV1kZdB7IYpIFP2AMhv
- sQUc/+u8+wkePc+OLGzf5RRx5mdroEXV5SW420Rw/FJll7IXj7mRUjdBHUAm/GNNrHWD
- M+ZGfdn1e+tTymh18yfvkpjTa1SZ3flgHPNwEnwh2WM6OcTRjmt9qVvyRMaDK5pG8GgA
- 6gIA6z0MgfVIRR5dl02WCh8DOg3OP6Rm+51irRFh95j92FveoZ4YAx7ZRoR734jAwFJT
- Czg5tvJWzacegGvhQo++idptT23baQ2+a7qxTBEbsn3480FF+E7munqzLbOLGSK/KAcs
- og3g==
+ bh=fsOgg96A2kjSZMB4eKkTFEeBkFP/7luQOiHJgIFc3q0=;
+ b=QNBgmj+TyLWsG7wQ2Mn9vV/Ls2+o2kAD4X1l7l0putMUquEDHC+oWBmG9R+6mP3fGl
+ vMX9vEGTIqmf0yZ+etvQhrfOjHCxqd9gdZtfjgN78uAi6qiNWDOTgK3FqAc9FY1zJ2KZ
+ YNvZ+LNxF/iuNNWbyYKMtV/rfrMCvKuoGCa7PYcho3X3WVYEwuDJQcltQm+uh+OOcVQB
+ D+VA12hpXwa+9zgEaVtI/udq4MNrPw6gri/miLY5yShYGIZlVbWZcnz2wOhT9JI3Yuo1
+ RqxLTrD9Qne1B9aa5bKPcGY/slMjgy2+OmaK6fIHIQuaBGIrfIL1zWO22ws8s7gBFATG
+ U95w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KPzZ7D1UtY+QeqXtKh3Tp3/QcBfmpOIZBp3Ec0jWE6s=;
- b=C7fFWHo/fMQHqYuVdHQGTpmLB+q+F/1QC3Edv7amEXpk5ZT9RHA2eUd+C9JROfFPnF
- waXoCzi2nMTpIOQacjN6gJV+S76wzudOcNsWJM0H/CoQe9JIPzOI69VXCM1Addt6A7ra
- JK6z4C9PoFeT2Lyb1VQoHJA6i5x0NmKL37NgyYkWIvbPOkBRPGDjkZPF9bQHFppgi2RT
- BHHqKDPzi41/syQS/sojXAXg4HRSEFBIlhMEc9GmvTRJ7m1lwgOSmheKWGgDySICq5Er
- BjeduaFklbPyVeGUh5z2HaIaGEagV++8ie3qxNUFSTLoJmNeFrOfrpsFL+lBK5GnMYBE
- 5r9Q==
-X-Gm-Message-State: AOAM533j78LQ/K2CuJYMMi6tvQw6ex4MEarJFwF8WuyZBGbBi1u/McY3
- IvYcJzQsf7ehuFwddunlPTSo6+VN+DWv/g==
-X-Google-Smtp-Source: ABdhPJx44VprtCKaLIoK6QdMoAIkuOqbnd5uiGHaaAKQ0A4Jflb4OPdlKrazRmrusPsjzO6d0QQu1g==
-X-Received: by 2002:adf:e4cf:: with SMTP id v15mr22227895wrm.162.1623151391975; 
- Tue, 08 Jun 2021 04:23:11 -0700 (PDT)
+ bh=fsOgg96A2kjSZMB4eKkTFEeBkFP/7luQOiHJgIFc3q0=;
+ b=X9+Lbk7MLwwtxsfFyiRDL1u/QCPiAYtw2i7oIX4Xk6LMJcKA7ZBSpy0w3qphhrD37D
+ v/BSjNRLAXnpvorHR7/PFoziYA3QgK0ckuzj9Crx8ptWrNdUT1RVUOOUc9Wx+M+XDbJ2
+ je+uTLQyDSO3LvVuzRqeMJeODXVYFGSUr2+1uJX3ZtuBxQLEDOzXdMkbfq1QKpKvoUOj
+ hCa9KYaJdNtCdx2aqoIzYrI6CD+O+AceftY1XJ8f105CToD+kzzipSGxfeLRejf/UMxW
+ biJId15FtwLMZANfLFXGbDb3ar7/EelwbzG1+0FwMXCQjVS9ebjD7oWHlB9Jr/2ARncZ
+ OKcQ==
+X-Gm-Message-State: AOAM531U1vTMGqcEXwtxb4B2BJC2wmtDmRJdWNK0a0HLkFdOsvE5mAxE
+ 6AFpEFAR33VvE2y2dsURJmosTORt+wmrzw==
+X-Google-Smtp-Source: ABdhPJz62+tr0gBEjvjtvpREDDfz9qvAzOorNmEFbcCk525lATOTsGWah6wsyZyjOkyk5rblspIchg==
+X-Received: by 2002:adf:f1c3:: with SMTP id z3mr21521370wro.375.1623151394740; 
+ Tue, 08 Jun 2021 04:23:14 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.11
+ by smtp.gmail.com with ESMTPSA id i9sm15388621wrn.54.2021.06.08.04.23.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 04:23:11 -0700 (PDT)
+ Tue, 08 Jun 2021 04:23:14 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/26] configure, meson: convert virgl detection to meson
-Date: Tue,  8 Jun 2021 13:22:45 +0200
-Message-Id: <20210608112301.402434-11-pbonzini@redhat.com>
+Subject: [PATCH 13/26] configure, meson: convert liburing detection to meson
+Date: Tue,  8 Jun 2021 13:22:48 +0200
+Message-Id: <20210608112301.402434-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608112301.402434-1-pbonzini@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,159 +89,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure              | 35 ++++-------------------------------
- hw/display/meson.build |  6 +++---
- meson.build            | 10 ++++++----
- meson_options.txt      |  2 ++
- 4 files changed, 15 insertions(+), 38 deletions(-)
+ configure         | 28 ++++------------------------
+ meson.build       |  9 +++++----
+ meson_options.txt |  2 ++
+ 3 files changed, 11 insertions(+), 28 deletions(-)
 
 diff --git a/configure b/configure
-index d3351557e9..c2c8c9f2d6 100755
+index 8389a6f73f..ed62531416 100755
 --- a/configure
 +++ b/configure
-@@ -409,7 +409,7 @@ nettle="auto"
- gcrypt="auto"
- auth_pam="auto"
- vte="auto"
--virglrenderer="$default_feature"
-+virglrenderer="auto"
- tpm="$default_feature"
- libssh="$default_feature"
- live_block_migration=${default_feature:-yes}
-@@ -1399,9 +1399,9 @@ for opt do
+@@ -315,7 +315,7 @@ xen="$default_feature"
+ xen_ctrl_version="$default_feature"
+ xen_pci_passthrough="auto"
+ linux_aio="$default_feature"
+-linux_io_uring="$default_feature"
++linux_io_uring="auto"
+ cap_ng="auto"
+ attr="auto"
+ xfs="$default_feature"
+@@ -1205,9 +1205,9 @@ for opt do
    ;;
-   --enable-vte) vte="enabled"
+   --enable-linux-aio) linux_aio="yes"
    ;;
--  --disable-virglrenderer) virglrenderer="no"
-+  --disable-virglrenderer) virglrenderer="disabled"
+-  --disable-linux-io-uring) linux_io_uring="no"
++  --disable-linux-io-uring) linux_io_uring="disabled"
    ;;
--  --enable-virglrenderer) virglrenderer="yes"
-+  --enable-virglrenderer) virglrenderer="enabled"
+-  --enable-linux-io-uring) linux_io_uring="yes"
++  --enable-linux-io-uring) linux_io_uring="enabled"
    ;;
-   --disable-tpm) tpm="no"
+   --disable-attr) attr="disabled"
    ;;
-@@ -4036,28 +4036,6 @@ EOF
+@@ -3334,21 +3334,6 @@ EOF
+     linux_aio=no
    fi
  fi
- 
 -##########################################
--# virgl renderer probe
+-# linux-io-uring probe
 -
--if test "$virglrenderer" != "no" ; then
--  cat > $TMPC << EOF
--#include <virglrenderer.h>
--int main(void) { virgl_renderer_poll(); return 0; }
--EOF
--  virgl_cflags=$($pkg_config --cflags virglrenderer 2>/dev/null)
--  virgl_libs=$($pkg_config --libs virglrenderer 2>/dev/null)
--  virgl_version=$($pkg_config --modversion virglrenderer 2>/dev/null)
--  if $pkg_config virglrenderer >/dev/null 2>&1 && \
--     compile_prog "$virgl_cflags" "$virgl_libs" ; then
--    virglrenderer="yes"
+-if test "$linux_io_uring" != "no" ; then
+-  if $pkg_config liburing; then
+-    linux_io_uring_cflags=$($pkg_config --cflags liburing)
+-    linux_io_uring_libs=$($pkg_config --libs liburing)
+-    linux_io_uring=yes
 -  else
--    if test "$virglrenderer" = "yes" ; then
--      feature_not_found "virglrenderer"
+-    if test "$linux_io_uring" = "yes" ; then
+-      feature_not_found "linux io_uring" "Install liburing devel"
 -    fi
--    virglrenderer="no"
+-    linux_io_uring=no
 -  fi
 -fi
--
- ##########################################
- # capstone
  
-@@ -5464,11 +5442,6 @@ fi
- if test "$have_copy_file_range" = "yes" ; then
-     echo "HAVE_COPY_FILE_RANGE=y" >> $config_host_mak
+ ##########################################
+ # TPM emulation is only on POSIX
+@@ -5419,11 +5404,6 @@ fi
+ if test "$linux_aio" = "yes" ; then
+   echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
  fi
--if test "$virglrenderer" = "yes" ; then
--  echo "CONFIG_VIRGL=y" >> $config_host_mak
--  echo "VIRGL_CFLAGS=$virgl_cflags" >> $config_host_mak
--  echo "VIRGL_LIBS=$virgl_libs" >> $config_host_mak
+-if test "$linux_io_uring" = "yes" ; then
+-  echo "CONFIG_LINUX_IO_URING=y" >> $config_host_mak
+-  echo "LINUX_IO_URING_CFLAGS=$linux_io_uring_cflags" >> $config_host_mak
+-  echo "LINUX_IO_URING_LIBS=$linux_io_uring_libs" >> $config_host_mak
 -fi
- if test "$xen" = "enabled" ; then
-   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
-   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
-@@ -6136,7 +6109,7 @@ if test "$skip_meson" = no; then
+ if test "$vhost_scsi" = "yes" ; then
+   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
+ fi
+@@ -6070,7 +6050,7 @@ if test "$skip_meson" = no; then
+         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
+         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
+-        -Dlibdaxctl=$libdaxctl -Dlibpmem=$libpmem \
++        -Dlibdaxctl=$libdaxctl -Dlibpmem=$libpmem -Dlinux_io_uring=$linux_io_uring \
          -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt -Dauth_pam=$auth_pam \
          -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
--        -Dattr=$attr -Ddefault_devices=$default_devices \
-+        -Dattr=$attr -Ddefault_devices=$default_devices -Dvirglrenderer=$virglrenderer \
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
-         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index e1f473c1df..1e6b707d3c 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -61,7 +61,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
- 
-   virtio_gpu_gl_ss = ss.source_set()
--  virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL', opengl],
-+  virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', virgl, opengl],
-                        if_true: [files('virtio-gpu-gl.c', 'virtio-gpu-virgl.c'), pixman, virgl])
-   hw_display_modules += {'virtio-gpu-gl': virtio_gpu_gl_ss}
- endif
-@@ -75,7 +75,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
-   hw_display_modules += {'virtio-gpu-pci': virtio_gpu_pci_ss}
- 
-   virtio_gpu_pci_gl_ss = ss.source_set()
--  virtio_gpu_pci_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI', 'CONFIG_VIRGL', opengl],
-+  virtio_gpu_pci_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI', virgl, opengl],
-                            if_true: [files('virtio-gpu-pci-gl.c'), pixman])
-   hw_display_modules += {'virtio-gpu-pci-gl': virtio_gpu_pci_gl_ss}
- endif
-@@ -89,7 +89,7 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
-   hw_display_modules += {'virtio-vga': virtio_vga_ss}
- 
-   virtio_vga_gl_ss = ss.source_set()
--  virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', 'CONFIG_VIRGL', opengl],
-+  virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', virgl, opengl],
-                        if_true: [files('virtio-vga-gl.c'), pixman])
-   hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
- endif
+         -Dattr=$attr -Ddefault_devices=$default_devices -Dvirglrenderer=$virglrenderer \
 diff --git a/meson.build b/meson.build
-index f3af9ee3cf..842831e1fb 100644
+index 8563443865..560b1739ec 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -471,9 +471,11 @@ if 'CONFIG_GBM' in config_host
-                            link_args: config_host['GBM_LIBS'].split())
+@@ -327,10 +327,11 @@ if have_system or have_tools
  endif
- virgl = not_found
--if 'CONFIG_VIRGL' in config_host
--  virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
--                             link_args: config_host['VIRGL_LIBS'].split())
-+if not get_option('virglrenderer').auto() or have_system
-+  virgl = dependency('virglrenderer',
-+                     method: 'pkg-config',
-+                     required: get_option('virglrenderer'),
-+                     kwargs: static_kwargs)
+ libaio = cc.find_library('aio', required: false)
+ zlib = dependency('zlib', required: true, kwargs: static_kwargs)
++
+ linux_io_uring = not_found
+-if 'CONFIG_LINUX_IO_URING' in config_host
+-  linux_io_uring = declare_dependency(compile_args: config_host['LINUX_IO_URING_CFLAGS'].split(),
+-                                      link_args: config_host['LINUX_IO_URING_LIBS'].split())
++if not get_option('linux_io_uring').auto() or have_block
++  linux_io_uring = dependency('liburing', required: get_option('linux_io_uring'),
++                              method: 'pkg-config', kwargs: static_kwargs)
  endif
- curl = not_found
- if not get_option('curl').auto() or have_block
-@@ -2782,7 +2784,7 @@ summary_info += {'PAM':               pam.found()}
- summary_info += {'iconv support':     iconv.found()}
- summary_info += {'curses support':    curses.found()}
- # TODO: add back version
--summary_info += {'virgl support':     config_host.has_key('CONFIG_VIRGL')}
-+summary_info += {'virgl support':     virgl.found()}
- summary_info += {'curl support':      curl.found()}
- summary_info += {'Multipath support': mpathpersist.found()}
- summary_info += {'VNC support':       vnc.found()}
+ libxml2 = not_found
+ if 'CONFIG_LIBXML2' in config_host
+@@ -2799,7 +2800,7 @@ summary_info += {'brlapi support':    brlapi.found()}
+ summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
+ summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
+ summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
+-summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_URING')}
++summary_info += {'Linux io_uring support': linux_io_uring.found()}
+ summary_info += {'ATTR/XATTR support': libattr.found()}
+ summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
+ summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 8af42987f4..a70aedb0eb 100644
+index b23174d0a1..6610c4dc64 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -110,6 +110,8 @@ option('u2f', type : 'feature', value : 'auto',
-        description: 'U2F emulation support')
- option('usb_redir', type : 'feature', value : 'auto',
-        description: 'libusbredir support')
-+option('virglrenderer', type : 'feature', value : 'auto',
-+       description: 'virgl rendering support')
- option('vnc', type : 'feature', value : 'enabled',
-        description: 'VNC server')
- option('vnc_jpeg', type : 'feature', value : 'auto',
+@@ -92,6 +92,8 @@ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
+ option('libusb', type : 'feature', value : 'auto',
+        description: 'libusb support for USB passthrough')
++option('linux_io_uring', type : 'feature', value : 'auto',
++       description: 'Linux io_uring support')
+ option('lzfse', type : 'feature', value : 'auto',
+        description: 'lzfse support for DMG images')
+ option('lzo', type : 'feature', value : 'auto',
 -- 
 2.31.1
 
