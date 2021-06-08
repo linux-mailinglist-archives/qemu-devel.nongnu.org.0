@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EA439FDEF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 19:42:33 +0200 (CEST)
-Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0D939FE19
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 19:47:17 +0200 (CEST)
+Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqfkG-0004YR-9P
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 13:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48498)
+	id 1lqfop-0001gk-5k
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 13:47:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqfgx-00026f-H3
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:39:08 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqfgs-0007oC-D0
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:39:07 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id l184so1562507pgd.8
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 10:39:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=kTsLskMHvzRsJMcVD4lhsWFkG7uoZzrwivIU/3dwtiY=;
- b=xVS8Z+esGF+r+d9LLnnPefyebU4gJjDpGVanwAJetM+/pB9IylGvKL1gRfVFMhwbx1
- apgCUuKPl1bxlov17K4iu1jH9a6GezAqKNh1b8xnb3ocqB0JeDXKOtMAvSxKXImVCAeR
- K71BjImfml5F5YDWnLpRcjEBUkl67nXj7QfQjIBuc9ODVzoWai30JTi0X/qIK9uUM08o
- rA7YzzQt2+lRN2JqX1UxHYxYwTMwFTzhWoKYSAo6Aha64Aeve16IdIPhgSz2CJ546qGg
- KJUZyGabhj13UU/y8NtOxMLi504W+VuZcobmhfClaiXPCNIktAfk1MaPCzOlxm9ojbET
- 3w4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kTsLskMHvzRsJMcVD4lhsWFkG7uoZzrwivIU/3dwtiY=;
- b=t9hnGwbb0KRiAWiJ4P8Lt2iLTVqhF//Hue0cE6jS/AySGP+O5AD+/IrFfzdT2+fnSl
- QELH0uYVpQCpXlTtMTmQXeEiHD6DeNJ1FD69WtKcoaNCU3yKuYTHeVcIzq+Yp+x037Pq
- dXGCJYWM12gV2Y86lcAvXUAGrrlL4uqDmovamsVFvTUV2MQI71ew4b9/92DSXhJhf/wh
- OwUeOCtQJRmMmFSys8PvtvHjy1Nsd0L/M+pq1gGAl7LBUWRpmrDo+F9/Ub8d9KbNtfVd
- qJBuLJro7E86Sgs8HmkFE9YEWj+Z3Sed32jC9cQmpwmjvUR8RMscMZbn82/+8rrORaUx
- su7A==
-X-Gm-Message-State: AOAM531jeZYjOiatyteVFflvlu/wkozpPFI9S5++pU/T/A7F09ndRwzA
- hCx0tTOLhog5UZrh3LbiHNg6feBdi4Tpdw==
-X-Google-Smtp-Source: ABdhPJy7J88kK31nL5zS9L6ipn3Vj3A+sjC4AMMDqiV7n52o0Jp7t2ykN7Z/PZPaJfLMZPOKGBA6tA==
-X-Received: by 2002:a63:b30f:: with SMTP id i15mr23811160pgf.62.1623173941138; 
- Tue, 08 Jun 2021 10:39:01 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- y34sm9296183pfa.181.2021.06.08.10.39.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 10:39:00 -0700 (PDT)
-Subject: Re: [PATCH 02/26] configure: drop unused variables for xts
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-3-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fef24c61-b614-9b38-4386-f16850a81863@linaro.org>
-Date: Tue, 8 Jun 2021 10:38:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqfkI-0006Dq-DM
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:42:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lqfkG-0000nY-Kz
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:42:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623174151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HpfVA9MK7g1GpzAcuThhM7nvCV3pzPDeKIPIvtHlErs=;
+ b=gzHQnbSCXOp7h+MFmY7biIo+dJQyvNauWLfxNL5clbjerHa8xH+TdrR8sj+rssznJsZ0sg
+ RWhXQ65eqHUxq2Ym375C7tS8SvHEjxa6PVtQAXdaH6Lli6twxxgDdouZ5UtiCRzHdUN5Cj
+ Yv5/1+d+R3i1hhFBy7zx2zyh227q1nk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-TT71fOxWM2O4wAKhgTQb_w-1; Tue, 08 Jun 2021 13:42:27 -0400
+X-MC-Unique: TT71fOxWM2O4wAKhgTQb_w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B60881020C33;
+ Tue,  8 Jun 2021 17:42:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AECF5C1BB;
+ Tue,  8 Jun 2021 17:42:23 +0000 (UTC)
+Date: Tue, 8 Jun 2021 12:42:21 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v4 2/7] scsi-generic: pass max_segments via max_iov field
+ in BlockLimits
+Message-ID: <20210608174221.lu6pgbpai6xtaqwk@redhat.com>
+References: <20210608131634.423904-1-pbonzini@redhat.com>
+ <20210608131634.423904-3-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210608112301.402434-3-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210608131634.423904-3-pbonzini@redhat.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,20 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/21 4:22 AM, Paolo Bonzini wrote:
-> All XTS configuration uses qemu_private_xts.  Drop other variables as
-> they have only ever been used to generate the summary (which has since
-> been moved to meson.build).
+On Tue, Jun 08, 2021 at 03:16:29PM +0200, Paolo Bonzini wrote:
+> I/O to a disk via read/write is not limited by the number of segments allowed
+> by the host adapter; the kernel can split requests if needed, and the limit
+> imposed by the host adapter can be very low (256k or so) to avoid that SG_IO
+> returns EINVAL if memory is heavily fragmented.
+
+to avoid SG_IO returning EINVAL
+
 > 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> Since this value is only interesting for SG_IO-based I/O, do not include
+> it in the max_transfer and only take it into account when patching the
+> block limits VPD page in the scsi-generic device.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   configure | 4 ----
->   1 file changed, 4 deletions(-)
+>  block/file-posix.c     | 3 +--
+>  hw/scsi/scsi-generic.c | 6 ++++--
+>  2 files changed, 5 insertions(+), 4 deletions(-)
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
