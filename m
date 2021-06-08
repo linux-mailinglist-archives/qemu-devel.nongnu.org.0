@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C8D39EAED
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:44:12 +0200 (CEST)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E2A39EAEC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:44:04 +0200 (CEST)
+Received: from localhost ([::1]:52354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPql-00076h-8i
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45080)
+	id 1lqPqd-0006gt-Ok
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPeQ-00021j-0o
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:26 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19707)
+ id 1lqPeX-0002BY-4f
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:33 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPeN-0004b7-Fk
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:25 -0400
+ id 1lqPeV-0004dW-7m
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:31:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112283; x=1654648283;
+ t=1623112290; x=1654648290;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BA8bnTg/qGEa7YciEPjVOylu0AuqS6dgHFxWs58I0tE=;
- b=A0BORonhLO1HG4uqK1jxF7oRzIuehljPLWBzrG+BJmJrOz/XZlhJozsL
- xB/D4+uGEl6TszVH/NltpOYxPhtTyt8KQ9hDFgLLLFkJjJJ/UIM3s9ZYV
- TxCEaDuC24yNwzcPexb0Cvoio3SYHGwb5VDbkTiCesEITQwJxX1eukaLc
- wyi78oMlZu+HxYbDDBxcFsRhHpU6Iow2HZW266m3JIPi0iJ2vFsVhB6Iy
- 7tk33l0W/IBEpRXe7N8MBRQLNmWu38xJP5mETaaPJAorvdRNMGxh7Qyko
- 1n5HrSz6vOlmSvW5Z1h/GB/AiGtsPPXVKe7QJgL6+MYPfStKpQXNj8eHZ A==;
-IronPort-SDR: B1aXmyChDTaUCnA7nISLlG+2t4ArjZxVAFfzVESe/gV29xOLuxeMt5lpNbpqrB9ti3Akk7q9mv
- CahDm4hEBLk/pGPRBNYR2xMhn/d1gSDSuPv4eqHvA0lyoe1V6JZfCXwmO21WZ4tRcAPdmFVe+J
- kF2agD7gYWXKcYJLzDnu/gGxnPCQ9IrBXp+30xIii59weBR88RI4lGO8J5gIkIBue42l46Wv8s
- V6+IEuAG39DpC58klxEpdj8Hi+IqW1lDQKTQbjEjUhoCXD8hCTwf42nwUZrZ82eaWw1bQCcmIg
- qrE=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087406"
+ bh=o05Iene5hNGyOZfvyK/ntfyzyUCZq+MDzSfWXUnwWdg=;
+ b=ACt3xZ/ehpkg438bqsuxa9eBIxjaY4D8U9CyAEaUcOru080YhFYZoyyU
+ h/kM/7OBeG7qd9Vdo20YzTlyNW9mXrrA2BG5yTWSYQwAz34Zbx1QKZN2M
+ 1iB5eKUba+XpIw+RluM3E8IXt4GTJXXOjN1QOSMnvol4ehwm+1MmPqFeg
+ aE1pj/9RzYUuodVGYiOC+opeV/MHktc3dxPVE2pwachFtn3ECiL9K/UT+
+ Ez3HMJZ1s5JcDao8NI/89Xs0NddbY+W5OjDx2ysZrL3l7dr/4YSqm9hW/
+ YbG7wVp6MimJ5lxONQAcMbooUyoJbV05WdviHXfAKFOoDATejRaeZtzF1 g==;
+IronPort-SDR: wWaztqoJ3E1hPDcUkNRrmb6lkXRNyrvdMSuRrcuj+VvtWj/jIedla4sXNet4dc176+j738qUx5
+ Srm1eBkF3QWQc+mhX9QPba9+PvZX1wV7TFelkiBpG5T+jsxqsbbbCvrEnqo99TogeLcP7MG1RZ
+ jFl6FTyywK0YP43sHuJVc85yAiEpt3NfqC6aPxkKJ89PsDgBM+wBJDkkQAipDOz8zBoAReJfNs
+ 7mQcJhWepe4hEo3ces/XD68pT978DwYNWC7kwbBD/ZZTTSQr/ujoJmeTBcV8pobcpwmUEg5vKS
+ Hfc=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087408"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:10 +0800
-IronPort-SDR: wZatqgn6OHRv4Nsp/8ZPbm/3fj721eUdFwugx8Vm4wo+1oX5nrQbjTckrEFt3AW5uSoI4DM9rt
- 066LW2jQAcJHBNd0SHRiALfmozpfnKcIMWla/revKBn7UzeU9WIHqAc51gao3yY7v1WiW+eXJd
- px7EZ/oK/aMD9kayc83XqQpQunOUwT+f1sJkzWeFSIfDMy9RU25YnJ7xVU2rGLDd3CPXWm+9fd
- TKF4BZqN9sWh5DATEeQtqkx/5KqQNkC8Z7decQSnUt/Z5ADAn0QoW15kLAFts8xJ6jmN7QQ0Q2
- uBpQDeRXYC9rUWzmwncdOBBx
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:31:14 +0800
+IronPort-SDR: eEB6KSxhPjnQFhDJc1F0sRpswbfZPotHoqar+VRZhtYQNctj6+TvQtZnA4f1eFBSnI7zGP1WIi
+ 0ihMHAzLHLYExNNoDQKBK27IIKFlXtDGx98ZO9rOUWkbF7eSY8EkkpVe37oCXNvB2oHYPyiVTF
+ cfB18045AAxCmoBK1UJDTSWUXhNM/StxnovlkhzBiXmOBJApBw7YtcP3eoonVGnu70Udp8alaU
+ FxJWwnFptt+EdXvFTw15p4keG22GShTYWG2QiqBLK9WW83vtSZSAW61KZmOv7FmWff5z/nqrpe
+ oSmfdyBsEUrgSsoAJDYpZYhJ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:10:17 -0700
-IronPort-SDR: M6PQROAwwoX+4G8T2rbphi1+7+uJe1wsyXwUBbBlp17mpQ0QRr6SqZ1bk2Ok0/QtrT4oDGEw7V
- R45qxa4EYrpYUF1dSNYYw++xeMtAeSK7LGPxe+EpYwxEg5+Ri3962F2pqv2u49S+kKSFInR0NQ
- rlwNS3vnnpag7vPNkcgwpapDpGZOGo4zGYRo9vbso1SNUAzimyIV0EtXY/j4wpM/esLdkpSVfQ
- l5nA+b+e/NiFWoOCAl4LRLo7gq5Mg4BfznwL5fImQKDAjgV84s15VHmlZB1XFqHxXjQWFvUdyb
- 6Wo=
+ 07 Jun 2021 17:10:21 -0700
+IronPort-SDR: 4KoLugcV1WW6AGEyjSbJCNgGIU0qYZBJLntsLX16wijYpx8AvXQiahkudcfECm461skxsiZCJQ
+ /3aGqF7829lAGlFBWAP8nIstkhgc9TV+WMIPknwKFzfg97be9FSHIzMxrYpAPNOrvqib1wWu/E
+ i2GcPmlYIkhGNUZtdIKij8hqBX0v4BcdSPq2dSeSW6Ajgrp/1aHJRxziE+8Pvh2NxDMUHVI49v
+ DskJiytbyQAws7J1vjnIu6ZhzrBVHlxb49zg/ecRJEnGb/VQH+2EH7idLDfnC5TDJJnysJJlvo
+ rTM=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:07 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:31:11 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 18/32] target/riscv: rvb: count bits set
-Date: Tue,  8 Jun 2021 10:29:33 +1000
-Message-Id: <20210608002947.1649775-19-alistair.francis@wdc.com>
+Subject: [PULL 19/32] target/riscv: rvb: logic-with-negate
+Date: Tue,  8 Jun 2021 10:29:34 +1000
+Message-Id: <20210608002947.1649775-20-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -98,79 +98,62 @@ Cc: Frank Chang <frank.chang@sifive.com>, alistair23@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Kito Cheng <kito.cheng@sifive.com>
 
 Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Message-id: 20210505160620.15723-4-frank.chang@sifive.com
+Message-id: 20210505160620.15723-5-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  2 ++
- target/riscv/translate.c                |  6 ++++++
- target/riscv/insn_trans/trans_rvb.c.inc | 13 +++++++++++++
- 3 files changed, 21 insertions(+)
+ target/riscv/insn32.decode              |  3 +++
+ target/riscv/insn_trans/trans_rvb.c.inc | 18 ++++++++++++++++++
+ 2 files changed, 21 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 9a2ffab150..6f7671872d 100644
+index 6f7671872d..a4d95ea621 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -662,7 +662,9 @@ vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
- # *** RV32B Standard Extension ***
+@@ -663,6 +663,9 @@ vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
  clz        011000 000000 ..... 001 ..... 0010011 @r2
  ctz        011000 000001 ..... 001 ..... 0010011 @r2
-+cpop       011000 000010 ..... 001 ..... 0010011 @r2
+ cpop       011000 000010 ..... 001 ..... 0010011 @r2
++andn       0100000 .......... 111 ..... 0110011 @r
++orn        0100000 .......... 110 ..... 0110011 @r
++xnor       0100000 .......... 100 ..... 0110011 @r
  
  # *** RV64B Standard Extension (in addition to RV32B) ***
  clzw       0110000 00000 ..... 001 ..... 0011011 @r2
- ctzw       0110000 00001 ..... 001 ..... 0011011 @r2
-+cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 60fac0fe27..c1a30c2172 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -561,6 +561,12 @@ static void gen_clzw(TCGv ret, TCGv arg1)
-     tcg_gen_subi_tl(ret, ret, 32);
- }
- 
-+static void gen_cpopw(TCGv ret, TCGv arg1)
-+{
-+    tcg_gen_ext32u_tl(arg1, arg1);
-+    tcg_gen_ctpop_tl(ret, arg1);
-+}
-+
- static bool gen_arith(DisasContext *ctx, arg_r *a,
-                       void(*func)(TCGv, TCGv, TCGv))
- {
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 157b4e3c41..4a5d271b43 100644
+index 4a5d271b43..b8676785c6 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -29,6 +29,12 @@ static bool trans_ctz(DisasContext *ctx, arg_ctz *a)
-     return gen_unary(ctx, a, gen_ctz);
+@@ -35,6 +35,24 @@ static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
+     return gen_unary(ctx, a, tcg_gen_ctpop_tl);
  }
  
-+static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
++static bool trans_andn(DisasContext *ctx, arg_andn *a)
 +{
 +    REQUIRE_EXT(ctx, RVB);
-+    return gen_unary(ctx, a, tcg_gen_ctpop_tl);
++    return gen_arith(ctx, a, tcg_gen_andc_tl);
++}
++
++static bool trans_orn(DisasContext *ctx, arg_orn *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, tcg_gen_orc_tl);
++}
++
++static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
++{
++    REQUIRE_EXT(ctx, RVB);
++    return gen_arith(ctx, a, tcg_gen_eqv_tl);
 +}
 +
  static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
  {
      REQUIRE_64BIT(ctx);
-@@ -42,3 +48,10 @@ static bool trans_ctzw(DisasContext *ctx, arg_ctzw *a)
-     REQUIRE_EXT(ctx, RVB);
-     return gen_unary(ctx, a, gen_ctzw);
- }
-+
-+static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_unary(ctx, a, gen_cpopw);
-+}
 -- 
 2.31.1
 
