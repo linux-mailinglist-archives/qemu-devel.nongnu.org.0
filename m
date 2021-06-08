@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8AA39F9E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:04:49 +0200 (CEST)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1C739FA0F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:12:09 +0200 (CEST)
+Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqdHc-0006Ir-5I
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:04:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43748)
+	id 1lqdOi-00027W-6B
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqdEh-0003lo-M5
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:01:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44247)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqdNO-0001BW-1M
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:10:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqdEb-00077L-MJ
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:01:47 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqdNK-0004Fl-JM
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:10:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623164501;
+ s=mimecast20190719; t=1623165040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vx5R0BPvy494d/s9UoA5JBYkqxPxWI5fJnuec735xiY=;
- b=cnrpRH/CVuX2RdgVazFp7FuzlIky+39PMHchT+SWT/nuRBS8wCN2DP9s6e5Gxu/rrGCB3Q
- yl8h3GSJsU4sOEruqkXkYz8PHP0WZ1UJeZrKsxyRZlfrZnNpzj3yHTRHtD4YiEyDJx06Jf
- w2pw5po1puRMHfY6crNC2msJuX+nr8U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-P7t2CZwsNvWYUXJYVb3zTw-1; Tue, 08 Jun 2021 11:01:37 -0400
-X-MC-Unique: P7t2CZwsNvWYUXJYVb3zTw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so851259wmh.9
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 08:01:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vx5R0BPvy494d/s9UoA5JBYkqxPxWI5fJnuec735xiY=;
- b=W4fOGrhWPAh/wUu+Q8CZV+HsP4jbnES4R4E2+NOj0xpr/FrfE+eHcy4awGZxkBmmSE
- xOkNFyxTeRpbjAdryj5HAqbnx/2JpHYnYZbufgR7nDJ9cA59PlnTq3ZHlw2KkTVsUlH4
- AaEKbfIbVG2UthPrk3fs3vHV0guqmakISaa9bRFhzBoSJURalid0eGdSFz04oJrxZqD9
- qFU/6xPP0YgQe7wyN4Nf7kZpqaS6UB1dzt/GpdZvhxhFSJ2DCKni1i96jOzn97fuuPhS
- 27BhMx9bEZLo1fI7w6WglEFcBNKNFFtGTo+MBLGSV3DWEdwr7sQFESrQ9P4CgRP+h/Pa
- 8dOQ==
-X-Gm-Message-State: AOAM530J7TycwCe8/bXNN+WWLTJyRWQeotM4QBOix1mIOgLurMZX12pr
- DfHm6Q8cRDjGs4WuNdTgjjRBub90YGehSW3EZZ50ErZDhEDLMOcrjYhUbbHqIcgHKUJVsYYgwLT
- E476GsjQ9OaNeheg=
-X-Received: by 2002:a05:600c:4f0c:: with SMTP id
- l12mr5329348wmq.123.1623164496743; 
- Tue, 08 Jun 2021 08:01:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHjb5ZTl04u0uG8jpBDjASI4g22SpaBx4j9AGB68ve3/YLIF4oP7BjtK+vXnId3oMcqMZBWg==
-X-Received: by 2002:a05:600c:4f0c:: with SMTP id
- l12mr5329308wmq.123.1623164496516; 
- Tue, 08 Jun 2021 08:01:36 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e83d80.dip0.t-ipconnect.de.
- [217.232.61.128])
- by smtp.gmail.com with ESMTPSA id b26sm3073377wmj.25.2021.06.08.08.01.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 08:01:36 -0700 (PDT)
-Subject: Re: [PATCH v16 96/99] tests/qtest: split the cdrom-test into
- arm/aarch64
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-97-alex.bennee@linaro.org>
- <fdb8ac5d-e6c6-0e13-e8df-f1e3e022c98d@linaro.org> <87im2ol8xu.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3cef0694-0c9c-e0d8-2c30-86dc6978db4d@redhat.com>
-Date: Tue, 8 Jun 2021 17:01:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ bh=1Mmd5cDKpqN1Xa8YdJUMNJkDit57XTnoPV8XgmHQMr0=;
+ b=S+7vhTGtyRoJeNdMHSWlWXAwVpx7KKlYTFciGzezDxZRr3gOZ+zKTFOyfHTIos7AwTBoaV
+ wxHuj3TnwDpjN6VwK1Z5LmHwyWrG3L5ITT0FjeikTQr03XcZOkdIIq1opak8/CrJ03VWTj
+ ljOcUdJIlzU12HpPOfbx6roUGTQGn/g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-mghmnHetMu2yOpV8qhhTUg-1; Tue, 08 Jun 2021 11:10:37 -0400
+X-MC-Unique: mghmnHetMu2yOpV8qhhTUg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5D83106BAE4;
+ Tue,  8 Jun 2021 15:10:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
+ [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 207E760C04;
+ Tue,  8 Jun 2021 15:10:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9E9FB113865F; Tue,  8 Jun 2021 17:10:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 4/5] monitor: removed cpustats command
+References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
+ <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
+ <20210527084038.512c5270@bahia.lan>
+Date: Tue, 08 Jun 2021 17:10:32 +0200
+In-Reply-To: <20210527084038.512c5270@bahia.lan> (Greg Kurz's message of "Thu, 
+ 27 May 2021 08:40:38 +0200")
+Message-ID: <8735tsxuhj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87im2ol8xu.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,41 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "open list:IDE" <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/2021 16.27, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> On 6/4/21 8:53 AM, Alex Bennée wrote:
->>> The assumption that the qemu-system-aarch64 image can run all 32 bit
->>> machines is about to be broken...
->>
->> Um, what?
-> 
-> Really what we want is to probe the -M (machines) that a binary
-> supports rather than just barfing the test because we've built a QEMU
-> that doesn't support all the random 32 bit machines.
-> 
->> r~
->>
->>
->>
->>   and besides it's not likely this is
->>> improving out coverage by much. Test the "virt" machine for both arm
->>> and aarch64 as it can be used by either architecture.
-> 
-> I think this point still stands though, I don't think we get much from
-> running the cdrom test with realview et all on qemu-system-aarch64.
+Greg Kurz <groug@kaod.org> writes:
 
-In a lot of CI pipelines, we are either building aarch64 or arm, but not 
-both, so I think it might be good to keep the tests in here.
+> On Wed, 26 May 2021 17:21:03 -0300
+> "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
+>
+>> Since ppc was the last architecture to collect these statistics and
+>> it is currently phasing this collection out, the command that would query
+>> this information is being removed.
+>> 
+>
+> So this is removing an obviously user visible feature. This should be
+> mentioned in docs/system/removed-features.rst... but, wait, I don't
+> see anything for it in docs/system/deprecated.rst. This is dropping
+> a feature without following the usual deprecation policy, i.e.
+> marking the feature as deprecated and only remove it 2 QEMU versions
+> later. Any justification for that ?
 
-  Thomas
+Our deprecation policy applies to stable interfaces, which HMP is not.
+
+We don't break things there just because.  But dropping a command right
+away when it is no longer useful is just fine.  No need to deprecate and
+wait for the grace period.
+
+[...]
 
 
