@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52E6A3A0546
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:48:20 +0200 (CEST)
-Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3685B3A0551
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:51:49 +0200 (CEST)
+Received: from localhost ([::1]:57252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqie3-0006Zz-F4
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57310)
+	id 1lqihQ-0008N2-B4
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqicm-0005fD-3y
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:47:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51061)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqigB-0007Rz-Uq
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:50:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqici-0003B3-9T
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:46:58 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqigA-0004qN-9r
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:50:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623185215;
+ s=mimecast20190719; t=1623185429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7iFIsv8weNI7pBKb9Cr9P4VVovWcGTbIzKRjEhsQWCs=;
- b=ZBcvNKeNzM4NP2cHmTmp4JF4nuni5dxfYTClGZbblCChmhP3xRYczXa2cfDP2/nV3gPtQC
- NVYrKpHoimJEDlN+XhX5+yW6nrglKtigp8JxwzIH83BprH7EU+nPMJmIOm6QyOzYFkoXRp
- zKn09vWb5+zB4yZCktdKUk5N0p56XKo=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-K2FmEh9SMiuepRatmiAO0g-1; Tue, 08 Jun 2021 16:46:54 -0400
-X-MC-Unique: K2FmEh9SMiuepRatmiAO0g-1
-Received: by mail-ot1-f69.google.com with SMTP id
- 19-20020a9d04130000b02903cb28b38d0aso13306126otc.19
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:46:54 -0700 (PDT)
+ bh=denD12Bwx9PQm5UBoKUv6B0bXmdWwpsuImR8ZzVSa34=;
+ b=ajkwTsO7YuHV37/TxDnXkXkMLdipq8YfA9LsuTvHJdy7t1D/qXztmzu4tmmsk+aAceURnw
+ ZlEynhWmVrVv5J4PC8Gl4izwUTaY4Im9d3eaCDjoN8M9Uere2kwl5psy+EWWu0lNO7Re3f
+ iLwo0eyNdKRNyd+tDtdgQEY194pVkGo=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-ALvIGEXkMkWs4HO_uMQs1A-1; Tue, 08 Jun 2021 16:50:28 -0400
+X-MC-Unique: ALvIGEXkMkWs4HO_uMQs1A-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ x24-20020a4a9b980000b0290249d5c08dd6so4639046ooj.15
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:50:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7iFIsv8weNI7pBKb9Cr9P4VVovWcGTbIzKRjEhsQWCs=;
- b=Z2B2io4xbkgA/5eRYe6306CKfdfSq5bc7P9r55SW9qum+zwmFZkcR6EXY+CySlx5p0
- 6ynuV5aRJhMt6uMp7TLUd1T64sbsL/e37+A8mCL2cHJw2NRDTF1sleu6WAPGIXiDD9hX
- 7ruUpmXcVMUafLo2B/ryh6fFgWlBzd9kms43OpUE77tLcQk+HV/MXFzW0rY93LNVVia6
- aavefRHjmu/jC/0juYu0PK1d8JUftrXCrKyDm4bCBHIlU8tjX0kf2sxmQ0L4jac2FbDz
- HPabEWOszQxL3R1tn5qSa8eKrgdIpW4+ynmufDTuvmNCzwDycfEZlXQp8CAKV/c9mMAE
- JLrQ==
-X-Gm-Message-State: AOAM533dLPwIG9AyCK8hbb8CY3eGnd/BmKSt+NQDPYWOzbwCEInvNgzO
- c+vHAQUj9pW/N+boOUIvwlZxG274TwPoPLF8aTJfvkZtZmjZTe4iS74xPXte0+QiNvs8pB+5oaO
- jX32Xzbotb9Vi+ak=
-X-Received: by 2002:a9d:7497:: with SMTP id t23mr11245207otk.124.1623185213664; 
- Tue, 08 Jun 2021 13:46:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkVohRvikEzk2q34jxBQCsrGZE9jeidvhKjaI7Tg4o5/7n6rfIoTkWF/vB1GPpHfV6uluxxg==
-X-Received: by 2002:a9d:7497:: with SMTP id t23mr11245199otk.124.1623185213518; 
- Tue, 08 Jun 2021 13:46:53 -0700 (PDT)
+ bh=denD12Bwx9PQm5UBoKUv6B0bXmdWwpsuImR8ZzVSa34=;
+ b=Ns9Ed4DWPZY89tjvRGN8ZbG/+MvVhw0heHi3e+mwbBow3vHsGcv7LNDnw/DL8dXWPx
+ a+c8wALlxBRhpwGu28A2LVKaZV+xq6HFN9ngOtjzhCpqQfSK2MBX0n8wEbxEz8zHpiwp
+ 44LEotn6pRYpWyOURlu+/x+N0B7IGKTF5djSKZS/xAg/Y8OZv58pA77hThl2PTEdVtxV
+ n0jZ7DhhbXTs2rUe5PPo4MhOJOkNsGn3MQjwR8T1IUsp1x54WS+kwzi4KjQxq0Z9/vAJ
+ cN8EAVkkhN/LQ1A536srDfsrZIjJfqujm3aQJr+EKv9BBR4CnurkGbfVAGm9L+Hw1VVh
+ 7+oA==
+X-Gm-Message-State: AOAM531kGCdr7DvkxeQPH1OXbKcFP4tMPvv6Ukwyj0KImax6W/2altJt
+ 5Bx9eGUhDJAc/q1M9lczvFKdZKp0nUEXmWd7aXFcepai2FPS5Hn7RKUcjJ72aPhLU5ngSaV6tc2
+ jmwo2u+mccxxF8/Y=
+X-Received: by 2002:a05:6808:3dc:: with SMTP id
+ o28mr4029442oie.64.1623185427472; 
+ Tue, 08 Jun 2021 13:50:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIsLzGhbhQI/+s04m8kpS62LZgsVIyCv/BTrUtvLZpG3tbXB1nJLs5wI+LaVoDr5C1GFSeRA==
+X-Received: by 2002:a05:6808:3dc:: with SMTP id
+ o28mr4029432oie.64.1623185427289; 
+ Tue, 08 Jun 2021 13:50:27 -0700 (PDT)
 Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
  by smtp.gmail.com with ESMTPSA id
- y16sm1981195oto.60.2021.06.08.13.46.52
+ d1sm3379358otu.9.2021.06.08.13.50.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 13:46:53 -0700 (PDT)
+ Tue, 08 Jun 2021 13:50:26 -0700 (PDT)
 Subject: Re: [PATCH] Add Connor Kuehl as reviewer for AMD SEV
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20210608192537.103584-1-ckuehl@redhat.com>
- <YL/GNQUr4g3dyOQC@work-vm>
+ <YL/Ouxk9LcVzE28D@redhat.com>
+ <d01cae3a-eee4-1488-6f74-6b0beef38c6c@redhat.com>
+ <YL/W1QqMPjZLvq+F@redhat.com>
 From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <4a9a1fb2-0be2-a8df-c3cd-7db6619ff729@redhat.com>
-Date: Tue, 8 Jun 2021 15:46:52 -0500
+Message-ID: <220f3a15-a25d-7c89-d9de-a8c1cf0cd708@redhat.com>
+Date: Tue, 8 Jun 2021 15:50:25 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YL/GNQUr4g3dyOQC@work-vm>
+In-Reply-To: <YL/W1QqMPjZLvq+F@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -99,28 +103,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/21 2:34 PM, Dr. David Alan Gilbert wrote:
->> Note: because there's no maintainer entry, when running
->> ./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
->> mailing list is the only thing that shows up... it doesn't even show
->> previous committers (as it would before applying this patch). Which is
->> probably not great considering I do not make pull requests to QEMU.
->>
->> Is the way forward to get someone to sign up as a maintainer before
->> applying a patch like this?
+On 6/8/21 3:45 PM, Daniel P. Berrangé wrote:
+>> Right, I am just worried that if I am the only person that shows up in
+>> the get_maintainer.pl output, the submitter will have to know some other
+>> way who a relevant maintainer is that can take the patches otherwise
+>> they won't be CC'd. Or we'll have to hope a relevant maintainer sees
+>> them on the list. Or I'll have to chase down a maintainer myself
+>> assuming the reviews all check out. :-)
 > 
-> If you wanted to do a submaintainer for it and send it to one of the x86
-> maintainers rather than having to do full pulls?
+> Well there's no real guarantee that any of the previous committers will
+> take the patch even if they are listed by get_maintainer. This is typical
+> with anything lacking a maintainer assigned. We typically hope that
+> whoever runs the "misc" queue sees the patch and picks it up, but often
+> it requires pings to remind someone to pick it up.
+> 
+> The only real right answer here is to actually get someone as the
+> nominated maintainer. Every other scenario is a just a band aid and
+> is not a good experiance for contributors. A nominated reviewer is
+> usually hoped to be a stepping stone to someone becoming maintainer
+> in future, so in that sense the fact that only you will be cc'd is
+> sort of intentional :-)
 
-I'm not opposed to this. I think I have a few of the right people on CC,
-so let's see if they weigh in on this. Unless it means I have to manage
-a GPG key again... (just kidding, kind of...)
+That makes perfect sense. I'll forge on ahead, then :-)
+
+Thanks!
 
 Connor
 
