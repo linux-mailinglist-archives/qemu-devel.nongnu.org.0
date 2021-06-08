@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1A639F7AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 15:21:11 +0200 (CEST)
-Received: from localhost ([::1]:60682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4177539F7B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 15:22:36 +0200 (CEST)
+Received: from localhost ([::1]:37766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqbfJ-00084r-QT
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 09:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40888)
+	id 1lqbgh-0003Bh-BG
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 09:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqbaz-00084V-JF; Tue, 08 Jun 2021 09:16:41 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53232)
+ id 1lqbb1-00087R-4D; Tue, 08 Jun 2021 09:16:43 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqbax-0001vI-Ls; Tue, 08 Jun 2021 09:16:41 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id f17so1825730wmf.2;
- Tue, 08 Jun 2021 06:16:38 -0700 (PDT)
+ id 1lqbay-0001wI-Bv; Tue, 08 Jun 2021 09:16:42 -0400
+Received: by mail-wr1-x432.google.com with SMTP id l2so21575655wrw.6;
+ Tue, 08 Jun 2021 06:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w5BYwz9CkzKMn1Gz4JxvpKD5vqS4sgLfzaKKcpIrvYQ=;
- b=o0W/0u5v+AKNCd0FurLQgWlJMr4JFZI1SCp2nwuMp7/Kh27sxSaXqIitIlOPG8a+H7
- f6rImiq3v78oY47EWHWDazjVI+0d1HN9NkgY0fDDJXqn/w06eht7/rO7NRmXLf9LDb9W
- 5Leps4vvz3FCya5AQLi4Spia/LtstqnbMbg4XWxHvQuDFnlrMyhZRI0tdAVZYasl/977
- 0n1S8dtZorgfN+dmfvX3lzuENn2w152IJmR4PW56GeDx2cjZb+ppH6c0HaKdQ51YAGNb
- DLskqeEjaiEUC1+8pFNiO8V6ctay9So1kdY580eWfovbjYVsQBnpdXYYVsH0XBJcRh1A
- 7vHg==
+ bh=dF7owOl+svnhvnWs3WgYxu4nGCHypf8DifXjCW0AXrU=;
+ b=gAcmYzrNXaBPye7k7uvaY5wgZkdQMrTwBS+gtIEg3ZUCdXZW/gs7pYIhMR+Q5T9VgL
+ vnVW0/SMyFvaXsr3o2Wy3T8HLhohqotkpmqdIGHmTXJKHNLzf14vOVJp7VyHjrrLiIUn
+ sdSvigXhOgIuUuk4xGumJfw6oCYWKTl5ka0rZr31RUvxuAI2oks/EiRpZN2kikNOyVOE
+ BNFa+n5e2zOZ8RezMJk0MCIfucMhQgnIBi2dTCilLr/1YXVIvTNngmdFkmdvfBTXwCMM
+ NQFrEyFF6vSCLOxwWlcJncsrc4z0nXoJp1JNu9gdBJj5HSYv7QudtRqh9JNgRske59BA
+ ICBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w5BYwz9CkzKMn1Gz4JxvpKD5vqS4sgLfzaKKcpIrvYQ=;
- b=pA5Jm3IWgy6ZgtXiML4Au3jrVxRahIn/WRtAJ2Xl0SxKaAjtHv7Y5gvRq4i2pOLgm4
- jvF0a88hAE1LLiDFl9RoxR9mgygyCK/F3Uc5xHHhyyY/0+uuxTYKT66Y2N5s80K2yiEE
- +LHqIKpw/CNPwWoGoaAxal/veyMac7p/blQ5u056xxYxYtnYVWsyZZv24itfFLibYZgx
- dq0//gw93tR1l79aNahl0sSTmoeZiGISS0CLCrwJ1asyVehcw9N0dip7HsiNh312p9QT
- DNPAsaP2Jg6rBmHMH7Uof28WfwEnThmbWrmD34BUgRQgLPGacGxc5uC5YL0gnv62NTQG
- NSNg==
-X-Gm-Message-State: AOAM533GFYEw2Ne7EuNFSYFyAoT1UnELjNCLm56Ah/HRYRT9FwgpATlC
- 8/bne3fk8ehHk8RmuUkygJZ8WOgPON95vg==
-X-Google-Smtp-Source: ABdhPJwVpue1B5NM5p04uk/2R19WyMFiyRQm3NhRxUtgIwfuIQeUJ3wzgZV2hSdrruFf5PU21kVdnw==
-X-Received: by 2002:a7b:cc09:: with SMTP id f9mr21786708wmh.104.1623158197708; 
- Tue, 08 Jun 2021 06:16:37 -0700 (PDT)
+ bh=dF7owOl+svnhvnWs3WgYxu4nGCHypf8DifXjCW0AXrU=;
+ b=ZlR75T3t2Ah0FNe4dHMRuMSueaq+0uGodrthtZWOsyeuZ4hJ0QegHGjMqWtJvcxSa0
+ ld2/GykCQHftWhHvVjHwsFosmXPBjHgWoAj7rtiuuDxhsFlAILUIEXsALeQJrAvSssRa
+ G+jI18ujYCbSkJK4RetEzGjZov4MaGRMEfeWTwLTIWJ29sdygrkSPZyVoFXlLlCAJdE7
+ qok3Je4ts47WqWf3F+gmsJqaSoWUUwX2UcVLIE57k6UaMZOh76oXMiT3DR3WLtfVt5Cm
+ mRp4US0Rfi9WMf0/bMFP3AIc7T8niXfhMMuGSnAsOF/okXjFd1FBW79y8B+Xd3LERqix
+ nltg==
+X-Gm-Message-State: AOAM532C039JPj1PiHgm+L8F7SFZOm9m0WQPCaZ/IW5YZUgUSZ0US+jH
+ +33YU1XofXIsY2j5feulTrijY5IywMf0tw==
+X-Google-Smtp-Source: ABdhPJylo3c8FC5lf0LbgokxGWpCB2IBgx2O1kkNHzs3f5BtsOxA6g0LF+YNvUblk0h5lF3LV0Ji0A==
+X-Received: by 2002:adf:de03:: with SMTP id b3mr22720768wrm.15.1623158198466; 
+ Tue, 08 Jun 2021 06:16:38 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id i9sm15855686wrn.54.2021.06.08.06.16.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 06:16:37 -0700 (PDT)
+ Tue, 08 Jun 2021 06:16:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/7] scsi-generic: pass max_segments via max_iov field in
- BlockLimits
-Date: Tue,  8 Jun 2021 15:16:29 +0200
-Message-Id: <20210608131634.423904-3-pbonzini@redhat.com>
+Subject: [PATCH v4 3/7] block: add max_hw_transfer to BlockLimits
+Date: Tue,  8 Jun 2021 15:16:30 +0200
+Message-Id: <20210608131634.423904-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608131634.423904-1-pbonzini@redhat.com>
 References: <20210608131634.423904-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,54 +85,121 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I/O to a disk via read/write is not limited by the number of segments allowed
-by the host adapter; the kernel can split requests if needed, and the limit
-imposed by the host adapter can be very low (256k or so) to avoid that SG_IO
-returns EINVAL if memory is heavily fragmented.
+For block host devices, I/O can happen through either the kernel file
+descriptor I/O system calls (preadv/pwritev, io_submit, io_uring)
+or the SCSI passthrough ioctl SG_IO.
 
-Since this value is only interesting for SG_IO-based I/O, do not include
-it in the max_transfer and only take it into account when patching the
-block limits VPD page in the scsi-generic device.
+In the latter case, the size of each transfer can be limited by the
+HBA, while for file descriptor I/O the kernel is able to split and
+merge I/O in smaller pieces as needed.  Applying the HBA limits to
+file descriptor I/O results in more system calls and suboptimal
+performance, so this patch splits the max_transfer limit in two:
+max_transfer remains valid and is used in general, while max_hw_transfer
+is limited to the maximum hardware size.  max_hw_transfer can then be
+included by the scsi-generic driver in the block limits page, to ensure
+that the stricter hardware limit is used.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/file-posix.c     | 3 +--
- hw/scsi/scsi-generic.c | 6 ++++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ block/block-backend.c          | 12 ++++++++++++
+ block/file-posix.c             |  2 +-
+ block/io.c                     |  1 +
+ hw/scsi/scsi-generic.c         |  2 +-
+ include/block/block_int.h      |  7 +++++++
+ include/sysemu/block-backend.h |  1 +
+ 6 files changed, 23 insertions(+), 2 deletions(-)
 
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 15f1ea4288..2ea1412a54 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1953,6 +1953,18 @@ uint32_t blk_get_request_alignment(BlockBackend *blk)
+     return bs ? bs->bl.request_alignment : BDRV_SECTOR_SIZE;
+ }
+ 
++/* Returns the maximum hardware transfer length, in bytes; guaranteed nonzero */
++uint64_t blk_get_max_hw_transfer(BlockBackend *blk)
++{
++    BlockDriverState *bs = blk_bs(blk);
++    uint64_t max = INT_MAX;
++
++    if (bs) {
++        max = MIN_NON_ZERO(bs->bl.max_hw_transfer, bs->bl.max_transfer);
++    }
++    return max;
++}
++
+ /* Returns the maximum transfer length, in bytes; guaranteed nonzero */
+ uint32_t blk_get_max_transfer(BlockBackend *blk)
+ {
 diff --git a/block/file-posix.c b/block/file-posix.c
-index 536998a1d6..670c577bfe 100644
+index 670c577bfe..c9746d3eb6 100644
 --- a/block/file-posix.c
 +++ b/block/file-posix.c
-@@ -1239,8 +1239,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+@@ -1234,7 +1234,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+         int ret = sg_get_max_transfer_length(s->fd);
+ 
+         if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
+-            bs->bl.max_transfer = pow2floor(ret);
++            bs->bl.max_hw_transfer = pow2floor(ret);
+         }
  
          ret = sg_get_max_segments(s->fd);
-         if (ret > 0) {
--            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
--                                      ret * qemu_real_host_page_size);
-+            bs->bl.max_iov = ret;
-         }
-     }
- 
+diff --git a/block/io.c b/block/io.c
+index 323854d063..089b99bb0c 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -127,6 +127,7 @@ static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
+ {
+     dst->opt_transfer = MAX(dst->opt_transfer, src->opt_transfer);
+     dst->max_transfer = MIN_NON_ZERO(dst->max_transfer, src->max_transfer);
++    dst->max_hw_transfer = MIN_NON_ZERO(dst->max_hw_transfer, src->max_hw_transfer);
+     dst->opt_mem_alignment = MAX(dst->opt_mem_alignment,
+                                  src->opt_mem_alignment);
+     dst->min_mem_alignment = MAX(dst->min_mem_alignment,
 diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index 98c30c5d5c..82e1e2ee79 100644
+index 82e1e2ee79..3762dce749 100644
 --- a/hw/scsi/scsi-generic.c
 +++ b/hw/scsi/scsi-generic.c
-@@ -179,10 +179,12 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
+@@ -179,7 +179,7 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
          (r->req.cmd.buf[1] & 0x01)) {
          page = r->req.cmd.buf[2];
          if (page == 0xb0) {
--            uint32_t max_transfer =
--                blk_get_max_transfer(s->conf.blk) / s->blocksize;
-+            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
-+            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
+-            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
++            uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
+             uint32_t max_iov = blk_get_max_iov(s->conf.blk);
  
              assert(max_transfer);
-+            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
-+                / s->blocksize;
-             stl_be_p(&r->buf[8], max_transfer);
-             /* Also take care of the opt xfer len. */
-             stl_be_p(&r->buf[12],
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 057d88b1fc..f1a54db0f8 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -695,6 +695,13 @@ typedef struct BlockLimits {
+      * clamped down. */
+     uint32_t max_transfer;
+ 
++    /* Maximal hardware transfer length in bytes.  Applies whenever
++     * transfers to the device bypass the kernel I/O scheduler, for
++     * example with SG_IO.  If larger than max_transfer or if zero,
++     * blk_get_max_hw_transfer will fall back to max_transfer.
++     */
++    uint64_t max_hw_transfer;
++
+     /* memory alignment, in bytes so that no bounce buffer is needed */
+     size_t min_mem_alignment;
+ 
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 5423e3d9c6..9ac5f7bbd3 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -208,6 +208,7 @@ void blk_eject(BlockBackend *blk, bool eject_flag);
+ int blk_get_flags(BlockBackend *blk);
+ uint32_t blk_get_request_alignment(BlockBackend *blk);
+ uint32_t blk_get_max_transfer(BlockBackend *blk);
++uint64_t blk_get_max_hw_transfer(BlockBackend *blk);
+ int blk_get_max_iov(BlockBackend *blk);
+ void blk_set_guest_block_size(BlockBackend *blk, int align);
+ void *blk_try_blockalign(BlockBackend *blk, size_t size);
 -- 
 2.31.1
 
