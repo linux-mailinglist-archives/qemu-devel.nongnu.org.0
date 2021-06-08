@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549113A0524
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:28:25 +0200 (CEST)
-Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FE23A052C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:34:09 +0200 (CEST)
+Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqiKm-0006df-DY
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
+	id 1lqiQK-0001oI-IX
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3Q9K_YAcKCvIpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com>)
- id 1lqiIA-0000Sv-Gp
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:42 -0400
-Received: from mail-qk1-x74a.google.com ([2607:f8b0:4864:20::74a]:35424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3Q9K_YAcKCvIpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com>)
- id 1lqiI8-0001PW-Lc
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:42 -0400
-Received: by mail-qk1-x74a.google.com with SMTP id
- y5-20020a37af050000b02903a9c3f8b89fso15681735qke.2
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:25:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=jNdnDMKzuwyZjBH28VZozL/ia5Go6l0KkjDets+IuzM=;
- b=vUHXqlgWdyCgLOqD0OEeEpheJmreByYt1nes9Cr56jziTt+iAcE3pITLsr0Nh5HftJ
- A4g4QFnT53rtBj21SDKg+7G9mi9X3Z7OVSmEbBe16AUdY1/oIKgC//KPaStftq5Oed9s
- mRFO2jcaNwy7Y6gJ8AD/qlQBz8xrtnDuyG4r7T1L+Wib0QD8bB8i14D/kddxXlRPxCBp
- /6T5x9UZHoGGWObQZt7oWLc9mydodKV/4f8XkwdCtFuj1q1qhnV+h/r+xrO9UQBdVEIo
- JB5IOjfb5goBOrn+3p9xCReFfSuyvmo3T3gKgnYqWs9njojErKIqirtqLQsrVeCyyidx
- 3NTA==
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqiPJ-0000xa-Af
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqiPG-0005Bl-1c
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623184381;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X9b8RHD4rLJPvBGFSVM0ch0pv6SNaVC+CpkgJ3h7cOI=;
+ b=g0QXVCzBKSgKDySs+XYaezFnsW/QW0QYilzd0mmO00vfMoObVjjOIVM6+rqa03+pI8kP2p
+ 1nBmSVLG9DRCw0PJzPIoOqucRM9PG2OYLBCB0jmM4OPlS2HWaV4I3Mx7I20YV1yYZWoyih
+ hMfZa4IuJPOlzaKOzTHIfK9H/INYajA=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-HtXM_NnlO-6wqqBEpzX1jw-1; Tue, 08 Jun 2021 16:32:57 -0400
+X-MC-Unique: HtXM_NnlO-6wqqBEpzX1jw-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ w1-20020a0568304101b02902fc17224cf5so14748598ott.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:32:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=jNdnDMKzuwyZjBH28VZozL/ia5Go6l0KkjDets+IuzM=;
- b=eIfoJxpevzjt34uOn/troIU5MPm9uR3A9qdumktzW22yPpjrXtIq9pQZcw7qFk4Paa
- 6vWYORpgevp/msLtZRoOzfMN9bhOoAy6vW+7X06QaWcUFhowcaLflSfsJAqxoHlbX7ky
- +E18wa2JTxaUMBRzOGeGZRd5SfwLpu4Oxfyuep/YqmTi1NyE4idKi6jujumzkfd/oT7U
- wAF5OxrcoZ0QvfmPteotQhtWK8XVgCUaLqoayUHs+csbTtEbuDWHEn5PjRO8ByBDOtmX
- EQSMgmSmnHkTiaOjHRkNHMi+r+iiQjUqmOO03t6uTHhGUMiZVCj6GSofshy+1oK3uhvY
- 3EQg==
-X-Gm-Message-State: AOAM531vorA5/CR71vVM1/JUWYsc2VpQfagyAPS7hgViQlP3U57RgZyN
- p5Fo0KPVR0FxBziNgzqMNoqdxsZ7u/VE
-X-Google-Smtp-Source: ABdhPJyNYds6SdqQ/9H0DwihFJoC7DyDgMlc0Y/874UcrxxLFHiqRRRKEpzrVVtcooDYkUKuKNYdxjuFlbQV
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:f886:41e8:7e16:711b])
- (user=venture job=sendgmr) by 2002:ad4:5aeb:: with SMTP id
- c11mr2177687qvh.34.1623183939269; Tue, 08 Jun 2021 13:25:39 -0700 (PDT)
-Date: Tue,  8 Jun 2021 13:25:22 -0700
-In-Reply-To: <20210608202522.2677850-1-venture@google.com>
-Message-Id: <20210608202522.2677850-4-venture@google.com>
-Mime-Version: 1.0
-References: <20210608202522.2677850-1-venture@google.com>
-X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
-Subject: [PATCH v2 3/3] hw/arm: quanta-q71l add pca954x muxes
-From: Patrick Venture <venture@google.com>
-To: hskinnemoen@google.com, kfting@nuvoton.com, clg@kaod.org, 
- peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::74a;
- envelope-from=3Q9K_YAcKCvIpYhnolYaiiafY.WigkYgo-XYpYfhihaho.ila@flex--venture.bounces.google.com;
- helo=mail-qk1-x74a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X9b8RHD4rLJPvBGFSVM0ch0pv6SNaVC+CpkgJ3h7cOI=;
+ b=XnzmIXKQV8cQ4eHMLE69oN3db3P5zKg9YupEw/ognLrE+Zk9k6WBvsEWjdxDIavcc2
+ /iAo8kthedcXAJlq+bwqbjkDC7onp445ifFnTFO1IT1Glvum7uGOcwBC03SkBMjHbg2I
+ HzaaSZSgdx5gfQnz9j10q8Y+NWr31dT92dkx436XHbNQCpnK/08uwyilDytpwGDik3yd
+ wB7qVQZD3UYxho38wLoqFi8vB9u7IXRCUr7OBl6bMs2+ScFDjc0UiTgkG1CUTN6vi42A
+ llnZbSFa2+RxHB0PDA7F+rEbDRr70I+K9e9jZUh6PIYnXOMkCHgSV56VwbHSdpYUO2HG
+ 65rA==
+X-Gm-Message-State: AOAM532dESqz+n/rZ3jrXZDDeKu7wT20wOW+U7ixYpjTO6Wdv0Xma4ZE
+ pQavQ8hbB0rcS5BFaHJdv/LCq0kDz7309vBoFpQoiT453yKn3odEtNmiQIi4ztnk5Do45VxF+El
+ RchI5eVmwFppehlE=
+X-Received: by 2002:a05:6830:1f51:: with SMTP id
+ u17mr19838175oth.25.1623184376668; 
+ Tue, 08 Jun 2021 13:32:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPRcPbgAAY9Y+XvQKrpkDsxLrg0JZ5lX86IKW8t5mXlo2A59KF0hKDYLnXuyl+UBfo91/+GA==
+X-Received: by 2002:a05:6830:1f51:: with SMTP id
+ u17mr19838155oth.25.1623184376370; 
+ Tue, 08 Jun 2021 13:32:56 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
+ by smtp.gmail.com with ESMTPSA id
+ p10sm1764028otf.45.2021.06.08.13.32.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 13:32:55 -0700 (PDT)
+Subject: Re: [PATCH] Add Connor Kuehl as reviewer for AMD SEV
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210608192537.103584-1-ckuehl@redhat.com>
+ <YL/Ouxk9LcVzE28D@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <d01cae3a-eee4-1488-6f74-6b0beef38c6c@redhat.com>
+Date: Tue, 8 Jun 2021 15:32:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <YL/Ouxk9LcVzE28D@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,67 +101,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds the pca954x muxes expected.
+On 6/8/21 3:10 PM, Daniel P. Berrangé wrote:
+> On Tue, Jun 08, 2021 at 02:25:37PM -0500, Connor Kuehl wrote:
+>> It may not be appropriate for me to take over as a maintainer at this time,
+>> but I would consider myself familiar with AMD SEV and what this code is
+>> meant to be doing as part of a VMM for launching SEV-protected guests.
+>>
+>> To that end, I would be happy to volunteer as a reviewer for SEV-related
+>> changes so that I am CC'd on them and can help share the review burden with
+>> whoever does maintain this code.
+>>
+>> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+>> ---
+>> Note: because there's no maintainer entry, when running
+>> ./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
+>> mailing list is the only thing that shows up... it doesn't even show
+>> previous committers (as it would before applying this patch). Which is
+>> probably not great considering I do not make pull requests to QEMU.
+>>
+>> Is the way forward to get someone to sign up as a maintainer before
+>> applying a patch like this?
+> 
+> There's no requirement to have a maintainer before having a reviewer.
+> If any of the existing committers shown do send pull requests, it is
+> probably co-incidental since they're not listed as official maintainers,
+> and being listed as Reviewer doesn't commit you to doing pull requests.
+> 
+> That said if you're the only nominated reviewer and actually do useful
+> reviews, you will probably quickly find yourself the defacto maintainer
+> in 12 months time and end up doing pull requests... 
 
-Tested: Booted quanta-q71l image to userspace.
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
- hw/arm/Kconfig  |  1 +
- hw/arm/aspeed.c | 11 ++++++++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
+Right, I am just worried that if I am the only person that shows up in
+the get_maintainer.pl output, the submitter will have to know some other
+way who a relevant maintainer is that can take the patches otherwise
+they won't be CC'd. Or we'll have to hope a relevant maintainer sees
+them on the list. Or I'll have to chase down a maintainer myself
+assuming the reviews all check out. :-)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 9d1c2a6f7b..4a033e81ef 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -413,6 +413,7 @@ config ASPEED_SOC
-     select PCA9552
-     select SERIAL
-     select SMBUS_EEPROM
-+    select PCA954X
-     select SSI
-     select SSI_M25P80
-     select TMP105
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 3fe6c55744..35a28b0e8b 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -14,6 +14,7 @@
- #include "hw/arm/boot.h"
- #include "hw/arm/aspeed.h"
- #include "hw/arm/aspeed_soc.h"
-+#include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/misc/pca9552.h"
- #include "hw/misc/tmp105.h"
-@@ -461,14 +462,18 @@ static void quanta_q71l_bmc_i2c_init(AspeedMachineState *bmc)
-     /* TODO: i2c-1: Add Frontpanel FRU eeprom@57 24c64 */
-     /* TODO: Add Memory Riser i2c mux and eeproms. */
- 
--    /* TODO: i2c-2: pca9546@74 */
--    /* TODO: i2c-2: pca9548@77 */
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "pca9546", 0x74);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "pca9548", 0x77);
-+
-     /* TODO: i2c-3: Add BIOS FRU eeprom@56 24c64 */
--    /* TODO: i2c-7: Add pca9546@70 */
-+
-+    /* i2c-7 */
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9546", 0x70);
-     /*        - i2c@0: pmbus@59 */
-     /*        - i2c@1: pmbus@58 */
-     /*        - i2c@2: pmbus@58 */
-     /*        - i2c@3: pmbus@59 */
-+
-     /* TODO: i2c-7: Add PDB FRU eeprom@52 */
-     /* TODO: i2c-8: Add BMC FRU eeprom@50 */
- }
--- 
-2.32.0.rc1.229.g3e70b5a671-goog
+Connor
 
 
