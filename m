@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6799639EAD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:37:45 +0200 (CEST)
-Received: from localhost ([::1]:54742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8014F39EAC5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:35:36 +0200 (CEST)
+Received: from localhost ([::1]:46712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPkW-00061q-AD
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:37:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44866)
+	id 1lqPiR-0000ff-G0
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:35:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPda-0000WR-TN
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:35 -0400
+ id 1lqPdf-0000gO-1R
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:39 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdY-0004Fk-Si
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:34 -0400
+ id 1lqPdc-0004Fk-13
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112232; x=1654648232;
+ t=1623112235; x=1654648235;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F6wk4QwEu8K8q28w1K2XoH1p3HYyOCNiObHtsH940AU=;
- b=JcqwDY1ms5/Un4FTxm/R4lKDk5rnJtIk65NLMhLjHjhwcRUEky4qk4oh
- /3dgDQ6/B2CUBzNdTINjJ1uvmxyIwvhh2aVDr94oLMv9tmn7Fptn92+pA
- clGp/AphLn+UwN9Gr/wvcIP3ra2sdEIQp7e00u1KPQCsfIJ7nz7QsGSB8
- J7jkxGqfPxjJnpdjgj0MJRr4E4SjX0DHfsEDEivin8sk9x0A/UsS1Iewa
- ekRSEEUUWUmFNNyYaQ7OY9kj/6X+cxfyu6nMrH6ivq5oC6vGeq2co1Z53
- nPcV/bGHZOf3Q6S/gGXqCmmTmA08PTeG1idocMkEHmN4tO0RXmwrHlK8O g==;
-IronPort-SDR: rcJ6Y3EHnCglrH+v6CDMKb7B9nBCwSwmaOJjyMaUpa+tFM1LS+BRSiUNGBTUmL70dPU1GxguWL
- 2IFtv42Qw0+/0KOaMvLFmoIlFG2XcOlFvWkdAux+wK+QdGy4JbWzW/72pGOUAXhOvMpdPjWkCa
- Xo1sbJqnd2OVn2YyYkXfpmQq89x4gQGSzpjWQ+veEnxiUxhNegOKvi4IaYBHjdA5CH8qVeOBx2
- ad6tYP9YCXYQv0fLhqq+aLBOv+u5DnHDTn34UaruJnmMx0H7kljXJk+ve+ehjueDU4b5a5MRNi
- gy4=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087355"
+ bh=WGir6MKGoCctjoZj12oSeeFfOW8g5QcMDxdjuZfdi3g=;
+ b=GS4/J2Z2e5zRNObtzqb0XIRGVZgeNr3Pq7AJ/GmIcKCqkE8DKNiyMXnw
+ hCpMYzJ7SUKtSEawB/sn7Y6JVyUn0HGarPPpFdsOBJvFxFgFvJUizDJgf
+ g/kqipB3DJGCJDxZbHR2wUWUraY3Ykat2ueiksfU+vpUOc0id8soOJvH/
+ d/3y6kEDDelymBwOjGH0wvIx4Wn3hnBRyCcT6oZPecEJ22qm+92UEMnDV
+ p5wuLd3PsilEvnQEr6fnBde1WCn0zLEWVb9frKNS8IFgDQeTOjnyzwcRE
+ 9jGV3ThB1g/Zh9gmOdHWwMOqbg9QV9rZ4h0nRhmsFhw2dgDfO8rd42ThT Q==;
+IronPort-SDR: 6Iuy0NfV2ojDvp5KgWc6H/rUvEWHQOrXftksuPotECZS/xiXSkrwAPFssVJ+wAp7XdgrAmuNGW
+ IrUgFBHpXG0xHAC4hdfB04n6cpfzS0zo1tNBjVArVLPo4mFdgV/q1XarktZ8IyTrEzbLIsAsfF
+ 6lXS7Dt5PysM0sVN9cA/PliXpfpS+MfVjhAe2BiuXsJ3sal0W/GzEy+2kt7Ze3MING2nq+3TtV
+ pKLiLMFrRBJ8CKvDNTIFHdeyEGnUYK7QKgYLbIFzeAB7N1NHdbJL8e/LL/7d2shV8Pjm93xiL1
+ k8c=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087358"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:31 +0800
-IronPort-SDR: 05nmbZWS2FgIfj3W/UIbK+VNH8TaKx2Kr9fY0z0f1CvEvYZDjXa9C2S7QW+q/ITDL/NjAASacF
- RPUNb8v16uyuTh6cw5DkVaCOdB51Kw+Rqu1VazSDYocQHnHvNljDJ0Dl0cD+pEZSRXRRJcq2EI
- hom7X6BPnUb7WF3ylEm6S6CtRFZ3Pl1L/kBsk71ZN1xdgdYZZ/86zjR1sUM+X8Xuaaa7ycz9EF
- uVykyNfZ1FivTsAfxBysN2ZnXKNsIvLFBp3gD8d6FuhYXZwHR0ho+/nYaLSilR8HKRtlP5sHTX
- sI0vkShGOa7BTZ2zZ7341R4V
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:34 +0800
+IronPort-SDR: gtLQAeDw5U8Sl79nTJV/qQtFWRjte364mMt042HzWGrhnyIr+eV3RkS8u3wxrd9u9vlVOJoPGP
+ lAbH+bYi5RPzPP6op4VrDBKUayKQ4nC5z7kN/bKLaUr52ssEyiiRPAOVSSSVGsRrus0l4WAfAk
+ OIj0cJuhWZ1ppcbN3CwcGQQnXdDaj5CZhg39+w/TvBMCFmy02+OlRUPkzIJ39cvxKQCs4Qpiwx
+ 6GLTt5N2UG46w7FLXZrsEs4TrLEIxTIt4oo47Mw9MLxV1qLtpQ1dT3BuVd/2cJ3ZZehqP2KEfY
+ mwfqUNz44RiSkOThqdsLVU4b
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:09:38 -0700
-IronPort-SDR: F3SXequd4K4sAb/OYMlPZ7TMOVy9++Ko4Mlw+NkphqxIqyE0CUW137qbbzxlI5G3hKgYg9dTx7
- P2f9JOJSxn2Z2k+crwAjxUcrieNSHkgig/U80yzuR5Vggbvn+Wo3OSXQHLLguiIF86LQ+pDqxN
- of0vd5J3FV4tr5JVJeB6pV6kw/6JjLdXXbkDByp+2lZitNM/tuZHPUMz+gZ4xOleSC3/tzqmtB
- M5ZRx6ZGHcfZM9A2p1YA2vjO/FScC0H3U7lrbWz8OVy/ga52I4bVYQZdk92Yws3h4NQfBqUbQU
- 8iI=
+ 07 Jun 2021 17:09:41 -0700
+IronPort-SDR: mtRYDjFZ1duKLCmSMrRe/396oEbzS7GVGkJ/wmx+UD4GI8/BTlX9fYZZw8koK/f+RVCqwdK8Ag
+ HHDFBjrhNaZuxZuJcyc/trQ9nFeZlaYtZtI/SSAWyjmyYHoqk5X0RqIBg58LJzGLa9jfGjQQqY
+ LipmlMXtcF+eV6K6OcAM+RdeJkzpZTiHBILcq/htSCZ4AZlF56a31r2YzLW8SJrP46TWYCCe61
+ qjr5fnUkgfShdJKekX7hE4sF1qA3cPtzSyvzDINgE9FcaKnbUZq5EFXQ11O5A6B/fSkANneZCZ
+ 5EQ=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:29 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:32 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 07/32] hw/riscv: Use macros for BIOS image names
-Date: Tue,  8 Jun 2021 10:29:22 +1000
-Message-Id: <20210608002947.1649775-8-alistair.francis@wdc.com>
+Subject: [PULL 08/32] hw/riscv: microchip_pfsoc: Support direct kernel boot
+Date: Tue,  8 Jun 2021 10:29:23 +1000
+Message-Id: <20210608002947.1649775-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=7863c9c60=alistair.francis@wdc.com;
@@ -98,94 +99,203 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The OpenSBI BIOS image names are used by many RISC-V machines.
-Let's define macros for them.
+At present the Microchip Icicle Kit machine only supports using
+'-bios' to load the HSS, and does not support '-kernel' for direct
+kernel booting just like other RISC-V machines do. One has to use
+U-Boot which is chain-loaded by HSS, to load a kernel for testing.
+This is not so convenient.
+
+Adding '-kernel' support together with the existing '-bios', we
+follow the following table to select which payload we execute:
+
+  -bios |    -kernel | payload
+  ------+------------+--------
+      N |          N | HSS
+      Y | don't care | HSS
+      N |          Y | kernel
+
+This ensures backwards compatibility with how we used to expose
+'-bios' to users. When '-kernel' is used for direct boot, '-dtb'
+must be present to provide a valid device tree for the board,
+as we don't generate device tree.
+
+When direct kernel boot is used, the OpenSBI fw_dynamic BIOS image
+is used to boot a payload like U-Boot or OS kernel directly.
+
+Documentation is updated to describe the direct kernel boot. Note
+as of today there is still no PolarFire SoC support in the upstream
+Linux kernel hence the document does not include instructions for
+that. It will be updated in the future.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210430071302.1489082-7-bmeng.cn@gmail.com
+Message-id: 20210430071302.1489082-8-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/boot.h | 5 +++++
- hw/riscv/sifive_u.c     | 6 ++----
- hw/riscv/spike.c        | 6 ++----
- hw/riscv/virt.c         | 6 ++----
- 4 files changed, 11 insertions(+), 12 deletions(-)
+ docs/system/riscv/microchip-icicle-kit.rst | 30 ++++++--
+ hw/riscv/microchip_pfsoc.c                 | 81 +++++++++++++++++++++-
+ 2 files changed, 103 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 11a21dd584..0e89400b09 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -24,6 +24,11 @@
- #include "hw/loader.h"
- #include "hw/riscv/riscv_hart.h"
+diff --git a/docs/system/riscv/microchip-icicle-kit.rst b/docs/system/riscv/microchip-icicle-kit.rst
+index e803131763..54ced661e3 100644
+--- a/docs/system/riscv/microchip-icicle-kit.rst
++++ b/docs/system/riscv/microchip-icicle-kit.rst
+@@ -31,17 +31,37 @@ Boot options
  
-+#define RISCV32_BIOS_BIN    "opensbi-riscv32-generic-fw_dynamic.bin"
-+#define RISCV32_BIOS_ELF    "opensbi-riscv32-generic-fw_dynamic.elf"
-+#define RISCV64_BIOS_BIN    "opensbi-riscv64-generic-fw_dynamic.bin"
-+#define RISCV64_BIOS_ELF    "opensbi-riscv64-generic-fw_dynamic.elf"
+ The ``microchip-icicle-kit`` machine can start using the standard -bios
+ functionality for loading its BIOS image, aka Hart Software Services (HSS_).
+-HSS loads the second stage bootloader U-Boot from an SD card. It does not
+-support direct kernel loading via the -kernel option. One has to load kernel
+-from U-Boot.
++HSS loads the second stage bootloader U-Boot from an SD card. Then a kernel
++can be loaded from U-Boot. It also supports direct kernel booting via the
++-kernel option along with the device tree blob via -dtb. When direct kernel
++boot is used, the OpenSBI fw_dynamic BIOS image is used to boot a payload
++like U-Boot or OS kernel directly.
 +
- bool riscv_is_32bit(RISCVHartArrayState *harts);
++The user provided DTB should have the following requirements:
++
++* The /cpus node should contain at least one subnode for E51 and the number
++  of subnodes should match QEMU's ``-smp`` option
++* The /memory reg size should match QEMU’s selected ram_size via ``-m``
++* Should contain a node for the CLINT device with a compatible string
++  "riscv,clint0"
++
++QEMU follows below truth table to select which payload to execute:
++
++=====  ========== =======
++-bios     -kernel payload
++=====  ========== =======
++    N           N     HSS
++    Y  don't care     HSS
++    N           Y  kernel
++=====  ========== =======
  
- target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index a32a95d58f..273c86418c 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -560,12 +560,10 @@ static void sifive_u_machine_init(MachineState *machine)
+ The memory is set to 1537 MiB by default which is the minimum required high
+ memory size by HSS. A sanity check on ram size is performed in the machine
+ init routine to prompt user to increase the RAM size to > 1537 MiB when less
+ than 1537 MiB ram is detected.
  
-     if (riscv_is_32bit(&s->soc.u_cpus)) {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
--                                    "opensbi-riscv32-generic-fw_dynamic.bin",
--                                    start_addr, NULL);
-+                                    RISCV32_BIOS_BIN, start_addr, NULL);
-     } else {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
--                                    "opensbi-riscv64-generic-fw_dynamic.bin",
--                                    start_addr, NULL);
-+                                    RISCV64_BIOS_BIN, start_addr, NULL);
+-Boot the machine
+-----------------
++Running HSS
++-----------
+ 
+ HSS 2020.12 release is tested at the time of writing. To build an HSS image
+ that can be booted by the ``microchip-icicle-kit`` machine, type the following
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 6cbd17ebf2..eb8e79e0a1 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -51,6 +51,7 @@
+ #include "hw/riscv/microchip_pfsoc.h"
+ #include "hw/intc/sifive_clint.h"
+ #include "hw/intc/sifive_plic.h"
++#include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
+ 
+ /*
+@@ -460,6 +461,12 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+     MemoryRegion *mem_high = g_new(MemoryRegion, 1);
+     MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
+     uint64_t mem_high_size;
++    hwaddr firmware_load_addr;
++    const char *firmware_name;
++    bool kernel_as_payload = false;
++    target_ulong firmware_end_addr, kernel_start_addr;
++    uint64_t kernel_entry;
++    uint32_t fdt_load_addr;
+     DriveInfo *dinfo = drive_get_next(IF_SD);
+ 
+     /* Sanity check on RAM size */
+@@ -504,9 +511,6 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+                                 memmap[MICROCHIP_PFSOC_DRAM_HI_ALIAS].base,
+                                 mem_high_alias);
+ 
+-    /* Load the firmware */
+-    riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
+-
+     /* Attach an SD card */
+     if (dinfo) {
+         CadenceSDHCIState *sdhci = &(s->soc.sdhci);
+@@ -516,6 +520,77 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+                                 &error_fatal);
+         qdev_realize_and_unref(card, sdhci->bus, &error_fatal);
      }
++
++    /*
++     * We follow the following table to select which payload we execute.
++     *
++     *  -bios |    -kernel | payload
++     * -------+------------+--------
++     *      N |          N | HSS
++     *      Y | don't care | HSS
++     *      N |          Y | kernel
++     *
++     * This ensures backwards compatibility with how we used to expose -bios
++     * to users but allows them to run through direct kernel booting as well.
++     *
++     * When -kernel is used for direct boot, -dtb must be present to provide
++     * a valid device tree for the board, as we don't generate device tree.
++     */
++
++    if (machine->kernel_filename && machine->dtb) {
++        int fdt_size;
++        machine->fdt = load_device_tree(machine->dtb, &fdt_size);
++        if (!machine->fdt) {
++            error_report("load_device_tree() failed");
++            exit(1);
++        }
++
++        firmware_name = RISCV64_BIOS_BIN;
++        firmware_load_addr = memmap[MICROCHIP_PFSOC_DRAM_LO].base;
++        kernel_as_payload = true;
++    }
++
++    if (!kernel_as_payload) {
++        firmware_name = BIOS_FILENAME;
++        firmware_load_addr = RESET_VECTOR;
++    }
++
++    /* Load the firmware */
++    firmware_end_addr = riscv_find_and_load_firmware(machine, firmware_name,
++                                                     firmware_load_addr, NULL);
++
++    if (kernel_as_payload) {
++        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
++                                                         firmware_end_addr);
++
++        kernel_entry = riscv_load_kernel(machine->kernel_filename,
++                                         kernel_start_addr, NULL);
++
++        if (machine->initrd_filename) {
++            hwaddr start;
++            hwaddr end = riscv_load_initrd(machine->initrd_filename,
++                                           machine->ram_size, kernel_entry,
++                                           &start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
++                                  "linux,initrd-start", start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
++                                  "linux,initrd-end", end);
++        }
++
++        if (machine->kernel_cmdline) {
++            qemu_fdt_setprop_string(machine->fdt, "/chosen",
++                                    "bootargs", machine->kernel_cmdline);
++        }
++
++        /* Compute the fdt load address in dram */
++        fdt_load_addr = riscv_load_fdt(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
++                                       machine->ram_size, machine->fdt);
++        /* Load the reset vector */
++        riscv_setup_rom_reset_vec(machine, &s->soc.u_cpus, firmware_load_addr,
++                                  memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
++                                  memmap[MICROCHIP_PFSOC_ENVM_DATA].size,
++                                  kernel_entry, fdt_load_addr, machine->fdt);
++    }
+ }
  
-     if (machine->kernel_filename) {
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 4b08816dfa..fead77f0c4 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -258,13 +258,11 @@ static void spike_board_init(MachineState *machine)
-      */
-     if (riscv_is_32bit(&s->soc[0])) {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
--                                    "opensbi-riscv32-generic-fw_dynamic.elf",
--                                    memmap[SPIKE_DRAM].base,
-+                                    RISCV32_BIOS_ELF, memmap[SPIKE_DRAM].base,
-                                     htif_symbol_callback);
-     } else {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
--                                    "opensbi-riscv64-generic-fw_dynamic.elf",
--                                    memmap[SPIKE_DRAM].base,
-+                                    RISCV64_BIOS_ELF, memmap[SPIKE_DRAM].base,
-                                     htif_symbol_callback);
-     }
- 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 560216d217..4a3cd2599a 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -681,12 +681,10 @@ static void virt_machine_init(MachineState *machine)
- 
-     if (riscv_is_32bit(&s->soc[0])) {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
--                                    "opensbi-riscv32-generic-fw_dynamic.bin",
--                                    start_addr, NULL);
-+                                    RISCV32_BIOS_BIN, start_addr, NULL);
-     } else {
-         firmware_end_addr = riscv_find_and_load_firmware(machine,
--                                    "opensbi-riscv64-generic-fw_dynamic.bin",
--                                    start_addr, NULL);
-+                                    RISCV64_BIOS_BIN, start_addr, NULL);
-     }
- 
-     if (machine->kernel_filename) {
+ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
 -- 
 2.31.1
 
