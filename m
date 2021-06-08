@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AE839F842
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 15:59:51 +0200 (CEST)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB3239F845
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 15:59:56 +0200 (CEST)
+Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqcGj-0000R0-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 09:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49756)
+	id 1lqcGp-0000mX-Dm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 09:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lqcF6-0006nq-Ul
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 09:58:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50799)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqcF9-0006po-Jw
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 09:58:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lqcF4-0002y9-Ln
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 09:58:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqcF7-00030a-R2
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 09:58:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623160685;
+ s=mimecast20190719; t=1623160689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hquJ6cysHCb/3MlKmSuSjcS7mrDELzf76czZOW5MUFA=;
- b=Wbt4cA3L/EpU0hHe9MnXkD49rgeaK9tLUHUuWkZADCc38F1sDJIRcSkbGxvq0uNODFkTPq
- LIS1gPH+Cdzb3xDrbEXAhy871JNAxbPdNLXLTIrmeLbI8Eh8UKPZyv8Dw+oOhI7r+aNUO3
- BLGXqAoDJmuswfWDCMNDPHBAD+1owd0=
+ bh=nF7BbbMTeb5Hv0gLSwq/6DTZ2e57AiBEzIs/3sjKQLE=;
+ b=X9u1H7cdhKOZyu1SXHV0NB/LypQtsS7cZsAeC7WoZvSGtg02jAG7HzxINqIQYozQFxCYdP
+ lEfzUzlHwjgjkioEjtP7eQiPUtDc6TpyokpP0Ef04V4qdlX4WqbXLbfnIbSfQxelAzK6LM
+ AR4bLj7ZSLeGhdS8LN4DYhT7sFdweKc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-NHiYvHzNNPOSNEGddsYweA-1; Tue, 08 Jun 2021 09:58:02 -0400
-X-MC-Unique: NHiYvHzNNPOSNEGddsYweA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-37-ZX1KM5Z6Nxu4OwMQQd0Egw-1; Tue, 08 Jun 2021 09:58:05 -0400
+X-MC-Unique: ZX1KM5Z6Nxu4OwMQQd0Egw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E8431883522;
- Tue,  8 Jun 2021 13:58:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
- [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 28F9310016FB;
- Tue,  8 Jun 2021 13:58:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A2CB118003B6; Tue,  8 Jun 2021 15:57:59 +0200 (CEST)
-Date: Tue, 8 Jun 2021 15:57:59 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v1 2/5] ui: Add a helper to wait on a dmabuf sync object
-Message-ID: <20210608135759.v4t4qq2lqtqeuihc@sirius.home.kraxel.org>
-References: <20210607232530.454435-1-vivek.kasireddy@intel.com>
- <20210607232530.454435-3-vivek.kasireddy@intel.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2473B107ACE6
+ for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 13:58:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
+ [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B7CA55C1D1;
+ Tue,  8 Jun 2021 13:58:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2E76A113865F; Tue,  8 Jun 2021 15:57:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 3/9] qapi: start building an 'if' predicate tree
+References: <20210429134032.1125111-1-marcandre.lureau@redhat.com>
+ <20210429134032.1125111-4-marcandre.lureau@redhat.com>
+ <5d0a776e-e597-6996-c407-cd2d91883eac@redhat.com>
+ <87eee02ldl.fsf@dusky.pond.sub.org>
+ <12434341-9054-8c35-e8a4-59087548b59e@redhat.com>
+Date: Tue, 08 Jun 2021 15:57:59 +0200
+In-Reply-To: <12434341-9054-8c35-e8a4-59087548b59e@redhat.com> (John Snow's
+ message of "Fri, 21 May 2021 12:18:03 -0400")
+Message-ID: <87v96oxxug.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210607232530.454435-3-vivek.kasireddy@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,40 +85,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+John Snow <jsnow@redhat.com> writes:
 
-> +    /* optional */
-> +    void (*dpy_gl_wait_dmabuf)(DisplayChangeListener *dcl,
-> +                               QemuDmaBuf *dmabuf);
+> On 5/21/21 10:48 AM, Markus Armbruster wrote:
+>> Beware, I'm skimming, not really reviewing.
+>>=20
+>> John Snow <jsnow@redhat.com> writes:
+>>=20
+>>> On 4/29/21 9:40 AM, marcandre.lureau@redhat.com wrote:
 
-Hmm, a blocking wait isn't the best plan here,
-it'll stall the iothread.
+[...]
 
-We already have a way to stop virtio-gpu command processing:
-graphic_hw_gl_block() + graphic_hw_gl_flush()
+>>>> index b7f475a160..59a7ee2f32 100644
+>>>> --- a/scripts/qapi/common.py
+>>>> +++ b/scripts/qapi/common.py
+>>>> @@ -11,8 +11,9 @@
+>>>>    # This work is licensed under the terms of the GNU GPL, version 2.
+>>>>    # See the COPYING file in the top-level directory.
+>>>>    +from abc import ABC, abstractmethod
+>>>>    import re
+>>>> -from typing import Optional
+>>>> +from typing import Optional, Sequence
+>>>>     =20
+>>>>    #: Magic string that gets removed along with all space to its right=
+.
+>>>> @@ -192,3 +193,54 @@ def guardend(name: str) -> str:
+>>>>    #endif /* %(name)s */
+>>>>    ''',
+>>>>                     name=3Dc_fname(name).upper())
+>>>> +
+>>>> +
+>>>> +class IfPredicate(ABC):
+>>>> +    @abstractmethod
+>>>> +    def cgen(self) -> str:
+>>>
+>>> Like the review to patch 2, I'm not sure we want to bake cgen stuff
+>>> directly into this class. Are you going to have cgen() and rustgen()
+>>> methods all here?
+>>>
+>>>> +        pass
+>>>> +
+>>>
+>>> I think you want raise NotImplementedError to specify a function that
+>>> the inheriting class MUST implement. Otherwise, there's little value
+>>> to allow a child class to call super() on a method that doesn't have a
+>>> default implementation.
+>>>
+>>> You *could* drop the (ABC) and the @abstractmethod decorators if you do=
+ so.
+>>>
+>>> Matters of taste and style.
+>>=20
+>> We're not coding a library for use by thousands of people.  If we did,
+>> then complicating the code to guard against misuse could be a win.  But
+>> we don't.
+>>=20
+>> schema.py is full of methods that pass.  Maybe some of them need to be
+>> overriden by any conceivable subtype.  Who cares?  The subtypes either
+>> work or they don't.  I prefer
+>>=20
+>>      def frobnicate:
+>>          pass
+>>=20
+>> to
+>>=20
+>>      def frobnicate:
+>>          raise NotImplementedError
+>>=20
+>> One, pass is easier on the eyes.  Two, a subtype's .frobnicate() can
+>> blindly call super().frobnicate().
+>>=20
+>
+> "pass" here operates as a syntactic sugar for "return None" which has=20
+> implications on the return type. It's short, but wrong.
 
-graphic_hw_gl_block(true) will block virtio-gpu command processing.
-graphic_hw_gl_block(false) will unblock virtio-gpu command processing.
-graphic_hw_gl_flush() will kick virtio-gpu so it resumes command processing.
+Nitpicking...
 
-I saw in patch #5 that you just do a blocking wait for the fence, which
-isn't fundamentally different from what graphic_hw_gl_block does, so it
-should be possible to make the gtk ui use that instead.
+pass is not specified as syntactic sugar:
 
-You'll need an async notification for the fence then.  I think you can
-simply poll the fence fd.  Failing that you can either use a timer to
-check the fence or do the blocking wait in a new thread.
+    7.4. The pass statement
 
-One little detail is different with graphic_hw_gl_block:  It'll send the
-completion no matter what, then stop fetching the next command from the
-queue.  So that logic needs an update to also allow delaying the command
-completion.
+    pass_stmt ::=3D  "pass"
 
-take care,
-  Gerd
+    pass is a null operation =E2=80=94 when it is executed, nothing happens=
+. It is useful as a placeholder when a statement is required syntactically,=
+ but no code needs to be executed, for example:
+
+    def f(arg): pass    # a function that does nothing (yet)
+
+    class C: pass       # a class with no methods (yet)
+
+What really happens in
+
+    def foo(): pass
+
+is what *always* happens when control reaches the end of the function
+body: the function returns None.
+
+Further evidence:
+
+    >>> def baz():
+    ...     pass
+    ...     return 42
+    ...=20
+    >>> baz()
+    42
+
+> raise NotImplementedError means something different semantically.
+>
+> To me, pass is *NOT* easier on the eyes, it is misleading. It is=20
+> idiomatic to use NotImplementedError if it is not acceptable for a=20
+> default implementation to return None.
+>
+> I understand perfectly well the desire to keep things simple, but what=20
+> is actually "simple" depends on the expectations of the programmer. I=20
+> err towards idiomatic Python.
+
+What's your take on "Two, a subtype's .frobnicate() can blindly call
+super().frobnicate()"?
+
+[...]
 
 
