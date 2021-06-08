@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C37939F0F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:31:13 +0200 (CEST)
-Received: from localhost ([::1]:52770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89CA939F0EF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:29:32 +0200 (CEST)
+Received: from localhost ([::1]:48822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqX8h-0002oH-Jp
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:31:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34842)
+	id 1lqX75-000087-A3
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=786c6b92e=graf@amazon.de>)
- id 1lqX5a-00068D-Nv
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:27:58 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:54976)
+ id 1lqX5k-0006Wx-LK
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:28:10 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:55273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=786c6b92e=graf@amazon.de>)
- id 1lqX5Y-0006xC-Dn
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:27:58 -0400
+ id 1lqX5i-00073y-Mb
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:28:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1623140876; x=1654676876;
+ t=1623140887; x=1654676887;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=dt72r89oBKjQrVVXnFkGO45pvt4R0/uSn+tuKL7DfJA=;
- b=V+ZcbfhNH3aEitQgEvkoIW0+MARlKL357v8VSDO6aQFPEUM1Z08SU3Lv
- G8pK3s5gGxFa2M5nVzCnXD905lrwPQx+sBau9WyEr+6jhzyfnSzCQCyH0
- I032sRYlvg9HRGuSg4XIpIF2dtwaUWkLJ+NJtTeG1K/sV0iHvylaA6mFS k=;
-X-IronPort-AV: E=Sophos;i="5.83,257,1616457600"; d="scan'208";a="129758191"
+ bh=OAJ37p5pxyX+PAAkhW2VEqHI5xT3AyYK/3IuPScTwHU=;
+ b=cYpg9GQu993f5CjQDyXGSso6fSAt/C71tuvrJYSQkLQGTGXS/cBZZE14
+ rw4WnBj5V463CpDroECLNjaKUSKTsJbErglRWeZTZIufqhIt8tOBZqztK
+ 2uN2wUcgI0mQutaC+Bk8qnO+y6qKbvpSwkUb4NPBAUAZppMcLgPEMjq5M 0=;
+X-IronPort-AV: E=Sophos;i="5.83,257,1616457600"; d="scan'208";a="129758249"
 Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
- email-inbound-relay-2b-81e76b79.us-west-2.amazon.com) ([10.25.36.210])
- by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 08 Jun 2021 08:27:48 +0000
+ email-inbound-relay-2c-cc689b93.us-west-2.amazon.com) ([10.25.36.210])
+ by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 08 Jun 2021 08:28:05 +0000
 Received: from EX13MTAUWC002.ant.amazon.com
  (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
- by email-inbound-relay-2b-81e76b79.us-west-2.amazon.com (Postfix) with ESMTPS
- id 59225A1E0E; Tue,  8 Jun 2021 08:27:47 +0000 (UTC)
+ by email-inbound-relay-2c-cc689b93.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 22A0C1201D6; Tue,  8 Jun 2021 08:28:05 +0000 (UTC)
 Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
  EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Tue, 8 Jun 2021 08:27:46 +0000
+ id 15.0.1497.18; Tue, 8 Jun 2021 08:28:04 +0000
 Received: from [192.168.19.4] (10.43.160.137) by EX13D20UWC001.ant.amazon.com
  (10.43.162.244) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Tue, 8 Jun 2021 08:27:44 +0000
-Message-ID: <b76c6cac-2fcc-bbf0-7201-66b442e640bc@amazon.com>
-Date: Tue, 8 Jun 2021 10:27:41 +0200
+ Tue, 8 Jun 2021 08:28:02 +0000
+Message-ID: <8ca8309b-4a7a-e67a-4e20-ce3021077d8e@amazon.com>
+Date: Tue, 8 Jun 2021 10:28:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:90.0)
  Gecko/20100101 Thunderbird/90.0
-Subject: Re: [PATCH 2/6] hyper-v: Use -1 as invalid overlay address
+Subject: Re: [PATCH 4/6] kvm/i386: Avoid multiple calls to
+ check_extension(KVM_CAP_HYPERV)
 Content-Language: en-US
 To: Siddharth Chandrasekaran <sidcha@amazon.de>, Paolo Bonzini
  <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
@@ -55,11 +56,11 @@ CC: Siddharth Chandrasekaran <sidcha.dev@gmail.com>, Evgeny Iakovlev
  <eyakovl@amazon.de>, Liran Alon <liran@amazon.com>, Ioannis Aslanidis
  <iaslan@amazon.de>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
 References: <cover.1621885749.git.sidcha@amazon.de>
- <13aa6b6a4434198ad3d43e48501bce1796266850.1621885749.git.sidcha@amazon.de>
+ <ff4e06369b32aa715ac37fb51d151681cd66e401.1621885749.git.sidcha@amazon.de>
 From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <13aa6b6a4434198ad3d43e48501bce1796266850.1621885749.git.sidcha@amazon.de>
+In-Reply-To: <ff4e06369b32aa715ac37fb51d151681cd66e401.1621885749.git.sidcha@amazon.de>
 X-Originating-IP: [10.43.160.137]
-X-ClientProxiedBy: EX13D49UWB004.ant.amazon.com (10.43.163.111) To
+X-ClientProxiedBy: EX13D48UWB004.ant.amazon.com (10.43.163.74) To
  EX13D20UWC001.ant.amazon.com (10.43.162.244)
 Precedence: Bulk
 Content-Type: text/plain; charset="utf-8"; format="flowed"
@@ -88,18 +89,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CgpPbiAyNC4wNS4yMSAyMTo1NCwgU2lkZGhhcnRoIENoYW5kcmFzZWthcmFuIHdyb3RlOgo+IFdo
-ZW4gbWFuYWdpbmcgb3ZlcmxheSBwYWdlcywgd2UgdXNlZCBod2FkZHIgMCB0byBzaWduYWwgYW4g
-aW52YWxpZAo+IGFkZHJlc3MgKHRvIGRpc2FibGUgYSBwYWdlKS4gQWx0aG91Z2ggdW5saWtlbHks
-IDAgX2NvdWxkXyBiZSBhIHZhbGlkCj4gb3ZlcmxheSBvZmZzZXQgYXMgSHlwZXItViBUTEZTIGRv
-ZXMgbm90IHNwZWNpZnkgYW55dGhpbmcgYWJvdXQgaXQuCj4gCj4gVXNlIC0xIGFzIHRoZSBpbnZh
-bGlkIGFkZHJlc3MgaW5kaWNhdG9yIGFzIGl0IGNhbiBuZXZlciBiZSBhIHZhbGlkCj4gYWRkcmVz
-cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTaWRkaGFydGggQ2hhbmRyYXNla2FyYW4gPHNpZGNoYUBh
-bWF6b24uZGU+CgpSZXZpZXdlZC1ieTogQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9uLmNvbT4K
-CgpBbGV4CgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBHbWJICktyYXVzZW5z
-dHIuIDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hsYWVn
-ZXIsIEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0IENoYXJsb3R0ZW5i
-dXJnIHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBERSAyODkgMjM3IDg3
-OQoKCg==
+CgpPbiAyNC4wNS4yMSAyMTo1NCwgU2lkZGhhcnRoIENoYW5kcmFzZWthcmFuIHdyb3RlOgo+IEtW
+TV9DQVBfSFlQRVJWIGlzIGEgVk0gaW9jdGwgYW5kIGNhbiBiZSBjYWNoZWQgYXQga3ZtX2FyY2hf
+aW5pdCgpCj4gaW5zdGVhZCBvZiBwZXJmb3JtaW5nIGFuIGlvY3RsIGVhY2ggdGltZSBpbiBoeXBl
+cnZfZW5hYmxlZCgpIHdoaWNoIGlzCj4gY2FsbGVkIGZvcmVhY2ggdkNQVS4gQXBhcnQgZnJvbSB0
+aGF0LCB0aGlzIHZhcmlhYmxlIHdpbGwgY29tZSBpbiBoYW5keQo+IGluIGEgc3Vic2VxdWVudCBw
+YXRjaC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTaWRkaGFydGggQ2hhbmRyYXNla2FyYW4gPHNpZGNo
+YUBhbWF6b24uZGU+CgpSZXZpZXdlZC1ieTogQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9uLmNv
+bT4KCgpBbGV4CgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBHbWJICktyYXVz
+ZW5zdHIuIDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hs
+YWVnZXIsIEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0IENoYXJsb3R0
+ZW5idXJnIHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBERSAyODkgMjM3
+IDg3OQoKCg==
 
 
