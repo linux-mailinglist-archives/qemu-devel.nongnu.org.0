@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A990E39EC44
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 04:41:47 +0200 (CEST)
-Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E70439EC72
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 04:57:43 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqRgY-0001XO-PI
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 22:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34192)
+	id 1lqRvx-0005vo-QI
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 22:57:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lqRfn-0000hq-Lp
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 22:40:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lqRfm-0001Rd-2b
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 22:40:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623120057;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TI+sWTxSRFOQOQPFVdQGbS+0S7BO9SEAzulTk9FrzsA=;
- b=aSz9TBiB9tUkt1hvoum2IpsjvOQm2ZyXaUeM9Fj9XyuODCoufCRM+b+XsVQun5RZM7jiOu
- TxGB3CnSLHbl074BE4uvCkuWebU5lVxQqmP3nYPsLSF7eeOrHoSeGc28jjM30cNwE3nFIJ
- yOKnIoqImce3smx9KtJSYU1G1kjbZPg=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-NKRh81J0OvGSXeMs0DnW9g-1; Mon, 07 Jun 2021 22:40:56 -0400
-X-MC-Unique: NKRh81J0OvGSXeMs0DnW9g-1
-Received: by mail-pl1-f198.google.com with SMTP id
- 2-20020a1709020202b02900eecb50c2deso8996135plc.0
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 19:40:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqRvE-00055J-PZ
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 22:56:56 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:40943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lqRvD-0003g3-9r
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 22:56:56 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id q25so14602441pfh.7
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 19:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=zV4bvGiie0e+ZKYKkpeObS7+Xv0XEf3uoVCvVWeXObo=;
+ b=J9NJ0V7yie7j3ThNHYkXWje2dKPCHOIUL4WvxhCwFRKuNXf9yFTc9rVYNOFTvueqZF
+ uZKMMrxF4oJYev/MyF7Iqh1AYCTLnHRZVxXrK8QhmaaF4wRfYGhicFIH6lVowsNaHcgU
+ ojUWFbfp7kodzNDPC+vNB6LSwALSPtU/TnzqtwA24w0DFXyF4O+XF+jJsGHhbzi8NqOH
+ bWP3e/bW9eo8qyM/qqx1wGmlFzsk3nyI6vTMCvtIaA1+HnxgQvLNm2c4XoWLvW2zBAO5
+ kdSGBel2eY8O3FC/uoVfDYwzghvZFPSphUKprKUZyTwKZL2ATPLpbZ/3yQJTiC1d5u2R
+ T9pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=TI+sWTxSRFOQOQPFVdQGbS+0S7BO9SEAzulTk9FrzsA=;
- b=L3jLLvmWX28UmBcSnNR3v7GA7U5eUI+SSecPjhOIP9JWihGX59D47UFHn16yAMuHpa
- HO1fQlaxwrFVDLbPxpgF+/q6kRHDuKu2M9ktksl4N4gsy3RTqws9+nxAQeuLD3CT0WcS
- 5Q1Ma2otcULBCOmFwweL9HRmY0rvQ0irrGSwLErtdYHB555FA5okhE7z/F0GawtKrcw5
- EAg8gO3P8dvX/NgczuUpPJsgQ9o0t8Ft4gR9LzEwL42Q0UA62JkOxLUUg2Z81a1cdCRt
- 5ZhOduKHlH9216S1ZdgKo99o1G58Dr5XheC5/mZ40DxgSVUUfzpj2bL5ytYnk6d/hM1B
- DMXQ==
-X-Gm-Message-State: AOAM533Z2PmoMZftGUZyTxFJBnXpc65ngsiClgZTxQC9JYOhsaFoxlUS
- RMorDW5CHYxev1gEgWtaUQyExOPRUN4UTRNOpV5ZMvQp/rX/rXwDFHqc3ZZIVJZPsD39NnWrhTP
- NGU2mbdvUbCeZW0ZS50wyYUOG5TKa03+rxnLyS6fBo0IitHK4Y3rO7HipeZrRGyGMUBo=
-X-Received: by 2002:a65:5802:: with SMTP id g2mr17024935pgr.129.1623120054742; 
- Mon, 07 Jun 2021 19:40:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpQl9UE6FXabj5dMjS0cYzO9Yg9ALlB17s93SI5ezbrOiO5wyqG5DsmW17oeRev5HBenJtQA==
-X-Received: by 2002:a65:5802:: with SMTP id g2mr17024916pgr.129.1623120054509; 
- Mon, 07 Jun 2021 19:40:54 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id r9sm9453309pfq.158.2021.06.07.19.40.52
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zV4bvGiie0e+ZKYKkpeObS7+Xv0XEf3uoVCvVWeXObo=;
+ b=shkSp3IjNeWVrFf0rUlAwzEEvrJEPDOYrV1jsQA9Ogmd0ywLg6fZAmoevIxjIyXrD9
+ pU32pOee08pg7vb8juxBlAfITI3I4M4Tff0CxH6GoNMAQfnmSF0kAP7OSuhHxERqXrIv
+ 3C33XHWVFNhxEXYcsQ7DIL+4hgAa2E6P/SYj48ESVA4QbqtqtNx8oNL0bzKEYJjcI7EB
+ kZ+ZPy4l7wRFgh0q5WHJcDtQ2DH+6+4mzQBwK5KACdwElZ38vxnClOxydR+cSpzJR8Rf
+ l1J1eT70FE8/DetRtBkEWAiAMQH1/Z8CoIcaUJw4ZVFJ6t6G6Pxq7sVplVP7iNFKi8eQ
+ 27mA==
+X-Gm-Message-State: AOAM53379cql1vvolQXYCXjiCCaWjPyvwsrZshJoQzQJLSXTYIH4fzzT
+ vn/GtH3PPCL9Awn9WwHUNalTeBFaTpqqhQ==
+X-Google-Smtp-Source: ABdhPJyYWybiyEmHqfpUBKbMRdE6rH4SqEQ3/2KCMF9vFLMchty7v5Otnn+/Y8TM9A2Zq51TBcfgQw==
+X-Received: by 2002:aa7:8509:0:b029:2e5:8cfe:bc17 with SMTP id
+ v9-20020aa785090000b02902e58cfebc17mr20059054pfn.2.1623121013740; 
+ Mon, 07 Jun 2021 19:56:53 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ j5sm7669641pgl.70.2021.06.07.19.56.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 19:40:54 -0700 (PDT)
-Subject: Re: [PATCH] netdev: add more commands to preconfig mode
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210511153955.506577-1-pbonzini@redhat.com>
- <YL4rtVfpOcWyqE5u@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <cec993c5-abcf-6bc5-ca45-cbcfc5340552@redhat.com>
-Date: Tue, 8 Jun 2021 10:40:47 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ Mon, 07 Jun 2021 19:56:53 -0700 (PDT)
+Subject: Re: [PATCH 08/55] target/arm: Implement MVE DLSTP
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-9-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d099bb6c-661c-87dd-082f-8072ff2537a8@linaro.org>
+Date: Mon, 7 Jun 2021 19:56:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YL4rtVfpOcWyqE5u@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210607165821.9892-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,31 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/7/21 9:57 AM, Peter Maydell wrote:
+> +    {
+> +      # This is DLSTP
+> +      DLS        1111 0 0000 0 size:2 rn:4 1110 0000 0000 0001
+> +      LCTP       1111 0 0000 000     1111 1110 0000 0000 0001
+> +    }
 
-在 2021/6/7 下午10:22, Daniel P. Berrangé 写道:
-> On Tue, May 11, 2021 at 11:39:55AM -0400, Paolo Bonzini wrote:
->> Creating and destroying network backend does not require a fully
->> constructed machine.  Allow the related monitor commands to run before
->> machine initialization has concluded.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   hmp-commands.hx | 2 ++
->>   qapi/net.json   | 6 ++++--
->>   2 files changed, 6 insertions(+), 2 deletions(-)
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
->
->
-> Regards,
-> Daniel
+Same comment with LCTP being the more specific encoding.
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-Queued.
-
-Thanks
-
+r~
 
