@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F7939F10A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:35:22 +0200 (CEST)
-Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FADE39F0F7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:31:14 +0200 (CEST)
+Received: from localhost ([::1]:52804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqXCi-000825-FZ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:35:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
+	id 1lqX8i-0002pi-JG
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:31:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=786c6b92e=graf@amazon.de>)
- id 1lqX5b-00069l-SH
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:27:59 -0400
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:55040)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lqX6h-0000es-5R
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:29:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=786c6b92e=graf@amazon.de>)
- id 1lqX5a-0006yq-60
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:27:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1623140878; x=1654676878;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=rNfCQrNV6O04dXWuzWdC60uvlaZ7im8TRShYIfHAAHI=;
- b=hH1pBTE1Cto/J3EkAJizzSlsHnEnrbd95m+coXJxXH0N7ZXWCECQ9/GH
- HoUSwTpDA2/P2fRfj/OkWbDFYoKesBSFL6oN5wkSK77LEUdaPZB9B9fwu
- DfP6PIkNSqqm5TdW0RL74lYZAOAr221tTQYMpGePmOx19fWVwCmoP4mkF 0=;
-X-IronPort-AV: E=Sophos;i="5.83,257,1616457600"; d="scan'208";a="129758228"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO
- email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.25.36.210])
- by smtp-border-fw-33001.sea14.amazon.com with ESMTP; 08 Jun 2021 08:27:57 +0000
-Received: from EX13MTAUWC001.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
- by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS
- id 7DF48A04B6; Tue,  8 Jun 2021 08:27:56 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
- id 15.0.1497.18; Tue, 8 Jun 2021 08:27:56 +0000
-Received: from [192.168.19.4] (10.43.160.137) by EX13D20UWC001.ant.amazon.com
- (10.43.162.244) with Microsoft SMTP Server (TLS) id 15.0.1497.18;
- Tue, 8 Jun 2021 08:27:54 +0000
-Message-ID: <270a73f1-43bc-46e7-d0fb-cfd65889f1e6@amazon.com>
-Date: Tue, 8 Jun 2021 10:27:52 +0200
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lqX6f-0007fG-Dc
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:29:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623140944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=toVaYFdeyBGUKp34Tb0FAVjIgxPUdAEg8GJsPVcsq3E=;
+ b=OidOoc5sf5ce4d8g8M6E8DgLwAdLAFwcZLo02YetYWaWvIRpZUvn/vtRPJfFs0wWwoOqO9
+ zkGlTUG+Ua+2DyoIIsTqoI7i8ufG1yhPbqxcCT7eutsbl9A1v3lqCYKlQxshZNKujHxVfd
+ LyGMPdEqoDTpIjsq+ppx8Dx9voKgbDE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-cnZZkM_uPZm7J2jzbG300Q-1; Tue, 08 Jun 2021 04:29:02 -0400
+X-MC-Unique: cnZZkM_uPZm7J2jzbG300Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4AE41854E26;
+ Tue,  8 Jun 2021 08:29:01 +0000 (UTC)
+Received: from localhost (ovpn-114-153.ams2.redhat.com [10.36.114.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6027819C66;
+ Tue,  8 Jun 2021 08:29:01 +0000 (UTC)
+Date: Tue, 8 Jun 2021 09:29:00 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs/tools/virtiofsd: Fix bad rst syntax
+Message-ID: <YL8qTAOnK+oaU2to@stefanha-x1.localdomain>
+References: <20210607180015.924571-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:90.0)
- Gecko/20100101 Thunderbird/90.0
-Subject: Re: [PATCH 3/6] kvm/i386: Stop using cpu->kvm_msr_buf in
- kvm_put_one_msr()
-Content-Language: en-US
-To: Siddharth Chandrasekaran <sidcha@amazon.de>, Paolo Bonzini
- <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>
-CC: Siddharth Chandrasekaran <sidcha.dev@gmail.com>, Evgeny Iakovlev
- <eyakovl@amazon.de>, Liran Alon <liran@amazon.com>, Ioannis Aslanidis
- <iaslan@amazon.de>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-References: <cover.1621885749.git.sidcha@amazon.de>
- <04c81a02c19a47e799e06b9c9ccb97e9a77f5927.1621885749.git.sidcha@amazon.de>
-From: Alexander Graf <graf@amazon.com>
-In-Reply-To: <04c81a02c19a47e799e06b9c9ccb97e9a77f5927.1621885749.git.sidcha@amazon.de>
-X-Originating-IP: [10.43.160.137]
-X-ClientProxiedBy: EX13D41UWB003.ant.amazon.com (10.43.161.243) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Precedence: Bulk
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.190.10;
- envelope-from=prvs=786c6b92e=graf@amazon.de; helo=smtp-fw-33001.amazon.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210607180015.924571-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="C/c1MqVoFkQS0tVb"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,21 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CgpPbiAyNC4wNS4yMSAyMTo1NCwgU2lkZGhhcnRoIENoYW5kcmFzZWthcmFuIHdyb3RlOgo+IGt2
-bV9wdXRfb25lX21zcigpIHplcm9zIGNwdS0+a3ZtX21zcl9idWYgYW5kIHVzZXMgaXQgdG8gc2V0
-IG9uZSBNU1IgdG8KPiBLVk0uIEl0IGlzIHByZXR0eSB3YXN0ZWZ1bCBhcyBjcHUtPmt2bV9tc3Jf
-YnVmIGlzIDQwOTYgYnl0ZXMgbG9uZzsKPiBpbnN0ZWFkIHVzZSBhIGxvY2FsIGJ1ZmZlciB0byBh
-dm9pZCBtZW1zZXQuCj4gCj4gQWxzbywgZXhwb3NlIHRoaXMgbWV0aG9kIGZyb20ga3ZtX2kzODYu
-aCBhcyBoeXBlcnYuYyBuZWVkcyB0byBzZXQgTVNScwo+IGluIGEgc3Vic2VxdWVudCBwYXRjaC4K
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBTaWRkaGFydGggQ2hhbmRyYXNla2FyYW4gPHNpZGNoYUBhbWF6
-b24uZGU+CgpSZXZpZXdlZC1ieTogQWxleGFuZGVyIEdyYWYgPGdyYWZAYW1hem9uLmNvbT4KCgpB
-bGV4CgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBHbWJICktyYXVzZW5zdHIu
-IDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlzdGlhbiBTY2hsYWVnZXIs
-IEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0IENoYXJsb3R0ZW5idXJn
-IHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBERSAyODkgMjM3IDg3OQoK
-Cg==
+--C/c1MqVoFkQS0tVb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 07, 2021 at 08:00:15PM +0200, Thomas Huth wrote:
+> For literal blocks, there has to be an empty line after the two colons,
+> and the block itself should be indented.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/tools/virtiofsd.rst | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--C/c1MqVoFkQS0tVb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmC/KkwACgkQnKSrs4Gr
+c8ggPwf/VXu9j+x2fkm3AV5oSVK5eFUJhGMlqkX8cobEwnNLSBrBpFKiKn9Xtjhk
+Peihjy3RUUtKh3Co7PvDrRQ6AogSeh/tVW/ECLM3NJpeX8oD8xAcEmPOKQNirMSB
+BOagAdZBVeLzn4bMtG6g7J5iQVeQPuIIa7eAoTREEVmyRYJ8En6Bxmn492vDLDTy
+pK79Ky1O66lRFiyyl/cm6t4TaBT5GUPskexS2HMdFyQZWkW54NxZ4TjHFtvP4kZZ
+eZjG16CR9vdNLa7xLdC+Op/FKQpctuOWA9D3IXpfLLf1DmrYnzkRthiq6JOx1hHJ
+yOv6gXuzBxvxUzp+6Y3t33FR2awYvQ==
+=VwuN
+-----END PGP SIGNATURE-----
+
+--C/c1MqVoFkQS0tVb--
 
 
