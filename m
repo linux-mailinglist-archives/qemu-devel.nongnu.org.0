@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E575639F2B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:44:22 +0200 (CEST)
-Received: from localhost ([::1]:40928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB02739F2E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:51:38 +0200 (CEST)
+Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqYHV-0001FJ-UI
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48498)
+	id 1lqYOX-0008Nh-NL
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXyq-0003tB-68
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:25:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47127)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXyn-0000Yk-6r
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:25:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623144299;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wn0XIxUvD5ldZeaSdNXZPQ22CC00QQlwK5QlGhHY6Ek=;
- b=SmIB9WhezDwRO5LCJt+BTNFYDULmxhaN6o9HP7RaKQPF71PzUM1+UBN2K8b1FIu4tJFlYM
- WVf1CUsSdifKCVH2M7K6FHkVTwHaiOU8Q+ITdS7eas14HXpowH2V4Jc659g2WRdfxmpiau
- OygUkygC2HePp+5r+uklqYlmhDKizfQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-fKcJ60sBPz2FdnpJOFc28w-1; Tue, 08 Jun 2021 05:24:58 -0400
-X-MC-Unique: fKcJ60sBPz2FdnpJOFc28w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67B8080EF81;
- Tue,  8 Jun 2021 09:24:57 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-115-132.ams2.redhat.com [10.36.115.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2440F5C1BB;
- Tue,  8 Jun 2021 09:24:54 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lqYDk-0004YK-Qe
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:40:29 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:53855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lqYDi-0001lx-KK
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:40:28 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id h3so1395151wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 02:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I2kT/dS/ECpbE9gGHst9QJWHHcKql4EDTqtckMPDwtA=;
+ b=f0tJ+TpL9tr0Oa4xKHCs4fXY0tW9jdHZuZ0LV8FRVf6Og/5Wpi20A48Fj5w314q9qd
+ yTe8q0RMr470QMw4BMoowPdKLOf3njGOhXXrtibZmtYYzDcNFvg364BAattrm3yd02Ae
+ uSpDr69bCMB5JYPsbBp8V3/CoIte7f+NdSmoOXZnQ8KgtzTkh8TaIW4uPm+BIbPuMVBL
+ TW5k2v2QyV8v6pZ6AXXy1obJjJxq+1A9GwCUZO5f5ljyVtFfvoVTZzB6YmD+FGyaC8sT
+ 5lTKpFR5ksGBkxa0x6xI7DdvKlR9S2r3Elyp3G8S1Hbnitm2nE7RYrs0aZe7+tv+tksf
+ ePzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=I2kT/dS/ECpbE9gGHst9QJWHHcKql4EDTqtckMPDwtA=;
+ b=U7f/YVFO1RPjAfCJ4mwp+/lyssPZfteVXRxKPPzGyP4jWT1p4is8//drWJ77d97dcM
+ 7k5usXlNNWM5vYzBEmJhnerNv3c1MsMPbuHie4zZdmoVtaLhefwDIH4Ege9waousX/B2
+ bFCvxxYfFjuhdnNtMfA0tIFXQiHexESgTb1TzChhLN/zTuOc6inZ3LpSEscUHuZPAV9g
+ HTRnOwIQ186aft13C8ZMKnylpjohwgRE7QXbBlUENRvPkwOLLxSDt0Vx49qnk18xJ+oC
+ 8sQco2/LHG5mCRTGjnwGFgP+j/v3RhG9sYGG1RAWMZUwpm9Tr8qK3FHUVNqHc2USyR8C
+ 4BNw==
+X-Gm-Message-State: AOAM533BApfXVE4I5YBljBkLUOxE4T2Pr6MI3Z57RhCg3cBEsnKoYtK7
+ xA8mFVWEDpiUMSHDo8mxFRde8DdvIII=
+X-Google-Smtp-Source: ABdhPJy9KeZlrrRK9zhnzFk1Oc2kjzwBsJwWiE+ssJkyPjyRgb9VLbJbfRtVd+F4F/drH9G+ffRkJw==
+X-Received: by 2002:a05:600c:2256:: with SMTP id
+ a22mr3172528wmm.113.1623145220089; 
+ Tue, 08 Jun 2021 02:40:20 -0700 (PDT)
+Received: from avogadro.lan ([93.56.169.140])
+ by smtp.gmail.com with ESMTPSA id d15sm8608764wri.58.2021.06.08.02.40.19
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Jun 2021 02:40:19 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 25/26] s390x/tcg: We support Vector enhancements facility
-Date: Tue,  8 Jun 2021 11:23:36 +0200
-Message-Id: <20210608092337.12221-26-david@redhat.com>
-In-Reply-To: <20210608092337.12221-1-david@redhat.com>
-References: <20210608092337.12221-1-david@redhat.com>
+Subject: [PULL 00/12] Machine and OS X changes for 2021-06-08 
+Date: Tue,  8 Jun 2021 11:40:05 +0200
+Message-Id: <20210608094017.392673-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,34 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Everything is wired up and all new instructions are implemented.
+The following changes since commit 6f398e533f5e259b4f937f4aa9de970f7201d166:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/gen-features.c | 1 +
- 1 file changed, 1 insertion(+)
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210604' into staging (2021-06-05 11:25:52 +0100)
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index a6ec918e90..219b1f9420 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -720,6 +720,7 @@ static uint16_t qemu_MAX[] = {
-     S390_FEAT_INSTRUCTION_EXEC_PROT,
-     S390_FEAT_MISC_INSTRUCTION_EXT2,
-     S390_FEAT_MSA_EXT_8,
-+    S390_FEAT_VECTOR_ENH,
- };
- 
- /****** END FEATURE DEFS ******/
+are available in the Git repository at:
+
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 8f9f729185e3ac8d3c5a65d81eb9e74e229901ea:
+
+  vnc: avoid deprecation warnings for SASL on OS X (2021-06-07 10:20:23 -0400)
+
+----------------------------------------------------------------
+* introduce "-M smp" (myself)
+* avoid deprecation warnings for SASL on macOS 10.11 or newer.
+
+----------------------------------------------------------------
+Paolo Bonzini (12):
+      qom: export more functions for use with non-UserCreatable objects
+      keyval: introduce keyval_merge
+      keyval: introduce keyval_parse_into
+      vl: switch -M parsing to keyval
+      qemu-option: remove now-dead code
+      machine: move dies from X86MachineState to CpuTopology
+      machine: move common smp_parse code to caller
+      machine: add error propagation to mc->smp_parse
+      machine: pass QAPI struct to mc->smp_parse
+      machine: reject -smp dies!=1 for non-PC machines
+      machine: add smp compound property
+      vnc: avoid deprecation warnings for SASL on OS X
+
+ hw/core/machine.c           | 184 ++++++++++++++----------
+ hw/i386/pc.c                | 108 +++++++-------
+ hw/i386/x86.c               |  15 +-
+ include/hw/boards.h         |   4 +-
+ include/hw/i386/pc.h        |   3 -
+ include/hw/i386/x86.h       |   1 -
+ include/qemu/option.h       |   6 +-
+ include/qom/object.h        |  23 +++
+ qapi/machine.json           |  27 ++++
+ qom/object_interfaces.c     |  58 +++++---
+ softmmu/vl.c                | 336 ++++++++++++++++++++++----------------------
+ tests/qtest/numa-test.c     |  22 +--
+ tests/unit/test-keyval.c    |  56 ++++++++
+ tests/unit/test-qemu-opts.c |  35 -----
+ ui/vnc-auth-sasl.c          |  20 +++
+ ui/vnc-auth-sasl.h          |   1 +
+ ui/vnc.c                    |  10 +-
+ util/keyval.c               |  90 ++++++++++--
+ util/qemu-option.c          |  51 ++-----
+ 19 files changed, 607 insertions(+), 443 deletions(-)
 -- 
 2.31.1
 
