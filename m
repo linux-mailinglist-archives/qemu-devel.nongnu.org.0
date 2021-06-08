@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1C739FA0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:12:09 +0200 (CEST)
-Received: from localhost ([::1]:41956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B8C39FA23
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:16:08 +0200 (CEST)
+Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqdOi-00027W-6B
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
+	id 1lqdSZ-0004IG-Uh
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:16:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqdNO-0001BW-1M
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:10:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34988)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqdRY-0003TO-Kf
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:15:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqdNK-0004Fl-JM
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:10:45 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqdRX-0006xH-2H
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:15:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623165040;
+ s=mimecast20190719; t=1623165302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1Mmd5cDKpqN1Xa8YdJUMNJkDit57XTnoPV8XgmHQMr0=;
- b=S+7vhTGtyRoJeNdMHSWlWXAwVpx7KKlYTFciGzezDxZRr3gOZ+zKTFOyfHTIos7AwTBoaV
- wxHuj3TnwDpjN6VwK1Z5LmHwyWrG3L5ITT0FjeikTQr03XcZOkdIIq1opak8/CrJ03VWTj
- ljOcUdJIlzU12HpPOfbx6roUGTQGn/g=
+ bh=DBzZ0giUi0clYylDFixzw8klb95kxm2/f8ftRAoXrk0=;
+ b=WETDj9CQNAY7yYOzg7rTCptVNaDNqayIA5xvgJGiyCQ3ft2QRDkdyluOPc6oxDgP7CC46K
+ Tnba7HVDnaoRx+JK0AfRz0Qw1eHv0GbwEqDpP3lexLAJmXVkEIpjd2drzKLIZ/PDXRD+AK
+ UZmKpPFMZKYCNI33m3PPt0hqyAj7qBY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-mghmnHetMu2yOpV8qhhTUg-1; Tue, 08 Jun 2021 11:10:37 -0400
-X-MC-Unique: mghmnHetMu2yOpV8qhhTUg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-532-7F4o8x6gMH-JubwOibInOw-1; Tue, 08 Jun 2021 11:15:00 -0400
+X-MC-Unique: 7F4o8x6gMH-JubwOibInOw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5D83106BAE4;
- Tue,  8 Jun 2021 15:10:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1520E19611B3;
+ Tue,  8 Jun 2021 15:14:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
  [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 207E760C04;
- Tue,  8 Jun 2021 15:10:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE4151001281;
+ Tue,  8 Jun 2021 15:14:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E9FB113865F; Tue,  8 Jun 2021 17:10:32 +0200 (CEST)
+ id 473AD113865F; Tue,  8 Jun 2021 17:14:16 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 4/5] monitor: removed cpustats command
-References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
- <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
- <20210527084038.512c5270@bahia.lan>
-Date: Tue, 08 Jun 2021 17:10:32 +0200
-In-Reply-To: <20210527084038.512c5270@bahia.lan> (Greg Kurz's message of "Thu, 
- 27 May 2021 08:40:38 +0200")
-Message-ID: <8735tsxuhj.fsf@dusky.pond.sub.org>
+To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+Subject: Re: [PATCH v8] qapi: introduce 'query-kvm-cpuid' action
+References: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com>
+Date: Tue, 08 Jun 2021 17:14:16 +0200
+In-Reply-To: <20210531123806.23030-1-valeriy.vdovin@virtuozzo.com> (Valeriy
+ Vdovin's message of "Mon, 31 May 2021 15:38:06 +0300")
+Message-ID: <87y2bkwfqv.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,38 +75,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Denis Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg Kurz <groug@kaod.org> writes:
-
-> On Wed, 26 May 2021 17:21:03 -0300
-> "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
->
->> Since ppc was the last architecture to collect these statistics and
->> it is currently phasing this collection out, the command that would query
->> this information is being removed.
->> 
->
-> So this is removing an obviously user visible feature. This should be
-> mentioned in docs/system/removed-features.rst... but, wait, I don't
-> see anything for it in docs/system/deprecated.rst. This is dropping
-> a feature without following the usual deprecation policy, i.e.
-> marking the feature as deprecated and only remove it 2 QEMU versions
-> later. Any justification for that ?
-
-Our deprecation policy applies to stable interfaces, which HMP is not.
-
-We don't break things there just because.  But dropping a command right
-away when it is no longer useful is just fine.  No need to deprecate and
-wait for the grace period.
-
-[...]
+Double-checking: this supersedes "[PATCH v7 0/1] qapi: introduce
+'query-cpu-model-cpuid' action"?
 
 
