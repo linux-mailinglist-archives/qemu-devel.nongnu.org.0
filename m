@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBCC39EA90
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:09:11 +0200 (CEST)
-Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205D839EABA
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:32:44 +0200 (CEST)
+Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPIr-0002jT-I1
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55988)
+	id 1lqPff-00030L-5X
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqPFP-0008ID-0D
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:05:35 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:47004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lqPFN-0001u0-42
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:05:34 -0400
-Received: by mail-pf1-x431.google.com with SMTP id u126so10352541pfu.13
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 17:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=ru4Pt11rHfbmOsc3E/fnMp57c0vk6AlAkutLtvLahAI=;
- b=FUmC/X15pJM6GwtQAcDKbl8myRwGq7jgXhEftOBFvlRPZ2/zJBOcBH2g8RH/aPa/Wo
- QXFHqJxgljE6COFarUCCWp0X2UVJ2Rn/6o1sVeLnF7zfdKGIEYaPkYsR0WyXOWhBKopG
- bBqYZB4tXNe7hIgJGrRvACI3wfjigUTmnZjYxIQUOewwM9mtBkhXcV5DKwCs8ebskOWA
- STQOt2RWsnJJiWKWlCiNPdw/iTj2xGIpkCcIXxTC2nX07bWDc5HH68HHm6dXGH8kivSO
- 9+YSfzaS9YUOqDKNTKrA0kU2zf2VbV4asEbjvpMMS/GGtV7rzgVPv1KEM+RgW7yG3afk
- 5bcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ru4Pt11rHfbmOsc3E/fnMp57c0vk6AlAkutLtvLahAI=;
- b=WCmwcpdlKzkVJOn7LWPaC54YaLPYG0suZ2kYOya3xcxiYLonwb2E2RGWjvTmU7Cg5V
- 2XtxTZ49NFxPFyfse2s32JzeJeeunymQAYkQwy9IN5Nz6MPDXha/0iztoz0xC19XjRXn
- MlXckJJ4i2WcYOy/Aix13Jn6fyL/eLXgEBL99w2oaa3VwQM3lC6zroZWYttPEM6eaXrj
- DG0LN9LgjrY+gZeEXWZeFVNUH2yntdSNL5fGQwDSgaAFUMNwndwv3enXFlrBnmWPf9kQ
- QoFNACmRYk3WogqRco9YkUjSRftFTUvnRrym+nTVtpuDpkOqpe7m6E5T2UIgaQ//Ldni
- FT9A==
-X-Gm-Message-State: AOAM530ISEagoaHHJjSc3lfegB8yRWECFKqrYN/Too38Ix1tLE3V9FKb
- hU9ipAu0D5oi7HlMHlwN+QrglY4Lg/zykQ==
-X-Google-Smtp-Source: ABdhPJweM1fPz8oQYKcmeCJUgk+TowKqFLftlB3OwwDKioyYgPnsyJ4Sv5hEKVRX4SIwIUmlH1xfyA==
-X-Received: by 2002:a65:5802:: with SMTP id g2mr16530436pgr.129.1623110731260; 
- Mon, 07 Jun 2021 17:05:31 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- b124sm9065338pfa.27.2021.06.07.17.05.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jun 2021 17:05:31 -0700 (PDT)
-Subject: Re: [PATCH 06/55] target/arm: Implement MVE LCTP
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210607165821.9892-1-peter.maydell@linaro.org>
- <20210607165821.9892-7-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8a431ce0-0c85-2f40-33b9-cb012e892c17@linaro.org>
-Date: Mon, 7 Jun 2021 17:05:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1)
+ (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
+ id 1lqPdL-0000Af-O0
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:19 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
+ id 1lqPdI-0004BB-5g
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1623112214; x=1654648214;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=S2GBTHx3tT5Yr9dVjcucvgzwYa7fqkhOsLQMHLS9r8s=;
+ b=Uc0iQD8KcKYfqkAp1IwlPPo6RqZLOHAKALrbRGINGMIj/R8qDKVo1n9b
+ fXcbs4W89gkc2GDwW8ZBbUv+LXz3mLVqj8zqxNS54xQM8pei5+LdazBJO
+ TQrgC4cq4C+BSvN1RDNTaU7eMrzmod2wNbuLg0JAg7zCClDUeRyl9VY0z
+ mleEUeauiwpsq8Ao0N82q9A4UUeHpk/zK79yxuNkK0KGEcjYxuxPzXMMS
+ YhZEmM7UQhWbvXpjbriWA0+GcukQ9wpfWExHMbw+tag9kLBXqjRlq6kVC
+ IgY18ryuDYAAgUx7prulN6r7D3wod0CxHbMoWOiotO3QYdbRx6SOVpXyQ g==;
+IronPort-SDR: DCzlsthhF+RR0LOJjgE09Wh+r+hvSvAy73XcWVEDWbwBCmcwCNCFbuZKQf3M1WFZjqjPZgCcOa
+ b298os8fC+RPnaV70XE9WE5937x0GL/fRScuwSpDwaIsJsMhwueu3B53AAUjaCuS1U+UkSy2s7
+ aMT5aRU4/PZAzFe3M8ZjAJKwqOicrlMF2tsh5mawK830itAgtCE9EQy/Uc7juqi7r3dJszlRi/
+ j8wgZEJuLVszA7yMIdnwcsdUXwU6bIyweweiHHvddPj8DVS4VzjLmmDTBGZstxf8XhClyJOjkm
+ 5Nc=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087327"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:10 +0800
+IronPort-SDR: nsr7vH0Wzh7qX96phZTPSylYex3zW3GzrtLrobaBTML0FpH5Ebcgmcgix2v2MxxRlUSFOd754A
+ uk8hoWnEGtcUWlyPKPY9zc9p22GaqVPVJIm8KhJ/uuiKulu9RnZa/+a/GnzBb7i2AJWQzMTixo
+ ZhM+/ztBozBI6fqRipQNuHpF5W6QoKxqCQPbpcbvzFCUS/n3hUoNY6Y4HkNpA1xzAzrHk86uhg
+ vdBlWBi3XeDrqJTCz5JL709Ea1IunQ51NRlHGdmqxzJMlEhYxsClgn/r3JCBJ0RuOe01s9GNV8
+ aZobBV1R2xxRVN/vYRo/wf0q
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2021 17:09:17 -0700
+IronPort-SDR: O6zK+D99LJIHiY09fq+BsuAOd8XuxiLqfvYpeREPzcS4vE61rAI7x/Vpu5dn5H2AKw7km2xFe6
+ OdOmfxqqSl4t+1yYSPyYJCaMGh5om1+UL1v7Q+CnIeWlJtkFn/3pHOTfo7Uo3Nc2W+cE/eiuXF
+ PzcB8F8SLb3qWlYGhXT9Zh91OGXxqggkBET3+HmeZM44kbiAvoQ2Yx5uvIemDvdtofLG2Tgghs
+ nvIeHdSa65Xdv5a2hltDZi4jXxvwV6xUnwU8OdhEP/uFTJf8wEEkyXQdv+ps7kkuWiBVcZFdIe
+ LMI=
+WDCIronportException: Internal
+Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:08 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 00/32] riscv-to-apply queue
+Date: Tue,  8 Jun 2021 10:29:15 +1000
+Message-Id: <20210608002947.1649775-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210607165821.9892-7-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=7863c9c60=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,24 +90,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 9:57 AM, Peter Maydell wrote:
-> Implement the MVE LCTP instruction.
-> 
-> We put its decode and implementation with the other
-> low-overhead-branch insns because although it is only present if MVE
-> is implemented it is logically in the same group as the other LOB
-> insns.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/t32.decode  |  2 ++
->   target/arm/translate.c | 24 ++++++++++++++++++++++++
->   2 files changed, 26 insertions(+)
+The following changes since commit a35947f15c0ee695eba3c55248ec8ac3e4e23cca:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-updates-070621-2' into staging (2021-06-07 15:45:48 +0100)
 
-r~
+are available in the Git repository at:
+
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210608-1
+
+for you to fetch changes up to d2c1a177b138be35cb96216baa870c3564b123e4:
+
+  target/riscv: rvb: add b-ext version cpu option (2021-06-08 09:59:46 +1000)
+
+----------------------------------------------------------------
+Second RISC-V PR for QEMU 6.1
+
+ - Update the PLIC and CLINT DT bindings
+ - Improve documentation for RISC-V machines
+ - Support direct kernel boot for microchip_pfsoc
+ - Fix WFI exception behaviour
+ - Improve CSR printing
+ - Initial support for the experimental Bit Manip extension
+
+----------------------------------------------------------------
+Alistair Francis (2):
+      docs/system: Move the RISC-V -bios information to removed
+      target/riscv/pmp: Add assert for ePMP operations
+
+Bin Meng (9):
+      hw/riscv: sifive_u: Switch to use qemu_fdt_setprop_string_array() helper
+      hw/riscv: virt: Switch to use qemu_fdt_setprop_string_array() helper
+      hw/riscv: Support the official CLINT DT bindings
+      hw/riscv: Support the official PLIC DT bindings
+      docs/system/riscv: Correct the indentation level of supported devices
+      docs/system/riscv: sifive_u: Document '-dtb' usage
+      hw/riscv: Use macros for BIOS image names
+      hw/riscv: microchip_pfsoc: Support direct kernel boot
+      target/riscv: Remove unnecessary riscv_*_names[] declaration
+
+Changbin Du (1):
+      target/riscv: Dump CSR mscratch/sscratch/satp
+
+Frank Chang (6):
+      target/riscv: rvb: count bits set
+      target/riscv: add gen_shifti() and gen_shiftiw() helper functions
+      target/riscv: rvb: single-bit instructions
+      target/riscv: rvb: generalized reverse
+      target/riscv: rvb: generalized or-combine
+      target/riscv: rvb: add b-ext version cpu option
+
+Jose Martins (1):
+      target/riscv: fix wfi exception behavior
+
+Kito Cheng (11):
+      target/riscv: reformat @sh format encoding for B-extension
+      target/riscv: rvb: count leading/trailing zeros
+      target/riscv: rvb: logic-with-negate
+      target/riscv: rvb: pack two words into one register
+      target/riscv: rvb: min/max instructions
+      target/riscv: rvb: sign-extend instructions
+      target/riscv: rvb: shift ones
+      target/riscv: rvb: rotate (left/right)
+      target/riscv: rvb: address calculation
+      target/riscv: rvb: add/shift with prefix zero-extend
+      target/riscv: rvb: support and turn on B-extension from command line
+
+LIU Zhiwei (1):
+      target/riscv: Pass the same value to oprsz and maxsz.
+
+Philippe Mathieu-Daudé (1):
+      target/riscv: Do not include 'pmp.h' in user emulation
+
+ docs/system/deprecated.rst                 |  19 --
+ docs/system/removed-features.rst           |   5 +
+ docs/system/riscv/microchip-icicle-kit.rst |  50 +++-
+ docs/system/riscv/sifive_u.rst             |  77 +++--
+ docs/system/target-riscv.rst               |  13 +-
+ include/hw/riscv/boot.h                    |   5 +
+ target/riscv/cpu.h                         |   9 +-
+ target/riscv/cpu_bits.h                    |   1 +
+ target/riscv/helper.h                      |   6 +
+ target/riscv/insn32.decode                 |  87 +++++-
+ hw/riscv/microchip_pfsoc.c                 |  81 +++++-
+ hw/riscv/sifive_u.c                        |  24 +-
+ hw/riscv/spike.c                           |  12 +-
+ hw/riscv/virt.c                            |  25 +-
+ target/riscv/bitmanip_helper.c             |  90 ++++++
+ target/riscv/cpu.c                         |  38 ++-
+ target/riscv/op_helper.c                   |  11 +-
+ target/riscv/pmp.c                         |   4 +
+ target/riscv/translate.c                   | 306 ++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvb.c.inc    | 438 +++++++++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvi.c.inc    |  54 +---
+ target/riscv/insn_trans/trans_rvv.c.inc    |  89 +++---
+ target/riscv/meson.build                   |   1 +
+ 23 files changed, 1260 insertions(+), 185 deletions(-)
+ create mode 100644 target/riscv/bitmanip_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvb.c.inc
 
