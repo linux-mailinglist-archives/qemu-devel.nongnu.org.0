@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB5639EAB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:32:43 +0200 (CEST)
-Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00EF39EAC3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 02:35:32 +0200 (CEST)
+Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqPfd-0002wG-KH
-	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
+	id 1lqPiN-0000Od-4X
+	for lists+qemu-devel@lfdr.de; Mon, 07 Jun 2021 20:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdL-0000AW-53
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:19 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19633)
+ id 1lqPdM-0000B7-Dn
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:20 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:19647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7863c9c60=alistair.francis@wdc.com>)
- id 1lqPdI-0004Cd-CG
- for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:18 -0400
+ id 1lqPdK-0004Fk-OD
+ for qemu-devel@nongnu.org; Mon, 07 Jun 2021 20:30:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1623112214; x=1654648214;
+ t=1623112217; x=1654648217;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=TbbGhddR3mfCqe87e4buPgKpdgIxwYMuWTSafOwiEJc=;
- b=Orq3p31mMmrVHkGNpUFenudxRZu8FbSQrfUVPqzaR956EiSkGhaejdoG
- 9D2Tp3YEwGQx3QpKfK28htifA/f5ACihboDcKhG4eHackAfqjQ3oombNa
- C2AOePxQB5BACDMEx2KUnH9exDVyPDd3380SMjECekhOIb9USTz9iEYs7
- yv0BFg90KVmtDCYXFffTTwaWMWcW3x56SRFSV85dGAC0jl3Y6h0aOS+8A
- jZxkd5qXiPniqVgM9zGTs3fOPoqy855wZYXEPBO9ZchJOwqXG8qIu5kj9
- HhkWmVzic2jjjJ+eJVvvHW1RXBRWO6f11EseRNwnmqqdXW312G0uOE4fk g==;
-IronPort-SDR: lqxEMZadK59WKux+D1WrZx/yhXG0xghsFtseTknyAmOKJl6EulRyVzJDY6+WamytpPDXeDURp0
- ShRtILcOpW0XsdP5VnyZ1ANNZCiJkrSeB/iXxZK2tAbqhZYjc8h0qJ3MhblLAQ4rdDXbH/QMz3
- 3ku/k1T/DJqsh7A+KkY+VD2DPBmDO763lk6xHDxOCyr9Y53IepdwDo55mi6Jz1tZVg1PLpxj6z
- gROfWKLfz7ljMrLKnt3dVvdQVFaf2jgKa8ph+ejTh9V5fV8k3+4i+GD85tnc5jjrdD8a8+qqdm
- +34=
-X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087330"
+ bh=IL3XvHYakEcvvRS+Tnnr76vwFzke4/093a0umNMp1H0=;
+ b=HZ9WjyBGUoiQR5XLiLDXg0TRJdiaRygMwblhaREph+mo6+voZzXHT7HW
+ 7+s5l5FcDrQALQrmzx1kJQwdx+6/RLXEIJdXsy07NtbgFo6W5tyQWTx11
+ 0wIgujgjou7uFeLVfQpeOIcw4zSZ4uTtMurnaDb8KdPebNOzTxyBD2FzB
+ tYcUBNw7htRZZdQGchOoPiUnkgD27rLh2bo77vIY/G+zqz3v3rWUlAktN
+ CUTnD3uSgg35kUSTORIc9WUix62oROsPuaTMMGJEcUII+xAiIx1sbzudw
+ Kbhs0zHsqcAz5xq5UzwoblQz/ByduVxU+MIbPKTIN//WPUGnM2YRqeHtv w==;
+IronPort-SDR: AOnLbEOz0pJlLZeH1swj9x6pgX5gmYL0rgIPkRCKfus3gDrqQc3p6qgUCgH2bxiTz33aSO46mD
+ 1wUAfD6ftffFtiR5J5ssBOXzNkA1G/Kq/j2iVAtV6LWaJ6iWRjrUy1S9gnYz7Kuqi8mDx7PwEy
+ oi3rGGV/bL9Ox0xelw5jnENuDyIvY634jEEco1srfAqU1IGZs0OQLKVuN3EMPdzMG3a2g7xR1E
+ l+bOgSJGA9BtvI5x5Y8rU3WuP0xjoGi4ttCoOUudPfzbq2o9n3STFYt3c4V2rBq1/hDJkF9K9p
+ KuM=
+X-IronPort-AV: E=Sophos;i="5.83,256,1616428800"; d="scan'208";a="171087340"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:12 +0800
-IronPort-SDR: //Pe9QlUXyxt/CXX3xNBfrVH6uujXGxqoGePxV2B9+8Lw0eudjJFsgYhUuN1yVGBbpxa28xegH
- 82xFNWqOkpCdsIaVuTzQ8eUe/ptHco35AjOgaKqpags+lfI1VmKF5utoGR6EWjEHoNgaWW62eg
- oysHuPKjVZE3BrmCuSezAH61f638O9tXd+P6xAJ5zRvzZQnX9KbrghTchbSgkV1l/AAz2vyS1D
- /j2Ew+83Andy4dQJwQ3I4O7+QuxQWea1LiXUv1aREq2ukAYRj5Uz01+zAvDBPMzF1D12NJc0GN
- 8FlGerldkqW0fwSA1KIN4GZH
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jun 2021 08:30:15 +0800
+IronPort-SDR: v2GDN02gwit/o38Ruqy2fztD5NzQ/VY1zqaVsiTPgYrCuykuHv0ml2n6GuGKJ6j1XzFQszUQnX
+ iinvsOzIarkU5YwCo9hG7n8JaszTQ5SmBUaBhu5rZCsipqlOCI6SswkazSLCR7rkoWA1yzSLFY
+ 5jlpzG9SxDRUQ+xTOfnIDm8BucWZgpDE+IggafQPkJzS6b6A5cmYNNFdPz99WsMZ2svXKwgyh6
+ Y9Z9RnOYhNUq71fzjSaLIh856YnXgm6HGqDJAPqVw6c8ocnt6hcUAkSb2Ptm1tw0vFCm8qaHdj
+ C8ztyhFoAXqesgB+TVMefKxw
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2021 17:09:20 -0700
-IronPort-SDR: +X+wvx6HAOHhDWk4byyRyZDxO5x0P3WXlYvobAfXApf/sXL/+xThsoCyJcMMAkWzqcEdpCw9dT
- vwsSCq1koAgGnDyOpfbIAnRdNHrO4ltBnqKX02qQ0bGn3AcuzzXnsY8Py/EpXMdh634V9TTCFk
- t299r8iujSZz+ChxKX1HHjA+3WJLQXOnmGQem4PJx+0wEldjsHmKTJomNEsgOhmSq47bmVZxEW
- oLOHK5Ko0tP5/AXLXaVQJcuS9FUUv1flJ+yyGUA9j9i/R3PeFnJhZT+fko9711Yd3tDoE0naaN
- qvk=
+ 07 Jun 2021 17:09:23 -0700
+IronPort-SDR: jM0wDrDpllfVEKdM1ql4nvj3N6/7baBgvHVCW3AdLqcZeuEQ7n4yUiFeCgeGk52Yqkte3k0fIy
+ k08I56FCEF3yDLD794jQy6DSQ4m0C5iB2mkbvm7l95wylAdmI7rqbomP//OqgoRXMjedbVxtu/
+ uugVoBq5uYRj3cwulRuLso40tRA3GFqc25HAwMBxeUDP/gPBuLl4adrOapVGGKjMiI1KV0fATH
+ NndOZ0RezH/lUCBnTqB8FBMKgxerUTqM1ja6kEXnYac8zF4ePj15gofpPcjTKovNApvbaPuxU/
+ eeo=
 WDCIronportException: Internal
 Received: from unknown (HELO localhost.localdomain) ([10.225.165.82])
- by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:11 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jun 2021 17:30:14 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 01/32] hw/riscv: sifive_u: Switch to use
+Subject: [PULL 02/32] hw/riscv: virt: Switch to use
  qemu_fdt_setprop_string_array() helper
-Date: Tue,  8 Jun 2021 10:29:16 +1000
-Message-Id: <20210608002947.1649775-2-alistair.francis@wdc.com>
+Date: Tue,  8 Jun 2021 10:29:17 +1000
+Message-Id: <20210608002947.1649775-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210608002947.1649775-1-alistair.francis@wdc.com>
 References: <20210608002947.1649775-1-alistair.francis@wdc.com>
@@ -100,43 +100,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 Since commit 78da6a1bca22 ("device_tree: add qemu_fdt_setprop_string_array helper"),
-we can use the new helper to set the clock name for the ethernet
-controller node.
+we can use the new helper to set the compatible strings for the
+SiFive test device node.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210430071302.1489082-1-bmeng.cn@gmail.com
+Message-id: 20210430071302.1489082-2-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/riscv/virt.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 698637e8e1..89cccd7fd5 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -95,9 +95,9 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     int cpu;
-     uint32_t *cells;
-     char *nodename;
--    char ethclk_names[] = "pclk\0hclk";
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
-     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
-+    static const char * const ethclk_names[2] = { "pclk", "hclk" };
- 
-     if (ms->dtb) {
-         fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
-@@ -412,8 +412,8 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_GEM_IRQ);
-     qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-         prci_phandle, PRCI_CLK_GEMGXLPLL, prci_phandle, PRCI_CLK_GEMGXLPLL);
--    qemu_fdt_setprop(fdt, nodename, "clock-names", ethclk_names,
--        sizeof(ethclk_names));
-+    qemu_fdt_setprop_string_array(fdt, nodename, "clock-names",
-+        (char **)&ethclk_names, ARRAY_SIZE(ethclk_names));
-     qemu_fdt_setprop(fdt, nodename, "local-mac-address",
-         s->soc.gem.conf.macaddr.a, ETH_ALEN);
-     qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 95a11adaa2..1e017d1c52 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -394,8 +394,11 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+         (long)memmap[VIRT_TEST].base);
+     qemu_fdt_add_subnode(fdt, name);
+     {
+-        const char compat[] = "sifive,test1\0sifive,test0\0syscon";
+-        qemu_fdt_setprop(fdt, name, "compatible", compat, sizeof(compat));
++        static const char * const compat[3] = {
++            "sifive,test1", "sifive,test0", "syscon"
++        };
++        qemu_fdt_setprop_string_array(fdt, name, "compatible", (char **)&compat,
++                                      ARRAY_SIZE(compat));
+     }
+     qemu_fdt_setprop_cells(fdt, name, "reg",
+         0x0, memmap[VIRT_TEST].base,
 -- 
 2.31.1
 
