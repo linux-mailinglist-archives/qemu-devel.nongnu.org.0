@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EB83A0518
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:22:00 +0200 (CEST)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47EB3A0521
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:26:50 +0200 (CEST)
+Received: from localhost ([::1]:52332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqiEZ-0005H8-E4
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
+	id 1lqiJF-0001kG-Ez
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqiDo-0004cR-W3
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:21:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqiDi-0007Xh-VO
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:21:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623183665;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=uP1kam469ioHjrBfowFB0csLPpIc0a+/IpTo2tngiUk=;
- b=ZG5CcLs+fadYCF3mzO/Jv3uCwB1Z5r8ahA7tmKjB6b0T6iau4oO5yB5e/NkmlWJsXsBREh
- OZDkS5uqtsughS6asVntH7bq60uCVuScuFexKwhpzanyVQ+RDDer6rcCxOZy5vkCBA1ywG
- T137H9P/f4dbcOautebVJ6HjlUuD40Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-7DDwuWG6MuqNzUlOqWlL4g-1; Tue, 08 Jun 2021 16:21:01 -0400
-X-MC-Unique: 7DDwuWG6MuqNzUlOqWlL4g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B077D8186E6;
- Tue,  8 Jun 2021 20:21:00 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EFC95D9DC;
- Tue,  8 Jun 2021 20:20:58 +0000 (UTC)
-Date: Tue, 8 Jun 2021 21:20:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 05/26] configure, meson: convert pam detection to meson
-Message-ID: <YL/RJUcRTCzlLq2y@redhat.com>
-References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-6-pbonzini@redhat.com>
- <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
-MIME-Version: 1.0
-In-Reply-To: <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ (Exim 4.90_1) (envelope-from
+ <3OdK_YAcKCugfOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com>)
+ id 1lqiI0-0008P9-FQ
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:32 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:37468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3OdK_YAcKCugfOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com>)
+ id 1lqiHz-0001Ks-1r
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:25:32 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id
+ g9-20020a25ae490000b029052f9e5b7d3fso28262599ybe.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=xhiM5LH9tk8kUEoTgO7t+5DVMEAyK/fb1QRXKuhYQPY=;
+ b=fMUpTWBXBYThyj5f1b0CQo7R2n+9XHsKppAfXVk+WoLF+dP8Jn7P+4l9LnsNjf6uwY
+ ZlycxhQ0GYapvYsxvZXhWdIHHNHxm4E8EbatVp1d5sNKV5qEI9/3O/2L5S7lf9d709Wy
+ z+MsOpORQPWVv4q9GHkpsv4bbAv16OAjZX1YVcppzrIVuyRm1fZQnUtKfA4985gN4ZxP
+ lFKgrfz8RHV/InjU+AHDlG2NyrxMu3KPAlDb48mAnUb+jAvJxBpVtxe6VwHdtbatNLXZ
+ IUjGW1kAO4Qbrk+XlI1bqlxLqrz+evUXGLGw9WGA1N9oqScCbCU+8t/ReEtGMqBU42zF
+ hLRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=xhiM5LH9tk8kUEoTgO7t+5DVMEAyK/fb1QRXKuhYQPY=;
+ b=uJ7sSZtSygc3hmbbX8yzQ8+4eVW0i/STkTp4WYaV7BSqJzGQYO00ZIUXRZbs9ADy/A
+ U5Y6n7sLwbbadg327XDzGv1LhEibL4nk5J9ujIQSOM+xS0/HaK00TqHYtjzd7/cJUtQm
+ /inw3rMDYrkP8/ylW/QKlobOpS7rMJJWwZr4zDiWP7oew0nAXOldJ33VMpBMi7QlweCt
+ agaVzQYGukwM/XEE33ZqRmf63PxMqgb9dO90Cmkhli0bxwMj9GqfrhpigLQ2m1tC/xYk
+ TDGjWzoFlUT6o3r3JUroIDGoPGOyC+4ovZYvlF4AmT/istCbLeUMxIhpN/iSN2MqRag3
+ +h0g==
+X-Gm-Message-State: AOAM531/GqK7t3SZsWvMjGBqH4camlgP6FfSAhdrjUzjb/B7IG33q4QA
+ TNS/urUstvHIcxewgKodcmLfHqqAog/v
+X-Google-Smtp-Source: ABdhPJwjwR39VANvMnsUp5ei/a6z65YtZAzkJXfskUzD5vYgYoGVVWmSoPOE76usRBlqfuHgV0c574Fhsj8b
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:f886:41e8:7e16:711b])
+ (user=venture job=sendgmr) by 2002:a25:e803:: with SMTP id
+ k3mr32687281ybd.268.1623183929261; Tue, 08 Jun 2021 13:25:29 -0700 (PDT)
+Date: Tue,  8 Jun 2021 13:25:19 -0700
+Message-Id: <20210608202522.2677850-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
+Subject: [PATCH v2 0/3] With the pca954x i2c mux available, enable it on
+ aspeed and nuvoton BMC boards.
+From: Patrick Venture <venture@google.com>
+To: hskinnemoen@google.com, kfting@nuvoton.com, clg@kaod.org, 
+ peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3OdK_YAcKCugfOXdebOQYYQVO.MYWaOWe-NOfOVXYXQXe.YbQ@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,65 +84,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 12:45:51PM -0700, Richard Henderson wrote:
-> On 6/8/21 4:22 AM, Paolo Bonzini wrote:
-> > +pam = not_found
-> > +if not get_option('auth_pam').auto() or have_system
-> > +  pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
-> 
-> The condition doesn't look right.
-> Why are we looking for pam if --disable-pam-auth?
-> 
-> Surely
-> 
->   if not get_option('auth_pam').disabled() and have_system
+v2:
+- Dropped sonorapass patch.
 
-This isn't entirely obvious at first glance, but the line after
-the one you quote with the 'required' param makes it "do the
-right thing (tm)".
+Patrick Venture (3):
+  hw/arm: gsj add i2c comments
+  hw/arm: gsj add pca9548
+  hw/arm: quanta-q71l add pca954x muxes
 
-The 'auth_pam' option is a tri-state taking 'enabled', 'disabled'
-and 'auto', with 'auto' being the default state. When a tri-state
-value is passed as the value of the 'required' parameter, then
+ hw/arm/Kconfig          |  2 ++
+ hw/arm/aspeed.c         | 11 ++++++++---
+ hw/arm/npcm7xx_boards.c | 14 +++++++++++++-
+ 3 files changed, 23 insertions(+), 4 deletions(-)
 
-   required==enabled   is interpreted as 'required=true'
-   required==auto      is interpreted as 'required=false'
-   required==disabled  means the entire call is a no-op
-
-So this logic:
-
- if not get_option('auth_pam').auto() or have_system
-    pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
-                          required: get_option('auth_pam'),
-			  ...)
-
-Means
-
-  => If 'auto' is set, then only look for the library if we're
-     building system emulators. In this case 'required:' will
-     evaluate to 'false', and so we'll gracefully degrade
-     if the library is missing.
-
-
-  => If 'enabled' is set, then we'll look for the library
-     and if it is missing then it is a fatal error as
-     'required' will evaluate to 'true'.
-
-  => If 'disabled' is set, then the 'find_library' call
-     will not look for anything, immediately return a
-     'not found' result and let the caller carry on.
-
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.32.0.rc1.229.g3e70b5a671-goog
 
 
