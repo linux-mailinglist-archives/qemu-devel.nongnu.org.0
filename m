@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11F339FE32
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 19:51:49 +0200 (CEST)
-Received: from localhost ([::1]:38770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C879A39FE3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 19:52:13 +0200 (CEST)
+Received: from localhost ([::1]:40544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqftE-0007kV-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 13:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1lqftc-0000V1-Sv
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 13:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqfrq-0006sy-Cv
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:50:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43668)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lqfsm-0007bH-Cr
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:51:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqfrl-0003nF-3e
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:50:21 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lqfsk-0004HU-KE
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 13:51:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623174614;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1623174677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r3gPz7gaKiQQxKttqkZUJJb3UbLDnx4f8vtvAQKksAw=;
- b=dAXVKBfSjBnuu72dTJzztN8Xs+kBs0rLpfrh/V7RjQ5mfxOTPSotZo6ebuQLG3FRCtbLEV
- wg92osJmCWZihnLHvc785tt1LsH32BJfTDftoNPFNHPOcVHZRIkbjm5e9q11LLnuoQgRsf
- xNkKTG/LoEzaRShlOLc6yv+69paj5fs=
+ bh=pFWjfDfbO/ecywVFo+v4c7/BIhFRN2tmywnDz+4FcuQ=;
+ b=J/TbDR8WKwQW2+toiBP5knX6Dnynx2qGo2DrW6qs3CUflpWvxmChVJaruHZkF/ve1V4J1F
+ uSh17GesWzIqZO8HPkvo6ktNgbb32BJyUj//sspjWr3u5FjqwUW94MvuFgFOhRvLaZFAxx
+ h0iwslcw2GxklFPJ9lkqGT2Tpa2ZTGw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-61vD-Yi1N2Kr6-5z2ttrOw-1; Tue, 08 Jun 2021 13:50:04 -0400
-X-MC-Unique: 61vD-Yi1N2Kr6-5z2ttrOw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-167-c8JzYaxsN_S6CQgWhlFEVg-1; Tue, 08 Jun 2021 13:51:16 -0400
+X-MC-Unique: c8JzYaxsN_S6CQgWhlFEVg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50A461B18BC5;
- Tue,  8 Jun 2021 17:50:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D559D18A77;
- Tue,  8 Jun 2021 17:49:57 +0000 (UTC)
-Date: Tue, 8 Jun 2021 18:49:55 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v3 0/4] target/i386/cpu: introduce new CPU models for
- x86-64 ABI levels
-Message-ID: <YL+tw1w7pDPi1HEK@redhat.com>
-References: <20210607135843.196595-1-berrange@redhat.com>
- <20210607213310.wj2223q64xqhgh4g@habkost.net>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17582800C60;
+ Tue,  8 Jun 2021 17:51:15 +0000 (UTC)
+Received: from work-vm (ovpn-115-50.ams2.redhat.com [10.36.115.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B310E5C1C2;
+ Tue,  8 Jun 2021 17:51:10 +0000 (UTC)
+Date: Tue, 8 Jun 2021 18:51:08 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras <leobras.c@gmail.com>
+Subject: Re: [PATCH v3 1/1] yank: Unregister function when using TLS migration
+Message-ID: <YL+uDA7zo73A7e1j@work-vm>
+References: <20210601054030.1153249-1-leobras.c@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210607213310.wj2223q64xqhgh4g@habkost.net>
+In-Reply-To: <20210601054030.1153249-1-leobras.c@gmail.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,329 +78,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: lukasstraub2@web.de, berrange@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 07, 2021 at 06:33:10PM -0300, Eduardo Habkost wrote:
-> On Mon, Jun 07, 2021 at 02:58:39PM +0100, Daniel P. Berrangé wrote:
-> > This series is motivated by this blog that describes how RHEL-9
-> > will recommend use of the x86-64-v2 microarchitectural ABI level:
-> > 
-> >   https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level/
-> > 
-> > The implication of compiling code with -march=x86-64-v2 is that
-> > this code will no longer be guaranteed to be runnable on a
-> > number of the CPU models exposed by the x86_64 target emulator,
-> > most notably qemu64 which is the default.
-> > 
-> > This series is not proposing to change the QEMU default CPU model
-> > for x86_64 target. I show how this is can trivially be done in
-> > patch 3, but not suggesting that we actually do that, as upstream
-> > is quite conservative in dropping support for old host hardware.
-> > 
-> > New CPU models
-> > ==============
-> > 
-> > It is instead exploring the possibilities of defining new CPU
-> > models in QEMU to closely match the x86-64 uarch ABI levels in
-> > a relatively vendor agnostic manner. This could be used by
-> > downstream vendors who wish to target specific uarch ABI levels
-> > in custom machine types.
-> > 
-> > One of the nice things about "qemu64" is that its naming presents
-> > it as effectively being a vendor-neutral model (if we ignore that
-> > vendor=AMD is in fact reported in CPUID).
-> > 
-> > If we look at the feature set fo x86-64-v2 ABI, we see that the
-> > QEMU "Nehalem" model is the closest match. This is also happens
-> > to be runnable on AMD Opteron G4/G5 and EPYC hosts. None the less,
-> > the use of an Intel specific CPU model name on an AMD host feels
-> > uncomfortable.
-> > 
-> > Vendor neutral naming
-> > =====================
-> > 
-> > The idea behind this series is thus to introduce new CPU model
-> > names with vendor neutral naming, to more directly correlate
-> > with defined x86-64 uarch ABI levels. We don't want to just
-> > invent CPUs with a completely arbitrary set of CPU features as
-> > history has shown that brings its own problems. eg a guest
-> > uses features A and B, but only does CPUID checks for existence
-> > of feature B, assuming that B implies A.
-> > 
-> > The specification for x86-64 ABI levels uses x86-64-vNN naming
-> > but this clashes with QEMU's use of "vNN" for versioning. I
-> > felt it would be confusing to end up with CPU model names
-> > like  "x86-64-v1-v1". Thus I've used an "-abiNNN" suffix
-> > instead. Also note I have an "-abi1" suffix here for the
-> > baseline. Arguably we could just drop the suffix entirely for
-> > the baseline.
-> > 
-> > A further note is that we could have used "qemu64" as the
-> > naming prefix, eg qemu64-abi2, qemu64-abi3, etc. Alot of
-> > people hold negative opinions of the qemu64 model in general
-> > though, so I felt a clean break with the past might be
-> > desirable, even though the x86-64-abi1 CPU  model is effectively
-> > identical to qemu64.
-> > 
-> > Runnability of new models
-> > =========================
-> > 
-> > The goal of the x86-64-abiNNN CPU models is that they should be
-> > runnable on any physical host which supports the CPUIDs features
-> > for that uarch ABI level. It is hard to figure out what exact
-> > set of CPUID features we should report. The uarch ABI document
-> > only specifies the minimum expectation, but we can't define a
-> > CPU in QEMU using only the minimum set as that would omit
-> > countless important features.
-> > 
+* Leonardo Bras (leobras.c@gmail.com) wrote:
+> After yank feature was introduced in migration, whenever migration
+> is started using TLS, the following error happens in both source and
+> destination hosts:
 > 
-> Do you have a list of features that were not in the ABI document
-> but were included in the CPU models you've added?  What exactly
-> make them important enough for us, but not important enough for
-> the ABI level specification writers?
-
-The ABI specification isn't trying to define a real CPU, so it
-doesn't define a full set of features. It is merely setting a
-minimum bar, against which vendor specific CPUs are evaluated
-for compliance. IOW, there are multiple AMD and Intel CPUs that
-satisfy x86-64-abi1. They will all have have a distinct set of
-features, but share a common core. The ABI spec is fairly
-focused on the various SIMD matrix instructions in particular.
-
-In this QEMU patch meanwhile, we are attempting to define a
-real CPU, so need to spec more than just the core featureset.
-
-> In patch 2/3 you wrote:
+> (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
 > 
-> | Historically we've found that defining CPU models with an arbitrary
-> | combination of CPU features can be problematic, as some guest OS
-> | will not check all features they use, and instead assume that if
-> | they see feature "XX", then "YY" will always exist. This is reasonable
-> | in bare metal, but subject to breakage in virtualization.
+> This happens because of a missing yank_unregister_function() when using
+> qio-channel-tls.
 > 
-> Do we know how likely that is?  Any examples where this has
-> happened?
-
-I don't have specific bugs off hand. I just know that the traditional
-way libvirt implemented host-model by taking a base model and turning
-on/off arbitrary features has been a source of bugs.
-
-> What if we simply used the raw list of features from the
-> specification, add those as CPU models experimentally, and let
-> people report issues if they find them?  Too risky?  Not useful
-> in practice?
-
-Taking ABI level 1.
-
-The combination of level 0 and level 1 ABI specifies
-these features:
-
-{'popcnt', 'sse4.1', 'sse', 'mmx', 'ssse3', 'pni', 'cx16', 'fpu', 'sse2', 'sse4.2', 'cx8', 'syscall', 'fxsr', 'cmov', 'lahf-lm'}
-
-The Nehalem CPU which I used as a basis for this level provides 
-
-{'hypervisor', 'pge', 'mmx', 'ssse3', 'kvm-nopiodelay', 'pse', 'de', 'sep', 'tsc', 'nx', 'popcnt', 'mtrr', 'kvm-steal-time', 'apic', 'sse2', 'clflush', 'fxsr', 'sse4.1', 'sse', 'cx16', 'syscall', 'x2apic', 'kvmclock-stable-bit', 'pni', 'kvm-pv-eoi', 'kvmclock', 'kvm-asyncpf', 'vme', 'mce', 'msr', 'mca', 'sse4.2', 'fpu', 'cx8', 'lm', 'pse36', 'pat', 'cmov', 'lahf-lm', 'pae'}
-
-So if we removed all features except those explicitly documented
-by the ABI spec we loose:
-
-{'hypervisor', 'pge', 'pse', 'kvm-nopiodelay', 'de', 'sep', 'tsc', 'nx', 'mtrr', 'kvm-steal-time', 'apic', 'clflush', 'x2apic', 'kvmclock-stable-bit', 'kvm-pv-eoi', 'kvmclock', 'kvm-asyncpf', 'vme', 'mce', 'msr', 'mca', 'pse36', 'lm', 'pat', 'pae'}
-
-Many (most) of these are pretty important features IMHO. I don't
-think you can define a useful CPU without them.
-
-
-> Maybe we could provide both a "x86-64-abiNN" and a
-> "x86-64-abiNN-minimal" CPU model.  We could even use the -minimal
-> CPU model definition to write a test case that ensure the
-> algorithm you describe below is always being followed.  The name
-> should make it clear that the CPU model is more conservative but
-> less likely to be useful.
-
-I don't think the minimal is usable in practice.
-
-> > Thus to determine the feature set to use in x86-64-abiNNN CPU
-> > models, this series used a script (see patch 4) which did the
-> > following:
-> > 
-> >   * Find list of current CPU models that satisfy ABI NN
-> >   * From this list, calculate the lowest common denominator (LCD)
-> >     of CPUID features
-> >   * From the LCD, find the existing CPU model that has the fewest
-> >     extra features over the LCD.
-> >   * Use that closest match, minus the extra features
-> >     to define x86-64-abiNN
-> > 
-> > This approach works well for the baseline ABI, and level 2 ABI
-> > 
-> > For ABI level 3 there is a bit of a larger divergance in feature
-> > sets, because the LCD between Intel and EPYC models is relatively
-> > large. We omit aes pcid erms invpcid tsc-deadline x2apic pclmulqdq
-> > 
-> > For ABI level 4 the divergance is small. I believe this is a
-> > deceptive situation that arises because currently only Intel
-> > CPUs in QEMU are able to satisfy ABI level 4 currently. None
-> > of the EPYC CPUs defined in QEMU are able to satisfy it.
-> > 
-> > I'm concerned that if future EPYC CPU generations are added to
-> > QEMU which *do* indeed satisfy x86-64 v4, then QEMU's x86-64-abi4
-> > CPUID may prove to be too greedy and thus be unable to run on
-> > the future CPUs. In theory we can address this through use of
-> > CPU versioning, but ideally we would not have to deal with that.
+> Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> yank_unregister_function() in channel_close() and multifd_load_cleanup().
 > 
-> If no AMD CPU model satisfy v4 yet, maybe we should avoid adding
-> any feature that is not present in any known AMD CPUs, unless
-> they are already required by the ABI level specification.
-> Otherwise, the list is likely to contain Intel features that AMD
-> has no plans to implement at all.
+> Also, inside migration_channel_connect() and
+> migration_channel_process_incoming() move yank_register_function() so
+> it only runs once on a TLS migration.
 > 
-> Or maybe we should just refrain from adding a x86-64-abi4 CPU
-> model until we have a CPU model from AMD that satisfies v4.
+> Fixes: b5eea99ec2f ("migration: Add yank feature", 2021-01-13)
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
 
-I'd probably go for the latter option and just ignore v4.
+Queued; thank you!
 
-
-> > Nested virt caveats
-> > ===================
-> > 
-> > A further caveat is that none of these generic models define
-> > any VMX feature set. At the very least I believe this means
-> > that nested virt can't live migrate, but maybe this breaks
-> > ability to use nested virt entirely. I'm unclear what the
-> > best approach is to deal with this, that would let the user
-> > do both "-cpu x86-64-abi2,svm=on" and "-cpu x86-64-abi2,vmx=on"
+> --
+> Changes since v2:
+> - Dropped all references to ioc->master
+> - yank_register_function() and yank_unregister_function() now only run
+>   once in a TLS migration.
 > 
-> I don't get this part.  Why can't the CPU model include a VMX
-> feature set that is the LCD of the VMX-capable CPUs that satisfy
-> abiNN?  The VMX feature set is supposed to be just a default when
-> using vmx=on.
-
-Maybe I'm mis-interpreting things. I didn't think it made sense
-to define all the VMX capabilities, if the CPU was later intended
-to be used with svm=on, but it sounds like you're saying this is
-harmless.
-
-> > 
-> > Side channel mitigation caveats
-> > ===============================
-> > 
-> > Finally none of the x86-64-abiNN models include any of the
-> > features related to CPU side channel mitigations. We can't
-> > add them without sacrificing the ability to run on some
-> > physical hardware that would otherwise satisfy the uarch
-> > ABI level.
-> > 
-> > This makes me a little uneasy. One of the main downsides
-> > of using "qemu64" is that it leaves guests vulnerable to the
-> > side channel attacks. Introducing new general purpose CPUs
-> > that still have this flaw feels undesirable. I don't know
-> > whethe to prioritize safety, while sacrificing runability.
+> Changes since v1:
+> - Cast p->c to QIOChannelTLS into multifd_load_cleanup()
+> ---
+>  migration/channel.c           | 26 ++++++++++++++------------
+>  migration/multifd.c           |  3 ++-
+>  migration/qemu-file-channel.c |  4 +++-
+>  3 files changed, 19 insertions(+), 14 deletions(-)
 > 
-> That's the biggest caveat for me.
+> diff --git a/migration/channel.c b/migration/channel.c
+> index c9ee902021..01275a9162 100644
+> --- a/migration/channel.c
+> +++ b/migration/channel.c
+> @@ -38,18 +38,19 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+>      trace_migration_set_incoming_channel(
+>          ioc, object_get_typename(OBJECT(ioc)));
+>  
+> -    if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
+> -        yank_register_function(MIGRATION_YANK_INSTANCE,
+> -                               migration_yank_iochannel,
+> -                               QIO_CHANNEL(ioc));
+> -    }
+> -
+>      if (s->parameters.tls_creds &&
+>          *s->parameters.tls_creds &&
+>          !object_dynamic_cast(OBJECT(ioc),
+>                               TYPE_QIO_CHANNEL_TLS)) {
+>          migration_tls_channel_process_incoming(s, ioc, &local_err);
+>      } else {
+> +        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +            object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+> +            yank_register_function(MIGRATION_YANK_INSTANCE,
+> +                                   migration_yank_iochannel,
+> +                                   QIO_CHANNEL(ioc));
+> +        }
+> +
+>          migration_ioc_process_incoming(ioc, &local_err);
+>      }
+>  
+> @@ -76,12 +77,6 @@ void migration_channel_connect(MigrationState *s,
+>          ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+>  
+>      if (!error) {
+> -        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
+> -            yank_register_function(MIGRATION_YANK_INSTANCE,
+> -                                   migration_yank_iochannel,
+> -                                   QIO_CHANNEL(ioc));
+> -        }
+> -
+>          if (s->parameters.tls_creds &&
+>              *s->parameters.tls_creds &&
+>              !object_dynamic_cast(OBJECT(ioc),
+> @@ -99,6 +94,13 @@ void migration_channel_connect(MigrationState *s,
+>          } else {
+>              QEMUFile *f = qemu_fopen_channel_output(ioc);
+>  
+> +            if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +                object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+> +                yank_register_function(MIGRATION_YANK_INSTANCE,
+> +                                       migration_yank_iochannel,
+> +                                       QIO_CHANNEL(ioc));
+> +            }
+> +
+>              qemu_mutex_lock(&s->qemu_file_lock);
+>              s->to_dst_file = f;
+>              qemu_mutex_unlock(&s->qemu_file_lock);
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 0a4803cfcc..2e8f001bc0 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -987,7 +987,8 @@ int multifd_load_cleanup(Error **errp)
+>      for (i = 0; i < migrate_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+> -        if (object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET)
+> +        if ((object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET) ||
+> +             object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_TLS))
+>              && OBJECT(p->c)->ref == 1) {
+>              yank_unregister_function(MIGRATION_YANK_INSTANCE,
+>                                       migration_yank_iochannel,
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index 876d05a540..fad340ea7a 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -26,6 +26,7 @@
+>  #include "qemu-file-channel.h"
+>  #include "qemu-file.h"
+>  #include "io/channel-socket.h"
+> +#include "io/channel-tls.h"
+>  #include "qemu/iov.h"
+>  #include "qemu/yank.h"
+>  #include "yank_functions.h"
+> @@ -106,7 +107,8 @@ static int channel_close(void *opaque, Error **errp)
+>      int ret;
+>      QIOChannel *ioc = QIO_CHANNEL(opaque);
+>      ret = qio_channel_close(ioc, errp);
+> -    if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)
+> +    if ((object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +         object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS))
+>          && OBJECT(ioc)->ref == 1) {
+>          yank_unregister_function(MIGRATION_YANK_INSTANCE,
+>                                   migration_yank_iochannel,
+> -- 
+> 2.31.1
 > 
-> I believe the default should prioritize safety.  I believe you
-> implicitly established that runnability is not an absolute
-> requirement when you added features that are required by the ABI
-> level specification.
-
-
-The challenge with the side channel mitigations is that the flags
-to be exposed are rather vendor specific, so I don't see a way
-to define a single CPU that works for both Intel and AMD hosts
-and includes the side channel mods.
-
-> > Crypto accelerator caveats
-> > ==========================
-> > 
-> > Similarly I'm not a huge fan of leaving out the "aes"
-> > instruction for accelerated crypto, as missing "aes" is
-> > also one of the key factors in making qemu64 a bad choice.
-> > 
-> > If we include 'aes' in x86-64-abi2, then we loose support
-> > for Nehalem hosts.
-> > 
-> > If we include 'aes' in x86-64-abi3 then we further loose
-> > support for Dhyana hosts (an EPYC derived CPU).
-> > 
-> > Wrap up
-> > =======
-> > 
-> > Overall this series shows some CPU models for QEMU that
-> > can map to each x86-64 ABI level, but I'm unsure whether
-> > it is wise to actually go forward with this idea given
-> > the various caveats.
-> > 
-> > I think they'll mostly only be useful as a built-in default
-> > for machine types. If anyone is going to explicitly specify
-> > a CPU model they'll almost always be better off picking a
-> > vendor specific model or host passthrough. There can be
-> > cases where people have a mix of AMD and Intel bare metal
-> > machines they need portability across but this feel rare.
 > 
-> I would prefer to address the problem of poor defaults the
-> following way:
-> 
-> - We should start requiring management software to pass a explicit
->   live-migration-policy argument if live migration needs to work
->   (after documenting that and waiting for the deprecation period,
->   of course).
-> - If live migration is not required, we can default to host
->   passthrough.
-> - If live migration is required, we should stop providing a
->   default CPU model, and requiring it to be configured
->   explicitly.
-
-I don't think this will make a significant difference, because
-libvirt will end up saying live migration is required for
-everything it starts, unless libvirt has in turn been told by
-a mgmt app that it doesn't need live migration. The biggest
-mgmt apps I know (oVirt, OpenStack, KubeVirt) all want live
-migration in general. There may be some cases where live
-mig is not desired, but I expect it would be 10% or less
-of deployments.
-
-> QEMU doesn't have enough information to choose a good CPU model
-> default when live migration is required.  Even if we add the
-> x86-64-abiNN CPU models in this series, we have no way to decide
-> if abi1, abi2, abi3, or abi4 is a better default, do we?
-
-Nope, QEMU doesn't have enough info to choose. The only way I
-can see is if the OS vendor decides what their baseline is
-going to be. eg Fedora explicitly supports all CPUs right back
-to first generation x86_64 chips, so to provide runnability on
-all possible Fedora hosts, we need qemu64.  In RHEL-9, it was
-decided to compile everything with march=x86_64-abi1, so we
-can guarantee that x86_64-abi1 is always runnable on any RHEL9
-host, and thus can use that instead of qemu64. 
-
-
-FWIW, I'm totally fine with saying that this concept of defining
-CPUs for x86_64 ABI levels is a failed experiment.
-
-To me the real killers are the lack of side channel mitigations
-and lack of AES accelerator instructions. Without those, it just
-doesn't feel like we're offering a big enough step up over the
-qemu64 CPU. We can't add the side channels as it feels too
-vendor specific, and we can't add the AES accel, because there
-are physical CPUs satisfying abi1, which don't have AES.
-
-At least the documentation of ABI compatibiltiy levels is useful
-though.
-
-Given that my x86_64-abi1 CPU is a copy of Nehalem, if RHEL9
-did want a newer CPU default, it could just pick Nehalem as
-that.
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
