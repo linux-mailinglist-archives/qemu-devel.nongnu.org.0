@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A164839FA2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:17:21 +0200 (CEST)
-Received: from localhost ([::1]:47580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFBC39FAA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 17:28:08 +0200 (CEST)
+Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqdTk-00064I-Oe
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:17:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46960)
+	id 1lqdeA-0004Rt-N7
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 11:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lqdST-0004h2-4j
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:16:01 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:37086)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1lqdd7-0003m8-AL
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:27:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lqdSR-0007S5-F4
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:16:00 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-H640SHF6M3efz9TLs-R6lw-1; Tue, 08 Jun 2021 11:15:46 -0400
-X-MC-Unique: H640SHF6M3efz9TLs-R6lw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3225580ED8B;
- Tue,  8 Jun 2021 15:15:44 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-185.ams2.redhat.com [10.36.112.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C70D760853;
- Tue,  8 Jun 2021 15:15:41 +0000 (UTC)
-Date: Tue, 8 Jun 2021 17:15:40 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 4/5] monitor: removed cpustats command
-Message-ID: <20210608171540.6c67bcc3@bahia.lan>
-In-Reply-To: <8735tsxuhj.fsf@dusky.pond.sub.org>
-References: <20210526202104.127910-1-bruno.larsen@eldorado.org.br>
- <20210526202104.127910-5-bruno.larsen@eldorado.org.br>
- <20210527084038.512c5270@bahia.lan>
- <8735tsxuhj.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1lqdd3-0004F9-UK
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 11:27:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623166016;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9/CMdy6fcAeEx0Je5fTN6BY2zqhJGrDE3u0qrdpmJxU=;
+ b=XwoGeS6DbIDoqf2j0eXxPFXGi3MglYikvagfzyEKjRKxfZbJES9gDTMY0nGgsO3odKFIWU
+ mis9hbTuUxl0riTj4sD9ObOkivoi9hGrVGXj7bqPAFzHAH/2+nzT72f5y/31id1NUlxpoi
+ 496JTKL+fIVjaJGgGU8+DDCTO8c3mfg=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-rIes8FcXM4mkKIiA1ZI0gQ-1; Tue, 08 Jun 2021 11:26:54 -0400
+X-MC-Unique: rIes8FcXM4mkKIiA1ZI0gQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ bl11-20020ad4564b0000b029021d1fdffd5aso15768203qvb.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 08:26:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9/CMdy6fcAeEx0Je5fTN6BY2zqhJGrDE3u0qrdpmJxU=;
+ b=iI5KQvj3ltnLzzOhJ2eDvnaJQG3VO9QnUd4Pbk/9wDLktQMPcZTMEooTh2yYMfOJw3
+ YQggsbxzYCBeHzmdoWMtkBo8IdQ0G9JYFCrskjLTiiaxSu0T38YMc6+jkBFrs2WY0nql
+ ZH2WHCNY5LWJMXFO8HKNpJExXBiXmAk0v8VydMmkyWF9jEx4yDKn6TYYhsZYqxzQ99D5
+ Bg6dFK1uKyaXI5IJ2ocnePctUDlAnwUZLSPGYX3UCnRIJT1ZY01btV6ADYlUV3UZ9xWN
+ yH2aLrYGU/7jEUwGTyCL6ayKHGozKzskGVu0kJuBP5JoA4x1JvY9kHcsbsBuMKLK0Fnc
+ yzfg==
+X-Gm-Message-State: AOAM530G3pY2cR6eYytoWIJjCzdRbiHCLVlBLb44Qr3dAmnGiZRiJ8By
+ CMCy+hGYBAVMfD1YUEO/ywC7oQaqIoDAl5ZB/UAZ/q0+AUwvs0eIzdBV2fxR/vcabrNn1j/SNY9
+ SWw5dXY6bepmU5h0O70NIJMf4jbHODnA=
+X-Received: by 2002:ad4:4e47:: with SMTP id eb7mr567252qvb.40.1623166014047;
+ Tue, 08 Jun 2021 08:26:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmzGoQhhFIFLUKZoRpLGw8lsM3yS9Kzal+6TwHpLB4Rl1Xn9UloVHaE0YkxnPq8aErK2jCpKxFHB64TfztzAE=
+X-Received: by 2002:ad4:4e47:: with SMTP id eb7mr567225qvb.40.1623166013807;
+ Tue, 08 Jun 2021 08:26:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-5-eperezma@redhat.com>
+ <87y2c8pnx0.fsf@dusky.pond.sub.org>
+ <CAJaqyWf9HZKb+Mtn_UNHZQj4EqzybPzwbLE7vcbCXJPK7wtXKw@mail.gmail.com>
+ <87k0n4xwo4.fsf@dusky.pond.sub.org>
+In-Reply-To: <87k0n4xwo4.fsf@dusky.pond.sub.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 8 Jun 2021 17:26:18 +0200
+Message-ID: <CAJaqyWcmpZxdSv9SKi0yFY5UNsdMKzRGFSW_4pUZicqCP7Gkdg@mail.gmail.com>
+Subject: Re: [RFC v3 04/29] vhost: Add x-vhost-enable-shadow-vq qmp
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,49 +94,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, virtualization@lists.linux-foundation.org,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Michael Lilja <ml@napatech.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 08 Jun 2021 17:10:32 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
-
-> Greg Kurz <groug@kaod.org> writes:
->=20
-> > On Wed, 26 May 2021 17:21:03 -0300
-> > "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> wrote:
-> >
-> >> Since ppc was the last architecture to collect these statistics and
-> >> it is currently phasing this collection out, the command that would qu=
-ery
-> >> this information is being removed.
-> >>=20
-> >
-> > So this is removing an obviously user visible feature. This should be
-> > mentioned in docs/system/removed-features.rst... but, wait, I don't
-> > see anything for it in docs/system/deprecated.rst. This is dropping
-> > a feature without following the usual deprecation policy, i.e.
-> > marking the feature as deprecated and only remove it 2 QEMU versions
-> > later. Any justification for that ?
->=20
-> Our deprecation policy applies to stable interfaces, which HMP is not.
->=20
-> We don't break things there just because.  But dropping a command right
-> away when it is no longer useful is just fine.  No need to deprecate and
-> wait for the grace period.
->=20
+On Tue, Jun 8, 2021 at 4:23 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Eugenio Perez Martin <eperezma@redhat.com> writes:
+>
+> > On Fri, May 21, 2021 at 9:05 AM Markus Armbruster <armbru@redhat.com> w=
+rote:
+> >>
+> >> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+> >>
+> >> > Command to enable shadow virtqueue looks like:
+> >> >
+> >> > { "execute": "x-vhost-enable-shadow-vq",
+> >> >   "arguments": { "name": "dev0", "enable": true } }
+> >> >
+> >> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >> > ---
+> >> >  qapi/net.json     | 22 ++++++++++++++++++++++
+> >> >  hw/virtio/vhost.c |  6 ++++++
+> >> >  2 files changed, 28 insertions(+)
+> >> >
+> >> > diff --git a/qapi/net.json b/qapi/net.json
+> >> > index c31748c87f..660feafdd2 100644
+> >> > --- a/qapi/net.json
+> >> > +++ b/qapi/net.json
+> >> > @@ -77,6 +77,28 @@
+> >> >  ##
+> >> >  { 'command': 'netdev_del', 'data': {'id': 'str'} }
+> >> >
+> >> > +##
+> >> > +# @x-vhost-enable-shadow-vq:
+> >> > +#
+> >> > +# Use vhost shadow virtqueue.
+> >> > +#
+> >> > +# @name: the device name of the VirtIO device
+> >> > +#
+> >> > +# @enable: true to use he alternate shadow VQ notification path
+>
 > [...]
->=20
+>
+> >> > +#
+> >> > +# Returns: Error if failure, or 'no error' for success. Not found i=
+f vhost is not enabled.
+> >>
+> >> This is confusing.  What do you mean by "Not found"?
+> >>
+> >> If you mean DeviceNotFound:
+> >>
+> >> 1. Not actually true: qmp_x_vhost_enable_shadow_vq() always fails with
+> >> GenericError.  Perhaps later patches will change that.
+>
+> [...]
+>
+> >> 2. Do you really need to distinguish "vhost is not enabled" from other
+> >> errors?
+> >>
+> >
+> > SVQ cannot work if the device backend is not vhost, like qemu VirtIO
+> > dev. What I meant is that "qemu will only look for its name in the set
+> > of vhost devices, so you will have a device not found if the device is
+> > not a vhost one", which may not be 100% clear at first glance. Maybe
+> > this wording is better?
+>
+> We might be talking past each other.  Let me try again :)
+>
+> The following question is *not* about the doc comment, it's about the
+> *code*: what practical problem is solved by using DeviceNotFound instead
+> of GenericError for some errors?
+>
 
-Ah, good to know.
+Sorry, I'm not sure if I follow you :). At risk of being circular in
+this topic, the only use case I can think is to actually tell the
+difference between "the device does not exists, or is not a vhost
+device" and "the device does not support SVQ because X", where X can
+be "it uses a packed ring", "it uses event idx", ...
 
-Thanks!
+I can only think of one practical use case, "if you see this error,
+you probably forgot to set vhost=3Don in the command line, or something
+is forbidding this device to be a vhost one". Having said that, I'm
+totally fine with using GenericError always, but I see the more
+fine-grained the error the better. What would be the advantage of also
+using GenericError here?
 
---
-Greg
+Just to be sure that we are on the same page, I think this is better
+seen from PATCH 07/39: vhost: Route guest->host notification through
+shadow virtqueue.
+
+> [...]
+>
 
 
