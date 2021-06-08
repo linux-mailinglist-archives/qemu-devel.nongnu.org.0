@@ -2,98 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4061F3A0137
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 21:07:42 +0200 (CEST)
-Received: from localhost ([::1]:43600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076A43A0138
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 21:08:03 +0200 (CEST)
+Received: from localhost ([::1]:45346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqh4f-0002nu-A8
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 15:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38254)
+	id 1lqh4z-0003wr-GR
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 15:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lqh1b-0008Jy-Vi
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:04:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20688)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lqh3O-00026o-Pr
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:06:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lqh1X-0006WE-NO
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:04:31 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lqh3L-0007DE-SF
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:06:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623179067;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1623179179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l7T/tfb3WB7Cz31gF14tnGz2KA+6gqitQxqCgcS6bX4=;
- b=WQu3OlXFlAteKdUJG4cG4eVENCekRRx19YQ9CMR/W2XBKPCWE+fvjLwi6nyd2ZeJKXuRYb
- +pzoljFCBVPETOBQRaeFuarRCUd+VmDM3JF8slT+XhDOtmGOBzRjFhDsKC+o+9UUYOvqn7
- OWjHkZEBx4VTCqMKyZZO0lkDfnGUY6I=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-s1L7ntuBM_Kl-QKAPk1e0A-1; Tue, 08 Jun 2021 15:04:24 -0400
-X-MC-Unique: s1L7ntuBM_Kl-QKAPk1e0A-1
-Received: by mail-qk1-f199.google.com with SMTP id
- n3-20020a378b030000b02903a624ca95adso15652007qkd.17
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 12:04:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=l7T/tfb3WB7Cz31gF14tnGz2KA+6gqitQxqCgcS6bX4=;
- b=D0gn9xGkl47oPXJ2jQbsXOwF3czla9Gb7GanL1Jiv+UGzmkj0ca1N+gOH1jOq4nBb2
- xdYWPjcx53hyoekjQl82vU9dEwskU3tXpbbPyhdvzbAw0LqGUT8tg/IF7dIpN7e5eHp3
- v1sOn6XunAWbHMZJsqMRXMV7ut7Cpxcm6kSd1AWFDV8wY8XgzGSuC36x85+oEWUZEsHh
- nkgYS2dg0J/E+oeBiAtbyAtPvcMJt08CjV8nYQDl078/GYnOPX5a2jECYKRt/NgLbAxB
- 4giJSEgFeFkm4CJAxR5Sr7gWF5kwVFNvrQrLH26MzieKlI7LV23YPRJjL3O4IrhkZV0Y
- /F/g==
-X-Gm-Message-State: AOAM533ELvQZoxCNSlv3xUpmCvXEWwnGAL/NKhMHa0uoKidYk5X9qIWg
- igpxW+JjcCWFIi9EaLx1pAd8NVTZUFmmpzJ9YVjAA5BOO+xDLYIj08pfb0XeVeMMds9e6CDANMq
- OXBmr0jXpQfLzvH4=
-X-Received: by 2002:a05:6214:e4d:: with SMTP id
- o13mr1823080qvc.19.1623179064240; 
- Tue, 08 Jun 2021 12:04:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyDEfDzLgmsggx4flhwz2XhCnsD6btN2itmNCVYQ7BEOfr4eav9KVxnqcu5hioBxOnFhGCYyA==
-X-Received: by 2002:a05:6214:e4d:: with SMTP id
- o13mr1823043qvc.19.1623179063917; 
- Tue, 08 Jun 2021 12:04:23 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([201.90.138.4])
- by smtp.gmail.com with ESMTPSA id m126sm9477520qke.16.2021.06.08.12.04.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 12:04:23 -0700 (PDT)
-Subject: Re: [PATCH v6 3/4] Jobs based on custom runners: docs and
- gitlab-runner setup playbook
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210608031425.833536-1-crosa@redhat.com>
- <20210608031425.833536-4-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <4a79972b-9fe3-cb1b-6bd0-0b73f3797dbc@redhat.com>
-Date: Tue, 8 Jun 2021 16:04:15 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=d6mX0IlNirhGdM6YjvR1HNHyYj23Z0A67dAxjIq9GsM=;
+ b=YJA3eJ+qlmcD5OzgF2Rhy4Gzj8PwjRQe/N+/lyM5W/iQYe+mZnDFF8roBYosFT3Jbn4bmm
+ HCABHfG8gCpeQCQP4ti4RVV/WphfVljuX6KxnJe4wdn8ibKdOq3DeAIAXVmF3y++FfM85M
+ C6DVhsowuNKiCSSS60I+i/3dmiDbUwQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-wl2N2kcBO4afxUW2nyNQCg-1; Tue, 08 Jun 2021 15:06:16 -0400
+X-MC-Unique: wl2N2kcBO4afxUW2nyNQCg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 289E28015C6;
+ Tue,  8 Jun 2021 19:06:15 +0000 (UTC)
+Received: from work-vm (ovpn-115-50.ams2.redhat.com [10.36.115.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9279B19EF2;
+ Tue,  8 Jun 2021 19:06:05 +0000 (UTC)
+Date: Tue, 8 Jun 2021 20:06:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v3 2/7] hmp: Add "calc_dirty_rate" and "info dirty_rate"
+ cmds
+Message-ID: <YL+/muMQjZxSFKv9@work-vm>
+References: <cover.1623027729.git.huangy81@chinatelecom.cn>
+ <4cc0039fc3ad6145136770cf3b0f056c09a2910b.1623027729.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <20210608031425.833536-4-crosa@redhat.com>
+In-Reply-To: <4cc0039fc3ad6145136770cf3b0f056c09a2910b.1623027729.git.huangy81@chinatelecom.cn>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,212 +82,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+* huangy81@chinatelecom.cn (huangy81@chinatelecom.cn) wrote:
+> From: Peter Xu <peterx@redhat.com>
+> 
+> These two commands are missing when adding the QMP sister commands.
+> Add them, so developers can play with them easier.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-On 6/8/21 12:14 AM, Cleber Rosa wrote:
-> To have the jobs dispatched to custom runners, gitlab-runner must
-> be installed, active as a service and properly configured.  The
-> variables file and playbook introduced here should help with those
-> steps.
->
-> The playbook introduced here covers the Linux distributions and
-> has been primarily tested on OS/machines that the QEMU project
-> has available to act as runners, namely:
->
->   * Ubuntu 20.04 on aarch64
->   * Ubuntu 18.04 on s390x
->
-> But, it should work on all other Linux distributions.  Earlier
-> versions were tested on FreeBSD too, so chances of success are
-> high.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+I've queued 1 and 2 (with a line wrap on 1);  we can take the
+rest after Peter is happy with the other stuff.
+
+Dave
+
 > ---
->   docs/devel/ci.rst                  | 57 ++++++++++++++++++++++++++++
->   scripts/ci/setup/.gitignore        |  1 +
->   scripts/ci/setup/gitlab-runner.yml | 61 ++++++++++++++++++++++++++++++
->   scripts/ci/setup/vars.yml.template | 12 ++++++
->   4 files changed, 131 insertions(+)
->   create mode 100644 scripts/ci/setup/.gitignore
->   create mode 100644 scripts/ci/setup/gitlab-runner.yml
->   create mode 100644 scripts/ci/setup/vars.yml.template
->
-> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-> index 35c6b5e269..bbd89e54d7 100644
-> --- a/docs/devel/ci.rst
-> +++ b/docs/devel/ci.rst
-> @@ -56,3 +56,60 @@ To run the playbook, execute::
->   
->     cd scripts/ci/setup
->     ansible-playbook -i inventory build-environment.yml
+>  hmp-commands-info.hx  | 13 ++++++++++++
+>  hmp-commands.hx       | 14 +++++++++++++
+>  include/monitor/hmp.h |  2 ++
+>  migration/dirtyrate.c | 47 +++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 76 insertions(+)
+> 
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index b2347a6aea..fb59c27200 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -867,3 +867,16 @@ SRST
+>    ``info replay``
+>      Display the record/replay information: mode and the current icount.
+>  ERST
 > +
-> +gitlab-runner setup and registration
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +    {
+> +        .name       = "dirty_rate",
+> +        .args_type  = "",
+> +        .params     = "",
+> +        .help       = "show dirty rate information",
+> +        .cmd        = hmp_info_dirty_rate,
+> +    },
 > +
-> +The gitlab-runner agent needs to be installed on each machine that
-> +will run jobs.  The association between a machine and a GitLab project
-> +happens with a registration token.  To find the registration token for
-> +your repository/project, navigate on GitLab's web UI to:
+> +SRST
+> +  ``info dirty_rate``
+> +    Display the vcpu dirty rate information.
+> +ERST
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 2d21fe5ad4..84dcc3aae6 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1727,3 +1727,17 @@ ERST
+>          .flags      = "p",
+>      },
+>  
+> +SRST
+> +``calc_dirty_rate`` *second*
+> +  Start a round of dirty rate measurement with the period specified in *second*.
+> +  The result of the dirty rate measurement may be observed with ``info
+> +  dirty_rate`` command.
+> +ERST
 > +
-> + * Settings (the gears like icon), then
-> + * CI/CD, then
-> + * Runners, and click on the "Expand" button, then
-> + * Under "Set up a specific Runner manually", look for the value under
-> +   "Use the following registration token during setup"
+> +    {
+> +        .name       = "calc_dirty_rate",
+> +        .args_type  = "second:l,sample_pages_per_GB:l?",
+> +        .params     = "second [sample_pages_per_GB]",
+> +        .help       = "start a round of guest dirty rate measurement",
+> +        .cmd        = hmp_calc_dirty_rate,
+> +    },
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 605d57287a..3baa1058e2 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -129,5 +129,7 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
+>  void hmp_replay_break(Monitor *mon, const QDict *qdict);
+>  void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+>  void hmp_replay_seek(Monitor *mon, const QDict *qdict);
+> +void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
+> +void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
+>  
+>  #endif
+> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+> index 2ee3890721..320c56ba2c 100644
+> --- a/migration/dirtyrate.c
+> +++ b/migration/dirtyrate.c
+> @@ -20,6 +20,9 @@
+>  #include "ram.h"
+>  #include "trace.h"
+>  #include "dirtyrate.h"
+> +#include "monitor/hmp.h"
+> +#include "monitor/monitor.h"
+> +#include "qapi/qmp/qdict.h"
+>  
+>  static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+>  static struct DirtyRateStat DirtyStat;
+> @@ -447,3 +450,47 @@ struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+>  {
+>      return query_dirty_rate_info();
+>  }
 > +
-> +Copy the ``scripts/ci/setup/vars.yml.template`` file to
-> +``scripts/ci/setup/vars.yml``.  Then, set the
-> +``gitlab_runner_registration_token`` variable to the value obtained
-> +earlier.
+> +void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
+> +{
+> +    DirtyRateInfo *info = query_dirty_rate_info();
 > +
-> +.. note:: gitlab-runner is not available from the standard location
-> +          for all OS and architectures combinations.  For some systems,
-> +          a custom build may be necessary.  Some builds are avaiable
-> +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
-> +          URI may be used as a value on ``vars.yml``
-I think you can remove the information about the gitlab-running being 
-not available for some systems.
+> +    monitor_printf(mon, "Status: %s\n",
+> +                   DirtyRateStatus_str(info->status));
+> +    monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
+> +                   info->start_time);
+> +    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
+> +                   info->sample_pages);
+> +    monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
+> +                   info->calc_time);
+> +    monitor_printf(mon, "Dirty rate: ");
+> +    if (info->has_dirty_rate) {
+> +        monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
+> +    } else {
+> +        monitor_printf(mon, "(not ready)\n");
+> +    }
+> +    g_free(info);
+> +}
 > +
-> +To run the playbook, execute::
+> +void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
+> +{
+> +    int64_t sec = qdict_get_try_int(qdict, "second", 0);
+> +    int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
+> +    bool has_sample_pages = (sample_pages != -1);
+> +    Error *err = NULL;
 > +
-> +  cd scripts/ci/setup
-> +  ansible-playbook -i inventory gitlab-runner.yml
+> +    if (!sec) {
+> +        monitor_printf(mon, "Incorrect period length specified!\n");
+> +        return;
+> +    }
 > +
-> +Following the registration, it's necessary to configure the runner tags,
-> +and optionally other configurations on the GitLab UI.  Navigate to:
+> +    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
+> +    if (err) {
+> +        hmp_handle_error(mon, err);
+> +        return;
+> +    }
 > +
-> + * Settings (the gears like icon), then
-> + * CI/CD, then
-> + * Runners, and click on the "Expand" button, then
-> + * "Runners activated for this project", then
-> + * Click on the "Edit" icon (next to the "Lock" Icon)
-> +
-> +Under tags, add values matching the jobs a runner should run.  For a
-> +Ubuntu 20.04 aarch64 system, the tags should be set as::
-> +
-> +  ubuntu_20.04,aarch64
-
-Also users no longer need manually create the tags.
-
-Remaining of the file looks good to me.
-
-> +
-> +Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
-> +would contain::
-> +
-> +  ubuntu-20.04-aarch64-all:
-> +   tags:
-> +   - ubuntu_20.04
-> +   - aarch64
-> +
-> +It's also recommended to:
-> +
-> + * increase the "Maximum job timeout" to something like ``2h``
-> + * give it a better Description
-> diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
-> new file mode 100644
-> index 0000000000..f112d05dd0
-> --- /dev/null
-> +++ b/scripts/ci/setup/.gitignore
-> @@ -0,0 +1 @@
-> +vars.yml
-> \ No newline at end of file
-> diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
-> new file mode 100644
-> index 0000000000..98dab92bb5
-> --- /dev/null
-> +++ b/scripts/ci/setup/gitlab-runner.yml
-> @@ -0,0 +1,61 @@
-> +---
-> +- name: Installation of gitlab-runner
-> +  hosts: all
-> +  vars_files:
-> +    - vars.yml
-> +  tasks:
-> +    - debug:
-> +        msg: 'Checking for a valid GitLab registration token'
-> +      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
-> +
-> +    - name: Create a group for the gitlab-runner service
-> +      group:
-> +        name: gitlab-runner
-> +
-> +    - name: Create a user for the gitlab-runner service
-> +      user:
-> +        user: gitlab-runner
-> +        group: gitlab-runner
-> +        comment: GitLab Runner
-> +        home: /home/gitlab-runner
-> +        shell: /bin/bash
-> +
-> +    - name: Remove the .bash_logout file when on Ubuntu systems
-> +      file:
-> +        path: /home/gitlab-runner/.bash_logout
-> +        state: absent
-> +      when: "ansible_facts['distribution'] == 'Ubuntu'"
-> +
-> +    - name: Set the Operating System for gitlab-runner
-> +      set_fact:
-> +        gitlab_runner_os: "{{ ansible_facts[\"system\"]|lower }}"
-> +    - debug:
-> +        msg: gitlab-runner OS is {{ gitlab_runner_os }}
-> +
-> +    - name: Set the architecture for gitlab-runner
-> +      set_fact:
-> +        gitlab_runner_arch: "{{ ansible_to_gitlab_arch[ansible_facts[\"architecture\"]] }}"
-> +    - debug:
-> +        msg: gitlab-runner arch is {{ gitlab_runner_arch }}
-> +
-> +    - name: Download the matching gitlab-runner
-> +      get_url:
-> +        dest: /usr/local/bin/gitlab-runner
-> +        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
-> +        owner: gitlab-runner
-> +        group: gitlab-runner
-> +        mode: u=rwx,g=rwx,o=rx
-> +
-> +    - name: Register the gitlab-runner
-> +      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
-> +
-> +    - name: Install the gitlab-runner service using its own functionality
-> +      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
-> +      register: gitlab_runner_install_service_result
-> +      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
-> +
-> +    - name: Enable the gitlab-runner service
-> +      service:
-> +        name: gitlab-runner
-> +        state: started
-> +        enabled: yes
-> diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
-> new file mode 100644
-> index 0000000000..e48089761f
-> --- /dev/null
-> +++ b/scripts/ci/setup/vars.yml.template
-> @@ -0,0 +1,12 @@
-> +# The version of the gitlab-runner to use
-> +gitlab_runner_version: 13.12.0
-> +# The URL of the gitlab server to use, usually https://gitlab.com unless you're
-> +# using a private GitLab instance
-> +gitlab_runner_server_url: https://gitlab.com
-> +# A mapping of the ansible to gitlab architecture nomenclature
-> +ansible_to_gitlab_arch:
-> +  x86_64: amd64
-> +  aarch64: arm64
-> +  s390x: s390x
-> +# A unique token made available by GitLab to your project for registering runners
-> +gitlab_runner_registration_token: PLEASE_PROVIDE_A_VALID_TOKEN
+> +    monitor_printf(mon, "Starting dirty rate measurement with period %"PRIi64
+> +                   " seconds\n", sec);
+> +    monitor_printf(mon, "[Please use 'info dirty_rate' to check results]\n");
+> +}
+> -- 
+> 2.18.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
