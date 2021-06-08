@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3654639F3DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 12:43:42 +0200 (CEST)
-Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CADF239F3F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 12:44:53 +0200 (CEST)
+Received: from localhost ([::1]:58564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqZCu-0001Rn-Sw
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 06:43:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
+	id 1lqZE4-0002vg-Sr
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 06:44:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqZ9q-0005QM-Dg
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 06:40:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56814)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqZC9-00013P-Hb
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 06:42:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqZ9n-0006Ky-Lz
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 06:40:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqZC7-0007sN-Rw
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 06:42:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623148826;
+ s=mimecast20190719; t=1623148971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LvRj7qy2WbCybqRKM9wDHTTaaV1FpaBS6GfWCzQZDKA=;
- b=jFS2b0QcBXUtg9Z+GWuUQnqHSVbqzzAZJdJOD/hD2T2GsHJUm3D2Qu9jc20BB2w0sPO/FB
- KDtUMHVZpM+JPrFWl3L6zg/L49yBj7D3cF2+rSjEZYbRktIySvWSsBZfp6H6eZHVZAYK0u
- upVhy35l7fHznBQYRJQ8XXgNzuV/tY0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-RZ1L6C6XN6upcfUnFY9MEA-1; Tue, 08 Jun 2021 06:40:23 -0400
-X-MC-Unique: RZ1L6C6XN6upcfUnFY9MEA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90D18015F5;
- Tue,  8 Jun 2021 10:40:21 +0000 (UTC)
-Received: from localhost (ovpn-114-153.ams2.redhat.com [10.36.114.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58B91100164C;
- Tue,  8 Jun 2021 10:40:20 +0000 (UTC)
-Date: Tue, 8 Jun 2021 11:40:20 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH 00/11] hw/nvme: reimplement all multi-aio commands
- with custom aiocbs
-Message-ID: <YL9JFPGsunA62KS0@stefanha-x1.localdomain>
-References: <20210604065237.873228-1-its@irrelevant.dk>
+ bh=G1EizyqKlAZ+Hg0iEpM6ML03wpjMinDZsv1HB6ywObE=;
+ b=Vddkc9mtNGey2sXLLUI841GN6WJFi9+eAgApbG3/U60TaIVONJmcG7bJlCv5B7R3Ki/Ti7
+ sq5p+MA5kVeimmrr6L04kyWTXLkrt5FvhojRIaks2nAoyW18+d+wI0+7OPC4g2brhxKcIt
+ QY03xqRDh9Z36ODwnTwDAVb4A7XtvRU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-MMDi80sIOUmySUH5IxszUA-1; Tue, 08 Jun 2021 06:42:50 -0400
+X-MC-Unique: MMDi80sIOUmySUH5IxszUA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v25-20020a1cf7190000b0290197a4be97b7so566223wmh.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 03:42:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G1EizyqKlAZ+Hg0iEpM6ML03wpjMinDZsv1HB6ywObE=;
+ b=XDXZA3IzZpBrF5+eX+S5+9Uv9AvQYoqbpFOTNeV0Dy4Gc1YrfSvJ51MZLVUvWPHGhh
+ h9PCXuAwynloksmjdppqDqwpA+uNOJ3JgMi0K2M0SgdnyiU0zxINucycdfSK6SaF+xix
+ OhTGZaJci6imy84gjMYewaIHPNd9eI6pZ3V2e9kRo28ggwg5VrJ9zDJ941/95AfbZkp6
+ NxPonyCSndXnqx7o3kIEQDvwz36jZnBjTgldsyEQXaFhmml3eqmvxi9sGgcNelJTNDbu
+ I9XxNT33EqO/GzAePz32fPUIeeBEqsUuPVnd4tO2H7DiEJHhlk09Xsci6f6WDiTe+bEB
+ Igmw==
+X-Gm-Message-State: AOAM532jpDQBm/VdxcH3ULOCGGMiFT33cfMbqZEMRjcnJhInpE82I/mg
+ P8+/GDoGzLaTzXU/JsTT2n0TO4A+8YasUrhhd+l4HIRM539mHb1m0/5ksj6sL5X1foFKD6ElL0X
+ O5E20OIhjjIxkZOY=
+X-Received: by 2002:a5d:494c:: with SMTP id r12mr21613860wrs.421.1623148968876; 
+ Tue, 08 Jun 2021 03:42:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUYznfDDypI9vvzyXaYeDO22Pby0aB+fmHxqMBK3wN118bCf/TPrA3C0kPCiOwNO58281pSw==
+X-Received: by 2002:a5d:494c:: with SMTP id r12mr21613849wrs.421.1623148968754; 
+ Tue, 08 Jun 2021 03:42:48 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id a1sm21974940wrg.92.2021.06.08.03.42.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 03:42:48 -0700 (PDT)
+Subject: Re: [PATCH v8 02/12] accel: Introduce 'query-accels' QMP command
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210526170432.343588-1-philmd@redhat.com>
+ <20210526170432.343588-3-philmd@redhat.com> <87r1hi7tna.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <762ff787-c2e7-b0fa-7938-64bea05044e7@redhat.com>
+Date: Tue, 8 Jun 2021 12:42:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210604065237.873228-1-its@irrelevant.dk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <87r1hi7tna.fsf@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EiJAQ7rKvUK97D+E"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,80 +99,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---EiJAQ7rKvUK97D+E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/3/21 7:19 PM, Alex Bennée wrote:
+> 
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+> 
+>> Introduce the 'query-accels' QMP command which returns a list
+>> of built-in accelerator names.
+>>
+>> - Accelerator is a QAPI enum of all existing accelerators,
+>>
+>> - AcceleratorInfo is a QAPI structure providing accelerator
+>>   specific information. Currently the common structure base
+>>   provides the name of the accelerator, while the specific
+>>   part is empty, but each accelerator can expand it.
+>>
+>> - 'query-accels' QMP command returns a list of @AcceleratorInfo
+>>
+>> For example on a KVM-only build we get:
+>>
+>>     { "execute": "query-accels" }
+>>     {
+>>         "return": [
+>>             {
+>>                 "name": "qtest"
+>>             },
+>>             {
+>>                 "name": "kvm"
+>>             }
+>>         ]
+>>     }
+>>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> Tested-by: Alex Bennée <alex.bennee@linaro.org>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> v8:
+>> - Include code snippet from Markus adding to machine-target.json
+>>   to be able to use enum values or union branches conditional.
+>> - Use accel_find() on enum to be sure the accelerator is enabled
+>>   at runtime (chat with jsnow / eblake).
+> 
+> Hmm something broke because now I get:
+> 
+>  /usr/lib/x86_64-linux-gnu/libpixman-1.so -lgthread-2.0 -lglib-2.0 -lstdc++ -Wl,--end-group
+> /usr/bin/ld: libqemu-aarch64_be-linux-user.fa.p/accel_accel-qmp.c.o: in function `qmp_query_accels':
+> /home/alex/lsrc/qemu.git/builds/arm.all/../../accel/accel-qmp.c:15: undefined reference to `Accelerator_lookup'
+> collect2: error: ld returned 1 exit status
+> [1327/1413] Linking target qemu-io
 
-On Fri, Jun 04, 2021 at 08:52:26AM +0200, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> This series reimplements flush, dsm, copy, zone reset and format nvm to
-> allow cancellation. I posted an RFC back in March ("hw/block/nvme:
-> convert ad-hoc aio tracking to aiocb") and I've applied some feedback
-> from Stefan and reimplemented the remaining commands.
->=20
-> The basic idea is to define custom AIOCBs for these commands. The custom
-> AIOCB takes care of issuing all the "nested" AIOs one by one instead of
-> blindly sending them off simultaneously without tracking the returned
-> aiocbs.
->=20
-> I've kept the RFC since I'm still new to using the block layer like
-> this. I was hoping that Stefan could find some time to look over this -
-> this is a huge series, so I don't expect non-nvme folks to spend a large
-> amount of time on it, but I would really like feedback on my approach in
-> the reimplementation of flush and format. Those commands are special in
-> that may issue AIOs to multiple namespaces and thus, to multiple block
-> backends. Since this device does not support iothreads, I've opted for
-> simply always returning the main loop aio context, but I wonder if this
-> is acceptable or not. It might be the case that this should contain an
-> assert of some kind, in case someone starts adding iothread support.
-
-This approach looks fine to me. Vladimir mentioned coroutines, which
-have simpler code for sequential I/O, but don't support cancellation.
-Since cancellation is the point of this series I think sticking to the
-aio approach makes sense.
-
-Regarding coroutine cancellation, it's a hard to add since there is
-already a lot of coroutine code that's not written with cancellation in
-mind.
-
-I think I would approach it by adding a .cancel_cb() field to Coroutine
-that does nothing by default (because existing code doesn't support
-cancellation and we must wait for the operation to complete). Cases the
-do support cancellation would install a .cancel_cb() across yield that
-causes the operation that coroutine is waiting on to complete early.
-
-An alternative approach is to re-enter the coroutine, but this requires
-all yield points in QEMU to check for cancellation. I don't think this
-is practical because converting all the code would be hard.
-
-Anyway, the aio approach looks fine.
-
-Stefan
-
---EiJAQ7rKvUK97D+E
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmC/SRMACgkQnKSrs4Gr
-c8gcJgf+NfNCVN8C3DrMYaK2DEBHkpV/z6rQPm8vQ3Msil76eyPlg5YL4q1KcCNq
-K9efkd6w47xHdlSCpsUNe5uwA2n9CMDGjOrS8EQwi2EJF46NC0IulhozDJ9wKsfm
-VHBm9YJSMJQfbQNd5eFrr1PnzWGyV3D/KmelN0Dokq00Rayc+NKFzaG7YmNdNz0s
-Qt+HrJvS9LOG5rVCXPih5cWHcRKoZWHO6W2LDP7dI94KhEQqv5e/SbYuQPowgkZx
-TkDkghSA6gapd/U/6mhacQMuCrnZCdloH4FLt3ahZbZtZD5hC+pWnAztu3EDCGQJ
-vY5vyTOJ8wy9iAq0G0WH1nMjirgVgQ==
-=QO22
------END PGP SIGNATURE-----
-
---EiJAQ7rKvUK97D+E--
+Sorry I missed that for user-mode, will be fixed in v9.
 
 
