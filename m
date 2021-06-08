@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D6039F611
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D80939F610
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 14:09:42 +0200 (CEST)
-Received: from localhost ([::1]:49254 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqaY9-0000S6-5r
+	id 1lqaY9-0000aR-1T
 	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 08:09:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54938)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lqaWQ-0006HK-WB
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:07:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47843)
+ id 1lqaWW-0006Oe-BX
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:08:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lqaWK-0001Dv-Jz
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:07:53 -0400
+ id 1lqaWT-0001JI-UC
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 08:08:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623154067;
+ s=mimecast20190719; t=1623154077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=szypnb0aKBCHS+5fm3km5evCasCtlB/6bd/9tjjtW7E=;
- b=XRxa9TeElnvi3qrcaJiKvVbtwOQA8ajeFkUI3+Zas2xtocQhnOKwY+S8dcFlFZto/tupZW
- fUAGVUKaT15nyP6c8MMF1i5C6uoeRubf3YQfKYGsytTdK0RGMuK6Zb1fAVNWC+sfBfyaUO
- g6J8G7eDwelfNEresJl5ME2/AsGRIzs=
+ bh=hsOmP1hUYUI1oK1o9o7Og47poQa7lx76Iub8n0k9/Cc=;
+ b=Hl/O8mNYm2my3Ge4mrlrBfidKLS63Ulfh2hpQMJG/Mo7rmg0RLM747KNoido8gxPO7hQ63
+ tKNNRuB0CUlkYELi/PDjqjuS5kZvgwX4vD/Kaw+pXMWd6P71dy2VOfhahVYSaTtUwuIa2a
+ XLd95UNd3H1JCtB2BYqymcrEcdFsdSw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-oeSUSlYIPEqsOA2dvOXkhA-1; Tue, 08 Jun 2021 08:07:45 -0400
-X-MC-Unique: oeSUSlYIPEqsOA2dvOXkhA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-597-uDtBN3y1Ot2PjXHV-HBRLA-1; Tue, 08 Jun 2021 08:07:54 -0400
+X-MC-Unique: uDtBN3y1Ot2PjXHV-HBRLA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74E461020C38
- for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 12:07:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1FE2803620
+ for <qemu-devel@nongnu.org>; Tue,  8 Jun 2021 12:07:53 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E20460C16;
- Tue,  8 Jun 2021 12:07:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6817B620DE;
+ Tue,  8 Jun 2021 12:07:48 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/9] qapi: replace List[str] by QAPISchemaIfCond
-Date: Tue,  8 Jun 2021 16:07:16 +0400
-Message-Id: <20210608120723.2268181-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v5 3/9] qapi: make gen_if/gen_endif take a simple string
+Date: Tue,  8 Jun 2021 16:07:17 +0400
+Message-Id: <20210608120723.2268181-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
 References: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -87,735 +87,257 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Wrap the 'if' condition in a higher-level object. Not only does this
-provide more type safety but it also enables further refactoring without
-too much churn.
-
-The following patches will change the syntax of the schema 'if'
-conditions to be predicate expressions, and will generate code for
-different target languages (C, and Rust in another series).
+Instead of building prepocessor conditions from a list of string, use
+the result generated from QAPISchemaIfCond.cgen().
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Tested-by: John Snow <jsnow@redhat.com>
 ---
- docs/sphinx/qapidoc.py         |  2 +-
- scripts/qapi/commands.py       |  4 +-
- scripts/qapi/events.py         |  5 ++-
- scripts/qapi/gen.py            | 14 +++----
- scripts/qapi/introspect.py     | 26 ++++++------
- scripts/qapi/schema.py         | 74 +++++++++++++++++++++++-----------
- scripts/qapi/types.py          | 33 +++++++--------
- scripts/qapi/visit.py          | 23 ++++++-----
- tests/qapi-schema/test-qapi.py |  2 +-
- 9 files changed, 106 insertions(+), 77 deletions(-)
+ scripts/qapi/common.py     | 24 +++++++++++-------------
+ scripts/qapi/gen.py        |  4 ++--
+ scripts/qapi/introspect.py |  4 ++--
+ scripts/qapi/schema.py     |  3 +++
+ scripts/qapi/types.py      | 20 ++++++++++----------
+ scripts/qapi/visit.py      | 12 ++++++------
+ 6 files changed, 34 insertions(+), 33 deletions(-)
 
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index 87c67ab23f..b737949007 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -116,7 +116,7 @@ def _nodes_for_ifcond(self, ifcond, with_if=True):
-         the conditions are in literal-text and the commas are not.
-         If with_if is False, we don't return the "(If: " and ")".
-         """
--        condlist = intersperse([nodes.literal('', c) for c in ifcond],
-+        condlist = intersperse([nodes.literal('', c) for c in ifcond.ifcond],
-                                nodes.Text(', '))
-         if not with_if:
-             return condlist
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index 0e13d51054..3654825968 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -17,7 +17,6 @@
-     Dict,
-     List,
-     Optional,
--    Sequence,
-     Set,
- )
- 
-@@ -31,6 +30,7 @@
- from .schema import (
-     QAPISchema,
-     QAPISchemaFeature,
-+    QAPISchemaIfCond,
-     QAPISchemaObjectType,
-     QAPISchemaType,
- )
-@@ -301,7 +301,7 @@ def visit_end(self) -> None:
-     def visit_command(self,
-                       name: str,
-                       info: Optional[QAPISourceInfo],
--                      ifcond: Sequence[str],
-+                      ifcond: QAPISchemaIfCond,
-                       features: List[QAPISchemaFeature],
-                       arg_type: Optional[QAPISchemaObjectType],
-                       ret_type: Optional[QAPISchemaType],
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index fee8c671e7..82475e84ec 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index 6ad1eeb61d..c305aaf2f1 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
 @@ -12,7 +12,7 @@
- See the COPYING file in the top-level directory.
- """
+ # See the COPYING file in the top-level directory.
  
--from typing import List, Optional, Sequence
-+from typing import List, Optional
+ import re
+-from typing import Match, Optional, Sequence
++from typing import Match, Optional
  
- from .common import c_enum_const, c_name, mcgen
- from .gen import QAPISchemaModularCVisitor, build_params, ifcontext
-@@ -20,6 +20,7 @@
-     QAPISchema,
-     QAPISchemaEnumMember,
-     QAPISchemaFeature,
-+    QAPISchemaIfCond,
-     QAPISchemaObjectType,
- )
- from .source import QAPISourceInfo
-@@ -227,7 +228,7 @@ def visit_end(self) -> None:
-     def visit_event(self,
-                     name: str,
-                     info: Optional[QAPISourceInfo],
--                    ifcond: Sequence[str],
-+                    ifcond: QAPISchemaIfCond,
-                     features: List[QAPISchemaFeature],
-                     arg_type: Optional[QAPISchemaObjectType],
-                     boxed: bool) -> None:
+ 
+ #: Magic string that gets removed along with all space to its right.
+@@ -194,22 +194,20 @@ def guardend(name: str) -> str:
+                  name=c_fname(name).upper())
+ 
+ 
+-def gen_if(ifcond: Sequence[str]) -> str:
+-    ret = ''
+-    for ifc in ifcond:
+-        ret += mcgen('''
++def gen_if(cond: str) -> str:
++    if not cond:
++        return ''
++    return mcgen('''
+ #if %(cond)s
+-''', cond=ifc)
+-    return ret
++''', cond=cond)
+ 
+ 
+-def gen_endif(ifcond: Sequence[str]) -> str:
+-    ret = ''
+-    for ifc in reversed(ifcond):
+-        ret += mcgen('''
++def gen_endif(cond: str) -> str:
++    if not cond:
++        return ''
++    return mcgen('''
+ #endif /* %(cond)s */
+-''', cond=ifc)
+-    return ret
++''', cond=cond)
+ 
+ 
+ def must_match(pattern: str, string: str) -> Match[str]:
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 1fa503bdbd..1c5b190276 100644
+index 1c5b190276..51a597a025 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -18,7 +18,6 @@
-     Dict,
-     Iterator,
-     Optional,
--    Sequence,
-     Tuple,
- )
- 
-@@ -32,6 +31,7 @@
-     mcgen,
- )
- from .schema import (
-+    QAPISchemaIfCond,
-     QAPISchemaModule,
-     QAPISchemaObjectType,
-     QAPISchemaVisitor,
-@@ -85,7 +85,7 @@ def write(self, output_dir: str) -> None:
-                 fp.write(text)
- 
- 
--def _wrap_ifcond(ifcond: Sequence[str], before: str, after: str) -> str:
-+def _wrap_ifcond(ifcond: QAPISchemaIfCond, before: str, after: str) -> str:
-     if before == after:
-         return after   # suppress empty #if ... #endif
- 
-@@ -95,9 +95,9 @@ def _wrap_ifcond(ifcond: Sequence[str], before: str, after: str) -> str:
+@@ -95,9 +95,9 @@ def _wrap_ifcond(ifcond: QAPISchemaIfCond, before: str, after: str) -> str:
      if added[0] == '\n':
          out += '\n'
          added = added[1:]
--    out += gen_if(ifcond)
-+    out += gen_if(ifcond.ifcond)
+-    out += gen_if(ifcond.ifcond)
++    out += gen_if(ifcond.cgen())
      out += added
--    out += gen_endif(ifcond)
-+    out += gen_endif(ifcond.ifcond)
+-    out += gen_endif(ifcond.ifcond)
++    out += gen_endif(ifcond.cgen())
      return out
  
  
-@@ -127,9 +127,9 @@ def build_params(arg_type: Optional[QAPISchemaObjectType],
- class QAPIGenCCode(QAPIGen):
-     def __init__(self, fname: str):
-         super().__init__(fname)
--        self._start_if: Optional[Tuple[Sequence[str], str, str]] = None
-+        self._start_if: Optional[Tuple[QAPISchemaIfCond, str, str]] = None
- 
--    def start_if(self, ifcond: Sequence[str]) -> None:
-+    def start_if(self, ifcond: QAPISchemaIfCond) -> None:
-         assert self._start_if is None
-         self._start_if = (ifcond, self._body, self._preamble)
- 
-@@ -187,7 +187,7 @@ def _bottom(self) -> str:
- 
- 
- @contextmanager
--def ifcontext(ifcond: Sequence[str], *args: QAPIGenCCode) -> Iterator[None]:
-+def ifcontext(ifcond: QAPISchemaIfCond, *args: QAPIGenCCode) -> Iterator[None]:
-     """
-     A with-statement context manager that wraps with `start_if()` / `end_if()`.
- 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 9a348ca2e5..77a8c33ad4 100644
+index 77a8c33ad4..474b08fd4d 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -15,11 +15,9 @@
-     Any,
-     Dict,
-     Generic,
--    Iterable,
-     List,
-     Optional,
-     Sequence,
--    Tuple,
-     TypeVar,
-     Union,
- )
-@@ -38,6 +36,7 @@
-     QAPISchemaEntity,
-     QAPISchemaEnumMember,
-     QAPISchemaFeature,
-+    QAPISchemaIfCond,
-     QAPISchemaObjectType,
-     QAPISchemaObjectTypeMember,
-     QAPISchemaType,
-@@ -91,11 +90,11 @@ class Annotated(Generic[_ValueT]):
-     """
-     # TODO: Remove after Python 3.7 adds @dataclass:
-     # pylint: disable=too-few-public-methods
--    def __init__(self, value: _ValueT, ifcond: Iterable[str],
-+    def __init__(self, value: _ValueT, ifcond: QAPISchemaIfCond,
-                  comment: Optional[str] = None):
-         self.value = value
-         self.comment: Optional[str] = comment
--        self.ifcond: Tuple[str, ...] = tuple(ifcond)
-+        self.ifcond = ifcond
- 
- 
- def _tree_to_qlit(obj: JSONValue,
-@@ -125,10 +124,10 @@ def indent(level: int) -> str:
+@@ -124,10 +124,10 @@ def indent(level: int) -> str:
          if obj.comment:
              ret += indent(level) + f"/* {obj.comment} */\n"
          if obj.ifcond:
--            ret += gen_if(obj.ifcond)
-+            ret += gen_if(obj.ifcond.ifcond)
+-            ret += gen_if(obj.ifcond.ifcond)
++            ret += gen_if(obj.ifcond.cgen())
          ret += _tree_to_qlit(obj.value, level)
          if obj.ifcond:
--            ret += '\n' + gen_endif(obj.ifcond)
-+            ret += '\n' + gen_endif(obj.ifcond.ifcond)
+-            ret += '\n' + gen_endif(obj.ifcond.ifcond)
++            ret += '\n' + gen_endif(obj.ifcond.cgen())
          return ret
  
      ret = ''
-@@ -254,7 +253,7 @@ def _gen_features(features: Sequence[QAPISchemaFeature]
-         return [Annotated(f.name, f.ifcond) for f in features]
- 
-     def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
--                  ifcond: Sequence[str] = (),
-+                  ifcond: QAPISchemaIfCond = QAPISchemaIfCond(),
-                   features: Sequence[QAPISchemaFeature] = ()) -> None:
-         """
-         Build and append a SchemaInfo object to self._trees.
-@@ -305,7 +304,7 @@ def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
-         self._gen_tree(name, 'builtin', {'json-type': json_type})
- 
-     def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
--                        ifcond: Sequence[str],
-+                        ifcond: QAPISchemaIfCond,
-                         features: List[QAPISchemaFeature],
-                         members: List[QAPISchemaEnumMember],
-                         prefix: Optional[str]) -> None:
-@@ -316,14 +315,14 @@ def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
-         )
- 
-     def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
--                         ifcond: Sequence[str],
-+                         ifcond: QAPISchemaIfCond,
-                          element_type: QAPISchemaType) -> None:
-         element = self._use_type(element_type)
-         self._gen_tree('[' + element + ']', 'array', {'element-type': element},
-                        ifcond)
- 
-     def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
--                               ifcond: Sequence[str],
-+                               ifcond: QAPISchemaIfCond,
-                                features: List[QAPISchemaFeature],
-                                members: List[QAPISchemaObjectTypeMember],
-                                variants: Optional[QAPISchemaVariants]) -> None:
-@@ -336,7 +335,7 @@ def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
-         self._gen_tree(name, 'object', obj, ifcond, features)
- 
-     def visit_alternate_type(self, name: str, info: Optional[QAPISourceInfo],
--                             ifcond: Sequence[str],
-+                             ifcond: QAPISchemaIfCond,
-                              features: List[QAPISchemaFeature],
-                              variants: QAPISchemaVariants) -> None:
-         self._gen_tree(
-@@ -348,7 +347,7 @@ def visit_alternate_type(self, name: str, info: Optional[QAPISourceInfo],
-         )
- 
-     def visit_command(self, name: str, info: Optional[QAPISourceInfo],
--                      ifcond: Sequence[str],
-+                      ifcond: QAPISchemaIfCond,
-                       features: List[QAPISchemaFeature],
-                       arg_type: Optional[QAPISchemaObjectType],
-                       ret_type: Optional[QAPISchemaType], gen: bool,
-@@ -367,7 +366,8 @@ def visit_command(self, name: str, info: Optional[QAPISourceInfo],
-         self._gen_tree(name, 'command', obj, ifcond, features)
- 
-     def visit_event(self, name: str, info: Optional[QAPISourceInfo],
--                    ifcond: Sequence[str], features: List[QAPISchemaFeature],
-+                    ifcond: QAPISchemaIfCond,
-+                    features: List[QAPISchemaFeature],
-                     arg_type: Optional[QAPISchemaObjectType],
-                     boxed: bool) -> None:
-         assert self._schema is not None
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index d1d27ff7ee..bc357ebbfa 100644
+index bc357ebbfa..aa4715c519 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
-@@ -25,6 +25,20 @@
- from .parser import QAPISchemaParser
+@@ -29,6 +29,9 @@ class QAPISchemaIfCond:
+     def __init__(self, ifcond=None):
+         self.ifcond = ifcond or []
  
- 
-+class QAPISchemaIfCond:
-+    def __init__(self, ifcond=None):
-+        self.ifcond = ifcond or []
++    def cgen(self):
++        return ' && '.join(self.ifcond)
 +
-+    # Returns true if the condition is not void
-+    def __bool__(self):
-+        return bool(self.ifcond)
-+
-+    def __eq__(self, other):
-+        if not isinstance(other, QAPISchemaIfCond):
-+            return NotImplemented
-+        return self.ifcond == other.ifcond
-+
-+
- class QAPISchemaEntity:
-     meta: Optional[str] = None
- 
-@@ -42,7 +56,7 @@ def __init__(self, name: str, info, doc, ifcond=None, features=None):
-         # such place).
-         self.info = info
-         self.doc = doc
--        self._ifcond = ifcond or []
-+        self._ifcond = ifcond or QAPISchemaIfCond()
-         self.features = features or []
-         self._checked = False
- 
-@@ -77,7 +91,7 @@ def set_module(self, schema):
- 
-     @property
-     def ifcond(self):
--        assert self._checked
-+        assert self._checked and isinstance(self._ifcond, QAPISchemaIfCond)
-         return self._ifcond
- 
-     def is_implicit(self):
-@@ -601,7 +615,7 @@ def check(self, schema, seen):
-         else:                   # simple union
-             assert isinstance(self.tag_member.type, QAPISchemaEnumType)
-             assert not self.tag_member.optional
--            assert self.tag_member.ifcond == []
-+            assert not self.tag_member.ifcond
-         if self._tag_name:    # flat union
-             # branches that are not explicitly covered get an empty type
-             cases = {v.name for v in self.variants}
-@@ -646,7 +660,7 @@ def __init__(self, name, info, ifcond=None):
-         assert isinstance(name, str)
-         self.name = name
-         self.info = info
--        self.ifcond = ifcond or []
-+        self.ifcond = ifcond or QAPISchemaIfCond()
-         self.defined_in = None
- 
-     def set_defined_in(self, name):
-@@ -968,11 +982,13 @@ def _def_predefineds(self):
-     def _make_features(self, features, info):
-         if features is None:
-             return []
--        return [QAPISchemaFeature(f['name'], info, f.get('if'))
-+        return [QAPISchemaFeature(f['name'], info,
-+                                  QAPISchemaIfCond(f.get('if')))
-                 for f in features]
- 
-     def _make_enum_members(self, values, info):
--        return [QAPISchemaEnumMember(v['name'], info, v.get('if'))
-+        return [QAPISchemaEnumMember(v['name'], info,
-+                                     QAPISchemaIfCond(v.get('if')))
-                 for v in values]
- 
-     def _make_implicit_enum_type(self, name, info, ifcond, values):
-@@ -1008,7 +1024,7 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
-             # TODO kill simple unions or implement the disjunction
- 
-             # pylint: disable=protected-access
--            assert (ifcond or []) == typ._ifcond
-+            assert ifcond == typ._ifcond
-         else:
-             self._def_entity(QAPISchemaObjectType(
-                 name, info, None, ifcond, None, None, members, None))
-@@ -1018,7 +1034,7 @@ def _def_enum_type(self, expr, info, doc):
-         name = expr['enum']
-         data = expr['data']
-         prefix = expr.get('prefix')
--        ifcond = expr.get('if')
-+        ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
-         self._def_entity(QAPISchemaEnumType(
-             name, info, doc, ifcond, features,
-@@ -1036,7 +1052,8 @@ def _make_member(self, name, typ, ifcond, features, info):
-                                           self._make_features(features, info))
- 
-     def _make_members(self, data, info):
--        return [self._make_member(key, value['type'], value.get('if'),
-+        return [self._make_member(key, value['type'],
-+                                  QAPISchemaIfCond(value.get('if')),
-                                   value.get('features'), info)
-                 for (key, value) in data.items()]
- 
-@@ -1044,7 +1061,7 @@ def _def_struct_type(self, expr, info, doc):
-         name = expr['struct']
-         base = expr.get('base')
-         data = expr['data']
--        ifcond = expr.get('if')
-+        ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
-         self._def_entity(QAPISchemaObjectType(
-             name, info, doc, ifcond, features, base,
-@@ -1067,7 +1084,7 @@ def _def_union_type(self, expr, info, doc):
-         name = expr['union']
-         data = expr['data']
-         base = expr.get('base')
--        ifcond = expr.get('if')
-+        ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
-         tag_name = expr.get('discriminator')
-         tag_member = None
-@@ -1076,15 +1093,21 @@ def _def_union_type(self, expr, info, doc):
-                 name, info, ifcond,
-                 'base', self._make_members(base, info))
-         if tag_name:
--            variants = [self._make_variant(key, value['type'],
--                                           value.get('if'), info)
--                        for (key, value) in data.items()]
-+            variants = [
-+                self._make_variant(key, value['type'],
-+                                   QAPISchemaIfCond(value.get('if')),
-+                                   info)
-+                for (key, value) in data.items()
-+            ]
-             members = []
-         else:
--            variants = [self._make_simple_variant(key, value['type'],
--                                                  value.get('if'), info)
--                        for (key, value) in data.items()]
--            enum = [{'name': v.name, 'if': v.ifcond} for v in variants]
-+            variants = [
-+                self._make_simple_variant(key, value['type'],
-+                                          QAPISchemaIfCond(value.get('if')),
-+                                          info)
-+                for (key, value) in data.items()
-+            ]
-+            enum = [{'name': v.name, 'if': v.ifcond.ifcond} for v in variants]
-             typ = self._make_implicit_enum_type(name, info, ifcond, enum)
-             tag_member = QAPISchemaObjectTypeMember('type', info, typ, False)
-             members = [tag_member]
-@@ -1097,11 +1120,14 @@ def _def_union_type(self, expr, info, doc):
-     def _def_alternate_type(self, expr, info, doc):
-         name = expr['alternate']
-         data = expr['data']
--        ifcond = expr.get('if')
-+        ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
--        variants = [self._make_variant(key, value['type'], value.get('if'),
--                                       info)
--                    for (key, value) in data.items()]
-+        variants = [
-+            self._make_variant(key, value['type'],
-+                               QAPISchemaIfCond(value.get('if')),
-+                               info)
-+            for (key, value) in data.items()
-+        ]
-         tag_member = QAPISchemaObjectTypeMember('type', info, 'QType', False)
-         self._def_entity(
-             QAPISchemaAlternateType(name, info, doc, ifcond, features,
-@@ -1118,7 +1144,7 @@ def _def_command(self, expr, info, doc):
-         allow_oob = expr.get('allow-oob', False)
-         allow_preconfig = expr.get('allow-preconfig', False)
-         coroutine = expr.get('coroutine', False)
--        ifcond = expr.get('if')
-+        ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
-         if isinstance(data, OrderedDict):
-             data = self._make_implicit_object_type(
-@@ -1137,7 +1163,7 @@ def _def_event(self, expr, info, doc):
-         name = expr['event']
-         data = expr.get('data')
-         boxed = expr.get('boxed', False)
--        ifcond = expr.get('if')
-+        ifcond = QAPISchemaIfCond(expr.get('if'))
-         features = self._make_features(expr.get('features'), info)
-         if isinstance(data, OrderedDict):
-             data = self._make_implicit_object_type(
+     # Returns true if the condition is not void
+     def __bool__(self):
+         return bool(self.ifcond)
 diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 20d572a23a..3673cf0f49 100644
+index 3673cf0f49..db9ff95bd1 100644
 --- a/scripts/qapi/types.py
 +++ b/scripts/qapi/types.py
-@@ -13,7 +13,7 @@
- # See the COPYING file in the top-level directory.
- """
- 
--from typing import List, Optional, Sequence
-+from typing import List, Optional
- 
- from .common import (
-     c_enum_const,
-@@ -27,6 +27,7 @@
-     QAPISchema,
-     QAPISchemaEnumMember,
-     QAPISchemaFeature,
-+    QAPISchemaIfCond,
-     QAPISchemaObjectType,
-     QAPISchemaObjectTypeMember,
-     QAPISchemaType,
-@@ -50,13 +51,13 @@ def gen_enum_lookup(name: str,
+@@ -51,13 +51,13 @@ def gen_enum_lookup(name: str,
  ''',
                  c_name=c_name(name))
      for memb in members:
--        ret += gen_if(memb.ifcond)
-+        ret += gen_if(memb.ifcond.ifcond)
+-        ret += gen_if(memb.ifcond.ifcond)
++        ret += gen_if(memb.ifcond.cgen())
          index = c_enum_const(name, memb.name, prefix)
          ret += mcgen('''
          [%(index)s] = "%(name)s",
  ''',
                       index=index, name=memb.name)
--        ret += gen_endif(memb.ifcond)
-+        ret += gen_endif(memb.ifcond.ifcond)
+-        ret += gen_endif(memb.ifcond.ifcond)
++        ret += gen_endif(memb.ifcond.cgen())
  
      ret += mcgen('''
      },
-@@ -80,12 +81,12 @@ def gen_enum(name: str,
+@@ -81,12 +81,12 @@ def gen_enum(name: str,
                  c_name=c_name(name))
  
      for memb in enum_members:
--        ret += gen_if(memb.ifcond)
-+        ret += gen_if(memb.ifcond.ifcond)
+-        ret += gen_if(memb.ifcond.ifcond)
++        ret += gen_if(memb.ifcond.cgen())
          ret += mcgen('''
      %(c_enum)s,
  ''',
                       c_enum=c_enum_const(name, memb.name, prefix))
--        ret += gen_endif(memb.ifcond)
-+        ret += gen_endif(memb.ifcond.ifcond)
+-        ret += gen_endif(memb.ifcond.ifcond)
++        ret += gen_endif(memb.ifcond.cgen())
  
      ret += mcgen('''
  } %(c_name)s;
-@@ -125,7 +126,7 @@ def gen_array(name: str, element_type: QAPISchemaType) -> str:
+@@ -126,7 +126,7 @@ def gen_array(name: str, element_type: QAPISchemaType) -> str:
  def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) -> str:
      ret = ''
      for memb in members:
--        ret += gen_if(memb.ifcond)
-+        ret += gen_if(memb.ifcond.ifcond)
+-        ret += gen_if(memb.ifcond.ifcond)
++        ret += gen_if(memb.ifcond.cgen())
          if memb.optional:
              ret += mcgen('''
      bool has_%(c_name)s;
-@@ -135,11 +136,11 @@ def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) -> str:
+@@ -136,7 +136,7 @@ def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) -> str:
      %(c_type)s %(c_name)s;
  ''',
                       c_type=memb.type.c_type(), c_name=c_name(memb.name))
--        ret += gen_endif(memb.ifcond)
-+        ret += gen_endif(memb.ifcond.ifcond)
+-        ret += gen_endif(memb.ifcond.ifcond)
++        ret += gen_endif(memb.ifcond.cgen())
      return ret
  
  
--def gen_object(name: str, ifcond: Sequence[str],
-+def gen_object(name: str, ifcond: QAPISchemaIfCond,
-                base: Optional[QAPISchemaObjectType],
-                members: List[QAPISchemaObjectTypeMember],
-                variants: Optional[QAPISchemaVariants]) -> str:
-@@ -158,7 +159,7 @@ def gen_object(name: str, ifcond: Sequence[str],
+@@ -159,7 +159,7 @@ def gen_object(name: str, ifcond: QAPISchemaIfCond,
      ret += mcgen('''
  
  ''')
--    ret += gen_if(ifcond)
-+    ret += gen_if(ifcond.ifcond)
+-    ret += gen_if(ifcond.ifcond)
++    ret += gen_if(ifcond.cgen())
      ret += mcgen('''
  struct %(c_name)s {
  ''',
-@@ -192,7 +193,7 @@ def gen_object(name: str, ifcond: Sequence[str],
+@@ -193,7 +193,7 @@ def gen_object(name: str, ifcond: QAPISchemaIfCond,
      ret += mcgen('''
  };
  ''')
--    ret += gen_endif(ifcond)
-+    ret += gen_endif(ifcond.ifcond)
+-    ret += gen_endif(ifcond.ifcond)
++    ret += gen_endif(ifcond.cgen())
  
      return ret
  
-@@ -219,13 +220,13 @@ def gen_variants(variants: QAPISchemaVariants) -> str:
+@@ -220,13 +220,13 @@ def gen_variants(variants: QAPISchemaVariants) -> str:
      for var in variants.variants:
          if var.type.name == 'q_empty':
              continue
--        ret += gen_if(var.ifcond)
-+        ret += gen_if(var.ifcond.ifcond)
+-        ret += gen_if(var.ifcond.ifcond)
++        ret += gen_if(var.ifcond.cgen())
          ret += mcgen('''
          %(c_type)s %(c_name)s;
  ''',
                       c_type=var.type.c_unboxed_type(),
                       c_name=c_name(var.name))
--        ret += gen_endif(var.ifcond)
-+        ret += gen_endif(var.ifcond.ifcond)
+-        ret += gen_endif(var.ifcond.ifcond)
++        ret += gen_endif(var.ifcond.cgen())
  
      ret += mcgen('''
      } u;
-@@ -307,7 +308,7 @@ def _gen_type_cleanup(self, name: str) -> None:
-     def visit_enum_type(self,
-                         name: str,
-                         info: Optional[QAPISourceInfo],
--                        ifcond: Sequence[str],
-+                        ifcond: QAPISchemaIfCond,
-                         features: List[QAPISchemaFeature],
-                         members: List[QAPISchemaEnumMember],
-                         prefix: Optional[str]) -> None:
-@@ -318,7 +319,7 @@ def visit_enum_type(self,
-     def visit_array_type(self,
-                          name: str,
-                          info: Optional[QAPISourceInfo],
--                         ifcond: Sequence[str],
-+                         ifcond: QAPISchemaIfCond,
-                          element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.preamble_add(gen_fwd_object_or_array(name))
-@@ -328,7 +329,7 @@ def visit_array_type(self,
-     def visit_object_type(self,
-                           name: str,
-                           info: Optional[QAPISourceInfo],
--                          ifcond: Sequence[str],
-+                          ifcond: QAPISchemaIfCond,
-                           features: List[QAPISchemaFeature],
-                           base: Optional[QAPISchemaObjectType],
-                           members: List[QAPISchemaObjectTypeMember],
-@@ -351,7 +352,7 @@ def visit_object_type(self,
-     def visit_alternate_type(self,
-                              name: str,
-                              info: Optional[QAPISourceInfo],
--                             ifcond: Sequence[str],
-+                             ifcond: QAPISchemaIfCond,
-                              features: List[QAPISchemaFeature],
-                              variants: QAPISchemaVariants) -> None:
-         with ifcontext(ifcond, self._genh):
 diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 9e96f3c566..67721b2470 100644
+index 67721b2470..56ea516399 100644
 --- a/scripts/qapi/visit.py
 +++ b/scripts/qapi/visit.py
-@@ -13,7 +13,7 @@
- See the COPYING file in the top-level directory.
- """
- 
--from typing import List, Optional, Sequence
-+from typing import List, Optional
- 
- from .common import (
-     c_enum_const,
-@@ -29,6 +29,7 @@
-     QAPISchemaEnumMember,
-     QAPISchemaEnumType,
-     QAPISchemaFeature,
-+    QAPISchemaIfCond,
-     QAPISchemaObjectType,
-     QAPISchemaObjectTypeMember,
-     QAPISchemaType,
-@@ -78,7 +79,7 @@ def gen_visit_object_members(name: str,
+@@ -79,7 +79,7 @@ def gen_visit_object_members(name: str,
  
      for memb in members:
          deprecated = 'deprecated' in [f.name for f in memb.features]
--        ret += gen_if(memb.ifcond)
-+        ret += gen_if(memb.ifcond.ifcond)
+-        ret += gen_if(memb.ifcond.ifcond)
++        ret += gen_if(memb.ifcond.cgen())
          if memb.optional:
              ret += mcgen('''
      if (visit_optional(v, "%(name)s", &obj->has_%(c_name)s)) {
-@@ -111,7 +112,7 @@ def gen_visit_object_members(name: str,
+@@ -112,7 +112,7 @@ def gen_visit_object_members(name: str,
              ret += mcgen('''
      }
  ''')
--        ret += gen_endif(memb.ifcond)
-+        ret += gen_endif(memb.ifcond.ifcond)
+-        ret += gen_endif(memb.ifcond.ifcond)
++        ret += gen_endif(memb.ifcond.cgen())
  
      if variants:
          tag_member = variants.tag_member
-@@ -125,7 +126,7 @@ def gen_visit_object_members(name: str,
+@@ -126,7 +126,7 @@ def gen_visit_object_members(name: str,
          for var in variants.variants:
              case_str = c_enum_const(tag_member.type.name, var.name,
                                      tag_member.type.prefix)
--            ret += gen_if(var.ifcond)
-+            ret += gen_if(var.ifcond.ifcond)
+-            ret += gen_if(var.ifcond.ifcond)
++            ret += gen_if(var.ifcond.cgen())
              if var.type.name == 'q_empty':
                  # valid variant and nothing to do
                  ret += mcgen('''
-@@ -141,7 +142,7 @@ def gen_visit_object_members(name: str,
+@@ -142,7 +142,7 @@ def gen_visit_object_members(name: str,
                               case=case_str,
                               c_type=var.type.c_name(), c_name=c_name(var.name))
  
--            ret += gen_endif(var.ifcond)
-+            ret += gen_endif(var.ifcond.ifcond)
+-            ret += gen_endif(var.ifcond.ifcond)
++            ret += gen_endif(var.ifcond.cgen())
          ret += mcgen('''
      default:
          abort();
-@@ -227,7 +228,7 @@ def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
+@@ -228,7 +228,7 @@ def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
                  c_name=c_name(name))
  
      for var in variants.variants:
--        ret += gen_if(var.ifcond)
-+        ret += gen_if(var.ifcond.ifcond)
+-        ret += gen_if(var.ifcond.ifcond)
++        ret += gen_if(var.ifcond.cgen())
          ret += mcgen('''
      case %(case)s:
  ''',
-@@ -253,7 +254,7 @@ def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
+@@ -254,7 +254,7 @@ def gen_visit_alternate(name: str, variants: QAPISchemaVariants) -> str:
          ret += mcgen('''
          break;
  ''')
--        ret += gen_endif(var.ifcond)
-+        ret += gen_endif(var.ifcond.ifcond)
+-        ret += gen_endif(var.ifcond.ifcond)
++        ret += gen_endif(var.ifcond.cgen())
  
      ret += mcgen('''
      case QTYPE_NONE:
-@@ -352,7 +353,7 @@ def _begin_user_module(self, name: str) -> None:
-     def visit_enum_type(self,
-                         name: str,
-                         info: Optional[QAPISourceInfo],
--                        ifcond: Sequence[str],
-+                        ifcond: QAPISchemaIfCond,
-                         features: List[QAPISchemaFeature],
-                         members: List[QAPISchemaEnumMember],
-                         prefix: Optional[str]) -> None:
-@@ -363,7 +364,7 @@ def visit_enum_type(self,
-     def visit_array_type(self,
-                          name: str,
-                          info: Optional[QAPISourceInfo],
--                         ifcond: Sequence[str],
-+                         ifcond: QAPISchemaIfCond,
-                          element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-             self._genh.add(gen_visit_decl(name))
-@@ -372,7 +373,7 @@ def visit_array_type(self,
-     def visit_object_type(self,
-                           name: str,
-                           info: Optional[QAPISourceInfo],
--                          ifcond: Sequence[str],
-+                          ifcond: QAPISchemaIfCond,
-                           features: List[QAPISchemaFeature],
-                           base: Optional[QAPISchemaObjectType],
-                           members: List[QAPISchemaObjectTypeMember],
-@@ -394,7 +395,7 @@ def visit_object_type(self,
-     def visit_alternate_type(self,
-                              name: str,
-                              info: Optional[QAPISourceInfo],
--                             ifcond: Sequence[str],
-+                             ifcond: QAPISchemaIfCond,
-                              features: List[QAPISchemaFeature],
-                              variants: QAPISchemaVariants) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
-index f1c4deb9a5..2ec328b22e 100755
---- a/tests/qapi-schema/test-qapi.py
-+++ b/tests/qapi-schema/test-qapi.py
-@@ -95,7 +95,7 @@ def _print_variants(variants):
-     @staticmethod
-     def _print_if(ifcond, indent=4):
-         if ifcond:
--            print('%sif %s' % (' ' * indent, ifcond))
-+            print('%sif %s' % (' ' * indent, ifcond.ifcond))
- 
-     @classmethod
-     def _print_features(cls, features, indent=4):
 -- 
 2.29.0
 
