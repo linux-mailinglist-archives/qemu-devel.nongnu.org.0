@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D2F39F27A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:32:45 +0200 (CEST)
-Received: from localhost ([::1]:37270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B0639F275
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 11:32:35 +0200 (CEST)
+Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqY6G-0003xL-UW
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:32:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
+	id 1lqY66-0003gD-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 05:32:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXy5-00024h-Q7
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXy8-00024o-I3
  for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:24:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52014)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXy3-0008Us-2n
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:24:17 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lqXy6-00006y-QS
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 05:24:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623144254;
+ s=mimecast20190719; t=1623144258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9tddF0J8Rfm4efgQEDn+k/6KS0S23rDMpPXDo3BXofA=;
- b=BSSXINCuEWl02Mh3+/n4ZaDOHL7njVZhMN3DiregKOBlSwfif09FCCFDs63coDJT0yecJ4
- k9Oswj5LMeqYjNCQVAWCvsnfBRpZrHFiU0iJk6RtKlMNswYyn/Dqx33+QjgCb7rlqblJSq
- idvoU+cHmpEpaBsqO+Wjfxj26mVXw1g=
+ bh=cBh/A9K6OXS9yOcxVodh5dmxu/rI9zI9VQhbYXYyfOk=;
+ b=axPAGLXpyn173v9mTds9UK5KJSWEwci5ovcw0Obr08buAgIrTZ5lvzPIF7PKG50u+p3PZU
+ MOEv60pn/Whxz49TPwA1WA6zhR0AyHiojy5kJY716FH/ld+JwtInUHJue3hIRYZzLHvvCL
+ MAteIRiGoN99NmnlopKaK9kTjhFbHi8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-uqnJwONiPvOcwwWZ4zLiWw-1; Tue, 08 Jun 2021 05:24:13 -0400
-X-MC-Unique: uqnJwONiPvOcwwWZ4zLiWw-1
+ us-mta-387-umBwCOkpMgyWm8wSVesWJg-1; Tue, 08 Jun 2021 05:24:16 -0400
+X-MC-Unique: umBwCOkpMgyWm8wSVesWJg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AFB01020C39;
- Tue,  8 Jun 2021 09:24:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD13480ED9D;
+ Tue,  8 Jun 2021 09:24:14 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-132.ams2.redhat.com [10.36.115.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FEA75C1BB;
- Tue,  8 Jun 2021 09:24:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B76115C1BB;
+ Tue,  8 Jun 2021 09:24:12 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/26] s390x/tcg: Simplify wfc64() handling
-Date: Tue,  8 Jun 2021 11:23:21 +0200
-Message-Id: <20210608092337.12221-11-david@redhat.com>
+Subject: [PATCH v4 11/26] s390x/tcg: Implement VECTOR BIT PERMUTE
+Date: Tue,  8 Jun 2021 11:23:22 +0200
+Message-Id: <20210608092337.12221-12-david@redhat.com>
 In-Reply-To: <20210608092337.12221-1-david@redhat.com>
 References: <20210608092337.12221-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,57 +84,92 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-... and prepare for 32/128 bit support.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/vec_fpu_helper.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ target/s390x/helper.h           |  1 +
+ target/s390x/insn-data.def      |  2 ++
+ target/s390x/translate_vx.c.inc |  8 ++++++++
+ target/s390x/vec_helper.c       | 22 ++++++++++++++++++++++
+ 4 files changed, 33 insertions(+)
 
-diff --git a/target/s390x/vec_fpu_helper.c b/target/s390x/vec_fpu_helper.c
-index 7ca9c892f7..4af59ea66c 100644
---- a/target/s390x/vec_fpu_helper.c
-+++ b/target/s390x/vec_fpu_helper.c
-@@ -201,8 +201,8 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
-                  CPUS390XState *env, bool signal, uintptr_t retaddr)
- {
-     /* only the zero-indexed elements are compared */
--    const float64 a = s390_vec_read_element64(v1, 0);
--    const float64 b = s390_vec_read_element64(v2, 0);
-+    const float64 a = s390_vec_read_float64(v1, 0);
-+    const float64 b = s390_vec_read_float64(v2, 0);
-     uint8_t vxc, vec_exc = 0;
-     int cmp;
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 0cfb82ee8a..e99c9643eb 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -126,6 +126,7 @@ DEF_HELPER_FLAGS_1(stck, TCG_CALL_NO_RWG_SE, i64, env)
+ DEF_HELPER_FLAGS_3(probe_write_access, TCG_CALL_NO_WG, void, env, i64, i64)
  
-@@ -217,17 +217,18 @@ static int wfc64(const S390Vector *v1, const S390Vector *v2,
-     return float_comp_to_cc(env, cmp);
+ /* === Vector Support Instructions === */
++DEF_HELPER_FLAGS_4(gvec_vbperm, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(vll, TCG_CALL_NO_WG, void, env, ptr, i64, i64)
+ DEF_HELPER_FLAGS_4(gvec_vpk16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vpk32, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, i32)
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index 35a0086a85..1634a6bc5a 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -989,6 +989,8 @@
+ 
+ /* === Vector Support Instructions === */
+ 
++/* VECTOR BIT PERMUTE */
++    E(0xe785, VBPERM,  VRR_c, VE,  0, 0, 0, 0, vbperm, 0, 0, IF_VEC)
+ /* VECTOR GATHER ELEMENT */
+     E(0xe713, VGEF,    VRV,   V,   la2, 0, 0, 0, vge, 0, ES_32, IF_VEC)
+     E(0xe712, VGEG,    VRV,   V,   la2, 0, 0, 0, vge, 0, ES_64, IF_VEC)
+diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
+index 91e2967c49..96283d4ddb 100644
+--- a/target/s390x/translate_vx.c.inc
++++ b/target/s390x/translate_vx.c.inc
+@@ -327,6 +327,14 @@ static void gen_addi2_i64(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 al, TCGv_i64 ah,
+     tcg_temp_free_i64(bh);
  }
  
--void HELPER(gvec_wfc64)(const void *v1, const void *v2, CPUS390XState *env,
--                        uint32_t desc)
--{
--    env->cc_op = wfc64(v1, v2, env, false, GETPC());
-+#define DEF_GVEC_WFC_B(NAME, SIGNAL, BITS)                                     \
-+void HELPER(gvec_##NAME##BITS)(const void *v1, const void *v2,                 \
-+                               CPUS390XState *env, uint32_t desc)              \
-+{                                                                              \
-+    env->cc_op = wfc##BITS(v1, v2, env, SIGNAL, GETPC());                      \
- }
- 
--void HELPER(gvec_wfk64)(const void *v1, const void *v2, CPUS390XState *env,
--                        uint32_t desc)
--{
--    env->cc_op = wfc64(v1, v2, env, true, GETPC());
--}
-+#define DEF_GVEC_WFC(NAME, SIGNAL)                                             \
-+     DEF_GVEC_WFC_B(NAME, SIGNAL, 64)
++static DisasJumpType op_vbperm(DisasContext *s, DisasOps *o)
++{
++    gen_gvec_3_ool(get_field(s, v1), get_field(s, v2), get_field(s, v3), 0,
++                   gen_helper_gvec_vbperm);
 +
-+DEF_GVEC_WFC(wfc, false)
-+DEF_GVEC_WFC(wfk, true)
++    return DISAS_NEXT;
++}
++
+ static DisasJumpType op_vge(DisasContext *s, DisasOps *o)
+ {
+     const uint8_t es = s->insn->data;
+diff --git a/target/s390x/vec_helper.c b/target/s390x/vec_helper.c
+index 986e7cc825..599bab06bd 100644
+--- a/target/s390x/vec_helper.c
++++ b/target/s390x/vec_helper.c
+@@ -19,6 +19,28 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/exec-all.h"
  
- typedef bool (*vfc64_fn)(float64 a, float64 b, float_status *status);
- static int vfc64(S390Vector *v1, const S390Vector *v2, const S390Vector *v3,
++void HELPER(gvec_vbperm)(void *v1, const void *v2, const void *v3,
++                         uint32_t desc)
++{
++    S390Vector tmp = {};
++    uint16_t result = 0;
++    int i;
++
++    for (i = 0; i < 16; i++) {
++        const uint8_t bit_nr = s390_vec_read_element8(v3, i);
++        uint16_t bit;
++
++        if (bit_nr >= 128) {
++            continue;
++        }
++        bit = (s390_vec_read_element8(v2, bit_nr / 8)
++               >> (7 - (bit_nr % 8))) & 1;
++        result |= (bit << (15 - i));
++    }
++    s390_vec_write_element16(&tmp, 3, result);
++    *(S390Vector *)v1 = tmp;
++}
++
+ void HELPER(vll)(CPUS390XState *env, void *v1, uint64_t addr, uint64_t bytes)
+ {
+     if (likely(bytes >= 16)) {
 -- 
 2.31.1
 
