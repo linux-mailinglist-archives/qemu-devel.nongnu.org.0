@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E59F39ED62
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 06:09:41 +0200 (CEST)
-Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE11C39ED61
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 06:09:40 +0200 (CEST)
+Received: from localhost ([::1]:37790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqT3X-0006BT-6T
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 00:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
+	id 1lqT3b-0006Qa-LK
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 00:09:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lqT25-0003mm-1t
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 00:08:05 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33618)
+ id 1lqT2A-0003p6-WE
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 00:08:11 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1lqT23-0008Gd-BZ
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 00:08:04 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id a20so19955668wrc.0
- for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 21:08:02 -0700 (PDT)
+ id 1lqT29-0008LI-DN
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 00:08:10 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso827771wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Jun 2021 21:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1wq4fRBjwleyC1qIypGYYDpi+YewDcwgyZHwtM8Zqck=;
- b=JEw/K7A6elLZeH52lYkUAW0tPZ1tXoAo1Ma0mKczwxFNEqTFSm281fIEKAQo3yS1kT
- phQOgQP5/K1FdwYrQmV43DFQAcYbIt62WmDWP6XtKFsqhax3fr0s+wu/Nj7cNNE8CPld
- msVdGyd3c2gtOkPL1XNVak+zv0zuak+hs1eahvXk9HJ4xK/bwO8z2y33Q9l3x4WAn34j
- mO8vPdi1l67FAgM8P+4sI9oaE8M5faabxSJ68MV3xfWVYskSeWU0TAWnWMWICQ4VZR2h
- GvBonPhMkDQ0F6C/3dzBR4K8MOxVw3pWj2cedDj+ff1+boH1Le3ufSowq8gTC0pFSqWg
- IGaQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=36oKeZ9qVXLT1pntDuTE8MGk4raH2gBouPHQcv/dO34=;
+ b=eKaeglgEYxt4DaO7jjobQqoyYuv276p0KGc2TmIROeAfihY7YoSxG9DTdLi9ck3QpS
+ HUz+0zzouJAfk2wT6/bxSkrWmtneZHkDsFtVvHIieD2YPR6tIvj9/y/Pkg98LxKPFGG9
+ Kc2aDMbFT56hIwwWDQXF9NEfT2hb94opuLa0bp/H5ThQB2sKCNVdZzhZJO8g8vBPLWZb
+ 1XrU0RFF9QXsVs9rp+MIMtn0qpUMzddZccEXY6tIRtpSIG5u0/h2pybgqXQI6XDaX1Tm
+ RHvYoGwvcX+IkPvbXTATIDkzZZXZ3MSQlpm4QWo8e/nzKleBXI5xTUJOkcIU1iLnQh8e
+ ugAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1wq4fRBjwleyC1qIypGYYDpi+YewDcwgyZHwtM8Zqck=;
- b=g6Hh7z1CCZZdFqzLvJQ9Oc3KUz2HzXxpVIfxbfx78EIIJ8+vnbfUJZRMLneTZX9Zo4
- qZQYzLTV4TOAac6O17lYAUROyvgRb01kt+yNwCGfeTyxPpHQTuz/84IXTCBd+znambI+
- itrMTZNro1vNRmrRkO1OeuJMvd/hV840BiBeZOkW++dHZAdV0GdANOni7PRrYnydvKe4
- dqZKkVDY2+fwyYAZcxUH6tUhxnHxlzA4mTsDKkwi9REdxOnoQvaEDGEHnAbzKRztzbU7
- Xchm/w891wOtW0OyL9tl1Jt4j4wN2JDpa5ivIun4447+XMY2lsdYz/unWV7MZzg9FEu+
- XLjQ==
-X-Gm-Message-State: AOAM532M+nbhiGWD2FgwoXsD07o+aIw2YEuCRopueDN/JTVIM4f5u9zb
- biSJVrOdcn00j5EeyDSIuyE+iIU4sr+nrg==
-X-Google-Smtp-Source: ABdhPJxW+0hl0Wfe/jDmprmUtY9YWESJkn0TsFiP1lpTubcaSGS4eoUqXdbyLR19pbVhwf5SlrlOpA==
-X-Received: by 2002:a5d:698e:: with SMTP id g14mr20207082wru.212.1623125280316; 
- Mon, 07 Jun 2021 21:08:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=36oKeZ9qVXLT1pntDuTE8MGk4raH2gBouPHQcv/dO34=;
+ b=VpgNbjC3V0Guq61tV902qiSeH/JpRSeSac1976IP5CV8PGSObNVR7qY81n6Ml6i0D5
+ iL4Y/UJ+8LuwZmoSLetI+3v+pGNpN2YqK3alLE/vjNSFTNmWuhpplSsfK+MQ/u1rJPXI
+ oB0rbMBl6Y/MxAY5MA1S7QZbSz6a/z3YPZKQl7z+FOg3q56uZagWaFsn7kLp4TpluaB0
+ 7RonpMLvKxSuUV6agwzz0U4rM6ID8N7dVsLn8hVFo841cj76ZSjf26rptFiUrk3uAogH
+ TMkpdjk8mK4r5vgoP2v2eQS/th8Nfuqs5mfCc2rM75OctllRx8byn99DWRoEhe9MXKeS
+ VGoA==
+X-Gm-Message-State: AOAM530aCZCsprCMB/96XWKVyA6b4RYEI+3YywPIossDwW3BoO4iC/gR
+ W5CcXhIHv2NFjUI5ZOIA1vhBOZ8wtwuKkA==
+X-Google-Smtp-Source: ABdhPJwuRvQFwBpUv9+Ucf+U4Jp2UaEzc8vOJU+mkgivBUGNGa0hbtWVI81WJOR2FsLauCv58JA0PQ==
+X-Received: by 2002:a1c:7508:: with SMTP id o8mr1958900wmc.70.1623125287778;
+ Mon, 07 Jun 2021 21:08:07 -0700 (PDT)
 Received: from localhost.localdomain ([197.61.123.212])
- by smtp.gmail.com with ESMTPSA id y189sm16862008wmy.25.2021.06.07.21.07.58
+ by smtp.gmail.com with ESMTPSA id y189sm16862008wmy.25.2021.06.07.21.08.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jun 2021 21:07:59 -0700 (PDT)
+ Mon, 07 Jun 2021 21:08:07 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 0/4] Cache TCG plugin & symbol-resolution API
-Date: Tue,  8 Jun 2021 06:05:28 +0200
-Message-Id: <20210608040532.56449-1-ma.mandourr@gmail.com>
+Subject: [RFC PATCH v3 1/4] plugins/api: expose symbol lookup to plugins
+Date: Tue,  8 Jun 2021 06:05:29 +0200
+Message-Id: <20210608040532.56449-2-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210608040532.56449-1-ma.mandourr@gmail.com>
+References: <20210608040532.56449-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,75 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This RFC series introduces a new cache TCG plugin that models separate
-L1 data cache and L1 instruction cache and uses one shared cache for
-all the cores.
+From: Alex Bennée <alex.bennee@linaro.org>
 
-It also includes a commit by Alex that adds an API call that resolves
-the symbol of an insn.
+This is a quality of life helper for plugins so they don't need to
+re-implement symbol lookup when dumping an address. The strings are
+constant so don't need to be duplicated. One minor tweak is to return
+NULL instead of a zero length string to show lookup failed.
 
-The original RFC patch posted by Alex Bennée included incorporating
-symbol resolution into the cache plugin that caused conflicts, so I
-dropped the plugin additions from that and introduced them afterwards.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210601145824.3849-1-alex.bennee@linaro.org>
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+ include/qemu/qemu-plugin.h | 9 +++++++++
+ plugins/api.c              | 6 ++++++
+ 2 files changed, 15 insertions(+)
 
-v2 -> v3:
-    Precomputed the value of block size shift once and stored in the
-    cache.
-
-    Removed tag shifting since it's okay to leave the tag in the
-    high-order bits and mask out set index and block offset.
-
-    Used one hashtable to store InsnData structs and made the structs
-    have separate counters for data misses and instruction misses.
-
-    Used a boolean to indicate whether an access resulted in a hit or a
-    miss.
-
-    Inserted an InsnData struct into the hashtable on translation-time
-    and made sure we do so once so that we don't rewrite the struct if
-    an instruction is translated multiple times.
-
-    Made the output format for most-missing instructions more
-    machine-readable.
-
-    Removed trace-generation.
-
-    Freed tokenized strings after argument parsing.
-
-    Returned null from cache_init() if argument cache config is bad.
-
-    Used one enum to indicate the chosen eviction policy.
-
-    Added function pointers for cache update and metadata initialization
-    and destroying. Those pointers are assigned to policy-specific
-    functions.
-
-    Remade LRU. Assigned a generation number that is incremented on each
-    set access to the currently-accessed block's priority. On miss, 
-    evicted the block with the least generation number.
-
-    Allowed to give multiple "evict" arguments and sticked to the last
-    one.
-
-Alex Bennée (1):
-  plugins/api: expose symbol lookup to plugins
-
-Mahmoud Mandour (3):
-  plugins: Added a new cache modelling plugin.
-  plugins/cache: Enabled cache parameterization
-  plugins/cache: Added FIFO and LRU eviction policies.
-
- contrib/plugins/Makefile   |   1 +
- contrib/plugins/cache.c    | 642 +++++++++++++++++++++++++++++++++++++
- include/qemu/qemu-plugin.h |   9 +
- plugins/api.c              |   6 +
- 4 files changed, 658 insertions(+)
- create mode 100644 contrib/plugins/cache.c
-
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 97cdfd7761..dc3496f36c 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -525,6 +525,15 @@ qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
+ 
+ char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn);
+ 
++/**
++ * qemu_plugin_insn_symbol() - best effort symbol lookup
++ * @insn: instruction reference
++ *
++ * Return a static string referring to the symbol. This is dependent
++ * on the binary QEMU is running having provided a symbol table.
++ */
++const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn);
++
+ /**
+  * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
+  * @id: plugin ID
+diff --git a/plugins/api.c b/plugins/api.c
+index 817c9b6b69..332e2c60e2 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -233,6 +233,12 @@ char *qemu_plugin_insn_disas(const struct qemu_plugin_insn *insn)
+     return plugin_disas(cpu, insn->vaddr, insn->data->len);
+ }
+ 
++const char *qemu_plugin_insn_symbol(const struct qemu_plugin_insn *insn)
++{
++    const char *sym = lookup_symbol(insn->vaddr);
++    return sym[0] != 0 ? sym : NULL;
++}
++
+ /*
+  * The memory queries allow the plugin to query information about a
+  * memory access.
 -- 
 2.25.1
 
