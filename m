@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CD23A041D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 21:27:17 +0200 (CEST)
-Received: from localhost ([::1]:42678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D873A0420
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 21:30:14 +0200 (CEST)
+Received: from localhost ([::1]:46968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqhNc-00057p-Br
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 15:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
+	id 1lqhQR-00085q-NJ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 15:30:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqhM9-0003ek-Ez
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:25:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54437)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqhP5-00079P-FG
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:28:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqhM6-0005WF-Ep
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:25:45 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqhP3-0006xf-S1
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 15:28:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623180341;
+ s=mimecast20190719; t=1623180523;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SVbPVxrQMv9UwHIR32/OWDARg9VjrHygtXC1UTY9g0g=;
- b=HYHa3ISrwp1HqI+A12AIHvIZ18z3gSyQnLYJCW3qV3+xE07JAsOpobG6BH+2rC4bb7aZ6f
- fOaW+qFATLnHMiLiwF/CCGP+KgYGqRKl53STxq2mxKThozWjHSpDjZyJ4f+gYv5cEdLWmq
- wvrlw6t805EhR4nxX3MkTteydvAlXuI=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-gp62FE_QMAW3-ltxNCvFVQ-1; Tue, 08 Jun 2021 15:25:40 -0400
-X-MC-Unique: gp62FE_QMAW3-ltxNCvFVQ-1
-Received: by mail-oi1-f199.google.com with SMTP id
- a29-20020a544e1d0000b02901eef9e4a58cso8821696oiy.3
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 12:25:40 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DtK1WPweqToUzsf/Cmm3DR/cZvSjbtW1iAaq21urrBw=;
+ b=do600PyR784PYS9DLLO9A88tvTU/D88AI8zjP60ECjkeF5sAmdKCEnWkaN4eJSU8D4sKgq
+ W4xZOCd2qnSALbdd471L1Qk6TgT3s1wQ4WcjefqDN3U8/45tEJEVG8hE/ZP6i+7MUzl5Il
+ 42PpKN3tcuxgJ51PmjU97y5TJkwznJw=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-ZjG32EHmN76yQRkzlck7Mg-1; Tue, 08 Jun 2021 15:28:42 -0400
+X-MC-Unique: ZjG32EHmN76yQRkzlck7Mg-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ r130-20020a4a37880000b029024987ad471cso6784657oor.17
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 12:28:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SVbPVxrQMv9UwHIR32/OWDARg9VjrHygtXC1UTY9g0g=;
- b=VxZu+5wpVXaOzhHWnERLRHfGuKOuOOUF7dGGSk6nZOdAxxmqViuFUuelLkcN5sLiG0
- e6T5npTEeYgIje8myeHbxDqtNuL3xJpOQ/v1IwXbKreppwahGsuazalRD6avNB31FtOT
- 1gQ1l9Cq+fgYLYteyd7udRrebMgx/i9zWxjRK3tLk9CYN1BUGWU1IuAOqRQWd5P5JTVf
- 7SgvoCCnX/5Sl8B211pt7JuCb1iNffc/LdvdackIAv3y2hftG7zkGJY+3PyOvtJSL6FW
- moe//DrcCvxloqteilkhWrrX9WiipSblcSJIeTmXxIpZnl1P8dmBXEnRMRakTP562tYZ
- gVPQ==
-X-Gm-Message-State: AOAM5339C4ZrAZYXOntuXUldwhxf5ZhNlSN6MpWDXgXkcNAcFDAMo4Si
- 80EkvlGTlwdMrDSap2j6yJvytOgRDS89iDEa04mmWmVuqcHCeIdmSB3eXKIK9I82KZOJYM2WPjm
- gKCoHJ5cHOs3+rU0z2nO0zOikL+FEtxycxhRQUFEGKYHLBW0c47mmYdJPJQnxwIeg
-X-Received: by 2002:aca:d805:: with SMTP id p5mr3925498oig.60.1623180339713;
- Tue, 08 Jun 2021 12:25:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCWBVoO0PbRiOUN3ifIpBWSg/jLLOLG5WMFEyOn3dGp5rmUW07neZXIlS5KFwLyJZM2RsMxQ==
-X-Received: by 2002:aca:d805:: with SMTP id p5mr3925477oig.60.1623180339435;
- Tue, 08 Jun 2021 12:25:39 -0700 (PDT)
-Received: from redhat.redhat.com (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
- by smtp.gmail.com with ESMTPSA id f7sm2996893oot.36.2021.06.08.12.25.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jun 2021 12:25:38 -0700 (PDT)
+ bh=DtK1WPweqToUzsf/Cmm3DR/cZvSjbtW1iAaq21urrBw=;
+ b=OcNRnA0oEXTAB8nuUNlOq+JoacfIfVx6S2GDd4MgO2JykzoyfA1Spr9UDPzDYCEEcL
+ L14I9ZAYoJ9KbZxcGys0rP5qftva8Cufxo6m1kHy1srWIQKsRKUdKuzbbA/nujzvlRuQ
+ onydr4Ch47imZyAG9FffjcyWo0PMjxc3aDKQEui7cHSSljECI6kNr411V9OChpr+N09U
+ q2S1dKcvGkUGJaWwzQhSAP6iEzaoGWROkd6K9v94miqVQqO/vpk2EJgu13pvyiajDLfp
+ YwUvJewzWhcC+Pwd3Wr7xktu1W/kvQvJbFL0l37+GoXt6/tVpVDRWhLBbY2U6cxKRXwe
+ tyQg==
+X-Gm-Message-State: AOAM530gc3Apwb4iUWMAjnxHEcvvk7qFmUZuugoU4dzs6vDWNi/LnnSd
+ HHA2O5LpvNFHLFIgqDBFogRJrFbO4DzmMraf718z31MY9sjOvOrpn1GLiOloTXljVqwYbYfjMi4
+ aT97LI+ybHJQVEMM=
+X-Received: by 2002:a4a:1401:: with SMTP id 1mr16372417ood.50.1623180521300;
+ Tue, 08 Jun 2021 12:28:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBXStSWe4aDINXWW0vW+c2QTC5UOwfjXaYWelY05sA7ttR7uKjKxb7m+ZT8qTg5Dvl5ddjaQ==
+X-Received: by 2002:a4a:1401:: with SMTP id 1mr16372403ood.50.1623180521154;
+ Tue, 08 Jun 2021 12:28:41 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
+ by smtp.gmail.com with ESMTPSA id
+ q1sm3043537oog.46.2021.06.08.12.28.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 12:28:40 -0700 (PDT)
+Subject: Re: [PATCH] Add Connor Kuehl as reviewer for AMD SEV
 From: Connor Kuehl <ckuehl@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Add Connor Kuehl as reviewer for AMD SEV
-Date: Tue,  8 Jun 2021 14:25:37 -0500
-Message-Id: <20210608192537.103584-1-ckuehl@redhat.com>
-X-Mailer: git-send-email 2.31.1
+References: <20210608192537.103584-1-ckuehl@redhat.com>
+Message-ID: <2fa0225d-6d6c-b70f-c9d2-81538230aee5@redhat.com>
+Date: Tue, 8 Jun 2021 14:28:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210608192537.103584-1-ckuehl@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -76,8 +83,9 @@ X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,44 +104,30 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It may not be appropriate for me to take over as a maintainer at this time,
-but I would consider myself familiar with AMD SEV and what this code is
-meant to be doing as part of a VMM for launching SEV-protected guests.
+On 6/8/21 2:25 PM, Connor Kuehl wrote:
+> It may not be appropriate for me to take over as a maintainer at this time,
+> but I would consider myself familiar with AMD SEV and what this code is
+> meant to be doing as part of a VMM for launching SEV-protected guests.
+> 
+> To that end, I would be happy to volunteer as a reviewer for SEV-related
+> changes so that I am CC'd on them and can help share the review burden with
+> whoever does maintain this code.
+> 
+> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> ---
+> Note: because there's no maintainer entry, when running
+> ./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
+> mailing list is the only thing that shows up... it doesn't even show
+> previous committers (as it would before applying this patch). Which is
+> probably not great considering I do not make pull requests to QEMU.
+> 
+> Is the way forward to get someone to sign up as a maintainer before
+> applying a patch like this?
 
-To that end, I would be happy to volunteer as a reviewer for SEV-related
-changes so that I am CC'd on them and can help share the review burden with
-whoever does maintain this code.
+I need to resend this patch since I realized I forgot to add
+target/i386/sev_i386.h, and target/i386/sev-stub.c, but I still am
+wondering about the answer to the question above.
 
-Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
----
-Note: because there's no maintainer entry, when running
-./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
-mailing list is the only thing that shows up... it doesn't even show
-previous committers (as it would before applying this patch). Which is
-probably not great considering I do not make pull requests to QEMU.
-
-Is the way forward to get someone to sign up as a maintainer before
-applying a patch like this?
-
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d9cd29042..3eb7ce8fc6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2938,6 +2938,10 @@ F: hw/core/clock-vmstate.c
- F: hw/core/qdev-clock.c
- F: docs/devel/clocks.rst
- 
-+AMD Secure Encrypted Virtualization
-+R: Connor Kuehl <ckuehl@redhat.com>
-+F: target/i386/sev.c
-+
- Usermode Emulation
- ------------------
- Overall usermode emulation
--- 
-2.31.1
+Connor
 
 
