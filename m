@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FE23A052C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:34:09 +0200 (CEST)
-Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BBA3A052D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:34:34 +0200 (CEST)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqiQK-0001oI-IX
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54942)
+	id 1lqiQj-0002x0-3e
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqiPJ-0000xa-Af
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38693)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lqiPj-0001TP-Oo
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqiPG-0005Bl-1c
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:04 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lqiPg-0005PK-Si
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:33:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623184381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X9b8RHD4rLJPvBGFSVM0ch0pv6SNaVC+CpkgJ3h7cOI=;
- b=g0QXVCzBKSgKDySs+XYaezFnsW/QW0QYilzd0mmO00vfMoObVjjOIVM6+rqa03+pI8kP2p
- 1nBmSVLG9DRCw0PJzPIoOqucRM9PG2OYLBCB0jmM4OPlS2HWaV4I3Mx7I20YV1yYZWoyih
- hMfZa4IuJPOlzaKOzTHIfK9H/INYajA=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-HtXM_NnlO-6wqqBEpzX1jw-1; Tue, 08 Jun 2021 16:32:57 -0400
-X-MC-Unique: HtXM_NnlO-6wqqBEpzX1jw-1
-Received: by mail-ot1-f72.google.com with SMTP id
- w1-20020a0568304101b02902fc17224cf5so14748598ott.3
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:32:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X9b8RHD4rLJPvBGFSVM0ch0pv6SNaVC+CpkgJ3h7cOI=;
- b=XnzmIXKQV8cQ4eHMLE69oN3db3P5zKg9YupEw/ognLrE+Zk9k6WBvsEWjdxDIavcc2
- /iAo8kthedcXAJlq+bwqbjkDC7onp445ifFnTFO1IT1Glvum7uGOcwBC03SkBMjHbg2I
- HzaaSZSgdx5gfQnz9j10q8Y+NWr31dT92dkx436XHbNQCpnK/08uwyilDytpwGDik3yd
- wB7qVQZD3UYxho38wLoqFi8vB9u7IXRCUr7OBl6bMs2+ScFDjc0UiTgkG1CUTN6vi42A
- llnZbSFa2+RxHB0PDA7F+rEbDRr70I+K9e9jZUh6PIYnXOMkCHgSV56VwbHSdpYUO2HG
- 65rA==
-X-Gm-Message-State: AOAM532dESqz+n/rZ3jrXZDDeKu7wT20wOW+U7ixYpjTO6Wdv0Xma4ZE
- pQavQ8hbB0rcS5BFaHJdv/LCq0kDz7309vBoFpQoiT453yKn3odEtNmiQIi4ztnk5Do45VxF+El
- RchI5eVmwFppehlE=
-X-Received: by 2002:a05:6830:1f51:: with SMTP id
- u17mr19838175oth.25.1623184376668; 
- Tue, 08 Jun 2021 13:32:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyPRcPbgAAY9Y+XvQKrpkDsxLrg0JZ5lX86IKW8t5mXlo2A59KF0hKDYLnXuyl+UBfo91/+GA==
-X-Received: by 2002:a05:6830:1f51:: with SMTP id
- u17mr19838155oth.25.1623184376370; 
- Tue, 08 Jun 2021 13:32:56 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
- by smtp.gmail.com with ESMTPSA id
- p10sm1764028otf.45.2021.06.08.13.32.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 13:32:55 -0700 (PDT)
-Subject: Re: [PATCH] Add Connor Kuehl as reviewer for AMD SEV
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210608192537.103584-1-ckuehl@redhat.com>
- <YL/Ouxk9LcVzE28D@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <d01cae3a-eee4-1488-6f74-6b0beef38c6c@redhat.com>
-Date: Tue, 8 Jun 2021 15:32:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ s=mimecast20190719; t=1623184407;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=N7VKVZijz4h+qXuKo3mrrMVkUU7uBpZSR1piUnI+vWk=;
+ b=CgyT2R9y1j1waWlc7c+1q7P8hQ+G75qZrgth0AtaEHBCwjOwI6ZNzkpDpxfIF0ZzL97mfT
+ pRHT0UN/OSFSf1Yu2b4C6z+qwocHpwvSJvhWwCeez+5MNbwnpz2BordYt4egBvyhj5gkCg
+ O7uIhC2EBWgg14+LNgiXUVnGl/TGqCs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-lC8I6PVuPYCFDFpscY0_cQ-1; Tue, 08 Jun 2021 16:33:26 -0400
+X-MC-Unique: lC8I6PVuPYCFDFpscY0_cQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A9548015C6;
+ Tue,  8 Jun 2021 20:33:25 +0000 (UTC)
+Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3809E1001281;
+ Tue,  8 Jun 2021 20:33:20 +0000 (UTC)
+Date: Tue, 8 Jun 2021 21:33:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] tests/unit/test-char.c: Fix error handling issues
+Message-ID: <YL/UDQmc/H4b9cvZ@redhat.com>
+References: <20210608170607.21902-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YL/Ouxk9LcVzE28D@redhat.com>
+In-Reply-To: <20210608170607.21902-1-peter.maydell@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,50 +78,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/21 3:10 PM, Daniel P. Berrangé wrote:
-> On Tue, Jun 08, 2021 at 02:25:37PM -0500, Connor Kuehl wrote:
->> It may not be appropriate for me to take over as a maintainer at this time,
->> but I would consider myself familiar with AMD SEV and what this code is
->> meant to be doing as part of a VMM for launching SEV-protected guests.
->>
->> To that end, I would be happy to volunteer as a reviewer for SEV-related
->> changes so that I am CC'd on them and can help share the review burden with
->> whoever does maintain this code.
->>
->> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
->> ---
->> Note: because there's no maintainer entry, when running
->> ./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
->> mailing list is the only thing that shows up... it doesn't even show
->> previous committers (as it would before applying this patch). Which is
->> probably not great considering I do not make pull requests to QEMU.
->>
->> Is the way forward to get someone to sign up as a maintainer before
->> applying a patch like this?
+On Tue, Jun 08, 2021 at 06:06:06PM +0100, Peter Maydell wrote:
+> Coverity spots some minor error-handling issues in this test code.
+> These are mostly due to the test code assuming that the glib test
+> macros g_assert_cmpint() and friends will always abort on failure.
+> This is not the case: if the test case chooses to call
+> g_test_set_nonfatal_assertions() then they will mark the test case as
+> a failure and continue.  (This is different to g_assert(),
+> g_assert_not_reached(), and assert(), which really do all always kill
+> the process.) The idea is that you use g_assert() for things
+> which are really assertions, as you would in normal QEMU code,
+> and g_assert_cmpint() and friends for "this check is the thing
+> this test case is testing" checks.
 > 
-> There's no requirement to have a maintainer before having a reviewer.
-> If any of the existing committers shown do send pull requests, it is
-> probably co-incidental since they're not listed as official maintainers,
-> and being listed as Reviewer doesn't commit you to doing pull requests.
+> In fact this test case does not currently set assertions to be
+> nonfatal, but we should ideally be aiming to get to a point where we
+> can set that more generally, because the test harness gives much
+> better error reporting (including minor details like "what was the
+> name of the test case that actually failed") than a raw assert/abort
+> does.  So we mostly fix the Coverity nits by making the error-exit
+> path return early if necessary, rather than by converting the
+> g_assert_cmpint()s to g_assert()s.
 > 
-> That said if you're the only nominated reviewer and actually do useful
-> reviews, you will probably quickly find yourself the defacto maintainer
-> in 12 months time and end up doing pull requests... 
+> Fixes: Coverity CID 1432505, 1432514, 1432600, 1451384
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> We had some previous not-very-conclusive discussion about
+> g_assert_foo vs g_assert in this thread:
+> https://lore.kernel.org/qemu-devel/CAFEAcA9juOChqrh5orybJQwpQsyEZ5z3Dvmy7fjX0DW4Nbgmrg@mail.gmail.com/
+> This patch is in some sense me asserting my opinion about the
+> right thing to do. You might disagree...
 
-Right, I am just worried that if I am the only person that shows up in
-the get_maintainer.pl output, the submitter will have to know some other
-way who a relevant maintainer is that can take the patches otherwise
-they won't be CC'd. Or we'll have to hope a relevant maintainer sees
-them on the list. Or I'll have to chase down a maintainer myself
-assuming the reviews all check out. :-)
+In that thread you show a difference in the TAP output when
+g_test_set_nonfatal_assertions is enabled. Instead of it
+reporting an abort, it reports an error against the test
+and carries on running.
 
-Connor
+> I think that improving the quality of the failure reporting
+> in 'make check' is useful, and that we should probably turn
+> on g_test_set_nonfatal_assertions() everywhere. (The worst that
+> can happen is that instead of crashing on the assert we proceed
+> and crash a bit later, I think.) Awkwardly we don't have a single
+> place where we could put that call, so I guess it's a coccinelle
+> script to add it to every test's main() function.
+
+Yes, it is a bit of a philosophical question which behaviour
+is better - immediate exit, vs report & carry on.  In the
+Perl world the normal is to report & carry on so you get
+full results for the entire suite. In python / C world it
+has been more common to immediately exit.
+
+The report & carry on obviously results in cascading errors
+unless you take extra steps to skip stuff you know is going
+to cascade. You did some examples of that here with the extra
+'goto fail' jumps.
+
+The flipside is that if you have a test that fails 6
+different scenarios it is nice to see all 6 failures upfront,
+instead of having to play whack-a-mole fixing one and then
+discovering the next failure, then fixing that and discovering
+the next failure, etc.
+
+
+When we discussed this last on IRC, I suggested that we
+introduce a 'q_test_init' that wraps around g_test_init.
+This q_test_init could set g_test_set_nonfatal_assertions
+and call 'g_test_init'.
+
+This would avoid need for coccinelle script, as a sed
+s/g_test_init/q_test_init/ would suffice. We can stuff
+other logic into q_test_Init if we wanted to. Perhaps
+a private TMPDIR for example.
+
+>  tests/unit/test-char.c | 36 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 34 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/unit/test-char.c b/tests/unit/test-char.c
+> index 5b3b48ebacd..43630ab57f8 100644
+> --- a/tests/unit/test-char.c
+> +++ b/tests/unit/test-char.c
+> @@ -214,6 +214,10 @@ static void char_mux_test(void)
+>      qemu_chr_fe_take_focus(&chr_be2);
+>  
+>      base = qemu_chr_find("mux-label-base");
+> +    g_assert_nonnull(base);
+> +    if (base == 0) {
+> +        goto fail;
+> +    }
+>      g_assert_cmpint(qemu_chr_be_can_write(base), !=, 0);
+>  
+>      qemu_chr_be_write(base, (void *)"hello", 6);
+> @@ -333,6 +337,7 @@ static void char_mux_test(void)
+>      g_assert_cmpint(strlen(data), !=, 0);
+>      g_free(data);
+>  
+> +fail:
+>      qemu_chr_fe_deinit(&chr_be1, false);
+>      qemu_chr_fe_deinit(&chr_be2, true);
+>  }
+> @@ -486,6 +491,9 @@ static void char_pipe_test(void)
+>      chr = qemu_chr_new("pipe", tmp, NULL);
+>      g_assert_nonnull(chr);
+>      g_free(tmp);
+> +    if (!chr) {
+> +        goto fail;
+> +    }
+>  
+>      qemu_chr_fe_init(&be, chr, &error_abort);
+>  
+> @@ -493,12 +501,20 @@ static void char_pipe_test(void)
+>      g_assert_cmpint(ret, ==, 9);
+>  
+>      fd = open(out, O_RDWR);
+> +    g_assert_cmpint(fd, >=, 0);
+> +    if (fd < 0) {
+> +        goto fail;
+> +    }
+>      ret = read(fd, buf, sizeof(buf));
+>      g_assert_cmpint(ret, ==, 9);
+>      g_assert_cmpstr(buf, ==, "pipe-out");
+>      close(fd);
+>  
+>      fd = open(in, O_WRONLY);
+> +    g_assert_cmpint(fd, >=, 0);
+> +    if (fd < 0) {
+> +        goto fail;
+> +    }
+>      ret = write(fd, "pipe-in", 8);
+>      g_assert_cmpint(ret, ==, 8);
+>      close(fd);
+> @@ -518,6 +534,7 @@ static void char_pipe_test(void)
+>  
+>      qemu_chr_fe_deinit(&be, true);
+>  
+> +fail:
+>      g_assert(g_unlink(in) == 0);
+>      g_assert(g_unlink(out) == 0);
+>      g_assert(g_rmdir(tmp_path) == 0);
+> @@ -556,7 +573,10 @@ static int make_udp_socket(int *port)
+>      socklen_t alen = sizeof(addr);
+>      int ret, sock = qemu_socket(PF_INET, SOCK_DGRAM, 0);
+>  
+> -    g_assert_cmpint(sock, >, 0);
+> +    g_assert_cmpint(sock, >=, 0);
+> +    if (sock < 0) {
+> +        return sock;
+> +    }
+>      addr.sin_family = AF_INET ;
+>      addr.sin_addr.s_addr = htonl(INADDR_ANY);
+>      addr.sin_port = 0;
+> @@ -586,6 +606,9 @@ static void char_udp_test_internal(Chardev *reuse_chr, int sock)
+>      } else {
+>          int port;
+>          sock = make_udp_socket(&port);
+> +        if (sock < 0) {
+> +            return;
+> +        }
+>          tmp = g_strdup_printf("udp:127.0.0.1:%d", port);
+>          chr = qemu_chr_new("client", tmp, NULL);
+>          g_assert_nonnull(chr);
+> @@ -1224,6 +1247,10 @@ static void char_file_fifo_test(void)
+>      }
+>  
+>      fd = open(fifo, O_RDWR);
+> +    g_assert_cmpint(fd, >=, 0);
+> +    if (fd < 0) {
+> +        goto fail;
+> +    }
+>      ret = write(fd, "fifo-in", 8);
+>      g_assert_cmpint(ret, ==, 8);
+>  
+> @@ -1253,6 +1280,7 @@ static void char_file_fifo_test(void)
+>  
+>      qemu_chr_fe_deinit(&be, true);
+>  
+> +fail:
+>      g_unlink(fifo);
+>      g_free(fifo);
+>      g_unlink(out);
+> @@ -1371,7 +1399,7 @@ static int chardev_change_denied(void *opaque)
+>  
+>  static void char_hotswap_test(void)
+>  {
+> -    char *chr_args;
+> +    char *chr_args = NULL;
+>      Chardev *chr;
+>      CharBackend be;
+>  
+> @@ -1385,6 +1413,9 @@ static void char_hotswap_test(void)
+>      int port;
+>      int sock = make_udp_socket(&port);
+>      g_assert_cmpint(sock, >, 0);
+> +    if (sock < 0) {
+> +        goto fail;
+> +    }
+>  
+>      chr_args = g_strdup_printf("udp:127.0.0.1:%d", port);
+>  
+> @@ -1422,6 +1453,7 @@ static void char_hotswap_test(void)
+>      object_unparent(OBJECT(chr));
+>  
+>      qapi_free_ChardevReturn(ret);
+> +fail:
+>      g_unlink(filename);
+>      g_free(filename);
+>      g_rmdir(tmp_path);
+> -- 
+> 2.20.1
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
