@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E0C39F121
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:41:50 +0200 (CEST)
-Received: from localhost ([::1]:53958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543E039F10E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 10:37:12 +0200 (CEST)
+Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqXIz-0006Xw-J5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35982)
+	id 1lqXEV-0004dQ-Cr
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 04:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqXB9-0006j3-OF
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:33:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32232)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lqXBL-0007UP-6A
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:33:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lqXB6-0001cE-6w
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:33:43 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lqXBG-0001jF-SK
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 04:33:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623141219;
+ s=mimecast20190719; t=1623141230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nwr7JmP8IaxJeEBeAOVdfRM2v1y/FhFYN/LoEBtDjjc=;
- b=IXwcSHp1tVPHCLMBJSPgv0yUgLsPoYYWZk9KYSRcIiT+wlp58pUzOs6FWGOznacWC18kYI
- CXsOBcL8wVvBt+i8PLZKBIVVo8cZhWoqW8A80Xd/eNjcHxiQZl6t51Ae4eWd7/a7/h+84M
- uW+2s+3z91d2SH4zlagaV81Ic6rgofk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-qKdOnx3tM42J39MwVY28pw-1; Tue, 08 Jun 2021 04:33:38 -0400
-X-MC-Unique: qKdOnx3tM42J39MwVY28pw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- s8-20020adff8080000b0290114e1eeb8c6so9093461wrp.23
- for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 01:33:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nwr7JmP8IaxJeEBeAOVdfRM2v1y/FhFYN/LoEBtDjjc=;
- b=YMEv1dumWsG4BcEgE/vkAN0Tvrf9zaNctsTYiJZP/r0O1AAuzWzWyLEsDnR5YxEfHs
- O2eV5XMK0OV9ToZT8bwqL7hXsHkacpXUvZ3yJsop2LfC+A/MtBZjVbZZyF3uCdOmxYv5
- tOHLJsnDF14Q63Ve2ZyYMe3v1eJyhe29/2I8pIg42snIB2GAaAm2CMzzxrGATS56bQE0
- uwrO165LBw1+p80sQ3570h/6nGcdJGQzJjuQlSp6Bi2mgVUvrxkbuCMbTqhgEgmtCmZd
- J8MmViPlvEgoadTOJIxFsgZ66AXTBk7m1dHgypJD/MgrEoLz2LGLZlFEj9njZd7//7z2
- Ymug==
-X-Gm-Message-State: AOAM532BB58fiW1HiGw3YRcJJSZqvq4hZSExPYmkPVSMLyocUY5p0cbD
- 6KYJbxLzhi9eFPo2e4dkcezejhTKfTDZb/UoMva7Ei8GCjV+/dJBhISQuNUsn0OSZw7ch3Htabg
- Ac7Z2tsms23bzytQ=
-X-Received: by 2002:adf:a489:: with SMTP id g9mr20983693wrb.103.1623141217136; 
- Tue, 08 Jun 2021 01:33:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHXhyM/WeZviwPj6oHCRZcCClsv+goH2dbi/HWQ8B5D50jJfgvw62DlI+xd2y04eAFVlWEQg==
-X-Received: by 2002:adf:a489:: with SMTP id g9mr20983677wrb.103.1623141216983; 
- Tue, 08 Jun 2021 01:33:36 -0700 (PDT)
-Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id g21sm20092414wrb.46.2021.06.08.01.33.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jun 2021 01:33:36 -0700 (PDT)
-Subject: Re: [PATCH v16 09/99] qtest/bios-tables-test: Rename tests not TCG
- specific
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-10-alex.bennee@linaro.org>
- <b6c4efd5-4ba9-48e0-e9fb-c821df7db5cf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8f2e1403-35d6-833a-080b-95b89ce43db3@redhat.com>
-Date: Tue, 8 Jun 2021 10:33:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=rttaYRDTT6CH3SyEw3MdyY24bytUjVRG2YOgDVSrMbs=;
+ b=FzMQfRkaMOJ55jK0QXVsxqu4zXh5l0kWXU0HVEosp97KLn4Q24SBa3lEIHFUBJ7+oaQFrT
+ Hx19QJZcCHIK7vBf+0iTLbzpIt8obG//r9sBrF9N0nxe59CYwUCvj9MQk6YWWvLaj3qk00
+ pLb1B5eG1w+tma91soz8ulP7ZbDn/AQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-RqGj7cRCNx6QBup9cN9Mow-1; Tue, 08 Jun 2021 04:33:46 -0400
+X-MC-Unique: RqGj7cRCNx6QBup9cN9Mow-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1E1A8049DD;
+ Tue,  8 Jun 2021 08:33:45 +0000 (UTC)
+Received: from localhost (ovpn-114-153.ams2.redhat.com [10.36.114.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A9F960C04;
+ Tue,  8 Jun 2021 08:33:45 +0000 (UTC)
+Date: Tue, 8 Jun 2021 09:33:44 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 0/2] Gitlab: Add issue templates
+Message-ID: <YL8raDhOVcAyQmNV@stefanha-x1.localdomain>
+References: <20210607153155.1760158-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b6c4efd5-4ba9-48e0-e9fb-c821df7db5cf@redhat.com>
+In-Reply-To: <20210607153155.1760158-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5NvEtWvnCtvGsFoi"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,38 +78,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-arm@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 3:39 PM, Thomas Huth wrote:
-> On 04/06/2021 17.51, Alex Bennée wrote:
->> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->>
->> Various tests don't require TCG, but have '_tcg' in their name.
->> As this is misleading, remove 'tcg' from their name.
->>
->> Reported-by: Igor Mammedov <imammedo@redhat.com>
->> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Message-Id: <20210505125806.1263441-10-philmd@redhat.com>
->> ---
->>   tests/qtest/bios-tables-test.c | 142 ++++++++++++++++-----------------
->>   1 file changed, 71 insertions(+), 71 deletions(-)
-> [...]
->> @@ -1255,7 +1255,7 @@ static void test_acpi_microvm_rtc_tcg(void)
->>       free_test_data(&data);
->>   }
->>   -static void test_acpi_microvm_pcie_tcg(void)
->> +static void test_acpi_microvm_pcie(void)
->>   {
->>       test_data data;
-> 
-> This change is wrong: test_acpi_microvm_pcie_tcg() uses data.tcg_only =
-> true, so the _tcg suffix indeed makes sense here.
+--5NvEtWvnCtvGsFoi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I supposed I messed while rebasing...
+On Mon, Jun 07, 2021 at 11:31:53AM -0400, John Snow wrote:
+> Add "Bug" and "Feature Request" templates to the Gitlab interface to
+> help improve the quality of newly reported issues.
+>=20
+> To see what this looks like, I've temporarily allowed my Gitlab fork to
+> diverge with these files merged.  See my fork's "new issue" page to see
+> it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue
+>=20
+> (It's outdated a bit for V4, but you get the idea.)
+>=20
+> These patches do not add a "default" template, the user still has to
+> select one from the list. I recommend that someone with permissions
+> updates the default template:
+>=20
+> 1. https://gitlab.com/qemu-project/qemu/edit
+> 2. ctrl+f "Default description template for issues"
+> 3. Update the default to the (suggested) below:
+>=20
+> ```
+> <!-- Select "Type: Issue" and choose one of the Description templates abo=
+ve. -->
+> ```
+>=20
+> We can use this cover letter to discuss/review the wording on that
+> default template which exists outside of repository data.
+>=20
+> V4:
+>  - Change the "build on master" to be more of a nudge than a mandate,
+>    with improved instructions (stefanha, danpb)
+>=20
+> V3:
+>  - Add pointer to https://www.qemu.org/download/#source
+>  - Add pointer to https://www.qemu.org/contribute/security-process/
+>  - Remove blurb covering tracing instructions.
+>=20
+> V2:
+> - Updated both templates based on feedback from Peter, Daniel, and
+>   Thomas.
+>=20
+> John Snow (2):
+>   GitLab: Add "Bug" issue reporting template
+>   GitLab: Add "Feature Request" issue template.
+>=20
+>  .gitlab/issue_templates/bug.md             | 64 ++++++++++++++++++++++
+>  .gitlab/issue_templates/feature_request.md | 32 +++++++++++
+>  2 files changed, 96 insertions(+)
+>  create mode 100644 .gitlab/issue_templates/bug.md
+>  create mode 100644 .gitlab/issue_templates/feature_request.md
+>=20
+> --=20
+> 2.31.1
+>=20
+>=20
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--5NvEtWvnCtvGsFoi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmC/K2gACgkQnKSrs4Gr
+c8hstgf+N+olNtjHWoUmdlvd/uUpBWebrJV0z9sb2mwSAsCigAd0gUp6mHIj45A2
+ux3zRx/bGkZlXDkNSJfGvSqr1HRLRqfblvJ/VNcYVdLhgKyGUmr8nRtlHPpIMKKe
+cHgw79iHlbl/1367vYw/Wc2Nwu5yBit2F5NU084Q+91669MVb2nHWKWoffgHm/Mg
+Id9GOmeUIwxCOWa2dMpeZMbSfcwWKp6gP9tgl64kdxAHZOttzo9c/izsffUyW/Hn
+8cy3k9oWxXeP9XB7JzlaxygGyHlr6vkOznxu+M89/gDJtzbVs7U2dxyRvD4aWiod
+TwH1MHoDC6vjxaq3NiGyu5xvSYMS0A==
+=XFth
+-----END PGP SIGNATURE-----
+
+--5NvEtWvnCtvGsFoi--
 
 
