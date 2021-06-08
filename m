@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353F93A053F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:47:08 +0200 (CEST)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E6A3A0546
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Jun 2021 22:48:20 +0200 (CEST)
+Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqict-00058x-9h
-	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:47:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
+	id 1lqie3-0006Zz-F4
+	for lists+qemu-devel@lfdr.de; Tue, 08 Jun 2021 16:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqibD-00040j-GI
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:45:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59891)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqicm-0005fD-3y
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:47:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqib9-0002Iz-Tu
- for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:45:22 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lqici-0003B3-9T
+ for qemu-devel@nongnu.org; Tue, 08 Jun 2021 16:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623185118;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1623185215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=inYyUCzEPNq4Ie7mgPs6At4ZMwbCVStRAxjvOeXEmb0=;
- b=MHlBfrc92Q7dKf1CFuERJdR+ab7/MnA2qhsIzvcWdsjJmSvKSYzjJW5ic/NDDEAhYJP4nP
- oRasA32GgbzqJEHmziRFGiY96pxYEcsmpPgJ+la8dZ3YQRJU/MZc/6ddepPJ2vBCCZGTZI
- OG+GPqv/kaNQAelE9TRhHGvqfnfty2U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-qaLI2FWfM6Sf9XldOJuFJA-1; Tue, 08 Jun 2021 16:45:16 -0400
-X-MC-Unique: qaLI2FWfM6Sf9XldOJuFJA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BB19107ACCA;
- Tue,  8 Jun 2021 20:45:15 +0000 (UTC)
-Received: from redhat.com (ovpn-115-85.ams2.redhat.com [10.36.115.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1CAE60853;
- Tue,  8 Jun 2021 20:45:12 +0000 (UTC)
-Date: Tue, 8 Jun 2021 21:45:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Connor Kuehl <ckuehl@redhat.com>
+ bh=7iFIsv8weNI7pBKb9Cr9P4VVovWcGTbIzKRjEhsQWCs=;
+ b=ZBcvNKeNzM4NP2cHmTmp4JF4nuni5dxfYTClGZbblCChmhP3xRYczXa2cfDP2/nV3gPtQC
+ NVYrKpHoimJEDlN+XhX5+yW6nrglKtigp8JxwzIH83BprH7EU+nPMJmIOm6QyOzYFkoXRp
+ zKn09vWb5+zB4yZCktdKUk5N0p56XKo=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-K2FmEh9SMiuepRatmiAO0g-1; Tue, 08 Jun 2021 16:46:54 -0400
+X-MC-Unique: K2FmEh9SMiuepRatmiAO0g-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ 19-20020a9d04130000b02903cb28b38d0aso13306126otc.19
+ for <qemu-devel@nongnu.org>; Tue, 08 Jun 2021 13:46:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7iFIsv8weNI7pBKb9Cr9P4VVovWcGTbIzKRjEhsQWCs=;
+ b=Z2B2io4xbkgA/5eRYe6306CKfdfSq5bc7P9r55SW9qum+zwmFZkcR6EXY+CySlx5p0
+ 6ynuV5aRJhMt6uMp7TLUd1T64sbsL/e37+A8mCL2cHJw2NRDTF1sleu6WAPGIXiDD9hX
+ 7ruUpmXcVMUafLo2B/ryh6fFgWlBzd9kms43OpUE77tLcQk+HV/MXFzW0rY93LNVVia6
+ aavefRHjmu/jC/0juYu0PK1d8JUftrXCrKyDm4bCBHIlU8tjX0kf2sxmQ0L4jac2FbDz
+ HPabEWOszQxL3R1tn5qSa8eKrgdIpW4+ynmufDTuvmNCzwDycfEZlXQp8CAKV/c9mMAE
+ JLrQ==
+X-Gm-Message-State: AOAM533dLPwIG9AyCK8hbb8CY3eGnd/BmKSt+NQDPYWOzbwCEInvNgzO
+ c+vHAQUj9pW/N+boOUIvwlZxG274TwPoPLF8aTJfvkZtZmjZTe4iS74xPXte0+QiNvs8pB+5oaO
+ jX32Xzbotb9Vi+ak=
+X-Received: by 2002:a9d:7497:: with SMTP id t23mr11245207otk.124.1623185213664; 
+ Tue, 08 Jun 2021 13:46:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkVohRvikEzk2q34jxBQCsrGZE9jeidvhKjaI7Tg4o5/7n6rfIoTkWF/vB1GPpHfV6uluxxg==
+X-Received: by 2002:a9d:7497:: with SMTP id t23mr11245199otk.124.1623185213518; 
+ Tue, 08 Jun 2021 13:46:53 -0700 (PDT)
+Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
+ by smtp.gmail.com with ESMTPSA id
+ y16sm1981195oto.60.2021.06.08.13.46.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Jun 2021 13:46:53 -0700 (PDT)
 Subject: Re: [PATCH] Add Connor Kuehl as reviewer for AMD SEV
-Message-ID: <YL/W1QqMPjZLvq+F@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <20210608192537.103584-1-ckuehl@redhat.com>
- <YL/Ouxk9LcVzE28D@redhat.com>
- <d01cae3a-eee4-1488-6f74-6b0beef38c6c@redhat.com>
+ <YL/GNQUr4g3dyOQC@work-vm>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <4a9a1fb2-0be2-a8df-c3cd-7db6619ff729@redhat.com>
+Date: Tue, 8 Jun 2021 15:46:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <d01cae3a-eee4-1488-6f74-6b0beef38c6c@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YL/GNQUr4g3dyOQC@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,70 +99,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 03:32:54PM -0500, Connor Kuehl wrote:
-> On 6/8/21 3:10 PM, Daniel P. Berrangé wrote:
-> > On Tue, Jun 08, 2021 at 02:25:37PM -0500, Connor Kuehl wrote:
-> >> It may not be appropriate for me to take over as a maintainer at this time,
-> >> but I would consider myself familiar with AMD SEV and what this code is
-> >> meant to be doing as part of a VMM for launching SEV-protected guests.
-> >>
-> >> To that end, I would be happy to volunteer as a reviewer for SEV-related
-> >> changes so that I am CC'd on them and can help share the review burden with
-> >> whoever does maintain this code.
-> >>
-> >> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
-> >> ---
-> >> Note: because there's no maintainer entry, when running
-> >> ./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
-> >> mailing list is the only thing that shows up... it doesn't even show
-> >> previous committers (as it would before applying this patch). Which is
-> >> probably not great considering I do not make pull requests to QEMU.
-> >>
-> >> Is the way forward to get someone to sign up as a maintainer before
-> >> applying a patch like this?
-> > 
-> > There's no requirement to have a maintainer before having a reviewer.
-> > If any of the existing committers shown do send pull requests, it is
-> > probably co-incidental since they're not listed as official maintainers,
-> > and being listed as Reviewer doesn't commit you to doing pull requests.
-> > 
-> > That said if you're the only nominated reviewer and actually do useful
-> > reviews, you will probably quickly find yourself the defacto maintainer
-> > in 12 months time and end up doing pull requests... 
+On 6/8/21 2:34 PM, Dr. David Alan Gilbert wrote:
+>> Note: because there's no maintainer entry, when running
+>> ./scripts/get_maintainers.pl on target/i386/sev.c, my name and the qemu
+>> mailing list is the only thing that shows up... it doesn't even show
+>> previous committers (as it would before applying this patch). Which is
+>> probably not great considering I do not make pull requests to QEMU.
+>>
+>> Is the way forward to get someone to sign up as a maintainer before
+>> applying a patch like this?
 > 
-> Right, I am just worried that if I am the only person that shows up in
-> the get_maintainer.pl output, the submitter will have to know some other
-> way who a relevant maintainer is that can take the patches otherwise
-> they won't be CC'd. Or we'll have to hope a relevant maintainer sees
-> them on the list. Or I'll have to chase down a maintainer myself
-> assuming the reviews all check out. :-)
+> If you wanted to do a submaintainer for it and send it to one of the x86
+> maintainers rather than having to do full pulls?
 
-Well there's no real guarantee that any of the previous committers will
-take the patch even if they are listed by get_maintainer. This is typical
-with anything lacking a maintainer assigned. We typically hope that
-whoever runs the "misc" queue sees the patch and picks it up, but often
-it requires pings to remind someone to pick it up.
+I'm not opposed to this. I think I have a few of the right people on CC,
+so let's see if they weigh in on this. Unless it means I have to manage
+a GPG key again... (just kidding, kind of...)
 
-The only real right answer here is to actually get someone as the
-nominated maintainer. Every other scenario is a just a band aid and
-is not a good experiance for contributors. A nominated reviewer is
-usually hoped to be a stepping stone to someone becoming maintainer
-in future, so in that sense the fact that only you will be cc'd is
-sort of intentional :-)
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Connor
 
 
