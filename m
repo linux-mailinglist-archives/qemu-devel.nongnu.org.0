@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C813A0FDF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 12:02:28 +0200 (CEST)
-Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA523A0FE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 12:03:42 +0200 (CEST)
+Received: from localhost ([::1]:39480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqv2Z-0000vp-JB
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 06:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39308)
+	id 1lqv3l-0003d6-2y
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 06:03:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lquzV-00059Y-Au
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 05:59:17 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:46678)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lqv29-0001Mf-NI
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 06:02:02 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1lquzR-0002vM-NG
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 05:59:17 -0400
-Received: by mail-lf1-x130.google.com with SMTP id m21so21390791lfg.13
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 02:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=j9YEjAoaXL5qJgDsb/3cVBnG9BkTzCCeb0C1KOR56Zg=;
- b=IYDdER4UFtsSLPvXbipjGqc5ideXbwdOL/iw4tb9mb2x9Hs0pMjnwnR/6na6y5ZnFl
- hYKXUnqUuFUpzbup2fLJfrRd+9PNFBaWET9mtZDcdlXF+TFcIl84j8jwLXssR1UhZD1y
- gLUMoAJXXzjHEnbzYpRnfuGi4Qi2oDprOFcStkyUYYiXH7LKdFUqpRVKWvMZIdKoXemL
- bjVD7MRfXsBOlZ7qUunWufRVrMzksOhN2n+hCH7/nTJb5ajXQ87vu1JKby2qHc5FeTh0
- 8Pi2Cv31ByPZ3eC1SiFoNaSA0lhzWpGkQ/A7WbFDeZjMe21VRT7NWBq+Nx9svbE+bmvf
- PVxw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lqv26-00052H-6Y
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 06:02:01 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id g20so37599212ejt.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 03:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4+UnsmS0MmBQceeJwfmEYcBjxgNeTuw/FQV8JQiYJcY=;
+ b=pEyS091nlLoaUFjwwAF4D7NviO/UB1GXgeicPbc3oGrrc+9BTr6eQ67iaCDlhChkxs
+ uQ3D5FGTwbl0W0etajCjEhd7mxNn8aoWz8fMPek7dmlazgXueJLhrTsVO1d+gVohPieL
+ IPBpnV/+MItbRzFMqg9o1QB9SlpbLZwvjA00XqBwFtACguKH0ZT5wyYJSu5TUDiuBKup
+ kVidfve8QaWXXpt6hRBZV/Rm8zUtUrW5Y9LJeylgCXAwjobTheS6a5zo16DRZlPs3A+7
+ gVdjCrXAX7R94U5JFtyU/cLvHP4/jnGln/8u9Q2ViSjpBdNEuiVIK8zEQQAQK59o2jj5
+ Eoaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j9YEjAoaXL5qJgDsb/3cVBnG9BkTzCCeb0C1KOR56Zg=;
- b=Tfe5Duc2JF55D6YEE5WmVwwaXu7JieNh3ogXBBQjRLAmM3N0tZN9jjT2WOSHpzb7pF
- P0SHiG1yMl2Etw0B1LgHsl6nVpoN2cgY9v3gTyNgvF7eq/FKczqq1fBtwkT9AqRYuKRj
- vkYRENVJduurfp4/MALZupdfpJhTphx4Hqf/YS+Vk+HtCKfabDQCkrDpZwuZHYlFDTZp
- 9jAqiLmSXGG6m5ZfxFIeT5vtL1i0hsPWW1QAm2uBW6wkolBPkUF0k5bW/5eXK04Z5qgV
- Ek/v1WME8d3mwORXaanANAUMpP03+hHNNdnzAu8Iy9GBDWiOmWW+ekfQI2E1ZShd2n0X
- piUw==
-X-Gm-Message-State: AOAM5323zThcQ5bNxWgKHQMv4z8qdCqymwVNzlEM2wLcipDO2J4eW7jW
- GNIVw8eIAWezyKYWbPvsTdLeNA==
-X-Google-Smtp-Source: ABdhPJykOFs1vdPAfNpGuyil+wy2hjsoMwtCoFYg28rgNvrEE9iUAqLVr0egyE+jCdUKMK+vONpqEg==
-X-Received: by 2002:a05:6512:681:: with SMTP id
- t1mr10632340lfe.640.1623232752361; 
- Wed, 09 Jun 2021 02:59:12 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id q6sm218751lfj.88.2021.06.09.02.59.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 02:59:12 -0700 (PDT)
-From: Andrew Melnychenko <andrew@daynix.com>
-To: mst@redhat.com
-Subject: [PATCH 3/3] virtio-pci: Changed return values for "notify",
- "device" and "isr" read.
-Date: Wed,  9 Jun 2021 12:58:43 +0300
-Message-Id: <20210609095843.141378-4-andrew@daynix.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210609095843.141378-1-andrew@daynix.com>
-References: <20210609095843.141378-1-andrew@daynix.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4+UnsmS0MmBQceeJwfmEYcBjxgNeTuw/FQV8JQiYJcY=;
+ b=Rv7+EU+SHbvjEMGK4CJau8URLJRjgggmKQ1oU2/YJzexqLQwJsPdhjixBsjpPqxYEe
+ J76X+JRuFdXT8wJOwJlMNCjrji3hVd4AXvoXJYZNlFVlYRJhu5TfEnlbJ4r5/GIvECeP
+ 7JypjGJKhOugrKzuHTTiugfZtlyw14rPvVEMX3LfRyTjYshdSqtr1dhnYZUOcFFLBXak
+ Vr3q1K2U05N5ZJPo1l8OckYj8opY4cmI+7uiVe9CmYxLt8xA1p3i643y27TBy4A0Oiau
+ SNzEdtXLf9rINtQdoxnymv8d69zkfADNf3TUodV/ibQEXqL4xIHiIUbKIq2gCIsEHZO1
+ gNmQ==
+X-Gm-Message-State: AOAM53260PSUnmkrT5eGF605o30rgIHt+im56KJpWMzy0FhNMHOjbxqR
+ C0mzxhFbJqsYigIXuxZInBaoCYkEHNpHf0Xg50TIEw==
+X-Google-Smtp-Source: ABdhPJzBpbJjMy14tjHOKHjTihtlmDRUEI8JztcnOVxBY22SQ8AvPo37mZH60YEsxZXKPwjNR8edEWRZBZGGHjIdFH0=
+X-Received: by 2002:a17:906:4109:: with SMTP id
+ j9mr28478408ejk.250.1623232916419; 
+ Wed, 09 Jun 2021 03:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::130;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x130.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-12-peter.maydell@linaro.org>
+ <fef05b3a-eb23-fea7-0230-a69207b48e11@linaro.org>
+In-Reply-To: <fef05b3a-eb23-fea7-0230-a69207b48e11@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Jun 2021 11:01:22 +0100
+Message-ID: <CAFEAcA_xEh2h8ZV4-mianY8wcz=TKdvdmFr+e4gikAUtW_THGQ@mail.gmail.com>
+Subject: Re: [PATCH 11/55] target/arm: Implement MVE VLDR/VSTR (non-widening
+ forms)
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,53 +80,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added check for "notify" memory region. Now reads will return "-1" if a virtio
-device is not present on a virtio bus.
+On Tue, 8 Jun 2021 at 22:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/7/21 9:57 AM, Peter Maydell wrote:
+> > +static uint16_t mve_element_mask(CPUARMState *env)
+> > +{
+> > +    /*
+> > +     * Return the mask of which elements in the MVE vector should be
+> > +     * updated. This is a combination of multiple things:
+> > +     *  (1) by default, we update every lane in the vector
+> > +     *  (2) VPT predication stores its state in the VPR register;
+> > +     *  (3) low-overhead-branch tail predication will mask out part
+> > +     *      the vector on the final iteration of the loop
+> > +     *  (4) if EPSR.ECI is set then we must execute only some beats
+> > +     *      of the insn
+> > +     * We combine all these into a 16-bit result with the same semantics
+> > +     * as VPR.P0: 0 to mask the lane, 1 if it is active.
+> > +     * 8-bit vector ops will look at all bits of the result;
+> > +     * 16-bit ops will look at bits 0, 2, 4, ...;
+> > +     * 32-bit ops will look at bits 0, 4, 8 and 12.
+> > +     * Compare pseudocode GetCurInstrBeat(), though that only returns
+> > +     * the 4-bit slice of the mask corresponding to a single beat.
+> > +     */
+> > +    uint16_t mask = extract32(env->v7m.vpr, R_V7M_VPR_P0_SHIFT,
+> > +                              R_V7M_VPR_P0_LENGTH);
+>
+> Any reason you're not using FIELD_EX32 and and FIELD_DP32 so far in this file?
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/virtio/virtio-pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Just habit, really, I think.
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 186b7bc0f6..447f13beae 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1348,6 +1348,11 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
- static uint64_t virtio_pci_notify_read(void *opaque, hwaddr addr,
-                                        unsigned size)
- {
-+    VirtIOPCIProxy *proxy = opaque;
-+    if (virtio_bus_get_device(&proxy->bus) == NULL) {
-+        return UINT64_MAX;
-+    }
-+
-     return 0;
- }
- 
-@@ -1385,7 +1390,7 @@ static uint64_t virtio_pci_isr_read(void *opaque, hwaddr addr,
-     uint64_t val;
- 
-     if (vdev == NULL) {
--        return 0;
-+        return UINT64_MAX;
-     }
- 
-     val = qatomic_xchg(&vdev->isr, 0);
-@@ -1406,7 +1411,7 @@ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
-     uint64_t val;
- 
-     if (vdev == NULL) {
--        return 0;
-+        return UINT64_MAX;
-     }
- 
-     switch (size) {
--- 
-2.31.1
+> > +#define DO_VLDR(OP, ESIZE, LDTYPE, TYPE, H)                             \
+> > +    void HELPER(mve_##OP)(CPUARMState *env, void *vd, uint32_t addr)    \
+> > +    {                                                                   \
+> > +        TYPE *d = vd;                                                   \
+> > +        uint16_t mask = mve_element_mask(env);                          \
+> > +        unsigned b, e;                                                  \
+>
+> esize is redundant with sizeof(type); perhaps just make it a local variable?
+>
+> > diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
+> > index c54d5cb7305..e8bb2372ad9 100644
+> > --- a/target/arm/translate-mve.c
+> > +++ b/target/arm/translate-mve.c
+> > @@ -1,6 +1,6 @@
+> >   /*
+> >    *  ARM translation: M-profile MVE instructions
+> > -
+> > + *
+> >    *  Copyright (c) 2021 Linaro, Ltd.
+>
+> Is this just diff silliness?  I see that it has decided that helper-mve.h is a
+> rename from translate-mve.c...
 
+Not sure. I fixed at least one similar issue before sending, I guess
+I missed this one.
+
+> > +static bool do_ldst(DisasContext *s, arg_VLDR_VSTR *a, MVEGenLdStFn *fn)
+> > +{
+> > +    TCGv_i32 addr;
+> > +    uint32_t offset;
+> > +    TCGv_ptr qreg;
+> > +
+> > +    if (!dc_isar_feature(aa32_mve, s)) {
+> > +        return false;
+> > +    }
+> > +
+> > +    if (a->qd > 7 || !fn) {
+> > +        return false;
+> > +    }
+>
+> It's a funny old decode,
+>
+>    if D then UNDEFINED.
+>    d = D:Qd,
+>
+> Is the spec forward looking to more than 7 Q registers?
+> It's tempting to just drop the D:Qd from the decode...
+
+I don't know, but looking at the decode it certainly seems
+like the door is being left open to Q8..Q15. Other signs of
+this include the existence of the VFPSmallRegisterBank()
+function and the way that VLLDM and VLSTM have T2 encodings
+whose only difference from the T1 encodings is that you can
+specify registers up to D31. Decoding D:Qd and then doing the
+range check seemed more in line with the spirit of this, though
+of course leaving the D=1 UNDEF to decodetree works too.
+(Some insns really do only use 3 bit register fields without
+the extra D bit, so if we left all the fields 3 bit and later needed
+to handle Q8..Q15 we'd have to go through everything to work out
+which type of insn it was.)
+
+> > +static bool trans_VLDR_VSTR(DisasContext *s, arg_VLDR_VSTR *a)
+> > +{
+> > +    MVEGenLdStFn *ldfns[] = {
+>
+> static MVEGenLdStFn * const ldfns
+>
+> > +    MVEGenLdStFn *stfns[] = {
+>
+> Likewise, though...
+>
+> > +    return do_ldst(s, a, a->l ? ldfns[a->size] : stfns[a->size]);
+>
+> ... just put em together into a two-dimensional array, with a->l as the second
+> index?
+
+Yeah. (I was being a bit lazy because I can never remember which
+way round the initializers go in a 2D array :-)
+
+-- PMM
 
