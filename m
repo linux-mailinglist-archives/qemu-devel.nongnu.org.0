@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822023A0F4A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 11:06:54 +0200 (CEST)
-Received: from localhost ([::1]:60202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7B23A0F57
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 11:10:55 +0200 (CEST)
+Received: from localhost ([::1]:35616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lquAm-0002YV-2u
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 05:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
+	id 1lquEg-00059K-6u
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 05:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lqu8l-0001BJ-Dx
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 05:04:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43367)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lquDk-0004HS-LU
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 05:09:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lqu8h-0000S5-5U
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 05:04:47 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lquDe-0003YM-N9
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 05:09:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623229482;
+ s=mimecast20190719; t=1623229789;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l9H8xTumUX4s18wQ0TMGvkXpjyRdzzIBBPYCnC6PvHg=;
- b=bk/r3PKhRHBkkSFBUO6zfC/63hSKFmX7kiJh7fjcFXPEUlojfznzst2v3bCNFTM8h+duvP
- 90e+o5XZpkm1uFJH+6UDA7EpdRrKwiuxuQ+yHExDDrqnBabx2pUlxdZEWynrJrlbGfBDw8
- s5jj9Kh0ghjwbPWzSa/pwRe4YZ8DYq4=
+ bh=c0RculTvri4dIgZtcuphdUqtMXBsaD24i0DifznD99A=;
+ b=dt2WMYlu9fXLYRx7YIlpzHdMcaeEeZ2dFoPCQbfDtRWXDXt5/g8f7Z14tcN+kYZhn32nye
+ YFgdVoQlLgue49b2X1mrdiVVhWWGPKrgh1OITyN2qYJF/STkfpYSuhVoEgFx0EYxR3YLXq
+ 7w9frEHTXM2C1qbV3XVuMD/8mnoSXC8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-7pcaAjbMPJqPuZbgwPOVVg-1; Wed, 09 Jun 2021 05:04:39 -0400
-X-MC-Unique: 7pcaAjbMPJqPuZbgwPOVVg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-280-e7p56yWrNH63mlk-7wcuvg-1; Wed, 09 Jun 2021 05:09:48 -0400
+X-MC-Unique: e7p56yWrNH63mlk-7wcuvg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EC76801B12;
- Wed,  9 Jun 2021 09:04:38 +0000 (UTC)
-Received: from redhat.com (ovpn-114-230.ams2.redhat.com [10.36.114.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9894010016F4;
- Wed,  9 Jun 2021 09:04:36 +0000 (UTC)
-Date: Wed, 9 Jun 2021 11:04:35 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: Prevent compiler warning on block.c
-Message-ID: <YMCEI3dEmkLmT2RN@redhat.com>
-References: <1162368493.17178530.1620201543649.JavaMail.zimbra@redhat.com>
- <62c90da0-b2f9-7068-e84f-c13bb1527191@virtuozzo.com>
- <9ef22266-25e1-36df-52e9-ad5244a648dc@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5394718D6A2C;
+ Wed,  9 Jun 2021 09:09:46 +0000 (UTC)
+Received: from localhost (ovpn-113-134.ams2.redhat.com [10.36.113.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1FAE60CC9;
+ Wed,  9 Jun 2021 09:09:42 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 00/26] s390x/tcg: Implement Vector enhancements
+ facility and switch to z14
+In-Reply-To: <20210608092337.12221-1-david@redhat.com>
+Organization: Red Hat GmbH
+References: <20210608092337.12221-1-david@redhat.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Wed, 09 Jun 2021 11:09:40 +0200
+Message-ID: <87im2n1k17.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9ef22266-25e1-36df-52e9-ad5244a648dc@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -66,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,62 +77,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.06.2021 um 09:12 hat Thomas Huth geschrieben:
-> On 05/05/2021 10.05, Vladimir Sementsov-Ogievskiy wrote:
-> > 05.05.2021 10:59, Miroslav Rezanina wrote:
-> > > Commit 3108a15cf (block: introduce bdrv_drop_filter()) introduced
-> > > uninitialized
-> > > variable to_cow_parent in bdrv_replace_node_common function that is
-> > > used only when
-> > > detach_subchain is true. It is used in two places. First if block
-> > > properly initialize
-> > > the variable and second block use it.
-> > > 
-> > > However, compiler treats this two blocks as two independent cases so
-> > > it thinks first
-> > > block can fail test and second one pass (although both use same
-> > > condition). This cause
-> > > warning that variable can be uninitialized in second block.
-> > > 
-> > > To prevent this warning, initialize the variable with NULL.
-> > > 
-> > > Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> > > ---
-> > > diff --git a/block.c b/block.c
-> > > index 874c22c43e..3ca27bd2d9 100644
-> > > --- a/block.c
-> > > +++ b/block.c
-> > > @@ -4851,7 +4851,7 @@ static int
-> > > bdrv_replace_node_common(BlockDriverState *from,
-> > >       Transaction *tran = tran_new();
-> > >       g_autoptr(GHashTable) found = NULL;
-> > >       g_autoptr(GSList) refresh_list = NULL;
-> > > -    BlockDriverState *to_cow_parent;
-> > > +    BlockDriverState *to_cow_parent = NULL;
-> > >       int ret;
-> > > 
-> > >       if (detach_subchain) {
-> > > 
-> > 
-> > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> This just popped up again here:
-> 
->  https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg02067.html
-> 
-> Kevin, Max, could you please pick it up to get this problem fixed?
+On Tue, Jun 08 2021, David Hildenbrand <david@redhat.com> wrote:
 
-Thanks for pinging, seems the intended refactoring hasn't happened.
+> @Conny, I think this should be good to go.
+>
+>
+> This series adds support for the "Vector enhancements facility" and bumps
+> the qemu CPU model to a stripped-down z14.
+>
+> I tested most vector FP instructions by generating random instructions
+> and vectors, comparing the result with results on actual hardware. I did
+> not test instructions/instruction variants with (partial) undeterministic
+> behavior and exception handling.
+>
+> Linux' also seems to boot/work fine with it. Howeever, while testing this
+> series I noticed that Linux checks for the wrong facility bit - see [1].
+> I tested by temporarily faking availability of the "wrong" facility bit.
+>
+> [1] https://lkml.kernel.org/r/20210503121244.25232-1-david@redhat.com
+>
+> v3 -> v4:
+> - "s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)"
+> -- Move "const bool ..." into respective blocks
+> - "linux-user: elf: s390x: Prepare for Vector enhancements facility"
+> -- Add all currently defined Linux HWCAP.
+>
+> v2 -> v3:
+> - "s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN handling"
+> -- Keep proper signal handling in the VECTOR variants
+> - "s390x/tcg: Simplify vop64_2() handling"
+> -- uint64_t se -> bool se
+> - "s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)"
+> -- Drop special cases when both values are infinity
+> -- Simplify cases when both values are zero
+> -- Simplify dcmask handling
+> -- uint64_t se -> bool se
+> - "linux-user: elf: Prepare for Vector enhancements facility"
+> -- Added to properly indicate the new elf capability
+>
+> v1 -> v2:
+> - Too much changed to spell it out explicitly. Mostly addressed feedback
+>   from Richard, a couple of bugfixes found while testing, and some
+>   simplifications/cleanups.
+> - Rebased on top of Richard's softfloat rework
+>
+> Cc: qemu-s390x@nongnu.org
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+>
+>
+> David Hildenbrand (26):
+>   s390x/tcg: Fix FP CONVERT TO (LOGICAL) FIXED NaN handling
+>   s390x/tcg: Fix instruction name for VECTOR FP LOAD
+>     (LENGTHENED|ROUNDED)
+>   s390x/tcg: Simplify vop64_3() handling
+>   s390x/tcg: Simplify vop64_2() handling
+>   s390x/tcg: Simplify vfc64() handling
+>   s390x/tcg: Simplify vftci64() handling
+>   s390x/tcg: Simplify vfma64() handling
+>   s390x/tcg: Simplify vfll32() handling
+>   s390x/tcg: Simplify vflr64() handling
+>   s390x/tcg: Simplify wfc64() handling
+>   s390x/tcg: Implement VECTOR BIT PERMUTE
+>   s390x/tcg: Implement VECTOR MULTIPLY SUM LOGICAL
+>   s390x/tcg: Implement 32/128 bit for VECTOR FP
+>     (ADD|DIVIDE|MULTIPLY|SUBTRACT)
+>   s390x/tcg: Implement 32/128 bit for VECTOR (LOAD FP INTEGER|FP SQUARE
+>     ROOT)
+>   s390x/tcg: Implement 32/128 bit for VECTOR FP COMPARE *
+>   s390x/tcg: Implement 32/128 bit for VECTOR FP COMPARE (AND SIGNAL)
+>     SCALAR
+>   s390x/tcg: Implement 64 bit for VECTOR FP LOAD LENGTHENED
+>   s390x/tcg: Implement 128 bit for VECTOR FP LOAD ROUNDED
+>   s390x/tcg: Implement 32/128 bit for VECTOR FP PERFORM SIGN OPERATION
+>   s390x/tcg: Implement 32/128 bit for VECTOR FP TEST DATA CLASS
+>     IMMEDIATE
+>   s390x/tcg: Implement 32/128 bit for VECTOR FP MULTIPLY AND
+>     (ADD|SUBTRACT)
+>   s390x/tcg: Implement VECTOR FP NEGATIVE MULTIPLY AND (ADD|SUBTRACT)
+>   s390x/tcg: Implement VECTOR FP (MAXIMUM|MINIMUM)
+>   linux-user: elf: s390x: Prepare for Vector enhancements facility
+>   s390x/tcg: We support Vector enhancements facility
+>   s390x/cpumodel: Bump up QEMU model to a stripped-down IBM z14 GA2
+>
+>  hw/s390x/s390-virtio-ccw.c      |    3 +
+>  include/elf.h                   |    7 +
+>  linux-user/elfload.c            |    1 +
+>  target/s390x/cpu_models.c       |    4 +-
+>  target/s390x/fpu_helper.c       |   41 +-
+>  target/s390x/gen-features.c     |   14 +-
+>  target/s390x/helper.h           |   70 +-
+>  target/s390x/insn-data.def      |   16 +-
+>  target/s390x/internal.h         |    9 +
+>  target/s390x/translate_vx.c.inc |  633 ++++++++++++++----
+>  target/s390x/vec_fpu_helper.c   | 1079 ++++++++++++++++++++++---------
+>  target/s390x/vec_helper.c       |   22 +
+>  12 files changed, 1428 insertions(+), 471 deletions(-)
 
-I've applied this one to my block branch now.
-
-Kevin
+Thanks, applied.
 
 
