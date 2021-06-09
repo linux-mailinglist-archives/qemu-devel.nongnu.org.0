@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4801B3A1387
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 13:54:55 +0200 (CEST)
-Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70AA3A1399
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 13:58:26 +0200 (CEST)
+Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqwnO-0003WD-4j
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 07:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34796)
+	id 1lqwqo-0005fr-1g
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 07:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqwmd-0002pU-IA
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:54:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34672)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqwpp-0004yj-LF
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:57:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqwmZ-0001Q7-Gm
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:54:06 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqwpn-0003rB-Al
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:57:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623239642;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1623239842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Qazg5EYp2vWzf5uM7lsIdi3tq9UV4VUp4Hf4vy4JAII=;
- b=L4gDBi4voNNEMzQ7Gpx1DpDJHK1UvZ9RNCYXmpqCsI3BFwNVGITAXmZAm3U1e8Q9B41o1O
- tVkspUu3dSLmfheF50j6+Wkdm2jaZ9vsPCsUMdJG7psjw2xnr0myNA6AmJJ3OpEMzSSCBg
- v7TMlfQkh74+GhzyyVPPIkWerGHMOSY=
+ bh=+yDJ28kUQREtEIdkFEECQlmJHr8QC+h0oEDecV2PLag=;
+ b=KhBDq4L/H/kkDvzQBiFzOvjRisEcG9u8ZITqXIAK+nwfAX+BPFNrtnPnKa1fExPblRuWhz
+ jyfEYyy6kV5YmhZc5ASgs0QjZ6vu8i/gDvxMhRSTd3dSdN6AMTqYkfojy8EsDlTJ+PsTiL
+ dTRFJCwgDLmv6P+JcYCdoSYCvOT1HZU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-Ed3wSF9COGe556geREXLyA-1; Wed, 09 Jun 2021 07:54:01 -0400
-X-MC-Unique: Ed3wSF9COGe556geREXLyA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-359-jHvH-7HTOMqoniqfIL5lHA-1; Wed, 09 Jun 2021 07:57:19 -0400
+X-MC-Unique: jHvH-7HTOMqoniqfIL5lHA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CA45100CF6A
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 11:54:00 +0000 (UTC)
-Received: from redhat.com (ovpn-115-127.ams2.redhat.com [10.36.115.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD5DA19C45;
- Wed,  9 Jun 2021 11:53:49 +0000 (UTC)
-Date: Wed, 9 Jun 2021 12:53:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [RFC QEMU PATCH] ui: Make the DisplayType enum entries conditional
-Message-ID: <YMCrytyvkuZX6bZW@redhat.com>
-References: <20210609100240.1285032-1-thuth@redhat.com>
- <20210609112405.pyv62l22g5ympoe4@sirius.home.kraxel.org>
- <YMCmNrcNByZ+Ozxn@redhat.com>
- <20210609114921.mc4upvizeobfruaw@sirius.home.kraxel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F537A0BD1;
+ Wed,  9 Jun 2021 11:57:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
+ [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04E66105C88C;
+ Wed,  9 Jun 2021 11:56:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 800A5113865F; Wed,  9 Jun 2021 13:56:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: GSoC Intro - TUI interface for QMP
+References: <CAN6ztm-J2GoQKkLb=Az0H2Q8UKK4oE3PgXg7g14=T53sQAUyDg@mail.gmail.com>
+ <CAN6ztm9JKPo05_qJo1cFGq2P6f1DzB9vu+VZ054e9MdHVkRLog@mail.gmail.com>
+ <YKuq242kdKxhvHAr@stefanha-x1.localdomain>
+ <CAN6ztm8rpDARg786+yq2S58T2wQ7TWSQ+H_3xgfUnRTbgc0k+A@mail.gmail.com>
+ <d45d686b-ca43-821c-e843-cf0f963e4e6e@redhat.com>
+ <87czswxuwn.fsf@dusky.pond.sub.org>
+ <1577ce78-bf98-3f3d-7594-2b91d84967ec@redhat.com>
+Date: Wed, 09 Jun 2021 13:56:39 +0200
+In-Reply-To: <1577ce78-bf98-3f3d-7594-2b91d84967ec@redhat.com> (John Snow's
+ message of "Tue, 8 Jun 2021 11:49:41 -0400")
+Message-ID: <87sg1rp7yg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210609114921.mc4upvizeobfruaw@sirius.home.kraxel.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,57 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com, smitterl@redhat.com,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ wainersm@redhat.com, "Niteesh G. S." <niteesh.gs@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 01:49:21PM +0200, Gerd Hoffmann wrote:
-> On Wed, Jun 09, 2021 at 12:29:58PM +0100, Daniel P. Berrangé wrote:
-> > On Wed, Jun 09, 2021 at 01:24:05PM +0200, Gerd Hoffmann wrote:
-> > > On Wed, Jun 09, 2021 at 12:02:40PM +0200, Thomas Huth wrote:
-> > > > Libvirt's "domcapabilities" command has a way to state whether
-> > > > certain graphic frontends are available in QEMU or not. Originally,
-> > > > libvirt looked at the "--help" output of the QEMU binary to determine
-> > > > whether SDL was available or not (by looking for the "-sdl" parameter
-> > > > in the help text), but since libvirt stopped doing this analysis of
-> > > > the help text, the detection of SDL is currently broken, see:
-> > > > 
-> > > >  https://bugzilla.redhat.com/show_bug.cgi?id=1790902
-> > > > 
-> > > > QEMU should provide a way via the QMP interface instead. The simplest
-> > > > way, without introducing additional commands, is to make the DisplayType
-> > > > enum entries conditional, so that the enum only contains the entries if
-> > > > the corresponding CONFIG_xxx switches have been set.
-> > > 
-> > > Hmm, that'll break for the "dnf remove qemu-ui-sdl" case ...
-> > 
-> > Note tht libvirt invalidates its cache of QEMU capabilities when it
-> > sees the /usr/lib64/qemu directory timestamp change. So it ought to
-> > pick up changes caused by installing/removing QEMU modules, and apply
-> > this to future queries for domcapabilities, or when starting future
-> > QEMU guests.
-> 
-> That'll work fine for modules implementing qom objects / devices,
-> because the list of available objects changes accordingly and libvirt
-> can see that.
-> 
-> The #if CONFIG_SDL approach will not work because qemu will continue to
-> report sdl as supported even when the sdl module is not installed any
-> more.
+John Snow <jsnow@redhat.com> writes:
 
-Ah see what you mean now.  So libvirt can't merely query members of
-the DisplayType enum. We need an actual 'query-display-types' command
-that returns an array of DisplayType values corresponding to what is
-actually built-in or available as a module at that instant.
+> On 6/8/21 11:01 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> [...]
+>> 
+>>> A challenge will be where to pull the help text from. The QEMU server
+>>> is not capable (today) of sending help information over the QMP socket
+>>> itself.
+>>>
+>>> We will need to implement a QMP command inside of QEMU directly that
+>>> is capable of delivering this information to the client so that it can
+>>> render it.
+>>>
+>>> Since not all versions of QEMU will have this feature, the qmp-shell
+>>> will need to be able to gracefully deal with the lack of help text,
+>>> displaying an error indicating that this version of QEMU does not have
+>>> help information compiled into it.
+>> The doc text is bulky: my bld/docs/manual/interop/qemu-qmp-ref.html
+>> is
+>> 1.7 MiB and growing.  Less lavish markup results in smaller data.  We
+>> may want to store it compressed, or load it on demand.  We might even
+>> have to make it compile-time optional for some use cases.
+>> 
+>
+> ACK, understood.
+>
+> raw QAPI directory, including only the json files, is "only" 551.3 kB.
+>
+> I assume we can compile help text to something json (or json-like) and
+> then compress it. Perhaps we could compile something like 
+> qapi-help-introspect.json.tgz and load it on-demand from the QEMU
+> binary when help text is requested.
+>
+> We could prototype under the experimental QMP command x-help, and
+> limit it to sending help for just one command at a time to limit data
+> transfer.
+>
+> The client could cache the information. (Against what kind of an
+> identifier? Can QEMU report some kind of token that uniquely
+> identifies its binary or uniquely identifies the set of QAPI commands
+> it supports?)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I proposed something like it to permit QMP clients cache
+query-qmp-schema output.  Libvirt didn't want it, so it never got beyond
+the idea stage.
+
+> This has the potential to exceed our capacity this summer, but a
+> prototype experiment might be helpful to inform future work anyway.
+
+Beware of the risk that comes with shiny stretch goals: loss of focus.
+I believe this is actually this GSoC project's main risk.
 
 
