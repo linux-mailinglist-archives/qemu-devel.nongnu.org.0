@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFF73A14DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:49:30 +0200 (CEST)
-Received: from localhost ([::1]:50156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DFB93A14EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:51:12 +0200 (CEST)
+Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqxeD-00070Q-RR
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
+	id 1lqxfr-0000tJ-8w
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqxdG-00062w-7d
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:48:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47560)
+ id 1lqxe0-0007Hr-D2
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:49:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqxdE-0003kp-Mw
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:48:29 -0400
+ id 1lqxdz-0004HX-1x
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:49:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623242908;
+ s=mimecast20190719; t=1623242954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=uTzZJKGHJ1O7b3+6we3YZsyZjZCFt2BRzpRyM8B6hVE=;
- b=ZxAP2hJPrZ1vh1ShEnanhfxjhO6f6j9UaiXwL1h4hxbQPomXuvJ23dAzI6TIKiFVB4kbLk
- vyEQD/heVK5KopbbkP/HTk6cW7xtHIvJSFZW4E81WTurgL0zj08YgIwPHUcjHqB/PMr8II
- 7fU5k+/VJlFfgKGr2f0wIvIcX7CAFDM=
+ bh=EGkUuFQ7CGLSVnBnUDCXzR0G9zwZJK+JhDjKfCKXzqc=;
+ b=MsQXpN0H5gsNH76/GJ4NSQOi1GWoBXCDsZ+CF61lblbSn+rZEgzsAEUYZ6QJMGt+eB8wyx
+ 4HquHi6ClsYmT3kByHuLJVY6G/gAUM5oqNeKeFPlP38gB0Bsg+9m7bYjH0aQri2I1orQd4
+ 9qH3reVVXhQX+Dx8OwLFqw40gFwS8IM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-jsXSe-6kPam723rSx_mSiw-1; Wed, 09 Jun 2021 08:48:26 -0400
-X-MC-Unique: jsXSe-6kPam723rSx_mSiw-1
+ us-mta-592-7PLnEJqbNFSZbI5rJQXlLA-1; Wed, 09 Jun 2021 08:49:12 -0400
+X-MC-Unique: 7PLnEJqbNFSZbI5rJQXlLA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88A31DF8AE
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 12:48:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43C25801B12
+ for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 12:49:11 +0000 (UTC)
 Received: from localhost (ovpn-115-220.ams2.redhat.com [10.36.115.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0727C105C865;
- Wed,  9 Jun 2021 12:48:18 +0000 (UTC)
-Date: Wed, 9 Jun 2021 13:48:17 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD52910023B5;
+ Wed,  9 Jun 2021 12:49:02 +0000 (UTC)
+Date: Wed, 9 Jun 2021 13:49:02 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 09/13] trace/stap: build stap files for modules
-Message-ID: <YMC4kXfBcPtvL9ix@stefanha-x1.localdomain>
+Subject: Re: [PATCH v4 11/13] virtio-gpu: split trace points
+Message-ID: <YMC4vgjSqsQPWGjH@stefanha-x1.localdomain>
 References: <20210601132414.432430-1-kraxel@redhat.com>
- <20210601132414.432430-10-kraxel@redhat.com>
+ <20210601132414.432430-12-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210601132414.432430-10-kraxel@redhat.com>
+In-Reply-To: <20210601132414.432430-12-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H2Vz7FWBuaxEXUN5"
+ protocol="application/pgp-signature"; boundary="vd0c5GWDe2xFjX1b"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,38 +85,38 @@ Cc: Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---H2Vz7FWBuaxEXUN5
+--vd0c5GWDe2xFjX1b
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 01, 2021 at 03:24:10PM +0200, Gerd Hoffmann wrote:
-> @@ -2027,6 +2028,37 @@ foreach d, list : modules
->        else
->          softmmu_mods += sl
->        endif
-> +      if 'CONFIG_TRACE_SYSTEMTAP' in config_host and module_trace_evt != ''
-> +        modname = d + '-' + m
-> +	modlib = modname + '.so'
-
-Indentation looks odd. Otherwise:
+On Tue, Jun 01, 2021 at 03:24:12PM +0200, Gerd Hoffmann wrote:
+> Create separate trace points for the simple and virgl
+> variants of the virtio-gpu device.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/display/virtio-gpu-virgl.c | 48 +++++++++++++++++------------------
+>  hw/display/trace-events       | 30 ++++++++++++++--------
+>  2 files changed, 43 insertions(+), 35 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---H2Vz7FWBuaxEXUN5
+--vd0c5GWDe2xFjX1b
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDAuJEACgkQnKSrs4Gr
-c8jbtgf/YjeSb2BXuli3avyE9zEvh5ig0PWHuYNpNRTA4f+iRt0nlUiLJ6nLXqtt
-Xhz81asqfZUWcQmCsWcHmGzCGo1IK++EjvZe24Zh/k5kBxagPp0H/HdzVjkhgl7K
-shahyIp6dPnBjCmQM99kh1NhnqUrVQDHH7G9l5tZwoX/Ba4wgvyPrbLmVWm8j8M5
-ZESY/llH45GdLD/QCWFVhT8/3zPECjvKqywGfCxtc+jwj29uMX86ZPhNrT6Nxxio
-zeg0F5rGAUMBxIGrJ0jDikLniQOFOznVUjElSLYGlnB/mV9DYpYbHVM4jTdlMXA5
-120Innb5G+SUCz0G3iRtkaCX43xqcQ==
-=tN4N
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDAuL4ACgkQnKSrs4Gr
+c8hSywf+ODN1IEKXbeWb8hL0cv/DyqzBbiFiYbbX3zeRvgsHfHt3FcMhX+KZL0QK
+PrpnYhh/6vg5WE/gjdCP4Kr5tW40PYX/KxoM2Il0xJnniHnC9+Vj8Ua8jMgJCcSM
+H0uffH76IPI48PQCQh7VhsFJg5Cxj63vZM51azkp21R1Ut9i6mIGsCt8Odn9E7O0
+ODyA60HOBVMVdRbEcYXvASbVWD4FIJOZ9kD8++/BDPVEmCONXjS3i4EYJ/I4+opK
+TVsivg+U5a0IdWSY1mpWPPFT8u4jAll4IAPlRU/hxj6Bcdx2Aj1nP+piv93DRK72
+O41+fMvpsiYv0UX4cHsdGydwyolWHA==
+=r9FP
 -----END PGP SIGNATURE-----
 
---H2Vz7FWBuaxEXUN5--
+--vd0c5GWDe2xFjX1b--
 
 
