@@ -2,66 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6223A3A1D68
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6933A1D69
 	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 21:03:21 +0200 (CEST)
-Received: from localhost ([::1]:54554 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:54538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr3U0-0001je-E7
+	id 1lr3U0-0001j5-Tc
 	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 15:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37068)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lr3Rj-0000N6-HI
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:01:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39826)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lr3P2-00064Z-Aa
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:58:13 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lr3Rd-0002ey-Gp
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:00:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lr3Ra-0001EM-3j
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 19:00:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F05A82E8167
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 19:00:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lr3P0-0000wr-Jj
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:58:11 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id h16so2006044pjv.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 11:58:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=Hzbk+TioX4mAI7KAZ5m4tcmP/5nWfYCAIEB8XG1n80I=;
+ b=Ux6rlGyPGciQIYCFnKZUW1NVA1bjEzFI0gKq5+udLPq+cujKFkJ5aCt23/O7uv5v38
+ ZZnJrk9zLgLJdoP/41aKwJ1pFdN4RSAC0FK2tZ+UqVOFOidSGsUY2EfnV2+Ub9Ul64xK
+ PFVufmnZcCbrSsxg/5Ib/BU6fOELpIcG/L29GGU1DBU7JaYPZnL9+4vZNXU0zcIAIH4W
+ XHvTCeAhdEG0Dw5xmsbzWv1MUMCcjLW40QzVmwHxp4kCmnbwGBjAGIPRbTM4j5s1QeE0
+ 7aQ2G8Nu1jK6/pLtB84DQOOyisuCwunkCwImMr8UNxaOC5AYyj1F/pcT04cHY1BR0mZX
+ lR5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hzbk+TioX4mAI7KAZ5m4tcmP/5nWfYCAIEB8XG1n80I=;
+ b=erdQThlVfjhHCRekHLyZrKHvUOSe15IegpPTAj7GOJ6GMEgbccjcburZJoS1jQs6Cf
+ USOgEmOiviH/HkuU+NZ0loGE+Hehd7rJksyWhbjacXRIOAhIQ2W8jXoIr1wOAEhW85Z8
+ fVjNfY2c4/Nimv+/RrjKOQ8/iadVsSWUkzUj8EBif7UOgR5RY7cgfoDpibaKzPLw5K26
+ SxIIh1rc4A+VSQnmEq2XLz59uN8QlGLhYorOgj7a06+mqYIZMv436pojo0lZG3s2oF2v
+ TI3VT6IWWHVWjezzyxFXU9jmuZn/gRSitu/61Az++Pe8aUpSC73HPMoZMmyrnUYfCv3S
+ Dq1w==
+X-Gm-Message-State: AOAM533ksl+GLi8nJ2yl/l0SHYbvJky+oCRIVfeNtjeqrLe2BEUWghxH
+ 5HrlC4LHYXxOQ0pW6uyFvK7nCsPckqLQPQ==
+X-Google-Smtp-Source: ABdhPJwa/o0U3RDk5twGe+TD2zD7ir79dnzauYexoIDgtw37Uzctwuvcb5itpg1JK+FRoqMm/Pcm6A==
+X-Received: by 2002:a17:902:7d8a:b029:115:77ae:e1dd with SMTP id
+ a10-20020a1709027d8ab029011577aee1ddmr1167328plm.50.1623265088954; 
+ Wed, 09 Jun 2021 11:58:08 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ z6sm303409pfr.99.2021.06.09.11.58.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Jun 2021 11:58:08 -0700 (PDT)
+Subject: Re: [PATCH 39/55] target/arm: Implement MVE VQDMULH and VQRDMULH
+ (scalar)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-40-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ad3f525e-4a01-8977-439e-a0cdae802c5c@linaro.org>
+Date: Wed, 9 Jun 2021 11:58:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Jun 2021 18:53:23 -0000
-From: John Snow <1921061@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-u3untu-h jnsnow th-huth
-X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <161654808841.23607.13822796780403513821.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162326480351.14242.16653021273358572796.malone@gac.canonical.com>
-Subject: [Bug 1921061] Re: Corsair iCUE Install Fails, qemu VM Reboots
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: c37bc2a1f59e61d19139530c0031a5ad81a8c940
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210607165821.9892-40-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,55 +91,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921061 <1921061@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Russel, this bug has been migrated to the new GitLab issue tracker;
-can you provide me with some extra information over on the new tracker,
-please?
+On 6/7/21 9:58 AM, Peter Maydell wrote:
+> Implement the MVE VQDMULH and VQRDMULH scalar insns, which multiply
+> elements by the scalar, double, possibly round, take the high half
+> and saturate.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/helper-mve.h    |  8 ++++++++
+>   target/arm/mve.decode      |  3 +++
+>   target/arm/mve_helper.c    | 25 +++++++++++++++++++++++++
+>   target/arm/translate-mve.c |  2 ++
+>   4 files changed, 38 insertions(+)
 
-(I am *very* likely to miss updates here.)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-1. What is your QEMU command line? (A full, working command-line, but the s=
-mallest one you can reproduce the problem with is helpful.)
-2. What is your host environment? (distro/linux kernel version, CPU model)
-3. What happens *exactly* when you try to install iCUE? Windows reboots -- =
-in what way? Does it bluescreen, or does it just reboot immediately and the=
-n continue on as if nothing happened? Are there any errors/warnings/output =
-from QEMU at all? Does QEMU crash?
-
-Some other information that might be helpful if you have it:
-
-4. Is there a version of QEMU where this works correctly for you still? Do =
-you know when the problem appeared?
-5. Depending on exactly how the VM reboots, you *may* have information in y=
-our windows event viewer logs -- do you see any warnings or errors in there=
- that might be relevant?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921061
-
-Title:
-  Corsair iCUE Install Fails, qemu VM Reboots
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Hi,
-
-  I had this working before, but in the latest version of QEMU (built
-  from master), when I try to install Corsair iCUE, and it gets to the
-  driver install point =3D> my Windows 10 VM just reboots! I would be
-  happy to capture logs, but ... what logs exist for an uncontrolled
-  reboot? Thinking they are lost in the reboot :-(.
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921061/+subscriptions
+r~
 
