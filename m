@@ -2,76 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4369F3A1BF5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 19:37:59 +0200 (CEST)
-Received: from localhost ([::1]:52490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9603A1C04
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 19:42:49 +0200 (CEST)
+Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr29O-0007Pb-C6
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 13:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51118)
+	id 1lr2E4-0002AB-6V
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 13:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lr28B-0006hh-Dj
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:36:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57571)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lr2Co-0001TT-OQ
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:41:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lr289-0006IL-MK
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:36:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623260201;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vhfjiTxpYMMTgdHLn4JIJD2mPuuumgwsYIX64JiZakQ=;
- b=Pz+UflN6M4UewEnDlgLTkt3UwLSZSnXQFxN5l9zbvi+Rgwcp8WiTlvQJ9Tsj6D+1LekHO2
- T4ztkQWzEUCtFpgOOJ1KaDn7MRghiTrBuZHZ23GZzF6atThfoMzmikMehwzKib3fyqS0TV
- qW1CKTjmJ0q5io1ZeLzwslbgvyyiS7k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-lalxgrNYNl-JhBsDqFetTA-1; Wed, 09 Jun 2021 13:36:39 -0400
-X-MC-Unique: lalxgrNYNl-JhBsDqFetTA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4F1F1012587;
- Wed,  9 Jun 2021 17:36:38 +0000 (UTC)
-Received: from redhat.com (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B37695D9C6;
- Wed,  9 Jun 2021 17:36:36 +0000 (UTC)
-Date: Wed, 9 Jun 2021 18:36:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] tpm: Return QMP error when TPM is disabled in build
-Message-ID: <YMD8IaJKTHJwp+io@redhat.com>
-References: <20210609152559.1088596-1-philmd@redhat.com>
- <CAJ+F1CL0ZdNUdcgTR8gv3w-+p++tDfvtFVYPm6NgoU_b03VgRQ@mail.gmail.com>
- <2ebcd286-cc73-e8da-53ef-2424419822ff@redhat.com>
- <d73d226b-557e-d619-10ba-e547fc51ad9d@redhat.com>
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1lr2Cj-0000lV-Or
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:41:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 837BE613BD;
+ Wed,  9 Jun 2021 17:41:20 +0000 (UTC)
+Date: Wed, 9 Jun 2021 18:41:18 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v14 1/8] arm64: mte: Handle race when synchronising tags
+Message-ID: <20210609174117.GA18459@arm.com>
+References: <20210607110816.25762-1-steven.price@arm.com>
+ <20210607110816.25762-2-steven.price@arm.com>
+ <875yynz5wp.wl-maz@kernel.org>
+ <e65943cb-9643-c973-9626-ebf56723ea14@arm.com>
+ <874ke7z3ng.wl-maz@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <d73d226b-557e-d619-10ba-e547fc51ad9d@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <874ke7z3ng.wl-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,80 +56,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 07:34:32PM +0200, Philippe Mathieu-Daudé wrote:
-> On 6/9/21 7:27 PM, Philippe Mathieu-Daudé wrote:
-> > On 6/9/21 6:01 PM, Marc-André Lureau wrote:
-> >> Hi
-> >>
-> >> On Wed, Jun 9, 2021 at 7:33 PM Philippe Mathieu-Daudé <philmd@redhat.com
-> >> <mailto:philmd@redhat.com>> wrote:
-> >>
-> >>     When the management layer queries a binary built using --disable-tpm
-> >>     for TPM devices, it gets confused by getting empty responses:
-> >>
-> >>       { "execute": "query-tpm" }
-> >>       {
-> >>           "return": [
-> >>           ]
-> >>       }
-> >>       { "execute": "query-tpm-types" }
-> >>       {
-> >>           "return": [
-> >>           ]
-> >>       }
-> >>       { "execute": "query-tpm-models" }
-> >>       {
-> >>           "return": [
-> >>           ]
-> >>       }
-> >>
-> >>     Make it clearer by returning an error, mentioning the feature is
-> >>     disabled:
-> >>
-> >>       { "execute": "query-tpm" }
-> >>       {
-> >>           "error": {
-> >>               "class": "GenericError",
-> >>               "desc": "this feature or command is not currently supported"
-> >>           }
-> >>       }
-> >>
-> >>     Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com
-> >>     <mailto:philmd@redhat.com>>
-> >>
-> >>
-> >> Why not make the qapi schema conditional?
+On Wed, Jun 09, 2021 at 12:19:31PM +0100, Marc Zyngier wrote:
+> On Wed, 09 Jun 2021 11:51:34 +0100,
+> Steven Price <steven.price@arm.com> wrote:
+> > On 09/06/2021 11:30, Marc Zyngier wrote:
+> > > On Mon, 07 Jun 2021 12:08:09 +0100,
+> > > Steven Price <steven.price@arm.com> wrote:
+> > >> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
+> > >> index 125a10e413e9..a3583a7fd400 100644
+> > >> --- a/arch/arm64/kernel/mte.c
+> > >> +++ b/arch/arm64/kernel/mte.c
+> > >> @@ -25,6 +25,7 @@
+> > >>  u64 gcr_kernel_excl __ro_after_init;
+> > >>  
+> > >>  static bool report_fault_once = true;
+> > >> +static DEFINE_SPINLOCK(tag_sync_lock);
+> > >>  
+> > >>  #ifdef CONFIG_KASAN_HW_TAGS
+> > >>  /* Whether the MTE asynchronous mode is enabled. */
+> > >> @@ -34,13 +35,22 @@ EXPORT_SYMBOL_GPL(mte_async_mode);
+> > >>  
+> > >>  static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
+> > >>  {
+> > >> +	unsigned long flags;
+> > >>  	pte_t old_pte = READ_ONCE(*ptep);
+> > >>  
+> > >> +	spin_lock_irqsave(&tag_sync_lock, flags);
+> > > 
+> > > having though a bit more about this after an offline discussion with
+> > > Catalin: why can't this lock be made per mm? We can't really share
+> > > tags across processes anyway, so this is limited to threads from the
+> > > same process.
+> > 
+> > Currently there's nothing stopping processes sharing tags (mmap(...,
+> > PROT_MTE, MAP_SHARED)) - I agree making use of this is tricky and it
+> > would have been nice if this had just been prevented from the
+> > beginning.
 > 
-> Using your suggestion (and ignoring QAPI marshaling error) I'm getting:
+> I don't think it should be prevented. I think it should be made clear
+> that it is unreliable and that it will result in tag corruption.
 > 
-> { "execute": "query-tpm" }
-> {
->     "error": {
->         "class": "CommandNotFound",
->         "desc": "The command query-tpm has not been found"
->     }
-> }
+> > Given the above, clearly the lock can't be per mm and robust.
 > 
-> Is that OK from a management perspective?
+> I don't think we need to make it robust. The architecture actively
+> prevents sharing if the tags are also shared, just like we can't
+> really expect the VMM to share tags with the guest.
 
-That's fairly typical of what we'd expect to see from a feature
-which is either removed at compile time, or never existed in the first
-place. mgmt apps don't really need to distinguish those two scenarios,
-so this is fine.
+The architecture does not prevent MTE tag sharing (if that's what you
+meant). The tags are just an additional metadata stored in physical
+memory. It's not associated with the VA (as in the CHERI-style
+capability tags), only checked against the logical tag in a pointer. If
+the architecture prevented MAP_SHARED, we would have prevented PROT_MTE
+on them (well, it's not too late to do this ;)).
 
-Regards,
-Daniel
+I went with Steven a few times through this exercise, though I tend to
+forget it quickly after. The use-case we had in mind when deciding to
+allow MTE on shared mappings is something like:
+
+	int fd = memfd_create("jitted-code", MFD_ALLOW_SEALING);
+	ftruncate(fd, size);
+
+	void* rw_mapping = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+	void* rx_mapping = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
+
+	close(fd);
+
+The above is within the same mm but you might as well have a fork and
+the rx mapping in a child process. Any of the mappings may have
+PROT_MTE from the start or set later with mprotect(), though it's
+probably the rw one only.
+
+The race we have is in set_pte_at() and the equivalent KVM setting for
+stage 2 (in any combination of these). To detect a page that was not
+previously tagged (first time mapped, remapped with new attributes), we
+have a test like this via set_pte_at():
+
+	if (!test_bit(PG_mte_tagged, &page->flags)) {
+		mte_clear_page_tags(page);
+		set_bit(PG_mte_tagged, &page->flags);
+	}
+
+Calling the above concurrently on a page may cause some tag loss in the
+absence of any locking. Note that it only matters if one of the mappings
+is writable (to write tags), so this excludes CoW (fork, KSM).
+
+For stage 1, I think almost all cases that end up in set_pte_at() also
+have the page->lock held and the ptl. The exception is mprotect() which
+doesn't bother to look up each page and lock it, it just takes the ptl
+lock. Within the same mm, mprotect() also takes the mmap_lock as a
+writer, so it's all fine. The race is between two mms, one doing an
+mprotect(PROT_MTE) with the page already mapped in its address space and
+the other taking a fault and mapping the page via set_pte_at(). Two
+faults in two mms again are fine because of the page lock.
+
+For stage 2, the race between the VMM doing an mprotect() and the VM
+going via user_mem_abort() is fine because the former calls
+mmap_write_lock() while the latter mmap_read_lock(). So, as in stage 1,
+the problem in stage 2 is for a MAP_SHARED region that another process
+(maybe spawned by the VMM) calls mprotect(PROT_MTE).
+
+There is another case of MAP_SHARED in the VMM that does not involve
+mprotect(). The shared page is mapped on fault in VMM2, initially mapped
+as PROT_MTE while VMM1 handles a user_mem_abort() -> hva_to_pfn(). If in
+VMM1 the page was not mapped with PROT_MTE but the pte is accessible,
+get_user_pages_fast() won't touch the VMM1 pte, so we have the race
+between user_mem_abort() in VMM1 and set_pte_at() in VMM2.
+
+So, AFAICT, MAP_SHARED between two different mms is the only problem
+(both for stage 1 and stage 2), hence the big lock that Steven
+introduced. I don't like the lock either but we couldn't come up with a
+better solution.
+
+I'm happy to document that MAP_SHARED may lose tags but we need to be
+more precise than that as people may still want to use MTE with shared
+memory as per my first example (otherwise we can block it upfront easily
+in arch_validate_flags()). Also the exact behaviour in a MAP_SHARED case
+may be quite fragile.
+
+An alternative is to set PG_mte_tagged before we even end up in a
+set_pte_at() or user_mem_abort() and that's what patch 2 does here for
+stage 1. There are other options like finer grained locking via another
+page flag (well, inventing a new page lock that doesn't sleep), maybe an
+array of locks indexed by a hash of the pfn to mitigate the big lock
+(multiple big locks ;)).
+
+With patch 2 in this series (and an equivalent one in Peter's
+optimisation series), PG_mte_tagged is set on page allocation in the
+majority of the cases, so we'd very rarely get to the big lock path. We
+could do a similar trick with a new vma flag which is set by kvm when a
+slot is added. Subsequent __alloc_zeroed_user_highpage() just set
+PG_mte_tagged. Note that for MAP_SHARED, we'd still end up on the big
+lock path (both for stage 1 and stage 2) since they don't use
+__alloc_zeroed_user_highpage().
+
+Another big hammer approach is to scrap PG_mte_tagged altogether. That's
+what I had in some early versions before Steven added swap support. Any
+page is considered tagged, we always zero the tags in clear_page() and
+copy tags in copy_page() (is DC GZVA as fast as DC ZVA? What's the
+overhead of copying tags? I don't have access to hardware to benchmark).
+The page comparison for KSM would also need to compare the tags (I have
+such patch already).
+
+Other suggestions are welcomed, including banning MAP_SHARED with
+PROT_MTE.
+
+> > > I'd also like it to be documented that page sharing can only reliably
+> > > work with tagging if only one of the mappings is using tags.
+> > 
+> > I'm not entirely clear whether you mean "can only reliably work" to be
+> > "is practically impossible to coordinate tag values", or whether you are
+> > proposing to (purposefully) introduce the race with a per-mm lock? (and
+> > document it).
+> 
+> The latter. You can obviously communicate your tags to another task,
+> but this should come with attached restrictions (mlock?).
+
+No, it wouldn't, you may confuse them with CHERI tags.
+
+> > I guess we could have a per-mm lock and handle the race if user space
+> > screws up with the outcome being lost tags (double clear).
+> > 
+> > But it feels to me like it could come back to bite in the future since
+> > VM_SHARED|VM_MTE will almost always work and I fear someone will start
+> > using it since it's permitted by the kernel.
+> 
+> I'm really worried that performance is going to suck even on a small
+> system, and this global lock will be heavily contended, even without
+> considering KVM.
+
+I agree, as it currently stands, enabling MTE in the guest will always
+serialise user_mem_abort() through a big lock shared by all VMs.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Catalin
 
