@@ -2,54 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130D13A100C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 12:20:36 +0200 (CEST)
-Received: from localhost ([::1]:44490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4713A101E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 12:26:19 +0200 (CEST)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqvK7-0001UR-5J
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 06:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43992)
+	id 1lqvPe-0003R6-6U
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 06:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lqvIo-0000gD-Mk; Wed, 09 Jun 2021 06:19:14 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:35720)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lqvNt-0002Zr-Mq; Wed, 09 Jun 2021 06:24:30 -0400
+Received: from mail-am6eur05on2114.outbound.protection.outlook.com
+ ([40.107.22.114]:20960 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lqvIk-00072q-KD; Wed, 09 Jun 2021 06:19:14 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EE7C67457E5;
- Wed,  9 Jun 2021 12:19:04 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 92F68745708; Wed,  9 Jun 2021 12:19:04 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 912AE74570B;
- Wed,  9 Jun 2021 12:19:04 +0200 (CEST)
-Date: Wed, 9 Jun 2021 12:19:04 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
-In-Reply-To: <55c687cf-4cb3-e74b-4c19-b7407124d4f1@ozlabs.ru>
-Message-ID: <ccb9e463-1b60-ab91-44da-8622b6eaf477@eik.bme.hu>
-References: <YKtBJoQXSrSVENFw@yekko>
- <939a489f-40de-da33-dd7-9fd1f5eb190@eik.bme.hu> <YKyJ3I5QIDLwR99t@yekko>
- <894b8b19-576d-8b25-922f-58613bad8545@eik.bme.hu> <YK8vbO7x2C8kaBWZ@yekko>
- <653edbe1-f912-bc8f-ec7f-c4f069b0a5b9@eik.bme.hu> <YLc507CyOVq403TM@yekko>
- <4046a5c1-6c67-7597-90b9-df1751e7ca47@eik.bme.hu> <YLnIYRz+tGaXssVd@yekko>
- <3d7b7525-8919-ba90-ae98-e328273771a@eik.bme.hu> <YL2Swhx/XqcPsn5s@yekko>
- <e86590b5-9b75-4b5f-3485-5a638943091@eik.bme.hu>
- <55c687cf-4cb3-e74b-4c19-b7407124d4f1@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lqvNq-00022C-8X; Wed, 09 Jun 2021 06:24:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HUJXbLXHEn7IOYVDPgVtuCa48iDh/EnY1zDWq2wii6/1v31T1Kmmdsj35R88g8GbPCy3jPpSSzEK9Lfl44oQFf0ieMkOULrXBanYdxAtBiZbH8xV7+KzxfoQq7dnCJjW6PRBX8SfrfgtKQ3XVHEkl0ecMhVqOQS949/Ni/DR+L4Q7xP27FJsa8Mmxn3veLeF+3Y8a2+HjkbYc4VSsrJAzzuoToHICP+uumgZ5uO3FS4hNLsplkR5avrBVeS15n58r4gbn/mtJv23OtLQmsnY242qHrJiYAUQ+n/pRHsgl4rQA9FJeDQmM4duDVdRqNHKmAL1FI98gRMYIMhkEYw+nA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T4PtIZ4QKvaSzcnRKB6bKasxKUUWF45M1rt0SbZZvXQ=;
+ b=QLVLo7rCRM86HevC/4nh8Wk3M3xqsPfDzFvr55eFKez6RudCTbo570Eok6CjVPAyJpBtUtAP4sNp3llmIC53Cm6hwavRNXBVEvg5A4tnEQ4i/wMX2XWvqkDlyzjU1x89uIC2dtfzuMUSmr7bSmyb3AIYQifmiiA8Pq0RJL/4sYMtWtVjA5pdwJnNzv5iwkGNiU7JGoXkuIoqaRr/17giu3UEngANZUZiP3WvpT4cvwU8XcEOt0A07maPUKTPwwFnU+CFRLD16sKNbOZ4iby6AWUJAT5dhxeo6/Q1Z7OjqSFyZDpK4ODxFqqtz8/JuRhQWv8FxTjkAd6C9jG9mXqDhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T4PtIZ4QKvaSzcnRKB6bKasxKUUWF45M1rt0SbZZvXQ=;
+ b=jBxk7dcAAnJpXsgsf/e79zWXjT3KqfmWK4FxoMj8TJdozd2UBJ4aoxlyE1KIMTQMDEN4mghAp0PinMYFVO5fjOBCr3lMf6MkaPfgFUvrU7IYqN+8I6CR9yYdsOWNxf0ZGxDytgQMZG9iPjfhfhPOw0UJ61K77p3FJMFEQIna66w=
+Authentication-Results: euphon.net; dkim=none (message not signed)
+ header.d=none;euphon.net; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6376.eurprd08.prod.outlook.com (2603:10a6:20b:33e::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Wed, 9 Jun
+ 2021 10:24:22 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Wed, 9 Jun 2021
+ 10:24:22 +0000
+Subject: Re: [PATCH v3 06/33] util/async: aio_co_schedule(): support
+ reschedule in same ctx
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, mreitz@redhat.com,
+ kwolf@redhat.com, rvkagan@yandex-team.ru, den@openvz.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
+References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
+ <20210416080911.83197-7-vsementsov@virtuozzo.com>
+ <32f2b6f0-2c31-942d-cbe2-81eda2a43fc0@redhat.com>
+ <19ff6e67-e548-14df-ac7e-8b0a3bf7a798@virtuozzo.com>
+ <ef518e01-4f08-5fe7-b226-e70ab3102ca4@redhat.com>
+ <52ba34c5-1de8-21b3-a31c-bf51676c29af@virtuozzo.com>
+ <154cff7e-3552-5cb1-4d96-8dae3c1607cb@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <008cbc78-aebe-e2fa-8fb3-f8cbdc6daf31@virtuozzo.com>
+Date: Wed, 9 Jun 2021 13:24:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <154cff7e-3552-5cb1-4d96-8dae3c1607cb@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: PR2P264CA0034.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:101:1::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-691253600-1623233944=:56389"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ PR2P264CA0034.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101:1::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.21 via Frontend Transport; Wed, 9 Jun 2021 10:24:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 850b4a33-ac19-4327-03fe-08d92b30bf6c
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6376:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6376738BDEBA7D0D258D4EDBC1369@AS8PR08MB6376.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VcnhwujYCGTh+9RBje9XoKYA5gXN3XAKDNpcKK6s7RW4yIHx8Ai54VuHlUBBm0Bl58rDxLvYi+IO2QBzC0Dux4fwRB00SzJ3ZEpQ1Z1o+vj8jCYVYHMGP9iBSdlkr5/vZR9xS9J8JOeMtzLqB9LBL+VWeQaSKH4Ueq4JBZYbxMVSo+CzCkJ/yygRKyCkzh5Xv7B74tHBJUuhXs0CtPKRfQIxhYoBtUqyziRr2RpOv53l3Gt88Cmf1t9Lv34Nv4Hz7eyj+CxxhtqifD7bgEV/GVGRZ5GlnDsd0U6hgxlm4GRftonBs90MnGAwkKBIOQlknEF1AaX0sihsMjGTkzdk3AXnd/r/4BNsQe8+JLlLQOsfWKMNnsSm8FzAkKlSu3C1qJsh1GY3ll5P8AgfWDIWL5bVPYsSj2CqweTIM1EhHZvFZc28p9Dek/pTtxtK2avcne8XkdcjCNYOdLYWmjb5R1bAPXM7gGqJRKSP5RiBJFCRf7OwTcsL+z6K/q2jHyomyWEwQmzm0r4AbQzWSuCrpyKXjnYMwM/qtlDK8yU4Uh/LRuQU4fJ1wLonW1GhBndQYfa1tswsc4LFIQzMSu5HLzJqqfw0u2daIwJ/v3Lb0+yg5TqAK5oKeAA2RX1ufuRiYslI6o2r4zXQqgNMOWMbRwb73KcVfqh9XMxnZrTmr1AtLWgfFVrDOOsy6Bj2A8qW8wovNlh0qoTT5xnWkc+WpRqbMt7/XnjL7eAEt7hh5H8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(366004)(346002)(396003)(39830400003)(8936002)(83380400001)(86362001)(31686004)(5660300002)(16576012)(2906002)(26005)(956004)(53546011)(8676002)(31696002)(16526019)(186003)(478600001)(38350700002)(36756003)(316002)(52116002)(4326008)(38100700002)(6486002)(54906003)(66946007)(66556008)(66476007)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UCtYcEZJK1pPeUk3b0NaRDNPL2MzZG4vM0ZQdlc5UE54Um5lY2ZrMTBpSjdD?=
+ =?utf-8?B?aHYyblV4Rm8xdEtkT3RxYnZpV3QyMGxmSHNkZ0hESWlPRXI2ZEJlL3RuaTRz?=
+ =?utf-8?B?U1NNMklCTE1tdFpMNENRSEhBZS9TZm5wTnZEUFBCRzVkQVYrVzZXMjVQaVQw?=
+ =?utf-8?B?bmVtNk9LOEg0ckpPMVBpK0I4Ukc4eE1PNm9XejJsMlYrSHFiZm44dWxtaU1j?=
+ =?utf-8?B?UTU3M2NZbkV0L1JsSVVjTW83ZFBwaE0vQVBkTklvZ29LckU3dnZCSzFqQmpC?=
+ =?utf-8?B?MUszdlo2dExicmNnWFFsZlhTUUtWVUZqSXlub0lGcTY4NUJ4NWljZzhBS1VF?=
+ =?utf-8?B?d3M0aERmMzU1ZmhTdzlrUEhJL0hVOHZiMFlOYWRDSDZ4RWNTWFBLWGRUTHFZ?=
+ =?utf-8?B?RDRDL2M2U2lscG5HL1FRSm9wdDJlVlBmWXdORk9ybXNoVzF6Mk90VVJacmxP?=
+ =?utf-8?B?cjJoNmcvL2FyeTREYyt6c1VxSTBkNHE1WDZ4Z3JQdCtqMWIxdHNGRFZxcnlj?=
+ =?utf-8?B?QUZjcXAvVURoZEpDaldrakxKblA5N1REZTNwU3lGNHBmcVN4TGVqUDJldWdD?=
+ =?utf-8?B?bjVrT3U3aGpMZFpXczJMd2Z3RlRyYllTaG9KZy9RVGZLaGpxNjlnbmcxOGN1?=
+ =?utf-8?B?MnRsVXhsbGhlSzhtV0t5cTNVd3hxSUdjM1NId1pEQzNwdnFTODR6UlpZYWc5?=
+ =?utf-8?B?MXpadEJyM2hCVktWMG0wbkl6RHAyaG4wVS9NNmpwZkE3Lzk2T2YxeWd2R2NU?=
+ =?utf-8?B?cThBdmp2ODhnd2hTZEN3NmVvTWRncEhGMDYybDFBYXZnOGxCZ0E4QnF3RDdK?=
+ =?utf-8?B?R3dscUhxSG9VTmJSRDJtR0w3NVVGKzRsQWlQak45dnJyN2U5UndIdld6VGpX?=
+ =?utf-8?B?TU9ZcU5aWjhRdlpqcHY1dHd6WFE0Tm9aSld2SHljaTZmbnMwOVF6b1F6eGYz?=
+ =?utf-8?B?cGNKbHFQekpid1lLbDlnRURxdmNoeEhheGVPcHZ0bHA5UFJDbUU5eStEeVd3?=
+ =?utf-8?B?S3dndURDTVYvMHNQeWlYdnhUb3lQQTlpZmhoSEV3TWxKclZDd0lWMXZXVVVa?=
+ =?utf-8?B?RWhPVmRFYTJEc0c2cWxGR3drNUEyRFNaaCtiZ1FRNkJobzVlK3h2MWJDVjhm?=
+ =?utf-8?B?eFdiQVlnZ0lYN3BzdEdHVnQ2a29FTm1QUTVvcFNrN3NyMXZBOGZCaklWM3I0?=
+ =?utf-8?B?RFdvbDJCaWFYV2Nvc3NRVnBpVkpuMmxqSnFhUzJ6TTN4bU1oNjNOdkdwZVN4?=
+ =?utf-8?B?N0dSTUZ1ZjVaTGhPTk1IUVYxcTl1RjZkNnYrOWFZWnA5ZTB1VlBVK1pNTi93?=
+ =?utf-8?B?N3dEM0J5dGpocUF0MWxBeXNwWnVSbHFsZFJPRVlVUnFCREsySldTbE1zU1VS?=
+ =?utf-8?B?OEtOVzJtQTJEZ09xSmtwZjNKUXhocHd5eU5YY3hLZXpzR01FZFA2VEVIcGdK?=
+ =?utf-8?B?RWpFSDhtS2piOU95UExRL3QyUGhMSVJrR1pUbkl0ZmRDejNkQjdhMDRFdkFN?=
+ =?utf-8?B?eVlhZXJXSGVtUkhRNWxzMk9UQ2tpYTRWQTNmdkVHbUZKTDhMNzhBUlF5MGtY?=
+ =?utf-8?B?TkxoOVhuYnhrenhwNjB0ejI2Tmh3L3pFL0VhejA0VGZHNndpbmUrSGpiN3dF?=
+ =?utf-8?B?M21RWGZVK2U4eTBkT0MxcXpxV1VJcVBNdnNtY3oxRW1EK2hTOXhNbGVvQ216?=
+ =?utf-8?B?S09aem5uKzlzeEEvdXFFZDRGbWFoeVM0N0V1bDcyNnVyNElseTFvTHNPcVpI?=
+ =?utf-8?Q?omxVMtBheYnc4XZ6YZCcRAeLG2aRNvgDV6cSBCN?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 850b4a33-ac19-4327-03fe-08d92b30bf6c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2021 10:24:22.0891 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CGz5W4+Uu22MpU93cR08YyudR0gK3WExaIxJ1NXVGC92HXYfXnVUrEGUP67vo0hjAJW19BuLdfq2sodrZGDzXBeXy/3GYHv8cD3B9PsGj/U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6376
+Received-SPF: pass client-ip=40.107.22.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,292 +152,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+09.06.2021 12:35, Paolo Bonzini wrote:
+> On 08/06/21 20:45, Vladimir Sementsov-Ogievskiy wrote:
+>> 14.05.2021 00:04, Paolo Bonzini wrote:
+>>> On 12/05/21 09:15, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>>
+>>>>>
+>>>>> I don't understand.  Why doesn't aio_co_enter go through the ctx != qemu_get_current_aio_context() branch and just do aio_co_schedule? That was at least the idea behind aio_co_wake and aio_co_enter.
+>>>>>
+>>>>
+>>>> Because ctx is exactly qemu_get_current_aio_context(), as we are not in iothread but in nbd connection thread. So, qemu_get_current_aio_context() returns qemu_aio_context.
+>>>
+>>> So the problem is that threads other than the main thread and
+>>> the I/O thread should not return qemu_aio_context.  The vCPU thread
+>>> may need to return it when running with BQL taken, though.
+>>>
+>>> Something like this (untested):
+>>>
+>>> diff --git a/include/block/aio.h b/include/block/aio.h
+>>> index 5f342267d5..10fcae1515 100644
+>>> --- a/include/block/aio.h
+>>> +++ b/include/block/aio.h
+>>> @@ -691,10 +691,13 @@ void aio_co_enter(AioContext *ctx, struct Coroutine *co);
+>>>    * Return the AioContext whose event loop runs in the current thread.
+>>>    *
+>>>    * If called from an IOThread this will be the IOThread's AioContext.  If
+>>> - * called from another thread it will be the main loop AioContext.
+>>> + * called from the main thread or with the "big QEMU lock" taken it
+>>> + * will be the main loop AioContext.
+>>>    */
+>>>   AioContext *qemu_get_current_aio_context(void);
+>>>
+>>> +void qemu_set_current_aio_context(AioContext *ctx);
+>>> +
+>>>   /**
+>>>    * aio_context_setup:
+>>>    * @ctx: the aio context
+>>> diff --git a/iothread.c b/iothread.c
+>>> index 7f086387be..22b967e77c 100644
+>>> --- a/iothread.c
+>>> +++ b/iothread.c
+>>> @@ -39,11 +39,23 @@ DECLARE_CLASS_CHECKERS(IOThreadClass, IOTHREAD,
+>>>   #define IOTHREAD_POLL_MAX_NS_DEFAULT 0ULL
+>>>   #endif
+>>>
+>>> -static __thread IOThread *my_iothread;
+>>> +static __thread AioContext *my_aiocontext;
+>>> +
+>>> +void qemu_set_current_aio_context(AioContext *ctx)
+>>> +{
+>>> +    assert(!my_aiocontext);
+>>> +    my_aiocontext = ctx;
+>>> +}
+>>>
+>>>   AioContext *qemu_get_current_aio_context(void)
+>>>   {
+>>> -    return my_iothread ? my_iothread->ctx : qemu_get_aio_context();
+>>> +    if (my_aiocontext) {
+>>> +        return my_aiocontext;
+>>> +    }
+>>> +    if (qemu_mutex_iothread_locked()) {
+>>> +        return qemu_get_aio_context();
+>>> +    }
+>>> +    return NULL;
+>>>   }
+>>>
+>>>   static void *iothread_run(void *opaque)
+>>> @@ -56,7 +68,7 @@ static void *iothread_run(void *opaque)
+>>>        * in this new thread uses glib.
+>>>        */
+>>>       g_main_context_push_thread_default(iothread->worker_context);
+>>> -    my_iothread = iothread;
+>>> +    qemu_set_current_aio_context(iothread->ctx);
+>>>       iothread->thread_id = qemu_get_thread_id();
+>>>       qemu_sem_post(&iothread->init_done_sem);
+>>>
+>>> diff --git a/stubs/iothread.c b/stubs/iothread.c
+>>> index 8cc9e28c55..25ff398894 100644
+>>> --- a/stubs/iothread.c
+>>> +++ b/stubs/iothread.c
+>>> @@ -6,3 +6,7 @@ AioContext *qemu_get_current_aio_context(void)
+>>>   {
+>>>       return qemu_get_aio_context();
+>>>   }
+>>> +
+>>> +void qemu_set_current_aio_context(AioContext *ctx)
+>>> +{
+>>> +}
+>>> diff --git a/tests/unit/iothread.c b/tests/unit/iothread.c
+>>> index afde12b4ef..cab38b3da8 100644
+>>> --- a/tests/unit/iothread.c
+>>> +++ b/tests/unit/iothread.c
+>>> @@ -30,13 +30,26 @@ struct IOThread {
+>>>       bool stopping;
+>>>   };
+>>>
+>>> -static __thread IOThread *my_iothread;
+>>> +static __thread AioContext *my_aiocontext;
+>>> +
+>>> +void qemu_set_current_aio_context(AioContext *ctx)
+>>> +{
+>>> +    assert(!my_aiocontext);
+>>> +    my_aiocontext = ctx;
+>>> +}
+>>>
+>>>   AioContext *qemu_get_current_aio_context(void)
+>>>   {
+>>> -    return my_iothread ? my_iothread->ctx : qemu_get_aio_context();
+>>> +    if (my_aiocontext) {
+>>> +        return my_aiocontext;
+>>> +    }
+>>> +    if (qemu_mutex_iothread_locked()) {
+>>> +        return qemu_get_aio_context();
+>>> +    }
+>>> +    return NULL;
+>>>   }
+>>>
+>>> +
+>>>   static void iothread_init_gcontext(IOThread *iothread)
+>>>   {
+>>>       GSource *source;
+>>> @@ -54,7 +67,7 @@ static void *iothread_run(void *opaque)
+>>>
+>>>       rcu_register_thread();
+>>>
+>>> -    my_iothread = iothread;
+>>> +    qemu_set_current_aio_context(iothread->ctx);
+>>>       qemu_mutex_lock(&iothread->init_done_lock);
+>>>       iothread->ctx = aio_context_new(&error_abort);
+>>>
+>>> diff --git a/util/main-loop.c b/util/main-loop.c
+>>> index d9c55df6f5..4ae5b23e99 100644
+>>> --- a/util/main-loop.c
+>>> +++ b/util/main-loop.c
+>>> @@ -170,6 +170,7 @@ int qemu_init_main_loop(Error **errp)
+>>>       if (!qemu_aio_context) {
+>>>           return -EMFILE;
+>>>       }
+>>> +    qemu_set_current_aio_context(qemu_aio_context);
+>>>       qemu_notify_bh = qemu_bh_new(notify_event_cb, NULL);
+>>>       gpollfds = g_array_new(FALSE, FALSE, sizeof(GPollFD));
+>>>       src = aio_get_g_source(qemu_aio_context);
+>>>
+>>> If it works for you, I can post it as a formal patch.
+>>>
+>>
+>> This doesn't work for iotests.. qemu-io goes through version in stub. It works if I add:
+> 
+> Great, thanks.  I'll try the patch, also with the test that broke with the earlier version, and post if it works.
+> 
 
---3866299591-691253600-1623233944=:56389
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Thanks, I'll base v4 of nbd patches on it.
 
-On Wed, 9 Jun 2021, Alexey Kardashevskiy wrote:
-> On 6/8/21 08:54, BALATON Zoltan wrote:
->> On Mon, 7 Jun 2021, David Gibson wrote:
->>> On Fri, Jun 04, 2021 at 03:59:22PM +0200, BALATON Zoltan wrote:
->>>> On Fri, 4 Jun 2021, David Gibson wrote:
->>>>> On Wed, Jun 02, 2021 at 02:29:29PM +0200, BALATON Zoltan wrote:
->>>>>> On Wed, 2 Jun 2021, David Gibson wrote:
->>>>>>> On Thu, May 27, 2021 at 02:42:39PM +0200, BALATON Zoltan wrote:
->>>>>>>> On Thu, 27 May 2021, David Gibson wrote:
->>>>>>>>> On Tue, May 25, 2021 at 12:08:45PM +0200, BALATON Zoltan wrote:
->>>>>>>>>> On Tue, 25 May 2021, David Gibson wrote:
->>>>>>>>>>> On Mon, May 24, 2021 at 12:55:07PM +0200, BALATON Zoltan wrote:
->>>>>>>>>>>> On Mon, 24 May 2021, David Gibson wrote:
->>>> What's ePAPR then and how is it different from PAPR? I mean the acronym 
->>>> not
->>>> the hypercall method, the latter is explained in that doc but what ePAPR
->>>> stands for and why is that method called like that is not clear to me.
->>> 
->>> Ok, history lesson time.
->>> 
->>> For a long time PAPR has been the document that described the OS
->>> environment for IBM POWER based server hardware.  Before it was called
->>> PAPR (POWER Architecture Platform Requirements) it was called the
->>> "RPA" (Requirements for the POWER Architecture, I think?).  You might
->>> see the old name in a few places.
->>> 
->>> Requiring a full Open Firmware and a bunch of other fairly heavyweight
->>> stuff, PAPR really wasn't suitable for embedded ppc chips and boards.
->>> The situation with those used to be a complete mess with basically
->>> every board variant having it's own different firmware with its own
->>> different way of presenting some fragments of vital data to the OS.
->>> 
->>> ePAPR - Embedded Power Architecture Platform Requirements - was
->>> created as a standard to try to unify how this stuff was handled on
->>> embedded ppc chips.  I was one of the authors on early versions of
->>> it.  It's mostly based around giving the OS a flattened device tree,
->>> with some deliberately minimal requirements on firmware initialization
->>> and entry state.  Here's a link to one of those early versions:
->>> 
->>> http://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf
->>> 
->>> I thought there were later versions, but I couldn't seem to find any.
->>> It's possible the process of refining later versions just petered out
->>> as the embedded ppc world mostly died and the flattened device tree
->>> development mostly moved to ARM.
->>> 
->>> Since some of the embedded chips from Freescale had hypervisor
->>> capabilities, a hypercall model was added to ePAPR - but that wasn't
->>> something I was greatly involved in, so I don't know much about it.
->>> 
->>> ePAPR is the reason that the original PAPR is sometimes referred to as
->>> "sPAPR" to disambiguate.
->> 
->> Ah, thanks that really puts it in context. I've heard about PReP and CHRP 
->> in connection with the boards I've tried to emulate but don't know much 
->> about PAPR and server POWER systems.
->> 
->>>>>> The ePAPR (1.) seems to be preferred by KVM and
->>>>>> MOL OSI supported for compatibility.
->>>>> 
->>>>> That document looks pretty out of date.  Most of it is only discussing
->>>>> KVM PR, which is now barely maintained.  KVM HV only works with PAPR
->>>>> hypercalls.
->>>> 
->>>> The links says it's latest kernel docs, so maybe an update need to be 
->>>> sent
->>>> to KVM?
->>> 
->>> I guess, but the chances of me finding time to do it are approximately
->>> zero.
->>> 
->>>>>> So if we need something else instead of
->>>>>> 2. PAPR hypercalls there seems to be two options: ePAPR and MOL OSI 
->>>>>> which
->>>>>> should work with KVM but then I'm not sure how to handle those on TCG.
->>>>>> 
->>>>>>>>>> [...]
->>>>>>>>>>>>>> I've tested that the missing rtas is not the reason for getting 
->>>>>>>>>>>>>> no output
->>>>>>>>>>>>>> via serial though, as even when disabling rtas on pegasos2.rom 
->>>>>>>>>>>>>> it boots and
->>>>>>>>>>>>>> I still get serial output just some PCI devices are not 
->>>>>>>>>>>>>> detected (such as
->>>>>>>>>>>>>> USB, the video card and the not emulated ethernet port but 
->>>>>>>>>>>>>> these are not
->>>>>>>>>>>>>> fatal so it might even work as a first try without rtas, just 
->>>>>>>>>>>>>> to boot a
->>>>>>>>>>>>>> Linux kernel for testing it would be enough if I can fix the 
->>>>>>>>>>>>>> serial output).
->>>>>>>>>>>>>> I still don't know why it's not finding serial but I think it 
->>>>>>>>>>>>>> may be some
->>>>>>>>>>>>>> missing or wrong info in the device tree I generat. I'll try to 
->>>>>>>>>>>>>> focus on
->>>>>>>>>>>>>> this for now and leave the above rtas question for later.
->>>>>>>>>>>>> 
->>>>>>>>>>>>> Oh.. another thought on that.  You have an ISA serial port on 
->>>>>>>>>>>>> Pegasos,
->>>>>>>>>>>>> I believe.  I wonder if the PCI->ISA bridge needs some 
->>>>>>>>>>>>> configuration /
->>>>>>>>>>>>> initialization that the firmware is expected to do.  If so 
->>>>>>>>>>>>> you'll need
->>>>>>>>>>>>> to mimic that setup in qemu for the VOF case.
->>>>>>>>>>>> 
->>>>>>>>>>>> That's what I begin to think because I've added everything to the 
->>>>>>>>>>>> device
->>>>>>>>>>>> tree that I thought could be needed and I still don't get it 
->>>>>>>>>>>> working so it
->>>>>>>>>>>> may need some config from the firmware. But how do I access 
->>>>>>>>>>>> device registers
->>>>>>>>>>>> from board code? I've tried adding a machine reset method and 
->>>>>>>>>>>> write to
->>>>>>>>>>>> memory mapped device registers but all my attempts failed. I've 
->>>>>>>>>>>> tried
->>>>>>>>>>>> cpu_stl_le_data and even memory_region_dispatch_write but these 
->>>>>>>>>>>> did not get
->>>>>>>>>>>> to the device. What's the way to access guest mmio regs from 
->>>>>>>>>>>> QEMU?
->>>>>>>>>>> 
->>>>>>>>>>> That's odd, cpu_stl() and memory_region_dispatch_write() should 
->>>>>>>>>>> work
->>>>>>>>>>> from board code (after the relevant memory regions are configured, 
->>>>>>>>>>> of
->>>>>>>>>>> course).  As an ISA serial port, it's probably accessed through IO
->>>>>>>>>>> space, not memory space though, so you'd need &address_space_io.  
->>>>>>>>>>> And
->>>>>>>>>>> if there is some bridge configuration then it's the bridge control
->>>>>>>>>>> registers you need to look at not the serial registers - you'd 
->>>>>>>>>>> have to
->>>>>>>>>>> look at the bridge documentation for that.  Or, I guess the bridge
->>>>>>>>>>> implementation in qemu, which you wrote part of.
->>>>>>>>>> 
->>>>>>>>>> I've found at last that stl_le_phys() works. There are so many of 
->>>>>>>>>> these that
->>>>>>>>>> I never know when to use which.
->>>>>>>>>> 
->>>>>>>>>> I think the address_space_rw calls in vof_client_call() in vof.c 
->>>>>>>>>> could also
->>>>>>>>>> use these for somewhat shorter code. I've ended up with
->>>>>>>>>> stl_le_phys(CPU(cpu)->as, addr, val) in my machine reset methodbut 
->>>>>>>>>> I don't
->>>>>>>>>> even need that now as it works without additional setup. Also VOF's 
->>>>>>>>>> memory
->>>>>>>>>> access is basically the same as the already existing rtas_st() and 
->>>>>>>>>> co. so
->>>>>>>>>> maybe that could be reused to make code smaller?
->>>>>>>>> 
->>>>>>>>> rtas_ld() and rtas_st() should only be used for reading/writing RTAS
->>>>>>>>> parameters to and from memory.  Accessing IO shouldn't be done with
->>>>>>>>> those.
->>>>>>>>> 
->>>>>>>>> For IO you probably want the cpu_st*() variants in most cases, since
->>>>>>>>> you're trying to emulate an IO access from the virtual cpu.
->>>>>>>> 
->>>>>>>> I think I've tried that but what worked to access mmio device 
->>>>>>>> registers are
->>>>>>>> stl_le_phys and similar that are wrappers around address_space_stl_*. 
->>>>>>>> But I
->>>>>>>> did not mean that for rtas_ld/_st but the part when vof accessing the
->>>>>>>> parameters passed by its hypercall which is memory access:
->>>>>>>> 
->>>>>>>> https://github.com/patchew-project/qemu/blob/patchew/20210520090557.435689-1-aik%40ozlabs.ru/hw/ppc/vof.c 
->>>>>>>> 
->>>>>>>> line 893, and vof_client_call before that is very similar to what 
->>>>>>>> h_rtas
->>>>>>>> does here:
->>>>>>>> 
->>>>>>>> https://git.qemu.org/?p=qemu.git;a=blob;f=hw/ppc/spapr_hcall.c;h=f25014afda408002ee1ec1027a0dd7a6025eca61;hb=HEAD#l639 
->>>>>>>> 
->>>>>>>> and I also need to do the same for rtas in pegasos2 for which I'm 
->>>>>>>> just using
->>>>>>>> ldl_be_phys for now but I wonder if we really need 3 ways to do the 
->>>>>>>> same or
->>>>>>>> the rtas_ld/_st could be made more generic and reused here?
->>>>>>> 
->>>>>>> For your rtas implementation you could definitely re-use them.  For
->>>>>>> the client call I'm a bit less confident, but if the in-guest-memory
->>>>>>> structures are really the same, then it would make sense.
->>>>>> 
->>>>>> The memory structure seems very similar to me, the only difference is
->>>>>> calling the first field service in VOF instead of token in RTAS. Both 
->>>>>> are
->>>>>> just an array of big endian unit32_t with token, nargs, nret at the 
->>>>>> front
->>>>>> followed by args and rets. Since these rtas_ld/st are defined in 
->>>>>> spapr.h I
->>>>>> did not bother to split them off, so for pegasos2 rtas I'm just using 
->>>>>> the
->>>>>> ldl_be_* functions directly for which these are a shorthand for. If 
->>>>>> these
->>>>>> were split off for sharing between spapr rtas and VOF I may be able to 
->>>>>> reuse
->>>>>> them as well but it's not that important so just mentioned it as a 
->>>>>> possible
->>>>>> later clean up.
->>>>> 
->>>>> Ok, sounds reasonable to re-use them then, though maybe add an aliased
->>>>> name for clarity ofci_{ld,st}(), maybe?  (for "Open Firmware Client
->>>>> Interface")
->>>> 
->>>> I'll wait for what Alexey decides to do in the next VOF patch version and 
->>>> if
->>>> I can reuse that (I could if these were defined in vof.h). I don't want 
->>>> to
->>>> come up with yet another abstraction to ldl_be_* which does not seem to 
->>>> make
->>>> it more clear than using the actual functions for guest memory access 
->>>> which
->>>> is what we're doing while getting the hypercall args so I think either 
->>>> using
->>>> ldl_be_* directly or reusing already existing rfas_ls/_st would make 
->>>> sense
->>>> but adding similar funcs with another name just makes it more confusing.
->>> 
->>> Well, the point of the rtas_ld() functions isn't o be a different way
->>> of accessing memory.  It's just a convenience wrapper that takes an
->>> RTAS args array and an argument index and does the right thing to
->>> retrieve it for you.
->>> 
->>> So, if your RTAS function implementation when you want to get argument
->>> 0, you just go rtas_ld(args, 0) - more readable than having a bunch of
->>> offset calculations and a long winded call to the BE memory access
->>> function.  You can look at the examples in hw/ppc/sppar_rtas.c to see
->>> how its used.
->>> 
->>> Actually, looking again at how it works, you should probably only use
->>> rtas_ld() if your general dispatch code has pre-parsed the args
->>> structure into separate args and rets arrays, again as we do in
->>> spapr_rtas.c
->> 
->> The problem with those rtas_* functions is that they are in spapr now so to 
->> reuse it I'd need to split them off which I did not do because it's not too 
->> bad without it and modifying spapr would mean another round of review which 
->> could take long and delay my other patches. So if somebody splits these off 
->> for reuse (like if Alexey wants to reuse them in VOF) then I may use them 
->> but otherwise I've just noted these could be reused but don't intend to do 
->> that now. This could also be done later for both VOF and pegasos2 as a 
->> clean up so it does not seem to be too important at the moment.
->
-> I added VOF_MEM_READ/VOF_MEM_WRITE as (unlike others) they can return an 
-> error code. I am not quite sure why we did not bother then when added 
-> rtas_ld/st (were we just learning then?) but we do care now.
->
-> I am moving those to vof.h.
->
-> Here is v21:
-> https://github.com/aik/qemu/commits/killslof-cli-v21
->
-> changes:
-> v21:
-> * s/ld/ldz/ in entry.S
-> * moved CONFIG_VOF from default-configs/devices/ppc64-softmmu.mak to Kconfig
-> * made CONFIG_VOF optional
-> * s/l.lds/vof.lds/
-> * force 32 BE in spapr_machine_reset() instead of the firmware
-> * added checks for non-null methods of VofMachineIfClass
-> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a better comment
-> * added  path_offset wrapper for handling mixed case for addresses after "@" 
-> in node names
-> * changed getprop() to check for actual "name" property in the fdt
-> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as (unlike similar
-> rtas_ld/ldl_be_*) they return error codes
-> * VOF_MEM_READ uses now address_space_read (it was address_space_read_full
-> before, not sure why)
->
->
->
-> I'll post it .... may be on friday unless you find something else :)
+I now run make check. test-aio-multithread crashes on assertion:
 
-I likely won't be finding more as I've tun out of time for it now so I'm 
-just waiting for your patch to rebase on. It works with TCG and got the 
-problems I've posted with KVM so I can't move on with that without some 
-help.
+(gdb) bt
+#0  0x00007f4af8d839d5 in raise () from /lib64/libc.so.6
+#1  0x00007f4af8d6c8a4 in abort () from /lib64/libc.so.6
+#2  0x00007f4af8d6c789 in __assert_fail_base.cold () from /lib64/libc.so.6
+#3  0x00007f4af8d7c026 in __assert_fail () from /lib64/libc.so.6
+#4  0x000055daebfdab95 in aio_poll (ctx=0x7f4ae0000b60, blocking=true) at ../util/aio-posix.c:567
+#5  0x000055daebea096c in iothread_run (opaque=0x55daed81bc90) at ../tests/unit/iothread.c:91
+#6  0x000055daebfc6c4a in qemu_thread_start (args=0x55daed7d9940) at ../util/qemu-thread-posix.c:521
+#7  0x00007f4af8f1a3f9 in start_thread () from /lib64/libpthread.so.0
+#8  0x00007f4af8e47b53 in clone () from /lib64/libc.so.6
+(gdb) fr 4
+#4  0x000055daebfdab95 in aio_poll (ctx=0x7f4ae0000b60, blocking=true) at ../util/aio-posix.c:567
+567         assert(in_aio_context_home_thread(ctx == iohandler_get_aio_context() ?
+(gdb) list
+562          *
+563          * aio_poll() may only be called in the AioContext's thread. iohandler_ctx
+564          * is special in that it runs in the main thread, but that thread's context
+565          * is qemu_aio_context.
+566          */
+567         assert(in_aio_context_home_thread(ctx == iohandler_get_aio_context() ?
+568                                           qemu_get_aio_context() : ctx));
+569
+570         qemu_lockcnt_inc(&ctx->list_lock);
+571
 
-Regards,
-BALATON Zoltan
---3866299591-691253600-1623233944=:56389--
+
+
+-- 
+Best regards,
+Vladimir
 
