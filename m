@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9A93A1A5F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:02:04 +0200 (CEST)
-Received: from localhost ([::1]:34368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E1C93A1A6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:04:10 +0200 (CEST)
+Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0eZ-0007tx-M9
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:02:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58084)
+	id 1lr0gb-0005az-BG
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lr0ZY-0004xz-0u
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:56:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44819)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lr0Zc-00055R-68
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:56:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lr0ZV-000798-Sv
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:56:51 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lr0ZZ-0007BX-I3
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:56:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623254209;
+ s=mimecast20190719; t=1623254212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fOY/p0MGBX9XPrZafayZWZZXEq0E2abq59dOjooUW0w=;
- b=Emo+2XNkhnRrSCV9tokvOveraT6c1C5wuYlpmj2zWonZSEmm8ia/FI4nd+hOYjcYT6JkPW
- Nn+lkzQQfTNvUF9o8N1uG/ukoG+j6QwUcDLEe9vBxhyHG9Vx74S5FhTwXgRJkKAAT5MCPv
- 4ZFimjeYBLQInJN0ZJYGOrbs024CqGE=
+ bh=ANnvVbazworuV07fPux/9vXglx6E5eUyK+nYF4orxpQ=;
+ b=Q1eq9HuVw4R6975NCskP97I+hPRZPYHQ0CziILIuNdOmJ2Bi1S63Xtr3XVQ83Hq3dNnxz0
+ /qks2Pqxd7H/RyU6QTRjVcYodHZRQ8AMqlw6tICMKZ5XHD6hSeJEHhqLLRjJojO5pJHKFN
+ 3nMYYsl4u8L1zl8N58+lumS+DPviHZU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-qFoZGCnzMVyJdZYCMvGBYw-1; Wed, 09 Jun 2021 11:56:48 -0400
-X-MC-Unique: qFoZGCnzMVyJdZYCMvGBYw-1
+ us-mta-445-xNE6_w95OS2b_Nq0V19Qag-1; Wed, 09 Jun 2021 11:56:50 -0400
+X-MC-Unique: xNE6_w95OS2b_Nq0V19Qag-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6520F100CA8F
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 15:56:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A544100C611
+ for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 15:56:49 +0000 (UTC)
 Received: from localhost (ovpn-114-102.ams2.redhat.com [10.36.114.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE2A71037E81;
- Wed,  9 Jun 2021 15:56:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 060EE1000324;
+ Wed,  9 Jun 2021 15:56:48 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v2 7/9] virtiofsd: Add inodes_by_handle hash table
-Date: Wed,  9 Jun 2021 17:55:49 +0200
-Message-Id: <20210609155551.44437-8-mreitz@redhat.com>
+Subject: [PATCH v2 8/9] virtiofsd: Optionally fill lo_inode.fhandle
+Date: Wed,  9 Jun 2021 17:55:50 +0200
+Message-Id: <20210609155551.44437-9-mreitz@redhat.com>
 In-Reply-To: <20210609155551.44437-1-mreitz@redhat.com>
 References: <20210609155551.44437-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,220 +82,355 @@ Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
-FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
-its inode ID will remain in use until we drop our lo_inode (and
-lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
-the inode ID as an lo_inode key, because any inode with an inode ID we
-find in lo_data.inodes (on the same filesystem) must be the exact same
-file.
+When the inode_file_handles option is set, try to generate a file handle
+for new inodes instead of opening an O_PATH FD.
 
-This will change when we start setting lo_inode.fhandle so we do not
-have to keep an O_PATH FD open.  Then, unlinking such an inode will
-immediately remove it, so its ID can then be reused by newly created
-files, even while the lo_inode object is still there[1].
+Being able to open these again will require CAP_DAC_READ_SEARCH, so the
+description text tells the user they will also need to specify
+-o modcaps=+dac_read_search.
 
-So creating a new file can then reuse the old file's inode ID, and
-looking up the new file would lead to us finding the old file's
-lo_inode, which is not ideal.
-
-Luckily, just as file handles cause this problem, they also solve it:  A
-file handle contains a generation ID, which changes when an inode ID is
-reused, so the new file can be distinguished from the old one.  So all
-we need to do is to add a second map besides lo_data.inodes that maps
-file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
-clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
-
-Unfortunately, we cannot rely on being able to generate file handles
-every time.  Therefore, we still enter every lo_inode object into
-inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
-potential inodes_by_handle entry then has precedence, the inodes_by_ids
-entry is just a fallback.
-
-Note that we do not generate lo_fhandle objects yet, and so we also do
-not enter anything into the inodes_by_handle map yet.  Also, all lookups
-skip that map.  We might manually create file handles with some code
-that is immediately removed by the next patch again, but that would
-break the assumption in lo_find() that every lo_inode with a non-NULL
-.fhandle must have an entry in inodes_by_handle and vice versa.  So we
-leave actually using the inodes_by_handle map for the next patch.
-
-[1] If some application in the guest still has the file open, there is
-going to be a corresponding FD mapping in lo_data.fd_map.  In such a
-case, the inode will only go away once every application in the guest
-has closed it.  The problem described only applies to cases where the
-guest does not have the file open, and it is just in the dentry cache,
-basically.
+Generating a file handle returns the mount ID it is valid for.  Opening
+it will require an FD instead.  We have mount_fds to map an ID to an FD.
+get_file_handle() fills the hash map by opening the file we have
+generated a handle for.  To verify that the resulting FD indeed
+represents the handle's mount ID, we use statx().  Therefore, using file
+handles requires statx() support.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 80 +++++++++++++++++++++++++-------
- 1 file changed, 64 insertions(+), 16 deletions(-)
+ tools/virtiofsd/helper.c              |   3 +
+ tools/virtiofsd/passthrough_ll.c      | 197 ++++++++++++++++++++++++--
+ tools/virtiofsd/passthrough_seccomp.c |   1 +
+ 3 files changed, 192 insertions(+), 9 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index e665575401..793d2c333e 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -179,7 +179,8 @@ struct lo_data {
-     int announce_submounts;
-     bool use_statx;
-     struct lo_inode root;
--    GHashTable *inodes; /* protected by lo->mutex */
-+    GHashTable *inodes_by_ids; /* protected by lo->mutex */
-+    GHashTable *inodes_by_handle; /* protected by lo->mutex */
-     struct lo_map ino_map; /* protected by lo->mutex */
-     struct lo_map dirp_map; /* protected by lo->mutex */
-     struct lo_map fd_map; /* protected by lo->mutex */
-@@ -257,8 +258,9 @@ static struct {
- /* That we loaded cap-ng in the current thread from the saved */
- static __thread bool cap_loaded = 0;
- 
--static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
--                                uint64_t mnt_id);
-+static struct lo_inode *lo_find(struct lo_data *lo,
-+                                const struct lo_fhandle *fhandle,
-+                                struct stat *st, uint64_t mnt_id);
- static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-                             char **out_name);
- 
-@@ -1032,18 +1034,39 @@ out_err:
-     fuse_reply_err(req, saverr);
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 5e98ed702b..954f8639e6 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -186,6 +186,9 @@ void fuse_cmdline_help(void)
+            "                               to virtiofsd from guest applications.\n"
+            "                               default: no_allow_direct_io\n"
+            "    -o announce_submounts      Announce sub-mount points to the guest\n"
++           "    -o inode_file_handles      Use file handles to reference inodes\n"
++           "                               instead of O_PATH file descriptors\n"
++           "                               (requires -o modcaps=+dac_read_search)\n"
+            );
  }
  
--static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
--                                uint64_t mnt_id)
-+static struct lo_inode *lo_find(struct lo_data *lo,
-+                                const struct lo_fhandle *fhandle,
-+                                struct stat *st, uint64_t mnt_id)
- {
--    struct lo_inode *p;
--    struct lo_key key = {
-+    struct lo_inode *p = NULL;
-+    struct lo_key ids_key = {
-         .ino = st->st_ino,
-         .dev = st->st_dev,
-         .mnt_id = mnt_id,
-     };
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 793d2c333e..2e56c40b2f 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -190,6 +190,7 @@ struct lo_data {
+     /* An O_PATH file descriptor to /proc/self/fd/ */
+     int proc_self_fd;
+     int user_killpriv_v2, killpriv_v2;
++    int inode_file_handles;
+ };
  
-     pthread_mutex_lock(&lo->mutex);
--    p = g_hash_table_lookup(lo->inodes, &key);
-+    if (fhandle) {
-+        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
+ /**
+@@ -244,6 +245,10 @@ static const struct fuse_opt lo_opts[] = {
+     { "announce_submounts", offsetof(struct lo_data, announce_submounts), 1 },
+     { "killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 1 },
+     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
++    { "inode_file_handles", offsetof(struct lo_data, inode_file_handles), 1 },
++    { "no_inode_file_handles",
++      offsetof(struct lo_data, inode_file_handles),
++      0 },
+     FUSE_OPT_END
+ };
+ static bool use_syslog = false;
+@@ -315,6 +320,135 @@ static int temp_fd_steal(TempFd *temp_fd)
+     }
+ }
+ 
++/**
++ * Generate a file handle for the given dirfd/name combination.
++ *
++ * If mount_fds does not yet contain an entry for the handle's mount
++ * ID, (re)open dirfd/name in O_RDONLY mode and add it to mount_fds
++ * as the FD for that mount ID.  (That is the file that we have
++ * generated a handle for, so it should be representative for the
++ * mount ID.  However, to be sure (and to rule out races), we use
++ * statx() to verify that our assumption is correct.)
++ */
++static struct lo_fhandle *get_file_handle(struct lo_data *lo,
++                                          int dirfd, const char *name)
++{
++    /* We need statx() to verify the mount ID */
++#if defined(CONFIG_STATX) && defined(STATX_MNT_ID)
++    struct lo_fhandle *fh;
++    int ret;
++
++    if (!lo->use_statx || !lo->inode_file_handles) {
++        return NULL;
 +    }
-+    if (!p) {
-+        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
++
++    fh = g_new0(struct lo_fhandle, 1);
++
++    fh->handle.handle_bytes = sizeof(fh->padding) - sizeof(fh->handle);
++    ret = name_to_handle_at(dirfd, name, &fh->handle, &fh->mount_id,
++                            AT_EMPTY_PATH);
++    if (ret < 0) {
++        goto fail;
++    }
++
++    if (pthread_rwlock_rdlock(&mount_fds_lock)) {
++        goto fail;
++    }
++    if (!g_hash_table_contains(mount_fds, GINT_TO_POINTER(fh->mount_id))) {
++        g_auto(TempFd) path_fd = TEMP_FD_INIT;
++        struct statx stx;
++        char procname[64];
++        int fd;
++
++        pthread_rwlock_unlock(&mount_fds_lock);
++
 +        /*
-+         * When we had to fall back to looking up an inode by its IDs,
-+         * ensure that we hit an entry that does not have a file
-+         * handle.  Entries with file handles must also have a handle
-+         * alt key, so if we have not found it by that handle alt key,
-+         * we must have found an entry with a mismatching handle; i.e.
-+         * an entry for a different file, even though it has the same
-+         * inode ID.
-+         * (This can happen when we look up a new file that has reused
-+         * the inode ID of some previously unlinked inode for which we
-+         * still have an lo_inode object.)
++         * Before opening an O_RDONLY fd, check whether dirfd/name is a regular
++         * file or directory, because we must not open anything else with
++         * anything but O_PATH.
++         * (And we use that occasion to verify that the file has the mount ID we
++         * need.)
 +         */
-+        if (p && fhandle != NULL && p->fhandle != NULL) {
-+            p = NULL;
++        if (name[0]) {
++            path_fd.fd = openat(dirfd, name, O_PATH);
++            if (path_fd.fd < 0) {
++                goto fail;
++            }
++            path_fd.owned = true;
++        } else {
++            path_fd.fd = dirfd;
++            path_fd.owned = false;
++        }
++
++        ret = statx(path_fd.fd, "", AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW,
++                    STATX_TYPE | STATX_MNT_ID, &stx);
++        if (ret < 0) {
++            if (errno == ENOSYS) {
++                lo->use_statx = false;
++                fuse_log(FUSE_LOG_WARNING,
++                         "statx() does not work: Will not be able to use file "
++                         "handles for inodes\n");
++            }
++            goto fail;
++        }
++        if (!(stx.stx_mask & STATX_MNT_ID) || stx.stx_mnt_id != fh->mount_id) {
++            /*
++             * One reason for stx_mnt_id != mount_id could be that dirfd/name
++             * is a directory, and some other filesystem was mounted there
++             * between us generating the file handle and then opening the FD.
++             * (Other kinds of races might be possible, too.)
++             * Failing this function is not fatal, though, because our caller
++             * (lo_do_lookup()) will just fall back to opening an O_PATH FD to
++             * store in lo_inode.fd instead of storing a file handle in
++             * lo_inode.fhandle.  So we do not need to try too hard to get an
++             * FD for fh->mount_id so this function could succeed.
++             */
++            goto fail;
++        }
++        if (!(stx.stx_mask & STATX_TYPE) ||
++            !(S_ISREG(stx.stx_mode) || S_ISDIR(stx.stx_mode)))
++        {
++            /*
++             * We must not open special files with anything but O_PATH, so we
++             * cannot use this file for mount_fds.
++             * Just return a failure in such a case and let the lo_inode have
++             * an O_PATH fd instead of a file handle.
++             */
++            goto fail;
++        }
++
++        /* Now that we know this fd is safe to open, do it */
++        snprintf(procname, sizeof(procname), "%i", path_fd.fd);
++        fd = openat(lo->proc_self_fd, procname, O_RDONLY);
++        if (fd < 0) {
++            goto fail;
++        }
++
++        if (pthread_rwlock_wrlock(&mount_fds_lock)) {
++            goto fail;
++        }
++
++        /* Check again, might have changed */
++        if (g_hash_table_contains(mount_fds, GINT_TO_POINTER(fh->mount_id))) {
++            close(fd);
++        } else {
++            g_hash_table_insert(mount_fds,
++                                GINT_TO_POINTER(fh->mount_id),
++                                GINT_TO_POINTER(fd));
 +        }
 +    }
-     if (p) {
-         assert(p->nlookup > 0);
-         p->nlookup++;
-@@ -1183,7 +1206,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
++    pthread_rwlock_unlock(&mount_fds_lock);
++
++    return fh;
++
++fail:
++    free(fh);
++    return NULL;
++#else /* defined(CONFIG_STATX) && defined(STATX_MNT_ID) */
++    return NULL;
++#endif
++}
++
+ /**
+  * Open the given file handle with the given flags.
+  *
+@@ -1132,6 +1266,11 @@ static int do_statx(struct lo_data *lo, int dirfd, const char *pathname,
+             return -1;
+         }
+         lo->use_statx = false;
++        if (lo->inode_file_handles) {
++            fuse_log(FUSE_LOG_WARNING,
++                     "statx() does not work: Will not be able to use file "
++                     "handles for inodes\n");
++        }
+         /* fallback */
+     }
+ #endif
+@@ -1161,6 +1300,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+     struct lo_data *lo = lo_data(req);
+     struct lo_inode *inode = NULL;
+     struct lo_inode *dir = lo_inode(req, parent);
++    struct lo_fhandle *fh;
+ 
+     if (inodep) {
+         *inodep = NULL; /* in case there is an error */
+@@ -1190,13 +1330,19 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+         goto out;
+     }
+ 
+-    newfd = openat(dir_fd.fd, name, O_PATH | O_NOFOLLOW);
+-    if (newfd == -1) {
+-        goto out_err;
+-    }
++    fh = get_file_handle(lo, dir_fd.fd, name);
++    if (fh) {
++        res = do_statx(lo, dir_fd.fd, name, &e->attr,
++                       AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW, &mnt_id);
++    } else {
++        newfd = openat(dir_fd.fd, name, O_PATH | O_NOFOLLOW);
++        if (newfd == -1) {
++            goto out_err;
++        }
+ 
+-    res = do_statx(lo, newfd, "", &e->attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW,
+-                   &mnt_id);
++        res = do_statx(lo, newfd, "", &e->attr,
++                       AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW, &mnt_id);
++    }
+     if (res == -1) {
+         goto out_err;
+     }
+@@ -1206,9 +1352,19 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
          e->attr_flags |= FUSE_ATTR_SUBMOUNT;
      }
  
--    inode = lo_find(lo, &e->attr, mnt_id);
-+    inode = lo_find(lo, NULL, &e->attr, mnt_id);
+-    inode = lo_find(lo, NULL, &e->attr, mnt_id);
++    /*
++     * Note that fh is always NULL if lo->inode_file_handles is false,
++     * and so we will never do a lookup by file handle here, and
++     * lo->inodes_by_handle will always remain empty.  We only need
++     * this map when we do not have an O_PATH fd open for every
++     * lo_inode, though, so if inode_file_handles is false, we do not
++     * need that map anyway.
++     */
++    inode = lo_find(lo, fh, &e->attr, mnt_id);
      if (inode) {
-         close(newfd);
+-        close(newfd);
++        if (newfd != -1) {
++            close(newfd);
++        }
      } else {
-@@ -1213,7 +1236,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
-         }
+         inode = calloc(1, sizeof(struct lo_inode));
+         if (!inode) {
+@@ -1226,6 +1382,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+ 
+         inode->nlookup = 1;
+         inode->fd = newfd;
++        inode->fhandle = fh;
+         inode->key.ino = e->attr.st_ino;
+         inode->key.dev = e->attr.st_dev;
+         inode->key.mnt_id = mnt_id;
+@@ -1237,6 +1394,9 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
          pthread_mutex_lock(&lo->mutex);
          inode->fuse_ino = lo_add_inode_mapping(req, inode);
--        g_hash_table_insert(lo->inodes, &inode->key, inode);
-+        g_hash_table_insert(lo->inodes_by_ids, &inode->key, inode);
+         g_hash_table_insert(lo->inodes_by_ids, &inode->key, inode);
++        if (inode->fhandle) {
++            g_hash_table_insert(lo->inodes_by_handle, inode->fhandle, inode);
++        }
          pthread_mutex_unlock(&lo->mutex);
      }
      e->ino = inode->fuse_ino;
-@@ -1525,7 +1548,7 @@ static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
+@@ -1530,8 +1690,10 @@ static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
+     int res;
+     uint64_t mnt_id;
+     struct stat attr;
++    struct lo_fhandle *fh;
+     struct lo_data *lo = lo_data(req);
+     struct lo_inode *dir = lo_inode(req, parent);
++    struct lo_inode *inode;
+ 
+     if (!dir) {
+         return NULL;
+@@ -1542,13 +1704,19 @@ static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
          return NULL;
      }
  
--    return lo_find(lo, &attr, mnt_id);
-+    return lo_find(lo, NULL, &attr, mnt_id);
++    fh = get_file_handle(lo, dir_fd.fd, name);
++    /* Ignore errors, this is just an optional key for the lookup */
++
+     res = do_statx(lo, dir_fd.fd, name, &attr, AT_SYMLINK_NOFOLLOW, &mnt_id);
+     lo_inode_put(lo, &dir);
+     if (res == -1) {
+         return NULL;
+     }
+ 
+-    return lo_find(lo, NULL, &attr, mnt_id);
++    inode = lo_find(lo, fh, &attr, mnt_id);
++    g_free(fh);
++
++    return inode;
  }
  
  static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
-@@ -1688,7 +1711,7 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
-     inode->nlookup -= n;
+@@ -1712,6 +1880,9 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
      if (!inode->nlookup) {
          lo_map_remove(&lo->ino_map, inode->fuse_ino);
--        g_hash_table_remove(lo->inodes, &inode->key);
-+        g_hash_table_remove(lo->inodes_by_ids, &inode->key);
+         g_hash_table_remove(lo->inodes_by_ids, &inode->key);
++        if (inode->fhandle) {
++            g_hash_table_remove(lo->inodes_by_handle, inode->fhandle);
++        }
          if (lo->posix_lock) {
              if (g_hash_table_size(inode->posix_locks)) {
                  fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
-@@ -3388,7 +3411,7 @@ static void lo_destroy(void *userdata)
-         GHashTableIter iter;
-         gpointer key, value;
+@@ -4156,6 +4327,14 @@ int main(int argc, char *argv[])
  
--        g_hash_table_iter_init(&iter, lo->inodes);
-+        g_hash_table_iter_init(&iter, lo->inodes_by_ids);
-         if (!g_hash_table_iter_next(&iter, &key, &value)) {
-             break;
-         }
-@@ -3931,10 +3954,34 @@ static gboolean lo_key_equal(gconstpointer a, gconstpointer b)
-     return la->ino == lb->ino && la->dev == lb->dev && la->mnt_id == lb->mnt_id;
- }
+     lo.use_statx = true;
  
-+static guint lo_fhandle_hash(gconstpointer key)
-+{
-+    const struct lo_fhandle *fh = key;
-+    guint hash;
-+    size_t i;
-+
-+    /* Basically g_str_hash() */
-+    hash = 5381;
-+    for (i = 0; i < sizeof(fh->padding); i++) {
-+        hash += hash * 33 + (unsigned char)fh->padding[i];
++#if !defined(CONFIG_STATX) || !defined(STATX_MNT_ID)
++    if (lo.inode_file_handles) {
++        fuse_log(FUSE_LOG_WARNING,
++                 "No statx() or mount ID support: Will not be able to use file "
++                 "handles for inodes\n");
 +    }
-+    hash += hash * 33 + fh->mount_id;
++#endif
 +
-+    return hash;
-+}
-+
-+static gboolean lo_fhandle_equal(gconstpointer a, gconstpointer b)
-+{
-+    return !memcmp(a, b, sizeof(struct lo_fhandle));
-+}
-+
- static void fuse_lo_data_cleanup(struct lo_data *lo)
- {
--    if (lo->inodes) {
--        g_hash_table_destroy(lo->inodes);
-+    if (lo->inodes_by_ids) {
-+        g_hash_table_destroy(lo->inodes_by_ids);
-+    }
-+    if (lo->inodes_by_ids) {
-+        g_hash_table_destroy(lo->inodes_by_handle);
-     }
- 
-     if (lo->root.posix_locks) {
-@@ -3990,7 +4037,8 @@ int main(int argc, char *argv[])
-     qemu_init_exec_dir(argv[0]);
- 
-     pthread_mutex_init(&lo.mutex, NULL);
--    lo.inodes = g_hash_table_new(lo_key_hash, lo_key_equal);
-+    lo.inodes_by_ids = g_hash_table_new(lo_key_hash, lo_key_equal);
-+    lo.inodes_by_handle = g_hash_table_new(lo_fhandle_hash, lo_fhandle_equal);
-     lo.root.fd = -1;
-     lo.root.fuse_ino = FUSE_ROOT_ID;
-     lo.cache = CACHE_AUTO;
+     se = fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
+     if (se == NULL) {
+         goto err_out1;
+diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+index e948f25ac1..ed23e67ba8 100644
+--- a/tools/virtiofsd/passthrough_seccomp.c
++++ b/tools/virtiofsd/passthrough_seccomp.c
+@@ -73,6 +73,7 @@ static const int syscall_allowlist[] = {
+     SCMP_SYS(mprotect),
+     SCMP_SYS(mremap),
+     SCMP_SYS(munmap),
++    SCMP_SYS(name_to_handle_at),
+     SCMP_SYS(newfstatat),
+     SCMP_SYS(statx),
+     SCMP_SYS(open),
 -- 
 2.31.1
 
