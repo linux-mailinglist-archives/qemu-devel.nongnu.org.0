@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1823A1AA6
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:16:31 +0200 (CEST)
-Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F1D3A1ACC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:19:20 +0200 (CEST)
+Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0sY-00067N-LQ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:16:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59126)
+	id 1lr0vH-0003WO-AD
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lr0e3-0000Vr-Sl
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:01:32 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lr0e0-0000lL-S8
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:01:31 -0400
-Received: by mail-ed1-x533.google.com with SMTP id r11so29098623edt.13
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 09:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bz58zNvkLoHYgTXK1IvYO2TBEZQJOrMb5IntExHM5ck=;
- b=HAWQzuEapQciVQNvG1SvUd7Cvbptji+Dj0OpFyKTQ0BEWXZg34tQTWBhyC0bfdCA8Z
- hiohLMGagbbQQg9YLWtEKqoyKqMV6hxB999wMrcxb2pto/rp+AWqft4iW4r59BKlMz1v
- Qrmd6VmBjkmOWGTVo0ggJQSWn0gunj/eXMVbBic1i5aXo6KzKZ+dtXrYP7Bwo7+A+Ntw
- HVaY+uFOlg7DrTCuuDm473T18abajWKcEtbkmHp2Qa+WpFCRQuZI4tUAVkiiZ1kRClAs
- IP4aLmkEYmJZ13qZbSB1Scggk/UvezKEziX/cWURs80NSnZPuAS6eQSuLHP3QIX9/sE9
- 5tNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Bz58zNvkLoHYgTXK1IvYO2TBEZQJOrMb5IntExHM5ck=;
- b=XlArgd5JPVXdpffyUCh1vaNjsAJozZGJheIZC49Jv1r/Xf/2nFNwzLS/Z/gZAGkzj7
- L/GbtYPsMBpWtPOpXgdA8cE7hlEWBNn3FqWqt8LOeRGKbPM4sv5lAeNfvtTDtmxqgV6I
- HO6qDFb+8j2a1T8/Fhstil9dDWjj8O618tMl1OOUpJZpsuaeDJkzDp68Al2DnJ6I4WfF
- BU3qmxoNP9yJVH64Zu2WgQaDuzknTRguPEmh0ZPtzUofN8pUetgIT35c1tezat1+MgMB
- abrNXmmAm/Fm4SsnudXpZ6SK4ABGP9GV5cJWRWdHrnhYhiaxpKcTSXFa2RNmFxEOVGYx
- ltUw==
-X-Gm-Message-State: AOAM531btLWfZWWLg7bt4dr5sZ5XLpX5tcY89A5JsgZdvM8xXT6lwfB7
- X2IBdNqpIYoRxD9p1Ivh/4Atcz4gyPO5XIggJks=
-X-Google-Smtp-Source: ABdhPJxzKoVjGNqzy6U3VMDLpeTgyyrnyHkGPSJQcIe0bgIxq57OilPnD4Scx7v72efkTClZvqBx8T2LtXLT29k3ud0=
-X-Received: by 2002:a05:6402:cb5:: with SMTP id
- cn21mr155486edb.164.1623254486027; 
- Wed, 09 Jun 2021 09:01:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1lr0lH-0005X7-VF
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:08:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1lr0lE-0003Ji-MP
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:08:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623254934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5+WS+IaGzl19s2POldLl138JzAs8hfNQ5NqmLdEyfYc=;
+ b=UdkmALw0tDDrvJQS+ssgw5YtWcUqBxpAKwO68xk/t6IiCYDyISMLerInqoaOQVcgO23qeR
+ Ee9LaihX/ZCTpOXgGYcFOJyuFoLgMBXLMtFvzoMPRgeJOeLYYxCh7FuO8+ux3gP57kMusd
+ hjXwqnJILUHroKR1LbOfPDhINbjKjU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-r3xwO88rMFOb7Hv0utIZFA-1; Wed, 09 Jun 2021 12:08:51 -0400
+X-MC-Unique: r3xwO88rMFOb7Hv0utIZFA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEF51100C610;
+ Wed,  9 Jun 2021 16:08:49 +0000 (UTC)
+Received: from starship (unknown [10.40.194.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93E5A18A9E;
+ Wed,  9 Jun 2021 16:08:47 +0000 (UTC)
+Message-ID: <c542ac2a60adeff0cfa4d11c1749550a7c210be2.camel@redhat.com>
+Subject: Re: [PATCH v4 1/7] file-posix: fix max_iov for /dev/sg devices
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Date: Wed, 09 Jun 2021 19:08:46 +0300
+In-Reply-To: <c8fcf5db-fe39-a2f7-08a6-95ed29619704@virtuozzo.com>
+References: <20210608131634.423904-1-pbonzini@redhat.com>
+ <20210608131634.423904-2-pbonzini@redhat.com>
+ <c8fcf5db-fe39-a2f7-08a6-95ed29619704@virtuozzo.com>
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
 MIME-Version: 1.0
-References: <20210609152559.1088596-1-philmd@redhat.com>
-In-Reply-To: <20210609152559.1088596-1-philmd@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 9 Jun 2021 20:01:14 +0400
-Message-ID: <CAJ+F1CL0ZdNUdcgTR8gv3w-+p++tDfvtFVYPm6NgoU_b03VgRQ@mail.gmail.com>
-Subject: Re: [PATCH] tpm: Return QMP error when TPM is disabled in build
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000005116105c457636d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,192 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: kwolf@redhat.com, Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
+ Tom Yan <tom.ty89@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000005116105c457636d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2021-06-08 at 22:14 +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 08.06.2021 16:16, Paolo Bonzini wrote:
+> > Even though it was only called for devices that have bs->sg set (which
+> > must be character devices), sg_get_max_segments looked at /sys/dev/block
+> > which only works for block devices.
+> > 
+> > On Linux the sg driver has its own way to provide the maximum number of
+> > iovecs in a scatter/gather list, so add support for it.  The block device
+> > path is kept because it will be reinstated in the next patches.
+> > 
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> >   block/file-posix.c | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index f37dfc10b3..536998a1d6 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -1180,6 +1180,17 @@ static int sg_get_max_segments(int fd)
+> >           goto out;
+> >       }
+> >   
+> > +    if (S_ISCHR(st.st_mode)) {
+> 
+> Why not check "if (bs->sg) {" instead? It seems to be more consistent with issuing SG_ ioctl. Or what I miss?
 
-Hi
+I also think so. Actually the 'hdev_is_sg' has a check for character device as well, 
+in addition to a few more checks that make sure that we are really 
+dealing with the quirky /dev/sg character device.
 
-On Wed, Jun 9, 2021 at 7:33 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om>
-wrote:
+> 
+> > +        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
+> > +            return ret;
+> > +        }
+> > +        return -ENOTSUP;
+> > +    }
+> > +
+> > +    if (!S_ISBLK(st.st_mode)) {
+> > +        return -ENOTSUP;
+> > +    }
+> > +
+> >       sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
+> >                                   major(st.st_rdev), minor(st.st_rdev));
+> >       sysfd = open(sysfspath, O_RDONLY);
+> > 
+> 
+> 
 
-> When the management layer queries a binary built using --disable-tpm
-> for TPM devices, it gets confused by getting empty responses:
->
->   { "execute": "query-tpm" }
->   {
->       "return": [
->       ]
->   }
->   { "execute": "query-tpm-types" }
->   {
->       "return": [
->       ]
->   }
->   { "execute": "query-tpm-models" }
->   {
->       "return": [
->       ]
->   }
->
-> Make it clearer by returning an error, mentioning the feature is
-> disabled:
->
->   { "execute": "query-tpm" }
->   {
->       "error": {
->           "class": "GenericError",
->           "desc": "this feature or command is not currently supported"
->       }
->   }
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
+Other than that, this is the same as the patch from Tom Yan:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg768262.html
 
-Why not make the qapi schema conditional?
+In this version he does check if the SG_GET_SG_TABLESIZE is defined, so
+you might want to do this as well.
 
----
->  stubs/tpm.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/stubs/tpm.c b/stubs/tpm.c
-> index 9bded191d9d..8c904215b39 100644
-> --- a/stubs/tpm.c
-> +++ b/stubs/tpm.c
-> @@ -7,6 +7,8 @@
->
->  #include "qemu/osdep.h"
->  #include "qapi/qapi-commands-tpm.h"
-> +#include "qapi/qmp/qerror.h"
-> +#include "qapi/error.h"
->  #include "sysemu/tpm.h"
->  #include "hw/acpi/tpm.h"
->
-> @@ -21,16 +23,19 @@ void tpm_cleanup(void)
->
->  TPMInfoList *qmp_query_tpm(Error **errp)
->  {
-> +    error_setg(errp, QERR_UNSUPPORTED);
->      return NULL;
->  }
->
->  TpmTypeList *qmp_query_tpm_types(Error **errp)
->  {
-> +    error_setg(errp, QERR_UNSUPPORTED);
->      return NULL;
->  }
->
->  TpmModelList *qmp_query_tpm_models(Error **errp)
->  {
-> +    error_setg(errp, QERR_UNSUPPORTED);
->      return NULL;
->  }
->
-> --
-> 2.31.1
->
->
->
 
---=20
-Marc-Andr=C3=A9 Lureau
+Best regards,
+	Maxim Levitsky
 
---00000000000005116105c457636d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 9, 2021 at 7:33 PM Phil=
-ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">When the management layer queries a binary built using --disable-tpm=
-<br>
-for TPM devices, it gets confused by getting empty responses:<br>
-<br>
-=C2=A0 { &quot;execute&quot;: &quot;query-tpm&quot; }<br>
-=C2=A0 {<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;return&quot;: [<br>
-=C2=A0 =C2=A0 =C2=A0 ]<br>
-=C2=A0 }<br>
-=C2=A0 { &quot;execute&quot;: &quot;query-tpm-types&quot; }<br>
-=C2=A0 {<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;return&quot;: [<br>
-=C2=A0 =C2=A0 =C2=A0 ]<br>
-=C2=A0 }<br>
-=C2=A0 { &quot;execute&quot;: &quot;query-tpm-models&quot; }<br>
-=C2=A0 {<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;return&quot;: [<br>
-=C2=A0 =C2=A0 =C2=A0 ]<br>
-=C2=A0 }<br>
-<br>
-Make it clearer by returning an error, mentioning the feature is<br>
-disabled:<br>
-<br>
-=C2=A0 { &quot;execute&quot;: &quot;query-tpm&quot; }<br>
-=C2=A0 {<br>
-=C2=A0 =C2=A0 =C2=A0 &quot;error&quot;: {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;class&quot;: &quot;GenericError&qu=
-ot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;desc&quot;: &quot;this feature or =
-command is not currently supported&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 }<br>
-<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
-hat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br></blockquote><div><=
-br></div><div>Why not make the qapi schema conditional?</div><div> <br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0stubs/tpm.c | 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
-<br>
-diff --git a/stubs/tpm.c b/stubs/tpm.c<br>
-index 9bded191d9d..8c904215b39 100644<br>
---- a/stubs/tpm.c<br>
-+++ b/stubs/tpm.c<br>
-@@ -7,6 +7,8 @@<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-commands-tpm.h&quot;<br>
-+#include &quot;qapi/qmp/qerror.h&quot;<br>
-+#include &quot;qapi/error.h&quot;<br>
-=C2=A0#include &quot;sysemu/tpm.h&quot;<br>
-=C2=A0#include &quot;hw/acpi/tpm.h&quot;<br>
-<br>
-@@ -21,16 +23,19 @@ void tpm_cleanup(void)<br>
-<br>
-=C2=A0TPMInfoList *qmp_query_tpm(Error **errp)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0}<br>
-<br>
-=C2=A0TpmTypeList *qmp_query_tpm_types(Error **errp)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0}<br>
-<br>
-=C2=A0TpmModelList *qmp_query_tpm_models(Error **errp)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0}<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000005116105c457636d--
 
