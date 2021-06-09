@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FE93A19ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:37:49 +0200 (CEST)
-Received: from localhost ([::1]:46860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F15013A19C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:33:40 +0200 (CEST)
+Received: from localhost ([::1]:35394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0H6-0002kv-VJ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
+	id 1lr0D6-0003Sw-02
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:33:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqzsa-0003WU-HX
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:12:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52597)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lr05r-0002wd-NA
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:26:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqzsX-00054g-3g
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:12:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lr05n-0003yn-DX
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:26:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623251543;
+ s=mimecast20190719; t=1623252365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=57QYpVx9yrIalSItQPcyYR5slGY0PGSymWdI+2vEKww=;
- b=NGrE5imBmL7KlVGsuyH4iX2XHnEz3Rf0On3KivSngKICnssRaCu/BWZCYzIRPoC9vuyIr3
- 5DMiuB2S8o9Gp5FoN5E4DKLx/uYi0Ty+Z+ujsG/loXc+FXaSDPe6Ytxk3J/Z7ZC22f7Fr+
- tvnBUGasyZBZHjkqW+6UhDKuj3rdKRw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-SXXqM9T3NsSUWpGECT8-2w-1; Wed, 09 Jun 2021 11:12:21 -0400
-X-MC-Unique: SXXqM9T3NsSUWpGECT8-2w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF78C8015A4
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 15:12:20 +0000 (UTC)
-Received: from localhost (ovpn-115-220.ams2.redhat.com [10.36.115.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B61D5D6AD;
- Wed,  9 Jun 2021 15:12:14 +0000 (UTC)
-Date: Wed, 9 Jun 2021 16:11:49 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 12/13] meson: move virtio trace events to separate file
-Message-ID: <YMDaNb4pwZNa9qfW@stefanha-x1.localdomain>
-References: <20210601132414.432430-1-kraxel@redhat.com>
- <20210601132414.432430-13-kraxel@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3JDtiVRlS21ENBVVxMxOKQP3uYIs/1iCx9UWETEac04=;
+ b=Z5hm33PvFebCm4ZT/G8ELv1Z88QDw+PKE37uv5P0Z2c3jme0XVHTygeULn/qcpQ7gDrkZi
+ 8FrZvEygAexY0tKHLQWZrgsNLdgSvXSObL/tTSYy5gn8YZ6Cj/gkJTn5iOSndtp3q1KfPm
+ 4XDQBGifLdBvRV0vLGAstPvU3yY7GK4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-aIN2Z5wnPf2f_5ApVM3AIA-1; Wed, 09 Jun 2021 11:26:02 -0400
+X-MC-Unique: aIN2Z5wnPf2f_5ApVM3AIA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r17-20020a5d52d10000b0290119976473fcso8734387wrv.15
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 08:26:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3JDtiVRlS21ENBVVxMxOKQP3uYIs/1iCx9UWETEac04=;
+ b=r+0k12bKV8syZ51cafOS1oCL9avofwnnGUMO9UrT8Ga1vqAE82OTm00ezM2BmtusyQ
+ 2ii8BvDbOcZC5QcDq9nK73/5wXFYxhHx8vxpE7vdpHqPIQNwYnogWi58rEdJaqDtrr4G
+ uGn72zwW4eyD2fn71kFnlYdnD5m8onVKNRtzr/8vaVmMA2LAPynXZZCRLo33QH1ArRO4
+ JQWmdjKwAT6Fa1wYmRT7zm/dF9/ngyD20MKfmSW7VwksJPvQIJGqX1xzBOxZFdh0rTMJ
+ 3NmqyTAP5rXQY+N9Ov5Plz431a0FaCTbmdW0LCJD0b5qvkSFGEWTOJqLjUh0b5PGEGBN
+ fE/g==
+X-Gm-Message-State: AOAM532Z1vm/OW2JMjFomGUZEFrOYNaLvQEY06Amm6bS73+CSk8EBPx+
+ UaqiqtkFhSpqg/xUnT+DbmZKfGPveuw2SjCrRlgfSlaIbfKwzZdSzFqFUcFy8m3LPU0GfKQstR1
+ /RHX62ckrb6w9cl31CsnK8IFivHfDIZxsfpGRNRHsBt7mwI7ttWHchfeUBrLtT0wp
+X-Received: by 2002:a05:600c:4f8f:: with SMTP id
+ n15mr398938wmq.116.1623252360874; 
+ Wed, 09 Jun 2021 08:26:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw8l3dwW/n0M1oO5dsF/VhS7WP4rqzDzLw4NDsjUbfyjerme5n+FyjVdEKHfcZBXNo9cLaq5A==
+X-Received: by 2002:a05:600c:4f8f:: with SMTP id
+ n15mr398914wmq.116.1623252360660; 
+ Wed, 09 Jun 2021 08:26:00 -0700 (PDT)
+Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id e27sm280297wra.50.2021.06.09.08.26.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 08:26:00 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tpm: Return QMP error when TPM is disabled in build
+Date: Wed,  9 Jun 2021 17:25:59 +0200
+Message-Id: <20210609152559.1088596-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210601132414.432430-13-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="N6L283598wCasJhl"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,49 +93,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---N6L283598wCasJhl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When the management layer queries a binary built using --disable-tpm
+for TPM devices, it gets confused by getting empty responses:
 
-On Tue, Jun 01, 2021 at 03:24:13PM +0200, Gerd Hoffmann wrote:
-> Move virtio-gpu trace events to separate trace-events-virtio file.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/trace-virtio.h      |  1 +
->  hw/display/virtio-gpu-base.c   |  2 +-
->  hw/display/virtio-gpu.c        |  2 +-
->  hw/display/meson.build         |  4 ++++
->  hw/display/trace-events        | 17 -----------------
->  hw/display/trace-events-virtio | 16 ++++++++++++++++
->  6 files changed, 23 insertions(+), 19 deletions(-)
->  create mode 100644 hw/display/trace-virtio.h
->  create mode 100644 hw/display/trace-events-virtio
+  { "execute": "query-tpm" }
+  {
+      "return": [
+      ]
+  }
+  { "execute": "query-tpm-types" }
+  {
+      "return": [
+      ]
+  }
+  { "execute": "query-tpm-models" }
+  {
+      "return": [
+      ]
+  }
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Make it clearer by returning an error, mentioning the feature is
+disabled:
 
---N6L283598wCasJhl
-Content-Type: application/pgp-signature; name="signature.asc"
+  { "execute": "query-tpm" }
+  {
+      "error": {
+          "class": "GenericError",
+          "desc": "this feature or command is not currently supported"
+      }
+  }
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ stubs/tpm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDA2jUACgkQnKSrs4Gr
-c8glsAgApbKx2+/xRCWf6vBC02YWl79rVKY+DiJHRYbMdYHtQBr32wSsrEz7LuBE
-dfybfUWBFpQRkzJiuvZcIzjCojY+bh+CqS65mIE301fEvh0Meb9+Q/DcbgIWsBoA
-EprF/9G8DWLyHfixJrZV7UHhBljPzWYVWsvKd/Kn+NCyrJsV8HQ8haNvmbqwATV5
-0Mp86UHKjgYg+ZK7EOGI+EvpojZSnGvwPP+jZPSauwkWgYAkyOaoQyepMSIZf2a3
-gcmPaYRD8jWmYkzQuuBE+nH0jJGGf2c8NyyZzM4ACHlWNVwxhzIKuZYMZFZKho8s
-/5WWhJythbzJM42v1eLV4EWXKEKRPw==
-=Zk+R
------END PGP SIGNATURE-----
-
---N6L283598wCasJhl--
+diff --git a/stubs/tpm.c b/stubs/tpm.c
+index 9bded191d9d..8c904215b39 100644
+--- a/stubs/tpm.c
++++ b/stubs/tpm.c
+@@ -7,6 +7,8 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qapi/qapi-commands-tpm.h"
++#include "qapi/qmp/qerror.h"
++#include "qapi/error.h"
+ #include "sysemu/tpm.h"
+ #include "hw/acpi/tpm.h"
+ 
+@@ -21,16 +23,19 @@ void tpm_cleanup(void)
+ 
+ TPMInfoList *qmp_query_tpm(Error **errp)
+ {
++    error_setg(errp, QERR_UNSUPPORTED);
+     return NULL;
+ }
+ 
+ TpmTypeList *qmp_query_tpm_types(Error **errp)
+ {
++    error_setg(errp, QERR_UNSUPPORTED);
+     return NULL;
+ }
+ 
+ TpmModelList *qmp_query_tpm_models(Error **errp)
+ {
++    error_setg(errp, QERR_UNSUPPORTED);
+     return NULL;
+ }
+ 
+-- 
+2.31.1
 
 
