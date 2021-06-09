@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E543A17C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:47:07 +0200 (CEST)
-Received: from localhost ([::1]:40280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9A83A17E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:51:18 +0200 (CEST)
+Received: from localhost ([::1]:54358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqzU2-00053y-OM
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:47:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44532)
+	id 1lqzY5-00064s-9E
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqzSa-0002Z3-JS
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34768)
+ id 1lqzSp-0003MV-He
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqzSY-0005H7-Qo
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:36 -0400
+ id 1lqzSn-0005TF-CO
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623249934;
+ s=mimecast20190719; t=1623249948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8Yf3psi08pzq+0OCT0UglBlxErIHmD76X4oAw1SryyQ=;
- b=M/S5rZycEYgejvFyTlXxDXeWSgy39pwPsNfOoPb/x2GZRStJduQZ02BaysNJblbQldwpwE
- 0olAV8Skcmi5yKuZJ9QeYZIgm6cKpZQ55c6aOXmcv67muqzEaHYLUEXrjWj9AFpezoGewB
- S1Q3VaW+6IVezyM5Y2tifSP30z3SXcM=
+ bh=Zk6RO95o0Bz79WNxf9vbWMlU8vKD+fo/Q6+9NzX9c7E=;
+ b=Jw3QlM5DsUmfyJQEbIdmvF9skkaTjiprMWDPk7CMudKYUlNaJNvca1lgBI/kOISvKFIVYz
+ E95Ok9ZfMPTe8K7sTmELUXS8V/v8nUqvyQuabR6JyYgfMOrXbNXh1HZkDmhyS8Sw64qEvh
+ +muXs64zebwg19h76CZCvOvq1u2ee4o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-223-Jnn8V8TsNjmh1NxSiPE_SA-1; Wed, 09 Jun 2021 10:45:32 -0400
-X-MC-Unique: Jnn8V8TsNjmh1NxSiPE_SA-1
+ us-mta-306-H9ezTp5mPr2dkJTTPurOvg-1; Wed, 09 Jun 2021 10:45:36 -0400
+X-MC-Unique: H9ezTp5mPr2dkJTTPurOvg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 252C1100CFBB;
- Wed,  9 Jun 2021 14:45:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE510803622;
+ Wed,  9 Jun 2021 14:45:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-168.ams2.redhat.com
  [10.36.113.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C5D53100EB3E;
- Wed,  9 Jun 2021 14:45:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F33F101E5AF;
+ Wed,  9 Jun 2021 14:45:31 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, huangy81@chinatelecom.cn, peterx@redhat.com,
  lizhijian@cn.fujitsu.com, leobras.c@gmail.com, pabeni@redhat.com
-Subject: [PULL 4/9] io/net-listener: Call the notifier during finalize
-Date: Wed,  9 Jun 2021 15:45:07 +0100
-Message-Id: <20210609144512.211746-5-dgilbert@redhat.com>
+Subject: [PULL 5/9] migration: Add cleanup hook for inwards migration
+Date: Wed,  9 Jun 2021 15:45:08 +0100
+Message-Id: <20210609144512.211746-6-dgilbert@redhat.com>
 In-Reply-To: <20210609144512.211746-1-dgilbert@redhat.com>
 References: <20210609144512.211746-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -85,31 +85,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Call the notifier during finalize; it's currently only called
-if we change it, which is not the intent.
+Add a cleanup hook for incoming migration that gets called
+at the end as a way for a transport to allow cleanup.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20210421112834.107651-3-dgilbert@redhat.com>
+Message-Id: <20210421112834.107651-4-dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- io/net-listener.c | 3 +++
- 1 file changed, 3 insertions(+)
+ migration/migration.c | 3 +++
+ migration/migration.h | 4 ++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/io/net-listener.c b/io/net-listener.c
-index 46c2643d00..1c984d69c6 100644
---- a/io/net-listener.c
-+++ b/io/net-listener.c
-@@ -292,6 +292,9 @@ static void qio_net_listener_finalize(Object *obj)
-     QIONetListener *listener = QIO_NET_LISTENER(obj);
-     size_t i;
- 
-+    if (listener->io_notify) {
-+        listener->io_notify(listener->io_data);
+diff --git a/migration/migration.c b/migration/migration.c
+index 1885860d7b..393299e150 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -280,6 +280,9 @@ void migration_incoming_state_destroy(void)
+         g_array_free(mis->postcopy_remote_fds, TRUE);
+         mis->postcopy_remote_fds = NULL;
+     }
++    if (mis->transport_cleanup) {
++        mis->transport_cleanup(mis->transport_data);
 +    }
-     qio_net_listener_disconnect(listener);
  
-     for (i = 0; i < listener->nsioc; i++) {
+     qemu_event_reset(&mis->main_thread_load_event);
+ 
+diff --git a/migration/migration.h b/migration/migration.h
+index b88bd8fe07..2ebb740dfa 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -49,6 +49,10 @@ struct PostcopyBlocktimeContext;
+ struct MigrationIncomingState {
+     QEMUFile *from_src_file;
+ 
++    /* A hook to allow cleanup at the end of incoming migration */
++    void *transport_data;
++    void (*transport_cleanup)(void *data);
++
+     /*
+      * Free at the start of the main state load, set as the main thread finishes
+      * loading state.
 -- 
 2.31.1
 
