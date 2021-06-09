@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADE73A1AD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:22:34 +0200 (CEST)
-Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C98A3A1AA7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:16:35 +0200 (CEST)
+Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0yP-0007Uj-Rn
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34270)
+	id 1lr0sc-0006PA-AG
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:16:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1lr0pG-0002Rj-Ao
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:13:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38051)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lr0qY-0004pN-QU
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:14:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1lr0pE-0004qo-3b
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:13:05 -0400
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lr0qX-0005OS-0G
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:14:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623255183;
+ s=mimecast20190719; t=1623255264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=broKGiBHn4Mrcqhd26WBYkZyDDh8lM2XHC1mQBH7Muc=;
- b=TEAGEHYzOJGrklKbYqx31UC0AGRTjkBxkyM/SMWJD37gx4b+faqgIbD5NBAZtYcxEYFENe
- kGWEBsuChdHm2X7mxF1lGdyzTE7H4zbnEeW8nuOL8NjoOZ+whPlGiJiByaGn5BTk8AIGDn
- c2A8qGgBXv9cfhqFcMRQVCFv/HjvOyA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-6fWx9KHnNkGwh-LiHpM-HQ-1; Wed, 09 Jun 2021 12:13:01 -0400
-X-MC-Unique: 6fWx9KHnNkGwh-LiHpM-HQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E573185060A;
- Wed,  9 Jun 2021 16:13:00 +0000 (UTC)
-Received: from starship (unknown [10.40.194.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05CD55D9C6;
- Wed,  9 Jun 2021 16:12:56 +0000 (UTC)
-Message-ID: <9378247cb67d5b1afe7f4d83fab22a16ed610ae3.camel@redhat.com>
-Subject: Re: [PATCH v4 3/7] block: add max_hw_transfer to BlockLimits
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Date: Wed, 09 Jun 2021 19:12:55 +0300
-In-Reply-To: <20210608131634.423904-4-pbonzini@redhat.com>
-References: <20210608131634.423904-1-pbonzini@redhat.com>
- <20210608131634.423904-4-pbonzini@redhat.com>
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32)
+ bh=k+qE8koPX5JptQYWO+IGESKAbsKZwSiXCfPrOWEtlYQ=;
+ b=iTsV+aT5i5bFmUMLOifnapW41wlTJJE5a2ZJR7ImdU/pIkuIOIPC/IYMLDe7qJMEoJeBLf
+ TcxoH0GS1AstvDFgvOlTYUKZNtOZZps1+nFs5xOJv4l2UCHCruGpyDpqgW3reXqbGi2qp5
+ lTg5lIrjc10dPQKo8+CWegruPA7wyGw=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-V8OCNzVvMxWaisceY54ZYw-1; Wed, 09 Jun 2021 12:14:23 -0400
+X-MC-Unique: V8OCNzVvMxWaisceY54ZYw-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ 78-20020a9f26540000b02902426fc5ddd3so133795uag.16
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 09:14:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k+qE8koPX5JptQYWO+IGESKAbsKZwSiXCfPrOWEtlYQ=;
+ b=ZymBMlsxtxwSGLEwWQQYTjPMsreC3hW15ECZKFYAlpZu1gtihfgjSy5a9qNKYCMXTu
+ j7L2TM0cVviBPijFdSM6tIHn/Isv4AqV7bVFQv2Mb/XWilGfPaZutlUKH1OhPJZE2JhT
+ HrIgkKb/08d9QJxG089fUUraz5dvlfMl7V9gKfvsFIlDXkOx0X4HlE8uc8HsVMZzR4du
+ SGbLJzVjeU/JqrZQY0Mva0bFPcBME1JdPKOHMQMpkUoAI/LVmclhVC1wVZmHDkEo6d40
+ jt0+XfWUa6W27Cxw0axIzUGincvoJG/TRZfHcfhhGTAKz9Gw2Uy+ShY4B57xyA3d3p2b
+ nQEA==
+X-Gm-Message-State: AOAM532dUOwNfw+SKxh99rTfF1Qbi1dwcwrIDptvI5jGUbF4bZsIxUxV
+ WhwQhipmgspA1M0tCj+dM+QRIeoFmdOhaOReYt2y8gQ+k99NBN+PcG3D/VtjIlikI9TDzSZ/7bI
+ Z32pxvCYiFuAC4eQM3PNstmmXXinokWo=
+X-Received: by 2002:ab0:60c5:: with SMTP id g5mr592053uam.5.1623255262019;
+ Wed, 09 Jun 2021 09:14:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNXmtM7IoxUkwlZCjTzoLvhws3dLdos3wdzXw0oZdjJa5+J/HD/azKJA00KIWaPjp39xObb2BwyB57WM2OsBk=
+X-Received: by 2002:ab0:60c5:: with SMTP id g5mr592005uam.5.1623255261765;
+ Wed, 09 Jun 2021 09:14:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210608031425.833536-1-crosa@redhat.com>
+ <20210608031425.833536-3-crosa@redhat.com>
+ <eee53288-6f8e-1d33-68a1-83a5f78316d1@redhat.com>
+In-Reply-To: <eee53288-6f8e-1d33-68a1-83a5f78316d1@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 9 Jun 2021 13:13:55 -0300
+Message-ID: <CAKJDGDZaHshf_1VhKNg4Su94Au+sQznTpvpskHChtN+HzEYkqg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] Jobs based on custom runners: build environment
+ docs and playbook
+To: Wainer Moschetta <wainersm@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,146 +91,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, Tom Yan <tom.ty89@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Andrea Bolognani <abologna@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2021-06-08 at 15:16 +0200, Paolo Bonzini wrote:
-> For block host devices, I/O can happen through either the kernel file
-> descriptor I/O system calls (preadv/pwritev, io_submit, io_uring)
-> or the SCSI passthrough ioctl SG_IO.
-> 
-> In the latter case, the size of each transfer can be limited by the
-> HBA, while for file descriptor I/O the kernel is able to split and
-> merge I/O in smaller pieces as needed.  Applying the HBA limits to
-> file descriptor I/O results in more system calls and suboptimal
-> performance, so this patch splits the max_transfer limit in two:
-> max_transfer remains valid and is used in general, while max_hw_transfer
-> is limited to the maximum hardware size.  max_hw_transfer can then be
-> included by the scsi-generic driver in the block limits page, to ensure
-> that the stricter hardware limit is used.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Tue, Jun 8, 2021 at 3:48 PM Wainer dos Santos Moschetta
+<wainersm@redhat.com> wrote:
+>
+> Hi,
+>
+> On 6/8/21 12:14 AM, Cleber Rosa wrote:
+> > To run basic jobs on custom runners, the environment needs to be
+> > properly set up.  The most common requirement is having the right
+> > packages installed.
+> >
+> > The playbook introduced here covers the QEMU's project s390x and
+> > aarch64 machines.  At the time this is being proposed, those machines
+> > have already had this playbook applied to them.
+> >
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >   docs/devel/ci.rst                      | 30 ++++++++
+> >   scripts/ci/setup/build-environment.yml | 98 ++++++++++++++++++++++++++
+> >   scripts/ci/setup/inventory.template    |  1 +
+> >   3 files changed, 129 insertions(+)
+> >   create mode 100644 scripts/ci/setup/build-environment.yml
+> >   create mode 100644 scripts/ci/setup/inventory.template
+> >
+> > diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> > index 585b7bf4b8..35c6b5e269 100644
+> > --- a/docs/devel/ci.rst
+> > +++ b/docs/devel/ci.rst
+> > @@ -26,3 +26,33 @@ gitlab-runner, is called a "custom runner".
+> >   The GitLab CI jobs definition for the custom runners are located under::
+> >
+> >     .gitlab-ci.d/custom-runners.yml
+> > +
+> > +Machine Setup Howto
+> > +-------------------
+> > +
+> > +For all Linux based systems, the setup can be mostly automated by the
+> > +execution of two Ansible playbooks.  Create an ``inventory`` file
+> > +under ``scripts/ci/setup``, such as this::
+> Missing to mention the template file.
+> > +
+> > +  fully.qualified.domain
+> > +  other.machine.hostname
+> > +
+> > +You may need to set some variables in the inventory file itself.  One
+> > +very common need is to tell Ansible to use a Python 3 interpreter on
+> > +those hosts.  This would look like::
+> > +
+> > +  fully.qualified.domain ansible_python_interpreter=/usr/bin/python3
+> > +  other.machine.hostname ansible_python_interpreter=/usr/bin/python3
+> > +
+> > +Build environment
+> > +~~~~~~~~~~~~~~~~~
+> > +
+> > +The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
+> > +set up machines with the environment needed to perform builds and run
+> > +QEMU tests.  It covers a number of different Linux distributions and
+> > +FreeBSD.
+> > +
+> > +To run the playbook, execute::
+> > +
+> > +  cd scripts/ci/setup
+> > +  ansible-playbook -i inventory build-environment.yml
+> > diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+> > new file mode 100644
+> > index 0000000000..664f2f0519
+> > --- /dev/null
+> > +++ b/scripts/ci/setup/build-environment.yml
+> > @@ -0,0 +1,98 @@
+> > +---
+> > +- name: Installation of basic packages to build QEMU
+> > +  hosts: all
+>
+> You will need to "become: yes" if the login user is not privileged, right?
+>
+> Or mention on the documentation how the user should configure the
+> connection for privileged login.
 
-This is mostly the same as my patch 
-
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg768264.html
-
-I called this max_ioctl_transfer, since this limit is only relevant
-to the .ioctl, but max_hw_transfer is fine as well.
-
-So this patch looks OK, but I might have missed something
-as I haven't touched this area for a long time.
-
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-
-Best regards,
-	Maxim Levitsky
-
-
-> ---
->  block/block-backend.c          | 12 ++++++++++++
->  block/file-posix.c             |  2 +-
->  block/io.c                     |  1 +
->  hw/scsi/scsi-generic.c         |  2 +-
->  include/block/block_int.h      |  7 +++++++
->  include/sysemu/block-backend.h |  1 +
->  6 files changed, 23 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index 15f1ea4288..2ea1412a54 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -1953,6 +1953,18 @@ uint32_t blk_get_request_alignment(BlockBackend *blk)
->      return bs ? bs->bl.request_alignment : BDRV_SECTOR_SIZE;
->  }
->  
-> +/* Returns the maximum hardware transfer length, in bytes; guaranteed nonzero */
-> +uint64_t blk_get_max_hw_transfer(BlockBackend *blk)
-> +{
-> +    BlockDriverState *bs = blk_bs(blk);
-> +    uint64_t max = INT_MAX;
-> +
-> +    if (bs) {
-> +        max = MIN_NON_ZERO(bs->bl.max_hw_transfer, bs->bl.max_transfer);
-> +    }
-> +    return max;
-> +}
-> +
->  /* Returns the maximum transfer length, in bytes; guaranteed nonzero */
->  uint32_t blk_get_max_transfer(BlockBackend *blk)
->  {
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 670c577bfe..c9746d3eb6 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1234,7 +1234,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
->          int ret = sg_get_max_transfer_length(s->fd);
->  
->          if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-> -            bs->bl.max_transfer = pow2floor(ret);
-> +            bs->bl.max_hw_transfer = pow2floor(ret);
->          }
->  
->          ret = sg_get_max_segments(s->fd);
-> diff --git a/block/io.c b/block/io.c
-> index 323854d063..089b99bb0c 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -127,6 +127,7 @@ static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
->  {
->      dst->opt_transfer = MAX(dst->opt_transfer, src->opt_transfer);
->      dst->max_transfer = MIN_NON_ZERO(dst->max_transfer, src->max_transfer);
-> +    dst->max_hw_transfer = MIN_NON_ZERO(dst->max_hw_transfer, src->max_hw_transfer);
->      dst->opt_mem_alignment = MAX(dst->opt_mem_alignment,
->                                   src->opt_mem_alignment);
->      dst->min_mem_alignment = MAX(dst->min_mem_alignment,
-> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-> index 82e1e2ee79..3762dce749 100644
-> --- a/hw/scsi/scsi-generic.c
-> +++ b/hw/scsi/scsi-generic.c
-> @@ -179,7 +179,7 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
->          (r->req.cmd.buf[1] & 0x01)) {
->          page = r->req.cmd.buf[2];
->          if (page == 0xb0) {
-> -            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
-> +            uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
->              uint32_t max_iov = blk_get_max_iov(s->conf.blk);
->  
->              assert(max_transfer);
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index 057d88b1fc..f1a54db0f8 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -695,6 +695,13 @@ typedef struct BlockLimits {
->       * clamped down. */
->      uint32_t max_transfer;
->  
-> +    /* Maximal hardware transfer length in bytes.  Applies whenever
-> +     * transfers to the device bypass the kernel I/O scheduler, for
-> +     * example with SG_IO.  If larger than max_transfer or if zero,
-> +     * blk_get_max_hw_transfer will fall back to max_transfer.
-> +     */
-> +    uint64_t max_hw_transfer;
-> +
->      /* memory alignment, in bytes so that no bounce buffer is needed */
->      size_t min_mem_alignment;
->  
-> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-> index 5423e3d9c6..9ac5f7bbd3 100644
-> --- a/include/sysemu/block-backend.h
-> +++ b/include/sysemu/block-backend.h
-> @@ -208,6 +208,7 @@ void blk_eject(BlockBackend *blk, bool eject_flag);
->  int blk_get_flags(BlockBackend *blk);
->  uint32_t blk_get_request_alignment(BlockBackend *blk);
->  uint32_t blk_get_max_transfer(BlockBackend *blk);
-> +uint64_t blk_get_max_hw_transfer(BlockBackend *blk);
->  int blk_get_max_iov(BlockBackend *blk);
->  void blk_set_guest_block_size(BlockBackend *blk, int align);
->  void *blk_try_blockalign(BlockBackend *blk, size_t size);
-
-
-
+As this will vary from system to system, I think it is worth
+mentioning in the documentation it can be configured in the inventory
+file, adding the variable ansible_become=yes and
+ansible_become_password= if password is needed to sudo.
 
 
