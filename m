@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A0F3A13F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:14:11 +0200 (CEST)
-Received: from localhost ([::1]:49332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBE43A1403
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:16:00 +0200 (CEST)
+Received: from localhost ([::1]:52526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqx62-0000vT-MV
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
+	id 1lqx7n-00037k-F0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:15:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lqx5A-0000Cb-Eo
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:13:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41424)
+ id 1lqx5z-0001PA-C0
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:14:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lqx58-0005tw-St
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:13:16 -0400
+ id 1lqx5w-0006PN-N2
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:14:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623240794;
+ s=mimecast20190719; t=1623240843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q3+OCxs+z975KgIRp5rakoeswQwFeH63hEn+CxieHNw=;
- b=BLWdzv46qp/J5nlL8zUsvHot+msVzC9bqZWGB2lPlR/FDAMzVAGMPKTliGhiujPlBg9HUO
- yQLPB5YM8c8zUxO2I86EXQHNHuT4xLv1BtxRi+csUybRGoxF4DL9NCwsftYb26aexxrGiS
- OWArnXjMT8poQpB7xRU1VUws2IcuNTY=
+ bh=f67ZeAX2mhM4lIfDbVD53hgb4J+GlLzqblAoKPvfFSE=;
+ b=LefNIuvuR+nFgkZc5m5nK33Jrvm3+1Zdf9AcGBoIykPpNsXKS9BVtjcJXun0vCTnf9NmOg
+ DywI6ic+v1NSe5cXHY73KniYwWbx55vfA7gJ2D2gRBKtZiN20x//ZnLKinC8A/ldjq+kpL
+ a7TGUXStuJQlBUMJ88TkOXNU8wL8vM0=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-fm9ZcMcpNdG2iKt_2rnbdw-1; Wed, 09 Jun 2021 08:13:13 -0400
-X-MC-Unique: fm9ZcMcpNdG2iKt_2rnbdw-1
+ us-mta-303-Fj7U2dJAMvWuAAyV3Xe9uQ-1; Wed, 09 Jun 2021 08:14:01 -0400
+X-MC-Unique: Fj7U2dJAMvWuAAyV3Xe9uQ-1
 Received: by mail-wr1-f70.google.com with SMTP id
- e11-20020a056000178bb0290119c11bd29eso5830630wrg.2
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 05:13:12 -0700 (PDT)
+ e9-20020a5d6d090000b0290119e91be97dso2461251wrq.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 05:14:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:references:from:subject:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Q3+OCxs+z975KgIRp5rakoeswQwFeH63hEn+CxieHNw=;
- b=s1sdJixg1EB5vgfNokN5hxDjHjkoyMCmRFYZCeB9NU5fP8qcysSmsUD/dX40ryvpEv
- 2hZ6iRUJqq3hQ8wBddhfrLN757vo4vxUvcWDjT3bjYIq/Q10pyNKrlxAKAIJ7v1TNRap
- rFcce/xJH0iBYSK6m4FwqYunYg7ZdK8Zn69ErqNpi4XGhgxhssV7HSHpQHT5vCoPE0x2
- oazxu3y5fHznNo7cZwtvs0L8gphvWdOy9HYExOzto3N/Td1CjiWrQSoli1ZV1SBCUxi3
- oIZWgbhE6oCuWjliqUZahcSYwpAaCEvFHQzo4yuQhsG2utBrQ3voxJAYVjiyKIWcICfZ
- 2spA==
-X-Gm-Message-State: AOAM530AA0nli7GvOl+XaB4V0EUaNqSGP2dD1MqUM+W7b8yfIRRgPf1j
- sV4hGPx/TeUEQ1BfkSCG+7WHghjtNouekdn5wVn9bj1d34QkqR35QnIBhTROLYxTWDcFWwKcuhW
- xW3elGkOHP2wWNjk=
-X-Received: by 2002:adf:8b91:: with SMTP id o17mr27609827wra.385.1623240791711; 
- Wed, 09 Jun 2021 05:13:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUMaV8tYdMUMihwRSVZXrn7a8MbJKtbyM+n+isSjRU+81S1sma6JYJEHtj9biIhEDzRjDH6g==
-X-Received: by 2002:adf:8b91:: with SMTP id o17mr27609806wra.385.1623240791488; 
- Wed, 09 Jun 2021 05:13:11 -0700 (PDT)
+ bh=f67ZeAX2mhM4lIfDbVD53hgb4J+GlLzqblAoKPvfFSE=;
+ b=mWBNmlVlR7iOZiDxUQW72Yka8qFAocRM2B10uEQIpxJwbBzup65tL+W4dDLWZ4wopn
+ Klfxa2OLTQ5+u3+gxiWYhkmqFQTpXA2ffKlM1ABShxIjKoEvuxv29TM9/2O7F9vwUGdL
+ thSRsp7FqS1M/L8KLIxaLaTd1t0/WOq54WDQxxZka6NARO9vu9dTTyBw+7YaqTip6lkP
+ tIgK2QTPU8yxMNNkOB8YXuo4+U54uFckRAXxPRuz+ZEBLhzLdKmwQunMWTonqOgGHDm1
+ 4QscMAG/RCXsBCHEHLkTHEct8lQNY2OnuBxVTIHkR5+06UNkxqaykjwr/cqFTlfRo0YQ
+ kwiA==
+X-Gm-Message-State: AOAM530LAnDCmwVjbNhUIs4oPJCRwH3KWvldHsAT0HoH4NWyqeDWr13T
+ 1xgjuO8S8DJnVg0XgX8MvlBrFTGlX4bSIemgnKfxLiyKOYlBM3TidOzzzagWdXpYNG5/AAONHHY
+ yONkd6e32kgDcRO0=
+X-Received: by 2002:a5d:698e:: with SMTP id g14mr28039980wru.212.1623240840549; 
+ Wed, 09 Jun 2021 05:14:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweOQMsoUGMl3tKw8RvbF/lvB29ZFXugsS9EajwYX1gdMu/keTRte5ME0Rg36DBN3xxZHEnzA==
+X-Received: by 2002:a5d:698e:: with SMTP id g14mr28039962wru.212.1623240840399; 
+ Wed, 09 Jun 2021 05:14:00 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r7sm7963874wma.9.2021.06.09.05.13.10
+ by smtp.gmail.com with ESMTPSA id v18sm25835413wrb.10.2021.06.09.05.13.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 05:13:10 -0700 (PDT)
+ Wed, 09 Jun 2021 05:13:59 -0700 (PDT)
+Subject: Re: [PATCH 0/2] esp: minor fixes for older Linux versions
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- fam@euphon.net, laurent@vivier.eu, hpoussin@reactos.org
-References: <20210519100803.10293-1-mark.cave-ayland@ilande.co.uk>
- <20210519100803.10293-5-mark.cave-ayland@ilande.co.uk>
+ qemu-stable@nongnu.org, fam@euphon.net, laurent@vivier.eu
+References: <20210518212511.21688-1-mark.cave-ayland@ilande.co.uk>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 4/5] esp: revert 75ef849696 "esp: correctly fill bus id
- with requested lun"
-Message-ID: <09e11569-b61e-db90-efe8-7f2f3c3d4cad@redhat.com>
-Date: Wed, 9 Jun 2021 14:13:09 +0200
+Message-ID: <64ae35af-d19c-8139-83f1-2c1b7915fe68@redhat.com>
+Date: Wed, 9 Jun 2021 14:13:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210519100803.10293-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210518212511.21688-1-mark.cave-ayland@ilande.co.uk>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -90,7 +88,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,60 +104,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/21 12:08, Mark Cave-Ayland wrote:
-> This commit from nearly 10 years ago no longer appears to be required and in its
-> current form prevents the MacOS CDROM driver from detecting the CDROM drive. The
-> error is caused by the MacOS CDROM driver sending this CDB without DMA:
+On 18/05/21 23:25, Mark Cave-Ayland wrote:
+> Following on from the ESP changes in QEMU 6.0 someone pointed out that the old
+> Linux 2.6 ESP driver as used in Aurelian's SPARC image at
+> https://people.debian.org/~aurel32/qemu/sparc/ emits a constant stream of
+> "esp0: STEP_ASEL for tgt 0" messages to the console during boot.
 > 
->      0x12 0x00 0x00 0x00 0x05 0x00 (INQUIRY)
+> These patches solve the issue so that the older image is able to boot cleanly
+> once again. The first patch is a genuine bug fix for the QEMU 6.0 changes whilst
+> the second works around the delayed bus phase change when deferring IO transfers
+> from the end of the command phase to the start of the information transfer
+> phase.
 > 
-> This is a valid INQUIRY command, however with this logic present the 3rd byte
-> (0x0) is copied over the 1st byte (0x12) which silently converts the INQUIRY
-> command to a TEST UNIT READY command before passing it to the QEMU SCSI layer.
-> Since the TEST UNIT READY command has a zero length response the MacOS CDROM
-> driver never receives a response and assumes the CDROM is not present.
-> 
-> Resolve the issue by reverting the original commit which I'm fairly sure is now
-> obsolete so that the original MacOS CDB is passed unaltered to the QEMU SCSI
-> layer.
+> I've tested this using the extended suite of images used for the QEMU 6.0 changes
+> and confirmed that there are no other regressions.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/scsi/esp.c | 3 ---
->   1 file changed, 3 deletions(-)
 > 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index afb4a7f9f1..a6f7c6c1bf 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -260,9 +260,6 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
->               return 0;
->           }
->           n = esp_fifo_pop_buf(&s->fifo, buf, dmalen);
-> -        if (n >= 3) {
-> -            buf[0] = buf[2] >> 5;
-> -        }
->           n = MIN(fifo8_num_free(&s->cmdfifo), n);
->           fifo8_push_all(&s->cmdfifo, buf, n);
->       }
+> 
+> Mark Cave-Ayland (2):
+>    esp: only assert INTR_DC interrupt flag if selection fails
+>    esp: only set ESP_RSEQ at the start of the select sequence
+> 
+>   hw/scsi/esp.c | 13 ++++++++++---
+>   1 file changed, 10 insertions(+), 3 deletions(-)
 > 
 
-This is probably related to S vs SATN, and the bug is that it's doing it 
-even in the S case where cmdfifo_cdb_offset is zero.  You can see that 
-the flow is
-
-bus[0] = bus[2] >> 5;
-    -> busid = esp_fifo_pop(&s->cmdfifo);    [do_cmd]
-         -> lun = busid & 7;                 [do_busid_cmd]
-
-However it does seem bogus.
-
-Perhaps the "S without ATN" cases (handle_s_without_atn, 
-s_without_satn_pdma_cb) should do something like
-
-    busid = (busid & ~7) | (buf[2] >> 5);
-
-before calling do_busid_cmd?
+Queued, thanks.
 
 Paolo
 
