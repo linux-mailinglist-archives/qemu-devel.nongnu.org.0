@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510033A16E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:14:56 +0200 (CEST)
-Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A993A1704
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:22:30 +0200 (CEST)
+Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqyys-0002jD-85
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:14:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37784)
+	id 1lqz6D-000837-0F
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lqyxz-0001iB-9r; Wed, 09 Jun 2021 10:13:59 -0400
-Resent-Date: Wed, 09 Jun 2021 10:13:59 -0400
-Resent-Message-Id: <E1lqyxz-0001iB-9r@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21327)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lqz5H-0007NH-JA
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:21:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lqyxx-0000SV-6f; Wed, 09 Jun 2021 10:13:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623248025; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=eZJnMFORU+JBd19sYLtvbF6OVzXneNFr3+aAqfZM7e9fEZSLCVbNASWRupnq0r/Ey3i14EkogNrgPkU77zDIBPC3ylOOZkX39HuFtesFq0CB/L/GUWD2RU+znRNeYcK3nyEw26jjhgaghn8o0TchjHbhPHIQYXp9QOCg4L97KO8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623248025;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=oXxRh62BdlXfCfduv0/2T3sWd2SIq+KAnKlc0vDsayA=; 
- b=YTy9GILQQ2tr4HTNf8HvtqcZKoYr47CAek3qwj5lagDSVGm4af0CwOyWEv4XkwdX6zeftxdS6SlkgClnQwl9hzOuUlDFdEdvtVuCJtg5iFwpGZjZ3raoG3xbZOF2mMqApUghKp5vRS74dyDr7FgLnsislYhF3nbBm3mPTrdwP7U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623248022718339.1254916816755;
- Wed, 9 Jun 2021 07:13:42 -0700 (PDT)
-In-Reply-To: <20210602192604.90846-1-lucas.araujo@eldorado.org.br>
-Subject: Re: [RFC PATCH 0/4] target/ppc: mmu cleanup
-Message-ID: <162324802125.6796.13069344151769996834@d310de11c650>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lqz5D-0005al-1a
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:21:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623248484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dHHilFabl/mSsHDDbV0zipUSLmu57PsqQi+zMvDAl+8=;
+ b=fDV1vNdxHwnmekfSiPRd53pJ5E5/2vIZci8ry5sarl9Qz4nE+yUnnQFRtptZfrW4SoiFtB
+ Sh1+/h7XPiGrZsEOJRXUXz0ss/9HXiGW4XJGXEr+1G3OG63fjF/CgBEbWeHlZ0sDH5azus
+ VTC5CqkrosAmwrRB9GRmMmEdHBH2c7U=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-SRb_1_knOgKeVClNkm0ysw-1; Wed, 09 Jun 2021 10:21:21 -0400
+X-MC-Unique: SRb_1_knOgKeVClNkm0ysw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ p18-20020a1709067852b02903dab2a3e1easo8120837ejm.17
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 07:21:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dHHilFabl/mSsHDDbV0zipUSLmu57PsqQi+zMvDAl+8=;
+ b=uMjCtDI56a51PSOwcvYZh4q57Q2lk5MhMpNWUzPj6gokOBVPkhKPy1bqa7eZPxgfKu
+ 5k3fDrf+tpbq3T8V9MXQqbc4jLFRb4XFSCfEY71penCtpbhMd2eIyJrcimQLw6S2Bj41
+ Um1abgdpYsxkHARI2GtDkLSIlFQfI+PsBB5wCJ/2RU+mfGLtSbqfP9ORqIKqOFw5hxIr
+ 9EkmX5C71lT/rHlkUC9mkQ3LDfMaNNmcixCFuXJVo5vgr/IpEBnap8/J8aEIrMmsDKCF
+ 23GuFntCUmRnn9TUUYD0Mp6qjUDZuiQnyerWTXFRPCgQDdmdRLlzk6lJ5Ae/JR7ctcNS
+ jQpQ==
+X-Gm-Message-State: AOAM533bpnb/+evIJDLlZdMsc92VB0OSTacMlieLDrjcVaxadFkUep2F
+ eqsw6PD5MfMIS+8DZAznPtvzpYr5K1ZN55OIQpLQ0EmMdvP6ZGdNVdKUEvr808YCZofV9eIY+fi
+ Qzk+AmeaSQ83yEDarHh2UD4TMpy75EtE=
+X-Received: by 2002:a17:906:b212:: with SMTP id
+ p18mr118276ejz.109.1623248480382; 
+ Wed, 09 Jun 2021 07:21:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqQFDhn0wddMbeAqoPPEKGgJAAQ1EnDVU5C+MIOLbbxqIdGwcK2DJF70QwJT6NrOA86Lse+93WqqsMjUCpBYQ=
+X-Received: by 2002:a17:906:b212:: with SMTP id
+ p18mr118232ejz.109.1623248480184; 
+ Wed, 09 Jun 2021 07:21:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lucas.araujo@eldorado.org.br
-Date: Wed, 9 Jun 2021 07:13:42 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210608031425.833536-1-crosa@redhat.com>
+ <20210608031425.833536-3-crosa@redhat.com>
+ <87wnr3i2hy.fsf@linaro.org>
+In-Reply-To: <87wnr3i2hy.fsf@linaro.org>
+From: Cleber Rosa Junior <crosa@redhat.com>
+Date: Wed, 9 Jun 2021 10:21:09 -0400
+Message-ID: <CA+bd_6JO2URtPSAe4faWx_0ybWAXVki45ho7vh1oHo2jyi59zw@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] Jobs based on custom runners: build environment
+ docs and playbook
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000000b5b7105c455fd05"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,72 +92,342 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYwMjE5MjYwNC45MDg0
-Ni0xLWx1Y2FzLmFyYXVqb0BlbGRvcmFkby5vcmcuYnIvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYwMjE5
-MjYwNC45MDg0Ni0xLWx1Y2FzLmFyYXVqb0BlbGRvcmFkby5vcmcuYnIKU3ViamVjdDogW1JGQyBQ
-QVRDSCAwLzRdIHRhcmdldC9wcGM6IG1tdSBjbGVhbnVwCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4g
-PT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwg
-ZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3Rv
-Z3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4
-ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBb
-bmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwNjA5MTQxMDEwLjEwNjY3NTAtMS1mNGJ1Z0Bh
-bXNhdC5vcmcgLT4gcGF0Y2hldy8yMDIxMDYwOTE0MTAxMC4xMDY2NzUwLTEtZjRidWdAYW1zYXQu
-b3JnClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMTgzZDEyMCB0YXJnZXQvcHBjOiBN
-b3ZlZCBoZWxwZXJzIHRvIG1tdV9oZWxwZXIuYwpjM2Q3N2NiIHRhcmdldC9wcGM6IG1vdmVkIHBw
-Y19zdG9yZV9zZHIxIHRvIG1tdV9jb21tb24uYwo3Yzg0YzQyIHRhcmdldC9wcGM6IGRpdmlkZWQg
-bW11X2hlbHBlci5jIGluIDIgZmlsZXMKOTBhMzhhZSB0YXJnZXQvcHBjOiBEb24ndCBjb21waWxl
-IHBwY190bGJfaW52YWxpZF9hbGwgd2l0aG91dCBUQ0cKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEv
-NCBDaGVja2luZyBjb21taXQgOTBhMzhhZTU2YzU5ICh0YXJnZXQvcHBjOiBEb24ndCBjb21waWxl
-IHBwY190bGJfaW52YWxpZF9hbGwgd2l0aG91dCBUQ0cpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiMzMDogRklMRTogdGFyZ2V0L3BwYy9jcHVfaW5pdC5jOjg5MTU6CisgICAgICAg
-Y3B1X2Fib3J0KGVudl9jcHUoZW52KSwiUG93ZXJQQyBub3QgaW4gcmVhbCBtb2RlLCBpbnZhbGlk
-IGluIHRoaXMgYnVpbGRcbiIpOwoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojMzA6IEZJTEU6IHRhcmdldC9wcGMvY3B1X2luaXQuYzo4OTE1OgorXkljcHVfYWJvcnQo
-ZW52X2NwdShlbnYpLCJQb3dlclBDIG5vdCBpbiByZWFsIG1vZGUsIGludmFsaWQgaW4gdGhpcyBi
-dWlsZFxuIik7JAoKRVJST1I6IHNwYWNlIHJlcXVpcmVkIGFmdGVyIHRoYXQgJywnIChjdHg6VnhW
-KQojMzA6IEZJTEU6IHRhcmdldC9wcGMvY3B1X2luaXQuYzo4OTE1OgorICAgICAgIGNwdV9hYm9y
-dChlbnZfY3B1KGVudiksIlBvd2VyUEMgbm90IGluIHJlYWwgbW9kZSwgaW52YWxpZCBpbiB0aGlz
-IGJ1aWxkXG4iKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDIgZXJy
-b3JzLCAxIHdhcm5pbmdzLCAzOSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzQgaGFzIHN0eWxlIHBy
-b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
-cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
-biBNQUlOVEFJTkVSUy4KCjIvNCBDaGVja2luZyBjb21taXQgN2M4NGM0Mjc2OTM2ICh0YXJnZXQv
-cHBjOiBkaXZpZGVkIG1tdV9oZWxwZXIuYyBpbiAyIGZpbGVzKQpXQVJOSU5HOiBhZGRlZCwgbW92
-ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMx
-MjU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzE1Mzg6IEZJTEU6IHRhcmdldC9wcGMvbW11X2NvbW1vbi5jOjE0MDk6CisgICAgICAgICAg
-ICAgICAgICAgIGVudi0+c3ByW1NQUl9CT09LRV9FU1JdID0gbW11Ym9va2UyMDZfZXNyKG1tdV9p
-ZHgsIE1NVV9EQVRBX0xPQUQpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE2
-MjU6IEZJTEU6IHRhcmdldC9wcGMvbW11X2NvbW1vbi5jOjE0OTY6CisgICAgICAgICAgICAgICAg
-ICAgIGJvb2tlMjA2X3VwZGF0ZV9tYXNfdGxiX21pc3MoZW52LCBhZGRyZXNzLCBhY2Nlc3NfdHlw
-ZSwgbW11X2lkeCk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTYzMTogRklM
-RTogdGFyZ2V0L3BwYy9tbXVfY29tbW9uLmM6MTUwMjoKKyAgICAgICAgICAgICAgICAgICAgZW52
-LT5zcHJbU1BSX0JPT0tFX0VTUl0gPSBtbXVib29rZTIwNl9lc3IobW11X2lkeCwgYWNjZXNzX3R5
-cGUpOwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzE2NTU6IEZJTEU6IHRhcmdl
-dC9wcGMvbW11X2NvbW1vbi5jOjE1MjY6CisgICAgICAgICAgICAgICAgICAgIGVudi0+c3ByW1NQ
-Ul9CT09LRV9FU1JdID0gbW11Ym9va2UyMDZfZXNyKG1tdV9pZHgsIGFjY2Vzc190eXBlKTsKCnRv
-dGFsOiAwIGVycm9ycywgNSB3YXJuaW5ncywgMzM1MSBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzQg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy80IENoZWNraW5nIGNvbW1pdCBjM2Q3N2NiYzc2
-MDYgKHRhcmdldC9wcGM6IG1vdmVkIHBwY19zdG9yZV9zZHIxIHRvIG1tdV9jb21tb24uYykKNC80
-IENoZWNraW5nIGNvbW1pdCAxODNkMTIwYmQ3NDYgKHRhcmdldC9wcGM6IE1vdmVkIGhlbHBlcnMg
-dG8gbW11X2hlbHBlci5jKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQg
-d2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
-dy5vcmcvbG9ncy8yMDIxMDYwMjE5MjYwNC45MDg0Ni0xLWx1Y2FzLmFyYXVqb0BlbGRvcmFkby5v
-cmcuYnIvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
-ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
-ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+--0000000000000b5b7105c455fd05
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 9, 2021 at 9:36 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+
+>
+> Cleber Rosa <crosa@redhat.com> writes:
+>
+> > To run basic jobs on custom runners, the environment needs to be
+> > properly set up.  The most common requirement is having the right
+> > packages installed.
+> >
+> > The playbook introduced here covers the QEMU's project s390x and
+> > aarch64 machines.  At the time this is being proposed, those machines
+> > have already had this playbook applied to them.
+> >
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  docs/devel/ci.rst                      | 30 ++++++++
+> >  scripts/ci/setup/build-environment.yml | 98 ++++++++++++++++++++++++++
+> >  scripts/ci/setup/inventory.template    |  1 +
+> >  3 files changed, 129 insertions(+)
+> >  create mode 100644 scripts/ci/setup/build-environment.yml
+> >  create mode 100644 scripts/ci/setup/inventory.template
+> >
+> > diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> > index 585b7bf4b8..35c6b5e269 100644
+> > --- a/docs/devel/ci.rst
+> > +++ b/docs/devel/ci.rst
+> > @@ -26,3 +26,33 @@ gitlab-runner, is called a "custom runner".
+> >  The GitLab CI jobs definition for the custom runners are located under=
+::
+> >
+> >    .gitlab-ci.d/custom-runners.yml
+> > +
+> > +Machine Setup Howto
+> > +-------------------
+> > +
+> > +For all Linux based systems, the setup can be mostly automated by the
+> > +execution of two Ansible playbooks.  Create an ``inventory`` file
+> > +under ``scripts/ci/setup``, such as this::
+> > +
+> > +  fully.qualified.domain
+> > +  other.machine.hostname
+> > +
+> > +You may need to set some variables in the inventory file itself.  One
+> > +very common need is to tell Ansible to use a Python 3 interpreter on
+> > +those hosts.  This would look like::
+> > +
+> > +  fully.qualified.domain ansible_python_interpreter=3D/usr/bin/python3
+> > +  other.machine.hostname ansible_python_interpreter=3D/usr/bin/python3
+> > +
+> > +Build environment
+> > +~~~~~~~~~~~~~~~~~
+> > +
+> > +The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
+> > +set up machines with the environment needed to perform builds and run
+> > +QEMU tests.  It covers a number of different Linux distributions and
+> > +FreeBSD.
+> > +
+> > +To run the playbook, execute::
+> > +
+> > +  cd scripts/ci/setup
+> > +  ansible-playbook -i inventory build-environment.yml
+>
+> I tried this to re-update aarch64.ci.qemu.org and another ubuntu box I
+> have up and running as a VM and I got a failure when checking facts:
+>
+>   14:26:26 [alex@zen:~/l/q/s/c/setup] review/custom-runners-v6|=E2=9C=9A1=
+=E2=80=A6(+1/-1)
+> + ansible-playbook -i inventory build-environment.yml
+>
+>   PLAY [Installation of basic packages to build QEMU]
+> *************************************************************************=
+************************************************
+>
+>   TASK [Gathering Facts]
+> *************************************************************************=
+***************************************************************************=
+**
+>   ok: [aarch64.ci.qemu.org]
+>   ok: [hackbox-ubuntu-2004]
+>
+>   TASK [Update apt cache]
+> *************************************************************************=
+***************************************************************************=
+*
+>   fatal: [aarch64.ci.qemu.org]: FAILED! =3D> {"msg": "The conditional che=
+ck
+> 'ansible_facts['distribution'] =3D=3D 'Ubuntu'' failed. The error was: er=
+ror
+> while evaluating conditional (ansible_facts['distribution'] =3D=3D 'Ubunt=
+u'):
+> 'dict object' has no attribute 'distribution'\n\nThe error appears to hav=
+e
+> been in '/home/alex/lsrc/qemu.git/scripts/ci/setup/build-environment.yml'=
+:
+> line 5, column 7, but may\nbe elsewhere in the file depending on the exac=
+t
+> syntax problem.\n\nThe offending line appears to be:\n\n  tasks:\n    -
+> name: Update apt cache\n      ^ here\n"}
+>   fatal: [hackbox-ubuntu-2004]: FAILED! =3D> {"msg": "The conditional che=
+ck
+> 'ansible_facts['distribution'] =3D=3D 'Ubuntu'' failed. The error was: er=
+ror
+> while evaluating conditional (ansible_facts['distribution'] =3D=3D 'Ubunt=
+u'):
+> 'dict object' has no attribute 'distribution'\n\nThe error appears to hav=
+e
+> been in '/home/alex/lsrc/qemu.git/scripts/ci/setup/build-environment.yml'=
+:
+> line 5, column 7, but may\nbe elsewhere in the file depending on the exac=
+t
+> syntax problem.\n\nThe offending line appears to be:\n\n  tasks:\n    -
+> name: Update apt cache\n      ^ here\n"}
+>           to retry, use: --limit
+> @/home/alex/lsrc/qemu.git/scripts/ci/setup/build-environment.retry
+>
+>   PLAY RECAP
+> *************************************************************************=
+***************************************************************************=
+**************
+>   aarch64.ci.qemu.org        : ok=3D1    changed=3D0    unreachable=3D0
+> failed=3D1
+>   hackbox-ubuntu-2004        : ok=3D1    changed=3D0    unreachable=3D0
+> failed=3D1
+>
+>
+>
+Hi Alex,
+
+Thanks for checking this version out.  It looks like this is similar to
+what happened to you during v5 and hackmox-ubuntu-2004.  Because I had no
+issues running the playbook against aarch64.ci.qemu.org, I am now betting
+that this is an issue with the ansible installation on the "controller"
+machine, that is, the one that drives the playbook execution (the "zen"
+host, according to your output).
+
+About the error, the syntax itself is correct[1], but I bet there may be
+differences between ansible versions.  Could you please share the output of
+"ansible --version" on that machine?
+
+Thanks again,
+- Cleber.
+
+[1] -
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.h=
+tml#ansible-facts-distribution
+
+
+> --
+> Alex Benn=C3=A9e
+>
+>
+
+--0000000000000b5b7105c455fd05
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 9, 2021 at 9:36 AM Alex B=
+enn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro=
+.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex"><br>
+Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.com" target=3D"_blank">crosa=
+@redhat.com</a>&gt; writes:<br>
+<br>
+&gt; To run basic jobs on custom runners, the environment needs to be<br>
+&gt; properly set up.=C2=A0 The most common requirement is having the right=
+<br>
+&gt; packages installed.<br>
+&gt;<br>
+&gt; The playbook introduced here covers the QEMU&#39;s project s390x and<b=
+r>
+&gt; aarch64 machines.=C2=A0 At the time this is being proposed, those mach=
+ines<br>
+&gt; have already had this playbook applied to them.<br>
+&gt;<br>
+&gt; Signed-off-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.com" tar=
+get=3D"_blank">crosa@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/devel/ci.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 30 ++++++++<br>
+&gt;=C2=A0 scripts/ci/setup/build-environment.yml | 98 ++++++++++++++++++++=
+++++++<br>
+&gt;=C2=A0 scripts/ci/setup/inventory.template=C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;=C2=A0 3 files changed, 129 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 scripts/ci/setup/build-environment.yml<br>
+&gt;=C2=A0 create mode 100644 scripts/ci/setup/inventory.template<br>
+&gt;<br>
+&gt; diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst<br>
+&gt; index 585b7bf4b8..35c6b5e269 100644<br>
+&gt; --- a/docs/devel/ci.rst<br>
+&gt; +++ b/docs/devel/ci.rst<br>
+&gt; @@ -26,3 +26,33 @@ gitlab-runner, is called a &quot;custom runner&quot=
+;.<br>
+&gt;=C2=A0 The GitLab CI jobs definition for the custom runners are located=
+ under::<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 .gitlab-ci.d/custom-runners.yml<br>
+&gt; +<br>
+&gt; +Machine Setup Howto<br>
+&gt; +-------------------<br>
+&gt; +<br>
+&gt; +For all Linux based systems, the setup can be mostly automated by the=
+<br>
+&gt; +execution of two Ansible playbooks.=C2=A0 Create an ``inventory`` fil=
+e<br>
+&gt; +under ``scripts/ci/setup``, such as this::<br>
+&gt; +<br>
+&gt; +=C2=A0 fully.qualified.domain<br>
+&gt; +=C2=A0 other.machine.hostname<br>
+&gt; +<br>
+&gt; +You may need to set some variables in the inventory file itself.=C2=
+=A0 One<br>
+&gt; +very common need is to tell Ansible to use a Python 3 interpreter on<=
+br>
+&gt; +those hosts.=C2=A0 This would look like::<br>
+&gt; +<br>
+&gt; +=C2=A0 fully.qualified.domain ansible_python_interpreter=3D/usr/bin/p=
+ython3<br>
+&gt; +=C2=A0 other.machine.hostname ansible_python_interpreter=3D/usr/bin/p=
+ython3<br>
+&gt; +<br>
+&gt; +Build environment<br>
+&gt; +~~~~~~~~~~~~~~~~~<br>
+&gt; +<br>
+&gt; +The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will<=
+br>
+&gt; +set up machines with the environment needed to perform builds and run=
+<br>
+&gt; +QEMU tests.=C2=A0 It covers a number of different Linux distributions=
+ and<br>
+&gt; +FreeBSD.<br>
+&gt; +<br>
+&gt; +To run the playbook, execute::<br>
+&gt; +<br>
+&gt; +=C2=A0 cd scripts/ci/setup<br>
+&gt; +=C2=A0 ansible-playbook -i inventory build-environment.yml<br>
+<br>
+I tried this to re-update <a href=3D"http://aarch64.ci.qemu.org" rel=3D"nor=
+eferrer" target=3D"_blank">aarch64.ci.qemu.org</a> and another ubuntu box I=
+<br>
+have up and running as a VM and I got a failure when checking facts:<br>
+<br>
+=C2=A0 14:26:26 [alex@zen:~/l/q/s/c/setup] review/custom-runners-v6|=E2=9C=
+=9A1=E2=80=A6(+1/-1) + ansible-playbook -i inventory build-environment.yml<=
+br>
+<br>
+=C2=A0 PLAY [Installation of basic packages to build QEMU] ****************=
+***************************************************************************=
+******************************<br>
+<br>
+=C2=A0 TASK [Gathering Facts] *********************************************=
+***************************************************************************=
+******************************<br>
+=C2=A0 ok: [<a href=3D"http://aarch64.ci.qemu.org" rel=3D"noreferrer" targe=
+t=3D"_blank">aarch64.ci.qemu.org</a>]<br>
+=C2=A0 ok: [hackbox-ubuntu-2004]<br>
+<br>
+=C2=A0 TASK [Update apt cache] ********************************************=
+***************************************************************************=
+******************************<br>
+=C2=A0 fatal: [<a href=3D"http://aarch64.ci.qemu.org" rel=3D"noreferrer" ta=
+rget=3D"_blank">aarch64.ci.qemu.org</a>]: FAILED! =3D&gt; {&quot;msg&quot;:=
+ &quot;The conditional check &#39;ansible_facts[&#39;distribution&#39;] =3D=
+=3D &#39;Ubuntu&#39;&#39; failed. The error was: error while evaluating con=
+ditional (ansible_facts[&#39;distribution&#39;] =3D=3D &#39;Ubuntu&#39;): &=
+#39;dict object&#39; has no attribute &#39;distribution&#39;\n\nThe error a=
+ppears to have been in &#39;/home/alex/lsrc/qemu.git/scripts/ci/setup/build=
+-environment.yml&#39;: line 5, column 7, but may\nbe elsewhere in the file =
+depending on the exact syntax problem.\n\nThe offending line appears to be:=
+\n\n=C2=A0 tasks:\n=C2=A0 =C2=A0 - name: Update apt cache\n=C2=A0 =C2=A0 =
+=C2=A0 ^ here\n&quot;}<br>
+=C2=A0 fatal: [hackbox-ubuntu-2004]: FAILED! =3D&gt; {&quot;msg&quot;: &quo=
+t;The conditional check &#39;ansible_facts[&#39;distribution&#39;] =3D=3D &=
+#39;Ubuntu&#39;&#39; failed. The error was: error while evaluating conditio=
+nal (ansible_facts[&#39;distribution&#39;] =3D=3D &#39;Ubuntu&#39;): &#39;d=
+ict object&#39; has no attribute &#39;distribution&#39;\n\nThe error appear=
+s to have been in &#39;/home/alex/lsrc/qemu.git/scripts/ci/setup/build-envi=
+ronment.yml&#39;: line 5, column 7, but may\nbe elsewhere in the file depen=
+ding on the exact syntax problem.\n\nThe offending line appears to be:\n\n=
+=C2=A0 tasks:\n=C2=A0 =C2=A0 - name: Update apt cache\n=C2=A0 =C2=A0 =C2=A0=
+ ^ here\n&quot;}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 to retry, use: --limit @/home/alex/lsrc/=
+qemu.git/scripts/ci/setup/build-environment.retry<br>
+<br>
+=C2=A0 PLAY RECAP *********************************************************=
+***************************************************************************=
+******************************<br>
+=C2=A0 <a href=3D"http://aarch64.ci.qemu.org" rel=3D"noreferrer" target=3D"=
+_blank">aarch64.ci.qemu.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 : ok=3D1=C2=A0 =
+=C2=A0 changed=3D0=C2=A0 =C2=A0 unreachable=3D0=C2=A0 =C2=A0 failed=3D1<br>
+=C2=A0 hackbox-ubuntu-2004=C2=A0 =C2=A0 =C2=A0 =C2=A0 : ok=3D1=C2=A0 =C2=A0=
+ changed=3D0=C2=A0 =C2=A0 unreachable=3D0=C2=A0 =C2=A0 failed=3D1<br>
+<br>
+<br></blockquote><div><br></div><div>Hi Alex,</div><div><br></div><div>Than=
+ks for checking this version out.=C2=A0 It looks like this is similar to wh=
+at happened to you during v5 and hackmox-ubuntu-2004.=C2=A0 Because I had n=
+o issues running the playbook against <a href=3D"http://aarch64.ci.qemu.org=
+">aarch64.ci.qemu.org</a>, I am now betting that this is an issue with the =
+ansible installation on the &quot;controller&quot; machine, that is, the on=
+e that drives the playbook execution (the &quot;zen&quot; host, according t=
+o your output).</div><div><br></div><div>About the error, the syntax itself=
+ is correct[1], but I bet there may be differences between ansible versions=
+.=C2=A0 Could you please share the output of &quot;ansible --version&quot; =
+on that machine?</div><div><br></div><div>Thanks again,</div><div>- Cleber.=
+</div><div><br></div><div>[1] - <a href=3D"https://docs.ansible.com/ansible=
+/latest/user_guide/playbooks_conditionals.html#ansible-facts-distribution">=
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.h=
+tml#ansible-facts-distribution</a></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+-- <br>
+Alex Benn=C3=A9e<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000b5b7105c455fd05--
+
 
