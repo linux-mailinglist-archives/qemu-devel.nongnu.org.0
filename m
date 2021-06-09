@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7919F3A1616
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 15:49:46 +0200 (CEST)
-Received: from localhost ([::1]:36530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CCA3A16A4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:07:50 +0200 (CEST)
+Received: from localhost ([::1]:45158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqyaX-0004cY-3K
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 09:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60284)
+	id 1lqys0-0002lY-PH
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqyZN-0003dE-7w
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:48:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26756)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1lqyrB-000276-OQ
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:06:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqyZJ-0000ht-83
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:48:31 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1lqyr7-0004Jh-Ux
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:06:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623246501;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1623247612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TSt4vP+bHRcLuGbf0X4xiF4b+gqdBzUu6twwpNv17rU=;
- b=ErE/Fe9LX8/GF6Ko3FqAGL2br8QHNgrwwrucGkOXzc91/eMx0vQJ/V7dOIS0G2JVAGxmYp
- 0kOLbB+4K/xQ3pTuaF02PALApGcmDzORHZI69OimGehInT0pD9P3IwQuSZReXToKqeiBCg
- fSKTKZCQYeQicMHRsn1sBCuqrr6iPRU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-ik4Sx_DOPdKaVZ-C7jKbIw-1; Wed, 09 Jun 2021 09:48:14 -0400
-X-MC-Unique: ik4Sx_DOPdKaVZ-C7jKbIw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4A56195D562;
- Wed,  9 Jun 2021 13:48:13 +0000 (UTC)
-Received: from redhat.com (ovpn-115-127.ams2.redhat.com [10.36.115.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52DC418A69;
- Wed,  9 Jun 2021 13:48:12 +0000 (UTC)
-Date: Wed, 9 Jun 2021 14:48:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] configure: map x32 to cpu_family x86_64 for meson
-Message-ID: <YMDGmRRx89bCA7ds@redhat.com>
-References: <878s3jrzm0.fsf@gmail.com> <YMC38baIdFTL/q+f@redhat.com>
- <CAFEAcA-4cakv+K2D0Fy67kFrY3J4SdDUJJ=J89Pp-YX5n=3WvA@mail.gmail.com>
+ bh=s5G4SJzVeJcusgfpgZEPj4fyLUyx7sxKr21sHMKFlp4=;
+ b=i28ByBypeEwR5n2p6RXDVu9qnA9k9ICOE5qFBlagbuntdkLCA+qmLWy/e+ckbJdTOmN5IX
+ kyOwrHxR8X6lU70VYBGZEXAZYiQ3hke0Qz7zV3XHc57B93vW5ZMRfM17I9fnvtGRmt6ADn
+ soTrS4MYLFU9/UGLb1Ur5NhaHiAP0hE=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-uJrt6tXUOU6aP0Q51HnOLg-1; Wed, 09 Jun 2021 10:06:50 -0400
+X-MC-Unique: uJrt6tXUOU6aP0Q51HnOLg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ h10-20020a0cab0a0000b029020282c64ecfso18058014qvb.19
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 07:06:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=s5G4SJzVeJcusgfpgZEPj4fyLUyx7sxKr21sHMKFlp4=;
+ b=C/pvM3c2ox+xJ9tAhjIpxXAk7Y8vOXafYI3dO5rIPyvtFsfUnQGeNwVAMZBUk83TgJ
+ GKa7Ou0SGWi63XhS/7CYYTJ3orEpvKuuG04CtdBTJuF5Fng+jmNfGyu7xq3Gmh0gaHzC
+ RN8OmplIjKGoPDp9Bz0Cq5eWbIcKPwSxQ2OEHfFaQcbo+EC0UrUe2YYbkO9WChOxWf22
+ LkaWiX6/qqRoaUiIv3v1zW5YjDn4NRi2r3ECrrshZRXwKwGzdEjQCnrVsKMSvs/Bz4/r
+ D07TEJYpdCiy7WxOKaSITr3G0a64upQo/WNoptS7/T6YHMQ71/QZtVVXaKkBLSnfHd5C
+ 7huQ==
+X-Gm-Message-State: AOAM531YyyEI8sWRP5FyL7sptU3DOgMu7s4+IwRuVb8vQOL5EBx02Ocb
+ IlpPXze7VXCYaaAjTowzKVrmXvY/d6CPLxF4uo/Mf5+I7WzxyaGKOG4acnCoidbxSvbYafbHdu6
+ tcREVhsQcK2rpL4cQJsTEnIUvM5Q0fhU=
+X-Received: by 2002:a05:6214:10e9:: with SMTP id
+ q9mr119448qvt.45.1623247609736; 
+ Wed, 09 Jun 2021 07:06:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrxIsi5YxViFEzrVp9MjwisKiFv9TZG2CIo0nqS4CfnoHbMR3f2AntgVgpMVBYtTbfO+vbuJERfKVgyzHBZNw=
+X-Received: by 2002:a05:6214:10e9:: with SMTP id
+ q9mr119419qvt.45.1623247609473; 
+ Wed, 09 Jun 2021 07:06:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-4cakv+K2D0Fy67kFrY3J4SdDUJJ=J89Pp-YX5n=3WvA@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20210519162903.1172366-1-eperezma@redhat.com>
+ <20210519162903.1172366-5-eperezma@redhat.com>
+ <87y2c8pnx0.fsf@dusky.pond.sub.org>
+ <CAJaqyWf9HZKb+Mtn_UNHZQj4EqzybPzwbLE7vcbCXJPK7wtXKw@mail.gmail.com>
+ <87k0n4xwo4.fsf@dusky.pond.sub.org>
+ <CAJaqyWcmpZxdSv9SKi0yFY5UNsdMKzRGFSW_4pUZicqCP7Gkdg@mail.gmail.com>
+ <87wnr3p8fn.fsf@dusky.pond.sub.org>
+In-Reply-To: <87wnr3p8fn.fsf@dusky.pond.sub.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 9 Jun 2021 16:06:12 +0200
+Message-ID: <CAJaqyWcwAAAXGZD5huHjYUvrDQyEQgmnv4iTCzY4=qT9zWMgFg@mail.gmail.com>
+Subject: Re: [RFC v3 04/29] vhost: Add x-vhost-enable-shadow-vq qmp
+To: Markus Armbruster <armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,56 +98,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Michael <fedora.dm0@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Parav Pandit <parav@mellanox.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, virtualization@lists.linux-foundation.org,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 02:30:09PM +0100, Peter Maydell wrote:
-> On Wed, 9 Jun 2021 at 13:48, Daniel P. Berrangé <berrange@redhat.com> wrote:
+On Wed, Jun 9, 2021 at 1:46 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Eugenio Perez Martin <eperezma@redhat.com> writes:
+>
+> > On Tue, Jun 8, 2021 at 4:23 PM Markus Armbruster <armbru@redhat.com> wr=
+ote:
+> >>
+> >> Eugenio Perez Martin <eperezma@redhat.com> writes:
+> >>
+> >> > On Fri, May 21, 2021 at 9:05 AM Markus Armbruster <armbru@redhat.com=
+> wrote:
+> >> >>
+> >> >> Eugenio P=C3=A9rez <eperezma@redhat.com> writes:
+> >> >>
+> >> >> > Command to enable shadow virtqueue looks like:
+> >> >> >
+> >> >> > { "execute": "x-vhost-enable-shadow-vq",
+> >> >> >   "arguments": { "name": "dev0", "enable": true } }
+> >> >> >
+> >> >> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >> >> > ---
+> >> >> >  qapi/net.json     | 22 ++++++++++++++++++++++
+> >> >> >  hw/virtio/vhost.c |  6 ++++++
+> >> >> >  2 files changed, 28 insertions(+)
+> >> >> >
+> >> >> > diff --git a/qapi/net.json b/qapi/net.json
+> >> >> > index c31748c87f..660feafdd2 100644
+> >> >> > --- a/qapi/net.json
+> >> >> > +++ b/qapi/net.json
+> >> >> > @@ -77,6 +77,28 @@
+> >> >> >  ##
+> >> >> >  { 'command': 'netdev_del', 'data': {'id': 'str'} }
+> >> >> >
+> >> >> > +##
+> >> >> > +# @x-vhost-enable-shadow-vq:
+> >> >> > +#
+> >> >> > +# Use vhost shadow virtqueue.
+> >> >> > +#
+> >> >> > +# @name: the device name of the VirtIO device
+> >> >> > +#
+> >> >> > +# @enable: true to use he alternate shadow VQ notification path
+> >>
+> >> [...]
+> >>
+> >> >> > +#
+> >> >> > +# Returns: Error if failure, or 'no error' for success. Not foun=
+d if vhost is not enabled.
+> >> >>
+> >> >> This is confusing.  What do you mean by "Not found"?
+> >> >>
+> >> >> If you mean DeviceNotFound:
+> >> >>
+> >> >> 1. Not actually true: qmp_x_vhost_enable_shadow_vq() always fails w=
+ith
+> >> >> GenericError.  Perhaps later patches will change that.
+> >>
+> >> [...]
+> >>
+> >> >> 2. Do you really need to distinguish "vhost is not enabled" from ot=
+her
+> >> >> errors?
+> >> >>
+> >> >
+> >> > SVQ cannot work if the device backend is not vhost, like qemu VirtIO
+> >> > dev. What I meant is that "qemu will only look for its name in the s=
+et
+> >> > of vhost devices, so you will have a device not found if the device =
+is
+> >> > not a vhost one", which may not be 100% clear at first glance. Maybe
+> >> > this wording is better?
+> >>
+> >> We might be talking past each other.  Let me try again :)
+> >>
+> >> The following question is *not* about the doc comment, it's about the
+> >> *code*: what practical problem is solved by using DeviceNotFound inste=
+ad
+> >> of GenericError for some errors?
+> >>
 > >
-> > On Wed, Jun 09, 2021 at 08:28:39AM -0400, David Michael wrote:
-> > > The meson.build file defines supported_cpus which does not contain
-> > > x32, and x32 is not one of meson's stable built-in values:
-> > > https://mesonbuild.com/Reference-tables.html#cpu-families
-> > >
-> > > Signed-off-by: David Michael <fedora.dm0@gmail.com>
-> > > ---
-> > >
-> > > Hi,
-> > >
-> > > QEMU fails to build for x32 due to that cpu_family not being defined in
-> > > supported_cpus.  Can something like this be applied?
-> > >
-> > > Alternatively, maybe it could be added to supported_cpus and accepted
-> > > everywhere that matches x86 in meson.build, but upstream meson does not
-> > > define a CPU type for x32.
+> > Sorry, I'm not sure if I follow you :). At risk of being circular in
+> > this topic, the only use case I can think is to actually tell the
+> > difference between "the device does not exists, or is not a vhost
+> > device" and "the device does not support SVQ because X", where X can
+> > be "it uses a packed ring", "it uses event idx", ...
 > >
-> > "supported_cpus" serves two distinct purposes in meson.build
-> >
-> >  - Identifies whether TCG supports the target
-> >  - Identifies whether QEMU maintainers consider the target supported
-> >
-> > The change proposed below makes x32 be treated the same as x86_64.
-> 
-> I feel like it's more "fixing a regression we introduced by accident
-> at some point". Looking at the 5.1 configure script (which predates
-> the meson conversion) x32 is marked as a supported cpu. Currently it
-> isn't, so that's a regression. (I don't have the setup to bisect that
-> right now, but it would be interesting to confirm where it stopped
-> working.) Whether we feel that we no longer want to support x32 is
-> a separate question and we'd need to go through our usual deprecation
-> process if we did want to drop it.
+> > I can only think of one practical use case, "if you see this error,
+> > you probably forgot to set vhost=3Don in the command line, or something
+> > is forbidding this device to be a vhost one". Having said that, I'm
+> > totally fine with using GenericError always, but I see the more
+> > fine-grained the error the better. What would be the advantage of also
+> > using GenericError here?
+>
+> In the initial design of the Error API, every error had its own distinct
+> class.  This provided for fine-grained errors.
+>
+> Adding a new error was bothersome: you had to define a new class, in
+> qerror.h.  Recompile the world.  Conflict magnet.  Constant temptation
+> to reuse an existing error even when its error message is suboptimal,
+> and the reuse of the class for another error conflates errors.
+>
+> After a bit under three years, we had 70 classes, used in almost 400
+> places.  Management applications actually cared for just six classes.
+>
+> Bad error messages and development friction had turned out to be a real
+> problem.  Conflating errors pretty much not.
+>
+> We concluded that providing for fine-grained errors when next to nothing
+> uses them was not worth the pain.  So we ditched them:
+>
+>     https://lists.nongnu.org/archive/html/qemu-devel/2012-08/msg01958.htm=
+l
+>     Commit ac839ccd8c3..adb2072ed0f
+>
+> Since them, we recommend to use GenericError unless there is a
+> compelling reason not to.  "Something might care someday" doesn't
+> qualify.
+>
+> Learning by doing the wrong thing is painful and expensive, but at least
+> the lessons tends to stick ;)
+>
+> Today, we have more than 4000 callers of error_setg(), and less than 40
+> of error_set().
+>
 
-Ah, I missed that it was previously working.
+So let's do it with GenericError then :). Thanks for pointing it out,
+it will be fixed in the next revision!
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> > Just to be sure that we are on the same page, I think this is better
+> > seen from PATCH 07/39: vhost: Route guest->host notification through
+> > shadow virtqueue.
+> >
+> >> [...]
+> >>
+>
 
 
