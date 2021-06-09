@@ -2,74 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3338A3A14AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:42:17 +0200 (CEST)
-Received: from localhost ([::1]:38322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCFE3A14AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:42:14 +0200 (CEST)
+Received: from localhost ([::1]:38108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqxXE-0007Q8-94
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46862)
+	id 1lqxXB-0007HT-7v
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqxUe-0004MF-82; Wed, 09 Jun 2021 08:39:36 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lqxUc-0006MN-Ok; Wed, 09 Jun 2021 08:39:35 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso4172922wmh.4; 
- Wed, 09 Jun 2021 05:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KzWaT1zEyy0mcZM5vZp8UDBcHlbr5yY7b9Gv6Pp1ZqY=;
- b=AHFWf31R9/DEObR44Sk1VTUpOf93axqMzu37F/geh9Gi13cZ+XU1GtzW269CZ8IM/L
- lMBpTpMYnIp+Z22tiqjbqU9AcTSLhJpKXZ+f6sHnq+vtDhYkrBx4dqPxTSmuTzn/2yOK
- 8dc9SWLP82SzKQ3QxS3djQnUJlF1Jk6mcJ8Qe1tFgkArKF59Z5ljGW8neVMPImTqYaIP
- gG2QoL839RzjlOts74XNUWch6RT6lb3EtVRDz32vRvYSlicQT0mRlYyfrdxYknA/+EVm
- nlY2YNrA1/1BQrRZ/0F8+w+q42MZau0ocZSoQPBuAEoYVB174eIPhYegDejnQ8o9MElY
- cjDA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lqxVP-0005P5-9h
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:40:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lqxVM-0006sq-HO
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:40:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623242419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iSEOcGpuB0zs9sBwF6J47PlKWausPK3WZK3w+E6qmHc=;
+ b=UhISMUYR/wZPmm2CXztIEBnzLyxbtxfEZ5nbqZiHJdinoAu9ltgfbppiY46KzsEJejnFIx
+ htxmR0M9Hg43xhT2MAjfKA4cWqd3+6HFIiCGOKaG1Ggq9dJ7cUgdsQgRiY63l9n07aXzx6
+ j2zWyJpCLGxRE/j/oDGFOqLUUlC1KaQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-cjME0w4mMlyWpuQNStvlYQ-1; Wed, 09 Jun 2021 08:40:18 -0400
+X-MC-Unique: cjME0w4mMlyWpuQNStvlYQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r4-20020a7bc0840000b02901b7cb5713ecso535834wmh.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 05:40:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=KzWaT1zEyy0mcZM5vZp8UDBcHlbr5yY7b9Gv6Pp1ZqY=;
- b=P4hvLzhc79RgtfP8EUeeWI3wsm4nF+lUhFWs032L009nQf89xmJSlJgXIrxMemkB9i
- KBnQ2l3WCeNajAQL+Od2tlV82NnxlR4eo8PlAiOyBHDWc3ELTzDgKf0jY+pFeeCnElM1
- UWrnklOsLtRilXHFWOVP7jNrSlpesGkP5pFsmHz4n92aqDAyHKEHb3PjEAZ/6YNgGUd7
- C1ZqmUT2RV9H3RhL4KAIHu5EFCgrrhU0m4MpRHn+InpOSxO++2QTQQuoLRq2DGM1T6qy
- BULk0bsBfUSGT634rNv94ZNZHyO0YAX64aJgzFl3Dr8quY64bBq3vO5s93jg6y7WRtr+
- HUwQ==
-X-Gm-Message-State: AOAM530xN+cSbSgPUl4GRo5zeQ4rC0NrromZmmfaJnaM3l5ovVic6GZg
- 5SnBqz1LX8gi0gorRw3jfKiA3Kmi6vNNvA==
-X-Google-Smtp-Source: ABdhPJxfqhn5/NHp7dRLxdFrjCZOCGbRex3V/AoPpUr5/pnboA/+WzNRUbWN10XnRT/NlesmRdwrDg==
-X-Received: by 2002:a05:600c:2188:: with SMTP id
- e8mr9906806wme.129.1623242373001; 
- Wed, 09 Jun 2021 05:39:33 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- v8sm26044380wrc.29.2021.06.09.05.39.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 05:39:32 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iSEOcGpuB0zs9sBwF6J47PlKWausPK3WZK3w+E6qmHc=;
+ b=cN1X3LWYPYwPy3pRPw025YLRus6BsI69jBBKtMPzHWt4jHwSKNUX2b/S4Wq6N61DF9
+ 6XtfiqAmSw3BB4W2YPOeGWby/gt2u20UodtI4udkA0IRxvQS7CU0yOosz97OPshnkUeA
+ yInfTsVr0dV142P2xWloKROYqAafHDZ0qk75JmCipihgB0ouYFJXd8un8OrwV2lIBcRj
+ ZOCqtX1qGjXB3l3k6ZilMfzeGTPitBREIkZpNpmy4NuHYU7ZYcvkcxSdOX/I7/zCuQlx
+ tMbTm8nCl798/G0Ao8h92n2dbWn82bC68s9wkxo+kDJ5PU3Ec29S+KEwK/O64lIOPkkZ
+ /WnQ==
+X-Gm-Message-State: AOAM531dqKPM6V0I1H+/XURMMIZgW5ITeI8dfaeHZUetQA2Mnk+fE7Ax
+ wBRVMqYqktMkCsxqwg58ewJpVf4Rl1Knlh0XN0A8RT7Ln1zPkTzthaxBbch7l6iKrY3SdIMK9Jy
+ 1xHpzw5XN9C9n1F4=
+X-Received: by 2002:a05:600c:47d7:: with SMTP id
+ l23mr28111842wmo.49.1623242417036; 
+ Wed, 09 Jun 2021 05:40:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfytl8zNO/fJSOmde6nONGvggU3+LFezqgv1/O/58UT/PnBruRFQKJ2QuFVWAEelOuvb0U/w==
+X-Received: by 2002:a05:600c:47d7:: with SMTP id
+ l23mr28111819wmo.49.1623242416815; 
+ Wed, 09 Jun 2021 05:40:16 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e17sm26657823wre.79.2021.06.09.05.40.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Jun 2021 05:40:16 -0700 (PDT)
+Subject: Re: [PATCH v4 0/3] vl: add -object support back into -readconfig
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210524105752.3318299-1-pbonzini@redhat.com>
+ <87h7i8zefp.fsf@dusky.pond.sub.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-config: use qemu_opts_from_qdict
-Date: Wed,  9 Jun 2021 14:39:31 +0200
-Message-Id: <20210609123931.553449-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+Message-ID: <0f3cb0a2-db2a-01c4-6eeb-2e991dc7e590@redhat.com>
+Date: Wed, 9 Jun 2021 14:40:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87h7i8zefp.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +103,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using qemu_opts_absorb_qdict, and then checking for any leftover options,
-is redundant because there is already a function that does the same,
-qemu_opts_from_qdict.  qemu_opts_from_qdict consumes the whole dictionary
-and therefore can just return an error message if an option fails to validate.
+On 08/06/21 15:14, Markus Armbruster wrote:
+> 
+> Regressions are hard to avoid when automated tests are lacking.  You
+> touched it, you own it, now write the tests, please;-P
 
-This also fixes a bug, because the "id" entry was retrieved in
-qemu_config_do_parse and then left there by qemu_opts_absorb_qdict.
-As a result, it was reported as an unrecognized option.
+Patch sent.  Tests will come too.
 
-Reported-by: Markus Armbruster <armbru@redhat.com>
-Fixes: 3770141139 ("qemu-config: parse configuration files to a QDict")
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- util/qemu-config.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
-
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 374f3bc460..84ee6dc4ea 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -429,29 +429,14 @@ out:
- void qemu_config_do_parse(const char *group, QDict *qdict, void *opaque, Error **errp)
- {
-     QemuOptsList **lists = opaque;
--    const char *id = qdict_get_try_str(qdict, "id");
-     QemuOptsList *list;
--    QemuOpts *opts;
--    const QDictEntry *unrecognized;
- 
-     list = find_list(lists, group, errp);
-     if (!list) {
-         return;
-     }
- 
--    opts = qemu_opts_create(list, id, 1, errp);
--    if (!opts) {
--        return;
--    }
--    if (!qemu_opts_absorb_qdict(opts, qdict, errp)) {
--        qemu_opts_del(opts);
--        return;
--    }
--    unrecognized = qdict_first(qdict);
--    if (unrecognized) {
--        error_setg(errp, QERR_INVALID_PARAMETER, unrecognized->key);
--        qemu_opts_del(opts);
--    }
-+    qemu_opts_from_qdict(list, qdict, errp);
- }
- 
- int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp)
--- 
-2.31.1
+Paolo
 
 
