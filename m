@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B643A17EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:51:19 +0200 (CEST)
-Received: from localhost ([::1]:54428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83AA3A17C4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:47:43 +0200 (CEST)
+Received: from localhost ([::1]:42332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqzY7-00067u-0k
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44640)
+	id 1lqzUc-0006Qp-Vu
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:47:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqzT0-0003p0-4n
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:46:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20181)
+ id 1lqzSw-0003hE-4a
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqzSw-0005Zw-Qf
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:46:00 -0400
+ id 1lqzSt-0005Y2-9h
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623249958;
+ s=mimecast20190719; t=1623249954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5BEx2+s+dEa5eKj92PIDgwGF7hnX67z4SFsPH9sRzU8=;
- b=hlAszijwqunPQ3YJGRGlbg00LbsUGfBDHLmR0NHs1Mvz34iBtJcqYMKQjfeGDsxC0EhMci
- A15QdPAe48vMF1nenenWlN8xpbjX7/LC8v6AAYuLsDLQnJGQdzhyritg98FZuMohvHrh7A
- vMA30wRjLdvFfzvV6nSfrXBLORWZ6Jk=
+ bh=pHlziamaUebz1rQ20fc/pINanMO3eYs762iYIZ+86L4=;
+ b=dgjBsSs4OwKPvO/90Yc3LjgK8dc3e1tIq1uRB7O/Yqs5aG0vwNsV+t9JjUYoGAsLVjIisd
+ 9ZoybA6fNZmaWrLJOS5t2AmEitKkf0+OmUsyPlUDx7acJhrJkaiYykDf6K8sOnR7lS7mki
+ J8vxs966sqL5HRSKfWvU50UGTVlUH1Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-Jlc9W2g5NvuKcYJ-jGlQeA-1; Wed, 09 Jun 2021 10:45:51 -0400
-X-MC-Unique: Jlc9W2g5NvuKcYJ-jGlQeA-1
+ us-mta-604-q_szMJLYNGyZTwSYI0qFFA-1; Wed, 09 Jun 2021 10:45:52 -0400
+X-MC-Unique: q_szMJLYNGyZTwSYI0qFFA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50482100C66F;
- Wed,  9 Jun 2021 14:45:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2FE3C7403;
+ Wed,  9 Jun 2021 14:45:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-168.ams2.redhat.com
  [10.36.113.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABA8710016FE;
- Wed,  9 Jun 2021 14:45:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 978D41002EF0;
+ Wed,  9 Jun 2021 14:45:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, huangy81@chinatelecom.cn, peterx@redhat.com,
  lizhijian@cn.fujitsu.com, leobras.c@gmail.com, pabeni@redhat.com
-Subject: [PULL 8/9] migration/dirtyrate: make sample page count configurable
-Date: Wed,  9 Jun 2021 15:45:11 +0100
-Message-Id: <20210609144512.211746-9-dgilbert@redhat.com>
+Subject: [PULL 9/9] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
+Date: Wed,  9 Jun 2021 15:45:12 +0100
+Message-Id: <20210609144512.211746-10-dgilbert@redhat.com>
 In-Reply-To: <20210609144512.211746-1-dgilbert@redhat.com>
 References: <20210609144512.211746-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,198 +83,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+From: Peter Xu <peterx@redhat.com>
 
-introduce optional sample-pages argument in calc-dirty-rate,
-making sample page count per GB configurable so that more
-accurate dirtyrate can be calculated.
+These two commands are missing when adding the QMP sister commands.
+Add them, so developers can play with them easier.
 
+Signed-off-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Message-Id: <3103453a3b2796f929269c99a6ad81a9a7f1f405.1623027729.git.huangy81@chinatelecom.cn>
+Message-Id: <4cc0039fc3ad6145136770cf3b0f056c09a2910b.1623027729.git.huangy81@chinatelecom.cn>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Wrapped a couple of long lines
 ---
- migration/dirtyrate.c | 31 +++++++++++++++++++++++++++----
- migration/dirtyrate.h |  8 +++++++-
- qapi/migration.json   | 15 ++++++++++++---
- 3 files changed, 46 insertions(+), 8 deletions(-)
+ hmp-commands-info.hx  | 13 ++++++++++++
+ hmp-commands.hx       | 14 +++++++++++++
+ include/monitor/hmp.h |  2 ++
+ migration/dirtyrate.c | 47 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+)
 
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index b2347a6aea..fb59c27200 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -867,3 +867,16 @@ SRST
+   ``info replay``
+     Display the record/replay information: mode and the current icount.
+ ERST
++
++    {
++        .name       = "dirty_rate",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show dirty rate information",
++        .cmd        = hmp_info_dirty_rate,
++    },
++
++SRST
++  ``info dirty_rate``
++    Display the vcpu dirty rate information.
++ERST
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 2d21fe5ad4..84dcc3aae6 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1727,3 +1727,17 @@ ERST
+         .flags      = "p",
+     },
+ 
++SRST
++``calc_dirty_rate`` *second*
++  Start a round of dirty rate measurement with the period specified in *second*.
++  The result of the dirty rate measurement may be observed with ``info
++  dirty_rate`` command.
++ERST
++
++    {
++        .name       = "calc_dirty_rate",
++        .args_type  = "second:l,sample_pages_per_GB:l?",
++        .params     = "second [sample_pages_per_GB]",
++        .help       = "start a round of guest dirty rate measurement",
++        .cmd        = hmp_calc_dirty_rate,
++    },
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 605d57287a..3baa1058e2 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -129,5 +129,7 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
+ void hmp_replay_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
+ void hmp_replay_seek(Monitor *mon, const QDict *qdict);
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict);
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict);
+ 
+ #endif
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index ccb98147e8..2ee3890721 100644
+index 2ee3890721..320c56ba2c 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -48,6 +48,12 @@ static bool is_sample_period_valid(int64_t sec)
-     return true;
- }
+@@ -20,6 +20,9 @@
+ #include "ram.h"
+ #include "trace.h"
+ #include "dirtyrate.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/qmp/qdict.h"
  
-+static bool is_sample_pages_valid(int64_t pages)
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+ static struct DirtyRateStat DirtyStat;
+@@ -447,3 +450,47 @@ struct DirtyRateInfo *qmp_query_dirty_rate(Error **errp)
+ {
+     return query_dirty_rate_info();
+ }
++
++void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
 +{
-+    return pages >= MIN_SAMPLE_PAGE_COUNT &&
-+           pages <= MAX_SAMPLE_PAGE_COUNT;
++    DirtyRateInfo *info = query_dirty_rate_info();
++
++    monitor_printf(mon, "Status: %s\n",
++                   DirtyRateStatus_str(info->status));
++    monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
++                   info->start_time);
++    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
++                   info->sample_pages);
++    monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
++                   info->calc_time);
++    monitor_printf(mon, "Dirty rate: ");
++    if (info->has_dirty_rate) {
++        monitor_printf(mon, "%"PRIi64" (MB/s)\n", info->dirty_rate);
++    } else {
++        monitor_printf(mon, "(not ready)\n");
++    }
++    g_free(info);
 +}
 +
- static int dirtyrate_set_state(int *state, int old_state, int new_state)
- {
-     assert(new_state < DIRTY_RATE_STATUS__MAX);
-@@ -72,13 +78,15 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-     info->status = CalculatingState;
-     info->start_time = DirtyStat.start_time;
-     info->calc_time = DirtyStat.calc_time;
-+    info->sample_pages = DirtyStat.sample_pages;
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
- 
-     return info;
- }
- 
--static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
-+static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
-+                                uint64_t sample_pages)
- {
-     DirtyStat.total_dirty_samples = 0;
-     DirtyStat.total_sample_count = 0;
-@@ -86,6 +94,7 @@ static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
-     DirtyStat.dirty_rate = -1;
-     DirtyStat.start_time = start_time;
-     DirtyStat.calc_time = calc_time;
-+    DirtyStat.sample_pages = sample_pages;
- }
- 
- static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-@@ -361,6 +370,7 @@ void *get_dirtyrate_thread(void *arg)
-     int ret;
-     int64_t start_time;
-     int64_t calc_time;
-+    uint64_t sample_pages;
- 
-     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-@@ -371,7 +381,8 @@ void *get_dirtyrate_thread(void *arg)
- 
-     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
-     calc_time = config.sample_period_seconds;
--    init_dirtyrate_stat(start_time, calc_time);
-+    sample_pages = config.sample_pages_per_gigabytes;
-+    init_dirtyrate_stat(start_time, calc_time, sample_pages);
- 
-     calculate_dirtyrate(config);
- 
-@@ -383,7 +394,8 @@ void *get_dirtyrate_thread(void *arg)
-     return NULL;
- }
- 
--void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-+void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
-+                         int64_t sample_pages, Error **errp)
- {
-     static struct DirtyRateConfig config;
-     QemuThread thread;
-@@ -404,6 +416,17 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-         return;
-     }
- 
-+    if (has_sample_pages) {
-+        if (!is_sample_pages_valid(sample_pages)) {
-+            error_setg(errp, "sample-pages is out of range[%d, %d].",
-+                            MIN_SAMPLE_PAGE_COUNT,
-+                            MAX_SAMPLE_PAGE_COUNT);
-+            return;
-+        }
-+    } else {
-+        sample_pages = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
++void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
++{
++    int64_t sec = qdict_get_try_int(qdict, "second", 0);
++    int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
++    bool has_sample_pages = (sample_pages != -1);
++    Error *err = NULL;
++
++    if (!sec) {
++        monitor_printf(mon, "Incorrect period length specified!\n");
++        return;
 +    }
 +
-     /*
-      * Init calculation state as unstarted.
-      */
-@@ -415,7 +438,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
-     }
- 
-     config.sample_period_seconds = calc_time;
--    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
-+    config.sample_pages_per_gigabytes = sample_pages;
-     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
-                        (void *)&config, QEMU_THREAD_DETACHED);
- }
-diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
-index 6ec429534d..e1fd29089e 100644
---- a/migration/dirtyrate.h
-+++ b/migration/dirtyrate.h
-@@ -15,7 +15,6 @@
- 
- /*
-  * Sample 512 pages per GB as default.
-- * TODO: Make it configurable.
-  */
- #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
- 
-@@ -35,6 +34,12 @@
- #define MIN_FETCH_DIRTYRATE_TIME_SEC              1
- #define MAX_FETCH_DIRTYRATE_TIME_SEC              60
- 
-+/*
-+ * Take 1/16 pages in 1G as the maxmum sample page count
-+ */
-+#define MIN_SAMPLE_PAGE_COUNT                     128
-+#define MAX_SAMPLE_PAGE_COUNT                     16384
++    qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
 +
- struct DirtyRateConfig {
-     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
-     int64_t sample_period_seconds; /* time duration between two sampling */
-@@ -63,6 +68,7 @@ struct DirtyRateStat {
-     int64_t dirty_rate; /* dirty rate in MB/s */
-     int64_t start_time; /* calculation start time in units of second */
-     int64_t calc_time; /* time duration of two sampling in units of second */
-+    uint64_t sample_pages; /* sample pages per GB */
- };
- 
- void *get_dirtyrate_thread(void *arg);
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7a5bdf9a0d..1124a2dda8 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1740,6 +1740,9 @@
- #
- # @calc-time: time in units of second for sample dirty pages
- #
-+# @sample-pages: page count per GB for sample dirty pages
-+#                the default value is 512 (since 6.1)
-+#
- # Since: 5.2
- #
- ##
-@@ -1747,7 +1750,8 @@
-   'data': {'*dirty-rate': 'int64',
-            'status': 'DirtyRateStatus',
-            'start-time': 'int64',
--           'calc-time': 'int64'} }
-+           'calc-time': 'int64',
-+           'sample-pages': 'uint64'} }
- 
- ##
- # @calc-dirty-rate:
-@@ -1756,13 +1760,18 @@
- #
- # @calc-time: time in units of second for sample dirty pages
- #
-+# @sample-pages: page count per GB for sample dirty pages
-+#                the default value is 512 (since 6.1)
-+#
- # Since: 5.2
- #
- # Example:
--#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
-+#   {"command": "calc-dirty-rate", "data": {"calc-time": 1,
-+#                                           'sample-pages': 512} }
- #
- ##
--{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
-+{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
-+                                         '*sample-pages': 'int'} }
- 
- ##
- # @query-dirty-rate:
++    monitor_printf(mon, "Starting dirty rate measurement with period %"PRIi64
++                   " seconds\n", sec);
++    monitor_printf(mon, "[Please use 'info dirty_rate' to check results]\n");
++}
 -- 
 2.31.1
 
