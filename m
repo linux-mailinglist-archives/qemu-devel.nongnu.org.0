@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17933A192B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:20:13 +0200 (CEST)
-Received: from localhost ([::1]:33322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BAC3A1956
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:24:11 +0200 (CEST)
+Received: from localhost ([::1]:43788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr004-0007fx-Ma
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
+	id 1lr03u-0006kz-65
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqzuU-0006k7-Bw
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:14:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35291)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lr01c-0003d7-4k
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:21:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqzuS-0006N0-6m
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:14:26 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lr01T-0002hX-Qa
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:21:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623251663;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623252097;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PqrCG4/pqbgIM4copmkDS7DRjSWJcx/JL3WsfTZTda0=;
- b=S3YJjGcDGMXQT7ijq7lEEMPUU4UwbC1XcC5hdlc4VY8cTekgzi3h98oUwyWmNzwm7rK7p6
- RQM5Ta3nsUn+/b29vEmt3L3RnnyrZmCLs2ie+zTA0nG4O7hcgccDIgeXO7uN/6qW/1tiYx
- n19x32C9+S2veLTN83DTv8I9lkjwLu8=
+ bh=omyg2qTLei9fQrzgQ9241wVxll7x4V8biEqgy9tV/S0=;
+ b=KygnRHva8MhEm0FQxnNzkb/ImyEnLunD+S5h7j4D46gp9GgfZ4yU+my2a5MdhjJb7ikWbY
+ kCXR9VbjFM3t8obcai8AoV0tCpx8LG555IuvQO/d3t5DjTug56QgEaddQBKpMKHBikZZ84
+ RJTMsBsav/qsbQOogFheXYQ6TkivXBY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-_dEqB3S6MUmVZmehpjFewg-1; Wed, 09 Jun 2021 11:14:21 -0400
-X-MC-Unique: _dEqB3S6MUmVZmehpjFewg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-438-eIFK8j3DNTedyZBSBSgP5A-1; Wed, 09 Jun 2021 11:21:33 -0400
+X-MC-Unique: eIFK8j3DNTedyZBSBSgP5A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC698CC624
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 15:14:20 +0000 (UTC)
-Received: from localhost (ovpn-115-220.ams2.redhat.com [10.36.115.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E39260CCC;
- Wed,  9 Jun 2021 15:14:13 +0000 (UTC)
-Date: Wed, 9 Jun 2021 16:14:12 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E6ECCC626
+ for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 15:21:33 +0000 (UTC)
+Received: from redhat.com (ovpn-115-127.ams2.redhat.com [10.36.115.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69DA05D9E2;
+ Wed,  9 Jun 2021 15:21:19 +0000 (UTC)
+Date: Wed, 9 Jun 2021 16:21:16 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 00/13] [RfC] fix tracing for modules
-Message-ID: <YMDaxBVivnksvA/7@stefanha-x1.localdomain>
+Subject: Re: [PATCH v4 01/13] qemu-trace-stap: changing SYSTEMTAP_TAPSET
+ considered harmful.
+Message-ID: <YMDcbD2NvFje1LI/@redhat.com>
 References: <20210601132414.432430-1-kraxel@redhat.com>
+ <20210601132414.432430-2-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210601132414.432430-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210601132414.432430-2-kraxel@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gZvYidkC2UCyS1QT"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,59 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gZvYidkC2UCyS1QT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jun 01, 2021 at 03:24:02PM +0200, Gerd Hoffmann wrote:
+> Setting SYSTEMTAP_TAPSET to some value other than
+> /usr/share/systemtap/tapsets results in systemtap not finding the
+> standard tapset library any more, which in turn breaks tracing because
+> pid() and other standard systemtap functions are not available any more.
+> 
+> So using SYSTEMTAP_TAPSET to point systemtap to the qemu probes will
+> only work for the prefix=/usr installs because both qemu and system
+> tapsets in the same directory then.  All other prefixes are broken.
+> 
+> Fix that by using the "-I $tapsetdir" command line switch instead.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  scripts/qemu-trace-stap | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
 
-On Tue, Jun 01, 2021 at 03:24:01PM +0200, Gerd Hoffmann wrote:
-> First version that actually works.  Only qxl covered for this RfC,
-> other modules will follow once the basics are hashed out.
->=20
-> v4:
->  - rebase to latest master.
->  - fix systemtap tracing.
->  - also cover virtio-gpu modules.
->  - pick up some review tags.
->  - misc minor tweaks.
->=20
-> v3:
->  - handle initialization of modular tracepoints.
->=20
-> TODO:
-> Enabling modular tracepoints via -trace cmd line doesn't work yet.
-> Guess we need to store the list somewhere for later re-processing.
-> Error handling is tricky, specifically the "tracepoint doesn't exist"
-> error.  Suggestions / ideas are welcome.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Excellent! I think we discussed these TODOs in the past. Can we merge
-this series in close to its current form or does it degrade the tracing
-experience (e.g. does the -trace command-line no longer work for
-trace-events files that were split off into modules)?
 
-Stefan
+I'm still a little confused how I ever missed this problem
+when testing usage !
 
---gZvYidkC2UCyS1QT
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDA2sQACgkQnKSrs4Gr
-c8hplQf+NyOUWn45aIsJF/imqZAY03pOLUeIbE8+DYEQzOXZHO+bMvCxQP06mvw0
-7x4MLQytYLfzmLFeksgGDukJf5FcYQQZmWd4orQjd3upYdvRxDBbUmpvZVpXVmVj
-HT0VGBdy2AaQCU0PAe6zgtUfTMygSLosOhUKy5yVUL6Z1bu6xtWCuVMucO47I42M
-tROt01ZwKLb91g6g5TMRuTZQPvaKwmrJmbtEJ09KldK2TihknjhrTXZ+/n94yEb0
-i58AcM7l0w8B3heRaSvNepCH/keLQ34TmGeljFfSjA8jAcWpE4xgzrKNDxUKilN6
-7+mmiU3XPT7beM6zEyQd7QV6S+Hlag==
-=XnFl
------END PGP SIGNATURE-----
-
---gZvYidkC2UCyS1QT--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
