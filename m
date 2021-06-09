@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791C33A1A10
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:47:27 +0200 (CEST)
-Received: from localhost ([::1]:51844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F5C3A1A1E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:49:00 +0200 (CEST)
+Received: from localhost ([::1]:56060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0QQ-0006e0-5f
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56030)
+	id 1lr0Rv-00013o-6u
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:48:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lr0PT-0005xq-S6
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:46:27 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:40803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lr0PS-00037Q-4n
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:46:27 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- mp5-20020a17090b1905b029016dd057935fso1621046pjb.5
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 08:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=S4LQQdlXLHpR38GmfIIu9CcWmDHek0B55Z1B3PJ/AgM=;
- b=m5DpaeQs46j/b9WZpHRGZHVT4OK6v7MrYVQfYrymwlwbXMH5dAew7GWe7DXr2Pp9Jr
- t/n53zp7EqLFmArBbW0YZ2h+KdcbMNX17wLveVnuLsL1eGHlQYSNznJe0naTfSBCvgc9
- 5fBNrqrTjqpSkoOJzXyqYrSaTNxM7h5hxdv21odaBKrFtrx7BsIiWvwkVh9IzqbrHaN/
- A1Fonb6yBeB0/WtuJjMNRb9pXu7RLREhcqDR9Xrl2tPH9fcNbXtTH7xRyq57S07ZOpB3
- UsxzDiHs3btDBPqGOGSSyqwg41ZYlKH0j2U2BmFXG9Lr1m5sA6Gkwo0Xkezj9GYrTcFv
- 9Q2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=S4LQQdlXLHpR38GmfIIu9CcWmDHek0B55Z1B3PJ/AgM=;
- b=gIBM5B7lDEPzDN+y8YDxnTrD1MyemcxjlUNhLZFFJrIUa+Gr78So33fpxiXiObPDdj
- y9xhARh5QCIpQQxXKrpd5wOIT/yNEAwIwfv+Mif6LaBm2Xd7DgRUPmEuupxCi8/Guohh
- Vg0TEy8cP/8LWrKh/w8E/lWoD5QKDNGtRiMTsnjbOeczMneNy1AnXvfGUnaQVkkH1Z4R
- ZIaQCKxKNNgsqeypdsNmOXZBOmPqbFmwPg4knwRqwuH6ec3tEFlBeZSqlhNHWvnndPko
- EiOZgaHTvB/jw96EKnSZNcj+auh2Vp9/1IzrN1TEr+dAb/I+SVjbtSZlZQJPgh6Ef520
- I2ng==
-X-Gm-Message-State: AOAM531hu0QdpaZzd3QgLMySMQb/7JVCiLUgYTtVtOqR5dbRMrlO2V48
- /hmnPOF3LQd4teMX3oKoa0NsPg+jLibllg==
-X-Google-Smtp-Source: ABdhPJw8U/OJoWaani3ASzphmJ+fC3FNYj1WBSN1gpSCc0OySomSUAYiklX0BptiNSDfke6sL0EtqQ==
-X-Received: by 2002:a17:90b:318:: with SMTP id
- ay24mr10693517pjb.150.1623253584040; 
- Wed, 09 Jun 2021 08:46:24 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- l201sm41227pfd.183.2021.06.09.08.46.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 08:46:23 -0700 (PDT)
-Subject: Re: [PATCH 05/26] configure, meson: convert pam detection to meson
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-6-pbonzini@redhat.com>
- <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
- <YL/RJUcRTCzlLq2y@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c5386a2c-a3b4-0354-5cde-dcbecc587ca9@linaro.org>
-Date: Wed, 9 Jun 2021 08:46:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lr0QL-00075n-Os
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:47:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lr0QH-0003VW-QB
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:47:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623253636;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CL9GhpRh/pGLiXhPSoVW35MjsVFrG4/zFL5bcoO9Ac4=;
+ b=ZHr0e7kGuObgeDoAZ8knenit9jtB0eSc96hnlQueDBYXQy8jIUr+gh17OBvGVGquc5nCC7
+ HH8QjQSiXv+QpMhh3t/B//Zjvvi2+e6X0bjhAAw7yFqhbWCLM8Vj6cPEKa0j+snE09hIUB
+ 8ppKH6d+HgZG5Xm8thPnHUVJzpFEDng=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-bHtZJAeAPXKb1OjjyhEimg-1; Wed, 09 Jun 2021 11:47:13 -0400
+X-MC-Unique: bHtZJAeAPXKb1OjjyhEimg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99F61107ACF6;
+ Wed,  9 Jun 2021 15:47:12 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-230.ams2.redhat.com [10.36.114.230])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6744060C04;
+ Wed,  9 Jun 2021 15:47:08 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/7] vhost-user-blk: Implement reconnection during realize
+Date: Wed,  9 Jun 2021 17:46:51 +0200
+Message-Id: <20210609154658.350308-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YL/RJUcRTCzlLq2y@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,74 +73,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, raphael.norwitz@nutanix.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/8/21 1:20 PM, Daniel P. Berrangé wrote:
-> On Tue, Jun 08, 2021 at 12:45:51PM -0700, Richard Henderson wrote:
->> On 6/8/21 4:22 AM, Paolo Bonzini wrote:
->>> +pam = not_found
->>> +if not get_option('auth_pam').auto() or have_system
->>> +  pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
->>
->> The condition doesn't look right.
->> Why are we looking for pam if --disable-pam-auth?
->>
->> Surely
->>
->>    if not get_option('auth_pam').disabled() and have_system
-> 
-> This isn't entirely obvious at first glance, but the line after
-> the one you quote with the 'required' param makes it "do the
-> right thing (tm)".
-> 
-> The 'auth_pam' option is a tri-state taking 'enabled', 'disabled'
-> and 'auto', with 'auto' being the default state. When a tri-state
-> value is passed as the value of the 'required' parameter, then
-> 
->     required==enabled   is interpreted as 'required=true'
->     required==auto      is interpreted as 'required=false'
->     required==disabled  means the entire call is a no-op
-> 
-> So this logic:
-> 
->   if not get_option('auth_pam').auto() or have_system
->      pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
->                            required: get_option('auth_pam'),
-> 			  ...)
-> 
-> Means
-> 
->    => If 'auto' is set, then only look for the library if we're
->       building system emulators. In this case 'required:' will
->       evaluate to 'false', and so we'll gracefully degrade
->       if the library is missing.
+My previous series removed the broken implementation of automatic
+reconnection during .realize(). This series adds some error reporting
+improvements that allow distinguishing cases where reconnecting could
+help from permanent errors, and then uses it to re-implement the
+automatic reconnection during .realize(), as was requested during review
+of the previous series.
 
-If not have_system, there's no point in looking for pam *at all* regardless of 
-get_option().
+Kevin Wolf (7):
+  vhost: Add Error parameter to vhost_dev_init()
+  vhost: Distinguish errors in vhost_backend_init()
+  vhost: Return 0/-errno in vhost_dev_init()
+  vhost-user-blk: Add Error parameter to vhost_user_blk_start()
+  vhost: Distinguish errors in vhost_dev_get_config()
+  vhost-user-blk: Factor out vhost_user_blk_realize_connect()
+  vhost-user-blk: Implement reconnection during realize
 
->    => If 'disabled' is set, then the 'find_library' call
->       will not look for anything, immediately return a
->       'not found' result and let the caller carry on.
+ include/hw/virtio/vhost-backend.h |   5 +-
+ include/hw/virtio/vhost.h         |   6 +-
+ backends/cryptodev-vhost.c        |   5 +-
+ backends/vhost-user.c             |   4 +-
+ hw/block/vhost-user-blk.c         | 100 +++++++++++++++++++-----------
+ hw/display/vhost-user-gpu.c       |   6 +-
+ hw/input/vhost-user-input.c       |   6 +-
+ hw/net/vhost_net.c                |   8 ++-
+ hw/scsi/vhost-scsi.c              |   4 +-
+ hw/scsi/vhost-user-scsi.c         |   4 +-
+ hw/virtio/vhost-backend.c         |   6 +-
+ hw/virtio/vhost-user-fs.c         |   3 +-
+ hw/virtio/vhost-user-vsock.c      |  12 ++--
+ hw/virtio/vhost-user.c            |  71 +++++++++++----------
+ hw/virtio/vhost-vdpa.c            |   8 ++-
+ hw/virtio/vhost-vsock.c           |   3 +-
+ hw/virtio/vhost.c                 |  41 +++++++-----
+ 17 files changed, 174 insertions(+), 118 deletions(-)
 
-This is not true.  If 'required: false', find_library *will* look for the 
-library, but it will allow it to be missing.
+-- 
+2.30.2
 
- From the meson docs:
-
->     meson.get_compiler('c').find_library('m', required: false),
-...
-> The `required: false` means the build will continue when using another C library
-> that does not separate the maths library. See [Add math library (-lm)
-> portably](howtox.md#add-math-library-lm-portably).
-So if auto, and not system, we will look for (and maybe find) pam.  But then... 
-I guess through a complex sequence of events arrives at
-
-   softmmu_ss.add(authz, blockdev, chardev, crypto, io, qmp)
-
-So pam doesn't get included into the user-only binaries anyway, but, geez.
-
-
-r~
 
