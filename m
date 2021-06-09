@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61FB3A1A53
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:59:45 +0200 (CEST)
-Received: from localhost ([::1]:55288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811A43A1A46
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 17:57:48 +0200 (CEST)
+Received: from localhost ([::1]:46120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0cK-0002zU-Nt
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56356)
+	id 1lr0aR-0005Mo-H4
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 11:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lr0QT-0007Y5-2z
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:47:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21730)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lr0QW-0007mf-Ex
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:47:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lr0QQ-0003aI-Da
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:47:28 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lr0QR-0003b7-Jh
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:47:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623253645;
+ s=mimecast20190719; t=1623253647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZOo44B98EAyARiLh+Id+3wdcQkLpZKimJCNsNiAmHig=;
- b=AEqV9oVwqbGKxEQdoIIqE6z/8MDrNCxbQVcV/3MwdPO6FyrcAXiXS1G05E2Ec4sQXWyPc0
- Z3XgJzeMWm2YLUguohybd0tBrAM5DNf4CirKdXh6Luu6gRdYHCOKvU8dQIdXBdDjCkl/gl
- kxR8w4I/yiDau1FJ9fCzubENmnVZJL8=
+ bh=sorXIMPWrawIKyHExPP4hkOJoQqX3bYITQsH4ecnDV0=;
+ b=N2+LCiYE0f4ulvdQSanm6QrLnDhPy7tGJYr9X9jQz6Kowt6dVQaPpPrENX09pL7dhBDDNI
+ HTJ5KN7f29lNjWZ9CROc1tQf82XwGT+z1rk5RqteDJPV+JpjJ8rrUbSv1Geyistj0XI41+
+ /iWxTgVdm6V9tJbMuSBZ7GoVXcPUXE8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-7PkDdiuMPQWTVPhHx64wwg-1; Wed, 09 Jun 2021 11:47:24 -0400
-X-MC-Unique: 7PkDdiuMPQWTVPhHx64wwg-1
+ us-mta-592-65Us_LKMOSqtqUPFDMy_Uw-1; Wed, 09 Jun 2021 11:47:25 -0400
+X-MC-Unique: 65Us_LKMOSqtqUPFDMy_Uw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63572800C60;
- Wed,  9 Jun 2021 15:47:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C758A100A44B;
+ Wed,  9 Jun 2021 15:47:24 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-230.ams2.redhat.com [10.36.114.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E07F60C04;
- Wed,  9 Jun 2021 15:47:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB3F160C04;
+ Wed,  9 Jun 2021 15:47:23 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 6/7] vhost-user-blk: Factor out
- vhost_user_blk_realize_connect()
-Date: Wed,  9 Jun 2021 17:46:57 +0200
-Message-Id: <20210609154658.350308-7-kwolf@redhat.com>
+Subject: [PATCH 7/7] vhost-user-blk: Implement reconnection during realize
+Date: Wed,  9 Jun 2021 17:46:58 +0200
+Message-Id: <20210609154658.350308-8-kwolf@redhat.com>
 In-Reply-To: <20210609154658.350308-1-kwolf@redhat.com>
 References: <20210609154658.350308-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,93 +81,62 @@ Cc: kwolf@redhat.com, raphael.norwitz@nutanix.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function is the part that we will want to retry if the connection
-is lost during initialisation, so factor it out to keep the following
-patch simpler.
+Commit dabefdd6 removed code that was supposed to try reconnecting
+during .realize(), but actually just crashed and had several design
+problems.
 
-The error path for vhost_dev_get_config() forgot disconnecting the
-chardev, add this while touching the code.
+This adds the feature back without the crash in simple cases while also
+fixing some design problems: Reconnection is now only tried if there was
+a problem with the connection and not an error related to the content
+(which would fail again the same way in the next attempt). Reconnection
+is limited to three attempts (four with the initial attempt) so that we
+won't end up in an infinite loop if a problem is permanent. If the
+backend restarts three times in the very short time window of device
+initialisation, we have bigger problems and erroring out is the right
+course of action.
+
+In the case that a connection error occurs and we reconnect, the error
+message is printed using error_report_err(), but otherwise ignored.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 48 ++++++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 16 deletions(-)
+ hw/block/vhost-user-blk.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 3770f715da..e49d2e4c83 100644
+index e49d2e4c83..f75a42bc62 100644
 --- a/hw/block/vhost-user-blk.c
 +++ b/hw/block/vhost-user-blk.c
-@@ -423,6 +423,36 @@ static void vhost_user_blk_event(void *opaque, QEMUChrEvent event)
-     }
- }
+@@ -455,8 +455,10 @@ static int vhost_user_blk_realize_connect(VHostUserBlk *s, Error **errp)
  
-+static int vhost_user_blk_realize_connect(VHostUserBlk *s, Error **errp)
-+{
-+    DeviceState *dev = &s->parent_obj.parent_obj;
-+    int ret;
-+
-+    s->connected = false;
-+
-+    ret = qemu_chr_fe_wait_connected(&s->chardev, errp);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    ret = vhost_user_blk_connect(dev, errp);
-+    if (ret < 0) {
-+        qemu_chr_fe_disconnect(&s->chardev);
-+        return ret;
-+    }
-+    assert(s->connected);
-+
-+    ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
-+                               sizeof(struct virtio_blk_config), errp);
-+    if (ret < 0) {
-+        qemu_chr_fe_disconnect(&s->chardev);
-+        vhost_dev_cleanup(&s->dev);
-+        return ret;
-+    }
-+
-+    return 0;
-+}
-+
  static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
  {
++    ERRP_GUARD();
      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -467,22 +497,10 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
+     VHostUserBlk *s = VHOST_USER_BLK(vdev);
++    int retries;
+     int i, ret;
  
+     if (!s->chardev.chr) {
+@@ -498,7 +500,17 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
      s->inflight = g_new0(struct vhost_inflight, 1);
      s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
--    s->connected = false;
--
--    if (qemu_chr_fe_wait_connected(&s->chardev, errp) < 0) {
--        goto virtio_err;
--    }
  
--    if (vhost_user_blk_connect(dev, errp) < 0) {
--        qemu_chr_fe_disconnect(&s->chardev);
--        goto virtio_err;
--    }
--    assert(s->connected);
--
--    ret = vhost_dev_get_config(&s->dev, (uint8_t *)&s->blkcfg,
--                               sizeof(struct virtio_blk_config), errp);
-+    ret = vhost_user_blk_realize_connect(s, errp);
+-    ret = vhost_user_blk_realize_connect(s, errp);
++    retries = 3;
++    assert(!*errp);
++    do {
++        if (*errp) {
++            error_prepend(errp, "Reconnecting after error: ");
++            error_report_err(*errp);
++            *errp = NULL;
++        }
++        ret = vhost_user_blk_realize_connect(s, errp);
++    } while (ret == -EPROTO && retries--);
++
      if (ret < 0) {
--        goto vhost_err;
-+        goto virtio_err;
+         goto virtio_err;
      }
- 
-     /* we're fully initialized, now we can operate, so add the handler */
-@@ -491,8 +509,6 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-                              NULL, true);
-     return;
- 
--vhost_err:
--    vhost_dev_cleanup(&s->dev);
- virtio_err:
-     g_free(s->vhost_vqs);
-     s->vhost_vqs = NULL;
 -- 
 2.30.2
 
