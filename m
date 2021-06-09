@@ -2,88 +2,173 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535893A1DEA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 22:01:45 +0200 (CEST)
-Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB143A1DEB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 22:02:07 +0200 (CEST)
+Received: from localhost ([::1]:44474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr4OV-0000bl-Qd
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 16:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46046)
+	id 1lr4Os-0001wA-4C
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 16:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1lr4KW-0008FL-KQ
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:57:36 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:33367)
+ (Exim 4.90_1) (envelope-from <Cupertino.Miranda@synopsys.com>)
+ id 1lr4Nm-0000z4-23
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 16:00:58 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:40674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1lr4KT-0005h0-MB
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:57:36 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id DFFF15C00E2;
- Wed,  9 Jun 2021 15:57:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 09 Jun 2021 15:57:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=+NBwlLHlB5Q8lMj07S30VIHl1Zq
- LDl4IzodUncnzWUE=; b=Qnb8Qo06P/ftv4e3EfYmw2m4Xk/hcDm+U2mWaPIoNY4
- TyWt8e00+FdIz+uvepTbnCZ+FQe+gZWBlVju3e3BzAGDQQ3ZAQamEXuEX8uIZTap
- 9D7nZloqxNAlHfurD9EdRg3pgelbNoj/sLn1/9oevAh4dh23NgsFmYVf0Z0TeFRv
- ZZYfdp+Ju+VgTd2FxQneIbI502kJUAUdSalr67fjZNn8zu97QBu0bIXDY5oxcYRK
- TzP73pfoAyRpjYlNE2X8zRZfLGnu1TRK4JxX8180m/timvZy6oyC/n4yybqV1rr0
- 57kPYLJR+VNDNQcBiMzrkoeI7DrkOtNNy5PORIhD2jA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=+NBwlL
- HlB5Q8lMj07S30VIHl1ZqLDl4IzodUncnzWUE=; b=m7rY/MO9NK0j9hbayQFVr0
- OjxTnSJaRY1V8ULoKYOx4912M/gmLZvpWOcKGoB6fAWE9jsZDl3cJhL2brXCqexf
- 4UIZg3K1DhmRtztx+D/nrF+FpC1qw6Qpu/gWLxO24tmx6imSxFo1aPA3cEQk/Ure
- Vi2dhzJ9mGXSEAUWSxoGNdhkdoj4YA463Z+Y0nuj3EKEwjhMLwsezcFg2duLbfmL
- Iv3JmzmUwmskGNvAC9nA5uyR3txDG9gMicN7UIyI0+s0BcnW8mzTygECzAP45Lcs
- 9ty+4TB6dXTSgs4UCdXc3FSOBbPXDhLJWrsj5d9GFGxIOT6Hns9qvkEiAfD39U+w
- ==
-X-ME-Sender: <xms:Kh3BYIwDnzw5WoMyiupuy9uJ39Ek_eE-YOUOAasCanvWGN-4a2Dh-A>
- <xme:Kh3BYMRm6qFq08SRWgBVq1VmT3fV5TjLoLaDI9zVLSHarsqpE1mHVP4a-1x5pCtcS
- qv9i8TLQGvIpKB6cYo>
-X-ME-Received: <xmr:Kh3BYKUxMjXAqgNbDy623mZNo_t6YkSiwVMOTJKtDyi5kYCkmfc3Iw7K0okBSIyy8fMQOF9BG1u5cCY6IQukUM7-7274BeQb9oebM_Lii4vvqjcD6Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeduuddgudegudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepfeefgfdvleeitdehhfevffegleduieffgfdujeeuhfeluddthffgjeegkefh
- kedtnecuffhomhgrihhnpehuuhhiugdruggrthgrnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Kh3BYGjN-N0YTkXHhHJAkKVD2SyBoOEjhtegHG8Cims6FNpMDHN5Cg>
- <xmx:Kh3BYKCpntPypvopOumpYgp3u2Cob6la_ScVH4pmdr3snMkROHRERQ>
- <xmx:Kh3BYHKVWkcqHPpnAtmn5cS5eKZU9TIRRsEwAorJooG1qKI77UrCsw>
- <xmx:Kx3BYM1jRGmEo857RjiA1-PmVcmdr3A16SkeHGwypFXCZMBYMbwjPg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Jun 2021 15:57:29 -0400 (EDT)
-Date: Wed, 9 Jun 2021 21:57:26 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: Re: [PATCH 1/1] hw/nvme: namespace parameter for EUI64
-Message-ID: <YMEdJi16P3c4tQm0@apples.localdomain>
-References: <20210609114657.33301-1-xypron.glpk@gmx.de>
- <YMCwjV7Vpbk5au/U@apples.localdomain>
- <f5f15ac1-0876-331e-7433-a6ca551b9e10@gmx.de>
- <YMC1BJ5zOGQWmg7Q@apples.localdomain> <YMDSmEgfMeZa8cWd@redhat.com>
- <969B60CA-0E05-4510-9B5B-74B19133A874@gmx.de>
+ (Exim 4.90_1) (envelope-from <Cupertino.Miranda@synopsys.com>)
+ id 1lr4Ni-0007vJ-9x
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 16:00:57 -0400
+Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7272C407EB;
+ Wed,  9 Jun 2021 20:00:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1623268851; bh=FdBEYu9zli2no5/Dkamr6KBAxZFeC+R1Xt7WdhvGLTs=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=OjveeZXgzwi7AYWasSTZWtbMLIU1kSQfaj1o6qNlRvCIOl59R4ye6CuePh9pBCS3G
+ znF/cQKPTwUCj2ETeWMURFGE4k6+k+9X8oeZLB/cG5cvM2lrS1LhcQKnCmnnjuW2Ow
+ GuN5Wg6wGTzm4bo76FTQRbtsGSQSfWv/aK9efOhC2Jq2DX+mfYctuRZ5rJHavrAsw3
+ KiyZqMB0l40xzO+3fYrkP8ua3Y8y+3NWVzVLV6+rqeL2/zLfYlgCAreCDnAwiF6V2B
+ QU8KszsyaRLcmy0bxY78KV8Mmx+AxjZP4eCtioH23ySnlA/EO2fSKddF0rxthtORzT
+ 1sU+Efr84d2RA==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
+ [10.202.1.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client CN "o365relay-in.synopsys.com",
+ Issuer "Entrust Certification Authority - L1K" (verified OK))
+ by mailhost.synopsys.com (Postfix) with ESMTPS id C8E82A0081;
+ Wed,  9 Jun 2021 20:00:49 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "DigiCert Cloud Services CA-1" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 62282400DF;
+ Wed,  9 Jun 2021 20:00:48 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=cmiranda@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="ib5ky+WH";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KoA1zq0GoQGRuWCicFufaCxpsEk0IZLcDaEoxGDwvzWFAOqCjtmyJZjJ7t3/Gey25DCYx5TrQK1xN67HHqghWf1gkehm01xEMu/2L67rJv7BXrHnD7lqc8JmixDDprSsjMe2PGFYn+by1q+9j02fI5Sg/dZas8GjHpd2g1KoAZ5VsEGQspm5l0DaOjMRT4P9IOzgYltMPWCtZUiYqXHbj0SO9nOpWqVUBrvc8yGQUgNDAw+d3RcxKfkJTeOytkaVJ+752Lh0bxF6Rd19dcuS7ytMA6WZnN68ox0k6WHqpU5zwMOnIyZEeMEVtvoatemf+rDsf+deVVfnd0dj3PfIGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FdBEYu9zli2no5/Dkamr6KBAxZFeC+R1Xt7WdhvGLTs=;
+ b=YV2SAmW/CanlgWp+K/1ejBx2wkrQ9JuhWCmXd1pcX/2w0x5VgWBSlZ5E61ioKEyDV8MOFURX4xSC0C6ldCda7w7S7xtNsFz2Xw4GgFIB+mzBTPvUM/VQZHqAFcesX/XENHhyqKSXQmxZg2ecLHzBGw5nYyEpn09CeaQ8VMqtwHdUz/KkcBtsiDgV0BmI9uGJys1NrSM3Nu0G1maRSL4HHnX1LDGy9o2m9Lrvapjya8dHQhax56+VNoe04/hd4Esa5DSB5lJWx+7uzwWPemu0mgXXb9AzKL5vVnQ1YdrVEtznXTaaKqUMoKm8VSZquI7QFIsCSJopbQ1dbohM0I+dDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FdBEYu9zli2no5/Dkamr6KBAxZFeC+R1Xt7WdhvGLTs=;
+ b=ib5ky+WHUm/s3bMtHxeM4793bMwqeY8yyovuI7ml9FzVbQMUK3cltRTVcDsK1Ef346lGSHgAeMjYDRuwWo4/oKCCqSM8q9ZsWw/lEMPkR7YzoaAKmZkzLfWbEVT497eNxKeDpSwVhRtCDeKmzA8L4IFvaUR9PqtfGEQ1NYFlgOM=
+Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
+ by DM6PR12MB2969.namprd12.prod.outlook.com (2603:10b6:5:115::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.23; Wed, 9 Jun
+ 2021 20:00:46 +0000
+Received: from DM6PR12MB4877.namprd12.prod.outlook.com
+ ([fe80::2409:edc4:60b9:72d6]) by DM6PR12MB4877.namprd12.prod.outlook.com
+ ([fe80::2409:edc4:60b9:72d6%9]) with mapi id 15.20.4219.021; Wed, 9 Jun 2021
+ 20:00:45 +0000
+X-SNPS-Relay: synopsys.com
+From: Cupertino Miranda <Cupertino.Miranda@synopsys.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>
+Subject: Re: QEmu ARC port - decoder implementation feedback
+Thread-Topic: QEmu ARC port - decoder implementation feedback
+Thread-Index: AQHXXRYCp0g4uHxJwUSWGu/ANfQZ7w==
+Date: Wed, 9 Jun 2021 20:00:45 +0000
+Message-ID: <0a58c2fd-41a8-d496-6aa0-f1a7296bc15b@synopsys.com>
+References: <a882003d-4949-06ac-d111-8f41cb2d54b9@synopsys.com>
+ <0c90a8c4-0977-b11b-b543-9eef4d4d14c3@linaro.org>
+In-Reply-To: <0c90a8c4-0977-b11b-b543-9eef4d4d14c3@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [188.80.51.216]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f6afb68b-700e-4790-1832-08d92b814511
+x-ms-traffictypediagnostic: DM6PR12MB2969:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB2969B64E9FCC9690C8ABE146A8369@DM6PR12MB2969.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: N2ggRtvClhmagzYNpQFDTBN5PedqHaEKQXFBtOMJGp8wcC95hfga7iGctlVzyo/Viv78GpawXrbB46tVtd/H05HZ9DwTWYxgAmRlFyqT0dQNXnteRb7ZKIJDBbj3r5EdreEn6nUzW+ulqcTwsEgMYunhS+ozI0xYg+JSfhawanrdPvMwO8//FVYAVsVCl9wtHnllgOkKQ7OxyG87NWp+oZBPZellSmFtHQ59XRb6u8hyMmxMUaSXj/ZbDiOzynRpbB0a//JN5p3Icnlx46Xv+vZpWlBTW1xcdRfvYFll7qa1UapbTdjDMSvUVZ9Fj9mlgXKd1Q1yJFK06WCDyppHH2layocA8YSJ8kGpGcJIT+JXlkj1MGgMsUbhaDAkMlg9E3nzNL+/nptzB2fjphUL3oXzKtlKNNSeeNaQxbXA9iaZbSNq4Vy//TRx6d8+NNJNdyZSVE83uB3lfeFjg7x+z2ERZOjA3EUmzQtkW7g1gAg/KQPlRfeuqKbpf3czYbGBN2m1ifDROvfBJP71T3ojktf6bWof4RIY1Y4XJTgCeirZThhzYfiWoPp2oC1BPjio56un+L3lr7cmT8E5Ko9c3ZJupgPfEk/cpH/mhd+43k+yhR7Kv3aYPAC8i6QCLR+SFZtebzEf/3XtFsFTUfrrXX7fHO6+ygntxYLPgc/It6o=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4877.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(366004)(346002)(396003)(136003)(39860400002)(64756008)(4326008)(86362001)(8676002)(71200400001)(66556008)(66446008)(66476007)(110136005)(31696002)(26005)(2906002)(2616005)(31686004)(186003)(66946007)(316002)(83380400001)(38100700002)(54906003)(5660300002)(6486002)(6512007)(478600001)(76116006)(122000001)(91956017)(6506007)(8936002)(36756003)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YyswM2ptRmVQVTVPVi91UVVRVS9JNTBmRXRCTkVubEwzMVdldVpzazk1NzY4?=
+ =?utf-8?B?TUNaMUJWOHcrK2lJS20vUytSWkNzamxrckRxWXJXcUNLSG1pdFRGWTZFRmJs?=
+ =?utf-8?B?cEpQZndOUGxGYmNab2pYTklLZEZXeHQvY09ic09nNFZJZjBud0ZUK04vZDB0?=
+ =?utf-8?B?ZkwrM2c5emxmODcvbDNHKzFRKzZGYXhjNlVpNk93ZjgxZFM4NERkdDJ6dlRp?=
+ =?utf-8?B?aloyYVl5MnN2V05ISVVRRkkxbmZzWXpoaDZXeVhCbXo4ZFhjZjVoa2RFbjNi?=
+ =?utf-8?B?L0lISjhmYTZTb3FaWTVxTXpRMGZtc0F0L1hTUjFyT0kzdDM1RG1GMkFZYmNl?=
+ =?utf-8?B?RjJFK3BlcExXYnp2YnVSUkV2WldJTzRrUmlrWGZsSzkvZHdyNFYyd1RZcktU?=
+ =?utf-8?B?NlhJZHBmSXpVNWZGRjRUYmNLQ1FFaXJLL0VGaVpETzExM1Z1TlovYmxJSkls?=
+ =?utf-8?B?SnBjeVJEbjVsZG5DYXZzbVFRWTR1aUJkQjdRbXZkbUpUazlqTU4vT3cyYXkx?=
+ =?utf-8?B?NTZUY2FvYkVJME5LUjRwKy9hWjNDVFN2MldmS0NqMmtrVEs1VHBWT1NabnBv?=
+ =?utf-8?B?aGt1ZUhIb1ZVMkQ5YTFsSUE5WnFyY3ZJYVhaSUxMYytpbDc4U1ZFUGVFVEJp?=
+ =?utf-8?B?VGxkb21oczliSnhXQ1hLRlRCalcyTlN1R2NGeEY5RGFIYkxGWHNON2N1NlFu?=
+ =?utf-8?B?VlYrUzl3NTVTam9xckloZEZZUDdMVlFzSXB6bTRhVStPZ05QeVliandrWGFM?=
+ =?utf-8?B?c3FDdlpiaWwyL3lmdDZXZEdPNnNvRFRVZzZ2V2FDOXA5bTV5ZWRucERlSklk?=
+ =?utf-8?B?WWZ2YVB2WmZWUE0yT3V0Qjl4U0xjZ2hoN2x3SDlyZ1JINnhaUjZoUnJZVCtU?=
+ =?utf-8?B?THNXOWwvaktuVlFTcVFrUk1ycjVQMjJDTUYxVXFheFVvZnJRZlcraE80TG05?=
+ =?utf-8?B?WHA1UENjNVBFT091NjIyaWkwSE1YOXAwQjBvdFhIS3pnejE3cU5DamN4SlBF?=
+ =?utf-8?B?VEZTRXhoVXhhaHFjbTJ1TXRTbENYTXdPZkZXSTNMNS92ajNEMlFyUUtocmY5?=
+ =?utf-8?B?bDh4T2RJSEV4NGtTWCtFcXZTSndLUHZ1cFhyYng4MGRZUzBXQzJ0ZU5BWkFx?=
+ =?utf-8?B?cmQwNzZRR3RVOTN5Z2hZd0ZscjNENmx3eGhhWlEwdXpKL1pObTBMTnlBTFZt?=
+ =?utf-8?B?ekZNYXhMSjRyN1F6U2UzYU50dmZ1WHpiUjdTbkNGSVc3eUl0Y2xpOFRKSTBV?=
+ =?utf-8?B?QTFGMW8vSTVUVWJsc1lKLzdlVTZkQ09jS1VFZFRtSnNDYW5kYjExWkJuMk8x?=
+ =?utf-8?B?TVlsNUNmUWlDWkVDQlFpdHVNRjlsdi9TMWo4cUs0MGczTTJ5dWJFS2hUYjRD?=
+ =?utf-8?B?ekxWYURhN3lFRHhSNkZjaEtGdTVjUWV0NFFrSnZNUWhiWE1IeE9TeGY0LzMy?=
+ =?utf-8?B?ZG4vYUFsYXVKUDBnU1VrSWsyS1IweEwvcUFVQlhrYWYra0o0bDM3MzZvQVl2?=
+ =?utf-8?B?TFRpMmUyRUxsUURWaGJXTVZCckM2ZUtreGg3b0ptT2FUbWJaa1ltaGxMU2hG?=
+ =?utf-8?B?SXh6SndDT0RaTFZPT2NDSWI0THdiWnNMaC8xZE1qdDJBUTkyUENHOUt0Wk12?=
+ =?utf-8?B?ZFM0ZmtjNVV3WnMyNzBsbTdxczZmekw3SEFsSGZwV0Rha3BYM0NoQzZiOE90?=
+ =?utf-8?B?c1h4VmhpbzQxZXlZWEN0aVhhR2l6WlcwbE5EZ09wVUJpdnJIUXlqTWYwcFBj?=
+ =?utf-8?Q?SaIoPhJE33RjFz9ss0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5EADC9A32694BE44A81185B0C3DCB510@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0eeX2FOkhNh52PFi"
-Content-Disposition: inline
-In-Reply-To: <969B60CA-0E05-4510-9B5B-74B19133A874@gmx.de>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6afb68b-700e-4790-1832-08d92b814511
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2021 20:00:45.7905 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LKj7W/tFlN3SiIrRFbY4RLI/+au/i7++8QUbdBLTO4jtuDqOAihdApob/K27st5WLo23RI9lKXIDhvoQmFUr1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2969
+Received-SPF: pass client-ip=149.117.73.133;
+ envelope-from=Cupertino.Miranda@synopsys.com; helo=smtprelay-out1.synopsys.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,284 +181,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---0eeX2FOkhNh52PFi
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Jun  9 20:13, Heinrich Schuchardt wrote:
->Am 9. Juni 2021 16:39:20 MESZ schrieb "Daniel P. Berrang=C3=A9" <berrange@=
-redhat.com>:
->>On Wed, Jun 09, 2021 at 02:33:08PM +0200, Klaus Jensen wrote:
->>> On Jun  9 14:21, Heinrich Schuchardt wrote:
->>> > On 6/9/21 2:14 PM, Klaus Jensen wrote:
->>> > > On Jun=C2=A0 9 13:46, Heinrich Schuchardt wrote:
->>> > > > The EUI64 field is the only identifier for NVMe namespaces in
->>UEFI device
->>> > > > paths. Add a new namespace property "eui64", that provides the
->>user the
->>> > > > option to specify the EUI64.
->>> > > >
->>> > > > Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
->>> > > > ---
->>> > > > docs/system/nvme.rst |=C2=A0 4 +++
->>> > > > hw/nvme/ctrl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 58
->>++++++++++++++++++++++++++------------------
->>> > > > hw/nvme/ns.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 2 ++
->>> > > > hw/nvme/nvme.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
->>> > > > 4 files changed, 42 insertions(+), 23 deletions(-)
->>> > > >
->>> > > > diff --git a/docs/system/nvme.rst b/docs/system/nvme.rst
->>> > > > index f7f63d6bf6..a6042f942a 100644
->>> > > > --- a/docs/system/nvme.rst
->>> > > > +++ b/docs/system/nvme.rst
->>> > > > @@ -81,6 +81,10 @@ There are a number of parameters available:
->>> > > > =C2=A0 Set the UUID of the namespace. This will be reported as a
->>"Namespace
->>> > > > UUID"
->>> > > > =C2=A0 descriptor in the Namespace Identification Descriptor List.
->>> > > >
->>> > > > +``eui64``
->>> > > > +=C2=A0 Set the EUI64 of the namespace. This will be reported as a
->>"IEEE
->>> > > > Extended
->>> > > > +=C2=A0 Unique Identifier" descriptor in the Namespace
->>Identification
->>> > > > Descriptor List.
->>> > > > +
->>> > > > ``bus``
->>> > > > =C2=A0 If there are more ``nvme`` devices defined, this parameter
->>may be
->>> > > > used to
->>> > > > =C2=A0 attach the namespace to a specific ``nvme`` device
->>(identified by an
->>> > > > ``id``
->>> > > > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->>> > > > index 0bcaf7192f..21f2d6843b 100644
->>> > > > --- a/hw/nvme/ctrl.c
->>> > > > +++ b/hw/nvme/ctrl.c
->>> > > > @@ -4426,19 +4426,19 @@ static uint16_t
->>> > > > nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
->>> > > > =C2=A0=C2=A0=C2=A0 NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->>> > > > =C2=A0=C2=A0=C2=A0 uint32_t nsid =3D le32_to_cpu(c->nsid);
->>> > > > =C2=A0=C2=A0=C2=A0 uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
->>> > > > -
->>> > > > -=C2=A0=C2=A0=C2=A0 struct data {
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct {
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 NvmeIdNsDescr hdr;
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 uint8_t v[NVME_NIDL_UUID];
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } uuid;
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct {
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 NvmeIdNsDescr hdr;
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 uint8_t v;
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } csi;
->>> > > > -=C2=A0=C2=A0=C2=A0 };
->>> > > > -
->>> > > > -=C2=A0=C2=A0=C2=A0 struct data *ns_descrs =3D (struct data *)lis=
-t;
->>> > > > +=C2=A0=C2=A0=C2=A0 uint8_t *pos =3D list;
->>> > > > +=C2=A0=C2=A0=C2=A0 struct {
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NvmeIdNsDescr hdr;
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t v[NVME_NIDL_U=
-UID];
->>> > > > +=C2=A0=C2=A0=C2=A0 } QEMU_PACKED uuid;
->>> > > > +=C2=A0=C2=A0=C2=A0 struct {
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NvmeIdNsDescr hdr;
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t v;
->>> > > > +=C2=A0=C2=A0=C2=A0 } QEMU_PACKED eui64;
->>> > > > +=C2=A0=C2=A0=C2=A0 struct {
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NvmeIdNsDescr hdr;
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t v;
->>> > > > +=C2=A0=C2=A0=C2=A0 } QEMU_PACKED csi;
->>> > > >
->>> > > > =C2=A0=C2=A0=C2=A0 trace_pci_nvme_identify_ns_descr_list(nsid);
->>> > > >
->>> > > > @@ -4452,17 +4452,29 @@ static uint16_t
->>> > > > nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
->>> > > > =C2=A0=C2=A0=C2=A0 }
->>> > > >
->>> > > > =C2=A0=C2=A0=C2=A0 /*
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0 * Because the NGUID and EUI64 fields ar=
-e 0 in the
->>Identify
->>> > > > Namespace data
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0 * structure, a Namespace UUID (nidt =3D=
- 3h) must be
->>reported in the
->>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0 * Namespace Identification Descriptor. =
-Add the namespace
->>UUID here.
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 * If the EUI64 field is 0 and the NGUID=
- field is 0, the
->>> > > > namespace must
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 * provide a valid Namespace UUID in the=
- Namespace
->>Identification
->>> > > > Descriptor
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 * data structure. QEMU does not yet sup=
-port setting
->>NGUID.
->>> > > > =C2=A0=C2=A0=C2=A0=C2=A0 */
->>> > > > -=C2=A0=C2=A0=C2=A0 ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
->>> > > > -=C2=A0=C2=A0=C2=A0 ns_descrs->uuid.hdr.nidl =3D NVME_NIDL_UUID;
->>> > > > -=C2=A0=C2=A0=C2=A0 memcpy(&ns_descrs->uuid.v, ns->params.uuid.da=
-ta,
->>NVME_NIDL_UUID);
->>> > > > -
->>> > > > -=C2=A0=C2=A0=C2=A0 ns_descrs->csi.hdr.nidt =3D NVME_NIDT_CSI;
->>> > > > -=C2=A0=C2=A0=C2=A0 ns_descrs->csi.hdr.nidl =3D NVME_NIDL_CSI;
->>> > > > -=C2=A0=C2=A0=C2=A0 ns_descrs->csi.v =3D ns->csi;
->>> > > > +=C2=A0=C2=A0=C2=A0 uuid.hdr.nidt =3D NVME_NIDT_UUID;
->>> > > > +=C2=A0=C2=A0=C2=A0 uuid.hdr.nidl =3D NVME_NIDL_UUID;
->>> > > > +=C2=A0=C2=A0=C2=A0 memcpy(uuid.v, ns->params.uuid.data, NVME_NID=
-L_UUID);
->>> > > > +=C2=A0=C2=A0=C2=A0 memcpy(pos, &uuid, sizeof(uuid));
->>> > > > +=C2=A0=C2=A0=C2=A0 pos +=3D sizeof(uuid);
->>> > > > +
->>> > > > +=C2=A0=C2=A0=C2=A0 if (ns->params.eui64) {
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eui64.hdr.nidt =3D NV=
-ME_NIDT_EUI64;
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eui64.hdr.nidl =3D NV=
-ME_NIDL_EUI64;
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eui64.v =3D cpu_to_be=
-64(ns->params.eui64);
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(pos, &eui64, s=
-izeof(eui64));
->>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pos +=3D sizeof(eui64=
-);
->>> > > > +=C2=A0=C2=A0=C2=A0 }
->>> > > > +
->>> > > > +=C2=A0=C2=A0=C2=A0 csi.hdr.nidt =3D NVME_NIDT_CSI;
->>> > > > +=C2=A0=C2=A0=C2=A0 csi.hdr.nidl =3D NVME_NIDL_CSI;
->>> > > > +=C2=A0=C2=A0=C2=A0 csi.v =3D ns->csi;
->>> > > > +=C2=A0=C2=A0=C2=A0 memcpy(pos, &csi, sizeof(csi));
->>> > > > +=C2=A0=C2=A0=C2=A0 pos +=3D sizeof(csi);
->>> > > >
->>> > > > =C2=A0=C2=A0=C2=A0 return nvme_c2h(n, list, sizeof(list), req);
->>> > > > }
->>> > > > diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
->>> > > > index 992e5a13f5..ddf395d60e 100644
->>> > > > --- a/hw/nvme/ns.c
->>> > > > +++ b/hw/nvme/ns.c
->>> > > > @@ -77,6 +77,7 @@ static int nvme_ns_init(NvmeNamespace *ns,
->>Error
->>> > > > **errp)
->>> > > > =C2=A0=C2=A0=C2=A0 id_ns->mssrl =3D cpu_to_le16(ns->params.mssrl);
->>> > > > =C2=A0=C2=A0=C2=A0 id_ns->mcl =3D cpu_to_le32(ns->params.mcl);
->>> > > > =C2=A0=C2=A0=C2=A0 id_ns->msrc =3D ns->params.msrc;
->>> > > > +=C2=A0=C2=A0=C2=A0 id_ns->eui64 =3D cpu_to_be64(ns->params.eui64=
-);
->>> > > >
->>> > > > =C2=A0=C2=A0=C2=A0 ds =3D 31 - clz32(ns->blkconf.logical_block_si=
-ze);
->>> > > > =C2=A0=C2=A0=C2=A0 ms =3D ns->params.ms;
->>> > > > @@ -518,6 +519,7 @@ static Property nvme_ns_props[] =3D {
->>> > > > =C2=A0=C2=A0=C2=A0 DEFINE_PROP_BOOL("shared", NvmeNamespace, para=
-ms.shared,
->>false),
->>> > > > =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT32("nsid", NvmeNamespace, para=
-ms.nsid, 0),
->>> > > > =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UUID("uuid", NvmeNamespace, params=
-=2Euuid),
->>> > > > +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT64("eui64", NvmeNamespace, pa=
-rams.eui64,
->>0),
->>> > > > =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT16("ms", NvmeNamespace, params=
-=2Ems, 0),
->>> > > > =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT8("mset", NvmeNamespace, param=
-s.mset, 0),
->>> > > > =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT8("pi", NvmeNamespace, params.=
-pi, 0),
->>> > > > diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
->>> > > > index 81a35cda14..abe7fab21c 100644
->>> > > > --- a/hw/nvme/nvme.h
->>> > > > +++ b/hw/nvme/nvme.h
->>> > > > @@ -83,6 +83,7 @@ typedef struct NvmeNamespaceParams {
->>> > > > =C2=A0=C2=A0=C2=A0 bool=C2=A0=C2=A0=C2=A0=C2=A0 shared;
->>> > > > =C2=A0=C2=A0=C2=A0 uint32_t nsid;
->>> > > > =C2=A0=C2=A0=C2=A0 QemuUUID uuid;
->>> > > > +=C2=A0=C2=A0=C2=A0 uint64_t eui64;
->>> > > >
->>> > > > =C2=A0=C2=A0=C2=A0 uint16_t ms;
->>> > > > =C2=A0=C2=A0=C2=A0 uint8_t=C2=A0 mset;
->>> > > > --
->>> > > > 2.30.2
->>> > > >
->>> > > >
->>> > >
->>> > > Would it make sense to provide a sensible default for EUI64 such
->>that it
->>> > > is always there? That is, using the same IEEE OUI as we already
->>report
->>> > > in the IEEE field and add an extension identifier by grabbing 5
->>bytes
->>> > > from the UUID?
->>> >
->>> > According to the NVMe 1.4 specification it is allowable to have a
->>NVMe
->>> > device that does not support EUI64. As the EUI64 is used to define
->>boot
->>> > options in UEFI using a non-zero default may break existing
->>installations.
->>> >
->>>
->>> Right. We dont wanna do that.
->>
->>Any change in defaults can (must) be tied to the machine type versions,
->>so that existing installs are unchanged, but new installs using latest
->>machine type get the new default.
->
->The road of least surprise is preferable. All machine should behave the=20
->same if there is no real necessity to deviate.
->
-
-I'd rather not introduce a new user-facing knob for this when a very=20
-sensible default can be derived from the uuid and the QEMU IEEE OUI. We=20
-already have the uuid parameter that allows users to ensure that the=20
-namespace holds a persistent unique identifier. Adding another parameter=20
-with the same purpose seems unnecessary. And since we are adding EUI64,=20
-we should probably also add NGUID while we are at it.
-
-So, instead of adding parameters for EUI64 and NGUID that the user must=20
-specify to get this more real-world behavior, I'd prefer to rely on a=20
-couple of boolean compat properties, e.g. 'support-eui64' and=20
-'support-nguid' that defaults to 'on', but is set to 'off' for pre-6.1=20
-machines.
-
-I think this is a nice compromise between making sure that having=20
-sensible EUI64 and NGUID values set is the new default while making sure=20
-that we do not break existing setup.
-
-Would this be an acceptable compromise to you Heinrich?
-
---0eeX2FOkhNh52PFi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDBHR8ACgkQTeGvMW1P
-DelNFAf/RbcvxkiHhs2uVD9KVoJNVytMFjjiCQNyS9skY6ICsF9YjZNwr18c2ZZX
-yI4U+PwyNmDSkHD0wMri/IuM4qPw5nrjzJtRq2G8HfFpbji7NBs/EhGNqgqSDqgF
-uaGjWfrX/TMmhY8ul91p0LQgESDiAMSlt7VB6Vr3f4FEBCFTPLsqaWFKnwIkOgNc
-XhqW0m/Yx23/+07rdbMtirIjLnsiZG7YAEgSFkoLfVuJB19Lf05af+Xm4pe0n4xj
-HQIuu1enue8HtQoLFigIejM7TTVYSJkrtmBF9Zvx3tVqA6lTlgeFk0kZFJ2S8Cuh
-Gb6dZm+hyW3Z0YHtm1ENWY67pxsisw==
-=CxDb
------END PGP SIGNATURE-----
-
---0eeX2FOkhNh52PFi--
+SGkgUmljaGFyZA0KDQo+IFdoeSB3b3VsZCB5b3UgYmUgbWFpbnRhaW5pbmcgYW5vdGhlciBkZXNj
+cmlwdGlvbj/CoCBZb3VyIGFwcHJvYWNoIGJlbG93IA0KPiB3aXRoIHRoZSBzaW1wbGUgcmVjdXJz
+aXZlIGFsZ29yaXRobSBhcHBlYXJzIHRvIGJlIG5vIGRpZmZlcmVudC4NCg0KV2UgaW5pdGlhbGx5
+IGNvbnNpZGVyZWQgdG8gZHJvcCBvdXIgdGFibGVzIGNvbXBsZXRlbHkgcmVwbGFjaW5nIGl0IGJ5
+IA0KZGVjb2RldHJlZS4NCg0KPg0KPj4gQWxzbyB0aGF0IGRlY29kZXRyZWUgYWxvbmUgd291bGQg
+bm90IGFsbG93IHVzIHRvIHByb3Blcmx5IGRpc2Fzc2VtYmx5DQo+PiBjb2RlLCBzdGlsbCByZXF1
+aXJpbmcgdG8ga2VlcCB0aGUgaW5pdGlhbCBzdHJ1Y3R1cmUuDQo+DQo+IFdoeSBpcyB0aGF0Pw0K
+DQpCeSBkaXNhc3NlbWJseSBJIGFtIHJlZmVycmluZyB0byB0aGUgcHJldHR5LXByaW50IG9mIHRo
+ZSBpbnN0cnVjdGlvbnMgDQp3aGVuIHVzaW5nICItZCBpbl9hc20iLiBPdXIgdGFibGVzIGNvbnRh
+aW4gaW5mb3JtYXRpb24gZm9yIHByaW50aW5nIGFzIA0KdGhleSBhcmUgdGhlIG9uZXMgdXNlZCBi
+eSBiaW50dXRpbHMgYXNzZW1ibGVyLg0KDQo+DQo+IFRoZSBjdXJyZW50IHVzZXMgb2YgZGVjb2Rl
+dHJlZSBhcmUgcXVpdGUgY29tcGxleCwgc28gSSBzaW5jZXJlbHkgZG91YnQgDQo+IHRoYXQgaXQg
+Y2Fubm90IGRvIHRoZSBqb2IuwqAgWW91J3ZlIGFza2VkIG5vIHF1ZXN0aW9ucywgbm9yIGhhdmUg
+eW91IA0KPiBkZXNjcmliZWQgYW55IHByb2JsZW1zIHlvdSBoYXZlIGVuY291bnRlcmVkLg0KDQpU
+aGVyZSB3aGVyZSBubyBwcm9ibGVtcyBmcm9tIHRoZSBwZXJzcGVjdGl2ZSBvZiB1bmRlcnN0YW5k
+aW5nIHdoYXQgaXQgDQpkaWQgb3IgaG93IHRvIHVzZSBpdC4NCkl0IHdhcyBqdXN0IHRoYXQgYXV0
+byBnZW5lcmF0aW5nIG9mIHRoZSBkZWNvZGV0cmVlIHNlZW1lZCBtb3JlIHRoZW4gYSANCnNpbXBs
+ZSB0YXNrIGJ1dCBhIHJhdGhlciBlbGFib3JhdGVkIG9uZSwgc2luY2Ugd2UgbmVlZGVkIHRvIGlk
+ZW50aWZ5IA0KY29tbW9uIG9wZXJhbmQgc3R5bGUgaW5zdHJ1Y3Rpb25zLCBncm91cCBzaW1pbGFy
+IGluc3RydWN0aW9uIGNvbmZsaWN0aW5nIA0KZW5jb2RpbmdzLCBldGMuIEFuZCB3aGVuIGNvbXBh
+cmluZyB0byB0aGUgZWFzZSBvZiBhdXRvbWF0aW5nIHRoZSANCmNyZWF0aW9uIG9mIHRoZSBkZWNv
+ZGluZyB0cmVlcywgc2VlbWVkIG11Y2ggbW9yZSBjb21wbGV4Lg0KDQo+DQo+IFRoZSBleGFtcGxl
+IGlzIG5vdCBlc3BlY2lhbGx5IGVubGlnaHRlbmluZyBiZWNhdXNlIHlvdSBkb24ndCBzaG93IHRo
+ZSANCj4gbWFjcm8gZGVmaW5pdGlvbnMsIG9yIHRoZSBleHBhbnNpb24uwqAgSGF2ZSB5b3UgYSBs
+aW5rIHRvIGEgZ2l0IHJlcG8gDQo+IHRoYXQgeW91IGNhbiBzaGFyZT8NCkkgZG8gaGF2ZS4gUGxl
+YXNlIGFsbG93IG1lIGEgZmV3IGRheXMgdG8gcHJvcGVybHkgY2xlYW4gaXQuIENvbnNpZGVyaW5n
+LCANCkkgd2FudGVkIHRvIGdldCB5b3VyIG9waW5pb24gYmVmb3JlIG9mIGEgZ3JlYXRlciBjb21t
+aXRtZW50IHRvIHRoZSANCnNvbHV0aW9uLCBpdCBpcyBzdGlsbCBpbiBhIHByb3RvdHlwZSBzdGFn
+ZS4NCg0KQ3VwZXJ0aW5vDQoNCg==
 
