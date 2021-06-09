@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D10D13A12C3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 13:31:46 +0200 (CEST)
-Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC173A12C4
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 13:32:10 +0200 (CEST)
+Received: from localhost ([::1]:57136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqwQz-0007rH-Js
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 07:31:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58552)
+	id 1lqwRN-0000Lg-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 07:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqwPt-0006a8-JY
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:30:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lqwPr-00037V-T9
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:30:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623238235;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ilzNxBt/2DOnC/2tF3qx4KR9pl27WeIGdxJODtU0mG0=;
- b=ALmXx/YRtNW31/bPKc3DrSotIweEdXUBhjW22GSVVtec58cDqnIyBgjuE1MzcXDzN2mwRt
- LTZwi+eYALCsd6Rn6LZ84OfcH8gn2B3dUqag5156ZHMpVnelrxetqdD0pLeJopdcvcEFsm
- WIvJxp4qwpHAdMXb1Wfu6wW7fasHOko=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-wJwzqPhDN4War73bMVWj3g-1; Wed, 09 Jun 2021 07:30:31 -0400
-X-MC-Unique: wJwzqPhDN4War73bMVWj3g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 747031932481
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 11:30:30 +0000 (UTC)
-Received: from redhat.com (ovpn-115-127.ams2.redhat.com [10.36.115.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 291995C1A3;
- Wed,  9 Jun 2021 11:30:00 +0000 (UTC)
-Date: Wed, 9 Jun 2021 12:29:58 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [RFC QEMU PATCH] ui: Make the DisplayType enum entries conditional
-Message-ID: <YMCmNrcNByZ+Ozxn@redhat.com>
-References: <20210609100240.1285032-1-thuth@redhat.com>
- <20210609112405.pyv62l22g5ympoe4@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqwQ9-0006tm-0I
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:30:53 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqwQ7-0003FG-5J
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:30:52 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id o3so6703948wri.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 04:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=qsff9arP5b37s7MVi6ZJeEG9tSAEaYW9/3VNnoItIiY=;
+ b=bS+66+Am+ezcUYHPZ2p4okFiBW0kxbqvXVupvuolIynX1x4ddiNhhMOWYdKYZ7UfJO
+ V3rWThsrACojrOTW9vBISvqZ0InDx/5rfltr11SmcUiSPXOGz076Kcz+hU11iTheX+2D
+ 06fgpNdijcFpxxZsqMu/Zz+dzuKjspFEjReaLoL7BpHyZ1U47rkfsddBQczmASBYMNGL
+ JzfJ74a8lHVDGTgSSUA2f0xEw4aabaEABjvAVlpBcZfR8WJPnfaYkcXbTRz2cEUZMdmn
+ pnUCuC0SwnzX+C3qJeA/aa/c7qV9hlLq2jioKdGGz+LsAAg1UroShUGUxcbqe8XfFS/c
+ vJVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=qsff9arP5b37s7MVi6ZJeEG9tSAEaYW9/3VNnoItIiY=;
+ b=U/BnlBsC0MhyVLCG7HD8vVNJkrg4rqP4iUn/rV/oolsejH5cWRAnAcpWDNcEIeIIDA
+ /lf+9Z3CDsceM4OlW1T6DqxdC5PrJPdJikV0FfyB+KRv5K2g5Jfcqn7PSX9YGdQZBM3G
+ SyZ/ja8XR9/Fl0plFTZ/3g9O03fL83fXeQ8diNtacrAWAiizTqWal7fedoC1uDVM+Jtp
+ bbnVPTFe68y+MMvbq7pJFTNHz/RZnSBRyz9NRQ2S1FJkjZo/87yN52NtPXBl2Gqj/Dzp
+ BGbetuGxIs8dgxp0qnNLOVCBI8pmxhzsLyq6WZpakz4YgDUFySoYZxiQo8v6g4dD6S6F
+ Xjcg==
+X-Gm-Message-State: AOAM532imiBtAx8SuQlqumGMVqhAEITw6SxmOmxhdIjtxr9IUb0BUHN0
+ hyDTSuAsgavN5Y6jxvgADbR4vQ==
+X-Google-Smtp-Source: ABdhPJztxGulCu9ignabMemCcajoJBgpsCU5VqTNzggWboMgvniopjCmZXgbcIBtiUHIKYdUlCnULA==
+X-Received: by 2002:a5d:4a4b:: with SMTP id v11mr28058122wrs.246.1623238248764; 
+ Wed, 09 Jun 2021 04:30:48 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i21sm5830414wmq.12.2021.06.09.04.30.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 04:30:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1F5C61FF7E;
+ Wed,  9 Jun 2021 12:30:47 +0100 (BST)
+References: <20210502231844.1977630-1-richard.henderson@linaro.org>
+ <20210502231844.1977630-29-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 28/28] tcg: Move tcg_init_ctx and tcg_ctx from
+ accel/tcg/
+Date: Wed, 09 Jun 2021 12:30:42 +0100
+In-reply-to: <20210502231844.1977630-29-richard.henderson@linaro.org>
+Message-ID: <8735trjmvs.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210609112405.pyv62l22g5ympoe4@sirius.home.kraxel.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +88,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com, smitterl@redhat.com,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 01:24:05PM +0200, Gerd Hoffmann wrote:
-> On Wed, Jun 09, 2021 at 12:02:40PM +0200, Thomas Huth wrote:
-> > Libvirt's "domcapabilities" command has a way to state whether
-> > certain graphic frontends are available in QEMU or not. Originally,
-> > libvirt looked at the "--help" output of the QEMU binary to determine
-> > whether SDL was available or not (by looking for the "-sdl" parameter
-> > in the help text), but since libvirt stopped doing this analysis of
-> > the help text, the detection of SDL is currently broken, see:
-> > 
-> >  https://bugzilla.redhat.com/show_bug.cgi?id=1790902
-> > 
-> > QEMU should provide a way via the QMP interface instead. The simplest
-> > way, without introducing additional commands, is to make the DisplayType
-> > enum entries conditional, so that the enum only contains the entries if
-> > the corresponding CONFIG_xxx switches have been set.
-> 
-> Hmm, that'll break for the "dnf remove qemu-ui-sdl" case ...
 
-Note tht libvirt invalidates its cache of QEMU capabilities when it
-sees the /usr/lib64/qemu directory timestamp change. So it ought to
-pick up changes caused by installing/removing QEMU modules, and apply
-this to future queries for domcapabilities, or when starting future
-QEMU guests.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Note, however, that capabilities are preserved at the time each
-the QEMU process is started.
+> These variables belong to the jit side, not the user side.
+>
+> Since tcg_init_ctx is no longer used outside of tcg/, move
+> the declaration to tcg/internal.h.
+>
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-IOW, if you boot QEMU, then remove a QEMU module, then attempt to
-use a feature that implies loading of the removed QEMU module,
-libvirt won't know the module has been removed for the running
-QEMU.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
