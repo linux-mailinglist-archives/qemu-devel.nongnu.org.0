@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3EF3A1C76
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 20:03:35 +0200 (CEST)
-Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930523A1C77
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 20:03:55 +0200 (CEST)
+Received: from localhost ([::1]:50848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr2YA-0000Vr-Fg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 14:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54990)
+	id 1lr2YU-0001DK-Lh
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 14:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lr2WG-0006PV-Uh
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:01:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23935)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lr2WN-0006Vc-Ix
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:01:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lr2WC-0005Oi-2t
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:01:35 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lr2WK-0005YS-OH
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:01:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623261690;
+ s=mimecast20190719; t=1623261699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LiYmwRIg5pa+pAuYMhA0llUc3lpj9PZYGWLltPyqTxw=;
- b=LjplpAKSSvZA5EoF2BFCOhQqPlcqNO1e0KU53o1EDr8Z/VqimgxuyOvQu66PJrl9V77QTQ
- rnkXsKzLpIOP8x6pRCvhp5lD8ziYcRBvEn2NNjB4DmLWDNepBXasxW8VTAPrt2rGZp3l5B
- /B8U7sIgKFcF59SmMZ+HC4TJ3iGbH94=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ln8Qs1UOdStrx//o6FED4/vIh1tRCueRyi4HNGt5na8=;
+ b=anV4eE5vXLeiFhBGtlrRt1CU3M8xfhypZP8lDtO8j8F0WTwvBCnnJ6rUCU0Wt6cex3OEbS
+ MlFQDcsNY4ZKmN2x2ssGtC9Pb9o1OepxKs+6rJyjysTfRVERjTT3wQMJoZv4Sbvqx2Vt8X
+ /scsq/uvAhAPHumz1aYty65zH0iuoTQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-3o0pis7KNoGMusayhTZ6Lg-1; Wed, 09 Jun 2021 14:01:29 -0400
-X-MC-Unique: 3o0pis7KNoGMusayhTZ6Lg-1
+ us-mta-511-J2gOKoKeM2qjDFLC_fHofw-1; Wed, 09 Jun 2021 14:01:38 -0400
+X-MC-Unique: J2gOKoKeM2qjDFLC_fHofw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 714268189DA;
- Wed,  9 Jun 2021 18:01:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B796101C8B4;
+ Wed,  9 Jun 2021 18:01:25 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F181C60CC9;
- Wed,  9 Jun 2021 18:01:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C517A60CCC;
+ Wed,  9 Jun 2021 18:01:24 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/2] New NBD metacontext
-Date: Wed,  9 Jun 2021 13:01:16 -0500
-Message-Id: <20210609180118.1003774-1-eblake@redhat.com>
+Subject: [PATCH 1/2] iotests: Improve and rename test 309 to
+ nbd-qemu-allocation
+Date: Wed,  9 Jun 2021 13:01:17 -0500
+Message-Id: <20210609180118.1003774-2-eblake@redhat.com>
+In-Reply-To: <20210609180118.1003774-1-eblake@redhat.com>
+References: <20210609180118.1003774-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -60,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,53 +77,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nsoffer@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>, nsoffer@redhat.com,
  libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is my counter-proposal to Nir's request [1] to revert a 6.0
-behavior change.  It does not expose any new information over NBD, but
-does make it easier to collect necessary information from a single
-context rather than requiring the client to have to request two
-contexts in parallel, then cross-correlate what may be different
-extent lengths between those contexts.  Furthermore, this is easy to
-backport to downstream based on qemu 6.0, at which point clients could
-use the existence or absence of qemu:joint-allocation as a witness of
-whether it can get away with trusting base:allocation when trying to
-recreate a qcow2 backing chain.
+Enhance the test to inspect what qemu-nbd is advertising during
+handshake, and rename it now that we support useful iotest names.
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg01796.html
-
-Things I still want to do:
-- a followup patch to libnbd to teach 'nbdinfo
-  --map=qemu:joint-allocation' to decode the bits
-- teach 'nbdinfo --map' to read all available contexts, instead of
-  having to manually type each map besides base:allocation
-- potential followup patches to qemu to automatically feed this
-  information through qemu-img map:
-  - add a new BDRV_BLOCK_BACKING bit for bdrv_block_status(), with
-    opposite semantics from BDRV_BLOCK_ALLOCATED, but where the only
-    thing known is that the data is not local (not how deep it is)
-  - teach qemu to favor qemu:joint-allocation over base:allocation
-    when available, and use it to drive BDRV_BLOCK_BACKING
-  - teach qemu-img map to recognize BDRV_BLOCK_BACKING
-
-Eric Blake (2):
-  iotests: Improve and rename test 309 to nbd-qemu-allocation
-  nbd: Add new qemu:joint-allocation metadata context
-
- docs/interop/nbd.txt                          | 31 ++++++-
- docs/tools/qemu-nbd.rst                       |  4 +-
- qapi/block-export.json                        |  4 +-
- include/block/nbd.h                           | 10 ++-
- nbd/server.c                                  | 87 +++++++++++++++++--
- .../{309 => tests/nbd-qemu-allocation}        |  5 +-
- .../nbd-qemu-allocation.out}                  | 13 ++-
- 7 files changed, 139 insertions(+), 15 deletions(-)
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ .../qemu-iotests/{309 => tests/nbd-qemu-allocation}  |  5 ++++-
+ .../{309.out => tests/nbd-qemu-allocation.out}       | 12 +++++++++++-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
  rename tests/qemu-iotests/{309 => tests/nbd-qemu-allocation} (95%)
- rename tests/qemu-iotests/{309.out => tests/nbd-qemu-allocation.out} (79%)
+ rename tests/qemu-iotests/{309.out => tests/nbd-qemu-allocation.out} (81%)
 
+diff --git a/tests/qemu-iotests/309 b/tests/qemu-iotests/tests/nbd-qemu-allocation
+similarity index 95%
+rename from tests/qemu-iotests/309
+rename to tests/qemu-iotests/tests/nbd-qemu-allocation
+index b90b279994c9..4ee73db8033b 100755
+--- a/tests/qemu-iotests/309
++++ b/tests/qemu-iotests/tests/nbd-qemu-allocation
+@@ -3,7 +3,7 @@
+ #
+ # Test qemu-nbd -A
+ #
+-# Copyright (C) 2018-2020 Red Hat, Inc.
++# Copyright (C) 2018-2021 Red Hat, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -32,6 +32,7 @@ _cleanup()
+ trap "_cleanup; exit \$status" 0 1 2 3 15
+
+ # get standard environment, filters and checks
++cd ..
+ . ./common.rc
+ . ./common.filter
+ . ./common.nbd
+@@ -57,6 +58,8 @@ echo
+ $QEMU_IMG map --output=json -f qcow2 "$TEST_IMG"
+ IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
+ nbd_server_start_unix_socket -r -f qcow2 -A "$TEST_IMG"
++# Inspect what the server is exposing
++$QEMU_NBD --list -k $nbd_unix_socket
+ # Normal -f raw NBD block status loses access to allocation information
+ $QEMU_IMG map --output=json --image-opts \
+     "$IMG" | _filter_qemu_img_map
+diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/tests/nbd-qemu-allocation.out
+similarity index 81%
+rename from tests/qemu-iotests/309.out
+rename to tests/qemu-iotests/tests/nbd-qemu-allocation.out
+index db75bb6b0df9..c51022b2a38d 100644
+--- a/tests/qemu-iotests/309.out
++++ b/tests/qemu-iotests/tests/nbd-qemu-allocation.out
+@@ -1,4 +1,4 @@
+-QA output created by 309
++QA output created by nbd-qemu-allocation
+
+ === Initial image setup ===
+
+@@ -14,6 +14,16 @@ wrote 2097152/2097152 bytes at offset 1048576
+ [{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true, "offset": 327680},
+ { "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 327680},
+ { "start": 3145728, "length": 1048576, "depth": 1, "zero": true, "data": false}]
++exports available: 1
++ export: ''
++  size:  4194304
++  flags: 0x58f ( readonly flush fua df multi cache )
++  min block: 1
++  opt block: 4096
++  max block: 33554432
++  available meta contexts: 2
++   base:allocation
++   qemu:allocation-depth
+ [{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 3145728, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
+ [{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": true, "offset": OFFSET},
 -- 
 2.31.1
 
