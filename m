@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68103A141F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:18:51 +0200 (CEST)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B470E3A143A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:23:04 +0200 (CEST)
+Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqxAY-00010x-PO
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
+	id 1lqxEd-0007iL-G2
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:23:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lqx9J-0006ye-3y
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:17:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28997)
+ id 1lqxCA-0004Ia-Q4
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:20:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lqx9E-0000Ap-1v
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:17:32 -0400
+ id 1lqxC0-0001zj-2j
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:20:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623241046;
+ s=mimecast20190719; t=1623241218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+5qTwneeYksEp0OTTvWXty3HzzO/mhZR9rzK7LRn9+U=;
- b=goqiiaVLm4JunPfjhAYFoSSM0+GI5hH3TYQyD1R3xHsMYeqhye9gw9YaxmW31+RAieBPm4
- 0Onz9wXpV7sOmJAAFMzfaj7FpBv9rzsPbaNf4cNLAAsrQaXvPUspHcYbNEo80xtL7+t5jG
- IbftGQUMHfMzz5HxXU4XESnS4ypZnpE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-4MSyVPceNsuJDGTPCnyrmQ-1; Wed, 09 Jun 2021 08:17:25 -0400
-X-MC-Unique: 4MSyVPceNsuJDGTPCnyrmQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- z13-20020adfec8d0000b0290114cc6b21c4so10640967wrn.22
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 05:17:25 -0700 (PDT)
+ bh=9LnnNMLyh2S1YiAr+ShjfLmqUH32ivs4Ujipho3kGh4=;
+ b=c7wKHmWFIJmbKo6alSa9QUpZNsPHKw4EmGleSvU52iiw0SQIk5gc9MaET8o1qJI9QxmSO1
+ Nh1Mh+1YVVlxPC6pymEIW7KPgODkGodYREglnznrAlqOjcSthGbn+zdpZnCdAI6DWpZdYM
+ f5vJCJqWKOkxd4ywyU9pPW2DRTPduhM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-lQP4bdNyNvK6CIu1FH7akQ-1; Wed, 09 Jun 2021 08:20:16 -0400
+X-MC-Unique: lQP4bdNyNvK6CIu1FH7akQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a05600c1c85b02901ac8b854c50so1876226wms.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 05:20:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+5qTwneeYksEp0OTTvWXty3HzzO/mhZR9rzK7LRn9+U=;
- b=VxnmYxkaouREt9HaDC3SpDq854+LzezmMeYOFCRr3bbHVPxLTcvsB5qtxwPdy14yWb
- X/9CXNpzeEs7lhy+nZebp8VbQxycLFrlD7WNpTMdYXpACE5EweupWJu6+efRjEVqXaVI
- mq2iI67UgNHEvg7/Exzs58RPrSiqwKm9Ve/TWJe3kAfjEFJ9GDvwKQbxLue8YI7u0yz9
- fcBIx++kZW1PFM9TiDPJGIZ3ymOox30K1HZjlpoXzcqJYEWrGnXPg/j641at72lKUDhY
- 0fJoWa3UhmXza5tjHMm4LYkKVDECCMVt2ucQtFf7jXIkgznH+3O6hZuGKoJq6YNAVU6j
- hzbw==
-X-Gm-Message-State: AOAM5324WgKhShPVI0x+BFBkS4mqnBJbQegrYEWKTsA00MTl3Vk3bjTu
- HYi+xfCHLxKyclerx06axdtlg2DbvSFoogQWNuYLB2EE00K6yMJrDwJ97dAscv5as6/n6/Owrr8
- TLqjFKe6vtmf7ib4=
-X-Received: by 2002:a7b:ce8a:: with SMTP id q10mr27587313wmj.184.1623241044624; 
- Wed, 09 Jun 2021 05:17:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAZNhq52SJV36buontqGscQCHbvpYZVpV+5htp294SHN9FBLsrz2ajKAaFDj1BQYLZ28+o9Q==
-X-Received: by 2002:a7b:ce8a:: with SMTP id q10mr27587293wmj.184.1623241044464; 
- Wed, 09 Jun 2021 05:17:24 -0700 (PDT)
+ bh=9LnnNMLyh2S1YiAr+ShjfLmqUH32ivs4Ujipho3kGh4=;
+ b=XDJna/Ub4YzIDi0MdsnQc8MLcN1sMOn6+siGDm6NgqdtV+LZR4h4yggSQzcpktuYCG
+ ywyrPCT0+gsa6/PbQqgQqj5+9mi+iStHCM3FYXs7Rps2NmErX0oCekLe+xRwfgDWtVY2
+ zVtDRcMJap67c+0n/RUpBudtOpWH8RE59KM0sIeQSaY1UkKMMEWB/ArYEgje6Mrv7JA7
+ +4dTF8WL6XFPn4TOqR8UWFI3CfZkGaQQ3bCrkLsA5NrR2lyEO4UQodq3utccQ0lOuT2y
+ UXu2dNcCPSO2DkJ/Yn4lEatpewaLdwSZl4gx11sl5zp6SZ9iwl2tYQMaievfBEVNENMZ
+ 7rLg==
+X-Gm-Message-State: AOAM530fQMkF6erBQ52/ujkthZV6W1AbTl7K1qL2YUCG9UMy0vbAx+Fy
+ tJ9mRNf1ItyKKtcKe1lMRhfjHwYZHe2AgUNFCwJUmZLRiflmKr22fvBMNyoYFgcSXhmIIXpsbo/
+ XH56FRZVFdW1dJ+Y=
+X-Received: by 2002:a5d:6c62:: with SMTP id r2mr21567789wrz.407.1623241215278; 
+ Wed, 09 Jun 2021 05:20:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqDwdBLHw9EBtfHeecniEOpPROjRd0Qo+ssCHgiTldeaSN7RzZMHerXTLYPRB3/kSjlEjAsA==
+X-Received: by 2002:a5d:6c62:: with SMTP id r2mr21567759wrz.407.1623241215023; 
+ Wed, 09 Jun 2021 05:20:15 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k36sm12033036wms.30.2021.06.09.05.17.23
+ by smtp.gmail.com with ESMTPSA id q4sm1264359wma.32.2021.06.09.05.20.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 05:17:23 -0700 (PDT)
-Subject: Re: [PATCH v3 06/33] util/async: aio_co_schedule(): support
- reschedule in same ctx
+ Wed, 09 Jun 2021 05:20:14 -0700 (PDT)
+Subject: Re: [PATCH] async: the main AioContext is only "current" if under the
+ BQL
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210416080911.83197-1-vsementsov@virtuozzo.com>
- <20210416080911.83197-7-vsementsov@virtuozzo.com>
- <32f2b6f0-2c31-942d-cbe2-81eda2a43fc0@redhat.com>
- <19ff6e67-e548-14df-ac7e-8b0a3bf7a798@virtuozzo.com>
- <ef518e01-4f08-5fe7-b226-e70ab3102ca4@redhat.com>
- <52ba34c5-1de8-21b3-a31c-bf51676c29af@virtuozzo.com>
- <154cff7e-3552-5cb1-4d96-8dae3c1607cb@redhat.com>
- <008cbc78-aebe-e2fa-8fb3-f8cbdc6daf31@virtuozzo.com>
+ qemu-devel@nongnu.org
+References: <20210609105309.529896-1-pbonzini@redhat.com>
+ <dd9c3572-65bd-17b6-f163-755cb37fffe1@virtuozzo.com>
+ <85de0237-b993-b365-aa49-755888ef91e2@virtuozzo.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c4e225f8-a78f-ce97-5c07-3c091f28c613@redhat.com>
-Date: Wed, 9 Jun 2021 14:17:22 +0200
+Message-ID: <f7b293a3-a146-c39c-6ca1-b7dad2735248@redhat.com>
+Date: Wed, 9 Jun 2021 14:20:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <008cbc78-aebe-e2fa-8fb3-f8cbdc6daf31@virtuozzo.com>
+In-Reply-To: <85de0237-b993-b365-aa49-755888ef91e2@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,7 +82,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -109,52 +104,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- mreitz@redhat.com, rvkagan@yandex-team.ru,
- Stefan Hajnoczi <stefanha@redhat.com>, den@openvz.org, eblake@redhat.com
+Cc: eesposit@redhat.com, qemu-block@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/06/21 12:24, Vladimir Sementsov-Ogievskiy wrote:
-> Thanks, I'll base v4 of nbd patches on it.
+On 09/06/21 13:40, Vladimir Sementsov-Ogievskiy wrote:
+>>
+>>
+>> And in gdb all looks like aio_co_wake() in my own separate thread 
+>> leads to coroutine execution exactly in my own thread.. So, it don't 
+>> dead-lock on trying to acquire the context, instead it somehow enter 
+>> to a coroutine.  And then deadlock because called coroutine tries to 
+>> lock the mutex, that already locked before (in the code that thinks 
+>> that aio_co_wake() will only schedule the coroutine).
+>>
+>> I'll dig into it a bit more.
+>>
+>>
 > 
-> I now run make check. test-aio-multithread crashes on assertion:
+> Aha, that's because qemu_mutex_iothread_locked() from 
+> stubs/iothread-lock.c is used, which always returns true.
 
-With the patch I've sent it doesn't, so hopefully you can go ahead.
+Ok, you can change it to always return false with this patch.  Which is 
+nicer, as it means we have less special casing going on in the tools and 
+it matches the fact that there are no vCPU threads.
 
 Paolo
-
-> (gdb) bt
-> #0  0x00007f4af8d839d5 in raise () from /lib64/libc.so.6
-> #1  0x00007f4af8d6c8a4 in abort () from /lib64/libc.so.6
-> #2  0x00007f4af8d6c789 in __assert_fail_base.cold () from /lib64/libc.so.6
-> #3  0x00007f4af8d7c026 in __assert_fail () from /lib64/libc.so.6
-> #4  0x000055daebfdab95 in aio_poll (ctx=0x7f4ae0000b60, blocking=true) 
-> at ../util/aio-posix.c:567
-> #5  0x000055daebea096c in iothread_run (opaque=0x55daed81bc90) at 
-> ../tests/unit/iothread.c:91
-> #6  0x000055daebfc6c4a in qemu_thread_start (args=0x55daed7d9940) at 
-> ../util/qemu-thread-posix.c:521
-> #7  0x00007f4af8f1a3f9 in start_thread () from /lib64/libpthread.so.0
-> #8  0x00007f4af8e47b53 in clone () from /lib64/libc.so.6
-> (gdb) fr 4
-> #4  0x000055daebfdab95 in aio_poll (ctx=0x7f4ae0000b60, blocking=true) 
-> at ../util/aio-posix.c:567
-> 567         assert(in_aio_context_home_thread(ctx == 
-> iohandler_get_aio_context() ?
-> (gdb) list
-> 562          *
-> 563          * aio_poll() may only be called in the AioContext's thread. 
-> iohandler_ctx
-> 564          * is special in that it runs in the main thread, but that 
-> thread's context
-> 565          * is qemu_aio_context.
-> 566          */
-> 567         assert(in_aio_context_home_thread(ctx == 
-> iohandler_get_aio_context() ?
-> 568                                           qemu_get_aio_context() : 
-> ctx));
-> 569
-> 570         qemu_lockcnt_inc(&ctx->list_lock);
 
 
