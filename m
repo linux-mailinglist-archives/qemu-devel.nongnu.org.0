@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCAD3A153A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 15:13:20 +0200 (CEST)
-Received: from localhost ([::1]:39184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD023A1546
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 15:17:16 +0200 (CEST)
+Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqy1H-0002f8-2P
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 09:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
+	id 1lqy55-0005tX-Bk
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 09:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqxzg-0001wC-NL
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:11:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51856)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqy48-0004dn-4I
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:16:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqxzd-0001ih-45
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:11:39 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lqy45-0004MM-Ea
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:16:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623244295;
+ s=mimecast20190719; t=1623244572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ATZZ1YU/msSDUO0Idzp5LAMJxyfuSWOYPQ2qn6RdMyU=;
- b=SeUJyICEkLPT+RyJsdeSfnHcCLK6V14VFmZf7F7ZlWi18O4E9YrzOIobmzjjKiY3C+MsvN
- HXeV9rdsYD3FAGkegF06WPKv1DuiyEiJkIYIMyIiLoeugnUKOv25X9FfWqCzjdm96m5aCp
- VmcaE05bk1IuVQ7ooPpycXRzUpRhK4s=
+ bh=BPTiaTVeu9de4cgcKvx2tThklRAc+Q4gE9ah2bMnm18=;
+ b=KoUnEOwoODB2TrAGoR626gSQy5J81eaMK0a7gSXnvq0x+8m7h+jpKKkeHzsjKOk67HeoCz
+ YrS4IFUggiHBFZmvTPEF3/0STSWTPOK1x2Mu7+82p8q65c57tVpf4+dETOewOhdU85oCoB
+ 5Rs1m3WItyuRdd7nNDj33JHWnXlqG8Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-nsURYRdPNRG9UHjE2yLmdQ-1; Wed, 09 Jun 2021 09:11:34 -0400
-X-MC-Unique: nsURYRdPNRG9UHjE2yLmdQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-471-BizF2LwIN4yNt69Oh8tTSw-1; Wed, 09 Jun 2021 09:16:11 -0400
+X-MC-Unique: BizF2LwIN4yNt69Oh8tTSw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61FE8192CC44
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 13:11:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 322221850610
+ for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 13:16:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
  [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7FC6100238C;
- Wed,  9 Jun 2021 13:11:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 430EC5D9C6;
+ Wed,  9 Jun 2021 13:16:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5CA73113865F; Wed,  9 Jun 2021 15:11:25 +0200 (CEST)
+ id C9D6D113865F; Wed,  9 Jun 2021 15:16:01 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [RFC QEMU PATCH] ui: Make the DisplayType enum entries conditional
 References: <20210609100240.1285032-1-thuth@redhat.com>
- <20210609112405.pyv62l22g5ympoe4@sirius.home.kraxel.org>
-Date: Wed, 09 Jun 2021 15:11:25 +0200
-In-Reply-To: <20210609112405.pyv62l22g5ympoe4@sirius.home.kraxel.org> (Gerd
- Hoffmann's message of "Wed, 9 Jun 2021 13:24:05 +0200")
-Message-ID: <878s3jmbcy.fsf@dusky.pond.sub.org>
+Date: Wed, 09 Jun 2021 15:16:01 +0200
+In-Reply-To: <20210609100240.1285032-1-thuth@redhat.com> (Thomas Huth's
+ message of "Wed, 9 Jun 2021 12:02:40 +0200")
+Message-ID: <8735trmb5a.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,51 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>, smitterl@redhat.com, qemu-devel@nongnu.org
+Cc: libvir-list@redhat.com, smitterl@redhat.com, Eric Blake <eblake@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> On Wed, Jun 09, 2021 at 12:02:40PM +0200, Thomas Huth wrote:
->> Libvirt's "domcapabilities" command has a way to state whether
->> certain graphic frontends are available in QEMU or not. Originally,
->> libvirt looked at the "--help" output of the QEMU binary to determine
->> whether SDL was available or not (by looking for the "-sdl" parameter
->> in the help text), but since libvirt stopped doing this analysis of
->> the help text, the detection of SDL is currently broken, see:
->> 
->>  https://bugzilla.redhat.com/show_bug.cgi?id=1790902
->> 
->> QEMU should provide a way via the QMP interface instead. The simplest
->> way, without introducing additional commands, is to make the DisplayType
->> enum entries conditional, so that the enum only contains the entries if
->> the corresponding CONFIG_xxx switches have been set.
+> Libvirt's "domcapabilities" command has a way to state whether
+> certain graphic frontends are available in QEMU or not. Originally,
+> libvirt looked at the "--help" output of the QEMU binary to determine
+> whether SDL was available or not (by looking for the "-sdl" parameter
+> in the help text), but since libvirt stopped doing this analysis of
+> the help text, the detection of SDL is currently broken, see:
 >
-> Hmm, that'll break for the "dnf remove qemu-ui-sdl" case ...
+>  https://bugzilla.redhat.com/show_bug.cgi?id=1790902
+>
+> QEMU should provide a way via the QMP interface instead. The simplest
+> way, without introducing additional commands, is to make the DisplayType
+> enum entries conditional, so that the enum only contains the entries if
+> the corresponding CONFIG_xxx switches have been set. Unfortunately, this
+> only works for sdl, cocoa and spice, since gtk, egl-headless and curses
+> are hard-wired in the "data" section of the DisplayOptions, and thus
+> unfortunately always have to be defined.
 
-By design, query-qmp-schema reflects compile-time configuration.  It
-predates modules, and has not been updated for modules.
+Here:
 
-For stuff that cannot be built as module, yes means yes in
-query-qmp-schema.
+    { 'union'   : 'DisplayOptions',
+      'base'    : { 'type'           : 'DisplayType',
+                    '*full-screen'   : 'bool',
+                    '*window-close'  : 'bool',
+                    '*show-cursor'   : 'bool',
+                    '*gl'            : 'DisplayGLMode' },
+      'discriminator' : 'type',
+      'data'    : { 'gtk'            : 'DisplayGTK',
+                    'curses'         : 'DisplayCurses',
+                    'egl-headless'   : 'DisplayEGLHeadless'} }
 
-For stuff that can be built as module, yes means maybe: yes if built-in
-or the module is loadable, else no.
+Flat union branches can be made conditional like so:
 
-Modules are not quite transparent there.  Transparency is a design goal,
-but I'm afraid it's an unattainable one.
+      'data'    : { 'gtk'            : { 'type': 'DisplayGTK',
+                                         'if': 'defined(CONFIG_GTK)' },
 
-Parsing -help output would have the same issue.
-
-The only way to upgrade a maybe to a yes is to load the module.  As long
-as module loading is implicit (because transparency!), the only way to
-load the module is to try using the feature, and recognize "can't load
-module" failures.  "Just try and recognize failures" is workable in
-simple cases.  In not so simple cases, it can be complex, slow and
-fragile (if it wasn't, introspection likely would not exist; see my
-"QEMU interface introspection: From hacks to solutions" talk at KVM
-Forum 2015).
+Then you should be able to make the corresponding enum value
+conditional, too.
 
 
