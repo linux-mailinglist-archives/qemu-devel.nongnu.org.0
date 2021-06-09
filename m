@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1FFC3A1A89
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:08:10 +0200 (CEST)
-Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1823A1AA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 18:16:31 +0200 (CEST)
+Received: from localhost ([::1]:40602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr0kT-0002Rw-Mi
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58176)
+	id 1lr0sY-00067N-LQ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 12:16:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lr0a8-0006xB-QX
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:57:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lr0a6-0007Wq-V9
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 11:57:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623254246;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZvW7duW2k0nKDXCzDSinRyfUS+AB28M4QxQdIb2s160=;
- b=NWyzX0XeVoYoEQM7FGxp1dLk8VOU+b2qwBPh34y2I84j6uZoppskqtXFGKF7rjrea2FAxB
- R4RcmIzuKC58ea8CDIdKyjaLi1uv3CZ4syzlcksWKi9DkrC11pz8u3S8AhHrORfBscOulJ
- 1aGel4c27fZbbn8hF8/LrXV7RZdgNBw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-CutZiuaXOVSEBzqW19W5IA-1; Wed, 09 Jun 2021 11:57:21 -0400
-X-MC-Unique: CutZiuaXOVSEBzqW19W5IA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C899100C664;
- Wed,  9 Jun 2021 15:57:21 +0000 (UTC)
-Received: from redhat.com (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA14E608BA;
- Wed,  9 Jun 2021 15:57:19 +0000 (UTC)
-Date: Wed, 9 Jun 2021 16:57:16 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 05/26] configure, meson: convert pam detection to meson
-Message-ID: <YMDkOv/bkV5cWLp2@redhat.com>
-References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-6-pbonzini@redhat.com>
- <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
- <YL/RJUcRTCzlLq2y@redhat.com>
- <c5386a2c-a3b4-0354-5cde-dcbecc587ca9@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lr0e3-0000Vr-Sl
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:01:32 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lr0e0-0000lL-S8
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 12:01:31 -0400
+Received: by mail-ed1-x533.google.com with SMTP id r11so29098623edt.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 09:01:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Bz58zNvkLoHYgTXK1IvYO2TBEZQJOrMb5IntExHM5ck=;
+ b=HAWQzuEapQciVQNvG1SvUd7Cvbptji+Dj0OpFyKTQ0BEWXZg34tQTWBhyC0bfdCA8Z
+ hiohLMGagbbQQg9YLWtEKqoyKqMV6hxB999wMrcxb2pto/rp+AWqft4iW4r59BKlMz1v
+ Qrmd6VmBjkmOWGTVo0ggJQSWn0gunj/eXMVbBic1i5aXo6KzKZ+dtXrYP7Bwo7+A+Ntw
+ HVaY+uFOlg7DrTCuuDm473T18abajWKcEtbkmHp2Qa+WpFCRQuZI4tUAVkiiZ1kRClAs
+ IP4aLmkEYmJZ13qZbSB1Scggk/UvezKEziX/cWURs80NSnZPuAS6eQSuLHP3QIX9/sE9
+ 5tNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Bz58zNvkLoHYgTXK1IvYO2TBEZQJOrMb5IntExHM5ck=;
+ b=XlArgd5JPVXdpffyUCh1vaNjsAJozZGJheIZC49Jv1r/Xf/2nFNwzLS/Z/gZAGkzj7
+ L/GbtYPsMBpWtPOpXgdA8cE7hlEWBNn3FqWqt8LOeRGKbPM4sv5lAeNfvtTDtmxqgV6I
+ HO6qDFb+8j2a1T8/Fhstil9dDWjj8O618tMl1OOUpJZpsuaeDJkzDp68Al2DnJ6I4WfF
+ BU3qmxoNP9yJVH64Zu2WgQaDuzknTRguPEmh0ZPtzUofN8pUetgIT35c1tezat1+MgMB
+ abrNXmmAm/Fm4SsnudXpZ6SK4ABGP9GV5cJWRWdHrnhYhiaxpKcTSXFa2RNmFxEOVGYx
+ ltUw==
+X-Gm-Message-State: AOAM531btLWfZWWLg7bt4dr5sZ5XLpX5tcY89A5JsgZdvM8xXT6lwfB7
+ X2IBdNqpIYoRxD9p1Ivh/4Atcz4gyPO5XIggJks=
+X-Google-Smtp-Source: ABdhPJxzKoVjGNqzy6U3VMDLpeTgyyrnyHkGPSJQcIe0bgIxq57OilPnD4Scx7v72efkTClZvqBx8T2LtXLT29k3ud0=
+X-Received: by 2002:a05:6402:cb5:: with SMTP id
+ cn21mr155486edb.164.1623254486027; 
+ Wed, 09 Jun 2021 09:01:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c5386a2c-a3b4-0354-5cde-dcbecc587ca9@linaro.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20210609152559.1088596-1-philmd@redhat.com>
+In-Reply-To: <20210609152559.1088596-1-philmd@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 9 Jun 2021 20:01:14 +0400
+Message-ID: <CAJ+F1CL0ZdNUdcgTR8gv3w-+p++tDfvtFVYPm6NgoU_b03VgRQ@mail.gmail.com>
+Subject: Re: [PATCH] tpm: Return QMP error when TPM is disabled in build
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000005116105c457636d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,91 +77,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 08:46:22AM -0700, Richard Henderson wrote:
-> On 6/8/21 1:20 PM, Daniel P. Berrangé wrote:
-> > On Tue, Jun 08, 2021 at 12:45:51PM -0700, Richard Henderson wrote:
-> > > On 6/8/21 4:22 AM, Paolo Bonzini wrote:
-> > > > +pam = not_found
-> > > > +if not get_option('auth_pam').auto() or have_system
-> > > > +  pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
-> > > 
-> > > The condition doesn't look right.
-> > > Why are we looking for pam if --disable-pam-auth?
-> > > 
-> > > Surely
-> > > 
-> > >    if not get_option('auth_pam').disabled() and have_system
-> > 
-> > This isn't entirely obvious at first glance, but the line after
-> > the one you quote with the 'required' param makes it "do the
-> > right thing (tm)".
-> > 
-> > The 'auth_pam' option is a tri-state taking 'enabled', 'disabled'
-> > and 'auto', with 'auto' being the default state. When a tri-state
-> > value is passed as the value of the 'required' parameter, then
-> > 
-> >     required==enabled   is interpreted as 'required=true'
-> >     required==auto      is interpreted as 'required=false'
-> >     required==disabled  means the entire call is a no-op
-> > 
-> > So this logic:
-> > 
-> >   if not get_option('auth_pam').auto() or have_system
-> >      pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
-> >                            required: get_option('auth_pam'),
-> > 			  ...)
-> > 
-> > Means
-> > 
-> >    => If 'auto' is set, then only look for the library if we're
-> >       building system emulators. In this case 'required:' will
-> >       evaluate to 'false', and so we'll gracefully degrade
-> >       if the library is missing.
-> 
-> If not have_system, there's no point in looking for pam *at all* regardless
-> of get_option().
+--00000000000005116105c457636d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In theory we can simplify to
+Hi
 
-   if have_system
-      pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
-                            required: get_option('auth_pam'),
-  	   		  ...)
+On Wed, Jun 9, 2021 at 7:33 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
 
-and this will be fine for builds with system emulators. The only
-caveat is that if someone disables system emulators while also
-passing  -Dpam=enabled, we won't check for pam. That is a
-nonsense combination of course, so probably doesn't matter
+> When the management layer queries a binary built using --disable-tpm
+> for TPM devices, it gets confused by getting empty responses:
+>
+>   { "execute": "query-tpm" }
+>   {
+>       "return": [
+>       ]
+>   }
+>   { "execute": "query-tpm-types" }
+>   {
+>       "return": [
+>       ]
+>   }
+>   { "execute": "query-tpm-models" }
+>   {
+>       "return": [
+>       ]
+>   }
+>
+> Make it clearer by returning an error, mentioning the feature is
+> disabled:
+>
+>   { "execute": "query-tpm" }
+>   {
+>       "error": {
+>           "class": "GenericError",
+>           "desc": "this feature or command is not currently supported"
+>       }
+>   }
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
 
-> 
-> >    => If 'disabled' is set, then the 'find_library' call
-> >       will not look for anything, immediately return a
-> >       'not found' result and let the caller carry on.
-> 
-> This is not true.  If 'required: false', find_library *will* look for the
-> library, but it will allow it to be missing.
+Why not make the qapi schema conditional?
 
-feature==disabled does not map to required: false
+---
+>  stubs/tpm.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/stubs/tpm.c b/stubs/tpm.c
+> index 9bded191d9d..8c904215b39 100644
+> --- a/stubs/tpm.c
+> +++ b/stubs/tpm.c
+> @@ -7,6 +7,8 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qapi/qapi-commands-tpm.h"
+> +#include "qapi/qmp/qerror.h"
+> +#include "qapi/error.h"
+>  #include "sysemu/tpm.h"
+>  #include "hw/acpi/tpm.h"
+>
+> @@ -21,16 +23,19 @@ void tpm_cleanup(void)
+>
+>  TPMInfoList *qmp_query_tpm(Error **errp)
+>  {
+> +    error_setg(errp, QERR_UNSUPPORTED);
+>      return NULL;
+>  }
+>
+>  TpmTypeList *qmp_query_tpm_types(Error **errp)
+>  {
+> +    error_setg(errp, QERR_UNSUPPORTED);
+>      return NULL;
+>  }
+>
+>  TpmModelList *qmp_query_tpm_models(Error **errp)
+>  {
+> +    error_setg(errp, QERR_UNSUPPORTED);
+>      return NULL;
+>  }
+>
+> --
+> 2.31.1
+>
+>
+>
 
-  https://mesonbuild.com/Build-options.html#features
+--=20
+Marc-Andr=C3=A9 Lureau
 
-[quote]
-    enabled is the same as passing required : true.
-    auto is the same as passing required : false.
-    disabled do not look for the dependency and always return 'not-found'.
-[/quote]
+--00000000000005116105c457636d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 9, 2021 at 7:33 PM Phil=
+ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">When the management layer queries a binary built using --disable-tpm=
+<br>
+for TPM devices, it gets confused by getting empty responses:<br>
+<br>
+=C2=A0 { &quot;execute&quot;: &quot;query-tpm&quot; }<br>
+=C2=A0 {<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;return&quot;: [<br>
+=C2=A0 =C2=A0 =C2=A0 ]<br>
+=C2=A0 }<br>
+=C2=A0 { &quot;execute&quot;: &quot;query-tpm-types&quot; }<br>
+=C2=A0 {<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;return&quot;: [<br>
+=C2=A0 =C2=A0 =C2=A0 ]<br>
+=C2=A0 }<br>
+=C2=A0 { &quot;execute&quot;: &quot;query-tpm-models&quot; }<br>
+=C2=A0 {<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;return&quot;: [<br>
+=C2=A0 =C2=A0 =C2=A0 ]<br>
+=C2=A0 }<br>
+<br>
+Make it clearer by returning an error, mentioning the feature is<br>
+disabled:<br>
+<br>
+=C2=A0 { &quot;execute&quot;: &quot;query-tpm&quot; }<br>
+=C2=A0 {<br>
+=C2=A0 =C2=A0 =C2=A0 &quot;error&quot;: {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;class&quot;: &quot;GenericError&qu=
+ot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;desc&quot;: &quot;this feature or =
+command is not currently supported&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 }<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br></blockquote><div><=
+br></div><div>Why not make the qapi schema conditional?</div><div> <br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0stubs/tpm.c | 5 +++++<br>
+=C2=A01 file changed, 5 insertions(+)<br>
+<br>
+diff --git a/stubs/tpm.c b/stubs/tpm.c<br>
+index 9bded191d9d..8c904215b39 100644<br>
+--- a/stubs/tpm.c<br>
++++ b/stubs/tpm.c<br>
+@@ -7,6 +7,8 @@<br>
+<br>
+=C2=A0#include &quot;qemu/osdep.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-commands-tpm.h&quot;<br>
++#include &quot;qapi/qmp/qerror.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;sysemu/tpm.h&quot;<br>
+=C2=A0#include &quot;hw/acpi/tpm.h&quot;<br>
+<br>
+@@ -21,16 +23,19 @@ void tpm_cleanup(void)<br>
+<br>
+=C2=A0TPMInfoList *qmp_query_tpm(Error **errp)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
+<br>
+=C2=A0TpmTypeList *qmp_query_tpm_types(Error **errp)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
+<br>
+=C2=A0TpmModelList *qmp_query_tpm_models(Error **errp)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--00000000000005116105c457636d--
 
