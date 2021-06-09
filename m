@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971303A1D34
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 20:51:37 +0200 (CEST)
-Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB113A1D37
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 20:53:02 +0200 (CEST)
+Received: from localhost ([::1]:40590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr3Ie-0007Jh-Mu
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 14:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
+	id 1lr3K1-0000TZ-FQ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 14:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lr3H9-0006Yl-Dr
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:50:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49594)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lr3HE-0006bW-Sh
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:50:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lr3H7-0003ug-6u
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:50:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lr3HD-0003yf-3c
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:50:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623264599;
+ s=mimecast20190719; t=1623264604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Bn9rlF3QmucMi7DK3aCqyO5YfjYDAg+y7k9CjHof6PQ=;
- b=S86srwfqlkDP0wHajOmnIh3d8Jk6jX4Cf3XbjPZotvmo1IB2z7yJxKyezH+y/uOclM7Czr
- YkKtXvIoQk71MzLzvUgkaVxpVFQd2Qek/qENLQTZHtLTCcJAul9rCxw+JwPB2sXLLpWPa/
- cO+RxFmDr6YhStHZEYefBQyn7LAupNE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-dZ14Il2-ORmRJww5_6hrlg-1; Wed, 09 Jun 2021 14:49:59 -0400
-X-MC-Unique: dZ14Il2-ORmRJww5_6hrlg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so2252233wmh.9
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 11:49:58 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ufd/1lPD7YOqAcMseEx+0LfzPXOJh9I7gpZPHh9YQsc=;
+ b=YcEExidKLcn7u+KuYA9HIvf58sEeExRDyAdXkzngqTfECp9CvqNEvXD5FbfsWAj02Up995
+ Mdk9TQavc2Kg3mKwFw6XE4vGlScRPocnz4nykSLAJQo4AN164q/zftCONRMI5knY0XlHS3
+ KpoqKRMMwVdBQAN4fe8gc8Dz+proHTc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-oNa_TXk1ON2Qnst5ZdF95w-1; Wed, 09 Jun 2021 14:50:03 -0400
+X-MC-Unique: oNa_TXk1ON2Qnst5ZdF95w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z25-20020a1c4c190000b029019f15b0657dso2253395wmf.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 11:50:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QnBijG37r3Hd2By4yopDpoCd+BTyiZSeozKdY2XzCkA=;
- b=N8whTLEiv4Ig4KET+Wsbc0PvP/LkKKC6ja1cmaaQWnwElvU8xoamKPxP6uEDOZVall
- +1/XH+M5oPrmQNL4x9NI5/zYS4rQryT4/MeJeFUebQkp4nJEKa25VcuKIZMXnV7GyvOz
- CL9Ko25cQPFPIn+OY8DzQdLWYkoQuJ5DZAikrBUvzwzwJ3ljipHOI1Gg/krgwZvPNnr3
- V+yhX2o9LXpa0tTV29VCYhKNtqBIs2aaO3dFVkOIjEQTGzHKERbmBCVj4JVjGQeyMYSv
- g2pQlcM6k5GU9clCx+bSZgipsdDRJab5GRQe8jNBUBkiTbYfP2Fu1uBR8Lk1xC2UfJav
- LYhQ==
-X-Gm-Message-State: AOAM532AvCLteypN/ZQSnxPtaL5GltCUDWJXT2PhbMB96Mhtr8S4RzRg
- uhoQIZ9p8JN1+TlpCCnXHxI0AiKRl6OnOTy/zwPAjA3E9XMxxlV+MR7w1UmYW0greGzlOtpwm9N
- XZeBhQnjnuP8k+RbXDbXMMx0gjMDAVBpoMQKzcUvJYxQJCisV6iSJqdUqgDtyR9xA
-X-Received: by 2002:a05:6000:1a87:: with SMTP id
- f7mr1262343wry.172.1623264597591; 
- Wed, 09 Jun 2021 11:49:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygsnYjvyCUsXZOYkkJtQYZjZsnrokY6cSUQtNRgbplsplq+Ycfnzz7W0ZJiK1TLE4AgQehUg==
-X-Received: by 2002:a05:6000:1a87:: with SMTP id
- f7mr1262323wry.172.1623264597340; 
- Wed, 09 Jun 2021 11:49:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ufd/1lPD7YOqAcMseEx+0LfzPXOJh9I7gpZPHh9YQsc=;
+ b=XN+VezvJ2NSAly+rGcsqT3auzPbbUSKxMAIdX0Hm6bvGQsmInW4XCB/qRqWpMZr9ip
+ Mrm5L/asIvHYMSsxK2PVJ/i8RDh8v1beLD2ZKUAmuIVpVm4hj/xoeqjA1nA+wBBGyNL7
+ oboNu4X8KIpT1CRihZ4jZDagwsyuFDmKhYGbQpkKe/ti16yFSj8aNlnxgXpY526BZGD0
+ sTwmfQI4sxhXoUXohC+gkl31qFzj7FN4sdCpoi+wN0bkuyIcJpvCYdtdsMKHQsn4klpj
+ VDBCcus8iAMd2oectxAMSdLhEF8eoA29saGG7VwzPQtZs2fo3G5x9iHjIZpmt8ft5RfZ
+ GUGA==
+X-Gm-Message-State: AOAM530ewWhXGIoYZZitUtWU8piZymRHqzIrIIp7G+nTuBuwH93m/p98
+ YpqCFkeTzuWDz/t7EZuENnp4/o7RqVz/zhLLAl50gmtBcp75/ljykCewq5Lz+UT2WzYO/pabdRz
+ FrEVRr+ATB8inlujpDZRl1TLAqLrS7FDgABiT1cNWM/+WOEAPOxLqR8jbPLUrZJCA
+X-Received: by 2002:adf:b34a:: with SMTP id k10mr1222828wrd.333.1623264602035; 
+ Wed, 09 Jun 2021 11:50:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLuyOkhg20CpnP3cdYDjPzDdkGeqHV3SZTlHb/Ol1c14w5oTpGa/bI+Vpw9FmlXfTAmKBNZg==
+X-Received: by 2002:adf:b34a:: with SMTP id k10mr1222806wrd.333.1623264601849; 
+ Wed, 09 Jun 2021 11:50:01 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id 31sm871859wrc.96.2021.06.09.11.49.56
+ by smtp.gmail.com with ESMTPSA id m3sm845765wrr.32.2021.06.09.11.50.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 11:49:56 -0700 (PDT)
+ Wed, 09 Jun 2021 11:50:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] tpm: Return QMP error when TPM is disabled in build
-Date: Wed,  9 Jun 2021 20:49:53 +0200
-Message-Id: <20210609184955.1193081-1-philmd@redhat.com>
+Subject: [RFC PATCH v2 1/2] qapi: Inline qmp_marshal_output() functions
+Date: Wed,  9 Jun 2021 20:49:54 +0200
+Message-Id: <20210609184955.1193081-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210609184955.1193081-1-philmd@redhat.com>
+References: <20210609184955.1193081-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -102,21 +103,37 @@ Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1:=0D
-- make the qapi schema conditional (Marc-Andr=C3=A9)=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  qapi: Inline qmp_marshal_output() functions=0D
-  tpm: Return QMP error when TPM is disabled in build=0D
-=0D
- qapi/tpm.json            |  9 ++++++---=0D
- monitor/hmp-cmds.c       |  4 ++++=0D
- stubs/tpm.c              | 16 ----------------=0D
- scripts/qapi/commands.py |  4 ++--=0D
- 4 files changed, 12 insertions(+), 21 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+In case we need to use QAPI types but no QAPI command / QAPI event
+actually use them, the generated qmp_marshal_output() function will
+trigger the compiler 'unused-function' warnings.
+To prevent that, emit these functions inlined: the compiler will
+ignore such unused functions.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+RFC: No clue about QAPI...
+Tested with GCC. If the compiler is picky we could use the 'unused'
+function attribute.
+---
+ scripts/qapi/commands.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 0e13d510547..bbed776a909 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -91,8 +91,8 @@ def gen_call(name: str,
+ def gen_marshal_output(ret_type: QAPISchemaType) -> str:
+     return mcgen('''
+ 
+-static void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
+-                                QObject **ret_out, Error **errp)
++static inline void qmp_marshal_output_%(c_name)s(%(c_type)s ret_in,
++                                        QObject **ret_out, Error **errp)
+ {
+     Visitor *v;
+ 
+-- 
+2.31.1
 
 
