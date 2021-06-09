@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6953A0D47
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 09:10:15 +0200 (CEST)
-Received: from localhost ([::1]:37100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805D23A0D5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 09:13:40 +0200 (CEST)
+Received: from localhost ([::1]:40188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqsLu-0003rl-9q
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 03:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60610)
+	id 1lqsPD-0006AL-KM
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 03:13:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqsKY-00032m-Bo
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 03:08:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49139)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqsO9-0005Bf-Rx
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 03:12:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51318)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqsKV-0008Hq-FI
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 03:08:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lqsO7-00028Q-S7
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 03:12:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623222526;
+ s=mimecast20190719; t=1623222751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZLWJKK9nPpdMslc6TIvD895R3lp1plru5XjLpRho8Yw=;
- b=IX3kojCW4c3Ts8gV/B19GRa8Ld1/oMHL5PD/zGWJdCnHYima7ncTaxSVdr/95Q4+6E6/+m
- pDKGxn/qU/g2jj+mNoeFQP1cyhiwiPy/4PHo1eZZcIA41jlf4aZRuZ9Tb41gQTDgaJCvrH
- 9KAQJQXZI2EvDGnKRujf7l2S5iaXPoE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-l1gRRBFaMcalTXJdpFpv6g-1; Wed, 09 Jun 2021 03:08:43 -0400
-X-MC-Unique: l1gRRBFaMcalTXJdpFpv6g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v2-20020a7bcb420000b0290146b609814dso1583165wmj.0
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 00:08:43 -0700 (PDT)
+ bh=fA1bVP8D6Yi1mfcqUVu0XeNF6cQUVoehe01yhsl6C4g=;
+ b=aPO8Vy8iOk5ow66dPIS7YRe4mdda5N2ewPOheaGeyHQj4CwLUqKkl7VtZMsEjuRO2dlanM
+ dZX6CLnngNe8zndWBLXT1MEczW+p6cgZaxYIvA8nz2FHkDKpwGp3KjTwzIZJS2eQMnD/Xj
+ SkmPqeYIE//VpwWGP+XavUdlrm4JTn0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-iSuXtRUZNoCHADmNH1tfoQ-1; Wed, 09 Jun 2021 03:12:29 -0400
+X-MC-Unique: iSuXtRUZNoCHADmNH1tfoQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ f22-20020a5d58f60000b029011634e39889so10334123wrd.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 00:12:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZLWJKK9nPpdMslc6TIvD895R3lp1plru5XjLpRho8Yw=;
- b=ZqfDNxKnKUc0IP/DZ/7j5Vze/iczbnFkHz6hv9kaYGeqBmSQWsg9lXIn3VGhtliw6T
- 7rQccuxQ71PiZnxjzb8NgVWgBULJjQzOt5DlEvtPArA4ilHAmFYaIOrnNSKUSnYVjycp
- wfB/+eFtOVc5Or90IVY1fRKNl0g7X5uP2JodA7nEC8oYJeQP2DmAfgjoQZYIB1Iu22ms
- sGdKHxr53ysQ96+JP24eWRvgUY7vDWiTSgd0mEGAtwHkJRGzikBA/uQurCo+5QKv+eqw
- 6UnVTVqC+Wh9pdWqyoWgstIRPO1r9kgv3TycaPnll6S2w0S8iKee42lT1RocLoangvxT
- KnPg==
-X-Gm-Message-State: AOAM5300ySl9SCt+5r0jxtKZiftadpgx1g+u+F/PlH3SNSPVS/RCJgD5
- 3sXvsH0BGSur20VDZyQsoIDT2BqzhEbqVRJuzwcuCCT+t3PyvFe9SpLmotephoYZkIHtUGvmfJG
- CymhWJVDf/1n29ik=
-X-Received: by 2002:adf:a193:: with SMTP id u19mr26954283wru.9.1623222522779; 
- Wed, 09 Jun 2021 00:08:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLw22xS6Cu7MDAM96YrF0+cXrweeztIvzOBGgKvMVKWfSHykVKUivlNxSCkpPwS+gFllE+Aw==
-X-Received: by 2002:adf:a193:: with SMTP id u19mr26954246wru.9.1623222522529; 
- Wed, 09 Jun 2021 00:08:42 -0700 (PDT)
+ bh=fA1bVP8D6Yi1mfcqUVu0XeNF6cQUVoehe01yhsl6C4g=;
+ b=hc+guVPYuEM8UmXV+EUEDiK2/4130IdC98XB0Q2PcxY+7iAl5IfPfj7vTbjMhKIjn2
+ vMoaXAiaYri/XcAHGXGhSQdxeLTOp/2ozHYRDCHoNlytpxRkjkYzfBrDUgcPnSiQLuam
+ OKznxU9hLoQjrN/aZ0YbaRLxsgwUCUTBu0jGJBDQ+jgip7Xf8d39OUaH711kGQm/olhi
+ c0Tjx+ocjHhqEL9myGemwdTcMCId/dhSe+LvZIFjOQT6pDPV8rBsYz8DSFCHch4k+5Dh
+ Q8dnY7LasMZz8t5Fwq547/cXKV9fdgGQgdBp664R+Kbyh3YMe9NB18U/D6yPKNGKEgNk
+ /sTQ==
+X-Gm-Message-State: AOAM5302pP4Ruin3jTVQpqEbFGu2le2i2DY+dXOoaarj/6Z0+CAFnFUg
+ onWolrNkbCFidUIMr7Qt1xvTndhrBqMa/7rrG1RvvcfGvWDV0Kok35OcQrd1wIiBlY8iEAc+Bey
+ 1X4a87L5Iwd5ls2s=
+X-Received: by 2002:a7b:c8ce:: with SMTP id f14mr25733637wml.88.1623222748038; 
+ Wed, 09 Jun 2021 00:12:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxAOd/PcSWpGQZ7ALnEYSBdnnKApRgivwoEFn6ePeUndEBc67S4pWHJVId782FadEkaIrVB5A==
+X-Received: by 2002:a7b:c8ce:: with SMTP id f14mr25733603wml.88.1623222747773; 
+ Wed, 09 Jun 2021 00:12:27 -0700 (PDT)
 Received: from thuth.remote.csb (pd9e83d80.dip0.t-ipconnect.de.
  [217.232.61.128])
- by smtp.gmail.com with ESMTPSA id v7sm22090758wru.66.2021.06.09.00.08.41
+ by smtp.gmail.com with ESMTPSA id f18sm20057897wmj.13.2021.06.09.00.12.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 00:08:42 -0700 (PDT)
-Subject: Re: [PATCH 1/4] block.c: fix compilation error on possible
- unitialized variable
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Miroslav Rezanina <mrezanin@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
-References: <20210608140938.863580-1-crosa@redhat.com>
- <20210608140938.863580-2-crosa@redhat.com>
+ Wed, 09 Jun 2021 00:12:27 -0700 (PDT)
+Subject: Re: Prevent compiler warning on block.c
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <1162368493.17178530.1620201543649.JavaMail.zimbra@redhat.com>
+ <62c90da0-b2f9-7068-e84f-c13bb1527191@virtuozzo.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <44686b06-3d40-cc11-2874-84ecb7827ecb@redhat.com>
-Date: Wed, 9 Jun 2021 09:08:40 +0200
+Message-ID: <9ef22266-25e1-36df-52e9-ad5244a648dc@redhat.com>
+Date: Wed, 9 Jun 2021 09:12:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210608140938.863580-2-crosa@redhat.com>
+In-Reply-To: <62c90da0-b2f9-7068-e84f-c13bb1527191@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -89,7 +88,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,47 +101,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, John Snow <jsnow@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/06/2021 16.09, Cleber Rosa wrote:
-> GCC from CentOS Stream 8 is erroring out on a possibily unitialized
-> varible.
+On 05/05/2021 10.05, Vladimir Sementsov-Ogievskiy wrote:
+> 05.05.2021 10:59, Miroslav Rezanina wrote:
+>> Commit 3108a15cf (block: introduce bdrv_drop_filter()) introduced 
+>> uninitialized
+>> variable to_cow_parent in bdrv_replace_node_common function that is used 
+>> only when
+>> detach_subchain is true. It is used in two places. First if block properly 
+>> initialize
+>> the variable and second block use it.
+>>
+>> However, compiler treats this two blocks as two independent cases so it 
+>> thinks first
+>> block can fail test and second one pass (although both use same 
+>> condition). This cause
+>> warning that variable can be uninitialized in second block.
+>>
+>> To prevent this warning, initialize the variable with NULL.
+>>
+>> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+>> ---
+>> diff --git a/block.c b/block.c
+>> index 874c22c43e..3ca27bd2d9 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -4851,7 +4851,7 @@ static int bdrv_replace_node_common(BlockDriverState 
+>> *from,
+>>       Transaction *tran = tran_new();
+>>       g_autoptr(GHashTable) found = NULL;
+>>       g_autoptr(GSList) refresh_list = NULL;
+>> -    BlockDriverState *to_cow_parent;
+>> +    BlockDriverState *to_cow_parent = NULL;
+>>       int ret;
+>>
+>>       if (detach_subchain) {
+>>
 > 
-> Full version info for the compiler used:
-> 
->   gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-1)
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   block.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block.c b/block.c
-> index 3f456892d0..08f29e6b65 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -4866,7 +4866,7 @@ static int bdrv_replace_node_common(BlockDriverState *from,
->       Transaction *tran = tran_new();
->       g_autoptr(GHashTable) found = NULL;
->       g_autoptr(GSList) refresh_list = NULL;
-> -    BlockDriverState *to_cow_parent;
-> +    BlockDriverState *to_cow_parent = NULL;
->       int ret;
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Already reported here:
+This just popped up again here:
 
-  https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01229.html
+  https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg02067.html
+
+Kevin, Max, could you please pick it up to get this problem fixed?
 
   Thomas
 
