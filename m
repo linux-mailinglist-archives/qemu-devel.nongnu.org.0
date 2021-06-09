@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2676F3A16B2
+	by mail.lfdr.de (Postfix) with ESMTPS id 938913A16B3
 	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:12:18 +0200 (CEST)
-Received: from localhost ([::1]:50052 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqywL-0006CP-5a
+	id 1lqywL-0006EH-Kr
 	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:12:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36988)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lqyuS-0003iJ-6Q
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:10:21 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40934)
+ id 1lqyuW-0003jq-Br
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:10:24 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lqyuO-0006Kn-Hx
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:10:19 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id y7so21015060wrh.7
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 07:10:14 -0700 (PDT)
+ id 1lqyuR-0006NJ-4G
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:10:24 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ l7-20020a05600c1d07b02901b0e2ebd6deso4317834wms.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 07:10:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6J9Ek/jmJQvJKuLPueaJ1YNh/Xr7n9nbcv1E4FDLkls=;
- b=KeiMi7szOaafqkuks1wiGi7PVBRIm49YnIAzQFFSAqTIRcAxYFEZZKKS8I5lR9M5RL
- 72PSruTax/hhBKIzvt6JjDdFQInaqfvd9IYlWtBPN/tW++9hFwHbvNx3syXB8wiFly4J
- NYsz4iP9jKj0DKCE38DdQ515tYtZsrG4GoWc5bx+d4O3Td9gc4XKpSJZihCHomqKOk3a
- TiYSEI/VvH6E7EoIcVDumkZ1jL6lHPrgmI0OL1Ko/de03FysiZO2aRMZDh9XTWiozN88
- aFoWhW+hk9Dgph1yhbRWTcdmEJRANhy9DRDcsZkz1kthgkSsSsr1kdJNgHJFgYcn6Xzs
- Rs1w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SK4Sda9oKAO+kAJdqn+QafWI9XvksejZSvmI3F9R0lo=;
+ b=ThhnxJXqlKNpUl5qYUi6A0MSXeZgFTHQMckiI4DPHkoeqz7qS8usBhZ8su0vGTZ2iF
+ FODzMTSK7RdUBKP+NaxESlyOILQTRZsRo5lBMyIXa6xzvse/9nK56d7A4wqjgE5ckzlN
+ t/8paIt1g9D1UUbGh0o2A65Dj7d/zLnMetFCKhXAokFYFPG/bGbKtKhJPCa2e4tHArxe
+ WQ421EjaxNRBhZoZV/GU0p39CrKPkDnJHVZDyIXXghvyn1L2BkAehhKcANcyac9955gy
+ uYozoC89NtM/romJsw8tDT7du/eO1wmNo5urq4gY4BPJBoeLrujgmT6zgx/TL02vuUOl
+ 7dhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=6J9Ek/jmJQvJKuLPueaJ1YNh/Xr7n9nbcv1E4FDLkls=;
- b=l/9jHwi3i/jN67KMh2evUeEhYQIid/f0XMoUbeGyQTOnPmUK/6A3ooHz5EQRfCH/Ql
- v4SPp6gDl063pJEafjiNUpfmVsmuPF7m8wKUlNs+8T88IUcawc9nnFOp9q4mlfeVMq6u
- BdbmBZLqH7x50A6DepI6IvQhUpD0iHfb2zehvpstenrEgH5s0T+nt7SZMPYWZcxZflH/
- kTRM/JIOqeab/k3OigAYl84x1cAaA9TcnMM9Ab1muvgZmiY0BPhHEy4XkBzYauuu3Jg9
- PIu20k7uS/0pouE2bR+dWZ5U4BB6S3fhv4DkuOnm9/F4vbOVT/AnbudCaj4BR+w3XAvH
- FRpw==
-X-Gm-Message-State: AOAM533kov+1fJjGEwEnX9F/AaAeytQHYUwp3kWLX91mmkCbvmaitiuZ
- w5KHgIpr9a24A4IoFUK5bqQ77yXG0/+GDQ==
-X-Google-Smtp-Source: ABdhPJxmH5X2iswnAiMWHFoBXgmxj/4lbLSKGILpmjlhV3ycxzRNg6aLgUof6cCbnY+6Lt+KSOzd6A==
-X-Received: by 2002:a5d:664c:: with SMTP id f12mr10292wrw.206.1623247812230;
- Wed, 09 Jun 2021 07:10:12 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=SK4Sda9oKAO+kAJdqn+QafWI9XvksejZSvmI3F9R0lo=;
+ b=dfc77Q9XbMsjpKzLWydypw7E/TRnJ1QKHYs+MIyfe31wLTtsmJLE8yDoQqxZphIeNl
+ MRwLXSZ1PeZvPggWWFXnzZ9PrAXs7rmSIClCO55WnmT9OHAUEqOpw4ilZM8o15nZrxG2
+ TsZ5gcAicmCk179CeMJLmx85V8DXp3ZKIWtsgJ1TMopCi1MbNh8l8CRebFLnuhsTG1vh
+ Y4JjOzS7gQL/OvcFjlb0du89VItkkoLtzS7lsDu2DSxBm2GNu4cUXCdCI+Hpp28Dvac6
+ PDRfgi8BTb4iGB+7hE++ECaLEr8Vx7WcThmNbzfqpUDOJzqvprsnYehIZ7p56+y9e6wH
+ WFbw==
+X-Gm-Message-State: AOAM531HWsfJdBQdf8gBeH78PrpP4mOX+O3gCvHzgHEX5bQMyOtKLYcB
+ zk/vPY6d00L2em5KpbBDtVSz9l0edBfxyw==
+X-Google-Smtp-Source: ABdhPJxxYSgNV6WU1qc3iTRGMNfGLj5hPfnTOD1rGGyzO0/Xjn03K5FFl2GPQtIdhU6MiAFnPyey5w==
+X-Received: by 2002:a05:600c:35c3:: with SMTP id
+ r3mr10033186wmq.169.1623247816991; 
+ Wed, 09 Jun 2021 07:10:16 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id m65sm21728526wmm.19.2021.06.09.07.10.10
+ by smtp.gmail.com with ESMTPSA id j12sm24258wrt.69.2021.06.09.07.10.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 07:10:11 -0700 (PDT)
+ Wed, 09 Jun 2021 07:10:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 0/2] cputlb: implement load_helper_unaligned() for
- unaligned loads
-Date: Wed,  9 Jun 2021 16:10:08 +0200
-Message-Id: <20210609141010.1066750-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/2] accel/tcg/cputlb: Extract load_helper_unaligned() from
+ load_helper()
+Date: Wed,  9 Jun 2021 16:10:09 +0200
+Message-Id: <20210609141010.1066750-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210609141010.1066750-1-f4bug@amsat.org>
+References: <20210609141010.1066750-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,20 +97,103 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reposting Mark's patch:=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg814227.html=0D
-but split in 2 patches for easier review.=0D
-=0D
-Mark Cave-Ayland (1):=0D
-  cputlb: implement load_helper_unaligned() for unaligned loads=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (1):=0D
-  accel/tcg/cputlb: Extract load_helper_unaligned() from load_helper()=0D
-=0D
- accel/tcg/cputlb.c | 106 ++++++++++++++++++++++++++++++++++++---------=0D
- 1 file changed, 85 insertions(+), 21 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Replace a goto statement by an inlined function for easier review.
+No logical change intended.
+
+Inspired-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ accel/tcg/cputlb.c | 54 ++++++++++++++++++++++++++++------------------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
+
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index f24348e9793..2b5d569412c 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1851,6 +1851,34 @@ load_memop(const void *haddr, MemOp op)
+     }
+ }
+ 
++static inline uint64_t QEMU_ALWAYS_INLINE
++load_helper_unaligned(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
++                      uintptr_t retaddr, MemOp op, bool code_read,
++                      FullLoadHelper *full_load)
++{
++    size_t size = memop_size(op);
++    target_ulong addr1, addr2;
++    uint64_t res;
++    uint64_t r1, r2;
++    unsigned shift;
++
++    addr1 = addr & ~((target_ulong)size - 1);
++    addr2 = addr1 + size;
++    r1 = full_load(env, addr1, oi, retaddr);
++    r2 = full_load(env, addr2, oi, retaddr);
++    shift = (addr & (size - 1)) * 8;
++
++    if (memop_big_endian(op)) {
++        /* Big-endian combine.  */
++        res = (r1 << shift) | (r2 >> ((size * 8) - shift));
++    } else {
++        /* Little-endian combine.  */
++        res = (r1 >> shift) | (r2 << ((size * 8) - shift));
++    }
++
++    return res & MAKE_64BIT_MASK(0, size * 8);
++}
++
+ static inline uint64_t QEMU_ALWAYS_INLINE
+ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+             uintptr_t retaddr, MemOp op, bool code_read,
+@@ -1866,7 +1894,6 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         code_read ? MMU_INST_FETCH : MMU_DATA_LOAD;
+     unsigned a_bits = get_alignment_bits(get_memop(oi));
+     void *haddr;
+-    uint64_t res;
+     size_t size = memop_size(op);
+ 
+     /* Handle CPU specific unaligned behaviour */
+@@ -1893,9 +1920,10 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+         CPUIOTLBEntry *iotlbentry;
+         bool need_swap;
+ 
+-        /* For anything that is unaligned, recurse through full_load.  */
++        /* For anything that is unaligned, recurse through byte loads.  */
+         if ((addr & (size - 1)) != 0) {
+-            goto do_unaligned_access;
++            return load_helper_unaligned(env, addr, oi, retaddr, op,
++                                         code_read, full_load);
+         }
+ 
+         iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
+@@ -1932,24 +1960,8 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+     if (size > 1
+         && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
+                     >= TARGET_PAGE_SIZE)) {
+-        target_ulong addr1, addr2;
+-        uint64_t r1, r2;
+-        unsigned shift;
+-    do_unaligned_access:
+-        addr1 = addr & ~((target_ulong)size - 1);
+-        addr2 = addr1 + size;
+-        r1 = full_load(env, addr1, oi, retaddr);
+-        r2 = full_load(env, addr2, oi, retaddr);
+-        shift = (addr & (size - 1)) * 8;
+-
+-        if (memop_big_endian(op)) {
+-            /* Big-endian combine.  */
+-            res = (r1 << shift) | (r2 >> ((size * 8) - shift));
+-        } else {
+-            /* Little-endian combine.  */
+-            res = (r1 >> shift) | (r2 << ((size * 8) - shift));
+-        }
+-        return res & MAKE_64BIT_MASK(0, size * 8);
++        return load_helper_unaligned(env, addr, oi, retaddr, op,
++                                     code_read, full_load);
+     }
+ 
+     haddr = (void *)((uintptr_t)addr + entry->addend);
+-- 
+2.31.1
+
 
