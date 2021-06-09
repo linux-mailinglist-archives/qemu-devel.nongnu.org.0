@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29203A1562
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 15:21:22 +0200 (CEST)
-Received: from localhost ([::1]:48432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012403A158D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 15:25:27 +0200 (CEST)
+Received: from localhost ([::1]:50742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqy93-00011B-Pd
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 09:21:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55236)
+	id 1lqyD0-0002ey-3W
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 09:25:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqy7r-0000CZ-3h
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:20:07 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33288)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqyCE-0001zC-Kq
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:24:38 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lqy7o-0006j9-8R
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:20:06 -0400
-Received: by mail-ed1-x532.google.com with SMTP id f5so23615220eds.0
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 06:20:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lqyCC-0001EX-W9
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 09:24:38 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id q5so25511914wrm.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 06:24:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LaV/UHa5TQgv7JxhhRjOMOiWp/SiVoWJt2egg+7HuVE=;
- b=pHRLXmlr8J8s/DigcNHM5yaoRZa4h286vhk6IzNhJIVfTkGI4hWGzvn2WO4JI5HSRn
- 1pcX2YQJNsrjiCHcxffu5hapG6Jl/uhV2167zvwUSZEWVWRtRWA7LEdkASd6QDBYFwrM
- yvDC5/YmXKYzb91Avx4+OQ91LiDz+XvEBkbNBJb1dZumW1sYFIOnsa2rj96dfa4xOsqC
- jkpPlM+pmqT5Qb7DKXvWN2mErd5KlzJexuqoOtUW02+DEUKGrk691rsvr/mBuqdEWdrj
- q4loz4ddLwyQ2JdCsyEQ4fE0Xo0FqoZZx6kFofKUhzhNtM18EdMqMtJFUHhA589HIhc6
- ydIQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=t0y88kdDwlQyPMr9BtppQ3nZCLccKy3wlj1EyClCBRk=;
+ b=RmbamrGKy1OKQolVrM1AuuOAN3M0nSNpw+YvFctKYa1r2dtqG7T6QVNlDcWpAiZFnB
+ V7RpgDQyqScHgG5rdcTUEgVeaLmEbsdgDb65aWMuVt3Tn7OtiC2Y9hhoGk2ApINoGQjh
+ r+EDOp3RuByYO6URVBppSidubHgq4dhlfeJI0DupQvmcCW0ERtWarQz4WfoVrblefOlZ
+ mzSeQPa0nbH1wR0dlYVhI3fJkmpGP2Bsp7uCFv0qJWUxN2ILYgGCVyl4ruwoYo0BEq7F
+ CG39LWY6cUJQCGAq4QTs8RwU+C3g471R70EwAumtr37HVz0z0NOLUnLvc6EoilQZewiL
+ bhqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LaV/UHa5TQgv7JxhhRjOMOiWp/SiVoWJt2egg+7HuVE=;
- b=VNL3sThJjCtWptDy/u+mjq79EkVJadcRnCL5XAHcebZ+G6594K2yGPWYQDMzqWj8j3
- jOfusagxZpub+Wkeliy7r+cUV5k9cREzXdlFaaVPpY9XE1Ind9bxbPijVhp2TUvEg24+
- kCtqr94BMEWRoBUre9lAt4cTnPA7ClqDFbECkc8L2vOxqWwGAgc3SMHZUbjsNr1lLeaW
- EuG1IjiJTe454+zshJeUzF/0JmzkseUWB665Ye1xhFAjqiC/kgq11SoseIaV9XglBV4r
- 6ZUHtisPqWA0zFAKLPxETcV0GRWWyYikKZ+nMcXiFzdcCpI5Uk8ftHq7vcE7rRlrDrd7
- pq/A==
-X-Gm-Message-State: AOAM533DteF3tWU7NJ9Qz5l/8wE9TiGN+VGJMqCLqmsUnPw5eGC7G4DK
- sprSeKT+oWqZAKwINiLy+QK7K8tNLOu2x+xCMEliJQ==
-X-Google-Smtp-Source: ABdhPJzQ1z1Dnv2uJpOyhPYKPduWraQSWPdv//+/KstWguejgu/FqBJg9FdWdhC7qvL1cf9zsA8PVfTLhtrD0dMRjRw=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr13872096edt.100.1623244802658; 
- Wed, 09 Jun 2021 06:20:02 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=t0y88kdDwlQyPMr9BtppQ3nZCLccKy3wlj1EyClCBRk=;
+ b=o8zPXc65Zu8c0RCPPhrwqTXxSDApH/lw5+29yxZZahedD4s0l0aJUd6UFEi7XHLfyd
+ nL4B+WBH9258mMWRXyPDG/odvdNIyc+E3WeHw0ScZMilhzCxXj7/RpDC2WvOqRP5aUBr
+ i17M+gFRVbPmvhDu7/rs4yCxBewOmNRuDcq8iusuQauylvAJes3cEjned6Utn+d1mNP5
+ DaGL8rFSX0LbRsHlTEtjbjDdW5CrVSbE0LBZwD4Fmt2uBFO5EUBIW24hc64J00dkM0hv
+ MUfJ0ArpR/FMPT8/QSie8Zs/EPL92W0xSo+6aWlv2IAJCJk/4QccLDq5KWjm+A/X9wJJ
+ mjgw==
+X-Gm-Message-State: AOAM532JXYCN6Rd2gTQtYQXpSLxQbxdDmjHYq0geM21gMNa7T6/32UID
+ YKCvEwgMFDOk3PgGgY5qGDsk5Q==
+X-Google-Smtp-Source: ABdhPJzebOewvEQJs7veoZfd9XoYdC/Q6ElssiwxOuICzlroRVl4LWzLNnN0y4mW4ROyZXPw8jd3Ug==
+X-Received: by 2002:adf:ee52:: with SMTP id w18mr28441963wro.37.1623245075380; 
+ Wed, 09 Jun 2021 06:24:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k36sm12207444wms.30.2021.06.09.06.24.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 06:24:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 70FD21FF7E;
+ Wed,  9 Jun 2021 14:24:33 +0100 (BST)
+References: <20210608031425.833536-1-crosa@redhat.com>
+ <20210608031425.833536-2-crosa@redhat.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v6 1/4] Jobs based on custom runners: documentation and
+ configuration placeholder
+Date: Wed, 09 Jun 2021 14:24:28 +0100
+In-reply-to: <20210608031425.833536-2-crosa@redhat.com>
+Message-ID: <87zgvzi31q.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210608170607.21902-1-peter.maydell@linaro.org>
- <CAMxuvay_bMs_hRzMjc-bVfFJaqk_Zui8anU-dNam4tUztxcvWQ@mail.gmail.com>
- <CAFEAcA9wHEcHO7GpiWZif2w-CUBmLPJYUgr11su7S2hAPhiuwA@mail.gmail.com>
- <87bl8fnrk8.fsf@dusky.pond.sub.org>
-In-Reply-To: <87bl8fnrk8.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Jun 2021 14:19:28 +0100
-Message-ID: <CAFEAcA8DMwg5mAVDq8GJggCu79eNw6ZLKnbs0wFDPv=-VhhpSQ@mail.gmail.com>
-Subject: Re: [PATCH] tests/unit/test-char.c: Fix error handling issues
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,81 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E?= =?utf-8?Q?_Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 9 Jun 2021 at 13:36, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Tue, 8 Jun 2021 at 20:51, Marc-Andr=C3=A9 Lureau
-> > <marcandre.lureau@redhat.com> wrote:
-> >>
-> >> Hi
-> >>
-> >> On Tue, Jun 8, 2021 at 9:06 PM Peter Maydell <peter.maydell@linaro.org=
-> wrote:
-> >>> I think that improving the quality of the failure reporting
-> >>> in 'make check' is useful, and that we should probably turn
-> >>> on g_test_set_nonfatal_assertions() everywhere. (The worst that
-> >>> can happen is that instead of crashing on the assert we proceed
-> >>> and crash a bit later, I think.) Awkwardly we don't have a single
-> >>> place where we could put that call, so I guess it's a coccinelle
-> >>> script to add it to every test's main() function.
-> >>>
-> >>
-> >> I don't have any strong opinion on this. But I don't see much sense in
-> >> having extra code for things that should never happen.
-> >
-> > The point is that I want to make them happen, though...
->
-> I'd prefer not to.
->
-> Writing tests is tedious enough as it is.  Replacing
->
->     assert COND in one of the many ways GLib provides
->
-> by
->
->     assert COND in one of the many ways GLib provides
->     if (!COND) {
->         bail out
->     }
->
-> makes it worse.
->
-> Readability suffers, too.
 
-I agree. But glib doesn't provide a "check this test thing I'm
-trying to test, and make it cleanly abandon and fail the test
-if the check passes" function. I suppose we could rig one up
-with setjmp/longjmp and some macros...
+Cleber Rosa <crosa@redhat.com> writes:
 
-> >> I would teach coverity instead that those asserts are always fatal.
-> >
-> > If you want an assert that's always fatal, that's g_assert().
-> > These ones are documented as not always fatal.
+> As described in the included documentation, the "custom runner" jobs
+> extend the GitLab CI jobs already in place.  One of their primary
+> goals of catching and preventing regressions on a wider number of host
+> systems than the ones provided by GitLab's shared runners.
 >
-> You'd sacrifice the additional output from g_assert_cmpint() & friends,
-> which can sometimes save a trip through the debugger.  I don't care all
-> that much myself, but I know others do.
-
-> Plain assert()'s behavior is configurable at compile time: assertion
-> checking on / off.  This sets a trap for the unwary: side effects in the
-> argument.  We avoid the trap by gluing the compile-time switch to "on".
+> This sets the stage in which other community members can add their own
+> machine configuration documentation/scripts, and accompanying job
+> definitions.  As a general rule, those newly added contributed jobs
+> should run as "non-gating", until their reliability is verified (AKA
+> "allow_failure: true").
 >
-> GLib's optionally non-fatal assertions add new traps, with much less
-> excuse.  Without recovery code, non-fatal assertions make little sense.
-> But when you have to add recovery code anyway, you could easily switch
-> to a new set of check functions, too.  Overloading the existing
-> assertion functions was in bad taste.
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-I agree that I wouldn't have named them _assert myself...
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- PMM
+--=20
+Alex Benn=C3=A9e
 
