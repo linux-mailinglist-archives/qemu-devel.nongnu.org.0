@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6AB3A1216
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 13:10:50 +0200 (CEST)
-Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB0F3A1236
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 13:18:39 +0200 (CEST)
+Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqw6j-00054I-R1
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 07:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51824)
+	id 1lqwEI-0000qI-HT
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 07:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lqvuq-0006Fg-NZ; Wed, 09 Jun 2021 06:58:32 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46614)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1lqvup-0006wO-B7; Wed, 09 Jun 2021 06:58:32 -0400
-Received: by mail-pg1-x536.google.com with SMTP id n12so19088543pgs.13;
- Wed, 09 Jun 2021 03:58:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xFg7MnO7nvJnkVMGtL3sSINZ09D7gupmzHvbV9EVQ2w=;
- b=thLOVoclJfn2G1GQAA1c1iJ80kOYifVXln7fwRI4dZzEBzXu0BmbBGWkv4t6ogqbyE
- OtuSBUTBbnUpbjtt7dJIQtU+G0D1iDt5Ulw9BQtXYtzUD2GjnYcM+liDRXWWi5AjZUPf
- 7T08GE/k9hJEnEzgtVM8thbef+s17FGe1TVCJxRYtEcSHYeLHr6CpwGSvmdqnUE+eFX6
- 0ycuUON5+QWRLKFJl1IYHTMPMead9CTX4ONPw1cjqS9wowoNdz7DDXC3foeVgJ801gRx
- yhbM86l0ptGspjMjzffw0qYjarkQ9mhyxiXXXpXNw4WMP6A6VUdwC9CNvftDfQz4DI+t
- f4Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xFg7MnO7nvJnkVMGtL3sSINZ09D7gupmzHvbV9EVQ2w=;
- b=Ddz/VRinB3rufKUG39IUkJXXMZUOj5H0AxMxOjc3iaImRDXrLuq1nA6L1D+dVHjLYA
- coUK8sMDA/h5jcO23+3O+fASvBeYBE2/zvWHwtbUEyFxrIEU0APsUjY7LQOFFhVpZFKL
- Pucw+Q8CiBboz2FKF/GIMxqvPcvbdxzyjBmZekLvQo6xC7PJeoIeVaCKnujo9Es579s8
- 6NzYotqLdHApHQFzz7OFIIFG3iMDATKmItMgqGH4rtAEgSN/XD6juJHMy9VrFW7GiNj8
- +mj+9sRm9lVwVZgk2jt+MC0+7KpyiitIhFjFgh6KjGltLt5Tz96uRExR48yx+JtDUmn9
- cedw==
-X-Gm-Message-State: AOAM531+tcFB0RFa4paNqaj+oXtppPbr0NUY+SmqSi8AvxE2YXi/TRMs
- 3AOFpqMyL054Fque/In5GHQSjaO9W7U=
-X-Google-Smtp-Source: ABdhPJwtm7OU5dGEfCFNU4KGKlY5vn6LgRazLyiV1pn4WL6AsPSp+rnJc23RxsWy7reB/n77Pf31TQ==
-X-Received: by 2002:aa7:83c1:0:b029:2e9:6822:69ef with SMTP id
- j1-20020aa783c10000b02902e9682269efmr4810035pfn.23.1623236309782; 
- Wed, 09 Jun 2021 03:58:29 -0700 (PDT)
-Received: from voyager.lan ([45.124.203.19])
- by smtp.gmail.com with ESMTPSA id c3sm12866923pfl.42.2021.06.09.03.58.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 03:58:29 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 2/2] arm/aspeed: Add DPS310 to Witherspoon and Rainier
-Date: Wed,  9 Jun 2021 20:28:02 +0930
-Message-Id: <20210609105802.17015-3-joel@jms.id.au>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210609105802.17015-1-joel@jms.id.au>
-References: <20210609105802.17015-1-joel@jms.id.au>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lqwDB-0008SD-Ae
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:17:29 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35108
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lqwD5-0002cn-MY
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 07:17:29 -0400
+Received: from host109-155-147-70.range109-155.btcentralplus.com
+ ([109.155.147.70] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lqwCr-0005b0-IS; Wed, 09 Jun 2021 12:17:13 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, richard.henderson@linaro.org, alex.bennee@linaro.org,
+ peter.maydell@linaro.org
+References: <20210609093528.9616-1-mark.cave-ayland@ilande.co.uk>
+ <f5a00786-36ad-0346-942c-a6cfe1a7d0eb@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <5055ad59-3e50-8690-fd5b-aa6b6e7388bc@ilande.co.uk>
+Date: Wed, 9 Jun 2021 12:17:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <f5a00786-36ad-0346-942c-a6cfe1a7d0eb@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=joel.stan@gmail.com; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-SA-Exim-Connect-IP: 109.155.147.70
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH] cputlb: implement load_helper_unaligned() for
+ unaligned loads
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,51 +67,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Witherspoon uses the DPS310 as a temperature sensor. Rainier uses it as
-a temperature and humidity sensor.
+On 09/06/2021 11:28, Philippe Mathieu-Daudé wrote:
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/arm/aspeed.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On 6/9/21 11:35 AM, Mark Cave-Ayland wrote:
+>> [RFC because this is currently only lightly tested and there have been some
+>> discussions about whether this should be handled elsewhere in the memory API]
+>>
+>> If an unaligned load is required then the load is split into 2 separate accesses
+>> and combined together within load_helper(). This does not work correctly with
+>> MMIO accesses because the original access size is used for both individual
+>> accesses causing the little and big endian combine to return the wrong result.
+>>
+>> There is already a similar solution in place for store_helper() where an unaligned
+>> access is handled by a separate store_helper_unaligned() function which instead
+>> of using the original access size, uses a single-byte access size to shift and
+>> combine the result correctly regardless of the orignal access size or endian.
+>>
+>> Implement a similar load_helper_unaligned() function which uses the same approach
+>> for unaligned loads to return the correct result according to the original test
+>> case.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/360
+>> ---
+>>   accel/tcg/cputlb.c | 99 ++++++++++++++++++++++++++++++++++++++--------
+>>   1 file changed, 82 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+>> index f24348e979..1845929e99 100644
+>> --- a/accel/tcg/cputlb.c
+>> +++ b/accel/tcg/cputlb.c
+>> @@ -1851,6 +1851,85 @@ load_memop(const void *haddr, MemOp op)
+>>       }
+>>   }
+>>   
+>> +static uint64_t __attribute__((noinline))
+>> +load_helper_unaligned(CPUArchState *env, target_ulong addr, uintptr_t retaddr,
+>> +                      size_t size, uintptr_t mmu_idx, bool code_read,
+>> +                      bool big_endian)
+>> +{
+> ...
+> 
+>> +}
+>> +
+>>   static inline uint64_t QEMU_ALWAYS_INLINE
+>>   load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+>>               uintptr_t retaddr, MemOp op, bool code_read,
+>> @@ -1893,7 +1972,7 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+>>           CPUIOTLBEntry *iotlbentry;
+>>           bool need_swap;
+>>   
+>> -        /* For anything that is unaligned, recurse through full_load.  */
+>> +        /* For anything that is unaligned, recurse through byte loads.  */
+>>           if ((addr & (size - 1)) != 0) {
+>>               goto do_unaligned_access;
+>>           }
+>> @@ -1932,23 +2011,9 @@ load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+>>       if (size > 1
+>>           && unlikely((addr & ~TARGET_PAGE_MASK) + size - 1
+>>                       >= TARGET_PAGE_SIZE)) {
+> 
+> It would be easier to review extracting load_helper_unaligned() first.
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 0eafc791540d..619ad869dd71 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -597,7 +597,6 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
- 
-     /* Bus 3: TODO bmp280@77 */
-     /* Bus 3: TODO max31785@52 */
--    /* Bus 3: TODO dps310@76 */
-     dev = DEVICE(i2c_slave_new(TYPE_PCA9552, 0x60));
-     qdev_prop_set_string(dev, "description", "pca1");
-     i2c_slave_realize_and_unref(I2C_SLAVE(dev),
-@@ -612,6 +611,7 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
-         qdev_connect_gpio_out(dev, pca1_leds[i].gpio_id,
-                               qdev_get_gpio_in(DEVICE(led), 0));
-     }
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3), "dps310", 0x76);
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 4), "tmp423", 0x4c);
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 5), "tmp423", 0x4c);
- 
-@@ -693,9 +693,9 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 6), TYPE_TMP105,
-                      0x4b);
- 
--    /* Bus 7: TODO dps310@76 */
-     /* Bus 7: TODO max31785@52 */
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9552", 0x61);
-+    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "dps310", 0x76);
-     /* Bus 7: TODO si7021-a20@20 */
-     i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), TYPE_TMP105,
-                      0x48);
--- 
-2.30.2
+Do you mean into a separate function? Since the function is recursive then I think 
+you'd end up having to copy everything apart from the change that does all the work, 
+which is the for() loop iterating over the full access a byte at a time. For the sake 
+of the extra few lines I'm not sure it makes sense?
 
+The equivalent commit for store_helper() is 6b8b622e87e "cputlb: Make store_helper 
+less fragile to compiler optimizations" but that misses that its version of the 
+unaligned access code which splits everything into single byte accesses was already 
+present.
+
+I'm also interested to know if the full_load parameter is still required for 
+load_helper() - given that it is an RFC patch I've left it there for now, but it's 
+likely this will need some thought too.
+
+
+ATB,
+
+Mark.
 
