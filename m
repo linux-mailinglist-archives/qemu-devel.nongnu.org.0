@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1983E3A17D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:49:04 +0200 (CEST)
-Received: from localhost ([::1]:47962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B643A17EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 16:51:19 +0200 (CEST)
+Received: from localhost ([::1]:54428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqzVv-0001jH-67
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
+	id 1lqzY7-00067u-0k
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 10:51:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqzSo-0003HT-Ee
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24797)
+ id 1lqzT0-0003p0-4n
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:46:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lqzSm-0005Sz-Hb
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:45:50 -0400
+ id 1lqzSw-0005Zw-Qf
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 10:46:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623249947;
+ s=mimecast20190719; t=1623249958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0HyOa6ltjbaqEp6S+XfeNEi/Q5ntfEuMy7rznJ97OGI=;
- b=Dj19fdnAuDAG5Vjf5jioqV8KsyfK1igwnRCXpeW3kDoUvdiNPL0QkCdHqIM5lP94BtOsxd
- 3utpBRt15aNlCje0MZO/jtNlxcLat4NiAMfBpxGCjkByjWiCSoQRAWtHdnZ2HeSe6IMnMM
- v6URvYcmzfR/wQ9nUBMD/O71tyWrpYE=
+ bh=5BEx2+s+dEa5eKj92PIDgwGF7hnX67z4SFsPH9sRzU8=;
+ b=hlAszijwqunPQ3YJGRGlbg00LbsUGfBDHLmR0NHs1Mvz34iBtJcqYMKQjfeGDsxC0EhMci
+ A15QdPAe48vMF1nenenWlN8xpbjX7/LC8v6AAYuLsDLQnJGQdzhyritg98FZuMohvHrh7A
+ vMA30wRjLdvFfzvV6nSfrXBLORWZ6Jk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-ckR107n2PJeinN99C32T4A-1; Wed, 09 Jun 2021 10:45:46 -0400
-X-MC-Unique: ckR107n2PJeinN99C32T4A-1
+ us-mta-451-Jlc9W2g5NvuKcYJ-jGlQeA-1; Wed, 09 Jun 2021 10:45:51 -0400
+X-MC-Unique: Jlc9W2g5NvuKcYJ-jGlQeA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60C8E1934104;
- Wed,  9 Jun 2021 14:45:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50482100C66F;
+ Wed,  9 Jun 2021 14:45:50 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-168.ams2.redhat.com
  [10.36.113.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E35B11002EF0;
- Wed,  9 Jun 2021 14:45:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABA8710016FE;
+ Wed,  9 Jun 2021 14:45:45 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, huangy81@chinatelecom.cn, peterx@redhat.com,
  lizhijian@cn.fujitsu.com, leobras.c@gmail.com, pabeni@redhat.com
-Subject: [PULL 7/9] sockets: Support multipath TCP
-Date: Wed,  9 Jun 2021 15:45:10 +0100
-Message-Id: <20210609144512.211746-8-dgilbert@redhat.com>
+Subject: [PULL 8/9] migration/dirtyrate: make sample page count configurable
+Date: Wed,  9 Jun 2021 15:45:11 +0100
+Message-Id: <20210609144512.211746-9-dgilbert@redhat.com>
 In-Reply-To: <20210609144512.211746-1-dgilbert@redhat.com>
 References: <20210609144512.211746-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,112 +83,198 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Multipath TCP allows combining multiple interfaces/routes into a single
-socket, with very little work for the user/admin.
+introduce optional sample-pages argument in calc-dirty-rate,
+making sample page count per GB configurable so that more
+accurate dirtyrate can be calculated.
 
-It's enabled by 'mptcp' on most socket addresses:
-
-   ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
-
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+Message-Id: <3103453a3b2796f929269c99a6ad81a9a7f1f405.1623027729.git.huangy81@chinatelecom.cn>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20210421112834.107651-6-dgilbert@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  Wrapped a couple of long lines
 ---
- io/dns-resolver.c   |  4 ++++
- qapi/sockets.json   |  5 ++++-
- util/qemu-sockets.c | 23 +++++++++++++++++++++++
- 3 files changed, 31 insertions(+), 1 deletion(-)
+ migration/dirtyrate.c | 31 +++++++++++++++++++++++++++----
+ migration/dirtyrate.h |  8 +++++++-
+ qapi/migration.json   | 15 ++++++++++++---
+ 3 files changed, 46 insertions(+), 8 deletions(-)
 
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index 743a0efc87..a5946a93bf 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -122,6 +122,10 @@ static int qio_dns_resolver_lookup_sync_inet(QIODNSResolver *resolver,
-             .ipv4 = iaddr->ipv4,
-             .has_ipv6 = iaddr->has_ipv6,
-             .ipv6 = iaddr->ipv6,
-+#ifdef IPPROTO_MPTCP
-+            .has_mptcp = iaddr->has_mptcp,
-+            .mptcp = iaddr->mptcp,
-+#endif
-         };
- 
-         (*addrs)[i] = newaddr;
-diff --git a/qapi/sockets.json b/qapi/sockets.json
-index 2e83452797..735eb4abb5 100644
---- a/qapi/sockets.json
-+++ b/qapi/sockets.json
-@@ -57,6 +57,8 @@
- # @keep-alive: enable keep-alive when connecting to this socket. Not supported
- #              for passive sockets. (Since 4.2)
- #
-+# @mptcp: enable multi-path TCP. (Since 6.1)
-+#
- # Since: 1.3
- ##
- { 'struct': 'InetSocketAddress',
-@@ -66,7 +68,8 @@
-     '*to': 'uint16',
-     '*ipv4': 'bool',
-     '*ipv6': 'bool',
--    '*keep-alive': 'bool' } }
-+    '*keep-alive': 'bool',
-+    '*mptcp': { 'type': 'bool', 'if': 'defined(IPPROTO_MPTCP)' } } }
- 
- ##
- # @UnixSocketAddress:
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 2463c49773..c415c342c1 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -278,6 +278,11 @@ static int inet_listen_saddr(InetSocketAddress *saddr,
- 
-     /* create socket + bind/listen */
-     for (e = res; e != NULL; e = e->ai_next) {
-+#ifdef IPPROTO_MPTCP
-+        if (saddr->has_mptcp && saddr->mptcp) {
-+            e->ai_protocol = IPPROTO_MPTCP;
-+        }
-+#endif
-         getnameinfo((struct sockaddr*)e->ai_addr,e->ai_addrlen,
-                         uaddr,INET6_ADDRSTRLEN,uport,32,
-                         NI_NUMERICHOST | NI_NUMERICSERV);
-@@ -456,6 +461,13 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
-     for (e = res; e != NULL; e = e->ai_next) {
-         error_free(local_err);
-         local_err = NULL;
-+
-+#ifdef IPPROTO_MPTCP
-+        if (saddr->has_mptcp && saddr->mptcp) {
-+            e->ai_protocol = IPPROTO_MPTCP;
-+        }
-+#endif
-+
-         sock = inet_connect_addr(saddr, e, &local_err);
-         if (sock >= 0) {
-             break;
-@@ -687,6 +699,17 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-         }
-         addr->has_keep_alive = true;
-     }
-+#ifdef IPPROTO_MPTCP
-+    begin = strstr(optstr, ",mptcp");
-+    if (begin) {
-+        if (inet_parse_flag("mptcp", begin + strlen(",mptcp"),
-+                            &addr->mptcp, errp) < 0)
-+        {
-+            return -1;
-+        }
-+        addr->has_mptcp = true;
-+    }
-+#endif
-     return 0;
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index ccb98147e8..2ee3890721 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -48,6 +48,12 @@ static bool is_sample_period_valid(int64_t sec)
+     return true;
  }
  
++static bool is_sample_pages_valid(int64_t pages)
++{
++    return pages >= MIN_SAMPLE_PAGE_COUNT &&
++           pages <= MAX_SAMPLE_PAGE_COUNT;
++}
++
+ static int dirtyrate_set_state(int *state, int old_state, int new_state)
+ {
+     assert(new_state < DIRTY_RATE_STATUS__MAX);
+@@ -72,13 +78,15 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+     info->status = CalculatingState;
+     info->start_time = DirtyStat.start_time;
+     info->calc_time = DirtyStat.calc_time;
++    info->sample_pages = DirtyStat.sample_pages;
+ 
+     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
+ 
+     return info;
+ }
+ 
+-static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
++static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
++                                uint64_t sample_pages)
+ {
+     DirtyStat.total_dirty_samples = 0;
+     DirtyStat.total_sample_count = 0;
+@@ -86,6 +94,7 @@ static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time)
+     DirtyStat.dirty_rate = -1;
+     DirtyStat.start_time = start_time;
+     DirtyStat.calc_time = calc_time;
++    DirtyStat.sample_pages = sample_pages;
+ }
+ 
+ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+@@ -361,6 +370,7 @@ void *get_dirtyrate_thread(void *arg)
+     int ret;
+     int64_t start_time;
+     int64_t calc_time;
++    uint64_t sample_pages;
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -371,7 +381,8 @@ void *get_dirtyrate_thread(void *arg)
+ 
+     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+     calc_time = config.sample_period_seconds;
+-    init_dirtyrate_stat(start_time, calc_time);
++    sample_pages = config.sample_pages_per_gigabytes;
++    init_dirtyrate_stat(start_time, calc_time, sample_pages);
+ 
+     calculate_dirtyrate(config);
+ 
+@@ -383,7 +394,8 @@ void *get_dirtyrate_thread(void *arg)
+     return NULL;
+ }
+ 
+-void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
++void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
++                         int64_t sample_pages, Error **errp)
+ {
+     static struct DirtyRateConfig config;
+     QemuThread thread;
+@@ -404,6 +416,17 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+         return;
+     }
+ 
++    if (has_sample_pages) {
++        if (!is_sample_pages_valid(sample_pages)) {
++            error_setg(errp, "sample-pages is out of range[%d, %d].",
++                            MIN_SAMPLE_PAGE_COUNT,
++                            MAX_SAMPLE_PAGE_COUNT);
++            return;
++        }
++    } else {
++        sample_pages = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
++    }
++
+     /*
+      * Init calculation state as unstarted.
+      */
+@@ -415,7 +438,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, Error **errp)
+     }
+ 
+     config.sample_period_seconds = calc_time;
+-    config.sample_pages_per_gigabytes = DIRTYRATE_DEFAULT_SAMPLE_PAGES;
++    config.sample_pages_per_gigabytes = sample_pages;
+     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+                        (void *)&config, QEMU_THREAD_DETACHED);
+ }
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index 6ec429534d..e1fd29089e 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -15,7 +15,6 @@
+ 
+ /*
+  * Sample 512 pages per GB as default.
+- * TODO: Make it configurable.
+  */
+ #define DIRTYRATE_DEFAULT_SAMPLE_PAGES            512
+ 
+@@ -35,6 +34,12 @@
+ #define MIN_FETCH_DIRTYRATE_TIME_SEC              1
+ #define MAX_FETCH_DIRTYRATE_TIME_SEC              60
+ 
++/*
++ * Take 1/16 pages in 1G as the maxmum sample page count
++ */
++#define MIN_SAMPLE_PAGE_COUNT                     128
++#define MAX_SAMPLE_PAGE_COUNT                     16384
++
+ struct DirtyRateConfig {
+     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+     int64_t sample_period_seconds; /* time duration between two sampling */
+@@ -63,6 +68,7 @@ struct DirtyRateStat {
+     int64_t dirty_rate; /* dirty rate in MB/s */
+     int64_t start_time; /* calculation start time in units of second */
+     int64_t calc_time; /* time duration of two sampling in units of second */
++    uint64_t sample_pages; /* sample pages per GB */
+ };
+ 
+ void *get_dirtyrate_thread(void *arg);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 7a5bdf9a0d..1124a2dda8 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1740,6 +1740,9 @@
+ #
+ # @calc-time: time in units of second for sample dirty pages
+ #
++# @sample-pages: page count per GB for sample dirty pages
++#                the default value is 512 (since 6.1)
++#
+ # Since: 5.2
+ #
+ ##
+@@ -1747,7 +1750,8 @@
+   'data': {'*dirty-rate': 'int64',
+            'status': 'DirtyRateStatus',
+            'start-time': 'int64',
+-           'calc-time': 'int64'} }
++           'calc-time': 'int64',
++           'sample-pages': 'uint64'} }
+ 
+ ##
+ # @calc-dirty-rate:
+@@ -1756,13 +1760,18 @@
+ #
+ # @calc-time: time in units of second for sample dirty pages
+ #
++# @sample-pages: page count per GB for sample dirty pages
++#                the default value is 512 (since 6.1)
++#
+ # Since: 5.2
+ #
+ # Example:
+-#   {"command": "calc-dirty-rate", "data": {"calc-time": 1} }
++#   {"command": "calc-dirty-rate", "data": {"calc-time": 1,
++#                                           'sample-pages': 512} }
+ #
+ ##
+-{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64'} }
++{ 'command': 'calc-dirty-rate', 'data': {'calc-time': 'int64',
++                                         '*sample-pages': 'int'} }
+ 
+ ##
+ # @query-dirty-rate:
 -- 
 2.31.1
 
