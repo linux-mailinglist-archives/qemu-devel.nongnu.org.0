@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EB23A1B8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 19:11:33 +0200 (CEST)
-Received: from localhost ([::1]:60466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC343A1B9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 19:18:11 +0200 (CEST)
+Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr1jo-0000ZU-Tm
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 13:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44868)
+	id 1lr1qE-0005ey-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 13:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lr1hu-0007bb-IX
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:09:34 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lr1ht-000233-10
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:09:34 -0400
-Received: by mail-pg1-x534.google.com with SMTP id i34so13588046pgl.9
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 10:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qDvA89B5kPlQWacV7NDu1Zp0msJjeFgFm4PDbPoGIKY=;
- b=pADAAFfkeMvQbDv3P7yr8xolUFfbIDHeQU74UJZ7MY3BUeORAkR501Czr1nFtDlB8d
- Rv3nlDgI/ouWc/UloYRKwM1ixiHFy3xXWBOqzVkcuQ5hsrNBneeSEkDxCRRHNkMDk6Pl
- vIztfI6csJHRFEXwM6J/c3nST2IpWzLWMPm5VblMnAtpv/TlxttNfP39GAKDcgg/OPdy
- k3MccB0JGFL0dAjzrpgC9x4d204sHG/8x2BTO5Q/PKHgKxf7KKoJGIKAbHIuzLZPN5xC
- hkkuG9kkNKu398lxj4zqrNe0aAY+SjwqKFgXhGeKpBm5L9a0ZDiF3LCdwN5VsDajwUNU
- KxKg==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lr1or-00049A-4q
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:16:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lr1op-000585-A9
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 13:16:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623258999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/eMVXuFLz1Jod4/zjMTmxzUD17NRDOg/QFtyQ2DPKkg=;
+ b=O8tAZdQm2SfYsaSfs3u2PQzbUuHr2HQOcYTUerbE9feYeefkZyahZliE5Mx1rbmgvGnTbw
+ OnxFfFPXT3Yp7xA2KODbiElu6iDEYQldUWoVAb9aSgPGHpzCFc1psjWJkhl7NTXiLKjaWb
+ TvV4iuEh5PV/49NNdSOF8R+blvrtzKI=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-NNL_MhKnO8C4Vt_7vMZ8_g-1; Wed, 09 Jun 2021 13:16:38 -0400
+X-MC-Unique: NNL_MhKnO8C4Vt_7vMZ8_g-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ f15-20020a9f2bcf0000b02901f8fe91b89cso211382uaj.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 10:16:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qDvA89B5kPlQWacV7NDu1Zp0msJjeFgFm4PDbPoGIKY=;
- b=H91MVWHuqZz5E493JgF16z201302i1hKspI4m8vQC/qPj4gOj0C0ktVM2m5mhDRr4G
- z8KYwapt7uVVxnRs4plNPrBGYMVJqCuDVyqoz2S5czx2wJJF8k+5NEv6fGVxZyHO2ruS
- L8As9ixn1ECtSYEp4vo6IHbqQPL0FN+TCRRR2Z/AEFyIh5TXsq6gmNNlaExvNsUhxj0B
- usdeq78G0/EWeD0q4TQtncEyev3kJoUzw9qwOBOj9RUF3OQxMxX5D+6gdpjdoqYOqpNI
- nmIy0f5mm62sl+cauDvlEJN1KCaVk2360n9TtY6nLgXCC4pIJlcpWHiiGKaI5MNX0JNo
- jPLg==
-X-Gm-Message-State: AOAM530cNi6Pv1bwqHBlyOKrhSr98HCdlwaO0X/U81Orts2xspl9CGEs
- C8+TxnH8hLGRM6IzFJhFgmujujbJ4dRgnA==
-X-Google-Smtp-Source: ABdhPJxo8uY0xlVR2yPTIM5nMq7gj7ugCbdvJxU3GLhktpck4nmNdZen05EyvAl5ZZ+8wTGYS/iYjQ==
-X-Received: by 2002:a63:4915:: with SMTP id w21mr655644pga.363.1623258571612; 
- Wed, 09 Jun 2021 10:09:31 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- r5sm5656886pjd.2.2021.06.09.10.09.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 10:09:31 -0700 (PDT)
-Subject: Re: [PATCH 11/55] target/arm: Implement MVE VLDR/VSTR (non-widening
- forms)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210607165821.9892-1-peter.maydell@linaro.org>
- <20210607165821.9892-12-peter.maydell@linaro.org>
- <fef05b3a-eb23-fea7-0230-a69207b48e11@linaro.org>
- <CAFEAcA_xEh2h8ZV4-mianY8wcz=TKdvdmFr+e4gikAUtW_THGQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7f4f43cf-2a9b-d08a-90f5-46f4f307b5f5@linaro.org>
-Date: Wed, 9 Jun 2021 10:09:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/eMVXuFLz1Jod4/zjMTmxzUD17NRDOg/QFtyQ2DPKkg=;
+ b=sQlUlRN9PSTptKmQIB8BWTtRUHpB/6wh/ONmt8QPX9CxDOztMsDQouWhVU//BmGuHj
+ Q9RiY3nFsa5kTV60uPd+5PD3w+nzvfYoCZXdloTEZmRYWf+3LwqbhtGx/mv+elDk0a+p
+ gUbjB5nCvYD93B0FOvqEL83FicV0iawYEg3CIWdUylQTDpNPX0UceQldrGZ8aogKBLVB
+ PKusfbm3+Tf7UzSOiSzb2mfKpugitEc9o80u6OsQD0WMt+5jb8IhuGDFMhP/1TgEr+z/
+ LMPB+IJRh1ofwT1l6JTyu9hdOcYTFvPsBvmrVEa/nBVjLkftX0ic79rM+vJUpt7qsxZw
+ VDgg==
+X-Gm-Message-State: AOAM530k4PPUAvEp9zA9XtbTYn8tHk43WqKnh2DeYrmJ4AqIvXc4Y8eR
+ RWFHI75a2n05pJwkYVrNxR9dqYPzpJfi0w8nfSfIvPAISS8fGXVbAHsnL9KwqGpYkvLnzzCSfMo
+ Rgllkw53vSMIsgyxJWQqnTISduzoMlC4=
+X-Received: by 2002:a67:f357:: with SMTP id p23mr855871vsm.50.1623258997719;
+ Wed, 09 Jun 2021 10:16:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfnBENvHDkT6L7y5qtqUnqvVg0IQ1FjlAgLWm9vtsF4GZ2JEZIJHB56qYqcSN0e1lPiPTeiSpxi0CpVSVo81s=
+X-Received: by 2002:a67:f357:: with SMTP id p23mr855838vsm.50.1623258997454;
+ Wed, 09 Jun 2021 10:16:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_xEh2h8ZV4-mianY8wcz=TKdvdmFr+e4gikAUtW_THGQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210608031425.833536-1-crosa@redhat.com>
+ <20210608031425.833536-3-crosa@redhat.com>
+In-Reply-To: <20210608031425.833536-3-crosa@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 9 Jun 2021 14:16:11 -0300
+Message-ID: <CAKJDGDa2Xpjnvds2F5NeKAimHCFm0ceWKRGrhidObnpOr7pC7A@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] Jobs based on custom runners: build environment
+ docs and playbook
+To: Cleber Rosa <crosa@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,42 +90,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/21 3:01 AM, Peter Maydell wrote:
->> Is the spec forward looking to more than 7 Q registers?
->> It's tempting to just drop the D:Qd from the decode...
-> 
-> I don't know, but looking at the decode it certainly seems
-> like the door is being left open to Q8..Q15. Other signs of
-> this include the existence of the VFPSmallRegisterBank()
-> function and the way that VLLDM and VLSTM have T2 encodings
-> whose only difference from the T1 encodings is that you can
-> specify registers up to D31. Decoding D:Qd and then doing the
-> range check seemed more in line with the spirit of this...
+On Tue, Jun 8, 2021 at 12:14 AM Cleber Rosa <crosa@redhat.com> wrote:
+>
+> To run basic jobs on custom runners, the environment needs to be
+> properly set up.  The most common requirement is having the right
+> packages installed.
+>
+> The playbook introduced here covers the QEMU's project s390x and
+> aarch64 machines.  At the time this is being proposed, those machines
+> have already had this playbook applied to them.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  docs/devel/ci.rst                      | 30 ++++++++
+>  scripts/ci/setup/build-environment.yml | 98 ++++++++++++++++++++++++++
+>  scripts/ci/setup/inventory.template    |  1 +
+>  3 files changed, 129 insertions(+)
+>  create mode 100644 scripts/ci/setup/build-environment.yml
+>  create mode 100644 scripts/ci/setup/inventory.template
+>
+> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> index 585b7bf4b8..35c6b5e269 100644
+> --- a/docs/devel/ci.rst
+> +++ b/docs/devel/ci.rst
+> @@ -26,3 +26,33 @@ gitlab-runner, is called a "custom runner".
+>  The GitLab CI jobs definition for the custom runners are located under::
+>
+>    .gitlab-ci.d/custom-runners.yml
+> +
+> +Machine Setup Howto
+> +-------------------
+> +
+> +For all Linux based systems, the setup can be mostly automated by the
+> +execution of two Ansible playbooks.  Create an ``inventory`` file
+> +under ``scripts/ci/setup``, such as this::
+> +
+> +  fully.qualified.domain
+> +  other.machine.hostname
+> +
+> +You may need to set some variables in the inventory file itself.  One
+> +very common need is to tell Ansible to use a Python 3 interpreter on
+> +those hosts.  This would look like::
+> +
+> +  fully.qualified.domain ansible_python_interpreter=/usr/bin/python3
+> +  other.machine.hostname ansible_python_interpreter=/usr/bin/python3
+> +
 
-I agree.  We should leave the decode in place.
+As I mentioned to Wainer, my suggestion is to include a comment about
+ansible_become=yes and
+ansible_become_password= variables as some systems may need it.
 
-Do you think it's worthwhile adding a single hook for the register range check 
-now?  E.g.
+> +Build environment
+> +~~~~~~~~~~~~~~~~~
+> +
+> +The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
+> +set up machines with the environment needed to perform builds and run
+> +QEMU tests.  It covers a number of different Linux distributions and
+> +FreeBSD.
+> +
+> +To run the playbook, execute::
+> +
+> +  cd scripts/ci/setup
+> +  ansible-playbook -i inventory build-environment.yml
+> diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+> new file mode 100644
+> index 0000000000..664f2f0519
+> --- /dev/null
+> +++ b/scripts/ci/setup/build-environment.yml
+> @@ -0,0 +1,98 @@
+> +---
+> +- name: Installation of basic packages to build QEMU
+> +  hosts: all
+> +  tasks:
+> +    - name: Update apt cache
+> +      apt:
+> +        update_cache: yes
 
-   if (!mve_check_qreg_bank(s, a->qd | a->qn | a->qm)) {
-       return false;
-   }
+On a freshly installed Ubuntu 20.04, the script failed for me with
+dependency messages on the apt side. After I updated the packages on
+the system, the playbook worked without problems.
 
-static bool mve_check_qreg_bank(DisasContext *s, int qmask)
-{
-     /*
-      * See VFPSmallRegisterBank, always true for armv8.1-m.
-      * So only Q0...Q7 are supported.
-      */
-     return qmask < 8;
-}
+So, my suggestion is to add the "update = yes" here, or add a note in
+the documentation asking the user to update the system before running
+the playbook.
 
-And, as needed, another one for dregs.
+Except for the above comment and Wainer's comments, it looks good to
+me. With these changes:
 
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Tested-by: Willian Rampazzo <willianr@redhat.com>
 
-r~
 
