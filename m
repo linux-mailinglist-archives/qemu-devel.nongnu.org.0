@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFB93A14EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:51:12 +0200 (CEST)
-Received: from localhost ([::1]:53636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B193A14F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:52:58 +0200 (CEST)
+Received: from localhost ([::1]:55864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqxfr-0000tJ-8w
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
+	id 1lqxhZ-0002Ua-OP
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqxe0-0007Hr-D2
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:49:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37515)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lqxfn-0001Uf-J3
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:51:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lqxdz-0004HX-1x
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:49:16 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lqxfi-0005e0-7Y
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:51:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623242954;
+ s=mimecast20190719; t=1623243061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EGkUuFQ7CGLSVnBnUDCXzR0G9zwZJK+JhDjKfCKXzqc=;
- b=MsQXpN0H5gsNH76/GJ4NSQOi1GWoBXCDsZ+CF61lblbSn+rZEgzsAEUYZ6QJMGt+eB8wyx
- 4HquHi6ClsYmT3kByHuLJVY6G/gAUM5oqNeKeFPlP38gB0Bsg+9m7bYjH0aQri2I1orQd4
- 9qH3reVVXhQX+Dx8OwLFqw40gFwS8IM=
+ bh=nhy0bFyqaunbYGuIvPDnCisIwUd/6m1LRiQEMKXsv24=;
+ b=WZRFlxaHWngZ8iksaJpU1SoKBbm771ExiEqMs7f9IJzYplvkx6DlU4Y9alDe6CN4HaJ+fq
+ RNfbBrnDcSk7EV/ushu8o+0sYKzhvhW87kdwqVm0YUaJ0oTW4TFqN0dWml17X4zmmh9zGX
+ lrg6VqRFilqc5dynp9+l9MomgVKy2Fo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-7PLnEJqbNFSZbI5rJQXlLA-1; Wed, 09 Jun 2021 08:49:12 -0400
-X-MC-Unique: 7PLnEJqbNFSZbI5rJQXlLA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-449-MsE-wABBM_qKcKVLNXAufQ-1; Wed, 09 Jun 2021 08:50:57 -0400
+X-MC-Unique: MsE-wABBM_qKcKVLNXAufQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43C25801B12
- for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 12:49:11 +0000 (UTC)
-Received: from localhost (ovpn-115-220.ams2.redhat.com [10.36.115.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD52910023B5;
- Wed,  9 Jun 2021 12:49:02 +0000 (UTC)
-Date: Wed, 9 Jun 2021 13:49:02 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v4 11/13] virtio-gpu: split trace points
-Message-ID: <YMC4vgjSqsQPWGjH@stefanha-x1.localdomain>
-References: <20210601132414.432430-1-kraxel@redhat.com>
- <20210601132414.432430-12-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 685CD19057A0
+ for <qemu-devel@nongnu.org>; Wed,  9 Jun 2021 12:50:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
+ [10.36.113.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3675519C45;
+ Wed,  9 Jun 2021 12:50:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 76F7318003B6; Wed,  9 Jun 2021 14:50:51 +0200 (CEST)
+Date: Wed, 9 Jun 2021 14:50:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC QEMU PATCH] ui: Make the DisplayType enum entries conditional
+Message-ID: <20210609125051.l5qh3ub3sau47kow@sirius.home.kraxel.org>
+References: <20210609100240.1285032-1-thuth@redhat.com>
+ <20210609112405.pyv62l22g5ympoe4@sirius.home.kraxel.org>
+ <YMCmNrcNByZ+Ozxn@redhat.com>
+ <20210609114921.mc4upvizeobfruaw@sirius.home.kraxel.org>
+ <16fdaf9e-e3ed-9de5-932c-3db33c6f77ee@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210601132414.432430-12-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <16fdaf9e-e3ed-9de5-932c-3db33c6f77ee@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vd0c5GWDe2xFjX1b"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,44 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ libvir-list@redhat.com, smitterl@redhat.com, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---vd0c5GWDe2xFjX1b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Hi,
 
-On Tue, Jun 01, 2021 at 03:24:12PM +0200, Gerd Hoffmann wrote:
-> Create separate trace points for the simple and virgl
-> variants of the virtio-gpu device.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/display/virtio-gpu-virgl.c | 48 +++++++++++++++++------------------
->  hw/display/trace-events       | 30 ++++++++++++++--------
->  2 files changed, 43 insertions(+), 35 deletions(-)
+> > The #if CONFIG_SDL approach will not work because qemu will continue to
+> > report sdl as supported even when the sdl module is not installed any
+> > more.
+> 
+> I guess we'd need a separate QMP command to fix that, which tries to load
+> the modules first when being called? Something similar to what is being done
+> in qemu_display_help() ?
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+That would work, yes.
 
---vd0c5GWDe2xFjX1b
-Content-Type: application/pgp-signature; name="signature.asc"
+> That's certainly doable, too, just a little bit more complex...
 
------BEGIN PGP SIGNATURE-----
+Alternative idea: turn QemuDisplay into an ObjectClass, then it'll be
+visible in qom introspection.  Likewise a bit more complex ...
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDAuL4ACgkQnKSrs4Gr
-c8hSywf+ODN1IEKXbeWb8hL0cv/DyqzBbiFiYbbX3zeRvgsHfHt3FcMhX+KZL0QK
-PrpnYhh/6vg5WE/gjdCP4Kr5tW40PYX/KxoM2Il0xJnniHnC9+Vj8Ua8jMgJCcSM
-H0uffH76IPI48PQCQh7VhsFJg5Cxj63vZM51azkp21R1Ut9i6mIGsCt8Odn9E7O0
-ODyA60HOBVMVdRbEcYXvASbVWD4FIJOZ9kD8++/BDPVEmCONXjS3i4EYJ/I4+opK
-TVsivg+U5a0IdWSY1mpWPPFT8u4jAll4IAPlRU/hxj6Bcdx2Aj1nP+piv93DRK72
-O41+fMvpsiYv0UX4cHsdGydwyolWHA==
-=r9FP
------END PGP SIGNATURE-----
+> do we want that?  Or is the quick-n-easy way via the schema good
+> enough for most use cases?
 
---vd0c5GWDe2xFjX1b--
+Would be better than nothing, but I'd prefer something which works
+properly with modular qemu ...
+
+> (I'm not that familiar with "virsh domcapabilities" ... is there any
+> real usage for the <graphics> section or is this rather cosmetical?)
+
+Management apps can use that info to avoid building unsupported
+configurations.  Also you'll get a nice "$foo is not supported" error
+from libvirt instead of libvirt dumping qemu stderr ;)
+
+take care,
+  Gerd
 
 
