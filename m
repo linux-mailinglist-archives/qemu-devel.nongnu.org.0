@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8367A3A1D8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 21:16:26 +0200 (CEST)
-Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F9F3A1DB0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 21:27:15 +0200 (CEST)
+Received: from localhost ([::1]:49832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr3gf-0006xQ-Jh
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 15:16:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40212)
+	id 1lr3r7-0001jU-PT
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 15:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lr3fm-00065C-Er
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:15:30 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:42721)
+ id 1lr3qK-0000bW-Ke
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:26:24 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:46075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lr3fj-0003Uw-Ti
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:15:30 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id v13so13147985ple.9
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 12:15:27 -0700 (PDT)
+ id 1lr3qJ-00024W-2P
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 15:26:24 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ z3-20020a17090a3983b029016bc232e40bso2137947pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 12:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=dVROZKETV5g9pd5icw4Pjz+sM0br7otAB1vDz1vnAvg=;
- b=xjXdq+0efLob+7P+fkOrxF0B1W9FHFKaM595aHg6t0pFQBt9L+TgXORKY/bqHCPwyl
- yTtW7otLvi1ISYtJZXdZYN/oznhL/dhQe1/RgafsPm4iCQZ4qt79aV1zS0k7uu/cwrJS
- PKkpRgAFxR73/kaOG3dC3y1iyphG5IlHmUQ3sKnCVrYw+rvZwdXrkCG7OoIEoDoYSVr2
- 2LaDxzuRcntTVWog6vIQ1HCzGOQQM61q8Ww8p+Fnxh2CNrnTQbjR5uUpki393yV/NjH3
- 7h8jxO22b1fW4eOrlnmcFKmnQL489M40Shs27hUs1t5eMqDMHgjACJ0D+fj+1Gqub7a3
- /gVQ==
+ bh=Q1/AQpsyRJPnyhH8C7GnW3xI1HgxCrSvxnQd0R95bdw=;
+ b=jpjg6gY02EO1IF3hhkFvsFwe060MpIrkqI/KR+3SEfjEnxE8N2OtrWN52NHEE5UlbO
+ j2tWoNlQqTBeRvhUG1+1usimQOFPsu2WI6eUpSTSi/TWfYFhBYHF3ihE3gFvuyod1d9F
+ ojTPjwBKBhtW9ekrLFRrsfhVfn7FrfOAgLP76DaPcGcu3lkWGpnRwX4ZsxdEHa20lwZj
+ Y3X/PR1/7oYBgqfzrwl53s8s4WG7zEPm7L4wsXURceeP/cyDWjwAdTYvo98/sbITjl+E
+ xB/cMVuuAhm+KMvhoyQqGtIXltecJkDb1/zcILG74+zzi3SeqEXNZBgIDGm09xv4KgBT
+ QVIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dVROZKETV5g9pd5icw4Pjz+sM0br7otAB1vDz1vnAvg=;
- b=mDoSzuvxixnu5A+TnaErNmztalpwrQkm1nAPi9uWrbPhieKDYy62BuVWFbV2K75UCT
- GZFd+y3+m4lZf7MGIpCScgRbHIF1fzO8UN6pfAwl9Ul+t7VlQMiLGFLFZQ3bXyNPVY/I
- mk4slJnz9CKCANswXf9okasLit4oFYa8vDuXrAmhedecebh2XTVGvVPVoiNdyWvBvKaA
- zKLElTXykUFKeoPTkFlaEF+NXBCCja8wH3x3FYzY5sRRnjRRVyQvmPr2zYpi34gFNMG1
- OW8yKT7yQdxzzw1dnOeT13oLBlYF/UEDsk/Tsx4uYx/hflWtAKsSqdtpWWeTJaTHsZGI
- WrMA==
-X-Gm-Message-State: AOAM5329XRW9TFGMW2FDkNWV6dYbQPYi9gB1ueOXv4Zh8JLL06lj/029
- nLWEWkcrEml7Il+OTaH4TxxaFmi/rL0qzA==
-X-Google-Smtp-Source: ABdhPJzFcbI3pTJDDSCJchpsJJdxGe1KnxwSxC3bdIKvKneqiOD0Z6C0JNqZsW6+0AuhYeBx4NzYaQ==
-X-Received: by 2002:a17:90a:5504:: with SMTP id
- b4mr1087353pji.208.1623266126417; 
- Wed, 09 Jun 2021 12:15:26 -0700 (PDT)
+ bh=Q1/AQpsyRJPnyhH8C7GnW3xI1HgxCrSvxnQd0R95bdw=;
+ b=B5ya42Kjg05WWlW4fP/wUb/HHmX/rDKMFKI16HoXX+eIliftKRad+zLt3oAgyMHJ85
+ hK6P4Th41axB6hNDmss29n/As0wdkDjMqbtV67b1xEUzbz2gWkGTZF8qryCG7aT8mqNR
+ oCd4U6nzRz5U4TqHXc1xUZ4OT9oQGFMAGPuRzFWd5XnF1NkQShh6lLCVyJ6syE+pVTKw
+ fBfXjMYRGsYI0n++32q+O0PvjSC06QbL+xZxH24+NwVpw1rgHkKSVgvzdQxqkBBcAIAp
+ IMHRzNSVXG2OHPG0NlV/C3eEODoqIM5By1mYL6dO01IgFiiWiWoA/feoZxZg/gJVIz5N
+ QWmg==
+X-Gm-Message-State: AOAM530dmvGyGWLa6IEd4IOEwyInM9og3pdKRwXYcOrvefZ2Lcio2WAV
+ 8AwsJzDk0Zc/4mXcgWTWkvwsuA3SeSU6qA==
+X-Google-Smtp-Source: ABdhPJwSTTP2cQN2v56R53XQpnbAgXkCnzORpJifJZRcBxHWgROGpuikgLHNrUwlwb/RF3EtC3bqyA==
+X-Received: by 2002:a17:90a:1c02:: with SMTP id
+ s2mr1137788pjs.172.1623266781185; 
+ Wed, 09 Jun 2021 12:26:21 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- d3sm305188pfn.141.2021.06.09.12.15.25
+ p13sm323444pfn.171.2021.06.09.12.26.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 12:15:26 -0700 (PDT)
-Subject: Re: [PATCH 42/55] target/arm: Implement MVE VQADD, VQSUB (vector)
+ Wed, 09 Jun 2021 12:26:20 -0700 (PDT)
+Subject: Re: [PATCH 43/55] target/arm: Implement MVE VQSHL (vector)
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210607165821.9892-1-peter.maydell@linaro.org>
- <20210607165821.9892-43-peter.maydell@linaro.org>
+ <20210607165821.9892-44-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <df2353b4-5b1d-1501-a235-11acf00a04d6@linaro.org>
-Date: Wed, 9 Jun 2021 12:15:24 -0700
+Message-ID: <5aaa6d24-2b1f-0cc9-5bde-cf0fe73cc55b@linaro.org>
+Date: Wed, 9 Jun 2021 12:26:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210607165821.9892-43-peter.maydell@linaro.org>
+In-Reply-To: <20210607165821.9892-44-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,18 +95,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/7/21 9:58 AM, Peter Maydell wrote:
-> Implement the vector forms of the MVE VQADD and VQSUB insns.
+> Implement the MVE VQSHL insn (encoding T4, which is the
+> vector-shift-by-vector version).
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/helper-mve.h    | 16 ++++++++++++++++
->   target/arm/mve.decode      |  5 +++++
->   target/arm/mve_helper.c    | 14 ++++++++++++++
->   target/arm/translate-mve.c |  4 ++++
->   4 files changed, 39 insertions(+)
-> 
+> The DO_SQSHL_OP and DO_UQSHL_OP macros here are derived from
+> the neon_helper.c code for qshl_u{8,16,32} and qshl_s{8,16,32}.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Ah, from before the sve2 merge, and associated cleanup.
+There are now helper functions in vec_internal.h for this.
+
+The decode looks fine.
+
 
 r~
 
