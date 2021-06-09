@@ -2,86 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FC93A1C9D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 20:18:58 +0200 (CEST)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669933A1CB0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 20:24:40 +0200 (CEST)
+Received: from localhost ([::1]:52256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr2n3-00084n-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 14:18:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
+	id 1lr2sZ-0004tr-6M
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 14:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lr2lY-00075x-Nr
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:17:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lr2lV-00078u-Cx
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:17:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623262639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T2CaiRi0BYyZXuQy4fcUfXaMQTKwAcvQWoThNLiHEHQ=;
- b=GwttLXlMt1b0pARQ2m2XXQksvX4itKUDDNdQSSKhTe+kPRIW4kYvMmvWHn9VFlfEuLkSRZ
- ce9E9voZrqTCROKlvRAQCMD9bP2oero5Dt771ZTvrmeBAI96rOg3iYsgIEjIfh26GkmQh7
- wTOZuKST40q3Muy6LU5+QR0FUmZi4mE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-hoL9CuTWPtKCMu3U7LfZbA-1; Wed, 09 Jun 2021 14:17:16 -0400
-X-MC-Unique: hoL9CuTWPtKCMu3U7LfZbA-1
-Received: by mail-qk1-f200.google.com with SMTP id
- a193-20020a3766ca0000b02903a9be00d619so17685824qkc.12
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 11:17:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lr2rD-0003VQ-99
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:23:15 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lr2rA-0002rW-3M
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 14:23:14 -0400
+Received: by mail-pf1-x430.google.com with SMTP id u18so19076438pfk.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 11:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=tIWD5ztVcSaFh+5BfDTOAKm+CIAvssuKs66kAYOsZJQ=;
+ b=KHkzF97Y2zTyx1HdO3Gp4bxIrmzYB65vNj9+j1o4nWY5uEFg/biRhIUc2cgiBK0/VZ
+ 7UKgv+y0Cs8ytPKPWn8f6TVmvLTPDxTwVasd7biZ+EEsCmiubLaR5rZ9Xx03Szc00kUl
+ iUZnC3gvwsOTSHAFmgOKF6FtCEX39Odiblf3+zT8t8vx/EEl1G89k4PAukCG4iAM+zgL
+ uwfgOqOSYzcJeH77adV1wXvSLDzg0475QOLTdxtIed5NT5TPaGWRzWkoWB+zvHIXX/JJ
+ F6kiHVCLtAP2lQSvAs98PUqGLtMWD1FhnQVIzq2icaGWJ8AqCx2A0YecleBFfFC0wodB
+ bgDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=T2CaiRi0BYyZXuQy4fcUfXaMQTKwAcvQWoThNLiHEHQ=;
- b=iQyg2ok7HmAajPwiamIv8McQ0wOdPnaOuagaSmFfrrRBa4xQUK1beXjwP/C7Fjm1Hn
- /V2WnZdcxKWD3TwLJTu2kCsnzRp8FST4ARRQNbrQmlSq6CuvR1AZZkthNH0G7ae7BzqV
- LJrGXnRjsuCo1hyDm0+ktkIiVy7FyTQdhxJrNvgkLRqIvhjBPcJxYhqKAxpb2d+z9Kp9
- mXX/r5lW7QOpUsd2+NNga/Fa0mfehtlyS984Tj8CJWwravqHXD6jjJh4/6CGVo2UxJPH
- j1R1QzIHza+y9OL0MueIDGmhQEwiESgd5jIKRKjziT+4VdvCxGAy8vnonwE+P64YdtZI
- 97mg==
-X-Gm-Message-State: AOAM533FeqKcV8YfyxJ3omFp3S2gliOd9EWwDj9CaLuIEVswfyRQx8mS
- NN1ESAnY/yyoYU8svpMD8+cD1iT3aqOqFvpbHMdamHdX/fpDxDHXgk2wevSBmirMbipELZHeJr0
- 7gV6olEzenjaDrg8=
-X-Received: by 2002:ac8:7384:: with SMTP id t4mr1240902qtp.96.1623262635621;
- Wed, 09 Jun 2021 11:17:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVZBe15AZYyFUZRbMP1dFSDSjU3Ijr1bDCTxW84k0Do48I1C2Gw6Eegg4iUymzf1VotQ9BUw==
-X-Received: by 2002:ac8:7384:: with SMTP id t4mr1240882qtp.96.1623262635366;
- Wed, 09 Jun 2021 11:17:15 -0700 (PDT)
-Received: from t490s (bras-base-toroon474qw-grc-88-174-93-75-200.dsl.bell.ca.
- [174.93.75.200])
- by smtp.gmail.com with ESMTPSA id u13sm568703qke.41.2021.06.09.11.17.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 11:17:14 -0700 (PDT)
-Date: Wed, 9 Jun 2021 14:17:13 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v3 7/7] migration/dirtyrate: implement dirty-ring
- dirtyrate calculation
-Message-ID: <YMEFqfYZVhsinNN+@t490s>
-References: <cover.1623027729.git.huangy81@chinatelecom.cn>
- <a930f410178862fda49ae2c613a0757c7e07e006.1623027729.git.huangy81@chinatelecom.cn>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tIWD5ztVcSaFh+5BfDTOAKm+CIAvssuKs66kAYOsZJQ=;
+ b=SPNJlgAEIrRzbAzzUzmt3iQYsqyCXZXZ1KWZit4yMoZjbRLsjzr+WHGkytyLqOsu64
+ dsZdoe/UQ4/mFvu1VWxcOhwj0Ab2T5BcyiOQAueIIAYAXiCYuKPCEn0tyApCVhdn92nK
+ ukZXpHmwj0YZryA2WvO2Qb5d+UyFPdaMYeAppgThoZu7BDXHXldFFkM1kBi+HCImSBBL
+ S5QKNabpV81N3+jf+c50BQF8HpkrXx7ZAWYtDiKT9E26GY5NPpyMQSaciC94ZqbciCzw
+ QdfIE52s5iBVjuaX7CaDbWtxgTSHRYPONe50c3gGvrEilMPKrV4UeYTZUKnYP46/Ux7R
+ pQQg==
+X-Gm-Message-State: AOAM531JVefG4c3bt+CWRHPYEPT4AjDnnRDgp75LSLoh0/hggnFOu4yK
+ XcG00dCQaAti9msciHPcCwf/Ouk5J2xMvQ==
+X-Google-Smtp-Source: ABdhPJztFm6ttvujJWPQGf6/dnPZ8ynu3g17Vm8K3F5gg+Mj+dThpr3cN/Len+71nlumjfkB+p9C5g==
+X-Received: by 2002:a65:5181:: with SMTP id h1mr988590pgq.330.1623262990559;
+ Wed, 09 Jun 2021 11:23:10 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ gw21sm329330pjb.41.2021.06.09.11.23.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Jun 2021 11:23:10 -0700 (PDT)
+Subject: Re: [PATCH 37/55] target/arm: Implement MVE VPST
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-38-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <748fcdb3-eaa1-6350-d386-d8176c029d29@linaro.org>
+Date: Wed, 9 Jun 2021 11:23:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <a930f410178862fda49ae2c613a0757c7e07e006.1623027729.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210607165821.9892-38-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,86 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 07, 2021 at 09:15:20AM +0800, huangy81@chinatelecom.cn wrote:
-> +static void calculate_dirtyrate_vcpu(struct DirtyRateConfig config)
-> +{
-> +    CPUState *cpu;
-> +    int64_t msec = 0;
-> +    int64_t start_time;
-> +    uint64_t dirtyrate = 0;
-> +    uint64_t dirtyrate_sum = 0;
-> +    int nvcpu = 0;
-> +    int i = 0;
-> +
-> +    CPU_FOREACH(cpu) {
-> +        nvcpu++;
-> +    }
-> +
-> +    dirty_pages = g_malloc0(sizeof(*dirty_pages) * nvcpu);
-> +
-> +    dirtyrate_global_dirty_log_start();
-> +
-> +    CPU_FOREACH(cpu) {
-> +        record_dirtypages(cpu, true);
-> +    }
-> +
-> +    DirtyStat.method.vcpu.nvcpu = nvcpu;
-> +    if (last_method != CALC_DIRTY_RING) {
-> +        DirtyStat.method.vcpu.rates =
-> +            g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
-> +    }
-> +
-> +    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    DirtyStat.start_time = start_time / 1000;
-> +
-> +    msec = config.sample_period_seconds * 1000;
-> +    msec = set_sample_page_period(msec, start_time);
-> +    DirtyStat.calc_time = msec / 1000;
-> +
-> +    CPU_FOREACH(cpu) {
-> +        record_dirtypages(cpu, false);
-> +    }
-> +
-> +    dirtyrate_global_dirty_log_stop();
-> +
-> +    for (i = 0; i < DirtyStat.method.vcpu.nvcpu; i++) {
-> +        dirtyrate = do_calculate_dirtyrate_vcpu(i);
-> +        DirtyStat.method.vcpu.rates[i].id = i;
-> +        DirtyStat.method.vcpu.rates[i].dirty_rate = dirtyrate;
-> +        dirtyrate_sum += dirtyrate;
-> +    }
-> +
-> +    DirtyStat.dirty_rate = dirtyrate_sum / DirtyStat.method.vcpu.nvcpu;
+On 6/7/21 9:58 AM, Peter Maydell wrote:
+> Implement the MVE VPST insn, which sets the predicate mask
+> fields in the VPR to the immediate value encoded in the insn.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/mve.decode      |  4 +++
+>   target/arm/translate-mve.c | 59 ++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 63 insertions(+)
 
-Why you'd like to divide with nvcpu?  Isn't dirtyrate_sum exactly what we want?
-As I don't think we care about average per-vcpu dirty rate, but total here.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +    g_free(dirty_pages);
-> +}
-
-I did a run with 4G mem VM, alloc 1G and dirty it with 500MB/s, then
-
-  - With old way: I got 95MB/s
-  - With new way: I got 128MB/s
-
-The new way has the output with:
-
-Dirty rate: 128 (MB/s)
-vcpu[0], Dirty rate: 0
-vcpu[1], Dirty rate: 1
-vcpu[2], Dirty rate: 0
-vcpu[3], Dirty rate: 511
-
-I think if without the division, it'll be 512MB/s, which is matching the dirty
-workload I initiated.
-
--- 
-Peter Xu
-
+r~
 
