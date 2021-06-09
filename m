@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50F83A1006
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 12:15:50 +0200 (CEST)
-Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130D13A100C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 12:20:36 +0200 (CEST)
+Received: from localhost ([::1]:44490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqvFV-00081p-Ji
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 06:15:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43154)
+	id 1lqvK7-0001UR-5J
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 06:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lqvDj-0006sr-OT
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 06:13:59 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lqvDh-0003pZ-5t
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 06:13:59 -0400
-Received: by mail-ed1-x531.google.com with SMTP id t3so28066761edc.7
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 03:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HKIQO+oO4pdC5+NmN6v8BIY/AXmF0VIqqgqKfKMzQAw=;
- b=jVuFXCM0bN11U/hPo+d7j5gNiqwtKF9XlKKZBylkwvgXPJ+MZYocQg8rd1KOA6S8Wg
- lDDz8knFPtBNWadktkTsRKKU5oPrP2/0vIapFuL5dIFUj0WY5ViGHrr2D/iJN2i+DM8J
- lmbDQq22HfqhckWvAXgOJtnQs3vzkp6RfXZOmwqNPTxtC2Pvj2uzhpKhKUh7kPScaGyu
- 3/5ctv22BSXeqTJz7ScnNLlPHkvCIMvoB92FuzmmmQCfTBX7pac39gnM903+Vo6z0NKC
- 5/nBnUQbJ5kDK8f6xZyunkS2yGHFPxtdSFFKp7SRU82JBOk2aj70gsfiuzMgv2MtZz02
- a7Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HKIQO+oO4pdC5+NmN6v8BIY/AXmF0VIqqgqKfKMzQAw=;
- b=ewfnYA9XtmO58sWdZbycDqAz6c5sBj1fciuhYvrlmQbnv2y3G+VdPU7OeL1LH8uVMM
- JoUhvjOzWhLQcYtvjtH5guV82izBYfaf+38EubPLEFosE4Yvddx4amSZasvxtpkeMebW
- NOWHzXlOnOgjjUyAb+5JudQc/+jYcvO9aQ7T/DyUyRSP0++5TNboee2JIIaPPlqg0KVU
- SbBsXdYFmCziijozd0WpJmS/JlGr0DrtTlDl2t2lLRYUCO+s+Blsv8BbGdSP//5krl4V
- mJeYE9B5niZ/67jDeH1SJkVZG1pnJCYTClaueAzbpu2rubYv5/CDhlXvOgsePekmPNj/
- LPoQ==
-X-Gm-Message-State: AOAM532FNq+z8uU+RW9qgKCAe2qtr6WSORAs3oI3niiQyTJAn31C+wWy
- xCx0IPOxwnxYsjd5N3eHCJMquVaotLc47WbYlnA=
-X-Google-Smtp-Source: ABdhPJw3L0vh3h1ltIlUn2fswcBaoXMOJlhhvQJFp4Xlg29yeFYWzq1cgPAuVTejNTEwBlNwj+LedraEcQvNNs3EC3c=
-X-Received: by 2002:aa7:cd42:: with SMTP id v2mr30402435edw.245.1623233635616; 
- Wed, 09 Jun 2021 03:13:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lqvIo-0000gD-Mk; Wed, 09 Jun 2021 06:19:14 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:35720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lqvIk-00072q-KD; Wed, 09 Jun 2021 06:19:14 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EE7C67457E5;
+ Wed,  9 Jun 2021 12:19:04 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 92F68745708; Wed,  9 Jun 2021 12:19:04 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 912AE74570B;
+ Wed,  9 Jun 2021 12:19:04 +0200 (CEST)
+Date: Wed, 9 Jun 2021 12:19:04 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v20] spapr: Implement Open Firmware client interface
+In-Reply-To: <55c687cf-4cb3-e74b-4c19-b7407124d4f1@ozlabs.ru>
+Message-ID: <ccb9e463-1b60-ab91-44da-8622b6eaf477@eik.bme.hu>
+References: <YKtBJoQXSrSVENFw@yekko>
+ <939a489f-40de-da33-dd7-9fd1f5eb190@eik.bme.hu> <YKyJ3I5QIDLwR99t@yekko>
+ <894b8b19-576d-8b25-922f-58613bad8545@eik.bme.hu> <YK8vbO7x2C8kaBWZ@yekko>
+ <653edbe1-f912-bc8f-ec7f-c4f069b0a5b9@eik.bme.hu> <YLc507CyOVq403TM@yekko>
+ <4046a5c1-6c67-7597-90b9-df1751e7ca47@eik.bme.hu> <YLnIYRz+tGaXssVd@yekko>
+ <3d7b7525-8919-ba90-ae98-e328273771a@eik.bme.hu> <YL2Swhx/XqcPsn5s@yekko>
+ <e86590b5-9b75-4b5f-3485-5a638943091@eik.bme.hu>
+ <55c687cf-4cb3-e74b-4c19-b7407124d4f1@ozlabs.ru>
 MIME-Version: 1.0
-References: <cd197959-7da0-ee50-1e65-e6b2e7107a86@huawei.com>
- <87o8cgxxel.fsf@dusky.pond.sub.org> <YL+Op6F7wFoVYum2@redhat.com>
- <6528dfe1-7cc7-c530-a56f-06517a627cda@huawei.com>
-In-Reply-To: <6528dfe1-7cc7-c530-a56f-06517a627cda@huawei.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 9 Jun 2021 14:13:42 +0400
-Message-ID: <CAJ+F1CLDMdayOG8DJ1kQ=027qSEbfd-U9Kmu=MBzDT-ZVRw4uQ@mail.gmail.com>
-Subject: Re: A bug of Monitor Chardev ?
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Content-Type: multipart/alternative; boundary="0000000000003d0cb905c45288a7"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-691253600-1623233944=:56389"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,449 +62,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenjiashang@huawei.com,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003d0cb905c45288a7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Hi
+--3866299591-691253600-1623233944=:56389
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-On Wed, Jun 9, 2021 at 4:21 AM Longpeng (Mike, Cloud Infrastructure Service
-Product Dept.) <longpeng2@huawei.com> wrote:
+On Wed, 9 Jun 2021, Alexey Kardashevskiy wrote:
+> On 6/8/21 08:54, BALATON Zoltan wrote:
+>> On Mon, 7 Jun 2021, David Gibson wrote:
+>>> On Fri, Jun 04, 2021 at 03:59:22PM +0200, BALATON Zoltan wrote:
+>>>> On Fri, 4 Jun 2021, David Gibson wrote:
+>>>>> On Wed, Jun 02, 2021 at 02:29:29PM +0200, BALATON Zoltan wrote:
+>>>>>> On Wed, 2 Jun 2021, David Gibson wrote:
+>>>>>>> On Thu, May 27, 2021 at 02:42:39PM +0200, BALATON Zoltan wrote:
+>>>>>>>> On Thu, 27 May 2021, David Gibson wrote:
+>>>>>>>>> On Tue, May 25, 2021 at 12:08:45PM +0200, BALATON Zoltan wrote:
+>>>>>>>>>> On Tue, 25 May 2021, David Gibson wrote:
+>>>>>>>>>>> On Mon, May 24, 2021 at 12:55:07PM +0200, BALATON Zoltan wrote:
+>>>>>>>>>>>> On Mon, 24 May 2021, David Gibson wrote:
+>>>> What's ePAPR then and how is it different from PAPR? I mean the acronym 
+>>>> not
+>>>> the hypercall method, the latter is explained in that doc but what ePAPR
+>>>> stands for and why is that method called like that is not clear to me.
+>>> 
+>>> Ok, history lesson time.
+>>> 
+>>> For a long time PAPR has been the document that described the OS
+>>> environment for IBM POWER based server hardware.  Before it was called
+>>> PAPR (POWER Architecture Platform Requirements) it was called the
+>>> "RPA" (Requirements for the POWER Architecture, I think?).  You might
+>>> see the old name in a few places.
+>>> 
+>>> Requiring a full Open Firmware and a bunch of other fairly heavyweight
+>>> stuff, PAPR really wasn't suitable for embedded ppc chips and boards.
+>>> The situation with those used to be a complete mess with basically
+>>> every board variant having it's own different firmware with its own
+>>> different way of presenting some fragments of vital data to the OS.
+>>> 
+>>> ePAPR - Embedded Power Architecture Platform Requirements - was
+>>> created as a standard to try to unify how this stuff was handled on
+>>> embedded ppc chips.  I was one of the authors on early versions of
+>>> it.  It's mostly based around giving the OS a flattened device tree,
+>>> with some deliberately minimal requirements on firmware initialization
+>>> and entry state.  Here's a link to one of those early versions:
+>>> 
+>>> http://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf
+>>> 
+>>> I thought there were later versions, but I couldn't seem to find any.
+>>> It's possible the process of refining later versions just petered out
+>>> as the embedded ppc world mostly died and the flattened device tree
+>>> development mostly moved to ARM.
+>>> 
+>>> Since some of the embedded chips from Freescale had hypervisor
+>>> capabilities, a hypercall model was added to ePAPR - but that wasn't
+>>> something I was greatly involved in, so I don't know much about it.
+>>> 
+>>> ePAPR is the reason that the original PAPR is sometimes referred to as
+>>> "sPAPR" to disambiguate.
+>> 
+>> Ah, thanks that really puts it in context. I've heard about PReP and CHRP 
+>> in connection with the boards I've tried to emulate but don't know much 
+>> about PAPR and server POWER systems.
+>> 
+>>>>>> The ePAPR (1.) seems to be preferred by KVM and
+>>>>>> MOL OSI supported for compatibility.
+>>>>> 
+>>>>> That document looks pretty out of date.  Most of it is only discussing
+>>>>> KVM PR, which is now barely maintained.  KVM HV only works with PAPR
+>>>>> hypercalls.
+>>>> 
+>>>> The links says it's latest kernel docs, so maybe an update need to be 
+>>>> sent
+>>>> to KVM?
+>>> 
+>>> I guess, but the chances of me finding time to do it are approximately
+>>> zero.
+>>> 
+>>>>>> So if we need something else instead of
+>>>>>> 2. PAPR hypercalls there seems to be two options: ePAPR and MOL OSI 
+>>>>>> which
+>>>>>> should work with KVM but then I'm not sure how to handle those on TCG.
+>>>>>> 
+>>>>>>>>>> [...]
+>>>>>>>>>>>>>> I've tested that the missing rtas is not the reason for getting 
+>>>>>>>>>>>>>> no output
+>>>>>>>>>>>>>> via serial though, as even when disabling rtas on pegasos2.rom 
+>>>>>>>>>>>>>> it boots and
+>>>>>>>>>>>>>> I still get serial output just some PCI devices are not 
+>>>>>>>>>>>>>> detected (such as
+>>>>>>>>>>>>>> USB, the video card and the not emulated ethernet port but 
+>>>>>>>>>>>>>> these are not
+>>>>>>>>>>>>>> fatal so it might even work as a first try without rtas, just 
+>>>>>>>>>>>>>> to boot a
+>>>>>>>>>>>>>> Linux kernel for testing it would be enough if I can fix the 
+>>>>>>>>>>>>>> serial output).
+>>>>>>>>>>>>>> I still don't know why it's not finding serial but I think it 
+>>>>>>>>>>>>>> may be some
+>>>>>>>>>>>>>> missing or wrong info in the device tree I generat. I'll try to 
+>>>>>>>>>>>>>> focus on
+>>>>>>>>>>>>>> this for now and leave the above rtas question for later.
+>>>>>>>>>>>>> 
+>>>>>>>>>>>>> Oh.. another thought on that.  You have an ISA serial port on 
+>>>>>>>>>>>>> Pegasos,
+>>>>>>>>>>>>> I believe.  I wonder if the PCI->ISA bridge needs some 
+>>>>>>>>>>>>> configuration /
+>>>>>>>>>>>>> initialization that the firmware is expected to do.  If so 
+>>>>>>>>>>>>> you'll need
+>>>>>>>>>>>>> to mimic that setup in qemu for the VOF case.
+>>>>>>>>>>>> 
+>>>>>>>>>>>> That's what I begin to think because I've added everything to the 
+>>>>>>>>>>>> device
+>>>>>>>>>>>> tree that I thought could be needed and I still don't get it 
+>>>>>>>>>>>> working so it
+>>>>>>>>>>>> may need some config from the firmware. But how do I access 
+>>>>>>>>>>>> device registers
+>>>>>>>>>>>> from board code? I've tried adding a machine reset method and 
+>>>>>>>>>>>> write to
+>>>>>>>>>>>> memory mapped device registers but all my attempts failed. I've 
+>>>>>>>>>>>> tried
+>>>>>>>>>>>> cpu_stl_le_data and even memory_region_dispatch_write but these 
+>>>>>>>>>>>> did not get
+>>>>>>>>>>>> to the device. What's the way to access guest mmio regs from 
+>>>>>>>>>>>> QEMU?
+>>>>>>>>>>> 
+>>>>>>>>>>> That's odd, cpu_stl() and memory_region_dispatch_write() should 
+>>>>>>>>>>> work
+>>>>>>>>>>> from board code (after the relevant memory regions are configured, 
+>>>>>>>>>>> of
+>>>>>>>>>>> course).  As an ISA serial port, it's probably accessed through IO
+>>>>>>>>>>> space, not memory space though, so you'd need &address_space_io.  
+>>>>>>>>>>> And
+>>>>>>>>>>> if there is some bridge configuration then it's the bridge control
+>>>>>>>>>>> registers you need to look at not the serial registers - you'd 
+>>>>>>>>>>> have to
+>>>>>>>>>>> look at the bridge documentation for that.  Or, I guess the bridge
+>>>>>>>>>>> implementation in qemu, which you wrote part of.
+>>>>>>>>>> 
+>>>>>>>>>> I've found at last that stl_le_phys() works. There are so many of 
+>>>>>>>>>> these that
+>>>>>>>>>> I never know when to use which.
+>>>>>>>>>> 
+>>>>>>>>>> I think the address_space_rw calls in vof_client_call() in vof.c 
+>>>>>>>>>> could also
+>>>>>>>>>> use these for somewhat shorter code. I've ended up with
+>>>>>>>>>> stl_le_phys(CPU(cpu)->as, addr, val) in my machine reset methodbut 
+>>>>>>>>>> I don't
+>>>>>>>>>> even need that now as it works without additional setup. Also VOF's 
+>>>>>>>>>> memory
+>>>>>>>>>> access is basically the same as the already existing rtas_st() and 
+>>>>>>>>>> co. so
+>>>>>>>>>> maybe that could be reused to make code smaller?
+>>>>>>>>> 
+>>>>>>>>> rtas_ld() and rtas_st() should only be used for reading/writing RTAS
+>>>>>>>>> parameters to and from memory.  Accessing IO shouldn't be done with
+>>>>>>>>> those.
+>>>>>>>>> 
+>>>>>>>>> For IO you probably want the cpu_st*() variants in most cases, since
+>>>>>>>>> you're trying to emulate an IO access from the virtual cpu.
+>>>>>>>> 
+>>>>>>>> I think I've tried that but what worked to access mmio device 
+>>>>>>>> registers are
+>>>>>>>> stl_le_phys and similar that are wrappers around address_space_stl_*. 
+>>>>>>>> But I
+>>>>>>>> did not mean that for rtas_ld/_st but the part when vof accessing the
+>>>>>>>> parameters passed by its hypercall which is memory access:
+>>>>>>>> 
+>>>>>>>> https://github.com/patchew-project/qemu/blob/patchew/20210520090557.435689-1-aik%40ozlabs.ru/hw/ppc/vof.c 
+>>>>>>>> 
+>>>>>>>> line 893, and vof_client_call before that is very similar to what 
+>>>>>>>> h_rtas
+>>>>>>>> does here:
+>>>>>>>> 
+>>>>>>>> https://git.qemu.org/?p=qemu.git;a=blob;f=hw/ppc/spapr_hcall.c;h=f25014afda408002ee1ec1027a0dd7a6025eca61;hb=HEAD#l639 
+>>>>>>>> 
+>>>>>>>> and I also need to do the same for rtas in pegasos2 for which I'm 
+>>>>>>>> just using
+>>>>>>>> ldl_be_phys for now but I wonder if we really need 3 ways to do the 
+>>>>>>>> same or
+>>>>>>>> the rtas_ld/_st could be made more generic and reused here?
+>>>>>>> 
+>>>>>>> For your rtas implementation you could definitely re-use them.  For
+>>>>>>> the client call I'm a bit less confident, but if the in-guest-memory
+>>>>>>> structures are really the same, then it would make sense.
+>>>>>> 
+>>>>>> The memory structure seems very similar to me, the only difference is
+>>>>>> calling the first field service in VOF instead of token in RTAS. Both 
+>>>>>> are
+>>>>>> just an array of big endian unit32_t with token, nargs, nret at the 
+>>>>>> front
+>>>>>> followed by args and rets. Since these rtas_ld/st are defined in 
+>>>>>> spapr.h I
+>>>>>> did not bother to split them off, so for pegasos2 rtas I'm just using 
+>>>>>> the
+>>>>>> ldl_be_* functions directly for which these are a shorthand for. If 
+>>>>>> these
+>>>>>> were split off for sharing between spapr rtas and VOF I may be able to 
+>>>>>> reuse
+>>>>>> them as well but it's not that important so just mentioned it as a 
+>>>>>> possible
+>>>>>> later clean up.
+>>>>> 
+>>>>> Ok, sounds reasonable to re-use them then, though maybe add an aliased
+>>>>> name for clarity ofci_{ld,st}(), maybe?  (for "Open Firmware Client
+>>>>> Interface")
+>>>> 
+>>>> I'll wait for what Alexey decides to do in the next VOF patch version and 
+>>>> if
+>>>> I can reuse that (I could if these were defined in vof.h). I don't want 
+>>>> to
+>>>> come up with yet another abstraction to ldl_be_* which does not seem to 
+>>>> make
+>>>> it more clear than using the actual functions for guest memory access 
+>>>> which
+>>>> is what we're doing while getting the hypercall args so I think either 
+>>>> using
+>>>> ldl_be_* directly or reusing already existing rfas_ls/_st would make 
+>>>> sense
+>>>> but adding similar funcs with another name just makes it more confusing.
+>>> 
+>>> Well, the point of the rtas_ld() functions isn't o be a different way
+>>> of accessing memory.  It's just a convenience wrapper that takes an
+>>> RTAS args array and an argument index and does the right thing to
+>>> retrieve it for you.
+>>> 
+>>> So, if your RTAS function implementation when you want to get argument
+>>> 0, you just go rtas_ld(args, 0) - more readable than having a bunch of
+>>> offset calculations and a long winded call to the BE memory access
+>>> function.  You can look at the examples in hw/ppc/sppar_rtas.c to see
+>>> how its used.
+>>> 
+>>> Actually, looking again at how it works, you should probably only use
+>>> rtas_ld() if your general dispatch code has pre-parsed the args
+>>> structure into separate args and rets arrays, again as we do in
+>>> spapr_rtas.c
+>> 
+>> The problem with those rtas_* functions is that they are in spapr now so to 
+>> reuse it I'd need to split them off which I did not do because it's not too 
+>> bad without it and modifying spapr would mean another round of review which 
+>> could take long and delay my other patches. So if somebody splits these off 
+>> for reuse (like if Alexey wants to reuse them in VOF) then I may use them 
+>> but otherwise I've just noted these could be reused but don't intend to do 
+>> that now. This could also be done later for both VOF and pegasos2 as a 
+>> clean up so it does not seem to be too important at the moment.
+>
+> I added VOF_MEM_READ/VOF_MEM_WRITE as (unlike others) they can return an 
+> error code. I am not quite sure why we did not bother then when added 
+> rtas_ld/st (were we just learning then?) but we do care now.
+>
+> I am moving those to vof.h.
+>
+> Here is v21:
+> https://github.com/aik/qemu/commits/killslof-cli-v21
+>
+> changes:
+> v21:
+> * s/ld/ldz/ in entry.S
+> * moved CONFIG_VOF from default-configs/devices/ppc64-softmmu.mak to Kconfig
+> * made CONFIG_VOF optional
+> * s/l.lds/vof.lds/
+> * force 32 BE in spapr_machine_reset() instead of the firmware
+> * added checks for non-null methods of VofMachineIfClass
+> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a better comment
+> * added  path_offset wrapper for handling mixed case for addresses after "@" 
+> in node names
+> * changed getprop() to check for actual "name" property in the fdt
+> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as (unlike similar
+> rtas_ld/ldl_be_*) they return error codes
+> * VOF_MEM_READ uses now address_space_read (it was address_space_read_full
+> before, not sure why)
+>
+>
+>
+> I'll post it .... may be on friday unless you find something else :)
 
->
->
-> =E5=9C=A8 2021/6/8 23:37, Daniel P. Berrang=C3=A9 =E5=86=99=E9=81=93:
-> > On Tue, Jun 08, 2021 at 04:07:30PM +0200, Markus Armbruster wrote:
-> >> "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
-> >> <longpeng2@huawei.com> writes:
-> >>
-> >>> We find a race during QEMU starting, which would case the QEMU proces=
-s
-> coredump.
-> >>>
-> >>> <main loop>                             |    <MON iothread>
-> >>>                                         |
-> >>> [1] create MON chardev                  |
-> >>> qemu_create_early_backends              |
-> >>>   chardev_init_func                     |
-> >>>                                         |
-> >>> [2] create MON iothread                 |
-> >>> qemu_create_late_backends               |
-> >>>   mon_init_func                         |
-> >>>     aio_bh_schedule----------------------->
-> monitor_qmp_setup_handlers_bh
-> >>> [3] enter main loog                     |
-> tcp_chr_update_read_handler
-> >>> (* A client come in, e.g. Libvirt *)    |      update_ioc_handlers
-> >>> tcp_chr_new_client                      |
-> >>>   update_ioc_handlers                   |
-> >>>                                         |
-> >>>     [4] create new hup_source           |
-> >>>         s->hup_source =3D *PTR1*          |
-> >>>           g_source_attach(s->hup_source)|
-> >>>                                         |        [5]
-> remove_hup_source(*PTR1*)
-> >>>                                         |            (create new
-> hup_source)
-> >>>                                         |             s->hup_source =
-=3D
-> *PTR2*
-> >>>         [6] g_source_attach_unlocked    |
-> >>>               *PTR1* is freed by [5]    |
-> >>>
-> >>> Do you have any suggestion to fix this bug ? Thanks!
-> >>
-> >> Do we?  We talked, but I'm not sure we reached a conclusion.
-> >
-> > Seems like we ended up with two options.
-> >
-> >   1. A workaround for the current  specific problem by rearranging
-> >      the initilization code in the monitor a little.
-> >
-> >   2. A design fix of splitting the chardev creation into two
-> >      parts, one creation, and one activation.
-> >
-> > The latter is significantly more work, but is a better long term bet
-> IMHO.
-> > But what we really is someone motivated to actually implement one of th=
-e
-> > two options.
-> >
->
-> How about the following implementation of option-1 ? We've tested it for
-> several
-> weeks, it works fine.
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->
+I likely won't be finding more as I've tun out of time for it now so I'm 
+just waiting for your patch to rebase on. It works with TCG and got the 
+problems I've posted with KVM so I can't move on with that without some 
+help.
 
-If we go with this option, disable_handler will need to be implemented for
-all chardevs that have some (or use a QEMU_CHAR_FEATURE_DISABLE_HANDLER
-flag, which will limit the chardevs that can be associated with a monitor
-and knowingly break previously working setups).
-
-
-index a484641..ecb3db9 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -722,6 +722,19 @@ static void tcp_chr_update_read_handler(Chardev *chr=
-)
->      update_ioc_handlers(s);
->  }
->
-> +static void tcp_chr_disable_handler(Chardev *chr)
-> +{
-> +    SocketChardev *s =3D SOCKET_CHARDEV(chr);
-> +
-> +    if (s->listener && s->state =3D=3D TCP_CHARDEV_STATE_DISCONNECTED) {
-> +        qio_net_listener_set_client_func_full(s->listener, NULL, NULL,
-> +                                              NULL, chr->gcontext);
-> +    }
-> +
-> +    remove_fd_in_watch(chr);
-> +    remove_hup_source(s);
-> +}
-> +
->  static bool tcp_chr_is_connected(Chardev *chr)
->  {
->      SocketChardev *s =3D SOCKET_CHARDEV(chr);
-> @@ -1703,6 +1716,7 @@ static void char_socket_class_init(ObjectClass *oc,
-> void
-> *data)
->      cc->chr_add_watch =3D tcp_chr_add_watch;
->      cc->chr_set_reconnect_time =3D tcp_chr_set_reconnect_time;
->      cc->chr_update_read_handler =3D tcp_chr_update_read_handler;
-> +    cc->chr_disable_handler =3D tcp_chr_disable_handler;
->      cc->chr_is_connected =3D tcp_chr_is_connected;
->      cc->chr_get_connect_id =3D tcp_chr_get_connect_id;
->
-> diff --git a/chardev/char.c b/chardev/char.c
-> index ff0a3cf..990fe4f 100644
-> --- a/chardev/char.c
-> +++ b/chardev/char.c
-> @@ -238,6 +238,15 @@ void qemu_chr_be_update_read_handlers(Chardev *s,
->      }
->  }
->
-> +void qemu_chr_be_disable_handlers(Chardev *s)
-> +{
-> +    ChardevClass *cc =3D CHARDEV_GET_CLASS(s);
-> +
-> +    if (cc->chr_disable_handler) {
-> +        cc->chr_disable_handler(s);
-> +    }
-> +}
-> +
->  int qemu_chr_add_client(Chardev *s, int fd)
->  {
->      return CHARDEV_GET_CLASS(s)->chr_add_client ?
-> diff --git a/include/chardev/char.h b/include/chardev/char.h
-> index d1ec628..7a8c740 100644
-> --- a/include/chardev/char.h
-> +++ b/include/chardev/char.h
-> @@ -212,6 +212,8 @@ void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf,
-> int len);
->  void qemu_chr_be_update_read_handlers(Chardev *s,
->                                        GMainContext *context);
->
-> +void qemu_chr_be_disable_handlers(Chardev *s);
-> +
->  /**
->   * qemu_chr_be_event:
->   * @event: the event to send
-> @@ -282,6 +284,7 @@ typedef struct ChardevClass {
->      int (*chr_sync_read)(Chardev *s, const uint8_t *buf, int len);
->      GSource *(*chr_add_watch)(Chardev *s, GIOCondition cond);
->      void (*chr_update_read_handler)(Chardev *s);
-> +    void (*chr_disable_handler)(Chardev *s);
->      int (*chr_ioctl)(Chardev *s, int cmd, void *arg);
->      int (*get_msgfds)(Chardev *s, int* fds, int num);
->      int (*set_msgfds)(Chardev *s, int *fds, int num);
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> index 9a69ae4..2c2248c 100644
-> --- a/monitor/qmp.c
-> +++ b/monitor/qmp.c
-> @@ -413,11 +413,13 @@ void monitor_init_qmp(Chardev *chr, bool pretty)
->           * e.g. the chardev is in client mode, with wait=3Don.
->           */
->          remove_fd_in_watch(chr);
-> +
->          /*
-> -         * We can't call qemu_chr_fe_set_handlers() directly here
-> -         * since chardev might be running in the monitor I/O
-> -         * thread.  Schedule a bottom half.
-> +         * Before schedule a bottom half, we should clean up the handler
-> in the
-> +         * default context to prevent the race between main thread and
-> iothread
->           */
-> +        qemu_chr_be_disable_handlers(chr);
-> +
->          aio_bh_schedule_oneshot(iothread_get_aio_context(mon_iothread),
->                                  monitor_qmp_setup_handlers_bh, mon);
->          /* The bottom half will add @mon to @mon_list */
-> --
-> 1.8.3.1
->
->
-> > Regards,
-> > Daniel
-> >
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000003d0cb905c45288a7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 9, 2021 at 4:21 AM Long=
-peng (Mike, Cloud Infrastructure Service Product Dept.) &lt;<a href=3D"mail=
-to:longpeng2@huawei.com">longpeng2@huawei.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-=E5=9C=A8 2021/6/8 23:37, Daniel P. Berrang=C3=A9 =E5=86=99=E9=81=93:<br>
-&gt; On Tue, Jun 08, 2021 at 04:07:30PM +0200, Markus Armbruster wrote:<br>
-&gt;&gt; &quot;Longpeng (Mike, Cloud Infrastructure Service Product Dept.)&=
-quot;<br>
-&gt;&gt; &lt;<a href=3D"mailto:longpeng2@huawei.com" target=3D"_blank">long=
-peng2@huawei.com</a>&gt; writes:<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; We find a race during QEMU starting, which would case the QEMU=
- process coredump.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; &lt;main loop&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 &=
-lt;MON iothread&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|<br>
-&gt;&gt;&gt; [1] create MON chardev=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |<br>
-&gt;&gt;&gt; qemu_create_early_backends=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0chardev_init_func=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|<br>
-&gt;&gt;&gt; [2] create MON iothread=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-&gt;&gt;&gt; qemu_create_late_backends=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0mon_init_func=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0aio_bh_schedule-----------------------&gt; =
-monitor_qmp_setup_handlers_bh<br>
-&gt;&gt;&gt; [3] enter main loog=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 tcp_chr_update_read_handle=
-r<br>
-&gt;&gt;&gt; (* A client come in, e.g. Libvirt *)=C2=A0 =C2=A0 |=C2=A0 =C2=
-=A0 =C2=A0 update_ioc_handlers<br>
-&gt;&gt;&gt; tcp_chr_new_client=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0update_ioc_handlers=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0[4] create new hup_source=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;hup_source =3D *PTR1*=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_source_attach(s-&gt;=
-hup_source)|<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 [5] remove_hup_source(*PTR1*)<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (create new hup_source=
-)<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;hup_source=
- =3D *PTR2*<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[6] g_source_attach_unlocked=
-=C2=A0 =C2=A0 |<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*PTR1* i=
-s freed by [5]=C2=A0 =C2=A0 |<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0<br>
-&gt;&gt;&gt; Do you have any suggestion to fix this bug ? Thanks!<br>
-&gt;&gt;<br>
-&gt;&gt; Do we?=C2=A0 We talked, but I&#39;m not sure we reached a conclusi=
-on.<br>
-&gt; <br>
-&gt; Seems like we ended up with two options.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A01. A workaround for the current=C2=A0 specific problem by =
-rearranging<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 the initilization code in the monitor a little.<br=
->
-&gt; <br>
-&gt;=C2=A0 =C2=A02. A design fix of splitting the chardev creation into two=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 parts, one creation, and one activation.<br>
-&gt; <br>
-&gt; The latter is significantly more work, but is a better long term bet I=
-MHO.<br>
-&gt; But what we really is someone motivated to actually implement one of t=
-he<br>
-&gt; two options.<br>
-&gt; <br>
-<br>
-How about the following implementation of option-1 ? We&#39;ve tested it fo=
-r several<br>
-weeks, it works fine.<br>
-<br>
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c<br></blockquote>=
-<div><br></div><div>If we go with this option, disable_handler will need to=
- be implemented for all chardevs that have some (or use a QEMU_CHAR_FEATURE=
-_DISABLE_HANDLER flag, which will limit the chardevs that can be associated=
- with a monitor and knowingly break previously working setups).</div><div><=
-br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-index a484641..ecb3db9 100644<br>
---- a/chardev/char-socket.c<br>
-+++ b/chardev/char-socket.c<br>
-@@ -722,6 +722,19 @@ static void tcp_chr_update_read_handler(Chardev *chr)<=
-br>
-=C2=A0 =C2=A0 =C2=A0update_ioc_handlers(s);<br>
-=C2=A0}<br>
-<br>
-+static void tcp_chr_disable_handler(Chardev *chr)<br>
-+{<br>
-+=C2=A0 =C2=A0 SocketChardev *s =3D SOCKET_CHARDEV(chr);<br>
-+<br>
-+=C2=A0 =C2=A0 if (s-&gt;listener &amp;&amp; s-&gt;state =3D=3D TCP_CHARDEV=
-_STATE_DISCONNECTED) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_net_listener_set_client_func_full(s-&gt;li=
-stener, NULL, NULL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 NULL, chr-&gt;gcontext);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 remove_fd_in_watch(chr);<br>
-+=C2=A0 =C2=A0 remove_hup_source(s);<br>
-+}<br>
-+<br>
-=C2=A0static bool tcp_chr_is_connected(Chardev *chr)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0SocketChardev *s =3D SOCKET_CHARDEV(chr);<br>
-@@ -1703,6 +1716,7 @@ static void char_socket_class_init(ObjectClass *oc, v=
-oid<br>
-*data)<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_add_watch =3D tcp_chr_add_watch;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_set_reconnect_time =3D tcp_chr_set_reconnect=
-_time;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_update_read_handler =3D tcp_chr_update_read_=
-handler;<br>
-+=C2=A0 =C2=A0 cc-&gt;chr_disable_handler =3D tcp_chr_disable_handler;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_is_connected =3D tcp_chr_is_connected;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_get_connect_id =3D tcp_chr_get_connect_id;<b=
-r>
-<br>
-diff --git a/chardev/char.c b/chardev/char.c<br>
-index ff0a3cf..990fe4f 100644<br>
---- a/chardev/char.c<br>
-+++ b/chardev/char.c<br>
-@@ -238,6 +238,15 @@ void qemu_chr_be_update_read_handlers(Chardev *s,<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-+void qemu_chr_be_disable_handlers(Chardev *s)<br>
-+{<br>
-+=C2=A0 =C2=A0 ChardevClass *cc =3D CHARDEV_GET_CLASS(s);<br>
-+<br>
-+=C2=A0 =C2=A0 if (cc-&gt;chr_disable_handler) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cc-&gt;chr_disable_handler(s);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-=C2=A0int qemu_chr_add_client(Chardev *s, int fd)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return CHARDEV_GET_CLASS(s)-&gt;chr_add_client ?<br>
-diff --git a/include/chardev/char.h b/include/chardev/char.h<br>
-index d1ec628..7a8c740 100644<br>
---- a/include/chardev/char.h<br>
-+++ b/include/chardev/char.h<br>
-@@ -212,6 +212,8 @@ void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, i=
-nt len);<br>
-=C2=A0void qemu_chr_be_update_read_handlers(Chardev *s,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GMainCont=
-ext *context);<br>
-<br>
-+void qemu_chr_be_disable_handlers(Chardev *s);<br>
-+<br>
-=C2=A0/**<br>
-=C2=A0 * qemu_chr_be_event:<br>
-=C2=A0 * @event: the event to send<br>
-@@ -282,6 +284,7 @@ typedef struct ChardevClass {<br>
-=C2=A0 =C2=A0 =C2=A0int (*chr_sync_read)(Chardev *s, const uint8_t *buf, in=
-t len);<br>
-=C2=A0 =C2=A0 =C2=A0GSource *(*chr_add_watch)(Chardev *s, GIOCondition cond=
-);<br>
-=C2=A0 =C2=A0 =C2=A0void (*chr_update_read_handler)(Chardev *s);<br>
-+=C2=A0 =C2=A0 void (*chr_disable_handler)(Chardev *s);<br>
-=C2=A0 =C2=A0 =C2=A0int (*chr_ioctl)(Chardev *s, int cmd, void *arg);<br>
-=C2=A0 =C2=A0 =C2=A0int (*get_msgfds)(Chardev *s, int* fds, int num);<br>
-=C2=A0 =C2=A0 =C2=A0int (*set_msgfds)(Chardev *s, int *fds, int num);<br>
-diff --git a/monitor/qmp.c b/monitor/qmp.c<br>
-index 9a69ae4..2c2248c 100644<br>
---- a/monitor/qmp.c<br>
-+++ b/monitor/qmp.c<br>
-@@ -413,11 +413,13 @@ void monitor_init_qmp(Chardev *chr, bool pretty)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * e.g. the chardev is in client mode, wi=
-th wait=3Don.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0remove_fd_in_watch(chr);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* We can&#39;t call qemu_chr_fe_set_hand=
-lers() directly here<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* since chardev might be running in the =
-monitor I/O<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* thread.=C2=A0 Schedule a bottom half.<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Before schedule a bottom half, we shou=
-ld clean up the handler in the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* default context to prevent the race be=
-tween main thread and iothread<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_disable_handlers(chr);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aio_bh_schedule_oneshot(iothread_get_aio_=
-context(mon_iothread),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0monitor_qmp_setup_handlers_bh,=
- mon);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* The bottom half will add @mon to @mon_=
-list */<br>
--- <br>
-1.8.3.1<br>
-<br>
-<br>
-&gt; Regards,<br>
-&gt; Daniel<br>
-&gt; <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000003d0cb905c45288a7--
+Regards,
+BALATON Zoltan
+--3866299591-691253600-1623233944=:56389--
 
