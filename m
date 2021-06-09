@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5350B3A143C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:23:12 +0200 (CEST)
-Received: from localhost ([::1]:43688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3F93A1444
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Jun 2021 14:24:23 +0200 (CEST)
+Received: from localhost ([::1]:46942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lqxEl-0008H8-Du
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
+	id 1lqxFu-00027e-4F
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 08:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xypron.glpk@gmx.de>)
- id 1lqxD5-00066P-Ez
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:21:27 -0400
-Received: from mout.gmx.net ([212.227.17.21]:35545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xypron.glpk@gmx.de>)
- id 1lqxD2-0002kA-CL
- for qemu-devel@nongnu.org; Wed, 09 Jun 2021 08:21:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1623241266;
- bh=YN8G/tSfiN+Ae2kYbDHfzpNvmz21N3j+BMmFqT0Smto=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=aH80WOeZfCMZ5fQb/rMwrMZ7cR+ma7AZkTIJvwwrwFz2mqxR6XUtZ1JeHZp3MnkN1
- l5qsfq3oh2EK/H+9AmMc0YaUEyakltqXdaZymJrkiyLxIsGIyuhAqrSKshM8sIXObm
- IztNmPajnBWEsCUtBvgYy5N0YKsnLZA7WPDukyD4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.123.35] ([62.143.247.63]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M8QS8-1lvKuv434i-004WIV; Wed, 09
- Jun 2021 14:21:06 +0200
-Subject: Re: [PATCH 1/1] hw/nvme: namespace parameter for EUI64
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20210609114657.33301-1-xypron.glpk@gmx.de>
- <YMCwjV7Vpbk5au/U@apples.localdomain>
-From: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Message-ID: <f5f15ac1-0876-331e-7433-a6ca551b9e10@gmx.de>
-Date: Wed, 9 Jun 2021 14:21:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lqxEG-0007wl-5T; Wed, 09 Jun 2021 08:22:40 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lqxED-0003ea-TO; Wed, 09 Jun 2021 08:22:39 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id c9so16573831wrt.5;
+ Wed, 09 Jun 2021 05:22:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iOo/RoxdKbJBRjB8/wwIU0o2mZG4eNOOjQ2zYGMG7RQ=;
+ b=s0+tjSJrZs0fNUWhxSrJc+sdm22iDQcWDHxRtAYp01ngqm2S15Gqcuam5EZ/xS6bib
+ ePdVI4x/64D2fhZ5P5On/eXbxkg4PWo1lWXPe33psI1WVYhxbcK9IptiPuWpx+iiy7Io
+ rw/HRBHl3xBa+UCtVez0VdDRcmkicNQ7HAglNSsoeVg7Wgs0baHs4vWpOLRIdyh/5UPc
+ kgwSi5NwaPP97CBnfbrHIl6jEI9PP3QbUxJPBgMViuo+aDBIkCAsaCkCQ4p2zKDJpciD
+ +5qrKz3d2IFo5M6aWF5vSu8DNh8pOqtv2aYMbCYkZsq0I5pBvwr8wZqJZcIbzP/2029Q
+ CATw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iOo/RoxdKbJBRjB8/wwIU0o2mZG4eNOOjQ2zYGMG7RQ=;
+ b=QLn4THhWpwKSPHoC9UjoTciD0YzKtCFaW5CxyHC7rB41C1NTyq3s26LRcBKal7OuEf
+ nAEmJBGViTKqhK5XGny5FVZ9DSjD//XXVCrWpxKY4MOhDkZTXT4z1YcIyvk8AH/XfgHb
+ OfdIS5szFzleLNPjLRwakig2B6W80HzEs3OIvr1QJJ1htgJI0py6iEl5ViRsztYVt8eH
+ TboFXQsBgEIamHeWEy4O/o80+TGhLoLMfufpomw8gwjbD7qsSEmUebj/HNbC9c+2DQ0E
+ Qys7uhzNn1kX9/y2KfNNe6/vbPNlzRWsWU0ufvsj0Mge4cXa2QdSBwjqqbt7Z5fuAHYA
+ 1mXg==
+X-Gm-Message-State: AOAM531J0sew+IHI+cUlDgofQmQCBjyww3xh3E/V5e7IdJ6ts05/+GRE
+ aOexCJZ6V/+a5U5pAf2zw5+22dw8XbX4Vw==
+X-Google-Smtp-Source: ABdhPJyTmqq+p3UCVnJ9d5oyh/dbFtPwZybMqlhhIdpBnSIKmkmc1NG2gzNrpR2fSesNGvK6zw45Ng==
+X-Received: by 2002:adf:9031:: with SMTP id h46mr28753539wrh.125.1623241356012; 
+ Wed, 09 Jun 2021 05:22:36 -0700 (PDT)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id
+ o18sm5783349wmq.23.2021.06.09.05.22.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jun 2021 05:22:35 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] async: the main AioContext is only "current" if under the
+ BQL
+Date: Wed,  9 Jun 2021 14:22:34 +0200
+Message-Id: <20210609122234.544153-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YMCwjV7Vpbk5au/U@apples.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sZbhyjweTEMULYmL4s7b5qO1zKho79vZOah6DQGnCFosKXCUuID
- duFwvmwTeDepTK8M2XjjY5um9sgSCUEgjXqAE8ScPEY6sgk/Obz2dPXkti8rBLZwhR3INT4
- aIzW5NGAh+RMl7gPLjS/KT9u7KUkk7FLmoBCcwhHhb4Ip+Gy6zu9zCSJPqeqmm7vsR00s/7
- ORqtOnFKkF2OSBl/Y3NgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4iH/9QNG1oA=:TgowdK8rW6STzYyEppVgeE
- 1xnrlrv9OvVKjtNz3MQDEbFGyxyeINgFMZJI280nC2BNPIxUvK3Lfyf4v9Tee5TJJaIz+qKo0
- yCKAL2wpH34v6rqd1rL4nEMk006GEmeJbfXzwEDCWnsNbrL4SavfyC07Pc20Q4jqPaVal6Xe9
- 0ddQzmLaJphVsNvHqsh4Z9EyMVXPFVwkI3P9qrlUfZMmqngsefjq+MSwuELMtXJvD8Hn3n8KX
- 6CyLPR5J1nP71wxCJ+dDAazUC4kdOeqlgsbnTJyZYnSEZMd9CIeXFdAhO5fr/jcKUivyToAnt
- SDgJfAqWJkorSZvInotq4HoepAfsuMDIn6RNRlLdaVU8Kgk0myKsRZ6XUsf5JAJw/SQQ8YAYi
- NEBYlFsoDSUCngaD0zmgX7dyf1lzsEu1yhn5R8lhnpTUbkl0uxfOFnAd8JQII+0vtgx/sFl8J
- 1Kf7G6ZEuxodcneYuNH1c+pPHc7A32ac6UWoWBFJoHmOGjwZg9YuPGlxJK5+GHgN9Z3ciZdc0
- 07bmhKdvXRiHYJS+CF5jFJTd7K627Ga5eXXqmi0N4kEp2M/etVBSXywb7T7J5qZtBLa68tPB4
- 6qsRUYjajDBjOKHBoGwhPfEkIOqPWg31G0C1KLITTh+w8IQWqB95wamaKzLu7JIFVoMK8zLXt
- AfaoxNws1LSnAGcHUjllP62vBPuyIS/6yBkzF2MoFASCYv2gQLNtB9bWKXLn2/hrhIuVFAypu
- /ZpAqs6f2F/pc7pvHSaT3dTBNYG2fGbC6+G/HcpR0ibHwzKbvDBe5cye3BXWq73EJJR4BAedn
- y3lHintkNQiakkZD7MW3jjj7nZrXD/0S9kfiy5i4Jal4SdYTVAc1VlDe0pzyip3qsj6pskPMI
- fqaUl4Kcydm+ubZrZNdGjn2dvSdnnefszt7nqbQCsycmIgm127pppTbLnVJSOaa2U3SsH44T4
- gr1g0esF2AKkPToESN37US1YyHlLdsX2GAszjsr2A+x27UWDUeY10jppwQB6grzIOEf+kcJS1
- 183sVgYFzeAb6C7BiC53WeuLnvLz0oVNqRMWZFhLijTM4FLioB5spqdqRgmiDqlMc/0BKrSBP
- YD3W0bt86hieNmOUKcCva7MT9auIXGY+yF+
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=xypron.glpk@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,206 +81,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/21 2:14 PM, Klaus Jensen wrote:
-> On Jun=C2=A0 9 13:46, Heinrich Schuchardt wrote:
->> The EUI64 field is the only identifier for NVMe namespaces in UEFI devi=
-ce
->> paths. Add a new namespace property "eui64", that provides the user the
->> option to specify the EUI64.
->>
->> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
->> ---
->> docs/system/nvme.rst |=C2=A0 4 +++
->> hw/nvme/ctrl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 58 +++++++++++++++=
-+++++++++++------------------
->> hw/nvme/ns.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 =
-++
->> hw/nvme/nvme.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
->> 4 files changed, 42 insertions(+), 23 deletions(-)
->>
->> diff --git a/docs/system/nvme.rst b/docs/system/nvme.rst
->> index f7f63d6bf6..a6042f942a 100644
->> --- a/docs/system/nvme.rst
->> +++ b/docs/system/nvme.rst
->> @@ -81,6 +81,10 @@ There are a number of parameters available:
->> =C2=A0 Set the UUID of the namespace. This will be reported as a "Names=
-pace
->> UUID"
->> =C2=A0 descriptor in the Namespace Identification Descriptor List.
->>
->> +``eui64``
->> +=C2=A0 Set the EUI64 of the namespace. This will be reported as a "IEE=
-E
->> Extended
->> +=C2=A0 Unique Identifier" descriptor in the Namespace Identification
->> Descriptor List.
->> +
->> ``bus``
->> =C2=A0 If there are more ``nvme`` devices defined, this parameter may b=
-e
->> used to
->> =C2=A0 attach the namespace to a specific ``nvme`` device (identified b=
-y an
->> ``id``
->> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->> index 0bcaf7192f..21f2d6843b 100644
->> --- a/hw/nvme/ctrl.c
->> +++ b/hw/nvme/ctrl.c
->> @@ -4426,19 +4426,19 @@ static uint16_t
->> nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
->> =C2=A0=C2=A0=C2=A0 NvmeIdentify *c =3D (NvmeIdentify *)&req->cmd;
->> =C2=A0=C2=A0=C2=A0 uint32_t nsid =3D le32_to_cpu(c->nsid);
->> =C2=A0=C2=A0=C2=A0 uint8_t list[NVME_IDENTIFY_DATA_SIZE] =3D {};
->> -
->> -=C2=A0=C2=A0=C2=A0 struct data {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Nvm=
-eIdNsDescr hdr;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uin=
-t8_t v[NVME_NIDL_UUID];
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } uuid;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Nvm=
-eIdNsDescr hdr;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uin=
-t8_t v;
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } csi;
->> -=C2=A0=C2=A0=C2=A0 };
->> -
->> -=C2=A0=C2=A0=C2=A0 struct data *ns_descrs =3D (struct data *)list;
->> +=C2=A0=C2=A0=C2=A0 uint8_t *pos =3D list;
->> +=C2=A0=C2=A0=C2=A0 struct {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NvmeIdNsDescr hdr;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t v[NVME_NIDL_UUID];
->> +=C2=A0=C2=A0=C2=A0 } QEMU_PACKED uuid;
->> +=C2=A0=C2=A0=C2=A0 struct {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NvmeIdNsDescr hdr;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t v;
->> +=C2=A0=C2=A0=C2=A0 } QEMU_PACKED eui64;
->> +=C2=A0=C2=A0=C2=A0 struct {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NvmeIdNsDescr hdr;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t v;
->> +=C2=A0=C2=A0=C2=A0 } QEMU_PACKED csi;
->>
->> =C2=A0=C2=A0=C2=A0 trace_pci_nvme_identify_ns_descr_list(nsid);
->>
->> @@ -4452,17 +4452,29 @@ static uint16_t
->> nvme_identify_ns_descr_list(NvmeCtrl *n, NvmeRequest *req)
->> =C2=A0=C2=A0=C2=A0 }
->>
->> =C2=A0=C2=A0=C2=A0 /*
->> -=C2=A0=C2=A0=C2=A0=C2=A0 * Because the NGUID and EUI64 fields are 0 in=
- the Identify
->> Namespace data
->> -=C2=A0=C2=A0=C2=A0=C2=A0 * structure, a Namespace UUID (nidt =3D 3h) m=
-ust be reported in the
->> -=C2=A0=C2=A0=C2=A0=C2=A0 * Namespace Identification Descriptor. Add th=
-e namespace UUID here.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * If the EUI64 field is 0 and the NGUID field=
- is 0, the
->> namespace must
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * provide a valid Namespace UUID in the Names=
-pace Identification
->> Descriptor
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * data structure. QEMU does not yet support s=
-etting NGUID.
->> =C2=A0=C2=A0=C2=A0=C2=A0 */
->> -=C2=A0=C2=A0=C2=A0 ns_descrs->uuid.hdr.nidt =3D NVME_NIDT_UUID;
->> -=C2=A0=C2=A0=C2=A0 ns_descrs->uuid.hdr.nidl =3D NVME_NIDL_UUID;
->> -=C2=A0=C2=A0=C2=A0 memcpy(&ns_descrs->uuid.v, ns->params.uuid.data, NV=
-ME_NIDL_UUID);
->> -
->> -=C2=A0=C2=A0=C2=A0 ns_descrs->csi.hdr.nidt =3D NVME_NIDT_CSI;
->> -=C2=A0=C2=A0=C2=A0 ns_descrs->csi.hdr.nidl =3D NVME_NIDL_CSI;
->> -=C2=A0=C2=A0=C2=A0 ns_descrs->csi.v =3D ns->csi;
->> +=C2=A0=C2=A0=C2=A0 uuid.hdr.nidt =3D NVME_NIDT_UUID;
->> +=C2=A0=C2=A0=C2=A0 uuid.hdr.nidl =3D NVME_NIDL_UUID;
->> +=C2=A0=C2=A0=C2=A0 memcpy(uuid.v, ns->params.uuid.data, NVME_NIDL_UUID=
-);
->> +=C2=A0=C2=A0=C2=A0 memcpy(pos, &uuid, sizeof(uuid));
->> +=C2=A0=C2=A0=C2=A0 pos +=3D sizeof(uuid);
->> +
->> +=C2=A0=C2=A0=C2=A0 if (ns->params.eui64) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eui64.hdr.nidt =3D NVME_NID=
-T_EUI64;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eui64.hdr.nidl =3D NVME_NID=
-L_EUI64;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 eui64.v =3D cpu_to_be64(ns-=
->params.eui64);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(pos, &eui64, sizeof(=
-eui64));
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pos +=3D sizeof(eui64);
->> +=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0 csi.hdr.nidt =3D NVME_NIDT_CSI;
->> +=C2=A0=C2=A0=C2=A0 csi.hdr.nidl =3D NVME_NIDL_CSI;
->> +=C2=A0=C2=A0=C2=A0 csi.v =3D ns->csi;
->> +=C2=A0=C2=A0=C2=A0 memcpy(pos, &csi, sizeof(csi));
->> +=C2=A0=C2=A0=C2=A0 pos +=3D sizeof(csi);
->>
->> =C2=A0=C2=A0=C2=A0 return nvme_c2h(n, list, sizeof(list), req);
->> }
->> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
->> index 992e5a13f5..ddf395d60e 100644
->> --- a/hw/nvme/ns.c
->> +++ b/hw/nvme/ns.c
->> @@ -77,6 +77,7 @@ static int nvme_ns_init(NvmeNamespace *ns, Error
->> **errp)
->> =C2=A0=C2=A0=C2=A0 id_ns->mssrl =3D cpu_to_le16(ns->params.mssrl);
->> =C2=A0=C2=A0=C2=A0 id_ns->mcl =3D cpu_to_le32(ns->params.mcl);
->> =C2=A0=C2=A0=C2=A0 id_ns->msrc =3D ns->params.msrc;
->> +=C2=A0=C2=A0=C2=A0 id_ns->eui64 =3D cpu_to_be64(ns->params.eui64);
->>
->> =C2=A0=C2=A0=C2=A0 ds =3D 31 - clz32(ns->blkconf.logical_block_size);
->> =C2=A0=C2=A0=C2=A0 ms =3D ns->params.ms;
->> @@ -518,6 +519,7 @@ static Property nvme_ns_props[] =3D {
->> =C2=A0=C2=A0=C2=A0 DEFINE_PROP_BOOL("shared", NvmeNamespace, params.sha=
-red, false),
->> =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsi=
-d, 0),
->> =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid)=
-,
->> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT64("eui64", NvmeNamespace, params.e=
-ui64, 0),
->> =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT16("ms", NvmeNamespace, params.ms, 0=
-),
->> =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT8("mset", NvmeNamespace, params.mset=
-, 0),
->> =C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT8("pi", NvmeNamespace, params.pi, 0)=
-,
->> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
->> index 81a35cda14..abe7fab21c 100644
->> --- a/hw/nvme/nvme.h
->> +++ b/hw/nvme/nvme.h
->> @@ -83,6 +83,7 @@ typedef struct NvmeNamespaceParams {
->> =C2=A0=C2=A0=C2=A0 bool=C2=A0=C2=A0=C2=A0=C2=A0 shared;
->> =C2=A0=C2=A0=C2=A0 uint32_t nsid;
->> =C2=A0=C2=A0=C2=A0 QemuUUID uuid;
->> +=C2=A0=C2=A0=C2=A0 uint64_t eui64;
->>
->> =C2=A0=C2=A0=C2=A0 uint16_t ms;
->> =C2=A0=C2=A0=C2=A0 uint8_t=C2=A0 mset;
->> --
->> 2.30.2
->>
->>
->
-> Would it make sense to provide a sensible default for EUI64 such that it
-> is always there? That is, using the same IEEE OUI as we already report
-> in the IEEE field and add an extension identifier by grabbing 5 bytes
-> from the UUID?
+If we want to wake up a coroutine from a worker thread, aio_co_wake()
+currently does not work.  In that scenario, aio_co_wake() calls
+aio_co_enter(), but there is no current AioContext and therefore
+qemu_get_current_aio_context() returns the main thread.  aio_co_wake()
+then attempts to call aio_context_acquire() instead of going through
+aio_co_schedule().
 
-According to the NVMe 1.4 specification it is allowable to have a NVMe
-device that does not support EUI64. As the EUI64 is used to define boot
-options in UEFI using a non-zero default may break existing installations.
+The default case of qemu_get_current_aio_context() was added to cover
+synchronous I/O started from the vCPU thread, but the main and vCPU
+threads are quite different.  The main thread is an I/O thread itself,
+only running a more complicated event loop; the vCPU thread instead
+is essentially a worker thread that occasionally calls
+qemu_mutex_lock_iothread().  It is only in those critical sections
+that it acts as if it were the home thread of the main AioContext.
 
-Best regards
+Therefore, this patch detaches qemu_get_current_aio_context() from
+iothreads, which is a useless complication.  The AioContext pointer
+is stored directly in the thread-local variable, including for the
+main loop.  Worker threads (including vCPU threads) optionally behave
+as temporary home threads if they have taken the big QEMU lock,
+but if that is not the case they will always schedule coroutines
+on remote threads via aio_co_schedule().
 
-Heinrich
+With this change, qemu_mutex_iothread_locked() must be changed from
+true to false.  The previous value of true was needed because the
+main thread did not have an AioContext in the thread-local variable,
+but now it does have one.
+
+Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/block/aio.h   |  5 ++++-
+ iothread.c            |  9 +--------
+ stubs/iothread-lock.c |  2 +-
+ stubs/iothread.c      |  8 --------
+ stubs/meson.build     |  1 -
+ tests/unit/iothread.c |  9 +--------
+ util/async.c          | 20 ++++++++++++++++++++
+ util/main-loop.c      |  1 +
+ 8 files changed, 28 insertions(+), 27 deletions(-)
+ delete mode 100644 stubs/iothread.c
+
+diff --git a/include/block/aio.h b/include/block/aio.h
+index 5f342267d5..10fcae1515 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -691,10 +691,13 @@ void aio_co_enter(AioContext *ctx, struct Coroutine *co);
+  * Return the AioContext whose event loop runs in the current thread.
+  *
+  * If called from an IOThread this will be the IOThread's AioContext.  If
+- * called from another thread it will be the main loop AioContext.
++ * called from the main thread or with the "big QEMU lock" taken it
++ * will be the main loop AioContext.
+  */
+ AioContext *qemu_get_current_aio_context(void);
+ 
++void qemu_set_current_aio_context(AioContext *ctx);
++
+ /**
+  * aio_context_setup:
+  * @ctx: the aio context
+diff --git a/iothread.c b/iothread.c
+index 7f086387be..2c5ccd7367 100644
+--- a/iothread.c
++++ b/iothread.c
+@@ -39,13 +39,6 @@ DECLARE_CLASS_CHECKERS(IOThreadClass, IOTHREAD,
+ #define IOTHREAD_POLL_MAX_NS_DEFAULT 0ULL
+ #endif
+ 
+-static __thread IOThread *my_iothread;
+-
+-AioContext *qemu_get_current_aio_context(void)
+-{
+-    return my_iothread ? my_iothread->ctx : qemu_get_aio_context();
+-}
+-
+ static void *iothread_run(void *opaque)
+ {
+     IOThread *iothread = opaque;
+@@ -56,7 +49,7 @@ static void *iothread_run(void *opaque)
+      * in this new thread uses glib.
+      */
+     g_main_context_push_thread_default(iothread->worker_context);
+-    my_iothread = iothread;
++    qemu_set_current_aio_context(iothread->ctx);
+     iothread->thread_id = qemu_get_thread_id();
+     qemu_sem_post(&iothread->init_done_sem);
+ 
+diff --git a/stubs/iothread-lock.c b/stubs/iothread-lock.c
+index 2a6efad64a..5b45b7fc8b 100644
+--- a/stubs/iothread-lock.c
++++ b/stubs/iothread-lock.c
+@@ -3,7 +3,7 @@
+ 
+ bool qemu_mutex_iothread_locked(void)
+ {
+-    return true;
++    return false;
+ }
+ 
+ void qemu_mutex_lock_iothread_impl(const char *file, int line)
+diff --git a/stubs/iothread.c b/stubs/iothread.c
+deleted file mode 100644
+index 8cc9e28c55..0000000000
+--- a/stubs/iothread.c
++++ /dev/null
+@@ -1,8 +0,0 @@
+-#include "qemu/osdep.h"
+-#include "block/aio.h"
+-#include "qemu/main-loop.h"
+-
+-AioContext *qemu_get_current_aio_context(void)
+-{
+-    return qemu_get_aio_context();
+-}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 65c22c0568..4993797f05 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -16,7 +16,6 @@ stub_ss.add(files('fw_cfg.c'))
+ stub_ss.add(files('gdbstub.c'))
+ stub_ss.add(files('get-vm-name.c'))
+ stub_ss.add(when: 'CONFIG_LINUX_IO_URING', if_true: files('io_uring.c'))
+-stub_ss.add(files('iothread.c'))
+ stub_ss.add(files('iothread-lock.c'))
+ stub_ss.add(files('isa-bus.c'))
+ stub_ss.add(files('is-daemonized.c'))
+diff --git a/tests/unit/iothread.c b/tests/unit/iothread.c
+index afde12b4ef..f9b0791084 100644
+--- a/tests/unit/iothread.c
++++ b/tests/unit/iothread.c
+@@ -30,13 +30,6 @@ struct IOThread {
+     bool stopping;
+ };
+ 
+-static __thread IOThread *my_iothread;
+-
+-AioContext *qemu_get_current_aio_context(void)
+-{
+-    return my_iothread ? my_iothread->ctx : qemu_get_aio_context();
+-}
+-
+ static void iothread_init_gcontext(IOThread *iothread)
+ {
+     GSource *source;
+@@ -54,9 +47,9 @@ static void *iothread_run(void *opaque)
+ 
+     rcu_register_thread();
+ 
+-    my_iothread = iothread;
+     qemu_mutex_lock(&iothread->init_done_lock);
+     iothread->ctx = aio_context_new(&error_abort);
++    qemu_set_current_aio_context(iothread->ctx);
+ 
+     /*
+      * We must connect the ctx to a GMainContext, because in older versions
+diff --git a/util/async.c b/util/async.c
+index 674dbefb7c..5d9b7cc1eb 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -649,3 +649,23 @@ void aio_context_release(AioContext *ctx)
+ {
+     qemu_rec_mutex_unlock(&ctx->lock);
+ }
++
++static __thread AioContext *my_aiocontext;
++
++AioContext *qemu_get_current_aio_context(void)
++{
++    if (my_aiocontext) {
++        return my_aiocontext;
++    }
++    if (qemu_mutex_iothread_locked()) {
++        /* Possibly in a vCPU thread.  */
++        return qemu_get_aio_context();
++    }
++    return NULL;
++}
++
++void qemu_set_current_aio_context(AioContext *ctx)
++{
++    assert(!my_aiocontext);
++    my_aiocontext = ctx;
++}
+diff --git a/util/main-loop.c b/util/main-loop.c
+index d9c55df6f5..4ae5b23e99 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -170,6 +170,7 @@ int qemu_init_main_loop(Error **errp)
+     if (!qemu_aio_context) {
+         return -EMFILE;
+     }
++    qemu_set_current_aio_context(qemu_aio_context);
+     qemu_notify_bh = qemu_bh_new(notify_event_cb, NULL);
+     gpollfds = g_array_new(FALSE, FALSE, sizeof(GPollFD));
+     src = aio_get_g_source(qemu_aio_context);
+-- 
+2.31.1
+
 
