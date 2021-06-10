@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A86E3A244F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:12:10 +0200 (CEST)
-Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5EA3A2446
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:09:40 +0200 (CEST)
+Received: from localhost ([::1]:47106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrDvF-0002zo-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46316)
+	id 1lrDsp-0005ly-It
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:09:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDjN-0005hG-4G
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:59:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26772)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDjf-0006JQ-SW
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:00:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDjL-0002T0-BU
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:59:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDjb-0002jP-LY
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:00:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623304790;
+ s=mimecast20190719; t=1623304806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=alG6R6cGR+fZFHYt0M7xSOj+2M/4LYU7I+kRHfvTcag=;
- b=T7sSTCkspkAVgypE4xvtwABrCM2bPbrUN/36IrmjatlEu0SLw4F0cE8hjwDnVhJ3IBVJXv
- 165hOHhT9FZWUbS0paC7aU8AG0hQ1eGCAg5sjo/stYmydAi77Pa/t0RvDLVfM2j/yucA4B
- CRDbBOqo4seAKBYfFNJArEXKX1E3b9E=
+ bh=ilWJmIOmzE/tV2g6nq5IRz80ZumBraLMUpE9F1YopUI=;
+ b=NTo8nDIwyTvy1wNrSMPUlC1ki4tCQJJ+Q+vxszS526IkbmTJt8NFKfb9MqIPI1617GtnOg
+ fvtikSY/jbBd88gXJvXZ5WFwKgLUrCzYFiJoWCgPxk0PrLMBW2orXqfJFK3DAXenqyCGXa
+ 5jPxPIOAuob3zioDtnfFQ0y2pSG62UM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-lTcvCa4oMuiPkuEH-dtx2Q-1; Thu, 10 Jun 2021 01:59:49 -0400
-X-MC-Unique: lTcvCa4oMuiPkuEH-dtx2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-556-FR7mNNLmNhidZYaLE01l9g-1; Thu, 10 Jun 2021 02:00:03 -0400
+X-MC-Unique: FR7mNNLmNhidZYaLE01l9g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47463800D62;
- Thu, 10 Jun 2021 05:59:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57125107ACF6;
+ Thu, 10 Jun 2021 06:00:02 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
  [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C6025D9E2;
- Thu, 10 Jun 2021 05:59:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 72F255D6AD;
+ Thu, 10 Jun 2021 05:59:49 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 040F218017D5; Thu, 10 Jun 2021 07:57:56 +0200 (CEST)
+ id 0F33918017FD; Thu, 10 Jun 2021 07:57:56 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/18] modules: load modinfo.json
-Date: Thu, 10 Jun 2021 07:57:50 +0200
-Message-Id: <20210610055755.538119-14-kraxel@redhat.com>
+Subject: [PATCH v2 14/18] modules: use modinfo for dependencies
+Date: Thu, 10 Jun 2021 07:57:51 +0200
+Message-Id: <20210610055755.538119-15-kraxel@redhat.com>
 In-Reply-To: <20210610055755.538119-1-kraxel@redhat.com>
 References: <20210610055755.538119-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,115 +95,103 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Load and parse the module info database.
+Use module database for module dependencies.
+Drop hard-coded dependency list.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- util/module.c     | 54 +++++++++++++++++++++++++++++++++++++++++++++++
- util/trace-events |  3 +++
- 2 files changed, 57 insertions(+)
+ util/module.c | 55 ++++++++++++++++++++-------------------------------
+ 1 file changed, 21 insertions(+), 34 deletions(-)
 
 diff --git a/util/module.c b/util/module.c
-index 3a2d6dde9734..b0ea8c57d438 100644
+index b0ea8c57d438..fd5fc059e14a 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -20,9 +20,16 @@
- #include "qemu/queue.h"
- #include "qemu/module.h"
- #include "qemu/cutils.h"
-+#include "qemu/error-report.h"
- #ifdef CONFIG_MODULE_UPGRADES
- #include "qemu-version.h"
- #endif
-+#include "trace.h"
-+
-+#include "qapi/error.h"
-+#include "qapi/qapi-types-modules.h"
-+#include "qapi/qapi-visit-modules.h"
-+#include "qapi/qobject-input-visitor.h"
- 
- typedef struct ModuleEntry
- {
-@@ -111,6 +118,7 @@ void module_call_init(module_init_type type)
- 
- #ifdef CONFIG_MODULES
- 
-+static Modules *modinfo;
- static char *module_dirs[5];
- static int module_ndirs;
- 
-@@ -137,7 +145,52 @@ static void module_load_path_init(void)
- #endif
- 
-     assert(module_ndirs <= ARRAY_SIZE(module_dirs));
-+}
- 
-+static void module_load_modinfo(void)
-+{
-+    char *file, *json;
-+    FILE *fp;
-+    int i, size;
-+    Visitor *v;
-+    Error *errp = NULL;
-+
-+    if (modinfo) {
-+        return;
-+    }
-+
-+    for (i = 0; i < module_ndirs; i++) {
-+        file = g_strdup_printf("%s/modinfo.json", module_dirs[i]);
-+        fp = fopen(file, "r");
-+        if (fp != NULL) {
-+            break;
-+        }
-+        g_free(file);
-+    }
-+    if (NULL == fp) {
-+        warn_report("No modinfo.json file found.");
-+        return;
-+    } else {
-+        trace_module_load_modinfo(file);
-+    }
-+
-+    fseek(fp, 0, SEEK_END);
-+    size = ftell(fp);
-+    fseek(fp, 0, SEEK_SET);
-+    json = g_malloc0(size + 1);
-+    fread(json, size, 1, fp);
-+    json[size] = 0;
-+    fclose(fp);
-+
-+    v = qobject_input_visitor_new_str(json, NULL, &errp);
-+    if (errp) {
-+        error_reportf_err(errp, "parse error (%s)", file);
-+        g_free(file);
-+        return;
-+    }
-+    visit_type_Modules(v, NULL, &modinfo, &errp);
-+    visit_free(v);
-+    g_free(file);
+@@ -254,28 +254,6 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
+ out:
+     return ret;
  }
+-
+-static const struct {
+-    const char *name;
+-    const char *dep;
+-} module_deps[] = {
+-    { "audio-spice",    "ui-spice-core" },
+-    { "chardev-spice",  "ui-spice-core" },
+-    { "hw-display-qxl", "ui-spice-core" },
+-    { "ui-spice-app",   "ui-spice-core" },
+-    { "ui-spice-app",   "chardev-spice" },
+-
+-    { "hw-display-virtio-gpu-gl", "hw-display-virtio-gpu" },
+-    { "hw-display-virtio-gpu-pci-gl", "hw-display-virtio-gpu-pci" },
+-    { "hw-display-virtio-vga-gl", "hw-display-virtio-vga" },
+-
+-#ifdef CONFIG_OPENGL
+-    { "ui-egl-headless", "ui-opengl"    },
+-    { "ui-gtk",          "ui-opengl"    },
+-    { "ui-sdl",          "ui-opengl"    },
+-    { "ui-spice-core",   "ui-opengl"    },
+-#endif
+-};
+ #endif
  
- static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
-@@ -269,6 +322,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     g_hash_table_add(loaded_modules, module_name);
+ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+@@ -289,9 +267,11 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+ #endif
+     char *module_name;
+     int i = 0;
+-    int ret, dep;
++    int ret;
+     bool export_symbols = false;
+     static GHashTable *loaded_modules;
++    ModuleInfoList *modlist;
++    strList *sl;
  
+     if (!g_module_supported()) {
+         fprintf(stderr, "Module is not supported by system.\n");
+@@ -304,17 +284,6 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+ 
+     module_name = g_strdup_printf("%s%s", prefix, lib_name);
+ 
+-    for (dep = 0; dep < ARRAY_SIZE(module_deps); dep++) {
+-        if (strcmp(module_name, module_deps[dep].name) == 0) {
+-            /* we depend on another module */
+-            module_load_one("", module_deps[dep].dep, false);
+-        }
+-        if (strcmp(module_name, module_deps[dep].dep) == 0) {
+-            /* another module depends on us */
+-            export_symbols = true;
+-        }
+-    }
+-
+     if (g_hash_table_contains(loaded_modules, module_name)) {
+         g_free(module_name);
+         return true;
+@@ -324,6 +293,24 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
      module_load_path_init();
-+    module_load_modinfo();
+     module_load_modinfo();
  
++    for (modlist = modinfo->list; modlist != NULL; modlist = modlist->next) {
++        if (modlist->value->has_deps) {
++            if (strcmp(modlist->value->name, module_name) == 0) {
++                /* we depend on other module(s) */
++                for (sl = modlist->value->deps; sl != NULL; sl = sl->next) {
++                    module_load_one("", sl->value, false);
++                }
++            } else {
++                for (sl = modlist->value->deps; sl != NULL; sl = sl->next) {
++                    if (strcmp(module_name, sl->value) == 0) {
++                        /* another module depends on us */
++                        export_symbols = true;
++                    }
++                }
++            }
++        }
++    }
++
      for (i = 0; i < module_ndirs; i++) {
          fname = g_strdup_printf("%s/%s%s",
-diff --git a/util/trace-events b/util/trace-events
-index 806cac14a762..8b2afcbd109a 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -100,3 +100,6 @@ uffd_create_fd_api_failed(int err) "errno: %i"
- uffd_create_fd_api_noioctl(uint64_t ioctl_req, uint64_t ioctl_supp) "ioctl_req: 0x%" PRIx64 "ioctl_supp: 0x%" PRIx64
- uffd_register_memory_failed(void *addr, uint64_t length, uint64_t mode, int err) "addr: %p length: %" PRIu64 " mode: 0x%" PRIx64 " errno: %i"
- uffd_unregister_memory_failed(void *addr, uint64_t length, int err) "addr: %p length: %" PRIu64 " errno: %i"
-+
-+# module.c
-+module_load_modinfo(const char *filename) "modinfo %s"
+                 module_dirs[i], module_name, CONFIG_HOST_DSOSUF);
 -- 
 2.31.1
 
