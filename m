@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193803A2F6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:35:42 +0200 (CEST)
-Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C0C3A2F72
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:37:07 +0200 (CEST)
+Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMia-0002XK-Uq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55630)
+	id 1lrMjy-0006q6-2i
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrMhP-0008W9-UM
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:27 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:34479)
+ (Exim 4.90_1) (envelope-from <pintu.ping@gmail.com>)
+ id 1lrMhw-0001tg-9d; Thu, 10 Jun 2021 11:35:00 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:45638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrMhN-00078W-Js
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:27 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id g6so1938144pfq.1
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 08:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GCSFq57eqdP+MG8ytIIanxdmilil/bWfNYoFuYMJ3Gk=;
- b=s/05vvLCvkwY1H2iFR1xYYLVINSxjxUPuhkVRifQyOzLw8KFxs64tcO7v5eTxiMMmz
- fvxVQvsniRDy/J666XlcNFHm93nCgwjxB3CEXmtBi1cnm+nCsiEvACh6CPYvaeFRMU1H
- e39oppw903Kj5shOrAVYbOTBMBPcRO3t4TaNX0AnLgHRMsdZGbYSMXFj9vC3OUlgvUV9
- Q5oRqC1zyWgqObn3bfHx2RqU9o78Mv1H5QHBvrVMIJW11iKiNNK5rHQWaA139qnaW5SS
- g3EalgpT77AemOTLFdUtbu8we+VO3JlPpEE+WCito+0sYT54KeclRSWyeXMAU+1A1hUv
- pt0Q==
+ (Exim 4.90_1) (envelope-from <pintu.ping@gmail.com>)
+ id 1lrMhu-0007Xh-AV; Thu, 10 Jun 2021 11:35:00 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id r7so19176157edv.12;
+ Thu, 10 Jun 2021 08:34:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uAK+m3Pb64IW/t5OyzZyrSx3CkM27j+d+i398SdgIow=;
+ b=Tj9VW0xPBMQKFOHR6Qc8vMbIyjB4i0t9DLJGMcke0HvUCjCVbnUJjhnZPKgwQHiDwp
+ OEWIZudf3MP82hyGOgIQIFQJoKiZ/LLxMFDbF7nkekEqLI5T4F4EoXoc5rYamSx1Gw+I
+ XmSCUOqsJqsr9Q3qIJQa2ONziwS5W7a/7ThfdVXK107MrDu8ht2ZYwQ5ymR4DUQFlm0e
+ SPC8KNz1cJsiKY+tfXc/eG+Pfo3vsx+dH/8g47FiGwyIrT1HotvLcbaA9HDbxtzzV4XQ
+ ETt/J08GKQwkzOyBbAWlK6lM2cBUIZijz98nr17nH6iCLoLfVK97dI4gZgOHWJODXkS4
+ HDQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GCSFq57eqdP+MG8ytIIanxdmilil/bWfNYoFuYMJ3Gk=;
- b=A2zxzurCDPxgr+5zYjfeEXtpQ1gm5YwZXMmMYqaqs4SB4tdXGDsITx2JuGkws7iiAg
- blXfuyiXjMkogEbUposBORjxiZdGtsv4tfQJ+1w/bPxJPLQE5q9VDUE6dcV+RfGYVnfU
- STWHQYk/R9zhGxU2M7KLB5wIpn0K9LgOoc2gVXuqHVQUf7jOkCoWS0weZApT8s/4hqxn
- Qeom42ce7jEPv7G0FG/LXC3jYMzwZQtBQD8Y+W1U3tVy+w9tLzuNKyzDCVntzv9RLYxU
- QyxRpxbwKYHSWifQQCsCszCYWzhtiZXmuMotD/aIsoN3HU6aWahv8hsxUKshocQEc+i9
- 1QgQ==
-X-Gm-Message-State: AOAM533taeNcWb1W4i9bv8zFd64SYnGieXwCJ+F6S96Up7IQIOi9GQgO
- GIk5y6gCes8uxZyiJ3MWQMpwO7iHIXfuNA==
-X-Google-Smtp-Source: ABdhPJwJUdZsa5Sa0sog2PgxlwgLQ65AIBAm1wg+lOTZuC04PxKivLa3nBmQjUK38JBGl+GWCfq7JA==
-X-Received: by 2002:a62:5547:0:b029:2ec:8f20:4e2 with SMTP id
- j68-20020a6255470000b02902ec8f2004e2mr3558433pfb.71.1623339263704; 
- Thu, 10 Jun 2021 08:34:23 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- d23sm8047556pjz.15.2021.06.10.08.34.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 08:34:23 -0700 (PDT)
-Subject: Re: [PATCH v3 27/28] tcg: When allocating for !splitwx, begin with
- PROT_NONE
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210502231844.1977630-1-richard.henderson@linaro.org>
- <20210502231844.1977630-28-richard.henderson@linaro.org>
- <875yynjn72.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <06701a18-1702-618c-9495-2c43e2eff2d5@linaro.org>
-Date: Thu, 10 Jun 2021 08:34:21 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uAK+m3Pb64IW/t5OyzZyrSx3CkM27j+d+i398SdgIow=;
+ b=rpK1aPO2ofYIHaYnhE1TtZazOBRFbZySBHi2il8TotcQ3VVmkJ7s0S0HVaDPSsbHhY
+ pCBS/TxmITpEL67aYHt1wJUYA2SDwtDPK4HExSKFU/7veRCiGS6zFOsr5cFBfJHC/jDV
+ /2JdcPkXH9Esfh9FAGbAZK/s0A3qKtWBLK4FOpxYwa5gzFTAOVDUj3zWRtqpSy49Zt6b
+ jcEEqk97S0aPqjrnW+jE/3PPFVm1kbKCptbljLF5xZgGrorL8st7tcoUpdoDgc03DASi
+ ss0LJvy/yG6hnpYV+HAkM0BHXPjJ6YXPqc+bBdP17kC1TgqhNWKBQ0H62/SDNIUpe2YI
+ ULUg==
+X-Gm-Message-State: AOAM5339azvVTNAFtVF678FMmdFOFXShjnIUBnroSyVb+kiojYLP7hnc
+ ECZERNfGxzqmXPGvvE3dxtaKTXhIu51fi3cR5C8=
+X-Google-Smtp-Source: ABdhPJx5dVDbvX7eNFd+7rFh7ulxngOK6Lqu3UqQQOb46FIQcdONBfUlcCySppcDmNWXsC0pK5Bmdxlk/+CO7mgRSCI=
+X-Received: by 2002:a05:6402:368:: with SMTP id s8mr13769edw.129.1623339295136; 
+ Thu, 10 Jun 2021 08:34:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <875yynjn72.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+References: <CAOuPNLiRDZ9M4n3uh=i6FpHXoVEWMHpt0At8YaydrOM=LvSvdg@mail.gmail.com>
+ <295072107.94766.1623262940865.JavaMail.zimbra@nod.at>
+ <CAOuPNLhPiVgi5Q343VP-p7vwBtA1-A5jt8Ow4_2eF4ZwsiA+eQ@mail.gmail.com>
+ <361047717.98543.1623333152629.JavaMail.zimbra@nod.at>
+In-Reply-To: <361047717.98543.1623333152629.JavaMail.zimbra@nod.at>
+From: Pintu Agarwal <pintu.ping@gmail.com>
+Date: Thu, 10 Jun 2021 21:04:43 +0530
+Message-ID: <CAOuPNLguWzOPfoiutMy=zLYfH1-67=i0e-SL_MyhDgdYE70vQg@mail.gmail.com>
+Subject: Re: qemu: arm: mounting ubifs using nandsim on busybox
+To: Richard Weinberger <richard@nod.at>, edk2-devel <edk2-devel@lists.01.org>,
+ devel@edk2.groups.io, qemu-block@nongnu.org, qemu-devel@nongnu.org, 
+ Laszlo Ersek <lersek@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=pintu.ping@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,90 +81,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mtd <linux-mtd@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/9/21 4:21 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> There's a change in mprotect() behaviour [1] in the latest macOS
->> on M1 and it's not yet clear if it's going to be fixed by Apple.
->>
->> In this case, instead of changing permissions of N guard pages,
->> we change permissions of N rwx regions.  The same number of
->> syscalls are required either way.
->>
->> [1] https://gist.github.com/hikalium/75ae822466ee4da13cbbe486498a191f
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   tcg/region.c | 19 +++++++++----------
->>   1 file changed, 9 insertions(+), 10 deletions(-)
->>
->> diff --git a/tcg/region.c b/tcg/region.c
->> index 604530b902..5e00db4cfb 100644
->> --- a/tcg/region.c
->> +++ b/tcg/region.c
->> @@ -765,12 +765,15 @@ static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
->>           error_free_or_abort(errp);
->>       }
->>   
->> -    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
->> +    /*
->> +     * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
->> +     * rejects a permission change from RWX -> NONE when reserving the
->> +     * guard pages later.  We can go the other way with the same number
->> +     * of syscalls, so always begin with PROT_NONE.
->> +     */
->> +    prot = PROT_NONE;
->>       flags = MAP_PRIVATE | MAP_ANONYMOUS;
->> -#ifdef CONFIG_TCG_INTERPRETER
->> -    /* The tcg interpreter does not need execute permission. */
->> -    prot = PROT_READ | PROT_WRITE;
->> -#elif defined(CONFIG_DARWIN)
->> +#ifdef CONFIG_DARWIN
->>       /* Applicable to both iOS and macOS (Apple Silicon). */
->>       if (!splitwx) {
->>           flags |= MAP_JIT;
->> @@ -901,11 +904,7 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
->>               }
->>           }
-> 
-> I think the comment in tcg_region_init needs to be updated, currently
-> reads:
-> 
->      /*
->       * Set guard pages in the rw buffer, as that's the one into which
->       * buffer overruns could occur.  Do not set guard pages in the rx
->       * buffer -- let that one use hugepages throughout.
->       * Work with the page protections set up with the initial mapping.
->       */
->      need_prot = PAGE_READ | PAGE_WRITE;
-> 
-> but now we start with everything at PROT_NONE and are just setting
-> need_prot for the non-guard pages.
+On Thu, 10 Jun 2021 at 19:22, Richard Weinberger <richard@nod.at> wrote:
+>
+> Pintu,
+>
+> ----- Urspr=C3=BCngliche Mail -----
+> > Von: "Pintu Agarwal" <pintu.ping@gmail.com>
+> >> nandsim works as expected. It creates a new and *erased* NAND for you.
+> >> So you have no UBI volumes. Therfore UBIFS cannot be mounted.
+> >> I suggest creating a tiny initramfs that creates UBI volumes before mo=
+unting
+> >> UBIFS on
+> >> one of the freshly created (and empty) volumes.
+> >>
+> > oh sorry I forgot to mention this.
+> > I am able to create and update volumes manually after booting the
+> > system with initramfs.
+> > {{{
+> > Creating rootfs volume:
+> > mknod /dev/ubi0 c 250 0
+> > mknod /dev/ubi0_0 c 250 1
+> > ubiattach /dev/ubi_ctrl -m 2
+> > ubimkvol /dev/ubi0 -N rootfs -m
+> > ubiupdatevol /dev/ubi0_0 ubifs-rootfs.img
+> > mount -t ubifs ubi0:rootfs ubi-root/
+> > }}}
+> >
+> > But I wanted to do all these automatically during boot time itself.
+> > Also I wanted to use ubinize.cfg as is from the original system and
+> > simulate everything using qemu and nadsim (if possible)
+> > So I thought it must be possible by setting some parameters in qemu suc=
+h as:
+> > mtdparts=3Dnand:,
+> > -device nand,chip_id=3D0x39,drive=3Dmtd0,
+> > -drive if=3Dmtd,file=3D./ubi-boot.img,id=3Dmtd0,
+> > anything else ?
+>
+> Well, this has nothing to do with nandsim.
+> If qemu can emulate a NAND chip (plus a controller) all you need is a dri=
+ver on the Linux side.
+Okay let me add qemu guys here.
+I am not sure which driver is required from Linux side. I thought it
+is nandsim only.
+Is it some existing driver, or we need to develop a new driver on our own ?
+I think it is not able to find the required driver..
+I see in the boot log that it is detecting Toshiba nand driver:
+=3D=3D=3D> nand: Toshiba NAND 128MiB 1,8V 8-bit
 
-The comment *has* been updated: work with the page protections set up with the 
-initial mapping.  Which is *not* always PROT_NONE.
-
-See the USE_STATIC_CODE_GEN_BUFFER and _WIN32 copies of alloc_code_gen_buffer.
+Also the root volume seems empty.
+=3D=3D=3D> ubi0: empty MTD device detected
+How to fill the root volume at boot time ?
 
 
->>           if (have_prot != 0) {
->> -            /*
->> -             * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
->> -             * rejects a permission change from RWX -> NONE.  Guard pages are
->> -             * nice for bug detection but are not essential; ignore any failure.
->> -             */
->> +            /* Guard pages are nice for bug detection but are not essential. */
->>               (void)qemu_mprotect_none(end, page_size);
-> 
-> Isn't the last page already set as PROT_NONE?
+These are the commands I am using:
+$ mkfs.ubifs -r _install -m 512 -e 15872 -c 5000 -o ubifs-rootfs.img
+$ ubinize -o ubi-boot.img -m 512 -p 16KiB -s 256 ubiconfig.cfg
+$ qemu-system-arm -M vexpress-a9 -m 512M -kernel
+linux/arch/arm/boot/zImage -dtb
+linux/arch/arm/boot/dts/vexpress-v2p-ca9.dtb -append
+"console=3DttyAMA0,115200 ubi.mtd=3D2 root=3D/dev/mtdblock2 rootfstype=3Dub=
+ifs
+mtdparts=3Dnand:-(rootfs)" -device nand,chip_id=3D0x39,drive=3Dmtd0 -drive
+if=3Dmtd,file=3D./ubi-boot.img,id=3Dmtd0 -nographic -smp 4
 
-No.
+Any corrections here ?
+
+$ cat ubiconfig.cfg
+[rootfs]
+mode=3Dubi
+image=3D./ubifs-rootfs.img
+vol_id=3D0
+vol_type=3Ddynamic
+vol_name=3Drootfs
+vol_alignment=3D1
+vol_flags=3Dautoresize
 
 
-r~
+But I am still getting this error:
+{{{
+List of all partitions:
+1f00          131072 mtdblock0
+ (driver?)
+1f01           32768 mtdblock1
+ (driver?)
+1f02          131072 mtdblock2
+ (driver?)
+No filesystem could mount root, tried:
+ ubifs
+Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(3=
+1,2)
+[...]
+}}}
+
+Some log references below:
+[....]
+Using buffer write method
+Concatenating MTD devices:
+(0): "40000000.flash"
+(1): "40000000.flash"
+into device "40000000.flash"
+physmap-flash 48000000.psram: physmap platform flash device: [mem
+0x48000000-0x49ffffff]
+[nandsim] warning: read_byte: unexpected data output cycle, state is
+STATE_READY return 0x0
+[nandsim] warning: read_byte: unexpected data output cycle, state is
+STATE_READY return 0x0
+[nandsim] warning: read_byte: unexpected data output cycle, state is
+STATE_READY return 0x0
+[nandsim] warning: read_byte: unexpected data output cycle, state is
+STATE_READY return 0x0
+[nandsim] warning: read_byte: unexpected data output cycle, state is
+STATE_READY return 0x0
+[nandsim] warning: read_byte: unexpected data output cycle, state is
+STATE_READY return 0x0
+nand: device found, Manufacturer ID: 0x98, Chip ID: 0x39
+nand: Toshiba NAND 128MiB 1,8V 8-bit
+nand: 128 MiB, SLC, erase size: 16 KiB, page size: 512, OOB size: 16
+flash size: 128 MiB
+page size: 512 bytes
+OOB area size: 16 bytes
+sector size: 16 KiB
+pages number: 262144
+pages per sector: 32
+bus width: 8
+bits in sector size: 14
+bits in page size: 9
+bits in OOB size: 4
+flash size with OOB: 135168 KiB
+page address bytes: 4
+sector address bytes: 3
+options: 0x42
+Scanning device for bad blocks
+Creating 1 MTD partitions on "NAND 128MiB 1,8V 8-bit":
+0x000000000000-0x000008000000 : "NAND simulator partition 0"
+[nandsim] warning: CONFIG_MTD_PARTITIONED_MASTER must be enabled to
+expose debugfs stuff
+[....]
+ubi0: attaching mtd2
+ubi0: scanning is finished
+ubi0: empty MTD device detected
+ubi0: attached mtd2 (name "NAND simulator partition 0", size 128 MiB)
+ubi0: PEB size: 16384 bytes (16 KiB), LEB size: 15872 bytes
+ubi0: min./max. I/O unit sizes: 512/512, sub-page size 256
+ubi0: VID header offset: 256 (aligned 256), data offset: 512
+ubi0: good PEBs: 8192, bad PEBs: 0, corrupted PEBs: 0
+ubi0: user volume: 0, internal volumes: 1, max. volumes count: 92
+ubi0: max/mean erase counter: 0/0, WL threshold: 4096, image sequence
+number: 2149713893
+ubi0: available PEBs: 8028, total reserved PEBs: 164, PEBs reserved
+for bad PEB handling: 160
+[...]
+
+Thanks,
+Pintu
 
