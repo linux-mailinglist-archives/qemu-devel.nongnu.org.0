@@ -2,82 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492553A349A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 22:10:50 +0200 (CEST)
-Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4C23A34C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 22:22:52 +0200 (CEST)
+Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrR0q-00042I-Uj
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 16:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
+	id 1lrRCV-0000Vc-Db
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 16:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lrQzZ-0003LJ-5Y
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:09:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21811)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lrRA7-0007N8-Ur; Thu, 10 Jun 2021 16:20:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lrQzV-0003hG-PG
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:09:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623355765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Rj/vLkFW0adT0/UDYqCqgfmJxTYpCB82ij4uXlbpJU8=;
- b=Adg+uz0pdsz3hDAloS4zz/+AoKHeeS8wkvMmzp96YPxtAHHg6kx/fCRD10g81gp5ez8nwl
- viu5YbAbhK4RiwSQKEeo/1/KcsNKDmDAsomAw4XvmU3k3V7OttshBKQ3GN5N95y/NEcXXH
- naXxCM78jE+8bs42d6r2eIgg3pNVyRs=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-LOXUlzKMOweZxQbGCwsYnQ-1; Thu, 10 Jun 2021 16:09:24 -0400
-X-MC-Unique: LOXUlzKMOweZxQbGCwsYnQ-1
-Received: by mail-oo1-f70.google.com with SMTP id
- o2-20020a4ad4820000b0290208a2516d36so294065oos.16
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 13:09:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Rj/vLkFW0adT0/UDYqCqgfmJxTYpCB82ij4uXlbpJU8=;
- b=uYDj5E+3AYUop8Gd5tP0KyU8YJJ9IAXH4keGZOPRzxYBacwoYdPRrH/RlQTRpm803Q
- 5hQ4F1FANUTZRdEQ3yfMCxwiO3WcZ2Qnxe5muhkbZNrYVvQADGNkGnkvyhknN9QC1p0F
- 5Ejs70bOVbB4QH/aB9UR+mYi3SE6gBKw5S5xtIp6rDN6V1ENg39E18FZWiltahLhuLJG
- Kc5UmaCP85xOs4AgMFmG2MDKWE/R5rlu9ipVjkquJflZ7ql2PyNmBKgrhe5OjJqRYSIE
- q+Fa4SlG0mLHAJdPX+0DCU1padfmZHN+fXL0fYSRCSwRF1Qqtm8mpQzQ9e1Anhwo6BvA
- ZHBg==
-X-Gm-Message-State: AOAM530RFgeCx69pLO8AiZDXY0ZS+h4W7uu45VR8e8cCuXkJvs+dH3lm
- E9MEeupXWj1yzJrspKfr4pYKbP4fz/Naq4VhDLILaj3IRmrGoQr/WCsj/GK0eCTeoAn32N7Tj28
- HsR2BBBgODuDE23qjjnoR/FfpPiQ49LY=
-X-Received: by 2002:a54:448d:: with SMTP id v13mr145594oiv.41.1623355761690;
- Thu, 10 Jun 2021 13:09:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhfvkLsmWJqXsHpsIXGcizOS8NtI6xLeLhlNpq2y2qieWP/P9coRLf5IUTlS+UqU48SstIhSwcsEwTqsqlI2I=
-X-Received: by 2002:a54:448d:: with SMTP id v13mr145583oiv.41.1623355761518;
- Thu, 10 Jun 2021 13:09:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1lrRA5-0001z4-Pp; Thu, 10 Jun 2021 16:20:23 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15AK3R16115536; Thu, 10 Jun 2021 16:20:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=BbLvHgLUcbgICTHquncmQkZcYA1qXlHcU7ClXm3LYZ8=;
+ b=gGV8HZs/6TuwiqpjfgWLrlFpb1EY5tUgS8d64BrE9eQ/xWsMcKlEoiVdBE+zfabuGjJv
+ wMAm/IdcwdqnPF3sLVtD0J6JMh4HBZls2WeUBGsVmgywMAYGbLenb5GF3116ejBMoA9+
+ 3cRu5h5k01GSFIq7de0pJJnxPtgxyzVhrnlo3XkBr04KAT2UjKlwTLGSVX0niLRPRUj6
+ /ZJmy415C6+RsWqmsTyB2gh3X6JlNxvrgihw+DXbQtF+im6l7p5l7gEuDQyRwIagtKKG
+ IiPJ+BZHdUvsYTvis0Ok8WhoydsJ6KiqexTjeGkTpttAW5nasMQTZYS48IiiRMkjUNFX sQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 393r3ntj5s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Jun 2021 16:20:18 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15AK3kVI116678;
+ Thu, 10 Jun 2021 16:20:17 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 393r3ntj53-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Jun 2021 16:20:17 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15AKEFlF000531;
+ Thu, 10 Jun 2021 20:20:16 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 3900w89pt7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Jun 2021 20:20:15 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15AKKC4O35193190
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Jun 2021 20:20:12 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A36EF42042;
+ Thu, 10 Jun 2021 20:20:12 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8F95442041;
+ Thu, 10 Jun 2021 20:20:12 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 10 Jun 2021 20:20:12 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id 4E165E027A; Thu, 10 Jun 2021 22:20:12 +0200 (CEST)
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: [PATCH 0/1] vfio-ccw: Fix garbage sense data on I/O error
+Date: Thu, 10 Jun 2021 22:20:10 +0200
+Message-Id: <20210610202011.391029-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210607202204.1805199-1-nsoffer@redhat.com>
- <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
- <CAMRbyyukE9iTmM6OB_xAA1n6tRiRRxwKojaO5wzRwAR-8-FX3g@mail.gmail.com>
- <20210610183443.clk43ngkobzyjopy@redhat.com>
-In-Reply-To: <20210610183443.clk43ngkobzyjopy@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Thu, 10 Jun 2021 23:09:05 +0300
-Message-ID: <CAMRbyysoYhcyiP2mWubfZsj09k=Ea_3-RPr+Tt7KvoE1z3jrNA@mail.gmail.com>
-Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
-To: Eric Blake <eblake@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kXOB0exKCkGUtQHmaXlc7aL1uj894eFT
+X-Proofpoint-ORIG-GUID: U6Gpzmmw595L5yLZf7jLCIDSKUHTCjBE
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-10_13:2021-06-10,
+ 2021-06-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 phishscore=0 bulkscore=0
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2104190000 definitions=main-2106100129
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,65 +107,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Nir Soffer <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 9:35 PM Eric Blake <eblake@redhat.com> wrote:
->
-> On Tue, Jun 08, 2021 at 07:38:10PM +0300, Nir Soffer wrote:
-> > The example I provided was not detailed enough, what we actually do is:
-> >
-> >     qemu-nbd .. 'json:{"driver": "qcow2", "backing": null, "file":
-> > {"driver": "file", "filename": "top.qcow2"}}'
-> >
-> > So there is no backing chain and allocation depth is not relevant.
-> > - Allocated areas should be reported with flags 0
-> > - Zero areas which are not holes should be reported as NBD_STATE_ZERO
-> > - Zero areas which are holes (not allocated in this image) should be
-> > reported as NBD_STATE_HOLE
->
-> Thinking about this a bit more, here's something I noticed:
->
-> $ qemu-img map --output=json -f raw base.raw
-> [{ "start": 0, "length": 196608, "depth": 0, "zero": false, "data": true, "offset": 0},
-> { "start": 196608, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": 196608}]
->
-> which matches what I've said elsewhere in this thread: the entire
-> image is reported as "depth":0 because the raw file is responsible for
-> 100% of the content.
->
-> But:
->
-> $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2","backing":null, \
->   "file":{"driver":"file","filename":"top.qcow2"}}'
-> [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false},
-> { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-> { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false}]
->
-> also reports the entire file at "depth":0, which is misleading, since
-> we have just been arguing from the qemu:allocation-depth perspective
-> (and also from bdrv_block_status) that the qcow2 image is NOT 100%
-> allocated (in the sense where allocation == data comes locally).
-> Perhaps it might be better if we tweaked the above qemu-img map to
-> produce:
->
-> [{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
-> { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-> { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
-> { "start": 196608, "length": 65536, "depth": -1, "zero": true, "data": false}]
+Hi Conny,
 
-It will be more consistent with "offset" to drop "depth" from output
-if we don't have it:
+Per our offline discussion, here's a fix for the error when a guest
+issues "dasdfmt -M quick". It basically reverts commit 334e76850bbb
+("vfio/ccw: update sense data if a unit check is pending")
+and modifies the check that builds sense data in the TSCH handler.
 
-    [{ "start": 0, "length": 65536, "zero": true, "data": false},
-     { "start": 65536, "length": 65536, "depth": 0, "zero": false,
-"data": true, "offset": 327680},
-     { "start": 131072, "length": 65536, "depth": 0, "zero": true,
-"data": false},
-     { "start": 196608, "length": 65536, "zero": true, "data": false}]
+I opted to NOT disable PMCW.CSENSE, because doing so prevents
+vfio-ccw devices from coming online at all (didn't pursue deep
+enough to explain why). Turning it off in reaction to a unit
+check (in this now-reverted codepath) works, but only because of
+the corresponding PMCW.CSENSE check in the TSCH code.
+
+I don't know if anything is needed for the (unaltered) ECW data
+that commit b498484ed49a ("s390x/css: sense data endianness")
+addressed for the copied sense_data bytes, but figure we can
+use this as a starting point. Thoughts?
+
+Eric Farman (1):
+  vfio-ccw: Keep passthrough sense data intact
+
+ hw/s390x/css.c | 3 ++-
+ hw/vfio/ccw.c  | 6 ------
+ 2 files changed, 2 insertions(+), 7 deletions(-)
+
+-- 
+2.25.1
 
 
