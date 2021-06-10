@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE2C3A2EB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:56:00 +0200 (CEST)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779F93A2ECC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:57:25 +0200 (CEST)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrM6B-0004aF-JU
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
+	id 1lrM7Y-0006sv-D9
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lrM3G-0007bF-Nt
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:52:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lrM3B-00061L-Ee
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:52:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623336772;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ApnUIAb5paOarkc9kqn0ochYlijH3G4mHQMCSe5mlnM=;
- b=aIrsf1Yf0BhnhVLY33T530PaomIEoitmgRvJcIKTnXfXB18lCYbKQ8fqifcSvpiUOuJXAU
- ry7ZVKjLMYbUcZ3QjicozsS3Le++V7Bo01dRLbruJYPsAYiRMY4kzVXurbNQ5/PjQVDTZ8
- 8/3+EdtI3DrMg4qvSo/0ZKSH6kIxbM4=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-KKmYB-6zNQ-ikqKwRh5_wA-1; Thu, 10 Jun 2021 10:52:51 -0400
-X-MC-Unique: KKmYB-6zNQ-ikqKwRh5_wA-1
-Received: by mail-oo1-f69.google.com with SMTP id
- t19-20020a4ae4130000b029023950cb8d35so17432619oov.6
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 07:52:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lrM45-0001Rk-Px
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:53:49 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:44622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lrM43-0006TQ-4r
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:53:49 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id p184so41181181yba.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 07:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=raft3lpeag/rqtRynAaHlmWg1MOepzdNoG7GEthmT68=;
+ b=i1mZ6Kw+5Ugh18G9WL2flSM6gA9nGSynmHPIvHF+j94omhSIEd9el+li0TIXRT8PBi
+ EXqeYQTVYPaLtAMgWr0R312Sy+K6iw/fUtfPUtE0o47dhW4IgRZcSRmY3tA21palt7xD
+ YOcMs3Kwa0HLzvy2SVeXZhsn3rS0VXK/6anZUNaVugybbT2jpJ5WpVPWFltIb/VDp4vb
+ kNy/ik4D/ORT4MhnhdoppaVPqkutAlGVI3O6wd7gbfnzw0rJwCwivYrV+qhy8WM6ii2a
+ gjSEvf8a0BwtwofytaEx1D+C2LHQHPTbB7c3cyD0XGVgkYP9gtMjEbVQhm0YSTqfRlqW
+ PnyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ApnUIAb5paOarkc9kqn0ochYlijH3G4mHQMCSe5mlnM=;
- b=aWr6uRDiFNye3MDWlnDYGwJVjDFY3Bt9XRSpB8bwdt+quJJv8jk/ncD31DnOJbBNGn
- T4jVZjjGyshT7Uw7Sq58IPkH8si69vd6070trAhLIezDfX+ha5eRSEsrttV6qFshGCH5
- to4l3AMN24xtmV1Fy1xjH3UqJlXe+gT+eGlBr0k2HCXXp6WpCu6v1Bz5rAenYSJjMTjc
- dUYr5hTKclxQ1OvPbgSHSw4EpLNjFtVCj0OfBNI6g7Ak+uBm/6twtmzCfvvhiNupUcp0
- ls4zxSzYaWxCZRnhExx9Mzlln+HBNsPtRgR+NXBKNWFjZTxVOMK52BYh/TwZJTahE1Tp
- GfAQ==
-X-Gm-Message-State: AOAM533IgTeYkOVh54sLAohi4KQGo6nBo+0G1Qjha9bGnzci5D/ywaMS
- gL9WddtyHV4QEeVzUXEenR6iNP/u3AI9/cId+afMuB7bZyYLHeOIESpvBUHRQX+s5rXWqqBjCWL
- d51kmAWJiIvQ0nCs=
-X-Received: by 2002:a05:6830:1284:: with SMTP id
- z4mr2795313otp.148.1623336771113; 
- Thu, 10 Jun 2021 07:52:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz8iFn5X7rnLXsjNpxVDcEjKwk5USAN3wcnmtX5T3eFnGSzd9u1jq3Ljc1YqFIu7R8D4l5oaA==
-X-Received: by 2002:a05:6830:1284:: with SMTP id
- z4mr2795302otp.148.1623336770971; 
- Thu, 10 Jun 2021 07:52:50 -0700 (PDT)
-Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
- by smtp.gmail.com with ESMTPSA id
- m18sm625249otr.61.2021.06.10.07.52.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 07:52:50 -0700 (PDT)
-Subject: Re: [PATCH 06/11] target/i386/sev: Remove sev_get_me_mask()
-To: qemu-devel@nongnu.org, Brijesh Singh <brijesh.singh@amd.com>
-References: <20210610064556.1421620-1-philmd@redhat.com>
- <20210610064556.1421620-7-philmd@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <284cccdd-2e3d-d800-1f1b-7057893c1da2@redhat.com>
-Date: Thu, 10 Jun 2021 09:52:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=raft3lpeag/rqtRynAaHlmWg1MOepzdNoG7GEthmT68=;
+ b=j1VcPNG6pNDL37k40pkOM6rmgVYGpY1C4+9ZyfwYQRBUZSrgYzi6LWgtdxPqMYILuJ
+ lvprTYt/anR5tlmj5hZ76zNJnZkbnfxOqUOfeFmtDxKIEF8f3zWFwNfuMi9MgNdHxj96
+ XShtSnInbhebyNT3h3bYak8pwJaiEnK+sHNbe4rs18yuyZoFbQttga4aVFBo3zFnH8r9
+ 5H1Fs2em7CTn93j7wI9sHnMN3ZryDudb3CgheabnRAlmBpnSYONq9q8R5HM9WFMD1x51
+ Cyl1i+3jt2/19mas9cdNMwgtBYmWOayaPaGO2VomoTl2RC3n8fBflaKFKvEfBNMzaV0Q
+ QcOA==
+X-Gm-Message-State: AOAM531K5tvPytDR3tLaYHf5OZ4/s7UhhRx6qIz/MMn02WAv15sGl5pT
+ WgJsOI3ttYVTh5oUHxxttY8uO55nOnJnQnjR1fuSew==
+X-Google-Smtp-Source: ABdhPJxhcWpaozeXfCgzNJf+5QSkLU4/etpQrBlb2CFNPp26IL1nq54ZYw/OnQ/8TSN8orkav73IldWDw8+qpzzejp4=
+X-Received: by 2002:a25:b74d:: with SMTP id e13mr8180906ybm.372.1623336825920; 
+ Thu, 10 Jun 2021 07:53:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210610064556.1421620-7-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210610143800.3293854-1-konstantin@daynix.com>
+ <CAJ+F1C+WhQRd7W4ATJh=QeyRnYULipPFHr38MODwrLc6Gu73eQ@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+WhQRd7W4ATJh=QeyRnYULipPFHr38MODwrLc6Gu73eQ@mail.gmail.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Thu, 10 Jun 2021 17:53:35 +0300
+Message-ID: <CAJ28CFROd2KPknSoT=P6NS2PzizsTi=K4tKx0dV5By=cqKUDJg@mail.gmail.com>
+Subject: Re: [PATCH] qga-win: Free GMatchInfo properly
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000dc31ee05c46a8e49"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,39 +77,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/21 1:45 AM, Philippe Mathieu-Daudé wrote:
-> -uint64_t
-> -sev_get_me_mask(void)
-> -{
-> -    return sev_guest ? sev_guest->me_mask : ~0;
-> -}
-> -
->  uint32_t
->  sev_get_cbit_position(void)
->  {
-> @@ -810,8 +803,6 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->          goto err;
->      }
->  
-> -    sev->me_mask = ~(1UL << sev->cbitpos);
-> -
->      devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
->      sev->sev_fd = open(devname, O_RDWR);
->      if (sev->sev_fd < 0) {
-> 
+--000000000000dc31ee05c46a8e49
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Brijesh, do you remember if this was added with the intent that it would
-be useful in a future series?
+Hi All,
 
-Otherwise:
+For freeing GMatchInfo struct, a special function is required. I'm not sure=
+ is
+it possible to use g_autoptr in this case or no.
+In GLib example
+https://developer.gnome.org/glib/stable/glib-Perl-compatible-regular-expres=
+sions.html#g-regex-match,
+g_match_info_free is used directly.
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Best wishes,
+Kostiantyn Kostiuk
 
+
+On Thu, Jun 10, 2021 at 5:41 PM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@gmail.com> wrote:
+
+> Hi
+>
+> On Thu, Jun 10, 2021 at 6:38 PM Kostiantyn Kostiuk <konstantin@daynix.com=
+>
+> wrote:
+>
+>> The g_regex_match function creates match_info even if it
+>> returns FALSE. So we should always call g_match_info_free.
+>>
+>> Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+>> ---
+>>  qga/commands-win32.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+>> index 300b87c859..e8bc3df306 100644
+>> --- a/qga/commands-win32.c
+>> +++ b/qga/commands-win32.c
+>> @@ -2497,6 +2497,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
+>> **errp)
+>>              GMatchInfo *match_info;
+>>
+>
+> What about using g_autoptr instead?
+>
+>              GuestDeviceIdPCI *id;
+>>              if (!g_regex_match(device_pci_re, hw_ids[j], 0,
+>> &match_info)) {
+>> +                g_match_info_free(match_info);
+>>                  continue;
+>>              }
+>>              skip =3D false;
+>> --
+>> 2.25.1
+>>
+>>
+>>
+>
+> --
+> Marc-Andr=C3=A9 Lureau
+>
+
+--000000000000dc31ee05c46a8e49
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div>Hi All,<br><br></div>For freeing <span class=3D"=
+gmail-im">GMatchInfo struct, a special function is required. I&#39;m not su=
+re </span>is it possible to use g_autoptr in this case or no.<br></div>In G=
+Lib example <a href=3D"https://developer.gnome.org/glib/stable/glib-Perl-co=
+mpatible-regular-expressions.html#g-regex-match">https://developer.gnome.or=
+g/glib/stable/glib-Perl-compatible-regular-expressions.html#g-regex-match</=
+a>, g_match_info_free is used directly.<br><div><br clear=3D"all"><div><div=
+><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_si=
+gnature"><div dir=3D"ltr"><div>Best wishes,</div><div>Kostiantyn Kostiuk</d=
+iv></div></div></div><br></div></div></div></div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 10, 2021 at 5:41 PM =
+Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">ma=
+rcandre.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><=
+div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun=
+ 10, 2021 at 6:38 PM Kostiantyn Kostiuk &lt;<a href=3D"mailto:konstantin@da=
+ynix.com" target=3D"_blank">konstantin@daynix.com</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">The g_regex_match function=
+ creates match_info even if it<br>
+returns FALSE. So we should always call g_match_info_free.<br>
+<br>
+Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:konstantin@daynix.c=
+om" target=3D"_blank">konstantin@daynix.com</a>&gt;<br>
+---<br>
+=C2=A0qga/commands-win32.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 300b87c859..e8bc3df306 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -2497,6 +2497,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **er=
+rp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GMatchInfo *match_info;<br>=
+</blockquote><div><br></div><div>What about using g_autoptr instead?</div><=
+div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GuestDeviceIdPCI *id;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!g_regex_match(device_p=
+ci_re, hw_ids[j], 0, &amp;match_info)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_match_info_free(=
+match_info);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0skip =3D false;<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+</blockquote></div>
+
+--000000000000dc31ee05c46a8e49--
 
