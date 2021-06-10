@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE2B3A2CE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:25:26 +0200 (CEST)
-Received: from localhost ([::1]:57472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472763A2CF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:26:36 +0200 (CEST)
+Received: from localhost ([::1]:59956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrKgX-0007BW-D0
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:25:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45054)
+	id 1lrKhf-0000Wb-CB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lrKfb-0006Wp-4t
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:24:27 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37010
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lrKfZ-0006Fo-3N
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:24:26 -0400
-Received: from host86-132-109-72.range86-132.btcentralplus.com
- ([86.132.109.72] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lrKfI-0002Rg-VF; Thu, 10 Jun 2021 14:24:13 +0100
-To: Peter Maydell <peter.maydell@linaro.org>,
- Programmingkid <programmingkidx@gmail.com>
-References: <BCB8773B-FC54-4C25-9B60-92C263165D38@gmail.com>
- <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <1ee4b7cf-d445-6497-705f-510009fc74f8@ilande.co.uk>
-Date: Thu, 10 Jun 2021 14:24:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrKgP-0007ZX-Ir
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:25:17 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrKgI-0006ll-TH
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:25:17 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ t4-20020a1c77040000b029019d22d84ebdso6538980wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 06:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yZX6BfJyLPg3q1EnztePI0Sarjff1gU6+TV6ua1w5WE=;
+ b=MBGEeLfVV5V29zW0jdM9c6zfH7eee8tSO4TW66NXG4udqKpc8NgrEfzc5vNXedAbRv
+ 4veXB9sDcVWyUwd3YH8GBePprWX1HzNj60lw4mg3cKmjHHvHz6b2VGp9XGnRUlhJVUnW
+ BqXyZHYQUPOfAVftSnplssoZMFRAADcO7474F4GGXbyczp4Dz9cQnN1GCFXHH0dOQOMI
+ NhbEeTllEEXHyxGkgMwoH5YvC1LeRmd7V+k5NAAOwtU/Ppgu/zhhsiHL2vaHnnpmAvYb
+ 3ycz9iRK84oK8mt0FIP1QwCkmoz/PtY0/ONX64Zo4zpm/kDz6frBp3u5PE91baTKK3NB
+ m7yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yZX6BfJyLPg3q1EnztePI0Sarjff1gU6+TV6ua1w5WE=;
+ b=lRkrzcQ/UJt5ZFySfmSi1ghbaUCZkR9bfN7lOdHnDfIbUgut7ghPr5plqqhHO4MSNF
+ FfSSRFKqcS7+LAlpwagpGemLOATnPmeFDKZpbihVVQpLM7iSVWyagi0FiMHKfrzwCMg+
+ HXPwo2sCFki0OZva3/ajjigfJX1u7BrUF+iMjnxhFFpDaj0qObS+mBw5MumlNzUna4A1
+ szwuvhQsewMh2DKzjBKO1qWdOsNHLRgoGUZS1VbJ8jYgWHrodcjbOHh9BhRfUZLY+YZS
+ KLj7O83cm5vQ5/iqDywaYyZtbZkkKdtyNLRhe1Vte45nWo1t8d6vQp7NiUIckAFp0qNJ
+ OB0A==
+X-Gm-Message-State: AOAM530s8SgCsTJTWXUd6IENTK6aq0nxRRXOz23SrO6R7gmY+gWPnP9q
+ DHOXpUQG1fyYgXNNOZwkG9ogdg==
+X-Google-Smtp-Source: ABdhPJxtTfWlHkh9X9XKmIZNPHJPxU5icReUfPlRY7kopDGmo0bohy9G9/d4MOeVGePf18TxJ3sBlw==
+X-Received: by 2002:a7b:c1ce:: with SMTP id a14mr15212700wmj.180.1623331508228; 
+ Thu, 10 Jun 2021 06:25:08 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id j7sm3526432wrm.93.2021.06.10.06.25.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 06:25:07 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Provide and use H8 and H1_8 macros
+Date: Thu, 10 Jun 2021 14:25:05 +0100
+Message-Id: <20210610132505.5827-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.109.72
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: tb_flush() calls causing long Windows XP boot times
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,95 +82,910 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU devel list <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/06/2021 14:14, Peter Maydell wrote:
+Currently we provide Hn and H1_n macros for accessing the correct
+data within arrays of vector elements of size 1, 2 and 4, accounting
+for host endianness.  We don't provide any macros for elements of
+size 8 because there the host endianness doesn't matter.  However,
+this does result in awkwardness where we need to pass empty arguments
+to macros, because checkpatch complains about them.  The empty
+argument is a little confusing for humans to read as well.
 
-> On Thu, 10 Jun 2021 at 14:02, Programmingkid <programmingkidx@gmail.com> wrote:
->>
->> Hi Richard,
->>
->> There is a function called breakpoint_invalidate() in cpu.c that calls a function called tb_flush(). I have determined that this call is being made over 200,000 times when Windows XP boots. Disabling this function makes Windows XP boot way faster than before. The time went down from around 3 minutes to 20 seconds when I applied the patch below.
->>
->> After I applied the patch I ran several tests in my VM's to see if anything broke. I could not find any problems. Here is the list my VM's I tested:
->>
->> Mac OS 10.8 in qemu-system-x86_64
->> Windows 7 in qemu-system-x86_64
->> Windows XP in qemu-system-i386
->> Mac OS 10.4 in qemu-system-ppc
->>
->> I would be happy if the patch below was accepted but I would like to know your thoughts.
-> 
->>   cpu.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/cpu.c b/cpu.c
->> index bfbe5a66f9..297c2e4281 100644
->> --- a/cpu.c
->> +++ b/cpu.c
->> @@ -253,7 +253,7 @@ static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
->>        * Flush the whole TB cache to force re-translation of such TBs.
->>        * This is heavyweight, but we're debugging anyway.
->>        */
->> -    tb_flush(cpu);
->> +    /* tb_flush(cpu); */
->>   }
->>   #endif
-> 
-> The patch is clearly wrong -- this function is called when a CPU breakpoint
-> is added or removed, and we *must* drop generated code which either
-> (a) includes code to take the breakpoint exception and now should not
-> or (b) doesn't include code to take the breakpoint exception and now should.
-> Otherwise we will incorrectly take/not take a breakpoint exception when
-> that stale code is executed.
-> 
-> As the comment notes, the assumption is that we won't be adding and
-> removing breakpoints except when we're debugging and therefore
-> performance is not critical. Windows XP is clearly doing something
-> we weren't expecting, so we should ideally have a look at whether
-> we can be a bit more efficient about not throwing the whole TB
-> cache away.
+Add H8() and H1_8() macros and use them where we were previously
+passing empty arguments to macros.
 
-FWIW this was reported a while back on Launchpad as 
-https://bugs.launchpad.net/qemu/+bug/1883593 where the performance regression was 
-traced back to:
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This is a big patch but it was basically search-n-replaced
+(not entirely automatedly, but conveniently most of the SVE
+H1_8 locations were ",     ,").
 
-commit b55f54bc965607c45b5010a107a792ba333ba654
-Author: Max Filippov <jcmvbkbc@gmail.com>
-Date:   Wed Nov 27 14:06:01 2019 -0800
+SVE ZIP, UZP, TRN also have Int128 forms. I haven't attempted
+to provide macros for that case.
+---
+ target/arm/vec_internal.h |   8 +-
+ target/arm/sve_helper.c   | 258 +++++++++++++++++++-------------------
+ target/arm/vec_helper.c   |  14 +--
+ 3 files changed, 143 insertions(+), 137 deletions(-)
 
-     exec: flush CPU TB cache in breakpoint_invalidate
+diff --git a/target/arm/vec_internal.h b/target/arm/vec_internal.h
+index dba481e0012..613f3421b9c 100644
+--- a/target/arm/vec_internal.h
++++ b/target/arm/vec_internal.h
+@@ -42,7 +42,13 @@
+ #define H2(x)   (x)
+ #define H4(x)   (x)
+ #endif
+-
++/*
++ * Access to 64-bit elements isn't host-endian dependent; we provide H8
++ * and H1_8 so that when a function is being generated from a macro we
++ * can pass these rather than an empty macro argument, for clarity.
++ */
++#define H8(x)   (x)
++#define H1_8(x) (x)
+ 
+ static inline void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
+ {
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 46a957b6fb0..a373f8c573e 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -905,23 +905,23 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg,               \
+ 
+ DO_ZPZZ_PAIR_FP(sve2_faddp_zpzz_h, float16, H1_2, float16_add)
+ DO_ZPZZ_PAIR_FP(sve2_faddp_zpzz_s, float32, H1_4, float32_add)
+-DO_ZPZZ_PAIR_FP(sve2_faddp_zpzz_d, float64,     , float64_add)
++DO_ZPZZ_PAIR_FP(sve2_faddp_zpzz_d, float64, H1_8, float64_add)
+ 
+ DO_ZPZZ_PAIR_FP(sve2_fmaxnmp_zpzz_h, float16, H1_2, float16_maxnum)
+ DO_ZPZZ_PAIR_FP(sve2_fmaxnmp_zpzz_s, float32, H1_4, float32_maxnum)
+-DO_ZPZZ_PAIR_FP(sve2_fmaxnmp_zpzz_d, float64,     , float64_maxnum)
++DO_ZPZZ_PAIR_FP(sve2_fmaxnmp_zpzz_d, float64, H1_8, float64_maxnum)
+ 
+ DO_ZPZZ_PAIR_FP(sve2_fminnmp_zpzz_h, float16, H1_2, float16_minnum)
+ DO_ZPZZ_PAIR_FP(sve2_fminnmp_zpzz_s, float32, H1_4, float32_minnum)
+-DO_ZPZZ_PAIR_FP(sve2_fminnmp_zpzz_d, float64,     , float64_minnum)
++DO_ZPZZ_PAIR_FP(sve2_fminnmp_zpzz_d, float64, H1_8, float64_minnum)
+ 
+ DO_ZPZZ_PAIR_FP(sve2_fmaxp_zpzz_h, float16, H1_2, float16_max)
+ DO_ZPZZ_PAIR_FP(sve2_fmaxp_zpzz_s, float32, H1_4, float32_max)
+-DO_ZPZZ_PAIR_FP(sve2_fmaxp_zpzz_d, float64,     , float64_max)
++DO_ZPZZ_PAIR_FP(sve2_fmaxp_zpzz_d, float64, H1_8, float64_max)
+ 
+ DO_ZPZZ_PAIR_FP(sve2_fminp_zpzz_h, float16, H1_2, float16_min)
+ DO_ZPZZ_PAIR_FP(sve2_fminp_zpzz_s, float32, H1_4, float32_min)
+-DO_ZPZZ_PAIR_FP(sve2_fminp_zpzz_d, float64,     , float64_min)
++DO_ZPZZ_PAIR_FP(sve2_fminp_zpzz_d, float64, H1_8, float64_min)
+ 
+ #undef DO_ZPZZ_PAIR_FP
+ 
+@@ -1171,35 +1171,35 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)          \
+ 
+ DO_ZZZ_TB(sve2_saddl_h, int16_t, int8_t, H1_2, H1, DO_ADD)
+ DO_ZZZ_TB(sve2_saddl_s, int32_t, int16_t, H1_4, H1_2, DO_ADD)
+-DO_ZZZ_TB(sve2_saddl_d, int64_t, int32_t,     , H1_4, DO_ADD)
++DO_ZZZ_TB(sve2_saddl_d, int64_t, int32_t, H1_8, H1_4, DO_ADD)
+ 
+ DO_ZZZ_TB(sve2_ssubl_h, int16_t, int8_t, H1_2, H1, DO_SUB)
+ DO_ZZZ_TB(sve2_ssubl_s, int32_t, int16_t, H1_4, H1_2, DO_SUB)
+-DO_ZZZ_TB(sve2_ssubl_d, int64_t, int32_t,     , H1_4, DO_SUB)
++DO_ZZZ_TB(sve2_ssubl_d, int64_t, int32_t, H1_8, H1_4, DO_SUB)
+ 
+ DO_ZZZ_TB(sve2_sabdl_h, int16_t, int8_t, H1_2, H1, DO_ABD)
+ DO_ZZZ_TB(sve2_sabdl_s, int32_t, int16_t, H1_4, H1_2, DO_ABD)
+-DO_ZZZ_TB(sve2_sabdl_d, int64_t, int32_t,     , H1_4, DO_ABD)
++DO_ZZZ_TB(sve2_sabdl_d, int64_t, int32_t, H1_8, H1_4, DO_ABD)
+ 
+ DO_ZZZ_TB(sve2_uaddl_h, uint16_t, uint8_t, H1_2, H1, DO_ADD)
+ DO_ZZZ_TB(sve2_uaddl_s, uint32_t, uint16_t, H1_4, H1_2, DO_ADD)
+-DO_ZZZ_TB(sve2_uaddl_d, uint64_t, uint32_t,     , H1_4, DO_ADD)
++DO_ZZZ_TB(sve2_uaddl_d, uint64_t, uint32_t, H1_8, H1_4, DO_ADD)
+ 
+ DO_ZZZ_TB(sve2_usubl_h, uint16_t, uint8_t, H1_2, H1, DO_SUB)
+ DO_ZZZ_TB(sve2_usubl_s, uint32_t, uint16_t, H1_4, H1_2, DO_SUB)
+-DO_ZZZ_TB(sve2_usubl_d, uint64_t, uint32_t,     , H1_4, DO_SUB)
++DO_ZZZ_TB(sve2_usubl_d, uint64_t, uint32_t, H1_8, H1_4, DO_SUB)
+ 
+ DO_ZZZ_TB(sve2_uabdl_h, uint16_t, uint8_t, H1_2, H1, DO_ABD)
+ DO_ZZZ_TB(sve2_uabdl_s, uint32_t, uint16_t, H1_4, H1_2, DO_ABD)
+-DO_ZZZ_TB(sve2_uabdl_d, uint64_t, uint32_t,     , H1_4, DO_ABD)
++DO_ZZZ_TB(sve2_uabdl_d, uint64_t, uint32_t, H1_8, H1_4, DO_ABD)
+ 
+ DO_ZZZ_TB(sve2_smull_zzz_h, int16_t, int8_t, H1_2, H1, DO_MUL)
+ DO_ZZZ_TB(sve2_smull_zzz_s, int32_t, int16_t, H1_4, H1_2, DO_MUL)
+-DO_ZZZ_TB(sve2_smull_zzz_d, int64_t, int32_t,     , H1_4, DO_MUL)
++DO_ZZZ_TB(sve2_smull_zzz_d, int64_t, int32_t, H1_8, H1_4, DO_MUL)
+ 
+ DO_ZZZ_TB(sve2_umull_zzz_h, uint16_t, uint8_t, H1_2, H1, DO_MUL)
+ DO_ZZZ_TB(sve2_umull_zzz_s, uint32_t, uint16_t, H1_4, H1_2, DO_MUL)
+-DO_ZZZ_TB(sve2_umull_zzz_d, uint64_t, uint32_t,     , H1_4, DO_MUL)
++DO_ZZZ_TB(sve2_umull_zzz_d, uint64_t, uint32_t, H1_8, H1_4, DO_MUL)
+ 
+ /* Note that the multiply cannot overflow, but the doubling can. */
+ static inline int16_t do_sqdmull_h(int16_t n, int16_t m)
+@@ -1222,7 +1222,7 @@ static inline int64_t do_sqdmull_d(int64_t n, int64_t m)
+ 
+ DO_ZZZ_TB(sve2_sqdmull_zzz_h, int16_t, int8_t, H1_2, H1, do_sqdmull_h)
+ DO_ZZZ_TB(sve2_sqdmull_zzz_s, int32_t, int16_t, H1_4, H1_2, do_sqdmull_s)
+-DO_ZZZ_TB(sve2_sqdmull_zzz_d, int64_t, int32_t,     , H1_4, do_sqdmull_d)
++DO_ZZZ_TB(sve2_sqdmull_zzz_d, int64_t, int32_t, H1_8, H1_4, do_sqdmull_d)
+ 
+ #undef DO_ZZZ_TB
+ 
+@@ -1240,19 +1240,19 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
+ 
+ DO_ZZZ_WTB(sve2_saddw_h, int16_t, int8_t, H1_2, H1, DO_ADD)
+ DO_ZZZ_WTB(sve2_saddw_s, int32_t, int16_t, H1_4, H1_2, DO_ADD)
+-DO_ZZZ_WTB(sve2_saddw_d, int64_t, int32_t,     , H1_4, DO_ADD)
++DO_ZZZ_WTB(sve2_saddw_d, int64_t, int32_t, H1_8, H1_4, DO_ADD)
+ 
+ DO_ZZZ_WTB(sve2_ssubw_h, int16_t, int8_t, H1_2, H1, DO_SUB)
+ DO_ZZZ_WTB(sve2_ssubw_s, int32_t, int16_t, H1_4, H1_2, DO_SUB)
+-DO_ZZZ_WTB(sve2_ssubw_d, int64_t, int32_t,     , H1_4, DO_SUB)
++DO_ZZZ_WTB(sve2_ssubw_d, int64_t, int32_t, H1_8, H1_4, DO_SUB)
+ 
+ DO_ZZZ_WTB(sve2_uaddw_h, uint16_t, uint8_t, H1_2, H1, DO_ADD)
+ DO_ZZZ_WTB(sve2_uaddw_s, uint32_t, uint16_t, H1_4, H1_2, DO_ADD)
+-DO_ZZZ_WTB(sve2_uaddw_d, uint64_t, uint32_t,     , H1_4, DO_ADD)
++DO_ZZZ_WTB(sve2_uaddw_d, uint64_t, uint32_t, H1_8, H1_4, DO_ADD)
+ 
+ DO_ZZZ_WTB(sve2_usubw_h, uint16_t, uint8_t, H1_2, H1, DO_SUB)
+ DO_ZZZ_WTB(sve2_usubw_s, uint32_t, uint16_t, H1_4, H1_2, DO_SUB)
+-DO_ZZZ_WTB(sve2_usubw_d, uint64_t, uint32_t,     , H1_4, DO_SUB)
++DO_ZZZ_WTB(sve2_usubw_d, uint64_t, uint32_t, H1_8, H1_4, DO_SUB)
+ 
+ #undef DO_ZZZ_WTB
+ 
+@@ -1272,7 +1272,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)          \
+ DO_ZZZ_NTB(sve2_eoril_b, uint8_t, H1, DO_EOR)
+ DO_ZZZ_NTB(sve2_eoril_h, uint16_t, H1_2, DO_EOR)
+ DO_ZZZ_NTB(sve2_eoril_s, uint32_t, H1_4, DO_EOR)
+-DO_ZZZ_NTB(sve2_eoril_d, uint64_t,     , DO_EOR)
++DO_ZZZ_NTB(sve2_eoril_d, uint64_t, H1_8, DO_EOR)
+ 
+ #undef DO_ZZZ_NTB
+ 
+@@ -1291,29 +1291,29 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
+ 
+ DO_ZZZW_ACC(sve2_sabal_h, int16_t, int8_t, H1_2, H1, DO_ABD)
+ DO_ZZZW_ACC(sve2_sabal_s, int32_t, int16_t, H1_4, H1_2, DO_ABD)
+-DO_ZZZW_ACC(sve2_sabal_d, int64_t, int32_t,     , H1_4, DO_ABD)
++DO_ZZZW_ACC(sve2_sabal_d, int64_t, int32_t, H1_8, H1_4, DO_ABD)
+ 
+ DO_ZZZW_ACC(sve2_uabal_h, uint16_t, uint8_t, H1_2, H1, DO_ABD)
+ DO_ZZZW_ACC(sve2_uabal_s, uint32_t, uint16_t, H1_4, H1_2, DO_ABD)
+-DO_ZZZW_ACC(sve2_uabal_d, uint64_t, uint32_t,     , H1_4, DO_ABD)
++DO_ZZZW_ACC(sve2_uabal_d, uint64_t, uint32_t, H1_8, H1_4, DO_ABD)
+ 
+ DO_ZZZW_ACC(sve2_smlal_zzzw_h, int16_t, int8_t, H1_2, H1, DO_MUL)
+ DO_ZZZW_ACC(sve2_smlal_zzzw_s, int32_t, int16_t, H1_4, H1_2, DO_MUL)
+-DO_ZZZW_ACC(sve2_smlal_zzzw_d, int64_t, int32_t,     , H1_4, DO_MUL)
++DO_ZZZW_ACC(sve2_smlal_zzzw_d, int64_t, int32_t, H1_8, H1_4, DO_MUL)
+ 
+ DO_ZZZW_ACC(sve2_umlal_zzzw_h, uint16_t, uint8_t, H1_2, H1, DO_MUL)
+ DO_ZZZW_ACC(sve2_umlal_zzzw_s, uint32_t, uint16_t, H1_4, H1_2, DO_MUL)
+-DO_ZZZW_ACC(sve2_umlal_zzzw_d, uint64_t, uint32_t,     , H1_4, DO_MUL)
++DO_ZZZW_ACC(sve2_umlal_zzzw_d, uint64_t, uint32_t, H1_8, H1_4, DO_MUL)
+ 
+ #define DO_NMUL(N, M)  -(N * M)
+ 
+ DO_ZZZW_ACC(sve2_smlsl_zzzw_h, int16_t, int8_t, H1_2, H1, DO_NMUL)
+ DO_ZZZW_ACC(sve2_smlsl_zzzw_s, int32_t, int16_t, H1_4, H1_2, DO_NMUL)
+-DO_ZZZW_ACC(sve2_smlsl_zzzw_d, int64_t, int32_t,     , H1_4, DO_NMUL)
++DO_ZZZW_ACC(sve2_smlsl_zzzw_d, int64_t, int32_t, H1_8, H1_4, DO_NMUL)
+ 
+ DO_ZZZW_ACC(sve2_umlsl_zzzw_h, uint16_t, uint8_t, H1_2, H1, DO_NMUL)
+ DO_ZZZW_ACC(sve2_umlsl_zzzw_s, uint32_t, uint16_t, H1_4, H1_2, DO_NMUL)
+-DO_ZZZW_ACC(sve2_umlsl_zzzw_d, uint64_t, uint32_t,     , H1_4, DO_NMUL)
++DO_ZZZW_ACC(sve2_umlsl_zzzw_d, uint64_t, uint32_t, H1_8, H1_4, DO_NMUL)
+ 
+ #undef DO_ZZZW_ACC
+ 
+@@ -1425,14 +1425,14 @@ DO_SQDMLAL(sve2_sqdmlal_zzzw_h, int16_t, int8_t, H1_2, H1,
+            do_sqdmull_h, DO_SQADD_H)
+ DO_SQDMLAL(sve2_sqdmlal_zzzw_s, int32_t, int16_t, H1_4, H1_2,
+            do_sqdmull_s, DO_SQADD_S)
+-DO_SQDMLAL(sve2_sqdmlal_zzzw_d, int64_t, int32_t,     , H1_4,
++DO_SQDMLAL(sve2_sqdmlal_zzzw_d, int64_t, int32_t, H1_8, H1_4,
+            do_sqdmull_d, do_sqadd_d)
+ 
+ DO_SQDMLAL(sve2_sqdmlsl_zzzw_h, int16_t, int8_t, H1_2, H1,
+            do_sqdmull_h, DO_SQSUB_H)
+ DO_SQDMLAL(sve2_sqdmlsl_zzzw_s, int32_t, int16_t, H1_4, H1_2,
+            do_sqdmull_s, DO_SQSUB_S)
+-DO_SQDMLAL(sve2_sqdmlsl_zzzw_d, int64_t, int32_t,     , H1_4,
++DO_SQDMLAL(sve2_sqdmlsl_zzzw_d, int64_t, int32_t, H1_8, H1_4,
+            do_sqdmull_d, do_sqsub_d)
+ 
+ #undef DO_SQDMLAL
+@@ -1460,7 +1460,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
+ DO_CMLA_FUNC(sve2_cmla_zzzz_b, uint8_t, H1, DO_CMLA)
+ DO_CMLA_FUNC(sve2_cmla_zzzz_h, uint16_t, H2, DO_CMLA)
+ DO_CMLA_FUNC(sve2_cmla_zzzz_s, uint32_t, H4, DO_CMLA)
+-DO_CMLA_FUNC(sve2_cmla_zzzz_d, uint64_t,   , DO_CMLA)
++DO_CMLA_FUNC(sve2_cmla_zzzz_d, uint64_t, H8, DO_CMLA)
+ 
+ #define DO_SQRDMLAH_B(N, M, A, S) \
+     do_sqrdmlah_b(N, M, A, S, true)
+@@ -1474,7 +1474,7 @@ DO_CMLA_FUNC(sve2_cmla_zzzz_d, uint64_t,   , DO_CMLA)
+ DO_CMLA_FUNC(sve2_sqrdcmlah_zzzz_b, int8_t, H1, DO_SQRDMLAH_B)
+ DO_CMLA_FUNC(sve2_sqrdcmlah_zzzz_h, int16_t, H2, DO_SQRDMLAH_H)
+ DO_CMLA_FUNC(sve2_sqrdcmlah_zzzz_s, int32_t, H4, DO_SQRDMLAH_S)
+-DO_CMLA_FUNC(sve2_sqrdcmlah_zzzz_d, int64_t,   , DO_SQRDMLAH_D)
++DO_CMLA_FUNC(sve2_sqrdcmlah_zzzz_d, int64_t, H8, DO_SQRDMLAH_D)
+ 
+ #define DO_CMLA_IDX_FUNC(NAME, TYPE, H, OP) \
+ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc)    \
+@@ -1632,7 +1632,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc) \
+ 
+ DO_ZZXZ(sve2_sqrdmlah_idx_h, int16_t, H2, DO_SQRDMLAH_H)
+ DO_ZZXZ(sve2_sqrdmlah_idx_s, int32_t, H4, DO_SQRDMLAH_S)
+-DO_ZZXZ(sve2_sqrdmlah_idx_d, int64_t,   , DO_SQRDMLAH_D)
++DO_ZZXZ(sve2_sqrdmlah_idx_d, int64_t, H8, DO_SQRDMLAH_D)
+ 
+ #define DO_SQRDMLSH_H(N, M, A) \
+     ({ uint32_t discard; do_sqrdmlah_h(N, M, A, true, true, &discard); })
+@@ -1642,7 +1642,7 @@ DO_ZZXZ(sve2_sqrdmlah_idx_d, int64_t,   , DO_SQRDMLAH_D)
+ 
+ DO_ZZXZ(sve2_sqrdmlsh_idx_h, int16_t, H2, DO_SQRDMLSH_H)
+ DO_ZZXZ(sve2_sqrdmlsh_idx_s, int32_t, H4, DO_SQRDMLSH_S)
+-DO_ZZXZ(sve2_sqrdmlsh_idx_d, int64_t,   , DO_SQRDMLSH_D)
++DO_ZZXZ(sve2_sqrdmlsh_idx_d, int64_t, H8, DO_SQRDMLSH_D)
+ 
+ #undef DO_ZZXZ
+ 
+@@ -1665,28 +1665,28 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc)  \
+ #define DO_MLA(N, M, A)  (A + N * M)
+ 
+ DO_ZZXW(sve2_smlal_idx_s, int32_t, int16_t, H1_4, H1_2, DO_MLA)
+-DO_ZZXW(sve2_smlal_idx_d, int64_t, int32_t,     , H1_4, DO_MLA)
++DO_ZZXW(sve2_smlal_idx_d, int64_t, int32_t, H1_8, H1_4, DO_MLA)
+ DO_ZZXW(sve2_umlal_idx_s, uint32_t, uint16_t, H1_4, H1_2, DO_MLA)
+-DO_ZZXW(sve2_umlal_idx_d, uint64_t, uint32_t,     , H1_4, DO_MLA)
++DO_ZZXW(sve2_umlal_idx_d, uint64_t, uint32_t, H1_8, H1_4, DO_MLA)
+ 
+ #define DO_MLS(N, M, A)  (A - N * M)
+ 
+ DO_ZZXW(sve2_smlsl_idx_s, int32_t, int16_t, H1_4, H1_2, DO_MLS)
+-DO_ZZXW(sve2_smlsl_idx_d, int64_t, int32_t,     , H1_4, DO_MLS)
++DO_ZZXW(sve2_smlsl_idx_d, int64_t, int32_t, H1_8, H1_4, DO_MLS)
+ DO_ZZXW(sve2_umlsl_idx_s, uint32_t, uint16_t, H1_4, H1_2, DO_MLS)
+-DO_ZZXW(sve2_umlsl_idx_d, uint64_t, uint32_t,     , H1_4, DO_MLS)
++DO_ZZXW(sve2_umlsl_idx_d, uint64_t, uint32_t, H1_8, H1_4, DO_MLS)
+ 
+ #define DO_SQDMLAL_S(N, M, A)  DO_SQADD_S(A, do_sqdmull_s(N, M))
+ #define DO_SQDMLAL_D(N, M, A)  do_sqadd_d(A, do_sqdmull_d(N, M))
+ 
+ DO_ZZXW(sve2_sqdmlal_idx_s, int32_t, int16_t, H1_4, H1_2, DO_SQDMLAL_S)
+-DO_ZZXW(sve2_sqdmlal_idx_d, int64_t, int32_t,     , H1_4, DO_SQDMLAL_D)
++DO_ZZXW(sve2_sqdmlal_idx_d, int64_t, int32_t, H1_8, H1_4, DO_SQDMLAL_D)
+ 
+ #define DO_SQDMLSL_S(N, M, A)  DO_SQSUB_S(A, do_sqdmull_s(N, M))
+ #define DO_SQDMLSL_D(N, M, A)  do_sqsub_d(A, do_sqdmull_d(N, M))
+ 
+ DO_ZZXW(sve2_sqdmlsl_idx_s, int32_t, int16_t, H1_4, H1_2, DO_SQDMLSL_S)
+-DO_ZZXW(sve2_sqdmlsl_idx_d, int64_t, int32_t,     , H1_4, DO_SQDMLSL_D)
++DO_ZZXW(sve2_sqdmlsl_idx_d, int64_t, int32_t, H1_8, H1_4, DO_SQDMLSL_D)
+ 
+ #undef DO_MLA
+ #undef DO_MLS
+@@ -1708,13 +1708,13 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)            \
+ }
+ 
+ DO_ZZX(sve2_sqdmull_idx_s, int32_t, int16_t, H1_4, H1_2, do_sqdmull_s)
+-DO_ZZX(sve2_sqdmull_idx_d, int64_t, int32_t,     , H1_4, do_sqdmull_d)
++DO_ZZX(sve2_sqdmull_idx_d, int64_t, int32_t, H1_8, H1_4, do_sqdmull_d)
+ 
+ DO_ZZX(sve2_smull_idx_s, int32_t, int16_t, H1_4, H1_2, DO_MUL)
+-DO_ZZX(sve2_smull_idx_d, int64_t, int32_t,     , H1_4, DO_MUL)
++DO_ZZX(sve2_smull_idx_d, int64_t, int32_t, H1_8, H1_4, DO_MUL)
+ 
+ DO_ZZX(sve2_umull_idx_s, uint32_t, uint16_t, H1_4, H1_2, DO_MUL)
+-DO_ZZX(sve2_umull_idx_d, uint64_t, uint32_t,     , H1_4, DO_MUL)
++DO_ZZX(sve2_umull_idx_d, uint64_t, uint32_t, H1_8, H1_4, DO_MUL)
+ 
+ #undef DO_ZZX
+ 
+@@ -1824,12 +1824,12 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)  \
+ DO_CADD(sve2_cadd_b, int8_t, H1, DO_ADD, DO_SUB)
+ DO_CADD(sve2_cadd_h, int16_t, H1_2, DO_ADD, DO_SUB)
+ DO_CADD(sve2_cadd_s, int32_t, H1_4, DO_ADD, DO_SUB)
+-DO_CADD(sve2_cadd_d, int64_t,     , DO_ADD, DO_SUB)
++DO_CADD(sve2_cadd_d, int64_t, H1_8, DO_ADD, DO_SUB)
+ 
+ DO_CADD(sve2_sqcadd_b, int8_t, H1, DO_SQADD_B, DO_SQSUB_B)
+ DO_CADD(sve2_sqcadd_h, int16_t, H1_2, DO_SQADD_H, DO_SQSUB_H)
+ DO_CADD(sve2_sqcadd_s, int32_t, H1_4, DO_SQADD_S, DO_SQSUB_S)
+-DO_CADD(sve2_sqcadd_d, int64_t,     , do_sqadd_d, do_sqsub_d)
++DO_CADD(sve2_sqcadd_d, int64_t, H1_8, do_sqadd_d, do_sqsub_d)
+ 
+ #undef DO_CADD
+ 
+@@ -1847,11 +1847,11 @@ void HELPER(NAME)(void *vd, void *vn, uint32_t desc)           \
+ 
+ DO_ZZI_SHLL(sve2_sshll_h, int16_t, int8_t, H1_2, H1)
+ DO_ZZI_SHLL(sve2_sshll_s, int32_t, int16_t, H1_4, H1_2)
+-DO_ZZI_SHLL(sve2_sshll_d, int64_t, int32_t,     , H1_4)
++DO_ZZI_SHLL(sve2_sshll_d, int64_t, int32_t, H1_8, H1_4)
+ 
+ DO_ZZI_SHLL(sve2_ushll_h, uint16_t, uint8_t, H1_2, H1)
+ DO_ZZI_SHLL(sve2_ushll_s, uint32_t, uint16_t, H1_4, H1_2)
+-DO_ZZI_SHLL(sve2_ushll_d, uint64_t, uint32_t,     , H1_4)
++DO_ZZI_SHLL(sve2_ushll_d, uint64_t, uint32_t, H1_8, H1_4)
+ 
+ #undef DO_ZZI_SHLL
+ 
+@@ -2289,7 +2289,7 @@ DO_SHRNB(sve2_shrnb_d, uint64_t, uint32_t, DO_SHR)
+ 
+ DO_SHRNT(sve2_shrnt_h, uint16_t, uint8_t, H1_2, H1, DO_SHR)
+ DO_SHRNT(sve2_shrnt_s, uint32_t, uint16_t, H1_4, H1_2, DO_SHR)
+-DO_SHRNT(sve2_shrnt_d, uint64_t, uint32_t,     , H1_4, DO_SHR)
++DO_SHRNT(sve2_shrnt_d, uint64_t, uint32_t, H1_8, H1_4, DO_SHR)
+ 
+ DO_SHRNB(sve2_rshrnb_h, uint16_t, uint8_t, do_urshr)
+ DO_SHRNB(sve2_rshrnb_s, uint32_t, uint16_t, do_urshr)
+@@ -2297,7 +2297,7 @@ DO_SHRNB(sve2_rshrnb_d, uint64_t, uint32_t, do_urshr)
+ 
+ DO_SHRNT(sve2_rshrnt_h, uint16_t, uint8_t, H1_2, H1, do_urshr)
+ DO_SHRNT(sve2_rshrnt_s, uint32_t, uint16_t, H1_4, H1_2, do_urshr)
+-DO_SHRNT(sve2_rshrnt_d, uint64_t, uint32_t,     , H1_4, do_urshr)
++DO_SHRNT(sve2_rshrnt_d, uint64_t, uint32_t, H1_8, H1_4, do_urshr)
+ 
+ #define DO_SQSHRUN_H(x, sh) do_sat_bhs((int64_t)(x) >> sh, 0, UINT8_MAX)
+ #define DO_SQSHRUN_S(x, sh) do_sat_bhs((int64_t)(x) >> sh, 0, UINT16_MAX)
+@@ -2310,7 +2310,7 @@ DO_SHRNB(sve2_sqshrunb_d, int64_t, uint32_t, DO_SQSHRUN_D)
+ 
+ DO_SHRNT(sve2_sqshrunt_h, int16_t, uint8_t, H1_2, H1, DO_SQSHRUN_H)
+ DO_SHRNT(sve2_sqshrunt_s, int32_t, uint16_t, H1_4, H1_2, DO_SQSHRUN_S)
+-DO_SHRNT(sve2_sqshrunt_d, int64_t, uint32_t,     , H1_4, DO_SQSHRUN_D)
++DO_SHRNT(sve2_sqshrunt_d, int64_t, uint32_t, H1_8, H1_4, DO_SQSHRUN_D)
+ 
+ #define DO_SQRSHRUN_H(x, sh) do_sat_bhs(do_srshr(x, sh), 0, UINT8_MAX)
+ #define DO_SQRSHRUN_S(x, sh) do_sat_bhs(do_srshr(x, sh), 0, UINT16_MAX)
+@@ -2322,7 +2322,7 @@ DO_SHRNB(sve2_sqrshrunb_d, int64_t, uint32_t, DO_SQRSHRUN_D)
+ 
+ DO_SHRNT(sve2_sqrshrunt_h, int16_t, uint8_t, H1_2, H1, DO_SQRSHRUN_H)
+ DO_SHRNT(sve2_sqrshrunt_s, int32_t, uint16_t, H1_4, H1_2, DO_SQRSHRUN_S)
+-DO_SHRNT(sve2_sqrshrunt_d, int64_t, uint32_t,     , H1_4, DO_SQRSHRUN_D)
++DO_SHRNT(sve2_sqrshrunt_d, int64_t, uint32_t, H1_8, H1_4, DO_SQRSHRUN_D)
+ 
+ #define DO_SQSHRN_H(x, sh) do_sat_bhs(x >> sh, INT8_MIN, INT8_MAX)
+ #define DO_SQSHRN_S(x, sh) do_sat_bhs(x >> sh, INT16_MIN, INT16_MAX)
+@@ -2334,7 +2334,7 @@ DO_SHRNB(sve2_sqshrnb_d, int64_t, uint32_t, DO_SQSHRN_D)
+ 
+ DO_SHRNT(sve2_sqshrnt_h, int16_t, uint8_t, H1_2, H1, DO_SQSHRN_H)
+ DO_SHRNT(sve2_sqshrnt_s, int32_t, uint16_t, H1_4, H1_2, DO_SQSHRN_S)
+-DO_SHRNT(sve2_sqshrnt_d, int64_t, uint32_t,     , H1_4, DO_SQSHRN_D)
++DO_SHRNT(sve2_sqshrnt_d, int64_t, uint32_t, H1_8, H1_4, DO_SQSHRN_D)
+ 
+ #define DO_SQRSHRN_H(x, sh) do_sat_bhs(do_srshr(x, sh), INT8_MIN, INT8_MAX)
+ #define DO_SQRSHRN_S(x, sh) do_sat_bhs(do_srshr(x, sh), INT16_MIN, INT16_MAX)
+@@ -2346,7 +2346,7 @@ DO_SHRNB(sve2_sqrshrnb_d, int64_t, uint32_t, DO_SQRSHRN_D)
+ 
+ DO_SHRNT(sve2_sqrshrnt_h, int16_t, uint8_t, H1_2, H1, DO_SQRSHRN_H)
+ DO_SHRNT(sve2_sqrshrnt_s, int32_t, uint16_t, H1_4, H1_2, DO_SQRSHRN_S)
+-DO_SHRNT(sve2_sqrshrnt_d, int64_t, uint32_t,     , H1_4, DO_SQRSHRN_D)
++DO_SHRNT(sve2_sqrshrnt_d, int64_t, uint32_t, H1_8, H1_4, DO_SQRSHRN_D)
+ 
+ #define DO_UQSHRN_H(x, sh) MIN(x >> sh, UINT8_MAX)
+ #define DO_UQSHRN_S(x, sh) MIN(x >> sh, UINT16_MAX)
+@@ -2358,7 +2358,7 @@ DO_SHRNB(sve2_uqshrnb_d, uint64_t, uint32_t, DO_UQSHRN_D)
+ 
+ DO_SHRNT(sve2_uqshrnt_h, uint16_t, uint8_t, H1_2, H1, DO_UQSHRN_H)
+ DO_SHRNT(sve2_uqshrnt_s, uint32_t, uint16_t, H1_4, H1_2, DO_UQSHRN_S)
+-DO_SHRNT(sve2_uqshrnt_d, uint64_t, uint32_t,     , H1_4, DO_UQSHRN_D)
++DO_SHRNT(sve2_uqshrnt_d, uint64_t, uint32_t, H1_8, H1_4, DO_UQSHRN_D)
+ 
+ #define DO_UQRSHRN_H(x, sh) MIN(do_urshr(x, sh), UINT8_MAX)
+ #define DO_UQRSHRN_S(x, sh) MIN(do_urshr(x, sh), UINT16_MAX)
+@@ -2370,7 +2370,7 @@ DO_SHRNB(sve2_uqrshrnb_d, uint64_t, uint32_t, DO_UQRSHRN_D)
+ 
+ DO_SHRNT(sve2_uqrshrnt_h, uint16_t, uint8_t, H1_2, H1, DO_UQRSHRN_H)
+ DO_SHRNT(sve2_uqrshrnt_s, uint32_t, uint16_t, H1_4, H1_2, DO_UQRSHRN_S)
+-DO_SHRNT(sve2_uqrshrnt_d, uint64_t, uint32_t,     , H1_4, DO_UQRSHRN_D)
++DO_SHRNT(sve2_uqrshrnt_d, uint64_t, uint32_t, H1_8, H1_4, DO_UQRSHRN_D)
+ 
+ #undef DO_SHRNB
+ #undef DO_SHRNT
+@@ -2408,7 +2408,7 @@ DO_BINOPNB(sve2_addhnb_d, uint64_t, uint32_t, 32, DO_ADDHN)
+ 
+ DO_BINOPNT(sve2_addhnt_h, uint16_t, uint8_t, 8, H1_2, H1, DO_ADDHN)
+ DO_BINOPNT(sve2_addhnt_s, uint32_t, uint16_t, 16, H1_4, H1_2, DO_ADDHN)
+-DO_BINOPNT(sve2_addhnt_d, uint64_t, uint32_t, 32,     , H1_4, DO_ADDHN)
++DO_BINOPNT(sve2_addhnt_d, uint64_t, uint32_t, 32, H1_8, H1_4, DO_ADDHN)
+ 
+ DO_BINOPNB(sve2_raddhnb_h, uint16_t, uint8_t, 8, DO_RADDHN)
+ DO_BINOPNB(sve2_raddhnb_s, uint32_t, uint16_t, 16, DO_RADDHN)
+@@ -2416,7 +2416,7 @@ DO_BINOPNB(sve2_raddhnb_d, uint64_t, uint32_t, 32, DO_RADDHN)
+ 
+ DO_BINOPNT(sve2_raddhnt_h, uint16_t, uint8_t, 8, H1_2, H1, DO_RADDHN)
+ DO_BINOPNT(sve2_raddhnt_s, uint32_t, uint16_t, 16, H1_4, H1_2, DO_RADDHN)
+-DO_BINOPNT(sve2_raddhnt_d, uint64_t, uint32_t, 32,     , H1_4, DO_RADDHN)
++DO_BINOPNT(sve2_raddhnt_d, uint64_t, uint32_t, 32, H1_8, H1_4, DO_RADDHN)
+ 
+ DO_BINOPNB(sve2_subhnb_h, uint16_t, uint8_t, 8, DO_SUBHN)
+ DO_BINOPNB(sve2_subhnb_s, uint32_t, uint16_t, 16, DO_SUBHN)
+@@ -2424,7 +2424,7 @@ DO_BINOPNB(sve2_subhnb_d, uint64_t, uint32_t, 32, DO_SUBHN)
+ 
+ DO_BINOPNT(sve2_subhnt_h, uint16_t, uint8_t, 8, H1_2, H1, DO_SUBHN)
+ DO_BINOPNT(sve2_subhnt_s, uint32_t, uint16_t, 16, H1_4, H1_2, DO_SUBHN)
+-DO_BINOPNT(sve2_subhnt_d, uint64_t, uint32_t, 32,     , H1_4, DO_SUBHN)
++DO_BINOPNT(sve2_subhnt_d, uint64_t, uint32_t, 32, H1_8, H1_4, DO_SUBHN)
+ 
+ DO_BINOPNB(sve2_rsubhnb_h, uint16_t, uint8_t, 8, DO_RSUBHN)
+ DO_BINOPNB(sve2_rsubhnb_s, uint32_t, uint16_t, 16, DO_RSUBHN)
+@@ -2432,7 +2432,7 @@ DO_BINOPNB(sve2_rsubhnb_d, uint64_t, uint32_t, 32, DO_RSUBHN)
+ 
+ DO_BINOPNT(sve2_rsubhnt_h, uint16_t, uint8_t, 8, H1_2, H1, DO_RSUBHN)
+ DO_BINOPNT(sve2_rsubhnt_s, uint32_t, uint16_t, 16, H1_4, H1_2, DO_RSUBHN)
+-DO_BINOPNT(sve2_rsubhnt_d, uint64_t, uint32_t, 32,     , H1_4, DO_RSUBHN)
++DO_BINOPNT(sve2_rsubhnt_d, uint64_t, uint32_t, 32, H1_8, H1_4, DO_RSUBHN)
+ 
+ #undef DO_RSUBHN
+ #undef DO_SUBHN
+@@ -3040,7 +3040,7 @@ void HELPER(NAME)(void *vd, void *vn, uint64_t val, uint32_t desc) \
+ DO_INSR(sve_insr_b, uint8_t, H1)
+ DO_INSR(sve_insr_h, uint16_t, H1_2)
+ DO_INSR(sve_insr_s, uint32_t, H1_4)
+-DO_INSR(sve_insr_d, uint64_t, )
++DO_INSR(sve_insr_d, uint64_t, H1_8)
+ 
+ #undef DO_INSR
+ 
+@@ -3159,7 +3159,7 @@ void HELPER(sve2_tbx_##SUFF)(void *vd, void *vn, void *vm, uint32_t desc) \
+ DO_TB(b, uint8_t, H1)
+ DO_TB(h, uint16_t, H2)
+ DO_TB(s, uint32_t, H4)
+-DO_TB(d, uint64_t,   )
++DO_TB(d, uint64_t, H8)
+ 
+ #undef DO_TB
+ 
+@@ -3180,11 +3180,11 @@ void HELPER(NAME)(void *vd, void *vn, uint32_t desc)           \
+ 
+ DO_UNPK(sve_sunpk_h, int16_t, int8_t, H2, H1)
+ DO_UNPK(sve_sunpk_s, int32_t, int16_t, H4, H2)
+-DO_UNPK(sve_sunpk_d, int64_t, int32_t, , H4)
++DO_UNPK(sve_sunpk_d, int64_t, int32_t, H8, H4)
+ 
+ DO_UNPK(sve_uunpk_h, uint16_t, uint8_t, H2, H1)
+ DO_UNPK(sve_uunpk_s, uint32_t, uint16_t, H4, H2)
+-DO_UNPK(sve_uunpk_d, uint64_t, uint32_t, , H4)
++DO_UNPK(sve_uunpk_d, uint64_t, uint32_t, H8, H4)
+ 
+ #undef DO_UNPK
+ 
+@@ -3519,7 +3519,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)       \
+ DO_ZIP(sve_zip_b, uint8_t, H1)
+ DO_ZIP(sve_zip_h, uint16_t, H1_2)
+ DO_ZIP(sve_zip_s, uint32_t, H1_4)
+-DO_ZIP(sve_zip_d, uint64_t, )
++DO_ZIP(sve_zip_d, uint64_t, H1_8)
+ DO_ZIP(sve2_zip_q, Int128, )
+ 
+ #define DO_UZP(NAME, TYPE, H) \
+@@ -3548,7 +3548,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)         \
+ DO_UZP(sve_uzp_b, uint8_t, H1)
+ DO_UZP(sve_uzp_h, uint16_t, H1_2)
+ DO_UZP(sve_uzp_s, uint32_t, H1_4)
+-DO_UZP(sve_uzp_d, uint64_t, )
++DO_UZP(sve_uzp_d, uint64_t, H1_8)
+ DO_UZP(sve2_uzp_q, Int128, )
+ 
+ #define DO_TRN(NAME, TYPE, H) \
+@@ -3571,7 +3571,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)         \
+ DO_TRN(sve_trn_b, uint8_t, H1)
+ DO_TRN(sve_trn_h, uint16_t, H1_2)
+ DO_TRN(sve_trn_s, uint32_t, H1_4)
+-DO_TRN(sve_trn_d, uint64_t, )
++DO_TRN(sve_trn_d, uint64_t, H1_8)
+ DO_TRN(sve2_trn_q, Int128, )
+ 
+ #undef DO_ZIP
+@@ -3766,7 +3766,7 @@ uint32_t HELPER(NAME)(void *vd, void *vn, void *vm, void *vg, uint32_t desc) \
+ #define DO_CMP_PPZZ_S(NAME, TYPE, OP) \
+     DO_CMP_PPZZ(NAME, TYPE, OP, H1_4, 0x1111111111111111ull)
+ #define DO_CMP_PPZZ_D(NAME, TYPE, OP) \
+-    DO_CMP_PPZZ(NAME, TYPE, OP,     , 0x0101010101010101ull)
++    DO_CMP_PPZZ(NAME, TYPE, OP, H1_8, 0x0101010101010101ull)
+ 
+ DO_CMP_PPZZ_B(sve_cmpeq_ppzz_b, uint8_t,  ==)
+ DO_CMP_PPZZ_H(sve_cmpeq_ppzz_h, uint16_t, ==)
+@@ -3911,7 +3911,7 @@ uint32_t HELPER(NAME)(void *vd, void *vn, void *vg, uint32_t desc)   \
+ #define DO_CMP_PPZI_S(NAME, TYPE, OP) \
+     DO_CMP_PPZI(NAME, TYPE, OP, H1_4, 0x1111111111111111ull)
+ #define DO_CMP_PPZI_D(NAME, TYPE, OP) \
+-    DO_CMP_PPZI(NAME, TYPE, OP,     , 0x0101010101010101ull)
++    DO_CMP_PPZI(NAME, TYPE, OP, H1_8, 0x0101010101010101ull)
+ 
+ DO_CMP_PPZI_B(sve_cmpeq_ppzi_b, uint8_t,  ==)
+ DO_CMP_PPZI_H(sve_cmpeq_ppzi_h, uint16_t, ==)
+@@ -4331,24 +4331,24 @@ uint64_t HELPER(NAME)(void *vn, void *vg, void *vs, uint32_t desc)    \
+ 
+ DO_REDUCE(sve_faddv_h, float16, H1_2, add, float16_zero)
+ DO_REDUCE(sve_faddv_s, float32, H1_4, add, float32_zero)
+-DO_REDUCE(sve_faddv_d, float64,     , add, float64_zero)
++DO_REDUCE(sve_faddv_d, float64, H1_8, add, float64_zero)
+ 
+ /* Identity is floatN_default_nan, without the function call.  */
+ DO_REDUCE(sve_fminnmv_h, float16, H1_2, minnum, 0x7E00)
+ DO_REDUCE(sve_fminnmv_s, float32, H1_4, minnum, 0x7FC00000)
+-DO_REDUCE(sve_fminnmv_d, float64,     , minnum, 0x7FF8000000000000ULL)
++DO_REDUCE(sve_fminnmv_d, float64, H1_8, minnum, 0x7FF8000000000000ULL)
+ 
+ DO_REDUCE(sve_fmaxnmv_h, float16, H1_2, maxnum, 0x7E00)
+ DO_REDUCE(sve_fmaxnmv_s, float32, H1_4, maxnum, 0x7FC00000)
+-DO_REDUCE(sve_fmaxnmv_d, float64,     , maxnum, 0x7FF8000000000000ULL)
++DO_REDUCE(sve_fmaxnmv_d, float64, H1_8, maxnum, 0x7FF8000000000000ULL)
+ 
+ DO_REDUCE(sve_fminv_h, float16, H1_2, min, float16_infinity)
+ DO_REDUCE(sve_fminv_s, float32, H1_4, min, float32_infinity)
+-DO_REDUCE(sve_fminv_d, float64,     , min, float64_infinity)
++DO_REDUCE(sve_fminv_d, float64, H1_8, min, float64_infinity)
+ 
+ DO_REDUCE(sve_fmaxv_h, float16, H1_2, max, float16_chs(float16_infinity))
+ DO_REDUCE(sve_fmaxv_s, float32, H1_4, max, float32_chs(float32_infinity))
+-DO_REDUCE(sve_fmaxv_d, float64,     , max, float64_chs(float64_infinity))
++DO_REDUCE(sve_fmaxv_d, float64, H1_8, max, float64_chs(float64_infinity))
+ 
+ #undef DO_REDUCE
+ 
+@@ -4432,35 +4432,35 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg,       \
+ 
+ DO_ZPZZ_FP(sve_fadd_h, uint16_t, H1_2, float16_add)
+ DO_ZPZZ_FP(sve_fadd_s, uint32_t, H1_4, float32_add)
+-DO_ZPZZ_FP(sve_fadd_d, uint64_t,     , float64_add)
++DO_ZPZZ_FP(sve_fadd_d, uint64_t, H1_8, float64_add)
+ 
+ DO_ZPZZ_FP(sve_fsub_h, uint16_t, H1_2, float16_sub)
+ DO_ZPZZ_FP(sve_fsub_s, uint32_t, H1_4, float32_sub)
+-DO_ZPZZ_FP(sve_fsub_d, uint64_t,     , float64_sub)
++DO_ZPZZ_FP(sve_fsub_d, uint64_t, H1_8, float64_sub)
+ 
+ DO_ZPZZ_FP(sve_fmul_h, uint16_t, H1_2, float16_mul)
+ DO_ZPZZ_FP(sve_fmul_s, uint32_t, H1_4, float32_mul)
+-DO_ZPZZ_FP(sve_fmul_d, uint64_t,     , float64_mul)
++DO_ZPZZ_FP(sve_fmul_d, uint64_t, H1_8, float64_mul)
+ 
+ DO_ZPZZ_FP(sve_fdiv_h, uint16_t, H1_2, float16_div)
+ DO_ZPZZ_FP(sve_fdiv_s, uint32_t, H1_4, float32_div)
+-DO_ZPZZ_FP(sve_fdiv_d, uint64_t,     , float64_div)
++DO_ZPZZ_FP(sve_fdiv_d, uint64_t, H1_8, float64_div)
+ 
+ DO_ZPZZ_FP(sve_fmin_h, uint16_t, H1_2, float16_min)
+ DO_ZPZZ_FP(sve_fmin_s, uint32_t, H1_4, float32_min)
+-DO_ZPZZ_FP(sve_fmin_d, uint64_t,     , float64_min)
++DO_ZPZZ_FP(sve_fmin_d, uint64_t, H1_8, float64_min)
+ 
+ DO_ZPZZ_FP(sve_fmax_h, uint16_t, H1_2, float16_max)
+ DO_ZPZZ_FP(sve_fmax_s, uint32_t, H1_4, float32_max)
+-DO_ZPZZ_FP(sve_fmax_d, uint64_t,     , float64_max)
++DO_ZPZZ_FP(sve_fmax_d, uint64_t, H1_8, float64_max)
+ 
+ DO_ZPZZ_FP(sve_fminnum_h, uint16_t, H1_2, float16_minnum)
+ DO_ZPZZ_FP(sve_fminnum_s, uint32_t, H1_4, float32_minnum)
+-DO_ZPZZ_FP(sve_fminnum_d, uint64_t,     , float64_minnum)
++DO_ZPZZ_FP(sve_fminnum_d, uint64_t, H1_8, float64_minnum)
+ 
+ DO_ZPZZ_FP(sve_fmaxnum_h, uint16_t, H1_2, float16_maxnum)
+ DO_ZPZZ_FP(sve_fmaxnum_s, uint32_t, H1_4, float32_maxnum)
+-DO_ZPZZ_FP(sve_fmaxnum_d, uint64_t,     , float64_maxnum)
++DO_ZPZZ_FP(sve_fmaxnum_d, uint64_t, H1_8, float64_maxnum)
+ 
+ static inline float16 abd_h(float16 a, float16 b, float_status *s)
+ {
+@@ -4479,7 +4479,7 @@ static inline float64 abd_d(float64 a, float64 b, float_status *s)
+ 
+ DO_ZPZZ_FP(sve_fabd_h, uint16_t, H1_2, abd_h)
+ DO_ZPZZ_FP(sve_fabd_s, uint32_t, H1_4, abd_s)
+-DO_ZPZZ_FP(sve_fabd_d, uint64_t,     , abd_d)
++DO_ZPZZ_FP(sve_fabd_d, uint64_t, H1_8, abd_d)
+ 
+ static inline float64 scalbn_d(float64 a, int64_t b, float_status *s)
+ {
+@@ -4489,11 +4489,11 @@ static inline float64 scalbn_d(float64 a, int64_t b, float_status *s)
+ 
+ DO_ZPZZ_FP(sve_fscalbn_h, int16_t, H1_2, float16_scalbn)
+ DO_ZPZZ_FP(sve_fscalbn_s, int32_t, H1_4, float32_scalbn)
+-DO_ZPZZ_FP(sve_fscalbn_d, int64_t,     , scalbn_d)
++DO_ZPZZ_FP(sve_fscalbn_d, int64_t, H1_8, scalbn_d)
+ 
+ DO_ZPZZ_FP(sve_fmulx_h, uint16_t, H1_2, helper_advsimd_mulxh)
+ DO_ZPZZ_FP(sve_fmulx_s, uint32_t, H1_4, helper_vfp_mulxs)
+-DO_ZPZZ_FP(sve_fmulx_d, uint64_t,     , helper_vfp_mulxd)
++DO_ZPZZ_FP(sve_fmulx_d, uint64_t, H1_8, helper_vfp_mulxd)
+ 
+ #undef DO_ZPZZ_FP
+ 
+@@ -4521,15 +4521,15 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, uint64_t scalar,  \
+ 
+ DO_ZPZS_FP(sve_fadds_h, float16, H1_2, float16_add)
+ DO_ZPZS_FP(sve_fadds_s, float32, H1_4, float32_add)
+-DO_ZPZS_FP(sve_fadds_d, float64,     , float64_add)
++DO_ZPZS_FP(sve_fadds_d, float64, H1_8, float64_add)
+ 
+ DO_ZPZS_FP(sve_fsubs_h, float16, H1_2, float16_sub)
+ DO_ZPZS_FP(sve_fsubs_s, float32, H1_4, float32_sub)
+-DO_ZPZS_FP(sve_fsubs_d, float64,     , float64_sub)
++DO_ZPZS_FP(sve_fsubs_d, float64, H1_8, float64_sub)
+ 
+ DO_ZPZS_FP(sve_fmuls_h, float16, H1_2, float16_mul)
+ DO_ZPZS_FP(sve_fmuls_s, float32, H1_4, float32_mul)
+-DO_ZPZS_FP(sve_fmuls_d, float64,     , float64_mul)
++DO_ZPZS_FP(sve_fmuls_d, float64, H1_8, float64_mul)
+ 
+ static inline float16 subr_h(float16 a, float16 b, float_status *s)
+ {
+@@ -4548,23 +4548,23 @@ static inline float64 subr_d(float64 a, float64 b, float_status *s)
+ 
+ DO_ZPZS_FP(sve_fsubrs_h, float16, H1_2, subr_h)
+ DO_ZPZS_FP(sve_fsubrs_s, float32, H1_4, subr_s)
+-DO_ZPZS_FP(sve_fsubrs_d, float64,     , subr_d)
++DO_ZPZS_FP(sve_fsubrs_d, float64, H1_8, subr_d)
+ 
+ DO_ZPZS_FP(sve_fmaxnms_h, float16, H1_2, float16_maxnum)
+ DO_ZPZS_FP(sve_fmaxnms_s, float32, H1_4, float32_maxnum)
+-DO_ZPZS_FP(sve_fmaxnms_d, float64,     , float64_maxnum)
++DO_ZPZS_FP(sve_fmaxnms_d, float64, H1_8, float64_maxnum)
+ 
+ DO_ZPZS_FP(sve_fminnms_h, float16, H1_2, float16_minnum)
+ DO_ZPZS_FP(sve_fminnms_s, float32, H1_4, float32_minnum)
+-DO_ZPZS_FP(sve_fminnms_d, float64,     , float64_minnum)
++DO_ZPZS_FP(sve_fminnms_d, float64, H1_8, float64_minnum)
+ 
+ DO_ZPZS_FP(sve_fmaxs_h, float16, H1_2, float16_max)
+ DO_ZPZS_FP(sve_fmaxs_s, float32, H1_4, float32_max)
+-DO_ZPZS_FP(sve_fmaxs_d, float64,     , float64_max)
++DO_ZPZS_FP(sve_fmaxs_d, float64, H1_8, float64_max)
+ 
+ DO_ZPZS_FP(sve_fmins_h, float16, H1_2, float16_min)
+ DO_ZPZS_FP(sve_fmins_s, float32, H1_4, float32_min)
+-DO_ZPZS_FP(sve_fmins_d, float64,     , float64_min)
++DO_ZPZS_FP(sve_fmins_d, float64, H1_8, float64_min)
+ 
+ /* Fully general two-operand expander, controlled by a predicate,
+  * With the extra float_status parameter.
+@@ -4709,58 +4709,58 @@ static inline uint64_t vfp_float64_to_uint64_rtz(float64 f, float_status *s)
+ DO_ZPZ_FP(sve_fcvt_sh, uint32_t, H1_4, sve_f32_to_f16)
+ DO_ZPZ_FP(sve_fcvt_hs, uint32_t, H1_4, sve_f16_to_f32)
+ DO_ZPZ_FP(sve_bfcvt,   uint32_t, H1_4, float32_to_bfloat16)
+-DO_ZPZ_FP(sve_fcvt_dh, uint64_t,     , sve_f64_to_f16)
+-DO_ZPZ_FP(sve_fcvt_hd, uint64_t,     , sve_f16_to_f64)
+-DO_ZPZ_FP(sve_fcvt_ds, uint64_t,     , float64_to_float32)
+-DO_ZPZ_FP(sve_fcvt_sd, uint64_t,     , float32_to_float64)
++DO_ZPZ_FP(sve_fcvt_dh, uint64_t, H1_8, sve_f64_to_f16)
++DO_ZPZ_FP(sve_fcvt_hd, uint64_t, H1_8, sve_f16_to_f64)
++DO_ZPZ_FP(sve_fcvt_ds, uint64_t, H1_8, float64_to_float32)
++DO_ZPZ_FP(sve_fcvt_sd, uint64_t, H1_8, float32_to_float64)
+ 
+ DO_ZPZ_FP(sve_fcvtzs_hh, uint16_t, H1_2, vfp_float16_to_int16_rtz)
+ DO_ZPZ_FP(sve_fcvtzs_hs, uint32_t, H1_4, helper_vfp_tosizh)
+ DO_ZPZ_FP(sve_fcvtzs_ss, uint32_t, H1_4, helper_vfp_tosizs)
+-DO_ZPZ_FP(sve_fcvtzs_hd, uint64_t,     , vfp_float16_to_int64_rtz)
+-DO_ZPZ_FP(sve_fcvtzs_sd, uint64_t,     , vfp_float32_to_int64_rtz)
+-DO_ZPZ_FP(sve_fcvtzs_ds, uint64_t,     , helper_vfp_tosizd)
+-DO_ZPZ_FP(sve_fcvtzs_dd, uint64_t,     , vfp_float64_to_int64_rtz)
++DO_ZPZ_FP(sve_fcvtzs_hd, uint64_t, H1_8, vfp_float16_to_int64_rtz)
++DO_ZPZ_FP(sve_fcvtzs_sd, uint64_t, H1_8, vfp_float32_to_int64_rtz)
++DO_ZPZ_FP(sve_fcvtzs_ds, uint64_t, H1_8, helper_vfp_tosizd)
++DO_ZPZ_FP(sve_fcvtzs_dd, uint64_t, H1_8, vfp_float64_to_int64_rtz)
+ 
+ DO_ZPZ_FP(sve_fcvtzu_hh, uint16_t, H1_2, vfp_float16_to_uint16_rtz)
+ DO_ZPZ_FP(sve_fcvtzu_hs, uint32_t, H1_4, helper_vfp_touizh)
+ DO_ZPZ_FP(sve_fcvtzu_ss, uint32_t, H1_4, helper_vfp_touizs)
+-DO_ZPZ_FP(sve_fcvtzu_hd, uint64_t,     , vfp_float16_to_uint64_rtz)
+-DO_ZPZ_FP(sve_fcvtzu_sd, uint64_t,     , vfp_float32_to_uint64_rtz)
+-DO_ZPZ_FP(sve_fcvtzu_ds, uint64_t,     , helper_vfp_touizd)
+-DO_ZPZ_FP(sve_fcvtzu_dd, uint64_t,     , vfp_float64_to_uint64_rtz)
++DO_ZPZ_FP(sve_fcvtzu_hd, uint64_t, H1_8, vfp_float16_to_uint64_rtz)
++DO_ZPZ_FP(sve_fcvtzu_sd, uint64_t, H1_8, vfp_float32_to_uint64_rtz)
++DO_ZPZ_FP(sve_fcvtzu_ds, uint64_t, H1_8, helper_vfp_touizd)
++DO_ZPZ_FP(sve_fcvtzu_dd, uint64_t, H1_8, vfp_float64_to_uint64_rtz)
+ 
+ DO_ZPZ_FP(sve_frint_h, uint16_t, H1_2, helper_advsimd_rinth)
+ DO_ZPZ_FP(sve_frint_s, uint32_t, H1_4, helper_rints)
+-DO_ZPZ_FP(sve_frint_d, uint64_t,     , helper_rintd)
++DO_ZPZ_FP(sve_frint_d, uint64_t, H1_8, helper_rintd)
+ 
+ DO_ZPZ_FP(sve_frintx_h, uint16_t, H1_2, float16_round_to_int)
+ DO_ZPZ_FP(sve_frintx_s, uint32_t, H1_4, float32_round_to_int)
+-DO_ZPZ_FP(sve_frintx_d, uint64_t,     , float64_round_to_int)
++DO_ZPZ_FP(sve_frintx_d, uint64_t, H1_8, float64_round_to_int)
+ 
+ DO_ZPZ_FP(sve_frecpx_h, uint16_t, H1_2, helper_frecpx_f16)
+ DO_ZPZ_FP(sve_frecpx_s, uint32_t, H1_4, helper_frecpx_f32)
+-DO_ZPZ_FP(sve_frecpx_d, uint64_t,     , helper_frecpx_f64)
++DO_ZPZ_FP(sve_frecpx_d, uint64_t, H1_8, helper_frecpx_f64)
+ 
+ DO_ZPZ_FP(sve_fsqrt_h, uint16_t, H1_2, float16_sqrt)
+ DO_ZPZ_FP(sve_fsqrt_s, uint32_t, H1_4, float32_sqrt)
+-DO_ZPZ_FP(sve_fsqrt_d, uint64_t,     , float64_sqrt)
++DO_ZPZ_FP(sve_fsqrt_d, uint64_t, H1_8, float64_sqrt)
+ 
+ DO_ZPZ_FP(sve_scvt_hh, uint16_t, H1_2, int16_to_float16)
+ DO_ZPZ_FP(sve_scvt_sh, uint32_t, H1_4, int32_to_float16)
+ DO_ZPZ_FP(sve_scvt_ss, uint32_t, H1_4, int32_to_float32)
+-DO_ZPZ_FP(sve_scvt_sd, uint64_t,     , int32_to_float64)
+-DO_ZPZ_FP(sve_scvt_dh, uint64_t,     , int64_to_float16)
+-DO_ZPZ_FP(sve_scvt_ds, uint64_t,     , int64_to_float32)
+-DO_ZPZ_FP(sve_scvt_dd, uint64_t,     , int64_to_float64)
++DO_ZPZ_FP(sve_scvt_sd, uint64_t, H1_8, int32_to_float64)
++DO_ZPZ_FP(sve_scvt_dh, uint64_t, H1_8, int64_to_float16)
++DO_ZPZ_FP(sve_scvt_ds, uint64_t, H1_8, int64_to_float32)
++DO_ZPZ_FP(sve_scvt_dd, uint64_t, H1_8, int64_to_float64)
+ 
+ DO_ZPZ_FP(sve_ucvt_hh, uint16_t, H1_2, uint16_to_float16)
+ DO_ZPZ_FP(sve_ucvt_sh, uint32_t, H1_4, uint32_to_float16)
+ DO_ZPZ_FP(sve_ucvt_ss, uint32_t, H1_4, uint32_to_float32)
+-DO_ZPZ_FP(sve_ucvt_sd, uint64_t,     , uint32_to_float64)
+-DO_ZPZ_FP(sve_ucvt_dh, uint64_t,     , uint64_to_float16)
+-DO_ZPZ_FP(sve_ucvt_ds, uint64_t,     , uint64_to_float32)
+-DO_ZPZ_FP(sve_ucvt_dd, uint64_t,     , uint64_to_float64)
++DO_ZPZ_FP(sve_ucvt_sd, uint64_t, H1_8, uint32_to_float64)
++DO_ZPZ_FP(sve_ucvt_dh, uint64_t, H1_8, uint64_to_float16)
++DO_ZPZ_FP(sve_ucvt_ds, uint64_t, H1_8, uint64_to_float32)
++DO_ZPZ_FP(sve_ucvt_dd, uint64_t, H1_8, uint64_to_float64)
+ 
+ static int16_t do_float16_logb_as_int(float16 a, float_status *s)
+ {
+@@ -4848,7 +4848,7 @@ static int64_t do_float64_logb_as_int(float64 a, float_status *s)
+ 
+ DO_ZPZ_FP(flogb_h, float16, H1_2, do_float16_logb_as_int)
+ DO_ZPZ_FP(flogb_s, float32, H1_4, do_float32_logb_as_int)
+-DO_ZPZ_FP(flogb_d, float64,     , do_float64_logb_as_int)
++DO_ZPZ_FP(flogb_d, float64, H1_8, do_float64_logb_as_int)
+ 
+ #undef DO_ZPZ_FP
+ 
+@@ -5026,7 +5026,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *vg,               \
+ #define DO_FPCMP_PPZZ_S(NAME, OP) \
+     DO_FPCMP_PPZZ(NAME##_s, float32, H1_4, OP)
+ #define DO_FPCMP_PPZZ_D(NAME, OP) \
+-    DO_FPCMP_PPZZ(NAME##_d, float64,     , OP)
++    DO_FPCMP_PPZZ(NAME##_d, float64, H1_8, OP)
+ 
+ #define DO_FPCMP_PPZZ_ALL(NAME, OP) \
+     DO_FPCMP_PPZZ_H(NAME, OP)   \
+@@ -5087,7 +5087,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vg,            \
+ #define DO_FPCMP_PPZ0_S(NAME, OP) \
+     DO_FPCMP_PPZ0(NAME##_s, float32, H1_4, OP)
+ #define DO_FPCMP_PPZ0_D(NAME, OP) \
+-    DO_FPCMP_PPZ0(NAME##_d, float64,     , OP)
++    DO_FPCMP_PPZ0(NAME##_d, float64, H1_8, OP)
+ 
+ #define DO_FPCMP_PPZ0_ALL(NAME, OP) \
+     DO_FPCMP_PPZ0_H(NAME, OP)   \
+@@ -5467,8 +5467,8 @@ DO_LD_PRIM_1(ld1bhu, H1_2, uint16_t, uint8_t)
+ DO_LD_PRIM_1(ld1bhs, H1_2, uint16_t,  int8_t)
+ DO_LD_PRIM_1(ld1bsu, H1_4, uint32_t, uint8_t)
+ DO_LD_PRIM_1(ld1bss, H1_4, uint32_t,  int8_t)
+-DO_LD_PRIM_1(ld1bdu,     , uint64_t, uint8_t)
+-DO_LD_PRIM_1(ld1bds,     , uint64_t,  int8_t)
++DO_LD_PRIM_1(ld1bdu, H1_8, uint64_t, uint8_t)
++DO_LD_PRIM_1(ld1bds, H1_8, uint64_t,  int8_t)
+ 
+ #define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
+     DO_ST_HOST(st1##NAME, H, TE, TM, stb_p)             \
+@@ -5477,7 +5477,7 @@ DO_LD_PRIM_1(ld1bds,     , uint64_t,  int8_t)
+ DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
+ DO_ST_PRIM_1(bh, H1_2, uint16_t, uint8_t)
+ DO_ST_PRIM_1(bs, H1_4, uint32_t, uint8_t)
+-DO_ST_PRIM_1(bd,     , uint64_t, uint8_t)
++DO_ST_PRIM_1(bd, H1_8, uint64_t, uint8_t)
+ 
+ #define DO_LD_PRIM_2(NAME, H, TE, TM, LD) \
+     DO_LD_HOST(ld1##NAME##_be, H, TE, TM, LD##_be_p)    \
+@@ -5494,22 +5494,22 @@ DO_ST_PRIM_1(bd,     , uint64_t, uint8_t)
+ DO_LD_PRIM_2(hh,  H1_2, uint16_t, uint16_t, lduw)
+ DO_LD_PRIM_2(hsu, H1_4, uint32_t, uint16_t, lduw)
+ DO_LD_PRIM_2(hss, H1_4, uint32_t,  int16_t, lduw)
+-DO_LD_PRIM_2(hdu,     , uint64_t, uint16_t, lduw)
+-DO_LD_PRIM_2(hds,     , uint64_t,  int16_t, lduw)
++DO_LD_PRIM_2(hdu, H1_8, uint64_t, uint16_t, lduw)
++DO_LD_PRIM_2(hds, H1_8, uint64_t,  int16_t, lduw)
+ 
+ DO_ST_PRIM_2(hh, H1_2, uint16_t, uint16_t, stw)
+ DO_ST_PRIM_2(hs, H1_4, uint32_t, uint16_t, stw)
+-DO_ST_PRIM_2(hd,     , uint64_t, uint16_t, stw)
++DO_ST_PRIM_2(hd, H1_8, uint64_t, uint16_t, stw)
+ 
+ DO_LD_PRIM_2(ss,  H1_4, uint32_t, uint32_t, ldl)
+-DO_LD_PRIM_2(sdu,     , uint64_t, uint32_t, ldl)
+-DO_LD_PRIM_2(sds,     , uint64_t,  int32_t, ldl)
++DO_LD_PRIM_2(sdu, H1_8, uint64_t, uint32_t, ldl)
++DO_LD_PRIM_2(sds, H1_8, uint64_t,  int32_t, ldl)
+ 
+ DO_ST_PRIM_2(ss, H1_4, uint32_t, uint32_t, stl)
+-DO_ST_PRIM_2(sd,     , uint64_t, uint32_t, stl)
++DO_ST_PRIM_2(sd, H1_8, uint64_t, uint32_t, stl)
+ 
+-DO_LD_PRIM_2(dd,     , uint64_t, uint64_t, ldq)
+-DO_ST_PRIM_2(dd,     , uint64_t, uint64_t, stq)
++DO_LD_PRIM_2(dd, H1_8, uint64_t, uint64_t, ldq)
++DO_ST_PRIM_2(dd, H1_8, uint64_t, uint64_t, stq)
+ 
+ #undef DO_LD_TLB
+ #undef DO_ST_TLB
+@@ -7743,7 +7743,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
+ 
+ DO_FCVTNT(sve_bfcvtnt,    uint32_t, uint16_t, H1_4, H1_2, float32_to_bfloat16)
+ DO_FCVTNT(sve2_fcvtnt_sh, uint32_t, uint16_t, H1_4, H1_2, sve_f32_to_f16)
+-DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t,     , H1_4, float64_to_float32)
++DO_FCVTNT(sve2_fcvtnt_ds, uint64_t, uint32_t, H1_8, H1_4, float64_to_float32)
+ 
+ #define DO_FCVTLT(NAME, TYPEW, TYPEN, HW, HN, OP)                             \
+ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
+@@ -7763,7 +7763,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vg, void *status, uint32_t desc)  \
+ }
+ 
+ DO_FCVTLT(sve2_fcvtlt_hs, uint32_t, uint16_t, H1_4, H1_2, sve_f16_to_f32)
+-DO_FCVTLT(sve2_fcvtlt_sd, uint64_t, uint32_t,     , H1_4, float32_to_float64)
++DO_FCVTLT(sve2_fcvtlt_sd, uint64_t, uint32_t, H1_8, H1_4, float32_to_float64)
+ 
+ #undef DO_FCVTLT
+ #undef DO_FCVTNT
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index 5862f187cdc..e8138d3d222 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -589,8 +589,8 @@ DO_DOT_IDX(gvec_sdot_idx_b, int32_t, int8_t, int8_t, H4)
+ DO_DOT_IDX(gvec_udot_idx_b, uint32_t, uint8_t, uint8_t, H4)
+ DO_DOT_IDX(gvec_sudot_idx_b, int32_t, int8_t, uint8_t, H4)
+ DO_DOT_IDX(gvec_usdot_idx_b, int32_t, uint8_t, int8_t, H4)
+-DO_DOT_IDX(gvec_sdot_idx_h, int64_t, int16_t, int16_t, )
+-DO_DOT_IDX(gvec_udot_idx_h, uint64_t, uint16_t, uint16_t, )
++DO_DOT_IDX(gvec_sdot_idx_h, int64_t, int16_t, int16_t, H8)
++DO_DOT_IDX(gvec_udot_idx_h, uint64_t, uint16_t, uint16_t, H8)
+ 
+ void HELPER(gvec_fcaddh)(void *vd, void *vn, void *vm,
+                          void *vfpst, uint32_t desc)
+@@ -1226,7 +1226,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc) \
+ 
+ DO_MUL_IDX(gvec_mul_idx_h, uint16_t, H2)
+ DO_MUL_IDX(gvec_mul_idx_s, uint32_t, H4)
+-DO_MUL_IDX(gvec_mul_idx_d, uint64_t, )
++DO_MUL_IDX(gvec_mul_idx_d, uint64_t, H8)
+ 
+ #undef DO_MUL_IDX
+ 
+@@ -1248,11 +1248,11 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va, uint32_t desc)   \
+ 
+ DO_MLA_IDX(gvec_mla_idx_h, uint16_t, +, H2)
+ DO_MLA_IDX(gvec_mla_idx_s, uint32_t, +, H4)
+-DO_MLA_IDX(gvec_mla_idx_d, uint64_t, +,   )
++DO_MLA_IDX(gvec_mla_idx_d, uint64_t, +, H8)
+ 
+ DO_MLA_IDX(gvec_mls_idx_h, uint16_t, -, H2)
+ DO_MLA_IDX(gvec_mls_idx_s, uint32_t, -, H4)
+-DO_MLA_IDX(gvec_mls_idx_d, uint64_t, -,   )
++DO_MLA_IDX(gvec_mls_idx_d, uint64_t, -, H8)
+ 
+ #undef DO_MLA_IDX
+ 
+@@ -1279,7 +1279,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
+ 
+ DO_FMUL_IDX(gvec_fmul_idx_h, nop, float16, H2)
+ DO_FMUL_IDX(gvec_fmul_idx_s, nop, float32, H4)
+-DO_FMUL_IDX(gvec_fmul_idx_d, nop, float64, )
++DO_FMUL_IDX(gvec_fmul_idx_d, nop, float64, H8)
+ 
+ /*
+  * Non-fused multiply-accumulate operations, for Neon. NB that unlike
+@@ -1317,7 +1317,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va,                  \
+ 
+ DO_FMLA_IDX(gvec_fmla_idx_h, float16, H2)
+ DO_FMLA_IDX(gvec_fmla_idx_s, float32, H4)
+-DO_FMLA_IDX(gvec_fmla_idx_d, float64, )
++DO_FMLA_IDX(gvec_fmla_idx_d, float64, H8)
+ 
+ #undef DO_FMLA_IDX
+ 
+-- 
+2.20.1
 
-     When a breakpoint is inserted at location for which there's currently no
-     virtual to physical translation no action is taken on CPU TB cache. If a
-     TB for that virtual address already exists but is not visible ATM the
-     breakpoint won't be hit next time an instruction at that address will be
-     executed.
-
-     Flush entire CPU TB cache in breakpoint_invalidate to force
-     re-translation of all TBs for the breakpoint address.
-
-     This change fixes the following scenario:
-     - linux user application is running
-     - a breakpoint is inserted from QEMU gdbstub for a user address that is
-       not currently present in the target CPU TLB
-     - an instruction at that address is executed, but the external debugger
-       doesn't get control.
-
-     Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-     Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-     Message-Id: <20191127220602.10827-2-jcmvbkbc@gmail.com>
-     Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-Perhaps Windows XP is constantly executing some kind of breakpoint instruction or 
-updating some CPU debug registers during boot?
-
-
-ATB,
-
-Mark.
 
