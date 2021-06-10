@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200EF3A2438
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:06:14 +0200 (CEST)
-Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C2B3A2444
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:08:44 +0200 (CEST)
+Received: from localhost ([::1]:44362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrDpV-0007Qv-5C
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:06:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
+	id 1lrDrv-0003q3-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDiA-0002D0-Hl
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:58:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31310)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDiP-0002yb-HH
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:58:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDi8-0001P3-Af
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:58:38 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDiL-0001cl-Ao
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:58:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623304715;
+ s=mimecast20190719; t=1623304728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MOKUaPRhEknQSp/c4EpmFfYQpAw20I4djJwTGWMwLZw=;
- b=ivlZ0RHZLsr65liCVV84EjDHuZD/sPK/1+JL51As1/YqdjVl1HJd4V+Q076FjZnrIuWpoL
- f7StO2UjgZsG2dkvTaCmwgvMcEpQAF+HA5DAba2JuvsVWa/C68LUtxca3epm4hcMswFnym
- NutpaGExJFlwC2YrjMSYc//Zt7tGqG8=
+ bh=2N0mgQnSR8oAerjxg2YBYHZ3p88z8Ru0HgqydZqU+xg=;
+ b=VpsoBE6+zN+8YLul/IDfbHzfwZO+/aRfh38MHQO6pyFWoBgnvOyAjUGnbEiQauVeDcUqs+
+ yxkNCRVU4/O10hldy8GSf0SW/C1ISdxDuuRyxrRulfhKlS1DXATdeGRdiqWkBxzd/wr/dh
+ ruahH+V46Dr8B3QswtJLJKDGAn0gsbw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-1sog8kXgOamP2KVkZx7mOA-1; Thu, 10 Jun 2021 01:58:32 -0400
-X-MC-Unique: 1sog8kXgOamP2KVkZx7mOA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-51-lGi-i7rIMsinFhH2JSRMrw-1; Thu, 10 Jun 2021 01:58:47 -0400
+X-MC-Unique: lGi-i7rIMsinFhH2JSRMrw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E327800D62;
- Thu, 10 Jun 2021 05:58:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7536801B19;
+ Thu, 10 Jun 2021 05:58:45 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
  [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AE2819C46;
- Thu, 10 Jun 2021 05:58:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE9C018A69;
+ Thu, 10 Jun 2021 05:58:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 63E2E180093F; Thu, 10 Jun 2021 07:57:55 +0200 (CEST)
+ id 7F9D918009C4; Thu, 10 Jun 2021 07:57:55 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/18] modules: add qemu-modinfo utility
-Date: Thu, 10 Jun 2021 07:57:40 +0200
-Message-Id: <20210610055755.538119-4-kraxel@redhat.com>
+Subject: [PATCH v2 04/18] modules: add virtio-gpu module annotations
+Date: Thu, 10 Jun 2021 07:57:41 +0200
+Message-Id: <20210610055755.538119-5-kraxel@redhat.com>
 In-Reply-To: <20210610055755.538119-1-kraxel@redhat.com>
 References: <20210610055755.538119-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -95,314 +95,174 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Scan .modinfo sections of qemu modules,
-write module metadata to modinfo.json.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- qemu-modinfo.c | 270 +++++++++++++++++++++++++++++++++++++++++++++++++
- meson.build    |  11 ++
- 2 files changed, 281 insertions(+)
- create mode 100644 qemu-modinfo.c
+ hw/display/vhost-user-gpu-pci.c | 1 +
+ hw/display/vhost-user-gpu.c     | 1 +
+ hw/display/vhost-user-vga.c     | 1 +
+ hw/display/virtio-gpu-base.c    | 1 +
+ hw/display/virtio-gpu-gl.c      | 3 +++
+ hw/display/virtio-gpu-pci-gl.c  | 3 +++
+ hw/display/virtio-gpu-pci.c     | 2 ++
+ hw/display/virtio-gpu.c         | 1 +
+ hw/display/virtio-vga-gl.c      | 3 +++
+ hw/display/virtio-vga.c         | 2 ++
+ 10 files changed, 18 insertions(+)
 
-diff --git a/qemu-modinfo.c b/qemu-modinfo.c
-new file mode 100644
-index 000000000000..611dbdb00683
---- /dev/null
-+++ b/qemu-modinfo.c
-@@ -0,0 +1,270 @@
-+/*
-+ * QEMU module parser
-+ *
-+ * read modules, find modinfo section, parse & store metadata.
-+ *
-+ * Copyright Red Hat, Inc. 2021
-+ *
-+ * Authors:
-+ *     Gerd Hoffmann <kraxel@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "elf.h"
-+#include <stdint.h>
-+#include <dirent.h>
-+
-+#include "qapi/qapi-types-modules.h"
-+#include "qapi/qapi-visit-modules.h"
-+#include "qapi/qobject-output-visitor.h"
-+#include "qapi/qmp/qjson.h"
-+#include "qapi/qmp/qstring.h"
-+
-+#if INTPTR_MAX == INT32_MAX
-+# define Elf_Ehdr Elf32_Ehdr
-+# define Elf_Shdr Elf32_Shdr
-+# define ELFCLASS ELFCLASS32
-+#elif INTPTR_MAX == INT64_MAX
-+# define Elf_Ehdr Elf64_Ehdr
-+# define Elf_Shdr Elf64_Shdr
-+# define ELFCLASS ELFCLASS64
-+#else
-+# error Huh?  Neither 32-bit nor 64-bit host.
-+#endif
-+
-+static const char *moddir = CONFIG_QEMU_MODDIR;
-+static const char *dsosuf = CONFIG_HOST_DSOSUF;
-+
-+static ModuleInfo *modinfo(const char *module, char *info, size_t size)
-+{
-+    ModuleInfo *modinfo;
-+    strList *sl;
-+    size_t pos = 0, len;
-+
-+    modinfo = g_new0(ModuleInfo, 1);
-+    modinfo->name = g_strdup(module);
-+
-+    if (info) {
-+        do {
-+            if (strncmp(info + pos, "obj=", 4) == 0) {
-+                sl = g_new0(strList, 1);
-+                sl->value = g_strdup(info + pos + 4);
-+                sl->next = modinfo->objs;
-+                modinfo->objs = sl;
-+                modinfo->has_objs = true;
-+            } else if (strncmp(info + pos, "dep=", 4) == 0) {
-+                sl = g_new0(strList, 1);
-+                sl->value = g_strdup(info + pos + 4);
-+                sl->next = modinfo->deps;
-+                modinfo->deps = sl;
-+                modinfo->has_deps = true;
-+            } else if (strncmp(info + pos, "arch=", 5) == 0) {
-+                modinfo->arch = g_strdup(info + pos + 5);
-+                modinfo->has_arch = true;
-+            } else if (strncmp(info + pos, "opts=", 5) == 0) {
-+                modinfo->opts = g_strdup(info + pos + 5);
-+                modinfo->has_opts = true;
-+            } else {
-+                fprintf(stderr, "unknown tag: %s\n", info + pos);
-+                exit(1);
-+            }
-+            len = strlen(info + pos) + 1;
-+            pos += len;
-+        } while (pos < size);
-+    }
-+
-+    return modinfo;
-+}
-+
-+static void elf_read_section_hdr(FILE *fp, Elf_Ehdr *ehdr,
-+                                 int section, Elf_Shdr *shdr)
-+{
-+    size_t pos, len;
-+    int ret;
-+
-+    pos = ehdr->e_shoff + section * ehdr->e_shentsize;
-+    len = MIN(ehdr->e_shentsize, sizeof(*shdr));
-+
-+    ret = fseek(fp, pos, SEEK_SET);
-+    if (ret != 0) {
-+        fprintf(stderr, "seek error\n");
-+        exit(1);
-+    }
-+
-+    memset(shdr, 0, sizeof(*shdr));
-+    ret = fread(shdr, len, 1, fp);
-+    if (ret != 1) {
-+        fprintf(stderr, "read error\n");
-+        exit(1);
-+    }
-+}
-+
-+static void *elf_read_section(FILE *fp, Elf_Ehdr *ehdr,
-+                              int section, size_t *size)
-+{
-+    Elf_Shdr shdr;
-+    void *data;
-+    int ret;
-+
-+    elf_read_section_hdr(fp, ehdr, section, &shdr);
-+    if (shdr.sh_offset && shdr.sh_size) {
-+        ret = fseek(fp, shdr.sh_offset, SEEK_SET);
-+        if (ret != 0) {
-+            fprintf(stderr, "seek error\n");
-+            exit(1);
-+        }
-+
-+        data = g_malloc(shdr.sh_size);
-+        ret = fread(data, shdr.sh_size, 1, fp);
-+        if (ret != 1) {
-+            fprintf(stderr, "read error\n");
-+            exit(1);
-+        }
-+        *size = shdr.sh_size;
-+    } else {
-+        data = NULL;
-+        *size = 0;
-+    }
-+    return data;
-+}
-+
-+static ModuleInfo *elf_parse_module(const char *module,
-+                                    const char *filename)
-+{
-+    Elf_Ehdr ehdr;
-+    Elf_Shdr shdr;
-+    FILE *fp;
-+    int ret, i;
-+    char *str;
-+    size_t str_size;
-+    char *info;
-+    size_t info_size;
-+
-+    fp = fopen(filename, "r");
-+    if (NULL == fp) {
-+        fprintf(stderr, "open %s: %s\n", filename, strerror(errno));
-+        exit(1);
-+    }
-+
-+    ret = fread(&ehdr, sizeof(ehdr), 1, fp);
-+    if (ret != 1) {
-+        fprintf(stderr, "read error (%s)\n", filename);
-+        exit(1);
-+    }
-+
-+    if (ehdr.e_ident[EI_MAG0] != ELFMAG0 ||
-+        ehdr.e_ident[EI_MAG1] != ELFMAG1 ||
-+        ehdr.e_ident[EI_MAG2] != ELFMAG2 ||
-+        ehdr.e_ident[EI_MAG3] != ELFMAG3) {
-+        fprintf(stderr, "not an elf file (%s)\n", filename);
-+        exit(1);
-+    }
-+    if (ehdr.e_ident[EI_CLASS] != ELFCLASS64) {
-+        fprintf(stderr, "elf class mismatch (%s)\n", filename);
-+        exit(1);
-+    }
-+    if (ehdr.e_shoff == 0) {
-+        fprintf(stderr, "no section header (%s)\n", filename);
-+        exit(1);
-+    }
-+
-+    /* read string table */
-+    if (ehdr.e_shstrndx == 0) {
-+        fprintf(stderr, "no section strings (%s)\n", filename);
-+        exit(1);
-+    }
-+    str = elf_read_section(fp, &ehdr, ehdr.e_shstrndx, &str_size);
-+    if (NULL == str) {
-+        fprintf(stderr, "no section strings (%s)\n", filename);
-+        exit(1);
-+    }
-+
-+    /* find and read modinfo section */
-+    info = NULL;
-+    for (i = 0; i < ehdr.e_shnum; i++) {
-+        elf_read_section_hdr(fp, &ehdr, i, &shdr);
-+        if (!shdr.sh_name) {
-+            continue;
-+        }
-+        if (strcmp(str + shdr.sh_name, ".modinfo") == 0) {
-+            info = elf_read_section(fp, &ehdr, i, &info_size);
-+        }
-+    }
-+    fclose(fp);
-+
-+    return modinfo(module, info, info_size);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    DIR *dir;
-+    FILE *fp;
-+    ModuleInfo *modinfo;
-+    ModuleInfoList *modlist;
-+    Modules *modules;
-+    Visitor *v;
-+    QObject *obj;
-+    Error *errp = NULL;
-+    struct dirent *ent;
-+    char *ext, *file, *name;
-+    GString *gjson;
-+    QString *qjson;
-+    const char *json;
-+
-+    if (argc > 1) {
-+        moddir = argv[1];
-+    }
-+
-+    dir = opendir(moddir);
-+    if (dir == NULL) {
-+        fprintf(stderr, "opendir(%s): %s\n", moddir, strerror(errno));
-+        exit(1);
-+    }
-+
-+    modules = g_new0(Modules, 1);
-+    while (NULL != (ent = readdir(dir))) {
-+        ext = strrchr(ent->d_name, '.');
-+        if (!ext) {
-+            continue;
-+        }
-+        if (strcmp(ext, dsosuf) != 0) {
-+            continue;
-+        }
-+
-+        name = g_strndup(ent->d_name, ext - ent->d_name);
-+        file = g_strdup_printf("%s/%s", moddir, ent->d_name);
-+        modinfo = elf_parse_module(name, file);
-+        g_free(file);
-+        g_free(name);
-+
-+        modlist = g_new0(ModuleInfoList, 1);
-+        modlist->value = modinfo;
-+        modlist->next = modules->list;
-+        modules->list = modlist;
-+    }
-+    closedir(dir);
-+
-+    v = qobject_output_visitor_new(&obj);
-+    visit_type_Modules(v, NULL, &modules, &errp);
-+    visit_complete(v, &obj);
-+    visit_free(v);
-+
-+    gjson = qobject_to_json(obj);
-+    qjson = qstring_from_gstring(gjson);
-+    json = qstring_get_str(qjson);
-+
-+    file = g_strdup_printf("%s/modinfo.json", moddir);
-+    fp = fopen(file, "w");
-+    if (fp == NULL) {
-+        fprintf(stderr, "open(%s): %s\n", file, strerror(errno));
-+        exit(1);
-+    }
-+    fprintf(fp, "%s", json);
-+    fclose(fp);
-+
-+    printf("%s written\n", file);
-+    g_free(file);
-+    return 0;
-+}
-diff --git a/meson.build b/meson.build
-index d2a9ce91f556..9823c5889140 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2380,6 +2380,17 @@ if xkbcommon.found()
-                            dependencies: [qemuutil, xkbcommon], install: have_tools)
- endif
+diff --git a/hw/display/vhost-user-gpu-pci.c b/hw/display/vhost-user-gpu-pci.c
+index a02b23ecaf11..daefcf710159 100644
+--- a/hw/display/vhost-user-gpu-pci.c
++++ b/hw/display/vhost-user-gpu-pci.c
+@@ -43,6 +43,7 @@ static const VirtioPCIDeviceTypeInfo vhost_user_gpu_pci_info = {
+     .instance_size = sizeof(VhostUserGPUPCI),
+     .instance_init = vhost_user_gpu_pci_initfn,
+ };
++module_obj(TYPE_VHOST_USER_GPU_PCI);
  
-+if config_host.has_key('CONFIG_MODULES')
-+   qemu_modinfo = executable('qemu-modinfo', files('qemu-modinfo.c') + genh,
-+                             dependencies: [glib, qemuutil], install: have_tools)
-+   custom_target('modinfo.json',
-+                 input: [ softmmu_mods, block_mods ],
-+                 output: 'modinfo.json',
-+                 install: true,
-+                 install_dir: qemu_moddir,
-+                 command: [ qemu_modinfo, '.' ])
-+endif
+ static void vhost_user_gpu_pci_register_types(void)
+ {
+diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+index 6cdaa1c73b9b..32ef0061f924 100644
+--- a/hw/display/vhost-user-gpu.c
++++ b/hw/display/vhost-user-gpu.c
+@@ -596,6 +596,7 @@ static const TypeInfo vhost_user_gpu_info = {
+     .instance_finalize = vhost_user_gpu_instance_finalize,
+     .class_init = vhost_user_gpu_class_init,
+ };
++module_obj(TYPE_VHOST_USER_GPU);
+ 
+ static void vhost_user_gpu_register_types(void)
+ {
+diff --git a/hw/display/vhost-user-vga.c b/hw/display/vhost-user-vga.c
+index a34a99856d73..072c9c65bc75 100644
+--- a/hw/display/vhost-user-vga.c
++++ b/hw/display/vhost-user-vga.c
+@@ -44,6 +44,7 @@ static const VirtioPCIDeviceTypeInfo vhost_user_vga_info = {
+     .instance_size = sizeof(VhostUserVGA),
+     .instance_init = vhost_user_vga_inst_initfn,
+ };
++module_obj(TYPE_VHOST_USER_VGA);
+ 
+ static void vhost_user_vga_register_types(void)
+ {
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index dd294276cb38..c8da4806e0bb 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -256,6 +256,7 @@ static const TypeInfo virtio_gpu_base_info = {
+     .class_init = virtio_gpu_base_class_init,
+     .abstract = true
+ };
++module_obj(TYPE_VIRTIO_GPU_BASE);
+ 
+ static void
+ virtio_register_types(void)
+diff --git a/hw/display/virtio-gpu-gl.c b/hw/display/virtio-gpu-gl.c
+index d971b480806a..7ab93bf8c829 100644
+--- a/hw/display/virtio-gpu-gl.c
++++ b/hw/display/virtio-gpu-gl.c
+@@ -154,6 +154,7 @@ static const TypeInfo virtio_gpu_gl_info = {
+     .instance_size = sizeof(VirtIOGPUGL),
+     .class_init = virtio_gpu_gl_class_init,
+ };
++module_obj(TYPE_VIRTIO_GPU_GL);
+ 
+ static void virtio_register_types(void)
+ {
+@@ -161,3 +162,5 @@ static void virtio_register_types(void)
+ }
+ 
+ type_init(virtio_register_types)
 +
- if have_tools
-   qemu_img = executable('qemu-img', [files('qemu-img.c'), hxdep],
-              dependencies: [authz, block, crypto, io, qom, qemuutil], install: true)
++module_dep("hw-display-virtio-gpu");
+diff --git a/hw/display/virtio-gpu-pci-gl.c b/hw/display/virtio-gpu-pci-gl.c
+index 902dda345275..99b14a07185e 100644
+--- a/hw/display/virtio-gpu-pci-gl.c
++++ b/hw/display/virtio-gpu-pci-gl.c
+@@ -46,6 +46,7 @@ static const VirtioPCIDeviceTypeInfo virtio_gpu_gl_pci_info = {
+     .instance_size = sizeof(VirtIOGPUGLPCI),
+     .instance_init = virtio_gpu_gl_initfn,
+ };
++module_obj(TYPE_VIRTIO_GPU_GL_PCI);
+ 
+ static void virtio_gpu_gl_pci_register_types(void)
+ {
+@@ -53,3 +54,5 @@ static void virtio_gpu_gl_pci_register_types(void)
+ }
+ 
+ type_init(virtio_gpu_gl_pci_register_types)
++
++module_dep("hw-display-virtio-gpu-pci");
+diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
+index d742a30aecf7..e36eee0c409b 100644
+--- a/hw/display/virtio-gpu-pci.c
++++ b/hw/display/virtio-gpu-pci.c
+@@ -64,6 +64,7 @@ static const TypeInfo virtio_gpu_pci_base_info = {
+     .class_init = virtio_gpu_pci_base_class_init,
+     .abstract = true
+ };
++module_obj(TYPE_VIRTIO_GPU_PCI_BASE);
+ 
+ #define TYPE_VIRTIO_GPU_PCI "virtio-gpu-pci"
+ typedef struct VirtIOGPUPCI VirtIOGPUPCI;
+@@ -90,6 +91,7 @@ static const VirtioPCIDeviceTypeInfo virtio_gpu_pci_info = {
+     .instance_size = sizeof(VirtIOGPUPCI),
+     .instance_init = virtio_gpu_initfn,
+ };
++module_obj(TYPE_VIRTIO_GPU_PCI);
+ 
+ static void virtio_gpu_pci_register_types(void)
+ {
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 4d549377cbc1..68fd607c2711 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1419,6 +1419,7 @@ static const TypeInfo virtio_gpu_info = {
+     .class_size = sizeof(VirtIOGPUClass),
+     .class_init = virtio_gpu_class_init,
+ };
++module_obj(TYPE_VIRTIO_GPU);
+ 
+ static void virtio_register_types(void)
+ {
+diff --git a/hw/display/virtio-vga-gl.c b/hw/display/virtio-vga-gl.c
+index c971340ebb1a..f22549097c5e 100644
+--- a/hw/display/virtio-vga-gl.c
++++ b/hw/display/virtio-vga-gl.c
+@@ -36,6 +36,7 @@ static VirtioPCIDeviceTypeInfo virtio_vga_gl_info = {
+     .instance_size = sizeof(VirtIOVGAGL),
+     .instance_init = virtio_vga_gl_inst_initfn,
+ };
++module_obj(TYPE_VIRTIO_VGA_GL);
+ 
+ static void virtio_vga_register_types(void)
+ {
+@@ -45,3 +46,5 @@ static void virtio_vga_register_types(void)
+ }
+ 
+ type_init(virtio_vga_register_types)
++
++module_dep("hw-display-virtio-vga");
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index d3c640406152..9e57f61e9edb 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -239,6 +239,7 @@ static TypeInfo virtio_vga_base_info = {
+     .class_init    = virtio_vga_base_class_init,
+     .abstract      = true,
+ };
++module_obj(TYPE_VIRTIO_VGA_BASE);
+ 
+ #define TYPE_VIRTIO_VGA "virtio-vga"
+ 
+@@ -268,6 +269,7 @@ static VirtioPCIDeviceTypeInfo virtio_vga_info = {
+     .instance_size = sizeof(VirtIOVGA),
+     .instance_init = virtio_vga_inst_initfn,
+ };
++module_obj(TYPE_VIRTIO_VGA);
+ 
+ static void virtio_vga_register_types(void)
+ {
 -- 
 2.31.1
 
