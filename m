@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292F73A2744
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:39:18 +0200 (CEST)
-Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786C03A2748
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:40:07 +0200 (CEST)
+Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrGDd-0001mS-7H
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44542)
+	id 1lrGEQ-0002K0-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrFsV-0007nW-BX; Thu, 10 Jun 2021 04:17:27 -0400
-Received: from mail142-26.mail.alibaba.com ([198.11.142.26]:6494)
+ id 1lrFtG-0001in-Sj; Thu, 10 Jun 2021 04:18:14 -0400
+Received: from mail142-29.mail.alibaba.com ([198.11.142.29]:40039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrFsP-0007rr-Dw; Thu, 10 Jun 2021 04:17:27 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1340529|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.238603-0.00565254-0.755744;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KQNWif8_1623313021; 
+ id 1lrFtE-0008NU-PV; Thu, 10 Jun 2021 04:18:14 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.4265272|-1; CH=blue; DM=|OVERLOAD|false|;
+ DS=CONTINUE|ham_system_inform|0.2439-0.000735694-0.755364;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047208; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KQNS9yo_1623313082; 
 Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KQNWif8_1623313021)
- by smtp.aliyun-inc.com(10.147.44.145);
- Thu, 10 Jun 2021 16:17:01 +0800
+ fp:SMTPD_---.KQNS9yo_1623313082)
+ by smtp.aliyun-inc.com(10.147.41.143);
+ Thu, 10 Jun 2021 16:18:02 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 35/37] target/riscv: RV64 Only Non-SIMD 32-bit Shift
- Instructions
-Date: Thu, 10 Jun 2021 15:59:06 +0800
-Message-Id: <20210610075908.3305506-36-zhiwei_liu@c-sky.com>
+Subject: [PATCH v2 37/37] target/riscv: configure and turn on packed extension
+ from command line
+Date: Thu, 10 Jun 2021 15:59:08 +0800
+Message-Id: <20210610075908.3305506-38-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
 References: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=198.11.142.26; envelope-from=zhiwei_liu@c-sky.com;
- helo=mail142-26.mail.alibaba.com
+Received-SPF: none client-ip=198.11.142.29; envelope-from=zhiwei_liu@c-sky.com;
+ helo=mail142-29.mail.alibaba.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -62,68 +62,43 @@ Cc: palmer@dabbelt.com, richard.henderson@linaro.org, bin.meng@windriver.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-32-bit rounding arithmetic shift right immediate.
+Packed extension is default off. The only way to use packed extension is
+1. use cpu rv32 or rv64
+2. turn on it by command line
+   "-cpu rv32,x-p=true,Zpsfoperand=true,pext_spec=v0.9.4".
+
+Zpsfoperand is whether to support Zpsfoperand sub-extension,
+default value is true.
+pext_ver is the packed specification version, default value is v0.9.4.
+These properties can be specified with other values.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- target/riscv/helper.h                   |  2 ++
- target/riscv/insn32.decode              |  2 ++
- target/riscv/insn_trans/trans_rvp.c.inc |  3 +++
- target/riscv/packed_helper.c            | 13 +++++++++++++
- 4 files changed, 20 insertions(+)
+ target/riscv/cpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index aa80095e1d..b998c86abf 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1472,3 +1472,5 @@ DEF_HELPER_4(kmsxda32, tl, env, tl, tl, tl)
- DEF_HELPER_3(smds32, i64, env, i64, i64)
- DEF_HELPER_3(smdrs32, i64, env, i64, i64)
- DEF_HELPER_3(smxds32, i64, env, i64, i64)
-+
-+DEF_HELPER_3(sraiw_u, i64, env, i64, i64)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index b9eeb57ca7..8e8aca4ea1 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -1095,3 +1095,5 @@ kmsxda32   0100111  ..... ..... 010 ..... 1110111 @r
- smds32     0101100  ..... ..... 010 ..... 1110111 @r
- smdrs32    0110100  ..... ..... 010 ..... 1110111 @r
- smxds32    0111100  ..... ..... 010 ..... 1110111 @r
-+
-+sraiw_u    0011010  ..... ..... 001 ..... 1110111 @sh5
-diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
-index 48bcf37e36..68c1ef9f48 100644
---- a/target/riscv/insn_trans/trans_rvp.c.inc
-+++ b/target/riscv/insn_trans/trans_rvp.c.inc
-@@ -1144,3 +1144,6 @@ GEN_RVP64_R_ACC_OOL(kmsxda32);
- GEN_RVP64_R_OOL(smds32);
- GEN_RVP64_R_OOL(smdrs32);
- GEN_RVP64_R_OOL(smxds32);
-+
-+/* (RV64 Only) Non-SIMD 32-bit Shift Instructions */
-+GEN_RVP64_SHIFTI(sraiw_u, gen_helper_sraiw_u);
-diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
-index 834e7dbebb..42f1d96fa5 100644
---- a/target/riscv/packed_helper.c
-+++ b/target/riscv/packed_helper.c
-@@ -3795,3 +3795,16 @@ static inline void do_smxds32(CPURISCVState *env, void *vd, void *va,
- }
- 
- RVPR64_64_64(smxds32, 1, 8);
-+
-+/* (RV64 Only) Non-SIMD 32-bit Shift Instructions */
-+static inline void do_sraiw_u(CPURISCVState *env, void *vd, void *va,
-+                              void *vb, uint8_t i)
-+{
-+    int64_t *d = vd;
-+    int32_t *a = va;
-+    uint8_t shift = *(uint8_t *)vb;
-+
-+    *d = vssra32(env, 0, a[H4(i)], shift);
-+}
-+
-+RVPR64_64_64(sraiw_u, 1, 8);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 9d8cf60a1c..21020b902e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -618,14 +618,17 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
++    DEFINE_PROP_BOOL("x-p", RISCVCPU, cfg.ext_p, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+     DEFINE_PROP_STRING("bext_spec", RISCVCPU, cfg.bext_spec),
++    DEFINE_PROP_STRING("pext_spec", RISCVCPU, cfg.pext_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
++    DEFINE_PROP_BOOL("Zpsfoperand", RISCVCPU, cfg.ext_psfoperand, true),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
 -- 
 2.25.1
 
