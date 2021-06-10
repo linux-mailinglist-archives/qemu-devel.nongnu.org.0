@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 511693A3163
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEFA3A3162
 	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:52:12 +0200 (CEST)
-Received: from localhost ([::1]:34338 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrNub-0003eW-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44876)
+	id 1lrNuZ-0003ZO-R6
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1lrNqj-00011x-NH; Thu, 10 Jun 2021 12:48:09 -0400
+ id 1lrNqm-00016U-4Z; Thu, 10 Jun 2021 12:48:12 -0400
 Received: from [201.28.113.2] (port=50320 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1lrNqi-0003S0-0j; Thu, 10 Jun 2021 12:48:09 -0400
+ id 1lrNqk-0003S0-PO; Thu, 10 Jun 2021 12:48:11 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 10 Jun 2021 13:47:03 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 10 Jun 2021 13:47:04 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id 960288014C4;
- Thu, 10 Jun 2021 13:47:03 -0300 (-03)
+ by power9a (Postfix) with ESMTP id A2DB68014C4;
+ Thu, 10 Jun 2021 13:47:04 -0300 (-03)
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 0/3] target/ppc: mmu cleanup
-Date: Thu, 10 Jun 2021 13:46:45 -0300
-Message-Id: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v2 1/3] target/ppc: Turn ppc_tlb_invalid_all in a noop
+Date: Thu, 10 Jun 2021 13:46:46 -0300
+Message-Id: <20210610164648.83878-2-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 10 Jun 2021 16:47:03.0758 (UTC)
- FILETIME=[3DAB46E0:01D75E18]
+In-Reply-To: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
+References: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
+X-OriginalArrivalTime: 10 Jun 2021 16:47:04.0789 (UTC)
+ FILETIME=[3E489850:01D75E18]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -57,30 +59,49 @@ Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series aims to clean up some of the code  mmu_helper.c,
-including removing the #includes inside ifdef.
+The function ppc_tlb_invalid_all is now a no op when compiling without TCG.
 
-Helpers are in mmu_helper.c now and code that is needed in a !TCG build
-is in mmu_common.c.
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+ target/ppc/mmu_helper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Comments are welcome, thanks,
-Lucas Mateus.
-Based-on: 6f398e533f5e259b4f937f4aa9de970f7201d166 
-
-Lucas Mateus Castro (alqotel) (3):
-  target/ppc: Turn ppc_tlb_invalid_all in a noop
-  target/ppc: divided mmu_helper.c in 2 files
-  target/ppc: moved ppc_store_sdr1 to mmu_common.c
-
- target/ppc/cpu.c        |   28 -
- target/ppc/cpu.h        |   21 +
- target/ppc/internal.h   |   26 +
- target/ppc/meson.build  |    6 +-
- target/ppc/mmu_common.c | 1651 +++++++++++++++++++++++++++++++++++++++
- target/ppc/mmu_helper.c | 1606 +------------------------------------
- 6 files changed, 1703 insertions(+), 1635 deletions(-)
- create mode 100644 target/ppc/mmu_common.c
-
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 1ecb36e85a..e7ba39c9e1 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -825,6 +825,7 @@ static int mmubooke_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
+     return ret;
+ }
+ 
++#ifdef CONFIG_TCG
+ static void booke206_flush_tlb(CPUPPCState *env, int flags,
+                                const int check_iprot)
+ {
+@@ -846,6 +847,7 @@ static void booke206_flush_tlb(CPUPPCState *env, int flags,
+ 
+     tlb_flush(env_cpu(env));
+ }
++#endif
+ 
+ static hwaddr booke206_tlb_to_page_size(CPUPPCState *env,
+                                         ppcmas_tlb_t *tlb)
+@@ -1956,6 +1958,7 @@ void helper_store_601_batl(CPUPPCState *env, uint32_t nr, target_ulong value)
+ /* TLB management */
+ void ppc_tlb_invalidate_all(CPUPPCState *env)
+ {
++#ifdef CONFIG_TCG
+ #if defined(TARGET_PPC64)
+     if (mmu_is_64bit(env->mmu_model)) {
+         env->tlb_need_flush = 0;
+@@ -1994,6 +1997,7 @@ void ppc_tlb_invalidate_all(CPUPPCState *env)
+         cpu_abort(env_cpu(env), "Unknown MMU model %x\n", env->mmu_model);
+         break;
+     }
++#endif
+ }
+ 
+ #ifdef CONFIG_TCG
 -- 
 2.17.1
 
