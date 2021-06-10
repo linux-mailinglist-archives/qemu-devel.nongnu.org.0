@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A423A2EB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:54:52 +0200 (CEST)
-Received: from localhost ([::1]:49412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE2C3A2EB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:56:00 +0200 (CEST)
+Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrM55-0001YZ-FI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40870)
+	id 1lrM6B-0004aF-JU
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:55:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lrM33-0007Er-KN
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:52:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46783)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lrM3G-0007bF-Nt
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:52:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lrM31-0005uW-W5
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:52:45 -0400
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lrM3B-00061L-Ee
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:52:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623336763;
+ s=mimecast20190719; t=1623336772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oNyku/wUkvlypNPZm/2DPwLGkMFPljQ+Ph7juKv2Vi0=;
- b=JuWg71Qsawow2DyA2TllMfYToTuiuEto3YXKsZesWwd8nqKCanffEo8H7F0oC/NaZkxouL
- rCmHCXku1jBnV6PQLlrRaMShipzYi1ZfnCRrVAEHwuLwHY1ZDJqC55I3XRGY1NWWD3bbcD
- CefP6VYr1iIuk6BETrmtLGBjyc+CuKY=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-8AJbZpFUOFuwp_92r4C0Jg-1; Thu, 10 Jun 2021 10:52:42 -0400
-X-MC-Unique: 8AJbZpFUOFuwp_92r4C0Jg-1
-Received: by mail-ot1-f72.google.com with SMTP id
- f7-20020a9d5e870000b02902f479dba730so18445169otl.21
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 07:52:42 -0700 (PDT)
+ bh=ApnUIAb5paOarkc9kqn0ochYlijH3G4mHQMCSe5mlnM=;
+ b=aIrsf1Yf0BhnhVLY33T530PaomIEoitmgRvJcIKTnXfXB18lCYbKQ8fqifcSvpiUOuJXAU
+ ry7ZVKjLMYbUcZ3QjicozsS3Le++V7Bo01dRLbruJYPsAYiRMY4kzVXurbNQ5/PjQVDTZ8
+ 8/3+EdtI3DrMg4qvSo/0ZKSH6kIxbM4=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-KKmYB-6zNQ-ikqKwRh5_wA-1; Thu, 10 Jun 2021 10:52:51 -0400
+X-MC-Unique: KKmYB-6zNQ-ikqKwRh5_wA-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ t19-20020a4ae4130000b029023950cb8d35so17432619oov.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 07:52:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oNyku/wUkvlypNPZm/2DPwLGkMFPljQ+Ph7juKv2Vi0=;
- b=ZMEIBfUmRNRUrUruBFTPDnOk8yyOzh6HjoVPZF6jQuxZt6pWfVH9hAprL7vSQ/tGZw
- dg1b0B+8OSG+ZgJQZfO0TqUfoFRlcCf6Z+T/NFhpY4w45Jg9HP59yJ3CdVbmlNcHWa3i
- 6Y3ABtmhpt3XYfL3IWiMzgFWzD/tj0NrtWeqxcrdaafShvCveZ8wDN97KY24bGXiItif
- sH1z7NNHxQWWMnwTdofJuWOD1WMFKt82k7BYcXCefZ6BQQMk0tbELSMqeAWGJvSlBSF9
- rLMLNwWWr3PWz9j6NIZsZCU3k2aO5pnBKxIpsaS7QQpM2Ealy2GZtQihW/Unv8K3mAyL
- XcHA==
-X-Gm-Message-State: AOAM531dOUmaxV2ZCsY53eOPUVdf6MKUJNZkGnY6FPw4sdx3LOfLBtpG
- y+QOPCR1VvVMRDMB4Bh1AX20y4HE/glw9KvORT5oyy3ON0VrKxj8Ku50+R8FLcuJ4njSsDWlkVc
- lO3PSRsDdtWT7zj4=
-X-Received: by 2002:a9d:585:: with SMTP id 5mr2892943otd.12.1623336761712;
- Thu, 10 Jun 2021 07:52:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyw1BHbNr1G/O0odHyWIKjEZdm6fPxDBZnRCUeha783476/UqSjYclI1EpI3QVVCXQ8hllTEg==
-X-Received: by 2002:a9d:585:: with SMTP id 5mr2892930otd.12.1623336761557;
- Thu, 10 Jun 2021 07:52:41 -0700 (PDT)
+ bh=ApnUIAb5paOarkc9kqn0ochYlijH3G4mHQMCSe5mlnM=;
+ b=aWr6uRDiFNye3MDWlnDYGwJVjDFY3Bt9XRSpB8bwdt+quJJv8jk/ncD31DnOJbBNGn
+ T4jVZjjGyshT7Uw7Sq58IPkH8si69vd6070trAhLIezDfX+ha5eRSEsrttV6qFshGCH5
+ to4l3AMN24xtmV1Fy1xjH3UqJlXe+gT+eGlBr0k2HCXXp6WpCu6v1Bz5rAenYSJjMTjc
+ dUYr5hTKclxQ1OvPbgSHSw4EpLNjFtVCj0OfBNI6g7Ak+uBm/6twtmzCfvvhiNupUcp0
+ ls4zxSzYaWxCZRnhExx9Mzlln+HBNsPtRgR+NXBKNWFjZTxVOMK52BYh/TwZJTahE1Tp
+ GfAQ==
+X-Gm-Message-State: AOAM533IgTeYkOVh54sLAohi4KQGo6nBo+0G1Qjha9bGnzci5D/ywaMS
+ gL9WddtyHV4QEeVzUXEenR6iNP/u3AI9/cId+afMuB7bZyYLHeOIESpvBUHRQX+s5rXWqqBjCWL
+ d51kmAWJiIvQ0nCs=
+X-Received: by 2002:a05:6830:1284:: with SMTP id
+ z4mr2795313otp.148.1623336771113; 
+ Thu, 10 Jun 2021 07:52:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8iFn5X7rnLXsjNpxVDcEjKwk5USAN3wcnmtX5T3eFnGSzd9u1jq3Ljc1YqFIu7R8D4l5oaA==
+X-Received: by 2002:a05:6830:1284:: with SMTP id
+ z4mr2795302otp.148.1623336770971; 
+ Thu, 10 Jun 2021 07:52:50 -0700 (PDT)
 Received: from [192.168.0.173] (ip68-102-25-99.ks.ok.cox.net. [68.102.25.99])
  by smtp.gmail.com with ESMTPSA id
- p65sm561600oop.0.2021.06.10.07.52.40
+ m18sm625249otr.61.2021.06.10.07.52.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 07:52:41 -0700 (PDT)
-Subject: Re: [PATCH 07/11] target/i386/sev: Mark unreachable code with
- g_assert_not_reached()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+ Thu, 10 Jun 2021 07:52:50 -0700 (PDT)
+Subject: Re: [PATCH 06/11] target/i386/sev: Remove sev_get_me_mask()
+To: qemu-devel@nongnu.org, Brijesh Singh <brijesh.singh@amd.com>
 References: <20210610064556.1421620-1-philmd@redhat.com>
- <20210610064556.1421620-8-philmd@redhat.com>
+ <20210610064556.1421620-7-philmd@redhat.com>
 From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <79212c98-18bc-12fb-4038-cb1a9a70df36@redhat.com>
-Date: Thu, 10 Jun 2021 09:52:40 -0500
+Message-ID: <284cccdd-2e3d-d800-1f1b-7057893c1da2@redhat.com>
+Date: Thu, 10 Jun 2021 09:52:49 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210610064556.1421620-8-philmd@redhat.com>
+In-Reply-To: <20210610064556.1421620-7-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -101,20 +101,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/10/21 1:45 AM, Philippe Mathieu-Daudé wrote:
-> The unique sev_encrypt_flash() invocation (in pc_system_flash_map)
-> is protected by the "if (sev_enabled())" check, so is not
-> reacheable.
-> Replace the abort() call in sev_es_save_reset_vector() by
-> g_assert_not_reached() which meaning is clearer.
+> -uint64_t
+> -sev_get_me_mask(void)
+> -{
+> -    return sev_guest ? sev_guest->me_mask : ~0;
+> -}
+> -
+>  uint32_t
+>  sev_get_cbit_position(void)
+>  {
+> @@ -810,8 +803,6 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>          goto err;
+>      }
+>  
+> -    sev->me_mask = ~(1UL << sev->cbitpos);
+> -
+>      devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
+>      sev->sev_fd = open(devname, O_RDWR);
+>      if (sev->sev_fd < 0) {
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Brijesh, do you remember if this was added with the intent that it would
+be useful in a future series?
+
+Otherwise:
 
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 
