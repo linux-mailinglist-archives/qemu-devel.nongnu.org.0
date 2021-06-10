@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC2D3A2D74
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:51:08 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B7B3A2D84
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:54:46 +0200 (CEST)
+Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrL5Q-0005Ap-09
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50596)
+	id 1lrL8v-000713-Jx
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:54:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrL4O-0004T8-5w
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:50:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35331)
+ id 1lrL7m-0006Jw-JU
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:53:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrL4M-0006Jr-Ey
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:50:03 -0400
+ id 1lrL7g-000080-OP
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:53:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623333001;
+ s=mimecast20190719; t=1623333205;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LOcjNc0uzEKD1R1NaalRXWprr0DqE2JbFlnFTnFzw1U=;
- b=OxDVw1vr7D6SAIqhwpO1d16k6zdBTnCSyTugTSS9in+P1jMR1R2wi2RGHeEfAivkedwKND
- B8A/d1l4JV0xaBnF5p0eHWWdJ/twRHL/LVyouDxHP4yLB4Rhg/v3FTq8gB3Vd4f836zKeE
- LFZeFIE6urJNtx6bu1twk/LDZgw8JpQ=
+ bh=Ll9hE6lgyDZGa5LXqWkzUI8fu8W2s79rRxDv3avMuBQ=;
+ b=dSAwSKgWXO6pIMYyh+pL9ESaF0Ml8dMZEqihq1BzwHRtZ5Ah1JQEnx9m1p1zGdMc8p8GmC
+ 1O5tQa/IleVow30kRBQrXHMLT3FXjUj7WKAewddvId1dKnn/+zMvFqRofFAbOjGuI0VyiC
+ B/rPdOYqOM7Q5BDIMwN4maaE5Ro2Rmk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-gzKAJAjfPrqhmapYnK0Xrw-1; Thu, 10 Jun 2021 09:49:58 -0400
-X-MC-Unique: gzKAJAjfPrqhmapYnK0Xrw-1
+ us-mta-326-rf9zzhL9OaObSkMPdoeIcQ-1; Thu, 10 Jun 2021 09:53:23 -0400
+X-MC-Unique: rf9zzhL9OaObSkMPdoeIcQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43BB5192AB6E
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 13:49:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A89BA8042A8
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 13:53:22 +0000 (UTC)
 Received: from redhat.com (ovpn-115-203.ams2.redhat.com [10.36.115.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 987D85C1C5;
- Thu, 10 Jun 2021 13:49:55 +0000 (UTC)
-Date: Thu, 10 Jun 2021 14:49:51 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1CDE5C1C5;
+ Thu, 10 Jun 2021 13:53:21 +0000 (UTC)
+Date: Thu, 10 Jun 2021 14:53:18 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 01/11] qom: export more functions for use with
- non-UserCreatable objects
-Message-ID: <YMIYf628P+rh8sJj@redhat.com>
+Subject: Re: [PATCH 03/11] keyval: introduce keyval_parse_into
+Message-ID: <YMIZTh29ErhLW1Sq@redhat.com>
 References: <20210610133538.608390-1-pbonzini@redhat.com>
- <20210610133538.608390-2-pbonzini@redhat.com>
+ <20210610133538.608390-4-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610133538.608390-2-pbonzini@redhat.com>
+In-Reply-To: <20210610133538.608390-4-pbonzini@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -88,16 +87,16 @@ Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 03:35:28PM +0200, Paolo Bonzini wrote:
-> Machines and accelerators are not user-creatable but they are going
-> to share similar command-line parsing machinery.  Export functions
-> that will be used with -machine and -accel in softmmu/vl.c.
+On Thu, Jun 10, 2021 at 03:35:30PM +0200, Paolo Bonzini wrote:
+> Allow parsing multiple keyval sequences into the same dictionary.
+> This will be used to simplify the parsing of the -M command line
+> option, which is currently a .merge_lists = true QemuOpts group.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  include/qom/object.h    | 23 ++++++++++++++++
->  qom/object_interfaces.c | 58 +++++++++++++++++++++++++++++------------
->  2 files changed, 65 insertions(+), 16 deletions(-)
+>  include/qemu/option.h |  2 ++
+>  util/keyval.c         | 43 +++++++++++++++++++++++++++++++++++--------
+>  2 files changed, 37 insertions(+), 8 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
