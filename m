@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C0C3A2F72
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:37:07 +0200 (CEST)
-Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81EED3A2F79
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:38:44 +0200 (CEST)
+Received: from localhost ([::1]:34368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMjy-0006q6-2i
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55828)
+	id 1lrMlX-0001C2-Ka
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:38:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pintu.ping@gmail.com>)
- id 1lrMhw-0001tg-9d; Thu, 10 Jun 2021 11:35:00 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:45638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pintu.ping@gmail.com>)
- id 1lrMhu-0007Xh-AV; Thu, 10 Jun 2021 11:35:00 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id r7so19176157edv.12;
- Thu, 10 Jun 2021 08:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uAK+m3Pb64IW/t5OyzZyrSx3CkM27j+d+i398SdgIow=;
- b=Tj9VW0xPBMQKFOHR6Qc8vMbIyjB4i0t9DLJGMcke0HvUCjCVbnUJjhnZPKgwQHiDwp
- OEWIZudf3MP82hyGOgIQIFQJoKiZ/LLxMFDbF7nkekEqLI5T4F4EoXoc5rYamSx1Gw+I
- XmSCUOqsJqsr9Q3qIJQa2ONziwS5W7a/7ThfdVXK107MrDu8ht2ZYwQ5ymR4DUQFlm0e
- SPC8KNz1cJsiKY+tfXc/eG+Pfo3vsx+dH/8g47FiGwyIrT1HotvLcbaA9HDbxtzzV4XQ
- ETt/J08GKQwkzOyBbAWlK6lM2cBUIZijz98nr17nH6iCLoLfVK97dI4gZgOHWJODXkS4
- HDQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uAK+m3Pb64IW/t5OyzZyrSx3CkM27j+d+i398SdgIow=;
- b=rpK1aPO2ofYIHaYnhE1TtZazOBRFbZySBHi2il8TotcQ3VVmkJ7s0S0HVaDPSsbHhY
- pCBS/TxmITpEL67aYHt1wJUYA2SDwtDPK4HExSKFU/7veRCiGS6zFOsr5cFBfJHC/jDV
- /2JdcPkXH9Esfh9FAGbAZK/s0A3qKtWBLK4FOpxYwa5gzFTAOVDUj3zWRtqpSy49Zt6b
- jcEEqk97S0aPqjrnW+jE/3PPFVm1kbKCptbljLF5xZgGrorL8st7tcoUpdoDgc03DASi
- ss0LJvy/yG6hnpYV+HAkM0BHXPjJ6YXPqc+bBdP17kC1TgqhNWKBQ0H62/SDNIUpe2YI
- ULUg==
-X-Gm-Message-State: AOAM5339azvVTNAFtVF678FMmdFOFXShjnIUBnroSyVb+kiojYLP7hnc
- ECZERNfGxzqmXPGvvE3dxtaKTXhIu51fi3cR5C8=
-X-Google-Smtp-Source: ABdhPJx5dVDbvX7eNFd+7rFh7ulxngOK6Lqu3UqQQOb46FIQcdONBfUlcCySppcDmNWXsC0pK5Bmdxlk/+CO7mgRSCI=
-X-Received: by 2002:a05:6402:368:: with SMTP id s8mr13769edw.129.1623339295136; 
- Thu, 10 Jun 2021 08:34:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
+ id 1lrMii-0004Vt-BK
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:35:48 -0400
+Received: from mail.kingsoft.com ([114.255.44.145]:43820)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1lrMif-0007yF-5A
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:35:48 -0400
+X-AuditID: 0a580157-8cdff700000015d4-b6-60c2314d2839
+Received: from mail.kingsoft.com (localhost [10.88.1.79])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id DE.36.05588.D4132C06;
+ Thu, 10 Jun 2021 23:35:41 +0800 (HKT)
+Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL4.kingsoft.cn
+ (10.88.1.79) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Thu, 10 Jun
+ 2021 23:35:41 +0800
+Received: from KSbjmail3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3]) by
+ KSBJMAIL3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3%10]) with mapi id
+ 15.01.2176.014; Thu, 10 Jun 2021 23:35:41 +0800
+From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?gb2312?B?RGFuaWVsIFAuIEJlcnJhbmeopg==?= <berrange@redhat.com>
+Subject: =?gb2312?B?u9i4tDogW1BBVENIXSBtaWdyYXRpb24vcmRtYTogVXNlIGh1Z2UgcGFnZSBy?=
+ =?gb2312?Q?egister_VM_memory?=
+Thread-Topic: [PATCH] migration/rdma: Use huge page register VM memory
+Thread-Index: AddbpN+kEXe4Oe1WQuqS3KFy+fOdUf//f+eAgAAL8QD/+rmfIA==
+Date: Thu, 10 Jun 2021 15:35:40 +0000
+Message-ID: <0916045c71684f57b4fbe35ea876e991@kingsoft.com>
+References: <51819991cecb42f6a619768bc61d0bfd@kingsoft.com>
+ <YL4qh35GquFrbSfq@redhat.com> <YL40jJgKFQBnq3Us@work-vm>
+In-Reply-To: <YL40jJgKFQBnq3Us@work-vm>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.88.1.106]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAOuPNLiRDZ9M4n3uh=i6FpHXoVEWMHpt0At8YaydrOM=LvSvdg@mail.gmail.com>
- <295072107.94766.1623262940865.JavaMail.zimbra@nod.at>
- <CAOuPNLhPiVgi5Q343VP-p7vwBtA1-A5jt8Ow4_2eF4ZwsiA+eQ@mail.gmail.com>
- <361047717.98543.1623333152629.JavaMail.zimbra@nod.at>
-In-Reply-To: <361047717.98543.1623333152629.JavaMail.zimbra@nod.at>
-From: Pintu Agarwal <pintu.ping@gmail.com>
-Date: Thu, 10 Jun 2021 21:04:43 +0530
-Message-ID: <CAOuPNLguWzOPfoiutMy=zLYfH1-67=i0e-SL_MyhDgdYE70vQg@mail.gmail.com>
-Subject: Re: qemu: arm: mounting ubifs using nandsim on busybox
-To: Richard Weinberger <richard@nod.at>, edk2-devel <edk2-devel@lists.01.org>,
- devel@edk2.groups.io, qemu-block@nongnu.org, qemu-devel@nongnu.org, 
- Laszlo Ersek <lersek@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=pintu.ping@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKLMWRmVeSWpSXmKPExsXCFcHor+treCjBoG+ilMWbN2uYLHq33WO3
+ ON67g8XizpY+JgcWjyfXNjN5vN93lS2AKYrLJiU1J7MstUjfLoErY/LHrUwFv0wr1m29xdbA
+ eMKki5GTQ0LARGLJ3pXsXYxcHEIC05kkOj88Z4VwXjBK/D77ggnC2c0o0dP0gxmkhU3AU+LT
+ qjNsILaIQKnE+YsnwYqYBd4xSRz6+wksISxQLLGibQ8rRJGbxK/VnSxdjBxAtpNE0ycmkDCL
+ gKrEvjXNYDavgLXE67mHwOYLCZRJ7Fg8kxHE5hRQl7g15yWYzSggKzHt0X2wemYBcYm502ax
+ QrwgILFkz3lmCFtU4uXjf6wgqyQE5CVWfxSGKNeSmNfwG6pVUWJK90N2iLWCEidnPmGZwCg2
+ C8nUWUhaZiFpmYWkZQEjyypGluLcdMNNjJCYCd/BOK/po94hRiYOxkOMEhzMSiK8OWqHEoR4
+ UxIrq1KL8uOLSnNSiw8xSnOwKInzfs45mCAkkJ5YkpqdmlqQWgSTZeLglGpgkgqV1exNk1z/
+ 4Fujcv7+f98jj8o8m/Tk1uQHnf1buJ778H1w21qSfNjhblENu7bbC2s392/nVmsr7DRovulg
+ VGJs1h6/snh+5yGj44afD4j3yCtypbwJmL+p9eHBmuRP564b73umu+LhvXI1HrWJuX8FxC59
+ yQrX1Pxp4K7kEX7Q6MGRrmurZd3ev/+swRDBu2ee59Vfa5YHaYjdF8icFnbu1Ky4SQenPpE5
+ nLEyw+yrx8rp1vmv/2ipH166L1S4jdmBXUiFm+Oi21xHPb6H96X/7+G/43z/yk9d1od6+VLV
+ Cfuifu5ve3Vm5SLj9K+/NWttj5r84r3/a067pIMU//pfWQuU2lXuKwvM3/ogWomlOCPRUIu5
+ qDgRAMldpWoIAwAA
+Received-SPF: pass client-ip=114.255.44.145;
+ envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
+X-Spam_score_int: 38
+X-Spam_score: 3.8
+X-Spam_bar: +++
+X-Spam_report: (3.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ MIME_CHARSET_FARAWAY=2.45, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,164 +85,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: =?gb2312?B?c3VuaGFvMiBby+/qu10=?= <sunhao2@kingsoft.com>,
+ =?gb2312?B?WUFOR0ZFTkcxIFvR7rflXQ==?= <YANGFENG1@kingsoft.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ =?gb2312?B?REVOR0xJTldFTiBbtcvB1s7EXQ==?= <DENGLINWEN@kingsoft.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Jun 2021 at 19:22, Richard Weinberger <richard@nod.at> wrote:
->
-> Pintu,
->
-> ----- Urspr=C3=BCngliche Mail -----
-> > Von: "Pintu Agarwal" <pintu.ping@gmail.com>
-> >> nandsim works as expected. It creates a new and *erased* NAND for you.
-> >> So you have no UBI volumes. Therfore UBIFS cannot be mounted.
-> >> I suggest creating a tiny initramfs that creates UBI volumes before mo=
-unting
-> >> UBIFS on
-> >> one of the freshly created (and empty) volumes.
-> >>
-> > oh sorry I forgot to mention this.
-> > I am able to create and update volumes manually after booting the
-> > system with initramfs.
-> > {{{
-> > Creating rootfs volume:
-> > mknod /dev/ubi0 c 250 0
-> > mknod /dev/ubi0_0 c 250 1
-> > ubiattach /dev/ubi_ctrl -m 2
-> > ubimkvol /dev/ubi0 -N rootfs -m
-> > ubiupdatevol /dev/ubi0_0 ubifs-rootfs.img
-> > mount -t ubifs ubi0:rootfs ubi-root/
-> > }}}
-> >
-> > But I wanted to do all these automatically during boot time itself.
-> > Also I wanted to use ubinize.cfg as is from the original system and
-> > simulate everything using qemu and nadsim (if possible)
-> > So I thought it must be possible by setting some parameters in qemu suc=
-h as:
-> > mtdparts=3Dnand:,
-> > -device nand,chip_id=3D0x39,drive=3Dmtd0,
-> > -drive if=3Dmtd,file=3D./ubi-boot.img,id=3Dmtd0,
-> > anything else ?
->
-> Well, this has nothing to do with nandsim.
-> If qemu can emulate a NAND chip (plus a controller) all you need is a dri=
-ver on the Linux side.
-Okay let me add qemu guys here.
-I am not sure which driver is required from Linux side. I thought it
-is nandsim only.
-Is it some existing driver, or we need to develop a new driver on our own ?
-I think it is not able to find the required driver..
-I see in the boot log that it is detecting Toshiba nand driver:
-=3D=3D=3D> nand: Toshiba NAND 128MiB 1,8V 8-bit
-
-Also the root volume seems empty.
-=3D=3D=3D> ubi0: empty MTD device detected
-How to fill the root volume at boot time ?
-
-
-These are the commands I am using:
-$ mkfs.ubifs -r _install -m 512 -e 15872 -c 5000 -o ubifs-rootfs.img
-$ ubinize -o ubi-boot.img -m 512 -p 16KiB -s 256 ubiconfig.cfg
-$ qemu-system-arm -M vexpress-a9 -m 512M -kernel
-linux/arch/arm/boot/zImage -dtb
-linux/arch/arm/boot/dts/vexpress-v2p-ca9.dtb -append
-"console=3DttyAMA0,115200 ubi.mtd=3D2 root=3D/dev/mtdblock2 rootfstype=3Dub=
-ifs
-mtdparts=3Dnand:-(rootfs)" -device nand,chip_id=3D0x39,drive=3Dmtd0 -drive
-if=3Dmtd,file=3D./ubi-boot.img,id=3Dmtd0 -nographic -smp 4
-
-Any corrections here ?
-
-$ cat ubiconfig.cfg
-[rootfs]
-mode=3Dubi
-image=3D./ubifs-rootfs.img
-vol_id=3D0
-vol_type=3Ddynamic
-vol_name=3Drootfs
-vol_alignment=3D1
-vol_flags=3Dautoresize
-
-
-But I am still getting this error:
-{{{
-List of all partitions:
-1f00          131072 mtdblock0
- (driver?)
-1f01           32768 mtdblock1
- (driver?)
-1f02          131072 mtdblock2
- (driver?)
-No filesystem could mount root, tried:
- ubifs
-Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(3=
-1,2)
-[...]
-}}}
-
-Some log references below:
-[....]
-Using buffer write method
-Concatenating MTD devices:
-(0): "40000000.flash"
-(1): "40000000.flash"
-into device "40000000.flash"
-physmap-flash 48000000.psram: physmap platform flash device: [mem
-0x48000000-0x49ffffff]
-[nandsim] warning: read_byte: unexpected data output cycle, state is
-STATE_READY return 0x0
-[nandsim] warning: read_byte: unexpected data output cycle, state is
-STATE_READY return 0x0
-[nandsim] warning: read_byte: unexpected data output cycle, state is
-STATE_READY return 0x0
-[nandsim] warning: read_byte: unexpected data output cycle, state is
-STATE_READY return 0x0
-[nandsim] warning: read_byte: unexpected data output cycle, state is
-STATE_READY return 0x0
-[nandsim] warning: read_byte: unexpected data output cycle, state is
-STATE_READY return 0x0
-nand: device found, Manufacturer ID: 0x98, Chip ID: 0x39
-nand: Toshiba NAND 128MiB 1,8V 8-bit
-nand: 128 MiB, SLC, erase size: 16 KiB, page size: 512, OOB size: 16
-flash size: 128 MiB
-page size: 512 bytes
-OOB area size: 16 bytes
-sector size: 16 KiB
-pages number: 262144
-pages per sector: 32
-bus width: 8
-bits in sector size: 14
-bits in page size: 9
-bits in OOB size: 4
-flash size with OOB: 135168 KiB
-page address bytes: 4
-sector address bytes: 3
-options: 0x42
-Scanning device for bad blocks
-Creating 1 MTD partitions on "NAND 128MiB 1,8V 8-bit":
-0x000000000000-0x000008000000 : "NAND simulator partition 0"
-[nandsim] warning: CONFIG_MTD_PARTITIONED_MASTER must be enabled to
-expose debugfs stuff
-[....]
-ubi0: attaching mtd2
-ubi0: scanning is finished
-ubi0: empty MTD device detected
-ubi0: attached mtd2 (name "NAND simulator partition 0", size 128 MiB)
-ubi0: PEB size: 16384 bytes (16 KiB), LEB size: 15872 bytes
-ubi0: min./max. I/O unit sizes: 512/512, sub-page size 256
-ubi0: VID header offset: 256 (aligned 256), data offset: 512
-ubi0: good PEBs: 8192, bad PEBs: 0, corrupted PEBs: 0
-ubi0: user volume: 0, internal volumes: 1, max. volumes count: 92
-ubi0: max/mean erase counter: 0/0, WL threshold: 4096, image sequence
-number: 2149713893
-ubi0: available PEBs: 8028, total reserved PEBs: 164, PEBs reserved
-for bad PEB handling: 160
-[...]
-
-Thanks,
-Pintu
+WWVzLCBXaGVuIEkgY29uZmlndXJlZCB0d28gTlVNQXMgZm9yIHRoZSBWTSwgdGhlIG5hbWUgb2Yg
+dGhlIG1lbW9yeSANCmlzICdyYW0tbm9kZSonLCBhbmQgb3RoZXIgYXJjaGl0ZWN0dXJlcyBoYWQg
+ZGlmZmVyZW50IG5hbWVzLg0KQXMgeW91IHN1Z2dlc3RlZCwgSSB1c2UgcWVtdV9yYW1fcGFnZXNp
+emUoKSBhbmQgcWVtdV9yZWFsX2hvc3RfcGFnZV9zaXplIA0KdG8gZGV0ZXJtaW5lIHdoaWNoIFJh
+bWJsb2NrcyB1c2UgaHVnZSBwYWdlLg0KSSB3aWxsIHNlbmQgdGhlIHBhdGNoIHNlY29uZCB2ZXJz
+aW9uIGxhdGVyLg0KDQp3aGVuIHRoZXJlJ3MgYSBtaXggb2YgZGlmZmVyZW50IGh1Z2UgcGFnZSBz
+aXplcywgdGhlcmUgaXMgbm8gZGlmZmVyZW5jZSBpbiB0aGVpciANCmJlaGF2aW9yLCByZWdpc3Rl
+ciBvciBwaW4gYXJlIGp1c3QgdG8gcHJldmVudCB0aGUgbWVtb3J5IGZyb20gYmVpbmcgc3dhcHBl
+ZCBvdXQuIA0KSHVnZSBwYWdlIGl0c2VsZiB3aWxsIG5vdCBiZSBzd2FwcGVkIG91dKOsc28gaHVn
+ZSBwYWdlIG5vIG5lZWQgZGVyZWdpc3RlciBvciB1bnBpbi4NCg0KVGhlIGxpYnZpcnQgeG1sIG9m
+IG15IFZNIGlzIA0KLi4uDQo8bWVtb3J5QmFja2luZz4NCiAgICA8aHVnZXBhZ2VzPg0KICAgICAg
+PHBhZ2Ugc2l6ZT0nMjA0OCcgdW5pdD0nS2lCJyBub2Rlc2V0PScwJy8+DQogICAgICA8cGFnZSBz
+aXplPScxMDQ4NTc2JyB1bml0PSdLaUInIG5vZGVzZXQ9JzEnLz4NCiAgICA8L2h1Z2VwYWdlcz4N
+CiAgPC9tZW1vcnlCYWNraW5nPg0KLi4uDQo8bnVtYT4NCiAgICAgIDxjZWxsIGlkPScwJyBjcHVz
+PScwLTcnIG1lbW9yeT0nMzE0NTcyODAnIHVuaXQ9J0tpQicgbWVtQWNjZXNzPSdzaGFyZWQnLz4N
+CiAgICAgIDxjZWxsIGlkPScxJyBjcHVzPSc4LTE1JyBtZW1vcnk9JzIwOTcxNTInIHVuaXQ9J0tp
+QicgbWVtQWNjZXNzPSdzaGFyZWQnLz4NCjwvbnVtYT4NCi4uLg0KDQpBZnRlciB0ZXN0aW5nLCB0
+aGUgUkRNQSBsaXZlIG1pZ3JhdGlvbiBpcyBub3JtYWwsIGFuZCB0aGUgZG93bnRpbWUgaXMgc2ln
+bmlmaWNhbnRseSByZWR1Y2VkLg0KDQotLS0tLdPKvP7Urbz+LS0tLS0NCreivP7IyzogRHIuIERh
+dmlkIEFsYW4gR2lsYmVydCA8ZGdpbGJlcnRAcmVkaGF0LmNvbT4gDQq3osvNyrG85DogMjAyMcTq
+NtTCN8jVIDIzOjAwDQrK1bz+yMs6IERhbmllbCBQLiBCZXJyYW5nqKYgPGJlcnJhbmdlQHJlZGhh
+dC5jb20+DQqzrcvNOiBMSVpIQU9YSU4xIFvA7tXV9s5dIDxMSVpIQU9YSU4xQGtpbmdzb2Z0LmNv
+bT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgcXVpbnRlbGFAcmVkaGF0LmNvbTsgc3VuaGFvMiBb
+y+/qu10gPHN1bmhhbzJAa2luZ3NvZnQuY29tPjsgREVOR0xJTldFTiBbtcvB1s7EXSA8REVOR0xJ
+TldFTkBraW5nc29mdC5jb20+OyBZQU5HRkVORzEgW9Hut+VdIDxZQU5HRkVORzFAa2luZ3NvZnQu
+Y29tPg0K1vfM4jogUmU6IFtQQVRDSF0gbWlncmF0aW9uL3JkbWE6IFVzZSBodWdlIHBhZ2UgcmVn
+aXN0ZXIgVk0gbWVtb3J5DQoNCiogRGFuaWVsIFAuIEJlcnJhbmeopiAoYmVycmFuZ2VAcmVkaGF0
+LmNvbSkgd3JvdGU6DQo+IE9uIE1vbiwgSnVuIDA3LCAyMDIxIGF0IDAxOjU3OjAyUE0gKzAwMDAs
+IExJWkhBT1hJTjEgW8Du1dX2zl0gd3JvdGU6DQo+ID4gV2hlbiB1c2luZyBsaWJ2aXJ0IGZvciBS
+RE1BIGxpdmUgbWlncmF0aW9uLCBpZiB0aGUgVk0gbWVtb3J5IGlzIHRvbyANCj4gPiBsYXJnZSwg
+aXQgd2lsbCB0YWtlIGEgbG90IG9mIHRpbWUgdG8gZGVyZWdpc3RlciB0aGUgVk0gYXQgdGhlIHNv
+dXJjZSANCj4gPiBzaWRlLCByZXN1bHRpbmcgaW4gYSBsb25nIGRvd250aW1lIChWTSA2NEcsIGRl
+cmVnaXN0ZXIgdm0gdGltZSBpcyBhYm91dCA0MDBtcykuDQo+ID4gICAgIA0KPiA+IEFsdGhvdWdo
+IHRoZSBWTSdzIG1lbW9yeSB1c2VzIDJNIGh1Z2UgcGFnZXMsIHRoZSBNTE5YIGRyaXZlciBzdGls
+bCANCj4gPiB1c2VzIDRLIHBhZ2VzIGZvciBwaW4gbWVtb3J5LCBhcyB3ZWxsIGFzIGZvciB1bnBp
+bi4gU28gd2UgdXNlIGh1Z2UgDQo+ID4gcGFnZXMgdG8gc2tpcCB0aGUgcHJvY2VzcyBvZiBwaW4g
+bWVtb3J5IGFuZCB1bnBpbiBtZW1vcnkgdG8gcmVkdWNlIGRvd250aW1lLg0KPiA+ICAgIA0KPiA+
+IFRoZSB0ZXN0IGVudmlyb25tZW50Og0KPiA+IGtlcm5lbDogbGludXgtNS4xMg0KPiA+IE1MTlg6
+IENvbm5lY3RYLTQgTFgNCj4gPiBsaWJ2aXJ0IGNvbW1hbmQ6DQo+ID4gdmlyc2ggbWlncmF0ZSAt
+LWxpdmUgLS1wMnAgLS1wZXJzaXN0ZW50IC0tY29weS1zdG9yYWdlLWluYyANCj4gPiAtLWxpc3Rl
+bi1hZGRyZXNzIFwNCj4gPiAwLjAuMC4wIC0tcmRtYS1waW4tYWxsIC0tbWlncmF0ZXVyaSByZG1h
+Oi8vMTkyLjE2OC4wLjIgW1ZNXSANCj4gPiBxZW11K3RjcDovLzE5Mi4xNjguMC4yL3N5c3RlbQ0K
+PiA+ICAgICANCj4gPiBTaWduZWQtb2ZmLWJ5OiBsaXpoYW94aW4gPGxpemhhb3hpbjFAa2luZ3Nv
+ZnQuY29tPg0KPiA+IA0KPiA+IGRpZmYgLS1naXQgYS9taWdyYXRpb24vcmRtYS5jIGIvbWlncmF0
+aW9uL3JkbWEuYyBpbmRleCANCj4gPiAxY2RiNDU2MWYzLi45ODIzNDQ5Mjk3IDEwMDY0NA0KPiA+
+IC0tLSBhL21pZ3JhdGlvbi9yZG1hLmMNCj4gPiArKysgYi9taWdyYXRpb24vcmRtYS5jDQo+ID4g
+QEAgLTExMjMsMTMgKzExMjMsMjYgQEAgc3RhdGljIGludCBxZW11X3JkbWFfcmVnX3dob2xlX3Jh
+bV9ibG9ja3MoUkRNQUNvbnRleHQgKnJkbWEpDQo+ID4gICAgICBSRE1BTG9jYWxCbG9ja3MgKmxv
+Y2FsID0gJnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+ID4gIA0KPiA+ICAgICAgZm9yIChpID0g
+MDsgaSA8IGxvY2FsLT5uYl9ibG9ja3M7IGkrKykgew0KPiA+IC0gICAgICAgIGxvY2FsLT5ibG9j
+a1tpXS5tciA9DQo+ID4gLSAgICAgICAgICAgIGlidl9yZWdfbXIocmRtYS0+cGQsDQo+ID4gLSAg
+ICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxvY2FsX2hvc3RfYWRkciwNCj4gPiAt
+ICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubGVuZ3RoLA0KPiA+IC0gICAgICAg
+ICAgICAgICAgICAgIElCVl9BQ0NFU1NfTE9DQUxfV1JJVEUgfA0KPiA+IC0gICAgICAgICAgICAg
+ICAgICAgIElCVl9BQ0NFU1NfUkVNT1RFX1dSSVRFDQo+ID4gLSAgICAgICAgICAgICAgICAgICAg
+KTsNCj4gPiArICAgICAgICBpZiAoc3RyY21wKGxvY2FsLT5ibG9ja1tpXS5ibG9ja19uYW1lLCJw
+Yy5yYW0iKSA9PSAwKSB7DQo+IA0KPiAncGMucmFtJyBpcyBhbiB4ODYgYXJjaGl0ZWN0dXJlIHNw
+ZWNpZmljIG5hbWUsIHNvIHRoaXMgd2lsbCBzdGlsbCANCj4gbGVhdmUgYSBwcm9ibGVtIG9uIG90
+aGVyIGFyY2hpdGVjdHVyZXMgSSBhc3N1bWUuDQoNClllcywgYW5kIGFsc28gYnJlYWsgZXZlbiBv
+biBQQyB3aGVuIHVzaW5nIE5VTUEuDQpJIHRoaW5rIHRoZSB0aGluZyB0byBkbyBoZXJlIGlzIHRv
+IGNhbGwgcWVtdV9yYW1fcGFnZXNpemUgb24gdGhlIFJBTUJsb2NrOyANCg0KICBpZiAocWVtdV9y
+YW1fcGFnZXNpemUoUkFNQmxvY2suLi4uKSAhPSBxZW11X3JlYWxfaG9zdF9wYWdlX3NpemUpDQog
+ICAgIGl0J3MgYSBodWdlIHBhZ2UNCg0KSSBndWVzcyBpdCdzIHByb2JhYmx5IGJlc3QgdG8gZG8g
+dGhhdCBpbiBxZW11X3JkbWFfaW5pdF9vbmVfYmxvY2sgb3Igc29tZXRoaW5nPw0KDQpJIHdvbmRl
+ciBob3cgdGhhdCBhbGwgd29ya3Mgd2hlbiB0aGVyZSdzIGEgbWl4IG9mIGRpZmZlcmVudCBodWdl
+IHBhZ2Ugc2l6ZXM/DQoNCkRhdmUNCg0KPiA+ICsgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0u
+bXIgPQ0KPiA+ICsgICAgICAgICAgICAgICAgaWJ2X3JlZ19tcihyZG1hLT5wZCwNCj4gPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxvY2FsX2hvc3RfYWRkciwNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxlbmd0aCwNCj4gPiAr
+ICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19MT0NBTF9XUklURSB8DQo+ID4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfUkVNT1RFX1dSSVRFIHwNCj4gPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19PTl9ERU1BTkQgfA0KPiA+ICsgICAgICAg
+ICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0hVR0VUTEINCj4gPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgKTsNCj4gPiArICAgICAgICB9IGVsc2Ugew0KPiA+ICsgICAgICAgICAgICBsb2Nh
+bC0+YmxvY2tbaV0ubXIgPQ0KPiA+ICsgICAgICAgICAgICAgICAgaWJ2X3JlZ19tcihyZG1hLT5w
+ZCwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxvY2FsX2hv
+c3RfYWRkciwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxl
+bmd0aCwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19MT0NBTF9XUklU
+RSB8DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfUkVNT1RFX1dSSVRF
+DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICk7DQo+ID4gKyAgICAgICAgfQ0KPiA+ICsN
+Cj4gPiAgICAgICAgICBpZiAoIWxvY2FsLT5ibG9ja1tpXS5tcikgew0KPiA+ICAgICAgICAgICAg
+ICBwZXJyb3IoIkZhaWxlZCB0byByZWdpc3RlciBsb2NhbCBkZXN0IHJhbSBibG9jayFcbiIpOw0K
+PiA+ICAgICAgICAgICAgICBicmVhazsNCj4gDQo+IFJlZ2FyZHMsDQo+IERhbmllbA0KPiAtLQ0K
+PiB8OiBodHRwczovL2JlcnJhbmdlLmNvbSAgICAgIC1vLSAgICBodHRwczovL3d3dy5mbGlja3Iu
+Y29tL3Bob3Rvcy9kYmVycmFuZ2UgOnwNCj4gfDogaHR0cHM6Ly9saWJ2aXJ0Lm9yZyAgICAgICAg
+IC1vLSAgICAgICAgICAgIGh0dHBzOi8vZnN0b3AxMzguYmVycmFuZ2UuY29tIDp8DQo+IHw6IGh0
+dHBzOi8vZW50YW5nbGUtcGhvdG8ub3JnICAgIC1vLSAgICBodHRwczovL3d3dy5pbnN0YWdyYW0u
+Y29tL2RiZXJyYW5nZSA6fA0KLS0NCkRyLiBEYXZpZCBBbGFuIEdpbGJlcnQgLyBkZ2lsYmVydEBy
+ZWRoYXQuY29tIC8gTWFuY2hlc3RlciwgVUsNCg0K
 
