@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614213A3059
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:16:49 +0200 (CEST)
-Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93E73A306B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:20:51 +0200 (CEST)
+Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrNMN-0006pB-TM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
+	id 1lrNQI-0000lL-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrNKd-0005JN-BS
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:15:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrNKZ-000341-84
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:14:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623341693;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GU49/NtJ9B1L5XOG4FxoEP+ySTWo7xNsLLwolKLY5wY=;
- b=IB8+5XoGsw474iKCy8tFTI+RxZhLDwn3InGkk/m25C4aowRL12GIG/bDnc2l9PQVphU8vu
- r7A1gxW42mzQ3ruzQRt38L3GgNfnfTr3+jD880dk4f8fXYa/iv9sRaCHqPql4texwaWNmp
- L9rNX7ohVdOxUkskUYQXYo5U8UqAM/0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-gax6VcjJMte_u_IuYZxZHQ-1; Thu, 10 Jun 2021 12:14:49 -0400
-X-MC-Unique: gax6VcjJMte_u_IuYZxZHQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAE8318D6A2F;
- Thu, 10 Jun 2021 16:14:47 +0000 (UTC)
-Received: from redhat.com (ovpn-112-190.ams2.redhat.com [10.36.112.190])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C9BA319C45;
- Thu, 10 Jun 2021 16:14:46 +0000 (UTC)
-Date: Thu, 10 Jun 2021 17:14:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Konstantin Kostiuk <konstantin@daynix.com>
-Subject: Re: [PATCH v2] qga-win: Free GMatchInfo properly
-Message-ID: <YMI6dP82HBpGM5Bj@redhat.com>
-References: <20210610155811.3313927-1-konstantin@daynix.com>
- <YMI3gundDsLZq1lw@redhat.com>
- <CAJ28CFR0CBAsq4WokeW_OG8gG2UFGSL3H0UB-p2FgXxH3pjhbg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrNPD-0008PW-KA
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:19:43 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrNPC-0005Ih-24
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:19:43 -0400
+Received: by mail-pl1-x634.google.com with SMTP id 11so1279997plk.12
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 09:19:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VC/T0KiKS5DZN9B9Ax69wcvjtew6dxXJWgZ1EagKsjE=;
+ b=Il9tomG/pkn9DfxON4BsGD4GxpCkYGJt0GPfpdOowT4NTqQYeivT2pYM/B96JPvIB7
+ GIza/LhJ6Ly0WsyU9o56kmIpo64CRZKlH8Beau593atdWVsvhYq4xV6xRc9VLD3orfJR
+ 6w8AFJPPA0HSRhVXsqMKKnP4JewXvg/87u1j8OEdI6r3gEX/HwuFKGT2NYq2gaSU4A+V
+ IJEBgoA1wt3AWvM+TNYPehyW+UECKKigbwawY24G0Sbr1C0eRSKi1JzhbBrGRxo2U7RM
+ uaMhbW/sxQzQ3Z1N5AJknMklmwPUyNJSad1Ug6AzVqvOdv4o2gQZaw0d+dQmXw8gHUdv
+ cr3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VC/T0KiKS5DZN9B9Ax69wcvjtew6dxXJWgZ1EagKsjE=;
+ b=Kc1fCfHUm/3kzgfbU1T6hTEfGX8kACBIfh48HQyHmZArWVD/uGWUSBXCBM2UDdfzQ4
+ lDAZ/9Gj/DI3isQEXcmK/9MlvzuP8JcSCkWhkI+un3HGga5nN++JgSSbNaNaNeM23nQ+
+ oMBeoPU2N0lG3tAa8kfGsYFxRHgefWHNgNuD//zuS7jvuOFsknNPq0SyRcTTjl0a164D
+ OrA9Mq1x1HQYkit7N23icOdt5JQvYYyUoCfP/t8H/glP0AeD8eM2+8LliwB/wcje80St
+ Ix5+hMqsEZUVPccs0DYII42RAoPbKXW+zTz6mMMzzJxrpgTk0caGfUFZyaM4VReR9Jd3
+ 5Egw==
+X-Gm-Message-State: AOAM530akVx6W7f5jaSa132HslVp34aOYivC+/FVfmo7FKrRsrjuTp51
+ /ueQ2a6JE7HY+c+4mixyceNAMQ==
+X-Google-Smtp-Source: ABdhPJyr+o230NK16u6Pf2KIMdNuJg2C6QbbgiUSxvn04biwM08wnJoTs1ChPV5OKVQ4TiOr39FIKw==
+X-Received: by 2002:a17:902:8f8f:b029:107:810b:9ee5 with SMTP id
+ z15-20020a1709028f8fb0290107810b9ee5mr5514951plo.4.1623341980371; 
+ Thu, 10 Jun 2021 09:19:40 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ x3sm3311906pgx.8.2021.06.10.09.19.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jun 2021 09:19:40 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 2/2] Adding preliminary custom/vendor CSR handling
+ mechanism
+To: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20210610144424.8658-1-ruinland@andestech.com>
+ <20210610144424.8658-3-ruinland@andestech.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c9d350fb-16bd-6dc6-41de-0516c046a244@linaro.org>
+Date: Thu, 10 Jun 2021 09:19:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ28CFR0CBAsq4WokeW_OG8gG2UFGSL3H0UB-p2FgXxH3pjhbg@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610144424.8658-3-ruinland@andestech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,61 +91,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Developers <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: bin.meng@windriver.com, alistair23@gmail.com, wangjunqiang@iscas.ac.cn,
+ dylan@andestech.com, alankao@andestech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 07:08:36PM +0300, Konstantin Kostiuk wrote:
-> On Thu, Jun 10, 2021 at 7:02 PM Daniel P. Berrangé <berrange@redhat.com>
-> wrote:
-> 
-> > On Thu, Jun 10, 2021 at 06:58:11PM +0300, Kostiantyn Kostiuk wrote:
-> > > The g_regex_match function creates match_info even if it
-> > > returns FALSE. So we should always call g_match_info_free.
-> > > A better solution is using g_autoptr for match_info variable.
-> > >
-> > > Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
-> > > ---
-> > >  qga/commands-win32.c | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > >
-> > > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> > > index 300b87c859..785a5cc6b2 100644
-> > > --- a/qga/commands-win32.c
-> > > +++ b/qga/commands-win32.c
-> > > @@ -2494,7 +2494,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error
-> > **errp)
-> > >              continue;
-> > >          }
-> > >          for (j = 0; hw_ids[j] != NULL; j++) {
-> > > -            GMatchInfo *match_info;
-> > > +            g_autoptr(GMatchInfo) match_info;
-> >
-> > This should be initialized to NULL otherwise...
-> >
-> > >              GuestDeviceIdPCI *id;
-> > >              if (!g_regex_match(device_pci_re, hw_ids[j], 0,
-> > &match_info)) {
-> > >                  continue;
-> >
-> > this continue will trigger freeing of unintialized memory
-> >
-> 
-> But we always call match_info, so match_info is always initialized.
-> The g_regex_match function creates match_info even if it returns FALSE.
+On 6/10/21 7:44 AM, Ruinland Chuan-Tzu Tsai wrote:
+> --- /dev/null
+> +++ b/target/riscv/andes_cpu_bits.h
+> @@ -0,0 +1,113 @@
+> +/* ========= AndeStar V5 machine mode CSRs ========= */
 
-Opps, yes, you are right.
+> --- /dev/null
+> +++ b/target/riscv/csr_andes.inc.c
+> @@ -0,0 +1,153 @@
+> +/* Andes Custom Registers */
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> --- /dev/null
+> +++ b/target/riscv/custom_cpu_bits.h
+> @@ -0,0 +1,3 @@
+> +//XXX Maybe we should introduce a configure option to toggle different vendor
+> +// CSR bits definition ?
+> +#include "andes_cpu_bits.h"
+
+All new files must have copyright+license boilerplate.
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
