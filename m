@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0AF3A2F3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:24:53 +0200 (CEST)
-Received: from localhost ([::1]:60664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F24C3A2F65
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:34:09 +0200 (CEST)
+Received: from localhost ([::1]:46208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMY8-0005LN-PI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52688)
+	id 1lrMh6-0006cX-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrMWf-0004ab-I5
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:23:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrMWb-0001WQ-E1
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:23:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623338596;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=KeBXKTUcy7v4gMlSNPyV8LKaDORkOPmWWnsLYLoH3VY=;
- b=dmn1Bv9jbPUqPl7AKwULljDuD10Mzbh9XiXrBxXcju+egVcgVQeMuRzFiHIgaAbihy3aHB
- NldqmLYR0tY67meibwwC4gWXb3GP2cbIKFKLlJqfZf1wHpvF4D4/iHWXJ5I3ilXpfwsu03
- 6B0Kp75/ZamxUkepTLqMyYpYh8v9jPk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-ChbTpyfWP0KhDYX40_fnqQ-1; Thu, 10 Jun 2021 11:23:11 -0400
-X-MC-Unique: ChbTpyfWP0KhDYX40_fnqQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AF488042A9;
- Thu, 10 Jun 2021 15:23:10 +0000 (UTC)
-Received: from redhat.com (ovpn-112-249.ams2.redhat.com [10.36.112.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1A765C1C5;
- Thu, 10 Jun 2021 15:23:08 +0000 (UTC)
-Date: Thu, 10 Jun 2021 16:23:06 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Konstantin Kostiuk <konstantin@daynix.com>
-Subject: Re: [PATCH] qga-win: Free GMatchInfo properly
-Message-ID: <YMIuWtE9VjZDUQYz@redhat.com>
-References: <20210610143800.3293854-1-konstantin@daynix.com>
- <CAJ+F1C+WhQRd7W4ATJh=QeyRnYULipPFHr38MODwrLc6Gu73eQ@mail.gmail.com>
- <CAJ28CFROd2KPknSoT=P6NS2PzizsTi=K4tKx0dV5By=cqKUDJg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrMeB-0000tI-FI
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:31:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrMe5-0005Ua-8G
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:31:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lrMe0-0003IJ-NV
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:30:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 821942E816B
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:30:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAJ28CFROd2KPknSoT=P6NS2PzizsTi=K4tKx0dV5By=cqKUDJg@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Jun 2021 15:19:19 -0000
+From: Thomas Huth <1918321@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: block fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161531961935.11554.15835639895023157218.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162333835967.5693.18211320242959406822.malone@gac.canonical.com>
+Subject: [Bug 1918321] Re: [OSS-Fuzz] Issue 31875 megasas: Null-ptr
+ dereference in megasas_finish_dcmd
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: 6085cff6ea9d6937b1a198ff64b3c8cff6889e99
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,36 +72,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Reply-To: Bug 1918321 <1918321@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 05:53:35PM +0300, Konstantin Kostiuk wrote:
-> Hi All,
-> 
-> For freeing GMatchInfo struct, a special function is required. I'm not sure is
-> it possible to use g_autoptr in this case or no.
-> In GLib example
-> https://developer.gnome.org/glib/stable/glib-Perl-compatible-regular-expressions.html#g-regex-match,
-> g_match_info_free is used directly.
+This is still reproducible with the current qemu git version (commit
+7fe7fae8b48e3f9c647f)
 
-That is fine - g_autoptr calls the required deallocation function
-that was previously registered. This is different from g_autofree
-which merely calls g_free.
+** Tags added: block
 
-We can see GMatchInfo is configured to call g_match_info_free:
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-$ grep GMatchIn /usr/include/glib-2.0/glib/*.h
-/usr/include/glib-2.0/glib/glib-autocleanups.h:G_DEFINE_AUTOPTR_CLEANUP_FUNC(GMatchInfo, g_match_info_unref)
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1918321
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  [OSS-Fuzz] Issue 31875 megasas: Null-ptr dereference in
+  megasas_finish_dcmd
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Hello,
+
+  =3D=3D QTest Reproducer =3D=3D
+  /* =
+
+   * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, =
+-m \
+   * 512M -machine q35 -nodefaults -device megasas -device \
+   * scsi-cd,drive=3Dnull0 -blockdev \
+   * driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -qtest stdio
+   * outl 0xcf8 0x80000801
+   * outl 0xcfc 0x05000000
+   * outl 0xcf8 0x80000816
+   * outl 0xcfc 0x19000000
+   * write 0x1e1ed300 0x1 0x01
+   * write 0x1e1ed307 0x1 0x01
+   * write 0x1e1ed316 0x1 0x01
+   * write 0x1e1ed328 0x1 0x01
+   * write 0x1e1ed32f 0x1 0x01
+   * outl 0x1940 0x1e1ed300
+   * outl 0x19c0 0x00
+   * EOF
+   */
+  static void null_deref_megasas_finish_dcmd(void)
+  {
+      QTestState *s =3D qtest_init(
+          "-display none , -m 512M -machine q35 -nodefaults -device megasas=
+ -device "
+          "scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-co,read-zeroes=3Do=
+n,node-name=3Dnull0 ");
+      qtest_outl(s, 0xcf8, 0x80000801);
+      qtest_outl(s, 0xcfc, 0x05000000);
+      qtest_outl(s, 0xcf8, 0x80000816);
+      qtest_outl(s, 0xcfc, 0x19000000);
+      qtest_bufwrite(s, 0x1e1ed300, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed307, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed316, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed328, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed32f, "\x01", 0x1);
+      qtest_outl(s, 0x1940, 0x1e1ed300);
+      qtest_outl(s, 0x19c0, 0x00);
+      qtest_quit(s);
+  }
+  int main(int argc, char **argv)
+  {
+      const char *arch =3D qtest_get_arch();
+
+      g_test_init(&argc, &argv, NULL);
+
+      if (strcmp(arch, "i386") =3D=3D 0) {
+          qtest_add_func("fuzz/null_deref_megasas_finish_dcmd",
+                         null_deref_megasas_finish_dcmd);
+      }
+
+      return g_test_run();
+  }
+
+  =3D=3D Stack Trace =3D=3D
+  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
+inter of type 'union mfi_frame'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
+s.c:1884:21 in
+  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
+inter of type 'struct mfi_frame_header'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
+s.c:1884:21 in
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D314546=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000003 (pc 0x55b1b4f4de73 bp 0x7ffcfc5a8bb0 sp 0x7ffcfc5a8900 T0)
+  =3D=3D314546=3D=3DThe signal is caused by a WRITE memory access.
+  =3D=3D314546=3D=3DHint: address points to the zero page.
+  #0 0x55b1b4f4de73 in megasas_command_complete build/../hw/scsi/megasas.c:=
+1884:40
+  #1 0x55b1b5613914 in scsi_req_complete build/../hw/scsi/scsi-bus.c:1515:5
+  #2 0x55b1b5448aeb in scsi_dma_complete_noio build/../hw/scsi/scsi-disk.c:=
+345:9
+  #3 0x55b1b5446fc7 in scsi_dma_complete build/../hw/scsi/scsi-disk.c:366:5
+  #4 0x55b1b4fffc56 in dma_complete build/../softmmu/dma-helpers.c:121:9
+  #5 0x55b1b4fffc56 in dma_blk_cb build/../softmmu/dma-helpers.c:139:9
+  #6 0x55b1b6856016 in blk_aio_complete build/../block/block-backend.c:1412=
+:9
+  #7 0x55b1b6f48b06 in aio_bh_poll build/../util/async.c:164:13
+  #8 0x55b1b6f08cec in aio_dispatch build/../util/aio-posix.c:381:5
+  #9 0x55b1b6f4d59c in aio_ctx_dispatch build/../util/async.c:306:5
+  #10 0x7fd88c098baa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/=
+libglib-2.0.so.0+0x51baa)
+  #11 0x55b1b6f59a3c in glib_pollfds_poll build/../util/main-loop.c:232:9
+  #12 0x55b1b6f59a3c in os_host_main_loop_wait build/../util/main-loop.c:25=
+5:5
+  #13 0x55b1b6f59a3c in main_loop_wait build/../util/main-loop.c:531:11
+  #14 0x55b1b61a78a9 in qemu_main_loop build/../softmmu/runstate.c:725:9
+  #15 0x55b1b4c751e5 in main build/../softmmu/main.c:50:5
+  #16 0x7fd88aec6d09 in __libc_start_main csu/../csu/libc-start.c:308:16
+  #17 0x55b1b4bc8bb9 in _start (system-i386+0x2b5fbb9)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1918321/+subscriptions
 
