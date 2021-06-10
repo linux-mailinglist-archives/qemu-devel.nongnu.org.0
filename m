@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E1A3A2849
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:30:52 +0200 (CEST)
-Received: from localhost ([::1]:57298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EDA3A284E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:32:13 +0200 (CEST)
+Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrH1X-00065u-4B
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
+	id 1lrH2q-0007em-TU
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:32:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrH0F-00052a-Gx
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:29:31 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:44760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrH0D-00056q-RC
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:29:31 -0400
-Received: by mail-ed1-x532.google.com with SMTP id u24so32151752edy.11
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tn1G0Psh9gBGfjtI+rLmwDa6qG5SqexuPEq6cTaj7mM=;
- b=zQbpmHF0pQYDIEw3RGq9mybvGmX454k3Tmvci7vLtU1uG9a9kIxDi/zvoP+w4od0jI
- 4444dVAi/tJPxHrZxd7O17iTU18usP51i7UhPFeyJbvdCdGWGUsfy9r9hk8I4tH3SQ9x
- vZWwN1beVgrWOM+BlPmvKH0qwgOUY1usk5A0c4/1Db2AtGL6J23YD1yazmfVzfRmsbMR
- I2AXLFiMS6T3aahmjlKVqIG3GI1DFYBOziRpin9pRmnffDMOEgFmLCDXeSd4fRX648Z5
- e/gUfnUbPz0x6KJS03F2XNweiFRjBzOrT9qCLBHvGCUb6+8j3wP2Th4+VP8iYHl08bGj
- vrZw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lrH0T-0005TQ-2f
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:29:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lrH0P-0005Hh-Gi
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:29:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623317380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H0gNvtmbbb7KNE1PLgn1t0NbsyPs5daRuSHxqgJsDyQ=;
+ b=UKdRPgTJDKjvWSCMJRwQWdONHKw/0jxODeV7TB24vB+cjzGGpIArMWt7pNIli81hCSB0WH
+ qui7xWx1a1hlRr+N1nP/MKMEE6DhjhTAYJCgLd2O1jMSnrMFPsUnhT11ogXokW+DkCdJqf
+ McW6DPzDtYHDhTZtQj3gbj0FUP91omc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-oE5x40NRMfCFZbR2GmdVtA-1; Thu, 10 Jun 2021 05:29:39 -0400
+X-MC-Unique: oE5x40NRMfCFZbR2GmdVtA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n4-20020a5d42040000b0290119fef97609so594858wrq.18
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:29:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tn1G0Psh9gBGfjtI+rLmwDa6qG5SqexuPEq6cTaj7mM=;
- b=c4QCFd4AieTl5bTes/UPb7XMw6X9yKnGhJF7/LL4mYvua7bivbFu9zGzGTnVJUJZqr
- bsbaJRG/CpU4xwl4U8fBzuUIR5vrCO2ir7OdEbuzIypZT+scK8ilCnonLHQxWY5g4YmA
- owQPemNL39Yz2E9SmqL9tKjCf+Ze4DRMYo4PqyqNdgyH8ILBsbaMZb5chhxUU4rmoVQO
- qDwRtER+GWN0b6afoGUxVImK2AvXQ0R3xI08f/9bzvOmG1McTw6y8eDQatEj9P3DJQ6+
- prHV8TVg3Z/SyIltd8pfpqJ/eZIUczHb735xmwq0a+7vZSyNSGCOC5wD6oco8hXgMCJ1
- D0bQ==
-X-Gm-Message-State: AOAM532BdB5UkI7IRq+IXW1L9eNOVH/6tWRuxxKMxT0KX5glzqP4zGDx
- ytlkEgB4hKLtjHhzvohPnD2cBTFfvA6BaoVA2sYzzA==
-X-Google-Smtp-Source: ABdhPJxm7S3SClIEa8haA53EXImHfLz3JMEYEe8msGZU8hfARA1ModSqS3yvwbR7bVZo3++1HOICb7iJilLXPpaj5No=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr3691868edt.100.1623317368085; 
- Thu, 10 Jun 2021 02:29:28 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H0gNvtmbbb7KNE1PLgn1t0NbsyPs5daRuSHxqgJsDyQ=;
+ b=fXnEw4XqCoDFFpELmQhFG831krdHJkTa5uOlp7bVJY7vKCy40AAbv4Q7KE2gbRqFQG
+ OrhizY2n490yy6NPjbWWiiOXa3hUywKqB/QG3AgoCJlFCLbDQZvllpPnyIhNBB++9zTD
+ 1yT3DUV8ifPRVrHMKGSNnk0Z6BmI0vLdK9NyizScFt/5G3oR0RD7gDEQahtQQLuPDEZn
+ gHR96H1qqwKo5NtBKgaFK++BmIa8OuMKTeNLYjXWZvRf1oDFckG63fDcSaXxGW6GER9i
+ wBGh+eIC/uJjzBILaUgwqOXEvtvs1CyjSnzbH67H4ivVeDmq1hkBlJtqDRAEyXgVllQr
+ kYdA==
+X-Gm-Message-State: AOAM5300hMFw2es6yW9LB6Z4TyDsMcKgxiD+Vbk01he9qq4X8pf37bHz
+ sJFTkj5V+hCT5lWHMv6FBL8O+fO+OzneaGvzDMmIAHFmLr3yi3CDLo4xvWXELBOH8slj+vVYqMx
+ 1NXfMb/H9IpsybZM=
+X-Received: by 2002:a5d:570d:: with SMTP id a13mr4177392wrv.239.1623317377924; 
+ Thu, 10 Jun 2021 02:29:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2RSpLCf/6Cf4P1G2e8+PIP0viLz7BcgSRo7xSDErJAW1NFyM4bSCOJuqQFECY1T01E7IMZA==
+X-Received: by 2002:a5d:570d:: with SMTP id a13mr4177374wrv.239.1623317377725; 
+ Thu, 10 Jun 2021 02:29:37 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e839fb.dip0.t-ipconnect.de.
+ [217.232.57.251])
+ by smtp.gmail.com with ESMTPSA id x18sm2835183wrw.19.2021.06.10.02.29.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jun 2021 02:29:37 -0700 (PDT)
+Subject: Re: [PATCH] qemu-option: Drop dead assertion
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210610085026.436081-1-armbru@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <deea178f-ea30-e2ca-4d0e-61a8c02b3b67@redhat.com>
+Date: Thu, 10 Jun 2021 11:29:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-References: <20210607165821.9892-1-peter.maydell@linaro.org>
- <20210607165821.9892-4-peter.maydell@linaro.org>
- <23ec05cc-55d3-f343-d834-aa40f7685b37@linaro.org>
-In-Reply-To: <23ec05cc-55d3-f343-d834-aa40f7685b37@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Jun 2021 10:28:54 +0100
-Message-ID: <CAFEAcA9AH+YGJ3qT2x29EebUNF_4LFmrqNwjuh=7NjzgfHMySg@mail.gmail.com>
-Subject: Re: [PATCH 03/55] target/arm: Handle VPR semantics in existing code
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610085026.436081-1-armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,36 +98,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Jun 2021 at 22:19, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 6/7/21 9:57 AM, Peter Maydell wrote:
-> > @@ -410,16 +415,19 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
-> >       env->v7m.fpccr[is_secure] &= ~R_V7M_FPCCR_LSPACT_MASK;
-> >
-> >       if (ts) {
-> > -        /* Clear s0 to s31 and the FPSCR */
-> > +        /* Clear s0 to s31 and the FPSCR and VPR */
-> >           int i;
-> >
-> >           for (i = 0; i < 32; i += 2) {
-> >               *aa32_vfp_dreg(env, i / 2) = 0;
-> >           }
-> >           vfp_set_fpscr(env, 0);
-> > +        if (cpu_isar_feature(aa32_mve, cpu)) {
-> > +            env->v7m.vpr = 0;
-> > +        }
->
-> If the vpr does not exist without mve, is it cleaner to simply set vpr
-> unconditionally?
+On 10/06/2021 10.50, Markus Armbruster wrote:
+> Commit c6ecec43b2 "qemu-option: Check return value instead of @err
+> where convenient" simplified
+> 
+>      opts = qemu_opts_create(list, qdict_get_try_str(qdict, "id"), 1,
+>                              &local_err);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return NULL;
+>      }
+> 
+> to
+> 
+>      opts = qemu_opts_create(list, qdict_get_try_str(qdict, "id"), 1, errp);
+>      if (!opts) {
+>          return NULL;
+>      }
+> 
+> but neglected to delete
+> 
+>      assert(opts != NULL);
+> 
+> Do that now.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   util/qemu-option.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/util/qemu-option.c b/util/qemu-option.c
+> index 4944015a25..3fa0b13378 100644
+> --- a/util/qemu-option.c
+> +++ b/util/qemu-option.c
+> @@ -1028,8 +1028,6 @@ QemuOpts *qemu_opts_from_qdict(QemuOptsList *list, const QDict *qdict,
+>           return NULL;
+>       }
+>   
+> -    assert(opts != NULL);
+> -
+>       for (entry = qdict_first(qdict);
+>            entry;
+>            entry = qdict_next(qdict, entry)) {
+> 
 
-I thought about that, but in the end went for the condition, just
-to preserve the parallelism with the places where we do need
-the condition. There didn't seem to me to be much in it.
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
--- PMM
 
