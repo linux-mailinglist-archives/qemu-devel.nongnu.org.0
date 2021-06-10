@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314D13A2E6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:39:46 +0200 (CEST)
-Received: from localhost ([::1]:45970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11CD73A2E70
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:42:45 +0200 (CEST)
+Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrLqT-00050e-9X
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
+	id 1lrLtM-00080C-3u
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:42:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lrLow-0003f0-IQ
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:38:10 -0400
-Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:41722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1lrLou-0004MB-Uc
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:38:10 -0400
-Received: by mail-lj1-x22c.google.com with SMTP id z22so5212660ljh.8
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 07:38:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O0gBJMrpiELgsCsym6mzXOOEJr+lQDvkgWLbBVsNK6Y=;
- b=nwC2MgVmEWUosxWglLAejO7168DqU8Th7X2J1EnR2Qb9NTpo9iYGs3q2QdZeZLKN+T
- 4V0AjueJ7iJuzBtMwa1bH0lxb5GL5a6fFNK4HbmjnRMskpSYMObY7s77tKb1sGDzV1+7
- wM0P8M5r9ScJmHT/cQAfLbsslmhDtbU/5456esSNrFKhnzDnpNteMzqZ/q9P2SHVQCS9
- CpDDWtGEd8qU7AJ7y1fAKdyX9NQ3SAbAVTg1FWZLVPQ7GjV6LVe39pT2YHaR510t4Mh9
- LqN0/envlc0XcFC+p3YWMf4au5Mj4cnHSNZQyXBA8VW5JOU6HqcJ1z8UYAEENP4QoAlf
- 3GnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=O0gBJMrpiELgsCsym6mzXOOEJr+lQDvkgWLbBVsNK6Y=;
- b=Epx1dyeSJS48Lk5+H2og0oFA7nxHIm1emcV+EfL85oGeFyfX/a5nO7w34xpZt6KB/R
- 5dWXzuOcPImpUYaCGPUPpuiQs/UetASYx1VF/MpY5W9Ax7E8ZGSEnpTuzxOExyZ3YwRA
- ZDj2K1DpLDW0qDQj/NNpFWxfk86iP+we0suBm0hNz4Lh0S1+prkTMIx2F/mS0UxEQINv
- sq3VwYpbOzKRYZldDnLToL355cU5WijUoM5NmA7N5Cd3NtVZQ2KKnQbrsraY1DkbuQlR
- EQgORGAbvA2+fwgvwVHJQ4QO0VO24Oh/VPaiPR81sDSVW1hDFf8zl/PSGy2UfVaJiH9g
- 3d0Q==
-X-Gm-Message-State: AOAM531Xn80PFuzqHRAlnb+YMAnj06IYX1SX+JmcL39mQL3vRv45ofZZ
- Kpdmhabfh2TmAEFLSN1zdVuj4QAT5v+gHuX2kk+KBA==
-X-Google-Smtp-Source: ABdhPJz+zk18g6J7n+zjfLMLtXZYPy0ztunbRrlOdkAeYV8IZE/F/zxcs87JeO+xOgUBmOR71s2b8g==
-X-Received: by 2002:a2e:90f:: with SMTP id 15mr2491241ljj.277.1623335886421;
- Thu, 10 Jun 2021 07:38:06 -0700 (PDT)
-Received: from kostyanf14nb.Dlink (93-77-45-80.vin.volia.net. [93.77.45.80])
- by smtp.gmail.com with ESMTPSA id i130sm313497lfd.304.2021.06.10.07.38.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 07:38:06 -0700 (PDT)
-From: Kostiantyn Kostiuk <konstantin@daynix.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qga-win: Free GMatchInfo properly
-Date: Thu, 10 Jun 2021 17:38:00 +0300
-Message-Id: <20210610143800.3293854-1-konstantin@daynix.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrLsE-0006yJ-7q
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:41:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrLsC-0006e8-E4
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:41:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623336091;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/ZJQzZ5gVIShV5vfrTmiChgX5LcFSJwlMNnRSwTOXTk=;
+ b=MB6u31KVDY1LGbZbs7QGf6ar/YIvnxZsGv+nV7KO026xBE/I16HZTYkP+J4RLD9pp3XHpI
+ cc39MigG0hrI5IA5RexBvpI9ZxovgIfiWES1QBiRLn7Okq5EE6WQqaBni0OQtXuAtMtODx
+ uO5z31ym2bg0lb0rI7xcr1SvqXbqUjw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-RwyrMwJ_NQKW3cDQoeMeag-1; Thu, 10 Jun 2021 10:41:30 -0400
+X-MC-Unique: RwyrMwJ_NQKW3cDQoeMeag-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76419801B14
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 14:41:29 +0000 (UTC)
+Received: from redhat.com (ovpn-115-203.ams2.redhat.com [10.36.115.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C5365D6D7;
+ Thu, 10 Jun 2021 14:41:28 +0000 (UTC)
+Date: Thu, 10 Jun 2021 15:41:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 11/11] machine: add smp compound property
+Message-ID: <YMIklXY8C+/KEwf/@redhat.com>
+References: <20210610133538.608390-1-pbonzini@redhat.com>
+ <20210610133538.608390-12-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::22c;
- envelope-from=konstantin@daynix.com; helo=mail-lj1-x22c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610133538.608390-12-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,31 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The g_regex_match function creates match_info even if it
-returns FALSE. So we should always call g_match_info_free.
+On Thu, Jun 10, 2021 at 03:35:38PM +0200, Paolo Bonzini wrote:
+> Make -smp syntactic sugar for a compound property "-machine
+> smp.{cores,threads,cpu,...}".  machine_smp_parse is replaced by the
+> setter for the property.
+> 
+> numa-test will now cover the new syntax, while other tests
+> still use -smp.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/core/machine.c       | 108 +++++++++++++++++++++-------------------
+>  include/hw/boards.h     |   1 -
+>  softmmu/vl.c            |  33 +++++++++---
+>  tests/qtest/numa-test.c |  22 ++++----
+>  4 files changed, 95 insertions(+), 69 deletions(-)
 
-Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
----
- qga/commands-win32.c | 1 +
- 1 file changed, 1 insertion(+)
+Needs to update  qemu-options.hx for -machine and -smp
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 300b87c859..e8bc3df306 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -2497,6 +2497,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-             GMatchInfo *match_info;
-             GuestDeviceIdPCI *id;
-             if (!g_regex_match(device_pci_re, hw_ids[j], 0, &match_info)) {
-+                g_match_info_free(match_info);
-                 continue;
-             }
-             skip = false;
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
