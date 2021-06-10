@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B4D3A37A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 01:07:04 +0200 (CEST)
-Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A408B3A3790
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 01:02:59 +0200 (CEST)
+Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrTlP-0003pY-Qh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 19:07:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51106)
+	id 1lrThS-0001gB-OE
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 19:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lrTg4-0007VY-Kn
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:32 -0400
-Received: from mga17.intel.com ([192.55.52.151]:52994)
+ id 1lrTg3-0007TF-Ph
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:31 -0400
+Received: from mga17.intel.com ([192.55.52.151]:52951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lrTg0-00079b-HC
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:32 -0400
-IronPort-SDR: Xvb0PkUGy9y/SMy7fdSLsUPDyxHp+IL5Rzz1OrDI6V1Ygd8QwnKKiIcwmwxOKTFP4DIbtHtS++
- XrQ1joUu3u4g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185796181"
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185796181"
+ id 1lrTg1-0006zL-Vn
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:31 -0400
+IronPort-SDR: N3VQpNG2HHUExoav32NDiJ6+FE8d3TrBFeQtxO2C5JSXMUD5Q3H7QX1rmSauFO3Z1uUQOjL2zj
+ EuEmOjTB7Ijg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185796182"
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185796182"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jun 2021 16:01:08 -0700
-IronPort-SDR: ZJxoHW//EgdQzzg0Jzz0tSbi1kDSNur3HXOM+2WoMy8F5gVzXU6fgBvn2C8hHVmwONXY9jkoDC
- 73f65vYhLbhg==
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419888354"
+IronPort-SDR: q40khA96DdrHYPVSl1tvyKLzW+lpTPt9SNJ5p8bf46H3yfbCLj5eOA0jG/Gk8NnEPxKOdy9ab3
+ M/k6MbcHb3Qw==
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419888357"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jun 2021 16:01:08 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/8] ui/egl: Add egl helpers to help with synchronization
-Date: Thu, 10 Jun 2021 15:48:31 -0700
-Message-Id: <20210610224837.670192-3-vivek.kasireddy@intel.com>
+Subject: [PATCH v2 3/8] ui: Add a helper to wait on a dmabuf sync object
+Date: Thu, 10 Jun 2021 15:48:32 -0700
+Message-Id: <20210610224837.670192-4-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210610224837.670192-1-vivek.kasireddy@intel.com>
 References: <20210610224837.670192-1-vivek.kasireddy@intel.com>
@@ -66,99 +66,59 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These egl helpers would be used for creating and waiting on
-a sync object.
+This will be called by virtio-gpu in the subsequent patches.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/console.h     |  2 ++
- include/ui/egl-helpers.h |  3 +++
- ui/egl-helpers.c         | 44 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 49 insertions(+)
+ include/ui/console.h |  5 +++++
+ ui/console.c         | 10 ++++++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/include/ui/console.h b/include/ui/console.h
-index b30b63976a..49978fdae3 100644
+index 49978fdae3..a89f739f10 100644
 --- a/include/ui/console.h
 +++ b/include/ui/console.h
-@@ -168,6 +168,8 @@ typedef struct QemuDmaBuf {
-     uint64_t  modifier;
-     uint32_t  texture;
-     bool      y0_top;
-+    void      *sync;
-+    int       fence_fd;
- } QemuDmaBuf;
+@@ -242,6 +242,9 @@ typedef struct DisplayChangeListenerOps {
+     /* optional */
+     void (*dpy_gl_release_dmabuf)(DisplayChangeListener *dcl,
+                                   QemuDmaBuf *dmabuf);
++    /* optional */
++    void (*dpy_gl_wait_dmabuf)(DisplayChangeListener *dcl,
++                               QemuDmaBuf *dmabuf);
+     /* required if GL */
+     void (*dpy_gl_update)(DisplayChangeListener *dcl,
+                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+@@ -314,6 +317,8 @@ void dpy_gl_cursor_position(QemuConsole *con,
+                             uint32_t pos_x, uint32_t pos_y);
+ void dpy_gl_release_dmabuf(QemuConsole *con,
+                            QemuDmaBuf *dmabuf);
++void dpy_gl_wait_dmabuf(QemuConsole *con,
++                        QemuDmaBuf *dmabuf);
+ void dpy_gl_update(QemuConsole *con,
+                    uint32_t x, uint32_t y, uint32_t w, uint32_t h);
  
- typedef struct DisplayState DisplayState;
-diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index f1bf8f97fc..5a7575dc13 100644
---- a/include/ui/egl-helpers.h
-+++ b/include/ui/egl-helpers.h
-@@ -45,6 +45,9 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
- 
- void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf);
- void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf);
-+void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf);
-+void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf);
-+void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf);
- 
- #endif
- 
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index 6d0cb2b5cb..47220b66e0 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -76,6 +76,50 @@ void egl_fb_setup_for_tex(egl_fb *fb, int width, int height,
-                               GL_TEXTURE_2D, fb->texture, 0);
+diff --git a/ui/console.c b/ui/console.c
+index 2de5f4105b..b0abfd2246 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1917,6 +1917,16 @@ void dpy_gl_release_dmabuf(QemuConsole *con,
+     }
  }
  
-+void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf)
++void dpy_gl_wait_dmabuf(QemuConsole *con,
++                        QemuDmaBuf *dmabuf)
 +{
-+    EGLSyncKHR sync;
++    assert(con->gl);
 +
-+    if (epoxy_has_egl_extension(qemu_egl_display,
-+                                "EGL_KHR_fence_sync") &&
-+        epoxy_has_egl_extension(qemu_egl_display,
-+                                "EGL_ANDROID_native_fence_sync")) {
-+        sync = eglCreateSyncKHR(qemu_egl_display,
-+				EGL_SYNC_NATIVE_FENCE_ANDROID, NULL);
-+        if (sync != EGL_NO_SYNC_KHR) {
-+            dmabuf->sync = sync;
-+        }
++    if (con->gl->ops->dpy_gl_wait_dmabuf) {
++        con->gl->ops->dpy_gl_wait_dmabuf(con->gl, dmabuf);
 +    }
 +}
 +
-+void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf)
-+{
-+    if (dmabuf->sync) {
-+        dmabuf->fence_fd = eglDupNativeFenceFDANDROID(qemu_egl_display,
-+                                                      dmabuf->sync);
-+        eglDestroySyncKHR(qemu_egl_display, dmabuf->sync);
-+        dmabuf->sync = NULL;
-+    }
-+}
-+
-+void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf)
-+{
-+    EGLSyncKHR sync;
-+    EGLint attrib_list[] = {
-+        EGL_SYNC_NATIVE_FENCE_FD_ANDROID, dmabuf->fence_fd,
-+        EGL_NONE,
-+    };
-+
-+    sync = eglCreateSyncKHR(qemu_egl_display,
-+                            EGL_SYNC_NATIVE_FENCE_ANDROID, attrib_list);
-+    if (sync != EGL_NO_SYNC_KHR) {
-+        eglClientWaitSyncKHR(qemu_egl_display, sync,
-+                             0, EGL_FOREVER_KHR);
-+        eglDestroySyncKHR(qemu_egl_display, sync);
-+        dmabuf->fence_fd = -1;
-+    }
-+}
-+
- void egl_fb_setup_new_tex(egl_fb *fb, int width, int height)
+ void dpy_gl_update(QemuConsole *con,
+                    uint32_t x, uint32_t y, uint32_t w, uint32_t h)
  {
-     GLuint texture;
 -- 
 2.30.2
 
