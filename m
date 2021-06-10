@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C956D3A344B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 21:50:06 +0200 (CEST)
-Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3CA3A34A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 22:12:26 +0200 (CEST)
+Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrQgn-0000Dz-Sn
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 15:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48324)
+	id 1lrR2P-00060c-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 16:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lrQfe-0007hE-0P
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:48:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lrQfZ-0006Iq-1R
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:48:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623354527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JyeYLyhIzc+KopoEKT13Vuc8haXpM0rX/3LXUdnIRgc=;
- b=igV89iVWTyvvMD8ZfMr89d2VeZhePojck4d5qOjLjLnzivJrmLons7Mezl8tapwIJ4vWf+
- g00oatnHK+W6e/eKGOf7aLfWnvXpihAulqDg8LW3vz4SbDuKAOTcDxnU76NUnv4wTGweAE
- VfHNRnuFx2o8gl2QFjgqF5/Z/IgRBAc=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-I2Y8bHTwMqCKoMj1X_0bzA-1; Thu, 10 Jun 2021 15:48:44 -0400
-X-MC-Unique: I2Y8bHTwMqCKoMj1X_0bzA-1
-Received: by mail-vs1-f72.google.com with SMTP id
- m14-20020a67fe4e0000b0290255df7450beso1455883vsr.8
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 12:48:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JyeYLyhIzc+KopoEKT13Vuc8haXpM0rX/3LXUdnIRgc=;
- b=f7+MVHZAwywrkSfV1tUQf4RNslVZ4A0m8n63wu5P2Ywok1XOqIIi9fNVGqxJ7wjI6Y
- ewqNd/XIQLoSygxZBtW9SGueTr+7xK0d687IeII+hFJipH618BHvFPTnTJkeSbleonoP
- six8tmPkKYz85alMNjg5olF6awojAKS1Jsnf2nskRdFG8pETcnPprTZn012Vp8QlktLd
- rYmPf+IM17CHFgPveyuNOgRsnpb4z8t15gmqLwqYrlWvQvb6pGcMvMOBLDCll8D0DP2K
- VFTSuHqpJU+2edPdqtlghwkZqGXJ6ghApAXpeDRIs+EgsArQ36nYfo4A0TnP8cPj+xIv
- v02g==
-X-Gm-Message-State: AOAM530ifcev5N67doqaMMiuW9c4EhaJq6gVemnciY7Quo4Baug4DPb2
- 5OjvT7JNI1tEwKXg2xaegIN9jrvsaNiAqO4gm9o7c03FsW5HgbiPSycOIwR6ezIEJx+7a0s1zL2
- cPYkE0sF0YAfv2WBMAVFxfw0sypMJ8x0=
-X-Received: by 2002:ab0:60c5:: with SMTP id g5mr82912uam.5.1623354524082;
- Thu, 10 Jun 2021 12:48:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5LvJ23G5bDiqaf+VAOjj3DwxH7XuGQCCaRzKZbur/ov5fbyp1CLRdB2fMoy9ghZyhC8JWlBQNXZlHDgZ8Gbo=
-X-Received: by 2002:ab0:60c5:: with SMTP id g5mr82891uam.5.1623354523931; Thu,
- 10 Jun 2021 12:48:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrR1g-0005Lz-Pn
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:11:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrR1e-00059O-7T
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:11:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lrR1Z-0007mW-Cm
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 20:11:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7F7732E816D
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 20:11:32 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210608140938.863580-1-crosa@redhat.com>
- <20210608140938.863580-3-crosa@redhat.com>
-In-Reply-To: <20210608140938.863580-3-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 10 Jun 2021 16:48:18 -0300
-Message-ID: <CAKJDGDaApz97BL7Anf8gmyDzN3EKi0z31OYURTJB6M5KPzzz8g@mail.gmail.com>
-Subject: Re: [PATCH 2/4] Python QEMU utils: introduce a generic feature list
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Jun 2021 19:57:20 -0000
+From: Thomas Huth <1914870@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161262934089.14056.18327208796436481224.malonedeb@soybean.canonical.com>
+Message-Id: <162335504062.14970.10194468096926491372.malone@wampee.canonical.com>
+Subject: [Bug 1914870] Re: libvixl compilation failure on Debian unstable
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: f37afdabbad860aa0ac5ede471f2e568b5063ace
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,40 +71,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Reply-To: Bug 1914870 <1914870@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 8, 2021 at 11:09 AM Cleber Rosa <crosa@redhat.com> wrote:
->
-> Which can be used to check for any "feature" that is available as a
-> QEMU command line option, and that will return its list of available
-> options.
->
-> This is a generalization of the list_accel() utility function, which
-> is itself re-implemented in terms of the more generic feature.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  python/qemu/utils/__init__.py |  2 ++
->  python/qemu/utils/accel.py    | 15 ++----------
->  python/qemu/utils/feature.py  | 44 +++++++++++++++++++++++++++++++++++
->  3 files changed, 48 insertions(+), 13 deletions(-)
->  create mode 100644 python/qemu/utils/feature.py
->
+Fix has been committed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D2fed21d25b3a9562869
 
-Based on my comments from the next patch of this series:
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914870
+
+Title:
+  libvixl compilation failure on Debian unstable
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  As of commit 0e324626306:
+
+  $ lsb_release -d
+  Description:    Debian GNU/Linux bullseye/sid
+
+  Project version: 5.2.50
+  C compiler for the host machine: cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.=
+2.1 20210110")
+  C linker for the host machine: cc ld.bfd 2.35.1
+  C++ compiler for the host machine: c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6)=
+ 10.2.1 20210110")
+  C++ linker for the host machine: c++ ld.bfd 2.35.1
+
+  [6/79] Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
+  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o =
+
+  c++ -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui/shader -I/usr/include/c=
+apstone -I/usr/include/glib-2.0 -I/usr/lib/hppa-linux-gnu/glib-2.0/include =
+-fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -We=
+rror -std=3Dgnu++11 -O2 -g -isystem /home/philmd/qemu/linux-headers -isyste=
+m linux-headers -iquote . -iquote /home/philmd/qemu -iquote /home/philmd/qe=
+mu/include -iquote /home/philmd/qemu/disas/libvixl -iquote /home/philmd/qem=
+u/tcg/hppa -iquote /home/philmd/qemu/accel/tcg -pthread -D__STDC_LIMIT_MACR=
+OS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -U_FORTIFY_SOURCE -D_FOR=
+TIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE =
+-Wundef -Wwrite-strings -fno-strict-aliasing -fno-common -fwrapv -Wtype-lim=
+its -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty=
+-body -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno=
+-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ li=
+bcommon.fa.p/disas_libvixl_vixl_utils.cc.o -MF libcommon.fa.p/disas_libvixl=
+_vixl_utils.cc.o.d -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../di=
+sas/libvixl/vixl/utils.cc
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:36:43: error: missing binary operator before token =
+"("
+     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
+        |                                           ^
+  /usr/include/string.h:53:62: error: missing binary operator before token =
+"("
+     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISO=
+C2X)
+        |                                                              ^
+  /usr/include/string.h:165:21: error: missing binary operator before token=
+ "("
+    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
+        |                     ^
+  /usr/include/string.h:174:43: error: missing binary operator before token=
+ "("
+    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_U=
+SE (ISOC2X)
+        |                                           ^
+  /usr/include/string.h:492:19: error: missing binary operator before token=
+ "("
+    492 | #if __GNUC_PREREQ (3,4)
+        |                   ^
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:28:1: error: =E2=80=98__BEGIN_DECLS=E2=80=99 does n=
+ot name a type
+     28 | __BEGIN_DECLS
+        | ^~~~~~~~~~~~~
+  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
+                   from ../disas/libvixl/vixl/utils.cc:27:
+  /usr/include/string.h:44:8: error: =E2=80=98size_t=E2=80=99 has not been =
+declared
+     44 |        size_t __n) __THROW __nonnull ((1, 2));
+        |        ^~~~~~
+  /usr/include/string.h:44:20: error: expected initializer before =E2=80=98=
+__THROW=E2=80=99
+     44 |        size_t __n) __THROW __nonnull ((1, 2));
+        |                    ^~~~~~~
+  /usr/include/string.h:47:56: error: =E2=80=98size_t=E2=80=99 has not been=
+ declared
+     47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+        |                                                        ^~~~~~
+  /usr/include/string.h:48:6: error: expected initializer before =E2=80=98_=
+_THROW=E2=80=99
+     48 |      __THROW __nonnull ((1, 2));
+        |      ^~~~~~~
+  /usr/include/string.h:61:42: error: =E2=80=98size_t=E2=80=99 has not been=
+ declared
+     61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __no=
+nnull ((1));
+        |                                          ^~~~~~
+
+  Is there a package dependency missing?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914870/+subscriptions
 
