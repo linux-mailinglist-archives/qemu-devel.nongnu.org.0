@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9883A2BBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:38:14 +0200 (CEST)
-Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB273A2BD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:42:31 +0200 (CEST)
+Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrJwr-0003O6-Bs
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
+	id 1lrK10-0008Qx-AD
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrJvv-0002RR-KP
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:37:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrJvp-0008SW-FK
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:37:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623328627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l1n8gccanYkigZVxxbpKS0Add2fM0op1eMforM4vPcc=;
- b=DdF65eSQHlgA61jXyNR04s3lSvJRybLEUAZtiI70PXeES1IwuFFJJ/HzJ6RDk5RMYC8EgI
- yQx18mxrY/e9m6B5fhssrZrOD+14UMlHhJCufJ0LvNtJsg0Jkn8cc0cd8HfNJA7Qq+jI0j
- 2soMUiS9rCqNbTcTqUIlVYidI85mplE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-478ush58NDWxIZzCZAot_g-1; Thu, 10 Jun 2021 08:37:05 -0400
-X-MC-Unique: 478ush58NDWxIZzCZAot_g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E92A100C610;
- Thu, 10 Jun 2021 12:37:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
- [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A29B10016F8;
- Thu, 10 Jun 2021 12:37:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BAC76113865F; Thu, 10 Jun 2021 14:37:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 02/11] qapi/misc-target: Group SEV QAPI definitions
-References: <20210610064556.1421620-1-philmd@redhat.com>
- <20210610064556.1421620-3-philmd@redhat.com>
- <875yymdpo7.fsf@dusky.pond.sub.org>
- <043f0098-d043-b649-9b2d-1ebee6f5f92c@redhat.com>
-Date: Thu, 10 Jun 2021 14:37:02 +0200
-In-Reply-To: <043f0098-d043-b649-9b2d-1ebee6f5f92c@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 10 Jun 2021 12:15:39
- +0200")
-Message-ID: <87o8cd6glt.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrJzI-0006YM-4L
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:40:44 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:43826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrJzE-0002Ji-Ua
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:40:43 -0400
+Received: by mail-ej1-x634.google.com with SMTP id ci15so43950438ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 05:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qXMh0eWSot/C6iO763Pkxri62CDVNRHyAFSOO/335uE=;
+ b=u+5WB4MxTgXUGPNbm2MjimJwQ7z63NmuL4TwFUsAdCe0G/Ousho6T4MZtzUjjUaWK6
+ tA0zF2lrgANY6BiT6QCRaQiZLUYvNONulVwh+JPBKxYm65+EiFf61JVr4eebozF1MhpK
+ g+ufC5oe/c54tiPraHwwvlqcS3LXlMDH5q1S1s2t0tKIoukw6s+6emywOPqOhQvt4qpx
+ BR4PwSV3KGTc5fhT2HtoiqQFl44Z4eUKe8lxhwyaiJhBZ5E/UEQBOICiBL3vkpXmSiZM
+ 7W3vROGBOXcilkPNVta+pDWhhhvO2euZs9UkrkEwyfcm4MvrhqqnwZy7wXiza6D7YMBt
+ magw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qXMh0eWSot/C6iO763Pkxri62CDVNRHyAFSOO/335uE=;
+ b=uMgV9JEk6fSCPgT5vkdMsXLn4fACsHogP4DiLilVwQ3uFFEelPCb3rBm+zZDvNHqap
+ ZnCsOdF9FHx+/wBn5+sejyKsMRdTfhNTXkPiR1alisXBfWiycJjdlTcm9hc1lyxKygo4
+ RPOqPIW+EeNd6RZuIjxP7JHGqo1q7BMFIyyPmX6ItHwnVc3RtWcVFTzB+1nykgwUBW1K
+ dL3+Mymz9l4FDM8+2nZS7sKNxVcZ45lwVe1cZ37z4qfqUhlxpQdMpTADOpwvGv7hLsX0
+ E+TKHAdhs5peKJQS74ZjSTM4JhWLyecToLB3SB97Ms5UVUWc1MTYVF7V9PWglv5ebkkj
+ N2aQ==
+X-Gm-Message-State: AOAM533A1gG0SzdrvjFskaKuH1myqkM/9OtDJste21GVAloqjlNmBEHJ
+ fggYa8SWicIxdOFT+T2rqp/9MR6xhL1FSiU/rHhWAsSXr6Y=
+X-Google-Smtp-Source: ABdhPJx8G0s21BSnpV6Az2+Zq+/uq1Go+aatpx6Hwn8JQHLAr+WRFxyM6zxTtyEWW0jDM9QoZUSncowaegwfqGfEwSI=
+X-Received: by 2002:a17:906:b294:: with SMTP id
+ q20mr4226656ejz.382.1623328836068; 
+ Thu, 10 Jun 2021 05:40:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-14-peter.maydell@linaro.org>
+ <b04dd492-0394-5b1a-5747-bb21d772e621@linaro.org>
+In-Reply-To: <b04dd492-0394-5b1a-5747-bb21d772e621@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Jun 2021 13:40:02 +0100
+Message-ID: <CAFEAcA9Sa=mCMGGkmTm2HseanfkKa1PtDYOUiofO-k4eM_fYoA@mail.gmail.com>
+Subject: Re: [PATCH 13/55] target/arm: Implement MVE VCLZ
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,50 +79,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Connor Kuehl <ckuehl@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> On 6/10/21 11:39 AM, Markus Armbruster wrote:
->> Just code motion, so
->>=20
->> Acked-by: Markus Armbruster <armbru@redhat.com>
->>=20
->> Opportunity to wrap the long doc comment lines.  Should be kept under 70
->> or so.
+On Tue, 8 Jun 2021 at 23:10, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Hmm is that a QAPI specific requirement? It is not enforced by
-> checkpatch, and still in the 80-90 grey area:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg763806.html
+> On 6/7/21 9:57 AM, Peter Maydell wrote:
+> > Implement the MVE VCLZ insn (and the necessary machinery
+> > for MVE 1-input vector ops).
+> >
+> > Note that for non-load instructions predication is always performed
+> > at a byte level granularity regardless of element size (R_ZLSJ),
+> > and so the masking logic here differs from that used in the VLDR
+> > and VSTR helpers.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Consider why we limit line length at all: it's for *legibility*.  Humans
-tend to have trouble following long lines with our eyes (I sure do).
-Typographic manuals suggest to limit columns to roughly 60 characters
-for exactly that reason[1].  Four levels of indentation plus 60
-characters of actual text yields 76.
+> > +
+> > +/*
+> > + * Take the bottom bits of mask (which is 1 bit per lane) and
+> > + * convert to a mask which has 1s in each byte which is predicated.
+> > + */
+> > +static uint8_t mask_to_bytemask1(uint16_t mask)
+> > +{
+> > +    return (mask & 1) ? 0xff : 0;
+> > +}
+> > +
+> > +static uint16_t mask_to_bytemask2(uint16_t mask)
+> > +{
+> > +    static const uint16_t masks[] = { 0x0000, 0x00ff, 0xff00, 0xffff };
+> > +    return masks[mask & 3];
+> > +}
+> > +
+> > +static uint32_t mask_to_bytemask4(uint16_t mask)
+> > +{
+> > +    static const uint32_t masks[] = {
+> > +        0x00000000, 0x000000ff, 0x0000ff00, 0x0000ffff,
+> > +        0x00ff0000, 0x00ff00ff, 0x00ffff00, 0x00ffffff,
+> > +        0xff000000, 0xff0000ff, 0xff00ff00, 0xff00ffff,
+> > +        0xffff0000, 0xffff00ff, 0xffffff00, 0xffffffff,
+> > +    };
+>
+> I'll note that
+>
+> (1) the values for the mask_to_bytemask2 array overlap the first 4 values of
+> the mask_to_bytemask4 array, and
+>
+> (2) both of these overlap with the larger
+>
+> static inline uint64_t expand_pred_b(uint8_t byte)
+>
+> from SVE.  It'd be nice to share the storage, whatever the actual functional
+> interface into the array.
 
-We add a grey area to provide for the occasional case where deeper
-indentation pushes code of reasonable width beyond the "white" area, and
-breaking these lines would be less legible than making use of the grey
-area.
+Yeah, I guess so. I didn't really feel like trying to
+abstract that out...
 
-The lines I referred to are long for no good reason.  Wrapping them will
-improve legibility.
+> > +#define DO_1OP(OP, ESIZE, TYPE, H, FN)                                  \
+> > +    void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
+> > +    {                                                                   \
+> > +        TYPE *d = vd, *m = vm;                                          \
+> > +        uint16_t mask = mve_element_mask(env);                          \
+> > +        unsigned e;                                                     \
+> > +        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
+> > +            TYPE r = FN(m[H(e)]);                                       \
+> > +            uint64_t bytemask = mask_to_bytemask##ESIZE(mask);          \
+>
+> Why uint64_t and not TYPE?  Or uint32_t?
 
-> (I can do if respin required, but I'd rather have this catch earlier,
-> not at code movement).
+A later patch adds the mask_to_bytemask8(), so I wanted
+a type that was definitely unsigned (so TYPE isn't any good)
+and which was definitely big enough for 64 bits.
 
-Before, during, after, or even not at all *clank*[2], your choice.
+> > +    if (!mve_eci_check(s)) {
+> > +        return true;
+> > +    }
+> > +
+> > +    if (!vfp_access_check(s)) {
+> > +        return true;
+> > +    }
+>
+> Not the first instance, but is it worth saving 4 lines per and combining these
+> into one IF?
 
-> Thanks for the A-b!
+Yes, I think so.
 
-
-[1] https://en.wikipedia.org/wiki/Column_(typography)#Typographic_style
-
-[2] Sad sound of a can being kicked down the road
-
+-- PMM
 
