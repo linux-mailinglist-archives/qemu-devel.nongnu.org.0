@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D403A3012
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:05:01 +0200 (CEST)
-Received: from localhost ([::1]:42332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 491873A3009
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:02:41 +0200 (CEST)
+Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrNAy-0001S0-HM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:05:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
+	id 1lrN8h-0002tO-N4
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:02:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrN74-00028v-B5
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:01:01 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52742)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lrN5c-0000WT-7o
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:59:29 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:46824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrN6y-0005B6-F3
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:00:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lrN6u-0002Di-RN
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:00:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BFDCF2E8169
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:00:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lrN5Y-0004Q8-7M
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:59:27 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id h15so11676807ybm.13
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 08:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fq0rk/oKuglsSSZoTA1CLXyHRH8LUFqhk0NVPD1/GIk=;
+ b=AdbxEYCwX3brdxWK9sXuA+W+mrqIk4YHP22pXVrUFummdQBPM1gV+eF2to7XvvNM26
+ smQN9FFg5/SabPSnGvJogr+UN3Ymh3u4ZsIoD4Z10LF9U19Zcs/GJknCgYDEoARW+T80
+ lEQd22zkvbLgTPRNs7nb8K00hVNfJs4CItMa/GArkCR0j/JvDb5Q0t+V3/ZfKiOeZ9TD
+ Mqjdz4nLIppve6WDuzW2jScFipGBib1CvvE90yEPficlVvQQwsrnWe9nWhh5wHUMb6wH
+ CfCPCzQg9J2o+f1A6BGAx2g9bGuDNHCYYH75WzNSQnlnw3fwukDBU0PsrrbzmgevS3J7
+ r8zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fq0rk/oKuglsSSZoTA1CLXyHRH8LUFqhk0NVPD1/GIk=;
+ b=tf9ixpca6yk7WSS6Yps0VD9J1RbxDl23fegkmKdsHqjrlguD9r43i9XcPlRCaywO/q
+ /CrlcPs8D61xz1IL5F2779UuOYIV0IA3eIZ8ScqS4mGGAyCmem/z0FodWEmOjOLAvy7y
+ 7fxHiDId1qELYyLpLaHhy6CjEQq5IeAn2fu7DI129Qq2MOB+4e5TTGzqGfXFx33662Ym
+ GFxrULjR5kjauOlSuokeQNh90wRQiw/P5qO+B4S6M0ha/1ZwJufoZZ8ef0W1ZxzJasLu
+ cyaY1RxuzclhgHkwvmAPiGQbgpFZIl6W2pRQJBjDJkL5p+/aJax+qO3DyxlLpNJEeQiX
+ qPIQ==
+X-Gm-Message-State: AOAM531aEde7toUtAXviMEe7TzHwVJ+jU+zcGuPhzyzeR261UHOfqa6b
+ aBDOvGtRrLNkXZs9or8cZqFRp2YMY/ayLyXkJBsc6g==
+X-Google-Smtp-Source: ABdhPJwFgqZZZAdUJPNMO3UNxopzqVUZmC5tZjjDX2Rrg+s2sjNQBAOkEzNPFLNicOwdKzflI2rmWo1OYDRvA7NyOgg=
+X-Received: by 2002:a25:b53:: with SMTP id 80mr5112999ybl.379.1623340763283;
+ Thu, 10 Jun 2021 08:59:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Jun 2021 15:54:44 -0000
-From: Thomas Huth <1888714@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer test
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159552501514.3414.9224287999042731513.malonedeb@gac.canonical.com>
-Message-Id: <162334048453.14381.2139631321617944721.malone@wampee.canonical.com>
-Subject: [Bug 1888714] Re: Memory Leak in hpet_timer results in unusable
- machine
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: a76c510811be9778944c6eb42d06688c8ae33a51
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210610143800.3293854-1-konstantin@daynix.com>
+ <CAJ+F1C+WhQRd7W4ATJh=QeyRnYULipPFHr38MODwrLc6Gu73eQ@mail.gmail.com>
+ <CAJ28CFROd2KPknSoT=P6NS2PzizsTi=K4tKx0dV5By=cqKUDJg@mail.gmail.com>
+ <YMIuWtE9VjZDUQYz@redhat.com>
+In-Reply-To: <YMIuWtE9VjZDUQYz@redhat.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Thu, 10 Jun 2021 18:59:12 +0300
+Message-ID: <CAJ28CFS7btno-t-rpP_Q98uwWCAdDnX2os41RYjdickcgaWVBQ@mail.gmail.com>
+Subject: Re: [PATCH] qga-win: Free GMatchInfo properly
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008b990005c46b7989"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,126 +79,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888714 <1888714@bugs.launchpad.net>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still reproduces with the current git version (commit
-7fe7fae8b48e3f9c647)
+--0000000000008b990005c46b7989
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-** Tags added: fuzzer test
+Thanks, Daniel!
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
+A new patch was sent.
 
--- =
+Best wishes,
+Kostiantyn Kostiuk
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888714
 
-Title:
-  Memory Leak in hpet_timer results in unusable machine
+On Thu, Jun 10, 2021 at 6:23 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-Status in QEMU:
-  Confirmed
+> On Thu, Jun 10, 2021 at 05:53:35PM +0300, Konstantin Kostiuk wrote:
+> > Hi All,
+> >
+> > For freeing GMatchInfo struct, a special function is required. I'm not
+> sure is
+> > it possible to use g_autoptr in this case or no.
+> > In GLib example
+> >
+> https://developer.gnome.org/glib/stable/glib-Perl-compatible-regular-expr=
+essions.html#g-regex-match
+> ,
+> > g_match_info_free is used directly.
+>
+> That is fine - g_autoptr calls the required deallocation function
+> that was previously registered. This is different from g_autofree
+> which merely calls g_free.
+>
+> We can see GMatchInfo is configured to call g_match_info_free:
+>
+> $ grep GMatchIn /usr/include/glib-2.0/glib/*.h
+> /usr/include/glib-2.0/glib/glib-autocleanups.h:G_DEFINE_AUTOPTR_CLEANUP_F=
+UNC(GMatchInfo,
+> g_match_info_unref)
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
 
-Bug description:
-  Fair warning: this might be specific to QTest (specifically its
-  clock_step) command. This reproducer only works with -accel qtest.
-  Build with --enable-sanitizers to exit once we hit 1G RSS.
+--0000000000008b990005c46b7989
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  export ASAN_OPTIONS=3Dhard_rss_limit_mb=3D1000 =
+<div dir=3D"ltr">Thanks, Daniel!<br><div><br></div><div>A new patch was sen=
+t.<br></div><font color=3D"#888888"><br></font><div><div><div dir=3D"ltr" c=
+lass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr=
+"><div>Best wishes,</div><div>Kostiantyn Kostiuk</div></div></div></div><br=
+></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, Jun 10, 2021 at 6:23 PM Daniel P. Berrang=C3=A9 &lt;<a href=
+=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Jun 10, 2021 at =
+05:53:35PM +0300, Konstantin Kostiuk wrote:<br>
+&gt; Hi All,<br>
+&gt; <br>
+&gt; For freeing GMatchInfo struct, a special function is required. I&#39;m=
+ not sure is<br>
+&gt; it possible to use g_autoptr in this case or no.<br>
+&gt; In GLib example<br>
+&gt; <a href=3D"https://developer.gnome.org/glib/stable/glib-Perl-compatibl=
+e-regular-expressions.html#g-regex-match" rel=3D"noreferrer" target=3D"_bla=
+nk">https://developer.gnome.org/glib/stable/glib-Perl-compatible-regular-ex=
+pressions.html#g-regex-match</a>,<br>
+&gt; g_match_info_free is used directly.<br>
+<br>
+That is fine - g_autoptr calls the required deallocation function<br>
+that was previously registered. This is different from g_autofree<br>
+which merely calls g_free.<br>
+<br>
+We can see GMatchInfo is configured to call g_match_info_free:<br>
+<br>
+$ grep GMatchIn /usr/include/glib-2.0/glib/*.h<br>
+/usr/include/glib-2.0/glib/glib-autocleanups.h:G_DEFINE_AUTOPTR_CLEANUP_FUN=
+C(GMatchInfo, g_match_info_unref)<br>
+<br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div>
 
-  cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic \
-  -nodefaults -qtest stdio -accel qtest
-  writeq 0xfed0000e 0x15151515151515f1
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  writeq 0xfed00100 0x5e90c5be00ff5e9e
-  writeq 0xfed00109 0xffffe0ff5cfec0ff
-  clock_step
-  EOF
-
-  On my machine it takes around 10 seconds to reach the RSS limit.
-
-  Unfortunately, I can't find a way to tell ASAN to log each malloc to
-  figure out whats going on, but running the original fuzzing test case
-  with the libfuzzer -trace_malloc=3D2 flag, I found that the allocations
-  happen here:
-
-  MALLOC[130968] 0x60300069ac90 32
-      #0 0x55fa3f615851 in __sanitizer_print_stack_trace (/home/alxndr/Deve=
-lopment/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2683851)
-      #1 0x55fa3f55fe88 in fuzzer::PrintStackTrace() (/home/alxndr/Developm=
-ent/qemu/build/i386-softmmu/qemu-fuzz-i386+0x25cde88)
-      #2 0x55fa3f5447d6 in fuzzer::MallocHook(void const volatile*, unsigne=
-d long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x=
-25b27d6)
-      #3 0x55fa3f61bbb7 in __sanitizer::RunMallocHooks(void const*, unsigne=
-d long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x=
-2689bb7)
-      #4 0x55fa3f596d75 in __asan::Allocator::Allocate(unsigned long, unsig=
-ned long, __sanitizer::BufferedStackTrace*, __asan::AllocType, bool) (/home=
-/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2604d75)
-      #5 0x55fa3f596f7a in __asan::asan_calloc(unsigned long, unsigned long=
-, __sanitizer::BufferedStackTrace*) (/home/alxndr/Development/qemu/build/i3=
-86-softmmu/qemu-fuzz-i386+0x2604f7a)
-      #6 0x55fa3f60d173 in calloc (/home/alxndr/Development/qemu/build/i386=
--softmmu/qemu-fuzz-i386+0x267b173)
-      #7 0x7fb300737548 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
-.so.0+0x54548)
-      #8 0x55fa40157689 in async_run_on_cpu /home/alxndr/Development/qemu/c=
-pus-common.c:163:10
-      #9 0x55fa409fab83 in hpet_timer /home/alxndr/Development/qemu/hw/time=
-r/hpet.c:376:9
-      #10 0x55fa416a5751 in timerlist_run_timers /home/alxndr/Development/q=
-emu/util/qemu-timer.c:572:9
-      #11 0x55fa3fcfdac4 in qtest_clock_warp /home/alxndr/Development/qemu/=
-softmmu/cpus.c:507:9
-      #12 0x55fa3fd65c35 in qtest_process_command /home/alxndr/Development/=
-qemu/softmmu/qtest.c:665:9
-      #13 0x55fa3fd5e128 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/softmmu/qtest.c:710:9
-      #14 0x55fa3fd5de67 in qtest_server_inproc_recv /home/alxndr/Developme=
-nt/qemu/softmmu/qtest.c:817:9
-      #15 0x55fa4142b64b in qtest_sendf /home/alxndr/Development/qemu/tests=
-/qtest/libqtest.c:424:5
-      #16 0x55fa4142c482 in qtest_clock_step_next /home/alxndr/Development/=
-qemu/tests/qtest/libqtest.c:864:5
-      #17 0x55fa414b12d1 in general_fuzz /home/alxndr/Development/qemu/test=
-s/qtest/fuzz/general_fuzz.c:581:17
-
-  It doesn't look like we ever exit out of the loop in
-  timerlist_run_timers, ie timer_list->active_timers is always True.
-
-  =
-
-  Info From GDB:
-  #0  0x0000555558070d31 in address_space_stl_internal (as=3D0x55555f0e8f20=
- <address_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0, =
-endian=3DDEVICE_LITTLE_ENDIAN) at /home/alxndr/Development/qemu/memory_ldst=
-.inc.c:323
-  #1  0x0000555558071339 in address_space_stl_le (as=3D0x55555f0e8f20 <addr=
-ess_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0) at /ho=
-me/alxndr/Development/qemu/memory_ldst.inc.c:357
-  #2  0x000055555a6a6f95 in update_irq (timer=3D0x61f0000005b8, set=3D0x1) =
-at /home/alxndr/Development/qemu/hw/timer/hpet.c:210
-  #3  0x000055555a6ae55f in hpet_timer (opaque=3D0x61f0000005b8) at /home/a=
-lxndr/Development/qemu/hw/timer/hpet.c:386
-  #4  0x000055555c03d178 in timerlist_run_timers (timer_list=3D0x60b0000528=
-f0) at /home/alxndr/Development/qemu/util/qemu-timer.c:572
-  #5  0x000055555c03d6b5 in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at /home/alxndr/Development/qemu/util/qemu-timer.c:586
-  #6  0x0000555558c3d0c4 in qtest_clock_warp (dest=3D0x3461864) at /home/al=
-xndr/Development/qemu/softmmu/cpus.c:507
-
-  =
-
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888714/+subscriptions
+--0000000000008b990005c46b7989--
 
