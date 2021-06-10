@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44B53A27BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:06:20 +0200 (CEST)
-Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27733A27CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:08:55 +0200 (CEST)
+Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrGdn-0005Jd-VP
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54908)
+	id 1lrGgI-0006vV-VF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lrGd2-0004Uj-8t
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:05:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40054)
+ id 1lrGfD-00067Q-Pq
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:07:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lrGct-00057e-U6
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:05:32 -0400
+ id 1lrGfB-0006kx-KP
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:07:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623315922;
+ s=mimecast20190719; t=1623316064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zidWe7+HBRBA/KtVBH0nqOhw9XZdDQV9FXE42wo6LfU=;
- b=QNp14cXKinO68LfY+iPUGwigLpUUuiVm9K9ehEgOH3kMdVLp5ZZi6PX7Wag2YI3Bw2WG2p
- bvJW3vIpiLqtmHY5P4S9z9/zAxVWhwKIwcbqNHtQD7UkAqpXp5stZI0XCSWGBM/0IKk4QA
- CNw0qHrgx5sybouwkGCOq+cW/7LQ4Kk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-fbDWcOktNWaju-_u0ZA6jQ-1; Thu, 10 Jun 2021 05:05:20 -0400
-X-MC-Unique: fbDWcOktNWaju-_u0ZA6jQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j6-20020a05600c1906b029019e9c982271so3623063wmq.0
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:05:20 -0700 (PDT)
+ bh=HwnnEuQIdbjP6IeNmDtKDyNDGctG59t9rVmjscRMrfY=;
+ b=O+MkO0Qv5pgKxc0mwXQpMucFadrxOjYJ3D4GcueoOF3Auv8JTwVzBBVBOaNQS60hdL81m7
+ cS7akOeY+n4zkYb/AlxuIfkt2tWeal9IQG7a+5q9Jvn2NAbliQsodp+/SnByHItyujq1Ew
+ WrjdI9wsT6kKF2kJ+fyQT2bzV5pzpyQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-rKo_bwLwPTKhUPngh32Dog-1; Thu, 10 Jun 2021 05:07:43 -0400
+X-MC-Unique: rKo_bwLwPTKhUPngh32Dog-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n4-20020a5d42040000b0290119fef97609so570602wrq.18
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:07:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zidWe7+HBRBA/KtVBH0nqOhw9XZdDQV9FXE42wo6LfU=;
- b=KKwiuR7zFaa1jVUgxqNoK1m4afXeD+gncKaPJ7K0SLOoAIcxYkhIxvIiZugGAND/61
- rZt1AKHMkGVd85xjM2WdWryPsLSmUztvIaWJJmXPQ2GHtN+VxQRYzoCwn8Me+O+zA1yi
- bNY3FtTWuBiNJRf5ZFxu3T7/993XOlD7CH3ra0OlTyV7fYZP4ccftQfyKV13gFfKJAMy
- 6gjTvk2t/vxh0N7TLMZYyR+M0YCSWGL6huacoeHQDZE+cwJB/G5iocUPs8xY5MTxols6
- cMaW6voYcipLqYM4L6nG5q//kfYp1c0aZCceQwXXptoWojxFoD6SRQxWVQHEqnzYDp9+
- b3yQ==
-X-Gm-Message-State: AOAM5311Lvrl0oS+yv+SMuEw0AH2OcgSClA5ktpZGWNxGfMXLHxsSobt
- vXZtOS5CIV04SnuJBs6S7wGr5Zh67Vd1ssiqVZOMpJHwJZCXKnEhS2WJjB7iyWgnH4cg87lgGta
- Z3u4jf7gsyidpoo0=
-X-Received: by 2002:a7b:c052:: with SMTP id u18mr14303550wmc.105.1623315919419; 
- Thu, 10 Jun 2021 02:05:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlpjT1JMnmVNKEnwka2WqoEMQZLCRcoyB0MgcfYCbGqF3DbtiYs5aiBR0nRgSfcggKxBPVuA==
-X-Received: by 2002:a7b:c052:: with SMTP id u18mr14303520wmc.105.1623315919178; 
- Thu, 10 Jun 2021 02:05:19 -0700 (PDT)
+ bh=HwnnEuQIdbjP6IeNmDtKDyNDGctG59t9rVmjscRMrfY=;
+ b=mncMam/FE3fo6wLLgXYmaYJxZZem5HH0Zv0SWdPTjyMujNbkw1n3Mv6LB/bCLw+zpP
+ 7XyslBuENFhEHMhw+dPHenK1sflfp4/AZX82oO+vTmo2M6RQHy7O0D7tnumAFp4j+3nn
+ a63ad4uo+WG7o9QKZD+6PoYY6j9vh9AwcGPLA09BXaj/sNAVTAQ7Zf8N75pujP+ikCMA
+ jkkyMERLQDWtrI948Q22csmtQtG0mKV+GCbB3bngR+tAng8FiopzwTeRjbG2/E5C42VI
+ UE265aXNi9gOPbPT/yMg4FPI9w/8KEloEA/McjQUFeYDiQRo3WBWzgxEfc+xABH4XVyu
+ BdMA==
+X-Gm-Message-State: AOAM531P5hSa9hfvOuysard00Ud7CV0GF0VPa4GYnEdrpUjMxdZZgshr
+ SEF3XUARQ5hBvqtqbyrJmbYqvUKYWHdVynGX/qR6dr+S8D6Y0JDlFt1yvgQn/YGkzGchSTmESgp
+ /VYcM3TXFrA/WgUY=
+X-Received: by 2002:a5d:530c:: with SMTP id e12mr4183674wrv.165.1623316062468; 
+ Thu, 10 Jun 2021 02:07:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyS6VsYa08EC0O5+FfXQPFEyU4CaRZGil1tXc8KFr0s7hI+c8tcWBcIAxaBB+uZVAdau5LHEg==
+X-Received: by 2002:a5d:530c:: with SMTP id e12mr4183651wrv.165.1623316062272; 
+ Thu, 10 Jun 2021 02:07:42 -0700 (PDT)
 Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
  [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id u12sm2766460wrr.40.2021.06.10.02.05.18
+ by smtp.gmail.com with ESMTPSA id y189sm2359893wmy.25.2021.06.10.02.07.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 02:05:18 -0700 (PDT)
-Date: Thu, 10 Jun 2021 11:05:16 +0200
+ Thu, 10 Jun 2021 02:07:41 -0700 (PDT)
+Date: Thu, 10 Jun 2021 11:07:39 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/7] vhost: Add Error parameter to vhost_dev_init()
-Message-ID: <20210610090516.jca55r3evopt3tth@steredhat>
+Subject: Re: [PATCH 2/7] vhost: Distinguish errors in vhost_backend_init()
+Message-ID: <20210610090739.fwexdxymcq7pnpfw@steredhat>
 References: <20210609154658.350308-1-kwolf@redhat.com>
- <20210609154658.350308-2-kwolf@redhat.com>
+ <20210609154658.350308-3-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210609154658.350308-2-kwolf@redhat.com>
+In-Reply-To: <20210609154658.350308-3-kwolf@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,27 +99,26 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 05:46:52PM +0200, Kevin Wolf wrote:
->This allows callers to return better error messages instead of making
->one up while the real error ends up on stderr. Most callers can
->immediately make use of this because they already have an Error
->parameter themselves. The others just keep printing the error with
->error_report_err().
+On Wed, Jun 09, 2021 at 05:46:53PM +0200, Kevin Wolf wrote:
+>Instead of just returning 0/-1 and letting the caller make up a
+>meaningless error message, add an Error parameter to allow reporting the
+>real error and switch to 0/-errno so that different kind of errors can
+>be distinguished in the caller.
+>
+>Specifically, in vhost-user, EPROTO is used for all errors that relate
+>to the connection itself, whereas other error codes are used for errors
+>relating to the content of the connection. This will allow us later to
+>automatically reconnect when the connection goes away, without ending up
+>in an endless loop if it's a permanent error in the configuration.
 >
 >Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 >---
-> include/hw/virtio/vhost.h    |  2 +-
-> backends/cryptodev-vhost.c   |  5 ++++-
-> backends/vhost-user.c        |  4 ++--
-> hw/block/vhost-user-blk.c    |  4 ++--
-> hw/net/vhost_net.c           |  6 +++++-
-> hw/scsi/vhost-scsi.c         |  4 +---
-> hw/scsi/vhost-user-scsi.c    |  4 +---
-> hw/virtio/vhost-user-fs.c    |  3 +--
-> hw/virtio/vhost-user-vsock.c |  3 +--
-> hw/virtio/vhost-vsock.c      |  3 +--
-> hw/virtio/vhost.c            | 16 ++++++++++------
-> 11 files changed, 29 insertions(+), 25 deletions(-)
+> include/hw/virtio/vhost-backend.h |  3 ++-
+> hw/virtio/vhost-backend.c         |  2 +-
+> hw/virtio/vhost-user.c            | 41 ++++++++++++++++---------------
+> hw/virtio/vhost-vdpa.c            |  2 +-
+> hw/virtio/vhost.c                 | 13 +++++-----
+> 5 files changed, 32 insertions(+), 29 deletions(-)
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
