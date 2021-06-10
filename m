@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98D533A2971
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:37:26 +0200 (CEST)
-Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DE73A296B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:36:19 +0200 (CEST)
+Received: from localhost ([::1]:33428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrI3x-00075O-N9
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45314)
+	id 1lrI2s-0003Mh-2G
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:36:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrHcw-00069I-BN; Thu, 10 Jun 2021 06:09:31 -0400
-Received: from mail-eopbgr60094.outbound.protection.outlook.com
- ([40.107.6.94]:1862 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1lrHd5-0006Lj-Os; Thu, 10 Jun 2021 06:09:40 -0400
+Received: from mail-eopbgr10092.outbound.protection.outlook.com
+ ([40.107.1.92]:32769 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrHct-0005Hv-Db; Thu, 10 Jun 2021 06:09:30 -0400
+ id 1lrHd0-0005DU-A1; Thu, 10 Jun 2021 06:09:39 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c2w4M+0bG+kabWoJzJOD65DnILE7qvdgm39fooUdTiPkLsWBd17LB2IN/QYNHsgDdgoxRlelzB6dqabk33f6I4d0c9IeQn0+ZLYtXkJo3omjPr+1Pf+6Gxq0rGczB5dCKq0MGglm2cVqsUokPx24VuSVtc/CX9e39omJMm5MbnrZxctOjMezAioHi4UAhzNv0+ccMHX9lzOlWSMmWYkOeiYKLdoGoTXMRZJ1sgC/zo4lW9R898bRzJPD2aOTc7vtRre0vBBhmGA/ldRluqR97tg9AWItUZUlyJbi/7yYKwdzag0RzD4KBYK5K5RZ3BxbhHY83dp3H3n8rNXRb2cqxw==
+ b=cT/Lkvol6GbwHj3hMetJB8p6qG/+WrV30SM4gFETor0SLM1ZVO18ZR1UuZAFDl5FPLro44tY57+t7BrlppIS/48R0lDX2MPUaiNukDvRS80wN/cWT9XnibHJEU1zsh8bGVOZ+HMrx9ZSdh93Oul5DTOQTRq0dM4TA4ckfQUfUO1Z3TpBBLbkcO9mmfjfe8x0EuKFnC+9UECxXZ9gdnL1sFyjykFQ6j9c6nUSHO+4D/OW1bQS/ThLPqD3CAhlTr02We5PXnUeI11T9kqQWdekUG6wdZlTJpiLHeWOdUe2BuNhB4RyxodEJT8eCp8VC66XsPHb1KmcPbHipIE+cuGKhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e9oOutGUjSZi06WUdfl1JV61UYRFLcjmiqSpCbbGZr8=;
- b=edHvSjZRAb4qUvzhfL1bhj/uh6UEavsO0DURoqHJdGveS2nAUV+im5SJVhNLE3iK4YnV5L7+QozMqwnEKLvtroTok41ltCt8RHkjf+eBFi6TRaAkOen2+8oIduwiv4YvDLDDVYoRi4eAd9x2oMsD+dfpi08izqVINTqJa9APfUgPpbvTFN0M92oCUgu3bvZ96qb8uHTXf5+H13btNpo3RAmCx3cdnvowtcjndCqZqpbtYPgtnKlButMq6q0ckHPD7cfIW/UAFsfVCYVsuQ4Nir2bsKlkEOAukTus36gyTsZnIvEic7jugDgugHOriu4+rFsh8NUl6xj23anG0tIkGg==
+ bh=yEBcMQ8qVB5qoVebjKJoPvZdbrROBbC5dN+177BsbWw=;
+ b=MytJE6ZM+28G3AZ9GSagtcQzleT27nbPOP1gjIFNHJNIPiBPBkYfPXdlDytB+S67I0/R47m8SjvwEHAXTAfMlszX5JXc7NzHOrNiqxi51qtuCcv8gqR/SfEQyvpY55byy29zGHpYwW6yc4/PjDDeDYCALWfUQL4qNBWwjb6TcoxbQjAyDbTTazxo6/jj0xaz0y3YSARI081cV2OiSRadonxsZ+Q8sm3lsr/GaVgnZOzO3AhWiSIjWpem2A/uDgvkVm950SWP8sy2EPcFDE5H6ADv+58jLegXCoPGWyoBuU8WiM9JOTumuHB97upz9HFfP1NtUYXrpWLdpHysNwyt0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e9oOutGUjSZi06WUdfl1JV61UYRFLcjmiqSpCbbGZr8=;
- b=OsoPdACkTtAxdyG8hu5m2PCILjf3suU8fsA/61bYrKis2xpiyl0Qu41FFmQvQiYxmxmoeyDm3JAVbbjHgCCVbWtALfv+ImB47OOdccqTqUGzHacZ0ZP65PmzUhvtmEtKsZF8XA/UOzOmpazWBVOCJj2BikdkkYK1mdOIirHenl8=
+ bh=yEBcMQ8qVB5qoVebjKJoPvZdbrROBbC5dN+177BsbWw=;
+ b=tlyT+DLgQUqJKXBNJql/odXoCqokxBTImfO2YIm0vy3pG9FBf/ns/WWBs/3elHjBjJ6nIKGz6PJQJO3meSMG12xEH1Pm/lEcKF5vnaaZatO0Q0lgFnHTfS+d5XQiWbr6Jb4MAD0uqXHj3xsAO4JfzUSS3uYRblC4ZaqF1k6DOYo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6806.eurprd08.prod.outlook.com (2603:10a6:20b:39b::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Thu, 10 Jun
- 2021 10:09:19 +0000
+ 2021 10:09:22 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 10:09:19 +0000
+ 10:09:22 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, eblake@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v4 29/32] nbd/client-connection: add option for non-blocking
- connection attempt
-Date: Thu, 10 Jun 2021 13:07:59 +0300
-Message-Id: <20210610100802.5888-30-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 31/32] block/nbd: add nbd_client_connected() helper
+Date: Thu, 10 Jun 2021 13:08:01 +0300
+Message-Id: <20210610100802.5888-32-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610100802.5888-1-vsementsov@virtuozzo.com>
 References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
@@ -66,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.215) by
  HE1P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.22 via Frontend Transport; Thu, 10 Jun 2021 10:09:18 +0000
+ 15.20.4219.22 via Frontend Transport; Thu, 10 Jun 2021 10:09:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c399af7a-d31e-43ef-8805-08d92bf7cfdc
+X-MS-Office365-Filtering-Correlation-Id: e6a956c1-d29d-44dc-6f96-08d92bf7d15c
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6806:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6806529A832B4CF4317842E1C1359@AS8PR08MB6806.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB680687BAE2E6A530A2DF3894C1359@AS8PR08MB6806.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:47;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8Hbx346S+LjDXyb8yfU5mT2XgrucI9teNtlRho9xdLGNEacXUqWXfQB6MVQSKmajB8nuI3jA94Sk9a01jox/dnC6US8sA3rSPMipYBa1YRC6/pnKWXCkOSfcyikPIMZJ1bVeowELKNQI+owFqpfIVkfZ5YSAwJ5lAjzMzZtMiRqWCIgTQ2Et1hv3zmWtVg4pVAAkJ4YcVCjS2LI4a4ItfJc++ffA5/lbwSsVVdGmeKHaBZSUkdjXU/ihTO1XtN7FXjsgdCR/Dx5o7/yDui28IN2SPUk8Kp1oCbC/gtSi6+Km7wJRwTm2vI7fs/qsLy9LcBe3xFwGqiUO8ZRnk2tCCxYy+4Yn4G6RN1iud1F8+XRB4KKZ+RP0xoTW2/631IBV+HMGsQFD89xf5/xUb5lqjhgpSLdnUD9nZVy4XFHxEuSBkvvhGHCHkcVW+3b+v6EoDm6j2oaxdQvXRQPyy9Dzl78mBSj452NDn053sbjhhzpY0Jcdo71PXHhrXFDF9Aj/Uo6KqiiJ7fL45DsZw2h4A273uDCjYaJaHv9pTpXNCQgQRj5y+F7vTLQNyJ61JSrL4cB2e1AjG113EK67K6I+a4bVTc2VR7rVhzSQcHt1U3Uz8/m9wNBppkCxf0tMGEpV5M24xlyuzKYflM2iH1KCcfILBJTtcLuYo8/sqCz4HtAmtWQ1KwY4FevRgyEep93c
+X-Microsoft-Antispam-Message-Info: jl3NwjzdrCst985O1hDDA9MG2YyxFTV3bYme8KLJI7kWoVKZdt89oRnG0PsnF0f3jCI9rM9nFKYLno2fYGFLJrNaPMwDpy4DBqPnJ9yWUIWPQNERRspjItoo02b1j/4LMzHQ/nyNIlQRT7DwC8RO8vf0h3nfnNGlU+xOu+j26zADPhvV/X4lBUa1FzvEXSImLNwpnvFsRQ3/IIyqxAQaRKaTt0oPHc3q/jHBM+oEN2gcF6m9R/3QUP5ma7mUtOvQUZGE4qnMPpiTYjV6VbWLHIx8A80UYSwfU25HWZ2xocvYk2SQhaNuxm6JQm0pl+QXo0KRdoqSzPAiBy4K4TJd9gsnjgkW31vE/PihCsYsGRx/7P21S/7hxy3OR9pI0m1Zmo0rd9Tu/OcHtWQQHGfp30zDoQRMyAcK9SXMlUdFzR5OSdk5RRUC2Z12YVSs5oyZKSzsVXzYpjsnTO41oGKyPa2iGT545M4h2ThbUEGzsPAZWjbboRJ2Iu32f5cfFaMGUFGZEgfveo+hwomThkQ1t69U1ph3boLUWADzaygKfKKfo0Q9Lr/chrO2CBuk2ibxI5vfnDBE21uCF79+KPBPOFZuUkzI70RF44vUH8Cy2eB2UqYqPxrhBeApGMUHVcIQtNQDMtJ1xbP+LV+4kZ1DaHGMw4qjz3TaH3OLlQacTmeW4ENLqGjedOS6rAJnbJqa
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(136003)(366004)(39830400003)(376002)(396003)(346002)(2616005)(2906002)(316002)(6512007)(5660300002)(8676002)(1076003)(8936002)(956004)(6506007)(86362001)(66556008)(38350700002)(16526019)(186003)(66476007)(478600001)(6486002)(6666004)(4326008)(38100700002)(26005)(66946007)(6916009)(52116002)(83380400001)(36756003)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?vWeXnytou9u0nBdNrQVEWVdyrx7LRNPLRspmeRJKMPpjZeQDTb5YKZHIQXOc?=
- =?us-ascii?Q?MepPhyuCoVLCMK6ogIfKF98JJPA5F/vH069b9uH2gwMXaCSxNg1nZDUYdHXf?=
- =?us-ascii?Q?BFIcQ7XUzRhXC27+imjx1NN760rtiAFnnb+Vcx6Re5D12mc2s5Wu62Y3H4Rq?=
- =?us-ascii?Q?mMKUwdVFUb5ZKIzsQ8l4a7/4S2bKSVJAAm0usLQ+zSJhVv5uDugVVgSdqC0P?=
- =?us-ascii?Q?6bkq8QcIl1fgo/pVSVH4i7VWtMnkqaz6TF/9T+kJk3J3sruXrLYXAukZ/0Dy?=
- =?us-ascii?Q?at3HeKmFC/5uJBF9N04OaQvTJ3cQXCboA6pgPpCxLVLiuWf7e1sYR0fTq0XW?=
- =?us-ascii?Q?mfAcileN+mL0aX9oj24tyNsnFMEQURqYBejM5/+5kUpzuyXHA8bAI4abcQ+P?=
- =?us-ascii?Q?rbDjkydUzmJZfsQp7bxo2PsMJL0pEbSWphfeYFK+cvfGpzPTVTemPrjoaV9W?=
- =?us-ascii?Q?wocLhNUg7cDKKEgWhOg4hMy7zqGoZvqF9/2isKjs55TfAhFNZX5VT2yb4btZ?=
- =?us-ascii?Q?SbBevPu1YQjJfS59VMo/7TNdU3MXiuM8TbaySNimTXiyxZojw4wBu6jDXcTd?=
- =?us-ascii?Q?cRFZk0Y8T/tN0kjM/5UNU0fv7EryWZH80zzSCNhpzshgm+aaxaFplGLGU1oL?=
- =?us-ascii?Q?Ih7oBWu5ZvqaEV12ZZAO+m+jooIOSQPRiOMaHfFxyohU8TcDCWdcwNf19aVB?=
- =?us-ascii?Q?BbRVFlz5DQLnoBURnmEx7rB+4/Fx+TSXZg8qC33K4Aw1u6JKyM8yQ+Danhk7?=
- =?us-ascii?Q?6e5pVv989G0PB3MR+kSPC1R5wlMdibZzM3QPhCjmLfZL8uQc7fOK5xR5vpYD?=
- =?us-ascii?Q?1xbmarePg1u/7F3en9ihCYIGT5WlYrUlgQRYC8gdoF8vG1VdtbVlIr2dWErg?=
- =?us-ascii?Q?+IApyUsy9WlDn5ZvKsn/7nhK5HKvBIeXGTPThlqOs1OZof2FHUInW3Bd9ZEm?=
- =?us-ascii?Q?NpEXxi8JJ+jwfAO1cv6aeR/YD2G1l1H9lq7B1ZhTkzRy9bTgQCc7eMvpiKXq?=
- =?us-ascii?Q?knrPgcSCMtnJM5R75bKB/VzTkW5w/MEOXzsBq/y68I8ob1N2bK21Jsgxtt8l?=
- =?us-ascii?Q?CPV5MXMWlMaiUj02VUCj4m+kzlaePf+eEYRI9CnBET8bR+FsVeyXjS7B2H6J?=
- =?us-ascii?Q?AvbW9yKsynGVSb/zIkXxWdUZVwuVWy4ZmVxi99UoAHHWMMSCVIwRCrW3k5+D?=
- =?us-ascii?Q?n7qNsHpnwOqVYb6YtlVib/ubmvhcTH5buX9GxT3B5/fu1FtnNbGzbUZxSwsH?=
- =?us-ascii?Q?m5vFHzwM2p+ZKmOoHD0JsSTrsNlFQyI9j6NnQ29GAeM9K/eklmRCqi85aZTe?=
- =?us-ascii?Q?CnB3LtZ7e/Cc69RxDiZallOJ?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?qCFaQ1DfjrZuYURkSkxcwty/g+cp4zOIUSM3kB/R4UORvwmqvgS3P3R5cXF+?=
+ =?us-ascii?Q?58NOkekhSGeT95iw0eZHbd+hdo5bPhkhWpn4HrRcILc2JUazGAdDySTtijNn?=
+ =?us-ascii?Q?y4YYhMB9c3dK8nnEYT9GMirgxJ7QXUDFSsUNWi2IHGJJLUI/vh5Gl0vWPOtz?=
+ =?us-ascii?Q?stcIVEKOOTAL22bRH26d/6dsqEqaT+nlAIV0VhMBf3JHQXqwSreVOa2ldOFD?=
+ =?us-ascii?Q?rxcWiNuLS19+912E1wV61Qd3BE2JIYPnW8mK8UTHVy4gwSUwysTMoJexwJHQ?=
+ =?us-ascii?Q?59EZBVK6/AP32MWmjmJGZbLiOeYzT/UsFS7QnVJiHMcqEB5Esm9mMMwPQ2AO?=
+ =?us-ascii?Q?pH7t4Y7YJFhcv6m2DUmFIuqp/Lu/RlQvazua1IDeTemENnQMleGlUFU0BgQT?=
+ =?us-ascii?Q?p08PjRf5ssJQnNIi2uWFQMUyaJlxhrjz+1oLkr0cm0ZPOvCx/MpJ6xumIvJC?=
+ =?us-ascii?Q?9Yw/qsjohmCOxzEh5cL+20Vca/y88G8DNBLyz3Wt80SYwEt7yIUAYhjWFJVM?=
+ =?us-ascii?Q?kuXZhDcgdZO4lYvX4nGbBzkJXUyXXtmMq9suSA85mlUD6W6ZwUlYlr9OhSJ8?=
+ =?us-ascii?Q?uQuyUDnh4hDlWURch8XLL24i0cnO3unbwR2rwDg5JB28yTYnK4oHe/OtDhZC?=
+ =?us-ascii?Q?WurHB+CUNeu2MYgy3VhRZGKR5ggWekqaplly7r6UW0/Yb1osMIInAz44411H?=
+ =?us-ascii?Q?Mfx9wlMJ2FrKZ/IyerW2Ah2pubed53wc2VfNVHDduS4MeZg3ee0sdBDIOaAT?=
+ =?us-ascii?Q?BKLxJgoeZjZ1gNKTFws1uIudQhezyVKiKNY5qkG4HNUN+DbGUDF54YmjGpRB?=
+ =?us-ascii?Q?oaUu/VQyTtuDZSfpozxLx59HIYPpAf/7d5i7xPIuf6uaO4hNH1fO4DAVAgPm?=
+ =?us-ascii?Q?sr+T4pj8QX+8PTl5JQTDP3Y4oxfr2++zaaaA17LsYDAWKNAUtn22A7AXouVi?=
+ =?us-ascii?Q?pGaiG22oBfKJ/scatCP6PCBCKXmDRKOD7uvfwN6zN0uHNG97gx0tDsjxx8hZ?=
+ =?us-ascii?Q?qEmoDxYsuRsShym8Z5rkwhwUe8WFY9fBOWhmhjrONdXJpZqnDJ7ZC+iFWmpc?=
+ =?us-ascii?Q?sR1fBU0KrpIOR7ebB9nCGuwVmYjVUOEE/jKBTSVXx/9nr93Z2ZrHytXjf4yw?=
+ =?us-ascii?Q?ZYc2GMbynPV+dEeeS2di4Ncaw4QXgEwlEhIAg4hSeWFogndNqNDphTggn7CI?=
+ =?us-ascii?Q?MIuKJW7+cT3X0cAyJD3vxAGdODXQYbwbA9vyjGjci6vVAdXj0ab3hKJdy2/U?=
+ =?us-ascii?Q?kG21/slFLF6AlJaD9KY4IbddD/+WMYzaL8lop5FUwIyB3koUgqf5lwTmxYGM?=
+ =?us-ascii?Q?8nfZbgI6udMeljyRdZ0+Kuy5?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c399af7a-d31e-43ef-8805-08d92bf7cfdc
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6a956c1-d29d-44dc-6f96-08d92bf7d15c
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 10:09:19.6218 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 10:09:22.0292 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vGdNBDIcatEQ6z5ZVikQ0HEqquM83nM7VgoDvQiE0uFtTBIQTrGN8UnDTTXjEICoBgYhxmm0iiuTBvBJhBiiUmBWJ7upLghZqNyu3pf/fTI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: v/fvnhuSkSSERbkY0PckeyyYHl9RjJPpAQ4k/mnfBv9dQaA02JE8Q1pZa+VL1MJzRO5qGlnZR1Y8X0r93GMZgrTsNliJwbVA6KLvVcAzmFg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6806
-Received-SPF: pass client-ip=40.107.6.94;
+Received-SPF: pass client-ip=40.107.1.92;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -139,75 +138,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll need a possibility of non-blocking nbd_co_establish_connection(),
-so that it returns immediately, and it returns success only if a
-connections was previously established in background.
+We already have two similar helpers for other state. Let's add another
+one for convenience.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/nbd.h     | 2 +-
- block/nbd.c             | 2 +-
- nbd/client-connection.c | 8 +++++++-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ block/nbd.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 10c8a0bcca..78d101b774 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -420,7 +420,7 @@ void nbd_client_connection_release(NBDClientConnection *conn);
- 
- QIOChannel *coroutine_fn
- nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
--                            Error **errp);
-+                            bool blocking, Error **errp);
- 
- void coroutine_fn nbd_co_establish_connection_cancel(NBDClientConnection *conn);
- 
 diff --git a/block/nbd.c b/block/nbd.c
-index 8caeafc8d3..bf2e939314 100644
+index 5e7e238b47..5cfb749e08 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -364,7 +364,7 @@ static int coroutine_fn nbd_co_do_establish_connection(BlockDriverState *bs,
+@@ -122,15 +122,20 @@ static void nbd_clear_bdrvstate(BlockDriverState *bs)
+     s->x_dirty_bitmap = NULL;
+ }
  
-     assert(!s->ioc);
- 
--    s->ioc = nbd_co_establish_connection(s->conn, &s->info, errp);
-+    s->ioc = nbd_co_establish_connection(s->conn, &s->info, true, errp);
-     if (!s->ioc) {
-         return -ECONNREFUSED;
-     }
-diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 500b8591e8..250d094b4d 100644
---- a/nbd/client-connection.c
-+++ b/nbd/client-connection.c
-@@ -265,6 +265,8 @@ void nbd_client_connection_release(NBDClientConnection *conn)
-  *   otherwise the thread is not running, so start a thread and wait for
-  *     completion
-  *
-+ * If @blocking is false, don't wait for the thread, return immediately.
-+ *
-  * If @info is not NULL, also do nbd-negotiation after successful connection.
-  * In this case info is used only as out parameter, and is fully initialized by
-  * nbd_co_establish_connection(). "IN" fields of info as well as related only to
-@@ -273,7 +275,7 @@ void nbd_client_connection_release(NBDClientConnection *conn)
-  */
- QIOChannel *coroutine_fn
- nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
--                            Error **errp)
-+                            bool blocking, Error **errp)
++static bool nbd_client_connected(BDRVNBDState *s)
++{
++    return qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED;
++}
++
+ static void nbd_channel_error(BDRVNBDState *s, int ret)
  {
-     QIOChannel *ioc;
-     QemuThread thread;
-@@ -313,6 +315,10 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
-                                connect_thread_func, conn, QEMU_THREAD_DETACHED);
+     if (ret == -EIO) {
+-        if (qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED) {
++        if (nbd_client_connected(s)) {
+             s->state = s->reconnect_delay ? NBD_CLIENT_CONNECTING_WAIT :
+                                             NBD_CLIENT_CONNECTING_NOWAIT;
+         }
+     } else {
+-        if (qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED) {
++        if (nbd_client_connected(s)) {
+             qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+         }
+         s->state = NBD_CLIENT_QUIT;
+@@ -228,7 +233,7 @@ static void nbd_client_attach_aio_context(BlockDriverState *bs,
+      * s->connection_co is either yielded from nbd_receive_reply or from
+      * nbd_co_reconnect_loop()
+      */
+-    if (qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED) {
++    if (nbd_client_connected(s)) {
+         qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), new_context);
+     }
+ 
+@@ -499,7 +504,7 @@ static coroutine_fn void nbd_connection_entry(void *opaque)
+             nbd_co_reconnect_loop(s);
          }
  
-+        if (!blocking) {
-+            return NULL;
-+        }
-+
-         conn->wait_co = qemu_coroutine_self();
+-        if (qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTED) {
++        if (!nbd_client_connected(s)) {
+             continue;
+         }
+ 
+@@ -578,7 +583,7 @@ static int nbd_co_send_request(BlockDriverState *bs,
+         qemu_co_queue_wait(&s->free_sema, &s->send_mutex);
+     }
+ 
+-    if (qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTED) {
++    if (!nbd_client_connected(s)) {
+         rc = -EIO;
+         goto err;
+     }
+@@ -605,8 +610,7 @@ static int nbd_co_send_request(BlockDriverState *bs,
+     if (qiov) {
+         qio_channel_set_cork(s->ioc, true);
+         rc = nbd_send_request(s->ioc, request);
+-        if (qatomic_load_acquire(&s->state) == NBD_CLIENT_CONNECTED &&
+-            rc >= 0) {
++        if (nbd_client_connected(s) && rc >= 0) {
+             if (qio_channel_writev_all(s->ioc, qiov->iov, qiov->niov,
+                                        NULL) < 0) {
+                 rc = -EIO;
+@@ -931,7 +935,7 @@ static coroutine_fn int nbd_co_do_receive_one_chunk(
+     s->requests[i].receiving = true;
+     qemu_coroutine_yield();
+     s->requests[i].receiving = false;
+-    if (qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTED) {
++    if (!nbd_client_connected(s)) {
+         error_setg(errp, "Connection closed");
+         return -EIO;
+     }
+@@ -1090,7 +1094,7 @@ static bool nbd_reply_chunk_iter_receive(BDRVNBDState *s,
+     NBDReply local_reply;
+     NBDStructuredReplyChunk *chunk;
+     Error *local_err = NULL;
+-    if (qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTED) {
++    if (!nbd_client_connected(s)) {
+         error_setg(&local_err, "Connection closed");
+         nbd_iter_channel_error(iter, -EIO, &local_err);
+         goto break_loop;
+@@ -1115,8 +1119,7 @@ static bool nbd_reply_chunk_iter_receive(BDRVNBDState *s,
+     }
+ 
+     /* Do not execute the body of NBD_FOREACH_REPLY_CHUNK for simple reply. */
+-    if (nbd_reply_is_simple(reply) ||
+-        qatomic_load_acquire(&s->state) != NBD_CLIENT_CONNECTED) {
++    if (nbd_reply_is_simple(reply) || !nbd_client_connected(s)) {
+         goto break_loop;
      }
  
 -- 
