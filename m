@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9C63A2AA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 13:47:38 +0200 (CEST)
-Received: from localhost ([::1]:53646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A323A2A89
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 13:43:38 +0200 (CEST)
+Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrJ9t-0001gk-Ed
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 07:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
+	id 1lrJ60-0001q0-4m
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 07:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrIqQ-00044S-5q; Thu, 10 Jun 2021 07:27:30 -0400
-Received: from mail-eopbgr40090.outbound.protection.outlook.com
- ([40.107.4.90]:54851 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ id 1lrIq1-0003ur-PC; Thu, 10 Jun 2021 07:27:06 -0400
+Received: from mail-vi1eur05on2114.outbound.protection.outlook.com
+ ([40.107.21.114]:47549 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrIqG-0004Ve-Ia; Thu, 10 Jun 2021 07:27:29 -0400
+ id 1lrIpy-0004ZR-Cp; Thu, 10 Jun 2021 07:27:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nGzN/kV7KLepQe6g/jANtKNlOakbVm+3P7M09X9ti9WYtjQghNJIC3h6pAAnYd0ddn1Gg8G5v1mydPRs8eENWoa9a6SnWQ/m9inZi2OmmjOAWR6QsjE3m+wTFJHf+ZfH6EQHhcIgb3tx8MleEQdJh/rJr9OrU0+rSmfTOXae6ZLOuB8kXk3x8QZ9gfgXiARHD6l/n+3pcIYT3nE4tQNgXJO495Vlh7W+lPbMX6Xpd84RAjGXNLJtWw78xVqhqPOR66GwqtX+pCdUYnXAbnksz1RCJVzrV6TaEiQLPg4LQdVgW5YSCt+owWNlhWik4+vavdIwp3k42sA/9Vx/KtdNjA==
+ b=h5TwXdF12J3YqQkXLojAbz9AEkgaj0oU37uOK+mrP1zm/XgTfsAiQ9El8U0eQ7mxoiRzC4nJrT3MkUOPfeEihFMGEh1UYFbq6HihYHPSsRNbxAd5eW4s5mJtAsMUyPvZ2bas5aOkPxm6TS5rH4vQrRCH2QFT7pibpu7kkKI1iZO0Ln29aBGY3vRWhXlE+3e1Q9ife86HtImTGCO/6+9hXwPwih6C7srZIpfcSrKJYwYPuL30GOFpdRj4WXdQzKuSZ0gcKDHfcW/Ic7ClvDRJaGBirTMFYCaTxd0Tvuy0bwjTkRKYKK5KNSGbQAlB8xs9HslUnSbaNPIzrwjizqoLQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u4ocnYB2elMcQ6ru6jvylmC8TgB30m1LbCBjWVE9qmc=;
- b=Is/BdKVANxRvhcWY21AHYWr/TOXwD6ssaUnXUMvBWXQMDTnYzBzlAQFLFxplgBqh4IDoj6O7C+xjwEirfArgU3DoZQYKqoq4SsY0yXndQkqlaCtpZ3qQftNq+zmm+HOiu1nA2WVmQOdR0wN9YKqHbQsBM71EyBXA81LBMpZhEk2k5rEL+vs94rpSdh8FOsfrw9ZfWuJQgzpceGXoIXc1WNlc2wy9iTG82pfW/k0/kld6c3onYhSxE5m8h+xlFx/1eU+2be0TtzmLRhkSw67GdpX/BvCWmhRuFimSwGzNnXFPg4+E9umE6xR6EDOPTdqMM5Tl7qrgLqMrehAhYixX7w==
+ bh=/p/TS3XFcJAs/p+Fn61YsyKL9qKv/v9dt+kfqgiTOw8=;
+ b=IWrMf1W972AL/l5lZJZy5Drf14tX9d/HPqZ93o9qa+A1iKfTmsnIGCD9Vdh1P4+cmYUDXQ0S0Jg9G5Jo4/KgOpcnmBbRO7iNc1SiuLnC//XCctmrUb/HKh8bmjZhcDVdWD0O7US5joSMyf+5+M1I3rXUqvwDjsV33v5Fl/L2mMIIgfMjoBDq7YVl1jMY+4NAplLPH8WHhAcg79aujWIanVn4b1iue/56Qcm8dfPm+FUneJxBIolzeT9oxO8ljkNFHwwBhDND6vVLZhCjVI6ZcDZoTTFHAWyv9SgDM7M2n6Bdmcu60qxerxqC/Xn4fQWUX90Wsq58fVuAOWxn41ZgCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u4ocnYB2elMcQ6ru6jvylmC8TgB30m1LbCBjWVE9qmc=;
- b=er8WZ1HjvhIqeqxwAN5Ku2fhpwoN8N8gBIHTJAlWCtoN20KPGvW614qWnp4c1IclhyKmb1wFtQM8oHVzrGOKy78/Ris4jfzDns17uL7XGCUQOA5kwxCOKCjww4JWONCzOH8t0AFNBBRVLaQmFDfjJtSlauLiWCR6T4yh6yfrmXU=
+ bh=/p/TS3XFcJAs/p+Fn61YsyKL9qKv/v9dt+kfqgiTOw8=;
+ b=FeDfZtXD1OvaIeUOwBrCqvAb10HIMD6yeaqtaJgBC8hBs8hOxdh4GHRaTq3neQYIf0lDKZ+VMAqDiAoCKEJJzOZ+lFoGPsif+f1vMk4PuN4WQe5/Y1rV6051Gd3f139ym+UwzFwhMsLqdsJDGDpFvvtfkTcEgB3EOVcVJLlkxWU=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3381.eurprd08.prod.outlook.com (2603:10a6:20b:43::26)
+ by AS8PR08MB6280.eurprd08.prod.outlook.com (2603:10a6:20b:29b::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.25; Thu, 10 Jun
- 2021 11:26:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Thu, 10 Jun
+ 2021 11:26:59 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 11:26:58 +0000
+ 11:26:59 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, jsnow@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH v5 23/35] block/copy-before-write: make public block driver
-Date: Thu, 10 Jun 2021 14:26:06 +0300
-Message-Id: <20210610112618.127378-24-vsementsov@virtuozzo.com>
+ mreitz@redhat.com, kwolf@redhat.com, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v5 24/35] qapi: publish copy-before-write filter
+Date: Thu, 10 Jun 2021 14:26:07 +0300
+Message-Id: <20210610112618.127378-25-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610112618.127378-1-vsementsov@virtuozzo.com>
 References: <20210610112618.127378-1-vsementsov@virtuozzo.com>
@@ -65,64 +66,63 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.215) by
  HE1PR0902CA0037.eurprd09.prod.outlook.com (2603:10a6:7:15::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 11:26:57 +0000
+ 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 11:26:58 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1f240ccb-6ca4-4af8-fe2d-08d92c02a890
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3381:
+X-MS-Office365-Filtering-Correlation-Id: fa630c49-5ddb-4c1d-5ce4-08d92c02a954
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6280:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB338196A1649DF60F3AB44B29C1359@AM6PR08MB3381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:341;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6280CFAFD32CD1B189CACFE5C1359@AS8PR08MB6280.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SeOM3skAyR8rnQsSK7xomXDw/NrXn72onLXNh1gLSiMRwl7PXro54k/edd641kKByXNaRfM1LLFSeZbUeH6vwCHb5B4s1NITVuPEHnlNuOHBp7thvIRMVQK/ea2viz1nRgunYgCt4wT5husKmDMoQgioMVxJYPtl64gD8KYikgUo8UgcfkeOVOySVi8Go6JwHJz2Eyu2Xg9n7/4ZZk4hyeojNiqHw0tX1/SI4rXEMlDXpcVztjH7wIPhHo8c1VaoVl0vy4DBv4pNaXc7Y0TzJRweKqSUFnPlRrFNvK/gz76CrsWoPjX6xxPhmLexhDAjA6xN283jUzORLr3iELZLrj1kTeTCe+1pJvg1cTexAT3BNzGRAGzo8ruP5bPdbldfiywCxDIwxQ6Ssvjv0/B3TeCh6DQB2vZM3vlhVlGWn0+gluSZZ0KnepVd4oF3VvoZoHNe4CJse4KbpixNQthPUR6rGKarsiu9L9Ucp4o6gwyzXNv51cys/AhQoNm8e4exRJtmYITWsfvVhTT2YIoVPywQMG+soj/7FFr9MRw7uwMpKZqNGEZCKL403sZGI8jBajbi7L7MmyjFTnPISfNnp5c0ufYE+C7zkWmlbpaDa7o5nbGXZgUwWK4wRI2VIrrcZt3ooitQABPFddQnoJzkmCG4tZy/JWFEMaSl6edHQ8mQH0A+hx71fz4ZnkvbW0Nt
+X-Microsoft-Antispam-Message-Info: AAsvr8D6kJVWgA/I88VFQTNqbo3CfswkXDPQ97ttbK7PPSfhgBPv0woyJ62OCZ0ZKgMSs8Fde/ChyGSM7yIi/o1CHoroERdpJiez5fNkLaTDXrUJb4F5L2SlLlyLkTGKX1AqQ/v8xvF4zvlcO62ZqiJrriclLyyU0Cn7Yveh+8PaOmryYzKTGSOHM861YsurDc/1pGR/kWeFEhRc/PK7U3pO8vAnGvJYIwL0BwkMLXE39AXxWHvjc9xvrJ7NrDw584PtdQevtYmbjy/gfbL71DVT/kepeOF5S10SQ63h8FR09tsc0Qb2xPhDzYi5hPkIaV7hcEPoflbrejx9HA95R9oziz9eiWuxCSGl2e8ddqNpdy+lyIYfkvmiYro4W/04fNxHE9IakKnY/dKU3a8tbfP0E+rvRa9DTvHrv8C699Jv3uKTwbyauqGY9Wj/Ab2qAGrPMXBB5yF2fKxJ7LkyUyX5BG1bnUSl1LItvKpiKHmfAfjjChXk5ASb9SochapxemNKrktWUzDKwWz1U3+iTHFgL/wfgFsbFn9zAyo3G3gxn2fCXPTYo+EG05qh7hEAqWn0Dn7IdmAwcoxswASM5EcSJ2XhJPhxF5sGjcspxtjjfYFAAqVN1jkV79KOGRV/Tpcn59+6zmZc/ICZV2rGMx0LeLSFD1qrotVPOoeTQD+f8ykBtcamJkzo3yu6RkrP
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(39840400004)(136003)(376002)(346002)(2616005)(66476007)(83380400001)(956004)(8676002)(8936002)(38100700002)(6666004)(66946007)(1076003)(5660300002)(66556008)(316002)(26005)(4326008)(6512007)(478600001)(6486002)(186003)(2906002)(52116002)(38350700002)(6916009)(6506007)(36756003)(16526019)(86362001)(69590400013);
+ SFS:(4636009)(39840400004)(396003)(376002)(136003)(346002)(366004)(186003)(26005)(86362001)(36756003)(6666004)(54906003)(1076003)(8936002)(4326008)(6506007)(6916009)(8676002)(16526019)(6512007)(52116002)(38350700002)(478600001)(38100700002)(66556008)(2616005)(316002)(66946007)(2906002)(6486002)(83380400001)(5660300002)(66476007)(956004)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?TP/WwYoPewHEZirF9xu2EXLHFVogLqao7yOCgU0DHotXubmi2tL0uvwzbiiR?=
- =?us-ascii?Q?VWAWbm/iyoVQXDk+/zT/Igntyw6+00nZ/jqoqVKRxXSpK+avcCP5CBnhdXSS?=
- =?us-ascii?Q?zOaOAoORoOv49NNUcb987vAZZ3tvRBP9HD0ppPtZ18/8tFR6F9zivYrdBv8q?=
- =?us-ascii?Q?kfSqII/Xx5BHjezBO/QyAc5+S8+dxH5kuPuB0fehH5FD7p1qoc87AIA27WGr?=
- =?us-ascii?Q?3IEE2DrK46sc44lRcFMpcnO984p9WcvWvzqVP4wPP4MReYpglynlNMiN+nu/?=
- =?us-ascii?Q?dToarH5cSV11o4UxMVYucrWkxwN5PmJ/9gxNP/5PxPgMCaBNK7nVKSu7fuGO?=
- =?us-ascii?Q?Eej4DbeQ+2lOCFUDT+KhvpIEqs57aCrp33A7bjMYMaNJxC8aoFuUh1PcZRD4?=
- =?us-ascii?Q?ACaIh6DFkT7iKNZsZFx+FilpzcWIuD44lYIhITg0jI8wYbsPuMr5TZ02gZKr?=
- =?us-ascii?Q?eiP8QnyU/eegsVFdx/lp4sJmEQTE2OP7AMbGhxT8Nt/9xlgm7n7Giadn6THk?=
- =?us-ascii?Q?z068iPxAixtI6xIybTEovq3L6Io2s24CtH9Gm08C3qBTmR2qNoQu45eq+ZfU?=
- =?us-ascii?Q?zzfqE4h/Wz0YahzdnI4wyGrZwAq/JduUitr3FqLLC6Gdk91pqCqLdI4OYrtc?=
- =?us-ascii?Q?PT3TbIcZ8yxUvkwcWilm/AV1X1e4e005vkaVmSqbXv+tQvkJMjkvs5Y6XlAQ?=
- =?us-ascii?Q?HVEorwIPjgJ3QCeHLUXLmZCpK4GaMiyotsTFj6NWvp8Af3ehRB0RmN9E5rKk?=
- =?us-ascii?Q?imKL8mBq824r/1vEUWHwqbZl5Dthr+j/EUbJzC2a66K/6b3W93cWIm6y/zjq?=
- =?us-ascii?Q?jTfGeyZ8NhvIT5erkScfP8GKI4TLnEHptRSB4BdWNM2Fc1RYYVrWs3sNQgUL?=
- =?us-ascii?Q?LS39yhPdtiEOJk/MMtkSLvaazSR5x4NanuWuCWotuuiyUae2u5Poh6fPv8X7?=
- =?us-ascii?Q?QgGWzS6IHkQrYmqM6IacrTLEYNSwgsZSm5YQ/9BZxawlhdwkXDLaWcb3puK8?=
- =?us-ascii?Q?Ud+iCa8UYJ1RO83Yprs1+UBcE7VcCWrkn9b25NJQeoLuUZmScYaFI9s1wthP?=
- =?us-ascii?Q?mcxDCXmsc3P1zwDQJbS23ktCo3kAUbobg7ktY4ujo9wLiOEUVqleQh2Tj1y5?=
- =?us-ascii?Q?SZboXrITXXJ+2zOrhl4YNyktiL7vLbkP725sY+ECMLKULLJkKWDQT3x0Jg31?=
- =?us-ascii?Q?v9KgdZh2024FrNK9b2ZTCKMSd11yI9HWKuIGZzJGn8ecrDooNvrJOOjVfZDe?=
- =?us-ascii?Q?H5VKFQG7ChLeLoO1CwN5vFEj2Km9MJTQk6KUpTP6k9+g/lPabzpwPNv/z//r?=
- =?us-ascii?Q?x8zJQ3C5/h53il0bUGbnWuWL?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?A0hg72ORAfZvMI4+ibg+FXHyuvlihVDxVQ7pJQ4SGMGVkfwTHhs2pvCR61q+?=
+ =?us-ascii?Q?jYP2okhd0GcmlX8rayJofOs7ievW+L48ys2G/jUPxcQJSrtcvsBSmS/8yEII?=
+ =?us-ascii?Q?1kJaeM4mvssP13/xKFbO6ylea06jVeNCcExbfxmZvxJKovNF46+zloNSidkT?=
+ =?us-ascii?Q?ywKNIveCn4CAcVA4kUAyZNC2kKl3MJyWRG3t5pB42d01JuunHG9SBaZ1uY8C?=
+ =?us-ascii?Q?GMUCz31VHiyp51q1GYgrMwLe5RSGg9sMrr1S/7sexQ8KX3faCa1QzyjcubFM?=
+ =?us-ascii?Q?sqS31bVIQ6ggQ0FMxPp+HFsg19sBzZvhAqG0+QPvCx9rzsa7v6UmVAKRY4W6?=
+ =?us-ascii?Q?ACbYIS60IcvZ3ql2rSHvnDGF+05cyJ6qwB0Evprbo5wrYJvd+bphXB7WMOk/?=
+ =?us-ascii?Q?4CWtOQQWK1G0o4mP1EBXlaFDqcXSz9IHMnwgrkKa2eDzd314HLrD2DkK3e8Z?=
+ =?us-ascii?Q?8O4QO36SiGtzQtcUid6YAD7axSIxKYvg+3u+X/kxDz4N1aMyvoA7MEt0Ju+V?=
+ =?us-ascii?Q?iWpWVOwS2x93fqsHjAWDObgt7lW7y4FN8DCfhCMcNe6vRshagh5+Cv0JiJMH?=
+ =?us-ascii?Q?hjHcNMl2+wZm5PDizARNw1yT+zb8iN16phqh9FSpkkJv8xbRS0KxW6U1RdxH?=
+ =?us-ascii?Q?oiCksuIXnILRqOkns5sEgWsIiJAhuaQsws5HvAubfoUbPBlhn1APC3ss41M/?=
+ =?us-ascii?Q?FU4CO9LoBRZNgyPtTFi1qHNnDG6RGvDPOhLZOyNOQii+NiM1D+6Hb7fjGtX9?=
+ =?us-ascii?Q?MuvS6taA1aac6bHWBb8ANXH1lV+6xnUGyT5ps6dH5/XtAT3GQZFGzaBlBvtL?=
+ =?us-ascii?Q?UPIeC26S6SYY4NEe9Qtx/4AXUM4Dw5ykgEOewH6HEGK/vKrW8PN6iDtJPkAe?=
+ =?us-ascii?Q?m7ljtjYWsdVh0F4YlURKbR1u8xF5PXiyxV6FmWWUYLHTqJrxe+B54Jwxf/yB?=
+ =?us-ascii?Q?6lMX0c2dVxYQDvL9NdWbPNlBotM5+qHmrm1++BcTXbG06Iditszk9tbSqpAT?=
+ =?us-ascii?Q?z2u24Z7AmV5YxilCna/kjJ1KYLP4paZ5+rqTerPJNXnB/Olfk0fpvw4bRdqu?=
+ =?us-ascii?Q?En53rImFZJfvbAMy+aln7bCAlNyuyGtDjyorsaFaZsxImGwCpI0ownMb3trb?=
+ =?us-ascii?Q?73ErP+BEvECqMqimDwd1zSRMx3iFpNOjdS9sNCDsPqJwUkT5YY2W81KCZ6lM?=
+ =?us-ascii?Q?Vv1wqaS79Qtnwt893CI8hJk0JhVhx5JqScRjn5omROuJT+prTyRuRdyQi25H?=
+ =?us-ascii?Q?F2ws4UJpIxFU2+TAuWPrNbsrc9yjFi/BjTXr66Q4hsgTduYMDqLKqe6qIKvF?=
+ =?us-ascii?Q?feMPrLHca7cb9zgou8R4xZGJ?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f240ccb-6ca4-4af8-fe2d-08d92c02a890
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa630c49-5ddb-4c1d-5ce4-08d92c02a954
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 11:26:58.0889 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 11:26:59.3484 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XiekptriV1Ni4EkgAIXHJXi6Yn5qQbiWaCvVd6QkJ3tM50dkWDlpoYL+dxKqqz2v3QkpASONKFXP/IEroXyF10aUAdPf0o/5t2jzhF4RFEM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3381
-Received-SPF: pass client-ip=40.107.4.90;
+X-MS-Exchange-CrossTenant-UserPrincipalName: PH2jl9andWJl2osfvIsQ3ggCAQu3TUNiqi9AjbRjFv7cBBnfrT/Dg7lZttDjICnk0lp6bYiitYytnlulfwU+dMwiD5W0/DZwwbU59AlhhRM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6280
+Received-SPF: pass client-ip=40.107.21.114;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,134 +138,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finally, copy-before-write gets own .bdrv_open and .bdrv_close
-handlers, block_init() call and becomes available through bdrv_open().
-
-To achieve this:
-
- - cbw_init gets unused flags argument and becomes cbw_open
- - block_copy_state_free() call moved to new cbw_close()
- - in bdrv_cbw_append:
-   - options are completed with driver and node-name, and we can simply
-     use bdrv_insert_node() to do both open and drained replacing
- - in bdrv_cbw_drop:
-   - cbw_close() is now responsible for freeing s->bcs, so don't do it
-     here
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/copy-before-write.c | 60 ++++++++++++++++++---------------------
- 1 file changed, 28 insertions(+), 32 deletions(-)
+ qapi/block-core.json | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 2efe098aae..2cd68b480a 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -144,7 +144,8 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
-     }
- }
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 2ea294129e..6c1ce86235 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2808,15 +2808,17 @@
+ # @blklogwrites: Since 3.0
+ # @blkreplay: Since 4.2
+ # @compress: Since 5.0
++# @copy-before-write: Since 6.1
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevDriver',
+   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+-            'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps',
+-            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
+-            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+-            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
++            'cloop', 'compress', 'copy-before-write', 'copy-on-read', 'dmg',
++            'file', 'ftp', 'ftps', 'gluster', 'host_cdrom', 'host_device',
++            'http', 'https', 'iscsi', 'luks', 'nbd', 'nfs', 'null-aio',
++            'null-co', 'nvme', 'parallels', 'preallocate', 'qcow', 'qcow2',
++            'qed', 'quorum', 'raw', 'rbd',
+             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
+             'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
  
--static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
-+static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
-+                    Error **errp)
- {
-     BDRVCopyBeforeWriteState *s = bs->opaque;
-     BdrvDirtyBitmap *copy_bitmap;
-@@ -181,10 +182,21 @@ static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
-     return 0;
- }
+@@ -3937,6 +3939,25 @@
+   'base': 'BlockdevOptionsGenericFormat',
+   'data': { '*bottom': 'str' } }
  
-+static void cbw_close(BlockDriverState *bs)
-+{
-+    BDRVCopyBeforeWriteState *s = bs->opaque;
++##
++# @BlockdevOptionsCbw:
++#
++# Driver specific block device options for the copy-before-write driver,
++# which does so called copy-before-write operations: when data is
++# written to the filter, the filter firstly reads corresponding blocks
++# from its file child and copies them to @target child. After successful
++# copying the write request is propagated to file child. If copying
++# failed, the original write request is failed too and no data is written
++# to file child.
++#
++# @target: The target for copy-before-write operations.
++#
++# Since: 6.1
++##
++{ 'struct': 'BlockdevOptionsCbw',
++  'base': 'BlockdevOptionsGenericFormat',
++  'data': { 'target': 'BlockdevRef' } }
 +
-+    block_copy_state_free(s->bcs);
-+    s->bcs = NULL;
-+}
-+
- BlockDriver bdrv_cbw_filter = {
-     .format_name = "copy-before-write",
-     .instance_size = sizeof(BDRVCopyBeforeWriteState),
- 
-+    .bdrv_open                  = cbw_open,
-+    .bdrv_close                 = cbw_close,
-+
-     .bdrv_co_preadv             = cbw_co_preadv,
-     .bdrv_co_pwritev            = cbw_co_pwritev,
-     .bdrv_co_pwrite_zeroes      = cbw_co_pwrite_zeroes,
-@@ -205,56 +217,40 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   Error **errp)
- {
-     ERRP_GUARD();
--    int ret;
-     BDRVCopyBeforeWriteState *state;
-     BlockDriverState *top;
-     QDict *opts;
- 
-     assert(source->total_sectors == target->total_sectors);
- 
--    top = bdrv_new_open_driver(&bdrv_cbw_filter, filter_node_name,
--                               BDRV_O_RDWR, errp);
--    if (!top) {
--        error_prepend(errp, "Cannot open driver: ");
--        return NULL;
--    }
--    state = top->opaque;
--
-     opts = qdict_new();
-+    qdict_put_str(opts, "driver", "copy-before-write");
-+    if (filter_node_name) {
-+        qdict_put_str(opts, "node-name", filter_node_name);
-+    }
-     qdict_put_str(opts, "file", bdrv_get_node_name(source));
-     qdict_put_str(opts, "target", bdrv_get_node_name(target));
- 
--    ret = cbw_init(top, opts, errp);
--    qobject_unref(opts);
--    if (ret < 0) {
--        goto fail;
--    }
--
--    bdrv_drained_begin(source);
--    ret = bdrv_replace_node(source, top, errp);
--    bdrv_drained_end(source);
--    if (ret < 0) {
--        error_prepend(errp, "Cannot append copy-before-write filter: ");
--        goto fail;
-+    top = bdrv_insert_node(source, opts, BDRV_O_RDWR, errp);
-+    if (!top) {
-+        return NULL;
-     }
- 
-+    state = top->opaque;
-     *bcs = state->bcs;
- 
-     return top;
--
--fail:
--    block_copy_state_free(state->bcs);
--    bdrv_unref(top);
--    return NULL;
- }
- 
- void bdrv_cbw_drop(BlockDriverState *bs)
- {
--    BDRVCopyBeforeWriteState *s = bs->opaque;
--
-     bdrv_drop_filter(bs, &error_abort);
--
--    block_copy_state_free(s->bcs);
--
-     bdrv_unref(bs);
- }
-+
-+static void cbw_init(void)
-+{
-+    bdrv_register(&bdrv_cbw_filter);
-+}
-+
-+block_init(cbw_init);
+ ##
+ # @BlockdevOptions:
+ #
+@@ -3989,6 +4010,7 @@
+       'bochs':      'BlockdevOptionsGenericFormat',
+       'cloop':      'BlockdevOptionsGenericFormat',
+       'compress':   'BlockdevOptionsGenericFormat',
++      'copy-before-write':'BlockdevOptionsCbw',
+       'copy-on-read':'BlockdevOptionsCor',
+       'dmg':        'BlockdevOptionsGenericFormat',
+       'file':       'BlockdevOptionsFile',
 -- 
 2.29.2
 
