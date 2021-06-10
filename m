@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5859F3A30B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:31:50 +0200 (CEST)
-Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731F53A30FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:41:59 +0200 (CEST)
+Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrNau-0008M3-4p
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41352)
+	id 1lrNkk-0004Ku-1J
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrNZw-0007dJ-0S
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58062)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrNjZ-0003fz-Bu
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:40:45 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:39866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrNZs-0002Wa-G4
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:30:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lrNZp-00081w-7G
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:30:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3186F2E8135
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:30:41 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Jun 2021 16:21:14 -0000
-From: Alexander Bulekov <1913919@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrNjX-0007sG-LN
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:40:45 -0400
+Received: by mail-pf1-x433.google.com with SMTP id k15so2089900pfp.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 09:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jICL2E2dGsyW6wqVaOWDQKDgLWC/P6azjECe17Eegzc=;
+ b=xDZG64OuydqR2jtN1JpiL2dKjMLq5oPJxbGTWM6FZBxmWlPn3QgDoloqkVOx0gEvgR
+ Aek91gW53Cx25BoVwHx9F3yGIiF2oUXtWOYFPlEvW43Wv++mJvqfT/aAy0YTTFS+TtRX
+ q4Hn/m7VVvGBqHDYFPjGS9ZAiEpmPGaZkLWdo1vnT5m+g/HdQCN2oZcy8Z/JBq6h5NQZ
+ gwNLfWKKyFCLJHyYSMfqM9wEvcdXeYyyVIzFOfgGPw638RsX1nNBGMZLTbmBLoXd6bVj
+ HI9xlal3/yIW+mwxKZsXVEoXCMpjim4vlw8jCPpv5ucQbwVWSP7fyv5HmVUwucIEKaEW
+ ZHeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jICL2E2dGsyW6wqVaOWDQKDgLWC/P6azjECe17Eegzc=;
+ b=F1gEtDe24k/ZU3YGzmkDsqf5dUO2+W72CAQPBcl0iSuH3XflGtTEsR/pMeuyWC4LBm
+ OzJOnFic53B5od3XKk8eaegKVC6jzff4cfRv2IIZ7qQhFVkL8iyU4HCivpCAtAlxYk00
+ JEmypgBn0z1MVwAamank49THNgoKoMLsxalRkpR6xfj1Eh2ZRo5ruITMIVxfg/MKBCA7
+ TCAUGPzdoGsmSMkH1Udrje/pp01xyR+q5S/auCTvmEuDt37IqpghiBcDA48mAGu07XPo
+ M5lJPWswwFA8qSJkTG3zHy0LQsvUUp0hGQ44nSuAWHzBqyjJqnt8v8rBRebqZQSklHmV
+ r1rw==
+X-Gm-Message-State: AOAM530QAzpmI4WMjhgMHtcDIt0psSYizbx6w9f8A4wYSz48mS+0bVNS
+ dbkrDQoDvHiPltNeGQzuJi7aKPhumRyDMw==
+X-Google-Smtp-Source: ABdhPJy1sZ1j4geIR2e2fjlsQu3NP7JjkDQqHw8QsnDLUcAOINCT5U2JxqePW5TUFgqrJX+49luxtA==
+X-Received: by 2002:a63:d455:: with SMTP id i21mr5780053pgj.263.1623343241709; 
+ Thu, 10 Jun 2021 09:40:41 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id t143sm3565208pgb.93.2021.06.10.09.40.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 09:40:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <161206040524.32468.3095757576345215405.malonedeb@chaenomeles.canonical.com>
- <162333987032.28452.15253226343201255184.malone@gac.canonical.com>
-Message-Id: <20210610162114.p6kb4ztn6pucy6pg@mozz.bu.edu>
-Subject: Re: [Bug 1913919] Re: Heap-buffer-overflow in sdhci_write_dataport
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: 16068f97cefa1be64e11caa7dd68813e5dadfc20
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] accel/tcg: Use MiB in tcg_init_machine
+Date: Thu, 10 Jun 2021 09:40:40 -0700
+Message-Id: <20210610164040.233820-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,258 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913919 <1913919@bugs.launchpad.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There were a few patches some months ago that fixed the sdhci issues,
-and OSS-Fuzz said that all of the heap-overflows that it has seen in
-sdhci have been fixed.
--Alex
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-On 210610 1544, Thomas Huth wrote:
-> Can you still reproduce this issue with the latest git version of QEMU?
-> ... for me, it does not crash anymore.
-> =
+This sits in the middle of my "Clean up code_gen_buffer allocation"
+patch set.  Alex mentioned it during review, and I had already made
+the change.
 
-> ** Changed in: qemu
->        Status: New =3D> Incomplete
-> =
+This is the only patch in the set that has not been posted and
+reviewed.  Rather than re-posting the entire set, I'm just
+sending this one and will queue the whole thing to tcg-next.
 
-> -- =
 
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1913919
-> =
+r~
 
-> Title:
->   Heap-buffer-overflow in sdhci_write_dataport
-> =
+---
+ accel/tcg/tcg-all.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> Status in QEMU:
->   Incomplete
-> =
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index e990180c4b..1ee89902c3 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -32,6 +32,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/accel.h"
+ #include "qapi/qapi-builtin-visit.h"
++#include "qemu/units.h"
+ #include "internal.h"
+ 
+ struct TCGState {
+@@ -115,7 +116,7 @@ static int tcg_init_machine(MachineState *ms)
+ 
+     page_init();
+     tb_htable_init();
+-    tcg_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
++    tcg_init(s->tb_size * MiB, s->splitwx_enabled);
+ 
+ #if defined(CONFIG_SOFTMMU)
+     /*
+-- 
+2.25.1
 
-> Bug description:
->   Reproducer:
->   cat << EOF | ./qemu-system-aarch64 -qtest stdio \
->   -machine raspi3b,accel=3Dqtest -m 1G =
-
->   write 0x3f30002c 0x1 0x25
->   write 0x3f300004 0x1 0x01
->   write 0x3f300006 0x1 0xc0
->   write 0x3f30000c 0x1 0x22
->   write 0x3f30000e 0x1 0x20
->   write 0x3f30000f 0x1 0x0
->   write 0x3f300000 0x1 0x48
->   write 0x3f300003 0x1 0x0
->   write 0x3f300005 0x1 0x14
->   write 0x3f300007 0x1 0x10
->   write 0x3f30000c 0x1 0x32
->   write 0x3f30000f 0x1 0x0
->   write 0x3f300001 0x1 0x00
->   write 0x3f300002 0x1 0x30
->   write 0x3f300003 0x1 0x3f
->   EOF
-> =
-
->   Stacktrace:
->   =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addr=
-ess 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
->   WRITE of size 1 at 0x619000017b80 thread T0
->       #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/=
-qemu/build/../hw/sd/sdhci.c:560:39
->       #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/buil=
-d/../hw/sd/sdhci.c:1172:13
->       #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Deve=
-lopment/qemu/build/../softmmu/memory.c:491:5
->       #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Develop=
-ment/qemu/build/../softmmu/memory.c:552:18
->       #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Deve=
-lopment/qemu/build/../softmmu/memory.c
->       #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developme=
-nt/qemu/build/../softmmu/physmem.c:2759:23
->       #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/b=
-uild/../softmmu/physmem.c:2799:14
->       #7 0x5629893de71b in address_space_write /home/alxndr/Development/q=
-emu/build/../softmmu/physmem.c:2891:18
->       #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development=
-/qemu/include/sysemu/dma.h:88:12
->       #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/in=
-clude/sysemu/dma.h:127:12
->       #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qem=
-u/include/sysemu/dma.h:163:12
->       #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr=
-/Development/qemu/build/../hw/sd/sdhci.c:617:13
->       #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/bui=
-ld/../hw/sd/sdhci.c:1129:17
->       #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Dev=
-elopment/qemu/build/../softmmu/memory.c:491:5
->       #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c:552:18
->       #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Dev=
-elopment/qemu/build/../softmmu/memory.c
->       #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developm=
-ent/qemu/build/../softmmu/physmem.c:2759:23
->       #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/=
-build/../softmmu/physmem.c:2799:14
->       #18 0x5629893de71b in address_space_write /home/alxndr/Development/=
-qemu/build/../softmmu/physmem.c:2891:18
->       #19 0x56298904ad35 in qtest_process_command /home/alxndr/Developmen=
-t/qemu/build/../softmmu/qtest.c:654:9
->       #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/=
-qemu/build/../softmmu/qtest.c:797:9
->       #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/bui=
-ld/../chardev/char-fd.c:68:9
->       #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linu=
-x-gnu/libglib-2.0.so.0+0x51aae)
->       #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qe=
-mu/build/../util/main-loop.c:232:9
->       #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Developme=
-nt/qemu/build/../util/main-loop.c:255:5
->       #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/=
-build/../util/main-loop.c:531:11
->       #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/=
-build/../softmmu/runstate.c:721:9
->       #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../s=
-oftmmu/main.c:50:5
->       #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308=
-:16
->       #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/q=
-emu-system-aarch64+0x3350bc9)
-> =
-
->   0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x6=
-19000017780,0x619000017b80)
->   allocated by thread T0 here:
->       #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qe=
-mu-system-aarch64+0x33cadb2)
->       #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2=
-.0.so.0+0x57ae0)
->       #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/=
-qemu/build/../hw/sd/sdhci.c:1469:5
->       #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/q=
-emu/build/../hw/core/qdev.c:761:13
->       #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qem=
-u/build/../qom/object.c:2255:5
-> =
-
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913919
-
-Title:
-  Heap-buffer-overflow in sdhci_write_dataport
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Reproducer:
-  cat << EOF | ./qemu-system-aarch64 -qtest stdio \
-  -machine raspi3b,accel=3Dqtest -m 1G =
-
-  write 0x3f30002c 0x1 0x25
-  write 0x3f300004 0x1 0x01
-  write 0x3f300006 0x1 0xc0
-  write 0x3f30000c 0x1 0x22
-  write 0x3f30000e 0x1 0x20
-  write 0x3f30000f 0x1 0x0
-  write 0x3f300000 0x1 0x48
-  write 0x3f300003 0x1 0x0
-  write 0x3f300005 0x1 0x14
-  write 0x3f300007 0x1 0x10
-  write 0x3f30000c 0x1 0x32
-  write 0x3f30000f 0x1 0x0
-  write 0x3f300001 0x1 0x00
-  write 0x3f300002 0x1 0x30
-  write 0x3f300003 0x1 0x3f
-  EOF
-
-  Stacktrace:
-  =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
-  WRITE of size 1 at 0x619000017b80 thread T0
-      #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/qe=
-mu/build/../hw/sd/sdhci.c:560:39
-      #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/build/=
-../hw/sd/sdhci.c:1172:13
-      #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c:491:5
-      #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:552:18
-      #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c
-      #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Development=
-/qemu/build/../softmmu/physmem.c:2759:23
-      #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bui=
-ld/../softmmu/physmem.c:2799:14
-      #7 0x5629893de71b in address_space_write /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2891:18
-      #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development/q=
-emu/include/sysemu/dma.h:88:12
-      #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/incl=
-ude/sysemu/dma.h:127:12
-      #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:163:12
-      #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr/D=
-evelopment/qemu/build/../hw/sd/sdhci.c:617:13
-      #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/build=
-/../hw/sd/sdhci.c:1129:17
-      #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/build/../softmmu/memory.c:491:5
-      #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/build/../softmmu/memory.c:552:18
-      #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/build/../softmmu/memory.c
-      #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/build/../softmmu/physmem.c:2759:23
-      #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bu=
-ild/../softmmu/physmem.c:2799:14
-      #18 0x5629893de71b in address_space_write /home/alxndr/Development/qe=
-mu/build/../softmmu/physmem.c:2891:18
-      #19 0x56298904ad35 in qtest_process_command /home/alxndr/Development/=
-qemu/build/../softmmu/qtest.c:654:9
-      #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/build/../softmmu/qtest.c:797:9
-      #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/build=
-/../chardev/char-fd.c:68:9
-      #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x51aae)
-      #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/build/../util/main-loop.c:232:9
-      #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/build/../util/main-loop.c:255:5
-      #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/bu=
-ild/../util/main-loop.c:531:11
-      #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
-ild/../softmmu/runstate.c:721:9
-      #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../sof=
-tmmu/main.c:50:5
-      #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-      #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/qem=
-u-system-aarch64+0x3350bc9)
-
-  0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x619=
-000017780,0x619000017b80)
-  allocated by thread T0 here:
-      #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qemu=
--system-aarch64+0x33cadb2)
-      #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
-.so.0+0x57ae0)
-      #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/qe=
-mu/build/../hw/sd/sdhci.c:1469:5
-      #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/qem=
-u/build/../hw/core/qdev.c:761:13
-      #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qemu/=
-build/../qom/object.c:2255:5
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
 
