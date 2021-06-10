@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A373A21F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 03:44:34 +0200 (CEST)
-Received: from localhost ([::1]:47546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FC93A21F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 03:48:41 +0200 (CEST)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lr9kH-0003Qd-8x
-	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 21:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34498)
+	id 1lr9oG-00057M-Pc
+	for lists+qemu-devel@lfdr.de; Wed, 09 Jun 2021 21:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lr9jI-0002eV-0Q; Wed, 09 Jun 2021 21:43:32 -0400
-Received: from out28-51.mail.aliyun.com ([115.124.28.51]:45729)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1lr9nK-0004Sr-4R
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 21:47:42 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lr9jF-0005Zq-1p; Wed, 09 Jun 2021 21:43:31 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1304699|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.144219-0.00175684-0.854024;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KQB3Ya2_1623289400; 
-Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KQB3Ya2_1623289400)
- by smtp.aliyun-inc.com(10.147.41.137);
- Thu, 10 Jun 2021 09:43:20 +0800
-Subject: Re: TCG op for 32 bit only cpu on qemu-riscv64
-To: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-References: <97935519-42c8-71c8-3d87-30aa4cafc909@c-sky.com>
- <618e9348-c420-b560-1f67-3608023985a7@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <7ac5990e-5f87-3d96-d8b5-bd7997fac0ee@c-sky.com>
-Date: Thu, 10 Jun 2021 09:43:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1lr9nH-0000MP-NG
+ for qemu-devel@nongnu.org; Wed, 09 Jun 2021 21:47:41 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4G0mty5Mg6zWscJ;
+ Thu, 10 Jun 2021 09:42:34 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 10 Jun 2021 09:47:27 +0800
+Received: from [10.174.185.187] (10.174.185.187) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 10 Jun 2021 09:47:27 +0800
+Subject: Re: [PATCH] vl: Fix an assert failure in error path
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, "Markus
+ Armbruster" <armbru@redhat.com>
+References: <20210610084741.456260-1-zhenzhong.duan@intel.com>
+ <048a18be-0d1c-7fd0-7031-51e64c5432f3@redhat.com>
+ <87fsxrnss4.fsf@dusky.pond.sub.org> <YMCw5E2havaaC+UI@redhat.com>
+From: Peng Liang <liangpeng10@huawei.com>
+Message-ID: <2a094460-5549-4a64-8df0-c376e046b012@huawei.com>
+Date: Thu, 10 Jun 2021 09:47:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <618e9348-c420-b560-1f67-3608023985a7@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YMCw5E2havaaC+UI@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.51; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-51.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.185.187]
+X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=liangpeng10@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,60 +70,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 6/7/21 11:52 PM, Richard Henderson wrote:
-> On 6/6/21 8:07 PM, LIU Zhiwei wrote:
->> Hi Alistair,
+On 6/9/2021 8:15 PM, Daniel P. Berrangé wrote:
+> On Wed, Jun 09, 2021 at 02:09:47PM +0200, Markus Armbruster wrote:
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
 >>
->> As I see,  we are moving  on to remove TARGET_RISCV64 macro.
+>>> On 10/06/21 10:47, Zhenzhong Duan wrote:
+>>>> Based on the description of error_setg(), the local variable err in
+>>>> qemu_maybe_daemonize() should be initialized to NULL.
+>>>> Without fix, the uninitialized *errp triggers assert failure which
+>>>> doesn't show much valuable information.
+>>>> Before the fix:
+>>>> qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
+>>>> After fix:
+>>>> qemu-system-x86_64: cannot create PID file: Cannot open pid file: Permission denied
+>>>> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+>>>> ---
+>>>>   softmmu/vl.c | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>> diff --git a/softmmu/vl.c b/softmmu/vl.c
+>>>> index 326c1e9080..feb4d201f3 100644
+>>>> --- a/softmmu/vl.c
+>>>> +++ b/softmmu/vl.c
+>>>> @@ -2522,7 +2522,7 @@ static void qemu_process_help_options(void)
+>>>>     static void qemu_maybe_daemonize(const char *pid_file)
+>>>>   {
+>>>> -    Error *err;
+>>>> +    Error *err = NULL;
 >>
->> I have some questions:
->>
->> 1) Which tcg op should use when translate an instruction for 32bit 
->> cpu. The tcg_*_i64, tcg_*_i32 or tcg_*_tl?
->
-> You use *_tl, because that's the size of the field in CPURISCVState.
+>> Common mistake, I'm afraid.
+> 
+> Initializing isn't likely to be a performance impact, so I'd think
+> we should make 'checkpatch.pl' complain about any 'Error *' variable
+> that is not initialized to NULL, as a safety net, even if not technically
+> required in some cases.
+> 
+> Regards,
+> Daniel
+> 
 
-Hi Richard,
+Hi,
+Could we add a coccinelle script to check (and fix) these problems?  e.g.:
+@ r @
+identifier id;
+@@
+  Error *id
++ = NULL
+  ;
 
-If we want to run 32-bit program on qemu-riscv64, I think use *_tl is 
-not enough. In semantics, we should only use the LSW 32-bit.
+Using this script, I found that local variable err in
+qemu_init_subsystems is not initialized to NULL too.  The script is not
+prefect though, it will initialize all global/static 'Error *' variables
+and all local 'Error *' variables in util/error.c to NULL, which is
+unnecessary.
 
-For example,
-
-1)First a multiply instruction, if the source value big enough, it will 
-return a result with some bits not zero in MSW 32-bit.
-
-2)If next instruction is a divide instruction,  the MSW 32-bit will 
-influence the divide instruction result.
-
-So I think use *_tl can't satisfy the need to run 32-bit program on 
-qemu-riscv64.
-
-Now we are forwarding to run a 32-bit cpu on qemu-riscv64. In the near 
-future, I want to support dynamical change  of XLEN.
-
-Could you give some advice? Thanks very much.
-
-Best Regards,
-Zhiwei
-
->
->> 2) Do we should have a sign-extend 64 bit register(bit 31 as the sign 
->> bit)  for 32 bit cpu?
->
-> If the value must be sign-extended for RV64, then leave it 
-> sign-extended for RV32.  There's no point in adding extra code to 
-> distinguish between them.
->
-> If the instruction does not exist for RV64, then you can probably 
-> leave the high bits unspecified (sign, zero, or pure garbage).
->
->
-> r~
+Thanks,
+Peng
 
