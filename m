@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A408B3A3790
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 01:02:59 +0200 (CEST)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34AD3A37AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 01:08:50 +0200 (CEST)
+Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrThS-0001gB-OE
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 19:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1lrTn7-0006W0-Oa
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 19:08:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lrTg3-0007TF-Ph
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:31 -0400
-Received: from mga17.intel.com ([192.55.52.151]:52951)
+ id 1lrTg5-0007Zn-Rp
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:33 -0400
+Received: from mga17.intel.com ([192.55.52.151]:53003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lrTg1-0006zL-Vn
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:31 -0400
-IronPort-SDR: N3VQpNG2HHUExoav32NDiJ6+FE8d3TrBFeQtxO2C5JSXMUD5Q3H7QX1rmSauFO3Z1uUQOjL2zj
- EuEmOjTB7Ijg==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185796182"
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185796182"
+ id 1lrTg2-0007CA-Hm
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:33 -0400
+IronPort-SDR: RfuMJRJIzVGqMgUBpibiflR/NGwVR59M46w6LaE7KQ4WJe0s6wGg4l3qtG2RKafqdMljUATI0R
+ Dwnv1+0p3+4Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185796183"
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185796183"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jun 2021 16:01:08 -0700
-IronPort-SDR: q40khA96DdrHYPVSl1tvyKLzW+lpTPt9SNJ5p8bf46H3yfbCLj5eOA0jG/Gk8NnEPxKOdy9ab3
- M/k6MbcHb3Qw==
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419888357"
+IronPort-SDR: gu80Dd4Xdrez1FmIaKMVRBGmgPv03yN8g/9ZG2ZfzDumtmCWI/sfPXKbvBMH+m3njhQIUE1aSG
+ 60pW8N5c+06g==
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419888360"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jun 2021 16:01:08 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] ui: Add a helper to wait on a dmabuf sync object
-Date: Thu, 10 Jun 2021 15:48:32 -0700
-Message-Id: <20210610224837.670192-4-vivek.kasireddy@intel.com>
+Subject: [PATCH v2 4/8] ui/gtk: Implement wait_dmabuf function
+Date: Thu, 10 Jun 2021 15:48:33 -0700
+Message-Id: <20210610224837.670192-5-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210610224837.670192-1-vivek.kasireddy@intel.com>
 References: <20210610224837.670192-1-vivek.kasireddy@intel.com>
@@ -66,59 +66,52 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be called by virtio-gpu in the subsequent patches.
-
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/console.h |  5 +++++
- ui/console.c         | 10 ++++++++++
- 2 files changed, 15 insertions(+)
+ ui/gtk.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index 49978fdae3..a89f739f10 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -242,6 +242,9 @@ typedef struct DisplayChangeListenerOps {
-     /* optional */
-     void (*dpy_gl_release_dmabuf)(DisplayChangeListener *dcl,
-                                   QemuDmaBuf *dmabuf);
-+    /* optional */
-+    void (*dpy_gl_wait_dmabuf)(DisplayChangeListener *dcl,
-+                               QemuDmaBuf *dmabuf);
-     /* required if GL */
-     void (*dpy_gl_update)(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
-@@ -314,6 +317,8 @@ void dpy_gl_cursor_position(QemuConsole *con,
-                             uint32_t pos_x, uint32_t pos_y);
- void dpy_gl_release_dmabuf(QemuConsole *con,
-                            QemuDmaBuf *dmabuf);
-+void dpy_gl_wait_dmabuf(QemuConsole *con,
-+                        QemuDmaBuf *dmabuf);
- void dpy_gl_update(QemuConsole *con,
-                    uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- 
-diff --git a/ui/console.c b/ui/console.c
-index 2de5f4105b..b0abfd2246 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1917,6 +1917,16 @@ void dpy_gl_release_dmabuf(QemuConsole *con,
-     }
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 6132bab52f..cd884ca26c 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -583,6 +583,19 @@ static void gd_gl_release_dmabuf(DisplayChangeListener *dcl,
+ #endif
  }
  
-+void dpy_gl_wait_dmabuf(QemuConsole *con,
-+                        QemuDmaBuf *dmabuf)
++static void gd_gl_wait_dmabuf(DisplayChangeListener *dcl,
++                              QemuDmaBuf *dmabuf)
 +{
-+    assert(con->gl);
-+
-+    if (con->gl->ops->dpy_gl_wait_dmabuf) {
-+        con->gl->ops->dpy_gl_wait_dmabuf(con->gl, dmabuf);
++#ifdef CONFIG_GBM
++    egl_dmabuf_create_fence(dmabuf);
++    if (dmabuf->fence_fd <= 0) {
++        return;
 +    }
++
++    egl_dmabuf_wait_sync(dmabuf);
++#endif
 +}
 +
- void dpy_gl_update(QemuConsole *con,
-                    uint32_t x, uint32_t y, uint32_t w, uint32_t h)
- {
+ /** DisplayState Callbacks (opengl version) **/
+ 
+ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+@@ -602,6 +615,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
+     .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
++    .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
+ };
+ 
+@@ -626,6 +640,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_cursor_position  = gd_egl_cursor_position,
+     .dpy_gl_update           = gd_egl_scanout_flush,
+     .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
++    .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
+ };
+ 
 -- 
 2.30.2
 
