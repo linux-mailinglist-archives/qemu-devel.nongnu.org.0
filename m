@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633EC3A2946
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:22:06 +0200 (CEST)
-Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7260B3A291E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:16:06 +0200 (CEST)
+Received: from localhost ([::1]:57762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrHp7-0001So-AU
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45198)
+	id 1lrHjJ-0003xH-HO
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:16:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrHco-0005td-Rd; Thu, 10 Jun 2021 06:09:22 -0400
-Received: from mail-eopbgr10092.outbound.protection.outlook.com
- ([40.107.1.92]:32769 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ id 1lrHcs-000653-RU; Thu, 10 Jun 2021 06:09:27 -0400
+Received: from mail-eopbgr60094.outbound.protection.outlook.com
+ ([40.107.6.94]:1862 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrHck-0005DU-5o; Thu, 10 Jun 2021 06:09:22 -0400
+ id 1lrHcq-0005Hv-Bx; Thu, 10 Jun 2021 06:09:26 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LEo+oWpd8O9k1BNS0cMYjUmvCcmP6z5KrkVubNCm4ly7Vq4AISiQZ+RluvSjRGiR1dDdiWYtdKz82CWJaglrZz5Md3QQHTwudl4PwRA77AGI5luGypu+LJ9/FIAU6M6pZ5+wlQVmgqsab0A0tCv8RX6JpEACrQyinwOQj8vU5MbjGIuZdA39j5JqbfsIxt7pJ1fi4fDezOfGrQE2RjIljXNdoYCIp6E6dVEZzZ4j72ndX6Uiu9/KIRABuAWNJoRYmXOwCt5yINWYHvcTfDsund+nHtIUTe3QI0uqCo3mrnJxGFeuCgVou7BQeFXpI3xTFZCGlyHMiMtmZBg+VeeMnQ==
+ b=Cl+wl0e4om65sWUtTjswugMVOoCGxSPv3Yg02qjFjPi0kmuokJrt9kC60uJjhC6oqhYhDqdRb+eOPGeD1UAJWlmO9IF5uXtR4CIaMCoZfVcxqfw/WWJ+ghIFC5EAEPnSNb6ZVu50Ae3/DBKqMjU81pJaNa9C3IrQMxYEueUbqzuuiu9kuunBcr2JybXbZq4cYC0OPC3zVhMBD5ucl8yQ5ElAF1WzTnDr4nHELXkFEiSJoONj5jFHNJ4zHlPsKYiIeu5N75RAFU9gOC9d6FHA1J+00HpXO2QKp3IZX8uoHtvtbP/wMiqfYHVnNsxIcZZpwThIIbS589MCVWADD8MRsA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1yEkEUhxrDB+lMrbHl2atgZAPr10tG6H0OuQm/V7MxU=;
- b=mgGkJqOoak2Fq1APuLMe5ThxKYOEoBqlMfsnLtix1oPgfDd4sSYfctVdIxXLw3v/xqoLmGo5W8OQidmpjXXTlt3nB8qtFjFVgNxAfwyCU4TCmb6SZhXnHq1cFkZhKoCKNypVVSMdjymkLJPfnuldqsOe9YZmWi+aJlGQ7kYjrKWl9oYw9frYhU8/nkSUZSTWbfTRkVcExT0ludgQMqutWWM5xv3Zs7ea7FStTnhQvtTu9gurCTrF11ooTJFZkzXj3DZryKMVS8JHV/aCZKr56gEW2Zk77A8Ol0ach1TZuN/Y89+whcFRa72xQabXUdUmTVSmK/gf/yZ3LWUcRQ3MDA==
+ bh=O99MZB6uGP9HFLNVclqRv46ONJSk0v+d/l/BXRMkygs=;
+ b=QybkYsQ2O+nd4kh76rPm14rgG4dPd6KVTNXX9yjAnbUUODCp9CCSfqJMuWx0YtfcTgPuDffDN5C1hMlc8I8EhMWipPGg9hOQQ4fzCpmXGYrKUBdBW6IHXQkBg73UTX8UCvwIgEe9jVKn8CP+ZHfGtxQZCcYmjCu/9b2BwfHn5r4p+1nKcGiBpFfChfvNvZMoOC7seCTRRjn6dsL0/U2sIt6S0aj1vxlByeQwScTBTvtekvBkp2Z0nd8B57dQZBX3J8zOS5FLDJmNx9HQt4OZotEhGbbF+09Q/C+eX0dbrHyxFCvabljswCbBvGfl1orHB/+GbRDnEBNNykKiGY4szg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1yEkEUhxrDB+lMrbHl2atgZAPr10tG6H0OuQm/V7MxU=;
- b=owRwKh5lSGPZKMfU1mkEn6uxX585wyL814SE1ztwRF1lXD5TtwRROfbpeN4qOOdCYwprfhSAj6lLyDtnF0aJ8ZIF1vSDxW6LERb+ji8bJEzgEMDfaD73VMOJQ4tfjwSLygg80zdLmna6ZTzrcpSoJFWl36DuO368iqhfzuhSFpY=
+ bh=O99MZB6uGP9HFLNVclqRv46ONJSk0v+d/l/BXRMkygs=;
+ b=VzQHof1M9h2Z+VPXFdS724lNO9tT7isd2oXt0Dz2VcFUl13FY95dEVdGpSXM/DFNUufRrIMz8RNKXcR6pxrcdPod/KHY480rThmF0rrRCZ6vHYsXz3fZMzss3n53t8BfWppfC/7uKpJhqHpDoqNIEZJ3wzaDC0BxLexbnj4XrNU=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6806.eurprd08.prod.outlook.com (2603:10a6:20b:39b::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Thu, 10 Jun
- 2021 10:09:14 +0000
+ 2021 10:09:15 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 10:09:14 +0000
+ 10:09:15 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, eblake@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v4 25/32] block/nbd: drop BDRVNBDState::sioc
-Date: Thu, 10 Jun 2021 13:07:55 +0300
-Message-Id: <20210610100802.5888-26-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 26/32] nbd/client-connection: return only one io channel
+Date: Thu, 10 Jun 2021 13:07:56 +0300
+Message-Id: <20210610100802.5888-27-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610100802.5888-1-vsementsov@virtuozzo.com>
 References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
@@ -65,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.215) by
  HE1P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.22 via Frontend Transport; Thu, 10 Jun 2021 10:09:13 +0000
+ 15.20.4219.22 via Frontend Transport; Thu, 10 Jun 2021 10:09:14 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e55ecb0-b0aa-454c-89d6-08d92bf7ccae
+X-MS-Office365-Filtering-Correlation-Id: 01e10771-fd01-4323-3bf9-08d92bf7cd58
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6806:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6806248974D6B5A04A089525C1359@AS8PR08MB6806.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6806C445B5A181220A7E4F28C1359@AS8PR08MB6806.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:339;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HuiQZLUw2So7TlCcbyrTZbJfh0Pob6zpDlnv2MwvgyNFZztkvSOd5fC+Kaw87PAW0IE+pCh7DRbgNsdfgNvVFSvHIn7Cdw76vAePtRdFQXRZVu4xqIn33Ae+aM+1JFoNOgWqO3zmk66b5byDuK1ixLNarYO4+vB6uCXfnZ23qA9hEgPsp2HO7Ymo1aXKbuj2nL4tUldmKrodTc9bRL5HkXElXx+bWAhB+Db1Iha+Rb4B/KJQwGfGprXuD1VeV2Ze/MT3BsIq1GfFoGiRn3ih2YoeSEIf+u7GpTsuqm+zyfKvwHBUVgBVYCL+w8YhpLaiCFJjXM3h6z3jiiTtliDI6+EYVhEBLpkwl2n7MqbXqXOA1+a/C+g8B0IJY+FIdeDWMor4JHcSjWZq3bXAihw4trz8W/+XZoxVnWWanVmuUnCaM2CVAJqThomuoLQxO1Ic6u7EJyK900dLW9SXwrfaRy4lLCtTJUxYohp5s98gvfmMabvvKApeeZXuwn9vyPg3C18b+5eZWV89AjOej5KcB399r8NMMhW+d3bq0YClpqZ71vy25H+LzC85pcP0NuKkwtTvJLgREhg9gjKlOsvxQYAHnUoxuGBOG7OX+B5fLnvfgFRCuxDqEbxilrfWRq8IuhKiJSczMU8NZUGWUcww2KiVfPTb3XUmp0Eh+x8daIsZt8vxytzDNOf3GPOw44VC
+X-Microsoft-Antispam-Message-Info: jKKV/GgUkQM45J78AU7NWM8eMeF+m5/M9gD0nGE2FY/YSY6QrfXPKN5/dohazFsfnEbuhxwOvi23TxR6rUgntLBuB39NDul8KM63O2/Vy5ZKmLFxpalT7KbJ/k+kxxnfuTbzDuStzM16Dpbfi3mGkYT7EJ4PjHEybMFUOttV4Q5Ma4zJJKONan8XiZ8R2DiatNgyBERUJmrQEVORyAXaFBKwy1QDseUtXO6oGkLWSHzB+K2dOYnWYGN/nzibuKC8GzqYxHE/0rz0HRGrIyTMq6X/QhGjXzrWcfBEsjYbLy0snaHcZh7AB8zFqxOtMJQeIqy6K41eny9nDzddysKis7iNCIVNJ79QBeElMghO10eY2UHsHd/p9sWnvfNQGvMGKeNJAy6ORGisX+OIoadJdF7KS7h4vQ2MWrO7uLqEWkU4Zi0HJD/5cVsOKtaPy+BIDRI72gv5w9zaHaxLC9cYM8zCV3saQ9JuIZgGRTRumhwRFtmzk6jizyQvXBJvM8b7FoXgTle9uVnuROpeUjetxt+vdi2YobT7AESvhPCbzOJjFLyFGwm+cVRjGWfkNppc8BXc3by/DKBaWQ82zqYq8LTlqeLAUbkC7nIoq02kx5tXTd9fUUs/rkZcqgJ1dmdi1RXhuH7zCoqTeuf7D321ttjJEbXOkoq/JxvvHO1NlXEA9lfgYMJo9ltKKP0Q5Vf3
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(136003)(366004)(39830400003)(376002)(396003)(346002)(2616005)(2906002)(316002)(6512007)(5660300002)(8676002)(1076003)(8936002)(956004)(6506007)(86362001)(66556008)(38350700002)(16526019)(186003)(66476007)(478600001)(6486002)(6666004)(4326008)(38100700002)(26005)(66946007)(6916009)(52116002)(83380400001)(36756003)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?MbX36uhWF8cxsU0lRbLQXgJY8xoDTIHPhSOCIG1mVvXk46aJfcHHJL7PuKMK?=
- =?us-ascii?Q?Q5M7w6N2QEESz0NDlDti65pKgdgnFhxNodol40TsZio4pRrxWfQMjhUVqwG/?=
- =?us-ascii?Q?q2lE/iCuhmiGGJrwV6TDeL0DVpaykxOdOE6b+KV6B08/eQglsfBsHsNLKXp6?=
- =?us-ascii?Q?LWfuTG94TU40g23QG+wqQ8lUzO6Za3U/k96rREO6iMbSdQl0Ob2YwY63MJqx?=
- =?us-ascii?Q?cCSeStoQsNONJrdb3fn0CX56FP4lF2AFZgdClwxhdzFrrZxL3Pq2gTQmAT6Y?=
- =?us-ascii?Q?g+TLr7eVjFRWuEjcebPUx33aX/HnW4w4h7zW5YFPZ5iQtgFuZZ667GLlsmu8?=
- =?us-ascii?Q?H0uktWsVU+taG6RzcHTwIfkPzhTBWPEJ4+fhrS4QqTpPNb8EuezHEwcF5V7R?=
- =?us-ascii?Q?/pjLB3nZUtMyBZEMbT7KES5NeQVQNkVdhhsn/365VUvawDVrKhXQSRuUpuZW?=
- =?us-ascii?Q?3e16kYeKiFmbZuPUOuQJe3nR0aLBQJITCo8rVBAzqLoTZyWzswzV0B2yGNlt?=
- =?us-ascii?Q?q9oGNCLgrX+R6RrECDkTglDA5Se4cgWW1DKqWoBP1ScunuqyUMKzRe/Rx314?=
- =?us-ascii?Q?vHws+HGMC0SSFXzMCw6yIgsVR+qAHThZZM9S2lKJ0A2J79vz5woGffS9ywpl?=
- =?us-ascii?Q?OPvwxsHHra0XPDj/IczvoF7QooSJ6Ddi2e8Av3GU8hzBCOxsrOJ6gjdL+5dF?=
- =?us-ascii?Q?9DCiiOejKMUUlGkmYy/7Fq6YDU89Vlq9sZgUjM354OOJm6nRmZMCkHpNc6Oi?=
- =?us-ascii?Q?J6t8nIutaK1ANI1GJB2m8m+WGaVnRgwM5mcNrOYu9WaL4MLrVnuYWhpABzSv?=
- =?us-ascii?Q?AcodfV4+tZ64FiaO0/hrFMiVmMGRmw7SXh2MSaj1zCzLa7wjGjElpsenZypl?=
- =?us-ascii?Q?lPupjvORuRujJOhkD/Fj3veS/h98cHQVuIIUcluDCHZNqfO1F4peOXdefvU0?=
- =?us-ascii?Q?9rdMDwbEWa3oCSRxrKw+fGuiFm6cvhDx86gYtuJ3pJUsNn1uyb0zwn41Mp6E?=
- =?us-ascii?Q?yjgVg1pXk9l33RjLpD2aCYAYldWp4rcV/qWJUez4Q/ZrwbNK1l9ikUZ2FWuf?=
- =?us-ascii?Q?duGSW8dLbBevSjErUeYC1IoxvXreaAzxHQn1HFiRroew5GBcNrqDqcHchvOR?=
- =?us-ascii?Q?/lK15tPHqugy3g4VolZb7hyyRagDsTzxc1iQeJKwRa003++VBUjwVpOIDRzj?=
- =?us-ascii?Q?nQqrG9WDZUk6DIZ11JZ1bNmu4vgpTlvYj3LoV8Nark1CX40Vd4rt7ejbhZ8W?=
- =?us-ascii?Q?d1I5MOoaYlUKGtIstT+giRPujXDZD7StuFBWiI2pse7BZ2YMoyTv7AadbCMi?=
- =?us-ascii?Q?QJLOZAa4qFTmFxjMyaO4gYBU?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7m3TwlXRXV/75rNTY0KCyXV7CGqLv1lQrVqwCArKb6WNNuqjXYhIjC5VIUZ0?=
+ =?us-ascii?Q?f7W5pbcp69KoRp4GqmGZujyorYaRyptw2AQ4unQnyprt2uYBd3rQNNy2078M?=
+ =?us-ascii?Q?VQWPhft6A+dJtoXX1r5GiYC5V5N8lnd2exXudDSFyn2kWcwUWZAfI1baL6yj?=
+ =?us-ascii?Q?ZXwuTOuoelc6bTFwBrK9+OVJA1CHRBjHiOwUSTbx7eEm1VBGs5FXH4m3AAUl?=
+ =?us-ascii?Q?u8E4UlSLaIvr1PKpseo03eq6aHC+7JIzryQf0O0dMBI1I+wDMwNkvGZUdOyu?=
+ =?us-ascii?Q?kaZoPI4Eay+p+uxwteQCRy7QgT30xfoHkFBo6lvZWl77vK8u8RD6Fo3RHjby?=
+ =?us-ascii?Q?lDqR6hG0zjBxDqpxprzziLpEEuzpQaLVYbHLa2CN1WDmVGgD8TcLt0ecrKly?=
+ =?us-ascii?Q?ksFPaVF3jRHruIYvlLhZZ/05hxkPrk+q7u3HBZjCp9rqpUA/h4f5Vvr7TMbt?=
+ =?us-ascii?Q?Q/5skV//LoHMdK7ZAkgHvVfJoK4zwo8fC04+D3fVCzzjPXd/8ynC1HKq9L+M?=
+ =?us-ascii?Q?meTFAs7DDj1rrn+TPvD16jDjrQQManmSAl4rQWxc3XbL2/Aq2Hgv1TGwyZxH?=
+ =?us-ascii?Q?HBhyQVXck997NT1q0Sl+bdx4Xt5XD3mNJ2eXrDk6CxoHFtvRgaEfVfaQHnRJ?=
+ =?us-ascii?Q?UkYfCQtHaAK790IpKM1VcWmA1O5Q7iV+VOJtdBBItaDVa5WJO0S5C1WjKqCa?=
+ =?us-ascii?Q?KDwlKINRRp2dqX2dlveKJvywjof2k7WFNEjJrPSTtAhYm6Q20kVeAPCYvPW/?=
+ =?us-ascii?Q?DBthU2q2yhKSkS92ZpsAJ0IVUabY1OxLuVg5KNTe+/NqEK8W5T1u13506TuV?=
+ =?us-ascii?Q?7AYKCXvIrrTT7016GOW/Slvwpr7+mmjsCQCZupfJxDuEKenr8g/bLmGksW1t?=
+ =?us-ascii?Q?GWuVvrQkco/C6JdMW06bO2AJVURErj0zrrCcrXfx9p8T/P5Vbs6JJQoHGzub?=
+ =?us-ascii?Q?UhT1x/D19iapWmsyvMnnDFtDkmku/FYx8anrTWknA3p8zNHlEPVI7Lv1oKqe?=
+ =?us-ascii?Q?gyvJ2C+50Hqh9msFP3P6FcSj7arsg25Bcuwgv7cFudJxOJxQvqW4VRU46YX8?=
+ =?us-ascii?Q?cTbnArKfYtCfn7NtCw3mS93LR8GF1Kjy+dqTMo+ggYgLjz+6nfCY0HjrmYX7?=
+ =?us-ascii?Q?0ZMiHXis+hQC+tdlzlbCL3pKycuyQr1Hhxt99LQ1HVmdojc/BlWVGauXelaB?=
+ =?us-ascii?Q?i+qybCjZoFqILJ/5NvYUxVX8cuxudv53E5oI71rlgKIO6cmggh9TNGt0azrw?=
+ =?us-ascii?Q?MW3tVzJiTUydj7RjPaG3BygRJzMzSBJWyHEOZnXrevRqwdOsYnzr8hSwIk5L?=
+ =?us-ascii?Q?NBHrRrnDubVqSisCdPjDIpWA?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e55ecb0-b0aa-454c-89d6-08d92bf7ccae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01e10771-fd01-4323-3bf9-08d92bf7cd58
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 10:09:14.2086 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 10:09:15.6492 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QHOcqtE1hkcOA0V7TV0l9/zYeIfyLfm9+nh3tzYTmQSPbDidzXof5HqzML8CpSrKqKfPrpAmSDk2fiT6V74Eke7sqc0MDZ4oa1YQa0ZXU2I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ts4ky08Bkx9vR8qxIhpm+0Eon3UKaFe3t7T4ZXiXeff34Vm5TIWVhyJOhN5EOY4rABLkZlI9cl1eKXUIlyZPujbTQgo1L98+ysewjI6xFvE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6806
-Received-SPF: pass client-ip=40.107.1.92;
+Received-SPF: pass client-ip=40.107.6.94;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -138,251 +138,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently sioc pointer is used just to pass from socket-connection to
-nbd negotiation. Drop the field, and use local variables instead. With
-next commit we'll update nbd/client-connection.c to behave
-appropriately (return only top-most ioc, not two channels).
+block/nbd doesn't need underlying sioc channel anymore. So, we can
+update nbd/client-connection interface to return only one top-most io
+channel, which is more straight forward.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/nbd.c | 98 ++++++++++++++++++++++++++---------------------------
- 1 file changed, 48 insertions(+), 50 deletions(-)
+ include/block/nbd.h     |  4 ++--
+ block/nbd.c             | 13 ++-----------
+ nbd/client-connection.c | 33 +++++++++++++++++++++++++--------
+ 3 files changed, 29 insertions(+), 21 deletions(-)
 
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 5bb54d831c..10c8a0bcca 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -418,9 +418,9 @@ NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
+                                                QCryptoTLSCreds *tlscreds);
+ void nbd_client_connection_release(NBDClientConnection *conn);
+ 
+-QIOChannelSocket *coroutine_fn
++QIOChannel *coroutine_fn
+ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+-                            QIOChannel **ioc, Error **errp);
++                            Error **errp);
+ 
+ void coroutine_fn nbd_co_establish_connection_cancel(NBDClientConnection *conn);
+ 
 diff --git a/block/nbd.c b/block/nbd.c
-index 2abcedd464..9f193d130b 100644
+index 9f193d130b..411435c155 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -67,8 +67,7 @@ typedef enum NBDClientState {
- } NBDClientState;
- 
- typedef struct BDRVNBDState {
--    QIOChannelSocket *sioc; /* The master data channel */
--    QIOChannel *ioc; /* The current I/O channel which may differ (eg TLS) */
-+    QIOChannel *ioc; /* The current I/O channel */
-     NBDExportInfo info;
- 
-     CoMutex send_mutex;
-@@ -100,9 +99,11 @@ typedef struct BDRVNBDState {
-     NBDClientConnection *conn;
- } BDRVNBDState;
- 
--static int nbd_establish_connection(BlockDriverState *bs, SocketAddress *saddr,
--                                    Error **errp);
--static int nbd_client_handshake(BlockDriverState *bs, Error **errp);
-+static QIOChannelSocket *nbd_establish_connection(BlockDriverState *bs,
-+                                                  SocketAddress *saddr,
-+                                                  Error **errp);
-+static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
-+                                Error **errp);
- static void nbd_yank(void *opaque);
- 
- static void nbd_clear_bdrvstate(BlockDriverState *bs)
-@@ -359,6 +360,7 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
+@@ -360,7 +360,6 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
  {
      int ret;
      AioContext *aio_context = bdrv_get_aio_context(s->bs);
-+    QIOChannelSocket *sioc;
+-    QIOChannelSocket *sioc;
  
      if (!nbd_client_connecting(s)) {
          return;
-@@ -393,27 +395,26 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-         qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
-         yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
-                                  nbd_yank, s->bs);
--        object_unref(OBJECT(s->sioc));
--        s->sioc = NULL;
-         object_unref(OBJECT(s->ioc));
+@@ -399,20 +398,12 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
          s->ioc = NULL;
      }
  
--    s->sioc = nbd_co_establish_connection(s->conn, &s->info, &s->ioc, NULL);
--    if (!s->sioc) {
-+    sioc = nbd_co_establish_connection(s->conn, &s->info, &s->ioc, NULL);
-+    if (!sioc) {
+-    sioc = nbd_co_establish_connection(s->conn, &s->info, &s->ioc, NULL);
+-    if (!sioc) {
++    s->ioc = nbd_co_establish_connection(s->conn, &s->info, NULL);
++    if (!s->ioc) {
          ret = -ECONNREFUSED;
          goto out;
      }
  
--    qio_channel_set_blocking(QIO_CHANNEL(s->sioc), false, NULL);
--    qio_channel_attach_aio_context(QIO_CHANNEL(s->sioc), aio_context);
-     if (s->ioc) {
--        qio_channel_set_blocking(QIO_CHANNEL(s->ioc), false, NULL);
--        qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), aio_context);
-+        /* sioc is referenced by s->ioc */
-+        object_unref(OBJECT(sioc));
-     } else {
--        s->ioc = QIO_CHANNEL(s->sioc);
--        object_ref(OBJECT(s->ioc));
-+        s->ioc = QIO_CHANNEL(sioc);
-     }
-+    sioc = NULL;
-+
-+    qio_channel_set_blocking(QIO_CHANNEL(s->ioc), false, NULL);
-+    qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), aio_context);
- 
-     yank_register_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name), nbd_yank,
-                            s->bs);
-@@ -430,8 +431,6 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
- 
-         yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
-                                  nbd_yank, s->bs);
--        object_unref(OBJECT(s->sioc));
--        s->sioc = NULL;
-         object_unref(OBJECT(s->ioc));
-         s->ioc = NULL;
- 
-@@ -566,8 +565,6 @@ static coroutine_fn void nbd_connection_entry(void *opaque)
-         qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
-         yank_unregister_function(BLOCKDEV_YANK_INSTANCE(s->bs->node_name),
-                                  nbd_yank, s->bs);
--        object_unref(OBJECT(s->sioc));
--        s->sioc = NULL;
-         object_unref(OBJECT(s->ioc));
-         s->ioc = NULL;
-     }
-@@ -1566,7 +1563,7 @@ static void nbd_yank(void *opaque)
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
- 
-     qatomic_store_release(&s->state, NBD_CLIENT_QUIT);
--    qio_channel_shutdown(QIO_CHANNEL(s->sioc), QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+    qio_channel_shutdown(QIO_CHANNEL(s->ioc), QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
- }
- 
- static void nbd_client_close(BlockDriverState *bs)
-@@ -1581,57 +1578,64 @@ static void nbd_client_close(BlockDriverState *bs)
-     nbd_teardown_connection(bs);
- }
- 
--static int nbd_establish_connection(BlockDriverState *bs,
--                                    SocketAddress *saddr,
--                                    Error **errp)
-+static QIOChannelSocket *nbd_establish_connection(BlockDriverState *bs,
-+                                                  SocketAddress *saddr,
-+                                                  Error **errp)
- {
-     ERRP_GUARD();
--    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-+    QIOChannelSocket *sioc;
- 
--    s->sioc = qio_channel_socket_new();
--    qio_channel_set_name(QIO_CHANNEL(s->sioc), "nbd-client");
-+    sioc = qio_channel_socket_new();
-+    qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
- 
--    qio_channel_socket_connect_sync(s->sioc, saddr, errp);
-+    qio_channel_socket_connect_sync(sioc, saddr, errp);
-     if (*errp) {
--        object_unref(OBJECT(s->sioc));
--        s->sioc = NULL;
--        return -1;
-+        object_unref(OBJECT(sioc));
-+        return NULL;
-     }
- 
-     yank_register_function(BLOCKDEV_YANK_INSTANCE(bs->node_name), nbd_yank, bs);
--    qio_channel_set_delay(QIO_CHANNEL(s->sioc), false);
-+    qio_channel_set_delay(QIO_CHANNEL(sioc), false);
- 
--    return 0;
-+    return sioc;
- }
- 
--/* nbd_client_handshake takes ownership on s->sioc. On failure it's unref'ed. */
--static int nbd_client_handshake(BlockDriverState *bs, Error **errp)
-+/* nbd_client_handshake takes ownership on sioc. */
-+static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
-+                                Error **errp)
- {
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-     AioContext *aio_context = bdrv_get_aio_context(bs);
-     int ret;
- 
-     trace_nbd_client_handshake(s->export);
--    qio_channel_set_blocking(QIO_CHANNEL(s->sioc), false, NULL);
--    qio_channel_attach_aio_context(QIO_CHANNEL(s->sioc), aio_context);
-+    qio_channel_set_blocking(QIO_CHANNEL(sioc), false, NULL);
-+    qio_channel_attach_aio_context(QIO_CHANNEL(sioc), aio_context);
- 
-     s->info.request_sizes = true;
-     s->info.structured_reply = true;
-     s->info.base_allocation = true;
-     s->info.x_dirty_bitmap = g_strdup(s->x_dirty_bitmap);
-     s->info.name = g_strdup(s->export ?: "");
--    ret = nbd_receive_negotiate(aio_context, QIO_CHANNEL(s->sioc), s->tlscreds,
-+    ret = nbd_receive_negotiate(aio_context, QIO_CHANNEL(sioc), s->tlscreds,
-                                 s->hostname, &s->ioc, &s->info, errp);
-     g_free(s->info.x_dirty_bitmap);
-     g_free(s->info.name);
-     if (ret < 0) {
-         yank_unregister_function(BLOCKDEV_YANK_INSTANCE(bs->node_name),
-                                  nbd_yank, bs);
--        object_unref(OBJECT(s->sioc));
--        s->sioc = NULL;
-+        object_unref(OBJECT(sioc));
-         return ret;
-     }
- 
-+    if (s->ioc) {
-+        /* sioc is referenced by s->ioc */
-+        object_unref(OBJECT(sioc));
-+    } else {
-+        s->ioc = QIO_CHANNEL(sioc);
-+    }
-+    sioc = NULL;
-+
-     ret = nbd_handle_updated_info(bs, errp);
-     if (ret < 0) {
-         /*
-@@ -1640,23 +1644,15 @@ static int nbd_client_handshake(BlockDriverState *bs, Error **errp)
-          */
-         NBDRequest request = { .type = NBD_CMD_DISC };
- 
--        nbd_send_request(s->ioc ?: QIO_CHANNEL(s->sioc), &request);
-+        nbd_send_request(s->ioc, &request);
- 
-         yank_unregister_function(BLOCKDEV_YANK_INSTANCE(bs->node_name),
-                                  nbd_yank, bs);
--        object_unref(OBJECT(s->sioc));
--        s->sioc = NULL;
-         object_unref(OBJECT(s->ioc));
-         s->ioc = NULL;
--
-         return ret;
-     }
- 
--    if (!s->ioc) {
--        s->ioc = QIO_CHANNEL(s->sioc);
--        object_ref(OBJECT(s->ioc));
+-    if (s->ioc) {
+-        /* sioc is referenced by s->ioc */
+-        object_unref(OBJECT(sioc));
+-    } else {
+-        s->ioc = QIO_CHANNEL(sioc);
 -    }
+-    sioc = NULL;
 -
-     return 0;
- }
+     qio_channel_set_blocking(QIO_CHANNEL(s->ioc), false, NULL);
+     qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), aio_context);
  
-@@ -2048,6 +2044,7 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/nbd/client-connection.c b/nbd/client-connection.c
+index 80c19f4eff..500b8591e8 100644
+--- a/nbd/client-connection.c
++++ b/nbd/client-connection.c
+@@ -271,15 +271,15 @@ void nbd_client_connection_release(NBDClientConnection *conn)
+  * nbd_receive_export_list() would be zero (see description of NBDExportInfo in
+  * include/block/nbd.h).
+  */
+-QIOChannelSocket *coroutine_fn
++QIOChannel *coroutine_fn
+ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+-                            QIOChannel **ioc, Error **errp)
++                            Error **errp)
  {
-     int ret;
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-+    QIOChannelSocket *sioc;
++    QIOChannel *ioc;
+     QemuThread thread;
  
-     s->bs = bs;
-     qemu_co_mutex_init(&s->send_mutex);
-@@ -2069,12 +2066,13 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
-      * establish TCP connection, return error if it fails
-      * TODO: Configurable retry-until-timeout behaviour.
-      */
--    if (nbd_establish_connection(bs, s->saddr, errp) < 0) {
-+    sioc = nbd_establish_connection(bs, s->saddr, errp);
-+    if (!sioc) {
-         ret = -ECONNREFUSED;
-         goto fail;
+     if (conn->do_negotiation) {
+         assert(info);
+-        assert(ioc);
      }
  
--    ret = nbd_client_handshake(bs, errp);
-+    ret = nbd_client_handshake(bs, sioc, errp);
-     if (ret < 0) {
-         goto fail;
+     WITH_QEMU_LOCK_GUARD(&conn->mutex) {
+@@ -293,10 +293,17 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+             if (conn->sioc) {
+                 /* Previous attempt finally succeeded in background */
+                 if (conn->do_negotiation) {
+-                    *ioc = g_steal_pointer(&conn->ioc);
++                    ioc = g_steal_pointer(&conn->ioc);
+                     memcpy(info, &conn->updated_info, sizeof(*info));
+                 }
+-                return g_steal_pointer(&conn->sioc);
++                if (ioc) {
++                    /* TLS channel now has own reference to parent */
++                    object_unref(OBJECT(conn->sioc));
++                } else {
++                    ioc = QIO_CHANNEL(conn->sioc);
++                }
++                conn->sioc = NULL;
++                return ioc;
+             }
+ 
+             conn->running = true;
+@@ -328,11 +335,21 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+         } else {
+             error_propagate(errp, conn->err);
+             conn->err = NULL;
+-            if (conn->sioc && conn->do_negotiation) {
+-                *ioc = g_steal_pointer(&conn->ioc);
++            if (!conn->sioc) {
++                return NULL;
++            }
++            if (conn->do_negotiation) {
++                ioc = g_steal_pointer(&conn->ioc);
+                 memcpy(info, &conn->updated_info, sizeof(*info));
+             }
+-            return g_steal_pointer(&conn->sioc);
++            if (ioc) {
++                /* TLS channel now has own reference to parent */
++                object_unref(OBJECT(conn->sioc));
++            } else {
++                ioc = QIO_CHANNEL(conn->sioc);
++            }
++            conn->sioc = NULL;
++            return ioc;
+         }
      }
+ 
 -- 
 2.29.2
 
