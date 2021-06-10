@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAABD3A2B27
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:10:12 +0200 (CEST)
-Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B453A2B2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:13:23 +0200 (CEST)
+Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrJVk-0002o6-0P
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39600)
+	id 1lrJYo-0001RP-F7
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:13:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrJRv-0002BR-5T; Thu, 10 Jun 2021 08:06:15 -0400
-Received: from mail-eopbgr80125.outbound.protection.outlook.com
- ([40.107.8.125]:56129 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1lrJRx-0002Dy-0g; Thu, 10 Jun 2021 08:06:17 -0400
+Received: from mail-eopbgr80090.outbound.protection.outlook.com
+ ([40.107.8.90]:15424 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrJRt-0004D6-Ax; Thu, 10 Jun 2021 08:06:14 -0400
+ id 1lrJRv-0004Nw-AU; Thu, 10 Jun 2021 08:06:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ltHJXH9+/p3wtsB6u3DDOsrEnSg8K/OQxbdzC9BgA5DalZwGKzyVh8mfCL1Pniigx76SJQvupGLNVBHGb/j5PqtrvI7cSW0EXarRajsjqE+Z9GTqLKCfhDEhplsd7uhVywBDcN8QTkGTzHCj6vj+sh91h77alxKynWQ4GlhX6ymLx66N+RG1J1VsKHGK4k9fpOyADbVWC0LXWbUzwpzyiHmj8sJkppfMpU67djSASDJjZGGNd+HikG627IWhbv6GNelrgbPloT+GIsnAGi+XeLWvqcIxtigxJWCPxqkArZbx17h0zcoDjzLM8t1Fkw7oXE0qfNW9Xh429VMBmGj34w==
+ b=NRl7y1j44M/nhTr1QaVJrNustxTJBlSkjJH3QUQFeiOJzPsOg1PiFvQ0h7FohSRXoIgGISoPg1vhynRRjWM0hS6GUWsn7hWShpvjaiFDAqNpACAJTqEZiQG1Gvq60rrAYFOtPe8A2iPSweEQinpMw3tlSqQYN02+Os92JFuiLeK6ugesEswL/wFGViKR0wsF+LpIM0DOCigaGpHZndOeZ7yQtA/WJlqBMWLnlOTrDxIqEVeWP/7ukEEdwMBumQyek/0ay1Mm3eoVRFtpSRKv2I9+/uI8w2WaqJ1onacHOVUC3q5+QZ2/5Vps6Pdc0iH+kU7AGRf6MIoFR3PBO32GjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XojueE0NUoG8LVPazb2DhQu5QuPuiIXyBWdMtA48LlY=;
- b=Ut90/SFeEo/MOaN2xPpXZgmjKZ25ySDdpUqXhChmN11H6QRmdId6UfdT4gWIBaS4UjCrMjD9+h7PLYh/PEGkKrur8oyRu+ZZAPnzX9IlI7PL5vZPqCZDQqEqZxowZ2BjyXkKXxXMcLLyQwhLg7eEHkNmP5MDqBs6fPY2WaM+V73IKYC0kr5NURoTAYBop5TNJ3HI/AAtcATLvwkx8CHrgwyI4ZoM7X2i0qaTHtIgVdez9pCwmUZWG6nEvq7EAFbKncW8kseXNzZTt1NK16HI22FoPKACm6KGTvmwotRvxWp+UneTUbMcciGma4V/RsEqkPzVYBRmL5g5xZCMXNQXnA==
+ bh=R7JfD+Iv1a1uMrRzPGe28zUw4jVfNKDQhLGkEcmRh3A=;
+ b=By0B3bJ+huIsGdhleOnGw1pLvf2gDRIYYv48073AmrxoL6JORKNiAEehOMYRtthPse5I0YIJlcXjBE9Pe7+l/31/EC2zEmTwrHvWRPnmKj2c3+2m4lXOMF8B+Hnfo0Pwwcuhb6x+MNTE5M+U0iiGcMgLJ8s7yyo7x84IZDlVTmBjR7fKLbt/xBJH256ZJlN4pIJf6Nz5OmOYcEdvLMcKUpA4ZeZ/PfAIr6ks05O/61Su1MopgCjQMStlTEfOQipdoCFzdmnZRParVXHOhme0fZAgbyIAA6cHbva3sT0UH+k28H/F8aetgcHqks7o3q+Nbl2Fqt20GQjqBhWKBpJO0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XojueE0NUoG8LVPazb2DhQu5QuPuiIXyBWdMtA48LlY=;
- b=bFlPq2SWNfTXUlLbTlwpeeb/DBifOhLZkWVtRaEM58Up8e5jdRfHb/PD6EbgJRnuJFRSpwEQAVkucYKhIsmrVnUw3VQCikOHZjaDTf2fmHXiWkgeB9YXJDfMyzW0GZIOgKMDaOgQ2DDBv83lBzTEne1IfMXjCgHbfzrKzzAU9kU=
+ bh=R7JfD+Iv1a1uMrRzPGe28zUw4jVfNKDQhLGkEcmRh3A=;
+ b=HGwfqe0Eah5akcU8nQ3rVgbr6sk3ctEyOGV2LNjhV1SzcFvStIPL0uZI75M6fR6NT8GhC2h31ZaSE1778gpfx+xWhJwl8nNN+iMsa2zPM+/54DRgbkw8EuW16cXMKU815LA5LihlS3oD8QO8IRu8394bjXGjJGXK0w203kBNPtA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4277.eurprd08.prod.outlook.com (2603:10a6:20b:bd::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Thu, 10 Jun
- 2021 12:05:59 +0000
+ 2021 12:06:00 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 12:05:59 +0000
+ 12:06:00 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  berto@igalia.com, vsementsov@virtuozzo.com
-Subject: [PATCH v6 6/9] block: move supports_backing check to
- bdrv_set_file_or_backing_noperm()
-Date: Thu, 10 Jun 2021 15:05:34 +0300
-Message-Id: <20210610120537.196183-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 7/9] block: BDRVReopenState: drop replace_backing_bs field
+Date: Thu, 10 Jun 2021 15:05:35 +0300
+Message-Id: <20210610120537.196183-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610120537.196183-1-vsementsov@virtuozzo.com>
 References: <20210610120537.196183-1-vsementsov@virtuozzo.com>
@@ -66,54 +65,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.215) by
  HE1PR0802CA0005.eurprd08.prod.outlook.com (2603:10a6:3:bd::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.20 via Frontend Transport; Thu, 10 Jun 2021 12:05:58 +0000
+ 15.20.4219.20 via Frontend Transport; Thu, 10 Jun 2021 12:05:59 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fe549e58-003a-4fc2-de8a-08d92c081bd1
+X-MS-Office365-Filtering-Correlation-Id: 68559fe4-bf0e-4bc1-4ed7-08d92c081c5f
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4277:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB42771C7CA2E31D93BAB96A32C1359@AM6PR08MB4277.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:265;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB427795DC48ECAC83BE854515C1359@AM6PR08MB4277.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:669;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8G6n3Y9nuczQrfdPUss5VNJRvPPb4o4qb81tTzwRZnQaOCV7t8CZCCFmNhNRn8VROfQC1T1YVX/+6mgBkIUcDbXo6tYVBv0MXk0l0AwSX6GneTCaKSxsW17j/kYey2511BmaLGYCO6Nh6uBad4WkhDilq7wllb/SQU+0kU1TJR+bEMoC4n0z/9ayeE4PlfkSXCUcUF59r4tYj8iJhYP+HtGzsa/Glh+mvwpfnMx8xK8yrnGA3uPLu+G4XAXePtNkO9wJ/dfm+o+PG0YKBBJus2umFQFs2IjcOojmjxe6T4hdZ8e3UYSly8XZ11uTzT7Uo8h7uM3nn57En60g3Bg+46i5MvoLs92/acdKfK0m55Or9Lo4M7hJLK5wrbHjmlRqZOumiRfFBT88Z5hTjId+bOIHLy4UjN/GzlPIDQtk3yGi0tQZTKAQCMbVeon0yK363PTsN14tGWuyP42AWSYmBa/WssO6JlRzfD1tOVssevNPqCnSCiTLaXZRJNMfqePt2+aBW8Tz4QkUHGRpvjPPvzNWwK6jQ+0l1zpdat08DWBi4xlxd3qA0BaTOkXT5FuJzQtsHM9nzTSSSWlbDHUmH49NOcIa7mC+wTgMV/a0CWAjQlJWOrQqNrhd801zj6wD451IjzBVQiuAfARQRTpnrnYkmoOJzd7fzo4zdcrTAqI5XSliZxtCLZL27XtHUN6a
+X-Microsoft-Antispam-Message-Info: iz4KG2eVBsUjSilCrHHZk2ES8P5+y7XraT24tH3CDtwAiu0HWqckSlM16Wkaky/7g4Pviqnxg1wCKXPC4Ek0hoIayCVxJc3Kjo6kCnvIgZ5Odn/xoNMk3DjLplFAy3QpA079jO1jv48GLgO7GtJzsMnmSmdC1Rtt/ayIllo3jSOxHXGYKDJd+FvF+8jSMrLtOc9G2+ARiM44WuE5cuMiatIySLRrG2HXXupjBx8/rZ6AY1VKsCpsCcBeHTd791PDC/DraqaGTYZAHUJubLWyJ2iLAqkEzXDNqXnIWyl2LnDvwxpHRrtvX/U/R7aEtpLdfCQ3PKqlG9JGP2ir7WNR3e1DiqyCLtNL5pVsUS75igLfm9W1oEN4LmxfroP13jPFoHiMrS/sXCSn3zzcCzIu5/dbssIVG6F3b/aCD6W5oEEBA6p2Y27CXbp2mHBMzuChE+awYc2+ux1z1VkUEvzYzIM4UgmC416ILDeyvafFmwvqWrRAMySr+vnB7V6bOLcC+TlPkbipEheDQzjr/Tvh0B5X8BS0SzSFPnv36a8V9cNsmR8jr7l7L8sLRpxDVvu8LZEKAeAHVG8rD5EFrxkqHCJNzLDhI4uQVYHK5y8/GZ8Oug7RdzmtndfuWJY3RASwQthYwRQBtPK2Orr5HMao5tP0VNpGDU3GcZ5Noeby9NL6M94HPkLLNwjSQlS5JrWL
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(39840400004)(346002)(366004)(376002)(396003)(136003)(956004)(6486002)(2616005)(6916009)(6666004)(186003)(478600001)(2906002)(5660300002)(38100700002)(36756003)(107886003)(8936002)(26005)(16526019)(6512007)(38350700002)(86362001)(1076003)(6506007)(66556008)(66476007)(66946007)(316002)(8676002)(52116002)(4326008)(83380400001)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?na9zVC3ugcP3CTi8zIbMSZTe+Y88hHdjQCR1HYNDayGiJX5qs5uY/wZAOt78?=
- =?us-ascii?Q?V+YnlkdWulwJVk2u6WFWFgCvmT0PrZJxqEijQOiA9RQ3oN9w8YsxAIgD+jz2?=
- =?us-ascii?Q?WlILjGKZmbItXlQboiUkUyujRUxV1daEdgiyUJiP+op/6Lu+GMs+ZciunLO/?=
- =?us-ascii?Q?ClAyQytho1xiaKy75sWmCo6pE8E1wbdVLTw2glAgXMR4IZ1OYJhasoGzJ1mw?=
- =?us-ascii?Q?6F4YJbpuLX7Ktl2zcHjJxhIs8BC8ubb39G3RjZDnw4tO6kvHQUv9cBsFsGHy?=
- =?us-ascii?Q?2CXIeZfbde9eRFbzsIWYpGTGj3RgqJ6ZZGapYgCELlsRLUhdVaQSVGJX9evw?=
- =?us-ascii?Q?lsqTnGdkkDolmDVxFKnKFToA/wgSFIJqPxyRsjwsIvkS1oD35G/omtJM5USN?=
- =?us-ascii?Q?qpNV/ii3i/dFxBtMkU0EB1TqMuNPsAfKub1hkoIoGb1MolA5+4CoFvqahTsB?=
- =?us-ascii?Q?m0OclOX4K9t5VYvGcivS4KbX6Z+ITSSe2AEPMqbMGtG/hSwKOsozNg2a6GMN?=
- =?us-ascii?Q?epDKg43LqLnXTg0SPJQOUNcz2MkJounL7hFnGvU6K5Gj7yztcYGOT9vsv5q/?=
- =?us-ascii?Q?4KzC1hNbrN/dqYx4+klaNj32BApiIpD9TdFCgT3WsJ+DKt3xKq73ZLSLuEcr?=
- =?us-ascii?Q?mylfvySxsKZw07VNmTZ1ooRApETCxFW8kDTsL1anecIyQIV5xRoKYQfXgQQE?=
- =?us-ascii?Q?NT27DL/eW9lRW8xPh+vrnTQvi2TU5yRyFyLTjJi7Cy8EUtfPoNtJLpeAUViC?=
- =?us-ascii?Q?u6/r0NWpCeg6qB7/sYjYuDJYGAiQfE/lJhS3C4TCOE6GcCAAqo76yX3RFLa9?=
- =?us-ascii?Q?Te0EnOdgYfKRvg2ct6BbYgkzhU4lP0RqngQibnNHk2D5Y6+0am+0UcCUcCjZ?=
- =?us-ascii?Q?XZeDQT2aWJ/NSQi06MJmPC3bWy/YyYaX1yACqpjnYcoQDPcrcNI+n4129RtR?=
- =?us-ascii?Q?n6XLhbF8+UbFcRzCF8Q5qbTMWhcaE62rx9sq1H+pXtZddpj+fUxYTXCSizgu?=
- =?us-ascii?Q?uTQaHw+gM736s0n6tHfXf1p4IPJ/z6YCcR5kljVz1vziD8htPM93gCxwE0/8?=
- =?us-ascii?Q?NyUS8sNH7I8dWRgDZc8MKLsiIJ2rzah4VTOEJU0nkBJnRhV8k6A7irWOKQni?=
- =?us-ascii?Q?FGJhqzgP/vR/kVgH8e3iajzAPS5cZz8jAWEoCHKetAEdacvsLY0xXArZ89/+?=
- =?us-ascii?Q?Ovt6M38PxKJSHKN34FdPgV3qIsms6nWBG5cemDvDMoj5OvqpQSOkVHkwaplj?=
- =?us-ascii?Q?T1pU6W6WaiSlcSCd7EI/bIL1SWJT5Um9tMu4VZOwIw3ff7Mv8G0iowQ8Mg7z?=
- =?us-ascii?Q?rf1eb8NpC2nyCU9WLMVIq+fp?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ohUhLyQ4lE+Wbn7gUR3J/1urSjInZy1I7km+wmeznqlOT2tnHruUMSqbG9R3?=
+ =?us-ascii?Q?/wiwSrqqMDheREHEHrO49Wh0aTgJkoJbsv+7zG+6IW2pkS8Pjye5axB1pVWE?=
+ =?us-ascii?Q?GVCQZaPLm/4WgChh+Q8xHzyOKq+yv+a281ltHldvbODflFg+MB/H5BPJ4U9A?=
+ =?us-ascii?Q?lIH3eS8j39V9+yRZOKH/iSwsLbwTqMdlkw056kvJzcWWI5+BwU81b3pryzWB?=
+ =?us-ascii?Q?+4m9chMhwkyYSS+jQn6A4UxEcyYZZiIlB+3svl9lO8JbBr1g1fCmp+7YCuwT?=
+ =?us-ascii?Q?CgBZdcivN5DCnRubCWDg5ZLVoaE6sEplZifhQs7PD7vBd46qi77Oedy0a/x+?=
+ =?us-ascii?Q?jV0io3eL8PkRfpd/CIlHzAeoxuOtVlwabUgCUXZyAmyqaxhemMwdBClIBXCd?=
+ =?us-ascii?Q?qnYCTR5SZXJoacGy1+ARykyBRn2K7IvkbM6T0MPbezj31l5fYG+PGzM9zEFN?=
+ =?us-ascii?Q?FGC4P1TBnk9gg8c6w8RG7dj9sEhPVLnavV0dQlToR64Vb638UgDLfTSc0zj6?=
+ =?us-ascii?Q?8Kah5LK1WVU97zyuuqKb/je+gwLX/5DT32Dr9/FSW1XCx+Rvo2UHmJ9fIytq?=
+ =?us-ascii?Q?ygNRirsuZXppv+Jqat/ldfr8j/3SbpUENHBY/n3i1EX2MyupeQobmgLa+YLn?=
+ =?us-ascii?Q?AkBsWR3gv+yu6qudkDmI46NHyJcQIi61Aepn6NkhiqH2FvD3NrCFBmAqB30e?=
+ =?us-ascii?Q?uaBwo+yzKqh5bWJ2Nf+2b1sQ9+od96hnJwz9AybkaHG1E8xLLkEJGEj8+l/I?=
+ =?us-ascii?Q?kAf1csm+2Mtia2etOWKT0+J22O8w5twJPKi34RJeQvjQBPIgs2w4teohySHm?=
+ =?us-ascii?Q?HGuOhR9NGCjwYF8d8dYwAzu44zx9+0Mic/6P1fihpJjdEtenK617V5liminL?=
+ =?us-ascii?Q?1fK40sXzBCbEKV8ZKBaLO1s2UUNoDO2sG/bZPaL9H4MyH/F6IHsycHe4oZXn?=
+ =?us-ascii?Q?L4FXFDUGumxDxXvMmND27XDbMHQaX/YG6i7wLyp1nUvlkBMNE7gtGY7cfoUU?=
+ =?us-ascii?Q?3M2zF76NeAuIk1CSmV+kw5qfRe43Uuc9XE3a+oEDDX7aXkGHH4Q+dFh4QHfZ?=
+ =?us-ascii?Q?OmZBCuCiHAA1EBXOqCCwwCcZ4mN6uUDVaDh4q3XMWzY3XWYvFdTD94zzGFu1?=
+ =?us-ascii?Q?HisROIqOoZeazfDp9KcHouefLMDb5uCkyZI6OgvhMKOc3rLtDHsKMNdaPxCf?=
+ =?us-ascii?Q?vJ5pXd/FwdM0QLpo554n29AlntQ0AKLv4o0z6czrkq6JU+52FWvmlIRWz4F4?=
+ =?us-ascii?Q?gryXXgJl87PxINhhhUkREBTT9fc0ZANF9BswSaugfeK+QnP8DsddV1V2vwZp?=
+ =?us-ascii?Q?1xjCewp2745i+uXVVIrO3iia?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe549e58-003a-4fc2-de8a-08d92c081bd1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68559fe4-bf0e-4bc1-4ed7-08d92c081c5f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 12:05:58.8959 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 12:05:59.8338 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IQb1yzwUKMkTttQw26yovlQBGWzvWHpkCFddAqDuctxOe395MQRpINCmHwB48fPUT7NP9SWW6l+epD0BFu3sxZKeQXqLQs4Exdz/rdkBFZI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: I13pKGUQ9fUPodcarv0SvE0fOpSFWGn7wS1MNbqd8qQTz2bFaytWgnV1uMyJchto3dOTnLgm5EQW+iA3Km23uNZsuThwmkGy/X0hbeoqLTI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4277
-Received-SPF: pass client-ip=40.107.8.125;
+Received-SPF: pass client-ip=40.107.8.90;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -139,91 +138,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move supports_backing check of bdrv_reopen_parse_backing to called
-(through bdrv_set_backing_noperm()) bdrv_set_file_or_backing_noperm()
-function. The check applies to general case, so it's appropriate for
-bdrv_set_file_or_backing_noperm().
+It's used only in bdrv_reopen_commit(). "backing" is covered by the
+loop through all children except for case when we removed backing child
+during reopen.
 
-We have to declare backing support for two test drivers, otherwise new
-check fails.
+Make it more obvious and drop extra boolean field: qdict_del will not
+fail if there is no such entry.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block.c                          | 29 +++++++++++++++--------------
- tests/unit/test-bdrv-drain.c     |  1 +
- tests/unit/test-bdrv-graph-mod.c |  1 +
- 3 files changed, 17 insertions(+), 14 deletions(-)
+ include/block/block.h |  1 -
+ block.c               | 10 ++++------
+ 2 files changed, 4 insertions(+), 7 deletions(-)
 
+diff --git a/include/block/block.h b/include/block/block.h
+index 8e707a83b7..d28022e761 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -208,7 +208,6 @@ typedef struct BDRVReopenState {
+     int flags;
+     BlockdevDetectZeroesOptions detect_zeroes;
+     bool backing_missing;
+-    bool replace_backing_bs;  /* new_backing_bs is ignored if this is false */
+     BlockDriverState *old_backing_bs; /* keep pointer for permissions update */
+     QDict *options;
+     QDict *explicit_options;
 diff --git a/block.c b/block.c
-index 1717e5cb98..f835b576a9 100644
+index f835b576a9..eb98aced9d 100644
 --- a/block.c
 +++ b/block.c
-@@ -3152,6 +3152,14 @@ static int bdrv_set_file_or_backing_noperm(BlockDriverState *parent_bs,
-         return -EPERM;
-     }
- 
-+    if (is_backing && !parent_bs->drv->is_filter &&
-+        !parent_bs->drv->supports_backing)
-+    {
-+        error_setg(errp, "Driver '%s' of node '%s' does not support backing "
-+                   "files", parent_bs->drv->format_name, parent_bs->node_name);
-+        return -EINVAL;
-+    }
-+
-     if (parent_bs->drv->is_filter) {
-         role = BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY;
-     } else if (is_backing) {
-@@ -4278,20 +4286,13 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
-         }
-     }
- 
--    /*
--     * Ensure that @bs can really handle backing files, because we are
--     * about to give it one (or swap the existing one)
--     */
--    if (bs->drv->is_filter) {
--        /* Filters always have a file or a backing child */
--        if (!bs->backing) {
--            error_setg(errp, "'%s' is a %s filter node that does not support a "
--                       "backing child", bs->node_name, bs->drv->format_name);
--            return -EINVAL;
--        }
--    } else if (!bs->drv->supports_backing) {
--        error_setg(errp, "Driver '%s' of node '%s' does not support backing "
--                   "files", bs->drv->format_name, bs->node_name);
-+    if (bs->drv->is_filter && !bs->backing) {
-+        /*
-+         * Filters always have a file or a backing child, so we are trying to
-+         * change wrong child
-+         */
-+        error_setg(errp, "'%s' is a %s filter node that does not support a "
-+                   "backing child", bs->node_name, bs->drv->format_name);
+@@ -4296,7 +4296,6 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
          return -EINVAL;
      }
  
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 892f7f47d8..ce071b5fc5 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -95,6 +95,7 @@ static int bdrv_test_change_backing_file(BlockDriverState *bs,
- static BlockDriver bdrv_test = {
-     .format_name            = "test",
-     .instance_size          = sizeof(BDRVTestState),
-+    .supports_backing       = true,
+-    reopen_state->replace_backing_bs = true;
+     reopen_state->old_backing_bs = bs->backing ? bs->backing->bs : NULL;
+     return bdrv_set_backing_noperm(bs, new_backing_bs, set_backings_tran, errp);
+ }
+@@ -4550,17 +4549,16 @@ static void bdrv_reopen_commit(BDRVReopenState *reopen_state)
+     bs->open_flags         = reopen_state->flags;
+     bs->detect_zeroes      = reopen_state->detect_zeroes;
  
-     .bdrv_close             = bdrv_test_close,
-     .bdrv_co_preadv         = bdrv_test_co_preadv,
-diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
-index 88f25c0cdb..a6e3bb79be 100644
---- a/tests/unit/test-bdrv-graph-mod.c
-+++ b/tests/unit/test-bdrv-graph-mod.c
-@@ -41,6 +41,7 @@ static void no_perm_default_perms(BlockDriverState *bs, BdrvChild *c,
- 
- static BlockDriver bdrv_no_perm = {
-     .format_name = "no-perm",
-+    .supports_backing = true,
-     .bdrv_child_perm = no_perm_default_perms,
- };
+-    if (reopen_state->replace_backing_bs) {
+-        qdict_del(bs->explicit_options, "backing");
+-        qdict_del(bs->options, "backing");
+-    }
+-
+     /* Remove child references from bs->options and bs->explicit_options.
+      * Child options were already removed in bdrv_reopen_queue_child() */
+     QLIST_FOREACH(child, &bs->children, next) {
+         qdict_del(bs->explicit_options, child->name);
+         qdict_del(bs->options, child->name);
+     }
++    /* backing is probably removed, so it's not handled by previous loop */
++    qdict_del(bs->explicit_options, "backing");
++    qdict_del(bs->options, "backing");
++
+     bdrv_refresh_limits(bs, NULL, NULL);
+ }
  
 -- 
 2.29.2
