@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DF03A2DC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:10:59 +0200 (CEST)
-Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94F33A2DD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:14:08 +0200 (CEST)
+Received: from localhost ([::1]:40300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrLOc-0002yv-DA
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55156)
+	id 1lrLRf-0006aG-Uh
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lrLMk-00016w-52
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:09:02 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50869)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrLPL-0004hZ-EN
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:11:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lrLMh-0001KV-25
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:09:01 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id d184so6285861wmd.0
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 07:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=C7UPFOSxI1oq/X+1vmme3Dr6P4rsVuzYzuRGnQaqTJ8=;
- b=WJE8ocfHnBL7LGesnh/BiLMUXIA74Rl3oev0aQkSt6Mpowd/LDq8bggi912sN2/gAv
- D2r7WzsWsbaJzCwIzoP4HCT5c2V4bj+r5owcDH6w9NGsYEp19zW5PeyzYQADitIJEeKF
- p5clNVVUm7M0dES1EvA4UAgvU3nnSquD4f8Tjq8Tf3Sm6oxPnGzn6pLoF92FCXTIswI+
- mCPfjF+gZT6LF1F/V+KyVrWVps6fssUKrWASr86LZKPEgQRrn44M8pHW+d3XVb/rQn70
- sA7lVyTk0/ipoP8umf2hUoIKJxYVXDWXnA485Pqi30/6ZGgBqOTr9SlOWhfXGJiq+ihF
- h0lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=C7UPFOSxI1oq/X+1vmme3Dr6P4rsVuzYzuRGnQaqTJ8=;
- b=Hqd0KhKckpgtkv7YlQe85rZYXrcwnGMnp6ZCf9Ncr6lklSePZerDHDgibz2OQp0Mnt
- IOAZB+SXX/YRJAxNMFzBOA6H76Hom/MNsXIy/WRgYA9osbg5xOln4+19kCHlYArylfde
- ODuKWepiSyPg3QRK9R4fqQacfi34Ef7gfxG1CtZNcUY1AakH5EahHpxEJw1x9apf7Yos
- aFk4woW8iqARD9Cd+MLId2BHoM4uT5sW+lKyQLM5OVTRXVMEy/44Xab+DIVqNpUXpMaf
- GHNHBiGOXYqU4qH1E0fExWtbh73OmxNa/YmGMgLCiz0ZsSNNmKsbqX4WIP/I0et29k+s
- Ls5A==
-X-Gm-Message-State: AOAM530EO2qksLh9KMAA2FBiAPmOMob4tJHhz/Gf/f+Bpif8yHxW8qcM
- ohMJNmG5M4hJZXt4LKhGc08VFA==
-X-Google-Smtp-Source: ABdhPJwwKpjg8eFxyZjN7M/9/bJ/Iab87z20WsBfe5esxNNxWg/NRKi6SUaziuKiHyJkIwtG9aUHnA==
-X-Received: by 2002:a7b:c013:: with SMTP id c19mr15164080wmb.158.1623334136191; 
- Thu, 10 Jun 2021 07:08:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k8sm3720433wrp.3.2021.06.10.07.08.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 07:08:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 58A001FF7E;
- Thu, 10 Jun 2021 15:08:54 +0100 (BST)
-References: <20210610102617.17281-1-alex.bennee@linaro.org>
- <CAFEAcA8O1Cca2BnNp5c=0yYbKExYH1sUYe68C_msG_oBSUGW3g@mail.gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2] semihosting/arm-compat: remove heuristic softmmu
- SYS_HEAPINFO
-Date: Thu, 10 Jun 2021 14:55:24 +0100
-In-reply-to: <CAFEAcA8O1Cca2BnNp5c=0yYbKExYH1sUYe68C_msG_oBSUGW3g@mail.gmail.com>
-Message-ID: <87lf7hizgp.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrLPE-0003MC-PM
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 10:11:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lrLP9-0003XS-A8
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 14:11:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EEAD52E825A
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 14:11:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Thu, 10 Jun 2021 13:59:44 -0000
+From: Lee Yarwood <1929710@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=nova; status=New; importance=Medium; assignee=None;
+X-Launchpad-Bug-Tags: gate-failure
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hudson-openstack lyarwood melwitt
+X-Launchpad-Bug-Reporter: Lee Yarwood (lyarwood)
+X-Launchpad-Bug-Modifier: Lee Yarwood (lyarwood)
+References: <162203621182.4387.4299404156046469363.malonedeb@gac.canonical.com>
+Message-Id: <162333358438.28173.7908886005390234544.launchpad@wampee.canonical.com>
+Subject: [Bug 1929710] Re: virDomainGetBlockJobInfo fails during swap_volume
+ as disk '$disk' not found in domain
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: c3834900433f88be2b2957591f5b0da12bd5e180
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, URI_HEX=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,114 +71,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Andrew Strauss <astrauss11@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Nick Clifton <nickc@redhat.com>
+Reply-To: Bug 1929710 <1929710@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** No longer affects: qemu
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+** Changed in: nova
+   Importance: Undecided =3D> Medium
 
-> On Thu, 10 Jun 2021 at 11:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The previous numbers were a guess at best. While we could extract the
->> information from a loaded ELF file via -kernel we could still get
->> tripped up by self decompressing or relocating code. Besides sane
->> library code like newlib will fall back to known symbols to determine
->> of the location of the heap. We can still report the limits though as
->> we are reasonably confident that busting out of RAM would be a bad
->> thing for either stack or heap.
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Tested-by: Andrew Strauss <astrauss11@gmail.com>
->> Reviewed-by: Andrew Strauss <astrauss11@gmail.com>
->> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
->>
->> ---
->> v2
->>   - report some known information (limits)
->>   - reword the commit message
->> ---
->>  semihosting/arm-compat-semi.c | 12 ++++++++----
->>  1 file changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi=
-.c
->> index 1c29146dcf..8873486e8c 100644
->> --- a/semihosting/arm-compat-semi.c
->> +++ b/semihosting/arm-compat-semi.c
->> @@ -1202,10 +1202,14 @@ target_ulong do_common_semihosting(CPUState *cs)
->>              retvals[3] =3D 0; /* Stack limit.  */
->>  #else
->>              limit =3D current_machine->ram_size;
->> -            /* TODO: Make this use the limit of the loaded application.=
-  */
->> -            retvals[0] =3D rambase + limit / 2;
->> -            retvals[1] =3D rambase + limit;
->> -            retvals[2] =3D rambase + limit; /* Stack base */
->> +            /*
->> +             * Reporting 0 indicates we couldn't calculate the real
->> +             * values which should force most software to fall back to
->> +             * using information it has.
->> +             */
->> +            retvals[0] =3D 0; /* Heap Base */
->> +            retvals[1] =3D rambase + limit; /* Heap Limit */
->> +            retvals[2] =3D 0; /* Stack base */
->>              retvals[3] =3D rambase; /* Stack limit.  */
->
-> The spec:
-> https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.=
-rst#sys-heapinfo-0x16
->
-> doesn't document that 'return 0 for "I don't know"' is valid, so if we're
-> going to do it we ought to at least note that we're deviating from the
-> spec here.
+-- =
 
-That comes from newlib who state:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1929710
 
-	/*  We skip setting SP/SL if 0 returned from semihosting.
-	    - According to semihosting docs, if 0 returned from semihosting,
-	      the system was unable to calculate the real value, so it's ok
-	      to skip setting SP/SL to 0 here.
-	    - Considering M-profile processors, We might want to initialize
-	      SP by the first entry of vector table and return 0 to SYS_HEAPINFO
-	      semihosting call, which will be skipped here.
-	    - Considering R-profile processors there is no automatic SP init by ha=
-rdware
-	      so we need to initialize it by default value.  */
+Title:
+  virDomainGetBlockJobInfo fails during swap_volume as disk '$disk' not
+  found in domain
 
-that doesn't come from the actual semihosting spec but the ARM Compiler
-Development guide (ARM DUI0471M) which has a more detailed entry:
+Status in OpenStack Compute (nova):
+  New
 
-  7.13 SYS_HEAPINFO (0x16)
-  Returns the system stack and heap parameters.
+Bug description:
+  Description
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-  The values returned are typically those used by the C library during
-  initialization. For a debug hardwareunit, such as RVI or DSTREAM, the
-  values returned are the image location and the top of memory.
+  The error handling around swap_volume is missing the following failure
+  when calling virDomainGetBlockJobInfo() after the entire device is
+  detached by QEMU (?) after it encounters a failure during the block
+  copy job that at first pauses and then somehow resumes:
 
-  The C library can override these values.
+  https://8a5fc27780098c5ee1bc-
+  3ac81d180a9c011938b2cbb0293272f3.ssl.cf5.rackcdn.com/790660/5/gate
+  /nova-next/e915ed4/controller/logs/screen-n-cpu.txt
 
-  The host debugger determines the actual values to return by using the
-  top_of_memory debugger variable.
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver [None req-7cfcd661-29d4-4cc3-b=
+c54-db0e7fed1a6e tempest-TestVolumeSwap-1841575704 tempest-TestVolumeSwap-1=
+841575704-project-admin] Failure rebasing volume /dev/sdb on vdb.: libvirt.=
+libvirtError: invalid argument: disk 'vdb' not found in domain
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver Traceback (most recent call la=
+st):
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/opt/stack/nova/nova/v=
+irt/libvirt/driver.py", line 2107, in _swap_volume
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     while not dev.is_job_compl=
+ete():
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/opt/stack/nova/nova/v=
+irt/libvirt/guest.py", line 800, in is_job_complete
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     status =3D self.get_job_in=
+fo()
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/opt/stack/nova/nova/v=
+irt/libvirt/guest.py", line 707, in get_job_info
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     status =3D self._guest._do=
+main.blockJobInfo(self._disk, flags=3D0)
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
+.8/dist-packages/eventlet/tpool.py", line 190, in doit
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     result =3D proxy_call(self=
+._autowrap, f, *args, **kwargs)
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
+.8/dist-packages/eventlet/tpool.py", line 148, in proxy_call
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     rv =3D execute(f, *args, *=
+*kwargs)
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
+.8/dist-packages/eventlet/tpool.py", line 129, in execute
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     six.reraise(c, e, tb)
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
+.8/dist-packages/six.py", line 719, in reraise
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     raise value
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
+.8/dist-packages/eventlet/tpool.py", line 83, in tworker
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     rv =3D meth(*args, **kwarg=
+s)
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver   File "/usr/local/lib/python3=
+.8/dist-packages/libvirt.py", line 985, in blockJobInfo
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver     raise libvirtError('virDom=
+ainGetBlockJobInfo() failed')
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver libvirt.libvirtError: invalid =
+argument: disk 'vdb' not found in domain
+  May 26 09:49:47.314813 ubuntu-focal-vexxhost-ca-ymq-1-0024823853 nova-com=
+pute[114649]: ERROR nova.virt.libvirt.driver
 
-  <snip>
+  https://zuul.opendev.org/t/openstack/build/e915ed4aeb9346bba83910bd79e950=
+2b/log/controller/logs/libvirt/libvirtd_log.txt
 
-  Note
+  2021-05-26 09:49:40.189+0000: 79419: info : qemuMonitorSend:993 :
+  QEMU_MONITOR_SEND_MSG: mon=3D0x7fc4bc07e7d0 msg=3D{"execute":"blockdev-
+  add","arguments":{"node-name":"libvirt-4-format","read-
+  only":false,"cache":{"direct":true,"no-
+  flush":false},"driver":"raw","file":"libvirt-4-storage"},"id":"libvirt-37=
+5"}^M
 
-  If word one of the data block has the value zero, the C library replaces
-  the zero with Image$$ZI$$Limit.This value corresponds to the top of the
-  data region in the memory map.
+  2021-05-26 09:49:46.154+0000: 79422: info : qemuMonitorSend:993 :
+  QEMU_MONITOR_SEND_MSG: mon=3D0x7fc4bc07e7d0 msg=3D{"execute":"blockdev-
+  add","arguments":{"node-name":"libvirt-5-format","read-
+  only":false,"cache":{"direct":true,"no-
+  flush":false},"driver":"raw","file":"libvirt-5-storage"},"id":"libvirt-37=
+9"}^M
 
-  Return
+  2021-05-26 09:49:46.165+0000: 79422: debug :
+  qemuMonitorBlockdevMirror:3112 : jobname=3Dcopy-vdb-libvirt-4-format,
+  persistjob=3D1, device=3Dlibvirt-4-format, target=3Dlibvirt-5-format,
+  bandwidth=3D0, granularity=3D0, buf_size=3D0, shallow=3D0
 
-  On exit, R1 contains the address of the pointer to the structure.If one
-  of the values in the structure is 0, the system was unable to calculate
-  the real value.
+  2021-05-26 09:49:46.167+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'created'(1)
 
-which I think is the basis for the newlib fallback behaviour.
+  2021-05-26 09:49:46.167+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'running'(2)
 
---=20
-Alex Benn=C3=A9e
+  2021-05-26 09:49:46.763+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'paused'(3)
+
+  2021-05-26 09:49:46.763+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'running'(2)
+
+  2021-05-26 09:49:46.841+0000: 79417: debug :
+  qemuProcessHandleDeviceDeleted:1362 : Device virtio-disk1 removed from
+  domain 0x7fc4b416b0e0 instance-0000000b
+
+  2021-05-26 09:49:47.457+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'aborting'(8)
+
+  2021-05-26 09:49:47.458+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'concluded'(9)
+
+  2021-05-26 09:49:47.459+0000: 79417: debug :
+  qemuProcessHandleJobStatusChange:1002 : job 'copy-vdb-
+  libvirt-4-format'(domain: 0x7fc4b416b0e0,instance-0000000b) state
+  changed to 'null'(11)
+
+  Steps to reproduce
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  $ cat queries/virDomainGetBlockJobInfo.yaml
+  query: >
+  =C2=A0message:"virDomainGetBlockJobInfo() failed" AND
+  =C2=A0tags:"screen-n-cpu.txt"
+
+  $ elastic-recheck-query queries/virDomainGetBlockJobInfo.yaml
+  total hits: 6
+  build_branch
+  =C2=A0=C2=A0100% master
+  build_change
+  =C2=A0=C2=A050% 786588
+  =C2=A0=C2=A050% 792322
+  build_hostids
+  =C2=A0=C2=A050% 1b47a855be51bba01ac6d5e6fdc4859bc17ebe2c8faaeb83392f8ff3 =
+79fb0487675c0137b7ac30f24b5de71c70afb836e46746de770fa0c0
+  =C2=A0=C2=A050% 33381c047c348ffefebf6b10cb7f0473c2359757d0bf11cc101eec54 =
+33381c047c348ffefebf6b10cb7f0473c2359757d0bf11cc101eec54
+  build_name
+  =C2=A0=C2=A0100% nova-next
+  build_node
+  =C2=A0=C2=A0100% ubuntu-focal
+  build_queue
+  =C2=A0=C2=A0100% check
+  build_status
+  =C2=A0=C2=A0100% FAILURE
+  build_zuul_url
+  =C2=A0=C2=A0100% N/A
+  filename
+  =C2=A0=C2=A0100% controller/logs/screen-n-cpu.txt
+  log_url
+  =C2=A0=C2=A050% https://89bc735e8a094e3d60b7-4f6db7cd5400cfa66e1c80fde6bd=
+4076.ssl.cf1.rackcdn.com/792322/1/check/nova-next/de697b4/controller/logs/s=
+creen-n-cpu.txt
+  =C2=A0=C2=A050% https://storage.gra.cloud.ovh.net/v1/AUTH_dcaab5e32b234d5=
+6b626f72581e3644c/zuul_opendev_logs_035/786588/6/check/nova-next/0357703/co=
+ntroller/logs/screen-n-cpu.txt
+  loglevel
+  =C2=A0=C2=A0100% ERROR
+  module
+  =C2=A0=C2=A033% nova.compute.manager
+  =C2=A0=C2=A033% nova.virt.libvirt.driver
+  =C2=A0=C2=A033% oslo_messaging.rpc.server
+  node_provider
+  =C2=A0=C2=A050% ovh-bhs1
+  =C2=A0=C2=A050% rax-iad
+  port
+  =C2=A0=C2=A050% 48014
+  =C2=A0=C2=A050% 58238
+  project
+  =C2=A0=C2=A0100% openstack/nova
+  syslog_pid
+  =C2=A0=C2=A050% 107528
+  =C2=A0=C2=A050% 108261
+  syslog_program
+  =C2=A0=C2=A050% ubuntu-focal-ovh-bhs1-0024748800 nova-compute
+  =C2=A0=C2=A050% ubuntu-focal-rax-iad-0024745546 nova-compute
+  tags
+  =C2=A0=C2=A0100% screen-n-cpu.txt screen oslofmt
+  voting
+  =C2=A0=C2=A0100% 1
+  zuul_attempts
+  =C2=A0=C2=A0100% 1
+  zuul_executor
+  =C2=A0=C2=A050% ze01.opendev.org
+  =C2=A0=C2=A050% ze07.opendev.org
+
+  Expected result
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  swap_volume at least fails correctly leaving the original device attached.
+
+  Actual result
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  swap_volume fails and the original device appears detached from the devic=
+e.
+
+  Environment
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  1. Exact version of OpenStack you are running. See the following
+  =C2=A0=C2=A0list for all releases: http://docs.openstack.org/releases/
+
+  =C2=A0=C2=A0=C2=A0master
+
+  2. Which hypervisor did you use?
+  =C2=A0=C2=A0=C2=A0(For example: Libvirt + KVM, Libvirt + XEN, Hyper-V, Po=
+werKVM, ...)
+  =C2=A0=C2=A0=C2=A0What's the version of that?
+
+  =C2=A0=C2=A0=C2=A0libvirt + QEMU (no KVM in the gate)
+
+  2. Which storage type did you use?
+  =C2=A0=C2=A0=C2=A0(For example: Ceph, LVM, GPFS, ...)
+  =C2=A0=C2=A0=C2=A0What's the version of that?
+
+  =C2=A0=C2=A0=C2=A0images_type=3Ddefault=3Dqcow2
+
+  3. Which networking type did you use?
+  =C2=A0=C2=A0=C2=A0(For example: nova-network, Neutron with OpenVSwitch, .=
+..)
+
+  =C2=A0=C2=A0=C2=A0N/A
+
+  Logs & Configs
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/nova/+bug/1929710/+subscriptions
 
