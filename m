@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51D83A2459
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:19:11 +0200 (CEST)
-Received: from localhost ([::1]:38754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76B43A247D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:25:24 +0200 (CEST)
+Received: from localhost ([::1]:43112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrE22-0002t0-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51312)
+	id 1lrE83-0006M4-RW
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:25:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lrE18-00027T-5H
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:18:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59334)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lrE6m-0005hK-40
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:24:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lrE14-0007zB-Lq
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:18:13 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lrE6k-0004Zv-Dj
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:24:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623305888;
+ s=mimecast20190719; t=1623306241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=05MN/ehG2w90gLj27ddoDKauF0qAG/5EzL+uM1ZFazY=;
- b=a0ndzaELTs1dooAq64bKi/+5ukykEnuZDXg6XM5zR7YQ8vvPx1McuPgdOTjLEWJlKJv/wj
- 7oCrGO8TyHf1tO9ydhWGfN9wcGbzuGs8WusPp7O5npOzkJt6AJTuaePZlf2bXhvBG9qUzQ
- 4XmA4EFW2j2mH6l32+JlAiFtQLo64Mk=
+ bh=yQyz8huXm0b4Ok/YQR4K22sP52qrsMEAHd7p7PTS3CM=;
+ b=aXUZi8+3WtgAh25yWrMZDtIJd5EiRAbqOiKOlQn/rqR5kicytBnNR3qW8IXGBs2yb2NdGK
+ S05J2ys3/n/yzici4xsoDfZcFkho1iDvohECbECFlWUWtJ8qN1Qifm9qf9qClbPV+3P9dC
+ Tv/WH4LemFhPla1Dnqe7SrPshErPMHc=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-9fE-KAWqOe2Z77fv-g0OXQ-1; Thu, 10 Jun 2021 02:18:04 -0400
-X-MC-Unique: 9fE-KAWqOe2Z77fv-g0OXQ-1
+ us-mta-481-EHRvGNO-M3GXHetdeiBkPw-1; Thu, 10 Jun 2021 02:23:58 -0400
+X-MC-Unique: EHRvGNO-M3GXHetdeiBkPw-1
 Received: by mail-wr1-f70.google.com with SMTP id
- h104-20020adf90710000b029010de8455a3aso384159wrh.12
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 23:18:04 -0700 (PDT)
+ x9-20020adfffc90000b02901178add5f60so407280wrs.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 23:23:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=05MN/ehG2w90gLj27ddoDKauF0qAG/5EzL+uM1ZFazY=;
- b=lLRJOmiQaPOFejorwFRPgZAvFiv84YGq3X+nEgFrruZ3o9C7PKooGaI3rfBEp6mDaD
- 7dcmCpb1OXWtF99020qKNJNjeMm2sr+4T+6inxjLN/OhaeJr9LkgOVmyzpZrf3rStzdv
- W92D1B8hTC77VtfWfmGXJszbWzk1qaKV+4a/vR9TsoKacj/zsymvq+udHv210QaWYncz
- Gfl8GX7qUhb8NhDNYXuWOn+ZaE0uDmp74VuWWbbFD2GfLuBn3/1C2LtztrHRhniutADe
- pu/V80OsgeMaTwoRWMdNMmTvneJwmWw26oA96EehHV1OfadE1ly0Q881B1ghZSdet5JV
- 4wPw==
-X-Gm-Message-State: AOAM531JC5k3WyJ3+GfhNolf8PzA9A8ddoX/7m9yzaRU8IDCkjzm/p1/
- oAw3qcPsq7Q4RTdzgnZSTuoZzyfuETjOuSy9tWQtTvh458Urg0jouuK2sxGh+TAjqw3y9ZL80Ax
- qwg6RF7P9+ZqOfqo=
-X-Received: by 2002:adf:f207:: with SMTP id p7mr3290364wro.275.1623305883817; 
- Wed, 09 Jun 2021 23:18:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrkaGCvJLNCW75FaEZaoTFAHBTItvWtyOlkImWYWvDz+gcrW+TtCNJSQvfpJEfgFEp/RnUzg==
-X-Received: by 2002:adf:f207:: with SMTP id p7mr3290337wro.275.1623305883599; 
- Wed, 09 Jun 2021 23:18:03 -0700 (PDT)
+ bh=yQyz8huXm0b4Ok/YQR4K22sP52qrsMEAHd7p7PTS3CM=;
+ b=aw/bcekJkTBGThn5RUNqdmiR+iHC3YE8YbC8cfPjgQBR+cgGRIv0aidzeR4uTngaii
+ wSHVB9RoHDeKJ7E8kVIDLQxZU/JiTHHmyfxfuR6fMNZxvs9JJy+DSfZ0OKk3vONI6lYV
+ KyJ+t/CGwHZDIVrj/uRxYlK0crccdIkYlu0HHxeDk7SyXhwn4lpgJktIMyCOC6UpPqY4
+ EfBu9X3nTHPef0MlBmugy4OaZrp8W8lZtVBrEusISAO7WA/TvYuxVAbHYTE+Hued1AiW
+ sqNa9qkYCyg5W3lYAXQ0q1yfVEmDEyKo9SR+CbdjkNwhF6JAAZ0QEJsr/XV+67NKqc6V
+ ZkVQ==
+X-Gm-Message-State: AOAM531zCqFY5UFxZ5yG4ImsuiiXgj3CaYX/EBycdgr9sIf9wkxV4O9T
+ eZVWqLRUPkBMHXz0RnAozWEBVWGCsFCqEq6yUCks7Lf0/4GDib6d2408oNm0gdJNZYLpMnpmvcf
+ Mm/0OsNnyal64yF4=
+X-Received: by 2002:a7b:c750:: with SMTP id w16mr3319958wmk.69.1623306237787; 
+ Wed, 09 Jun 2021 23:23:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUyUTZ128mdZShPCwHrMFa2HuUHku53MQ6x2ZsBnCruXX5PK/oGVR2AF1e8sfYlGUDNZoE2w==
+X-Received: by 2002:a7b:c750:: with SMTP id w16mr3319932wmk.69.1623306237540; 
+ Wed, 09 Jun 2021 23:23:57 -0700 (PDT)
 Received: from thuth.remote.csb (pd9e839fb.dip0.t-ipconnect.de.
  [217.232.57.251])
- by smtp.gmail.com with ESMTPSA id x3sm8163514wmj.30.2021.06.09.23.18.02
+ by smtp.gmail.com with ESMTPSA id v16sm2284442wrr.6.2021.06.09.23.23.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jun 2021 23:18:03 -0700 (PDT)
-Subject: Re: [PATCH v6 4/4] Jobs based on custom runners: add job definitions
- for QEMU's machines
+ Wed, 09 Jun 2021 23:23:57 -0700 (PDT)
+Subject: Re: [PATCH v6 3/4] Jobs based on custom runners: docs and
+ gitlab-runner setup playbook
 To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
  <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210608031425.833536-1-crosa@redhat.com>
- <20210608031425.833536-5-crosa@redhat.com>
+ <20210608031425.833536-4-crosa@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <971d069b-9ba1-073d-34aa-15beb1d1a751@redhat.com>
-Date: Thu, 10 Jun 2021 08:18:01 +0200
+Message-ID: <be9840a8-09d7-cdd8-7ab4-a6acf185eede@redhat.com>
+Date: Thu, 10 Jun 2021 08:23:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210608031425.833536-5-crosa@redhat.com>
+In-Reply-To: <20210608031425.833536-4-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -115,57 +115,64 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08/06/2021 05.14, Cleber Rosa wrote:
-> The QEMU project has two machines (aarch64 and s390x) that can be used
-> for jobs that do build and run tests.  This introduces those jobs,
-> which are a mapping of custom scripts used for the same purpose.
+> To have the jobs dispatched to custom runners, gitlab-runner must
+> be installed, active as a service and properly configured.  The
+> variables file and playbook introduced here should help with those
+> steps.
+> 
+> The playbook introduced here covers the Linux distributions and
+> has been primarily tested on OS/machines that the QEMU project
+> has available to act as runners, namely:
+> 
+>   * Ubuntu 20.04 on aarch64
+>   * Ubuntu 18.04 on s390x
+> 
+> But, it should work on all other Linux distributions.  Earlier
+> versions were tested on FreeBSD too, so chances of success are
+> high.
 > 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->   .gitlab-ci.d/custom-runners.yml | 208 ++++++++++++++++++++++++++++++++
->   1 file changed, 208 insertions(+)
-> 
-> diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-> index a07b27384c..061d3cdfed 100644
-> --- a/.gitlab-ci.d/custom-runners.yml
-> +++ b/.gitlab-ci.d/custom-runners.yml
-> @@ -12,3 +12,211 @@
->   # guarantees a fresh repository on each job run.
->   variables:
->     GIT_STRATEGY: clone
-> +
-> +# All ubuntu-18.04 jobs should run successfully in an environment
-> +# setup by the scripts/ci/setup/build-environment.yml task
-> +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-> +ubuntu-18.04-s390x-all-linux-static:
-> + allow_failure: true
-> + needs: []
-> + stage: build
-> + tags:
-> + - ubuntu_18.04
-> + - s390x
-> + rules:
-> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
+>   docs/devel/ci.rst                  | 57 ++++++++++++++++++++++++++++
+>   scripts/ci/setup/.gitignore        |  1 +
+>   scripts/ci/setup/gitlab-runner.yml | 61 ++++++++++++++++++++++++++++++
+>   scripts/ci/setup/vars.yml.template | 12 ++++++
+>   4 files changed, 131 insertions(+)
+>   create mode 100644 scripts/ci/setup/.gitignore
+>   create mode 100644 scripts/ci/setup/gitlab-runner.yml
+>   create mode 100644 scripts/ci/setup/vars.yml.template
+[...]
+> diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
+> new file mode 100644
+> index 0000000000..f112d05dd0
+> --- /dev/null
+> +++ b/scripts/ci/setup/.gitignore
+> @@ -0,0 +1 @@
+> +vars.yml
+> \ No newline at end of file
 
-I don't think this will work very well... sub-maintainers might want to push 
-to a "staging" branch in their forked repositories, and without the s390x 
-runner, the pipeline gets stuck now:
+Add a newline, please.
 
-  https://gitlab.com/thuth/qemu/-/pipelines/317812558
+> diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+> new file mode 100644
+> index 0000000000..98dab92bb5
+> --- /dev/null
+> +++ b/scripts/ci/setup/gitlab-runner.yml
+> @@ -0,0 +1,61 @@
+> +---
+> +- name: Installation of gitlab-runner
+> +  hosts: all
+> +  vars_files:
+> +    - vars.yml
+> +  tasks:
+> +    - debug:
+> +        msg: 'Checking for a valid GitLab registration token'
+> +      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
 
-We had the same issue in the kvm-unit-test CI, and we solved it there by 
-rather making it depend on an environment variable that has to be set if the 
-runner is available:
+Could you please add a comment at the top of the file or name it differently 
+so that it is clear from a quick glance that this is an ansible playbook? 
+Poeple might later wonder otherwise...
 
-  only:
-    variables:
-     - $S390X_RUNNER_AVAILABLE
-
-I think that's also nicer in case someone brings their own s390x runner and 
-want to use the CI tests on other branches than staging.
-
-Could you please change your patch accordingly?
-
-  Thanks,
-   Thomas
+  Thomas
 
 
