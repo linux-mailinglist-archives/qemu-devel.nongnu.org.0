@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54613A2435
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:03:28 +0200 (CEST)
-Received: from localhost ([::1]:56946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD6B3A2458
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:17:42 +0200 (CEST)
+Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrDmp-0001lP-SN
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46614)
+	id 1lrE0b-0000Tg-3x
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDjv-0006YF-MC
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:00:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42331)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDk9-0007Dd-MB
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:00:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDjt-00031R-3M
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:00:27 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDk7-0003C6-EL
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:00:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623304823;
+ s=mimecast20190719; t=1623304838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3NHf57mrDF/lAB4juE+vhNL48eofDl6lruw1cSPZxXo=;
- b=fgMFDrZxZGMf8LNLbJExYq6cHiGlzTzoE3DupGAQhRLpvb97WaWA/0mBOmrfg/dHEn/fIK
- 5YPEJ8INwwA8A03Bj0JopDAC4w/qZSV3/fgutxVJxLje1bRN7u8AKTi/TEHg8R3Z15P9eU
- UNg/sC9gqy6MB4SYRM9CfFbXS7PwcNU=
+ bh=/7QuZN5frE4KlaTOtmTx8UaotmNF9mPVuO1gZv6vakQ=;
+ b=AQoSQkIFNTlWEw8KuETUqUX3QN8Le9Lu+T6+HtzsNHiNV7A13bEVniyyOLap4BQkn6Y27C
+ nOPhlXAiFRoV7jR3sD6tpnkB0XcZoYJdQH5dUq4ILgMJ3OBAjZPbf+IEGMtzz3KTVawGns
+ Unl9fLeSxYWLWx8NB0nto+Czgay0m2o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-WXnj142gP9aHaGB9F6fgYw-1; Thu, 10 Jun 2021 02:00:22 -0400
-X-MC-Unique: WXnj142gP9aHaGB9F6fgYw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-487-Pl3SyuPhNbCkKsDuH2aC1Q-1; Thu, 10 Jun 2021 02:00:36 -0400
+X-MC-Unique: Pl3SyuPhNbCkKsDuH2aC1Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1EC0101C8B3;
- Thu, 10 Jun 2021 06:00:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51E68100C660;
+ Thu, 10 Jun 2021 06:00:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
  [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EDF1119CBF;
- Thu, 10 Jun 2021 06:00:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E55AD19C46;
+ Thu, 10 Jun 2021 06:00:21 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3774C1801ABE; Thu, 10 Jun 2021 07:57:56 +0200 (CEST)
+ id 421FA1803094; Thu, 10 Jun 2021 07:57:56 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/18] modules: check arch and block load on mismatch
-Date: Thu, 10 Jun 2021 07:57:54 +0200
-Message-Id: <20210610055755.538119-18-kraxel@redhat.com>
+Subject: [PATCH v2 18/18] [fixup] module_load_modinfo
+Date: Thu, 10 Jun 2021 07:57:55 +0200
+Message-Id: <20210610055755.538119-19-kraxel@redhat.com>
 In-Reply-To: <20210610055755.538119-1-kraxel@redhat.com>
 References: <20210610055755.538119-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,90 +95,35 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add module_allow_arch() to set the target architecture.
-In case a module is limited to some arch verify arches
-match and ignore the module if not.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/qemu/module.h |  1 +
- softmmu/vl.c          |  3 +++
- util/module.c         | 15 +++++++++++++++
- 3 files changed, 19 insertions(+)
+ util/module.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index d3cab3c25a2f..7825f6d8c847 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -72,6 +72,7 @@ void module_call_init(module_init_type type);
- bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
- void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
-+void module_allow_arch(const char *arch);
- 
- /*
-  * macros to store module metadata in a .modinfo section.
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ba26a042b284..96316774fcc9 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -126,6 +126,8 @@
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
- 
-+#include "config-host.h"
-+
- #define MAX_VIRTIO_CONSOLES 1
- 
- typedef struct BlockdevOptionsQueueEntry {
-@@ -2723,6 +2725,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     error_init(argv[0]);
-     qemu_init_exec_dir(argv[0]);
- 
-+    module_allow_arch(TARGET_NAME);
-     qemu_init_subsystems();
- 
-     /* first pass of option parsing */
 diff --git a/util/module.c b/util/module.c
-index 6e4199169c41..564b8e3da760 100644
+index 564b8e3da760..4f98cc74ae37 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -122,6 +122,12 @@ void module_call_init(module_init_type type)
- static Modules *modinfo;
- static char *module_dirs[5];
- static int module_ndirs;
-+static const char *module_arch;
-+
-+void module_allow_arch(const char *arch)
-+{
-+    module_arch = arch;
-+}
- 
- static void module_load_path_init(void)
+@@ -158,7 +158,7 @@ static void module_load_modinfo(void)
  {
-@@ -295,6 +301,14 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     module_load_modinfo();
+     char *file, *json;
+     FILE *fp;
+-    int i, size;
++    int i, size, ret;
+     Visitor *v;
+     Error *errp = NULL;
  
-     for (modlist = modinfo->list; modlist != NULL; modlist = modlist->next) {
-+        if (modlist->value->has_arch) {
-+            if (strcmp(modlist->value->name, module_name) == 0) {
-+                if (!module_arch ||
-+                    strcmp(modlist->value->arch, module_arch) != 0) {
-+                    return false;
-+                }
-+            }
-+        }
-         if (modlist->value->has_deps) {
-             if (strcmp(modlist->value->name, module_name) == 0) {
-                 /* we depend on other module(s) */
-@@ -401,6 +415,7 @@ void qemu_load_module_for_opts(const char *group)
+@@ -185,8 +185,8 @@ static void module_load_modinfo(void)
+     size = ftell(fp);
+     fseek(fp, 0, SEEK_SET);
+     json = g_malloc0(size + 1);
+-    fread(json, size, 1, fp);
+-    json[size] = 0;
++    ret = fread(json, 1, size, fp);
++    json[ret] = 0;
+     fclose(fp);
  
- #else
- 
-+void module_allow_arch(const char *arch) {}
- void qemu_load_module_for_opts(const char *group) {}
- void module_load_qom_one(const char *type) {}
- void module_load_qom_all(void) {}
+     v = qobject_input_visitor_new_str(json, NULL, &errp);
 -- 
 2.31.1
 
