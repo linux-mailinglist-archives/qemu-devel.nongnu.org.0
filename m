@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7F53A272A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:34:30 +0200 (CEST)
-Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC3C3A274F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:41:39 +0200 (CEST)
+Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrG8z-0000OL-Ec
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43768)
+	id 1lrGFv-0004x3-1R
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
- id 1lrFq1-0003pa-66
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:14:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45451)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lrG34-0008G4-3v
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:28:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
- id 1lrFpy-0006M2-JT
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:14:52 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lrG32-0006h0-G4
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:28:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623312888;
+ s=mimecast20190719; t=1623313699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VUlES7KtCh0Q0lTI5rTPqVZIyubV8IV0OhQGJ5sqZU4=;
- b=ebpLMMnNEmj6k8TViR6/MLW512j1cBwvUUv9ywKoqCnUeYIQC5LavoJyhevHmlwC+m4+vT
- cwYRmpmWgLUAeh2oBC97Iv/13G1Ox03nGPh6wdvPecAzPVpoQZfQkWe739+S1iMx30jfsO
- +qn7hPaN+vtxAyIsKp6P2bAPTs3FLrQ=
+ bh=1fSwOR1EDZMn7233WpK8HxXmxyEaH7M8sp6VfRPxpQo=;
+ b=YI9sPZVcJK7t7Xaupz36UvGz5RKcfOOc02AtxsIANstSrqkkRV7DbuiMcgumig4lMJquqm
+ dMwxW9G+1tcn+jx8c0B8oVW3Uc5p8bSelPlqzi+K/mU4Kt9NunpG8ZqMzJSsoMBBbNcPt3
+ 2qHXal4qJsb8+fjksmYj/ifnECVYv6A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-eicFOsArOqKQ1jIWYWvxjg-1; Thu, 10 Jun 2021 04:13:36 -0400
-X-MC-Unique: eicFOsArOqKQ1jIWYWvxjg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-327-Vc2GT7M9M8yoDRl1vcnCTQ-1; Thu, 10 Jun 2021 04:28:16 -0400
+X-MC-Unique: Vc2GT7M9M8yoDRl1vcnCTQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBF181012588;
- Thu, 10 Jun 2021 08:13:35 +0000 (UTC)
-Received: from nautilus.local (unknown [10.40.192.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D8F555C1C5;
- Thu, 10 Jun 2021 08:13:24 +0000 (UTC)
-Date: Thu, 10 Jun 2021 10:13:21 +0200
-From: Erik Skultety <eskultet@redhat.com>
-To: Willian Rampazzo <wrampazz@redhat.com>
-Subject: Re: [PATCH v6 2/4] Jobs based on custom runners: build environment
- docs and playbook
-Message-ID: <YMHJoVrcuEwS7nYg@nautilus.local>
-References: <20210608031425.833536-1-crosa@redhat.com>
- <20210608031425.833536-3-crosa@redhat.com>
- <CAKJDGDa2Xpjnvds2F5NeKAimHCFm0ceWKRGrhidObnpOr7pC7A@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 688E810068F1;
+ Thu, 10 Jun 2021 08:28:15 +0000 (UTC)
+Received: from work-vm (ovpn-114-240.ams2.redhat.com [10.36.114.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 352D819D9D;
+ Thu, 10 Jun 2021 08:28:10 +0000 (UTC)
+Date: Thu, 10 Jun 2021 09:28:07 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 06/11] target/i386/sev: Remove sev_get_me_mask()
+Message-ID: <YMHNF+UXR91d4D3F@work-vm>
+References: <20210610064556.1421620-1-philmd@redhat.com>
+ <20210610064556.1421620-7-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKJDGDa2Xpjnvds2F5NeKAimHCFm0ceWKRGrhidObnpOr7pC7A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210610064556.1421620-7-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eskultet@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eskultet@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,32 +81,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-...
-> On a freshly installed Ubuntu 20.04, the script failed for me with
-> dependency messages on the apt side. After I updated the packages on
-> the system, the playbook worked without problems.
+* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> Unused dead code makes review harder, so remove it.
 > 
-> So, my suggestion is to add the "update = yes" here, or add a note in
-> the documentation asking the user to update the system before running
-> the playbook.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I'd advocate for always updating the system automatically rather than putting
-it into the documentation and relying on users actually doing it.
+Yes, it doesn't seem to have been used since it was added.
 
-Erik
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  target/i386/sev_i386.h | 1 -
+>  target/i386/sev-stub.c | 5 -----
+>  target/i386/sev.c      | 9 ---------
+>  3 files changed, 15 deletions(-)
+> 
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index f4223f1febf..afa19a0a161 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -25,7 +25,6 @@
+>  #define SEV_POLICY_SEV          0x20
+>  
+>  extern bool sev_es_enabled(void);
+> -extern uint64_t sev_get_me_mask(void);
+>  extern SevInfo *sev_get_info(void);
+>  extern uint32_t sev_get_cbit_position(void);
+>  extern uint32_t sev_get_reduced_phys_bits(void);
+> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+> index d91c2ece784..eb0c89bf2be 100644
+> --- a/target/i386/sev-stub.c
+> +++ b/target/i386/sev-stub.c
+> @@ -25,11 +25,6 @@ bool sev_enabled(void)
+>      return false;
+>  }
+>  
+> -uint64_t sev_get_me_mask(void)
+> -{
+> -    return ~0;
+> -}
+> -
+>  uint32_t sev_get_cbit_position(void)
+>  {
+>      return 0;
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 83df8c09f6a..0a36e81f66c 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -64,7 +64,6 @@ struct SevGuestState {
+>      uint8_t api_major;
+>      uint8_t api_minor;
+>      uint8_t build_id;
+> -    uint64_t me_mask;
+>      int sev_fd;
+>      SevState state;
+>      gchar *measurement;
+> @@ -362,12 +361,6 @@ sev_es_enabled(void)
+>      return sev_enabled() && (sev_guest->policy & SEV_POLICY_ES);
+>  }
+>  
+> -uint64_t
+> -sev_get_me_mask(void)
+> -{
+> -    return sev_guest ? sev_guest->me_mask : ~0;
+> -}
+> -
+>  uint32_t
+>  sev_get_cbit_position(void)
+>  {
+> @@ -810,8 +803,6 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>          goto err;
+>      }
+>  
+> -    sev->me_mask = ~(1UL << sev->cbitpos);
+> -
+>      devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
+>      sev->sev_fd = open(devname, O_RDWR);
+>      if (sev->sev_fd < 0) {
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
