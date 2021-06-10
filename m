@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A11B3A37A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 01:06:21 +0200 (CEST)
-Received: from localhost ([::1]:36732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4A53A3796
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 01:03:46 +0200 (CEST)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrTki-0001hI-GQ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 19:06:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51152)
+	id 1lrTiD-0004jC-5L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 19:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lrTg8-0007hD-67
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:36 -0400
-Received: from mga17.intel.com ([192.55.52.151]:52951)
+ id 1lrTg6-0007cX-OT
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:34 -0400
+Received: from mga17.intel.com ([192.55.52.151]:52994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1lrTg4-0006zL-Rl
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:35 -0400
-IronPort-SDR: PUa9xPidmsk468mSKC5O+5FTzp2t1cFrgUM/eEOdlIt3U0VA0EDOjWLk/jAEHYNYZoMJgXfJn8
- hTzLdTK8EPGA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185796184"
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185796184"
+ id 1lrTg4-00079b-W9
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 19:01:34 -0400
+IronPort-SDR: dsijchEd7WJ6Julse8Ao5Sv1/OYJg2As6Sy0l2IxrTv8Cl39d4veHLUZ+6l4FU+0KMcQHr90Zz
+ OKzyPagNF7Rg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10011"; a="185796185"
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="185796185"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jun 2021 16:01:08 -0700
-IronPort-SDR: g/KtDbhqiSzowI6khzEHpdwPdKj8M10aHPYgGNIENjp4WGDKc8nCKbkR21WNiupyEC+JlZBz7q
- 2GsM/0Ccvp0g==
-X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419888363"
+IronPort-SDR: 03fwPp819v6KHLQlePExZQlQ6IyTqJIB/1i71znIWzCaq2+8rcnu4w1gclXVeeGVGZo5LMgS3C
+ QNhjIAXLoNdg==
+X-IronPort-AV: E=Sophos;i="5.83,264,1616482800"; d="scan'208";a="419888370"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Jun 2021 16:01:08 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/8] ui: Create sync objects only for blobs
-Date: Thu, 10 Jun 2021 15:48:34 -0700
-Message-Id: <20210610224837.670192-6-vivek.kasireddy@intel.com>
+Subject: [PATCH v2 6/8] ui/gtk-egl: Wait for the draw signal for dmabuf blobs
+Date: Thu, 10 Jun 2021 15:48:35 -0700
+Message-Id: <20210610224837.670192-7-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210610224837.670192-1-vivek.kasireddy@intel.com>
 References: <20210610224837.670192-1-vivek.kasireddy@intel.com>
@@ -66,116 +66,68 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, create sync objects only for dmabufs that are blobs.
+Instead of immediately drawing and submitting, queue and wait
+for the draw signal if the dmabuf submitted is a blob.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- hw/display/virtio-gpu-udmabuf.c |  2 ++
- include/ui/console.h            |  1 +
- include/ui/egl-helpers.h        |  1 +
- ui/gtk-egl.c                    | 10 ++++++++++
- ui/gtk-gl-area.c                |  8 ++++++++
- 5 files changed, 22 insertions(+)
+ include/ui/gtk.h |  2 ++
+ ui/gtk-egl.c     | 14 ++++++++++++++
+ ui/gtk.c         |  2 +-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
-index 3c01a415e7..33e329e8aa 100644
---- a/hw/display/virtio-gpu-udmabuf.c
-+++ b/hw/display/virtio-gpu-udmabuf.c
-@@ -185,6 +185,8 @@ static VGPUDMABuf
-     dmabuf->buf.stride = fb->stride;
-     dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
-     dmabuf->buf.fd = res->dmabuf_fd;
-+    dmabuf->buf.blob = true;
-+    dmabuf->buf.sync = NULL;
- 
-     dmabuf->scanout_id = scanout_id;
-     QTAILQ_INSERT_HEAD(&g->dmabuf.bufs, dmabuf, next);
-diff --git a/include/ui/console.h b/include/ui/console.h
-index a89f739f10..310d34c67a 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -170,6 +170,7 @@ typedef struct QemuDmaBuf {
-     bool      y0_top;
-     void      *sync;
-     int       fence_fd;
-+    bool      blob;
- } QemuDmaBuf;
- 
- typedef struct DisplayState DisplayState;
-diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index 5a7575dc13..1bc0e31b03 100644
---- a/include/ui/egl-helpers.h
-+++ b/include/ui/egl-helpers.h
-@@ -19,6 +19,7 @@ typedef struct egl_fb {
-     GLuint texture;
-     GLuint framebuffer;
-     bool delete_texture;
-+    QemuDmaBuf *dmabuf;
- } egl_fb;
- 
- void egl_fb_destroy(egl_fb *fb);
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index e6cbf0507c..34e767a1da 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -178,6 +178,8 @@ void gd_egl_cursor_dmabuf(DisplayChangeListener *dcl,
+                           uint32_t hot_x, uint32_t hot_y);
+ void gd_egl_cursor_position(DisplayChangeListener *dcl,
+                             uint32_t pos_x, uint32_t pos_y);
++void gd_egl_flush(DisplayChangeListener *dcl,
++                  uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+ void gtk_egl_init(DisplayGLMode mode);
 diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index b671181272..b748f51b0b 100644
+index b748f51b0b..a5655b6bbc 100644
 --- a/ui/gtk-egl.c
 +++ b/ui/gtk-egl.c
-@@ -209,6 +209,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
-                            QemuDmaBuf *dmabuf)
- {
- #ifdef CONFIG_GBM
-+    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
-+
-     egl_dmabuf_import_texture(dmabuf);
-     if (!dmabuf->texture) {
-         return;
-@@ -217,6 +219,10 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
-     gd_egl_scanout_texture(dcl, dmabuf->texture,
-                            false, dmabuf->width, dmabuf->height,
-                            0, 0, dmabuf->width, dmabuf->height);
-+
-+    if (dmabuf->blob) {
-+        vc->gfx.guest_fb.dmabuf = dmabuf;
-+    }
- #endif
- }
- 
-@@ -281,6 +287,10 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-         egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, !vc->gfx.y0_top);
-     }
- 
-+    if (vc->gfx.guest_fb.dmabuf) {
-+        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
-+    }
-+
+@@ -294,6 +294,20 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
      eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
  }
  
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index dd5783fec7..94f3b87c42 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -71,6 +71,10 @@ void gd_gl_area_draw(VirtualConsole *vc)
-         surface_gl_render_texture(vc->gfx.gls, vc->gfx.ds);
-     }
- 
++void gd_egl_flush(DisplayChangeListener *dcl,
++                  uint32_t x, uint32_t y, uint32_t w, uint32_t h)
++{
++    VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++    GtkWidget *area = vc->gfx.drawing_area;
++
 +    if (vc->gfx.guest_fb.dmabuf) {
-+        egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
++        gtk_widget_queue_draw_area(area, x, y, w, h);
++        return;
 +    }
 +
-     glFlush();
-     graphic_hw_gl_flushed(vc->gfx.dcl.con);
- }
-@@ -231,6 +235,10 @@ void gd_gl_area_scanout_dmabuf(DisplayChangeListener *dcl,
-     gd_gl_area_scanout_texture(dcl, dmabuf->texture,
-                                false, dmabuf->width, dmabuf->height,
-                                0, 0, dmabuf->width, dmabuf->height);
++    gd_egl_scanout_flush(&vc->gfx.dcl, x, y, w, h);
++}
 +
-+    if (dmabuf->blob) {
-+        vc->gfx.guest_fb.dmabuf = dmabuf;
-+    }
- #endif
- }
- 
+ void gtk_egl_init(DisplayGLMode mode)
+ {
+     GdkDisplay *gdk_display = gdk_display_get_default();
+diff --git a/ui/gtk.c b/ui/gtk.c
+index cd884ca26c..af94f12a98 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -638,7 +638,7 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_scanout_dmabuf   = gd_egl_scanout_dmabuf,
+     .dpy_gl_cursor_dmabuf    = gd_egl_cursor_dmabuf,
+     .dpy_gl_cursor_position  = gd_egl_cursor_position,
+-    .dpy_gl_update           = gd_egl_scanout_flush,
++    .dpy_gl_update           = gd_egl_flush,
+     .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
+     .dpy_gl_wait_dmabuf      = gd_gl_wait_dmabuf,
+     .dpy_has_dmabuf          = gd_has_dmabuf,
 -- 
 2.30.2
 
