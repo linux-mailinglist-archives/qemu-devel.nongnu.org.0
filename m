@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1C13A27A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:03:35 +0200 (CEST)
-Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44B53A27BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:06:20 +0200 (CEST)
+Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrGb8-0002w7-O9
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54216)
+	id 1lrGdn-0005Jd-VP
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:06:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrGZW-0001WR-2h
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:01:55 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrGZO-0002hv-Un
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:01:53 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id my49so26251847ejc.7
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:01:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ONbdJzvvZTBySQzNOZWRio+1fvyMZzE0WrW3laRqjgA=;
- b=M9M+V8d37z1vKiB+2zTuqQaNcLWhnQgPNmLFljTD/U4IOl1RiTBnEOzIlhbre438ka
- /dokP3HtuYEVNkdmv/B30EM7Z/NBwfpA0jRrrLJj1Z3WZ0JKTNSscWTdI3oWwkQNWMxd
- NPiQHhpyJCpeGxtucySWsEF2AhOCZh2YzUKeJ4STXVdkW3ZeWVtpqOeLdTxFSaJwtFkB
- M/RwEFYkhCW8ortecbHiv2HPO05H2pROTARRjftg022DFFNuSBhTlSH6LcPkNhlLqHko
- VSdrVfB/m+UCG/dBY2GIufL9KB+SHq5Z6zlRqNlDqDauM9cYBY67rVZXdFtGPjCZMvxG
- wrfQ==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lrGd2-0004Uj-8t
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:05:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lrGct-00057e-U6
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:05:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623315922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zidWe7+HBRBA/KtVBH0nqOhw9XZdDQV9FXE42wo6LfU=;
+ b=QNp14cXKinO68LfY+iPUGwigLpUUuiVm9K9ehEgOH3kMdVLp5ZZi6PX7Wag2YI3Bw2WG2p
+ bvJW3vIpiLqtmHY5P4S9z9/zAxVWhwKIwcbqNHtQD7UkAqpXp5stZI0XCSWGBM/0IKk4QA
+ CNw0qHrgx5sybouwkGCOq+cW/7LQ4Kk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-fbDWcOktNWaju-_u0ZA6jQ-1; Thu, 10 Jun 2021 05:05:20 -0400
+X-MC-Unique: fbDWcOktNWaju-_u0ZA6jQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j6-20020a05600c1906b029019e9c982271so3623063wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:05:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ONbdJzvvZTBySQzNOZWRio+1fvyMZzE0WrW3laRqjgA=;
- b=DUDQSs3IalXh/hgonRN7qrwbUBJ3XPpbN9f3U48o+f13YR9zlKeo+fV9DOBe8JBPkw
- nBCfUoKXNmLluhAU2Hi0mPCGnqisWZ+wPw9tGrKzt3H0bMUstev+uyM8ZD4aqW3m4Ql/
- NOcrtoaQF3DJH1BzKqsDVwVx9AW0nJplI5sm87quDLxweVp3JM9Usy4n7YM0KlMBfDey
- vBvAYejUOw9InwzcGDXL2BnbNB3rAwjA5fVy0YIWWOQ60xKXlZ6zCZijOUtmagjfWQfm
- FxorzZSOsqnigG0vALLVqt90qhdA8OJGrrwvvGLoljP9TQ992ZlueNWUG+6/FjL3hnAz
- 1IvQ==
-X-Gm-Message-State: AOAM530/Vvauw5LxBzpukXL5siB2n2YTfoqmJa3xZEMeRbvSgQKaRss+
- 36cHGe+YJJq3c7qfimw4zwZDmyQwJVdWbTKglKu/VA==
-X-Google-Smtp-Source: ABdhPJw9ZgCAffV5u46HuLtPIy0WDEZWuxAYgqJkG/AgrZV0jfuu2wSSw4RLl1EoTP55sQ3pQU2TACk0stjK2QVeZIY=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr3487731ejy.407.1623315704932; 
- Thu, 10 Jun 2021 02:01:44 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=zidWe7+HBRBA/KtVBH0nqOhw9XZdDQV9FXE42wo6LfU=;
+ b=KKwiuR7zFaa1jVUgxqNoK1m4afXeD+gncKaPJ7K0SLOoAIcxYkhIxvIiZugGAND/61
+ rZt1AKHMkGVd85xjM2WdWryPsLSmUztvIaWJJmXPQ2GHtN+VxQRYzoCwn8Me+O+zA1yi
+ bNY3FtTWuBiNJRf5ZFxu3T7/993XOlD7CH3ra0OlTyV7fYZP4ccftQfyKV13gFfKJAMy
+ 6gjTvk2t/vxh0N7TLMZYyR+M0YCSWGL6huacoeHQDZE+cwJB/G5iocUPs8xY5MTxols6
+ cMaW6voYcipLqYM4L6nG5q//kfYp1c0aZCceQwXXptoWojxFoD6SRQxWVQHEqnzYDp9+
+ b3yQ==
+X-Gm-Message-State: AOAM5311Lvrl0oS+yv+SMuEw0AH2OcgSClA5ktpZGWNxGfMXLHxsSobt
+ vXZtOS5CIV04SnuJBs6S7wGr5Zh67Vd1ssiqVZOMpJHwJZCXKnEhS2WJjB7iyWgnH4cg87lgGta
+ Z3u4jf7gsyidpoo0=
+X-Received: by 2002:a7b:c052:: with SMTP id u18mr14303550wmc.105.1623315919419; 
+ Thu, 10 Jun 2021 02:05:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwlpjT1JMnmVNKEnwka2WqoEMQZLCRcoyB0MgcfYCbGqF3DbtiYs5aiBR0nRgSfcggKxBPVuA==
+X-Received: by 2002:a7b:c052:: with SMTP id u18mr14303520wmc.105.1623315919178; 
+ Thu, 10 Jun 2021 02:05:19 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id u12sm2766460wrr.40.2021.06.10.02.05.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jun 2021 02:05:18 -0700 (PDT)
+Date: Thu, 10 Jun 2021 11:05:16 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 1/7] vhost: Add Error parameter to vhost_dev_init()
+Message-ID: <20210610090516.jca55r3evopt3tth@steredhat>
+References: <20210609154658.350308-1-kwolf@redhat.com>
+ <20210609154658.350308-2-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20210604155312.15902-1-alex.bennee@linaro.org>
- <20210604155312.15902-79-alex.bennee@linaro.org>
- <d0865350-88f9-0f91-f984-25832c0f289b@linaro.org>
- <d62d06c3-5b14-56bc-c5a5-d5e960a9d7d7@suse.de>
-In-Reply-To: <d62d06c3-5b14-56bc-c5a5-d5e960a9d7d7@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Jun 2021 10:01:10 +0100
-Message-ID: <CAFEAcA-GGr50x8XQOssOEVqPvE7Wq+=tpypirxT+rso+diCWsw@mail.gmail.com>
-Subject: Re: [PATCH v16 78/99] target/arm: cpu-exceptions, cpu-exceptions-aa64:
- new modules
-To: Claudio Fontana <cfontana@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210609154658.350308-2-kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,30 +95,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Jun 2021 at 09:45, Claudio Fontana <cfontana@suse.de> wrote:
+On Wed, Jun 09, 2021 at 05:46:52PM +0200, Kevin Wolf wrote:
+>This allows callers to return better error messages instead of making
+>one up while the real error ends up on stderr. Most callers can
+>immediately make use of this because they already have an Error
+>parameter themselves. The others just keep printing the error with
+>error_report_err().
 >
-> On 6/5/21 10:50 PM, Richard Henderson wrote:
-> > I don't see the point in the excessive replication of header files, for exactly
-> > one declaration.  This is not the first example.
-> >
-> > What's wrong with internal.h?
->
-> Doesn't mean anything and leads to a mess of unrelated code.
+>Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>---
+> include/hw/virtio/vhost.h    |  2 +-
+> backends/cryptodev-vhost.c   |  5 ++++-
+> backends/vhost-user.c        |  4 ++--
+> hw/block/vhost-user-blk.c    |  4 ++--
+> hw/net/vhost_net.c           |  6 +++++-
+> hw/scsi/vhost-scsi.c         |  4 +---
+> hw/scsi/vhost-user-scsi.c    |  4 +---
+> hw/virtio/vhost-user-fs.c    |  3 +--
+> hw/virtio/vhost-user-vsock.c |  3 +--
+> hw/virtio/vhost-vsock.c      |  3 +--
+> hw/virtio/vhost.c            | 16 ++++++++++------
+> 11 files changed, 29 insertions(+), 25 deletions(-)
 
-It is all related: it is "things that the target/arm code needs,
-which are not needed by anything outside target/arm".
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-> I think we should be better at creating meaningful modules
-
-target/arm is a meaningful grouping of code :-)
-
-thanks
--- PMM
 
