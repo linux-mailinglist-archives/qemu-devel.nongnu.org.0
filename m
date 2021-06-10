@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F0B3A33B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 21:10:18 +0200 (CEST)
-Received: from localhost ([::1]:50300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D233A33D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 21:18:51 +0200 (CEST)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrQ4H-0003Zx-DE
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 15:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
+	id 1lrQCX-00069y-W3
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 15:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrQ3S-0002i6-7j
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:09:26 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45925)
+ id 1lrQBD-0005H6-4d
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:17:27 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrQ3Q-0005oY-KK
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:09:25 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id r7so19930837edv.12
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 12:09:23 -0700 (PDT)
+ id 1lrQBA-0002ts-Oa
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:17:26 -0400
+Received: by mail-ej1-x634.google.com with SMTP id a11so869626ejf.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 12:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PoR1hE3Olfip3z0NofjDscUf1eIC0FJ9k+LWBvMJzzE=;
- b=i4/zwVNgKlSzJ0mRUQBvwmHhjRh7tsw/t4XUeMrgmNU6TCan/zVAvc/4R3aICt91I4
- 8zHDlOfRt+7oKGMpE/TTamVpwG6CNUtYjfAuBPKbJoCeWsakAZUaEChlFs76RzoD4yu9
- QFTKHjj86p6ndW/+IwSpdPJVfi2B91ptrRV2jVxgL4JHuWwC2pAl5VjaFJUYD3GBGfKK
- 2jV0LgNlVEMJCDP7aEq6pZrketOT9r4+yEB9Br/NaBMeuYfKbsrWDtmy0SkiPOJwOtV4
- uxgo1lqc2gYlCKB/faIuLzSarV55P8RnwhDB5ItVP+nh5u5ur+pMYRRSy5LPLXw16IDp
- Gffg==
+ :cc; bh=lSnoAq4VAGe7W/zHb7OUZQlahSkOz4MeC7zzXGjqNjw=;
+ b=oX4+eZGzMSRaRrEoZI2eTpZbTUNklMaSz+d90p7i6nJeHt5nFE8VY2+FFuEJDNstyB
+ 63gwOtQUvMH0l8EnFmmUwZaILHoYIOktsQpTOw2GZqrZqO4h/e7rRlSUGurAl5skmfRI
+ NSESBHLIUvXD0VWQbG77ZOEvGbNuHMwYH94GC3s/8d0mpTgnF682fMUEozydWRFtdjYF
+ eDagNdvmXpXWs33KwhBYN09s7KPU4SFM969P0L17SWVEyxj7gfTxTB1jvI17gok11Scs
+ xbR2ZxnM6hRgoqMwsJcEHQXwnmGA6YasmxdmRLW1hu4m5z/L1cydc4Wgsj9Au8qA54JK
+ ui4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PoR1hE3Olfip3z0NofjDscUf1eIC0FJ9k+LWBvMJzzE=;
- b=Zvs1U8tpW0DEpWeEcfbqXEcgmo2RB5IXd1vWspch8zloHs4B9954Ljr3mMrjJsy8Xh
- c3BdU1JMDEk0XiMxT7SeqHb2aGPFRmrU2lUR0wzP+cCRsUZO6thT/mxYwk2RPcfyk2vR
- Z21p/Vq87MZ3TyKRFh7ckuOBPo+m1X9iQHpLEsRnBzGMpB6U6GvilP3Z3VUsXJlHBSVc
- 0vMDfhPHIvTc1vJ0NsibxAeKMFTOWH8at5Tx72YDr8F2N/BbqPKJd8Z1JO1BpeOgq+r4
- wakzggknWG2d1n/OZfG7g3m3TSK3UwDXEkgtL1DOyQP529apWCCX1kaVr5Q9tptSXGJ8
- 8/AQ==
-X-Gm-Message-State: AOAM5325lIeyqiV7ZL4OOk0RWOPyTatJVLN5mzKI1MFkycssrb8QOhzN
- 5Wc0s4NlAaPu7x8dScYPIRspF1GcHjlYyiDRswbejA==
-X-Google-Smtp-Source: ABdhPJwoNtAGxnSPEiD/RSvOEGlJ/CHcFu2QuHPkG/8BQ/7FAVhvPp1Y4Cjeejk5kv4jMzSicI8nEKMIwYMDJ3fmaW4=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr35774edt.100.1623352162024;
- Thu, 10 Jun 2021 12:09:22 -0700 (PDT)
+ bh=lSnoAq4VAGe7W/zHb7OUZQlahSkOz4MeC7zzXGjqNjw=;
+ b=UqzUFmoTyHZJ+bY8LtCVsreXX9JyZTtyqGPJIco+pAJa6EsjKb/62ceuu9kxuxPNRw
+ gpnstN30JsAtYHeBaql4Y/eCddudbL6nSGIJWt60FyPXEPlDWzbAM87SuI1QrVbV9ket
+ eylZdQRiusZUVd2sXe9oO74sGBc2JyVs5wpPPnxFhZ+pX7fS0YHaYTaBJuBMjJuCNU1U
+ 2DghYm44Pqou/QyTvjxbxROdh0+nEMkZ9yVBA0bKzM0mTTwVWmMfU6BDNVyb5M4/qerK
+ 6C7RyH2aQvPLd92i90Sf6mqyCuMgjTsb8IPewR+sJ2McLopZxV01DrzN2lgiYgxMkq5n
+ dS7w==
+X-Gm-Message-State: AOAM531BSJL7wURMnFdEGHewQhInFvU62RZs8fNi77IoUimAaVbWbJEc
+ WHPLwHTJSUIPIhChw0tmm26VtishaOZAVc+4HdDx8w==
+X-Google-Smtp-Source: ABdhPJxIPjtOXzADVwLRkQUlSsZsiytAKt637zuxEVQFchsqT/rAgBqiaczeuAlpJV91PfyAdalqjW7yqQcuo+1E09k=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr139621ejy.407.1623352642781; 
+ Thu, 10 Jun 2021 12:17:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210607165821.9892-1-peter.maydell@linaro.org>
- <20210607165821.9892-50-peter.maydell@linaro.org>
- <5b0a7b23-7e96-4d0e-abe9-5f137da131da@linaro.org>
-In-Reply-To: <5b0a7b23-7e96-4d0e-abe9-5f137da131da@linaro.org>
+ <20210607165821.9892-53-peter.maydell@linaro.org>
+ <86d3ce3f-0bc7-4f71-c4a1-18f2ed3f15d5@linaro.org>
+In-Reply-To: <86d3ce3f-0bc7-4f71-c4a1-18f2ed3f15d5@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Jun 2021 20:08:48 +0100
-Message-ID: <CAFEAcA8UNnD_gzdNTAVb=Qow7rLc_a7W7r2H37MBz=+e-JSVwA@mail.gmail.com>
-Subject: Re: [PATCH 49/55] target/arm: Implement MVE VQDMULL (vector)
+Date: Thu, 10 Jun 2021 20:16:49 +0100
+Message-ID: <CAFEAcA_pn0pNQTfzc1WtMJ3C9OuPPBQJQzt2HpfgOM0FKeth3Q@mail.gmail.com>
+Subject: Re: [PATCH 52/55] target/arm: Implement MVE VCADD
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,23 +83,24 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 9 Jun 2021 at 21:20, Richard Henderson
+On Wed, 9 Jun 2021 at 22:16, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > On 6/7/21 9:58 AM, Peter Maydell wrote:
-> > +++ b/target/arm/mve.decode
-> > @@ -39,6 +39,8 @@
-> >   @1op_nosz .... .... .... .... .... .... .... .... &1op qd=%qd qm=%qm size=0
-> >   @2op .... .... .. size:2 .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn
-> >   @2op_nosz .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn size=0
-> > +@2op_sz28 .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn \
-> > +     size=%size_28
->
-> Move this back to VQDMULL[BT]_scalar, I think.
+> > +/*
+> > + * VCADD Qd == Qm at size MO_32 is UNPREDICTABLE; we choose not to diagnose
+> > + * so we can reuse the DO_2OP macro. (Our implementation calculates the
+> > + * "expected" results in this case.)
+> > + */
+> You've done this elsewhere, though.
 
-Why? VQDMULL[BT]_scalar uses an entirely different format
-(as a scalar it uses the &2scalar arg struct with an rm field
-for the gp register).
+Yeah, because in those cases the op had to have its own hand-written
+trans_ function for other reasons so the check was easy to add. Hence
+the comment about why this particular case doesn't do that.
 
+> Either way,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+thanks
 -- PMM
 
