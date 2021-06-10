@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5383A2C34
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:59:01 +0200 (CEST)
-Received: from localhost ([::1]:33668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374E83A2C86
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:10:09 +0200 (CEST)
+Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrKGy-0003w6-HB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34984)
+	id 1lrKRk-0007qE-Au
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrKFv-00032d-1h
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:57:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53932)
+ (Exim 4.90_1) (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lrJ9v-0003wy-C2
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 07:47:39 -0400
+Received: from tmave.modry.cz ([82.208.58.129]:40044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrKFp-0005fA-Ar
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:57:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623329868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7uO+yjB4tmmOkGTqndziqcY4ITxHtZU46eCT9vUI7VA=;
- b=Pus0jkxcjCyr+Bq6L5HGSD+9RmW8cVRak+DiZ0x5DtsGgpdK3oS9GN5LPPu/62oUu/Olr5
- nouNcQedZunGJWIdAoaLzvO+Ne8eUcUZiEm6bkxp0aHhOYljxwcFaojxv6s6wz2JeTMcaD
- EeZnfLGgDsd4EsJBwbL2Eu98E2Zv/wc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-KlURnEO5N1CRk2-uYucLng-1; Thu, 10 Jun 2021 08:57:45 -0400
-X-MC-Unique: KlURnEO5N1CRk2-uYucLng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AEC51940949;
- Thu, 10 Jun 2021 12:57:40 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
- [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A881F19C45;
- Thu, 10 Jun 2021 12:57:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3627818000B2; Thu, 10 Jun 2021 14:57:21 +0200 (CEST)
-Date: Thu, 10 Jun 2021 14:57:21 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 17/18] modules: check arch and block load on mismatch
-Message-ID: <20210610125721.b27j6raf4h3qujt3@sirius.home.kraxel.org>
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-18-kraxel@redhat.com>
- <YMIHDKEGQWKtwEU5@redhat.com>
+ (Exim 4.90_1) (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lrJ9h-0000F7-K3
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 07:47:39 -0400
+Received: from 93-153-64-87.customers.tmcz.cz ([93.153.64.87]
+ helo=octatonsil.dd1.int.kernkonzept.com)
+ by tmave.modry.cz with esmtpa (Exim 4.92.3)
+ (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lrJ94-0007pw-9H; Thu, 10 Jun 2021 13:47:20 +0200
+From: =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/nvme: be more careful when deasserting IRQs
+Date: Thu, 10 Jun 2021 13:46:24 +0200
+Message-Id: <20210610114624.304681-1-jakub.jermar@kernkonzept.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YMIHDKEGQWKtwEU5@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.4
+Received-SPF: softfail client-ip=82.208.58.129;
+ envelope-from=jakub.jermar@kernkonzept.com; helo=tmave.modry.cz
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 10 Jun 2021 09:08:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,55 +53,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+An IRQ vector used by a completion queue cannot be deasserted without
+first checking if the same vector does not need to stay asserted for
+some other completion queue.
 
-> >      for (modlist = modinfo->list; modlist != NULL; modlist = modlist->next) {
-> > +        if (modlist->value->has_arch) {
-> > +            if (strcmp(modlist->value->name, module_name) == 0) {
-> > +                if (!module_arch ||
-> > +                    strcmp(modlist->value->arch, module_arch) != 0) {
-> > +                    return false;
-> > +                }
-> > +            }
-> > +        }
-> 
-> I have a little hard time following the code paths, but IIUC, with this
-> change, instead of "module.so" we would have multiple copies of something
-> like "module-$arch.so" ?
+Signed-off-by: Jakub Jermar <jakub.jermar@kernkonzept.com>
+---
+ hw/nvme/ctrl.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-Not yet with this series, but easily doable on top of this (see other
-patch series sent today).
-
-> Then we load them all, read their modinfo section
-> and discard the ones with non-matching arch ?
-
-No.  There is a utility reading the modinfo section (patch #2), write
-out the info as json (patch #2 has the schema), then qemu will read that
-json file (patch #13) ...
-
-> for arch specific modules. That would let us load only the modules we know
-> are applicable for the system target arch and not need this post-load
-> filtering from metadata.
-
-... so it's pre-load filtering, not post-load.
-
-take care,
-  Gerd
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 0bcaf7192f..c0980929eb 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -473,6 +473,21 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
+     }
+ }
+ 
++/*
++ * Check if the vector used by the cq can be deasserted, i.e. it needn't be
++ * asserted for some other cq.
++ */
++static bool nvme_irq_can_deassert(NvmeCtrl *n, NvmeCQueue *cq)
++{
++    for (unsigned qid = 0; qid < n->params.max_ioqpairs + 1; qid++) {
++        NvmeCQueue *q = n->cq[qid];
++
++        if (q && q->vector == cq->vector && q->head != q->tail)
++            return false;  /* some queue needs this to stay asserted */
++    }
++    return true;
++}
++
+ static void nvme_req_clear(NvmeRequest *req)
+ {
+     req->ns = NULL;
+@@ -4089,7 +4104,9 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_del_cq_notempty(qid);
+         return NVME_INVALID_QUEUE_DEL;
+     }
+-    nvme_irq_deassert(n, cq);
++    if (nvme_irq_can_deassert(n, cq)) {
++        nvme_irq_deassert(n, cq);
++    }
+     trace_pci_nvme_del_cq(qid);
+     nvme_free_cq(cq, n);
+     return NVME_SUCCESS;
+@@ -5757,7 +5774,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+             timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+         }
+ 
+-        if (cq->tail == cq->head) {
++        if (nvme_irq_can_deassert(n, cq)) {
+             nvme_irq_deassert(n, cq);
+         }
+     } else {
+-- 
+2.31.1
 
 
