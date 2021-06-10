@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20153A2D87
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:55:45 +0200 (CEST)
-Received: from localhost ([::1]:35858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8203A2D8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:56:55 +0200 (CEST)
+Received: from localhost ([::1]:38110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrL9t-0008Vh-0r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51512)
+	id 1lrLB0-0002I8-9w
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrL8x-0007aL-Cs
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:54:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30383)
+ id 1lrL9b-0000QR-7B
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:55:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lrL8v-0000rU-R9
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:54:47 -0400
+ id 1lrL9X-0001I2-QZ
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:55:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623333285;
+ s=mimecast20190719; t=1623333323;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6NORYwI8WiyHWiaxnDKJ75v1HARGCAy5M+RZIR6oqI8=;
- b=B/XiYBIEF+euOivhHIYYf2u0qppNpyqRQD4sIJ0d9m8hsdAbdzXt7Ni36ZLmZxa3SueIVj
- GiA1UFCXwDK4xxGbyX/M9znAwfMiKQracC96fW3NnNcVQxk/aV34S9iGTdEPtxied0oNF/
- DhMu/8C/UAD0ZVOwEUmsN0CnzxSNJjU=
+ bh=R7GUQ3F+7/uK2qhv9ni/zxkpy77Lr84odFFbvWEVEp0=;
+ b=ZgETMuXBtiTmEudKzaze1VdHRNsXNYDKc5yihE7y4qrPt2hmnOWcIqyaX5oXhLv2JN/mhN
+ mGjQjGxIidpPREP2BcBmSJlI7p4NeQWX/NMs6YkIiAPzGcDHI5hbi94s39zIKCTaNcPV+z
+ OEsKlTWc6MxyDzZccK9SW0Pk0lbR1mQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-GXPnuoYoO7yW-yvrFjWLGw-1; Thu, 10 Jun 2021 09:54:44 -0400
-X-MC-Unique: GXPnuoYoO7yW-yvrFjWLGw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-505-5AAjMXOaN4-1ZX8LKdt15w-1; Thu, 10 Jun 2021 09:55:21 -0400
+X-MC-Unique: 5AAjMXOaN4-1ZX8LKdt15w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48330948
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 13:54:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A47D33639D
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 13:55:20 +0000 (UTC)
 Received: from redhat.com (ovpn-115-203.ams2.redhat.com [10.36.115.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D5614100238C;
- Thu, 10 Jun 2021 13:54:41 +0000 (UTC)
-Date: Thu, 10 Jun 2021 14:54:38 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9488D5D6BA;
+ Thu, 10 Jun 2021 13:55:19 +0000 (UTC)
+Date: Thu, 10 Jun 2021 14:55:16 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 05/11] qemu-option: remove now-dead code
-Message-ID: <YMIZnvndcqC3R/s/@redhat.com>
+Subject: Re: [PATCH 06/11] machine: move dies from X86MachineState to
+ CpuTopology
+Message-ID: <YMIZxM7hdUdap0Rj@redhat.com>
 References: <20210610133538.608390-1-pbonzini@redhat.com>
- <20210610133538.608390-6-pbonzini@redhat.com>
+ <20210610133538.608390-7-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610133538.608390-6-pbonzini@redhat.com>
+In-Reply-To: <20210610133538.608390-7-pbonzini@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +62,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -87,16 +88,20 @@ Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 03:35:32PM +0200, Paolo Bonzini wrote:
-> -M was the sole user of qemu_opts_set and qemu_opts_set_defaults,
-> remove them and the arguments that they used.
+On Thu, Jun 10, 2021 at 03:35:33PM +0200, Paolo Bonzini wrote:
+> In order to make SMP configuration a Machine property, we need a getter as
+> well as a setter.  To simplify the implementation put everything that the
+> getter needs in the CpuTopology struct.
 > 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  include/qemu/option.h       |  3 ---
->  tests/unit/test-qemu-opts.c | 35 -------------------------
->  util/qemu-option.c          | 51 ++++++++-----------------------------
->  3 files changed, 10 insertions(+), 79 deletions(-)
+>  hw/core/machine.c     |  1 +
+>  hw/i386/pc.c          |  4 +---
+>  hw/i386/x86.c         | 15 +++++++--------
+>  include/hw/boards.h   |  1 +
+>  include/hw/i386/pc.h  |  1 -
+>  include/hw/i386/x86.h |  1 -
+>  6 files changed, 10 insertions(+), 13 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
