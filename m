@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781F73A319B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:59:25 +0200 (CEST)
-Received: from localhost ([::1]:48886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F0D3A3192
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:57:58 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrO1c-0006My-JN
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:59:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46140)
+	id 1lrO0D-0003UN-4O
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrNyC-0001uE-V2
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:55:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrNy9-00068n-F4
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:55:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lrNy6-00032o-GG
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:55:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7602E2E813A
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:55:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lrNwu-0000QQ-0w; Thu, 10 Jun 2021 12:54:32 -0400
+Received: from [201.28.113.2] (port=57814 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lrNwr-0005wf-1X; Thu, 10 Jun 2021 12:54:31 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 10 Jun 2021 13:54:25 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 224E68014C4;
+ Thu, 10 Jun 2021 13:54:25 -0300 (-03)
+Subject: Re: [PATCH v2 3/3] target/ppc: moved ppc_store_sdr1 to mmu_common.c
+To: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
+ <20210610164648.83878-4-lucas.araujo@eldorado.org.br>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <9f391290-a5b5-6508-e75a-9c2630c41e64@eldorado.org.br>
+Date: Thu, 10 Jun 2021 13:54:24 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Jun 2021 16:49:32 -0000
-From: Thomas Huth <1913919@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161206040524.32468.3095757576345215405.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162334377293.7395.6755359286732369361.malone@wampee.canonical.com>
-Subject: [Bug 1913919] Re: Heap-buffer-overflow in sdhci_write_dataport
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: 5f02a1427bcfae03e9b8d5fd1a15b7271db3067d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610164648.83878-4-lucas.araujo@eldorado.org.br>
+Content-Type: multipart/alternative;
+ boundary="------------C7850B9128A1B3EACB32B160"
+Content-Language: en-US
+X-OriginalArrivalTime: 10 Jun 2021 16:54:25.0450 (UTC)
+ FILETIME=[44F020A0:01D75E19]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,129 +60,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913919 <1913919@bugs.launchpad.net>
+Cc: luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks for confirmation, then let's close this ticket here. If you
-encounter such a problem again, please open a new ticket in the new
-gitlab issue tracker.
+This is a multi-part message in MIME format.
+--------------C7850B9128A1B3EACB32B160
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
 
--- =
+On 10/06/2021 13:46, Lucas Mateus Castro (alqotel) wrote:
+> Moved ppc_store_sdr1 to mmu_common.c as it was originally in
+> mmu_helper.c.
+>
+> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+> ---
+>   target/ppc/cpu.c        | 28 ----------------------------
+>   target/ppc/mmu_common.c | 28 ++++++++++++++++++++++++++++
+>   2 files changed, 28 insertions(+), 28 deletions(-)
+>
+> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+> index 19d67b5b07..7ad9bd6044 100644
+> --- a/target/ppc/cpu.c
+> +++ b/target/ppc/cpu.c
+> @@ -67,34 +67,6 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
+>       return env->vscr | (sat << VSCR_SAT);
+>   }
+>   
+> -#ifdef CONFIG_SOFTMMU
+> -void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+> -{
+> -    PowerPCCPU *cpu = env_archcpu(env);
+> -    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
+> -    assert(!cpu->vhyp);
+> -#if defined(TARGET_PPC64)
+> -    if (mmu_is_64bit(env->mmu_model)) {
+> -        target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
+> -        target_ulong htabsize = value & SDR_64_HTABSIZE;
+> -
+> -        if (value & ~sdr_mask) {
+> -            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
+> -                     " set in SDR1", value & ~sdr_mask);
+> -            value &= sdr_mask;
+> -        }
+> -        if (htabsize > 28) {
+> -            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
+> -                     " stored in SDR1", htabsize);
+> -            return;
+> -        }
+> -    }
+> -#endif /* defined(TARGET_PPC64) */
+> -    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
+> -    env->spr[SPR_SDR1] = value;
+> -}
+> -#endif /* CONFIG_SOFTMMU */
+> -
+>   /* GDBstub can read and write MSR... */
+>   void ppc_store_msr(CPUPPCState *env, target_ulong value)
+>   {
+> diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+> index 93e7b8f955..54c6a7ac6f 100644
+> --- a/target/ppc/mmu_common.c
+> +++ b/target/ppc/mmu_common.c
+> @@ -58,6 +58,34 @@
+>   #  define LOG_BATS(...) do { } while (0)
+>   #endif
+>   
+> +#ifdef CONFIG_SOFTMMU
+> +void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+> +{
+> +    PowerPCCPU *cpu = env_archcpu(env);
+> +    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
+> +    assert(!cpu->vhyp);
+> +#if defined(TARGET_PPC64)
+> +    if (mmu_is_64bit(env->mmu_model)) {
+> +        target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
+> +        target_ulong htabsize = value & SDR_64_HTABSIZE;
+> +
+> +        if (value & ~sdr_mask) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
+> +                     " set in SDR1", value & ~sdr_mask);
+> +            value &= sdr_mask;
+> +        }
+> +        if (htabsize > 28) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
+> +                     " stored in SDR1", htabsize);
+> +            return;
+> +        }
+> +    }
+> +#endif /* defined(TARGET_PPC64) */
+> +    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
+> +    env->spr[SPR_SDR1] = value;
+> +}
+> +#endif /* CONFIG_SOFTMMU */
+> +
+>   /*****************************************************************************/
+>   /* PowerPC MMU emulation */
+>   
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913919
+Maybe just a nit, but if this file is being compiled, CONFIG_SOFTMMU 
+will be defined. This ifdef here is redundant. I only added because it 
+was needed for cpu.c
 
-Title:
-  Heap-buffer-overflow in sdhci_write_dataport
+Other than that, LGTM
 
-Status in QEMU:
-  Fix Released
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
-Bug description:
-  Reproducer:
-  cat << EOF | ./qemu-system-aarch64 -qtest stdio \
-  -machine raspi3b,accel=3Dqtest -m 1G =
+--------------C7850B9128A1B3EACB32B160
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-  write 0x3f30002c 0x1 0x25
-  write 0x3f300004 0x1 0x01
-  write 0x3f300006 0x1 0xc0
-  write 0x3f30000c 0x1 0x22
-  write 0x3f30000e 0x1 0x20
-  write 0x3f30000f 0x1 0x0
-  write 0x3f300000 0x1 0x48
-  write 0x3f300003 0x1 0x0
-  write 0x3f300005 0x1 0x14
-  write 0x3f300007 0x1 0x10
-  write 0x3f30000c 0x1 0x32
-  write 0x3f30000f 0x1 0x0
-  write 0x3f300001 0x1 0x00
-  write 0x3f300002 0x1 0x30
-  write 0x3f300003 0x1 0x3f
-  EOF
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 10/06/2021 13:46, Lucas Mateus
+      Castro (alqotel) wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20210610164648.83878-4-lucas.araujo@eldorado.org.br">
+      <pre class="moz-quote-pre" wrap="">Moved ppc_store_sdr1 to mmu_common.c as it was originally in
+mmu_helper.c.
 
-  Stacktrace:
-  =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
-  WRITE of size 1 at 0x619000017b80 thread T0
-      #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/qe=
-mu/build/../hw/sd/sdhci.c:560:39
-      #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/build/=
-../hw/sd/sdhci.c:1172:13
-      #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c:491:5
-      #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:552:18
-      #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c
-      #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Development=
-/qemu/build/../softmmu/physmem.c:2759:23
-      #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bui=
-ld/../softmmu/physmem.c:2799:14
-      #7 0x5629893de71b in address_space_write /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2891:18
-      #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development/q=
-emu/include/sysemu/dma.h:88:12
-      #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/incl=
-ude/sysemu/dma.h:127:12
-      #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:163:12
-      #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr/D=
-evelopment/qemu/build/../hw/sd/sdhci.c:617:13
-      #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/build=
-/../hw/sd/sdhci.c:1129:17
-      #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/build/../softmmu/memory.c:491:5
-      #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/build/../softmmu/memory.c:552:18
-      #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/build/../softmmu/memory.c
-      #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/build/../softmmu/physmem.c:2759:23
-      #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bu=
-ild/../softmmu/physmem.c:2799:14
-      #18 0x5629893de71b in address_space_write /home/alxndr/Development/qe=
-mu/build/../softmmu/physmem.c:2891:18
-      #19 0x56298904ad35 in qtest_process_command /home/alxndr/Development/=
-qemu/build/../softmmu/qtest.c:654:9
-      #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/build/../softmmu/qtest.c:797:9
-      #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/build=
-/../chardev/char-fd.c:68:9
-      #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x51aae)
-      #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/build/../util/main-loop.c:232:9
-      #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/build/../util/main-loop.c:255:5
-      #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/bu=
-ild/../util/main-loop.c:531:11
-      #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
-ild/../softmmu/runstate.c:721:9
-      #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../sof=
-tmmu/main.c:50:5
-      #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-      #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/qem=
-u-system-aarch64+0x3350bc9)
+Signed-off-by: Lucas Mateus Castro (alqotel) <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+---
+ target/ppc/cpu.c        | 28 ----------------------------
+ target/ppc/mmu_common.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+), 28 deletions(-)
 
-  0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x619=
-000017780,0x619000017b80)
-  allocated by thread T0 here:
-      #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qemu=
--system-aarch64+0x33cadb2)
-      #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
-.so.0+0x57ae0)
-      #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/qe=
-mu/build/../hw/sd/sdhci.c:1469:5
-      #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/qem=
-u/build/../hw/core/qdev.c:761:13
-      #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qemu/=
-build/../qom/object.c:2255:5
+diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+index 19d67b5b07..7ad9bd6044 100644
+--- a/target/ppc/cpu.c
++++ b/target/ppc/cpu.c
+@@ -67,34 +67,6 @@ uint32_t ppc_get_vscr(CPUPPCState *env)
+     return env-&gt;vscr | (sat &lt;&lt; VSCR_SAT);
+ }
+ 
+-#ifdef CONFIG_SOFTMMU
+-void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
+-{
+-    PowerPCCPU *cpu = env_archcpu(env);
+-    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
+-    assert(!cpu-&gt;vhyp);
+-#if defined(TARGET_PPC64)
+-    if (mmu_is_64bit(env-&gt;mmu_model)) {
+-        target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
+-        target_ulong htabsize = value &amp; SDR_64_HTABSIZE;
+-
+-        if (value &amp; ~sdr_mask) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
+-                     " set in SDR1", value &amp; ~sdr_mask);
+-            value &amp;= sdr_mask;
+-        }
+-        if (htabsize &gt; 28) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
+-                     " stored in SDR1", htabsize);
+-            return;
+-        }
+-    }
+-#endif /* defined(TARGET_PPC64) */
+-    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
+-    env-&gt;spr[SPR_SDR1] = value;
+-}
+-#endif /* CONFIG_SOFTMMU */
+-
+ /* GDBstub can read and write MSR... */
+ void ppc_store_msr(CPUPPCState *env, target_ulong value)
+ {
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index 93e7b8f955..54c6a7ac6f 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -58,6 +58,34 @@
+ #  define LOG_BATS(...) do { } while (0)
+ #endif
+ 
++#ifdef CONFIG_SOFTMMU
++void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
++    assert(!cpu-&gt;vhyp);
++#if defined(TARGET_PPC64)
++    if (mmu_is_64bit(env-&gt;mmu_model)) {
++        target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
++        target_ulong htabsize = value &amp; SDR_64_HTABSIZE;
++
++        if (value &amp; ~sdr_mask) {
++            qemu_log_mask(LOG_GUEST_ERROR, "Invalid bits 0x"TARGET_FMT_lx
++                     " set in SDR1", value &amp; ~sdr_mask);
++            value &amp;= sdr_mask;
++        }
++        if (htabsize &gt; 28) {
++            qemu_log_mask(LOG_GUEST_ERROR, "Invalid HTABSIZE 0x" TARGET_FMT_lx
++                     " stored in SDR1", htabsize);
++            return;
++        }
++    }
++#endif /* defined(TARGET_PPC64) */
++    /* FIXME: Should check for valid HTABMASK values in 32-bit case */
++    env-&gt;spr[SPR_SDR1] = value;
++}
++#endif /* CONFIG_SOFTMMU */
++
+ /*****************************************************************************/
+ /* PowerPC MMU emulation */
+ </pre>
+    </blockquote>
+    <p>Maybe just a nit, but if this file is being compiled,
+      CONFIG_SOFTMMU will be defined. This ifdef here is redundant. I
+      only added because it was needed for cpu.c</p>
+    <p>Other than that, LGTM<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:20210610164648.83878-4-lucas.araujo@eldorado.org.br">
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
+--------------C7850B9128A1B3EACB32B160--
 
