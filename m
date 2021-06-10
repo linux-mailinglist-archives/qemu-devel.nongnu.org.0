@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F27E3A283B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:24:56 +0200 (CEST)
-Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FAC3A283C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:25:58 +0200 (CEST)
+Received: from localhost ([::1]:53674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrGvn-0001mn-EB
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60898)
+	id 1lrGwn-0003Tt-2y
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lrGuS-0000yz-SB
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:23:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lrGuR-0000pd-6X
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:23:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623317010;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lrGvJ-0001vP-87; Thu, 10 Jun 2021 05:24:25 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:44132)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lrGvE-0001My-UH; Thu, 10 Jun 2021 05:24:24 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2538421A68;
+ Thu, 10 Jun 2021 09:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623317059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EZvq8xJ4xI5zLzAg1YU99mNGP6huA++lgvtxWdMhKYQ=;
- b=fpc9hrUIxI7u14/rV47wGUJmxkE5qevNe839F7cDXWAjPd0adJznIImPcVB86DRQqdSPes
- wyCPZyXEHWzWQ6BRhu3hhIRDyBW3VREMUw6abTf8qrzWfsP5wz5rCKsRjtDoYT2qJj3GOo
- JdY/e6TLv0UCznbXf/dEaSjDRrtdc18=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-QYAu-wWzN_md-YbmDmK_4g-1; Thu, 10 Jun 2021 05:23:29 -0400
-X-MC-Unique: QYAu-wWzN_md-YbmDmK_4g-1
-Received: by mail-ed1-f72.google.com with SMTP id
- p24-20020aa7c8980000b0290393c37fdcb8so2735561eds.6
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 02:23:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=EZvq8xJ4xI5zLzAg1YU99mNGP6huA++lgvtxWdMhKYQ=;
- b=csw85QZwpsVa3Wc/poiMQlv2cklIIfflPoSOGc6Jf9tnoWl57TM4HwVLZ2TvXT8zQ9
- QgfY7bYn46zl+LIkuIbUW2UZbtOsHZuyfG/4JMR9Iv61yqLAtn5GJ9nBcNgU043ALE7g
- 74PIuBx1r/YvIc0PBqF+FzTC8oRq3JXol2TV6o0iTEkwK/6oJkBvAV9qOJZOu3jlGDkI
- fPK26oOoaDkRRiqZ0cOJ2LPZyV7jgB1PXKMomb0+zbaLgH/lrTXXeHqqiPXK1JTrMqSt
- 8mpgHXwH+LLSguuI8/CPdUJEKOrmEUtfq9bEFOFU7uUal+nvaJbkzgHvU3J8HwVcYWSY
- Ecpg==
-X-Gm-Message-State: AOAM53280WrxQzRVBH3BP2N+7//XTKpC0Jy8MN3KSKLz/LuGl4BZxvgU
- EWA0SCjenT4OTj0VcZqStpJcXHXvXVnLvawVuhcrCEDHNO4Xizdd5vDE0nNi39lyfJCtkBpF1Ro
- 4fVOGXStDxgnJyjc=
-X-Received: by 2002:a17:906:2612:: with SMTP id
- h18mr3599164ejc.417.1623317007955; 
- Thu, 10 Jun 2021 02:23:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQzeopRCERI+jO0/go+r15G94bkhQu8fgTouwCJ+TGoh5/CxacJLlSqzsKKmvL2sOxs1ae2A==
-X-Received: by 2002:a17:906:2612:: with SMTP id
- h18mr3599149ejc.417.1623317007790; 
- Thu, 10 Jun 2021 02:23:27 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id gz25sm791850ejb.0.2021.06.10.02.23.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 02:23:27 -0700 (PDT)
-Date: Thu, 10 Jun 2021 11:23:25 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 7/7] vhost-user-blk: Implement reconnection during realize
-Message-ID: <20210610092325.fdxph26pfog7qczg@steredhat>
-References: <20210609154658.350308-1-kwolf@redhat.com>
- <20210609154658.350308-8-kwolf@redhat.com>
+ bh=mGXbyDY8RJ0c4R+x2imxpCV/0jfrDSe9Md8HvlcVTWk=;
+ b=qH01F5/zQuj51QiNxpZr64OMBUXbY53Q7NCmddjCCCc2WzF8bII1Cq6g3pH7OWWKQtaKa5
+ xJ8wgMUG8HOpaAmUKZ7silylO3SyjmIKU/G/RSHaO4aF9twoXVw+tmZYm89LhqzvQXy1oC
+ VEi/3f0cDnwryktbAZZoGMs/8AIHA1w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623317059;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mGXbyDY8RJ0c4R+x2imxpCV/0jfrDSe9Md8HvlcVTWk=;
+ b=yWLMarGKzfdg/c7UnJ8ThFiTqt3b4CLONcM1hL50CYy8KOMUvoKR2MutDvw64rIB3QxBQ3
+ jgntQu6fDA+FHOCw==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id E6BF7118DD;
+ Thu, 10 Jun 2021 09:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623317059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mGXbyDY8RJ0c4R+x2imxpCV/0jfrDSe9Md8HvlcVTWk=;
+ b=qH01F5/zQuj51QiNxpZr64OMBUXbY53Q7NCmddjCCCc2WzF8bII1Cq6g3pH7OWWKQtaKa5
+ xJ8wgMUG8HOpaAmUKZ7silylO3SyjmIKU/G/RSHaO4aF9twoXVw+tmZYm89LhqzvQXy1oC
+ VEi/3f0cDnwryktbAZZoGMs/8AIHA1w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623317059;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mGXbyDY8RJ0c4R+x2imxpCV/0jfrDSe9Md8HvlcVTWk=;
+ b=yWLMarGKzfdg/c7UnJ8ThFiTqt3b4CLONcM1hL50CYy8KOMUvoKR2MutDvw64rIB3QxBQ3
+ jgntQu6fDA+FHOCw==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id tW3lNkLawWD5OgAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Thu, 10 Jun 2021 09:24:18 +0000
+Subject: Re: [PATCH v16 78/99] target/arm: cpu-exceptions,
+ cpu-exceptions-aa64: new modules
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210604155312.15902-1-alex.bennee@linaro.org>
+ <20210604155312.15902-79-alex.bennee@linaro.org>
+ <d0865350-88f9-0f91-f984-25832c0f289b@linaro.org>
+ <d62d06c3-5b14-56bc-c5a5-d5e960a9d7d7@suse.de>
+ <CAFEAcA-GGr50x8XQOssOEVqPvE7Wq+=tpypirxT+rso+diCWsw@mail.gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <029be61d-43e7-bec4-0a8c-16c37906a997@suse.de>
+Date: Thu, 10 Jun 2021 11:24:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210609154658.350308-8-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <CAFEAcA-GGr50x8XQOssOEVqPvE7Wq+=tpypirxT+rso+diCWsw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,59 +102,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mst@redhat.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 05:46:58PM +0200, Kevin Wolf wrote:
->Commit dabefdd6 removed code that was supposed to try reconnecting
->during .realize(), but actually just crashed and had several design
->problems.
->
->This adds the feature back without the crash in simple cases while also
->fixing some design problems: Reconnection is now only tried if there was
->a problem with the connection and not an error related to the content
->(which would fail again the same way in the next attempt). Reconnection
->is limited to three attempts (four with the initial attempt) so that we
->won't end up in an infinite loop if a problem is permanent. If the
->backend restarts three times in the very short time window of device
->initialisation, we have bigger problems and erroring out is the right
->course of action.
->
->In the case that a connection error occurs and we reconnect, the error
->message is printed using error_report_err(), but otherwise ignored.
->
->Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->---
-> hw/block/vhost-user-blk.c | 14 +++++++++++++-
-> 1 file changed, 13 insertions(+), 1 deletion(-)
->
->diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
->index e49d2e4c83..f75a42bc62 100644
->--- a/hw/block/vhost-user-blk.c
->+++ b/hw/block/vhost-user-blk.c
->@@ -455,8 +455,10 @@ static int vhost_user_blk_realize_connect(VHostUserBlk *s, Error **errp)
->
-> static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
-> {
->+    ERRP_GUARD();
->     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->     VHostUserBlk *s = VHOST_USER_BLK(vdev);
->+    int retries;
->     int i, ret;
->
->     if (!s->chardev.chr) {
->@@ -498,7 +500,17 @@ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
->     s->inflight = g_new0(struct vhost_inflight, 1);
->     s->vhost_vqs = g_new0(struct vhost_virtqueue, s->num_queues);
->
->-    ret = vhost_user_blk_realize_connect(s, errp);
->+    retries = 3;
+On 6/10/21 11:01 AM, Peter Maydell wrote:
+> On Thu, 10 Jun 2021 at 09:45, Claudio Fontana <cfontana@suse.de> wrote:
+>>
+>> On 6/5/21 10:50 PM, Richard Henderson wrote:
+>>> I don't see the point in the excessive replication of header files, for exactly
+>>> one declaration.  This is not the first example.
+>>>
+>>> What's wrong with internal.h?
+>>
+>> Doesn't mean anything and leads to a mess of unrelated code.
+> 
+> It is all related: it is "things that the target/arm code needs,
+> which are not needed by anything outside target/arm".
+> 
+>> I think we should be better at creating meaningful modules
+> 
+> target/arm is a meaningful grouping of code :-)
+> 
 
-Maybe we can add a macro for this with a comment with the information 
-provided in this commit message.
+Well, seems a bit too large a grouping to me,
 
-Thanks,
-Stefano
+and it seems like more effort could be put into recognizing opportunities to split things into self-contained units when they show up,
+with more clearly defined and commented interfaces about inputs/outputs and initialization dependencies,
 
+instead of cramming everything together. Of course there is a balance to be had, but my impression is that using exclusively things like internal.h
+leads to people adding anything new just piling unrelated things on top, and missing opportunities for doing things in a more self-contained way.
+
+Just my 2c of course.
+
+Ciao,
+
+C.
 
