@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5203A3083
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:24:33 +0200 (CEST)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5859F3A30B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:31:50 +0200 (CEST)
+Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrNTs-00044z-6V
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39758)
+	id 1lrNau-0008M3-4p
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lrNSy-0002da-Vg
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:23:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lrNSv-0007Ik-QR
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:23:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623342212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=P8ghX/0gIAqbpi+uFKoCfaCZHtbm4WdrXPNrux6nnx8=;
- b=Y0URp7ZvLTRE6tGPfhEdO17CSke9kSSyMH+L7EZABxMN072T7bxKjJFlpcAYUJt7od2jsi
- hatWiRUuGCgUOAJph+uL4V2a3MyfH/Ylm5+kiTyj62umElUgpVif41H4cJfQ/t5wH3enqG
- M8G/dLelEe1OAZwhlUtcVJFWhLImZqI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-UOA77lUDP9SuRmIOe98jVQ-1; Thu, 10 Jun 2021 12:23:30 -0400
-X-MC-Unique: UOA77lUDP9SuRmIOe98jVQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5D6B8015C6;
- Thu, 10 Jun 2021 16:23:29 +0000 (UTC)
-Received: from localhost (ovpn-112-125.ams2.redhat.com [10.36.112.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 154DC46;
- Thu, 10 Jun 2021 16:23:25 +0000 (UTC)
-Date: Thu, 10 Jun 2021 17:23:25 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 26/26] virtiofsd: Ask qemu to drop CAP_FSETID if
- client asked for it
-Message-ID: <YMI8fS6m8CjtUtmE@stefanha-x1.localdomain>
-References: <20210428110100.27757-1-dgilbert@redhat.com>
- <20210428110100.27757-27-dgilbert@redhat.com>
- <YJQNIPaFCJlG7ZKc@stefanha-x1.localdomain>
- <20210506160223.GA277745@redhat.com>
- <YJj3RSxXKZHxmiKu@stefanha-x1.localdomain>
- <20210510152324.GB150402@horse>
- <YJlSHZ0vzNtCAjkJ@stefanha-x1.localdomain>
- <YK/uUUZI3zy9k8Vk@work-vm> <YMIv5odJWdkbJzWL@work-vm>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrNZw-0007dJ-0S
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:30:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrNZs-0002Wa-G4
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:30:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lrNZp-00081w-7G
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:30:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3186F2E8135
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 16:30:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <YMIv5odJWdkbJzWL@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qj6oTXXpImQHk+rE"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Jun 2021 16:21:14 -0000
+From: Alexander Bulekov <1913919@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <161206040524.32468.3095757576345215405.malonedeb@chaenomeles.canonical.com>
+ <162333987032.28452.15253226343201255184.malone@gac.canonical.com>
+Message-Id: <20210610162114.p6kb4ztn6pucy6pg@mozz.bu.edu>
+Subject: Re: [Bug 1913919] Re: Heap-buffer-overflow in sdhci_write_dataport
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: 16068f97cefa1be64e11caa7dd68813e5dadfc20
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,260 +72,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>, groug@kaod.org
+Reply-To: Bug 1913919 <1913919@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---qj6oTXXpImQHk+rE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There were a few patches some months ago that fixed the sdhci issues,
+and OSS-Fuzz said that all of the heap-overflows that it has seen in
+sdhci have been fixed.
+-Alex
 
-On Thu, Jun 10, 2021 at 04:29:42PM +0100, Dr. David Alan Gilbert wrote:
-> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
->=20
-> <snip>
->=20
-> > > Instead I was thinking about VHOST_USER_DMA_READ/WRITE messages
-> > > containing the address (a device IOVA, it could just be a guest physi=
-cal
-> > > memory address in most cases) and the length. The WRITE message would
-> > > also contain the data that the vhost-user device wishes to write. The
-> > > READ message reply would contain the data that the device read from
-> > > QEMU.
-> > >=20
-> > > QEMU would implement this using QEMU's address_space_read/write() API=
-s.
-> > >=20
-> > > So basically just a new vhost-user protocol message to do a memcpy(),
-> > > but with guest addresses and vIOMMU support :).
-> >=20
-> > This doesn't actually feel that hard - ignoring vIOMMU for a minute
-> > which I know very little about - I'd have to think where the data
-> > actually flows, probably the slave fd.
-> >=20
-> > > The vhost-user device will need to do bounce buffering so using these
-> > > new messages is slower than zero-copy I/O to shared guest RAM.
-> >=20
-> > I guess the theory is it's only in the weird corner cases anyway.
+On 210610 1544, Thomas Huth wrote:
+> Can you still reproduce this issue with the latest git version of QEMU?
+> ... for me, it does not crash anymore.
+> =
 
-The feature is also useful if DMA isolation is desirable (i.e.
-security/reliability are more important than performance). Once this new
-vhost-user protocol feature is available it will be possible to run
-vhost-user devices without shared memory or with limited shared memory
-(e.g. just the vring).
+> ** Changed in: qemu
+>        Status: New =3D> Incomplete
+> =
 
-> The direction I'm going is something like the following;
-> the idea is that the master will have to handle the requests on a
-> separate thread, to avoid any problems with side effects from the memory
-> accesses; the slave will then have to parkt he requests somewhere and
-> handle them later.
->=20
->=20
-> From 07aacff77c50c8a2b588b2513f2dfcfb8f5aa9df Mon Sep 17 00:00:00 2001
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Date: Thu, 10 Jun 2021 15:34:04 +0100
-> Subject: [PATCH] WIP: vhost-user: DMA type interface
->=20
-> A DMA type interface where the slave can ask for a stream of bytes
-> to be read/written to the guests memory by the master.
-> The interface is asynchronous, since a request may have side effects
-> inside the guest.
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  docs/interop/vhost-user.rst               | 33 +++++++++++++++++++++++
->  hw/virtio/vhost-user.c                    |  4 +++
->  subprojects/libvhost-user/libvhost-user.h | 24 +++++++++++++++++
->  3 files changed, 61 insertions(+)
+> -- =
 
-Use of the word "RAM" in this patch is a little unclear since we need
-these new messages precisely when it's not ordinary guest RAM :-). Maybe
-referring to the address space is more general.
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1913919
+> =
 
-> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> index 9ebd05e2bf..b9b5322147 100644
-> --- a/docs/interop/vhost-user.rst
-> +++ b/docs/interop/vhost-user.rst
-> @@ -1347,6 +1347,15 @@ Master message types
->    query the backend for its device status as defined in the Virtio
->    specification.
-> =20
-> +``VHOST_USER_MEM_DATA``
-> +  :id: 41
-> +  :equivalent ioctl: N/A
-> +  :slave payload: N/A
-> +  :master payload: ``struct VhostUserMemReply``
-> +
-> +  This message is an asynchronous response to a ``VHOST_USER_SLAVE_MEM_A=
-CCESS``
-> +  message.  Where the request was for the master to read data, this
-> +  message will be followed by the data that was read.
+> Title:
+>   Heap-buffer-overflow in sdhci_write_dataport
+> =
 
-Please explain why this message is asynchronous. Implementors will need
-to understand the gotchas around deadlocks, etc.
+> Status in QEMU:
+>   Incomplete
+> =
 
-> =20
->  Slave message types
->  -------------------
-> @@ -1469,6 +1478,30 @@ Slave message types
->    The ``VHOST_USER_FS_FLAG_MAP_W`` flag must be set in the ``flags`` fie=
-ld to
->    write to the file from RAM.
-> =20
-> +``VHOST_USER_SLAVE_MEM_ACCESS``
-> +  :id: 9
-> +  :equivalent ioctl: N/A
-> +  :slave payload: ``struct VhostUserMemAccess``
-> +  :master payload: N/A
-> +
-> +  Requests that the master perform a range of memory accesses on behalf
-> +  of the slave that the slave can't perform itself.
-> +
-> +  The ``VHOST_USER_MEM_FLAG_TO_MASTER`` flag must be set in the ``flags`=
-`
-> +  field for the slave to write data into the RAM of the master.   In thi=
-s
-> +  case the data to write follows the ``VhostUserMemAccess`` on the fd.
-> +  The ``VHOST_USER_MEM_FLAG_FROM_MASTER`` flag must be set in the ``flag=
-s``
-> +  field for the slave to read data from the RAM of the master.
-> +
-> +  When the master has completed the access it replies on the main fd wit=
-h
-> +  a ``VHOST_USER_MEM_DATA`` message.
-> +
-> +  The master is allowed to complete part of the request and reply statin=
-g
-> +  the amount completed, leaving it to the slave to resend further compon=
-ents.
-> +  This may happen to limit memory allocations in the master or to simpli=
-fy
-> +  the implementation.
-> +
-> +
->  .. _reply_ack:
-> =20
->  VHOST_USER_PROTOCOL_F_REPLY_ACK
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 39a0e55cca..a3fefc4c1d 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -126,6 +126,9 @@ typedef enum VhostUserRequest {
->      VHOST_USER_GET_MAX_MEM_SLOTS =3D 36,
->      VHOST_USER_ADD_MEM_REG =3D 37,
->      VHOST_USER_REM_MEM_REG =3D 38,
-> +    VHOST_USER_SET_STATUS =3D 39,
-> +    VHOST_USER_GET_STATUS =3D 40,
-> +    VHOST_USER_MEM_DATA =3D 41,
->      VHOST_USER_MAX
->  } VhostUserRequest;
-> =20
-> @@ -139,6 +142,7 @@ typedef enum VhostUserSlaveRequest {
->      VHOST_USER_SLAVE_FS_MAP =3D 6,
->      VHOST_USER_SLAVE_FS_UNMAP =3D 7,
->      VHOST_USER_SLAVE_FS_IO =3D 8,
-> +    VHOST_USER_SLAVE_MEM_ACCESS =3D 9,
->      VHOST_USER_SLAVE_MAX
->  }  VhostUserSlaveRequest;
-> =20
-> diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libv=
-host-user/libvhost-user.h
-> index eee611a2f6..b5444f4f6f 100644
-> --- a/subprojects/libvhost-user/libvhost-user.h
-> +++ b/subprojects/libvhost-user/libvhost-user.h
-> @@ -109,6 +109,9 @@ typedef enum VhostUserRequest {
->      VHOST_USER_GET_MAX_MEM_SLOTS =3D 36,
->      VHOST_USER_ADD_MEM_REG =3D 37,
->      VHOST_USER_REM_MEM_REG =3D 38,
-> +    VHOST_USER_SET_STATUS =3D 39,
-> +    VHOST_USER_GET_STATUS =3D 40,
-> +    VHOST_USER_MEM_DATA =3D 41,
->      VHOST_USER_MAX
->  } VhostUserRequest;
-> =20
-> @@ -122,6 +125,7 @@ typedef enum VhostUserSlaveRequest {
->      VHOST_USER_SLAVE_FS_MAP =3D 6,
->      VHOST_USER_SLAVE_FS_UNMAP =3D 7,
->      VHOST_USER_SLAVE_FS_IO =3D 8,
-> +    VHOST_USER_SLAVE_MEM_ACCESS =3D 9,
->      VHOST_USER_SLAVE_MAX
->  }  VhostUserSlaveRequest;
-> =20
-> @@ -220,6 +224,24 @@ typedef struct VhostUserInflight {
->      uint16_t queue_size;
->  } VhostUserInflight;
-> =20
-> +/* For the flags field of VhostUserMemAccess and VhostUserMemReply */
-> +#define VHOST_USER_MEM_FLAG_TO_MASTER (1u << 0)
-> +#define VHOST_USER_MEM_FLAG_FROM_MASTER (1u << 1)
-> +typedef struct VhostUserMemAccess {
-> +    uint32_t id; /* Included in the reply */
-> +    uint32_t flags;
+> Bug description:
+>   Reproducer:
+>   cat << EOF | ./qemu-system-aarch64 -qtest stdio \
+>   -machine raspi3b,accel=3Dqtest -m 1G =
 
-Is VHOST_USER_MEM_FLAG_TO_MASTER | VHOST_USER_MEM_FLAG_FROM_MASTER
-valid?
+>   write 0x3f30002c 0x1 0x25
+>   write 0x3f300004 0x1 0x01
+>   write 0x3f300006 0x1 0xc0
+>   write 0x3f30000c 0x1 0x22
+>   write 0x3f30000e 0x1 0x20
+>   write 0x3f30000f 0x1 0x0
+>   write 0x3f300000 0x1 0x48
+>   write 0x3f300003 0x1 0x0
+>   write 0x3f300005 0x1 0x14
+>   write 0x3f300007 0x1 0x10
+>   write 0x3f30000c 0x1 0x32
+>   write 0x3f30000f 0x1 0x0
+>   write 0x3f300001 0x1 0x00
+>   write 0x3f300002 0x1 0x30
+>   write 0x3f300003 0x1 0x3f
+>   EOF
+> =
 
-> +    uint64_t addr; /* In the bus address of the device */
+>   Stacktrace:
+>   =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addr=
+ess 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
+>   WRITE of size 1 at 0x619000017b80 thread T0
+>       #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/=
+qemu/build/../hw/sd/sdhci.c:560:39
+>       #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/buil=
+d/../hw/sd/sdhci.c:1172:13
+>       #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Deve=
+lopment/qemu/build/../softmmu/memory.c:491:5
+>       #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Develop=
+ment/qemu/build/../softmmu/memory.c:552:18
+>       #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Deve=
+lopment/qemu/build/../softmmu/memory.c
+>       #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developme=
+nt/qemu/build/../softmmu/physmem.c:2759:23
+>       #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/b=
+uild/../softmmu/physmem.c:2799:14
+>       #7 0x5629893de71b in address_space_write /home/alxndr/Development/q=
+emu/build/../softmmu/physmem.c:2891:18
+>       #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development=
+/qemu/include/sysemu/dma.h:88:12
+>       #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/in=
+clude/sysemu/dma.h:127:12
+>       #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qem=
+u/include/sysemu/dma.h:163:12
+>       #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr=
+/Development/qemu/build/../hw/sd/sdhci.c:617:13
+>       #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/bui=
+ld/../hw/sd/sdhci.c:1129:17
+>       #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Dev=
+elopment/qemu/build/../softmmu/memory.c:491:5
+>       #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c:552:18
+>       #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Dev=
+elopment/qemu/build/../softmmu/memory.c
+>       #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developm=
+ent/qemu/build/../softmmu/physmem.c:2759:23
+>       #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/=
+build/../softmmu/physmem.c:2799:14
+>       #18 0x5629893de71b in address_space_write /home/alxndr/Development/=
+qemu/build/../softmmu/physmem.c:2891:18
+>       #19 0x56298904ad35 in qtest_process_command /home/alxndr/Developmen=
+t/qemu/build/../softmmu/qtest.c:654:9
+>       #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/=
+qemu/build/../softmmu/qtest.c:797:9
+>       #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/bui=
+ld/../chardev/char-fd.c:68:9
+>       #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linu=
+x-gnu/libglib-2.0.so.0+0x51aae)
+>       #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qe=
+mu/build/../util/main-loop.c:232:9
+>       #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Developme=
+nt/qemu/build/../util/main-loop.c:255:5
+>       #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/=
+build/../util/main-loop.c:531:11
+>       #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/=
+build/../softmmu/runstate.c:721:9
+>       #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../s=
+oftmmu/main.c:50:5
+>       #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308=
+:16
+>       #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/q=
+emu-system-aarch64+0x3350bc9)
+> =
 
-Please check the spec for preferred terminology. "bus address" isn't
-used in the spec, so there's probably another term for it.
+>   0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x6=
+19000017780,0x619000017b80)
+>   allocated by thread T0 here:
+>       #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qe=
+mu-system-aarch64+0x33cadb2)
+>       #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2=
+.0.so.0+0x57ae0)
+>       #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/=
+qemu/build/../hw/sd/sdhci.c:1469:5
+>       #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/q=
+emu/build/../hw/core/qdev.c:761:13
+>       #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qem=
+u/build/../qom/object.c:2255:5
+> =
 
-> +    uint64_t len;  /* In bytes */
-> +} VhostUserMemAccess;
-> +
-> +typedef struct VhostUserMemReply {
-> +    uint32_t id; /* From the request */
-> +    uint32_t flags;
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
 
-Are any flags defined?
+-- =
 
-> +    uint32_t err; /* 0 on success */
-> +    uint32_t align;
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913919
 
-Is this a reserved padding field? "align" is confusing because it could
-refer to some kind of memory alignment value. "reserved" or "padding" is
-clearer.
+Title:
+  Heap-buffer-overflow in sdhci_write_dataport
 
-> +    uint64_t len;
-> +} VhostUserMemReply;
-> +
->  #if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
->  # define VU_PACKED __attribute__((gcc_struct, packed))
->  #else
-> @@ -248,6 +270,8 @@ typedef struct VhostUserMsg {
->          VhostUserVringArea area;
->          VhostUserInflight inflight;
->          VhostUserFSSlaveMsgMax fs_max;
-> +        VhostUserMemAccess memaccess;
-> +        VhostUserMemReply  memreply;
->      } payload;
-> =20
->      int fds[VHOST_MEMORY_BASELINE_NREGIONS];
-> --=20
-> 2.31.1
->=20
-> --=20
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->=20
+Status in QEMU:
+  Incomplete
 
---qj6oTXXpImQHk+rE
-Content-Type: application/pgp-signature; name="signature.asc"
+Bug description:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 -qtest stdio \
+  -machine raspi3b,accel=3Dqtest -m 1G =
 
------BEGIN PGP SIGNATURE-----
+  write 0x3f30002c 0x1 0x25
+  write 0x3f300004 0x1 0x01
+  write 0x3f300006 0x1 0xc0
+  write 0x3f30000c 0x1 0x22
+  write 0x3f30000e 0x1 0x20
+  write 0x3f30000f 0x1 0x0
+  write 0x3f300000 0x1 0x48
+  write 0x3f300003 0x1 0x0
+  write 0x3f300005 0x1 0x14
+  write 0x3f300007 0x1 0x10
+  write 0x3f30000c 0x1 0x32
+  write 0x3f30000f 0x1 0x0
+  write 0x3f300001 0x1 0x00
+  write 0x3f300002 0x1 0x30
+  write 0x3f300003 0x1 0x3f
+  EOF
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDCPH0ACgkQnKSrs4Gr
-c8hrHggAxjTpWefcfpB+NyorglfeAAFFuAsMvL9eIBlXa2RbRGX8XZ9W76RkA3JN
-eNPZ4XTYnbGbS/Lp6xUt7rdWIZmLaH2V8b8HZHJCcXmwCONO97jiuoJ7KxZnE2jU
-fcBCP/Ldk3QkpIYo9K0zL9Rh9poJo71BckyMShTAn0FdlCEjSFiruYp+30CYGAr1
-C8hV89aXyButGQuz26t8c32vGf2PS45+pNOJxLqhUvSNGsIxEv3wJReO4zm9hdTL
-9/VxPxkNr8UUL4RggjXWZMIvfRbkoJnrEhlAfsaBqYtkAkpr/7t8P3fgxzN4uHfZ
-rhLOBfyzZ2M0v7oQDDwzvN1bZAGhGw==
-=XKaC
------END PGP SIGNATURE-----
+  Stacktrace:
+  =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
+  WRITE of size 1 at 0x619000017b80 thread T0
+      #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/qe=
+mu/build/../hw/sd/sdhci.c:560:39
+      #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/build/=
+../hw/sd/sdhci.c:1172:13
+      #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c:491:5
+      #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c:552:18
+      #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c
+      #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Development=
+/qemu/build/../softmmu/physmem.c:2759:23
+      #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bui=
+ld/../softmmu/physmem.c:2799:14
+      #7 0x5629893de71b in address_space_write /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2891:18
+      #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development/q=
+emu/include/sysemu/dma.h:88:12
+      #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/incl=
+ude/sysemu/dma.h:127:12
+      #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qemu/=
+include/sysemu/dma.h:163:12
+      #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr/D=
+evelopment/qemu/build/../hw/sd/sdhci.c:617:13
+      #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/build=
+/../hw/sd/sdhci.c:1129:17
+      #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Devel=
+opment/qemu/build/../softmmu/memory.c:491:5
+      #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/build/../softmmu/memory.c:552:18
+      #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/build/../softmmu/memory.c
+      #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/build/../softmmu/physmem.c:2759:23
+      #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bu=
+ild/../softmmu/physmem.c:2799:14
+      #18 0x5629893de71b in address_space_write /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2891:18
+      #19 0x56298904ad35 in qtest_process_command /home/alxndr/Development/=
+qemu/build/../softmmu/qtest.c:654:9
+      #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/build/../softmmu/qtest.c:797:9
+      #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/build=
+/../chardev/char-fd.c:68:9
+      #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x51aae)
+      #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/build/../util/main-loop.c:232:9
+      #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
 
---qj6oTXXpImQHk+rE--
+  0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x619=
+000017780,0x619000017b80)
+  allocated by thread T0 here:
+      #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qemu=
+-system-aarch64+0x33cadb2)
+      #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
+.so.0+0x57ae0)
+      #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/qe=
+mu/build/../hw/sd/sdhci.c:1469:5
+      #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/qem=
+u/build/../hw/core/qdev.c:761:13
+      #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qemu/=
+build/../qom/object.c:2255:5
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
 
