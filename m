@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C10E3A33AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 21:03:32 +0200 (CEST)
-Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F0B3A33B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 21:10:18 +0200 (CEST)
+Received: from localhost ([::1]:50300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrPxj-0006Hw-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 15:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
+	id 1lrQ4H-0003Zx-DE
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 15:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrPwC-0005WY-Jo
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:01:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrPw7-0000zV-DB
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:01:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623351710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WEvcwHiG8cOZtExq0ZvLf0NGyDbJXeMV7K3JQ7WQEio=;
- b=eGUxytOiL8+kq8ZZxojcJeDruB9CLqIZJHFRDIArGEQsHCbIMQ6NkRz7iZWYNJFWzV6yDJ
- M21Xx5p5wXmBuTi6NVdewTtTRyoWZGawNbbFzfucTGHYez0yrqDARW7sKsKnQcbHpwkyHw
- izIBCjZ+T46l8smOQP6bVbFYvBmIBfo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-cjsaPEPYOgqXK-CRVii68g-1; Thu, 10 Jun 2021 15:01:48 -0400
-X-MC-Unique: cjsaPEPYOgqXK-CRVii68g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CBD563C79
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 19:01:48 +0000 (UTC)
-Received: from work-vm (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB2015D9E2;
- Thu, 10 Jun 2021 19:01:46 +0000 (UTC)
-Date: Thu, 10 Jun 2021 20:01:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 2/2] tests: migration-test: Add dirty ring test
-Message-ID: <YMJhmOXglbMlX5P6@work-vm>
-References: <20210610005239.265588-1-peterx@redhat.com>
- <20210610005239.265588-3-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrQ3S-0002i6-7j
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:09:26 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrQ3Q-0005oY-KK
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 15:09:25 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id r7so19930837edv.12
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 12:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PoR1hE3Olfip3z0NofjDscUf1eIC0FJ9k+LWBvMJzzE=;
+ b=i4/zwVNgKlSzJ0mRUQBvwmHhjRh7tsw/t4XUeMrgmNU6TCan/zVAvc/4R3aICt91I4
+ 8zHDlOfRt+7oKGMpE/TTamVpwG6CNUtYjfAuBPKbJoCeWsakAZUaEChlFs76RzoD4yu9
+ QFTKHjj86p6ndW/+IwSpdPJVfi2B91ptrRV2jVxgL4JHuWwC2pAl5VjaFJUYD3GBGfKK
+ 2jV0LgNlVEMJCDP7aEq6pZrketOT9r4+yEB9Br/NaBMeuYfKbsrWDtmy0SkiPOJwOtV4
+ uxgo1lqc2gYlCKB/faIuLzSarV55P8RnwhDB5ItVP+nh5u5ur+pMYRRSy5LPLXw16IDp
+ Gffg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PoR1hE3Olfip3z0NofjDscUf1eIC0FJ9k+LWBvMJzzE=;
+ b=Zvs1U8tpW0DEpWeEcfbqXEcgmo2RB5IXd1vWspch8zloHs4B9954Ljr3mMrjJsy8Xh
+ c3BdU1JMDEk0XiMxT7SeqHb2aGPFRmrU2lUR0wzP+cCRsUZO6thT/mxYwk2RPcfyk2vR
+ Z21p/Vq87MZ3TyKRFh7ckuOBPo+m1X9iQHpLEsRnBzGMpB6U6GvilP3Z3VUsXJlHBSVc
+ 0vMDfhPHIvTc1vJ0NsibxAeKMFTOWH8at5Tx72YDr8F2N/BbqPKJd8Z1JO1BpeOgq+r4
+ wakzggknWG2d1n/OZfG7g3m3TSK3UwDXEkgtL1DOyQP529apWCCX1kaVr5Q9tptSXGJ8
+ 8/AQ==
+X-Gm-Message-State: AOAM5325lIeyqiV7ZL4OOk0RWOPyTatJVLN5mzKI1MFkycssrb8QOhzN
+ 5Wc0s4NlAaPu7x8dScYPIRspF1GcHjlYyiDRswbejA==
+X-Google-Smtp-Source: ABdhPJwoNtAGxnSPEiD/RSvOEGlJ/CHcFu2QuHPkG/8BQ/7FAVhvPp1Y4Cjeejk5kv4jMzSicI8nEKMIwYMDJ3fmaW4=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr35774edt.100.1623352162024;
+ Thu, 10 Jun 2021 12:09:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210610005239.265588-3-peterx@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-50-peter.maydell@linaro.org>
+ <5b0a7b23-7e96-4d0e-abe9-5f137da131da@linaro.org>
+In-Reply-To: <5b0a7b23-7e96-4d0e-abe9-5f137da131da@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Jun 2021 20:08:48 +0100
+Message-ID: <CAFEAcA8UNnD_gzdNTAVb=Qow7rLc_a7W7r2H37MBz=+e-JSVwA@mail.gmail.com>
+Subject: Re: [PATCH 49/55] target/arm: Implement MVE VQDMULL (vector)
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,160 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Add dirty ring test if kernel supports it.  Add the dirty ring parameter on
-> source should be mostly enough, but let's change the dest too to make them
-> match always.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 51 +++++++++++++++++++++++++++++++++---
->  1 file changed, 48 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index d9225f58d4d..cc6e396d1a2 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -12,6 +12,7 @@
->  
->  #include "qemu/osdep.h"
->  
-> +#include <linux/kvm.h>
+On Wed, 9 Jun 2021 at 21:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/7/21 9:58 AM, Peter Maydell wrote:
+> > +++ b/target/arm/mve.decode
+> > @@ -39,6 +39,8 @@
+> >   @1op_nosz .... .... .... .... .... .... .... .... &1op qd=%qd qm=%qm size=0
+> >   @2op .... .... .. size:2 .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn
+> >   @2op_nosz .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn size=0
+> > +@2op_sz28 .... .... .... .... .... .... .... .... &2op qd=%qd qm=%qm qn=%qn \
+> > +     size=%size_28
+>
+> Move this back to VQDMULL[BT]_scalar, I think.
 
-Does that get you the system headers, which may or may not have
-KVM_CAP_DIRTY_LOG_RING if you're on an old host, or does it get you
-qemu's linux-headers which definitely does?
+Why? VQDMULL[BT]_scalar uses an entirely different format
+(as a scalar it uses the &2scalar arg struct with an rm field
+for the gp register).
 
-What happens on a BSD or the like?
-
-Dave
-
->  #include "libqos/libqtest.h"
->  #include "qapi/error.h"
->  #include "qapi/qmp/qdict.h"
-> @@ -467,6 +468,8 @@ typedef struct {
->      bool use_shmem;
->      /* only launch the target process */
->      bool only_target;
-> +    /* Use dirty ring if true; dirty logging otherwise */
-> +    bool use_dirty_ring;
->      char *opts_source;
->      char *opts_target;
->  } MigrateStart;
-> @@ -573,11 +576,13 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->          shmem_opts = g_strdup("");
->      }
->  
-> -    cmd_source = g_strdup_printf("-accel kvm -accel tcg%s%s "
-> +    cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
->                                   "-name source,debug-threads=on "
->                                   "-m %s "
->                                   "-serial file:%s/src_serial "
->                                   "%s %s %s %s",
-> +                                 args->use_dirty_ring ?
-> +                                 ",dirty-ring-size=4096" : "",
->                                   machine_opts ? " -machine " : "",
->                                   machine_opts ? machine_opts : "",
->                                   memory_size, tmpfs,
-> @@ -587,12 +592,14 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->          *from = qtest_init(cmd_source);
->      }
->  
-> -    cmd_target = g_strdup_printf("-accel kvm -accel tcg%s%s "
-> +    cmd_target = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
->                                   "-name target,debug-threads=on "
->                                   "-m %s "
->                                   "-serial file:%s/dest_serial "
->                                   "-incoming %s "
->                                   "%s %s %s %s",
-> +                                 args->use_dirty_ring ?
-> +                                 ",dirty-ring-size=4096" : "",
->                                   machine_opts ? " -machine " : "",
->                                   machine_opts ? machine_opts : "",
->                                   memory_size, tmpfs, uri,
-> @@ -785,12 +792,14 @@ static void test_baddest(void)
->      test_migrate_end(from, to, false);
->  }
->  
-> -static void test_precopy_unix(void)
-> +static void test_precopy_unix_common(bool dirty_ring)
->  {
->      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
->      MigrateStart *args = migrate_start_new();
->      QTestState *from, *to;
->  
-> +    args->use_dirty_ring = dirty_ring;
-> +
->      if (test_migrate_start(&from, &to, uri, args)) {
->          return;
->      }
-> @@ -825,6 +834,18 @@ static void test_precopy_unix(void)
->      test_migrate_end(from, to, true);
->  }
->  
-> +static void test_precopy_unix(void)
-> +{
-> +    /* Using default dirty logging */
-> +    test_precopy_unix_common(false);
-> +}
-> +
-> +static void test_precopy_unix_dirty_ring(void)
-> +{
-> +    /* Using dirty ring tracking */
-> +    test_precopy_unix_common(true);
-> +}
-> +
->  #if 0
->  /* Currently upset on aarch64 TCG */
->  static void test_ignore_shared(void)
-> @@ -1369,6 +1390,25 @@ static void test_multifd_tcp_cancel(void)
->      test_migrate_end(from, to2, true);
->  }
->  
-> +static bool kvm_dirty_ring_supported(void)
-> +{
-> +    int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
-> +
-> +    if (kvm_fd < 0) {
-> +        return false;
-> +    }
-> +
-> +    ret = ioctl(kvm_fd, KVM_CHECK_EXTENSION, KVM_CAP_DIRTY_LOG_RING);
-> +    close(kvm_fd);
-> +
-> +    /* We test with 4096 slots */
-> +    if (ret < 4096) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  int main(int argc, char **argv)
->  {
->      char template[] = "/tmp/migration-test-XXXXXX";
-> @@ -1438,6 +1478,11 @@ int main(int argc, char **argv)
->      qtest_add_func("/migration/multifd/tcp/zstd", test_multifd_tcp_zstd);
->  #endif
->  
-> +    if (kvm_dirty_ring_supported()) {
-> +        qtest_add_func("/migration/dirty_ring",
-> +                       test_precopy_unix_dirty_ring);
-> +    }
-> +
->      ret = g_test_run();
->  
->      g_assert_cmpint(ret, ==, 0);
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
