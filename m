@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD963A24B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:48:41 +0200 (CEST)
-Received: from localhost ([::1]:59332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AA33A24B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:48:46 +0200 (CEST)
+Received: from localhost ([::1]:59792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrEUa-0001QT-5E
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
+	id 1lrEUf-0001jm-1R
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrES3-0007Pq-VI
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:46:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47393)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrES9-0007Tj-5C
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:46:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrES1-00051O-RO
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:46:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrES6-00055i-EY
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:46:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623307561;
+ s=mimecast20190719; t=1623307565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=08K9nuZd2ofBRimPfG7tXw2kwCtBjM59yyyAR1qOeHM=;
- b=JnAv576NkWHoJpnl8WrzuKM47MjWdHQ3vf4DbacffaT8tCAMU7sUjobx+5R8jCDQmIuRN/
- gGOFmIAhrag/lFVj5sHcd0FjWLs0FEiTf5kUaVlq49UD0zSaE8vhLZNIPtr8ARCXfuiySN
- WrhJ+ojFbMWB88V+wEmedWJlI9to/PM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KTE3q/L3zX2olanVbDbjGlNnVrM20+mQiCxT9CvYLMk=;
+ b=ZjyKC/Jdx7f9XIprK3NVYO5iEeea4onjwnz2kRa1AsfAfXoQScX//FlIyZI8fMmVDsFCXR
+ JhMvqILlkkCWA5bHWBbV5rtHfocVPEJRszs3XiuNYr0QV/trvNecdMPtka3cJpwIDMtvrP
+ I5bAX5z54JQxtLeOq/YY26Z2oBv447w=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-j0o5ZantP-Cw5GEOhqkAeQ-1; Thu, 10 Jun 2021 02:46:00 -0400
-X-MC-Unique: j0o5ZantP-Cw5GEOhqkAeQ-1
+ us-mta-324-dSOsBZSRM5-AipSXHB-ScA-1; Thu, 10 Jun 2021 02:46:04 -0400
+X-MC-Unique: dSOsBZSRM5-AipSXHB-ScA-1
 Received: by mail-wr1-f72.google.com with SMTP id
- z13-20020adfec8d0000b0290114cc6b21c4so400828wrn.22
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 23:45:59 -0700 (PDT)
+ f22-20020a5d58f60000b029011634e39889so423694wrd.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 23:46:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5RdVEjzLLxo0OgPedPdaaPCRQDfMb+jHERxDP9+pq0s=;
- b=CJl3HJ4zuzibYqFL3dDoJlpC3cjJp2U6P35sGtnANUxKg+itDhPd7Z97rZAK1KIYAQ
- RSa5vrZqbkpiLEEIgLoqdyTOmzJVNXHmvuyGAdvqRrshkh3RQudNW69NeXEk9Gv3OrFZ
- 9WKGn0XK9aq2oRD1Pe0fNLv5+HvXxm1UlIaV9pz6f3gF3St6y0QvFkgtRxWIQUk5Jm1v
- Ml2OLKaETT3UKa9FYL8dprvQYWUqzloC0ff6dAAAFA7IEqMCSeMdpvAXWRhZEHoBhHk3
- GIa9qJG9+Nx5K932p7aWEi3/0W+HCIhmR7o29/g0ek8x+ikB7RbV3klntF/ZzafHYaiT
- /94g==
-X-Gm-Message-State: AOAM531/hYzRpvphcUOAwWRKStBKFGqVrHkmjxpIPhgQM4oAP2YA+RWE
- nCDMJ3K6PqM6eHm2vK+st7OpSMT8Sim7xEAj9Z17FcNP7SPhGZnE5+Y4HzYF5aGtgcySHjeYz1N
- wRJk8IlWIP5RBiYv02Z2eD01HBbk3Bv1zhIjMVE0taFKNMaYkqihC6TekTZrOx/DT
-X-Received: by 2002:a05:600c:a04:: with SMTP id
- z4mr136034wmp.103.1623307558620; 
- Wed, 09 Jun 2021 23:45:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLLXXvrPJMrZOWDXSzbdxIyI4qAODiicQFzGdGWPndKaFVuaJn6cmJBvNN5LuXa7Bk4djAww==
-X-Received: by 2002:a05:600c:a04:: with SMTP id
- z4mr136013wmp.103.1623307558427; 
- Wed, 09 Jun 2021 23:45:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=KTE3q/L3zX2olanVbDbjGlNnVrM20+mQiCxT9CvYLMk=;
+ b=Ux5uUB5GjPUWh8hPncEVe7vMz98ddEfgHhUYl8ZUGQxuk1VGQcxRUjE32Bpu/CZ8PW
+ 5yUQoYR+RikYkIbhbJ81mO3w5WpelOmm9JWGWrZfY8UcJPZck2MkzAoTIEE1ydsOG2YA
+ BatIUnHUQJQ9fU3LeC5vJeFDvuDRsogohwjmkyOjsjgc5MQoS7zxhB/bAxMejG7l19i+
+ lnuQBvWkTA2Wng3yfFCeGniPC7TUZ1QYK2PoS+eH5mkrkWSMoNRLMh1yEJ63Gfbxvfhh
+ cHu7SB4SPg4L7gjlhC3FqDVjskCITC8HY/lciAhHjnraOuraU8Iepo6VWf0Qz/1NkgT9
+ Zawg==
+X-Gm-Message-State: AOAM530ylG70N9bp5R2rfmVGzITsut1Ojnw706lCzDVJY/0dsTfqzU8F
+ 1vJpCEIY79Vwy2Y5e67vdCCnGLXWts+NOutrj/0JVaJuoevvJHvgOfol8G5/S1Uw8V86J0lRGjC
+ I7bkCbZLrpMvFkIVnNOyADFtbeqqzGIBEJC3n5d2oWPHkfqfDBlaNUPnYy/LnTThh
+X-Received: by 2002:adf:82a3:: with SMTP id 32mr3458048wrc.136.1623307563190; 
+ Wed, 09 Jun 2021 23:46:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3uVWgGvxAZag/6LTsU9LqoIL6Y+rsidBBSrloLYd7Hfw5JQlXWNY1orKvivVNb5ptzcztzA==
+X-Received: by 2002:adf:82a3:: with SMTP id 32mr3458011wrc.136.1623307562959; 
+ Wed, 09 Jun 2021 23:46:02 -0700 (PDT)
 Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
  [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id v132sm9175557wmb.14.2021.06.09.23.45.57
+ by smtp.gmail.com with ESMTPSA id a15sm2828880wrs.63.2021.06.09.23.46.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 23:45:57 -0700 (PDT)
+ Wed, 09 Jun 2021 23:46:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/11] target/i386/sev: Housekeeping helping using
- SEV-disabled binaries
-Date: Thu, 10 Jun 2021 08:45:45 +0200
-Message-Id: <20210610064556.1421620-1-philmd@redhat.com>
+Subject: [PATCH 01/11] MAINTAINERS: Add Connor Kuehl as reviewer for AMD SEV
+Date: Thu, 10 Jun 2021 08:45:46 +0200
+Message-Id: <20210610064556.1421620-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210610064556.1421620-1-philmd@redhat.com>
+References: <20210610064556.1421620-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -101,51 +101,43 @@ Cc: Brijesh Singh <brijesh.singh@amd.com>, Connor Kuehl <ckuehl@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-I wasted some time trying to figure out how OVMF was supposed to=0D
-behave until realizing the binary I was using was built without SEV=0D
-support... Then wrote this series to help other developers to not=0D
-hit the same problem.=0D
-Some SEV patches I was following have been queued on Eduardo's=0D
-'x86-next' tree, so I used his tree as base, and included David and=0D
-Connor patches to reduce merge conflicts.=0D
-=0D
-Based-on: https://gitlab.com/ehabkost/qemu/-/commits/x86-next/=0D
-=0D
-Connor Kuehl (1):=0D
-  MAINTAINERS: Add Connor Kuehl as reviewer for AMD SEV=0D
-=0D
-Dr. David Alan Gilbert (1):=0D
-  target/i386/sev: sev_get_attestation_report use g_autofree=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (9):=0D
-  qapi/misc-target: Group SEV QAPI definitions=0D
-  target/i386/monitor: Return QMP error when SEV is disabled in build=0D
-  target/i386/cpu: Add missing 'qapi/error.h' header=0D
-  target/i386/sev_i386.h: Remove unused headers=0D
-  target/i386/sev: Remove sev_get_me_mask()=0D
-  target/i386/sev: Mark unreachable code with g_assert_not_reached()=0D
-  target/i386/sev: Restrict SEV to system emulation=0D
-  target/i386/monitor: Move SEV specific commands to sev.c=0D
-  monitor: Restrict 'info sev' to x86 targets=0D
-=0D
- qapi/misc-target.json         |  75 +++++++++++-----------=0D
- include/monitor/hmp-target.h  |   1 +=0D
- include/monitor/hmp.h         |   1 -=0D
- target/i386/sev_i386.h        |   5 --=0D
- target/i386/cpu.c             |   1 +=0D
- target/i386/monitor.c         |  91 --------------------------=0D
- target/i386/sev-stub.c        |  49 +-------------=0D
- target/i386/sev-sysemu-stub.c |  69 ++++++++++++++++++++=0D
- target/i386/sev.c             | 117 +++++++++++++++++++++++++++++-----=0D
- MAINTAINERS                   |   7 ++=0D
- target/i386/meson.build       |   4 +-=0D
- 11 files changed, 219 insertions(+), 201 deletions(-)=0D
- create mode 100644 target/i386/sev-sysemu-stub.c=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+From: Connor Kuehl <ckuehl@redhat.com>
+
+It may not be appropriate for me to take over as a maintainer at this time,
+but I would consider myself familiar with AMD SEV and what this code is
+meant to be doing as part of a VMM for launching SEV-protected guests.
+
+To that end, I would be happy to volunteer as a reviewer for SEV-related
+changes so that I am CC'd on them and can help share the review burden with
+whoever does maintain this code.
+
+Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+Message-Id: <20210608192537.103584-1-ckuehl@redhat.com>
+[PMD: Cover more files]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 56888121ec8..a93f4ba1861 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2938,6 +2938,13 @@ F: hw/core/clock-vmstate.c
+ F: hw/core/qdev-clock.c
+ F: docs/devel/clocks.rst
+ 
++AMD Secure Encrypted Virtualization (SEV)
++R: Connor Kuehl <ckuehl@redhat.com>
++F: docs/amd-memory-encryption.txt
++F: accel/kvm/sev-stub.c
++F: target/i386/sev*
++F: include/sysemu/sev.h
++
+ Usermode Emulation
+ ------------------
+ Overall usermode emulation
+-- 
+2.31.1
 
 
