@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374273A3620
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 23:42:02 +0200 (CEST)
-Received: from localhost ([::1]:34464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E673A3625
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 23:43:03 +0200 (CEST)
+Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrSR6-0000WJ-NI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 17:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
+	id 1lrSS6-0002pF-GE
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 17:43:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrSOZ-0004oh-Qa
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 17:39:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrSOT-0003ax-GW
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 17:39:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623361156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JaXsbHa1nrWLbdzh+BILUdE5F7jW1XA9XC8Ztju5eoM=;
- b=SCwZyrtd+8tGBml9iYInT9p9mc7Iyd4ye+KqC9SzDlh4SoIS4CF585u076paXKeQGOBN6a
- OVod4tuYnR9jqfqfBT1vY7AGIfrYATV/pp6vyX/YmCO9fkJ1eNiT6+8aquBc0reTgRMEx0
- jMoG5CZSBJLg+O/92X4QNUp5UKa8PfQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-VYTu2J-fNV-OpXVfIpBj1w-1; Thu, 10 Jun 2021 17:39:12 -0400
-X-MC-Unique: VYTu2J-fNV-OpXVfIpBj1w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF351100C661;
- Thu, 10 Jun 2021 21:39:11 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07F9E9CA0;
- Thu, 10 Jun 2021 21:39:10 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-img: Use "depth":-1 to make backing probes obvious
-Date: Thu, 10 Jun 2021 16:39:06 -0500
-Message-Id: <20210610213906.1313440-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrSQg-0000UI-F2
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 17:41:34 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37853)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrSQe-00057w-NO
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 17:41:34 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ 22-20020a17090a0c16b0290164a5354ad0so4577517pjs.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 14:41:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=M6kg1h8b7yGHPxVnz0CTa5BtpFsKRDaCDunhKoydVVM=;
+ b=r4f9AN4Zcgyk44dU4CcsB4jSkYzg3lFUHHAZ+I8XECj2napo4YS/826nUAaHN1TQlo
+ 5yIePOqpgXgsTjwe5HXGAtwpQMDqx7nAOCuT3PFhZOgn/cUa98Hu9f3K7Btqqo2/5DjH
+ SYcQf2MoTrGahW4kSW6H/aq3RTj46iNny1gY5UNV7sFykzISdEWznNoyl/KBdmxvRTOQ
+ aYrDOgDC7Yphix9vDQmTt5V53Si/tVeQ0SUmWWewJ2SUhZeFXfzyXxDI7xiDbu8CMPM1
+ 366XZjBGFF+EnldqMsBPZYjk+3mKvy14SywW9boDlrLtXv58fXF0OaMdPGfrIPnXpQZQ
+ HPyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=M6kg1h8b7yGHPxVnz0CTa5BtpFsKRDaCDunhKoydVVM=;
+ b=f1ohLcHjcH2fd5pLY1ay/QVI5aw1IaHao6AfTFDS9LhmiTg+PlR7jsGefv6sysNrdv
+ VS2JsRzNPZnHBPEJBJe6x33mkFv5076EH0DN0g/w25Qt94mdjV7P41ljVN9yxzyd10jM
+ UUbJjZH0KlGaCMw8QPs+Raz0DCqdVSN+n/swV7fRXX5qjaGbji7lHonX4nVBRbj57uWH
+ Ga/3C7wTFeeUN/o97ahxKklNU/A89/PMl3eqV8WJXr0bPCsnEkqvForQSfgQ20FKDZvf
+ 1+9Rl02WvDRw03gJm53SLlHaEFd1pmGIHhdIkteUDtQ9KDeBG0IswOVwVwiSXmFmUFx2
+ yXuw==
+X-Gm-Message-State: AOAM531c5nz9+jLQ7w6cS8hSi+eSupwWl0MUofKE8rV99vYLPCTExAJR
+ gP68YGBixYk1y9Z5SrPaGN0f7Q==
+X-Google-Smtp-Source: ABdhPJxt18QsdfMoo7KDb5qC2qFbgiSfLmxUd8NBGY5TxWYX4SmhMt1FIv00dcG8Y3lvXqZkOEDUsA==
+X-Received: by 2002:a17:90b:19cd:: with SMTP id
+ nm13mr5630067pjb.226.1623361290660; 
+ Thu, 10 Jun 2021 14:41:30 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ o16sm3143764pjw.10.2021.06.10.14.41.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jun 2021 14:41:30 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 2/2] cputlb: implement load_helper_unaligned() for
+ unaligned loads
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210609141010.1066750-1-f4bug@amsat.org>
+ <20210609141010.1066750-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <543252e5-0b30-8424-d833-4103ddee3919@linaro.org>
+Date: Thu, 10 Jun 2021 14:41:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210609141010.1066750-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,901 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: nsoffer@redhat.com, Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recently-added NBD context qemu:allocation-depth makes an obvious
-case for why it is important to distinguish between locally-present
-data (even with that data is sparse) [shown as depth 1 over NBD], and
-data that could not be found anywhere in the backing chain [shown as
-depth 0].  But qemu-img map --output=json predates that addition, and
-has the unfortunate behavior that all portions of the backing chain
-that resolve without finding a hit in any backing layer report the
-same depth as the final backing layer.  This makes it harder to
-reconstruct a qcow2 backing chain using just 'qemu-img map' output
-when using "backing":null to artificially limit a backing chain,
-because it is impossible to distinguish between a
-QCOW2_CLUSTER_UNALLOCATED (which defers to a [missing] backing file)
-and a QCOW2_CLUSTER_ZERO_PLAIN cluster (which would override any
-backing file), since both types of clusters otherwise show as
-"data":false,"zero":true" (but note that we can distinguish a
-QCOW2_CLUSTER_ZERO_ALLOCATED, which would also have an "offset":
-listing).
-
-The task of reconstructing a qcow2 chain was made harder in commit
-0da9856851 (nbd: server: Report holes for raw images), because prior
-to that point, it was possible to abuse NBD's block status command to
-see which portions of a qcow2 file resulted in BDRV_BLOCK_ALLOCATED
-(showing up as NBD_STATE_ZERO in isolation) vs. missing from the chain
-(showing up as NBD_STATE_ZERO|NBD_STATE_HOLE); but now qemu reports
-more accurate sparseness information over NBD.
-
-An obvious solution is to make 'qemu-img map --output=json' visually
-distinguish between clusters that have a local allocation from those
-that are found nowhere in the chain, by adding "depth":-1 as the new
-witness of data that could not be tied to a specific backing image.
-Several iotests are impacted, but glancing through the changes shows
-that it is an improvement in that it shows more accurate details.
-
-Note that the documentation is specifically worded to allow qemu-img
-to report "depth":-1 both in the scenario where the last file in the
-backing chain still defers the cluster (corresponding to
-BDRV_BLOCK_ALLOCATED not being set anywhere in the chain), and in the
-scenario where qemu is unable to determine which backing chain element
-(if any) provides the data.  The latter case does not exist now, but
-I'm considering an upcoming patch to add a BDRV_BLOCK_BACKING that
-would let a specific driver (such as NBD) inform the block layer that
-it is known that a cluster comes from a backing layer, but where there
-is insufficient data to determine which layer.
-
-As a quick demonstration:
-
-    # Create a qcow2 image with a raw backing file:
-    $ qemu-img create base.raw $((4*64*1024))
-    $ qemu-img create -f qcow2 -b base.raw -F raw top.qcow2
-
-    # Write to first 3 clusters of base:
-    $ qemu-io -f raw -c "w -P 65 0 64k" -c "w -P 66 64k 64k" \
-      -c "w -P 67 128k 64k" base.raw
-
-    # Write to second and third clusters of top, hiding base:
-    $ qemu-io -f qcow2 -c "w -P 69 64k 64k" -c "w -z 128k 64k" top.qcow2
-
-    # Examine the full backing chain
-    $ qemu-img map --output=json -f qcow2 top.qcow2
-    [{ "start": 0, "length": 65536, "depth": 1, "zero": false, "data": true, "offset": 0},
-    { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-    { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
-    { "start": 196608, "length": 65536, "depth": 1, "zero": true, "data": false, "offset": 196608}]
-
-    # Repeat, but with the backing chain clamped. Pre-patch:
-    $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2", \
-      "backing":null, "file":{"driver":"file", "filename":"top.qcow2"}}'
-    [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false},
-    { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-    { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false}]
-
-    # Repeat, but post-patch:
-    $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2", \
-      "backing":null, "file":{"driver":"file", "filename":"top.qcow2"}}'
-    [{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
-    { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
-    { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
-    { "start": 196608, "length": 65536, "depth": -1, "zero": true, "data": false}]
-
-Note that pre-patch, it was impossible to determine which portions of
-the qcow2 file override the backing file because the "depth":0 regions
-were combined, so even though qemu internally can tell the difference
-between sclusters 2 and 3, the command line user could not.  But
-post-patch, the "depth":-1 markings match the "depth":1 markings when
-the backing chain is intact, and it becomes obvious which clusters are
-important.
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
-
-If desired, I can send a followup patch that omits "depth":-1 output
-from qemu-img output instead (that's another couple lines tweak to the
-sources, plus re-touching all of the same affected tests).
-
- docs/tools/qemu-img.rst    |   7 ++-
- qemu-img.c                 |   3 ++
- tests/qemu-iotests/122.out |  34 ++++++-------
- tests/qemu-iotests/154.out | 100 +++++++++++++++++++------------------
- tests/qemu-iotests/179.out |  67 +++++++++++++++++++++----
- tests/qemu-iotests/223.out |  24 ++++-----
- tests/qemu-iotests/244.out |   7 +--
- tests/qemu-iotests/252.out |   4 +-
- tests/qemu-iotests/274.out |  16 +++---
- tests/qemu-iotests/291.out |   8 +--
- tests/qemu-iotests/309.out |   4 +-
- 11 files changed, 165 insertions(+), 109 deletions(-)
-
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index cfe11478791f..afe64c5ee064 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -598,8 +598,11 @@ Command description:
-     all-zero clusters);
-   - whether the data is known to read as zero (boolean field ``zero``);
-   - in order to make the output shorter, the target file is expressed as
--    a ``depth``; for example, a depth of 2 refers to the backing file
--    of the backing file of *FILENAME*.
-+    a ``depth``; a depth of 0 means the data comes from the given
-+    file, a positive depth means the data comes from a specific file
-+    in the backing chain, and a depth of -1 merely implies that the
-+    data is not local, but no information was available on which
-+    backing file (if any) provides the data.
-
-   In JSON format, the ``offset`` field is optional; it is absent in
-   cases where ``human`` format would omit the entry or exit with an error.
-diff --git a/qemu-img.c b/qemu-img.c
-index a5993682aad4..a6f0c5565865 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3035,6 +3035,9 @@ static int get_block_status(BlockDriverState *bs, int64_t offset,
-         bdrv_refresh_filename(file);
-         filename = file->filename;
-     }
-+    if (!(ret & BDRV_BLOCK_ALLOCATED)) {
-+        depth = -1;
-+    }
-
-     *e = (MapEntry) {
-         .start = offset,
-diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index 3a3e121d579d..2aca0f066fa8 100644
---- a/tests/qemu-iotests/122.out
-+++ b/tests/qemu-iotests/122.out
-@@ -68,11 +68,11 @@ read 65536/65536 bytes at offset 4194304
- read 65536/65536 bytes at offset 8388608
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- [{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": true},
--{ "start": 65536, "length": 4128768, "depth": 0, "zero": true, "data": false},
-+{ "start": 65536, "length": 4128768, "depth": -1, "zero": true, "data": false},
- { "start": 4194304, "length": 65536, "depth": 0, "zero": false, "data": true},
--{ "start": 4259840, "length": 4128768, "depth": 0, "zero": true, "data": false},
-+{ "start": 4259840, "length": 4128768, "depth": -1, "zero": true, "data": false},
- { "start": 8388608, "length": 65536, "depth": 0, "zero": false, "data": true},
--{ "start": 8454144, "length": 4128768, "depth": 0, "zero": true, "data": false}]
-+{ "start": 8454144, "length": 4128768, "depth": -1, "zero": true, "data": false}]
- read 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 65536/65536 bytes at offset 4194304
-@@ -95,11 +95,11 @@ wrote 1024/1024 bytes at offset 1046528
- wrote 1024/1024 bytes at offset 0
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- [{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": true},
--{ "start": 65536, "length": 65536, "depth": 0, "zero": true, "data": false},
-+{ "start": 65536, "length": 65536, "depth": -1, "zero": true, "data": false},
- { "start": 131072, "length": 196608, "depth": 0, "zero": false, "data": true},
--{ "start": 327680, "length": 655360, "depth": 0, "zero": true, "data": false},
-+{ "start": 327680, "length": 655360, "depth": -1, "zero": true, "data": false},
- { "start": 983040, "length": 65536, "depth": 0, "zero": false, "data": true},
--{ "start": 1048576, "length": 1046528, "depth": 0, "zero": true, "data": false}]
-+{ "start": 1048576, "length": 1046528, "depth": -1, "zero": true, "data": false}]
- read 16384/16384 bytes at offset 0
- 16 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 16384/16384 bytes at offset 16384
-@@ -195,31 +195,31 @@ wrote 1024/1024 bytes at offset 17408
-
- convert -S 4k
- [{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 4096, "length": 4096, "depth": 0, "zero": true, "data": false},
-+{ "start": 4096, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 8192, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 12288, "length": 4096, "depth": 0, "zero": true, "data": false},
-+{ "start": 12288, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 16384, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 20480, "length": 67088384, "depth": 0, "zero": true, "data": false}]
-+{ "start": 20480, "length": 67088384, "depth": -1, "zero": true, "data": false}]
-
- convert -c -S 4k
- [{ "start": 0, "length": 1024, "depth": 0, "zero": false, "data": true},
--{ "start": 1024, "length": 7168, "depth": 0, "zero": true, "data": false},
-+{ "start": 1024, "length": 7168, "depth": -1, "zero": true, "data": false},
- { "start": 8192, "length": 1024, "depth": 0, "zero": false, "data": true},
--{ "start": 9216, "length": 8192, "depth": 0, "zero": true, "data": false},
-+{ "start": 9216, "length": 8192, "depth": -1, "zero": true, "data": false},
- { "start": 17408, "length": 1024, "depth": 0, "zero": false, "data": true},
--{ "start": 18432, "length": 67090432, "depth": 0, "zero": true, "data": false}]
-+{ "start": 18432, "length": 67090432, "depth": -1, "zero": true, "data": false}]
-
- convert -S 8k
- [{ "start": 0, "length": 24576, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 24576, "length": 67084288, "depth": 0, "zero": true, "data": false}]
-+{ "start": 24576, "length": 67084288, "depth": -1, "zero": true, "data": false}]
-
- convert -c -S 8k
- [{ "start": 0, "length": 1024, "depth": 0, "zero": false, "data": true},
--{ "start": 1024, "length": 7168, "depth": 0, "zero": true, "data": false},
-+{ "start": 1024, "length": 7168, "depth": -1, "zero": true, "data": false},
- { "start": 8192, "length": 1024, "depth": 0, "zero": false, "data": true},
--{ "start": 9216, "length": 8192, "depth": 0, "zero": true, "data": false},
-+{ "start": 9216, "length": 8192, "depth": -1, "zero": true, "data": false},
- { "start": 17408, "length": 1024, "depth": 0, "zero": false, "data": true},
--{ "start": 18432, "length": 67090432, "depth": 0, "zero": true, "data": false}]
-+{ "start": 18432, "length": 67090432, "depth": -1, "zero": true, "data": false}]
-
- === -n to a non-zero image ===
-
-@@ -235,7 +235,7 @@ Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=IMGFMT size=67108864
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
- [{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
--[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 67108864, "depth": -1, "zero": true, "data": false}]
-
- === -n to an empty image with a backing file ===
-
-diff --git a/tests/qemu-iotests/154.out b/tests/qemu-iotests/154.out
-index 4863e2483864..03b07c1a5429 100644
---- a/tests/qemu-iotests/154.out
-+++ b/tests/qemu-iotests/154.out
-@@ -12,13 +12,13 @@ wrote 2048/2048 bytes at offset 17408
- wrote 2048/2048 bytes at offset 27648
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- [{ "start": 0, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 4096, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 4096, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 8192, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 12288, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 12288, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 16384, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 20480, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 20480, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 24576, "length": 8192, "depth": 0, "zero": true, "data": false},
--{ "start": 32768, "length": 134184960, "depth": 1, "zero": true, "data": false}]
-+{ "start": 32768, "length": 134184960, "depth": -1, "zero": true, "data": false}]
-
- == backing file contains non-zero data before write_zeroes ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -41,11 +41,11 @@ read 1024/1024 bytes at offset 65536
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 2048/2048 bytes at offset 67584
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 32768, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 32768, "depth": -1, "zero": true, "data": false},
- { "start": 32768, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 36864, "length": 28672, "depth": 1, "zero": true, "data": false},
-+{ "start": 36864, "length": 28672, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 69632, "length": 134148096, "depth": 1, "zero": true, "data": false}]
-+{ "start": 69632, "length": 134148096, "depth": -1, "zero": true, "data": false}]
-
- == backing file contains non-zero data after write_zeroes ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -68,11 +68,11 @@ read 1024/1024 bytes at offset 44032
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 3072/3072 bytes at offset 40960
- 3 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 32768, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 32768, "depth": -1, "zero": true, "data": false},
- { "start": 32768, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 36864, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 36864, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 40960, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 45056, "length": 134172672, "depth": 1, "zero": true, "data": false}]
-+{ "start": 45056, "length": 134172672, "depth": -1, "zero": true, "data": false}]
-
- == write_zeroes covers non-zero data ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -101,15 +101,15 @@ wrote 2048/2048 bytes at offset 29696
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 4096/4096 bytes at offset 28672
- 4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 4096, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 4096, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 8192, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 8192, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 12288, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 16384, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 16384, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 20480, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 24576, "length": 4096, "depth": 1, "zero": true, "data": false},
-+{ "start": 24576, "length": 4096, "depth": -1, "zero": true, "data": false},
- { "start": 28672, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 32768, "length": 134184960, "depth": 1, "zero": true, "data": false}]
-+{ "start": 32768, "length": 134184960, "depth": -1, "zero": true, "data": false}]
-
- == spanning two clusters, non-zero before request ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -142,16 +142,16 @@ read 1024/1024 bytes at offset 67584
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 5120/5120 bytes at offset 68608
- 5 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 32768, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 32768, "depth": -1, "zero": true, "data": false},
- { "start": 32768, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 36864, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 40960, "length": 8192, "depth": 1, "zero": true, "data": false},
-+{ "start": 40960, "length": 8192, "depth": -1, "zero": true, "data": false},
- { "start": 49152, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 53248, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 57344, "length": 8192, "depth": 1, "zero": true, "data": false},
-+{ "start": 57344, "length": 8192, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 69632, "length": 4096, "depth": 0, "zero": true, "data": false},
--{ "start": 73728, "length": 134144000, "depth": 1, "zero": true, "data": false}]
-+{ "start": 73728, "length": 134144000, "depth": -1, "zero": true, "data": false}]
-
- == spanning two clusters, non-zero after request ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -184,16 +184,16 @@ read 7168/7168 bytes at offset 65536
- 7 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 1024/1024 bytes at offset 72704
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 32768, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 32768, "depth": -1, "zero": true, "data": false},
- { "start": 32768, "length": 4096, "depth": 0, "zero": true, "data": false},
- { "start": 36864, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 40960, "length": 8192, "depth": 1, "zero": true, "data": false},
-+{ "start": 40960, "length": 8192, "depth": -1, "zero": true, "data": false},
- { "start": 49152, "length": 4096, "depth": 0, "zero": true, "data": false},
- { "start": 53248, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 57344, "length": 8192, "depth": 1, "zero": true, "data": false},
-+{ "start": 57344, "length": 8192, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 4096, "depth": 0, "zero": true, "data": false},
- { "start": 69632, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 73728, "length": 134144000, "depth": 1, "zero": true, "data": false}]
-+{ "start": 73728, "length": 134144000, "depth": -1, "zero": true, "data": false}]
-
- == spanning two clusters, partially overwriting backing file ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -213,7 +213,7 @@ read 1024/1024 bytes at offset 5120
- read 2048/2048 bytes at offset 6144
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- [{ "start": 0, "length": 8192, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 8192, "length": 134209536, "depth": 1, "zero": true, "data": false}]
-+{ "start": 8192, "length": 134209536, "depth": -1, "zero": true, "data": false}]
-
- == spanning multiple clusters, non-zero in first cluster ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -226,10 +226,10 @@ read 2048/2048 bytes at offset 65536
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 10240/10240 bytes at offset 67584
- 10 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 65536, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 69632, "length": 8192, "depth": 0, "zero": true, "data": false},
--{ "start": 77824, "length": 134139904, "depth": 1, "zero": true, "data": false}]
-+{ "start": 77824, "length": 134139904, "depth": -1, "zero": true, "data": false}]
-
- == spanning multiple clusters, non-zero in intermediate cluster ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -240,9 +240,9 @@ wrote 7168/7168 bytes at offset 67584
- 7 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 12288/12288 bytes at offset 65536
- 12 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 65536, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 12288, "depth": 0, "zero": true, "data": false},
--{ "start": 77824, "length": 134139904, "depth": 1, "zero": true, "data": false}]
-+{ "start": 77824, "length": 134139904, "depth": -1, "zero": true, "data": false}]
-
- == spanning multiple clusters, non-zero in final cluster ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -255,10 +255,10 @@ read 10240/10240 bytes at offset 65536
- 10 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 2048/2048 bytes at offset 75776
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 65536, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 8192, "depth": 0, "zero": true, "data": false},
- { "start": 73728, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 77824, "length": 134139904, "depth": 1, "zero": true, "data": false}]
-+{ "start": 77824, "length": 134139904, "depth": -1, "zero": true, "data": false}]
-
- == spanning multiple clusters, partially overwriting backing file ==
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
-@@ -277,57 +277,61 @@ read 2048/2048 bytes at offset 74752
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 1024/1024 bytes at offset 76800
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 65536, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
- { "start": 65536, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 69632, "length": 4096, "depth": 0, "zero": true, "data": false},
- { "start": 73728, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 77824, "length": 134139904, "depth": 1, "zero": true, "data": false}]
-+{ "start": 77824, "length": 134139904, "depth": -1, "zero": true, "data": false}]
-
- == unaligned image tail cluster, no allocation needed ==
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776
- wrote 512/512 bytes at offset 134217728
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134219776, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
-+{ "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776
- wrote 512/512 bytes at offset 134219264
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134219776, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
-+{ "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776
- wrote 1024/1024 bytes at offset 134218240
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134219776, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
-+{ "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776
- wrote 2048/2048 bytes at offset 134217728
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134219776, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
-+{ "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134218752
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 512/512 bytes at offset 134217728
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 512/512 bytes at offset 134219264
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 1024/1024 bytes at offset 134218240
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 2048/2048 bytes at offset 134217728
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- wrote 512/512 bytes at offset 134217728
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -335,25 +339,25 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/
- wrote 512/512 bytes at offset 134217728
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 512/512 bytes at offset 134219264
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 1024/1024 bytes at offset 134218240
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
- wrote 2048/2048 bytes at offset 134217728
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 2048/2048 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": true, "data": false}]
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134218752
- wrote 1024/1024 bytes at offset 134217728
-@@ -365,14 +369,14 @@ read 512/512 bytes at offset 134217728
- read 512/512 bytes at offset 134218240
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 1024/1024 bytes allocated at offset 128 MiB
--[{ "start": 0, "length": 134217728, "depth": 0, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 1024, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- wrote 1024/1024 bytes at offset 134217728
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 1024/1024 bytes allocated at offset 128 MiB
- read 1024/1024 bytes at offset 134217728
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 134217728, "depth": 0, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 1024, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-
- == unaligned image tail cluster, allocation required ==
-@@ -386,7 +390,7 @@ read 512/512 bytes at offset 134217728
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 1536/1536 bytes at offset 134218240
- 1.500 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134218752
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134219776 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-@@ -408,6 +412,6 @@ read 512/512 bytes at offset 134218240
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- read 1024/1024 bytes at offset 134218752
- 1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--[{ "start": 0, "length": 134217728, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 134217728, "depth": -1, "zero": true, "data": false},
- { "start": 134217728, "length": 2048, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- *** done
-diff --git a/tests/qemu-iotests/179.out b/tests/qemu-iotests/179.out
-index 1f7680002ca6..295fe7abdbf4 100644
---- a/tests/qemu-iotests/179.out
-+++ b/tests/qemu-iotests/179.out
-@@ -13,7 +13,11 @@ wrote 2097152/2097152 bytes at offset 6291456
- 2 MiB (0x200000) bytes not allocated at offset 4 MiB (0x400000)
- 2 MiB (0x200000) bytes     allocated at offset 6 MiB (0x600000)
- 56 MiB (0x3800000) bytes not allocated at offset 8 MiB (0x800000)
--[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 4194304, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 8388608, "length": 58720256, "depth": -1, "zero": true, "data": false}]
- wrote 2097150/2097150 bytes at offset 10485761
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 2097150/2097150 bytes at offset 14680065
-@@ -27,7 +31,15 @@ wrote 2097150/2097150 bytes at offset 14680065
- 2 MiB (0x200000) bytes not allocated at offset 12 MiB (0xc00000)
- 2 MiB (0x200000) bytes     allocated at offset 14 MiB (0xe00000)
- 48 MiB (0x3000000) bytes not allocated at offset 16 MiB (0x1000000)
--[{ "start": 0, "length": 67108864, "depth": 0, "zero": true, "data": false}]
-+[{ "start": 0, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 4194304, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 8388608, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 12582912, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 16777216, "length": 50331648, "depth": -1, "zero": true, "data": false}]
- wrote 14680064/14680064 bytes at offset 18874368
- 14 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 2097152/2097152 bytes at offset 20971520
-@@ -45,13 +57,21 @@ wrote 6291456/6291456 bytes at offset 25165824
- 2 MiB (0x200000) bytes not allocated at offset 16 MiB (0x1000000)
- 14 MiB (0xe00000) bytes     allocated at offset 18 MiB (0x1200000)
- 32 MiB (0x2000000) bytes not allocated at offset 32 MiB (0x2000000)
--[{ "start": 0, "length": 18874368, "depth": 0, "zero": true, "data": false},
-+[{ "start": 0, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 4194304, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 8388608, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 12582912, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 16777216, "length": 2097152, "depth": -1, "zero": true, "data": false},
- { "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 20971520, "length": 2097152, "depth": 0, "zero": true, "data": false},
- { "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 25165824, "length": 6291456, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 33554432, "length": 33554432, "depth": 0, "zero": true, "data": false}]
-+{ "start": 33554432, "length": 33554432, "depth": -1, "zero": true, "data": false}]
- wrote 2097152/2097152 bytes at offset 27262976
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 2097152/2097152 bytes at offset 29360128
-@@ -67,7 +87,15 @@ wrote 2097152/2097152 bytes at offset 29360128
- 2 MiB (0x200000) bytes not allocated at offset 16 MiB (0x1000000)
- 14 MiB (0xe00000) bytes     allocated at offset 18 MiB (0x1200000)
- 32 MiB (0x2000000) bytes not allocated at offset 32 MiB (0x2000000)
--[{ "start": 0, "length": 18874368, "depth": 0, "zero": true, "data": false},
-+[{ "start": 0, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 4194304, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 8388608, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 12582912, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 16777216, "length": 2097152, "depth": -1, "zero": true, "data": false},
- { "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 20971520, "length": 2097152, "depth": 0, "zero": true, "data": false},
- { "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-@@ -75,7 +103,7 @@ wrote 2097152/2097152 bytes at offset 29360128
- { "start": 27262976, "length": 2097152, "depth": 0, "zero": true, "data": false},
- { "start": 29360128, "length": 2097152, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 33554432, "length": 33554432, "depth": 0, "zero": true, "data": false}]
-+{ "start": 33554432, "length": 33554432, "depth": -1, "zero": true, "data": false}]
- wrote 8388608/8388608 bytes at offset 33554432
- 8 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 2097152/2097152 bytes at offset 35651584
-@@ -93,7 +121,15 @@ wrote 2097152/2097152 bytes at offset 37748736
- 2 MiB (0x200000) bytes not allocated at offset 16 MiB (0x1000000)
- 22 MiB (0x1600000) bytes     allocated at offset 18 MiB (0x1200000)
- 24 MiB (0x1800000) bytes not allocated at offset 40 MiB (0x2800000)
--[{ "start": 0, "length": 18874368, "depth": 0, "zero": true, "data": false},
-+[{ "start": 0, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 4194304, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 8388608, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 12582912, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": true, "data": false},
-+{ "start": 16777216, "length": 2097152, "depth": -1, "zero": true, "data": false},
- { "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 20971520, "length": 2097152, "depth": 0, "zero": true, "data": false},
- { "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-@@ -101,7 +137,8 @@ wrote 2097152/2097152 bytes at offset 37748736
- { "start": 27262976, "length": 2097152, "depth": 0, "zero": true, "data": false},
- { "start": 29360128, "length": 2097152, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 33554432, "length": 33554432, "depth": 0, "zero": true, "data": false}]
-+{ "start": 33554432, "length": 8388608, "depth": 0, "zero": true, "data": false},
-+{ "start": 41943040, "length": 25165824, "depth": -1, "zero": true, "data": false}]
- wrote 8388608/8388608 bytes at offset 41943040
- 8 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- wrote 8388608/8388608 bytes at offset 50331648
-@@ -125,7 +162,15 @@ wrote 2097152/2097152 bytes at offset 62914560
- 4 MiB (0x400000) bytes not allocated at offset 54 MiB (0x3600000)
- 4 MiB (0x400000) bytes     allocated at offset 58 MiB (0x3a00000)
- 2 MiB (0x200000) bytes not allocated at offset 62 MiB (0x3e00000)
--[{ "start": 0, "length": 18874368, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 2097152, "length": 2097152, "depth": 1, "zero": true, "data": false},
-+{ "start": 4194304, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 6291456, "length": 2097152, "depth": 1, "zero": true, "data": false},
-+{ "start": 8388608, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 10485760, "length": 2097152, "depth": 1, "zero": true, "data": false},
-+{ "start": 12582912, "length": 2097152, "depth": -1, "zero": true, "data": false},
-+{ "start": 14680064, "length": 2097152, "depth": 1, "zero": true, "data": false},
-+{ "start": 16777216, "length": 2097152, "depth": -1, "zero": true, "data": false},
- { "start": 18874368, "length": 2097152, "depth": 1, "zero": false, "data": true, "offset": OFFSET},
- { "start": 20971520, "length": 2097152, "depth": 1, "zero": true, "data": false},
- { "start": 23068672, "length": 2097152, "depth": 1, "zero": false, "data": true, "offset": OFFSET},
-@@ -139,9 +184,9 @@ wrote 2097152/2097152 bytes at offset 62914560
- { "start": 50331648, "length": 2097152, "depth": 1, "zero": false, "data": true, "offset": OFFSET},
- { "start": 52428800, "length": 4194304, "depth": 0, "zero": true, "data": false},
- { "start": 56623104, "length": 2097152, "depth": 1, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 58720256, "length": 2097152, "depth": 1, "zero": true, "data": false},
-+{ "start": 58720256, "length": 2097152, "depth": -1, "zero": true, "data": false},
- { "start": 60817408, "length": 4194304, "depth": 0, "zero": true, "data": false},
--{ "start": 65011712, "length": 2097152, "depth": 1, "zero": true, "data": false}]
-+{ "start": 65011712, "length": 2097152, "depth": -1, "zero": true, "data": false}]
- No errors were found on the image.
- No errors were found on the image.
-
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 083b62d05386..ec448ac36010 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -103,16 +103,16 @@ read 2097152/2097152 bytes at offset 2097152
- [{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 1048576, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
--[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": false, "data": false},
- { "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
-+{ "start": 2097152, "length": 2097152, "depth": -1, "zero": false, "data": false}]
-
- === Contrast to small granularity dirty-bitmap ===
-
- [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
-+{ "start": 512, "length": 512, "depth": -1, "zero": false, "data": false},
- { "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
-+{ "start": 2097152, "length": 2097152, "depth": -1, "zero": false, "data": false}]
-
- === End qemu NBD server ===
-
-@@ -204,16 +204,16 @@ read 2097152/2097152 bytes at offset 2097152
- [{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 4096, "length": 1044480, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 1048576, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
--[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": false, "data": false},
- { "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
-+{ "start": 2097152, "length": 2097152, "depth": -1, "zero": false, "data": false}]
-
- === Contrast to small granularity dirty-bitmap ===
-
- [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
-+{ "start": 512, "length": 512, "depth": -1, "zero": false, "data": false},
- { "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
-+{ "start": 2097152, "length": 2097152, "depth": -1, "zero": false, "data": false}]
-
- === End qemu NBD server ===
-
-@@ -238,12 +238,12 @@ read 2097152/2097152 bytes at offset 2097152
-
- === Use qemu-nbd as server ===
-
--[{ "start": 0, "length": 65536, "depth": 0, "zero": false, "data": false},
-+[{ "start": 0, "length": 65536, "depth": -1, "zero": false, "data": false},
- { "start": 65536, "length": 2031616, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
-+{ "start": 2097152, "length": 2097152, "depth": -1, "zero": false, "data": false}]
- [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
-+{ "start": 512, "length": 512, "depth": -1, "zero": false, "data": false},
- { "start": 1024, "length": 11321, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- [{ "start": 12345, "length": 2084807, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
-+{ "start": 2097152, "length": 2097152, "depth": -1, "zero": false, "data": false}]
- *** done
-diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
-index 99f56ac18c48..b7b417cd599b 100644
---- a/tests/qemu-iotests/244.out
-+++ b/tests/qemu-iotests/244.out
-@@ -57,11 +57,12 @@ wrote 3145728/3145728 bytes at offset 3145728
- 3 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- No errors were found on the image.
-
--[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": false},
-+[{ "start": 0, "length": 1048576, "depth": -1, "zero": true, "data": false},
- { "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 1048576},
- { "start": 2097152, "length": 2097152, "depth": 0, "zero": true, "data": false},
- { "start": 4194304, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": 4194304},
--{ "start": 5242880, "length": 61865984, "depth": 0, "zero": true, "data": false}]
-+{ "start": 5242880, "length": 1048576, "depth": 0, "zero": true, "data": false},
-+{ "start": 6291456, "length": 60817408, "depth": -1, "zero": true, "data": false}]
-
- read 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -123,7 +124,7 @@ read 1048576/1048576 bytes at offset 0
- Offset          Length          Mapped to       File
- 0               0x100000        0               TEST_DIR/t.qcow2.data
- [{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 0},
--{ "start": 1048576, "length": 66060288, "depth": 0, "zero": true, "data": false}]
-+{ "start": 1048576, "length": 66060288, "depth": -1, "zero": true, "data": false}]
-
- === Copy offloading ===
-
-diff --git a/tests/qemu-iotests/252.out b/tests/qemu-iotests/252.out
-index 12dce889f823..5235323c2a4e 100644
---- a/tests/qemu-iotests/252.out
-+++ b/tests/qemu-iotests/252.out
-@@ -24,7 +24,7 @@ read 131072/131072 bytes at offset 262144
- 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-
- [{ "start": 0, "length": 262144, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 262144, "length": 131072, "depth": 0, "zero": true, "data": false}]
-+{ "start": 262144, "length": 131072, "depth": -1, "zero": true, "data": false}]
-
- read 131072/131072 bytes at offset 0
- 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -35,5 +35,5 @@ read 131072/131072 bytes at offset 262144
-
- [{ "start": 0, "length": 262144, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 262144, "length": 65536, "depth": 0, "zero": true, "data": false},
--{ "start": 327680, "length": 65536, "depth": 1, "zero": true, "data": false}]
-+{ "start": 327680, "length": 65536, "depth": -1, "zero": true, "data": false}]
- *** done
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index cfe17a865924..d56dae7cf72c 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -37,7 +37,7 @@ Offset          Length          Mapped to       File
- 0               0x100000        0x50000         TEST_DIR/PID-base
-
- [{ "start": 0, "length": 1048576, "depth": 2, "zero": false, "data": true, "offset": 327680},
--{ "start": 1048576, "length": 1048576, "depth": 0, "zero": true, "data": false}]
-+{ "start": 1048576, "length": 1048576, "depth": -1, "zero": true, "data": false}]
-
- Offset          Length          Mapped to       File
- 0               0x100000        0x50000         TEST_DIR/PID-base
-@@ -220,7 +220,7 @@ read 65536/65536 bytes at offset 5368709120
- 1 GiB (0x40000000) bytes not allocated at offset 0 bytes (0x0)
- 7 GiB (0x1c0000000) bytes     allocated at offset 1 GiB (0x40000000)
-
--[{ "start": 0, "length": 1073741824, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 1073741824, "depth": -1, "zero": true, "data": false},
- { "start": 1073741824, "length": 7516192768, "depth": 0, "zero": true, "data": false}]
-
- === preallocation=metadata ===
-@@ -239,7 +239,7 @@ read 65536/65536 bytes at offset 33285996544
- 30 GiB (0x780000000) bytes not allocated at offset 0 bytes (0x0)
- 3 GiB (0xc0000000) bytes     allocated at offset 30 GiB (0x780000000)
-
--[{ "start": 0, "length": 32212254720, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 32212254720, "depth": -1, "zero": true, "data": false},
- { "start": 32212254720, "length": 536870912, "depth": 0, "zero": true, "data": false, "offset": 327680},
- { "start": 32749125632, "length": 536870912, "depth": 0, "zero": true, "data": false, "offset": 537264128},
- { "start": 33285996544, "length": 536870912, "depth": 0, "zero": true, "data": false, "offset": 1074200576},
-@@ -263,7 +263,7 @@ read 65536/65536 bytes at offset 9437184
- 5 MiB (0x500000) bytes not allocated at offset 0 bytes (0x0)
- 10 MiB (0xa00000) bytes     allocated at offset 5 MiB (0x500000)
-
--[{ "start": 0, "length": 5242880, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 5242880, "depth": -1, "zero": true, "data": false},
- { "start": 5242880, "length": 10485760, "depth": 0, "zero": false, "data": true, "offset": 327680}]
-
- === preallocation=full ===
-@@ -282,7 +282,7 @@ read 65536/65536 bytes at offset 11534336
- 8 MiB (0x800000) bytes not allocated at offset 0 bytes (0x0)
- 4 MiB (0x400000) bytes     allocated at offset 8 MiB (0x800000)
-
--[{ "start": 0, "length": 8388608, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 8388608, "depth": -1, "zero": true, "data": false},
- { "start": 8388608, "length": 4194304, "depth": 0, "zero": false, "data": true, "offset": 327680}]
-
- === preallocation=off ===
-@@ -301,7 +301,7 @@ read 65536/65536 bytes at offset 259072
- 192 KiB (0x30000) bytes not allocated at offset 0 bytes (0x0)
- 320 KiB (0x50000) bytes     allocated at offset 192 KiB (0x30000)
-
--[{ "start": 0, "length": 196608, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 196608, "depth": -1, "zero": true, "data": false},
- { "start": 196608, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
- { "start": 262144, "length": 262144, "depth": 0, "zero": true, "data": false}]
-
-@@ -321,7 +321,7 @@ read 65536/65536 bytes at offset 344064
- 256 KiB (0x40000) bytes not allocated at offset 0 bytes (0x0)
- 256 KiB (0x40000) bytes     allocated at offset 256 KiB (0x40000)
-
--[{ "start": 0, "length": 262144, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 262144, "depth": -1, "zero": true, "data": false},
- { "start": 262144, "length": 262144, "depth": 0, "zero": true, "data": false}]
-
- === preallocation=off ===
-@@ -340,6 +340,6 @@ read 65536/65536 bytes at offset 446464
- 256 KiB (0x40000) bytes not allocated at offset 0 bytes (0x0)
- 244 KiB (0x3d000) bytes     allocated at offset 256 KiB (0x40000)
-
--[{ "start": 0, "length": 262144, "depth": 1, "zero": true, "data": false},
-+[{ "start": 0, "length": 262144, "depth": -1, "zero": true, "data": false},
- { "start": 262144, "length": 249856, "depth": 0, "zero": true, "data": false}]
-
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-index 23411c0ff4d9..8ad772486f6d 100644
---- a/tests/qemu-iotests/291.out
-+++ b/tests/qemu-iotests/291.out
-@@ -104,15 +104,15 @@ Format specific information:
- === Check bitmap contents ===
-
- [{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 3145728, "length": 1048576, "depth": -1, "zero": false, "data": false},
- { "start": 4194304, "length": 6291456, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- [{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 1048576, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 1048576, "length": 1048576, "depth": -1, "zero": false, "data": false},
- { "start": 2097152, "length": 8388608, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- [{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 2097152, "length": 1048576, "depth": -1, "zero": false, "data": false},
- { "start": 3145728, "length": 7340032, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- [{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 2097152, "length": 1048576, "depth": 0, "zero": false, "data": false},
-+{ "start": 2097152, "length": 1048576, "depth": -1, "zero": false, "data": false},
- { "start": 3145728, "length": 7340032, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- *** done
-diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/309.out
-index db75bb6b0df9..110737e12a5b 100644
---- a/tests/qemu-iotests/309.out
-+++ b/tests/qemu-iotests/309.out
-@@ -13,10 +13,10 @@ wrote 2097152/2097152 bytes at offset 1048576
-
- [{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true, "offset": 327680},
- { "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 327680},
--{ "start": 3145728, "length": 1048576, "depth": 1, "zero": true, "data": false}]
-+{ "start": 3145728, "length": 1048576, "depth": -1, "zero": true, "data": false}]
- [{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 3145728, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- [{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": true, "offset": OFFSET},
--{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": false},
-+{ "start": 1048576, "length": 2097152, "depth": -1, "zero": false, "data": false},
- { "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- *** done
--- 
-2.31.1
-
+On 6/9/21 7:10 AM, Philippe Mathieu-Daudé wrote:
+> +    oi = make_memop_idx(MO_UB, mmu_idx);
+> +    if (memop_big_endian(op)) {
+> +        for (i = 0; i < size; ++i) {
+> +            /* Big-endian load.  */
+> +            uint8_t val8 = helper_ret_ldub_mmu(env, addr + i, oi, retaddr);
+> +            val |= val8 << (((size - 1) * 8) - (i * 8));
+> +        }
+> +    } else {
+> +        for (i = 0; i < size; ++i) {
+> +            /* Little-endian load.  */
+> +            uint8_t val8 = helper_ret_ldub_mmu(env, addr + i, oi, retaddr);
+> +            val |= val8 << (i * 8);
+> +        }
+> +    }
+
+This doesn't quite work.  You can't just call helper_ret_ldub_mmu, as the other 
+option is full_ldub_code.  So, at present you've broken unaligned code loads.
+
+We also need noinline markup for clang, like we do for helper_ret_stb_mmu. 
+I've no proof of that, but it certainly makes sense to record how we expect the 
+inline loop to be resolved.
+
+Finally, you have to use uint64_t for val8, otherwise the shift fails for size 
+== 8.
+
+I'll fix these up and see how things go.
+
+
+r~
 
