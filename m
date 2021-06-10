@@ -2,42 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9403A2CCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:19:56 +0200 (CEST)
-Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1663A2CD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:23:19 +0200 (CEST)
+Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrKbD-0006Rs-Kq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43466)
+	id 1lrKeU-00055j-Jd
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chris@server4.localdomain>)
- id 1lrKYC-0000uf-BY
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:16:49 -0400
-Received: from static-71-162-116-19.bstnma.fios.verizon.net
- ([71.162.116.19]:57840 helo=server4.localdomain)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chris@server4.localdomain>) id 1lrKYA-0001JS-Tj
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:16:48 -0400
-Received: by server4.localdomain (Postfix, from userid 503)
- id 83A5960311111; Thu, 10 Jun 2021 09:16:46 -0400 (EDT)
-From: Chris Browy <cbrowy@avery-design.com>
-To: mst@redhat.com
-Subject: [PATCH v6 cxl2.0-v6-doe 6/6] test/cdat: CXL CDAT test data
-Date: Thu, 10 Jun 2021 09:16:44 -0400
-Message-Id: <1623331004-18651-1-git-send-email-cbrowy@avery-design.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1623329999-15662-1-git-send-email-cbrowy@avery-design.com>
-References: <1623329999-15662-1-git-send-email-cbrowy@avery-design.com>
-Received-SPF: none client-ip=71.162.116.19;
- envelope-from=chris@server4.localdomain; helo=server4.localdomain
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.398,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1lrKci-0002Pq-07
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:21:28 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1lrKcf-0004Ei-Fg
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:21:27 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G14Jl3PPkz6wFQ;
+ Thu, 10 Jun 2021 21:17:27 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 10 Jun 2021 21:21:20 +0800
+Received: from localhost.localdomain (10.175.101.6) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 10 Jun 2021 21:21:19 +0800
+From: Peng Liang <liangpeng10@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] runstate: Initialize Error * to NULL
+Date: Thu, 10 Jun 2021 21:17:29 +0800
+Message-ID: <20210610131729.3906565-1-liangpeng10@huawei.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=liangpeng10@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,39 +62,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
- vishal.l.verma@intel.com, jgroves@micron.com,
- Chris Browy <cbrowy@avery-design.com>, armbru@redhat.com, f4bug@amsat.org,
- hchkuo@avery-design.com.tw, tyshao@avery-design.com.tw,
- jonathan.cameron@huawei.com, imammedo@redhat.com, dan.j.williams@intel.com,
- ira.weiny@intel.com
+Cc: philmd@redhat.com, alejandro.j.jimenez@oracle.com, laurent@vivier.eu,
+ xiexiangyou@huawei.com, armbru@redhat.com, liangpeng10@huawei.com,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: hchkuo <hchkuo@avery-design.com.tw>
+Based on the description of error_setg(), the local variable err in
+qemu_init_subsystems() should be initialized to NULL.
 
-Pre-built CDAT table for testing, contains one CDAT header and six
-CDAT entries: DSMAS, DSLBIS, DSMSCIS, DSIS, DSEMTS, and SSLBIS
-respectively.
-
-Signed-off-by: hchkuo <hchkuo@avery-design.com.tw>
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
+Fix: efd7ab22fb "vl: extract qemu_init_subsystems"
+Signed-off-by: Peng Liang <liangpeng10@huawei.com>
 ---
- tests/data/cdat/cdat.dat | Bin 0 -> 148 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 tests/data/cdat/cdat.dat
+The patch is generated by the following coccinelle script (thanks to
+Markus):
+@ r @
+identifier id;
+@@
+(
+  static Error *id;
+|
+  Error *id
++ = NULL
+  ;
+)
+And exclude the modifications in softmmu/vl.c (which has fixed by
+Zhenzhong Duan already) and util/error.c (which are unnecessary).
 
-diff --git a/tests/data/cdat/cdat.dat b/tests/data/cdat/cdat.dat
-new file mode 100644
-index 0000000000000000000000000000000000000000..b66c5d5836bcce7490e698f9ab5071c623425c48
-GIT binary patch
-literal 148
-ycmbQjz`($`14zJu1e^tBD1c~21`KhqG!ugem_{a;892aP794t585EF}W3U1CI069x
+ softmmu/runstate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-literal 0
-HcmV?d00001
-
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index ce8977c6a29c..54713100c2ea 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -746,7 +746,7 @@ static void qemu_run_exit_notifiers(void)
+ 
+ void qemu_init_subsystems(void)
+ {
+-    Error *err;
++    Error *err = NULL;
+ 
+     os_set_line_buffering();
+ 
 -- 
-2.17.1
+2.31.1
 
 
