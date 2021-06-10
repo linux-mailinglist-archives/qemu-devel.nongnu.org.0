@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71CDE3A2F84
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:40:25 +0200 (CEST)
-Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69673A2FD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:51:38 +0200 (CEST)
+Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMnA-0003s6-Ii
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
+	id 1lrMy1-0002PP-IF
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
- id 1lrMmO-0003Br-ON
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:39:36 -0400
-Received: from [114.255.44.146] (port=31709 helo=mail.kingsoft.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1lrMmM-0001Vu-5Q
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:39:36 -0400
-X-AuditID: 0a580157-8cdff700000015d4-47-60c23232250d
-Received: from mail.kingsoft.com (localhost [10.88.1.79])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id 0D.46.05588.23232C06;
- Thu, 10 Jun 2021 23:39:30 +0800 (HKT)
-Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL4.kingsoft.cn
- (10.88.1.79) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Thu, 10 Jun
- 2021 23:39:30 +0800
-Received: from KSbjmail3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3]) by
- KSBJMAIL3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3%10]) with mapi id
- 15.01.2176.014; Thu, 10 Jun 2021 23:39:30 +0800
-From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "quintela@redhat.com"
- <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>
-Subject: [PATCH v2] migration/rdma: Use huge page register VM memory
-Thread-Topic: [PATCH v2] migration/rdma: Use huge page register VM memory
-Thread-Index: AddeDoRRKABeLUUiRGG9h//M45eppQ==
-Date: Thu, 10 Jun 2021 15:39:30 +0000
-Message-ID: <a67bba1280e54ed0bc65a01e6a3b0d1a@kingsoft.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.88.1.106]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrMxH-0001k0-3D
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:50:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrMxB-0007Tl-1Q
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:50:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lrMx7-00010J-DA
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:50:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4F3BE2E8169
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:50:41 +0000 (UTC)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOLMWRmVeSWpSXmKPExsXCFcHor2tkdCjBYNI1XYvebffYLY737mCx
- uLOlj8mB2ePJtc1MHu/3XWULYIrisklJzcksSy3St0vgylhxX6pgmnbFv2V+DYwdWl2MnBwS
- AiYSFy/dY+li5OIQEpjOJPH1TBs7hPOCUWLOudtMEM5uRon2y5eZQFrYBDwlPq06wwaSEBHo
- Z5S4sf4BWBWzQA+TxO83raxdjBwcwgIuEs+f+IM0iAA1LN6xkR3C1pO4dvkeG4jNIqAq8f7B
- TFYQm1fAWuLLjwWMIDajgKzEtEf3wZYxC4hLzJ02ixXiVgGJJXvOM0PYohIvH/8DWyUhIC+x
- +qMwRLmWxLyG31CtihJTuh+yQ4wXlDg58wnLBEaRWUimzkLSMgtJyywkLQsYWVYxshTnphtu
- YoSEffgOxnlNH/UOMTJxMB5ilOBgVhLhzVE7lCDEm5JYWZValB9fVJqTWnyIUZqDRUmc93PO
- wQQhgfTEktTs1NSC1CKYLBMHp1QD0zb/OpG/3BHcV+aLJEtXTTgksuNtglp3bd9z+TcpnxVS
- r9qU1+duWa70P+WDFsP29O0LPlduZH29d2IJr7vupmtblE71izZyLWHgMNgnVH7pR0Kn+MoT
- c+c/cq8QKXcSyKjdYGqz/smPzMUmnA/WLuXZlPC6Mb+vl4tVq+rR0RXh5pf7N6Wkxl+/Kxlk
- K292fNs+Gc9j5jWiYSdNuSdtL/azD3v0vXHR+l97t8xzuJl43vvQuyM7uDy014Y0ai3qKNhz
- MWli/qcZik03nnJInvJhF3Y3WMkSX8fxtL3pl72i7szq0KQG9X28djbzy3/l3356s/7o6c+7
- 87Nmv436sCX2tuama+3+4ob58p/7lViKMxINtZiLihMBtU3nQOoCAAA=
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.255.44.146 (failed)
-Received-SPF: pass client-ip=114.255.44.146;
- envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
-X-Spam_score_int: 21
-X-Spam_score: 2.1
-X-Spam_bar: ++
-X-Spam_report: (2.1 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Jun 2021 15:44:30 -0000
+From: Thomas Huth <1913919@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161206040524.32468.3095757576345215405.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162333987032.28452.15253226343201255184.malone@gac.canonical.com>
+Subject: [Bug 1913919] Re: Heap-buffer-overflow in sdhci_write_dataport
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: e395eb6d84e72182c37b5e75e9ca76b0de0d2ce2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,82 +71,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>,
- =?gb2312?B?c3VuaGFvMiBby+/qu10=?= <sunhao2@kingsoft.com>,
- =?gb2312?B?REVOR0xJTldFTiBbtcvB1s7EXQ==?= <DENGLINWEN@kingsoft.com>,
- =?gb2312?B?WUFOR0ZFTkcxIFvR7rflXQ==?= <YANGFENG1@kingsoft.com>
+Reply-To: Bug 1913919 <1913919@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-V2hlbiB1c2luZyBsaWJ2aXJ0IGZvciBSRE1BIGxpdmUgbWlncmF0aW9uLCBpZiB0aGUgVk0gbWVt
-b3J5DQppcyB0b28gbGFyZ2UsIGl0IHdpbGwgdGFrZSBhIGxvdCBvZiB0aW1lIHRvIGRlcmVnaXN0
-ZXIgdGhlIFZNDQphdCB0aGUgc291cmNlIHNpZGUsIHJlc3VsdGluZyBpbiBhIGxvbmcgZG93bnRp
-bWUgKFZNIDY0RywNCmRlcmVnaXN0ZXIgdm0gdGltZSBpcyBhYm91dCA0MDBtcykuDQogICAgDQpB
-bHRob3VnaCB0aGUgVk0ncyBtZW1vcnkgdXNlcyAyTSBodWdlIHBhZ2VzLCB0aGUgTUxOWCBkcml2
-ZXINCnN0aWxsIHVzZXMgNEsgcGFnZXMgZm9yIHBpbiBtZW1vcnksIGFzIHdlbGwgYXMgZm9yIHVu
-cGluLg0KU28gd2UgdXNlIGh1Z2UgcGFnZXMgdG8gc2tpcCB0aGUgcHJvY2VzcyBvZiBwaW4gbWVt
-b3J5IGFuZA0KdW5waW4gbWVtb3J5IHRvIHJlZHVjZSBkb3dudGltZS4NCiAgICANCi0tLQ0KdjIN
-Ci0gQWRkIHBhZ2Vfc2l6ZSBpbiBzdHJ1Y3QgUkRNQUxvY2FsQmxvY2sNCi0gVXNlIHBhZ2Vfc2l6
-ZSB0byBkZXRlcm1pbmUgd2hldGhlciBWTSB1c2VzIGh1Z2UgcGFnZQ0KLS0tDQogICAgDQpTaWdu
-ZWQtb2ZmLWJ5OiBsaXpoYW94aW4gPGxpemhhb3hpbjFAa2luZ3NvZnQuY29tPg0KDQpkaWZmIC0t
-Z2l0IGEvbWlncmF0aW9uL3JkbWEuYyBiL21pZ3JhdGlvbi9yZG1hLmMNCmluZGV4IDFjZGI0NTYx
-ZjMuLjcwMzgxNmViYzcgMTAwNjQ0DQotLS0gYS9taWdyYXRpb24vcmRtYS5jDQorKysgYi9taWdy
-YXRpb24vcmRtYS5jDQpAQCAtMjE1LDYgKzIxNSw3IEBAIHR5cGVkZWYgc3RydWN0IFJETUFMb2Nh
-bEJsb2NrIHsNCiAgICAgdWludDY0X3QgICAgICAgcmVtb3RlX2hvc3RfYWRkcjsgLyogcmVtb3Rl
-IHZpcnR1YWwgYWRkcmVzcyAqLw0KICAgICB1aW50NjRfdCAgICAgICBvZmZzZXQ7DQogICAgIHVp
-bnQ2NF90ICAgICAgIGxlbmd0aDsNCisgICAgdWludDY0X3QgICAgICAgcGFnZV9zaXplOw0KICAg
-ICBzdHJ1Y3QgICAgICAgICBpYnZfbXIgKipwbXI7ICAgIC8qIE1ScyBmb3IgY2h1bmstbGV2ZWwg
-cmVnaXN0cmF0aW9uICovDQogICAgIHN0cnVjdCAgICAgICAgIGlidl9tciAqbXI7ICAgICAgLyog
-TVIgZm9yIG5vbi1jaHVuay1sZXZlbCByZWdpc3RyYXRpb24gKi8NCiAgICAgdWludDMyX3QgICAg
-ICAqcmVtb3RlX2tleXM7ICAgICAvKiBya2V5cyBmb3IgY2h1bmstbGV2ZWwgcmVnaXN0cmF0aW9u
-ICovDQpAQCAtNTY1LDcgKzU2Niw4IEBAIHN0YXRpYyBpbmxpbmUgdWludDhfdCAqcmFtX2NodW5r
-X2VuZChjb25zdCBSRE1BTG9jYWxCbG9jayAqcmRtYV9yYW1fYmxvY2ssDQogDQogc3RhdGljIGlu
-dCByZG1hX2FkZF9ibG9jayhSRE1BQ29udGV4dCAqcmRtYSwgY29uc3QgY2hhciAqYmxvY2tfbmFt
-ZSwNCiAgICAgICAgICAgICAgICAgICAgICAgICAgdm9pZCAqaG9zdF9hZGRyLA0KLSAgICAgICAg
-ICAgICAgICAgICAgICAgICByYW1fYWRkcl90IGJsb2NrX29mZnNldCwgdWludDY0X3QgbGVuZ3Ro
-KQ0KKyAgICAgICAgICAgICAgICAgICAgICAgICByYW1fYWRkcl90IGJsb2NrX29mZnNldCwgdWlu
-dDY0X3QgbGVuZ3RoLA0KKyAgICAgICAgICAgICAgICAgICAgICAgICB1aW50NjRfdCBwYWdlX3Np
-emUpDQogew0KICAgICBSRE1BTG9jYWxCbG9ja3MgKmxvY2FsID0gJnJkbWEtPmxvY2FsX3JhbV9i
-bG9ja3M7DQogICAgIFJETUFMb2NhbEJsb2NrICpibG9jazsNCkBAIC01OTUsNiArNTk3LDcgQEAg
-c3RhdGljIGludCByZG1hX2FkZF9ibG9jayhSRE1BQ29udGV4dCAqcmRtYSwgY29uc3QgY2hhciAq
-YmxvY2tfbmFtZSwNCiAgICAgYmxvY2stPmxvY2FsX2hvc3RfYWRkciA9IGhvc3RfYWRkcjsNCiAg
-ICAgYmxvY2stPm9mZnNldCA9IGJsb2NrX29mZnNldDsNCiAgICAgYmxvY2stPmxlbmd0aCA9IGxl
-bmd0aDsNCisgICAgYmxvY2stPnBhZ2Vfc2l6ZSA9IHBhZ2Vfc2l6ZTsNCiAgICAgYmxvY2stPmlu
-ZGV4ID0gbG9jYWwtPm5iX2Jsb2NrczsNCiAgICAgYmxvY2stPnNyY19pbmRleCA9IH4wVTsgLyog
-RmlsbGVkIGluIGJ5IHRoZSByZWNlaXB0IG9mIHRoZSBibG9jayBsaXN0ICovDQogICAgIGJsb2Nr
-LT5uYl9jaHVua3MgPSByYW1fY2h1bmtfaW5kZXgoaG9zdF9hZGRyLCBob3N0X2FkZHIgKyBsZW5n
-dGgpICsgMVVMOw0KQEAgLTYzNCw3ICs2MzcsOCBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9pbml0
-X29uZV9ibG9jayhSQU1CbG9jayAqcmIsIHZvaWQgKm9wYXF1ZSkNCiAgICAgdm9pZCAqaG9zdF9h
-ZGRyID0gcWVtdV9yYW1fZ2V0X2hvc3RfYWRkcihyYik7DQogICAgIHJhbV9hZGRyX3QgYmxvY2tf
-b2Zmc2V0ID0gcWVtdV9yYW1fZ2V0X29mZnNldChyYik7DQogICAgIHJhbV9hZGRyX3QgbGVuZ3Ro
-ID0gcWVtdV9yYW1fZ2V0X3VzZWRfbGVuZ3RoKHJiKTsNCi0gICAgcmV0dXJuIHJkbWFfYWRkX2Js
-b2NrKG9wYXF1ZSwgYmxvY2tfbmFtZSwgaG9zdF9hZGRyLCBibG9ja19vZmZzZXQsIGxlbmd0aCk7
-DQorICAgIHJhbV9hZGRyX3QgcGFnZV9zaXplID0gcWVtdV9yYW1fcGFnZXNpemUocmIpOw0KKyAg
-ICByZXR1cm4gcmRtYV9hZGRfYmxvY2sob3BhcXVlLCBibG9ja19uYW1lLCBob3N0X2FkZHIsIGJs
-b2NrX29mZnNldCwgbGVuZ3RoLCBwYWdlX3NpemUpOw0KIH0NCiANCiAvKg0KQEAgLTExMjMsMTMg
-KzExMjcsMjUgQEAgc3RhdGljIGludCBxZW11X3JkbWFfcmVnX3dob2xlX3JhbV9ibG9ja3MoUkRN
-QUNvbnRleHQgKnJkbWEpDQogICAgIFJETUFMb2NhbEJsb2NrcyAqbG9jYWwgPSAmcmRtYS0+bG9j
-YWxfcmFtX2Jsb2NrczsNCiANCiAgICAgZm9yIChpID0gMDsgaSA8IGxvY2FsLT5uYl9ibG9ja3M7
-IGkrKykgew0KLSAgICAgICAgbG9jYWwtPmJsb2NrW2ldLm1yID0NCi0gICAgICAgICAgICBpYnZf
-cmVnX21yKHJkbWEtPnBkLA0KLSAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxv
-Y2FsX2hvc3RfYWRkciwNCi0gICAgICAgICAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sZW5n
-dGgsDQotICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0xPQ0FMX1dSSVRFIHwNCi0gICAg
-ICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfUkVNT1RFX1dSSVRFDQotICAgICAgICAgICAgICAg
-ICAgICApOw0KKyAgICAgICAgaWYgKGxvY2FsLT5ibG9ja1tpXS5wYWdlX3NpemUgIT0gcWVtdV9y
-ZWFsX2hvc3RfcGFnZV9zaXplKSB7DQorICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLm1yID0N
-CisgICAgICAgICAgICAgICAgaWJ2X3JlZ19tcihyZG1hLT5wZCwNCisgICAgICAgICAgICAgICAg
-ICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubG9jYWxfaG9zdF9hZGRyLA0KKyAgICAgICAgICAgICAg
-ICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sZW5ndGgsDQorICAgICAgICAgICAgICAgICAgICAg
-ICAgSUJWX0FDQ0VTU19MT0NBTF9XUklURSB8DQorICAgICAgICAgICAgICAgICAgICAgICAgSUJW
-X0FDQ0VTU19SRU1PVEVfV1JJVEUgfA0KKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NF
-U1NfT05fREVNQU5EIHwNCisgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0hVR0VU
-TEINCisgICAgICAgICAgICAgICAgICAgICAgICApOw0KKyAgICAgICAgfSBlbHNlIHsNCisgICAg
-ICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubXIgPQ0KKyAgICAgICAgICAgICAgICBpYnZfcmVnX21y
-KHJkbWEtPnBkLA0KKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sb2Nh
-bF9ob3N0X2FkZHIsDQorICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLmxl
-bmd0aCwNCisgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0xPQ0FMX1dSSVRFIHwN
-CisgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX1JFTU9URV9XUklURQ0KKyAgICAg
-ICAgICAgICAgICAgICAgICAgICk7DQorICAgICAgICB9DQogICAgICAgICBpZiAoIWxvY2FsLT5i
-bG9ja1tpXS5tcikgew0KICAgICAgICAgICAgIHBlcnJvcigiRmFpbGVkIHRvIHJlZ2lzdGVyIGxv
-Y2FsIGRlc3QgcmFtIGJsb2NrIVxuIik7DQogICAgICAgICAgICAgYnJlYWs7DQo=
+Can you still reproduce this issue with the latest git version of QEMU?
+... for me, it does not crash anymore.
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913919
+
+Title:
+  Heap-buffer-overflow in sdhci_write_dataport
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 -qtest stdio \
+  -machine raspi3b,accel=3Dqtest -m 1G =
+
+  write 0x3f30002c 0x1 0x25
+  write 0x3f300004 0x1 0x01
+  write 0x3f300006 0x1 0xc0
+  write 0x3f30000c 0x1 0x22
+  write 0x3f30000e 0x1 0x20
+  write 0x3f30000f 0x1 0x0
+  write 0x3f300000 0x1 0x48
+  write 0x3f300003 0x1 0x0
+  write 0x3f300005 0x1 0x14
+  write 0x3f300007 0x1 0x10
+  write 0x3f30000c 0x1 0x32
+  write 0x3f30000f 0x1 0x0
+  write 0x3f300001 0x1 0x00
+  write 0x3f300002 0x1 0x30
+  write 0x3f300003 0x1 0x3f
+  EOF
+
+  Stacktrace:
+  =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
+  WRITE of size 1 at 0x619000017b80 thread T0
+      #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/qe=
+mu/build/../hw/sd/sdhci.c:560:39
+      #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/build/=
+../hw/sd/sdhci.c:1172:13
+      #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c:491:5
+      #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c:552:18
+      #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c
+      #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Development=
+/qemu/build/../softmmu/physmem.c:2759:23
+      #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bui=
+ld/../softmmu/physmem.c:2799:14
+      #7 0x5629893de71b in address_space_write /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2891:18
+      #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development/q=
+emu/include/sysemu/dma.h:88:12
+      #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/incl=
+ude/sysemu/dma.h:127:12
+      #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qemu/=
+include/sysemu/dma.h:163:12
+      #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr/D=
+evelopment/qemu/build/../hw/sd/sdhci.c:617:13
+      #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/build=
+/../hw/sd/sdhci.c:1129:17
+      #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Devel=
+opment/qemu/build/../softmmu/memory.c:491:5
+      #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/build/../softmmu/memory.c:552:18
+      #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/build/../softmmu/memory.c
+      #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/build/../softmmu/physmem.c:2759:23
+      #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bu=
+ild/../softmmu/physmem.c:2799:14
+      #18 0x5629893de71b in address_space_write /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2891:18
+      #19 0x56298904ad35 in qtest_process_command /home/alxndr/Development/=
+qemu/build/../softmmu/qtest.c:654:9
+      #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/build/../softmmu/qtest.c:797:9
+      #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/build=
+/../chardev/char-fd.c:68:9
+      #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x51aae)
+      #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/build/../util/main-loop.c:232:9
+      #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
+
+  0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x619=
+000017780,0x619000017b80)
+  allocated by thread T0 here:
+      #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qemu=
+-system-aarch64+0x33cadb2)
+      #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
+.so.0+0x57ae0)
+      #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/qe=
+mu/build/../hw/sd/sdhci.c:1469:5
+      #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/qem=
+u/build/../hw/core/qdev.c:761:13
+      #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qemu/=
+build/../qom/object.c:2255:5
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
 
