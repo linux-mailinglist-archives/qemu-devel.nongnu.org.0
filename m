@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F843A253A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 09:21:33 +0200 (CEST)
-Received: from localhost ([::1]:43816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824BE3A2586
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 09:32:46 +0200 (CEST)
+Received: from localhost ([::1]:49598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrF0O-0004dB-5j
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 03:21:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34380)
+	id 1lrFBE-0000de-9k
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 03:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrEyT-00032i-TK
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 03:19:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrEyQ-00058B-K3
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 03:19:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623309568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AxnuI3e8822lKBzWzvjfQyTAqR+LBsvjcNBHuYtGlIo=;
- b=bDwHVFMm8SUXhK+48Bi72RDyj7pSsSlpoJTUbipngcywIDGu2NJ+tqFLTr+l0Q8q2gfFwn
- sOL3NOaskw/cgAWVAlru+hjb5ybmvGhuF7ko/gpzq8sEENOgbtk6Ez9Dud8Khg7Z6T1R4J
- +V3R92bqsVAdyf86R/LK3ajNleyIBxs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-2Ja8NMrMNhK2N-PC1VM91A-1; Thu, 10 Jun 2021 03:19:24 -0400
-X-MC-Unique: 2Ja8NMrMNhK2N-PC1VM91A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60A6710C1ADC;
- Thu, 10 Jun 2021 07:19:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
- [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81F08105C877;
- Thu, 10 Jun 2021 07:19:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1D232113865F; Thu, 10 Jun 2021 09:19:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: GSoC Intro - TUI interface for QMP
-References: <CAN6ztm-J2GoQKkLb=Az0H2Q8UKK4oE3PgXg7g14=T53sQAUyDg@mail.gmail.com>
- <CAN6ztm9JKPo05_qJo1cFGq2P6f1DzB9vu+VZ054e9MdHVkRLog@mail.gmail.com>
- <YKuq242kdKxhvHAr@stefanha-x1.localdomain>
- <CAN6ztm8rpDARg786+yq2S58T2wQ7TWSQ+H_3xgfUnRTbgc0k+A@mail.gmail.com>
- <d45d686b-ca43-821c-e843-cf0f963e4e6e@redhat.com>
- <87czswxuwn.fsf@dusky.pond.sub.org>
- <1577ce78-bf98-3f3d-7594-2b91d84967ec@redhat.com>
- <87sg1rp7yg.fsf@dusky.pond.sub.org>
- <879a774d-4aa2-9333-b413-bb59ef035525@redhat.com>
-Date: Thu, 10 Jun 2021 09:19:15 +0200
-In-Reply-To: <879a774d-4aa2-9333-b413-bb59ef035525@redhat.com> (John Snow's
- message of "Wed, 9 Jun 2021 13:06:15 -0400")
-Message-ID: <874ke6gpak.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lrFA1-0008E3-6b
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 03:31:31 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:39733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>) id 1lrF9z-0004Gm-CL
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 03:31:28 -0400
+Received: by mail-qk1-x735.google.com with SMTP id j184so26403500qkd.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 00:31:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/4lyN2KyfW1i8gsQE8qe1rODwAFmuRBtnjTP0R14xnU=;
+ b=XJXuk6nD5UNwsLw3pNOzy8ovpdVI2Ds/w26oIZ8lfn0oZahjbkI6XjQopKXAX+X3dc
+ fIhUlYJU/Di6WhdEM+CBih5tpWIEvpZ1j0giaHz3tUvfepqwnD4Mq79f8SfLlqveXYlQ
+ R/rmDcPV/27RUq8Zp/8FBJCoGofSAgSNrTgF53+5/05sMR/sI2EBMX0jHe/X1zZzAq/O
+ ackH3fy/u/mEU9vdk7yeN85WE+GN7ORQl22sGLm/oAw1bbAiRTUAkLvwTwC6HBYzadYV
+ JP5wXw0lSgu/0nh37/0I7VVMjT8PPZLInlENehOdPvUzEShjVL5Pu0VLYBgn4JX9OpxB
+ 3Riw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/4lyN2KyfW1i8gsQE8qe1rODwAFmuRBtnjTP0R14xnU=;
+ b=RXQkb0mRNfXKzBFPtomF4BnkL3czdw38o88lPw2QIL6D3XVeaLCHvGPd2SYyM2OrTA
+ Coi9VbdllE9M4q4ubQOdB+2Zgc/Aw/7/KDGvbYJNSJSTvuH1Vq9tb+7RBUDVwygVEL17
+ eP78saqYggyVpkkQbxvwO5q8SfPynF+6KALiLDgyc5bsIkaH2m6IPFkkqYPiLF3hC2cy
+ 0Llx36tiQTscyN7UrN+Ls0HiME/xDzdKC6O+bnduXtdBMWXWvXcoSgAyWsNxPRhc0jXE
+ FXZtHHdQnO/0SI1IXM/uhqMY01RPlQesbL7AJgb+r6bz4aQMVhc9jJNgbg7ck+b4rP+O
+ +pqw==
+X-Gm-Message-State: AOAM5332lMgPTT/xjCg7QQDI95cFjqi7LBkfAgOtYZzMb7izw7z3SiVc
+ 5DCnz/lhfxSYkSQBolUj4rwURyh5pBHSsdNP53ts+6d7
+X-Google-Smtp-Source: ABdhPJxsQn9VPiZQln/e6/K8t38J1DD6mri1cWSm9Zhj338bqKCb/IeUmYSUjpe+nPOt9rS1G3Ze6z8CLztVJUCp4mQ=
+X-Received: by 2002:a05:620a:c0b:: with SMTP id
+ l11mr3381926qki.181.1623310285409; 
+ Thu, 10 Jun 2021 00:31:25 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210515220957.13053-1-mrolnik@gmail.com>
+In-Reply-To: <20210515220957.13053-1-mrolnik@gmail.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Thu, 10 Jun 2021 10:30:49 +0300
+Message-ID: <CAK4993iLzF1L7xkE9SSc1gYvoF0a08s3cXb6WKUD0iJUOQLKXA@mail.gmail.com>
+Subject: Re: [RFC v3 0/1] Implement AVR WDT (watchdog timer)
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000ec116c05c464604d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=mrolnik@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,71 +75,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, "Niteesh G. S." <niteesh.gs@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Joaquin de Andres <me@xcancerberox.com.ar>,
+ Fred Konrad <konrad@adacore.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+--000000000000ec116c05c464604d
+Content-Type: text/plain; charset="UTF-8"
 
-> On 6/9/21 7:56 AM, Markus Armbruster wrote:
->>> The client could cache the information. (Against what kind of an
->>> identifier? Can QEMU report some kind of token that uniquely
->>> identifies its binary or uniquely identifies the set of QAPI commands
->>> it supports?)
+ping
+
+On Sun, May 16, 2021 at 1:10 AM Michael Rolnik <mrolnik@gmail.com> wrote:
+
+> 1.  Initial implementation of AVR WDT
+>     There are two issues with this implementation so I need your help here
+>     a. when I configure the WDT to fire an interrupt every 15ms it
+> actually happens every 6 instructions
+>     b. when I specify --icount shift=0 qemu stucks
 >
->> I proposed something like it to permit QMP clients cache
->> query-qmp-schema output.  Libvirt didn't want it, so it never got beyond
->> the idea stage.
->> 
+> changes since v1
+> 1.  correct RW or RW1C behavior is implemented
+> 2.  icount functionality is fixed
+> 3.  I still observe something strange, it takes AVR 150 instructions to
+> simulate 15ms
 >
-> What ideas did you have for a cache key? We don't need to uniquely
-> identify every instance or even every binary.
+> changes since v2
+> 1.  use REG8 & FIELD macros to define registers
+> 2.  fixing ICOUNT behavior
 >
-> I suppose we could use an md5/sha1 checksum of the QMP introspection output?
+> *** BLURB HERE ***
+>
+> Michael Rolnik (1):
+>   Implement AVR watchdog timer
+>
+>  MAINTAINERS                   |   2 +
+>  hw/avr/Kconfig                |   1 +
+>  hw/avr/atmega.c               |  15 +-
+>  hw/avr/atmega.h               |   2 +
+>  hw/watchdog/Kconfig           |   3 +
+>  hw/watchdog/avr_wdt.c         | 279 ++++++++++++++++++++++++++++++++++
+>  hw/watchdog/meson.build       |   2 +
+>  hw/watchdog/trace-events      |   5 +
+>  include/hw/watchdog/avr_wdt.h |  47 ++++++
+>  target/avr/cpu.c              |   3 +
+>  target/avr/cpu.h              |   1 +
+>  target/avr/helper.c           |   7 +-
+>  target/avr/translate.c        |  58 ++++++-
+>  13 files changed, 419 insertions(+), 6 deletions(-)
+>  create mode 100644 hw/watchdog/avr_wdt.c
+>  create mode 100644 include/hw/watchdog/avr_wdt.h
+>
+> --
+> 2.25.1
+>
+>
 
-commit 39a181581650f4d50f4445bc6276d9716cece050
-Author: Markus Armbruster <armbru@redhat.com>
-Date:   Wed Sep 16 13:06:28 2015 +0200
+-- 
+Best Regards,
+Michael Rolnik
 
-    qapi: New QMP command query-qmp-schema for QMP introspection
+--000000000000ec116c05c464604d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[...]
+<div dir=3D"ltr">ping</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, May 16, 2021 at 1:10 AM Michael Rolnik &lt;<a =
+href=3D"mailto:mrolnik@gmail.com">mrolnik@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">1.=C2=A0 Initial impleme=
+ntation of AVR WDT<br>
+=C2=A0 =C2=A0 There are two issues with this implementation so I need your =
+help here<br>
+=C2=A0 =C2=A0 a. when I configure the WDT to fire an interrupt every 15ms i=
+t actually happens every 6 instructions<br>
+=C2=A0 =C2=A0 b. when I specify --icount shift=3D0 qemu stucks<br>
+<br>
+changes since v1<br>
+1.=C2=A0 correct RW or RW1C behavior is implemented<br>
+2.=C2=A0 icount functionality is fixed<br>
+3.=C2=A0 I still observe something strange, it takes AVR 150 instructions t=
+o simulate 15ms<br>
+<br>
+changes since v2<br>
+1.=C2=A0 use REG8 &amp; FIELD macros to define registers<br>
+2.=C2=A0 fixing ICOUNT behavior<br>
+<br>
+*** BLURB HERE ***<br>
+<br>
+Michael Rolnik (1):<br>
+=C2=A0 Implement AVR watchdog timer<br>
+<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0hw/avr/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 =C2=A01 +<br>
+=C2=A0hw/avr/atmega.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 15 +-<br>
+=C2=A0hw/avr/atmega.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A02 +<br>
+=C2=A0hw/watchdog/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A03 +<br>
+=C2=A0hw/watchdog/avr_wdt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 279 ++++++++=
+++++++++++++++++++++++++++<br>
+=C2=A0hw/watchdog/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +<b=
+r>
+=C2=A0hw/watchdog/trace-events=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A05 +<br>
+=C2=A0include/hw/watchdog/avr_wdt.h |=C2=A0 47 ++++++<br>
+=C2=A0target/avr/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A03 +<br>
+=C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A01 +<br>
+=C2=A0target/avr/helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A07 +-<br>
+=C2=A0target/avr/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 58 ++++++-<=
+br>
+=C2=A013 files changed, 419 insertions(+), 6 deletions(-)<br>
+=C2=A0create mode 100644 hw/watchdog/avr_wdt.c<br>
+=C2=A0create mode 100644 include/hw/watchdog/avr_wdt.h<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
 
-    New QMP command query-qmp-schema takes its return value from that
-    variable.  Its reply is some 85KiBytes for me right now.
-
-Has since grown to ~160KiB.
-    
-    If this turns out to be too much, we have a couple of options:
-    
-    * We can use shorter names in the JSON.  Not the QMP style.
-    
-    * Optionally return the sub-schema for commands and events given as
-      arguments.
-    
-      Right now qmp_query_schema() sends the string literal computed by
-      qmp-introspect.py.  To compute sub-schema at run time, we'd have to
-      duplicate parts of qapi-introspect.py in C.  Unattractive.
-    
-    * Let clients cache the output of query-qmp-schema.
-    
-      It changes only on QEMU upgrades, i.e. rarely.  Provide a command
-      query-qmp-schema-hash.  Clients can have a cache indexed by hash,
-      and re-query the schema only when they don't have it cached.  Even
-      simpler: put the hash in the QMP greeting.
-    
-    Signed-off-by: Markus Armbruster <armbru@redhat.com>
-    Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Note this glosses over what exactly is hashed.  Back then, we generated
-query-qmp-schema's output as a string, so we would have hashed that.
-Today, we generate a QLitObject.  Less trivial to hash.  Quite feasible
-all the same.
-
-NB: Commit messages are love letters to your future self :)
-
-[...]
-
+--000000000000ec116c05c464604d--
 
