@@ -2,77 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFB53A2F6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:35:56 +0200 (CEST)
-Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193803A2F6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:35:42 +0200 (CEST)
+Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMiq-0003PA-0D
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:35:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
+	id 1lrMia-0002XK-Uq
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
- id 1lrMgy-0007KC-H9
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:00 -0400
-Received: from [114.255.44.146] (port=31708 helo=mail.kingsoft.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1lrMgt-0006nl-3j
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:00 -0400
-X-AuditID: 0a580157-8b5ff700000015d4-6c-60c230cf9efd
-Received: from mail.kingsoft.com (localhost [10.88.1.78])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id 88.36.05588.FC032C06;
- Thu, 10 Jun 2021 23:33:35 +0800 (HKT)
-Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL3.kingsoft.cn
- (10.88.1.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Thu, 10 Jun
- 2021 23:33:35 +0800
-Received: from KSbjmail3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3]) by
- KSBJMAIL3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3%10]) with mapi id
- 15.01.2176.014; Thu, 10 Jun 2021 23:33:35 +0800
-From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
-To: =?gb2312?B?RGFuaWVsIFAuIEJlcnJhbmeopg==?= <berrange@redhat.com>
-Subject: =?gb2312?B?u9i4tDogW1BBVENIXSBtaWdyYXRpb24vcmRtYTogVXNlIGh1Z2UgcGFnZSBy?=
- =?gb2312?Q?egister_VM_memory?=
-Thread-Topic: [PATCH] migration/rdma: Use huge page register VM memory
-Thread-Index: AddbpN+kEXe4Oe1WQuqS3KFy+fOdUf//f+eA//quH7A=
-Date: Thu, 10 Jun 2021 15:33:34 +0000
-Message-ID: <7b4701af3e6949d6a29e218a0c78b113@kingsoft.com>
-References: <51819991cecb42f6a619768bc61d0bfd@kingsoft.com>
- <YL4qh35GquFrbSfq@redhat.com>
-In-Reply-To: <YL4qh35GquFrbSfq@redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.88.1.106]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrMhP-0008W9-UM
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:27 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:34479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrMhN-00078W-Js
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:27 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id g6so1938144pfq.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 08:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GCSFq57eqdP+MG8ytIIanxdmilil/bWfNYoFuYMJ3Gk=;
+ b=s/05vvLCvkwY1H2iFR1xYYLVINSxjxUPuhkVRifQyOzLw8KFxs64tcO7v5eTxiMMmz
+ fvxVQvsniRDy/J666XlcNFHm93nCgwjxB3CEXmtBi1cnm+nCsiEvACh6CPYvaeFRMU1H
+ e39oppw903Kj5shOrAVYbOTBMBPcRO3t4TaNX0AnLgHRMsdZGbYSMXFj9vC3OUlgvUV9
+ Q5oRqC1zyWgqObn3bfHx2RqU9o78Mv1H5QHBvrVMIJW11iKiNNK5rHQWaA139qnaW5SS
+ g3EalgpT77AemOTLFdUtbu8we+VO3JlPpEE+WCito+0sYT54KeclRSWyeXMAU+1A1hUv
+ pt0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GCSFq57eqdP+MG8ytIIanxdmilil/bWfNYoFuYMJ3Gk=;
+ b=A2zxzurCDPxgr+5zYjfeEXtpQ1gm5YwZXMmMYqaqs4SB4tdXGDsITx2JuGkws7iiAg
+ blXfuyiXjMkogEbUposBORjxiZdGtsv4tfQJ+1w/bPxJPLQE5q9VDUE6dcV+RfGYVnfU
+ STWHQYk/R9zhGxU2M7KLB5wIpn0K9LgOoc2gVXuqHVQUf7jOkCoWS0weZApT8s/4hqxn
+ Qeom42ce7jEPv7G0FG/LXC3jYMzwZQtBQD8Y+W1U3tVy+w9tLzuNKyzDCVntzv9RLYxU
+ QyxRpxbwKYHSWifQQCsCszCYWzhtiZXmuMotD/aIsoN3HU6aWahv8hsxUKshocQEc+i9
+ 1QgQ==
+X-Gm-Message-State: AOAM533taeNcWb1W4i9bv8zFd64SYnGieXwCJ+F6S96Up7IQIOi9GQgO
+ GIk5y6gCes8uxZyiJ3MWQMpwO7iHIXfuNA==
+X-Google-Smtp-Source: ABdhPJwJUdZsa5Sa0sog2PgxlwgLQ65AIBAm1wg+lOTZuC04PxKivLa3nBmQjUK38JBGl+GWCfq7JA==
+X-Received: by 2002:a62:5547:0:b029:2ec:8f20:4e2 with SMTP id
+ j68-20020a6255470000b02902ec8f2004e2mr3558433pfb.71.1623339263704; 
+ Thu, 10 Jun 2021 08:34:23 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ d23sm8047556pjz.15.2021.06.10.08.34.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jun 2021 08:34:23 -0700 (PDT)
+Subject: Re: [PATCH v3 27/28] tcg: When allocating for !splitwx, begin with
+ PROT_NONE
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210502231844.1977630-1-richard.henderson@linaro.org>
+ <20210502231844.1977630-28-richard.henderson@linaro.org>
+ <875yynjn72.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <06701a18-1702-618c-9495-2c43e2eff2d5@linaro.org>
+Date: Thu, 10 Jun 2021 08:34:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKLMWRmVeSWpSXmKPExsXCFcHop3ve4FCCwf9JUhZv3qxhsujddo/d
- 4njvDhaLO1v6mBxYPJ5c28zk8X7fVbYApigum5TUnMyy1CJ9uwSujHPXmlgK7qhWHNp4ibGB
- 8YFKFyMHh4SAicTNOSxdjFwcQgLTmSQ6Hm1mg3BeMEo8/nGGGcLZzSjx6+My1i5GTg42AU+J
- T6vOsIHYIgLOEtN+7mAHKWIWuMIk8eTHLEaQhLBAscSKtj2sEEVuEr9Wd7JA2FYSczdfAath
- EVCVeNS0ghnE5hWwluhf2AsWFxKIluhcdpEJxOYU0JL42PEXLM4oICsx7dF9sDizgLjE3Gmz
- wOZLCAhILNlznhnCFpV4+fgfK8Rr8hKrPwpDlGtJzGv4DdWqKDGl+yE7xFpBiZMzn7BMYBSb
- hWTqLCQts5C0zELSsoCRZRUjS3FuuuEmRkjMhO9gnNf0Ue8QIxMH4yFGCQ5mJRHeHLVDCUK8
- KYmVValF+fFFpTmpxYcYpTlYlMR5P+ccTBASSE8sSc1OTS1ILYLJMnFwSjUwbSubf/tCzLQK
- u71K0rPtX71x9DH33DXxaM+fQy3JZ5f/n6T2M03mxDRpniknkgtXnPX6HWEh1Lc48qhga3dX
- ytkJJV83Xai2CGBYXvz7ack/Br7Lqv/zLDOmdB4QNXRhUFr3l3cpg9jF8qQW503OGxbzehzU
- zCv2OveK83VZj8XnQBnJYwLXnrWYf3vn57Fng5XG/8J+Po72a1lurjJxVTwJDid8Ls+s3jVl
- U1nUjlmqzPMbtlSW/axt5VB87yCh+5XjuAkLX9QK50dzisv1Uk4+XuZ/x/uHyYW32o1KV/r3
- 65y7VH+yQM/Hb8ffY9Zm109ZXzmpwdx072LdnQsHqtdv9PW5MfXiodDNLk1zlFiKMxINtZiL
- ihMBsg6fyggDAAA=
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.255.44.146 (failed)
-Received-SPF: pass client-ip=114.255.44.146;
- envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
-X-Spam_score_int: 45
-X-Spam_score: 4.5
-X-Spam_bar: ++++
-X-Spam_report: (4.5 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- MIME_CHARSET_FARAWAY=2.45, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <875yynjn72.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,75 +91,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?gb2312?B?c3VuaGFvMiBby+/qu10=?= <sunhao2@kingsoft.com>,
- =?gb2312?B?WUFOR0ZFTkcxIFvR7rflXQ==?= <YANGFENG1@kingsoft.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- =?gb2312?B?REVOR0xJTldFTiBbtcvB1s7EXQ==?= <DENGLINWEN@kingsoft.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-WWVzLCAncGMucmFtJyBpcyB0aGUgc3BlY2lmaWMgbmFtZSBmb3IgeDg2LiBJIGhhdmUgcmVhZCB0
-aGF0DQptZW1vcnlfcmVnaW9uX2FsbG9jYXRlX3N5c3RlbV9tZW1vcnkgYXNzaWducyBkaWZmZXJl
-bnQgbmFtZXMNCnRvIG90aGVyIGFyY2hpdGVjdHVyZXMuDQpUaGFua3MgZm9yIHlvdXIgcmVtaW5k
-aW5nLg0KDQpSZWdhcmRzLA0KbGl6aGFveGluLg0KDQotLS0tLdPKvP7Urbz+LS0tLS0NCreivP7I
-yzogRGFuaWVsIFAuIEJlcnJhbmeopiA8YmVycmFuZ2VAcmVkaGF0LmNvbT4gDQq3osvNyrG85Dog
-MjAyMcTqNtTCN8jVIDIyOjE4DQrK1bz+yMs6IExJWkhBT1hJTjEgW8Du1dX2zl0gPExJWkhBT1hJ
-TjFAa2luZ3NvZnQuY29tPg0Ks63LzTogcWVtdS1kZXZlbEBub25nbnUub3JnOyBxdWludGVsYUBy
-ZWRoYXQuY29tOyBkZ2lsYmVydEByZWRoYXQuY29tOyBzdW5oYW8yIFvL7+q7XSA8c3VuaGFvMkBr
-aW5nc29mdC5jb20+OyBERU5HTElOV0VOIFu1y8HWzsRdIDxERU5HTElOV0VOQGtpbmdzb2Z0LmNv
-bT47IFlBTkdGRU5HMSBb0e635V0gPFlBTkdGRU5HMUBraW5nc29mdC5jb20+DQrW98ziOiBSZTog
-W1BBVENIXSBtaWdyYXRpb24vcmRtYTogVXNlIGh1Z2UgcGFnZSByZWdpc3RlciBWTSBtZW1vcnkN
-Cg0KT24gTW9uLCBKdW4gMDcsIDIwMjEgYXQgMDE6NTc6MDJQTSArMDAwMCwgTElaSEFPWElOMSBb
-wO7V1fbOXSB3cm90ZToNCj4gV2hlbiB1c2luZyBsaWJ2aXJ0IGZvciBSRE1BIGxpdmUgbWlncmF0
-aW9uLCBpZiB0aGUgVk0gbWVtb3J5IGlzIHRvbyANCj4gbGFyZ2UsIGl0IHdpbGwgdGFrZSBhIGxv
-dCBvZiB0aW1lIHRvIGRlcmVnaXN0ZXIgdGhlIFZNIGF0IHRoZSBzb3VyY2UgDQo+IHNpZGUsIHJl
-c3VsdGluZyBpbiBhIGxvbmcgZG93bnRpbWUgKFZNIDY0RywgZGVyZWdpc3RlciB2bSB0aW1lIGlz
-IGFib3V0IDQwMG1zKS4NCj4gICAgIA0KPiBBbHRob3VnaCB0aGUgVk0ncyBtZW1vcnkgdXNlcyAy
-TSBodWdlIHBhZ2VzLCB0aGUgTUxOWCBkcml2ZXIgc3RpbGwgDQo+IHVzZXMgNEsgcGFnZXMgZm9y
-IHBpbiBtZW1vcnksIGFzIHdlbGwgYXMgZm9yIHVucGluLiBTbyB3ZSB1c2UgaHVnZSANCj4gcGFn
-ZXMgdG8gc2tpcCB0aGUgcHJvY2VzcyBvZiBwaW4gbWVtb3J5IGFuZCB1bnBpbiBtZW1vcnkgdG8g
-cmVkdWNlIGRvd250aW1lLg0KPiAgICANCj4gVGhlIHRlc3QgZW52aXJvbm1lbnQ6DQo+IGtlcm5l
-bDogbGludXgtNS4xMg0KPiBNTE5YOiBDb25uZWN0WC00IExYDQo+IGxpYnZpcnQgY29tbWFuZDoN
-Cj4gdmlyc2ggbWlncmF0ZSAtLWxpdmUgLS1wMnAgLS1wZXJzaXN0ZW50IC0tY29weS1zdG9yYWdl
-LWluYyANCj4gLS1saXN0ZW4tYWRkcmVzcyBcDQo+IDAuMC4wLjAgLS1yZG1hLXBpbi1hbGwgLS1t
-aWdyYXRldXJpIHJkbWE6Ly8xOTIuMTY4LjAuMiBbVk1dIA0KPiBxZW11K3RjcDovLzE5Mi4xNjgu
-MC4yL3N5c3RlbQ0KPiAgICAgDQo+IFNpZ25lZC1vZmYtYnk6IGxpemhhb3hpbiA8bGl6aGFveGlu
-MUBraW5nc29mdC5jb20+DQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWlncmF0aW9uL3JkbWEuYyBiL21p
-Z3JhdGlvbi9yZG1hLmMgaW5kZXggDQo+IDFjZGI0NTYxZjMuLjk4MjM0NDkyOTcgMTAwNjQ0DQo+
-IC0tLSBhL21pZ3JhdGlvbi9yZG1hLmMNCj4gKysrIGIvbWlncmF0aW9uL3JkbWEuYw0KPiBAQCAt
-MTEyMywxMyArMTEyMywyNiBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9yZWdfd2hvbGVfcmFtX2Js
-b2NrcyhSRE1BQ29udGV4dCAqcmRtYSkNCj4gICAgICBSRE1BTG9jYWxCbG9ja3MgKmxvY2FsID0g
-JnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+ICANCj4gICAgICBmb3IgKGkgPSAwOyBpIDwgbG9j
-YWwtPm5iX2Jsb2NrczsgaSsrKSB7DQo+IC0gICAgICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQo+
-IC0gICAgICAgICAgICBpYnZfcmVnX21yKHJkbWEtPnBkLA0KPiAtICAgICAgICAgICAgICAgICAg
-ICBsb2NhbC0+YmxvY2tbaV0ubG9jYWxfaG9zdF9hZGRyLA0KPiAtICAgICAgICAgICAgICAgICAg
-ICBsb2NhbC0+YmxvY2tbaV0ubGVuZ3RoLA0KPiAtICAgICAgICAgICAgICAgICAgICBJQlZfQUND
-RVNTX0xPQ0FMX1dSSVRFIHwNCj4gLSAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19SRU1P
-VEVfV1JJVEUNCj4gLSAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgaWYgKHN0cmNt
-cChsb2NhbC0+YmxvY2tbaV0uYmxvY2tfbmFtZSwicGMucmFtIikgPT0gMCkgew0KDQoncGMucmFt
-JyBpcyBhbiB4ODYgYXJjaGl0ZWN0dXJlIHNwZWNpZmljIG5hbWUsIHNvIHRoaXMgd2lsbCBzdGls
-bCBsZWF2ZSBhIHByb2JsZW0gb24gb3RoZXIgYXJjaGl0ZWN0dXJlcyBJIGFzc3VtZS4NCg0KPiAr
-ICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLm1yID0NCj4gKyAgICAgICAgICAgICAgICBpYnZf
-cmVnX21yKHJkbWEtPnBkLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2Nr
-W2ldLmxvY2FsX2hvc3RfYWRkciwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5i
-bG9ja1tpXS5sZW5ndGgsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0xP
-Q0FMX1dSSVRFIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfUkVNT1RF
-X1dSSVRFIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfT05fREVNQU5E
-IHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfSFVHRVRMQg0KPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgfSBlbHNlIHsNCj4gKyAgICAgICAg
-ICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQo+ICsgICAgICAgICAgICAgICAgaWJ2X3JlZ19tcihy
-ZG1hLT5wZCwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sb2Nh
-bF9ob3N0X2FkZHIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0u
-bGVuZ3RoLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19MT0NBTF9XUklU
-RSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX1JFTU9URV9XUklURQ0K
-PiArICAgICAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgfQ0KPiArDQo+ICAgICAg
-ICAgIGlmICghbG9jYWwtPmJsb2NrW2ldLm1yKSB7DQo+ICAgICAgICAgICAgICBwZXJyb3IoIkZh
-aWxlZCB0byByZWdpc3RlciBsb2NhbCBkZXN0IHJhbSBibG9jayFcbiIpOw0KPiAgICAgICAgICAg
-ICAgYnJlYWs7DQoNClJlZ2FyZHMsDQpEYW5pZWwNCi0tIA0KfDogaHR0cHM6Ly9iZXJyYW5nZS5j
-b20gICAgICAtby0gICAgaHR0cHM6Ly93d3cuZmxpY2tyLmNvbS9waG90b3MvZGJlcnJhbmdlIDp8
-DQp8OiBodHRwczovL2xpYnZpcnQub3JnICAgICAgICAgLW8tICAgICAgICAgICAgaHR0cHM6Ly9m
-c3RvcDEzOC5iZXJyYW5nZS5jb20gOnwNCnw6IGh0dHBzOi8vZW50YW5nbGUtcGhvdG8ub3JnICAg
-IC1vLSAgICBodHRwczovL3d3dy5pbnN0YWdyYW0uY29tL2RiZXJyYW5nZSA6fA0KDQo=
+On 6/9/21 4:21 AM, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> There's a change in mprotect() behaviour [1] in the latest macOS
+>> on M1 and it's not yet clear if it's going to be fixed by Apple.
+>>
+>> In this case, instead of changing permissions of N guard pages,
+>> we change permissions of N rwx regions.  The same number of
+>> syscalls are required either way.
+>>
+>> [1] https://gist.github.com/hikalium/75ae822466ee4da13cbbe486498a191f
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/region.c | 19 +++++++++----------
+>>   1 file changed, 9 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/tcg/region.c b/tcg/region.c
+>> index 604530b902..5e00db4cfb 100644
+>> --- a/tcg/region.c
+>> +++ b/tcg/region.c
+>> @@ -765,12 +765,15 @@ static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+>>           error_free_or_abort(errp);
+>>       }
+>>   
+>> -    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
+>> +    /*
+>> +     * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
+>> +     * rejects a permission change from RWX -> NONE when reserving the
+>> +     * guard pages later.  We can go the other way with the same number
+>> +     * of syscalls, so always begin with PROT_NONE.
+>> +     */
+>> +    prot = PROT_NONE;
+>>       flags = MAP_PRIVATE | MAP_ANONYMOUS;
+>> -#ifdef CONFIG_TCG_INTERPRETER
+>> -    /* The tcg interpreter does not need execute permission. */
+>> -    prot = PROT_READ | PROT_WRITE;
+>> -#elif defined(CONFIG_DARWIN)
+>> +#ifdef CONFIG_DARWIN
+>>       /* Applicable to both iOS and macOS (Apple Silicon). */
+>>       if (!splitwx) {
+>>           flags |= MAP_JIT;
+>> @@ -901,11 +904,7 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+>>               }
+>>           }
+> 
+> I think the comment in tcg_region_init needs to be updated, currently
+> reads:
+> 
+>      /*
+>       * Set guard pages in the rw buffer, as that's the one into which
+>       * buffer overruns could occur.  Do not set guard pages in the rx
+>       * buffer -- let that one use hugepages throughout.
+>       * Work with the page protections set up with the initial mapping.
+>       */
+>      need_prot = PAGE_READ | PAGE_WRITE;
+> 
+> but now we start with everything at PROT_NONE and are just setting
+> need_prot for the non-guard pages.
+
+The comment *has* been updated: work with the page protections set up with the 
+initial mapping.  Which is *not* always PROT_NONE.
+
+See the USE_STATIC_CODE_GEN_BUFFER and _WIN32 copies of alloc_code_gen_buffer.
+
+
+>>           if (have_prot != 0) {
+>> -            /*
+>> -             * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
+>> -             * rejects a permission change from RWX -> NONE.  Guard pages are
+>> -             * nice for bug detection but are not essential; ignore any failure.
+>> -             */
+>> +            /* Guard pages are nice for bug detection but are not essential. */
+>>               (void)qemu_mprotect_none(end, page_size);
+> 
+> Isn't the last page already set as PROT_NONE?
+
+No.
+
+
+r~
 
