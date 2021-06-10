@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39CC3A2951
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:26:09 +0200 (CEST)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CE03A2956
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:28:13 +0200 (CEST)
+Received: from localhost ([::1]:38812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrHt2-0007In-Pc
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:26:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46638)
+	id 1lrHv2-0004da-Gt
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrHjf-00070i-2b
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:16:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrHjc-0001IV-QQ
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:16:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623320183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RYeo3QXoPV73JdQivHo9olDHnBSgCEcjDl7hZRRp+Tw=;
- b=ICExy4WwVd/e5/iS6N+sYuviAZs3DfrsLKjIATD52koKHCX3mRtbvF6aqnIxkv4WPaoops
- wsTZ+1Glqdcbo90VgxeBldYwdPf0siZ2OF5OfYyv6XAcw7SxQjep0l+v3cunSQOMGJG2r3
- Ocp9l5Z837Qdcc1V0FVeTn1xiP3hxS4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-NGbBOvdlNtO8SCUQ5R_57A-1; Thu, 10 Jun 2021 06:16:22 -0400
-X-MC-Unique: NGbBOvdlNtO8SCUQ5R_57A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A43118D6A25;
- Thu, 10 Jun 2021 10:16:21 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
- [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C8226091A;
- Thu, 10 Jun 2021 10:16:12 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2B2AF180093F; Thu, 10 Jun 2021 12:15:53 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] modules: target-specific module build infrastructure
-Date: Thu, 10 Jun 2021 12:15:52 +0200
-Message-Id: <20210610101553.943689-4-kraxel@redhat.com>
-In-Reply-To: <20210610101553.943689-1-kraxel@redhat.com>
-References: <20210610101553.943689-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrHl5-0001PV-Jp
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:17:55 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:34527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lrHkz-0002CK-Ok
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:17:55 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id cb9so32368005edb.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 03:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FEtovbJuiq5QTZMfa17jeZZhNg44bxYYtb8WIPWuxZ4=;
+ b=c0NENKiECeKhFNLDXIt7mRQmtPC7ooRuoni/yu8yBX8fSfE9lmqIC533q1vOUlc1CY
+ NgJ87sDua2ua8M+ikFva9tuRfKCQoKT/tjBe8/DtnuHMQ/B2FGOzK77z2TsczFAK2JTJ
+ kidbyezv5Eflui21PQFDGMwpTmr1BxtAFTwLWE21wq5zrdM1tnl4wuydP596cEmxjORT
+ dFDY1KHYbVhBz3pLDRE+dYdcG2qsCy3ybN2k2RpvyeX60f5hBdxLDCLY25is5xOPBphw
+ 6i4bAKaQcMdmrYtuyUhsjyDOPp7dV8OeddNbuyURQ7DqZDFiJhhojIi6QLEOytim1KNs
+ juBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FEtovbJuiq5QTZMfa17jeZZhNg44bxYYtb8WIPWuxZ4=;
+ b=AT7OaJ1xxQGlQUtAcF4V7dgWJhHeAKQstMveGS2kUfn5U+iBGwqp9gHlPiyo3tNZFN
+ 2lCphFjHG6LhyfuABmfnpyVVKz3c8+Tx5fWs6uehQsInAV9g0aiW2QtaWQ8aiiBpEPgg
+ mnGcIPJXIapLVKmLuJZWEtbp6j2gBzPCaArGcFYY9ySeWEi8VRaV7dKwn4SAk7AuG1bN
+ 0fVRaJ7x6mh3eAOCRQNB/ehf7IMRe7EAn09Qoc7KoYZLzqyvAPHBKwQaDhOclbRDqqeK
+ FssIHW5q096Nex+QvTR+SYgRXSDOQyWBGPs+fJ4xy1y9fyY77Irc9WAxmx2pYq2R1Vte
+ h1vw==
+X-Gm-Message-State: AOAM530OJW44FoLauB8k0VlWg15TQlIEShr/QoDxTWbUbsIpU5AU2Doo
+ 6uMP195ysz3SlJ6/i8QhM2iSZZScIULSgLg2ULzZAQ==
+X-Google-Smtp-Source: ABdhPJy+sC+FX8Z6VrLZDePtchJ+b4nIDJlmxeeruObL+QeafgtkymiNmgbhJtwgv4P7MuIq1MO62Gdfi94BFssmzpM=
+X-Received: by 2002:aa7:dc12:: with SMTP id b18mr3871359edu.52.1623320268162; 
+ Thu, 10 Jun 2021 03:17:48 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-5-peter.maydell@linaro.org>
+ <d54b1117-b25a-ff6f-3166-87fd282b674c@linaro.org>
+In-Reply-To: <d54b1117-b25a-ff6f-3166-87fd282b674c@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Jun 2021 11:17:13 +0100
+Message-ID: <CAFEAcA_0P=3fE8arF3j90s1z8A-3TJGnmHjHLThxTALvqt3PXA@mail.gmail.com>
+Subject: Re: [PATCH 04/55] target/arm: Add handling for PSR.ECI/ICI
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,63 +78,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- cfontana@suse.de, jose.ziviani@suse.com, pbonzini@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- meson.build | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+On Tue, 8 Jun 2021 at 00:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/7/21 9:57 AM, Peter Maydell wrote:
+> > +void clear_eci_state(DisasContext *s)
+> > +{
+> > +    /*
+> > +     * Clear any ECI/ICI state: used when a load multiple/store
+> > +     * multiple insn executes.
+> > +     */
+> > +    if (s->eci) {
+> > +        TCGv_i32 tmp = tcg_temp_new_i32();
+> > +        tcg_gen_movi_i32(tmp, 0);
+>
+> tcg_const_i32 or preferably tcg_constant_i32.
 
-diff --git a/meson.build b/meson.build
-index 9823c5889140..a22c26850429 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1781,6 +1781,7 @@ user_ss = ss.source_set()
- util_ss = ss.source_set()
- 
- modules = {}
-+target_modules = {}
- hw_arch = {}
- target_arch = {}
- target_softmmu_arch = {}
-@@ -2052,6 +2053,31 @@ foreach d, list : modules
-   endforeach
- endforeach
- 
-+foreach d, list : target_modules
-+  foreach m, module_ss : list
-+    if enable_modules and targetos != 'windows'
-+      foreach target : target_dirs
-+        config_target = config_target_mak[target]
-+        config_target += config_host
-+        target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
-+        c_args = ['-DNEED_CPU_H',
-+                  '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
-+                  '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
-+        target_module_ss = module_ss.apply(config_target, strict: false)
-+        sl = static_library(target + '-' + d + '-' + m,
-+                            [genh, target_module_ss.sources()],
-+                            dependencies: [modulecommon, target_module_ss.dependencies()],
-+                            include_directories: target_inc,
-+                            c_args: c_args,
-+                            pic: true)
-+        softmmu_mods += sl
-+      endforeach
-+    else
-+      specific_ss.add_all(module_ss)
-+    endif
-+  endforeach
-+endforeach
-+
- nm = find_program('nm')
- undefsym = find_program('scripts/undefsym.py')
- block_syms = custom_target('block.syms', output: 'block.syms',
--- 
-2.31.1
+I'll use tcg_const_i32(), yep. (I think I copied this absent-mindedly
+from some of the existing code in translate.c that uses tcg_gen_movi_i32().)
+Can't use tcg_constant_i32() because store_cpu_field() wants to
+tcg_temp_free_i32() its argument.
 
+> > +    if (condexec & 0xf) {
+> > +        dc->condexec_mask = (condexec & 0xf) << 1;
+> > +        dc->condexec_cond = condexec >> 4;
+> > +        dc->eci = 0;
+> > +    } else {
+> > +        dc->condexec_mask = 0;
+> > +        dc->condexec_cond = 0;
+> > +        if (arm_feature(env, ARM_FEATURE_M)) {
+> > +            dc->eci = condexec >> 4;
+> > +        }
+>
+> This else leaves eci uninitialized.
+
+Strictly speaking it doesn't, because gen_intermediate_code
+zero-initializes the DisasContext with a "{ }" struct initializer.
+But it's clearer to explicitly initialize here I guess. Fixed.
+
+> >       dc->insn = insn;
+> >
+> > +    if (dc->eci) {
+> > +        /*
+> > +         * For M-profile continuable instructions, ECI/ICI handling
+> > +         * falls into these cases:
+> > +         *  - interrupt-continuable instructions
+> > +         *     These are the various load/store multiple insns (both
+> > +         *     integer and fp). The ICI bits indicate the register
+> > +         *     where the load/store can resume. We make the IMPDEF
+> > +         *     choice to always do "instruction restart", ie ignore
+> > +         *     the ICI value and always execute the ldm/stm from the
+> > +         *     start. So all we need to do is zero PSR.ICI if the
+> > +         *     insn executes.
+> > +         *  - MVE instructions subject to beat-wise execution
+> > +         *     Here the ECI bits indicate which beats have already been
+> > +         *     executed, and we must honour this. Each insn of this
+> > +         *     type will handle it correctly. We will update PSR.ECI
+> > +         *     in the helper function for the insn (some ECI values
+> > +         *     mean that the following insn also has been partially
+> > +         *     executed).
+> > +         *  - Special cases which don't advance ECI
+> > +         *     The insns LE, LETP and BKPT leave the ECI/ICI state
+> > +         *     bits untouched.
+> > +         *  - all other insns (the common case)
+> > +         *     Non-zero ECI/ICI means an INVSTATE UsageFault.
+> > +         *     We place a rewind-marker here. Insns in the previous
+> > +         *     three categories will set a flag in the DisasContext.
+> > +         *     If the flag isn't set after we call disas_thumb_insn()
+> > +         *     or disas_thumb2_insn() then we know we have a "some other
+> > +         *     insn" case. We will rewind to the marker (ie throwing away
+> > +         *     all the generated code) and instead emit "take exception".
+> > +         */
+> > +        dc->eci_handled = false;
+>
+> This should be done in arm_tr_init_disas_context, I think, unconditionally,
+> next to eci.
+>
+> > +        dc->insn_eci_rewind = tcg_last_op();
+>
+> I believe that this is identical to dc->insn_start.  Certainly there does not
+> seem to be any possibility of any opcodes emitted in between.
+
+There's quite a wide separation between where we set insn_start and here
+(we set insn_start in arm_tr_insn_start, then there's whatever the accel/tcg
+framework chooses to do between the insn_start callback and the translate_insn
+callback, then the arm_pre_translate_insn() code). So I felt that a separate
+pointer was easier to reason about.
+
+In fact, looking again at the accel/tcg code, if we rewind to insn_start
+that will delete any code emitted by the breakpoint_check hook,
+anything emitted by plugin_gen_insn_start(), and anything emitted by
+gen_io_start() if this is a CF_LAST_IO insn. I think we want to keep
+all of those.
+
+> If you think we should use a different field, then initialize it to null next
+> to eci/eci_handled.
+
+Done.
+
+-- PMM
 
