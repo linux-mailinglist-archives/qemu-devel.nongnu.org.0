@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA473A2711
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:31:15 +0200 (CEST)
-Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511843A273B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:38:14 +0200 (CEST)
+Received: from localhost ([::1]:56374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrG5q-0003pC-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:31:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
+	id 1lrGCb-0007qb-9J
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrFpu-0003ix-3v; Thu, 10 Jun 2021 04:14:47 -0400
-Received: from mail142-36.mail.alibaba.com ([198.11.142.36]:5533)
+ id 1lrFrt-0006pg-Uh; Thu, 10 Jun 2021 04:16:50 -0400
+Received: from mail142-8.mail.alibaba.com ([198.11.142.8]:18637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrFpq-0006EK-Mn; Thu, 10 Jun 2021 04:14:45 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07854751|-1; CH=blue; DM=|OVERLOAD|false|;
- DS=CONTINUE|ham_system_inform|0.600505-0.00222066-0.397274;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KQMqNB5_1623312869; 
+ id 1lrFro-0007bm-Cz; Thu, 10 Jun 2021 04:16:49 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07845538|-1; CH=blue; DM=|OVERLOAD|false|;
+ DS=CONTINUE|ham_system_inform|0.580536-0.00943863-0.410025;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KQNHAj5_1623312991; 
 Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KQMqNB5_1623312869)
- by smtp.aliyun-inc.com(10.147.41.137);
- Thu, 10 Jun 2021 16:14:29 +0800
+ fp:SMTPD_---.KQNHAj5_1623312991)
+ by smtp.aliyun-inc.com(10.147.42.198);
+ Thu, 10 Jun 2021 16:16:31 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 30/37] target/riscv: RV64 Only SIMD 32-bit Miscellaneous
- Instructions
-Date: Thu, 10 Jun 2021 15:59:01 +0800
-Message-Id: <20210610075908.3305506-31-zhiwei_liu@c-sky.com>
+Subject: [PATCH v2 34/37] target/riscv: RV64 Only 32-bit Parallel Multiply &
+ Add Instructions
+Date: Thu, 10 Jun 2021 15:59:05 +0800
+Message-Id: <20210610075908.3305506-35-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
 References: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=198.11.142.36; envelope-from=zhiwei_liu@c-sky.com;
- helo=mail142-36.mail.alibaba.com
+Received-SPF: none client-ip=198.11.142.8; envelope-from=zhiwei_liu@c-sky.com;
+ helo=mail142-8.mail.alibaba.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -62,130 +62,268 @@ Cc: palmer@dabbelt.com, richard.henderson@linaro.org, bin.meng@windriver.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SIMD 32-bit absolute value, signed or unsigned maximum, minimum.
+Two 32x32 results written directly to destation register or
+as operands added to a 64-bit register.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- target/riscv/helper.h                   |  6 +++
- target/riscv/insn32.decode              |  6 +++
- target/riscv/insn_trans/trans_rvp.c.inc | 15 +++++++
- target/riscv/packed_helper.c            | 55 +++++++++++++++++++++++++
- 4 files changed, 82 insertions(+)
+ target/riscv/helper.h                   |  12 ++
+ target/riscv/insn32.decode              |  12 ++
+ target/riscv/insn_trans/trans_rvp.c.inc |  13 ++
+ target/riscv/packed_helper.c            | 182 ++++++++++++++++++++++++
+ 4 files changed, 219 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 3b2a73db9a..d992859747 100644
+index 05f8f31367..aa80095e1d 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1437,3 +1437,9 @@ DEF_HELPER_3(sll32, i64, env, i64, i64)
- DEF_HELPER_3(ksll32, i64, env, i64, i64)
- DEF_HELPER_3(kslra32, i64, env, i64, i64)
- DEF_HELPER_3(kslra32_u, i64, env, i64, i64)
+@@ -1460,3 +1460,15 @@ DEF_HELPER_3(smtt32, i64, env, i64, i64)
+ DEF_HELPER_4(kmabb32, tl, env, tl, tl, tl)
+ DEF_HELPER_4(kmabt32, tl, env, tl, tl, tl)
+ DEF_HELPER_4(kmatt32, tl, env, tl, tl, tl)
 +
-+DEF_HELPER_3(smin32, i64, env, i64, i64)
-+DEF_HELPER_3(umin32, i64, env, i64, i64)
-+DEF_HELPER_3(smax32, i64, env, i64, i64)
-+DEF_HELPER_3(umax32, i64, env, i64, i64)
-+DEF_HELPER_2(kabs32, tl, env, tl)
++DEF_HELPER_3(kmda32, i64, env, i64, i64)
++DEF_HELPER_3(kmxda32, i64, env, i64, i64)
++DEF_HELPER_4(kmaxda32, tl, env, tl, tl, tl)
++DEF_HELPER_4(kmads32, tl, env, tl, tl, tl)
++DEF_HELPER_4(kmadrs32, tl, env, tl, tl, tl)
++DEF_HELPER_4(kmaxds32, tl, env, tl, tl, tl)
++DEF_HELPER_4(kmsda32, tl, env, tl, tl, tl)
++DEF_HELPER_4(kmsxda32, tl, env, tl, tl, tl)
++DEF_HELPER_3(smds32, i64, env, i64, i64)
++DEF_HELPER_3(smdrs32, i64, env, i64, i64)
++DEF_HELPER_3(smxds32, i64, env, i64, i64)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 80150c693a..ee5f855f28 100644
+index dec714a064..b9eeb57ca7 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -1060,3 +1060,9 @@ ksll32     0110010  ..... ..... 010 ..... 1110111 @r
- kslli32    1000010  ..... ..... 010 ..... 1110111 @sh5
- kslra32    0101011  ..... ..... 010 ..... 1110111 @r
- kslra32_u  0110011  ..... ..... 010 ..... 1110111 @r
+@@ -1083,3 +1083,15 @@ smtt32     0010100  ..... ..... 010 ..... 1110111 @r
+ kmabb32    0101101  ..... ..... 010 ..... 1110111 @r
+ kmabt32    0110101  ..... ..... 010 ..... 1110111 @r
+ kmatt32    0111101  ..... ..... 010 ..... 1110111 @r
 +
-+smin32     1001000  ..... ..... 010 ..... 1110111 @r
-+umin32     1010000  ..... ..... 010 ..... 1110111 @r
-+smax32     1001001  ..... ..... 010 ..... 1110111 @r
-+umax32     1010001  ..... ..... 010 ..... 1110111 @r
-+kabs32     1010110  10010 ..... 000 ..... 1110111 @r2
++kmda32     0011100  ..... ..... 010 ..... 1110111 @r
++kmxda32    0011101  ..... ..... 010 ..... 1110111 @r
++kmaxda32   0100101  ..... ..... 010 ..... 1110111 @r
++kmads32    0101110  ..... ..... 010 ..... 1110111 @r
++kmadrs32   0110110  ..... ..... 010 ..... 1110111 @r
++kmaxds32   0111110  ..... ..... 010 ..... 1110111 @r
++kmsda32    0100110  ..... ..... 010 ..... 1110111 @r
++kmsxda32   0100111  ..... ..... 010 ..... 1110111 @r
++smds32     0101100  ..... ..... 010 ..... 1110111 @r
++smdrs32    0110100  ..... ..... 010 ..... 1110111 @r
++smxds32    0111100  ..... ..... 010 ..... 1110111 @r
 diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
-index 6cba14be84..77586e07e4 100644
+index 2de81abbb8..48bcf37e36 100644
 --- a/target/riscv/insn_trans/trans_rvp.c.inc
 +++ b/target/riscv/insn_trans/trans_rvp.c.inc
-@@ -1088,3 +1088,18 @@ GEN_RVP64_R_OOL(kslra32);
- GEN_RVP64_R_OOL(sra32_u);
- GEN_RVP64_R_OOL(srl32_u);
- GEN_RVP64_R_OOL(kslra32_u);
+@@ -1131,3 +1131,16 @@ GEN_RVP64_R_OOL(smtt32);
+ GEN_RVP64_R_ACC_OOL(kmabb32);
+ GEN_RVP64_R_ACC_OOL(kmabt32);
+ GEN_RVP64_R_ACC_OOL(kmatt32);
 +
-+/* (RV64 Only) SIMD 32-bit Miscellaneous Instructions */
-+GEN_RVP64_R_OOL(smin32);
-+GEN_RVP64_R_OOL(umin32);
-+GEN_RVP64_R_OOL(smax32);
-+GEN_RVP64_R_OOL(umax32);
-+
-+#define GEN_RVP64_R2_OOL(NAME)                         \
-+static bool trans_##NAME(DisasContext *s, arg_r2 *a)   \
-+{                                                      \
-+    REQUIRE_64BIT(s);                                  \
-+    return r2_ool(s, a, gen_helper_##NAME);            \
-+}
-+
-+GEN_RVP64_R2_OOL(kabs32);
++/* (RV64 Only) 32-bit Parallel Multiply & Add Instructions */
++GEN_RVP64_R_OOL(kmda32);
++GEN_RVP64_R_OOL(kmxda32);
++GEN_RVP64_R_ACC_OOL(kmaxda32);
++GEN_RVP64_R_ACC_OOL(kmads32);
++GEN_RVP64_R_ACC_OOL(kmadrs32);
++GEN_RVP64_R_ACC_OOL(kmaxds32);
++GEN_RVP64_R_ACC_OOL(kmsda32);
++GEN_RVP64_R_ACC_OOL(kmsxda32);
++GEN_RVP64_R_OOL(smds32);
++GEN_RVP64_R_OOL(smdrs32);
++GEN_RVP64_R_OOL(smxds32);
 diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
-index 74d42e4c33..a808dae9d8 100644
+index 3c05c748c4..834e7dbebb 100644
 --- a/target/riscv/packed_helper.c
 +++ b/target/riscv/packed_helper.c
-@@ -3367,3 +3367,58 @@ static inline void do_kslra32_u(CPURISCVState *env, void *vd, void *va,
+@@ -3613,3 +3613,185 @@ static inline void do_kmatt32(CPURISCVState *env, void *vd, void *va,
  }
  
- RVPR64_64_64(kslra32_u, 1, 4);
+ RVPR_ACC(kmatt32, 1, 8);
 +
-+/* (RV64 Only) SIMD 32-bit Miscellaneous Instructions */
-+static inline void do_smin32(CPURISCVState *env, void *vd, void *va,
++/* (RV64 Only) 32-bit Parallel Multiply & Add Instructions */
++static inline void do_kmda32(CPURISCVState *env, void *vd, void *va,
 +                             void *vb, uint8_t i)
 +{
-+    int32_t *d = vd, *a = va, *b = vb;
-+
-+    d[i] = (a[i] < b[i]) ? a[i] : b[i];
-+}
-+
-+RVPR64_64_64(smin32, 1, 4);
-+
-+static inline void do_umin32(CPURISCVState *env, void *vd, void *va,
-+                             void *vb, uint8_t i)
-+{
-+    uint32_t *d = vd, *a = va, *b = vb;
-+
-+    d[i] = (a[i] < b[i]) ? a[i] : b[i];
-+}
-+
-+RVPR64_64_64(umin32, 1, 4);
-+
-+static inline void do_smax32(CPURISCVState *env, void *vd, void *va,
-+                             void *vb, uint8_t i)
-+{
-+    int32_t *d = vd, *a = va, *b = vb;
-+
-+    d[i] = (a[i] > b[i]) ? a[i] : b[i];
-+}
-+
-+RVPR64_64_64(smax32, 1, 4);
-+
-+static inline void do_umax32(CPURISCVState *env, void *vd, void *va,
-+                             void *vb, uint8_t i)
-+{
-+    uint32_t *d = vd, *a = va, *b = vb;
-+
-+    d[i] = (a[i] > b[i]) ? a[i] : b[i];
-+}
-+
-+RVPR64_64_64(umax32, 1, 4);
-+
-+static inline void do_kabs32(CPURISCVState *env, void *vd, void *va, uint8_t i)
-+{
-+    int32_t *d = vd, *a = va;
-+
-+    if (a[i] == INT32_MIN) {
-+        d[i] = INT32_MAX;
++    int64_t *d = vd;
++    int32_t *a = va, *b = vb;
++    if (a[H4(i)] == INT32_MIN && b[H4(i)] == INT32_MIN &&
++        a[H4(i + 1)] == INT32_MIN && b[H4(i + 1)] == INT32_MIN) {
++        *d = INT64_MAX;
 +        env->vxsat = 0x1;
 +    } else {
-+        d[i] = abs(a[i]);
++        *d = (int64_t)a[H4(i)] * b[H4(i)] +
++             (int64_t)a[H4(i + 1)] * b[H4(i + 1)];
 +    }
 +}
 +
-+RVPR2(kabs32, 1, 4);
++RVPR64_64_64(kmda32, 1, 8);
++
++static inline void do_kmxda32(CPURISCVState *env, void *vd, void *va,
++                              void *vb, uint8_t i)
++{
++    int64_t *d = vd;
++    int32_t *a = va, *b = vb;
++    if (a[H4(i)] == INT32_MIN && b[H4(i)] == INT32_MIN &&
++        a[H4(i + 1)] == INT32_MIN && b[H4(i + 1)] == INT32_MIN) {
++        *d = INT64_MAX;
++        env->vxsat = 0x1;
++    } else {
++        *d = (int64_t)a[H4(i)] * b[H4(i + 1)] +
++             (int64_t)a[H4(i + 1)] * b[H4(i)];
++    }
++}
++
++RVPR64_64_64(kmxda32, 1, 8);
++
++static inline void do_kmaxda32(CPURISCVState *env, void *vd, void *va,
++                               void *vb, void *vc, uint8_t i)
++{
++    int64_t *d = vd, *c = vc;
++    int32_t *a = va, *b = vb;
++    int64_t p1, p2;
++    p1 = (int64_t)a[H4(i)] * b[H4(i + 1)];
++    p2 = (int64_t)a[H4(i + 1)] * b[H4(i)];
++
++    if (a[H4(i)] == INT32_MIN && a[H4(i + 1)] == INT32_MIN &&
++        b[H4(i)] == INT32_MIN && b[H4(i + 1)] == INT32_MIN) {
++        if (*d < 0) {
++            *d = (INT64_MAX + *c) + 1ll;
++        } else {
++            env->vxsat = 0x1;
++            *d = INT64_MAX;
++        }
++    } else {
++        *d = sadd64(env, 0, p1 + p2, *c);
++    }
++}
++
++RVPR_ACC(kmaxda32, 1, 8);
++
++static inline void do_kmads32(CPURISCVState *env, void *vd, void *va,
++                              void *vb, void *vc, uint8_t i)
++{
++    int64_t *d = vd, *c = vc;
++    int32_t *a = va, *b = vb;
++    int64_t t0, t1;
++    t1 = (int64_t)a[H4(i + 1)] * b[H4(i + 1)];
++    t0 = (int64_t)a[H4(i)] * b[H4(i)];
++
++    *d = sadd64(env, 0, t1 - t0, *c);
++}
++
++RVPR_ACC(kmads32, 1, 8);
++
++static inline void do_kmadrs32(CPURISCVState *env, void *vd, void *va,
++                               void *vb, void *vc, uint8_t i)
++{
++    int64_t *d = vd, *c = vc;
++    int32_t *a = va, *b = vb;
++    int64_t t0, t1;
++    t1 = (int64_t)a[H4(i + 1)] * b[H4(i + 1)];
++    t0 = (int64_t)a[H4(i)] * b[H4(i)];
++
++    *d = sadd64(env, 0, t0 - t1, *c);
++}
++
++RVPR_ACC(kmadrs32, 1, 8);
++
++static inline void do_kmaxds32(CPURISCVState *env, void *vd, void *va,
++                               void *vb, void *vc, uint8_t i)
++{
++    int64_t *d = vd, *c = vc;
++    int32_t *a = va, *b = vb;
++    int64_t t01, t10;
++    t01 = (int64_t)a[H4(i)] * b[H4(i + 1)];
++    t10 = (int64_t)a[H4(i + 1)] * b[H4(i)];
++
++    *d = sadd64(env, 0, t10 - t01, *c);
++}
++
++RVPR_ACC(kmaxds32, 1, 8);
++
++static inline void do_kmsda32(CPURISCVState *env, void *vd, void *va,
++                              void *vb, void *vc, uint8_t i)
++{
++    int64_t *d = vd, *c = vc;
++    int32_t *a = va, *b = vb;
++    int64_t t0, t1;
++    t0 = (int64_t)a[H4(i)] * b[H4(i)];
++    t1 = (int64_t)a[H4(i + 1)] * b[H4(i + 1)];
++
++    if (a[H4(i)] == INT32_MIN && a[H4(i + 1)] == INT32_MIN &&
++        b[H4(i)] == INT32_MIN && b[H4(i + 1)] == INT32_MIN) {
++        if (*c < 0) {
++            env->vxsat = 0x1;
++            *d = INT64_MIN;
++        } else {
++            *d = *c - 1ll - INT64_MAX;
++        }
++    } else {
++        *d = ssub64(env, 0, *c, t0 + t1);
++    }
++}
++
++RVPR_ACC(kmsda32, 1, 8);
++
++static inline void do_kmsxda32(CPURISCVState *env, void *vd, void *va,
++                               void *vb, void *vc, uint8_t i)
++{
++    int64_t *d = vd, *c = vc;
++    int32_t *a = va, *b = vb;
++    int64_t t01, t10;
++    t10 = (int64_t)a[H4(i + 1)] * b[H4(i)];
++    t01 = (int64_t)a[H4(i)] * b[H4(i + 1)];
++
++    if (a[H4(i)] == INT32_MIN && a[H4(i + 1)] == INT32_MIN &&
++        b[H4(i)] == INT32_MIN && b[H4(i + 1)] == INT32_MIN) {
++        if (*c < 0) {
++            env->vxsat = 0x1;
++            *d = INT64_MIN;
++        } else {
++            *d = *c - 1ll - INT64_MAX;
++        }
++    } else {
++        *d = ssub64(env, 0, *c, t10 + t01);
++    }
++}
++
++RVPR_ACC(kmsxda32, 1, 8);
++
++static inline void do_smds32(CPURISCVState *env, void *vd, void *va,
++                             void *vb, uint8_t i)
++{
++    int64_t *d = vd;
++    int32_t *a = va, *b = vb;
++    *d = (int64_t)a[H4(i + 1)] * b[H4(i + 1)] -
++         (int64_t)a[H4(i)] * b[H4(i)];
++}
++
++RVPR64_64_64(smds32, 1, 8);
++
++static inline void do_smdrs32(CPURISCVState *env, void *vd, void *va,
++                              void *vb, uint8_t i)
++{
++    int64_t *d = vd;
++    int32_t *a = va, *b = vb;
++    *d = (int64_t)a[H4(i)] * b[H4(i)] -
++         (int64_t)a[H4(i + 1)] * b[H4(i + 1)];
++}
++
++RVPR64_64_64(smdrs32, 1, 8);
++
++static inline void do_smxds32(CPURISCVState *env, void *vd, void *va,
++                              void *vb, uint8_t i)
++{
++    int64_t *d = vd;
++    int32_t *a = va, *b = vb;
++    *d = (int64_t)a[H4(i + 1)] * b[H4(i)] -
++         (int64_t)a[H4(i)] * b[H4(i + 1)];
++}
++
++RVPR64_64_64(smxds32, 1, 8);
 -- 
 2.25.1
 
