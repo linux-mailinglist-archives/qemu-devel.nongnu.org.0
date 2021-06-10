@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AA93A2AC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 13:52:34 +0200 (CEST)
-Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6272C3A2AAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 13:49:42 +0200 (CEST)
+Received: from localhost ([::1]:34032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrJEf-0007uo-8x
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 07:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
+	id 1lrJBt-0007ss-Dj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 07:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrIqG-00042Z-OV; Thu, 10 Jun 2021 07:27:24 -0400
+ id 1lrIqV-00049U-T3; Thu, 10 Jun 2021 07:27:36 -0400
 Received: from mail-vi1eur05on2114.outbound.protection.outlook.com
  ([40.107.21.114]:47549 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lrIqD-0004ZR-Sz; Thu, 10 Jun 2021 07:27:20 -0400
+ id 1lrIqJ-0004ZR-IK; Thu, 10 Jun 2021 07:27:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CfRTz70Sok0jUBn7JHFTxGXtO+G/kiKIKlgg/DEmifGVFUQNXKhtmwIbfMeU+RpZSDHEQqUf3hRHSrc8eY1BWxpRuS/oUetrBonCQyG+60HfF1HncdlVQsBkkdPG/4sChIaRv7jftxVYcohsPKt+YkaPFVzmmkrZO+dfH1Nj52B8ssyJdyvjlsm+VZ0bCiIWO9pXn9MjgF3SXH64z49P4ibSKCnHJkjThcxqIPLDXmbPIO1HTTy2JTB9vUwseE5+kyzfuRj1tjFvmCKp1NYW7T2+vI3hULZGEpt2DNSdLct35uSuAe54afwzdHPR3lPWJHlJ+o1GMGl3ymgCdtUiBA==
+ b=O28JpC9RuxTooLzqh8LQMcoKQqALeIoCzIRHjtAH0l0NWtvK3DOHPxlEx93pI1FH5JWc5gJNxHXjC1ELqeFJ9C/vjOhaQ0JENQcmeP/QwlU0hvwV2bUFM040lOq1rZUvmJOvoiYiiHBEwgJqvUkokwUzpGAViNAuidrnvuRRgCmcPplEMGyutA9JqkV7yvW0GvKEZF+SzRmm/D6uWSB7rwblfsnIxmbEkEv9xhFe2zoZw/j2v+6Nl5QyjoSNM6LQGss1AA9LIRiq6NcxIdtt6sEtyug6mf+AioXlquIJnP+yzKfH4FTJzq1ZXrUnRmB3KCPvmimBvUj/d/nqA54zWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sNxfwn1m+7Xtbn+8HvFRHoeuz0/qXYAkDTuwWoJF55M=;
- b=Ct9vQL5V9znEWIVPjkwVSNuC4GlP304Mhm9tixdWmzrf9H8AB2SG30LK/BuzgmoRDNpb+MCJNXtag6qLNpRcHz0ZE+cSgsntlrHKrucKQaqb5S/1W9fdShdjgf1dJtXblglZEgip7YjkV1gxK7dXqe/ioWsdY9rObAM/O+22n1jIyBurL+JfVgILP53efuLtkMlKkCuboS0zc/hA54YUGUE520IM/ohCnX92OleUyEKyqEKUwJ9R1dP7sl84X3sDH1Qzg/JYfxWWjbrNJtf0VkU8j6UW/hW0pziS1JobMRSukT1SrfsoRn5w9BjOhagIelR6cJctBVoGGaqoyObk8w==
+ bh=V7B38eMa75IHaXy1CHdobFWRDMprMUUEh7qz2TZeq4M=;
+ b=KbhIxxmYDEGCa1zeBKMxVzpf2nK0zIFGFcmZRf/Kh9a6E9Udh3svS2b1TYe6wIL2jmlbYyjCAfgx9TBSleYTa4NdH8QInUNuscgZh92ZLfxBE8rdXMwk4Syi56sEacW7NvcDlkDIkbNlU+NksclaiLGI8DqPRFDBTdm3w6a36mY3qzweHZPR3RQ3sbIx5b1tBjXHdjZ4nvVIQ+cRV9tBzG/wU4jaK5fXIulPaZ/0y05BeRQxjJH2uh9RURfaIOuUd4vNKN3/RPEWoSKe8sV7GSA4xMyPkrRNfaOyt+rVxnUTEswo/ZhxFVHzZKA+spfxdxO4wfh449BLIgbe5zqBCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sNxfwn1m+7Xtbn+8HvFRHoeuz0/qXYAkDTuwWoJF55M=;
- b=hRxfpCQ9gNVE8LpvTwS8Ug4os8vc2+HjrRjSeHNjR5iOOn4YxyX4a8H//zF0hWDhT9WK8WE2mGuP9mfAh0hNH7j2RfMLCe5m7VBXYN1DtBXmGoaFjy1JbrPDET98tZvxyXlInhcNU6+im16LLx49urETDqbG3ptCgBkd/Xe6cs0=
+ bh=V7B38eMa75IHaXy1CHdobFWRDMprMUUEh7qz2TZeq4M=;
+ b=wWRqnxwDhsD7Ju9AKTSSmLESVgQBrgGye7yhXT7q+ThzKbVJDitP+y7GSv4jCtpoDPtqiyFveG1Vuw7XyBFb50o+MBHktU3gMM+LcCs0TdZ7VV/GyriJapBcKYrNqtuKtwICU1IaEiijX+4X50QXoNaGS09QVy9VW4CevlB4C5k=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6280.eurprd08.prod.outlook.com (2603:10a6:20b:29b::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Thu, 10 Jun
- 2021 11:27:01 +0000
+ 2021 11:27:02 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 11:27:01 +0000
+ 11:27:02 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, jsnow@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v5 26/35] python/qemu/machine: QEMUMachine: improve qmp()
- method
-Date: Thu, 10 Jun 2021 14:26:09 +0300
-Message-Id: <20210610112618.127378-27-vsementsov@virtuozzo.com>
+ mreitz@redhat.com, kwolf@redhat.com
+Subject: [PATCH v5 27/35] iotests.py: VM: add own __enter__ method
+Date: Thu, 10 Jun 2021 14:26:10 +0300
+Message-Id: <20210610112618.127378-28-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210610112618.127378-1-vsementsov@virtuozzo.com>
 References: <20210610112618.127378-1-vsementsov@virtuozzo.com>
@@ -67,52 +65,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.215) by
  HE1PR0902CA0037.eurprd09.prod.outlook.com (2603:10a6:7:15::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 11:27:00 +0000
+ 15.20.4219.21 via Frontend Transport; Thu, 10 Jun 2021 11:27:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e371a34d-c360-4dba-7693-08d92c02aaac
+X-MS-Office365-Filtering-Correlation-Id: 7885e2ec-d9d4-4469-6c26-08d92c02ab47
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6280:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB62800105E98E0FD461F7A339C1359@AS8PR08MB6280.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB628038B4DE159B626A2ED064C1359@AS8PR08MB6280.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6BtnfUiSiEjQHQFRT76lLRmwVtrx6iZx/Q4fhOVoE5MS7x4GaW11nz1cWvCmabbMZn3c9TG9/hapOlUnlXiyqwcmJRoWagi0nHI3qngh1jOo7Ejka/XFXuS0OjTnt/wq38aNyoWr+8tuh9mLFuOVy0g8z1YbXv/gQiop2H/xnE3lrVfJveAlf/AqNkP+dKj/wVhpkHaFV7aWgXIf7NZQvsthzFOwNSSMt/TaKb3QCqtSXG/M/eaKaNz2cUtd7WyJuoXJI4tZmk5jZW2YDYrYwd7CawI94m9BTWUTSQrhAt8GlZel2Rm6urRDh9dXo7YhnICAuSoYkZiJluQHF3iTJnnVlkj9meB9h9XtsunH/yXgC2HOhGfxUF+wD/KIGoo77zlXy98gc7VoOwQ0/xpqN1RXvPlxS8QCB3i1hZIQ95utA0JeJOyZiitVnUsa1wLMyZVcF0E4owyvCkd0jIU+eWm8fNCmaakUP3XlclOGTvBsVywDBfiA2m9wsqlUdWWF/GZBQqVkqFjQYfUDYFxR90jU46lyTJzqnzpwUyG6rXMx59+sAfsgoDBVyk2rpJDYPnxB2pNSaSNX7pwAlDn8MFTGNCt0sLbjRbm0Zo98Zg/pnE+lJeBWRrDcF+6qUxNctAQ90ATGcgohRNjHJsT0ydz1ln1zAMI7vr0Wl3v74gDJWJ8oO7BuDJIWbumz8mdB
+X-Microsoft-Antispam-Message-Info: cC3psvr7MWpY0F+h9pyBcsSoxiLSul/sicjbKCdeTuj1Tgn/IT8taA38eTXjzTPDMNAhqYOdMmQ3ROFlEMyZvtWyIbZHzvFpFxnT0mssTMU2acT6bVpvtujE31dZaq+wtj+WxdAY2jrK59h9u6kAbI/qDItdjj4vjO4UCvxU9+sPHsQwsmTTQDyoxpkys2QeunfNouf1lVgSUrvlCISWV5SsNoDgXkstRcs6kQB5JljrOZK7NRIIWYWcxSqIskEyX+L5f4m8exH81GnLZhLPNDZcICDjvVRasA+A5qsrKiTCnWXzyAEkBR8QVnPqsRTkRH/h7Sd0vKrB0YrrXh/3YJ4ImEdKzUPhtswrPod5hB2eUmj4Hvag5F6Eu1REaf335XSsslhMQWxoTMzQTdyM1nxN3nNqhs1Lsfs/0bc2WXJZ1pzCt5KEEjR4jCEUpvs0YS6cvsNuQJUMjq3XA2cVSGhIoOCKy8JIW7P0rAiUTMf3K8ebfzTLIqvAC/q3kphmkpW1zoCAfDwl6cmaR4N0M8Wq5LCamtux/Sc6irez7v9JfJTUN7DVJwNa8kq9yWT8UIozrp3PYaJF6YEE/Gv7pV07TZ5nrrhcvnBn9XFLxemEbWSuoQGdnsHUD3q92NWiuVg5RN8Jsy/qWN5UW42inW+7vNVAUh5ZFEk/FuANWUVdSV28eY8FP30HiMuQnHha
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(376002)(136003)(346002)(366004)(186003)(26005)(86362001)(36756003)(54906003)(1076003)(8936002)(4326008)(6506007)(6916009)(8676002)(16526019)(6512007)(52116002)(38350700002)(478600001)(38100700002)(66556008)(2616005)(316002)(66946007)(2906002)(6486002)(83380400001)(5660300002)(66476007)(956004)(69590400013);
+ SFS:(4636009)(39840400004)(396003)(376002)(136003)(346002)(366004)(186003)(26005)(86362001)(36756003)(6666004)(1076003)(8936002)(4326008)(6506007)(6916009)(8676002)(16526019)(6512007)(52116002)(38350700002)(478600001)(38100700002)(66556008)(2616005)(316002)(66946007)(2906002)(6486002)(4744005)(5660300002)(66476007)(956004)(69590400013);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?njyFx+qIU3LlHhBvCQ4w8QiGvU6//8JbsPFwnj0mSj7WFAX8slFhx+a9dVLH?=
- =?us-ascii?Q?+uuEYQFkJvBCt3L1Vwir9UKZQSNildG/NolsaTq280bQI+hi2W5T/Hlnls2r?=
- =?us-ascii?Q?a/12TR+FEpwkUWAs3TyOrpJHPZmmKngj8EtnqkXc03ERTfA/GgITXLoExXt9?=
- =?us-ascii?Q?dDGxg1jiCWWiR2scXx9Gyo7mboXBOzLVmvqCAa1ik5vnQdufZTFayETsTdDv?=
- =?us-ascii?Q?ralDQBizn5tCHr9wFD6RB17eRKxZWgEO2BJ5aA3kP0W2atMGffKD9276O6Kr?=
- =?us-ascii?Q?3hroVR2cIwJL/uG9xm1mV2F3GTqjHRrqVf+X61TRZDYghGugweBwe3LmUV5g?=
- =?us-ascii?Q?kjMoN3B0f3hUHGJVcuIEq0QYMlkRh9U6x6Y+QM4Igw3sV4yKu4wDs9vsqMQL?=
- =?us-ascii?Q?PIaNqYvWOtIYuwGbl9qHV89T63PqXjqvhux18belWUGY1ncPitUNB28JPJT/?=
- =?us-ascii?Q?aFFJA3ThS1tMC8tRsO5tDEvH66Ejb+u3KcHpsl9UvrNYs03uZFmstvrpYgvP?=
- =?us-ascii?Q?iCNuShJvExRBV6njjZpP3GtOzw3chFUvuD0gnYEK38HIpysaYelYJlG65R8f?=
- =?us-ascii?Q?mIxDfI8ctRgpxRoBJMEmkS8YE1RYKs5NwHwPMWpcKHv9QFklpykuj+5x/ytN?=
- =?us-ascii?Q?+q5ihhgw97MDSdcn1LDQjTZRHcTZWgotbADRLuifFKqjx2503Hfgq/5j4sK1?=
- =?us-ascii?Q?oM1TPhxbqN6IeVO0E7xviPYr89E2PHsXvt78ZoP/bEcTqAd+5FKGza9LtR4+?=
- =?us-ascii?Q?PsWXzA92zlMlaL/6lM7aHbugTz7PwntF6d1mKDqf4CyWELTB0QxQXPj0kgdL?=
- =?us-ascii?Q?MPRh3lugk9Z+b10CBKTZKgSe6c8H0l9uJO0zw2J/WdyAJI++K1IC78bbyfAM?=
- =?us-ascii?Q?vwNz1dSzCEJg14VUuGnUL1hheZKfvV5T6Dhiv0MyqsQx/FyyD6206d6b7Tih?=
- =?us-ascii?Q?5Nxms2+9FEIYJtddDQtSJ6Now6FwuPJhtUgB8r7PVG2teu+YDsSMHCrv4g85?=
- =?us-ascii?Q?/R2BMPkdyOeMgvUzZkXj8ASWy2mKLRon342xTyjCkMQXwqPS6ny0p53xcnca?=
- =?us-ascii?Q?A70n47VHSOBy2eX+HLbVv9fTVnJe8xME1/Ypl5bWIJ6exupnizeyo5oq/d/H?=
- =?us-ascii?Q?H9hYKmFi6DxG2lvZRkDMKqLBDxRrYGpdDoGNKg336yYZxbeaFgh5QUnMMfyr?=
- =?us-ascii?Q?c9P6PRQH58UaDkRss8RBadiEiGpETGtjYb7bj7aTOdXO7OjRteok1eKSPlKM?=
- =?us-ascii?Q?nsYfOjfwZB5b/0Tak2C5uGZQiHbwH7Q74TVQ3XdTXpeA7bhVMHdXQ3SkU7aO?=
- =?us-ascii?Q?jkzXhtAzSqW1/jRLCyQmzHba?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?YE75tDoTBiWAmtPlkzxtdSSgc1ahvBwWOUPahe2GWP9W48m9NXGQ7jyYRJor?=
+ =?us-ascii?Q?44PbO/vPCjH1UhN68wSDAFp4M/klDyjFrFlCpTwXKJPSXrw1RLoOcT2wrcED?=
+ =?us-ascii?Q?Qr0xwdGzDX/aFxDuTQAvF55CTuoodEJZsARbefQlUwVVeXib7KGvvsAvcFou?=
+ =?us-ascii?Q?24TpMc0RbTurIovk9TisTWN9hEf1xlyJkIbZ6maK+otZi35Gh/zOXNGhRO19?=
+ =?us-ascii?Q?6fsjw70CVnIkkOusDK/Y83D/ivy1mERXyxKDO0oJKAIcXqyX4OQk3FJMOMWQ?=
+ =?us-ascii?Q?bUEXuWa/ARGSxwAwTy3iQ+peBN4stks6U/SkOVUYi5mi++EuyXf4PntNjW36?=
+ =?us-ascii?Q?A7N720FBtj5LN+HhJr4Gmdm4o228IZ9FZTPGPwYBIb+3hzB5emEPDKfdJY0Z?=
+ =?us-ascii?Q?lFH3clVr3rhUzD5hRgzmzBueMAiZvNxvn50Azc5Pl5ND6CFSwiKiZozcew3N?=
+ =?us-ascii?Q?7knIiGPDWa+r95OPLuWCJbB8h+LwDzqfOcw4KoMvdr6Dw0GqgVVTnJCiqjGX?=
+ =?us-ascii?Q?SMUEXp30IYb/6U6K3vXdhSfki4+qYeXF1qGfe9zuAp5oXhHZXYV/obWdEGyD?=
+ =?us-ascii?Q?a0sW4Ey0V8IY1Bl4AfDYV85fPK0hX1lOX9CNh62F5wUkSbZv4yMA5Qyj/+ZR?=
+ =?us-ascii?Q?JLawLXtrQgXU64Hl8G15aPebZLhfe0Zott4zT6rqrEbHpYu8BtAFwQAHsGae?=
+ =?us-ascii?Q?Lr3461y4mJ3oKOVHQHh5lP1G29rMEHHyB8ZF5h6SVn+gd0xv+IYR2D1tKucX?=
+ =?us-ascii?Q?BpZ7holfg9dNRNzwjlDq0UfUAAAHWx9OV7XFZ/sGeFwR5D1aNtpSRXWJnQS2?=
+ =?us-ascii?Q?qaasWDG0g+CPtBT2ewcMXpNzCTduU1Rhwor902fOr1E+yoLIEufelkQI4O/O?=
+ =?us-ascii?Q?mshDhU4riuRqafG/+lKQNDGCjlMc6xx0N75lis9/4FHf9MB5MqsR4lM2m65o?=
+ =?us-ascii?Q?hswO8DpecZ2Atd5A3978+0f79mPV6RVCfaBtUoLs9BNKU3hwTknCqDwty70D?=
+ =?us-ascii?Q?x9t3l4AeNfUNQLNhKPzbWHiiJL+wMil48sn7F2SCDUOEa9BCQi/ZRWXM1kcJ?=
+ =?us-ascii?Q?H5hqQ+iU4UbgJ6A7H8crY76R1MAoUfXBfobGrO+MJbdo5WrCbaAg6KiJplDG?=
+ =?us-ascii?Q?gCB4O/XHml78ROx1ZjPuJaZkLI2Uhmta+DEJLQl6WKrju5LalJ/QLfWtxWhp?=
+ =?us-ascii?Q?JonYbiUuvuMTX2oSwiq/2EHMBuH2v9kQXFwmVWBLj2EHmnE+KivCPjy3iClZ?=
+ =?us-ascii?Q?8Vh1wsQoOLLnqUXUMIjiH0YEFUGW3re0Z2Q0twxpAXQNrQr9f04g5ALaQZCP?=
+ =?us-ascii?Q?JbU+j6icCMp/mLodhpEAnYVQ?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e371a34d-c360-4dba-7693-08d92c02aaac
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7885e2ec-d9d4-4469-6c26-08d92c02ab47
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 11:27:01.6005 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 11:27:02.6728 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hvcFfAWcsrLp3ULno8553AUp2bHTDHIE7Wf0QpuJO/qAZFKJYeu7GxKx+CrWntT56Kicy5Pv/1Ep+lIfA4tFf1pNYFcmZ76qKkFZfppQ5Gc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: afPq0mpKk/HHvY3/9pvIn8gxqIGqNoM3tIaTdEm4JKIHH6UrdYQxf6tLkzoW5S3GG5oUq89aqEIa2yj+B9EEEWitniJP5WetN7R72qKb298=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6280
 Received-SPF: pass client-ip=40.107.21.114;
  envelope-from=vsementsov@virtuozzo.com;
@@ -139,48 +137,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We often call qmp() with unpacking dict, like qmp('foo', **{...}).
-mypy don't really like it, it thinks that passed unpacked dict is a
-positional argument and complains that it type should be bool (because
-second argument of qmp() is conv_keys: bool).
-
-Allow passing dict directly, simplifying interface, and giving a way to
-satisfy mypy.
+In superclass __enter__ method is defined with return value type hint
+'QEMUMachine'. So, mypy thinks that return value of VM.__enter__ is
+QEMUMachine. Let's redefine __enter__ in VM class, to give it correct
+type hint.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine/machine.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 5c09f50ec2..f9fbb41a60 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -561,11 +561,21 @@ def _qmp_args(cls, conv_keys: bool,
-         return args
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 89663dac06..025e288ddd 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -568,6 +568,10 @@ def remote_filename(path):
+ class VM(qtest.QEMUQtestMachine):
+     '''A QEMU VM'''
  
-     def qmp(self, cmd: str,
--            conv_keys: bool = True,
-+            args_dict: Optional[Dict[str, object]] = None,
-+            conv_keys: Optional[bool] = None,
-             **args: Any) -> QMPMessage:
-         """
-         Invoke a QMP command and return the response dict
-         """
-+        if args_dict is not None:
-+            assert not args
-+            assert conv_keys is None
-+            args = args_dict
-+            conv_keys = False
++    # Redefine __enter__ with proper type hint
++    def __enter__(self) -> 'VM':
++        return self
 +
-+        if conv_keys is None:
-+            conv_keys = True
-+
-         qmp_args = self._qmp_args(conv_keys, args)
-         return self._qmp.cmd(cmd, args=qmp_args)
- 
+     def __init__(self, path_suffix=''):
+         name = "qemu%s-%d" % (path_suffix, os.getpid())
+         super().__init__(qemu_prog, qemu_opts, name=name,
 -- 
 2.29.2
 
