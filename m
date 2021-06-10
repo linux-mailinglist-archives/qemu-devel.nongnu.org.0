@@ -2,105 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187A43A2BB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:35:54 +0200 (CEST)
-Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71263A2BB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:37:21 +0200 (CEST)
+Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrJub-0000Bq-6V
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1lrJw0-0001xM-FW
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <intermediadc@hotmail.com>)
- id 1lrJsh-000724-QR; Thu, 10 Jun 2021 08:33:56 -0400
-Received: from mail-am6eur05olkn2035.outbound.protection.outlook.com
- ([40.92.91.35]:43726 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrJuo-000184-I5
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:36:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <intermediadc@hotmail.com>)
- id 1lrJsK-0005WL-VK; Thu, 10 Jun 2021 08:33:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PkZQW6dgIjxEnoeDRu7ydTRm4hs7eSErpl+5watBRcDJUFvzRe8hPXJ5LtjdVuRC8RlVsPh+MdD7xF4JUNyO88glKkG9gGHVBkWd1Qu5vxQvjQmr+U1z371fvZ03XFPgCLCSuJcYyOQsLlwRce4s+ZGYBTDgoNaFQIJgzND4KP5jCWIiWnOBXsrtFawTvemSBRjbQKPClLVjcDqpykQ/Qs4AR9lAexn45TMgbYeTVI9ShXaxyfVoeT9yu9izeE0HscW0gr+tiPsdb+dWUhxlVyi3T66EQHEz9XQ9QuRMqVSH/uISbSWOAjHCIiuab5Hs0XdlLux/wyTbCmUUgbTldA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=apsIfHb/gZwCGVFsRM/asoSz90OorTI72WLJ0ebQUXU=;
- b=YKwYCQZ1LM6ZOSDZaHkOgC1avNduSpAMIdUTDiTdnRsbfx3m2iQxNha9Fo88rS0VrwI13QkzlV8tsY7nnJS8efofIkfS6x+DH/vvtfNAPFXeuOxq/PhZ9GCu2+vk1EZ9ONtrjY2j8pfFOCh0cmvhNiShJ8KY9zKhhLstte7e24dpKFaAtoJpiF0Jj8TPFBZCOINSyXA84v20ZKZPN7RXBBkvBENsgwPQ75YSbWGTYr+YZMjqkvZ6GcFHJY4cIcl5ctEWsMQOavEHrV9WCYhWVIbJUYLu5d6xqyo7b+JHSro2UkvSWtYo4LMCdaQDcagqP1YKt0ItIEn/XWLjZm4bHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=apsIfHb/gZwCGVFsRM/asoSz90OorTI72WLJ0ebQUXU=;
- b=W5YC0ntzR+thtFE4ZfegGBZyIAbPkixf65CcGaM6kFaBNJfbuDBbXLJBImkps4R6EQeUXX6dAUJCsyL45CbsnwwxwoULJtLs0xhmjCYfp7dA7owbLUc2qMvhw4lT+JliA0P6zer7CPMc/tyAaR4v/Ok3MaRto90XlTgAWn1zQXbcDswIc0Pxeeq1bDkHliLYa1kFcoMmirWjEoBPiq99EfgvoXP6gaPZlmlvHR4YIKauV/0R1+qQnHMZhPgrRRz/6x51oLt2sD9l28VP+rXUq8ZYOLq4R50ZQwzzZBv0o0nXOuFFeooGyRJnVnKenDno8rxwa6mO24m4VcnKlxzW6A==
-Received: from AM6EUR05FT010.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::48) by
- AM6EUR05HT064.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::137)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Thu, 10 Jun
- 2021 12:33:22 +0000
-Received: from AM7PR03MB6579.eurprd03.prod.outlook.com
- (2a01:111:e400:fc11::4f) by AM6EUR05FT010.mail.protection.outlook.com
- (2a01:111:e400:fc11::157) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21 via Frontend
- Transport; Thu, 10 Jun 2021 12:33:22 +0000
-Received: from AM7PR03MB6579.eurprd03.prod.outlook.com
- ([fe80::21a1:aa77:27d9:7bbe]) by AM7PR03MB6579.eurprd03.prod.outlook.com
- ([fe80::21a1:aa77:27d9:7bbe%4]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
- 12:33:22 +0000
-From: luigi burdo <intermediadc@hotmail.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: R: [RFC PATCH 0/5] ppc/Pegasos2 VOF
-Thread-Topic: [RFC PATCH 0/5] ppc/Pegasos2 VOF
-Thread-Index: AQHXWvIvjUPVkt9gU0GkaQdYbMWsF6sLfnSSgAGKdfWAAAFXgIAAKER6
-Date: Thu, 10 Jun 2021 12:33:22 +0000
-Message-ID: <AM7PR03MB6579DA01C8834EFD9EFC97F0C8359@AM7PR03MB6579.eurprd03.prod.outlook.com>
-References: <cover.1622994395.git.balaton@eik.bme.hu>
- <5ab75d13-2fca-17cc-b24f-e86430fdda20@ozlabs.ru>
- <a5786f77-efc1-febb-7ae2-1e9543ca2687@eik.bme.hu>
- <bb539b72-5548-d035-8089-3d49f4babc1d@ozlabs.ru>
- <YMHMbVo2zrV6EsZ8@yekko>,<b87683ec-675f-51d5-e3cb-f4f932fb2ba8@eik.bme.hu>
-In-Reply-To: <b87683ec-675f-51d5-e3cb-f4f932fb2ba8@eik.bme.hu>
-Accept-Language: it-IT, en-US
-Content-Language: it-IT
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:E4405A1FCBC35BE5562DDA4A169E3BFCDCA39F9C78F93BAF98623BD7748B830F;
- UpperCasedChecksum:92EB8625067FF72FFEE4B9B56D30F12CF9A1EFD8D37486C1D656C619DAF52BAC;
- SizeAsReceived:7183; Count:45
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [0v7keG5v9ptRk+HIdaUkBtZAi7DO/bjR]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 45
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: fac27111-fca3-4e2f-08ba-08d92c0bef52
-x-ms-traffictypediagnostic: AM6EUR05HT064:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /4MJKuWWKtR9/tbWOrN7oM2+ex1jpV0LM9M4sZtxSo4jIRkCEY8qj/yfvlMtPC6tp2hULYBqe2O4oaCiyuPtkbn1PdDL1dI+JF4NfFkwaoxMB1CtHc5Q+s9iqnnLqC02kYKerLSuW1rpxEFsUUTWhYPsQHnzUpQRWKD8dvEAlKruc0UdUBt0BUYkvkdQMUo8SQsUdaktWDa6FGgSTyuoAUgr0wYmQ7HDruCUboIRjV9QQdSpSR2SfBatAUpeniJCMoDlGXaB/kQMKT0S0YtWWVViJMiNEex+dEklVd/FrINn/ENgs34bqOBC3iKOKvtQs0TwJ6ICSOXAZ96TSg/qx5D+sg7IoFOKBeUu75H0i3S1fEAUleVsvS1t/Fu8/6m2XfkJzRc53NHOI8lzOrHiOZPeJ20EOn953HsFc96k17e03fBxPfJ8XUKh8GULS1cvj7v/Rl2vprCXsXk3Pr2VBg==
-x-ms-exchange-antispam-messagedata: GcgOaBhzg/GQ+ne7ih76KUSLb09fyfrxbiwYEZg0wE5cvEqyMwHwCGrzOxEixeZktZxnSUj8NFBeWndSiwhMJW26BNATaqq8qqkgZdhtO8OvyOKGic/RNvmM0rcNMebFascUBkisXdhQt9nrCnbs0g==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_AM7PR03MB6579DA01C8834EFD9EFC97F0C8359AM7PR03MB6579eurp_"
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrJuk-0007h2-Vd
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:36:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623328561;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=5WVgpIwtFWZg39+qs+YwHEpx1LsS9T76hlZ+l2gFKNM=;
+ b=Xt5n+ny881YwUNodGdFVPF93HFoZifICSDVHpt1yBetZcmlNUd3MOGMtq6XIpEqxmxy+yp
+ JF60I6JaWJcBgIsgSMyivdU24MYsB8XhDG1e9pO6E1CIMirTqc0E7kf6cW0yMUhhCNJncw
+ fYPID0SS4yBQyW+YMw2C1QLqCP2n4Z4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-242-hE4PgOSyOUOpjhZ6AY5X9Q-1; Thu, 10 Jun 2021 08:35:48 -0400
+X-MC-Unique: hE4PgOSyOUOpjhZ6AY5X9Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27DC1100C662;
+ Thu, 10 Jun 2021 12:35:47 +0000 (UTC)
+Received: from redhat.com (ovpn-115-203.ams2.redhat.com [10.36.115.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D39819C45;
+ Thu, 10 Jun 2021 12:35:27 +0000 (UTC)
+Date: Thu, 10 Jun 2021 13:35:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 17/18] modules: check arch and block load on mismatch
+Message-ID: <YMIHDKEGQWKtwEU5@redhat.com>
+References: <20210610055755.538119-1-kraxel@redhat.com>
+ <20210610055755.538119-18-kraxel@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: hotmail.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-AuthSource: AM6EUR05FT010.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: fac27111-fca3-4e2f-08ba-08d92c0bef52
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2021 12:33:22.0262 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT064
-Received-SPF: pass client-ip=40.92.91.35;
- envelope-from=intermediadc@hotmail.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610055755.538119-18-kraxel@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,212 +79,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cornelia Huck <cohuck@redhat.com>,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-s390x@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM7PR03MB6579DA01C8834EFD9EFC97F0C8359AM7PR03MB6579eurp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Thu, Jun 10, 2021 at 07:57:54AM +0200, Gerd Hoffmann wrote:
+> Add module_allow_arch() to set the target architecture.
+> In case a module is limited to some arch verify arches
+> match and ignore the module if not.
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/qemu/module.h |  1 +
+>  softmmu/vl.c          |  3 +++
+>  util/module.c         | 15 +++++++++++++++
+>  3 files changed, 19 insertions(+)
+> 
+> diff --git a/include/qemu/module.h b/include/qemu/module.h
+> index d3cab3c25a2f..7825f6d8c847 100644
+> --- a/include/qemu/module.h
+> +++ b/include/qemu/module.h
+> @@ -72,6 +72,7 @@ void module_call_init(module_init_type type);
+>  bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
+>  void module_load_qom_one(const char *type);
+>  void module_load_qom_all(void);
+> +void module_allow_arch(const char *arch);
+>  
+>  /*
+>   * macros to store module metadata in a .modinfo section.
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index ba26a042b284..96316774fcc9 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -126,6 +126,8 @@
+>  #include "sysemu/iothread.h"
+>  #include "qemu/guest-random.h"
+>  
+> +#include "config-host.h"
+> +
+>  #define MAX_VIRTIO_CONSOLES 1
+>  
+>  typedef struct BlockdevOptionsQueueEntry {
+> @@ -2723,6 +2725,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>      error_init(argv[0]);
+>      qemu_init_exec_dir(argv[0]);
+>  
+> +    module_allow_arch(TARGET_NAME);
+>      qemu_init_subsystems();
+>  
+>      /* first pass of option parsing */
+> diff --git a/util/module.c b/util/module.c
+> index 6e4199169c41..564b8e3da760 100644
+> --- a/util/module.c
+> +++ b/util/module.c
+> @@ -122,6 +122,12 @@ void module_call_init(module_init_type type)
+>  static Modules *modinfo;
+>  static char *module_dirs[5];
+>  static int module_ndirs;
+> +static const char *module_arch;
+> +
+> +void module_allow_arch(const char *arch)
+> +{
+> +    module_arch = arch;
+> +}
+>  
+>  static void module_load_path_init(void)
+>  {
+> @@ -295,6 +301,14 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+>      module_load_modinfo();
+>  
+>      for (modlist = modinfo->list; modlist != NULL; modlist = modlist->next) {
+> +        if (modlist->value->has_arch) {
+> +            if (strcmp(modlist->value->name, module_name) == 0) {
+> +                if (!module_arch ||
+> +                    strcmp(modlist->value->arch, module_arch) != 0) {
+> +                    return false;
+> +                }
+> +            }
+> +        }
 
-SGkgWm9sdGFuLA0KaSBkb250IGtub3cgaWYgeW91IGtub3cgYW5kIGlmIGluIHRoZSBkb2NzIGlz
-IGRlc2NyaWJlZCB0aGUgcGVnYXNvcyBJSSBjYW4gc3VwcG9ydCBzbXAgZHVhbCBHNCBjcHUuDQpI
-ZXJlIHNvbWUgaHlzdG9yaWNhbCBpbmZvIGFib3V0IHRoaXMgZ3JlYXQgbWFjaGluZSBmcm9tIHRo
-ZSBwYXN0IFBoYXNlIDUgQVxCT1ggKGtvc21vcGxvdmNpLm5ldCk8aHR0cHM6Ly93d3cua29zbW9w
-bG92Y2kubmV0L2hjL2hjNC90ZWNoL3BoYXNlNS1hYm94Lmh0bWw+Lg0KaSByZW1lbWJlciByZWFs
-bHkgZ29vZCB0aGF0IHBlcmlvZCAod2hlbiBpIHdhcyB5b3VuZyBtYW4pLi4uIHRoZSAgY2FpcGly
-aW5oYSBiZWNvbWUgb25lIG9mIG15IGJlc3QgY29ja3RhaWwg8J+Zgg0KDQpDaWFvDQpMdWlnaQ0K
-DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KRGE6IFFlbXUtcHBjIDxxZW11LXBw
-Yy1ib3VuY2VzK2ludGVybWVkaWFkYz1ob3RtYWlsLmNvbUBub25nbnUub3JnPiBwZXIgY29udG8g
-ZGkgQkFMQVRPTiBab2x0YW4gPGJhbGF0b25AZWlrLmJtZS5odT4NCkludmlhdG86IGdpb3ZlZMOs
-IDEwIGdpdWdubyAyMDIxIDEyOjA0DQpBOiBEYXZpZCBHaWJzb24gPGRhdmlkQGdpYnNvbi5kcm9w
-YmVhci5pZC5hdT4NCkNjOiBxZW11LXBwY0Bub25nbnUub3JnIDxxZW11LXBwY0Bub25nbnUub3Jn
-PjsgcWVtdS1kZXZlbEBub25nbnUub3JnIDxxZW11LWRldmVsQG5vbmdudS5vcmc+DQpPZ2dldHRv
-OiBSZTogW1JGQyBQQVRDSCAwLzVdIHBwYy9QZWdhc29zMiBWT0YNCg0KDQoNCk9uIFRodSwgMTAg
-SnVuIDIwMjEsIERhdmlkIEdpYnNvbiB3cm90ZToNCg0KPiBPbiBUaHUsIEp1biAxMCwgMjAyMSBh
-dCAwNToxNDo0NVBNICsxMDAwLCBBbGV4ZXkgS2FyZGFzaGV2c2tpeSB3cm90ZToNCj4+DQo+Pg0K
-Pj4gT24gNi85LzIxIDIwOjI4LCBCQUxBVE9OIFpvbHRhbiB3cm90ZToNCj4+PiBPbiBXZWQsIDkg
-SnVuIDIwMjEsIEFsZXhleSBLYXJkYXNoZXZza2l5IHdyb3RlOg0KPj4+PiBPbiA2LzcvMjEgMDE6
-NDYsIEJBTEFUT04gWm9sdGFuIHdyb3RlOg0KPj4+Pj4gQmFzZWQtb246IDwyMDIxMDUyMDA5MDU1
-Ny40MzU2ODktMS1haWtAb3psYWJzLnJ1Pg0KPj4+Pj4gXiBUaGF0IGlzIHYyMCBvZiBBbGV4ZXkn
-cyBWT0YgcGF0Y2gNCj4+Pj4+DQo+Pj4+PiBIZWxsbywNCj4+Pj4+DQo+Pj4+PiBQb3N0aW5nIHRo
-ZXNlIGZvciBlYXJseSByZXZpZXcgbm93LiBJIHBsYW4gdG8gcmViYXNlIG9uIHRoZSBuZXh0IFZP
-Rg0KPj4+Pj4gcGF0Y2ggdGhhdCBob3BlZnVsbHkgZml4ZXMgdGhvc2UgcG9pbnRzIHRoYXQgSSBo
-YWQgdG8gY2lyY3VtdmVudCBpbg0KPj4+Pj4gcGF0Y2ggMSBmb3Igbm93LiBJJ3ZlIHJlcG9ydGVk
-IHRoZXNlIGJlZm9yZSBidXQgbm93IGFsbCBvZiB0aG9zZSB0aGF0DQo+Pj4+PiBhcmUgbmVlZGVk
-IGZvciBwZWdhc29zMiBhcmUgaW4gb25lIHBsYWNlLiBPdGhlciBwb2ludHMgSSd2ZSByZXBvcnRl
-ZA0KPj4+Pj4gY291bGQgYmUgY2xlYW4gdXBzIGJ1dCBub3Qgc3R0aWN0bHkgbmVlZGVkLg0KPj4+
-Pj4NCj4+Pj4+IFdpdGggdGhpcyBzZXJpZXMgb24gdG9wIG9mIFZPRiB2MjAgSSBjYW4gbm93IGJv
-b3QgTGludXggYW5kIE1vcnBoT1Mgb24NCj4+Pj4+IHBlZ2Fzb3MyIHdpdGhvdXQgbmVlZGluZyBh
-IGZpcm13YXJlIGJsb2Igc28gSSBob3BlIHRoaXMgaXMgZW5vdWdoIHRvDQo+Pj4+PiBnZXQgdGhp
-cyBib2FyZCBpbiA2LjEgYW5kIGFsc28gaGF2ZSBpdCBlbmFibGVkIHNvIHVzZXJzIGNhbiBzdGFy
-dA0KPj4+Pj4gdXNpbmcgaXQuIFRoYXQgbWVhbnMgdGhhdCBWT0Ygd2lsbCBhbHNvIGJlIG1lcmdl
-ZCBieSB0aGVuLiBUaGlzIG5vdw0KPj4+Pj4gZ2l2ZXMgVk9GIGFub3RoZXIgdXNlIGNhc2UgdGhh
-dCBtYXkgaGVscCBpdCBnZXR0aW5nIGZpbmlzaGVkLg0KPj4+Pj4NCj4+Pj4+IEkndmUgYWxzbyB1
-cGRhdGVkIG15IGRldmVsb3BtZW50IHRyZWUgd2l0aCB0aGlzIHNlcmllcyBoZXJlOg0KPj4+Pj4N
-Cj4+Pj4+IGh0dHBzOi8vb3Nkbi5uZXQvcHJvamVjdHMvcW1pZ2Evc2NtL2dpdC9xZW11L3RyZWUv
-cGVnYXNvczIvDQo+Pj4+Pg0KPj4+Pj4gUGxlYXNlIHJldmlldyBzbyBJIGNhbiBkbyBhbnkgbmVl
-ZGVkIGNoYW5nZXMgdG9nZXRoZXIgd2l0aCB0aGUgcmViYXNlDQo+Pj4+PiBvbiBuZXh0IFZPRiBw
-YXRjaCBzbyB3ZSBkb24ndCBtaXNzIDYuMSB0aGlzIHRpbWUuDQo+Pj4+DQo+Pj4+DQo+Pj4+IEl0
-IHdvdWxkIGhlbHAgaWYgeW91IHByb3ZpZGVkIHRoZSBkaXNrIG9yL2FuZCBrZXJuZWwgb3IvYW5k
-DQo+Pj4+IGluaXRyYW1kaXNrIGltYWdlcyBhbmQgdGhlIGV4YW1wbGUgY29tbWFuZCBsaW5lIHRv
-IGdpdmUgdGhpcyBhIHRyeS4NCj4+Pj4gQW5kIHNhaWQgYSBmZXcgd29yZHMgd2hvIGlzIHRoaXMg
-UGVnYXNvczIgZ3V5IDopIFRoZSBzZXJpZXMgbG9va3Mgb2sNCj4+Pj4gdG8gbWUgb3RoZXJ3aXNl
-LiBUaGFua3MsDQo+Pj4NCj4+PiBUaGVzZSB3ZXJlIGluIHRoZSBvcmlnaW5hbCBzZXJpZXMgYWRk
-aW5nIHRoaXMgYm9hcmQ6DQo+Pj4NCj4+PiBodHRwczovL3BhdGNoZXcub3JnL1FFTVUvY292ZXIu
-MTYxNjY4MDIzOS5naXQuYmFsYXRvbkBlaWsuYm1lLmh1Lw0KPj4NCj4+DQo+PiBBaCBvay4gVGhh
-bmtzIQ0KPj4NCj4+DQo+Pj4gRm9yIHRlc3RpbmcgSSd2ZSB1c2VkIHRoZSBrZXJuZWwgZnJvbSBk
-ZWJpYW4gOC4xMS4wIHBvd2VycGMgaXNvIHdoaWNoIGlzDQo+Pj4ga25vd24gdG8gd29yayBvbiBy
-ZWFsIGhhcmR3YXJlIGFuZCBNb3JwaE9TIGRlbW8gaXNvIGF2YWlsYWJsZSBmcm9tDQo+Pj4gd3d3
-Lm1vcnBob3MtdGVhbS5uZXQ8aHR0cDovL3d3dy5tb3JwaG9zLXRlYW0ubmV0Pi4gRm9yIGRlYmlh
-biBsb29rIGludG8gaW5zdGFsbC9wZWdhc29zIHRvIGZpbmQgdGhlDQo+Pj4gcmlnaHQgdm1saW51
-ei1jaHJwLmluaXRyZCBrZXJuZWwsIGZvciBNb3JwaE9TIHVzZSB0aGUgYm9vdC5pbWcgZnJvbSBy
-b290DQo+Pj4gb2YgdGhlIGlzbyBhcyAta2VybmVsLg0KPj4+DQo+Pj4gV2hhdCdzIHN0aWxsIG1p
-c3NpbmcgaXMgc29tZSBydGFzIGZ1bmN0aW9ucyBsaWtlIGdldC10aW1lLW9mLWRheS4gQXJlDQo+
-Pj4gdGhlc2UgYW55IGtpbmQgb2Ygc3RhbmRhcmQgYW5kIGlzIHRoZXJlIGEgZG9jIGFib3V0IHRo
-ZWlyIHBhcmFtZXRlcnMgYW5kDQo+Pj4gcmV0dXJucyBvciBJJ2xsIGhlYXZlIHRvIGZpbmQgb3V0
-IGZyb20ga2VybmVsIHNvdXJjZXM/IEkgcGxhbiB0byBhZGQNCj4+PiB0aGVzZSBsYXRlciBidXQg
-bm90IG5lZWRlZCB0byBnZXQgaXQgYm9vdC4NCj4+DQo+PiBwc2VyaWVzIGd1ZXN0cyB1c2Ugd2hh
-dCB0aGUgTG9QQVBSIHNwZWMgKGRlcml2ZWQgZnJvbSBzUEFQUiAtICJzZXJ2ZXIgUEFQUiIpDQo+
-PiBkZXNjcmliZXM6DQo+Pg0KPj4gaHR0cHM6Ly9vcGVucG93ZXJmb3VuZGF0aW9uLm9yZy8/cmVz
-b3VyY2VfbGliPWxpbnV4LW9uLXBvd2VyLWFyY2hpdGVjdHVyZS1wbGF0Zm9ybS1yZWZlcmVuY2UN
-Cj4NCj4gT2YgY291cnNlIHBlZ2Fzb3Mgd29uJ3QgcmVtb3RlbHkgYmUgUEFQUiwgYnV0IHlvdSBj
-b3VsZCBsb29rIGF0IGhvdw0KPiB0aGUgUlRBUyBmdW5jdGlvbnMgYXJlIGRlZmluZWQgdGhlcmUu
-DQo+DQo+IEknbSBub3QgcmVhbGx5IHN1cmUgb2YgdGhlIG9yaWdpbnMgb2YgUlRBUy4gIEl0J3Mg
-bm90IGluIHBsYWluDQo+IElFRUUxMjc1ICh0aGUgb3JpZ2luYWwgT0Ygc3BlYyksIGJ1dCB0aGUg
-ZmFjdCBwZWdhc29zIHVzZXMgaXQgc3VnZ2VzdHMNCj4gaXQncyBub3QgcHVyZWx5IGEgUEFQUiB0
-aGluZywgZWl0aGVyLg0KDQpQZWdhc29zIGlzIHN1cHBvc2VkIHRvIGJlIGEgQ0hSUCBwbGF0Zm9y
-bSBzbyBtYXliZSB0aGVyZSdzIHNvbWV0aGluZyBvbiBpdA0KaW4gdGhhdCBkb2MsIEkgaGF2ZW4n
-dCBjaGVja2VkIHlldCBidXQgbm93IHlvdSBtZW50aW9uZWQgdGhlc2UgSSBzaG91bGQNCnByb2Jh
-Ymx5IGxvb2sgdGhlcmUuDQoNClRoZW5rcywNCkJBTEFUT04gWm9sdGFuDQoNCg==
+I have a little hard time following the code paths, but IIUC, with this
+change, instead of "module.so" we would have multiple copies of something
+like "module-$arch.so" ?  Then we load them all, read their modinfo section
+and discard the ones with non-matching arch ?
 
---_000_AM7PR03MB6579DA01C8834EFD9EFC97F0C8359AM7PR03MB6579eurp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+If that is a correct understanding, then I wonder about the scalability of
+it. We have 30 system emulator targets right now, so if we get even a few
+arch specific modues, that's going to be alot of modules we're loading,
+checking and discarding.
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
-ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
-ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBD
-YWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJn
-YigwLCAwLCAwKTsiPg0KSGkgWm9sdGFuLDwvZGl2Pg0KPGRpdiBzdHlsZT0iZm9udC1mYW1pbHk6
-IENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjog
-cmdiKDAsIDAsIDApOyI+DQppIGRvbnQga25vdyBpZiB5b3Uga25vdyBhbmQgaWYgaW4gdGhlIGRv
-Y3MgaXMgZGVzY3JpYmVkIHRoZSBwZWdhc29zIElJIGNhbiBzdXBwb3J0IHNtcCBkdWFsIEc0IGNw
-dS48L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNh
-bnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KSGVyZSBz
-b21lIGh5c3RvcmljYWwgaW5mbyBhYm91dCB0aGlzIGdyZWF0IG1hY2hpbmUgZnJvbSB0aGUgcGFz
-dCZuYnNwOzxhIGhyZWY9Imh0dHBzOi8vd3d3Lmtvc21vcGxvdmNpLm5ldC9oYy9oYzQvdGVjaC9w
-aGFzZTUtYWJveC5odG1sIiBpZD0iTFBsbms4NzYzMDEiIHN0eWxlPSJmb250LWZhbWlseTogQ2Fs
-aWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHQ7Ij5QaGFzZSA1IEFc
-Qk9YIChrb3Ntb3Bsb3ZjaS5uZXQpPC9hPi48L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5
-OiBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6
-IHJnYigwLCAwLCAwKTsiPg0KaSByZW1lbWJlciByZWFsbHkgZ29vZCB0aGF0IHBlcmlvZCAod2hl
-biBpIHdhcyB5b3VuZyBtYW4pLi4uIHRoZSZuYnNwOyZuYnNwO2NhaXBpcmluaGEgYmVjb21lIG9u
-ZSBvZiBteSBiZXN0IGNvY2t0YWlsDQo8c3BhbiBpZD0i8J+ZgiI+8J+ZgiZuYnNwOzwvc3Bhbj48
-L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMt
-c2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9k
-aXY+DQo8ZGl2IHN0eWxlPSJmb250LWZhbWlseTogQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNl
-cmlmOyBmb250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCkNpYW8mbmJzcDs8
-L2Rpdj4NCjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OiBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMt
-c2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KTHVpZ2kmbmJz
-cDs8L2Rpdj4NCjxkaXY+DQo8ZGl2IGlkPSJhcHBlbmRvbnNlbmQiPjwvZGl2Pg0KPGRpdiBzdHls
-ZT0iZm9udC1mYW1pbHk6Q2FsaWJyaSxIZWx2ZXRpY2Esc2Fucy1zZXJpZjsgZm9udC1zaXplOjEy
-cHQ7IGNvbG9yOnJnYigwLDAsMCkiPg0KPGJyPg0KPC9kaXY+DQo8aHIgdGFiaW5kZXg9Ii0xIiBz
-dHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7IHdpZHRoOjk4JSI+DQo8ZGl2IGlkPSJkaXZScGx5
-RndkTXNnIiBkaXI9Imx0ciI+PGZvbnQgZmFjZT0iQ2FsaWJyaSwgc2Fucy1zZXJpZiIgY29sb3I9
-IiMwMDAwMDAiIHN0eWxlPSJmb250LXNpemU6MTFwdCI+PGI+RGE6PC9iPiBRZW11LXBwYyAmbHQ7
-cWVtdS1wcGMtYm91bmNlcytpbnRlcm1lZGlhZGM9aG90bWFpbC5jb21Abm9uZ251Lm9yZyZndDsg
-cGVyIGNvbnRvIGRpIEJBTEFUT04gWm9sdGFuICZsdDtiYWxhdG9uQGVpay5ibWUuaHUmZ3Q7PGJy
-Pg0KPGI+SW52aWF0bzo8L2I+IGdpb3ZlZMOsIDEwIGdpdWdubyAyMDIxIDEyOjA0PGJyPg0KPGI+
-QTo8L2I+IERhdmlkIEdpYnNvbiAmbHQ7ZGF2aWRAZ2lic29uLmRyb3BiZWFyLmlkLmF1Jmd0Ozxi
-cj4NCjxiPkNjOjwvYj4gcWVtdS1wcGNAbm9uZ251Lm9yZyAmbHQ7cWVtdS1wcGNAbm9uZ251Lm9y
-ZyZndDs7IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyAmbHQ7cWVtdS1kZXZlbEBub25nbnUub3JnJmd0
-Ozxicj4NCjxiPk9nZ2V0dG86PC9iPiBSZTogW1JGQyBQQVRDSCAwLzVdIHBwYy9QZWdhc29zMiBW
-T0Y8L2ZvbnQ+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJCb2R5RnJh
-Z21lbnQiPjxmb250IHNpemU9IjIiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTFwdCI+DQo8ZGl2
-IGNsYXNzPSJQbGFpblRleHQiPjxicj4NCjxicj4NCk9uIFRodSwgMTAgSnVuIDIwMjEsIERhdmlk
-IEdpYnNvbiB3cm90ZTo8YnI+DQo8YnI+DQomZ3Q7IE9uIFRodSwgSnVuIDEwLCAyMDIxIGF0IDA1
-OjE0OjQ1UE0gKzEwMDAsIEFsZXhleSBLYXJkYXNoZXZza2l5IHdyb3RlOjxicj4NCiZndDsmZ3Q7
-PGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyBPbiA2LzkvMjEgMjA6MjgsIEJBTEFUT04gWm9s
-dGFuIHdyb3RlOjxicj4NCiZndDsmZ3Q7Jmd0OyBPbiBXZWQsIDkgSnVuIDIwMjEsIEFsZXhleSBL
-YXJkYXNoZXZza2l5IHdyb3RlOjxicj4NCiZndDsmZ3Q7Jmd0OyZndDsgT24gNi83LzIxIDAxOjQ2
-LCBCQUxBVE9OIFpvbHRhbiB3cm90ZTo8YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBCYXNlZC1v
-bjogJmx0OzIwMjEwNTIwMDkwNTU3LjQzNTY4OS0xLWFpa0BvemxhYnMucnUmZ3Q7PGJyPg0KJmd0
-OyZndDsmZ3Q7Jmd0OyZndDsgXiBUaGF0IGlzIHYyMCBvZiBBbGV4ZXkncyBWT0YgcGF0Y2g8YnI+
-DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7Jmd0OyZndDsmZ3Q7IEhlbGxvLDxi
-cj4NCiZndDsmZ3Q7Jmd0OyZndDsmZ3Q7PGJyPg0KJmd0OyZndDsmZ3Q7Jmd0OyZndDsgUG9zdGlu
-ZyB0aGVzZSBmb3IgZWFybHkgcmV2aWV3IG5vdy4gSSBwbGFuIHRvIHJlYmFzZSBvbiB0aGUgbmV4
-dCBWT0Y8YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBwYXRjaCB0aGF0IGhvcGVmdWxseSBmaXhl
-cyB0aG9zZSBwb2ludHMgdGhhdCBJIGhhZCB0byBjaXJjdW12ZW50IGluPGJyPg0KJmd0OyZndDsm
-Z3Q7Jmd0OyZndDsgcGF0Y2ggMSBmb3Igbm93LiBJJ3ZlIHJlcG9ydGVkIHRoZXNlIGJlZm9yZSBi
-dXQgbm93IGFsbCBvZiB0aG9zZSB0aGF0PGJyPg0KJmd0OyZndDsmZ3Q7Jmd0OyZndDsgYXJlIG5l
-ZWRlZCBmb3IgcGVnYXNvczIgYXJlIGluIG9uZSBwbGFjZS4gT3RoZXIgcG9pbnRzIEkndmUgcmVw
-b3J0ZWQ8YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBjb3VsZCBiZSBjbGVhbiB1cHMgYnV0IG5v
-dCBzdHRpY3RseSBuZWVkZWQuPGJyPg0KJmd0OyZndDsmZ3Q7Jmd0OyZndDs8YnI+DQomZ3Q7Jmd0
-OyZndDsmZ3Q7Jmd0OyBXaXRoIHRoaXMgc2VyaWVzIG9uIHRvcCBvZiBWT0YgdjIwIEkgY2FuIG5v
-dyBib290IExpbnV4IGFuZCBNb3JwaE9TIG9uPGJyPg0KJmd0OyZndDsmZ3Q7Jmd0OyZndDsgcGVn
-YXNvczIgd2l0aG91dCBuZWVkaW5nIGEgZmlybXdhcmUgYmxvYiBzbyBJIGhvcGUgdGhpcyBpcyBl
-bm91Z2ggdG88YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBnZXQgdGhpcyBib2FyZCBpbiA2LjEg
-YW5kIGFsc28gaGF2ZSBpdCBlbmFibGVkIHNvIHVzZXJzIGNhbiBzdGFydDxicj4NCiZndDsmZ3Q7
-Jmd0OyZndDsmZ3Q7IHVzaW5nIGl0LiBUaGF0IG1lYW5zIHRoYXQgVk9GIHdpbGwgYWxzbyBiZSBt
-ZXJnZWQgYnkgdGhlbi4gVGhpcyBub3c8YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBnaXZlcyBW
-T0YgYW5vdGhlciB1c2UgY2FzZSB0aGF0IG1heSBoZWxwIGl0IGdldHRpbmcgZmluaXNoZWQuPGJy
-Pg0KJmd0OyZndDsmZ3Q7Jmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0OyBJJ3ZlIGFs
-c28gdXBkYXRlZCBteSBkZXZlbG9wbWVudCB0cmVlIHdpdGggdGhpcyBzZXJpZXMgaGVyZTo8YnI+
-DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7Jmd0OyZndDsmZ3Q7IDxhIGhyZWY9
-Imh0dHBzOi8vb3Nkbi5uZXQvcHJvamVjdHMvcW1pZ2Evc2NtL2dpdC9xZW11L3RyZWUvcGVnYXNv
-czIvIj5odHRwczovL29zZG4ubmV0L3Byb2plY3RzL3FtaWdhL3NjbS9naXQvcWVtdS90cmVlL3Bl
-Z2Fzb3MyLzwvYT48YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7Jmd0OyZn
-dDsmZ3Q7IFBsZWFzZSByZXZpZXcgc28gSSBjYW4gZG8gYW55IG5lZWRlZCBjaGFuZ2VzIHRvZ2V0
-aGVyIHdpdGggdGhlIHJlYmFzZTxicj4NCiZndDsmZ3Q7Jmd0OyZndDsmZ3Q7IG9uIG5leHQgVk9G
-IHBhdGNoIHNvIHdlIGRvbid0IG1pc3MgNi4xIHRoaXMgdGltZS48YnI+DQomZ3Q7Jmd0OyZndDsm
-Z3Q7PGJyPg0KJmd0OyZndDsmZ3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7Jmd0OyZndDsgSXQgd291bGQg
-aGVscCBpZiB5b3UgcHJvdmlkZWQgdGhlIGRpc2sgb3IvYW5kIGtlcm5lbCBvci9hbmQ8YnI+DQom
-Z3Q7Jmd0OyZndDsmZ3Q7IGluaXRyYW1kaXNrIGltYWdlcyBhbmQgdGhlIGV4YW1wbGUgY29tbWFu
-ZCBsaW5lIHRvIGdpdmUgdGhpcyBhIHRyeS48YnI+DQomZ3Q7Jmd0OyZndDsmZ3Q7IEFuZCBzYWlk
-IGEgZmV3IHdvcmRzIHdobyBpcyB0aGlzIFBlZ2Fzb3MyIGd1eSA6KSBUaGUgc2VyaWVzIGxvb2tz
-IG9rPGJyPg0KJmd0OyZndDsmZ3Q7Jmd0OyB0byBtZSBvdGhlcndpc2UuIFRoYW5rcyw8YnI+DQom
-Z3Q7Jmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyZndDsgVGhlc2Ugd2VyZSBpbiB0aGUgb3JpZ2luYWwg
-c2VyaWVzIGFkZGluZyB0aGlzIGJvYXJkOjxicj4NCiZndDsmZ3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7
-Jmd0OyA8YSBocmVmPSJodHRwczovL3BhdGNoZXcub3JnL1FFTVUvY292ZXIuMTYxNjY4MDIzOS5n
-aXQuYmFsYXRvbkBlaWsuYm1lLmh1LyI+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9RRU1VL2NvdmVyLjE2
-MTY2ODAyMzkuZ2l0LmJhbGF0b25AZWlrLmJtZS5odS88L2E+PGJyPg0KJmd0OyZndDs8YnI+DQom
-Z3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7IEFoIG9rLiBUaGFua3MhPGJyPg0KJmd0OyZndDs8YnI+DQom
-Z3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7Jmd0OyBGb3IgdGVzdGluZyBJJ3ZlIHVzZWQgdGhlIGtlcm5l
-bCBmcm9tIGRlYmlhbiA4LjExLjAgcG93ZXJwYyBpc28gd2hpY2ggaXM8YnI+DQomZ3Q7Jmd0OyZn
-dDsga25vd24gdG8gd29yayBvbiByZWFsIGhhcmR3YXJlIGFuZCBNb3JwaE9TIGRlbW8gaXNvIGF2
-YWlsYWJsZSBmcm9tPGJyPg0KJmd0OyZndDsmZ3Q7IDxhIGhyZWY9Imh0dHA6Ly93d3cubW9ycGhv
-cy10ZWFtLm5ldCI+d3d3Lm1vcnBob3MtdGVhbS5uZXQ8L2E+LiBGb3IgZGViaWFuIGxvb2sgaW50
-byBpbnN0YWxsL3BlZ2Fzb3MgdG8gZmluZCB0aGU8YnI+DQomZ3Q7Jmd0OyZndDsgcmlnaHQgdm1s
-aW51ei1jaHJwLmluaXRyZCBrZXJuZWwsIGZvciBNb3JwaE9TIHVzZSB0aGUgYm9vdC5pbWcgZnJv
-bSByb290PGJyPg0KJmd0OyZndDsmZ3Q7IG9mIHRoZSBpc28gYXMgLWtlcm5lbC48YnI+DQomZ3Q7
-Jmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyZndDsgV2hhdCdzIHN0aWxsIG1pc3NpbmcgaXMgc29tZSBy
-dGFzIGZ1bmN0aW9ucyBsaWtlIGdldC10aW1lLW9mLWRheS4gQXJlPGJyPg0KJmd0OyZndDsmZ3Q7
-IHRoZXNlIGFueSBraW5kIG9mIHN0YW5kYXJkIGFuZCBpcyB0aGVyZSBhIGRvYyBhYm91dCB0aGVp
-ciBwYXJhbWV0ZXJzIGFuZDxicj4NCiZndDsmZ3Q7Jmd0OyByZXR1cm5zIG9yIEknbGwgaGVhdmUg
-dG8gZmluZCBvdXQgZnJvbSBrZXJuZWwgc291cmNlcz8gSSBwbGFuIHRvIGFkZDxicj4NCiZndDsm
-Z3Q7Jmd0OyB0aGVzZSBsYXRlciBidXQgbm90IG5lZWRlZCB0byBnZXQgaXQgYm9vdC48YnI+DQom
-Z3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7IHBzZXJpZXMgZ3Vlc3RzIHVzZSB3aGF0IHRoZSBMb1BBUFIg
-c3BlYyAoZGVyaXZlZCBmcm9tIHNQQVBSIC0gJnF1b3Q7c2VydmVyIFBBUFImcXVvdDspPGJyPg0K
-Jmd0OyZndDsgZGVzY3JpYmVzOjxicj4NCiZndDsmZ3Q7PGJyPg0KJmd0OyZndDsgPGEgaHJlZj0i
-aHR0cHM6Ly9vcGVucG93ZXJmb3VuZGF0aW9uLm9yZy8/cmVzb3VyY2VfbGliPWxpbnV4LW9uLXBv
-d2VyLWFyY2hpdGVjdHVyZS1wbGF0Zm9ybS1yZWZlcmVuY2UiPg0KaHR0cHM6Ly9vcGVucG93ZXJm
-b3VuZGF0aW9uLm9yZy8/cmVzb3VyY2VfbGliPWxpbnV4LW9uLXBvd2VyLWFyY2hpdGVjdHVyZS1w
-bGF0Zm9ybS1yZWZlcmVuY2U8L2E+PGJyPg0KJmd0Ozxicj4NCiZndDsgT2YgY291cnNlIHBlZ2Fz
-b3Mgd29uJ3QgcmVtb3RlbHkgYmUgUEFQUiwgYnV0IHlvdSBjb3VsZCBsb29rIGF0IGhvdzxicj4N
-CiZndDsgdGhlIFJUQVMgZnVuY3Rpb25zIGFyZSBkZWZpbmVkIHRoZXJlLjxicj4NCiZndDs8YnI+
-DQomZ3Q7IEknbSBub3QgcmVhbGx5IHN1cmUgb2YgdGhlIG9yaWdpbnMgb2YgUlRBUy4mbmJzcDsg
-SXQncyBub3QgaW4gcGxhaW48YnI+DQomZ3Q7IElFRUUxMjc1ICh0aGUgb3JpZ2luYWwgT0Ygc3Bl
-YyksIGJ1dCB0aGUgZmFjdCBwZWdhc29zIHVzZXMgaXQgc3VnZ2VzdHM8YnI+DQomZ3Q7IGl0J3Mg
-bm90IHB1cmVseSBhIFBBUFIgdGhpbmcsIGVpdGhlci48YnI+DQo8YnI+DQpQZWdhc29zIGlzIHN1
-cHBvc2VkIHRvIGJlIGEgQ0hSUCBwbGF0Zm9ybSBzbyBtYXliZSB0aGVyZSdzIHNvbWV0aGluZyBv
-biBpdCA8YnI+DQppbiB0aGF0IGRvYywgSSBoYXZlbid0IGNoZWNrZWQgeWV0IGJ1dCBub3cgeW91
-IG1lbnRpb25lZCB0aGVzZSBJIHNob3VsZCA8YnI+DQpwcm9iYWJseSBsb29rIHRoZXJlLjxicj4N
-Cjxicj4NClRoZW5rcyw8YnI+DQpCQUxBVE9OIFpvbHRhbjxicj4NCjxicj4NCjwvZGl2Pg0KPC9z
-cGFuPjwvZm9udD48L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+Wouldn't it be simpler if we just made use of the directory layout
+/usr/lib64/qemu/$mod.so for common modules and /usr/lib64/qemu/$arch/$mod.so
+for arch specific modules. That would let us load only the modules we know
+are applicable for the system target arch and not need this post-load
+filtering from metadata.
 
---_000_AM7PR03MB6579DA01C8834EFD9EFC97F0C8359AM7PR03MB6579eurp_--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
