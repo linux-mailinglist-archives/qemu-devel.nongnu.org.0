@@ -2,71 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84CC3A2B75
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:24:35 +0200 (CEST)
-Received: from localhost ([::1]:48502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97C13A2BAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 14:32:44 +0200 (CEST)
+Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrJje-0000rY-IS
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43850)
+	id 1lrJrX-0004g6-EG
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 08:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrJiU-000092-W3
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:23:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49907)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lrJpO-0003gP-2h; Thu, 10 Jun 2021 08:30:30 -0400
+Received: from mail-eopbgr80098.outbound.protection.outlook.com
+ ([40.107.8.98]:15830 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrJiP-0006tm-Ky
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 08:23:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623327795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=508Y80UcSxfBLw8PvKE4Cas3Cvo+fbyQc3KYwiWonIE=;
- b=Gtuci4Ydq1+u93leUG9KWnX9qC6ryK1+GH4Ad6+dFKZepKI1bKDDEHzyFyaRCDps0ttUiW
- tC2vtynmkjxCGJzrGA2/0MpjXCfPWrHuHzI45eDkcwx7rzgazNFBYJeliuw5tJYJcPtUXM
- BrrbHBUtiSgbekH5Vj280Q6IUKPzAqA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-VrizshAlMRSGLAluliUDYw-1; Thu, 10 Jun 2021 08:23:12 -0400
-X-MC-Unique: VrizshAlMRSGLAluliUDYw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31EF0803621;
- Thu, 10 Jun 2021 12:23:11 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
- [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46C1C5D6BA;
- Thu, 10 Jun 2021 12:23:07 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B8DD718000B2; Thu, 10 Jun 2021 14:23:05 +0200 (CEST)
-Date: Thu, 10 Jun 2021 14:23:05 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
-Message-ID: <20210610122305.zxdaqsft5evcrli6@sirius.home.kraxel.org>
-References: <20210610101553.943689-1-kraxel@redhat.com>
- <4a1a23af-461f-92c4-d9f0-1f8133d611db@suse.de>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lrJpG-0003Zi-D9; Thu, 10 Jun 2021 08:30:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ECiNY4PK2vHBO2SS0g4Q+xH6/CrIiCE+4yW2UCxsBpi3rJfEaGq3d7osaF0TRqwie6n98xZzMZS+perM3KZdFb+jddWjQHVu8UbiXe8Yr62Crc68dmZ6rp3A4lwf01UABdidw2k3ER7ZYvwUNVw0e2ItHgBGHeWDYFimJsXcEIo50zjvcwe/bZyQXZSMapa58lqW3T6YUF2g40HEjca/8PzAdVD15ikKAfr87sFdq+wOjPJItRtPooDxKzjKD10V/97c3HewPVQJsXiPKc4/+OK87LJpuy69x0Vv3HUJ1EHzBmN4/++fd9y0+v3i5Z5zmM3ZwO0U/9M421MGvoAeDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yzi2UHftJNV3vT68zcDIbJs1NRzbeciSrijbCf7wl/k=;
+ b=UbSLfaFyZtWotFTNb1AU3+FzVvDs22iOx2XktaES5Y4mMCmkwxwbhf1pokIpa/vUA3FAiQjSJLXQ5NOngB86J967jiYX9uygUSZR3epv2bhq0X2U9b1t4fgK6ZJZENO3w+W5a22ZrAA8Bwy/UYNjeyFqSGJednAyWaACiCY1qWsb2FXZVAb4Mkl5mGMvswTMgvzG7LrD9vlZ1+rwFLXoIu7EhB3hc2CxEbpd9kk65mdtVByv9AfY3wDiuYTkUyalL+4KcuqdArZnXSgx27ARB8iR58PxZJUmiIdsiOGMHDG0pSUqDZfxnxONNHZfO8GDKJ2qNvtHNu9qC0je1lWmBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yzi2UHftJNV3vT68zcDIbJs1NRzbeciSrijbCf7wl/k=;
+ b=kiHgJ4qli4JZlWq0+fGenFQOhuwuJQBweMLNqSMLlj88LqHhEh4c3VCo1sqFVSBQqpWTtl73Ui+Si2o4WijHzWBtld/AiIby3In+eO0arlZFKYQb3ThjmedCMzJzr/8/bQzOi57FVWKmGo2XpEkrwesOXgbcLbeYYliu0BAP6zk=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3960.eurprd08.prod.outlook.com (2603:10a6:20b:ad::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.24; Thu, 10 Jun
+ 2021 12:30:18 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f928:f4f2:77c0:74b4%9]) with mapi id 15.20.4195.030; Thu, 10 Jun 2021
+ 12:30:18 +0000
+Subject: Re: [PATCH 2/2] nbd: Add new qemu:joint-allocation metadata context
+To: Nir Soffer <nsoffer@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, libguestfs@redhat.com,
+ qemu-block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20210609180118.1003774-1-eblake@redhat.com>
+ <20210609180118.1003774-3-eblake@redhat.com>
+ <CAMRbyyuyK5r11bxDD4Gyy8ru-RBPB_WufmSFktnXQ+G-Hxg3nw@mail.gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <5563d5eb-c90b-6f09-e550-3b39cd76b641@virtuozzo.com>
+Date: Thu, 10 Jun 2021 15:30:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <CAMRbyyuyK5r11bxDD4Gyy8ru-RBPB_WufmSFktnXQ+G-Hxg3nw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: AM0PR04CA0056.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::33) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <4a1a23af-461f-92c4-d9f0-1f8133d611db@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ AM0PR04CA0056.eurprd04.prod.outlook.com (2603:10a6:208:1::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4219.23 via Frontend Transport; Thu, 10 Jun 2021 12:30:18 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c5ca3fde-8b5d-4a8e-7262-08d92c0b81f2
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3960:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3960D00C086990B38AE59CD3C1359@AM6PR08MB3960.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: a6uj3aIfiqPEjhlKsK/J6f44554IQ0kumJbQHL6hOdYUL9/cfq/kwkEtbyDqA4B6rgHWOaPAK9Lzm/W1bjbmX0aw+IA6kKLuwFf4pCyUGILI5ZsDdRLxRLFWzwf2ns9AioHNPmhSkdekEz6C8hlO6g0UXns4ZELDza14KMbgF+UOLTdRitXWNlA7Pr1fxqWziwOJDG1Q9g2b4FT4vxQZpnJMISExjC3lVFb7ZPnbsuVOls70FkNrL9NRgVniXkLSVvenivYFV8hg2eQs/WeqgULrAuJQ0OV9Lx4wdErkJ+EkjIH+OWIPyZY0k6WBAypHriueDZxecPu7smk1GUjikuUnKkop5pa2zs4TDtmFxK4mMklnJwlQbmnOoqz8Ga4E76mMaPG8CODedHPHvMVQdYf/IhO8akvl8IpK1rcQVvFzqqYWxumhB/p3EONm78xPrIGiY7jaH/CKFWfwVJv/+L0rvboq/FG6d69Q26jOWeeaMtZ7G4fNNLIogRQ2hR4duNvnRkYAa63n/JrhZ0ODslbtaZ7eQRF7FRWsdkEUvgl/sg3suR5sHG+ZjqA7lGDS3ZpiQuw19nwG57VQWM+bicqmr7uD++29xobVwE99FeTXFUioP+dMpP0p1rLhLK5yhsonISf0wVMPIjwSnS8bV/GaDjqOHVBwbCEFrRbPfunVW4e0pr6UIJKeoiBJPHGqnflHA/5u+g5VZZznwokQ6vsHGkgeRWbCVXtDO/JDlhPgekOGlBDhAwun3qRMsb5r
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(366004)(376002)(396003)(39840400004)(31686004)(2906002)(8936002)(86362001)(316002)(54906003)(110136005)(478600001)(16576012)(6486002)(2616005)(16526019)(4326008)(36756003)(8676002)(66556008)(66946007)(66476007)(53546011)(83380400001)(38100700002)(52116002)(38350700002)(26005)(31696002)(956004)(186003)(5660300002)(21314003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZnFhbTZxL2g1dERjT0tCMk80SDFWZzdTSXZtU2dmYStJSG90MTgzRHh4ZUNE?=
+ =?utf-8?B?aEl5M2dxaEhQMVhSZWZnc3gvTEtabTFuZVp0WjJiMzJrNnUramV5Wi9sdkZF?=
+ =?utf-8?B?a2pSZGNzdXVxeWc3TUMyTVBFVEJEQ3Y0b1Uzam9uK1AyMWkrVTcyRll1Qklp?=
+ =?utf-8?B?UHdzRXh6OXVFQzhiNmMzTEV0aWxTcXQ2WERYZDkrL0JhVENGa2lmV2NJVDJV?=
+ =?utf-8?B?NHRITU9UcC9vMkR5SWlKV2hXVER4OHc4WXF0Qk1WVmY1WlZsb1FsaE5vOUhW?=
+ =?utf-8?B?YjBWU29zdlVXUU40L2piVmlYOUNHcVRUcm5TeWJrakp4SmpKUTNqKytaK3pq?=
+ =?utf-8?B?NlVnYS9CMGdVWEEyZlp4SmVZaWdCSkZkY3lYTHhPWGNUYVk3dmQrMHhQcFFE?=
+ =?utf-8?B?KzQ5Nmg3cVhLY1hKNkVkWkRYMEFCakIwL2I1bDRNajZhbmpLQ3duMEtVU2pa?=
+ =?utf-8?B?K3RIa0h4SSt5T2t3SldaaGhwMW1LYWtaTjNiRk1wa0F0MU8ra0p4T084VjBP?=
+ =?utf-8?B?VWxVWnlNZkhLWllRb3pESm1PbkFmckJIWXBtcU5KU3JjWExjbG5Gd3dZYkky?=
+ =?utf-8?B?eTRqMzNDV0FqVHdzWFZ5TVdUdE1KUVUxd0NLMjdNc25WSTMybWxDMmZadW8x?=
+ =?utf-8?B?aW9xeFQzYzdmS2tnVVBxTmpuSkNPalFuRGtYV2pYVVltYnAwbmRzUFhqWnI5?=
+ =?utf-8?B?TjQ4anF1QU9GNEhWM0QramExSXNqTFB2SmpVb1VWUUtCUWhqYWlRZFVCWnN5?=
+ =?utf-8?B?MGFlaWE1ZE1Wd3UwZTJ6MUhQS3ZVaWJpL0xxUVZKc0dJVFZnU1l1d2R3VUxj?=
+ =?utf-8?B?RVVKcUtXMTloSm4vZHhHdUFscktiayt1ZDJpd3R2SnpJbTZqdHNVUlBvTmlD?=
+ =?utf-8?B?TnVqY2ZRaTNNaFJSQzVWWTQvZmlHQk5CT1dzeXVNaTltZXJqWHJtRTFjNjhp?=
+ =?utf-8?B?ME1naHo0MU9nb1lNTnRLZEhLWDEyM2ljaU9XM2x4bkdYTGxSdlgzcEFxOVlN?=
+ =?utf-8?B?OHpubnNLcWx6cW1DYnIzekJsVmpINThwKzE1SW1raVAvMTdEUWpwUnpSK1ll?=
+ =?utf-8?B?czJ2Z0gyR0xJYUlnOWo4Rlgvb1NkT0ZNTmlkQUdlenZPcmo2WDZhWkd5TU5y?=
+ =?utf-8?B?RE52aCtDNENPRjZtVlJrOVlyKy9kZUZJQkRkQktkY0ZueTM0cGVGbUdWSjhN?=
+ =?utf-8?B?dldydnp2WEhwWTZ4TlQ2NkduV1VUbFV1TTh3eStqKzlGQzR5eWpLa1dwM1Vv?=
+ =?utf-8?B?cTZvdUtXcjBLbVV2T3ErSFpyWTd6d2lPVVRDV0gzdTZvSFJGZitreDdsT082?=
+ =?utf-8?B?NWFEYTVQN1dwbmNrS1NiODMvcGZ3OUE5UW4rU0loY2xhblE2ejhuSklsODh6?=
+ =?utf-8?B?Sy9HN0hhdS9wZmFsK3N2M0tseWhzR0NyY1pLcjRzcFllbmlUY0dhTjdrc1Z4?=
+ =?utf-8?B?Q1Zjb2V5SkVCdWFQbUE0MWN3clB3bzBhbi9ZdGJieTBEaURNaW1vM3Z2Z0tT?=
+ =?utf-8?B?TGlzQmFVK3duaXdFRFByY3Y5T3RqVDVLSjB5Y1h2aWgvL0NRZ2J0dDh3OXBk?=
+ =?utf-8?B?Qk5xVEs2S3BWTUlkNk9UVGpVcWlNK0dJQSt2Nlh2MkZMKzNtSFAxdE5GZDBD?=
+ =?utf-8?B?UFJiL1YwQy9mTE1RQVE4RTVGRVQxeHVYWHhqM0lmV3d3L1FTOGpGR3NXSmE5?=
+ =?utf-8?B?RTVCZFZkSHVIeFRNM1Q2bkxyWGw4NEdyU282MjRYNkN1UWVtTzlvS0pob0tJ?=
+ =?utf-8?Q?dMm4ZQxTfqlLC4cuuIwuVpZnA09AT21USMMtsEh?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5ca3fde-8b5d-4a8e-7262-08d92c0b81f2
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2021 12:30:18.8059 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: awrDJ6qZrhuh2pEja8L51HP4BGhXySvbqVYScxg/CBZNyLFS+P7uvpYXGOV0lSpZeOVc8y2jzg3VpxaQwYKNac8/Fw1dzFNiieOjwxCWXF8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3960
+Received-SPF: pass client-ip=40.107.8.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,131 +146,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, jose.ziviani@suse.com, pbonzini@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 12:34:14PM +0200, Claudio Fontana wrote:
-> On 6/10/21 12:15 PM, Gerd Hoffmann wrote:
-> > Based on the "modules: add metadata database" patch series sent
-> > earlier today.  Adds support for target-specific modules to the
-> > module code and build infrastructure.  Builds one simple module
-> > (virtio-9p-device) for testing purposes.  Well, one module per
-> > target to be exact ;)
-> > 
-> > Gerd Hoffmann (4):
-> >   modules: factor out arch check
-> >   modules: check arch on qom lookup
-> >   modules: target-specific module build infrastructure
-> >   modules: build virtio-9p modular
-> > 
-> >  hw/9pfs/virtio-9p-device.c |  2 ++
-> >  util/module.c              | 30 ++++++++++++++++++++++++------
-> >  hw/9pfs/meson.build        | 11 ++++++++++-
-> >  meson.build                | 26 ++++++++++++++++++++++++++
-> >  4 files changed, 62 insertions(+), 7 deletions(-)
-> > 
+10.06.2021 02:52, Nir Soffer wrote:
+> On Wed, Jun 9, 2021 at 9:01 PM Eric Blake<eblake@redhat.com>  wrote:
+>> When trying to reconstruct a qcow2 chain using information provided
+>> over NBD, ovirt had been relying on an unsafe assumption that any
+>> portion of the qcow2 file advertised as sparse would defer to the
+>> backing image; this worked with what qemu 5.2 reports for a qcow2 BSD
+>> loaded with "backing":null.  However, in 6.0, commit 0da9856851 (nbd:
+>> server: Report holes for raw images) also had a side-effect of
+>> reporting unallocated zero clusters in qcow2 files as sparse.  This
+>> change is correct from the NBD spec perspective (advertising bits has
+>> always been optional based on how much information the server has
+>> available, and should only be used to optimize behavior when a bit is
+>> set, while not assuming semantics merely because a bit is clear), but
+>> means that a qcow2 file that uses an unallocated zero cluster to
+>> override a backing file now shows up as sparse over NBD, and causes
+>> ovirt to fail to reproduce that cluster (ie. ovirt was assuming it
+>> only had to write clusters where the bit was clear, and the 6.0
+>> behavior change shows the flaw in that assumption).
+>>
+>> The correct fix is for ovirt to additionally use the
+>> qemu:allocation-depth metadata context added in 5.2: after all, the
+>> actual determination for what is needed to recreate a qcow2 file is
+>> not whether a cluster is sparse, but whether the allocation-depth
+>> shows the cluster to be local.  But reproducing an image is more
+>> efficient when handling known-zero clusters, which means that ovirt
+>> has to track both base:allocation and qemu:allocation-depth metadata
+>> contexts simultaneously.  While NBD_CMD_BLOCK_STATUS is just fine
+>> sending back information for two contexts in parallel, it comes with
+>> some bookkeeping overhead at the client side: the two contexts need
+>> not report the same length of replies, and it involves more network
+>> traffic.
+
+Aren't both context described in one reply? Or what do you mean by not the same length?
+
+>>
+>> So, as a convenience, we can provide yet another metadata context,
+>> "qemu:joint-allocation", which provides the bulk of the same
+>> information already available from using "base:allocation" and
+>> "qemu:allocation-depth" in parallel; the only difference is that an
+>> allocation depth larger than one is collapsed to a single bit, rather
+>> than remaining an integer representing actual depth.  By connecting to
+>> just this context, a client has less work to perform while still
+>> getting at all pieces of information needed to recreate a qcow2
+>> backing chain.
+> Providing extended allocation is awsome, and makes client life much
+> easier. But I'm not sure about the name, that comes from "joining"
+> "base:allocation" and "qemu:allocation-depth". This is correct when
+> thinking about qemu internals, but this is not really getting both, since
+> "qemu:allocation-depth" is reduced to local and backing.
 > 
-> Very interesting, Cc:ing also Philippe on this.
+>  From a client point of view, I think this is best described as "qemu:allocation"
+> which is an extension to NBD protocol, providing the same HOLE and ZERO
+> bits, and qemu specific info LOCAL, BACKING. Using different "namespace"
+> ("qemu" vs "base") makes it clear that this is not the same.
+> 
+> We discussed in the past the option to expose also the dirty status of every
+> block in the response. Again this info is available using
+> "qemu:dirty-bitmap:xxx"
+> but just like allocation depth and base allocation, merging the results is hard
+> and if we could expose also the dirty bit, this can make clients life
+> even better.
+> In this case I'm not sure "qemu:allocation" is the best name, maybe something
+> more generic like "qemu:extents" or "qemu:block-status" is even better.
+> 
 
-Build qtest modular on top of that was easy, patch below.
+Oops. Could you please describe, what's the problem with parsing several context simultaneously?
 
-I'm not convinced though that the approach will work for other
-accelerators too given that they have dependencies to directories
-outside accel/ ...
+This all sound to me as we are going to implement "joint" combined conexts for every useful combination of existing contexts that user wants. So, it's a kind of workaround of inconvenient protocol we have invented in the past.
 
-full branch:
-  https://git.kraxel.org/cgit/qemu/log/?h=sirius/modinfo-playground
+Doesn't it mean that we instead should rework, how we export several contexts? Maybe we can improve generic export of several contexts simultaneously, so that it will be convenient for the client? Than we don't need any additional combined contexts.
 
-take care,
-  Gerd
-
-------------------------- cut here ----------------------
-From baa7ca6bc334b043d25acd659c8d44697a2fc197 Mon Sep 17 00:00:00 2001
-From: Gerd Hoffmann <kraxel@redhat.com>
-Date: Thu, 10 Jun 2021 13:59:25 +0200
-Subject: [PATCH] modules: build qtest accel modular
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- accel/accel-common.c    | 2 +-
- accel/qtest/qtest.c     | 3 +++
- accel/meson.build       | 4 ++++
- accel/qtest/meson.build | 7 +++----
- 4 files changed, 11 insertions(+), 5 deletions(-)
-
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index cf07f78421d6..7b8ec7e0f72a 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -44,7 +44,7 @@ static const TypeInfo accel_type = {
- AccelClass *accel_find(const char *opt_name)
- {
-     char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
--    AccelClass *ac = ACCEL_CLASS(object_class_by_name(class_name));
-+    AccelClass *ac = ACCEL_CLASS(module_object_class_by_name(class_name));
-     g_free(class_name);
-     return ac;
- }
-diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
-index edb29f6fa4c0..d2bca1c02151 100644
---- a/accel/qtest/qtest.c
-+++ b/accel/qtest/qtest.c
-@@ -45,6 +45,7 @@ static const TypeInfo qtest_accel_type = {
-     .parent = TYPE_ACCEL,
-     .class_init = qtest_accel_class_init,
- };
-+module_obj("qtest-accel"); // FIXME: use TYPE_QTEST_ACCEL
- 
- static void qtest_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-@@ -61,6 +62,7 @@ static const TypeInfo qtest_accel_ops_type = {
-     .class_init = qtest_accel_ops_class_init,
-     .abstract = true,
- };
-+module_obj("qtest-accel-ops"); // FIXME: use ACCEL_OPS_NAME
- 
- static void qtest_type_init(void)
- {
-@@ -69,3 +71,4 @@ static void qtest_type_init(void)
- }
- 
- type_init(qtest_type_init);
-+module_arch(TARGET_NAME);
-diff --git a/accel/meson.build b/accel/meson.build
-index dfd808d2c8e5..0e824c9a3a72 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -1,3 +1,5 @@
-+accel_modules = {}
-+
- specific_ss.add(files('accel-common.c'))
- softmmu_ss.add(files('accel-softmmu.c'))
- user_ss.add(files('accel-user.c'))
-@@ -16,3 +18,5 @@ dummy_ss.add(files(
- 
- specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
- specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
-+
-+target_modules += { 'accel' : accel_modules }
-diff --git a/accel/qtest/meson.build b/accel/qtest/meson.build
-index a2f327645980..d106bb33c36a 100644
---- a/accel/qtest/meson.build
-+++ b/accel/qtest/meson.build
-@@ -1,6 +1,5 @@
- qtest_ss = ss.source_set()
--qtest_ss.add(files(
--  'qtest.c',
--))
-+qtest_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'],
-+             if_true: files('qtest.c'))
- 
--specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: qtest_ss)
-+accel_modules += {'qtest': qtest_ss }
 -- 
-2.31.1
-
+Best regards,
+Vladimir
 
