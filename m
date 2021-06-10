@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA66A3A26DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:24:02 +0200 (CEST)
-Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8023A2712
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:31:23 +0200 (CEST)
+Received: from localhost ([::1]:38700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrFyr-0003cH-Kt
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
+	id 1lrG5z-00041Q-0T
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrFrq-0006ll-2x
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:16:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54620)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lrFnI-0006Wr-Tt; Thu, 10 Jun 2021 04:12:04 -0400
+Received: from out28-195.mail.aliyun.com ([115.124.28.195]:58044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrFrh-0007bi-NF
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:16:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623312997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BLKCnILlLqHCGjEs8z/yWUyWVBtu1u0HYtrB8R4hbvk=;
- b=PlRXTytTqQyv8GNzxR9nqjkbvQFEBUx2VhoXfLfaYNRIeVzYCwFfJeKGLgeY233SL36SYw
- z2qV0aIn/GnjW7NoIOgP6B2FmVOufWazh1fV6DfchpKICLqpRKSmSjW9FdFi+H1843W08b
- 7DOVvt8Dx0Ixv4fWOWLWHT+9wtSZ+L4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-eshFYsBdM4idD7Zdx-Pofg-1; Thu, 10 Jun 2021 04:16:36 -0400
-X-MC-Unique: eshFYsBdM4idD7Zdx-Pofg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21A3B192296E;
- Thu, 10 Jun 2021 08:16:35 +0000 (UTC)
-Received: from work-vm (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2496319CA8;
- Thu, 10 Jun 2021 08:16:32 +0000 (UTC)
-Date: Thu, 10 Jun 2021 09:16:30 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 04/11] target/i386/cpu: Add missing 'qapi/error.h' header
-Message-ID: <YMHKXiEK+3evW+2C@work-vm>
-References: <20210610064556.1421620-1-philmd@redhat.com>
- <20210610064556.1421620-5-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lrFnF-0004hI-Uo; Thu, 10 Jun 2021 04:12:04 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436283|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.524607-0.00375863-0.471634;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KQMkHEM_1623312717; 
+Received: from localhost.localdomain(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KQMkHEM_1623312717)
+ by smtp.aliyun-inc.com(10.147.42.16); Thu, 10 Jun 2021 16:11:57 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 25/37] target/riscv: Non-SIMD Q31 saturation ALU
+ Instructions
+Date: Thu, 10 Jun 2021 15:58:56 +0800
+Message-Id: <20210610075908.3305506-26-zhiwei_liu@c-sky.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
+References: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610064556.1421620-5-philmd@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=115.124.28.195; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-195.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,42 +57,317 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: palmer@dabbelt.com, richard.henderson@linaro.org, bin.meng@windriver.com,
+ Alistair.Francis@wdc.com, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> Commit 00b81053244 ("target-i386: Remove assert_no_error usage")
-> forgot to add the "qapi/error.h", add it now.
+Q31 saturation is to limit the result to the range
+[INT32_MIN, INT32_MAX].
 
-for the error_abort I guess
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/riscv/helper.h                   |  15 ++
+ target/riscv/insn32.decode              |  16 ++
+ target/riscv/insn_trans/trans_rvp.c.inc |  17 ++
+ target/riscv/packed_helper.c            | 214 ++++++++++++++++++++++++
+ 4 files changed, 262 insertions(+)
 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  target/i386/cpu.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index a9fe1662d39..694031e4aec 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -27,6 +27,7 @@
->  #include "sysemu/hvf.h"
->  #include "kvm/kvm_i386.h"
->  #include "sev_i386.h"
-> +#include "qapi/error.h"
->  #include "qapi/qapi-visit-machine.h"
->  #include "qapi/qmp/qerror.h"
->  #include "qapi/qapi-commands-machine-target.h"
-> -- 
-> 2.31.1
-> 
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 6ce22a186e..b3485f95a2 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1369,3 +1369,18 @@ DEF_HELPER_3(khmbt, tl, env, tl, tl)
+ DEF_HELPER_3(khmtt, tl, env, tl, tl)
+ DEF_HELPER_3(ukaddh, tl, env, tl, tl)
+ DEF_HELPER_3(uksubh, tl, env, tl, tl)
++
++DEF_HELPER_3(kaddw, tl, env, tl, tl)
++DEF_HELPER_3(ukaddw, tl, env, tl, tl)
++DEF_HELPER_3(ksubw, tl, env, tl, tl)
++DEF_HELPER_3(uksubw, tl, env, tl, tl)
++DEF_HELPER_3(kdmbb, tl, env, tl, tl)
++DEF_HELPER_3(kdmbt, tl, env, tl, tl)
++DEF_HELPER_3(kdmtt, tl, env, tl, tl)
++DEF_HELPER_3(kslraw, tl, env, tl, tl)
++DEF_HELPER_3(kslraw_u, tl, env, tl, tl)
++DEF_HELPER_3(ksllw, tl, env, tl, tl)
++DEF_HELPER_4(kdmabb, tl, env, tl, tl, tl)
++DEF_HELPER_4(kdmabt, tl, env, tl, tl, tl)
++DEF_HELPER_4(kdmatt, tl, env, tl, tl, tl)
++DEF_HELPER_2(kabsw, tl, env, tl)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index f465851f03..a25294baab 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -972,3 +972,19 @@ khmbt      0001110  ..... ..... 001 ..... 1110111 @r
+ khmtt      0010110  ..... ..... 001 ..... 1110111 @r
+ ukaddh     0001010  ..... ..... 001 ..... 1110111 @r
+ uksubh     0001011  ..... ..... 001 ..... 1110111 @r
++
++kaddw      0000000  ..... ..... 001 ..... 1110111 @r
++ukaddw     0001000  ..... ..... 001 ..... 1110111 @r
++ksubw      0000001  ..... ..... 001 ..... 1110111 @r
++uksubw     0001001  ..... ..... 001 ..... 1110111 @r
++kdmbb      0000101  ..... ..... 001 ..... 1110111 @r
++kdmbt      0001101  ..... ..... 001 ..... 1110111 @r
++kdmtt      0010101  ..... ..... 001 ..... 1110111 @r
++kslraw     0110111  ..... ..... 001 ..... 1110111 @r
++kslraw_u   0111111  ..... ..... 001 ..... 1110111 @r
++ksllw      0010011  ..... ..... 001 ..... 1110111 @r
++kslliw     0011011  ..... ..... 001 ..... 1110111 @sh5
++kdmabb     1101001  ..... ..... 001 ..... 1110111 @r
++kdmabt     1110001  ..... ..... 001 ..... 1110111 @r
++kdmatt     1111001  ..... ..... 001 ..... 1110111 @r
++kabsw      1010110  10100 ..... 000 ..... 1110111 @r2
+diff --git a/target/riscv/insn_trans/trans_rvp.c.inc b/target/riscv/insn_trans/trans_rvp.c.inc
+index 48eb190bc6..d2c7ab1440 100644
+--- a/target/riscv/insn_trans/trans_rvp.c.inc
++++ b/target/riscv/insn_trans/trans_rvp.c.inc
+@@ -681,3 +681,20 @@ GEN_RVP_R_OOL(khmbt);
+ GEN_RVP_R_OOL(khmtt);
+ GEN_RVP_R_OOL(ukaddh);
+ GEN_RVP_R_OOL(uksubh);
++
++/* Non-SIMD Q31 saturation ALU Instructions */
++GEN_RVP_R_OOL(kaddw);
++GEN_RVP_R_OOL(ukaddw);
++GEN_RVP_R_OOL(ksubw);
++GEN_RVP_R_OOL(uksubw);
++GEN_RVP_R_OOL(kdmbb);
++GEN_RVP_R_OOL(kdmbt);
++GEN_RVP_R_OOL(kdmtt);
++GEN_RVP_R_OOL(kslraw);
++GEN_RVP_R_OOL(kslraw_u);
++GEN_RVP_R_OOL(ksllw);
++GEN_RVP_SHIFTI(kslliw, NULL, gen_helper_ksllw);
++GEN_RVP_R_ACC_OOL(kdmabb);
++GEN_RVP_R_ACC_OOL(kdmabt);
++GEN_RVP_R_ACC_OOL(kdmatt);
++GEN_RVP_R2_OOL(kabsw);
+diff --git a/target/riscv/packed_helper.c b/target/riscv/packed_helper.c
+index 171f88face..89d203730d 100644
+--- a/target/riscv/packed_helper.c
++++ b/target/riscv/packed_helper.c
+@@ -2604,3 +2604,217 @@ static inline void do_uksubh(CPURISCVState *env, void *vd, void *va,
+ }
+ 
+ RVPR(uksubh, 2, 4);
++
++/* Q31 saturation Instructions */
++static inline void do_kaddw(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int32_t *a = va, *b = vb;
++
++    *d = sadd32(env, 0, a[H4(i)], b[H4(i)]);
++}
++
++RVPR(kaddw, 2, 4);
++
++static inline void do_ukaddw(CPURISCVState *env, void *vd, void *va,
++                             void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    uint32_t *a = va, *b = vb;
++
++    *d = (int32_t)saddu32(env, 0, a[H4(i)], b[H4(i)]);
++}
++
++RVPR(ukaddw, 2, 4);
++
++static inline void do_ksubw(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int32_t *a = va, *b = vb;
++
++    *d = ssub32(env, 0, a[H4(i)], b[H4(i)]);
++}
++
++RVPR(ksubw, 2, 4);
++
++static inline void do_uksubw(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    uint32_t *a = va, *b = vb;
++
++    *d = (int32_t)ssubu32(env, 0, a[H4(i)], b[H4(i)]);
++}
++
++RVPR(uksubw, 2, 4);
++
++static inline void do_kdmbb(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int16_t *a = va, *b = vb;
++
++    if (a[H2(i)] == INT16_MIN && b[H2(i)] == INT16_MIN) {
++        *d = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        *d = (int64_t)a[H2(i)] * b[H2(i)] << 1;
++    }
++}
++
++RVPR(kdmbb, 4, 2);
++
++static inline void do_kdmbt(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int16_t *a = va, *b = vb;
++
++    if (a[H2(i)] == INT16_MIN && b[H2(i + 1)] == INT16_MIN) {
++        *d = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        *d = (int64_t)a[H2(i)] * b[H2(i + 1)] << 1;
++    }
++}
++
++RVPR(kdmbt, 4, 2);
++
++static inline void do_kdmtt(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int16_t *a = va, *b = vb;
++
++    if (a[H2(i + 1)] == INT16_MIN && b[H2(i + 1)] == INT16_MIN) {
++        *d = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        *d = (int64_t)a[H2(i + 1)] * b[H2(i + 1)] << 1;
++    }
++}
++
++RVPR(kdmtt, 4, 2);
++
++static inline void do_kslraw(CPURISCVState *env, void *vd, void *va,
++                             void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int32_t *a = va;
++    int32_t shift = sextract32((*(uint32_t *)vb), 0, 6);
++
++    if (shift >= 0) {
++        *d = (int32_t)sat64(env, (int64_t)a[H4(i)] << shift, 31);
++    } else {
++        shift = -shift;
++        shift = (shift == 32) ? 31 : shift;
++        *d = a[H4(i)] >> shift;
++    }
++}
++
++RVPR(kslraw, 2, 4);
++
++static inline void do_kslraw_u(CPURISCVState *env, void *vd, void *va,
++                               void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int32_t *a = va;
++    int32_t shift = sextract32((*(uint32_t *)vb), 0, 6);
++
++    if (shift >= 0) {
++        *d = (int32_t)sat64(env, (int64_t)a[H4(i)] << shift, 31);
++    } else {
++        shift = -shift;
++        shift = (shift == 32) ? 31 : shift;
++        *d = vssra32(env, 0, a[H4(i)], shift);
++    }
++}
++
++RVPR(kslraw_u, 2, 4);
++
++static inline void do_ksllw(CPURISCVState *env, void *vd, void *va,
++                            void *vb, uint8_t i)
++{
++    target_long *d = vd;
++    int32_t *a = va;
++    uint8_t shift = *(uint8_t *)vb & 0x1f;
++
++    *d = (int32_t)sat64(env, (int64_t)a[H4(i)] << shift, 31);
++}
++
++RVPR(ksllw, 2, 4);
++
++static inline void do_kdmabb(CPURISCVState *env, void *vd, void *va,
++                             void *vb, void *vc, uint8_t i)
++
++{
++    target_long *d = vd;
++    int16_t *a = va, *b = vb;
++    int32_t *c = vc, m0;
++
++    if (a[H2(i)] == INT16_MIN && b[H2(i)] == INT16_MIN) {
++        m0 = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        m0 = (int32_t)a[H2(i)] * b[H2(i)] << 1;
++    }
++    *d = sadd32(env, 0, c[H4(i)], m0);
++}
++
++RVPR_ACC(kdmabb, 4, 2);
++
++static inline void do_kdmabt(CPURISCVState *env, void *vd, void *va,
++                             void *vb, void *vc, uint8_t i)
++
++{
++    target_long *d = vd;
++    int16_t *a = va, *b = vb;
++    int32_t *c = vc, m0;
++
++    if (a[H2(i)] == INT16_MIN && b[H2(i + 1)] == INT16_MIN) {
++        m0 = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        m0 = (int32_t)a[H2(i)] * b[H2(i + 1)] << 1;
++    }
++    *d = sadd32(env, 0, c[H4(i)], m0);
++}
++
++RVPR_ACC(kdmabt, 4, 2);
++
++static inline void do_kdmatt(CPURISCVState *env, void *vd, void *va,
++                             void *vb, void *vc, uint8_t i)
++
++{
++    target_long *d = vd;
++    int16_t *a = va, *b = vb;
++    int32_t *c = vc, m0;
++
++    if (a[H2(i + 1)] == INT16_MIN && b[H2(i + 1)] == INT16_MIN) {
++        m0 = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        m0 = (int32_t)a[H2(i + 1)] * b[H2(i + 1)] << 1;
++    }
++    *d = sadd32(env, 0, c[H4(i)], m0);
++}
++
++RVPR_ACC(kdmatt, 4, 2);
++
++static inline void do_kabsw(CPURISCVState *env, void *vd, void *va, uint8_t i)
++
++{
++    target_long *d = vd;
++    int32_t *a = va;
++
++    if (a[H4(i)] == INT32_MIN) {
++        *d = INT32_MAX;
++        env->vxsat = 0x1;
++    } else {
++        *d = (int32_t)abs(a[H4(i)]);
++    }
++}
++
++RVPR2(kabsw, 2, 4);
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.25.1
 
 
