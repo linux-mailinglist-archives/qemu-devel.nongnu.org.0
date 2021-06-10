@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC3C3A274F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:41:39 +0200 (CEST)
-Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E255B3A271B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 10:32:30 +0200 (CEST)
+Received: from localhost ([::1]:40024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrGFv-0004x3-1R
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:41:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
+	id 1lrG74-00051g-0K
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 04:32:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrG34-0008G4-3v
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:28:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37931)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrG3r-0002Ym-Uy
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:29:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrG32-0006h0-G4
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:28:21 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrG3p-0007Bg-DC
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:29:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623313699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623313748;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1fSwOR1EDZMn7233WpK8HxXmxyEaH7M8sp6VfRPxpQo=;
- b=YI9sPZVcJK7t7Xaupz36UvGz5RKcfOOc02AtxsIANstSrqkkRV7DbuiMcgumig4lMJquqm
- dMwxW9G+1tcn+jx8c0B8oVW3Uc5p8bSelPlqzi+K/mU4Kt9NunpG8ZqMzJSsoMBBbNcPt3
- 2qHXal4qJsb8+fjksmYj/ifnECVYv6A=
+ bh=lKgYp2b2cqii2c+D3GOYQnwb/C6bBcyz9DlgPy/vO50=;
+ b=ZSxkPF86/azL5EGKxTsYBr9JL3kJJNh/Ka/QSXtPOuzmU5C5jQNkgLYz64C+5rUnMcAFUd
+ AqK72GnBEglFqK0stBJuTslwbpNDDARZpzVwz90FDxjP8ghW1ONNoQqrogEC6qxdt4u8n5
+ QTHmzXYmrLmU1HDJdv7ojvgHj96dAYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-Vc2GT7M9M8yoDRl1vcnCTQ-1; Thu, 10 Jun 2021 04:28:16 -0400
-X-MC-Unique: Vc2GT7M9M8yoDRl1vcnCTQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-541-Lm4KXvllP-ySN5prEB05dg-1; Thu, 10 Jun 2021 04:28:57 -0400
+X-MC-Unique: Lm4KXvllP-ySN5prEB05dg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 688E810068F1;
- Thu, 10 Jun 2021 08:28:15 +0000 (UTC)
-Received: from work-vm (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 352D819D9D;
- Thu, 10 Jun 2021 08:28:10 +0000 (UTC)
-Date: Thu, 10 Jun 2021 09:28:07 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 06/11] target/i386/sev: Remove sev_get_me_mask()
-Message-ID: <YMHNF+UXR91d4D3F@work-vm>
-References: <20210610064556.1421620-1-philmd@redhat.com>
- <20210610064556.1421620-7-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6437BBEE9;
+ Thu, 10 Jun 2021 08:28:55 +0000 (UTC)
+Received: from redhat.com (ovpn-115-51.ams2.redhat.com [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D464F60C05;
+ Thu, 10 Jun 2021 08:28:51 +0000 (UTC)
+Date: Thu, 10 Jun 2021 09:28:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 1/1] hw/nvme: namespace parameter for EUI64
+Message-ID: <YMHNQOMr5HijEFmu@redhat.com>
+References: <20210609114657.33301-1-xypron.glpk@gmx.de>
+ <YMCwjV7Vpbk5au/U@apples.localdomain>
+ <f5f15ac1-0876-331e-7433-a6ca551b9e10@gmx.de>
+ <YMC1BJ5zOGQWmg7Q@apples.localdomain> <YMDSmEgfMeZa8cWd@redhat.com>
+ <969B60CA-0E05-4510-9B5B-74B19133A874@gmx.de>
+ <YMEdJi16P3c4tQm0@apples.localdomain>
+ <F17FDDE8-ACAC-44A9-8E8A-4B424FD429DB@gmx.de>
+ <YMGjtICqb9aXckg2@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210610064556.1421620-7-philmd@redhat.com>
+In-Reply-To: <YMGjtICqb9aXckg2@apples.localdomain>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,94 +88,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Connor Kuehl <ckuehl@redhat.com>, Eric Blake <eblake@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>, qemu-devel@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
-> Unused dead code makes review harder, so remove it.
+On Thu, Jun 10, 2021 at 07:31:32AM +0200, Klaus Jensen wrote:
+> On Jun  9 22:15, Heinrich Schuchardt wrote:
+> > Am 9. Juni 2021 21:57:26 MESZ schrieb Klaus Jensen <its@irrelevant.dk>:
+> > > On Jun  9 20:13, Heinrich Schuchardt wrote:
+> > > > Am 9. Juni 2021 16:39:20 MESZ schrieb "Daniel P. BerrangÃ©"
+> > > <berrange@redhat.com>:
+> > > > > On Wed, Jun 09, 2021 at 02:33:08PM +0200, Klaus Jensen wrote:
+> > > > > > On Jun  9 14:21, Heinrich Schuchardt wrote:
+> > > > > > > On 6/9/21 2:14 PM, Klaus Jensen wrote:
+> > > > > > > > On JunÂ  9 13:46, Heinrich Schuchardt wrote:
+> > > > > > > > Would it make sense to provide a sensible default for EUI64
+> > > such
+> > > > > that it
+> > > > > > > > is always there? That is, using the same IEEE OUI as we already
+> > > > > report
+> > > > > > > > in the IEEE field and add an extension identifier by grabbing 5
+> > > > > bytes
+> > > > > > > > from the UUID?
+> > > > > > >
+> > > > > > > According to the NVMe 1.4 specification it is allowable to have a
+> > > > > NVMe
+> > > > > > > device that does not support EUI64. As the EUI64 is used to
+> > > define
+> > > > > boot
+> > > > > > > options in UEFI using a non-zero default may break existing
+> > > > > installations.
+> > > > > > >
+> > > > > > 
+> > > > > > Right. We dont wanna do that.
+> > > > > 
+> > > > > Any change in defaults can (must) be tied to the machine type
+> > > versions,
+> > > > > so that existing installs are unchanged, but new installs using
+> > > latest
+> > > > > machine type get the new default.
+> > > > 
+> > > > The road of least surprise is preferable. All machine should behave
+> > > the
+> > > > same if there is no real necessity to deviate.
+> > > > 
+> > > 
+> > > I'd rather not introduce a new user-facing knob for this when a very
+> > > sensible default can be derived from the uuid and the QEMU IEEE OUI. We
+> > > 
+> > > already have the uuid parameter that allows users to ensure that the
+> > > namespace holds a persistent unique identifier. Adding another
+> > > parameter
+> > > with the same purpose seems unnecessary. And since we are adding EUI64,
+> > > 
+> > > we should probably also add NGUID while we are at it.
+> > > 
+> > > So, instead of adding parameters for EUI64 and NGUID that the user must
+> > > 
+> > > specify to get this more real-world behavior, I'd prefer to rely on a
+> > > couple of boolean compat properties, e.g. 'support-eui64' and
+> > > 'support-nguid' that defaults to 'on', but is set to 'off' for pre-6.1
+> > > machines.
+> > > 
+> > > I think this is a nice compromise between making sure that having
+> > > sensible EUI64 and NGUID values set is the new default while making
+> > > sure
+> > > that we do not break existing setup.
+> > > 
+> > > Would this be an acceptable compromise to you Heinrich?
+> > 
+> > EUI64 defined on some machine and not on others is totally obscure for
+> > users.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Yes, it doesn't seem to have been used since it was added.
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  target/i386/sev_i386.h | 1 -
->  target/i386/sev-stub.c | 5 -----
->  target/i386/sev.c      | 9 ---------
->  3 files changed, 15 deletions(-)
+> I don't think that is obscure. This is exactly why machine types are
+> versioned. It is documented as a feature to ensure working live migration
+> between versions, but it is definitely also useful for just making sure that
+> no behavior changes between qemu upgrades.
 > 
-> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-> index f4223f1febf..afa19a0a161 100644
-> --- a/target/i386/sev_i386.h
-> +++ b/target/i386/sev_i386.h
-> @@ -25,7 +25,6 @@
->  #define SEV_POLICY_SEV          0x20
->  
->  extern bool sev_es_enabled(void);
-> -extern uint64_t sev_get_me_mask(void);
->  extern SevInfo *sev_get_info(void);
->  extern uint32_t sev_get_cbit_position(void);
->  extern uint32_t sev_get_reduced_phys_bits(void);
-> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-> index d91c2ece784..eb0c89bf2be 100644
-> --- a/target/i386/sev-stub.c
-> +++ b/target/i386/sev-stub.c
-> @@ -25,11 +25,6 @@ bool sev_enabled(void)
->      return false;
->  }
->  
-> -uint64_t sev_get_me_mask(void)
-> -{
-> -    return ~0;
-> -}
-> -
->  uint32_t sev_get_cbit_position(void)
->  {
->      return 0;
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 83df8c09f6a..0a36e81f66c 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -64,7 +64,6 @@ struct SevGuestState {
->      uint8_t api_major;
->      uint8_t api_minor;
->      uint8_t build_id;
-> -    uint64_t me_mask;
->      int sev_fd;
->      SevState state;
->      gchar *measurement;
-> @@ -362,12 +361,6 @@ sev_es_enabled(void)
->      return sev_enabled() && (sev_guest->policy & SEV_POLICY_ES);
->  }
->  
-> -uint64_t
-> -sev_get_me_mask(void)
-> -{
-> -    return sev_guest ? sev_guest->me_mask : ~0;
-> -}
-> -
->  uint32_t
->  sev_get_cbit_position(void)
->  {
-> @@ -810,8 +803,6 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->          goto err;
->      }
->  
-> -    sev->me_mask = ~(1UL << sev->cbitpos);
-> -
->      devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
->      sev->sev_fd = open(devname, O_RDWR);
->      if (sev->sev_fd < 0) {
-> -- 
-> 2.31.1
+> We have used this feature in the past to change the PCI Vendor/Device ID of
+> the device.
 > 
+> > 
+> > The virt machine is typically used and is pre-6.1. As pointed out above
+> > you should not change the EUI64 when QEMU is upgraded and invoked with
+> > the same parameter set.
+> > 
+> 
+> From an NVMe perspective we are not changing it. We are going from "not
+> supported" to "supported". But I acknowledge that there are systems that
+> rely on EUI64 being zero - I just don't see why that should refrain us from
+> adding EUI64 and NGUID by default in future versions when we can ensure
+> compatibility with the versioned machine type (i.e. virt-6.0).
+
+Yes, the whole point of versioned machine types is that they let us fix
+bugs and add features to device implementations, while maintaining back
+compat. So going from no-EUI64 to  EUI64 by default in a new machine
+type version is exactly the kind of thing that is intended to happen.
+
+
+Regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
