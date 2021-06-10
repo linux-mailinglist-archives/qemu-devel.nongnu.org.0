@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72743A2D4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:42:45 +0200 (CEST)
-Received: from localhost ([::1]:38088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3ED3A2D51
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 15:44:58 +0200 (CEST)
+Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrKxI-0007jV-Mq
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47560)
+	id 1lrKzR-0004Se-N3
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 09:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lrKqg-0001iX-7e
+ id 1lrKqg-0001iZ-Ic
  for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:35:55 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54809)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lrKqd-0005gG-Hm
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:35:53 -0400
-Received: by mail-wm1-x329.google.com with SMTP id m3so966435wms.4
+ id 1lrKqd-0005gL-HY
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 09:35:54 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ l7-20020a05600c1d07b02901b0e2ebd6deso6450749wms.1
  for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 06:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oaLUCvek2OmNr6/JtAkUEqBmw58D1m2VU8lWk8Kuo/k=;
- b=WR9L9d0X9T5TedhasZu/4Rprgbelx3ipb7lYwfiawEZNqqDF927+zHJs1qT8a6nM9+
- cAGI61t71gNdROiHD4ILL7lwnY/L9JdJilgPLtrVvZb+OcTFuhe1if/YGQUUeSXkoTXq
- nMaF/58HoPa7y5i0En6uxvvO2TY9rUr1Z0VvsWMZFzk1WCo2+c8Eyi+lX38e/cenZNEt
- lB8/iXKMnspcnoa0xIDyXrNYYwiWw+9vZcQ1f0m+9yjxP87mZArPZWaaW7YF29jqZIWm
- nXkEw77dHYQQbnfLIWJ4e1o3d7NuZMcAJq+NUVfOG+GN96sLWENJFPrBjgJsKeLT2cdB
- dvtw==
+ bh=AEctVWm7LnklR94IVota7cJxBYDiTHrGLM7X/qOIhdI=;
+ b=J5pUoxIFecL/iMexfmXUMEl1++qTRXlAoODXvaSmj32MmoT7Q7wAViC4BUwoiKj4pm
+ JCKzHkRcDXBlZS/c38bNtrzrcUjKs64LYGqxTR64DEa3SAyz+NDhC12Fo7MFF3UUZthf
+ AacdkRHVfzCNx4jNalwHepL/8zmaJcqsTCzYvpyTbsMoBNHay+va5Nm4WnhpOLsNsHU1
+ zIS2NfiFnByLorL4GT4B+e9oeGLRNSB+ZAhOJ1fjYFhcyC+X2Zbn3VocRkcy0WI5TkKP
+ 8uy+ouh0HEsu+drGnUniuyhKWrbNUk/4URr0Q4qSeHJbESDkERE8Q9ppLcLPbvUKoS4h
+ uT7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oaLUCvek2OmNr6/JtAkUEqBmw58D1m2VU8lWk8Kuo/k=;
- b=cPFGP6IfFjA0KwqzwmKuOLeyindy+6+dtNfaf5qCTAfMRUuJ0QUBdPTU5+OEJ0Ienl
- U/PIZq7ynrsAoiOW6HEOuFRurWmmoTDCZNemnjTzpx5HMICyyyhIVHPSvEu5bAg/5/Hq
- mxeNBL5siIrxl1w2ILkn30x/l6MyYGadsBXe8Cy716dCqDsrHjzjtDd/fj0XcQnVN89o
- 2atbpFuEM19h7LgAkUrzzRBTmBHoJTTkbUIlSJQ6i0mllJy64t9wWv9vEFJ/jwZsj6PQ
- nOhO5+ZBlu57eIQ4yP0PFCb5tpc8FprXM2U6TrloHTlYj0DzMYIQHK4Q6Vu6/QE+63uT
- 8zfA==
-X-Gm-Message-State: AOAM533kle9WAo8TrjXit3LIFmtOAvbG5mKBRe1xIECjv/hm2scjoWhx
- Z6GfAfa//URdmXjP1Pp4jmD+1x9sRgIc0g==
-X-Google-Smtp-Source: ABdhPJxuvuubkGCCwk2PN51iEPNQaDbhr774mj3nKi97abZZCbxHhzIByd1Uzk+SO18YXquZgSiyrw==
-X-Received: by 2002:a05:600c:3790:: with SMTP id
- o16mr15164681wmr.41.1623332147335; 
+ bh=AEctVWm7LnklR94IVota7cJxBYDiTHrGLM7X/qOIhdI=;
+ b=Wo4og35HCbRsWZcf8BI3q5ApLEe6UJjkwhPdPAJMAdo/uQb7pOGB/S8sC+sKacxMUe
+ 1MThnhcYhgJyR82uIGCTNRgoKKp1ZVJITuj7kBgfh+2X2vfl78uCBkInsQxYv7z0dPng
+ cIplOnGKJguE+hO5ZuMsiRX2/gRpwIhfYxj0LqARabmA0Gk+b6HABuHBjfgTIYgrMska
+ +3JLx53Qu18Gk2uACadr7PhK3UIVszjs+8tCltgPco+/Lp2tXCBplL9A8+lole4exYAO
+ HzSA+yjli/ksu9/IKJpE9t55xsi1/k4eSJTFpnZzWi6UKj0Oirf33jn30csb4aYolkAO
+ XCfg==
+X-Gm-Message-State: AOAM530DT50bE+HL9tl1PZtU+k77qQIeV9t4HOAV/LLlh7aOk3w7+Fd9
+ iXM+RHNDP/t9fVUNr7twFYemjJ3XZUdWFg==
+X-Google-Smtp-Source: ABdhPJwaHW6yIip1QHA7yqEM1PKdYa0UXh/h9qiCxM3vjrYgfHiZgnQDJBKy49sp4Yh7z/mAQoO/xQ==
+X-Received: by 2002:a7b:cd9a:: with SMTP id y26mr14866708wmj.81.1623332147999; 
  Thu, 10 Jun 2021 06:35:47 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- v8sm4032519wrc.29.2021.06.10.06.35.46
+ v8sm4032519wrc.29.2021.06.10.06.35.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 06:35:46 -0700 (PDT)
+ Thu, 10 Jun 2021 06:35:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/11] machine: add error propagation to mc->smp_parse
-Date: Thu, 10 Jun 2021 15:35:35 +0200
-Message-Id: <20210610133538.608390-9-pbonzini@redhat.com>
+Subject: [PATCH 09/11] machine: pass QAPI struct to mc->smp_parse
+Date: Thu, 10 Jun 2021 15:35:36 +0200
+Message-Id: <20210610133538.608390-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210610133538.608390-1-pbonzini@redhat.com>
 References: <20210610133538.608390-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,167 +89,176 @@ Cc: berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clean up the smp_parse functions to use Error** instead of exiting.
+As part of converting -smp to a property with a QAPI type, define
+the struct and use it to do the actual parsing.  machine_smp_parse
+takes care of doing the QemuOpts->QAPI conversion by hand, for now.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c    | 34 +++++++++++++++++++---------------
- hw/i386/pc.c         | 28 ++++++++++++++--------------
- include/hw/boards.h  |  2 +-
- include/hw/i386/pc.h |  2 --
- 4 files changed, 34 insertions(+), 32 deletions(-)
+ hw/core/machine.c   | 33 +++++++++++++++++++++++----------
+ hw/i386/pc.c        | 18 ++++++++----------
+ include/hw/boards.h |  2 +-
+ qapi/machine.json   | 27 +++++++++++++++++++++++++++
+ 4 files changed, 59 insertions(+), 21 deletions(-)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1016ec9e1c..5a9c97ccc5 100644
+index 5a9c97ccc5..9ad8341a31 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -739,7 +739,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
+@@ -739,12 +739,12 @@ void machine_set_cpu_numa_node(MachineState *machine,
      }
  }
  
--static void smp_parse(MachineState *ms, QemuOpts *opts)
-+static void smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+-static void smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
++static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
  {
-     unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-     unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-@@ -766,28 +766,28 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
-         threads = cpus / (cores * sockets);
-         threads = threads > 0 ? threads : 1;
-     } else if (sockets * cores * threads < cpus) {
--        error_report("cpu topology: "
--                        "sockets (%u) * cores (%u) * threads (%u) < "
--                        "smp_cpus (%u)",
--                        sockets, cores, threads, cpus);
--        exit(1);
-+        error_setg(errp, "cpu topology: "
-+                   "sockets (%u) * cores (%u) * threads (%u) < "
-+                   "smp_cpus (%u)",
-+                   sockets, cores, threads, cpus);
-+        return;
+-    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
+-    unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
+-    unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
+-    unsigned threads = qemu_opt_get_number(opts, "threads", 0);
++    unsigned cpus    = config->has_cpus ? config->cpus : 0;
++    unsigned sockets = config->has_sockets ? config->sockets : 0;
++    unsigned cores   = config->has_cores ? config->cores : 0;
++    unsigned threads = config->has_threads ? config->threads : 0;
+ 
+     /* compute missing values, prefer sockets over cores over threads */
+     if (cpus == 0 || sockets == 0) {
+@@ -754,8 +754,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+             sockets = sockets > 0 ? sockets : 1;
+             cpus = cores * threads * sockets;
+         } else {
+-            ms->smp.max_cpus =
+-                    qemu_opt_get_number(opts, "maxcpus", cpus);
++            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+             sockets = ms->smp.max_cpus / (cores * threads);
+         }
+     } else if (cores == 0) {
+@@ -773,8 +772,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+         return;
      }
  
-     ms->smp.max_cpus =
-             qemu_opt_get_number(opts, "maxcpus", cpus);
+-    ms->smp.max_cpus =
+-            qemu_opt_get_number(opts, "maxcpus", cpus);
++    ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
  
      if (ms->smp.max_cpus < cpus) {
--        error_report("maxcpus must be equal to or greater than smp");
--        exit(1);
-+        error_setg(errp, "maxcpus must be equal to or greater than smp");
-+        return;
-     }
- 
-     if (sockets * cores * threads != ms->smp.max_cpus) {
--        error_report("Invalid CPU topology: "
--                        "sockets (%u) * cores (%u) * threads (%u) "
--                        "!= maxcpus (%u)",
--                        sockets, cores, threads,
--                        ms->smp.max_cpus);
--        exit(1);
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "sockets (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, cores, threads,
-+                   ms->smp.max_cpus);
-+        return;
-     }
- 
-     ms->smp.cpus = cpus;
-@@ -1126,9 +1126,13 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
- bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-+    ERRP_GUARD();
+         error_setg(errp, "maxcpus must be equal to or greater than smp");
+@@ -1129,7 +1127,22 @@ bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+     ERRP_GUARD();
  
      if (opts) {
--        mc->smp_parse(ms, opts);
-+        mc->smp_parse(ms, opts, errp);
-+        if (*errp) {
-+            return false;
-+        }
-     }
- 
-     /* sanity-check smp_cpus and max_cpus against mc */
+-        mc->smp_parse(ms, opts, errp);
++        SMPConfiguration config = {
++            .has_cpus = !!qemu_opt_get(opts, "cpus"),
++            .cpus = qemu_opt_get_number(opts, "cpus", 0),
++            .has_sockets = !!qemu_opt_get(opts, "sockets"),
++            .sockets = qemu_opt_get_number(opts, "sockets", 0),
++            .has_dies = !!qemu_opt_get(opts, "dies"),
++            .dies = qemu_opt_get_number(opts, "dies", 0),
++            .has_cores = !!qemu_opt_get(opts, "cores"),
++            .cores = qemu_opt_get_number(opts, "cores", 0),
++            .has_threads = !!qemu_opt_get(opts, "threads"),
++            .threads = qemu_opt_get_number(opts, "threads", 0),
++            .has_maxcpus = !!qemu_opt_get(opts, "maxcpus"),
++            .maxcpus = qemu_opt_get_number(opts, "maxcpus", 0),
++        };
++
++        mc->smp_parse(ms, &config, errp);
+         if (*errp) {
+             return false;
+         }
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e206ac85f3..cce275dcb1 100644
+index cce275dcb1..8e1220db72 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -710,7 +710,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
+@@ -710,13 +710,13 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
   * This function is very similar to smp_parse()
   * in hw/core/machine.c but includes CPU die support.
   */
--void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-+static void pc_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+-static void pc_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
++static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
  {
-     unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-     unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-@@ -738,28 +738,28 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-         threads = cpus / (cores * dies * sockets);
-         threads = threads > 0 ? threads : 1;
-     } else if (sockets * dies * cores * threads < cpus) {
--        error_report("cpu topology: "
--                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
--                        "smp_cpus (%u)",
--                        sockets, dies, cores, threads, cpus);
--        exit(1);
-+        error_setg(errp, "cpu topology: "
-+                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
-+                   "smp_cpus (%u)",
-+                   sockets, dies, cores, threads, cpus);
-+        return;
+-    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
+-    unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
+-    unsigned dies = qemu_opt_get_number(opts, "dies", 1);
+-    unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
+-    unsigned threads = qemu_opt_get_number(opts, "threads", 0);
++    unsigned cpus    = config->has_cpus ? config->cpus : 0;
++    unsigned sockets = config->has_sockets ? config->sockets : 0;
++    unsigned dies    = config->has_dies ? config->dies : 1;
++    unsigned cores   = config->has_cores ? config->cores : 0;
++    unsigned threads = config->has_threads ? config->threads : 0;
+ 
+     /* compute missing values, prefer sockets over cores over threads */
+     if (cpus == 0 || sockets == 0) {
+@@ -726,8 +726,7 @@ static void pc_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+             sockets = sockets > 0 ? sockets : 1;
+             cpus = cores * threads * dies * sockets;
+         } else {
+-            ms->smp.max_cpus =
+-                    qemu_opt_get_number(opts, "maxcpus", cpus);
++            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+             sockets = ms->smp.max_cpus / (cores * threads * dies);
+         }
+     } else if (cores == 0) {
+@@ -745,8 +744,7 @@ static void pc_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
+         return;
      }
  
-     ms->smp.max_cpus =
-             qemu_opt_get_number(opts, "maxcpus", cpus);
+-    ms->smp.max_cpus =
+-            qemu_opt_get_number(opts, "maxcpus", cpus);
++    ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
  
      if (ms->smp.max_cpus < cpus) {
--        error_report("maxcpus must be equal to or greater than smp");
--        exit(1);
-+        error_setg(errp, "maxcpus must be equal to or greater than smp");
-+        return;
-     }
- 
-     if (sockets * dies * cores * threads != ms->smp.max_cpus) {
--        error_report("Invalid CPU topology deprecated: "
--                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
--                        "!= maxcpus (%u)",
--                        sockets, dies, cores, threads,
--                        ms->smp.max_cpus);
--        exit(1);
-+        error_setg(errp, "Invalid CPU topology deprecated: "
-+                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-+                   "!= maxcpus (%u)",
-+                   sockets, dies, cores, threads,
-+                   ms->smp.max_cpus);
-+        return;
-     }
- 
-     ms->smp.cpus = cpus;
+         error_setg(errp, "maxcpus must be equal to or greater than smp");
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 87ae5cc300..0483d6af86 100644
+index 0483d6af86..1eae4427e8 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
 @@ -210,7 +210,7 @@ struct MachineClass {
      void (*reset)(MachineState *state);
      void (*wakeup)(MachineState *state);
      int (*kvm_type)(MachineState *machine, const char *arg);
--    void (*smp_parse)(MachineState *ms, QemuOpts *opts);
-+    void (*smp_parse)(MachineState *ms, QemuOpts *opts, Error **errp);
+-    void (*smp_parse)(MachineState *ms, QemuOpts *opts, Error **errp);
++    void (*smp_parse)(MachineState *ms, SMPConfiguration *config, Error **errp);
  
      BlockInterfaceType block_default_type;
      int units_per_default_bus;
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 4c2ca6d36a..87294f2632 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -138,8 +138,6 @@ extern int fd_bootchk;
- 
- void pc_acpi_smi_interrupt(void *opaque, int irq, int level);
- 
--void pc_smp_parse(MachineState *ms, QemuOpts *opts);
--
- void pc_guest_info_init(PCMachineState *pcms);
- 
- #define PCI_HOST_PROP_PCI_HOLE_START   "pci-hole-start"
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 58a9c86b36..53fd7e60ff 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1274,3 +1274,30 @@
+ ##
+ { 'event': 'MEM_UNPLUG_ERROR',
+   'data': { 'device': 'str', 'msg': 'str' } }
++
++##
++# @SMPConfiguration:
++#
++# Schema for CPU topology configuration.
++#
++# @cpus: number of virtual CPUs in the virtual machine
++#
++# @sockets: number of sockets in the CPU topology
++#
++# @dies: number of dies per socket in the CPU topology
++#
++# @cores: number of cores per thread in the CPU topology
++#
++# @threads: number of threads per core in the CPU topology
++#
++# @maxcpus: maximum number of hotpluggable virtual CPUs in the virtual machine
++#
++# Since: 6.1
++##
++{ 'struct': 'SMPConfiguration', 'data': {
++     '*cpus': 'int',
++     '*sockets': 'int',
++     '*dies': 'int',
++     '*cores': 'int',
++     '*threads': 'int',
++     '*maxcpus': 'int' } }
 -- 
 2.31.1
 
