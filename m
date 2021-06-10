@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648843A2E87
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:47:14 +0200 (CEST)
-Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDCB3A2E86
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 16:47:11 +0200 (CEST)
+Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrLxh-0007HG-Di
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:47:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
+	id 1lrLxe-00078t-Gg
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 10:47:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1lrLvZ-0004lB-Ac; Thu, 10 Jun 2021 10:45:01 -0400
-Received: from exmail.andestech.com ([60.248.187.195]:42444
+ id 1lrLvX-0004h2-6z; Thu, 10 Jun 2021 10:44:59 -0400
+Received: from exmail.andestech.com ([60.248.187.195]:42446
  helo=ATCSQR.andestech.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1lrLvT-0000Bk-Tw; Thu, 10 Jun 2021 10:45:01 -0400
+ id 1lrLvT-0000CB-Vc; Thu, 10 Jun 2021 10:44:58 -0400
 Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 15AEiQit035876;
- Thu, 10 Jun 2021 22:44:26 +0800 (GMT-8)
+ by ATCSQR.andestech.com with ESMTP id 15AEiVC1035892;
+ Thu, 10 Jun 2021 22:44:31 +0800 (GMT-8)
  (envelope-from ruinland@andestech.com)
 Received: from atcsqa06.andestech.com (10.0.15.65) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Thu, 10 Jun 2021
- 22:44:25 +0800
+ 22:44:33 +0800
 From: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [RFC PATCH v3 0/2] Proposing custom CSR handling logic
-Date: Thu, 10 Jun 2021 22:44:22 +0800
-Message-ID: <20210610144424.8658-1-ruinland@andestech.com>
+Subject: [RFC PATCH v3 1/2] Adding Andes AX25 CPU model
+Date: Thu, 10 Jun 2021 22:44:23 +0800
+Message-ID: <20210610144424.8658-2-ruinland@andestech.com>
 X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20210610144424.8658-1-ruinland@andestech.com>
+References: <20210610144424.8658-1-ruinland@andestech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.0.15.65]
 X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 15AEiQit035876
+X-MAIL: ATCSQR.andestech.com 15AEiVC1035892
 Received-SPF: pass client-ip=60.248.187.195;
  envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
 X-Spam_score_int: -18
@@ -63,71 +65,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ruinaldn ChuanTzu Tsai <ruinland@andestech.com>
 
-The changes from V2 :
-* Making custom CSR operation table become registerable.
-* Re-use the riscv_csrrw() code instead of ducplication.
-* Splitting custom CPU bits into seperated files.
-* Splitting the AX25 CPU from the feature patch
-* Adding custom/vendor value "holder."
-    In previous patche
+Adding the skeleton of Andes Technology AX25 CPU model for the future commits,
+which will utilize custom/vendor CSR handling mechaism.
+---
+ target/riscv/cpu.c | 8 ++++++++
+ target/riscv/cpu.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-- - - -
-
-Sorry for the late update. COVID really hit us hard lately.
-
-I really appreciate the comments and suggestions from Bin and Alistair, and I
-am very willing to answer the doubts.
-
-For the questions regarding the hash table for CSR operations, that is because
-we might have heterogeneous architecture with harts having diffrent CSR
-extensions/features.
-For instance, there are FLUSH32 and FLUSH64 CSR on the application cores
-on the U54-MC and U74-MC series from SiFive, yet for the monitor cores (S51 and
-S7), there are no such custom/vendor CSRs. Though I cannot disclose too much
-for the time being, we Andes Technology have similar design choice on our
-platforms; and thus, a mechanism for dynamically registering CSR operation
-functions will become a substrate for further extension.
-
-And one day if those CSRs become standardized, ones can easily pull-and-plug
-the structures into `csr_ops` table.
-
-The write_stub() is useful and necessary if such a CSR conducts some hardware 
-behaviors which are hard to implement in QEMU's world view, such as cache
-policies or something would fail-over in user's code, for instance, the
-I/O feature probing code. And that's why we keep it inside our toolbox.
-
-Adding TINFO is a bit in the twilight zone. It's officially documented in the
-RISC-V Debug Spec, yet we Andes has our own customization (which might
-come out of the shadow one day) on it and thus we decice to add the csrno in
-the general parts (cpu_bits.h) and add the handling function in csr_andes.inc.c
-for our further development.
-
-For now, this patch with previously submitted Andes AE350 board support 
-https://mail.gnu.org/archive/html/qemu-riscv/2021-03/msg00096.html 
-could execute mainline U-boot (proper) and OpenSBI (with test payload)
-successfully.
-
-
-Cordially yours,
-Ruinland ChuanTzu Tsai
-
-
-Ruinaldn ChuanTzu Tsai (2):
-  Adding Andes AX25 CPU model
-  Adding preliminary custom/vendor CSR handling mechanism
-
- target/riscv/andes_cpu_bits.h  | 113 ++++++++++++++++++++++++
- target/riscv/cpu.c             |  37 ++++++++
- target/riscv/cpu.h             |  29 ++++++-
- target/riscv/cpu_bits.h        |   3 +
- target/riscv/csr.c             |  46 ++++++++--
- target/riscv/csr_andes.inc.c   | 153 +++++++++++++++++++++++++++++++++
- target/riscv/custom_cpu_bits.h |   3 +
- 7 files changed, 375 insertions(+), 9 deletions(-)
- create mode 100644 target/riscv/andes_cpu_bits.h
- create mode 100644 target/riscv/csr_andes.inc.c
- create mode 100644 target/riscv/custom_cpu_bits.h
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ddea8fbeeb..4ae21cbf9b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -159,6 +159,13 @@ static void rv64_base_cpu_init(Object *obj)
+     set_misa(env, RV64);
+ }
+ 
++static void ax25_cpu_init(Object *obj)
++{
++    CPURISCVState *env = &RISCV_CPU(obj)->env;
++    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
++    set_priv_version(env, PRIV_VERSION_1_10_0);
++}
++
+ static void rv64_sifive_u_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+@@ -705,6 +712,7 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
+ #elif defined(TARGET_RISCV64)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_AX25,             ax25_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+ #endif
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 0edb2826a2..bff9af7f3f 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -37,6 +37,7 @@
+ #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+ #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+ #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
++#define TYPE_RISCV_CPU_AX25             RISCV_CPU_TYPE_NAME("andes-ax25")
+ #define TYPE_RISCV_CPU_IBEX             RISCV_CPU_TYPE_NAME("lowrisc-ibex")
+ #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
+ #define TYPE_RISCV_CPU_SIFIVE_E34       RISCV_CPU_TYPE_NAME("sifive-e34")
 -- 
 2.31.1
 
