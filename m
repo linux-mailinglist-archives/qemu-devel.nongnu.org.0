@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448233A24CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:54:29 +0200 (CEST)
-Received: from localhost ([::1]:48392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266023A24DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:57:27 +0200 (CEST)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrEaC-0004Wf-8N
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55778)
+	id 1lrEd4-0002aj-7r
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrESq-0008Mr-Ne
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:46:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrESn-0005bJ-ER
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:46:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623307608;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bsDSEZHNo/Alerya/rQccn2RkvkTAbWl3TalIqQPVK0=;
- b=M5zbnJ/fn5kazmjISKEK3DRvPp+fCyumBYvCVKDgu/DPoOjkpZFcNoBB4vBTMhSBIwRmSv
- mHdx8BJ9otfKEBz297CwuN4dJ6NO5dSFDOz+fnDgx+cYzHUYWSgWG4xnu3cri18vxIp/k3
- 8wYWSvhL6oXysfYZ3rIarP43e2mQVfg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-DxpslVfePdiKH7YcdyVVpg-1; Thu, 10 Jun 2021 02:46:48 -0400
-X-MC-Unique: DxpslVfePdiKH7YcdyVVpg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h10-20020a5d688a0000b0290119c2ce2499so403571wru.19
- for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 23:46:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1lrEbf-00010f-NF
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:56:03 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:36568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1lrEbd-0004B3-Hu
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 02:55:59 -0400
+Received: by mail-oi1-x235.google.com with SMTP id r16so695926oiw.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Jun 2021 23:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=F2qwPoOENcwYGoqPqN8H9+gcdPyklPLmZ2SMOwEzXZQ=;
+ b=uQMxb+BMJyFL7VGK2CQrxOEjWolyD+ZL96oSFqpoJ6pZ2XIE9cr+o440SNHaPfbD7E
+ 7nRieeCySoScyQcXp6ZYGgaB7qOy/zNLHcUuzzMtVlhGlX0HQXxXHG4fCtbWDWwBToQS
+ FYybqugn52UnYI6H64KVgWyRhnSHbcCAH9hb5+akJjm9rEjHFP17u9x2pXC+OoQQ85cX
+ RrNWjvlxD1qv0YTcyUNDez2balH8Jyi5QBE0/LuwwNy+Qzd1NkxsNKZBoSBHl75bk6Vj
+ IUKSn1ymUGxa8QwIwnP1dO83GK5wEePCfu/Qlzy0sAh+RDsx9fTfhgUuNvnSdrzHpZi3
+ nvJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bsDSEZHNo/Alerya/rQccn2RkvkTAbWl3TalIqQPVK0=;
- b=f2pkqQKL/KAGJXtBwg1j0Mpv7PvfPyFFsZmdiKahGP6CgtohyRigFHI5eKYgQtX1Z7
- 45vHQOj80FLQ35Qp1kvcwdJ236tC/zl6guP2XpQZ8+dw8CqKwaW9CXdqBgw6iL46IkG/
- x9wW2tLmS+HeoAW61eXbodR6lsSYHAZ57foRIf3VnAJosuD57e9qI2yqIl5JGkruCGu/
- aBqZvfGRZJ9LYafZ9DPoIr7kp80JH1wKrQqervU6OD4sDoK8ETO3xaGLWXe6U2McEHKK
- ROmxFL3VdDyXeqeSb7iYayncn7UFCgmX7Yh0XULWfa3pxlOiHHmzUWMdTiHrlllMvNJZ
- KNaw==
-X-Gm-Message-State: AOAM532zOjalVkV+CUAMxihmD5ZINWlBUUYLOgpwzxwm+tsqx2hHNwqg
- GHseMn/dgpPkCsJ22ItVBYgGHU9c+GpW7+YjkoSjxhgFqas1XoExLbUoO8rAm+TaerdqrnS4vE8
- B+a+nbHqVOy6cv4kEdGD5xnJElklIRubyoQDiKJ1eRRhYMzOMwbGQCXLGQau0uUfZ
-X-Received: by 2002:a5d:6e0d:: with SMTP id h13mr3639759wrz.118.1623307606587; 
- Wed, 09 Jun 2021 23:46:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoMqBQzSEIDPhtn+U1WPKOViLtnTR8w/NhzGhlY/FbON1/5ZMe5byPybtrz6pp4xv4o53j3g==
-X-Received: by 2002:a5d:6e0d:: with SMTP id h13mr3639737wrz.118.1623307606396; 
- Wed, 09 Jun 2021 23:46:46 -0700 (PDT)
-Received: from x1w.redhat.com (235.red-83-57-168.dynamicip.rima-tde.net.
- [83.57.168.235])
- by smtp.gmail.com with ESMTPSA id b8sm8979812wmd.35.2021.06.09.23.46.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jun 2021 23:46:46 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] monitor: Restrict 'info sev' to x86 targets
-Date: Thu, 10 Jun 2021 08:45:56 +0200
-Message-Id: <20210610064556.1421620-12-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210610064556.1421620-1-philmd@redhat.com>
-References: <20210610064556.1421620-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=F2qwPoOENcwYGoqPqN8H9+gcdPyklPLmZ2SMOwEzXZQ=;
+ b=E+lxT3SBeUWyxzbFujBD8RGhzuf/klYhiENLV/uJVVtkJ+GLmFd4aS5VSpPzH9Dps/
+ OHbfnuHtDfAOJwfnfluiwD5Jz/uI4UiVcXcrwL7HM/jo/JxgocP2rCpXarhd4QI48Swn
+ p+gtR8rCydSteXUZrhtorkqx7ITVEVlsxR3cGlURWJsJ4wBOl1kUXTdO+oaP/IDCFu/c
+ aOgleGasf8TxKbQBLAjQiFQda0wmYlJ60gR950pRj2z1OKjLU9k7hshI1etN/Y5ErAh6
+ mEbz297d6Guv5DJvg7Pvbs+pBZMLd755KylvnlfJSo8wMqk3uGmlfh/RGCZ5Th21xNHW
+ d3MA==
+X-Gm-Message-State: AOAM530Gra9uCNCgbACQ9JKVSQ8q4pztC3iP8B9nr+Nb2M7pR2pIZN9G
+ sUJusGf+ObWdyzB5aO/k9/nXY5tuMXWbPhgwWsJcvw==
+X-Google-Smtp-Source: ABdhPJxvcp450fI9a/MtmgNYiXdpWlAaxbM+ouBah28vUCx1RzAHI358gYVuLXMA0uG0Utze6iSFc9c3Y8clY865+SM=
+X-Received: by 2002:aca:dfc2:: with SMTP id w185mr2353183oig.91.1623308154838; 
+ Wed, 09 Jun 2021 23:55:54 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210609100457.142570-1-andrew@daynix.com>
+ <f81de211-57f9-9319-9735-c6b964bbdc77@redhat.com>
+In-Reply-To: <f81de211-57f9-9319-9735-c6b964bbdc77@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Thu, 10 Jun 2021 09:55:43 +0300
+Message-ID: <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::235;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x235.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,71 +79,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>, Connor Kuehl <ckuehl@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/monitor/hmp-target.h  | 1 +
- include/monitor/hmp.h         | 1 -
- target/i386/sev-sysemu-stub.c | 2 +-
- target/i386/sev.c             | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
+On Thu, Jun 10, 2021 at 9:41 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/6/9 =E4=B8=8B=E5=8D=886:04, Andrew Melnychenko =E5=86=99=
+=E9=81=93:
+> > Libvirt usually launches qemu with strict permissions.
+> > To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.
+>
+>
+> A silly question:
+>
+> Kernel had the following permission checks in bpf syscall:
+>
+>         if (sysctl_unprivileged_bpf_disabled && !bpf_capable())
+>                  return -EPERM;
+> ...
+>
+>          err =3D security_bpf(cmd, &attr, size);
+>          if (err < 0)
+>                  return err;
+>
+> So if I understand the code correctly, bpf syscall can only be done if:
+>
+> 1) unprivileged_bpf is enabled or
+> 2) has the capability  and pass the LSM checks
+>
+> So I think the series is for unprivileged_bpf disabled. If I'm not
+> wrong, I guess the policy is to grant CAP_BPF but do fine grain checks
+> via LSM.
+>
+> If this is correct, need to describe it in the commit log.
+>
+>
+> >
+> > Added property "ebpf_rss_fds" for "virtio-net" that allows to
+> > initialize eBPF RSS context with passed program & maps fds.
+> >
+> > Added qemu-ebpf-rss-helper - simple helper that loads eBPF
+> > context and passes fds through unix socket.
+> > Libvirt should call the helper and pass fds to qemu through
+> > "ebpf_rss_fds" property.
+> >
+> > Added explicit target OS check for libbpf dependency in meson.
+> > eBPF RSS works only with Linux TAP, so there is no reason to
+> > build eBPF loader/helper for non-Linux.
+> >
+> > Overall, libvirt process should not be aware of the "interface"
+> > of eBPF RSS, it will not be aware of eBPF maps/program "type" and
+> > their quantity.
+>
+>
+> I'm not sure this is the best. We have several examples that let libvirt
+> to involve. Examples:
+>
+> 1) create TAP device (and the TUN_SETIFF)
+>
+> 2) open vhost devices
+>
+>
+> >   That's why qemu and the helper should be from
+> > the same build and be "synchronized". Technically each qemu may
+> > have its own helper. That's why "query-helper-paths" qmp command
+> > was added. Qemu should return the path to the helper that suits
+> > and libvirt should use "that" helper for "that" emulator.
+> >
+> > qmp sample:
+> > C: { "execute": "query-helper-paths" }
+> > S: { "return": [
+> >       {
+> >         "name": "qemu-ebpf-rss-helper",
+> >         "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
+> >       }
+> >      ]
+> >     }
+>
+>
+> I think we need an example on the detail steps for how libvirt is
+> expected to use this.
 
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index 60fc92722ae..20adbea5154 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -49,5 +49,6 @@ void hmp_info_tlb(Monitor *mon, const QDict *qdict);
- void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
- void hmp_info_io_apic(Monitor *mon, const QDict *qdict);
-+void hmp_info_sev(Monitor *mon, const QDict *qdict);
- 
- #endif /* MONITOR_HMP_TARGET_H */
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 605d57287ae..ac03adc6f0a 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -124,7 +124,6 @@ void hmp_info_ramblock(Monitor *mon, const QDict *qdict);
- void hmp_hotpluggable_cpus(Monitor *mon, const QDict *qdict);
- void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
- void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict);
--void hmp_info_sev(Monitor *mon, const QDict *qdict);
- void hmp_info_replay(Monitor *mon, const QDict *qdict);
- void hmp_replay_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
-diff --git a/target/i386/sev-sysemu-stub.c b/target/i386/sev-sysemu-stub.c
-index 7a35f0432b2..aba02f3c332 100644
---- a/target/i386/sev-sysemu-stub.c
-+++ b/target/i386/sev-sysemu-stub.c
-@@ -13,7 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "monitor/monitor.h"
--#include "monitor/hmp.h"
-+#include "monitor/hmp-target.h"
- #include "qapi/qapi-commands-misc-target.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/error.h"
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index b4d7c41d3fb..0103b28c396 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -32,7 +32,7 @@
- #include "migration/blocker.h"
- #include "qom/object.h"
- #include "monitor/monitor.h"
--#include "monitor/hmp.h"
-+#include "monitor/hmp-target.h"
- #include "qapi/qapi-commands-misc-target.h"
- #include "qapi/qmp/qerror.h"
- #include "exec/confidential-guest-support.h"
--- 
-2.31.1
+The preliminary patches for libvirt are at
+https://github.com/daynix/libvirt/tree/RSSv1
 
+>
+> Thanks
+>
+>
+> >
+> > Andrew Melnychenko (5):
+> >    ebpf: Added eBPF initialization by fds.
+> >    virtio-net: Added property to load eBPF RSS with fds.
+> >    ebpf_rss_helper: Added helper for eBPF RSS.
+> >    qmp: Added qemu-ebpf-rss-path command.
+> >    meson: libbpf dependency now exclusively for Linux.
+> >
+> >   ebpf/ebpf_rss-stub.c           |   6 ++
+> >   ebpf/ebpf_rss.c                |  31 +++++++-
+> >   ebpf/ebpf_rss.h                |   5 ++
+> >   ebpf/qemu-ebpf-rss-helper.c    | 130 ++++++++++++++++++++++++++++++++=
++
+> >   hw/net/virtio-net.c            |  77 ++++++++++++++++++-
+> >   include/hw/virtio/virtio-net.h |   1 +
+> >   meson.build                    |  37 ++++++----
+> >   monitor/qmp-cmds.c             |  78 ++++++++++++++++++++
+> >   qapi/misc.json                 |  29 ++++++++
+> >   9 files changed, 374 insertions(+), 20 deletions(-)
+> >   create mode 100644 ebpf/qemu-ebpf-rss-helper.c
+> >
+>
 
