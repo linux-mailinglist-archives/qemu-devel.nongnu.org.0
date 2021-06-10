@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC133A2F61
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:33:27 +0200 (CEST)
-Received: from localhost ([::1]:43992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFB53A2F6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:35:56 +0200 (CEST)
+Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMgQ-00059w-JW
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54220)
+	id 1lrMiq-0003PA-0D
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrMd7-0000D1-3j
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:30:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59335)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lrMd2-0004wP-Po
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:30:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623338995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6aiSXtYzwvqQDhMuaYAotaWRV4/e4wcz+UBcfKMiIzY=;
- b=OpQ+j0n1zqcH+tCivek3Q76ppJokkRNueyv87S4/aRdpuYj1bPt7/S6/cAjscpOfox9HG4
- cP5yJvfYuwYp/hKYPT6x86833oE7nBYYxXAQ1M45/GXVWUhPaIKYDnN6v94uvcY843Bd1l
- BQoaauYuToLiiGgVelqqiCjXa64DErA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-OgBd3QgKP4ib9ULrv5CFCA-1; Thu, 10 Jun 2021 11:29:54 -0400
-X-MC-Unique: OgBd3QgKP4ib9ULrv5CFCA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A7F1107ACF6;
- Thu, 10 Jun 2021 15:29:53 +0000 (UTC)
-Received: from work-vm (ovpn-114-240.ams2.redhat.com [10.36.114.240])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60CC059474;
- Thu, 10 Jun 2021 15:29:44 +0000 (UTC)
-Date: Thu, 10 Jun 2021 16:29:42 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v3 26/26] virtiofsd: Ask qemu to drop CAP_FSETID if
- client asked for it
-Message-ID: <YMIv5odJWdkbJzWL@work-vm>
-References: <20210428110100.27757-1-dgilbert@redhat.com>
- <20210428110100.27757-27-dgilbert@redhat.com>
- <YJQNIPaFCJlG7ZKc@stefanha-x1.localdomain>
- <20210506160223.GA277745@redhat.com>
- <YJj3RSxXKZHxmiKu@stefanha-x1.localdomain>
- <20210510152324.GB150402@horse>
- <YJlSHZ0vzNtCAjkJ@stefanha-x1.localdomain>
- <YK/uUUZI3zy9k8Vk@work-vm>
+ (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
+ id 1lrMgy-0007KC-H9
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:00 -0400
+Received: from [114.255.44.146] (port=31708 helo=mail.kingsoft.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1lrMgt-0006nl-3j
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:34:00 -0400
+X-AuditID: 0a580157-8b5ff700000015d4-6c-60c230cf9efd
+Received: from mail.kingsoft.com (localhost [10.88.1.78])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-1-NODE-87) with SMTP id 88.36.05588.FC032C06;
+ Thu, 10 Jun 2021 23:33:35 +0800 (HKT)
+Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL3.kingsoft.cn
+ (10.88.1.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Thu, 10 Jun
+ 2021 23:33:35 +0800
+Received: from KSbjmail3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3]) by
+ KSBJMAIL3.kingsoft.cn ([fe80::a143:8393:3ff1:cd3%10]) with mapi id
+ 15.01.2176.014; Thu, 10 Jun 2021 23:33:35 +0800
+From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
+To: =?gb2312?B?RGFuaWVsIFAuIEJlcnJhbmeopg==?= <berrange@redhat.com>
+Subject: =?gb2312?B?u9i4tDogW1BBVENIXSBtaWdyYXRpb24vcmRtYTogVXNlIGh1Z2UgcGFnZSBy?=
+ =?gb2312?Q?egister_VM_memory?=
+Thread-Topic: [PATCH] migration/rdma: Use huge page register VM memory
+Thread-Index: AddbpN+kEXe4Oe1WQuqS3KFy+fOdUf//f+eA//quH7A=
+Date: Thu, 10 Jun 2021 15:33:34 +0000
+Message-ID: <7b4701af3e6949d6a29e218a0c78b113@kingsoft.com>
+References: <51819991cecb42f6a619768bc61d0bfd@kingsoft.com>
+ <YL4qh35GquFrbSfq@redhat.com>
+In-Reply-To: <YL4qh35GquFrbSfq@redhat.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.88.1.106]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <YK/uUUZI3zy9k8Vk@work-vm>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrKLMWRmVeSWpSXmKPExsXCFcHop3ve4FCCwf9JUhZv3qxhsujddo/d
+ 4njvDhaLO1v6mBxYPJ5c28zk8X7fVbYApigum5TUnMyy1CJ9uwSujHPXmlgK7qhWHNp4ibGB
+ 8YFKFyMHh4SAicTNOSxdjFwcQgLTmSQ6Hm1mg3BeMEo8/nGGGcLZzSjx6+My1i5GTg42AU+J
+ T6vOsIHYIgLOEtN+7mAHKWIWuMIk8eTHLEaQhLBAscSKtj2sEEVuEr9Wd7JA2FYSczdfAath
+ EVCVeNS0ghnE5hWwluhf2AsWFxKIluhcdpEJxOYU0JL42PEXLM4oICsx7dF9sDizgLjE3Gmz
+ wOZLCAhILNlznhnCFpV4+fgfK8Rr8hKrPwpDlGtJzGv4DdWqKDGl+yE7xFpBiZMzn7BMYBSb
+ hWTqLCQts5C0zELSsoCRZRUjS3FuuuEmRkjMhO9gnNf0Ue8QIxMH4yFGCQ5mJRHeHLVDCUK8
+ KYmVValF+fFFpTmpxYcYpTlYlMR5P+ccTBASSE8sSc1OTS1ILYLJMnFwSjUwbSubf/tCzLQK
+ u71K0rPtX71x9DH33DXxaM+fQy3JZ5f/n6T2M03mxDRpniknkgtXnPX6HWEh1Lc48qhga3dX
+ ytkJJV83Xai2CGBYXvz7ack/Br7Lqv/zLDOmdB4QNXRhUFr3l3cpg9jF8qQW503OGxbzehzU
+ zCv2OveK83VZj8XnQBnJYwLXnrWYf3vn57Fng5XG/8J+Po72a1lurjJxVTwJDid8Ls+s3jVl
+ U1nUjlmqzPMbtlSW/axt5VB87yCh+5XjuAkLX9QK50dzisv1Uk4+XuZ/x/uHyYW32o1KV/r3
+ 65y7VH+yQM/Hb8ffY9Zm109ZXzmpwdx072LdnQsHqtdv9PW5MfXiodDNLk1zlFiKMxINtZiL
+ ihMBsg6fyggDAAA=
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 114.255.44.146 (failed)
+Received-SPF: pass client-ip=114.255.44.146;
+ envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
+X-Spam_score_int: 45
+X-Spam_score: 4.5
+X-Spam_bar: ++++
+X-Spam_report: (4.5 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ MIME_CHARSET_FARAWAY=2.45, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,200 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>, groug@kaod.org
+Cc: =?gb2312?B?c3VuaGFvMiBby+/qu10=?= <sunhao2@kingsoft.com>,
+ =?gb2312?B?WUFOR0ZFTkcxIFvR7rflXQ==?= <YANGFENG1@kingsoft.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ =?gb2312?B?REVOR0xJTldFTiBbtcvB1s7EXQ==?= <DENGLINWEN@kingsoft.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
-> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
-
-<snip>
-
-> > Instead I was thinking about VHOST_USER_DMA_READ/WRITE messages
-> > containing the address (a device IOVA, it could just be a guest physica=
-l
-> > memory address in most cases) and the length. The WRITE message would
-> > also contain the data that the vhost-user device wishes to write. The
-> > READ message reply would contain the data that the device read from
-> > QEMU.
-> >=20
-> > QEMU would implement this using QEMU's address_space_read/write() APIs.
-> >=20
-> > So basically just a new vhost-user protocol message to do a memcpy(),
-> > but with guest addresses and vIOMMU support :).
->=20
-> This doesn't actually feel that hard - ignoring vIOMMU for a minute
-> which I know very little about - I'd have to think where the data
-> actually flows, probably the slave fd.
->=20
-> > The vhost-user device will need to do bounce buffering so using these
-> > new messages is slower than zero-copy I/O to shared guest RAM.
->=20
-> I guess the theory is it's only in the weird corner cases anyway.
-
-The direction I'm going is something like the following;
-the idea is that the master will have to handle the requests on a
-separate thread, to avoid any problems with side effects from the memory
-accesses; the slave will then have to parkt he requests somewhere and
-handle them later.
-
-
-From 07aacff77c50c8a2b588b2513f2dfcfb8f5aa9df Mon Sep 17 00:00:00 2001
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Thu, 10 Jun 2021 15:34:04 +0100
-Subject: [PATCH] WIP: vhost-user: DMA type interface
-
-A DMA type interface where the slave can ask for a stream of bytes
-to be read/written to the guests memory by the master.
-The interface is asynchronous, since a request may have side effects
-inside the guest.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- docs/interop/vhost-user.rst               | 33 +++++++++++++++++++++++
- hw/virtio/vhost-user.c                    |  4 +++
- subprojects/libvhost-user/libvhost-user.h | 24 +++++++++++++++++
- 3 files changed, 61 insertions(+)
-
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 9ebd05e2bf..b9b5322147 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -1347,6 +1347,15 @@ Master message types
-   query the backend for its device status as defined in the Virtio
-   specification.
-=20
-+``VHOST_USER_MEM_DATA``
-+  :id: 41
-+  :equivalent ioctl: N/A
-+  :slave payload: N/A
-+  :master payload: ``struct VhostUserMemReply``
-+
-+  This message is an asynchronous response to a ``VHOST_USER_SLAVE_MEM_ACC=
-ESS``
-+  message.  Where the request was for the master to read data, this
-+  message will be followed by the data that was read.
-=20
- Slave message types
- -------------------
-@@ -1469,6 +1478,30 @@ Slave message types
-   The ``VHOST_USER_FS_FLAG_MAP_W`` flag must be set in the ``flags`` field=
- to
-   write to the file from RAM.
-=20
-+``VHOST_USER_SLAVE_MEM_ACCESS``
-+  :id: 9
-+  :equivalent ioctl: N/A
-+  :slave payload: ``struct VhostUserMemAccess``
-+  :master payload: N/A
-+
-+  Requests that the master perform a range of memory accesses on behalf
-+  of the slave that the slave can't perform itself.
-+
-+  The ``VHOST_USER_MEM_FLAG_TO_MASTER`` flag must be set in the ``flags``
-+  field for the slave to write data into the RAM of the master.   In this
-+  case the data to write follows the ``VhostUserMemAccess`` on the fd.
-+  The ``VHOST_USER_MEM_FLAG_FROM_MASTER`` flag must be set in the ``flags`=
-`
-+  field for the slave to read data from the RAM of the master.
-+
-+  When the master has completed the access it replies on the main fd with
-+  a ``VHOST_USER_MEM_DATA`` message.
-+
-+  The master is allowed to complete part of the request and reply stating
-+  the amount completed, leaving it to the slave to resend further componen=
-ts.
-+  This may happen to limit memory allocations in the master or to simplify
-+  the implementation.
-+
-+
- .. _reply_ack:
-=20
- VHOST_USER_PROTOCOL_F_REPLY_ACK
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 39a0e55cca..a3fefc4c1d 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -126,6 +126,9 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_MAX_MEM_SLOTS =3D 36,
-     VHOST_USER_ADD_MEM_REG =3D 37,
-     VHOST_USER_REM_MEM_REG =3D 38,
-+    VHOST_USER_SET_STATUS =3D 39,
-+    VHOST_USER_GET_STATUS =3D 40,
-+    VHOST_USER_MEM_DATA =3D 41,
-     VHOST_USER_MAX
- } VhostUserRequest;
-=20
-@@ -139,6 +142,7 @@ typedef enum VhostUserSlaveRequest {
-     VHOST_USER_SLAVE_FS_MAP =3D 6,
-     VHOST_USER_SLAVE_FS_UNMAP =3D 7,
-     VHOST_USER_SLAVE_FS_IO =3D 8,
-+    VHOST_USER_SLAVE_MEM_ACCESS =3D 9,
-     VHOST_USER_SLAVE_MAX
- }  VhostUserSlaveRequest;
-=20
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvho=
-st-user/libvhost-user.h
-index eee611a2f6..b5444f4f6f 100644
---- a/subprojects/libvhost-user/libvhost-user.h
-+++ b/subprojects/libvhost-user/libvhost-user.h
-@@ -109,6 +109,9 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_MAX_MEM_SLOTS =3D 36,
-     VHOST_USER_ADD_MEM_REG =3D 37,
-     VHOST_USER_REM_MEM_REG =3D 38,
-+    VHOST_USER_SET_STATUS =3D 39,
-+    VHOST_USER_GET_STATUS =3D 40,
-+    VHOST_USER_MEM_DATA =3D 41,
-     VHOST_USER_MAX
- } VhostUserRequest;
-=20
-@@ -122,6 +125,7 @@ typedef enum VhostUserSlaveRequest {
-     VHOST_USER_SLAVE_FS_MAP =3D 6,
-     VHOST_USER_SLAVE_FS_UNMAP =3D 7,
-     VHOST_USER_SLAVE_FS_IO =3D 8,
-+    VHOST_USER_SLAVE_MEM_ACCESS =3D 9,
-     VHOST_USER_SLAVE_MAX
- }  VhostUserSlaveRequest;
-=20
-@@ -220,6 +224,24 @@ typedef struct VhostUserInflight {
-     uint16_t queue_size;
- } VhostUserInflight;
-=20
-+/* For the flags field of VhostUserMemAccess and VhostUserMemReply */
-+#define VHOST_USER_MEM_FLAG_TO_MASTER (1u << 0)
-+#define VHOST_USER_MEM_FLAG_FROM_MASTER (1u << 1)
-+typedef struct VhostUserMemAccess {
-+    uint32_t id; /* Included in the reply */
-+    uint32_t flags;
-+    uint64_t addr; /* In the bus address of the device */
-+    uint64_t len;  /* In bytes */
-+} VhostUserMemAccess;
-+
-+typedef struct VhostUserMemReply {
-+    uint32_t id; /* From the request */
-+    uint32_t flags;
-+    uint32_t err; /* 0 on success */
-+    uint32_t align;
-+    uint64_t len;
-+} VhostUserMemReply;
-+
- #if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
- # define VU_PACKED __attribute__((gcc_struct, packed))
- #else
-@@ -248,6 +270,8 @@ typedef struct VhostUserMsg {
-         VhostUserVringArea area;
-         VhostUserInflight inflight;
-         VhostUserFSSlaveMsgMax fs_max;
-+        VhostUserMemAccess memaccess;
-+        VhostUserMemReply  memreply;
-     } payload;
-=20
-     int fds[VHOST_MEMORY_BASELINE_NREGIONS];
---=20
-2.31.1
-
---=20
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+WWVzLCAncGMucmFtJyBpcyB0aGUgc3BlY2lmaWMgbmFtZSBmb3IgeDg2LiBJIGhhdmUgcmVhZCB0
+aGF0DQptZW1vcnlfcmVnaW9uX2FsbG9jYXRlX3N5c3RlbV9tZW1vcnkgYXNzaWducyBkaWZmZXJl
+bnQgbmFtZXMNCnRvIG90aGVyIGFyY2hpdGVjdHVyZXMuDQpUaGFua3MgZm9yIHlvdXIgcmVtaW5k
+aW5nLg0KDQpSZWdhcmRzLA0KbGl6aGFveGluLg0KDQotLS0tLdPKvP7Urbz+LS0tLS0NCreivP7I
+yzogRGFuaWVsIFAuIEJlcnJhbmeopiA8YmVycmFuZ2VAcmVkaGF0LmNvbT4gDQq3osvNyrG85Dog
+MjAyMcTqNtTCN8jVIDIyOjE4DQrK1bz+yMs6IExJWkhBT1hJTjEgW8Du1dX2zl0gPExJWkhBT1hJ
+TjFAa2luZ3NvZnQuY29tPg0Ks63LzTogcWVtdS1kZXZlbEBub25nbnUub3JnOyBxdWludGVsYUBy
+ZWRoYXQuY29tOyBkZ2lsYmVydEByZWRoYXQuY29tOyBzdW5oYW8yIFvL7+q7XSA8c3VuaGFvMkBr
+aW5nc29mdC5jb20+OyBERU5HTElOV0VOIFu1y8HWzsRdIDxERU5HTElOV0VOQGtpbmdzb2Z0LmNv
+bT47IFlBTkdGRU5HMSBb0e635V0gPFlBTkdGRU5HMUBraW5nc29mdC5jb20+DQrW98ziOiBSZTog
+W1BBVENIXSBtaWdyYXRpb24vcmRtYTogVXNlIGh1Z2UgcGFnZSByZWdpc3RlciBWTSBtZW1vcnkN
+Cg0KT24gTW9uLCBKdW4gMDcsIDIwMjEgYXQgMDE6NTc6MDJQTSArMDAwMCwgTElaSEFPWElOMSBb
+wO7V1fbOXSB3cm90ZToNCj4gV2hlbiB1c2luZyBsaWJ2aXJ0IGZvciBSRE1BIGxpdmUgbWlncmF0
+aW9uLCBpZiB0aGUgVk0gbWVtb3J5IGlzIHRvbyANCj4gbGFyZ2UsIGl0IHdpbGwgdGFrZSBhIGxv
+dCBvZiB0aW1lIHRvIGRlcmVnaXN0ZXIgdGhlIFZNIGF0IHRoZSBzb3VyY2UgDQo+IHNpZGUsIHJl
+c3VsdGluZyBpbiBhIGxvbmcgZG93bnRpbWUgKFZNIDY0RywgZGVyZWdpc3RlciB2bSB0aW1lIGlz
+IGFib3V0IDQwMG1zKS4NCj4gICAgIA0KPiBBbHRob3VnaCB0aGUgVk0ncyBtZW1vcnkgdXNlcyAy
+TSBodWdlIHBhZ2VzLCB0aGUgTUxOWCBkcml2ZXIgc3RpbGwgDQo+IHVzZXMgNEsgcGFnZXMgZm9y
+IHBpbiBtZW1vcnksIGFzIHdlbGwgYXMgZm9yIHVucGluLiBTbyB3ZSB1c2UgaHVnZSANCj4gcGFn
+ZXMgdG8gc2tpcCB0aGUgcHJvY2VzcyBvZiBwaW4gbWVtb3J5IGFuZCB1bnBpbiBtZW1vcnkgdG8g
+cmVkdWNlIGRvd250aW1lLg0KPiAgICANCj4gVGhlIHRlc3QgZW52aXJvbm1lbnQ6DQo+IGtlcm5l
+bDogbGludXgtNS4xMg0KPiBNTE5YOiBDb25uZWN0WC00IExYDQo+IGxpYnZpcnQgY29tbWFuZDoN
+Cj4gdmlyc2ggbWlncmF0ZSAtLWxpdmUgLS1wMnAgLS1wZXJzaXN0ZW50IC0tY29weS1zdG9yYWdl
+LWluYyANCj4gLS1saXN0ZW4tYWRkcmVzcyBcDQo+IDAuMC4wLjAgLS1yZG1hLXBpbi1hbGwgLS1t
+aWdyYXRldXJpIHJkbWE6Ly8xOTIuMTY4LjAuMiBbVk1dIA0KPiBxZW11K3RjcDovLzE5Mi4xNjgu
+MC4yL3N5c3RlbQ0KPiAgICAgDQo+IFNpZ25lZC1vZmYtYnk6IGxpemhhb3hpbiA8bGl6aGFveGlu
+MUBraW5nc29mdC5jb20+DQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWlncmF0aW9uL3JkbWEuYyBiL21p
+Z3JhdGlvbi9yZG1hLmMgaW5kZXggDQo+IDFjZGI0NTYxZjMuLjk4MjM0NDkyOTcgMTAwNjQ0DQo+
+IC0tLSBhL21pZ3JhdGlvbi9yZG1hLmMNCj4gKysrIGIvbWlncmF0aW9uL3JkbWEuYw0KPiBAQCAt
+MTEyMywxMyArMTEyMywyNiBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9yZWdfd2hvbGVfcmFtX2Js
+b2NrcyhSRE1BQ29udGV4dCAqcmRtYSkNCj4gICAgICBSRE1BTG9jYWxCbG9ja3MgKmxvY2FsID0g
+JnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+ICANCj4gICAgICBmb3IgKGkgPSAwOyBpIDwgbG9j
+YWwtPm5iX2Jsb2NrczsgaSsrKSB7DQo+IC0gICAgICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQo+
+IC0gICAgICAgICAgICBpYnZfcmVnX21yKHJkbWEtPnBkLA0KPiAtICAgICAgICAgICAgICAgICAg
+ICBsb2NhbC0+YmxvY2tbaV0ubG9jYWxfaG9zdF9hZGRyLA0KPiAtICAgICAgICAgICAgICAgICAg
+ICBsb2NhbC0+YmxvY2tbaV0ubGVuZ3RoLA0KPiAtICAgICAgICAgICAgICAgICAgICBJQlZfQUND
+RVNTX0xPQ0FMX1dSSVRFIHwNCj4gLSAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19SRU1P
+VEVfV1JJVEUNCj4gLSAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgaWYgKHN0cmNt
+cChsb2NhbC0+YmxvY2tbaV0uYmxvY2tfbmFtZSwicGMucmFtIikgPT0gMCkgew0KDQoncGMucmFt
+JyBpcyBhbiB4ODYgYXJjaGl0ZWN0dXJlIHNwZWNpZmljIG5hbWUsIHNvIHRoaXMgd2lsbCBzdGls
+bCBsZWF2ZSBhIHByb2JsZW0gb24gb3RoZXIgYXJjaGl0ZWN0dXJlcyBJIGFzc3VtZS4NCg0KPiAr
+ICAgICAgICAgICAgbG9jYWwtPmJsb2NrW2ldLm1yID0NCj4gKyAgICAgICAgICAgICAgICBpYnZf
+cmVnX21yKHJkbWEtPnBkLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2Nr
+W2ldLmxvY2FsX2hvc3RfYWRkciwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5i
+bG9ja1tpXS5sZW5ndGgsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0xP
+Q0FMX1dSSVRFIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfUkVNT1RF
+X1dSSVRFIHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfT05fREVNQU5E
+IHwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfSFVHRVRMQg0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgfSBlbHNlIHsNCj4gKyAgICAgICAg
+ICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQo+ICsgICAgICAgICAgICAgICAgaWJ2X3JlZ19tcihy
+ZG1hLT5wZCwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sb2Nh
+bF9ob3N0X2FkZHIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0u
+bGVuZ3RoLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19MT0NBTF9XUklU
+RSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX1JFTU9URV9XUklURQ0K
+PiArICAgICAgICAgICAgICAgICAgICAgICAgKTsNCj4gKyAgICAgICAgfQ0KPiArDQo+ICAgICAg
+ICAgIGlmICghbG9jYWwtPmJsb2NrW2ldLm1yKSB7DQo+ICAgICAgICAgICAgICBwZXJyb3IoIkZh
+aWxlZCB0byByZWdpc3RlciBsb2NhbCBkZXN0IHJhbSBibG9jayFcbiIpOw0KPiAgICAgICAgICAg
+ICAgYnJlYWs7DQoNClJlZ2FyZHMsDQpEYW5pZWwNCi0tIA0KfDogaHR0cHM6Ly9iZXJyYW5nZS5j
+b20gICAgICAtby0gICAgaHR0cHM6Ly93d3cuZmxpY2tyLmNvbS9waG90b3MvZGJlcnJhbmdlIDp8
+DQp8OiBodHRwczovL2xpYnZpcnQub3JnICAgICAgICAgLW8tICAgICAgICAgICAgaHR0cHM6Ly9m
+c3RvcDEzOC5iZXJyYW5nZS5jb20gOnwNCnw6IGh0dHBzOi8vZW50YW5nbGUtcGhvdG8ub3JnICAg
+IC1vLSAgICBodHRwczovL3d3dy5pbnN0YWdyYW0uY29tL2RiZXJyYW5nZSA6fA0KDQo=
 
