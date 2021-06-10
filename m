@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9536D3A29AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:59:04 +0200 (CEST)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158213A29E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 13:10:35 +0200 (CEST)
+Received: from localhost ([::1]:40530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrIOt-0007dk-6C
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
+	id 1lrIa2-0003Dc-58
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 07:10:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrINr-0006Zo-5l
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:57:59 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:36358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lrINp-0002ty-9S
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:57:58 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id w21so32388259edv.3
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 03:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Rn766lPQ0fIipGun9ZkiWOP1Xw8apb4bZeB9cJpUiI8=;
- b=eLsLUqAKtIRwRpv1IwKdfkfE5EXCAZFZlSX/kQojZXAtDaSTNWnWpuXdKEVxTWiP2W
- kySZeceI9XRnwVaqnwoAsnvuErn+7uRAKcD3aVQEcdvEw+4iRExSF0EcfyhMK7fzeqph
- yqJqnrnjYprHTLqr0/sdgoLJqoikarFWPlEaVfgjafLKT1TSKhjDJXOB4+sXlXYoWSyq
- 68g0Xhb4ryVwLXwIdjw57Ep+FKiLjjndcVWc7Bfc6bKpMA7HPkuBOx7qfeAkdus0aH5K
- nnOZN65phqD3txySCEv0ono9NE0jWj7fZJgWZxCUD9T0pUpqCVYnOlMbn+hzy0qtJVF/
- CEpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Rn766lPQ0fIipGun9ZkiWOP1Xw8apb4bZeB9cJpUiI8=;
- b=BQ7EFju8yyz5ulZZC2Akd13bJqAituiccarhew+JVzpC/YjZxkRfo3xD5eCuv3XUk2
- UlMXr0qvqyzUOT0ZMBCBNO3uJvlxuPz45BV4TogWeMsnyxa7h4Yo8flYy/lB1TDeO7YA
- 9WHtCqCNuVgxDobczKNZbAzU2ZApBvGUCLXlQIu7kIVI/7cRrN+KZC/kHYhIZE3mWelD
- 7I025l4J9lrd3Y0NZIKZQyqurFKwBhSnZvcb5Us7AMCrY5Rguh2GegRlU4gy4vP6k9is
- p+Nmo6/blay9DXvr+HyMtfg8FwmhiY6h89uqW5EagyU/q2IZV9CCz3rn5ZMZdHxZ4bsk
- gjEg==
-X-Gm-Message-State: AOAM531gdmTlP/LOv6AgHZc78G7g+D7b5jryVmt4TaWztztN/Tuqdbjg
- WYaQwDiHDH393R9q8xWzbG7jM4+0TYrtTTaQmLdfnw==
-X-Google-Smtp-Source: ABdhPJyctY+UVbXbXUS8Hj0IdqcAHEUW2X7tROlBaZ4p4skkg9ADhGzXiwSxd8iiP7cM88qUolyFCNLH/xBv6Lr7S+8=
-X-Received: by 2002:aa7:d755:: with SMTP id a21mr4164595eds.146.1623322675275; 
- Thu, 10 Jun 2021 03:57:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lrIZ1-0002NT-AO; Thu, 10 Jun 2021 07:09:31 -0400
+Received: from ozlabs.org ([203.11.71.1]:37213)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lrIYy-0001WH-HV; Thu, 10 Jun 2021 07:09:31 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4G11T00kGHz9sXG; Thu, 10 Jun 2021 21:09:24 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1623323364;
+ bh=eahlqrIzXIg+IUun7kiVLVGe7buv97stqzraWECRcxc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Eo76Fl+c7/Jf+hV4zAxPG5UPYI8iyMXj1iJOe+trpWyvIPV4niI2d0p5jxRSoFE49
+ 1heSRl/5BvY198KNnbDM+ON40T7U5LLo4pso3NyZaXZsxK7Zx8Gn7JKJxPr1OcJz+o
+ A2T2rvFx1x+g58qLHRnWZWczeCYheslqcvd0Sd7M=
+Date: Thu, 10 Jun 2021 20:37:46 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [RFC PATCH 0/5] ppc/Pegasos2 VOF
+Message-ID: <YMHreiLkD7Dp7vuo@yekko>
+References: <cover.1622994395.git.balaton@eik.bme.hu>
+ <5ab75d13-2fca-17cc-b24f-e86430fdda20@ozlabs.ru>
+ <a5786f77-efc1-febb-7ae2-1e9543ca2687@eik.bme.hu>
+ <bb539b72-5548-d035-8089-3d49f4babc1d@ozlabs.ru>
+ <YMHMbVo2zrV6EsZ8@yekko>
+ <b87683ec-675f-51d5-e3cb-f4f932fb2ba8@eik.bme.hu>
 MIME-Version: 1.0
-References: <20210610102617.17281-1-alex.bennee@linaro.org>
-In-Reply-To: <20210610102617.17281-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Jun 2021 11:57:21 +0100
-Message-ID: <CAFEAcA8O1Cca2BnNp5c=0yYbKExYH1sUYe68C_msG_oBSUGW3g@mail.gmail.com>
-Subject: Re: [PATCH v2] semihosting/arm-compat: remove heuristic softmmu
- SYS_HEAPINFO
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dINLBfbSbE+Ys8bl"
+Content-Disposition: inline
+In-Reply-To: <b87683ec-675f-51d5-e3cb-f4f932fb2ba8@eik.bme.hu>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,66 +62,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Andrew Strauss <astrauss11@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Jun 2021 at 11:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The previous numbers were a guess at best. While we could extract the
-> information from a loaded ELF file via -kernel we could still get
-> tripped up by self decompressing or relocating code. Besides sane
-> library code like newlib will fall back to known symbols to determine
-> of the location of the heap. We can still report the limits though as
-> we are reasonably confident that busting out of RAM would be a bad
-> thing for either stack or heap.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Tested-by: Andrew Strauss <astrauss11@gmail.com>
-> Reviewed-by: Andrew Strauss <astrauss11@gmail.com>
-> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
->
-> ---
-> v2
->   - report some known information (limits)
->   - reword the commit message
-> ---
->  semihosting/arm-compat-semi.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.=
-c
-> index 1c29146dcf..8873486e8c 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -1202,10 +1202,14 @@ target_ulong do_common_semihosting(CPUState *cs)
->              retvals[3] =3D 0; /* Stack limit.  */
->  #else
->              limit =3D current_machine->ram_size;
-> -            /* TODO: Make this use the limit of the loaded application. =
- */
-> -            retvals[0] =3D rambase + limit / 2;
-> -            retvals[1] =3D rambase + limit;
-> -            retvals[2] =3D rambase + limit; /* Stack base */
-> +            /*
-> +             * Reporting 0 indicates we couldn't calculate the real
-> +             * values which should force most software to fall back to
-> +             * using information it has.
-> +             */
-> +            retvals[0] =3D 0; /* Heap Base */
-> +            retvals[1] =3D rambase + limit; /* Heap Limit */
-> +            retvals[2] =3D 0; /* Stack base */
->              retvals[3] =3D rambase; /* Stack limit.  */
 
-The spec:
-https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rs=
-t#sys-heapinfo-0x16
+--dINLBfbSbE+Ys8bl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-doesn't document that 'return 0 for "I don't know"' is valid, so if we're
-going to do it we ought to at least note that we're deviating from the
-spec here.
+On Thu, Jun 10, 2021 at 12:04:59PM +0200, BALATON Zoltan wrote:
+>=20
+>=20
+> On Thu, 10 Jun 2021, David Gibson wrote:
+>=20
+> > On Thu, Jun 10, 2021 at 05:14:45PM +1000, Alexey Kardashevskiy wrote:
+> > >=20
+> > >=20
+> > > On 6/9/21 20:28, BALATON Zoltan wrote:
+> > > > On Wed, 9 Jun 2021, Alexey Kardashevskiy wrote:
+> > > > > On 6/7/21 01:46, BALATON Zoltan wrote:
+> > > > > > Based-on: <20210520090557.435689-1-aik@ozlabs.ru>
+> > > > > > ^ That is v20 of Alexey's VOF patch
+> > > > > >=20
+> > > > > > Hello,
+> > > > > >=20
+> > > > > > Posting these for early review now. I plan to rebase on the nex=
+t VOF
+> > > > > > patch that hopefully fixes those points that I had to circumven=
+t in
+> > > > > > patch 1 for now. I've reported these before but now all of thos=
+e that
+> > > > > > are needed for pegasos2 are in one place. Other points I've rep=
+orted
+> > > > > > could be clean ups but not sttictly needed.
+> > > > > >=20
+> > > > > > With this series on top of VOF v20 I can now boot Linux and Mor=
+phOS on
+> > > > > > pegasos2 without needing a firmware blob so I hope this is enou=
+gh to
+> > > > > > get this board in 6.1 and also have it enabled so users can sta=
+rt
+> > > > > > using it. That means that VOF will also be merged by then. This=
+ now
+> > > > > > gives VOF another use case that may help it getting finished.
+> > > > > >=20
+> > > > > > I've also updated my development tree with this series here:
+> > > > > >=20
+> > > > > > https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
+> > > > > >=20
+> > > > > > Please review so I can do any needed changes together with the =
+rebase
+> > > > > > on next VOF patch so we don't miss 6.1 this time.
+> > > > >=20
+> > > > >=20
+> > > > > It would help if you provided the disk or/and kernel or/and
+> > > > > initramdisk images and the example command line to give this a tr=
+y.
+> > > > > And said a few words who is this Pegasos2 guy :) The series looks=
+ ok
+> > > > > to me otherwise. Thanks,
+> > > >=20
+> > > > These were in the original series adding this board:
+> > > >=20
+> > > > https://patchew.org/QEMU/cover.1616680239.git.balaton@eik.bme.hu/
+> > >=20
+> > >=20
+> > > Ah ok. Thanks!
+> > >=20
+> > >=20
+> > > > For testing I've used the kernel from debian 8.11.0 powerpc iso whi=
+ch is
+> > > > known to work on real hardware and MorphOS demo iso available from
+> > > > www.morphos-team.net. For debian look into install/pegasos to find =
+the
+> > > > right vmlinuz-chrp.initrd kernel, for MorphOS use the boot.img from=
+ root
+> > > > of the iso as -kernel.
+> > > >=20
+> > > > What's still missing is some rtas functions like get-time-of-day. A=
+re
+> > > > these any kind of standard and is there a doc about their parameter=
+s and
+> > > > returns or I'll heave to find out from kernel sources? I plan to add
+> > > > these later but not needed to get it boot.
+> > >=20
+> > > pseries guests use what the LoPAPR spec (derived from sPAPR - "server=
+ PAPR")
+> > > describes:
+> > >=20
+> > > https://openpowerfoundation.org/?resource_lib=3Dlinux-on-power-archit=
+ecture-platform-reference
+> >=20
+> > Of course pegasos won't remotely be PAPR, but you could look at how
+> > the RTAS functions are defined there.
+> >=20
+> > I'm not really sure of the origins of RTAS.  It's not in plain
+> > IEEE1275 (the original OF spec), but the fact pegasos uses it suggests
+> > it's not purely a PAPR thing, either.
+>=20
+> Pegasos is supposed to be a CHRP platform so maybe there's something on it
+> in that doc, I haven't checked yet but now you mentioned these I should
+> probably look there.
 
--- PMM
+Sounds like a good bet.  I believe PAPR is a distant descendent of
+CHRP, so that seems pretty likely.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--dINLBfbSbE+Ys8bl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDB63gACgkQbDjKyiDZ
+s5Ljmw/8DJ9kXa0Ac3R546oRzBhlQ3RZvQLFY9LPwfZLjbAFexB0qDkf2qvdfnTy
+MCnjNYSwuo5QMoI4oy+YiBVVGSkbMBvg24I5cQ+MpbfblpDm9JqNA6dhbB2S9wxj
+MIhbrD557CcUDiHgq0O8RrYJDax+RVIz1qNGfIrN2nXe5y5iuETQTglimKI+FcV2
+ZGKdvGFYbsr/yjB/iWWnkJE9v+3OTCS0Sv5DF6IIcbLM5qhTjuRRuIVB9BhO/4IP
+AYPsR7lcdZrLwM/88bR1xiWTfQ2EiDYxabYEOO/ur++gD1ew9j+JLsokoJw1szTA
+EUY2OJVdzh2+ZFljlvu+2ZUVd9oEdZqu+jRJ3XIPl1SaFNJY6V1hzW/Gish8CeCr
+5onJMMMC8gYcdDMOmewvGMmRuQ5z6NdPHBm2UuS9y+3n5NWBS9rZSoKIpJKxlbXX
+tKsGRTDFkgr8fC7yki/t3ZU8YvuNi8lGDeS3D/CKc/lbbtr9cnPUYsXsgIB65lge
+ZRYN9bPWTqy/wnZ/l2KcIpOiFz3b21aTeSrfzFt5gcBe50qJ9M4W0DuxSYV7bXTp
+IYnYfVJNOifGZIquzq1P1Do1nlNeyYUtkUeVt7vnTn5Rfgqp8s/UrbILY9seQOZL
+OGRnv5Ul82H0GeSmQtKOaywabOyCHQdFKq4GQc+FXZmT8yw5cNg=
+=1xu6
+-----END PGP SIGNATURE-----
+
+--dINLBfbSbE+Ys8bl--
 
