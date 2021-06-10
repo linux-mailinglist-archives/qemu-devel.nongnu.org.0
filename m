@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3CA3A34A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 22:12:26 +0200 (CEST)
-Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492553A349A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 22:10:50 +0200 (CEST)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrR2P-00060c-Qm
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 16:12:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55480)
+	id 1lrR0q-00042I-Uj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 16:10:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrR1g-0005Lz-Pn
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:11:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrR1e-00059O-7T
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:11:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lrR1Z-0007mW-Cm
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 20:11:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F7732E816D
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 20:11:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1lrQzZ-0003LJ-5Y
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:09:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1lrQzV-0003hG-PG
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 16:09:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623355765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rj/vLkFW0adT0/UDYqCqgfmJxTYpCB82ij4uXlbpJU8=;
+ b=Adg+uz0pdsz3hDAloS4zz/+AoKHeeS8wkvMmzp96YPxtAHHg6kx/fCRD10g81gp5ez8nwl
+ viu5YbAbhK4RiwSQKEeo/1/KcsNKDmDAsomAw4XvmU3k3V7OttshBKQ3GN5N95y/NEcXXH
+ naXxCM78jE+8bs42d6r2eIgg3pNVyRs=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-LOXUlzKMOweZxQbGCwsYnQ-1; Thu, 10 Jun 2021 16:09:24 -0400
+X-MC-Unique: LOXUlzKMOweZxQbGCwsYnQ-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ o2-20020a4ad4820000b0290208a2516d36so294065oos.16
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 13:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Rj/vLkFW0adT0/UDYqCqgfmJxTYpCB82ij4uXlbpJU8=;
+ b=uYDj5E+3AYUop8Gd5tP0KyU8YJJ9IAXH4keGZOPRzxYBacwoYdPRrH/RlQTRpm803Q
+ 5hQ4F1FANUTZRdEQ3yfMCxwiO3WcZ2Qnxe5muhkbZNrYVvQADGNkGnkvyhknN9QC1p0F
+ 5Ejs70bOVbB4QH/aB9UR+mYi3SE6gBKw5S5xtIp6rDN6V1ENg39E18FZWiltahLhuLJG
+ Kc5UmaCP85xOs4AgMFmG2MDKWE/R5rlu9ipVjkquJflZ7ql2PyNmBKgrhe5OjJqRYSIE
+ q+Fa4SlG0mLHAJdPX+0DCU1padfmZHN+fXL0fYSRCSwRF1Qqtm8mpQzQ9e1Anhwo6BvA
+ ZHBg==
+X-Gm-Message-State: AOAM530RFgeCx69pLO8AiZDXY0ZS+h4W7uu45VR8e8cCuXkJvs+dH3lm
+ E9MEeupXWj1yzJrspKfr4pYKbP4fz/Naq4VhDLILaj3IRmrGoQr/WCsj/GK0eCTeoAn32N7Tj28
+ HsR2BBBgODuDE23qjjnoR/FfpPiQ49LY=
+X-Received: by 2002:a54:448d:: with SMTP id v13mr145594oiv.41.1623355761690;
+ Thu, 10 Jun 2021 13:09:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwhfvkLsmWJqXsHpsIXGcizOS8NtI6xLeLhlNpq2y2qieWP/P9coRLf5IUTlS+UqU48SstIhSwcsEwTqsqlI2I=
+X-Received: by 2002:a54:448d:: with SMTP id v13mr145583oiv.41.1623355761518;
+ Thu, 10 Jun 2021 13:09:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Jun 2021 19:57:20 -0000
-From: Thomas Huth <1914870@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161262934089.14056.18327208796436481224.malonedeb@soybean.canonical.com>
-Message-Id: <162335504062.14970.10194468096926491372.malone@wampee.canonical.com>
-Subject: [Bug 1914870] Re: libvixl compilation failure on Debian unstable
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: f37afdabbad860aa0ac5ede471f2e568b5063ace
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210607202204.1805199-1-nsoffer@redhat.com>
+ <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
+ <CAMRbyyukE9iTmM6OB_xAA1n6tRiRRxwKojaO5wzRwAR-8-FX3g@mail.gmail.com>
+ <20210610183443.clk43ngkobzyjopy@redhat.com>
+In-Reply-To: <20210610183443.clk43ngkobzyjopy@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Thu, 10 Jun 2021 23:09:05 +0300
+Message-ID: <CAMRbyysoYhcyiP2mWubfZsj09k=Ea_3-RPr+Tt7KvoE1z3jrNA@mail.gmail.com>
+Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,117 +91,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914870 <1914870@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Nir Soffer <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix has been committed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D2fed21d25b3a9562869
+On Thu, Jun 10, 2021 at 9:35 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Tue, Jun 08, 2021 at 07:38:10PM +0300, Nir Soffer wrote:
+> > The example I provided was not detailed enough, what we actually do is:
+> >
+> >     qemu-nbd .. 'json:{"driver": "qcow2", "backing": null, "file":
+> > {"driver": "file", "filename": "top.qcow2"}}'
+> >
+> > So there is no backing chain and allocation depth is not relevant.
+> > - Allocated areas should be reported with flags 0
+> > - Zero areas which are not holes should be reported as NBD_STATE_ZERO
+> > - Zero areas which are holes (not allocated in this image) should be
+> > reported as NBD_STATE_HOLE
+>
+> Thinking about this a bit more, here's something I noticed:
+>
+> $ qemu-img map --output=json -f raw base.raw
+> [{ "start": 0, "length": 196608, "depth": 0, "zero": false, "data": true, "offset": 0},
+> { "start": 196608, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": 196608}]
+>
+> which matches what I've said elsewhere in this thread: the entire
+> image is reported as "depth":0 because the raw file is responsible for
+> 100% of the content.
+>
+> But:
+>
+> $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2","backing":null, \
+>   "file":{"driver":"file","filename":"top.qcow2"}}'
+> [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false},
+> { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+> { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false}]
+>
+> also reports the entire file at "depth":0, which is misleading, since
+> we have just been arguing from the qemu:allocation-depth perspective
+> (and also from bdrv_block_status) that the qcow2 image is NOT 100%
+> allocated (in the sense where allocation == data comes locally).
+> Perhaps it might be better if we tweaked the above qemu-img map to
+> produce:
+>
+> [{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
+> { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+> { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
+> { "start": 196608, "length": 65536, "depth": -1, "zero": true, "data": false}]
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+It will be more consistent with "offset" to drop "depth" from output
+if we don't have it:
 
--- =
+    [{ "start": 0, "length": 65536, "zero": true, "data": false},
+     { "start": 65536, "length": 65536, "depth": 0, "zero": false,
+"data": true, "offset": 327680},
+     { "start": 131072, "length": 65536, "depth": 0, "zero": true,
+"data": false},
+     { "start": 196608, "length": 65536, "zero": true, "data": false}]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914870
-
-Title:
-  libvixl compilation failure on Debian unstable
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  As of commit 0e324626306:
-
-  $ lsb_release -d
-  Description:    Debian GNU/Linux bullseye/sid
-
-  Project version: 5.2.50
-  C compiler for the host machine: cc (gcc 10.2.1 "cc (Debian 10.2.1-6) 10.=
-2.1 20210110")
-  C linker for the host machine: cc ld.bfd 2.35.1
-  C++ compiler for the host machine: c++ (gcc 10.2.1 "c++ (Debian 10.2.1-6)=
- 10.2.1 20210110")
-  C++ linker for the host machine: c++ ld.bfd 2.35.1
-
-  [6/79] Compiling C++ object libcommon.fa.p/disas_libvixl_vixl_utils.cc.o
-  FAILED: libcommon.fa.p/disas_libvixl_vixl_utils.cc.o =
-
-  c++ -Ilibcommon.fa.p -I. -I.. -Iqapi -Itrace -Iui/shader -I/usr/include/c=
-apstone -I/usr/include/glib-2.0 -I/usr/lib/hppa-linux-gnu/glib-2.0/include =
--fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Wnon-virtual-dtor -We=
-rror -std=3Dgnu++11 -O2 -g -isystem /home/philmd/qemu/linux-headers -isyste=
-m linux-headers -iquote . -iquote /home/philmd/qemu -iquote /home/philmd/qe=
-mu/include -iquote /home/philmd/qemu/disas/libvixl -iquote /home/philmd/qem=
-u/tcg/hppa -iquote /home/philmd/qemu/accel/tcg -pthread -D__STDC_LIMIT_MACR=
-OS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -U_FORTIFY_SOURCE -D_FOR=
-TIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE =
--Wundef -Wwrite-strings -fno-strict-aliasing -fno-common -fwrapv -Wtype-lim=
-its -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty=
--body -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno=
--missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fPIE -MD -MQ li=
-bcommon.fa.p/disas_libvixl_vixl_utils.cc.o -MF libcommon.fa.p/disas_libvixl=
-_vixl_utils.cc.o.d -o libcommon.fa.p/disas_libvixl_vixl_utils.cc.o -c ../di=
-sas/libvixl/vixl/utils.cc
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:36:43: error: missing binary operator before token =
-"("
-     36 | #if defined __cplusplus && (__GNUC_PREREQ (4, 4) \
-        |                                           ^
-  /usr/include/string.h:53:62: error: missing binary operator before token =
-"("
-     53 | #if defined __USE_MISC || defined __USE_XOPEN || __GLIBC_USE (ISO=
-C2X)
-        |                                                              ^
-  /usr/include/string.h:165:21: error: missing binary operator before token=
- "("
-    165 |      || __GLIBC_USE (LIB_EXT2) || __GLIBC_USE (ISOC2X))
-        |                     ^
-  /usr/include/string.h:174:43: error: missing binary operator before token=
- "("
-    174 | #if defined __USE_XOPEN2K8 || __GLIBC_USE (LIB_EXT2) || __GLIBC_U=
-SE (ISOC2X)
-        |                                           ^
-  /usr/include/string.h:492:19: error: missing binary operator before token=
- "("
-    492 | #if __GNUC_PREREQ (3,4)
-        |                   ^
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:28:1: error: =E2=80=98__BEGIN_DECLS=E2=80=99 does n=
-ot name a type
-     28 | __BEGIN_DECLS
-        | ^~~~~~~~~~~~~
-  In file included from /home/philmd/qemu/disas/libvixl/vixl/utils.h:30,
-                   from ../disas/libvixl/vixl/utils.cc:27:
-  /usr/include/string.h:44:8: error: =E2=80=98size_t=E2=80=99 has not been =
-declared
-     44 |        size_t __n) __THROW __nonnull ((1, 2));
-        |        ^~~~~~
-  /usr/include/string.h:44:20: error: expected initializer before =E2=80=98=
-__THROW=E2=80=99
-     44 |        size_t __n) __THROW __nonnull ((1, 2));
-        |                    ^~~~~~~
-  /usr/include/string.h:47:56: error: =E2=80=98size_t=E2=80=99 has not been=
- declared
-     47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
-        |                                                        ^~~~~~
-  /usr/include/string.h:48:6: error: expected initializer before =E2=80=98_=
-_THROW=E2=80=99
-     48 |      __THROW __nonnull ((1, 2));
-        |      ^~~~~~~
-  /usr/include/string.h:61:42: error: =E2=80=98size_t=E2=80=99 has not been=
- declared
-     61 | extern void *memset (void *__s, int __c, size_t __n) __THROW __no=
-nnull ((1));
-        |                                          ^~~~~~
-
-  Is there a package dependency missing?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914870/+subscriptions
 
