@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69673A2FD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:51:38 +0200 (CEST)
-Received: from localhost ([::1]:47566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A293A2FEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:56:39 +0200 (CEST)
+Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMy1-0002PP-IF
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60736)
+	id 1lrN2r-0006mc-Om
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrMxH-0001k0-3D
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:50:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51344)
+ id 1lrN21-00066a-Rr
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:55:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrMxB-0007Tl-1Q
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:50:50 -0400
+ id 1lrN1z-00021H-KV
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:55:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lrMx7-00010J-DA
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:50:41 +0000
+ id 1lrN1w-0001qD-0J
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:55:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4F3BE2E8169
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:50:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E8E1A2E8169
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:55:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Jun 2021 15:44:30 -0000
-From: Thomas Huth <1913919@bugs.launchpad.net>
+Date: Thu, 10 Jun 2021 15:50:03 -0000
+From: Thomas Huth <1880355@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland philmd pmaydell th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161206040524.32468.3095757576345215405.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162333987032.28452.15253226343201255184.malone@gac.canonical.com>
-Subject: [Bug 1913919] Re: Heap-buffer-overflow in sdhci_write_dataport
+References: <159029353528.907.11982786579949073896.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162334020339.29254.16216742777384168113.malone@gac.canonical.com>
+Subject: [Bug 1880355] Re: Length restrictions for fw_cfg_dma_transfer?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: e395eb6d84e72182c37b5e75e9ca76b0de0d2ce2
+X-Launchpad-Hash: cd219ce4933ed18779938fd229a654fe597f4d1c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,12 +70,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913919 <1913919@bugs.launchpad.net>
+Reply-To: Bug 1880355 <1880355@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you still reproduce this issue with the latest git version of QEMU?
-... for me, it does not crash anymore.
+Can you still reproduce this problem with the current git version of
+QEMU? ... for me, the command now returns immediately.
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -85,114 +84,72 @@ Can you still reproduce this issue with the latest git version of QEMU?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913919
+https://bugs.launchpad.net/bugs/1880355
 
 Title:
-  Heap-buffer-overflow in sdhci_write_dataport
+  Length restrictions for fw_cfg_dma_transfer?
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Reproducer:
-  cat << EOF | ./qemu-system-aarch64 -qtest stdio \
-  -machine raspi3b,accel=3Dqtest -m 1G =
+  For me, this takes close to 3 minutes at 100% CPU:
+  echo "outl 0x518 0x9596ffff" | ./i386-softmmu/qemu-system-i386 -M q35 -m =
+32 -nographic -accel qtest -monitor none -serial none -qtest stdio
 
-  write 0x3f30002c 0x1 0x25
-  write 0x3f300004 0x1 0x01
-  write 0x3f300006 0x1 0xc0
-  write 0x3f30000c 0x1 0x22
-  write 0x3f30000e 0x1 0x20
-  write 0x3f30000f 0x1 0x0
-  write 0x3f300000 0x1 0x48
-  write 0x3f300003 0x1 0x0
-  write 0x3f300005 0x1 0x14
-  write 0x3f300007 0x1 0x10
-  write 0x3f30000c 0x1 0x32
-  write 0x3f30000f 0x1 0x0
-  write 0x3f300001 0x1 0x00
-  write 0x3f300002 0x1 0x30
-  write 0x3f300003 0x1 0x3f
-  EOF
+  #0  phys_page_find (d=3D0x606000035d80, addr=3D136728041144404) at /exec.=
+c:338
+  #1  address_space_lookup_region (d=3D0x606000035d80, addr=3D1367280411444=
+04, resolve_subpage=3Dtrue) at /exec.c:363
+  #2  address_space_translate_internal (d=3D0x606000035d80, addr=3D13672804=
+1144404, xlat=3D0x7fff1fc0d070, plen=3D0x7fff1fc0d090, resolve_subpage=3Dtr=
+ue) at /exec.c:382
+  #3  flatview_do_translate (fv=3D0x606000035d20, addr=3D136728041144404, x=
+lat=3D0x7fff1fc0d070, plen_out=3D0x7fff1fc0d090, page_mask_out=3D0x0, is_wr=
+ite=3Dtrue, is_mmio=3Dtrue, target_as=3D0x7fff1fc0ce10, attrs=3D...)
+      pment/qemu/exec.c:520
+  #4  flatview_translate (fv=3D0x606000035d20, addr=3D136728041144404, xlat=
+=3D0x7fff1fc0d070, plen=3D0x7fff1fc0d090, is_write=3Dtrue, attrs=3D...) at =
+/exec.c:586
+  #5  flatview_write_continue (fv=3D0x606000035d20, addr=3D136728041144404,=
+ attrs=3D..., ptr=3D0x7fff1fc0d660, len=3D172, addr1=3D136728041144400, l=
+=3D172, mr=3D0x557fd54e77e0 <io_mem_unassigned>)
+      pment/qemu/exec.c:3160
+  #6  flatview_write (fv=3D0x606000035d20, addr=3D136728041144064, attrs=3D=
+..., buf=3D0x7fff1fc0d660, len=3D512) at /exec.c:3177
+  #7  address_space_write (as=3D0x557fd54e7a00 <address_space_memory>, addr=
+=3D136728041144064, attrs=3D..., buf=3D0x7fff1fc0d660, len=3D512) at /exec.=
+c:3271
+  #8  dma_memory_set (as=3D0x557fd54e7a00 <address_space_memory>, addr=3D13=
+6728041144064, c=3D0 '\000', len=3D1378422272) at /dma-helpers.c:31
+  #9  fw_cfg_dma_transfer (s=3D0x61a000001e80) at /hw/nvram/fw_cfg.c:400
+  #10 fw_cfg_dma_mem_write (opaque=3D0x61a000001e80, addr=3D4, value=3D4294=
+940309, size=3D4) at /hw/nvram/fw_cfg.c:467
+  #11 memory_region_write_accessor (mr=3D0x61a000002200, addr=3D4, value=3D=
+0x7fff1fc0e3d0, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /me=
+mory.c:483
+  #12 access_with_adjusted_size (addr=3D4, value=3D0x7fff1fc0e3d0, size=3D4=
+, access_size_min=3D1, access_size_max=3D8, access_fn=3D0x557fd2288c80 <mem=
+ory_region_write_accessor>, mr=3D0x61a000002200, attrs=3D...)
+      pment/qemu/memory.c:539
+  #13 memory_region_dispatch_write (mr=3D0x61a000002200, addr=3D4, data=3D4=
+294940309, op=3DMO_32, attrs=3D...) at /memory.c:1476
+  #14 flatview_write_continue (fv=3D0x606000035f00, addr=3D1304, attrs=3D..=
+., ptr=3D0x7fff1fc0ec40, len=3D4, addr1=3D4, l=3D4, mr=3D0x61a000002200) at=
+ /exec.c:3137
+  #15 flatview_write (fv=3D0x606000035f00, addr=3D1304, attrs=3D..., buf=3D=
+0x7fff1fc0ec40, len=3D4) at /exec.c:3177
+  #16 address_space_write (as=3D0x557fd54e7bc0 <address_space_io>, addr=3D1=
+304, attrs=3D..., buf=3D0x7fff1fc0ec40, len=3D4) at /exec.c:3271
 
-  Stacktrace:
-  =3D=3D654080=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
-s 0x619000017b80 at pc 0x562988348719 bp 0x7fffd26552d0 sp 0x7fffd26552c8
-  WRITE of size 1 at 0x619000017b80 thread T0
-      #0 0x562988348718 in sdhci_write_dataport /home/alxndr/Development/qe=
-mu/build/../hw/sd/sdhci.c:560:39
-      #1 0x562988348718 in sdhci_write /home/alxndr/Development/qemu/build/=
-../hw/sd/sdhci.c:1172:13
-      #2 0x5629890591fe in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c:491:5
-      #3 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:552:18
-      #4 0x562989058467 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c
-      #5 0x5629893e8ffb in flatview_write_continue /home/alxndr/Development=
-/qemu/build/../softmmu/physmem.c:2759:23
-      #6 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bui=
-ld/../softmmu/physmem.c:2799:14
-      #7 0x5629893de71b in address_space_write /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2891:18
-      #8 0x562988334d9c in dma_memory_rw_relaxed /home/alxndr/Development/q=
-emu/include/sysemu/dma.h:88:12
-      #9 0x562988334d9c in dma_memory_rw /home/alxndr/Development/qemu/incl=
-ude/sysemu/dma.h:127:12
-      #10 0x562988334d9c in dma_memory_write /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:163:12
-      #11 0x562988334d9c in sdhci_sdma_transfer_multi_blocks /home/alxndr/D=
-evelopment/qemu/build/../hw/sd/sdhci.c:617:13
-      #12 0x56298834427f in sdhci_write /home/alxndr/Development/qemu/build=
-/../hw/sd/sdhci.c:1129:17
-      #13 0x5629890591fe in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/build/../softmmu/memory.c:491:5
-      #14 0x562989058bfb in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/build/../softmmu/memory.c:552:18
-      #15 0x562989058467 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/build/../softmmu/memory.c
-      #16 0x5629893e8ffb in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/build/../softmmu/physmem.c:2759:23
-      #17 0x5629893de71b in flatview_write /home/alxndr/Development/qemu/bu=
-ild/../softmmu/physmem.c:2799:14
-      #18 0x5629893de71b in address_space_write /home/alxndr/Development/qe=
-mu/build/../softmmu/physmem.c:2891:18
-      #19 0x56298904ad35 in qtest_process_command /home/alxndr/Development/=
-qemu/build/../softmmu/qtest.c:654:9
-      #20 0x562989043b97 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/build/../softmmu/qtest.c:797:9
-      #21 0x562989894286 in fd_chr_read /home/alxndr/Development/qemu/build=
-/../chardev/char-fd.c:68:9
-      #22 0x7f535645baae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x51aae)
-      #23 0x562989eef363 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/build/../util/main-loop.c:232:9
-      #24 0x562989eef363 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/build/../util/main-loop.c:255:5
-      #25 0x562989eef363 in main_loop_wait /home/alxndr/Development/qemu/bu=
-ild/../util/main-loop.c:531:11
-      #26 0x562988faa599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
-ild/../softmmu/runstate.c:721:9
-      #27 0x5629872371fd in main /home/alxndr/Development/qemu/build/../sof=
-tmmu/main.c:50:5
-      #28 0x7f5355f00cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-      #29 0x56298718abc9 in _start (/home/alxndr/Development/qemu/build/qem=
-u-system-aarch64+0x3350bc9)
+  =
 
-  0x619000017b80 is located 0 bytes to the right of 1024-byte region [0x619=
-000017780,0x619000017b80)
-  allocated by thread T0 here:
-      #0 0x562987204db2 in calloc (/home/alxndr/Development/qemu/build/qemu=
--system-aarch64+0x33cadb2)
-      #1 0x7f5356461ae0 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
-.so.0+0x57ae0)
-      #2 0x56298834a187 in sdhci_sysbus_realize /home/alxndr/Development/qe=
-mu/build/../hw/sd/sdhci.c:1469:5
-      #3 0x56298987fe77 in device_set_realized /home/alxndr/Development/qem=
-u/build/../hw/core/qdev.c:761:13
-      #4 0x5629898153b5 in property_set_bool /home/alxndr/Development/qemu/=
-build/../qom/object.c:2255:5
+  It looks like fw_cfg_dma_transfer gets the address(136728041144064) and l=
+ength(1378422272) for the read from the value provided as input 4294940309 =
+(0xFFFF9695) which lands in pcbios. Should there be any limits on the lengt=
+h of guest-memory that fw_cfg should populate?
+  Found by libfuzzer
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913919/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1880355/+subscriptions
 
