@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EB53A2794
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:00:43 +0200 (CEST)
-Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397073A279B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 11:02:51 +0200 (CEST)
+Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrGYL-0008Vk-Rs
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:00:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
+	id 1lrGaQ-00020p-B4
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 05:02:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lrGWs-0007nk-TN
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:59:10 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:28528
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1lrGWq-0000r3-3o
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 04:59:10 -0400
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AzFH6F6wsGkT3l7joIxRqKrPwxL1zdoMgy1kn?=
- =?us-ascii?q?xilNoRw8SKKlfqeV7ZAmPH7P+VEssR4b+exoVJPtfZq+z+8R3WByB8bAYOCOgg?=
- =?us-ascii?q?LBR+sO0WKI+Vzd8kPFmdK1rZ0QEZSWFueAdmRSvILr5hWiCdY8zJ2i+KCsv+3X?=
- =?us-ascii?q?yHBgVmhRGthdxjY8GgCGCVd3WQUDIZI4EaCX7s1BqyHlVm8Qaq2AdwE4dtmGt9?=
- =?us-ascii?q?vWj4jnfBJDIxYm7TOFhTSu5KW/MzXw5GZ5bw9y?=
-X-IronPort-AV: E=Sophos;i="5.83,263,1616428800"; d="scan'208";a="109455003"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 10 Jun 2021 16:59:01 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
- by cn.fujitsu.com (Postfix) with ESMTP id 3637D4C36A11;
- Thu, 10 Jun 2021 16:58:57 +0800 (CST)
-Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 10 Jun 2021 16:58:57 +0800
-Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
- G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.2 via Frontend Transport; Thu, 10 Jun 2021 16:58:58 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [RFC PATCH] migration/rdma: Fix out of order wrid
-Date: Thu, 10 Jun 2021 16:58:31 +0800
-Message-ID: <20210610085831.19779-1-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrGYj-0000mJ-Fs
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:01:05 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lrGYd-0002B1-FK
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 05:01:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lrGYX-0004uX-IA
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 09:00:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 590812E8169
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 09:00:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-yoursite-MailScanner-ID: 3637D4C36A11.AB0E7
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lizhijian@fujitsu.com
-Received-SPF: neutral client-ip=183.91.158.132;
- envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Jun 2021 08:48:15 -0000
+From: Thomas Huth <1907497@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20201209203024.mvdoyhe3qqg6frgg@mozz.bu.edu>
+Message-Id: <162331489625.6163.17639310554147977260.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1907497] Re: [OSS-Fuzz] Issue 28435
+ qemu:qemu-fuzz-i386-target-generic-fuzz-intel-hda: Stack-overflow in
+ ldl_le_dma
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
+X-Launchpad-Hash: 05145947a1086d45f37980cfeaae3c893bffd6c4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,115 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
+Reply-To: Bug 1907497 <1907497@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-destination:
-../qemu/build/qemu-system-x86_64 -enable-kvm -netdev tap,id=hn0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown -device e1000,netdev=hn0,mac=50:52:54:00:11:22 -boot c -drive if=none,file=./Fedora-rdma-server-migration.qcow2,id=drive-virtio-disk0 -device virtio-blk-pci,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0 -m 2048 -smp 2 -device piix3-usb-uhci -device usb-tablet -monitor stdio -vga qxl -spice streaming-video=filter,port=5902,disable-ticketing -incoming rdma:192.168.22.23:8888
-qemu-system-x86_64: -spice streaming-video=filter,port=5902,disable-ticketing: warning: short-form boolean option 'disable-ticketing' deprecated
-Please use disable-ticketing=on instead
-QEMU 6.0.50 monitor - type 'help' for more information
-(qemu) trace-event qemu_rdma_block_for_wrid_miss on
-(qemu) dest_init RDMA Device opened: kernel name rxe_eth0 uverbs device name uverbs2, infiniband_verbs class device path /sys/class/infiniband_verbs/uverbs2, infiniband class device path /sys/class/infiniband/rxe_eth0, transport: (2) Ethernet
-qemu_rdma_block_for_wrid_miss A Wanted wrid CONTROL SEND (2000) but got CONTROL RECV (4000)
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-source:
-../qemu/build/qemu-system-x86_64 -enable-kvm -netdev tap,id=hn0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown -device e1000,netdev=hn0,mac=50:52:54:00:11:22 -boot c -drive if=none,file=./Fedora-rdma-server.qcow2,id=drive-virtio-disk0 -device virtio-blk-pci,bus=pci.0,addr=0x4,drive=drive-virtio-disk0,id=virtio-disk0 -m 2048 -smp 2 -device piix3-usb-uhci -device usb-tablet -monitor stdio -vga qxl -spice streaming-video=filter,port=5901,disable-ticketing -S
-qemu-system-x86_64: -spice streaming-video=filter,port=5901,disable-ticketing: warning: short-form boolean option 'disable-ticketing' deprecated
-Please use disable-ticketing=on instead
-QEMU 6.0.50 monitor - type 'help' for more information
-(qemu)
-(qemu) trace-event qemu_rdma_block_for_wrid_miss on
-(qemu) migrate -d rdma:192.168.22.23:8888
-source_resolve_host RDMA Device opened: kernel name rxe_eth0 uverbs device name uverbs2, infiniband_verbs class device path /sys/class/infiniband_verbs/uverbs2, infiniband class device path /sys/class/infiniband/rxe_eth0, transport: (2) Ethernet
-(qemu) qemu_rdma_block_for_wrid_miss A Wanted wrid WRITE RDMA (1) but got CONTROL RECV (4000)
+-- =
 
-NOTE: soft RoCE as the rdma device.
-[root@iaas-rpma images]# rdma link show rxe_eth0/1
-link rxe_eth0/1 state ACTIVE physical_state LINK_UP netdev eth0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907497
 
-This migration cannot be completed since out of order(OOO) CQ event occurs.
-OOO cases will occur in both source side and destination side. And it
-happens on only SEND and RECV are out of order. OOO between 'WRITE RDMA' and
-'RECV' doesn't matter.
+Title:
+  [OSS-Fuzz] Issue 28435 qemu:qemu-fuzz-i386-target-generic-fuzz-intel-
+  hda: Stack-overflow in ldl_le_dma
 
-below the OOO sequence:
-	  source                     destination
-  qemu_rdma_write_one()          qemu_rdma_registration_handle()
-1.	post_recv X                 post_recv Y
-2.			            post_send X
-3.			            wait X CQ event
-4.	X CQ event
-5.	post_send Y
-6.	wait Y CQ event
-7.			            Y CQ event (dropped)
-8.	Y CQ event(send Y done)
-9.			            X CQ event(send X done)
-10.                                 wait Y CQ event(dropped at (7), blocks forever)
+Status in QEMU:
+  Confirmed
 
-Looks it only happens on soft RoCE rdma device in my a hundred of runs,
-a hardward IB device works fine.
+Bug description:
+   affects qemu
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
-This is just a draft to address this problem. One possible approach
-could be creating their independent CQ for both SEND and RECV, it can
-help us to poll the CQ we are really insterested in. But it could be a
-big changes.
----
- migration/rdma.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index b703bf1b918..7a2b0a8853e 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -364,6 +364,8 @@ typedef struct RDMAContext {
-     struct ibv_comp_channel *comp_channel;  /* completion channel */
-     struct ibv_pd *pd;                      /* protection domain */
-     struct ibv_cq *cq;                      /* completion queue */
-+    int64_t ooo_wrid;
-+    int64_t ooo_wrid_byte_len;
- 
-     /*
-      * If a previous write failed (perhaps because of a failed
-@@ -1612,11 +1614,32 @@ static int qemu_rdma_block_for_wrid(RDMAContext *rdma, int wrid_requested,
-         wr_id = wr_id_in & RDMA_WRID_TYPE_MASK;
- 
-         if (wr_id == RDMA_WRID_NONE) {
-+            if (rdma->ooo_wrid >= RDMA_WRID_SEND_CONTROL && rdma->ooo_wrid == wrid_requested) {
-+                error_report("get expected ooo wrid %d", wrid_requested);
-+                if (byte_len && rdma->ooo_wrid_byte_len != -1) {
-+                    *byte_len = rdma->ooo_wrid_byte_len;
-+                    rdma->ooo_wrid = RDMA_WRID_NONE;
-+                    return 0;
-+                }
-+            }
-             break;
-         }
-         if (wr_id != wrid_requested) {
-             trace_qemu_rdma_block_for_wrid_miss(print_wrid(wrid_requested),
-                        wrid_requested, print_wrid(wr_id), wr_id);
-+            if (wr_id >= RDMA_WRID_SEND_CONTROL) {
-+                if (rdma->ooo_wrid > RDMA_WRID_NONE) {
-+                    error_report("more than one out of order wird(%ld, %ld)", rdma->ooo_wrid, wr_id);
-+                    return -1;
-+                }
-+                error_report("get out of order wird(%ld)\n", wr_id);
-+                rdma->ooo_wrid = wr_id;
-+                if (byte_len) {
-+                    rdma->ooo_wrid_byte_len = *byte_len;
-+                } else {
-+                    rdma->ooo_wrid_byte_len = -1;
-+                }
-+            }
-         }
-     }
- 
--- 
-2.28.0
+  cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
+  -device intel-hda,id=3Dhda0 -device hda-output,bus=3Dhda0.0 \
+  -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 \
+  -qtest stdio
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0xffff
+  write 0x0 0x1 0x12
+  write 0x2 0x1 0x2f
+  outl 0xcf8 0x80000811
+  outl 0xcfc 0x5a6a4406
+  write 0x6a44005a 0x1 0x11
+  write 0x6a44005c 0x1 0x3f
+  write 0x6a442050 0x4 0x0000446a
+  write 0x6a44204a 0x1 0xf3
+  write 0x6a44204c 0x1 0xff
+  writeq 0x6a44005a 0x17b3f0011
+  write 0x6a442050 0x4 0x0000446a
+  write 0x6a44204a 0x1 0xf3
+  write 0x6a44204c 0x1 0xff
+  EOF
 
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D411958=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
+fcaeb8bc88 (pc 0x55c7c9dc1159 bp 0x7ffcaeb8c4d0 sp 0x7ffcaeb8bc90 T0)
+      #0 0x55c7c9dc1159 in __asan_memcpy (u-system-i386+0x2a13159)
+      #1 0x55c7cb2a457e in flatview_do_translate softmmu/physmem.c:513:12
+      #2 0x55c7cb2bdab0 in flatview_translate softmmu/physmem.c:563:15
+      #3 0x55c7cb2bdab0 in flatview_read softmmu/physmem.c:2861:10
+      #4 0x55c7cb2bdab0 in address_space_read_full softmmu/physmem.c:2875:18
+      #5 0x55c7caaec937 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
+      #6 0x55c7caaec937 in dma_memory_rw include/sysemu/dma.h:110:12
+      #7 0x55c7caaec937 in dma_memory_read include/sysemu/dma.h:116:12
+      #8 0x55c7caaec937 in ldl_le_dma include/sysemu/dma.h:179:1
+      #9 0x55c7caaec937 in ldl_le_pci_dma include/hw/pci/pci.h:816:1
+      #10 0x55c7caaec937 in intel_hda_corb_run hw/audio/intel-hda.c:338:16
+      #11 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
+91:5
+      #12 0x55c7cb2e6bd3 in access_with_adjusted_size softmmu/memory.c:552:=
+18
+      #13 0x55c7cb2e646c in memory_region_dispatch_write softmmu/memory.c
+      #14 0x55c7cb2c8445 in flatview_write_continue softmmu/physmem.c:2759:=
+23
+      #15 0x55c7cb2bdfb8 in flatview_write softmmu/physmem.c:2799:14
+      #16 0x55c7cb2bdfb8 in address_space_write softmmu/physmem.c:2891:18
+      #17 0x55c7caae2c54 in dma_memory_rw_relaxed include/sysemu/dma.h:87:18
+      #18 0x55c7caae2c54 in dma_memory_rw include/sysemu/dma.h:110:12
+      #19 0x55c7caae2c54 in dma_memory_write include/sysemu/dma.h:122:12
+      #20 0x55c7caae2c54 in stl_le_dma include/sysemu/dma.h:179:1
+      #21 0x55c7caae2c54 in stl_le_pci_dma include/hw/pci/pci.h:816:1
+      #22 0x55c7caae2c54 in intel_hda_response hw/audio/intel-hda.c:370:5
+      #23 0x55c7caaeca00 in intel_hda_corb_run hw/audio/intel-hda.c:342:9
+      #24 0x55c7cb2e7198 in memory_region_write_accessor softmmu/memory.c:4=
+91:5
+  ...
 
+  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
+  fuzz/issues/detail?id=3D28435
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907497/+subscriptions
 
