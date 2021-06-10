@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64773A2947
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:22:06 +0200 (CEST)
-Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39CC3A2951
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 12:26:09 +0200 (CEST)
+Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrHp7-0001ae-TZ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46552)
+	id 1lrHt2-0007In-Pc
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 06:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrHjT-0006b1-V5
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25786)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrHjf-00070i-2b
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:16:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrHjS-0001Ck-CQ
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:16:15 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrHjc-0001IV-QQ
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 06:16:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623320173;
+ s=mimecast20190719; t=1623320183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eREFH8/1ruOOgqC2Q7hBpo6EM+mZzanplceDA5w2M+0=;
- b=jAI2KIvUWnqu4vhY2YyDpf/6kPM5Vm+nbA1zPEYrrEphznRZlAwFatykrxTceN0KRe1vSD
- 6dZMk44tVaCcALHnWOeFdPD9/m/2c97S54Qd+vqCDhKa0l6RRNbArjimQZZgrbKLB180ef
- 6wkgr5ThGIdAi44tY4KEa1oXFCLHTcA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RYeo3QXoPV73JdQivHo9olDHnBSgCEcjDl7hZRRp+Tw=;
+ b=ICExy4WwVd/e5/iS6N+sYuviAZs3DfrsLKjIATD52koKHCX3mRtbvF6aqnIxkv4WPaoops
+ wsTZ+1Glqdcbo90VgxeBldYwdPf0siZ2OF5OfYyv6XAcw7SxQjep0l+v3cunSQOMGJG2r3
+ Ocp9l5Z837Qdcc1V0FVeTn1xiP3hxS4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-qA1k49OiOKGNMgvR_pNOhQ-1; Thu, 10 Jun 2021 06:16:11 -0400
-X-MC-Unique: qA1k49OiOKGNMgvR_pNOhQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-208-NGbBOvdlNtO8SCUQ5R_57A-1; Thu, 10 Jun 2021 06:16:22 -0400
+X-MC-Unique: NGbBOvdlNtO8SCUQ5R_57A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47ED0100C61A;
- Thu, 10 Jun 2021 10:16:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A43118D6A25;
+ Thu, 10 Jun 2021 10:16:21 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
  [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B81BD5D9F0;
- Thu, 10 Jun 2021 10:15:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C8226091A;
+ Thu, 10 Jun 2021 10:16:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0B92918000B2; Thu, 10 Jun 2021 12:15:53 +0200 (CEST)
+ id 2B2AF180093F; Thu, 10 Jun 2021 12:15:53 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] modules: add support for target-specific modules.
-Date: Thu, 10 Jun 2021 12:15:49 +0200
-Message-Id: <20210610101553.943689-1-kraxel@redhat.com>
+Subject: [PATCH 3/4] modules: target-specific module build infrastructure
+Date: Thu, 10 Jun 2021 12:15:52 +0200
+Message-Id: <20210610101553.943689-4-kraxel@redhat.com>
+In-Reply-To: <20210610101553.943689-1-kraxel@redhat.com>
+References: <20210610101553.943689-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -83,26 +86,56 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based on the "modules: add metadata database" patch series sent=0D
-earlier today.  Adds support for target-specific modules to the=0D
-module code and build infrastructure.  Builds one simple module=0D
-(virtio-9p-device) for testing purposes.  Well, one module per=0D
-target to be exact ;)=0D
-=0D
-Gerd Hoffmann (4):=0D
-  modules: factor out arch check=0D
-  modules: check arch on qom lookup=0D
-  modules: target-specific module build infrastructure=0D
-  modules: build virtio-9p modular=0D
-=0D
- hw/9pfs/virtio-9p-device.c |  2 ++=0D
- util/module.c              | 30 ++++++++++++++++++++++++------=0D
- hw/9pfs/meson.build        | 11 ++++++++++-=0D
- meson.build                | 26 ++++++++++++++++++++++++++=0D
- 4 files changed, 62 insertions(+), 7 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ meson.build | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index 9823c5889140..a22c26850429 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1781,6 +1781,7 @@ user_ss = ss.source_set()
+ util_ss = ss.source_set()
+ 
+ modules = {}
++target_modules = {}
+ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
+@@ -2052,6 +2053,31 @@ foreach d, list : modules
+   endforeach
+ endforeach
+ 
++foreach d, list : target_modules
++  foreach m, module_ss : list
++    if enable_modules and targetos != 'windows'
++      foreach target : target_dirs
++        config_target = config_target_mak[target]
++        config_target += config_host
++        target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
++        c_args = ['-DNEED_CPU_H',
++                  '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
++                  '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
++        target_module_ss = module_ss.apply(config_target, strict: false)
++        sl = static_library(target + '-' + d + '-' + m,
++                            [genh, target_module_ss.sources()],
++                            dependencies: [modulecommon, target_module_ss.dependencies()],
++                            include_directories: target_inc,
++                            c_args: c_args,
++                            pic: true)
++        softmmu_mods += sl
++      endforeach
++    else
++      specific_ss.add_all(module_ss)
++    endif
++  endforeach
++endforeach
++
+ nm = find_program('nm')
+ undefsym = find_program('scripts/undefsym.py')
+ block_syms = custom_target('block.syms', output: 'block.syms',
+-- 
+2.31.1
 
 
