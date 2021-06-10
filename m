@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6479A3A2447
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:10:26 +0200 (CEST)
-Received: from localhost ([::1]:50666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C443A243B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 08:06:43 +0200 (CEST)
+Received: from localhost ([::1]:39748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrDtZ-0008Dh-Et
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46094)
+	id 1lrDpy-0000mt-F1
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 02:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDiu-0004Jw-Tv
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDiu-0004Jx-WA
  for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:59:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52293)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDir-00021b-OW
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lrDir-00020m-CE
  for qemu-devel@nongnu.org; Thu, 10 Jun 2021 01:59:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623304761;
+ s=mimecast20190719; t=1623304759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ynhXTHj1vgTX7K0qlPMPEtoJitMeHYDFd80j2X87xgo=;
- b=IgcCXJhs8YEut0MNxiwu60/+H+OYyWszGjTxIM0Pwxm3o21rOO/NOXlWLZn7hVfVGoIXWb
- 9jzOTGIbrZlP+BQVPNXV2G5jAjn2hQIUK8TPkQtAElMOficfI06MNvyIpdxOvWM3kwqLuT
- QN+x9pETOlmus6J7eQcJ+MDVmNdxHZI=
+ bh=GMG26To2HhIsReHw8mY+AHfK8bISyekAm9NisM1uWFU=;
+ b=IMO7GtX64kGGiJR09ZgcDlWu3lE2kD8xbsmt1tJMTEVpTYpXjiR8Lv/131MqG5MpvJmoKY
+ qMUkTz3lBcfpeVxdHNSl54M1g7T/cJFYWI309uh5goUrv+IWEV4ZwpnGK6hMmJpdLK+kLJ
+ 91rqSsEczZvDjYxqtf2ntoo9b0vnaNE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-wgtI3txrNC66iTTr5mw1hA-1; Thu, 10 Jun 2021 01:59:18 -0400
-X-MC-Unique: wgtI3txrNC66iTTr5mw1hA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-429-vKLz1CgVOe-fOFwwylnm6Q-1; Thu, 10 Jun 2021 01:59:18 -0400
+X-MC-Unique: vKLz1CgVOe-fOFwwylnm6Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD5E48015A4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4E40100C663;
  Thu, 10 Jun 2021 05:59:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-69.ams2.redhat.com
  [10.36.113.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CEF718A69;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 918FF10016F4;
  Thu, 10 Jun 2021 05:59:03 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AF0D218017CD; Thu, 10 Jun 2021 07:57:55 +0200 (CEST)
+ id C16BD18017CE; Thu, 10 Jun 2021 07:57:55 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/18] modules: add ccid module annotations
-Date: Thu, 10 Jun 2021 07:57:45 +0200
-Message-Id: <20210610055755.538119-9-kraxel@redhat.com>
+Subject: [PATCH v2 09/18] modules: add ui module annotations
+Date: Thu, 10 Jun 2021 07:57:46 +0200
+Message-Id: <20210610055755.538119-10-kraxel@redhat.com>
 In-Reply-To: <20210610055755.538119-1-kraxel@redhat.com>
 References: <20210610055755.538119-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,34 +97,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/ccid-card-emulated.c | 1 +
- hw/usb/ccid-card-passthru.c | 1 +
- 2 files changed, 2 insertions(+)
+ ui/egl-headless.c | 4 ++++
+ ui/gtk.c          | 4 ++++
+ ui/sdl2.c         | 4 ++++
+ ui/spice-app.c    | 3 +++
+ ui/spice-core.c   | 5 +++++
+ 5 files changed, 20 insertions(+)
 
-diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-index 5c76bed77aa0..6c8c0355e099 100644
---- a/hw/usb/ccid-card-emulated.c
-+++ b/hw/usb/ccid-card-emulated.c
-@@ -612,6 +612,7 @@ static const TypeInfo emulated_card_info = {
-     .instance_size = sizeof(EmulatedState),
-     .class_init    = emulated_class_initfn,
- };
-+module_obj(TYPE_EMULATED_CCID);
+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
+index da377a74af69..75404e0e8700 100644
+--- a/ui/egl-headless.c
++++ b/ui/egl-headless.c
+@@ -213,3 +213,7 @@ static void register_egl(void)
+ }
  
- static void ccid_card_emulated_register_types(void)
- {
-diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
-index 7212d0d7fb5e..fa3040fb7154 100644
---- a/hw/usb/ccid-card-passthru.c
-+++ b/hw/usb/ccid-card-passthru.c
-@@ -414,6 +414,7 @@ static const TypeInfo passthru_card_info = {
-     .instance_size = sizeof(PassthruState),
-     .class_init    = passthru_class_initfn,
- };
-+module_obj(TYPE_CCID_PASSTHRU);
+ type_init(register_egl);
++
++#ifdef CONFIG_OPENGL
++module_dep("ui-opengl");
++#endif
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b9d..376b4d528daa 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2333,3 +2333,7 @@ static void register_gtk(void)
+ }
  
- static void ccid_card_passthru_register_types(void)
- {
+ type_init(register_gtk);
++
++#ifdef CONFIG_OPENGL
++module_dep("ui-opengl");
++#endif
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index a203cb0239e1..36d9010cb6c1 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -918,3 +918,7 @@ static void register_sdl1(void)
+ }
+ 
+ type_init(register_sdl1);
++
++#ifdef CONFIG_OPENGL
++module_dep("ui-opengl");
++#endif
+diff --git a/ui/spice-app.c b/ui/spice-app.c
+index 4325ac2d9c54..641f4a9d53e3 100644
+--- a/ui/spice-app.c
++++ b/ui/spice-app.c
+@@ -221,3 +221,6 @@ static void register_spice_app(void)
+ }
+ 
+ type_init(register_spice_app);
++
++module_dep("ui-spice-core");
++module_dep("chardev-spice");
+diff --git a/ui/spice-core.c b/ui/spice-core.c
+index 272d19b0c152..86d43783acac 100644
+--- a/ui/spice-core.c
++++ b/ui/spice-core.c
+@@ -1037,3 +1037,8 @@ static void spice_register_config(void)
+     qemu_add_opts(&qemu_spice_opts);
+ }
+ opts_init(spice_register_config);
++module_opts("spice");
++
++#ifdef CONFIG_OPENGL
++module_dep("ui-opengl");
++#endif
 -- 
 2.31.1
 
