@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731F53A30FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:41:59 +0200 (CEST)
-Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7573A311B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 18:42:56 +0200 (CEST)
+Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrNkk-0004Ku-1J
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1lrNlf-0005nh-RI
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 12:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrNjZ-0003fz-Bu
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:40:45 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:39866)
+ id 1lrNk5-0004GZ-DS
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:41:17 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:37745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrNjX-0007sG-LN
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:40:45 -0400
-Received: by mail-pf1-x433.google.com with SMTP id k15so2089900pfp.6
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 09:40:42 -0700 (PDT)
+ id 1lrNk2-0008Et-DG
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 12:41:17 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ 22-20020a17090a0c16b0290164a5354ad0so4090114pjs.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 09:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jICL2E2dGsyW6wqVaOWDQKDgLWC/P6azjECe17Eegzc=;
- b=xDZG64OuydqR2jtN1JpiL2dKjMLq5oPJxbGTWM6FZBxmWlPn3QgDoloqkVOx0gEvgR
- Aek91gW53Cx25BoVwHx9F3yGIiF2oUXtWOYFPlEvW43Wv++mJvqfT/aAy0YTTFS+TtRX
- q4Hn/m7VVvGBqHDYFPjGS9ZAiEpmPGaZkLWdo1vnT5m+g/HdQCN2oZcy8Z/JBq6h5NQZ
- gwNLfWKKyFCLJHyYSMfqM9wEvcdXeYyyVIzFOfgGPw638RsX1nNBGMZLTbmBLoXd6bVj
- HI9xlal3/yIW+mwxKZsXVEoXCMpjim4vlw8jCPpv5ucQbwVWSP7fyv5HmVUwucIEKaEW
- ZHeQ==
+ bh=3o0KyUUlkHaNu6gO8VXfkzuymn7M2f2zy7YObLnIp5s=;
+ b=Cpp0W8Yylhkt+yom9X8vrhtCQL9JZAuyUozXZjrJ/6k70i/7ph8L9CEBQHYGv/bHDP
+ 93OiQionbET21txaum+jnt0/67i9qt0Q1bwi0oQVW/OI/d8dTj2I226RZQtawaCIEgkE
+ 9aiKgivs+w1fnm9iCsjXZ6lWXTtppiyT9hI4MMtwfDlbKnuppBwIvrtRvDl+EgzJz06T
+ CpU2On3L3CFagj5TnDP43wXJkP958UnQgT3xqMR++1YTa/SItJpxuBwv6NKx2ewOJYmk
+ one3fbKm9jz/BMmWtxmiaf7OvIYuPouDpBCmWr5Yr9mogkGJLX2HTr4KKuG41oQ8MPib
+ rxAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=jICL2E2dGsyW6wqVaOWDQKDgLWC/P6azjECe17Eegzc=;
- b=F1gEtDe24k/ZU3YGzmkDsqf5dUO2+W72CAQPBcl0iSuH3XflGtTEsR/pMeuyWC4LBm
- OzJOnFic53B5od3XKk8eaegKVC6jzff4cfRv2IIZ7qQhFVkL8iyU4HCivpCAtAlxYk00
- JEmypgBn0z1MVwAamank49THNgoKoMLsxalRkpR6xfj1Eh2ZRo5ruITMIVxfg/MKBCA7
- TCAUGPzdoGsmSMkH1Udrje/pp01xyR+q5S/auCTvmEuDt37IqpghiBcDA48mAGu07XPo
- M5lJPWswwFA8qSJkTG3zHy0LQsvUUp0hGQ44nSuAWHzBqyjJqnt8v8rBRebqZQSklHmV
- r1rw==
-X-Gm-Message-State: AOAM530QAzpmI4WMjhgMHtcDIt0psSYizbx6w9f8A4wYSz48mS+0bVNS
- dbkrDQoDvHiPltNeGQzuJi7aKPhumRyDMw==
-X-Google-Smtp-Source: ABdhPJy1sZ1j4geIR2e2fjlsQu3NP7JjkDQqHw8QsnDLUcAOINCT5U2JxqePW5TUFgqrJX+49luxtA==
-X-Received: by 2002:a63:d455:: with SMTP id i21mr5780053pgj.263.1623343241709; 
- Thu, 10 Jun 2021 09:40:41 -0700 (PDT)
+ bh=3o0KyUUlkHaNu6gO8VXfkzuymn7M2f2zy7YObLnIp5s=;
+ b=o+QlEqKpZiuNWYPY1Jdj2NJAsbd8ZyaK4NCwToc9Cqx2eYpGbrZ+MDc/UhARiE+b3y
+ sQie2sb2wm3q9BUAjIg3/zvp3yPPF82ZW/TiEjT7ezduc+ViUOrRmYVAL7yh+0pr6jHy
+ kp/xZATeABT5pKOUP7Ucczynoh+BJuWeXt7D/bkHNxZQTaNBrlfNO+E8z6MXLGZOGPd/
+ FX1c2WE7n0H5p4cRFmneTDxyo0dJQq6XEsseyYOCW0ugXDlgNHJWeqe/cQ6aQx4ev/Pj
+ yhvHp24KZ0dTFP6O0Wqzy0YQnUGA3LMdOT3mOK6W9/I3h0OHsrUJI3Vz1+XOiUkuAagA
+ LJ+A==
+X-Gm-Message-State: AOAM532M85I6zF+KoNR34trto6ozbeTqFQkCGnOFK+vGuKy15lGecSx1
+ 9cCMlIh2w130nhC1AL2SqoTKqEUBMsc7yw==
+X-Google-Smtp-Source: ABdhPJxEgB0/L7HdoS8TnPVE3es3WSnG9ZUA5mn/Xt8738vVOXWMkayjpceAx/zV+nohEOFD4pmw+w==
+X-Received: by 2002:a17:902:d4c8:b029:102:715b:e3a5 with SMTP id
+ o8-20020a170902d4c8b0290102715be3a5mr5580393plg.83.1623343272552; 
+ Thu, 10 Jun 2021 09:41:12 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id t143sm3565208pgb.93.2021.06.10.09.40.40
+ by smtp.gmail.com with ESMTPSA id 92sm5162482pjv.29.2021.06.10.09.41.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jun 2021 09:40:41 -0700 (PDT)
+ Thu, 10 Jun 2021 09:41:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] accel/tcg: Use MiB in tcg_init_machine
-Date: Thu, 10 Jun 2021 09:40:40 -0700
-Message-Id: <20210610164040.233820-1-richard.henderson@linaro.org>
+Subject: [PATCH] tcg: Fix documentation for tcg_constant_* vs tcg_temp_free_*
+Date: Thu, 10 Jun 2021 09:41:11 -0700
+Message-Id: <20210610164111.233902-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,50 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+At some point during the development of tcg_constant_*, I changed
+my mind about whether such temps should be able to be passed to
+tcg_temp_free_*.  The final version committed allows this, but the
+commentary was not updated to match.
+
+Fixes: c0522136adf
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-
-This sits in the middle of my "Clean up code_gen_buffer allocation"
-patch set.  Alex mentioned it during review, and I had already made
-the change.
-
-This is the only patch in the set that has not been posted and
-reviewed.  Rather than re-posting the entire set, I'm just
-sending this one and will queue the whole thing to tcg-next.
-
-
-r~
-
----
- accel/tcg/tcg-all.c | 3 ++-
+ include/tcg/tcg.h | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index e990180c4b..1ee89902c3 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -32,6 +32,7 @@
- #include "qemu/error-report.h"
- #include "qemu/accel.h"
- #include "qapi/qapi-builtin-visit.h"
-+#include "qemu/units.h"
- #include "internal.h"
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 1d056ed0ed..064dab383b 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1095,7 +1095,8 @@ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec);
  
- struct TCGState {
-@@ -115,7 +116,7 @@ static int tcg_init_machine(MachineState *ms)
+ /*
+  * Locate or create a read-only temporary that is a constant.
+- * This kind of temporary need not and should not be freed.
++ * This kind of temporary need not be freed, but for convenience
++ * will be silently ignored by tcg_temp_free_*.
+  */
+ TCGTemp *tcg_constant_internal(TCGType type, int64_t val);
  
-     page_init();
-     tb_htable_init();
--    tcg_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
-+    tcg_init(s->tb_size * MiB, s->splitwx_enabled);
- 
- #if defined(CONFIG_SOFTMMU)
-     /*
 -- 
 2.25.1
 
