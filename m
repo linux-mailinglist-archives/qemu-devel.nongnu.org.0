@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56C23A2F6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:35:50 +0200 (CEST)
-Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC133A2F61
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Jun 2021 17:33:27 +0200 (CEST)
+Received: from localhost ([::1]:43992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrMij-00034f-Od
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54566)
+	id 1lrMgQ-00059w-JW
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 11:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrMeA-0000r2-1k
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:31:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lrMe5-0005UZ-AV
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:31:05 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lrMe1-0003Hq-2N
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:30:57 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0DE792E8169
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 15:30:57 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lrMd7-0000D1-3j
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:30:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lrMd2-0004wP-Po
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 11:30:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623338995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6aiSXtYzwvqQDhMuaYAotaWRV4/e4wcz+UBcfKMiIzY=;
+ b=OpQ+j0n1zqcH+tCivek3Q76ppJokkRNueyv87S4/aRdpuYj1bPt7/S6/cAjscpOfox9HG4
+ cP5yJvfYuwYp/hKYPT6x86833oE7nBYYxXAQ1M45/GXVWUhPaIKYDnN6v94uvcY843Bd1l
+ BQoaauYuToLiiGgVelqqiCjXa64DErA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-OgBd3QgKP4ib9ULrv5CFCA-1; Thu, 10 Jun 2021 11:29:54 -0400
+X-MC-Unique: OgBd3QgKP4ib9ULrv5CFCA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A7F1107ACF6;
+ Thu, 10 Jun 2021 15:29:53 +0000 (UTC)
+Received: from work-vm (ovpn-114-240.ams2.redhat.com [10.36.114.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60CC059474;
+ Thu, 10 Jun 2021 15:29:44 +0000 (UTC)
+Date: Thu, 10 Jun 2021 16:29:42 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 26/26] virtiofsd: Ask qemu to drop CAP_FSETID if
+ client asked for it
+Message-ID: <YMIv5odJWdkbJzWL@work-vm>
+References: <20210428110100.27757-1-dgilbert@redhat.com>
+ <20210428110100.27757-27-dgilbert@redhat.com>
+ <YJQNIPaFCJlG7ZKc@stefanha-x1.localdomain>
+ <20210506160223.GA277745@redhat.com>
+ <YJj3RSxXKZHxmiKu@stefanha-x1.localdomain>
+ <20210510152324.GB150402@horse>
+ <YJlSHZ0vzNtCAjkJ@stefanha-x1.localdomain>
+ <YK/uUUZI3zy9k8Vk@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <YK/uUUZI3zy9k8Vk@work-vm>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Jun 2021 15:25:24 -0000
-From: Thomas Huth <1917082@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer net
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161436793911.24762.6802305911122378058.malonedeb@gac.canonical.com>
-Message-Id: <162333872472.6921.12627289921720048736.malone@chaenomeles.canonical.com>
-Subject: [Bug 1917082] Re: [OSS-Fuzz] Issue 27574 e1000: Loopback-related
- stack-overflow
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4"; Instance="production"
-X-Launchpad-Hash: e336e7d134d2116b6489698918fc25ca47f9476c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,188 +88,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917082 <1917082@bugs.launchpad.net>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Vivek Goyal <vgoyal@redhat.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Still reproducible with the current qemu version from git (commit
-7fe7fae8b48e3f9c647fd685)
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
 
-** Tags added: net
+<snip>
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
+> > Instead I was thinking about VHOST_USER_DMA_READ/WRITE messages
+> > containing the address (a device IOVA, it could just be a guest physica=
+l
+> > memory address in most cases) and the length. The WRITE message would
+> > also contain the data that the vhost-user device wishes to write. The
+> > READ message reply would contain the data that the device read from
+> > QEMU.
+> >=20
+> > QEMU would implement this using QEMU's address_space_read/write() APIs.
+> >=20
+> > So basically just a new vhost-user protocol message to do a memcpy(),
+> > but with guest addresses and vIOMMU support :).
+>=20
+> This doesn't actually feel that hard - ignoring vIOMMU for a minute
+> which I know very little about - I'd have to think where the data
+> actually flows, probably the slave fd.
+>=20
+> > The vhost-user device will need to do bounce buffering so using these
+> > new messages is slower than zero-copy I/O to shared guest RAM.
+>=20
+> I guess the theory is it's only in the weird corner cases anyway.
 
--- =
+The direction I'm going is something like the following;
+the idea is that the master will have to handle the requests on a
+separate thread, to avoid any problems with side effects from the memory
+accesses; the slave will then have to parkt he requests somewhere and
+handle them later.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917082
 
-Title:
-  [OSS-Fuzz] Issue 27574 e1000: Loopback-related stack-overflow
+From 07aacff77c50c8a2b588b2513f2dfcfb8f5aa9df Mon Sep 17 00:00:00 2001
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Thu, 10 Jun 2021 15:34:04 +0100
+Subject: [PATCH] WIP: vhost-user: DMA type interface
 
-Status in QEMU:
-  Confirmed
+A DMA type interface where the slave can ask for a stream of bytes
+to be read/written to the guests memory by the master.
+The interface is asynchronous, since a request may have side effects
+inside the guest.
 
-Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
-  512M -M q35 -nodefaults -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet=
-0 \
-  -qtest /dev/null -qtest stdio
-  outl 0xcf8 0x80000813
-  outl 0xcfc 0xfe
-  outl 0xcf8 0x80000803
-  outw 0xcfc 0x0600
-  write 0xfe000102 0x1 0x0a
-  writel 0xfe000020 0x420ff00
-  write 0xfe00280a 0x2 0x0828
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  write 0xfe00281b 0x1 0x08
-  write 0xf9b 0x1 0x01
-  write 0x2170 0x1 0x14
-  write 0x2171 0x1 0x38
-  write 0x2173 0x1 0xfe
-  write 0xfe000402 0x1 0x02
-  write 0xfe00380a 0x2 0x0210
-  write 0xfe003818 0x1 0xfa
-  EOF
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ docs/interop/vhost-user.rst               | 33 +++++++++++++++++++++++
+ hw/virtio/vhost-user.c                    |  4 +++
+ subprojects/libvhost-user/libvhost-user.h | 24 +++++++++++++++++
+ 3 files changed, 61 insertions(+)
 
-  =3D=3D=3D Stack-trace =3D=3D=3D
-  =3D=3D288216=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
-ff51c96f48 (pc 0x56247061af36 bp 0x7fff51c97790 sp 0x7fff51c96f50 T0)
-  #0 0x56247061af36 in __asan_memcpy (/home/alxndr/Development/qemu/build/q=
-emu-system-i386+0x2baff36)
-  #1 0x5624718eb70d in flatview_read_continue /home/alxndr/Development/qemu=
-/build/../softmmu/physmem.c:2846:13
-  #2 0x5624718ecd1b in flatview_read /home/alxndr/Development/qemu/build/..=
-/softmmu/physmem.c:2879:12
-  #3 0x5624718ecd1b in address_space_read_full /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2892:18
-  #4 0x562470bcb75b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:88:12
-  #5 0x562470bcb75b in dma_memory_rw /home/alxndr/Development/qemu/include/=
-sysemu/dma.h:127:12
-  #6 0x562470bcb75b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
-pci/pci.h:803:12
-  #7 0x562470bcb75b in pci_dma_read /home/alxndr/Development/qemu/include/h=
-w/pci/pci.h:821:12
-  #8 0x562470bcb75b in e1000_receive_iov /home/alxndr/Development/qemu/buil=
-d/../hw/net/e1000.c:954:9
-  #9 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/..=
-/hw/net/e1000.c:1025:12
-  #10 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:549:9
-  #11 0x562470bc7dd8 in xmit_seg /home/alxndr/Development/qemu/build/../hw/=
-net/e1000.c
-  #12 0x562470bc4dfe in process_tx_desc /home/alxndr/Development/qemu/build=
-/../hw/net/e1000.c:701:9
-  #13 0x562470bc4dfe in start_xmit /home/alxndr/Development/qemu/build/../h=
-w/net/e1000.c:756:9
-  #14 0x562470bc4dfe in set_tctl /home/alxndr/Development/qemu/build/../hw/=
-net/e1000.c:1127:5
-  #15 0x5624719ef2f6 in memory_region_write_accessor /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:491:5
-  #16 0x5624719eed63 in access_with_adjusted_size /home/alxndr/Development/=
-qemu/build/../softmmu/memory.c:552:18
-  #17 0x5624719ee5c0 in memory_region_dispatch_write /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c
-  #18 0x5624718f7776 in flatview_write_continue /home/alxndr/Development/qe=
-mu/build/../softmmu/physmem.c:2776:23
-  #19 0x5624718ed13b in flatview_write /home/alxndr/Development/qemu/build/=
-../softmmu/physmem.c:2816:14
-  #20 0x5624718ed13b in address_space_write /home/alxndr/Development/qemu/b=
-uild/../softmmu/physmem.c:2908:18
-  #21 0x562470bcba6b in dma_memory_rw_relaxed /home/alxndr/Development/qemu=
-/include/sysemu/dma.h:88:12
-  #22 0x562470bcba6b in dma_memory_rw /home/alxndr/Development/qemu/include=
-/sysemu/dma.h:127:12
-  #23 0x562470bcba6b in pci_dma_rw /home/alxndr/Development/qemu/include/hw=
-/pci/pci.h:803:12
-  #24 0x562470bcba6b in pci_dma_write /home/alxndr/Development/qemu/include=
-/hw/pci/pci.h:839:12
-  #25 0x562470bcba6b in e1000_receive_iov /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:967:21
-  #26 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/.=
-./hw/net/e1000.c:1025:12
-  #27 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:549:9
-  ...
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 9ebd05e2bf..b9b5322147 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -1347,6 +1347,15 @@ Master message types
+   query the backend for its device status as defined in the Virtio
+   specification.
+=20
++``VHOST_USER_MEM_DATA``
++  :id: 41
++  :equivalent ioctl: N/A
++  :slave payload: N/A
++  :master payload: ``struct VhostUserMemReply``
++
++  This message is an asynchronous response to a ``VHOST_USER_SLAVE_MEM_ACC=
+ESS``
++  message.  Where the request was for the master to read data, this
++  message will be followed by the data that was read.
+=20
+ Slave message types
+ -------------------
+@@ -1469,6 +1478,30 @@ Slave message types
+   The ``VHOST_USER_FS_FLAG_MAP_W`` flag must be set in the ``flags`` field=
+ to
+   write to the file from RAM.
+=20
++``VHOST_USER_SLAVE_MEM_ACCESS``
++  :id: 9
++  :equivalent ioctl: N/A
++  :slave payload: ``struct VhostUserMemAccess``
++  :master payload: N/A
++
++  Requests that the master perform a range of memory accesses on behalf
++  of the slave that the slave can't perform itself.
++
++  The ``VHOST_USER_MEM_FLAG_TO_MASTER`` flag must be set in the ``flags``
++  field for the slave to write data into the RAM of the master.   In this
++  case the data to write follows the ``VhostUserMemAccess`` on the fd.
++  The ``VHOST_USER_MEM_FLAG_FROM_MASTER`` flag must be set in the ``flags`=
+`
++  field for the slave to read data from the RAM of the master.
++
++  When the master has completed the access it replies on the main fd with
++  a ``VHOST_USER_MEM_DATA`` message.
++
++  The master is allowed to complete part of the request and reply stating
++  the amount completed, leaving it to the slave to resend further componen=
+ts.
++  This may happen to limit memory allocations in the master or to simplify
++  the implementation.
++
++
+ .. _reply_ack:
+=20
+ VHOST_USER_PROTOCOL_F_REPLY_ACK
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 39a0e55cca..a3fefc4c1d 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -126,6 +126,9 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_MAX_MEM_SLOTS =3D 36,
+     VHOST_USER_ADD_MEM_REG =3D 37,
+     VHOST_USER_REM_MEM_REG =3D 38,
++    VHOST_USER_SET_STATUS =3D 39,
++    VHOST_USER_GET_STATUS =3D 40,
++    VHOST_USER_MEM_DATA =3D 41,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+=20
+@@ -139,6 +142,7 @@ typedef enum VhostUserSlaveRequest {
+     VHOST_USER_SLAVE_FS_MAP =3D 6,
+     VHOST_USER_SLAVE_FS_UNMAP =3D 7,
+     VHOST_USER_SLAVE_FS_IO =3D 8,
++    VHOST_USER_SLAVE_MEM_ACCESS =3D 9,
+     VHOST_USER_SLAVE_MAX
+ }  VhostUserSlaveRequest;
+=20
+diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvho=
+st-user/libvhost-user.h
+index eee611a2f6..b5444f4f6f 100644
+--- a/subprojects/libvhost-user/libvhost-user.h
++++ b/subprojects/libvhost-user/libvhost-user.h
+@@ -109,6 +109,9 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_MAX_MEM_SLOTS =3D 36,
+     VHOST_USER_ADD_MEM_REG =3D 37,
+     VHOST_USER_REM_MEM_REG =3D 38,
++    VHOST_USER_SET_STATUS =3D 39,
++    VHOST_USER_GET_STATUS =3D 40,
++    VHOST_USER_MEM_DATA =3D 41,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+=20
+@@ -122,6 +125,7 @@ typedef enum VhostUserSlaveRequest {
+     VHOST_USER_SLAVE_FS_MAP =3D 6,
+     VHOST_USER_SLAVE_FS_UNMAP =3D 7,
+     VHOST_USER_SLAVE_FS_IO =3D 8,
++    VHOST_USER_SLAVE_MEM_ACCESS =3D 9,
+     VHOST_USER_SLAVE_MAX
+ }  VhostUserSlaveRequest;
+=20
+@@ -220,6 +224,24 @@ typedef struct VhostUserInflight {
+     uint16_t queue_size;
+ } VhostUserInflight;
+=20
++/* For the flags field of VhostUserMemAccess and VhostUserMemReply */
++#define VHOST_USER_MEM_FLAG_TO_MASTER (1u << 0)
++#define VHOST_USER_MEM_FLAG_FROM_MASTER (1u << 1)
++typedef struct VhostUserMemAccess {
++    uint32_t id; /* Included in the reply */
++    uint32_t flags;
++    uint64_t addr; /* In the bus address of the device */
++    uint64_t len;  /* In bytes */
++} VhostUserMemAccess;
++
++typedef struct VhostUserMemReply {
++    uint32_t id; /* From the request */
++    uint32_t flags;
++    uint32_t err; /* 0 on success */
++    uint32_t align;
++    uint64_t len;
++} VhostUserMemReply;
++
+ #if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define VU_PACKED __attribute__((gcc_struct, packed))
+ #else
+@@ -248,6 +270,8 @@ typedef struct VhostUserMsg {
+         VhostUserVringArea area;
+         VhostUserInflight inflight;
+         VhostUserFSSlaveMsgMax fs_max;
++        VhostUserMemAccess memaccess;
++        VhostUserMemReply  memreply;
+     } payload;
+=20
+     int fds[VHOST_MEMORY_BASELINE_NREGIONS];
+--=20
+2.31.1
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917082/+subscriptions
+--=20
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
