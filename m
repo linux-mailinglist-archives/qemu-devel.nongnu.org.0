@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67E63A3C3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:49:04 +0200 (CEST)
-Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1973A3C6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:57:29 +0200 (CEST)
+Received: from localhost ([::1]:42396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrayV-0001c6-Bj
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45972)
+	id 1lrb6e-0003fT-DX
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1lraxM-0000v3-2h
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:47:52 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43931)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lrb5Z-0002zd-VP
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:56:22 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:37561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1lraxK-0005gB-3P
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:47:51 -0400
-Received: by mail-wr1-x435.google.com with SMTP id r9so4786755wrz.10
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 23:47:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1lrb5X-0003yx-EB
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:56:21 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id b13so2917781ybk.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 23:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3Bd2NZE1Sk7x2047U4M4zakom3EbzUuPXqQtNvmUczE=;
- b=NMdS4PtGQUZ6lrgeZYyec4PCs6QeJOPOikzvpo6dTrC/WTzgoodX+Y1M7UAHNJUcAI
- mXZsnuCfSjGHIoukVf1lC1pzPl/8ASFRtvFjbcBJ8NBMazKPMEfuG9JokWuTOwJulK4P
- dyy88DWX1aVqxrsKvFA3WeHpOMekkc4CrtY7bJFmY8+vRuhrf255Hb7WgMDbDCO24PJr
- 94sDbNljKa035vRX1fMpOAAw/XzS2FpNvYTxipvJx+yvGeAWsdKJm+b82DLUEoBbEmpO
- R+VnaDQznvcZV8AnE/XrsFhiMr28OzDpq7lWeKMTGHqGFMnvGKkGJZa+rCJsixG8e1Du
- mweg==
+ :cc; bh=L8GTs786ZWvgc8M9oaKPmp0arKHtW4boj5rYf5WSwn8=;
+ b=KidulLF2gJL9Yh8w1X0ppLYARDSLSPKXl9QfN57hS8lm0Kln4+yjfvLubPx62t5rJe
+ S6N9n8Ee/qbWw8xAOMs1+LXb4GltSTqoV0Y7+OQBJ6UgOJrYBAq5Uh2EeBjhUb6H/5k/
+ w/D0VGiQundrsa3T/IV87tVxQlaAilBZBbstmIzVHehknceyJpy5Z7P5Pu/HRYmYuqE9
+ nav+4nsT26UtFsEvPwEEnfXkPXWUO5Yr3RJI9xwATZQrCB59LWpIspUx5+BCrrG4QRl0
+ 4Z99ccLw/YPn6abo+53jUiIF9LTxZU49ux6O9jU1J+buMgBZQoi43mw3HrqXGsg4J6il
+ VSCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3Bd2NZE1Sk7x2047U4M4zakom3EbzUuPXqQtNvmUczE=;
- b=gL0cPWknPuowgqjsv04IAlGOAgMppj3eQmu81RdUxv49BBmomluVAJhIwEZq+4STro
- fTCAMSht6HpI39Cyh5RBnDnH+u3pl1htax06F8dqAejiGS3H1Zz6t+c39WG+5SF5zvca
- QlGpMyBB3mmbUpfguwQpOn5TkA3iYDDRQZZTLoUoCJ05cJ10EXUZs1bLYzHZGmCJoW7g
- ToxgdsU4NKhMDZLK9ayD0idruYGiRQKt4E62jGH9amg+PuMmx8jyJnnG3s/rbN9Wy2Km
- +qZGEOCpna2O9HOlief6sX4S25HdUonrH7eevAtpTPQd4M8CLbnhBqYyHDucTCSYCBaA
- nOfA==
-X-Gm-Message-State: AOAM533OjTHCBvFIW0jGnV3KSSn5Y93BpdgDl/ZZVDTFP1FBc+O9HGAx
- 6g2yHo1JpFLUw4yBt2IEOB0Tot4FTc7w2RQzLqqZjQ==
-X-Google-Smtp-Source: ABdhPJwvppV3BASe58axCt8OFBWOSG5vZkyYnuLhZ+8Kq9pVIMwUaDZXJfmsRw+2VUNevP2b9Bmq8KgCZeA1ArbN3Oo=
-X-Received: by 2002:a5d:540b:: with SMTP id g11mr2287072wrv.390.1623394068168; 
- Thu, 10 Jun 2021 23:47:48 -0700 (PDT)
+ bh=L8GTs786ZWvgc8M9oaKPmp0arKHtW4boj5rYf5WSwn8=;
+ b=b8uM8XIZF8DZxIjqueB15viMz89sIqcl7KhxBcIV8hnsbIXY0W/940n1e+haXbe0cY
+ 9FVGnm50mkMg/xY8T7PkhyeAXVeLe/LFdNIgwx7k7a/A/iUZ4aAflf4s0Kk5yBTBv/w6
+ X/hWwbVCySecsfG7wM4hivAjnc7tuOEziWHLB50N/wv0N5wSdFT01lmOaMvMpg5F2W5q
+ /pd86mccfoWsTHjcZoUHEoXCT/Y1HIM6Sz/4iH/7Fxvn7TzL702x2ynuT8atmrrEG33D
+ Et7b+XGfnoNxnESDw77zH4+wI7sO5vsP4XVRFllqOnjXuHySlfDObaTvcicPo3deUIgs
+ w+jQ==
+X-Gm-Message-State: AOAM5307a6qMVRHY2S1zpDvpa42GLQD7wCp4Ts+XbystmoHQpsV8DmCm
+ CfG3bP0dPT7laDN+K4SBa47+leHIRYWCDm2HcV7NevKbEgQcLBi0
+X-Google-Smtp-Source: ABdhPJxavKCTXTp8+PO3VjjFMHi2ioyGbcoHC9rzyscxIZyuzLpfKPzLJQ1upO3Yz1sasWV4OTknKhBaL1ffKvNgbeY=
+X-Received: by 2002:a25:b74d:: with SMTP id e13mr3768153ybm.372.1623394578100; 
+ Thu, 10 Jun 2021 23:56:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514143242.377645-1-anup.patel@wdc.com>
-In-Reply-To: <20210514143242.377645-1-anup.patel@wdc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 11 Jun 2021 12:17:37 +0530
-Message-ID: <CAAhSdy3KmvjR8hnMz2UXomA45FcEV9fmiCXRBFGMRQus5=c6Lg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] AIA local interrupt CSR support
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::435;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x435.google.com
+References: <20210405131420.598273-1-basil@daynix.com>
+In-Reply-To: <20210405131420.598273-1-basil@daynix.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Fri, 11 Jun 2021 09:56:05 +0300
+Message-ID: <CAJ28CFQPkZ=GwhKTFUZJg3Qpwr2PW-uT+HAvUDX6LsqyihVjVg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
+ instead of 10
+To: Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000002883b505c47801f4"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,63 +77,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Atish Patra <atish.patra@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Yan Vugenfirer <yan@daynix.com>, Michael Roth <michael.roth@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+--0000000000002883b505c47801f4
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 14, 2021 at 8:03 PM Anup Patel <anup.patel@wdc.com> wrote:
->
-> The advanced interrupt architecture (AIA) extends the per-HART local
-> interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
-> and Advanced PLIC (wired interrupt controller).
->
-> The latest AIA draft specification can be found here:
-> http://jhauser.us/private/RISCV-AIA/riscv-interrupts-021.pdf
->
-> This series adds initial AIA support in QEMU which includes emulating all
-> AIA local CSR. To enable AIA in QEMU, we just need to pass "x-aia=true"
-> paramenter in "-cpu" QEMU command-line.
->
-> To test series, we require OpenSBI and Linux with AIA support which
-> can be found in riscv_aia_v1 branch at:
-> https://github.com/avpatel/opensbi.git
-> https://github.com/avpatel/linux.git
->
-> Anup Patel (4):
->   target/riscv: Add defines for AIA local interrupt CSRs
->   target/riscv: Add CPU feature for AIA CSRs
->   target/riscv: Implement AIA local interrupt CSRs
->   hw/riscv: virt: Use AIA INTC compatible string when available
+ping
 
-The ACLINT specification will be frozen soon (probably early next
-month). The ACLINT QEMU support patches are also ready and don't
-depend on the AIA QEMU support patches.
+On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
 
-Is it okay to target ACLINT support in QEMU first ?
-
-I can rebase this series on ACLINT support patches and also include
-more AIA emulation patches (APLIC and IMSIC) in the AIA series.
-
-Regards,
-Anup
-
+> Currently Requester freeze times out after 10 seconds, while
+> the default timeout for Writer Freeze is 60 seconds. according to
+> VSS Documentation [1].
+> [1]:
+> https://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-backup-under-vss
 >
->  hw/riscv/virt.c           |   11 +-
->  target/riscv/cpu.c        |   32 +-
->  target/riscv/cpu.h        |   56 +-
->  target/riscv/cpu_bits.h   |  128 +++++
->  target/riscv/cpu_helper.c |  245 ++++++++-
->  target/riscv/csr.c        | 1059 +++++++++++++++++++++++++++++++++++--
->  target/riscv/machine.c    |   26 +-
->  7 files changed, 1454 insertions(+), 103 deletions(-)
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
 >
+> Signed-off-by: Basil Salman <bsalman@daynix.com>
+> Signed-off-by: Basil Salman <basil@daynix.com>
+> ---
+>  qga/vss-win32/requester.cpp | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp
+> index 5378c55d23..940a2c8f55 100644
+> --- a/qga/vss-win32/requester.cpp
+> +++ b/qga/vss-win32/requester.cpp
+> @@ -18,7 +18,7 @@
+>  #include <inc/win2003/vsbackup.h>
+>
+>  /* Max wait time for frozen event (VSS can only hold writes for 10
+> seconds) */
+> -#define VSS_TIMEOUT_FREEZE_MSEC 10000
+> +#define VSS_TIMEOUT_FREEZE_MSEC 60000
+>
+>  /* Call QueryStatus every 10 ms while waiting for frozen event */
+>  #define VSS_TIMEOUT_EVENT_MSEC 10
 > --
-> 2.25.1
+> 2.17.2
 >
+>
+
+--0000000000002883b505c47801f4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>ping<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &=
+lt;<a href=3D"mailto:basil@daynix.com">basil@daynix.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">Currently Requester =
+freeze times out after 10 seconds, while<br>
+the default timeout for Writer Freeze is 60 seconds. according to<br>
+VSS Documentation [1].<br>
+[1]: <a href=3D"https://docs.microsoft.com/en-us/windows/win32/vss/overview=
+-of-processing-a-backup-under-vss" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://docs.microsoft.com/en-us/windows/win32/vss/overview-of-processing-a-ba=
+ckup-under-vss</a><br>
+<br>
+Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1909073" =
+rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.c=
+gi?id=3D1909073</a><br>
+<br>
+Signed-off-by: Basil Salman &lt;<a href=3D"mailto:bsalman@daynix.com" targe=
+t=3D"_blank">bsalman@daynix.com</a>&gt;<br>
+Signed-off-by: Basil Salman &lt;<a href=3D"mailto:basil@daynix.com" target=
+=3D"_blank">basil@daynix.com</a>&gt;<br>
+---<br>
+=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cpp<br>
+index 5378c55d23..940a2c8f55 100644<br>
+--- a/qga/vss-win32/requester.cpp<br>
++++ b/qga/vss-win32/requester.cpp<br>
+@@ -18,7 +18,7 @@<br>
+=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
+<br>
+=C2=A0/* Max wait time for frozen event (VSS can only hold writes for 10 se=
+conds) */<br>
+-#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
++#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
+<br>
+=C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event */<br>
+=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
+-- <br>
+2.17.2<br>
+<br>
+</blockquote></div></div>
+
+--0000000000002883b505c47801f4--
 
