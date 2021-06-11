@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903383A4672
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 18:24:36 +0200 (CEST)
-Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156A73A4686
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 18:31:13 +0200 (CEST)
+Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrjxT-0004QZ-Kx
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 12:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57062)
+	id 1lrk3r-0007R4-PP
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 12:31:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1lrjwO-0003js-TL
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:23:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1lrjwM-0001yz-7l
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:23:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623428605;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qXQX4Tyr4ivL4y+JrKBzk2JHl6qqFEIouOborvgJYIs=;
- b=V4MXPPwYYoP6eT23R7iEW8zv2fpb7Ank04ND5VK9Fawnxf5zX/hhghMf6IxA18ScK31ewO
- zIaaWMxyCs/Vk6uhF+ZC6dOVvGbxiB58CzGPooWjejOMngH+7NELq7bjeyou5PyVAlOFSt
- ki/VikBsZFh/BiRUHmcZtGBcJrQVKMA=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-QmwHcneeMsGA1r5MMqM-Kw-1; Fri, 11 Jun 2021 12:23:24 -0400
-X-MC-Unique: QmwHcneeMsGA1r5MMqM-Kw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- w12-20020a17090a528cb029015d7f990752so6341282pjh.0
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 09:23:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrk1r-0005yC-Vs
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:29:08 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:51111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lrk1q-000661-9u
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:29:07 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id g4so6009512pjk.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 09:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vDcBsQW7/YXUSGh+0eNQWnAUMAj2dUeJKXsG2lRLMdE=;
+ b=soObAfqnIbCQwUvJdufRPNeBIViEgV/6uVwjJbG2kYqEHXZh5Mjnk3UPYf/BukTABl
+ Lxk5y5HoU4jOE0GreN3GA2yo4B6ZIfjIkqlrt5as2D1uwec6larRUpl0XwphvVasTd4F
+ p8r2Ps5Jedhb5zk2F4Ub3jPB51gQwOda7W8/AkVId9ClaVxuceuhGhPG2wMIhYg8QdMa
+ 1L/zQx5LiodTws+GDdAU6V79ZxaIJGTJZpxE5oTaqliAkDoWxfrwKU9bpSbh0hSDUdHp
+ UClgTz79WeAnBgQKG+dFgp2OPIQQl6GN/YMBsBtXLXlVTu4sQ7nbyMx+IJLBTElfU1LK
+ d8hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qXQX4Tyr4ivL4y+JrKBzk2JHl6qqFEIouOborvgJYIs=;
- b=FtBY7iB4x3VIvCAyI822LY8nRwprBrFF6dpJRAQZY5ar3cHZYKD628vZiy2U+hyyFp
- QYBGv9i+DZoTCbm/mSH/zoXzHDlCYB6GNa62+DrfqYabtOpl8bsbjOdEhBioEXbO+PmY
- 9N6xXPHYnRB7fzLJXX7yfUnewSAmkXo3LlLmxbfs4qJHJuEtueeIHoZt+L0ZEPuszcRX
- Mabb3y9okgbGfAz3KZq0govAwUmG2U/wI9Olpq54KDVTRcS4uRDqUIaBmis5ge36/9Fu
- it5dQ5nuNUOdYc96SCEvpH24ZUYLkuVOobiSMVzVrneCkBTtyj8o7PbJeMestuy1gqN7
- 7EhQ==
-X-Gm-Message-State: AOAM532sCDA0404oQAeycRkPe8wKOLSccp5RxxDVcqSMqLUlXZsLxBQY
- iJUl5TxmRoF5AdplO4iiiDbB8wv2kKvq4Nd9GxvTwmQhTY1t/TmR6bTs4N+vX/WXWFlZAb8lPcF
- W3X/mZfAqrYGAQ/U/sAiYAETRBrA//t8=
-X-Received: by 2002:a62:1942:0:b029:2e9:debd:d8b1 with SMTP id
- 63-20020a6219420000b02902e9debdd8b1mr9109271pfz.9.1623428603317; 
- Fri, 11 Jun 2021 09:23:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbieIyynz762Izx7igJ6nPnoRMaFAjx7PWV7jT7nrwiCk7VCHr4efUyLw1R4j6zaz9rUkjmlVi2VCETNnZdmM=
-X-Received: by 2002:a62:1942:0:b029:2e9:debd:d8b1 with SMTP id
- 63-20020a6219420000b02902e9debdd8b1mr9109252pfz.9.1623428603047; Fri, 11 Jun
- 2021 09:23:23 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vDcBsQW7/YXUSGh+0eNQWnAUMAj2dUeJKXsG2lRLMdE=;
+ b=UAou+FWNxSJLHcYxOG2yF4kWtiqGgQPX9RLrmsKrIsV/qQn+7MoF4viUcbORaqYo6C
+ I+A+if7/hEo3i+xo9ceoGdYs6HGzoeCgw4ph93Z9bKp7obJTATmFaTCY4beWWEsRMwM3
+ qewvdinN0mVP9PQOY6u6Vl+TCW2955yM1UBeez8lWc2h3WBPngAaHMOMezedhzS5VPGD
+ JPaLJvScvmoGG5vWSQUOkkTyZh7ONIWdjUUTQnbUo0RyZscAWIwFVh2ZaD2u/Yg8jWKJ
+ n2n/O0Tr+jBuOID1gH8xPbIQ3oK54b9tS7bIKFMn+HBwWOaT9ttP4ICeG63H/RMg17Wt
+ 8M5w==
+X-Gm-Message-State: AOAM532HMdigQO6T/EBYONxcccCaGsYkS03BG/TWn8VzZ40uzQExUQKd
+ eCWtMkEsH6cQRRadq8D/7LKFWQ==
+X-Google-Smtp-Source: ABdhPJxi3Gke7pyqO7nsBgIeKg2/1ab6Jh1x12wGSBbtOMYAIp8Xofop5AUuarMQNrM5QOWCsIZbbQ==
+X-Received: by 2002:a17:902:b683:b029:ee:f0e3:7a50 with SMTP id
+ c3-20020a170902b683b02900eef0e37a50mr4532610pls.7.1623428944522; 
+ Fri, 11 Jun 2021 09:29:04 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ n129sm5539427pfn.167.2021.06.11.09.29.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jun 2021 09:29:04 -0700 (PDT)
+Subject: Re: [PATCH] tcg/arm: Fix tcg_out_op function signature
+To: "Jose R. Ziviani" <jziviani@suse.de>, qemu-devel@nongnu.org
+References: <20210610224450.23425-1-jziviani@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e2f1166c-be90-8d71-ec73-183cd850eca5@linaro.org>
+Date: Fri, 11 Jun 2021 09:29:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210611162033.437690-1-mcascell@redhat.com>
-In-Reply-To: <20210611162033.437690-1-mcascell@redhat.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Fri, 11 Jun 2021 18:23:12 +0200
-Message-ID: <CAA8xKjVmnTcqwkZ547k=eQpS0Gyfo_QdfUEPv+pOYqiLCdk7aQ@mail.gmail.com>
-Subject: Re: [PATCH] Test comment for git-publish
-To: Mauro Matteo Cascella <mcascell@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610224450.23425-1-jziviani@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,39 +88,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 11, 2021 at 6:20 PM Mauro Matteo Cascella
-<mcascell@redhat.com> wrote:
->
+On 6/10/21 3:44 PM, Jose R. Ziviani wrote:
+> Commit 5e8892db93 fixed several function signatures but tcg_out_op for
+> arm is missing. This patch fixes it as well.
+> 
+> Signed-off-by: Jose R. Ziviani<jziviani@suse.de>
 > ---
->  hw/rdma/vmw/pvrdma_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-> index 84ae8024fc..e229c19564 100644
-> --- a/hw/rdma/vmw/pvrdma_main.c
-> +++ b/hw/rdma/vmw/pvrdma_main.c
-> @@ -427,7 +427,7 @@ static void pvrdma_regs_write(void *opaque, hwaddr addr, uint64_t val,
->      case PVRDMA_REG_REQUEST:
->          if (val == 0) {
->              trace_pvrdma_regs_write(addr, val, "REQUEST", "");
-> -            pvrdma_exec_cmd(dev);
-> +            pvrdma_exec_cmd(dev); // this is a test comment
->          }
->          break;
->      default:
-> --
-> 2.31.1
->
+>   tcg/arm/tcg-target.c.inc | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
-Sorry, please disregard this "patch" =)
+Thanks, queued.
 
--- 
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
-
+r~
 
