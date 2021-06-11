@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936053A4798
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 19:15:21 +0200 (CEST)
-Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457973A479D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 19:16:36 +0200 (CEST)
+Received: from localhost ([::1]:36866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrkka-0000kv-2M
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 13:15:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
+	id 1lrkln-0003hk-Bv
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 13:16:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lrkir-0007vK-A8
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:13:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44816)
+ id 1lrkkI-0001al-EJ
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:15:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lrkin-0007vv-U5
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:13:32 -0400
+ id 1lrkkG-0000Lp-S8
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:15:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623431609;
+ s=mimecast20190719; t=1623431700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mmu2BfqGBR4RfnVhwzwu6LOQ8i+eOG0k7q4q6SUKcnU=;
- b=ZjzcXwo+Tw0OhZCfqlYYZOXQILgcsmYn0SdKsAFmCz0WpszKIyLYlIbWQ5V6zM0jMtCtAb
- kPyPIF7gxRF23aKQ1a/udVIsofsdCeolplUuVPXlK/nwsfZgnRAJPVEveGQhx+3LZnuXkU
- DO7M6Qo5Ajv9+IRrwsEIni0J1z50phQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-ta4aPK3gMJySC95gmS5_PA-1; Fri, 11 Jun 2021 13:13:26 -0400
-X-MC-Unique: ta4aPK3gMJySC95gmS5_PA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- t11-20020a056402524bb029038ffacf1cafso6834980edd.5
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 10:13:25 -0700 (PDT)
+ bh=T4TfEPrlkOjkMlDHdXMV0IDvK/7lTuoJudUCLPa1Em4=;
+ b=EuAC7tHw/+I+qwucRGW9y4f6PHxLCMZpDcEFXDgE3cjBzrRBp008boz5sGTzZtpb6fMHqY
+ SL7/xyTsQvKbx+jm8bl2rHKPNTtqclCb+Qz2SMTHjL1R5RXeP+5QEzYvkS0rlXw0wTlVHJ
+ 7PIrLELTTtp2/Dm+YwFEpX0zBwMzYtM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-_kDO7fYfPhKcD5k8oZN7MQ-1; Fri, 11 Jun 2021 13:14:58 -0400
+X-MC-Unique: _kDO7fYfPhKcD5k8oZN7MQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ p18-20020a1709067852b02903dab2a3e1easo1392043ejm.17
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 10:14:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Mmu2BfqGBR4RfnVhwzwu6LOQ8i+eOG0k7q4q6SUKcnU=;
- b=lCwcI7deJtxMbtAaAvoTRZTG2aWW1b8ng/tccJ7/40lWMJlDDHLv3CGIGE5NAcyL2A
- slN3Pl0Ewv07EMhXLNvIM0jNCR/ZVBrXkHehMZVNphzq1DBRxdyqyFMoI9aDkt2Cv4A3
- AGNZR3VIEOiWfIQX3ciluDRCgWrEXvIcymM6O4WXwTFR8qUE1M2gEPafftsCsiaT7VYP
- m3YeR6FK0qreyhUl9QlwXXUGqfNlIkHbLH2HY4Nw7wS+mAKm7gCc9txMe6aOxA75Ydn/
- 6TbUVnkdvviGnGB7+H1FgNwtPqqhl+vDbPkFR/it4iVLTIKReJWCy45py2cKChBQZIz4
- 9xfQ==
-X-Gm-Message-State: AOAM532zECUsBH7GBdm07UoQGbXBgzHlBQHh1yHCp+CamwyyjOFSSQMs
- TO/RKBkJzBAfMyUF1q/lGzqNqW7WDVOkxJe0K6KF5Lb7Vb4R5bUb98UlrmvXyDoHINEQp7BT5S4
- Qek9HbKv7lT5TcsupLA6Y7vXwc5zIWmVdkYbKPEhb9Gc14g96uMymz9JGOO267/knEqk=
-X-Received: by 2002:aa7:dbc3:: with SMTP id v3mr4837349edt.63.1623431604581;
- Fri, 11 Jun 2021 10:13:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqxoN1BtLFqmJEzj+UwDTtirnSqWCqd9rfPf3Tfd1MyA2a2mgADxqA09ighj98pJv6t7r0OQ==
-X-Received: by 2002:aa7:dbc3:: with SMTP id v3mr4837323edt.63.1623431604316;
- Fri, 11 Jun 2021 10:13:24 -0700 (PDT)
+ bh=T4TfEPrlkOjkMlDHdXMV0IDvK/7lTuoJudUCLPa1Em4=;
+ b=DTqhPNtfUIleVHb84vttVsvrKop3B/peIYk6wnsQTnaGpBq/+uII6NWa3CdA27XLnN
+ /rBL7RhCdRSNlDZDPqHXWFoYzBCKZj9RGVDY+sdbkgP8935F5+KNdNBJuACb2dAI4iBv
+ 9tcSLT02vV67d0Xw6lqYAV1NUYgO7WgL/kYSTchtXN2U2WB0ZvgoT6Pu39S1g9hK5T3n
+ 9E64q6ApCKPlx5GpKxqC7PYT2sqHvTMZiiJSDkyhk+UOsgGoGA+8uAhoBWKaKmH/kJ2h
+ WNNizgJUCPCKAlx/iBryy1uLqszVHivQv1CHCVcRhfOPM7jixqZWoEWA1N0bqiRbNL/F
+ l00A==
+X-Gm-Message-State: AOAM532+ANTPZePXx/1TKXhHI/crunPlfWbyhIOQXiHqu0LwRmGgVQOa
+ CAVjRKousveLK81mULoiOkZCQhaj2GwMzWoVIrd9t2WkhXpNj1Rh5fATxYhv7ocLokbJ0U+oFbO
+ zTXmJKm+i99faqFY=
+X-Received: by 2002:a17:906:5299:: with SMTP id
+ c25mr4690083ejm.85.1623431697757; 
+ Fri, 11 Jun 2021 10:14:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0Lnd+DzdqqKOmwSVTlpi0Sr+KnA5X2VUMREoB3hyLp6xM2pYd/1uGL9stJQLIlDvfcHWMUg==
+X-Received: by 2002:a17:906:5299:: with SMTP id
+ c25mr4690063ejm.85.1623431697584; 
+ Fri, 11 Jun 2021 10:14:57 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q14sm2825726eds.2.2021.06.11.10.13.23
+ by smtp.gmail.com with ESMTPSA id bn7sm2332682ejb.111.2021.06.11.10.14.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jun 2021 10:13:23 -0700 (PDT)
-Subject: Re: tb_flush() calls causing long Windows XP boot times
-To: Programmingkid <programmingkidx@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <BCB8773B-FC54-4C25-9B60-92C263165D38@gmail.com>
- <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
- <1ee4b7cf-d445-6497-705f-510009fc74f8@ilande.co.uk>
- <874ke4iqf8.fsf@linaro.org> <3D29C466-BB81-4BCA-96E9-A46721B1ED59@gmail.com>
+ Fri, 11 Jun 2021 10:14:57 -0700 (PDT)
+Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210610101553.943689-1-kraxel@redhat.com>
+ <4a1a23af-461f-92c4-d9f0-1f8133d611db@suse.de>
+ <20210610122305.zxdaqsft5evcrli6@sirius.home.kraxel.org>
+ <b2fb96b8-415b-b2d4-168c-d43dc20ef7b6@suse.de>
+ <4dffdaf1-e7e5-cb28-7f7a-2061f182ee5b@redhat.com>
+ <20210611082925.7wkppsrj7hywquns@sirius.home.kraxel.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d9109542-dd68-3e8b-4f53-a09576e16b1f@redhat.com>
-Date: Fri, 11 Jun 2021 19:13:22 +0200
+Message-ID: <8f53eb21-d18c-a8ee-1796-b7b6a88cca81@redhat.com>
+Date: Fri, 11 Jun 2021 19:14:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <3D29C466-BB81-4BCA-96E9-A46721B1ED59@gmail.com>
+In-Reply-To: <20210611082925.7wkppsrj7hywquns@sirius.home.kraxel.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -104,19 +107,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ jose.ziviani@suse.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/06/21 17:01, Programmingkid wrote:
-> Hello Alex,
+On 11/06/21 10:29, Gerd Hoffmann wrote:
 > 
-> The good news is the source code to Windows XP is available online:https://github.com/cryptoAlgorithm/nt5src
+> Are there any pending patches to handle the remaining tcg dependencies
+> in qemu?  When trying to build tcg modular (more than only
+> tcg-accel-ops*) I get lots of unresolved symbols to tcg bits which are
+> referenced directly (in cpu.c, gdbstub.c, monitor, ...).
 
-It's leaked, so I doubt anybody who's paid to work on Linux or QEMU 
-would touch that with a ten-foot pole.
+I suggest that you create a wiki page with a list.  Then we can either 
+see if Claudio's makefile patches tackled them, or go through them one 
+by one.
 
 Paolo
 
