@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B0D3A4553
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 17:29:43 +0200 (CEST)
-Received: from localhost ([::1]:33010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA073A456B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 17:32:14 +0200 (CEST)
+Received: from localhost ([::1]:36560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrj6M-0006W5-4K
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 11:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
+	id 1lrj8n-0000aJ-A6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 11:32:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrj4j-0005iA-TM
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:28:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48202)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrj6p-0007Uj-M4
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:30:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrj4e-00085Z-Lo
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:28:01 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrj6k-0000k3-C7
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:30:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623425272;
+ s=mimecast20190719; t=1623425405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TAvsZYllIKa7DBtblfUk1J+CJ+z7Zocx1bQoRW7e5xA=;
- b=WYPTPaJ12ns8eMvTbOb6nmKI19NR2aOYsb3NJQoslNlZ/tAwiH4knm2sXBigKDJceW1LGS
- WhYQv7jjdGVYYerGkMw7X1A2MlrGOoa3FWugA6o/exiXAjjtbROYIkcoK1sd6ENfZ4Urw0
- dKrwP27Vw6jr7zgixE3KNiSO7uJPyp4=
+ bh=W3hDa6oaZfilCkWyKpHETaMNT3mFqHCpEtpBF8DSGY0=;
+ b=ZtAmYiNKwj90tTEus4iwXfjtmCNFIY4cDzP2yaBg+hO8Q4e4wCyyR4UVygKJ2fpdxOq/0m
+ pDnYB4bI/OcsURDZQwpRWNj49TbioXWHIkdEXBGFyxn4tOUo/547qwQZjvO6YPiCNOId0y
+ TsCo67PjQRhs5rhxBMwwXME5ulOAIyg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-8sX1JbJTPZOX9F5bxxNT-Q-1; Fri, 11 Jun 2021 11:27:50 -0400
-X-MC-Unique: 8sX1JbJTPZOX9F5bxxNT-Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-52-3qhYD0d_PMWhVhS6Ltr3_g-1; Fri, 11 Jun 2021 11:30:02 -0400
+X-MC-Unique: 3qhYD0d_PMWhVhS6Ltr3_g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89965801B15;
- Fri, 11 Jun 2021 15:27:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94FD11084F51;
+ Fri, 11 Jun 2021 15:30:01 +0000 (UTC)
 Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4F2360613;
- Fri, 11 Jun 2021 15:27:48 +0000 (UTC)
-Date: Fri, 11 Jun 2021 10:27:47 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 181785C232;
+ Fri, 11 Jun 2021 15:30:01 +0000 (UTC)
+Date: Fri, 11 Jun 2021 10:29:59 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 21/32] nbd/client-connection: shutdown connection on
- release
-Message-ID: <20210611152747.53mn3bzvqy6u2qh6@redhat.com>
+Subject: Re: [PATCH v4 28/32] block/nbd: split nbd_co_do_establish_connection
+ out of nbd_reconnect_attempt
+Message-ID: <20210611152959.ytdzqmes4nqx5mpc@redhat.com>
 References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
- <20210610100802.5888-22-vsementsov@virtuozzo.com>
+ <20210610100802.5888-29-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610100802.5888-22-vsementsov@virtuozzo.com>
+In-Reply-To: <20210610100802.5888-29-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,16 +83,13 @@ Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 01:07:51PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Now, when a thread can do negotiation and retry, it may run relatively
-> long. We need a mechanism to stop it, when the user is not interested
-> in a result any more. So, on nbd_client_connection_release() let's
-> shutdown the socket, and do not retry connection if thread is detached.
+On Thu, Jun 10, 2021 at 01:07:58PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Split out the part that we want to reuse for nbd_open().
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  nbd/client-connection.c | 20 +++++++++++++++++---
->  1 file changed, 17 insertions(+), 3 deletions(-)
+>  block/nbd.c | 80 ++++++++++++++++++++++++++++-------------------------
+>  1 file changed, 42 insertions(+), 38 deletions(-)
 >
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
