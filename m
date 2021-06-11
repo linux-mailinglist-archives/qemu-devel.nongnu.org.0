@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDD33A4321
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:37:39 +0200 (CEST)
-Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC4C3A438C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:55:56 +0200 (CEST)
+Received: from localhost ([::1]:38210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrhLu-0000dR-O4
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
+	id 1lrhdb-0007Im-16
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lrhKK-0007ga-0m
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:36:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43002)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrhcg-0006Vx-B5
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:54:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lrhKC-0001mc-IK
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:35:59 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrhcd-0002Of-PE
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:54:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623418550;
+ s=mimecast20190719; t=1623419694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FlQrVpiTc0W58oCmETXqnguHOwXdbhzhlZjTziM7Zww=;
- b=OVJOaxCTIl0TRKuMDe83rFWcVQhzoZbbEePqPytKcHpzXdUgkwanBFwjqOTWZO1dyxuZ3n
- 0KSCfFFcTbp97sQXsVYM7cbOW2PF9PkbiVS7iRVh0zS8sGKchnNdDNT/mdqBzw1NoMCMRd
- sN38UO+niJlTZMyWHKIMImYgSnpO9k4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-ePg5glOONbWDehNWez8-xw-1; Fri, 11 Jun 2021 09:35:47 -0400
-X-MC-Unique: ePg5glOONbWDehNWez8-xw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- f22-20020a5d58f60000b029011634e39889so2645514wrd.7
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 06:35:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=FlQrVpiTc0W58oCmETXqnguHOwXdbhzhlZjTziM7Zww=;
- b=tQSHi9cxCEIJluZzxk8iLx3TxFF1ECJY5IsqQlPj1xtzeaZS1bPOd6x1cr8UjIBTlN
- b2tJhAV0mImgkvs5SiaruIUAFI4P+/VKiQNfkRw0ZIlUd4lMtwu6EZ1wt2XIlNgB4r7N
- LFiNJsCZ7vm62BvitGQzWw1alcPe2mg1wu/Ag7xKOC2D4DKejpjnxCUpPfWW2hiL11JG
- +EzHflvEGTXWNNFZTSoXhelehFSQvTl1azziMd9H7mnnl2qK3t8aXcmKDeDpPGpda9jV
- R6dD/Hi4QzOyFtcd693HpqqbJqOqxJE4bKvLJHFwWGBT3GDO6ilyIWZW0lL/L3lFj/i1
- X/3w==
-X-Gm-Message-State: AOAM530CjDLNg0Q2EqwVJSXAFMU7RvSCCofQ7+uLpBUYywOUuFb5oyz6
- AfnDm9wJNAINOnV3m4wEeYywstRB8NJNra9Jq7MvQktt7Pb1nyCKqWERE6voZq1voiYoUWTU6bx
- Yo53xh4Wq9d3kXto=
-X-Received: by 2002:a5d:4351:: with SMTP id u17mr4110066wrr.47.1623418545841; 
- Fri, 11 Jun 2021 06:35:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyW380NKuEwWvYS2Oi+2WEGYjwL61enGALISX5oTPqNdTmCqaM4eoru3+rLpDY1Af9XryBaUQ==
-X-Received: by 2002:a5d:4351:: with SMTP id u17mr4110025wrr.47.1623418545603; 
- Fri, 11 Jun 2021 06:35:45 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c64b6.dip0.t-ipconnect.de. [91.12.100.182])
- by smtp.gmail.com with ESMTPSA id r7sm16326077wma.9.2021.06.11.06.35.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jun 2021 06:35:45 -0700 (PDT)
-Subject: Re: [PATCH v8 00/15] RAM_NORESERVE, MAP_NORESERVE and hostmem
- "reserve" property
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210510114328.21835-1-david@redhat.com>
- <a6efbfaf-c33c-0fb2-bb34-2ca4240cb05c@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <5b7eda56-bbee-60e7-4ee0-cbd2c5beb08b@redhat.com>
-Date: Fri, 11 Jun 2021 15:35:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=8LKo99DZsnvU1L0LvZv12Rz9SNEJrPWyKWlt2V1tmkk=;
+ b=HFiroDwAp3e0UhFrG3qtwhTcFcWCkeHIUx0/M84pW5SjH3ijiofiBnWlqbi8WRqT823Cao
+ VMSKqPAkxmNxRwLuDPiFvesQypJUBtN3W0GTvtidqMtBECJWubKIMz2e4BMjZL9TDMc6T6
+ VXfXUPlVj4bW9Sh5VF23KX0nvX3lgBo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-ovrwFmxsNU2E6dRYJwCYKA-1; Fri, 11 Jun 2021 09:54:52 -0400
+X-MC-Unique: ovrwFmxsNU2E6dRYJwCYKA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17329FC9E;
+ Fri, 11 Jun 2021 13:54:51 +0000 (UTC)
+Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B4225D762;
+ Fri, 11 Jun 2021 13:54:50 +0000 (UTC)
+Date: Fri, 11 Jun 2021 08:54:48 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 06/32] block/nbd: call socket_address_parse_named_fd()
+ in advance
+Message-ID: <20210611135448.6qxzs5y5vfp6cbcl@redhat.com>
+References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
+ <20210610100802.5888-7-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <a6efbfaf-c33c-0fb2-bb34-2ca4240cb05c@redhat.com>
+In-Reply-To: <20210610100802.5888-7-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,32 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marcel Apfelbaum <mapfelba@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.06.21 15:34, Paolo Bonzini wrote:
-> On 10/05/21 13:43, David Hildenbrand wrote:
->> Based-on: 20210406080126.24010-1-david@redhat.com
+On Thu, Jun 10, 2021 at 01:07:36PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Detecting monitor by current coroutine works bad when we are not in
+> coroutine context. And that's exactly so in nbd reconnect code, where
+> qio_channel_socket_connect_sync() is called from thread.
 > 
-> Queued both the dependent series and this one, thanks.  Sorry for the delay.
+> Monitor is needed only to parse named file descriptor. So, let's just
+> parse it during nbd_open(), so that all further users of s->saddr don't
+> need to access monitor.
 > 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/nbd.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-No worries Paolo, I know that we're all super busy -- thanks!
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
-Thanks,
-
-David / dhildenb
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
