@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27053A46CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 18:44:36 +0200 (CEST)
-Received: from localhost ([::1]:34252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EFC3A46EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 18:46:57 +0200 (CEST)
+Received: from localhost ([::1]:37816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrkGp-0006bx-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 12:44:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59856)
+	id 1lrkJ6-0000gj-Mr
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 12:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1lrkFX-0005uu-LQ
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:43:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46292)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrkG0-0006Bt-As
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:43:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1lrkFU-0006l4-7w
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:43:14 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrkFv-00070O-5p
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 12:43:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623429790;
+ s=mimecast20190719; t=1623429818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=MW+MsnzgejllC8pa/VoNChRYXjk13Ymrp3Hi2rF7QGw=;
- b=f3xHd6LOTJohfStaRtmHKOyfA567VRn2bsRjBzrnmMAtxQha1zJbKgoGOi0iSvhWWeWYpN
- NTbiBzgtYWVIUMeTzhU+p/eM/aq5U4syKTuNnasMDvw0NuH3tpQmH0Ldim7j3XsdwPrEVJ
- fqpatRdgXr46R2I59/uDMcCkCrrfRQ4=
+ bh=vXrg9bWrXOeemMuOuF1laxRROZeJKOxXvil3sYZfToo=;
+ b=OpUEYr1kyw3iu6xWyxc3mRlHotymIxNevTn9xbn9jDPKA1oNiQ4JScx31ICTeFNO0fBoWq
+ 8ubfggFs+UdcYCebmNt52ccUNdLmt/b2iUCM1+Ek02/oCmVEfMaWcFP5nLWdCRnR2OIbwP
+ 5mKfb3NJwyTFtlz6ywSs7JDl7MG7vG0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-N-GPS1NNNDi_3CDSVbis6g-1; Fri, 11 Jun 2021 12:43:09 -0400
-X-MC-Unique: N-GPS1NNNDi_3CDSVbis6g-1
+ us-mta-446-aH8KYN3WO0OKxdeCY25OcQ-1; Fri, 11 Jun 2021 12:43:36 -0400
+X-MC-Unique: aH8KYN3WO0OKxdeCY25OcQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A275100C662;
- Fri, 11 Jun 2021 16:43:08 +0000 (UTC)
-Received: from f33-work.redhat.com (unknown [10.40.194.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DD3C1001B2C;
- Fri, 11 Jun 2021 16:43:07 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-To: mcascell@redhat.com
-Subject: [PATCH v2] Test comment for git-publish
-Date: Fri, 11 Jun 2021 18:43:05 +0200
-Message-Id: <20210611164305.440633-1-mcascell@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA0158030A0
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:43:35 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-115-90.ams2.redhat.com
+ [10.36.115.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE01D1001281;
+ Fri, 11 Jun 2021 16:43:34 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] virtiofsd: use GDateTime for formatting timestamp for
+ debug messages
+Date: Fri, 11 Jun 2021 17:43:20 +0100
+Message-Id: <20210611164319.67762-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -75,27 +77,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----
- hw/rdma/vmw/pvrdma_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The GDateTime APIs provided by GLib avoid portability pitfalls, such
+as some platforms where 'struct timeval.tv_sec' field is still 'long'
+instead of 'time_t'. When combined with automatic cleanup, GDateTime
+often results in simpler code too.
 
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 84ae8024fc..e229c19564 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -427,7 +427,7 @@ static void pvrdma_regs_write(void *opaque, hwaddr addr, uint64_t val,
-     case PVRDMA_REG_REQUEST:
-         if (val == 0) {
-             trace_pvrdma_regs_write(addr, val, "REQUEST", "");
--            pvrdma_exec_cmd(dev);
-+            pvrdma_exec_cmd(dev); // this is a test comment
+Localtime is changed to UTC to avoid the need to grant extra seccomp
+permissions for GLib's access of the timezone database.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 25 ++++---------------------
+ 1 file changed, 4 insertions(+), 21 deletions(-)
+
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 49c21fd855..9858e961d9 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -3559,10 +3559,6 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+ {
+     g_autofree char *localfmt = NULL;
+-    struct timespec ts;
+-    struct tm tm;
+-    char sec_fmt[sizeof "2020-12-07 18:17:54"];
+-    char zone_fmt[sizeof "+0100"];
+ 
+     if (current_log_level < level) {
+         return;
+@@ -3574,23 +3570,10 @@ static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+             localfmt = g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid),
+                                        fmt);
+         } else {
+-            /* try formatting a broken-down timestamp */
+-            if (clock_gettime(CLOCK_REALTIME, &ts) != -1 &&
+-                localtime_r(&ts.tv_sec, &tm) != NULL &&
+-                strftime(sec_fmt, sizeof sec_fmt, "%Y-%m-%d %H:%M:%S",
+-                         &tm) != 0 &&
+-                strftime(zone_fmt, sizeof zone_fmt, "%z", &tm) != 0) {
+-                localfmt = g_strdup_printf("[%s.%02ld%s] [ID: %08ld] %s",
+-                                           sec_fmt,
+-                                           ts.tv_nsec / (10L * 1000 * 1000),
+-                                           zone_fmt, syscall(__NR_gettid),
+-                                           fmt);
+-            } else {
+-                /* fall back to a flat timestamp */
+-                localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+-                                           get_clock(), syscall(__NR_gettid),
+-                                           fmt);
+-            }
++            g_autoptr(GDateTime) now = g_date_time_new_now_utc();
++            g_autofree char *nowstr = g_date_time_format(now, "%Y-%m-%d %H:%M:%S.%f%z");
++            localfmt = g_strdup_printf("[%s] [ID: %08ld] %s",
++                                       nowstr, syscall(__NR_gettid), fmt);
          }
-         break;
-     default:
+         fmt = localfmt;
+     }
 -- 
 2.31.1
 
