@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A887C3A4A6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 22:59:34 +0200 (CEST)
-Received: from localhost ([::1]:53498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537FE3A4A98
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 23:27:11 +0200 (CEST)
+Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lroFZ-0002Kw-Al
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 16:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42592)
+	id 1lrogH-0005DA-SS
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 17:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lroEg-0001dk-Cw
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 16:58:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lroEb-0007st-Lb
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 16:58:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623445111;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3dxFkg+yBtHYERjq772rfu/8lza5MzyPCx8O50Vrupk=;
- b=SxQp/LazBc+ArX4EgaaY89uWy+6nH/sfsKNoedxMpO2nOe4TVC2mnlEeCVkH4pydDTTKDR
- 0aRKerNu80oS6rPPBIAZ+eTIyqlMC0OqBb7x00ilUGqOZrwYRROa1zcyX0NZ3qDzWx64os
- Gr2po6LBZW3UaqiAcOJqR9j+JGM1fIk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-ZCy0la0vMdWzlaaH4nOt_g-1; Fri, 11 Jun 2021 16:58:30 -0400
-X-MC-Unique: ZCy0la0vMdWzlaaH4nOt_g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 393511084F47;
- Fri, 11 Jun 2021 20:58:29 +0000 (UTC)
-Received: from [10.10.112.226] (ovpn-112-226.rdu2.redhat.com [10.10.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BE4419C59;
- Fri, 11 Jun 2021 20:58:28 +0000 (UTC)
-Subject: Re: [PATCH 00/11] python: move /scripts/qmp/gemu-ga-client.py to
- qemu.qmp package
-To: qemu-devel@nongnu.org
-References: <20210604155532.1499282-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <99846123-9573-f038-2c91-29dbe9a9de27@redhat.com>
-Date: Fri, 11 Jun 2021 16:58:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
+ id 1lroct-00079h-Mg; Fri, 11 Jun 2021 17:23:39 -0400
+Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:33629)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
+ id 1lroce-0008AU-LT; Fri, 11 Jun 2021 17:23:39 -0400
+Received: by mail-vs1-xe2b.google.com with SMTP id 126so4588709vsi.0;
+ Fri, 11 Jun 2021 14:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KdRm5HvKaa81Uj8xNcnuC3v7v6N07SgTqBRxECrLDBQ=;
+ b=AXkpSUogIQ+LzmtULry99RjmYT/LWMWLBwsswJfTDPY/zlRTCaQiIaeuDAMufl0h4i
+ 4UjfQ+G9KMf1nYsmN1SujUKpvvfOa1k3Wjz8ruIn7pWmLfDYL0EdY5SjqUmElP+pvypS
+ gO58Zu6opmhpejtTeNcVdu5aHul0CO6I82bfrIm80IcbHT9D47wRrAvI0ZkVJ7Kvv8Ls
+ Cq+x70XsZOsqhLzlhdq40sZaB5jVO7ZPoSBhdMOO1qzrxbF5EmFC7Zl8u70K17clDCRd
+ PQS/uCLtv/H2kRHvU/LpVenQwqHRW7EqSROGc8PuP86FP5Epz2mknyEnP1SLGiifGaVR
+ MsTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KdRm5HvKaa81Uj8xNcnuC3v7v6N07SgTqBRxECrLDBQ=;
+ b=PdHBKzCwav91CxCYjW4B0HxXuuuUBEDRZlSndskW/CW3G6MtDgxWnxInEEI8m5V6jA
+ jxZigi61bvxerjHQ0z4Wx9gZ1lk90TIiDI9WqwepibeokI5G6lQNJejtaqUEhgQ/dMhO
+ maPeLFY1GDuEdmc7TyRd9MaPDeeOXoAuNP3hn7D1Ofca/05JfPMNvfjAXYIy20MHuIWy
+ AV2bUkNkPr9Oo+QabMYbCKHIcNm1lQJxIZQFrtmc+vYE4zS56IXEs+xWKu4R/CO2/qsU
+ 1EnNhBAAqojdJk0AWm6IQucrs8+HxJj1Bv4hTBB1Ag0ZmVZZgqY/sK0JxuHgKSeXkXFb
+ 2HZw==
+X-Gm-Message-State: AOAM530P/6UXqu35v091vSLi8GYMtjmDO59JwjkgC44+vcLdk1zzdNeX
+ SlWBWLIhLw1TMN7BNaX8ibbCraNogWt8V5Ui4js=
+X-Google-Smtp-Source: ABdhPJxDOnZ1aVmIT5/NX+kkHSp5iPa9Jldvo5NG+LWO6XDmbJzmmC49fLjYoFBiOEfTYB+YjmscGfWL7GSFX2Y/yuo=
+X-Received: by 2002:a67:334c:: with SMTP id z73mr12240981vsz.44.1623446602944; 
+ Fri, 11 Jun 2021 14:23:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210604155532.1499282-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210607202204.1805199-1-nsoffer@redhat.com>
+ <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
+ <CAMRbyyukE9iTmM6OB_xAA1n6tRiRRxwKojaO5wzRwAR-8-FX3g@mail.gmail.com>
+ <20210610183443.clk43ngkobzyjopy@redhat.com>
+ <CAMRbyysoYhcyiP2mWubfZsj09k=Ea_3-RPr+Tt7KvoE1z3jrNA@mail.gmail.com>
+ <20210610204617.fuj4ivqrixpz4qfj@redhat.com> <YMMaJcKYe8nHDdjU@redhat.com>
+ <20210611132830.i6wwm3fvytri6czu@redhat.com>
+ <CAMRbyytDeniKkg4Bjcqry8203RHWzAKmAMdSELnLquBkXJNXvQ@mail.gmail.com>
+ <20210611183443.bnw6npo53lbvfp2h@redhat.com>
+In-Reply-To: <20210611183443.bnw6npo53lbvfp2h@redhat.com>
+From: Nir Soffer <nirsof@gmail.com>
+Date: Sat, 12 Jun 2021 00:23:06 +0300
+Message-ID: <CAMr-obsNTUzEf96U=Fgqwa1cOqpC8q8cTJ78cm1Yx3c+PbhvMg@mail.gmail.com>
+Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
+ envelope-from=nirsof@gmail.com; helo=mail-vs1-xe2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,70 +82,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Niteesh G . S ." <niteesh.gs@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/4/21 11:55 AM, John Snow wrote:
-> Delint and type the qemu-ga-client and move it over into
-> /python/qemu/qmp/qemu_ga_client.py.
-> 
-> Based-on: <20210603003719.1321369-1-jsnow@redhat.com>
-> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-qga
-> CI: https://gitlab.com/jsnow/qemu/-/pipelines/315122004
-> 
-> (Weakly based on "[PATCH v3 00/19] Python: move /scripts/qmp/qom* to
-> /python/qemu/qmp/qom*", for the purposes of avoiding context conflicts
-> in /python/setup.cfg, but is trivially rebased without it.)
-> 
-> Add a new console entrypoint to the package under "qemu-ga-client",
-> keeping the old name. (This makes a script named "qemu-ga-client"
-> available in your $PATH when you use pip to install the qemu.qmp
-> package.)
-> 
-> Add a forwarder shim back to /scripts/qmp/qemu-ga-client.py that
-> forwards to the new script, keeping functionality as it was in the old
-> location, at least for a little while. I intend to eventually deprecate
-> these forwarders, but not yet. (This allows you to use "qemu-ga-client"
-> from the scripts directory without needing to install the qemu.qmp
-> package.)
-> 
-> Now this script is protected against regressions against the qemu.qmp
-> package because it's part of it, and validated regularly by GitLab CI.
-> 
-> John Snow (11):
->    scripts/qemu-ga-client: apply isort rules
->    scripts/qemu-ga-client: apply (most) flake8 rules
->    scripts/qemu-ga-client: Fix exception handling
->    scripts/qemu-ga-client: replace deprecated optparse with argparse
->    scripts/qemu-ga-client: add module docstring
->    scripts/qemu-ga-client: apply (most) pylint rules
->    python/qmp: Correct type of QMPReturnValue
->    scripts/qemu-ga-client: add mypy type hints
->    scripts/qemu-ga-client: move to python/qemu/qmp/qemu_ga_client.py
->    python/qemu-ga-client: add entry point
->    scripts/qemu-ga-client: Add forwarder shim
-> 
->   python/qemu/qmp/__init__.py       |  25 ++-
->   python/qemu/qmp/qemu_ga_client.py | 323 ++++++++++++++++++++++++++++++
->   python/setup.cfg                  |   1 +
->   scripts/qmp/qemu-ga-client        | 297 +--------------------------
->   4 files changed, 341 insertions(+), 305 deletions(-)
->   create mode 100644 python/qemu/qmp/qemu_ga_client.py
-> 
+On Fri, Jun 11, 2021 at 9:34 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Fri, Jun 11, 2021 at 08:35:01PM +0300, Nir Soffer wrote:
+> > On Fri, Jun 11, 2021 at 4:28 PM Eric Blake <eblake@redhat.com> wrote:
+> > >
+> > > On Fri, Jun 11, 2021 at 10:09:09AM +0200, Kevin Wolf wrote:
+> > > > > Yes, that might work as well.  But we didn't previously document
+> > > > > depth to be optional.  Removing something from output risks breaking
+> > > > > more downstream tools that expect it to be non-optional, compared to
+> > > > > providing a new value.
+> > > >
+> > > > A negative value isn't any less unexpected than a missing key. I don't
+> > > > think any existing tool would be able to handle it. Encoding different
+> > > > meanings in a single value isn't very QAPI-like either. Usually strings
+> > > > that are parsed are the problem, but negative integers really isn't that
+> > > > much different. I don't really like this solution.
+> > > >
+> > > > Leaving out the depth feels like a better suggestion to me.
+> > > >
+> > > > But anyway, this seems to only happen at the end of the backing chain.
+> > > > So if the backing chain consistents of n images, why not report 'depth':
+> > > > n + 1? So, in the above example, you would get 1. I think this has the
+> > > > best chances of tools actually working correctly with the new output,
+> > > > even though it's still not unlikely to break something.
+> > >
+> > > Ooh, I like that.  It is closer to reality - the file data really
+> > > comes from the next depth, even if we have no filename at that depth.
+> > > v2 of my patch coming up.
+> >
+> > How do you know the number of the layer? this info is not presented in
+> > qemu-img map output.
+...
+> Otherwise, you do have a point: "depth":1 in isolation is ambiguous
+> between "not allocated anywhere in this 1-element chain" and
+> "allocated at the first backing file in this chain of length 2 or
+> more".  At which point you can indeed use "qemu-img info" to determine
+> the backing chain depth.  How painful is that extra step?  Does it
+> justify the addition of a new optional "backing":true to any portion
+> of the file that was beyond the end of the chain (and omit that line
+> for all other regions, rather than printing "backing":false)?
 
-Thanks, preliminarily staged on my python branch:
+Dealing with depth: N + 1 is not that painful, but also not great.
 
-https://gitlab.com/jsnow/qemu/-/commits/python
+I think it is worth a little more effort, and it will save time in the long term
+for users and for developers. Better APIs need simpler and shorter
+documentation and require less support.
 
-CI (covers this series and the scripts/qmp/qom* series):
-https://gitlab.com/jsnow/qemu/-/pipelines/319584565
+I'm not sure about backing: false, maybe absent: true to match libnbd?
 
-I intend to send a PR this coming Friday after staging the qmp-shell 
-cleanup series.
-
---js
-
+Nir
 
