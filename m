@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFAF3A4B91
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:00:58 +0200 (CEST)
-Received: from localhost ([::1]:48560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FBB3A4B8B
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 01:59:47 +0200 (CEST)
+Received: from localhost ([::1]:45790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrr57-0007CY-A2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:00:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1lrr3y-0005K7-Rn
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 19:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmr-00032o-1P
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:05 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:33455)
+ id 1lrqms-00034x-M3
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:07 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmo-0002kN-F4
+ id 1lrqmp-0002lC-84
  for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:04 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- k22-20020a17090aef16b0290163512accedso8024785pjz.0
+Received: by mail-pj1-x1035.google.com with SMTP id g24so6520329pji.4
  for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2wvd/6SGk1w8OXui4/FBWGSYpErzZvV+B9LV37fcakY=;
- b=bdLFHHPwOlW4VyQm3We/eXb+tvzIbp+VmnB2Zly8tWpPgPtoeRvAv1cIGMxSgYlY3V
- f+Veegvt7fssgEJ40mQZFwEcIDHKqK5WYB6fGkyCYJSIRDdFeoUGqc2vUSvaONXmaPsw
- q8FigcpwXC4XRlAI38t8RWF9JyIBiYFk+pH5kgFf04Xm8XuVwpjDWjNwIdkL4D7VwlNY
- tuLckFRAzHYwoRv3M55EznPELFIm9XK6WFocRN9hNgxOuHBVbPVn4YSXRc3iir+eE/7u
- SmZ/fCWUCd0UE8G7o3d9e8k/0RvYyDRki+a4Yze+M73i1tYNQmROeewjg9NgPTtaBkvF
- 1Feg==
+ bh=y0NBhQuf2KfybteRYM2KfBpCijz1I25HMN5sM61Z6v0=;
+ b=o/uGJs1gxi/tL/H5aFJh5EEYEMxG/xjxCjqMitcEU8cNEwcaDp1ptEcvUbxUYkAHYY
+ +oYzgvCmCb3DfTvIBDv66oZ5bhyxo94SpqCvV8aePG+7s7hPWZjOWLKHwZOhfPALEBy0
+ Vc9SLxa2iVzVnkowG/QROcHchOgAK8fgXYfjH/yFk7P4C71OTmTL9enqIOBqSpNS4Z5j
+ 1O3lfHNtCQPrS+nznV+sfxWwDK/MZTGOxxzntq9UgqLW+7MdMeOB3sni9LEUQxB8gV6m
+ 5QzowGJ0ECMxEMmQ0eMlxltxT+MgnUFaKybcyORS6+1xvK3vDIW/nLOngpDZPNj7iYXf
+ 0uzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2wvd/6SGk1w8OXui4/FBWGSYpErzZvV+B9LV37fcakY=;
- b=nROPJDFoXdkITSSMj/FqjTOHkLkOFalvJ9Xi9IxF6Ol1idsQbg5A6TvZ4Y43PsM4sm
- sIqGPoP+JtuwUQAz5WJJVtb2ra9RHsNjsyst0QEb489twO1/+Lsj+a3Qgmp6ac97+IXu
- NXFudXt8TekH3UX7h44bJb9ACIJqnGEvqm0m8+wnZRmzjqhRDBzb+wMJQbXnxBfKvNbv
- Sq6zxjrWDeYhrdAeaUDDTyR1qwSGIjuWUxKKKBP/QYswYGJc7GcGlzU9VrW51wm4ktQl
- sJA2YG3GOpdwfIWfTHCggaqUka+vtHQnLYvu5XivR3YMymniwf7y6evx5BW4vvAnom+y
- LF2Q==
-X-Gm-Message-State: AOAM533vFATkhG1NbDb78goMxsd2xZTDvLlKQL9MsXXh6ZYHP/uEpFrW
- oYStemTHrbAFwxhTQX4CAz106TbLCnbsyQ==
-X-Google-Smtp-Source: ABdhPJzg2181udEs2qkSjDl8G9fc52RnLdXhFA717eUGgrNoWN5fnZrnqJJ0kSdhZ93TWCJr36M2gQ==
-X-Received: by 2002:a17:902:c789:b029:110:4933:71ce with SMTP id
- w9-20020a170902c789b0290110493371cemr6151169pla.56.1623454921175; 
+ bh=y0NBhQuf2KfybteRYM2KfBpCijz1I25HMN5sM61Z6v0=;
+ b=TUJZm5aIFatEgyFXTSMGwvihK1LrJjo2zln2+fOBF5EI/c8FHlCGRddG4G4yt5Y7o9
+ 1kTascazNKLE/Qtn2SFo1iv/V09FgEtQG4Wntu6CZNgkKvXSZfcn8mQm85DtqBTsDcsm
+ OAWnZbbLLaq1VwKEIVmoL2cjGxXzw4wWg9ldpbvp95MjBtVeY/t+r3Xd+DJYWBYBv/oi
+ DXAFQ29HeZKpo8dKv0fQGtD33EqG+JC38dggPSolAjRLBk/BqP+okfI7e4OiRV0SHMNP
+ P0Nq0dTawLr+xL4yBW5X8JcvJrl98QLOGgaYWN/Qywx3o2zUHNL3vg1Xer2jZlX+OmrT
+ 3Rqg==
+X-Gm-Message-State: AOAM5310o2xNVPG0HHYPeNP5wrIvEu52uruuujGVaPeV5aXPqgKVDA4R
+ i0K+WQDR4BRXWB0rXriUg7X8crfA/sWMJg==
+X-Google-Smtp-Source: ABdhPJwhBq2JLitlCbcJl4YVD2A7KjKeceQ3bbPB0ryuAoBN964gGttQPFd7fPh51JsqGUzry3iqNQ==
+X-Received: by 2002:a17:90a:4817:: with SMTP id
+ a23mr11795414pjh.192.1623454921966; 
  Fri, 11 Jun 2021 16:42:01 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.00
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
+ Fri, 11 Jun 2021 16:42:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/34] tcg: Round the tb_size default from qemu_get_host_physmem
-Date: Fri, 11 Jun 2021 16:41:36 -0700
-Message-Id: <20210611234144.653682-27-richard.henderson@linaro.org>
+Subject: [PULL 27/34] tcg: Merge buffer protection and guard page protection
+Date: Fri, 11 Jun 2021 16:41:37 -0700
+Message-Id: <20210611234144.653682-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,98 +90,92 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If qemu_get_host_physmem returns an odd number of pages,
-then physmem / 8 will not be a multiple of the page size.
-
-The following was observed on a gitlab runner:
-
-ERROR qtest-arm/boot-serial-test - Bail out!
-ERROR:../util/osdep.c:80:qemu_mprotect__osdep: \
-  assertion failed: (!(size & ~qemu_real_host_page_mask))
+Do not handle protections on a case-by-case basis in the
+various alloc_code_gen_buffer instances; do it within a
+single loop in tcg_region_init.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/region.c | 47 +++++++++++++++++++++--------------------------
- 1 file changed, 21 insertions(+), 26 deletions(-)
+ tcg/region.c | 45 +++++++++++++++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 14 deletions(-)
 
 diff --git a/tcg/region.c b/tcg/region.c
-index 2e541cd2bf..e1790ce1e4 100644
+index e1790ce1e4..294cbd8e65 100644
 --- a/tcg/region.c
 +++ b/tcg/region.c
-@@ -470,26 +470,6 @@ static size_t tcg_n_regions(size_t tb_size, unsigned max_cpus)
-   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
-    ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
+@@ -535,11 +535,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+     }
+ #endif
  
--static size_t size_code_gen_buffer(size_t tb_size)
--{
--    /* Size the buffer.  */
--    if (tb_size == 0) {
--        size_t phys_mem = qemu_get_host_physmem();
--        if (phys_mem == 0) {
--            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
--        } else {
--            tb_size = MIN(DEFAULT_CODE_GEN_BUFFER_SIZE, phys_mem / 8);
--        }
+-    if (qemu_mprotect_rwx(buf, size)) {
+-        error_setg_errno(errp, errno, "mprotect of jit buffer");
+-        return false;
 -    }
--    if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
--        tb_size = MIN_CODE_GEN_BUFFER_SIZE;
--    }
--    if (tb_size > MAX_CODE_GEN_BUFFER_SIZE) {
--        tb_size = MAX_CODE_GEN_BUFFER_SIZE;
--    }
--    return tb_size;
--}
 -
- #ifdef __mips__
- /*
-  * In order to use J and JAL within the code_gen_buffer, we require
-@@ -841,13 +821,29 @@ static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-  */
- void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+     region.start_aligned = buf;
+     region.total_size = size;
+ 
+@@ -823,8 +818,7 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
  {
--    size_t page_size;
-+    const size_t page_size = qemu_real_host_page_size;
+     const size_t page_size = qemu_real_host_page_size;
      size_t region_size;
-     size_t i;
-     int have_prot;
+-    size_t i;
+-    int have_prot;
++    int have_prot, need_prot;
  
--    have_prot = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
--                                      splitwx, &error_fatal);
-+    /* Size the buffer.  */
-+    if (tb_size == 0) {
-+        size_t phys_mem = qemu_get_host_physmem();
-+        if (phys_mem == 0) {
-+            tb_size = DEFAULT_CODE_GEN_BUFFER_SIZE;
-+        } else {
-+            tb_size = QEMU_ALIGN_DOWN(phys_mem / 8, page_size);
-+            tb_size = MIN(DEFAULT_CODE_GEN_BUFFER_SIZE, tb_size);
-+        }
-+    }
-+    if (tb_size < MIN_CODE_GEN_BUFFER_SIZE) {
-+        tb_size = MIN_CODE_GEN_BUFFER_SIZE;
-+    }
-+    if (tb_size > MAX_CODE_GEN_BUFFER_SIZE) {
-+        tb_size = MAX_CODE_GEN_BUFFER_SIZE;
-+    }
-+
-+    have_prot = alloc_code_gen_buffer(tb_size, splitwx, &error_fatal);
-     assert(have_prot >= 0);
- 
-     /* Request large pages for the buffer and the splitwx.  */
-@@ -862,9 +858,8 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
-      * As a result of this we might end up with a few extra pages at the end of
-      * the buffer; we will assign those to the last region.
+     /* Size the buffer.  */
+     if (tb_size == 0) {
+@@ -884,18 +878,41 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+      * Set guard pages in the rw buffer, as that's the one into which
+      * buffer overruns could occur.  Do not set guard pages in the rx
+      * buffer -- let that one use hugepages throughout.
++     * Work with the page protections set up with the initial mapping.
       */
--    region.n = tcg_n_regions(region.total_size, max_cpus);
--    page_size = qemu_real_host_page_size;
--    region_size = region.total_size / region.n;
-+    region.n = tcg_n_regions(tb_size, max_cpus);
-+    region_size = tb_size / region.n;
-     region_size = QEMU_ALIGN_DOWN(region_size, page_size);
+-    for (i = 0; i < region.n; i++) {
++    need_prot = PAGE_READ | PAGE_WRITE;
++#ifndef CONFIG_TCG_INTERPRETER
++    if (tcg_splitwx_diff == 0) {
++        need_prot |= PAGE_EXEC;
++    }
++#endif
++    for (size_t i = 0, n = region.n; i < n; i++) {
+         void *start, *end;
  
-     /* A region must have at least 2 pages; one code, one guard */
+         tcg_region_bounds(i, &start, &end);
++        if (have_prot != need_prot) {
++            int rc;
+ 
+-        /*
+-         * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
+-         * rejects a permission change from RWX -> NONE.  Guard pages are
+-         * nice for bug detection but are not essential; ignore any failure.
+-         */
+-        (void)qemu_mprotect_none(end, page_size);
++            if (need_prot == (PAGE_READ | PAGE_WRITE | PAGE_EXEC)) {
++                rc = qemu_mprotect_rwx(start, end - start);
++            } else if (need_prot == (PAGE_READ | PAGE_WRITE)) {
++                rc = qemu_mprotect_rw(start, end - start);
++            } else {
++                g_assert_not_reached();
++            }
++            if (rc) {
++                error_setg_errno(&error_fatal, errno,
++                                 "mprotect of jit buffer");
++            }
++        }
++        if (have_prot != 0) {
++            /*
++             * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
++             * rejects a permission change from RWX -> NONE.  Guard pages are
++             * nice for bug detection but are not essential; ignore any failure.
++             */
++            (void)qemu_mprotect_none(end, page_size);
++        }
+     }
+ 
+     tcg_region_trees_init();
 -- 
 2.25.1
 
