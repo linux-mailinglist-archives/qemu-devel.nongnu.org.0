@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE203A43E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 16:17:12 +0200 (CEST)
-Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE353A4405
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 16:26:46 +0200 (CEST)
+Received: from localhost ([::1]:36314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrhyB-0007Fa-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 10:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33978)
+	id 1lri7R-0001aa-9W
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 10:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrhx9-0006Yr-SN
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 10:16:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24687)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lri6g-0000p7-U3
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 10:25:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrhx5-00047f-R5
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 10:16:07 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lri6Z-00004w-PS
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 10:25:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623420961;
+ s=mimecast20190719; t=1623421550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aFnW2z8p5bvYOVefMOJ63v9C/MvXp71LxIaREM6eukQ=;
- b=jRSrbbW0OYawSdje9MqfSqV1zj+YwqZ9eOUJG4UXukclebpqkhoE4Tok9ZizmcJdCxLuDd
- BeUqoYYGtaBGU2YdJqGrurd8LN2jO+Huhg5YxZ515d3HqmHCNwJOsCs+1apgKQ/NRZ0ic2
- cCSWkoQ4B/Pfe8bimjfkPo3jxfU/NC8=
+ bh=TmBmbLMKEABG7/gPeFq7paZ54ha64pLP8aSAnsN+LZU=;
+ b=QFJwAYC9BtmKZSCq2UIsUzx6593HAzySesWDwzTCklawqjVc4/OS4nvq20JbIGMnRiBMdO
+ SZp2t4JTZSVkCHF/VtQ1XB1TybDq2whFFvEZskiQJmsye5ph65kDAj4/APGVvfcK6Ylcq+
+ GEK6cTMvA95RqbbsF/49H/HAZqpX5AE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-B_aD1VxIMee6vz8yZXxgYQ-1; Fri, 11 Jun 2021 10:16:00 -0400
-X-MC-Unique: B_aD1VxIMee6vz8yZXxgYQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-457-IFH0jTtrNn2i4wctTqacvw-1; Fri, 11 Jun 2021 10:25:47 -0400
+X-MC-Unique: IFH0jTtrNn2i4wctTqacvw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D60701084F4B;
- Fri, 11 Jun 2021 14:15:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68DEF100CA88;
+ Fri, 11 Jun 2021 14:25:46 +0000 (UTC)
 Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4E8D5D723;
- Fri, 11 Jun 2021 14:15:54 +0000 (UTC)
-Date: Fri, 11 Jun 2021 09:15:52 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C93D260E3A;
+ Fri, 11 Jun 2021 14:25:45 +0000 (UTC)
+Date: Fri, 11 Jun 2021 09:25:44 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Andrew Melnychenko <andrew@daynix.com>
-Subject: Re: [RFC PATCH 4/5] qmp: Added qemu-ebpf-rss-path command.
-Message-ID: <20210611141552.ezkybuvewffln4dz@redhat.com>
-References: <20210609100457.142570-1-andrew@daynix.com>
- <20210609100457.142570-5-andrew@daynix.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 11/32] block/nbd: drop thr->state
+Message-ID: <20210611142544.7tgwkripjtdygetk@redhat.com>
+References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
+ <20210610100802.5888-12-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210609100457.142570-5-andrew@daynix.com>
+In-Reply-To: <20210610100802.5888-12-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -77,157 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, mst@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, yuri.benditovich@daynix.com,
- yan@daynix.com
+Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 09, 2021 at 01:04:56PM +0300, Andrew Melnychenko wrote:
-> New qmp command to query ebpf helper.
-> It's crucial that qemu and helper are in sync and in touch.
-> Technically helper should pass eBPF fds that qemu may accept.
-> And different qemu's builds may have different eBPF programs and helpers.
-> Qemu returns helper that should "fit" to virtio-net.
+On Thu, Jun 10, 2021 at 01:07:41PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> We don't need all these states. The code refactored to use two boolean
+> variables looks simpler.
 > 
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> While moving the comment in nbd_co_establish_connection() rework it to
+> give better information. Also, we are going to move the connection code
+> to separate file and mentioning drained section would be confusing.
+> 
+> Improve also the comment in NBDConnectThread, while dropping removed
+> state names from it.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  monitor/qmp-cmds.c | 78 ++++++++++++++++++++++++++++++++++++++++++++++
->  qapi/misc.json     | 29 +++++++++++++++++
->  2 files changed, 107 insertions(+)
+>  block/nbd.c | 139 +++++++++++++++++-----------------------------------
+>  1 file changed, 44 insertions(+), 95 deletions(-)
 > 
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index f7d64a6457..5dd2a58ea2 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -351,3 +351,81 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
->          abort();
->      }
->  }
-> +
-> +#ifdef CONFIG_LINUX
-> +
-> +static const char *get_dirname(char *path)
-> +{
-> +    char *sep;
-> +
-> +    sep = strrchr(path, '/');
-> +    if (sep == path) {
-> +        return "/";
-> +    } else if (sep) {
-> +        *sep = 0;
-> +        return path;
-> +    }
-> +    return ".";
-> +}
 
-Seems like this function is duplicating what glib should already be
-able to do.
+>  typedef struct NBDConnectThread {
+>      /* Initialization constants */
+>      SocketAddress *saddr; /* address to connect to */
+>  
+> +    QemuMutex mutex;
+> +
+>      /*
+> -     * Result of last attempt. Valid in FAIL and SUCCESS states.
+> -     * If you want to steal error, don't forget to set pointer to NULL.
+> +     * @sioc and @err present a result of connection attempt.
+> +     * While running is true, they are used only by thread, mutex locking is not
+> +     * needed. When thread is finished nbd_co_establish_connection steal these
+> +     * pointers under mutex.
 
-> +
-> +static char *find_helper(const char *name)
-> +{
-> +    char qemu_exec[PATH_MAX];
+@sioc and @err represent a connection attempt.  While running is true,
+they are only used by the connection thread, and mutex locking is not
+needed.  Once the thread finishes, nbd_co_establish_connection then
+steals these pointers under mutex.
 
-Stack-allocating a PATH_MAX array for readlink() is poor practice.
-Better is to use g_file_read_link().
+>       */
+>      QIOChannelSocket *sioc;
+>      Error *err;
+>  
+> -    QemuMutex mutex;
+> -    /* All further fields are protected by mutex */
+> -    NBDConnectThreadState state; /* current state of the thread */
+> +    /* All further fields are accessed only under mutex */
+> +    bool running; /* thread is running now */
+> +    bool detached; /* thread is detached and should cleanup the state */
+>
 
-> +    const char *qemu_dir = NULL;
-> +    char *helper = NULL;
-> +
-> +    if (name == NULL) {
-> +        return NULL;
-> +    }
-> +
-> +    if (readlink("/proc/self/exe", qemu_exec, PATH_MAX) > 0) {
-> +        qemu_dir = get_dirname(qemu_exec);
-> +
-> +        helper = g_strdup_printf("%s/%s", qemu_dir, name);
-> +        if (access(helper, F_OK) == 0) {
-> +            return helper;
-> +        }
-> +        g_free(helper);
-> +    }
-> +
-> +    helper = g_strdup_printf("%s/%s", CONFIG_QEMU_HELPERDIR, name);
+Okay, I'm understanding this better than I did in v3.
 
-Could we use a compile-time determination of where we were (supposed)
-to be installed, and therefore where our helper should be installed,
-rather than the dynamic /proc/self/exe munging?
-
-> +    if (access(helper, F_OK) == 0) {
-> +        return helper;
-> +    }
-> +    g_free(helper);
-> +
-> +    return NULL;
-> +}
-> +
-> +HelperPathList *qmp_query_helper_paths(Error **errp)
-> +{
-> +    HelperPathList *ret = NULL;
-> +    const char *helpers_list[] = {
-> +#ifdef CONFIG_EBPF
-> +        "qemu-ebpf-rss-helper",
-> +#endif
-
-So the intent is that we can make this list larger if we write other
-helper binaries.  But this code is in an overall #ifdef CONFIG_LINUX,
-which means it won't work on other platforms.
-
-> +#else
-> +
-> +HelperPathList *qmp_query_helper_paths(Error **errp)
-> +{
-> +    return NULL;
-> +}
-> +
-> +#endif
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 156f98203e..023bd2120d 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -519,3 +519,32 @@
->   'data': { '*option': 'str' },
->   'returns': ['CommandLineOptionInfo'],
->   'allow-preconfig': true }
-> +
-> +##
-> +# @HelperPath:
-> +#
-> +# Name of the helper and binary location.
-> +##
-
-Missing a 'Since: 6.1' line.
-
-> +{ 'struct': 'HelperPath',
-> +  'data': {'name': 'str', 'path': 'str'} }
-> +
-> +##
-> +# @query-helper-paths:
-> +#
-> +# Query specific eBPF RSS helper for current qemu binary.
-> +#
-> +# Returns: list of object that contains name and path for helper.
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-helper-paths" }
-> +# <- { "return": [
-> +#        {
-> +#          "name": "qemu-ebpf-rss-helper",
-> +#          "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
-> +#        }
-> +#      ]
-> +#    }
-> +#
-> +##
-> +{ 'command': 'query-helper-paths', 'returns': ['HelperPath'] }
-
-Missing an 'if':... to designate that this command is only useful on
-Linux.  Or you can make it work on other platforms with my suggestions
-above about better utilizing glib functionality at runtime or even
-just relying on compile-time use of the configured install locations.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
