@@ -2,73 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D7A3A41E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 14:19:59 +0200 (CEST)
-Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095473A420C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 14:33:52 +0200 (CEST)
+Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrg8k-0000vp-5q
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 08:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53438)
+	id 1lrgMB-0003gq-9i
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 08:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrg7v-000051-Tw
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:19:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43659)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1lrgKm-000315-Oc
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:32:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37274
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrg7s-0000Fe-Ef
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:19:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623413943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5Wjij/BB0tTbq8OZciyzxORWKaRtsTzRmLfa5OujE58=;
- b=IjAo+2mUSSNSxFEGnq9uaEc6yQrrM6Axb8dF0i5MFcHkqusX1TFt7+GQqT/fuRWBNGD3Rg
- DJV1RynsDFo2cf9ctn5Qfoau7MAO8UfLE+Fuv8CiMTPOo+NVEPVer+/BM1EzSwSrerV2PO
- jQokicXL+GtEHyNSPEPHVvUzd4IRp8M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-Z1wbsJA9M3uXh4kCjxrulw-1; Fri, 11 Jun 2021 08:19:00 -0400
-X-MC-Unique: Z1wbsJA9M3uXh4kCjxrulw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82DA019200C4;
- Fri, 11 Jun 2021 12:18:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
- [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30BB35D9C6;
- Fri, 11 Jun 2021 12:18:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 72899113865F; Fri, 11 Jun 2021 14:18:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 2/2] spapr: use DEVICE_UNPLUG_ERROR to report unplug
- errors
-References: <20210604200353.1206897-1-danielhb413@gmail.com>
- <20210604200353.1206897-3-danielhb413@gmail.com>
-Date: Fri, 11 Jun 2021 14:18:56 +0200
-In-Reply-To: <20210604200353.1206897-3-danielhb413@gmail.com> (Daniel Henrique
- Barboza's message of "Fri, 4 Jun 2021 17:03:53 -0300")
-Message-ID: <87y2bgppan.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1lrgKj-0005DR-R1
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:32:24 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15BC4Xt7128024; Fri, 11 Jun 2021 08:32:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=EBGsZwHLHSC3dpNl9izEXGcA4a9HOMVCn7u1EhbRink=;
+ b=JGvjwvGdxCTmlvV+5lkMyeGOGKFZR2hUA2jp793M5mYEXgObU1An4tk3Xg6VcLIW7Kbk
+ 9S8mlmgKH+iUw4IEtBDBjBoYWUYyL9OQc3c2KokFG7pos1E9FJ8ZWrFaX+yNgGWuV2Fe
+ Xuq5S16D+RcfrYVHOe+myzB8j1B6GcR0dcuKGdLjGtCLQJsEhBPtxs7F5LarqjIfWfvS
+ pTwPAthWfWsaX3mMdusU9mP//7vRuCjUmA1IbUwPHwn61lMp/ZUHxAx+ZoI3w9Pdf9KI
+ 1Tt94c5fHKUNgnffV6ooGvCGJsD4pUyHb/uT1IFNbaoOC3YDSZ0dbtTM6oTfw51oyJud WQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3947h40t8k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Jun 2021 08:32:17 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15BC4hHZ128726;
+ Fri, 11 Jun 2021 08:32:17 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3947h40t8a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Jun 2021 08:32:17 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15BCTToW007453;
+ Fri, 11 Jun 2021 12:32:16 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02wdc.us.ibm.com with ESMTP id 3900wa84dw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 11 Jun 2021 12:32:16 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15BCWG6G35455266
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Jun 2021 12:32:16 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2726CAE073;
+ Fri, 11 Jun 2021 12:32:16 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C4647AE064;
+ Fri, 11 Jun 2021 12:32:15 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 11 Jun 2021 12:32:15 +0000 (GMT)
+Subject: Re: [RFC PATCH v2 1/2] qapi: Inline qmp_marshal_output() functions
+To: Markus Armbruster <armbru@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20210609184955.1193081-1-philmd@redhat.com>
+ <20210609184955.1193081-2-philmd@redhat.com>
+ <20210609202952.r4nb2smrptyckvk2@redhat.com>
+ <87eedadpxt.fsf@dusky.pond.sub.org>
+ <4050a737-5539-c6a8-3d60-78fc9721a865@redhat.com>
+ <87r1haasht.fsf@dusky.pond.sub.org>
+ <76d76c8e-5c0a-d676-f3d7-2d256d033294@redhat.com>
+ <87im2kvnfa.fsf@dusky.pond.sub.org>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <5c1245c1-83a2-41dc-6c12-fe957c020475@linux.ibm.com>
+Date: Fri, 11 Jun 2021 08:32:15 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+In-Reply-To: <87im2kvnfa.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 90B-sDPvpNVKU9Xau7tHAW_iERpr7yeW
+X-Proofpoint-ORIG-GUID: fQZnLpyWNQKn16q8TalZjNr6UZ5Ps4Im
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-11_05:2021-06-11,
+ 2021-06-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 clxscore=1011 suspectscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106110077
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,97 +122,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 
-> Linux Kernel 5.12 is now unisolating CPU DRCs in the device_removal
-> error path, signalling that the hotunplug process wasn't successful.
-> This allow us to send a DEVICE_UNPLUG_ERROR in drc_unisolate_logical()
-> to signal this error to the management layer.
+On 6/11/21 4:02 AM, Markus Armbruster wrote:
+> Stefan, would you be willing to look into this?
 >
-> We also have another error path in spapr_memory_unplug_rollback() for
-> configured LMB DRCs. Kernels older than 5.13 will not unisolate the LMBs
-> in the hotunplug error path, but it will reconfigure them.  Let's send
-> the DEVICE_UNPLUG_ERROR event in that code path as well to cover the
-> case of older kernels.
->
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr.c     |  2 +-
->  hw/ppc/spapr_drc.c | 15 +++++++++------
->  2 files changed, 10 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c23bcc4490..29aa2f467d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3639,7 +3639,7 @@ void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
->       */
->      qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
->                                   "for device %s", dev->id);
-> -    qapi_event_send_mem_unplug_error(dev->id, qapi_error);
-> +    qapi_event_send_device_unplug_error(dev->id, qapi_error);
+Have a look at the 3 topmost patches: 
+https://github.com/stefanberger/qemu-tpm/commits/tpm-eliminate-if-not-config-tpm
 
-Incompatible change: we now emit DEVICE_UNPLUG_ERROR instead of
-MEM_UNPLUG_ERROR.  Intentional?
-
-If yes, we need a release note.
-
-To avoid the incompatible, we can emit both, and deprecate
-MEM_UNPLUG_ERROR.
-
-What about the MEM_UNPLUG_ERROR in acpi_memory_hotplug_write()?
-
->  }
->  
->  /* Callback to be called during DRC release. */
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index a2f2634601..0e1a8733bc 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -17,6 +17,8 @@
->  #include "hw/ppc/spapr_drc.h"
->  #include "qom/object.h"
->  #include "migration/vmstate.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-events-machine.h"
->  #include "qapi/visitor.h"
->  #include "qemu/error-report.h"
->  #include "hw/ppc/spapr.h" /* for RTAS return codes */
-> @@ -160,6 +162,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
->           * means that the kernel is refusing the removal.
->           */
->          if (drc->unplug_requested && drc->dev) {
-> +            const char qapi_error_fmt[] = "Device hotunplug rejected by the "
-> +                                          "guest for device %s";
-> +            g_autofree char *qapi_error = NULL;
-> +
->              if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB) {
->                  spapr = SPAPR_MACHINE(qdev_get_machine());
->  
-> @@ -167,13 +173,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
->              }
->  
->              drc->unplug_requested = false;
-> -            error_report("Device hotunplug rejected by the guest "
-> -                         "for device %s", drc->dev->id);
-> +            error_report(qapi_error_fmt, drc->dev->id);
->  
-> -            /*
-> -             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
-> -             * it is implemented.
-> -             */
-> +            qapi_error = g_strdup_printf(qapi_error_fmt, drc->dev->id);
-> +            qapi_event_send_device_unplug_error(drc->dev->id, qapi_error);
->          }
->  
->          return RTAS_OUT_SUCCESS; /* Nothing to do */
-
-Reporting both to stderr and QMP is odd.  Can you describe a use case
-where the report to stderr is useful?
 
 
