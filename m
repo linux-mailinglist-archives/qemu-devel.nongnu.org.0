@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650DD3A4B96
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:04:00 +0200 (CEST)
-Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96C23A4B98
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:06:39 +0200 (CEST)
+Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrr83-00039r-BT
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47306)
+	id 1lrrAc-0007JN-VF
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:06:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmo-0002u5-OU
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:02 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46678)
+ id 1lrqmp-0002xd-R0
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:03 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:45589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmm-0002j9-6k
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:02 -0400
-Received: by mail-pl1-x634.google.com with SMTP id e1so3588660pld.13
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:41:59 -0700 (PDT)
+ id 1lrqmn-0002ji-81
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:03 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ z3-20020a17090a3983b029016bc232e40bso6852360pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YckM4rrXqWzq3iloRH/M5Y1yXJHaBzItIjFSA6/6d8o=;
- b=AUHYX218chIllIBKLN7GnpXohlc2gfPsy7xV4GE8dnKbzLkmc9XX2RaPHk41szXOy0
- Y1gXknYqE8tNcBbXTT/HbhNyrofee9QijoqbjruRxGKbh5lQXJEQPFUiG7T7xB13DSkU
- tUD2B0xH/KW537xLa8emnDpfPHB9m+kQ1UpRzbqhihQ7WL83IlpqMeg3BKKICjuggDrQ
- 7Da3oOqaUUNV4eUri+J8D9YhNeolmF3wulijIbZrrQ7nM/Ux25TI1HzwmSrCgn+fe+4v
- TeJwvT/S8jo+YsJMf7WbP5B09n2lTUOMl90yf0NIPxW4NRXgLs93Meh5KDasuiX3Lpgp
- p2zQ==
+ bh=oGlm/QkFrT3k7s3B4Mdy2N+YuMxL0+85EjDFAhTeOqA=;
+ b=Ec6x/vq2wkKpCa2bzY9c0MUR1Jgjz6JvfO5KTP/n+Fg0psi2PzlBpXcPINJx+Wfzj+
+ aGnhrzRyDEgswHNGnP/kq6FowPybs8rCbaBKAg7m8Wt4SFNl8nzoVlqn/s6Sof7LIBdW
+ Co5Jmu1c9wUlAgTqIh/akT8OUrR8ycRTDx6t5MPfKs9UIQoq/p1ZrXF6QvkCoGzle33w
+ DP9GsKCT9lHn2W0ex39gup8tEmxRoq1zM1Ce3ODlXhv5UxS276+GHvfe5V1Kphu+YGvj
+ OSl/d4CzGGVB7fETBSTf/U0pdcBaA6IxNQqeC0yOQjuF0aSaN7yoq8odrDMQmBDcG6pu
+ iPxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YckM4rrXqWzq3iloRH/M5Y1yXJHaBzItIjFSA6/6d8o=;
- b=VfSnkQQHUROBHSsYo5l941qoQVBhsi74qpFkWmWBmIOAc0BuWs2kmE1unIKlAb/FMo
- zZqSn7YEWD1Meya7WwWnGylVavT9cYyLcZ/ls51VGmfg16oqCdCf5lHjUVHxIoJatVtd
- 2KNHYtnAfDPuMB3gWr9E80hiNbG3/LeGHbORS2sVkGNYkkSyXxtKy2wDEUu4TBFxWfpp
- thSDR27otBRuS7+plzuxX4GnG0rEyz+V7uRVW68095s0EgObxo+BBNtZ3IQuxJD/RL70
- Im9ahi8gJ6Db9YnD9R66Dc7fxdR6jZAeNGJZsRXmaOe0zAX7xUY/qsbkaeOG0nd/udfT
- MVKw==
-X-Gm-Message-State: AOAM5319/civYIuK0tuQI4u5q6YTOX6p5COTPe0M0MAlPcF9KhsIbnu2
- i7NPuz8VGZH6BD+6OhEnJKeb/riWvW8Zbg==
-X-Google-Smtp-Source: ABdhPJw2TDFSijSEkGp3+ar0GUYf+L3tdu4urwj6Abm5nh+TZnkDmqD9nmu/JTN835+AwtH85l+5ow==
-X-Received: by 2002:a17:90a:f317:: with SMTP id
- ca23mr7039972pjb.174.1623454918837; 
- Fri, 11 Jun 2021 16:41:58 -0700 (PDT)
+ bh=oGlm/QkFrT3k7s3B4Mdy2N+YuMxL0+85EjDFAhTeOqA=;
+ b=giz0DK6xulNqt5XN5tL8v0HVx4faodv7wGCLDRShyTLoExFS3JXmdqVBQgBCZV0jET
+ eYa0UN3ZPy2I0EJasgu5DTY0NW68sXaSMbB8MuffOFejCbTSlxgg2PL/GlM4oa3D+gJF
+ qHepn5tnlxWq2YoQoVheV4H88or73ApZn+lHQetFNc4JY98g/W/lwv451Fqjy2Cdqu1Y
+ sb8EuCwfhn79yYBil66tSBUStakW95+SpJCEq7MrjHw8Mb/0PdDkIVWhFwf7Zcck7sgJ
+ TxbKAKqA6+5V5jt6Upj1T5DsUIPqP7lSNOWc8wfK2LDyxaWdluBsXK0ivnP5L0vP2JD6
+ cXWA==
+X-Gm-Message-State: AOAM531MyKS5OcBYV2l9BEVFZXnlkk9CJPDHbeY/2BjW/TT/tFu9Fi+J
+ bi5OSmITQ/DU4thCGp+r9lwmk8Oc2qwmzg==
+X-Google-Smtp-Source: ABdhPJwmsmhiwQtT8W6R3p7XXJIqueh10qXqlzYD0sGPvco5Y23vd9j6J8EviBpQCLLO6TuVv02uYQ==
+X-Received: by 2002:a17:90a:4404:: with SMTP id
+ s4mr11544556pjg.218.1623454920007; 
+ Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.58
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:41:58 -0700 (PDT)
+ Fri, 11 Jun 2021 16:41:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/34] tcg: Allocate code_gen_buffer into struct
- tcg_region_state
-Date: Fri, 11 Jun 2021 16:41:32 -0700
-Message-Id: <20210611234144.653682-23-richard.henderson@linaro.org>
+Subject: [PULL 24/34] tcg: Sink qemu_madvise call to common code
+Date: Fri, 11 Jun 2021 16:41:34 -0700
+Message-Id: <20210611234144.653682-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,167 +91,62 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not mess around with setting values within tcg_init_ctx.
-Put the values into 'region' directly, which is where they
-will live for the lifetime of the program.
+Move the call out of the N versions of alloc_code_gen_buffer
+and into tcg_region_init.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/region.c | 64 ++++++++++++++++++++++------------------------------
- 1 file changed, 27 insertions(+), 37 deletions(-)
+ tcg/region.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/tcg/region.c b/tcg/region.c
-index 5beba41412..ed7efba4b4 100644
+index e6c80b35b1..2e541cd2bf 100644
 --- a/tcg/region.c
 +++ b/tcg/region.c
-@@ -70,13 +70,12 @@ static size_t tree_size;
- 
- bool in_code_gen_buffer(const void *p)
- {
--    const TCGContext *s = &tcg_init_ctx;
-     /*
-      * Much like it is valid to have a pointer to the byte past the
-      * end of an array (so long as you don't dereference it), allow
-      * a pointer to the byte past the end of the code gen buffer.
-      */
--    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
-+    return (size_t)(p - region.start_aligned) <= region.total_size;
- }
- 
- #ifdef CONFIG_DEBUG_TCG
-@@ -562,8 +561,8 @@ static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
-     }
-     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
- 
--    tcg_ctx->code_gen_buffer = buf;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf;
-+    region.total_size = size;
-     return true;
- }
- #elif defined(_WIN32)
-@@ -584,8 +583,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+@@ -559,7 +559,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+         error_setg_errno(errp, errno, "mprotect of jit buffer");
          return false;
      }
+-    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
  
--    tcg_ctx->code_gen_buffer = buf;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf;
-+    region.total_size = size;
-     return true;
- }
- #else
-@@ -637,8 +636,8 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
-     /* Request large pages for the buffer.  */
-     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
- 
--    tcg_ctx->code_gen_buffer = buf;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf;
-+    region.total_size = size;
-     return true;
- }
- 
-@@ -659,8 +658,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
-         return false;
+     region.start_aligned = buf;
+     region.total_size = size;
+@@ -635,9 +634,6 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
      }
-     /* The size of the mapping may have been adjusted. */
--    size = tcg_ctx->code_gen_buffer_size;
--    buf_rx = tcg_ctx->code_gen_buffer;
-+    buf_rx = region.start_aligned;
-+    size = region.total_size;
  #endif
  
-     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
-@@ -682,8 +681,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
- #endif
- 
-     close(fd);
--    tcg_ctx->code_gen_buffer = buf_rw;
--    tcg_ctx->code_gen_buffer_size = size;
-+    region.start_aligned = buf_rw;
-+    region.total_size = size;
+-    /* Request large pages for the buffer.  */
+-    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+-
+     region.start_aligned = buf;
+     region.total_size = size;
+     return prot;
+@@ -687,9 +683,6 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+     region.total_size = size;
      tcg_splitwx_diff = buf_rx - buf_rw;
  
-     /* Request large pages for the buffer and the splitwx.  */
-@@ -734,7 +733,7 @@ static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
-         return false;
-     }
+-    /* Request large pages for the buffer and the splitwx.  */
+-    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
+-    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
+     return PROT_READ | PROT_WRITE;
  
--    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
-+    buf_rw = region.start_aligned;
-     buf_rx = 0;
-     ret = mach_vm_remap(mach_task_self(),
-                         &buf_rx,
-@@ -846,11 +845,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
-  */
- void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
- {
--    void *buf, *aligned, *end;
--    size_t total_size;
-     size_t page_size;
-     size_t region_size;
--    size_t n_regions;
-     size_t i;
-     bool ok;
+  fail_rx:
+@@ -857,6 +850,13 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+                                       splitwx, &error_fatal);
+     assert(have_prot >= 0);
  
-@@ -858,39 +854,33 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
-                                splitwx, &error_fatal);
-     assert(ok);
- 
--    buf = tcg_init_ctx.code_gen_buffer;
--    total_size = tcg_init_ctx.code_gen_buffer_size;
--    page_size = qemu_real_host_page_size;
--    n_regions = tcg_n_regions(total_size, max_cpus);
--
--    /* The first region will be 'aligned - buf' bytes larger than the others */
--    aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
--    g_assert(aligned < tcg_init_ctx.code_gen_buffer + total_size);
--
++    /* Request large pages for the buffer and the splitwx.  */
++    qemu_madvise(region.start_aligned, region.total_size, QEMU_MADV_HUGEPAGE);
++    if (tcg_splitwx_diff) {
++        qemu_madvise(region.start_aligned + tcg_splitwx_diff,
++                     region.total_size, QEMU_MADV_HUGEPAGE);
++    }
++
      /*
       * Make region_size a multiple of page_size, using aligned as the start.
       * As a result of this we might end up with a few extra pages at the end of
-      * the buffer; we will assign those to the last region.
-      */
--    region_size = (total_size - (aligned - buf)) / n_regions;
-+    region.n = tcg_n_regions(region.total_size, max_cpus);
-+    page_size = qemu_real_host_page_size;
-+    region_size = region.total_size / region.n;
-     region_size = QEMU_ALIGN_DOWN(region_size, page_size);
- 
-     /* A region must have at least 2 pages; one code, one guard */
-     g_assert(region_size >= 2 * page_size);
-+    region.stride = region_size;
-+
-+    /* Reserve space for guard pages. */
-+    region.size = region_size - page_size;
-+    region.total_size -= page_size;
-+
-+    /*
-+     * The first region will be smaller than the others, via the prologue,
-+     * which has yet to be allocated.  For now, the first region begins at
-+     * the page boundary.
-+     */
-+    region.after_prologue = region.start_aligned;
- 
-     /* init the region struct */
-     qemu_mutex_init(&region.lock);
--    region.n = n_regions;
--    region.size = region_size - page_size;
--    region.stride = region_size;
--    region.after_prologue = buf;
--    region.start_aligned = aligned;
--    /* page-align the end, since its last page will be a guard page */
--    end = QEMU_ALIGN_PTR_DOWN(buf + total_size, page_size);
--    /* account for that last guard page */
--    end -= page_size;
--    total_size = end - aligned;
--    region.total_size = total_size;
- 
-     /*
-      * Set guard pages in the rw buffer, as that's the one into which
 -- 
 2.25.1
 
