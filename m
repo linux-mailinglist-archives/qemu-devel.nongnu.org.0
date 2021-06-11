@@ -2,96 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3080D3A42ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:18:41 +0200 (CEST)
-Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1302E3A42F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:23:53 +0200 (CEST)
+Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrh3Y-0005iL-9F
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
+	id 1lrh8Z-0000Uq-TU
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lrh2Q-0004sU-9R
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:17:30 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:52300)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lrh2O-0004cU-6Y
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:17:29 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrh7Z-00088f-AT
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:22:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrh7X-0005YQ-Rh
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:22:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623417767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qi5dc5KFS8BUOLixsiBkmvkTvLJ+N+KMUtqG/j3nGbA=;
+ b=OZ+bLufpGOUkaPCGmX+M8lHIit+A20LZVquWZO1CLfkrmRmF/MnnF0EHPfwjDw3YbWg7ht
+ 3Wuck/u13UmNZL7wTdzmH71rKo6cQiHbriuwCdTDf5u8iZI2Xe+bYP5s12OIuJuoyYKP9n
+ Jjxm6KO1KzR3Uovs3m7tRoIt0k5S+N4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-140-5hjJISJGM-axblRvr7Tmmw-1; Fri, 11 Jun 2021 09:22:35 -0400
+X-MC-Unique: 5hjJISJGM-axblRvr7Tmmw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 423FD21A5C;
- Fri, 11 Jun 2021 13:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623417445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
- b=cjxnhdnxZQVEwYwU4Lcb1Q/QJluNBtR9y/Ig8WctdU4HLc2VflUdMhQEiAEZ3aJjYhrsTM
- BaA8WCWBV/5MvrwNZSKhq4SbtEb4mYz76QSzTa5IVeXHogG9mpZjzXqlepXUyQ/q+c232o
- HiWtz6qimzuVnQzwy1i0Fy8di5PlGI0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623417445;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
- b=ZQovRkCDGzSbpy0qJXlV74F6kvSibVahRQEmDk3EXHT3Wc7L09ajby0sCYZK/8fJmlNTwT
- xXPKNx49wPC4plAA==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 0278F118DD;
- Fri, 11 Jun 2021 13:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623417445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
- b=cjxnhdnxZQVEwYwU4Lcb1Q/QJluNBtR9y/Ig8WctdU4HLc2VflUdMhQEiAEZ3aJjYhrsTM
- BaA8WCWBV/5MvrwNZSKhq4SbtEb4mYz76QSzTa5IVeXHogG9mpZjzXqlepXUyQ/q+c232o
- HiWtz6qimzuVnQzwy1i0Fy8di5PlGI0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623417445;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
- b=ZQovRkCDGzSbpy0qJXlV74F6kvSibVahRQEmDk3EXHT3Wc7L09ajby0sCYZK/8fJmlNTwT
- xXPKNx49wPC4plAA==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id r/jNOmRiw2ACVQAALh3uQQ
- (envelope-from <cfontana@suse.de>); Fri, 11 Jun 2021 13:17:24 +0000
-Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
-To: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210610101553.943689-1-kraxel@redhat.com>
- <4a1a23af-461f-92c4-d9f0-1f8133d611db@suse.de>
- <20210610122305.zxdaqsft5evcrli6@sirius.home.kraxel.org>
- <b2fb96b8-415b-b2d4-168c-d43dc20ef7b6@suse.de>
- <4dffdaf1-e7e5-cb28-7f7a-2061f182ee5b@redhat.com>
- <20210611082925.7wkppsrj7hywquns@sirius.home.kraxel.org>
- <20210611130321.rp4gnnja7z22p6zl@sirius.home.kraxel.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b1f3a29a-3573-255e-16bf-9c6a8b36f5d0@suse.de>
-Date: Fri, 11 Jun 2021 15:17:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D8DB800D62;
+ Fri, 11 Jun 2021 13:22:34 +0000 (UTC)
+Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E1B45D9C6;
+ Fri, 11 Jun 2021 13:22:29 +0000 (UTC)
+Date: Fri, 11 Jun 2021 08:22:28 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 05/32] qemu-sockets: introduce
+ socket_address_parse_named_fd()
+Message-ID: <20210611132228.k34szri6lv6c46m2@redhat.com>
+References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
+ <20210610100802.5888-6-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210611130321.rp4gnnja7z22p6zl@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610100802.5888-6-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,38 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, jose.ziviani@suse.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: kwolf@redhat.com, Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/11/21 3:03 PM, Gerd Hoffmann wrote:
->   Hi,
+On Thu, Jun 10, 2021 at 01:07:35PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Add function that transforms named fd inside SocketAddress structure
+> into number representation. This way it may be then used in a context
+> where current monitor is not available.
 > 
->> Are there any pending patches to handle the remaining tcg dependencies
->> in qemu?  When trying to build tcg modular (more than only
->> tcg-accel-ops*) I get lots of unresolved symbols to tcg bits which are
->> referenced directly (in cpu.c, gdbstub.c, monitor, ...).
->>
->> The CONFIG_TCG=n case is handled either with stubs or with #ifdef
->> CONFIG_TCG, which doesn't fly for modular tcg ...
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/qemu/sockets.h | 14 ++++++++++++++
+>  util/qemu-sockets.c    | 19 +++++++++++++++++++
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+> index 7d1f813576..1f4f18a44a 100644
+> --- a/include/qemu/sockets.h
+> +++ b/include/qemu/sockets.h
+> @@ -111,4 +111,18 @@ SocketAddress *socket_remote_address(int fd, Error **errp);
+>   */
+>  SocketAddress *socket_address_flatten(SocketAddressLegacy *addr);
+>  
+> +/**
+> + * socket_address_parse_named_fd:
+> + *
+> + * Modify @addr, replacing named fd by corresponding number.
+> + *
+> + * Parsing named fd (by sockget_get_fd) is not possible in context where
+> + * current monitor is not available. So, SocketAddress user may first call
+> + * socket_parse_named_fd() to parse named fd in advance, and then pass @addr to
+> + * the context where monitor is not available.
 
+2 different wrong function names, and reads awkwardly.  How about this
+shorter variant:
 
-We need CONFIG_TCG=m right?
+Modify @addr, replacing a named fd by its corresponding number.
+Needed for callers that plan to pass @addr to a context where the
+current monitor is not available.
 
-Which means quite a few changes.
+> + *
+> + * Return 0 on success.
+> + */
+> +int socket_address_parse_named_fd(SocketAddress *addr, Error **errp);
+> +
+>  #endif /* QEMU_SOCKETS_H */
+> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
 
-> 
-> So, enough for today, to be continued next week.
-> Work branch pushed to
->     https://git.kraxel.org/cgit/qemu/log/?h=sirius/modinfo-playground
-> 
-> Topmost patch doesn't compile but shows the build changes.
-> 
-> take care,
->   Gerd
-> 
+But the code looks good.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
