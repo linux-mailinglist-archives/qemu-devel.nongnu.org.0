@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0E73A3A74
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 05:43:28 +0200 (CEST)
-Received: from localhost ([::1]:57040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8383A3B13
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 06:37:48 +0200 (CEST)
+Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrY4s-0006Vb-Mz
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 23:43:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
+	id 1lrYvS-0006Ae-Ib
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 00:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1lrY40-0005oG-3r
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 23:42:32 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:49659
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1lrY3x-0005T8-Rd
- for qemu-devel@nongnu.org; Thu, 10 Jun 2021 23:42:31 -0400
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AK3GZU6uHtZbffoYSaa1ojhvT7skDStV00zEX?=
- =?us-ascii?q?/kB9WHVpm62j5qSTdZEguCMc5wx+ZJheo7q90cW7IE80lqQFhLX5X43SPzUO0V?=
- =?us-ascii?q?HARO5fBODZsl/d8kPFltJ15ONJdqhSLJnKB0FmsMCS2mKFOudl7N6Z0K3Av4vj?=
- =?us-ascii?q?80s=3D?=
-X-IronPort-AV: E=Sophos;i="5.83,265,1616428800"; d="scan'208";a="109486406"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 11 Jun 2021 11:42:23 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
- by cn.fujitsu.com (Postfix) with ESMTP id 513514C369E6;
- Fri, 11 Jun 2021 11:42:21 +0800 (CST)
-Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 11 Jun 2021 11:42:15 +0800
-Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
- G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.2 via Frontend Transport; Fri, 11 Jun 2021 11:42:17 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: <xiaoguangrong.eric@gmail.com>
-Subject: [PATCH] docs/nvdimm: update doc
-Date: Fri, 11 Jun 2021 11:41:33 +0800
-Message-ID: <20210611034133.472812-1-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lrYuZ-0005Ox-LS; Fri, 11 Jun 2021 00:36:51 -0400
+Received: from out28-195.mail.aliyun.com ([115.124.28.195]:42276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lrYuW-0008Uq-H0; Fri, 11 Jun 2021 00:36:51 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.147745|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.230953-0.00972238-0.759324;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047204; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.KQpai1x_1623386200; 
+Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KQpai1x_1623386200)
+ by smtp.aliyun-inc.com(10.147.42.197);
+ Fri, 11 Jun 2021 12:36:40 +0800
+Subject: Re: [PATCH v2 04/37] target/riscv: 8-bit Addition & Subtraction
+ Instruction
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20210610075908.3305506-1-zhiwei_liu@c-sky.com>
+ <20210610075908.3305506-5-zhiwei_liu@c-sky.com>
+ <cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <e2151646-0e97-01db-8ecd-9ed81d92f733@c-sky.com>
+Date: Fri, 11 Jun 2021 12:36:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <cdb22947-9ca7-9353-b189-a70a94d7c7ab@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-yoursite-MailScanner-ID: 513514C369E6.A8F06
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lizhijian@fujitsu.com
-Received-SPF: neutral client-ip=183.91.158.132;
- envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.195; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-195.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,34 +63,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>, palmer@dabbelt.com,
+ bin.meng@windriver.com, Alistair.Francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The prompt was updated since def835f0da ('hostmem: Don't report pmem attribute if unsupported')
+On 6/11/21 3:39 AM, Richard Henderson wrote:
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- docs/nvdimm.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> On 6/10/21 12:58 AM, LIU Zhiwei wrote:
+>>   include/tcg/tcg-op-gvec.h |  6 ++
+>>   tcg/tcg-op-gvec.c                       | 47 ++++++++++++++++
+>
+> Likewise, should be split from the larger patch.
+>
+OK
+>> +static void gen_addv_mask_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b, 
+>> TCGv_i32 m)
+>> +{
+>> +    TCGv_i32 t1 = tcg_temp_new_i32();
+>> +    TCGv_i32 t2 = tcg_temp_new_i32();
+>> +    TCGv_i32 t3 = tcg_temp_new_i32();
+>> +
+>> +    tcg_gen_andc_i32(t1, a, m);
+>> +    tcg_gen_andc_i32(t2, b, m);
+>> +    tcg_gen_xor_i32(t3, a, b);
+>> +    tcg_gen_add_i32(d, t1, t2);
+>> +    tcg_gen_and_i32(t3, t3, m);
+>> +    tcg_gen_xor_i32(d, d, t3);
+>> +
+>> +    tcg_temp_free_i32(t1);
+>> +    tcg_temp_free_i32(t2);
+>> +    tcg_temp_free_i32(t3);
+>> +}
+>> +
+>> +void tcg_gen_vec_add8_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+>> +{
+>> +    TCGv_i32 m = tcg_constant_i32((int32_t)dup_const(MO_8, 0x80));
+>> +    gen_addv_mask_i32(d, a, b, m);
+>> +}
+>
+> There will only ever be one use; we might as well merge them.
+> The cast is unnecessary.
 
-diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-index 0aae682be3e..71cdbdf554b 100644
---- a/docs/nvdimm.txt
-+++ b/docs/nvdimm.txt
-@@ -247,7 +247,8 @@ is built with libpmem [2] support (configured with --enable-libpmem), QEMU
- will take necessary operations to guarantee the persistence of its own writes
- to the vNVDIMM backend(e.g., in vNVDIMM label emulation and live migration).
- If 'pmem' is 'on' while there is no libpmem support, qemu will exit and report
--a "lack of libpmem support" message to ensure the persistence is available.
-+a "lack of libpmem support" (or "Invalid parameter 'pmem'" since v6.0.0)
-+message to ensure the persistence is available.
- For example, if we want to ensure the persistence for some backend file,
- use the QEMU command line:
- 
--- 
-2.30.2
+A little puzzling. Should I still split it?
 
 
+Zhiwei
 
+>
+>
+> r~
 
