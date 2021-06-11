@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B513A41D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 14:14:30 +0200 (CEST)
-Received: from localhost ([::1]:44064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D7A3A41E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 14:19:59 +0200 (CEST)
+Received: from localhost ([::1]:46466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrg3R-0007T2-49
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 08:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52690)
+	id 1lrg8k-0000vp-5q
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 08:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrg2O-0006mg-RL
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:13:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33729)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrg7v-000051-Tw
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:19:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrg2L-0006FR-Sa
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:13:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrg7s-0000Fe-Ef
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 08:19:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623413600;
+ s=mimecast20190719; t=1623413943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NKYO01CbEkAzpBmoUsf50WvdTvsB9RjunYO2WaxJ2e0=;
- b=ESqv48+g12y8icGchtC4mccKUXLdqR5iCLNpvf+Jy6mXs9+Xzmt0q8xuXPnrfXRzPw04iS
- XiGOIEh3tNadCOCGet+VIZV89kHcsabAuQexnsN9mR5hd1KaTwgvvmgdBhj5gyyQNqbC07
- jdEYxHH5RJmYS9VcFxJdxoo7rCMr/3k=
+ bh=5Wjij/BB0tTbq8OZciyzxORWKaRtsTzRmLfa5OujE58=;
+ b=IjAo+2mUSSNSxFEGnq9uaEc6yQrrM6Axb8dF0i5MFcHkqusX1TFt7+GQqT/fuRWBNGD3Rg
+ DJV1RynsDFo2cf9ctn5Qfoau7MAO8UfLE+Fuv8CiMTPOo+NVEPVer+/BM1EzSwSrerV2PO
+ jQokicXL+GtEHyNSPEPHVvUzd4IRp8M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-sdWPM9AbOaCTF7T8n6mULw-1; Fri, 11 Jun 2021 08:12:52 -0400
-X-MC-Unique: sdWPM9AbOaCTF7T8n6mULw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-153-Z1wbsJA9M3uXh4kCjxrulw-1; Fri, 11 Jun 2021 08:19:00 -0400
+X-MC-Unique: Z1wbsJA9M3uXh4kCjxrulw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0CC9185060C;
- Fri, 11 Jun 2021 12:12:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82DA019200C4;
+ Fri, 11 Jun 2021 12:18:58 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
  [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DE0060FC2;
- Fri, 11 Jun 2021 12:12:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30BB35D9C6;
+ Fri, 11 Jun 2021 12:18:58 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DC1AC113865F; Fri, 11 Jun 2021 14:12:47 +0200 (CEST)
+ id 72899113865F; Fri, 11 Jun 2021 14:18:56 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 1/2] qapi/machine.json: add DEVICE_UNPLUG_ERROR QAPI
- event
+Subject: Re: [PATCH v2 2/2] spapr: use DEVICE_UNPLUG_ERROR to report unplug
+ errors
 References: <20210604200353.1206897-1-danielhb413@gmail.com>
- <20210604200353.1206897-2-danielhb413@gmail.com>
-Date: Fri, 11 Jun 2021 14:12:47 +0200
-In-Reply-To: <20210604200353.1206897-2-danielhb413@gmail.com> (Daniel Henrique
- Barboza's message of "Fri, 4 Jun 2021 17:03:52 -0300")
-Message-ID: <875yykr45c.fsf@dusky.pond.sub.org>
+ <20210604200353.1206897-3-danielhb413@gmail.com>
+Date: Fri, 11 Jun 2021 14:18:56 +0200
+In-Reply-To: <20210604200353.1206897-3-danielhb413@gmail.com> (Daniel Henrique
+ Barboza's message of "Fri, 4 Jun 2021 17:03:53 -0300")
+Message-ID: <87y2bgppan.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,84 +88,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 
-> At this moment we only provide one event to report a hotunplug error,
-> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
-> machine is now able to report unplug errors for other device types, such
-> as CPUs.
+> Linux Kernel 5.12 is now unisolating CPU DRCs in the device_removal
+> error path, signalling that the hotunplug process wasn't successful.
+> This allow us to send a DEVICE_UNPLUG_ERROR in drc_unisolate_logical()
+> to signal this error to the management layer.
 >
-> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
-> create a generic DEVICE_UNPLUG_ERROR event that can be used by all
-> unplug errors in the future.
+> We also have another error path in spapr_memory_unplug_rollback() for
+> configured LMB DRCs. Kernels older than 5.13 will not unisolate the LMBs
+> in the hotunplug error path, but it will reconfigure them.  Let's send
+> the DEVICE_UNPLUG_ERROR event in that code path as well to cover the
+> case of older kernels.
 >
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  qapi/machine.json | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>  hw/ppc/spapr.c     |  2 +-
+>  hw/ppc/spapr_drc.c | 15 +++++++++------
+>  2 files changed, 10 insertions(+), 7 deletions(-)
 >
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 58a9c86b36..f0c7e56be0 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1274,3 +1274,26 @@
->  ##
->  { 'event': 'MEM_UNPLUG_ERROR',
->    'data': { 'device': 'str', 'msg': 'str' } }
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c23bcc4490..29aa2f467d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3639,7 +3639,7 @@ void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
+>       */
+>      qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
+>                                   "for device %s", dev->id);
+> -    qapi_event_send_mem_unplug_error(dev->id, qapi_error);
+> +    qapi_event_send_device_unplug_error(dev->id, qapi_error);
+
+Incompatible change: we now emit DEVICE_UNPLUG_ERROR instead of
+MEM_UNPLUG_ERROR.  Intentional?
+
+If yes, we need a release note.
+
+To avoid the incompatible, we can emit both, and deprecate
+MEM_UNPLUG_ERROR.
+
+What about the MEM_UNPLUG_ERROR in acpi_memory_hotplug_write()?
+
+>  }
+>  
+>  /* Callback to be called during DRC release. */
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index a2f2634601..0e1a8733bc 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -17,6 +17,8 @@
+>  #include "hw/ppc/spapr_drc.h"
+>  #include "qom/object.h"
+>  #include "migration/vmstate.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qapi-events-machine.h"
+>  #include "qapi/visitor.h"
+>  #include "qemu/error-report.h"
+>  #include "hw/ppc/spapr.h" /* for RTAS return codes */
+> @@ -160,6 +162,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+>           * means that the kernel is refusing the removal.
+>           */
+>          if (drc->unplug_requested && drc->dev) {
+> +            const char qapi_error_fmt[] = "Device hotunplug rejected by the "
+> +                                          "guest for device %s";
+> +            g_autofree char *qapi_error = NULL;
 > +
-> +##
-> +# @DEVICE_UNPLUG_ERROR:
-> +#
-> +# Emitted when a device hot unplug error occurs.
-> +#
-> +# @device: device name
-> +#
-> +# @msg: Informative message
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "DEVICE_UNPLUG_ERROR"
-> +#      "data": { "device": "dimm1",
-> +#                "msg": "Memory hotunplug rejected by the guest for device dimm1"
-> +#      },
-> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
-> +#
-> +##
-> +{ 'event': 'DEVICE_UNPLUG_ERROR',
-> +  'data': { 'device': 'str', 'msg': 'str' } }
+>              if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB) {
+>                  spapr = SPAPR_MACHINE(qdev_get_machine());
+>  
+> @@ -167,13 +173,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+>              }
+>  
+>              drc->unplug_requested = false;
+> -            error_report("Device hotunplug rejected by the guest "
+> -                         "for device %s", drc->dev->id);
+> +            error_report(qapi_error_fmt, drc->dev->id);
+>  
+> -            /*
+> -             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
+> -             * it is implemented.
+> -             */
+> +            qapi_error = g_strdup_printf(qapi_error_fmt, drc->dev->id);
+> +            qapi_event_send_device_unplug_error(drc->dev->id, qapi_error);
+>          }
+>  
+>          return RTAS_OUT_SUCCESS; /* Nothing to do */
 
-Missing: update of device_add's doc comment in qdev.json:
-
-    # Notes: When this command completes, the device may not be removed from the
-    #        guest.  Hot removal is an operation that requires guest cooperation.
-    #        This command merely requests that the guest begin the hot removal
-    #        process.  Completion of the device removal process is signaled with a
-    #        DEVICE_DELETED event. Guest reset will automatically complete removal
-    #        for all devices.
-
-This sure could use some polish.
-
-If I understand things correctly, we're aiming for the following device
-unplug protocol:
-
-   Unplug the device with device_del (or possibly equivalent)
-
-   If we know we can't unplug the device, fail immediately.  Also emit
-   DEVICE_UNPLUG_ERROR.
-
-   If possible, unplug the device synchronously and succeed.  Also emit
-   DEVICE_DELETED.
-
-   Else, initiate unplug and succeed.
-
-   When unplug finishes, emit either DEVICE_DELETED or
-   DEVICE_UNPLUG_ERROR.
-
-   For some machines and devices, unplug may never finish.
-
-Correct?
-
-Any particular reason for not putting event DEVICE_UNPLUG_ERROR next to
-DEVICE_DELETED in qdev.json?
+Reporting both to stderr and QMP is odd.  Can you describe a use case
+where the report to stderr is useful?
 
 
