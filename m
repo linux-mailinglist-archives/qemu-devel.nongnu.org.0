@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5338B3A47F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 19:36:18 +0200 (CEST)
-Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427E43A4877
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 20:16:12 +0200 (CEST)
+Received: from localhost ([::1]:46338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrl4r-0007Q1-5a
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 13:36:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
+	id 1lrlhS-0006iD-RP
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 14:16:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lrl41-0006Ul-Rg
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:35:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55756)
+ id 1lrlfD-0005so-TM
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 14:13:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1lrl3y-0004Tc-Gf
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:35:24 -0400
+ id 1lrlf9-0004Nv-I6
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 14:13:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623432919;
+ s=mimecast20190719; t=1623435225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hnlxWH/4dAxs0poz3SAMxto/6eVvaHD2GB/Q4W/0YTw=;
- b=Ia626ZrlyHxZqzvASnWZIBlfPi5g4A+wa68+eZbFMVQWYQgWENVlwCmQlKaM8jjqioLEyH
- 8JkMCl1UyDK3q+MjBMtZS4h1CYT9tR1XKFgE1zAivq4ck3ON2BjJ/h2Gov17Sp99Qa1AhN
- ZIzd31AbTNilOcFl+/vuGIkoc9p4hmQ=
+ bh=NsLWANp+uXm8fusvRU/bRrHajgPQTQPM6FOXWT6jVGk=;
+ b=FO063PCHWGb2ImazzQve93BcLbjMSLfP2PPveSUXA9rlLfEMafdgaVptUUdB076uueC2Rs
+ jRg4TXUulLksX9GypHopdjLHgZ5lOhmqQyTZkJepzDA0Yos4hX87PHOPnMLBWgzC2Iyskm
+ j/KeNJx2CVY33n0/iLwYOe/Bs5vf7Iw=
 Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
  [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-D0JJp5DOMw-MQJ_w-npXSA-1; Fri, 11 Jun 2021 13:35:18 -0400
-X-MC-Unique: D0JJp5DOMw-MQJ_w-npXSA-1
+ us-mta-371-r7c2-7VpMWe29-rnigcMMQ-1; Fri, 11 Jun 2021 14:13:43 -0400
+X-MC-Unique: r7c2-7VpMWe29-rnigcMMQ-1
 Received: by mail-oi1-f200.google.com with SMTP id
- 82-20020aca04550000b02901f40670cf75so3206709oie.19
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 10:35:18 -0700 (PDT)
+ r19-20020acaa8130000b02901f41b1b235bso3280767oie.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 11:13:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hnlxWH/4dAxs0poz3SAMxto/6eVvaHD2GB/Q4W/0YTw=;
- b=MFd1FKHGxoF+IwXUUdwwl90JOZTOvAFrC43WDa6VDpF9kvcVVX222GCx8v/OqUz5rX
- C9QjrAKB2XK4qiJkEnqdD2uj6hEaC2JyMzzr8ViynIb7oilyb64dz3KOJEcb/BIrmdP2
- UVA1RUB8IlaiKF8bqzUXg/00ImY7zJo1y5Y7lu2WLMACgu0Wr9XP80IyYedVWUJM4W+l
- tbUqK2zHCehzOSYaGDC9UaKvxYZT/M91fc7sjPkZYLKlX/cQvTx1Z8FqrBgffOUeI1tk
- 9EaqJQbPza82KTcTWDC7MxSprwY0DaSjd5/o/rXiN7NzOdcoOCzD4U2cYz+IjK2aJ9FQ
- 5R+g==
-X-Gm-Message-State: AOAM53112GhofOoso4e1FU+hgwxeh02C5996B7BjKdvd7t9Ft+2Q0man
- FVe3R3lbR8tQ76bxvwCvez/eY6NmX1koUt9KkV+G7Se2xTS3OxdUDzfV1eYj3uyXhc8P8XSU75P
- +5IMvexBtqUPfs3A0Auy0X8ZIjAgwKGg=
-X-Received: by 2002:a9d:6081:: with SMTP id m1mr4058710otj.226.1623432917892; 
- Fri, 11 Jun 2021 10:35:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzL2yCZ5SYXCuiBTQ04EfpBl6BxNaBP4/9WrmznFmj5ign+wIKKUWrTsswJ6NREZykhxbgH4i72GJDUt0HaNYg=
-X-Received: by 2002:a9d:6081:: with SMTP id m1mr4058695otj.226.1623432917678; 
- Fri, 11 Jun 2021 10:35:17 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NsLWANp+uXm8fusvRU/bRrHajgPQTQPM6FOXWT6jVGk=;
+ b=trErYECrKIEtstVXBrMgMRNmftQZki7ZhHf0Tr2VILv8rO8T2xEyX2N0kS/7afW7oB
+ ijufPbzdxirTAH9ZD+gVv/in3WwQunM2qT7rajPTwtGcXKv9H5qcKZxTQUaBqn5d6BRA
+ 03PF3Sl1JSyraRtoqHyJCdjFSebtWREXo1QaggkwaT7/BcHNAoH7ytBZW8aL0/rVv25B
+ HD3F+YexmPIM0/qr12dHQ8ZVcSyMUWLdLbwx1ZLsPTGknGkC+weh718MdfbnePDV1nHB
+ ix4EPgCfq69vjICcjOiBVITSRhps/ibDJODr+B6rfZ1XbTF8xtcFqp+kq+cdK3KnFd2F
+ 1SEg==
+X-Gm-Message-State: AOAM530dVlrbAgpE8rk7RrEn9yvWohSEGMUAwg8LjbY2/9Qij+L6OrMw
+ UiYTxgrkB306EmBc28MW0OaCkCm7IjxjacFnVVmK38V9WzoaWsFhQSeHet4VpX/bOjCjs6kCfNh
+ +r84jEf6G5Bt+0gzFxlB/YM5V9yI2S1Q=
+X-Received: by 2002:a9d:6042:: with SMTP id v2mr4068766otj.170.1623435223038; 
+ Fri, 11 Jun 2021 11:13:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzL/m24MuK7Xg8Hc1R+qo5IKagETMxXcP2nnDdOIaeKErnIKIRBCyeoxbZhUNDEigmbtGwg8QgbY1xOCI2DgsQ=
+X-Received: by 2002:a9d:6042:: with SMTP id v2mr4068747otj.170.1623435222804; 
+ Fri, 11 Jun 2021 11:13:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210607202204.1805199-1-nsoffer@redhat.com>
- <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
- <CAMRbyyukE9iTmM6OB_xAA1n6tRiRRxwKojaO5wzRwAR-8-FX3g@mail.gmail.com>
- <20210610183443.clk43ngkobzyjopy@redhat.com>
- <CAMRbyysoYhcyiP2mWubfZsj09k=Ea_3-RPr+Tt7KvoE1z3jrNA@mail.gmail.com>
- <20210610204617.fuj4ivqrixpz4qfj@redhat.com> <YMMaJcKYe8nHDdjU@redhat.com>
- <20210611132830.i6wwm3fvytri6czu@redhat.com>
-In-Reply-To: <20210611132830.i6wwm3fvytri6czu@redhat.com>
+References: <20210611140157.1366738-1-eblake@redhat.com>
+ <6a0aabb6-441c-8671-fc07-a7113043ccc8@virtuozzo.com>
+ <20210611145918.pslzaqiuxyjttcmj@redhat.com>
+In-Reply-To: <20210611145918.pslzaqiuxyjttcmj@redhat.com>
 From: Nir Soffer <nsoffer@redhat.com>
-Date: Fri, 11 Jun 2021 20:35:01 +0300
-Message-ID: <CAMRbyytDeniKkg4Bjcqry8203RHWzAKmAMdSELnLquBkXJNXvQ@mail.gmail.com>
-Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
+Date: Fri, 11 Jun 2021 21:13:26 +0300
+Message-ID: <CAMRbyyvnbzbLOEXta5zLYezqRrXbuuvdt2SmKMwEGUry=zPXBw@mail.gmail.com>
+Subject: Re: [PATCH v2] qemu-img: Make unallocated part of backing chain
+ obvious in map
 To: Eric Blake <eblake@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=nsoffer@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -96,41 +95,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Nir Soffer <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 11, 2021 at 4:28 PM Eric Blake <eblake@redhat.com> wrote:
+On Fri, Jun 11, 2021 at 5:59 PM Eric Blake <eblake@redhat.com> wrote:
 >
-> On Fri, Jun 11, 2021 at 10:09:09AM +0200, Kevin Wolf wrote:
-> > > Yes, that might work as well.  But we didn't previously document
-> > > depth to be optional.  Removing something from output risks breaking
-> > > more downstream tools that expect it to be non-optional, compared to
-> > > providing a new value.
+> On Fri, Jun 11, 2021 at 05:35:12PM +0300, Vladimir Sementsov-Ogievskiy wr=
+ote:
+> > > An obvious solution is to make 'qemu-img map --output=3Djson'
+> > > distinguish between clusters that have a local allocation from those
+> > > that are found nowhere in the chain.  We already have a one-off
+> > > mismatch between qemu-img map and NBD qemu:allocation-depth (the
+> > > former chose 0, and the latter 1 for the local layer), so exposing th=
+e
+> > > latter's choice of 0 for unallocated in the entire chain would mean
+> > > using using "depth":-1 in the former, but a negative depth may confus=
+e
+> > > existing tools.  But there is an easy out: for any chain of length N,
+> > > we can simply represent an unallocated cluster as "depth":N+1.  This
+> > > does have a slight risk of confusing any tool that might try to
+> > > dereference NULL when finding the backing image for the last file in
+> > > the backing chain, but that risk sseems worth the more precise output=
+.
+> > > The iotests have several examples where this distinction demonstrates
+> > > the additional accuracy.
+> > >
+> > > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > > ---
+> > >
+> > > Replaces v1: 20210610213906.1313440-1-eblake@redhat.com
+> > > (qemu-img: Use "depth":-1 to make backing probes obvious)
+> > >
+> > > Use N+1 instead of -1 for unallocated [Kevin]
+> > >
 > >
-> > A negative value isn't any less unexpected than a missing key. I don't
-> > think any existing tool would be able to handle it. Encoding different
-> > meanings in a single value isn't very QAPI-like either. Usually strings
-> > that are parsed are the problem, but negative integers really isn't that
-> > much different. I don't really like this solution.
-> >
-> > Leaving out the depth feels like a better suggestion to me.
-> >
-> > But anyway, this seems to only happen at the end of the backing chain.
-> > So if the backing chain consistents of n images, why not report 'depth':
-> > n + 1? So, in the above example, you would get 1. I think this has the
-> > best chances of tools actually working correctly with the new output,
-> > even though it's still not unlikely to break something.
+> > Bit in contrast with -1, or with separate boolean flag, you lose the po=
+ssibility to distinguish case when we have 3 layers and the cluster is abse=
+nt in all of them, and the case when we have 4 layers and the cluster is ab=
+sent in top 3 but in 4 it is qcow2 UNALLOCATED_ZERO cluster.
 >
-> Ooh, I like that.  It is closer to reality - the file data really
-> comes from the next depth, even if we have no filename at that depth.
-> v2 of my patch coming up.
+> Using just 'qemu-img map --output-json', you only see depth numbers.
+> You also have to use 'qemu-img info --backing-chain' to see what file
+> those depth numbers correspond to, at which point it becomes obvious
+> whether "depth":4 meant unallocated (because the chain was length 3)
+> or allocated at depth 4 (because the chain was length 4 or longer).
+> But that's no worse than pre-patch, where you had to use qemu-img info
+> --backing-chain to learn which file a particular "depth" maps to.
+>
+> >
+> > So, if someone use this API to reconstruct the chain, then for original=
+ 3 empty layers he will create 3 empty layers and 4rd additional ZERO layer=
+. And such reconstructed chain would not be equal to original chain (as if =
+we take these two chains and add additional backing file as a new bottom la=
+yer, effect would be different).. I'm not sure is it a problem in the task =
+you are solving :\
+>
+> It should be fairly easy to optimize the case of a backing chain where
+> EVERY listed cluster at the final depth was "data":false,"zero":true
+> to omit that file after all.
+>
+> And in oVirt's case, Nir pointed out that we have one more tool at our
+> disposal in recreating a backing chain: if you use
+> json:{"driver":"qcow2", "backing":null, ...} as your image file, you
+> don't have to worry about arbitrary files in the backing chain, only
+> about recreating the top-most layer of a chain.  And in that case, it
+> becomes very obvious that "depth":0 is something you must recreate,
+> and "depth":1 would be a non-existent backing file because you just
+> passed "backing":null.
 
-How do you know the number of the layer? this info is not presented in
-qemu-img map output.
+Note that oVirt does not use qemu-img map, we use qemu-nbd to get
+image extents, since it is used only in context we already connect to
+qemu-nbd server or run qemu-nbd.
 
-Users will have to run "qemu-img info --backing-chain" to understand the
-output of qemu-img map.
+Management tools already know the image format (they should avoid
+doing format probing anyway), and using a json uri allows single command
+to get the needed info when you inspect a single layer.
+
+But this change introduces a risk that some program using qemu-img map
+will interrupt the result in the wrong way, assuming that there is N+1 laye=
+r.
+
+I think adding a new flag for absent extents is better. It cannot break
+any user and it is easier to understand and use.
+
+Nir
 
 
