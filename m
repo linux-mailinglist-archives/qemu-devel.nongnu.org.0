@@ -2,68 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3141F3A3DE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 10:17:17 +0200 (CEST)
-Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197413A3DEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 10:18:02 +0200 (CEST)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrcLs-0006tT-7r
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 04:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60060)
+	id 1lrcMb-0000D1-6S
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 04:18:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <0xc0de0125@gmail.com>)
- id 1lrcK4-0005NK-9t; Fri, 11 Jun 2021 04:15:24 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:34480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <0xc0de0125@gmail.com>)
- id 1lrcK1-0007b7-Ii; Fri, 11 Jun 2021 04:15:24 -0400
-Received: by mail-pl1-x635.google.com with SMTP id h1so2470334plt.1;
- Fri, 11 Jun 2021 01:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3tXvt6cYcrousbwkempzsTxbEX0NlbANJc0X2aPHvwE=;
- b=ss6PYv1gpJ31ZvpjOnTj5nbUWZZELP/4mSydC02HR8cmgWGtT3DaZu31zXqQ6+4Ai/
- 0wa/OxH7E1+mHhha65eqCA0tTQdtkUIy+ka8K45yMPmstvBDgsi7dWme6NeaGbxxg9qx
- C0gXM3QlvdfaOfxkzjV0Ic2SsLpMTvtL4mVvKrxa0dz2bYWMT6NEVDjSKkyrVoi5DEqa
- Kzb9wBODeiZTxxp9EF7dn5MUcV0Xm3HU7b9qFNRYrAoTmglGhusaHClJvbsfwg0tDp0W
- z+YSy6+KQDoQ/VcE27C8MiZlkxDHXaJMqEC/er/yWZofnpSY7cUwAyrbCiLsCVczoT10
- Xymw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3tXvt6cYcrousbwkempzsTxbEX0NlbANJc0X2aPHvwE=;
- b=aWQdXfVbYs3eunxmTC1Qh5emMMGkVBAhnyoQlYhqFIJ4KHX5YB+RMEb6DaFc18aOmK
- xY4gquTbsFEuwsflwpZ6DLDU9wWL2iabEnwKJlicI4QRsYDtmknhaJ45C34Fx4r8o0tm
- QKVKdlEYrRQbwbOX6NrsaAiXsEujePl0aKJpks/OMBaNgQJ7psEUZOcFjVnRNEA3aIAx
- VALNrc/FC0mRdSjaqNzeAbrZt/WZqGRxJLg9DfJzMlYL9lK/Fb263pmb6QcXEVsXFNY6
- EfNLjwTStRPIib6H84QvsfhNM2hmyLl41RItk2ecMGSrFsZZfF97LlInQk9VyVf/0IR2
- ohCg==
-X-Gm-Message-State: AOAM533gbyIC7dgn1sfrBKT8w0Tt6BRETjAUMI9HTdDeEgXuHEftaW/z
- t4OFDCJuxCI9mKmCzUb5v/SLSYoOhZzF3uF3KSI=
-X-Google-Smtp-Source: ABdhPJy7lMA2FvB2Q+N6+ODqrkoafmzSsD/GPGpJprH7KEpNxw18nkucbskNAn4T6Vq04OU0rd9gBlkX3b6TUpuBDUk=
-X-Received: by 2002:a17:90a:8581:: with SMTP id
- m1mr3334375pjn.47.1623399318502; 
- Fri, 11 Jun 2021 01:15:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lrcL7-0006tD-HJ; Fri, 11 Jun 2021 04:16:29 -0400
+Received: from mail-eopbgr50112.outbound.protection.outlook.com
+ ([40.107.5.112]:28645 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lrcL5-0000Dv-DK; Fri, 11 Jun 2021 04:16:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O2E2Gpny1wiISMlbbG4Vtuz4p1A5TbH0qzifiNcnxUSB3OMEw0RHbMsep3x/O7XBz5aatga9rdyFVCu+rmSuxDackruCJb7cG8A+Ios0xv37kDGnsyBjH1d8bj7AXpToIy17mTAiuSViizhs8vr8CCyZ/vGbLME3bhe2p7mmnEuu6Wc4gPKJZFjNFj9QSvQ5IS5uaJ4hPRqHHN37p0olU2leGJSzlt0RpmKOzXhO4A7HRb+IOq4K8frHMdBp1ae5hG+R9v5EVr9Oqw6UlWkMI1zV1zvRInMnecZgSwNxnBR52PtfZ9B023DrHidncHUX7hRMTIJRlIJToATz/pJTAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4EaGr+RMLWYolXDxvewAljinuGGIBP742oHaeS8d340=;
+ b=HNnGAIFqS7NmpPO8EdZm2cv0DXt34/0+FdgfPuMgrz8DUg2ZN7ALtvGTgqIvhdYrJ3esaT//WUAxcCvPN2JIK6kmlMSFqU4rFg8dteK11CPlrDyBAcqq3FqyJpnVTUta79oYVcH/N0ViQL8mP0ftrjmMyVrCfBa50NUSMm3lCTaFaI7tDVixBj4pOc3VMC/eBgQVLG9cEnebhM7OuJsVgqY5xC56kuK77T11ozKVoJ17s1epG8p8VnhaoOShSg8TKF5pr3GXXSNLDPtw30fbNqwg7vOtCB6WcTr8yyOJ0t4zFIFot1pL0OUOUnmKDPULdBpOfLe4kqhk5CrSWWxSfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4EaGr+RMLWYolXDxvewAljinuGGIBP742oHaeS8d340=;
+ b=TaAGz4AUX5KBMdc3oLOCOHLKdP7YhLINfXrn4e/MxeNyu7Eslol+4BoKJ40E/ZsEoHkOwBJGNX6yRX4grYAxEwebaVom24PPC8cyGHIjegl3zLU7D0+Ea2WpEATWOkpeKsZu3mDv5Rtms3SqDAgKtIcbicLW4NeK3c0ozhdLEo0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1713.eurprd08.prod.outlook.com (2603:10a6:203:34::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Fri, 11 Jun
+ 2021 08:16:23 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4219.023; Fri, 11 Jun 2021
+ 08:16:22 +0000
+Subject: Re: [PATCH] qemu-img: Use "depth":-1 to make backing probes obvious
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, nsoffer@redhat.com, Kevin Wolf <kwolf@redhat.com>, 
+ Max Reitz <mreitz@redhat.com>
+References: <20210610213906.1313440-1-eblake@redhat.com>
+ <0a92c583-68b4-c072-68cf-1c6a17a7517e@virtuozzo.com>
+Message-ID: <8ea330fb-ee0e-9f8d-f780-33f0897bc1e6@virtuozzo.com>
+Date: Fri, 11 Jun 2021 11:16:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <0a92c583-68b4-c072-68cf-1c6a17a7517e@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.215]
+X-ClientProxiedBy: FR0P281CA0090.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::15) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <20210409074857.166082-9-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210409074857.166082-9-zhiwei_liu@c-sky.com>
-From: Frank Chang <0xc0de0125@gmail.com>
-Date: Fri, 11 Jun 2021 16:15:07 +0800
-Message-ID: <CANzO1D1jotPbDxJj3ZxJZ7BdT0je64A9DAudEfm8=-m4DQFzoA@mail.gmail.com>
-Subject: Re: [RFC PATCH 08/11] target/riscv: Update CSR xnxti in CLIC mode
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: multipart/alternative; boundary="000000000000b540f705c4791bbe"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=0xc0de0125@gmail.com; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ FR0P281CA0090.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.9 via Frontend Transport; Fri, 11 Jun 2021 08:16:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 81e11f9f-5d8f-4f4e-69c5-08d92cb1331f
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1713:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB171302FF8E36CE5C36782084C1349@AM5PR0801MB1713.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xruEXxIEtwCPHHh8uTu7EZ3SX2ZvpCpErCReYE/R33AIQX2qc9hjaLYagF2SnU1v9PlClIusoD+SCT3Nm7Ld37fdb0T2xBAt+tAFlIUmlSK8GAZDA21kIthWC2vdEgHK05OPUEZ5QYZRpQyZe9SoxLEzLb/9NX5emYmxfPSGU7sbt3WfF8ELIHoiFnBR81we6nQ9S/cHGfidCwtiPsGRP8dfYYzGwchPC31mDvFusmnbPUA1BrmfG9vevORw59df5mfgHQ5QqmSE4TXFphF5Gj7Ab9JDv2yNpOW7LFffRbDDzUO8s//si016KAGYA1dtLTRh6IJrJAcxEIv3sfdttGcZPXnsls00ucDggVV5Sv7IahB+gSHvkO1A1hydr9v3fgJfYN+5D51TDFE9VK854h712tTwLZH4NWhuJGtgzvHq9YUIxk3WYzSAs40MeaOzlrhhr6I2bu6lsOFDWxNW9bXGpAfBfJNFfRf3mdE6JmtVAtJEOT5JD648AQLCcFFMLXULpupHr9oErT04B76mXdVjXpJ1mpyxbkXP6QM9ENeyWJ03x4LCbyZngu9OdrBESdP2UMKBRkh3dNlFjc69M/vy2Ty7437vPnUCea75/rN73ZJ0SXalyEHPUkUufuu1q9WoAVDH/wOAWk6FgE+GTz0uphVHlPA2obOI7a+UlFYCsAZkfEyFKKTodQa2NYmBlLKsJlJljQaVzk6JG0N+cO0m+sdhDZHLPRxSb1cvPDw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39830400003)(136003)(366004)(346002)(376002)(396003)(186003)(16526019)(26005)(2906002)(316002)(31686004)(6486002)(86362001)(83380400001)(36756003)(38100700002)(38350700002)(54906003)(52116002)(8676002)(5660300002)(31696002)(4326008)(66476007)(66946007)(66556008)(2616005)(8936002)(16576012)(956004)(478600001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VE45ZGtUdkFOQWt6NTZjMUdwd3F3OXFCTXMxUFZ5VFl6eTVJMDJLRkFReGRw?=
+ =?utf-8?B?UnY1VHJuOURZaDFkdGJUVitrK01zakwzc1NpQndJUFptNTJORHVhaFptNGZq?=
+ =?utf-8?B?b01BS3Rlb1U2SFBPSDdWZXJFSlZEakppUWRmZWpHcjh3UEpUSmQweTUzS0ZZ?=
+ =?utf-8?B?UE91S3cxK1VKaFZPQ0RjQ0xGZm1xMXFYMW9iem9aNDUvU2tIek11TncvZUYv?=
+ =?utf-8?B?RmlVLzJJMlVzcHNneGhVMjRTVVduVjl1N3ZhRzFmY0pMZ2ZBWDh1MU5PT0t5?=
+ =?utf-8?B?RlRQWm9FZk5ZckhFb3ovY3Z1TldTTDlaNTkxWmswNDNoQ2ZOZ2pqNTNkRjBx?=
+ =?utf-8?B?N1VlSDgrTjhHZ011QXRJM0t3a0o4TkdQaTZlRWpKc3d3UXRONHlXcmZ5MDE0?=
+ =?utf-8?B?aSs0L1NVVTFzcGl5aVVHRU9WLzFuVzJoNTJ1SDJhbnh4NlVUWmNOVW9PNDFp?=
+ =?utf-8?B?aEorck4rdVRjTEpEWDdqd2ZlbS9DeXhVbnRIaWNOUSs5aTN1eThYL0ZQcDNr?=
+ =?utf-8?B?bGhyR0hwd2F5dlJXajVabHZNckdwZTlaNWdaWEdLRzZqZEQwZ240NUNYLy9Z?=
+ =?utf-8?B?aUNTSFdFbC9iUExVNDFuWFJYUk5qdEVZcEJ2Q21GOGVJSWZWa2tNeXB0dGxE?=
+ =?utf-8?B?bitiWXl4SldIZkhZQkZPK3dJaDNBdWFWcnh0MnQzanlqWTBkaUlSV2ZmSldL?=
+ =?utf-8?B?czFXTHlFNm5JNVlPWWRjQUZHeURkWituWWJhOWorOTdGSUdzV0J6T0ZBVFJw?=
+ =?utf-8?B?WFVrRmg5dzBRK3h5Q1FaZ05FRnVTbVJGVGJBcUYvTXQvVUgzUXI0U1B2d3dR?=
+ =?utf-8?B?VXM2SURBWDkrM0VaSDJTYlplakhsZkNyK0V4QUlBaFloY244WHdoN2loSGVJ?=
+ =?utf-8?B?cFJlR0ZNaGdpMlVzNFpqaDNSc0p3RDBtN0gwR2Rnb0hITTFDcHBzUGQza0Vh?=
+ =?utf-8?B?Nk1sNUs0dlpPd2c3NlpRMm9GVW12MFBnNWxNNy9VaC8xakw3dUJtTzVMbEpD?=
+ =?utf-8?B?Y2lLUm01ekpKWStMM2ZOTXRHM1VlR0R3b1F0cDI1dTV6UjdTMkpKK29SbW15?=
+ =?utf-8?B?cTB4Y3UrbWo4REZOYlBKYXI2ZzhoRGtFbjFTdEpRTW1xdnE1WVFtYTBnTnR6?=
+ =?utf-8?B?MGE0aTNtRjVTcGVZdkRpVGN4YlBzMmZWd3A3SGU1WHRZSk9oUFU2bGc1cXZj?=
+ =?utf-8?B?RkI4ZTEyOUdYdnNkZEFTTGYxQkw1OElGVU5PUVBzMjk1N3Nzb0ZBNGlsaXhP?=
+ =?utf-8?B?U1BQZ0Z2aHpZNTJGYUFNWXhpYkhZR1o4MzM1K2EvT1NvRjBGaDlOSjJzenFL?=
+ =?utf-8?B?RnZ3STB6NUwrSXk3Y2h3OFdCZGtMaXYrM2podTl2YVFheTd4QVZIL0hwNjJm?=
+ =?utf-8?B?TkNEVSsvaXF5MWo4TzV4S3QxZHZvVXMrWlY2b0lvRE1FTWlYUlRiSGFHZ3hP?=
+ =?utf-8?B?WGhZKzJKVlkyYU41emZjZlNXRlpKbi9kYVpXOEtJdkZkZ1E3VHlPbWZVbTdU?=
+ =?utf-8?B?T05JZXYwVExEK1NSYVY1ZDRKdHBucFdQZzVPVzJncVhoTnpFTjB1aUhwNDhL?=
+ =?utf-8?B?dWlhbjRNUnBsYmJsVlI5dW1URWVkNjhsRmc1WDlqdU1IUGJDYzIvY05kMTE5?=
+ =?utf-8?B?U2xRaVVBTWY1NVBrR0ZBTnpTWTVNeTZPUXhEWWxncllzYlJKSDA0dFlrcjRQ?=
+ =?utf-8?B?SnlqN0lOL0F0ejZ3UUd3OURVUG1sU2ROek1zOVZ1TjlmRjRoSHB3N1RDbGQv?=
+ =?utf-8?Q?8lGmd7b7VOvNBOOoqZAvD10iRVfgFwhLXb9iiXK?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81e11f9f-5d8f-4f4e-69c5-08d92cb1331f
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2021 08:16:22.8932 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: actlumTcUZGy6qy08GSqiqtPZsSOUzVzgvDXr7PQnbZJbhZWEvj4dtnmJn1psl6Cro+2K39yS2g0gfiJvVq9uIghD87tIEqDicMbFC32d6w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1713
+Received-SPF: pass client-ip=40.107.5.112;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,574 +145,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b540f705c4791bbe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+11.06.2021 11:08, Vladimir Sementsov-Ogievskiy wrote:
+> 11.06.2021 00:39, Eric Blake wrote:
+>> The recently-added NBD context qemu:allocation-depth makes an obvious
+>> case for why it is important to distinguish between locally-present
+>> data (even with that data is sparse) [shown as depth 1 over NBD], and
+>> data that could not be found anywhere in the backing chain [shown as
+>> depth 0].  But qemu-img map --output=json predates that addition, and
+>> has the unfortunate behavior that all portions of the backing chain
+>> that resolve without finding a hit in any backing layer report the
+>> same depth as the final backing layer.  This makes it harder to
+>> reconstruct a qcow2 backing chain using just 'qemu-img map' output
+>> when using "backing":null to artificially limit a backing chain,
+>> because it is impossible to distinguish between a
+>> QCOW2_CLUSTER_UNALLOCATED (which defers to a [missing] backing file)
+>> and a QCOW2_CLUSTER_ZERO_PLAIN cluster (which would override any
+>> backing file), since both types of clusters otherwise show as
+>> "data":false,"zero":true" (but note that we can distinguish a
+>> QCOW2_CLUSTER_ZERO_ALLOCATED, which would also have an "offset":
+>> listing).
+>>
+>> The task of reconstructing a qcow2 chain was made harder in commit
+>> 0da9856851 (nbd: server: Report holes for raw images), because prior
+>> to that point, it was possible to abuse NBD's block status command to
+>> see which portions of a qcow2 file resulted in BDRV_BLOCK_ALLOCATED
+>> (showing up as NBD_STATE_ZERO in isolation) vs. missing from the chain
+>> (showing up as NBD_STATE_ZERO|NBD_STATE_HOLE); but now qemu reports
+>> more accurate sparseness information over NBD.
+>>
+>> An obvious solution is to make 'qemu-img map --output=json' visually
+>> distinguish between clusters that have a local allocation from those
+>> that are found nowhere in the chain, by adding "depth":-1 as the new
+>> witness of data that could not be tied to a specific backing image.
+>> Several iotests are impacted, but glancing through the changes shows
+>> that it is an improvement in that it shows more accurate details.
+>>
+>> Note that the documentation is specifically worded to allow qemu-img
+>> to report "depth":-1 both in the scenario where the last file in the
+>> backing chain still defers the cluster (corresponding to
+>> BDRV_BLOCK_ALLOCATED not being set anywhere in the chain), and in the
+>> scenario where qemu is unable to determine which backing chain element
+>> (if any) provides the data.  The latter case does not exist now, but
+>> I'm considering an upcoming patch to add a BDRV_BLOCK_BACKING that
+>> would let a specific driver (such as NBD) inform the block layer that
+>> it is known that a cluster comes from a backing layer, but where there
+>> is insufficient data to determine which layer.
+>>
+>> As a quick demonstration:
+>>
+>>      # Create a qcow2 image with a raw backing file:
+>>      $ qemu-img create base.raw $((4*64*1024))
+>>      $ qemu-img create -f qcow2 -b base.raw -F raw top.qcow2
+>>
+>>      # Write to first 3 clusters of base:
+>>      $ qemu-io -f raw -c "w -P 65 0 64k" -c "w -P 66 64k 64k" \
+>>        -c "w -P 67 128k 64k" base.raw
+>>
+>>      # Write to second and third clusters of top, hiding base:
+>>      $ qemu-io -f qcow2 -c "w -P 69 64k 64k" -c "w -z 128k 64k" top.qcow2
+>>
+>>      # Examine the full backing chain
+>>      $ qemu-img map --output=json -f qcow2 top.qcow2
+>>      [{ "start": 0, "length": 65536, "depth": 1, "zero": false, "data": true, "offset": 0},
+>>      { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+>>      { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
+>>      { "start": 196608, "length": 65536, "depth": 1, "zero": true, "data": false, "offset": 196608}]
+>>
+>>      # Repeat, but with the backing chain clamped. Pre-patch:
+>>      $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2", \
+>>        "backing":null, "file":{"driver":"file", "filename":"top.qcow2"}}'
+>>      [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false},
+>>      { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+>>      { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false}]
+>>
+>>      # Repeat, but post-patch:
+>>      $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2", \
+>>        "backing":null, "file":{"driver":"file", "filename":"top.qcow2"}}'
+>>      [{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
+>>      { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+>>      { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
+>>      { "start": 196608, "length": 65536, "depth": -1, "zero": true, "data": false}]
+>>
+>> Note that pre-patch, it was impossible to determine which portions of
+>> the qcow2 file override the backing file because the "depth":0 regions
+>> were combined, so even though qemu internally can tell the difference
+>> between sclusters 2 and 3, the command line user could not.  But
+>> post-patch, the "depth":-1 markings match the "depth":1 markings when
+>> the backing chain is intact, and it becomes obvious which clusters are
+>> important.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> I'm not sure do we need a kind of new option or deprecation period for such incompatible change..
 
-LIU Zhiwei <zhiwei_liu@c-sky.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=889=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=EF=BC=9A
+I see Kevin worries about same thing..
 
-> The CSR can be used by software to service the next horizontal interrupt
-> when it has greater level than the saved interrupt context
-> (held in xcause`.pil`) and greater level than the interrupt threshold of
-> the corresponding privilege mode,
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/cpu_bits.h |  16 ++++++
->  target/riscv/csr.c      | 114 ++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 130 insertions(+)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 7922097776..494e41edc9 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -166,6 +166,7 @@
->  #define CSR_MCAUSE          0x342
->  #define CSR_MTVAL           0x343
->  #define CSR_MIP             0x344
-> +#define CSR_MNXTI           0x345 /* clic-spec-draft */
->  #define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
->  #define CSR_MINTTHRESH      0x347 /* clic-spec-draft */
->
-> @@ -187,6 +188,7 @@
->  #define CSR_SCAUSE          0x142
->  #define CSR_STVAL           0x143
->  #define CSR_SIP             0x144
-> +#define CSR_SNXTI           0x145 /* clic-spec-draft */
->  #define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
->  #define CSR_SINTTHRESH      0x147 /* clic-spec-draft */
->
-> @@ -596,10 +598,24 @@
->  #define MINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
->  #define MINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
->
-> +/* mcause */
-> +#define MCAUSE_MINHV                       0x40000000 /* minhv */
-> +#define MCAUSE_MPP                         0x30000000 /* mpp[1:0] */
-> +#define MCAUSE_MPIE                        0x08000000 /* mpie */
-> +#define MCAUSE_MPIL                        0x00ff0000 /* mpil[7:0] */
-> +#define MCAUSE_EXCCODE                     0x00000fff /* exccode[11:0] *=
-/
-> +
->  /* sintstatus */
->  #define SINTSTATUS_SIL                     0x0000ff00 /* sil[7:0] */
->  #define SINTSTATUS_UIL                     0x000000ff /* uil[7:0] */
->
-> +/* scause */
-> +#define SCAUSE_SINHV                       0x40000000 /* sinhv */
-> +#define SCAUSE_SPP                         0x10000000 /* spp */
-> +#define SCAUSE_SPIE                        0x08000000 /* spie */
-> +#define SCAUSE_SPIL                        0x00ff0000 /* spil[7:0] */
-> +#define SCAUSE_EXCCODE                     0x00000fff /* exccode[11:0] *=
-/
-> +
->  /* MIE masks */
->  #define MIE_SEIE                           (1 << IRQ_S_EXT)
->  #define MIE_UEIE                           (1 << IRQ_U_EXT)
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e12222b77f..72cba080bf 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -774,6 +774,80 @@ static int rmw_mip(CPURISCVState *env, int csrno,
-> target_ulong *ret_value,
->      return 0;
->  }
->
-> +static bool get_xnxti_status(CPURISCVState *env)
-> +{
-> +    CPUState *cs =3D env_cpu(env);
-> +    int clic_irq, clic_priv, clic_il, pil;
-> +
-> +    if (!env->exccode) { /* No interrupt */
-> +        return false;
-> +    }
-> +    /* The system is not in a CLIC mode */
-> +    if (!riscv_clic_is_clic_mode(env)) {
-> +        return false;
-> +    } else {
-> +        riscv_clic_decode_exccode(env->exccode, &clic_priv, &clic_il,
-> +                                  &clic_irq);
-> +
-> +        if (env->priv =3D=3D PRV_M) {
-> +            pil =3D MAX(get_field(env->mcause, MCAUSE_MPIL),
-> env->mintthresh);
-> +        } else if (env->priv =3D=3D PRV_S) {
-> +            pil =3D MAX(get_field(env->scause, SCAUSE_SPIL),
-> env->sintthresh);
-> +        } else {
-> +            qemu_log_mask(LOG_GUEST_ERROR,
-> +                          "CSR: rmw xnxti with unsupported mode\n");
-> +            exit(1);
-> +        }
-> +
-> +        if ((clic_priv !=3D env->priv) || /* No horizontal interrupt */
-> +            (clic_il <=3D pil) || /* No higher level interrupt */
-> +            (riscv_clic_shv_interrupt(env->clic, clic_priv, cs->cpu_inde=
-x,
-> +                                      clic_irq))) { /* CLIC vector mode =
-*/
-> +            return false;
-> +        } else {
-> +            return true;
-> +        }
-> +    }
-> +}
-> +
-> +static int rmw_mnxti(CPURISCVState *env, int csrno, target_ulong
-> *ret_value,
-> +                     target_ulong new_value, target_ulong write_mask)
-> +{
-> +    int clic_priv, clic_il, clic_irq;
-> +    bool ready;
-> +    CPUState *cs =3D env_cpu(env);
-> +    if (write_mask) {
-> +        env->mstatus |=3D new_value & (write_mask & 0b11111);
-> +    }
-> +
-> +    qemu_mutex_lock_iothread();
->
+So, probably better is just add a new optional boolean field, that shows that data is "nowhere in the chain". Such change is a lot more compatible.
 
-Hi Zhiwei,
-
-May I ask what's the purpose to request the BQL here with
-*qemu_mutex_lock_iothread()*?
-Is there any critical data we need to protect in *rmw_mnxti()*?
-As far I see, *rmw_mnxti()* won't call *cpu_interrupt()* which need BQL to
-be held before calling.
-Am I missing anything?
-
-Regard,
-Frank Chang
+> 
+> Personally I'm OK with it and like the idea:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 
-> +    ready =3D get_xnxti_status(env);
-> +    if (ready) {
-> +        riscv_clic_decode_exccode(env->exccode, &clic_priv, &clic_il,
-> +                                  &clic_irq);
-> +        if (write_mask) {
-> +            bool edge =3D riscv_clic_edge_triggered(env->clic, clic_priv=
-,
-> +                                                  cs->cpu_index,
-> clic_irq);
-> +            if (edge) {
-> +                riscv_clic_clean_pending(env->clic, clic_priv,
-> +                                         cs->cpu_index, clic_irq);
-> +            }
-> +            env->mintstatus =3D set_field(env->mintstatus,
-> +                                        MINTSTATUS_MIL, clic_il);
-> +            env->mcause =3D set_field(env->mcause, MCAUSE_EXCCODE,
-> clic_irq);
-> +        }
-> +        if (ret_value) {
-> +            *ret_value =3D (env->mtvt & ~0x3f) + sizeof(target_ulong) *
-> clic_irq;
-> +        }
-> +    } else {
-> +        if (ret_value) {
-> +            *ret_value =3D 0;
-> +        }
-> +    }
-> +    qemu_mutex_unlock_iothread();
-> +    return 0;
-> +}
-> +
->  static int read_mintstatus(CPURISCVState *env, int csrno, target_ulong
-> *val)
->  {
->      *val =3D env->mintstatus;
-> @@ -982,6 +1056,44 @@ static int rmw_sip(CPURISCVState *env, int csrno,
-> target_ulong *ret_value,
->      return ret;
->  }
->
-> +static int rmw_snxti(CPURISCVState *env, int csrno, target_ulong
-> *ret_value,
-> +                     target_ulong new_value, target_ulong write_mask)
-> +{
-> +    int clic_priv, clic_il, clic_irq;
-> +    bool ready;
-> +    CPUState *cs =3D env_cpu(env);
-> +    if (write_mask) {
-> +        env->mstatus |=3D new_value & (write_mask & 0b11111);
-> +    }
-> +
-> +    qemu_mutex_lock_iothread();
-> +    ready =3D get_xnxti_status(env);
-> +    if (ready) {
-> +        riscv_clic_decode_exccode(env->exccode, &clic_priv, &clic_il,
-> +                                  &clic_irq);
-> +        if (write_mask) {
-> +            bool edge =3D riscv_clic_edge_triggered(env->clic, clic_priv=
-,
-> +                                                  cs->cpu_index,
-> clic_irq);
-> +            if (edge) {
-> +                riscv_clic_clean_pending(env->clic, clic_priv,
-> +                                         cs->cpu_index, clic_irq);
-> +            }
-> +            env->mintstatus =3D set_field(env->mintstatus,
-> +                                        MINTSTATUS_SIL, clic_il);
-> +            env->scause =3D set_field(env->scause, SCAUSE_EXCCODE,
-> clic_irq);
-> +        }
-> +        if (ret_value) {
-> +            *ret_value =3D (env->stvt & ~0x3f) + sizeof(target_ulong) *
-> clic_irq;
-> +        }
-> +    } else {
-> +        if (ret_value) {
-> +            *ret_value =3D 0;
-> +        }
-> +    }
-> +    qemu_mutex_unlock_iothread();
-> +    return 0;
-> +}
-> +
->  static int read_sintstatus(CPURISCVState *env, int csrno, target_ulong
-> *val)
->  {
->      target_ulong mask =3D SINTSTATUS_SIL | SINTSTATUS_UIL;
-> @@ -1755,6 +1867,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
->
->      /* Machine Mode Core Level Interrupt Controller */
->      [CSR_MTVT] =3D { "mtvt", clic,  read_mtvt,  write_mtvt      },
-> +    [CSR_MNXTI] =3D { "mnxti", clic,  NULL,  NULL,  rmw_mnxti   },
->      [CSR_MINTSTATUS] =3D { "mintstatus", clic,  read_mintstatus },
->      [CSR_MINTTHRESH] =3D { "mintthresh", clic,  read_mintthresh,
->                           write_mintthresh },
-> @@ -1766,6 +1879,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
->
->      /* Supervisor Mode Core Level Interrupt Controller */
->      [CSR_STVT] =3D { "stvt", clic,  read_stvt, write_stvt       },
-> +    [CSR_SNXTI] =3D { "snxti", clic,  NULL,  NULL,  rmw_snxti   },
->
->  #endif /* !CONFIG_USER_ONLY */
->  };
-> --
-> 2.25.1
->
->
->
-
---000000000000b540f705c4791bbe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_l=
-iu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:52=E5=AF=AB=E9=81=93=
-=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">The CSR can be used by software to service the next ho=
-rizontal interrupt<br>
-when it has greater level than the saved interrupt context<br>
-(held in xcause`.pil`) and greater level than the interrupt threshold of<br=
->
-the corresponding privilege mode,<br>
-<br>
-Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@c-sky.com" targe=
-t=3D"_blank">zhiwei_liu@c-sky.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/cpu_bits.h |=C2=A0 16 ++++++<br>
-=C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 | 114 ++++++++++++++++++++++++=
-++++++++++++++++<br>
-=C2=A02 files changed, 130 insertions(+)<br>
-<br>
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
-index 7922097776..494e41edc9 100644<br>
---- a/target/riscv/cpu_bits.h<br>
-+++ b/target/riscv/cpu_bits.h<br>
-@@ -166,6 +166,7 @@<br>
-=C2=A0#define CSR_MCAUSE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x342<br>
-=C2=A0#define CSR_MTVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x343<br>
-=C2=A0#define CSR_MIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x344<=
-br>
-+#define CSR_MNXTI=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x345 /* clic-sp=
-ec-draft */<br>
-=C2=A0#define CSR_MINTSTATUS=C2=A0 =C2=A0 =C2=A0 0x346 /* clic-spec-draft *=
-/<br>
-=C2=A0#define CSR_MINTTHRESH=C2=A0 =C2=A0 =C2=A0 0x347 /* clic-spec-draft *=
-/<br>
-<br>
-@@ -187,6 +188,7 @@<br>
-=C2=A0#define CSR_SCAUSE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x142<br>
-=C2=A0#define CSR_STVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x143<br>
-=C2=A0#define CSR_SIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x144<=
-br>
-+#define CSR_SNXTI=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x145 /* clic-sp=
-ec-draft */<br>
-=C2=A0#define CSR_SINTSTATUS=C2=A0 =C2=A0 =C2=A0 0x146 /* clic-spec-draft *=
-/<br>
-=C2=A0#define CSR_SINTTHRESH=C2=A0 =C2=A0 =C2=A0 0x147 /* clic-spec-draft *=
-/<br>
-<br>
-@@ -596,10 +598,24 @@<br>
-=C2=A0#define MINTSTATUS_SIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0000ff00 /* sil[7:0] */<br>
-=C2=A0#define MINTSTATUS_UIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x000000ff /* uil[7:0] */<br>
-<br>
-+/* mcause */<br>
-+#define MCAUSE_MINHV=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x40000000 /* minhv */<br>
-+#define MCAUSE_MPP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x30000000 /* mpp[1:0] */<br>
-+#define MCAUSE_MPIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x08000000 /* mpie */<br>
-+#define MCAUSE_MPIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00ff0000 /* mpil[7:0] */<br>
-+#define MCAUSE_EXCCODE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A00x00000fff /* exccode[11:0] */<br>
-+<br>
-=C2=A0/* sintstatus */<br>
-=C2=A0#define SINTSTATUS_SIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0000ff00 /* sil[7:0] */<br>
-=C2=A0#define SINTSTATUS_UIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x000000ff /* uil[7:0] */<br>
-<br>
-+/* scause */<br>
-+#define SCAUSE_SINHV=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x40000000 /* sinhv */<br>
-+#define SCAUSE_SPP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x10000000 /* spp */<br>
-+#define SCAUSE_SPIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x08000000 /* spie */<br>
-+#define SCAUSE_SPIL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x00ff0000 /* spil[7:0] */<br>
-+#define SCAUSE_EXCCODE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A00x00000fff /* exccode[11:0] */<br>
-+<br>
-=C2=A0/* MIE masks */<br>
-=C2=A0#define MIE_SEIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; IRQ_S_EXT)<br>
-=C2=A0#define MIE_UEIE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(1 &lt;&lt; IRQ_U_EXT)<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index e12222b77f..72cba080bf 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -774,6 +774,80 @@ static int rmw_mip(CPURISCVState *env, int csrno, targ=
-et_ulong *ret_value,<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-+static bool get_xnxti_status(CPURISCVState *env)<br>
-+{<br>
-+=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-+=C2=A0 =C2=A0 int clic_irq, clic_priv, clic_il, pil;<br>
-+<br>
-+=C2=A0 =C2=A0 if (!env-&gt;exccode) { /* No interrupt */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 /* The system is not in a CLIC mode */<br>
-+=C2=A0 =C2=A0 if (!riscv_clic_is_clic_mode(env)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_decode_exccode(env-&gt;exccode, &am=
-p;clic_priv, &amp;clic_il,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;clic_irq);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (env-&gt;priv =3D=3D PRV_M) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pil =3D MAX(get_field(env-&gt;mc=
-ause, MCAUSE_MPIL), env-&gt;mintthresh);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (env-&gt;priv =3D=3D PRV_S) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pil =3D MAX(get_field(env-&gt;sc=
-ause, SCAUSE_SPIL), env-&gt;sintthresh);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &quot;CSR: rmw xnxti with unsupported mode\n&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((clic_priv !=3D env-&gt;priv) || /* No hor=
-izontal interrupt */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (clic_il &lt;=3D pil) || /* No h=
-igher level interrupt */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (riscv_clic_shv_interrupt(env-&g=
-t;clic, clic_priv, cs-&gt;cpu_index,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clic_irq))) { /=
-* CLIC vector mode */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static int rmw_mnxti(CPURISCVState *env, int csrno, target_ulong *ret_valu=
-e,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0target_ulong new_value, target_ulong write_mask)<br>
-+{<br>
-+=C2=A0 =C2=A0 int clic_priv, clic_il, clic_irq;<br>
-+=C2=A0 =C2=A0 bool ready;<br>
-+=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-+=C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mstatus |=3D new_value &amp; (write_ma=
-sk &amp; 0b11111);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br></blockquote><div><br></div><=
-div>Hi Zhiwei,</div><div><br></div><div>May I ask what&#39;s the purpose to=
- request the BQL here with=C2=A0<i>qemu_mutex_lock_iothread()</i>?</div><di=
-v>Is there any critical data we need to protect in=C2=A0<i>rmw_mnxti()</i>?=
-</div><div>As far I see,=C2=A0<i>rmw_mnxti()</i> won&#39;t call <i>cpu_inte=
-rrupt()</i> which need BQL to be held before calling.</div><div>Am I missin=
-g anything?</div><div><br></div><div>Regard,</div><div>Frank Chang</div><di=
-v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 ready =3D get_xnxti_status(env);<br>
-+=C2=A0 =C2=A0 if (ready) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_decode_exccode(env-&gt;exccode, &am=
-p;clic_priv, &amp;clic_il,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool edge =3D riscv_clic_edge_tr=
-iggered(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (edge) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_clean_p=
-ending(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs=
--&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mintstatus =3D set_field=
-(env-&gt;mintstatus,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MINTSTAT=
-US_MIL, clic_il);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mcause =3D set_field(env=
--&gt;mcause, MCAUSE_EXCCODE, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D (env-&gt;mtvt &am=
-p; ~0x3f) + sizeof(target_ulong) * clic_irq;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-=C2=A0static int read_mintstatus(CPURISCVState *env, int csrno, target_ulon=
-g *val)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0*val =3D env-&gt;mintstatus;<br>
-@@ -982,6 +1056,44 @@ static int rmw_sip(CPURISCVState *env, int csrno, tar=
-get_ulong *ret_value,<br>
-=C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
-<br>
-+static int rmw_snxti(CPURISCVState *env, int csrno, target_ulong *ret_valu=
-e,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0target_ulong new_value, target_ulong write_mask)<br>
-+{<br>
-+=C2=A0 =C2=A0 int clic_priv, clic_il, clic_irq;<br>
-+=C2=A0 =C2=A0 bool ready;<br>
-+=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-+=C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mstatus |=3D new_value &amp; (write_ma=
-sk &amp; 0b11111);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br>
-+=C2=A0 =C2=A0 ready =3D get_xnxti_status(env);<br>
-+=C2=A0 =C2=A0 if (ready) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_decode_exccode(env-&gt;exccode, &am=
-p;clic_priv, &amp;clic_il,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (write_mask) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool edge =3D riscv_clic_edge_tr=
-iggered(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (edge) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_clean_p=
-ending(env-&gt;clic, clic_priv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cs=
--&gt;cpu_index, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mintstatus =3D set_field=
-(env-&gt;mintstatus,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MINTSTAT=
-US_SIL, clic_il);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;scause =3D set_field(env=
--&gt;scause, SCAUSE_EXCCODE, clic_irq);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D (env-&gt;stvt &am=
-p; ~0x3f) + sizeof(target_ulong) * clic_irq;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret_value) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ret_value =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br>
-+=C2=A0 =C2=A0 return 0;<br>
-+}<br>
-+<br>
-=C2=A0static int read_sintstatus(CPURISCVState *env, int csrno, target_ulon=
-g *val)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mask =3D SINTSTATUS_SIL | SINTSTATUS_UIL;<=
-br>
-@@ -1755,6 +1867,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<br=
->
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Machine Mode Core Level Interrupt Controller */<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MTVT] =3D { &quot;mtvt&quot;, clic,=C2=A0 read_mtv=
-t,=C2=A0 write_mtvt=C2=A0 =C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 [CSR_MNXTI] =3D { &quot;mnxti&quot;, clic,=C2=A0 NULL,=C2=A0=
- NULL,=C2=A0 rmw_mnxti=C2=A0 =C2=A0},<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MINTSTATUS] =3D { &quot;mintstatus&quot;, clic,=C2=
-=A0 read_mintstatus },<br>
-=C2=A0 =C2=A0 =C2=A0[CSR_MINTTHRESH] =3D { &quot;mintthresh&quot;, clic,=C2=
-=A0 read_mintthresh,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 write_mintthresh },<br>
-@@ -1766,6 +1879,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {<br=
->
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Supervisor Mode Core Level Interrupt Controller */<b=
-r>
-=C2=A0 =C2=A0 =C2=A0[CSR_STVT] =3D { &quot;stvt&quot;, clic,=C2=A0 read_stv=
-t, write_stvt=C2=A0 =C2=A0 =C2=A0 =C2=A0},<br>
-+=C2=A0 =C2=A0 [CSR_SNXTI] =3D { &quot;snxti&quot;, clic,=C2=A0 NULL,=C2=A0=
- NULL,=C2=A0 rmw_snxti=C2=A0 =C2=A0},<br>
-<br>
-=C2=A0#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0};<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000b540f705c4791bbe--
+-- 
+Best regards,
+Vladimir
 
