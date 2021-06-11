@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7191C3A44C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 17:19:40 +0200 (CEST)
-Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B0D3A4553
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 17:29:43 +0200 (CEST)
+Received: from localhost ([::1]:33010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lriwd-0004QR-IN
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 11:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44880)
+	id 1lrj6M-0006W5-4K
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 11:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrivQ-0003ho-AY
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:18:24 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:39854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrivL-00029a-Sj
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:18:24 -0400
-Received: by mail-pf1-x434.google.com with SMTP id k15so4713003pfp.6
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 08:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BU0ZsmNtZltCp3GDGhlmwh4pM0+QNAw9HvVhnk9gZfY=;
- b=d74lcOI7Jbrdjyjz4T2HPyvA8RwAUukfSFqkDKYJwRbfW4rd+Emzo3RvKMh1FU0/xk
- BG2JgtvzmYtYtNO1WaaGUtqaAIzPfXBddJlYnT5JKCrXAmBTkyHPLKchNRv0mg12WaK+
- OU/zV09/MieqXkAemOifPSq0dM506VNpjKfJTov9Tw66UKau67AADXFeTxI9bvtyQBrR
- NLOQ5aX9fJiX1lNuHDBe2JqRtZlOQvcLQozvxZ6IrCIRKGZWMTO1zeIXnmyP6/nH0/aO
- TXFecs1lPOPKOhEhqSTVWfLkCMRryUg+W2/ZRjuQV6AJJ8IgFSixXU7tUzF0CR+xnbxR
- Nqlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BU0ZsmNtZltCp3GDGhlmwh4pM0+QNAw9HvVhnk9gZfY=;
- b=djdzwtWBDrgVjVIl8M6gjDE4ztiT0v4ggi+/UWrusToardtppV7o4cw6lhePPXefYr
- MKQAwJlwy0zTRb5pfL7JR8UTVlfWCSuuHVX/2uQ/zkZz1tdrBCKg1/qzU+i0HCkfQBnK
- fT72G8Z6Ry3FD+ufugNBBE7NGi2HV1kcmJhYSoDNSAMK7L7J6E7CBRbAn30oyG5z75by
- GJufmiX69i6ehhdqosfAiD1BROrZCYbTNjDQcyrNJRu/1aPOJf8/Ke2x49uKCW6lyYp3
- 9Lcsfx2OjqvV2f8PBLbKzBMM5uK8e7wO0oNLrgc8sA9jnhf18Mj3Q8W347RrIQChJTjD
- LdoQ==
-X-Gm-Message-State: AOAM5329QCe6SAnUbnqXtgAImSRhBDG45OxrwM4LJ9FELYGqAEKE+NHV
- bY5EvwRR4QJCAKyksmx4kEnrtg==
-X-Google-Smtp-Source: ABdhPJzYS+Zo8yvB0nV78JG7Cv4+dQ8lqvN2/DHxvTnAHx/+h9NiO3aB4l184YSCNG+JDnVDXJE0gw==
-X-Received: by 2002:a63:d08:: with SMTP id c8mr4248847pgl.248.1623424697308;
- Fri, 11 Jun 2021 08:18:17 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- f12sm5343071pfn.161.2021.06.11.08.18.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jun 2021 08:18:16 -0700 (PDT)
-Subject: Re: [PATCH RFC 1/1] linux-user/s390x: save/restore condition code
- state during signal handling
-To: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org
-References: <20210610185823.14817-1-jonathan.albrecht@linux.vnet.ibm.com>
- <20210610185823.14817-2-jonathan.albrecht@linux.vnet.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7d3fcf31-bcf6-193d-4700-5cc3cf0fe90f@linaro.org>
-Date: Fri, 11 Jun 2021 08:18:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrj4j-0005iA-TM
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:28:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrj4e-00085Z-Lo
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:28:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623425272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TAvsZYllIKa7DBtblfUk1J+CJ+z7Zocx1bQoRW7e5xA=;
+ b=WYPTPaJ12ns8eMvTbOb6nmKI19NR2aOYsb3NJQoslNlZ/tAwiH4knm2sXBigKDJceW1LGS
+ WhYQv7jjdGVYYerGkMw7X1A2MlrGOoa3FWugA6o/exiXAjjtbROYIkcoK1sd6ENfZ4Urw0
+ dKrwP27Vw6jr7zgixE3KNiSO7uJPyp4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-8sX1JbJTPZOX9F5bxxNT-Q-1; Fri, 11 Jun 2021 11:27:50 -0400
+X-MC-Unique: 8sX1JbJTPZOX9F5bxxNT-Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89965801B15;
+ Fri, 11 Jun 2021 15:27:49 +0000 (UTC)
+Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4F2360613;
+ Fri, 11 Jun 2021 15:27:48 +0000 (UTC)
+Date: Fri, 11 Jun 2021 10:27:47 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v4 21/32] nbd/client-connection: shutdown connection on
+ release
+Message-ID: <20210611152747.53mn3bzvqy6u2qh6@redhat.com>
+References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
+ <20210610100802.5888-22-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610185823.14817-2-jonathan.albrecht@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210610100802.5888-22-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,53 +78,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruixin.bao@ibm.com, qemu-s390x@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, jonathan.albrecht@ibm.com
+Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/21 11:58 AM, Jonathan Albrecht wrote:
-> @@ -65,6 +65,10 @@ typedef struct {
->       uint8_t callee_used_stack[__SIGNAL_FRAMESIZE];
->       target_sigcontext sc;
->       target_sigregs sregs;
-> +    uint32_t scc_op;
-> +    uint64_t scc_src;
-> +    uint64_t scc_dst;
-> +    uint64_t scc_vr;
->       int signo;
+On Thu, Jun 10, 2021 at 01:07:51PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Now, when a thread can do negotiation and retry, it may run relatively
+> long. We need a mechanism to stop it, when the user is not interested
+> in a result any more. So, on nbd_client_connection_release() let's
+> shutdown the socket, and do not retry connection if thread is detached.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  nbd/client-connection.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>
 
-Nope.  The layout of the stack frame is fixed by the kernel. Moreover, all of 
-these variables are internal to qemu; you should only be exposing architectural 
-state.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-The bug is in save_sigregs:
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
->     __put_user(env->psw.mask, &sregs->regs.psw.mask);
-
-This should use get_psw_mask(), currently declared in target/s390x/internal.h 
-instead of cpu.h.
-
-and correspondingly, in restore_sigregs:
-
->     __get_user(env->psw.mask, &sc->regs.psw.mask);
->     __get_user(env->psw.addr, &sc->regs.psw.addr);
-
-this should use load_psw, and in addition it should not be allowing completely 
-arbitrary changes to psw.mask.  From the kernel:
-
->         /* Use regs->psw.mask instead of PSW_USER_BITS to preserve PER bit. */
->         regs->psw.mask = (regs->psw.mask & ~(PSW_MASK_USER | PSW_MASK_RI)) |
->                 (user_sregs.regs.psw.mask & (PSW_MASK_USER | PSW_MASK_RI));
->         /* Check for invalid user address space control. */
->         if ((regs->psw.mask & PSW_MASK_ASC) == PSW_ASC_HOME)
->                 regs->psw.mask = PSW_ASC_PRIMARY |
->                         (regs->psw.mask & ~PSW_MASK_ASC);
->         /* Check for invalid amode */
->         if (regs->psw.mask & PSW_MASK_EA)
->                 regs->psw.mask |= PSW_MASK_BA;
-
-
-
-r~
 
