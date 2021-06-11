@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EBB3A4BA2
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:11:35 +0200 (CEST)
-Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F473A4B93
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:02:33 +0200 (CEST)
+Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrrFN-0003O2-Vp
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:11:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
+	id 1lrr6e-0001HO-Hz
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmq-0002zU-Aa
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:04 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:37862)
+ id 1lrqms-000352-OI
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:07 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:56102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmn-0002kE-VL
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:03 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- 22-20020a17090a0c16b0290164a5354ad0so6725246pjs.2
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:01 -0700 (PDT)
+ id 1lrqmp-0002lN-Su
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:06 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id k7so6524818pjf.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YYv9tcvc0r6vqymr5HM4dazO/PQp1jnHK04uYsgFVEA=;
- b=H+3Uncb8d14Dt53JbLo6+lZp8HApGG3t8BXr1sGiLfx3S2ens9SjAtNLRpd50J6tFx
- YcvkW+80ZEaeU1A0DQXjK+OIJPWq0G6LYJK/aWy+HZnV/ZAqP0ejVmMRWT7u4b2ijWcQ
- Ir4DJAQzixM6dEQb0xAu41RuJgq1u8Drv6yF+KSa3EtiqmjKWApnuDBLMfc1MT7Gdg+p
- Ph+6ALhN6ULoubu6oHuyAasGkHr3Ss+AOrV4x+87yHx/+6WummqIJmgn6u7OM2Yc37tE
- cu38g/a7XKHYy/+xvuexD20PTNtW0Jr5XOM9Hgqj3kAANCVMLNDzOaYvUPu5x2e3Mudd
- xdOA==
+ bh=yutB5Hql0pmq+RPOoPP4QbECTT+S/kQDBGlJZPPQ9bQ=;
+ b=OGvRN9iBjuorOC574RzX+WSlNAbzHwtkztdR8lNqKi7aCcRXhN3zeJj8H6q8QYAoiQ
+ Caw7DLXUhbHz+CV+wcwBhE48iIJr9SWDDhFl9EBwrjO/agq4Go8h0F5lwrrqyxQhm+/r
+ O+wa80oSq8sIzV7jWsopLS6dR2HEaQm5Vscp/ZW9NAf9LR3UqZfJHmXaE9j5jo5BjlzD
+ sIUL8olCDor2TG75hYxr+/Szwg3aChe/aA4Xxb0oTND5FeQ1UUEJiZy2DVpqk/lSkCa2
+ ZjabL1hVe5+7GiwyM7SqLPS/VnRC9EH9dbGXzPbz8SugRd/wZWsReYUmgZSbk7AYrtQk
+ lbAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YYv9tcvc0r6vqymr5HM4dazO/PQp1jnHK04uYsgFVEA=;
- b=Q6slM48FxRX/htQh1aQkU1kLwm2Kb9EESVRdrJjLcxtUVn/HGPXWHHNnuuG/0gyUTz
- Suk1KUxIhBrTXMBHfKKGU9gxaklvJvCowZN4tVkWVIZ4k2z+3upM/Yjbfs58yqnCdeUy
- fNGeGGCGcWME9Jv+jc79N//RsY7ZOwQ43ZZfKr/9PFV7rJ4/v3uSEQhNkMzS8ASRuoSr
- ofLLASgRsV5MR9GoK6TUqObKmzop2Oppz//3nS4Bakw92sirULo/l2P/tsaUQqJt22aL
- fbjwYumCqN3UL1Ri8ZSKjKwViGUKOjFN8gGfwijyo9UHy33kDV1+MvfdsW2Pvg7Qesbi
- 4luw==
-X-Gm-Message-State: AOAM531kCMHxMSOYL4bsz78rv2kVXlprQzJ7k611AAR5gZq27fxIVRo6
- WbiVY1SKkgx5Nd+cMsRhLvnFCgKOqWdEsA==
-X-Google-Smtp-Source: ABdhPJzO+3UO/Bwq5h9JJPjLj4j0ljPASHD3LEhdBVN9bRdPQh4chheQ2QQ6BsKh/xK8uelQ32yvCA==
-X-Received: by 2002:a17:90a:ea95:: with SMTP id
- h21mr7012566pjz.90.1623454920663; 
- Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
+ bh=yutB5Hql0pmq+RPOoPP4QbECTT+S/kQDBGlJZPPQ9bQ=;
+ b=fMECbPfGUCQf0BtLDHQbdYvJWW3ISA6/OqDSwcMaDhNWeUnLFqDiZhAygRJ5kX4tIL
+ XLR/ddEVD170GVSDkocfym4KbZf7iKeogdEWrcil9UfqaSG1F5QGfD1mq7118P+w84DX
+ gS2xaHcH2VlfFMzfgkxx21IwUQVd0YX0ycM4UGvu0lu+FBtRFcxnek2uiV9XiRCq6WkB
+ O+HAwWceMBXrKTUSK+eTTY4zztg9EnsrqZ+tNESm7G6FSQ8ocluKGEWW1PBv0b726EIA
+ icD1JA8sqCgr1HvK8mlFehchQLjvdgPdB2Jt4YV6YaOqPTpz9vgLvEdw7iulNnZoxZ6L
+ rZYQ==
+X-Gm-Message-State: AOAM533M/ixeNNjjxL/GnxVtf8CLZNSn6Txu/O3d8dc4Rh6YFTME5lSp
+ wmOFMipXojj0+L86FDKUAzhk2R6X9tpYMw==
+X-Google-Smtp-Source: ABdhPJwGJNl8olEDuAD2T11YhUFc4XmIQYSL9ENxBLBkQBdq7RYjCPrznFZl4GEOGgiAVuotJFS5nQ==
+X-Received: by 2002:a17:90a:8001:: with SMTP id
+ b1mr11424065pjn.17.1623454922465; 
+ Fri, 11 Jun 2021 16:42:02 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.00
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
+ Fri, 11 Jun 2021 16:42:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/34] util/osdep: Add qemu_mprotect_rw
-Date: Fri, 11 Jun 2021 16:41:35 -0700
-Message-Id: <20210611234144.653682-26-richard.henderson@linaro.org>
+Subject: [PULL 28/34] tcg: When allocating for !splitwx, begin with PROT_NONE
+Date: Fri, 11 Jun 2021 16:41:38 -0700
+Message-Id: <20210611234144.653682-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,55 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Luis Pires <luis.pires@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For --enable-tcg-interpreter on Windows, we will need this.
+There's a change in mprotect() behaviour [1] in the latest macOS
+on M1 and it's not yet clear if it's going to be fixed by Apple.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+In this case, instead of changing permissions of N guard pages,
+we change permissions of N rwx regions.  The same number of
+syscalls are required either way.
+
+[1] https://gist.github.com/hikalium/75ae822466ee4da13cbbe486498a191f
+
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/osdep.h | 1 +
- util/osdep.c         | 9 +++++++++
- 2 files changed, 10 insertions(+)
+ tcg/region.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 4c6f2390be..236a045671 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -512,6 +512,7 @@ void sigaction_invoke(struct sigaction *action,
- #endif
+diff --git a/tcg/region.c b/tcg/region.c
+index 294cbd8e65..0f6808afdb 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -770,12 +770,15 @@ static int alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+         error_free_or_abort(errp);
+     }
  
- int qemu_madvise(void *addr, size_t len, int advice);
-+int qemu_mprotect_rw(void *addr, size_t size);
- int qemu_mprotect_rwx(void *addr, size_t size);
- int qemu_mprotect_none(void *addr, size_t size);
- 
-diff --git a/util/osdep.c b/util/osdep.c
-index 66d01b9160..42a0a4986a 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -97,6 +97,15 @@ static int qemu_mprotect__osdep(void *addr, size_t size, int prot)
- #endif
- }
- 
-+int qemu_mprotect_rw(void *addr, size_t size)
-+{
-+#ifdef _WIN32
-+    return qemu_mprotect__osdep(addr, size, PAGE_READWRITE);
-+#else
-+    return qemu_mprotect__osdep(addr, size, PROT_READ | PROT_WRITE);
-+#endif
-+}
-+
- int qemu_mprotect_rwx(void *addr, size_t size)
- {
- #ifdef _WIN32
+-    prot = PROT_READ | PROT_WRITE | PROT_EXEC;
++    /*
++     * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
++     * rejects a permission change from RWX -> NONE when reserving the
++     * guard pages later.  We can go the other way with the same number
++     * of syscalls, so always begin with PROT_NONE.
++     */
++    prot = PROT_NONE;
+     flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-#ifdef CONFIG_TCG_INTERPRETER
+-    /* The tcg interpreter does not need execute permission. */
+-    prot = PROT_READ | PROT_WRITE;
+-#elif defined(CONFIG_DARWIN)
++#ifdef CONFIG_DARWIN
+     /* Applicable to both iOS and macOS (Apple Silicon). */
+     if (!splitwx) {
+         flags |= MAP_JIT;
+@@ -906,11 +909,7 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+             }
+         }
+         if (have_prot != 0) {
+-            /*
+-             * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
+-             * rejects a permission change from RWX -> NONE.  Guard pages are
+-             * nice for bug detection but are not essential; ignore any failure.
+-             */
++            /* Guard pages are nice for bug detection but are not essential. */
+             (void)qemu_mprotect_none(end, page_size);
+         }
+     }
 -- 
 2.25.1
 
