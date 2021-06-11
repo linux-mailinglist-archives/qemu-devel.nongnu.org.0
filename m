@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E023A3F84
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 11:52:33 +0200 (CEST)
-Received: from localhost ([::1]:47796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4EA3A401E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 12:22:45 +0200 (CEST)
+Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrdq0-0004Ph-RI
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 05:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51878)
+	id 1lreJH-0000cY-PE
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 06:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrdp9-0003ZE-Bg
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 05:51:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28006)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lreI2-0008Jj-KY
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 06:21:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrdp5-0004CM-7l
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 05:51:34 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lreHx-0007GY-Bj
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 06:21:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623405089;
+ s=mimecast20190719; t=1623406879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MX6wxNhU2clmHdHgg7BT+tcUUBQ5lPem1amsN8qVJCA=;
- b=DksbarhDxsmfMSdQJGCRlW9hEAAwJ2xUNY3qCWbK1hauBwOwNSux8GdqQuog6Y+0nqGCaa
- 0tQjPo34WPWi3oFfOvinPgzL454mNen3ERGURHeZ3yDXOZ1O3CtsSValY0LWuB4b6WvEwR
- gIUDw84jpYHrggUNDw8cu7nTAHJ7tFY=
+ bh=dmYNem7A76dCQTqMliF3l8KoaPnvKgv1BXXbdF1d8GA=;
+ b=gSJ6ea7NL3NvVQZduaerZpnyBwZBRmwHyL4yNph0B+aTAa3tXBzv62MaRACV6KnoE9pEpz
+ ktBqHi2VgUSINBk1F4Ei43bnKGLOGxrFC6txOZnT5xzZl2DmmChExq/p9MVALgQtBCUpet
+ +dNCt9DMa9mHrYzB2CbSsc3Ph4Jf2qI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-BDQUA1E9OUq3Rl2-X6IPIQ-1; Fri, 11 Jun 2021 05:51:28 -0400
-X-MC-Unique: BDQUA1E9OUq3Rl2-X6IPIQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-92-ppapntnFPyeaTwMpTOc5Yw-1; Fri, 11 Jun 2021 06:21:16 -0400
+X-MC-Unique: ppapntnFPyeaTwMpTOc5Yw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0016B801B14;
- Fri, 11 Jun 2021 09:51:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
- [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 864CD5C1CF;
- Fri, 11 Jun 2021 09:51:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 206E2113865F; Fri, 11 Jun 2021 11:51:25 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v8 02/12] accel: Introduce 'query-accels' QMP command
-References: <20210526170432.343588-1-philmd@redhat.com>
- <20210526170432.343588-3-philmd@redhat.com>
-Date: Fri, 11 Jun 2021 11:51:25 +0200
-In-Reply-To: <20210526170432.343588-3-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 26 May 2021 19:04:22
- +0200")
-Message-ID: <87czsssp9e.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A1CC1846100;
+ Fri, 11 Jun 2021 10:21:15 +0000 (UTC)
+Received: from localhost (ovpn-113-95.ams2.redhat.com [10.36.113.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB6175D71D;
+ Fri, 11 Jun 2021 10:21:08 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH 1/1] vfio-ccw: Keep passthrough sense data intact
+In-Reply-To: <87lf7gzxbh.fsf@redhat.com>
+Organization: Red Hat GmbH
+References: <20210610202011.391029-1-farman@linux.ibm.com>
+ <20210610202011.391029-2-farman@linux.ibm.com> <87lf7gzxbh.fsf@redhat.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Fri, 11 Jun 2021 12:21:07 +0200
+Message-ID: <87fsxozoq4.fsf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -70,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,193 +78,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On Fri, Jun 11 2021, Cornelia Huck <cohuck@redhat.com> wrote:
 
-> Introduce the 'query-accels' QMP command which returns a list
-> of built-in accelerator names.
->
-> - Accelerator is a QAPI enum of all existing accelerators,
->
-> - AcceleratorInfo is a QAPI structure providing accelerator
->   specific information. Currently the common structure base
->   provides the name of the accelerator, while the specific
->   part is empty, but each accelerator can expand it.
+> On Thu, Jun 10 2021, Eric Farman <farman@linux.ibm.com> wrote:
+>> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+>> index bed46f5ec3..29234daa27 100644
+>> --- a/hw/s390x/css.c
+>> +++ b/hw/s390x/css.c
+>> @@ -1661,7 +1661,8 @@ int css_do_tsch_get_irb(SubchDev *sch, IRB *target_irb, int *irb_len)
+>>          }
+>>          /* If a unit check is pending, copy sense data. */
+>>          if ((schib->scsw.dstat & SCSW_DSTAT_UNIT_CHECK) &&
+>> -            (schib->pmcw.chars & PMCW_CHARS_MASK_CSENSE)) {
+>> +            (schib->pmcw.chars & PMCW_CHARS_MASK_CSENSE) &&
+>> +            (sch->sense_data[0] != 0)) {
+>>              int i;
+>>  
+>>              irb.scsw.flags |= SCSW_FLAGS_MASK_ESWF |
+>>              SCSW_FLAGS_MASK_ECTL;
 
-This has become somewhat misleading, I'm afraid.  If memory serves,
-earlier versions had union AcceleratorInfo with a common base struct.
-This patch has just a struct, which we can grow into a union when we
-actually have accelerator-specific information to report.  Perhaps
+This function is where we build the esw/ecw...
 
-  - AcceleratorInfo provides information on a specific accelerator.  It
-    contains just the accelerator name so far.
+>> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+>> index 139a3d9d1b..a4dc4acb34 100644
+>> --- a/hw/vfio/ccw.c
+>> +++ b/hw/vfio/ccw.c
+>> @@ -371,12 +371,6 @@ static void vfio_ccw_io_notifier_handler(void *opaque)
+>>      copy_scsw_to_guest(&s, &irb.scsw);
+>>      schib->scsw = s;
+>>  
+>> -    /* If a uint check is pending, copy sense data. */
+>> -    if ((schib->scsw.dstat & SCSW_DSTAT_UNIT_CHECK) &&
+>> -        (schib->pmcw.chars & PMCW_CHARS_MASK_CSENSE)) {
+
+...and here we actually do have the esw/ecw provided by the hardware.
 
 >
-> - 'query-accels' QMP command returns a list of @AcceleratorInfo
->
-> For example on a KVM-only build we get:
->
->     { "execute": "query-accels" }
->     {
->         "return": [
->             {
->                 "name": "qtest"
->             },
->             {
->                 "name": "kvm"
->             }
->         ]
->     }
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> v8:
-> - Include code snippet from Markus adding to machine-target.json
->   to be able to use enum values or union branches conditional.
-> - Use accel_find() on enum to be sure the accelerator is enabled
->   at runtime (chat with jsnow / eblake).
->
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/machine-target.json | 54 ++++++++++++++++++++++++++++++++++++++++
->  accel/accel-qmp.c        | 32 ++++++++++++++++++++++++
->  accel/meson.build        |  2 +-
->  3 files changed, 87 insertions(+), 1 deletion(-)
->  create mode 100644 accel/accel-qmp.c
->
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index e7811654b72..586a61b5d99 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -329,3 +329,57 @@
->  ##
->  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
->    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I3=
-86) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-> +
-> +##
-> +# @Accelerator:
-> +#
-> +# An enumeration of accelerator names.
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'enum': 'Accelerator',
-> +  'data': [
-> +      { 'name': 'hax', 'if': 'defined(CONFIG_HAX)' },
-> +      { 'name': 'hvf', 'if': 'defined(CONFIG_HVF)' },
-> +      { 'name': 'kvm', 'if': 'defined(CONFIG_KVM)' },
-> +      { 'name': 'qtest' },
-> +      { 'name': 'tcg', 'if': 'defined(CONFIG_TCG)' },
-> +      { 'name': 'whpx', 'if': 'defined(CONFIG_WHPX)' },
-> +      { 'name': 'xen', 'if': 'defined(CONFIG_XEN_BACKEND)' } ] }
-> +
-> +##
-> +# @AcceleratorInfo:
-> +#
-> +# Accelerator information.
-> +#
-> +# @name: The accelerator name.
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'AcceleratorInfo',
-> +  'data': { 'name': 'Accelerator' } }
-> +
-> +##
-> +# @query-accels:
-> +#
-> +# Get a list of AcceleratorInfo for all built-in accelerators.
-> +#
-> +# Returns: a list of @AcceleratorInfo describing each accelerator.
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-accels" }
-> +# <- { "return": [
-> +#        {
-> +#            "name": "qtest"
-> +#        },
-> +#        {
-> +#            "name": "kvm"
-> +#        }
-> +#    ] }
-> +#
-> +##
-> +{ 'command': 'query-accels',
-> +  'returns': ['AcceleratorInfo'] }
-> diff --git a/accel/accel-qmp.c b/accel/accel-qmp.c
-> new file mode 100644
-> index 00000000000..0098297caa5
-> --- /dev/null
-> +++ b/accel/accel-qmp.c
-> @@ -0,0 +1,32 @@
-> +/*
-> + * QEMU accelerators, QMP commands
-> + *
-> + * Copyright (c) 2021 Red Hat Inc.
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/accel.h"
-> +#include "qapi/qapi-types-machine-target.h"
-> +#include "qapi/qapi-commands-machine-target.h"
-> +
-> +AcceleratorInfoList *qmp_query_accels(Error **errp)
-> +{
-> +    AcceleratorInfoList *list =3D NULL, **tail =3D &list;
-> +
-> +    for (Accelerator accel =3D 0; accel < ACCELERATOR__MAX; accel++) {
-> +        AcceleratorInfo *info;
-> +
-> +        if (!accel_find(Accelerator_str(accel))) {
-> +            /* Accelerator available at build time but not at runtime. *=
-/
-> +            continue;
-> +        }
-> +
-> +        info =3D g_new0(AcceleratorInfo, 1);
-> +        info->name =3D accel;
-> +        QAPI_LIST_APPEND(tail, info);
-> +    }
-> +
-> +    return list;
-> +}
+> If I'm reading the PoP correctly, turning on concurrent sense only means
+> that we may have sense data already available, but not that it's
+> guaranteed. Would it be enough to look at the relevant bit in the erw
+> and only copy sense data if it is actually set (here and/or above)?
 
-If I read this correctly, there's a subtle difference between the
-information returned by query-accels and the information you can get
-from introspecting query-accels with query-qmp-schema: the latter gives
-you the accelerators compiled into this build of QEMU, the former gives
-you the ones that are actually available at run time.  Suggest to
-mention that in the commit message.
+Maybe the root of the problem is that we actually try to build the esw
+ourselves? If we copy it from the irb received by the hardware, we
+should already have the correct data, I think.
 
-> diff --git a/accel/meson.build b/accel/meson.build
-> index b44ba30c864..7a48f6d568d 100644
-> --- a/accel/meson.build
-> +++ b/accel/meson.build
-> @@ -1,4 +1,4 @@
-> -specific_ss.add(files('accel-common.c'))
-> +specific_ss.add(files('accel-common.c', 'accel-qmp.c'))
->  softmmu_ss.add(files('accel-softmmu.c'))
->  user_ss.add(files('accel-user.c'))
-
-Preferably with the commit message tweaked to address my remarks:
-Acked-by: Markus Armbruster <armbru@redhat.com>
+>
+>> -        memcpy(sch->sense_data, irb.ecw, sizeof(irb.ecw));
+>> -    }
+>> -
+>>  read_err:
+>>      css_inject_io_interrupt(sch);
+>>  }
 
 
