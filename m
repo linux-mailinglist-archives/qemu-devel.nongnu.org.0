@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29553A4B99
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:06:45 +0200 (CEST)
-Received: from localhost ([::1]:33300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10113A4B97
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:05:07 +0200 (CEST)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrrAi-0007VV-Sz
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47426)
+	id 1lrr98-0005Uk-SN
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmu-000364-8B
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:08 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37864)
+ id 1lrqmv-00036Z-CQ
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:09 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:50864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmq-0002m8-D5
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:07 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- 22-20020a17090a0c16b0290164a5354ad0so6725283pjs.2
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:03 -0700 (PDT)
+ id 1lrqms-0002mS-9U
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:09 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id g4so6555273pjk.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=svHo4xej4hLH/cZ+9yekBSSnKW0cEWwyz3UL+6E6tak=;
- b=LsSnWWNhZCKZXxErGASaJSbSaVhnrMmLqcL986FDj0XABrKmWhkKC7fKSPr5fg31q1
- DB7tr4/JV9cc5FpDgX3x7KMN8pebQxZDhSitSmNqX0o1n7gLbv8TS2pfwfyqoyp/tmIk
- rWmMWxc74IT/mAXOp9yjhRemrdtineOCL1D0WfGVHqguhOoYLx4GjjsNGOS0Tat7cjAM
- zulwdL3LdfuovuGbo5rAVxYlcgSNuwiA/ihow40J3vryD7COrl8tpYaIiuNBGBTGQ8Dr
- rq3hsHVhDVS+rw4ih+6ltQds6dSXc7T+KPmuIBWLU8duaib3AZzVsSZbKyw1tBqQsPpo
- epXA==
+ bh=TzNUcN4JD2JTYnUB/p6WRvyMqqqhllIV6sanl9jNAWM=;
+ b=TW8EEaBnKSjAMr2mJYfc9yiD8SenEuoi/UuqdLPKWcX0J+34+tOBHNzNPsNOV+uxn0
+ QvrvEc7h2W442IaC8vgZ/yXwKIfzkEpq9hICNMqQSt7X7YyGWgtvEH7g5Mf3avEkTS9Q
+ Dut9fq6wX4TlkYytJPNKhCC3eO3kg5wNaDT2pJrR1i7e6Za0yPeF3ZRdpTUkHK+H82jR
+ oIS/A3fqyRRbQHLB46cv6eewpLO71g5qqU/OnkkxmFMQgpGyebl3mYLICPJs8mCtT9mE
+ qifbH8m/ri+o9yFRmbcKxsNAKBHMpmwKn8e3ZaqvxeQrpHGAVtofUePZHmFPbyuIfScR
+ hwZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=svHo4xej4hLH/cZ+9yekBSSnKW0cEWwyz3UL+6E6tak=;
- b=UXzXDEoHetqDLrMXiv7Upw/9tZ+2BHv7+I2Miz0m6anUtZA8giao5SZCGUluLTfjeW
- Eire4yr2X6unJNH8MOGDSBTTcqYUl07zS3Hu3B1RCFzK67eSF6xLQ9KBo75nvtFKsGpU
- KxTLAME1WurrcrZdL5wiBAFphzi7q6kmdGHRVy6CR8tODF9mftUuBuAfxiahipHP93h4
- NwJ8BCGZdgIYDN5wlJISX6OLThyGIvoLhk9wBh5IcosiRTC/cYAaS/LiBGgbixgF/pMY
- 9d9F5VECQ2mYO1ZF2kNHZ7bmFSawbSF/4Frhmi7qRJww7L+A1gt9ho6MOgoRewghFf32
- 90eQ==
-X-Gm-Message-State: AOAM533ookCP+DB5fWAx730LyxiuquRem6pwHx7bDghd1VPqgjvqfM/9
- KQ/4mQeLwDcfq15lYrnUqp/I1sFYRT649w==
-X-Google-Smtp-Source: ABdhPJzAHaWRVbTB1XEy5jekOF1DjhuhctWRtaLkfHPH8hyyJR2ozmLt4p2mIfV9Zl9lvD8rtLpgOg==
-X-Received: by 2002:a17:903:8b:b029:119:7c28:727 with SMTP id
- o11-20020a170903008bb02901197c280727mr860199pld.3.1623454923084; 
+ bh=TzNUcN4JD2JTYnUB/p6WRvyMqqqhllIV6sanl9jNAWM=;
+ b=VzhOedsgyo2vDVxXl52LDhR/PLYUIJIDHmkh0zlEwUPBwCusbr/NctWEwgMsYl3qjz
+ 4u0gHOXW6htasggT0+IGU0TrBSdymB7rhO411onGIbLdrHBptn0HRmdys+x5eoCPqMn7
+ GU0T6JZy7JWr+zbTLB505INV/WCD5l9HD5FRMbOqKxvK0z1TbXH4VP0M7gjZoR2jfOnv
+ ErSg12AFiXsNSIuAbGdflZVnB3jYOlX2E6vVd65VYaC+T97ooWK+OCtXTfqNSaOs7n3R
+ VZX9uDV0p5dOQ56n8E0WD8aW4x02P7zUH10q13HfCc2v8KYLMoDSGxborhC6L+5enowm
+ sDqg==
+X-Gm-Message-State: AOAM530QnHFkjH2f4q0NudLZKt2l5OUTl5cJsrJD4Mewngisj1vpArex
+ jCvtgWk+TXB674V+BZFJPTAmk2ivM6b2ig==
+X-Google-Smtp-Source: ABdhPJwFP9OZZN1miaEMr+ewkUTAqBeVwO9zp8EkQzGeo+DLzXWdAkMuMOeh2sLNlBtJhvBLzz9Iuw==
+X-Received: by 2002:a17:903:2093:b029:117:6a8a:f7aa with SMTP id
+ d19-20020a1709032093b02901176a8af7aamr6210507plc.6.1623454923724; 
  Fri, 11 Jun 2021 16:42:03 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.02
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:42:02 -0700 (PDT)
+ Fri, 11 Jun 2021 16:42:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/34] tcg: Move tcg_init_ctx and tcg_ctx from accel/tcg/
-Date: Fri, 11 Jun 2021 16:41:39 -0700
-Message-Id: <20210611234144.653682-30-richard.henderson@linaro.org>
+Subject: [PULL 30/34] tcg: Introduce tcg_remove_ops_after
+Date: Fri, 11 Jun 2021 16:41:40 -0700
+Message-Id: <20210611234144.653682-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,80 +84,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These variables belong to the jit side, not the user side.
+Introduce a function to remove everything emitted
+since a given point.
 
-Since tcg_init_ctx is no longer used outside of tcg/, move
-the declaration to tcg-internal.h.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h         | 1 -
- tcg/tcg-internal.h        | 1 +
- accel/tcg/translate-all.c | 3 ---
- tcg/tcg.c                 | 3 +++
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ include/tcg/tcg.h | 10 ++++++++++
+ tcg/tcg.c         | 13 +++++++++++++
+ 2 files changed, 23 insertions(+)
 
 diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index f48b5aa166..e95abac9f4 100644
+index e95abac9f4..1d056ed0ed 100644
 --- a/include/tcg/tcg.h
 +++ b/include/tcg/tcg.h
-@@ -689,7 +689,6 @@ static inline bool temp_readonly(TCGTemp *ts)
-     return ts->kind >= TEMP_FIXED;
- }
+@@ -1071,6 +1071,16 @@ void tcg_op_remove(TCGContext *s, TCGOp *op);
+ TCGOp *tcg_op_insert_before(TCGContext *s, TCGOp *op, TCGOpcode opc);
+ TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *op, TCGOpcode opc);
  
--extern TCGContext tcg_init_ctx;
- extern __thread TCGContext *tcg_ctx;
- extern const void *tcg_code_gen_epilogue;
- extern uintptr_t tcg_splitwx_diff;
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index f9906523da..181f86507a 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -27,6 +27,7 @@
++/**
++ * tcg_remove_ops_after:
++ * @op: target operation
++ *
++ * Discard any opcodes emitted since @op.  Expected usage is to save
++ * a starting point with tcg_last_op(), speculatively emit opcodes,
++ * then decide whether or not to keep those opcodes after the fact.
++ */
++void tcg_remove_ops_after(TCGOp *op);
++
+ void tcg_optimize(TCGContext *s);
  
- #define TCG_HIGHWATER 1024
- 
-+extern TCGContext tcg_init_ctx;
- extern TCGContext **tcg_ctxs;
- extern unsigned int tcg_cur_ctxs;
- extern unsigned int tcg_max_ctxs;
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 59609d62d5..7929a7e320 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -218,9 +218,6 @@ static int v_l2_levels;
- 
- static void *l1_map[V_L1_MAX_SIZE];
- 
--/* code generation context */
--TCGContext tcg_init_ctx;
--__thread TCGContext *tcg_ctx;
- TBContext tb_ctx;
- 
- static void page_table_config_init(void)
+ /* Allocate a new temporary and initialize it with a constant. */
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 4bb35b455b..81da553244 100644
+index 81da553244..ca482c2301 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -149,6 +149,9 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct);
- static int tcg_out_ldst_finalize(TCGContext *s);
+@@ -2083,6 +2083,19 @@ void tcg_op_remove(TCGContext *s, TCGOp *op)
  #endif
+ }
  
-+TCGContext tcg_init_ctx;
-+__thread TCGContext *tcg_ctx;
++void tcg_remove_ops_after(TCGOp *op)
++{
++    TCGContext *s = tcg_ctx;
 +
- TCGContext **tcg_ctxs;
- unsigned int tcg_cur_ctxs;
- unsigned int tcg_max_ctxs;
++    while (true) {
++        TCGOp *last = tcg_last_op();
++        if (last == op) {
++            return;
++        }
++        tcg_op_remove(s, last);
++    }
++}
++
+ static TCGOp *tcg_op_alloc(TCGOpcode opc)
+ {
+     TCGContext *s = tcg_ctx;
 -- 
 2.25.1
 
