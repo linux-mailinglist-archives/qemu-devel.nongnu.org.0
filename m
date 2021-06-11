@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9023A40C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 13:06:16 +0200 (CEST)
-Received: from localhost ([::1]:40018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692AD3A40CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 13:08:04 +0200 (CEST)
+Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrezP-0004dt-3K
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 07:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
+	id 1lrf17-0006Pa-NB
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 07:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lrey1-0003vl-Br
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:04:49 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lrexz-0001L7-9k
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:04:49 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- h11-20020a05600c350bb02901b59c28e8b4so7941049wmq.1
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 04:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=MIZmPJrYhv1YZeXEB1SNFchrvZh7ufV2VHqbHZ0c/Is=;
- b=ix3PsbSPqX814R8jEwms8SnfpejmXHLrvw4fV7T51wb4p0wbWLaa3XiWUFBaFqR9V9
- 19k/0G9VAay9ZKTUst2h8XaHJwwyg6AObO+U5SiljebIwT2wiO7y1pSc6XpuxRpjj3+x
- Qq0dCcQdf404tsMRv11iyCnEnCvoUbi2HSZM+lKAIcooI40N81DWwl6pe9umWjbf9CdY
- qpGpve9q04/eN0/HP+WUuSz8bRvssXXgoy+vLK7FUhdJMnYiXRGZdQmwRnSrW0CTFruM
- wssukb/pl4DFxA+oax1JTPFmDBXhWnqTJ+eNbY3yPmd+NACiyLpXmgU+4UmFz/1YeaGJ
- Bzuw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrezn-0005YR-Gu
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:06:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lrezh-0002Ob-Ky
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:06:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623409592;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z0xDiPXFFjStcUvDTfMCQL5J0pVkNoaY5Tg5Foz7DtE=;
+ b=bvtbDvCWHYY6T/pPaVyEcSIYDi5G16g1lWRZEpDTs97PPdj3QHLt/73cEC8UrMwxsY993A
+ vdDlVP99rdjw7CcY/1yIokvDhBGjFEZEERUhtGhCxW+I/OwEy6JKt2UOj+EcTOQMRk/o6O
+ GamryDcLPEwyPV+3y7pdH2HUm+rFNiA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-498-ZBH_YosLPpyYwTgWHCadag-1; Fri, 11 Jun 2021 07:06:30 -0400
+X-MC-Unique: ZBH_YosLPpyYwTgWHCadag-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n8-20020a05600c3b88b02901b6e5bcd841so1619082wms.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 04:06:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=MIZmPJrYhv1YZeXEB1SNFchrvZh7ufV2VHqbHZ0c/Is=;
- b=itTyiUhQDZETyv4SjvV5CFrSP9wmLZ8YsTnh3iMqxKTz4MtGrCcvcdDuUUsfTs40I6
- ais5AH9g8NADb+RVLFsYI6ZN6o1Le0aZJqFXmce1Xx4NasUXJ0i0B2dLHLSQmNy5LDPH
- uv/dfe5hZDC6/y+JuKWz9XkbJQXkMbuCKD5ZuGDiHAntOxy8NuDHGmOKRqMGHZbHlsKJ
- kHC/RAhqd/u+vZGZZp1ieHoqx3bLyIcBB863r+Xe/PXJmq8RCDFQ3c1vZ/oNZ0dwS1qE
- ILv+yqoWc9/AmXkgim7rA9Q7gZLkbFbxgSCNgQOPNde8sa1eMQzat3fLxLqwEfW6ckDZ
- LSEQ==
-X-Gm-Message-State: AOAM532jGbeYRZrAAyDQx2ewJItULX/4/bduD5XUHhgM5NUWKM7226nh
- M73u1S/aICTWTkPQf5dypxXXbw==
-X-Google-Smtp-Source: ABdhPJxohUcFnxhv1pZS5AQ3hipNHeyeafMWkKxBwHQTw4vpCMMw3DKAPxPvhGic4qcqRwxiXCqXHA==
-X-Received: by 2002:a7b:c396:: with SMTP id s22mr3318365wmj.131.1623409485548; 
- Fri, 11 Jun 2021 04:04:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f12sm7930353wru.81.2021.06.11.04.04.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 04:04:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C2D01FF7E;
- Fri, 11 Jun 2021 12:04:43 +0100 (BST)
-References: <20210608031425.833536-1-crosa@redhat.com>
- <20210608031425.833536-5-crosa@redhat.com>
- <9770910a-f586-0b79-395c-7154c4693690@amsat.org>
- <CA+bd_6+-je9t3DzegS0uiyC9fCYF++sMXkRJhAz1Dxe2zz-v1A@mail.gmail.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Cleber Rosa Junior <crosa@redhat.com>
-Subject: Re: [PATCH v6 4/4] Jobs based on custom runners: add job
- definitions for QEMU's machines
-Date: Fri, 11 Jun 2021 12:00:12 +0100
-In-reply-to: <CA+bd_6+-je9t3DzegS0uiyC9fCYF++sMXkRJhAz1Dxe2zz-v1A@mail.gmail.com>
-Message-ID: <87czssirw4.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Z0xDiPXFFjStcUvDTfMCQL5J0pVkNoaY5Tg5Foz7DtE=;
+ b=WcHjaXBm7znD6jFIELL8+GR6rOd9HjffUqxAMxBEMeWUoJ03M94QZ6Kn4Mf/FWW/iP
+ 1d6n+FWOmOdM/8GYp+nHbCeX3NCN1BbuIQWSqTYnef5iw1LtZSnfuggymsWbBnTIOgJN
+ ji5WQnuNs4sAbe7cCZtSSCMlBrYe02BFfWU1U7xEuf2lRHymKfe8p54k6/gLTu0VniXU
+ fUcSg009/FaIQoi9ElUKkTf3/QTqdRkRkXVncbBsFbl6uywWcuSwoGndbZ2ba+a1GLyf
+ SWrA3vQbtbHLg/1FwfgOJhKzLzV4LPpE77htlkkD2BbMKqHA8wyLHL+pQ+4mZYmzWltc
+ OBCw==
+X-Gm-Message-State: AOAM530CdkhtZ1wt52nYIhRvxxOyWrFlbWesLo66qJvRjgVVnrNCqxep
+ +up4BWhFDboEh1neZQsUl8NH0QcWq9wFuXDR+CCOJfUzRiktLZaAQabEftuDRhPokPZwjskJIWy
+ TQqL9VQDlN81Z3zs=
+X-Received: by 2002:adf:cf02:: with SMTP id o2mr3345396wrj.365.1623409589648; 
+ Fri, 11 Jun 2021 04:06:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzreZ59hqPbwc8oqHVLP6i1f51fnLdxV2g7sZ6d2ukGMbyhZO2x7DKrA0mc9wBdbFpIXdMxvg==
+X-Received: by 2002:adf:cf02:: with SMTP id o2mr3345383wrj.365.1623409589481; 
+ Fri, 11 Jun 2021 04:06:29 -0700 (PDT)
+Received: from [192.168.1.36] (235.red-83-57-168.dynamicip.rima-tde.net.
+ [83.57.168.235])
+ by smtp.gmail.com with ESMTPSA id q11sm6436675wrx.80.2021.06.11.04.06.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jun 2021 04:06:29 -0700 (PDT)
+Subject: Re: [PATCH] util/oslib-win32: Fix fatal assertion in qemu_try_memalign
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+References: <20210611105846.347954-1-sw@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <dd332a3f-888e-a238-9ee1-f1651b630fe4@redhat.com>
+Date: Fri, 11 Jun 2021 13:06:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210611105846.347954-1-sw@weilnetz.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,64 +98,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/11/21 12:58 PM, Stefan Weil wrote:
+> The function is called with alignment == 0 which caused an assertion.
+> Use the code from oslib_posix.c to fix that regression (introduced
+> by commit ed6f53f9ca9).
+> 
 
-Cleber Rosa Junior <crosa@redhat.com> writes:
+Oops.
 
-> On Tue, Jun 8, 2021 at 2:30 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
->  Hi Alex, Stefan,
->
->  On 6/8/21 5:14 AM, Cleber Rosa wrote:
->  > The QEMU project has two machines (aarch64 and s390x) that can be used
->  > for jobs that do build and run tests.
->
-<snip>
->=20=20
->  Who has access to what and should do what (setup)? How is this list of
->  hw managed btw? Should there be some public visibility (i.e. Wiki)?
->
-> These are good questions, and I believe Alex can answer them about those =
-two machines.  Even though I hooked them up to GitLab,
-> AFAICT he is the ultimate admin (maybe Peter too?).
->
-> About hardware management, it has been suggested to use either the Wiki o=
-r a MAINTAINERS entry.  This is still unresolved and feedback
-> would be appreciated.  For me to propose a MAINTAINERS entry, say, on
-> a v7, I'd need the information on who is managing them.
+Can we replace '(introduced by commit ed6f53f9ca9)' by:
+Fixes: ed6f53f9ca9 ("util/oslib: Assert qemu_try_memalign() alignment is
+a power of 2")
 
-I can only talk about aarch64.ci.qemu.org which is a donated Equinix
-machine that comes from the WorksOnArm initiative. I applied for it on
-behalf of the QEMU project and we can have it for as long as it's
-useful.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I don't know if we need anything more that documenting the nominal
-contacts in:
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>  util/oslib-win32.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index ca99356fdf..7b318ea835 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -57,7 +57,11 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+>      void *ptr;
+>  
+>      g_assert(size != 0);
+> -    g_assert(is_power_of_2(alignment));
+> +    if (alignment < sizeof(void *)) {
+> +        alignment = sizeof(void *);
+> +    } else {
+> +        g_assert(is_power_of_2(alignment));
+> +    }
+>      ptr = _aligned_malloc(size, alignment);
+>      trace_qemu_memalign(alignment, size, ptr);
+>      return ptr;
+> 
 
-  https://wiki.qemu.org/AdminContacts
-
->  Is there a document explaining what are the steps to follow for an
->  entity to donate / sponsor hardware? Where would it be stored, should
->  this hw be shipped somewhere? What documentation should be provided for
->  its system administration?
-
-I think the project can only really work with donations out of someones
-data centre where they keep responsibility for the physical aspects of
-any machines including the ongoing hosting and running costs.
-
---=20
-Alex Benn=C3=A9e
 
