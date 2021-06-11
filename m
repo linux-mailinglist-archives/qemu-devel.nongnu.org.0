@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880CE3A4127
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 13:19:54 +0200 (CEST)
-Received: from localhost ([::1]:33874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3023A4133
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 13:23:38 +0200 (CEST)
+Received: from localhost ([::1]:36434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrfCb-0002w6-Jg
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 07:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
+	id 1lrfGD-0004xz-CF
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 07:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lrfAW-0000Ov-EA
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:17:44 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lrfAU-000146-Pk
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:17:44 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id a20so5688640wrc.0
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 04:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=9tmKiz1Kd0zxkt3OjbB49LLqHhNJGB4HuXio0nrE2LY=;
- b=inqqbJZWRIDSiFx5jVSqLi9Lr7Voh9lOV3IKVQ2FoyMfo17H1ZdlXTw6od4uFCbdJh
- XCRj0LZSYiStrW83iDr3vIviNdZDTtl2cOHEUfB9aY5DsUXqtbvk3xznUOR+kQPK7crW
- Ql6FUWoAVLRiqMZAiUOyObyXvVvuYpUUdoKKx2+FO4Z7hviVz+1qGn/SYlR+nU43wVEq
- V6OeqVrNO2IBzm7G/nh9l3xo3EMUXG6WGBbnA5q3cAog8RNvdIXdjyfiTpUOx9jnRNAX
- q1WVZocLZ+JC0fLkhbSgGaMfM75YymPvTcU02Ivm0VjfzC0ZA9nY2lVw8Y0f7iLUmTcc
- G6pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=9tmKiz1Kd0zxkt3OjbB49LLqHhNJGB4HuXio0nrE2LY=;
- b=V+gi6H2LgwS27KHr3NZ/zV+ayh+fU27LWb/FKXfAhm2ysupQsn3pEbfq6WTtWzb/wM
- kduoqV/t1r/qezvVo644mD6hL21hLUqm7bUcNc1etYfiMj1TdS1Ren2M+4Tof4c3EjFn
- bET2QzMzGBY2bQkrFbIUhULsvV3FBRvtGS88PY2HdSWA2telmXvUD7muLbyR2PGBQfKB
- dBH/HIzTG2R9OEnPE1WyN5hia6cEuq4qOzjqDF2Qv+Ee7lgq2Kf/tJy75l0W8933jpJu
- IJ5j2WqmMyvoYGTSpVq0VX9rVn+OQUXTUR7rozEyKVTJqI4CHBWum1gzGp0fVM9djsBD
- RjYg==
-X-Gm-Message-State: AOAM531WmNveXGDQ6dxhT12mBhon9hLsJLZlHlQah2JBGx32PcNGgw7R
- O4fJSLKs2mCVhD3KET248tejtQ==
-X-Google-Smtp-Source: ABdhPJxhSjX5dg02/FY80tGFzp9Nal4/gcOKoWfNW3ao5lM0O44+U7vX95UOOTvmuw3knwlPULByag==
-X-Received: by 2002:a5d:628d:: with SMTP id k13mr3462494wru.410.1623410260990; 
- Fri, 11 Jun 2021 04:17:40 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o6sm7253937wre.73.2021.06.11.04.17.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 04:17:39 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 666031FF7E;
- Fri, 11 Jun 2021 12:17:39 +0100 (BST)
-References: <20210610164111.233902-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] tcg: Fix documentation for tcg_constant_* vs
- tcg_temp_free_*
-Date: Fri, 11 Jun 2021 12:17:32 +0100
-In-reply-to: <20210610164111.233902-1-richard.henderson@linaro.org>
-Message-ID: <877dj0irak.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lrfEc-00049o-Tp
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:21:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lrfEX-0003nN-Ee
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 07:21:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623410512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T9LY7V734PnvOmhOkhR3bPQMtuTwCSz0b/uOMK0z1VM=;
+ b=YSmpQnZv2ICIugjo8+kFIhnMo+P97tbNW+CM9QLEZfNGhQDYsGfb3OacYasQwulJ2XTJ3S
+ Lef3o2iESlBZhZp3CMRRz+UifbnsW4ciqW08sTI8ezy8EpXhwnvm1wPQbhDyhDd1R/BO5n
+ DYsmypcUWLxj71NhozyI6taEYadyHYU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-kZvMiTGNOUm2Xybgsd02jg-1; Fri, 11 Jun 2021 07:21:49 -0400
+X-MC-Unique: kZvMiTGNOUm2Xybgsd02jg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A97D88015A4;
+ Fri, 11 Jun 2021 11:21:48 +0000 (UTC)
+Received: from redhat.com (ovpn-114-101.ams2.redhat.com [10.36.114.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DA256091A;
+ Fri, 11 Jun 2021 11:21:47 +0000 (UTC)
+Date: Fri, 11 Jun 2021 13:21:45 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
+Message-ID: <YMNHSZ+Dc8v7/80Q@redhat.com>
+References: <20210607202204.1805199-1-nsoffer@redhat.com>
+ <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
+ <CAMRbyyukE9iTmM6OB_xAA1n6tRiRRxwKojaO5wzRwAR-8-FX3g@mail.gmail.com>
+ <20210610183443.clk43ngkobzyjopy@redhat.com>
+ <CAMRbyysoYhcyiP2mWubfZsj09k=Ea_3-RPr+Tt7KvoE1z3jrNA@mail.gmail.com>
+ <20210610204617.fuj4ivqrixpz4qfj@redhat.com>
+ <YMMaJcKYe8nHDdjU@redhat.com>
+ <49ed9c03-eb24-4e8a-1b5f-8a291466a7b9@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <49ed9c03-eb24-4e8a-1b5f-8a291466a7b9@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,24 +82,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Nir Soffer <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Nir Soffer <nsoffer@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 11.06.2021 um 10:14 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 11.06.2021 11:09, Kevin Wolf wrote:
+> > Am 10.06.2021 um 22:46 hat Eric Blake geschrieben:
+> > > On Thu, Jun 10, 2021 at 11:09:05PM +0300, Nir Soffer wrote:
+> > > > > But:
+> > > > > 
+> > > > > $ qemu-img map --output=json -f qcow2 json:'{"driver":"qcow2","backing":null, \
+> > > > >    "file":{"driver":"file","filename":"top.qcow2"}}'
+> > > > > [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false},
+> > > > > { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+> > > > > { "start": 131072, "length": 131072, "depth": 0, "zero": true, "data": false}]
+> > > > > 
+> > > > > also reports the entire file at "depth":0, which is misleading, since
+> > > > > we have just been arguing from the qemu:allocation-depth perspective
+> > > > > (and also from bdrv_block_status) that the qcow2 image is NOT 100%
+> > > > > allocated (in the sense where allocation == data comes locally).
+> > > > > Perhaps it might be better if we tweaked the above qemu-img map to
+> > > > > produce:
+> > > > > 
+> > > > > [{ "start": 0, "length": 65536, "depth": -1, "zero": true, "data": false},
+> > > > > { "start": 65536, "length": 65536, "depth": 0, "zero": false, "data": true, "offset": 327680},
+> > > > > { "start": 131072, "length": 65536, "depth": 0, "zero": true, "data": false},
+> > > > > { "start": 196608, "length": 65536, "depth": -1, "zero": true, "data": false}]
+> > > > 
+> > > > It will be more consistent with "offset" to drop "depth" from output
+> > > > if we don't have it:
+> > > > 
+> > > >      [{ "start": 0, "length": 65536, "zero": true, "data": false},
+> > > >       { "start": 65536, "length": 65536, "depth": 0, "zero": false,
+> > > > "data": true, "offset": 327680},
+> > > >       { "start": 131072, "length": 65536, "depth": 0, "zero": true,
+> > > > "data": false},
+> > > >       { "start": 196608, "length": 65536, "zero": true, "data": false}]
+> > > 
+> > > Yes, that might work as well.  But we didn't previously document
+> > > depth to be optional.  Removing something from output risks breaking
+> > > more downstream tools that expect it to be non-optional, compared to
+> > > providing a new value.
+> > 
+> > A negative value isn't any less unexpected than a missing key. I don't
+> > think any existing tool would be able to handle it. Encoding different
+> > meanings in a single value isn't very QAPI-like either. Usually strings
+> > that are parsed are the problem, but negative integers really isn't that
+> > much different. I don't really like this solution.
+> > 
+> > Leaving out the depth feels like a better suggestion to me.
+> > 
+> > But anyway, this seems to only happen at the end of the backing chain.
+> > So if the backing chain consistents of n images, why not report 'depth':
+> > n + 1? So, in the above example, you would get 1. I think this has the
+> > best chances of tools actually working correctly with the new output,
+> > even though it's still not unlikely to break something.
+> > 
+> 
+> Did you consider just add a new field?
+> 
+> So, "depth" keeps its meaning "which level provides data".
+> 
+> And we add additional optional field like
+> 
+> absolutely-completely-absent: bool
+> 
+> Which is true if data is nowhere in the backing chain.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Or how about exposing BDRV_BLOCK_ALLOCATED as 'allocated': 'bool'? Which
+I think is what the conclusion was already for NBD, so doing the same in
+'qemu-img map' would be consistent.
 
-> At some point during the development of tcg_constant_*, I changed
-> my mind about whether such temps should be able to be passed to
-> tcg_temp_free_*.  The final version committed allows this, but the
-> commentary was not updated to match.
->
-> Fixes: c0522136adf
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+This is, of course, almost the same as 'absolutely-completely-absent',
+just without the negating the flag.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Kevin
 
---=20
-Alex Benn=C3=A9e
 
