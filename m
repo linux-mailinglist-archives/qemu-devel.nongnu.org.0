@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B2C3A39D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 04:34:29 +0200 (CEST)
-Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0E73A3A74
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 05:43:28 +0200 (CEST)
+Received: from localhost ([::1]:57040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrX08-0007IF-DC
-	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 22:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
+	id 1lrY4s-0006Vb-Mz
+	for lists+qemu-devel@lfdr.de; Thu, 10 Jun 2021 23:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrWzR-0006Wp-5f; Thu, 10 Jun 2021 22:33:45 -0400
-Received: from out28-1.mail.aliyun.com ([115.124.28.1]:47533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrWzN-0001fD-BB; Thu, 10 Jun 2021 22:33:44 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07796431|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0845167-0.00297521-0.912508;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047198; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KQmAr0O_1623378811; 
-Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KQmAr0O_1623378811)
- by smtp.aliyun-inc.com(10.147.41.138);
- Fri, 11 Jun 2021 10:33:31 +0800
-Subject: Re: TCG op for 32 bit only cpu on qemu-riscv64
-To: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-References: <97935519-42c8-71c8-3d87-30aa4cafc909@c-sky.com>
- <618e9348-c420-b560-1f67-3608023985a7@linaro.org>
- <7ac5990e-5f87-3d96-d8b5-bd7997fac0ee@c-sky.com>
- <eb54d2d9-db15-e2d7-e245-f61587b0ca4e@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <980660a9-0c4b-bd37-e47b-9b5e1d128aef@c-sky.com>
-Date: Fri, 11 Jun 2021 10:33:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1lrY40-0005oG-3r
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 23:42:32 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:49659
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>) id 1lrY3x-0005T8-Rd
+ for qemu-devel@nongnu.org; Thu, 10 Jun 2021 23:42:31 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AK3GZU6uHtZbffoYSaa1ojhvT7skDStV00zEX?=
+ =?us-ascii?q?/kB9WHVpm62j5qSTdZEguCMc5wx+ZJheo7q90cW7IE80lqQFhLX5X43SPzUO0V?=
+ =?us-ascii?q?HARO5fBODZsl/d8kPFltJ15ONJdqhSLJnKB0FmsMCS2mKFOudl7N6Z0K3Av4vj?=
+ =?us-ascii?q?80s=3D?=
+X-IronPort-AV: E=Sophos;i="5.83,265,1616428800"; d="scan'208";a="109486406"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 11 Jun 2021 11:42:23 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+ by cn.fujitsu.com (Postfix) with ESMTP id 513514C369E6;
+ Fri, 11 Jun 2021 11:42:21 +0800 (CST)
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 11 Jun 2021 11:42:15 +0800
+Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Fri, 11 Jun 2021 11:42:17 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: <xiaoguangrong.eric@gmail.com>
+Subject: [PATCH] docs/nvdimm: update doc
+Date: Fri, 11 Jun 2021 11:41:33 +0800
+Message-ID: <20210611034133.472812-1-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <eb54d2d9-db15-e2d7-e245-f61587b0ca4e@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.1; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-1.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-yoursite-MailScanner-ID: 513514C369E6.A8F06
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,86 +65,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The prompt was updated since def835f0da ('hostmem: Don't report pmem attribute if unsupported')
 
-On 6/10/21 9:29 PM, Richard Henderson wrote:
-> On 6/9/21 6:43 PM, LIU Zhiwei wrote:
->> 1)First a multiply instruction, if the source value big enough, it 
->> will return a result with some bits not zero in MSW 32-bit.
->
-> Multiply is fine.  Input bits outside the low 32 cannot appear in the 
-> low 32 of the output.  Multiply-high-part on the other hand will 
-> require sign- or zero-extension of inputs.
->
->> 2)If next instruction is a divide instruction,  the MSW 32-bit will 
->> influence the divide instruction result.
->
-> Yes, division requires extension too.
->
->> So I think use *_tl can't satisfy the need to run 32-bit program on 
->> qemu-riscv64.
->
-> I said some operations will require extra work -- I gave right-shift 
-> as an example.
->
-> You just have to be careful about deciding what extra work to do. I am 
-> suggesting that truncation to *_i32 is almost always not the correct 
-> answer.
->
-> Perhaps make it easier by changing gen_get_gpr and gen_set_gpr:
->
-> /* Return sign-extended version of gpr. */
-> static void get_gpr_s(DisasContext *ctx, TCGv t, int reg_num)
-> {
->     if (reg_num == 0) {
->         tcg_gen_movi_tl(t, 0);
->     } else if (is_32bit(ctx)) {
->         tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
->     } else {
->         tcg_gen_mov_tl(t, cpu_gpr[reg_num]);
->     }
-> }
->
-> /* Return zero-extended version of gpr. */
-> static void get_gpr_u(DisasContext *ctx, TCGv t, int reg_num);
-> {
->     if (reg_num == 0) {
->         tcg_gen_movi_tl(t, 0);
->     } else if (is_32bit(ctx)) {
->         tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
->     } else {
->         tcg_gen_mov_tl(t, cpu_gpr[reg_num]);
->     }
-> }
->
-> /* Return gpr with undefined high bits (which will be ignored). */
-> static void get_gpr_x(TCGv t, int reg_num);
-> {
->     if (reg_num == 0) {
->         tcg_gen_movi_tl(t, 0);
->     } else {
->         tcg_gen_mov_tl(t, cpu_gpr[reg_num]);
->     }
-> }
->
-> And similarly for set.
->
-It's very instructive. Thanks.
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+---
+ docs/nvdimm.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I once thought we have to split the registers in CPURISCVSTATE into two 
-parts, gpr32 or gpr64.
-Now I think we can still use most currently work with  a small 
-cost(tcg_gen_ext32s_i64 has more cost than tcg_gen_mov_i32)
+diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+index 0aae682be3e..71cdbdf554b 100644
+--- a/docs/nvdimm.txt
++++ b/docs/nvdimm.txt
+@@ -247,7 +247,8 @@ is built with libpmem [2] support (configured with --enable-libpmem), QEMU
+ will take necessary operations to guarantee the persistence of its own writes
+ to the vNVDIMM backend(e.g., in vNVDIMM label emulation and live migration).
+ If 'pmem' is 'on' while there is no libpmem support, qemu will exit and report
+-a "lack of libpmem support" message to ensure the persistence is available.
++a "lack of libpmem support" (or "Invalid parameter 'pmem'" since v6.0.0)
++message to ensure the persistence is available.
+ For example, if we want to ensure the persistence for some backend file,
+ use the QEMU command line:
+ 
+-- 
+2.30.2
 
-I will have a try later. Thanks again.
 
-Best Regards,
-Zhiwei
 
->
-> r~
 
