@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05693A4B62
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 01:47:40 +0200 (CEST)
-Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912623A4B71
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 01:54:25 +0200 (CEST)
+Received: from localhost ([::1]:56402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrqsF-0004dL-TQ
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 19:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47044)
+	id 1lrqym-0001ig-J7
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 19:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqme-0002Lj-04
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:41:52 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38435)
+ id 1lrqmh-0002Wa-Pm
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:41:55 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmc-0002Zu-6n
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:41:51 -0400
-Received: by mail-pg1-x529.google.com with SMTP id t17so3679517pga.5
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:41:49 -0700 (PDT)
+ id 1lrqmd-0002bW-Ek
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:41:55 -0400
+Received: by mail-pf1-x432.google.com with SMTP id d16so5669167pfn.12
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:41:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UGCE0hBuujlu+HiYuNrthLkWxka9AZtIh3/7kEDtjdA=;
- b=i1NngS7b7TVu0uaIggAkqclZ4+BbnJ1A3bvlRY5SD+J8SE5JgHNndSGA/RqZ9ZvSwa
- 4uke/wDxu1SAHz77wxLCf/ysnwQ4PLcTrHmaYxkYEMINfxtMom5ASUJlw+GgWc0Yd8Jo
- iOJs9BNVCdF5f1MFGWeWsCKzFeVmKBHumQSuE52Icl3KSHVtwDsw/f2tqfyDlSbjV2sk
- 1aFGkIoVRwVFugX+8OF6E66ts6m6NfdcUG5eO7WYpMHSAp2qltK3uqPd270+7tdNYHpG
- Vhdg0vBsH+2ef9YJBZNX/cDM7PK2ayA20+RTO4Pg75N8a9iIb7fvkY1E3tK51UkGZ/yP
- u4Aw==
+ bh=Ckmgu6xkFrumPVTVPqWAkYR5TKM7Uc1N43XEA579zJc=;
+ b=BV4uAJM9KcnEijnvGj/SkVE4JpyemKj68phT5BYQpXC+sA48c1fkJ8YwY+onfENNYC
+ OxivLy/ZV1dwNhi9kzwI0Yl8Zhg8u6EzKtXC3CuGUgUIL/XjusfWJI3JvEzmdxzxAsrz
+ zEtBewdH9MqP4HeVyBxl4a+qXLkcUexPkG9icclHRyfZ9ULGIc1r0ZJxC5CiYYwuoCJI
+ vnbvWjhN2saqtF48FCpZfGC1pDgAJ5YCqE/E7HNG1pfNADweyFWUs4JoAt4F14xEOAz2
+ Id7//DNBFwRe1w8NI+8J78o6KzoIttB8mjwEpmhskH8PVh3D2wyAywaGxxeLtifoTdut
+ i7XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UGCE0hBuujlu+HiYuNrthLkWxka9AZtIh3/7kEDtjdA=;
- b=XjTlnxCuYJoJM1iaPuvG+EQmd+Qlm1u3Y3PDrsOnFgc8gU43EDvUwAaHUhzxQzpC8G
- INxZfRDDFeGygfZhCAm10tbbB/mT8o+8SWEuAwr/CUs0vVcd00c/RvyBpltDcRKHXc5R
- OBD437658PhTzPgdpakwS959nJiMHlAiXVYEAFeXylpigKH/rCh+kK+//cTUUn3EwkWP
- 5AMAzhcgBUBLK7nTKADPIMy1DQWV2OmZo7TyddQVThd4MAo1HVvuGR5hS6D8m3TiUVE9
- h1XBC9j2WrEim3TxNwIBQ1yI156kJbyh3KDYVUuOOQjmxqlEIzP5X3FrVQ/XjNxvAqsQ
- JSlA==
-X-Gm-Message-State: AOAM531YADv5NM70H7YnmY1dxcsJ8B4djVPsCBBXXMJDrLJGsZURvdkr
- MJZ1uuZv+SH0SzWsANFDyt8axEW0PEGmww==
-X-Google-Smtp-Source: ABdhPJwLAwrxIaqvPEceWX9ZrW/32GQJA6KBY13q5+Vb8a+oHuTO3JWrwXmzFMISxZzGneaZBxetrA==
-X-Received: by 2002:a63:e0e:: with SMTP id d14mr5877297pgl.426.1623454909009; 
+ bh=Ckmgu6xkFrumPVTVPqWAkYR5TKM7Uc1N43XEA579zJc=;
+ b=clF+divuZZZHGkbEVo4EJluleitG4nO72cTmYkBs3aTbIRlPaQ6Mrh+X3Qm1DaiSTL
+ Cq4szTjPIXikF25so9Vzu9NUbHetnfBTWpXV9LEu5xM+7DciAz8o4ajnXazt0zc5T8aL
+ xVtTO4zQ5juiV9a7yn1+y91+HFO68nCqrLC/wlL0c4wKg3PrvYvTLmUOVmx0J5AUCENN
+ SVs5k+oYnGtA/VlkgpkjkzGiAAOfkLNXHiv+brcwXl+ppC2eCkjr2VaWDnT96i23weIR
+ Lo97lP1lsIeLBtdLld86fBXle9T+eD0xVytA2dgCcGjU5h9Lwwvxfxz374CMepz6OeIk
+ CZuQ==
+X-Gm-Message-State: AOAM533YuCdb0HJEv7VFYzLWx3i1Z0fbgctsEf0oaeXNtwks4SJv6Khb
+ gKjHkw4JesWnLD0LQtuz5rIRSk3oDycwzA==
+X-Google-Smtp-Source: ABdhPJywzZJ5YgEtWcl7GIS20j04rRa9URIDvN1Ik31wspPSB678Y25dwVlRCowXliQGm4bXubbYmA==
+X-Received: by 2002:a62:2901:0:b029:28e:ef3d:10d2 with SMTP id
+ p1-20020a6229010000b029028eef3d10d2mr10520721pfp.45.1623454909615; 
  Fri, 11 Jun 2021 16:41:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.48
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:41:48 -0700 (PDT)
+ Fri, 11 Jun 2021 16:41:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/34] tcg: Split out tcg_region_prologue_set
-Date: Fri, 11 Jun 2021 16:41:16 -0700
-Message-Id: <20210611234144.653682-7-richard.henderson@linaro.org>
+Subject: [PULL 07/34] tcg: Split out region.c
+Date: Fri, 11 Jun 2021 16:41:17 -0700
+Message-Id: <20210611234144.653682-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,33 +90,561 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has only one user, but will make more sense after some
-code motion.
-
-Always leave the tcg_init_ctx initialized to the first region,
-in preparation for tcg_prologue_init().  This also requires
-that we don't re-allocate the region for the first cpu, lest
-we hit the assertion for total number of regions allocated .
-
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ tcg/tcg-internal.h |  37 +++
+ tcg/region.c       | 572 +++++++++++++++++++++++++++++++++++++++++++++
+ tcg/tcg.c          | 547 +------------------------------------------
+ tcg/meson.build    |   1 +
+ 4 files changed, 613 insertions(+), 544 deletions(-)
+ create mode 100644 tcg/tcg-internal.h
+ create mode 100644 tcg/region.c
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 36ea21d596..eca72990c1 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -882,10 +882,26 @@ void tcg_region_init(void)
- 
-     tcg_region_trees_init();
- 
--    /* In user-mode we support only one ctx, so do the initial allocation now */
--#ifdef CONFIG_USER_ONLY
--    tcg_region_initial_alloc__locked(tcg_ctx);
--#endif
+diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
+new file mode 100644
+index 0000000000..b1dda343c2
+--- /dev/null
++++ b/tcg/tcg-internal.h
+@@ -0,0 +1,37 @@
++/*
++ * Internal declarations for Tiny Code Generator for QEMU
++ *
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef TCG_INTERNAL_H
++#define TCG_INTERNAL_H 1
++
++#define TCG_HIGHWATER 1024
++
++extern TCGContext **tcg_ctxs;
++extern unsigned int n_tcg_ctxs;
++
++bool tcg_region_alloc(TCGContext *s);
++void tcg_region_initial_alloc(TCGContext *s);
++void tcg_region_prologue_set(TCGContext *s);
++
++#endif /* TCG_INTERNAL_H */
+diff --git a/tcg/region.c b/tcg/region.c
+new file mode 100644
+index 0000000000..6e34fcf775
+--- /dev/null
++++ b/tcg/region.c
+@@ -0,0 +1,572 @@
++/*
++ * Memory region management for Tiny Code Generator for QEMU
++ *
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "exec/exec-all.h"
++#include "tcg/tcg.h"
++#if !defined(CONFIG_USER_ONLY)
++#include "hw/boards.h"
++#endif
++#include "tcg-internal.h"
++
++
++struct tcg_region_tree {
++    QemuMutex lock;
++    GTree *tree;
++    /* padding to avoid false sharing is computed at run-time */
++};
++
++/*
++ * We divide code_gen_buffer into equally-sized "regions" that TCG threads
++ * dynamically allocate from as demand dictates. Given appropriate region
++ * sizing, this minimizes flushes even when some TCG threads generate a lot
++ * more code than others.
++ */
++struct tcg_region_state {
++    QemuMutex lock;
++
++    /* fields set at init time */
++    void *start;
++    void *start_aligned;
++    void *end;
++    size_t n;
++    size_t size; /* size of one region */
++    size_t stride; /* .size + guard size */
++
++    /* fields protected by the lock */
++    size_t current; /* current region index */
++    size_t agg_size_full; /* aggregate size of full regions */
++};
++
++static struct tcg_region_state region;
++
++/*
++ * This is an array of struct tcg_region_tree's, with padding.
++ * We use void * to simplify the computation of region_trees[i]; each
++ * struct is found every tree_size bytes.
++ */
++static void *region_trees;
++static size_t tree_size;
++
++/* compare a pointer @ptr and a tb_tc @s */
++static int ptr_cmp_tb_tc(const void *ptr, const struct tb_tc *s)
++{
++    if (ptr >= s->ptr + s->size) {
++        return 1;
++    } else if (ptr < s->ptr) {
++        return -1;
++    }
++    return 0;
++}
++
++static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp)
++{
++    const struct tb_tc *a = ap;
++    const struct tb_tc *b = bp;
++
++    /*
++     * When both sizes are set, we know this isn't a lookup.
++     * This is the most likely case: every TB must be inserted; lookups
++     * are a lot less frequent.
++     */
++    if (likely(a->size && b->size)) {
++        if (a->ptr > b->ptr) {
++            return 1;
++        } else if (a->ptr < b->ptr) {
++            return -1;
++        }
++        /* a->ptr == b->ptr should happen only on deletions */
++        g_assert(a->size == b->size);
++        return 0;
++    }
++    /*
++     * All lookups have either .size field set to 0.
++     * From the glib sources we see that @ap is always the lookup key. However
++     * the docs provide no guarantee, so we just mark this case as likely.
++     */
++    if (likely(a->size == 0)) {
++        return ptr_cmp_tb_tc(a->ptr, b);
++    }
++    return ptr_cmp_tb_tc(b->ptr, a);
++}
++
++static void tcg_region_trees_init(void)
++{
++    size_t i;
++
++    tree_size = ROUND_UP(sizeof(struct tcg_region_tree), qemu_dcache_linesize);
++    region_trees = qemu_memalign(qemu_dcache_linesize, region.n * tree_size);
++    for (i = 0; i < region.n; i++) {
++        struct tcg_region_tree *rt = region_trees + i * tree_size;
++
++        qemu_mutex_init(&rt->lock);
++        rt->tree = g_tree_new(tb_tc_cmp);
++    }
++}
++
++static struct tcg_region_tree *tc_ptr_to_region_tree(const void *p)
++{
++    size_t region_idx;
++
++    /*
++     * Like tcg_splitwx_to_rw, with no assert.  The pc may come from
++     * a signal handler over which the caller has no control.
++     */
++    if (!in_code_gen_buffer(p)) {
++        p -= tcg_splitwx_diff;
++        if (!in_code_gen_buffer(p)) {
++            return NULL;
++        }
++    }
++
++    if (p < region.start_aligned) {
++        region_idx = 0;
++    } else {
++        ptrdiff_t offset = p - region.start_aligned;
++
++        if (offset > region.stride * (region.n - 1)) {
++            region_idx = region.n - 1;
++        } else {
++            region_idx = offset / region.stride;
++        }
++    }
++    return region_trees + region_idx * tree_size;
++}
++
++void tcg_tb_insert(TranslationBlock *tb)
++{
++    struct tcg_region_tree *rt = tc_ptr_to_region_tree(tb->tc.ptr);
++
++    g_assert(rt != NULL);
++    qemu_mutex_lock(&rt->lock);
++    g_tree_insert(rt->tree, &tb->tc, tb);
++    qemu_mutex_unlock(&rt->lock);
++}
++
++void tcg_tb_remove(TranslationBlock *tb)
++{
++    struct tcg_region_tree *rt = tc_ptr_to_region_tree(tb->tc.ptr);
++
++    g_assert(rt != NULL);
++    qemu_mutex_lock(&rt->lock);
++    g_tree_remove(rt->tree, &tb->tc);
++    qemu_mutex_unlock(&rt->lock);
++}
++
++/*
++ * Find the TB 'tb' such that
++ * tb->tc.ptr <= tc_ptr < tb->tc.ptr + tb->tc.size
++ * Return NULL if not found.
++ */
++TranslationBlock *tcg_tb_lookup(uintptr_t tc_ptr)
++{
++    struct tcg_region_tree *rt = tc_ptr_to_region_tree((void *)tc_ptr);
++    TranslationBlock *tb;
++    struct tb_tc s = { .ptr = (void *)tc_ptr };
++
++    if (rt == NULL) {
++        return NULL;
++    }
++
++    qemu_mutex_lock(&rt->lock);
++    tb = g_tree_lookup(rt->tree, &s);
++    qemu_mutex_unlock(&rt->lock);
++    return tb;
++}
++
++static void tcg_region_tree_lock_all(void)
++{
++    size_t i;
++
++    for (i = 0; i < region.n; i++) {
++        struct tcg_region_tree *rt = region_trees + i * tree_size;
++
++        qemu_mutex_lock(&rt->lock);
++    }
++}
++
++static void tcg_region_tree_unlock_all(void)
++{
++    size_t i;
++
++    for (i = 0; i < region.n; i++) {
++        struct tcg_region_tree *rt = region_trees + i * tree_size;
++
++        qemu_mutex_unlock(&rt->lock);
++    }
++}
++
++void tcg_tb_foreach(GTraverseFunc func, gpointer user_data)
++{
++    size_t i;
++
++    tcg_region_tree_lock_all();
++    for (i = 0; i < region.n; i++) {
++        struct tcg_region_tree *rt = region_trees + i * tree_size;
++
++        g_tree_foreach(rt->tree, func, user_data);
++    }
++    tcg_region_tree_unlock_all();
++}
++
++size_t tcg_nb_tbs(void)
++{
++    size_t nb_tbs = 0;
++    size_t i;
++
++    tcg_region_tree_lock_all();
++    for (i = 0; i < region.n; i++) {
++        struct tcg_region_tree *rt = region_trees + i * tree_size;
++
++        nb_tbs += g_tree_nnodes(rt->tree);
++    }
++    tcg_region_tree_unlock_all();
++    return nb_tbs;
++}
++
++static gboolean tcg_region_tree_traverse(gpointer k, gpointer v, gpointer data)
++{
++    TranslationBlock *tb = v;
++
++    tb_destroy(tb);
++    return FALSE;
++}
++
++static void tcg_region_tree_reset_all(void)
++{
++    size_t i;
++
++    tcg_region_tree_lock_all();
++    for (i = 0; i < region.n; i++) {
++        struct tcg_region_tree *rt = region_trees + i * tree_size;
++
++        g_tree_foreach(rt->tree, tcg_region_tree_traverse, NULL);
++        /* Increment the refcount first so that destroy acts as a reset */
++        g_tree_ref(rt->tree);
++        g_tree_destroy(rt->tree);
++    }
++    tcg_region_tree_unlock_all();
++}
++
++static void tcg_region_bounds(size_t curr_region, void **pstart, void **pend)
++{
++    void *start, *end;
++
++    start = region.start_aligned + curr_region * region.stride;
++    end = start + region.size;
++
++    if (curr_region == 0) {
++        start = region.start;
++    }
++    if (curr_region == region.n - 1) {
++        end = region.end;
++    }
++
++    *pstart = start;
++    *pend = end;
++}
++
++static void tcg_region_assign(TCGContext *s, size_t curr_region)
++{
++    void *start, *end;
++
++    tcg_region_bounds(curr_region, &start, &end);
++
++    s->code_gen_buffer = start;
++    s->code_gen_ptr = start;
++    s->code_gen_buffer_size = end - start;
++    s->code_gen_highwater = end - TCG_HIGHWATER;
++}
++
++static bool tcg_region_alloc__locked(TCGContext *s)
++{
++    if (region.current == region.n) {
++        return true;
++    }
++    tcg_region_assign(s, region.current);
++    region.current++;
++    return false;
++}
++
++/*
++ * Request a new region once the one in use has filled up.
++ * Returns true on error.
++ */
++bool tcg_region_alloc(TCGContext *s)
++{
++    bool err;
++    /* read the region size now; alloc__locked will overwrite it on success */
++    size_t size_full = s->code_gen_buffer_size;
++
++    qemu_mutex_lock(&region.lock);
++    err = tcg_region_alloc__locked(s);
++    if (!err) {
++        region.agg_size_full += size_full - TCG_HIGHWATER;
++    }
++    qemu_mutex_unlock(&region.lock);
++    return err;
++}
++
++/*
++ * Perform a context's first region allocation.
++ * This function does _not_ increment region.agg_size_full.
++ */
++static void tcg_region_initial_alloc__locked(TCGContext *s)
++{
++    bool err = tcg_region_alloc__locked(s);
++    g_assert(!err);
++}
++
++void tcg_region_initial_alloc(TCGContext *s)
++{
++    qemu_mutex_lock(&region.lock);
++    tcg_region_initial_alloc__locked(s);
++    qemu_mutex_unlock(&region.lock);
++}
++
++/* Call from a safe-work context */
++void tcg_region_reset_all(void)
++{
++    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
++    unsigned int i;
++
++    qemu_mutex_lock(&region.lock);
++    region.current = 0;
++    region.agg_size_full = 0;
++
++    for (i = 0; i < n_ctxs; i++) {
++        TCGContext *s = qatomic_read(&tcg_ctxs[i]);
++        tcg_region_initial_alloc__locked(s);
++    }
++    qemu_mutex_unlock(&region.lock);
++
++    tcg_region_tree_reset_all();
++}
++
++#ifdef CONFIG_USER_ONLY
++static size_t tcg_n_regions(void)
++{
++    return 1;
++}
++#else
++/*
++ * It is likely that some vCPUs will translate more code than others, so we
++ * first try to set more regions than max_cpus, with those regions being of
++ * reasonable size. If that's not possible we make do by evenly dividing
++ * the code_gen_buffer among the vCPUs.
++ */
++static size_t tcg_n_regions(void)
++{
++    size_t i;
++
++    /* Use a single region if all we have is one vCPU thread */
++#if !defined(CONFIG_USER_ONLY)
++    MachineState *ms = MACHINE(qdev_get_machine());
++    unsigned int max_cpus = ms->smp.max_cpus;
++#endif
++    if (max_cpus == 1 || !qemu_tcg_mttcg_enabled()) {
++        return 1;
++    }
++
++    /* Try to have more regions than max_cpus, with each region being >= 2 MB */
++    for (i = 8; i > 0; i--) {
++        size_t regions_per_thread = i;
++        size_t region_size;
++
++        region_size = tcg_init_ctx.code_gen_buffer_size;
++        region_size /= max_cpus * regions_per_thread;
++
++        if (region_size >= 2 * 1024u * 1024) {
++            return max_cpus * regions_per_thread;
++        }
++    }
++    /* If we can't, then just allocate one region per vCPU thread */
++    return max_cpus;
++}
++#endif
++
++/*
++ * Initializes region partitioning.
++ *
++ * Called at init time from the parent thread (i.e. the one calling
++ * tcg_context_init), after the target's TCG globals have been set.
++ *
++ * Region partitioning works by splitting code_gen_buffer into separate regions,
++ * and then assigning regions to TCG threads so that the threads can translate
++ * code in parallel without synchronization.
++ *
++ * In softmmu the number of TCG threads is bounded by max_cpus, so we use at
++ * least max_cpus regions in MTTCG. In !MTTCG we use a single region.
++ * Note that the TCG options from the command-line (i.e. -accel accel=tcg,[...])
++ * must have been parsed before calling this function, since it calls
++ * qemu_tcg_mttcg_enabled().
++ *
++ * In user-mode we use a single region.  Having multiple regions in user-mode
++ * is not supported, because the number of vCPU threads (recall that each thread
++ * spawned by the guest corresponds to a vCPU thread) is only bounded by the
++ * OS, and usually this number is huge (tens of thousands is not uncommon).
++ * Thus, given this large bound on the number of vCPU threads and the fact
++ * that code_gen_buffer is allocated at compile-time, we cannot guarantee
++ * that the availability of at least one region per vCPU thread.
++ *
++ * However, this user-mode limitation is unlikely to be a significant problem
++ * in practice. Multi-threaded guests share most if not all of their translated
++ * code, which makes parallel code generation less appealing than in softmmu.
++ */
++void tcg_region_init(void)
++{
++    void *buf = tcg_init_ctx.code_gen_buffer;
++    void *aligned;
++    size_t size = tcg_init_ctx.code_gen_buffer_size;
++    size_t page_size = qemu_real_host_page_size;
++    size_t region_size;
++    size_t n_regions;
++    size_t i;
++
++    n_regions = tcg_n_regions();
++
++    /* The first region will be 'aligned - buf' bytes larger than the others */
++    aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
++    g_assert(aligned < tcg_init_ctx.code_gen_buffer + size);
++    /*
++     * Make region_size a multiple of page_size, using aligned as the start.
++     * As a result of this we might end up with a few extra pages at the end of
++     * the buffer; we will assign those to the last region.
++     */
++    region_size = (size - (aligned - buf)) / n_regions;
++    region_size = QEMU_ALIGN_DOWN(region_size, page_size);
++
++    /* A region must have at least 2 pages; one code, one guard */
++    g_assert(region_size >= 2 * page_size);
++
++    /* init the region struct */
++    qemu_mutex_init(&region.lock);
++    region.n = n_regions;
++    region.size = region_size - page_size;
++    region.stride = region_size;
++    region.start = buf;
++    region.start_aligned = aligned;
++    /* page-align the end, since its last page will be a guard page */
++    region.end = QEMU_ALIGN_PTR_DOWN(buf + size, page_size);
++    /* account for that last guard page */
++    region.end -= page_size;
++
++    /*
++     * Set guard pages in the rw buffer, as that's the one into which
++     * buffer overruns could occur.  Do not set guard pages in the rx
++     * buffer -- let that one use hugepages throughout.
++     */
++    for (i = 0; i < region.n; i++) {
++        void *start, *end;
++
++        tcg_region_bounds(i, &start, &end);
++
++        /*
++         * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
++         * rejects a permission change from RWX -> NONE.  Guard pages are
++         * nice for bug detection but are not essential; ignore any failure.
++         */
++        (void)qemu_mprotect_none(end, page_size);
++    }
++
++    tcg_region_trees_init();
++
 +    /*
 +     * Leave the initial context initialized to the first region.
 +     * This will be the context into which we generate the prologue.
@@ -124,7 +653,7 @@ index 36ea21d596..eca72990c1 100644
 +    tcg_region_initial_alloc__locked(&tcg_init_ctx);
 +}
 +
-+static void tcg_region_prologue_set(TCGContext *s)
++void tcg_region_prologue_set(TCGContext *s)
 +{
 +    /* Deduct the prologue from the first region.  */
 +    g_assert(region.start == s->code_gen_buffer);
@@ -136,46 +665,662 @@ index 36ea21d596..eca72990c1 100644
 +    /* Register the balance of the buffer with gdb. */
 +    tcg_register_jit(tcg_splitwx_to_rx(region.start),
 +                     region.end - region.start);
- }
++}
++
++/*
++ * Returns the size (in bytes) of all translated code (i.e. from all regions)
++ * currently in the cache.
++ * See also: tcg_code_capacity()
++ * Do not confuse with tcg_current_code_size(); that one applies to a single
++ * TCG context.
++ */
++size_t tcg_code_size(void)
++{
++    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
++    unsigned int i;
++    size_t total;
++
++    qemu_mutex_lock(&region.lock);
++    total = region.agg_size_full;
++    for (i = 0; i < n_ctxs; i++) {
++        const TCGContext *s = qatomic_read(&tcg_ctxs[i]);
++        size_t size;
++
++        size = qatomic_read(&s->code_gen_ptr) - s->code_gen_buffer;
++        g_assert(size <= s->code_gen_buffer_size);
++        total += size;
++    }
++    qemu_mutex_unlock(&region.lock);
++    return total;
++}
++
++/*
++ * Returns the code capacity (in bytes) of the entire cache, i.e. including all
++ * regions.
++ * See also: tcg_code_size()
++ */
++size_t tcg_code_capacity(void)
++{
++    size_t guard_size, capacity;
++
++    /* no need for synchronization; these variables are set at init time */
++    guard_size = region.stride - region.size;
++    capacity = region.end + guard_size - region.start;
++    capacity -= region.n * (guard_size + TCG_HIGHWATER);
++    return capacity;
++}
++
++size_t tcg_tb_phys_invalidate_count(void)
++{
++    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
++    unsigned int i;
++    size_t total = 0;
++
++    for (i = 0; i < n_ctxs; i++) {
++        const TCGContext *s = qatomic_read(&tcg_ctxs[i]);
++
++        total += qatomic_read(&s->tb_phys_invalidate_count);
++    }
++    return total;
++}
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index eca72990c1..8c43c0f316 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -63,6 +63,7 @@
  
- #ifdef CONFIG_DEBUG_TCG
-@@ -965,10 +981,10 @@ void tcg_register_thread(void)
+ #include "elf.h"
+ #include "exec/log.h"
++#include "tcg-internal.h"
  
-     if (n > 0) {
-         alloc_tcg_plugin_context(s);
-+        tcg_region_initial_alloc(s);
-     }
- 
-     tcg_ctx = s;
--    tcg_region_initial_alloc(s);
- }
- #endif /* !CONFIG_USER_ONLY */
- 
-@@ -1208,8 +1224,6 @@ void tcg_prologue_init(TCGContext *s)
- {
-     size_t prologue_size;
- 
--    /* Put the prologue at the beginning of code_gen_buffer.  */
--    tcg_region_assign(s, 0);
-     s->code_ptr = s->code_gen_ptr;
-     s->code_buf = s->code_gen_ptr;
-     s->data_gen_ptr = NULL;
-@@ -1241,14 +1255,7 @@ void tcg_prologue_init(TCGContext *s)
-                         (uintptr_t)s->code_buf, prologue_size);
+ /* Forward declarations for functions declared in tcg-target.c.inc and
+    used here. */
+@@ -153,10 +154,8 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct);
+ static int tcg_out_ldst_finalize(TCGContext *s);
  #endif
  
+-#define TCG_HIGHWATER 1024
+-
+-static TCGContext **tcg_ctxs;
+-static unsigned int n_tcg_ctxs;
++TCGContext **tcg_ctxs;
++unsigned int n_tcg_ctxs;
+ TCGv_env cpu_env = 0;
+ const void *tcg_code_gen_epilogue;
+ uintptr_t tcg_splitwx_diff;
+@@ -165,42 +164,6 @@ uintptr_t tcg_splitwx_diff;
+ tcg_prologue_fn *tcg_qemu_tb_exec;
+ #endif
+ 
+-struct tcg_region_tree {
+-    QemuMutex lock;
+-    GTree *tree;
+-    /* padding to avoid false sharing is computed at run-time */
+-};
+-
+-/*
+- * We divide code_gen_buffer into equally-sized "regions" that TCG threads
+- * dynamically allocate from as demand dictates. Given appropriate region
+- * sizing, this minimizes flushes even when some TCG threads generate a lot
+- * more code than others.
+- */
+-struct tcg_region_state {
+-    QemuMutex lock;
+-
+-    /* fields set at init time */
+-    void *start;
+-    void *start_aligned;
+-    void *end;
+-    size_t n;
+-    size_t size; /* size of one region */
+-    size_t stride; /* .size + guard size */
+-
+-    /* fields protected by the lock */
+-    size_t current; /* current region index */
+-    size_t agg_size_full; /* aggregate size of full regions */
+-};
+-
+-static struct tcg_region_state region;
+-/*
+- * This is an array of struct tcg_region_tree's, with padding.
+- * We use void * to simplify the computation of region_trees[i]; each
+- * struct is found every tree_size bytes.
+- */
+-static void *region_trees;
+-static size_t tree_size;
+ static TCGRegSet tcg_target_available_regs[TCG_TYPE_COUNT];
+ static TCGRegSet tcg_target_call_clobber_regs;
+ 
+@@ -457,453 +420,6 @@ static const TCGTargetOpDef constraint_sets[] = {
+ 
+ #include "tcg-target.c.inc"
+ 
+-/* compare a pointer @ptr and a tb_tc @s */
+-static int ptr_cmp_tb_tc(const void *ptr, const struct tb_tc *s)
+-{
+-    if (ptr >= s->ptr + s->size) {
+-        return 1;
+-    } else if (ptr < s->ptr) {
+-        return -1;
+-    }
+-    return 0;
+-}
+-
+-static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp)
+-{
+-    const struct tb_tc *a = ap;
+-    const struct tb_tc *b = bp;
+-
+-    /*
+-     * When both sizes are set, we know this isn't a lookup.
+-     * This is the most likely case: every TB must be inserted; lookups
+-     * are a lot less frequent.
+-     */
+-    if (likely(a->size && b->size)) {
+-        if (a->ptr > b->ptr) {
+-            return 1;
+-        } else if (a->ptr < b->ptr) {
+-            return -1;
+-        }
+-        /* a->ptr == b->ptr should happen only on deletions */
+-        g_assert(a->size == b->size);
+-        return 0;
+-    }
+-    /*
+-     * All lookups have either .size field set to 0.
+-     * From the glib sources we see that @ap is always the lookup key. However
+-     * the docs provide no guarantee, so we just mark this case as likely.
+-     */
+-    if (likely(a->size == 0)) {
+-        return ptr_cmp_tb_tc(a->ptr, b);
+-    }
+-    return ptr_cmp_tb_tc(b->ptr, a);
+-}
+-
+-static void tcg_region_trees_init(void)
+-{
+-    size_t i;
+-
+-    tree_size = ROUND_UP(sizeof(struct tcg_region_tree), qemu_dcache_linesize);
+-    region_trees = qemu_memalign(qemu_dcache_linesize, region.n * tree_size);
+-    for (i = 0; i < region.n; i++) {
+-        struct tcg_region_tree *rt = region_trees + i * tree_size;
+-
+-        qemu_mutex_init(&rt->lock);
+-        rt->tree = g_tree_new(tb_tc_cmp);
+-    }
+-}
+-
+-static struct tcg_region_tree *tc_ptr_to_region_tree(const void *p)
+-{
+-    size_t region_idx;
+-
+-    /*
+-     * Like tcg_splitwx_to_rw, with no assert.  The pc may come from
+-     * a signal handler over which the caller has no control.
+-     */
+-    if (!in_code_gen_buffer(p)) {
+-        p -= tcg_splitwx_diff;
+-        if (!in_code_gen_buffer(p)) {
+-            return NULL;
+-        }
+-    }
+-
+-    if (p < region.start_aligned) {
+-        region_idx = 0;
+-    } else {
+-        ptrdiff_t offset = p - region.start_aligned;
+-
+-        if (offset > region.stride * (region.n - 1)) {
+-            region_idx = region.n - 1;
+-        } else {
+-            region_idx = offset / region.stride;
+-        }
+-    }
+-    return region_trees + region_idx * tree_size;
+-}
+-
+-void tcg_tb_insert(TranslationBlock *tb)
+-{
+-    struct tcg_region_tree *rt = tc_ptr_to_region_tree(tb->tc.ptr);
+-
+-    g_assert(rt != NULL);
+-    qemu_mutex_lock(&rt->lock);
+-    g_tree_insert(rt->tree, &tb->tc, tb);
+-    qemu_mutex_unlock(&rt->lock);
+-}
+-
+-void tcg_tb_remove(TranslationBlock *tb)
+-{
+-    struct tcg_region_tree *rt = tc_ptr_to_region_tree(tb->tc.ptr);
+-
+-    g_assert(rt != NULL);
+-    qemu_mutex_lock(&rt->lock);
+-    g_tree_remove(rt->tree, &tb->tc);
+-    qemu_mutex_unlock(&rt->lock);
+-}
+-
+-/*
+- * Find the TB 'tb' such that
+- * tb->tc.ptr <= tc_ptr < tb->tc.ptr + tb->tc.size
+- * Return NULL if not found.
+- */
+-TranslationBlock *tcg_tb_lookup(uintptr_t tc_ptr)
+-{
+-    struct tcg_region_tree *rt = tc_ptr_to_region_tree((void *)tc_ptr);
+-    TranslationBlock *tb;
+-    struct tb_tc s = { .ptr = (void *)tc_ptr };
+-
+-    if (rt == NULL) {
+-        return NULL;
+-    }
+-
+-    qemu_mutex_lock(&rt->lock);
+-    tb = g_tree_lookup(rt->tree, &s);
+-    qemu_mutex_unlock(&rt->lock);
+-    return tb;
+-}
+-
+-static void tcg_region_tree_lock_all(void)
+-{
+-    size_t i;
+-
+-    for (i = 0; i < region.n; i++) {
+-        struct tcg_region_tree *rt = region_trees + i * tree_size;
+-
+-        qemu_mutex_lock(&rt->lock);
+-    }
+-}
+-
+-static void tcg_region_tree_unlock_all(void)
+-{
+-    size_t i;
+-
+-    for (i = 0; i < region.n; i++) {
+-        struct tcg_region_tree *rt = region_trees + i * tree_size;
+-
+-        qemu_mutex_unlock(&rt->lock);
+-    }
+-}
+-
+-void tcg_tb_foreach(GTraverseFunc func, gpointer user_data)
+-{
+-    size_t i;
+-
+-    tcg_region_tree_lock_all();
+-    for (i = 0; i < region.n; i++) {
+-        struct tcg_region_tree *rt = region_trees + i * tree_size;
+-
+-        g_tree_foreach(rt->tree, func, user_data);
+-    }
+-    tcg_region_tree_unlock_all();
+-}
+-
+-size_t tcg_nb_tbs(void)
+-{
+-    size_t nb_tbs = 0;
+-    size_t i;
+-
+-    tcg_region_tree_lock_all();
+-    for (i = 0; i < region.n; i++) {
+-        struct tcg_region_tree *rt = region_trees + i * tree_size;
+-
+-        nb_tbs += g_tree_nnodes(rt->tree);
+-    }
+-    tcg_region_tree_unlock_all();
+-    return nb_tbs;
+-}
+-
+-static gboolean tcg_region_tree_traverse(gpointer k, gpointer v, gpointer data)
+-{
+-    TranslationBlock *tb = v;
+-
+-    tb_destroy(tb);
+-    return FALSE;
+-}
+-
+-static void tcg_region_tree_reset_all(void)
+-{
+-    size_t i;
+-
+-    tcg_region_tree_lock_all();
+-    for (i = 0; i < region.n; i++) {
+-        struct tcg_region_tree *rt = region_trees + i * tree_size;
+-
+-        g_tree_foreach(rt->tree, tcg_region_tree_traverse, NULL);
+-        /* Increment the refcount first so that destroy acts as a reset */
+-        g_tree_ref(rt->tree);
+-        g_tree_destroy(rt->tree);
+-    }
+-    tcg_region_tree_unlock_all();
+-}
+-
+-static void tcg_region_bounds(size_t curr_region, void **pstart, void **pend)
+-{
+-    void *start, *end;
+-
+-    start = region.start_aligned + curr_region * region.stride;
+-    end = start + region.size;
+-
+-    if (curr_region == 0) {
+-        start = region.start;
+-    }
+-    if (curr_region == region.n - 1) {
+-        end = region.end;
+-    }
+-
+-    *pstart = start;
+-    *pend = end;
+-}
+-
+-static void tcg_region_assign(TCGContext *s, size_t curr_region)
+-{
+-    void *start, *end;
+-
+-    tcg_region_bounds(curr_region, &start, &end);
+-
+-    s->code_gen_buffer = start;
+-    s->code_gen_ptr = start;
+-    s->code_gen_buffer_size = end - start;
+-    s->code_gen_highwater = end - TCG_HIGHWATER;
+-}
+-
+-static bool tcg_region_alloc__locked(TCGContext *s)
+-{
+-    if (region.current == region.n) {
+-        return true;
+-    }
+-    tcg_region_assign(s, region.current);
+-    region.current++;
+-    return false;
+-}
+-
+-/*
+- * Request a new region once the one in use has filled up.
+- * Returns true on error.
+- */
+-static bool tcg_region_alloc(TCGContext *s)
+-{
+-    bool err;
+-    /* read the region size now; alloc__locked will overwrite it on success */
+-    size_t size_full = s->code_gen_buffer_size;
+-
+-    qemu_mutex_lock(&region.lock);
+-    err = tcg_region_alloc__locked(s);
+-    if (!err) {
+-        region.agg_size_full += size_full - TCG_HIGHWATER;
+-    }
+-    qemu_mutex_unlock(&region.lock);
+-    return err;
+-}
+-
+-/*
+- * Perform a context's first region allocation.
+- * This function does _not_ increment region.agg_size_full.
+- */
+-static void tcg_region_initial_alloc__locked(TCGContext *s)
+-{
+-    bool err = tcg_region_alloc__locked(s);
+-    g_assert(!err);
+-}
+-
+-#ifndef CONFIG_USER_ONLY
+-static void tcg_region_initial_alloc(TCGContext *s)
+-{
+-    qemu_mutex_lock(&region.lock);
+-    tcg_region_initial_alloc__locked(s);
+-    qemu_mutex_unlock(&region.lock);
+-}
+-#endif
+-
+-/* Call from a safe-work context */
+-void tcg_region_reset_all(void)
+-{
+-    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
+-    unsigned int i;
+-
+-    qemu_mutex_lock(&region.lock);
+-    region.current = 0;
+-    region.agg_size_full = 0;
+-
+-    for (i = 0; i < n_ctxs; i++) {
+-        TCGContext *s = qatomic_read(&tcg_ctxs[i]);
+-        tcg_region_initial_alloc__locked(s);
+-    }
+-    qemu_mutex_unlock(&region.lock);
+-
+-    tcg_region_tree_reset_all();
+-}
+-
+-#ifdef CONFIG_USER_ONLY
+-static size_t tcg_n_regions(void)
+-{
+-    return 1;
+-}
+-#else
+-/*
+- * It is likely that some vCPUs will translate more code than others, so we
+- * first try to set more regions than max_cpus, with those regions being of
+- * reasonable size. If that's not possible we make do by evenly dividing
+- * the code_gen_buffer among the vCPUs.
+- */
+-static size_t tcg_n_regions(void)
+-{
+-    size_t i;
+-
+-    /* Use a single region if all we have is one vCPU thread */
+-#if !defined(CONFIG_USER_ONLY)
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-    unsigned int max_cpus = ms->smp.max_cpus;
+-#endif
+-    if (max_cpus == 1 || !qemu_tcg_mttcg_enabled()) {
+-        return 1;
+-    }
+-
+-    /* Try to have more regions than max_cpus, with each region being >= 2 MB */
+-    for (i = 8; i > 0; i--) {
+-        size_t regions_per_thread = i;
+-        size_t region_size;
+-
+-        region_size = tcg_init_ctx.code_gen_buffer_size;
+-        region_size /= max_cpus * regions_per_thread;
+-
+-        if (region_size >= 2 * 1024u * 1024) {
+-            return max_cpus * regions_per_thread;
+-        }
+-    }
+-    /* If we can't, then just allocate one region per vCPU thread */
+-    return max_cpus;
+-}
+-#endif
+-
+-/*
+- * Initializes region partitioning.
+- *
+- * Called at init time from the parent thread (i.e. the one calling
+- * tcg_context_init), after the target's TCG globals have been set.
+- *
+- * Region partitioning works by splitting code_gen_buffer into separate regions,
+- * and then assigning regions to TCG threads so that the threads can translate
+- * code in parallel without synchronization.
+- *
+- * In softmmu the number of TCG threads is bounded by max_cpus, so we use at
+- * least max_cpus regions in MTTCG. In !MTTCG we use a single region.
+- * Note that the TCG options from the command-line (i.e. -accel accel=tcg,[...])
+- * must have been parsed before calling this function, since it calls
+- * qemu_tcg_mttcg_enabled().
+- *
+- * In user-mode we use a single region.  Having multiple regions in user-mode
+- * is not supported, because the number of vCPU threads (recall that each thread
+- * spawned by the guest corresponds to a vCPU thread) is only bounded by the
+- * OS, and usually this number is huge (tens of thousands is not uncommon).
+- * Thus, given this large bound on the number of vCPU threads and the fact
+- * that code_gen_buffer is allocated at compile-time, we cannot guarantee
+- * that the availability of at least one region per vCPU thread.
+- *
+- * However, this user-mode limitation is unlikely to be a significant problem
+- * in practice. Multi-threaded guests share most if not all of their translated
+- * code, which makes parallel code generation less appealing than in softmmu.
+- */
+-void tcg_region_init(void)
+-{
+-    void *buf = tcg_init_ctx.code_gen_buffer;
+-    void *aligned;
+-    size_t size = tcg_init_ctx.code_gen_buffer_size;
+-    size_t page_size = qemu_real_host_page_size;
+-    size_t region_size;
+-    size_t n_regions;
+-    size_t i;
+-
+-    n_regions = tcg_n_regions();
+-
+-    /* The first region will be 'aligned - buf' bytes larger than the others */
+-    aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
+-    g_assert(aligned < tcg_init_ctx.code_gen_buffer + size);
+-    /*
+-     * Make region_size a multiple of page_size, using aligned as the start.
+-     * As a result of this we might end up with a few extra pages at the end of
+-     * the buffer; we will assign those to the last region.
+-     */
+-    region_size = (size - (aligned - buf)) / n_regions;
+-    region_size = QEMU_ALIGN_DOWN(region_size, page_size);
+-
+-    /* A region must have at least 2 pages; one code, one guard */
+-    g_assert(region_size >= 2 * page_size);
+-
+-    /* init the region struct */
+-    qemu_mutex_init(&region.lock);
+-    region.n = n_regions;
+-    region.size = region_size - page_size;
+-    region.stride = region_size;
+-    region.start = buf;
+-    region.start_aligned = aligned;
+-    /* page-align the end, since its last page will be a guard page */
+-    region.end = QEMU_ALIGN_PTR_DOWN(buf + size, page_size);
+-    /* account for that last guard page */
+-    region.end -= page_size;
+-
+-    /*
+-     * Set guard pages in the rw buffer, as that's the one into which
+-     * buffer overruns could occur.  Do not set guard pages in the rx
+-     * buffer -- let that one use hugepages throughout.
+-     */
+-    for (i = 0; i < region.n; i++) {
+-        void *start, *end;
+-
+-        tcg_region_bounds(i, &start, &end);
+-
+-        /*
+-         * macOS 11.2 has a bug (Apple Feedback FB8994773) in which mprotect
+-         * rejects a permission change from RWX -> NONE.  Guard pages are
+-         * nice for bug detection but are not essential; ignore any failure.
+-         */
+-        (void)qemu_mprotect_none(end, page_size);
+-    }
+-
+-    tcg_region_trees_init();
+-
+-    /*
+-     * Leave the initial context initialized to the first region.
+-     * This will be the context into which we generate the prologue.
+-     * It is also the only context for CONFIG_USER_ONLY.
+-     */
+-    tcg_region_initial_alloc__locked(&tcg_init_ctx);
+-}
+-
+-static void tcg_region_prologue_set(TCGContext *s)
+-{
 -    /* Deduct the prologue from the first region.  */
+-    g_assert(region.start == s->code_gen_buffer);
 -    region.start = s->code_ptr;
 -
 -    /* Recompute boundaries of the first region. */
 -    tcg_region_assign(s, 0);
 -
+-    /* Register the balance of the buffer with gdb. */
 -    tcg_register_jit(tcg_splitwx_to_rx(region.start),
 -                     region.end - region.start);
-+    tcg_region_prologue_set(s);
+-}
+-
+ #ifdef CONFIG_DEBUG_TCG
+ const void *tcg_splitwx_to_rx(void *rw)
+ {
+@@ -988,63 +504,6 @@ void tcg_register_thread(void)
+ }
+ #endif /* !CONFIG_USER_ONLY */
  
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
+-/*
+- * Returns the size (in bytes) of all translated code (i.e. from all regions)
+- * currently in the cache.
+- * See also: tcg_code_capacity()
+- * Do not confuse with tcg_current_code_size(); that one applies to a single
+- * TCG context.
+- */
+-size_t tcg_code_size(void)
+-{
+-    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
+-    unsigned int i;
+-    size_t total;
+-
+-    qemu_mutex_lock(&region.lock);
+-    total = region.agg_size_full;
+-    for (i = 0; i < n_ctxs; i++) {
+-        const TCGContext *s = qatomic_read(&tcg_ctxs[i]);
+-        size_t size;
+-
+-        size = qatomic_read(&s->code_gen_ptr) - s->code_gen_buffer;
+-        g_assert(size <= s->code_gen_buffer_size);
+-        total += size;
+-    }
+-    qemu_mutex_unlock(&region.lock);
+-    return total;
+-}
+-
+-/*
+- * Returns the code capacity (in bytes) of the entire cache, i.e. including all
+- * regions.
+- * See also: tcg_code_size()
+- */
+-size_t tcg_code_capacity(void)
+-{
+-    size_t guard_size, capacity;
+-
+-    /* no need for synchronization; these variables are set at init time */
+-    guard_size = region.stride - region.size;
+-    capacity = region.end + guard_size - region.start;
+-    capacity -= region.n * (guard_size + TCG_HIGHWATER);
+-    return capacity;
+-}
+-
+-size_t tcg_tb_phys_invalidate_count(void)
+-{
+-    unsigned int n_ctxs = qatomic_read(&n_tcg_ctxs);
+-    unsigned int i;
+-    size_t total = 0;
+-
+-    for (i = 0; i < n_ctxs; i++) {
+-        const TCGContext *s = qatomic_read(&tcg_ctxs[i]);
+-
+-        total += qatomic_read(&s->tb_phys_invalidate_count);
+-    }
+-    return total;
+-}
+-
+ /* pool based memory allocation */
+ void *tcg_malloc_internal(TCGContext *s, int size)
+ {
+diff --git a/tcg/meson.build b/tcg/meson.build
+index 84064a341e..5be3915529 100644
+--- a/tcg/meson.build
++++ b/tcg/meson.build
+@@ -2,6 +2,7 @@ tcg_ss = ss.source_set()
+ 
+ tcg_ss.add(files(
+   'optimize.c',
++  'region.c',
+   'tcg.c',
+   'tcg-common.c',
+   'tcg-op.c',
 -- 
 2.25.1
 
