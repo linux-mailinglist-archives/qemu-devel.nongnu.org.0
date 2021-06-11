@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96C23A4B98
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:06:39 +0200 (CEST)
-Received: from localhost ([::1]:32988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EBB3A4BA2
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:11:35 +0200 (CEST)
+Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrrAc-0007JN-VF
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47330)
+	id 1lrrFN-0003O2-Vp
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:11:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmp-0002xd-R0
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:03 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:45589)
+ id 1lrqmq-0002zU-Aa
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:04 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:37862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmn-0002ji-81
+ id 1lrqmn-0002kE-VL
  for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:03 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- z3-20020a17090a3983b029016bc232e40bso6852360pjb.4
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ 22-20020a17090a0c16b0290164a5354ad0so6725246pjs.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oGlm/QkFrT3k7s3B4Mdy2N+YuMxL0+85EjDFAhTeOqA=;
- b=Ec6x/vq2wkKpCa2bzY9c0MUR1Jgjz6JvfO5KTP/n+Fg0psi2PzlBpXcPINJx+Wfzj+
- aGnhrzRyDEgswHNGnP/kq6FowPybs8rCbaBKAg7m8Wt4SFNl8nzoVlqn/s6Sof7LIBdW
- Co5Jmu1c9wUlAgTqIh/akT8OUrR8ycRTDx6t5MPfKs9UIQoq/p1ZrXF6QvkCoGzle33w
- DP9GsKCT9lHn2W0ex39gup8tEmxRoq1zM1Ce3ODlXhv5UxS276+GHvfe5V1Kphu+YGvj
- OSl/d4CzGGVB7fETBSTf/U0pdcBaA6IxNQqeC0yOQjuF0aSaN7yoq8odrDMQmBDcG6pu
- iPxA==
+ bh=YYv9tcvc0r6vqymr5HM4dazO/PQp1jnHK04uYsgFVEA=;
+ b=H+3Uncb8d14Dt53JbLo6+lZp8HApGG3t8BXr1sGiLfx3S2ens9SjAtNLRpd50J6tFx
+ YcvkW+80ZEaeU1A0DQXjK+OIJPWq0G6LYJK/aWy+HZnV/ZAqP0ejVmMRWT7u4b2ijWcQ
+ Ir4DJAQzixM6dEQb0xAu41RuJgq1u8Drv6yF+KSa3EtiqmjKWApnuDBLMfc1MT7Gdg+p
+ Ph+6ALhN6ULoubu6oHuyAasGkHr3Ss+AOrV4x+87yHx/+6WummqIJmgn6u7OM2Yc37tE
+ cu38g/a7XKHYy/+xvuexD20PTNtW0Jr5XOM9Hgqj3kAANCVMLNDzOaYvUPu5x2e3Mudd
+ xdOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oGlm/QkFrT3k7s3B4Mdy2N+YuMxL0+85EjDFAhTeOqA=;
- b=giz0DK6xulNqt5XN5tL8v0HVx4faodv7wGCLDRShyTLoExFS3JXmdqVBQgBCZV0jET
- eYa0UN3ZPy2I0EJasgu5DTY0NW68sXaSMbB8MuffOFejCbTSlxgg2PL/GlM4oa3D+gJF
- qHepn5tnlxWq2YoQoVheV4H88or73ApZn+lHQetFNc4JY98g/W/lwv451Fqjy2Cdqu1Y
- sb8EuCwfhn79yYBil66tSBUStakW95+SpJCEq7MrjHw8Mb/0PdDkIVWhFwf7Zcck7sgJ
- TxbKAKqA6+5V5jt6Upj1T5DsUIPqP7lSNOWc8wfK2LDyxaWdluBsXK0ivnP5L0vP2JD6
- cXWA==
-X-Gm-Message-State: AOAM531MyKS5OcBYV2l9BEVFZXnlkk9CJPDHbeY/2BjW/TT/tFu9Fi+J
- bi5OSmITQ/DU4thCGp+r9lwmk8Oc2qwmzg==
-X-Google-Smtp-Source: ABdhPJwmsmhiwQtT8W6R3p7XXJIqueh10qXqlzYD0sGPvco5Y23vd9j6J8EviBpQCLLO6TuVv02uYQ==
-X-Received: by 2002:a17:90a:4404:: with SMTP id
- s4mr11544556pjg.218.1623454920007; 
+ bh=YYv9tcvc0r6vqymr5HM4dazO/PQp1jnHK04uYsgFVEA=;
+ b=Q6slM48FxRX/htQh1aQkU1kLwm2Kb9EESVRdrJjLcxtUVn/HGPXWHHNnuuG/0gyUTz
+ Suk1KUxIhBrTXMBHfKKGU9gxaklvJvCowZN4tVkWVIZ4k2z+3upM/Yjbfs58yqnCdeUy
+ fNGeGGCGcWME9Jv+jc79N//RsY7ZOwQ43ZZfKr/9PFV7rJ4/v3uSEQhNkMzS8ASRuoSr
+ ofLLASgRsV5MR9GoK6TUqObKmzop2Oppz//3nS4Bakw92sirULo/l2P/tsaUQqJt22aL
+ fbjwYumCqN3UL1Ri8ZSKjKwViGUKOjFN8gGfwijyo9UHy33kDV1+MvfdsW2Pvg7Qesbi
+ 4luw==
+X-Gm-Message-State: AOAM531kCMHxMSOYL4bsz78rv2kVXlprQzJ7k611AAR5gZq27fxIVRo6
+ WbiVY1SKkgx5Nd+cMsRhLvnFCgKOqWdEsA==
+X-Google-Smtp-Source: ABdhPJzO+3UO/Bwq5h9JJPjLj4j0ljPASHD3LEhdBVN9bRdPQh4chheQ2QQ6BsKh/xK8uelQ32yvCA==
+X-Received: by 2002:a17:90a:ea95:: with SMTP id
+ h21mr7012566pjz.90.1623454920663; 
  Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.59
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:41:59 -0700 (PDT)
+ Fri, 11 Jun 2021 16:42:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/34] tcg: Sink qemu_madvise call to common code
-Date: Fri, 11 Jun 2021 16:41:34 -0700
-Message-Id: <20210611234144.653682-25-richard.henderson@linaro.org>
+Subject: [PULL 25/34] util/osdep: Add qemu_mprotect_rw
+Date: Fri, 11 Jun 2021 16:41:35 -0700
+Message-Id: <20210611234144.653682-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,66 +87,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Luis Pires <luis.pires@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the call out of the N versions of alloc_code_gen_buffer
-and into tcg_region_init.
+For --enable-tcg-interpreter on Windows, we will need this.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/region.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ include/qemu/osdep.h | 1 +
+ util/osdep.c         | 9 +++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/tcg/region.c b/tcg/region.c
-index e6c80b35b1..2e541cd2bf 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -559,7 +559,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
-         error_setg_errno(errp, errno, "mprotect of jit buffer");
-         return false;
-     }
--    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
- 
-     region.start_aligned = buf;
-     region.total_size = size;
-@@ -635,9 +634,6 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
-     }
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 4c6f2390be..236a045671 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -512,6 +512,7 @@ void sigaction_invoke(struct sigaction *action,
  #endif
  
--    /* Request large pages for the buffer.  */
--    qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
--
-     region.start_aligned = buf;
-     region.total_size = size;
-     return prot;
-@@ -687,9 +683,6 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
-     region.total_size = size;
-     tcg_splitwx_diff = buf_rx - buf_rw;
+ int qemu_madvise(void *addr, size_t len, int advice);
++int qemu_mprotect_rw(void *addr, size_t size);
+ int qemu_mprotect_rwx(void *addr, size_t size);
+ int qemu_mprotect_none(void *addr, size_t size);
  
--    /* Request large pages for the buffer and the splitwx.  */
--    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
--    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
-     return PROT_READ | PROT_WRITE;
+diff --git a/util/osdep.c b/util/osdep.c
+index 66d01b9160..42a0a4986a 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -97,6 +97,15 @@ static int qemu_mprotect__osdep(void *addr, size_t size, int prot)
+ #endif
+ }
  
-  fail_rx:
-@@ -857,6 +850,13 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
-                                       splitwx, &error_fatal);
-     assert(have_prot >= 0);
- 
-+    /* Request large pages for the buffer and the splitwx.  */
-+    qemu_madvise(region.start_aligned, region.total_size, QEMU_MADV_HUGEPAGE);
-+    if (tcg_splitwx_diff) {
-+        qemu_madvise(region.start_aligned + tcg_splitwx_diff,
-+                     region.total_size, QEMU_MADV_HUGEPAGE);
-+    }
++int qemu_mprotect_rw(void *addr, size_t size)
++{
++#ifdef _WIN32
++    return qemu_mprotect__osdep(addr, size, PAGE_READWRITE);
++#else
++    return qemu_mprotect__osdep(addr, size, PROT_READ | PROT_WRITE);
++#endif
++}
 +
-     /*
-      * Make region_size a multiple of page_size, using aligned as the start.
-      * As a result of this we might end up with a few extra pages at the end of
+ int qemu_mprotect_rwx(void *addr, size_t size)
+ {
+ #ifdef _WIN32
 -- 
 2.25.1
 
