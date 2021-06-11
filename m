@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457973A479D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 19:16:36 +0200 (CEST)
-Received: from localhost ([::1]:36866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92CB3A47DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 19:25:01 +0200 (CEST)
+Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrkln-0003hk-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 13:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37806)
+	id 1lrktw-0006Zi-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 13:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lrkkI-0001al-EJ
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:15:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34176)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrkrH-00055w-JC
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:22:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lrkkG-0000Lp-S8
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:15:02 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lrkrF-00050S-31
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 13:22:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623431700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T4TfEPrlkOjkMlDHdXMV0IDvK/7lTuoJudUCLPa1Em4=;
- b=EuAC7tHw/+I+qwucRGW9y4f6PHxLCMZpDcEFXDgE3cjBzrRBp008boz5sGTzZtpb6fMHqY
- SL7/xyTsQvKbx+jm8bl2rHKPNTtqclCb+Qz2SMTHjL1R5RXeP+5QEzYvkS0rlXw0wTlVHJ
- 7PIrLELTTtp2/Dm+YwFEpX0zBwMzYtM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-_kDO7fYfPhKcD5k8oZN7MQ-1; Fri, 11 Jun 2021 13:14:58 -0400
-X-MC-Unique: _kDO7fYfPhKcD5k8oZN7MQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- p18-20020a1709067852b02903dab2a3e1easo1392043ejm.17
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 10:14:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T4TfEPrlkOjkMlDHdXMV0IDvK/7lTuoJudUCLPa1Em4=;
- b=DTqhPNtfUIleVHb84vttVsvrKop3B/peIYk6wnsQTnaGpBq/+uII6NWa3CdA27XLnN
- /rBL7RhCdRSNlDZDPqHXWFoYzBCKZj9RGVDY+sdbkgP8935F5+KNdNBJuACb2dAI4iBv
- 9tcSLT02vV67d0Xw6lqYAV1NUYgO7WgL/kYSTchtXN2U2WB0ZvgoT6Pu39S1g9hK5T3n
- 9E64q6ApCKPlx5GpKxqC7PYT2sqHvTMZiiJSDkyhk+UOsgGoGA+8uAhoBWKaKmH/kJ2h
- WNNizgJUCPCKAlx/iBryy1uLqszVHivQv1CHCVcRhfOPM7jixqZWoEWA1N0bqiRbNL/F
- l00A==
-X-Gm-Message-State: AOAM532+ANTPZePXx/1TKXhHI/crunPlfWbyhIOQXiHqu0LwRmGgVQOa
- CAVjRKousveLK81mULoiOkZCQhaj2GwMzWoVIrd9t2WkhXpNj1Rh5fATxYhv7ocLokbJ0U+oFbO
- zTXmJKm+i99faqFY=
-X-Received: by 2002:a17:906:5299:: with SMTP id
- c25mr4690083ejm.85.1623431697757; 
- Fri, 11 Jun 2021 10:14:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy0Lnd+DzdqqKOmwSVTlpi0Sr+KnA5X2VUMREoB3hyLp6xM2pYd/1uGL9stJQLIlDvfcHWMUg==
-X-Received: by 2002:a17:906:5299:: with SMTP id
- c25mr4690063ejm.85.1623431697584; 
- Fri, 11 Jun 2021 10:14:57 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id bn7sm2332682ejb.111.2021.06.11.10.14.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jun 2021 10:14:57 -0700 (PDT)
-Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210610101553.943689-1-kraxel@redhat.com>
- <4a1a23af-461f-92c4-d9f0-1f8133d611db@suse.de>
- <20210610122305.zxdaqsft5evcrli6@sirius.home.kraxel.org>
- <b2fb96b8-415b-b2d4-168c-d43dc20ef7b6@suse.de>
- <4dffdaf1-e7e5-cb28-7f7a-2061f182ee5b@redhat.com>
- <20210611082925.7wkppsrj7hywquns@sirius.home.kraxel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8f53eb21-d18c-a8ee-1796-b7b6a88cca81@redhat.com>
-Date: Fri, 11 Jun 2021 19:14:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ s=mimecast20190719; t=1623432132;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=qrLrvuwvkI7WHkhudjxAxlmf2J3jp6cvtlHPFw2Mhmo=;
+ b=cv8bGMX0jec38aLuLrhUJmfNpusCfEz4v+BHzt6voJauuuRH9RZkx5kGbbu0zGXPKd34go
+ AzpDxIHOpYGI8zeiucbPnJH+qzXBmAl9fIWkqGr1HoSrqwHo5lzCtVWH9tBAxQnxkiHLuo
+ yYtYrF31yRX+wabxECssdZYABjFVRFo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-Wk7YDVxFNOy1bJSzFM7wcg-1; Fri, 11 Jun 2021 13:22:05 -0400
+X-MC-Unique: Wk7YDVxFNOy1bJSzFM7wcg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D38D7100C660;
+ Fri, 11 Jun 2021 17:22:03 +0000 (UTC)
+Received: from redhat.com (ovpn-115-90.ams2.redhat.com [10.36.115.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A13C91007606;
+ Fri, 11 Jun 2021 17:21:58 +0000 (UTC)
+Date: Fri, 11 Jun 2021 18:21:55 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [RFC PATCH 4/5] qmp: Added qemu-ebpf-rss-path command.
+Message-ID: <YMObs8hO4FTgXy91@redhat.com>
+References: <20210609100457.142570-1-andrew@daynix.com>
+ <20210609100457.142570-5-andrew@daynix.com>
+ <20210611141552.ezkybuvewffln4dz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210611082925.7wkppsrj7hywquns@sirius.home.kraxel.org>
+In-Reply-To: <20210611141552.ezkybuvewffln4dz@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,25 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- jose.ziviani@suse.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, yuri.benditovich@daynix.com,
+ yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/06/21 10:29, Gerd Hoffmann wrote:
+On Fri, Jun 11, 2021 at 09:15:52AM -0500, Eric Blake wrote:
+> On Wed, Jun 09, 2021 at 01:04:56PM +0300, Andrew Melnychenko wrote:
+> > New qmp command to query ebpf helper.
+> > It's crucial that qemu and helper are in sync and in touch.
+> > Technically helper should pass eBPF fds that qemu may accept.
+> > And different qemu's builds may have different eBPF programs and helpers.
+> > Qemu returns helper that should "fit" to virtio-net.
+> > 
+> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > ---
+> >  monitor/qmp-cmds.c | 78 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  qapi/misc.json     | 29 +++++++++++++++++
+> >  2 files changed, 107 insertions(+)
+> > 
+> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> > index f7d64a6457..5dd2a58ea2 100644
+> > --- a/monitor/qmp-cmds.c
+> > +++ b/monitor/qmp-cmds.c
+> > @@ -351,3 +351,81 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
+> >          abort();
+> >      }
+> >  }
+> > +
+> > +#ifdef CONFIG_LINUX
+> > +
+> > +static const char *get_dirname(char *path)
+> > +{
+> > +    char *sep;
+> > +
+> > +    sep = strrchr(path, '/');
+> > +    if (sep == path) {
+> > +        return "/";
+> > +    } else if (sep) {
+> > +        *sep = 0;
+> > +        return path;
+> > +    }
+> > +    return ".";
+> > +}
 > 
-> Are there any pending patches to handle the remaining tcg dependencies
-> in qemu?  When trying to build tcg modular (more than only
-> tcg-accel-ops*) I get lots of unresolved symbols to tcg bits which are
-> referenced directly (in cpu.c, gdbstub.c, monitor, ...).
+> Seems like this function is duplicating what glib should already be
+> able to do.
+> 
+> > +
+> > +static char *find_helper(const char *name)
+> > +{
+> > +    char qemu_exec[PATH_MAX];
+> 
+> Stack-allocating a PATH_MAX array for readlink() is poor practice.
+> Better is to use g_file_read_link().
+> 
+> > +    const char *qemu_dir = NULL;
+> > +    char *helper = NULL;
+> > +
+> > +    if (name == NULL) {
+> > +        return NULL;
+> > +    }
+> > +
+> > +    if (readlink("/proc/self/exe", qemu_exec, PATH_MAX) > 0) {
+> > +        qemu_dir = get_dirname(qemu_exec);
+> > +
+> > +        helper = g_strdup_printf("%s/%s", qemu_dir, name);
+> > +        if (access(helper, F_OK) == 0) {
+> > +            return helper;
+> > +        }
+> > +        g_free(helper);
+> > +    }
+> > +
+> > +    helper = g_strdup_printf("%s/%s", CONFIG_QEMU_HELPERDIR, name);
+> 
+> Could we use a compile-time determination of where we were (supposed)
+> to be installed, and therefore where our helper should be installed,
+> rather than the dynamic /proc/self/exe munging?
 
-I suggest that you create a wiki page with a list.  Then we can either 
-see if Claudio's makefile patches tackled them, or go through them one 
-by one.
+Yeah I think avoiding /proc/self/exe is desirable, because I can
+imagine scenarios where this can lead to picking the wrong helper.
+Better to always use the compile time install directory.
 
-Paolo
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
