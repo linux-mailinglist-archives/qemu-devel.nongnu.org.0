@@ -2,95 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4BA3A3B6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 07:37:29 +0200 (CEST)
-Received: from localhost ([::1]:49360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1584F3A3B93
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:02:39 +0200 (CEST)
+Received: from localhost ([::1]:55906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrZrD-0000Fu-Nk
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 01:37:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
+	id 1lraFZ-00067t-Ht
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:02:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lrZqJ-00082k-Lf
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 01:36:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35810)
+ id 1lraDe-0003Nr-OQ
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lrZqF-0006qU-Go
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 01:36:30 -0400
+ id 1lraDa-0001xB-Jn
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623389784;
+ s=mimecast20190719; t=1623391232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pKI8kLdAVv2IiNpKnnLXm18h8NOAq5jVe9PXLtDWns8=;
- b=Xmw9EnvDJ9VhTBaMxoPbg+l0niIfIDXRXR/Xm7VSjcjQW51zZU1JxUNnk3DSzmqm1GBuFt
- 8QMykAUaKegyQVTi8AnMFxZmvH2F/mp4cl05wqIyymCPwIBd3YEno+qbe2H9Vo0g7VRX+o
- IjEqtOc2h0AjEFynVJczc4jOA00S0H8=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-OPF7nkjxPxm6zVeML3KJuw-1; Fri, 11 Jun 2021 01:36:21 -0400
-X-MC-Unique: OPF7nkjxPxm6zVeML3KJuw-1
-Received: by mail-pg1-f198.google.com with SMTP id
- a10-20020a65418a0000b029021b78388f57so1075417pgq.15
- for <qemu-devel@nongnu.org>; Thu, 10 Jun 2021 22:36:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=pKI8kLdAVv2IiNpKnnLXm18h8NOAq5jVe9PXLtDWns8=;
- b=UeXbcmtUav3tW50ZGsHFZu8YWLSHOI8VWgpbgwTf6uQ/TalkJNRA5GjJ950N9YCEC6
- Bs/IHTxFEJLl8Nq2jvaqQ0RDmFsVfgC5fTT88XbDlXjeFcYwAyW6YrmCBVGrWRUWr0wD
- aXDrCIaph76KGKHpV/Xa59xRmhU3RKE0YkOZN+UqVb23h7bPmN1oY52NOX8SRqTv7m88
- XihvuZHs6YniqQuuVgRZ5SGwUTS2B5XcKXUSUyktSZHsXLGx9WZPdhuljFvdQLc4TrmJ
- mryMXwSo6nux1/20Twhh3V1cDq3mVRAdrXf2dAgHzXvyMIjPMaQN1OUZt8SgdG5mWy9n
- ke8w==
-X-Gm-Message-State: AOAM532KhWdB6eCQgp3GtHWv8ehuuFEkWmLSmYsEDWOOiCHlPsGjQgP7
- Q7vR/GCz3GjNd7sgiBYgm7Kp1id8kFBddDkjS04k/PZuYcot6v3QDXdTQoevGDiF/m9HbJQyAZ6
- 2Hh3UWz+Hz0UKZCc=
-X-Received: by 2002:a17:90b:1bc4:: with SMTP id
- oa4mr2814938pjb.18.1623389780873; 
- Thu, 10 Jun 2021 22:36:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyaAzSjtdkuBRiVSUPATGG7o4DW88xj/MEUhSUqxIS2oS/3jXkU8NZc2+oGi476lLGL0dNIqw==
-X-Received: by 2002:a17:90b:1bc4:: with SMTP id
- oa4mr2814923pjb.18.1623389780599; 
- Thu, 10 Jun 2021 22:36:20 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id r9sm3982366pfq.158.2021.06.10.22.36.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jun 2021 22:36:20 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20210609100457.142570-1-andrew@daynix.com>
- <f81de211-57f9-9319-9735-c6b964bbdc77@redhat.com>
- <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pr/LFId9srK7vFXMXfCH+ZX9znHE3qirTw+mdJxVmiE=;
+ b=NF6jrXokYnjtvgHZemE+I9cjZnpqC3vCRUWANc3luAb6meLMCzkwZ5aciPAbWxJSiKN3/4
+ sEwD0X64FcKbnR1JHfIjz7HcQUshV7UwYebCox5hAta0SSR1n3ZOxyXMgnlkUw8+ikxPnS
+ 6oQUTKjhDJNNU7Gl2Ee56BhiQXxdZWk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-cjeX1TZdMTOMFlgwXxsL2A-1; Fri, 11 Jun 2021 02:00:29 -0400
+X-MC-Unique: cjeX1TZdMTOMFlgwXxsL2A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D7611922965;
+ Fri, 11 Jun 2021 06:00:28 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-78.pek2.redhat.com [10.72.13.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D0D660C16;
+ Fri, 11 Jun 2021 06:00:26 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <3da88930-439c-1892-29b4-4977ddbb0b0a@redhat.com>
-Date: Fri, 11 Jun 2021 13:36:15 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 00/12] Net patches
+Date: Fri, 11 Jun 2021 14:00:12 +0800
+Message-Id: <20210611060024.46763-1-jasowang@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,94 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 7fe7fae8b48e3f9c647fd685e5155ebc8e6fb84d:
 
-在 2021/6/10 下午2:55, Yuri Benditovich 写道:
-> On Thu, Jun 10, 2021 at 9:41 AM Jason Wang<jasowang@redhat.com>  wrote:
->> 在 2021/6/9 下午6:04, Andrew Melnychenko 写道:
->>> Libvirt usually launches qemu with strict permissions.
->>> To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.
->> A silly question:
->>
->> Kernel had the following permission checks in bpf syscall:
->>
->>          if (sysctl_unprivileged_bpf_disabled && !bpf_capable())
->>                   return -EPERM;
->> ...
->>
->>           err = security_bpf(cmd, &attr, size);
->>           if (err < 0)
->>                   return err;
->>
->> So if I understand the code correctly, bpf syscall can only be done if:
->>
->> 1) unprivileged_bpf is enabled or
->> 2) has the capability  and pass the LSM checks
->>
->> So I think the series is for unprivileged_bpf disabled. If I'm not
->> wrong, I guess the policy is to grant CAP_BPF but do fine grain checks
->> via LSM.
->>
->> If this is correct, need to describe it in the commit log.
->>
->>
->>> Added property "ebpf_rss_fds" for "virtio-net" that allows to
->>> initialize eBPF RSS context with passed program & maps fds.
->>>
->>> Added qemu-ebpf-rss-helper - simple helper that loads eBPF
->>> context and passes fds through unix socket.
->>> Libvirt should call the helper and pass fds to qemu through
->>> "ebpf_rss_fds" property.
->>>
->>> Added explicit target OS check for libbpf dependency in meson.
->>> eBPF RSS works only with Linux TAP, so there is no reason to
->>> build eBPF loader/helper for non-Linux.
->>>
->>> Overall, libvirt process should not be aware of the "interface"
->>> of eBPF RSS, it will not be aware of eBPF maps/program "type" and
->>> their quantity.
->> I'm not sure this is the best. We have several examples that let libvirt
->> to involve. Examples:
->>
->> 1) create TAP device (and the TUN_SETIFF)
->>
->> 2) open vhost devices
->>
->>
->>>    That's why qemu and the helper should be from
->>> the same build and be "synchronized". Technically each qemu may
->>> have its own helper. That's why "query-helper-paths" qmp command
->>> was added. Qemu should return the path to the helper that suits
->>> and libvirt should use "that" helper for "that" emulator.
->>>
->>> qmp sample:
->>> C: { "execute": "query-helper-paths" }
->>> S: { "return": [
->>>        {
->>>          "name": "qemu-ebpf-rss-helper",
->>>          "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
->>>        }
->>>       ]
->>>      }
->> I think we need an example on the detail steps for how libvirt is
->> expected to use this.
-> The preliminary patches for libvirt are at
-> https://github.com/daynix/libvirt/tree/RSSv1
+  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-migration-20210609a' into staging (2021-06-09 16:40:21 +0100)
+
+are available in the git repository at:
+
+  https://github.com/jasowang/qemu.git tags/net-pull-request
+
+for you to fetch changes up to 5a2d9929ac1f01a1e8ef2a3f56f69e6069863dad:
+
+  Fixed calculation error of pkt->header_size in fill_pkt_tcp_info() (2021-06-11 10:30:13 +0800)
+
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Jason Wang (4):
+      vhost-vdpa: skip ram device from the IOTLB mapping
+      vhost-vdpa: map virtqueue notification area if possible
+      vhost-vdpa: don't initialize backend_features
+      vhost-vdpa: remove the unused vhost_vdpa_get_acked_features()
+
+Paolo Bonzini (1):
+      netdev: add more commands to preconfig mode
+
+Rao, Lei (7):
+      Remove some duplicate trace code.
+      Fix the qemu crash when guest shutdown during checkpoint
+      Optimize the function of filter_send
+      Remove migrate_set_block_enabled in checkpoint
+      Add a function named packet_new_nocopy for COLO.
+      Add the function of colo_compare_cleanup
+      Fixed calculation error of pkt->header_size in fill_pkt_tcp_info()
+
+ hmp-commands.hx                |   2 +
+ hw/virtio/vhost-vdpa.c         | 100 +++++++++++++++++++++++++++++++++++------
+ include/hw/virtio/vhost-vdpa.h |   6 +++
+ include/net/vhost-vdpa.h       |   1 -
+ migration/colo.c               |   6 ---
+ migration/migration.c          |   4 ++
+ net/colo-compare.c             |  25 +++++------
+ net/colo-compare.h             |   1 +
+ net/colo.c                     |  25 +++++++----
+ net/colo.h                     |   1 +
+ net/filter-mirror.c            |   8 ++--
+ net/filter-rewriter.c          |   3 +-
+ net/net.c                      |   4 ++
+ net/vhost-vdpa.c               |   9 ----
+ qapi/net.json                  |   6 ++-
+ softmmu/runstate.c             |   1 +
+ 16 files changed, 143 insertions(+), 59 deletions(-)
 
 
-Will have a look but it would be better if the assumption of the 
-management is detailed here to ease the reviewers.
-
-Thanks
-
-
->
 
 
