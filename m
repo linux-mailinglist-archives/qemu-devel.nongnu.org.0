@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B730E3A44A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 17:08:44 +0200 (CEST)
-Received: from localhost ([::1]:51484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5277D3A44BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 17:13:57 +0200 (CEST)
+Received: from localhost ([::1]:54326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrim3-0007O2-J2
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 11:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1lrir6-0001Bn-EA
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 11:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lril5-0006am-Fc
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:07:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33653)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lripv-0000Lk-OQ
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:12:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lril2-0003q5-QS
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:07:42 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lript-0006q6-3p
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 11:12:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623424059;
+ s=mimecast20190719; t=1623424360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=EQzh8Jqoqz/iWQaU1icTza4WPnj4yrYXJ2wY7ulyhU4=;
- b=bgPJ7xii/I9mWGYP3mRPtj5v06UtqblCn8LgkUhw4ko+WpajJYGa6S2JVN4XNdpvRgEvbX
- GAKDivswycscUC15YcugeNaZEL5xFTCWcwuMd2l5nRRVSvoDQQyUihZojkBaeJu/IQye80
- tjqKPllkHPELi/sqr9UCmw1AUSb//hc=
+ bh=M/dvk9Sedgy59jxKGehanAsWZKVIY7nH/q4j3huJ0sM=;
+ b=BdbfC1NnWcQIEvFfmNltJdULwfFIfLudJINP7+GokRDGcnAzvddjmj1rj7OwuIUh0D1i4T
+ Fr+HOi5qAh3Zpr0V5tUEU6TjLjQQZ3G9RQ/dUgQ3mJCwg8w8O8RJftHsE5qqX3SvPHTL7y
+ OHFonj2dP8kfNG6pPb7QE5Y+wf+pAvQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-iOxHM8k3Nm66LqxIrUTSFQ-1; Fri, 11 Jun 2021 11:07:38 -0400
-X-MC-Unique: iOxHM8k3Nm66LqxIrUTSFQ-1
+ us-mta-339-ldI6z7rXMK2OW0Ex9ZIa9g-1; Fri, 11 Jun 2021 11:12:38 -0400
+X-MC-Unique: ldI6z7rXMK2OW0Ex9ZIa9g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A97E91098AFD;
- Fri, 11 Jun 2021 15:07:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E3B41850600;
+ Fri, 11 Jun 2021 15:12:37 +0000 (UTC)
 Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F220719C59;
- Fri, 11 Jun 2021 15:07:07 +0000 (UTC)
-Date: Fri, 11 Jun 2021 10:07:06 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD6E419C59;
+ Fri, 11 Jun 2021 15:12:36 +0000 (UTC)
+Date: Fri, 11 Jun 2021 10:12:35 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 19/32] nbd/client-connection: add possibility of
- negotiation
-Message-ID: <20210611150706.cblhhzrq4opd6xcp@redhat.com>
+Subject: Re: [PATCH v4 20/32] nbd/client-connection: implement connection retry
+Message-ID: <20210611151235.7ega7ijga6okwwot@redhat.com>
 References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
- <20210610100802.5888-20-vsementsov@virtuozzo.com>
+ <20210610100802.5888-21-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610100802.5888-20-vsementsov@virtuozzo.com>
+In-Reply-To: <20210610100802.5888-21-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,17 +82,22 @@ Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 01:07:49PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Add arguments and logic to support nbd negotiation in the same thread
-> after successful connection.
+On Thu, Jun 10, 2021 at 01:07:50PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Add an option for a thread to retry connection until succeeds. We'll
+
+for a thread to retry connecting until it succeeds.
+
+> use nbd/client-connection both for reconnect and for initial connection
+> in nbd_open(), so we need a possibility to use same NBDClientConnection
+> instance to connect once in nbd_open() and then use retry semantics for
+> reconnect.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/block/nbd.h     |   9 +++-
->  block/nbd.c             |   4 +-
->  nbd/client-connection.c | 105 ++++++++++++++++++++++++++++++++++++++--
->  3 files changed, 109 insertions(+), 9 deletions(-)
->
+>  include/block/nbd.h     |  2 ++
+>  nbd/client-connection.c | 56 +++++++++++++++++++++++++++++++----------
+>  2 files changed, 45 insertions(+), 13 deletions(-)
+> 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
