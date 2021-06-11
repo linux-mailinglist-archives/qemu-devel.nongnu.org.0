@@ -2,60 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19903A42E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:16:58 +0200 (CEST)
-Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3080D3A42ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:18:41 +0200 (CEST)
+Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrh1t-00040q-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:16:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41942)
+	id 1lrh3Y-0005iL-9F
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1lrh0x-0003IS-5t
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:15:59 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:55951
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1lrh0i-0004G3-E0
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:15:51 -0400
-HMM_SOURCE_IP: 172.18.0.218:59066.2002918236
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-124.205.116.130?logid-38667851938248da99447304c520a18a
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 394BB280096;
- Fri, 11 Jun 2021 21:15:34 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 38667851938248da99447304c520a18a for
- zhengchuan@huawei.com; Fri Jun 11 21:15:35 2021
-X-Transaction-ID: 38667851938248da99447304c520a18a
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v3 7/7] migration/dirtyrate: implement dirty-ring
- dirtyrate calculation
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1623027729.git.huangy81@chinatelecom.cn>
- <a930f410178862fda49ae2c613a0757c7e07e006.1623027729.git.huangy81@chinatelecom.cn>
- <YMEFqfYZVhsinNN+@t490s>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <13fb0dec-a16c-1bfa-4cbe-c92063f85049@chinatelecom.cn>
-Date: Fri, 11 Jun 2021 21:15:29 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lrh2Q-0004sU-9R
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:17:30 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:52300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lrh2O-0004cU-6Y
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:17:29 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 423FD21A5C;
+ Fri, 11 Jun 2021 13:17:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623417445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
+ b=cjxnhdnxZQVEwYwU4Lcb1Q/QJluNBtR9y/Ig8WctdU4HLc2VflUdMhQEiAEZ3aJjYhrsTM
+ BaA8WCWBV/5MvrwNZSKhq4SbtEb4mYz76QSzTa5IVeXHogG9mpZjzXqlepXUyQ/q+c232o
+ HiWtz6qimzuVnQzwy1i0Fy8di5PlGI0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623417445;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
+ b=ZQovRkCDGzSbpy0qJXlV74F6kvSibVahRQEmDk3EXHT3Wc7L09ajby0sCYZK/8fJmlNTwT
+ xXPKNx49wPC4plAA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 0278F118DD;
+ Fri, 11 Jun 2021 13:17:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623417445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
+ b=cjxnhdnxZQVEwYwU4Lcb1Q/QJluNBtR9y/Ig8WctdU4HLc2VflUdMhQEiAEZ3aJjYhrsTM
+ BaA8WCWBV/5MvrwNZSKhq4SbtEb4mYz76QSzTa5IVeXHogG9mpZjzXqlepXUyQ/q+c232o
+ HiWtz6qimzuVnQzwy1i0Fy8di5PlGI0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623417445;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXYlsqy+JXQ5ifakcMnPDYN6FJbBpE/h4v7Pg8YWICw=;
+ b=ZQovRkCDGzSbpy0qJXlV74F6kvSibVahRQEmDk3EXHT3Wc7L09ajby0sCYZK/8fJmlNTwT
+ xXPKNx49wPC4plAA==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id r/jNOmRiw2ACVQAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Fri, 11 Jun 2021 13:17:24 +0000
+Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
+To: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210610101553.943689-1-kraxel@redhat.com>
+ <4a1a23af-461f-92c4-d9f0-1f8133d611db@suse.de>
+ <20210610122305.zxdaqsft5evcrli6@sirius.home.kraxel.org>
+ <b2fb96b8-415b-b2d4-168c-d43dc20ef7b6@suse.de>
+ <4dffdaf1-e7e5-cb28-7f7a-2061f182ee5b@redhat.com>
+ <20210611082925.7wkppsrj7hywquns@sirius.home.kraxel.org>
+ <20210611130321.rp4gnnja7z22p6zl@sirius.home.kraxel.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <b1f3a29a-3573-255e-16bf-9c6a8b36f5d0@suse.de>
+Date: Fri, 11 Jun 2021 15:17:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <YMEFqfYZVhsinNN+@t490s>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.227;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210611130321.rp4gnnja7z22p6zl@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,94 +104,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, jose.ziviani@suse.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/11/21 3:03 PM, Gerd Hoffmann wrote:
+>   Hi,
+> 
+>> Are there any pending patches to handle the remaining tcg dependencies
+>> in qemu?  When trying to build tcg modular (more than only
+>> tcg-accel-ops*) I get lots of unresolved symbols to tcg bits which are
+>> referenced directly (in cpu.c, gdbstub.c, monitor, ...).
+>>
+>> The CONFIG_TCG=n case is handled either with stubs or with #ifdef
+>> CONFIG_TCG, which doesn't fly for modular tcg ...
 
 
-在 2021/6/10 2:17, Peter Xu 写道:
-> On Mon, Jun 07, 2021 at 09:15:20AM +0800, huangy81@chinatelecom.cn wrote:
->> +static void calculate_dirtyrate_vcpu(struct DirtyRateConfig config)
->> +{
->> +    CPUState *cpu;
->> +    int64_t msec = 0;
->> +    int64_t start_time;
->> +    uint64_t dirtyrate = 0;
->> +    uint64_t dirtyrate_sum = 0;
->> +    int nvcpu = 0;
->> +    int i = 0;
->> +
->> +    CPU_FOREACH(cpu) {
->> +        nvcpu++;
->> +    }
->> +
->> +    dirty_pages = g_malloc0(sizeof(*dirty_pages) * nvcpu);
->> +
->> +    dirtyrate_global_dirty_log_start();
->> +
->> +    CPU_FOREACH(cpu) {
->> +        record_dirtypages(cpu, true);
->> +    }
->> +
->> +    DirtyStat.method.vcpu.nvcpu = nvcpu;
->> +    if (last_method != CALC_DIRTY_RING) {
->> +        DirtyStat.method.vcpu.rates =
->> +            g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
->> +    }
->> +
->> +    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    DirtyStat.start_time = start_time / 1000;
->> +
->> +    msec = config.sample_period_seconds * 1000;
->> +    msec = set_sample_page_period(msec, start_time);
->> +    DirtyStat.calc_time = msec / 1000;
->> +
->> +    CPU_FOREACH(cpu) {
->> +        record_dirtypages(cpu, false);
->> +    }
->> +
->> +    dirtyrate_global_dirty_log_stop();
->> +
->> +    for (i = 0; i < DirtyStat.method.vcpu.nvcpu; i++) {
->> +        dirtyrate = do_calculate_dirtyrate_vcpu(i);
->> +        DirtyStat.method.vcpu.rates[i].id = i;
->> +        DirtyStat.method.vcpu.rates[i].dirty_rate = dirtyrate;
->> +        dirtyrate_sum += dirtyrate;
->> +    }
->> +
->> +    DirtyStat.dirty_rate = dirtyrate_sum / DirtyStat.method.vcpu.nvcpu;
+We need CONFIG_TCG=m right?
+
+Which means quite a few changes.
+
 > 
-> Why you'd like to divide with nvcpu?  Isn't dirtyrate_sum exactly what we want?
-> As I don't think we care about average per-vcpu dirty rate, but total here.
+> So, enough for today, to be continued next week.
+> Work branch pushed to
+>     https://git.kraxel.org/cgit/qemu/log/?h=sirius/modinfo-playground
 > 
-the initial idea of mine is that the qmp output dirty rate represent the 
-average dirty rate, my mistake.indeed, the vm dirty rate should not be 
-the average of vcpu's, i'll fix it the next version.
->> +    g_free(dirty_pages);
->> +}
+> Topmost patch doesn't compile but shows the build changes.
 > 
-> I did a run with 4G mem VM, alloc 1G and dirty it with 500MB/s, then
-> 
->    - With old way: I got 95MB/s
->    - With new way: I got 128MB/s
-> 
-> The new way has the output with:
-> 
-> Dirty rate: 128 (MB/s)
-> vcpu[0], Dirty rate: 0
-> vcpu[1], Dirty rate: 1
-> vcpu[2], Dirty rate: 0
-> vcpu[3], Dirty rate: 511
-> 
-> I think if without the division, it'll be 512MB/s, which is matching the dirty
-> workload I initiated.
+> take care,
+>   Gerd
 > 
 
--- 
-Best regard
-
-Hyman Huang(黄勇)
 
