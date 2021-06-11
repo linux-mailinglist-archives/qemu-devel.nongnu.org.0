@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D38A3A3BA7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:07:19 +0200 (CEST)
-Received: from localhost ([::1]:42252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0403A3BA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:05:03 +0200 (CEST)
+Received: from localhost ([::1]:35844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lraK6-0007VD-5P
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:07:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37986)
+	id 1lraHu-00037D-LO
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lraDz-00049U-Q8
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53058)
+ id 1lraDu-0003yA-FY
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lraDy-0002Ft-0j
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:59 -0400
+ id 1lraDs-0002CJ-MU
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623391257;
+ s=mimecast20190719; t=1623391252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qPM+QnxnY3kbDqzSGJKwBJa/aBRZ02ceAg7DZ9Y1qBU=;
- b=IQ70V9ROFCffeQt1ILPtSiBrsHBJQf1feFt3KgyKEBTXv4dWv9WdjmvNrwQyB9yeMSRQvL
- m4yNYX1zikrSI7awfTgBiAGRJB8Hflb2a1ec4GZ8em8hftRWUFpGXFKtogz9OMGfSjoO+H
- 71ks2kCt27SHQG10L5HhDNBbRCWk3+Q=
+ bh=LNdkWCyDEf1cu8YG1i6IGl35+nHR5vk7dqSp88q0AJA=;
+ b=dxMg2kV4NVg44MSxovylwdsj0dRvFb6p+RRGUf7YZiwczZensO8jYwYNsPoxgmeQe5TJ0C
+ TVsGvYVTkoQ1h4w/04WR8hIWEnxKxzLU76i3ElpXzILjkvBMyjaPK5J+6d8+euUfzvRluS
+ /fwP553YVODpDUOpKYk2rB374b8w5vE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-6iY317HeMWK148RqKSXTpA-1; Fri, 11 Jun 2021 02:00:45 -0400
-X-MC-Unique: 6iY317HeMWK148RqKSXTpA-1
+ us-mta-181-0w-jBkoPO7WDFenSRM65_g-1; Fri, 11 Jun 2021 02:00:48 -0400
+X-MC-Unique: 0w-jBkoPO7WDFenSRM65_g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EAA98015A4;
- Fri, 11 Jun 2021 06:00:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D5A6802B4F;
+ Fri, 11 Jun 2021 06:00:47 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-78.pek2.redhat.com [10.72.13.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A08A16060F;
- Fri, 11 Jun 2021 06:00:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF42560917;
+ Fri, 11 Jun 2021 06:00:44 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 06/12] Remove some duplicate trace code.
-Date: Fri, 11 Jun 2021 14:00:18 +0800
-Message-Id: <20210611060024.46763-7-jasowang@redhat.com>
+Subject: [PULL 07/12] Fix the qemu crash when guest shutdown during checkpoint
+Date: Fri, 11 Jun 2021 14:00:19 +0800
+Message-Id: <20210611060024.46763-8-jasowang@redhat.com>
 In-Reply-To: <20210611060024.46763-1-jasowang@redhat.com>
 References: <20210611060024.46763-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -87,7 +87,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-There is the same trace code in the colo_compare_packet_payload.
+This patch fixes the following:
+    qemu-system-x86_64: invalid runstate transition: 'colo' ->'shutdown'
+    Aborted (core dumped)
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
@@ -97,33 +99,21 @@ Tested-by: Lukas Straub <lukasstraub2@web.de>
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/colo-compare.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ softmmu/runstate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 9d1ad99..c142c08 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -590,19 +590,6 @@ static int colo_packet_compare_other(Packet *spkt, Packet *ppkt)
-     uint16_t offset = ppkt->vnet_hdr_len;
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index ce8977c..1564057 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -126,6 +126,7 @@ static const RunStateTransition runstate_transitions_def[] = {
+     { RUN_STATE_RESTORE_VM, RUN_STATE_PRELAUNCH },
  
-     trace_colo_compare_main("compare other");
--    if (trace_event_get_state_backends(TRACE_COLO_COMPARE_IP_INFO)) {
--        char pri_ip_src[20], pri_ip_dst[20], sec_ip_src[20], sec_ip_dst[20];
--
--        strcpy(pri_ip_src, inet_ntoa(ppkt->ip->ip_src));
--        strcpy(pri_ip_dst, inet_ntoa(ppkt->ip->ip_dst));
--        strcpy(sec_ip_src, inet_ntoa(spkt->ip->ip_src));
--        strcpy(sec_ip_dst, inet_ntoa(spkt->ip->ip_dst));
--
--        trace_colo_compare_ip_info(ppkt->size, pri_ip_src,
--                                   pri_ip_dst, spkt->size,
--                                   sec_ip_src, sec_ip_dst);
--    }
--
-     if (ppkt->size != spkt->size) {
-         trace_colo_compare_main("Other: payload size of packets are different");
-         return -1;
+     { RUN_STATE_COLO, RUN_STATE_RUNNING },
++    { RUN_STATE_COLO, RUN_STATE_SHUTDOWN},
+ 
+     { RUN_STATE_RUNNING, RUN_STATE_DEBUG },
+     { RUN_STATE_RUNNING, RUN_STATE_INTERNAL_ERROR },
 -- 
 2.7.4
 
