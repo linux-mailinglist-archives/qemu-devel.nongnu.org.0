@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E153A3BAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:09:08 +0200 (CEST)
-Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4CF3A3BA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:04:56 +0200 (CEST)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lraLr-0003BA-8E
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
+	id 1lraHo-00035T-1p
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lraDx-000449-Ti
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36128)
+ id 1lraDz-00048R-5J
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lraDw-0002EX-36
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:57 -0400
+ id 1lraDx-0002FC-3s
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623391255;
+ s=mimecast20190719; t=1623391256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J9Hx9o+jynN5rJRjXtek6QTT0rR1HclsIzHRSczYNBw=;
- b=eifEilmJNAqXU6DHLWjGw5kHQi62P9iFogHRO1At0ky1Y0PVISDaIoc71ORFFf6+wq6kaf
- FYJgOSNJBWhs14iIjiBUVT0ehT2tpqryJMrcrnpQRYAZNKdDREaNK++0Ok7NecDy6FTGne
- OcWPjB2xFgd3Qp+iLNeHOFuWvpqKMRk=
+ bh=/PrL8tItNxXFB0YZ42PPVCXAMvUuDuF/tSYL4nE/lm0=;
+ b=Ih3TNOUsLGVy3NMbPQBVO+KL2Gu4xnUMgE7Ouf9ZBt+1YAcZh+uvHm4g+5EBmAQvFqCtjj
+ C8IHxXM134otNq7XfTCzuJtz79SIlVvsH+jmzcFOyv5azgyqbqZyXnH7J0I/rI9mk1OVTU
+ DAf7jkTnz/L+unhQRfU2PjKwvjBIV1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-YnumHObWOl-nNcKbcz9kOw-1; Fri, 11 Jun 2021 02:00:51 -0400
-X-MC-Unique: YnumHObWOl-nNcKbcz9kOw-1
+ us-mta-335-LzgUbhfNPzW9QtF_RHFr4Q-1; Fri, 11 Jun 2021 02:00:54 -0400
+X-MC-Unique: LzgUbhfNPzW9QtF_RHFr4Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BCB71922965;
- Fri, 11 Jun 2021 06:00:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86324100C612;
+ Fri, 11 Jun 2021 06:00:53 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-78.pek2.redhat.com [10.72.13.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE7FE60917;
- Fri, 11 Jun 2021 06:00:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD5D560917;
+ Fri, 11 Jun 2021 06:00:50 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 08/12] Optimize the function of filter_send
-Date: Fri, 11 Jun 2021 14:00:20 +0800
-Message-Id: <20210611060024.46763-9-jasowang@redhat.com>
+Subject: [PULL 09/12] Remove migrate_set_block_enabled in checkpoint
+Date: Fri, 11 Jun 2021 14:00:21 +0800
+Message-Id: <20210611060024.46763-10-jasowang@redhat.com>
 In-Reply-To: <20210611060024.46763-1-jasowang@redhat.com>
 References: <20210611060024.46763-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -87,56 +87,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-The iov_size has been calculated in filter_send(). we can directly
-return the size.In this way, this is no need to repeat calculations
-in filter_redirector_receive_iov();
+We can detect disk migration in migrate_prepare, if disk migration
+is enabled in COLO mode, we can directly report an error.and there
+is no need to disable block migration at every checkpoint.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Lukas Straub <lukasstraub2@web.de>
 Tested-by: Lukas Straub <lukasstraub2@web.de>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/filter-mirror.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/colo.c      | 6 ------
+ migration/migration.c | 4 ++++
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-index f8e6500..f20240c 100644
---- a/net/filter-mirror.c
-+++ b/net/filter-mirror.c
-@@ -88,7 +88,7 @@ static int filter_send(MirrorState *s,
-         goto err;
+diff --git a/migration/colo.c b/migration/colo.c
+index e498fdb..79fa1f6 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -435,12 +435,6 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+     if (failover_get_state() != FAILOVER_STATUS_NONE) {
+         goto out;
+     }
+-
+-    /* Disable block migration */
+-    migrate_set_block_enabled(false, &local_err);
+-    if (local_err) {
+-        goto out;
+-    }
+     qemu_mutex_lock_iothread();
+ 
+ #ifdef CONFIG_REPLICATION
+diff --git a/migration/migration.c b/migration/migration.c
+index 393299e..4828997 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2217,6 +2217,10 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
      }
  
--    return 0;
-+    return size;
- 
- err:
-     return ret < 0 ? ret : -EIO;
-@@ -159,7 +159,7 @@ static ssize_t filter_mirror_receive_iov(NetFilterState *nf,
-     int ret;
- 
-     ret = filter_send(s, iov, iovcnt);
--    if (ret) {
-+    if (ret < 0) {
-         error_report("filter mirror send failed(%s)", strerror(-ret));
-     }
- 
-@@ -182,10 +182,10 @@ static ssize_t filter_redirector_receive_iov(NetFilterState *nf,
- 
-     if (qemu_chr_fe_backend_connected(&s->chr_out)) {
-         ret = filter_send(s, iov, iovcnt);
--        if (ret) {
-+        if (ret < 0) {
-             error_report("filter redirector send failed(%s)", strerror(-ret));
-         }
--        return iov_size(iov, iovcnt);
-+        return ret;
-     } else {
-         return 0;
-     }
+     if (blk || blk_inc) {
++        if (migrate_colo_enabled()) {
++            error_setg(errp, "No disk migration is required in COLO mode");
++            return false;
++        }
+         if (migrate_use_block() || migrate_use_block_incremental()) {
+             error_setg(errp, "Command options are incompatible with "
+                        "current migration capabilities");
 -- 
 2.7.4
 
