@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5D73A3BA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:04:51 +0200 (CEST)
-Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB703A3B96
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 08:02:43 +0200 (CEST)
+Received: from localhost ([::1]:56228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lraHi-0002uz-Cw
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
+	id 1lraFe-0006KW-DH
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 02:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lraDh-0003Ty-Vt
+ id 1lraDi-0003VS-RD
  for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35045)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lraDg-00022m-9u
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:41 -0400
+ id 1lraDh-000241-3W
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 02:00:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623391239;
+ s=mimecast20190719; t=1623391240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sC7BL+lj3imjP8uxrKr5+G7O3lojkazTai5JadCsnfE=;
- b=M1uB2uGYC/hzjt81E/6d5UhAakUjYv6zm73dIMbHdARnaVdAcFm5N3tde70F0nKUPWBu3k
- qC8I/GoUZprWzrNf4gfx2Xjcdjm9v+kf6D+zvw05sk8Q1Z9R8LNVDuDj2n65kNvwg3jeVf
- rfXnQH9QMuB9kF+TsTXo51pBofpOkOE=
+ bh=h8X53W3anMw1Gcu1TRAGfO8A7bc8ps2x2B5b+g0DOG8=;
+ b=Wy+WfmzqN87ec0lPEFhJ8SkL507UxAX/JnjNbZXXYJP4Ih3ceV7s4vusHxgSp4Js9SArKU
+ tvFo9Hat2wweV7Y3lzaXFsrEgXSthF7fGES139PNvWv/7Hz4MhhC0n3izt3QjlCFXeY5X6
+ TlT/vXrmuYNTVDDk5i2VGK3lMfSGI0Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-Oohqyt7HMz-Hb2qVKkmOIQ-1; Fri, 11 Jun 2021 02:00:37 -0400
-X-MC-Unique: Oohqyt7HMz-Hb2qVKkmOIQ-1
+ us-mta-370-SakgO5oXMveXGetWeMfMiw-1; Fri, 11 Jun 2021 02:00:39 -0400
+X-MC-Unique: SakgO5oXMveXGetWeMfMiw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA77F1084F46;
- Fri, 11 Jun 2021 06:00:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94EAB100C61C;
+ Fri, 11 Jun 2021 06:00:38 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-78.pek2.redhat.com [10.72.13.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9755D60917;
- Fri, 11 Jun 2021 06:00:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39EEB60937;
+ Fri, 11 Jun 2021 06:00:36 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 03/12] vhost-vdpa: don't initialize backend_features
-Date: Fri, 11 Jun 2021 14:00:15 +0800
-Message-Id: <20210611060024.46763-4-jasowang@redhat.com>
+Subject: [PULL 04/12] vhost-vdpa: remove the unused
+ vhost_vdpa_get_acked_features()
+Date: Fri, 11 Jun 2021 14:00:16 +0800
+Message-Id: <20210611060024.46763-5-jasowang@redhat.com>
 In-Reply-To: <20210611060024.46763-1-jasowang@redhat.com>
 References: <20210611060024.46763-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -79,50 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
- Gautam Dawar <gdawar@xilinx.com>
+Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We used to initialize backend_features during vhost_vdpa_init()
-regardless whether or not it was supported by vhost. This will lead
-the unsupported features like VIRTIO_F_IN_ORDER to be included and set
-to the vhost-vdpa during vhost_dev_start. Because the
-VIRTIO_F_IN_ORDER is not supported by vhost-vdpa so it won't be
-advertised to guest which will break the datapath.
+No user for this helper, let's remove it.
 
-Fix this by not initializing the backend_features, so the
-acked_features could be built only from guest features via
-vhost_net_ack_features().
-
-Fixes: 108a64818e69b ("vhost-vdpa: introduce vhost-vdpa backend")
-Cc: qemu-stable@nongnu.org
-Cc: Gautam Dawar <gdawar@xilinx.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 3 ---
- 1 file changed, 3 deletions(-)
+ include/net/vhost-vdpa.h | 1 -
+ net/vhost-vdpa.c         | 9 ---------
+ 2 files changed, 10 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 7bcccf1..61ba313 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -268,15 +268,12 @@ static void vhost_vdpa_add_status(struct vhost_dev *dev, uint8_t status)
- static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque)
+diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+index 45e34b7..b81f9a6 100644
+--- a/include/net/vhost-vdpa.h
++++ b/include/net/vhost-vdpa.h
+@@ -15,7 +15,6 @@
+ #define TYPE_VHOST_VDPA "vhost-vdpa"
+ 
+ struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
+-uint64_t vhost_vdpa_get_acked_features(NetClientState *nc);
+ 
+ extern const int vdpa_feature_bits[];
+ 
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 8b14215..19187dc 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -68,15 +68,6 @@ VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+     return s->vhost_net;
+ }
+ 
+-uint64_t vhost_vdpa_get_acked_features(NetClientState *nc)
+-{
+-    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+-    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+-    s->acked_features = vhost_net_get_acked_features(s->vhost_net);
+-
+-    return s->acked_features;
+-}
+-
+ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
  {
-     struct vhost_vdpa *v;
--    uint64_t features;
-     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_VDPA);
-     trace_vhost_vdpa_init(dev, opaque);
- 
-     v = opaque;
-     v->dev = dev;
-     dev->opaque =  opaque ;
--    vhost_vdpa_call(dev, VHOST_GET_FEATURES, &features);
--    dev->backend_features = features;
-     v->listener = vhost_vdpa_memory_listener;
-     v->msg_type = VHOST_IOTLB_MSG_V2;
- 
+     uint32_t device_id;
 -- 
 2.7.4
 
