@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03D63A4B68
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 01:49:19 +0200 (CEST)
-Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8573A4B95
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:03:50 +0200 (CEST)
+Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrqtr-0008Rf-04
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 19:49:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47454)
+	id 1lrr7t-00033S-CG
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmv-00036f-Su
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:10 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:35491)
+ id 1lrqmo-0002se-9t
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:02 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:50861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqms-0002mj-BA
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:09 -0400
-Received: by mail-pf1-x432.google.com with SMTP id h12so5700133pfe.2
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:42:05 -0700 (PDT)
+ id 1lrqml-0002iv-IC
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:02 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id g4so6555196pjk.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DEGK7taWTLgaAQxBCsJBdKV8XPOvsryzrwUIPNhMs30=;
- b=RDS9NXO3+DcqOqnv2DsN5MNdOijH1reVjSyDyGV8MktpCEEGOPAwucFlVtC19IDmAW
- FL1sl2e1JhDY7W0DXQ9sGKIpjP6+E6DektVlBkeCCJwbDCh9befju9zMSA1a4p2jtwHy
- 0iwnUOLaRvWubB1t9eMjxYGTOBBBkhGsECQQK6d0mCl9dobr2dIqIwPmyNuzrPpM5YXX
- dft3jLUr2V72/4Wc40pCZV6Y2F7LRGS+8+TGWyDc3Tv89GTl0OljILyWMxeQ/hn79oxv
- x8nOMBA5tO+vwrRe7XoEaC1m28A6LGKyTZukcDkOVkRVi5xxDiHj/mQM/Ds/9c2pmtqF
- zpnA==
+ bh=1l+8M2L0wM1oDKnQt56uL3Y/0V+moZ9SU9/ZN2FXsyc=;
+ b=LpqQjzRDOp/KwKC7cR3el/L2ynR/z99L+eZO8A+EjkXKAwElngsq+IWbBwbYkY5kYX
+ TL7wBkGUBz1d7CVHKdrIzBAfKYYEkEt0HSiph23n23POaxPSzR/cStEuqR7v/K7to9CV
+ u0ICT3KNyMSxCU5rojczg4ApxhCyclf/eEuA4ENAnw+s7PAZNq7Qja9SHyCtMRqJzzv5
+ BNh9X273ldSMvCVmzr/Bg0/lObwn5N7nJagIPZ3R/W1zbF9NjmZC0ev2SpDJI6gBiQTy
+ 6QAFWan0Y+iQuOpdKuYITS2rxlshzkWx3SHfvGnAGSyHmUhtWb0KPhMmMm66fKqRNIwx
+ iiCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DEGK7taWTLgaAQxBCsJBdKV8XPOvsryzrwUIPNhMs30=;
- b=a2epc9UG0VfUH4WQYr4puLGrn+OJ4CPO8oo4b8pfPlzSQLKMjJBab3u9tI0QphWjZx
- HcpXwFxd/ECEuQPdeqym6Qb3MB3Hq6DmmracXRdAQrnVb6UrHMW9T3/m6Hgexcbzikxl
- Vyzc5amz16ztmqrQ75xozIQWvtAOjGwxlSl/NUKZEQ95jRSxc3yxDgyEKQuv7FlXK0yq
- eCswplFePXf000+B6w0YGl3rvBwjscDFcVyiBCyAXFNu0ma2QY5F4cMdet/6I2WdhB0M
- vCPh+J1BKLdwcbyJFLsuiZYDiaG6wPYnGxDhlO+FlyJYFv+DrHvdLGVO/yedxa9n3Nbd
- BScw==
-X-Gm-Message-State: AOAM532g/dpgIkxGYPEnoTB6EX4Af4AfpwWSg+VOdUTtj1BoSfJ92zjw
- lrm3+PWHFyTie/P5+5mL9QprZykRzB6rxA==
-X-Google-Smtp-Source: ABdhPJzwKqtshEhhB2FKzA13ddWLxNnGtObVE7eWS8aAD8pVQrU0Xad1qxMBoQ9Rc+T7rh/EnVkiRA==
-X-Received: by 2002:a65:64c8:: with SMTP id t8mr5969601pgv.96.1623454924415;
- Fri, 11 Jun 2021 16:42:04 -0700 (PDT)
+ bh=1l+8M2L0wM1oDKnQt56uL3Y/0V+moZ9SU9/ZN2FXsyc=;
+ b=Dvub7SQnDHvqUr9sre3fCGwKXj7oq9pFwoTFbKaDpcpECB1HkiJsM3fRN434GruE/n
+ 8aKpNf5I+2gt2EWW8XBo0LCs+92yeiSM6WRiIuFxLTMeJDxx4z13ywLtZ1PnlsOQQ0y/
+ LCavCsekhIEYQBovvfNZMrPHKmWb/NZXeAw4gKrVhEqKxRhEHQitTbuwfKnfArWHcVyn
+ t+E3Um58IFK4pUjPKyHqBEjlfn9gsSAu/FmLQ1IdvSj7MuqNV2kFWZgtrunKar3dC1X9
+ +gsrf2MAgG8pcbLLEKo+lxuP40/i7W5B0sf3NCpqxbWrwqT7r3DJMXBUzdxiIBobvot/
+ 28pg==
+X-Gm-Message-State: AOAM530AKNkwLIx32qyEiVMo6f6Df5Yzt43Vc+y9Ao6VA4xdgDKW35/z
+ b2qaElmadMkM7OqcGRKxEqfVXRjsrRRttg==
+X-Google-Smtp-Source: ABdhPJzuGol4r16wLm2vFJ4PLE6VdntTdMaen2VZgJaC1in4crs8tAFrgTukWjGuriDwu+WIvdOE7w==
+X-Received: by 2002:a17:90a:c8b:: with SMTP id
+ v11mr11148113pja.114.1623454918187; 
+ Fri, 11 Jun 2021 16:41:58 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.42.03
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:42:04 -0700 (PDT)
+ Fri, 11 Jun 2021 16:41:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/34] tcg: Fix documentation for tcg_constant_* vs
- tcg_temp_free_*
-Date: Fri, 11 Jun 2021 16:41:41 -0700
-Message-Id: <20210611234144.653682-32-richard.henderson@linaro.org>
+Subject: [PULL 21/34] tcg: Move in_code_gen_buffer and tests to region.c
+Date: Fri, 11 Jun 2021 16:41:31 -0700
+Message-Id: <20210611234144.653682-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,40 +85,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Luis Pires <luis.pires@eldorado.org.br>,
+Cc: Luis Pires <luis.pires@eldorado.org.br>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At some point during the development of tcg_constant_*, I changed
-my mind about whether such temps should be able to be passed to
-tcg_temp_free_*.  The final version committed allows this, but the
-commentary was not updated to match.
+Shortly, the full code_gen_buffer will only be visible
+to region.c, so move in_code_gen_buffer out-of-line.
 
-Fixes: c0522136adf
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Move the debugging versions of tcg_splitwx_to_{rx,rw}
+to region.c as well, so that the compiler gets to see
+the implementation of in_code_gen_buffer.
+
+This leaves exactly one use of in_code_gen_buffer outside
+of region.c, in cpu_restore_state.  Which, being on the
+exception path, is not performance critical.
+
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/tcg/tcg.h | 11 +----------
+ tcg/region.c      | 34 ++++++++++++++++++++++++++++++++++
+ tcg/tcg.c         | 23 -----------------------
+ 3 files changed, 35 insertions(+), 33 deletions(-)
 
 diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 1d056ed0ed..064dab383b 100644
+index 2316a64139..f48b5aa166 100644
 --- a/include/tcg/tcg.h
 +++ b/include/tcg/tcg.h
-@@ -1095,7 +1095,8 @@ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec);
+@@ -695,16 +695,7 @@ extern const void *tcg_code_gen_epilogue;
+ extern uintptr_t tcg_splitwx_diff;
+ extern TCGv_env cpu_env;
  
- /*
-  * Locate or create a read-only temporary that is a constant.
-- * This kind of temporary need not and should not be freed.
-+ * This kind of temporary need not be freed, but for convenience
-+ * will be silently ignored by tcg_temp_free_*.
-  */
- TCGTemp *tcg_constant_internal(TCGType type, int64_t val);
+-static inline bool in_code_gen_buffer(const void *p)
+-{
+-    const TCGContext *s = &tcg_init_ctx;
+-    /*
+-     * Much like it is valid to have a pointer to the byte past the
+-     * end of an array (so long as you don't dereference it), allow
+-     * a pointer to the byte past the end of the code gen buffer.
+-     */
+-    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
+-}
++bool in_code_gen_buffer(const void *p);
  
+ #ifdef CONFIG_DEBUG_TCG
+ const void *tcg_splitwx_to_rx(void *rw);
+diff --git a/tcg/region.c b/tcg/region.c
+index 445a278702..5beba41412 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -68,6 +68,40 @@ static struct tcg_region_state region;
+ static void *region_trees;
+ static size_t tree_size;
+ 
++bool in_code_gen_buffer(const void *p)
++{
++    const TCGContext *s = &tcg_init_ctx;
++    /*
++     * Much like it is valid to have a pointer to the byte past the
++     * end of an array (so long as you don't dereference it), allow
++     * a pointer to the byte past the end of the code gen buffer.
++     */
++    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
++}
++
++#ifdef CONFIG_DEBUG_TCG
++const void *tcg_splitwx_to_rx(void *rw)
++{
++    /* Pass NULL pointers unchanged. */
++    if (rw) {
++        g_assert(in_code_gen_buffer(rw));
++        rw += tcg_splitwx_diff;
++    }
++    return rw;
++}
++
++void *tcg_splitwx_to_rw(const void *rx)
++{
++    /* Pass NULL pointers unchanged. */
++    if (rx) {
++        rx -= tcg_splitwx_diff;
++        /* Assert that we end with a pointer in the rw region. */
++        g_assert(in_code_gen_buffer(rx));
++    }
++    return (void *)rx;
++}
++#endif /* CONFIG_DEBUG_TCG */
++
+ /* compare a pointer @ptr and a tb_tc @s */
+ static int ptr_cmp_tb_tc(const void *ptr, const struct tb_tc *s)
+ {
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 9880d5205e..4bb35b455b 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -416,29 +416,6 @@ static const TCGTargetOpDef constraint_sets[] = {
+ 
+ #include "tcg-target.c.inc"
+ 
+-#ifdef CONFIG_DEBUG_TCG
+-const void *tcg_splitwx_to_rx(void *rw)
+-{
+-    /* Pass NULL pointers unchanged. */
+-    if (rw) {
+-        g_assert(in_code_gen_buffer(rw));
+-        rw += tcg_splitwx_diff;
+-    }
+-    return rw;
+-}
+-
+-void *tcg_splitwx_to_rw(const void *rx)
+-{
+-    /* Pass NULL pointers unchanged. */
+-    if (rx) {
+-        rx -= tcg_splitwx_diff;
+-        /* Assert that we end with a pointer in the rw region. */
+-        g_assert(in_code_gen_buffer(rx));
+-    }
+-    return (void *)rx;
+-}
+-#endif /* CONFIG_DEBUG_TCG */
+-
+ static void alloc_tcg_plugin_context(TCGContext *s)
+ {
+ #ifdef CONFIG_PLUGIN
 -- 
 2.25.1
 
