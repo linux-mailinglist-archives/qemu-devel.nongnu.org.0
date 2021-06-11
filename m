@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8573A4B95
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:03:50 +0200 (CEST)
-Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650DD3A4B96
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 02:04:00 +0200 (CEST)
+Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrr7t-00033S-CG
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:03:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47292)
+	id 1lrr83-00039r-BT
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 20:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqmo-0002se-9t
+ id 1lrqmo-0002u5-OU
  for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:02 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:50861)
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lrqml-0002iv-IC
+ id 1lrqmm-0002j9-6k
  for qemu-devel@nongnu.org; Fri, 11 Jun 2021 19:42:02 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id g4so6555196pjk.0
+Received: by mail-pl1-x634.google.com with SMTP id e1so3588660pld.13
  for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 16:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1l+8M2L0wM1oDKnQt56uL3Y/0V+moZ9SU9/ZN2FXsyc=;
- b=LpqQjzRDOp/KwKC7cR3el/L2ynR/z99L+eZO8A+EjkXKAwElngsq+IWbBwbYkY5kYX
- TL7wBkGUBz1d7CVHKdrIzBAfKYYEkEt0HSiph23n23POaxPSzR/cStEuqR7v/K7to9CV
- u0ICT3KNyMSxCU5rojczg4ApxhCyclf/eEuA4ENAnw+s7PAZNq7Qja9SHyCtMRqJzzv5
- BNh9X273ldSMvCVmzr/Bg0/lObwn5N7nJagIPZ3R/W1zbF9NjmZC0ev2SpDJI6gBiQTy
- 6QAFWan0Y+iQuOpdKuYITS2rxlshzkWx3SHfvGnAGSyHmUhtWb0KPhMmMm66fKqRNIwx
- iiCw==
+ bh=YckM4rrXqWzq3iloRH/M5Y1yXJHaBzItIjFSA6/6d8o=;
+ b=AUHYX218chIllIBKLN7GnpXohlc2gfPsy7xV4GE8dnKbzLkmc9XX2RaPHk41szXOy0
+ Y1gXknYqE8tNcBbXTT/HbhNyrofee9QijoqbjruRxGKbh5lQXJEQPFUiG7T7xB13DSkU
+ tUD2B0xH/KW537xLa8emnDpfPHB9m+kQ1UpRzbqhihQ7WL83IlpqMeg3BKKICjuggDrQ
+ 7Da3oOqaUUNV4eUri+J8D9YhNeolmF3wulijIbZrrQ7nM/Ux25TI1HzwmSrCgn+fe+4v
+ TeJwvT/S8jo+YsJMf7WbP5B09n2lTUOMl90yf0NIPxW4NRXgLs93Meh5KDasuiX3Lpgp
+ p2zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1l+8M2L0wM1oDKnQt56uL3Y/0V+moZ9SU9/ZN2FXsyc=;
- b=Dvub7SQnDHvqUr9sre3fCGwKXj7oq9pFwoTFbKaDpcpECB1HkiJsM3fRN434GruE/n
- 8aKpNf5I+2gt2EWW8XBo0LCs+92yeiSM6WRiIuFxLTMeJDxx4z13ywLtZ1PnlsOQQ0y/
- LCavCsekhIEYQBovvfNZMrPHKmWb/NZXeAw4gKrVhEqKxRhEHQitTbuwfKnfArWHcVyn
- t+E3Um58IFK4pUjPKyHqBEjlfn9gsSAu/FmLQ1IdvSj7MuqNV2kFWZgtrunKar3dC1X9
- +gsrf2MAgG8pcbLLEKo+lxuP40/i7W5B0sf3NCpqxbWrwqT7r3DJMXBUzdxiIBobvot/
- 28pg==
-X-Gm-Message-State: AOAM530AKNkwLIx32qyEiVMo6f6Df5Yzt43Vc+y9Ao6VA4xdgDKW35/z
- b2qaElmadMkM7OqcGRKxEqfVXRjsrRRttg==
-X-Google-Smtp-Source: ABdhPJzuGol4r16wLm2vFJ4PLE6VdntTdMaen2VZgJaC1in4crs8tAFrgTukWjGuriDwu+WIvdOE7w==
-X-Received: by 2002:a17:90a:c8b:: with SMTP id
- v11mr11148113pja.114.1623454918187; 
+ bh=YckM4rrXqWzq3iloRH/M5Y1yXJHaBzItIjFSA6/6d8o=;
+ b=VfSnkQQHUROBHSsYo5l941qoQVBhsi74qpFkWmWBmIOAc0BuWs2kmE1unIKlAb/FMo
+ zZqSn7YEWD1Meya7WwWnGylVavT9cYyLcZ/ls51VGmfg16oqCdCf5lHjUVHxIoJatVtd
+ 2KNHYtnAfDPuMB3gWr9E80hiNbG3/LeGHbORS2sVkGNYkkSyXxtKy2wDEUu4TBFxWfpp
+ thSDR27otBRuS7+plzuxX4GnG0rEyz+V7uRVW68095s0EgObxo+BBNtZ3IQuxJD/RL70
+ Im9ahi8gJ6Db9YnD9R66Dc7fxdR6jZAeNGJZsRXmaOe0zAX7xUY/qsbkaeOG0nd/udfT
+ MVKw==
+X-Gm-Message-State: AOAM5319/civYIuK0tuQI4u5q6YTOX6p5COTPe0M0MAlPcF9KhsIbnu2
+ i7NPuz8VGZH6BD+6OhEnJKeb/riWvW8Zbg==
+X-Google-Smtp-Source: ABdhPJw2TDFSijSEkGp3+ar0GUYf+L3tdu4urwj6Abm5nh+TZnkDmqD9nmu/JTN835+AwtH85l+5ow==
+X-Received: by 2002:a17:90a:f317:: with SMTP id
+ ca23mr7039972pjb.174.1623454918837; 
  Fri, 11 Jun 2021 16:41:58 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.57
+ by smtp.gmail.com with ESMTPSA id q23sm6139829pgm.31.2021.06.11.16.41.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jun 2021 16:41:57 -0700 (PDT)
+ Fri, 11 Jun 2021 16:41:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/34] tcg: Move in_code_gen_buffer and tests to region.c
-Date: Fri, 11 Jun 2021 16:41:31 -0700
-Message-Id: <20210611234144.653682-22-richard.henderson@linaro.org>
+Subject: [PULL 22/34] tcg: Allocate code_gen_buffer into struct
+ tcg_region_state
+Date: Fri, 11 Jun 2021 16:41:32 -0700
+Message-Id: <20210611234144.653682-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210611234144.653682-1-richard.henderson@linaro.org>
 References: <20210611234144.653682-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,127 +91,167 @@ Cc: Luis Pires <luis.pires@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shortly, the full code_gen_buffer will only be visible
-to region.c, so move in_code_gen_buffer out-of-line.
-
-Move the debugging versions of tcg_splitwx_to_{rx,rw}
-to region.c as well, so that the compiler gets to see
-the implementation of in_code_gen_buffer.
-
-This leaves exactly one use of in_code_gen_buffer outside
-of region.c, in cpu_restore_state.  Which, being on the
-exception path, is not performance critical.
+Do not mess around with setting values within tcg_init_ctx.
+Put the values into 'region' directly, which is where they
+will live for the lifetime of the program.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 11 +----------
- tcg/region.c      | 34 ++++++++++++++++++++++++++++++++++
- tcg/tcg.c         | 23 -----------------------
- 3 files changed, 35 insertions(+), 33 deletions(-)
+ tcg/region.c | 64 ++++++++++++++++++++++------------------------------
+ 1 file changed, 27 insertions(+), 37 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 2316a64139..f48b5aa166 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -695,16 +695,7 @@ extern const void *tcg_code_gen_epilogue;
- extern uintptr_t tcg_splitwx_diff;
- extern TCGv_env cpu_env;
- 
--static inline bool in_code_gen_buffer(const void *p)
--{
--    const TCGContext *s = &tcg_init_ctx;
--    /*
--     * Much like it is valid to have a pointer to the byte past the
--     * end of an array (so long as you don't dereference it), allow
--     * a pointer to the byte past the end of the code gen buffer.
--     */
--    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
--}
-+bool in_code_gen_buffer(const void *p);
- 
- #ifdef CONFIG_DEBUG_TCG
- const void *tcg_splitwx_to_rx(void *rw);
 diff --git a/tcg/region.c b/tcg/region.c
-index 445a278702..5beba41412 100644
+index 5beba41412..ed7efba4b4 100644
 --- a/tcg/region.c
 +++ b/tcg/region.c
-@@ -68,6 +68,40 @@ static struct tcg_region_state region;
- static void *region_trees;
- static size_t tree_size;
+@@ -70,13 +70,12 @@ static size_t tree_size;
  
-+bool in_code_gen_buffer(const void *p)
-+{
-+    const TCGContext *s = &tcg_init_ctx;
+ bool in_code_gen_buffer(const void *p)
+ {
+-    const TCGContext *s = &tcg_init_ctx;
+     /*
+      * Much like it is valid to have a pointer to the byte past the
+      * end of an array (so long as you don't dereference it), allow
+      * a pointer to the byte past the end of the code gen buffer.
+      */
+-    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
++    return (size_t)(p - region.start_aligned) <= region.total_size;
+ }
+ 
+ #ifdef CONFIG_DEBUG_TCG
+@@ -562,8 +561,8 @@ static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+     }
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    tcg_ctx->code_gen_buffer = buf;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf;
++    region.total_size = size;
+     return true;
+ }
+ #elif defined(_WIN32)
+@@ -584,8 +583,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+         return false;
+     }
+ 
+-    tcg_ctx->code_gen_buffer = buf;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf;
++    region.total_size = size;
+     return true;
+ }
+ #else
+@@ -637,8 +636,8 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+     /* Request large pages for the buffer.  */
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    tcg_ctx->code_gen_buffer = buf;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf;
++    region.total_size = size;
+     return true;
+ }
+ 
+@@ -659,8 +658,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+         return false;
+     }
+     /* The size of the mapping may have been adjusted. */
+-    size = tcg_ctx->code_gen_buffer_size;
+-    buf_rx = tcg_ctx->code_gen_buffer;
++    buf_rx = region.start_aligned;
++    size = region.total_size;
+ #endif
+ 
+     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
+@@ -682,8 +681,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+ #endif
+ 
+     close(fd);
+-    tcg_ctx->code_gen_buffer = buf_rw;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf_rw;
++    region.total_size = size;
+     tcg_splitwx_diff = buf_rx - buf_rw;
+ 
+     /* Request large pages for the buffer and the splitwx.  */
+@@ -734,7 +733,7 @@ static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
+         return false;
+     }
+ 
+-    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
++    buf_rw = region.start_aligned;
+     buf_rx = 0;
+     ret = mach_vm_remap(mach_task_self(),
+                         &buf_rx,
+@@ -846,11 +845,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+  */
+ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+ {
+-    void *buf, *aligned, *end;
+-    size_t total_size;
+     size_t page_size;
+     size_t region_size;
+-    size_t n_regions;
+     size_t i;
+     bool ok;
+ 
+@@ -858,39 +854,33 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+                                splitwx, &error_fatal);
+     assert(ok);
+ 
+-    buf = tcg_init_ctx.code_gen_buffer;
+-    total_size = tcg_init_ctx.code_gen_buffer_size;
+-    page_size = qemu_real_host_page_size;
+-    n_regions = tcg_n_regions(total_size, max_cpus);
+-
+-    /* The first region will be 'aligned - buf' bytes larger than the others */
+-    aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
+-    g_assert(aligned < tcg_init_ctx.code_gen_buffer + total_size);
+-
+     /*
+      * Make region_size a multiple of page_size, using aligned as the start.
+      * As a result of this we might end up with a few extra pages at the end of
+      * the buffer; we will assign those to the last region.
+      */
+-    region_size = (total_size - (aligned - buf)) / n_regions;
++    region.n = tcg_n_regions(region.total_size, max_cpus);
++    page_size = qemu_real_host_page_size;
++    region_size = region.total_size / region.n;
+     region_size = QEMU_ALIGN_DOWN(region_size, page_size);
+ 
+     /* A region must have at least 2 pages; one code, one guard */
+     g_assert(region_size >= 2 * page_size);
++    region.stride = region_size;
++
++    /* Reserve space for guard pages. */
++    region.size = region_size - page_size;
++    region.total_size -= page_size;
++
 +    /*
-+     * Much like it is valid to have a pointer to the byte past the
-+     * end of an array (so long as you don't dereference it), allow
-+     * a pointer to the byte past the end of the code gen buffer.
++     * The first region will be smaller than the others, via the prologue,
++     * which has yet to be allocated.  For now, the first region begins at
++     * the page boundary.
 +     */
-+    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
-+}
-+
-+#ifdef CONFIG_DEBUG_TCG
-+const void *tcg_splitwx_to_rx(void *rw)
-+{
-+    /* Pass NULL pointers unchanged. */
-+    if (rw) {
-+        g_assert(in_code_gen_buffer(rw));
-+        rw += tcg_splitwx_diff;
-+    }
-+    return rw;
-+}
-+
-+void *tcg_splitwx_to_rw(const void *rx)
-+{
-+    /* Pass NULL pointers unchanged. */
-+    if (rx) {
-+        rx -= tcg_splitwx_diff;
-+        /* Assert that we end with a pointer in the rw region. */
-+        g_assert(in_code_gen_buffer(rx));
-+    }
-+    return (void *)rx;
-+}
-+#endif /* CONFIG_DEBUG_TCG */
-+
- /* compare a pointer @ptr and a tb_tc @s */
- static int ptr_cmp_tb_tc(const void *ptr, const struct tb_tc *s)
- {
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 9880d5205e..4bb35b455b 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -416,29 +416,6 @@ static const TCGTargetOpDef constraint_sets[] = {
++    region.after_prologue = region.start_aligned;
  
- #include "tcg-target.c.inc"
+     /* init the region struct */
+     qemu_mutex_init(&region.lock);
+-    region.n = n_regions;
+-    region.size = region_size - page_size;
+-    region.stride = region_size;
+-    region.after_prologue = buf;
+-    region.start_aligned = aligned;
+-    /* page-align the end, since its last page will be a guard page */
+-    end = QEMU_ALIGN_PTR_DOWN(buf + total_size, page_size);
+-    /* account for that last guard page */
+-    end -= page_size;
+-    total_size = end - aligned;
+-    region.total_size = total_size;
  
--#ifdef CONFIG_DEBUG_TCG
--const void *tcg_splitwx_to_rx(void *rw)
--{
--    /* Pass NULL pointers unchanged. */
--    if (rw) {
--        g_assert(in_code_gen_buffer(rw));
--        rw += tcg_splitwx_diff;
--    }
--    return rw;
--}
--
--void *tcg_splitwx_to_rw(const void *rx)
--{
--    /* Pass NULL pointers unchanged. */
--    if (rx) {
--        rx -= tcg_splitwx_diff;
--        /* Assert that we end with a pointer in the rw region. */
--        g_assert(in_code_gen_buffer(rx));
--    }
--    return (void *)rx;
--}
--#endif /* CONFIG_DEBUG_TCG */
--
- static void alloc_tcg_plugin_context(TCGContext *s)
- {
- #ifdef CONFIG_PLUGIN
+     /*
+      * Set guard pages in the rw buffer, as that's the one into which
 -- 
 2.25.1
 
