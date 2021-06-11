@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1302E3A42F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:23:53 +0200 (CEST)
-Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066DD3A4306
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 15:29:29 +0200 (CEST)
+Received: from localhost ([::1]:50710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrh8Z-0000Uq-TU
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44954)
+	id 1lrhDz-0003Wy-TR
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 09:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrh7Z-00088f-AT
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:22:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59766)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrhDD-0002kF-Bq
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:28:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrh7X-0005YQ-Rh
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:22:49 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lrhDB-0006sd-Qv
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 09:28:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623417767;
+ s=mimecast20190719; t=1623418117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qi5dc5KFS8BUOLixsiBkmvkTvLJ+N+KMUtqG/j3nGbA=;
- b=OZ+bLufpGOUkaPCGmX+M8lHIit+A20LZVquWZO1CLfkrmRmF/MnnF0EHPfwjDw3YbWg7ht
- 3Wuck/u13UmNZL7wTdzmH71rKo6cQiHbriuwCdTDf5u8iZI2Xe+bYP5s12OIuJuoyYKP9n
- Jjxm6KO1KzR3Uovs3m7tRoIt0k5S+N4=
+ bh=dya9i9TKWGCwAwMJ8gVQlTor/eTvx8mKFnbbPKzuv2Q=;
+ b=OR4LKw0qbDa9NDza1S9130p2B9q//GZmmKNtwpYBSUNt0lgxVztBEzajvFpB2kfcELyZuu
+ dJv7YASgOLy2Dn+4fx7/4Yp9CsORkipaHwUx8kEFfeV0v0aTbfSTdAshFK5xt3jnx9Q46a
+ HSSlZt0hcRXch5Qp06LheJjF6RvnYBs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-5hjJISJGM-axblRvr7Tmmw-1; Fri, 11 Jun 2021 09:22:35 -0400
-X-MC-Unique: 5hjJISJGM-axblRvr7Tmmw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-517-1GacyFzoMBOIYp-8abn7_w-1; Fri, 11 Jun 2021 09:28:34 -0400
+X-MC-Unique: 1GacyFzoMBOIYp-8abn7_w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D8DB800D62;
- Fri, 11 Jun 2021 13:22:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D503710C1ADC;
+ Fri, 11 Jun 2021 13:28:32 +0000 (UTC)
 Received: from redhat.com (ovpn-113-53.phx2.redhat.com [10.3.113.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E1B45D9C6;
- Fri, 11 Jun 2021 13:22:29 +0000 (UTC)
-Date: Fri, 11 Jun 2021 08:22:28 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD7160C05;
+ Fri, 11 Jun 2021 13:28:31 +0000 (UTC)
+Date: Fri, 11 Jun 2021 08:28:30 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v4 05/32] qemu-sockets: introduce
- socket_address_parse_named_fd()
-Message-ID: <20210611132228.k34szri6lv6c46m2@redhat.com>
-References: <20210610100802.5888-1-vsementsov@virtuozzo.com>
- <20210610100802.5888-6-vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH] qemu-{img,nbd}: Don't report zeroed cluster as a hole
+Message-ID: <20210611132830.i6wwm3fvytri6czu@redhat.com>
+References: <20210607202204.1805199-1-nsoffer@redhat.com>
+ <20210607212224.tiqjvvdwosvhrvz7@redhat.com>
+ <CAMRbyyukE9iTmM6OB_xAA1n6tRiRRxwKojaO5wzRwAR-8-FX3g@mail.gmail.com>
+ <20210610183443.clk43ngkobzyjopy@redhat.com>
+ <CAMRbyysoYhcyiP2mWubfZsj09k=Ea_3-RPr+Tt7KvoE1z3jrNA@mail.gmail.com>
+ <20210610204617.fuj4ivqrixpz4qfj@redhat.com>
+ <YMMaJcKYe8nHDdjU@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210610100802.5888-6-vsementsov@virtuozzo.com>
+In-Reply-To: <YMMaJcKYe8nHDdjU@redhat.com>
 User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,59 +82,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>, pbonzini@redhat.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Nir Soffer <nirsof@gmail.com>, qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Nir Soffer <nsoffer@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 10, 2021 at 01:07:35PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Add function that transforms named fd inside SocketAddress structure
-> into number representation. This way it may be then used in a context
-> where current monitor is not available.
+On Fri, Jun 11, 2021 at 10:09:09AM +0200, Kevin Wolf wrote:
+> > Yes, that might work as well.  But we didn't previously document
+> > depth to be optional.  Removing something from output risks breaking
+> > more downstream tools that expect it to be non-optional, compared to
+> > providing a new value.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/qemu/sockets.h | 14 ++++++++++++++
->  util/qemu-sockets.c    | 19 +++++++++++++++++++
->  2 files changed, 33 insertions(+)
+> A negative value isn't any less unexpected than a missing key. I don't
+> think any existing tool would be able to handle it. Encoding different
+> meanings in a single value isn't very QAPI-like either. Usually strings
+> that are parsed are the problem, but negative integers really isn't that
+> much different. I don't really like this solution.
 > 
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 7d1f813576..1f4f18a44a 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -111,4 +111,18 @@ SocketAddress *socket_remote_address(int fd, Error **errp);
->   */
->  SocketAddress *socket_address_flatten(SocketAddressLegacy *addr);
->  
-> +/**
-> + * socket_address_parse_named_fd:
-> + *
-> + * Modify @addr, replacing named fd by corresponding number.
-> + *
-> + * Parsing named fd (by sockget_get_fd) is not possible in context where
-> + * current monitor is not available. So, SocketAddress user may first call
-> + * socket_parse_named_fd() to parse named fd in advance, and then pass @addr to
-> + * the context where monitor is not available.
+> Leaving out the depth feels like a better suggestion to me.
+> 
+> But anyway, this seems to only happen at the end of the backing chain.
+> So if the backing chain consistents of n images, why not report 'depth':
+> n + 1? So, in the above example, you would get 1. I think this has the
+> best chances of tools actually working correctly with the new output,
+> even though it's still not unlikely to break something.
 
-2 different wrong function names, and reads awkwardly.  How about this
-shorter variant:
-
-Modify @addr, replacing a named fd by its corresponding number.
-Needed for callers that plan to pass @addr to a context where the
-current monitor is not available.
-
-> + *
-> + * Return 0 on success.
-> + */
-> +int socket_address_parse_named_fd(SocketAddress *addr, Error **errp);
-> +
->  #endif /* QEMU_SOCKETS_H */
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-
-But the code looks good.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Ooh, I like that.  It is closer to reality - the file data really
+comes from the next depth, even if we have no filename at that depth.
+v2 of my patch coming up.
 
 -- 
 Eric Blake, Principal Software Engineer
