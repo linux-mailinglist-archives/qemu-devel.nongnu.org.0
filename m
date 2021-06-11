@@ -2,58 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7193A3F0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 11:28:24 +0200 (CEST)
-Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3A43A3F32
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Jun 2021 11:38:38 +0200 (CEST)
+Received: from localhost ([::1]:37886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrdSg-0003NZ-Ra
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 05:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45334)
+	id 1lrdca-0005WB-Ud
+	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 05:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrdR9-0002bd-39; Fri, 11 Jun 2021 05:26:47 -0400
-Received: from out28-98.mail.aliyun.com ([115.124.28.98]:33737)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrdb6-0004nW-Oe
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 05:37:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1lrdR0-0004iF-Ug; Fri, 11 Jun 2021 05:26:46 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07046292|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.0168183-0.00199615-0.981186;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047190; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=6; RT=6; SR=0; TI=SMTPD_---.KQxj1kZ_1623403589; 
-Received: from 172.27.117.59(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.KQxj1kZ_1623403589)
- by smtp.aliyun-inc.com(10.147.42.197);
- Fri, 11 Jun 2021 17:26:29 +0800
-Subject: Re: [RFC PATCH 08/11] target/riscv: Update CSR xnxti in CLIC mode
-To: Frank Chang <0xc0de0125@gmail.com>
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <20210409074857.166082-9-zhiwei_liu@c-sky.com>
- <CANzO1D1jotPbDxJj3ZxJZ7BdT0je64A9DAudEfm8=-m4DQFzoA@mail.gmail.com>
- <f3523b14-c13d-edf8-61e4-d251691130e0@c-sky.com>
- <CANzO1D00w9YBQC=nFaXVaR6ESpOvySEJkoeR5C9cPi=g667s8Q@mail.gmail.com>
- <b638f0ad-5b9e-60b3-5d5d-c7ea14172ef8@c-sky.com>
- <CANzO1D1tVhr--xVMCQ6WbxrrOLmXJFEmR2JkBc-=Q8R4j9YxnQ@mail.gmail.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <40faf12b-1179-58d0-8a44-f34fc03443cc@c-sky.com>
-Date: Fri, 11 Jun 2021 17:26:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrdb2-0003CM-8E
+ for qemu-devel@nongnu.org; Fri, 11 Jun 2021 05:37:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623404219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dIcUuT+gvXDSQFvxukslWsiZWvy6eXwxSoZDRUmDH5E=;
+ b=XPl2zTRekDLsLJcMS7vrsipEsfS9qBRhTCKYlviaww6Nbat1Gt8RLIlXfk7h5uUGfc/K65
+ bLD5rpWaKX5DHFxvGoBElaL2zO06Bj/kK3s9wCARryIzoile1dqmVD34Ognu1Xcjkny3G9
+ OjDYdYAn5yFXs6pnOgq5LN4V6wGRXJc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-2Gt2K8gaPj2-8iugiw2_yg-1; Fri, 11 Jun 2021 05:36:57 -0400
+X-MC-Unique: 2Gt2K8gaPj2-8iugiw2_yg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11ED2100C663;
+ Fri, 11 Jun 2021 09:36:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
+ [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75C951980D;
+ Fri, 11 Jun 2021 09:36:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 11B82113865F; Fri, 11 Jun 2021 11:36:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH V7 1/6] qapi/net: Add IPFlowSpec and QMP command for
+ COLO passthrough
+References: <20210526025424.1319994-1-chen.zhang@intel.com>
+ <20210526025424.1319994-2-chen.zhang@intel.com>
+ <20210604143521.ej6n7g5tlawkhwpj@redhat.com>
+ <9a7a70304c304d2f99e5ee952eddf49f@intel.com>
+Date: Fri, 11 Jun 2021 11:36:51 +0200
+In-Reply-To: <9a7a70304c304d2f99e5ee952eddf49f@intel.com> (Chen Zhang's
+ message of "Fri, 4 Jun 2021 15:57:27 +0000")
+Message-ID: <87mtrwspxo.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CANzO1D1tVhr--xVMCQ6WbxrrOLmXJFEmR2JkBc-=Q8R4j9YxnQ@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------607099DF88541136C89BD1F0"
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.98; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-98.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,869 +85,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Zhang Chen <zhangckid@gmail.com>,
+ Eric Blake <eblake@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------607099DF88541136C89BD1F0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+"Zhang, Chen" <chen.zhang@intel.com> writes:
 
+>> -----Original Message-----
+>> From: Eric Blake <eblake@redhat.com>
+>> Sent: Friday, June 4, 2021 10:35 PM
+>> To: Zhang, Chen <chen.zhang@intel.com>
+>> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+>> devel@nongnu.org>; Dr. David Alan Gilbert <dgilbert@redhat.com>; Markus
+>> Armbruster <armbru@redhat.com>; Daniel P. Berrang=C3=A9
+>> <berrange@redhat.com>; Gerd Hoffmann <kraxel@redhat.com>; Li Zhijian
+>> <lizhijian@cn.fujitsu.com>; Zhang Chen <zhangckid@gmail.com>; Lukas
+>> Straub <lukasstraub2@web.de>
+>> Subject: Re: [PATCH V7 1/6] qapi/net: Add IPFlowSpec and QMP command
+>> for COLO passthrough
+>>=20
+>> On Wed, May 26, 2021 at 10:54:19AM +0800, Zhang Chen wrote:
+>> > Since the real user scenario does not need COLO to monitor all traffic=
+.
+>> > Add colo-passthrough-add and colo-passthrough-del to maintain a COLO
+>> > network passthrough list. Add IPFlowSpec struct for all QMP commands.
+>> > Except protocol field is necessary, other fields are optional.
+>>=20
+>> That last sentence reads awkwardly, and I don't see a protocol field in =
+the
+>> patch below.
+>
+> Oh, We move the protocol field to optional by Lukas's comments in V6.
+> I will remove this comments here.
+>
+>>=20
+>> >
+>> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>> > ---
+>> >  net/net.c     | 10 ++++++++
+>> >  qapi/net.json | 68
+>> > +++++++++++++++++++++++++++++++++++++++++++++++++++
+>> >  2 files changed, 78 insertions(+)
+>> >
+>>=20
+>> > +++ b/qapi/net.json
+>> > @@ -7,6 +7,7 @@
+>> >  ##
+>> >
+>> >  { 'include': 'common.json' }
+>> > +{ 'include': 'sockets.json' }
+>> >
+>> >  ##
+>> >  # @set_link:
+>> > @@ -694,3 +695,70 @@
+>> >  ##
+>> >  { 'event': 'FAILOVER_NEGOTIATED',
+>> >    'data': {'device-id': 'str'} }
+>> > +
+>> > +##
+>> > +# @IPFlowSpec:
+>> > +#
+>> > +# IP flow specification.
+>> > +#
+>> > +# @protocol: Transport layer protocol like TCP/UDP...
+>>=20
+>> Why is this open-coded as 'str' instead of an enum?
+>
+> The original code use enum, but we change it by Dave and Markus's comment=
+s.
+> Please check the history:
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg03919.html
 
-On 6/11/21 5:07 PM, Frank Chang wrote:
-> LIU Zhiwei <zhiwei_liu@c-sky.com <mailto:zhiwei_liu@c-sky.com>> 於 
-> 2021年6月11日 週五 下午4:56寫道：
->
->
->     On 6/11/21 4:42 PM, Frank Chang wrote:
->>     LIU Zhiwei <zhiwei_liu@c-sky.com <mailto:zhiwei_liu@c-sky.com>> 於
->>     2021年6月11日 週五 下午4:30寫道：
->>
->>
->>         On 6/11/21 4:15 PM, Frank Chang wrote:
->>>         LIU Zhiwei <zhiwei_liu@c-sky.com
->>>         <mailto:zhiwei_liu@c-sky.com>> 於 2021年4月9日 週五
->>>         下午3:52寫道：
->>>
->>>             The CSR can be used by software to service the next
->>>             horizontal interrupt
->>>             when it has greater level than the saved interrupt context
->>>             (held in xcause`.pil`) and greater level than the
->>>             interrupt threshold of
->>>             the corresponding privilege mode,
->>>
->>>             Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com
->>>             <mailto:zhiwei_liu@c-sky.com>>
->>>             ---
->>>              target/riscv/cpu_bits.h |  16 ++++++
->>>              target/riscv/csr.c      | 114
->>>             ++++++++++++++++++++++++++++++++++++++++
->>>              2 files changed, 130 insertions(+)
->>>
->>>             diff --git a/target/riscv/cpu_bits.h
->>>             b/target/riscv/cpu_bits.h
->>>             index 7922097776..494e41edc9 100644
->>>             --- a/target/riscv/cpu_bits.h
->>>             +++ b/target/riscv/cpu_bits.h
->>>             @@ -166,6 +166,7 @@
->>>              #define CSR_MCAUSE          0x342
->>>              #define CSR_MTVAL           0x343
->>>              #define CSR_MIP             0x344
->>>             +#define CSR_MNXTI           0x345 /* clic-spec-draft */
->>>              #define CSR_MINTSTATUS      0x346 /* clic-spec-draft */
->>>              #define CSR_MINTTHRESH      0x347 /* clic-spec-draft */
->>>
->>>             @@ -187,6 +188,7 @@
->>>              #define CSR_SCAUSE          0x142
->>>              #define CSR_STVAL           0x143
->>>              #define CSR_SIP             0x144
->>>             +#define CSR_SNXTI           0x145 /* clic-spec-draft */
->>>              #define CSR_SINTSTATUS      0x146 /* clic-spec-draft */
->>>              #define CSR_SINTTHRESH      0x147 /* clic-spec-draft */
->>>
->>>             @@ -596,10 +598,24 @@
->>>              #define MINTSTATUS_SIL    0x0000ff00 /* sil[7:0] */
->>>              #define MINTSTATUS_UIL    0x000000ff /* uil[7:0] */
->>>
->>>             +/* mcause */
->>>             +#define MCAUSE_MINHV    0x40000000 /* minhv */
->>>             +#define MCAUSE_MPP    0x30000000 /* mpp[1:0] */
->>>             +#define MCAUSE_MPIE     0x08000000 /* mpie */
->>>             +#define MCAUSE_MPIL     0x00ff0000 /* mpil[7:0] */
->>>             +#define MCAUSE_EXCCODE    0x00000fff /* exccode[11:0] */
->>>             +
->>>              /* sintstatus */
->>>              #define SINTSTATUS_SIL    0x0000ff00 /* sil[7:0] */
->>>              #define SINTSTATUS_UIL    0x000000ff /* uil[7:0] */
->>>
->>>             +/* scause */
->>>             +#define SCAUSE_SINHV    0x40000000 /* sinhv */
->>>             +#define SCAUSE_SPP    0x10000000 /* spp */
->>>             +#define SCAUSE_SPIE     0x08000000 /* spie */
->>>             +#define SCAUSE_SPIL     0x00ff0000 /* spil[7:0] */
->>>             +#define SCAUSE_EXCCODE    0x00000fff /* exccode[11:0] */
->>>             +
->>>              /* MIE masks */
->>>              #define MIE_SEIE    (1 << IRQ_S_EXT)
->>>              #define MIE_UEIE    (1 << IRQ_U_EXT)
->>>             diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>             index e12222b77f..72cba080bf 100644
->>>             --- a/target/riscv/csr.c
->>>             +++ b/target/riscv/csr.c
->>>             @@ -774,6 +774,80 @@ static int rmw_mip(CPURISCVState
->>>             *env, int csrno, target_ulong *ret_value,
->>>                  return 0;
->>>              }
->>>
->>>             +static bool get_xnxti_status(CPURISCVState *env)
->>>             +{
->>>             +    CPUState *cs = env_cpu(env);
->>>             +    int clic_irq, clic_priv, clic_il, pil;
->>>             +
->>>             +    if (!env->exccode) { /* No interrupt */
->>>             +        return false;
->>>             +    }
->>>             +    /* The system is not in a CLIC mode */
->>>             +    if (!riscv_clic_is_clic_mode(env)) {
->>>             +        return false;
->>>             +    } else {
->>>             + riscv_clic_decode_exccode(env->exccode, &clic_priv,
->>>             &clic_il,
->>>             + &clic_irq);
->>>             +
->>>             +        if (env->priv == PRV_M) {
->>>             +            pil = MAX(get_field(env->mcause,
->>>             MCAUSE_MPIL), env->mintthresh);
->>>             +        } else if (env->priv == PRV_S) {
->>>             +            pil = MAX(get_field(env->scause,
->>>             SCAUSE_SPIL), env->sintthresh);
->>>             +        } else {
->>>             + qemu_log_mask(LOG_GUEST_ERROR,
->>>             +                          "CSR: rmw xnxti with
->>>             unsupported mode\n");
->>>             +            exit(1);
->>>             +        }
->>>             +
->>>             +        if ((clic_priv != env->priv) || /* No
->>>             horizontal interrupt */
->>>             +            (clic_il <= pil) || /* No higher level
->>>             interrupt */
->>>             + (riscv_clic_shv_interrupt(env->clic, clic_priv,
->>>             cs->cpu_index,
->>>             + clic_irq))) { /* CLIC vector mode */
->>>             +            return false;
->>>             +        } else {
->>>             +            return true;
->>>             +        }
->>>             +    }
->>>             +}
->>>             +
->>>             +static int rmw_mnxti(CPURISCVState *env, int csrno,
->>>             target_ulong *ret_value,
->>>             +                     target_ulong new_value,
->>>             target_ulong write_mask)
->>>             +{
->>>             +    int clic_priv, clic_il, clic_irq;
->>>             +    bool ready;
->>>             +    CPUState *cs = env_cpu(env);
->>>             +    if (write_mask) {
->>>             +        env->mstatus |= new_value & (write_mask & 0b11111);
->>>             +    }
->>>             +
->>>             +    qemu_mutex_lock_iothread();
->>>
->>>
->>>         Hi Zhiwei,
->>>
->>>         May I ask what's the purpose to request the BQL here with
->>>         /qemu_mutex_lock_iothread()/?
->>>         Is there any critical data we need to protect in /rmw_mnxti()/?
->>>         As far I see, /rmw_mnxti()/ won't call /cpu_interrupt()/
->>>         which need BQL to be held before calling.
->>>         Am I missing anything?
->>         In my opinion, if you read or write any  MMIO register, you
->>         need to hold the BQL. As you can quickly see,
->>         it calls riscv_clic_clean_pending. That's why it should hold
->>         the BQL.
->>
->>         Zhiwei
->>
->>
->>     Oh, I see.
->>     The MMIO register reads and writes should also be protected by BQL.
->>     Thanks for the explanation.
->
->     I am glad to know that you are reviewing this patch set. As Sifive
->     implements the initial v0.7 CLIC, I think you may need this patch
->     set for your SOC.
->     If you like to, I am happy to see that you connect this patch set
->     to your SOC, and resend it again. I can also provide the qtest of
->     this patch set if you need.
->
->     As you may see, the v6.1 soft freeze will come in July. I am
->     afraid I can't upstream a new SOC in so short time.
->
->     Zhiwei
->
-> Thanks, I think we will leverage the hard works you have done into our 
-> implementation.
-> However, I'm not sure I can catch up the deadline before v6.1's 
-> soft-freeze.
-> But I think I can help to review the patches, at least we can speed up 
-> the review process.
->
-Nice.
-> Regarding qtest, I saw your head commit mentioned the repo you are 
-> using: [1].
-> Is it okay to just grab the qtest from this repo?
->
-> [1]: 
-> https://github.com/romanheros/qemu/commit/bce1845ea9b079b4c360440292dc47725d1b24ab 
-> <https://github.com/romanheros/qemu/commit/bce1845ea9b079b4c360440292dc47725d1b24ab>
->
-Yes, it is. The qtest is not so trivial, as it extends current qtest 
-mechanism by intercepting irq_in and irq_out for one device
-(Normally, you can only intercept irq_in or irq_out for one device). If 
-you have any question, just let me know.
+It's a string to be passed to getprotobyname(3).  Please mention that in
+the doc string.
 
-Zhiwei
+It's not an enum, because we don't want to duplicate /etc/protocols in
+the QAPI schema.
 
-> Thanks,
-> Frank Chang
+>> > +#
+>> > +# @object-name: Point out the IPflow spec effective range of object,
+
+I have no idea what that means :)
+
+It might be what was called @id in v4.  There, you explained
+
+    The @id means packet hander in Qemu. Because not all the guest network =
+packet into the colo-compare module, the net-filters are same cases.
+    There modules attach to NIC or chardev socket to work, VM maybe have mu=
+lti modules running. So we use the ID to set the rule to the specific modul=
+e.=20
+
+and I asked you to work it into the doc comment.
+
+If you want help with working it into the doc comment, please explain
+its intended use for dummies :)
+
+>> > +#               If there is no such part, it means global spec.
+>> > +#
+>> > +# @source: Source address and port.
+>> > +#
+>> > +# @destination: Destination address and port.
+>> > +#
+>> > +# Since: 6.1
+>> > +##
+>> > +{ 'struct': 'IPFlowSpec',
+>> > +  'data': { '*protocol': 'str', '*object-name': 'str',
+>> > +    '*source': 'InetSocketAddressBase',
+>> > +    '*destination': 'InetSocketAddressBase' } }
+>> > +
+>> > +##
+>> > +# @colo-passthrough-add:
+>> > +#
+>> > +# Add passthrough entry according to user's needs in COLO-compare.
+>> > +# Source IP/port and destination IP/port both optional, If user just
+>> > +# input parts of infotmation, it will match all.
+>>=20
+>> information
+>>=20
+>> Grammar suggestion:
+>>=20
+>> The source and destination IP/ports are both optional; if the user only =
+inputs
+>> part of the information, this will match all traffic.
+>>=20
+>> except I'm not sure if my rewrite conveys the actual intent.
 >
->>
->>     Regards,
->>     Frank Chang
->>
->>>
->>>         Regard,
->>>         Frank Chang
->>>
->>>             + ready = get_xnxti_status(env);
->>>             +    if (ready) {
->>>             + riscv_clic_decode_exccode(env->exccode, &clic_priv,
->>>             &clic_il,
->>>             + &clic_irq);
->>>             +        if (write_mask) {
->>>             +            bool edge =
->>>             riscv_clic_edge_triggered(env->clic, clic_priv,
->>>             +           cs->cpu_index, clic_irq);
->>>             +            if (edge) {
->>>             + riscv_clic_clean_pending(env->clic, clic_priv,
->>>             +  cs->cpu_index, clic_irq);
->>>             +            }
->>>             +            env->mintstatus = set_field(env->mintstatus,
->>>             + MINTSTATUS_MIL, clic_il);
->>>             +            env->mcause = set_field(env->mcause,
->>>             MCAUSE_EXCCODE, clic_irq);
->>>             +        }
->>>             +        if (ret_value) {
->>>             +            *ret_value = (env->mtvt & ~0x3f) +
->>>             sizeof(target_ulong) * clic_irq;
->>>             +        }
->>>             +    } else {
->>>             +        if (ret_value) {
->>>             +            *ret_value = 0;
->>>             +        }
->>>             +    }
->>>             +    qemu_mutex_unlock_iothread();
->>>             +    return 0;
->>>             +}
->>>             +
->>>              static int read_mintstatus(CPURISCVState *env, int
->>>             csrno, target_ulong *val)
->>>              {
->>>                  *val = env->mintstatus;
->>>             @@ -982,6 +1056,44 @@ static int rmw_sip(CPURISCVState
->>>             *env, int csrno, target_ulong *ret_value,
->>>                  return ret;
->>>              }
->>>
->>>             +static int rmw_snxti(CPURISCVState *env, int csrno,
->>>             target_ulong *ret_value,
->>>             +                     target_ulong new_value,
->>>             target_ulong write_mask)
->>>             +{
->>>             +    int clic_priv, clic_il, clic_irq;
->>>             +    bool ready;
->>>             +    CPUState *cs = env_cpu(env);
->>>             +    if (write_mask) {
->>>             +        env->mstatus |= new_value & (write_mask & 0b11111);
->>>             +    }
->>>             +
->>>             +    qemu_mutex_lock_iothread();
->>>             +    ready = get_xnxti_status(env);
->>>             +    if (ready) {
->>>             + riscv_clic_decode_exccode(env->exccode, &clic_priv,
->>>             &clic_il,
->>>             + &clic_irq);
->>>             +        if (write_mask) {
->>>             +            bool edge =
->>>             riscv_clic_edge_triggered(env->clic, clic_priv,
->>>             +           cs->cpu_index, clic_irq);
->>>             +            if (edge) {
->>>             + riscv_clic_clean_pending(env->clic, clic_priv,
->>>             +  cs->cpu_index, clic_irq);
->>>             +            }
->>>             +            env->mintstatus = set_field(env->mintstatus,
->>>             + MINTSTATUS_SIL, clic_il);
->>>             +            env->scause = set_field(env->scause,
->>>             SCAUSE_EXCCODE, clic_irq);
->>>             +        }
->>>             +        if (ret_value) {
->>>             +            *ret_value = (env->stvt & ~0x3f) +
->>>             sizeof(target_ulong) * clic_irq;
->>>             +        }
->>>             +    } else {
->>>             +        if (ret_value) {
->>>             +            *ret_value = 0;
->>>             +        }
->>>             +    }
->>>             +    qemu_mutex_unlock_iothread();
->>>             +    return 0;
->>>             +}
->>>             +
->>>              static int read_sintstatus(CPURISCVState *env, int
->>>             csrno, target_ulong *val)
->>>              {
->>>                  target_ulong mask = SINTSTATUS_SIL | SINTSTATUS_UIL;
->>>             @@ -1755,6 +1867,7 @@ riscv_csr_operations
->>>             csr_ops[CSR_TABLE_SIZE] = {
->>>
->>>                  /* Machine Mode Core Level Interrupt Controller */
->>>                  [CSR_MTVT] = { "mtvt", clic, read_mtvt, 
->>>             write_mtvt      },
->>>             +    [CSR_MNXTI] = { "mnxti", clic, NULL,  NULL, 
->>>             rmw_mnxti   },
->>>                  [CSR_MINTSTATUS] = { "mintstatus", clic, 
->>>             read_mintstatus },
->>>                  [CSR_MINTTHRESH] = { "mintthresh", clic, 
->>>             read_mintthresh,
->>>             write_mintthresh },
->>>             @@ -1766,6 +1879,7 @@ riscv_csr_operations
->>>             csr_ops[CSR_TABLE_SIZE] = {
->>>
->>>                  /* Supervisor Mode Core Level Interrupt Controller */
->>>                  [CSR_STVT] = { "stvt", clic, read_stvt, write_stvt 
->>>                  },
->>>             +    [CSR_SNXTI] = { "snxti", clic, NULL,  NULL, 
->>>             rmw_snxti   },
->>>
->>>              #endif /* !CONFIG_USER_ONLY */
->>>              };
->>>             -- 
->>>             2.25.1
->>>
->>>
+> Looks good to me, It should add the "protocol" to optional too.
+> Sorry, I'm not a native speaker, I will fix it in next version.
+>
+>>=20
+>> > +#
+>> > +# Returns: Nothing on success
+>> > +#
+>> > +# Since: 6.1
+>> > +#
+>> > +# Example:
+>> > +#
+>> > +# -> { "execute": "colo-passthrough-add",
+>> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+>> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
+>> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+>> > +# <- { "return": {} }
+>> > +#
+>> > +##
+>> > +{ 'command': 'colo-passthrough-add', 'boxed': true,
+>> > +     'data': 'IPFlowSpec' }
+>> > +
+>> > +##
+>> > +# @colo-passthrough-del:
+>> > +#
+>> > +# Delete passthrough entry according to user's needs in COLO-compare.
+>> > +# Source IP/port and destination IP/port both optional, If user just
+>> > +# input parts of infotmation, it will match all.
+>>=20
+>> Same problems as above.
+>
+> OK.
+>
+> Thanks
+> Chen
+>
+>>=20
+>> > +#
+>> > +# Returns: Nothing on success
+>> > +#
+>> > +# Since: 6.1
+>> > +#
+>> > +# Example:
+>> > +#
+>> > +# -> { "execute": "colo-passthrough-del",
+>> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+>> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
+>> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+>> > +# <- { "return": {} }
+>> > +#
+>> > +##
+>> > +{ 'command': 'colo-passthrough-del', 'boxed': true,
+>> > +     'data': 'IPFlowSpec' }
+>> > --
+>> > 2.25.1
+>> >
+>>=20
+>> --
+>> Eric Blake, Principal Software Engineer
+>> Red Hat, Inc.           +1-919-301-3266
+>> Virtualization:  qemu.org | libvirt.org
 
---------------607099DF88541136C89BD1F0
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 6/11/21 5:07 PM, Frank Chang wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANzO1D1tVhr--xVMCQ6WbxrrOLmXJFEmR2JkBc-=Q8R4j9YxnQ@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr">LIU Zhiwei &lt;<a
-            href="mailto:zhiwei_liu@c-sky.com" moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
-          於 2021年6月11日 週五 下午4:56寫道：<br>
-        </div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p><br>
-              </p>
-              <div>On 6/11/21 4:42 PM, Frank Chang wrote:<br>
-              </div>
-              <blockquote type="cite">
-                <div dir="ltr">
-                  <div dir="ltr">LIU Zhiwei &lt;<a
-                      href="mailto:zhiwei_liu@c-sky.com" target="_blank"
-                      moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
-                    於 2021年6月11日 週五 下午4:30寫道：<br>
-                  </div>
-                  <div class="gmail_quote">
-                    <blockquote class="gmail_quote" style="margin:0px
-                      0px 0px 0.8ex;border-left:1px solid
-                      rgb(204,204,204);padding-left:1ex">
-                      <div>
-                        <p><br>
-                        </p>
-                        <div>On 6/11/21 4:15 PM, Frank Chang wrote:<br>
-                        </div>
-                        <blockquote type="cite">
-                          <div dir="ltr">
-                            <div dir="ltr">LIU Zhiwei &lt;<a
-                                href="mailto:zhiwei_liu@c-sky.com"
-                                target="_blank" moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;
-                              於 2021年4月9日 週五 下午3:52寫道：<br>
-                            </div>
-                            <div class="gmail_quote">
-                              <blockquote class="gmail_quote"
-                                style="margin:0px 0px 0px
-                                0.8ex;border-left:1px solid
-                                rgb(204,204,204);padding-left:1ex">The
-                                CSR can be used by software to service
-                                the next horizontal interrupt<br>
-                                when it has greater level than the saved
-                                interrupt context<br>
-                                (held in xcause`.pil`) and greater level
-                                than the interrupt threshold of<br>
-                                the corresponding privilege mode,<br>
-                                <br>
-                                Signed-off-by: LIU Zhiwei &lt;<a
-                                  href="mailto:zhiwei_liu@c-sky.com"
-                                  target="_blank" moz-do-not-send="true">zhiwei_liu@c-sky.com</a>&gt;<br>
-                                ---<br>
-                                 target/riscv/cpu_bits.h |  16 ++++++<br>
-                                 target/riscv/csr.c      | 114
-                                ++++++++++++++++++++++++++++++++++++++++<br>
-                                 2 files changed, 130 insertions(+)<br>
-                                <br>
-                                diff --git a/target/riscv/cpu_bits.h
-                                b/target/riscv/cpu_bits.h<br>
-                                index 7922097776..494e41edc9 100644<br>
-                                --- a/target/riscv/cpu_bits.h<br>
-                                +++ b/target/riscv/cpu_bits.h<br>
-                                @@ -166,6 +166,7 @@<br>
-                                 #define CSR_MCAUSE          0x342<br>
-                                 #define CSR_MTVAL           0x343<br>
-                                 #define CSR_MIP             0x344<br>
-                                +#define CSR_MNXTI           0x345 /*
-                                clic-spec-draft */<br>
-                                 #define CSR_MINTSTATUS      0x346 /*
-                                clic-spec-draft */<br>
-                                 #define CSR_MINTTHRESH      0x347 /*
-                                clic-spec-draft */<br>
-                                <br>
-                                @@ -187,6 +188,7 @@<br>
-                                 #define CSR_SCAUSE          0x142<br>
-                                 #define CSR_STVAL           0x143<br>
-                                 #define CSR_SIP             0x144<br>
-                                +#define CSR_SNXTI           0x145 /*
-                                clic-spec-draft */<br>
-                                 #define CSR_SINTSTATUS      0x146 /*
-                                clic-spec-draft */<br>
-                                 #define CSR_SINTTHRESH      0x147 /*
-                                clic-spec-draft */<br>
-                                <br>
-                                @@ -596,10 +598,24 @@<br>
-                                 #define MINTSTATUS_SIL                 
-                                   0x0000ff00 /* sil[7:0] */<br>
-                                 #define MINTSTATUS_UIL                 
-                                   0x000000ff /* uil[7:0] */<br>
-                                <br>
-                                +/* mcause */<br>
-                                +#define MCAUSE_MINHV                   
-                                   0x40000000 /* minhv */<br>
-                                +#define MCAUSE_MPP                     
-                                   0x30000000 /* mpp[1:0] */<br>
-                                +#define MCAUSE_MPIE                   
-                                    0x08000000 /* mpie */<br>
-                                +#define MCAUSE_MPIL                   
-                                    0x00ff0000 /* mpil[7:0] */<br>
-                                +#define MCAUSE_EXCCODE                 
-                                   0x00000fff /* exccode[11:0] */<br>
-                                +<br>
-                                 /* sintstatus */<br>
-                                 #define SINTSTATUS_SIL                 
-                                   0x0000ff00 /* sil[7:0] */<br>
-                                 #define SINTSTATUS_UIL                 
-                                   0x000000ff /* uil[7:0] */<br>
-                                <br>
-                                +/* scause */<br>
-                                +#define SCAUSE_SINHV                   
-                                   0x40000000 /* sinhv */<br>
-                                +#define SCAUSE_SPP                     
-                                   0x10000000 /* spp */<br>
-                                +#define SCAUSE_SPIE                   
-                                    0x08000000 /* spie */<br>
-                                +#define SCAUSE_SPIL                   
-                                    0x00ff0000 /* spil[7:0] */<br>
-                                +#define SCAUSE_EXCCODE                 
-                                   0x00000fff /* exccode[11:0] */<br>
-                                +<br>
-                                 /* MIE masks */<br>
-                                 #define MIE_SEIE                       
-                                   (1 &lt;&lt; IRQ_S_EXT)<br>
-                                 #define MIE_UEIE                       
-                                   (1 &lt;&lt; IRQ_U_EXT)<br>
-                                diff --git a/target/riscv/csr.c
-                                b/target/riscv/csr.c<br>
-                                index e12222b77f..72cba080bf 100644<br>
-                                --- a/target/riscv/csr.c<br>
-                                +++ b/target/riscv/csr.c<br>
-                                @@ -774,6 +774,80 @@ static int
-                                rmw_mip(CPURISCVState *env, int csrno,
-                                target_ulong *ret_value,<br>
-                                     return 0;<br>
-                                 }<br>
-                                <br>
-                                +static bool
-                                get_xnxti_status(CPURISCVState *env)<br>
-                                +{<br>
-                                +    CPUState *cs = env_cpu(env);<br>
-                                +    int clic_irq, clic_priv, clic_il,
-                                pil;<br>
-                                +<br>
-                                +    if (!env-&gt;exccode) { /* No
-                                interrupt */<br>
-                                +        return false;<br>
-                                +    }<br>
-                                +    /* The system is not in a CLIC mode
-                                */<br>
-                                +    if (!riscv_clic_is_clic_mode(env))
-                                {<br>
-                                +        return false;<br>
-                                +    } else {<br>
-                                +       
-                                riscv_clic_decode_exccode(env-&gt;exccode,
-                                &amp;clic_priv, &amp;clic_il,<br>
-                                +                                 
-                                &amp;clic_irq);<br>
-                                +<br>
-                                +        if (env-&gt;priv == PRV_M) {<br>
-                                +            pil =
-                                MAX(get_field(env-&gt;mcause,
-                                MCAUSE_MPIL), env-&gt;mintthresh);<br>
-                                +        } else if (env-&gt;priv ==
-                                PRV_S) {<br>
-                                +            pil =
-                                MAX(get_field(env-&gt;scause,
-                                SCAUSE_SPIL), env-&gt;sintthresh);<br>
-                                +        } else {<br>
-                                +           
-                                qemu_log_mask(LOG_GUEST_ERROR,<br>
-                                +                          "CSR: rmw
-                                xnxti with unsupported mode\n");<br>
-                                +            exit(1);<br>
-                                +        }<br>
-                                +<br>
-                                +        if ((clic_priv != env-&gt;priv)
-                                || /* No horizontal interrupt */<br>
-                                +            (clic_il &lt;= pil) || /*
-                                No higher level interrupt */<br>
-                                +           
-                                (riscv_clic_shv_interrupt(env-&gt;clic,
-                                clic_priv, cs-&gt;cpu_index,<br>
-                                +                                     
-                                clic_irq))) { /* CLIC vector mode */<br>
-                                +            return false;<br>
-                                +        } else {<br>
-                                +            return true;<br>
-                                +        }<br>
-                                +    }<br>
-                                +}<br>
-                                +<br>
-                                +static int rmw_mnxti(CPURISCVState
-                                *env, int csrno, target_ulong
-                                *ret_value,<br>
-                                +                     target_ulong
-                                new_value, target_ulong write_mask)<br>
-                                +{<br>
-                                +    int clic_priv, clic_il, clic_irq;<br>
-                                +    bool ready;<br>
-                                +    CPUState *cs = env_cpu(env);<br>
-                                +    if (write_mask) {<br>
-                                +        env-&gt;mstatus |= new_value
-                                &amp; (write_mask &amp; 0b11111);<br>
-                                +    }<br>
-                                +<br>
-                                +    qemu_mutex_lock_iothread();<br>
-                              </blockquote>
-                              <div><br>
-                              </div>
-                              <div>Hi Zhiwei,</div>
-                              <div><br>
-                              </div>
-                              <div>May I ask what's the purpose to
-                                request the BQL here with <i>qemu_mutex_lock_iothread()</i>?</div>
-                              <div>Is there any critical data we need to
-                                protect in <i>rmw_mnxti()</i>?</div>
-                              <div>As far I see, <i>rmw_mnxti()</i>
-                                won't call <i>cpu_interrupt()</i> which
-                                need BQL to be held before calling.</div>
-                              <div>Am I missing anything?</div>
-                            </div>
-                          </div>
-                        </blockquote>
-                        <div dir="ltr">
-                          <div class="gmail_quote">
-                            <div>In my opinion, if you read or write
-                              any  MMIO register, you need to hold the
-                              BQL. As you can quickly see,</div>
-                            <div>it calls riscv_clic_clean_pending.
-                              That's why it should hold the BQL.</div>
-                            <div><br>
-                            </div>
-                            <div>Zhiwei<br>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </blockquote>
-                    <div><br>
-                    </div>
-                    <div>Oh, I see.</div>
-                    <div>The MMIO register reads and writes should also
-                      be protected by BQL.</div>
-                    <div>Thanks for the explanation.</div>
-                  </div>
-                </div>
-              </blockquote>
-              <p>I am glad to know that you are reviewing this patch
-                set. As Sifive implements the initial v0.7 CLIC, I think
-                you may need this patch set for your SOC.<br>
-                If you like to, I am happy to see that you connect this
-                patch set to your SOC, and resend it again. I can also
-                provide the qtest of this patch set if you need.</p>
-              <p>As you may see, the v6.1 soft freeze will come in July.
-                I am afraid I can't upstream a new SOC in so short time.
-                <br>
-              </p>
-              <p>Zhiwei<br>
-              </p>
-            </div>
-          </blockquote>
-          <div>Thanks, I think we will leverage the hard works you have
-            done into our implementation.</div>
-          <div>However, I'm not sure I can catch up the deadline before
-            v6.1's soft-freeze.</div>
-          <div>But I think I can help to review the patches, at least we
-            can speed up the review process.</div>
-          <div><br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Nice. <br>
-    <blockquote type="cite"
-cite="mid:CANzO1D1tVhr--xVMCQ6WbxrrOLmXJFEmR2JkBc-=Q8R4j9YxnQ@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote">
-          <div>Regarding qtest, I saw your head commit mentioned the
-            repo you are using: [1].</div>
-          <div>Is it okay to just grab the qtest from this repo?</div>
-          <div><br>
-          </div>
-          <div>[1]: <a
-href="https://github.com/romanheros/qemu/commit/bce1845ea9b079b4c360440292dc47725d1b24ab"
-              moz-do-not-send="true">https://github.com/romanheros/qemu/commit/bce1845ea9b079b4c360440292dc47725d1b24ab</a><br>
-          </div>
-          <div><br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>Yes, it is. The qtest is not so trivial, as it extends current
-      qtest mechanism by intercepting irq_in and irq_out for one device<br>
-      (Normally, you can only intercept irq_in or irq_out for one
-      device). If you have any question, just let me know.  <br>
-    </p>
-    <p>Zhiwei<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CANzO1D1tVhr--xVMCQ6WbxrrOLmXJFEmR2JkBc-=Q8R4j9YxnQ@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote">
-          <div>Thanks,</div>
-          <div>Frank Chang</div>
-          <div> </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p> </p>
-              <blockquote type="cite">
-                <div dir="ltr">
-                  <div class="gmail_quote">
-                    <div><br>
-                    </div>
-                    <div>Regards,</div>
-                    <div>Frank Chang</div>
-                    <div> </div>
-                    <blockquote class="gmail_quote" style="margin:0px
-                      0px 0px 0.8ex;border-left:1px solid
-                      rgb(204,204,204);padding-left:1ex">
-                      <div>
-                        <div dir="ltr">
-                          <div class="gmail_quote">
-                            <div> </div>
-                          </div>
-                        </div>
-                        <blockquote type="cite">
-                          <div dir="ltr">
-                            <div class="gmail_quote">
-                              <div><br>
-                              </div>
-                              <div>Regard,</div>
-                              <div>Frank Chang</div>
-                              <div> </div>
-                              <blockquote class="gmail_quote"
-                                style="margin:0px 0px 0px
-                                0.8ex;border-left:1px solid
-                                rgb(204,204,204);padding-left:1ex"> +   
-                                ready = get_xnxti_status(env);<br>
-                                +    if (ready) {<br>
-                                +       
-                                riscv_clic_decode_exccode(env-&gt;exccode,
-                                &amp;clic_priv, &amp;clic_il,<br>
-                                +                                 
-                                &amp;clic_irq);<br>
-                                +        if (write_mask) {<br>
-                                +            bool edge =
-                                riscv_clic_edge_triggered(env-&gt;clic,
-                                clic_priv,<br>
-                                +                                       
-                                          cs-&gt;cpu_index, clic_irq);<br>
-                                +            if (edge) {<br>
-                                +               
-                                riscv_clic_clean_pending(env-&gt;clic,
-                                clic_priv,<br>
-                                +                                       
-                                 cs-&gt;cpu_index, clic_irq);<br>
-                                +            }<br>
-                                +            env-&gt;mintstatus =
-                                set_field(env-&gt;mintstatus,<br>
-                                +                                       
-                                MINTSTATUS_MIL, clic_il);<br>
-                                +            env-&gt;mcause =
-                                set_field(env-&gt;mcause,
-                                MCAUSE_EXCCODE, clic_irq);<br>
-                                +        }<br>
-                                +        if (ret_value) {<br>
-                                +            *ret_value = (env-&gt;mtvt
-                                &amp; ~0x3f) + sizeof(target_ulong) *
-                                clic_irq;<br>
-                                +        }<br>
-                                +    } else {<br>
-                                +        if (ret_value) {<br>
-                                +            *ret_value = 0;<br>
-                                +        }<br>
-                                +    }<br>
-                                +    qemu_mutex_unlock_iothread();<br>
-                                +    return 0;<br>
-                                +}<br>
-                                +<br>
-                                 static int
-                                read_mintstatus(CPURISCVState *env, int
-                                csrno, target_ulong *val)<br>
-                                 {<br>
-                                     *val = env-&gt;mintstatus;<br>
-                                @@ -982,6 +1056,44 @@ static int
-                                rmw_sip(CPURISCVState *env, int csrno,
-                                target_ulong *ret_value,<br>
-                                     return ret;<br>
-                                 }<br>
-                                <br>
-                                +static int rmw_snxti(CPURISCVState
-                                *env, int csrno, target_ulong
-                                *ret_value,<br>
-                                +                     target_ulong
-                                new_value, target_ulong write_mask)<br>
-                                +{<br>
-                                +    int clic_priv, clic_il, clic_irq;<br>
-                                +    bool ready;<br>
-                                +    CPUState *cs = env_cpu(env);<br>
-                                +    if (write_mask) {<br>
-                                +        env-&gt;mstatus |= new_value
-                                &amp; (write_mask &amp; 0b11111);<br>
-                                +    }<br>
-                                +<br>
-                                +    qemu_mutex_lock_iothread();<br>
-                                +    ready = get_xnxti_status(env);<br>
-                                +    if (ready) {<br>
-                                +       
-                                riscv_clic_decode_exccode(env-&gt;exccode,
-                                &amp;clic_priv, &amp;clic_il,<br>
-                                +                                 
-                                &amp;clic_irq);<br>
-                                +        if (write_mask) {<br>
-                                +            bool edge =
-                                riscv_clic_edge_triggered(env-&gt;clic,
-                                clic_priv,<br>
-                                +                                       
-                                          cs-&gt;cpu_index, clic_irq);<br>
-                                +            if (edge) {<br>
-                                +               
-                                riscv_clic_clean_pending(env-&gt;clic,
-                                clic_priv,<br>
-                                +                                       
-                                 cs-&gt;cpu_index, clic_irq);<br>
-                                +            }<br>
-                                +            env-&gt;mintstatus =
-                                set_field(env-&gt;mintstatus,<br>
-                                +                                       
-                                MINTSTATUS_SIL, clic_il);<br>
-                                +            env-&gt;scause =
-                                set_field(env-&gt;scause,
-                                SCAUSE_EXCCODE, clic_irq);<br>
-                                +        }<br>
-                                +        if (ret_value) {<br>
-                                +            *ret_value = (env-&gt;stvt
-                                &amp; ~0x3f) + sizeof(target_ulong) *
-                                clic_irq;<br>
-                                +        }<br>
-                                +    } else {<br>
-                                +        if (ret_value) {<br>
-                                +            *ret_value = 0;<br>
-                                +        }<br>
-                                +    }<br>
-                                +    qemu_mutex_unlock_iothread();<br>
-                                +    return 0;<br>
-                                +}<br>
-                                +<br>
-                                 static int
-                                read_sintstatus(CPURISCVState *env, int
-                                csrno, target_ulong *val)<br>
-                                 {<br>
-                                     target_ulong mask = SINTSTATUS_SIL
-                                | SINTSTATUS_UIL;<br>
-                                @@ -1755,6 +1867,7 @@
-                                riscv_csr_operations
-                                csr_ops[CSR_TABLE_SIZE] = {<br>
-                                <br>
-                                     /* Machine Mode Core Level
-                                Interrupt Controller */<br>
-                                     [CSR_MTVT] = { "mtvt", clic, 
-                                read_mtvt,  write_mtvt      },<br>
-                                +    [CSR_MNXTI] = { "mnxti", clic, 
-                                NULL,  NULL,  rmw_mnxti   },<br>
-                                     [CSR_MINTSTATUS] = { "mintstatus",
-                                clic,  read_mintstatus },<br>
-                                     [CSR_MINTTHRESH] = { "mintthresh",
-                                clic,  read_mintthresh,<br>
-                                                         
-                                write_mintthresh },<br>
-                                @@ -1766,6 +1879,7 @@
-                                riscv_csr_operations
-                                csr_ops[CSR_TABLE_SIZE] = {<br>
-                                <br>
-                                     /* Supervisor Mode Core Level
-                                Interrupt Controller */<br>
-                                     [CSR_STVT] = { "stvt", clic, 
-                                read_stvt, write_stvt       },<br>
-                                +    [CSR_SNXTI] = { "snxti", clic, 
-                                NULL,  NULL,  rmw_snxti   },<br>
-                                <br>
-                                 #endif /* !CONFIG_USER_ONLY */<br>
-                                 };<br>
-                                -- <br>
-                                2.25.1<br>
-                                <br>
-                                <br>
-                              </blockquote>
-                            </div>
-                          </div>
-                        </blockquote>
-                      </div>
-                    </blockquote>
-                  </div>
-                </div>
-              </blockquote>
-            </div>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-  </body>
-</html>
-
---------------607099DF88541136C89BD1F0--
 
