@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEF13A4DC9
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 10:53:48 +0200 (CEST)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2293A4DC6
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 10:52:14 +0200 (CEST)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrzOl-0007s8-DI
-	for lists+qemu-devel@lfdr.de; Sat, 12 Jun 2021 04:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56298)
+	id 1lrzNF-0006Og-9O
+	for lists+qemu-devel@lfdr.de; Sat, 12 Jun 2021 04:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefan@mini.fritz.box>)
- id 1lrzMD-0005hF-T9
+ id 1lrzMD-0005hA-OU
  for qemu-devel@nongnu.org; Sat, 12 Jun 2021 04:51:09 -0400
-Received: from p57b42637.dip0.t-ipconnect.de ([87.180.38.55]:55337
+Received: from p57b42637.dip0.t-ipconnect.de ([87.180.38.55]:55339
  helo=mini.fritz.box) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefan@mini.fritz.box>) id 1lrzMB-0007zo-2V
+ (envelope-from <stefan@mini.fritz.box>) id 1lrzMB-00080i-34
  for qemu-devel@nongnu.org; Sat, 12 Jun 2021 04:51:09 -0400
 Received: by mini.fritz.box (Postfix, from userid 502)
- id 4C6A71223130; Sat, 12 Jun 2021 10:04:21 +0200 (CEST)
+ id 8ADC4122329D; Sat, 12 Jun 2021 10:51:02 +0200 (CEST)
 From: Stefan Weil <sw@weilnetz.de>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] meson.build: Support ncurses on MacOS
-Date: Sat, 12 Jun 2021 10:03:58 +0200
-Message-Id: <20210612080358.61176-1-sw@weilnetz.de>
+Date: Sat, 12 Jun 2021 10:51:01 +0200
+Message-Id: <20210612085101.61304-1-sw@weilnetz.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
