@@ -2,102 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F2F3A4C19
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 03:23:39 +0200 (CEST)
-Received: from localhost ([::1]:43396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC4E3A4CF8
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Jun 2021 07:29:30 +0200 (CEST)
+Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lrsN8-0004m5-1b
-	for lists+qemu-devel@lfdr.de; Fri, 11 Jun 2021 21:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1lrwD2-0002H6-KK
+	for lists+qemu-devel@lfdr.de; Sat, 12 Jun 2021 01:29:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1lrsL8-0003Kf-94
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 21:21:34 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5650
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrwCB-0001XQ-4p
+ for qemu-devel@nongnu.org; Sat, 12 Jun 2021 01:28:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1lrsL6-0004mB-22
- for qemu-devel@nongnu.org; Fri, 11 Jun 2021 21:21:34 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15C14BtM130955
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 21:21:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=h1o7KKgUStOdLLysRc4MxZJlHgqrrn4DT6m5rrt2cIg=;
- b=WBZwX/mO0EKctcpZ2bjEe/WFlG4h3W10VBr5EKdv3f8I9y8LtKntO8+jEpMtdhpvyvrt
- 0e9CqcN0RkKDfycpDTrZ2OeV44K+LIT1HLw6tXXVRqPixqelSMkCmXtV5lu3fQ0RM4iP
- UAfl6Och/4YYB6O+puQ9DST37InSQJBpTfICjd/CUiCx57/s3iUsoNmplJ34i2MZk1xQ
- dOLV7+hWlNOA62AX71MmGZJZKGX3qzdrsKegcQez+F0jcakCvfff8s7mK9E1Mk69i7zG
- y8lrpJD7ZmgCwgz0y2aUcCquKTa9Que6gr/qynhc7nrVYozPRjj9UMShwFqeHBT1lghS tg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 394fjx443t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 21:21:30 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15C14RO5131833
- for <qemu-devel@nongnu.org>; Fri, 11 Jun 2021 21:21:30 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 394fjx443q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 11 Jun 2021 21:21:30 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15C1DFwB026051;
- Sat, 12 Jun 2021 01:21:29 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma01wdc.us.ibm.com with ESMTP id 3900w9vd8p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 12 Jun 2021 01:21:29 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15C1LThg9175558
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 12 Jun 2021 01:21:29 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A57A112062;
- Sat, 12 Jun 2021 01:21:29 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0DCE8112063;
- Sat, 12 Jun 2021 01:21:29 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.47.158.152])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Sat, 12 Jun 2021 01:21:29 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: armbru@redhat.com, qemu-devel@nongnu.org
-Subject: [RFC PATCH V1 3/3] sysemu: Make TPM structures inaccessible if
- CONFIG_TPM is not defined
-Date: Fri, 11 Jun 2021 21:21:02 -0400
-Message-Id: <20210612012102.1820063-4-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210612012102.1820063-1-stefanb@linux.ibm.com>
-References: <20210612012102.1820063-1-stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lrwC6-0006X7-0s
+ for qemu-devel@nongnu.org; Sat, 12 Jun 2021 01:28:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623475708;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NGfgbpW9gTUfw8uUFytWJMLdTvOfHtkgWz4cfMs62KE=;
+ b=eISVqXyOjG9OGHVzCxvqilvmbnqeD+tWTwcqyR7rT+cnULi86CI4GptLiCKM3+g4gihCWx
+ X4BQIKuhyDjffYpeoTCcV5hdU7h2pSMe9YRhoVZ2t2XpdJnLNAZNfUcb31zdGVzxBkrO5u
+ gdHB5a7mNmRaXC7js2xmzqFMs0fPU3k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-UNr-NxDbNm2gZyLsrC_HWw-1; Sat, 12 Jun 2021 01:28:25 -0400
+X-MC-Unique: UNr-NxDbNm2gZyLsrC_HWw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8C401850605;
+ Sat, 12 Jun 2021 05:28:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-222.ams2.redhat.com
+ [10.36.112.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5465919C44;
+ Sat, 12 Jun 2021 05:28:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DF432113865F; Sat, 12 Jun 2021 07:28:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrew Melnychenko <andrew@daynix.com>
+Subject: Re: [RFC PATCH 4/5] qmp: Added qemu-ebpf-rss-path command.
+References: <20210609100457.142570-1-andrew@daynix.com>
+ <20210609100457.142570-5-andrew@daynix.com>
+Date: Sat, 12 Jun 2021 07:28:19 +0200
+In-Reply-To: <20210609100457.142570-5-andrew@daynix.com> (Andrew Melnychenko's
+ message of "Wed, 9 Jun 2021 13:04:56 +0300")
+Message-ID: <87fsxnejnw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: E88AAAZ1Y3r91xlbCHeZa7I_PzIu_n8T
-X-Proofpoint-ORIG-GUID: rdrK42gYxYArienyGtvTCoJ9tgkSI42n
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-11_06:2021-06-11,
- 2021-06-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 mlxscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
- adultscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106120006
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,63 +80,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
+Cc: berrange@redhat.com, mst@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, yuri.benditovich@daynix.com, yan@daynix.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- include/sysemu/tpm.h         | 6 +++++-
- include/sysemu/tpm_backend.h | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+Andrew Melnychenko <andrew@daynix.com> writes:
 
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index 1a85564e47..2ca3fa32ee 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -15,10 +15,12 @@
- #include "qapi/qapi-types-tpm.h"
- #include "qom/object.h"
- 
--int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
- int tpm_init(void);
- void tpm_cleanup(void);
- 
-+#ifdef CONFIG_TPM
-+int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
-+
- typedef enum TPMVersion {
-     TPM_VERSION_UNSPEC = 0,
-     TPM_VERSION_1_2 = 1,
-@@ -73,4 +75,6 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
-     return TPM_IF_GET_CLASS(ti)->get_version(ti);
- }
- 
-+#endif /* CONFIG_TPM */
-+
- #endif /* QEMU_TPM_H */
-diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-index 6f078f5f48..8fd3269c11 100644
---- a/include/sysemu/tpm_backend.h
-+++ b/include/sysemu/tpm_backend.h
-@@ -18,6 +18,8 @@
- #include "sysemu/tpm.h"
- #include "qapi/error.h"
- 
-+#ifdef CONFIG_TPM
-+
- #define TYPE_TPM_BACKEND "tpm-backend"
- OBJECT_DECLARE_TYPE(TPMBackend, TPMBackendClass,
-                     TPM_BACKEND)
-@@ -209,4 +211,6 @@ TPMInfo *tpm_backend_query_tpm(TPMBackend *s);
- 
- TPMBackend *qemu_find_tpm_be(const char *id);
- 
--#endif
-+#endif /* CONFIG_TPM */
-+
-+#endif /* TPM_BACKEND_H */
--- 
-2.31.1
+> New qmp command to query ebpf helper.
+> It's crucial that qemu and helper are in sync and in touch.
+> Technically helper should pass eBPF fds that qemu may accept.
+> And different qemu's builds may have different eBPF programs and helpers.
+> Qemu returns helper that should "fit" to virtio-net.
+>
+> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> ---
+>  monitor/qmp-cmds.c | 78 ++++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/misc.json     | 29 +++++++++++++++++
+>  2 files changed, 107 insertions(+)
+>
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index f7d64a6457..5dd2a58ea2 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -351,3 +351,81 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
+>          abort();
+>      }
+>  }
+> +
+> +#ifdef CONFIG_LINUX
+> +
+> +static const char *get_dirname(char *path)
+> +{
+> +    char *sep;
+> +
+> +    sep = strrchr(path, '/');
+> +    if (sep == path) {
+> +        return "/";
+> +    } else if (sep) {
+> +        *sep = 0;
+> +        return path;
+> +    }
+> +    return ".";
+> +}
+> +
+> +static char *find_helper(const char *name)
+> +{
+> +    char qemu_exec[PATH_MAX];
+> +    const char *qemu_dir = NULL;
+> +    char *helper = NULL;
+> +
+> +    if (name == NULL) {
+> +        return NULL;
+> +    }
+> +
+> +    if (readlink("/proc/self/exe", qemu_exec, PATH_MAX) > 0) {
+> +        qemu_dir = get_dirname(qemu_exec);
+> +
+> +        helper = g_strdup_printf("%s/%s", qemu_dir, name);
+> +        if (access(helper, F_OK) == 0) {
+> +            return helper;
+> +        }
+> +        g_free(helper);
+> +    }
+> +
+> +    helper = g_strdup_printf("%s/%s", CONFIG_QEMU_HELPERDIR, name);
+> +    if (access(helper, F_OK) == 0) {
+> +        return helper;
+> +    }
+> +    g_free(helper);
+> +
+> +    return NULL;
+> +}
+
+This returns the helper in the same directory as the running executable,
+or as a fallback the helper in CONFIG_QEMU_HELPERDIR.
+
+Checking F_OK (existence) instea of X_OK is odd.
+
+It uses /proc/self/exe to find the running executable's directory.  This
+is specific to Linux[*].  You get different behavior on Linux vs. other
+systems.
+
+CONFIG_QEMU_HELPERDIR is $prefix/libexec/.
+
+If $prefix is /usr, then qemu-system-FOO is normally installed in
+/usr/bin/, and the helper in /usr/libexec/.  We look for the helper in
+the wrong place first, and the right one only when it isn't in the wrong
+place.  Feels overcomplicated and fragile.
+
+Consider the following scenario:
+
+* The system has a binary package's /usr/bin/qemu-system-x86_64 and
+  /usr/libexec/qemu-ebpf-rss-helper installed
+
+* Alice builds her own QEMU with prefix /usr (and no intention to
+  install), resulting in bld/qemu-system-x86_64, bld/qemu-ebpf-rss-path,
+  and a symlink bld/x86_64-softmmu/qemu-system-x86_64.
+
+Now:
+
+* If Alice runs bld/qemu-system-x86_64, and the host is Linux,
+  find_helper() returns bld/qemu-ebpf-rss-path.  Good.
+
+* If the host isn't Linux, it returns /usr/libexec/qemu-ebpf-rss-helper.
+  Not good.
+
+* If Alice runs bld/x86_64-softmmu/qemu-system-x86_64, it also returns
+  /usr/libexec/qemu-ebpf-rss-helper.  Not good.
+
+> +
+> +HelperPathList *qmp_query_helper_paths(Error **errp)
+> +{
+> +    HelperPathList *ret = NULL;
+> +    const char *helpers_list[] = {
+> +#ifdef CONFIG_EBPF
+> +        "qemu-ebpf-rss-helper",
+> +#endif
+> +        NULL
+> +    };
+> +    const char **helper_iter = helpers_list;
+> +
+> +    for (; *helper_iter != NULL; ++helper_iter) {
+> +        char *path = find_helper(*helper_iter);
+> +        if (path) {
+> +            HelperPath *helper = g_new0(HelperPath, 1);
+> +            helper->name = g_strdup(*helper_iter);
+> +            helper->path = path;
+> +
+> +            QAPI_LIST_PREPEND(ret, helper);
+> +        }
+> +    }
+> +
+> +    return ret;
+> +}
+> +#else
+> +
+> +HelperPathList *qmp_query_helper_paths(Error **errp)
+> +{
+> +    return NULL;
+> +}
+> +
+> +#endif
+> diff --git a/qapi/misc.json b/qapi/misc.json
+> index 156f98203e..023bd2120d 100644
+> --- a/qapi/misc.json
+> +++ b/qapi/misc.json
+> @@ -519,3 +519,32 @@
+>   'data': { '*option': 'str' },
+>   'returns': ['CommandLineOptionInfo'],
+>   'allow-preconfig': true }
+> +
+> +##
+> +# @HelperPath:
+> +#
+> +# Name of the helper and binary location.
+> +##
+> +{ 'struct': 'HelperPath',
+> +  'data': {'name': 'str', 'path': 'str'} }
+> +
+> +##
+> +# @query-helper-paths:
+> +#
+> +# Query specific eBPF RSS helper for current qemu binary.
+> +#
+> +# Returns: list of object that contains name and path for helper.
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "query-helper-paths" }
+> +# <- { "return": [
+> +#        {
+> +#          "name": "qemu-ebpf-rss-helper",
+> +#          "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
+> +#        }
+> +#      ]
+> +#    }
+> +#
+> +##
+> +{ 'command': 'query-helper-paths', 'returns': ['HelperPath'] }
+
+The name query-helper-paths is generic, the documented purpose "Query
+specific eBPF RSS helper" is specific.
+
+qemu-ebpf-rss-helper isn't necessarily the only helper that needs to be
+in sync with QEMU.
+
+I doubt a query command is a good way to help with using the right one.
+qemu-system-FOO doesn't really know where the right one is.  Only the
+person or program that put them where they are does.
+
+If we want to ensure the right helper runs, we should use a build
+identifier compiled into the programs, like we do for modules.
+
+For modules, the program loading a module checks the module's build
+identifier matches its own.
+
+For programs talking to each other, the peers together check their build
+identifiers match.
+
+For programs where that isn't practical, the management application can
+check.
+
+This should be a lot more reliable.
+
+Helpers QEMU code runs itself should be run as
+CONFIG_QEMU_HELPERDIR/HELPER, with a suitable user override.  This is
+how qemu-bridge-helper works.
+
+Helpers some other program runs are that other program's problem.
+They'll probably work the same: built-in default that can be overridden
+with configuration.
+
+
+[*] For detailed advice, see
+https://stackoverflow.com/questions/1023306/finding-current-executables-path-without-proc-self-exe
 
 
