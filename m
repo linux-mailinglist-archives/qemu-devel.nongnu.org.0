@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E303A58AE
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 15:25:42 +0200 (CEST)
-Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E1E3A58DD
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 15:45:57 +0200 (CEST)
+Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsQ7Q-0005h0-W7
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 09:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34176)
+	id 1lsQR1-0003Cs-Ko
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 09:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lsQ69-000501-2s
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 09:24:21 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:40476)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1lsQPQ-0002Wr-QF
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 09:44:16 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:36836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lsQ67-00038W-86
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 09:24:20 -0400
-Received: by mail-qk1-x730.google.com with SMTP id u30so35927374qke.7
- for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 06:24:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1lsQPO-0007uL-R3
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 09:44:16 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id r16so11150686oiw.3
+ for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 06:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4M2Qw9leP7RveDxmEk5ST1qcXnb+to1rcwpdVU3S0AQ=;
- b=FZ/1UPj+GdVbnyW7PAfLz+zMy8ty5pxUA9UBdeMIP+DtNyhY8xt2l9drVxcA6Bb4K3
- yTZqz3U1qbsug2n87uowk9sMpZO7VO9snaAppiCvwgQnmjDUbsbJjmjt7G+fKXLThjo0
- ID2H7l7jJkk+Fr+b0vgGfrWromstZxQ3V6UslIYELakXDj7RS9bRW/hP52aqFeCikseB
- M2pFsJlvFg/vOrXw9XeHjZLIguF3dmabUUpSAEhIFfJRcVq3p3E3vBf3ysYEkv89tdkg
- HazHYGdSejQV0iJBo8yKVujRI5Fyd7XViJl9kf7NxIsBxGHh9rA6kfaSGvBWdezFj0Lc
- yrXg==
+ :cc; bh=D1s/mvd3N+384cORHtG78KlshRZoxWiZCPKm/JqT/T0=;
+ b=oX78ROwkbzn5yXNyE/ZeHq+zjlO8MYN41qrC1NXwPegrM9CKNDBJBd+0HQKhYKc0/8
+ VnibCtFGe6V/vXE14bhZYfHLD5P7Qs8xO7cRbXKnp8a0IVBHzpoWqvc5mIPgfqLrkACN
+ tuQ8GU5DgdM3ykPSMe72Ihb5xaPdhayxq3u5cFCgVJvHxM9HT2oUl/vWWFZSjQKw+I4D
+ 1eaj89L/Pc7oX4nI65i8owjabyrII22x1pwpGIKwifulaA+L/nxmP7l7NuuxyRyEwnSv
+ wbRb3eWMQWLPQhZQ88zG5I0hzbulJAELV4NvtIjdNWCs1pRapo+mrAK+NtYev07yHWXt
+ 7cYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4M2Qw9leP7RveDxmEk5ST1qcXnb+to1rcwpdVU3S0AQ=;
- b=NqsXU92v+vBWcYcfaJMvQFYNAT+2r+vqghDOnu8STdnOGLC5VLEvGQVhSPgqSnSgIC
- iiOBt4pEZLwEIEaD1fbfVEH1OFVK0KLO6F1Ktj35POvDFkH21kQy53eg7EByBIchTNxx
- VN+6hlbgcJ793dx24snNIWQIQ2S6Vw1hkHm589EhzkQQbDoeMTqYUpOfMJMG2LEw3w/b
- zbCgq/2eUeSkea8qWGNeAljDSpHhSqo6isb39CwNkoRzNob3uIrGXcEe4I+mbhxuOToY
- SGnkYjBJ4axAMQS94DSWzf4Sfse4tJrAM87WHUmEkHNUtk4akwTrxxmmFPQAra53nhTu
- kckw==
-X-Gm-Message-State: AOAM533koPMmqRVtYqdosSOduHEMV2fIyUE+cB1Dl95F5rDka3EZ7Um7
- UmVAudD0QQMLPyuRVfsXWSCXEPwfauq6DngR4Fc=
-X-Google-Smtp-Source: ABdhPJx7DHixQEAw9UUNOnqMo6qGqge0EPJlEDv10Po7SGNJnfTKfIp+9HXqrdRZqKsLnOBCWQxLcXSIs5YzHPdlmmI=
-X-Received: by 2002:a05:620a:85d:: with SMTP id
- u29mr12215689qku.346.1623590657816; 
- Sun, 13 Jun 2021 06:24:17 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=D1s/mvd3N+384cORHtG78KlshRZoxWiZCPKm/JqT/T0=;
+ b=BjF94pbda1iPnyPATRSU81o6I5cn9aJ2ayhkvL/jlUIsKE/O27gBGnShKjr7Zc0AO8
+ Vfn3EGCui3JzGFZb/6Kqwb33WjEMUtBZxN+GdR/NAQ5T3uyf2G+LqsESVTW5doEUb9be
+ H5ard9+WENlqQH/84BdjRQDcADm0LGqrN1vdz4NQBJMgpue+GUt72pBV7kOt3+Xx7odo
+ 9uIy7dDUxMjhdBWCQvZEBsJoHva7jKsO5stvwe36a5CcvK9fgiZC8elRzAJhMZT1zOp3
+ qkHL33I6GOnOSbpENJBhw5vPOciF63UK89G8iOg5I4vJMnuIABCmb2/jfgcYA9l0VK2p
+ cYGQ==
+X-Gm-Message-State: AOAM532teqB4b5djsmocsfH9Et92WMwm3vASFFkOHiMHKkFfknO3D/Qm
+ HZR0uI70uD5HgM2qyop7LzRD/cZ3wBBYv94tL+4=
+X-Google-Smtp-Source: ABdhPJyp1fr3C6qeX8PNK9sxEmarFARomy8UvQHRa0QIuD0utiSjst/ievkfkR1OKH39RIrHTnY6WBPxS6/fWTljXC8=
+X-Received: by 2002:a05:6808:28f:: with SMTP id
+ z15mr1969975oic.169.1623591853156; 
+ Sun, 13 Jun 2021 06:44:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210604075029.1201478-1-kraxel@redhat.com>
-In-Reply-To: <20210604075029.1201478-1-kraxel@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Sun, 13 Jun 2021 21:23:41 +0800
-Message-ID: <CAKXe6SJTPXzL0z7pck1Jjw=5P6oiESqL40QAZHjxCC6BC6oCiw@mail.gmail.com>
-Subject: Re: [PATCH] virtio-gpu: move scanout_id sanity check
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <CAAKa2jn2vwC6oZtrL6CtbQ5U7r7tS4GXmmALjCMSby6KiupeAQ@mail.gmail.com>
+ <b91537e4-5a6d-caa1-d946-8f215fe57093@amsat.org>
+In-Reply-To: <b91537e4-5a6d-caa1-d946-8f215fe57093@amsat.org>
+From: Qiang Liu <cyruscyliu@gmail.com>
+Date: Sun, 13 Jun 2021 21:44:01 +0800
+Message-ID: <CAAKa2jnaKd0Eu_P-uouoSw_wa0iQNGSk1sQ5zxo4GGZDat6T+w@mail.gmail.com>
+Subject: Re: [PATCH] Fix assertion failure in lsi53c810 emulator
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=liq3ea@gmail.com; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=cyruscyliu@gmail.com; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,83 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Qemu Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Cheolwoo Myung <cwmyung@snu.ac.kr>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2021=E5=B9=B46=E6=9C=884=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=883:50=E5=86=99=E9=81=93=EF=BC=9A
->
-> Checking scanout_id in virtio_gpu_do_set_scanout() is too late, for the
-> "resource_id =3D=3D 0" case (aka disable scanout) the scanout_id is used
-> unchecked.  Move the check into the callers to fix that.
->
-> Fixes: e64d4b6a9bc3 ("virtio-gpu: Refactor virtio_gpu_set_scanout")
-> Fixes: 32db3c63ae11 ("virtio-gpu: Add virtio_gpu_set_scanout_blob")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/383
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Hi Phil,
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+> You didn't Cc'ed the maintainers of the SCSI subsystem (see
+> https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer
+> ) so I'm doing it for you:
+Thank you!
 
-> ---
->  hw/display/virtio-gpu.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
+> It seems you didn't send your patch with the proper tool, see
+> https://wiki.qemu.org/Contribute/SubmitAPatch#Use_git_format-patch
 >
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 4d549377cbc1..e183f4ecdaa5 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -610,12 +610,6 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
->      struct virtio_gpu_scanout *scanout;
->      uint8_t *data;
+> Please also mention the reporter:
 >
-> -    if (scanout_id >=3D g->parent_obj.conf.max_outputs) {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
- %d",
-> -                      __func__, scanout_id);
-> -        *error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-> -        return;
-> -    }
->      scanout =3D &g->parent_obj.scanout[scanout_id];
+>   Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
 >
->      if (r->x > fb->width ||
-> @@ -694,6 +688,13 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
->      trace_virtio_gpu_cmd_set_scanout(ss.scanout_id, ss.resource_id,
->                                       ss.r.width, ss.r.height, ss.r.x, ss=
-.r.y);
+> Also your git-config is missing your name. Fixable using:
 >
-> +    if (ss.scanout_id >=3D g->parent_obj.conf.max_outputs) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
- %d",
-> +                      __func__, ss.scanout_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-> +        return;
-> +    }
-> +
->      if (ss.resource_id =3D=3D 0) {
->          virtio_gpu_disable_scanout(g, ss.scanout_id);
->          return;
-> @@ -730,6 +731,13 @@ static void virtio_gpu_set_scanout_blob(VirtIOGPU *g=
-,
->                                            ss.r.width, ss.r.height, ss.r.=
-x,
->                                            ss.r.y);
+>   $ git config user.name "Liu Cyrus"
 >
-> +    if (ss.scanout_id >=3D g->parent_obj.conf.max_outputs) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
- %d",
-> +                      __func__, ss.scanout_id);
-> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-> +        return;
-> +    }
-> +
->      if (ss.resource_id =3D=3D 0) {
->          virtio_gpu_disable_scanout(g, ss.scanout_id);
->          return;
-> --
-> 2.31.1
+> for your QEMU repository, or globally:
 >
->
+>   $ git config --global user.name "Liu Cyrus"
+Thank you again. I'm sorry that I do miss several basic settings.
+I will do better next time.
+
+> Instead of duplicating multiple times the same complex code, you could
+> add a helper once and call it.
+This is really a good idea.
+
+> However back to the bug you are trying to fix, I wonder if your check
+> is correct regarding the hardware we are modeling. Have you looked
+> at the specifications? See https://docs.broadcom.com/doc/12352475
+> Chapter 5.3 Block Move Instruction (from SCSI SCRIPTS Instruction Set),
+> "DMA Command" register.
+To be honest, I didn't check the specification at that time. I formed this patch
+following the idea that we could discard an invalid MMIO operation to
+avoid crashing.
+Does it seem that this idea is not enough to form a good patch? What are
+the best practices to fix an assertion failure in QEMU?
+
+> Why are we reaching these places with s->current == NULL in the first
+> place? We are probably missing something earlier.
+I checked the specification for several hours today, but it is too
+difficult for me.
+I need more time to understand it and form a better patch.
+
+When reproducing the crash, I found that I didn't prepare any script to be
+executed by lsi_execute_script. However, `insn = read_dword(s, s->dsp)` did get
+an instruction at `s->dsp`. Maybe I should check this more.
+
+Best,
+Qiang
 
