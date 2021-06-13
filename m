@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9EA3A56C7
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 08:34:09 +0200 (CEST)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCA43A56CE
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 08:54:16 +0200 (CEST)
+Received: from localhost ([::1]:33514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsJhA-0007D2-E0
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 02:34:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45082)
+	id 1lsK0c-0001ZG-OT
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 02:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lsJgS-0006YP-UL
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 02:33:24 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:54014
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lsJzI-0000tZ-0o
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 02:52:52 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:54096
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lsJgQ-0007is-FH
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 02:33:24 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lsJzF-00059f-M8
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 02:52:51 -0400
 Received: from edv-macbook-pro.fritz.box (p57b42637.dip0.t-ipconnect.de
  [87.180.38.55])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id B28E0DA0FB1;
- Sun, 13 Jun 2021 08:33:18 +0200 (CEST)
-To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org
-References: <20210612080358.61176-1-sw@weilnetz.de>
- <202eedd1-eb24-5463-c17a-64e146b95421@comstyle.com>
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 902E9DA07CF;
+ Sun, 13 Jun 2021 08:52:46 +0200 (CEST)
+To: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <0a102843-bb93-93b8-f502-dd0cb2a6c636@linaro.org>
 From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] meson.build: Support ncurses on MacOS
-Message-ID: <c3f3e9af-c81e-078c-5200-e2532a468cf7@weilnetz.de>
-Date: Sun, 13 Jun 2021 08:33:18 +0200
+Subject: Re: [gitlab] Renamed issue labels for target architecture
+Message-ID: <c97f8092-0542-1fa5-1e0d-68f07ab909b9@weilnetz.de>
+Date: Sun, 13 Jun 2021 08:52:46 +0200
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <202eedd1-eb24-5463-c17a-64e146b95421@comstyle.com>
+In-Reply-To: <0a102843-bb93-93b8-f502-dd0cb2a6c636@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
@@ -57,32 +59,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.06.21 um 03:40 schrieb Brad Smith:
+Am 13.06.21 um 00:32 schrieb Richard Henderson:
 
-> This same problem also applies to OpenBSD as we have the same
-> version of ncurses with support for wide characters. I have a similar
-> patch in our QEMU port.
+> I've renamed arch:* to target:* as there was some amount of confusion=20
+> as to what "arch" really meant without context.=C2=A0 I've removed labe=
+ls=20
+> for lm32 and unicore32 which have been removed from qemu 6.1.=C2=A0 I'v=
+e=20
+> added a label for hexagon.
+>
+> I have not yet added labels for host architecture, because I couldn't=20
+> figure out how best to word the description, or even if all of the=20
+> target:* labels need re-wording to emphasize target.
+>
+> And then there's the special case of TCI.
+>
+> Thoughts on these?
 
 
-Then we should either extend the conditional statement to handle OpenBSD =
+A pragmatic solution for TCI could use the label "accel: TCI" as a=20
+special case and instead of "accel: TCG".
 
-as well, or simply define both macros unconditionally:
+We have an ambiguity for "os:" because it is unclear whether it relates=20
+to the host or to the target system. That could be handled by using four =
 
- =C2=A0=C2=A0=C2=A0 # Newer versions of curses use NCURSES_WIDECHAR.
- =C2=A0=C2=A0=C2=A0 # Older versions (e. g. on MacOS, OpenBSD) still requ=
-ire=20
-_XOPEN_SOURCE_EXTENDED.
- =C2=A0=C2=A0=C2=A0 curses_compile_args =3D ['-DNCURSES_WIDECHAR=3D1',=20
-'-D_XOPEN_SOURCE_EXTENDED=3D1']
-
-Defining only _XOPEN_SOURCE_EXTENDED would also work with old and new=20
-versions, so that's another option.
+labels "host:", "target:" (architecture), "host-os:", "target-os:"=20
+(operating system). I'd prefer dropping the "os:" label and extending=20
+"target:" (and the new "host:") to allow either architecture, operating=20
+system or a combination of both (for example target: i386, target:=20
+i386-Windows, host: Windows).
 
 Stefan
+
+
 
 
 
