@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2BD3A5A95
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:19:27 +0200 (CEST)
-Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AB83A5A94
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:19:22 +0200 (CEST)
+Received: from localhost ([::1]:52364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsXVu-0001KU-U5
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33448)
+	id 1lsXVp-00018i-UT
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT7-0005cB-Mb
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:33 -0400
-Received: from mr85p00im-ztdg06021101.me.com ([17.58.23.180]:55117)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXTA-0005np-Mw
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:36 -0400
+Received: from mr85p00im-ztdg06021101.me.com ([17.58.23.180]:55210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT6-0001R4-3w
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:33 -0400
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT8-0001SR-IE
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1623618991; bh=SYeyreoJ2Lw38+CIeH/PXgqofHJhNw7AEVREYG0+pfo=;
+ t=1623618993; bh=Y20/OnA1InddzQnxJH5sFn3MzAD/qYzwhMkzYe+90t4=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=IcU7sJnPlsAfNKDh1BQo2Bw6NVaZmIdC4MPPVA3RzCy7WKxUohL+f/TojmV/m61ES
- aHU3cUUouofdJMN1MygGpk/r6CmdKvoA+P5S4GbL0+SQI23/AJ1Xbw9Loc7GmOQoJn
- RjBHvCGqRGWqH+LuL9WVnKbqm3sR0Vzir6Ey+pt+QU3nPYpb0DikH4HQOQz80vCdTN
- S0DJmMJqVV80VPQ0NL9xbhMfbGcn7JdPttxv/Q3yaRih4esA+uXD6WhazkuDGjsFIL
- Rl5sStCOnoh0qGiPIGCWvCW9tsyetBkehXW5pV0aAW3OfcpaKRGOU3haY6/rX88nN5
- uDvJ20onJI/6g==
+ b=GXEL8YNL1D0tH8nbaqAGz991VDRFemY+TPjcAgGhfwFExoMeKdxThsWkFXR1qLqrv
+ 6ifPiFm5p4BsUnXJjw5hTemIfKA7Fzd8Zx71dOxYJ7xa8m9/X0rL9mvl1UnGLy85Yz
+ npgCdQWGguoSrlf3nazKJNtUtmt+gObKjfq+to/gPm5d5LN7fEekDHWzTekCuq6ojp
+ jBU1n6ogX4qFd+a6rIQRZdMPAJ/3a2WoB21tDZ8DhhrA1OO8ExlzuakywxLbEeB/bg
+ wW+KT4MRDK8kC6d59JgzvmCKtpocMJ23vLUNHV6PAH5zEt/AlPcGoBK7lkjbuhew/s
+ 22bYiwdNviYRQ==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06021101.me.com (Postfix) with ESMTPSA id B625E340545;
- Sun, 13 Jun 2021 21:16:30 +0000 (UTC)
+ by mr85p00im-ztdg06021101.me.com (Postfix) with ESMTPSA id EFCEE340137;
+ Sun, 13 Jun 2021 21:16:32 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>,
 	richard.henderson@linaro.org
-Subject: [PATCH 2/4] alpha: Set minimum PCI device ID to 1 to match Clipper
- IRQ mappings.
-Date: Sun, 13 Jun 2021 14:15:47 -0700
-Message-Id: <20210613211549.18094-3-thorpej@me.com>
+Subject: [PATCH 3/4] alpha: Provide a PCI-ISA bridge device node for guest
+ OS's that expect it
+Date: Sun, 13 Jun 2021 14:15:48 -0700
+Message-Id: <20210613211549.18094-4-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210613211549.18094-1-thorpej@me.com>
 References: <20210613211549.18094-1-thorpej@me.com>
@@ -76,75 +76,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we are emulating a Clipper device topology, we need to set the
-minimum PCI device ID to 1, as there is no IRQ mapping for a device
-at ID 0 (see sys_dp264.c:clipper_map_irq()).
-
-- Add a 'devfn_min' argument to typhoon_init().  Pass that argument
-  along to pci_register_root_bus().
-- In clipper_init(), pass PCI_DEVFN(1, 0) as the minimum PCI device
-  ID/function.
+Provide a PCI device node at ID 7 for the PCI-ISA bridge.  Even though
+Tsunami/Typhoon systems would have used a different chip (Cypress or ALI),
+for simplicity we model the Intel i82378, which was also used on several
+Alpha models.  This is needed for some operating systems that only probe
+ISA devices if a PCI-ISA or PCI-EISA bridge is found.
 
 Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- hw/alpha/alpha_sys.h | 2 +-
- hw/alpha/dp264.c     | 5 +++--
- hw/alpha/typhoon.c   | 5 +++--
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ hw/alpha/typhoon.c | 111 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 109 insertions(+), 2 deletions(-)
 
-diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
-index e2c02e2bbe..4835b3d5ee 100644
---- a/hw/alpha/alpha_sys.h
-+++ b/hw/alpha/alpha_sys.h
-@@ -11,7 +11,7 @@
- 
- 
- PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
--                     pci_map_irq_fn);
-+                     pci_map_irq_fn, uint8_t devfn_min);
- 
- /* alpha_pci.c.  */
- extern const MemoryRegionOps alpha_pci_ignore_ops;
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 1017ecf330..ac97104464 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -76,9 +76,10 @@ static void clipper_init(MachineState *machine)
-     cpus[0]->env.trap_arg1 = 0;
-     cpus[0]->env.trap_arg2 = smp_cpus;
- 
--    /* Init the chipset.  */
-+    /* Init the chipset.  Because we're using CLIPPER IRQ mappings,
-+       the minimum PCI device IdSel is 1.  */
-     pci_bus = typhoon_init(machine->ram, &isa_bus, &rtc_irq, cpus,
--                           clipper_pci_map_irq);
-+                           clipper_pci_map_irq, PCI_DEVFN(1, 0));
- 
-     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
-     mc146818_rtc_init(isa_bus, 1900, rtc_irq);
 diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
-index 87020cbe0d..fa31a2f286 100644
+index fa31a2f286..de01828d23 100644
 --- a/hw/alpha/typhoon.c
 +++ b/hw/alpha/typhoon.c
-@@ -815,7 +815,8 @@ static void typhoon_alarm_timer(void *opaque)
+@@ -919,11 +919,32 @@ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+     /* Pchip1 PCI I/O, 0x802.FC00.0000, 32MB.  */
+     /* Pchip1 PCI configuration, 0x802.FE00.0000, 16MB.  */
+ 
+-    /* Init the ISA bus.  */
+-    /* ??? Technically there should be a cy82c693ub pci-isa bridge.  */
++    /* Init the PCI-ISA bridge.  Technically, PCI-based Alphas shipped
++       with one of three different PCI-ISA bridges:
++
++       - Intel i82378 SIO
++       - Cypress CY82c693UB
++       - ALI M1533
++
++       (An Intel i82375 PCI-EISA bridge was also used on some models.)
++
++       For simplicity, we model an i82378 here, even though it wouldn't
++       have been on any Tsunami/Typhoon systems; it's close enough, and
++       we don't want to deal with modelling the CY82c693UB (which has
++       incompatible edge/level control registers, plus other peripherals
++       like IDE and USB) or the M1533 (which also has IDE and USB).
++
++       Importantly, we need to provide a PCI device node for it, otherwise
++       some operating systems won't notice there's an ISA bus to configure.
++
++       ??? We are using a private, stripped-down implementation of i82378
++       so that we can handle the way the ISA interrupts are wired up on
++       Tsunami/Typhoon systems.  */
+     {
+         qemu_irq *isa_irqs;
+ 
++        pci_create_simple(b, PCI_DEVFN(7, 0), "i82378-typhoon");
++
+         *isa_bus = isa_bus_new(NULL, get_system_memory(), &s->pchip.reg_io,
+                                &error_abort);
+         isa_irqs = i8259_init(*isa_bus,
+@@ -954,10 +975,96 @@ static const TypeInfo typhoon_iommu_memory_region_info = {
+     .class_init = typhoon_iommu_memory_region_class_init,
+ };
+ 
++/* The following was copied from hw/isa/i82378.c and modified to provide
++   only the minimal PCI device node.  */
++
++/*
++ * QEMU Intel i82378 emulation (PCI to ISA bridge)
++ *
++ * Copyright (c) 2010-2011 Herv\xc3\xa9 Poussineau
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "migration/vmstate.h"
++
++#define TYPE_I82378 "i82378-typhoon"
++#define I82378(obj) \
++    OBJECT_CHECK(I82378State, (obj), TYPE_I82378)
++
++typedef struct I82378State {
++    PCIDevice parent_obj;
++} I82378State;
++
++static const VMStateDescription vmstate_i82378 = {
++    .name = "pci-i82378-typhoon",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(parent_obj, I82378State),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static void i82378_realize(PCIDevice *pci, Error **errp)
++{
++    uint8_t *pci_conf;
++
++    pci_conf = pci->config;
++    pci_set_word(pci_conf + PCI_COMMAND,
++                 PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER);
++    pci_set_word(pci_conf + PCI_STATUS,
++                 PCI_STATUS_DEVSEL_MEDIUM);
++
++    pci_config_set_interrupt_pin(pci_conf, 1); /* interrupt pin 0 */
++}
++
++static void i82378_init(Object *obj)
++{
++}
++
++static void i82378_class_init(ObjectClass *klass, void *data)
++{
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    k->realize = i82378_realize;
++    k->vendor_id = PCI_VENDOR_ID_INTEL;
++    k->device_id = PCI_DEVICE_ID_INTEL_82378;
++    k->revision = 0x03;
++    k->class_id = PCI_CLASS_BRIDGE_ISA;
++    dc->vmsd = &vmstate_i82378;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++}
++
++static const TypeInfo i82378_typhoon_type_info = {
++    .name = TYPE_I82378,
++    .parent = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(I82378State),
++    .instance_init = i82378_init,
++    .class_init = i82378_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
+ static void typhoon_register_types(void)
+ {
+     type_register_static(&typhoon_pcihost_info);
+     type_register_static(&typhoon_iommu_memory_region_info);
++    type_register_static(&i82378_typhoon_type_info);
  }
  
- PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
--                     AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq)
-+                     AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq,
-+                     uint8_t devfn_min)
- {
-     MemoryRegion *addr_space = get_system_memory();
-     DeviceState *dev;
-@@ -885,7 +886,7 @@ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
-     b = pci_register_root_bus(dev, "pci",
-                               typhoon_set_irq, sys_map_irq, s,
-                               &s->pchip.reg_mem, &s->pchip.reg_io,
--                              0, 64, TYPE_PCI_BUS);
-+                              devfn_min, 64, TYPE_PCI_BUS);
-     phb->bus = b;
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
+ type_init(typhoon_register_types)
 -- 
 2.30.2
 
