@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0B73A5856
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 14:48:39 +0200 (CEST)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E303A58AE
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 15:25:42 +0200 (CEST)
+Received: from localhost ([::1]:39712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsPXa-0003q6-BS
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 08:48:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57382)
+	id 1lsQ7Q-0005h0-W7
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 09:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lsPWR-0002z2-66; Sun, 13 Jun 2021 08:47:27 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:54075)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lsPWP-0003ml-EC; Sun, 13 Jun 2021 08:47:26 -0400
-Received: from [192.168.100.1] ([82.142.19.46]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M7auJ-1lxbeH3k21-0086uF; Sun, 13 Jun 2021 14:47:13 +0200
-Subject: Re: [PATCH v2] fuzz: Display hexadecimal value with '0x' prefix
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210612195842.1595999-1-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <e947c86c-bd9b-6d91-d0f0-b8ce8833f295@vivier.eu>
-Date: Sun, 13 Jun 2021 14:47:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lsQ69-000501-2s
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 09:24:21 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:40476)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lsQ67-00038W-86
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 09:24:20 -0400
+Received: by mail-qk1-x730.google.com with SMTP id u30so35927374qke.7
+ for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 06:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4M2Qw9leP7RveDxmEk5ST1qcXnb+to1rcwpdVU3S0AQ=;
+ b=FZ/1UPj+GdVbnyW7PAfLz+zMy8ty5pxUA9UBdeMIP+DtNyhY8xt2l9drVxcA6Bb4K3
+ yTZqz3U1qbsug2n87uowk9sMpZO7VO9snaAppiCvwgQnmjDUbsbJjmjt7G+fKXLThjo0
+ ID2H7l7jJkk+Fr+b0vgGfrWromstZxQ3V6UslIYELakXDj7RS9bRW/hP52aqFeCikseB
+ M2pFsJlvFg/vOrXw9XeHjZLIguF3dmabUUpSAEhIFfJRcVq3p3E3vBf3ysYEkv89tdkg
+ HazHYGdSejQV0iJBo8yKVujRI5Fyd7XViJl9kf7NxIsBxGHh9rA6kfaSGvBWdezFj0Lc
+ yrXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4M2Qw9leP7RveDxmEk5ST1qcXnb+to1rcwpdVU3S0AQ=;
+ b=NqsXU92v+vBWcYcfaJMvQFYNAT+2r+vqghDOnu8STdnOGLC5VLEvGQVhSPgqSnSgIC
+ iiOBt4pEZLwEIEaD1fbfVEH1OFVK0KLO6F1Ktj35POvDFkH21kQy53eg7EByBIchTNxx
+ VN+6hlbgcJ793dx24snNIWQIQ2S6Vw1hkHm589EhzkQQbDoeMTqYUpOfMJMG2LEw3w/b
+ zbCgq/2eUeSkea8qWGNeAljDSpHhSqo6isb39CwNkoRzNob3uIrGXcEe4I+mbhxuOToY
+ SGnkYjBJ4axAMQS94DSWzf4Sfse4tJrAM87WHUmEkHNUtk4akwTrxxmmFPQAra53nhTu
+ kckw==
+X-Gm-Message-State: AOAM533koPMmqRVtYqdosSOduHEMV2fIyUE+cB1Dl95F5rDka3EZ7Um7
+ UmVAudD0QQMLPyuRVfsXWSCXEPwfauq6DngR4Fc=
+X-Google-Smtp-Source: ABdhPJx7DHixQEAw9UUNOnqMo6qGqge0EPJlEDv10Po7SGNJnfTKfIp+9HXqrdRZqKsLnOBCWQxLcXSIs5YzHPdlmmI=
+X-Received: by 2002:a05:620a:85d:: with SMTP id
+ u29mr12215689qku.346.1623590657816; 
+ Sun, 13 Jun 2021 06:24:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210612195842.1595999-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:O9ZrO2uIQRQF4OBTX7aBAnH6dfD/sTWq819yiIMHI1O+GFdzugq
- Z6h25jhgx1v3P2XqVO123YInw0EWXLV/rprq5XmaB3IZTZHGmOBc3z1lG1Crg+UG2TxR6kx
- bVfBwpi5xodnLS/sRg//1AWGDfigmEFm8zATzM2E6tYiyjjWA53JyChg4bubK3zxFCAKyO0
- WxdRaABikaSTjvnFbMe0w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7qKzFYOEnpE=:RXXy/Dh5IWftt/mMuY3+HM
- Cto8nNFKrrEEyaSEVeeuHfJMsHcIaXYElf6Vbp1vKB0FNWPLZDVa0M3jun3AD7Oj+S5hdEaCg
- jGf1cejuc6c2tK4Oq4+1sotzsOfIvjp2o5ImTmq7DAcPZPcKeklVPEgn3aj+5pfBzgBwRQVBQ
- ttU+3WpPQ8iFp0T1n1YNcbo7dP9b9+0n9AJlk2eBhqbkWhEeRA73H7/9tinKckv5sfel244gd
- UUR55l3aer4UtmhcPWJHdnMPQRrf+IcUZknvsoJ95NvyPWg5D9sGBhxhCMqJbCbjp+AY0ImzO
- jvo540OuM9oRVCqfkiXDtkYs1WrMzQqgxQ+XCJIbbeLOJturgxAbrxy0sb2R9rJbhuTK//YZc
- 78eV+V9RPafxb83mMpw36SN8bZdkWVdIf5kH10EDOHPCG2QBtgUvFCA1WpqTipqRRLVoYwg33
- rjSEFqWoOhBQ5mtBkdKGwEKna+A+v/9TSkoe5Km8n5+Toe84qEQmfO4Af1gahozW2xqUaBy0U
- gWVAw0MQKHAP9/tZuEUC6A=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210604075029.1201478-1-kraxel@redhat.com>
+In-Reply-To: <20210604075029.1201478-1-kraxel@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Sun, 13 Jun 2021 21:23:41 +0800
+Message-ID: <CAKXe6SJTPXzL0z7pck1Jjw=5P6oiESqL40QAZHjxCC6BC6oCiw@mail.gmail.com>
+Subject: Re: [PATCH] virtio-gpu: move scanout_id sanity check
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=liq3ea@gmail.com; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.144,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,43 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Qemu Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 12/06/2021 à 21:58, Philippe Mathieu-Daudé a écrit :
-> Use memory_region_size() to get the MemoryRegion size,
-> and display it with the '0x' prefix.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v2:
-> - Use PRIx64 (lvivier)
-> - Use memory_region_size()
-> ---
->  tests/qtest/fuzz/generic_fuzz.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index cea7d4058e8..6c675227174 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -841,9 +841,9 @@ static void generic_pre_fuzz(QTestState *s)
->  
->      g_hash_table_iter_init(&iter, fuzzable_memoryregions);
->      while (g_hash_table_iter_next(&iter, (gpointer)&mr, NULL)) {
-> -        printf("  * %s (size %lx)\n",
-> +        printf("  * %s (size 0x%" PRIx64 ")\n",
->                 object_get_canonical_path_component(&(mr->parent_obj)),
-> -               (uint64_t)mr->size);
-> +               memory_region_size(mr));
->      }
->  
->      if (!g_hash_table_size(fuzzable_memoryregions)) {
-> 
+Gerd Hoffmann <kraxel@redhat.com> =E4=BA=8E2021=E5=B9=B46=E6=9C=884=E6=97=
+=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=883:50=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Checking scanout_id in virtio_gpu_do_set_scanout() is too late, for the
+> "resource_id =3D=3D 0" case (aka disable scanout) the scanout_id is used
+> unchecked.  Move the check into the callers to fix that.
+>
+> Fixes: e64d4b6a9bc3 ("virtio-gpu: Refactor virtio_gpu_set_scanout")
+> Fixes: 32db3c63ae11 ("virtio-gpu: Add virtio_gpu_set_scanout_blob")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/383
+> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+
+> ---
+>  hw/display/virtio-gpu.c | 20 ++++++++++++++------
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> index 4d549377cbc1..e183f4ecdaa5 100644
+> --- a/hw/display/virtio-gpu.c
+> +++ b/hw/display/virtio-gpu.c
+> @@ -610,12 +610,6 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
+>      struct virtio_gpu_scanout *scanout;
+>      uint8_t *data;
+>
+> -    if (scanout_id >=3D g->parent_obj.conf.max_outputs) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
+ %d",
+> -                      __func__, scanout_id);
+> -        *error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
+> -        return;
+> -    }
+>      scanout =3D &g->parent_obj.scanout[scanout_id];
+>
+>      if (r->x > fb->width ||
+> @@ -694,6 +688,13 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
+>      trace_virtio_gpu_cmd_set_scanout(ss.scanout_id, ss.resource_id,
+>                                       ss.r.width, ss.r.height, ss.r.x, ss=
+.r.y);
+>
+> +    if (ss.scanout_id >=3D g->parent_obj.conf.max_outputs) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
+ %d",
+> +                      __func__, ss.scanout_id);
+> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
+> +        return;
+> +    }
+> +
+>      if (ss.resource_id =3D=3D 0) {
+>          virtio_gpu_disable_scanout(g, ss.scanout_id);
+>          return;
+> @@ -730,6 +731,13 @@ static void virtio_gpu_set_scanout_blob(VirtIOGPU *g=
+,
+>                                            ss.r.width, ss.r.height, ss.r.=
+x,
+>                                            ss.r.y);
+>
+> +    if (ss.scanout_id >=3D g->parent_obj.conf.max_outputs) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified=
+ %d",
+> +                      __func__, ss.scanout_id);
+> +        cmd->error =3D VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
+> +        return;
+> +    }
+> +
+>      if (ss.resource_id =3D=3D 0) {
+>          virtio_gpu_disable_scanout(g, ss.scanout_id);
+>          return;
+> --
+> 2.31.1
+>
+>
 
