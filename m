@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A153A5AB2
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:50:24 +0200 (CEST)
-Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ED63A5AB3
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:51:05 +0200 (CEST)
+Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsXzr-0002XP-Il
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:50:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
+	id 1lsY0W-0003zn-HH
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1lsXyU-00019s-PF; Sun, 13 Jun 2021 17:48:58 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:34756)
+ id 1lsXzJ-0002Ww-6e; Sun, 13 Jun 2021 17:49:49 -0400
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:33741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1lsXyS-00064m-83; Sun, 13 Jun 2021 17:48:58 -0400
-Received: by mail-qt1-x842.google.com with SMTP id u20so7142106qtx.1;
- Sun, 13 Jun 2021 14:48:55 -0700 (PDT)
+ id 1lsXzE-0006XQ-Jb; Sun, 13 Jun 2021 17:49:48 -0400
+Received: by mail-qv1-xf44.google.com with SMTP id l3so12454843qvl.0;
+ Sun, 13 Jun 2021 14:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YH1ZHL3nN5IyXeFCw1ybiMbsjrCnhlNILSxlimVPs7I=;
- b=mGK7fmz2ISZs9INDRIpX2yoAYgnAuP8RI01RdRcS5xpHCoLK01OCdtZKlAGqWa/ofN
- qoSZHjDYb63BoS/a/3oO8bbQ2V3Z6/yrxKy0XL+6YM5z2tRno/M36AwgbfHY7820j8Gw
- u8xTlDlemOHCxK1nftpe3Upuy0ZISiXgN0OkattdLl6i5sfHIyqHcJFTTequu6Ba8onN
- qgOrQDfX/Bo/LwYQf8OXM0kIktBUXOj7KK6vFBjFhyHpCSf6tYpTnqutwCqfKAyHovAg
- 8kg+21DeHIEaHy7szuWSqoMC7wRY8rCUpVK/OyU8HBKdxLTn4psG9iofezxw3ciYg53R
- Q7cQ==
+ :cc; bh=wMcQZWD/ET7TrHejFcfooDx0Q9uZ6FiZmRAE9USnbfk=;
+ b=ntSPFtiQUasLACYE8TxuqV5JsfMxKggSLs3dsCgxxqzTJEUv/ltAIc2hnj1mylmx7e
+ Klk4vkD416Zps5yKhQ8u6vLw3499HMBzHxvK9h5ps8QrSM/JsLkEILFbmlgj4IHkVPk/
+ e9R7VU2oqUGM6J6W6VLFALxz6XJJR57ThH0KZRL9xrIPgTd5SrWXIDQFDukH+S8HJt96
+ b062KxAOKJ0mcOQ0XFnwRFzpi3e9ZPnhGfMgU0BvnBWp1vVVOOOPRYBsBmnUYDvhsmFy
+ xklD5DQBUkQBbOL1Xh95yY44d7HvNebB/Bn1PaHrnCZEAeJmQdrmN5QA38M44DZZ7XPB
+ oY2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YH1ZHL3nN5IyXeFCw1ybiMbsjrCnhlNILSxlimVPs7I=;
- b=nlcPiDBdWZYmHiRmZvnT/J4OVPG5kr37sxqYKg+p4x9fANZ0nUeubS/+RXRJegp7nV
- mvnVuj1ilGTX8BKcKTCTZsThtjAC+hpEI70BkXzG1uBdcTN1muPDR65I7suVlcj5LL01
- AcBqn87dRv0OcLzuKzVnoWmRj/sTVXQI6WmynROrNLtDnq7YsHGPPDGCnlGnE1+64Hfm
- +Poctt5Y3PpUeeesH7Et7NkUFY4rGnojQRWvCEeE4lqDg6ktz54G3H1v2qAHEXXQSK/y
- mszXX1TdgmzCXIjEFRfS+PDra6oh3pUtPxS7ItmtIgUIIspwP8f+uzypH8l+zK5vxXRR
- b57w==
-X-Gm-Message-State: AOAM532a+hCIJRTG+c4c2ks/xK4bLKRKUI8FqtFLDAjwHvQTB5X25ysQ
- wCqUH9vDuCf1USQVNKuHeWHZNLcAW/W3K4PzG6Y=
-X-Google-Smtp-Source: ABdhPJz6BuZyDVOuoPtfzmSSuF4jnEWB+Z1sdRo00SVBrLY+RymQ8t9MEMia7cV38BWBt5noDPxxePf7NQy7dXSBUKQ=
-X-Received: by 2002:ac8:5e81:: with SMTP id r1mr13601199qtx.70.1623620934622; 
- Sun, 13 Jun 2021 14:48:54 -0700 (PDT)
+ bh=wMcQZWD/ET7TrHejFcfooDx0Q9uZ6FiZmRAE9USnbfk=;
+ b=t60Id0rMM9f3TxYTBj6HW1hJrhYap2oUk3bTi4p3QojKowAJtmYI46TIvvnpfN/ixQ
+ sUilH1y3G7MGkjP/07GpWh1ZH0QWhxA3F/ntQxhpArsQeTqeXM9mbwXIqMzHeNVN90i1
+ qIFPTR+TR0Mo9TPUhOTMU61//f1Cuc3QPuW9GkOexB8VlQiJgUxuzfNcqCTmNMaBvHHB
+ RXw86VAtrZQkSrOk7pjqVhUMmZ2tbVBCU7CBN1OE7dEJc+ujYVc+P8bhGaY9rsK+Rf3g
+ M7U7DsrJQm9qQA/EdIrxcZaX2012lpHKeYbsMUp8d5gM1wKJEDZcfQYNHCJf9ezyQIQ7
+ 1HRg==
+X-Gm-Message-State: AOAM532Myej0orA/OCOMw8rRx51EKV1vHPuYxJ2d02/e1lURZJIHrA4h
+ QST7djWGJ2bnp2WGMrR/HpdDuTwjcxUwZIKIaB0=
+X-Google-Smtp-Source: ABdhPJzukwNafZoFjil0y3wffwGKspHc2F7d/RtKJc1777ByO5tH1ZuZWI9cKd5h281vruB6z65+cxmKt1AztCQ2GnY=
+X-Received: by 2002:a0c:eda5:: with SMTP id h5mr15466294qvr.26.1623620983250; 
+ Sun, 13 Jun 2021 14:49:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210603171259.27962-1-peter.maydell@linaro.org>
- <20210603171259.27962-3-peter.maydell@linaro.org>
-In-Reply-To: <20210603171259.27962-3-peter.maydell@linaro.org>
+ <20210603171259.27962-4-peter.maydell@linaro.org>
+In-Reply-To: <20210603171259.27962-4-peter.maydell@linaro.org>
 From: Dongjiu Geng <gengdongjiu1@gmail.com>
-Date: Mon, 14 Jun 2021 05:48:46 +0800
-Message-ID: <CABSBigRHYpx2MDecLLB1KQoCByk_pTMXS_aqp+Gqqm-28VZmUA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] hw/acpi: Provide function acpi_ghes_present()
+Date: Mon, 14 Jun 2021 05:49:34 +0800
+Message-ID: <CABSBigQm6HxkMvsJgKgWSxPuDvDnAR4W6ajkvHZf4AtdQ-5hsg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] target/arm: Use acpi_ghes_present() to see if we
+ report ACPI memory errors
 To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
- envelope-from=gengdongjiu1@gmail.com; helo=mail-qt1-x842.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
+ envelope-from=gengdongjiu1@gmail.com; helo=mail-qv1-xf44.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -84,90 +85,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 4 Jun 2021 at 01:13, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Allow code elsewhere in the system to check whether the ACPI GHES
-> table is present, so it can determine whether it is OK to try to
-> record an error by calling acpi_ghes_record_errors().
+> The virt_is_acpi_enabled() function is specific to the virt board, as
+> is the check for its 'ras' property.  Use the new acpi_ghes_present()
+> function to check whether we should report memory errors via
+> acpi_ghes_record_errors().
 >
-> (We don't need to migrate the new 'present' field in AcpiGhesState,
-> because it is set once at system initialization and doesn't change.)
+> This avoids a link error if QEMU was built without support for the
+> virt board, and provides a mechanism that can be used by any future
+> board models that want to add ACPI memory error reporting support
+> (they only need to call acpi_ghes_add_fw_cfg()).
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  include/hw/acpi/ghes.h |  9 +++++++++
->  hw/acpi/ghes-stub.c    |  5 +++++
->  hw/acpi/ghes.c         | 17 +++++++++++++++++
->  3 files changed, 31 insertions(+)
+>  target/arm/kvm64.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 >
-> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
-> index 2ae8bc1ded3..674f6958e90 100644
-> --- a/include/hw/acpi/ghes.h
-> +++ b/include/hw/acpi/ghes.h
-> @@ -64,6 +64,7 @@ enum {
->
->  typedef struct AcpiGhesState {
->      uint64_t ghes_addr_le;
-> +    bool present; /* True if GHES is present at all on this board */
->  } AcpiGhesState;
->
->  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
-> @@ -72,4 +73,12 @@ void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
->  void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
->                            GArray *hardware_errors);
->  int acpi_ghes_record_errors(uint8_t notify, uint64_t error_physical_addr);
-> +
-> +/**
-> + * acpi_ghes_present: Report whether ACPI GHES table is present
-> + *
-> + * Returns: true if the system has an ACPI GHES table and it is
-> + * safe to call acpi_ghes_record_errors() to record a memory error.
-> + */
-> +bool acpi_ghes_present(void);
->  #endif
-> diff --git a/hw/acpi/ghes-stub.c b/hw/acpi/ghes-stub.c
-> index 9faba043b85..c315de1802d 100644
-> --- a/hw/acpi/ghes-stub.c
-> +++ b/hw/acpi/ghes-stub.c
-> @@ -15,3 +15,8 @@ int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index 37ceadd9a9d..59982d470d3 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -1410,14 +1410,10 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
 >  {
->      return -1;
->  }
-> +
-> +bool acpi_ghes_present(void)
-> +{
-> +    return false;
-> +}
-> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-> index a4dac6bf15e..a749b84d624 100644
-> --- a/hw/acpi/ghes.c
-> +++ b/hw/acpi/ghes.c
-> @@ -386,6 +386,8 @@ void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
->      /* Create a read-write fw_cfg file for Address */
->      fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
->          NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
-> +
-> +    ags->present = true;
->  }
+>      ram_addr_t ram_addr;
+>      hwaddr paddr;
+> -    Object *obj = qdev_get_machine();
+> -    VirtMachineState *vms = VIRT_MACHINE(obj);
+> -    bool acpi_enabled = virt_is_acpi_enabled(vms);
 >
->  int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
-> @@ -443,3 +445,18 @@ int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
+>      assert(code == BUS_MCEERR_AR || code == BUS_MCEERR_AO);
 >
->      return ret;
->  }
-> +
-> +bool acpi_ghes_present(void)
-> +{
-> +    AcpiGedState *acpi_ged_state;
-> +    AcpiGhesState *ags;
-> +
-> +    acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
-> +                                                       NULL));
-> +
-> +    if (!acpi_ged_state) {
-> +        return false;
-> +    }
-> +    ags = &acpi_ged_state->ghes_state;
-> +    return ags->present;
-> +}
+> -    if (acpi_enabled && addr &&
+> -            object_property_get_bool(obj, "ras", NULL)) {
+> +    if (acpi_ghes_present() && addr) {
+>          ram_addr = qemu_ram_addr_from_host(addr);
+>          if (ram_addr != RAM_ADDR_INVALID &&
+>              kvm_physical_memory_addr_from_host(c->kvm_state, addr, &paddr)) {
 > --
 > 2.20.1
 >
