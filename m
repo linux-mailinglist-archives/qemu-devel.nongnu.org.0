@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306C63A592C
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 17:01:02 +0200 (CEST)
-Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59313A5936
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 17:05:25 +0200 (CEST)
+Received: from localhost ([::1]:58796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsRbg-0000Xz-PK
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 11:01:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45128)
+	id 1lsRfw-0002sY-TO
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 11:05:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsRaK-00086w-3H
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 10:59:36 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:37548)
+ id 1lsReh-00024h-7B
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 11:04:07 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsRaH-00063v-1W
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 10:59:35 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id b11so43096295edy.4
- for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 07:59:31 -0700 (PDT)
+ id 1lsRef-0000Xm-Sg
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 11:04:06 -0400
+Received: by mail-ej1-x634.google.com with SMTP id g8so12205936ejx.1
+ for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 08:04:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=XjLbT5u3oKhPCm2UyhPCyfvMV4Fd/Q8rCkoQ2pdglOw=;
- b=wXf8STEbpcI3MTmRsJ6f6FmiLfQf6v7dPpwC8A0OAiaRLNR6pkh5dnv0Xpoqp+Q2xx
- 3CIliCq0lQ/AH7Q1Jyitq0ixYxApn1qQ1EwmC9y048UEdMiulUEyFyb+ZYgLnyeSJtgI
- vFG37Qh0c0vjZfAlECd490ngBND0PiwochrVXa5Vlg6mOv0ySKJZLNDHZXFvYoOOli6C
- 025zoFE5tAC8UkPAzX7VfGZkhQhX7MufSB3GU3mtVGDcmr2wYl0+PkE2eqIEiMWxa2zV
- QZko7yPIeTLLxdqQMgF9nUBeNp5RqCjOxnj+/ScDOkNoz2s8VGCWnVP4C6RTaFduY7/1
- OiJg==
+ bh=IO7R1eHy/K0diLvOfu2ZrTk8xrt/k3+tZ9ZsfeWMyrk=;
+ b=CS+ERLIv74OSrbH7QoE9pGp1dfz8KGZ91sS5/qXSiyhWFvcs60N4wUcLthjm/Ph3Zj
+ WLNnQwP9TBxwETArQq1oi7CiR3s6oXr6JwoA0i+UNhvMwIsYSP0XZdIxHtgcBErPjjXu
+ A67vdRlSibNJDV70P71/qGJmVDQmctspazlPCmblOkW2saCip00l77CnplKDYFwBllaO
+ N30GujQSOPpS1e2CCftTdRcdFhNDXMDcHGDjN+5uz2/uLEaYgL2rnsZJjCrm/Ot57zWL
+ E84y/vZnR9afOOM5oCWGMbiDn2EVi438OPFyLCu8JGLdVJHXcM3GCMd+ak7GPZ5U1w6E
+ 9PIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=XjLbT5u3oKhPCm2UyhPCyfvMV4Fd/Q8rCkoQ2pdglOw=;
- b=lBQR95EE+6JkoGQlzbgBXEMMNQc9VgSX6KsHYIeqHAAXOamM++Cvzgpg+0n+yPGoR0
- 71DCzD+7/c5c0apfJS6w37kZPhE+FtXd3ycyToSNhckd9S8ciuejJb9vBmgtgEuNmHhL
- HjTxsGrYdmxEwEN/IfaUYrRy2U7vzX8UVm+C/Y8ZrqUQJ/NYQertz2ft+0fvIsxBe/Tl
- 2quUMBtW3CHE7h4Ns/UtmO2HnHP8CFM1lCUojJQolXp51Apfgyg4Qavcn3OZSR4QWUoL
- YLt76DfiSF9OtvQ4jwaVM2TnmJ6MwySJqwPsOwWmvYJkd4LCfUiV4TopB/HD/66UHqI4
- QLWg==
-X-Gm-Message-State: AOAM5332PKrUgNUDWqxE2Vkx1zAr4iDyyuVAOqZCDlCOXdWf8iWlpedO
- wXWVG6b8xXmBGJhtMuiUAnQPOajcQ2CckI4FfrCvng==
-X-Google-Smtp-Source: ABdhPJzsqoCe5DznGFaE+trE3byJyruSJjdz67n7UprU2z3D0d/+Bhmr3Wr1CNav1m+mifXzd0R6bmUU88qiket3XME=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr12867098edt.100.1623596370327; 
- Sun, 13 Jun 2021 07:59:30 -0700 (PDT)
+ bh=IO7R1eHy/K0diLvOfu2ZrTk8xrt/k3+tZ9ZsfeWMyrk=;
+ b=ONiTgWTjwVdPto/RSOMbHImGsHKDlSzR8jcONyqG5E90+j4m+qUXMgb15Qj3ZSrn2x
+ pqh8KcdjIl0kgCp+IkshhINsIDV/SRmUFvGanD45ip51IXGiEPOLOMpcg0QkDMW3X1d4
+ 7B0/iwf0FP1OjtKK+/YQxOj5jscAA9CPsEMeoD1XAk9CAGaKG2nFnx38dPqqnP0wDIDO
+ gGXhluW/df8JObEg/Pu0Pj2jF9NwzlXwlaNi0Lj296dBKFlwDmtB7p1TxWCIjLBNU9UD
+ NtjumjPvTX3e1a+7cDQ1bDfMZaY9Jr9KPnC1H4RojKFjocYF171cgEBJ8E6IOmvD8+Y5
+ bPAA==
+X-Gm-Message-State: AOAM531YSilG/z3NbogzFPja10LODr+RMfe90wU9p6waSL1AOB2FMjVa
+ INMbP9fg6fuUqjfYzpNQzBWhV5FV3BtkjYG/26Yw5XZxeXM=
+X-Google-Smtp-Source: ABdhPJz8LQ7+qg8L5g34pHVhVbafJySCAMztD1Han4x4fhvL5RCOBCFf1iqLQJFqrhjSyDSgDLu1H3x1yUDFRyU3FJ0=
+X-Received: by 2002:a17:906:5299:: with SMTP id
+ c25mr11749359ejm.85.1623596643228; 
+ Sun, 13 Jun 2021 08:04:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210610102617.17281-1-alex.bennee@linaro.org>
- <CAFEAcA9yhRS_=zr+76HdDN=iYU=ghDjLPfSaFUA9fzmJ5p3vCA@mail.gmail.com>
- <87im2liz4x.fsf@linaro.org>
- <CAFEAcA9NYv1GdA+2P_7hbqgBwRTv6JFgfp1mS_PzURY-aafkeA@mail.gmail.com>
- <87y2bggwqd.fsf@linaro.org>
-In-Reply-To: <87y2bggwqd.fsf@linaro.org>
+References: <20210613093821.774562-1-elish.jiang@ucloud.cn>
+In-Reply-To: <20210613093821.774562-1-elish.jiang@ucloud.cn>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 13 Jun 2021 15:58:56 +0100
-Message-ID: <CAFEAcA_NPtRT1YdcyuRYpa8bDuWTt53a0-QyJz8CEb4FnAXsgg@mail.gmail.com>
-Subject: Re: [PATCH v2] semihosting/arm-compat: remove heuristic softmmu
- SYS_HEAPINFO
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Sun, 13 Jun 2021 16:03:29 +0100
+Message-ID: <CAFEAcA8OVW=KD+-EK-PV6pYs59eSwJeg=5THtGfpSBUjujbFOQ@mail.gmail.com>
+Subject: Re: [PATCH] block: fix build waring
+To: Zhiwei Jiang <elish.jiang@ucloud.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,45 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Andrew Strauss <astrauss11@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Jun 2021 at 18:03, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+On Sun, 13 Jun 2021 at 15:20, Zhiwei Jiang <elish.jiang@ucloud.cn> wrote:
 >
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Thu, 10 Jun 2021 at 15:16, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
-> >>
-> >>
-> >> Peter Maydell <peter.maydell@linaro.org> writes:
-> >> >  (2) find the largest contiguous extent of that RAM which
-> >> >      is not covered by a ROM blob, by iterating through the
-> >> >      ROM blob data. (This sounds like one of those slightly
-> >> >      irritating but entirely tractable algorithms questions :-))
-> >>
-> >> Does that assume that any rom blob (so anything from -kernel, -pflash =
-or
-> >> -generic-loader?) will have also included space for guest data and bss=
-?
-> >
-> > Yes; the elf loader code creates rom blobs whose rom->romsize
-> > covers both initialized data from the ELF file and space to
-> > be zeroed.
->
-> Hmm I'm not seeing the RAM get bifurcated by the loader. The flatview
-> only has one RAM block in my test case and it covers the whole of RAM.
+> when i compile this file with some error message
+> ../block.c: In function =E2=80=98bdrv_replace_node_common=E2=80=99:
+> ../block.c:4903:9: error: =E2=80=98to_cow_parent=E2=80=99 may be used
+> uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+>          bdrv_remove_filter_or_cow_child(to_cow_parent, tran);
+>          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> cc1: all warnings being treated as errors
 
-I dunno what you're tracing here, but rom blobs do not affect
-the MemoryRegion setup (which can be rom, ram,the romd "writes
-go to callbacks, reads are host memory" hybrid, or whatever).
-ROM blobs are just a list of "write this data into memory at
-this address", which gets iterated through on reset to write
-the data into the RAM/ROM/whatever.
 
+Could you provide the compiler version when reporting
+fails-to-compile issues, please? (This is useful for us
+to get an idea of whether the problem is an old compiler
+that's not smart enough to figure out that something's not
+used uninitialized, or a new compiler that does more checking.)
+
+thanks
 -- PMM
 
