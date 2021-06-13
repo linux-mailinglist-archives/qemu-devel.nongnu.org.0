@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB453A5A93
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:17:39 +0200 (CEST)
-Received: from localhost ([::1]:48348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2BD3A5A95
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:19:27 +0200 (CEST)
+Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsXUA-0006tZ-6A
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:17:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33428)
+	id 1lsXVu-0001KU-U5
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT2-0005Kj-HA
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:28 -0400
-Received: from mr85p00im-ztdg06021101.me.com ([17.58.23.180]:54940)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT7-0005cB-Mb
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:33 -0400
+Received: from mr85p00im-ztdg06021101.me.com ([17.58.23.180]:55117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT1-0001KP-1a
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:28 -0400
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1lsXT6-0001R4-3w
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 17:16:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1623618986; bh=gkzEzR9JMEx0r3GztDkbytTr1BhXloZjlUExOBrQRNg=;
+ t=1623618991; bh=SYeyreoJ2Lw38+CIeH/PXgqofHJhNw7AEVREYG0+pfo=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=VDLP3reFWo+7l+Ghhj54kZsnUx2S2TIn9nv2q5ZWZYNapJWj1FMMWthNWHM6vZuqy
- QQIaLmjexjSiveISXUqjG5JLghFilNebLIIZ5hNxhQJrclnEY13KlX2HbIdTtxolmy
- WxJhpeqwuTrjDvlA5JtaxgH4Rmvj/W/D8o+WRlXiAu93XPxK7/F+M844LNd4f3uOis
- 3K9qOcWRC0Vgq4GTPUVSOocq2ilDOei3QjEoKsTqMQPPjnKU7Ltc49lSlkm8efbSRQ
- xthQlupadGJEcksvdlgtoYr+hicdL5Jqgsbp7SA/CoC6uyH2QxdGVDvhQfpigPZyeE
- y9DjmCQmGAIRQ==
+ b=IcU7sJnPlsAfNKDh1BQo2Bw6NVaZmIdC4MPPVA3RzCy7WKxUohL+f/TojmV/m61ES
+ aHU3cUUouofdJMN1MygGpk/r6CmdKvoA+P5S4GbL0+SQI23/AJ1Xbw9Loc7GmOQoJn
+ RjBHvCGqRGWqH+LuL9WVnKbqm3sR0Vzir6Ey+pt+QU3nPYpb0DikH4HQOQz80vCdTN
+ S0DJmMJqVV80VPQ0NL9xbhMfbGcn7JdPttxv/Q3yaRih4esA+uXD6WhazkuDGjsFIL
+ Rl5sStCOnoh0qGiPIGCWvCW9tsyetBkehXW5pV0aAW3OfcpaKRGOU3haY6/rX88nN5
+ uDvJ20onJI/6g==
 Received: from the-ripe-vessel.ktnet (c-67-180-181-196.hsd1.ca.comcast.net
  [67.180.181.196])
- by mr85p00im-ztdg06021101.me.com (Postfix) with ESMTPSA id 8CAB5340267;
- Sun, 13 Jun 2021 21:16:25 +0000 (UTC)
+ by mr85p00im-ztdg06021101.me.com (Postfix) with ESMTPSA id B625E340545;
+ Sun, 13 Jun 2021 21:16:30 +0000 (UTC)
 From: Jason Thorpe <thorpej@me.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Thorpe <thorpej@me.com>,
 	richard.henderson@linaro.org
-Subject: [PATCH 1/4] mc146818rtc: Make PF independent of PIE
-Date: Sun, 13 Jun 2021 14:15:46 -0700
-Message-Id: <20210613211549.18094-2-thorpej@me.com>
+Subject: [PATCH 2/4] alpha: Set minimum PCI device ID to 1 to match Clipper
+ IRQ mappings.
+Date: Sun, 13 Jun 2021 14:15:47 -0700
+Message-Id: <20210613211549.18094-3-thorpej@me.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210613211549.18094-1-thorpej@me.com>
 References: <20210613211549.18094-1-thorpej@me.com>
@@ -48,7 +49,7 @@ X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c
  =?UTF-8?Q?=5F01_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  phishscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=625 mlxscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 spamscore=0
  bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2106130151
 Received-SPF: pass client-ip=17.58.23.180; envelope-from=thorpej@me.com;
@@ -75,32 +76,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the PF flag behave like real hardware by always running the
-periodic timer without regard to the setting of the PIE bit, so
-that the PF will be set when the period expires even if an interrupt
-will not be raised.  This behavior is documented on page 16 of the
-MC146818A advance information datasheet.
+Since we are emulating a Clipper device topology, we need to set the
+minimum PCI device ID to 1, as there is no IRQ mapping for a device
+at ID 0 (see sys_dp264.c:clipper_map_irq()).
+
+- Add a 'devfn_min' argument to typhoon_init().  Pass that argument
+  along to pci_register_root_bus().
+- In clipper_init(), pass PCI_DEVFN(1, 0) as the minimum PCI device
+  ID/function.
 
 Signed-off-by: Jason Thorpe <thorpej@me.com>
 ---
- hw/rtc/mc146818rtc.c | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/alpha/alpha_sys.h | 2 +-
+ hw/alpha/dp264.c     | 5 +++--
+ hw/alpha/typhoon.c   | 5 +++--
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index 4fbafddb22..366b8f13de 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -155,10 +155,6 @@ static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+diff --git a/hw/alpha/alpha_sys.h b/hw/alpha/alpha_sys.h
+index e2c02e2bbe..4835b3d5ee 100644
+--- a/hw/alpha/alpha_sys.h
++++ b/hw/alpha/alpha_sys.h
+@@ -11,7 +11,7 @@
+ 
+ 
+ PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
+-                     pci_map_irq_fn);
++                     pci_map_irq_fn, uint8_t devfn_min);
+ 
+ /* alpha_pci.c.  */
+ extern const MemoryRegionOps alpha_pci_ignore_ops;
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index 1017ecf330..ac97104464 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -76,9 +76,10 @@ static void clipper_init(MachineState *machine)
+     cpus[0]->env.trap_arg1 = 0;
+     cpus[0]->env.trap_arg2 = smp_cpus;
+ 
+-    /* Init the chipset.  */
++    /* Init the chipset.  Because we're using CLIPPER IRQ mappings,
++       the minimum PCI device IdSel is 1.  */
+     pci_bus = typhoon_init(machine->ram, &isa_bus, &rtc_irq, cpus,
+-                           clipper_pci_map_irq);
++                           clipper_pci_map_irq, PCI_DEVFN(1, 0));
+ 
+     /* Since we have an SRM-compatible PALcode, use the SRM epoch.  */
+     mc146818_rtc_init(isa_bus, 1900, rtc_irq);
+diff --git a/hw/alpha/typhoon.c b/hw/alpha/typhoon.c
+index 87020cbe0d..fa31a2f286 100644
+--- a/hw/alpha/typhoon.c
++++ b/hw/alpha/typhoon.c
+@@ -815,7 +815,8 @@ static void typhoon_alarm_timer(void *opaque)
+ }
+ 
+ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+-                     AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq)
++                     AlphaCPU *cpus[4], pci_map_irq_fn sys_map_irq,
++                     uint8_t devfn_min)
  {
-     int period_code;
+     MemoryRegion *addr_space = get_system_memory();
+     DeviceState *dev;
+@@ -885,7 +886,7 @@ PCIBus *typhoon_init(MemoryRegion *ram, ISABus **isa_bus, qemu_irq *p_rtc_irq,
+     b = pci_register_root_bus(dev, "pci",
+                               typhoon_set_irq, sys_map_irq, s,
+                               &s->pchip.reg_mem, &s->pchip.reg_io,
+-                              0, 64, TYPE_PCI_BUS);
++                              devfn_min, 64, TYPE_PCI_BUS);
+     phb->bus = b;
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
  
--    if (!(s->cmos_data[RTC_REG_B] & REG_B_PIE)) {
--        return 0;
--     }
--
-     period_code = s->cmos_data[RTC_REG_A] & 0x0f;
- 
-     return periodic_period_to_clock(period_code);
 -- 
 2.30.2
 
