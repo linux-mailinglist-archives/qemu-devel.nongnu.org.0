@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970C93A67C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 15:25:04 +0200 (CEST)
-Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFEE3A67CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 15:27:38 +0200 (CEST)
+Received: from localhost ([::1]:53828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsmaN-0004hD-9Y
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 09:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52462)
+	id 1lsmcr-0006vY-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 09:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
- id 1lsmYx-0003pW-Ip
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 09:23:35 -0400
-Received: from mout.gmx.net ([212.227.17.22]:47469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
- id 1lsmYu-0006OP-Lj
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 09:23:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1623677002;
- bh=J8YPL59ExGjMeSHR/oqwGKpbuJnLyuyOEsK3hnmMrKA=;
- h=X-UI-Sender-Class:Subject:To:References:From:Cc:Date:In-Reply-To;
- b=WMod7HQo2YXamvp0cFBGrYe6Upn+r/LtBSWUz8dq/kBEnuhhpKfvFjwDoaQuo3gxb
- WZO9t1yULIPqLIBbnFqnJMPSeeF5AjJTGUN8X7oeMDLG2UGClVETOgnYxsf63nVIq2
- i4T+YtpijcKU65zQuBiTZbZ32IkeO/EU11Z4cXx8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.188.47] ([88.130.62.204]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9kC-1m75ug2qQm-00GXjn; Mon, 14
- Jun 2021 15:23:22 +0200
-Subject: Re: [PATCH] vga: Allow writing VBE_DISPI_ID5 to ID register
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lsmb6-0005ny-Tn
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 09:25:48 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lsmb2-0007SX-S8
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 09:25:48 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id a11so14539010wrt.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 06:25:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GeoT83Z71xGZFfGyI4rXAFI6gm6/7YCqOB2QEZ8Umro=;
+ b=VHgs5b6uTLYfUT1Xwbh8aLK+roIpI8HHUV68DuwagcLcxGs13io8SqAqvNU9/w3Z/Z
+ q2YSxh52IDC49yu4tYfzOblRdLolJesaRjhN6Pye5MKXW+drpbbZ/Sqel0x5gUHynPdz
+ u9AXRzZmbftAprutgML/VflqXfMcHURJJ9wcA1LPnXeqKwiOuk3ZNINYah2upPFaZT2m
+ Vh+PyMhfHQvjAbxLfE5gOg1hYIaCGbirPL0tUxxiC/wpoQdv6FqC4PNbT6un5deRuMks
+ 2vVEplrGtpaTt/+uR1Q0fUE0Bn6AY8zbxM73GlXsmN2IJRpow/4scQZAwS5WddpFHJZL
+ e+DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GeoT83Z71xGZFfGyI4rXAFI6gm6/7YCqOB2QEZ8Umro=;
+ b=rQgYe8Fz3pVhC3R768UCDNWOTihQh+dWOlzeQ3GbUhUIAUGuyiKz+aSKdjpris63F0
+ cx5aHbswOMFUczCuxEpwshgbuBKHn7kdFGD2QOEM80f4SaYmjiVorJBKL+8KN6srn+mE
+ wgIgQ3cVIONXGPEBLiOQuv3gI8JoQaoKmmIwdEI2D51JUFwBQDXEQ60KmHHWYzPKrbU3
+ o5Bt6w2fKqDm9k3pU1xx74KuN++SeTWlFCa69OeWl3EQZqZ1+pTT6Ng9rIPzmtaHWNAp
+ D1K/iL0ZqmuryzLbhMJJjcQQfhs3oYoFl4bv9ZYcuxYZon0PiA3cPMV9/pAL3XfHqz//
+ Tg4A==
+X-Gm-Message-State: AOAM533wTTtdNoyc7hwpXfqHKEXWZjWsdbvtbzZmxV8mZqh5w3361LLK
+ sYMuJfzNNZGMTj7WE4tFbLvIiQ==
+X-Google-Smtp-Source: ABdhPJxHgPycqHQ0ssEt7gGhHp0iHZpeTzkt8eX5dZTjqqaIbyxYSWSDeJ7Vq6JpkZhaPB4Wp2SCqw==
+X-Received: by 2002:adf:f90e:: with SMTP id b14mr19240995wrr.248.1623677142977; 
+ Mon, 14 Jun 2021 06:25:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l16sm20684769wmj.47.2021.06.14.06.25.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 06:25:41 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DF7581FF7E;
+ Mon, 14 Jun 2021 14:25:40 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-References: <20210607115303.228659-1-denniswoelfing@gmx.de>
-From: =?UTF-8?Q?Dennis_W=c3=b6lfing?= <denniswoelfing@gmx.de>
-Message-ID: <5079879c-942b-1f6f-0306-c64a09708108@gmx.de>
-Date: Mon, 14 Jun 2021 15:23:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Subject: [PATCH] linux-user/trace-events: fix minor type in format string
+Date: Mon, 14 Jun 2021 14:25:36 +0100
+Message-Id: <20210614132536.1657-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210607115303.228659-1-denniswoelfing@gmx.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mIcVr90lGBUxN2lSbeHtueFBPf/G+WSbQl27QhI91SHY8S+KGMf
- 3bRev8/bNzNmEuC63CnrLwtya2VrSJY9h1XGKVland7rjt+EKcLudmHQLvKs2Ddh8Vfe1Er
- xbaXUeurn5zzTPWnT2zqwrBQfRL66CwljtUcg2piPdQagHjMJggaOB2pU05i81wcvGmY+px
- 8tu8KNAALguRwbpUWTjKA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rMIexSCXNaU=:1mhLHJJYbEBytO8aHLGeYb
- /E3gaTSKuvVE3BJwLY12yhWmtHFZ3JBluYZ/NLojTnhbdwpF7/i69Q3luWloLDDEp2+wnMIEe
- QTVe3980/DATknW1+bVhs7IPjR3Npt1BhlqnWKCnREHzZwZlz5YZjx+XAK65qP/9hzWpLRkkg
- /Mz3vfkRvdYTOLvwlWfmR0bwhrm0Yp5EYKKp1t/E1rVzkI56sH8JcYsjnUNlFHPUU1z6gXHTo
- DZKWKr5fi4/EM2LzOVFhoy7vDI3SksE7oZId86Iv+SGPBYnEWbkh7lb6ziAV3uBjxSWaYeNpf
- KL0NFO2agKeq5c41ogu1XFzwLfew3V7CNqwXrLd+RBa0bodKOgSEtZoi8as6lXiHdGfh1Lq/T
- porN1xwSHAMA7S9zcnFRTyXSA3GMKgWTu9b1EDgpqNoine18jn1cV82w2pQQ3OuFa1uAKNTkQ
- zpt34o8OM3NsswtPQRkp3KUgchY09++hTCxDWvwskizaT+Nr1Fo+RdeUBoZ/DvgbYlqyrY+wQ
- ZNattO9NDdhJ0pl9mi/umXXVZWobLfRom7o67mtJbLSb0wXwRF3sZZucvjwt9RkIOuiNzRaKS
- ek15nScuPk1Bdl5+UZPiz91mGgSd3vBDm4kMu3FJh79Xnw+iUo1TPzhq4wgu+uGb1WWBisIps
- FdTdeesx5Cbgi2VtIrWnQzEG7pAYArw7rS1RMYFsLiEHfK6dm+7BzOavzh3uosu9YObVD4GYa
- TkPWP4day1pWTxmdroiDgQkQod3uNpmlJHf2FQlkpwRlb1ZNTIY+GlFStMiDMzm+8BTAe35R2
- 4w6l9lOZCpKT01YJr1UVvAmhdyr549qyxC9Q5oehaFfvVPQ5ExuQl21FK75aODfZqz5I+mYXe
- hNk+1dJWlwZR6ZCu0GGuHFyG2CxkEO0xgQVVkvVf77JvA2Z506jwkPP1JejyhriCwQYp01k89
- fS4BTrJrCFkF5tOK7W9egLDgpdSe4Vz6Y3S8BUIb65WF3LiMTf+oOPoBQROJkOmQOEO0hWnV7
- X1eXG9WwMYVcAPGqjhogPuZsatpPey3ZGRkuBD7xCDpmtT9Oay3NayCoZZHIQsFqV0+5DN4Hm
- v9AIFbNTQwTHs4Fshyg1H/ILOedWONKBUwakBZc0v3XmPeT8aI8BpAPDA==
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=denniswoelfing@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.489,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,47 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
-https://lore.kernel.org/qemu-devel/20210607115303.228659-1-denniswoelfing@=
-gmx.de/
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ linux-user/trace-events | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 07.06.21 13:53, Dennis W=C3=B6lfing wrote:
-> The highest VBE_DISPI_INDEX_ID version supported by QEMU is
-> VBE_DISPI_ID5. But currently QEMU only allows writing values up to
-> VBE_DISPI_ID4 to the VBE_DISPI_INDEX_ID register.
->
-> As a result of this when a lower version is written to this register and
-> later VBE_DISPI_ID5 is written back, reads from the register will
-> continue to report the lower version.
->
-> Indeed SeaBIOS is doing that during VGA initialization which causes
-> guests to always read VBE_DISPI_ID0 instead of the correct version.
->
-> Signed-off-by: Dennis W=C3=B6lfing <denniswoelfing@gmx.de>
-> ---
->   hw/display/vga.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/display/vga.c b/hw/display/vga.c
-> index 28a90e30d0..9d1f66af40 100644
-> --- a/hw/display/vga.c
-> +++ b/hw/display/vga.c
-> @@ -752,7 +752,8 @@ void vbe_ioport_write_data(void *opaque, uint32_t ad=
-dr, uint32_t val)
->                   val =3D=3D VBE_DISPI_ID1 ||
->                   val =3D=3D VBE_DISPI_ID2 ||
->                   val =3D=3D VBE_DISPI_ID3 ||
-> -                val =3D=3D VBE_DISPI_ID4) {
-> +                val =3D=3D VBE_DISPI_ID4 ||
-> +                val =3D=3D VBE_DISPI_ID5) {
->                   s->vbe_regs[s->vbe_index] =3D val;
->               }
->               break;
-> --
-> 2.31.1
->
+diff --git a/linux-user/trace-events b/linux-user/trace-events
+index 1ec0d11ee3..e7d2f54e94 100644
+--- a/linux-user/trace-events
++++ b/linux-user/trace-events
+@@ -11,7 +11,7 @@ user_do_rt_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx
+ user_do_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
+ user_force_sig(void *env, int target_sig, int host_sig) "env=%p signal %d (host %d)"
+ user_handle_signal(void *env, int target_sig) "env=%p signal %d"
+-user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
++user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d)"
+ user_queue_signal(void *env, int target_sig) "env=%p signal %d"
+ user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
+ 
+-- 
+2.20.1
+
 
