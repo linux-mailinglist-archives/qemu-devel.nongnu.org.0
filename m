@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A453A6B0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:56:08 +0200 (CEST)
-Received: from localhost ([::1]:49504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8A13A6B19
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:58:09 +0200 (CEST)
+Received: from localhost ([::1]:56034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsowZ-0005SP-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
+	id 1lsoyW-0001hw-1l
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:58:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lsojG-0004HD-U0
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:42:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lsojB-0001Ge-C6
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:42:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623685336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DJM9gmiLJP2b1KK8TyAYtBQZOQApNg08k1lIc8byaXI=;
- b=Q6xwPaFgnfDIRi14fUrlXPf2tCVOA7KHrwIGZgNdT59weQcm1CEicbsvLkCxewhrtOHM+h
- J88yQ9kaqb1QskohWCr98KgwpdAZIRrcMVMLxYOu9WyWzTr7kXeltLxCXq94n3Mr68lAkF
- IWxKZazYaVb1Ga84Hdh5fIHOclaMxFA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-mh0FfrXLMZiPNnTBBzaapA-1; Mon, 14 Jun 2021 11:41:59 -0400
-X-MC-Unique: mh0FfrXLMZiPNnTBBzaapA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D841219253C6;
- Mon, 14 Jun 2021 15:41:56 +0000 (UTC)
-Received: from work-vm (ovpn-114-158.ams2.redhat.com [10.36.114.158])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63CC660871;
- Mon, 14 Jun 2021 15:41:44 +0000 (UTC)
-Date: Mon, 14 Jun 2021 16:41:41 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 5/7] io: use GDateTime for formatting timestamp for
- websock headers
-Message-ID: <YMd4teSolAaOdW/j@work-vm>
-References: <20210505103702.521457-1-berrange@redhat.com>
- <20210505103702.521457-6-berrange@redhat.com>
- <YMOPYkWmobHrapn6@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsoqF-0004iH-2q
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:49:35 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:39671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsoqD-0005sG-EO
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:49:34 -0400
+Received: by mail-pg1-x532.google.com with SMTP id w31so6468367pga.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 08:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=SU0OX9maf1efTcRiwn4aNy9zvj5YtA/al0eXjHuAZGM=;
+ b=lwp0LJ/TCIvVl3SpC7Q+ZYT6dlE6dlqQnc6Q7jP933QoUkZkDy3YMYf4P1AEBJ1T9Z
+ rIrw/u9Do7dt0KugxtFtv86RzNojAKyh4oVMnC9L2eKkCngel5LrdijnDd1Wv8/pPDyM
+ UdREFSZWKqoIh/YcJJsrwMIL94iBIPtunIkVOq1WIdntGsgB5Wa7Mq3pHMbOEtH9IMu9
+ wVgoruxkzgrzgVnJF6QP8nM7wYC5SKhZPOnf4aRCr4D9PlCf3X1/3//o6ULvpS1tluBH
+ 1MQ9Dr/3G1mXnW+wghIGV4Wugj29+dnT9BxaqqJQAxnvYZv1ZCz6rwfBCyckQuGMq7H7
+ 9gAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SU0OX9maf1efTcRiwn4aNy9zvj5YtA/al0eXjHuAZGM=;
+ b=C+OS6O8Z/pqLBd0k31hfs9bg5GNvGsAD7H3Un15/KrgvtRYSd7WRzTfa8VoXsyy4Ku
+ /YbO1FL/7KxteO5mEgWhqrZuCA15UK1qsSGLo8gtffe1H3auuDzU5tJ2A4VMkkgGz6Ca
+ OVtVILAcFHrYr0hyZRC5J6YN90ZriOOyJe9FnxiI5VrS29rxrrllMXqFZflD4JuTPRG5
+ g5Mj3fzF304DY89qyg8yRvVYnz/tHKO5XyE2cUXTT2GdP4kSlEczrunC9lGknR1XeudA
+ XfydGrmowCVGbN/6eD5zmTNi++TmaO/hU0V6Ax/cmtfnVODrqUZF12N3NmyNEgW66dyD
+ urNA==
+X-Gm-Message-State: AOAM530ycBsi8hpVWp8b9fUQGaLoy7K/zKxwDMbal5kWF2ZdJtm9NNMI
+ bz9DZmaDPbm2ipIk9kTINKGy7PwlrV/ehg==
+X-Google-Smtp-Source: ABdhPJxIM4jZYOjTcmKvapqGv252IB16744Adb0GKfAS27FQyYxdLjcUvpdNilfA+MZ/uPTbCRbR/A==
+X-Received: by 2002:a63:1224:: with SMTP id h36mr17769063pgl.296.1623685771725; 
+ Mon, 14 Jun 2021 08:49:31 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ t14sm13963937pgm.9.2021.06.14.08.49.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 08:49:31 -0700 (PDT)
+Subject: Re: [PATCH 14/28] tcg/mips: Support bswap flags in tcg_out_bswap32
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-15-richard.henderson@linaro.org>
+ <398ea97d-9149-84a5-0fb1-8ad2bafc1bd1@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <46ee15a5-58b9-d809-d4d4-2fdd6bd85600@linaro.org>
+Date: Mon, 14 Jun 2021 08:49:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YMOPYkWmobHrapn6@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <398ea97d-9149-84a5-0fb1-8ad2bafc1bd1@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- virtio-fs@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> ping: anyone willing to review this
+On 6/14/21 2:31 AM, Philippe Mathieu-DaudÃ© wrote:
+> On 6/14/21 10:37 AM, Richard Henderson wrote:
+>> Merge tcg_out_bswap32 and tcg_out_bswap32s.  Use the flags
+>> in the internal uses for loads and stores.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/mips/tcg-target.c.inc | 39 ++++++++++++++++-----------------------
+>>   1 file changed, 16 insertions(+), 23 deletions(-)
 > 
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> On Wed, May 05, 2021 at 11:37:00AM +0100, Daniel P. Berrangé wrote:
-> > The GDateTime APIs provided by GLib avoid portability pitfalls, such
-> > as some platforms where 'struct timeval.tv_sec' field is still 'long'
-> > instead of 'time_t'. When combined with automatic cleanup, GDateTime
-> > often results in simpler code too.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  io/channel-websock.c | 10 ++--------
-> >  1 file changed, 2 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/io/channel-websock.c b/io/channel-websock.c
-> > index 03c1f7cb62..70889bb54d 100644
-> > --- a/io/channel-websock.c
-> > +++ b/io/channel-websock.c
-> > @@ -177,15 +177,9 @@ qio_channel_websock_handshake_send_res(QIOChannelWebsock *ioc,
-> >  
-> >  static gchar *qio_channel_websock_date_str(void)
-> >  {
-> > -    struct tm tm;
-> > -    time_t now = time(NULL);
-> > -    char datebuf[128];
-> > +    g_autoptr(GDateTime) now = g_date_time_new_now_utc();
-> >  
-> > -    gmtime_r(&now, &tm);
-> > -
-> > -    strftime(datebuf, sizeof(datebuf), "%a, %d %b %Y %H:%M:%S GMT", &tm);
-> > -
-> > -    return g_strdup(datebuf);
-> > +    return g_date_time_format(now, "%a, %d %b %Y %H:%M:%S GMT");
-> >  }
-> >  
-> >  static void qio_channel_websock_handshake_send_res_err(QIOChannelWebsock *ioc,
-> > -- 
-> > 2.31.1
-> > 
+>> -static void tcg_out_bswap32(TCGContext *s, TCGReg ret, TCGReg arg)
+>> +static void tcg_out_bswap32(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
+>>   {
+>>       if (use_mips32r2_instructions) {
+>>           tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
+>>           tcg_out_opc_sa(s, OPC_ROTR, ret, ret, 16);
+>> +        if (flags & TCG_BSWAP_OZ) {
+>> +            tcg_out_opc_bf(s, OPC_DEXT, ret, ret, 31, 0);
 > 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Maybe mention the rotr -> ext32u mips32r2 simplification?
 
+Oh, from dsbh + dshd + dsrl in the old bswap32u function?
+Sure, I can do that.
+
+
+r~
 
