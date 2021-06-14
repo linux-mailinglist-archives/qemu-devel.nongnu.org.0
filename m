@@ -2,56 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD233A71DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 00:23:15 +0200 (CEST)
-Received: from localhost ([::1]:45174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D07B3A71DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 00:24:47 +0200 (CEST)
+Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsuzD-00077P-0G
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 18:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42030)
+	id 1lsv0g-0000kE-Ab
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 18:24:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsuyT-0006OL-SA; Mon, 14 Jun 2021 18:22:29 -0400
-Resent-Date: Mon, 14 Jun 2021 18:22:29 -0400
-Resent-Message-Id: <E1lsuyT-0006OL-SA@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsuyR-0004ET-EQ; Mon, 14 Jun 2021 18:22:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623709339; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=WYR8xfGEqc69ADqDHJrgLXeMyCorguIq8Dv7hUbC93qLRW/tD4yOPsk5knqqQcHiqU3/RrJh5tCUX4pq2Gch8+floociu5MiLUP8YBAkF9hQNenBiSTXBivQ+xLSIzqVTwTSlY3oIGiPjlZrSKs15qoFCySOFJp8u8xAOvMAvTQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623709339;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6R2MkG7XLfd1r3n0ph+NU2Mpj16jYBkcp8CIQgpwQYs=; 
- b=gPDalJQEMkFGWGKX6tSnKZ8nH6MWrOMKhvJl5KfrkzRSIldnPz317Muos+hVkyyuLSPSBjftEYMRcyyYfMNcn9raHuOXxTJ5tuX59ms319hWOkfTloHmiCmhJOJ+FvMJI2kiEbgrKoi0PRQ8DpOCPdxDToQre3y56BvVHfGNMNk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623709337825840.7964115785959;
- Mon, 14 Jun 2021 15:22:17 -0700 (PDT)
-In-Reply-To: <20210610224450.23425-1-jziviani@suse.de>
-Subject: Re: [PATCH] tcg/arm: Fix tcg_out_op function signature
-Message-ID: <162370933679.2358.3259800166354184001@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsuyq-00071c-7u
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:22:52 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:46994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsuyn-0004RE-JC
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:22:51 -0400
+Received: by mail-pf1-x430.google.com with SMTP id x16so7495738pfa.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=mTWlfVlKbg3lS9GTlmCvyRWQO+V09J7F+2Kkce4J+9o=;
+ b=DLBV2EswceSFZ320H7bDmbejAkb2IXb+3T225GyWbwZEpcH7Z1IIfP5B8T3WbuBprT
+ fdOYR4fJoVJbBLAKSo8HKbiOgPaUbnsJpkylnpLpkAc9GbpjGIa8vZBdmTyuKwf1/aQq
+ 7tEiTqE+biMaWG7HrFLhgFI09p1grFwFsNLNxWATzWPzUk3MHDil79vDvh7DEbj+RwkU
+ ny0mrB1MZcIgTVbhGCZ5vsLr+vmQVMqxduqJ2cIl9KCbGsoZNYzAKuat7gQNu2OgWgQl
+ CEol4ZBpv3lDidyypNG3Z3Gebpnhj+hcI7JarNhvNWtRsoPnwhkBsCrwBEPXZlysHWKL
+ gjxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mTWlfVlKbg3lS9GTlmCvyRWQO+V09J7F+2Kkce4J+9o=;
+ b=LLA0qYd3MGtJw9j6vFDle+v+oZFxlCm/OYCLXWRqgPy1Clb0yYKAAZ4tL+rG/cMPrd
+ 43jeqtr3TUUVd8LztDC5BXpFxDO8ZAqRn62usgeKWUckLDuuaibn/+TnCzDY2LeHce/Y
+ XfW7mqBuf5U7rTi23O5mIeg9eFmQfdXok5ztk90PPaSYqZwkVBHdhTof2XfuH5PLYeAm
+ RS3cwblORaGos2tTmbzG5KXJfrku3PKdTZu6QXJgTXc6k31OpQQQ1gvMB6keoX8oUtBu
+ zOB1zc1UV4WjwGvyYXi8ZPc+YcOuYY3CdkgUpaUiBWsrinrHHecDjwl6ORNm3F4xRV0S
+ OUXg==
+X-Gm-Message-State: AOAM533b1x1fQ03sB30FNDOvLn7coD+kSRaghEI0867whEDc9veOalWZ
+ LV/sW8V9Cg+CvuRMLbF6myNbEgbvySVD9A==
+X-Google-Smtp-Source: ABdhPJwwhe6PQfybwTLr+fjaZgieZpiWkPoYst+4k/jL0qi0pQfWvz730nqVF5XQN/O3kpmoG3moMA==
+X-Received: by 2002:aa7:8058:0:b029:2e9:ee0e:b106 with SMTP id
+ y24-20020aa780580000b02902e9ee0eb106mr1214245pfm.4.1623709367955; 
+ Mon, 14 Jun 2021 15:22:47 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ d6sm1423556pgq.88.2021.06.14.15.22.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 15:22:47 -0700 (PDT)
+Subject: Re: [PATCH v2 00/57] target/arm: First slice of MVE implementation
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210614151007.4545-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2ded6216-9fa3-2b39-87ac-c61d08e80fd7@linaro.org>
+Date: Mon, 14 Jun 2021 15:22:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jziviani@suse.de
-Date: Mon, 14 Jun 2021 15:22:17 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210614151007.4545-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,34 +89,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- jziviani@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxMDIyNDQ1MC4yMzQy
-NS0xLWp6aXZpYW5pQHN1c2UuZGUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYxMDIyNDQ1MC4yMzQyNS0x
-LWp6aXZpYW5pQHN1c2UuZGUKU3ViamVjdDogW1BBVENIXSB0Y2cvYXJtOiBGaXggdGNnX291dF9v
-cCBmdW5jdGlvbiBzaWduYXR1cmUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
-c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
-VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
-cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
-CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
-aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAg
-ICAgIHBhdGNoZXcvMjAyMTA2MTQxMTQzNTcuMTE0NjcyNS0xLXZpbmNlbnRAYmVybmF0LmNoIC0+
-IHBhdGNoZXcvMjAyMTA2MTQxMTQzNTcuMTE0NjcyNS0xLXZpbmNlbnRAYmVybmF0LmNoCiAqIFtu
-ZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2MTQxNDQ0MDcuMTM0MjQzLTEtbXJlaXR6QHJl
-ZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDYxNDE0NDQwNy4xMzQyNDMtMS1tcmVpdHpAcmVkaGF0
-LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCgo9PT0gT1VUUFVUIEJFR0lOID09
-PQpjaGVja3BhdGNoLnBsOiBubyByZXZpc2lvbnMgcmV0dXJuZWQgZm9yIHJldmxpc3QgJ2Jhc2Uu
-LicKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMjU1
-CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8y
-MDIxMDYxMDIyNDQ1MC4yMzQyNS0xLWp6aXZpYW5pQHN1c2UuZGUvdGVzdGluZy5jaGVja3BhdGNo
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 6/14/21 8:09 AM, Peter Maydell wrote:
+>      - pass only ESIZE, not H, to macros in mve_helper.c
+
+I've been thinking about the H* macros again while reading this.
+
+While H##ESIZE is an improvement over passing in HN, I think we can do better and force 
+the adjustment to match the type -- completely avoiding bugs you've caught at least twice 
+during SVE review.
+
+The form I'm playing with today is
+
+#ifdef HOST_WORDS_BIGENDIAN
+#define HTADJ(p) (7 >> __builtin_ctz(sizeof(*(p))))
+#define HBADJ(p) (7 & (7 << __builtin_ctz(sizeof(*(p)))))
+#else
+#define HTADJ(p) 0
+#define HBADJ(p) 0
+#endif
+
+/**
+  * HT: adjust Host addressing by Type
+  * @p: data pointer
+  * @i: array index
+  *
+  * Adjust p[i] for host-endian addressing of sub-quadword values.
+  */
+#define HT(p, i)  ((p)[(i) ^ HADJ(p)])
+
+/**
+  * HB: adjust Host addressing by Bype
+  * @p: data pointer
+  * @i: byte offset
+  *
+  * Adjust p[i / sizeof(*p)] for host-endian addressing
+  * of sub-quadword values.  Unlike HT, @i is not an array
+  * index but a byte offset.
+  */
+#define HB(p, i) (*(__typeof(p))((uintptr_t)(p) + ((i) ^ H1ADJ(p))))
+
+void bt(unsigned char  *x, long i) { H(x, i) = 0; }
+void ht(unsigned short *x, long i) { H(x, i) = 0; }
+void wt(unsigned int   *x, long i) { H(x, i) = 0; }
+void qt(unsigned long  *x, long i) { H(x, i) = 0; }
+
+void bb(unsigned char  *x, long i) { H1(x, i) = 0; }
+void hb(unsigned short *x, long i) { H1(x, i) = 0; }
+void wb(unsigned int   *x, long i) { H1(x, i) = 0; }
+void qb(unsigned long  *x, long i) { H1(x, i) = 0; }
+
+This gives us
+
+#define DO_1OP(OP, TYPE, FN)                                            \
+     void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
+     {                                                                   \
+         TYPE *d = vd, *m = vm;                                          \
+         uint16_t mask = mve_element_mask(env);                          \
+         unsigned e;                                                     \
+         unsigned const esize = sizeof(TYPE);                            \
+         for (e = 0; e < 16 / esize; e++, mask >>= esize) {              \
+             mergemask(&HT(d, e), FN(HT(m, e)]), mask);                  \
+         }                                                               \
+         mve_advance_vpt(env);                                           \
+     }
+
+Thoughts?  Especially on the naming of the macros?
+If the idea appeals, I'll do a pass over the existing code.
+
+
+r~
 
