@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512953A7281
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:33:15 +0200 (CEST)
-Received: from localhost ([::1]:59604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC1E3A7284
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:34:37 +0200 (CEST)
+Received: from localhost ([::1]:38334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsw4w-0000U8-Bq
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51346)
+	id 1lsw6G-00052G-Dj
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:34:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsw3Y-0006DF-UN
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:31:48 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:42738)
+ id 1lsw3a-0006Ff-9w
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:31:50 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:38517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsw3W-0007hK-R0
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:31:48 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id i34so9923166pgl.9
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 16:31:46 -0700 (PDT)
+ id 1lsw3X-0007hm-CO
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:31:49 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ m13-20020a17090b068db02901656cc93a75so600544pjz.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 16:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N/h1KI91Si6p/Xt+2fYqhyWh23pJ4Rr+Ts/OyuJu290=;
- b=uUKpY0J2n17ELErljaSGoi+5BvQi9yVZyAgmacNBoV8UqEUunpab1mZYIV3J+/hPUf
- sx3wWa63irQsFl8kVxkEwuZX178HKGPEXLv/8StKfCnHjOcVrC1VbfPnu5lgfHU50bA6
- 2DwrlUidDoG+Aqj+L/V3RgXNezxUIlS4VDjNMptDW4P0KGkAlLpThAQcmSVaDeIOGqZW
- meLZxlNyqzGIkYTtQ698UE1dMcG/oaJcAwkdSEouEYy1iu8DNAH+U6uEDJ2a3goPSzaf
- xqyXvZKICWoAHg5p7mNBpPV/UppbvL9dWKjRW5BbFIp6EM4vsI1QZUdtmXseZJNes8Gt
- XVLg==
+ bh=lYciPGzXuNLmupEwVLTG4nR3oyS5g6fM/oOmMdD5hp4=;
+ b=XVk1EtWgRuuJxhfhUx84qF284B1yLJDOlVfeBrLFFIwz09Jz4/h2lT/0nvvTzqy20H
+ F2K+DPhQcMVtuCYUXQ+RNJWf3lpeQpBKHYaQihZLm0h8Te9RzUKELWWR/TijUCX5saz9
+ iYTLZs8hXBPpkDQMC2ZNi/WXs3eXQy7cdkMIoCsdDhCDzfpYnjAdXKDK9ouhWJbmtKpl
+ GMmZ8t4OgZtXf4aDbOsIznRt6aiOOKku4SeQ3IqCMKw7FlG+p6WeZKmHUIc9uECG/vza
+ 9fJDPs3uu/jPLeJwBIe2Vd/sZRp2XXYkKzlq7AgB0wh5OpVSPYitnXQw+63dxJDSnMG6
+ vAFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N/h1KI91Si6p/Xt+2fYqhyWh23pJ4Rr+Ts/OyuJu290=;
- b=VcsjIFNvXfYGsdbexQv71kFm3bQuCyDhLZ1k3fpT1uBaifpL75pOnbSyl1LtkRV6dQ
- ogKfT4vWDH2UfKr4tf6UuYv5erfqs876yjqm9jpIheWblOl8Q6L4R2Z4l8OZyseGGAFF
- cnCwH9eEGqTDk9Ulnesog2fmY+45SELbDUpYrOmvVLFiYvcDYoXMkBKQvXhwA2P6LfA1
- fLuNHAMhIguO7AEdAO42hZA4C05+7Y9mn7g6UGntJVwZAzrg+as+WxMNy/YkD4albTYU
- CiJ3P5kWzcwoLVMkMvfnrfGcg/0+DDUwOAgGRt8eTWl2cRtmK1SmwT6hg6mTzbzUm1xH
- RM5Q==
-X-Gm-Message-State: AOAM533W1oJ8QJV0M1nQRvx/2d+L/TOT5ACu4LxwpULFdSFcOMxbU40T
- Susse6rsHQS3kJuBHkHSpAMuz/am19CyKg==
-X-Google-Smtp-Source: ABdhPJz7KfkRj8As5GzkhXfEuoVNNBVUH0VcqblY6ZARfLnWVGHd91QSBL7H7G7kMSU248Jg1TqGrg==
-X-Received: by 2002:aa7:96d0:0:b029:2e9:fea1:c9c1 with SMTP id
- h16-20020aa796d00000b02902e9fea1c9c1mr1456896pfq.67.1623713505513; 
- Mon, 14 Jun 2021 16:31:45 -0700 (PDT)
+ bh=lYciPGzXuNLmupEwVLTG4nR3oyS5g6fM/oOmMdD5hp4=;
+ b=FBxSehI+J2aHouJPU0GAd/0nGRL8pl6kEaAAS8oghGeQsQYww0PAzsseSvbXRGUCVy
+ xxF9Iq2SpbvJNZvTCWdVxT8ngQpINfM9ASmVPjyHfvV5BdgXARpzEzN9ny3dLdLLn/a2
+ LToOOdQ6lUtdFxvyi1xf9fj9y5b/rplawvCYJl2kDHuminugkmcDQM9MDK6QbpVsbnfr
+ u5wzAuSm6Y5NfcXjxjHrDzTvGW6i17oLszCLD1EPUBYLkDym8PO152eok/Iv8I1G8wxn
+ OCaZ1uuuvpbkk9EidylF8JxcCL58au81jm/mV3HYRa8Flal0mmNdlnM/arGR4xuLKhnS
+ w/Og==
+X-Gm-Message-State: AOAM531UScaVazL2yBQwtQ9XPgRWCkjfFj5zUJ1of6LMvhfbskzf+voU
+ h74xZGReakqintiXPmrpQCFCjbiTE1SyMQ==
+X-Google-Smtp-Source: ABdhPJxNutebnioRN4Mk97bIHb+olXUj6+iWGZbPMQEl3r9uf0w4IG83QckUOqG0DYeeGr0zAL/4jg==
+X-Received: by 2002:a17:902:14b:b029:119:ef6b:8039 with SMTP id
+ 69-20020a170902014bb0290119ef6b8039mr1418246plb.84.1623713506164; 
+ Mon, 14 Jun 2021 16:31:46 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id gl13sm488113pjb.5.2021.06.14.16.31.45
@@ -55,16 +56,16 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Mon, 14 Jun 2021 16:31:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] configure: Use -std=gnu11
-Date: Mon, 14 Jun 2021 16:31:36 -0700
-Message-Id: <20210614233143.1221879-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 2/8] softfloat: Use _Generic instead of QEMU_GENERIC
+Date: Mon, 14 Jun 2021 16:31:37 -0700
+Message-Id: <20210614233143.1221879-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210614233143.1221879-1-richard.henderson@linaro.org>
 References: <20210614233143.1221879-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,49 +89,49 @@ Cc: pbonzini@redhat.com, thuth@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the minimum gcc version is 7.5, we can use C11.
-This will allow lots of cleanups to the code, currently
-hidden behind macros in include/qemu/compiler.h.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure   | 4 ++--
- meson.build | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ fpu/softfloat.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/configure b/configure
-index 8dcb9965b2..0489864667 100755
---- a/configure
-+++ b/configure
-@@ -159,7 +159,7 @@ update_cxxflags() {
-     # options which some versions of GCC's C++ compiler complain about
-     # because they only make sense for C programs.
-     QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
--    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
-+    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
-     for arg in $QEMU_CFLAGS; do
-         case $arg in
-             -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
-@@ -538,7 +538,7 @@ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
- QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+index 4d0160fe9c..6e769f990c 100644
+--- a/fpu/softfloat.c
++++ b/fpu/softfloat.c
+@@ -686,11 +686,13 @@ static float128 float128_pack_raw(const FloatParts128 *p)
+ #include "softfloat-specialize.c.inc"
  
- # Flags that are needed during configure but later taken care of by Meson
--CONFIGURE_CFLAGS="-std=gnu99 -Wall"
-+CONFIGURE_CFLAGS="-std=gnu11 -Wall"
- CONFIGURE_LDFLAGS=
+ #define PARTS_GENERIC_64_128(NAME, P) \
+-    QEMU_GENERIC(P, (FloatParts128 *, parts128_##NAME), parts64_##NAME)
++    _Generic((P), FloatParts64 *: parts64_##NAME, \
++                  FloatParts128 *: parts128_##NAME)
  
+ #define PARTS_GENERIC_64_128_256(NAME, P) \
+-    QEMU_GENERIC(P, (FloatParts256 *, parts256_##NAME), \
+-                 (FloatParts128 *, parts128_##NAME), parts64_##NAME)
++    _Generic((P), FloatParts64 *: parts64_##NAME, \
++                  FloatParts128 *: parts128_##NAME, \
++                  FloatParts256 *: parts256_##NAME)
  
-diff --git a/meson.build b/meson.build
-index a2311eda6e..d8a92666fb 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,5 +1,5 @@
- project('qemu', ['c'], meson_version: '>=0.55.0',
--        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
-+        default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto'] +
-                          (meson.version().version_compare('>=0.56.0') ? [ 'b_staticpic=false' ] : []),
-         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
+ #define parts_default_nan(P, S)    PARTS_GENERIC_64_128(default_nan, P)(P, S)
+ #define parts_silence_nan(P, S)    PARTS_GENERIC_64_128(silence_nan, P)(P, S)
+@@ -892,11 +894,13 @@ static void parts128_log2(FloatParts128 *a, float_status *s, const FloatFmt *f);
+  */
  
+ #define FRAC_GENERIC_64_128(NAME, P) \
+-    QEMU_GENERIC(P, (FloatParts128 *, frac128_##NAME), frac64_##NAME)
++    _Generic((P), FloatParts64 *: frac64_##NAME, \
++                  FloatParts128 *: frac128_##NAME)
+ 
+ #define FRAC_GENERIC_64_128_256(NAME, P) \
+-    QEMU_GENERIC(P, (FloatParts256 *, frac256_##NAME), \
+-                 (FloatParts128 *, frac128_##NAME), frac64_##NAME)
++    _Generic((P), FloatParts64 *: frac64_##NAME, \
++                  FloatParts128 *: frac128_##NAME, \
++                  FloatParts256 *: frac256_##NAME)
+ 
+ static bool frac64_add(FloatParts64 *r, FloatParts64 *a, FloatParts64 *b)
+ {
 -- 
 2.25.1
 
