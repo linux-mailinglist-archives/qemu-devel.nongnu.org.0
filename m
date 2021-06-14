@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDE83A5E7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:39:34 +0200 (CEST)
-Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942883A5E7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:39:30 +0200 (CEST)
+Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsi85-0003GD-Ja
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:39:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44290)
+	id 1lsi81-00038b-JT
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:39:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshym-0002fb-N4
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49991)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lshzY-0003Z2-Rg
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:30:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshyk-00062e-DY
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:56 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lshzW-0006Tn-IG
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:30:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623659393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623659441;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FTUVfn9duSFiOodVyELtyX1tAblwL+sQqi+eZxdfdu4=;
- b=Jk0bCR6H2NgSfZF+29hDJvADq9J0SoO1OxejR8PkoELMTJZ9YpxDvsS/tqnpZWUKQGh24f
- im2saF1l/+7HizDGTkNYjlQMkSGHyhAsnPZsSwiPdUKlyMyJdPZNhVH3Iqf3HxLt59adxo
- +bJ6zPJ5pcrGSQjAohhmEZIIDujxsr0=
+ bh=eZwIlYZWXOp5Rd/yX/OtVQ9Ot0plMM0zOAOaGzF8R9c=;
+ b=d40zX1YNpKqLkJ6LqATta/wVaN6pHP9NzzJ5tJ001Fk9J9yveip0qZ1eeDTzxNxI/TQvNW
+ Rjg0hpIxJhP/HesChlIirqwmZyUBy6ZeHd0S30wnyt6+nftaaLDw+nWRszUwP6g3T6Jv9O
+ h6UObjALZ23Yhb8LfQaJqBSZG/HTp6Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-9OATrEXCNJ6iOu8qISZcjw-1; Mon, 14 Jun 2021 04:29:50 -0400
-X-MC-Unique: 9OATrEXCNJ6iOu8qISZcjw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-223-acE7d2EWP7KCw7VbwiI9cg-1; Mon, 14 Jun 2021 04:30:38 -0400
+X-MC-Unique: acE7d2EWP7KCw7VbwiI9cg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7B69805EE3;
- Mon, 14 Jun 2021 08:29:49 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
- [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 965645D9E2;
- Mon, 14 Jun 2021 08:29:47 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 6/6] blkdebug: protect rules and suspended_reqs with a lock
-Date: Mon, 14 Jun 2021 10:29:31 +0200
-Message-Id: <20210614082931.24925-7-eesposit@redhat.com>
-In-Reply-To: <20210614082931.24925-1-eesposit@redhat.com>
-References: <20210614082931.24925-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90428EC1A7;
+ Mon, 14 Jun 2021 08:30:36 +0000 (UTC)
+Received: from redhat.com (ovpn-115-55.ams2.redhat.com [10.36.115.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15EE360C4A;
+ Mon, 14 Jun 2021 08:30:30 +0000 (UTC)
+Date: Mon, 14 Jun 2021 09:30:28 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH] migration: Add missing dependency on GNUTLS
+Message-ID: <YMcTpO2SlVSc/HCR@redhat.com>
+References: <20210614052623.1657103-1-f4bug@amsat.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210614052623.1657103-1-f4bug@amsat.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,237 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Leonardo Bras <leobras.c@gmail.com>, Lukas Straub <lukasstraub2@web.de>,
+ Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First, categorize the structure fields to identify what needs
-to be protected and what doesn't.
+On Mon, Jun 14, 2021 at 07:26:23AM +0200, Philippe Mathieu-Daudé wrote:
+> Commit 7de2e856533 made migration/qemu-file-channel.c include
+> "io/channel-tls.h" but forgot to add the new GNUTLS dependency
+> on Meson, leading to build failure on OSX:
+> 
+>   [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
+>   FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
+>   cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
+>   In file included from ../migration/qemu-file-channel.c:29:
+>   In file included from include/io/channel-tls.h:26:
+>   In file included from include/crypto/tlssession.h:24:
+>   include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
+>   #include <gnutls/gnutls.h>
+>            ^~~~~~~~~~~~~~~~~
+>   1 error generated.
+> 
+> Reported-by: Stefan Weil <sw@weilnetz.de>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
+> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> RFC: Not tested on OSX. Stefan, do you know why this isn't covered
+>      on Cirrus-CI?  https://cirrus-ci.com/build/4876003651616768
+> ---
+>  migration/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-We essentially need to protect only .state, and the 3 lists in
-BDRVBlkdebugState.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Then, add the lock and mark the functions accordingly.
 
-Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block/blkdebug.c | 49 ++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 39 insertions(+), 10 deletions(-)
-
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index b47c3fd97c..8b67554bec 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -38,24 +38,27 @@
- #include "qapi/qobject-input-visitor.h"
- #include "sysemu/qtest.h"
- 
-+/* All APIs are thread-safe */
-+
- typedef struct BDRVBlkdebugState {
--    int state;
-+    /* IN: initialized in blkdebug_open() and never changed */
-     uint64_t align;
-     uint64_t max_transfer;
-     uint64_t opt_write_zero;
-     uint64_t max_write_zero;
-     uint64_t opt_discard;
-     uint64_t max_discard;
--
-+    char *config_file; /* For blkdebug_refresh_filename() */
-+    /* initialized in blkdebug_parse_perms() */
-     uint64_t take_child_perms;
-     uint64_t unshare_child_perms;
- 
--    /* For blkdebug_refresh_filename() */
--    char *config_file;
--
-+    /* State. Protected by lock */
-+    int state;
-     QLIST_HEAD(, BlkdebugRule) rules[BLKDBG__MAX];
-     QSIMPLEQ_HEAD(, BlkdebugRule) active_rules;
-     QLIST_HEAD(, BlkdebugSuspendedReq) suspended_reqs;
-+    QemuMutex lock;
- } BDRVBlkdebugState;
- 
- typedef struct BlkdebugAIOCB {
-@@ -64,8 +67,11 @@ typedef struct BlkdebugAIOCB {
- } BlkdebugAIOCB;
- 
- typedef struct BlkdebugSuspendedReq {
-+    /* IN: initialized in suspend_request() */
-     Coroutine *co;
-     char *tag;
-+
-+    /* List entry protected BDRVBlkdebugState's lock */
-     QLIST_ENTRY(BlkdebugSuspendedReq) next;
- } BlkdebugSuspendedReq;
- 
-@@ -77,6 +83,7 @@ enum {
- };
- 
- typedef struct BlkdebugRule {
-+    /* IN: initialized in add_rule() or blkdebug_debug_breakpoint() */
-     BlkdebugEvent event;
-     int action;
-     int state;
-@@ -95,6 +102,8 @@ typedef struct BlkdebugRule {
-             char *tag;
-         } suspend;
-     } options;
-+
-+    /* List entries protected BDRVBlkdebugState's lock */
-     QLIST_ENTRY(BlkdebugRule) next;
-     QSIMPLEQ_ENTRY(BlkdebugRule) active_next;
- } BlkdebugRule;
-@@ -244,11 +253,14 @@ static int add_rule(void *opaque, QemuOpts *opts, Error **errp)
-     };
- 
-     /* Add the rule */
-+    qemu_mutex_lock(&s->lock);
-     QLIST_INSERT_HEAD(&s->rules[event], rule, next);
-+    qemu_mutex_unlock(&s->lock);
- 
-     return 0;
- }
- 
-+/* Called with lock held or from .bdrv_close */
- static void remove_rule(BlkdebugRule *rule)
- {
-     switch (rule->action) {
-@@ -467,6 +479,7 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-     int ret;
-     uint64_t align;
- 
-+    qemu_mutex_init(&s->lock);
-     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
-     if (!qemu_opts_absorb_qdict(opts, options, errp)) {
-         ret = -EINVAL;
-@@ -567,6 +580,7 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
-     ret = 0;
- out:
-     if (ret < 0) {
-+        qemu_mutex_destroy(&s->lock);
-         g_free(s->config_file);
-     }
-     qemu_opts_del(opts);
-@@ -581,6 +595,7 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-     int error;
-     bool immediately;
- 
-+    qemu_mutex_lock(&s->lock);
-     QSIMPLEQ_FOREACH(rule, &s->active_rules, active_next) {
-         uint64_t inject_offset = rule->options.inject.offset;
- 
-@@ -594,6 +609,7 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-     }
- 
-     if (!rule || !rule->options.inject.error) {
-+        qemu_mutex_unlock(&s->lock);
-         return 0;
-     }
- 
-@@ -605,6 +621,7 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-         remove_rule(rule);
-     }
- 
-+    qemu_mutex_unlock(&s->lock);
-     if (!immediately) {
-         aio_co_schedule(qemu_get_current_aio_context(), qemu_coroutine_self());
-         qemu_coroutine_yield();
-@@ -770,8 +787,10 @@ static void blkdebug_close(BlockDriverState *bs)
-     }
- 
-     g_free(s->config_file);
-+    qemu_mutex_destroy(&s->lock);
- }
- 
-+/* Called with lock held.  */
- static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
- {
-     BDRVBlkdebugState *s = bs->opaque;
-@@ -790,6 +809,7 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
-     }
- }
- 
-+/* Called with lock held.  */
- static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
-                          int *action_count, int *new_state)
- {
-@@ -829,11 +849,13 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
- 
-     assert((int)event >= 0 && event < BLKDBG__MAX);
- 
--    new_state = s->state;
--    QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
--        process_rule(bs, rule, actions_count, &new_state);
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        new_state = s->state;
-+        QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
-+            process_rule(bs, rule, actions_count, &new_state);
-+        }
-+        s->state = new_state;
-     }
--    s->state = new_state;
- 
-     while (actions_count[ACTION_SUSPEND] > 0) {
-         qemu_coroutine_yield();
-@@ -861,11 +883,14 @@ static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
-         .options.suspend.tag = g_strdup(tag),
-     };
- 
-+    qemu_mutex_lock(&s->lock);
-     QLIST_INSERT_HEAD(&s->rules[blkdebug_event], rule, next);
-+    qemu_mutex_unlock(&s->lock);
- 
-     return 0;
- }
- 
-+/* Called with lock held. May temporarily release lock. */
- static int resume_req_by_tag(BDRVBlkdebugState *s, const char *tag, bool all)
- {
-     BlkdebugSuspendedReq *r;
-@@ -888,7 +913,9 @@ retry:
-             g_free(r->tag);
-             g_free(r);
- 
-+            qemu_mutex_unlock(&s->lock);
-             qemu_coroutine_enter(co);
-+            qemu_mutex_lock(&s->lock);
- 
-             if (all) {
-                 goto retry;
-@@ -902,7 +929,7 @@ retry:
- static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
- {
-     BDRVBlkdebugState *s = bs->opaque;
--
-+    QEMU_LOCK_GUARD(&s->lock);
-     return resume_req_by_tag(s, tag, false);
- }
- 
-@@ -913,6 +940,7 @@ static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
-     BlkdebugRule *rule, *next;
-     int i, ret = -ENOENT;
- 
-+    QEMU_LOCK_GUARD(&s->lock);
-     for (i = 0; i < BLKDBG__MAX; i++) {
-         QLIST_FOREACH_SAFE(rule, &s->rules[i], next, next) {
-             if (rule->action == ACTION_SUSPEND &&
-@@ -933,6 +961,7 @@ static bool blkdebug_debug_is_suspended(BlockDriverState *bs, const char *tag)
-     BDRVBlkdebugState *s = bs->opaque;
-     BlkdebugSuspendedReq *r;
- 
-+    QEMU_LOCK_GUARD(&s->lock);
-     QLIST_FOREACH(r, &s->suspended_reqs, next) {
-         if (!strcmp(r->tag, tag)) {
-             return true;
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
