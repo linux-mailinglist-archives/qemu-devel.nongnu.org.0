@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579B63A6FC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:02:02 +0200 (CEST)
-Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15A23A6FCC
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:05:43 +0200 (CEST)
+Received: from localhost ([::1]:48938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lssmX-0003Jo-Dc
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47254)
+	id 1lssq6-00051r-QR
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:05:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lssl5-0002Lh-EJ
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:00:32 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:41723)
+ id 1lssoQ-0004A1-T7
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:03:58 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lssl3-0005u1-IH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:00:31 -0400
-Received: by mail-pl1-x632.google.com with SMTP id e1so7185048plh.8
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:00:28 -0700 (PDT)
+ id 1lssoO-00089G-ES
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:03:58 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id x73so11402798pfc.8
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=91gmc55nyUh241BOE+IqKVqKo7V1obEe0tdTmtw7HAQ=;
- b=kM31f1jBazg95oaVtqi2NcfYDfeMeLJJzSig/tzrMwlfb8fAygC/mTSZzrkPHFXJaA
- SMVo4BbOc2jzqROBlyi/9w1shs/jGjghvvaXXdAUh+L3R7TQH2Y5UzPdVd7ZzrhLkON2
- NIsPR+Od10uqqPoERQALqtVyZsNJLdJ9NOjuWBLzyejqy6LX0sAB3wbQSYVCjBgAqy9Z
- ARfptxOlOfTzN4leBExPKRR0E8YCRjuFnLT0vsiPVyDltTyZNwKW43mo50TjQmKZkZIt
- Z2okzrwcdWiTy/17Xjj/bmcRrLzKfJoRaH98MiHeUTlGC3+FDydO29GDl7rrovoCzcEM
- wj5Q==
+ bh=4FbwJ92eOuOt2Ykki2atX+/r78wFL07JKaARVSVcQVE=;
+ b=OFN9SjoZURE+Ef3jAX6f4TE6rkgW1vhfGhz+g9JKN9AbDp0kMIEOxrJ/+5rJS++seS
+ JXWiZLmxT+8XGgPCsJcbK1kuRmU8YwzXQIRiTS1oYOd++vXmM8dfnOqpP0EVSaNqrLH0
+ xy6jMIRx3HzEbJYecYbLsW39T3U+8xGlZNtn6zWLNtxnrwpfkniykvT6BVzBwh8H+Try
+ Gwq4ynZY+0DSjmgn6DwphapO9pq6/uhAb6RH7xDeaxl71iHSYnhOB7EXiKL9S8rqYUdO
+ w1d3wYp5ozSKLYB4pV+nsMCVTE4UB8TjpfF33xo7gOt8qR2JHAfAcZeXj/8IT33dp2Ff
+ NiZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=91gmc55nyUh241BOE+IqKVqKo7V1obEe0tdTmtw7HAQ=;
- b=RFBHykHFj2gURQZ6UVHdtOCYcEwUFtIfcVaJVIsnyfzWgWcZNnX4ea3SS35VhXltug
- +AYnJ0yqIN4takzyC6hwWSUPjhr8oXaDa99hIcFvSRe7CUYE0ISzRqWgTWhxx0Tv0dld
- U/BMCeFZd8V+TIINPrb82ZVzadOFRbL66+VqRxt5n719GQlNfLi3Nkn0gGZv0C8ATC8P
- vhvulYG1gZRPpu48N3Et0XHlI4WkVF6+2NDLCS/blDiamYNMmxDSOrgGPU+osMKsM32x
- BBeu6xgn6jsOFToxoI//K5irfyLP5AvExktKId+dADk3k3LIt1vP00Xgqi9ZZYkQWkK5
- 267w==
-X-Gm-Message-State: AOAM532BQ0ksx0GBBiVf34EVFIyVxgAe46PL8DX9LUHnjA7AX8MZ+LEG
- NBKpgn0mZVoBSyQ6es/8h+vI/WV5nYqa8g==
-X-Google-Smtp-Source: ABdhPJygVPyJ5ssshIJB7+HwCM1LLmoTSbzXZAqHNCJeOg9sIdWwOX7LOkdvtCaEkr55TIzd8Tih/Q==
-X-Received: by 2002:a17:90a:398f:: with SMTP id
- z15mr20846769pjb.183.1623700827609; 
- Mon, 14 Jun 2021 13:00:27 -0700 (PDT)
+ bh=4FbwJ92eOuOt2Ykki2atX+/r78wFL07JKaARVSVcQVE=;
+ b=ol513QLo0sN2JZnHp/BuSbTej/U+/0n3lx4q9nDTgx9z+CMAhNBGhzdtlghRbXblRD
+ cRv7a977Brg58Xvk59IXRcT08vQHKGTDgFXFoic3cGJ6gtyHmD1Bed8b4X7VjPYMOOEG
+ JVfznbemn5a2qbSwpESStcFfg/u9MK7o6WFT/ve3LtZZbjmXfZXKttf6Q6Vtd9KArE/a
+ rgl8UwUuTMGur9sKDLp78A6CPOuGkrVLQPGEXrKAfinRLGprzikiXZNiSFw5ow4xrUEv
+ D03HX+3Lo5qb9+S5ryYgHkxnioV8ycPAx03e0biflKqGo6EA8GAFi5jVX9kFrc8YVUVi
+ 9tWw==
+X-Gm-Message-State: AOAM532g9rHW4T4jP1w0xRzIKYFgHdYAYWuvIUPaog7bL9nzBxsz5Ezx
+ 3R9zw+vKECIm3CbtAZsRTdkl19EFrAZyNQ==
+X-Google-Smtp-Source: ABdhPJwcuvFsXGCZxaqrBujh2O7lEAUhA04IZOs7y88wIHPeps5oCXlj5zLvJDk+Q6BRC+cHYJexYA==
+X-Received: by 2002:a63:514b:: with SMTP id r11mr18712704pgl.437.1623701035091; 
+ Mon, 14 Jun 2021 13:03:55 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- g16sm14137468pgl.22.2021.06.14.13.00.27
+ ig1sm12910630pjb.27.2021.06.14.13.03.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 13:00:27 -0700 (PDT)
-Subject: Re: [PATCH v2 14/57] target/arm: Implement MVE VCLZ
+ Mon, 14 Jun 2021 13:03:54 -0700 (PDT)
+Subject: Re: [PATCH v2 17/57] target/arm: Implement MVE VREV16, VREV32, VREV64
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210614151007.4545-1-peter.maydell@linaro.org>
- <20210614151007.4545-15-peter.maydell@linaro.org>
+ <20210614151007.4545-18-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <91fbf139-d4d1-c985-6d78-891f82b3da6c@linaro.org>
-Date: Mon, 14 Jun 2021 13:00:25 -0700
+Message-ID: <2e2c3225-4c7d-59d9-9fe1-bf2de72ac8b7@linaro.org>
+Date: Mon, 14 Jun 2021 13:03:53 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210614151007.4545-15-peter.maydell@linaro.org>
+In-Reply-To: <20210614151007.4545-18-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,21 +93,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/14/21 8:09 AM, Peter Maydell wrote:
-> Implement the MVE VCLZ insn (and the necessary machinery
-> for MVE 1-input vector ops).
-> 
-> Note that for non-load instructions predication is always performed
-> at a byte level granularity regardless of element size (R_ZLSJ),
-> and so the masking logic here differs from that used in the VLDR
-> and VSTR helpers.
+> Implement the MVE instructions VREV16, VREV32 and VREV64.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/helper-mve.h    |  4 ++
->   target/arm/mve.decode      |  8 ++++
->   target/arm/mve_helper.c    | 97 ++++++++++++++++++++++++++++++++++++++
->   target/arm/translate-mve.c | 38 +++++++++++++++
->   4 files changed, 147 insertions(+)
+>   target/arm/helper-mve.h    |  7 +++++++
+>   target/arm/mve.decode      |  4 ++++
+>   target/arm/mve_helper.c    |  7 +++++++
+>   target/arm/translate-mve.c | 33 +++++++++++++++++++++++++++++++++
+>   4 files changed, 51 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
