@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697433A67E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 15:30:16 +0200 (CEST)
-Received: from localhost ([::1]:56752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365A83A67EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 15:32:21 +0200 (CEST)
+Received: from localhost ([::1]:59340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsmfP-0000ye-Go
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 09:30:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53614)
+	id 1lsmhQ-0002ql-8X
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 09:32:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lsmeA-0008W8-9B; Mon, 14 Jun 2021 09:28:58 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39517)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lsmfv-0001kH-DC
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 09:30:47 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lsme8-0000Xv-TY; Mon, 14 Jun 2021 09:28:58 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso13057503wmh.4; 
- Mon, 14 Jun 2021 06:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ckjG6ejSdo9drlW9OhdRmdSs2L91z0XXqFpXH7PrOww=;
- b=X7OAmvymQcopojaalSKvFbwdTAjg4QzEIn6A2CGTIC18lZi/k8W4kyESA5ionux2f2
- Q3QMzfNJ96Z82cb6fh1u3+uU+bgnC73kI7K/FqX5G8IcAoxytiI4GTcwgQnVzp/lT0Fe
- bPuHAF8iBdf4ClsxN+nJUUC5n9s+tnxsEgMCc3hsUks5mQbY2W5QAjH6KgrnD16UzG30
- xN6iow5NIPz7LzmT1GKQdHOZRC7tXNF7h+6P5hnTE+6NoCFn/khquPbsOi4kzfmRZIIi
- 56eb5AqTfiZJV6vVRRWQCEeHR/E4y7awXmubpZyin0poIcn7XLFM10qKqFnagRY/W6oD
- 7ldA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lsmft-0001jo-20
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 09:30:47 -0400
+Received: by mail-ej1-x632.google.com with SMTP id l1so16644678ejb.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 06:30:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4b9Wkd0O7OX6il3ZzHzl28vJKwk5ztLG9V1Wp8jiSW0=;
+ b=zsRFLQdsl2LXWXgoqndLgfvAmgq32yvNFKBxchA+M3BxJadyZV8YI7nhg6UM2zDrV0
+ hBSGk6PoPGwkkZy9r44noWCbT5af289jrKKy7LKXowcHGnlLwf13H2sM6yCGZUqv0xXN
+ ce7PvOQLlI0LvxdvGeYqNNQwhZzOB5S2X82Px+t4lS5dwnrslHJaN6kF7oBhm/Bv7fLY
+ ksQUaEn3XGsQaZ77idgZWvwAje/7TJQaT9E+z9wKq6F+N2vKldkhex0x7jd4TMXVz6qT
+ WmNjTrTz5ISyFhMReFlYdTxCvyMQBnM0qjDk3/5b6eoizpNl6V92eXhrL/MFsBr9Gxnm
+ mmQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ckjG6ejSdo9drlW9OhdRmdSs2L91z0XXqFpXH7PrOww=;
- b=DFMCMwhPYOEyjwVEQ+5Vw39RPuZrGBAFcYWzV25XNGOZ3EuSPH7KZnKxIXHJMiIcuc
- juS2M7qhM/IjZzJeXmSN2uJTNFhui7AfU8FgXgX6q6cojI17WUgwdD1oWDb76n3sevOV
- gz0K4WJcyk+pi69NztwP0yadab6ix6o3NkiwZa8hWVPaVX3yADwRF3dQZEzQAt6aS51D
- 0hAXnwvyTa8gC4FIebrDB2DO4h3dLPrfp1fGlpOsfyQ6v9IzYzh6hrN1EB0zcip0uy71
- AdSmvOoCObfRvATVpPWE7p8crFpIwKYkkYrDYJD6ojSzPvOEGCDdHKQqgekc7bl9Xvcw
- cJ1g==
-X-Gm-Message-State: AOAM531lDKt95ZQy2G3B0Cyh3AvmpIegfgt+5N4JhN0lhsP6693/3H8Y
- +uSjvDW7ZRN6GMbcGQPJjJfLwECfmi16yQ==
-X-Google-Smtp-Source: ABdhPJzQ/d2T9+nrkNC/I1tckxXF5sWzp9NFTspOY8s615sW7giIewuO1BtmQvG8XuKzuB2k67LZ1g==
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr16666906wmb.113.1623677335086; 
- Mon, 14 Jun 2021 06:28:55 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id r18sm16233044wro.62.2021.06.14.06.28.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 06:28:54 -0700 (PDT)
-Subject: Re: [PATCH] linux-user/trace-events: fix minor type in format string
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210614132536.1657-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2f55a021-afa0-082e-b70d-bfc1a7299e02@amsat.org>
-Date: Mon, 14 Jun 2021 15:28:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4b9Wkd0O7OX6il3ZzHzl28vJKwk5ztLG9V1Wp8jiSW0=;
+ b=UAyG+MdDFi+udB6U8gbQXVAztaG0CkwE5gauwyZ5W+KE+EdMemiSqHZKcrnhWnYDsr
+ N6HI2hGXHtJNHq7G4EUQE98kIpiUn9KdlicMAdGDWEbWEv2RpR7d+B70pGuXKmWZDj0G
+ MWWZKccqDNK2FL/1Zb9nhhI8HuKYigNrV+u4BLiz1lKrq9Z+UE9Zm6FJx0bRix1TCF27
+ ujYc6z0vGKZEpbpKwNUwQr0mvebuVgEHet5RvEvnOcR6HYtWb7HY6osnUW1ZQIXRkn/M
+ 0dfar6wE+z0ubl8jfS0Qf0aUyRl/pxxtsQlu1yzu0NEXBYMmMtJYQJ1hWpgLz+qMabAt
+ KZmQ==
+X-Gm-Message-State: AOAM531VPRHoLDDRzPSFmRatqha4hrAgo3KocTqG55Ny/WK1I9epU2jQ
+ aXW5ocSsLLe4vML+LxUndK6AhDPVbot+0cGHSinmMw==
+X-Google-Smtp-Source: ABdhPJzgdM7CNJJzsWV0eZozqvMAzp2FRyXOc5Y7yeMPFu+pEfmkeXhnKeoW/lXHk51Lz9VRTWvtRSCP9+zSCXBOcrU=
+X-Received: by 2002:a17:906:a458:: with SMTP id
+ cb24mr15392863ejb.482.1623677443236; 
+ Mon, 14 Jun 2021 06:30:43 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210614132536.1657-1-alex.bennee@linaro.org>
 In-Reply-To: <20210614132536.1657-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Jun 2021 14:30:08 +0100
+Message-ID: <CAFEAcA8e0oVDdoAa_zpQQq++dujdWs9BkGTqEMd9Fgn0BjZecw@mail.gmail.com>
+Subject: Re: [PATCH] linux-user/trace-events: fix minor type in format string
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,15 +79,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 3:25 PM, Alex Bennée wrote:
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  linux-user/trace-events | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 14 Jun 2021 at 14:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Typo in subject line: should be "typo" :-)
+
+-- PMM
 
