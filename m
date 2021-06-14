@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1523A5E87
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:47:59 +0200 (CEST)
-Received: from localhost ([::1]:37342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C275D3A5EA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:54:01 +0200 (CEST)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsiG6-0003PT-0c
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
+	id 1lsiM4-0006Sr-RD
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsi6y-0002YD-Uz
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:24 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:44629)
+ id 1lsi6z-0002bx-UE
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:25 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsi6r-0003dA-84
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:24 -0400
-Received: by mail-pf1-x435.google.com with SMTP id u18so9998054pfk.11
+ id 1lsi6r-0003dF-8c
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:25 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id x19so6162041pln.2
  for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/cj6AHfD4MCylW24pA885ZQ85JIZz19VyVMXS+bbqyw=;
- b=YTEBO+1AN83WnP1zP1vnjRN61xfVa6buJ6Rg0vRzWKGZ5swwkuw4NahIyD+AES8j2u
- 5okQJjbYcG6IfxMtN5vxu/yBWtQe4u09lFHjkRLJOnPtwm/no4/4DQZjCkr8NZCBaTnB
- IGcLPMsZmyXtgyf5XZk9WRDJmwLj8HSZnWwflS5G27ncYbXYt+nsg0KIY3twE6f1MyVg
- evNgr8BOy2TiSncAP2BuWqnAJ6OJg7kBwd9wDC+Eg0h6syqEP6bPa6ZfM+OTIQl4MfXE
- t0CNs7OMMl9uycPOol3WFxHkeG3WwYzns+7xBQEEcKnKDUoQzN9ZjqJqlbMvxainykro
- vnPw==
+ bh=T7BJEd3GAshXT7gnjM3Wy8Serp0Ny2cG7uiwPGDYDAQ=;
+ b=gDQUzFhVCqTkO67z878SfPpWgFohfEH9yt9rHm+bXIE07OT3Fb/LhDdlPOxx4z3eqA
+ GiXtLUYK3r6/bDpzchEHVJ+OY+SMXfw9P5Xh0nrnpvq8uMLnz1ZKC1lTl9PCPVDSu+HA
+ 2HU2gY+Yt9cGIo38L/ECxS8UYFQLQD9sdkCdyaWRJbLs+gMLvOyugMQ6ISNg2yIshXVd
+ Tgmg2vOfe1TibzvH6NnN9VxI2BuH7lrCu057TAww3Qpeu8/hnJ4FtiL4s3LYFRAHAEMQ
+ UuOlkUPRiYBYJA8zbJUrxTAIV+QvezUA0R6OZJJfW1us9+JMFj9ZA4CtViqP11DK3MeI
+ oBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/cj6AHfD4MCylW24pA885ZQ85JIZz19VyVMXS+bbqyw=;
- b=dUAbg2V2VLi3h/uok5fVyi1RPFNmKHraORK/sHo7JBCMZtx7m4gwWnrM7z8x2ltXG6
- d+KWj/8mGuyOASCpa295KOsz7wXWhFsOWr4KnqNGhwfrFdVd5zKUv3Y/NWE2HibhQWbL
- RrmZGWew5rd824bVU+L1w8d2xmtj9MLg2OWh32R3W2udZbyM9DW1FwC7ilYi9BfvuZmP
- NAn6SENRZ7k+uQWBHuvwZ99HNdrvbQ4iWU3RsfWEbAqRP0J8UEz1jmSPDhh96Oypttee
- QJt3glOXDtWfvTEpdY4BCALEuJDD4Im67fIfBv4f5u0/vgF9JyMaK0vzRWuh9HB8oH3k
- tNrw==
-X-Gm-Message-State: AOAM5300w9q5lqOx3T8FC1sTjW13FEj8HIc0YJGFy1ML/ajgV8EpRKYt
- Wr8bR3wuoFIMfbaGK3WnDcKsq/xM1LZxWA==
-X-Google-Smtp-Source: ABdhPJyoXJgMpeXGCglYBMADxJKmQARt9uTERhc73qjmq5EF2Jx2ZcoWWsRxfVmGYf8/Er08At8pHw==
-X-Received: by 2002:a63:5645:: with SMTP id g5mr16064027pgm.442.1623659895300; 
+ bh=T7BJEd3GAshXT7gnjM3Wy8Serp0Ny2cG7uiwPGDYDAQ=;
+ b=a82UxxKOkR+vvRG9f229uMz2U/+B747FK5svqO1OcEqRIFKU/XKzXvgHR8P6iPDxbS
+ ZEw2iKNAKMLFDJgHBJAQ00HZOsv6vnvbotMlp/U3YrVXKd60lbulusd/nTQGs3/SpjMo
+ vTYJOao/XDsTDMrd7rAsek6g8uInvRj2RQSPoyOsHF+tRi3ochhOOG2KteIjFuEp+fzC
+ FyFxIIDezP8Xc2eAhbFO/bzrrLV2xAUoaMwu7AQdE/e1n9TOuhLwj5lecgaAawuXfOuE
+ mK3DpsTEIxs7CIvH7JsU//lwuFIXOy/9CVoQDhKDsxCFhjfItSxTKbGlLZlU1yIdS3n9
+ 8yNA==
+X-Gm-Message-State: AOAM532WFOPuH/TULZKuvNwUI8/bxOdgeVDFpdWBfO0cM57b82kjP1id
+ 9bJcc50RR8kxAlS9H9a4Nu3IX1YGszgoVg==
+X-Google-Smtp-Source: ABdhPJxfMF+Pt4iSCaOLHl3S8wzYXx/RUsOFp93r9argEM9zZBfUdoEdzujb8CE5Z34XGkdJrAHqIw==
+X-Received: by 2002:a17:90a:e654:: with SMTP id
+ ep20mr17611003pjb.168.1623659895736; 
  Mon, 14 Jun 2021 01:38:15 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id h20sm2242022pfh.24.2021.06.14.01.38.14
+ by smtp.gmail.com with ESMTPSA id h20sm2242022pfh.24.2021.06.14.01.38.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Jun 2021 01:38:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/28] target/i386: Improve bswap translation
-Date: Mon, 14 Jun 2021 01:37:55 -0700
-Message-Id: <20210614083800.1166166-24-richard.henderson@linaro.org>
+Subject: [PATCH 24/28] target/sh4: Improve swap.b translation
+Date: Mon, 14 Jun 2021 01:37:56 -0700
+Message-Id: <20210614083800.1166166-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210614083800.1166166-1-richard.henderson@linaro.org>
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,47 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a break instead of an ifdefed else.
-There's no need to move the values through s->T0.
 Remove TCG_BSWAP_IZ and the preceding zero-extension.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ target/sh4/translate.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index e8a9dcd21a..b21873ed23 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -7195,17 +7195,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         reg = (b & 7) | REX_B(s);
- #ifdef TARGET_X86_64
-         if (dflag == MO_64) {
--            gen_op_mov_v_reg(s, MO_64, s->T0, reg);
--            tcg_gen_bswap64_i64(s->T0, s->T0);
--            gen_op_mov_reg_v(s, MO_64, reg, s->T0);
--        } else
--#endif
--        {
--            gen_op_mov_v_reg(s, MO_32, s->T0, reg);
--            tcg_gen_ext32u_tl(s->T0, s->T0);
--            tcg_gen_bswap32_tl(s->T0, s->T0, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
--            gen_op_mov_reg_v(s, MO_32, reg, s->T0);
-+            tcg_gen_bswap64_i64(cpu_regs[reg], cpu_regs[reg]);
-+            break;
-         }
-+#endif
-+        tcg_gen_bswap32_tl(cpu_regs[reg], cpu_regs[reg], TCG_BSWAP_OZ);
-         break;
-     case 0xd6: /* salc */
-         if (CODE64(s))
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 147219759b..f45515952f 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -676,8 +676,7 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x6008:		/* swap.b Rm,Rn */
+ 	{
+             TCGv low = tcg_temp_new();
+-	    tcg_gen_ext16u_i32(low, REG(B7_4));
+-	    tcg_gen_bswap16_i32(low, low, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
++	    tcg_gen_bswap16_i32(low, REG(B7_4), 0);
+             tcg_gen_deposit_i32(REG(B11_8), REG(B7_4), low, 0, 16);
+ 	    tcg_temp_free(low);
+ 	}
 -- 
 2.25.1
 
