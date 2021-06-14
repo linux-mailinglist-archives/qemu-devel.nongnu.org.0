@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2E63A5E80
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:42:56 +0200 (CEST)
-Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA0F3A5EB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:58:46 +0200 (CEST)
+Received: from localhost ([::1]:37496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsiBL-0001N9-3X
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
+	id 1lsiQf-0005bd-Op
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:58:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsi6t-0002FN-GC
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:19 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:45739)
+ id 1lsi6v-0002LV-CV
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:21 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:33737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsi6l-0003ZV-6t
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:19 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id 11so6147011plk.12
+ id 1lsi6l-0003Zg-Ky
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:21 -0400
+Received: by mail-pf1-x430.google.com with SMTP id p13so10045940pfw.0
  for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2lV8vgJYRzkBj6vA6hwqKERA8bZrmR1z2r1Kt2NYFM8=;
- b=YUv8rmXQuk0IU0YxJOXKjhF4gjJsptl0msePKlTxWAgfPk/7sUUNWV1SxUDqDdpG8f
- ZSjRIq0Xze5uPCUUybMH4b64JatfHMLpQsNP4FXoTav7UllOaRTMW6eiHgq1Jg/xDkzP
- nx1giEFn1tfcTUiNRc5y6uyxiJYAIWqv/ei5/A6F7MQIK4W41yb53e5jexJsr/16vsrz
- fsscrRFH6P5qnUYbVonv8AgcBV/Kj32rVxk58v3fl3LlArQyJPw+8e2Wa4Pl3isqQR0h
- CTP/c7apC9wEdkgt4JZK3rqIvfAf2wtixy1WSwwCzNOXKslCEOyrQoyLM/WDL5a26+rS
- xfGw==
+ bh=LgKd1kr+0l/T/EU54OtdSbM7ljWVi4b0faE3cCGA0EQ=;
+ b=q28oC+Q8oDgeJAJ5kz2qU/XA1uzu+NmyHnaLv6/x/1TW99+KiTUjvMK/Z2hkz5bK+s
+ hIYqAhO7DOuN92+JGrZgfHUh1PONkJxknvqVINefP/nPffAE26clM8Wx8cgr4Gllmab+
+ Ijc3IDACBhVivmjiJV6axUmJpW9KOeLcu1M71htrRHLFg1CDmSy02sbzY0mDHD+kBxR2
+ hnxUpTkzqJj/6jFlnW5FckuHVG3QVMVKnYCQ2ZyNMv9yNQQ9nwGLBSmbuRmy6UCmJ5GS
+ 7tmv6Ac2e+sNpvJojYkBNrPrOBxMul8rZZ+MFamFmU200It+8q2/QGQoa7Ul621RsceK
+ CQHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2lV8vgJYRzkBj6vA6hwqKERA8bZrmR1z2r1Kt2NYFM8=;
- b=RD77VucPXsolyEDQbPEuodCDH6IX6524Zhnq5gfzSDvJWahiPP6K1qodGkUmM1r9sg
- 4/bKnz2TKiAD/T0zHz0qmuveNp+/xBxqTPzTUTJipujc3/KABYKMvzZNOvzFNHtNTWhB
- 7k9IAPQStxosMd0X6hpu74PGOqq+/uOQUQd7ynuKNoljmZwmPfsLx9aQAk9z3/Ztgmx/
- XvCfIn+sD+4GWKU/4ggwHnavR0bPGyZ9wjsUYIy0y5qn46DPWcz3XfQhyi26S1MNXevy
- 4Z6awmezH0Ayj9uL8or/hy/PcRFuuVDDp9vE4rBvhO08bpVUeoRmnJTA2kXTVJYX1xGY
- xkNA==
-X-Gm-Message-State: AOAM533SL+yF8MpXv5ihDtBNFxcHGzNJNM4QCROgMpmtsCwDzNVDGEXb
- 1QVLUzMSAYC0Bzw0WCtcp33P6quyguCPJw==
-X-Google-Smtp-Source: ABdhPJxdpmzOYkNeXE1JJ0jSSmSGjHgv5JnWQYMitglxCgq1H6oC2NWID+90sJfkCipvLs38Nz4kAQ==
-X-Received: by 2002:a17:90a:ea8c:: with SMTP id
- h12mr21632542pjz.149.1623659889335; 
+ bh=LgKd1kr+0l/T/EU54OtdSbM7ljWVi4b0faE3cCGA0EQ=;
+ b=ERjQmXFRft6ktt52VaSXpNUBL2aCaib9TD/IY+GGc0ZSmaOIrnkqNOvDgeT9FzUq7f
+ nBWoCS4E52Oz9l01L01nzGtJD/TIq48oDdMEg9vXvv0srVuY/GNN74x/i1LNGV84wDXf
+ sLVXpnU9e/WkN1eu2zmDzsn1Xede6gpzLH9TzwujegyCMJqb7U7dD7/XL0WAcdqvE+8b
+ jxS4tYmeLYCGafaqUPreAtWFsQeS0zcyV1DthScxjqvo9HHJCaiGON5JG2B9M6cNiifu
+ F8/MKCYqfp6mxNqlR9rHIEisZcaTdxCNSJuV9CJWrqJ5HJCKIx3AGFPEvNVkRuVytA/H
+ oAFg==
+X-Gm-Message-State: AOAM532tNICCkxsHZi4jpkiCTU75ltidO1zYquuSYpO+Iv/fIwqWiNI5
+ CY3ezuyuvFvrxl/U36+lYu/aRSeFv7wvJA==
+X-Google-Smtp-Source: ABdhPJwSlBqIFUGou0sc5/2ZkS7XuLMqddtjIwUolxm1FOG1oAnhJSjIs+FopQex1tWTVyAERVE/Mw==
+X-Received: by 2002:a05:6a00:a17:b029:2f9:a2bb:e126 with SMTP id
+ p23-20020a056a000a17b02902f9a2bbe126mr4750977pfh.30.1623659889904; 
  Mon, 14 Jun 2021 01:38:09 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
@@ -56,16 +56,16 @@ Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  Mon, 14 Jun 2021 01:38:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/28] tcg/mips: Support bswap flags in tcg_out_bswap16
-Date: Mon, 14 Jun 2021 01:37:45 -0700
-Message-Id: <20210614083800.1166166-14-richard.henderson@linaro.org>
+Subject: [PATCH 14/28] tcg/mips: Support bswap flags in tcg_out_bswap32
+Date: Mon, 14 Jun 2021 01:37:46 -0700
+Message-Id: <20210614083800.1166166-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210614083800.1166166-1-richard.henderson@linaro.org>
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,128 +88,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merge tcg_out_bswap16 and tcg_out_bswap16s.  Use the flags
+Merge tcg_out_bswap32 and tcg_out_bswap32s.  Use the flags
 in the internal uses for loads and stores.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/mips/tcg-target.c.inc | 60 ++++++++++++++++++---------------------
- 1 file changed, 28 insertions(+), 32 deletions(-)
+ tcg/mips/tcg-target.c.inc | 39 ++++++++++++++++-----------------------
+ 1 file changed, 16 insertions(+), 23 deletions(-)
 
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 5944448b2a..7a5634419c 100644
+index 7a5634419c..e3698274eb 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -540,39 +540,36 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
-     }
+@@ -578,27 +578,20 @@ static void tcg_out_bswap_subr(TCGContext *s, const tcg_insn_unit *sub)
+     tcg_debug_assert(ok);
  }
  
--static inline void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg)
-+static void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
+-static void tcg_out_bswap32(TCGContext *s, TCGReg ret, TCGReg arg)
++static void tcg_out_bswap32(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
  {
-+    /* ret and arg can't be register tmp0 */
-+    tcg_debug_assert(ret != TCG_TMP0);
-+    tcg_debug_assert(arg != TCG_TMP0);
-+
      if (use_mips32r2_instructions) {
          tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
--    } else {
--        /* ret and arg can't be register at */
--        if (ret == TCG_TMP0 || arg == TCG_TMP0) {
--            tcg_abort();
-+        if (flags & TCG_BSWAP_OS) {
-+            tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);
-+        } else if ((flags & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
-+            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xffff);
-         }
--
--        tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
--        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);
--        tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);
--        tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
-+        return;
-     }
+         tcg_out_opc_sa(s, OPC_ROTR, ret, ret, 16);
++        if (flags & TCG_BSWAP_OZ) {
++            tcg_out_opc_bf(s, OPC_DEXT, ret, ret, 31, 0);
++        }
+     } else {
+-        tcg_out_bswap_subr(s, bswap32_addr);
+-        /* delay slot -- never omit the insn, like tcg_out_mov might.  */
+-        tcg_out_opc_reg(s, OPC_OR, TCG_TMP0, arg, TCG_REG_ZERO);
+-        tcg_out_mov(s, TCG_TYPE_I32, ret, TCG_TMP3);
+-    }
 -}
- 
--static inline void tcg_out_bswap16s(TCGContext *s, TCGReg ret, TCGReg arg)
+-
+-static void tcg_out_bswap32u(TCGContext *s, TCGReg ret, TCGReg arg)
 -{
 -    if (use_mips32r2_instructions) {
--        tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
--        tcg_out_opc_reg(s, OPC_SEH, ret, 0, ret);
+-        tcg_out_opc_reg(s, OPC_DSBH, ret, 0, arg);
+-        tcg_out_opc_reg(s, OPC_DSHD, ret, 0, ret);
+-        tcg_out_dsrl(s, ret, ret, 32);
 -    } else {
--        /* ret and arg can't be register at */
--        if (ret == TCG_TMP0 || arg == TCG_TMP0) {
--            tcg_abort();
--        }
--
--        tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
-+    tcg_out_opc_sa(s, OPC_SRL, TCG_TMP0, arg, 8);
-+    if (!(flags & TCG_BSWAP_IZ)) {
-+        tcg_out_opc_imm(s, OPC_ANDI, TCG_TMP0, TCG_TMP0, 0x00ff);
-+    }
-+    if (flags & TCG_BSWAP_OS) {
-         tcg_out_opc_sa(s, OPC_SLL, ret, arg, 24);
-         tcg_out_opc_sa(s, OPC_SRA, ret, ret, 16);
--        tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
-+    } else {
-+        tcg_out_opc_sa(s, OPC_SLL, ret, arg, 8);
+-        tcg_out_bswap_subr(s, bswap32u_addr);
 +        if (flags & TCG_BSWAP_OZ) {
-+            tcg_out_opc_imm(s, OPC_ANDI, ret, ret, 0xff00);
++            tcg_out_bswap_subr(s, bswap32u_addr);
++        } else {
++            tcg_out_bswap_subr(s, bswap32_addr);
 +        }
-     }
-+    tcg_out_opc_reg(s, OPC_OR, ret, ret, TCG_TMP0);
- }
+         /* delay slot -- never omit the insn, like tcg_out_mov might.  */
+         tcg_out_opc_reg(s, OPC_OR, TCG_TMP0, arg, TCG_REG_ZERO);
+         tcg_out_mov(s, TCG_TYPE_I32, ret, TCG_TMP3);
+@@ -1380,7 +1373,7 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, TCGReg lo, TCGReg hi,
+         if (TCG_TARGET_REG_BITS == 64 && is_64) {
+             if (use_mips32r2_instructions) {
+                 tcg_out_opc_imm(s, OPC_LWU, lo, base, 0);
+-                tcg_out_bswap32u(s, lo, lo);
++                tcg_out_bswap32(s, lo, lo, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
+             } else {
+                 tcg_out_bswap_subr(s, bswap32u_addr);
+                 /* delay slot */
+@@ -1393,7 +1386,7 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, TCGReg lo, TCGReg hi,
+     case MO_SL | MO_BSWAP:
+         if (use_mips32r2_instructions) {
+             tcg_out_opc_imm(s, OPC_LW, lo, base, 0);
+-            tcg_out_bswap32(s, lo, lo);
++            tcg_out_bswap32(s, lo, lo, 0);
+         } else {
+             tcg_out_bswap_subr(s, bswap32_addr);
+             /* delay slot */
+@@ -1519,7 +1512,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s, TCGReg lo, TCGReg hi,
+         break;
  
- static void tcg_out_bswap_subr(TCGContext *s, const tcg_insn_unit *sub)
-@@ -1367,14 +1364,14 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, TCGReg lo, TCGReg hi,
-         break;
-     case MO_UW | MO_BSWAP:
-         tcg_out_opc_imm(s, OPC_LHU, TCG_TMP1, base, 0);
--        tcg_out_bswap16(s, lo, TCG_TMP1);
-+        tcg_out_bswap16(s, lo, TCG_TMP1, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
-         break;
-     case MO_UW:
-         tcg_out_opc_imm(s, OPC_LHU, lo, base, 0);
-         break;
-     case MO_SW | MO_BSWAP:
-         tcg_out_opc_imm(s, OPC_LHU, TCG_TMP1, base, 0);
--        tcg_out_bswap16s(s, lo, TCG_TMP1);
-+        tcg_out_bswap16(s, lo, TCG_TMP1, TCG_BSWAP_IZ | TCG_BSWAP_OS);
-         break;
-     case MO_SW:
-         tcg_out_opc_imm(s, OPC_LH, lo, base, 0);
-@@ -1514,8 +1511,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s, TCGReg lo, TCGReg hi,
-         break;
- 
-     case MO_16 | MO_BSWAP:
--        tcg_out_opc_imm(s, OPC_ANDI, TCG_TMP1, lo, 0xffff);
--        tcg_out_bswap16(s, TCG_TMP1, TCG_TMP1);
-+        tcg_out_bswap16(s, TCG_TMP1, lo, 0);
-         lo = TCG_TMP1;
+     case MO_32 | MO_BSWAP:
+-        tcg_out_bswap32(s, TCG_TMP3, lo);
++        tcg_out_bswap32(s, TCG_TMP3, lo, 0);
+         lo = TCG_TMP3;
          /* FALLTHRU */
-     case MO_16:
-@@ -1933,10 +1929,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_not_i64:
-         i1 = OPC_NOR;
-         goto do_unary;
--    case INDEX_op_bswap16_i32:
--    case INDEX_op_bswap16_i64:
--        i1 = OPC_WSBH;
--        goto do_unary;
-     case INDEX_op_ext8s_i32:
-     case INDEX_op_ext8s_i64:
-         i1 = OPC_SEB;
-@@ -1948,6 +1940,10 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_opc_reg(s, i1, a0, TCG_REG_ZERO, a1);
+     case MO_32:
+@@ -1538,9 +1531,9 @@ static void tcg_out_qemu_st_direct(TCGContext *s, TCGReg lo, TCGReg hi,
+             tcg_out_opc_imm(s, OPC_SW, TCG_TMP0, base, 0);
+             tcg_out_opc_imm(s, OPC_SW, TCG_TMP1, base, 4);
+         } else {
+-            tcg_out_bswap32(s, TCG_TMP3, MIPS_BE ? lo : hi);
++            tcg_out_bswap32(s, TCG_TMP3, MIPS_BE ? lo : hi, 0);
+             tcg_out_opc_imm(s, OPC_SW, TCG_TMP3, base, 0);
+-            tcg_out_bswap32(s, TCG_TMP3, MIPS_BE ? hi : lo);
++            tcg_out_bswap32(s, TCG_TMP3, MIPS_BE ? hi : lo, 0);
+             tcg_out_opc_imm(s, OPC_SW, TCG_TMP3, base, 4);
+         }
          break;
- 
-+    case INDEX_op_bswap16_i32:
-+    case INDEX_op_bswap16_i64:
-+        tcg_out_bswap16(s, a0, a1, a2);
-+        break;
+@@ -1945,10 +1938,10 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_bswap16(s, a0, a1, a2);
+         break;
      case INDEX_op_bswap32_i32:
-         tcg_out_bswap32(s, a0, a1);
+-        tcg_out_bswap32(s, a0, a1);
++        tcg_out_bswap32(s, a0, a1, 0);
          break;
+     case INDEX_op_bswap32_i64:
+-        tcg_out_bswap32u(s, a0, a1);
++        tcg_out_bswap32(s, a0, a1, a2);
+         break;
+     case INDEX_op_bswap64_i64:
+         tcg_out_bswap64(s, a0, a1);
 -- 
 2.25.1
 
