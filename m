@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965F83A694B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:49:39 +0200 (CEST)
-Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E83D3A693A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:47:08 +0200 (CEST)
+Received: from localhost ([::1]:57386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsnuE-0004H6-N7
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41058)
+	id 1lsnrn-0007Nb-CY
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lsnpP-0003tB-PH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:44:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53443)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lsnpD-0003Uj-QC
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:44:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lsnpO-0004bR-3I
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:44:39 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lsnp8-0004R3-23
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:44:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623681877;
+ s=mimecast20190719; t=1623681860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hvo5wt/4C8QgqvRFd7e/x5G17WIze7vCdSP12NaNdwk=;
- b=CvcDhOM6jBxYxRMrVT0mrgTC/o0UHKUrlr0WDhyqy0K2f9WUace6+VpSyqHHvTsq0jn4cn
- ZFVdxrI803ecacL1oXkMjwYljzAKVYHuObDdbOpY5LukPEg0lPX8FMTgnne3cDdP8Wm6YO
- DzZpv1jSFe+6Pw2OV9grdVnxb7Emr0I=
+ bh=xf0/ioP3sTr0iCG52PRwvJkqbB8YsZ+UFruvhZnKsn8=;
+ b=LUPYMYY7cylLL7cYmaSUTGCXGSdBshqVcatZCV5W5Ft7M1LwpWUEw7WVMlaOcCE0Sdok6Y
+ VyFDymAZ1jW9UhNxZfhgXxSj/yNtQQmpkKXRest0NMY+cb0iqve/VducSPDiuV+ze6o/F4
+ GX+iS0oM/YJhsAse4RZ0D70kNJG+eQc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-yWBgPhxzPhugXrYpDg3iLA-1; Mon, 14 Jun 2021 10:44:16 -0400
-X-MC-Unique: yWBgPhxzPhugXrYpDg3iLA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-597-cUkNODoOPCCfTdqiqjfM0A-1; Mon, 14 Jun 2021 10:44:19 -0400
+X-MC-Unique: cUkNODoOPCCfTdqiqjfM0A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA6CC100C660;
- Mon, 14 Jun 2021 14:44:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2309C8015D0;
+ Mon, 14 Jun 2021 14:44:18 +0000 (UTC)
 Received: from localhost (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9541C60C0F;
- Mon, 14 Jun 2021 14:44:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 952A15D9CA;
+ Mon, 14 Jun 2021 14:44:17 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 3/4] export/fuse: Let permissions be adjustable
-Date: Mon, 14 Jun 2021 16:44:06 +0200
-Message-Id: <20210614144407.134243-4-mreitz@redhat.com>
+Subject: [PATCH 4/4] iotests/308: Test allow-other
+Date: Mon, 14 Jun 2021 16:44:07 +0200
+Message-Id: <20210614144407.134243-5-mreitz@redhat.com>
 In-Reply-To: <20210614144407.134243-1-mreitz@redhat.com>
 References: <20210614144407.134243-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,122 +81,182 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow changing the file mode, UID, and GID through SETATTR.
+We cannot reasonably test the main point of allow-other, which is to
+allow users other than the current one to access the FUSE export,
+because that would require access to sudo, which this test most likely
+will not have.  (Also, we would need to figure out some user/group that
+is on the machine and that is not the current user/group, which may
+become a bit hairy.)
 
-This only really makes sense with allow-other, though (because without
-it, the effective access mode is fixed to be 0600 (u+rw) with qemu's
-user being the file's owner), so changing these stat fields is not
-allowed without allow-other.
+But we can test some byproducts: First, whether changing permissions
+works (our FUSE code only allows so for allow-other=true), and second,
+whether the kernel applies permission checks with allow-other=true
+(because that implies default_permissions).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/export/fuse.c | 48 ++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 37 insertions(+), 11 deletions(-)
+ tests/qemu-iotests/308     | 91 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/308.out | 47 ++++++++++++++++++++
+ 2 files changed, 138 insertions(+)
 
-diff --git a/block/export/fuse.c b/block/export/fuse.c
-index 1d54286d90..742e0af657 100644
---- a/block/export/fuse.c
-+++ b/block/export/fuse.c
-@@ -47,6 +47,10 @@ typedef struct FuseExport {
-     bool writable;
-     bool growable;
-     bool allow_other;
+diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
+index f122065d0f..1b2f908947 100755
+--- a/tests/qemu-iotests/308
++++ b/tests/qemu-iotests/308
+@@ -334,6 +334,97 @@ echo '=== Compare copy with original ==='
+ 
+ $QEMU_IMG compare -f raw -F $IMGFMT "$COPIED_IMG" "$TEST_IMG"
+ 
++echo
++echo '=== Test permissions ==='
 +
-+    mode_t st_mode;
-+    uid_t st_uid;
-+    gid_t st_gid;
- } FuseExport;
- 
- static GHashTable *exports;
-@@ -120,6 +124,13 @@ static int fuse_export_create(BlockExport *blk_exp,
-     exp->growable = args->growable;
-     exp->allow_other = args->allow_other;
- 
-+    exp->st_mode = S_IFREG | S_IRUSR;
-+    if (exp->writable) {
-+        exp->st_mode |= S_IWUSR;
-+    }
-+    exp->st_uid = getuid();
-+    exp->st_gid = getgid();
++# Test that you can only change permissions on the export with allow-other=true.
++# We cannot really test the primary reason behind allow-other (i.e. to allow
++# users other than the current one access to the export), because for that we
++# would need sudo, which realistically nobody will allow this test to use.
++# What we can do is test that allow-other=true also enables default_permissions,
++# i.e. whether we can still read from the file if we remove the read permission.
 +
-     ret = setup_fuse_export(exp, args->mountpoint, errp);
-     if (ret < 0) {
-         goto fail;
-@@ -329,7 +340,6 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
-     int64_t length, allocated_blocks;
-     time_t now = time(NULL);
-     FuseExport *exp = fuse_req_userdata(req);
--    mode_t mode;
- 
-     length = blk_getlength(exp->common.blk);
-     if (length < 0) {
-@@ -344,17 +354,12 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
-         allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
-     }
- 
--    mode = S_IFREG | S_IRUSR;
--    if (exp->writable) {
--        mode |= S_IWUSR;
--    }
--
-     statbuf = (struct stat) {
-         .st_ino     = inode,
--        .st_mode    = mode,
-+        .st_mode    = exp->st_mode,
-         .st_nlink   = 1,
--        .st_uid     = getuid(),
--        .st_gid     = getgid(),
-+        .st_uid     = exp->st_uid,
-+        .st_gid     = exp->st_gid,
-         .st_size    = length,
-         .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
-         .st_blocks  = allocated_blocks,
-@@ -400,15 +405,23 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
- }
- 
- /**
-- * Let clients set file attributes.  Only resizing is supported.
-+ * Let clients set file attributes.  With allow_other, only resizing and
-+ * changing permissions (st_mode, st_uid, st_gid) is allowed.  Without
-+ * allow_other, only resizing is supported.
-  */
- static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-                          int to_set, struct fuse_file_info *fi)
- {
-     FuseExport *exp = fuse_req_userdata(req);
-+    int supported_attrs;
-     int ret;
- 
--    if (to_set & ~FUSE_SET_ATTR_SIZE) {
-+    supported_attrs = FUSE_SET_ATTR_SIZE;
-+    if (exp->allow_other) {
-+        supported_attrs |= FUSE_SET_ATTR_MODE | FUSE_SET_ATTR_UID |
-+            FUSE_SET_ATTR_GID;
-+    }
-+    if (to_set & ~supported_attrs) {
-         fuse_reply_err(req, ENOTSUP);
-         return;
-     }
-@@ -426,6 +439,19 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-         }
-     }
- 
-+    if (to_set & FUSE_SET_ATTR_MODE) {
-+        /* Only allow changing the file mode, not the type */
-+        exp->st_mode = (statbuf->st_mode & 07777) | S_IFREG;
-+    }
++# $1: allow-other value ('true' or 'false')
++run_permission_test()
++{
++    # Below, we want to test permission checks on the export.  To do that
++    # properly, we need to ensure that those checks are not bypassed, so we have
++    # to drop cap_dac_override.
++    # (Note that cap_dac_read_search bypasses read permission checks, which is
++    # why we try to open the file R/W below, so we do not have to care about
++    # cap_dac_read_search here.)
++    # $capsh is effectively a shell command, i.e. can be used like:
++    #   $capsh -c "$command $args..."
++    # By default it is just bash.
++    capsh='/usr/bin/env bash'
++    if type -p capsh > /dev/null; then
++        if ! capsh --has-p=cap_dac_override 2>/dev/null; then
++            # No cap_dac_override, we are good to go
++            true # pass
++        elif capsh --has-p=cap_setpcap 2>/dev/null; then
++            # We will need to drop cap_dac_override, but doing so requires
++            # cap_setpcap in turn
++            capsh='capsh --drop=cap_dac_override --'
++        else
++            # Hopefully a rare case
++            _notrun 'CAP_DAC_OVERRIDE must be dropped, but this cannot be' \
++                    'done without CAP_SETPCAP'
++        fi
++    elif [ "$(id -u)" -ne 0 ]; then
++        # Non-root users probably do not have those capabilities, so try to get
++        # by without capsh
++        true # pass
++    else
++        # Running this test as root without capsh on the system should be a rare
++        # case...
++        _notrun 'No capsh found while run as root'
++    fi
 +
-+    if (to_set & FUSE_SET_ATTR_UID) {
-+        exp->st_uid = statbuf->st_uid;
-+    }
++    _launch_qemu \
++        -blockdev \
++        "$IMGFMT,node-name=node-format,file.driver=file,file.filename=$TEST_IMG"
 +
-+    if (to_set & FUSE_SET_ATTR_GID) {
-+        exp->st_gid = statbuf->st_gid;
-+    }
++    _send_qemu_cmd $QEMU_HANDLE \
++        "{'execute': 'qmp_capabilities'}" \
++        'return'
 +
-     fuse_getattr(req, inode, fi);
- }
++    # Writable so we can open it R/W below
++    fuse_export_add 'export' \
++        "'mountpoint': '$EXT_MP',
++         'writable': true,
++         'allow-other': $1"
++
++    echo '(Invoking chmod)'
++    chmod 666 "$EXT_MP" 2>&1 | _filter_testdir | _filter_imgfmt
++    stat -c 'Permissions post-chmod: %a' "$EXT_MP"
++
++    echo '(Removing all permissions)'
++    chmod 000 "$EXT_MP" 2>&1 | _filter_testdir | _filter_imgfmt
++
++    # We want a permission denied here (with allow-other=true)
++    # (Use $QEMU_IO_PROG, because $capsh will not know the wrapper that is
++    # $QEMU_IO)
++    # Use blkdebug to force-take the WRITE permission so this will definitely
++    # try to open the export with O_RDWR.
++    imgopts="driver=blkdebug,take-child-perms.0=write,"
++    imgopts+="image.driver=file,image.filename=$EXT_MP"
++    $capsh -c "$QEMU_IO_PROG -c quit --image-opts '$imgopts'" 2>&1 \
++        | _filter_qemu_io | _filter_testdir | _filter_imgfmt
++
++    _send_qemu_cmd $QEMU_HANDLE \
++        "{'execute': 'quit'}" \
++        'return'
++
++    wait=yes _cleanup_qemu
++}
++
++for ao in 'false' 'true'; do
++    echo
++    echo "--- allow-other=$ao ---"
++
++    run_permission_test "$ao"
++done
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/308.out b/tests/qemu-iotests/308.out
+index 466e7e0267..4620efbb0d 100644
+--- a/tests/qemu-iotests/308.out
++++ b/tests/qemu-iotests/308.out
+@@ -167,4 +167,51 @@ OK: Post-truncate image size is as expected
  
+ === Compare copy with original ===
+ Images are identical.
++
++=== Test permissions ===
++
++--- allow-other=false ---
++{'execute': 'qmp_capabilities'}
++{"return": {}}
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse',
++         'writable': true,
++         'allow-other': false
++          } }
++{"return": {}}
++(Invoking chmod)
++chmod: changing permissions of 'TEST_DIR/t.IMGFMT.fuse': Operation not supported
++Permissions post-chmod: 600
++(Removing all permissions)
++chmod: changing permissions of 'TEST_DIR/t.IMGFMT.fuse': Operation not supported
++{'execute': 'quit'}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export"}}
++
++--- allow-other=true ---
++{'execute': 'qmp_capabilities'}
++{"return": {}}
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse',
++         'writable': true,
++         'allow-other': true
++          } }
++{"return": {}}
++(Invoking chmod)
++Permissions post-chmod: 666
++(Removing all permissions)
++qemu-io: can't open: Could not open 'TEST_DIR/t.IMGFMT.fuse': Permission denied
++{'execute': 'quit'}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export"}}
+ *** done
 -- 
 2.31.1
 
