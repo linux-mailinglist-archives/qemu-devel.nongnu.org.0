@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53473A6C5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:48:24 +0200 (CEST)
-Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8713A6C60
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:49:24 +0200 (CEST)
+Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lspl9-00012T-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
+	id 1lspm7-0002kw-6a
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lspje-00007h-Hl
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:46:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1lspjY-0000Op-M2
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:46:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623689203;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NJ0P/uzA+zT9W1qNlwTiKSQ9DozhukuwdV3HKyMwYGM=;
- b=cjb5HyLzKgV05mlBHk5A7+4MR3HdwQ0HorVPG6nFuatF94WSCwMplWkqJ0536YaaJwHBcZ
- Zwtvv21zQZcSb5e1+pTxiJKupT+gAhEl7qmAIq+ztROirXOjEzwcYL4mRopmzjA3JKvBNT
- 64CHSVIHv0N3+UtZ+401Q55qrP91ZUQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-MVl0B6zaOM6LOFXvBwXgxw-1; Mon, 14 Jun 2021 12:46:42 -0400
-X-MC-Unique: MVl0B6zaOM6LOFXvBwXgxw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g14-20020a05600c4eceb02901b609849650so6358458wmq.6
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 09:46:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lspkx-0001OP-RB; Mon, 14 Jun 2021 12:48:11 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lspkv-00016p-Qo; Mon, 14 Jun 2021 12:48:11 -0400
+Received: by mail-wr1-x431.google.com with SMTP id y7so15251398wrh.7;
+ Mon, 14 Jun 2021 09:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RgAEWXV5nmKU4Q3sRG1D5iVG3H2VEgfGtqlH75QAXBU=;
+ b=h7VmdlcDOytExUrn1YjBWVrOg6lNRTwrJFPNja3CZHs7NzUw+33TvJXpfmlSit/uj8
+ f+tx6rsEzEbwSHPMF5qDvcSZX//62/NM+r6HmZZ3iyJKg6iPMhSuQVZeG0jNepgjrPY2
+ MrUvTv9GM/Re0cIx0OBBCh9D8WUbTNZ2Ol0a1od2Fv2c5uq1CBFVh5Nr6EqQ0JkKDvb3
+ 8oO3cRHPapgLigcaBAugF8bRxUij6KzNSzxNiV1FaKaZFMO3810krEuwF2zIV7kWAloM
+ LKbNuAyoAReSdp3LgqF3qA/np5gOy+m6qHh/fOaSqtGbR8FrB7BixxUvTzXURMvZRCrj
+ iSJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=NJ0P/uzA+zT9W1qNlwTiKSQ9DozhukuwdV3HKyMwYGM=;
- b=ioVLx/BrtMNDYS0RwqRCCA/pWTWrhMDPEN6cvc2Rp4BOHisMg2i8XHQmLPUpQrKKsg
- uBP0dZx/zYdfPm9cbQyitoQWjvbudjVH6TkR5s0EX00FPzxVI1ucNM0dTHgB7Gc9y8HM
- ueQuodZv8IDbRixEo0iAxvRKKP+PbX11S7eBWGhbv5vBGBN1cFQa238LvpKI2R/sYlTW
- k0HulAkmxc0RJm+BlNhYeTAsUyfsXW2RqG0jjFyktObgXOrAX3WBbyTdi/qWubXdiDXX
- aCA/+xfZ9fpRNIug/Cw31AiAnorJKAB8Dh9gwE1dWrVQkN4oYJaep+jRTUuRteP9r+eV
- Gy5g==
-X-Gm-Message-State: AOAM532Hs7WhJ2iMhYK35awncCYZBXawwscWOYxWMLGvNFqNm4JIvl/p
- TuFpjih7gsPEOS65UoGXMTCNIQazNGHbgsuJC9s1OI7DmKvs/N/RqhlaNH4lTDK6tLmYjbzw46q
- EDs6KAZeqyK13anU=
-X-Received: by 2002:a05:600c:ada:: with SMTP id
- c26mr33326644wmr.189.1623689201042; 
- Mon, 14 Jun 2021 09:46:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2BmwDcLIejxbq7UJtSMjHkDR7mkriHfcEzg7w0fFfNgzENAbRZvYxU6Qy7gEq6wQVEjsxzw==
-X-Received: by 2002:a05:600c:ada:: with SMTP id
- c26mr33326629wmr.189.1623689200902; 
- Mon, 14 Jun 2021 09:46:40 -0700 (PDT)
-Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
- by smtp.gmail.com with ESMTPSA id t66sm12864wma.41.2021.06.14.09.46.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 09:46:40 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v2] hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds
-In-Reply-To: <20210601141805.206582-1-peterx@redhat.com> (Peter Xu's message
- of "Tue, 1 Jun 2021 10:18:05 -0400")
-References: <20210601141805.206582-1-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Mon, 14 Jun 2021 18:46:39 +0200
-Message-ID: <875yyggzrk.fsf@secure.mitica>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RgAEWXV5nmKU4Q3sRG1D5iVG3H2VEgfGtqlH75QAXBU=;
+ b=RDLHYji1H2bnspgXZdvKMcjpOHEhNnbKL6cyVlC4L1Eo45vX6XzSTaQRU+ZPpGVzWM
+ PqbdhVAMxT8Pb4AJgc6W7EMmBSpUp7nJ3WGPE9wSLpHXWMVx8XRFlZ8SpDkuv9JF2rT2
+ eGRvrBOmuYjy8AASifocDz07iGweoBIE6y6TpkEx7sdmKzgrbf5vG3VEeAbApUxW19I8
+ lz/RPxPVcL5Qae+Y4K+YOSj8L8y0u2OXaJ8/KiEghKt4+3dAxOOp3FQhlfZwHc5ruqYZ
+ ojODniClHGsmfzp+v5XzAyNM17XAmzuwaqXM/63U37bLiby5X3xSXDaQ73g2Lqk5YdZ2
+ oR+w==
+X-Gm-Message-State: AOAM530t7kd0IPX7ebM18evxP2IuRXOd14pC7UYqlUvup0oFz19dvNWE
+ o1A1VkwF+xxE5K1D+vkBnxQ=
+X-Google-Smtp-Source: ABdhPJzGD1dcQVbUhdISGbMyJUfgw0bxvrSI3JC4s2zsJ06qz2wb8l18ikOsCk6bgbAFfbkqxzkH0A==
+X-Received: by 2002:a5d:540a:: with SMTP id g10mr20087578wrv.254.1623689287677; 
+ Mon, 14 Jun 2021 09:48:07 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id x125sm14643733wmg.37.2021.06.14.09.48.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 09:48:06 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] i2c: Match parameters of i2c_start_transfer and
+ i2c_send_recv
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20200623063123.20776-1-f4bug@amsat.org>
+ <46692025-50b-2734-e394-513b2761b979@eik.bme.hu>
+ <8230aaa5-73b4-4bf6-6567-38bb5cde3883@amsat.org>
+ <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <df15b240-af9b-49d3-178a-d0fb8de63aa3@amsat.org>
+Date: Mon, 14 Jun 2021 18:48:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,27 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Chuan Zheng <zhengchuan@huawei.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>, huangy81@chinatelecom.cn,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> wrote:
-> These two commands are missing when adding the QMP sister commands.  Add them,
-> so developers can play with them easier.
->
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-> Cc: Chuan Zheng <zhengchuan@huawei.com>
-> Cc: huangy81@chinatelecom.cn
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
-> v2:
-> - rebase to "migration/dirtyrate: make sample page count configurable"
+On 6/14/21 12:02 PM, BALATON Zoltan wrote:
+> On Mon, 14 Jun 2021, Philippe Mathieu-Daudé wrote:
+>> On 6/12/21 9:33 PM, BALATON Zoltan wrote:
+>>> Hello,
+>>>
+>>> On Tue, 23 Jun 2020, Philippe Mathieu-Daudé wrote:
+>>>> This is v2 of Zoltan's patch:
+>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
+>>>>
+>>>> - rebased
+>>>> - added docstring
+>>>> - include hw/misc/auxbus.c fix
+>>>>
+>>>> Supersedes: <20200621145235.9E241745712@zero.eik.bme.hu>
+>>>
+>>> What happened to this series? I did not find it in patchew, only my
+>>> original patch:
+>>>
+>>> https://patchew.org/QEMU/20200621145235.9E241745712@zero.eik.bme.hu/
+>>>
+>>> I still have this in one of my branches so I think it was not merged at
+>>> the end. Could this be resurrected or should I forget about it and live
+>>> with the inconsistency in parameters instead?
+>>
+>> I suppose it was not queued because you asked to remove the
+>> "Reported-by" tag :/ I agree with you it would be nice to get this in
+>> the tree
+> 
+> I think I said only Reported-by is enough no need for Suggested-by as
+> well but I don't see this as a reason to drop these patches. So maybe
+> just nobody cared enough.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Ah OK now got it.
 
+>> for good. However 1 year passed, so it might need adjustment.
+> 
+> Should I try to rebase it or will you do it eventually?
+
+Found the branch and clean rebase, so no change needed.
+
+Corey, if you are busy, I could send a pull request if you provide
+and Acked-by tag.
+
+Regards,
+
+Phil.
 
