@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253DD3A6F3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 21:37:38 +0200 (CEST)
-Received: from localhost ([::1]:56730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B453A6F3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 21:39:29 +0200 (CEST)
+Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lssOv-0006Nj-77
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 15:37:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43796)
+	id 1lssQi-0001gG-Df
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 15:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1lssLv-0008QH-4n; Mon, 14 Jun 2021 15:34:31 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:34469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1lssLt-0005zZ-74; Mon, 14 Jun 2021 15:34:30 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- w22-20020a0568304116b02904060c6415c7so9636777ott.1; 
- Mon, 14 Jun 2021 12:34:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Vh5C5adlkwWDHCjhndqAphgFzNLlmqEewOmbcb8yvoI=;
- b=hPUUaTtqIoRXsXa3hSGT4GIffHInIqef8zcGvmcM/+fV/mKkHwKPKfCEMiJqmXSBkp
- hMSLxEtgvqJ3A5dv9r7KTQb+mYq9AKt8PPJsXT4U9I8zGV1I+T7wiO3owHqfI5ZFnmJs
- mtW3nSon7SFRWI1BpSPF2z4/EblKE7uxXC4j2jEeCs3Rn1JofPF+Xur17sBbgQ9BGJDA
- KthQfW6x15ub5gv4Fb+PguZiJrBlpL62/xICoghYoz9YM/l8zCYNdNeqnRJZZxnVs92K
- 9bXj41+G+WnlvLA68DwgysPY3EtjT7n/+Yn/nGiwU8nrb4hMZOG5BLsv6OrYWQPUB1c0
- tH3w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lssPK-0000Qu-4i
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:38:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50963)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lssPH-0008Ge-KK
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:38:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623699478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gq7ZN66oJ5BhjrROSkXfWSoJ2dGZUClBMhvzEU7guco=;
+ b=EJvMenNKDTqY93Pj61PDNW3g96FZbAGXMofmgfLXHTDx1Na3keaUA0sQq368tlJCfS7vCC
+ f/SbaST3wUz5M32wHde2fuGhW6CpJ4sJa2k5AF7F2L3JqCoTzvzYfI6P4z0ReDuPS2tY41
+ w7ladLfR4gqGQt8JL/YXXeHApHTxQzo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-IMX6d4yrMmOs7NUPJuwf6w-1; Mon, 14 Jun 2021 15:37:57 -0400
+X-MC-Unique: IMX6d4yrMmOs7NUPJuwf6w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k11-20020adfe3cb0000b0290115c29d165cso7451028wrm.14
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 12:37:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=Vh5C5adlkwWDHCjhndqAphgFzNLlmqEewOmbcb8yvoI=;
- b=bfOqqFMV8VF+hcLHMJJPsUSGlBOKTzF2fKWJv0txRwlymsnXMg9QlU/YhWRloIWsqw
- N5Y+mQsTYnaSzLdJ3JFyWtvO9yq4c6IIuL509VaDTYfsoooWPC6t4slZgdkxpYRqsM+p
- h88p66rwG//oijCgxnGxzR9cdwEbne0kQk/tbreJxNl5jZPWSMU4rx5BqqxlgPjKijNL
- slpxBuWvzUGm6rARyDULS02edcZRw8vmOWgMebuzxVdli3eCv4Ik3T7r6RWPhPhfzEI8
- 6TkdN4RopyWyZ6BTXvhMCicr7K2IioZaP258JixItUmxSTB7hK0ZWOaQzzufpCt/oJe8
- 6ORA==
-X-Gm-Message-State: AOAM530XYxxlYsyZsnrgmdxbhcMx6otN4e2pttBdf7ovr0elFmRwWfQ3
- HoO3p4nIVcOSr25vM9UHXQ==
-X-Google-Smtp-Source: ABdhPJwtu5vUQx3wwjeK7IK/fOkTI1gR8/hAaR7J4wJW9MIOmDXww0vD1KSzNHvmLBCKsXZ9AIVcQg==
-X-Received: by 2002:a9d:945:: with SMTP id 63mr14917814otp.47.1623699266841;
- Mon, 14 Jun 2021 12:34:26 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id u42sm2886396oiw.50.2021.06.14.12.34.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 12:34:25 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:50dd:ab38:f475:bd86])
- by serve.minyard.net (Postfix) with ESMTPSA id 138AF181192;
- Mon, 14 Jun 2021 19:34:25 +0000 (UTC)
-Date: Mon, 14 Jun 2021 14:34:23 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 0/3] i2c: Match parameters of i2c_start_transfer and
- i2c_send_recv
-Message-ID: <20210614193423.GE2921206@minyard.net>
-References: <20200623063123.20776-1-f4bug@amsat.org>
- <46692025-50b-2734-e394-513b2761b979@eik.bme.hu>
- <8230aaa5-73b4-4bf6-6567-38bb5cde3883@amsat.org>
- <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
- <df15b240-af9b-49d3-178a-d0fb8de63aa3@amsat.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gq7ZN66oJ5BhjrROSkXfWSoJ2dGZUClBMhvzEU7guco=;
+ b=PhtkZQc5wH6Ld4hB6olxXg8/5YA7yhQnn7LtCu9SFBvqajkpCH/7L0FV/c/ONq79/4
+ Sc4MJ15soHh9Cqc42DPOQNEAHOJIBXKPqxMGOvOEZg2VmkR82m6lHVNrENKHI0tu8vQB
+ 5xjG0xh50KaINzZ/NkxwGpkZBuGasHz9FlfDnUqqGNirVBgmnKWKW1lwjlHuA9ZJuo0m
+ 0Mw1blyc82PpjMYpPKkFkETllRjaCGPvxykx4MA5DZF6mJZj0AuEAep2Z7fzhIjW+By3
+ I/youAYu1/73jIIH9Ha/D53Z4XKC8xcXgV+wU9Bl5yl7KzSptro5V7PUHjwydu2K2Pet
+ 3uyw==
+X-Gm-Message-State: AOAM531ZUuTYZn+ZduN8muZtNjNrBQtkDTaYOGZgFGBOFmaDyd6NT8O8
+ D/MW4+gF8aGhBhmhWaex/41JYsAgiVZrY9rWywHsHlW0WKOE6iIi+n+smWtYly5UXR7boAfhRFo
+ w323TJPHXc8HfvxA=
+X-Received: by 2002:a05:6000:186c:: with SMTP id
+ d12mr20720651wri.123.1623699476213; 
+ Mon, 14 Jun 2021 12:37:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMAL49NwKSe4SQvE1OpAiaXxYPvlZ5I+WBy6VqFLzueN6zUWBX++VZ1tOap7TmTQbeT4BVIg==
+X-Received: by 2002:a05:6000:186c:: with SMTP id
+ d12mr20720629wri.123.1623699476006; 
+ Mon, 14 Jun 2021 12:37:56 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id a9sm8817458wrv.37.2021.06.14.12.37.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 12:37:55 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
+ priviledged addresses
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
+ qemu-devel@nongnu.org
+References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+ <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d7254eff-c9f8-36bf-b951-242c1b21f5f8@redhat.com>
+Date: Mon, 14 Jun 2021 21:37:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <df15b240-af9b-49d3-178a-d0fb8de63aa3@amsat.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,67 +103,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Corey Minyard <cminyard@mvista.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, Miroslav Rezanina <mrezanin@redhat.com>,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 14, 2021 at 06:48:05PM +0200, Philippe Mathieu-Daudé wrote:
-> On 6/14/21 12:02 PM, BALATON Zoltan wrote:
-> > On Mon, 14 Jun 2021, Philippe Mathieu-Daudé wrote:
-> >> On 6/12/21 9:33 PM, BALATON Zoltan wrote:
-> >>> Hello,
-> >>>
-> >>> On Tue, 23 Jun 2020, Philippe Mathieu-Daudé wrote:
-> >>>> This is v2 of Zoltan's patch:
-> >>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
-> >>>>
-> >>>> - rebased
-> >>>> - added docstring
-> >>>> - include hw/misc/auxbus.c fix
-> >>>>
-> >>>> Supersedes: <20200621145235.9E241745712@zero.eik.bme.hu>
-> >>>
-> >>> What happened to this series? I did not find it in patchew, only my
-> >>> original patch:
-> >>>
-> >>> https://patchew.org/QEMU/20200621145235.9E241745712@zero.eik.bme.hu/
-> >>>
-> >>> I still have this in one of my branches so I think it was not merged at
-> >>> the end. Could this be resurrected or should I forget about it and live
-> >>> with the inconsistency in parameters instead?
-> >>
-> >> I suppose it was not queued because you asked to remove the
-> >> "Reported-by" tag :/ I agree with you it would be nice to get this in
-> >> the tree
-> > 
-> > I think I said only Reported-by is enough no need for Suggested-by as
-> > well but I don't see this as a reason to drop these patches. So maybe
-> > just nobody cared enough.
+On 6/14/21 9:16 PM, Bruno Larsen (billionai) wrote:
+> This patch changes ppc_cpu_get_phys_page_debug so that it is now
+> able to translate both, priviledged and real mode addresses
+> independently of whether the CPU executing it has those permissions
 > 
-> Ah OK now got it.
+> This was mentioned by Fabiano as something that would be very useful to
+> help with debugging, but could possibly constitute a security issue if
+> that debug function can be called in some way by prodution code. the
+> solution was implemented such that it would be trivial to wrap it around
+> ifdefs for building only with --enable-debug, for instance, but we are
+> not sure this is the best approach, hence why it is an RFC.
 > 
-> >> for good. However 1 year passed, so it might need adjustment.
-> > 
-> > Should I try to rebase it or will you do it eventually?
+> Suggested-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+> ---
+>  target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 > 
-> Found the branch and clean rebase, so no change needed.
-> 
-> Corey, if you are busy, I could send a pull request if you provide
-> and Acked-by tag.
+> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> index 9dcdf88597..41c727c690 100644
+> --- a/target/ppc/mmu_helper.c
+> +++ b/target/ppc/mmu_helper.c
+> @@ -2947,6 +2947,29 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+>                    cpu_mmu_index(&cpu->env, true), false)) {
+>          return raddr & TARGET_PAGE_MASK;
+>      }
+> +
+> +    /*
+> +     * This is a fallback, in case we're asking for priviledged memory to
+> +     * be printed, but the PCU is not executing in a priviledged manner.
+> +     *
+> +     * The code could be considered a security vulnerability if
+> +     * this function can be called in a scenario that does not involve
+> +     * debugging.
+> +     * Given the name and how useful using real addresses may be for
+> +     * actually debugging, however, we decided to include it anyway and
+> +     * discuss how to best avoid the possible security concerns.
+> +     * The current plan is that, if there is a chance this code is called in
+> +     * a production environment, we can surround it with ifdefs so that it
+> +     * is only compiled with --enable-debug
 
-I'm somewhat worried about the silent semantic change.  I would much
-prefer the functions to be renamed, as you mentioned in an email a while
-ago.  I think that you mentioned this in an email in the chain listed
-above, and I think I pulled it for that reason.
+Nothing forbid us to use --enable-debug in a production environment.
 
--corey
+> +     */
+> +        /* attempt to translate first with virtual addresses */
+> +    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 1, false) ||
+> +        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 1, false) ||
+> +        /* if didn't work, attempt to translate with real addresses */
+> +        ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 3, false) ||
+> +        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 3, false)) {
+> +        return raddr & TARGET_PAGE_MASK;
+> +    }
+>      return -1;
+>  }
+>  
+> 
 
-> 
-> Regards,
-> 
-> Phil.
-> 
 
