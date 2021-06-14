@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA24B3A5E33
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:16:26 +0200 (CEST)
-Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332733A5E4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:21:18 +0200 (CEST)
+Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshlh-0008EN-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:16:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40950)
+	id 1lshqP-0001bE-7S
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:21:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshhZ-0002Rv-R0
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:12:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25752)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lshk6-0006VK-Aw
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:14:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshhW-0000hV-M7
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:12:09 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lshk3-0002UR-9J
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:14:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623658325;
+ s=mimecast20190719; t=1623658481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rcjc6r/f+mn3kfy0n6RxXUHxQBUJj4DkTyKgaGZzToQ=;
- b=cd8hynZjY/jJ6WCR2Keh+gYf56wXsTmbzIdtwAGYoqnXctsA652HWnF6I38Dl3skr/Jvyg
- pgB+RcrsZcn/Yspi4bjJOtVd9saMsMg5zAMVXC32HsuWNmj1cFLykFVbx9npOY+UXRdzGz
- jYTEGTQSp5NDtjgTPvRFim6UwV28Ojc=
+ bh=EL49Jc0ypJSBMBoNvS3uJEIEbnKQZXQovJWc/1s6vQA=;
+ b=AMFJ+D4JI4DuJuLTw7En5Gza+PcxrTdl86Pxjdk5ppAW+SZZQ+JHjnYd47pg8GJeK3zDhM
+ qp1kRnZS9y59YVyfYTN65n+BFJU3S4tPYSXVjjy1rimfx1i38uHyj6ANbEnTE1RDvb+MNs
+ 5vG+FuBoD5/KQsEhirM3BWm72h7KIjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-Beyg8RgYMpyTCj_iryJdLQ-1; Mon, 14 Jun 2021 04:12:03 -0400
-X-MC-Unique: Beyg8RgYMpyTCj_iryJdLQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-529-42p1YH92Os-m082YERzx4g-1; Mon, 14 Jun 2021 04:14:34 -0400
+X-MC-Unique: 42p1YH92Os-m082YERzx4g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0DF08B78A8;
- Mon, 14 Jun 2021 08:12:02 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
- [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 919985D6A8;
- Mon, 14 Jun 2021 08:11:47 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 5/5] co-shared-resource: protect with a mutex
-Date: Mon, 14 Jun 2021 10:11:30 +0200
-Message-Id: <20210614081130.22134-6-eesposit@redhat.com>
-In-Reply-To: <20210614081130.22134-1-eesposit@redhat.com>
-References: <20210614081130.22134-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37125A40C4;
+ Mon, 14 Jun 2021 08:14:32 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19762189C7;
+ Mon, 14 Jun 2021 08:14:26 +0000 (UTC)
+Date: Mon, 14 Jun 2021 10:14:26 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v3 0/7] acpi: Error Record Serialization Table, ERST,
+ support for QEMU
+Message-ID: <20210614101426.5c814ef9@redhat.com>
+In-Reply-To: <CO1PR10MB4531BD9AC25B8A64611702E997389@CO1PR10MB4531.namprd10.prod.outlook.com>
+References: <1622225659-16847-1-git-send-email-eric.devolder@oracle.com>
+ <20210607144959.65b4c5a6@redhat.com>
+ <CO1PR10MB4531BD9AC25B8A64611702E997389@CO1PR10MB4531.namprd10.prod.outlook.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,116 +81,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>, Konrad Wilk <konrad.wilk@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-co-shared-resource is currently not thread-safe, as also reported
-in co-shared-resource.h. Add a QemuMutex because co_try_get_from_shres
-can also be invoked from non-coroutine context.
+On Mon, 7 Jun 2021 21:03:06 +0000
+Eric DeVolder <eric.devolder@oracle.com> wrote:
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- include/qemu/co-shared-resource.h |  4 +---
- util/qemu-co-shared-resource.c    | 24 +++++++++++++++++++-----
- 2 files changed, 20 insertions(+), 8 deletions(-)
+> Igor,
+> Thanks for the information/feedback. I am working to implement all your suggestions; from my perspective, there were two big changes requested, and the use of hostmem-file was the first, and the conversion to PCI the second. V3 was the hostmem-file, and hopefully all changes then in v4.
 
-diff --git a/include/qemu/co-shared-resource.h b/include/qemu/co-shared-resource.h
-index 4e4503004c..78ca5850f8 100644
---- a/include/qemu/co-shared-resource.h
-+++ b/include/qemu/co-shared-resource.h
-@@ -26,15 +26,13 @@
- #ifndef QEMU_CO_SHARED_RESOURCE_H
- #define QEMU_CO_SHARED_RESOURCE_H
- 
--
-+/* Accesses to co-shared-resource API are thread-safe */
- typedef struct SharedResource SharedResource;
- 
- /*
-  * Create SharedResource structure
-  *
-  * @total: total amount of some resource to be shared between clients
-- *
-- * Note: this API is not thread-safe.
-  */
- SharedResource *shres_create(uint64_t total);
- 
-diff --git a/util/qemu-co-shared-resource.c b/util/qemu-co-shared-resource.c
-index 1c83cd9d29..a66cc07e75 100644
---- a/util/qemu-co-shared-resource.c
-+++ b/util/qemu-co-shared-resource.c
-@@ -28,10 +28,13 @@
- #include "qemu/co-shared-resource.h"
- 
- struct SharedResource {
--    uint64_t total;
--    uint64_t available;
-+    uint64_t total; /* Set in shres_create() and not changed anymore */
- 
-+    /* State fields protected by lock */
-+    uint64_t available;
-     CoQueue queue;
-+
-+    QemuMutex lock;
- };
- 
- SharedResource *shres_create(uint64_t total)
-@@ -40,6 +43,7 @@ SharedResource *shres_create(uint64_t total)
- 
-     s->total = s->available = total;
-     qemu_co_queue_init(&s->queue);
-+    qemu_mutex_init(&s->lock);
- 
-     return s;
- }
-@@ -47,10 +51,12 @@ SharedResource *shres_create(uint64_t total)
- void shres_destroy(SharedResource *s)
- {
-     assert(s->available == s->total);
-+    qemu_mutex_destroy(&s->lock);
-     g_free(s);
- }
- 
--bool co_try_get_from_shres(SharedResource *s, uint64_t n)
-+/* Called with lock held. */
-+static bool co_try_get_from_shres_locked(SharedResource *s, uint64_t n)
- {
-     if (s->available >= n) {
-         s->available -= n;
-@@ -60,16 +66,24 @@ bool co_try_get_from_shres(SharedResource *s, uint64_t n)
-     return false;
- }
- 
-+bool co_try_get_from_shres(SharedResource *s, uint64_t n)
-+{
-+    QEMU_LOCK_GUARD(&s->lock);
-+    return co_try_get_from_shres_locked(s, n);
-+}
-+
- void coroutine_fn co_get_from_shres(SharedResource *s, uint64_t n)
- {
-     assert(n <= s->total);
--    while (!co_try_get_from_shres(s, n)) {
--        qemu_co_queue_wait(&s->queue, NULL);
-+    QEMU_LOCK_GUARD(&s->lock);
-+    while (!co_try_get_from_shres_locked(s, n)) {
-+        qemu_co_queue_wait(&s->queue, &s->lock);
-     }
- }
- 
- void coroutine_fn co_put_to_shres(SharedResource *s, uint64_t n)
- {
-+    QEMU_LOCK_GUARD(&s->lock);
-     assert(s->total - s->available >= n);
-     s->available += n;
-     qemu_co_queue_restart_all(&s->queue);
--- 
-2.31.1
+if series is work in progress and not ready for merging,
+one should use RFC instead of PATCH tag
+
+
+> Regards,
+> eric
+> 
+> ________________________________
+> From: Igor Mammedov <imammedo@redhat.com>
+> Sent: Monday, June 7, 2021 7:49 AM
+> To: Eric DeVolder <eric.devolder@oracle.com>
+> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; mst@redhat.com <mst@redhat.com>; marcel.apfelbaum@gmail.com <marcel.apfelbaum@gmail.com>; pbonzini@redhat.com <pbonzini@redhat.com>; rth@twiddle.net <rth@twiddle.net>; ehabkost@redhat.com <ehabkost@redhat.com>; Konrad Wilk <konrad.wilk@oracle.com>; Boris Ostrovsky <boris.ostrovsky@oracle.com>
+> Subject: Re: [PATCH v3 0/7] acpi: Error Record Serialization Table, ERST, support for QEMU
+> 
+> On Fri, 28 May 2021 14:14:12 -0400
+> Eric DeVolder <eric.devolder@oracle.com> wrote:
+> 
+> > NOTE: Also, I wanted to push this v3 for review while alerting
+> > that I will be on holiday through June 8 (possibly a few days
+> > later).  
+> this version addressed only the way the host storage is accessed
+> (and even that is only partially and needs more work to put into it)
+> The rest of the comments on v2 are still not addressed.
+> 
+> > NOTE: The patches are arranged such that each can be applied
+> > in order and not break the build (except the 0001 patch). Igor
+> > has hinted at changing this, but I'm unsure how else to
+> > re-arrange these patches accordingly.  
+> as minimum, see suggestion for splitting #4 in 5/7
+> 
+> > NOTE: With the conversion to TYPE_MEMORY_BACKEND_FILE, live
+> > migration to a completely different host does not behave
+> > properly (it loses the ERST contents because the file is not
+> > present on the new host). This still needs to be worked out.
+> > Other than live migration, this patchset fully works.  
+> 
+> see: vmstate_register_ram_global()
+> 
+> > This patchset introduces support for the ACPI Error Record
+> > Serialization Table, ERST.
+> >
+> > Linux uses the persistent storage filesystem, pstore, to record
+> > information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
+> > independent of, and runs before, kdump.  In certain scenarios (ie.
+> > hosts/guests with root filesystems on NFS/iSCSI where networking
+> > software and/or hardware fails), pstore may contain the only
+> > information available for post-mortem debugging.
+> >
+> > Two common storage backends for the pstore filesystem are ACPI ERST
+> > and UEFI. Most BIOS implement ACPI ERST; however, ACPI ERST is not
+> > currently supported in QEMU, and UEFI is not utilized in all guests.
+> > By implementing ACPI ERST within QEMU, then the ACPI ERST becomes a
+> > viable pstore storage backend for virtual machines (as it is now for
+> > bare metal machines).
+> >
+> > Enabling support for ACPI ERST facilitates a consistent method to
+> > capture kernel panic information in a wide range of guests: from
+> > resource-constrained microvms to very large guests, and in
+> > particular, in direct-boot environments (which would lack UEFI
+> > run-time services).
+> >
+> > Note that Microsoft Windows also utilizes the ACPI ERST for certain
+> > crash information, if available.
+> >
+> > The ACPI ERST persistent storage is contained within a single backing
+> > file, with a default size of 64KiB. The size and filename of the
+> > backing file can be obtained from QEMU parameters.
+> >
+> > The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
+> > (APEI)", and specifically subsection "Error Serialization", outlines
+> > a method for storing error records into persistent storage.
+> >
+> > [1] "Advanced Configuration and Power Interface Specification",
+> >     version 6.2, May 2017.
+> >     https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
+> >
+> > [2] "Unified Extensible Firmware Interface Specification",
+> >     version 2.8, March 2019.
+> >     https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf
+> >
+> > Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
+> > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> >
+> > ---
+> > v3: 28may2021
+> >  - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather than
+> >    internal array with explicit file operations, per Igor.  
+> good start but it's not complete yet.
+> 
+> >  - Changed the way the qdev and base address are handled, allowing
+> >    ERST to be disabled at run-time. Also aligns better with other
+> >    existing code.  
+> it aligns with ancient code template and the way it used to plumb
+> into board (it's fine for pre-existing devices but not for new ones
+> (unless there is no other way )).
+> v2 had suggestions how to proceed (you asked some questions back then,
+> but result is not reflected in this series, which still has the old
+> code as it was in v2).
+> 
+> 
+> > v2: 8feb2021
+> >  - Added qtest/smoke test per Paolo Bonzini
+> >  - Split patch into smaller chunks, per Igo Mammedov
+> >  - Did away with use of ACPI packed structures, per Igo Mammedov
+> >
+> > v1: 26oct2020
+> >  - initial post
+> >
+> > ---
+> >  hw/acpi/erst.c         | 909 +++++++++++++++++++++++++++++++++++++++++++++++++
+> >  hw/acpi/meson.build    |   1 +
+> >  hw/i386/acpi-build.c   |   4 +
+> >  include/hw/acpi/erst.h |  97 ++++++
+> >  4 files changed, 1011 insertions(+)
+> >  create mode 100644 hw/acpi/erst.c
+> >  create mode 100644 include/hw/acpi/erst.h
+> >
+> >
+> > Eric DeVolder (7):
+> >   ACPI ERST: bios-tables-test.c steps 1 and 2
+> >   ACPI ERST: header file for ERST
+> >   ACPI ERST: support for ACPI ERST feature
+> >   ACPI ERST: include ERST feature in build of ACPI support
+> >   ACPI ERST: create ERST device for pc/x86 machines.
+> >   ACPI ERST: qtest for ERST
+> >   ACPI ERST: step 6 of bios-tables-test.c
+> >
+> >  hw/acpi/erst.c               | 902 +++++++++++++++++++++++++++++++++++++++++++
+> >  hw/acpi/meson.build          |   1 +
+> >  hw/i386/acpi-build.c         |   7 +
+> >  hw/i386/pc.c                 |  31 ++
+> >  include/hw/acpi/erst.h       |  82 ++++
+> >  include/hw/i386/pc.h         |   1 +
+> >  tests/data/acpi/microvm/ERST |   0
+> >  tests/data/acpi/pc/ERST      | Bin 0 -> 976 bytes
+> >  tests/data/acpi/q35/ERST     | Bin 0 -> 976 bytes
+> >  tests/qtest/erst-test.c      | 106 +++++
+> >  tests/qtest/meson.build      |   2 +
+> >  11 files changed, 1132 insertions(+)
+> >  create mode 100644 hw/acpi/erst.c
+> >  create mode 100644 include/hw/acpi/erst.h
+> >  create mode 100644 tests/data/acpi/microvm/ERST
+> >  create mode 100644 tests/data/acpi/pc/ERST
+> >  create mode 100644 tests/data/acpi/q35/ERST
+> >  create mode 100644 tests/qtest/erst-test.c
+> >  
+> 
 
 
