@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A063A5EE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:07:46 +0200 (CEST)
-Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBB63A5EEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:11:32 +0200 (CEST)
+Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsiZN-0003gI-Rp
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46314)
+	id 1lsid1-0004e6-Dr
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsi70-0002cv-5C
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:26 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsi6s-0003dO-Bv
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:38:25 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id z26so10014636pfj.5
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TjMHnJXoUnjhGFE1iA2UhvGhUmi66dGkfV7HJSIAp70=;
- b=yuFyrMFqG83oKNU44BBMjHzz5MtkKdKVejfaZK+VAYise1c7PiWJnImMwp3Irjui+u
- gtkUHvAdAws0hbUmoV1zUcyhDrPszZJ2N4gk8WOKPY3luw+Evjq7JvRZ3d6zl9ceR0LU
- DevtJu2nTKlYDz+2WITyv63dYvg+Ucsaw/inuO8VRwrBPDPBoJ58pm+unGX4qwNzBxL/
- vROOrDjRVO4XjDl5JO5pJevb6Q5oqTnOC2JlqWY4WEqD3SJv9aXUb7+Ukr6zLXkSyiU/
- fSzEqC6h+ePm5TmjPnHBPh3m6o6eRYBjl0uG68HXYPOm/PB9K1XvaWIvnlMXEVc0bTQT
- B+7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TjMHnJXoUnjhGFE1iA2UhvGhUmi66dGkfV7HJSIAp70=;
- b=f4Ct/UYE8INlRduItMZFk8ByfImmKDI0bxOS7s8QfqtW1qBR6deDzWdKa6Abq42QDA
- 5c2nadHYVFhoVE6jJ2MPpszzCn4RFan9EzzwbgVCJf93zGtYJ8h0Z8OfOoswsiRUL2eW
- PaWVzYJO9zxRDNcsj8FQ4BocQmhJOfbGyykGkmx9vww2wJRcl0+RBLRaAeIbL2pKZ6DE
- G35atjfeBxAajfYacmNK1CWf65WXffAEmAPHfeBHbE/E/G9pum9ArtsraRsOu4+2pqgB
- Lj6/eBrEtDBJeDNVNM/dJ6aknU3ULmjgu4QIgNnn8ElwAk0LOLkBQBd6eVlyVyScyrkN
- gZlg==
-X-Gm-Message-State: AOAM532HiLBEbN75HIZv2097S/wB2pGpgznZUOwVPhcFGO5OppMUUoHZ
- 9CE0virAbRr7e8m+wTvc90krVbZHVFdQvw==
-X-Google-Smtp-Source: ABdhPJz5clVas3VnbwAuC1bcnjOF2eSKi5n05XPyY+FMo11Duxt7b5xSuPrQH1s+EsyfPv7fTKG45w==
-X-Received: by 2002:a63:6284:: with SMTP id
- w126mr16056140pgb.284.1623659896329; 
- Mon, 14 Jun 2021 01:38:16 -0700 (PDT)
-Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
- [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id h20sm2242022pfh.24.2021.06.14.01.38.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 01:38:16 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 25/28] target/mips: Fix gen_mxu_s32ldd_s32lddr
-Date: Mon, 14 Jun 2021 01:37:57 -0700
-Message-Id: <20210614083800.1166166-26-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210614083800.1166166-1-richard.henderson@linaro.org>
-References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1lsiCw-0008Iw-UH; Mon, 14 Jun 2021 04:44:35 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]:33064
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1lsiCu-00084O-3e; Mon, 14 Jun 2021 04:44:34 -0400
+Received: from macbook02.fritz.box (p57b42637.dip0.t-ipconnect.de
+ [87.180.38.55])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 76856DA07C5;
+ Mon, 14 Jun 2021 10:44:25 +0200 (CEST)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210614052623.1657103-1-f4bug@amsat.org>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [RFC PATCH] migration: Add missing dependency on GNUTLS
+Message-ID: <8636c1be-d177-f513-fa9c-cb86c26eecab@weilnetz.de>
+Date: Mon, 14 Jun 2021 10:44:25 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210614052623.1657103-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.144,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,43 +57,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Leonardo Bras <leobras.c@gmail.com>, Lukas Straub <lukasstraub2@web.de>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There were two bugs here: (1) the required endianness was
-not present in the MemOp, and (2) we were not providing a
-zero-extended input to the bswap as semantics required.
+Am 14.06.21 um 07:26 schrieb Philippe Mathieu-Daud=C3=A9:
 
-The best fix is to fold the bswap into the memory operation,
-producing the desired result directly.
+> Commit 7de2e856533 made migration/qemu-file-channel.c include
+> "io/channel-tls.h" but forgot to add the new GNUTLS dependency
+> on Meson, leading to build failure on OSX:
+>
+>    [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-chan=
+nel.c.o
+>    FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
+>    cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/=
+migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
+>    In file included from ../migration/qemu-file-channel.c:29:
+>    In file included from include/io/channel-tls.h:26:
+>    In file included from include/crypto/tlssession.h:24:
+>    include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file=
+ not found
+>    #include <gnutls/gnutls.h>
+>             ^~~~~~~~~~~~~~~~~
+>    1 error generated.
+>
+> Reported-by: Stefan Weil <sw@weilnetz.de>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
+> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration=
+")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> RFC: Not tested on OSX. Stefan, do you know why this isn't covered
+>       on Cirrus-CI?  https://cirrus-ci.com/build/4876003651616768
 
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/mips/tcg/mxu_translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/target/mips/tcg/mxu_translate.c b/target/mips/tcg/mxu_translate.c
-index c12cf78df7..f4356432c7 100644
---- a/target/mips/tcg/mxu_translate.c
-+++ b/target/mips/tcg/mxu_translate.c
-@@ -857,12 +857,8 @@ static void gen_mxu_s32ldd_s32lddr(DisasContext *ctx)
-         tcg_gen_ori_tl(t1, t1, 0xFFFFF000);
-     }
-     tcg_gen_add_tl(t1, t0, t1);
--    tcg_gen_qemu_ld_tl(t1, t1, ctx->mem_idx, MO_SL);
-+    tcg_gen_qemu_ld_tl(t1, t1, ctx->mem_idx, MO_TESL ^ (sel * MO_BSWAP));
- 
--    if (sel == 1) {
--        /* S32LDDR */
--        tcg_gen_bswap32_tl(t1, t1, TCG_BSWAP_IZ | TCG_BSWAP_OZ);
--    }
-     gen_store_mxu_gpr(t1, XRa);
- 
-     tcg_temp_free(t0);
--- 
-2.25.1
+Cirrus-CI does not install gnutls. That's easy to fix by adding it to=20
+the list of installed packages.
+
+And the patch does not fix the issue. I already had tried that and=20
+similar changes in migration/meson.build.
+
+Regards
+
+Stefan
+
 
 
