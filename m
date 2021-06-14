@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30223A6B82
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:18:47 +0200 (CEST)
-Received: from localhost ([::1]:43334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041B53A6B8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:22:15 +0200 (CEST)
+Received: from localhost ([::1]:45774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lspIU-0007fv-RN
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34948)
+	id 1lspLp-00015c-WD
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lspHh-0006tY-Cc; Mon, 14 Jun 2021 12:17:57 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:44625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lspHf-0006rX-Q8; Mon, 14 Jun 2021 12:17:57 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- m41-20020a05600c3b29b02901b9e5d74f02so306253wms.3; 
- Mon, 14 Jun 2021 09:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qW2zdQ0yTiW4Ze8fmbW6APx/542OARHW3E/IgGMiw2A=;
- b=Btos46QuwMhf4JxPwDWmhHVdT+geZa4jaQPnLdG226O6e0IK5zA6zV0CfIPLD1Uuh0
- eKc6DMltn0oTjI2iGpbtMQrGOqp12lc/eHl8iH8FfdOPXq5Ravm7IVS5iFuzhhVKznWz
- 306WnL0UY2KIWUPxcehVdXQhCeXoB6QkmBUI+g8+uQBwxIyWO61ARelLN4SrrQjQ0r4s
- 3JwIMpCEaeccmAPK2rm7fstzhxUZrHEbF/sFdSZhlNCMh6LPaLZyvor9Mj0uxaUCShoP
- lC+p0UuxcyK6qMA6TSSSwCO+EURVIsgJFDu/kr0vCMb2wRFlCXPxj8ERf6c0VR7f4XWE
- C/lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qW2zdQ0yTiW4Ze8fmbW6APx/542OARHW3E/IgGMiw2A=;
- b=BnoNk6hbzQkEP0DRedc3pymLSGSQqu+vBDj/nb8ECY7JAhNJha9vuYIUMyjRFmBnvd
- hlZtkJDP2OBNJ5sMwfUfODvL6c4i7dcZ565UraipHonZ8OILEZwdyLK3B6MOXoJtn1oX
- 8PhoHMV1kxeOFrg0VFg52wuJkbT+xMCn7GY+KDFcN4IL6YlkR+XTZq771dwCXMlJKohL
- IkCSjI/8CtgtUVQFDxTSFp+IuCbkDJmugO315jPZ/NQIzikwb+6eKfF4QIPiX9GHhEJq
- npE0A/5UMFMDJYw/l43LceS21lAA4SdnuXJwd5SqmRy7QRd0qomREeLEnLqghSzURr4x
- qqrA==
-X-Gm-Message-State: AOAM531+V0LYPdrcVg3zKrBZSRLahPTA3kTv18ZjMbUPUYnfxcxl6B51
- WtEKUNUKSyB8hKSxUZdLj7B0SLUSWkOeJQ==
-X-Google-Smtp-Source: ABdhPJxLVGMapU7MMUpPJm0kvzwleaw/nfLhhlwHhkFjYVbtio8uo4B645f8QwlyT/mijpUdpe1d7Q==
-X-Received: by 2002:a05:600c:d0:: with SMTP id
- u16mr33392894wmm.155.1623687473512; 
- Mon, 14 Jun 2021 09:17:53 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id p12sm18750863wme.43.2021.06.14.09.17.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 09:17:53 -0700 (PDT)
-Subject: Re: [PATCH] hw/intc/armv7m_nvic: Remove stale comment
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210614161243.14211-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1269afbe-34e2-47f4-08be-c7cd418c2d3c@amsat.org>
-Date: Mon, 14 Jun 2021 18:17:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lspKx-0000QY-S5
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:21:19 -0400
+Received: from forward4-smtp.messagingengine.com ([66.111.4.238]:36517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lspKv-0000cM-Ch
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:21:19 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailforward.nyi.internal (Postfix) with ESMTP id 420041940334;
+ Mon, 14 Jun 2021 12:21:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 14 Jun 2021 12:21:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uKVU1s
+ 66+0tQ8fTEmxuWUNwMS4pSH8TgLhqUisUlk/4=; b=XXFN97XLt6deaKHDtN/f5m
+ 7YmJjgnpJA2kB8Xs8kMywB3nRipwqNHuDWuGt25KwjYRTFz9yrh6XQffv3+B6Htj
+ 8j9A9/Qx+XaZ2kL6msMp5jmsMCQC20qA3YrxfyyAB/Epp6YUzLUFYiJ6up0KRbXQ
+ XSIcV6+vCeIgpspQrIx71AWJ/4pRRBL9NWxpvAaLwzl3aWTpY+UUGWdwh59L9glp
+ SPx3pGPsj7wMrZh1GMdD3m2SF7hLsDjvZDPauvLFGvaHPtlFSVzx8jGOam6YdLhy
+ miHc1MS2WIitVqhWGY6tgMBLXc7b1LRqWhw9rxzIRmWjBW2yNTGoG/ADeaC2IDDw
+ ==
+X-ME-Sender: <xms:-oHHYM_jyC3azcVzZOKkr41Jw5yLHnTiMHcpvK6AucTusjD0BL1O-Q>
+ <xme:-oHHYEsV_8cCYEd3vIDU2uWyHPfnWKHPNl5IykPtBngY-xo-tNhY1E2BcD6M1i8DD
+ TfGkGQr10uZWLXHNFQ>
+X-ME-Received: <xmr:-oHHYCDLQfd8tQfJvIhvte4UGQhDC7O-Gys8zvBqrvLfbrpmhqcpNPK91Ki5U5VgjjQkvc9PpY5pW8mUFCJW974DTrWsYTks7ciJWv1999g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvhedgleeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepvffujghfhfffkfggtgesthdtredttddttdenucfhrhhomhepffgrvhhiugcu
+ gfgumhhonhgushhonhcuoegumhgvsegumhgvrdhorhhgqeenucggtffrrghtthgvrhhnpe
+ fhkeeguedtvdegffffteehjedvjeeitefgfefgffdugeffffegudehgeetgeelkeenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegumhgvsegumh
+ gvrdhorhhg
+X-ME-Proxy: <xmx:-oHHYMeo5akcnHl-tmAzrmjduREfDCpgTyRyNUURDGZa9jTlaxxfFw>
+ <xmx:-oHHYBNrIxL7dET8c3WuKrT4-aN60fLnCg3reZCf3PhiEWJZ7CeLJA>
+ <xmx:-oHHYGlFsjv0ZfDv01DoDM5ZI3lmqP14Wk9hoi-6R_3JMbR-pK2cvw>
+ <xmx:-4HHYEeIVH7uzNxhfReP9hB3uFugSnb8KjWW8urrusVfSyvr6C1Sdw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Jun 2021 12:21:13 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 13ec9a44;
+ Mon, 14 Jun 2021 16:21:12 +0000 (UTC)
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 0/7] Support protection keys in an AMD EPYC-Milan VM
+In-Reply-To: <330417d8-9e23-4c90-b825-24329d3e4c66@redhat.com>
+References: <20210520145647.3483809-1-david.edmondson@oracle.com>
+ <330417d8-9e23-4c90-b825-24329d3e4c66@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Mon, 14 Jun 2021 17:21:12 +0100
+Message-ID: <cuno8c81kp3.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <20210614161243.14211-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: neutral client-ip=66.111.4.238; envelope-from=dme@dme.org;
+ helo=forward4-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,21 +85,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Babu Moger <babu.moger@amd.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 6:12 PM, Peter Maydell wrote:
-> In commit da6d674e509f0939b we split the NVIC code out from the GIC.
-> This allowed us to specify the NVIC's default value for the num-irq
-> property (64) in the usual way in its property list, and we deleted
-> the previous hack where we updated the value in the state struct in
-> the instance init function.  Remove a stale comment about that hack
-> which we forgot to delete at that time.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/intc/armv7m_nvic.c | 6 ------
->  1 file changed, 6 deletions(-)
+On Friday, 2021-06-11 at 18:01:55 +02, Paolo Bonzini wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> First of all, sorry for the delayed review.
+>
+> On 20/05/21 16:56, David Edmondson wrote:
+>> AMD EPYC-Milan CPUs introduced support for protection keys, previously
+>> available only with Intel CPUs.
+>> 
+>> AMD chose to place the XSAVE state component for the protection keys
+>> at a different offset in the XSAVE state area than that chosen by
+>> Intel.
+>> 
+>> To accommodate this, modify QEMU to behave appropriately on AMD
+>> systems, allowing a VM to properly take advantage of the new feature.
+>
+> Uff, that sucks. :(
+>
+> If I understand correctly, the problem is that the layout of 
+> KVM_GET_XSAVE/KVM_SET_XSAVE depends on the host CPUID, which in 
+> retrospect would be obvious.  Is that correct?
+
+Yes.
+
+> If so, it would make sense and might even be easier to drop all usage
+> of X86XSaveArea:
+>
+> * update ext_save_areas based on CPUID information in kvm_cpu_instance_init
+>
+> * make x86_cpu_xsave_all_areas and x86_cpu_xrstor_all_areas use the 
+> ext_save_areas offsets to build pointers to XSaveAVX, XSaveBNDREG, etc.
+>
+> What do you think?
+
+I will produce a patch and send it out.
+
+> Paolo
+>
+>> Further, avoid manipulating XSAVE state components that are not
+>> present on AMD systems.
+>> 
+>> The code in patch 6 that changes the CPUID 0x0d leaf is mostly dumped
+>> somewhere that seemed to work - I'm not sure where it really belongs.
+>> 
+>> David Edmondson (7):
+>>    target/i386: Declare constants for XSAVE offsets
+>>    target/i386: Use constants for XSAVE offsets
+>>    target/i386: Clarify the padding requirements of X86XSaveArea
+>>    target/i386: Prepare for per-vendor X86XSaveArea layout
+>>    target/i386: Introduce AMD X86XSaveArea sub-union
+>>    target/i386: Adjust AMD XSAVE PKRU area offset in CPUID leaf 0xd
+>>    target/i386: Manipulate only AMD XSAVE state on AMD
+>> 
+>>   target/i386/cpu.c            | 19 +++++----
+>>   target/i386/cpu.h            | 80 ++++++++++++++++++++++++++++--------
+>>   target/i386/kvm/kvm.c        | 57 +++++++++----------------
+>>   target/i386/tcg/fpu_helper.c | 20 ++++++---
+>>   target/i386/xsave_helper.c   | 70 +++++++++++++++++++------------
+>>   5 files changed, 152 insertions(+), 94 deletions(-)
+>> 
+
+dme.
+-- 
+Oliver darling, call Mister Haney, I think our speakers are blown.
 
