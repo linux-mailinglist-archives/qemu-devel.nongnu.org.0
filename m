@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9223A5FC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:13:25 +0200 (CEST)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EDA3A5FC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:11:08 +0200 (CEST)
+Received: from localhost ([::1]:46960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsjau-0002xe-Hw
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33482)
+	id 1lsjYg-0007C6-Gx
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1lsjWx-0005C7-25
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:19 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46743)
+ id 1lsjWw-0005Aw-3h
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:18 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1lsjWs-00044b-I3
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:18 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- h22-20020a05600c3516b02901a826f84095so12428412wmq.5
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:09:13 -0700 (PDT)
+ id 1lsjWt-00045B-5c
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:17 -0400
+Received: by mail-wr1-x430.google.com with SMTP id m18so13896640wrv.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zPNUcRYgGmr4VMYBANGO9WVeq5kpBLoCHc6KvmEV1vU=;
- b=vdkhOFgy1Lv8rKJXH/BcucMpo4oYe0ZFQ5MzzwKMfqR053bRWEdl6pY6g73JUd0sfW
- Dy4Slx3m1efIbjPvHXT1mDjq8VAyNKpfOj6dP/bsEaJ6gg7ocYWd/3kUs+LIS7VYqhJR
- 6dU4JENn6f9ldUgaYZ+qYQ/18cCbXhCGDSnMdXfdgxeUSufEb7/2CeLlkPrRao7XW3G8
- FVKgVUbm5wt1ycpVJ0HWsb7KfLRxfBEB3yYd6rwnGOmW+1Ugw4x4wXoFecLG3Miv9evt
- /CqupthVxwKkZgAGeKZ85AbHXsdm96IV0ZyP9tq+jdKs0gRrqy3SxKFcACQzRQAA95Fx
- USPA==
+ bh=OV+M6Wxiaq+SA1gePBokthLze/Zk2s945FpGBYhPwpU=;
+ b=uV8I57a8ZZ380ULjk7FNIPQO+AAu/Kir5vcccUZpH42IKdFyngogNpvFgcV3V40H8b
+ 2KvKYNIzIAHsNEQktwmwL9SRrldRTd77XGE2Rbjvl/YLM+BTdLpFUfdBC4JRPF+PJaOY
+ pRsOfyaCUy8Z+svZSwiThP1SGz4rmWKkdvEVEk2aK2LBI9FghOKcvFfVitWTlaY08jYd
+ vKwUVbJc6p2qYJJRXR5YUkivyUVKbsZsrynkRPE0Dfcvs3bG/niYecxqlnRBWYRE07Uz
+ Ea7kqX52FEUXvHEfaapX/Hn2svFlm22tfj/JfhNAo0srHZJ99Ow3QvXXKsjzIyJ77ZVA
+ wyzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zPNUcRYgGmr4VMYBANGO9WVeq5kpBLoCHc6KvmEV1vU=;
- b=Pb0nz9JBIqPWhOJ5m47KKXeFrSsvQv7NGk5hqOJeOqLOSG47BAICkA6npZxeEHCZqM
- XNY7KieOKCNbmOuS/erng+na79o/pcxhOd5LgUr++9lT0q+09GPAYcaAgKH7eVbjV6Qx
- +8MXx/1C+Z0j0JO99mmehXdggOcyGaABvp6FWzHFhVLTpozGp0T06wgBY6OKdYrZOqis
- nooQwqRQaF5OuKaIB8Oid1JrVubQPBGQ7qINeLiUrwXImopz2XfOM21rZMLDlRgksT2X
- igD3GMUY8m9rKt08saEvGpJgMQ/kcjZvbYHd3tCAPGRHLu87Wm1gUgNApwKLJFF29+CI
- XZ3Q==
-X-Gm-Message-State: AOAM533741QI6AEXj5SYptllkHRl3T7YtZAuV5HRigHfKxFH0YxXuEvH
- 70OF6guloSENiTmdmx/lhFXNAn7fP1cUIg==
-X-Google-Smtp-Source: ABdhPJwdRNi5m+d3EKW7f/oXht0JJn/vVLMK1QP/qw6RRQQYg8eriFSiPHCwVAyA5MG/ktWP7V1mcw==
-X-Received: by 2002:a05:600c:a45:: with SMTP id
- c5mr14769379wmq.153.1623665353098; 
+ bh=OV+M6Wxiaq+SA1gePBokthLze/Zk2s945FpGBYhPwpU=;
+ b=Bep82qqVjCK6vU5DEfi0nn+RxQdZQG4S6Z6ekOp0f2RMAituvemdtW5NLEIWRAZHvw
+ Dna0i16U4WUZD2C2gWgSGZ1lwTMqLpwNow58CquibmA4AVzHohgVo3aPdU+XAKMt2O37
+ ihiS34Cmi9hLEjyEhRRY47e0FUEa0Wbb4RSvIzGdK4vjjCiXRb8bJ86HUsh0L7xYX4Pg
+ oJHBJUMXuzNrDlrhm+ALH7/N9hUW0T4QDbpt4mXm9uLRVrl21kgLWMKmNcomcAoN7tfU
+ n2tRye9BqU0XmGMDmAJ3bQiPnNlE5gFTx1YskZ2R5hzOrp6jlnkB8mZRvhAjoGS1PkT5
+ GhRA==
+X-Gm-Message-State: AOAM532HBSXjyosgJsp1EBCPxIkGFquy3/VcoleVynRth99vYhRSAm6e
+ Yhdn0XFH09dOcD2tGtWZpXUykLPU8OtNlg==
+X-Google-Smtp-Source: ABdhPJx7DGzLKJxXGEvu22cswa6QLFTUmSLojbRAZ+OgbRSvgTPlz+O66a2Tk5BEl0JwNvhNPSFVzA==
+X-Received: by 2002:adf:fd0c:: with SMTP id e12mr17572499wrr.265.1623665353906; 
  Mon, 14 Jun 2021 03:09:13 -0700 (PDT)
 Received: from localhost.localdomain ([37.161.140.231])
- by smtp.gmail.com with ESMTPSA id o18sm15752254wrx.59.2021.06.14.03.09.12
+ by smtp.gmail.com with ESMTPSA id o18sm15752254wrx.59.2021.06.14.03.09.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 03:09:12 -0700 (PDT)
+ Mon, 14 Jun 2021 03:09:13 -0700 (PDT)
 From: Lara Lazier <laramglazier@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/i386: Added consistency checks for CR0
-Date: Mon, 14 Jun 2021 12:09:01 +0200
-Message-Id: <20210614100902.15860-3-laramglazier@gmail.com>
+Subject: [PATCH 3/3] target/i386: Added Intercept CR0 writes check
+Date: Mon, 14 Jun 2021 12:09:02 +0200
+Message-Id: <20210614100902.15860-4-laramglazier@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210614100902.15860-1-laramglazier@gmail.com>
 References: <20210614100902.15860-1-laramglazier@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=laramglazier@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=laramglazier@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,76 +86,48 @@ Cc: Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The combination of unset CD and set NW bit in CR0 is illegal.
-CR0[63:32] are also reserved and need to be zero.
-(AMD64 Architecture Programmer's Manual, V2, 15.5)
+When the selective CR0 write intercept is set, all writes to bits in
+CR0 other than CR0.TS or CR0.MP cause a VMEXIT.
 
 Signed-off-by: Lara Lazier <laramglazier@gmail.com>
 ---
- target/i386/cpu.h                   |  2 ++
- target/i386/svm.h                   |  1 +
- target/i386/tcg/sysemu/svm_helper.c | 12 +++++++++---
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ target/i386/cpu.h                    | 2 ++
+ target/i386/tcg/sysemu/misc_helper.c | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index ac3abea97c..46542513cc 100644
+index 46542513cc..ff0ff97ca9 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -224,6 +224,8 @@ typedef enum X86Seg {
- #define CR0_NE_MASK  (1U << 5)
- #define CR0_WP_MASK  (1U << 16)
- #define CR0_AM_MASK  (1U << 18)
-+#define CR0_NW_MASK  (1U << 29)
-+#define CR0_CD_MASK  (1U << 30)
+@@ -228,6 +228,8 @@ typedef enum X86Seg {
+ #define CR0_CD_MASK  (1U << 30)
  #define CR0_PG_MASK  (1U << 31)
  
++#define INTERCEPT_SELECTIVE_CR0 (1ULL << 5)
++
  #define CR4_VME_MASK  (1U << 0)
-diff --git a/target/i386/svm.h b/target/i386/svm.h
-index 1c55d4f829..7a88906907 100644
---- a/target/i386/svm.h
-+++ b/target/i386/svm.h
-@@ -136,6 +136,7 @@
- #define SVM_NPTEXIT_GPT     (1ULL << 33)
- 
- #define SVM_VMRUN_INTERCEPT (1ULL << 32)
-+#define SVM_CR0_RESERVED_MASK 0xffffffff00000000U
- 
- struct QEMU_PACKED vmcb_control_area {
- 	uint16_t intercept_cr_read;
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index ff826fe11a..63aaa53490 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -73,6 +73,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     uint32_t event_inj;
-     uint32_t int_ctl;
-     uint32_t asid;
-+    uint64_t new_cr0;
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMRUN, 0, GETPC());
- 
-@@ -192,13 +193,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     env->idt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-                                                       save.idtr.limit));
- 
-+    new_cr0 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr0));
-+    if (new_cr0 & SVM_CR0_RESERVED_MASK) {
-+        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-+    }
-+    if ((new_cr0 & CR0_NW_MASK) && !(new_cr0 & CR0_CD_MASK)) {
-+        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-+    }
-     /* clear exit_info_2 so we behave like the real hardware */
-     x86_stq_phys(cs,
-              env->vm_vmcb + offsetof(struct vmcb, control.exit_info_2), 0);
- 
--    cpu_x86_update_cr0(env, x86_ldq_phys(cs,
--                                     env->vm_vmcb + offsetof(struct vmcb,
--                                                             save.cr0)));
-+    cpu_x86_update_cr0(env, new_cr0);
-     cpu_x86_update_cr4(env, x86_ldq_phys(cs,
-                                      env->vm_vmcb + offsetof(struct vmcb,
-                                                              save.cr4)));
+ #define CR4_PVI_MASK  (1U << 1)
+ #define CR4_TSD_MASK  (1U << 2)
+diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
+index 0cef2f1a4c..53117f47de 100644
+--- a/target/i386/tcg/sysemu/misc_helper.c
++++ b/target/i386/tcg/sysemu/misc_helper.c
+@@ -84,6 +84,15 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+ {
+     switch (reg) {
+     case 0:
++        /*
++        * If we reach this point, the CR0 write intercept is disabled.
++        * But we could still exit if the hypervisor has requested the selective
++        * intercept for bits other than TS and MP
++        */
++        if ((env->intercept & INTERCEPT_SELECTIVE_CR0) &&
++            ((env->cr[0] ^ t0) & ~(CR0_TS_MASK | CR0_MP_MASK))) {
++            cpu_vmexit(env, SVM_EXIT_CR0_SEL_WRITE, 0, GETPC());
++        }
+         cpu_x86_update_cr0(env, t0);
+         break;
+     case 3:
 -- 
 2.25.1
 
