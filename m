@@ -2,40 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B44303A5EF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:13:43 +0200 (CEST)
-Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BD23A5ECD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:05:09 +0200 (CEST)
+Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsif8-0008RA-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
+	id 1lsiWq-0006mw-I0
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1lsiUg-0005IC-D5
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:02:54 -0400
-Received: from zamok.crans.org ([2a0c:700:2:0:ec4:7aff:fe59:a1ad]:57066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1lsiUa-0003vz-GA
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:02:53 -0400
-Received: by zamok.crans.org (Postfix, from userid 11692)
- id 820FEE0080; Mon, 14 Jun 2021 11:02:36 +0200 (CEST)
-From: Alexandre Iooss <erdnaxe@crans.org>
-To: qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH] contrib/plugins: add execlog to log instruction execution and
- memory access
-Date: Mon, 14 Jun 2021 11:01:16 +0200
-Message-Id: <20210614090116.816833-1-erdnaxe@crans.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lsiTd-00047C-KH
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:01:49 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lsiTc-0003TQ-13
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:01:49 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ t4-20020a1c77040000b029019d22d84ebdso12466605wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 02:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pHqDW207mjgrvpC5bUXztMmrnYyS4Ll7Q7BfaTXLkLI=;
+ b=kVQcVq4QxFA7pDcSWrtunEERM/Temly5Z2CjvEuOHh2MVBJQ79oQ/j8GdUC0C1nCTB
+ MbKuxYR7GjYO3j7Pbo5paIpLz1INXW62/HuiTdIYYUWFvvjgxIFP7eYpuFx1gvXG4rUJ
+ PsxYArHaDKGR5OPRpAJJnIzWcjQObLzOh7Xo4B2UZ6NNWp0X3ihb46OAlYHSWRPkV2pN
+ ahGKdOfWKzbGg4HWLZQ/HPmry3fAXwnydRCUNV1XVB1koqG1BGcEENs2mXWXv79U0MG6
+ y/S8KDzLf4/dnMAXnMCi1QoAmEbkAvdcboXLSFhPXDH7NmlOfkxm0TdLuLJgTeM0K6gc
+ aHnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pHqDW207mjgrvpC5bUXztMmrnYyS4Ll7Q7BfaTXLkLI=;
+ b=Elk/ZWzt8TD1C4Eg0DjPvA+3m/dTDpSZRbm6++ETFc/30/vVUv+/9mUKJcpfhrBaFF
+ +lOwuA16bwjP98eujrSllJj6G7NHxyJKEHhtS5foNA3sb2Xj63t/tGTDH54OOrlgg+Cq
+ VcemO0g9qTop9hzXJdjV1z4TYUbI/DNkOjhItgIp/DGYttBIOJti2t5CGJSECYFXawcI
+ tm5UfXPZPfAsFJ5eieuPdxRI1cp2nquSZs36QcRDUi6Mir2Mp7VEZXne4F/weWjYMEp/
+ RjzfWG56KnVqQSpFM4Rx28wsp7O24JBiiMb9WQW+lls6KvLiWDilDbHxgRfvuVS+fn9G
+ bSHQ==
+X-Gm-Message-State: AOAM533mDiwUBxnORrxhKgX+VKFCePgY6G1ZjNB5MPFZDX+IIijjdt+J
+ tSANH6zFUYleaq5GE17+2is=
+X-Google-Smtp-Source: ABdhPJxJcm2JJ2QVII4oAneyzHFKaggXEPa8fJxDAovb3WklvQ3+pytURtwJkruB/s3IvUTtHWhYdQ==
+X-Received: by 2002:a1c:c911:: with SMTP id f17mr15482474wmb.60.1623661306480; 
+ Mon, 14 Jun 2021 02:01:46 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id f5sm16591101wrf.22.2021.06.14.02.01.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 02:01:45 -0700 (PDT)
+Subject: Re: [PATCH] esp: fix migration version check in esp_is_version_5()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, laurent@vivier.eu, hpoussin@reactos.org
+References: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
+ <75bf9945-9953-ba75-048a-a1570c6746ac@amsat.org>
+ <0940b4dd-563e-6c9b-fd66-91f5bc664ef3@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <347be692-0e6a-f684-ddbb-b2b2acd7ae04@amsat.org>
+Date: Mon, 14 Jun 2021 11:01:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <0940b4dd-563e-6c9b-fd66-91f5bc664ef3@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a0c:700:2:0:ec4:7aff:fe59:a1ad;
- envelope-from=erdnaxe@crans.org; helo=zamok.crans.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.144,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -48,166 +92,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Log instruction execution and memory access to a file.
-This plugin can be used for reverse engineering or for side-channel analysis
-using QEMU.
+On 6/14/21 9:44 AM, Mark Cave-Ayland wrote:
+> On 14/06/2021 06:42, Philippe Mathieu-Daudé wrote:
+> 
+>> On 6/13/21 12:26 PM, Mark Cave-Ayland wrote:
+>>> Commit 4e78f3bf35 "esp: defer command completion interrupt on
+>>> incoming data
+>>> transfers" added a version check for use with VMSTATE_*_TEST macros
+>>> to allow
+>>> migration from older QEMU versions. Unfortunately the version check
+>>> fails to
+>>> work in its current form since if the VMStateDescription version_id is
+>>> incremented, the test returns false and so the fields are not
+>>> included in the
+>>> outgoing migration stream.
+>>>
+>>> Change the version check to use >= rather == to ensure that migration
+>>> works
+>>> correctly when the ESPState VMStateDescription has version_id > 5.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on
+>>> incoming data transfers")
+>>> ---
+>> Well, it is not buggy yet :)
+> 
+> :)
+> 
+>>>   hw/scsi/esp.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+>>> index bfdb94292b..39756ddd99 100644
+>>> --- a/hw/scsi/esp.c
+>>> +++ b/hw/scsi/esp.c
+>>> @@ -1120,7 +1120,7 @@ static bool esp_is_version_5(void *opaque, int
+>>> version_id)
+>>
+>> Can you rename esp_is_at_least_version_5()?
+> 
+> Sure, I can rename it if you like but it will of course make the diff
+> noisier. esp_is_at_least_version_5() seems quite a mouthful though, what
+> about esp_min_version_5() instead?
 
-Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
----
- MAINTAINERS               |   1 +
- contrib/plugins/Makefile  |   1 +
- contrib/plugins/execlog.c | 112 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 114 insertions(+)
- create mode 100644 contrib/plugins/execlog.c
+I was looking at esp_is_before_version_5(). Following that logic it
+should be named esp_is_after_version_4()? Or esp_min_version_5() and
+rename esp_is_before_version_5() -> esp_max_version_4(). All options
+seem confuse...
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d9cd29042..65942d5802 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2974,6 +2974,7 @@ F: include/tcg/
- 
- TCG Plugins
- M: Alex Bennée <alex.bennee@linaro.org>
-+R: Alexandre Iooss <erdnaxe@crans.org>
- S: Maintained
- F: docs/devel/tcg-plugins.rst
- F: plugins/
-diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-index b9d7935e5e..51093acd17 100644
---- a/contrib/plugins/Makefile
-+++ b/contrib/plugins/Makefile
-@@ -13,6 +13,7 @@ include $(BUILD_DIR)/config-host.mak
- VPATH += $(SRC_PATH)/contrib/plugins
- 
- NAMES :=
-+NAMES += execlog
- NAMES += hotblocks
- NAMES += hotpages
- NAMES += howvec
-diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
-new file mode 100644
-index 0000000000..80716e8eed
---- /dev/null
-+++ b/contrib/plugins/execlog.c
-@@ -0,0 +1,112 @@
-+/*
-+ * Copyright (C) 2021, Alexandre Iooss <erdnaxe@crans.org>
-+ *
-+ * Log instruction execution and memory access to a file.
-+ * You may pass the output filename as argument.
-+ *
-+ * License: GNU GPL, version 2 or later.
-+ *   See the COPYING file in the top-level directory.
-+ */
-+#include <glib.h>
-+#include <inttypes.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+
-+#include <qemu-plugin.h>
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+/* Execution trace buffer */
-+FILE *output;
-+
-+/**
-+ * Log memory read or write
-+ */
-+static void vcpu_mem(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
-+                     uint64_t vaddr, void *udata)
-+{
-+    struct qemu_plugin_hwaddr *hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
-+    if (!hwaddr) {
-+        return;
-+    }
-+
-+    /* Add data to execution log */
-+    const char *name = qemu_plugin_hwaddr_device_name(hwaddr);
-+    uint64_t addr = qemu_plugin_hwaddr_phys_addr(hwaddr);
-+    if (qemu_plugin_mem_is_store(info)) {
-+        fprintf(output, "mem: %s store at 0x%08lx\n", name, addr);
-+    } else {
-+        fprintf(output, "mem: %s load at 0x%08lx\n", name, addr);
-+    }
-+}
-+
-+/**
-+ * Log instruction execution
-+ */
-+static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
-+{
-+    char *insn_disas = (char *)udata;
-+
-+    /* Add data to execution log */
-+    fprintf(output, "insn: %s\n", insn_disas);
-+}
-+
-+/**
-+ * On translation block new translation
-+ *
-+ * QEMU convert code by translation block (TB). By hooking here we can then hook
-+ * a callback on each instruction and memory access.
-+ */
-+static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-+{
-+    size_t n = qemu_plugin_tb_n_insns(tb);
-+    for (size_t i = 0; i < n; i++) {
-+        /* insn is shared between translations in QEMU, copy needed data here */
-+        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
-+        char *insn_disas = qemu_plugin_insn_disas(insn);
-+
-+        /* Register callback on memory read or write */
-+        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
-+                                         QEMU_PLUGIN_CB_NO_REGS,
-+                                         QEMU_PLUGIN_MEM_RW, NULL);
-+
-+        /* Register callback on instruction */
-+        qemu_plugin_register_vcpu_insn_exec_cb(
-+            insn, vcpu_insn_exec, QEMU_PLUGIN_CB_R_REGS, insn_disas);
-+    }
-+}
-+
-+/**
-+ * On plugin exit, close output file
-+ */
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    fclose(output);
-+}
-+
-+/**
-+ * Install the plugin
-+ */
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                                           const qemu_info_t *info, int argc,
-+                                           char **argv)
-+{
-+    /* Parse arguments to get output name and open for writing */
-+    char *filename = "execution.log";
-+    if (argc > 0) {
-+        filename = argv[0];
-+    }
-+    output = fopen(filename, "w");
-+    if (output == NULL) {
-+        qemu_plugin_outs("Cannot open output file for writing.\n");
-+        return -1;
-+    }
-+
-+    /* Register translation block and exit callbacks */
-+    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+
-+    return 0;
-+}
--- 
-2.25.1
+Maybe _V macros suggested by Paolo make all clearer?
 
+> 
+>>>       ESPState *s = ESP(opaque);
+>>>         version_id = MIN(version_id, s->mig_version_id);
+>>> -    return version_id == 5;
+>>> +    return version_id >= 5;
+>>>   }
+>>>     int esp_pre_save(void *opaque)
+> 
+> 
+> ATB,
+> 
+> Mark.
+> 
 
