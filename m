@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272B23A7246
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 00:58:21 +0200 (CEST)
-Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327173A727D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:32:38 +0200 (CEST)
+Received: from localhost ([::1]:55734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsvXA-0006cn-7M
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 18:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
+	id 1lsw4K-0006JW-R2
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:32:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsvWO-0005lg-2K
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:57:32 -0400
-Resent-Date: Mon, 14 Jun 2021 18:57:32 -0400
-Resent-Message-Id: <E1lsvWO-0005lg-2K@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21399)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsvWL-0001vj-7P
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:57:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623711441; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=S6ueKn9SzIE6V71cgnmZEeTiQigjiHXV9zqMxD5yxHt/E+ZmnKjIPXMIByyxZqV238i+Sl/ZCKUbW5SekTyfbBlFUbmFxL8jB/Otfos0zyPp7USXdcYbqRza082pa2XUswND+7F52K1KN3F+/TrWIH26KenDoffgiINDO6TWAk0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623711441;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=ar6dhlWLz6s3QrpdokcJYIht8TXKKy1uqWXl4bJ4Bfk=; 
- b=O7a04Jpx9t7djJ1YQvWRRhenSs5xYX7tvNL5OAhPKuvApLcKTFXeRwd9EoyL3guIKus5qqpZB178EPIHHumLjqfteKysAjOc49om7wxWMyT5rnRQnNeA6/WcDc5VW7p5jsS5DW5x6msyV2H1YtG5XBbjQYX79mE+/cIDRXuHf/c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623711439946888.1269842922192;
- Mon, 14 Jun 2021 15:57:19 -0700 (PDT)
-In-Reply-To: <20210610133538.608390-1-pbonzini@redhat.com>
-Subject: Re: [PATCH 00/11] vl: compound properties for machines
-Message-ID: <162371143904.2358.15860711669341575698@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lsw2e-0004vk-SW
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:30:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lsw2b-00077a-Pm
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:30:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lsw2W-00060o-FZ
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 23:30:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 53DEE2E8086
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 23:30:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Mon, 14 Jun 2021 15:57:19 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Jun 2021 23:22:47 -0000
+From: Alexander Bulekov <1878323@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <158933876258.19393.11272084108763872012.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162371296780.10386.8116398012633007367.malone@soybean.canonical.com>
+Subject: [Bug 1878323] Re: Assertion-failure in usb_detach
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: a836ab4cce1c5f6b045459b8d3e6f80ddb09bc0a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,130 +70,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
+Reply-To: Bug 1878323 <1878323@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxMDEzMzUzOC42MDgz
-OTAtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA2MTAxMzM1MzguNjA4
-MzkwLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMDAvMTFdIHZsOiBjb21w
-b3VuZCBwcm9wZXJ0aWVzIGZvciBtYWNoaW5lcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
-IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
-Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
-IEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMz
-ODQKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplMTdmNWM2IG1hY2hpbmU6IGFkZCBz
-bXAgY29tcG91bmQgcHJvcGVydHkKY2JmMDFkMyBtYWNoaW5lOiByZWplY3QgLXNtcCBkaWVzIT0x
-IGZvciBub24tUEMgbWFjaGluZXMKODYzNmM3ZiBtYWNoaW5lOiBwYXNzIFFBUEkgc3RydWN0IHRv
-IG1jLT5zbXBfcGFyc2UKYjY0ODQ1OCBtYWNoaW5lOiBhZGQgZXJyb3IgcHJvcGFnYXRpb24gdG8g
-bWMtPnNtcF9wYXJzZQo1ZGNmY2I4IG1hY2hpbmU6IG1vdmUgY29tbW9uIHNtcF9wYXJzZSBjb2Rl
-IHRvIGNhbGxlcgowODdiNGNlIG1hY2hpbmU6IG1vdmUgZGllcyBmcm9tIFg4Nk1hY2hpbmVTdGF0
-ZSB0byBDcHVUb3BvbG9neQpjMDNkNTE3IHFlbXUtb3B0aW9uOiByZW1vdmUgbm93LWRlYWQgY29k
-ZQo3ZjdmYjgxIHZsOiBzd2l0Y2ggLU0gcGFyc2luZyB0byBrZXl2YWwKNjBmNGI0MCBrZXl2YWw6
-IGludHJvZHVjZSBrZXl2YWxfcGFyc2VfaW50bwo4YzYxOWE0IGtleXZhbDogaW50cm9kdWNlIGtl
-eXZhbF9tZXJnZQpjZWYxMGY3IHFvbTogZXhwb3J0IG1vcmUgZnVuY3Rpb25zIGZvciB1c2Ugd2l0
-aCBub24tVXNlckNyZWF0YWJsZSBvYmplY3RzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzExIENo
-ZWNraW5nIGNvbW1pdCBjZWYxMGY3ZmM3NjAgKHFvbTogZXhwb3J0IG1vcmUgZnVuY3Rpb25zIGZv
-ciB1c2Ugd2l0aCBub24tVXNlckNyZWF0YWJsZSBvYmplY3RzKQoyLzExIENoZWNraW5nIGNvbW1p
-dCA4YzYxOWE0ZjcxYzAgKGtleXZhbDogaW50cm9kdWNlIGtleXZhbF9tZXJnZSkKRVJST1I6IGxp
-bmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM0NTogRklMRTogdGVzdHMvdW5pdC90ZXN0LWtleXZhbC5j
-Ojc1NjoKKyAgICBRRGljdCAqY29tYmluZWQgPSBrZXl2YWxfcGFyc2UoIm9wdDE9QUJDLG9wdDIu
-c3ViMT1kZWYsb3B0Mi5zdWIyPUdISSxvcHQyLnN1YjM9SktMLG9wdDM9eHl6IiwKCldBUk5JTkc6
-IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMTQ6IEZJTEU6IHV0aWwva2V5dmFsLmM6MzE0Ogor
-c3RhdGljIHZvaWQga2V5dmFsX2RvX21lcmdlKFFEaWN0ICpvbGQsIGNvbnN0IFFEaWN0ICpuZXcs
-IEdTdHJpbmcgKnN0ciwgRXJyb3IgKiplcnJwKQoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0
-ZXJzCiMxMjQ6IEZJTEU6IHV0aWwva2V5dmFsLmM6MzI0OgorICAgICAgICAgICAgICAgIGVycm9y
-X3NldGcoZXJycCwgIlBhcmFtZXRlciAnJXMlcycgdXNlZCBpbmNvbnNpc3RlbnRseSIsIHN0ci0+
-c3RyLCBlbnQtPmtleSk7Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3MsIDEyNyBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAyLzExIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgozLzExIENoZWNr
-aW5nIGNvbW1pdCA2MGY0YjQwMjI4NDMgKGtleXZhbDogaW50cm9kdWNlIGtleXZhbF9wYXJzZV9p
-bnRvKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjY6IEZJTEU6IGluY2x1ZGUv
-cWVtdS9vcHRpb24uaDoxNTA6CitRRGljdCAqa2V5dmFsX3BhcnNlX2ludG8oUURpY3QgKnFkaWN0
-LCBjb25zdCBjaGFyICpwYXJhbXMsIGNvbnN0IGNoYXIgKmltcGxpZWRfa2V5LAoKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQ4OiBGSUxFOiB1dGlsL2tleXZhbC5jOjQ4NjoKK1FE
-aWN0ICprZXl2YWxfcGFyc2VfaW50byhRRGljdCAqcWRpY3QsIGNvbnN0IGNoYXIgKnBhcmFtcywg
-Y29uc3QgY2hhciAqaW1wbGllZF9rZXksCgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDc4
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNC8x
-MSBDaGVja2luZyBjb21taXQgN2Y3ZmI4MTU3MDAxICh2bDogc3dpdGNoIC1NIHBhcnNpbmcgdG8g
-a2V5dmFsKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjA2OiBGSUxFOiBzb2Z0
-bW11L3ZsLmM6MTU5MjoKKyAgICAgICAgICAgIGVycm9yX3NldGcoJmxvY2FsX2VyciwgIk5vIG1h
-Y2hpbmUgc3BlY2lmaWVkLCBhbmQgdGhlcmUgaXMgbm8gZGVmYXVsdCIpOwoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIxOTogRklMRTogc29mdG1tdS92bC5jOjE1OTg6CisgICAg
-ICAgIGVycm9yX2FwcGVuZF9oaW50KCZsb2NhbF9lcnIsICJVc2UgLW1hY2hpbmUgaGVscCB0byBs
-aXN0IHN1cHBvcnRlZCBtYWNoaW5lc1xuIik7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
-dGVycwojMjU2OiBGSUxFOiBzb2Z0bW11L3ZsLmM6MTYzOToKKyAgICAgICAgICAgIGVycm9yX3Nl
-dGcoZXJycCwgIkNvbmZsaWN0IGJldHdlZW4gJyVzJyBhbmQgJyVzJyIsIGVudC0+a2V5LCBuZXdf
-a2V5KTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMDA6IEZJTEU6IHNvZnRt
-bXUvdmwuYzoxNjYzOgorICAgICAgICBvYmplY3RfcmVnaXN0ZXJfc3VnYXJfcHJvcChBQ0NFTF9D
-TEFTU19OQU1FKCJ4ZW4iKSwgImlnZC1wYXNzdGhydSIsIHZhbHVlLAoKV0FSTklORzogbGluZSBv
-dmVyIDgwIGNoYXJhY3RlcnMKIzMwNzogRklMRTogc29mdG1tdS92bC5jOjE2NzA6CisgICAgICAg
-IG9iamVjdF9yZWdpc3Rlcl9zdWdhcl9wcm9wKEFDQ0VMX0NMQVNTX05BTUUoImt2bSIpLCAia3Zt
-LXNoYWRvdy1tZW0iLCB2YWx1ZSwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMz
-MTQ6IEZJTEU6IHNvZnRtbXUvdmwuYzoxNjc3OgorICAgICAgICBvYmplY3RfcmVnaXN0ZXJfc3Vn
-YXJfcHJvcChBQ0NFTF9DTEFTU19OQU1FKCJrdm0iKSwgImtlcm5lbC1pcnFjaGlwIiwgdmFsdWUs
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMzE2OiBGSUxFOiBzb2Z0bW11L3Zs
-LmM6MTY3OToKKyAgICAgICAgb2JqZWN0X3JlZ2lzdGVyX3N1Z2FyX3Byb3AoQUNDRUxfQ0xBU1Nf
-TkFNRSgid2hweCIpLCAia2VybmVsLWlycWNoaXAiLCB2YWx1ZSwKCkVSUk9SOiBsaW5lIG92ZXIg
-OTAgY2hhcmFjdGVycwojMzM4OiBGSUxFOiBzb2Z0bW11L3ZsLmM6MTgwNDoKKyAgICBvYmplY3Rf
-c2V0X3Byb3BlcnRpZXNfZnJvbV9rZXl2YWwoT0JKRUNUKGN1cnJlbnRfbWFjaGluZSksIHFkaWN0
-LCBmYWxzZSwgJmVycm9yX2ZhdGFsKTsKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwoj
-MzUwOiBGSUxFOiBzb2Z0bW11L3ZsLmM6MTgzNDoKKyAgICAgICAgc2VtaWhvc3RpbmdfYXJnX2Zh
-bGxiYWNrKGN1cnJlbnRfbWFjaGluZS0+a2VybmVsX2ZpbGVuYW1lLCBjdXJyZW50X21hY2hpbmUt
-Pmtlcm5lbF9jbWRsaW5lKTsKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzQxNDogRklMRTogc29mdG1tdS92bC5jOjIxMjg6CiteSSAqIENhbm5vdCBtZXJnZSBzdHJp
-bmctdmFsdWVkIGFuZCB0eXBlLXNhZmUgZGljdGlvbmFyaWVzLCBzbyBKU09OJAoKRVJST1I6IGNv
-ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDE1OiBGSUxFOiBzb2Z0bW11L3ZsLmM6
-MjEyOToKK15JICogaXMgbm90IGFjY2VwdGVkIHlldCBmb3IgLU0uJAoKRVJST1I6IGNvZGUgaW5k
-ZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNDE2OiBGSUxFOiBzb2Z0bW11L3ZsLmM6MjEzMDoK
-K15JICovJAoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM1MjY6IEZJTEU6IHNvZnRt
-bXUvdmwuYzozMjQ4OgorICAgICAgICAgICAgICAgICAgICBrZXl2YWxfcGFyc2VfaW50byhtYWNo
-aW5lX29wdHNfZGljdCwgb3B0YXJnLCAidHlwZSIsICZoZWxwLCAmZXJyb3JfZmF0YWwpOwoKdG90
-YWw6IDYgZXJyb3JzLCA3IHdhcm5pbmdzLCA1MzYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8xMSBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS8xMSBDaGVja2luZyBjb21taXQgYzAzZDUxNzE0
-ZWIwIChxZW11LW9wdGlvbjogcmVtb3ZlIG5vdy1kZWFkIGNvZGUpCjYvMTEgQ2hlY2tpbmcgY29t
-bWl0IDA4N2I0Y2UxZmNmYiAobWFjaGluZTogbW92ZSBkaWVzIGZyb20gWDg2TWFjaGluZVN0YXRl
-IHRvIENwdVRvcG9sb2d5KQo3LzExIENoZWNraW5nIGNvbW1pdCA1ZGNmY2I4ODEzMGQgKG1hY2hp
-bmU6IG1vdmUgY29tbW9uIHNtcF9wYXJzZSBjb2RlIHRvIGNhbGxlcikKOC8xMSBDaGVja2luZyBj
-b21taXQgYjY0ODQ1ODlkNTk3IChtYWNoaW5lOiBhZGQgZXJyb3IgcHJvcGFnYXRpb24gdG8gbWMt
-PnNtcF9wYXJzZSkKOS8xMSBDaGVja2luZyBjb21taXQgODYzNmM3ZmI5OGU1IChtYWNoaW5lOiBw
-YXNzIFFBUEkgc3RydWN0IHRvIG1jLT5zbXBfcGFyc2UpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiM5NTogRklMRTogaHcvaTM4Ni9wYy5jOjcxMzoKK3N0YXRpYyB2b2lkIHBjX3Nt
-cF9wYXJzZShNYWNoaW5lU3RhdGUgKm1zLCBTTVBDb25maWd1cmF0aW9uICpjb25maWcsIEVycm9y
-ICoqZXJycCkKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTMzIGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDkvMTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
-IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
-dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTAvMTEgQ2hlY2tpbmcgY29t
-bWl0IGNiZjAxZDNkYjYwYiAobWFjaGluZTogcmVqZWN0IC1zbXAgZGllcyE9MSBmb3Igbm9uLVBD
-IG1hY2hpbmVzKQoxMS8xMSBDaGVja2luZyBjb21taXQgZTE3ZjVjNmE5NzgwIChtYWNoaW5lOiBh
-ZGQgc21wIGNvbXBvdW5kIHByb3BlcnR5KQpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMK
-IzIzNjogRklMRTogc29mdG1tdS92bC5jOjMzMTY6CisgICAgICAgICAgICAgICAgbWFjaGluZV9w
-YXJzZV9wcm9wZXJ0eV9vcHQocWVtdV9maW5kX29wdHMoInNtcC1vcHRzIiksICJzbXAiLCBvcHRh
-cmcsICZlcnJvcl9mYXRhbCk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjQ5
-OiBGSUxFOiB0ZXN0cy9xdGVzdC9udW1hLXRlc3QuYzoyODoKKyAgICBjbGkgPSBtYWtlX2NsaShk
-YXRhLCAiLW1hY2hpbmUgc21wLmNwdXM9OCAtbnVtYSBub2RlLG5vZGVpZD0wLG1lbWRldj1yYW0s
-Y3B1cz0wLTMgIgoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI1ODogRklMRTog
-dGVzdHMvcXRlc3QvbnVtYS10ZXN0LmM6NDU6CisgICAgY2xpID0gbWFrZV9jbGkoZGF0YSwgIi1t
-YWNoaW5lIHNtcC5jcHVzPTggLW51bWEgbm9kZSxtZW1kZXY9cmFtIC1udW1hIG5vZGUiKTsKCkVS
-Uk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMjg1OiBGSUxFOiB0ZXN0cy9xdGVzdC9udW1h
-LXRlc3QuYzoxMjc6CisgICAgY2xpID0gbWFrZV9jbGkoZGF0YSwgIi1jcHUgcGVudGl1bSAtbWFj
-aGluZSBzbXAuY3B1cz04LHNtcC5zb2NrZXRzPTIsc21wLmNvcmVzPTIsc21wLnRocmVhZHM9MiAi
-Cgp0b3RhbDogMiBlcnJvcnMsIDIgd2FybmluZ3MsIDI4NCBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-MS8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0
-IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUg
-YXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA2MTAxMzM1MzguNjA4MzkwLTEtcGJvbnpp
-bmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWls
-IGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcv
-XS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+OSS-Fuzz never found it, though we are fuzzing a slightly different ehci
+configuration there. I made a note of the arguments we should start
+fuzzing on OSS-Fuzz, but I think this is safe to close.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878323
+
+Title:
+  Assertion-failure in usb_detach
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an assertion-failure in usb=
+_detach
+
+  /home/alxndr/Development/qemu/hw/usb/core.c:69: void usb_detach(USBPort *=
+): Assertion `dev->state !=3D USB_STATE_NOTATTACHED' failed.
+  #3  0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x555557fd2040 =
+<str> "dev->state !=3D USB_STATE_NOTATTACHED", file=3D0x555557fd1ec0 <str> =
+"/home/alxndr/Development/qemu/hw/usb/core.c", line=3D0x45, function=3D0x55=
+5557fd2000 <__PRETTY_FUNCTION__.usb_detach> "void usb_detach(USBPort *)") a=
+t assert.c:101
+  #4  0x000055555723f0ce in usb_detach (port=3D0x62100002df30) at /home/alx=
+ndr/Development/qemu/hw/usb/core.c:69
+  #5  0x00005555572a05a4 in ehci_reset (opaque=3D0x62100002d9f0) at /home/a=
+lxndr/Development/qemu/hw/usb/hcd-ehci.c:863
+  #6  0x00005555572bf941 in ehci_opreg_write (ptr=3D0x62100002d9f0, addr=3D=
+0x0, val=3D0xbebebebe, size=3D0x4) at /home/alxndr/Development/qemu/hw/usb/=
+hcd-ehci.c:1032
+  #7  0x00005555564938b5 in memory_region_write_accessor (mr=3D0x62100002dc=
+b0, addr=3D0x0, value=3D0x7fffffffaad0, size=3D0x4, shift=3D0x0, mask=3D0xf=
+fffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
+  #8  0x000055555649328a in access_with_adjusted_size (addr=3D0x0, value=3D=
+0x7fffffffaad0, size=3D0x4, access_size_min=3D0x1, access_size_max=3D0x4, a=
+ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x62100002dc=
+b0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #9  0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x62100002dc=
+b0, addr=3D0x0, data=3D0xbebebebe, op=3DMO_32, attrs=3D...) at /home/alxndr=
+/Development/qemu/memory.c:1476
+  #10 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x60600003e600, a=
+ddr=3D0xe0000020, attrs=3D..., ptr=3D0x625000260000, len=3D0xfe0, addr1=3D0=
+x0, l=3D0x4, mr=3D0x62100002dcb0) at /home/alxndr/Development/qemu/exec.c:3=
+137
+  #11 0x00005555562bbad9 in flatview_write (fv=3D0x60600003e600, addr=3D0xe=
+0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/alxndr/D=
+evelopment/qemu/exec.c:3177
+  #12 0x00005555562bb609 in address_space_write (as=3D0x62100002d328, addr=
+=3D0xe0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/al=
+xndr/Development/qemu/exec.c:3268
+  #13 0x00005555562c06a6 in address_space_unmap (as=3D0x62100002d328, buffe=
+r=3D0x625000260000, len=3D0x1000, is_write=3D0x1, access_len=3D0x1000) at /=
+home/alxndr/Development/qemu/exec.c:3592
+  #14 0x0000555557257d73 in dma_memory_unmap (as=3D0x62100002d328, buffer=
+=3D0x625000260000, len=3D0x1000, dir=3DDMA_DIRECTION_FROM_DEVICE, access_le=
+n=3D0x1000) at /home/alxndr/Development/qemu/include/sysemu/dma.h:145
+  #15 0x0000555557257c57 in usb_packet_unmap (p=3D0x6110000484c0, sgl=3D0x6=
+11000048548) at /home/alxndr/Development/qemu/hw/usb/libhw.c:65
+  #16 0x00005555572a5953 in ehci_free_packet (p=3D0x611000048480) at /home/=
+alxndr/Development/qemu/hw/usb/hcd-ehci.c:536
+  #17 0x00005555572a4ed4 in ehci_cancel_queue (q=3D0x60d000004f10) at /home=
+/alxndr/Development/qemu/hw/usb/hcd-ehci.c:584
+  #18 0x00005555572a49ab in ehci_free_queue (q=3D0x60d000004f10, warn=3D0x0=
+) at /home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:611
+  #19 0x00005555572b102d in ehci_queues_rip_device (ehci=3D0x62100002d9f0, =
+dev=3D0x623000001d00, async=3D0x1) at /home/alxndr/Development/qemu/hw/usb/=
+hcd-ehci.c:674
+  #20 0x00005555572af7a3 in ehci_detach (port=3D0x62100002df78) at /home/al=
+xndr/Development/qemu/hw/usb/hcd-ehci.c:733
+  #21 0x000055555723f15c in usb_detach (port=3D0x62100002df78) at /home/alx=
+ndr/Development/qemu/hw/usb/core.c:70
+  #22 0x00005555572a05a4 in ehci_reset (opaque=3D0x62100002d9f0) at /home/a=
+lxndr/Development/qemu/hw/usb/hcd-ehci.c:863
+  #23 0x00005555572bf941 in ehci_opreg_write (ptr=3D0x62100002d9f0, addr=3D=
+0x0, val=3D0xbebebebe, size=3D0x4) at /home/alxndr/Development/qemu/hw/usb/=
+hcd-ehci.c:1032
+  #24 0x00005555564938b5 in memory_region_write_accessor (mr=3D0x62100002dc=
+b0, addr=3D0x0, value=3D0x7fffffffc410, size=3D0x4, shift=3D0x0, mask=3D0xf=
+fffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
+  #25 0x000055555649328a in access_with_adjusted_size (addr=3D0x0, value=3D=
+0x7fffffffc410, size=3D0x4, access_size_min=3D0x1, access_size_max=3D0x4, a=
+ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x62100002dc=
+b0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #26 0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x62100002dc=
+b0, addr=3D0x0, data=3D0xbebebebe, op=3DMO_32, attrs=3D...) at /home/alxndr=
+/Development/qemu/memory.c:1476
+  #27 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x60600003e600, a=
+ddr=3D0xe0000020, attrs=3D..., ptr=3D0x625000260000, len=3D0xfe0, addr1=3D0=
+x0, l=3D0x4, mr=3D0x62100002dcb0) at /home/alxndr/Development/qemu/exec.c:3=
+137
+  #28 0x00005555562bbad9 in flatview_write (fv=3D0x60600003e600, addr=3D0xe=
+0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/alxndr/D=
+evelopment/qemu/exec.c:3177
+  #29 0x00005555562bb609 in address_space_write (as=3D0x62100002d328, addr=
+=3D0xe0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/al=
+xndr/Development/qemu/exec.c:3268
+  #30 0x00005555562c06a6 in address_space_unmap (as=3D0x62100002d328, buffe=
+r=3D0x625000260000, len=3D0x1000, is_write=3D0x1, access_len=3D0x1000) at /=
+home/alxndr/Development/qemu/exec.c:3592
+  #31 0x0000555557257d73 in dma_memory_unmap (as=3D0x62100002d328, buffer=
+=3D0x625000260000, len=3D0x1000, dir=3DDMA_DIRECTION_FROM_DEVICE, access_le=
+n=3D0x1000) at /home/alxndr/Development/qemu/include/sysemu/dma.h:145
+  #32 0x0000555557257c57 in usb_packet_unmap (p=3D0x6110000484c0, sgl=3D0x6=
+11000048548) at /home/alxndr/Development/qemu/hw/usb/libhw.c:65
+  #33 0x00005555572aa87e in ehci_execute_complete (q=3D0x60d000004f10) at /=
+home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:1324
+  #34 0x00005555572a7b8c in ehci_state_executing (q=3D0x60d000004f10) at /h=
+ome/alxndr/Development/qemu/hw/usb/hcd-ehci.c:1973
+  #35 0x00005555572b3685 in ehci_advance_state (ehci=3D0x62100002d9f0, asyn=
+c=3D0x1) at /home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:2094
+  #36 0x00005555572b2db9 in ehci_advance_async_state (ehci=3D0x62100002d9f0=
+) at /home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:2152
+  #37 0x00005555572a29c3 in ehci_work_bh (opaque=3D0x62100002d9f0) at /home=
+/alxndr/Development/qemu/hw/usb/hcd-ehci.c:2320
+  #38 0x0000555557bfba60 in aio_bh_call (bh=3D0x60400001cd90) at /home/alxn=
+dr/Development/qemu/util/async.c:136
+
+  =
+
+  I can reproduce it in qemu 5.0 using the commands in the attachment:
+
+  qemu-system-i386 \
+  -qtest stdio -nographic -monitor none -serial none \
+  -M pc-q35-5.0 -machine q35 \
+  -device ich9-usb-ehci1,bus=3Dpcie.0,addr=3D1d.7,multifunction=3Don,id=3Di=
+ch9-ehci-1 \
+  -device ich9-usb-uhci1,bus=3Dpcie.0,addr=3D1d.0,multifunction=3Don,master=
+bus=3Dich9-ehci-1.0,firstport=3D0 \
+  -device ich9-usb-uhci2,bus=3Dpcie.0,addr=3D1d.1,multifunction=3Don,master=
+bus=3Dich9-ehci-1.0,firstport=3D2 \
+  -device ich9-usb-uhci3,bus=3Dpcie.0,addr=3D1d.2,multifunction=3Don,master=
+bus=3Dich9-ehci-1.0,firstport=3D4 \
+  -drive if=3Dnone,id=3Dusbcdrom,media=3Dcdrom \
+  -device usb-tablet,bus=3Dich9-ehci-1.0,port=3D1,usb_version=3D1 \
+  -device usb-storage,bus=3Dich9-ehci-1.0,port=3D2,drive=3Dusbcdrom \
+  -display none -nodefaults -nographic < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878323/+subscriptions
 
