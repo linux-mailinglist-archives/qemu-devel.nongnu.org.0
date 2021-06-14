@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769043A6A99
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:37:59 +0200 (CEST)
-Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C247B3A6AB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:42:26 +0200 (CEST)
+Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsof0-0005sF-IT
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
+	id 1lsojJ-0002MQ-Ri
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:42:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsoEs-0001yf-H7
+ id 1lsoEs-0001zw-Q8
  for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:10:58 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:42696)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsoEc-0000Vv-J9
+ id 1lsoEd-0000WL-Dp
  for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:10:58 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- l7-20020a05600c1d07b02901b0e2ebd6deso187173wms.1
+Received: by mail-wm1-x32e.google.com with SMTP id
+ s70-20020a1ca9490000b02901a589651424so125092wme.0
  for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 08:10:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dLzA7XVZjhEUM4ZQnuRm6LKjQQExjGMIe61Trui2+5A=;
- b=JTU8Dt2HZbswHq8hZOpG1LqDEWtO3uqKPvHABncHW8FOsShiuaAerh44+CI0aylnLu
- tNwEMn9RzFXwB1wB+UT1AaNBXHR8st0GqSGq7ecY8A4LwZvfLO1Sqzp7X61/ZhS6WdK+
- +qB/yZjTsVi+QmpoE300k9jdqt/1UF5JzKnVOR8juVlztd9KF7gumZFLouVr7qzdpdXP
- owI4XLDgYlp0W8uolS+w9AH9qLMQORoJASwIwoD1mqT4Odnd4mv6oaELy669du+kYkXi
- k89WmX/fGv8ZZgXgYJtLqzOzenbUM9f2RERRtUdDt6pBXCd8ptRZ9FaJSoB9zYqGJ1Sf
- c9Dw==
+ bh=yK1q1HZeCjEqjRVAbK5tFtpYKErqos88vnz+vFLXl0w=;
+ b=FCq4qvD9ANFO8KArmXMKEzLyT9zwAlWcBLfhbn8vfX220/VEBYk5+3OYRSGkfiTY1N
+ y11hROptkiH8y/wMSiwBxTyn9yG55j1PZwiNaJiGwUOj5LS1QY+VvP9gQ3GY+Y86ekfX
+ xXy/wij8+MCrYIQqSVJb8Um9bNMvBOiEh8KdOOU4srUX2glpl2B+bl8jCi/5eQmOLUuJ
+ MhcwPd54ymf2CLkakhPvA+cVmGV3Lef65xvOyhhfbT2XngWFb6bM97hmcYlx6OW79jNC
+ GuWW8qYWwHjIksto1WWJmvLxqn9wR1vfTHE1KAKSmpcTeupRooQr+dSe+v4yhyTq2CHD
+ KbAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dLzA7XVZjhEUM4ZQnuRm6LKjQQExjGMIe61Trui2+5A=;
- b=odWgKBk+rekRaMiirOvb6i/dhmNLUNpDgQJtsHK3JxAzIrjrG6xAiU12IJ20HDbcD/
- d9I6bE0DVCU9r1ILXhkj5asnfOg2ZQcK3+/0JlFqIQ83VXMobgQ7SKyw4jfLsfySn+Cv
- bZZCrLgL8Q+35GrmXnjsWpWJkGeUTnrycPAD+/b3u2cVTKrzFxZOZiK4qTzs+FtjvozA
- Lvd2nMzKGs0MbEMe6O8CnFscenLceD75Zi6Udj/ps1U2pK8uHJD0Jv+rehzJDcctlhWj
- cEHSH7bd/sgaoc8A00V6ELl23r942ZV8Y3XoGVlFN3OTnPC5KFfzGkUx54qjbEvXxUwG
- S9HA==
-X-Gm-Message-State: AOAM533yhj1CP7NPPGMt4kmEpUactY+m0zRefj3vqyzMmGP+oixiIRCz
- nrymwOouba1L7IKyuVbNfhz8JFVuIgAbBg==
-X-Google-Smtp-Source: ABdhPJxsQA3SDOgy291rKJAC5U7yG6CZMrKRBMJmD6S59OoY25labRqJdUW1rweSvM6NXZTMS4aGsQ==
-X-Received: by 2002:a1c:9807:: with SMTP id a7mr32732126wme.10.1623683441282; 
+ bh=yK1q1HZeCjEqjRVAbK5tFtpYKErqos88vnz+vFLXl0w=;
+ b=QGepeU58Apk4WpHceqmrzc7O5MZRdyFdnrLiugPxhyUrjyyYmZP0CCYXIqJJHsoydJ
+ lveQ7j38YNxv9MH2JDthlwtKOiu5xth5C/8LMBxDMqTiq1yxFob9u/Km4yzXXV40QHgn
+ 9VjT0211OdKCBVW8/6NXYQf8np8e6qKskrGwPm75aSs8PVvsbiDxyHYvcvaMBagqpKrJ
+ 2ZkSl/3zYcJNWnvp3wJqc+0mCW6ZLc0lbqLBitTTDYYleovGRMSZytOoGGOEH+Wdehwi
+ DbVV9D60DMLeYGUO+cb2Pf06LrCMA31KyEhQFFu0tvoUfX1wstNa3zSnjHgieQBThNf2
+ OkHQ==
+X-Gm-Message-State: AOAM53290oRsfqJm34+z3bA49ghKKPhs+3udjjCw5SBlgfBDhl2p/XON
+ hkmb1Gw8htUIk6d9oAMBmKIatQ==
+X-Google-Smtp-Source: ABdhPJw5YdAau/I9NJnaY/oiIcg5KEm4KO40fgdQ0WCZFgxyovjVInpTxv+V2VZuwjIAc7kpDzHacg==
+X-Received: by 2002:a05:600c:2f10:: with SMTP id
+ r16mr16774861wmn.153.1623683441976; 
  Mon, 14 Jun 2021 08:10:41 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b8sm20865639wmd.35.2021.06.14.08.10.40
+ by smtp.gmail.com with ESMTPSA id b8sm20865639wmd.35.2021.06.14.08.10.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Jun 2021 08:10:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 38/57] target/arm: Implement MVE VBRSR
-Date: Mon, 14 Jun 2021 16:09:48 +0100
-Message-Id: <20210614151007.4545-39-peter.maydell@linaro.org>
+Subject: [PATCH v2 39/57] target/arm: Implement MVE VPST
+Date: Mon, 14 Jun 2021 16:09:49 +0100
+Message-Id: <20210614151007.4545-40-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210614151007.4545-1-peter.maydell@linaro.org>
 References: <20210614151007.4545-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,108 +89,102 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VBRSR insn, which reverses a specified
-number of bits in each element, setting the rest to zero.
+Implement the MVE VPST insn, which sets the predicate mask
+fields in the VPR to the immediate value encoded in the insn.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-mve.h    |  4 ++++
- target/arm/mve.decode      |  1 +
- target/arm/mve_helper.c    | 43 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c |  1 +
- 4 files changed, 49 insertions(+)
+ target/arm/mve.decode      |  4 +++
+ target/arm/translate-mve.c | 59 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
 
-diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 52086d769f4..1b807e1cf5f 100644
---- a/target/arm/helper-mve.h
-+++ b/target/arm/helper-mve.h
-@@ -173,6 +173,10 @@ DEF_HELPER_FLAGS_4(mve_vhsubu_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vhsubu_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vhsubu_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_4(mve_vbrsrb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vbrsrh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vbrsrw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
- DEF_HELPER_FLAGS_4(mve_vmlaldavsh, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
- DEF_HELPER_FLAGS_4(mve_vmlaldavsw, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
- DEF_HELPER_FLAGS_4(mve_vmlaldavxsh, TCG_CALL_NO_WG, i64, env, ptr, ptr, i64)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 5c332b04a7c..a3dbdb72a5c 100644
+index a3dbdb72a5c..e189e2de648 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -167,3 +167,4 @@ VHADD_S_scalar   1110 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
- VHADD_U_scalar   1111 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
+@@ -168,3 +168,7 @@ VHADD_U_scalar   1111 1110 0 . .. ... 0 ... 0 1111 . 100 .... @2scalar
  VHSUB_S_scalar   1110 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
  VHSUB_U_scalar   1111 1110 0 . .. ... 0 ... 1 1111 . 100 .... @2scalar
-+VBRSR            1111 1110 0 . .. ... 1 ... 1 1110 . 110 .... @2scalar
-diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 8e33079fd66..6ba1187cec0 100644
---- a/target/arm/mve_helper.c
-+++ b/target/arm/mve_helper.c
-@@ -538,6 +538,49 @@ DO_2OP_SCALAR_U(vhaddu_scalar, do_vhadd_u)
- DO_2OP_SCALAR_S(vhsubs_scalar, do_vhsub_s)
- DO_2OP_SCALAR_U(vhsubu_scalar, do_vhsub_u)
- 
-+static inline uint32_t do_vbrsrb(uint32_t n, uint32_t m)
-+{
-+    m &= 0xff;
-+    if (m == 0) {
-+        return 0;
-+    }
-+    n = revbit8(n);
-+    if (m < 8) {
-+        n >>= 8 - m;
-+    }
-+    return n;
-+}
+ VBRSR            1111 1110 0 . .. ... 1 ... 1 1110 . 110 .... @2scalar
 +
-+static inline uint32_t do_vbrsrh(uint32_t n, uint32_t m)
-+{
-+    m &= 0xff;
-+    if (m == 0) {
-+        return 0;
-+    }
-+    n = revbit16(n);
-+    if (m < 16) {
-+        n >>= 16 - m;
-+    }
-+    return n;
-+}
-+
-+static inline uint32_t do_vbrsrw(uint32_t n, uint32_t m)
-+{
-+    m &= 0xff;
-+    if (m == 0) {
-+        return 0;
-+    }
-+    n = revbit32(n);
-+    if (m < 32) {
-+        n >>= 32 - m;
-+    }
-+    return n;
-+}
-+
-+DO_2OP_SCALAR(vbrsrb, 1, uint8_t, do_vbrsrb)
-+DO_2OP_SCALAR(vbrsrh, 2, uint16_t, do_vbrsrh)
-+DO_2OP_SCALAR(vbrsrw, 4, uint32_t, do_vbrsrw)
-+
- /*
-  * Multiply add long dual accumulate ops.
-  */
++# Predicate operations
++%mask_22_13      22:1 13:3
++VPST             1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 7ff4b452def..95e7c87be7f 100644
+index 95e7c87be7f..4dc7400e33e 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -433,6 +433,7 @@ DO_2OP_SCALAR(VHADD_S_scalar, vhadds_scalar)
- DO_2OP_SCALAR(VHADD_U_scalar, vhaddu_scalar)
- DO_2OP_SCALAR(VHSUB_S_scalar, vhsubs_scalar)
- DO_2OP_SCALAR(VHSUB_U_scalar, vhsubu_scalar)
-+DO_2OP_SCALAR(VBRSR, vbrsr)
+@@ -90,6 +90,19 @@ static void mve_update_eci(DisasContext *s)
+     }
+ }
  
- static bool do_long_dual_acc(DisasContext *s, arg_vmlaldav *a,
-                              MVEGenDualAccOpFn *fn)
++static void mve_update_and_store_eci(DisasContext *s)
++{
++    /*
++     * For insns which don't call a helper function that will call
++     * mve_advance_vpt(), this version updates s->eci and also stores
++     * it out to the CPUState field.
++     */
++    if (s->eci) {
++        mve_update_eci(s);
++        store_cpu_field(tcg_constant_i32(s->eci << 4), condexec_bits);
++    }
++}
++
+ static bool mve_skip_first_beat(DisasContext *s)
+ {
+     /* Return true if PSR.ECI says we must skip the first beat of this insn */
+@@ -548,3 +561,49 @@ static bool trans_VRMLSLDAVH(DisasContext *s, arg_vmlaldav *a)
+     };
+     return do_long_dual_acc(s, a, fns[a->x]);
+ }
++
++static bool trans_VPST(DisasContext *s, arg_VPST *a)
++{
++    TCGv_i32 vpr;
++
++    /* mask == 0 is a "related encoding" */
++    if (!dc_isar_feature(aa32_mve, s) || !a->mask) {
++        return false;
++    }
++    if (!mve_eci_check(s) || !vfp_access_check(s)) {
++        return true;
++    }
++    /*
++     * Set the VPR mask fields. We take advantage of MASK01 and MASK23
++     * being adjacent fields in the register.
++     *
++     * This insn is not predicated, but it is subject to beat-wise
++     * execution, and the mask is updated on the odd-numbered beats.
++     * So if PSR.ECI says we should skip beat 1, we mustn't update the
++     * 01 mask field.
++     */
++    vpr = load_cpu_field(v7m.vpr);
++    switch (s->eci) {
++    case ECI_NONE:
++    case ECI_A0:
++        /* Update both 01 and 23 fields */
++        tcg_gen_deposit_i32(vpr, vpr,
++                            tcg_constant_i32(a->mask | (a->mask << 4)),
++                            R_V7M_VPR_MASK01_SHIFT,
++                            R_V7M_VPR_MASK01_LENGTH + R_V7M_VPR_MASK23_LENGTH);
++        break;
++    case ECI_A0A1:
++    case ECI_A0A1A2:
++    case ECI_A0A1A2B0:
++        /* Update only the 23 mask field */
++        tcg_gen_deposit_i32(vpr, vpr,
++                            tcg_constant_i32(a->mask),
++                            R_V7M_VPR_MASK23_SHIFT, R_V7M_VPR_MASK23_LENGTH);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    store_cpu_field(vpr, v7m.vpr);
++    mve_update_and_store_eci(s);
++    return true;
++}
 -- 
 2.20.1
 
