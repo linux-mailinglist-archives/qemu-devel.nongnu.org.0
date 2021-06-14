@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F61E3A5E3D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:18:25 +0200 (CEST)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166213A5E44
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:18:46 +0200 (CEST)
+Received: from localhost ([::1]:50604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshnb-0003c9-Ox
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:18:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
+	id 1lshnx-0004oK-4q
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lshlr-000186-KD
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:16:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23043)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lshmU-000230-Mz
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lshlo-0003w5-1o
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:16:35 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lshmP-0004Ta-Jr
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623658591;
+ s=mimecast20190719; t=1623658628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=75ZKNqk1/5XLdvIzoISE0ROi9ms6gz5s5XrLWRxlJEA=;
- b=JRfolYAYfsET2QCjC8gje5KH1GshXnPFviCE3INdPstQX9rUxtDv+4N6yh2oRe+zTREhFy
- U7lDZhH3UXfblxi0EKeEqs7k1N0Ywl9Mzk8qcJ5a5+m1V5qDDAGN2i9srtJSyxgeb7eBMQ
- MkfBa8I6Jqg5fwrrRpC5QzXR9UtBpq8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-UlZ-Q9efPEakIAC_TYEz7w-1; Mon, 14 Jun 2021 04:16:30 -0400
-X-MC-Unique: UlZ-Q9efPEakIAC_TYEz7w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t11-20020a056402524bb029038ffacf1cafso10454861edd.5
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:16:29 -0700 (PDT)
+ bh=fC46tPxuR0IsAOiaoV2UfNORQMmv5kIC8LAQMYNrSGQ=;
+ b=h3Z13jESLdDxQ6ukp359nmkAv802a7I0l3bE1YXOs4Dd9JP2427lE83YS+62O4z5FS3BAQ
+ BhCsV+GkT/u4xRiKnpT/1n69tvEtWPih82UktVXT7YJbwP5yGGkJBLzqMEwgSGYu1gta4m
+ vO0L2UtsTGngFqDWUU7tqLmodAEgRQc=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-604-Y6qvobq9NH-Pf3zQaddvrA-1; Mon, 14 Jun 2021 04:17:07 -0400
+X-MC-Unique: Y6qvobq9NH-Pf3zQaddvrA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ w13-20020a170906384db02903d9ad6b26d8so2757921ejc.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:17:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=75ZKNqk1/5XLdvIzoISE0ROi9ms6gz5s5XrLWRxlJEA=;
- b=aI8firiCvb6dUAhNiimTl1+aFZaUnJBa0HfTFJzUCrRbgj/qgQailRygZZxzHyVrW6
- 7KYPk8tmhPeKCvIN7YWLyFlWpUlmqOuvMW50oKOQIOA2dh8iuVWp5/CZ0TRKKAfxdtZR
- P4r6g4c0SCnCNNQOlYboljMvrshWVcXV3iqZ4Vinxrnu2zxDaT2KzM4yKedJi6znG0fC
- vOylLSLGQPGZ/lGefyz3HiQgK8IPOR+qK165LN7US6y5fVF9XarveHoqn3tNmmv8yFPJ
- fjLqoL67I1hlZ0w76W1sw5p77nJbOl4uLpttUjotO7ATApc+Z9DaOWyVeoRJ1suzvJ3c
- An0g==
-X-Gm-Message-State: AOAM530ktnard1om7AEKXEb1gQ16laa5JFFv0KhjXDYZuvXOOEKnKTLF
- 7n5D9MXdI+e38qvtKhVA/NhbpeDhOVWq1S6Xu83lvFqscdlat5ZEdecl8yiV3oiEjw8m+EPV4a3
- ZgK/6PzohqvFGQladwxW6EAJIFVvOssy/bKD5sEeK0+MKdMeoBDzbNELbEYasdZugRMI=
-X-Received: by 2002:a05:6402:1d0c:: with SMTP id
- dg12mr15615588edb.155.1623658588823; 
- Mon, 14 Jun 2021 01:16:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6m2OHykkXTlkjt4hQWnhwWxwZEZSHLP6jcwvn3AEQOoJ+IXKOfMmAmkrxDY9hif42MaPVfg==
-X-Received: by 2002:a05:6402:1d0c:: with SMTP id
- dg12mr15615570edb.155.1623658588563; 
- Mon, 14 Jun 2021 01:16:28 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id fn3sm6578085ejc.96.2021.06.14.01.16.27
+ bh=fC46tPxuR0IsAOiaoV2UfNORQMmv5kIC8LAQMYNrSGQ=;
+ b=LJ3QIxrpqRDc99Ujns8eU+9wi7F10H0lKMlJXLQqEEKciGLS4vb4/HHZMagxiOjM6m
+ nuG7Tu5aiAdnGGozQ0bcjubmN6gkxRppct+XBXRlZ2jXSDlMD5bjqKu3baHzYAmWx0oN
+ EdJmuGnMMDwZ7tUui8yfRxAR6VsDktQoNBReKU8qStGX09niI3l66bBuTJE+ZA6cORXr
+ Kbvzch3uNyvwwgEBD81xxr2gmEQOfk9bGlGgbrcPGLKpgDDj/kAbY0HjFCafThRmFVZC
+ mUjcMy50ZEVr3F51eF4Z3fdhBEI7Xd9SzItT7uhqftBgjSDdqwYaRL1AVugMOW0xna8S
+ Yq/Q==
+X-Gm-Message-State: AOAM532tg83/x+uD2+J+sLSPMOLeA5VrSAjyDrpOVTbzWE9pNri34SJ/
+ Rop84csYr6UW17YT+gnwsbCmiZSUuSrgC7Wx1rNjfrV/M5pmlm4pxCrBzUFLwjzCXjdCsyhx0TT
+ icmcN3yN/ak1Q+f1SfN1NWEuwv/j5R3EDMmrOP5fnf+et5PrcQEbZkZrAk73nLmEtbzc=
+X-Received: by 2002:a50:ec08:: with SMTP id g8mr16016909edr.376.1623658625864; 
+ Mon, 14 Jun 2021 01:17:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxoFwJ1fv5I79adnxqzFV7007N0s1hSeWetBAe+QkgvUf8b+AzuQppj7GL08eUAhY4Etj0K7Q==
+X-Received: by 2002:a50:ec08:: with SMTP id g8mr16016892edr.376.1623658625705; 
+ Mon, 14 Jun 2021 01:17:05 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ w8sm284475edc.39.2021.06.14.01.17.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 01:16:28 -0700 (PDT)
-Subject: Re: [PATCH] esp: store lun coming from the MESSAGE OUT phase
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20210611115756.662367-1-pbonzini@redhat.com>
- <f78018a5-8845-1fd8-f580-57bafc534e6c@ilande.co.uk>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <70ab4483-b0f6-6b12-203e-8b2a940ecd88@redhat.com>
-Date: Mon, 14 Jun 2021 10:16:27 +0200
+ Mon, 14 Jun 2021 01:17:05 -0700 (PDT)
+Subject: Re: [PATCH v3 0/5] block-copy: make helper APIs thread safe
+To: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-block@nongnu.org
+References: <20210614081130.22134-1-eesposit@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <3761c5a9-d29e-8ce5-f785-38b01d76e141@redhat.com>
+Date: Mon, 14 Jun 2021 10:17:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <f78018a5-8845-1fd8-f580-57bafc534e6c@ilande.co.uk>
+In-Reply-To: <20210614081130.22134-1-eesposit@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -90,7 +88,7 @@ X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.144, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,27 +101,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/06/21 12:40, Mark Cave-Ayland wrote:
-> 
-> Unfortunately the VMSTATE_*_V() macros don't work in ESPState because 
-> ESPState is currently embedded in both sysbusespscsi and pciespscsi 
-> using VMSTATE_STRUCT() where the version of the vmstate_esp 
-> VMStateDescription does not match those in the vmstate_sysbus_esp_scsi 
-> or vmstate_esp_pci_scsi VMStateDescriptions. This is currently handled 
-> by adding an explicit mig_version_id field containing the 
-> vmstate_esp.version_id field and testing accordingly.
-> 
-> The fix is to use the same logic as esp_is_version_5() when adding the 
-> new field to vmstate_esp. I've tested the changes below squashed into 
-> your patch, along with the just posted fix for esp_is_version_5(), and 
-> confirmed that I can reload old qemu-system-sparc images from 5.2 and 
-> 6.0 as well as git master.
 
-Ah, ok.  So I'll squash this fix, thanks!
 
-Paolo
+On 14/06/2021 10:11, Emanuele Giuseppe Esposito wrote:
+> This serie of patches bring thread safety to the smaller APIs used by
+> block-copy, namely ratelimit, progressmeter, co-shared-resource
+> and aiotask.
+> The end goal is to reduce the usage of AioContexlock in block-copy,
+> by introducing smaller granularity locks thus on making the block layer
+> thread safe.
+> 
+> What's missing for block-copy to be fully thread-safe is fixing
+> the CoSleep API to allow cross-thread sleep and wakeup.
+> Paolo is working on it and will post the patches once his new
+> CoSleep API is accepted.
+> 
+> Patches 1-3 work on ratelimit, 4 covers progressmeter and
+> 5 co-shared-resources.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+> v3:
+> * Rebase on current master (had conflicts in block-copy), remove based-on in
+>    cover letter
+
+Hi Kevin & Max,
+
+I think this series ha been reviewed and I just rebased it to current 
+master. Can you give it a look and let me know if it can be merged?
+
+Thank you,
+Emanuele
+
+> 
+> Emanuele Giuseppe Esposito (2):
+>    progressmeter: protect with a mutex
+>    co-shared-resource: protect with a mutex
+> 
+> Paolo Bonzini (3):
+>    ratelimit: treat zero speed as unlimited
+>    block-copy: let ratelimit handle a speed of 0
+>    blockjob: let ratelimit handle a speed of 0
+> 
+>   block/block-copy.c                | 28 ++++++--------
+>   block/meson.build                 |  1 +
+>   block/progress_meter.c            | 64 +++++++++++++++++++++++++++++++
+>   blockjob.c                        | 46 +++++++++++++---------
+>   include/qemu/co-shared-resource.h |  4 +-
+>   include/qemu/progress_meter.h     | 34 ++++++++--------
+>   include/qemu/ratelimit.h          | 12 +++++-
+>   job-qmp.c                         |  8 +++-
+>   job.c                             |  3 ++
+>   qemu-img.c                        |  9 +++--
+>   util/qemu-co-shared-resource.c    | 24 +++++++++---
+>   11 files changed, 168 insertions(+), 65 deletions(-)
+>   create mode 100644 block/progress_meter.c
+> 
 
 
