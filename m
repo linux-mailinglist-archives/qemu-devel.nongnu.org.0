@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0309A3A6E4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 20:42:23 +0200 (CEST)
-Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7F43A6E69
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 20:50:37 +0200 (CEST)
+Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsrXS-0002GW-R7
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 14:42:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34234)
+	id 1lsrfO-0005Qg-Hd
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 14:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lsrVE-0000tD-H6
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 14:40:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54465)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lsrdy-0004cd-Vw; Mon, 14 Jun 2021 14:49:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lsrV9-0005tX-Sx
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 14:40:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623695998;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rTOIoXS1gkSDW6jiG0iJB8HMYtQsK1tUe4QD4EtNAv4=;
- b=KY7YfqT4WvJnsUF0DwRNUQRf8TvX9WTiQU8swnIZB7xufYhZRajq5h3e+sdDmcS3xUfAqk
- hlSeYWjfqIe6gKUJlLDrNzp9VQ/GYRQUPb4WCVb7pE1rvBaC6YVFij1MLoziRTRtg4A1+a
- XMT+pXYG3hfBFDfY/xeCATFtfeR6v3o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-6tbDlBdPN_uoXvb8fHg8Lw-1; Mon, 14 Jun 2021 14:39:55 -0400
-X-MC-Unique: 6tbDlBdPN_uoXvb8fHg8Lw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5E368049C5;
- Mon, 14 Jun 2021 18:39:54 +0000 (UTC)
-Received: from redhat.com (ovpn-113-14.phx2.redhat.com [10.3.113.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B07410023B5;
- Mon, 14 Jun 2021 18:39:54 +0000 (UTC)
-Date: Mon, 14 Jun 2021 13:39:52 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Zhiwei Jiang <elish.jiang@ucloud.cn>
-Subject: Re: [PATCH] block: fix build waring
-Message-ID: <20210614183952.do2vhrnsrricakmj@redhat.com>
-References: <20210613093821.774562-1-elish.jiang@ucloud.cn>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lsrdw-0002oy-H8; Mon, 14 Jun 2021 14:49:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D345E61009;
+ Mon, 14 Jun 2021 18:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623696541;
+ bh=tU2oFmaDq1kF+jzWDv5sgbEhM3iqJ8hgpzFGQblZ96M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=f3OnIVCGp1lnr6KPrCcR5k1AHSjw3tFWROlE+B9Xc/w24a4J4NCajmgRxc7oH1tEG
+ nLCTvAbZi6nmEXD0luvbDv+YDcowZIOdxCIIYzfG19wagXYa1hYsdxqUgyh6cXwlhb
+ gcJLOe1fjrxO6uQC2GsC2pl/jwvdm3CmKuPg5AskkrmvPF1xeuXmhTnGnSbrYagk/n
+ kemzfaV2GsvXwUFnIZjSiU1KblofxMx5QQcWV+XivrrxPp6mah/nhN8U2Krot/+dvR
+ OG7R+BgHm/dALAUxtmfvggj0gGULZ0OJpQp4uyuitlhX/M9mK98VLj5LOgRGGtH/ll
+ 62JESQdVXoFxg==
+Date: Mon, 14 Jun 2021 11:48:58 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: Re: [PATCH v2 2/3] hw/nvme: namespace parameter for EUI-64
+Message-ID: <20210614184858.GA646050@dhcp-10-100-145-180.wdc.com>
+References: <20210611234631.81314-1-xypron.glpk@gmx.de>
+ <20210611234631.81314-3-xypron.glpk@gmx.de>
 MIME-Version: 1.0
-In-Reply-To: <20210613093821.774562-1-elish.jiang@ucloud.cn>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+In-Reply-To: <20210611234631.81314-3-xypron.glpk@gmx.de>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,36 +61,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 13, 2021 at 05:38:21PM +0800, Zhiwei Jiang wrote:
+On Sat, Jun 12, 2021 at 01:46:30AM +0200, Heinrich Schuchardt wrote:
+> +``eui64``
+> +  Set the EUI-64 of the namespace. This will be reported as a "IEEE Extended
+> +  Unique Identifier" descriptor in the Namespace Identification Descriptor List.
 
-In the subject, s/waring/warning/
-
-> when i compile this file with some error message
-> ../block.c: In function ‘bdrv_replace_node_common’:
-> ../block.c:4903:9: error: ‘to_cow_parent’ may be used
-> uninitialized in this function [-Werror=maybe-uninitialized]
->          bdrv_remove_filter_or_cow_child(to_cow_parent, tran);
->          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> cc1: all warnings being treated as errors
-> 
-> Signed-off-by: Zhiwei Jiang <elish.jiang@ucloud.cn>
-> ---
->  block.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-This looks identical to
-https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01229.html
-which has a more complete commit message and is already on Kevin's
-tree for an upcoming pull request.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+This needs to match Identify Namespace's EUI64 field, too. The
+Descriptor List is really just a copy of what is reported in that
+structure.
 
