@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598D33A71F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 00:31:49 +0200 (CEST)
-Received: from localhost ([::1]:50536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146CA3A7223
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 00:38:24 +0200 (CEST)
+Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsv7U-0003h6-FO
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 18:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43396)
+	id 1lsvDr-0005yZ-4x
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 18:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsv6T-00030y-G4
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:30:45 -0400
-Resent-Date: Mon, 14 Jun 2021 18:30:45 -0400
-Resent-Message-Id: <E1lsv6T-00030y-G4@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21343)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsv6P-0001pM-N0
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:30:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623709832; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cXtdzH3rSY4eSxWqI4KAhjpppiaBf7pKQ/coexYfJPqzGVthSpLD2lU6Zf0ufjsDeJUQnXqNJCKz1yCq71pYffPp3xZdbsl3j1NdaGpw8iEXXBYfO/hACTnqjAT9aHk1+wVIvBPBVEqpLN4X9MQlQjW4JlpEnMsKtpU7kBt7lCg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623709832;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Q3NrorXBi4fm+jkzus8pCwvu0kwWOh4wKVSzfCfbits=; 
- b=VWDEueYF2PZ5hAV5L7hXtEmzvICWJra1adBFmAPTbsvJHBl5CsGdFYLXHdSLbUWgTXZss+o5x/qlDP4aJCzBokQA1Nq6pswOTOxF2RYOuJ7/y24jO9dUIuA1E6PvEoMyElIYKFj+kaub7kQLGLTu3LUD4VQOX+UYYbK1htlzhp0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623709829516103.3545568752487;
- Mon, 14 Jun 2021 15:30:29 -0700 (PDT)
-In-Reply-To: <20210611164305.440633-1-mcascell@redhat.com>
-Subject: Re: [PATCH v2] Test comment for git-publish
-Message-ID: <162370982844.2358.7497742131893674982@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsvCv-0005JU-RG
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:37:25 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsvCt-000693-OW
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 18:37:25 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id v12so7399988plo.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=klDoN7C+ag3EhrqpLPsu3IJND82XkcX0RHxMiLs75r4=;
+ b=aig3EOZyC5qPgOG+ATOjXjCK7U3mSEw8c8mxX8byWP+6fnE4FrCEPCO0hGpK97zx4+
+ N/2+ST0uBb5Hju7x1gjAFp1BQ6xSknp8slbMNsQjL5EhmNu4NJOXJ+wG/vUkniXPzDtq
+ sE/71YKYkMJEKO8QLpNpbwFkaFyE5RfePoHwNX5x0su8yGTHA53qc55xNxJTnJT/mbTH
+ W7cYtvg5faxxFMYn2pAHRp2pl7VZ83X1pu2zs5GxODhAIpi8+cLqVp4zvJd+5gcP5PNB
+ JAqmDLXJs8EnOvQ4jIdKXkfoEH8LARXWv91+eYCQWi1/OFDK3FpTsZHWplo8bem9jZtf
+ ctGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=klDoN7C+ag3EhrqpLPsu3IJND82XkcX0RHxMiLs75r4=;
+ b=L8gzOg0CBRgOf/rSOxudR+wWvN+dFSWTNMt4/llbFcleJk8xhgWt5gasNVaMlC4+/k
+ BkqMPaDGFnhixMz4zqc8+VHJacMXJf6y4x5/ppyPIDPfxjhGXA8BYsMfjoDwolzN8V0x
+ 1JE64rH69VOMv+wvQp41AuFtE8hvzo1ufdYCVJkVwJnxz7B3wgV0dDfmSyNUthiT2pXq
+ qHCZa4GhY9VMtAj0ZOc0n/4YLE895Y1HwWCk21l56MRFk7eGxclFtixFMTtQGJIVJRqF
+ s9bApstrM3b33Wq+YYsYQFvDXBjX9U7Gd72PDtNrkrBU9IAgGSMCaTVS7YRGDvd8M5EB
+ Mkgw==
+X-Gm-Message-State: AOAM533BXoofQ8pdsLAw8it0Yqu56e7DW3RA+443upggQLLC2kXigWAb
+ TN63WALqpugX4WFdGDwDU17qig==
+X-Google-Smtp-Source: ABdhPJzFoKZMTEcypC+GZwDXnmKWF4WXgNDHn7hGQGq5TX79G7fgZYdT8FiNalyvl0KJ75ejaOAIpw==
+X-Received: by 2002:a17:90a:8c14:: with SMTP id
+ a20mr21179393pjo.167.1623710242028; 
+ Mon, 14 Jun 2021 15:37:22 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ t5sm13080262pfe.116.2021.06.14.15.37.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 15:37:21 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
+ priviledged addresses
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
+ qemu-devel@nongnu.org
+References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+ <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c2ffffa6-2868-f7ab-78c6-1f29eaafc4e5@linaro.org>
+Date: Mon, 14 Jun 2021 15:37:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mcascell@redhat.com
-Date: Mon, 14 Jun 2021 15:30:29 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,35 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mcascell@redhat.com, yuval.shaia.ml@gmail.com, qemu-devel@nongnu.org
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxMTE2NDMwNS40NDA2
-MzMtMS1tY2FzY2VsbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA2MTExNjQzMDUuNDQw
-NjMzLTEtbWNhc2NlbGxAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIFRlc3QgY29tbWVu
-dCBmb3IgZ2l0LXB1Ymxpc2gKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gK
-Z2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1
-ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9j
-aGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpV
-cGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0ClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYmY3ODRmNCBUZXN0IGNvbW1lbnQgZm9yIGdpdC1wdWJs
-aXNoCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8gY29tbWVu
-dHMKIzIxOiBGSUxFOiBody9yZG1hL3Ztdy9wdnJkbWFfbWFpbi5jOjQzMDoKKyAgICAgICAgICAg
-IHB2cmRtYV9leGVjX2NtZChkZXYpOyAvLyB0aGlzIGlzIGEgdGVzdCBjb21tZW50CgpFUlJPUjog
-TWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0b3RhbDogMiBlcnJvcnMsIDAgd2Fybmlu
-Z3MsIDggbGluZXMgY2hlY2tlZAoKQ29tbWl0IGJmNzg0ZjQ4YWM1ZiAoVGVzdCBjb21tZW50IGZv
-ciBnaXQtcHVibGlzaCkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQg
-PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA2MTExNjQzMDUuNDQwNjMz
-LTEtbWNhc2NlbGxAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
-LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
-Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
-ZGhhdC5jb20=
+On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
+> This patch changes ppc_cpu_get_phys_page_debug so that it is now
+> able to translate both, priviledged and real mode addresses
+> independently of whether the CPU executing it has those permissions
+> 
+> This was mentioned by Fabiano as something that would be very useful to
+> help with debugging, but could possibly constitute a security issue if
+> that debug function can be called in some way by prodution code. the
+> solution was implemented such that it would be trivial to wrap it around
+> ifdefs for building only with --enable-debug, for instance, but we are
+> not sure this is the best approach, hence why it is an RFC.
+> 
+> Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
+> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+> ---
+>   target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
+
+I think the first part is unnecessary.  Either the cpu is in supervisor mode or it isn't, 
+and gdb should use the correct address space.  If you really want to force supervisor 
+lookup from a guest that is paused in usermode, I suppose you could force MSR.PR=1 while 
+you're performing the access and set it back afterward.
+
+I think the second part is actively wrong -- real-mode address lookup will (for the most 
+part) always succeed.  Moreover, the gdb user will have no idea that you've silently 
+changed addressing methods.
+
+r~
 
