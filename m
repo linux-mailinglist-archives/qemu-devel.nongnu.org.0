@@ -2,92 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2993A5EC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:03:00 +0200 (CEST)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44303A5EF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:13:43 +0200 (CEST)
+Received: from localhost ([::1]:49252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsiUl-0003uS-7N
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47622)
+	id 1lsif8-0008RA-Qf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:13:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lsiHN-00070b-Iv
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:49:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29415)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1lsiUg-0005IC-D5
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:02:54 -0400
+Received: from zamok.crans.org ([2a0c:700:2:0:ec4:7aff:fe59:a1ad]:57066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lsiHK-0002jY-Km
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:49:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623660544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9PJUvsYcdcEqWBoSOtS8trFxOOVYGJ7+28zSQUGcYjc=;
- b=Rp74rpQ6L3sXXMqa7MdhTaVn7ox3/VtYclzc30QVUUhcCW6VpXo1gofXWp0FOOJLgcRCON
- qYqZENKIQA9C2RZ6jAbKmYXbt/Fdn/crHB27XwlvCCMt08vKUaLKRfSN7x0GZIXWvBBmjO
- qub7Yw/8LJHGK14Fd9TA1lwhY7UcWdQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-ruCm5SqhNteTDTk1BFJ9bw-1; Mon, 14 Jun 2021 04:49:00 -0400
-X-MC-Unique: ruCm5SqhNteTDTk1BFJ9bw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n4-20020a5d42040000b0290119fef97609so6718374wrq.18
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:49:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9PJUvsYcdcEqWBoSOtS8trFxOOVYGJ7+28zSQUGcYjc=;
- b=staiPLa93hkmojIKirly7g6z9GnlxMoeIJgHO1rmLS3ZdADFRk8wr0NeyQ3A0Y2K5q
- dqKAAAIsxdcRNtmBUaT2l+sWwqua3UODafGOsUt2txHxo3jrTxfNQZrGe1WMre12mVFl
- /vUVXcJUNa2gy6f7IfnY1Ly6p4rKDBWs+k/JBSCX/SH4jvI74i2hZ89Vl8KYDJrNDJxm
- GO3YT7x0cYpH7E2a4OSUu5nycvBZ6FtSkm8++2aAZe9SbToty/BkzmZEf5pA0Dskb4tg
- cxQhKk2ObAits3dukSAPh5wxNQpy5/PQNPYiXY68Rd8TvNuyYqH+cMG1o+5L0QtluhXL
- fpPg==
-X-Gm-Message-State: AOAM533mDNE3GDwLrvZOws6n4fdYvZrzFlC3QqKNweOvLxWO9PMvwRCq
- hbpvLsvTJMxcAR+WrvKsvd9v3v93KpoUST2qJmBVJZiYIm7elFTZdeZFsAp1GtNB3IWFaZ/fwCd
- AtGFYik6s1XRUSto5b3BOkiOqlO5uU235yB32QVbgOv4+JeKgoB2s1+1ZN5Qi851GI/c=
-X-Received: by 2002:a1c:7912:: with SMTP id l18mr14931528wme.135.1623660539475; 
- Mon, 14 Jun 2021 01:48:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0mHby3dids6bFFfBsX9QJwTzNoIFI7W2CVbIeO45IiqvDo6whysYACxX/J1e+S5ZyKtFieg==
-X-Received: by 2002:a1c:7912:: with SMTP id l18mr14931496wme.135.1623660539179; 
- Mon, 14 Jun 2021 01:48:59 -0700 (PDT)
-Received: from localhost.localdomain ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id
- o20sm18540491wms.3.2021.06.14.01.48.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 01:48:58 -0700 (PDT)
-Subject: Re: [PATCH v5 00/16] qemu_iotests: improve debugging options
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210604091723.13419-1-eesposit@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <f24a705f-25bc-e5e7-97d7-b01e4e9e89df@redhat.com>
-Date: Mon, 14 Jun 2021 10:48:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1lsiUa-0003vz-GA
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:02:53 -0400
+Received: by zamok.crans.org (Postfix, from userid 11692)
+ id 820FEE0080; Mon, 14 Jun 2021 11:02:36 +0200 (CEST)
+From: Alexandre Iooss <erdnaxe@crans.org>
+To: qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH] contrib/plugins: add execlog to log instruction execution and
+ memory access
+Date: Mon, 14 Jun 2021 11:01:16 +0200
+Message-Id: <20210614090116.816833-1-erdnaxe@crans.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210604091723.13419-1-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.144, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a0c:700:2:0:ec4:7aff:fe59:a1ad;
+ envelope-from=erdnaxe@crans.org; helo=zamok.crans.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,100 +48,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Log instruction execution and memory access to a file.
+This plugin can be used for reverse engineering or for side-channel analysis
+using QEMU.
 
+Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
+---
+ MAINTAINERS               |   1 +
+ contrib/plugins/Makefile  |   1 +
+ contrib/plugins/execlog.c | 112 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 114 insertions(+)
+ create mode 100644 contrib/plugins/execlog.c
 
-On 04/06/2021 11:17, Emanuele Giuseppe Esposito wrote:
-> This series adds the option to attach gdbserver and valgrind
-> to the QEMU binary running in qemu_iotests.
-> It also allows to redirect QEMU binaries output of the python tests
-> to the stdout, instead of a log file.
-> 
-> Patches 1-9 introduce the -gdb option to both python and bash tests,
-> 10-14 extend the already existing -valgrind flag to work also on
-> python tests, and patch 15-16 introduces -p to enable logging to stdout.
-> 
-> In particular, patches 1,6,11 focus on extending the QMP socket timers
-> when using gdb/valgrind, otherwise the python tests will fail due to
-> delays in the QMP responses.
-> 
-> This series is tested on the previous serie
-> "qemu-iotests: quality of life improvements"
-> but independent from it, so it can be applied separately.
-> 
-> It is also based on "iotests/check: move general long options to double dash"
-> by Vladimir Sementsov-Ogievskiy.
-
-Apologies to all the people following this series,
-
-I realized that there is a discussion[*] on whether to use the 
-"--option" notation vs "-option".
-
-Therefore I am going to re-send this series without Vladimir's based-on 
-(also because I got all necessary reviews, so it should be ready to be 
-merged).
-
-Thank you,
-Emanuele
-
-[*] = 
-https://patchew.org/QEMU/20210526181659.365531-1-vsementsov@virtuozzo.com/#955ce8e3-eafe-79ab-ad4e-f81ecf08d20f@virtuozzo.com
-> 
-> Based-on: <20210526181659.365531-1-vsementsov@virtuozzo.com>
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
-> v5:
-> * base this serie on the double dash options, so define --gdb instead of -gdb
-> * return error if -gdb and -valgrind are used together [Vladimir]
-> * style changes (do not use subprocess_check_valgrind() but do the operation
->    inside the caller) [Vladimir]
-> * minor fixes in commit messages [Vladimir]
-> * create a common public function in patch 15 instead of using
->    _private fields [Vladimir]
-> * use @contextmanager in patch 6 to skip gdb timeouts involving the
->    Timeout class [Vladimir]
-> * apply John Snow patch to silence pylint warning in the CI tests
-> 
-> Emanuele Giuseppe Esposito (15):
->    python: qemu: add timer parameter for qmp.accept socket
->    python: qemu: pass the wrapper field from QEMUQtestmachine to
->      QEMUMachine
->    docs/devel/testing: add debug section to the QEMU iotests chapter
->    qemu-iotests: add option to attach gdbserver
->    qemu-iotests: delay QMP socket timers
->    qemu_iotests: insert gdbserver command line as wrapper for qemu binary
->    qemu-iotests: add gdbserver option to script tests too
->    docs/devel/testing: add --gdb option to the debugging section of QEMU
->      iotests
->    qemu-iotests: extend the check script to prepare supporting valgrind
->      for python tests
->    qemu-iotests: extend QMP socket timeout when using valgrind
->    qemu-iotests: allow valgrind to read/delete the generated log file
->    qemu-iotests: insert valgrind command line as wrapper for qemu binary
->    docs/devel/testing: add --valgrind option to the debug section of QEMU
->      iotests
->    qemu-iotests: add option to show qemu binary logs on stdout
->    docs/devel/testing: add -p option to the debug section of QEMU iotests
-> 
-> John Snow (1):
->    python: Reduce strictness of pylint's duplicate-code check
-> 
->   docs/devel/testing.rst         | 30 ++++++++++++++++++++
->   python/qemu/machine/machine.py | 16 +++++++----
->   python/qemu/machine/qtest.py   |  9 ++++--
->   python/setup.cfg               |  5 ++++
->   tests/qemu-iotests/check       | 15 +++++++---
->   tests/qemu-iotests/common.rc   |  8 +++++-
->   tests/qemu-iotests/iotests.py  | 52 ++++++++++++++++++++++++++++++++--
->   tests/qemu-iotests/testenv.py  | 23 +++++++++++++--
->   8 files changed, 141 insertions(+), 17 deletions(-)
-> 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7d9cd29042..65942d5802 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2974,6 +2974,7 @@ F: include/tcg/
+ 
+ TCG Plugins
+ M: Alex Bennée <alex.bennee@linaro.org>
++R: Alexandre Iooss <erdnaxe@crans.org>
+ S: Maintained
+ F: docs/devel/tcg-plugins.rst
+ F: plugins/
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index b9d7935e5e..51093acd17 100644
+--- a/contrib/plugins/Makefile
++++ b/contrib/plugins/Makefile
+@@ -13,6 +13,7 @@ include $(BUILD_DIR)/config-host.mak
+ VPATH += $(SRC_PATH)/contrib/plugins
+ 
+ NAMES :=
++NAMES += execlog
+ NAMES += hotblocks
+ NAMES += hotpages
+ NAMES += howvec
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+new file mode 100644
+index 0000000000..80716e8eed
+--- /dev/null
++++ b/contrib/plugins/execlog.c
+@@ -0,0 +1,112 @@
++/*
++ * Copyright (C) 2021, Alexandre Iooss <erdnaxe@crans.org>
++ *
++ * Log instruction execution and memory access to a file.
++ * You may pass the output filename as argument.
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <glib.h>
++#include <inttypes.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++
++#include <qemu-plugin.h>
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
++
++/* Execution trace buffer */
++FILE *output;
++
++/**
++ * Log memory read or write
++ */
++static void vcpu_mem(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
++                     uint64_t vaddr, void *udata)
++{
++    struct qemu_plugin_hwaddr *hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
++    if (!hwaddr) {
++        return;
++    }
++
++    /* Add data to execution log */
++    const char *name = qemu_plugin_hwaddr_device_name(hwaddr);
++    uint64_t addr = qemu_plugin_hwaddr_phys_addr(hwaddr);
++    if (qemu_plugin_mem_is_store(info)) {
++        fprintf(output, "mem: %s store at 0x%08lx\n", name, addr);
++    } else {
++        fprintf(output, "mem: %s load at 0x%08lx\n", name, addr);
++    }
++}
++
++/**
++ * Log instruction execution
++ */
++static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
++{
++    char *insn_disas = (char *)udata;
++
++    /* Add data to execution log */
++    fprintf(output, "insn: %s\n", insn_disas);
++}
++
++/**
++ * On translation block new translation
++ *
++ * QEMU convert code by translation block (TB). By hooking here we can then hook
++ * a callback on each instruction and memory access.
++ */
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    for (size_t i = 0; i < n; i++) {
++        /* insn is shared between translations in QEMU, copy needed data here */
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++        char *insn_disas = qemu_plugin_insn_disas(insn);
++
++        /* Register callback on memory read or write */
++        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
++                                         QEMU_PLUGIN_CB_NO_REGS,
++                                         QEMU_PLUGIN_MEM_RW, NULL);
++
++        /* Register callback on instruction */
++        qemu_plugin_register_vcpu_insn_exec_cb(
++            insn, vcpu_insn_exec, QEMU_PLUGIN_CB_R_REGS, insn_disas);
++    }
++}
++
++/**
++ * On plugin exit, close output file
++ */
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    fclose(output);
++}
++
++/**
++ * Install the plugin
++ */
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
++                                           const qemu_info_t *info, int argc,
++                                           char **argv)
++{
++    /* Parse arguments to get output name and open for writing */
++    char *filename = "execution.log";
++    if (argc > 0) {
++        filename = argv[0];
++    }
++    output = fopen(filename, "w");
++    if (output == NULL) {
++        qemu_plugin_outs("Cannot open output file for writing.\n");
++        return -1;
++    }
++
++    /* Register translation block and exit callbacks */
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++
++    return 0;
++}
+-- 
+2.25.1
 
 
