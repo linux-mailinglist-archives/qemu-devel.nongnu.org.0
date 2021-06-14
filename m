@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C013A5F30
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:33:18 +0200 (CEST)
-Received: from localhost ([::1]:37216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C4E3A5F31
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:34:49 +0200 (CEST)
+Received: from localhost ([::1]:39542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsiy5-0003Uf-QM
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1lsizY-00057l-9N
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:34:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lsiwE-0002NI-Aa
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:31:26 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42527)
+ id 1lsiy7-00045z-Hf
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:33:19 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lsiw9-0008Ij-4I
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:31:19 -0400
-Received: by mail-wr1-x434.google.com with SMTP id c5so13741857wrq.9
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 02:31:16 -0700 (PDT)
+ id 1lsiy6-0000y4-6B
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:33:19 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso9008110wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 02:33:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MF26M2Am1z5Oymg12e03KYavHpajxmfVm3tdFtKZpPs=;
- b=TcoyonD5mKmYEGXDGUJ/LnbjrWLcDYcyKIbfAvpkj1RmO+eSTHzT0NFSwMqWvwJkJO
- BAeNGYOQt3ktdQPdJFkFzcOOEk8sRtxdP2tFceXV83rmooaAlEcKOcVkCkCsAn+BGuA6
- uBX8h8wW60AOwCqFDgtWG4p/ae89n+DWcjsnEi2B++RmZvw265H/+KKFAwnpr6EuWKBj
- TOnisT3JAVcZc0VfstEtTkhaTlH770mWkhk/bG5npXPa8wQ41gyW3i3DK6G6o1sP04Qu
- AaMRkSr83BtTdRgWdMAr0QVfER51TBXOw8OLfAUxL9fImRBEnCjdXVBGvJBxzCaLX+lb
- UQTQ==
+ bh=OjMtDuKYVySnXuFo9LOOiklkKRO70Pg80eQ50nK27CQ=;
+ b=ESTGLrRrvL90klkUeT3meXdTyk7dn0MJqiZYSj4kxFnpjdKj/8WqED4/Wepd+sOE+w
+ IeAKMIs4f48cf4YRhNJk3jUPxNZRn/IXQ1dt5565dp9zJ/pszQ34lTG3THNXmr6BMVZW
+ F+wG/okx3DgwhcMlFMO1DAV3sLOwq65zhje9hIRuRJtqHl/2QL/PJwU2skds1yo+7ISr
+ KPOsAxvf5jmoN9KTd9QGQfcmlp8+Fq2modmdXiE1/RFLDT0DKvU7qbeKn1T2VwqVhDBe
+ Hzl5cQVPKpczbtR7JTYD4nCEvv8lW2FrYA/RWutW4oqNS3lBdhyy1tObBm2ccmjwWsDB
+ XhXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MF26M2Am1z5Oymg12e03KYavHpajxmfVm3tdFtKZpPs=;
- b=bFitUQXsSxR+NlC/cuL/tMm0oXIAE9YBzGi4Vc/Z00Us9XgoW+Bwp+mFhsLLLFIm2X
- kiMRA9wQUd6jl9uwl/U7JZDFj4QT8gXvb/3/L883UZnmh36Ea8/qkdYb9vUExEuHjakJ
- axrS4dBW6g/gTAgJOup1ZD96XdvRo64TpilCODQVoTxXucAg5fWb4FdLdEeTYzU9OIX2
- jv/jEfWxhwwlBemK5aVr7xyaTGss0coE362Xc/l3jhfFXtsvbzp+LBXnRUsbdE6V+pbL
- cJVL00Izk/XjaEVUfJvEwQBmUQithiJh1C+E6DvoTFCc6vh/NLDIaQBjW8mu5acIj9IX
- vxUg==
-X-Gm-Message-State: AOAM53336wvLXkwGAbZ3QaFqYTMQKsLAkULNR//uirVt2BLaMOtGXLjK
- e/S5YsQv3GMrrpOM7J11NdOcInY6766sbQ==
-X-Google-Smtp-Source: ABdhPJwEAzNSFCRPA3At5qXxt5YNHeYO4LqndpKKuaJxOO4n2ogM1p0YIatla3gemMrVyb12AuoDVQ==
-X-Received: by 2002:a5d:474f:: with SMTP id o15mr17892085wrs.298.1623663075297; 
- Mon, 14 Jun 2021 02:31:15 -0700 (PDT)
+ bh=OjMtDuKYVySnXuFo9LOOiklkKRO70Pg80eQ50nK27CQ=;
+ b=fXMBDYQmIWTYXtXSKJb4S8MMlAsYw+/IiE8VUFSEmEZl5wKfLjQQEcUyJwbOo1/43m
+ psBNzfMVr4aJJvxRXimIW2jkg/9aSrbeXgPvOS2zuJGgHjGhofAdKyeyuvElp5LpX4pw
+ aA0bKNHP/TILpGUOnBbX/TNZxuAf03WKwQPZiySeqiY6ipnoy5En+6GrW20SNmrrQTe5
+ Ar4U3ZynkdxCkRNyzV8xcq2XnSoQ+73wqCgSuA0uuoB4qQNFBdu8cYfFJtAOT2I+okp9
+ VHF6qyHHEgvxrLMMYkcTk4WSuvQ3P7ISTxnbCeLmZ1sr6mpPeRS0ks7dPa88pVatLKKf
+ eIeQ==
+X-Gm-Message-State: AOAM530Iv04VDTD57EyzXrTBua1pnlfmIhtsYq6NRRhPT827oU4zEmau
+ RswVuOvRgSEeVKFq+uEEZDecAUFsjCabMg==
+X-Google-Smtp-Source: ABdhPJzqjiEiiAMxFjePEznfLc2NHynPhLa9P2pMIgKqX4rzo4R7sHPxClvNpaZGiOix+2h0Z7b6Vw==
+X-Received: by 2002:a1c:a3c3:: with SMTP id
+ m186mr15929454wme.154.1623663196512; 
+ Mon, 14 Jun 2021 02:33:16 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id s62sm19902347wms.13.2021.06.14.02.31.14
+ by smtp.gmail.com with ESMTPSA id i16sm12535647wmm.9.2021.06.14.02.33.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 02:31:14 -0700 (PDT)
-Subject: Re: [PATCH 14/28] tcg/mips: Support bswap flags in tcg_out_bswap32
+ Mon, 14 Jun 2021 02:33:16 -0700 (PDT)
+Subject: Re: [PATCH 15/28] tcg/tci: Support bswap flags
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-15-richard.henderson@linaro.org>
+ <20210614083800.1166166-16-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <398ea97d-9149-84a5-0fb1-8ad2bafc1bd1@amsat.org>
-Date: Mon, 14 Jun 2021 11:31:13 +0200
+Message-ID: <aa421da9-7f2a-76fb-f092-9b5a6613eed8@amsat.org>
+Date: Mon, 14 Jun 2021 11:33:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210614083800.1166166-15-richard.henderson@linaro.org>
+In-Reply-To: <20210614083800.1166166-16-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -93,25 +95,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/14/21 10:37 AM, Richard Henderson wrote:
-> Merge tcg_out_bswap32 and tcg_out_bswap32s.  Use the flags
-> in the internal uses for loads and stores.
+> The existing interpreter zero-extends, ignoring high bits.
+> Simply add a separate sign-extension opcode if required.
+> Ensure that the interpreter supports ext16s when bswap16 is enabled.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/mips/tcg-target.c.inc | 39 ++++++++++++++++-----------------------
->  1 file changed, 16 insertions(+), 23 deletions(-)
+>  tcg/tci.c                |  3 ++-
+>  tcg/tci/tcg-target.c.inc | 23 ++++++++++++++++++++---
+>  2 files changed, 22 insertions(+), 4 deletions(-)
 
-> -static void tcg_out_bswap32(TCGContext *s, TCGReg ret, TCGReg arg)
-> +static void tcg_out_bswap32(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
->  {
->      if (use_mips32r2_instructions) {
->          tcg_out_opc_reg(s, OPC_WSBH, ret, 0, arg);
->          tcg_out_opc_sa(s, OPC_ROTR, ret, ret, 16);
-> +        if (flags & TCG_BSWAP_OZ) {
-> +            tcg_out_opc_bf(s, OPC_DEXT, ret, ret, 31, 0);
-
-Maybe mention the rotr -> ext32u mips32r2 simplification?
-
-Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
