@@ -2,117 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA423A5BED
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 06:13:55 +0200 (CEST)
-Received: from localhost ([::1]:52042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695053A5C5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 07:15:14 +0200 (CEST)
+Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsdz0-0005Ig-AC
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 00:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41394)
+	id 1lsewL-0004zX-3R
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 01:15:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lsdxi-0004L9-7e
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 00:12:34 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:63691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anaidu.gollu@samsung.com>)
- id 1lsdxc-0004Hd-0m
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 00:12:32 -0400
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20210614041213epoutp03ee5851b2bebcde7f5595c91a2d1c39be~IV44jU82q1089410894epoutp03i
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 04:12:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20210614041213epoutp03ee5851b2bebcde7f5595c91a2d1c39be~IV44jU82q1089410894epoutp03i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1623643933;
- bh=Y4uba1wOoNEEBZW7MIHZ0xIOFK9tnAZ7DC7zWDxgtF4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hkZiNf+H2mD0Htz7KOliQNZcTNhYGWUgYTYPEtgt5c/MVsvC9ZbdKWwhEnUJDMQA3
- MAYFkzEBr3RYFuXdj2KuZknh2dGZJ834m/GY0bxmMiCNcOiZVBG0zssmTVNjOuSvej
- KzoeZqWu48TYdi0jfDgnwIX/wojB0zBT18HfBAFQ=
-Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTP id
- 20210614041213epcas5p4ceab9f6f16e0da6a68b38dbca12c1b62~IV44VEzHQ0073800738epcas5p4a;
- Mon, 14 Jun 2021 04:12:13 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
- epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 42.0F.09606.D17D6C06; Mon, 14 Jun 2021 13:12:13 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210613120400epcas5p25cb6fb8a284acf8c2512e228e311c403~IIrhPab_U2128221282epcas5p2T;
- Sun, 13 Jun 2021 12:04:00 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210613120400epsmtrp1442e10f1b003311e9f7fc82cf85df00a~IIrhOmVhk0448104481epsmtrp1q;
- Sun, 13 Jun 2021 12:04:00 +0000 (GMT)
-X-AuditID: b6c32a49-bdbff70000002586-b5-60c6d71d45f9
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 70.BA.08163.034F5C06; Sun, 13 Jun 2021 21:04:00 +0900 (KST)
-Received: from 2030045822 (unknown [107.108.221.178]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210613120359epsmtip165d20cec2bee2749b7058b66964e7e98~IIrgAJNkE0389203892epsmtip1e;
- Sun, 13 Jun 2021 12:03:59 +0000 (GMT)
-Date: Sun, 13 Jun 2021 17:29:58 +0530
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v2 1/2] hw/nvme: fix endianess conversion and add
- controller list
-Message-ID: <20210613115958.GA20730@2030045822>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lsevQ-0004Jy-PV
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 01:14:16 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:43695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lsevP-0002Xy-1q
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 01:14:16 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 3-20020a05600c0243b029019f2f9b2b8aso11985824wmj.2
+ for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 22:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UUfLcAV6xtlnUeAFkcSiPQP866mVcgvw1lffM7RfJ1s=;
+ b=RAycgupF1Ow/90Ox9depnSimlXWd1Q99Jwbq8Oy3irLLmrkqG8+KrXHvUsWUTjwLjy
+ 09AIWPoGfG4vkT8UTOG80BRk5NGDX/NUZFF+2+a47lvb1ry/c07tV89iO02YTJyBU/e5
+ h+oliZ+gi7ULDrc/qwDf8/3QavLRdbX2NYCCtYY1XK5DZ8enG2rEEWK85K8OpRnX1Lhs
+ VYPCiATM0QltgY9fgfU+m+LvQAgLH7brgeqfrVPkgQHN2GIFyb13Zx7RFPc1oLt6Jwys
+ IrwZiOkg0ps5Cu0dZufxx1nrTFmY/JPBwRtCSKxs96AKL0Q8fpVbX+6xnKOECX2F0RIt
+ t6nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UUfLcAV6xtlnUeAFkcSiPQP866mVcgvw1lffM7RfJ1s=;
+ b=mBhCbrjyAV4iWNtoZhhIKDvVMirLkStLHKBjvoBoYcV0DamblTClf35scCkwxjIKQw
+ +hp3pLg0nM87wJnzlcUyJZtGAGpGA0sA+6zkiZcRp8itHYnOkNl+OqXQWBn+cWx2tVP8
+ Kw6ECZEdh2FApFL/Jk1OY+58xyFKiRxjusQnoS9IaJpg1wyEtQpFafpwenmeg0u8SLfB
+ Wtsu31EOqkFw9AMlKb5eRWqPyJkQJRnWo9+8XwpnBvcORa05z230y+6qtc/K5sMwkBne
+ B8fFptLeeQkf8C0DXKxggBynNZawfy0fWBKKev3JX/heVuYmmbNFuSAokOiKfEQ0HYWX
+ DK1Q==
+X-Gm-Message-State: AOAM5313Ltt02xCQIA/RNyYLpGSsKQhFkd7N7loDqNSBkGbwTGxh8KwA
+ R7yDq/ZRzqvIoaBivuqFazc=
+X-Google-Smtp-Source: ABdhPJzXIxBnYAYodCPRvXp0rv5PgchoKirKJuXuOA27xIMgoxw5o4Cg71sGbRNo88d5QIp6BoxIbA==
+X-Received: by 2002:a1c:146:: with SMTP id 67mr31308145wmb.61.1623647652971;
+ Sun, 13 Jun 2021 22:14:12 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id a3sm15631735wra.4.2021.06.13.22.14.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Jun 2021 22:14:12 -0700 (PDT)
+Subject: Re: [PULL 1/9] yank: Unregister function when using TLS migration
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, huangy81@chinatelecom.cn, peterx@redhat.com,
+ lizhijian@cn.fujitsu.com, leobras.c@gmail.com, pabeni@redhat.com
+References: <20210609144512.211746-1-dgilbert@redhat.com>
+ <20210609144512.211746-2-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <453116f4-9e24-41db-2fd7-5f08428eca8a@amsat.org>
+Date: Mon, 14 Jun 2021 07:14:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YMEjGTBNHmsu5RgT@apples.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsWy7bCmuq7s9WMJBqvO8ltc2X+e0WL/wW+s
- FpMOXWO0WHIx1WLeLWWLWe/a2SyO9+5gsXg96T+rA4fHj3PtbB7ndpxn99i0qpPN48m1zUwe
- 7/ddZQtgjeKySUnNySxLLdK3S+DKmLdiDkvBcomK1hkb2BsY9wp3MXJySAiYSLx4+Iqli5GL
- Q0hgN6PEuZ+PmCGcT4wSm95tZIJwPjNK/N61EMjhAGvpfuUFEd/FKLGuYTI7hPOKUeLeptVs
- IEUsAqoSfROSQVawCRhJzH77hhHEFhFQkXj6by/YOmaBiYwSO3r/sIEkhAXCJa6v/88OYvMK
- 6Ess2fgDyhaUODnzCQuIzQk0aFfvdrBBogLKEge2HWeC+KGVQ+LnohgI20Xi2uMrrBC2sMSr
- 41vYIWwpiZf9bUA2O5BdLXG4COQECYEORoljlzewQZTYS/x7Ng1sPLNAhsS9aVegxstKTD21
- jgkizifR+/sJVJxXYsc8GFtNYsGt71CrZCRm/rkNdYKHxKXHN6DBu4NRYuKj7SwTGOVnIXlt
- FpJ9ELaVROeHJtZZwGBkFpCWWP6PA8LUlFi/S38BI+sqRsnUguLc9NRi0wLDvNRyveLE3OLS
- vHS95PzcTYzgdKTluYPx7oMPeocYmTgYDzFKcDArifA+6zqcIMSbklhZlVqUH19UmpNafIhR
- moNFSZx3KfuhBCGB9MSS1OzU1ILUIpgsEwenVAOT+l+xg8aS3q+LXl6Yve5086ZfqRsyt1ze
- rMBR6xDQzSX+p6h4jsHKMO07v8ymOV+q+35n8y1Z9cIrmXfvZCiX+QXnyTVMPbG1e7KbmMTl
- 12oFihvK551/5mZpaq9SziQttviwRcd8YbatE49w/NwYyLz9G7/4ar6GTKfldZq8q7LvN1Za
- K5rs4X51p1UgxrNGfklztZv0rUN2kXrNkdtNttrl/Wg+6Sxcu013K6/6CzaT/NrCOXdirWPv
- np6nmGqi1vGaRajxTu7HGrXua+t3ffRc5D/f2MluQX/jhlPsuapMqcHvLlWda32uv+JXapb3
- WkdZS5VffEs3BW9c6Hm3sdI26tAn91PHXnOcuqTEUpyRaKjFXFScCABlyYTxtgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrILMWRmVeSWpSXmKPExsWy7bCSnK7Bl6MJBr+bFC2u7D/PaLH/4DdW
- i0mHrjFaLLmYajHvlrLFrHftbBbHe3ewWLye9J/VgcPjx7l2No9zO86ze2xa1cnm8eTaZiaP
- 9/uusgWwRnHZpKTmZJalFunbJXBl/Jl9mqXgpmjF9/3fWBoYOwW7GDk4JARMJLpfeXUxcnEI
- CexglNj06jBLFyMnUFxG4tepqcwQtrDEyn/P2SGKXjBK/Fy5hQmkmUVAVaJvQjJIDZuAkcTs
- t28YQWwRARWJp//2soDUMwtMZJTY0fuHDSQhLBAucX39f3YQm1dAX2LJxh/scJu/rjwBlRCU
- ODnzCdgVzAJmEvM2P2QGWcYsIC2x/B8HSJgTaNmu3u1gy0QFlCUObDvONIFRcBaS7llIumch
- dC9gZF7FKJlaUJybnltsWGCUl1quV5yYW1yal66XnJ+7iREcC1paOxj3rPqgd4iRiYPxEKME
- B7OSCO+zrsMJQrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBK
- NTAdnXE46ytjhY2eb8Dh2JpL7+p63a8uORClN/HQT6Gzqs6f3/WduVDCvEXXQHk9Z5+D2yL9
- z8/ev7URu8DvNfNuzEt+8YtPtyvsZdln9Gjzz63i7qIPzn1oLS0r5gz4PN3i9d77azdcSil5
- ZLNw80reewau9y908ao/l5cOdFAu3b1oXU6pheCTfbfvX3hv92eT1fSvulpOl7Osq08+sb11
- 5LBbW7O9kt6Fl3kL94qsmrlCQPLq06upDZuvdpZ1Vx7wM/h0Ovu23XwN7flv1M8qB84MWRU0
- k/l7xDz7F+1TH/ltL//zJ0jj5p5HMYfO2LUYdR6aGBPzPM78Rlu0LNci3ysXvrxN3xex6I7m
- Ddc5qkosxRmJhlrMRcWJAArZG4r0AgAA
-X-CMS-MailID: 20210613120400epcas5p25cb6fb8a284acf8c2512e228e311c403
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----PyqjeP1gTdP4rESW.nws3AXy0L8foNIaj5wxWxPMMBRbdI4e=_6b6f0_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-X-CMS-RootMailID: 20210601150640epcas5p298805b3669ca8b586d92da31d4742ab0
-References: <CGME20210601150640epcas5p298805b3669ca8b586d92da31d4742ab0@epcas5p2.samsung.com>
- <20210601150226.5558-1-anaidu.gollu@samsung.com>
- <YMEjGTBNHmsu5RgT@apples.localdomain>
-Received-SPF: pass client-ip=203.254.224.33;
- envelope-from=anaidu.gollu@samsung.com; helo=mailout3.samsung.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210609144512.211746-2-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.144,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,97 +92,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
- kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------PyqjeP1gTdP4rESW.nws3AXy0L8foNIaj5wxWxPMMBRbdI4e=_6b6f0_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+Hi Leonardo,
 
-On Wed, Jun 09, 2021 at 10:22:49PM +0200, Klaus Jensen wrote:
->On Jun  1 20:32, Gollu Appalanaidu wrote:
->>Add the controller identifiers list CNS 0x13, available list of ctrls
->>in NVM Subsystem that may or may not be attached to namespaces.
->>
->>In Identify Ctrl List of the CNS 0x12 and 0x13 no endian conversion
->>for the nsid field.
->>
->>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->>
->>-v2:
->>Fix the review comments from Klaus and squashed 2nd commit into
->>1st commit
->>
->>---
->>hw/nvme/ctrl.c       | 26 ++++++++++++++++----------
->>hw/nvme/trace-events |  2 +-
->>include/block/nvme.h |  1 +
->>3 files changed, 18 insertions(+), 11 deletions(-)
->>
->>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->>index 2e7498a73e..813a72c655 100644
->>--- a/hw/nvme/ctrl.c
->>+++ b/hw/nvme/ctrl.c
->>@@ -4251,9 +4251,11 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req, bool active)
->>    return NVME_INVALID_CMD_SET | NVME_DNR;
->>}
->>
->>-static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
->>+static uint16_t nvme_identify_ctrl_list(NvmeCtrl *n, NvmeRequest *req,
->>+                                        bool attached)
->>{
->>    NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
->>+    uint32_t nsid = le32_to_cpu(c->nsid);
->>    uint16_t min_id = le16_to_cpu(c->ctrlid);
->>    uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
->>    uint16_t *ids = &list[1];
->>@@ -4261,15 +4263,17 @@ static uint16_t nvme_identify_ns_attached_list(NvmeCtrl *n, NvmeRequest *req)
->>    NvmeCtrl *ctrl;
->>    int cntlid, nr_ids = 0;
->>
->>-    trace_pci_nvme_identify_ns_attached_list(min_id);
->>+    trace_pci_nvme_identify_ctrl_list(c->cns, min_id);
->>
->>-    if (c->nsid == NVME_NSID_BROADCAST) {
->>-        return NVME_INVALID_FIELD | NVME_DNR;
->>-    }
->>+    if (attached) {
->>+        if (nsid == NVME_NSID_BROADCAST) {
->>+            return NVME_INVALID_FIELD | NVME_DNR;
->>+        }
->>
->>-    ns = nvme_subsys_ns(n->subsys, c->nsid);
->>-    if (!ns) {
->>-        return NVME_INVALID_FIELD | NVME_DNR;
->>+        ns = nvme_subsys_ns(n->subsys, nsid);
->>+        if (!ns) {
->>+            return NVME_INVALID_FIELD | NVME_DNR;
->>+        }
->>    }
->>
->>    for (cntlid = min_id; cntlid < ARRAY_SIZE(n->subsys->ctrls); cntlid++) {
->
->Assume that `attached` is false and `n->subsys` is NULL.
->
->KABOOOOM :)
+On 6/9/21 4:45 PM, Dr. David Alan Gilbert (git) wrote:
+> From: Leonardo Bras <leobras.c@gmail.com>
+> 
+> After yank feature was introduced in migration, whenever migration
+> is started using TLS, the following error happens in both source and
+> destination hosts:
+> 
+> (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> 
+> This happens because of a missing yank_unregister_function() when using
+> qio-channel-tls.
+> 
+> Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> yank_unregister_function() in channel_close() and multifd_load_cleanup().
+> 
+> Also, inside migration_channel_connect() and
+> migration_channel_process_incoming() move yank_register_function() so
+> it only runs once on a TLS migration.
+> 
+> Fixes: b5eea99ec2f ("migration: Add yank feature", 2021-01-13)
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+> Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> 
+> --
 
-This scenario has been tested but executed without any issue, since here
-ARRAY_SIZE calculating size as per the "NVME_MAX_CONTROLLERS" defined.
+Please use the '---' separator, otherwise tools don't strip
+out your comments and they end in the repository, adding
+confusion.
 
-These two CNS values shows affect when there exists a Subsystem. will add
-check condition if there is no Subsystem will return invalid field in command.
-
-if (!n->subsys) {
-	return NVME_INVALID_FIELD | NVME_DNR;
-}
-
-
-------PyqjeP1gTdP4rESW.nws3AXy0L8foNIaj5wxWxPMMBRbdI4e=_6b6f0_
-Content-Type: text/plain; charset="utf-8"
-
-
-------PyqjeP1gTdP4rESW.nws3AXy0L8foNIaj5wxWxPMMBRbdI4e=_6b6f0_--
+> Changes since v2:
+> - Dropped all references to ioc->master
+> - yank_register_function() and yank_unregister_function() now only run
+>   once in a TLS migration.
+> 
+> Changes since v1:
+> - Cast p->c to QIOChannelTLS into multifd_load_cleanup()
+> Message-Id: <20210601054030.1153249-1-leobras.c@gmail.com>
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  migration/channel.c           | 26 ++++++++++++++------------
+>  migration/multifd.c           |  3 ++-
+>  migration/qemu-file-channel.c |  4 +++-
+>  3 files changed, 19 insertions(+), 14 deletions(-)
 
