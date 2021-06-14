@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B843A705A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:26:57 +0200 (CEST)
-Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CBF3A7070
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:31:13 +0200 (CEST)
+Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lstAe-00082G-RG
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51638)
+	id 1lstEm-000447-9D
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:31:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lst9X-0007IZ-5l
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:25:47 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43782)
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1lstCV-0001Yt-F8
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:28:51 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lst9S-0003wO-5Y
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:25:46 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r9so15849422wrz.10
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:25:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qc9VQL3+gZfW50xulqRNrExm7EQDb8YofLNpRHNSSg8=;
- b=kJ3kmEhrcsOUJiahuT9dAnW6mPVcS9QjlyqhKiB9TE0Jp6EzuLpGJR+u2q1Ihp5oDg
- MwicOAzWslsdRTuDHMTOM0OWpBh0vnsSiiOMJb7nx1XeCsz7HYJg2ZMyhDAUakK1u7uM
- GEZRKSUj3bzS4UQjiAiF0V9dBBQ3u38FWmvm2sHzaD/cGlTTeDJqqkqS2/1duJcxAFc7
- W02xHzHbKLc3MMNw8prk8racEYaDnPJwHTlk+oJWhjvpO5W6XGPRb11WP8uTGtYZW2mR
- J5qr6CK0Gdwm57Y1P6jh/I62YMkHJZl8JbtsxPAIRsAfVKvsN3OAoRZq3WvQctw8FVZh
- G9Tw==
+ (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
+ id 1lstCT-0005fY-5p
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:28:51 -0400
+Received: by mail-pl1-x631.google.com with SMTP id h12so7239329plf.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iVl9/7NzBZ2agnvg6h+ZbTUlBQu2wfwbtMEhqQLZzuM=;
+ b=VJ+2KkL71WxbvA7Y5pcHS4E0k/8md8Lb3h6Wj5mOioZSpVgD5pc1x3Ohu6tb6xf0LD
+ v5cwduwt+a2tH17VITMdosnxp6KWsUoA2o9v7LwwSOLW81VQfJZPLL8MemYFybt/l/FU
+ nPq0H5CtkIStW4CMAcItCFWgJww7FTmDIJvffpUmnFNjkP+1e++Glmqw8Mec58yR8+3X
+ ZOQnze1xsm2GjkBVgTSAhm7y7IIONukDa6TcqX1KabbOZp07t1c2rcA1pLFvdHwMaerq
+ AMcMIc3rSupnVGM1AJ7IoYvrC3ES0cHrtJBM6gnQubomWp9ayuatBt/L2VynzNgJo4Ro
+ mt4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qc9VQL3+gZfW50xulqRNrExm7EQDb8YofLNpRHNSSg8=;
- b=C8mChQvpiL1uJajfHFneyLVkVbRZyQeYSznJZ8027WpqN18rSkIpS21QqWd+kK4BFC
- XXh4BQDwN5pydrMC8Qbhrdz+Rp0VrcLXCNXEbWkXIaiznwQ+VfU5hXo34j/Zs//EWh/X
- 6/rsctqUcw3YKagYrLoUta+YyxW1kg2rS8Crr9OLVFXf7a8LXCItS4lMfVn3cxFxAbVL
- 28PEjAXnmOL9TmOrymPNrXzR0e1FfHDuGL+pipew1jviHOuPXr+k4LW6CyxuizwkX4q7
- BPtVLapqzdbm/9NTzEx3omNVUOnARuPxL4v9eW/eXmxuQJv5DflqE3sIrSZ0ICMGLAun
- 3rZw==
-X-Gm-Message-State: AOAM531loEWWrLghjCxm1R2KeCO05fGSoOBHzx4k0mhHLGPjKn9XQtBI
- ihxEej5siqM3T1+6Ff5SEvk=
-X-Google-Smtp-Source: ABdhPJxK88GGn/Pnzqhtl98U88qurcgIaIL63iecXkD6oFnr48elApp1mFOlPW2f11q3S7oNs+ECVw==
-X-Received: by 2002:adf:9dd1:: with SMTP id q17mr20533830wre.402.1623702339991; 
- Mon, 14 Jun 2021 13:25:39 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n7sm372812wmq.37.2021.06.14.13.25.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 13:25:39 -0700 (PDT)
-Subject: Re: [RFC] GitLab issue tracker labeling process: arch/target, os, and
- accel labels
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-References: <0a19af15-2f34-4934-c6c9-113e49f5f1f2@redhat.com>
- <d6be9a79-07af-4c46-8fc3-4bd5e01cb63a@amsat.org>
-Message-ID: <800db762-b5fc-7009-d805-b36648030bae@amsat.org>
-Date: Mon, 14 Jun 2021 22:25:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=iVl9/7NzBZ2agnvg6h+ZbTUlBQu2wfwbtMEhqQLZzuM=;
+ b=Vv1/8gnc2QgHi7fSM42kKCL+jH4phE0Bnsx2+Lav6DlfOy8zAE5ORsWApD8jtDhwII
+ nPveTTqrzWD3NOMrGz0fsXgrhdw6Bsf/6kQjj+nS34Vn/uL/T7/mk9TIMRMVXHcsF87y
+ Fxd7wC+umra8d+HfxkGxID3OdJx7/K/Tln1RvNy/0D1bmuxzk3dzdPAk0repkLhTg8Td
+ /Xzr29F01PX+8S2IU8wp0lqBhX5B1vcKAuWB5/7MsN7YnfB0TC2Iy/rOozNXtAq/lvbh
+ fBOIvt5mCGfFzfZqi3D4vf53r+Ki8ue0X0EJET1TyfTtG0s/2ogw/YLKmldvkO9h0UVf
+ qHrg==
+X-Gm-Message-State: AOAM533XVLCIidm2SWrrjoLNPQsrwBnQsSgn46i8vhbjHSA+vQc5qbi1
+ dJeG7R0b8gJx4bxCGChVeOcmYg==
+X-Google-Smtp-Source: ABdhPJxUwP8jHaY1kj4MmYDD9Uo2OwoQ6VVURDryNQIrs8e7cajPeuQ7JOXPMfy+ihNhItx1Ee5W4Q==
+X-Received: by 2002:a17:902:14b:b029:119:ef6b:8039 with SMTP id
+ 69-20020a170902014bb0290119ef6b8039mr828175plb.84.1623702524511; 
+ Mon, 14 Jun 2021 13:28:44 -0700 (PDT)
+Received: from p14s.cg.shawcable.net (S0106889e681aac74.cg.shawcable.net.
+ [68.147.0.187])
+ by smtp.gmail.com with ESMTPSA id fs10sm289029pjb.31.2021.06.14.13.28.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 13:28:43 -0700 (PDT)
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: mst@redhat.com,
+	alex.bennee@linaro.org
+Subject: [PATCH v2 0/5] virtio: Add vhost-user based RNG 
+Date: Mon, 14 Jun 2021 14:28:37 -0600
+Message-Id: <20210614202842.581640-1-mathieu.poirier@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <d6be9a79-07af-4c46-8fc3-4bd5e01cb63a@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=mathieu.poirier@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,56 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 8:53 PM, Philippe Mathieu-Daudé wrote:
-> On 6/14/21 7:32 PM, John Snow wrote:
->>
->> # OS
->>
->> Currently "os: XXX" for BSD, Linux, Windows, and macOS.
->>
->> https://gitlab.com/qemu-project/qemu/-/labels?subscribed=&search=os%3A
->>
->> Multiple OS labels can be applied to an issue.
->>
->> Originally, we kept this label somewhat vague and have been using it to
->> identify both the host AND guest involved with an issue.
->>
->> Stefan Weil has requested that we refactor this to separate the concerns
->> so that he can identify issues where Windows is the host without wading
->> through numerous reports where Windows is merely the guest. Reasonable
->> request.
->>
->> Shall we split it into "host: XXX" and "guest: XXX" for {BSD, Linux,
->> Windows, macOS}?
-> 
-> I'm missing the importance of the guest OS. Either it is in pair with
-> the host accel, or it is accel:TCG and I see the guest irrelevant
+This sets adds a vhost-user based random number generator (RNG),
+similar to what has been done for i2c and virtiofsd, with the
+implementation following the patterns already set forth in those.
 
-Err I mentioned the nested case, but generally I tend to have the same
-view, guest is not very relevant (except for qemu-guest-agent maybe).
+Applies cleanly to git://git.qemu.org/qemu.git master(1ea06abceec6).
 
-> (do we want to list all firmwares?).
-> 
-> So I'll let other sort this out.
+Thanks,
+Mathieu
+
+-----
+New for V2:
+- Replaced "antropy" for "entropy" (Joakim).
+
+Mathieu Poirier (5):
+  vhost-user-rng: Add vhost-user-rng implementation
+  vhost-user-rng-pci: Add vhost-user-rng-pci implementation
+  vhost-user-rng: backend: Add RNG vhost-user daemon implementation
+  docs: Add documentation for vhost based RNG implementation
+  MAINTAINERS: Add maintainer for vhost-user RNG implementation
+
+ MAINTAINERS                              |   9 +
+ docs/tools/vhost-user-rng.rst            |  74 +++++
+ hw/virtio/Kconfig                        |   5 +
+ hw/virtio/meson.build                    |   2 +
+ hw/virtio/vhost-user-rng-pci.c           |  79 +++++
+ hw/virtio/vhost-user-rng.c               | 294 +++++++++++++++++
+ include/hw/virtio/vhost-user-rng.h       |  33 ++
+ tools/meson.build                        |   8 +
+ tools/vhost-user-rng/50-qemu-rng.json.in |   5 +
+ tools/vhost-user-rng/main.c              | 403 +++++++++++++++++++++++
+ tools/vhost-user-rng/meson.build         |  10 +
+ 11 files changed, 922 insertions(+)
+ create mode 100644 docs/tools/vhost-user-rng.rst
+ create mode 100644 hw/virtio/vhost-user-rng-pci.c
+ create mode 100644 hw/virtio/vhost-user-rng.c
+ create mode 100644 include/hw/virtio/vhost-user-rng.h
+ create mode 100644 tools/vhost-user-rng/50-qemu-rng.json.in
+ create mode 100644 tools/vhost-user-rng/main.c
+ create mode 100644 tools/vhost-user-rng/meson.build
+
+-- 
+2.25.1
+
 
