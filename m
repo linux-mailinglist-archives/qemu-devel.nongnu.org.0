@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F683A6FF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:15:03 +0200 (CEST)
-Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA023A7004
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:17:15 +0200 (CEST)
+Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lssz8-0002Xi-OY
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:15:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49234)
+	id 1lst1H-0006Dr-0f
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lssuN-0001t0-86
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:10:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21577)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lssuR-00023v-0g
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:10:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lssuL-0002zh-Fo
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:10:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lssuO-00031X-3X
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:10:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623701404;
+ s=mimecast20190719; t=1623701407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hIM4nZ+edtMSEGqYdtBltxWEdrhiKauaGSD/ANl7HE=;
- b=gJhfkASrvedP/Vvw+LZZDhn/V2UkLAyMQ9R6ZZf4x/YV+d0DWedrqSULFq7vpHBS5ivjuh
- mUR3WVDaAk4lHrs35zdMxdCS4UdpVdeR0RjOGCv+x8l4GQ7tB8Y4Zw3MEIyDB5WPFCEygw
- 53Jz/DUlWZgtrAgiKpc1mzKMm5YJnUA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-pFWUcieSO_evQkn3roirbA-1; Mon, 14 Jun 2021 16:10:01 -0400
-X-MC-Unique: pFWUcieSO_evQkn3roirbA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- u17-20020a05600c19d1b02901af4c4deac5so437008wmq.7
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:10:01 -0700 (PDT)
+ bh=983yM9Ivhh0Jdv/knxi7k66F6inZsKoawfPPt/Wd0Sg=;
+ b=Mg3IeQjAaEXNt6AIoRDocbPVsfKBXifJ8l7nsYkHcm/QaQRkgnYHWDsQGP5NV4YIaj1jOH
+ hvulwSzEEb5QJ4Gdki7CQoF8caq5ytVbDZ3qgHYkMMlq5MGAVLekvL1QqYhopBjbVkOuzi
+ FzEhIgHPh4QKDIlKIS9L9w9ADMe03wo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-IQhJ5XHuMw2vHtkbeTWJiQ-1; Mon, 14 Jun 2021 16:10:06 -0400
+X-MC-Unique: IQhJ5XHuMw2vHtkbeTWJiQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ x9-20020adfffc90000b02901178add5f60so7553622wrs.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:10:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3hIM4nZ+edtMSEGqYdtBltxWEdrhiKauaGSD/ANl7HE=;
- b=sVlY7xtNSjP4adc+HzwfAHDTDMQFwwTpfcuUOcobqlUwA/2UXon/+Ul+J0n5lQYaa1
- lMT6QFtQ4fucGQGhceWQOFOJUgMd7PgesJA5cg35CEmKsPdYL7vMeq/j8qYyC/Xov0O1
- O5xGBr341NTpNp4RMb9jvEB773dRdyOdb2uaUs3ED6bkis8bc32D+j8nNC1hZPMSRw6j
- ddRnsjBtMDoEP5C3PqTWzJqmw2A3wo3WmVzz3bNiUn8DqGxyM109hGoFclTJtNmPqmmS
- 5JT2+fHrEG0wl/BOe2zvc8527M84x5xhOTcJqCYDVA4hpjB/cIagGUc4UTD3rgU0ulvF
- TqqQ==
-X-Gm-Message-State: AOAM533RvZkrWdiwrkx2oAKxHuDu1F05Of+F7dNPHJVbID4EHksjrpqM
- GVZHdABBLAniNU0scPOd134n5DWYy1ZMOwyuOKmBL7ExABUjDsczYKQRf5lbyi+IlubLWKwQscW
- /8XXI/yBr7X1R8no6Ym8BOAjvNXP9DTzwNpKDDmiujABvbZ+xMvDe36oU4WaUPvl4
-X-Received: by 2002:a7b:c20b:: with SMTP id x11mr908285wmi.9.1623701400340;
- Mon, 14 Jun 2021 13:10:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyaznMWFe5kkp1meQldQFacYfdH9YXNqNYunC1G3Aov7zVvcIVEXU8ceZduYpB9ckQkbChHjg==
-X-Received: by 2002:a7b:c20b:: with SMTP id x11mr908261wmi.9.1623701400118;
- Mon, 14 Jun 2021 13:10:00 -0700 (PDT)
+ bh=983yM9Ivhh0Jdv/knxi7k66F6inZsKoawfPPt/Wd0Sg=;
+ b=JSP6fRNqqB46mJi3rsrjIEd8NXnn8/CYcZarCpEuW0HFneYoYo5/qG3atJD3SNBPj8
+ 6dA0VDvKA4Ha9ntyVRzNx0b1DYSTRWG89V3Y+791LSiarS7BM6QU6lonW4uXBNp0p9LV
+ 0iP/ZkG91PQXw5FwkbNZYfHRf8Wz4JiGraFfoxJyYHWro8Z+HyUkUTw+jKuS6OjZ68SG
+ AqpP6O76TNy4STVKxKTsbHlgCSY+xaDvfvisBycTamEyEgUTBkPU7lT+o274WFZEhSlI
+ ApLtpJD/BaN2TA8HFRRd/sREkJcQlSzPm9OI7Kz409QkvmBHs7ezBE+01GWR6h9vkeF5
+ sLXw==
+X-Gm-Message-State: AOAM532jaczeSZvZzRpMJTiGZVl10rW/eP2XCJwH2HvuGpCaGcqB/snZ
+ IlCUgq/3HQaU/UUR6NpmGvjNqewgL4WIu+GlBpVPSOOPCg4NLz4mB0QEz0YAwO3vXu/EGKibYWK
+ F5o0jzapZSjukgvU1f06lcra9ol+OSzNaHH1e5D1yGzvrWe6GgiogZp53KncyGe0t
+X-Received: by 2002:a05:600c:214c:: with SMTP id v12mr7749wml.33.1623701404897; 
+ Mon, 14 Jun 2021 13:10:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy0PdR37Rt3bX/goJSOjRFbJug4PyP9k9icobUOSZ8HNzsU1MSjrwbTby5svQuPLqfFl9maaA==
+X-Received: by 2002:a05:600c:214c:: with SMTP id v12mr7711wml.33.1623701404620; 
+ Mon, 14 Jun 2021 13:10:04 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id l10sm16558905wrs.11.2021.06.14.13.09.59
+ by smtp.gmail.com with ESMTPSA id r3sm13478975wmq.8.2021.06.14.13.10.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 13:09:59 -0700 (PDT)
+ Mon, 14 Jun 2021 13:10:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] sysemu: Make TPM structures inaccessible if CONFIG_TPM
- is not defined
-Date: Mon, 14 Jun 2021 22:09:39 +0200
-Message-Id: <20210614200940.2056770-5-philmd@redhat.com>
+Subject: [PATCH v3 5/5] tpm: Return QMP error when TPM is disabled in build
+Date: Mon, 14 Jun 2021 22:09:40 +0200
+Message-Id: <20210614200940.2056770-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210614200940.2056770-1-philmd@redhat.com>
 References: <20210614200940.2056770-1-philmd@redhat.com>
@@ -73,7 +72,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -98,94 +97,212 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Berger <stefanb@linux.ibm.com>
+When the management layer queries a binary built using --disable-tpm
+for TPM devices, it gets confused by getting empty responses:
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210614191335.1968807-5-stefanb@linux.ibm.com>
-[PMD: Remove tpm_init() / tpm_cleanup() stubs]
+  { "execute": "query-tpm" }
+  {
+      "return": [
+      ]
+  }
+  { "execute": "query-tpm-types" }
+  {
+      "return": [
+      ]
+  }
+  { "execute": "query-tpm-models" }
+  {
+      "return": [
+      ]
+  }
+
+To make it clearer by returning an error:
+- Make the TPM QAPI schema conditional
+- Adapt the HMP command
+- Remove stubs which became unnecessary
+
+The management layer now gets a 'CommandNotFound' error:
+
+  { "execute": "query-tpm" }
+  {
+      "error": {
+          "class": "CommandNotFound",
+          "desc": "The command query-tpm has not been found"
+      }
+  }
+
+Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/sysemu/tpm.h         |  9 +++++++++
- include/sysemu/tpm_backend.h |  6 +++++-
- stubs/tpm.c                  | 10 ----------
- 3 files changed, 14 insertions(+), 11 deletions(-)
+ qapi/tpm.json      | 28 +++++++++++++++++++---------
+ monitor/hmp-cmds.c |  4 ++++
+ stubs/tpm.c        | 25 -------------------------
+ stubs/meson.build  |  1 -
+ 4 files changed, 23 insertions(+), 35 deletions(-)
+ delete mode 100644 stubs/tpm.c
 
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index 1a85564e479..68b2206463c 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -15,6 +15,8 @@
- #include "qapi/qapi-types-tpm.h"
- #include "qom/object.h"
- 
-+#ifdef CONFIG_TPM
+diff --git a/qapi/tpm.json b/qapi/tpm.json
+index 6a10c9ed8d2..75590979fde 100644
+--- a/qapi/tpm.json
++++ b/qapi/tpm.json
+@@ -17,7 +17,9 @@
+ #
+ # Since: 1.5
+ ##
+-{ 'enum': 'TpmModel', 'data': [ 'tpm-tis', 'tpm-crb', 'tpm-spapr' ] }
++{ 'enum': 'TpmModel', 'data': [ 'tpm-tis', 'tpm-crb', 'tpm-spapr' ],
++  'if': 'defined(CONFIG_TPM)' }
 +
- int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
- int tpm_init(void);
- void tpm_cleanup(void);
-@@ -73,4 +75,11 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
-     return TPM_IF_GET_CLASS(ti)->get_version(ti);
+ ##
+ # @query-tpm-models:
+ #
+@@ -33,7 +35,8 @@
+ # <- { "return": [ "tpm-tis", "tpm-crb", "tpm-spapr" ] }
+ #
+ ##
+-{ 'command': 'query-tpm-models', 'returns': ['TpmModel'] }
++{ 'command': 'query-tpm-models', 'returns': ['TpmModel'],
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @TpmType:
+@@ -46,7 +49,8 @@
+ #
+ # Since: 1.5
+ ##
+-{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator' ] }
++{ 'enum': 'TpmType', 'data': [ 'passthrough', 'emulator' ],
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @query-tpm-types:
+@@ -63,7 +67,8 @@
+ # <- { "return": [ "passthrough", "emulator" ] }
+ #
+ ##
+-{ 'command': 'query-tpm-types', 'returns': ['TpmType'] }
++{ 'command': 'query-tpm-types', 'returns': ['TpmType'],
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @TPMPassthroughOptions:
+@@ -79,7 +84,8 @@
+ ##
+ { 'struct': 'TPMPassthroughOptions',
+   'data': { '*path': 'str',
+-            '*cancel-path': 'str' } }
++            '*cancel-path': 'str' },
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @TPMEmulatorOptions:
+@@ -90,7 +96,8 @@
+ #
+ # Since: 2.11
+ ##
+-{ 'struct': 'TPMEmulatorOptions', 'data': { 'chardev' : 'str' } }
++{ 'struct': 'TPMEmulatorOptions', 'data': { 'chardev' : 'str' },
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @TpmTypeOptions:
+@@ -104,7 +111,8 @@
+ ##
+ { 'union': 'TpmTypeOptions',
+    'data': { 'passthrough' : 'TPMPassthroughOptions',
+-             'emulator': 'TPMEmulatorOptions' } }
++             'emulator': 'TPMEmulatorOptions' },
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @TPMInfo:
+@@ -122,7 +130,8 @@
+ { 'struct': 'TPMInfo',
+   'data': {'id': 'str',
+            'model': 'TpmModel',
+-           'options': 'TpmTypeOptions' } }
++           'options': 'TpmTypeOptions' },
++  'if': 'defined(CONFIG_TPM)' }
+ 
+ ##
+ # @query-tpm:
+@@ -152,4 +161,5 @@
+ #    }
+ #
+ ##
+-{ 'command': 'query-tpm', 'returns': ['TPMInfo'] }
++{ 'command': 'query-tpm', 'returns': ['TPMInfo'],
++  'if': 'defined(CONFIG_TPM)' }
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index d10ee141109..f6cadede40f 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -901,6 +901,9 @@ void hmp_info_pci(Monitor *mon, const QDict *qdict)
+ 
+ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+ {
++#ifndef CONFIG_TPM
++    monitor_printf(mon, "TPM device not supported\n");
++#else
+     TPMInfoList *info_list, *info;
+     Error *err = NULL;
+     unsigned int c = 0;
+@@ -946,6 +949,7 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
+         c++;
+     }
+     qapi_free_TPMInfoList(info_list);
++#endif /* CONFIG_TPM */
  }
  
-+#else /* CONFIG_TPM */
-+
-+#define tpm_init()  (0)
-+#define tpm_cleanup()
-+
-+#endif /* CONFIG_TPM */
-+
- #endif /* QEMU_TPM_H */
-diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-index 6f078f5f482..8fd3269c117 100644
---- a/include/sysemu/tpm_backend.h
-+++ b/include/sysemu/tpm_backend.h
-@@ -18,6 +18,8 @@
- #include "sysemu/tpm.h"
- #include "qapi/error.h"
- 
-+#ifdef CONFIG_TPM
-+
- #define TYPE_TPM_BACKEND "tpm-backend"
- OBJECT_DECLARE_TYPE(TPMBackend, TPMBackendClass,
-                     TPM_BACKEND)
-@@ -209,4 +211,6 @@ TPMInfo *tpm_backend_query_tpm(TPMBackend *s);
- 
- TPMBackend *qemu_find_tpm_be(const char *id);
- 
--#endif
-+#endif /* CONFIG_TPM */
-+
-+#endif /* TPM_BACKEND_H */
+ void hmp_quit(Monitor *mon, const QDict *qdict)
 diff --git a/stubs/tpm.c b/stubs/tpm.c
-index 22014595a06..e79bd2a6c2d 100644
+deleted file mode 100644
+index e79bd2a6c2d..00000000000
 --- a/stubs/tpm.c
-+++ b/stubs/tpm.c
-@@ -7,18 +7,8 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/qapi-commands-tpm.h"
--#include "sysemu/tpm.h"
- #include "hw/acpi/tpm.h"
- 
--int tpm_init(void)
++++ /dev/null
+@@ -1,25 +0,0 @@
+-/*
+- * TPM stubs
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qapi/qapi-commands-tpm.h"
+-#include "hw/acpi/tpm.h"
+-
+-TPMInfoList *qmp_query_tpm(Error **errp)
 -{
--    return 0;
+-    return NULL;
 -}
 -
--void tpm_cleanup(void)
+-TpmTypeList *qmp_query_tpm_types(Error **errp)
 -{
+-    return NULL;
 -}
 -
- TPMInfoList *qmp_query_tpm(Error **errp)
- {
-     return NULL;
+-TpmModelList *qmp_query_tpm_models(Error **errp)
+-{
+-    return NULL;
+-}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 65c22c0568c..d4e9549dc99 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -38,7 +38,6 @@
+ stub_ss.add(files('sysbus.c'))
+ stub_ss.add(files('target-get-monitor-def.c'))
+ stub_ss.add(files('target-monitor-defs.c'))
+-stub_ss.add(files('tpm.c'))
+ stub_ss.add(files('trace-control.c'))
+ stub_ss.add(files('uuid.c'))
+ stub_ss.add(files('vmgenid.c'))
 -- 
 2.31.1
 
