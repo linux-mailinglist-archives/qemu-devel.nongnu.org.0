@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CBF3A5E2B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:14:27 +0200 (CEST)
-Received: from localhost ([::1]:37714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7EA3A5E2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:14:02 +0200 (CEST)
+Received: from localhost ([::1]:37042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshjm-0004Vx-FF
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:14:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40846)
+	id 1lshjN-000452-BY
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshhH-0001v6-Oy
+ id 1lshhH-0001uG-91
  for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:11:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41238)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshhD-0000Rc-LI
+ id 1lshhD-0000SS-On
  for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:11:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623658306;
+ s=mimecast20190719; t=1623658307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=22VGQAkVYpqq45T3UgWkUg7TZcPRUjggijqQxX73KPM=;
- b=Ye3oMPEbcKT4SzOD3/bHWQgxIxL2oMPVHzBqu8MPVzqNRDqKBP++QB3rQE637kvNLGp6wu
- Wob5XT6HICfCvt6cu7c7UV4XP+P7QRCykEH+bohviaABN+W6X+/xzW6aUkb8LkXYka5RfC
- qVNDaEj7kWO/R4oYzHkynGvJCUJmddA=
+ bh=NxqvgwC/0RkwBtocgVjIypFWWDWJcOfx/nwhDSsgzIo=;
+ b=XgE5P0KALp/nxQzMzIKXCoOiqNlOifzGCW9yGnMvT9jONK6Mg95QwnEW16ECzahzTYwI5m
+ rvC7YBrQTsUky/yR3Dfph1g01Ya7GV8U5TlWtmseuMRIu3nOLSA7k7G9Q2FeKW47HHDK0l
+ YoMZNxH0LF1fYzkjW3KdF3smHbwWbGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-xAQSIBcYNDOGgC76AfLZ4Q-1; Mon, 14 Jun 2021 04:11:43 -0400
-X-MC-Unique: xAQSIBcYNDOGgC76AfLZ4Q-1
+ us-mta-534-VjYZ88h-OKW6whbJM_bZ8g-1; Mon, 14 Jun 2021 04:11:45 -0400
+X-MC-Unique: VjYZ88h-OKW6whbJM_bZ8g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49C6F1922053;
- Mon, 14 Jun 2021 08:11:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 901208B78A5;
+ Mon, 14 Jun 2021 08:11:44 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
  [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1382A5D6A8;
- Mon, 14 Jun 2021 08:11:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A09B15D6A8;
+ Mon, 14 Jun 2021 08:11:42 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/5] block-copy: let ratelimit handle a speed of 0
-Date: Mon, 14 Jun 2021 10:11:27 +0200
-Message-Id: <20210614081130.22134-3-eesposit@redhat.com>
+Subject: [PATCH v3 3/5] blockjob: let ratelimit handle a speed of 0
+Date: Mon, 14 Jun 2021 10:11:28 +0200
+Message-Id: <20210614081130.22134-4-eesposit@redhat.com>
 In-Reply-To: <20210614081130.22134-1-eesposit@redhat.com>
 References: <20210614081130.22134-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,65 +93,40 @@ Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/block-copy.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+ blockjob.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 5808cfe657..943e30b7e6 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -114,7 +114,6 @@ typedef struct BlockCopyState {
+diff --git a/blockjob.c b/blockjob.c
+index dc1d9e0e46..22e5bb9b1f 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -300,10 +300,6 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
  
-     SharedResource *mem;
- 
--    uint64_t speed;
-     RateLimit rate_limit;
- } BlockCopyState;
- 
-@@ -647,21 +646,19 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-             task->copy_range = false;
-         }
- 
--        if (s->speed) {
--            if (!call_state->ignore_ratelimit) {
--                uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
--                if (ns > 0) {
--                    block_copy_task_end(task, -EAGAIN);
--                    g_free(task);
--                    qemu_co_sleep_ns_wakeable(&call_state->sleep,
--                                              QEMU_CLOCK_REALTIME, ns);
--                    continue;
--                }
-+        if (!call_state->ignore_ratelimit) {
-+            uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
-+            if (ns > 0) {
-+                block_copy_task_end(task, -EAGAIN);
-+                g_free(task);
-+                qemu_co_sleep_ns_wakeable(&call_state->sleep,
-+                                            QEMU_CLOCK_REALTIME, ns);
-+                continue;
-             }
--
--            ratelimit_calculate_delay(&s->rate_limit, task->bytes);
-         }
- 
-+        ratelimit_calculate_delay(&s->rate_limit, task->bytes);
-+
-         trace_block_copy_process(s, task->offset);
- 
-         co_get_from_shres(s->mem, task->bytes);
-@@ -853,10 +850,7 @@ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
- 
- void block_copy_set_speed(BlockCopyState *s, uint64_t speed)
+ int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
  {
--    s->speed = speed;
--    if (speed > 0) {
--        ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
+-    if (!job->speed) {
+-        return 0;
 -    }
-+    ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
+-
+     return ratelimit_calculate_delay(&job->limit, n);
+ }
  
-     /*
-      * Note: it's good to kick all call states from here, but it should be done
+@@ -472,12 +468,9 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+     blk_set_disable_request_queuing(blk, true);
+     blk_set_allow_aio_context_change(blk, true);
+ 
+-    /* Only set speed when necessary to avoid NotSupported error */
+-    if (speed != 0) {
+-        if (!block_job_set_speed(job, speed, errp)) {
+-            job_early_fail(&job->job);
+-            return NULL;
+-        }
++    if (!block_job_set_speed(job, speed, errp)) {
++        job_early_fail(&job->job);
++        return NULL;
+     }
+ 
+     return job;
 -- 
 2.31.1
 
