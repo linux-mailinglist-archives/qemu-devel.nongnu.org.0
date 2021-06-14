@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5C23A661A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:54:38 +0200 (CEST)
-Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BE23A6629
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:58:56 +0200 (CEST)
+Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lslAr-0007GJ-4Q
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
+	id 1lslF1-00030s-FK
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elish.jiang@ucloud.cn>)
- id 1lsl8T-0005PB-0z; Mon, 14 Jun 2021 07:52:09 -0400
-Received: from mail-m2839.qiye.163.com ([103.74.28.39]:42112)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lslDu-0001Tk-4p
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:57:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elish.jiang@ucloud.cn>)
- id 1lsl8N-0002L6-4a; Mon, 14 Jun 2021 07:52:06 -0400
-Received: from FVFF87FUQ6LR.local (unknown [114.245.115.59])
- by mail-m2839.qiye.163.com (Hmail) with ESMTPA id 4E311C0164;
- Mon, 14 Jun 2021 19:51:46 +0800 (CST)
-Date: Mon, 14 Jun 2021 19:51:45 +0800
-From: elish.jiang <elish.jiang@ucloud.cn>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <AEF7DA11-058C-464E-A2BE-DE137AE8A1DF@ucloud.cn>
-In-Reply-To: <CAFEAcA8OVW=KD+-EK-PV6pYs59eSwJeg=5THtGfpSBUjujbFOQ@mail.gmail.com>
-References: <20210613093821.774562-1-elish.jiang@ucloud.cn>
-Subject: Re: [PATCH] block: fix build waring
-X-Mailer: MailMasterMac/4.15.5.1279 (11.4.0)
-X-CUSTOM-MAIL-MASTER-SENT-ID: A3503DEB-5AFC-4676-89F8-B6595CCEF93A
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lslDq-00053l-Ry
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:57:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623671861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pxLv7/h0XX4QVV3RuW5V24vfx5XZdw6d0WEXMxVIEIU=;
+ b=hilqEt71beTvkxldTXOBmotIJWJZB3rJljzbaEnElTxlE/l43rKR2HDQFrsHzWod4Qs67l
+ QueedfH1TisXZ/rlF0dlom0nQqVoZNbyxItUzN9OahiuqhuoOUmHoMVzNJv8iZ40j8CvCz
+ b36R57GbGZ51JcM9wL0GhqIOG+kMUYY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-ow2_UaHUNp2DJRMIIj_ZCA-1; Mon, 14 Jun 2021 07:57:39 -0400
+X-MC-Unique: ow2_UaHUNp2DJRMIIj_ZCA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E6A8800D55;
+ Mon, 14 Jun 2021 11:57:38 +0000 (UTC)
+Received: from work-vm (ovpn-114-158.ams2.redhat.com [10.36.114.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD05A60C0F;
+ Mon, 14 Jun 2021 11:57:33 +0000 (UTC)
+Date: Mon, 14 Jun 2021 12:57:31 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-stable@nongnu.org
+Subject: Re: [PATCH v3 1/1] yank: Unregister function when using TLS migration
+Message-ID: <YMdEK6evcYtpbfMv@work-vm>
+References: <20210601054030.1153249-1-leobras.c@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
- oVCBIfWUFZQ05CSVZLGE4fTE1LTkJDHUNVGRETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
- hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pj46LAw*UT02KxcjOjI9ERUX
- KRRPCxlVSlVKTUlITUxKTktNTk5IVTMWGhIXVR4XEggTVRESGhUcOw4YFxQOH1UYFUVZV1kSC1lB
- WUpKT1VJT05VSkpOVU5CWVdZCAFZQUNJSk43Bg++
-X-HM-Tid: 0a7a0a5d05c28421kuqw4e311c0164
-Received-SPF: pass client-ip=103.74.28.39; envelope-from=elish.jiang@ucloud.cn;
- helo=mail-m2839.qiye.163.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_REMOTE_IMAGE=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20210601054030.1153249-1-leobras.c@gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,99 +78,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Leonardo Bras <leobras.c@gmail.com>, lukasstraub2@web.de,
+ berrange@redhat.com, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PGh0bWw+DQo8aGVhZD4NCiAgICA8bWV0YSBodHRwLWVxdWl2PSdDb250ZW50LVR5cGUnIGNvbnRl
-bnQ9J3RleHQvaHRtbDsgY2hhcnNldD1VVEYtOCc+DQo8L2hlYWQ+DQo8Ym9keT4NCjxzdHlsZT4N
-CiAgICBmb250ew0KICAgICAgICBsaW5lLWhlaWdodDogMS42Ow0KICAgIH0NCiAgICB1bCxvbHsN
-CiAgICAgICAgcGFkZGluZy1sZWZ0OiAyMHB4Ow0KICAgICAgICBsaXN0LXN0eWxlLXBvc2l0aW9u
-OiBpbnNpZGU7DQogICAgfQ0KPC9zdHlsZT4NCjxkaXYgc3R5bGUgPSAnZm9udC1mYW1pbHk6SGVs
-dmV0aWNhLEhlbHZldGljYSzlvq7ova/pm4Xpu5EsIOWui+S9kzsgbGluZS1oZWlnaHQ6MS42Oyc+
-DQogICAgPGRpdiA+PC9kaXY+PGRpdj4KICAgIDxkaXY+CiAgICAgICAgZ2NjIHZlcnNpb24gOC4z
-LjEgMjAxOTAzMTEgKFJlZCBIYXQgOC4zLjEtMykgKEdDQyk8c3Bhbj4KICAgICAgICAgICAgCiAg
-ICAgICAgPC9zcGFuPgogICAgPC9kaXY+CiAgICA8ZGl2PgogICAgICAgIDxzcGFuPgogICAgICAg
-ICAgICA8YnI+CiAgICAgICAgPC9zcGFuPgogICAgPC9kaXY+CiAgICA8ZGl2IGlkPSJudGVzLXBj
-bWFjLXNpZ25hdHVyZSIgc3R5bGU9ImZvbnQtZmFtaWx5OidIZWx2ZXRpY2EnLCdNaWNyb3NvZnQg
-WWFoZWknLCAn5b6u6L2v6ZuF6buRJyI+CiAgICAgIAogICAgPGRpdiBzdHlsZT0iZm9udC1zaXpl
-OjE0cHg7IHBhZGRpbmc6IDA7ICBtYXJnaW46MDtsaW5lLWhlaWdodDogMTRweDsiPgogICAgICAg
-IDxkaXYgc3R5bGU9ImJvcmRlci1ib3R0b206MXB4IHNvbGlkICNlNmU2ZTY7ZGlzcGxheTppbmxp
-bmUtYmxvY2s7Ij4KICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJodHRwczovL21hYXMubWFp
-bC4xNjMuY29tL2Rhc2hpLXdlYi1leHRlbmQvaHRtbC9wcm9TaWduYXR1cmUuaHRtbD9mdGxJZD0x
-JmFtcDtuYW1lPWVsaXNoLmppYW5nJmFtcDt1aWQ9ZWxpc2guamlhbmclNDB1Y2xvdWQuY24mYW1w
-O2ljb25Vcmw9aHR0cHMlM0ElMkYlMkZtYWlsLW9ubGluZS5ub3Nkbi4xMjcubmV0JTJGcWl5ZWxv
-Z28lMkZkZWZhdWx0QXZhdGFyLnBuZyZhbXA7aXRlbXM9JTVCJTIyZWxpc2guamlhbmclNDB1Y2xv
-dWQuY24lMjIlNUQiIHN0eWxlPSJkaXNwbGF5OmJsb2NrO2JhY2tncm91bmQ6I2ZmZjsgbWF4LXdp
-ZHRoOiA0MDBweDsgX3dpZHRoOiA0MDBweDtwYWRkaW5nOjE1cHggMCAxMHB4IDA7dGV4dC1kZWNv
-cmF0aW9uOiBub25lOyBvdXRsaW5lOm5vbmU7LXdlYmtpdC10YXAtaGlnaGxpZ2h0LWNvbG9yOnRy
-YW5zcGFyZW50Oy13ZWJraXQtdGV4dC1zaXplLWFkanVzdDpub25lICFpbXBvcnRhbnQ7dGV4dC1z
-aXplLWFkanVzdDpub25lICFpbXBvcnRhbnQ7Ij4KICAgICAgICAgICAgPHRhYmxlIGNlbGxwYWRk
-aW5nPSIwIiBzdHlsZT0id2lkdGg6IDEwMCU7IG1heC13aWR0aDogMTAwJTsgdGFibGUtbGF5b3V0
-OiBmaXhlZDsgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtjb2xvcjogIzliOWVhMTtmb250LXNp
-emU6IDE0cHg7bGluZS1oZWlnaHQ6MS4zOy13ZWJraXQtdGV4dC1zaXplLWFkanVzdDpub25lICFp
-bXBvcnRhbnQ7dGV4dC1zaXplLWFkanVzdDpub25lICFpbXBvcnRhbnQ7Ij4KICAgICAgICAgICAg
-ICAgIDx0Ym9keSBzdHlsZT0iZm9udC1mYW1pbHk6ICdQaW5nRmFuZyBTQycsICdIaXJhZ2lubyBT
-YW5zIEdCJywnV2VuUXVhbllpIE1pY3JvIEhlaScsICdNaWNyb3NvZnQgWWFoZWknLCAn5b6u6L2v
-6ZuF6buRJywgdmVyZGFuYSAhaW1wb3J0YW50OyB3b3JkLXdyYXA6YnJlYWstd29yZDsgd29yZC1i
-cmVhazpicmVhay1hbGw7LXdlYmtpdC10ZXh0LXNpemUtYWRqdXN0Om5vbmUgIWltcG9ydGFudDt0
-ZXh0LXNpemUtYWRqdXN0Om5vbmUgIWltcG9ydGFudDsiPgogICAgICAgICAgICAgICAgICAgIDx0
-ciBjbGFzcz0iZmlyc3RSb3ciPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHdpZHRo
-PSIzOCIgc3R5bGU9InBhZGRpbmc6MDsgYm94LXNpemluZzogYm9yZGVyLWJveDsgd2lkdGg6IDM4
-cHg7Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aW1nIHdpZHRoPSIzOCIgaGVp
-Z2h0PSIzOCIgc3R5bGU9InZlcnRpY2FsLWFsaWduOm1pZGRsZTsgd2lkdGg6IDM4cHg7IGhlaWdo
-dDogMzhweDsgYm9yZGVyLXJhZGl1czo1MCU7IiBzcmM9Imh0dHBzOi8vbWFpbC1vbmxpbmUubm9z
-ZG4uMTI3Lm5ldC9xaXllbG9nby9kZWZhdWx0QXZhdGFyLnBuZyI+CiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICA8L3RkPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHN0eWxlPSJw
-YWRkaW5nOiAwIDAgMCAxMHB4OyBjb2xvcjogIzMxMzUzYjsiPgogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIDxkaXYgc3R5bGU9ImZvbnQtc2l6ZTogMTZweDtmb250LXdlaWdodDpib2xk
-OyB3aWR0aDoxMDAlOyB3aGl0ZS1zcGFjZTogbm93cmFwOyBvdmVyZmxvdzpoaWRkZW47dGV4dC1v
-dmVyZmxvdzogZWxsaXBzaXM7Ij5lbGlzaC5qaWFuZzwvZGl2PgogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgPC90ZD4KICAgICAgICAgICAgICAgICAgICA8L3RyPgogICAgICAgICAgICAgICAg
-ICAgICAgICA8dHIgd2lkdGg9IjEwMCUiIHN0eWxlPSJmb250LXNpemU6IDE0cHggIWltcG9ydGFu
-dDsgd2lkdGg6IDEwMCU7Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0ZCBjb2xzcGFu
-PSIyIiBzdHlsZT0icGFkZGluZzoxMHB4IDAgMCAwOyBmb250LXNpemU6MTRweCAhaW1wb3J0YW50
-OyB3aWR0aDogMTAwJTsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2
-IHN0eWxlPSJ3aWR0aDogMTAwJTtmb250LXNpemU6IDE0cHggIWltcG9ydGFudDt3b3JkLXdyYXA6
-YnJlYWstd29yZDt3b3JkLWJyZWFrOmJyZWFrLWFsbDsiPmVsaXNoLmppYW5nQHVjbG91ZC5jbjwv
-ZGl2PgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPC90ZD4KICAgICAgICAgICAgICAgICAg
-ICAgICAgPC90cj4KICAgICAgICAgICAgICAgIDwvdGJvZHk+CiAgICAgICAgICAgIDwvdGFibGU+
-CiAgICAgICAgPC9hPgogICAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IHN0eWxlPSJm
-b250LXNpemU6MTJweDtjb2xvcjojYjViOWJkO21hcmdpbi10b3A6OHB4O2xpbmUtaGVpZ2h0OiAx
-OHB4OyI+CiAgICAgICAgPHNwYW4+562+5ZCN55SxPC9zcGFuPgogICAgICAgIDxhIHN0eWxlPSJ0
-ZXh0LWRlY29yYXRpb246IG5vbmU7Y29sb3I6IzQxOTZmZjtwYWRkaW5nOjBweDsiIGhyZWY9Imh0
-dHBzOi8vbWFpbC4xNjMuY29tL2Rhc2hpL2RscHJvLmh0bWw/ZnJvbT1tYWlsODEiPue9keaYk+mC
-rueuseWkp+W4iDwvYT4KICAgICAgICA8c3Bhbj7lrprliLY8L3NwYW4+CiAgICA8L2Rpdj4KIDwv
-ZGl2PgogICAgPGJyPgo8L2Rpdj48ZGl2IGNsYXNzPSJKLXJlcGx5IiBzdHlsZT0iYmFja2dyb3Vu
-ZC1jb2xvcjojZjJmMmYyO2NvbG9yOmJsYWNrO3BhZGRpbmctdG9wOjZweDtwYWRkaW5nLWJvdHRv
-bTo2cHg7Ym9yZGVyLXJhZGl1czozcHg7LW1vei1ib3JkZXItcmFkaXVzOjNweDstd2Via2l0LWJv
-cmRlci1yYWRpdXM6M3B4O21hcmdpbi10b3A6NDVweDttYXJnaW4tYm90dG9tOjIwcHg7Zm9udC1m
-YW1pbHk6JydIZWx2ZXRpY2EnLCdNaWNyb3NvZnQgWWFoZWknLCAn5b6u6L2v6ZuF6buRJyc7Ij4K
-ICAgIDxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxMnB4O2xpbmUtaGVpZ2h0OjEuNjt3b3JkLWJyZWFr
-OmJyZWFrLWFsbDttYXJnaW4tbGVmdDoxMHB4O21hcmdpbi1yaWdodDoxMHB4Ij5PbiA8c3BhbiBj
-bGFzcz0ibWFpbC1kYXRlIj4wNi8xMy8yMDIxIDIzOjA0PC9zcGFuPu+8jDxhIGNsYXNzPSJtYWls
-LXRvIiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOm5vbmU7Y29sb3I6IzJhODNmMjsiIGhyZWY9Im1h
-aWx0bzpwZXRlci5tYXlkZWxsQGxpbmFyby5vcmciPlBldGVyIE1heWRlbGwmbHQ7cGV0ZXIubWF5
-ZGVsbEBsaW5hcm8ub3JnJmd0OzwvYT4gd3JvdGXvvJogPC9kaXY+CjwvZGl2Pgo8YmxvY2txdW90
-ZSBpZD0ibnRlcy1wY21haWwtcXVvdGUiIHN0eWxlPSJtYXJnaW46IDA7IHBhZGRpbmc6IDA7IGZv
-bnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6ICcnSGVsdmV0aWNhJywnTWljcm9zb2Z0IFlhaGVp
-JywgJ+W+rui9r+mbhem7kScnOyI+Ck9uIFN1biwgMTMgSnVuIDIwMjEgYXQgMTU6MjAsIFpoaXdl
-aSBKaWFuZyAmbHQ7ZWxpc2guamlhbmdAdWNsb3VkLmNuJmd0OyB3cm90ZTo8YnI+PGJsb2NrcXVv
-dGUgY2xhc3M9Im1tYnFjMSI+PGJyPiB3aGVuIGkgY29tcGlsZSB0aGlzIGZpbGUgd2l0aCBzb21l
-IGVycm9yIG1lc3NhZ2U8YnI+IC4uL2Jsb2NrLmM6IEluIGZ1bmN0aW9uIOKAmGJkcnZfcmVwbGFj
-ZV9ub2RlX2NvbW1vbuKAmTo8YnI+IC4uL2Jsb2NrLmM6NDkwMzo5OiBlcnJvcjog4oCYdG9fY293
-X3BhcmVudOKAmSBtYXkgYmUgdXNlZDxicj4gdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9u
-IFstV2Vycm9yPW1heWJlLXVuaW5pdGlhbGl6ZWRdPGJyPiAgICAgICAgICBiZHJ2X3JlbW92ZV9m
-aWx0ZXJfb3JfY293X2NoaWxkKHRvX2Nvd19wYXJlbnQsIHRyYW4pOzxicj4gICAgICAgICAgXn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fjxicj4gY2Mx
-OiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnM8YnI+PC9ibG9ja3F1b3RlPjxi
-cj48YnI+Q291bGQgeW91IHByb3ZpZGUgdGhlIGNvbXBpbGVyIHZlcnNpb24gd2hlbiByZXBvcnRp
-bmc8YnI+ZmFpbHMtdG8tY29tcGlsZSBpc3N1ZXMsIHBsZWFzZT8gKFRoaXMgaXMgdXNlZnVsIGZv
-ciB1czxicj50byBnZXQgYW4gaWRlYSBvZiB3aGV0aGVyIHRoZSBwcm9ibGVtIGlzIGFuIG9sZCBj
-b21waWxlcjxicj50aGF0J3Mgbm90IHNtYXJ0IGVub3VnaCB0byBmaWd1cmUgb3V0IHRoYXQgc29t
-ZXRoaW5nJ3Mgbm90PGJyPnVzZWQgdW5pbml0aWFsaXplZCwgb3IgYSBuZXcgY29tcGlsZXIgdGhh
-dCBkb2VzIG1vcmUgY2hlY2tpbmcuKTxicj48YnI+dGhhbmtzPGJyPi0tIFBNTTxicj48YnI+PC9i
-bG9ja3F1b3RlPjwhLS3vv70tLT4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg==
+cc'ing in qemu-stable - I think we'd probably want this on 6.0
+(It's currently merged as 7de2e8565335c13fb3516cddbe2e40e366cce273 ).
+Although you'll probably also want the missing dependency fix
+Philippe is working (See: 
+Mathieu- ( 42) [RFC PATCH] migration: Add missing dependency on GNUTLS )
+
+Dave
+
+* Leonardo Bras (leobras.c@gmail.com) wrote:
+> After yank feature was introduced in migration, whenever migration
+> is started using TLS, the following error happens in both source and
+> destination hosts:
+> 
+> (qemu) qemu-kvm: ../util/yank.c:107: yank_unregister_instance:
+> Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
+> 
+> This happens because of a missing yank_unregister_function() when using
+> qio-channel-tls.
+> 
+> Fix this by also allowing TYPE_QIO_CHANNEL_TLS object type to perform
+> yank_unregister_function() in channel_close() and multifd_load_cleanup().
+> 
+> Also, inside migration_channel_connect() and
+> migration_channel_process_incoming() move yank_register_function() so
+> it only runs once on a TLS migration.
+> 
+> Fixes: b5eea99ec2f ("migration: Add yank feature", 2021-01-13)
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1964326
+> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+> 
+> --
+> Changes since v2:
+> - Dropped all references to ioc->master
+> - yank_register_function() and yank_unregister_function() now only run
+>   once in a TLS migration.
+> 
+> Changes since v1:
+> - Cast p->c to QIOChannelTLS into multifd_load_cleanup()
+> ---
+>  migration/channel.c           | 26 ++++++++++++++------------
+>  migration/multifd.c           |  3 ++-
+>  migration/qemu-file-channel.c |  4 +++-
+>  3 files changed, 19 insertions(+), 14 deletions(-)
+> 
+> diff --git a/migration/channel.c b/migration/channel.c
+> index c9ee902021..01275a9162 100644
+> --- a/migration/channel.c
+> +++ b/migration/channel.c
+> @@ -38,18 +38,19 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+>      trace_migration_set_incoming_channel(
+>          ioc, object_get_typename(OBJECT(ioc)));
+>  
+> -    if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
+> -        yank_register_function(MIGRATION_YANK_INSTANCE,
+> -                               migration_yank_iochannel,
+> -                               QIO_CHANNEL(ioc));
+> -    }
+> -
+>      if (s->parameters.tls_creds &&
+>          *s->parameters.tls_creds &&
+>          !object_dynamic_cast(OBJECT(ioc),
+>                               TYPE_QIO_CHANNEL_TLS)) {
+>          migration_tls_channel_process_incoming(s, ioc, &local_err);
+>      } else {
+> +        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +            object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+> +            yank_register_function(MIGRATION_YANK_INSTANCE,
+> +                                   migration_yank_iochannel,
+> +                                   QIO_CHANNEL(ioc));
+> +        }
+> +
+>          migration_ioc_process_incoming(ioc, &local_err);
+>      }
+>  
+> @@ -76,12 +77,6 @@ void migration_channel_connect(MigrationState *s,
+>          ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+>  
+>      if (!error) {
+> -        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
+> -            yank_register_function(MIGRATION_YANK_INSTANCE,
+> -                                   migration_yank_iochannel,
+> -                                   QIO_CHANNEL(ioc));
+> -        }
+> -
+>          if (s->parameters.tls_creds &&
+>              *s->parameters.tls_creds &&
+>              !object_dynamic_cast(OBJECT(ioc),
+> @@ -99,6 +94,13 @@ void migration_channel_connect(MigrationState *s,
+>          } else {
+>              QEMUFile *f = qemu_fopen_channel_output(ioc);
+>  
+> +            if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +                object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+> +                yank_register_function(MIGRATION_YANK_INSTANCE,
+> +                                       migration_yank_iochannel,
+> +                                       QIO_CHANNEL(ioc));
+> +            }
+> +
+>              qemu_mutex_lock(&s->qemu_file_lock);
+>              s->to_dst_file = f;
+>              qemu_mutex_unlock(&s->qemu_file_lock);
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 0a4803cfcc..2e8f001bc0 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -987,7 +987,8 @@ int multifd_load_cleanup(Error **errp)
+>      for (i = 0; i < migrate_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+> -        if (object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET)
+> +        if ((object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET) ||
+> +             object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_TLS))
+>              && OBJECT(p->c)->ref == 1) {
+>              yank_unregister_function(MIGRATION_YANK_INSTANCE,
+>                                       migration_yank_iochannel,
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index 876d05a540..fad340ea7a 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -26,6 +26,7 @@
+>  #include "qemu-file-channel.h"
+>  #include "qemu-file.h"
+>  #include "io/channel-socket.h"
+> +#include "io/channel-tls.h"
+>  #include "qemu/iov.h"
+>  #include "qemu/yank.h"
+>  #include "yank_functions.h"
+> @@ -106,7 +107,8 @@ static int channel_close(void *opaque, Error **errp)
+>      int ret;
+>      QIOChannel *ioc = QIO_CHANNEL(opaque);
+>      ret = qio_channel_close(ioc, errp);
+> -    if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)
+> +    if ((object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +         object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS))
+>          && OBJECT(ioc)->ref == 1) {
+>          yank_unregister_function(MIGRATION_YANK_INSTANCE,
+>                                   migration_yank_iochannel,
+> -- 
+> 2.31.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
