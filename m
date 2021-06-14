@@ -2,82 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7BE3A6608
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:51:29 +0200 (CEST)
-Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5C23A661A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:54:38 +0200 (CEST)
+Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsl7o-00044d-C0
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:51:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
+	id 1lslAr-0007GJ-4Q
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lsl6L-0003Hp-Oz
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:49:57 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:40626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lsl6J-0001Mk-QD
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:49:57 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- b145-20020a1c80970000b029019c8c824054so12818893wmd.5
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 04:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=l7N04QTNbYD4IkJrOR8StOp/TgvwQUTV+/iq4P62Bjc=;
- b=y539nMdnLW9w6/EznQEoxq4tGzm5ZzbHbVYbhW3WfSNQeOycih7CuEgaxQB8ijztDM
- p5R5wuAi/1jo5RdcC6Qg7/mqrcikgkNRjx7VMbVkSzTP2vdPYL9YeDrWI5YIY9Z3HHHw
- ajYDUfQmAdneqmaetdcHZzrMvcJPegMUAISd73h2eXbuQ9P8JoU2Gbe9HYff6kuUCnPx
- 98d4HDk1By25Oxlzr7x9iiBms4a/o1i+ZbdKPydjF1QA9NzQnkXwnn4T2UDznx8CThpo
- CfDuuVyfjXhbR+J+NHkM84Rd2Z1W3HlLPrj9RTJS7VycXUJR93OQlHAEP2T2HI4EaOTf
- ZIMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=l7N04QTNbYD4IkJrOR8StOp/TgvwQUTV+/iq4P62Bjc=;
- b=kYa/Qedru0+pt3RaMVahosgPffM3ozAkwW2MiRfCtkPG+8cie46DGJaijl8VtYA85P
- EFzxm/4tGNaLm4QSEEcA1LbaIwHWNG9bUfzxZZnH0nUtRcj8IlQCTvcNkmlR/zY0374l
- UQpky37Dz78gQNZo3Qy+zlsIqv/FWHGnHUbbm9dkKv/CVpfGXL5txISU0mY1DJFSatoC
- f6cYLRFnTlArUR0hX022CwMtX/KH1qyYtz2RCq9l+WK//JzpH4Rmq1/xYJpV29t+VPrN
- vRRxhac9yY+Aevtn09OOjVgkh5jhtlJjXpDwdkOBXk+COU8tXJ+MxmVaAnKgsJgdC+/Y
- nJzQ==
-X-Gm-Message-State: AOAM530vwfw3AKTpEQiQaa6IdzDghVhnPhUCSoci3PyVwhIV72yrBFeG
- ma7g8FqNzHD4WG//i7p+pyhy2Q==
-X-Google-Smtp-Source: ABdhPJw2u8qJoSKQrCNjiLfkyiEM9vXUZlE3wB36qkZKl5NGykLNbSHzCovG3V/DSvB0RINfG4i7Ug==
-X-Received: by 2002:a05:600c:4285:: with SMTP id
- v5mr32217372wmc.184.1623671393624; 
- Mon, 14 Jun 2021 04:49:53 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q11sm15593141wrx.80.2021.06.14.04.49.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 04:49:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CFD9B1FF7E;
- Mon, 14 Jun 2021 12:49:51 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 01/28] tcg: Add flags argument to bswap opcodes
-References: <20210614083800.1166166-1-richard.henderson@linaro.org>
- <20210614083800.1166166-2-richard.henderson@linaro.org>
-Date: Mon, 14 Jun 2021 12:49:51 +0100
-In-Reply-To: <20210614083800.1166166-2-richard.henderson@linaro.org> (Richard
- Henderson's message of "Mon, 14 Jun 2021 01:37:33 -0700")
-Message-ID: <87h7i0k6n4.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <elish.jiang@ucloud.cn>)
+ id 1lsl8T-0005PB-0z; Mon, 14 Jun 2021 07:52:09 -0400
+Received: from mail-m2839.qiye.163.com ([103.74.28.39]:42112)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <elish.jiang@ucloud.cn>)
+ id 1lsl8N-0002L6-4a; Mon, 14 Jun 2021 07:52:06 -0400
+Received: from FVFF87FUQ6LR.local (unknown [114.245.115.59])
+ by mail-m2839.qiye.163.com (Hmail) with ESMTPA id 4E311C0164;
+ Mon, 14 Jun 2021 19:51:46 +0800 (CST)
+Date: Mon, 14 Jun 2021 19:51:45 +0800
+From: elish.jiang <elish.jiang@ucloud.cn>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <AEF7DA11-058C-464E-A2BE-DE137AE8A1DF@ucloud.cn>
+In-Reply-To: <CAFEAcA8OVW=KD+-EK-PV6pYs59eSwJeg=5THtGfpSBUjujbFOQ@mail.gmail.com>
+References: <20210613093821.774562-1-elish.jiang@ucloud.cn>
+Subject: Re: [PATCH] block: fix build waring
+X-Mailer: MailMasterMac/4.15.5.1279 (11.4.0)
+X-CUSTOM-MAIL-MASTER-SENT-ID: A3503DEB-5AFC-4676-89F8-B6595CCEF93A
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
+ oVCBIfWUFZQ05CSVZLGE4fTE1LTkJDHUNVGRETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+ hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pj46LAw*UT02KxcjOjI9ERUX
+ KRRPCxlVSlVKTUlITUxKTktNTk5IVTMWGhIXVR4XEggTVRESGhUcOw4YFxQOH1UYFUVZV1kSC1lB
+ WUpKT1VJT05VSkpOVU5CWVdZCAFZQUNJSk43Bg++
+X-HM-Tid: 0a7a0a5d05c28421kuqw4e311c0164
+Received-SPF: pass client-ip=103.74.28.39; envelope-from=elish.jiang@ucloud.cn;
+ helo=mail-m2839.qiye.163.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_REMOTE_IMAGE=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,176 +60,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+PGh0bWw+DQo8aGVhZD4NCiAgICA8bWV0YSBodHRwLWVxdWl2PSdDb250ZW50LVR5cGUnIGNvbnRl
+bnQ9J3RleHQvaHRtbDsgY2hhcnNldD1VVEYtOCc+DQo8L2hlYWQ+DQo8Ym9keT4NCjxzdHlsZT4N
+CiAgICBmb250ew0KICAgICAgICBsaW5lLWhlaWdodDogMS42Ow0KICAgIH0NCiAgICB1bCxvbHsN
+CiAgICAgICAgcGFkZGluZy1sZWZ0OiAyMHB4Ow0KICAgICAgICBsaXN0LXN0eWxlLXBvc2l0aW9u
+OiBpbnNpZGU7DQogICAgfQ0KPC9zdHlsZT4NCjxkaXYgc3R5bGUgPSAnZm9udC1mYW1pbHk6SGVs
+dmV0aWNhLEhlbHZldGljYSzlvq7ova/pm4Xpu5EsIOWui+S9kzsgbGluZS1oZWlnaHQ6MS42Oyc+
+DQogICAgPGRpdiA+PC9kaXY+PGRpdj4KICAgIDxkaXY+CiAgICAgICAgZ2NjIHZlcnNpb24gOC4z
+LjEgMjAxOTAzMTEgKFJlZCBIYXQgOC4zLjEtMykgKEdDQyk8c3Bhbj4KICAgICAgICAgICAgCiAg
+ICAgICAgPC9zcGFuPgogICAgPC9kaXY+CiAgICA8ZGl2PgogICAgICAgIDxzcGFuPgogICAgICAg
+ICAgICA8YnI+CiAgICAgICAgPC9zcGFuPgogICAgPC9kaXY+CiAgICA8ZGl2IGlkPSJudGVzLXBj
+bWFjLXNpZ25hdHVyZSIgc3R5bGU9ImZvbnQtZmFtaWx5OidIZWx2ZXRpY2EnLCdNaWNyb3NvZnQg
+WWFoZWknLCAn5b6u6L2v6ZuF6buRJyI+CiAgICAgIAogICAgPGRpdiBzdHlsZT0iZm9udC1zaXpl
+OjE0cHg7IHBhZGRpbmc6IDA7ICBtYXJnaW46MDtsaW5lLWhlaWdodDogMTRweDsiPgogICAgICAg
+IDxkaXYgc3R5bGU9ImJvcmRlci1ib3R0b206MXB4IHNvbGlkICNlNmU2ZTY7ZGlzcGxheTppbmxp
+bmUtYmxvY2s7Ij4KICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJodHRwczovL21hYXMubWFp
+bC4xNjMuY29tL2Rhc2hpLXdlYi1leHRlbmQvaHRtbC9wcm9TaWduYXR1cmUuaHRtbD9mdGxJZD0x
+JmFtcDtuYW1lPWVsaXNoLmppYW5nJmFtcDt1aWQ9ZWxpc2guamlhbmclNDB1Y2xvdWQuY24mYW1w
+O2ljb25Vcmw9aHR0cHMlM0ElMkYlMkZtYWlsLW9ubGluZS5ub3Nkbi4xMjcubmV0JTJGcWl5ZWxv
+Z28lMkZkZWZhdWx0QXZhdGFyLnBuZyZhbXA7aXRlbXM9JTVCJTIyZWxpc2guamlhbmclNDB1Y2xv
+dWQuY24lMjIlNUQiIHN0eWxlPSJkaXNwbGF5OmJsb2NrO2JhY2tncm91bmQ6I2ZmZjsgbWF4LXdp
+ZHRoOiA0MDBweDsgX3dpZHRoOiA0MDBweDtwYWRkaW5nOjE1cHggMCAxMHB4IDA7dGV4dC1kZWNv
+cmF0aW9uOiBub25lOyBvdXRsaW5lOm5vbmU7LXdlYmtpdC10YXAtaGlnaGxpZ2h0LWNvbG9yOnRy
+YW5zcGFyZW50Oy13ZWJraXQtdGV4dC1zaXplLWFkanVzdDpub25lICFpbXBvcnRhbnQ7dGV4dC1z
+aXplLWFkanVzdDpub25lICFpbXBvcnRhbnQ7Ij4KICAgICAgICAgICAgPHRhYmxlIGNlbGxwYWRk
+aW5nPSIwIiBzdHlsZT0id2lkdGg6IDEwMCU7IG1heC13aWR0aDogMTAwJTsgdGFibGUtbGF5b3V0
+OiBmaXhlZDsgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtjb2xvcjogIzliOWVhMTtmb250LXNp
+emU6IDE0cHg7bGluZS1oZWlnaHQ6MS4zOy13ZWJraXQtdGV4dC1zaXplLWFkanVzdDpub25lICFp
+bXBvcnRhbnQ7dGV4dC1zaXplLWFkanVzdDpub25lICFpbXBvcnRhbnQ7Ij4KICAgICAgICAgICAg
+ICAgIDx0Ym9keSBzdHlsZT0iZm9udC1mYW1pbHk6ICdQaW5nRmFuZyBTQycsICdIaXJhZ2lubyBT
+YW5zIEdCJywnV2VuUXVhbllpIE1pY3JvIEhlaScsICdNaWNyb3NvZnQgWWFoZWknLCAn5b6u6L2v
+6ZuF6buRJywgdmVyZGFuYSAhaW1wb3J0YW50OyB3b3JkLXdyYXA6YnJlYWstd29yZDsgd29yZC1i
+cmVhazpicmVhay1hbGw7LXdlYmtpdC10ZXh0LXNpemUtYWRqdXN0Om5vbmUgIWltcG9ydGFudDt0
+ZXh0LXNpemUtYWRqdXN0Om5vbmUgIWltcG9ydGFudDsiPgogICAgICAgICAgICAgICAgICAgIDx0
+ciBjbGFzcz0iZmlyc3RSb3ciPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHdpZHRo
+PSIzOCIgc3R5bGU9InBhZGRpbmc6MDsgYm94LXNpemluZzogYm9yZGVyLWJveDsgd2lkdGg6IDM4
+cHg7Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aW1nIHdpZHRoPSIzOCIgaGVp
+Z2h0PSIzOCIgc3R5bGU9InZlcnRpY2FsLWFsaWduOm1pZGRsZTsgd2lkdGg6IDM4cHg7IGhlaWdo
+dDogMzhweDsgYm9yZGVyLXJhZGl1czo1MCU7IiBzcmM9Imh0dHBzOi8vbWFpbC1vbmxpbmUubm9z
+ZG4uMTI3Lm5ldC9xaXllbG9nby9kZWZhdWx0QXZhdGFyLnBuZyI+CiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICA8L3RkPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPHRkIHN0eWxlPSJw
+YWRkaW5nOiAwIDAgMCAxMHB4OyBjb2xvcjogIzMxMzUzYjsiPgogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIDxkaXYgc3R5bGU9ImZvbnQtc2l6ZTogMTZweDtmb250LXdlaWdodDpib2xk
+OyB3aWR0aDoxMDAlOyB3aGl0ZS1zcGFjZTogbm93cmFwOyBvdmVyZmxvdzpoaWRkZW47dGV4dC1v
+dmVyZmxvdzogZWxsaXBzaXM7Ij5lbGlzaC5qaWFuZzwvZGl2PgogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgPC90ZD4KICAgICAgICAgICAgICAgICAgICA8L3RyPgogICAgICAgICAgICAgICAg
+ICAgICAgICA8dHIgd2lkdGg9IjEwMCUiIHN0eWxlPSJmb250LXNpemU6IDE0cHggIWltcG9ydGFu
+dDsgd2lkdGg6IDEwMCU7Ij4KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0ZCBjb2xzcGFu
+PSIyIiBzdHlsZT0icGFkZGluZzoxMHB4IDAgMCAwOyBmb250LXNpemU6MTRweCAhaW1wb3J0YW50
+OyB3aWR0aDogMTAwJTsiPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2
+IHN0eWxlPSJ3aWR0aDogMTAwJTtmb250LXNpemU6IDE0cHggIWltcG9ydGFudDt3b3JkLXdyYXA6
+YnJlYWstd29yZDt3b3JkLWJyZWFrOmJyZWFrLWFsbDsiPmVsaXNoLmppYW5nQHVjbG91ZC5jbjwv
+ZGl2PgogICAgICAgICAgICAgICAgICAgICAgICAgICAgPC90ZD4KICAgICAgICAgICAgICAgICAg
+ICAgICAgPC90cj4KICAgICAgICAgICAgICAgIDwvdGJvZHk+CiAgICAgICAgICAgIDwvdGFibGU+
+CiAgICAgICAgPC9hPgogICAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IHN0eWxlPSJm
+b250LXNpemU6MTJweDtjb2xvcjojYjViOWJkO21hcmdpbi10b3A6OHB4O2xpbmUtaGVpZ2h0OiAx
+OHB4OyI+CiAgICAgICAgPHNwYW4+562+5ZCN55SxPC9zcGFuPgogICAgICAgIDxhIHN0eWxlPSJ0
+ZXh0LWRlY29yYXRpb246IG5vbmU7Y29sb3I6IzQxOTZmZjtwYWRkaW5nOjBweDsiIGhyZWY9Imh0
+dHBzOi8vbWFpbC4xNjMuY29tL2Rhc2hpL2RscHJvLmh0bWw/ZnJvbT1tYWlsODEiPue9keaYk+mC
+rueuseWkp+W4iDwvYT4KICAgICAgICA8c3Bhbj7lrprliLY8L3NwYW4+CiAgICA8L2Rpdj4KIDwv
+ZGl2PgogICAgPGJyPgo8L2Rpdj48ZGl2IGNsYXNzPSJKLXJlcGx5IiBzdHlsZT0iYmFja2dyb3Vu
+ZC1jb2xvcjojZjJmMmYyO2NvbG9yOmJsYWNrO3BhZGRpbmctdG9wOjZweDtwYWRkaW5nLWJvdHRv
+bTo2cHg7Ym9yZGVyLXJhZGl1czozcHg7LW1vei1ib3JkZXItcmFkaXVzOjNweDstd2Via2l0LWJv
+cmRlci1yYWRpdXM6M3B4O21hcmdpbi10b3A6NDVweDttYXJnaW4tYm90dG9tOjIwcHg7Zm9udC1m
+YW1pbHk6JydIZWx2ZXRpY2EnLCdNaWNyb3NvZnQgWWFoZWknLCAn5b6u6L2v6ZuF6buRJyc7Ij4K
+ICAgIDxkaXYgc3R5bGU9ImZvbnQtc2l6ZToxMnB4O2xpbmUtaGVpZ2h0OjEuNjt3b3JkLWJyZWFr
+OmJyZWFrLWFsbDttYXJnaW4tbGVmdDoxMHB4O21hcmdpbi1yaWdodDoxMHB4Ij5PbiA8c3BhbiBj
+bGFzcz0ibWFpbC1kYXRlIj4wNi8xMy8yMDIxIDIzOjA0PC9zcGFuPu+8jDxhIGNsYXNzPSJtYWls
+LXRvIiBzdHlsZT0idGV4dC1kZWNvcmF0aW9uOm5vbmU7Y29sb3I6IzJhODNmMjsiIGhyZWY9Im1h
+aWx0bzpwZXRlci5tYXlkZWxsQGxpbmFyby5vcmciPlBldGVyIE1heWRlbGwmbHQ7cGV0ZXIubWF5
+ZGVsbEBsaW5hcm8ub3JnJmd0OzwvYT4gd3JvdGXvvJogPC9kaXY+CjwvZGl2Pgo8YmxvY2txdW90
+ZSBpZD0ibnRlcy1wY21haWwtcXVvdGUiIHN0eWxlPSJtYXJnaW46IDA7IHBhZGRpbmc6IDA7IGZv
+bnQtc2l6ZTogMTRweDsgZm9udC1mYW1pbHk6ICcnSGVsdmV0aWNhJywnTWljcm9zb2Z0IFlhaGVp
+JywgJ+W+rui9r+mbhem7kScnOyI+Ck9uIFN1biwgMTMgSnVuIDIwMjEgYXQgMTU6MjAsIFpoaXdl
+aSBKaWFuZyAmbHQ7ZWxpc2guamlhbmdAdWNsb3VkLmNuJmd0OyB3cm90ZTo8YnI+PGJsb2NrcXVv
+dGUgY2xhc3M9Im1tYnFjMSI+PGJyPiB3aGVuIGkgY29tcGlsZSB0aGlzIGZpbGUgd2l0aCBzb21l
+IGVycm9yIG1lc3NhZ2U8YnI+IC4uL2Jsb2NrLmM6IEluIGZ1bmN0aW9uIOKAmGJkcnZfcmVwbGFj
+ZV9ub2RlX2NvbW1vbuKAmTo8YnI+IC4uL2Jsb2NrLmM6NDkwMzo5OiBlcnJvcjog4oCYdG9fY293
+X3BhcmVudOKAmSBtYXkgYmUgdXNlZDxicj4gdW5pbml0aWFsaXplZCBpbiB0aGlzIGZ1bmN0aW9u
+IFstV2Vycm9yPW1heWJlLXVuaW5pdGlhbGl6ZWRdPGJyPiAgICAgICAgICBiZHJ2X3JlbW92ZV9m
+aWx0ZXJfb3JfY293X2NoaWxkKHRvX2Nvd19wYXJlbnQsIHRyYW4pOzxicj4gICAgICAgICAgXn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fjxicj4gY2Mx
+OiBhbGwgd2FybmluZ3MgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnM8YnI+PC9ibG9ja3F1b3RlPjxi
+cj48YnI+Q291bGQgeW91IHByb3ZpZGUgdGhlIGNvbXBpbGVyIHZlcnNpb24gd2hlbiByZXBvcnRp
+bmc8YnI+ZmFpbHMtdG8tY29tcGlsZSBpc3N1ZXMsIHBsZWFzZT8gKFRoaXMgaXMgdXNlZnVsIGZv
+ciB1czxicj50byBnZXQgYW4gaWRlYSBvZiB3aGV0aGVyIHRoZSBwcm9ibGVtIGlzIGFuIG9sZCBj
+b21waWxlcjxicj50aGF0J3Mgbm90IHNtYXJ0IGVub3VnaCB0byBmaWd1cmUgb3V0IHRoYXQgc29t
+ZXRoaW5nJ3Mgbm90PGJyPnVzZWQgdW5pbml0aWFsaXplZCwgb3IgYSBuZXcgY29tcGlsZXIgdGhh
+dCBkb2VzIG1vcmUgY2hlY2tpbmcuKTxicj48YnI+dGhhbmtzPGJyPi0tIFBNTTxicj48YnI+PC9i
+bG9ja3F1b3RlPjwhLS3vv70tLT4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg==
 
-> This will eventually simplify front-end usage, and will allow
-> backends to unset TCG_TARGET_HAS_MEMORY_BSWAP without loss of
-> optimization.
->
-> The argument is added during expansion, not currently exposed
-> to the front end translators.  Non-zero values are not yet
-> supported by any backends.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/tcg/tcg-opc.h | 10 +++++-----
->  include/tcg/tcg.h     | 12 ++++++++++++
->  tcg/tcg-op.c          | 13 ++++++++-----
->  tcg/README            | 18 ++++++++++--------
->  4 files changed, 35 insertions(+), 18 deletions(-)
->
-> diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
-> index bbb0884af8..fddcc42cbd 100644
-> --- a/include/tcg/tcg-opc.h
-> +++ b/include/tcg/tcg-opc.h
-> @@ -96,8 +96,8 @@ DEF(ext8s_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext8s_i32))
->  DEF(ext16s_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext16s_i32))
->  DEF(ext8u_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext8u_i32))
->  DEF(ext16u_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ext16u_i32))
-> -DEF(bswap16_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_bswap16_i32))
-> -DEF(bswap32_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_bswap32_i32))
-> +DEF(bswap16_i32, 1, 1, 1, IMPL(TCG_TARGET_HAS_bswap16_i32))
-> +DEF(bswap32_i32, 1, 1, 1, IMPL(TCG_TARGET_HAS_bswap32_i32))
->  DEF(not_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_not_i32))
->  DEF(neg_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_neg_i32))
->  DEF(andc_i32, 1, 2, 0, IMPL(TCG_TARGET_HAS_andc_i32))
-> @@ -165,9 +165,9 @@ DEF(ext32s_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS=
-_ext32s_i64))
->  DEF(ext8u_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext8u_i64))
->  DEF(ext16u_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext16u_i64))
->  DEF(ext32u_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_ext32u_i64))
-> -DEF(bswap16_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_bswap16_i64))
-> -DEF(bswap32_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_bswap32_i64))
-> -DEF(bswap64_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_bswap64_i64))
-> +DEF(bswap16_i64, 1, 1, 1, IMPL64 | IMPL(TCG_TARGET_HAS_bswap16_i64))
-> +DEF(bswap32_i64, 1, 1, 1, IMPL64 | IMPL(TCG_TARGET_HAS_bswap32_i64))
-> +DEF(bswap64_i64, 1, 1, 1, IMPL64 | IMPL(TCG_TARGET_HAS_bswap64_i64))
->  DEF(not_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_not_i64))
->  DEF(neg_i64, 1, 1, 0, IMPL64 | IMPL(TCG_TARGET_HAS_neg_i64))
->  DEF(andc_i64, 1, 2, 0, IMPL64 | IMPL(TCG_TARGET_HAS_andc_i64))
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index 064dab383b..7a060e532d 100644
-> --- a/include/tcg/tcg.h
-> +++ b/include/tcg/tcg.h
-> @@ -430,6 +430,18 @@ typedef enum {
->      TCG_COND_GTU    =3D 8 | 4 | 0 | 1,
->  } TCGCond;
->=20=20
-> +/*
-> + * Flags for the bswap opcodes.
-> + * If IZ, the input is zero-extended, otherwise unknown.
-> + * If OZ or OS, the output is zero- or sign-extended respectively,
-> + * otherwise the high bits are undefined.
-> + */
-> +enum {
-> +    TCG_BSWAP_IZ =3D 1,
-> +    TCG_BSWAP_OZ =3D 2,
-> +    TCG_BSWAP_OS =3D 4,
-> +};
-> +
-
-So is a TCG_BSWAP_IZ only really for cases where we have loaded up a
-narrower width value into the "natural" TCG sized register? We seem to
-assume this is always the case even though the TCG bswap op doesn't have
-visibility of how the arg value was loaded.
-
-
->  /* Invert the sense of the comparison.  */
->  static inline TCGCond tcg_invert_cond(TCGCond c)
->  {
-> diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-> index dcc2ed0bbc..dc65577e2f 100644
-> --- a/tcg/tcg-op.c
-> +++ b/tcg/tcg-op.c
-> @@ -1005,7 +1005,8 @@ void tcg_gen_ext16u_i32(TCGv_i32 ret, TCGv_i32 arg)
->  void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg)
->  {
->      if (TCG_TARGET_HAS_bswap16_i32) {
-> -        tcg_gen_op2_i32(INDEX_op_bswap16_i32, ret, arg);
-> +        tcg_gen_op3i_i32(INDEX_op_bswap16_i32, ret, arg,
-> +                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
->      } else {
->          TCGv_i32 t0 =3D tcg_temp_new_i32();
->=20=20
-> @@ -1020,7 +1021,7 @@ void tcg_gen_bswap16_i32(TCGv_i32 ret, TCGv_i32 arg)
->  void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg)
->  {
->      if (TCG_TARGET_HAS_bswap32_i32) {
-> -        tcg_gen_op2_i32(INDEX_op_bswap32_i32, ret, arg);
-> +        tcg_gen_op3i_i32(INDEX_op_bswap32_i32, ret, arg, 0);
->      } else {
->          TCGv_i32 t0 =3D tcg_temp_new_i32();
->          TCGv_i32 t1 =3D tcg_temp_new_i32();
-> @@ -1661,7 +1662,8 @@ void tcg_gen_bswap16_i64(TCGv_i64 ret, TCGv_i64 arg)
->          tcg_gen_bswap16_i32(TCGV_LOW(ret), TCGV_LOW(arg));
->          tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
->      } else if (TCG_TARGET_HAS_bswap16_i64) {
-> -        tcg_gen_op2_i64(INDEX_op_bswap16_i64, ret, arg);
-> +        tcg_gen_op3i_i64(INDEX_op_bswap16_i64, ret, arg,
-> +                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
->      } else {
->          TCGv_i64 t0 =3D tcg_temp_new_i64();
->=20=20
-> @@ -1680,7 +1682,8 @@ void tcg_gen_bswap32_i64(TCGv_i64 ret, TCGv_i64 arg)
->          tcg_gen_bswap32_i32(TCGV_LOW(ret), TCGV_LOW(arg));
->          tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
->      } else if (TCG_TARGET_HAS_bswap32_i64) {
-> -        tcg_gen_op2_i64(INDEX_op_bswap32_i64, ret, arg);
-> +        tcg_gen_op3i_i64(INDEX_op_bswap32_i64, ret, arg,
-> +                         TCG_BSWAP_IZ | TCG_BSWAP_OZ);
->      } else {
->          TCGv_i64 t0 =3D tcg_temp_new_i64();
->          TCGv_i64 t1 =3D tcg_temp_new_i64();
-> @@ -1717,7 +1720,7 @@ void tcg_gen_bswap64_i64(TCGv_i64 ret, TCGv_i64 arg)
->          tcg_temp_free_i32(t0);
->          tcg_temp_free_i32(t1);
->      } else if (TCG_TARGET_HAS_bswap64_i64) {
-> -        tcg_gen_op2_i64(INDEX_op_bswap64_i64, ret, arg);
-> +        tcg_gen_op3i_i64(INDEX_op_bswap64_i64, ret, arg, 0);
->      } else {
->          TCGv_i64 t0 =3D tcg_temp_new_i64();
->          TCGv_i64 t1 =3D tcg_temp_new_i64();
-> diff --git a/tcg/README b/tcg/README
-> index 8510d823e3..19fbf6ca52 100644
-> --- a/tcg/README
-> +++ b/tcg/README
-> @@ -295,19 +295,21 @@ ext32u_i64 t0, t1
->=20=20
->  8, 16 or 32 bit sign/zero extension (both operands must have the same ty=
-pe)
->=20=20
-> -* bswap16_i32/i64 t0, t1
-> +* bswap16_i32/i64 t0, t1, flags
->=20=20
-> -16 bit byte swap on a 32/64 bit value. It assumes that the two/six high =
-order
-> -bytes are set to zero.
-> +16 bit byte swap on a 32/64 bit value.  The flags values control how
-> +the input and output sign- or zero-extension is treated.
->=20=20
-> -* bswap32_i32/i64 t0, t1
-> +* bswap32_i32/i64 t0, t1, flags
->=20=20
-> -32 bit byte swap on a 32/64 bit value. With a 64 bit value, it assumes t=
-hat
-> -the four high order bytes are set to zero.
-> +32 bit byte swap on a 32/64 bit value.  For 32-bit value, the flags
-> +are ignored; for a 64-bit value the flags values control how the
-> +input and output sign- or zero-extension is treated.
->=20=20
-> -* bswap64_i64 t0, t1
-> +* bswap64_i64 t0, t1, flags
->=20=20
-> -64 bit byte swap
-> +64 bit byte swap.  The flags are ignored -- the argument is present
-> +for consistency with the smaller bswaps.
->=20=20
->  * discard_i32/i64 t0
-
---=20
-Alex Benn=C3=A9e
 
