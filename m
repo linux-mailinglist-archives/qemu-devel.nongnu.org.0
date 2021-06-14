@@ -2,81 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CCD3A6EB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 21:17:33 +0200 (CEST)
-Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFAB83A6EBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 21:19:50 +0200 (CEST)
+Received: from localhost ([::1]:50726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lss5U-0001C4-HR
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 15:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40984)
+	id 1lss7i-0006Vi-1P
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 15:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lss3V-0007R9-Au
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:15:29 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lss3T-0002al-4e
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:15:28 -0400
-Received: by mail-pg1-x533.google.com with SMTP id m2so2736272pgk.7
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 12:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=IDEQ3CQ7DSnATLxeRFmOx8WuykiK69J0la5swz5Ihf0=;
- b=SLE+OMkUjT1X4A9f6WYv87h2uRyt2TpO9yMNkk/CM79+QQRmbsmLT2J+17Sg8uGg40
- TL/Wrr/8OqAKroWWA8I76quQv5/pi7g8wcO3BqZ9KDfZrhCFd3dp7qeM4Q6mTHd6vv/0
- tagVHW6pcrbdC5lfvOFvI8JpNzL4tn5WpJtuIRHLKGBar95OfeJNUWCmgOdDMzNVX5C5
- vVcOQOLfoTBsuL8i8dWSxPvK99Xy4te5wnl6tLkXPHVzyEfE0TNMUypQTBExcDVI21GB
- 5K6wSIb91eG+fl59K85D3ltx0hPLMf9RmbfRdQNRZuuoiS5IfDbwHVwDmZgNNus93RNw
- if6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IDEQ3CQ7DSnATLxeRFmOx8WuykiK69J0la5swz5Ihf0=;
- b=oCzlXF3GDhw8nV5n815XWNTDCJUZExxP6oximVPcGXpzN2apOnffdGSrdGNhJx0P0J
- U+/fjuKPLylVRg35RD8AqUcTXSLjgvVXedK3ksBwwI/ImlktWoh65eRyYdwMiJkQRb4S
- gXm25tnHS5FDih/IhpgdTHay83i9OjcVPQ5XaPBiM/iJAVQGhMx/wDRlImWEf4MtqFv9
- HSc/EeI15bgYWUh3eAXeGaMaegqVXb5nAe9JkUuzyNSZePyjPqD3USsg/BIyHWA+a73H
- m8z2egcwtsJpKMA4mjlZm1mL45xnFa4VHVS2WxnDe1DiCBo/w1gjeXnEN2XP4/4l5lrw
- Sg3g==
-X-Gm-Message-State: AOAM530oJYwo3Wq6oL00GAU39dkwKsvMdaTodagq2ktYksWQHNYIuip/
- nohkGBdGf7hBH4tmSEbrabPjOzASBFJcaA==
-X-Google-Smtp-Source: ABdhPJyhfNImAV1HxzbKJTgQxvOEki9Od2V2XU6HDwwpqSFAI1V2Apuqd18onswdXE2sIuMSsGg0yg==
-X-Received: by 2002:a63:4c09:: with SMTP id z9mr8394596pga.283.1623698125392; 
- Mon, 14 Jun 2021 12:15:25 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- z9sm13399399pfc.101.2021.06.14.12.15.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 12:15:25 -0700 (PDT)
-Subject: Re: [PATCH v2 04/57] target/arm: Add handling for PSR.ECI/ICI
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210614151007.4545-1-peter.maydell@linaro.org>
- <20210614151007.4545-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ea4f1b0c-4e7a-c900-3bdf-d24bda0b5b29@linaro.org>
-Date: Mon, 14 Jun 2021 12:15:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <20210614151007.4545-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lss4t-0001vK-Kw; Mon, 14 Jun 2021 15:16:56 -0400
+Received: from [201.28.113.2] (port=35932 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lss4q-0003Sz-9v; Mon, 14 Jun 2021 15:16:54 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Mon, 14 Jun 2021 16:16:45 -0300
+Received: from eldorado.org.br (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTP id CADD2800D1A;
+ Mon, 14 Jun 2021 16:16:45 -0300 (-03)
+From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] target/ppc: fix address translation bug for radix mmus
+Date: Mon, 14 Jun 2021 16:16:29 -0300
+Message-Id: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+X-Mailer: git-send-email 2.17.1
+X-OriginalArrivalTime: 14 Jun 2021 19:16:46.0008 (UTC)
+ FILETIME=[D128DB80:01D76151]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.42,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,66 +51,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
+ luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 8:09 AM, Peter Maydell wrote:
-> On A-profile, PSR bits [15:10][26:25] are always the IT state bits.
-> On M-profile, some of the reserved encodings of the IT state are used
-> to instead indicate partial progress through instructions that were
-> interrupted partway through by an exception and can be resumed.
-> 
-> These resumable instructions fall into two categories:
-> 
-> (1) load/store multiple instructions, where these bits are called
-> "ICI" and specify the register in the ldm/stm list where execution
-> should resume.  (Specifically: LDM, STM, VLDM, VSTM, VLLDM, VLSTM,
-> CLRM, VSCCLRM.)
-> 
-> (2) MVE instructions subject to beatwise execution, where these bits
-> are called "ECI" and specify which beats in this and possibly also
-> the following MVE insn have been executed.
-> 
-> There are also a few insns (LE, LETP, and BKPT) which do not use the
-> ICI/ECI bits but must leave them alone.
-> 
-> Otherwise, we should raise an INVSTATE UsageFault for any attempt to
-> execute an insn with non-zero ICI/ECI bits.
-> 
-> So far we have been able to ignore ECI/ICI, because the architecture
-> allows the IMPDEF choice of "always restart load/store multiple from
-> the beginning regardless of ICI state", so the only thing we have
-> been missing is that we don't raise the INVSTATE fault for bad guest
-> code.  However, MVE requires that we honour ECI bits and do not
-> rexecute beats of an insn that have already been executed.
-> 
-> Add the support in the decoder for handling ECI/ICI:
->   * identify the ECI/ICI case in the CONDEXEC TB flags
->   * when a load/store multiple insn succeeds, it updates the ECI/ICI
->     state (both in DisasContext and in the CPU state), and sets a flag
->     to say that the ECI/ICI state was handled
->   * if we find that the insn we just decoded did not handle the
->     ECI/ICI state, we delete all the code that we just generated for
->     it and instead emit the code to raise the INVFAULT.  This allows
->     us to avoid having to update every non-MVE non-LDM/STM insn to
->     make it check for "is ECI/ICI set?".
-> 
-> We continue with our existing IMPDEF choice of not caring about the
-> ICI state for the load/store multiples and simply restarting them
-> from the beginning.  Because we don't allow interrupts in the middle
-> of an insn, the only way we would see this state is if the guest set
-> ICI manually on return from an exception handler, so it's a corner
-> case which doesn't merit optimisation.
-> 
-> ICI update for LDM/STM is simple -- it always zeroes the state.  ECI
-> update for MVE beatwise insns will be a little more complex, since
-> the ECI state may include information for the following insn.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> v1->v2: minor changes as suggested by rth
+Based-on: <20210518201146.794854-1-richard.henderson@linaro.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This commit attempts to fix the first bug mentioned by Richard Henderson in
+https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06247.html
 
-r~
+To sumarize the bug here, when radix-style mmus are translating an
+address, they might need to call a second level of translation, with
+hypvervisor priviledges. However, the way it was being done up until
+this point meant that the second level translation had the same
+priviledges as the first level. This would only happen when a TCG guest
+was emulating KVM, which is why it hasn't been discovered yet.
+
+This patch attempts to correct that by making radix64_*_xlate functions
+receive the mmu_idx, and passing one with the correct permission for the
+second level translation.
+
+The mmuidx macros added by this patch are only correct for non-bookE
+mmus, because BookE style set the IS and DS bits inverted and there
+might be other subtle differences. However, there doesn't seem to be
+BookE cpus that have radix-style mmus, so we left a comment there to
+document the issue, in case a machine does have that and was missed.
+
+As part of this cleanup, we now need to send the correct mmmu_idx
+when calling get_phys_page_debug, otherwise we might not be able to see the
+memory that the CPU could
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+---
+ target/ppc/internal.h    | 12 ++++++++++++
+ target/ppc/mmu-radix64.c | 38 ++++++++++++++++++++++----------------
+ target/ppc/mmu-radix64.h |  2 +-
+ target/ppc/mmu_helper.c  |  8 +++++---
+ 4 files changed, 40 insertions(+), 20 deletions(-)
+
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index f1fd3c8d04..003df7e8a9 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -245,4 +245,16 @@ static inline int prot_for_access_type(MMUAccessType access_type)
+     g_assert_not_reached();
+ }
+ 
++/*
++ * These correspond to the mmu_idx values computed in
++ * hreg_compute_hflags_value. See the tables therein
++ */
++static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
++/*
++ * If we want to use these macros for hash-style MMUs, we need to
++ * add an if or another macro here.
++ */
++static inline bool mmuidx_real(int idx) { return idx & 2; }
++static inline bool mmuidx_hv(int idx) { return idx & 4; }
++
+ #endif /* PPC_INTERNAL_H */
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index cbd404bfa4..0ae8f6b572 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -155,7 +155,7 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, MMUAccessType access_type,
+ 
+ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
+                                    uint64_t pte, int *fault_cause, int *prot,
+-                                   bool partition_scoped)
++                                   int mmu_idx, bool partition_scoped)
+ {
+     CPUPPCState *env = &cpu->env;
+     int need_prot;
+@@ -173,7 +173,8 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
+     /* Determine permissions allowed by Encoded Access Authority */
+     if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
+         *prot = 0;
+-    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
++    } else if (mmuidx_pr(mmu_idx) || (pte & R_PTE_EAA_PRIV) ||
++               partition_scoped) {
+         *prot = ppc_radix64_get_prot_eaa(pte);
+     } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped */
+         *prot = ppc_radix64_get_prot_eaa(pte);
+@@ -299,7 +300,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
+                                               ppc_v3_pate_t pate,
+                                               hwaddr *h_raddr, int *h_prot,
+                                               int *h_page_size, bool pde_addr,
+-                                              bool guest_visible)
++                                              int mmu_idx, bool guest_visible)
+ {
+     int fault_cause = 0;
+     hwaddr pte_addr;
+@@ -310,7 +311,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
+     if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_RPDB,
+                               pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_size,
+                               &pte, &fault_cause, &pte_addr) ||
+-        ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, h_prot, true)) {
++        ppc_radix64_check_prot(cpu, access_type, pte,
++                               &fault_cause, h_prot, mmu_idx, true)
++        ) {
+         if (pde_addr) { /* address being translated was that of a guest pde */
+             fault_cause |= DSISR_PRTABLE_FAULT;
+         }
+@@ -332,7 +335,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+                                             vaddr eaddr, uint64_t pid,
+                                             ppc_v3_pate_t pate, hwaddr *g_raddr,
+                                             int *g_prot, int *g_page_size,
+-                                            bool guest_visible)
++                                            int mmu_idx, bool guest_visible)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -367,7 +370,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+         ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_addr,
+                                                  pate, &h_raddr, &h_prot,
+                                                  &h_page_size, true,
+-                                                 guest_visible);
++            /* mmu_idx is 5 because we're translating from hypervisor scope */
++                                                 5, guest_visible);
+         if (ret) {
+             return ret;
+         }
+@@ -407,7 +411,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+             ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pte_addr,
+                                                      pate, &h_raddr, &h_prot,
+                                                      &h_page_size, true,
+-                                                     guest_visible);
++            /* mmu_idx is 5 because we're translating from hypervisor scope */
++                                                     5, guest_visible);
+             if (ret) {
+                 return ret;
+             }
+@@ -431,7 +436,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+         *g_raddr = (rpn & ~mask) | (eaddr & mask);
+     }
+ 
+-    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, g_prot, false)) {
++    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause,
++                               g_prot, mmu_idx, false)) {
+         /* Access denied due to protection */
+         if (guest_visible) {
+             ppc_radix64_raise_si(cpu, access_type, eaddr, fault_cause);
+@@ -464,7 +470,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+  *              +-------------+----------------+---------------+
+  */
+ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+-                       hwaddr *raddr, int *psizep, int *protp,
++                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
+                        bool guest_visible)
+ {
+     CPUPPCState *env = &cpu->env;
+@@ -474,17 +480,17 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     hwaddr g_raddr;
+     bool relocation;
+ 
+-    assert(!(msr_hv && cpu->vhyp));
++    assert(!(mmuidx_hv(mmu_idx) && cpu->vhyp));
+ 
+-    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
++    relocation = !mmuidx_real(mmu_idx);
+ 
+     /* HV or virtual hypervisor Real Mode Access */
+-    if (!relocation && (msr_hv || cpu->vhyp)) {
++    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
+         /* In real mode top 4 effective addr bits (mostly) ignored */
+         *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
+ 
+         /* In HV mode, add HRMOR if top EA bit is clear */
+-        if (msr_hv || !env->has_hv_mode) {
++        if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
+             if (!(eaddr >> 63)) {
+                 *raddr |= env->spr[SPR_HRMOR];
+            }
+@@ -546,7 +552,7 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     if (relocation) {
+         int ret = ppc_radix64_process_scoped_xlate(cpu, access_type, eaddr, pid,
+                                                    pate, &g_raddr, &prot,
+-                                                   &psize, guest_visible);
++                                                   &psize, mmu_idx, guest_visible);
+         if (ret) {
+             return false;
+         }
+@@ -564,13 +570,13 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+          * quadrants 1 or 2. Translates a guest real address to a host
+          * real address.
+          */
+-        if (lpid || !msr_hv) {
++        if (lpid || !mmuidx_hv(mmu_idx)) {
+             int ret;
+ 
+             ret = ppc_radix64_partition_scoped_xlate(cpu, access_type, eaddr,
+                                                      g_raddr, pate, raddr,
+                                                      &prot, &psize, false,
+-                                                     guest_visible);
++                                                     mmu_idx, guest_visible);
+             if (ret) {
+                 return false;
+             }
+diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
+index 6b13b89b64..b70357cf34 100644
+--- a/target/ppc/mmu-radix64.h
++++ b/target/ppc/mmu-radix64.h
+@@ -45,7 +45,7 @@
+ #ifdef TARGET_PPC64
+ 
+ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+-                       hwaddr *raddr, int *psizep, int *protp,
++                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
+                        bool guest_visible);
+ 
+ static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index ba1952c77d..9dcdf88597 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -2908,7 +2908,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+     case POWERPC_MMU_3_00:
+         if (ppc64_v3_radix(cpu)) {
+             return ppc_radix64_xlate(cpu, eaddr, access_type,
+-                                     raddrp, psizep, protp, guest_visible);
++                                     raddrp, psizep, protp, mmu_idx, guest_visible);
+         }
+         /* fall through */
+     case POWERPC_MMU_64B:
+@@ -2941,8 +2941,10 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+      * try an MMU_DATA_LOAD, we may not be able to read instructions
+      * mapped by code TLBs, so we also try a MMU_INST_FETCH.
+      */
+-    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
+-        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
++    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p,
++                  cpu_mmu_index(&cpu->env, false), false) ||
++        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p,
++                  cpu_mmu_index(&cpu->env, true), false)) {
+         return raddr & TARGET_PAGE_MASK;
+     }
+     return -1;
+-- 
+2.17.1
+
 
