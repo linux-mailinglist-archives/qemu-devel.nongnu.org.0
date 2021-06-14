@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5263A6C83
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:56:14 +0200 (CEST)
-Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA123A6CAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 19:04:53 +0200 (CEST)
+Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lspsj-0007ZH-9V
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:56:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41940)
+	id 1lsq15-0006BX-OG
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 13:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lspqS-00060H-HA
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:53:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lspqQ-0004b0-4e
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:53:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623689628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RwHQOwhwRPIuH/YBybibTtLSUZ6enNPFeeFSvanF0cw=;
- b=UY5icQg0MVGU0ROFVc8kpOFBTqHokrcEA7+UhCVPMVV+qbY3KTXJsdtKkRS2QgcPSrNkgg
- Yy+vSXUkxDn7r7I9tchYIg30G5nDxYyt2QQ0IDsMA56lz2slb2rx4zwC6jyAWC7iFkS1AR
- ketyjh7ztfXuliQwlN04mw3Lz1I0UGA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-elAiz8yHN5GMNUXmY0UBGA-1; Mon, 14 Jun 2021 12:53:47 -0400
-X-MC-Unique: elAiz8yHN5GMNUXmY0UBGA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F56819200D0;
- Mon, 14 Jun 2021 16:53:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34AAD5D9E2;
- Mon, 14 Jun 2021 16:53:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BA9FC113865F; Mon, 14 Jun 2021 18:53:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 02/18] qapi: add ModuleInfo schema
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-3-kraxel@redhat.com>
- <87im2g6g54.fsf@dusky.pond.sub.org>
- <20210614152117.kuj6qm4ocptzgonh@sirius.home.kraxel.org>
-Date: Mon, 14 Jun 2021 18:53:24 +0200
-In-Reply-To: <20210614152117.kuj6qm4ocptzgonh@sirius.home.kraxel.org> (Gerd
- Hoffmann's message of "Mon, 14 Jun 2021 17:21:17 +0200")
-Message-ID: <87eed4v14r.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lspzj-0005QG-At
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:03:27 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:38600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lspzf-0002Ul-Rt
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:03:26 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ m13-20020a17090b068db02901656cc93a75so10480578pjz.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 10:03:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=gdHl44hfaSc555IxUTN6n7BkjazQ7aVjqGDVYYL/RjI=;
+ b=CelvRIeGoT45UbeQ7DX83xk3vBZpXHBlLvFitjYHxayEFwg/AV6EM3PHQxvRClc8YF
+ 9hFB6cZkbhTqDp01pkES9sfiM7sNtQJNAhiZYA1DFNWaJNoTVWwTSg8Ji6WYMWM1mFkH
+ OUIf4EXFZ0KfxUOgJHA1J722SCBpbq062tagY/6fcy15Yv0bHn17BkviOg5JhSCou38k
+ J3DcWrhGoUfKicaatMn60AAnFconP46pG2TsZD6sQocYY5iJxms049H2GFXqVo/TcMmp
+ 0RADmjEyvbJkYFSNp0fjugsJYfbcA6xiJdS38nJTj7xhzDzNxxYxvQNeQg+FKQshM++q
+ RFVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gdHl44hfaSc555IxUTN6n7BkjazQ7aVjqGDVYYL/RjI=;
+ b=d/C4yNIM/gJO6uZHF6s/4+ZYKcA89cdJdtJzQDCc+R3c26xo71FJ+oj5caYM7aPeXj
+ 02Q4E7qNGHV6y/lw/dWWnKsMRCeaRjBO2GFe9ICgJe9+OTwtu3v3Jt9qxxzDMZzDFDM6
+ cUN91Z3MObtGcyA5SRJbZf//otAuLUPNLn95K4Jisje3oyKqjlXVqznSXm0HOCNzb1mj
+ 9mwxsdBqZsinvE82epOJ7LUs9NgQUCSCtZ2Q5TsAIMLxxLmBLYOtct6m0piTTBz2FRvD
+ 3Suiit15sfw8nw5oEEBvL7V7AF54tnAqJzaetY8l2wQDNtUnTVdRObgOX31coBA7iU7F
+ fsZg==
+X-Gm-Message-State: AOAM532+QVWm1F/2J8wbrZ0Qxd/Jv4xT8wtS1P7iSD1t0YctpZVts07F
+ byqQHGzX2cjlbb67pwCvXUucDQ==
+X-Google-Smtp-Source: ABdhPJxZ23CqXJIYW+UnPZ5IzV1iSuhoyofSjac//CGm/E80RCg5PvaCkJyhZf6AfkwFfVvF0VvdmQ==
+X-Received: by 2002:a17:90a:6002:: with SMTP id y2mr75998pji.197.1623690202159; 
+ Mon, 14 Jun 2021 10:03:22 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ g17sm4560496pgh.61.2021.06.14.10.03.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 10:03:21 -0700 (PDT)
+Subject: Re: [gitlab] Renamed issue labels for target architecture
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <0a102843-bb93-93b8-f502-dd0cb2a6c636@linaro.org>
+ <9b0849bd-20d0-9f72-01bb-ffb60cad575b@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7864c853-8f4e-b6a5-aa19-213534c6d72a@linaro.org>
+Date: Mon, 14 Jun 2021 10:03:20 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <9b0849bd-20d0-9f72-01bb-ffb60cad575b@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,58 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- berrange@redhat.com, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+On 6/14/21 9:29 AM, Philippe Mathieu-Daudé wrote:
+> Wait, are you seeing labels are a notification mechanism or a way
+> to sort the issues?
 
->   Hi,
->
->> > +# @arch: module architecture.
->> 
->> Semantics?
->> 
->> Should this be enum SysEmuTarget?
->
-> Probably, will check ...
->
->> > +# @opts: qemu opts implemented by module.
->> 
->> Is this the name of a QemuOptsList?
->> 
->> Since this isn't a list, a module can only ever provide one
->> QemuOptsList.  Sure that's okay?
->
-> For the current two in-tree cases yes, and I don't expect this to change
-> in the future.  We could turn this into a list though to make it
-> future-proof.
+Sort the issues, primarily.
 
-If it's not much of a bother, then why not?
+> Until your rename I was using arch:s390x to contact S390 maintainers
+> for build failure on s390x host [Build System, arch: s390x], bug in TCG
+> backend or bug in TCG frontend for target [accel: TCG, arch: s390x],
+> hoping at least one person notified would have further look.
 
->> > +{ 'struct': 'Modules',
->> > +  'data': { 'list' : ['ModuleInfo']}}
->> 
->> This defines only types, no QMP commands or events.  Why do you need the
->> types to be QAPI types?
->
-> Want re-use the code to serialize/parse json from/to structs.
-> (see patches #3 + #13).
+Ah, hmm.
 
-Okay, that's fair.
 
-[...]
-
+r~
 
