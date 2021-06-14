@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EDA3A5FC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:11:08 +0200 (CEST)
-Received: from localhost ([::1]:46960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC593A5FEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:21:50 +0200 (CEST)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsjYg-0007C6-Gx
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:11:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33476)
+	id 1lsjj3-0005AE-B1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1lsjWw-0005Aw-3h
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:18 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35368)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lsjhd-0004CV-Rh
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:20:21 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:42713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1lsjWt-00045B-5c
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:17 -0400
-Received: by mail-wr1-x430.google.com with SMTP id m18so13896640wrv.2
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:09:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OV+M6Wxiaq+SA1gePBokthLze/Zk2s945FpGBYhPwpU=;
- b=uV8I57a8ZZ380ULjk7FNIPQO+AAu/Kir5vcccUZpH42IKdFyngogNpvFgcV3V40H8b
- 2KvKYNIzIAHsNEQktwmwL9SRrldRTd77XGE2Rbjvl/YLM+BTdLpFUfdBC4JRPF+PJaOY
- pRsOfyaCUy8Z+svZSwiThP1SGz4rmWKkdvEVEk2aK2LBI9FghOKcvFfVitWTlaY08jYd
- vKwUVbJc6p2qYJJRXR5YUkivyUVKbsZsrynkRPE0Dfcvs3bG/niYecxqlnRBWYRE07Uz
- Ea7kqX52FEUXvHEfaapX/Hn2svFlm22tfj/JfhNAo0srHZJ99Ow3QvXXKsjzIyJ77ZVA
- wyzw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lsjhc-0002ge-3d
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:20:21 -0400
+Received: by mail-ed1-x532.google.com with SMTP id i13so45771851edb.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iLVP2KybRdHHflWmeeMgVJ9wHpwcSrblUuI8dPa8KrY=;
+ b=Bu7gLVnPMtVPWWeotRzgGisuRuw3P381yNPImB4vAOip5tlFv7wwUJ8GPcr6PWwFsK
+ j1aaFWMQnIGCF8KacKp5K9+4N9LhYh6SASm6A4ijb208300H1oxKqPVZMm4ZOjXlgBBv
+ 3topFwRVri4gQ0yF1XV6ut+OMHZzyWCMfGym3Cl+me+2KnUxNp0rt3P4ATGnwh/wkm6B
+ 5u+XcXAcxJ+hyh3PA9Qs8LwLcA6BhU7vqjvJ5hk2/pIBd1yVs9vEHrXZ2AbOQuH0bEIF
+ gFSO23otdoDzXo6E6bA7F6vNBDqrn1zEJbDwReuyzawlsYjXpVmKeisUfQIuBpWRJFZX
+ EoHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OV+M6Wxiaq+SA1gePBokthLze/Zk2s945FpGBYhPwpU=;
- b=Bep82qqVjCK6vU5DEfi0nn+RxQdZQG4S6Z6ekOp0f2RMAituvemdtW5NLEIWRAZHvw
- Dna0i16U4WUZD2C2gWgSGZ1lwTMqLpwNow58CquibmA4AVzHohgVo3aPdU+XAKMt2O37
- ihiS34Cmi9hLEjyEhRRY47e0FUEa0Wbb4RSvIzGdK4vjjCiXRb8bJ86HUsh0L7xYX4Pg
- oJHBJUMXuzNrDlrhm+ALH7/N9hUW0T4QDbpt4mXm9uLRVrl21kgLWMKmNcomcAoN7tfU
- n2tRye9BqU0XmGMDmAJ3bQiPnNlE5gFTx1YskZ2R5hzOrp6jlnkB8mZRvhAjoGS1PkT5
- GhRA==
-X-Gm-Message-State: AOAM532HBSXjyosgJsp1EBCPxIkGFquy3/VcoleVynRth99vYhRSAm6e
- Yhdn0XFH09dOcD2tGtWZpXUykLPU8OtNlg==
-X-Google-Smtp-Source: ABdhPJx7DGzLKJxXGEvu22cswa6QLFTUmSLojbRAZ+OgbRSvgTPlz+O66a2Tk5BEl0JwNvhNPSFVzA==
-X-Received: by 2002:adf:fd0c:: with SMTP id e12mr17572499wrr.265.1623665353906; 
- Mon, 14 Jun 2021 03:09:13 -0700 (PDT)
-Received: from localhost.localdomain ([37.161.140.231])
- by smtp.gmail.com with ESMTPSA id o18sm15752254wrx.59.2021.06.14.03.09.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 03:09:13 -0700 (PDT)
-From: Lara Lazier <laramglazier@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/i386: Added Intercept CR0 writes check
-Date: Mon, 14 Jun 2021 12:09:02 +0200
-Message-Id: <20210614100902.15860-4-laramglazier@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210614100902.15860-1-laramglazier@gmail.com>
-References: <20210614100902.15860-1-laramglazier@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iLVP2KybRdHHflWmeeMgVJ9wHpwcSrblUuI8dPa8KrY=;
+ b=C6rCoI/6z9arxF5t2fASPZMKsPDFUcpYjT0gf9Pi7/1/T8Xr/RuBAoFQM+Z48n9kL4
+ NV9OKS1ZiDRoi1csbsqP67+xpCoztzqJJrarX4k+fFdtapFLtqA6CEU8YmT+sAAdkkXJ
+ MxXQp5FPXEKcT/WMEjbPjJW8Ia0ASv+mbItzFSOVw19ckBOkZWJllkD8zs2lsaYWJc6h
+ 8+1y5BhWEHKo6eOhyJbLh6lcCnHgqNqAHYofNlu+akI/WlcJgG62uHfJaIRozaXQhbPK
+ Y+KNe8GjrpGULuZy44pP/Ly6JlBy4f9hd6gxrTkC8E6UW6iADzPYbTx6mRgHLJgHVZEd
+ qIjQ==
+X-Gm-Message-State: AOAM532Q16aeUUTgGhL2yRNFvFPj7JsKMji8hz1yx5tl2YTbwBsRbVql
+ NxyR1p7nsplrf7CB04CP4d45FYzJC9RYkrrSSpcSLw==
+X-Google-Smtp-Source: ABdhPJxrt5UknhDb6qs542Y3D3g1jjNNP4msDrnz4uEGvRKt4pss85KQ02MoUG1Vut3+FWg6OYEEwByW6Ci1wTyuZYo=
+X-Received: by 2002:a05:6402:3482:: with SMTP id
+ v2mr15992050edc.44.1623666018404; 
+ Mon, 14 Jun 2021 03:20:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=laramglazier@gmail.com; helo=mail-wr1-x430.google.com
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-33-peter.maydell@linaro.org>
+ <ff13c13a-0014-4930-5a8f-813818d6fcf1@linaro.org>
+In-Reply-To: <ff13c13a-0014-4930-5a8f-813818d6fcf1@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Jun 2021 11:19:43 +0100
+Message-ID: <CAFEAcA9UqJpBU9crxWFQg-8U4XtnVK4tgAGR-mhUZyhiLN6ARg@mail.gmail.com>
+Subject: Re: [PATCH 32/55] target/arm: Implement MVE VRMLALDAVH, VRMLSLDAVH
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,53 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the selective CR0 write intercept is set, all writes to bits in
-CR0 other than CR0.TS or CR0.MP cause a VMEXIT.
+On Wed, 9 Jun 2021 at 02:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/7/21 9:57 AM, Peter Maydell wrote:
+> > +#define DO_LDAVH(OP, ESIZE, TYPE, H, XCHG, EVENACC, ODDACC, TO128)      \
+> > +    uint64_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vn,         \
+> > +                                    void *vm, uint64_t a)               \
+> > +    {                                                                   \
+> > +        uint16_t mask = mve_element_mask(env);                          \
+> > +        unsigned e;                                                     \
+> > +        TYPE *n = vn, *m = vm;                                          \
+> > +        Int128 acc = TO128(a);                                          \
+>
+> This seems to miss the << 8.
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
----
- target/i386/cpu.h                    | 2 ++
- target/i386/tcg/sysemu/misc_helper.c | 9 +++++++++
- 2 files changed, 11 insertions(+)
+Oops, yes it does.
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 46542513cc..ff0ff97ca9 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -228,6 +228,8 @@ typedef enum X86Seg {
- #define CR0_CD_MASK  (1U << 30)
- #define CR0_PG_MASK  (1U << 31)
- 
-+#define INTERCEPT_SELECTIVE_CR0 (1ULL << 5)
-+
- #define CR4_VME_MASK  (1U << 0)
- #define CR4_PVI_MASK  (1U << 1)
- #define CR4_TSD_MASK  (1U << 2)
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 0cef2f1a4c..53117f47de 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -84,6 +84,15 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
- {
-     switch (reg) {
-     case 0:
-+        /*
-+        * If we reach this point, the CR0 write intercept is disabled.
-+        * But we could still exit if the hypervisor has requested the selective
-+        * intercept for bits other than TS and MP
-+        */
-+        if ((env->intercept & INTERCEPT_SELECTIVE_CR0) &&
-+            ((env->cr[0] ^ t0) & ~(CR0_TS_MASK | CR0_MP_MASK))) {
-+            cpu_vmexit(env, SVM_EXIT_CR0_SEL_WRITE, 0, GETPC());
-+        }
-         cpu_x86_update_cr0(env, t0);
-         break;
-     case 3:
--- 
-2.25.1
+> Which suggests that the whole thing can be done without Int128:
+>
+> > +        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
+> > +            if (mask & 1) {                                             \
+> > +                if (e & 1) {                                            \
+> > +                    acc = ODDACC(acc, TO128(n[H(e - 1 * XCHG)] * m[H(e)])); \
+>
+>    tmp = n * m;
+>    tmp = (tmp >> 8) + ((tmp >> 7) & 1);
+>    acc ODDACC tmp;
 
+I'm not sure about this suggestion though. It throws away all
+of the bottom 7 bits of the product, but because we're iterating through
+this 4 times and adding (potentially) four of these products together,
+those bottom 7 bits in the 4 products might be able to add together
+to become significant enough to affect the final result.
+
+-- PMM
 
