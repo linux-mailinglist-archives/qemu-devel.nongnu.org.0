@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FAB3A6DE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 19:59:55 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7273A6E01
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 20:11:12 +0200 (CEST)
+Received: from localhost ([::1]:36696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsqsM-0008Sh-V5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 13:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54674)
+	id 1lsr3F-0004HO-N9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 14:11:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1lsqr3-0007jL-Jf
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:58:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22254)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lsr1U-0003W2-2x
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 14:09:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1lsqr1-0004Ks-QH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:58:33 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lsr1Q-0003Kt-Lx
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 14:09:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623693510;
+ s=mimecast20190719; t=1623694155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/vMgchVMKLGuPNFs5d7O/d0k7U56iZ8fVz9UojGo8CE=;
- b=buCMd+WL3grffPIGu/o+JA7OXd/2pzmRSQQVQm/J2pGtcswIAQTf7zxVobFI3iH/BCvHQ1
- l1pZtQP/TQx4S77zEf6ruXOU5vm0AKbYFjkmr/NJOt/rsnz0VLIN4ImGHfr/6Py7HlhazF
- D6cSws6TGBS63U95m9Fj8SCaIV38zv0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-MdHOP8qdPTeUieQdZNWlnQ-1; Mon, 14 Jun 2021 13:58:29 -0400
-X-MC-Unique: MdHOP8qdPTeUieQdZNWlnQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- t11-20020a05600c198bb02901bf95ba8642so2772457wmq.3
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 10:58:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/vMgchVMKLGuPNFs5d7O/d0k7U56iZ8fVz9UojGo8CE=;
- b=GOYjbzghZEd4iPIycXKCIprpA4PxgFTCnrY7eDhbsnlVbzLvQGDd8159BTsX6lNOQu
- YylrK3Zf9TNErYmUVXHEV/eBp5laFyIL8HCm9a630w6Ekls4qHNAIyNc4BKOggyOCJh8
- pp4YEQOFQ5tfpTfuMA78kFzqWfe692zjDYYH1sB2JBYyDWyg90sE56u94XJaTyfAh6+b
- xHgSu8w+rUsoukdsEFTyZrao1ZWqigsixKOFxlB6IRbCPBea7KWOMlrYYiCQcoY8DE7d
- Ub+Blv9EEWjB2KoEqyzB4avtwz4hw+Qblwp+FQONVLOf6JiQa+R1KnVrPKDhy/oJ9alA
- DkUg==
-X-Gm-Message-State: AOAM530lXltxUvda3DK+zJW4zd+F645ikRVCtFHO1M/UomEnqypDlhna
- BfaAa3pxBAArsLVki2n/3lknbJ4gu4dg5SxxTPqM0PAFu10DTYFFMiiUzXt+/LPCk75PxtzglYk
- LDBRsc9BkCMfZ7IE=
-X-Received: by 2002:a05:600c:2190:: with SMTP id
- e16mr15983240wme.188.1623693508418; 
- Mon, 14 Jun 2021 10:58:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxYD8gP89QBHmcCR7zfmhABLIiwnYADj4KLYMvIPNN8Hs8/jpd1P8btskaLTENPKZZev6ozgQ==
-X-Received: by 2002:a05:600c:2190:: with SMTP id
- e16mr15983209wme.188.1623693508141; 
- Mon, 14 Jun 2021 10:58:28 -0700 (PDT)
-Received: from [192.168.0.5] (ip4-95-82-160-17.cust.nbox.cz. [95.82.160.17])
- by smtp.gmail.com with ESMTPSA id p23sm153312wmi.26.2021.06.14.10.58.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 10:58:27 -0700 (PDT)
-Subject: Re: [PATCH] block/nvme: Fix VFIO_MAP_DMA failed: No space left on
- device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>
-References: <20210611114606.320008-1-philmd@redhat.com>
- <cb271128-faa2-c557-128f-4ec1133667b8@redhat.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-Message-ID: <359bf73a-8921-369b-6cd3-5ef4964d38cc@redhat.com>
-Date: Mon, 14 Jun 2021 19:58:26 +0200
+ bh=B8xR3OpXGAL/YonxI+ezY8WJ38yMD+MIuKt0I+EkLNU=;
+ b=InbRjC/lMqlUT21eyTGSS+jFKFtlmvz6Ys7cX5xesYyKIJdlTw4LZ7cPioi43No7ku0CXc
+ BwWMbupcQ9jxA2JSBA/RPsfHidZe/O/6uJaDwKT1L4uhRvTJDV5jozCnS4zs37u6u9lfTK
+ s4ASKojw6kCvhqXcP9dUp7iBqvljk68=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-NKnTUWH2MLKTwHtopvgLxQ-1; Mon, 14 Jun 2021 14:09:12 -0400
+X-MC-Unique: NKnTUWH2MLKTwHtopvgLxQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45CCC1932480;
+ Mon, 14 Jun 2021 18:09:11 +0000 (UTC)
+Received: from [10.10.113.126] (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 802CD5D720;
+ Mon, 14 Jun 2021 18:09:09 +0000 (UTC)
+Subject: Re: [PATCH 00/42] python: move qmp-shell into qemu.qmp package
+To: qemu-devel@nongnu.org
+References: <20210607200649.1840382-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <6eefe3de-7c13-fc8f-9615-0560ef34020b@redhat.com>
+Date: Mon, 14 Jun 2021 14:09:09 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <cb271128-faa2-c557-128f-4ec1133667b8@redhat.com>
+In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -105,36 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-stable@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 6:03 PM, Philippe Mathieu-Daudé wrote:
-> On 6/11/21 1:46 PM, Philippe Mathieu-Daudé wrote:
->> When the NVMe block driver was introduced (see commit bdd6a90a9e5,
->> January 2018), Linux VFIO_IOMMU_MAP_DMA ioctl was only returning
->> -ENOMEM in case of error. The driver was correctly handling the
->> error path to recycle its volatile IOVA mappings.
->>
->> To fix CVE-2019-3882, Linux commit 492855939bdb ("vfio/type1: Limit
->> DMA mappings per container", April 2019) added the -ENOSPC error to
->> signal the user exhausted the DMA mappings available for a container.
+On 6/7/21 4:06 PM, John Snow wrote:
+> Based-on: <20210603003719.1321369-1-jsnow@redhat.com>
+> Based-on: <20210604155532.1499282-1-jsnow@redhat.com>
+> CI: https://gitlab.com/jsnow/qemu/-/pipelines/316425665
+> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-qmp-shell
 > 
-> Hmm this commit has been added before v5.1-rc4.
+> This series follows:
 > 
-> So while this fixes the behavior of v5.1-rc4+ kernels,
-> older kernels using this fix will have the same problem...
+> 1. [PATCH v3 00/19] Python: move /scripts/qmp/qom* to /python/qemu/qmp/qom*​
+> 2. [PATCH 00/11] python: move /scripts/qmp/gemu-ga-client.py to qemu.qmp package
 > 
-> Should I check uname(2)'s utsname.release[]? Is it reliable?
+> and finishes moving stuff in ./scripts/qmp/ into ./python/qemu/qmp/*.
+> 
+> The benefits of this are:
+> 
+> 1. Improved protection against accidental regression in qmp-using
+> scripts as we refactor QMP to introduce Async QMP and OOB support
+> 2. Availability of common qmp command-line tools as part of the qemu.qmp
+> package
+> 3. No more sys.path hacking for qemu.qmp-using utilities
+> 4. Newly 100% clean linting baseline to use as an aid in reviewing
+> future patches.
+> 
+> This series is largely minor refactors, linting and typing cleanups,
+> followed by the move into the python packaging folder at the very end of
+> the series.
+> 
+> John Snow (42):
+>    scripts/qmp-shell: apply isort rules
+>    scripts/qmp-shell: Apply flake8 rules
+>    scripts/qmp-shell: fix show_banner signature
+>    scripts/qmp-shell: fix exception handling
+>    scripts/qmp-shell: fix connect method signature
+>    scripts/qmp-shell: remove shadowed variable from _print()
+>    scripts/qmp-shell: use @classmethod where appropriate
+>    scripts/qmp-shell: Use python3-style super()
+>    scripts/qmp-shell: declare verbose in __init__
+>    scripts/qmp-shell: use triple-double-quote docstring style
+>    scripts/qmp-shell: ignore visit_Name name
+>    scripts/qmp-shell: make QMPCompleter returns explicit
+>    scripts/qmp-shell: rename one and two-letter variables
+>    scripts/qmp-shell: fix shell history exception handling
+>    scripts/qmp-shell: remove if-raise-else patterns
+>    scripts/qmp-shell: use isinstance() instead of type()
+>    scripts/qmp-shell: use argparse
+>    scripts/qmp-shell: Add pretty attribute to HMP shell
+>    scripts/qmp-shell: Make verbose a public attribute
+>    scripts/qmp-shell: move get_prompt() to prompt property
+>    scripts/qmp-shell: remove prompt argument from read_exec_command
+>    scripts/qmp-shell: move the REPL functionality into QMPShell
+>    scripts/qmp-shell: Fix "FuzzyJSON" parser
+>    scripts/qmp-shell: refactor QMPCompleter
+>    scripts/qmp-shell: initialize completer early
+>    python/qmp: add QMPObject type alias
+>    scripts/qmp-shell: add mypy types
+>    scripts/qmp-shell: Accept SocketAddrT instead of string
+>    scripts/qmp-shell: unprivatize 'pretty' property
+>    python/qmp: return generic type from context manager
+>    scripts/qmp-shell: Use context manager instead of atexit
+>    scripts/qmp-shell: use logging to show warnings
+>    scripts/qmp-shell: remove TODO
+>    scripts/qmp-shell: Fix empty-transaction invocation
+>    scripts/qmp-shell: Remove too-broad-exception
+>    scripts/qmp-shell: convert usage comment to docstring
+>    scripts/qmp-shell: remove double-underscores
+>    scripts/qmp-shell: make QMPShellError inherit QMPError
+>    scripts/qmp-shell: add docstrings
+>    scripts/qmp-shell: move to python/qemu/qmp/qmp_shell.py
+>    python: add qmp-shell entry point
+>    scripts/qmp-shell: add redirection shim
+> 
+>   python/qemu/qmp/__init__.py  |   8 +-
+>   python/qemu/qmp/qmp_shell.py | 535 +++++++++++++++++++++++++++++++++++
+>   python/setup.cfg             |   1 +
+>   scripts/qmp/qmp-shell        | 437 +---------------------------
+>   4 files changed, 546 insertions(+), 435 deletions(-)
+>   create mode 100644 python/qemu/qmp/qmp_shell.py
+> 
 
-Not at all. What if somebody runs kernel with that commit backported? I
-would leave this up to distro maintainers to figure out. They know what
-kernel patches are backported and thus what qemu patches should be
-backported too. I'm wondering if there's a way we can help them by
-letting know (other than mentioning the kernel commit).
+Preliminarily staged to my Python branch:
+https://gitlab.com/jsnow/qemu/-/tree/python
 
-Michal
+CI: https://gitlab.com/jsnow/qemu/-/pipelines/320710762
+
+I intend to send the PR collecting these 72 cleanup patches this Friday.
+
+--js
 
 
