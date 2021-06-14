@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105943A69D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:14:04 +0200 (CEST)
-Received: from localhost ([::1]:41206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614A23A69D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:13:01 +0200 (CEST)
+Received: from localhost ([::1]:39360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsoHr-00051d-3F
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47020)
+	id 1lsoGq-0003nW-Do
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:13:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsoEI-0000Cx-KH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:10:23 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34518)
+ id 1lsoEN-0000KY-C6
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:10:27 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsoEA-00006Y-FL
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:10:22 -0400
-Received: by mail-wr1-x433.google.com with SMTP id q5so14961866wrm.1
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 08:10:13 -0700 (PDT)
+ id 1lsoED-00007F-Vw
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:10:26 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a11so14925507wrt.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 08:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bFPKFp45nN5eO3FRKR4QtYKgBEs29nCxbPeGKlUZ72Q=;
- b=w/kpVhWyIn7cDRCLMLbfOUw6zjwNxJmOQTZSIcGTobq6KsYTkYZIGEHA92f/jQlVxk
- X4rf/jyrTAEQmb2cNg4PAPBO5U+8UDxBNtP0Vm1zIxsvge1GdIqhZ+U2QawnDlfhYD41
- k/jaWXjuSrj/qKjg6XmD7RyyiEvtsInQGW7YJ8iSpiWiZWiYSG0HUif1dl67p6E2Am/S
- YHIaUEDkTVq7LDbGj5fiTfdBdugP2YSsdYvpDCZiU4hTGQePeC/n35uq3Xvdva1oPFWk
- H2pmxXhprvmgk135lTWXcSs1HLelcOZeVFbCOpZrjmaPpgZPgFQ47feuKBdB/TSJAkJ+
- GyFA==
+ bh=nzFx7YEstmUDj9FTRCU6AKUf8i/92980G2Cq4/3IzQk=;
+ b=wJT/fAYF6htS8Hp8SR1P2+uW47C4cEnlSLwVO/Laic1l5Om5fS4AAjtuEc9wdf3Rl1
+ OgRy5YmkayUjhXonc8UDIYDdLb2ameE6eCaxdd69CqqvTGzlWW5Eck7nGwVgQ7TzHMn9
+ hf1odTjjoS1Q6qsl2DGGysyyus5VElAS36XLF4VJXp5IyUwwN2UadpRWGVY8Vyu+00M+
+ gQIY7PGGttkC/wr0TiRo5XcSQCU6lYzXcIz0uw+tULYjJCBzvoVRov5FdjPcJ1VqxHq9
+ mQ7QDQgLRluzluO8ej+Yzl3LY6Bxi1BkEg0Q6Q/2PFZq1YK0YGG3pS57g7RemStrtjsB
+ 2YBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bFPKFp45nN5eO3FRKR4QtYKgBEs29nCxbPeGKlUZ72Q=;
- b=Q7T/h5FCmhGecgMUdv11qwV9t7YKpGXUsul8NtPhyhLMxfiTEPpmcnsc6MuykzSmTN
- RDUqwjPw/or3R9gactUBLDLB8+hz/2MN43jErnKGlTlmdF6Y5/sDj3Obo2wfMLfescun
- ir3RPQIlP+RRtuHTTHH23RgM4NL327AOWvcCG9l4kB3pQcWRuc9QaKMwj7QMoBEhOC4a
- K4QSGIxXIgtDdYAeZa/MG1pdvD8Xvy312iQ3k2lfRi1/x7VelJv8IcESX2vhMj7JWbh7
- hGW79L5klRgfaWfVzW35iHX3fKJPi5hCusf//IyBZ9iDfY3u5vAp0y8jNQoXo2ag8IgH
- FnJA==
-X-Gm-Message-State: AOAM532VSB9gebmBvMNS6xOowCYYWbHKdWXxokjXHIdMIXOl4xJbumRp
- APgUNMuxMAOD1fugHejiGKVN8Q==
-X-Google-Smtp-Source: ABdhPJycHgMU+DFc1+U9NWjhXpWGXiWI/UJfsIurtWBkOW7kexcYXRCS0aFpxFpQkcJBYX1NjntNiQ==
-X-Received: by 2002:adf:d1c9:: with SMTP id b9mr19382409wrd.101.1623683412857; 
- Mon, 14 Jun 2021 08:10:12 -0700 (PDT)
+ bh=nzFx7YEstmUDj9FTRCU6AKUf8i/92980G2Cq4/3IzQk=;
+ b=EOHHvfHERQR0CNVSnZL6/i3nPFPxAvdSr7e6jIWXRnkehc6t0DZ850rLbfVtNL8mzJ
+ vP0ERiAz4LRS/WXhkuxuZGz545T196//izEotih2iQS+fe0TM1mc1YGQDFFNqoODOl9i
+ SnIoIbInX8BzHB2oMReUsCCOXiRinBA8gAEb6/c/QXjd561oWMJw59Nkvy2elc5iXoA/
+ Szhm2OwNQKq3bC3i+AvvcBwe2HoZnwQn/BzfD8BNBmIDCxluLYZNXMeavj0KHS6RNBrx
+ 5b4kTup4S/ZTBWnczw8MZeont4IwdBtt7VBcm5xNLqPvyREbBwzVJ168a7mgSAxOGTlK
+ ZTGw==
+X-Gm-Message-State: AOAM531c4GbDKWZZsG207bo/ZXnbqZUL2s3nEwQ4TpBwUb3gnyWSwT6c
+ uoEXLTJartvekY35l1KDRfLhtA==
+X-Google-Smtp-Source: ABdhPJwKUYNmbPAlUhd3IfrRlHizFUm4jC5Vcp1hn7uUS0OGyeULPc+//3j8WyrUWoFTTBGNZdK5ew==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr9961091wrs.167.1623683414409; 
+ Mon, 14 Jun 2021 08:10:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b8sm20865639wmd.35.2021.06.14.08.10.12
+ by smtp.gmail.com with ESMTPSA id b8sm20865639wmd.35.2021.06.14.08.10.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 08:10:12 -0700 (PDT)
+ Mon, 14 Jun 2021 08:10:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 03/57] target/arm: Handle VPR semantics in existing code
-Date: Mon, 14 Jun 2021 16:09:13 +0100
-Message-Id: <20210614151007.4545-4-peter.maydell@linaro.org>
+Subject: [PATCH v2 04/57] target/arm: Add handling for PSR.ECI/ICI
+Date: Mon, 14 Jun 2021 16:09:14 +0100
+Message-Id: <20210614151007.4545-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210614151007.4545-1-peter.maydell@linaro.org>
 References: <20210614151007.4545-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,254 +87,392 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When MVE is supported, the VPR register has a place on the exception
-stack frame in a previously reserved slot just above the FPSCR.
-It must also be zeroed in various situations when we invalidate
-FPU context.
+On A-profile, PSR bits [15:10][26:25] are always the IT state bits.
+On M-profile, some of the reserved encodings of the IT state are used
+to instead indicate partial progress through instructions that were
+interrupted partway through by an exception and can be resumed.
 
-Update the code which handles the stack frames (exception entry and
-exit code, VLLDM, and VLSTM) to save/restore VPR.
+These resumable instructions fall into two categories:
 
-Update code which invalidates FP registers (mostly also exception
-entry and exit code, but also VSCCLRM and the code in
-full_vfp_access_check() that corresponds to the ExecuteFPCheck()
-pseudocode) to zero VPR.
+(1) load/store multiple instructions, where these bits are called
+"ICI" and specify the register in the ldm/stm list where execution
+should resume.  (Specifically: LDM, STM, VLDM, VSTM, VLLDM, VLSTM,
+CLRM, VSCCLRM.)
+
+(2) MVE instructions subject to beatwise execution, where these bits
+are called "ECI" and specify which beats in this and possibly also
+the following MVE insn have been executed.
+
+There are also a few insns (LE, LETP, and BKPT) which do not use the
+ICI/ECI bits but must leave them alone.
+
+Otherwise, we should raise an INVSTATE UsageFault for any attempt to
+execute an insn with non-zero ICI/ECI bits.
+
+So far we have been able to ignore ECI/ICI, because the architecture
+allows the IMPDEF choice of "always restart load/store multiple from
+the beginning regardless of ICI state", so the only thing we have
+been missing is that we don't raise the INVSTATE fault for bad guest
+code.  However, MVE requires that we honour ECI bits and do not
+rexecute beats of an insn that have already been executed.
+
+Add the support in the decoder for handling ECI/ICI:
+ * identify the ECI/ICI case in the CONDEXEC TB flags
+ * when a load/store multiple insn succeeds, it updates the ECI/ICI
+   state (both in DisasContext and in the CPU state), and sets a flag
+   to say that the ECI/ICI state was handled
+ * if we find that the insn we just decoded did not handle the
+   ECI/ICI state, we delete all the code that we just generated for
+   it and instead emit the code to raise the INVFAULT.  This allows
+   us to avoid having to update every non-MVE non-LDM/STM insn to
+   make it check for "is ECI/ICI set?".
+
+We continue with our existing IMPDEF choice of not caring about the
+ICI state for the load/store multiples and simply restarting them
+from the beginning.  Because we don't allow interrupts in the middle
+of an insn, the only way we would see this state is if the guest set
+ICI manually on return from an exception handler, so it's a corner
+case which doesn't merit optimisation.
+
+ICI update for LDM/STM is simple -- it always zeroes the state.  ECI
+update for MVE beatwise insns will be a little more complex, since
+the ECI state may include information for the following insn.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/m_helper.c         | 54 +++++++++++++++++++++++++++++------
- target/arm/translate-m-nocp.c |  5 +++-
- target/arm/translate-vfp.c    |  9 ++++--
- 3 files changed, 57 insertions(+), 11 deletions(-)
+v1->v2: minor changes as suggested by rth
+---
+ target/arm/translate-a32.h    |   1 +
+ target/arm/translate.h        |   9 +++
+ target/arm/translate-m-nocp.c |  11 ++++
+ target/arm/translate-vfp.c    |   6 ++
+ target/arm/translate.c        | 111 ++++++++++++++++++++++++++++++++--
+ 5 files changed, 133 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 074c5434550..7a1e35ab5b6 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -378,7 +378,7 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
-             uint32_t shi = extract64(dn, 32, 32);
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index c997f4e3216..c946ac440ce 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -44,6 +44,7 @@ long vfp_reg_offset(bool dp, unsigned reg);
+ long neon_full_reg_offset(unsigned reg);
+ long neon_element_offset(int reg, int element, MemOp memop);
+ void gen_rev16(TCGv_i32 dest, TCGv_i32 var);
++void clear_eci_state(DisasContext *s);
  
-             if (i >= 16) {
--                faddr += 8; /* skip the slot for the FPSCR */
-+                faddr += 8; /* skip the slot for the FPSCR/VPR */
-             }
-             stacked_ok = stacked_ok &&
-                 v7m_stack_write(cpu, faddr, slo, mmu_idx, STACK_LAZYFP) &&
-@@ -388,6 +388,11 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
-         stacked_ok = stacked_ok &&
-             v7m_stack_write(cpu, fpcar + 0x40,
-                             vfp_get_fpscr(env), mmu_idx, STACK_LAZYFP);
-+        if (cpu_isar_feature(aa32_mve, cpu)) {
-+            stacked_ok = stacked_ok &&
-+                v7m_stack_write(cpu, fpcar + 0x44,
-+                                env->v7m.vpr, mmu_idx, STACK_LAZYFP);
-+        }
-     }
- 
-     /*
-@@ -410,16 +415,19 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
-     env->v7m.fpccr[is_secure] &= ~R_V7M_FPCCR_LSPACT_MASK;
- 
-     if (ts) {
--        /* Clear s0 to s31 and the FPSCR */
-+        /* Clear s0 to s31 and the FPSCR and VPR */
-         int i;
- 
-         for (i = 0; i < 32; i += 2) {
-             *aa32_vfp_dreg(env, i / 2) = 0;
-         }
-         vfp_set_fpscr(env, 0);
-+        if (cpu_isar_feature(aa32_mve, cpu)) {
-+            env->v7m.vpr = 0;
-+        }
-     }
-     /*
--     * Otherwise s0 to s15 and FPSCR are UNKNOWN; we choose to leave them
-+     * Otherwise s0 to s15, FPSCR and VPR are UNKNOWN; we choose to leave them
-      * unchanged.
-      */
- }
-@@ -1044,6 +1052,7 @@ static void v7m_update_fpccr(CPUARMState *env, uint32_t frameptr,
- void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
+ static inline TCGv_i32 load_cpu_offset(int offset)
  {
-     /* fptr is the value of Rn, the frame pointer we store the FP regs to */
-+    ARMCPU *cpu = env_archcpu(env);
-     bool s = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
-     bool lspact = env->v7m.fpccr[s] & R_V7M_FPCCR_LSPACT_MASK;
-     uintptr_t ra = GETPC();
-@@ -1092,9 +1101,12 @@ void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
-             cpu_stl_data_ra(env, faddr + 4, shi, ra);
-         }
-         cpu_stl_data_ra(env, fptr + 0x40, vfp_get_fpscr(env), ra);
-+        if (cpu_isar_feature(aa32_mve, cpu)) {
-+            cpu_stl_data_ra(env, fptr + 0x44, env->v7m.vpr, ra);
-+        }
- 
-         /*
--         * If TS is 0 then s0 to s15 and FPSCR are UNKNOWN; we choose to
-+         * If TS is 0 then s0 to s15, FPSCR and VPR are UNKNOWN; we choose to
-          * leave them unchanged, matching our choice in v7m_preserve_fp_state.
-          */
-         if (ts) {
-@@ -1102,6 +1114,9 @@ void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
-                 *aa32_vfp_dreg(env, i / 2) = 0;
-             }
-             vfp_set_fpscr(env, 0);
-+            if (cpu_isar_feature(aa32_mve, cpu)) {
-+                env->v7m.vpr = 0;
-+            }
-         }
-     } else {
-         v7m_update_fpccr(env, fptr, false);
-@@ -1112,6 +1127,7 @@ void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
- 
- void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
- {
-+    ARMCPU *cpu = env_archcpu(env);
-     uintptr_t ra = GETPC();
- 
-     /* fptr is the value of Rn, the frame pointer we load the FP regs from */
-@@ -1144,7 +1160,7 @@ void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
-             uint32_t faddr = fptr + 4 * i;
- 
-             if (i >= 16) {
--                faddr += 8; /* skip the slot for the FPSCR */
-+                faddr += 8; /* skip the slot for the FPSCR and VPR */
-             }
- 
-             slo = cpu_ldl_data_ra(env, faddr, ra);
-@@ -1155,6 +1171,9 @@ void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
-         }
-         fpscr = cpu_ldl_data_ra(env, fptr + 0x40, ra);
-         vfp_set_fpscr(env, fpscr);
-+        if (cpu_isar_feature(aa32_mve, cpu)) {
-+            env->v7m.vpr = cpu_ldl_data_ra(env, fptr + 0x44, ra);
-+        }
-     }
- 
-     env->v7m.control[M_REG_S] |= R_V7M_CONTROL_FPCA_MASK;
-@@ -1298,7 +1317,7 @@ static bool v7m_push_stack(ARMCPU *cpu)
-                     uint32_t shi = extract64(dn, 32, 32);
- 
-                     if (i >= 16) {
--                        faddr += 8; /* skip the slot for the FPSCR */
-+                        faddr += 8; /* skip the slot for the FPSCR and VPR */
-                     }
-                     stacked_ok = stacked_ok &&
-                         v7m_stack_write(cpu, faddr, slo,
-@@ -1309,11 +1328,19 @@ static bool v7m_push_stack(ARMCPU *cpu)
-                 stacked_ok = stacked_ok &&
-                     v7m_stack_write(cpu, frameptr + 0x60,
-                                     vfp_get_fpscr(env), mmu_idx, STACK_NORMAL);
-+                if (cpu_isar_feature(aa32_mve, cpu)) {
-+                    stacked_ok = stacked_ok &&
-+                        v7m_stack_write(cpu, frameptr + 0x64,
-+                                        env->v7m.vpr, mmu_idx, STACK_NORMAL);
-+                }
-                 if (cpacr_pass) {
-                     for (i = 0; i < ((framesize == 0xa8) ? 32 : 16); i += 2) {
-                         *aa32_vfp_dreg(env, i / 2) = 0;
-                     }
-                     vfp_set_fpscr(env, 0);
-+                    if (cpu_isar_feature(aa32_mve, cpu)) {
-+                        env->v7m.vpr = 0;
-+                    }
-                 }
-             } else {
-                 /* Lazy stacking enabled, save necessary info to stack later */
-@@ -1536,13 +1563,16 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-                     v7m_exception_taken(cpu, excret, true, false);
-                 }
-             }
--            /* Clear s0..s15 and FPSCR; TODO also VPR when MVE is implemented */
-+            /* Clear s0..s15, FPSCR and VPR */
-             int i;
- 
-             for (i = 0; i < 16; i += 2) {
-                 *aa32_vfp_dreg(env, i / 2) = 0;
-             }
-             vfp_set_fpscr(env, 0);
-+            if (cpu_isar_feature(aa32_mve, cpu)) {
-+                env->v7m.vpr = 0;
-+            }
-         }
-     }
- 
-@@ -1771,7 +1801,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-                     uint32_t faddr = frameptr + 0x20 + 4 * i;
- 
-                     if (i >= 16) {
--                        faddr += 8; /* Skip the slot for the FPSCR */
-+                        faddr += 8; /* Skip the slot for the FPSCR and VPR */
-                     }
- 
-                     pop_ok = pop_ok &&
-@@ -1790,6 +1820,11 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-                 if (pop_ok) {
-                     vfp_set_fpscr(env, fpscr);
-                 }
-+                if (cpu_isar_feature(aa32_mve, cpu)) {
-+                    pop_ok = pop_ok &&
-+                        v7m_stack_read(cpu, &env->v7m.vpr,
-+                                       frameptr + 0x64, mmu_idx);
-+                }
-                 if (!pop_ok) {
-                     /*
-                      * These regs are 0 if security extension present;
-@@ -1799,6 +1834,9 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-                         *aa32_vfp_dreg(env, i / 2) = 0;
-                     }
-                     vfp_set_fpscr(env, 0);
-+                    if (cpu_isar_feature(aa32_mve, cpu)) {
-+                        env->v7m.vpr = 0;
-+                    }
-                 }
-             }
-         }
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 12c28b0d32c..2821b325e33 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -21,6 +21,15 @@ typedef struct DisasContext {
+     /* Thumb-2 conditional execution bits.  */
+     int condexec_mask;
+     int condexec_cond;
++    /* M-profile ECI/ICI exception-continuable instruction state */
++    int eci;
++    /*
++     * trans_ functions for insns which are continuable should set this true
++     * after decode (ie after any UNDEF checks)
++     */
++    bool eci_handled;
++    /* TCG op to rewind to if this turns out to be an invalid ECI state */
++    TCGOp *insn_eci_rewind;
+     int thumb;
+     int sctlr_b;
+     MemOp be_data;
 diff --git a/target/arm/translate-m-nocp.c b/target/arm/translate-m-nocp.c
-index d47eb8e1535..365810e582d 100644
+index 365810e582d..09b3be4ed31 100644
 --- a/target/arm/translate-m-nocp.c
 +++ b/target/arm/translate-m-nocp.c
-@@ -173,7 +173,10 @@ static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
-         btmreg++;
+@@ -75,8 +75,12 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+         unallocated_encoding(s);
+         return true;
      }
-     assert(btmreg == topreg + 1);
--    /* TODO: when MVE is implemented, zero VPR here */
-+    if (dc_isar_feature(aa32_mve, s)) {
-+        TCGv_i32 z32 = tcg_const_i32(0);
-+        store_cpu_field(z32, v7m.vpr);
-+    }
++
++    s->eci_handled = true;
++
+     /* If no fpu, NOP. */
+     if (!dc_isar_feature(aa32_vfp, s)) {
++        clear_eci_state(s);
+         return true;
+     }
+ 
+@@ -88,6 +92,8 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+     }
+     tcg_temp_free_i32(fptr);
+ 
++    clear_eci_state(s);
++
+     /* End the TB, because we have updated FP control bits */
+     s->base.is_jmp = DISAS_UPDATE_EXIT;
+     return true;
+@@ -110,8 +116,11 @@ static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
+         return true;
+     }
+ 
++    s->eci_handled = true;
++
+     if (!dc_isar_feature(aa32_vfp_simd, s)) {
+         /* NOP if we have neither FP nor MVE */
++        clear_eci_state(s);
+         return true;
+     }
+ 
+@@ -177,6 +186,8 @@ static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
+         TCGv_i32 z32 = tcg_const_i32(0);
+         store_cpu_field(z32, v7m.vpr);
+     }
++
++    clear_eci_state(s);
      return true;
  }
  
 diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 728856dfd45..49f44347ad9 100644
+index 49f44347ad9..2e12c694edc 100644
 --- a/target/arm/translate-vfp.c
 +++ b/target/arm/translate-vfp.c
-@@ -180,8 +180,8 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
+@@ -1562,6 +1562,8 @@ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
+         return false;
+     }
  
-         if (s->v7m_new_fp_ctxt_needed) {
-             /*
--             * Create new FP context by updating CONTROL.FPCA, CONTROL.SFPA
--             * and the FPSCR.
-+             * Create new FP context by updating CONTROL.FPCA, CONTROL.SFPA,
-+             * the FPSCR, and VPR.
-              */
-             TCGv_i32 control, fpscr;
-             uint32_t bits = R_V7M_CONTROL_FPCA_MASK;
-@@ -189,6 +189,11 @@ static bool full_vfp_access_check(DisasContext *s, bool ignore_vfp_enabled)
-             fpscr = load_cpu_field(v7m.fpdscr[s->v8m_secure]);
-             gen_helper_vfp_set_fpscr(cpu_env, fpscr);
-             tcg_temp_free_i32(fpscr);
-+            if (dc_isar_feature(aa32_mve, s)) {
-+                TCGv_i32 z32 = tcg_const_i32(0);
-+                store_cpu_field(z32, v7m.vpr);
-+            }
++    s->eci_handled = true;
 +
-             /*
-              * We don't need to arrange to end the TB, because the only
-              * parts of FPSCR which we cache in the TB flags are the VECLEN
+     if (!vfp_access_check(s)) {
+         return true;
+     }
+@@ -1611,6 +1613,7 @@ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
+         tcg_temp_free_i32(addr);
+     }
+ 
++    clear_eci_state(s);
+     return true;
+ }
+ 
+@@ -1645,6 +1648,8 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
+         return false;
+     }
+ 
++    s->eci_handled = true;
++
+     if (!vfp_access_check(s)) {
+         return true;
+     }
+@@ -1701,6 +1706,7 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
+         tcg_temp_free_i32(addr);
+     }
+ 
++    clear_eci_state(s);
+     return true;
+ }
+ 
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 8e0e55c1e0f..f1c2074fa4a 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -309,6 +309,19 @@ static inline bool is_singlestepping(DisasContext *s)
+     return s->base.singlestep_enabled || s->ss_active;
+ }
+ 
++void clear_eci_state(DisasContext *s)
++{
++    /*
++     * Clear any ECI/ICI state: used when a load multiple/store
++     * multiple insn executes.
++     */
++    if (s->eci) {
++        TCGv_i32 tmp = tcg_const_i32(0);
++        store_cpu_field(tmp, condexec_bits);
++        s->eci = 0;
++    }
++}
++
+ static void gen_smul_dual(TCGv_i32 a, TCGv_i32 b)
+ {
+     TCGv_i32 tmp1 = tcg_temp_new_i32();
+@@ -6203,6 +6216,8 @@ static bool trans_BKPT(DisasContext *s, arg_BKPT *a)
+     if (!ENABLE_ARCH_5) {
+         return false;
+     }
++    /* BKPT is OK with ECI set and leaves it untouched */
++    s->eci_handled = true;
+     if (arm_dc_feature(s, ARM_FEATURE_M) &&
+         semihosting_enabled() &&
+ #ifndef CONFIG_USER_ONLY
+@@ -7767,6 +7782,8 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a, int min_n)
+         return true;
+     }
+ 
++    s->eci_handled = true;
++
+     addr = op_addr_block_pre(s, a, n);
+     mem_idx = get_mem_index(s);
+ 
+@@ -7793,6 +7810,7 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a, int min_n)
+     }
+ 
+     op_addr_block_post(s, a, addr, n);
++    clear_eci_state(s);
+     return true;
+ }
+ 
+@@ -7847,6 +7865,8 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
+         return true;
+     }
+ 
++    s->eci_handled = true;
++
+     addr = op_addr_block_pre(s, a, n);
+     mem_idx = get_mem_index(s);
+     loaded_base = false;
+@@ -7897,6 +7917,7 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
+         /* Must exit loop to check un-masked IRQs */
+         s->base.is_jmp = DISAS_EXIT;
+     }
++    clear_eci_state(s);
+     return true;
+ }
+ 
+@@ -7952,6 +7973,8 @@ static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
+         return false;
+     }
+ 
++    s->eci_handled = true;
++
+     zero = tcg_const_i32(0);
+     for (i = 0; i < 15; i++) {
+         if (extract32(a->list, i, 1)) {
+@@ -7969,6 +7992,7 @@ static bool trans_CLRM(DisasContext *s, arg_CLRM *a)
+         tcg_temp_free_i32(maskreg);
+     }
+     tcg_temp_free_i32(zero);
++    clear_eci_state(s);
+     return true;
+ }
+ 
+@@ -8150,6 +8174,9 @@ static bool trans_LE(DisasContext *s, arg_LE *a)
+         return false;
+     }
+ 
++    /* LE/LETP is OK with ECI set and leaves it untouched */
++    s->eci_handled = true;
++
+     if (!a->f) {
+         /* Not loop-forever. If LR <= 1 this is the last loop: do nothing. */
+         arm_gen_condlabel(s);
+@@ -8775,8 +8802,28 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->thumb = EX_TBFLAG_AM32(tb_flags, THUMB);
+     dc->be_data = EX_TBFLAG_ANY(tb_flags, BE_DATA) ? MO_BE : MO_LE;
+     condexec = EX_TBFLAG_AM32(tb_flags, CONDEXEC);
+-    dc->condexec_mask = (condexec & 0xf) << 1;
+-    dc->condexec_cond = condexec >> 4;
++    /*
++     * the CONDEXEC TB flags are CPSR bits [15:10][26:25]. On A-profile this
++     * is always the IT bits. On M-profile, some of the reserved encodings
++     * of IT are used instead to indicate either ICI or ECI, which
++     * indicate partial progress of a restartable insn that was interrupted
++     * partway through by an exception:
++     *  * if CONDEXEC[3:0] != 0b0000 : CONDEXEC is IT bits
++     *  * if CONDEXEC[3:0] == 0b0000 : CONDEXEC is ICI or ECI bits
++     * In all cases CONDEXEC == 0 means "not in IT block or restartable
++     * insn, behave normally".
++     */
++    dc->eci = dc->condexec_mask = dc->condexec_cond = 0;
++    dc->eci_handled = false;
++    dc->insn_eci_rewind = NULL;
++    if (condexec & 0xf) {
++        dc->condexec_mask = (condexec & 0xf) << 1;
++        dc->condexec_cond = condexec >> 4;
++    } else {
++        if (arm_feature(env, ARM_FEATURE_M)) {
++            dc->eci = condexec >> 4;
++        }
++    }
+ 
+     core_mmu_idx = EX_TBFLAG_ANY(tb_flags, MMUIDX);
+     dc->mmu_idx = core_to_arm_mmu_idx(env, core_mmu_idx);
+@@ -8898,10 +8945,19 @@ static void arm_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
+ static void arm_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
++    /*
++     * The ECI/ICI bits share PSR bits with the IT bits, so we
++     * need to reconstitute the bits from the split-out DisasContext
++     * fields here.
++     */
++    uint32_t condexec_bits;
+ 
+-    tcg_gen_insn_start(dc->base.pc_next,
+-                       (dc->condexec_cond << 4) | (dc->condexec_mask >> 1),
+-                       0);
++    if (dc->eci) {
++        condexec_bits = dc->eci << 4;
++    } else {
++        condexec_bits = (dc->condexec_cond << 4) | (dc->condexec_mask >> 1);
++    }
++    tcg_gen_insn_start(dc->base.pc_next, condexec_bits, 0);
+     dc->insn_start = tcg_last_op();
+ }
+ 
+@@ -9067,6 +9123,40 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
+     dc->insn = insn;
+ 
++    if (dc->eci) {
++        /*
++         * For M-profile continuable instructions, ECI/ICI handling
++         * falls into these cases:
++         *  - interrupt-continuable instructions
++         *     These are the various load/store multiple insns (both
++         *     integer and fp). The ICI bits indicate the register
++         *     where the load/store can resume. We make the IMPDEF
++         *     choice to always do "instruction restart", ie ignore
++         *     the ICI value and always execute the ldm/stm from the
++         *     start. So all we need to do is zero PSR.ICI if the
++         *     insn executes.
++         *  - MVE instructions subject to beat-wise execution
++         *     Here the ECI bits indicate which beats have already been
++         *     executed, and we must honour this. Each insn of this
++         *     type will handle it correctly. We will update PSR.ECI
++         *     in the helper function for the insn (some ECI values
++         *     mean that the following insn also has been partially
++         *     executed).
++         *  - Special cases which don't advance ECI
++         *     The insns LE, LETP and BKPT leave the ECI/ICI state
++         *     bits untouched.
++         *  - all other insns (the common case)
++         *     Non-zero ECI/ICI means an INVSTATE UsageFault.
++         *     We place a rewind-marker here. Insns in the previous
++         *     three categories will set a flag in the DisasContext.
++         *     If the flag isn't set after we call disas_thumb_insn()
++         *     or disas_thumb2_insn() then we know we have a "some other
++         *     insn" case. We will rewind to the marker (ie throwing away
++         *     all the generated code) and instead emit "take exception".
++         */
++        dc->insn_eci_rewind = tcg_last_op();
++    }
++
+     if (dc->condexec_mask && !thumb_insn_is_unconditional(dc, insn)) {
+         uint32_t cond = dc->condexec_cond;
+ 
+@@ -9095,6 +9185,17 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+         }
+     }
+ 
++    if (dc->eci && !dc->eci_handled) {
++        /*
++         * Insn wasn't valid for ECI/ICI at all: undo what we
++         * just generated and instead emit an exception
++         */
++        tcg_remove_ops_after(dc->insn_eci_rewind);
++        dc->condjmp = 0;
++        gen_exception_insn(dc, dc->pc_curr, EXCP_INVSTATE, syn_uncategorized(),
++                           default_exception_el(dc));
++    }
++
+     arm_post_translate_insn(dc);
+ 
+     /* Thumb is a variable-length ISA.  Stop translation when the next insn
 -- 
 2.20.1
 
