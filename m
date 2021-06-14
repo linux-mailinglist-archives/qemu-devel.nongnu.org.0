@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1704A3A5DE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 09:49:59 +0200 (CEST)
-Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2327B3A5DF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 09:53:08 +0200 (CEST)
+Received: from localhost ([::1]:56790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshM6-00037D-4W
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 03:49:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
+	id 1lshP9-0004mY-7x
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 03:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lshLF-0002I5-Ig
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 03:49:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37595)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lshOI-00046O-PH
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 03:52:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41864
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lshLC-0007xy-7p
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 03:49:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623656940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=R5YI6Ij89ZF+8SS7B6j8GNAORR/+bVrDALVzwAN17A8=;
- b=DCNZ+w75f5NSk1oIUQaxCTi9GhIIi5rQXokqb0BC/9CJRrQhQZfjbxFWBhYiRXbi5m7sty
- 7SHZTWT6ux0gJ98tVcD32wZh73VsCnPJ7SX14nkpyyR2CjoTTGe7967/P4p0IEnhPFPQ92
- ldv3RZagbb4FHQtkcKKf5TB2YheEkoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-gazppTjvNi-oor15lLACYQ-1; Mon, 14 Jun 2021 03:48:59 -0400
-X-MC-Unique: gazppTjvNi-oor15lLACYQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42757801B15;
- Mon, 14 Jun 2021 07:48:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A941C19D7D;
- Mon, 14 Jun 2021 07:48:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3FC9B113865F; Mon, 14 Jun 2021 09:48:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 02/18] qapi: add ModuleInfo schema
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-3-kraxel@redhat.com>
-Date: Mon, 14 Jun 2021 09:48:23 +0200
-In-Reply-To: <20210610055755.538119-3-kraxel@redhat.com> (Gerd Hoffmann's
- message of "Thu, 10 Jun 2021 07:57:39 +0200")
-Message-ID: <87im2g6g54.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lshOE-000283-U9
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 03:52:14 -0400
+Received: from host86-132-109-72.range86-132.btcentralplus.com
+ ([86.132.109.72] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lshNo-0001ve-65; Mon, 14 Jun 2021 08:51:48 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
+ aurelien@aurel32.net, jiaxun.yang@flygoat.com, jasowang@redhat.com,
+ Finn Thain <fthain@telegraphics.com.au>, Laurent Vivier <laurent@vivier.eu>
+References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
+ <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
+Date: Mon, 14 Jun 2021 08:51:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.132.109.72
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.144,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,136 +67,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- berrange@redhat.com, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gerd Hoffmann <kraxel@redhat.com> writes:
+On 14/06/2021 06:36, Philippe Mathieu-Daudé wrote:
 
-> Add QAPI schema for the module info database.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  qapi/meson.build      |  1 +
->  qapi/modules.json     | 36 ++++++++++++++++++++++++++++++++++++
->  qapi/qapi-schema.json |  1 +
->  3 files changed, 38 insertions(+)
->  create mode 100644 qapi/modules.json
->
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 376f4ceafe74..596aa5d71168 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -36,6 +36,7 @@ qapi_all_modules = [
->    'migration',
->    'misc',
->    'misc-target',
-> +  'modules',
->    'net',
->    'pragma',
->    'qom',
-> diff --git a/qapi/modules.json b/qapi/modules.json
-> new file mode 100644
-> index 000000000000..5420977d8765
-> --- /dev/null
-> +++ b/qapi/modules.json
-> @@ -0,0 +1,36 @@
-> +# -*- Mode: Python -*-
-> +# vim: filetype=python
-> +
+> Cc'ing Finn & Laurent.
+> 
+> On 6/13/21 6:37 PM, Mark Cave-Ayland wrote:
+>> Here is the next set of patches from my attempts to boot MacOS under QEMU's
+>> Q800 machine related to the Sonic network adapter.
+>>
+>> Patches 1 and 2 sort out checkpatch and convert from DPRINTF macros to
+>> trace-events.
+>>
+>> Patch 3 fixes the PROM checksum and MAC address storage format as found by
+>> stepping through the MacOS toolbox.
+>>
+>> Patch 4 ensures that the CPU loads/stores are correctly converted to 16-bit
+>> accesses for the network card and patch 5 fixes a bug when selecting the
+>> index specified for CAM entries.
+>>
+>> NOTE TO MIPS MAINTAINERS:
+>>
+>> - The Sonic network adapter is used as part of the MIPS jazz machine, however
+>>    I don't have a working kernel and system to test it with. Any pointers to
+>>    test images would be appreciated.
+>>
+>> - The changes to the PROM checksum in patch 3 were determined by stepping
+>>    through the MacOS toolbox, and is different from the existing algorithm.
+>>    Has the current PROM checksum algorithm been validated on a MIPS guest or
+>>    was it just a guess? It might be that 2 different algorithms are needed for
+>>    the Q800 vs. Jazz machine.
+>>
+>> - My current guess is the jazzsonic driver is broken since the last set of
+>>    dp8393x changes as the MIPS jazz machine does not set the "big_endian"
+>>    property on the dp8393x device. I'd expect that the following diff would
+>>    be needed, but I can't confirm this without a suitable test image.
+>>
+>> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+>> index 1e1cf8154e..1df67035aa 100644
+>> --- a/hw/mips/jazz.c
+>> +++ b/hw/mips/jazz.c
+>> @@ -280,6 +280,7 @@ static void mips_jazz_init(MachineState *machine,
+>>               dev = qdev_new("dp8393x");
+>>               qdev_set_nic_properties(dev, nd);
+>>               qdev_prop_set_uint8(dev, "it_shift", 2);
+>> +            qdev_prop_set_bit(dev, "big_endian", true);
+>>               object_property_set_link(OBJECT(dev), "dma_mr",
+>>                                        OBJECT(rc4030_dma_mr), &error_abort);
+>>               sysbus = SYS_BUS_DEVICE(dev);
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>
+>> [q800-macos-upstream patchset series: 3]
+>>
+>> Mark Cave-Ayland (5):
+>>    dp8393x: checkpatch fixes
+>>    dp8393x: convert to trace-events
+>>    dp8393x: fix PROM checksum and MAC address storage
+>>    dp8393x: don't force 32-bit register access
+>>    dp8393x: fix CAM descriptor entry index
+>>
+>>   hw/net/dp8393x.c    | 332 ++++++++++++++++++++++++--------------------
+>>   hw/net/trace-events |  17 +++
+>>   2 files changed, 198 insertions(+), 151 deletions(-)
 
-Missing a section heading like
+Just to add that I've done a large amount of testing on the q800 machine with 
+Linux/MacOS so I'm happy that these patches do the right thing there.
 
-   ##
-   # = Loadable modules
-   ##
+The part I'm struggling with is testing against MIPS jazz since I don't have a Linux 
+test image to hand, and there is no documentation in the original commit message as 
+to where the existing PROM checksum algorithm came from.
 
-Without it, the contents gets appended to whatever section precedes it
-in qapi-schema.json, which is almost certainly not what you want.
+Hervé, can you provide some more information on this? It looks like it was introduced 
+in one of your commits:
 
-> +##
-> +# @ModuleInfo:
-> +#
-> +# qemu module metadata
+commit 89ae0ff9b73ee74c9ba707a09a07ad77b9fdccb4
+Author: Hervé Poussineau <hpoussin@reactos.org>
+Date:   Wed Jun 3 22:45:46 2015 +0200
 
-It's spelled QEMU :)
+     net/dp8393x: add PROM to store MAC address
 
-Suggest "Loadable module meta-data".
+     Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+     Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+     Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
+     Signed-off-by: Leon Alrae <leon.alrae@imgtec.com>
 
-> +#
-> +# @name: module name
-> +#
-> +# @objs: list of qom objects implemented by the module.
 
-s/qom objects/QOM types/
+ATB,
 
-> +#
-> +# @deps: list of other modules this module depends on.
-
-Suggest to spell out that these are @name of other loadable modules.
-
-> +#
-> +# @arch: module architecture.
-
-Semantics?
-
-Should this be enum SysEmuTarget?
-
-> +#
-> +# @opts: qemu opts implemented by module.
-
-Is this the name of a QemuOptsList?
-
-Since this isn't a list, a module can only ever provide one
-QemuOptsList.  Sure that's okay?
-
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'ModuleInfo',
-> +  'data': { 'name'  : 'str',
-> +            '*objs' : ['str'],
-> +            '*deps' : ['str'],
-> +            '*arch' : 'str',
-> +            '*opts' : 'str'}}
-> +
-> +##
-> +# @Modules:
-> +#
-> +# qemu module list
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'Modules',
-> +  'data': { 'list' : ['ModuleInfo']}}
-
-This defines only types, no QMP commands or events.  Why do you need the
-types to be QAPI types?
-
-> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> index 4912b9744e69..5baa511c2ff5 100644
-> --- a/qapi/qapi-schema.json
-> +++ b/qapi/qapi-schema.json
-> @@ -93,3 +93,4 @@
->  { 'include': 'audio.json' }
->  { 'include': 'acpi.json' }
->  { 'include': 'pci.json' }
-> +{ 'include': 'modules.json' }
-
-Is this the place you want the section to be?  Remember, generated
-documentation follows source order.
-
+Mark.
 
