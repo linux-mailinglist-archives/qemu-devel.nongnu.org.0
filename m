@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B963A5E40
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:18:43 +0200 (CEST)
-Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F61E3A5E3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:18:25 +0200 (CEST)
+Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshnu-0004fa-7o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:18:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41390)
+	id 1lshnb-0003c9-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lshks-0007pN-DB
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:15:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53458)
+ id 1lshlr-000186-KD
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:16:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lshko-0003Cb-RZ
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:15:34 -0400
+ id 1lshlo-0003w5-1o
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:16:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623658529;
+ s=mimecast20190719; t=1623658591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OuPg5FG4sN+TnX8szTUkLzVV1sMvKaisS6C4WrzTb8w=;
- b=DWwnPDi4W9FsYO8CI9sCoxGewHih49EgkCMWGIicgT4Rw0sQxvWIJ1xwncWcxAkXO5r4Tk
- q7ywVqg3QJNMFvSbKhLmhQH2x4lE1qHk7R/soZm1Zskis9TUcDS3GCxsEx3aZaEjBffXaM
- GDNwAzFbIMDjlSNd5JoJ1i2Tr2VTVG4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-bIXRjfnlPjOTTAeF-upMkg-1; Mon, 14 Jun 2021 04:15:25 -0400
-X-MC-Unique: bIXRjfnlPjOTTAeF-upMkg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- k1-20020a17090666c1b029041c273a883dso2742362ejp.3
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:15:25 -0700 (PDT)
+ bh=75ZKNqk1/5XLdvIzoISE0ROi9ms6gz5s5XrLWRxlJEA=;
+ b=JRfolYAYfsET2QCjC8gje5KH1GshXnPFviCE3INdPstQX9rUxtDv+4N6yh2oRe+zTREhFy
+ U7lDZhH3UXfblxi0EKeEqs7k1N0Ywl9Mzk8qcJ5a5+m1V5qDDAGN2i9srtJSyxgeb7eBMQ
+ MkfBa8I6Jqg5fwrrRpC5QzXR9UtBpq8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-UlZ-Q9efPEakIAC_TYEz7w-1; Mon, 14 Jun 2021 04:16:30 -0400
+X-MC-Unique: UlZ-Q9efPEakIAC_TYEz7w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ t11-20020a056402524bb029038ffacf1cafso10454861edd.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:16:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OuPg5FG4sN+TnX8szTUkLzVV1sMvKaisS6C4WrzTb8w=;
- b=Whq29WuHgCdMDVpyQcTI71eXhuM1Kbe9G1UyB2Zfq2NBoVVhAm0qfAl+3GMO/ZMnbi
- F+66vgzp7HZD6giQvIgw0W16DZdpeXyW5QWjIPNv5ywXZbH38joY9sdCvsg/LeJH4U7v
- nKEtOdDbUVkcWPUkSTB9QGBOIFeZmrdxmcL+/FE54365Bi+EUhODqGXYDRNYLmEJby5A
- K3oclaQJ1C/Y3EOJoWDtwJ3no5ptAfmFfrXkISkCa44I12eSj9U64HeRl74T4GsGZJeC
- nm9wDRzba2FSINwUdnhsWnPZaxUbfMcnG1+bnsnGTuZmKSx+uKvIsU/rO+nXOPM1PJqj
- ac5w==
-X-Gm-Message-State: AOAM531yocFU1L1jn3GyL7TcGUJXLxafMDZNTeBzV6TJyCXuM25NWEdN
- Mz+Ae1jBvMADQ7NB5vw9ZSIR4IfZt5OhsHW8rT/hLi0fAevFExwgSAvpp/dSr4q1N9o9AoHuY5o
- eRvGNCoYgemQ6VPU=
-X-Received: by 2002:a17:906:35cd:: with SMTP id
- p13mr14439436ejb.24.1623658524579; 
- Mon, 14 Jun 2021 01:15:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw3fWfL5uu1yW8eko9L9AGGDUkWpaeAEuwLL1uyu4lkn1bsScG4NhIdD5Xf/2O6+vWpNS8zwQ==
-X-Received: by 2002:a17:906:35cd:: with SMTP id
- p13mr14439423ejb.24.1623658524370; 
- Mon, 14 Jun 2021 01:15:24 -0700 (PDT)
+ bh=75ZKNqk1/5XLdvIzoISE0ROi9ms6gz5s5XrLWRxlJEA=;
+ b=aI8firiCvb6dUAhNiimTl1+aFZaUnJBa0HfTFJzUCrRbgj/qgQailRygZZxzHyVrW6
+ 7KYPk8tmhPeKCvIN7YWLyFlWpUlmqOuvMW50oKOQIOA2dh8iuVWp5/CZ0TRKKAfxdtZR
+ P4r6g4c0SCnCNNQOlYboljMvrshWVcXV3iqZ4Vinxrnu2zxDaT2KzM4yKedJi6znG0fC
+ vOylLSLGQPGZ/lGefyz3HiQgK8IPOR+qK165LN7US6y5fVF9XarveHoqn3tNmmv8yFPJ
+ fjLqoL67I1hlZ0w76W1sw5p77nJbOl4uLpttUjotO7ATApc+Z9DaOWyVeoRJ1suzvJ3c
+ An0g==
+X-Gm-Message-State: AOAM530ktnard1om7AEKXEb1gQ16laa5JFFv0KhjXDYZuvXOOEKnKTLF
+ 7n5D9MXdI+e38qvtKhVA/NhbpeDhOVWq1S6Xu83lvFqscdlat5ZEdecl8yiV3oiEjw8m+EPV4a3
+ ZgK/6PzohqvFGQladwxW6EAJIFVvOssy/bKD5sEeK0+MKdMeoBDzbNELbEYasdZugRMI=
+X-Received: by 2002:a05:6402:1d0c:: with SMTP id
+ dg12mr15615588edb.155.1623658588823; 
+ Mon, 14 Jun 2021 01:16:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw6m2OHykkXTlkjt4hQWnhwWxwZEZSHLP6jcwvn3AEQOoJ+IXKOfMmAmkrxDY9hif42MaPVfg==
+X-Received: by 2002:a05:6402:1d0c:: with SMTP id
+ dg12mr15615570edb.155.1623658588563; 
+ Mon, 14 Jun 2021 01:16:28 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id cd4sm6668630ejb.104.2021.06.14.01.15.23
+ by smtp.gmail.com with ESMTPSA id fn3sm6578085ejc.96.2021.06.14.01.16.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 01:15:23 -0700 (PDT)
-Subject: Re: [PATCH] esp: fix migration version check in esp_is_version_5()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- laurent@vivier.eu, hpoussin@reactos.org
-References: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
+ Mon, 14 Jun 2021 01:16:28 -0700 (PDT)
+Subject: Re: [PATCH] esp: store lun coming from the MESSAGE OUT phase
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210611115756.662367-1-pbonzini@redhat.com>
+ <f78018a5-8845-1fd8-f580-57bafc534e6c@ilande.co.uk>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7c83e6b3-4230-b700-15fc-5462c84df3f9@redhat.com>
-Date: Mon, 14 Jun 2021 10:15:22 +0200
+Message-ID: <70ab4483-b0f6-6b12-203e-8b2a940ecd88@redhat.com>
+Date: Mon, 14 Jun 2021 10:16:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <f78018a5-8845-1fd8-f580-57bafc534e6c@ilande.co.uk>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,42 +106,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/06/21 12:26, Mark Cave-Ayland wrote:
-> Commit 4e78f3bf35 "esp: defer command completion interrupt on incoming data
-> transfers" added a version check for use with VMSTATE_*_TEST macros to allow
-> migration from older QEMU versions. Unfortunately the version check fails to
-> work in its current form since if the VMStateDescription version_id is
-> incremented, the test returns false and so the fields are not included in the
-> outgoing migration stream.
+On 13/06/21 12:40, Mark Cave-Ayland wrote:
 > 
-> Change the version check to use >= rather == to ensure that migration works
-> correctly when the ESPState VMStateDescription has version_id > 5.
+> Unfortunately the VMSTATE_*_V() macros don't work in ESPState because 
+> ESPState is currently embedded in both sysbusespscsi and pciespscsi 
+> using VMSTATE_STRUCT() where the version of the vmstate_esp 
+> VMStateDescription does not match those in the vmstate_sysbus_esp_scsi 
+> or vmstate_esp_pci_scsi VMStateDescriptions. This is currently handled 
+> by adding an explicit mig_version_id field containing the 
+> vmstate_esp.version_id field and testing accordingly.
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on incoming data transfers")
-> ---
->   hw/scsi/esp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index bfdb94292b..39756ddd99 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -1120,7 +1120,7 @@ static bool esp_is_version_5(void *opaque, int version_id)
->       ESPState *s = ESP(opaque);
->   
->       version_id = MIN(version_id, s->mig_version_id);
-> -    return version_id == 5;
-> +    return version_id >= 5;
->   }
->   
->   int esp_pre_save(void *opaque)
-> 
+> The fix is to use the same logic as esp_is_version_5() when adding the 
+> new field to vmstate_esp. I've tested the changes below squashed into 
+> your patch, along with the just posted fix for esp_is_version_5(), and 
+> confirmed that I can reload old qemu-system-sparc images from 5.2 and 
+> 6.0 as well as git master.
 
-You can use the _V version of the macros and get rid of this function 
-altogether.  VMSTATE_FIFO8_TEST is not used outside esp.c so it can also 
-be replaced with VMSTATE_FIFO8_V, just initializing .version_id in place 
-of .field_exists.
+Ah, ok.  So I'll squash this fix, thanks!
 
 Paolo
 
