@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963763A6632
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 14:01:45 +0200 (CEST)
-Received: from localhost ([::1]:45560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2BF3A6644
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 14:07:40 +0200 (CEST)
+Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lslHk-0005DJ-M6
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 08:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34720)
+	id 1lslNS-00028W-OW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 08:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lslFO-0004UG-Ux
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:59:18 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42210
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lslFN-0005nB-4f
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:59:18 -0400
-Received: from host86-132-109-72.range86-132.btcentralplus.com
- ([86.132.109.72] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lslF5-0003Zj-1y; Mon, 14 Jun 2021 12:59:03 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- pbonzini@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu,
- hpoussin@reactos.org
-References: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
- <75bf9945-9953-ba75-048a-a1570c6746ac@amsat.org>
- <0940b4dd-563e-6c9b-fd66-91f5bc664ef3@ilande.co.uk>
- <347be692-0e6a-f684-ddbb-b2b2acd7ae04@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <958e9fea-17c5-a818-14d4-a21c54399395@ilande.co.uk>
-Date: Mon, 14 Jun 2021 12:59:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lslLy-0000pw-Rz
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 08:06:06 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lslLw-00015a-QS
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 08:06:06 -0400
+Received: by mail-wm1-x334.google.com with SMTP id m3so6758216wms.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 05:06:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=v+Z/6EEf+sKbpbl7uc55GMyIw8XdRladoUy8Xc/tjuQ=;
+ b=OOPk4XuDFGPkNb+yjunbA0uxmUSakT/g8hU3kCjMIm2AUQHawywTWqpUV35f+63rCS
+ eFrAIe111c2uBKH9cPWIOa9gsxCJ6BedlteVoohhMZK2NHKxMkXn6o7mvn2EKTEj+hgC
+ zKGvhW9FV30Kti5xAzOdamjXOM4N3yor6KYsQdnoqiHGxfVNhVpd6wjnDRdloJzKeJuG
+ XxqtDCWY45uSHeFnGd+dcIXtvCXP4yiaONw+yhx1PcFKiSCoChTp83WvW0Sfi/OyFHz2
+ Y/MlL0PolF6X0B4yh+PttEGj6QONr6mXu5CPAFhCdvu2CnNaw6a2Hu1a83KxdzCrDQKS
+ u7Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=v+Z/6EEf+sKbpbl7uc55GMyIw8XdRladoUy8Xc/tjuQ=;
+ b=V9fDa5KD48ZWXAve+PtM6QTgV5KKZf2YzkZNFNDU9Gq0bKtqOmnlu2uzwdNPnCJ/ko
+ wWUe46pW0aE0zkWpfOmAvM5jnPle3EtHXvK9Y0tjcpc2lcyXAniBMKp1gaRqCOvQhZg/
+ HGlStBiTZOxrSzSHcIc0AkxyFAgEICn0TWy90Stn2OPD2IsOmOCNOwEhLCJkpGEvCnaH
+ uOFo02KMJeiIbbExUx0HriCzWH2KhrHR5VkziH1YPJHWesZK9pwqakpOvrVQ2Tin2ghF
+ QvPMcPY5LNmzvKZs7nw3PHm3xG4XTP3wyN5D9JDSOBUOgQ7hvdWsEZa3axIXkPQRGYAc
+ 7KTA==
+X-Gm-Message-State: AOAM533JcXvogJ7DLb2CehIky42OWk2VFdJRRXY3N/8CzFeARXUd72jo
+ 2H2DVfZ5sQ1owN3VTj72YsoNVQ==
+X-Google-Smtp-Source: ABdhPJyWh7I1gSaAgus/e+xWQjnfFuT7DFsa8MD+7LI51rvVqgbLt8k2Er/XikAm9F/nCU8/YR/4Pw==
+X-Received: by 2002:a1c:2202:: with SMTP id i2mr31851045wmi.72.1623672363059; 
+ Mon, 14 Jun 2021 05:06:03 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q20sm20213096wrf.45.2021.06.14.05.06.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 05:06:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2A04F1FF7E;
+ Mon, 14 Jun 2021 13:06:00 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] linux-user: Set CF_PARALLEL when mapping shared memory
+References: <20210612060828.695332-1-richard.henderson@linaro.org>
+Date: Mon, 14 Jun 2021 13:06:00 +0100
+In-Reply-To: <20210612060828.695332-1-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Fri, 11 Jun 2021 23:08:28 -0700")
+Message-ID: <87czsok5w7.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <347be692-0e6a-f684-ddbb-b2b2acd7ae04@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.109.72
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] esp: fix migration version check in esp_is_version_5()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.489,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,71 +87,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/06/2021 10:01, Philippe Mathieu-Daudé wrote:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On 6/14/21 9:44 AM, Mark Cave-Ayland wrote:
->> On 14/06/2021 06:42, Philippe Mathieu-Daudé wrote:
->>
->>> On 6/13/21 12:26 PM, Mark Cave-Ayland wrote:
->>>> Commit 4e78f3bf35 "esp: defer command completion interrupt on
->>>> incoming data
->>>> transfers" added a version check for use with VMSTATE_*_TEST macros
->>>> to allow
->>>> migration from older QEMU versions. Unfortunately the version check
->>>> fails to
->>>> work in its current form since if the VMStateDescription version_id is
->>>> incremented, the test returns false and so the fields are not
->>>> included in the
->>>> outgoing migration stream.
->>>>
->>>> Change the version check to use >= rather == to ensure that migration
->>>> works
->>>> correctly when the ESPState VMStateDescription has version_id > 5.
->>>>
->>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on
->>>> incoming data transfers")
->>>> ---
->>> Well, it is not buggy yet :)
->>
->> :)
->>
->>>>    hw/scsi/esp.c | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->>>> index bfdb94292b..39756ddd99 100644
->>>> --- a/hw/scsi/esp.c
->>>> +++ b/hw/scsi/esp.c
->>>> @@ -1120,7 +1120,7 @@ static bool esp_is_version_5(void *opaque, int
->>>> version_id)
->>>
->>> Can you rename esp_is_at_least_version_5()?
->>
->> Sure, I can rename it if you like but it will of course make the diff
->> noisier. esp_is_at_least_version_5() seems quite a mouthful though, what
->> about esp_min_version_5() instead?
-> 
-> I was looking at esp_is_before_version_5(). Following that logic it
-> should be named esp_is_after_version_4()? Or esp_min_version_5() and
-> rename esp_is_before_version_5() -> esp_max_version_4(). All options
-> seem confuse...
-> 
-> Maybe _V macros suggested by Paolo make all clearer?
+> Signal the translator to use host atomic instructions for
+> guest operations, insofar as it is possible.  This is the
+> best we can do to allow the guest to interact atomically
+> with other processes.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/121
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Unfortunately the _V macros don't work correctly here (see my previous reply to 
-Paolo) which is why these functions exist in the first place.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-If all the proposed options seem equally confusing, is it worth just sticking with 
-what was in the original patch? Otherwise we end up with a whole series renaming 
-functions in a way we're still not happy with, compared with the original patch which 
-is effectively a diff of 1 character.
-
-
-ATB,
-
-Mark.
+--=20
+Alex Benn=C3=A9e
 
