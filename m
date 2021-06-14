@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF31B3A5E6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:32:09 +0200 (CEST)
-Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FAA3A5E6B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:32:25 +0200 (CEST)
+Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsi0t-0004jM-TP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:32:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44090)
+	id 1lsi1A-00056q-F1
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshyX-0002HJ-FM
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42985)
+ id 1lshyY-0002HZ-Hk
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshyU-0005nu-UW
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:40 -0400
+ id 1lshyW-0005pn-TJ
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623659378;
+ s=mimecast20190719; t=1623659380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gKdPfoWe4aFt2af46WN/oDroSsaqSGaKcdne26c7v7k=;
- b=IMXG3P4fA5/4Ak/QR39S6XdvQUKFEIcRsexeJ3aU2UbwogouJRd4DBuQZh+61ymDYZFeYC
- NhpO/NGi7cXy0FInBNzjZtNZVpfARjI0CaW7V4XpYy45+6fRCrwuGiKLblzYkYF24lomWV
- KNobMcsETBHC2yBYv5tL/qabVyTxrI0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sq0zn2MR504VMOSmeUVt0uGq5nK0p95DRBi9lImC/S0=;
+ b=MtlVWOCDWo1Zuto3qHxyRx5YAx+j92QTwKn3YZvzlxGVdq79L1Cnpp3nj40XqykiIzKaC6
+ blGceDnLpIVKrnnkNB3+W5Nb27SRn8OYnllL8CA2DKJYm7wtg5NZmgN15ULRXtfFbTEGpj
+ N9k2Yp1luwz8+roQUFfwW4OCI/M3OuE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-pYC96hoPNka4vOyMSFQsuw-1; Mon, 14 Jun 2021 04:29:36 -0400
-X-MC-Unique: pYC96hoPNka4vOyMSFQsuw-1
+ us-mta-358-AVlyBwNDNICK9xoAN4NGoA-1; Mon, 14 Jun 2021 04:29:38 -0400
+X-MC-Unique: AVlyBwNDNICK9xoAN4NGoA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E39100CF6A;
- Mon, 14 Jun 2021 08:29:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED6A1107ACF6;
+ Mon, 14 Jun 2021 08:29:37 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
  [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74F5A5D9D3;
- Mon, 14 Jun 2021 08:29:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECE6E5D9D3;
+ Mon, 14 Jun 2021 08:29:35 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 0/6] blkdebug: fix racing condition when iterating on
-Date: Mon, 14 Jun 2021 10:29:25 +0200
-Message-Id: <20210614082931.24925-1-eesposit@redhat.com>
+Subject: [PATCH v5 1/6] blkdebug: refactor removal of a suspended request
+Date: Mon, 14 Jun 2021 10:29:26 +0200
+Message-Id: <20210614082931.24925-2-eesposit@redhat.com>
+In-Reply-To: <20210614082931.24925-1-eesposit@redhat.com>
+References: <20210614082931.24925-1-eesposit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -55,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -84,44 +87,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When qemu_coroutine_enter is executed in a loop
-(even QEMU_FOREACH_SAFE), the new routine can modify the list,
-for example removing an element, causing problem when control
-is given back to the caller that continues iterating on the same list. 
+Extract to a separate function.  Do not rely on FOREACH_SAFE, which is
+only "safe" if the *current* node is removed---not if another node is
+removed.  Instead, just walk the entire list from the beginning when
+asked to resume all suspended requests with a given tag.
 
-Patch 1 solves the issue in blkdebug_debug_resume by restarting
-the list walk after every coroutine_enter if list has to be fully iterated.
-Patches 2,3,4 aim to fix blkdebug_debug_event by gathering
-all actions that the rules make in a counter and invoking 
-the respective coroutine_yeld only after processing all requests.
-
-Patch 5-6 are somewhat independent of the others, patch 5 removes the need
-of new_state field, and patch 6 adds a lock to
-protect rules and suspended_reqs; right now everything works because
-it's protected by the AioContext lock.
-This is a preparation for the current proposal of removing the AioContext
-lock and instead using smaller granularity locks to allow multiple
-iothread execution in the same block device.
-
+Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
-v5:
-* Add comment in patch 1 to explain why we don't need _SAFE in for loop
-* Move the state update (s->state = new_state) in patch 5, to maintain
-  the same existing effect in all patches
+ block/blkdebug.c | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
-Emanuele Giuseppe Esposito (6):
-  blkdebug: refactor removal of a suspended request
-  blkdebug: move post-resume handling to resume_req_by_tag
-  blkdebug: track all actions
-  blkdebug: do not suspend in the middle of QLIST_FOREACH_SAFE
-  block/blkdebug: remove new_state field and instead use a local
-    variable
-  blkdebug: protect rules and suspended_reqs with a lock
-
- block/blkdebug.c | 136 ++++++++++++++++++++++++++++++++---------------
- 1 file changed, 92 insertions(+), 44 deletions(-)
-
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 2c0b9b0ee8..5ccbfcab42 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -793,7 +793,6 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
+         printf("blkdebug: Resuming request '%s'\n", r.tag);
+     }
+ 
+-    QLIST_REMOVE(&r, next);
+     g_free(r.tag);
+ }
+ 
+@@ -869,25 +868,40 @@ static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
+     return 0;
+ }
+ 
+-static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
++static int resume_req_by_tag(BDRVBlkdebugState *s, const char *tag, bool all)
+ {
+-    BDRVBlkdebugState *s = bs->opaque;
+-    BlkdebugSuspendedReq *r, *next;
++    BlkdebugSuspendedReq *r;
+ 
+-    QLIST_FOREACH_SAFE(r, &s->suspended_reqs, next, next) {
++retry:
++    /*
++     * No need for _SAFE, since a different coroutine can remove another node
++     * (not the current one) in this list, and when the current one is removed
++     * the iteration starts back from beginning anyways.
++     */
++    QLIST_FOREACH(r, &s->suspended_reqs, next) {
+         if (!strcmp(r->tag, tag)) {
++            QLIST_REMOVE(r, next);
+             qemu_coroutine_enter(r->co);
++            if (all) {
++                goto retry;
++            }
+             return 0;
+         }
+     }
+     return -ENOENT;
+ }
+ 
++static int blkdebug_debug_resume(BlockDriverState *bs, const char *tag)
++{
++    BDRVBlkdebugState *s = bs->opaque;
++
++    return resume_req_by_tag(s, tag, false);
++}
++
+ static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
+                                             const char *tag)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+-    BlkdebugSuspendedReq *r, *r_next;
+     BlkdebugRule *rule, *next;
+     int i, ret = -ENOENT;
+ 
+@@ -900,11 +914,8 @@ static int blkdebug_debug_remove_breakpoint(BlockDriverState *bs,
+             }
+         }
+     }
+-    QLIST_FOREACH_SAFE(r, &s->suspended_reqs, next, r_next) {
+-        if (!strcmp(r->tag, tag)) {
+-            qemu_coroutine_enter(r->co);
+-            ret = 0;
+-        }
++    if (resume_req_by_tag(s, tag, true) == 0) {
++        ret = 0;
+     }
+     return ret;
+ }
 -- 
 2.31.1
 
