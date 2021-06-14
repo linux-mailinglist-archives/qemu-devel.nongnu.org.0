@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779193A71B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 23:59:52 +0200 (CEST)
-Received: from localhost ([::1]:54496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DF13A71B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 00:02:04 +0200 (CEST)
+Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsucZ-0000Xg-J5
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 17:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37170)
+	id 1lsuei-00028e-36
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 18:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsuax-0007Bz-Kx
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 17:58:11 -0400
-Resent-Date: Mon, 14 Jun 2021 17:58:11 -0400
-Resent-Message-Id: <E1lsuax-0007Bz-Kx@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lsuav-0005Jw-1B
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 17:58:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623707870; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=F5LlJkcNs3UWR+GZKGmF+nmVpJR1wSTuB6f1uY1abye1G13644LceHsV/MRYne+kolrPRT9Fm4MA5wYIDP8gUlPEgjSugJuN6jOeQqZdLMKEpUcD47fF11Q4ViuhGZTwy/UbWMs264JZea81srvIIaMcBKgZ+8v4apoHGTk7Au8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623707870;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=qC3Aam15GCMNUiz3LJnDOzjz7mbITQHzP2+u7W127q8=; 
- b=ffAbBHsXZjTz9C4O2qJmNAyTKIfL4M6444QPsSvHuuSajSyzNDIxu6GZ0RRBo36pkveqEdL7vmc03hHmoR/bt1aPwL9sX+yse4sWameEbaz9cbkJxUgTdmh69mZy/DUnPScexpUOXnf49vuFB06ZSp6/5rZIH8n6jnwOBP8HyW0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623707869317909.5417348931061;
- Mon, 14 Jun 2021 14:57:49 -0700 (PDT)
-In-Reply-To: <20210602084106.43186-1-jasowang@redhat.com>
-Subject: Re: [PATCH V2 0/2] vhost-vDPA: vq notification map support
-Message-ID: <162370786783.2358.12506361070319399669@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsubH-0007We-3m
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 17:58:31 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:37458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsubF-0005ZF-8h
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 17:58:30 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id t9so9783894pgn.4
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 14:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=mYa/g4/Mw2qGq+y/k9E8eE5hCU6MshHAslXqZpFtjTc=;
+ b=moUvxyKHbDT/GNswTE3t6JLDRtTL+nMoqrIXJonlT0ssihfbYl1llcz+OCor6NA9oi
+ 8Ofc2EStFpKHGYw2EvuLupctO2G75rHf2lyeHXWWlTum/dDCob1YbRGkAZ3mFron1bXi
+ 2m8ZUhBABlMFzTwkYxju9+9j112MXZXfuybduh4mLGx+sRHUq7COCXtK003bz3SwykOP
+ uc96LuBXBZLBK06mfZfuUaYX0HvZS8OwHyvy73nwRfMgYYR3vtkkmZyK/+LqoQLn1x29
+ 0PiYr6WtMbEbocB/c5A06mjEUvZlO2tHPb4Fhk8Tnxz5BeT0D5TkfIZdCDQBvXZCblVS
+ If8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mYa/g4/Mw2qGq+y/k9E8eE5hCU6MshHAslXqZpFtjTc=;
+ b=G1ykPpJ9+yUJMRarHcXH6CORSV6VUuYROmCS4HrP7GXxMjekjz385otPrA4hUOH7n1
+ wDXwleAMJc8cioN0hqPCU2416t36Ahgbjbj05LV32ll3mD6PqflQ02EzL0agw/mLfmoa
+ GB+/aa58HOU00wD/OADCBDckCcr9RlmdUivooYhZLfL/ie/fudaba/yLf8H+b8Jy3Fcb
+ hhHc9oijx+agYAmrN2eq8XQMHmi3jjhJPL8NSUyptK1rb8xPig+rIAfxmf7y2kKgEGmV
+ jNohGrlnvZvvAAclsLq0goPkiBaQE8uMPYdH/3Y+BvZdt9/NO4QVMUqzpKkEvIiShm+b
+ m3og==
+X-Gm-Message-State: AOAM532FaDdxN/6msw5t0NqVkgLT0v5UnFLatUZX9p7Rvn507UrihzEw
+ 6W52AZTjW8tjRSHuZYTjfNJ9bytX14zdEQ==
+X-Google-Smtp-Source: ABdhPJzfJIGH84NQrEW8SDAWDEO3NkA2ZtiD6Lu5winzlRD0zCqI/WycxjbuqhSy1hDpc+0m+bmfpQ==
+X-Received: by 2002:a05:6a00:bc7:b029:2f5:7bdb:f694 with SMTP id
+ x7-20020a056a000bc7b02902f57bdbf694mr1019844pfu.41.1623707907678; 
+ Mon, 14 Jun 2021 14:58:27 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ pi8sm12887959pjb.52.2021.06.14.14.58.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 14:58:27 -0700 (PDT)
+Subject: Re: [PATCH v2 53/57] target/arm: Implement MVE VADC, VSBC
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210614151007.4545-1-peter.maydell@linaro.org>
+ <20210614151007.4545-54-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a1945e65-c0cb-215f-7ec6-a37ed9f50592@linaro.org>
+Date: Mon, 14 Jun 2021 14:58:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jasowang@redhat.com
-Date: Mon, 14 Jun 2021 14:57:49 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210614151007.4545-54-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,46 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org,
- si-wei.liu@oracle.com, elic@nvidia.com, lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYwMjA4NDEwNi40MzE4
-Ni0xLWphc293YW5nQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDYwMjA4NDEwNi40MzE4
-Ni0xLWphc293YW5nQHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIFYyIDAvMl0gdmhvc3QtdkRQ
-QTogdnEgbm90aWZpY2F0aW9uIG1hcCBzdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
-CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
-bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
-UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
-MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogICBhNDcx
-NmZkLi4xZWEwNmFiICBtYXN0ZXIgICAgIC0+IG1hc3RlcgogLSBbdGFnIHVwZGF0ZV0gICAgICBw
-YXRjaGV3LzIwMjEwNTA1MTAzNzAyLjUyMTQ1Ny0xLWJlcnJhbmdlQHJlZGhhdC5jb20gLT4gcGF0
-Y2hldy8yMDIxMDUwNTEwMzcwMi41MjE0NTctMS1iZXJyYW5nZUByZWRoYXQuY29tCiAtIFt0YWcg
-dXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA1MTAxMTQzMjguMjE4MzUtMS1kYXZpZEByZWRoYXQu
-Y29tIC0+IHBhdGNoZXcvMjAyMTA1MTAxMTQzMjguMjE4MzUtMS1kYXZpZEByZWRoYXQuY29tCiAt
-IFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA1MjYxNzA0MzIuMzQzNTg4LTEtcGhpbG1k
-QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDUyNjE3MDQzMi4zNDM1ODgtMS1waGlsbWRAcmVk
-aGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNjAxMTQxODA1LjIwNjU4
-Mi0xLXBldGVyeEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTA2MDExNDE4MDUuMjA2NTgyLTEt
-cGV0ZXJ4QHJlZGhhdC5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDYwMjA4
-NDEwNi40MzE4Ni0xLWphc293YW5nQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDYwMjA4NDEw
-Ni40MzE4Ni0xLWphc293YW5nQHJlZGhhdC5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hl
-dy8yMDIxMDYwMjE5MTEyNS41MjU3NDItMS1qb3NlbWFydGluczkwQGdtYWlsLmNvbSAtPiBwYXRj
-aGV3LzIwMjEwNjAyMTkxMTI1LjUyNTc0Mi0xLWpvc2VtYXJ0aW5zOTBAZ21haWwuY29tCiAtIFt0
-YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2MDMxNzEyNTkuMjc5NjItMS1wZXRlci5tYXlk
-ZWxsQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDYwMzE3MTI1OS4yNzk2Mi0xLXBldGVyLm1h
-eWRlbGxAbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCgo9PT0gT1VU
-UFVUIEJFR0lOID09PQpjaGVja3BhdGNoLnBsOiBubyByZXZpc2lvbnMgcmV0dXJuZWQgZm9yIHJl
-dmxpc3QgJ2Jhc2UuLicKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
-dGggY29kZTogMjU1CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hl
-dy5vcmcvbG9ncy8yMDIxMDYwMjA4NDEwNi40MzE4Ni0xLWphc293YW5nQHJlZGhhdC5jb20vdGVz
-dGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21h
-dGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlv
-dXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 6/14/21 8:10 AM, Peter Maydell wrote:
+> Implement the MVE VADC and VSBC insns.  These perform an
+> add-with-carry or subtract-with-carry of the 32-bit elements in each
+> lane of the input vectors, where the carry-out of each add is the
+> carry-in of the next.  The initial carry input is either 1 or is from
+> FPSCR.C; the carry out at the end is written back to FPSCR.C.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/helper-mve.h    |  5 ++++
+>   target/arm/mve.decode      |  5 ++++
+>   target/arm/mve_helper.c    | 52 ++++++++++++++++++++++++++++++++++++++
+>   target/arm/translate-mve.c | 37 +++++++++++++++++++++++++++
+>   4 files changed, 99 insertions(+)
+
+Much better.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
