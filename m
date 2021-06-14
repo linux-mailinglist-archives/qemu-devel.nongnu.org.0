@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96803A6B48
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:08:18 +0200 (CEST)
-Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 671783A6B56
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:12:00 +0200 (CEST)
+Received: from localhost ([::1]:59842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsp8L-0001gd-NK
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60746)
+	id 1lspBu-0007jY-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsp6G-0008Lp-DT
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:06:08 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsp6C-0007VL-8n
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:06:08 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id g8so17567174ejx.1
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 09:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UvJ+jp1yIu+Nxb9vm3TJBC9KuS0gXjvRmQ52pvGBb6w=;
- b=G15+5i6J0syCnKRKN4lbCvMBS0beEn2i/tsq8yTBNvNY/WH0S9Dbe0Oa6QANv1IgWT
- CKH1K2hSj8gY0JsoncRX20IWQ6F6qbIN1fLZTqI4cI7s9YcPjMoPcqaFGd4qXLP5T1T5
- bFzQMIPj33n3JykttmMg8ky5UNxe1PVXdnyd46PeaQJlN/hZXSg9T3nBVH/AmSDchiOk
- GXRvxBK05xQ8kUIktaq5FqCTCUW79ujJowf17XywtULGt8/Y4Wmj2AGQm0AQtq6DvU1x
- 4x/9sOIEsohZJIBS+Ovs10yFksrzYKD5QxEQFWST1C989QITjZCXCucSmVwH3Q7R57Hx
- 5oeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UvJ+jp1yIu+Nxb9vm3TJBC9KuS0gXjvRmQ52pvGBb6w=;
- b=WPnaBWrQoxYo9d6KzndUoiL0kP4QWd+x+7VYr7gHW74CsscqVtZzJKzz8OMjPnNs1F
- AY9lYTUzpkca1e36r3m4qeT+JrZPyUrYwAJK7o8u4hWiPLXVog/fu/bJsAwOcYLkKBV8
- e9zH1UOI14RouZIuQYBtodZf/L7a+RRlo2t17oJhhlBbW5U2Rzlvu1Hi9NHYG7NR1Rdr
- dXN8JUb96LbErpbLvbGds/rVgryC/cd3jIgZq5TjhyDeLPEf20pwkXFsDRULthfCl3Dq
- l+ViOGCxqEoyq67W+9TS2ejbyVv5E1W1/HBosQd5rSQKXiaTrmSJ9hj17T4Rx5dXLir8
- uOsA==
-X-Gm-Message-State: AOAM531oS5nD+eE/1IeWTq43Q3kdufGqqHtLiforz8rYljDnyOpTsZ7z
- /YO51Gvfq06jh1/9TY+EdQ4JR4gdPNiEPm2Y7myGdQ==
-X-Google-Smtp-Source: ABdhPJzBAQglxzvBSxIjPvoIkeunQWvy2rTKjTKGrcDDdKaCY+SB/1o33iceoiVIevH49Ce8+Ca1Dr23hYto3Ci4Du0=
-X-Received: by 2002:a17:906:b294:: with SMTP id
- q20mr15683086ejz.382.1623686762733; 
- Mon, 14 Jun 2021 09:06:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lspAV-0006Ba-2H
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:10:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52065)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lspAM-0001vS-W6
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 12:10:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623687021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oJ6p4fgJdA/cdxzhb03njOW3sPUyd96ywVvKnlTzD6I=;
+ b=AP+eROqTT1VLKZGBfCvp+Y5tUSvrUPmcjHOskGr6R216XzRHLQ8nuRqqXx2QDGKRO5+34d
+ Xy6pO0PjXdYYt8cNzSgpoiVxqeo4ubTjRuRWkgjIbZBi5beSIUf4C5th5x8THfxe7oFDE2
+ IbtS9yw3r8ODdzmVQmqWRXv3O2dXNyg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-8xFX0PCBMw-3zJhKqsbZ2A-1; Mon, 14 Jun 2021 12:10:20 -0400
+X-MC-Unique: 8xFX0PCBMw-3zJhKqsbZ2A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2022291272;
+ Mon, 14 Jun 2021 16:10:19 +0000 (UTC)
+Received: from [10.10.113.126] (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94262100238C;
+ Mon, 14 Jun 2021 16:10:17 +0000 (UTC)
+Subject: Re: [gitlab] Renamed issue labels for target architecture
+To: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <0a102843-bb93-93b8-f502-dd0cb2a6c636@linaro.org>
+ <c97f8092-0542-1fa5-1e0d-68f07ab909b9@weilnetz.de>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <20c6a2c9-e1b1-e1f5-45aa-12d9442d29b8@redhat.com>
+Date: Mon, 14 Jun 2021 12:10:17 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
-In-Reply-To: <20210608161028.4159582-1-erdnaxe@crans.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Jun 2021 17:05:28 +0100
-Message-ID: <CAFEAcA_Dx+7Gt-7bzRu7t27xQs-59oo2jnpybroPqN-46ak0Kw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] STM32VLDISCOVERY Machine Model
-To: Alexandre Iooss <erdnaxe@crans.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <c97f8092-0542-1fa5-1e0d-68f07ab909b9@weilnetz.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,38 +86,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:STM32F100" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Jun 2021 at 17:10, Alexandre Iooss <erdnaxe@crans.org> wrote:
->
-> This patch series adds the STM32VLDISCOVERY Machine to QEMU
->
-> Information on the board is available at:
-> https://www.st.com/en/evaluation-tools/stm32vldiscovery.html
->
-> Alexandre Iooss (2):
->   stm32f100: Add the stm32f100 SoC
->   stm32vldiscovery: Add the STM32VLDISCOVERY Machine
->
->  MAINTAINERS                             |  12 ++
->  default-configs/devices/arm-softmmu.mak |   1 +
->  hw/arm/Kconfig                          |  10 ++
->  hw/arm/meson.build                      |   2 +
->  hw/arm/stm32f100_soc.c                  | 182 ++++++++++++++++++++++++
->  hw/arm/stm32vldiscovery.c               |  66 +++++++++
->  include/hw/arm/stm32f100_soc.h          |  58 ++++++++
->  7 files changed, 331 insertions(+)
->  create mode 100644 hw/arm/stm32f100_soc.c
->  create mode 100644 hw/arm/stm32vldiscovery.c
->  create mode 100644 include/hw/arm/stm32f100_soc.h
+On 6/13/21 2:52 AM, Stefan Weil wrote:
+> Am 13.06.21 um 00:32 schrieb Richard Henderson:
+> 
+>> I've renamed arch:* to target:* as there was some amount of confusion 
+>> as to what "arch" really meant without context.  I've removed labels 
+>> for lm32 and unicore32 which have been removed from qemu 6.1.  I've 
+>> added a label for hexagon.
+>>
 
-Looks generally OK to me, but cc'ing Alistair who wrote the
-STM32F405 model in case he wants to have a look at it.
+Thanks for removing those. I remembered we had removed some targets but 
+could not remember which. I was going to get to it during freeze :) 
+Saves me the trouble.
 
-thanks
--- PMM
+>> I have not yet added labels for host architecture, because I couldn't 
+>> figure out how best to word the description, or even if all of the 
+>> target:* labels need re-wording to emphasize target.
+>>
+>> And then there's the special case of TCI.
+>>
+>> Thoughts on these?
+> 
+> 
+> A pragmatic solution for TCI could use the label "accel: TCI" as a 
+> special case and instead of "accel: TCG".
+> 
+
+I might recommend just a simple "TCI" label that can be used as a 
+modifier to "accel: TCG". I thought it was nice to have a 1:1 
+correlation from labels to user-facing CLI arguments for the accel 
+subsystem. (i.e. they correlate to ACCEL_CLASS_NAME.)
+
+TCI feels like a modifier to TCG. So, maybe either "TCI", or "TCG: TCI" 
+so that it shows up in the label search interface when you type 'tcg'.
+
+How do I know when to label an issue as "TCI"? I've been trying to do 
+the initial labeling but sometimes the best I can do is to get it in the 
+rough ballpark and wait for a subject matter expert to refine the labels.
+
+(The difference to me is the difference between which labels that other 
+maintainers may expect to use as an inbox and which they may expect to 
+use for their own record-keeping.)
+
+> We have an ambiguity for "os:" because it is unclear whether it relates 
+> to the host or to the target system. That could be handled by using four 
+> labels "host:", "target:" (architecture), "host-os:", "target-os:" 
+> (operating system). I'd prefer dropping the "os:" label and extending 
+> "target:" (and the new "host:") to allow either architecture, operating 
+> system or a combination of both (for example target: i386, target: 
+> i386-Windows, host: Windows).
+> 
+
+We can probably do that -- it's easy for me to separate host/guest OS. 
+But, we should probably start trying to define a formal process in 
+docs/devel somewhere.
+
+So far, it's just an informal process that Thomas and I somewhat loosely 
+collaborate on. I've sent a few emails to ask about specific points, but 
+we don't have a canonical document that describes them.
+
+I have held off on proposing a document so far because we are still in 
+the process of moving bugs over from launchpad -- my thought was that 
+after Thomas and I had finished doing so, we could open up that discussion.
+
+Maybe it's time to jump ahead and do it now, though.
+
+Some points of feedback I have seen so far:
+
+- We may want more specific labels in many places
+- We may want to define labels for submaintainers directly in the 
+MAINTAINERS file to establish a 1:1 mapping from Maintainer to Label
+- arch: XXX tags (now target: XXX) mix concerns between host arch and 
+guest arch.
+- os: XXX tags mix concerns between host and guest.
+
+I'm fine with creating as many labels as we want, but want to make sure 
+it remains possible to easily triage bugs into at least preliminary 
+queues without overcomplicating the label system.
+
+I'm going to start a new thread to discuss accel, arch, and os labels. 
+Let's sort it out.
+
+> Stefan
+
+Thanks,
+--js
+
 
