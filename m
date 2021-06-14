@@ -2,71 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7273A6E01
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 20:11:12 +0200 (CEST)
-Received: from localhost ([::1]:36696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB8E3A6E0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 20:13:24 +0200 (CEST)
+Received: from localhost ([::1]:39376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsr3F-0004HO-N9
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 14:11:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57446)
+	id 1lsr5P-00066u-Fb
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 14:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lsr1U-0003W2-2x
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 14:09:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47103)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1lsr4F-0005EJ-0v; Mon, 14 Jun 2021 14:12:11 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lsr1Q-0003Kt-Lx
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 14:09:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623694155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=B8xR3OpXGAL/YonxI+ezY8WJ38yMD+MIuKt0I+EkLNU=;
- b=InbRjC/lMqlUT21eyTGSS+jFKFtlmvz6Ys7cX5xesYyKIJdlTw4LZ7cPioi43No7ku0CXc
- BwWMbupcQ9jxA2JSBA/RPsfHidZe/O/6uJaDwKT1L4uhRvTJDV5jozCnS4zs37u6u9lfTK
- s4ASKojw6kCvhqXcP9dUp7iBqvljk68=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-NKnTUWH2MLKTwHtopvgLxQ-1; Mon, 14 Jun 2021 14:09:12 -0400
-X-MC-Unique: NKnTUWH2MLKTwHtopvgLxQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45CCC1932480;
- Mon, 14 Jun 2021 18:09:11 +0000 (UTC)
-Received: from [10.10.113.126] (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 802CD5D720;
- Mon, 14 Jun 2021 18:09:09 +0000 (UTC)
-Subject: Re: [PATCH 00/42] python: move qmp-shell into qemu.qmp package
-To: qemu-devel@nongnu.org
-References: <20210607200649.1840382-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <6eefe3de-7c13-fc8f-9615-0560ef34020b@redhat.com>
-Date: Mon, 14 Jun 2021 14:09:09 -0400
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1lsr4C-0005G9-RF; Mon, 14 Jun 2021 14:12:10 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15EI4Flk058816; Mon, 14 Jun 2021 14:12:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UJAVGt13YiHXbCFKXfob74VcvQuzzhS6/Jd5OkEDxOY=;
+ b=L4JUPBAsrTrRijAvkKkOrXE3HV2n6OIVTUNeNqfdprfLoxNo46pgltaC2/nI4G78UX9S
+ Vwn6VVuSSSp31Pvo24239O2rBWeQeo43Nik8MdYUqxpHpwLgrFOxPHu80NVwHLYgXyxZ
+ 2ZwM6UyfBVSiQke6+OQn7X5v92VYM68nyesfLOWUkOmhyZ3P1yWmwPYLyxX8t4M5Ofof
+ sWIcw22SsrCJ9xgR5G3HUDPa7vjnbTwfMmQY4lYYL+qE6DevHC5v65+yYP867sqM7GwW
+ a0yLa3BjM2JsuY2VKmN3TWef60clQdcoq1Di+wrLVeB1tY7LAn1PTjUz29zKOaKuQXE3 HQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3968u6q09u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Jun 2021 14:12:05 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15EI4Jv1059042;
+ Mon, 14 Jun 2021 14:12:05 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3968u6q099-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Jun 2021 14:12:05 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15EI2M1Z027279;
+ Mon, 14 Jun 2021 18:12:04 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04wdc.us.ibm.com with ESMTP id 394mj99mkm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Jun 2021 18:12:04 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15EIC3W622086126
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Jun 2021 18:12:03 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 26095136051;
+ Mon, 14 Jun 2021 18:12:03 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C195A136055;
+ Mon, 14 Jun 2021 18:12:02 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 14 Jun 2021 18:12:02 +0000 (GMT)
+Subject: Re: [RFC PATCH V1 1/3] acpi: Eliminate all TPM related code if
+ CONFIG_TPM is not set
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ armbru@redhat.com, qemu-devel@nongnu.org, qemu-arm <qemu-arm@nongnu.org>
+References: <20210612012102.1820063-1-stefanb@linux.ibm.com>
+ <20210612012102.1820063-2-stefanb@linux.ibm.com>
+ <d097926e-5f55-e2a0-0cf9-42dfd71815d4@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <06d0af74-a54e-a568-2325-03f3b23b69dd@linux.ibm.com>
+Date: Mon, 14 Jun 2021 14:12:02 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210607200649.1840382-1-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d097926e-5f55-e2a0-0cf9-42dfd71815d4@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: z7Dzakw2dZ-KWQZZn2c_tGDEN-D2Fhee
+X-Proofpoint-GUID: dKfXKzUjacNfQoIE2iOdqL9t7Zi1QMba
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-14_12:2021-06-14,
+ 2021-06-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501
+ suspectscore=0 impostorscore=0 clxscore=1011 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106140110
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,97 +115,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Niteesh G . S ." <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ "M : Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/7/21 4:06 PM, John Snow wrote:
-> Based-on: <20210603003719.1321369-1-jsnow@redhat.com>
-> Based-on: <20210604155532.1499282-1-jsnow@redhat.com>
-> CI: https://gitlab.com/jsnow/qemu/-/pipelines/316425665
-> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-qmp-shell
-> 
-> This series follows:
-> 
-> 1. [PATCH v3 00/19] Python: move /scripts/qmp/qom* to /python/qemu/qmp/qom*​
-> 2. [PATCH 00/11] python: move /scripts/qmp/gemu-ga-client.py to qemu.qmp package
-> 
-> and finishes moving stuff in ./scripts/qmp/ into ./python/qemu/qmp/*.
-> 
-> The benefits of this are:
-> 
-> 1. Improved protection against accidental regression in qmp-using
-> scripts as we refactor QMP to introduce Async QMP and OOB support
-> 2. Availability of common qmp command-line tools as part of the qemu.qmp
-> package
-> 3. No more sys.path hacking for qemu.qmp-using utilities
-> 4. Newly 100% clean linting baseline to use as an aid in reviewing
-> future patches.
-> 
-> This series is largely minor refactors, linting and typing cleanups,
-> followed by the move into the python packaging folder at the very end of
-> the series.
-> 
-> John Snow (42):
->    scripts/qmp-shell: apply isort rules
->    scripts/qmp-shell: Apply flake8 rules
->    scripts/qmp-shell: fix show_banner signature
->    scripts/qmp-shell: fix exception handling
->    scripts/qmp-shell: fix connect method signature
->    scripts/qmp-shell: remove shadowed variable from _print()
->    scripts/qmp-shell: use @classmethod where appropriate
->    scripts/qmp-shell: Use python3-style super()
->    scripts/qmp-shell: declare verbose in __init__
->    scripts/qmp-shell: use triple-double-quote docstring style
->    scripts/qmp-shell: ignore visit_Name name
->    scripts/qmp-shell: make QMPCompleter returns explicit
->    scripts/qmp-shell: rename one and two-letter variables
->    scripts/qmp-shell: fix shell history exception handling
->    scripts/qmp-shell: remove if-raise-else patterns
->    scripts/qmp-shell: use isinstance() instead of type()
->    scripts/qmp-shell: use argparse
->    scripts/qmp-shell: Add pretty attribute to HMP shell
->    scripts/qmp-shell: Make verbose a public attribute
->    scripts/qmp-shell: move get_prompt() to prompt property
->    scripts/qmp-shell: remove prompt argument from read_exec_command
->    scripts/qmp-shell: move the REPL functionality into QMPShell
->    scripts/qmp-shell: Fix "FuzzyJSON" parser
->    scripts/qmp-shell: refactor QMPCompleter
->    scripts/qmp-shell: initialize completer early
->    python/qmp: add QMPObject type alias
->    scripts/qmp-shell: add mypy types
->    scripts/qmp-shell: Accept SocketAddrT instead of string
->    scripts/qmp-shell: unprivatize 'pretty' property
->    python/qmp: return generic type from context manager
->    scripts/qmp-shell: Use context manager instead of atexit
->    scripts/qmp-shell: use logging to show warnings
->    scripts/qmp-shell: remove TODO
->    scripts/qmp-shell: Fix empty-transaction invocation
->    scripts/qmp-shell: Remove too-broad-exception
->    scripts/qmp-shell: convert usage comment to docstring
->    scripts/qmp-shell: remove double-underscores
->    scripts/qmp-shell: make QMPShellError inherit QMPError
->    scripts/qmp-shell: add docstrings
->    scripts/qmp-shell: move to python/qemu/qmp/qmp_shell.py
->    python: add qmp-shell entry point
->    scripts/qmp-shell: add redirection shim
-> 
->   python/qemu/qmp/__init__.py  |   8 +-
->   python/qemu/qmp/qmp_shell.py | 535 +++++++++++++++++++++++++++++++++++
->   python/setup.cfg             |   1 +
->   scripts/qmp/qmp-shell        | 437 +---------------------------
->   4 files changed, 546 insertions(+), 435 deletions(-)
->   create mode 100644 python/qemu/qmp/qmp_shell.py
-> 
 
-Preliminarily staged to my Python branch:
-https://gitlab.com/jsnow/qemu/-/tree/python
+On 6/14/21 5:53 AM, Philippe Mathieu-Daudé wrote:
+> On 6/12/21 3:21 AM, Stefan Berger wrote:
+>> Cc: M: Michael S. Tsirkin <mst@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+>> ---
+>>   hw/acpi/aml-build.c      |  2 ++
+>>   hw/arm/virt-acpi-build.c |  2 ++
+>>   hw/i386/acpi-build.c     | 20 ++++++++++++++++++++
+>>   include/hw/acpi/tpm.h    |  4 ++++
+>>   stubs/tpm.c              |  4 ----
+>>   5 files changed, 28 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index f0035d2b4a..d5103e6d7b 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -2044,6 +2044,7 @@ build_hdr:
+>>                    "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
+>>   }
+>>   
+>> +#ifdef CONFIG_TPM
+>>   /*
+>>    * build_tpm2 - Build the TPM2 table as specified in
+>>    * table 7: TCG Hardware Interface Description Table Format for TPM 2.0
+>> @@ -2101,6 +2102,7 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+>>                    (void *)(table_data->data + tpm2_start),
+>>                    "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
+>>   }
+>> +#endif
+> This makes the ARM virt machine build to fail for missing
+> the build_tpm2() symbol.
+>
+> You probably need to split the patch in 2 and rearrange the
+> series:
+>
+> 1/ hw/i386    (current 1)
+> 2/ hw/arm     (current 2)
+> 3/ hw/acpi    (current 1)
+> 4/ sysemu/tpm (current 3)
 
-CI: https://gitlab.com/jsnow/qemu/-/pipelines/320710762
 
-I intend to send the PR collecting these 72 cleanup patches this Friday.
+I took a bottom-up approach where I also eliminated all callers. So from 
+what I can see build_tpm2() symbol has been eliminated by both i386 and 
+aarch64, but ok, I will change it to a top-down approach.
 
---js
+
 
 
