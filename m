@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCD03A5E70
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:34:30 +0200 (CEST)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9793A5E79
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:37:09 +0200 (CEST)
+Received: from localhost ([::1]:33166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsi3B-0001CN-7a
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44250)
+	id 1lsi5k-00073S-4A
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshyh-0002aS-FL
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53762)
+ id 1lshyi-0002bZ-O8
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshyf-0005xo-S8
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:51 -0400
+ id 1lshyg-0005xt-4h
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:29:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1623659389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zelo7l4Q4l4sjPAGLee4r67wQxcFSjyTneZmhHdBz90=;
- b=fT2BvKjZSu2YJsIGtQHB9C6VrREBGS7/1NVu6mhgqok69RvJ822Af+b9TE6VEF4vMXOjGE
- XmzrvgOvvjGttFw5IcaKxlAN28FqdQqFLRWE7HZTxfedfqbTcaueEsgF0OMl6xLu6ADUtr
- UdupLESI8ERTFLAMnXNDReL2fn7wh+U=
+ bh=q47hSNkHtDYiNQorkj4KJHZn/B/8NQYKHknd/rEliSQ=;
+ b=eILNB3kczJB9sDpZ0Kr2OC8hKOWsZTQoYY1lVFJ1uCIaiZWv1UUrRtPVEH/T37IPZNRH5B
+ af2c9boLr5x/9qNdnTpFXCEllMtv74yx3g1KGar5MeAlj3MCAD/ug7z4JFmn+zarY3jAKv
+ Ge4tk+H68G9RgDQJJJEEE4RNTFoYSJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-h6PEQpaVOiCDriW7ODLn-Q-1; Mon, 14 Jun 2021 04:29:45 -0400
-X-MC-Unique: h6PEQpaVOiCDriW7ODLn-Q-1
+ us-mta-311-es8C5c3fPBe4AJYE54GMGw-1; Mon, 14 Jun 2021 04:29:48 -0400
+X-MC-Unique: es8C5c3fPBe4AJYE54GMGw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F20DA100C609;
- Mon, 14 Jun 2021 08:29:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BF9D100C609;
+ Mon, 14 Jun 2021 08:29:47 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
  [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9FD45D9E2;
- Mon, 14 Jun 2021 08:29:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 646C75D9E2;
+ Mon, 14 Jun 2021 08:29:45 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 4/6] blkdebug: do not suspend in the middle of
- QLIST_FOREACH_SAFE
-Date: Mon, 14 Jun 2021 10:29:29 +0200
-Message-Id: <20210614082931.24925-5-eesposit@redhat.com>
+Subject: [PATCH v5 5/6] block/blkdebug: remove new_state field and instead use
+ a local variable
+Date: Mon, 14 Jun 2021 10:29:30 +0200
+Message-Id: <20210614082931.24925-6-eesposit@redhat.com>
 In-Reply-To: <20210614082931.24925-1-eesposit@redhat.com>
 References: <20210614082931.24925-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,48 +88,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-That would be unsafe in case a rule other than the current one
-is removed while the coroutine has yielded.
-Keep FOREACH_SAFE because suspend_request deletes the current rule.
+There seems to be no benefit in using a field. Replace it with a local
+variable, and move the state update before the yields.
 
-After this patch, *all* matching rules are deleted before suspending
-the coroutine, rather than just one.
-This doesn't affect the existing testcases.
+The state update has do be done before the yields because now using
+a local variable does not allow the new updated state to be visible
+by the other yields.
 
-Use actions_count to see how many yield to issue.
-
-Co-developed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/blkdebug.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ block/blkdebug.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 6bdeb2c7b3..dd82131d1e 100644
+index dd82131d1e..b47c3fd97c 100644
 --- a/block/blkdebug.c
 +++ b/block/blkdebug.c
-@@ -789,7 +789,6 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
-     if (!qtest_enabled()) {
-         printf("blkdebug: Suspended request '%s'\n", r->tag);
-     }
--    qemu_coroutine_yield();
+@@ -40,7 +40,6 @@
+ 
+ typedef struct BDRVBlkdebugState {
+     int state;
+-    int new_state;
+     uint64_t align;
+     uint64_t max_transfer;
+     uint64_t opt_write_zero;
+@@ -792,7 +791,7 @@ static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
  }
  
  static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
-@@ -834,6 +833,12 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
+-                         int *action_count)
++                         int *action_count, int *new_state)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+ 
+@@ -812,7 +811,7 @@ static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
+         break;
+ 
+     case ACTION_SET_STATE:
+-        s->new_state = rule->options.set_state.new_state;
++        *new_state = rule->options.set_state.new_state;
+         break;
+ 
+     case ACTION_SUSPEND:
+@@ -825,21 +824,21 @@ static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
+ {
+     BDRVBlkdebugState *s = bs->opaque;
+     struct BlkdebugRule *rule, *next;
++    int new_state;
+     int actions_count[ACTION__MAX] = { 0 };
+ 
+     assert((int)event >= 0 && event < BLKDBG__MAX);
+ 
+-    s->new_state = s->state;
++    new_state = s->state;
      QLIST_FOREACH_SAFE(rule, &s->rules[event], next, next) {
-         process_rule(bs, rule, actions_count);
+-        process_rule(bs, rule, actions_count);
++        process_rule(bs, rule, actions_count, &new_state);
      }
-+
-+    while (actions_count[ACTION_SUSPEND] > 0) {
-+        qemu_coroutine_yield();
-+        actions_count[ACTION_SUSPEND]--;
-+    }
-+
-     s->state = s->new_state;
++    s->state = new_state;
+ 
+     while (actions_count[ACTION_SUSPEND] > 0) {
+         qemu_coroutine_yield();
+         actions_count[ACTION_SUSPEND]--;
+     }
+-
+-    s->state = s->new_state;
  }
  
+ static int blkdebug_debug_breakpoint(BlockDriverState *bs, const char *event,
 -- 
 2.31.1
 
