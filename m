@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279BD3A6928
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:39:43 +0200 (CEST)
-Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F53D3A6929
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:40:05 +0200 (CEST)
+Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsnkc-0005cw-8F
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:39:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
+	id 1lsnky-0006Yd-De
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lsnie-0002iu-0m
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:37:40 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:43606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lsnic-00018K-0V
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:37:39 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 3-20020a05600c0243b029019f2f9b2b8aso119711wmj.2
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 07:37:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=p9/6DjV3DBWF0FJU0yop/mMNHxWTtFvZPNXYGZSsTHA=;
- b=KDj8tOJVsx3Qmn+AMdLQCi2KsnTXv/aCpIJmnz/aeko0eT4HxcAfgkxzqQJsxIERAT
- y4KgmzWdkli3yeQ0/rp35QNM0g+Fmp2JZdbfdQYJX4T+qZO75AvAsn6mMwVu3DgNp5Rd
- AcSm8iMGuGtkCPnH9VnrKXTG2ePXwm9hQjjtGG1MRQ/PV+tQqsezQTy5Uife510WTduG
- +kEJxMBrEGR5Dmz1uMGnP1d4FbPiJgAjNe/WndEWy3nypriD+8UIjFO2KtcGkeiVZ0zu
- RPGYF4skNhZGx1w8TmDYTlmB9tO0iB5M9BTxe5PclzxVaIoWIorqxG6ln76ZOLhUEnLa
- R5uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=p9/6DjV3DBWF0FJU0yop/mMNHxWTtFvZPNXYGZSsTHA=;
- b=JWnW6oVGNNAn6F7dwUsheeLcogfVT8qFTviyGv8+q2Up+t5WE0CYuwADNZDczA3GO6
- UlkLULweStSUu1+5uTeFuY42+VHOzn1iH6rqHl+ZFgPm6GCnquNm/GCZeakdy8Ij0KAh
- bvm2n9AitwARoXIcV7rdpRkKDKSIzXzoS2ZMpdKipNOO8fKKDiRwwN/br5de54F+Hr5R
- AysbFVLbjCpoweHMToCwD3WdicgqBKKdPOHxyD6SNz8bUDiS16zbZnNCAuEP9OKghXH/
- 4I0b0lLVkmDkKhRIUYI/AIIvHxVLFG46Dj0PvAVBMfgftN+1U1LQh4e2IiL0BfkG3DO3
- xzXw==
-X-Gm-Message-State: AOAM531rhmetp32hC9Y/NsxNlhleuQZMGkhHHnr8AENiqo5WVfI/+KIr
- gQybNFngIErF5oGuM88wZ2SLfQ==
-X-Google-Smtp-Source: ABdhPJwBfBAxeJ7EBiWn0XswOIL89W02i77K2HV5aQRCMYsdcxtV6TbcdiCIb1QIDFBU2CMtRLNchQ==
-X-Received: by 2002:a1c:1d04:: with SMTP id d4mr16724187wmd.126.1623681456167; 
- Mon, 14 Jun 2021 07:37:36 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j5sm8243654wro.73.2021.06.14.07.37.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 07:37:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 41B851FF7E;
- Mon, 14 Jun 2021 15:37:34 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: tb_flush() calls causing long Windows XP boot times
-References: <BCB8773B-FC54-4C25-9B60-92C263165D38@gmail.com>
- <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
- <1ee4b7cf-d445-6497-705f-510009fc74f8@ilande.co.uk>
- <874ke4iqf8.fsf@linaro.org>
- <3D29C466-BB81-4BCA-96E9-A46721B1ED59@gmail.com>
- <d9109542-dd68-3e8b-4f53-a09576e16b1f@redhat.com>
- <87sg1ogsvj.fsf@linaro.org>
- <f81315ce-6cf5-c0c4-5b48-9188e3dcd71a@ilande.co.uk>
-Date: Mon, 14 Jun 2021 15:37:34 +0100
-In-Reply-To: <f81315ce-6cf5-c0c4-5b48-9188e3dcd71a@ilande.co.uk> (Mark
- Cave-Ayland's message of "Sun, 13 Jun 2021 15:03:00 +0100")
-Message-ID: <878s3cjyvl.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lsnjU-0004sM-2V
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:38:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53145)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lsnjQ-0001Xp-JP
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:38:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623681508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6RmQ2zMEbcCU66lGBFYavf+9NinZRPtzRglLZo9PDnk=;
+ b=ViLZAbHhNI1eTGJccp+O+B/gUvXoAMY6mQGFIu3dvqmAOBgNtJqNJTxrYQt1knghfzDWF5
+ To4TDar1u1vRcHRGdESC5K8jeFv+fZcNtA4YGHwMH2EtJiRfjvTHxTAa7Ab6D0dHfSoFHk
+ g/yefeoUKyXIAcMm5WLJajVtb8d7LQU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-_9fuvmiBNti0gkA2-Bho0w-1; Mon, 14 Jun 2021 10:38:26 -0400
+X-MC-Unique: _9fuvmiBNti0gkA2-Bho0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A41EC100C668
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 14:38:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 036FD1962D;
+ Mon, 14 Jun 2021 14:38:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8889F113865F; Mon, 14 Jun 2021 16:38:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH v5 4/9] qapi: start building an 'if' predicate tree
+References: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
+ <20210608120723.2268181-5-marcandre.lureau@redhat.com>
+Date: Mon, 14 Jun 2021 16:38:19 +0200
+In-Reply-To: <20210608120723.2268181-5-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 8 Jun 2021 16:07:18 +0400")
+Message-ID: <87bl88y0is.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,105 +82,439 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- incoming+qemu-project-qemu-11167699-3xhw7c0pviow7og92yv73e0tr-issue-404@incoming.gitlab.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Programmingkid <programmingkidx@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: jsnow@redhat.com, Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+marcandre.lureau@redhat.com writes:
 
-> On 11/06/2021 19:22, Alex Benn=C3=A9e wrote:
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> (added Gitlab on CC)
+> The following patches are going to express schema 'if' conditions in a
+> target language agnostic way. For that, let's start building a predicate
+> tree of the configuration options.
 >
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->>=20
->>> On 11/06/21 17:01, Programmingkid wrote:
->>>> Hello Alex,
->>>> The good news is the source code to Windows XP is available
->>>> online:https://github.com/cryptoAlgorithm/nt5src
->>>
->>> It's leaked, so I doubt anybody who's paid to work on Linux or QEMU
->>> would touch that with a ten-foot pole.
->> Indeed.
->> Anyway what the OP could do is run QEMU with gdb and -d nochain and
->> stick a breakpoint (sic) in breakpoint_invalidate. Then each time it
->> hits you can examine the backtrace to cpu_loop_exec_tb and collect the
->> data from tb->pc. Then you will have a bunch of addresses in Windows
->> that keep triggering the behaviour. You can then re-run with -dfilter
->> and -d in_asm,cpu to get some sort of idea of what Windows is up to.
+> This intermediary steps still uses C-preprocessor expressions as
+> the predicates:
 >
-> I have been able to recreate this locally using my WinXP and it looks
-> like during boot WinXP goes into a tight loop where it writes and
-> clears a set of breakpoints via writes to DB7 which is what causes the
-> very slow boot time.
+> "if: [STR, ..]" is translated to a "IfCond -> IfAll ->
+> [IfOption, ..]" tree, which will generate "#if STR && .." C code.
 >
-> Once boot proceeds further into the login screen, the same code seems
-> to called periodically once every second or so which has less of a
-> performance impact.
+> Once the boolean operation tree nodes are introduced, the 'if'
+> expressions will be converted to replace the C syntax (no more
+> !defined(), &&, ...) and based only on option identifiers.
 >
+> For now, the condition tree will be less expressive than a full C macro
+> expression as it will only support these operations: 'all', 'any' and
+> 'not', the only ones needed so far.
 >
-> This gives a repeated set of outputs like this:
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Tested-by: John Snow <jsnow@redhat.com>
+> ---
+>  docs/sphinx/qapidoc.py                 |  6 +--
+>  scripts/qapi/common.py                 | 53 ++++++++++++++++++++++-
+>  scripts/qapi/schema.py                 | 17 ++++++--
+>  tests/qapi-schema/doc-good.out         | 12 +++---
+>  tests/qapi-schema/qapi-schema-test.out | 58 +++++++++++++-------------
+>  tests/qapi-schema/test-qapi.py         |  2 +-
+>  6 files changed, 103 insertions(+), 45 deletions(-)
 >
-> ##### bpi @ 0x90
-> ### dp7 add bp inst @ 0x8053cab8, index 1
-> ##### bpi @ 0xa4
-> ### dp7 add bp inst @ 0x8053cab8, index 2
-> ##### bpi @ 0xff
-> ### dp7 add bp inst @ 0x8053cab8, index 3
-> ##### bpi @ 0xf
+> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+> index b737949007..0f87fb16ce 100644
+> --- a/docs/sphinx/qapidoc.py
+> +++ b/docs/sphinx/qapidoc.py
+> @@ -112,12 +112,10 @@ def _make_section(self, title):
+>      def _nodes_for_ifcond(self, ifcond, with_if=3DTrue):
+>          """Return list of Text, literal nodes for the ifcond
+> =20
+> -        Return a list which gives text like ' (If: cond1, cond2, cond3)'=
+, where
+> -        the conditions are in literal-text and the commas are not.
+> +        Return a list which gives text like ' (If: condition)'.
+>          If with_if is False, we don't return the "(If: " and ")".
+>          """
+> -        condlist =3D intersperse([nodes.literal('', c) for c in ifcond.i=
+fcond],
+> -                               nodes.Text(', '))
+> +        condlist =3D [nodes.literal('', ifcond.docgen())]
+>          if not with_if:
+>              return condlist
+> =20
+> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+> index c305aaf2f1..01e3203545 100644
+> --- a/scripts/qapi/common.py
+> +++ b/scripts/qapi/common.py
+> @@ -12,7 +12,7 @@
+>  # See the COPYING file in the top-level directory.
+> =20
+>  import re
+> -from typing import Match, Optional
+> +from typing import Match, Optional, Sequence
+> =20
+> =20
+>  #: Magic string that gets removed along with all space to its right.
+> @@ -214,3 +214,54 @@ def must_match(pattern: str, string: str) -> Match[s=
+tr]:
+>      match =3D re.match(pattern, string)
+>      assert match is not None
+>      return match
+> +
+> +
+> +class IfPredicate:
 
-That's weird - maybe this is a misunderstanding of the x86 debug
-registers but it looks like it's setting each one to all the same value.=20
+This is the abstract base class of the two (soon four) forms 'if'.
+qapi-code-gen.txt calls them "conditionals", and the code so far uses
+names like @ifcond.  I'd prefer not to throw "predicate" into the
+cauldron.  IfCond?  IfConditional?
 
-> ### dp7 remove bp inst @ 0x8053f58a, index 0
-> ##### bpi @ 0x90
-> ### dp7 remove bp inst @ 0x8053f58a, index 1
-> ##### bpi @ 0xa4
-> ### dp7 remove bp inst @ 0x8053f58a, index 2
-> ##### bpi @ 0xff
-> ### dp7 remove bp inst @ 0x8053f58a, index 3
-> ...
-> ...
-> ### dp7 add bp inst @ 0x8053c960, index 0
-> ##### bpi @ 0x90
-> ### dp7 add bp inst @ 0x8053c960, index 1
-> ##### bpi @ 0xa4
-> ### dp7 add bp inst @ 0x8053c960, index 2
-> ##### bpi @ 0xff
-> ### dp7 add bp inst @ 0x8053c960, index 3
-> ##### bpi @ 0xf
-> ### dp7 remove bp inst @ 0x8053c730, index 0
-> ##### bpi @ 0x90
-> ### dp7 remove bp inst @ 0x8053c730, index 1
-> ##### bpi @ 0xa4
-> ### dp7 remove bp inst @ 0x8053c730, index 2
-> ##### bpi @ 0xff
-> ### dp7 remove bp inst @ 0x8053c730, index 3
-> ...
-> ...
+> +    """An 'if' condition predicate"""
+> +
+> +    def cgen(self) -> str:
+> +        raise NotImplementedError()
+> +
+> +    def docgen(self) -> str:
+> +        raise NotImplementedError()
+> +
+> +
+> +class IfOption(IfPredicate):
 
-I wonder if this is Windows check pointing itself by observing when it
-gets to a particular place in the boot sequence. I guess we don't have
-any symbols for the addresses it's setting?
+The name IfOption tells me nothing.
 
->
-> From a vanilla XP install the 2 main sections of code which alter the
-> breakpoint registers are at 0x8053cab8 (enable) and 0x8053f58a
-> (disable):
+At this point in the series, the IfOption are arbitrary C preprocessor
+expressions.
 
-Ahh I misread - so those are the addresses of the routines and not where
-it's sticking the breakpoint?
+At the end of the series, they are operands of the C preprocessor's
+unary operator defined, i.e. a C macro name.
 
-I notice from a bit of googling that there is a boot debugger. I wonder
-if /nodebug in boot.ini stops this behaviour?
+Once I know that, IfOption kind of makes sense.  Hmm.  IfConfigOption?
+IfIdentifier?  IfLeaf?  I'm not quite sure which one I dislike the least
+:)
 
-  https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/=
-switch-options-for-boot-files
+> +    def __init__(self, option: str):
+> +        self.option =3D option
+> +
+> +    def cgen(self) -> str:
+> +        return self.option
+> +
+> +    def docgen(self) -> str:
+> +        return self.option
+> +
+> +    def __repr__(self) -> str:
+> +        return f"{type(self).__name__}({self.option!r})"
 
---=20
-Alex Benn=C3=A9e
+Intended use?
+
+> +
+> +    def __eq__(self, other: object) -> bool:
+> +        if not isinstance(other, IfOption):
+> +            return NotImplemented
+> +        return self.option =3D=3D other.option
+
+Why raise on type mismatch?  Feels rather un-pythonic to me.
+
+> +
+> +
+> +class IfAll(IfPredicate):
+> +    def __init__(self, pred_list: Sequence[IfPredicate]):
+> +        self.pred_list =3D pred_list
+> +
+> +    def cgen(self) -> str:
+> +        return " && ".join([p.cgen() for p in self.pred_list])
+
+Fragile.  See my review of PATCH 3.
+
+> +
+> +    def docgen(self) -> str:
+> +        return " and ".join([p.docgen() for p in self.pred_list])
+> +
+> +    def __bool__(self) -> bool:
+> +        return bool(self.pred_list)
+
+Not as confusing as QAPISchemaIfCond.__bool__() as long as it's kept
+well away from None.  Still, I'm not sure I like it.
+
+> +
+> +    def __repr__(self) -> str:
+> +        return f"{type(self).__name__}({self.pred_list!r})"
+> +
+> +    def __eq__(self, other: object) -> bool:
+> +        if not isinstance(other, IfAll):
+> +            return NotImplemented
+> +        return self.pred_list =3D=3D other.pred_list
+
+Same as above.
+
+Why are these classes in common.py?
+
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index aa4715c519..f52caaeecc 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -19,7 +19,12 @@
+>  import re
+>  from typing import Optional
+> =20
+> -from .common import POINTER_SUFFIX, c_name
+> +from .common import (
+> +    POINTER_SUFFIX,
+> +    IfAll,
+> +    IfOption,
+> +    c_name,
+> +)
+>  from .error import QAPIError, QAPISemError, QAPISourceError
+>  from .expr import check_exprs
+>  from .parser import QAPISchemaParser
+> @@ -28,18 +33,22 @@
+>  class QAPISchemaIfCond:
+>      def __init__(self, ifcond=3DNone):
+>          self.ifcond =3D ifcond or []
+> +        self.pred =3D IfAll([IfOption(opt) for opt in self.ifcond])
+
+In the common case of just one element, we get a no-op IfAll wrapped
+around it.  Okay.
+
+self.ifcond goes away in PATCH 7.  Okay.
+
+> +
+> +    def docgen(self):
+> +        return self.pred.docgen()
+> =20
+>      def cgen(self):
+> -        return ' && '.join(self.ifcond)
+> +        return self.pred.cgen()
+> =20
+>      # Returns true if the condition is not void
+>      def __bool__(self):
+> -        return bool(self.ifcond)
+> +        return bool(self.pred)
+> =20
+>      def __eq__(self, other):
+>          if not isinstance(other, QAPISchemaIfCond):
+>              return NotImplemented
+> -        return self.ifcond =3D=3D other.ifcond
+> +        return self.pred =3D=3D other.pred
+
+Not much left in this class, and it's going to get even thinner.
+
+> =20
+> =20
+>  class QAPISchemaEntity:
+> diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.=
+out
+> index 8f54ceff2e..db1d23c6bf 100644
+> --- a/tests/qapi-schema/doc-good.out
+> +++ b/tests/qapi-schema/doc-good.out
+> @@ -12,15 +12,15 @@ enum QType
+>  module doc-good.json
+>  enum Enum
+>      member one
+> -        if ['defined(IFONE)']
+> +        if IfAll([IfOption('defined(IFONE)')])
+>      member two
+> -    if ['defined(IFCOND)']
+> +    if IfAll([IfOption('defined(IFCOND)')])
+>      feature enum-feat
+>  object Base
+>      member base1: Enum optional=3DFalse
+>  object Variant1
+>      member var1: str optional=3DFalse
+> -        if ['defined(IFSTR)']
+> +        if IfAll([IfOption('defined(IFSTR)')])
+>          feature member-feat
+>      feature variant1-feat
+>  object Variant2
+> @@ -29,7 +29,7 @@ object Object
+>      tag base1
+>      case one: Variant1
+>      case two: Variant2
+> -        if ['IFTWO']
+> +        if IfAll([IfOption('IFTWO')])
+>      feature union-feat1
+>  object q_obj_Variant1-wrapper
+>      member data: Variant1 optional=3DFalse
+> @@ -38,13 +38,13 @@ object q_obj_Variant2-wrapper
+>  enum SugaredUnionKind
+>      member one
+>      member two
+> -        if ['IFTWO']
+> +        if IfAll([IfOption('IFTWO')])
+>  object SugaredUnion
+>      member type: SugaredUnionKind optional=3DFalse
+>      tag type
+>      case one: q_obj_Variant1-wrapper
+>      case two: q_obj_Variant2-wrapper
+> -        if ['IFTWO']
+> +        if IfAll([IfOption('IFTWO')])
+>      feature union-feat2
+>  alternate Alternate
+>      tag type
+> diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
+api-schema-test.out
+> index e0b8a5f0b6..e4e0fb173a 100644
+> --- a/tests/qapi-schema/qapi-schema-test.out
+> +++ b/tests/qapi-schema/qapi-schema-test.out
+> @@ -298,65 +298,65 @@ command __org.qemu_x-command q_obj___org.qemu_x-com=
+mand-arg -> __org.qemu_x-Unio
+>  object TestIfStruct
+>      member foo: int optional=3DFalse
+>      member bar: int optional=3DFalse
+> -        if ['defined(TEST_IF_STRUCT_BAR)']
+> -    if ['defined(TEST_IF_STRUCT)']
+> +        if IfAll([IfOption('defined(TEST_IF_STRUCT_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_STRUCT)')])
+>  enum TestIfEnum
+>      member foo
+>      member bar
+> -        if ['defined(TEST_IF_ENUM_BAR)']
+> -    if ['defined(TEST_IF_ENUM)']
+> +        if IfAll([IfOption('defined(TEST_IF_ENUM_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_ENUM)')])
+>  object q_obj_TestStruct-wrapper
+>      member data: TestStruct optional=3DFalse
+>  enum TestIfUnionKind
+>      member foo
+>      member bar
+> -        if ['defined(TEST_IF_UNION_BAR)']
+> -    if ['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)']
+> +        if IfAll([IfOption('defined(TEST_IF_UNION_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT=
+)')])
+>  object TestIfUnion
+>      member type: TestIfUnionKind optional=3DFalse
+>      tag type
+>      case foo: q_obj_TestStruct-wrapper
+>      case bar: q_obj_str-wrapper
+> -        if ['defined(TEST_IF_UNION_BAR)']
+> -    if ['defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT)']
+> +        if IfAll([IfOption('defined(TEST_IF_UNION_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_UNION) && defined(TEST_IF_STRUCT=
+)')])
+>  object q_obj_test-if-union-cmd-arg
+>      member union-cmd-arg: TestIfUnion optional=3DFalse
+> -    if ['defined(TEST_IF_UNION)']
+> +    if IfAll([IfOption('defined(TEST_IF_UNION)')])
+>  command test-if-union-cmd q_obj_test-if-union-cmd-arg -> None
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+> -    if ['defined(TEST_IF_UNION)']
+> +    if IfAll([IfOption('defined(TEST_IF_UNION)')])
+>  alternate TestIfAlternate
+>      tag type
+>      case foo: int
+>      case bar: TestStruct
+> -        if ['defined(TEST_IF_ALT_BAR)']
+> -    if ['defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)']
+> +        if IfAll([IfOption('defined(TEST_IF_ALT_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_ALT) && defined(TEST_IF_STRUCT)'=
+)])
+>  object q_obj_test-if-alternate-cmd-arg
+>      member alt-cmd-arg: TestIfAlternate optional=3DFalse
+> -    if ['defined(TEST_IF_ALT)']
+> +    if IfAll([IfOption('defined(TEST_IF_ALT)')])
+>  command test-if-alternate-cmd q_obj_test-if-alternate-cmd-arg -> None
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+> -    if ['defined(TEST_IF_ALT)']
+> +    if IfAll([IfOption('defined(TEST_IF_ALT)')])
+>  object q_obj_test-if-cmd-arg
+>      member foo: TestIfStruct optional=3DFalse
+>      member bar: TestIfEnum optional=3DFalse
+> -        if ['defined(TEST_IF_CMD_BAR)']
+> -    if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
+> +        if IfAll([IfOption('defined(TEST_IF_CMD_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_CMD)'), IfOption('defined(TEST_I=
+F_STRUCT)')])
+>  command test-if-cmd q_obj_test-if-cmd-arg -> UserDefThree
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+> -    if ['defined(TEST_IF_CMD)', 'defined(TEST_IF_STRUCT)']
+> +    if IfAll([IfOption('defined(TEST_IF_CMD)'), IfOption('defined(TEST_I=
+F_STRUCT)')])
+>  command test-cmd-return-def-three None -> UserDefThree
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+>  array TestIfEnumList TestIfEnum
+> -    if ['defined(TEST_IF_ENUM)']
+> +    if IfAll([IfOption('defined(TEST_IF_ENUM)')])
+>  object q_obj_TEST_IF_EVENT-arg
+>      member foo: TestIfStruct optional=3DFalse
+>      member bar: TestIfEnumList optional=3DFalse
+> -        if ['defined(TEST_IF_EVT_BAR)']
+> -    if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
+> +        if IfAll([IfOption('defined(TEST_IF_EVT_BAR)')])
+> +    if IfAll([IfOption('defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)'=
+)])
+>  event TEST_IF_EVENT q_obj_TEST_IF_EVENT-arg
+>      boxed=3DFalse
+> -    if ['defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)']
+> +    if IfAll([IfOption('defined(TEST_IF_EVT) && defined(TEST_IF_STRUCT)'=
+)])
+>  object FeatureStruct0
+>      member foo: int optional=3DFalse
+>  object FeatureStruct1
+> @@ -379,17 +379,17 @@ object FeatureStruct4
+>  object CondFeatureStruct1
+>      member foo: int optional=3DFalse
+>      feature feature1
+> -        if ['defined(TEST_IF_FEATURE_1)']
+> +        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+>  object CondFeatureStruct2
+>      member foo: int optional=3DFalse
+>      feature feature1
+> -        if ['defined(TEST_IF_FEATURE_1)']
+> +        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+>      feature feature2
+> -        if ['defined(TEST_IF_FEATURE_2)']
+> +        if IfAll([IfOption('defined(TEST_IF_FEATURE_2)')])
+>  object CondFeatureStruct3
+>      member foo: int optional=3DFalse
+>      feature feature1
+> -        if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
+> +        if IfAll([IfOption('defined(TEST_IF_COND_1)'), IfOption('defined=
+(TEST_IF_COND_2)')])
+>  enum FeatureEnum1
+>      member eins
+>      member zwei
+> @@ -429,17 +429,17 @@ command test-command-features3 None -> None
+>  command test-command-cond-features1 None -> None
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+>      feature feature1
+> -        if ['defined(TEST_IF_FEATURE_1)']
+> +        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+>  command test-command-cond-features2 None -> None
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+>      feature feature1
+> -        if ['defined(TEST_IF_FEATURE_1)']
+> +        if IfAll([IfOption('defined(TEST_IF_FEATURE_1)')])
+>      feature feature2
+> -        if ['defined(TEST_IF_FEATURE_2)']
+> +        if IfAll([IfOption('defined(TEST_IF_FEATURE_2)')])
+>  command test-command-cond-features3 None -> None
+>      gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconf=
+ig=3DFalse
+>      feature feature1
+> -        if ['defined(TEST_IF_COND_1)', 'defined(TEST_IF_COND_2)']
+> +        if IfAll([IfOption('defined(TEST_IF_COND_1)'), IfOption('defined=
+(TEST_IF_COND_2)')])
+>  event TEST_EVENT_FEATURES0 FeatureStruct1
+>      boxed=3DFalse
+>  event TEST_EVENT_FEATURES1 None
+> diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
+.py
+> index 2ec328b22e..631e255fba 100755
+> --- a/tests/qapi-schema/test-qapi.py
+> +++ b/tests/qapi-schema/test-qapi.py
+> @@ -95,7 +95,7 @@ def _print_variants(variants):
+>      @staticmethod
+>      def _print_if(ifcond, indent=3D4):
+>          if ifcond:
+> -            print('%sif %s' % (' ' * indent, ifcond.ifcond))
+> +            print('%sif %s' % (' ' * indent, ifcond.pred))
+> =20
+>      @classmethod
+>      def _print_features(cls, features, indent=3D4):
+
 
