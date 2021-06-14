@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833A53A6981
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:03:31 +0200 (CEST)
-Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23733A698F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:04:59 +0200 (CEST)
+Received: from localhost ([::1]:55810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lso7e-0001mj-KW
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
+	id 1lso94-0003g5-Tn
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lso6P-0000Qg-9D
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:02:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lso6H-0004eS-6R
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:02:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623682924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=y1B+ap+wsIHLAneyzwRosAfFo+RDBxwI0RmD13xVSBE=;
- b=LvZW4V9rCf3JGHtc6Hc0ELlfrnnH0LHkVrbQo8gubIh6TzkfiTVasxtTOCcSba0xKZeknc
- VcmstWPk4+zfSJKWDbWRxepAFT/VEbYG0VCJHqeO/uAvIirksK8t/m6FF/W/bGR6bcotI3
- I3P9FFMzKBA0sfK+R+B79+h5ZDQfyyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-jXCcIsmFPCqu20ZqIJOyjQ-1; Mon, 14 Jun 2021 11:02:02 -0400
-X-MC-Unique: jXCcIsmFPCqu20ZqIJOyjQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70060193F598
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:02:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
- [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D78F690EF;
- Mon, 14 Jun 2021 15:02:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8449618000B2; Mon, 14 Jun 2021 17:01:59 +0200 (CEST)
-Date: Mon, 14 Jun 2021 17:01:59 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
-Message-ID: <20210614150159.6ilpce4dqxi7rju4@sirius.home.kraxel.org>
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-4-kraxel@redhat.com>
- <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
- <YMIP/cKc570Ozvdh@redhat.com>
- <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lso7f-0002LP-6i; Mon, 14 Jun 2021 11:03:31 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:44749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lso7a-0005Dq-6r; Mon, 14 Jun 2021 11:03:30 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ m41-20020a05600c3b29b02901b9e5d74f02so166409wms.3; 
+ Mon, 14 Jun 2021 08:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nPilWeX4Q/XwbpuRQ6BJZhLRkRqu22D11UgWcv2Br0g=;
+ b=hsJfvmWxX+/VpKZwtA7z+JqS5/ZgyZDibx14b4q7abnSMcROvoYzoLr9gGTxk1mFAf
+ cc82IrNgrhehnpojrbS/RGKOwGudBdUYUylGdHbulBGi4lHUyUC3RQ7XkEu4UBjy8Siw
+ LzccyczJBPKyxUbO5nqULDwNQH/tkDWvwBwx3kuOlOti0efZnBgnPuAQ9kBSoOuXEGmc
+ R7USshuAi3oeW6BMmGNrhG4ojhJMZC7t/uO4ZQgFBkcjkD51zH7/IxDbblyLqceU8GO2
+ wNY/Jg5VWTppSnFb+K9I3eMKIO2+jJyErv/msVicYlj7LnqBlJDU48ynLBV0nHPMe4hb
+ RdVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nPilWeX4Q/XwbpuRQ6BJZhLRkRqu22D11UgWcv2Br0g=;
+ b=VOJE0TI87AXsSgoonddhX2z5XBoX5sdO81okMbx7mcy0jybj6jQAww/l9G5TRs1Kya
+ Gytfy5B+WR+sGFb3V5JDxHraa0yMRPObigh1Dlj25Na5HX3bB8VWQ9NYwCfYQJgmrV8I
+ oYNsjFsE17c5zYzat3fN4sp7T9gjV3kx9KDNUbwnC3tOKC5e/P8KepFk3MXvQoj6KA12
+ w43NAuLOMYIntadUBpRsJA6kInx0ItzGRSetJ7o9+aMRF5fE0HNU2AftMhQD02QyQQY/
+ TUA7BVdB0/n0vX+XZgeUHu0JkitnJP9SlWybhaEjqpHddHxn/UuZH2Q/Kyc9xkQQQZCc
+ yKjg==
+X-Gm-Message-State: AOAM530IFsFHZWcMoAxepZ/0542O4jhWbq7r62JknAXF/dTTY9azVK4w
+ z6HP00/K26zy5+EhWHP/mBo=
+X-Google-Smtp-Source: ABdhPJxy5BKKhEYdyg8Zivu3q1HygJliPxGoiIVXA5RczKiG3C6IgNBgYKe7BPqNGI6oHc+ea7ntBw==
+X-Received: by 2002:a05:600c:4ecc:: with SMTP id
+ g12mr33809816wmq.40.1623683004200; 
+ Mon, 14 Jun 2021 08:03:24 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id l16sm20887213wmj.47.2021.06.14.08.03.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 08:03:23 -0700 (PDT)
+Subject: Re: [PATCH v2] linux-user/trace-events: fix minor typo in format
+ string
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210614144245.17660-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <19ad42a0-1105-2380-24dc-65c0d67edbd5@amsat.org>
+Date: Mon, 14 Jun 2021 17:03:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210614144245.17660-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,70 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> > softmmu_mods and block_mods are both lists already, so this sets a
-> > nested list and I wonder if it confuses meson  ? eg do you need
-> > 
-> >   input: softmmu_mods + block_mods
+On 6/14/21 4:42 PM, Alex Bennée wrote:
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > 
-> No, that should be fine.  Perhaps it's because the inputs are not part of
-> the command?  You can check what the build.ninja rule for modinfo.json looks
-> like.
-> 
-> Also:
-> 
-> - it would be better to support both directories and file names, so that
-> stale modules are not included in modinfo.json
+> ---
+> v2
+>   - fix typo in summary :-O
+> ---
+>  linux-user/trace-events | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-When turning qemu-modinfo into a pure build-utility (see below) there is
-no reason to not explicitly list all module files on the command line.
-
-> - modinfo.json needs to be disabled on non-ELF platforms (x86, Windows).
-
-On windows modules are not supported.
-Do we have any other non-ELF platforms?
-
-> One alternative is to use libbfd instead of including an ELF parser.
-> 
-> - If modinfo.json has to be installed, you need to build modinfo for the
-> build machine in order to support cross compiling.  That however would
-> require a cross libbfd, which is a pain.  Do you really need to install it?
-
-Do you mean installing modinfo.json or installing qemu-modinfo?  For the
-latter I can see that not installing it removes some cross-compiling
-headaches.  And, yes, we can turn this into a pure build utility
-generating a static database (be it json or -- as suggested by Daniel --
-a C source file with the data structures).
-
-> Can the functionality instead be included in the main QEMU binary with a
-> query-modules command or something like that.
-
-Well, the meta-data database is meant for qemu itself, not external
-users.  I was just using json because the infrastructure to serialize +
-parse json exists.  Not sure a "query-modinfo" command makes sense.
-Would be trivial to implement though if libvirt finds this useful
-(assuming we stick to json).
-
-I was toying with a completely different idea:  Have a "qemu
--generate-modinfo".  That would basically try to load each module, while
-doing so record the type_register() (+ other register) calls the module
-is doing, when done write out the database with the registrations done
-by each module.
-
-Problem with that approach is that it doesn't work for module
-dependencies ...
-
-Comments on the idea?  Suggestions for the module dependency problem?
-Could maybe libbfd be used to find module (symbol) dependencies
-automatically without writing a full dynamic linker?
-
-take care,
-  Gerd
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
