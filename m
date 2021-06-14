@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8713A6C60
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:49:24 +0200 (CEST)
-Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76D83A6C78
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 18:53:38 +0200 (CEST)
+Received: from localhost ([::1]:43978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lspm7-0002kw-6a
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41006)
+	id 1lspqD-0005A1-Nl
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 12:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lspkx-0001OP-RB; Mon, 14 Jun 2021 12:48:11 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lspkv-00016p-Qo; Mon, 14 Jun 2021 12:48:11 -0400
-Received: by mail-wr1-x431.google.com with SMTP id y7so15251398wrh.7;
- Mon, 14 Jun 2021 09:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RgAEWXV5nmKU4Q3sRG1D5iVG3H2VEgfGtqlH75QAXBU=;
- b=h7VmdlcDOytExUrn1YjBWVrOg6lNRTwrJFPNja3CZHs7NzUw+33TvJXpfmlSit/uj8
- f+tx6rsEzEbwSHPMF5qDvcSZX//62/NM+r6HmZZ3iyJKg6iPMhSuQVZeG0jNepgjrPY2
- MrUvTv9GM/Re0cIx0OBBCh9D8WUbTNZ2Ol0a1od2Fv2c5uq1CBFVh5Nr6EqQ0JkKDvb3
- 8oO3cRHPapgLigcaBAugF8bRxUij6KzNSzxNiV1FaKaZFMO3810krEuwF2zIV7kWAloM
- LKbNuAyoAReSdp3LgqF3qA/np5gOy+m6qHh/fOaSqtGbR8FrB7BixxUvTzXURMvZRCrj
- iSJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RgAEWXV5nmKU4Q3sRG1D5iVG3H2VEgfGtqlH75QAXBU=;
- b=RDLHYji1H2bnspgXZdvKMcjpOHEhNnbKL6cyVlC4L1Eo45vX6XzSTaQRU+ZPpGVzWM
- PqbdhVAMxT8Pb4AJgc6W7EMmBSpUp7nJ3WGPE9wSLpHXWMVx8XRFlZ8SpDkuv9JF2rT2
- eGRvrBOmuYjy8AASifocDz07iGweoBIE6y6TpkEx7sdmKzgrbf5vG3VEeAbApUxW19I8
- lz/RPxPVcL5Qae+Y4K+YOSj8L8y0u2OXaJ8/KiEghKt4+3dAxOOp3FQhlfZwHc5ruqYZ
- ojODniClHGsmfzp+v5XzAyNM17XAmzuwaqXM/63U37bLiby5X3xSXDaQ73g2Lqk5YdZ2
- oR+w==
-X-Gm-Message-State: AOAM530t7kd0IPX7ebM18evxP2IuRXOd14pC7UYqlUvup0oFz19dvNWE
- o1A1VkwF+xxE5K1D+vkBnxQ=
-X-Google-Smtp-Source: ABdhPJzGD1dcQVbUhdISGbMyJUfgw0bxvrSI3JC4s2zsJ06qz2wb8l18ikOsCk6bgbAFfbkqxzkH0A==
-X-Received: by 2002:a5d:540a:: with SMTP id g10mr20087578wrv.254.1623689287677; 
- Mon, 14 Jun 2021 09:48:07 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id x125sm14643733wmg.37.2021.06.14.09.48.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 09:48:06 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] i2c: Match parameters of i2c_start_transfer and
- i2c_send_recv
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20200623063123.20776-1-f4bug@amsat.org>
- <46692025-50b-2734-e394-513b2761b979@eik.bme.hu>
- <8230aaa5-73b4-4bf6-6567-38bb5cde3883@amsat.org>
- <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <df15b240-af9b-49d3-178a-d0fb8de63aa3@amsat.org>
-Date: Mon, 14 Jun 2021 18:48:05 +0200
+ (Exim 4.90_1) (envelope-from <xypron.glpk@gmx.de>)
+ id 1lspoZ-0003yx-PV; Mon, 14 Jun 2021 12:51:55 -0400
+Received: from mout.gmx.net ([212.227.17.22]:41325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xypron.glpk@gmx.de>)
+ id 1lspoX-0003Vr-Oc; Mon, 14 Jun 2021 12:51:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1623689505;
+ bh=Lt3NV0JNoVrxXU8gJvlc5oxu5N9ffTgCzfIClsIW2JM=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=T+xMzO7+Lw6LXXDSAsDUHvQa6DFEGIDiyz786zDg+8UhldCYfZfqTvP5nQfesSxUA
+ cK5xdzH69Er9227/NgSdKnf8wM5NZk1DcNFa3yLXXY3QvewvFrQj8E3g4mjgXQFW9y
+ t9fbXEpDUfkvJLJq1O2OKyN9EG+PeDlOv9n5Q59Y=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.123.35] ([62.143.247.63]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N9Mtg-1lE7oz24Si-015LLE; Mon, 14
+ Jun 2021 18:51:45 +0200
+Subject: Re: [PATCH v2 1/3] hw: virt: consider hw_compat_6_0
+To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210611234631.81314-1-xypron.glpk@gmx.de>
+ <20210611234631.81314-2-xypron.glpk@gmx.de>
+From: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Message-ID: <6eba1d8b-ec27-bfb6-beff-b7b1d8abd271@gmx.de>
+Date: Mon, 14 Jun 2021 18:51:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
-Content-Type: text/plain; charset=iso-8859-15
+In-Reply-To: <20210611234631.81314-2-xypron.glpk@gmx.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:0e7nMSuSffPtff1xaa6x6etPJ/rjryHdvWS6NvYymovJBQ3IKDY
+ SVx9af/Ua0so6tn+/m1ldSHs9WRQbJPPPSRvaSgmajFPA5Hnqjdgn+OB8fPeytU0TEfNYYM
+ wEIsPL0fI9+bBRVY1e9MuqYecY+2j4NdVC4BBUlTc7HJbuVZffZKJ/NFaeLfsyoKRWvv6Ix
+ I1hrNtDSoGETPlPRuB1Gg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xta0+34bc+Y=:Se1eSHQZgbLyFbIcAyqFOt
+ axweqqWgYwrQ0SJ0qTxZs/o/m1N6VH29r5imZBw8AM62R6M+FHTE/DrCLnJ2q9mL0fBvNpp8x
+ Opx1BDkJ1D2BM1kZfqk+QEohQfDGNyxGF9Ne14q2zqVu1XgJAjfNYAHdXAv2Go4LPFnlS4D0F
+ ON4Thfhn3wEew7WwgI7Qc2ETj2uFQsJPB67m/3sEA5JValV5E29O7Zg+Zx7TYPKG3s7DTvrPN
+ M8nZqertLnRlodE1lR+aGTvu2f5lYDCRqXRbSyQ2L0sM8UUkA+iLWmFHlDC81gxCSmPuK7r8v
+ ExiVSGUUyo3GNjT+cufbG7ZinH46b9xV7T6eaHPLfMc9QHya4WSbymrikYLsW96MnsTVxsM02
+ iI8fY5k9oCh/mQ+WfaYK7JLcmb3w8vjNhNH9JF0SLTPMXF/43sfL/ZOk3ZMA/ciZ6K4jkFo4r
+ 7tnhZRgs8mLimrSpF8iSG2QoIuGRpXFW3MVbZUlavnzGfTMOXGxBa9PTvtgOxXWcOJtEKeVBe
+ nz10uZyegaVqBrGUwase5U4CIibtghOyoZS+iuctmIzAdq3GTnIqBuAuxjKfLlJiTi/5bXm0I
+ j9OP3gnA1+zlNjVIrppibeOGOQXPOQR1SFhr0bfSI2DvOWWDegoJ9selqm/blKR5Fv01mHPA2
+ ZhZbd/AJiVZ2d0YkqlOxi6k/eK7EfGKN5WHQABybFbO7781xOPg1RxrQW1N0NJZ3xwqGlOlPJ
+ sfIG9ns+vwxoYyoPEaQvQsIpHS75H3cCaYdZn4aMYRUzQ2UKYUW8V1ZqQB2sGmV0OTBsgNVmn
+ oJMpDJ8mrbdJjAS+552NTU+1P1whxEwQsygxiMwJ94XzgGZX5V5vJVcogz2K/E+NUX5svSfZ/
+ zPRaUuLYoXami1ef5ht3rZLmbMsFVZ9cY0Hs+IfRMK+wlepgEQtN0UWyAgdYtEE19tNWPmB8R
+ 3mhoJtRPCjIX9zo/yyr625Fak4j9HUWFSgSwlBrZWqzV2v5tPpBR9TRPxSZAhPjUxyAvhgmYa
+ m8RsVa4CpUo0Ot4cUF7m+WrfrY4YXTmZFtPq/QbyF30rjufW9RSaKgToVpIq6O8nf+f+yPYHn
+ wLFBnXmQ9LFyB48fD1P+lfiRlw5lZ8Lz8EQ
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=xypron.glpk@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.489,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,55 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 12:02 PM, BALATON Zoltan wrote:
-> On Mon, 14 Jun 2021, Philippe Mathieu-Daudé wrote:
->> On 6/12/21 9:33 PM, BALATON Zoltan wrote:
->>> Hello,
->>>
->>> On Tue, 23 Jun 2020, Philippe Mathieu-Daudé wrote:
->>>> This is v2 of Zoltan's patch:
->>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
->>>>
->>>> - rebased
->>>> - added docstring
->>>> - include hw/misc/auxbus.c fix
->>>>
->>>> Supersedes: <20200621145235.9E241745712@zero.eik.bme.hu>
->>>
->>> What happened to this series? I did not find it in patchew, only my
->>> original patch:
->>>
->>> https://patchew.org/QEMU/20200621145235.9E241745712@zero.eik.bme.hu/
->>>
->>> I still have this in one of my branches so I think it was not merged at
->>> the end. Could this be resurrected or should I forget about it and live
->>> with the inconsistency in parameters instead?
->>
->> I suppose it was not queued because you asked to remove the
->> "Reported-by" tag :/ I agree with you it would be nice to get this in
->> the tree
-> 
-> I think I said only Reported-by is enough no need for Suggested-by as
-> well but I don't see this as a reason to drop these patches. So maybe
-> just nobody cared enough.
+On 6/12/21 1:46 AM, Heinrich Schuchardt wrote:
+> virt-6.0 must consider hw_compat_6_0.
+>
+> Fixes: da7e13c00b59 ("hw: add compat machines for 6.1")
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-Ah OK now got it.
+This patch was applied to target-arm.next by Peter.
 
->> for good. However 1 year passed, so it might need adjustment.
-> 
-> Should I try to rebase it or will you do it eventually?
+> ---
+> v2:
+> 	add missing Fixes: tag
+> ---
+>   hw/arm/virt.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 840758666d..8bc3b408fe 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2764,6 +2764,8 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
+>
+>   static void virt_machine_6_0_options(MachineClass *mc)
+>   {
+> +    virt_machine_6_1_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len=
+);
+>   }
+>   DEFINE_VIRT_MACHINE(6, 0)
+>
+> --
+> 2.30.2
+>
 
-Found the branch and clean rebase, so no change needed.
-
-Corey, if you are busy, I could send a pull request if you provide
-and Acked-by tag.
-
-Regards,
-
-Phil.
 
