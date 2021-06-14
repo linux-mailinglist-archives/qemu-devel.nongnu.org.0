@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B1A3A6512
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:33:29 +0200 (CEST)
-Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6C3A6561
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:35:54 +0200 (CEST)
+Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lskqO-0001Cs-BB
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56162)
+	id 1lsksj-00035N-8h
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:35:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lskon-0000Mq-G4; Mon, 14 Jun 2021 07:31:49 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:38356)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lskr3-0002CZ-UT; Mon, 14 Jun 2021 07:34:09 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1lskok-0000XZ-Pj; Mon, 14 Jun 2021 07:31:49 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 72B1E1FD33;
- Mon, 14 Jun 2021 11:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623670304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EwKWCQ8BIYMKgkFFEJ9DF+k26nFeaAVIOwxEfqqSqho=;
- b=GV9XPI+w5xRDTf7D0o1so7y6WOGSInSYG0YCueDHm5TiJSN/zMMY+gQ3/OrSuWqF5m83f4
- XcbauaUx+Dea7QQN0fopMO11MyXQ9sRncCtsKUuTMiZQP/vDzDoqK6njHoiuHxNFJDx/cJ
- HERYt4ePPLn3VGWlZYshNqQjCR+ZbBU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623670304;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EwKWCQ8BIYMKgkFFEJ9DF+k26nFeaAVIOwxEfqqSqho=;
- b=lyxvOtZfFEgM8OtGQ8WXBu5BBe2s8KWnTrPfxURszkfhkU45EZU+2+QUgi06uu8k6wf3T5
- N8CQDBhsU5M+CKCQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id C0BC3118DD;
- Mon, 14 Jun 2021 11:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623670304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EwKWCQ8BIYMKgkFFEJ9DF+k26nFeaAVIOwxEfqqSqho=;
- b=GV9XPI+w5xRDTf7D0o1so7y6WOGSInSYG0YCueDHm5TiJSN/zMMY+gQ3/OrSuWqF5m83f4
- XcbauaUx+Dea7QQN0fopMO11MyXQ9sRncCtsKUuTMiZQP/vDzDoqK6njHoiuHxNFJDx/cJ
- HERYt4ePPLn3VGWlZYshNqQjCR+ZbBU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623670304;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EwKWCQ8BIYMKgkFFEJ9DF+k26nFeaAVIOwxEfqqSqho=;
- b=lyxvOtZfFEgM8OtGQ8WXBu5BBe2s8KWnTrPfxURszkfhkU45EZU+2+QUgi06uu8k6wf3T5
- N8CQDBhsU5M+CKCQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id Wq3wLB8+x2AdFAAALh3uQQ
- (envelope-from <cfontana@suse.de>); Mon, 14 Jun 2021 11:31:43 +0000
-Subject: Re: [PATCH v2 00/18] modules: add metadata database
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <dd1c5487-b1bf-9e33-fd42-fc0863e0ddd7@suse.de>
- <20210610095434.iygaxizo5h3745zf@sirius.home.kraxel.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <a33c7fda-0865-525b-5138-e87b6233f9a2@suse.de>
-Date: Mon, 14 Jun 2021 13:31:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lskr2-0001pE-F8; Mon, 14 Jun 2021 07:34:09 -0400
+Received: by mail-ej1-x630.google.com with SMTP id nd37so8393231ejc.3;
+ Mon, 14 Jun 2021 04:34:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ElXzj8D4m7l5hpjdsmmL2PGMb82jKrtOEVqck08sPo8=;
+ b=PLxa+ZHfCQFDd/QfN4CQLlVtUoUdWkWwljQu/L6y1Q1rvg5mqvnoFuvuX+32klbkIR
+ iI0I4nWLJ6jA0hivCzUv1n3qs+AdCVqXFuJdNCWn8j/31FLImDocMqkq9F/8MEFONcHQ
+ R4QnE1cSr8eC8yp8Vs3Ur/C/I8M6AT1nEV/Rz+oxR+5gI81KGK9434+HQqQDb2MN572+
+ 21TZ1WvnAyUReiC1Clr8p3q6NSVDu3edbWatuany9M6+wJjWzIik96q1qyJo+y9x1nAl
+ saV3V2iq2guOBro5kT4qV3OWOGbXDXFGKrq3+KW0gp4XXgD472Mppd4NeWyH5aXC905I
+ XiiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ElXzj8D4m7l5hpjdsmmL2PGMb82jKrtOEVqck08sPo8=;
+ b=fO85cYOJxdzwHFAtImj5ERUPe/hxpNywRquKfu3O8um6knvVZ+J/bwd1y0+Wzp206m
+ UiuoGwwIt/k3l/NUGFL3MSxmmnq3TLvndrEEzv1PwWfkemzanSTRUn1ijQFDfRUdfL4b
+ RTOuzrjmUxEBnS8O3rq8yY7anwbBlwlFby+98SQywop4LLhuqxA0FctY15/dI0xXiWki
+ dA7DcC9pJaJyIL0FMuOcOt2LmFZftQSh3jvl5EfX6ZghzrVM1D8yoQOZcSBN5oBczqyX
+ iJyECo/m34UXDe1mzlMrSxlUMiEKWtX3hhYGT7CclmhHeu65485p2eQ35A/3kKKI0t0F
+ V/Hg==
+X-Gm-Message-State: AOAM532sZQx8pxYDVoo3Y7Hgf7xMOl76SSZ3cbX7vg7tQj4EQNdYildN
+ bDu7C87JBrLl9HFom9FDYaI=
+X-Google-Smtp-Source: ABdhPJwnIv6CSVklPn97B104yWedBCDg43231j/621tG1FpFSygj0Ho/PUBRY9ZN68MZCuEe9+gI9w==
+X-Received: by 2002:a17:907:6ef:: with SMTP id
+ yh15mr14634582ejb.151.1623670444611; 
+ Mon, 14 Jun 2021 04:34:04 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id i6sm7052563ejr.68.2021.06.14.04.34.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 04:34:03 -0700 (PDT)
+Subject: Re: [PATCH v2] async: the main AioContext is only "current" if under
+ the BQL
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210609122234.544153-1-pbonzini@redhat.com>
+ <YMC7z/86LurXvAQ6@redhat.com>
+ <0cc60d50-c047-4978-7fd6-49559044d84b@redhat.com>
+Message-ID: <8af04436-505a-669a-5bdb-69e249afcf22@redhat.com>
+Date: Mon, 14 Jun 2021 13:34:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210610095434.iygaxizo5h3745zf@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <0cc60d50-c047-4978-7fd6-49559044d84b@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,103 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Samuel Thibault <samuel.thibault@ens-lyon.org>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Peter Lieven <pl@kamp.de>, qemu-s390x@nongnu.org,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- =?UTF-8?Q?Jos=c3=a9_Ricardo_Ziviani?= <jose.ziviani@suse.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com,
- Cornelia Huck <cohuck@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: eesposit@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, stefanha@redhat.com, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/10/21 11:54 AM, Gerd Hoffmann wrote:
-> On Thu, Jun 10, 2021 at 10:32:39AM +0200, Claudio Fontana wrote:
->> On 6/10/21 7:57 AM, Gerd Hoffmann wrote:
->>> This patch series adds support for module metadata.  Here are the pieces
->>> of the puzzle:
->>>
->>>   (1) Macros are added to store metadata in a .modinfo elf section
->>>       (idea stolen from the linux kernel).
->>>   (2) A utility to scan modules, collect metadata from the .modinfo
->>>       sections, store it in a file (modinfo.json) for later consumption
->>>       by qemu.  Can also be easily inspected using 'jq'.
->>>   (3) Adding annotations to the modules we have.
->>>   (4) Drop hard-coded lists from utils/module.c
->>>
->>> take care,
->>>   Gerd
->>
->> The background has disappeared compared with V1.
->>
->> V1 says:
->>
->> "Background is that the hard-coded lists in util/module.c are somewhat
->> ugly and also wouldn't work very well with a large number of modules,
->> so I'm looking for something else."
+On 11/06/21 13:13, Paolo Bonzini wrote:
+>> The commit message doesn't specify, but in the buggy case, are we
+>> talking about calling aio_co_wake() for a coroutine in the main context
+>> specifically, right? Could we have a unit test for this scenario?
 > 
-> Well, it's point (4) now (a bit short indeed ...).
-> 
->> Can you write more about what the actual high level goals of this series are?
-> 
-> Right now we have information about modules hard-coded in various places
-> in qemu.  Most obvious ones are module_deps[] and qom_modules[] (both in
-> util/module.c), but also qemu_load_module_for_opts() (in softmmu/vl.c)
-> and maybe more I missed.
+> Yes, that's the scenario.  I will try to write a unit test indeed.
 
-Maybe a good idea to find out.
+Done ("tests: cover aio_co_enter from a worker thread without BQL 
+taken").  aio_co_enter() is the function that "does the work" for 
+aio_co_wake().  Eric, you may want to review and pick that up as well.
 
-> 
-> So, when you go build some qom object modular today you'll have to go
-> add that to the qom_modules[] list.  With this patch series applied
-> you'll go add a 'module_obj("typename");' to your source file instead.
-> 
-> Same goes for other metadata, see the "add $foo module annotations"
-> patches for examples.
-> 
->> We are in general making QEMU more and more difficult to get into,
->> requiring more and more investment for new contributors to get
->> productive.
->>
->> Is the additional complexity justified? What is the benefit, and is
->> simplification a goal of the series as well?
-> 
-> IMHO it is a simplification for developers.  Modules are more
-
-So the whole endevour here is to remove the need to update modules in two/three places?
-
-It might simplify life for developers adding a module,
-but it is at a cost for the developers trying to keep the plumbing to work in my opinion.
-
-Based on the information you provided, the reason this whole series exists seems to be to remove the need to update modules in multiple places.
-
-Should the design focus be on that and that only?
-
-Is there a real need to copy over the mechanism from the kernel, or are the requirements actually different/simpler here?
-
-
-
-> self-contained with this in place.  You just add the annotation macros
-> and you are done.  No need to edit manually maintained lists at some
-> non-obvious place elsewhere in the tree.  Also no patch conflicts in
-> those lists.  We have type_init() + friends for simliar reasons.
-> 
-> The price for that simplification is the new utility needed which
-> collects and stores the metadata.  But that is something you only need
-> to worry about when actually working on module support.  The build
-> system keeps the database automatically up-to-date and most developers
-> shouldn't even notice that it is there.
-> 
-> take care,
->   Gerd
-> 
-> 
-
+Paolo
 
