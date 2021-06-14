@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D853A6FF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:14:31 +0200 (CEST)
-Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12B73A7019
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:18:05 +0200 (CEST)
+Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lssyc-0000cZ-4D
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
+	id 1lst25-0007h0-23
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsswp-00067G-Hx
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:12:39 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42807)
+ id 1lsszM-0004Jl-6P
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:15:16 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:50807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsswn-0004fV-D7
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:12:39 -0400
-Received: by mail-pg1-x532.google.com with SMTP id i34so9563692pgl.9
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:12:37 -0700 (PDT)
+ id 1lsszK-0006IQ-6a
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:15:15 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id g4so10443216pjk.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:15:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=G4N0mW6oOIUt/fa2h8B9pfvnBagaIZfwHZ+0OwOvWyA=;
- b=tblGaanTjWSzSbudF8EeEcGo4JWsVl4nv+WjaaSe8tnXaazbqfDFczAtdYUOdiqcCt
- a3nCqlE5YWA+YP1p6K48WX234UwJlCWNYVDKwPftg8R/7qleA9Dlw3ZSf8sFYKPq4rVP
- WEmCxfj5KC/g3e2I2P74/9cGto7AEs4EuUtLU0Rd9QOVc0H3ox1eqenfqfCPgcNloTyA
- uzGdcdTE+M7r9LbzdfxiVwiFGOLncEHtXxvR/NkB5Bw61gpWTvzmMbbcLYZmVA6OEuR+
- HBf1Y1oephkcn6A8n/taX+kXIoTvff7hwazs0IgvUClFYHGUhvIMwczq/OxEyljFrNro
- G7Cg==
+ bh=0lKBvygDFFWdJY0bwM0bkHFEDkflbBmzcOu2QW9jtg8=;
+ b=sFnlbFl12kezsijq7GONVzz3ITZLU8YZ0+VnJ21IkgxF1Lz1pMufOryNgBsJlGXZvH
+ AXg2EjdcP+npaeZp/FP54s27VCBeLaFRb3LZxDBWT+jjqEvenBG/5zMotkTl2HU0ppgD
+ ec/XabSpeLkxlKNUo1I9c2AViIA7OcliC/4PEZA/MVKoWJg8Jc7jEM93nWvTA9r/R8V/
+ 4bwRKI1QnCiAtcFC4Groew+r7SaD5+KBse9/nU0CCP7Epl6Kxjg5ov1pxOR+2LIdX/1i
+ BHvK6UWrAQHISnbd4WuSps7y8hcHu1ZxsQONzX8MdKFQ16njVvVuTUDB6vN1mGIe6GR8
+ XjEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=G4N0mW6oOIUt/fa2h8B9pfvnBagaIZfwHZ+0OwOvWyA=;
- b=TI/98VVmv3pUIzW+a3sAsFM6CAvLzVDECS/ja23xG8/EZKiR6W47kSS4NBLj5K7q/f
- +epJ+wLM6DVpNzvDrb8BDIfUvgRQ8fEFEQyk8h9pIHTOq9gpARDRK0GNRU8B/9BPKW/w
- mF/jJIW1wchSQDlcJjZdhHd9hpibHOsuB67WMXp/VM+s9Gr9GlWQ3n+DOA/n5pw3GNfr
- a+7eRfYBXg4308Vn/oglp8/ESDHFpZdWG2r4qHlO9UFbnx/TZiq88Q2MlLwMoj9jNC/P
- TlNnvyzAgcbjNWTNyDEwKYCuzJJhDrBITsaR+kANwrbidouWHuuH0jpGT8O9TZqC9z6Q
- 4+dA==
-X-Gm-Message-State: AOAM532Sr7xRjdTcP1iyLUrfh039Vkvav/8oSgRDU7TJj4W40PgR1Hr8
- mYzgINuP4qOLEVATwMLH1idBYa8HtfuAjw==
-X-Google-Smtp-Source: ABdhPJwoS92o//WmOU+6H9Cm4g4noxMdp1afsfKdIr/BQkDPv9buHuKY0SDw4TYSMDPKg5GpXF1L1g==
-X-Received: by 2002:aa7:954c:0:b029:2f5:33fc:1073 with SMTP id
- w12-20020aa7954c0000b02902f533fc1073mr609306pfq.79.1623701556027; 
- Mon, 14 Jun 2021 13:12:36 -0700 (PDT)
+ bh=0lKBvygDFFWdJY0bwM0bkHFEDkflbBmzcOu2QW9jtg8=;
+ b=KEoXXf5Ric6nuzIwuVd9b3Rv1E34fA0Np99XO4wkIpQjNjWxhMrHNq0o0+hFsVWDtx
+ koFScxuyh5no/q3ImEtXGaJd5Rp9jBGTD4eI0/KMbmFzLvyYQWbmQ4NrhVsGolkvowTM
+ qMWTu96IjXOd9EtKndd6XbV7C/TMSOi+kTq0SVQ8+xGdsGFx9y9vl6iFqv/4uovThUff
+ ru6XWoB2DqNGRNYK8g6PLLlEQIuaajFqGicjOYaehQuowlzLhMOjv6rgHRcqM/Q3Ec9a
+ oIvWg53BC7dx3Wpb1If1Pb9atgK+yQyJRrxwRFX2fuF/cNSP6kMtgugB6OatpVix//uR
+ Rg8A==
+X-Gm-Message-State: AOAM531AYyXs76okSzT1F635PMlt7nH8c3EQoD9/jawVfqpMODC4/8Ee
+ JPeb0gvxjAbPO9Jht4HMYUS+NYrqG/2d1g==
+X-Google-Smtp-Source: ABdhPJz/DPot7cBzSdg/myijhHBNf9dtJPDQTcuNCmM+30bxmFrrFm4yaTscgO3tgneA8q97+iXLcA==
+X-Received: by 2002:a17:902:860b:b029:103:b23b:f1c3 with SMTP id
+ f11-20020a170902860bb0290103b23bf1c3mr884099plo.34.1623701712839; 
+ Mon, 14 Jun 2021 13:15:12 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- s4sm215174pju.17.2021.06.14.13.12.35
+ t5sm12941391pfe.116.2021.06.14.13.15.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 13:12:35 -0700 (PDT)
-Subject: Re: [PATCH v2 21/57] tcg: Make gen_dup_i32() public
+ Mon, 14 Jun 2021 13:15:12 -0700 (PDT)
+Subject: Re: [PATCH v2 22/57] target/arm: Implement MVE VDUP
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210614151007.4545-1-peter.maydell@linaro.org>
- <20210614151007.4545-22-peter.maydell@linaro.org>
+ <20210614151007.4545-23-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <786a95b8-8b42-1455-e4a9-27b0094e13a4@linaro.org>
-Date: Mon, 14 Jun 2021 13:12:34 -0700
+Message-ID: <e0ee3487-a67e-3004-5926-a36910263b6f@linaro.org>
+Date: Mon, 14 Jun 2021 13:15:11 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210614151007.4545-22-peter.maydell@linaro.org>
+In-Reply-To: <20210614151007.4545-23-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -94,29 +94,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/14/21 8:09 AM, Peter Maydell wrote:
-> The Arm MVE VDUP implementation would like to be able to emit code to
-> duplicate a byte or halfword value into an i32.  We have code to do
-> this already in tcg-op-gvec.c, so all we need to do is change the
-> function from static to global.
+> Implement the MVE VDUP insn, which duplicates a value from
+> a general-purpose register into every lane of a vector
+> register (subject to predication).
 > 
-> For consistency, expose both the _i32 and _i64 forms.
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> I picked tcg.h just because that's where dup_const (defined
-> next to gen_dup_i32() and gen_dup_i64()) has its prototype.
-> Happy to move the prototypes elsewhere.
+>   target/arm/helper-mve.h    |  2 ++
+>   target/arm/mve.decode      | 10 ++++++++++
+>   target/arm/mve_helper.c    | 16 ++++++++++++++++
+>   target/arm/translate-mve.c | 27 +++++++++++++++++++++++++++
+>   4 files changed, 55 insertions(+)
 
-I would definitely rename them to tcg_gen_*.
-
-I would put the declarations in either tcg-op.h, with the other scalar tcg_gen_* 
-functions, or at the end of tcg-op-gvec.h, with the other vector-related but still scalar 
-functions.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
