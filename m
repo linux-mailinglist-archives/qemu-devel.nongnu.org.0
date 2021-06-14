@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683A23A63F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:18:28 +0200 (CEST)
-Received: from localhost ([::1]:55002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965D03A6409
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:19:21 +0200 (CEST)
+Received: from localhost ([::1]:57606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lskbr-0003pW-F0
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48926)
+	id 1lskci-0005Yn-FC
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lskaS-0001zv-RW; Mon, 14 Jun 2021 07:17:01 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lskYV-00027M-K2; Mon, 14 Jun 2021 07:16:59 -0400
-Received: by mail-wr1-x436.google.com with SMTP id y7so14107182wrh.7;
- Mon, 14 Jun 2021 04:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n3d9tHd+IqiUYu72+oaH7N2TYt5gJ/TAwPVndbHly6M=;
- b=gbggkXnojyh2LqXuw5xq7l/rP19VLgX++vpAmNy+Edm8RS5n7k3nYDV6sBbmRRSeLv
- kTPrWRAjWPj43ysnMB27Bs1K1FWzQdkBGIsASDo9k7z8+tvTiPQezusle6HK95laOdpt
- 3loqQIaPuVvrNmSTQVxN02fTlscfG4YNRLzjKzNbH1wEYQC0RkE1en8Pku998vYWlfh9
- oI6SP64/hr2fFvwy8zPKEr15WWKUs4w9G7wS38Ha7UTHeuzBi1TvTnquwjZCRa/SV1Le
- zmKAEdqLpltWCTucbvIc3hSlUBQJEakpQEfVM42fwcEcOS8hgF3Op9bQ8hfd3xszGq1c
- o76A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lskac-0002Cz-8z
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:17:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lskYf-0002A6-U0
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:17:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623669309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wOuSUQzdd8ACXhGP62oQ99VhKzt1tkQHNiz7u3jhXA4=;
+ b=BLNWPTD2d7Too5YJ4j+hlFAXhFJLRYs4jd59dvmg5XsK3UrDwWT7Ks0+S4FilMhqS/i/+l
+ RJjRDM6LQa0by2Kc/gsBV+CpkUzR08+jI0gnUi5trp0G3iHAbpWqnwZbBY6ADHR5+iQmLk
+ HitqjPW74n50EsouJ0QFrWO6XdJHu6Y=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-X3HpSfv7OUKQPmZvxS8ThA-1; Mon, 14 Jun 2021 07:15:07 -0400
+X-MC-Unique: X3HpSfv7OUKQPmZvxS8ThA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ v8-20020a0564023488b0290393873961f6so12668576edc.17
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 04:15:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n3d9tHd+IqiUYu72+oaH7N2TYt5gJ/TAwPVndbHly6M=;
- b=eGLpJ6k2kX43DbyuALPecj/EIALudVTmVI1lGCRVC7C+EfGQw4P8KdyPhkYX+S8D+5
- JICdPR2N8tX8MfcWxgsHR92Qlp2LE3iaQd2maQJSx731nCvrxnicq2yvsyVteC+Lq3pP
- vtHCltrhsX1h4aqmiq104KbViNEJbnyFWwMYcDBt4jPYd9VqID+6vOspLCjT+KVmrj8n
- ux6F9mht6v4qbg1pGH3f5qEevCSmOjC+CrmdOkwrlyYMymG12VB35kd2FbN4yPLPAo+8
- V/I4SWLlsABvR4Os2SP3p+xnmLrN41a9tWK3n2SRaN7fgRHgqNgy+piIqGB9mZadZJsY
- DRWQ==
-X-Gm-Message-State: AOAM533mAddD1dphZXKTleawDHIi+uW/Pl0RjaPawvSuimWSTMdUjbA7
- Ni0IZAumCMe3XL26a7o7OvQ=
-X-Google-Smtp-Source: ABdhPJyjAae3/jvCByCuYxqX6Ri1zerCA6epq0KAlu2uShr9WXiQc0RCwfgxZBOUaQdaBhVpmuhF7w==
-X-Received: by 2002:adf:e389:: with SMTP id e9mr17942343wrm.424.1623669293108; 
- Mon, 14 Jun 2021 04:14:53 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id i16sm12756453wmm.9.2021.06.14.04.14.51
+ bh=wOuSUQzdd8ACXhGP62oQ99VhKzt1tkQHNiz7u3jhXA4=;
+ b=ZTa015nIQGVjXpT1Eh1pgYF2Ny8SdDygBg1ZJdX4PhVCxY8TXFFEWBSpa6N82265Ol
+ AIfI6oFg87MNuXkJ78N778BTRwHKNycoy1PLIFUF2mRsoZDd3VFh5zK8j7X+EELiv1oL
+ 2KZyVKmjblOy2dX1gNxvx/OZJft9dx3mfXh8mT7VCN/pJ3PJqDXpQTbkr+4pDLjNz/K5
+ zj9CiDwVmGLFhj35eCmpCgf3a/j5uxIJtV3F4P6VQcF+i8WZM3iWaJc121+VdHtYBXI3
+ RI3rWsNj8M33qn4/fsTRQl6zl88hLTIow+kUKuNKOYvQOENsxnGy15NZnbdSAu1MLclb
+ jkKA==
+X-Gm-Message-State: AOAM531IVj2aBiatM1yOV6/Q/sCy8qx6KFcborF8EX9YNAnaaKnMcvva
+ 0LEu+bo/cLuPhrAn+wDXSux46PpaTUYiy7Jo5nqiLxsvlJAS0cSb+AlegNCDKJ4tIzeOxGoFj4i
+ zMR5nVOo+pXTLq+o=
+X-Received: by 2002:a05:6402:3123:: with SMTP id
+ dd3mr16309340edb.113.1623669306727; 
+ Mon, 14 Jun 2021 04:15:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZK7LQItvenjfOeRBm11KbeEhmpcs09E7lpDQaMgusYOO1A0K+xoLJuU51GM+rKs0ytk1tZQ==
+X-Received: by 2002:a05:6402:3123:: with SMTP id
+ dd3mr16309325edb.113.1623669306532; 
+ Mon, 14 Jun 2021 04:15:06 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m7sm5372476ejo.95.2021.06.14.04.15.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 04:14:52 -0700 (PDT)
-Subject: Re: [PATCH v2] hw/pci-host/q35: Ignore write of reserved PCIEXBAR
- LENGTH field
-To: qemu-devel@nongnu.org
-References: <20210526142438.281477-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <602ced9a-757d-f7f5-0ec8-1f8e8cab9a72@amsat.org>
-Date: Mon, 14 Jun 2021 13:14:51 +0200
+ Mon, 14 Jun 2021 04:15:06 -0700 (PDT)
+Subject: Re: [PATCH 0/8] configure: Change to -std=gnu11
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210611233347.653129-1-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5b49aaf2-322f-4841-ac9d-aa8ccc97fc5e@redhat.com>
+Date: Mon, 14 Jun 2021 13:15:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210526142438.281477-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210611233347.653129-1-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,71 +93,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: thuth@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+On 12/06/21 01:33, Richard Henderson wrote:
+> Now that we assume gcc 7.5 as a minimum, we have the option
+> of changing to a newer C standard.  The two major ones that
+> I think apply are _Generic and _Static_assert.
+> 
+> While Paolo created a remarkably functional replacement for _Generic
+> using builtins, the error messages that you get out of the keyword
+> are*vastly*  more intelligable, and the syntax is easier to read.
+> 
+> While I'd like to prefer _Static_assert over QEMU_BUILD_BUG_ON
+> going forward, and would like to convert existing uses, that is
+> a much bigger job.  Especially since the test condition is inverted.
+> In the meantime, can drop the configure detection.
+> 
 
-On 5/26/21 4:24 PM, Philippe Mathieu-Daudé wrote:
-> libFuzzer triggered the following assertion:
-> 
->   cat << EOF | qemu-system-i386 -M pc-q35-5.0 \
->     -nographic -monitor none -serial none \
->     -qtest stdio -d guest_errors -trace pci\*
->   outl 0xcf8 0xf2000060
->   outl 0xcfc 0x8400056e
->   EOF
->   pci_cfg_write mch 00:0 @0x60 <- 0x8400056e
->   Aborted (core dumped)
-> 
-> This is because guest wrote MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD
-> (reserved value) to the PCIE XBAR register.
-> 
-> There is no indication on the datasheet about what occurs when
-> this value is written. Simply ignore it on QEMU (and report an
-> guest error):
-> 
->   pci_cfg_write mch 00:0 @0x60 <- 0x8400056e
->   Q35: Reserved PCIEXBAR LENGTH
->   pci_cfg_read mch 00:0 @0x0 -> 0x8086
->   pci_cfg_read mch 00:0 @0x0 -> 0x29c08086
->   ...
-> 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> BugLink: https://bugs.launchpad.net/qemu/+bug/1878641
-> Fixes: df2d8b3ed4 ("q35: Introduce q35 pc based chipset emulator")
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v2: Do not remove default case (rth)
-> ---
->  hw/pci-host/q35.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index 2eb729dff58..0f37cf056a9 100644
-> --- a/hw/pci-host/q35.c
-> +++ b/hw/pci-host/q35.c
-> @@ -29,6 +29,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/log.h"
->  #include "hw/i386/pc.h"
->  #include "hw/pci-host/q35.h"
->  #include "hw/qdev-properties.h"
-> @@ -318,6 +319,8 @@ static void mch_update_pciexbar(MCHPCIState *mch)
->          addr_mask |= MCH_HOST_BRIDGE_PCIEXBAR_64ADMSK;
->          break;
->      case MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD:
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Q35: Reserved PCIEXBAR LENGTH\n");
-> +        return;
->      default:
->          abort();
->      }
-> 
+Looks good, thanks.  QEMU_GENERIC is the kind of thing that one can be 
+both proud and ashamed of. :)
+
+Paolo
+
 
