@@ -2,47 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB173A5EE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:09:37 +0200 (CEST)
-Received: from localhost ([::1]:37382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45903A5F04
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:18:24 +0200 (CEST)
+Received: from localhost ([::1]:58398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsibA-0000Hf-VE
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50698)
+	id 1lsijf-0006GG-SF
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:18:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lsiXl-0001S2-IT
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:06:05 -0400
-Received: from foss.arm.com ([217.140.110.172]:51024)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lsiXj-00064j-5z
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:06:05 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A4BB1FB;
- Mon, 14 Jun 2021 02:06:02 -0700 (PDT)
-Received: from e112269-lin.arm.com (autoplooker.cambridge.arm.com
- [10.1.194.57])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 817AE3F694;
- Mon, 14 Jun 2021 02:05:59 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v15 7/7] KVM: arm64: Document MTE capability and ioctl
-Date: Mon, 14 Jun 2021 10:05:25 +0100
-Message-Id: <20210614090525.4338-8-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210614090525.4338-1-steven.price@arm.com>
-References: <20210614090525.4338-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lsia7-0007Y4-9i
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:08:31 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:42964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lsia5-0007t7-L8
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:08:30 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ l7-20020a05600c1d07b02901b0e2ebd6deso12340597wms.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 02:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BegdXMnWqEqv/Ej8REp4BzVeIcBOTRvBL4KStq/Idfo=;
+ b=d7I2x+HDzUhDXVpVVlOd8ooJp3YGQIgIB5yKbiWXaq42zyxWQSVP0F+v/7PKo/GPqO
+ p43fIipiYXxZtDmlkM6NVrdOBNQBMKV0edNBccJBaJ59Qt3WzahoRLY93xuYRg45cE6m
+ L6IxjHitVaCDLOfanCrOSgCoY/SMO+fXR3LsaiMxkboNrJ00y4qw+6qk+pfeMJWEnFb8
+ LStOXReo31hM4LKfhbtA/qiV6Ka9ICgePVwScVCTnG7Lyi5UCrf9KNxXq2oLxLppCHcl
+ 1xFJSSM740uuUN5/y2ahRFeitzv6KcMnfjQZIeNXxRqQJD002+bwBYJ3ZiD/Z8ANxm4/
+ ZYfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BegdXMnWqEqv/Ej8REp4BzVeIcBOTRvBL4KStq/Idfo=;
+ b=qKskgHKy5hjzyZ8wq8eh4UaDdgHGgIgsTom/ixOSLvWlNWSnhKN0h9nWMVFP1SHTa7
+ KiLMYXfTCrpDURXmOzJ+6rFHTCaf2IGMTPfceNEUF0kX8cge+lBLFNFb1ugCyUzJ0/0e
+ jpQsLv4IFqF2qG/EekH5FMKNyU4HMLuHyLHHgd9fQneA6/pTpzuMmtVicRP7YVr2zjJ3
+ PProDD9CXgX12KK4/EjW/yNV1MsfbevBkfNHBJ9RZ+MsvJh3MK67qH/l2pYd/HIpdDKA
+ 5OG1loKf7URI9Bmsc5mis2JbSzhKK4u+WM1DihsQARiLje8Hy5uSH/E9fFJc7LQRLBHr
+ id1Q==
+X-Gm-Message-State: AOAM533DpASajRCrW0/XiWjltJEu7IwMV4dVxLRP7MTUzYP9PjH5wQAM
+ GllqoyXA7GQpSSpN/IaX9m0=
+X-Google-Smtp-Source: ABdhPJzIodTHAIKPU/JFmu/OtPjX/86IGFHWEzG65+wzZy6CEasXbp/JK8rslVDDwnknlPA4bKZv0Q==
+X-Received: by 2002:a1c:9a45:: with SMTP id c66mr14982140wme.43.1623661707830; 
+ Mon, 14 Jun 2021 02:08:27 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id 4sm14968847wry.74.2021.06.14.02.08.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 02:08:27 -0700 (PDT)
+Subject: Re: [PATCH 20/28] target/arm: Improve REV32
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-21-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7825e01b-6a3e-26b0-fdb9-0edf468e105f@amsat.org>
+Date: Mon, 14 Jun 2021 11:08:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210614083800.1166166-21-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.144,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,110 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A new capability (KVM_CAP_ARM_MTE) identifies that the kernel supports
-granting a guest access to the tags, and provides a mechanism for the
-VMM to enable it.
+On 6/14/21 10:37 AM, Richard Henderson wrote:
+> For the sf version, we are performing two 32-bit bswaps
+> in either half of the register.  This is equivalent to
+> performing one 64-bit bswap followed by a rotate.
+> 
+> For the non-sf version, we can remove TCG_BSWAP_IZ
+> and the preceding zero-extension.
+> 
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate-a64.c | 17 ++++-------------
+>  1 file changed, 4 insertions(+), 13 deletions(-)
 
-A new ioctl (KVM_ARM_MTE_COPY_TAGS) provides a simple way for a VMM to
-access the tags of a guest without having to maintain a PROT_MTE mapping
-in userspace. The above capability gates access to the ioctl.
-
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- Documentation/virt/kvm/api.rst | 57 ++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 22d077562149..d412928e50cd 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5034,6 +5034,43 @@ see KVM_XEN_VCPU_SET_ATTR above.
- The KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST type may not be used
- with the KVM_XEN_VCPU_GET_ATTR ioctl.
- 
-+4.130 KVM_ARM_MTE_COPY_TAGS
-+---------------------------
-+
-+:Capability: KVM_CAP_ARM_MTE
-+:Architectures: arm64
-+:Type: vm ioctl
-+:Parameters: struct kvm_arm_copy_mte_tags
-+:Returns: number of bytes copied, < 0 on error (-EINVAL for incorrect
-+          arguments, -EFAULT if memory cannot be accessed).
-+
-+::
-+
-+  struct kvm_arm_copy_mte_tags {
-+	__u64 guest_ipa;
-+	__u64 length;
-+	void __user *addr;
-+	__u64 flags;
-+	__u64 reserved[2];
-+  };
-+
-+Copies Memory Tagging Extension (MTE) tags to/from guest tag memory. The
-+``guest_ipa`` and ``length`` fields must be ``PAGE_SIZE`` aligned. The ``addr``
-+field must point to a buffer which the tags will be copied to or from.
-+
-+``flags`` specifies the direction of copy, either ``KVM_ARM_TAGS_TO_GUEST`` or
-+``KVM_ARM_TAGS_FROM_GUEST``.
-+
-+The size of the buffer to store the tags is ``(length / 16)`` bytes
-+(granules in MTE are 16 bytes long). Each byte contains a single tag
-+value. This matches the format of ``PTRACE_PEEKMTETAGS`` and
-+``PTRACE_POKEMTETAGS``.
-+
-+If an error occurs before any data is copied then a negative error code is
-+returned. If some tags have been copied before an error occurs then the number
-+of bytes successfully copied is returned. If the call completes successfully
-+then ``length`` is returned.
-+
- 5. The kvm_run structure
- ========================
- 
-@@ -6362,6 +6399,26 @@ default.
- 
- See Documentation/x86/sgx/2.Kernel-internals.rst for more details.
- 
-+7.26 KVM_CAP_ARM_MTE
-+--------------------
-+
-+:Architectures: arm64
-+:Parameters: none
-+
-+This capability indicates that KVM (and the hardware) supports exposing the
-+Memory Tagging Extensions (MTE) to the guest. It must also be enabled by the
-+VMM before creating any VCPUs to allow the guest access. Note that MTE is only
-+available to a guest running in AArch64 mode and enabling this capability will
-+cause attempts to create AArch32 VCPUs to fail.
-+
-+When enabled the guest is able to access tags associated with any memory given
-+to the guest. KVM will ensure that the tags are maintained during swap or
-+hibernation of the host; however the VMM needs to manually save/restore the
-+tags as appropriate if the VM is migrated.
-+
-+When enabled the VMM may make use of the ``KVM_ARM_MTE_COPY_TAGS`` ioctl to
-+perform a bulk copy of tags to/from the guest.
-+
- 8. Other capabilities.
- ======================
- 
--- 
-2.20.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
