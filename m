@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4153A72A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:51:28 +0200 (CEST)
-Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1DA3A72C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 02:02:53 +0200 (CEST)
+Received: from localhost ([::1]:44158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lswMa-0001No-1n
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:51:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54418)
+	id 1lswXc-0005Im-Ko
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 20:02:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lswLm-0000jN-V6
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:50:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43642)
+ id 1lswVr-00040T-NB
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 20:01:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lswLk-00022K-FL
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:50:38 -0400
+ id 1lswVp-0008Ro-KN
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 20:01:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lswLi-0000fQ-EC
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 23:50:34 +0000
+ id 1lswVm-0001Pd-SV
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:00:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 623502E805D
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 23:50:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D5B532E8085
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:00:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Jun 2021 23:44:21 -0000
-From: Alexander Bulekov <1888606@bugs.launchpad.net>
+Date: Mon, 14 Jun 2021 23:51:38 -0000
+From: Alexander Bulekov <1892761@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr kraxel-redhat th-huth
+X-Launchpad-Bug-Commenters: a1xndr th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <159548011952.31456.8249433335836304327.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162371426107.14360.12507255605252347433.malone@wampee.canonical.com>
-Subject: [Bug 1888606] Re: Heap-use-after-free in virtio_gpu_ctrl_response
+References: <159828509705.1974.10240334178612192608.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162371469824.17812.11971599419890054889.malone@gac.canonical.com>
+Subject: [Bug 1892761] Re: Heap-use-after-free through double-fetch in ehci
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 3a78e417bc70c5ecb696b74007693a1e06eac124
+X-Launchpad-Hash: c3f42f1ba562b513371f3506856df5b9f4437b5c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,218 +70,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888606 <1888606@bugs.launchpad.net>
+Reply-To: Bug 1892761 <1892761@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OSS-Fuzz says it was fixed some months ago, and it has not found a
-reproducer since.
+No. If we figure out some way to consistently reproduce double-fetches
+in a non-fuzzer build, I'll report the issue again, but this can
+probably be closed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888606
+https://bugs.launchpad.net/bugs/1892761
 
 Title:
-  Heap-use-after-free in virtio_gpu_ctrl_response
+  Heap-use-after-free through double-fetch in ehci
 
 Status in QEMU:
   Incomplete
 
 Bug description:
   Hello,
-  Here is a reproducer (build with --enable-sanitizers):
-  cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic -M pc -nodefaults=
- -m 512M -device virtio-vga -qtest stdio
-  outl 0xcf8 0x80001018
-  outl 0xcfc 0xe0800000
-  outl 0xcf8 0x80001020
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  writeq 0xe0801024 0x10646c00776c6cff
-  writeq 0xe080102d 0xe0801000320000
-  writeq 0xe0801015 0x12b2901ba000000
-  write 0x10646c02 0x1 0x2c
-  write 0x999 0x1 0x25
-  write 0x8 0x1 0x78
-  write 0x2c7 0x1 0x32
-  write 0x2cb 0x1 0xff
-  write 0x2cc 0x1 0x7e
-  writeq 0xe0803000 0xf2b8f0540ff83
-  EOF
+  I don't have a qtest reproducer for this crash because it involves a DMA =
+double-fetch, and I don't think we can reproduce those with qtest.
 
-  The ASAN trace:
-  =3D=3D29798=3D=3DERROR: AddressSanitizer: heap-use-after-free on address =
-0x60d0000050e8 at pc 0x560629814761 bp 0x7ffe916eb1e0 sp 0x7ffe916eb1d8
-  READ of size 8 at 0x60d0000050e8 thread T0
-      #0 0x560629814760 in virtio_gpu_ctrl_response /home/alxndr/Developmen=
-t/qemu/hw/display/virtio-gpu.c:181:42
-      #1 0x56062981adc8 in virtio_gpu_ctrl_response_nodata /home/alxndr/Dev=
-elopment/qemu/hw/display/virtio-gpu.c:193:5
-      #2 0x56062981adc8 in virtio_gpu_simple_process_cmd /home/alxndr/Devel=
-opment/qemu/hw/display/virtio-gpu.c:791:9
-      #3 0x5606298175f8 in virtio_gpu_process_cmdq /home/alxndr/Development=
-/qemu/hw/display/virtio-gpu.c:820:9
-      #4 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/a=
-sync.c:164:13
-      #5 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util/=
-aio-posix.c:380:5
-      #6 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
-til/async.c:306:5
-      #7 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
-nu/libglib-2.0.so.0+0x4e9ed)
-      #8 0x56062a919571 in glib_pollfds_poll /home/alxndr/Development/qemu/=
-util/main-loop.c:217:9
-      #9 0x56062a919571 in os_host_main_loop_wait /home/alxndr/Development/=
-qemu/util/main-loop.c:240:5
-      #10 0x56062a919571 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:516:11
-      #11 0x560629094a64 in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1676:9
-      #12 0x56062a749ab5 in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #13 0x7f0d5cd55e0a in __libc_start_main (/lib/x86_64-linux-gnu/libc.s=
-o.6+0x26e0a)
-      #14 0x5606288ba889 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0x24d0889)
+  Instead, I attached the pseudo-qtest trace produced by the fuzzer, along =
+with some trace events.
+  The lines annotated with [DMA] are write commands that were triggered by =
+a callback from a DMA read by the device. The lines annotated with [DOUBLE-=
+FETCH] are DMA accesses that hit the same address more than once (possible =
+double-fetches).
 
-  0x60d0000050e8 is located 56 bytes inside of 136-byte region [0x60d000005=
-0b0,0x60d000005138)
-  freed by thread T0 here:
-      #0 0x56062893250d in free (/home/alxndr/Development/qemu/build/i386-s=
-oftmmu/qemu-system-i386+0x254850d)
-      #1 0x560629827730 in virtio_gpu_reset /home/alxndr/Development/qemu/h=
-w/display/virtio-gpu.c:1160:9
-      #2 0x560628e81d34 in virtio_reset /home/alxndr/Development/qemu/hw/vi=
-rtio/virtio.c:1999:9
-      #3 0x560629f08773 in virtio_pci_reset /home/alxndr/Development/qemu/h=
-w/virtio/virtio-pci.c:1841:5
-      #4 0x560629043ab6 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/softmmu/memory.c:483:5
-      #5 0x560629043473 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/softmmu/memory.c:544:18
-      #6 0x560629042c99 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/softmmu/memory.c
-      #7 0x560628990a37 in flatview_write_continue /home/alxndr/Development=
-/qemu/exec.c:3176:23
-      #8 0x56062899041a in address_space_write_cached_slow /home/alxndr/Dev=
-elopment/qemu/exec.c:3789:12
-      #9 0x560628e6f9bb in vring_used_write /home/alxndr/Development/qemu/h=
-w/virtio/virtio.c:347:5
-      #10 0x560628e6f9bb in virtqueue_split_fill /home/alxndr/Development/q=
-emu/hw/virtio/virtio.c:788:5
-      #11 0x560628e6f9bb in virtqueue_fill /home/alxndr/Development/qemu/hw=
-/virtio/virtio.c:852:9
-      #12 0x560628e7205e in virtqueue_push /home/alxndr/Development/qemu/hw=
-/virtio/virtio.c:917:5
-      #13 0x560629814246 in virtio_gpu_ctrl_response /home/alxndr/Developme=
-nt/qemu/hw/display/virtio-gpu.c:180:5
-      #14 0x56062981adc8 in virtio_gpu_ctrl_response_nodata /home/alxndr/De=
-velopment/qemu/hw/display/virtio-gpu.c:193:5
-      #15 0x56062981adc8 in virtio_gpu_simple_process_cmd /home/alxndr/Deve=
-lopment/qemu/hw/display/virtio-gpu.c:791:9
-      #16 0x5606298175f8 in virtio_gpu_process_cmdq /home/alxndr/Developmen=
-t/qemu/hw/display/virtio-gpu.c:820:9
-      #17 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/=
-async.c:164:13
-      #18 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util=
-/aio-posix.c:380:5
-      #19 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/=
-util/async.c:306:5
-      #20 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e9ed)
-
-  previously allocated by thread T0 here:
-      #0 0x56062893278d in malloc (/home/alxndr/Development/qemu/build/i386=
--softmmu/qemu-system-i386+0x254878d)
-      #1 0x7f0d5e1d5500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x54500)
-      #2 0x560628e7844b in virtqueue_split_pop /home/alxndr/Development/qem=
-u/hw/virtio/virtio.c:1524:12
-      #3 0x560628e7844b in virtqueue_pop /home/alxndr/Development/qemu/hw/v=
-irtio/virtio.c:1693:16
-      #4 0x560629829633 in virtio_gpu_handle_ctrl /home/alxndr/Development/=
-qemu/hw/display/virtio-gpu.c:878:15
-      #5 0x560629829633 in virtio_gpu_ctrl_bh /home/alxndr/Development/qemu=
-/hw/display/virtio-gpu.c:893:5
-      #6 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/a=
-sync.c:164:13
-      #7 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util/=
-aio-posix.c:380:5
-      #8 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
-til/async.c:306:5
-      #9 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
-nu/libglib-2.0.so.0+0x4e9ed)
-
-  =
-
-  With -trace virtio\* -trace pci\* :
-  [I 1595480025.666147] OPENED
-  31900@1595480025.706962:virtio_set_status vdev 0x633000019640 val 0
-  31900@1595480025.710297:virtio_set_status vdev 0x633000019640 val 0
-  [R +0.046276] outl 0xcf8 0x80001018
-  OK
-  [S +0.046313] OK
-  [R +0.046332] outl 0xcfc 0xe0800000
-  31900@1595480025.712490:pci_cfg_write virtio-vga 02:0 @0x18 <- 0xe0800000
-  OK
-  [S +0.046356] OK
-  [R +0.046365] outl 0xcf8 0x80001020
-  OK
-  [S +0.046370] OK
-  [R +0.046379] outl 0xcf8 0x80001004
-  OK
-  [S +0.046383] OK
-  [R +0.046391] outw 0xcfc 0x7
-  31900@1595480025.712544:pci_cfg_write virtio-vga 02:0 @0x4 <- 0x7
-  31900@1595480025.712551:pci_update_mappings_add d=3D0x633000000800 00:02.=
-0 2,0xe0800000+0x4000
-  OK
-  [S +0.047572] OK
-  [R +0.047597] writeq 0xe0801024 0x10646c00776c6cff
-  OK
-  [S +0.047610] OK
-  [R +0.047619] writeq 0xe080102d 0xe0801000320000
-  OK
-  [S +0.047627] OK
-  [R +0.047636] writeq 0xe0801015 0x12b2901ba000000
-  OK
-  [S +0.047650] OK
-  [R +0.047660] write 0x10646c02 0x1 0x2c
-  OK
-  [S +0.047769] OK
-  [R +0.047782] write 0x999 0x1 0x25
-  OK
-  [S +0.047907] OK
-  [R +0.047920] write 0x8 0x1 0x78
-  OK
-  [S +0.047927] OK
-  [R +0.047935] write 0x2c7 0x1 0x32
-  OK
-  [S +0.047941] OK
-  [R +0.047949] write 0x2cb 0x1 0xff
-  OK
-  [S +0.047954] OK
-  [R +0.047962] write 0x2cc 0x1 0x7e
-  OK
-  [S +0.047967] OK
-  [R +0.047975] writeq 0xe0803000 0xf2b8f0540ff83
-  31900@1595480025.714133:virtio_queue_notify vdev 0x633000019640 n 0 vq 0x=
-7fe20b13d800
-  OK
-  [S +0.047996] OK
-  31900@1595480025.714386:virtio_notify vdev 0x633000019640 vq 0x7fe20b13d8=
-00
-  31900@1595480025.714406:virtio_gpu_features virgl 0
-  31900@1595480025.714413:virtio_notify vdev 0x633000019640 vq 0x7fe20b13d8=
-00
-  31900@1595480025.714421:virtio_set_status vdev 0x633000019640 val 0
-  *CRASH*
-
-  Please let me know if I can provide any further info.
+  I am still thinking of nicer ways of presenting this trace and providing =
+a reproducer.
   -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888606/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1892761/+subscriptions
 
