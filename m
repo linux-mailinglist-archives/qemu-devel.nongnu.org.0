@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBC03A5E4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:21:24 +0200 (CEST)
-Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED193A5E55
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:23:10 +0200 (CEST)
+Received: from localhost ([::1]:37596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshqV-0001um-MB
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41686)
+	id 1lshsD-0006aj-Rn
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshmc-0002TZ-HQ
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45703)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lshme-0002Zm-An
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lshma-0004di-SH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lshmc-0004en-IC
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623658640;
+ s=mimecast20190719; t=1623658642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=22VGQAkVYpqq45T3UgWkUg7TZcPRUjggijqQxX73KPM=;
- b=GmldDJJZQJLa+m5r0kqvzq8GKazoG3E7wip7FZ0Tu5jRR9x3bii7twWypjdQuXjTUzt8eS
- 0k/70nMrxU6VtG2i8TJChQDMW44VfOhaECNgILrWjzrlyGuZ1y68M5l1uQEMR3/IVuMNaz
- HKhLeVnn1BDo1C+wL28ScfR06mXdRXo=
+ bh=ufEJt5O9ugVoZbMvb9zlakqeknohXsCbUk5MqRli1tQ=;
+ b=S39PYqevXa8V0WuCztEObpMroTET+yWDzLBdGJarXS3p8YWRltj+K7a/qHhdTecIzL2xhN
+ KerMdr1PQA2skPsr/i4oi/6G1CRxcT+II2ar15mhqCQay2yZxqiYm+nacMt8XOhlFUMO4u
+ 0idei4sRdoIxpNZRRaTiGCAXnJRrbuE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-I3bsRS-rP6-RqV138a01_Q-1; Mon, 14 Jun 2021 04:17:19 -0400
-X-MC-Unique: I3bsRS-rP6-RqV138a01_Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-581-6WP2TSdmOcutUeq4BM8FkQ-1; Mon, 14 Jun 2021 04:17:20 -0400
+X-MC-Unique: 6WP2TSdmOcutUeq4BM8FkQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62064106B80C;
- Mon, 14 Jun 2021 08:08:56 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
- [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3820760871;
- Mon, 14 Jun 2021 08:08:54 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/5] block-copy: let ratelimit handle a speed of 0
-Date: Mon, 14 Jun 2021 10:08:41 +0200
-Message-Id: <20210614080844.21817-3-eesposit@redhat.com>
-In-Reply-To: <20210614080844.21817-1-eesposit@redhat.com>
-References: <20210614080844.21817-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 496F836374;
+ Mon, 14 Jun 2021 08:09:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D5BB65D9D3;
+ Mon, 14 Jun 2021 08:09:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6E81B113865F; Mon, 14 Jun 2021 10:09:00 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [RFC PATCH V1 1/3] acpi: Eliminate all TPM related code if
+ CONFIG_TPM is not set
+References: <20210612012102.1820063-1-stefanb@linux.ibm.com>
+ <20210612012102.1820063-2-stefanb@linux.ibm.com>
+Date: Mon, 14 Jun 2021 10:09:00 +0200
+In-Reply-To: <20210612012102.1820063-2-stefanb@linux.ibm.com> (Stefan Berger's
+ message of "Fri, 11 Jun 2021 21:21:00 -0400")
+Message-ID: <877diw6f6r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,80 +81,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, "M : Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+Stefan Berger <stefanb@linux.ibm.com> writes:
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block/block-copy.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
+> Cc: M: Michael S. Tsirkin <mst@redhat.com>
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 5808cfe657..943e30b7e6 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -114,7 +114,6 @@ typedef struct BlockCopyState {
- 
-     SharedResource *mem;
- 
--    uint64_t speed;
-     RateLimit rate_limit;
- } BlockCopyState;
- 
-@@ -647,21 +646,19 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-             task->copy_range = false;
-         }
- 
--        if (s->speed) {
--            if (!call_state->ignore_ratelimit) {
--                uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
--                if (ns > 0) {
--                    block_copy_task_end(task, -EAGAIN);
--                    g_free(task);
--                    qemu_co_sleep_ns_wakeable(&call_state->sleep,
--                                              QEMU_CLOCK_REALTIME, ns);
--                    continue;
--                }
-+        if (!call_state->ignore_ratelimit) {
-+            uint64_t ns = ratelimit_calculate_delay(&s->rate_limit, 0);
-+            if (ns > 0) {
-+                block_copy_task_end(task, -EAGAIN);
-+                g_free(task);
-+                qemu_co_sleep_ns_wakeable(&call_state->sleep,
-+                                            QEMU_CLOCK_REALTIME, ns);
-+                continue;
-             }
--
--            ratelimit_calculate_delay(&s->rate_limit, task->bytes);
-         }
- 
-+        ratelimit_calculate_delay(&s->rate_limit, task->bytes);
-+
-         trace_block_copy_process(s, task->offset);
- 
-         co_get_from_shres(s->mem, task->bytes);
-@@ -853,10 +850,7 @@ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip)
- 
- void block_copy_set_speed(BlockCopyState *s, uint64_t speed)
- {
--    s->speed = speed;
--    if (speed > 0) {
--        ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
--    }
-+    ratelimit_set_speed(&s->rate_limit, speed, BLOCK_COPY_SLICE_TIME);
- 
-     /*
-      * Note: it's good to kick all call states from here, but it should be done
--- 
-2.31.1
+Pasto; drop the "M: ".
+
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
 
