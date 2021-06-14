@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9195A3A6222
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:54:22 +0200 (CEST)
-Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36123A62BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:03:33 +0200 (CEST)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lskEX-00081x-MN
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
+	id 1lskNQ-0002oB-Rf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lskD6-0007M7-2h
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:52:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lskD2-0006lP-TO
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:52:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623667967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R+kpYOSdeycA2nesfzD6KZF/Z7MRIV3vhA8R7fb4dTU=;
- b=H18Y3GVur+jTD4+HlBvXU7S6RJc7UvAxN4u0S5HC3zVQ4kT5CVdZt3IkU9Tf+02Myw41pv
- gnunez6r9XIuH6SsEKuqy/pkkBUcBmvb/fatWmXszAG6NF32fUnNAamcpn2gLy7v1cu2E5
- ITF5qaEn811IEZfA4jUdAZoI748EaRo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-4g_JWfx3NWmLFN5azS1ufQ-1; Mon, 14 Jun 2021 06:52:46 -0400
-X-MC-Unique: 4g_JWfx3NWmLFN5azS1ufQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j6-20020a05600c1906b029019e9c982271so6549833wmq.0
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:52:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lskMG-00027B-QL
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:02:20 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:47014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lskME-0004pU-VB
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:02:20 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id s15so5001086edt.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 04:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cBXA3AmcMdZMsNxG5dJAIsaVnj2EOvTSVy1kpPH/Dzk=;
+ b=h0NZfUeQp4twRCHSgdcro4zkJdq7FlqCl511m3B3CmJZ5t07m0muO82cu9akbbAPY+
+ Xg7dTNCqz6MVfI+xxbpHy4A+AmXlY+3p5H/ZbNca5lXTSoyQRGDPdPVbjoJ5mFZik3Oc
+ 1smmZLREEF2pRaBnOnjO+KwY2aKErv8QrP0RrEXHMd4P3Z2Oo3juF3q9tNBaX8CnVesf
+ AKmGFg+0x2GNrH54bROqgysR5RDP7kWlCwDOAUIIo+jyAUmA3avFXKfM+TqCQcp8+VA1
+ N4fD+f9NwXLuGdOEmKC1Vzpc07gCiMSwrxyVOEv081OoEdExjBHup5qLmh1CjUz9w9FA
+ hxSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R+kpYOSdeycA2nesfzD6KZF/Z7MRIV3vhA8R7fb4dTU=;
- b=VKK9Z7uLGiOny7ohUlnkdtR1waAfF0bPnAF9GLqHvpaDjmqPZzDK/njHBQo+jl/c33
- yIgFGbyOnqEGq468UjcHXu6G+h4J/Npa1d4IY5JzGD4YZd5SnPPcxv0Pb1jtx7bFn7cL
- SI8pibkLxCU1OXARl9GNtoaFRV5siesDZd9HaAEQtUo+TPrcxSJRtFSUG2EIRE3yYEAs
- OzaD9el6M2qCPGbh3gZa816ZoSTNLxvUTcWSA2SXZXc/tJGhcGaIpHX5j8nT8IoJN2UA
- juzpNAXqYv694kiN8Olm6rXw5LzHzpopqm+5TrCaaK2J7+GZnqspcw3CtuO9Xc/k+yZO
- MOCg==
-X-Gm-Message-State: AOAM533+sPuhkURf5QfGxXxXOa82wbVXxjmKmXA7M2a80SDhoQ+UhhZ7
- c3DCML5ej5FUHPni+yY5+eA6jyGClyAB2wYO4XQuadSIOFWcTwrWJZ4FeBHC44pzE/0mD8eVYaB
- k30Gk1Y2P2PoTnwA=
-X-Received: by 2002:a7b:cb03:: with SMTP id u3mr16373892wmj.119.1623667965278; 
- Mon, 14 Jun 2021 03:52:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwIaL4Sh3MsXhHfcJGijS6NIXEWPgjgveiWTSfI/6g3+Ln4RB2jSoejluo2e7o8N5O8O37z9g==
-X-Received: by 2002:a7b:cb03:: with SMTP id u3mr16373865wmj.119.1623667965098; 
- Mon, 14 Jun 2021 03:52:45 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id g17sm19993782wrh.72.2021.06.14.03.52.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 03:52:44 -0700 (PDT)
-Subject: Re: [RFC PATCH] hw/display/virtio-gpu: Fix memory leak (CID 1453811)
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>, qemu-devel@nongnu.org
-References: <20210531101928.1662732-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e69a7f99-7d35-12f8-21af-48cc95172e6d@redhat.com>
-Date: Mon, 14 Jun 2021 12:52:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=cBXA3AmcMdZMsNxG5dJAIsaVnj2EOvTSVy1kpPH/Dzk=;
+ b=hgzJx1ACFk+mX4NBPJoCpe0xAWyS6jdWq0Mj/HTAADAY3NeHpQNH4bayNpwwfXx8eF
+ sgE7ye7uoRBJreDS6k4LIbc75UkSRGcvSat0w9uz643JXdtKvsccKzAF6A2mZZ+rQEvD
+ fUaT7EdWtECfNvPVpw2iloXe0Z91z7lC7PcvQJwzQ44piN1Utb4IbiFqZBKca+2vBleM
+ loTq5JEYDbkE+K2k28l4VEb8ijuJA5b8Etft4x59hCxzyp81gI6Nr2prkvRnqnoCebms
+ mjN6eneUhS6RXoxboNxxaXsiNIHOqdfRM/FiS2VCeepqGTDJczxHiMM2okkC6m7mH76q
+ la4w==
+X-Gm-Message-State: AOAM530jdmjkuOO46l1CB0QwlRMMftBkb7avJon/cd+eFHVgj4ZAw/EI
+ JRNstV415uHcYyOuvM2eiXNhHZu7Hf8=
+X-Google-Smtp-Source: ABdhPJzmkGOadnMcuyxOvT9vOhIvULEWaHKb+KzNlEvAl6haqqHFqijoL7mwqq48x66nEyMxzxut8w==
+X-Received: by 2002:aa7:d817:: with SMTP id v23mr16029537edq.300.1623668536071; 
+ Mon, 14 Jun 2021 04:02:16 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p9sm8559770edh.61.2021.06.14.04.02.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 04:02:15 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests: cover aio_co_enter from a worker thread without BQL
+ taken
+Date: Mon, 14 Jun 2021 13:02:14 +0200
+Message-Id: <20210614110214.726722-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210531101928.1662732-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.144, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,79 +82,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping?
+Add a testcase for the test fixed by commit 'async: the main AioContext
+is only "current" if under the BQL.
 
-On 5/31/21 12:19 PM, Philippe Mathieu-Daudé wrote:
-> To avoid leaking memory on the error path, reorder the
-> code as:
-> - check the parameters first
-> - check resource already existing
-> - finally allocate memory
-> 
-> Reported-by: Coverity (CID 1453811: RESOURCE_LEAK)
-> Fixes: e0933d91b1c ("virtio-gpu: Add virtio_gpu_resource_create_blob")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> RFC because the s->iov check is dubious.
-> ---
->  hw/display/virtio-gpu.c | 28 +++++++++++-----------------
->  1 file changed, 11 insertions(+), 17 deletions(-)
-> 
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 4d549377cbc..8d047007bbb 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -340,8 +340,15 @@ static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
->          return;
->      }
->  
-> -    res = virtio_gpu_find_resource(g, cblob.resource_id);
-> -    if (res) {
-> +    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
-> +        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
-> +                      __func__);
-> +        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
-> +        return;
-> +    }
-> +
-> +    if (virtio_gpu_find_resource(g, cblob.resource_id)) {
->          qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n",
->                        __func__, cblob.resource_id);
->          cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
-> @@ -352,25 +359,12 @@ static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
->      res->resource_id = cblob.resource_id;
->      res->blob_size = cblob.size;
->  
-> -    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
-> -        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
-> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
-> -                      __func__);
-> -        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
-> -        g_free(res);
-> -        return;
-> -    }
-> -
-> -    if (res->iov) {
-> -        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-> -        return;
-> -    }
-> -
->      ret = virtio_gpu_create_mapping_iov(g, cblob.nr_entries, sizeof(cblob),
->                                          cmd, &res->addrs, &res->iov,
->                                          &res->iov_cnt);
-> -    if (ret != 0) {
-> +    if (ret != 0 || res->iov) {
->          cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
-> +        g_free(res);
->          return;
->      }
->  
-> 
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ tests/unit/test-aio.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/tests/unit/test-aio.c b/tests/unit/test-aio.c
+index 8a46078463..6feeb9a4a9 100644
+--- a/tests/unit/test-aio.c
++++ b/tests/unit/test-aio.c
+@@ -877,6 +877,42 @@ static void test_queue_chaining(void)
+     g_assert_cmpint(data_b.i, ==, data_b.max);
+ }
+ 
++static void co_check_current_thread(void *opaque)
++{
++    QemuThread *main_thread = opaque;
++    assert(qemu_thread_is_self(main_thread));
++}
++
++static void *test_aio_co_enter(void *co)
++{
++    /*
++     * qemu_get_current_aio_context() should not to be the main thread
++     * AioContext, because this is a worker thread that has not taken
++     * the BQL.  So aio_co_enter will schedule the coroutine in the
++     * main thread AioContext.
++     */
++    aio_co_enter(qemu_get_aio_context(), co);
++    return NULL;
++}
++
++static void test_worker_thread_co_enter(void)
++{
++    QemuThread this_thread, worker_thread;
++    Coroutine *co;
++
++    qemu_thread_get_self(&this_thread);
++    co = qemu_coroutine_create(co_check_current_thread, &this_thread);
++
++    qemu_thread_create(&worker_thread, "test_acquire_thread",
++                       test_aio_co_enter,
++                       co, QEMU_THREAD_JOINABLE);
++
++    /* Test aio_co_enter from a worker thread.  */
++    qemu_thread_join(&worker_thread);
++    g_assert(aio_poll(ctx, true));
++    g_assert(!aio_poll(ctx, false));
++}
++
+ /* End of tests.  */
+ 
+ int main(int argc, char **argv)
+@@ -903,6 +939,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/aio/timer/schedule",          test_timer_schedule);
+ 
+     g_test_add_func("/aio/coroutine/queue-chaining", test_queue_chaining);
++    g_test_add_func("/aio/coroutine/worker-thread-co-enter", test_worker_thread_co_enter);
+ 
+     g_test_add_func("/aio-gsource/flush",                   test_source_flush);
+     g_test_add_func("/aio-gsource/bh/schedule",             test_source_bh_schedule);
+-- 
+2.31.1
 
 
