@@ -2,84 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BD23A5ECD
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:05:09 +0200 (CEST)
-Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE7B3A5EFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 11:15:35 +0200 (CEST)
+Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsiWq-0006mw-I0
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:05:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49876)
+	id 1lsigw-0001xM-6S
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 05:15:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lsiTd-00047C-KH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:01:49 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lsiTc-0003TQ-13
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:01:49 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- t4-20020a1c77040000b029019d22d84ebdso12466605wmi.3
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 02:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pHqDW207mjgrvpC5bUXztMmrnYyS4Ll7Q7BfaTXLkLI=;
- b=kVQcVq4QxFA7pDcSWrtunEERM/Temly5Z2CjvEuOHh2MVBJQ79oQ/j8GdUC0C1nCTB
- MbKuxYR7GjYO3j7Pbo5paIpLz1INXW62/HuiTdIYYUWFvvjgxIFP7eYpuFx1gvXG4rUJ
- PsxYArHaDKGR5OPRpAJJnIzWcjQObLzOh7Xo4B2UZ6NNWp0X3ihb46OAlYHSWRPkV2pN
- ahGKdOfWKzbGg4HWLZQ/HPmry3fAXwnydRCUNV1XVB1koqG1BGcEENs2mXWXv79U0MG6
- y/S8KDzLf4/dnMAXnMCi1QoAmEbkAvdcboXLSFhPXDH7NmlOfkxm0TdLuLJgTeM0K6gc
- aHnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pHqDW207mjgrvpC5bUXztMmrnYyS4Ll7Q7BfaTXLkLI=;
- b=Elk/ZWzt8TD1C4Eg0DjPvA+3m/dTDpSZRbm6++ETFc/30/vVUv+/9mUKJcpfhrBaFF
- +lOwuA16bwjP98eujrSllJj6G7NHxyJKEHhtS5foNA3sb2Xj63t/tGTDH54OOrlgg+Cq
- VcemO0g9qTop9hzXJdjV1z4TYUbI/DNkOjhItgIp/DGYttBIOJti2t5CGJSECYFXawcI
- tm5UfXPZPfAsFJ5eieuPdxRI1cp2nquSZs36QcRDUi6Mir2Mp7VEZXne4F/weWjYMEp/
- RjzfWG56KnVqQSpFM4Rx28wsp7O24JBiiMb9WQW+lls6KvLiWDilDbHxgRfvuVS+fn9G
- bSHQ==
-X-Gm-Message-State: AOAM533mDiwUBxnORrxhKgX+VKFCePgY6G1ZjNB5MPFZDX+IIijjdt+J
- tSANH6zFUYleaq5GE17+2is=
-X-Google-Smtp-Source: ABdhPJxJcm2JJ2QVII4oAneyzHFKaggXEPa8fJxDAovb3WklvQ3+pytURtwJkruB/s3IvUTtHWhYdQ==
-X-Received: by 2002:a1c:c911:: with SMTP id f17mr15482474wmb.60.1623661306480; 
- Mon, 14 Jun 2021 02:01:46 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id f5sm16591101wrf.22.2021.06.14.02.01.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 02:01:45 -0700 (PDT)
-Subject: Re: [PATCH] esp: fix migration version check in esp_is_version_5()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- qemu-devel@nongnu.org, laurent@vivier.eu, hpoussin@reactos.org
-References: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
- <75bf9945-9953-ba75-048a-a1570c6746ac@amsat.org>
- <0940b4dd-563e-6c9b-fd66-91f5bc664ef3@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <347be692-0e6a-f684-ddbb-b2b2acd7ae04@amsat.org>
-Date: Mon, 14 Jun 2021 11:01:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lsiXS-0000wv-Kt
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:05:46 -0400
+Received: from foss.arm.com ([217.140.110.172]:50862)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lsiXP-0005lB-6D
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 05:05:45 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C54F61FB;
+ Mon, 14 Jun 2021 02:05:40 -0700 (PDT)
+Received: from e112269-lin.arm.com (autoplooker.cambridge.arm.com
+ [10.1.194.57])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 062103F694;
+ Mon, 14 Jun 2021 02:05:37 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v15 0/7] MTE support for KVM guest
+Date: Mon, 14 Jun 2021 10:05:18 +0100
+Message-Id: <20210614090525.4338-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <0940b4dd-563e-6c9b-fd66-91f5bc664ef3@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.144,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,70 +53,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 9:44 AM, Mark Cave-Ayland wrote:
-> On 14/06/2021 06:42, Philippe Mathieu-Daudé wrote:
-> 
->> On 6/13/21 12:26 PM, Mark Cave-Ayland wrote:
->>> Commit 4e78f3bf35 "esp: defer command completion interrupt on
->>> incoming data
->>> transfers" added a version check for use with VMSTATE_*_TEST macros
->>> to allow
->>> migration from older QEMU versions. Unfortunately the version check
->>> fails to
->>> work in its current form since if the VMStateDescription version_id is
->>> incremented, the test returns false and so the fields are not
->>> included in the
->>> outgoing migration stream.
->>>
->>> Change the version check to use >= rather == to ensure that migration
->>> works
->>> correctly when the ESPState VMStateDescription has version_id > 5.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on
->>> incoming data transfers")
->>> ---
->> Well, it is not buggy yet :)
-> 
-> :)
-> 
->>>   hw/scsi/esp.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->>> index bfdb94292b..39756ddd99 100644
->>> --- a/hw/scsi/esp.c
->>> +++ b/hw/scsi/esp.c
->>> @@ -1120,7 +1120,7 @@ static bool esp_is_version_5(void *opaque, int
->>> version_id)
->>
->> Can you rename esp_is_at_least_version_5()?
-> 
-> Sure, I can rename it if you like but it will of course make the diff
-> noisier. esp_is_at_least_version_5() seems quite a mouthful though, what
-> about esp_min_version_5() instead?
+This series adds support for using the Arm Memory Tagging Extensions
+(MTE) in a KVM guest.
 
-I was looking at esp_is_before_version_5(). Following that logic it
-should be named esp_is_after_version_4()? Or esp_min_version_5() and
-rename esp_is_before_version_5() -> esp_max_version_4(). All options
-seem confuse...
+I realise there are still open questions[1] around the performance of
+this series (the 'big lock', tag_sync_lock, introduced in the first
+patch). But there should be no impact on non-MTE workloads and until we
+get real MTE-enabled hardware it's hard to know whether there is a need
+for something more sophisticated or not. Peter Collingbourne's patch[3]
+to clear the tags at page allocation time should hide more of the impact
+for non-VM cases. So the remaining concern is around VM startup which
+could be effectively serialised through the lock.
 
-Maybe _V macros suggested by Paolo make all clearer?
+Changes since v14[2]:
 
-> 
->>>       ESPState *s = ESP(opaque);
->>>         version_id = MIN(version_id, s->mig_version_id);
->>> -    return version_id == 5;
->>> +    return version_id >= 5;
->>>   }
->>>     int esp_pre_save(void *opaque)
-> 
-> 
-> ATB,
-> 
-> Mark.
-> 
+ * Dropped "Handle MTE tags zeroing" patch in favour of Peter's similar
+   patch[3] (now in arm64 tree).
+
+ * Improved documentation following Catalin's review.
+
+[1]: https://lore.kernel.org/r/874ke7z3ng.wl-maz%40kernel.org
+[2]: https://lore.kernel.org/r/20210607110816.25762-1-steven.price@arm.com/
+[3]: https://lore.kernel.org/r/20210602235230.3928842-4-pcc@google.com/
+
+Steven Price (7):
+  arm64: mte: Handle race when synchronising tags
+  arm64: mte: Sync tags for pages where PTE is untagged
+  KVM: arm64: Introduce MTE VM feature
+  KVM: arm64: Save/restore MTE registers
+  KVM: arm64: Expose KVM_ARM_CAP_MTE
+  KVM: arm64: ioctl to fetch/store tags in a guest
+  KVM: arm64: Document MTE capability and ioctl
+
+ Documentation/virt/kvm/api.rst             | 57 +++++++++++++++
+ arch/arm64/include/asm/kvm_arm.h           |  3 +-
+ arch/arm64/include/asm/kvm_emulate.h       |  3 +
+ arch/arm64/include/asm/kvm_host.h          | 12 ++++
+ arch/arm64/include/asm/kvm_mte.h           | 66 +++++++++++++++++
+ arch/arm64/include/asm/mte-def.h           |  1 +
+ arch/arm64/include/asm/mte.h               |  8 ++-
+ arch/arm64/include/asm/pgtable.h           | 22 +++++-
+ arch/arm64/include/asm/sysreg.h            |  3 +-
+ arch/arm64/include/uapi/asm/kvm.h          | 11 +++
+ arch/arm64/kernel/asm-offsets.c            |  2 +
+ arch/arm64/kernel/mte.c                    | 54 ++++++++++++--
+ arch/arm64/kvm/arm.c                       | 16 +++++
+ arch/arm64/kvm/guest.c                     | 82 ++++++++++++++++++++++
+ arch/arm64/kvm/hyp/entry.S                 |  7 ++
+ arch/arm64/kvm/hyp/exception.c             |  3 +-
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 ++++++
+ arch/arm64/kvm/mmu.c                       | 42 ++++++++++-
+ arch/arm64/kvm/reset.c                     |  3 +-
+ arch/arm64/kvm/sys_regs.c                  | 32 +++++++--
+ include/uapi/linux/kvm.h                   |  2 +
+ 21 files changed, 429 insertions(+), 21 deletions(-)
+ create mode 100644 arch/arm64/include/asm/kvm_mte.h
+
+-- 
+2.20.1
+
 
