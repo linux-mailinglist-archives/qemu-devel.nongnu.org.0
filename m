@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173363A6AE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:50:07 +0200 (CEST)
-Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2933A6AA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:39:53 +0200 (CEST)
+Received: from localhost ([::1]:54290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsoqk-0004Va-45
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
+	id 1lsogq-0003xz-Ex
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsoFF-0002q0-LQ
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:11:21 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52763)
+ id 1lsoFE-0002kc-DA
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:11:20 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lsoEp-0000dr-A8
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:11:21 -0400
-Received: by mail-wm1-x332.google.com with SMTP id f17so12343192wmf.2
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 08:10:54 -0700 (PDT)
+ id 1lsoEq-0000el-0u
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:11:20 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n7so8775903wri.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 08:10:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wcZxpRuNVl8m/x6IwxRgZ1t/II2usAztG6iFaiDT4GY=;
- b=M7IO4mXk2uGs3jSdInMkPzQ0fPKxCO0xfVzs7+tSnqfjQUJ2YaReSEIguMvzJZewRT
- NcoJBIlYpsyenMP4YmLDSCMBxVPk/SGRCGynbvTk0XfxUP+a0U7tGfB6Pg70MXi6u/lz
- IUWIU3FZ1PpMxgdEOYn4vdOy3Ktyv005Sq+gLKOEom2lZCzJI04RxOoFin26StSI7F2J
- WAOeo5pMy+NnheFFxZLKUq0wXUMyP9Vks/MKSZAVVnvJ0xv5ITwJbRMBFDok8qlOs//L
- EPSGQTtOz7y/XwdFTcL9NoKSZ/5XILiLyWgtBGzj3eGQ/r3tgv3H7keagJcXFmPuNAKl
- 56lA==
+ bh=6RXbJA8xT9tL9/5lO79mPbtL37lFzAFJJ4cma6UlHcs=;
+ b=XLKC2rrlgwRnJc0pbKH1wqPpITewOAYik6f3rp6naln1tCmf4BKjQRrjuQtfJstnDM
+ eHCbAIHw2CT/pgKGl4XhpzZQwdWd04lb5526P1+rLv8SvnY09Xg/KYn/xZHqUrByCEMR
+ 9/Q2n08Zm9xP/St23gFaVh7roc2Om6AhpprEv9eowiv0vvy7JG4lbIQ/5xbjW0AgnpPa
+ EsfU+92XMEXKROuLt3RMUrV81YQjsY/jhMuRrGXRURCKIouD/s3vRoNEGWqxYltLharS
+ YNJmjy5Hrd5trxKTHGjs8y2NEjnFsHssfe3CX+uLXdKWAB6G9oRDe2+RjJFLFPrOQmyF
+ nmvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wcZxpRuNVl8m/x6IwxRgZ1t/II2usAztG6iFaiDT4GY=;
- b=jdUQuckD9Axu/QK2QVm8FYrpeBGoOi0w/lDIdAAmNSMpVlzBB7f0FKT/p7eO63ZD9N
- Pe62U0Ak62PkPZSgiwj5VT9COiORdMuip6cOjXrMLDRzLk5XLbsi3rddkbVXqETTX4lH
- Ky97QrP9kcwvoIoR9HAjkDlf7Zuy0WK37PNlo7BTjbFAiJ+XFmrkTr4BTTXa6vF2pCUu
- yYEOQNA9d5bUVMJ8hu83uG+WQ/zWotersvdRCSgn9GVd9yO6mjgi8ALBWM3t+BRXadgk
- 5oQqkkhTCe6jzcJHgjVxGj4XG+0/2w+YPbQJW6Z/cd9mxxvN0T9ziKQo/ksVOfBCEITk
- m8qw==
-X-Gm-Message-State: AOAM532qJksTxVgXm9AbAPQMPAEa42YYm7g6AAubuMkFSau/5qBKywqF
- +ijhgs/hTdbMn9ZZ/XSsGoL/zQ==
-X-Google-Smtp-Source: ABdhPJwF0yZB2xkRl2hQxJBQkkMFG87j5WIXiOK/OcD/ZlHutq8bADGzEnTvHRR+TXEg5qKhgerpCQ==
-X-Received: by 2002:a05:600c:4e8f:: with SMTP id
- f15mr33186764wmq.143.1623683453746; 
- Mon, 14 Jun 2021 08:10:53 -0700 (PDT)
+ bh=6RXbJA8xT9tL9/5lO79mPbtL37lFzAFJJ4cma6UlHcs=;
+ b=s9UTorDQiHVDmsAB93PqBCNwYSQtJFwlD0eh0bpmq4thw/G/TwKMAIAUOaPux8UlYD
+ L4DyOMOL4zLVYn+JwRULsaxizRZXQIchhv8vqs+cVpxEBK7vfNkqMTa9bew2rNTqx9J6
+ w1TalZSvq/0+llNsNHqlAfH//h7Z9brrn8IfIBB2o4ydQIqRICOZJU1iXPJrMvRe/rlF
+ 6gdBY6y84Zsnb98ULCM+5/vTbYFmCTDN0RpVr+yDtmVsUXimOc+xXqMp7IeAn96l8GMr
+ XmJczgt6cwepaDD1w2gIOFDwAgX69zT3eNUtL6OBAag0y6Lt2SHONgDhp1gDcaKiqWSs
+ m/Mw==
+X-Gm-Message-State: AOAM530BRmFGNnExUPcVUxdtVBBPnzUXcKv3monb33qeS3rs5j7G+jkI
+ m8lyWFzYxy34tXiFuZhLoQgRWg==
+X-Google-Smtp-Source: ABdhPJwz3DHVsnJArqz5j+ZxIqgBRH1Bq0GjKPQ8ZfAwmCHucYQ2l07/ICgC8MydMokrcmKva5KyUg==
+X-Received: by 2002:adf:e6c9:: with SMTP id y9mr18682599wrm.279.1623683454591; 
+ Mon, 14 Jun 2021 08:10:54 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id b8sm20865639wmd.35.2021.06.14.08.10.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 08:10:53 -0700 (PDT)
+ Mon, 14 Jun 2021 08:10:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 53/57] target/arm: Implement MVE VADC, VSBC
-Date: Mon, 14 Jun 2021 16:10:03 +0100
-Message-Id: <20210614151007.4545-54-peter.maydell@linaro.org>
+Subject: [PATCH v2 54/57] target/arm: Implement MVE VCADD
+Date: Mon, 14 Jun 2021 16:10:04 +0100
+Message-Id: <20210614151007.4545-55-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210614151007.4545-1-peter.maydell@linaro.org>
 References: <20210614151007.4545-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,162 +87,120 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VADC and VSBC insns.  These perform an
-add-with-carry or subtract-with-carry of the 32-bit elements in each
-lane of the input vectors, where the carry-out of each add is the
-carry-in of the next.  The initial carry input is either 1 or is from
-FPSCR.C; the carry out at the end is written back to FPSCR.C.
+Implement the MVE VCADD insn, which performs a complex add with
+rotate.  Note that the size=0b11 encoding is VSBC.
+
+The architecture grants some leeway for the "destination and Vm
+source overlap" case for the size MO_32 case, but we choose not to
+make use of it, instead always calculating all 16 bytes worth of
+results before setting the destination register.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-mve.h    |  5 ++++
- target/arm/mve.decode      |  5 ++++
- target/arm/mve_helper.c    | 52 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c | 37 +++++++++++++++++++++++++++
- 4 files changed, 99 insertions(+)
+ target/arm/helper-mve.h    |  8 ++++++++
+ target/arm/mve.decode      |  9 +++++++--
+ target/arm/mve_helper.c    | 29 +++++++++++++++++++++++++++++
+ target/arm/translate-mve.c |  7 +++++++
+ 4 files changed, 51 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 2f0cf99359a..459c8eebdd6 100644
+index 459c8eebdd6..b8ad3df9cc8 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -246,6 +246,11 @@ DEF_HELPER_FLAGS_4(mve_vrhaddub, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vrhadduh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_vrhadduw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+@@ -251,6 +251,14 @@ DEF_HELPER_FLAGS_4(mve_vadci, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vsbc, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vsbci, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  
-+DEF_HELPER_FLAGS_4(mve_vadc, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vadci, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vsbc, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_4(mve_vsbci, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vcadd90b, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vcadd90h, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vcadd90w, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++
++DEF_HELPER_FLAGS_4(mve_vcadd270b, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vcadd270h, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vcadd270w, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
  DEF_HELPER_FLAGS_4(mve_vadd_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vadd_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
  DEF_HELPER_FLAGS_4(mve_vadd_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 6b969902df0..79915f45d71 100644
+index 79915f45d71..afe60078649 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -160,6 +160,11 @@ VQDMULLT         111 . 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 1 @2op_sz28
- VRHADD_S         111 0 1111 0 . .. ... 0 ... 0 0001 . 1 . 0 ... 0 @2op
+@@ -161,9 +161,14 @@ VRHADD_S         111 0 1111 0 . .. ... 0 ... 0 0001 . 1 . 0 ... 0 @2op
  VRHADD_U         111 1 1111 0 . .. ... 0 ... 0 0001 . 1 . 0 ... 0 @2op
  
-+VADC             1110 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 0 @2op_nosz
-+VSBC             1111 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 0 @2op_nosz
-+VADCI            1110 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 0 @2op_nosz
-+VSBCI            1111 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 0 @2op_nosz
+ VADC             1110 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 0 @2op_nosz
+-VSBC             1111 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 0 @2op_nosz
+ VADCI            1110 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 0 @2op_nosz
+-VSBCI            1111 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 0 @2op_nosz
 +
++{
++  VSBC           1111 1110 0 . 11 ... 0 ... 0 1111 . 0 . 0 ... 0 @2op_nosz
++  VSBCI          1111 1110 0 . 11 ... 0 ... 1 1111 . 0 . 0 ... 0 @2op_nosz
++  VCADD90        1111 1110 0 . .. ... 0 ... 0 1111 . 0 . 0 ... 0 @2op
++  VCADD270       1111 1110 0 . .. ... 0 ... 1 1111 . 0 . 0 ... 0 @2op
++}
+ 
  # Vector miscellaneous
  
- VCLS             1111 1111 1 . 11 .. 00 ... 0 0100 01 . 0 ... 0 @1op
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index a8ff921144d..4b941f73f05 100644
+index 4b941f73f05..e2daf34f38e 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -552,6 +552,58 @@ DO_2OP_U(vrshlu, DO_VRSHLU)
- DO_2OP_S(vrhadds, DO_RHADD_S)
- DO_2OP_U(vrhaddu, DO_RHADD_U)
+@@ -604,6 +604,35 @@ void HELPER(mve_vsbci)(CPUARMState *env, void *vd, void *vn, void *vm)
+     do_vadc(env, vd, vn, vm, -1, 1, true);
+ }
  
-+static void do_vadc(CPUARMState *env, uint32_t *d, uint32_t *n, uint32_t *m,
-+                    uint32_t inv, uint32_t carry_in, bool update_flags)
-+{
-+    uint16_t mask = mve_element_mask(env);
-+    unsigned e;
-+
-+    /* If any additions trigger, we will update flags. */
-+    if (mask & 0x1111) {
-+        update_flags = true;
++#define DO_VCADD(OP, ESIZE, TYPE, FN0, FN1)                             \
++    void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vn, void *vm) \
++    {                                                                   \
++        TYPE *d = vd, *n = vn, *m = vm;                                 \
++        uint16_t mask = mve_element_mask(env);                          \
++        unsigned e;                                                     \
++        TYPE r[16 / ESIZE];                                             \
++        /* Calculate all results first to avoid overwriting inputs */   \
++        for (e = 0; e < 16 / ESIZE; e++) {                              \
++            if (!(e & 1)) {                                             \
++                r[e] = FN0(n[H##ESIZE(e)], m[H##ESIZE(e + 1)]);         \
++            } else {                                                    \
++                r[e] = FN1(n[H##ESIZE(e)], m[H##ESIZE(e - 1)]);         \
++            }                                                           \
++        }                                                               \
++        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
++            mergemask(&d[H##ESIZE(e)], r[e], mask);                     \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
 +    }
 +
-+    for (e = 0; e < 16 / 4; e++, mask >>= 4) {
-+        uint64_t r = carry_in;
-+        r += n[H4(e)];
-+        r += m[H4(e)] ^ inv;
-+        if (mask & 1) {
-+            carry_in = r >> 32;
-+        }
-+        mergemask(&d[H4(e)], r, mask);
-+    }
++#define DO_VCADD_ALL(OP, FN0, FN1)              \
++    DO_VCADD(OP##b, 1, int8_t, FN0, FN1)        \
++    DO_VCADD(OP##h, 2, int16_t, FN0, FN1)       \
++    DO_VCADD(OP##w, 4, int32_t, FN0, FN1)
 +
-+    if (update_flags) {
-+        /* Store C, clear NZV. */
-+        env->vfp.xregs[ARM_VFP_FPSCR] &= ~FPCR_NZCV_MASK;
-+        env->vfp.xregs[ARM_VFP_FPSCR] |= carry_in * FPCR_C;
-+    }
-+    mve_advance_vpt(env);
-+}
-+
-+void HELPER(mve_vadc)(CPUARMState *env, void *vd, void *vn, void *vm)
-+{
-+    bool carry_in = env->vfp.xregs[ARM_VFP_FPSCR] & FPCR_C;
-+    do_vadc(env, vd, vn, vm, 0, carry_in, false);
-+}
-+
-+void HELPER(mve_vsbc)(CPUARMState *env, void *vd, void *vn, void *vm)
-+{
-+    bool carry_in = env->vfp.xregs[ARM_VFP_FPSCR] & FPCR_C;
-+    do_vadc(env, vd, vn, vm, -1, carry_in, false);
-+}
-+
-+
-+void HELPER(mve_vadci)(CPUARMState *env, void *vd, void *vn, void *vm)
-+{
-+    do_vadc(env, vd, vn, vm, 0, 0, true);
-+}
-+
-+void HELPER(mve_vsbci)(CPUARMState *env, void *vd, void *vn, void *vm)
-+{
-+    do_vadc(env, vd, vn, vm, -1, 1, true);
-+}
++DO_VCADD_ALL(vcadd90, DO_SUB, DO_ADD)
++DO_VCADD_ALL(vcadd270, DO_ADD, DO_SUB)
 +
  static inline int32_t do_sat_bhw(int64_t val, int64_t min, int64_t max, bool *s)
  {
      if (val > max) {
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index a4efb9bc3eb..c21f5afe230 100644
+index c21f5afe230..c9f5ef73955 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -451,6 +451,43 @@ static bool trans_VQDMULLT(DisasContext *s, arg_2op *a)
-     return do_2op(s, a, fns[a->size]);
- }
- 
+@@ -420,6 +420,13 @@ DO_2OP(VQRDMLSDH, vqrdmlsdh)
+ DO_2OP(VQRDMLSDHX, vqrdmlsdhx)
+ DO_2OP(VRHADD_S, vrhadds)
+ DO_2OP(VRHADD_U, vrhaddu)
 +/*
-+ * VADC and VSBC: these perform an add-with-carry or subtract-with-carry
-+ * of the 32-bit elements in each lane of the input vectors, where the
-+ * carry-out of each add is the carry-in of the next.  The initial carry
-+ * input is either fixed (0 for VADCI, 1 for VSBCI) or is from FPSCR.C
-+ * (for VADC and VSBC); the carry out at the end is written back to FPSCR.C.
-+ * These insns are subject to beat-wise execution.  Partial execution
-+ * of an I=1 (initial carry input fixed) insn which does not
-+ * execute the first beat must start with the current FPSCR.NZCV
-+ * value, not the fixed constant input.
++ * VCADD Qd == Qm at size MO_32 is UNPREDICTABLE; we choose not to diagnose
++ * so we can reuse the DO_2OP macro. (Our implementation calculates the
++ * "expected" results in this case.)
 + */
-+static bool trans_VADC(DisasContext *s, arg_2op *a)
-+{
-+    return do_2op(s, a, gen_helper_mve_vadc);
-+}
-+
-+static bool trans_VADCI(DisasContext *s, arg_2op *a)
-+{
-+    if (mve_skip_first_beat(s)) {
-+        return trans_VADC(s, a);
-+    }
-+    return do_2op(s, a, gen_helper_mve_vadci);
-+}
-+
-+static bool trans_VSBC(DisasContext *s, arg_2op *a)
-+{
-+    return do_2op(s, a, gen_helper_mve_vsbc);
-+}
-+
-+static bool trans_VSBCI(DisasContext *s, arg_2op *a)
-+{
-+    if (mve_skip_first_beat(s)) {
-+        return trans_VSBC(s, a);
-+    }
-+    return do_2op(s, a, gen_helper_mve_vsbci);
-+}
-+
- static bool do_2op_scalar(DisasContext *s, arg_2scalar *a,
-                           MVEGenTwoOpScalarFn fn)
++DO_2OP(VCADD90, vcadd90)
++DO_2OP(VCADD270, vcadd270)
+ 
+ static bool trans_VQDMULLB(DisasContext *s, arg_2op *a)
  {
 -- 
 2.20.1
