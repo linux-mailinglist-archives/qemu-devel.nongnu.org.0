@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CF23A5FC1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:11:05 +0200 (CEST)
-Received: from localhost ([::1]:46888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453BC3A5FC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 12:12:00 +0200 (CEST)
+Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsjYe-000790-9L
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
+	id 1lsjZX-0001Vk-CN
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 06:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1lsjWs-00058m-T1
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:14 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56026)
+ id 1lsjWt-00059W-Hc
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:15 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1lsjWr-000441-32
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:14 -0400
-Received: by mail-wm1-x334.google.com with SMTP id g204so11776599wmf.5
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:09:12 -0700 (PDT)
+ id 1lsjWr-000447-MJ
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 06:09:15 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ k5-20020a05600c1c85b02901affeec3ef8so12663529wms.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 03:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MPKbRB/G0SyOwnBY1uohm6PPrRslfYenRONtI6LQhy8=;
- b=Nio+wP/2M7JPROFgr11rMakZT1gH487gIY9wIMQ7DJX3pzu1lNsPIqKEgYuaZGpyBB
- xYUs6cBVmIC8VqqXo2cuUF8Q+0V9mCXOWvRLjXZN2NpncjsEs8NI01Qoixah5wvabAqs
- eSnlZQBy/+sd4cLVAH7FmFz47CKqIZTQKVh79qSBwhMFQAtqBst3PsNiw2blO9NHO+cz
- Kmg8orv3WtcprMezjJ0R2hp+VQKy8ggfT+VFp+QFLWNC8fsg09xE6rgEHa9RX5E9QXYv
- tpIYL/NcAJ33FJv8ZYEYXHf0qz6vSDWrZaKJ3lnZiePQc6acN3YaHoacN1FyoS7t0XNn
- VtJg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ObF/ZgQFN9zjCXfOIGIVn098TNV5d0DYaS9kaxO+1to=;
+ b=ULJSpRtTNUwssCXmGNd1POehg/U2jddkGHHwi2fhasQfp/Qye7fAsBZSf69vxI/9bx
+ suEZsYZQ9UwN64/tb1dAH75uCztnWLvOX40gZcW7nDnMTXAuPMmfxINbh14VaAd0easc
+ 8ynayXdbFaZW+CCRYxyiMLFbpO4v5wjOgOrDUJ9T3XRWiFysHazv1Q+xYxg9zfB324rm
+ +D8GRyeALPlhXVgATIGQRqyXRPQau6sc56kL1nwN69DrFfER8WhqCz3q6IsmlKsn6qYB
+ JIdujP0ODEKmeWaxAYp7AAvuvQkKLqHdu4C8dRpgzj8zeuS2qxOZIzt0a9hal3i/46I3
+ S4Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MPKbRB/G0SyOwnBY1uohm6PPrRslfYenRONtI6LQhy8=;
- b=Nuh2/ctk9xKz9HYjFjAQ9dOdwGOnSzU7gT993hrujc+Z2XsR8A6IoiHzpNKejAisXP
- /9FLWAehCZiIF02XWaYaiM+kGFTWQBfUrRXcafunsuW5Oy1slHosVf5F57DkOaHPEn4+
- lk6oWsiaeI4HnWZD5WitkbX/rnS2UgmuYTp10xRboaIOKhRJuBCZlq1bWJ17jLpgSIH5
- TPmcxX9l8sA4WQLKrTyU+JELeg+fmubMGNIZ6Ae3MTidCETuPBmmbAnX0awIMvVCpgLS
- F0cBzTW2glxuH4Tw8qwcInvQDgmfjPqODUerTToxMvbc+THDQsXIj/jKFPCVdRIPm8Zf
- 44Dg==
-X-Gm-Message-State: AOAM5313H+3AmlK7qGZO2F8EgyovEDsJ5c5WjGZXnYEv7StwskhzHn0+
- BvO4bkklrXYzkpFO1B37ohfJ5ZnSYHOInQ==
-X-Google-Smtp-Source: ABdhPJwS33bTGyebTfFRIJ3JWC+FsjKWp+qnBR4aABGaTX87B29ZiRQfuv2d6MXl4pEuYlbwufb3Vw==
-X-Received: by 2002:a05:600c:1ca2:: with SMTP id
- k34mr15235839wms.145.1623665351420; 
- Mon, 14 Jun 2021 03:09:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ObF/ZgQFN9zjCXfOIGIVn098TNV5d0DYaS9kaxO+1to=;
+ b=P806hqR5Ucwfwk8N7y6tWzOf/jaoViQvBppjiUHgWG+f5Ri+ig9s+coujAcR7/Q1gZ
+ Bf0TKo0EiFFnnQ3RCjE1f5VEtJthwQH/cil0WR9K5xHiMA6XIIthKBm8tU3nOPZASMS7
+ h6ymlsB+eI1mC/6Qq4XdrUsC1WyjmJzsYT1ky7L6ruPqdE90xiaSiYPYbA7bvg3b407c
+ HCvA6GjPLdrRCua0Kj1eKMZL2cXM1zXieXeIZfNNtKSKzcmKBUyCVH9qRcXPkgqoVpDE
+ 3E92xn6ZxbRQUwmadtBXhSQ45hELDcGuRH405WCKHxUpvl5+txbYfdysRE1gRw+13xcA
+ /bqg==
+X-Gm-Message-State: AOAM533g0U82RPK2GNWEuYrC3pvSu4lUHwT3mvKT+RI8Z9TUgfjrzMs9
+ ecpl4JwAOsAIDwUkB6+ixHscXba4tfCf5A==
+X-Google-Smtp-Source: ABdhPJylDOhDCBqwgp5cRayYcD1KVqcKrNtZqBehWALAij0sI+N4/cXiWxFKxyIzQqZlA+m1s3lgmA==
+X-Received: by 2002:a1c:2142:: with SMTP id h63mr15926613wmh.84.1623665352262; 
+ Mon, 14 Jun 2021 03:09:12 -0700 (PDT)
 Received: from localhost.localdomain ([37.161.140.231])
- by smtp.gmail.com with ESMTPSA id o18sm15752254wrx.59.2021.06.14.03.09.10
+ by smtp.gmail.com with ESMTPSA id o18sm15752254wrx.59.2021.06.14.03.09.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Jun 2021 03:09:11 -0700 (PDT)
 From: Lara Lazier <laramglazier@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] Start fixing kvm-unit-tests for svm
-Date: Mon, 14 Jun 2021 12:08:59 +0200
-Message-Id: <20210614100902.15860-1-laramglazier@gmail.com>
+Subject: [PATCH 1/3] target/i386: Added consistency checks for VMRUN intercept
+ and ASID
+Date: Mon, 14 Jun 2021 12:09:00 +0200
+Message-Id: <20210614100902.15860-2-laramglazier@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210614100902.15860-1-laramglazier@gmail.com>
+References: <20210614100902.15860-1-laramglazier@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=laramglazier@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=laramglazier@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,33 +88,60 @@ Cc: Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the APM2 I added some checks to 
-resolve the following tests in kvm-unit-tests for svm:
+Zero VMRUN intercept and ASID should cause an immediate VMEXIT
+during the consistency checks performed by VMRUN.
+(AMD64 Architecture Programmer's Manual, V2, 15.5)
 
-  * vmrun_intercept_check
-  * asid_zero
-  * sel_cr0_bug
-  * CR0 CD=0,NW=1: a0010011
-  * CR0 63:32: 180010011
-  * CR0 63:32: 1080010011
-  * CR0 63:32: 10080010011
-  * CR0 63:32: 100080010011
-  * CR0 63:32: 1000080010011
-  * CR0 63:32: 10000080010011
-  * CR0 63:32: 100000080010011
-  * CR0 63:32: 1000000080010011
+Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+---
+ target/i386/svm.h                   |  2 ++
+ target/i386/tcg/sysemu/svm_helper.c | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-Lara Lazier (3):
-  target/i386: Added consistency checks for VMRUN intercept and ASID
-  target/i386: Added consistency checks for CR0
-  target/i386: Added Intercept CR0 writes check
-
- target/i386/cpu.h                    |  4 ++++
- target/i386/svm.h                    |  3 +++
- target/i386/tcg/sysemu/misc_helper.c |  9 +++++++++
- target/i386/tcg/sysemu/svm_helper.c  | 22 +++++++++++++++++++---
- 4 files changed, 35 insertions(+), 3 deletions(-)
-
+diff --git a/target/i386/svm.h b/target/i386/svm.h
+index 87965e5bc2..1c55d4f829 100644
+--- a/target/i386/svm.h
++++ b/target/i386/svm.h
+@@ -135,6 +135,8 @@
+ #define SVM_NPTEXIT_GPA     (1ULL << 32)
+ #define SVM_NPTEXIT_GPT     (1ULL << 33)
+ 
++#define SVM_VMRUN_INTERCEPT (1ULL << 32)
++
+ struct QEMU_PACKED vmcb_control_area {
+ 	uint16_t intercept_cr_read;
+ 	uint16_t intercept_cr_write;
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 9d671297cf..ff826fe11a 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -72,6 +72,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+     uint64_t nested_ctl;
+     uint32_t event_inj;
+     uint32_t int_ctl;
++    uint32_t asid;
+ 
+     cpu_svm_check_intercept_param(env, SVM_EXIT_VMRUN, 0, GETPC());
+ 
+@@ -154,9 +155,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ 
+     nested_ctl = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+                                                           control.nested_ctl));
++    asid = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
++                                                          control.asid));
+ 
+     env->nested_pg_mode = 0;
+ 
++    if (!(env->intercept & SVM_VMRUN_INTERCEPT)) {
++        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
++    }
++    if (asid == 0) {
++        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
++    }
++
+     if (nested_ctl & SVM_NPT_ENABLED) {
+         env->nested_cr3 = x86_ldq_phys(cs,
+                                 env->vm_vmcb + offsetof(struct vmcb,
 -- 
 2.25.1
 
