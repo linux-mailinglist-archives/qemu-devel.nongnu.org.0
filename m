@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579203A5B4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 03:21:42 +0200 (CEST)
-Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A703A5B51
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 03:22:57 +0200 (CEST)
+Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsbIK-0006UC-Sp
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 21:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57624)
+	id 1lsbJY-0007uk-G4
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 21:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsbHM-0005iu-Df
- for qemu-devel@nongnu.org; Sun, 13 Jun 2021 21:20:40 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:42766)
+ id 1lsbHM-0005j2-VZ
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 21:20:41 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsbHH-0006nZ-T1
+ id 1lsbHH-0006nb-Rg
  for qemu-devel@nongnu.org; Sun, 13 Jun 2021 21:20:40 -0400
-Received: by mail-pl1-x629.google.com with SMTP id v13so5698353ple.9
+Received: by mail-pf1-x434.google.com with SMTP id h12so9365532pfe.2
  for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 18:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nfq9ahxtPWumPFUA7GxsNTNfOq8eJnxJvP1+ExRJxfQ=;
- b=q7rqLPjXqMgcrE0piHL5sG5B7rN21ytSviwcBvse3kx5HAvzaFw99YRToM33U2NbAM
- 4bEXtSPmJkYGt2o/pgljna/SaD/ODk+Y9OKhViyrcvaTq8dDmc2JDnLapIaz6gCa2NWa
- NVfxpoZiw5/WNhBZC77QAx3+MkIgz/5SG4E2aG8irXyDeCnS5lZv6UWoY+VIbu6Cc8k/
- ssQ40Nh8kpxwC5q1VzfFb74Aq8E9qg4tb38+bgs5CXGnCNUopoHJrlYfbq3MIKZ+1XvY
- tIbDBxHgitNWWIlFBI5pUkNwHSY+u/B5Yub261cZFRH5StKEqdCZVaBOYjzD7pjGd99s
- cGLQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5J7pL7i+2GqCeQaZWlw3deouUMvNS4TyvXPxrh3A3xk=;
+ b=FKyNojNuzr3JDcoMn+334fSYkfJjq737bCU1Whs6UbOVd4pN4pEUCGuNUFjrL1FhTg
+ rZ+LnlBMIDVSn0cZCCll2qtGUQiDPjRw4kM34Fl3gwkH8N1bXDtP591kVQvNxsZm1oZX
+ 5RpeoP7YFrWa7gqkn8pWv4D3/F90lThKePozCdrR+9xNrkwnyeHJ8MSO4BygDv4fSc8n
+ xm69xRTx4QS3rHzWrsGky9BYDRCL2lhfgti45PU9akpY2vTLYC0wqLbN9dFBbqA6wLve
+ z+wCuBb6WNX9jkGbUJRJUvJLLAI+pmbhqRRoT9XmVbJHYaZavEbQ66DjFZpA1xA0IaW9
+ xJnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nfq9ahxtPWumPFUA7GxsNTNfOq8eJnxJvP1+ExRJxfQ=;
- b=oEu9BPvLd1iv0V1as7hTzStZBtkgdSXflNh8VLlAIHEKfP660yteAnAYj2S7znWW/k
- yaR1YG84eZ5qhZ6kcUznMi7yusrJUVstNfbyG1esxipa4Pm/ez0ck9oSI+kdIi8QqQDS
- xTPHzS7JVCyXq4ylmXb4nHUl8jDX4RRqoMBalnexrjL1SHlffZtLhpNdVcBLZzVSnJRn
- JYm+xsYBLLdd1u+nBreUjszoJ6DVlxJA34v5tVrf2D00etMa6oo28KME1d9F5g79Sbgs
- 04Y8gzHU6k4xcRGMjQUbxDZHtAu8UqgOc8dyzGBu3k20b/ajX4NJySiIGK7mflAWJbwX
- n7og==
-X-Gm-Message-State: AOAM533f3ABRGLltuun334E7kEGYcBcJFNrhnEXyOgdJedtHYGayYE0M
- pt27PhqQ26QDvF3jOIWtul7UKCrLUOkSew==
-X-Google-Smtp-Source: ABdhPJxOlWcfJN/Os+scWAlQ39Q4euo83ddWYcaRZ+eS4VRy7cX627OAxCHpnu94KNOr8jakKLh8Og==
-X-Received: by 2002:a17:902:c702:b029:114:7fc8:cf76 with SMTP id
- p2-20020a170902c702b02901147fc8cf76mr14750413plp.84.1623633633301; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5J7pL7i+2GqCeQaZWlw3deouUMvNS4TyvXPxrh3A3xk=;
+ b=ae99R77wCtyIg9jgwd/kWrhSDbXMfHCE07R+IUvFcqerYXdWZ1l1RSnNkKbzs95eW4
+ SReXlLdTOihwTVQ5an1xhG2EEDRrtOCr8umOuN7CJGg90cINFLGIqj8Kvgh1ALeTsGJ0
+ FlTOXcIHTUYm16n8c/AN5g9LT2aRogAldKwuOOjiYmp+9NK97OoJfTvLLC7O4fa+/tpw
+ sbtSvVPHlbFxQ2uK29Khr/wpDPqU4TZ6qb/eiytIctOr7QNIgKT1MxGM5LybDTCk1KDl
+ v80uM6AKtnTNAyZDz6K4QzFkdVI7//lL+CfPcUTizdl+9E6D/CcWhVf6T9cqqpH5C27q
+ YqFA==
+X-Gm-Message-State: AOAM532oxvfXXbJOmNV8xMeZeUt0lLTo6dYByLAU+XCJZUDuQ/1qc34P
+ bREYiE/GRgm0FLNskVaKmYhbi7WNOiWt4A==
+X-Google-Smtp-Source: ABdhPJyoRJf0EqCNyF8qtg5uQVDwMB+tqt40wlT7ajjUhRCpjsqYGwJS7/4cojRpX69qnyYuUOVB6g==
+X-Received: by 2002:a63:3d82:: with SMTP id
+ k124mr14815094pga.401.1623633633898; 
  Sun, 13 Jun 2021 18:20:33 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id d15sm15724359pjr.47.2021.06.13.18.20.32
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id d15sm15724359pjr.47.2021.06.13.18.20.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Jun 2021 18:20:32 -0700 (PDT)
+ Sun, 13 Jun 2021 18:20:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/34] tcg patch queue
-Date: Sun, 13 Jun 2021 18:20:30 -0700
-Message-Id: <20210614012031.1081133-1-richard.henderson@linaro.org>
+Subject: [PULL v2 22/34] tcg: Allocate code_gen_buffer into struct
+ tcg_region_state
+Date: Sun, 13 Jun 2021 18:20:31 -0700
+Message-Id: <20210614012031.1081133-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210614012031.1081133-1-richard.henderson@linaro.org>
+References: <20210614012031.1081133-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,107 +86,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Luis Pires <luis.pires@eldorado.org.br>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-V2 fixes an error in patch 22 wrt MacOS.
-It's a shame we don't have public CI for that.
+Do not mess around with setting values within tcg_init_ctx.
+Put the values into 'region' directly, which is where they
+will live for the lifetime of the program.
 
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/region.c | 64 ++++++++++++++++++++++------------------------------
+ 1 file changed, 27 insertions(+), 37 deletions(-)
 
-r~
+diff --git a/tcg/region.c b/tcg/region.c
+index 5beba41412..afa11ec5d7 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -70,13 +70,12 @@ static size_t tree_size;
+ 
+ bool in_code_gen_buffer(const void *p)
+ {
+-    const TCGContext *s = &tcg_init_ctx;
+     /*
+      * Much like it is valid to have a pointer to the byte past the
+      * end of an array (so long as you don't dereference it), allow
+      * a pointer to the byte past the end of the code gen buffer.
+      */
+-    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
++    return (size_t)(p - region.start_aligned) <= region.total_size;
+ }
+ 
+ #ifdef CONFIG_DEBUG_TCG
+@@ -562,8 +561,8 @@ static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+     }
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    tcg_ctx->code_gen_buffer = buf;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf;
++    region.total_size = size;
+     return true;
+ }
+ #elif defined(_WIN32)
+@@ -584,8 +583,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+         return false;
+     }
+ 
+-    tcg_ctx->code_gen_buffer = buf;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf;
++    region.total_size = size;
+     return true;
+ }
+ #else
+@@ -637,8 +636,8 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+     /* Request large pages for the buffer.  */
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    tcg_ctx->code_gen_buffer = buf;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf;
++    region.total_size = size;
+     return true;
+ }
+ 
+@@ -659,8 +658,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+         return false;
+     }
+     /* The size of the mapping may have been adjusted. */
+-    size = tcg_ctx->code_gen_buffer_size;
+-    buf_rx = tcg_ctx->code_gen_buffer;
++    buf_rx = region.start_aligned;
++    size = region.total_size;
+ #endif
+ 
+     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
+@@ -682,8 +681,8 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+ #endif
+ 
+     close(fd);
+-    tcg_ctx->code_gen_buffer = buf_rw;
+-    tcg_ctx->code_gen_buffer_size = size;
++    region.start_aligned = buf_rw;
++    region.total_size = size;
+     tcg_splitwx_diff = buf_rx - buf_rw;
+ 
+     /* Request large pages for the buffer and the splitwx.  */
+@@ -734,7 +733,7 @@ static bool alloc_code_gen_buffer_splitwx_vmremap(size_t size, Error **errp)
+         return false;
+     }
+ 
+-    buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
++    buf_rw = (mach_vm_address_t)region.start_aligned;
+     buf_rx = 0;
+     ret = mach_vm_remap(mach_task_self(),
+                         &buf_rx,
+@@ -846,11 +845,8 @@ static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
+  */
+ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+ {
+-    void *buf, *aligned, *end;
+-    size_t total_size;
+     size_t page_size;
+     size_t region_size;
+-    size_t n_regions;
+     size_t i;
+     bool ok;
+ 
+@@ -858,39 +854,33 @@ void tcg_region_init(size_t tb_size, int splitwx, unsigned max_cpus)
+                                splitwx, &error_fatal);
+     assert(ok);
+ 
+-    buf = tcg_init_ctx.code_gen_buffer;
+-    total_size = tcg_init_ctx.code_gen_buffer_size;
+-    page_size = qemu_real_host_page_size;
+-    n_regions = tcg_n_regions(total_size, max_cpus);
+-
+-    /* The first region will be 'aligned - buf' bytes larger than the others */
+-    aligned = QEMU_ALIGN_PTR_UP(buf, page_size);
+-    g_assert(aligned < tcg_init_ctx.code_gen_buffer + total_size);
+-
+     /*
+      * Make region_size a multiple of page_size, using aligned as the start.
+      * As a result of this we might end up with a few extra pages at the end of
+      * the buffer; we will assign those to the last region.
+      */
+-    region_size = (total_size - (aligned - buf)) / n_regions;
++    region.n = tcg_n_regions(region.total_size, max_cpus);
++    page_size = qemu_real_host_page_size;
++    region_size = region.total_size / region.n;
+     region_size = QEMU_ALIGN_DOWN(region_size, page_size);
+ 
+     /* A region must have at least 2 pages; one code, one guard */
+     g_assert(region_size >= 2 * page_size);
++    region.stride = region_size;
++
++    /* Reserve space for guard pages. */
++    region.size = region_size - page_size;
++    region.total_size -= page_size;
++
++    /*
++     * The first region will be smaller than the others, via the prologue,
++     * which has yet to be allocated.  For now, the first region begins at
++     * the page boundary.
++     */
++    region.after_prologue = region.start_aligned;
+ 
+     /* init the region struct */
+     qemu_mutex_init(&region.lock);
+-    region.n = n_regions;
+-    region.size = region_size - page_size;
+-    region.stride = region_size;
+-    region.after_prologue = buf;
+-    region.start_aligned = aligned;
+-    /* page-align the end, since its last page will be a guard page */
+-    end = QEMU_ALIGN_PTR_DOWN(buf + total_size, page_size);
+-    /* account for that last guard page */
+-    end -= page_size;
+-    total_size = end - aligned;
+-    region.total_size = total_size;
+ 
+     /*
+      * Set guard pages in the rw buffer, as that's the one into which
+-- 
+2.25.1
 
-
-The following changes since commit 894fc4fd670aaf04a67dc7507739f914ff4bacf2:
-
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-06-11 09:21:48 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210613
-
-for you to fetch changes up to a5a8b84772e13066c6c45f480cc5b5312bbde08e:
-
-  docs/devel: Explain in more detail the TB chaining mechanisms (2021-06-13 17:42:40 -0700)
-
-----------------------------------------------------------------
-Clean up code_gen_buffer allocation.
-Add tcg_remove_ops_after.
-Fix tcg_constant_* documentation.
-Improve TB chaining documentation.
-Fix float32_exp2.
-Fix arm tcg_out_op function signature.
-
-----------------------------------------------------------------
-Jose R. Ziviani (1):
-      tcg/arm: Fix tcg_out_op function signature
-
-Luis Pires (1):
-      docs/devel: Explain in more detail the TB chaining mechanisms
-
-Richard Henderson (32):
-      meson: Split out tcg/meson.build
-      meson: Split out fpu/meson.build
-      tcg: Re-order tcg_region_init vs tcg_prologue_init
-      tcg: Remove error return from tcg_region_initial_alloc__locked
-      tcg: Split out tcg_region_initial_alloc
-      tcg: Split out tcg_region_prologue_set
-      tcg: Split out region.c
-      accel/tcg: Inline cpu_gen_init
-      accel/tcg: Move alloc_code_gen_buffer to tcg/region.c
-      accel/tcg: Rename tcg_init to tcg_init_machine
-      tcg: Create tcg_init
-      accel/tcg: Merge tcg_exec_init into tcg_init_machine
-      accel/tcg: Use MiB in tcg_init_machine
-      accel/tcg: Pass down max_cpus to tcg_init
-      tcg: Introduce tcg_max_ctxs
-      tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
-      tcg: Replace region.end with region.total_size
-      tcg: Rename region.start to region.after_prologue
-      tcg: Tidy tcg_n_regions
-      tcg: Tidy split_cross_256mb
-      tcg: Move in_code_gen_buffer and tests to region.c
-      tcg: Allocate code_gen_buffer into struct tcg_region_state
-      tcg: Return the map protection from alloc_code_gen_buffer
-      tcg: Sink qemu_madvise call to common code
-      util/osdep: Add qemu_mprotect_rw
-      tcg: Round the tb_size default from qemu_get_host_physmem
-      tcg: Merge buffer protection and guard page protection
-      tcg: When allocating for !splitwx, begin with PROT_NONE
-      tcg: Move tcg_init_ctx and tcg_ctx from accel/tcg/
-      tcg: Introduce tcg_remove_ops_after
-      tcg: Fix documentation for tcg_constant_* vs tcg_temp_free_*
-      softfloat: Fix tp init in float32_exp2
-
- docs/devel/tcg.rst        | 101 ++++-
- meson.build               |  12 +-
- accel/tcg/internal.h      |   2 +
- include/qemu/osdep.h      |   1 +
- include/sysemu/tcg.h      |   2 -
- include/tcg/tcg.h         |  28 +-
- tcg/aarch64/tcg-target.h  |   1 +
- tcg/arm/tcg-target.h      |   1 +
- tcg/i386/tcg-target.h     |   2 +
- tcg/mips/tcg-target.h     |   6 +
- tcg/ppc/tcg-target.h      |   2 +
- tcg/riscv/tcg-target.h    |   1 +
- tcg/s390/tcg-target.h     |   3 +
- tcg/sparc/tcg-target.h    |   1 +
- tcg/tcg-internal.h        |  40 ++
- tcg/tci/tcg-target.h      |   1 +
- accel/tcg/tcg-all.c       |  32 +-
- accel/tcg/translate-all.c | 439 +-------------------
- bsd-user/main.c           |   3 +-
- fpu/softfloat.c           |   2 +-
- linux-user/main.c         |   1 -
- tcg/region.c              | 999 ++++++++++++++++++++++++++++++++++++++++++++++
- tcg/tcg.c                 | 649 +++---------------------------
- util/osdep.c              |   9 +
- tcg/arm/tcg-target.c.inc  |   3 +-
- fpu/meson.build           |   1 +
- tcg/meson.build           |  14 +
- 27 files changed, 1266 insertions(+), 1090 deletions(-)
- create mode 100644 tcg/tcg-internal.h
- create mode 100644 tcg/region.c
- create mode 100644 fpu/meson.build
- create mode 100644 tcg/meson.build
 
