@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2327B3A5DF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 09:53:08 +0200 (CEST)
-Received: from localhost ([::1]:56790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F053A5E53
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:23:03 +0200 (CEST)
+Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshP9-0004mY-7x
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 03:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37718)
+	id 1lshs6-0006FP-48
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lshOI-00046O-PH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 03:52:14 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41864
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lshme-0002b5-Pd
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lshOE-000283-U9
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 03:52:14 -0400
-Received: from host86-132-109-72.range86-132.btcentralplus.com
- ([86.132.109.72] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lshNo-0001ve-65; Mon, 14 Jun 2021 08:51:48 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, hpoussin@reactos.org, aleksandar.rikalo@syrmia.com,
- aurelien@aurel32.net, jiaxun.yang@flygoat.com, jasowang@redhat.com,
- Finn Thain <fthain@telegraphics.com.au>, Laurent Vivier <laurent@vivier.eu>
-References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
- <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
-Date: Mon, 14 Jun 2021 08:51:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1lshmc-0004ep-Lf
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:17:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623658642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3ooRePzt0jGGB1Gu64HeGOc9dzsIrxHu9l7P4pnL4/s=;
+ b=TbioJfmCp1DgJUKMASEzuDqbyGaepSc5hnVVT0/vb+1NixLWiOgOsTDPHTKuYNfpnaTSA3
+ iJZQgLfb90z7trnXCD9Yb8643SYmybrk+Alus104Uz1P1A454v4Pi5pdmYIAyBcl7Yff9x
+ lL2I5iLzurxcfSnVuUwZBsGj3WzMnQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-0EmrkNn2MMCW56QzefvL-g-1; Mon, 14 Jun 2021 04:17:20 -0400
+X-MC-Unique: 0EmrkNn2MMCW56QzefvL-g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4E551084F7C;
+ Mon, 14 Jun 2021 08:08:50 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-113-49.ams2.redhat.com
+ [10.36.113.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C65160871;
+ Mon, 14 Jun 2021 08:08:45 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 0/5] block-copy: make helper APIs thread safe
+Date: Mon, 14 Jun 2021 10:08:39 +0200
+Message-Id: <20210614080844.21817-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.109.72
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.144,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,95 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/06/2021 06:36, Philippe Mathieu-Daudé wrote:
+This serie of patches bring thread safety to the smaller APIs used by
+block-copy, namely ratelimit, progressmeter, co-shared-resource
+and aiotask.
+The end goal is to reduce the usage of AioContexlock in block-copy,
+by introducing smaller granularity locks thus on making the block layer
+thread safe. 
 
-> Cc'ing Finn & Laurent.
-> 
-> On 6/13/21 6:37 PM, Mark Cave-Ayland wrote:
->> Here is the next set of patches from my attempts to boot MacOS under QEMU's
->> Q800 machine related to the Sonic network adapter.
->>
->> Patches 1 and 2 sort out checkpatch and convert from DPRINTF macros to
->> trace-events.
->>
->> Patch 3 fixes the PROM checksum and MAC address storage format as found by
->> stepping through the MacOS toolbox.
->>
->> Patch 4 ensures that the CPU loads/stores are correctly converted to 16-bit
->> accesses for the network card and patch 5 fixes a bug when selecting the
->> index specified for CAM entries.
->>
->> NOTE TO MIPS MAINTAINERS:
->>
->> - The Sonic network adapter is used as part of the MIPS jazz machine, however
->>    I don't have a working kernel and system to test it with. Any pointers to
->>    test images would be appreciated.
->>
->> - The changes to the PROM checksum in patch 3 were determined by stepping
->>    through the MacOS toolbox, and is different from the existing algorithm.
->>    Has the current PROM checksum algorithm been validated on a MIPS guest or
->>    was it just a guess? It might be that 2 different algorithms are needed for
->>    the Q800 vs. Jazz machine.
->>
->> - My current guess is the jazzsonic driver is broken since the last set of
->>    dp8393x changes as the MIPS jazz machine does not set the "big_endian"
->>    property on the dp8393x device. I'd expect that the following diff would
->>    be needed, but I can't confirm this without a suitable test image.
->>
->> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
->> index 1e1cf8154e..1df67035aa 100644
->> --- a/hw/mips/jazz.c
->> +++ b/hw/mips/jazz.c
->> @@ -280,6 +280,7 @@ static void mips_jazz_init(MachineState *machine,
->>               dev = qdev_new("dp8393x");
->>               qdev_set_nic_properties(dev, nd);
->>               qdev_prop_set_uint8(dev, "it_shift", 2);
->> +            qdev_prop_set_bit(dev, "big_endian", true);
->>               object_property_set_link(OBJECT(dev), "dma_mr",
->>                                        OBJECT(rc4030_dma_mr), &error_abort);
->>               sysbus = SYS_BUS_DEVICE(dev);
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>
->> [q800-macos-upstream patchset series: 3]
->>
->> Mark Cave-Ayland (5):
->>    dp8393x: checkpatch fixes
->>    dp8393x: convert to trace-events
->>    dp8393x: fix PROM checksum and MAC address storage
->>    dp8393x: don't force 32-bit register access
->>    dp8393x: fix CAM descriptor entry index
->>
->>   hw/net/dp8393x.c    | 332 ++++++++++++++++++++++++--------------------
->>   hw/net/trace-events |  17 +++
->>   2 files changed, 198 insertions(+), 151 deletions(-)
+What's missing for block-copy to be fully thread-safe is fixing
+the CoSleep API to allow cross-thread sleep and wakeup.
+Paolo is working on it and will post the patches once his new
+CoSleep API is accepted.
 
-Just to add that I've done a large amount of testing on the q800 machine with 
-Linux/MacOS so I'm happy that these patches do the right thing there.
+Patches 1-3 work on ratelimit, 4 covers progressmeter and
+5 co-shared-resources.
 
-The part I'm struggling with is testing against MIPS jazz since I don't have a Linux 
-test image to hand, and there is no documentation in the original commit message as 
-to where the existing PROM checksum algorithm came from.
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v3:
+* Rebase on current master (had conflicts in block-copy), remove based-on in
+  cover letter
 
-Hervé, can you provide some more information on this? It looks like it was introduced 
-in one of your commits:
+Emanuele Giuseppe Esposito (2):
+  progressmeter: protect with a mutex
+  co-shared-resource: protect with a mutex
 
-commit 89ae0ff9b73ee74c9ba707a09a07ad77b9fdccb4
-Author: Hervé Poussineau <hpoussin@reactos.org>
-Date:   Wed Jun 3 22:45:46 2015 +0200
+Paolo Bonzini (3):
+  ratelimit: treat zero speed as unlimited
+  block-copy: let ratelimit handle a speed of 0
+  blockjob: let ratelimit handle a speed of 0
 
-     net/dp8393x: add PROM to store MAC address
+ block/block-copy.c                | 28 ++++++--------
+ block/meson.build                 |  1 +
+ block/progress_meter.c            | 64 +++++++++++++++++++++++++++++++
+ blockjob.c                        | 46 +++++++++++++---------
+ include/qemu/co-shared-resource.h |  4 +-
+ include/qemu/progress_meter.h     | 34 ++++++++--------
+ include/qemu/ratelimit.h          | 12 +++++-
+ job-qmp.c                         |  8 +++-
+ job.c                             |  3 ++
+ qemu-img.c                        |  9 +++--
+ util/qemu-co-shared-resource.c    | 24 +++++++++---
+ 11 files changed, 168 insertions(+), 65 deletions(-)
+ create mode 100644 block/progress_meter.c
 
-     Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-     Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
-     Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
-     Signed-off-by: Leon Alrae <leon.alrae@imgtec.com>
+-- 
+2.31.1
 
-
-ATB,
-
-Mark.
 
