@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E36F3A7292
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:40:10 +0200 (CEST)
-Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7923A728E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:38:04 +0200 (CEST)
+Received: from localhost ([::1]:49144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lswBb-0005w3-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:40:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51428)
+	id 1lsw9b-0004UL-TC
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:38:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsw3l-0006UD-MU
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:32:01 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53950)
+ id 1lsw3j-0006SG-Ft
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:31:59 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:35552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lsw3a-0007jo-Hl
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:32:00 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id ei4so10688145pjb.3
+ id 1lsw3b-0007kU-CQ
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:31:59 -0400
+Received: by mail-pf1-x430.google.com with SMTP id h12so11833325pfe.2
  for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 16:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sJzZfO3g2MpwcVFE3IkN41sU5nN8+pD95wZ5rmnvFQE=;
- b=FKMBvgIZ6PRCqnpbeoMfkD2M8aFFhaTg7Rzddw61yXELxbiD5U19fdjN2EEsFkDIR/
- y84CfTlXcJQ0klkGFshkUACQJgs1v5+vpa91RtDuAVB6KZMqivpLBEVktb0B55AKS6c0
- gFJubqmYE2GElUjyxr/2fGAphtwb8UO85MAjJ2E/Dwmh7WCSIlBzU5Vabndvc77GJ9yP
- nTGhFk96MSVgpqjBH0OYu5p1FQTgzNSFtHF2Tuek4caIZN5Ccj7iQnA4PjrQvaVz+IjQ
- 9UZFQa+NdDur+LoFzLx4hn4C1ua+VmcbFkAuU5rhuvZulGo5tIr27w6rePiDQG1a0rtL
- FDgg==
+ bh=K0pN4S7m1hCj6S3qy/fvRVDleeUZszaFc8rCoVuMIfI=;
+ b=CmUhYgvQ2BkO1D846TLkfu0QfGwYkaLJDqJdsUf4mmiOm2fj/2pohX2NwFbr4TEjJm
+ pJpLbkdeh/iv7AP0MTBs8WMeQAhEMon0Ig015M21jS8q/mxluOnarMPwLfonbq3Wd12L
+ Z6GE5HhODNzR0dDFo2zl+iuCk3iRJmXsmiXtTCnhe35gguzHXeBUH9hKsWAMaTM33c4q
+ mq8C12keveg+eB9t1n9QyYPbWz55Kqdjdyft4ilEztBKxv9KjPEAKK2pJG0CkMVrQNNI
+ 7XBFLKzTK12dandqIRKtupZT8TCTbiRRlJZk1PwlgD1sTPZ4HoZAaCg8XsSHEVgpOpog
+ 44OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sJzZfO3g2MpwcVFE3IkN41sU5nN8+pD95wZ5rmnvFQE=;
- b=iKv6qWpBlsvQsOTKrikWSY2ex7Udft2mGduuTDB1WT+QMWiElVkxYCA2UpNE14tI+e
- Hj7igREYiFbc960hCuB/2YNyBM/nteE5J1kocTNKr+38mQLejJDOXMLDZt++RRdayLG/
- iNyyOL3HovpPep4V4eLq0IcapJR4U2B3Pq0t6gi2IoVYnTpI/CWhCIwrZo8L5mdM7ATo
- hKDAaN7UsxkKJZCVPY9MNPGAQcblRb9R0E/RzcUhWC0mTI0IxlSbhS3tofdgUwAO37kt
- Z/CrcpD+4AUvjBm0QYxJs5T82qioUg+BHi6nQSefbBy4yUmf5gd/79Lpci84d76tnzVo
- bu5Q==
-X-Gm-Message-State: AOAM533GHqxZdBFTdzldnPddW8D6JeaVs0dg1wCPqd8Tw3J70+EtXDRn
- +/LNayVPfYXMWAA6SdAQA7JzLcATdruE0Q==
-X-Google-Smtp-Source: ABdhPJzzuWdFDHAghUyDMSMV/z4/2ZHasOPzam69bRlZ5HLg2oDiAQWilOubg69qHuG6RqiHsMf2qQ==
-X-Received: by 2002:a17:902:ce8e:b029:10c:eb2d:8d2e with SMTP id
- f14-20020a170902ce8eb029010ceb2d8d2emr1183021plg.15.1623713509214; 
+ bh=K0pN4S7m1hCj6S3qy/fvRVDleeUZszaFc8rCoVuMIfI=;
+ b=Pnxe1/yEhuQM+uQbJ5qVRcrc0c6BVlOJdWOY0SfUdKkcsWorX5WdG6yWGbOkJPCE76
+ UnZnGE5Z/gVilza6gwsEw3Mxh8H7KAqG93ICwlKQ4JfLAgkzreQZNq7+XWZMDN3VWGh4
+ uZ9bugoJQutx6d0SnZQlVtkK2knQxvVfN375Om145NBdTcB7UoohttD4ZA/qSrl382iU
+ dyRSiDYWB2vPXxeB1mK67RCeGw3Ora+/1v1iMHT8T02fTvUbZUi2Qg//9+akGZAYsFUe
+ QyDLAAQp/oWsKLCEX+VFWkPCyfQl3U2pNcDMNIUoxrAtLbqyiZXty3R//jAEPXLAXFyX
+ 0/8w==
+X-Gm-Message-State: AOAM533L1sP8CNCmYRBu2kS0Wxd7QWvopfMeCM8v/FpU1JYu6HFC+uYl
+ 4j4pE7fXsqBw72Qcume72/WcP/oec4doaQ==
+X-Google-Smtp-Source: ABdhPJz0UYL9oLfIisSo95FnXASv6zM78G76D/tfsud2oq90iTLdCw8x0XNDoefg1eNFjchC5zmjqQ==
+X-Received: by 2002:a62:f947:0:b029:2e9:c502:7939 with SMTP id
+ g7-20020a62f9470000b02902e9c5027939mr1514964pfm.34.1623713509826; 
  Mon, 14 Jun 2021 16:31:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id gl13sm488113pjb.5.2021.06.14.16.31.48
+ by smtp.gmail.com with ESMTPSA id gl13sm488113pjb.5.2021.06.14.16.31.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Jun 2021 16:31:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/8] qemu/compiler: Remove QEMU_GENERIC
-Date: Mon, 14 Jun 2021 16:31:42 -0700
-Message-Id: <20210614233143.1221879-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 8/8] configure: Remove probe for _Static_assert
+Date: Mon, 14 Jun 2021 16:31:43 -0700
+Message-Id: <20210614233143.1221879-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210614233143.1221879-1-richard.henderson@linaro.org>
 References: <20210614233143.1221879-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +88,73 @@ Cc: pbonzini@redhat.com, thuth@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All previous users now use C11 _Generic.
+_Static_assert is part of C11, which is now required.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/compiler.h | 40 ----------------------------------------
- 1 file changed, 40 deletions(-)
+ configure               | 18 ------------------
+ include/qemu/compiler.h | 11 -----------
+ 2 files changed, 29 deletions(-)
 
+diff --git a/configure b/configure
+index 0489864667..debd50c085 100755
+--- a/configure
++++ b/configure
+@@ -5090,20 +5090,6 @@ if compile_prog "" "" ; then
+     have_sysmacros=yes
+ fi
+ 
+-##########################################
+-# check for _Static_assert()
+-
+-have_static_assert=no
+-cat > $TMPC << EOF
+-_Static_assert(1, "success");
+-int main(void) {
+-    return 0;
+-}
+-EOF
+-if compile_prog "" "" ; then
+-    have_static_assert=yes
+-fi
+-
+ ##########################################
+ # check for utmpx.h, it is missing e.g. on OpenBSD
+ 
+@@ -6035,10 +6021,6 @@ if test "$have_sysmacros" = "yes" ; then
+   echo "CONFIG_SYSMACROS=y" >> $config_host_mak
+ fi
+ 
+-if test "$have_static_assert" = "yes" ; then
+-  echo "CONFIG_STATIC_ASSERT=y" >> $config_host_mak
+-fi
+-
+ if test "$have_utmpx" = "yes" ; then
+   echo "HAVE_UTMPX=y" >> $config_host_mak
+ fi
 diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 091c45248b..5766d61589 100644
+index 5766d61589..3baa5e3790 100644
 --- a/include/qemu/compiler.h
 +++ b/include/qemu/compiler.h
-@@ -173,46 +173,6 @@
- #define QEMU_ALWAYS_INLINE
- #endif
+@@ -72,18 +72,7 @@
+         int:(x) ? -1 : 1; \
+     }
  
--/* Implement C11 _Generic via GCC builtins.  Example:
-- *
-- *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
-- *
-- * The first argument is the discriminator.  The last is the default value.
-- * The middle ones are tuples in "(type, expansion)" format.
-- */
--
--/* First, find out the number of generic cases.  */
--#define QEMU_GENERIC(x, ...) \
--    QEMU_GENERIC_(typeof(x), __VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
--
--/* There will be extra arguments, but they are not used.  */
--#define QEMU_GENERIC_(x, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, count, ...) \
--    QEMU_GENERIC##count(x, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9)
--
--/* Two more helper macros, this time to extract items from a parenthesized
-- * list.
-- */
--#define QEMU_FIRST_(a, b) a
--#define QEMU_SECOND_(a, b) b
--
--/* ... and a final one for the common part of the "recursion".  */
--#define QEMU_GENERIC_IF(x, type_then, else_)                                   \
--    __builtin_choose_expr(__builtin_types_compatible_p(x,                      \
--                                                       QEMU_FIRST_ type_then), \
--                          QEMU_SECOND_ type_then, else_)
--
--/* CPP poor man's "recursion".  */
--#define QEMU_GENERIC1(x, a0, ...) (a0)
--#define QEMU_GENERIC2(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC1(x, __VA_ARGS__))
--#define QEMU_GENERIC3(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC2(x, __VA_ARGS__))
--#define QEMU_GENERIC4(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC3(x, __VA_ARGS__))
--#define QEMU_GENERIC5(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC4(x, __VA_ARGS__))
--#define QEMU_GENERIC6(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC5(x, __VA_ARGS__))
--#define QEMU_GENERIC7(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC6(x, __VA_ARGS__))
--#define QEMU_GENERIC8(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC7(x, __VA_ARGS__))
--#define QEMU_GENERIC9(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC8(x, __VA_ARGS__))
--#define QEMU_GENERIC10(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC9(x, __VA_ARGS__))
--
- /**
-  * qemu_build_not_reached()
-  *
+-/* QEMU_BUILD_BUG_MSG() emits the message given if _Static_assert is
+- * supported; otherwise, it will be omitted from the compiler error
+- * message (but as it remains present in the source code, it can still
+- * be useful when debugging). */
+-#if defined(CONFIG_STATIC_ASSERT)
+ #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
+-#elif defined(__COUNTER__)
+-#define QEMU_BUILD_BUG_MSG(x, msg) typedef QEMU_BUILD_BUG_ON_STRUCT(x) \
+-    glue(qemu_build_bug_on__, __COUNTER__) __attribute__((unused))
+-#else
+-#define QEMU_BUILD_BUG_MSG(x, msg)
+-#endif
+ 
+ #define QEMU_BUILD_BUG_ON(x) QEMU_BUILD_BUG_MSG(x, "not expecting: " #x)
+ 
 -- 
 2.25.1
 
