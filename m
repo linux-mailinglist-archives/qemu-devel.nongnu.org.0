@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA923A6D64
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 19:45:13 +0200 (CEST)
-Received: from localhost ([::1]:52704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 618DA3A6DD2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 19:56:42 +0200 (CEST)
+Received: from localhost ([::1]:57016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsqe8-0001k1-Hl
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 13:45:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
+	id 1lsqpE-0006J2-VH
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 13:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lsqbq-0007vx-LH
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:42:50 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:36176
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lsqoK-0005aq-Va
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:55:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lsqbo-0002Lb-4m
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:42:49 -0400
-Received: from macbook02.fritz.box (p57b42637.dip0.t-ipconnect.de
- [87.180.38.55])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lsqoH-0002Mh-SP
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 13:55:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623693340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8Qk2opYScdjO0lTnUs4UU39JRstDhigfnYjig18nPHM=;
+ b=Q+y//Th6D2PX+Bfv5Nokq631ekToqwNZxNKt+46rRA3Waqn6pZQh5wsG8eZID9enliFn35
+ opFxulkYfgg/6wKhMCFTejPA28akTTuWJhiqahb7HxiAuu6O6l0D8LPbfNWKfcOAk6So9k
+ UA2CXSh3CIcuR0ZhS6d1wseoaaARIQA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-hDQ-W0T7NiufamPb2Azr_w-1; Mon, 14 Jun 2021 13:55:38 -0400
+X-MC-Unique: hDQ-W0T7NiufamPb2Azr_w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 18D39DA07C5;
- Mon, 14 Jun 2021 19:42:45 +0200 (CEST)
-Subject: Re: [RFC] GitLab issue tracker labeling process: arch/target, os, and
- accel labels
-To: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-References: <0a19af15-2f34-4934-c6c9-113e49f5f1f2@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <c9223394-e1b0-4ed7-e095-62c44149ebae@weilnetz.de>
-Date: Mon, 14 Jun 2021 19:42:44 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62FE11019996
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 17:55:37 +0000 (UTC)
+Received: from work-vm (ovpn-114-158.ams2.redhat.com [10.36.114.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D367610074EF;
+ Mon, 14 Jun 2021 17:55:29 +0000 (UTC)
+Date: Mon, 14 Jun 2021 18:55:27 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 2/2] tests: migration-test: Add dirty ring test
+Message-ID: <YMeYDzWaQdLoGFJY@work-vm>
+References: <20210610005239.265588-1-peterx@redhat.com>
+ <20210610005239.265588-3-peterx@redhat.com>
+ <YMJhmOXglbMlX5P6@work-vm> <YMJoy7rPDNNJpyVr@t490s>
 MIME-Version: 1.0
-In-Reply-To: <0a19af15-2f34-4934-c6c9-113e49f5f1f2@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.489,
+In-Reply-To: <YMJoy7rPDNNJpyVr@t490s>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,58 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.06.21 um 19:32 schrieb John Snow:
+* Peter Xu (peterx@redhat.com) wrote:
+> On Thu, Jun 10, 2021 at 08:01:44PM +0100, Dr. David Alan Gilbert wrote:
+> > > +#include <linux/kvm.h>
+> > 
+> > Does that get you the system headers, which may or may not have
+> > KVM_CAP_DIRTY_LOG_RING if you're on an old host, or does it get you
+> > qemu's linux-headers which definitely does?
+> 
+> I tested it and it's using the linux-headers/ file even if I also got the other
+> /usr/include one.  So I think the qemu one just has higher priority in the "-I"
+> paths.
+> 
+> Btw, IIUC quotting with <> or "" should be the same here for headers, so I'm
+> thinking maybe I should switch to "" like the rest headers.
 
-> RTH raises the issue of the "TCI" subsystem of TCG, which is not a 
-> full accelerator in its own right, but (I think) a special case of 
-> TCG. If I keep the 1:1 mapping to ACCEL_CLASS_NAME, "accel: TCI" is 
-> inappropriate.
->
-> Some suggestions:
-> - "TCI" by itself, simple enough.
-> - "TCG-TCI" or "TCG: TCI" or "TCG/TCI" or similar, so that it shows up 
-> in label search when you search for 'tcg'.
-> - "accel: TCG:TCI". Similar to above but uses the "accel:" prefix too.
->
-> My only concern here is completeness of the label: this one seems like 
-> it's at particular risk of being forgotten or lost. It works perfectly 
-> well as an organizational bucket for people working on TCI, but I 
-> wonder if it will work well as an "issue inbox". Intended use begins 
-> to matter here. Your thoughts, Stefan?
+Oh in that case,
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-I appreciate your, Richard's and all other efforts to further improve 
-the label system.
+> 
+> > 
+> > What happens on a BSD or the like?
+> 
+> Ah, good point..
+> 
+> How about I squash this into the patch?
 
-Regarding the label for TCI I have no special personal preferences. The 
-above suggestions are all fine for me, so choose one which fits best to 
-other labels.
+I'm not sure;  I was only really worried about the build failing, I was
+assuming that nothing else would have /dev/kvm so your open would fail.
+Although I guess that might mean something entirely different on some
+other OS, so perhaps it's worth it.
 
-Thanks,
+Dave
 
-Stefan
-
+> ---8<---
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index cc6e396d1a2..9ef6b471353 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -12,7 +12,6 @@
+>  
+>  #include "qemu/osdep.h"
+>  
+> -#include <linux/kvm.h>
+>  #include "libqos/libqtest.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/qdict.h"
+> @@ -28,6 +27,10 @@
+>  #include "migration-helpers.h"
+>  #include "tests/migration/migration-test.h"
+>  
+> +#if defined(__linux__)
+> +#include "linux/kvm.h"
+> +#endif
+> +
+>  /* TODO actually test the results and get rid of this */
+>  #define qtest_qmp_discard_response(...) qobject_unref(qtest_qmp(__VA_ARGS__))
+>  
+> @@ -1392,6 +1395,7 @@ static void test_multifd_tcp_cancel(void)
+>  
+>  static bool kvm_dirty_ring_supported(void)
+>  {
+> +#if defined(__linux__)
+>      int ret, kvm_fd = open("/dev/kvm", O_RDONLY);
+>  
+>      if (kvm_fd < 0) {
+> @@ -1407,6 +1411,9 @@ static bool kvm_dirty_ring_supported(void)
+>      }
+>  
+>      return true;
+> +#else
+> +    return false;
+> +#endif
+>  }
+>  
+>  int main(int argc, char **argv)
+> ---8<---
+> 
+> Thanks!
+> 
+> -- 
+> Peter Xu
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
