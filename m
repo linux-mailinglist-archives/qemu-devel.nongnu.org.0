@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857C93A729A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:44:16 +0200 (CEST)
-Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4153A72A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 01:51:28 +0200 (CEST)
+Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lswFb-0004SI-JF
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53488)
+	id 1lswMa-0001No-1n
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 19:51:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lswEQ-00036d-AN
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:43:02 -0400
-Resent-Date: Mon, 14 Jun 2021 19:43:02 -0400
-Resent-Message-Id: <E1lswEQ-00036d-AN@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lswEN-0005v6-0J
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:43:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623714169; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aao0DNFbWm6lI7/IvdPJsq93Qv38epzmbDfljUamqre2ELB1xIgC402iXmMd2X8b8Mxpso3Ug1ziyzMB1Xoix6zYwpI7n3NOt4HDCJxELF317AI4X8v/rUtHGurrsUGZACGgrBhpBOm2bAqid7sDvLGEWuFD+IRHoQog/EwqFWA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623714169;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Ph3pMyEV6Nj7hmPJZAEpXaWKvTYDbLkhJT55SjfmqjQ=; 
- b=FgI3nQo7VqL4GshwoAHnm61VU9dxlVxI3ZHRoCqzrOpF8za04jg8fD9fSCblHHR62umM0uQ9j482GfAaAF6sBAPIe8lZ4n7j0ZheS6TiimlggG+bmd4eYgTAbevXIyK9DLfpidXiR+Y/qwo6CdSAuJLK28lVhy2M8Zp1YgGmMHk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623714167360930.2609383289528;
- Mon, 14 Jun 2021 16:42:47 -0700 (PDT)
-In-Reply-To: <20210614233143.1221879-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 0/8] configure: Change to -std=gnu11
-Message-ID: <162371416623.2358.706612039630385706@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lswLm-0000jN-V6
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:50:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lswLk-00022K-FL
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 19:50:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lswLi-0000fQ-EC
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 23:50:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 623502E805D
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 23:50:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Mon, 14 Jun 2021 16:42:47 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 14 Jun 2021 23:44:21 -0000
+From: Alexander Bulekov <1888606@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr kraxel-redhat th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <159548011952.31456.8249433335836304327.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162371426107.14360.12507255605252347433.malone@wampee.canonical.com>
+Subject: [Bug 1888606] Re: Heap-use-after-free in virtio_gpu_ctrl_response
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: 3a78e417bc70c5ecb696b74007693a1e06eac124
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,203 +70,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
- ehabkost@redhat.com
+Reply-To: Bug 1888606 <1888606@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxNDIzMzE0My4xMjIx
-ODc5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjE0
-MjMzMTQzLjEyMjE4NzktMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
-QVRDSCB2MiAwLzhdIGNvbmZpZ3VyZTogQ2hhbmdlIHRvIC1zdGQ9Z251MTEKCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
-ZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVj
-dC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2MTQyMzMxNDMuMTIyMTg3
-OS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDYxNDIzMzE0
-My4xMjIxODc5LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjFhOTc0ZWUgY29uZmlndXJlOiBSZW1vdmUgcHJvYmUgZm9yIF9TdGF0
-aWNfYXNzZXJ0CjhhOGM1NTIgcWVtdS9jb21waWxlcjogUmVtb3ZlIFFFTVVfR0VORVJJQwpkNTJj
-YTgwIGluY2x1ZGUvcWVtdS9sb2NrYWJsZTogVXNlIF9HZW5lcmljIGluc3RlYWQgb2YgUUVNVV9H
-RU5FUklDCmQ3NTFjYzggdXRpbDogVXNlIHVuaXF1ZSB0eXBlIGZvciBRZW11UmVjTXV0ZXggaW4g
-dGhyZWFkLXBvc2l4LmgKYWFmZTA3OSB1dGlsOiBQYXNzIGZpbGUrbGluZSB0byBxZW11X3JlY19t
-dXRleF91bmxvY2tfaW1wbAowNjliNGUzIHV0aWw6IFVzZSByZWFsIGZ1bmN0aW9ucyBmb3IgdGhy
-ZWFkLXBvc2l4IFFlbXVSZWNNdXRleApkZjk5NTJlIHNvZnRmbG9hdDogVXNlIF9HZW5lcmljIGlu
-c3RlYWQgb2YgUUVNVV9HRU5FUklDCjA2NzczNmEgY29uZmlndXJlOiBVc2UgLXN0ZD1nbnUxMQoK
-PT09IE9VVFBVVCBCRUdJTiA9PT0KMS84IENoZWNraW5nIGNvbW1pdCAwNjc3MzZhYmQ4MmEgKGNv
-bmZpZ3VyZTogVXNlIC1zdGQ9Z251MTEpCjIvOCBDaGVja2luZyBjb21taXQgZGY5OTUyZWJkY2Uz
-IChzb2Z0ZmxvYXQ6IFVzZSBfR2VuZXJpYyBpbnN0ZWFkIG9mIFFFTVVfR0VORVJJQykKRVJST1I6
-IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMyMjogRklMRTogZnB1
-L3NvZnRmbG9hdC5jOjY4OToKKyAgICBfR2VuZXJpYygoUCksIEZsb2F0UGFydHM2NCAqOiBwYXJ0
-czY0XyMjTkFNRSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBz
-cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzonIChjdHg6T3hXKQojMjI6IEZJTEU6IGZwdS9z
-b2Z0ZmxvYXQuYzo2ODk6CisgICAgX0dlbmVyaWMoKFApLCBGbG9hdFBhcnRzNjQgKjogcGFydHM2
-NF8jI05BTUUsIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNw
-YWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMyMzogRklMRTogZnB1L3Nv
-ZnRmbG9hdC5jOjY5MDoKKyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogcGFydHMx
-MjhfIyNOQU1FKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzIzOiBGSUxFOiBmcHUvc29m
-dGZsb2F0LmM6NjkwOgorICAgICAgICAgICAgICAgICAgRmxvYXRQYXJ0czEyOCAqOiBwYXJ0czEy
-OF8jI05BTUUpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzI4OiBGSUxFOiBmcHUvc29m
-dGZsb2F0LmM6NjkzOgorICAgIF9HZW5lcmljKChQKSwgRmxvYXRQYXJ0czY0ICo6IHBhcnRzNjRf
-IyNOQU1FLCBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNl
-cyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiMyODogRklMRTogZnB1L3NvZnRm
-bG9hdC5jOjY5MzoKKyAgICBfR2VuZXJpYygoUCksIEZsb2F0UGFydHM2NCAqOiBwYXJ0czY0XyMj
-TkFNRSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzI5OiBGSUxFOiBmcHUvc29mdGZs
-b2F0LmM6Njk0OgorICAgICAgICAgICAgICAgICAgRmxvYXRQYXJ0czEyOCAqOiBwYXJ0czEyOF8j
-I05BTUUsIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNl
-cyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiMyOTogRklMRTogZnB1L3NvZnRm
-bG9hdC5jOjY5NDoKKyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogcGFydHMxMjhf
-IyNOQU1FLCBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzMwOiBGSUxFOiBmcHUvc29m
-dGZsb2F0LmM6Njk1OgorICAgICAgICAgICAgICAgICAgRmxvYXRQYXJ0czI1NiAqOiBwYXJ0czI1
-Nl8jI05BTUUpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzonIChjdHg6T3hXKQojMzA6IEZJTEU6IGZwdS9zb2Z0
-ZmxvYXQuYzo2OTU6CisgICAgICAgICAgICAgICAgICBGbG9hdFBhcnRzMjU2ICo6IHBhcnRzMjU2
-XyMjTkFNRSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMzk6IEZJTEU6IGZwdS9zb2Z0
-ZmxvYXQuYzo4OTc6CisgICAgX0dlbmVyaWMoKFApLCBGbG9hdFBhcnRzNjQgKjogZnJhYzY0XyMj
-TkFNRSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMg
-cmVxdWlyZWQgYXJvdW5kIHRoYXQgJzonIChjdHg6T3hXKQojMzk6IEZJTEU6IGZwdS9zb2Z0Zmxv
-YXQuYzo4OTc6CisgICAgX0dlbmVyaWMoKFApLCBGbG9hdFBhcnRzNjQgKjogZnJhYzY0XyMjTkFN
-RSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJl
-cXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzQwOiBGSUxFOiBmcHUvc29mdGZsb2F0
-LmM6ODk4OgorICAgICAgICAgICAgICAgICAgRmxvYXRQYXJ0czEyOCAqOiBmcmFjMTI4XyMjTkFN
-RSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1
-aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiM0MDogRklMRTogZnB1L3NvZnRmbG9hdC5j
-Ojg5ODoKKyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogZnJhYzEyOF8jI05BTUUp
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVp
-cmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzQ1OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6
-OTAxOgorICAgIF9HZW5lcmljKChQKSwgRmxvYXRQYXJ0czY0ICo6IGZyYWM2NF8jI05BTUUsIFwK
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVk
-IGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzQ1OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6OTAx
-OgorICAgIF9HZW5lcmljKChQKSwgRmxvYXRQYXJ0czY0ICo6IGZyYWM2NF8jI05BTUUsIFwKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiM0NjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjkwMjoK
-KyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogZnJhYzEyOF8jI05BTUUsIFwKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiM0NjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjkwMjoK
-KyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogZnJhYzEyOF8jI05BTUUsIFwKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
-YXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojNDc6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo5MDM6
-CisgICAgICAgICAgICAgICAgICBGbG9hdFBhcnRzMjU2ICo6IGZyYWMyNTZfIyNOQU1FKQogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFy
-b3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzQ3OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6OTAzOgor
-ICAgICAgICAgICAgICAgICAgRmxvYXRQYXJ0czI1NiAqOiBmcmFjMjU2XyMjTkFNRSkKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAyMCBlcnJvcnMsIDAgd2Fybmlu
-Z3MsIDMyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFz
-ZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVw
-b3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJT
-LgoKMy84IENoZWNraW5nIGNvbW1pdCAwNjliNGUzOWM2YjMgKHV0aWw6IFVzZSByZWFsIGZ1bmN0
-aW9ucyBmb3IgdGhyZWFkLXBvc2l4IFFlbXVSZWNNdXRleCkKV0FSTklORzogbGluZSBvdmVyIDgw
-IGNoYXJhY3RlcnMKIzYzOiBGSUxFOiBpbmNsdWRlL3FlbXUvdGhyZWFkLmg6MzQ6CitpbnQgcWVt
-dV9yZWNfbXV0ZXhfdHJ5bG9ja19pbXBsKFFlbXVSZWNNdXRleCAqbXV0ZXgsIGNvbnN0IGNoYXIg
-KmZpbGUsIGludCBsaW5lKTsKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNjkgbGluZXMg
-Y2hlY2tlZAoKUGF0Y2ggMy84IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQvOCBDaGVja2lu
-ZyBjb21taXQgYWFmZTA3OTE3YzNhICh1dGlsOiBQYXNzIGZpbGUrbGluZSB0byBxZW11X3JlY19t
-dXRleF91bmxvY2tfaW1wbCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI3OiBG
-SUxFOiBpbmNsdWRlL3FlbXUvdGhyZWFkLmg6MzU6Cit2b2lkIHFlbXVfcmVjX211dGV4X3VubG9j
-a19pbXBsKFFlbXVSZWNNdXRleCAqbXV0ZXgsIGNvbnN0IGNoYXIgKmZpbGUsIGludCBsaW5lKTsK
-CnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC84
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvOCBDaGVja2luZyBjb21taXQgZDc1MWNjODdj
-ZmFkICh1dGlsOiBVc2UgdW5pcXVlIHR5cGUgZm9yIFFlbXVSZWNNdXRleCBpbiB0aHJlYWQtcG9z
-aXguaCkKNi84IENoZWNraW5nIGNvbW1pdCBkNTJjYTgwNjgxMzMgKGluY2x1ZGUvcWVtdS9sb2Nr
-YWJsZTogVXNlIF9HZW5lcmljIGluc3RlYWQgb2YgUUVNVV9HRU5FUklDKQpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzExNzogRklMRTogaW5jbHVkZS9x
-ZW11L2xvY2thYmxlLmg6NzA6CisgICAgX0dlbmVyaWMoKHgpLCBRZW11TG9ja2FibGUgKjogKHgp
-LCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0
-eDpPeFcpCiMxMTc6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjcwOgorICAgIF9HZW5l
-cmljKCh4KSwgUWVtdUxvY2thYmxlICo6ICh4KSwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzExODogRklMRTogaW5jbHVkZS9x
-ZW11L2xvY2thYmxlLmg6NzE6CisgICAgICAgICAgICAgdm9pZCAqOiBxZW11X251bGxfbG9ja2Fi
-bGUoeCksICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICBe
-CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzExODog
-RklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6NzE6CisgICAgICAgICAgICAgdm9pZCAqOiBx
-ZW11X251bGxfbG9ja2FibGUoeCksICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicg
-KGN0eDpXeE8pCiMxMTk6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjcyOgorICAgICAg
-ICAgICAgIFFlbXVNdXRleCAqOiBxZW11X21ha2VfbG9ja2FibGUoeCwgUU1MX09CSl8oeCwgbXV0
-ZXgpKSwgICAgXAogICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVp
-cmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzExOTogRklMRTogaW5jbHVkZS9xZW11L2xv
-Y2thYmxlLmg6NzI6CisgICAgICAgICAgICAgUWVtdU11dGV4ICo6IHFlbXVfbWFrZV9sb2NrYWJs
-ZSh4LCBRTUxfT0JKXyh4LCBtdXRleCkpLCAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICBe
-CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzEyMDog
-RklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6NzM6CisgICAgICAgICAgICAgUWVtdVJlY011
-dGV4ICo6IHFlbXVfbWFrZV9sb2NrYWJsZSh4LCBRTUxfT0JKXyh4LCByZWNfbXV0ZXgpKSwgXAog
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3Vu
-ZCB0aGF0ICc6JyAoY3R4Ok94VykKIzEyMDogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6
-NzM6CisgICAgICAgICAgICAgUWVtdVJlY011dGV4ICo6IHFlbXVfbWFrZV9sb2NrYWJsZSh4LCBR
-TUxfT0JKXyh4LCByZWNfbXV0ZXgpKSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMxMjE6IEZJ
-TEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjc0OgorICAgICAgICAgICAgIENvTXV0ZXggKjog
-cWVtdV9tYWtlX2xvY2thYmxlKHgsIFFNTF9PQkpfKHgsIGNvX211dGV4KSksICAgXAogICAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicg
-KGN0eDpPeFcpCiMxMjE6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjc0OgorICAgICAg
-ICAgICAgIENvTXV0ZXggKjogcWVtdV9tYWtlX2xvY2thYmxlKHgsIFFNTF9PQkpfKHgsIGNvX211
-dGV4KSksICAgXAogICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWly
-ZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMTIyOiBGSUxFOiBpbmNsdWRlL3FlbXUvbG9j
-a2FibGUuaDo3NToKKyAgICAgICAgICAgICBRZW11U3BpbiAqOiBxZW11X21ha2VfbG9ja2FibGUo
-eCwgUU1MX09CSl8oeCwgc3BpbikpKQogICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBz
-cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzonIChjdHg6T3hXKQojMTIyOiBGSUxFOiBpbmNs
-dWRlL3FlbXUvbG9ja2FibGUuaDo3NToKKyAgICAgICAgICAgICBRZW11U3BpbiAqOiBxZW11X21h
-a2VfbG9ja2FibGUoeCwgUU1MX09CSl8oeCwgc3BpbikpKQogICAgICAgICAgICAgICAgICAgICAg
-ICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzEz
-ODogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6ODc6CisgICAgX0dlbmVyaWMoKHgpLCBR
-ZW11TG9ja2FibGUgKjogKHgpLCAgICAgICAgICAgICAgICAgICAgICAgICAgXAogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
-YXQgJzonIChjdHg6T3hXKQojMTM4OiBGSUxFOiBpbmNsdWRlL3FlbXUvbG9ja2FibGUuaDo4NzoK
-KyAgICBfR2VuZXJpYygoeCksIFFlbXVMb2NrYWJsZSAqOiAoeCksICAgICAgICAgICAgICAgICAg
-ICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMTM5OiBGSUxFOiBpbmNsdWRl
-L3FlbXUvbG9ja2FibGUuaDo4ODoKKyAgICAgICAgICAgICAgICAgIFFlbXVNdXRleCAqOiBRTUxf
-T0JKXyh4LCBtdXRleCksICAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiMx
-Mzk6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjg4OgorICAgICAgICAgICAgICAgICAg
-UWVtdU11dGV4ICo6IFFNTF9PQkpfKHgsIG11dGV4KSwgICAgICAgICAgICAgIFwKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhh
-dCAnKicgKGN0eDpXeE8pCiMxNDA6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjg5Ogor
-ICAgICAgICAgICAgICAgICAgUWVtdVJlY011dGV4ICo6IFFNTF9PQkpfKHgsIHJlY19tdXRleCks
-ICAgICAgIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzE0MDogRklMRTogaW5jbHVkZS9x
-ZW11L2xvY2thYmxlLmg6ODk6CisgICAgICAgICAgICAgICAgICBRZW11UmVjTXV0ZXggKjogUU1M
-X09CSl8oeCwgcmVjX211dGV4KSwgICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykK
-IzE0MTogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6OTA6CisgICAgICAgICAgICAgICAg
-ICBDb011dGV4ICo6IFFNTF9PQkpfKHgsIGNvX211dGV4KSwgICAgICAgICAgICAgXAogICAgICAg
-ICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0
-ICc6JyAoY3R4Ok94VykKIzE0MTogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6OTA6Cisg
-ICAgICAgICAgICAgICAgICBDb011dGV4ICo6IFFNTF9PQkpfKHgsIGNvX211dGV4KSwgICAgICAg
-ICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1
-aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMxNDI6IEZJTEU6IGluY2x1ZGUvcWVtdS9s
-b2NrYWJsZS5oOjkxOgorICAgICAgICAgICAgICAgICAgUWVtdVNwaW4gKjogUU1MX09CSl8oeCwg
-c3BpbikpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVp
-cmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzE0MjogRklMRTogaW5jbHVkZS9xZW11L2xv
-Y2thYmxlLmg6OTE6CisgICAgICAgICAgICAgICAgICBRZW11U3BpbiAqOiBRTUxfT0JKXyh4LCBz
-cGluKSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMjIgZXJyb3JzLCAw
-IHdhcm5pbmdzLCAxMjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi84IGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgo3LzggQ2hlY2tpbmcgY29tbWl0IDhhOGM1NTIxN2E2ZiAocWVtdS9jb21waWxl
-cjogUmVtb3ZlIFFFTVVfR0VORVJJQykKOC84IENoZWNraW5nIGNvbW1pdCAxYTk3NGVlYTg1OTAg
-KGNvbmZpZ3VyZTogUmVtb3ZlIHByb2JlIGZvciBfU3RhdGljX2Fzc2VydCkKPT09IE9VVFBVVCBF
-TkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBp
-cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA2MTQyMzMxNDMuMTIy
-MTg3OS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90
-eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3
-IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0
-Y2hldy1kZXZlbEByZWRoYXQuY29t
+OSS-Fuzz says it was fixed some months ago, and it has not found a
+reproducer since.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888606
+
+Title:
+  Heap-use-after-free in virtio_gpu_ctrl_response
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+  Here is a reproducer (build with --enable-sanitizers):
+  cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic -M pc -nodefaults=
+ -m 512M -device virtio-vga -qtest stdio
+  outl 0xcf8 0x80001018
+  outl 0xcfc 0xe0800000
+  outl 0xcf8 0x80001020
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  writeq 0xe0801024 0x10646c00776c6cff
+  writeq 0xe080102d 0xe0801000320000
+  writeq 0xe0801015 0x12b2901ba000000
+  write 0x10646c02 0x1 0x2c
+  write 0x999 0x1 0x25
+  write 0x8 0x1 0x78
+  write 0x2c7 0x1 0x32
+  write 0x2cb 0x1 0xff
+  write 0x2cc 0x1 0x7e
+  writeq 0xe0803000 0xf2b8f0540ff83
+  EOF
+
+  The ASAN trace:
+  =3D=3D29798=3D=3DERROR: AddressSanitizer: heap-use-after-free on address =
+0x60d0000050e8 at pc 0x560629814761 bp 0x7ffe916eb1e0 sp 0x7ffe916eb1d8
+  READ of size 8 at 0x60d0000050e8 thread T0
+      #0 0x560629814760 in virtio_gpu_ctrl_response /home/alxndr/Developmen=
+t/qemu/hw/display/virtio-gpu.c:181:42
+      #1 0x56062981adc8 in virtio_gpu_ctrl_response_nodata /home/alxndr/Dev=
+elopment/qemu/hw/display/virtio-gpu.c:193:5
+      #2 0x56062981adc8 in virtio_gpu_simple_process_cmd /home/alxndr/Devel=
+opment/qemu/hw/display/virtio-gpu.c:791:9
+      #3 0x5606298175f8 in virtio_gpu_process_cmdq /home/alxndr/Development=
+/qemu/hw/display/virtio-gpu.c:820:9
+      #4 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/a=
+sync.c:164:13
+      #5 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util/=
+aio-posix.c:380:5
+      #6 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
+til/async.c:306:5
+      #7 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
+nu/libglib-2.0.so.0+0x4e9ed)
+      #8 0x56062a919571 in glib_pollfds_poll /home/alxndr/Development/qemu/=
+util/main-loop.c:217:9
+      #9 0x56062a919571 in os_host_main_loop_wait /home/alxndr/Development/=
+qemu/util/main-loop.c:240:5
+      #10 0x56062a919571 in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:516:11
+      #11 0x560629094a64 in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1676:9
+      #12 0x56062a749ab5 in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #13 0x7f0d5cd55e0a in __libc_start_main (/lib/x86_64-linux-gnu/libc.s=
+o.6+0x26e0a)
+      #14 0x5606288ba889 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0x24d0889)
+
+  0x60d0000050e8 is located 56 bytes inside of 136-byte region [0x60d000005=
+0b0,0x60d000005138)
+  freed by thread T0 here:
+      #0 0x56062893250d in free (/home/alxndr/Development/qemu/build/i386-s=
+oftmmu/qemu-system-i386+0x254850d)
+      #1 0x560629827730 in virtio_gpu_reset /home/alxndr/Development/qemu/h=
+w/display/virtio-gpu.c:1160:9
+      #2 0x560628e81d34 in virtio_reset /home/alxndr/Development/qemu/hw/vi=
+rtio/virtio.c:1999:9
+      #3 0x560629f08773 in virtio_pci_reset /home/alxndr/Development/qemu/h=
+w/virtio/virtio-pci.c:1841:5
+      #4 0x560629043ab6 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/softmmu/memory.c:483:5
+      #5 0x560629043473 in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/softmmu/memory.c:544:18
+      #6 0x560629042c99 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/softmmu/memory.c
+      #7 0x560628990a37 in flatview_write_continue /home/alxndr/Development=
+/qemu/exec.c:3176:23
+      #8 0x56062899041a in address_space_write_cached_slow /home/alxndr/Dev=
+elopment/qemu/exec.c:3789:12
+      #9 0x560628e6f9bb in vring_used_write /home/alxndr/Development/qemu/h=
+w/virtio/virtio.c:347:5
+      #10 0x560628e6f9bb in virtqueue_split_fill /home/alxndr/Development/q=
+emu/hw/virtio/virtio.c:788:5
+      #11 0x560628e6f9bb in virtqueue_fill /home/alxndr/Development/qemu/hw=
+/virtio/virtio.c:852:9
+      #12 0x560628e7205e in virtqueue_push /home/alxndr/Development/qemu/hw=
+/virtio/virtio.c:917:5
+      #13 0x560629814246 in virtio_gpu_ctrl_response /home/alxndr/Developme=
+nt/qemu/hw/display/virtio-gpu.c:180:5
+      #14 0x56062981adc8 in virtio_gpu_ctrl_response_nodata /home/alxndr/De=
+velopment/qemu/hw/display/virtio-gpu.c:193:5
+      #15 0x56062981adc8 in virtio_gpu_simple_process_cmd /home/alxndr/Deve=
+lopment/qemu/hw/display/virtio-gpu.c:791:9
+      #16 0x5606298175f8 in virtio_gpu_process_cmdq /home/alxndr/Developmen=
+t/qemu/hw/display/virtio-gpu.c:820:9
+      #17 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/=
+async.c:164:13
+      #18 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util=
+/aio-posix.c:380:5
+      #19 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/=
+util/async.c:306:5
+      #20 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e9ed)
+
+  previously allocated by thread T0 here:
+      #0 0x56062893278d in malloc (/home/alxndr/Development/qemu/build/i386=
+-softmmu/qemu-system-i386+0x254878d)
+      #1 0x7f0d5e1d5500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x54500)
+      #2 0x560628e7844b in virtqueue_split_pop /home/alxndr/Development/qem=
+u/hw/virtio/virtio.c:1524:12
+      #3 0x560628e7844b in virtqueue_pop /home/alxndr/Development/qemu/hw/v=
+irtio/virtio.c:1693:16
+      #4 0x560629829633 in virtio_gpu_handle_ctrl /home/alxndr/Development/=
+qemu/hw/display/virtio-gpu.c:878:15
+      #5 0x560629829633 in virtio_gpu_ctrl_bh /home/alxndr/Development/qemu=
+/hw/display/virtio-gpu.c:893:5
+      #6 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/a=
+sync.c:164:13
+      #7 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util/=
+aio-posix.c:380:5
+      #8 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
+til/async.c:306:5
+      #9 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
+nu/libglib-2.0.so.0+0x4e9ed)
+
+  =
+
+  With -trace virtio\* -trace pci\* :
+  [I 1595480025.666147] OPENED
+  31900@1595480025.706962:virtio_set_status vdev 0x633000019640 val 0
+  31900@1595480025.710297:virtio_set_status vdev 0x633000019640 val 0
+  [R +0.046276] outl 0xcf8 0x80001018
+  OK
+  [S +0.046313] OK
+  [R +0.046332] outl 0xcfc 0xe0800000
+  31900@1595480025.712490:pci_cfg_write virtio-vga 02:0 @0x18 <- 0xe0800000
+  OK
+  [S +0.046356] OK
+  [R +0.046365] outl 0xcf8 0x80001020
+  OK
+  [S +0.046370] OK
+  [R +0.046379] outl 0xcf8 0x80001004
+  OK
+  [S +0.046383] OK
+  [R +0.046391] outw 0xcfc 0x7
+  31900@1595480025.712544:pci_cfg_write virtio-vga 02:0 @0x4 <- 0x7
+  31900@1595480025.712551:pci_update_mappings_add d=3D0x633000000800 00:02.=
+0 2,0xe0800000+0x4000
+  OK
+  [S +0.047572] OK
+  [R +0.047597] writeq 0xe0801024 0x10646c00776c6cff
+  OK
+  [S +0.047610] OK
+  [R +0.047619] writeq 0xe080102d 0xe0801000320000
+  OK
+  [S +0.047627] OK
+  [R +0.047636] writeq 0xe0801015 0x12b2901ba000000
+  OK
+  [S +0.047650] OK
+  [R +0.047660] write 0x10646c02 0x1 0x2c
+  OK
+  [S +0.047769] OK
+  [R +0.047782] write 0x999 0x1 0x25
+  OK
+  [S +0.047907] OK
+  [R +0.047920] write 0x8 0x1 0x78
+  OK
+  [S +0.047927] OK
+  [R +0.047935] write 0x2c7 0x1 0x32
+  OK
+  [S +0.047941] OK
+  [R +0.047949] write 0x2cb 0x1 0xff
+  OK
+  [S +0.047954] OK
+  [R +0.047962] write 0x2cc 0x1 0x7e
+  OK
+  [S +0.047967] OK
+  [R +0.047975] writeq 0xe0803000 0xf2b8f0540ff83
+  31900@1595480025.714133:virtio_queue_notify vdev 0x633000019640 n 0 vq 0x=
+7fe20b13d800
+  OK
+  [S +0.047996] OK
+  31900@1595480025.714386:virtio_notify vdev 0x633000019640 vq 0x7fe20b13d8=
+00
+  31900@1595480025.714406:virtio_gpu_features virgl 0
+  31900@1595480025.714413:virtio_notify vdev 0x633000019640 vq 0x7fe20b13d8=
+00
+  31900@1595480025.714421:virtio_set_status vdev 0x633000019640 val 0
+  *CRASH*
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888606/+subscriptions
 
