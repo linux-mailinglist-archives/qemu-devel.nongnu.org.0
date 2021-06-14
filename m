@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C4C3A6931
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:44:31 +0200 (CEST)
-Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B8B3A6932
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:44:52 +0200 (CEST)
+Received: from localhost ([::1]:50956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsnpG-0002Q2-4G
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:44:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40530)
+	id 1lsnpb-0002tH-4O
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:44:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lsnnh-00017v-H5
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:42:53 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:46896)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsnoA-0001Xa-Ad
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:43:22 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:36353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lsnnf-0003fD-39
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:42:53 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- h22-20020a05600c3516b02901a826f84095so121203wmq.5
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 07:42:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsno8-0003tM-Rj
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:43:22 -0400
+Received: by mail-pl1-x635.google.com with SMTP id x10so6676688plg.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 07:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ECdCjep+exRjL8EyrEnPOHozC3bO4JnEMpjKGLksv7w=;
- b=p+cvOKVc367KO/Y819uCbsbB8RwiHK6FyMEDc9EUdyN3TuAqPhy2C09HooVzTelvM+
- LByk+PvJevXi+SilqBOnW1pqh0irik2x4Z0cld70EL0tpF8ImVf8eW5Zup4yzf9X2YiE
- PtYXFq51GVUoyiHfLjsdamXUYFf2HP+9HffBDbuFhS5h43LHQyIdU6zkG2mRj5TMTrpv
- t4ZwyaRwwRQi6BdTIWj71d3hrAgPXwMyUEtBhdyWQRvMFeAFArgBSo9avzf4cWgltXJH
- eZRMLKfl0kfQySS0CkBILC84MW+ZI/KpINoxj8YbihN84SI2udmUDO4NJEe2Gqo4HP13
- Ag1A==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JyVvYjG0poM1sXA5a1G9tDtbRjmTeb3YFhVGrJih6MY=;
+ b=hOJfmI0NeWZHJYpB/5kVgdWSVXNqPy8AHuXIg9SE1YC0sKbHxSN+qhRKt03uHsXm/O
+ 6qAuo44U1Th73x1V1Hn1JqtEFL+YxD3iuwMmno2wbzLC1vzaGVWIOo4SbYq8lNf++HOe
+ MicjaRwqo83Ht9Xl5dwYHTD+p75zgDW7evemTZFrLi7EuZMW0qLbLSdjUTT5Axxrxako
+ fT1+1vqbNd1ZZGrY+PMC1pZrGo7CMnRAxuM5S3oCfWYcyeZXU1MBJbzEfWqjgZXTV39M
+ JFaEAwnxZiFMcY3gkeOrQQYth+N63q0HNeYmelA5Jx+y1QTarO6CSz2I4l9YjCu2tptj
+ W90Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ECdCjep+exRjL8EyrEnPOHozC3bO4JnEMpjKGLksv7w=;
- b=KHFm8cDY34TAgr+iPGIXAHS9UDRTBWCQOqtbIOE4Ui/TtJxbCtG03m3XBKQSfLmOEo
- qFo32nur/tYbSeNEvaoi5AEHxrc7eLPuTnv4f2KFvGijcmFedYn0F1CQkaTIhPxscg5Y
- pRrZf06xFCVFoKGoiqtRuxTzs8R8M3Zf/FaV8ujCNB/U8H4Kkf00xTmp+8UEtCKSgjl6
- Xw2kjF4r2XevbBJEvmiKxgxFWnFVEiuNa1CdC/3X5ZehIYd/NtqR3liF1fSsFxWP/UGQ
- Jo5iJe9ZoLKjTSetFSK9cAqCboda2N4pHDp4Se6xpQUhW5U7V1KnrqLxL/P8MnPKDL+a
- 4vsg==
-X-Gm-Message-State: AOAM531MkufztD0xv7tjRBAPmRhEFhfQ5SsRDUP827iEflw6oiMwuw7T
- PRlJ+MucWLNJVJVT1DFxMyctJg==
-X-Google-Smtp-Source: ABdhPJycLlmqHpodz26exmaF99Yy8mAiLLXSt6s5NFOS8/5oAQ7+m6DhBKBpj4AIMrEydZkP/guZyA==
-X-Received: by 2002:a05:600c:4ecc:: with SMTP id
- g12mr33712963wmq.40.1623681769583; 
- Mon, 14 Jun 2021 07:42:49 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u18sm13128922wmj.15.2021.06.14.07.42.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 07:42:48 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7B6BB1FF7E;
- Mon, 14 Jun 2021 15:42:47 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user/trace-events: fix minor typo in format string
-Date: Mon, 14 Jun 2021 15:42:45 +0100
-Message-Id: <20210614144245.17660-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=JyVvYjG0poM1sXA5a1G9tDtbRjmTeb3YFhVGrJih6MY=;
+ b=NamLeut/dH/O1g7dPQDv4iuV/fR3KTyszAdmMHqaU7xa5o1kdeevj8mPkE1wTzec6w
+ UnDeT7pGVBEgABLy20A6ubPyoglKRQrkC9lrNfs80rY0T7MslVOmY89BsUN41HmUZWYJ
+ PArQ9W2M4v50BbVhsmf7al1Ty8u3jaoUYLYaoixN3BYN+jFSsaskvNg2DVYmiPtc4ahQ
+ CMa/upv+9d81PVa+9oogPE8YnF0LlpvnBFhvfDTeTYuRN4SwV+i04M6uJ001QawBkt6l
+ K1WNh7Pm23FcFey3SC/6sQBP+dtZuuRVgFmrynrDa4PZIa5h1+kVXmCw77ZhSmiGTUtz
+ RoKA==
+X-Gm-Message-State: AOAM532E5lrub/OPoivksR8abowxCjCzhxufcFWpviQffGZ7P/PGWWyy
+ AujHvtPfH4ROVi/BwtsxwpEAhQRh/wwoQw==
+X-Google-Smtp-Source: ABdhPJxgEdKtBoF++JiOJUMaY1UasXp/i1tjJR31hhT3kPe9zgaddbysHH246My/el+nKuMiJdlQkQ==
+X-Received: by 2002:a17:902:728e:b029:101:c3b7:a47f with SMTP id
+ d14-20020a170902728eb0290101c3b7a47fmr17131750pll.21.1623681799307; 
+ Mon, 14 Jun 2021 07:43:19 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ y205sm12724254pfb.53.2021.06.14.07.43.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 07:43:19 -0700 (PDT)
+Subject: Re: [PATCH 01/28] tcg: Add flags argument to bswap opcodes
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210614083800.1166166-1-richard.henderson@linaro.org>
+ <20210614083800.1166166-2-richard.henderson@linaro.org>
+ <87h7i0k6n4.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <648591a2-7605-e0ed-5953-aa5a93302ca2@linaro.org>
+Date: Mon, 14 Jun 2021 07:43:16 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <87h7i0k6n4.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,35 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+On 6/14/21 4:49 AM, Alex Bennée wrote:
+>> +/*
+>> + * Flags for the bswap opcodes.
+>> + * If IZ, the input is zero-extended, otherwise unknown.
+>> + * If OZ or OS, the output is zero- or sign-extended respectively,
+>> + * otherwise the high bits are undefined.
+>> + */
+>> +enum {
+>> +    TCG_BSWAP_IZ = 1,
+>> +    TCG_BSWAP_OZ = 2,
+>> +    TCG_BSWAP_OS = 4,
+>> +};
+>> +
+> 
+> So is a TCG_BSWAP_IZ only really for cases where we have loaded up a
+> narrower width value into the "natural" TCG sized register? We seem to
+> assume this is always the case even though the TCG bswap op doesn't have
+> visibility of how the arg value was loaded.
 
----
-v2
-  - fix typo in summary :-O
----
- linux-user/trace-events | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All of these flags are for narrower width bswap.  When you get to patch 17, you'll see 
+that tcg_gen_bswap32_i32 and bswap64_i64 do not present this argument to the target/ front 
+ends at all.
 
-diff --git a/linux-user/trace-events b/linux-user/trace-events
-index 1ec0d11ee3..e7d2f54e94 100644
---- a/linux-user/trace-events
-+++ b/linux-user/trace-events
-@@ -11,7 +11,7 @@ user_do_rt_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx
- user_do_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
- user_force_sig(void *env, int target_sig, int host_sig) "env=%p signal %d (host %d)"
- user_handle_signal(void *env, int target_sig) "env=%p signal %d"
--user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
-+user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d)"
- user_queue_signal(void *env, int target_sig) "env=%p signal %d"
- user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
- 
--- 
-2.20.1
+IZ is for when we know that we've used a zero-extending load feeding into the operation. 
+I've also added code to the optimizer to *set* this bit when it can prove that the value 
+feeding the bswap is zero-extended.
 
+
+r~
 
