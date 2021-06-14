@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332733A5E4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:21:18 +0200 (CEST)
-Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B963A5E40
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 10:18:43 +0200 (CEST)
+Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lshqP-0001bE-7S
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41190)
+	id 1lshnu-0004fa-7o
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 04:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lshk6-0006VK-Aw
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:14:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23500)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lshks-0007pN-DB
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:15:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lshk3-0002UR-9J
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:14:46 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lshko-0003Cb-RZ
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 04:15:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623658481;
+ s=mimecast20190719; t=1623658529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EL49Jc0ypJSBMBoNvS3uJEIEbnKQZXQovJWc/1s6vQA=;
- b=AMFJ+D4JI4DuJuLTw7En5Gza+PcxrTdl86Pxjdk5ppAW+SZZQ+JHjnYd47pg8GJeK3zDhM
- qp1kRnZS9y59YVyfYTN65n+BFJU3S4tPYSXVjjy1rimfx1i38uHyj6ANbEnTE1RDvb+MNs
- 5vG+FuBoD5/KQsEhirM3BWm72h7KIjA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-42p1YH92Os-m082YERzx4g-1; Mon, 14 Jun 2021 04:14:34 -0400
-X-MC-Unique: 42p1YH92Os-m082YERzx4g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37125A40C4;
- Mon, 14 Jun 2021 08:14:32 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 19762189C7;
- Mon, 14 Jun 2021 08:14:26 +0000 (UTC)
-Date: Mon, 14 Jun 2021 10:14:26 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v3 0/7] acpi: Error Record Serialization Table, ERST,
- support for QEMU
-Message-ID: <20210614101426.5c814ef9@redhat.com>
-In-Reply-To: <CO1PR10MB4531BD9AC25B8A64611702E997389@CO1PR10MB4531.namprd10.prod.outlook.com>
-References: <1622225659-16847-1-git-send-email-eric.devolder@oracle.com>
- <20210607144959.65b4c5a6@redhat.com>
- <CO1PR10MB4531BD9AC25B8A64611702E997389@CO1PR10MB4531.namprd10.prod.outlook.com>
+ bh=OuPg5FG4sN+TnX8szTUkLzVV1sMvKaisS6C4WrzTb8w=;
+ b=DWwnPDi4W9FsYO8CI9sCoxGewHih49EgkCMWGIicgT4Rw0sQxvWIJ1xwncWcxAkXO5r4Tk
+ q7ywVqg3QJNMFvSbKhLmhQH2x4lE1qHk7R/soZm1Zskis9TUcDS3GCxsEx3aZaEjBffXaM
+ GDNwAzFbIMDjlSNd5JoJ1i2Tr2VTVG4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-bIXRjfnlPjOTTAeF-upMkg-1; Mon, 14 Jun 2021 04:15:25 -0400
+X-MC-Unique: bIXRjfnlPjOTTAeF-upMkg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ k1-20020a17090666c1b029041c273a883dso2742362ejp.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 01:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OuPg5FG4sN+TnX8szTUkLzVV1sMvKaisS6C4WrzTb8w=;
+ b=Whq29WuHgCdMDVpyQcTI71eXhuM1Kbe9G1UyB2Zfq2NBoVVhAm0qfAl+3GMO/ZMnbi
+ F+66vgzp7HZD6giQvIgw0W16DZdpeXyW5QWjIPNv5ywXZbH38joY9sdCvsg/LeJH4U7v
+ nKEtOdDbUVkcWPUkSTB9QGBOIFeZmrdxmcL+/FE54365Bi+EUhODqGXYDRNYLmEJby5A
+ K3oclaQJ1C/Y3EOJoWDtwJ3no5ptAfmFfrXkISkCa44I12eSj9U64HeRl74T4GsGZJeC
+ nm9wDRzba2FSINwUdnhsWnPZaxUbfMcnG1+bnsnGTuZmKSx+uKvIsU/rO+nXOPM1PJqj
+ ac5w==
+X-Gm-Message-State: AOAM531yocFU1L1jn3GyL7TcGUJXLxafMDZNTeBzV6TJyCXuM25NWEdN
+ Mz+Ae1jBvMADQ7NB5vw9ZSIR4IfZt5OhsHW8rT/hLi0fAevFExwgSAvpp/dSr4q1N9o9AoHuY5o
+ eRvGNCoYgemQ6VPU=
+X-Received: by 2002:a17:906:35cd:: with SMTP id
+ p13mr14439436ejb.24.1623658524579; 
+ Mon, 14 Jun 2021 01:15:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3fWfL5uu1yW8eko9L9AGGDUkWpaeAEuwLL1uyu4lkn1bsScG4NhIdD5Xf/2O6+vWpNS8zwQ==
+X-Received: by 2002:a17:906:35cd:: with SMTP id
+ p13mr14439423ejb.24.1623658524370; 
+ Mon, 14 Jun 2021 01:15:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id cd4sm6668630ejb.104.2021.06.14.01.15.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 01:15:23 -0700 (PDT)
+Subject: Re: [PATCH] esp: fix migration version check in esp_is_version_5()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu, hpoussin@reactos.org
+References: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7c83e6b3-4230-b700-15fc-5462c84df3f9@redhat.com>
+Date: Mon, 14 Jun 2021 10:15:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.144, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,167 +103,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "mst@redhat.com" <mst@redhat.com>, Konrad Wilk <konrad.wilk@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Jun 2021 21:03:06 +0000
-Eric DeVolder <eric.devolder@oracle.com> wrote:
+On 13/06/21 12:26, Mark Cave-Ayland wrote:
+> Commit 4e78f3bf35 "esp: defer command completion interrupt on incoming data
+> transfers" added a version check for use with VMSTATE_*_TEST macros to allow
+> migration from older QEMU versions. Unfortunately the version check fails to
+> work in its current form since if the VMStateDescription version_id is
+> incremented, the test returns false and so the fields are not included in the
+> outgoing migration stream.
+> 
+> Change the version check to use >= rather == to ensure that migration works
+> correctly when the ESPState VMStateDescription has version_id > 5.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on incoming data transfers")
+> ---
+>   hw/scsi/esp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index bfdb94292b..39756ddd99 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -1120,7 +1120,7 @@ static bool esp_is_version_5(void *opaque, int version_id)
+>       ESPState *s = ESP(opaque);
+>   
+>       version_id = MIN(version_id, s->mig_version_id);
+> -    return version_id == 5;
+> +    return version_id >= 5;
+>   }
+>   
+>   int esp_pre_save(void *opaque)
+> 
 
-> Igor,
-> Thanks for the information/feedback. I am working to implement all your suggestions; from my perspective, there were two big changes requested, and the use of hostmem-file was the first, and the conversion to PCI the second. V3 was the hostmem-file, and hopefully all changes then in v4.
+You can use the _V version of the macros and get rid of this function 
+altogether.  VMSTATE_FIFO8_TEST is not used outside esp.c so it can also 
+be replaced with VMSTATE_FIFO8_V, just initializing .version_id in place 
+of .field_exists.
 
-if series is work in progress and not ready for merging,
-one should use RFC instead of PATCH tag
-
-
-> Regards,
-> eric
-> 
-> ________________________________
-> From: Igor Mammedov <imammedo@redhat.com>
-> Sent: Monday, June 7, 2021 7:49 AM
-> To: Eric DeVolder <eric.devolder@oracle.com>
-> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>; mst@redhat.com <mst@redhat.com>; marcel.apfelbaum@gmail.com <marcel.apfelbaum@gmail.com>; pbonzini@redhat.com <pbonzini@redhat.com>; rth@twiddle.net <rth@twiddle.net>; ehabkost@redhat.com <ehabkost@redhat.com>; Konrad Wilk <konrad.wilk@oracle.com>; Boris Ostrovsky <boris.ostrovsky@oracle.com>
-> Subject: Re: [PATCH v3 0/7] acpi: Error Record Serialization Table, ERST, support for QEMU
-> 
-> On Fri, 28 May 2021 14:14:12 -0400
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
-> 
-> > NOTE: Also, I wanted to push this v3 for review while alerting
-> > that I will be on holiday through June 8 (possibly a few days
-> > later).  
-> this version addressed only the way the host storage is accessed
-> (and even that is only partially and needs more work to put into it)
-> The rest of the comments on v2 are still not addressed.
-> 
-> > NOTE: The patches are arranged such that each can be applied
-> > in order and not break the build (except the 0001 patch). Igor
-> > has hinted at changing this, but I'm unsure how else to
-> > re-arrange these patches accordingly.  
-> as minimum, see suggestion for splitting #4 in 5/7
-> 
-> > NOTE: With the conversion to TYPE_MEMORY_BACKEND_FILE, live
-> > migration to a completely different host does not behave
-> > properly (it loses the ERST contents because the file is not
-> > present on the new host). This still needs to be worked out.
-> > Other than live migration, this patchset fully works.  
-> 
-> see: vmstate_register_ram_global()
-> 
-> > This patchset introduces support for the ACPI Error Record
-> > Serialization Table, ERST.
-> >
-> > Linux uses the persistent storage filesystem, pstore, to record
-> > information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
-> > independent of, and runs before, kdump.  In certain scenarios (ie.
-> > hosts/guests with root filesystems on NFS/iSCSI where networking
-> > software and/or hardware fails), pstore may contain the only
-> > information available for post-mortem debugging.
-> >
-> > Two common storage backends for the pstore filesystem are ACPI ERST
-> > and UEFI. Most BIOS implement ACPI ERST; however, ACPI ERST is not
-> > currently supported in QEMU, and UEFI is not utilized in all guests.
-> > By implementing ACPI ERST within QEMU, then the ACPI ERST becomes a
-> > viable pstore storage backend for virtual machines (as it is now for
-> > bare metal machines).
-> >
-> > Enabling support for ACPI ERST facilitates a consistent method to
-> > capture kernel panic information in a wide range of guests: from
-> > resource-constrained microvms to very large guests, and in
-> > particular, in direct-boot environments (which would lack UEFI
-> > run-time services).
-> >
-> > Note that Microsoft Windows also utilizes the ACPI ERST for certain
-> > crash information, if available.
-> >
-> > The ACPI ERST persistent storage is contained within a single backing
-> > file, with a default size of 64KiB. The size and filename of the
-> > backing file can be obtained from QEMU parameters.
-> >
-> > The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
-> > (APEI)", and specifically subsection "Error Serialization", outlines
-> > a method for storing error records into persistent storage.
-> >
-> > [1] "Advanced Configuration and Power Interface Specification",
-> >     version 6.2, May 2017.
-> >     https://www.uefi.org/sites/default/files/resources/ACPI_6_2.pdf
-> >
-> > [2] "Unified Extensible Firmware Interface Specification",
-> >     version 2.8, March 2019.
-> >     https://uefi.org/sites/default/files/resources/UEFI_Spec_2_8_final.pdf
-> >
-> > Suggested-by: Konrad Wilk <konrad.wilk@oracle.com>
-> > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> >
-> > ---
-> > v3: 28may2021
-> >  - Converted to using a TYPE_MEMORY_BACKEND_FILE object rather than
-> >    internal array with explicit file operations, per Igor.  
-> good start but it's not complete yet.
-> 
-> >  - Changed the way the qdev and base address are handled, allowing
-> >    ERST to be disabled at run-time. Also aligns better with other
-> >    existing code.  
-> it aligns with ancient code template and the way it used to plumb
-> into board (it's fine for pre-existing devices but not for new ones
-> (unless there is no other way )).
-> v2 had suggestions how to proceed (you asked some questions back then,
-> but result is not reflected in this series, which still has the old
-> code as it was in v2).
-> 
-> 
-> > v2: 8feb2021
-> >  - Added qtest/smoke test per Paolo Bonzini
-> >  - Split patch into smaller chunks, per Igo Mammedov
-> >  - Did away with use of ACPI packed structures, per Igo Mammedov
-> >
-> > v1: 26oct2020
-> >  - initial post
-> >
-> > ---
-> >  hw/acpi/erst.c         | 909 +++++++++++++++++++++++++++++++++++++++++++++++++
-> >  hw/acpi/meson.build    |   1 +
-> >  hw/i386/acpi-build.c   |   4 +
-> >  include/hw/acpi/erst.h |  97 ++++++
-> >  4 files changed, 1011 insertions(+)
-> >  create mode 100644 hw/acpi/erst.c
-> >  create mode 100644 include/hw/acpi/erst.h
-> >
-> >
-> > Eric DeVolder (7):
-> >   ACPI ERST: bios-tables-test.c steps 1 and 2
-> >   ACPI ERST: header file for ERST
-> >   ACPI ERST: support for ACPI ERST feature
-> >   ACPI ERST: include ERST feature in build of ACPI support
-> >   ACPI ERST: create ERST device for pc/x86 machines.
-> >   ACPI ERST: qtest for ERST
-> >   ACPI ERST: step 6 of bios-tables-test.c
-> >
-> >  hw/acpi/erst.c               | 902 +++++++++++++++++++++++++++++++++++++++++++
-> >  hw/acpi/meson.build          |   1 +
-> >  hw/i386/acpi-build.c         |   7 +
-> >  hw/i386/pc.c                 |  31 ++
-> >  include/hw/acpi/erst.h       |  82 ++++
-> >  include/hw/i386/pc.h         |   1 +
-> >  tests/data/acpi/microvm/ERST |   0
-> >  tests/data/acpi/pc/ERST      | Bin 0 -> 976 bytes
-> >  tests/data/acpi/q35/ERST     | Bin 0 -> 976 bytes
-> >  tests/qtest/erst-test.c      | 106 +++++
-> >  tests/qtest/meson.build      |   2 +
-> >  11 files changed, 1132 insertions(+)
-> >  create mode 100644 hw/acpi/erst.c
-> >  create mode 100644 include/hw/acpi/erst.h
-> >  create mode 100644 tests/data/acpi/microvm/ERST
-> >  create mode 100644 tests/data/acpi/pc/ERST
-> >  create mode 100644 tests/data/acpi/q35/ERST
-> >  create mode 100644 tests/qtest/erst-test.c
-> >  
-> 
+Paolo
 
 
