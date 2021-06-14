@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8223A697C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:02:29 +0200 (CEST)
-Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833A53A6981
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 17:03:31 +0200 (CEST)
+Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lso6e-0008IS-71
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
+	id 1lso7e-0001mj-KW
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 11:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lso5L-0006xu-6p
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:01:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21900)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lso6P-0000Qg-9D
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:02:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lso5H-000497-PK
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:01:06 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lso6H-0004eS-6R
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 11:02:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623682862;
+ s=mimecast20190719; t=1623682924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=meUoz59nyBUqD5cn5mLlUikNv6JV2aZbjM8L5z1cVSw=;
- b=jHQS0v0MnAUpOunXdDgJDYP3vTvfxXMq8p5ejjcgmVgPm5iil7Y3wJgWRg7CAHkhwECadn
- wqDJ4p9kEDAc7p0tkPwJ1rHpkFHji6/pA+wQUqAvLyMqvHql4fKqqZhjBdE5ZyeLok3Gx5
- C4XFJpjQujPLV4Y8qTQlLKh9/d+9w78=
+ bh=y1B+ap+wsIHLAneyzwRosAfFo+RDBxwI0RmD13xVSBE=;
+ b=LvZW4V9rCf3JGHtc6Hc0ELlfrnnH0LHkVrbQo8gubIh6TzkfiTVasxtTOCcSba0xKZeknc
+ VcmstWPk4+zfSJKWDbWRxepAFT/VEbYG0VCJHqeO/uAvIirksK8t/m6FF/W/bGR6bcotI3
+ I3P9FFMzKBA0sfK+R+B79+h5ZDQfyyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-RuUYfPYXMWiQ_wzfzDCnmA-1; Mon, 14 Jun 2021 11:00:59 -0400
-X-MC-Unique: RuUYfPYXMWiQ_wzfzDCnmA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-555-jXCcIsmFPCqu20ZqIJOyjQ-1; Mon, 14 Jun 2021 11:02:02 -0400
+X-MC-Unique: jXCcIsmFPCqu20ZqIJOyjQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0A071937FC2;
- Mon, 14 Jun 2021 15:00:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FFEE5C1A3;
- Mon, 14 Jun 2021 15:00:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2B73D113865F; Mon, 14 Jun 2021 17:00:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] ui/gtk: Allow user to select monitor number to display
- qemu in full screen through new gtk display option
-References: <20210614080542.5905-1-swee.aun.khor@intel.com>
- <20210614141129.plffhclmdczft3g6@redhat.com>
-Date: Mon, 14 Jun 2021 17:00:56 +0200
-In-Reply-To: <20210614141129.plffhclmdczft3g6@redhat.com> (Eric Blake's
- message of "Mon, 14 Jun 2021 09:11:29 -0500")
-Message-ID: <87o8c8wkwn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70060193F598
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:02:01 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D78F690EF;
+ Mon, 14 Jun 2021 15:02:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8449618000B2; Mon, 14 Jun 2021 17:01:59 +0200 (CEST)
+Date: Mon, 14 Jun 2021 17:01:59 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
+Message-ID: <20210614150159.6ilpce4dqxi7rju4@sirius.home.kraxel.org>
+References: <20210610055755.538119-1-kraxel@redhat.com>
+ <20210610055755.538119-4-kraxel@redhat.com>
+ <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
+ <YMIP/cKc570Ozvdh@redhat.com>
+ <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -81,38 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sweeaun <swee.aun.khor@intel.com>, khairul.anuar.romli@intel.com,
- qemu-devel@nongnu.org, vivek.kasireddy@intel.com
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+  Hi,
 
-> On Mon, Jun 14, 2021 at 04:05:42PM +0800, sweeaun wrote:
->>  -display gtk,monitor-num=<value>
->> 
->> Signed-off-by: sweeaun <swee.aun.khor@intel.com>
->> ---
->>  qapi/ui.json    |  3 ++-
->>  qemu-options.hx |  2 +-
->>  ui/gtk.c        | 15 +++++++++++++++
->>  3 files changed, 18 insertions(+), 2 deletions(-)
->> 
->> diff --git a/qapi/ui.json b/qapi/ui.json
->> index 1052ca9c38..c3363c7ad5 100644
->> --- a/qapi/ui.json
->> +++ b/qapi/ui.json
->> @@ -1041,7 +1041,8 @@
->>  ##
->>  { 'struct'  : 'DisplayGTK',
->>    'data'    : { '*grab-on-hover' : 'bool',
->> -                '*zoom-to-fit'   : 'bool'  } }
->> +                '*zoom-to-fit'   : 'bool',
->> +		'*monitor-num' : 'int' } }
->
-> Missing documentation of the new member.  Also, get rid of the tab damage.
+> > softmmu_mods and block_mods are both lists already, so this sets a
+> > nested list and I wonder if it confuses meson  ? eg do you need
+> > 
+> >   input: softmmu_mods + block_mods
+> 
+> No, that should be fine.  Perhaps it's because the inputs are not part of
+> the command?  You can check what the build.ninja rule for modinfo.json looks
+> like.
+> 
+> Also:
+> 
+> - it would be better to support both directories and file names, so that
+> stale modules are not included in modinfo.json
 
-Suggest to name it either @monitor-number or @monitor (because what else
-than the number could 'int' be?)
+When turning qemu-modinfo into a pure build-utility (see below) there is
+no reason to not explicitly list all module files on the command line.
+
+> - modinfo.json needs to be disabled on non-ELF platforms (x86, Windows).
+
+On windows modules are not supported.
+Do we have any other non-ELF platforms?
+
+> One alternative is to use libbfd instead of including an ELF parser.
+> 
+> - If modinfo.json has to be installed, you need to build modinfo for the
+> build machine in order to support cross compiling.  That however would
+> require a cross libbfd, which is a pain.  Do you really need to install it?
+
+Do you mean installing modinfo.json or installing qemu-modinfo?  For the
+latter I can see that not installing it removes some cross-compiling
+headaches.  And, yes, we can turn this into a pure build utility
+generating a static database (be it json or -- as suggested by Daniel --
+a C source file with the data structures).
+
+> Can the functionality instead be included in the main QEMU binary with a
+> query-modules command or something like that.
+
+Well, the meta-data database is meant for qemu itself, not external
+users.  I was just using json because the infrastructure to serialize +
+parse json exists.  Not sure a "query-modinfo" command makes sense.
+Would be trivial to implement though if libvirt finds this useful
+(assuming we stick to json).
+
+I was toying with a completely different idea:  Have a "qemu
+-generate-modinfo".  That would basically try to load each module, while
+doing so record the type_register() (+ other register) calls the module
+is doing, when done write out the database with the registrations done
+by each module.
+
+Problem with that approach is that it doesn't work for module
+dependencies ...
+
+Comments on the idea?  Suggestions for the module dependency problem?
+Could maybe libbfd be used to find module (symbol) dependencies
+automatically without writing a full dynamic linker?
+
+take care,
+  Gerd
 
 
