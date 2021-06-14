@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A622E3A68E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:22:47 +0200 (CEST)
-Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC1E3A68F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:26:12 +0200 (CEST)
+Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsnUE-0007kw-Mc
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35002)
+	id 1lsnXV-0004Ej-TE
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lsnOl-0005UW-Ra
+ id 1lsnOl-0005Se-DZ
  for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46895)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lsnOh-00089s-02
+ id 1lsnOh-0008A5-AK
  for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:17:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1623680222;
@@ -25,30 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0zKXLzUGQddzKdhiPGzzYpWf5P08Di07lGpeA7yAadI=;
- b=fbx/XkY84FUe7mkCP8Cu+Iq7cfwxd++x1/UOYKovezfMxlPc4uJ4BGQ3GZbfcqQNlvdNKE
- Y48xStS09FZYbkxT8rCdMoy841kXpZSptKwcezgGB4XfMZKe7Y/5EHDykT/Y16E3U8VTWR
- HybU7d5BfZwSijfhRcFhbmIlNcddgOY=
+ bh=+1OFHB3KkixafIKFW5mktwyJ3IeKCtCAR5rQ2kiHU9Y=;
+ b=RtjpY/OS/EVynpwbYznvo0Qbc0h5pR10NjlBBsUZukJne7amt06RMcntGHqIfzYU3B/7U6
+ RZ3IMG/9gpL09qeAgV9oe0S/3CXzneGU2Ysu091vKlt8nbpvFbRIYoCwHF2uzAu08hyMt6
+ HNhwJYsAxnEye/slK9men9I1G/1kA1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-Kb7-9YHAO9ShklPqIllgmA-1; Mon, 14 Jun 2021 10:16:58 -0400
-X-MC-Unique: Kb7-9YHAO9ShklPqIllgmA-1
+ us-mta-495-C29gWfmIPk2gjTgaHxRZhA-1; Mon, 14 Jun 2021 10:17:01 -0400
+X-MC-Unique: C29gWfmIPk2gjTgaHxRZhA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 491B8100C661;
- Mon, 14 Jun 2021 14:16:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C3F7100C675;
+ Mon, 14 Jun 2021 14:17:00 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-55.ams2.redhat.com
  [10.36.115.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94B8519C66;
- Mon, 14 Jun 2021 14:16:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A619C19C66;
+ Mon, 14 Jun 2021 14:16:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] block: use GDateTime for formatting timestamp when
- dumping snapshot info
-Date: Mon, 14 Jun 2021 15:15:48 +0100
-Message-Id: <20210614141549.100410-13-berrange@redhat.com>
+Subject: [PULL 13/13] usb/dev-mtp: use GDateTime for formatting timestamp for
+ objects
+Date: Mon, 14 Jun 2021 15:15:49 +0100
+Message-Id: <20210614141549.100410-14-berrange@redhat.com>
 In-Reply-To: <20210614141549.100410-1-berrange@redhat.com>
 References: <20210614141549.100410-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -96,42 +96,32 @@ as some platforms where 'struct timeval.tv_sec' field is still 'long'
 instead of 'time_t'. When combined with automatic cleanup, GDateTime
 often results in simpler code too.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- block/qapi.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ hw/usb/dev-mtp.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/block/qapi.c b/block/qapi.c
-index dc69341bfe..cf557e3aea 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -663,10 +663,8 @@ BlockStatsList *qmp_query_blockstats(bool has_query_nodes,
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index 2a895a73b0..c1d1694fd0 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
+@@ -772,12 +772,9 @@ static void usb_mtp_add_str(MTPData *data, const char *str)
  
- void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
+ static void usb_mtp_add_time(MTPData *data, time_t time)
  {
--    char date_buf[128], clock_buf[128];
-+    char clock_buf[128];
-     char icount_buf[128] = {0};
+-    char buf[16];
 -    struct tm tm;
--    time_t ti;
-     int64_t secs;
-     char *sizing = NULL;
+-
+-    gmtime_r(&time, &tm);
+-    strftime(buf, sizeof(buf), "%Y%m%dT%H%M%S", &tm);
+-    usb_mtp_add_str(data, buf);
++    g_autoptr(GDateTime) then = g_date_time_new_from_unix_utc(time);
++    g_autofree char *thenstr = g_date_time_format(then, "%Y%m%dT%H%M%S");
++    usb_mtp_add_str(data, thenstr);
+ }
  
-@@ -674,10 +672,9 @@ void bdrv_snapshot_dump(QEMUSnapshotInfo *sn)
-         qemu_printf("%-10s%-17s%8s%20s%13s%11s",
-                     "ID", "TAG", "VM SIZE", "DATE", "VM CLOCK", "ICOUNT");
-     } else {
--        ti = sn->date_sec;
--        localtime_r(&ti, &tm);
--        strftime(date_buf, sizeof(date_buf),
--                 "%Y-%m-%d %H:%M:%S", &tm);
-+        g_autoptr(GDateTime) date = g_date_time_new_from_unix_local(sn->date_sec);
-+        g_autofree char *date_buf = g_date_time_format(date, "%Y-%m-%d %H:%M:%S");
-+
-         secs = sn->vm_clock_nsec / 1000000000;
-         snprintf(clock_buf, sizeof(clock_buf),
-                  "%02d:%02d:%02d.%03d",
+ /* ----------------------------------------------------------------------- */
 -- 
 2.31.1
 
