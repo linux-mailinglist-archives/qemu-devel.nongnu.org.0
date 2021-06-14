@@ -2,104 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509683A6EA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 21:15:23 +0200 (CEST)
-Received: from localhost ([::1]:36924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77CCD3A6EB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 21:17:33 +0200 (CEST)
+Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lss3O-0005gs-CF
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 15:15:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40450)
+	id 1lss5U-0001C4-HR
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 15:17:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1lss1q-0003dy-08
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:13:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45952)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1lss1m-0001K3-Li
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:13:45 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15EJ48nn065312
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:13:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=R141/Ulaap2cIPvNQ+lVWgZvlJMiZJckPNXHGP5qfd0=;
- b=MmKs/tM8iYnOANOYeQADn5jWE+LJL1yXQHIcbI/mdpJzLs5UiWDxfI+EHcobW4LDi49R
- GJJTl7wCYsC3ca6dmmztNibUO4kmtSeQU1HDFqK8565QQk2N4psj++QSD7g60AIvHBPT
- Vo1pdiotAsFF+RlOqeDonsGjAGRfVdMByk88qAXY1D39TNXdWw3OghUwRLFpl5Q7hqSV
- TLMnkfoWOthpgT72Wg9drgwfymh2e1YXK+ZfDQHKWyFvCpz2jq8QfolyiRICCJ6RaNCG
- vBfd3bTWsDsH11rZDlkjeadpGWD9pY1QbBmKacCTUf4PUW8gWjbD89O2R0PVAunBjwhz oQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396c7h1e1h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:13:41 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15EJ4EGh065802
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 15:13:41 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396c7h1e16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Jun 2021 15:13:41 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15EJ7KjP018050;
- Mon, 14 Jun 2021 19:13:40 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01wdc.us.ibm.com with ESMTP id 394mj920p2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Jun 2021 19:13:40 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15EJDejM37421438
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Jun 2021 19:13:40 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F05E1136055;
- Mon, 14 Jun 2021 19:13:39 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A533113604F;
- Mon, 14 Jun 2021 19:13:39 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.47.158.152])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 14 Jun 2021 19:13:39 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] sysemu: Make TPM structures inaccessible if CONFIG_TPM
- is not defined
-Date: Mon, 14 Jun 2021 15:13:35 -0400
-Message-Id: <20210614191335.1968807-5-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210614191335.1968807-1-stefanb@linux.ibm.com>
-References: <20210614191335.1968807-1-stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lss3V-0007R9-Au
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:15:29 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40830)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lss3T-0002al-4e
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 15:15:28 -0400
+Received: by mail-pg1-x533.google.com with SMTP id m2so2736272pgk.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 12:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=IDEQ3CQ7DSnATLxeRFmOx8WuykiK69J0la5swz5Ihf0=;
+ b=SLE+OMkUjT1X4A9f6WYv87h2uRyt2TpO9yMNkk/CM79+QQRmbsmLT2J+17Sg8uGg40
+ TL/Wrr/8OqAKroWWA8I76quQv5/pi7g8wcO3BqZ9KDfZrhCFd3dp7qeM4Q6mTHd6vv/0
+ tagVHW6pcrbdC5lfvOFvI8JpNzL4tn5WpJtuIRHLKGBar95OfeJNUWCmgOdDMzNVX5C5
+ vVcOQOLfoTBsuL8i8dWSxPvK99Xy4te5wnl6tLkXPHVzyEfE0TNMUypQTBExcDVI21GB
+ 5K6wSIb91eG+fl59K85D3ltx0hPLMf9RmbfRdQNRZuuoiS5IfDbwHVwDmZgNNus93RNw
+ if6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IDEQ3CQ7DSnATLxeRFmOx8WuykiK69J0la5swz5Ihf0=;
+ b=oCzlXF3GDhw8nV5n815XWNTDCJUZExxP6oximVPcGXpzN2apOnffdGSrdGNhJx0P0J
+ U+/fjuKPLylVRg35RD8AqUcTXSLjgvVXedK3ksBwwI/ImlktWoh65eRyYdwMiJkQRb4S
+ gXm25tnHS5FDih/IhpgdTHay83i9OjcVPQ5XaPBiM/iJAVQGhMx/wDRlImWEf4MtqFv9
+ HSc/EeI15bgYWUh3eAXeGaMaegqVXb5nAe9JkUuzyNSZePyjPqD3USsg/BIyHWA+a73H
+ m8z2egcwtsJpKMA4mjlZm1mL45xnFa4VHVS2WxnDe1DiCBo/w1gjeXnEN2XP4/4l5lrw
+ Sg3g==
+X-Gm-Message-State: AOAM530oJYwo3Wq6oL00GAU39dkwKsvMdaTodagq2ktYksWQHNYIuip/
+ nohkGBdGf7hBH4tmSEbrabPjOzASBFJcaA==
+X-Google-Smtp-Source: ABdhPJyhfNImAV1HxzbKJTgQxvOEki9Od2V2XU6HDwwpqSFAI1V2Apuqd18onswdXE2sIuMSsGg0yg==
+X-Received: by 2002:a63:4c09:: with SMTP id z9mr8394596pga.283.1623698125392; 
+ Mon, 14 Jun 2021 12:15:25 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ z9sm13399399pfc.101.2021.06.14.12.15.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Jun 2021 12:15:25 -0700 (PDT)
+Subject: Re: [PATCH v2 04/57] target/arm: Add handling for PSR.ECI/ICI
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210614151007.4545-1-peter.maydell@linaro.org>
+ <20210614151007.4545-5-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ea4f1b0c-4e7a-c900-3bdf-d24bda0b5b29@linaro.org>
+Date: Mon, 14 Jun 2021 12:15:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 1Sd80MedMxmkhWiptlyYsvx_i9kZhn2W
-X-Proofpoint-ORIG-GUID: xbGtOaeHFhm2qvaUPW3cELby7LhXBGya
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-14_13:2021-06-14,
- 2021-06-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0 phishscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106140121
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <20210614151007.4545-5-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,64 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, armbru@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/sysemu/tpm.h         | 6 +++++-
- include/sysemu/tpm_backend.h | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+On 6/14/21 8:09 AM, Peter Maydell wrote:
+> On A-profile, PSR bits [15:10][26:25] are always the IT state bits.
+> On M-profile, some of the reserved encodings of the IT state are used
+> to instead indicate partial progress through instructions that were
+> interrupted partway through by an exception and can be resumed.
+> 
+> These resumable instructions fall into two categories:
+> 
+> (1) load/store multiple instructions, where these bits are called
+> "ICI" and specify the register in the ldm/stm list where execution
+> should resume.  (Specifically: LDM, STM, VLDM, VSTM, VLLDM, VLSTM,
+> CLRM, VSCCLRM.)
+> 
+> (2) MVE instructions subject to beatwise execution, where these bits
+> are called "ECI" and specify which beats in this and possibly also
+> the following MVE insn have been executed.
+> 
+> There are also a few insns (LE, LETP, and BKPT) which do not use the
+> ICI/ECI bits but must leave them alone.
+> 
+> Otherwise, we should raise an INVSTATE UsageFault for any attempt to
+> execute an insn with non-zero ICI/ECI bits.
+> 
+> So far we have been able to ignore ECI/ICI, because the architecture
+> allows the IMPDEF choice of "always restart load/store multiple from
+> the beginning regardless of ICI state", so the only thing we have
+> been missing is that we don't raise the INVSTATE fault for bad guest
+> code.  However, MVE requires that we honour ECI bits and do not
+> rexecute beats of an insn that have already been executed.
+> 
+> Add the support in the decoder for handling ECI/ICI:
+>   * identify the ECI/ICI case in the CONDEXEC TB flags
+>   * when a load/store multiple insn succeeds, it updates the ECI/ICI
+>     state (both in DisasContext and in the CPU state), and sets a flag
+>     to say that the ECI/ICI state was handled
+>   * if we find that the insn we just decoded did not handle the
+>     ECI/ICI state, we delete all the code that we just generated for
+>     it and instead emit the code to raise the INVFAULT.  This allows
+>     us to avoid having to update every non-MVE non-LDM/STM insn to
+>     make it check for "is ECI/ICI set?".
+> 
+> We continue with our existing IMPDEF choice of not caring about the
+> ICI state for the load/store multiples and simply restarting them
+> from the beginning.  Because we don't allow interrupts in the middle
+> of an insn, the only way we would see this state is if the guest set
+> ICI manually on return from an exception handler, so it's a corner
+> case which doesn't merit optimisation.
+> 
+> ICI update for LDM/STM is simple -- it always zeroes the state.  ECI
+> update for MVE beatwise insns will be a little more complex, since
+> the ECI state may include information for the following insn.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> v1->v2: minor changes as suggested by rth
 
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index 1a85564e47..2ca3fa32ee 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -15,10 +15,12 @@
- #include "qapi/qapi-types-tpm.h"
- #include "qom/object.h"
- 
--int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
- int tpm_init(void);
- void tpm_cleanup(void);
- 
-+#ifdef CONFIG_TPM
-+int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
-+
- typedef enum TPMVersion {
-     TPM_VERSION_UNSPEC = 0,
-     TPM_VERSION_1_2 = 1,
-@@ -73,4 +75,6 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
-     return TPM_IF_GET_CLASS(ti)->get_version(ti);
- }
- 
-+#endif /* CONFIG_TPM */
-+
- #endif /* QEMU_TPM_H */
-diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-index 6f078f5f48..8fd3269c11 100644
---- a/include/sysemu/tpm_backend.h
-+++ b/include/sysemu/tpm_backend.h
-@@ -18,6 +18,8 @@
- #include "sysemu/tpm.h"
- #include "qapi/error.h"
- 
-+#ifdef CONFIG_TPM
-+
- #define TYPE_TPM_BACKEND "tpm-backend"
- OBJECT_DECLARE_TYPE(TPMBackend, TPMBackendClass,
-                     TPM_BACKEND)
-@@ -209,4 +211,6 @@ TPMInfo *tpm_backend_query_tpm(TPMBackend *s);
- 
- TPMBackend *qemu_find_tpm_be(const char *id);
- 
--#endif
-+#endif /* CONFIG_TPM */
-+
-+#endif /* TPM_BACKEND_H */
--- 
-2.31.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
