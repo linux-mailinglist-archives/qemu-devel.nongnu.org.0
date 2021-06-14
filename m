@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D1D3A68E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:21:41 +0200 (CEST)
-Received: from localhost ([::1]:60838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058523A68E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 16:23:46 +0200 (CEST)
+Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsnTA-00043j-5F
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:21:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34720)
+	id 1lsnVB-00016v-0h
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 10:23:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lsnOI-0004Ky-07
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43075)
+ id 1lsnOL-0004Ya-Mz
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:16:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lsnOG-0007xd-9h
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:16:37 -0400
+ id 1lsnOK-0007zT-0W
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 10:16:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623680195;
+ s=mimecast20190719; t=1623680199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I5unGqZegUR+9dU0GMyEUVayZf+YnoAJ+8YEtcoi7Kw=;
- b=Z1ioMGD0aUT2BR920y71ys65v6mmviyeNNfVGWVlWjcmz0Y1ViaPwnmo3Lg2k/ySygh5L+
- ilGusDEN9azozITR1mkBagrOkC9U7iXmhwkZd0zb01W2uvDshO0g/QEZgJPA2vhTZnN/c/
- 5NbNtNaECLRGkC8bsssIiBXgAvO6stk=
+ bh=geXi8qDIkkDRtRvIJ5HX1P7UezLG2lTDG/gfnIaJFpQ=;
+ b=dOrs1bbs4qf+1Qy42FWWLpr4192vqTEYGtqSXjt34aAs9ttE4GExsUG+Xst1x7kJgSii/v
+ q5m5UvA0XiP62QLJ/9Eip24S9qlXAoLGE/Lx4q30Rrjm8ZlV/Nty+UJNF9wJRdnWd/WbGc
+ lqYXL2sKDWy0pkw6FKz70lxBNQDYXuo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-d5YUcGmRPuOV2sRgnUdfxg-1; Mon, 14 Jun 2021 10:16:32 -0400
-X-MC-Unique: d5YUcGmRPuOV2sRgnUdfxg-1
+ us-mta-147-NrjRtcUTNqWxIvKgSP6-RQ-1; Mon, 14 Jun 2021 10:16:36 -0400
+X-MC-Unique: NrjRtcUTNqWxIvKgSP6-RQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 798D3C7402;
- Mon, 14 Jun 2021 14:16:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4AAA193F560;
+ Mon, 14 Jun 2021 14:16:34 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-55.ams2.redhat.com
  [10.36.115.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9295F19C46;
- Mon, 14 Jun 2021 14:16:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D593F19C46;
+ Mon, 14 Jun 2021 14:16:31 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/13] sasl: remove comment about obsolete kerberos versions
-Date: Mon, 14 Jun 2021 15:15:41 +0100
-Message-Id: <20210614141549.100410-6-berrange@redhat.com>
+Subject: [PULL 06/13] migration: add trace point when vm_stop_force_state fails
+Date: Mon, 14 Jun 2021 15:15:42 +0100
+Message-Id: <20210614141549.100410-7-berrange@redhat.com>
 In-Reply-To: <20210614141549.100410-1-berrange@redhat.com>
 References: <20210614141549.100410-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,39 +82,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not relevant to any OS distro that QEMU currently targets.
+This is a critical failure scenario for migration that is hard to
+diagnose from existing probes. Most likely it is caused by an error
+from bdrv_flush(), but we're not logging the errno anywhere, hence
+this new probe.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- qemu.sasl | 4 ----
- 1 file changed, 4 deletions(-)
+ migration/migration.c  | 1 +
+ migration/trace-events | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/qemu.sasl b/qemu.sasl
-index abdfc686be..851acc7e8f 100644
---- a/qemu.sasl
-+++ b/qemu.sasl
-@@ -29,10 +29,6 @@ mech_list: gssapi
- # client.
- #mech_list: scram-sha-256 gssapi
- 
--# Some older builds of MIT kerberos on Linux ignore this option &
--# instead need KRB5_KTNAME env var.
--# For modern Linux, and other OS, this should be sufficient
--#
- # This file needs to be populated with the service principal that
- # was created on the Kerberos v5 server. If switching to a non-gssapi
- # mechanism this can be commented out.
+diff --git a/migration/migration.c b/migration/migration.c
+index 4828997f63..4228635d18 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3115,6 +3115,7 @@ static void migration_completion(MigrationState *s)
+         if (!ret) {
+             bool inactivate = !migrate_colo_enabled();
+             ret = vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
++            trace_migration_completion_vm_stop(ret);
+             if (ret >= 0) {
+                 ret = migration_maybe_pause(s, &current_active_state,
+                                             MIGRATION_STATUS_DEVICE);
+diff --git a/migration/trace-events b/migration/trace-events
+index 860c4f4025..a1c0f034ab 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -149,6 +149,7 @@ migrate_pending(uint64_t size, uint64_t max, uint64_t pre, uint64_t compat, uint
+ migrate_send_rp_message(int msg_type, uint16_t len) "%d: len %d"
+ migrate_send_rp_recv_bitmap(char *name, int64_t size) "block '%s' size 0x%"PRIi64
+ migration_completion_file_err(void) ""
++migration_completion_vm_stop(int ret) "ret %d"
+ migration_completion_postcopy_end(void) ""
+ migration_completion_postcopy_end_after_complete(void) ""
+ migration_rate_limit_pre(int ms) "%d ms"
 -- 
 2.31.1
 
