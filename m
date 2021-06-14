@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71ED63A5AB3
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Jun 2021 23:51:05 +0200 (CEST)
-Received: from localhost ([::1]:37238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579203A5B4F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 03:21:42 +0200 (CEST)
+Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsY0W-0003zn-HH
-	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 17:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37412)
+	id 1lsbIK-0006UC-Sp
+	for lists+qemu-devel@lfdr.de; Sun, 13 Jun 2021 21:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1lsXzJ-0002Ww-6e; Sun, 13 Jun 2021 17:49:49 -0400
-Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:33741)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsbHM-0005iu-Df
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 21:20:40 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:42766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gengdongjiu1@gmail.com>)
- id 1lsXzE-0006XQ-Jb; Sun, 13 Jun 2021 17:49:48 -0400
-Received: by mail-qv1-xf44.google.com with SMTP id l3so12454843qvl.0;
- Sun, 13 Jun 2021 14:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wMcQZWD/ET7TrHejFcfooDx0Q9uZ6FiZmRAE9USnbfk=;
- b=ntSPFtiQUasLACYE8TxuqV5JsfMxKggSLs3dsCgxxqzTJEUv/ltAIc2hnj1mylmx7e
- Klk4vkD416Zps5yKhQ8u6vLw3499HMBzHxvK9h5ps8QrSM/JsLkEILFbmlgj4IHkVPk/
- e9R7VU2oqUGM6J6W6VLFALxz6XJJR57ThH0KZRL9xrIPgTd5SrWXIDQFDukH+S8HJt96
- b062KxAOKJ0mcOQ0XFnwRFzpi3e9ZPnhGfMgU0BvnBWp1vVVOOOPRYBsBmnUYDvhsmFy
- xklD5DQBUkQBbOL1Xh95yY44d7HvNebB/Bn1PaHrnCZEAeJmQdrmN5QA38M44DZZ7XPB
- oY2g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lsbHH-0006nZ-T1
+ for qemu-devel@nongnu.org; Sun, 13 Jun 2021 21:20:40 -0400
+Received: by mail-pl1-x629.google.com with SMTP id v13so5698353ple.9
+ for <qemu-devel@nongnu.org>; Sun, 13 Jun 2021 18:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nfq9ahxtPWumPFUA7GxsNTNfOq8eJnxJvP1+ExRJxfQ=;
+ b=q7rqLPjXqMgcrE0piHL5sG5B7rN21ytSviwcBvse3kx5HAvzaFw99YRToM33U2NbAM
+ 4bEXtSPmJkYGt2o/pgljna/SaD/ODk+Y9OKhViyrcvaTq8dDmc2JDnLapIaz6gCa2NWa
+ NVfxpoZiw5/WNhBZC77QAx3+MkIgz/5SG4E2aG8irXyDeCnS5lZv6UWoY+VIbu6Cc8k/
+ ssQ40Nh8kpxwC5q1VzfFb74Aq8E9qg4tb38+bgs5CXGnCNUopoHJrlYfbq3MIKZ+1XvY
+ tIbDBxHgitNWWIlFBI5pUkNwHSY+u/B5Yub261cZFRH5StKEqdCZVaBOYjzD7pjGd99s
+ cGLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wMcQZWD/ET7TrHejFcfooDx0Q9uZ6FiZmRAE9USnbfk=;
- b=t60Id0rMM9f3TxYTBj6HW1hJrhYap2oUk3bTi4p3QojKowAJtmYI46TIvvnpfN/ixQ
- sUilH1y3G7MGkjP/07GpWh1ZH0QWhxA3F/ntQxhpArsQeTqeXM9mbwXIqMzHeNVN90i1
- qIFPTR+TR0Mo9TPUhOTMU61//f1Cuc3QPuW9GkOexB8VlQiJgUxuzfNcqCTmNMaBvHHB
- RXw86VAtrZQkSrOk7pjqVhUMmZ2tbVBCU7CBN1OE7dEJc+ujYVc+P8bhGaY9rsK+Rf3g
- M7U7DsrJQm9qQA/EdIrxcZaX2012lpHKeYbsMUp8d5gM1wKJEDZcfQYNHCJf9ezyQIQ7
- 1HRg==
-X-Gm-Message-State: AOAM532Myej0orA/OCOMw8rRx51EKV1vHPuYxJ2d02/e1lURZJIHrA4h
- QST7djWGJ2bnp2WGMrR/HpdDuTwjcxUwZIKIaB0=
-X-Google-Smtp-Source: ABdhPJzukwNafZoFjil0y3wffwGKspHc2F7d/RtKJc1777ByO5tH1ZuZWI9cKd5h281vruB6z65+cxmKt1AztCQ2GnY=
-X-Received: by 2002:a0c:eda5:: with SMTP id h5mr15466294qvr.26.1623620983250; 
- Sun, 13 Jun 2021 14:49:43 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nfq9ahxtPWumPFUA7GxsNTNfOq8eJnxJvP1+ExRJxfQ=;
+ b=oEu9BPvLd1iv0V1as7hTzStZBtkgdSXflNh8VLlAIHEKfP660yteAnAYj2S7znWW/k
+ yaR1YG84eZ5qhZ6kcUznMi7yusrJUVstNfbyG1esxipa4Pm/ez0ck9oSI+kdIi8QqQDS
+ xTPHzS7JVCyXq4ylmXb4nHUl8jDX4RRqoMBalnexrjL1SHlffZtLhpNdVcBLZzVSnJRn
+ JYm+xsYBLLdd1u+nBreUjszoJ6DVlxJA34v5tVrf2D00etMa6oo28KME1d9F5g79Sbgs
+ 04Y8gzHU6k4xcRGMjQUbxDZHtAu8UqgOc8dyzGBu3k20b/ajX4NJySiIGK7mflAWJbwX
+ n7og==
+X-Gm-Message-State: AOAM533f3ABRGLltuun334E7kEGYcBcJFNrhnEXyOgdJedtHYGayYE0M
+ pt27PhqQ26QDvF3jOIWtul7UKCrLUOkSew==
+X-Google-Smtp-Source: ABdhPJxOlWcfJN/Os+scWAlQ39Q4euo83ddWYcaRZ+eS4VRy7cX627OAxCHpnu94KNOr8jakKLh8Og==
+X-Received: by 2002:a17:902:c702:b029:114:7fc8:cf76 with SMTP id
+ p2-20020a170902c702b02901147fc8cf76mr14750413plp.84.1623633633301; 
+ Sun, 13 Jun 2021 18:20:33 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id d15sm15724359pjr.47.2021.06.13.18.20.32
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Jun 2021 18:20:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/34] tcg patch queue
+Date: Sun, 13 Jun 2021 18:20:30 -0700
+Message-Id: <20210614012031.1081133-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210603171259.27962-1-peter.maydell@linaro.org>
- <20210603171259.27962-4-peter.maydell@linaro.org>
-In-Reply-To: <20210603171259.27962-4-peter.maydell@linaro.org>
-From: Dongjiu Geng <gengdongjiu1@gmail.com>
-Date: Mon, 14 Jun 2021 05:49:34 +0800
-Message-ID: <CABSBigQm6HxkMvsJgKgWSxPuDvDnAR4W6ajkvHZf4AtdQ-5hsg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] target/arm: Use acpi_ghes_present() to see if we
- report ACPI memory errors
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f44;
- envelope-from=gengdongjiu1@gmail.com; helo=mail-qv1-xf44.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,52 +84,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-arm@nongnu.org,
- Swetha <swjoshi@microsoft.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Jun 2021 at 01:13, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The virt_is_acpi_enabled() function is specific to the virt board, as
-> is the check for its 'ras' property.  Use the new acpi_ghes_present()
-> function to check whether we should report memory errors via
-> acpi_ghes_record_errors().
->
-> This avoids a link error if QEMU was built without support for the
-> virt board, and provides a mechanism that can be used by any future
-> board models that want to add ACPI memory error reporting support
-> (they only need to call acpi_ghes_add_fw_cfg()).
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/kvm64.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 37ceadd9a9d..59982d470d3 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -1410,14 +1410,10 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
->  {
->      ram_addr_t ram_addr;
->      hwaddr paddr;
-> -    Object *obj = qdev_get_machine();
-> -    VirtMachineState *vms = VIRT_MACHINE(obj);
-> -    bool acpi_enabled = virt_is_acpi_enabled(vms);
->
->      assert(code == BUS_MCEERR_AR || code == BUS_MCEERR_AO);
->
-> -    if (acpi_enabled && addr &&
-> -            object_property_get_bool(obj, "ras", NULL)) {
-> +    if (acpi_ghes_present() && addr) {
->          ram_addr = qemu_ram_addr_from_host(addr);
->          if (ram_addr != RAM_ADDR_INVALID &&
->              kvm_physical_memory_addr_from_host(c->kvm_state, addr, &paddr)) {
-> --
-> 2.20.1
->
+V2 fixes an error in patch 22 wrt MacOS.
+It's a shame we don't have public CI for that.
 
-Reviewed-by: Dongjiu Geng <gengdongjiu1@gmail.com>
+
+r~
+
+
+The following changes since commit 894fc4fd670aaf04a67dc7507739f914ff4bacf2:
+
+  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-06-11 09:21:48 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210613
+
+for you to fetch changes up to a5a8b84772e13066c6c45f480cc5b5312bbde08e:
+
+  docs/devel: Explain in more detail the TB chaining mechanisms (2021-06-13 17:42:40 -0700)
+
+----------------------------------------------------------------
+Clean up code_gen_buffer allocation.
+Add tcg_remove_ops_after.
+Fix tcg_constant_* documentation.
+Improve TB chaining documentation.
+Fix float32_exp2.
+Fix arm tcg_out_op function signature.
+
+----------------------------------------------------------------
+Jose R. Ziviani (1):
+      tcg/arm: Fix tcg_out_op function signature
+
+Luis Pires (1):
+      docs/devel: Explain in more detail the TB chaining mechanisms
+
+Richard Henderson (32):
+      meson: Split out tcg/meson.build
+      meson: Split out fpu/meson.build
+      tcg: Re-order tcg_region_init vs tcg_prologue_init
+      tcg: Remove error return from tcg_region_initial_alloc__locked
+      tcg: Split out tcg_region_initial_alloc
+      tcg: Split out tcg_region_prologue_set
+      tcg: Split out region.c
+      accel/tcg: Inline cpu_gen_init
+      accel/tcg: Move alloc_code_gen_buffer to tcg/region.c
+      accel/tcg: Rename tcg_init to tcg_init_machine
+      tcg: Create tcg_init
+      accel/tcg: Merge tcg_exec_init into tcg_init_machine
+      accel/tcg: Use MiB in tcg_init_machine
+      accel/tcg: Pass down max_cpus to tcg_init
+      tcg: Introduce tcg_max_ctxs
+      tcg: Move MAX_CODE_GEN_BUFFER_SIZE to tcg-target.h
+      tcg: Replace region.end with region.total_size
+      tcg: Rename region.start to region.after_prologue
+      tcg: Tidy tcg_n_regions
+      tcg: Tidy split_cross_256mb
+      tcg: Move in_code_gen_buffer and tests to region.c
+      tcg: Allocate code_gen_buffer into struct tcg_region_state
+      tcg: Return the map protection from alloc_code_gen_buffer
+      tcg: Sink qemu_madvise call to common code
+      util/osdep: Add qemu_mprotect_rw
+      tcg: Round the tb_size default from qemu_get_host_physmem
+      tcg: Merge buffer protection and guard page protection
+      tcg: When allocating for !splitwx, begin with PROT_NONE
+      tcg: Move tcg_init_ctx and tcg_ctx from accel/tcg/
+      tcg: Introduce tcg_remove_ops_after
+      tcg: Fix documentation for tcg_constant_* vs tcg_temp_free_*
+      softfloat: Fix tp init in float32_exp2
+
+ docs/devel/tcg.rst        | 101 ++++-
+ meson.build               |  12 +-
+ accel/tcg/internal.h      |   2 +
+ include/qemu/osdep.h      |   1 +
+ include/sysemu/tcg.h      |   2 -
+ include/tcg/tcg.h         |  28 +-
+ tcg/aarch64/tcg-target.h  |   1 +
+ tcg/arm/tcg-target.h      |   1 +
+ tcg/i386/tcg-target.h     |   2 +
+ tcg/mips/tcg-target.h     |   6 +
+ tcg/ppc/tcg-target.h      |   2 +
+ tcg/riscv/tcg-target.h    |   1 +
+ tcg/s390/tcg-target.h     |   3 +
+ tcg/sparc/tcg-target.h    |   1 +
+ tcg/tcg-internal.h        |  40 ++
+ tcg/tci/tcg-target.h      |   1 +
+ accel/tcg/tcg-all.c       |  32 +-
+ accel/tcg/translate-all.c | 439 +-------------------
+ bsd-user/main.c           |   3 +-
+ fpu/softfloat.c           |   2 +-
+ linux-user/main.c         |   1 -
+ tcg/region.c              | 999 ++++++++++++++++++++++++++++++++++++++++++++++
+ tcg/tcg.c                 | 649 +++---------------------------
+ util/osdep.c              |   9 +
+ tcg/arm/tcg-target.c.inc  |   3 +-
+ fpu/meson.build           |   1 +
+ tcg/meson.build           |  14 +
+ 27 files changed, 1266 insertions(+), 1090 deletions(-)
+ create mode 100644 tcg/tcg-internal.h
+ create mode 100644 tcg/region.c
+ create mode 100644 fpu/meson.build
+ create mode 100644 tcg/meson.build
 
