@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36123A62BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:03:33 +0200 (CEST)
-Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8613A62FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 13:06:25 +0200 (CEST)
+Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lskNQ-0002oB-Rf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45748)
+	id 1lskQC-0004po-R8
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 07:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lskMG-00027B-QL
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:02:20 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:47014)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lskP2-0003qV-3x
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:05:12 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lskME-0004pU-VB
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:02:20 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id s15so5001086edt.13
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 04:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cBXA3AmcMdZMsNxG5dJAIsaVnj2EOvTSVy1kpPH/Dzk=;
- b=h0NZfUeQp4twRCHSgdcro4zkJdq7FlqCl511m3B3CmJZ5t07m0muO82cu9akbbAPY+
- Xg7dTNCqz6MVfI+xxbpHy4A+AmXlY+3p5H/ZbNca5lXTSoyQRGDPdPVbjoJ5mFZik3Oc
- 1smmZLREEF2pRaBnOnjO+KwY2aKErv8QrP0RrEXHMd4P3Z2Oo3juF3q9tNBaX8CnVesf
- AKmGFg+0x2GNrH54bROqgysR5RDP7kWlCwDOAUIIo+jyAUmA3avFXKfM+TqCQcp8+VA1
- N4fD+f9NwXLuGdOEmKC1Vzpc07gCiMSwrxyVOEv081OoEdExjBHup5qLmh1CjUz9w9FA
- hxSA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lskOw-0006fN-9z
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 07:05:11 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id k25so15996712eja.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 04:05:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E3xvEQx4cPjshDFhyeA5Zcglt5CZHRCgNfqmEMNvzBM=;
+ b=K/nRT6Sj8X78f4ZqWwgi2RQffRLjkqvnAl57Xu5oih1GTIhcpSK0HPGqEtMibo9PQu
+ JwTPFFGs15arAh+B0+mk2zs6flJvMioSUzEztv4cg4FPhyRPA/29Rg7GmE0z+7fvZAIv
+ eMgKAopioOYajgFFddsIsisNzVU1FHnhPK1/9WWVxu0bzyPA4FokGcY4van1lfCjOK49
+ IjeOAp1rwiMqDZ1xTt5VoH/7SGlCRx0ko90aPdBE2lBcw3gUoAMgWhjwLqypstcL81q5
+ Z3F72/1iu/H6JoLiCCi4sCy+1iZeua/JHa4PFYVMou5s0vz3Df04uElr09J/YA22DMfU
+ gdLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=cBXA3AmcMdZMsNxG5dJAIsaVnj2EOvTSVy1kpPH/Dzk=;
- b=hgzJx1ACFk+mX4NBPJoCpe0xAWyS6jdWq0Mj/HTAADAY3NeHpQNH4bayNpwwfXx8eF
- sgE7ye7uoRBJreDS6k4LIbc75UkSRGcvSat0w9uz643JXdtKvsccKzAF6A2mZZ+rQEvD
- fUaT7EdWtECfNvPVpw2iloXe0Z91z7lC7PcvQJwzQ44piN1Utb4IbiFqZBKca+2vBleM
- loTq5JEYDbkE+K2k28l4VEb8ijuJA5b8Etft4x59hCxzyp81gI6Nr2prkvRnqnoCebms
- mjN6eneUhS6RXoxboNxxaXsiNIHOqdfRM/FiS2VCeepqGTDJczxHiMM2okkC6m7mH76q
- la4w==
-X-Gm-Message-State: AOAM530jdmjkuOO46l1CB0QwlRMMftBkb7avJon/cd+eFHVgj4ZAw/EI
- JRNstV415uHcYyOuvM2eiXNhHZu7Hf8=
-X-Google-Smtp-Source: ABdhPJzmkGOadnMcuyxOvT9vOhIvULEWaHKb+KzNlEvAl6haqqHFqijoL7mwqq48x66nEyMxzxut8w==
-X-Received: by 2002:aa7:d817:: with SMTP id v23mr16029537edq.300.1623668536071; 
- Mon, 14 Jun 2021 04:02:16 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p9sm8559770edh.61.2021.06.14.04.02.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 04:02:15 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: cover aio_co_enter from a worker thread without BQL
- taken
-Date: Mon, 14 Jun 2021 13:02:14 +0200
-Message-Id: <20210614110214.726722-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E3xvEQx4cPjshDFhyeA5Zcglt5CZHRCgNfqmEMNvzBM=;
+ b=LNtdsCOhdjcIccRfrtXXgNl8YzoF1LCnm0e/EuJRqQ5lcpVV4OneHygwNq3T+xcHo/
+ f27W4BVu7eidtyTRVlq+p8MRw1FLAMQLeWiE0GQHhOS80ewypEeAMPDpU8yDzXe9hAA/
+ K6LVjwEmZndC2gqmZw/0PqkIYF9P+jWo2T3qfjyPRUiUvao/br0E2yHQIR4MmMtjnT6Z
+ Gbo1P930nOPnSzrJClTxuPuWSJaclrp1TATfaqXfrUTeb8RB8jQCGCoaHXvyZDA2reHL
+ OxCXJAqNbaA6w02+Yp6nJSRX5XJJgstupkOv+aMgFEasjlqTTLVqGKz/b2eXEMiULnrz
+ maFw==
+X-Gm-Message-State: AOAM533S1+i7POqxnL+8Gxay4krxU8yKYERBVBp3w+kpJoWuCge6BSr5
+ vPl8pmsvqA/FfBGqBiOo+8Oh8RryATTQSONLVDrNQw==
+X-Google-Smtp-Source: ABdhPJyf4FhGZtBh3UvTnRUuIH5EUrTeAZu+yVjICwBBTX5eD9yAzUk1hpj6QN4kz5TIrfObx388yX0tK835p+JMX/Y=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr14554157ejy.407.1623668704368; 
+ Mon, 14 Jun 2021 04:05:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+References: <20210607165821.9892-1-peter.maydell@linaro.org>
+ <20210607165821.9892-44-peter.maydell@linaro.org>
+ <5aaa6d24-2b1f-0cc9-5bde-cf0fe73cc55b@linaro.org>
+In-Reply-To: <5aaa6d24-2b1f-0cc9-5bde-cf0fe73cc55b@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Jun 2021 12:04:29 +0100
+Message-ID: <CAFEAcA92O_8E6CortSu==UHzwWC5-ARbP5T=H1Ok5zZC8tnhrw@mail.gmail.com>
+Subject: Re: [PATCH 43/55] target/arm: Implement MVE VQSHL (vector)
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,74 +79,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a testcase for the test fixed by commit 'async: the main AioContext
-is only "current" if under the BQL.
+On Wed, 9 Jun 2021 at 20:26, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/7/21 9:58 AM, Peter Maydell wrote:
+> > Implement the MVE VQSHL insn (encoding T4, which is the
+> > vector-shift-by-vector version).
+> >
+> > The DO_SQSHL_OP and DO_UQSHL_OP macros here are derived from
+> > the neon_helper.c code for qshl_u{8,16,32} and qshl_s{8,16,32}.
+>
+> Ah, from before the sve2 merge, and associated cleanup.
+> There are now helper functions in vec_internal.h for this.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- tests/unit/test-aio.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+Ah, that's helpful. Annoyingly, the helper wants to take a
+uint32_t* for the "write to this when saturating" argument,
+and I have a bool*...
 
-diff --git a/tests/unit/test-aio.c b/tests/unit/test-aio.c
-index 8a46078463..6feeb9a4a9 100644
---- a/tests/unit/test-aio.c
-+++ b/tests/unit/test-aio.c
-@@ -877,6 +877,42 @@ static void test_queue_chaining(void)
-     g_assert_cmpint(data_b.i, ==, data_b.max);
- }
- 
-+static void co_check_current_thread(void *opaque)
-+{
-+    QemuThread *main_thread = opaque;
-+    assert(qemu_thread_is_self(main_thread));
-+}
-+
-+static void *test_aio_co_enter(void *co)
-+{
-+    /*
-+     * qemu_get_current_aio_context() should not to be the main thread
-+     * AioContext, because this is a worker thread that has not taken
-+     * the BQL.  So aio_co_enter will schedule the coroutine in the
-+     * main thread AioContext.
-+     */
-+    aio_co_enter(qemu_get_aio_context(), co);
-+    return NULL;
-+}
-+
-+static void test_worker_thread_co_enter(void)
-+{
-+    QemuThread this_thread, worker_thread;
-+    Coroutine *co;
-+
-+    qemu_thread_get_self(&this_thread);
-+    co = qemu_coroutine_create(co_check_current_thread, &this_thread);
-+
-+    qemu_thread_create(&worker_thread, "test_acquire_thread",
-+                       test_aio_co_enter,
-+                       co, QEMU_THREAD_JOINABLE);
-+
-+    /* Test aio_co_enter from a worker thread.  */
-+    qemu_thread_join(&worker_thread);
-+    g_assert(aio_poll(ctx, true));
-+    g_assert(!aio_poll(ctx, false));
-+}
-+
- /* End of tests.  */
- 
- int main(int argc, char **argv)
-@@ -903,6 +939,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/aio/timer/schedule",          test_timer_schedule);
- 
-     g_test_add_func("/aio/coroutine/queue-chaining", test_queue_chaining);
-+    g_test_add_func("/aio/coroutine/worker-thread-co-enter", test_worker_thread_co_enter);
- 
-     g_test_add_func("/aio-gsource/flush",                   test_source_flush);
-     g_test_add_func("/aio-gsource/bh/schedule",             test_source_bh_schedule);
--- 
-2.31.1
-
+-- PMM
 
