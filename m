@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3C33A7084
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 22:33:54 +0200 (CEST)
-Received: from localhost ([::1]:44530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB013A70FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Jun 2021 23:06:36 +0200 (CEST)
+Received: from localhost ([::1]:53042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lstHN-00018b-VF
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 16:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52036)
+	id 1lstn1-0001gX-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 17:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
- id 1lstCc-0001oD-By
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:28:58 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
- id 1lstCa-0005ka-G7
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 16:28:58 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- fy24-20020a17090b0218b029016c5a59021fso363521pjb.0
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 13:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=j1HHKQpv5asbS7zXpA/KWjRl+aND7sfZOUIRchm3QA0=;
- b=cRhWTiWFDsaWm9Mj7pZLkO0jXgi33MRfRjxgAFryiplemV2DyM1CXSYYaRxGTQlSqI
- 8b6MiscUKMLlkLaNhcjouWej6JeGSYGKx/Dzn4oSEutilczNS80K3Yzn3IR/hMXI89+b
- qswn/17Fz3+jxoUND0qYFVzEN2BbtpgL86J0UEiErnxND1TPRDYzm/205MFeLu+uOsni
- Fw7mB9sX1Fb+mGrP8oocHQWgzKkK1ZaVl4l/o+PA184EZQcnG22FZ3FGf0dK7uwm8R8E
- yVymH9xeH3YS3IiCHjt2lppD0IUFpuJoKYhxBVUX1NmAoi4WOhgPdcswMg2g9NwZwaNT
- ucVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j1HHKQpv5asbS7zXpA/KWjRl+aND7sfZOUIRchm3QA0=;
- b=B/u3lDGKOrOF1ELkAJjHZHTZ37RDBw1ncDhDjzAaQUBlXfDl24m6OqFHO4ew4Pv/Zn
- V7mQEblIJog2E5nGaeiEo3/p650sT50/szVfEpl2vINDaOOEF/vrLf4TWsAUDe6c7ezq
- 5HBie3GAILClSPFMNl3MqVlmnlMRUVaq/d44yXlLuaHF++med0+EaibZPTJ6fku/+7Jz
- BXCXI/Nf4NHQ+ayq+C7exIXS2eI1oWsC6kgeUXduQAXJ5w7BMok2D2UX5VycSK1e5mGx
- Sr2V/elyyckRnYTfx4x/CttKrbFfCYRUGDGHrP+xKm6kv4ROKmUIuhsN7afPdr6XhxnK
- zBqw==
-X-Gm-Message-State: AOAM532VSKl/idSUJgkQYpbBP0Ym2xmqUYdzQs9J0MMkrzL6PQFGopcy
- HhFHGxFABJJBC15O4PNWJ6y/rA==
-X-Google-Smtp-Source: ABdhPJw6LT62Ze0SAwH/80UgUBgAlhFYK2X9K9MVjWEMhoS4zYd/plA/lVuP4Kw3MuZyL+AqxsbNTA==
-X-Received: by 2002:a17:90b:4d8c:: with SMTP id
- oj12mr20619128pjb.188.1623702535323; 
- Mon, 14 Jun 2021 13:28:55 -0700 (PDT)
-Received: from p14s.cg.shawcable.net (S0106889e681aac74.cg.shawcable.net.
- [68.147.0.187])
- by smtp.gmail.com with ESMTPSA id fs10sm289029pjb.31.2021.06.14.13.28.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 13:28:54 -0700 (PDT)
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: mst@redhat.com,
-	alex.bennee@linaro.org
-Subject: [PATCH v2 5/5] MAINTAINERS: Add maintainer for vhost-user RNG
- implementation
-Date: Mon, 14 Jun 2021 14:28:42 -0600
-Message-Id: <20210614202842.581640-6-mathieu.poirier@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210614202842.581640-1-mathieu.poirier@linaro.org>
-References: <20210614202842.581640-1-mathieu.poirier@linaro.org>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lstm8-0000nc-JG; Mon, 14 Jun 2021 17:05:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1lstm5-0003kv-WE; Mon, 14 Jun 2021 17:05:40 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15EL3U37068056; Mon, 14 Jun 2021 17:04:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=Vh2JMiu72ZqLrpvhnExbzy9Dd9mzUdhrSfJwSdc6Wp4=;
+ b=sX7cqQ9sPcthdYoOtROaa023dGAgodoH/RTFrKXUIWaeIu8bgD7+v28MYSQHOnhkrQtn
+ C4YjX7mkZck9fdz3dtWlBg5he+5msqFqiazOkD3GIS1yaW7MHCxKDu4gFiHI4FP5TCHs
+ 6itRmpLsCwPFtzuX2d6xR1AzHzg5CI/nkLioQOxh/sXV451z73uI9gkSTYrtbdBY+wXz
+ VlypxZRsmBJlrOzESFZ5S2/kEWiZsr7sj3CMhto7l4vSpY8bb+szFglQpf3C7XXsU9TJ
+ 4rFuHVLk+njJX6OlUXEnrIBTvs7Pc/vtxrmY3UDJoz76c/CGSA6/++rqTVWisfYiyHSH SA== 
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 396dnn1p8p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Jun 2021 17:04:18 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15EKvrgO011061;
+ Mon, 14 Jun 2021 21:04:17 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03wdc.us.ibm.com with ESMTP id 394mj9akej-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 14 Jun 2021 21:04:17 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15EL4Gvp29426114
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Jun 2021 21:04:16 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 872B278060;
+ Mon, 14 Jun 2021 21:04:16 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D078E7805E;
+ Mon, 14 Jun 2021 21:04:15 +0000 (GMT)
+Received: from localhost (unknown [9.211.148.118])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Mon, 14 Jun 2021 21:04:15 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/2] target/ppc: fix address translation bug for
+ radix mmus
+In-Reply-To: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+Date: Mon, 14 Jun 2021 18:04:13 -0300
+Message-ID: <87r1h4upiq.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=mathieu.poirier@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: PJbJt4S0qJUPALlwUAryYW05cYgI9u6-
+X-Proofpoint-GUID: PJbJt4S0qJUPALlwUAryYW05cYgI9u6-
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-14_13:2021-06-14,
+ 2021-06-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=855 malwarescore=0 impostorscore=0
+ mlxscore=0 suspectscore=0 clxscore=1015 adultscore=0 spamscore=0
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106140133
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,38 +101,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stratos-dev@op-lists.linaro.org
+Cc: richard.henderson@linaro.org, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds entry for the vhost-user-rng related files.
+"Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br> writes:
 
-Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> +/*
+> + * These correspond to the mmu_idx values computed in
+> + * hreg_compute_hflags_value. See the tables therein
+> + */
+> +static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
+> +/*
+> + * If we want to use these macros for hash-style MMUs, we need to
+> + * add an if or another macro here.
+> + */
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36055f14c594..4fedca72c183 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1951,6 +1951,15 @@ F: include/sysemu/rng*.h
- F: backends/rng*.c
- F: tests/qtest/virtio-rng-test.c
- 
-+vhost-user-rng
-+M: Mathieu Poirier <mathieu.poirier@linaro.org>
-+S: Supported
-+F: docs/tools/vhost-user-rng.rst
-+F: hw/virtio/vhost-user-rng.c
-+F: hw/virtio/vhost-user-rng-pci.c
-+F: include/hw/virtio/vhost-user-rng.h
-+F: tools/vhost-user-rng/*
-+
- virtio-crypto
- M: Gonglei <arei.gonglei@huawei.com>
- S: Supported
--- 
-2.25.1
+Don't these work just fine for hash as well? Except for Booke.
 
+> +static inline bool mmuidx_real(int idx) { return idx & 2; }
+> +static inline bool mmuidx_hv(int idx) { return idx & 4; }
+> +
 
