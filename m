@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA6C3A736B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 03:41:46 +0200 (CEST)
-Received: from localhost ([::1]:34906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898BD3A736A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 03:41:24 +0200 (CEST)
+Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lsy5J-0004MN-Uf
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 21:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39970)
+	id 1lsy4x-0003pQ-JT
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 21:41:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lsxxj-0000hC-KB; Mon, 14 Jun 2021 21:33:55 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:42924)
+ id 1lsxxm-0000r3-7N; Mon, 14 Jun 2021 21:33:58 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:40947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lsxxh-0002ct-Rl; Mon, 14 Jun 2021 21:33:55 -0400
-Received: by mail-qt1-x836.google.com with SMTP id v6so10076425qta.9;
- Mon, 14 Jun 2021 18:33:53 -0700 (PDT)
+ id 1lsxxk-0002em-DF; Mon, 14 Jun 2021 21:33:57 -0400
+Received: by mail-qk1-x736.google.com with SMTP id u30so40433409qke.7;
+ Mon, 14 Jun 2021 18:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lukq+gNciQn9g7tr1zSOYGZblQeIN4FqWF9uIUuzVjs=;
- b=tG40xa5wwrU/GNfx8anTCEDyZMTqvAE3OXSGoQ5lBxYW+F6sVE4mB+MM5TaDDf5Etc
- ia09WniblRNh0N9ud5BQ2TlKvXGCWWkbvlFgPRZTZSln45ntSxu0qExY2o2WkU0JoGzY
- X+wMubqvo5kVGcHOlvjQMZ8EEddHa+gSfSuJMZkC6GJ0N9pybKJ1cYdKkaDS7JJ3cbT2
- y1QNhoUSPzVdjuNJ8xfQNfU9Lbudqy/mlmOwzNQcEsa4MHgtA+T/rROXHGk8dbUcw2P4
- 4Soy0VZcam0uMDVjRDO7/Z1pHYYUzKBonBLNiMKv2iE1NbEZ8+gmrUm+tbYQFYQix8Yq
- THPQ==
+ bh=wUgGKo4Xbe8PZndEW+FwB83m/Vv6a6cLHQWWfrS+caU=;
+ b=W/buIhwtArAVb5xWO+Lcflhvoe5FqlTwevuQiVYRfRehduvN9jDPHv52hQNYBi3Sk7
+ 5TyzsdPqvBMoTJInals0pOThReAY+d5I76oKzPr4jKqfoF28e23Jo2SL/kOSc5rr0dtF
+ am6rycITNYFLwvNNtiBmwCBrEISCDS/xaFJJKuSnjLbJYQw0d4SuZJoJCSnZw0kNbypU
+ OLOR2bp8JsKt+PwtZj6EFHNzq6SJqH81zHj3KRhswB2gOx+lebtkbUpR3s85h0btjefV
+ QSLi8yGu1ZNyeOXvR9/6cVuaYE2t92ULW0fAxbmo6MLUnnUnyBH/yLk/XDc3RWw2f3G0
+ Rcww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lukq+gNciQn9g7tr1zSOYGZblQeIN4FqWF9uIUuzVjs=;
- b=NiuJNQ/Ld/+AGHkyy+09U1d+EDAFKwECR9Go0TPi0E4Irf3e0JA9wBWDOzivUScf78
- UNmXssqPK/LgiCGlpC+LboNB7nGAboAXzZRUgN9mIc5ZRK6IdMKWwqz9N/8sHGaGW5A5
- 6EeT/wvzPHK//HPMC6woOzYP8dEuXK84a61KbQRa9H8c8pAis7cYsqGRD0TqvODK14Uf
- zfx2wbNOBbOJm/3KZy3sWtMnyFRL9d3pfyMYxCqaoc7Pysg5yFPSo4xGrRk85CsNemq6
- 5cJtlnYm6Cw7OlT/XTTeqcfzKpl9ODrBAHsHVH1H6/65NoUjC0pq2GjWQtwTuYK3pNlG
- y3Eg==
-X-Gm-Message-State: AOAM532fHmDSmvfhBtulADb9c5P9PF9lUPWE41n/w3fTUF194SEqNjek
- A7nl3wQ5RYVlOHGngxsKI+S7gTq4DBqKhw==
-X-Google-Smtp-Source: ABdhPJzju+Vji+Qdpml36xBaFu9bi2J9JIfdq+91htzNVZAWv0iSfsHmzRXLA9hTHWgfbEAGYPlxhQ==
-X-Received: by 2002:ac8:7e81:: with SMTP id w1mr1490756qtj.130.1623720832469; 
- Mon, 14 Jun 2021 18:33:52 -0700 (PDT)
+ bh=wUgGKo4Xbe8PZndEW+FwB83m/Vv6a6cLHQWWfrS+caU=;
+ b=IbKLsgXcLTHu2Ro+VWXALxdCNoqyo214P3UXcRHlk2z70KZ6tkxDc1bfFyhH55LNhn
+ Mpr8P2jAsW808uCVKncn6pvwcBV8DBmTwzM4Oa+QNCjuePKti3T9vQ6RxSYH1zbqXfZu
+ WEX1B4VRqWdIwefsE3j6dKvRUBsf1ruHp4PKrP67NPdKdxX4bTZ4WLBjOjwLPd9Z62t4
+ Ey4t7o9y+ob+0Ylo8wxnwpOjtHSaLie5t9LyMJljtELPRxCbhJztRpXVxsXZ19FAJpvN
+ Hn2ojGn6UtZSD8kbDvV/jNbJq0SbAqGf5jeLF8NNMRqIm1MQ2focfhnEKS4UsuexsCYP
+ jzeg==
+X-Gm-Message-State: AOAM532e2dzm7cnzjbsYLYre0tcdhUhr2sx+Vvl72LmBEeXBXtNLg7W0
+ eVXm4Qs8j6P1Qv3LZaxxoxS2/qWjt5rGLA==
+X-Google-Smtp-Source: ABdhPJyoyFVv0qDK9eSpDJ6fdRYbch5juC2wqaXTKNDw/12BVQnXF32UqogUQGLoCB5SjfvMAgUxJw==
+X-Received: by 2002:a05:620a:2058:: with SMTP id
+ d24mr13273434qka.472.1623720834999; 
+ Mon, 14 Jun 2021 18:33:54 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7c6:4d9a:784f:a7de:c020:5f1e])
- by smtp.gmail.com with ESMTPSA id h2sm11639320qkf.106.2021.06.14.18.33.48
+ by smtp.gmail.com with ESMTPSA id h2sm11639320qkf.106.2021.06.14.18.33.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 18:33:52 -0700 (PDT)
+ Mon, 14 Jun 2021 18:33:54 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 7/8] spapr_numa,
- spapar_nvdimm: write secondary NUMA domain for nvdimms
-Date: Mon, 14 Jun 2021 22:33:08 -0300
-Message-Id: <20210615013309.2833323-8-danielhb413@gmail.com>
+Subject: [RFC PATCH 8/8] spapr: move memory/cpu less check to
+ spapr_numa_FORM1_affinity_init()
+Date: Mon, 14 Jun 2021 22:33:09 -0300
+Message-Id: <20210615013309.2833323-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615013309.2833323-1-danielhb413@gmail.com>
 References: <20210615013309.2833323-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x836.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,85 +83,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shivaprasad G Bhat <sbhat@linux.ibm.com>, aneesh.kumar@linux.ibm.com,
- Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: aneesh.kumar@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using the new 'device-node' property, write it in the nvdimm DT to set a
-secondary domain for the persistent memory operation mode.
+FORM2 NUMA affinity is prepared to deal with memory/cpu less
+NUMA nodes. This is used by the DAX KMEM driver to locate a
+PAPR SCM device that has a different latency than the original
+NUMA node from the regular memory.
 
-Note that this is only available in FORM2 affinity. FORM1 affinity
-NVDIMMs aren't affected by this change.
+Move this verification to FORM1 affinity code.
 
-CC: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_numa.c         | 20 ++++++++++++++++++++
- hw/ppc/spapr_nvdimm.c       |  3 ++-
- include/hw/ppc/spapr_numa.h |  3 +++
- 3 files changed, 25 insertions(+), 1 deletion(-)
+ hw/ppc/spapr.c      | 33 ---------------------------------
+ hw/ppc/spapr_numa.c | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 33 deletions(-)
 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c70b8b2f44..e42bfd314b 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2772,39 +2772,6 @@ static void spapr_machine_init(MachineState *machine)
+     /* init CPUs */
+     spapr_init_cpus(spapr);
+ 
+-    /*
+-     * check we don't have a memory-less/cpu-less NUMA node
+-     * Firmware relies on the existing memory/cpu topology to provide the
+-     * NUMA topology to the kernel.
+-     * And the linux kernel needs to know the NUMA topology at start
+-     * to be able to hotplug CPUs later.
+-     */
+-    if (machine->numa_state->num_nodes) {
+-        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
+-            /* check for memory-less node */
+-            if (machine->numa_state->nodes[i].node_mem == 0) {
+-                CPUState *cs;
+-                int found = 0;
+-                /* check for cpu-less node */
+-                CPU_FOREACH(cs) {
+-                    PowerPCCPU *cpu = POWERPC_CPU(cs);
+-                    if (cpu->node_id == i) {
+-                        found = 1;
+-                        break;
+-                    }
+-                }
+-                /* memory-less and cpu-less node */
+-                if (!found) {
+-                    error_report(
+-                       "Memory-less/cpu-less nodes are not supported (node %d)",
+-                                 i);
+-                    exit(1);
+-                }
+-            }
+-        }
+-
+-    }
+-
+     spapr->gpu_numa_id = spapr_numa_initial_nvgpu_numa_id(machine);
+ 
+     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index b14dd543c8..0cabb6757f 100644
+index 0cabb6757f..c7b0745455 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -266,6 +266,26 @@ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-                       sizeof(spapr->numa_assoc_array[nodeid]))));
- }
- 
-+void spapr_numa_write_nvdimm_assoc_dt(SpaprMachineState *spapr, void *fdt,
-+                                      int offset, int nodeid,
-+                                      int device_node)
-+{
-+    uint32_t *nvdimm_assoc_array = spapr->numa_assoc_array[nodeid];
+@@ -162,6 +162,39 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+                                            MachineState *machine)
+ {
+     bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
++    int i;
 +
 +    /*
-+     * 'device-node' is the secondary domain for NVDIMMs when
-+     * using FORM2. The secondary domain for FORM2 in QEMU
-+     * is 0x3.
++     * check we don't have a memory-less/cpu-less NUMA node
++     * Firmware relies on the existing memory/cpu topology to provide the
++     * NUMA topology to the kernel.
++     * And the linux kernel needs to know the NUMA topology at start
++     * to be able to hotplug CPUs later.
 +     */
-+    if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-+        nvdimm_assoc_array[0x3] = cpu_to_be32(device_node);
++    if (machine->numa_state->num_nodes) {
++        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
++            /* check for memory-less node */
++            if (machine->numa_state->nodes[i].node_mem == 0) {
++                CPUState *cs;
++                int found = 0;
++                /* check for cpu-less node */
++                CPU_FOREACH(cs) {
++                    PowerPCCPU *cpu = POWERPC_CPU(cs);
++                    if (cpu->node_id == i) {
++                        found = 1;
++                        break;
++                    }
++                }
++                /* memory-less and cpu-less node */
++                if (!found) {
++                    error_report(
++                       "Memory-less/cpu-less nodes are not supported (node %d)",
++                                 i);
++                    exit(1);
++                }
++            }
++        }
 +    }
-+
-+    _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
-+                      nvdimm_assoc_array,
-+                      sizeof(spapr->numa_assoc_array[nodeid]))));
-+}
-+
- static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
-                                            PowerPCCPU *cpu)
- {
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index 91de1052f2..49a05736fe 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -142,7 +142,8 @@ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
-     _FDT((fdt_setprop_string(fdt, child_offset, "compatible", "ibm,pmemory")));
-     _FDT((fdt_setprop_string(fdt, child_offset, "device_type", "ibm,pmemory")));
  
--    spapr_numa_write_associativity_dt(spapr, fdt, child_offset, node);
-+    spapr_numa_write_nvdimm_assoc_dt(spapr, fdt, child_offset, node,
-+                                     nvdimm->device_node);
- 
-     buf = qemu_uuid_unparse_strdup(&nvdimm->uuid);
-     _FDT((fdt_setprop_string(fdt, child_offset, "ibm,unit-guid", buf)));
-diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-index adaec8e163..af25741e70 100644
---- a/include/hw/ppc/spapr_numa.h
-+++ b/include/hw/ppc/spapr_numa.h
-@@ -26,6 +26,9 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr);
- void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
- void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-                                        int offset, int nodeid);
-+void spapr_numa_write_nvdimm_assoc_dt(SpaprMachineState *spapr, void *fdt,
-+                                      int offset, int nodeid,
-+                                      int device_node);
- int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-                             int offset, PowerPCCPU *cpu);
- int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+     /*
+      * Legacy NUMA guests (pseries-5.1 and older, or guests with only
 -- 
 2.31.1
 
