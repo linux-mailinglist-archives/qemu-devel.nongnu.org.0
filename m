@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF83D3A8343
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:52:03 +0200 (CEST)
-Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0923A834C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:54:12 +0200 (CEST)
+Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltAQ6-0006w9-VU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47892)
+	id 1ltASB-00015R-BE
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:54:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ltAOf-00054x-IE
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:50:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39529)
+ id 1ltAPM-0006uN-Uy
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:51:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ltAOd-0006qM-0d
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:50:33 -0400
+ id 1ltAPK-0007FD-Ow
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:51:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623768630;
+ s=mimecast20190719; t=1623768673;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2J+4e7I0toX25g/XbsTLWjMkrvF09usCXiEMVhUTV/c=;
- b=LP34Xq2p4vJjXi0aSqd8K0UGvn7+3DbtFqnSKi65Z8GjTuILkABsgXgqkWsmHAouCAhZUi
- lelBIewBocGfA4Eahhlhrf/WnfMhIRqH7FO370YVDu2j8lvEBAlJPjwK4nItNaIaR7T56D
- 2TEYpmBMZi8dARclXZ2suiRiCQo30wU=
+ bh=BbVMEWniZLO750m/nLNCvxZHL8dCZEVOcRlwzGH5vWI=;
+ b=IwuEW+lvGcD4o2SHf3UOnHdZ172BiwVZNdhzAAa9bEXNmKPOowt3vbsCppWbKdPEKj9jbv
+ tcOEB0b6/Zc06ArS4UqT3gDWPGR9eh6afMwtSWnqraqPs58uxQ6ZKIJase67xQ1H4WQNjh
+ wcPrYXjLj3dldDv2x56jhb0oGgnzvmY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-vKgiMlIDMYaBnESVg_u_KA-1; Tue, 15 Jun 2021 10:50:29 -0400
-X-MC-Unique: vKgiMlIDMYaBnESVg_u_KA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-273-n62Eo0NCOV2hOTs-aDY9Hg-1; Tue, 15 Jun 2021 10:51:11 -0400
+X-MC-Unique: n62Eo0NCOV2hOTs-aDY9Hg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F2AF1934134
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 14:50:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E15BC101F7A4
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 14:51:10 +0000 (UTC)
 Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA675D6AD;
- Tue, 15 Jun 2021 14:50:15 +0000 (UTC)
-Date: Tue, 15 Jun 2021 15:50:12 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE41F5C1C2;
+ Tue, 15 Jun 2021 14:51:09 +0000 (UTC)
+Date: Tue, 15 Jun 2021 15:51:07 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 17/26] configure, meson: move CONFIG_IVSHMEM to meson
-Message-ID: <YMi+JOc5uZ/jW9xO@redhat.com>
+Subject: Re: [PATCH 18/26] configure: convert HAVE_BROKEN_SIZE_MAX to meson
+Message-ID: <YMi+Wys0k+BwX5W/@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-18-pbonzini@redhat.com>
+ <20210608112301.402434-19-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210608112301.402434-18-pbonzini@redhat.com>
+In-Reply-To: <20210608112301.402434-19-pbonzini@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -87,15 +87,12 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 01:22:52PM +0200, Paolo Bonzini wrote:
-> This is a duplicate of CONFIG_EVENTFD, handle it directly in meson.build.
-> 
+On Tue, Jun 08, 2021 at 01:22:53PM +0200, Paolo Bonzini wrote:
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  configure              | 8 --------
->  docs/devel/kconfig.rst | 2 +-
->  meson.build            | 5 +++--
->  3 files changed, 4 insertions(+), 11 deletions(-)
+>  configure   | 17 -----------------
+>  meson.build |  9 +++++++++
+>  2 files changed, 9 insertions(+), 17 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
