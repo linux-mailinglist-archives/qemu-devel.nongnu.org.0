@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B35A3A789D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:57:40 +0200 (CEST)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389293A78A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:59:38 +0200 (CEST)
+Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt3x5-0004Ty-AI
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36202)
+	id 1lt3yz-0000S1-9B
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1lt3pm-0000D7-8F; Tue, 15 Jun 2021 03:50:06 -0400
-Received: from redisdead.crans.org ([2a0c:700:2::ff:fe01:2402]:49328)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3ps-0000HB-Ho
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:50:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1lt3pj-0008KN-Me; Tue, 15 Jun 2021 03:50:05 -0400
-Received: from [IPv6:2a02:8428:4db:b001:f255:832d:4007:dcd0]
- (2a02-8428-04db-b001-f255-832d-4007-dcd0.rev.sfr.net
- [IPv6:2a02:8428:4db:b001:f255:832d:4007:dcd0])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by redisdead.crans.org (Postfix) with ESMTPSA id 501A7205;
- Tue, 15 Jun 2021 09:50:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
- t=1623743400; bh=IGV4xOD+EP3wxVoSZkvo1W/mXJOBIiNU97X3RqNzKDw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=MsFFdlzP4gDKuhfcyu/U9x662G4DMeKlrrYVMjJqUdKXw2xtHdwayjAT7S1B4ma8y
- QI3aMG59FwbqEWC9973twDYIkFxGQ758eZDWPpat99Kdr+jfwLS2KptggERMN3Bl5g
- vB0LPHqmgScbdpCw9JousvpscMHDwluB//ajfNH+lhyXR7cRbEcvUuwGHtuJVXaqx+
- 4JfggGB8apLYdGS6bPwehykwYeWO1cHEaiU01zVwAu5NB3rzlNOzl+1enAyjB9Rjx3
- cVhRcO3r4XtWMduGo1cf87owRfO0Co0u4SgtJamcDwGQU5GvawDZ7i5jdyQCeWMUbw
- U/3OaJlUsuokNezWvTuRlprF/J+NMntYmBUY/EYpT3TL8fvVhc/R8SbXcQzui6w2U3
- xCHXOPxNCMsyPDZiFyscAfzp7n2b3PNSivYrR46ZmZIEpwPDrtj2OzagT1VWGMZkPB
- D+qHhx2IsuWfcRzBkoTlqAAnq7toE3WQ/ebnVik3tTeFlq0vTR+ietOskYZ2J4VrGm
- aCqMc2fkbuo1vo4qAqXE3Wk+FT3cK7eVmpdbfCSXXcJ5wxDAwT/TNrwqvMQdFcwhtv
- FPTBMPhneS8EZa9k9uB1qQ/3H4c3GwDp5E0EZZhKyAbt+sMVcyxmTSvNE02l8vV1PC
- Oe8WOaYJ5d3MC3w3Q2udo9s4=
-Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
-To: Alistair Francis <alistair23@gmail.com>
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
- <20210608161028.4159582-2-erdnaxe@crans.org>
- <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
-From: Alexandre IOOSS <erdnaxe@crans.org>
-Organization: Crans
-Message-ID: <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
-Date: Tue, 15 Jun 2021 09:49:59 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3pq-0008PB-3b
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:50:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623743409;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=swA/P5EzYv3qtt1uNoGwhjqQXFkRC+TCFqlh6NR5Dw4=;
+ b=LSOn9ZJTMb7qC4XJ8SVOUkE0zNGGFgi/MgAdbxGroTBSCZnrDFTYTVcfbMJqvd5GcV/PVW
+ 8tVgha5N1YymlAYg96GfPoqZYIF7MrAXoED40pMJ/UIcJFKYuYObyO+05qfXk9bksSGuK7
+ rIqJVunmenMb2IV9zX2QoYSfCSVphLU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-Y_CbajoFMc-eawaG23e3Aw-1; Tue, 15 Jun 2021 03:50:07 -0400
+X-MC-Unique: Y_CbajoFMc-eawaG23e3Aw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j2-20020a05600c1c02b02901cecbe55d49so119577wms.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:50:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=swA/P5EzYv3qtt1uNoGwhjqQXFkRC+TCFqlh6NR5Dw4=;
+ b=mRS+KAH+qEZBf868vZqVdF/9zgMau5sKLsb9mrkNRXfYmbVolQhl9V60lWRxo+lXKj
+ N8alqT58ILADr4f12doiJiEhktlI6Uv3ptlojaUQR2pQrL8cx+Mw5MtAZywSlIqT6+yw
+ I0Hnrs/ZexyHDoHoasecu2uMXaQbzF9Qmn4grEZ37zD7npU2tib+VRflwP1faAZdgh3x
+ FmW7gHivPLKS5PlijIzlVbIz0dv0Kea756ack47bnMS61KiOW2JDHZVDrVhR+3+9Jele
+ UC4vdKucI68XU4MU5Dds6NJ30Cm+sTIJjFGsIiePYLWJa2+7TjujAvyNhnnvfheG6vAh
+ Lf6g==
+X-Gm-Message-State: AOAM533EKL6hckXPXcW5S48/yL9VYSGQqVdSL2WE8Iz7Uk41zWtHg2mI
+ 2gCmySt0ByjbHGiQVAR1+xpyW3YbdzvGKsS3+c1+zreM/LCdMDWS/fPgbSGvReQwtYIYCXywtTF
+ kJixr2JEhif+WShQ=
+X-Received: by 2002:a5d:44d2:: with SMTP id z18mr23434527wrr.358.1623743406597; 
+ Tue, 15 Jun 2021 00:50:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwh6hJHJh/NF7C6fwAbhsm+zEpeWOwkD5ZuxVsmDbejRlIfaBOsq5XH+ypmxFqUYFI1bLl2tw==
+X-Received: by 2002:a5d:44d2:: with SMTP id z18mr23434505wrr.358.1623743406418; 
+ Tue, 15 Jun 2021 00:50:06 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e831d2.dip0.t-ipconnect.de.
+ [217.232.49.210])
+ by smtp.gmail.com with ESMTPSA id y20sm572412wma.45.2021.06.15.00.50.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 00:50:05 -0700 (PDT)
+Subject: Re: [PATCH v2 3/8] util: Use real functions for thread-posix
+ QemuRecMutex
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210614233143.1221879-1-richard.henderson@linaro.org>
+ <20210614233143.1221879-4-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c4886cf3-db40-8df7-c78c-06c2f45e3eb3@redhat.com>
+Date: Tue, 15 Jun 2021 09:50:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="c3wOUuVGaTg0xZxv7TfkLPrytQrW3HSHf"
-Received-SPF: pass client-ip=2a0c:700:2::ff:fe01:2402;
- envelope-from=erdnaxe@crans.org; helo=redisdead.crans.org
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210614233143.1221879-4-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,74 +100,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:STM32F100" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---c3wOUuVGaTg0xZxv7TfkLPrytQrW3HSHf
-Content-Type: multipart/mixed; boundary="GKfrKOfbcFsLAO6MNsGRDp64JazJiIRfo";
- protected-headers="v1"
-From: Alexandre IOOSS <erdnaxe@crans.org>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:STM32F100" <qemu-arm@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
-Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
- <20210608161028.4159582-2-erdnaxe@crans.org>
- <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
-In-Reply-To: <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
+On 15/06/2021 01.31, Richard Henderson wrote:
+> Move the declarations from thread-win32.h into thread.h
+> and remove the macro redirection from thread-posix.h.
+> This will be required by following cleanups.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/qemu/thread-posix.h |  4 ----
+>   include/qemu/thread-win32.h |  6 ------
+>   include/qemu/thread.h       |  9 ++++++---
+>   util/qemu-thread-posix.c    | 20 ++++++++++++++++++++
+>   4 files changed, 26 insertions(+), 13 deletions(-)
+> 
+> diff --git a/include/qemu/thread-posix.h b/include/qemu/thread-posix.h
+> index c903525062..cf8bc90468 100644
+> --- a/include/qemu/thread-posix.h
+> +++ b/include/qemu/thread-posix.h
+> @@ -5,10 +5,6 @@
+>   #include <semaphore.h>
+>   
+>   typedef QemuMutex QemuRecMutex;
+> -#define qemu_rec_mutex_destroy qemu_mutex_destroy
+> -#define qemu_rec_mutex_lock_impl    qemu_mutex_lock_impl
+> -#define qemu_rec_mutex_trylock_impl qemu_mutex_trylock_impl
+> -#define qemu_rec_mutex_unlock qemu_mutex_unlock
+>   
+>   struct QemuMutex {
+>       pthread_mutex_t lock;
+> diff --git a/include/qemu/thread-win32.h b/include/qemu/thread-win32.h
+> index d0a1a9597e..d95af4498f 100644
+> --- a/include/qemu/thread-win32.h
+> +++ b/include/qemu/thread-win32.h
+> @@ -18,12 +18,6 @@ struct QemuRecMutex {
+>       bool initialized;
+>   };
+>   
+> -void qemu_rec_mutex_destroy(QemuRecMutex *mutex);
+> -void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line);
+> -int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file,
+> -                                int line);
+> -void qemu_rec_mutex_unlock(QemuRecMutex *mutex);
+> -
+>   struct QemuCond {
+>       CONDITION_VARIABLE var;
+>       bool initialized;
+> diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+> index 5435763184..2c0d85f3bc 100644
+> --- a/include/qemu/thread.h
+> +++ b/include/qemu/thread.h
+> @@ -28,6 +28,12 @@ int qemu_mutex_trylock_impl(QemuMutex *mutex, const char *file, const int line);
+>   void qemu_mutex_lock_impl(QemuMutex *mutex, const char *file, const int line);
+>   void qemu_mutex_unlock_impl(QemuMutex *mutex, const char *file, const int line);
+>   
+> +void qemu_rec_mutex_init(QemuRecMutex *mutex);
+> +void qemu_rec_mutex_destroy(QemuRecMutex *mutex);
+> +void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line);
+> +int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line);
+> +void qemu_rec_mutex_unlock(QemuRecMutex *mutex);
+> +
+>   typedef void (*QemuMutexLockFunc)(QemuMutex *m, const char *f, int l);
+>   typedef int (*QemuMutexTrylockFunc)(QemuMutex *m, const char *f, int l);
+>   typedef void (*QemuRecMutexLockFunc)(QemuRecMutex *m, const char *f, int l);
+> @@ -129,9 +135,6 @@ static inline int (qemu_rec_mutex_trylock)(QemuRecMutex *mutex)
+>       return qemu_rec_mutex_trylock(mutex);
+>   }
+>   
+> -/* Prototypes for other functions are in thread-posix.h/thread-win32.h.  */
+> -void qemu_rec_mutex_init(QemuRecMutex *mutex);
+> -
+>   void qemu_cond_init(QemuCond *cond);
+>   void qemu_cond_destroy(QemuCond *cond);
+>   
+> diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+> index dcff5e7c5d..8e2b6653f5 100644
+> --- a/util/qemu-thread-posix.c
+> +++ b/util/qemu-thread-posix.c
+> @@ -124,6 +124,26 @@ void qemu_rec_mutex_init(QemuRecMutex *mutex)
+>       mutex->initialized = true;
+>   }
+>   
+> +void qemu_rec_mutex_destroy(QemuRecMutex *mutex)
+> +{
+> +    qemu_mutex_destroy(mutex);
+> +}
+> +
+> +void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line)
+> +{
+> +    qemu_mutex_lock_impl(mutex, file, line);
+> +}
+> +
+> +int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line)
+> +{
+> +    return qemu_mutex_trylock_impl(mutex, file, line);
+> +}
+> +
+> +void qemu_rec_mutex_unlock(QemuRecMutex *mutex)
+> +{
+> +    qemu_mutex_unlock(mutex);
+> +}
+> +
+>   void qemu_cond_init(QemuCond *cond)
+>   {
+>       int err;
+> 
 
---GKfrKOfbcFsLAO6MNsGRDp64JazJiIRfo
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-On 6/15/21 9:41 AM, Alistair Francis wrote:
-> Aren't you missing some timers, like timer[5] 0x4000_0C00?
->=20
-> Alistair
-
-I double-checked using the reference manual and the datasheet and there=20
-is not timer[5]:
-- page 36 of=20
-https://www.st.com/resource/en/reference_manual/cd00246267-stm32f100xx-ad=
-vanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
-- page 30 of https://www.st.com/resource/en/datasheet/stm32f100cb.pdf
-
-I believe ST is skipping numbers to guarantee that timer[n] will have a=20
-consistent address on different STM32 SoC.
-
-Thanks,
--- Alexandre
-
-
---GKfrKOfbcFsLAO6MNsGRDp64JazJiIRfo--
-
---c3wOUuVGaTg0xZxv7TfkLPrytQrW3HSHf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmDIW6cFAwAAAAAACgkQbHknjz/NzAIa
-qQ/9EgdS0hPVI92tjW2/7+Da0vWu4xOPVaY2m+q/6+Qw98ntLDMlPweNulKqgQ2Pb2nILOpSl4oP
-/FVfGbZtxz2VZsE5ZOJfyVcoi9EhckBMmm6qiTy96GWGAVF77A8KAm9ZrAuf/0yfiJsXDK54nTV8
-vG1y+ZEZ9e6UpYT1XAyNg9i5rj8N/HeQU8ifvpM/JQmfgtG3AutvNVkg2GYC+kyO8EY0vSRp44zn
-19jLHsfqkf0ENWwIJzAZOaTH8RdjqLDA4cTX7ALaR/X3iSjQ8le5fGJDI8tXobHuphEA1KM6vgTD
-XZEkjdJ5Mfb/DETmsqs7AGOnB8kM0OJvC8q16b4r/HWntE2WJQsDnhd4ylfRQAcxo4PEv1BZSk2M
-bMXOSoRdAlXvJlqc8Y8E1bHVAQDdCbM19ICBDbLuSbODHNJkQ1BWYASccxmtXPbuteYyuOU+wGlG
-GOglKjl+QZLojONfh7UDpCK6ZLz7gywXXYmNfdlNkb4IwvKyLs3SJPXJEwgF4Etl7YbanqqdgLCk
-sEzLSHVLiyy2D3QXRzA3ZFmEu+DO3y96pPYGjvWj5YeN649R8sN2/H1zu6JiaoEzKZhTVLvfCgE5
-J2BQqaI7fBHXPbJew/yDAr7gQAwIJDSZ2KE5NNRJ3RJR7fd16xz4PnQT7lJiAngqyMkoPDAg3Mly
-Pqc=
-=U0kp
------END PGP SIGNATURE-----
-
---c3wOUuVGaTg0xZxv7TfkLPrytQrW3HSHf--
 
