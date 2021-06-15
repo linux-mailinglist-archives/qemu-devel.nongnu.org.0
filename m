@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C433A85F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:02:28 +0200 (CEST)
-Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F27E3A8609
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:04:52 +0200 (CEST)
+Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBWF-0004xF-4r
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42968)
+	id 1ltBYZ-0002T6-3E
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBFB-0006Ga-UA
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:50 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45704)
+ id 1ltBFD-0006OC-S0
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:51 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBEh-0000xt-VD
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:49 -0400
-Received: by mail-wr1-x429.google.com with SMTP id z8so18868468wrp.12
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:15 -0700 (PDT)
+ id 1ltBEh-0000y6-Vs
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:51 -0400
+Received: by mail-wr1-x436.google.com with SMTP id i94so18825167wri.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cyCGn2SVLHm0FcqfG3WrqBeex+FwY6W9NPYT/ExK5rY=;
- b=RTIRZkFXYwNRvr8zYxRg40Y8AOx9ZvebiiHfTdf+WNE/8v2d2mQINPgeNMiqlIS+4+
- xvKQSKTp2L3CNnojzSunMCWUm9wVS1FG8bV/9v4xrYgY96UaSD3u81jL3MRO/+qKJ9f8
- Hs9PFKZ51gq2+hmBxzWFrhDzNGPYalQPj0lpNnbHa0Gsu66lzepp/AN6KUmYlN8FyuDM
- OvA8vFGPzKLR8XcVa3GQJRqRvcvuET/a3WmSosLgmdBeysJ/FcoxgiyPptpIBIWsk2Qm
- PKOprDccOu+Zz7v1wS9H37Km0z1Ql4SrqDQ9sRkEqPFMA8stBaqz00ROAAgZdA//3OJR
- FY3A==
+ bh=mBhVixobv9evawUK2zvyZAJjFLCIliw3J90zk8FNS6M=;
+ b=Ytl6PqvZFuG4eCCcKPL7zweCPxKeDN54WUrgZrIAipFt/X2nmp/mXtLGGkL8nX6Ndg
+ S2kP7//1GWevXRqjqc4/vQFYiwpoP5exNoJP79ACfb7qLhuAchGlfD4r2+NK1TFXGrAn
+ L79Asnk9IYtV6pwUF1L3Mo6Tm+Ndy6czNENrHfhz2LKF1ggPQHrDU2acxscLs06OOA+2
+ fh1Uk/6a8rcW3wtUJoBSI4UQ+Ki3/FdjQeEvLaitbtF0ZYnCaCvu7BVOEvj9RY/N+vRj
+ cDozlvXX0gamG3s6dEVZKRliUdD6uzMFrKu/XZGgBthd7m0mqqz35cWGRwhvmWgtbRSH
+ TGxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cyCGn2SVLHm0FcqfG3WrqBeex+FwY6W9NPYT/ExK5rY=;
- b=PKq8huM7pJhrRzK3ufomfmnEs9wQ9r8ClB1TRErnBMHD48Q/yMpF9FykiQla+GhY1w
- B5d+XNcIPx96rfOyi8UJmz99YTssl/+k8GeMf28CaYHCRsSdSkfJLjT8oLj1maUaVX4T
- Ib6obOErh5f5yFjxGl8D3CTX1rpoTjJTjV/YBMi1bpasAfY++B16VnZ92nTcDjgILVkD
- I1pgku+fCN76E9/detdUe+vFRKoeOfDqOXAzoe7PcFbJdGjVS3jstMrpVMrr0FGWPOww
- flZMURdoqqWxks1OblbJG6CqaJK+GjhECiG+SArErG1OEwKw9mcFjClsl1AzJxDK+tN8
- azsA==
-X-Gm-Message-State: AOAM531ZTKXyv0DjgZ9typYi2wmVLDrEJD4ARWbhrgBkljbqeo8WmYm6
- 4D/J/bK50DslrXDRqllyEesbFDYBfovlPg==
-X-Google-Smtp-Source: ABdhPJwo0t32WImYpQgkf4EnBqsqWHkbWoEUH11KK19J7SgEIqkf6MSHE3i8EBTKRC4ptYXbMTM+sA==
-X-Received: by 2002:adf:bd88:: with SMTP id l8mr25816320wrh.90.1623771854899; 
- Tue, 15 Jun 2021 08:44:14 -0700 (PDT)
+ bh=mBhVixobv9evawUK2zvyZAJjFLCIliw3J90zk8FNS6M=;
+ b=Nwfi47XwLL5WRyNuGmbm6noebSDUN+z3zyFY1moAMlO/sNIxzb/1jLq1Qur0AMGVZY
+ WxC8STu71JDntUJIN3RTQGosw8mujlDoKmzAsal5iRijDQ6ngbVFvdCEudQvuK/HZ5AQ
+ GUGVzI3RjvCEb4i2+d/tBJ5rJ2vD7NJfG9gyp6kBMazyW+G39jfNuoXQcD6mM6+avLn2
+ FyEazlc/NTMVu4VERwVmY722aS9GMPq1/6RwZ6DEyYPBZe7cuZ7NPdiKwvPWusuPQ5xX
+ kiNitTCPuhSZoNdbjUMScNrGuVaWYdty8ys06WbzCwXsWA9/5UOcMXKvHE69TuvO0z0z
+ 2yTw==
+X-Gm-Message-State: AOAM530iNv5BuSPbcT07qEuLNJH+o9kDSDYBJ8DVlimIvKXjDSokLOl7
+ DJSyL7U4Qh3wQKjuC87/MtBVwVYgrTON4Q==
+X-Google-Smtp-Source: ABdhPJzNT8utgfpfDdfvxwZ8Nvpt85j7miECx9lNEh52pxj7KHxxutR+OzrPGCf46hQYIfHJdgdDVg==
+X-Received: by 2002:adf:e0c7:: with SMTP id m7mr27092891wri.409.1623771855489; 
+ Tue, 15 Jun 2021 08:44:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 08:44:14 -0700 (PDT)
+ Tue, 15 Jun 2021 08:44:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/28] hw/acpi: Provide stub version of
- acpi_ghes_record_errors()
-Date: Tue, 15 Jun 2021 16:43:46 +0100
-Message-Id: <20210615154405.21399-10-peter.maydell@linaro.org>
+Subject: [PULL 10/28] hw/acpi: Provide function acpi_ghes_present()
+Date: Tue, 15 Jun 2021 16:43:47 +0100
+Message-Id: <20210615154405.21399-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210615154405.21399-1-peter.maydell@linaro.org>
 References: <20210615154405.21399-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,66 +86,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generic code in target/arm wants to call acpi_ghes_record_errors();
-provide a stub version so that we don't fail to link when
-CONFIG_ACPI_APEI is not set. This requires us to add a new
-ghes-stub.c file to contain it and the meson.build mechanics
-to use it when appropriate.
+Allow code elsewhere in the system to check whether the ACPI GHES
+table is present, so it can determine whether it is OK to try to
+record an error by calling acpi_ghes_record_errors().
+
+(We don't need to migrate the new 'present' field in AcpiGhesState,
+because it is set once at system initialization and doesn't change.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Dongjiu Geng <gengdongjiu1@gmail.com>
-Message-id: 20210603171259.27962-2-peter.maydell@linaro.org
+Message-id: 20210603171259.27962-3-peter.maydell@linaro.org
 ---
- hw/acpi/ghes-stub.c | 17 +++++++++++++++++
- hw/acpi/meson.build |  6 +++---
- 2 files changed, 20 insertions(+), 3 deletions(-)
- create mode 100644 hw/acpi/ghes-stub.c
+ include/hw/acpi/ghes.h |  9 +++++++++
+ hw/acpi/ghes-stub.c    |  5 +++++
+ hw/acpi/ghes.c         | 17 +++++++++++++++++
+ 3 files changed, 31 insertions(+)
 
-diff --git a/hw/acpi/ghes-stub.c b/hw/acpi/ghes-stub.c
-new file mode 100644
-index 00000000000..9faba043b85
---- /dev/null
-+++ b/hw/acpi/ghes-stub.c
-@@ -0,0 +1,17 @@
-+/*
-+ * Support for generating APEI tables and recording CPER for Guests:
-+ * stub functions.
+diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+index 2ae8bc1ded3..674f6958e90 100644
+--- a/include/hw/acpi/ghes.h
++++ b/include/hw/acpi/ghes.h
+@@ -64,6 +64,7 @@ enum {
+ 
+ typedef struct AcpiGhesState {
+     uint64_t ghes_addr_le;
++    bool present; /* True if GHES is present at all on this board */
+ } AcpiGhesState;
+ 
+ void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
+@@ -72,4 +73,12 @@ void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
+ void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
+                           GArray *hardware_errors);
+ int acpi_ghes_record_errors(uint8_t notify, uint64_t error_physical_addr);
++
++/**
++ * acpi_ghes_present: Report whether ACPI GHES table is present
 + *
-+ * Copyright (c) 2021 Linaro, Ltd
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Returns: true if the system has an ACPI GHES table and it is
++ * safe to call acpi_ghes_record_errors() to record a memory error.
 + */
++bool acpi_ghes_present(void);
+ #endif
+diff --git a/hw/acpi/ghes-stub.c b/hw/acpi/ghes-stub.c
+index 9faba043b85..c315de1802d 100644
+--- a/hw/acpi/ghes-stub.c
++++ b/hw/acpi/ghes-stub.c
+@@ -15,3 +15,8 @@ int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
+ {
+     return -1;
+ }
 +
-+#include "qemu/osdep.h"
-+#include "hw/acpi/ghes.h"
-+
-+int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
++bool acpi_ghes_present(void)
 +{
-+    return -1;
++    return false;
 +}
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-index dd69577212a..03ea43f8627 100644
---- a/hw/acpi/meson.build
-+++ b/hw/acpi/meson.build
-@@ -13,13 +13,13 @@ acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
--acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'), if_false:('ghes-stub.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
- acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
- acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
- acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
--softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
- softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
- softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
--                                                  'acpi-x86-stub.c', 'ipmi-stub.c'))
-+                                                  'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c'))
+diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+index a4dac6bf15e..a749b84d624 100644
+--- a/hw/acpi/ghes.c
++++ b/hw/acpi/ghes.c
+@@ -386,6 +386,8 @@ void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
+     /* Create a read-write fw_cfg file for Address */
+     fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
+         NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
++
++    ags->present = true;
+ }
+ 
+ int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
+@@ -443,3 +445,18 @@ int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
+ 
+     return ret;
+ }
++
++bool acpi_ghes_present(void)
++{
++    AcpiGedState *acpi_ged_state;
++    AcpiGhesState *ags;
++
++    acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
++                                                       NULL));
++
++    if (!acpi_ged_state) {
++        return false;
++    }
++    ags = &acpi_ged_state->ghes_state;
++    return ags->present;
++}
 -- 
 2.20.1
 
