@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DACD3A85B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:56:28 +0200 (CEST)
-Received: from localhost ([::1]:43976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAE93A85C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:58:39 +0200 (CEST)
+Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBQR-0001cc-3z
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1ltBSY-0007dw-7O
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBFM-0006bu-8v
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:45:00 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46682)
+ id 1ltBFc-0006vp-KK
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:45:16 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBEn-00010A-9D
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:45:00 -0400
-Received: by mail-wr1-x436.google.com with SMTP id a11so18852703wrt.13
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:24 -0700 (PDT)
+ id 1ltBEs-00011b-Io
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:45:13 -0400
+Received: by mail-wr1-x436.google.com with SMTP id z8so18869154wrp.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gmfa6QuGhqnYPIJbw9iaiqNwq7wBN009XaKddbtNFCk=;
- b=lhKcAingNmdVKh8IzHU2wqosm7ss226Qf/9o8z1BFQwQ3dHJ6+CZv8fXeiygxknF5i
- mBVmSoqp5S/QiQ/7b13iwye7JcBhgy7tOh4FZwP3A0SnRvDHhDoof7IlQ34V5g8oKoaM
- dt11yHKW3Mhi/QzZNizQyJjQKTJlDD1jqFLqV/6mEbCCgLK3Vk+jeu7e3HXOrv3Qj+Oc
- haxCHd5X1ODfxKp8Jo7x23A33B9Vs9QkMY3vXUINey73UPAVgCWKINZKQLTE27JxPbNg
- W9RdxCXyGpZw9qwgzk9ZE+YusvJPw24zgsC6GNcRKwiNnOvuDceM7jB69S44Yo0e0xLq
- j39g==
+ bh=MNp+WE77dI/aNUnA4anWraPCPQQMJEMwYy4X2xAfAd4=;
+ b=GlDx6PqB3lazQx/Sxo8CmzfmJM12yb4YY90ipp3OgqJnGrV225wYAeWqpdkFEdeFI3
+ k/t1by8ZydWToRMlUXPhdt1wkrgxaSW2kSB/WuJH13O+L9bB3nn0YUGepENFQ7871xJv
+ W88IAm3lKRFDqxhuH+1DCCsdmyWsrW55dEfPMHVrh4QvK5VdQsOlJIj3tue4NVqmjrI0
+ Xi5ayKouevW9o8zTn9yx8/O4aVHugTXhbWmdKBybKGK9xFQiU3gb15kL7xlBTkEU2TSY
+ cEUhE8+a4fyTuoy3fGLw3pAWOC/ZHdB7EvAxH8KCdNth2A9mkmABtSrw+o9JpEgSBLfo
+ AmwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gmfa6QuGhqnYPIJbw9iaiqNwq7wBN009XaKddbtNFCk=;
- b=MBS6IxRbHQebq0ZrWGGHyqFUPPsgTQ7diOBkrwM9N7msjXfQrQxBtvr2mYCqSxKx2M
- kQhy6sxecffgFC0spYWhVNndJ46iHlcA7YYGv3aHiuaqVE1qvTw9kKnY10t0zCepjVkC
- K3r/tlm/GK//Qmedkx7XLuedtC50kHLX5j+hGIAcG6BK3PPHm1YJeUltqHVKXpIESCHi
- WcfevR534qSTCkJz7fxG5zX2gWaX5JUZhA44yf4m+ygoGCe6kjd1yX2pEMyN51SPEZGH
- ta7qLlJgkVNoUBPGzHah3/QQbbKSL74usUsOfuDuUTkjjKN1a7rWsUbyFvVtdl+Eh4n2
- dkBA==
-X-Gm-Message-State: AOAM53374z0HNk44PtFk7IV+K/LRFoEwCZ9oEGzjW/zdZhsY+2sfppBI
- aJwY/GeIAFau4Xi7WNZDUDrr5JjF+MYQww==
-X-Google-Smtp-Source: ABdhPJzy36yXws3ZJTABl+8yDIUtlcFTatmahmNm7oHOKzYSP7IXFp2U9iU+qxE67Lxyg2in5M5X3g==
-X-Received: by 2002:a5d:540b:: with SMTP id g11mr26879466wrv.390.1623771863886; 
- Tue, 15 Jun 2021 08:44:23 -0700 (PDT)
+ bh=MNp+WE77dI/aNUnA4anWraPCPQQMJEMwYy4X2xAfAd4=;
+ b=Cu1WDWF2Zid7DOuC3mgJJWWP2kppQ2NfDtQdjSb6fTmIWIXRpXXQQ5vzHDBwSOBVcI
+ fKoIC+8EsiR7yBylbvH8Dr7FfcJSmQbXfSKINgcFBT/VzKan8CcpA78ts0xAKG4owPW/
+ 98LwCe1MgCqghsT0q5LJCewT6ifTEV7yVO0HcboeY94p46JkotWujckkjASKOsQ/0c+8
+ 9nvM+n27Te3+wHZeUnqgC+KX81N/AfOoYzrhGdy/tRZbDrsavhbkFTjUPA2qBK8mucg0
+ JVTJzmUvyxpdIYnznlKRTlWW7Zc3S/dsaprNZsRQgbw3lyu3xzZKYMeM3XvHQfe4YJsF
+ XmEA==
+X-Gm-Message-State: AOAM53110tMYGDpEkx6hCjuHoNtIJzohYo12ETCJVCOV1DHk09hsd9Ua
+ ujppCiDCCgiUR/JnJyr38pfAYTujIV8Klw==
+X-Google-Smtp-Source: ABdhPJwCUQcvY8RMS2VTrDAKHxY4Z+Esa56ZlJ4c7AzMRG42V+6CcrmQVihUMswdKmRFa891Ckx1rg==
+X-Received: by 2002:a5d:4401:: with SMTP id z1mr26400130wrq.149.1623771866009; 
+ Tue, 15 Jun 2021 08:44:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.23
+ by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 08:44:23 -0700 (PDT)
+ Tue, 15 Jun 2021 08:44:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/28] target/arm: Implement MVE WLSTP insn
-Date: Tue, 15 Jun 2021 16:43:59 +0100
-Message-Id: <20210615154405.21399-23-peter.maydell@linaro.org>
+Subject: [PULL 25/28] target/arm: Add framework for MVE decode
+Date: Tue, 15 Jun 2021 16:44:02 +0100
+Message-Id: <20210615154405.21399-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210615154405.21399-1-peter.maydell@linaro.org>
 References: <20210615154405.21399-1-peter.maydell@linaro.org>
@@ -86,96 +86,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE WLSTP insn; this is like the existing WLS insn,
-except that it specifies a size value which is used to set
-FPSCR.LTPSIZE.
+Add the framework for decoding MVE insns, with the necessary new
+files and the meson.build rules, but no actual content yet.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210614151007.4545-8-peter.maydell@linaro.org
+Message-id: 20210614151007.4545-11-peter.maydell@linaro.org
 ---
- target/arm/t32.decode  |  8 ++++++--
- target/arm/translate.c | 37 ++++++++++++++++++++++++++++++++++++-
- 2 files changed, 42 insertions(+), 3 deletions(-)
+ target/arm/translate-a32.h |  1 +
+ target/arm/mve.decode      | 20 ++++++++++++++++++++
+ target/arm/translate-mve.c | 29 +++++++++++++++++++++++++++++
+ target/arm/translate.c     |  1 +
+ target/arm/meson.build     |  2 ++
+ 5 files changed, 53 insertions(+)
+ create mode 100644 target/arm/mve.decode
+ create mode 100644 target/arm/translate-mve.c
 
-diff --git a/target/arm/t32.decode b/target/arm/t32.decode
-index 087e514e0ac..6906829265f 100644
---- a/target/arm/t32.decode
-+++ b/target/arm/t32.decode
-@@ -672,8 +672,12 @@ BL               1111 0. .......... 11.1 ............         @branch24
-     %lob_imm 1:10 11:1 !function=times_2
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index c946ac440ce..0a0053949f5 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -22,6 +22,7 @@
  
-     DLS          1111 0 0000 100     rn:4 1110 0000 0000 0001
--    WLS          1111 0 0000 100     rn:4 1100 . .......... 1 imm=%lob_imm
--    LE           1111 0 0000 0 f:1 0 1111 1100 . .......... 1 imm=%lob_imm
-+    WLS          1111 0 0000 100     rn:4 1100 . .......... 1 imm=%lob_imm size=4
-+    {
-+      LE         1111 0 0000 0 f:1 0 1111 1100 . .......... 1 imm=%lob_imm
-+      # This is WLSTP
-+      WLS        1111 0 0000 0 size:2 rn:4 1100 . .......... 1 imm=%lob_imm
-+    }
- 
-     LCTP         1111 0 0000 000     1111 1110 0000 0000 0001
-   ]
+ /* Prototypes for autogenerated disassembler functions */
+ bool disas_m_nocp(DisasContext *dc, uint32_t insn);
++bool disas_mve(DisasContext *dc, uint32_t insn);
+ bool disas_vfp(DisasContext *s, uint32_t insn);
+ bool disas_vfp_uncond(DisasContext *s, uint32_t insn);
+ bool disas_neon_dp(DisasContext *s, uint32_t insn);
+diff --git a/target/arm/mve.decode b/target/arm/mve.decode
+new file mode 100644
+index 00000000000..c8492bb5763
+--- /dev/null
++++ b/target/arm/mve.decode
+@@ -0,0 +1,20 @@
++# M-profile MVE instruction descriptions
++#
++#  Copyright (c) 2021 Linaro, Ltd
++#
++# This library is free software; you can redistribute it and/or
++# modify it under the terms of the GNU Lesser General Public
++# License as published by the Free Software Foundation; either
++# version 2.1 of the License, or (at your option) any later version.
++#
++# This library is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++# Lesser General Public License for more details.
++#
++# You should have received a copy of the GNU Lesser General Public
++# License along with this library; if not, see <http://www.gnu.org/licenses/>.
++
++#
++# This file is processed by scripts/decodetree.py
++#
+diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
+new file mode 100644
+index 00000000000..e91f526a1a8
+--- /dev/null
++++ b/target/arm/translate-mve.c
+@@ -0,0 +1,29 @@
++/*
++ *  ARM translation: M-profile MVE instructions
++ *
++ *  Copyright (c) 2021 Linaro, Ltd.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "tcg/tcg-op.h"
++#include "tcg/tcg-op-gvec.h"
++#include "exec/exec-all.h"
++#include "exec/gen-icount.h"
++#include "translate.h"
++#include "translate-a32.h"
++
++/* Include the generated decoder */
++#include "decode-mve.c.inc"
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c49561590c9..78878e9b194 100644
+index a51e882b867..9e2cca77077 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8134,7 +8134,11 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
-         return false;
+@@ -8919,6 +8919,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+     if (disas_t32(s, insn) ||
+         disas_vfp_uncond(s, insn) ||
+         disas_neon_shared(s, insn) ||
++        disas_mve(s, insn) ||
+         ((insn >> 28) == 0xe && disas_vfp(s, insn))) {
+         return;
      }
-     if (a->rn == 13 || a->rn == 15) {
--        /* CONSTRAINED UNPREDICTABLE: we choose to UNDEF */
-+        /*
-+         * For WLSTP rn == 15 is a related encoding (LE); the
-+         * other cases caught by this condition are all
-+         * CONSTRAINED UNPREDICTABLE: we choose to UNDEF
-+         */
-         return false;
-     }
-     if (s->condexec_mask) {
-@@ -8147,10 +8151,41 @@ static bool trans_WLS(DisasContext *s, arg_WLS *a)
-          */
-         return false;
-     }
-+    if (a->size != 4) {
-+        /* WLSTP */
-+        if (!dc_isar_feature(aa32_mve, s)) {
-+            return false;
-+        }
-+        /*
-+         * We need to check that the FPU is enabled here, but mustn't
-+         * call vfp_access_check() to do that because we don't want to
-+         * do the lazy state preservation in the "loop count is zero" case.
-+         * Do the check-and-raise-exception by hand.
-+         */
-+        if (s->fp_excp_el) {
-+            gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-+                               syn_uncategorized(), s->fp_excp_el);
-+            return true;
-+        }
-+    }
-+
-     nextlabel = gen_new_label();
-     tcg_gen_brcondi_i32(TCG_COND_EQ, cpu_R[a->rn], 0, nextlabel);
-     tmp = load_reg(s, a->rn);
-     store_reg(s, 14, tmp);
-+    if (a->size != 4) {
-+        /*
-+         * WLSTP: set FPSCR.LTPSIZE. This requires that we do the
-+         * lazy state preservation, new FP context creation, etc,
-+         * that vfp_access_check() does. We know that the actual
-+         * access check will succeed (ie it won't generate code that
-+         * throws an exception) because we did that check by hand earlier.
-+         */
-+        bool ok = vfp_access_check(s);
-+        assert(ok);
-+        tmp = tcg_const_i32(a->size);
-+        store_cpu_field(tmp, v7m.ltpsize);
-+    }
-     gen_jmp_tb(s, s->base.pc_next, 1);
- 
-     gen_set_label(nextlabel);
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 5bfaf43b500..2b50be3f862 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -6,6 +6,7 @@ gen = [
+   decodetree.process('vfp.decode', extra_args: '--decode=disas_vfp'),
+   decodetree.process('vfp-uncond.decode', extra_args: '--decode=disas_vfp_uncond'),
+   decodetree.process('m-nocp.decode', extra_args: '--decode=disas_m_nocp'),
++  decodetree.process('mve.decode', extra_args: '--decode=disas_mve'),
+   decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
+   decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
+   decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
+@@ -27,6 +28,7 @@ arm_ss.add(files(
+   'tlb_helper.c',
+   'translate.c',
+   'translate-m-nocp.c',
++  'translate-mve.c',
+   'translate-neon.c',
+   'translate-vfp.c',
+   'vec_helper.c',
 -- 
 2.20.1
 
