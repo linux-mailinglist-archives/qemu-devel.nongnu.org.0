@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24B83A87E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:41:38 +0200 (CEST)
-Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD543A87FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:45:15 +0200 (CEST)
+Received: from localhost ([::1]:41712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltD4D-0007ng-FR
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46128)
+	id 1ltD7i-0005fQ-Ld
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltD2B-0006fF-DC
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:39:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56828)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3T-00089i-4Z
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:40:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltD28-0002bc-Kn
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:39:30 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3Q-0003Nb-7G
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:40:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623778767;
+ s=mimecast20190719; t=1623778843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lM5G0inhZLUzQJzMHG3GnG+h1YaDL9rhiern71blFXQ=;
- b=FuingQ9/O663mmDxVesSa0SqwhSVQxFLhtfge7v5bmtU/s1KUQDYSIJqQQnbVfdUZp5fFW
- DQdHAW7x/801gDHzja+IWsMHLCUhDEnKBC1sH3ZF9aej8H65t5QmyDCgwoZXR4xXG73UR6
- eVbPJ1XnEIA0lgTwkATjfGWUF/UZZWE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-wBCBrqzLMfeWXa1RL9AESQ-1; Tue, 15 Jun 2021 13:39:26 -0400
-X-MC-Unique: wBCBrqzLMfeWXa1RL9AESQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q15-20020adfc50f0000b0290111f48b865cso8925680wrf.4
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:39:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lM5G0inhZLUzQJzMHG3GnG+h1YaDL9rhiern71blFXQ=;
- b=T0yL6LWMiG920FtNEXiqFsCGxonMqIMGc0y9NnfMSQQi1aXu5uMyqMGSEtLDwNscmb
- 97lw+4rEVIO+2Teky9mbYjdxmarKii2libtmeHMAUAEZikD25+joK6RbCZc6xW3s2hZE
- dcS4b8hBj0w90b98XGqkopZtZ4eb+PPp1qttiAli7OccJd0Ssd2WbRoBODNO4JX11kN0
- mdZ4day6WQRcVqRIy2y52ow4u7dmax9Ge6zcnpWXXshYgMThyBV7Tiq7wbVMzSpjxS5i
- vnQ//pXF2N43O6k5Z3/8dowRvisqjRpVHYQzAtr1JStn1SiRDqorVAnYMUsFqiJT5Ex1
- YuIQ==
-X-Gm-Message-State: AOAM53328PRxwSOw58B8CyvWIXiBdWBkMPU+8SQu/izHvdL4Z4Ujo9Ou
- 5WakkkKjHaAaYXLrFXyrns51KsbixBA/5rwqpYKuEnNBUQSGlyPxekSnBZsdFx2E/6nMGpCjGLA
- 04UxPPzTcSJ6TSzs=
-X-Received: by 2002:adf:8b4d:: with SMTP id v13mr245077wra.223.1623778764879; 
- Tue, 15 Jun 2021 10:39:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwonwPN89v5lbt5j7H6jIB9Bb9Cv5msK5VYk/QTzwIy0UGTQTU12BDzuNUUZalaZ1jteluwQ==
-X-Received: by 2002:adf:8b4d:: with SMTP id v13mr245056wra.223.1623778764653; 
- Tue, 15 Jun 2021 10:39:24 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id o11sm15547296wmq.1.2021.06.15.10.39.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 10:39:24 -0700 (PDT)
-Subject: Re: [PATCH v3 0/7] crypto: Make QCryptoTLSCreds* structures private
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9b0ybEge0z0HM61Ta7DOgQNNNVeYzpITOTJ0BjcIIlI=;
+ b=WN6iRVxtpWpsm6EshrT/aMwv+xVujB13BJ3XxqL9KYxAMFk8Zm2uZv0UCerUQgZceNekA9
+ ibIXWyEJ0xaCWERt0TufNcETf8LZLqS2SQbrtgIQqo8bmQxHN48u/n8ciwPyXGavfTCsVq
+ mcnafpSjnFPvSU8TrgUfZL54Qj4TDww=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-E5OkwY8uPoadyAeAg2XX-g-1; Tue, 15 Jun 2021 13:40:41 -0400
+X-MC-Unique: E5OkwY8uPoadyAeAg2XX-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACE16C7446
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 17:40:40 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C63315D6AD;
+ Tue, 15 Jun 2021 17:40:27 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D130818000B2; Tue, 15 Jun 2021 19:40:25 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-References: <20210615172746.2212998-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d960bfe7-1052-5cc0-2852-2b39a5295d92@redhat.com>
-Date: Tue, 15 Jun 2021 19:39:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Subject: [PULL 0/3] Vga 20210615 patches
+Date: Tue, 15 Jun 2021 19:40:22 +0200
+Message-Id: <20210615174025.3409518-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210615172746.2212998-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,83 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Leonardo Bras <leobras.c@gmail.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/21 7:27 PM, Philippe Mathieu-Daudé wrote:
-> Follow Daniel suggestion to simplify qcrypto TLS implementations,
-> aiming to solve the OSX build failure.
-> 
-> Since v2:
-> - Add Error* argument (Daniel)
-> - Move structure definitions to "tlscredspriv.h"
-> 
-> Philippe Mathieu-Daudé (7):
->   crypto/tlscreds: Introduce qcrypto_tls_creds_check_endpoint() helper
->   block/nbd: Use qcrypto_tls_creds_check_endpoint()
->   chardev/socket: Use qcrypto_tls_creds_check_endpoint()
->   migration/tls: Use qcrypto_tls_creds_check_endpoint()
->   crypto/tlssession: Introduce qcrypto_tls_creds_check_endpoint() helper
->   ui/vnc: Use qcrypto_tls_session_check_role()
->   crypto: Make QCryptoTLSCreds* structures private
-> 
->  crypto/tlscredspriv.h              | 45 ++++++++++++++++++++++++++++++
->  include/crypto/tls-cipher-suites.h |  6 ----
->  include/crypto/tlscreds.h          | 29 +++++++++----------
->  include/crypto/tlscredsanon.h      | 12 --------
->  include/crypto/tlscredspsk.h       | 12 --------
->  include/crypto/tlscredsx509.h      | 10 -------
->  include/crypto/tlssession.h        | 14 ++++++++++
->  block/nbd.c                        |  6 ++--
->  blockdev-nbd.c                     |  6 ++--
->  chardev/char-socket.c              | 18 ++++--------
->  crypto/tls-cipher-suites.c         |  7 +++++
->  crypto/tlscreds.c                  | 12 ++++++++
->  crypto/tlscredsanon.c              |  3 +-
->  crypto/tlscredspsk.c               |  3 +-
->  crypto/tlscredsx509.c              |  4 +--
->  crypto/tlssession.c                |  8 ++++++
->  migration/tls.c                    |  6 +---
->  ui/vnc.c                           |  6 ++--
->  18 files changed, 120 insertions(+), 87 deletions(-)
-
-Sorry Daniel, today it is too hot inside :S
-
-$ git checkout sev_builtin
-error: Your local changes to the following files would be overwritten by
-checkout:
-        include/crypto/tlscreds.h
-        include/crypto/tlssession.h
-Please commit your changes or stash them before you switch branches.
-Aborting
-$ git diff
-diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
-index 41b8939d417..2a8a8570109 100644
---- a/include/crypto/tlscreds.h
-+++ b/include/crypto/tlscreds.h
-@@ -53,6 +53,7 @@ struct QCryptoTLSCredsClass {
-  * qcrypto_tls_creds_check_endpoint:
-  * @creds: pointer to a TLS credentials object
-  * @endpoint: type of network endpoint that will be using the credentials
-+ * @errp: pointer to a NULL-initialized error object
-  *
-  * Check whether the credentials is setup according to
-  * the type of @endpoint argument.
-diff --git a/include/crypto/tlssession.h b/include/crypto/tlssession.h
-index 657a2c05521..2fb0bb02d9f 100644
---- a/include/crypto/tlssession.h
-+++ b/include/crypto/tlssession.h
-@@ -166,6 +166,7 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC(QCryptoTLSSession,
-qcrypto_tls_session_free)
-  * qcrypto_tls_session_check_role:
-  * @creds: pointer to a TLS credentials object
-  * @endpoint: role of the TLS session, client or server
-+ * @errp: pointer to a NULL-initialized error object
-  *
-  * Check whether the session object operates according to
-  * the role of the @endpoint argument.
+The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pul=
+l-request' into staging (2021-06-14 15:59:13 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/vga-20210615-pull-request=0D
+=0D
+for you to fetch changes up to 4fa7b4cc500e1fbd8c11e65548b7713db81e75ff:=0D
+=0D
+  virtio-gpu: move scanout_id sanity check (2021-06-15 07:16:56 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+vga: fixes for stdvga, vhost-user-gpu and virtio-gpu.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Dennis W=C3=B6lfing (1):=0D
+  vga: Allow writing VBE_DISPI_ID5 to ID register=0D
+=0D
+Gerd Hoffmann (2):=0D
+  vhost-user-gpu: reorder free calls.=0D
+  virtio-gpu: move scanout_id sanity check=0D
+=0D
+ contrib/vhost-user-gpu/vhost-user-gpu.c |  2 +-=0D
+ hw/display/vga.c                        |  3 ++-=0D
+ hw/display/virtio-gpu.c                 | 20 ++++++++++++++------=0D
+ 3 files changed, 17 insertions(+), 8 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
