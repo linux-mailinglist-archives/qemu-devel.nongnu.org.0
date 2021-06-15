@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B7A3A79D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:08:57 +0200 (CEST)
-Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A98D3A79D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:10:34 +0200 (CEST)
+Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt544-0002pL-5n
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:08:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
+	id 1lt55d-0004JR-EW
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lt52m-0001mB-0g; Tue, 15 Jun 2021 05:07:36 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:43726)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lt53D-00029c-Li
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:08:05 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lt52k-000085-8W; Tue, 15 Jun 2021 05:07:35 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id b9so19455374ybg.10;
- Tue, 15 Jun 2021 02:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lt53B-0000U6-9D
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:08:03 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id gt18so2834151ejc.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 02:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gXZsMiMZ4AGwJCJIGNMks2yY6Z8ZtVYbxqpvn5EK1wg=;
- b=cwVxBSBx4U25q22JeABAiym3ucvQIuG2P/rim0xaeq7ul1hjx3HsTUO5EO3v1S6G41
- VlOzhDpnffkaiyTcSqPoNnFMpBp1BYzIYNjwSfi1l0XJ5gMpNgPRniRJakJckXkz3tAe
- eR0TV89eFUX1kbgBFeiJrlnibUioNSgvkvKy/Z9nztMwzBAEis9p6h+tCt+osnghl3CD
- FDVan7V2K0twEM1DD4ozsoVXylTUGgR0X9POwtiC9iwENYJCoWNe2y7jIpNyDcAkcXgE
- hMky8YATNID05KMpHc6rJyhLJK5CmpGPnlaa9THbNpicNmNUUT1qaHJ8Qbt7hsrJ3ZYi
- pWsg==
+ :cc; bh=ghtabWKaLVE7wk08TGzpI4OvyM7abc7BhaYk2ImRNVE=;
+ b=c4VsOqmXnXECG165rJWxjMJHZdDcfhsRZSoT5n6tz4zhTRzuIt2TPvsVgL9iPBCike
+ cRXCqCAqVCXJ1TNhEJlOTyggqAhaW35DprIvua81EwGzNKTo7y4tZf3eZ1VgfPfJTSJ1
+ OQZepC6irrJmJQHOR5hJIErQMxIwfGkkcugiM5EvDBAiop0Vjx0kq8GZjtJCTG+mJEdO
+ Wu+yQjpBwQCAjdEdEss2ANNhEPcHaRg2x7xsPg/UgNQEwwz9+Nfuc3R3cX26aNjOfnJV
+ EfDeXdYjga+7sGe/LmXNw+mtCh+Z1m+1vhFUEZmQ1pTYxBxiXWBgZiURMEGV47ANGp6K
+ Jikg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gXZsMiMZ4AGwJCJIGNMks2yY6Z8ZtVYbxqpvn5EK1wg=;
- b=LtU0oEN1SEQk6P9Qgvx5V8FplDFPxRy4OZad3SydcxS2DpE05AGIRxbPN5D/+4bp8H
- Cjhhx2GU8pO94Dih+RobLBp1s/U9+xP63tyqfWsrmw0lJYuaucM1Ob6i7qqr5aqcchp/
- ate876mKWVFehR6DA/fIiT9Ky5Pbhtgn0XoM8Cj5SL4vGWpARmkTynoa4v6zwoCHChbU
- PpvRhgB2nQSrFO5speP6Qps38YhUguMtWM+O+kIkSyQ7dMqb/LDO8XB9Sw/wy1DXQwof
- DIq224roW9pPIQG+7+pHtCIsrC2Le1Z+w1XGHyx15Qr6kTAOV3pUimGHeWN75HUlPWRs
- Vvug==
-X-Gm-Message-State: AOAM533oP7EPyA5bPB9KYhe6MaGVnzYFncZK/zlKP5JQX4tSxOKxPdZ2
- FSFTqNAGVnic/yr6HRkq16AwFttgv7KZHMBSOlg=
-X-Google-Smtp-Source: ABdhPJxsXtb9JZSbQYmNXVbrNfm1PaI+pww3e06b2SR5lkpjxBniW+vnaRMHEJIz8gVS29BKXHcacw1cMSmAB9p84YY=
-X-Received: by 2002:a25:be09:: with SMTP id h9mr31871121ybk.239.1623748053023; 
- Tue, 15 Jun 2021 02:07:33 -0700 (PDT)
+ bh=ghtabWKaLVE7wk08TGzpI4OvyM7abc7BhaYk2ImRNVE=;
+ b=sDGFUfIy58Wbj5KT8e8fdIR/JiOpLRWf7kV9zibG6U8TKxvw81Jl1NVkbbyKjbIidE
+ 4vl8Y7C5/B7eqyMU2JGjKIgkI4qSbsmVkrZMFn3tMmdSRatWKB2u/WwREywQa7nYQe9m
+ JCsR0k5WWK9QGn1lDOHu2kXgxTY0JKmnQYSbmQDQ6LnC3JAs3JImlfDDna5EwAH81cVe
+ Bfz8M5Enr5HaM5dPJccUuCt4+FFOpzJHXDNgf2QF0EBgxoMnQQLHK+XaNjx1TBO5rwu9
+ JOU3ji/LLGmjG25J7KomaVe3W6nLvLTFIoZEZedSMBfgJPK3HdmgON2RvJvHrpJS5pgd
+ suHg==
+X-Gm-Message-State: AOAM5327tqHclUmeZLsb3mcBKPSTD41CPYlnXNzh7qRw6sqcAl39x7mR
+ 04xTNo3+1O1SgB0PaDFDeG2ObWVj+yR29g9h8BnDBQ==
+X-Google-Smtp-Source: ABdhPJx8jmRYugBqixBcLLd0r20Ttmzle0YTt0y6S/B5iBiUvnBkyu1rCBcyCPNK7oRNydsANI6QuvAhcOqh4dHVo+k=
+X-Received: by 2002:a17:907:9047:: with SMTP id
+ az7mr19432297ejc.4.1623748079287; 
+ Tue, 15 Jun 2021 02:07:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210331021825.537484-1-bmeng.cn@gmail.com>
- <20210331021825.537484-2-bmeng.cn@gmail.com>
- <CAKmqyKMCTFVs9dhFza+GnTM-EqRngPmTEfWbuX=BaVMGAEpbCg@mail.gmail.com>
-In-Reply-To: <CAKmqyKMCTFVs9dhFza+GnTM-EqRngPmTEfWbuX=BaVMGAEpbCg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 15 Jun 2021 17:07:20 +0800
-Message-ID: <CAEUhbmWmAU=eEKDSGR4fSp0-9b3GbVkfisgbOgT-A9wV9f=3cQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: csr: Remove redundant check in fp csr
- read/write routines
-To: Alistair Francis <alistair23@gmail.com>
+References: <20210608161028.4159582-1-erdnaxe@crans.org>
+ <20210608161028.4159582-3-erdnaxe@crans.org>
+ <CAFEAcA9EEOg92Vz3ZiyV3XeWXn8PV=sGm7wiaqoj==K6PoPM-w@mail.gmail.com>
+ <4fdbc225-3c4a-ba38-2fa6-5a031e6a1845@crans.org>
+In-Reply-To: <4fdbc225-3c4a-ba38-2fa6-5a031e6a1845@crans.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Jun 2021 10:07:24 +0100
+Message-ID: <CAFEAcA8rz3XkBzieMGZf7TbMkv-RPdgQG-LD06-f6kTLo-G2WQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] stm32vldiscovery: Add the STM32VLDISCOVERY Machine
+To: Alexandre IOOSS <erdnaxe@crans.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,34 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "open list:STM32F100" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
-
-On Wed, Mar 31, 2021 at 11:53 PM Alistair Francis <alistair23@gmail.com> wrote:
+On Tue, 15 Jun 2021 at 08:16, Alexandre IOOSS <erdnaxe@crans.org> wrote:
 >
-> On Tue, Mar 30, 2021 at 10:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > The following check:
-> >
-> >     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> >         return -RISCV_EXCP_ILLEGAL_INST;
-> >     }
-> >
-> > is redundant in fflags/frm/fcsr read/write routines, as the check was
-> > already done in fs().
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
+> On 6/14/21 5:52 PM, Peter Maydell wrote:
+> > Could you add some documentation for the new board, please?
+> > This lives in docs/system/arm. Commit c9f8511ea8d2b807 gives
+> > an example of adding docs for a board.
 
-It looks like this patch was not applied anywhere?
+> Should I rather:
+> 1. Add `docs/system/arm/stm32vldiscovery.rst` to document only this new
+> machine?
+> 2. Add `docs/system/arm/stm32discovery.rst` to document this new machine
+> and future STM32 Discovery boards?
+> 3. Add `docs/system/arm/stm32.rst` to document all STM32-based boards?
+>
+> STM32 boards share a lot in common so I believe option 3 is more
+> appropriate, what is your opinion?
+> If we go with option 3, I can also try to document the Netduino Plus 2
+> (maybe in another commit, or another patchset later).
 
-Regards,
-Bin
+Yes, I think that a shared stm32.rst is probably the best thing.
+If you want to document the netduino boards too that would be
+great, but I don't insist on it.
+
+thanks
+-- PMM
 
