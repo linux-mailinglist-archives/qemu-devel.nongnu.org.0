@@ -2,71 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13AA3A8806
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:49:20 +0200 (CEST)
-Received: from localhost ([::1]:51648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0CF3A87E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:43:07 +0200 (CEST)
+Received: from localhost ([::1]:36184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltDBf-0004BA-U0
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:49:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
+	id 1ltD5e-0001qI-U7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:43:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3h-0000Ch-6s
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:41:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25400)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1ltD3K-0007zJ-9g
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:40:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3e-0003ZG-Ln
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:41:04 -0400
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1ltD3I-0003L9-Dt
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:40:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623778860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623778839;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iV4BAQ+klh6qramPeT9npbbKerAjx5rq2qDIbQIR4U8=;
- b=bWRE+SLDatnzpg2pXq6qRricV2BMWndqk4q8TWyqzQWF/MSOqs1sM2KJRSTcKozY1mNNfO
- nYfx/mX+OGXx+U3cRY1WJHVZsQmJsg+q8o2gKKIFNd+4B+10MO/Ah860AWvIJJG+2YjTjz
- 0e1k6h+lsZIvkEYnIy9Fyv5etGBjEMo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-i5h_1kiuNCq9YkfOZ_O_TQ-1; Tue, 15 Jun 2021 13:40:59 -0400
-X-MC-Unique: i5h_1kiuNCq9YkfOZ_O_TQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77B70100B3AB;
- Tue, 15 Jun 2021 17:40:57 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
- [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99C4B5C22A;
- Tue, 15 Jun 2021 17:40:47 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F1361180060E; Tue, 15 Jun 2021 19:40:25 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] virtio-gpu: move scanout_id sanity check
-Date: Tue, 15 Jun 2021 19:40:25 +0200
-Message-Id: <20210615174025.3409518-4-kraxel@redhat.com>
-In-Reply-To: <20210615174025.3409518-1-kraxel@redhat.com>
-References: <20210615174025.3409518-1-kraxel@redhat.com>
+ bh=4IYumj36l5y+efs6brSOhsImvkN+Ocopgpp3biVmzw0=;
+ b=RmDpjrEoObR7tli+7L2uKluaYy1MU6U9FpYVWRo0s4ee1R7HMXqfVS5F4dK5YfFAxCBbit
+ xFXNPH75YLIxE+7Sa4tiZGRKzJ9npA99aXNZOOBHn3qlvhzipZgxPE4ehwV35PequJv/94
+ Gva6algK0JwGEattnBJ3c96GFJlrTv8=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-VKUldgFSNTiaXOW_1UuVFQ-1; Tue, 15 Jun 2021 13:40:37 -0400
+X-MC-Unique: VKUldgFSNTiaXOW_1UuVFQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ n17-20020ad444b10000b02902157677ec50so84105qvt.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:40:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=4IYumj36l5y+efs6brSOhsImvkN+Ocopgpp3biVmzw0=;
+ b=Ir4V17L/eSrHUcfnKWL5saBvGz6oww8VJjjjTp+pDzKjLQzZe3yujp79KCBencMlQ/
+ Zcdmdg1zK6iq/ntfIwi/J/TIVnDSs2WUhpFoGNmBsoNGQJ702wMV+yEXDntl+PX7BEuL
+ YzpuDRbUR9cIWZFQelwoRxcZce96wPg6PfW90PyJyyW32jRIEE1D7enEqcH2MBz8roRI
+ wT/jpPspDd4plgMxO6+9v+uIlPG3izqAJURvd761g9BmNSuJ0brB/DzVljiuGnlxCTXC
+ ziCPUHtadAPySz6/NDpJLOLqo1vQ2buubR5Y7ST4/bQz0MftYaXFGh6+9Ydkaak3CN7J
+ jdmA==
+X-Gm-Message-State: AOAM533gRB0Ud4u+gy/PfVnXLk758PCE8fPXOTOMTDt8/WeaAh9xLa/G
+ gEBZjg+aC/ANoM+fLod9W2zrWaVmG2YYqGGzia7WYGWU82CJp8Cvn7RJVOEHhPATFWYNDasU0Tx
+ X724BGNAGhnk7kfw=
+X-Received: by 2002:a0c:c30e:: with SMTP id f14mr6641762qvi.19.1623778837089; 
+ Tue, 15 Jun 2021 10:40:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiwM22K5d59H6/XCi1FExxE2H52bkneOGn3KM+GOG+YVWY+5rUcnMGZEBMqgXy08s2luyIcQ==
+X-Received: by 2002:a0c:c30e:: with SMTP id f14mr6641743qvi.19.1623778836877; 
+ Tue, 15 Jun 2021 10:40:36 -0700 (PDT)
+Received: from wainer-laptop.localdomain ([177.69.178.131])
+ by smtp.gmail.com with ESMTPSA id g15sm12631714qkl.53.2021.06.15.10.40.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 10:40:36 -0700 (PDT)
+Subject: Re: [PATCH] tests/vm/freebsd: Increase code coverage
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
+References: <20210531100348.1655156-1-f4bug@amsat.org>
+ <ccb9dd6f-e41a-1be6-b193-0ecad89b5732@redhat.com>
+ <YMjdCjNOyUnprhd8@redhat.com> <YMjhFXKFi2H+Zkme@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <d4ee4cf1-26e9-7344-f29f-ed242464e9dc@redhat.com>
+Date: Tue, 15 Jun 2021 14:40:31 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <YMjhFXKFi2H+Zkme@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,75 +107,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Alexander Bulekov <alxndr@bu.edu>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Reply-To: wainersm@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Checking scanout_id in virtio_gpu_do_set_scanout() is too late, for the
-"resource_id == 0" case (aka disable scanout) the scanout_id is used
-unchecked.  Move the check into the callers to fix that.
+Hi,
 
-Fixes: e64d4b6a9bc3 ("virtio-gpu: Refactor virtio_gpu_set_scanout")
-Fixes: 32db3c63ae11 ("virtio-gpu: Add virtio_gpu_set_scanout_blob")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/383
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Message-Id: <20210604075029.1201478-1-kraxel@redhat.com>
----
- hw/display/virtio-gpu.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+On 6/15/21 2:19 PM, Daniel P. Berrangé wrote:
+> On Tue, Jun 15, 2021 at 06:02:02PM +0100, Daniel P. Berrangé wrote:
+>> On Mon, May 31, 2021 at 05:53:25PM -0300, Wainer dos Santos Moschetta wrote:
+>>> Hi,
+>>>
+>>> On 5/31/21 7:03 AM, Philippe Mathieu-Daudé wrote:
+>>>> Install more dependencies to increase code coverage.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>    tests/vm/freebsd | 5 +++++
+>>>>    1 file changed, 5 insertions(+)
+>>> With or without this patch I got an error when `make vm-build-freebsd`. It
+>>> fails to install packages.
+>>>
+>>> For example, with this patch I got:
+>>>
+>>> < Output omitted>
+>>>
+>>> ### Installing packages ...
+>>> Failed to prepare guest environment
+>>> Traceback (most recent call last):
+>>>    File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 634, in main
+>>>      return vm.build_image(args.image)
+>>>    File "/home/wmoschet/src/qemu/tests/vm/freebsd", line 206, in build_image
+>>>      self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
+>>>    File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 255, in
+>>> ssh_root_check
+>>>      self._ssh_do(self._config["root_user"], cmd, True)
+>>>    File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 242, in _ssh_do
+>>>      raise Exception("SSH command failed: %s" % cmd)
+>>> Exception: SSH command failed: pkg install -y git pkgconf bzip2 python37
+>>> ninja bash gmake gsed gettext cyrus-sasl gnutls nettle jpeg-turbo png sdl2
+>>> gtk3 libxkbcommon pixman libepoxy mesa-libs zstd usbredir
+>>>
+>>> Is it a known issue?
+>> Hard to actually tell what the error really is. This message is
+>> only giving the command that was invoked, but seems to have thrown
+>> away stdout/stderr which would have the messages telling us what
+>> went wrong.  This lack of error reporting in basevm.py so badly
+>> needs to be fixed, otherwise we're working blind when debugging
+>> failures.
+> Hmm, when I try the same command, it *does* print all the output
+> so you can see what's going on, but it doesn't actually fail for
+> me either (without this patch).
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 4d549377cbc1..e183f4ecdaa5 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -610,12 +610,6 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
-     struct virtio_gpu_scanout *scanout;
-     uint8_t *data;
- 
--    if (scanout_id >= g->parent_obj.conf.max_outputs) {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified %d",
--                      __func__, scanout_id);
--        *error = VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
--        return;
--    }
-     scanout = &g->parent_obj.scanout[scanout_id];
- 
-     if (r->x > fb->width ||
-@@ -694,6 +688,13 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
-     trace_virtio_gpu_cmd_set_scanout(ss.scanout_id, ss.resource_id,
-                                      ss.r.width, ss.r.height, ss.r.x, ss.r.y);
- 
-+    if (ss.scanout_id >= g->parent_obj.conf.max_outputs) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified %d",
-+                      __func__, ss.scanout_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-+        return;
-+    }
-+
-     if (ss.resource_id == 0) {
-         virtio_gpu_disable_scanout(g, ss.scanout_id);
-         return;
-@@ -730,6 +731,13 @@ static void virtio_gpu_set_scanout_blob(VirtIOGPU *g,
-                                           ss.r.width, ss.r.height, ss.r.x,
-                                           ss.r.y);
- 
-+    if (ss.scanout_id >= g->parent_obj.conf.max_outputs) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified %d",
-+                      __func__, ss.scanout_id);
-+        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
-+        return;
-+    }
-+
-     if (ss.resource_id == 0) {
-         virtio_gpu_disable_scanout(g, ss.scanout_id);
-         return;
--- 
-2.31.1
+Thomas sent me a message in private while ago that the error could be 
+related with the amount of ssh keys in my agent-ssh. I didn' t check 
+that hypothesis yet; will debug a littler further and let you all posted.
+
+ah, if this problem cannot be reproduced on other machines....I see no 
+reason to hold this patch.
+
+- Wainer
+
+>
+> Regards,
+> Daniel
 
 
