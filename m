@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C1E3A86D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:49:22 +0200 (CEST)
-Received: from localhost ([::1]:32984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27C73A86E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:52:39 +0200 (CEST)
+Received: from localhost ([::1]:41754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltCFd-0006DX-33
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
+	id 1ltCIo-0003k3-PY
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:52:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCEJ-0003nW-UX
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:47:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35856)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCEM-0003s3-Bd
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:48:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCEF-0003F0-Sh
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:47:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCEK-0003Ju-Qo
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:48:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623775675;
+ s=mimecast20190719; t=1623775680;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=C7k3EU4FZpv29t5tC83C950k3BouCoxMWAVvHx6pwwI=;
- b=bQrvkL6LY/pdr7BwP9IvHFz+fZ6US9DIg3FtkEkySSEakuGo23BkwXq5D3IgdfesJ3stuW
- PxuXWeX43bPlLCX9rSPs0ZZUgPhKrKz2eQVxMvBLANHswXFU3hwYpg7pJ9xfpm79oufANH
- jF2hYEx6Gk61S+CfQxncW1fobXhpwpk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-0ZHj0GH1Nfi-fiEJRBVc6Q-1; Tue, 15 Jun 2021 12:47:54 -0400
-X-MC-Unique: 0ZHj0GH1Nfi-fiEJRBVc6Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k5-20020a05600c1c85b02901ac8b854c50so1753144wms.5
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:47:53 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sZSreQAzlorV+BiqdTF8qV7SiteVC4PUhE4rRujGY74=;
+ b=GQF+5eCI24ujWFhuc0h4w2CBl13RHT2vVVAzN1bmLwOvqM/OrkKZ6pIrLPpE5JnWuMyi60
+ X4UXnZ5ASSsZl+w4oaRYcnvtAmz+gwZLVGkJ7YtBQKjRLkZkTwZ2pKpslvKArWZXHfVdXu
+ JjGrznfDGi8KmracZ/o8waMSHaI6Yns=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-k21D8YSSNYOnaQz2VDUJEA-1; Tue, 15 Jun 2021 12:47:58 -0400
+X-MC-Unique: k21D8YSSNYOnaQz2VDUJEA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y12-20020adffa4c0000b0290119c11bd29eso6229169wrr.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:47:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sv7W2M/U/nkx85hvnF/LmaZe3sY6F//EQtsypUDthww=;
- b=JTwudher37Q0rWN4iV56Agk/kUSE9WBUOoL0YSHEFIUoTYZxGZiKCwrM44WyziOd/8
- hqdi/E2DLgnuv0wukjtMdo5H4b9YpoFNpiXFtSNj6kZ0BJHovD0ci4PFAo1ctOIb4fjk
- Lwin8Y/uHBNKrhMxVpS3fqR8bXSgXTR578a3mKcH6eCcRiw9MGwz0SD4qY5JcCRbFaC2
- VvJ68qXudXISW6Tw7Cm76ClfvZC1fgwXZgvbwDsWOMXg0aS35w9A2+j7AG6qMmQPyaao
- MRPXyPFnbwBPdZA91EBzFRESnACKWO+RRC9sDh2pGIrwCnpVkaeEF6SokkDv/Ue0j4Ju
- NuDg==
-X-Gm-Message-State: AOAM532ByvV6GPdtCtfbniNAhrcFsS17z1/PJZ6bHYbjsaIgdBnvakIr
- jRGRWI4jHugle0KIuizTD9BNt0h1rzU0/sOyOnRIOw3rz+RHWBgDoWTAu2RWmPDoPoaklglOdGr
- 0MhHmP2MWEyzXOVdB/zI2Pc3Teu5RUlAdBAM1qPhEmpCF3nnIDL5GxqJgqyHcS50c
-X-Received: by 2002:adf:ee46:: with SMTP id w6mr26837987wro.345.1623775672755; 
- Tue, 15 Jun 2021 09:47:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0BstGcSio39NVA7EjA0WXe7LVfawy91s/vWqJMiWoRFRdG4znkMPFkyROr7iLRdEeLck1+g==
-X-Received: by 2002:adf:ee46:: with SMTP id w6mr26837961wro.345.1623775672465; 
- Tue, 15 Jun 2021 09:47:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sZSreQAzlorV+BiqdTF8qV7SiteVC4PUhE4rRujGY74=;
+ b=e01UcLf863ac0v0CckPsJsYOSUXthZZ1b0oHEJE1ntHbEqfdw9WGAcBJn12y7mLnXo
+ 1KP/sGiHgCOD2RiS5p+lxhKA/ELIVNTZB0iVsgGx6Nl5h1F0tB5RPY4c6hckzeifx6zE
+ oyDLGvoQ3COA8SJch4JfIw4EDqQQQUmJ6zdeOo6CbBHG2PAMEEcmBwox6icM77ieAqfH
+ 3J7l3aH9vDXRfqo6CGfIB4U7fPh0jDHZmvVE4E7fxvD6dEeApfEGgxZy6klI2glZve1h
+ 5LhZSE08qOy8eBCHSK+NRZLLFLQYMSR6tkfhpZiT2fWUHs3VSKGl+teaASolgGU+7fPc
+ xJDQ==
+X-Gm-Message-State: AOAM533OlJavHhYEf2fZxUa0HwU0Yk8b5HaYUR5VYppmz65BNi2SBjjE
+ s9f1Du9gOdIgfsIcrwXaTddALYILIYrVbJS9+uUeP2zzV0pg0+mvjbTWaZJ64Vmtn9aB00cnYyz
+ H/ICy3Jw6iblD/KNNdvOkwQqmzMYKnhcGPmW5bXqj11jC6Cl5Ef5UGGkolGzUTLTk
+X-Received: by 2002:a1c:b306:: with SMTP id c6mr6302521wmf.37.1623775677064;
+ Tue, 15 Jun 2021 09:47:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeCwSkAa0ZyxyT73LtF8vv5+938GqB+bjxN87rCVJTPRDHZC/VhFkGzh8Zq2AsDeqmwbQGQA==
+X-Received: by 2002:a1c:b306:: with SMTP id c6mr6302504wmf.37.1623775676920;
+ Tue, 15 Jun 2021 09:47:56 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id l13sm20221064wrz.34.2021.06.15.09.47.51
+ by smtp.gmail.com with ESMTPSA id x7sm2044746wrn.3.2021.06.15.09.47.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 09:47:52 -0700 (PDT)
+ Tue, 15 Jun 2021 09:47:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/7] crypto: Make QCryptoTLSCreds* structures private
-Date: Tue, 15 Jun 2021 18:47:44 +0200
-Message-Id: <20210615164751.2192807-1-philmd@redhat.com>
+Subject: [PATCH v2 1/7] crypto/tlscreds: Introduce
+ qcrypto_tls_creds_check_endpoint() helper
+Date: Tue, 15 Jun 2021 18:47:45 +0200
+Message-Id: <20210615164751.2192807-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210615164751.2192807-1-philmd@redhat.com>
+References: <20210615164751.2192807-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -77,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,40 +102,54 @@ Cc: Leonardo Bras <leobras.c@gmail.com>, Lukas Straub <lukasstraub2@web.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow Daniel suggestion to simplify qcrypto TLS implementations,=0D
-aiming to solve the OSX build failure.=0D
-=0D
-Supersedes: <20210614052623.1657103-1-f4bug@amsat.org>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (7):=0D
-  crypto/tlscreds: Introduce qcrypto_tls_creds_check_endpoint() helper=0D
-  block/nbd: Use qcrypto_tls_creds_check_endpoint()=0D
-  chardev/socket: Use qcrypto_tls_creds_check_endpoint()=0D
-  migration/tls: Use qcrypto_tls_creds_check_endpoint()=0D
-  crypto/tlssession: Introduce qcrypto_tls_creds_check_endpoint() helper=0D
-  ui/vnc: Use qcrypto_tls_session_check_role()=0D
-  crypto: Make QCryptoTLSCreds* structures private=0D
-=0D
- crypto/tlscredspriv.h         | 15 +++++++++++++++=0D
- include/crypto/tlscreds.h     | 28 ++++++++++++----------------=0D
- include/crypto/tlscredsanon.h | 12 ------------=0D
- include/crypto/tlscredspsk.h  | 12 ------------=0D
- include/crypto/tlscredsx509.h | 10 ----------=0D
- include/crypto/tlssession.h   | 13 +++++++++++++=0D
- block/nbd.c                   |  3 ++-=0D
- blockdev-nbd.c                |  3 ++-=0D
- chardev/char-socket.c         |  6 ++++--=0D
- crypto/tlscreds.c             |  5 +++++=0D
- crypto/tlscredsanon.c         | 13 +++++++++++++=0D
- crypto/tlscredspsk.c          | 14 ++++++++++++++=0D
- crypto/tlscredsx509.c         | 16 +++++++++++++---=0D
- crypto/tlssession.c           |  6 ++++++=0D
- migration/tls.c               |  2 +-=0D
- ui/vnc.c                      |  3 ++-=0D
- 16 files changed, 102 insertions(+), 59 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Introduce the qcrypto_tls_creds_check_endpoint() helper
+to access QCryptoTLSCreds internal 'endpoint' field.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/crypto/tlscreds.h | 12 ++++++++++++
+ crypto/tlscreds.c         |  5 +++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
+index d0808e391e9..eb9d5e75a84 100644
+--- a/include/crypto/tlscreds.h
++++ b/include/crypto/tlscreds.h
+@@ -65,5 +65,17 @@ struct QCryptoTLSCredsClass {
+     CryptoTLSCredsReload reload;
+ };
+ 
++/**
++ * qcrypto_tls_creds_check_endpoint:
++ * @creds: pointer to a TLS credentials object
++ * @endpoint: type of network endpoint that will be using the credentials
++ *
++ * Check whether the credentials is setup according to
++ * the type of @endpoint argument.
++ *
++ * Returns true if the credentials is setup for the endpoint, false otherwise
++ */
++bool qcrypto_tls_creds_check_endpoint(QCryptoTLSCreds *creds,
++                                      QCryptoTLSCredsEndpoint endpoint);
+ 
+ #endif /* QCRYPTO_TLSCREDS_H */
+diff --git a/crypto/tlscreds.c b/crypto/tlscreds.c
+index b68735f06fe..f9f45e12db1 100644
+--- a/crypto/tlscreds.c
++++ b/crypto/tlscreds.c
+@@ -259,6 +259,11 @@ qcrypto_tls_creds_finalize(Object *obj)
+     g_free(creds->priority);
+ }
+ 
++bool qcrypto_tls_creds_check_endpoint(QCryptoTLSCreds *creds,
++                                      QCryptoTLSCredsEndpoint endpoint)
++{
++    return creds->endpoint == endpoint;
++}
+ 
+ static const TypeInfo qcrypto_tls_creds_info = {
+     .parent = TYPE_OBJECT,
+-- 
+2.31.1
 
 
