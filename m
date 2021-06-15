@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28013A79EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:16:00 +0200 (CEST)
-Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5213A79F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:18:10 +0200 (CEST)
+Received: from localhost ([::1]:44972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt5At-0006Ec-Mu
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:15:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51650)
+	id 1lt5D0-00087T-23
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lt58u-0005VV-3T
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:13:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23873)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1lt5B5-00079U-3E; Tue, 15 Jun 2021 05:16:11 -0400
+Received: from redisdead.crans.org ([2a0c:700:2::ff:fe01:2402]:53914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lt58r-00053T-Sl
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:13:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623748432;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V1H/inNAocEE0bpfWY3m/BLoj0NMhQ1UpRiVDRVcthw=;
- b=YHgTx2EDDnG94yJpUhaYvBaJuwbZvh3pH/AB4sB1U90GbS7Z/iIChYUQxxytQ9Q+2vOSdK
- v4AOoMtPqYg+cBdBW0ChVi48bKcGToiGYgU8aWxav1pv0625RGzPpr27wsWz4vXa62RrL5
- urrXOVDgpnGlzT1U53XqWsjun748kY0=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-Nc6vokmSM4KR59f_G0CI9A-1; Tue, 15 Jun 2021 05:13:49 -0400
-X-MC-Unique: Nc6vokmSM4KR59f_G0CI9A-1
-Received: by mail-pl1-f200.google.com with SMTP id
- s23-20020a170902b197b029011aafb8fbadso2245881plr.19
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 02:13:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=V1H/inNAocEE0bpfWY3m/BLoj0NMhQ1UpRiVDRVcthw=;
- b=SFVxRSFou+8f/0jiZM8KSGHK/wL+WIwQcA12a0qURpG3FZw/q7ZKfuGCFxXNcTgHGn
- T4YGgH8bmc4gkImP8msll35M1wwWOUM0S3ce9335hbXo/Qu/YeBfxn+RQ5WZn25m6cPX
- GlKP6xkJtiU0d/Qao7nEJHzbZUh5jiQQnUXnduhlZi0DBvs3SLvFa6AG8mdKQvg4z9Nk
- /UEsXvP0OrZ2mcasF9vb/rij5R3c/RNbmhI+Hnoe5nxkddOoBPVOzwRONxngfB1GDJgD
- pVcWX/Byr/lBrFLscfiWflWLmWjddehJW5Ux4cbHXOVprxKv+g7NUEc8SXTfz0djrovi
- k3gA==
-X-Gm-Message-State: AOAM531deLlg2y9V3+KW5sDFW2fuwLzwknDTKQVRYd4xgdd8qhXYyAWr
- 923/jfHlLnDDtNtf4Y7Mkti16ZjSVPw4HND/jdMS+r8YDCUjnZLR3IcBKZl4xY5mPL2XMYk49V8
- DxNOU5u8EzQZzZw4=
-X-Received: by 2002:a17:902:ea92:b029:103:a022:c545 with SMTP id
- x18-20020a170902ea92b0290103a022c545mr3132728plb.43.1623748428678; 
- Tue, 15 Jun 2021 02:13:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrAn6c4lowVt5xkOIwnEY25oA/BtsGPI9e0tXpECNLnNL4ttVSEgWpmEXn18yYLDs1Q35Mtg==
-X-Received: by 2002:a17:902:ea92:b029:103:a022:c545 with SMTP id
- x18-20020a170902ea92b0290103a022c545mr3132697plb.43.1623748428385; 
- Tue, 15 Jun 2021 02:13:48 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id p11sm14591071pfo.126.2021.06.15.02.13.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 02:13:47 -0700 (PDT)
-Subject: Re: [RFC PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
-To: Andrew Melnichenko <andrew@daynix.com>
-References: <20210609100457.142570-1-andrew@daynix.com>
- <f81de211-57f9-9319-9735-c6b964bbdc77@redhat.com>
- <CAOEp5OejzxEx6UAWK2iU28QKOAt8OqcFOUga+q4VHtjLU8GvWw@mail.gmail.com>
- <3da88930-439c-1892-29b4-4977ddbb0b0a@redhat.com>
- <CABcq3pE7Rx4r_H7qtpXAwqyiWzXCT_u1zp4X1Hc-pgMrW=9haA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d51a7c1f-0df8-342e-219d-c9b3b36a1371@redhat.com>
-Date: Tue, 15 Jun 2021 17:13:38 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
+ id 1lt5B2-0006Nu-8m; Tue, 15 Jun 2021 05:16:10 -0400
+Received: from [IPv6:2a02:8428:4db:b001:f255:832d:4007:dcd0]
+ (2a02-8428-04db-b001-f255-832d-4007-dcd0.rev.sfr.net
+ [IPv6:2a02:8428:4db:b001:f255:832d:4007:dcd0])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id 939F7231;
+ Tue, 15 Jun 2021 11:15:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1623748556; bh=j9QYVLr7txLB2mDegB+kNTapow7I38GSh6euRHS3C6U=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=RB1dKs5FZ+62tSIDkR6/TUvX+CcxQjFxA8Y9AwfQi4NUx/oRj81Rk8OYEi7ZqTWw4
+ 3xkXGVggMGVy0OJg3MFzaY9Hggx2U8EsgtapE3XrNzjeBzxh20LSACdZXEXMjFInEM
+ xsWTP89mwgGLrHR/XEYkjbUFLHcS071kq2hF+Qdv3TSIFl5bnpV06etMByaUtx0Tpm
+ 5g3fLTO4rHZ06yf5EEwWYndePvMdEkSEph/Hch6JejY8eSjwBZzLC6tLhqDeVr3myY
+ X/3SUufX+vQGSEoHGB9oXM//KJsUwwG9w5J+ab6OutmUdBFlFPCTD3iqa/UBdeXRD7
+ mGIAxrVs3oTdeGBD4pJGxpXrS/edQQxrH4ezOB8HaAq4atc8IYRnj6QRfhggHuexks
+ ijqpLNg2Mj2ZHlPTK6+mxl5sOBxWu1MGz8eEnUjDOGT/ctcCjkUHUuXYLWNV4jwUzk
+ DZYs9yyjqmZ+stOwnOdUxeS527BQOl+TDKbvs4GDr0QIpzSLugjEd5UsiQ+2patTZ4
+ Up+styNg00lVP+VeDKr3gnG4gOMsJmyYx5whkFrXBtxuaUK1MCL2YCAMU6qoQND39x
+ zIeKmLHmy1mfUyggJV4Qrddxrz8KIXvabZEGGJc04zQA7as5eHozuhcF6TqG8AyYr+
+ 9KbMguRHSNqZPMMJV/KKcb6g=
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210608161028.4159582-1-erdnaxe@crans.org>
+ <20210608161028.4159582-2-erdnaxe@crans.org>
+ <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
+ <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
+ <CAKmqyKMETmc0sJbG8FdUokg9Ke_hg5ohZ2YnLzyQO1xwzpXMRA@mail.gmail.com>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
+Message-ID: <7e8a01c5-0130-1003-8396-af8d4b45d2c0@crans.org>
+Date: Tue, 15 Jun 2021 11:15:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <CABcq3pE7Rx4r_H7qtpXAwqyiWzXCT_u1zp4X1Hc-pgMrW=9haA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAKmqyKMETmc0sJbG8FdUokg9Ke_hg5ohZ2YnLzyQO1xwzpXMRA@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="oJnZZkzAXJYZWoOx4qXgHI6fBYp1BC7T1"
+Received-SPF: pass client-ip=2a0c:700:2::ff:fe01:2402;
+ envelope-from=erdnaxe@crans.org; helo=redisdead.crans.org
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,161 +77,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:STM32F100" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--oJnZZkzAXJYZWoOx4qXgHI6fBYp1BC7T1
+Content-Type: multipart/mixed; boundary="k5iP4HYfbo4fUTz4Vj1rHhfowOx01n6yb";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:STM32F100" <qemu-arm@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org
+Message-ID: <7e8a01c5-0130-1003-8396-af8d4b45d2c0@crans.org>
+Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
+References: <20210608161028.4159582-1-erdnaxe@crans.org>
+ <20210608161028.4159582-2-erdnaxe@crans.org>
+ <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
+ <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
+ <CAKmqyKMETmc0sJbG8FdUokg9Ke_hg5ohZ2YnLzyQO1xwzpXMRA@mail.gmail.com>
+In-Reply-To: <CAKmqyKMETmc0sJbG8FdUokg9Ke_hg5ohZ2YnLzyQO1xwzpXMRA@mail.gmail.com>
 
-在 2021/6/12 上午12:49, Andrew Melnichenko 写道:
-> Hi,
->
->     So I think the series is for unprivileged_bpf disabled. If I'm not
->     wrong, I guess the policy is to grant CAP_BPF but do fine grain
->     checks
->     via LSM.
->
->
-> The main idea is to run eBPF RSS with qemu without any permission.
-> Libvirt should handle everything and pass proper eBPF file descriptors.
-> For current eBPF RSS, CAP_SYS_ADMIN(bypass some limitations)
-> also required, and in the future may be other permissions.
+--k5iP4HYfbo4fUTz4Vj1rHhfowOx01n6yb
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
-I may miss something.
 
-But RSS requires to update the map. This won't work if you don't grant 
-any permission to qemu.
+On 6/15/21 10:04 AM, Alistair Francis wrote:
+> On Tue, Jun 15, 2021 at 5:50 PM Alexandre IOOSS <erdnaxe@crans.org> wro=
+te:
+>>
+>> On 6/15/21 9:41 AM, Alistair Francis wrote:
+>>> Aren't you missing some timers, like timer[5] 0x4000_0C00?
+>>>
+>>> Alistair
+>>
+>> I double-checked using the reference manual and the datasheet and ther=
+e
+>> is not timer[5]:
+>> - page 36 of
+>> https://www.st.com/resource/en/reference_manual/cd00246267-stm32f100xx=
+-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+>=20
+> Strange, https://www.st.com/resource/en/datasheet/stm32f100rc.pdf
+> describes Timer 5 and page 282 of the document you linked talks about
+> timer 5 as well.
+>=20
+> Alistair
+>=20
+>> - page 30 of https://www.st.com/resource/en/datasheet/stm32f100cb.pdf
+>>
+>> I believe ST is skipping numbers to guarantee that timer[n] will have =
+a
+>> consistent address on different STM32 SoC.
+>>
+>> Thanks,
+>> -- Alexandre
+>>
 
-Thanks
+ From what I understand from other STM32F100xx reference manuals:
+I am implementing all peripherals in the STM32F100xx reference manual=20
+which match with what is actually in the STM32F100RB SoC (used in the=20
+STM32VLDISCOVERY).
+
+STM32F100RC SoC implements more peripherals (more USART, more=20
+timers...). Adding these peripherals in stm32f100.c means that the=20
+STM32VLDISCOVERY machine would have peripherals that does not exist on=20
+the real target. Do we want to avoid that?
+
+Should we keep stm32f100.c with the common subset of peripherals and=20
+extend it when a machine is using a variant with more peripherals?
+
+I believe this issue is also linked with what Philippe proposed: we=20
+could abstract STM32 SoC in the same way ATMEGA is abstracted. This=20
+would make a lot of sense since the STM32 family has a lot of=20
+similarities and we don't want to bloat QEMU with N times the same code.
+
+Thanks,
+-- Alexandre
 
 
->
->     I'm not sure this is the best. We have several examples that let
->     libvirt
->     to involve. Examples:
->
->     1) create TAP device (and the TUN_SETIFF)
->
->     2) open vhost devices
->
->
-> Technically TAP/vhost not related to a particular qemu emulator. So common
-> TAP creation should fit any modern qemu. eBPF fds(program and maps) should
-> suit the interface for current qemu, g.e. some qemu builds may have 
-> different map
-> structures or their count. It's necessary that the qemu got fds 
-> prepared by the helper
-> that was built with the qemu.
->
->     I think we need an example on the detail steps for how libvirt is
->     expected to use this.
->
->
-> The simplified workflow looks like this:
->
->  1. Libvirt got "emulator" from domain document.
->  2. Libvirt queries for qemu capabilities.
->  3. One of the capabilities is "qemu-ebpf-rss-helper" path(if present).
->  4. On NIC preparation Libvirt checks for virtio-net + rss configurations.
->  5. If required, the "qemu-ebpf-rss-helper" called and fds are
->     received through unix fd.
->  6. Those fds are for eBPF RSS, which passed to child process - qemu.
->  7. Qemu launched with virtio-net-pci property "rss" and "ebpf_rss_fds".
->
->
-> On Fri, Jun 11, 2021 at 8:36 AM Jason Wang <jasowang@redhat.com 
-> <mailto:jasowang@redhat.com>> wrote:
->
->
->     在 2021/6/10 下午2:55, Yuri Benditovich 写道:
->     > On Thu, Jun 10, 2021 at 9:41 AM Jason Wang<jasowang@redhat.com
->     <mailto:jasowang@redhat.com>>  wrote:
->     >> 在 2021/6/9 下午6:04, Andrew Melnychenko 写道:
->     >>> Libvirt usually launches qemu with strict permissions.
->     >>> To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.
->     >> A silly question:
->     >>
->     >> Kernel had the following permission checks in bpf syscall:
->     >>
->     >>          if (sysctl_unprivileged_bpf_disabled && !bpf_capable())
->     >>                   return -EPERM;
->     >> ...
->     >>
->     >>           err = security_bpf(cmd, &attr, size);
->     >>           if (err < 0)
->     >>                   return err;
->     >>
->     >> So if I understand the code correctly, bpf syscall can only be
->     done if:
->     >>
->     >> 1) unprivileged_bpf is enabled or
->     >> 2) has the capability  and pass the LSM checks
->     >>
->     >> So I think the series is for unprivileged_bpf disabled. If I'm not
->     >> wrong, I guess the policy is to grant CAP_BPF but do fine grain
->     checks
->     >> via LSM.
->     >>
->     >> If this is correct, need to describe it in the commit log.
->     >>
->     >>
->     >>> Added property "ebpf_rss_fds" for "virtio-net" that allows to
->     >>> initialize eBPF RSS context with passed program & maps fds.
->     >>>
->     >>> Added qemu-ebpf-rss-helper - simple helper that loads eBPF
->     >>> context and passes fds through unix socket.
->     >>> Libvirt should call the helper and pass fds to qemu through
->     >>> "ebpf_rss_fds" property.
->     >>>
->     >>> Added explicit target OS check for libbpf dependency in meson.
->     >>> eBPF RSS works only with Linux TAP, so there is no reason to
->     >>> build eBPF loader/helper for non-Linux.
->     >>>
->     >>> Overall, libvirt process should not be aware of the "interface"
->     >>> of eBPF RSS, it will not be aware of eBPF maps/program "type" and
->     >>> their quantity.
->     >> I'm not sure this is the best. We have several examples that
->     let libvirt
->     >> to involve. Examples:
->     >>
->     >> 1) create TAP device (and the TUN_SETIFF)
->     >>
->     >> 2) open vhost devices
->     >>
->     >>
->     >>>    That's why qemu and the helper should be from
->     >>> the same build and be "synchronized". Technically each qemu may
->     >>> have its own helper. That's why "query-helper-paths" qmp command
->     >>> was added. Qemu should return the path to the helper that suits
->     >>> and libvirt should use "that" helper for "that" emulator.
->     >>>
->     >>> qmp sample:
->     >>> C: { "execute": "query-helper-paths" }
->     >>> S: { "return": [
->     >>>        {
->     >>>          "name": "qemu-ebpf-rss-helper",
->     >>>          "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
->     >>>        }
->     >>>       ]
->     >>>      }
->     >> I think we need an example on the detail steps for how libvirt is
->     >> expected to use this.
->     > The preliminary patches for libvirt are at
->     > https://github.com/daynix/libvirt/tree/RSSv1
->     <https://github.com/daynix/libvirt/tree/RSSv1>
->
->
->     Will have a look but it would be better if the assumption of the
->     management is detailed here to ease the reviewers.
->
->     Thanks
->
->
->     >
->
+--k5iP4HYfbo4fUTz4Vj1rHhfowOx01n6yb--
 
+--oJnZZkzAXJYZWoOx4qXgHI6fBYp1BC7T1
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmDIb8wFAwAAAAAACgkQbHknjz/NzALg
+NA/8CakOEXH6SMgFdtHxek262B5aSxd/P2QP21k+DFKPxByNqNnb4ClvYCH1muyzwyQIDX/WSmvA
+jPtiyE9tdQ/4/cDHkTXRmnvfXiYje1gtKWPBUHZPzNKP+1FlAIc6KPRAxcYJMhGJwFhCc4scm4h6
+KfbluoZgtG6azeL249eAy0gWqYeRIIIoZXrBbgRfQ4EWjLrYSOEZWqQJC9dF7jEQ75g6BP/MD1fw
+mmaUDUWVXpY94GfkLx9fstwhsEC+8JfxCgH9vofkLz+Hp7ODv+Jetw4gKUpKIQhCT6aE/0GVC/qJ
+SUt2igTipPajfKjGPo8agNolfsbPTfYRI/QdS7wmIUnoQZgQEKP6E1qi5WNBncac3xfJ9xh9LrVU
+YNO4hVEsj2wNajIlh+UvFbrI3/Sr49gnwpUY4A+EZMgbeCVdP2AZeRHNL5erDjMKBCdO6db37d54
+5NHRygJVQ+Zg8xWhSFQgcIZ5+UqCw2HDqCGD7EMKFE/dx9NCJip054Rih/J3CmonJsQtbLEQ5Y+O
+/5m9e1swbXs9I+ty+00gcYCU2GTdPT/z4gRxhoq+ydgcWQHbtwfJ1B+xtk5GM1QdG6NZL6EZkp3t
+2xG4OJfEK4sxO4Td65qyXrDUbSqlA4vMA354xpRTkJiuH93889oGrhmxuvVNXOhnViU0gFYwXSK6
+VDs=
+=k7c+
+-----END PGP SIGNATURE-----
+
+--oJnZZkzAXJYZWoOx4qXgHI6fBYp1BC7T1--
 
