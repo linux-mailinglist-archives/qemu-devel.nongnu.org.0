@@ -2,100 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0886E3A80BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:40:10 +0200 (CEST)
-Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543DC3A810C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:42:33 +0200 (CEST)
+Received: from localhost ([::1]:39460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9IU-0005Pp-Lq
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1lt9Kq-0008Vk-Co
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lt9ES-0002o8-Dj
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:35:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lt9EO-00012y-2i
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:35:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623764149;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jOanARBwpH2KjRmqtZ/jvCNI9f84dr/P5VcJ2IgFK3g=;
- b=dR2P4HgGzPMfouV++SVUCQIKR6neqfSBwORPzf0vnMYF8Jo41XLZD6lpdUqKbyWIxbOxwg
- IbzOZJ4G+9g9Ej3fQLIT4B5j9v7vudPGMOl4CkmHwaG/djnk3taanjhJdN+q3lo4LiNiTg
- gFCP5ZN5KnmGgmnqsf2ZhAZ0+EZjwBw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-xTjRg30HM6OceVnLl_GnTg-1; Tue, 15 Jun 2021 09:35:47 -0400
-X-MC-Unique: xTjRg30HM6OceVnLl_GnTg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- f12-20020a056402150cb029038fdcfb6ea2so22183207edw.14
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:35:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lt9HT-0005Xr-44
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:03 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lt9HR-0002dl-4D
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:02 -0400
+Received: by mail-ed1-x535.google.com with SMTP id b11so51176376edy.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:38:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jST6g/SUpiCQMOLKThRlvLc6dCqzWRdd0Svsg3ZhFfU=;
+ b=hJ8GHKzsTDQ9zSz8SBCWqK7pd/2rgOzhVhMvi/l/lylQ3jUKG7GLaND59hipMGDHTo
+ Ft2LS9e9eFXFbBX0IpNue7FFIP/TS4YMXYVSdllDP/JHF448GuACnSzMddf8YUAEyOHA
+ UJolrpLsNt6HHzdLpsWCpUh9kwmuvg9vqoOc/mLH4DkH9b+YGPEs49OO8o8Lw8vEJSRO
+ 6cDWhl67YibJVz1NKm8QdyV6tdJC6pQv3UWzGpZfKsNIHAygQ79Jrx/POm6r5KxNQkdw
+ fXvdLoLzHSYjGWWqurpdsT5CddfP5FpK9PlVsUTeQl72PWHu7V6u/a5U2OwmfOk0TxzK
+ cPSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jOanARBwpH2KjRmqtZ/jvCNI9f84dr/P5VcJ2IgFK3g=;
- b=QjxXxR1rHSxvAmbDDumAAoqnpk2+IvmBnzy3dHtzvTbDtv9WGyXOjOMmhgepdbGzCn
- cSPpZFeV00F1LiNnoSZ5HJBfyXOGwvqpvJoq+jn/xdZtitLj9FR9DMPz10Wvru/S2Oi+
- ro7LJlRKTgI5pD90MPFaqv6cgNmciDY/rdbzXUzqQ+vepZueM/ZZc0aRfPFHFfZYzEFr
- McDj3W5fMgkYNIYsxEKlrZlAedCxQAWGj3o4YbynrHjyGSaIpQRVncpWy71Nt26sSmpM
- RHhbiOrnzK2kS4YaLiXF7YhU90DJngbrMhBAQ5hCFWu2yFJWtEF+VRIZq0fZnIiAy31e
- 90bw==
-X-Gm-Message-State: AOAM533OX0JnwTLD5idbFB+ETQ+CX/+7hF3AzSyWvBni5M0u8f2ttQy5
- iDIq6M+vW5wAJFzKpojLHY1GdU4g9GFNTiyf6Q4Dtx4tvW2sd3f+YWfsoOwbmTdSZ3zIpEoFlgY
- kWxa528Gjoujchtk8M7hCodmqKhpOQMPQ8evnflPYCY0L1rrkOyu+SDRbHxsH/AfV7b8=
-X-Received: by 2002:aa7:d590:: with SMTP id r16mr23680149edq.355.1623764146035; 
- Tue, 15 Jun 2021 06:35:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0xTcUCT6tekLqGcVnywmoE6JQ8NWpBwhtFppukPlfgAm82VN1IW/2zl3QoGVvSFZtpFiENQ==
-X-Received: by 2002:aa7:d590:: with SMTP id r16mr23680116edq.355.1623764145801; 
- Tue, 15 Jun 2021 06:35:45 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id e18sm10023823ejh.64.2021.06.15.06.35.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 06:35:45 -0700 (PDT)
-Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-4-kraxel@redhat.com>
- <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
- <YMIP/cKc570Ozvdh@redhat.com>
- <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
- <8b860457-7c51-f4cb-1e80-02848ad92648@redhat.com>
- <20210615044915.agzl7vsjewpatyhp@sirius.home.kraxel.org>
- <20210615075646.vcv3bhbrffs5exez@sirius.home.kraxel.org>
- <20210615130715.lye3spkpa24x3pyj@sirius.home.kraxel.org>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=jST6g/SUpiCQMOLKThRlvLc6dCqzWRdd0Svsg3ZhFfU=;
+ b=LirwCeqPJ+mJziyfHKKpEVZNfxaQzQ1lQdCudgawJdm92QGb/R9eLdJFyO12vFqBsA
+ 85Oq5hqHtFvJeAlzmBuNYcLljW47OxK5r9mwrQpevPd/uxS8z9O1BNTKUA2Xjri9PLrb
+ eNJHsSVk76Mb1GK5V+QbZBslfqooh8EfUwDIP+//u7XIKiHNHTVgDI1ezJ6O9HqTwGMo
+ nzFxVsG8ikpL/a32W4DpGUy0m2W5bi6eZl5w6d+kck6xp9f8Q0sQwTv3Zt9Ri5IF5m+w
+ X1BECrgzEDjm11nKij51sKQY81MztQdTQ7F8Dqn/3+VJmrDBGrj2wV9xcu2YW1PESMDZ
+ 5hFg==
+X-Gm-Message-State: AOAM530QElADrLgk4pqFs9tX9lVOhzM3SX7uyLfvEKMHiXM1Ouw25HAP
+ PBoeN6CFlWKk3Dw17pUx0+8ik31w7BM=
+X-Google-Smtp-Source: ABdhPJw88/QmCa8+b6orLnUJixFDBY0VrnIokxtso8O8bSpzRb/fYg+ls33qGw+yG0ojX5toEk88kA==
+X-Received: by 2002:aa7:cdc5:: with SMTP id h5mr23083777edw.217.1623764337585; 
+ Tue, 15 Jun 2021 06:38:57 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.38.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 06:38:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <279b97e2-d06d-b929-0265-d4bd41dc6ee2@redhat.com>
-Date: Tue, 15 Jun 2021 15:35:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/33] Misc patches for 2021-06-15
+Date: Tue, 15 Jun 2021 15:38:22 +0200
+Message-Id: <20210615133855.775687-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210615130715.lye3spkpa24x3pyj@sirius.home.kraxel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,26 +83,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/06/21 15:07, Gerd Hoffmann wrote:
->> Hmm, looks like I actually need both.  Seems there is no easy way to get
->> the cflags out of a source_set to construct a cpp command line.  Pulling
->> this out of compile_commands.json with jq works though.
-> Well, easy until I look at target-specific modules where the
-> "source file" -> "command" mapping isn't unique any more.  Which makes
-> this route less attractive ...
+The following changes since commit 894fc4fd670aaf04a67dc7507739f914ff4bacf2:
 
-I was almost giving up... but it looks like the result of 
-extract_all_objects(recursive: true) can be passed to custom_target(). 
-Then you can match it after compile_commands.json's "output" key.
+  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-06-11 09:21:48 +0100)
 
-Paolo
+are available in the Git repository at:
 
-> Any idea on getting the cflags in meson.build  Or maybe I can somehow
-> ask meson to run the cpp pass only for a given source set?
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 429f60abe15cca9046e6aeaffd81e991e34c9bf6:
+
+  configure: map x32 to cpu_family x86_64 for meson (2021-06-14 20:17:55 +0200)
+
+----------------------------------------------------------------
+* avoid deprecation warnings for SASL on macOS 10.11 or newer
+* fix -readconfig when config blocks have an id (like [chardev "qmp"])
+* Error* initialization fixes
+* Improvements to ESP emulation (Mark)
+* Allow creating noreserve memory backends (David)
+* Improvements to query-memdev (David)
+
+----------------------------------------------------------------
+David Hildenbrand (18):
+      softmmu/physmem: Mark shared anonymous memory RAM_SHARED
+      softmmu/physmem: Fix ram_block_discard_range() to handle shared anonymous memory
+      softmmu/physmem: Fix qemu_ram_remap() to handle shared anonymous memory
+      util/mmap-alloc: Factor out calculation of the pagesize for the guard page
+      util/mmap-alloc: Factor out reserving of a memory region to mmap_reserve()
+      util/mmap-alloc: Factor out activating of memory to mmap_activate()
+      softmmu/memory: Pass ram_flags to qemu_ram_alloc_from_fd()
+      softmmu/memory: Pass ram_flags to memory_region_init_ram_shared_nomigrate()
+      softmmu/memory: Pass ram_flags to qemu_ram_alloc() and qemu_ram_alloc_internal()
+      util/mmap-alloc: Pass flags instead of separate bools to qemu_ram_mmap()
+      memory: Introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()
+      util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE under Linux
+      hostmem: Wire up RAM_NORESERVE via "reserve" property
+      qmp: Clarify memory backend properties returned via query-memdev
+      qmp: Include "share" property of memory backends
+      hmp: Print "share" property of memory backends with "info memdev"
+      qmp: Include "reserve" property of memory backends
+      hmp: Print "reserve" property of memory backends with "info memdev"
+
+David Michael (1):
+      configure: map x32 to cpu_family x86_64 for meson
+
+Mark Cave-Ayland (8):
+      esp: only assert INTR_DC interrupt flag if selection fails
+      esp: only set ESP_RSEQ at the start of the select sequence
+      esp: allow non-DMA callback in esp_transfer_data() initial transfer
+      esp: handle non-DMA transfers from the target one byte at a time
+      esp: ensure PDMA write transfers are flushed from the FIFO to the target immediately
+      esp: revert 75ef849696 "esp: correctly fill bus id with requested lun"
+      esp: correctly accumulate extended messages for PDMA
+      esp: fix migration version check in esp_is_version_5()
+
+Maxim Levitsky (1):
+      block/scsi: correctly emulate the VPD block limits page
+
+Paolo Bonzini (3):
+      vnc: avoid deprecation warnings for SASL on OS X
+      qemu-config: use qemu_opts_from_qdict
+      esp: store lun coming from the MESSAGE OUT phase
+
+Peng Liang (1):
+      runstate: Initialize Error * to NULL
+
+Zhenzhong Duan (1):
+      vl: Fix an assert failure in error path
+
+ backends/hostmem-file.c                            |  11 +-
+ backends/hostmem-memfd.c                           |   8 +-
+ backends/hostmem-ram.c                             |   7 +-
+ backends/hostmem.c                                 |  36 ++++
+ configure                                          |   2 +-
+ hw/core/machine-hmp-cmds.c                         |   6 +
+ hw/core/machine-qmp-cmds.c                         |   8 +
+ hw/m68k/next-cube.c                                |   4 +-
+ hw/misc/ivshmem.c                                  |   5 +-
+ hw/scsi/esp.c                                      | 199 ++++++++++++-------
+ hw/scsi/scsi-generic.c                             |   9 +-
+ hw/scsi/trace-events                               |   3 +-
+ include/exec/cpu-common.h                          |   1 +
+ include/exec/memory.h                              |  42 ++--
+ include/exec/ram_addr.h                            |   9 +-
+ include/hw/scsi/esp.h                              |   1 +
+ include/qemu/mmap-alloc.h                          |  16 +-
+ include/qemu/osdep.h                               |  30 ++-
+ include/sysemu/hostmem.h                           |   2 +-
+ migration/ram.c                                    |   3 +-
+ qapi/machine.json                                  |  16 +-
+ qapi/qom.json                                      |  10 +
+ .../coccinelle/memory-region-housekeeping.cocci    |   8 +-
+ softmmu/memory.c                                   |  27 ++-
+ softmmu/physmem.c                                  |  68 ++++---
+ softmmu/runstate.c                                 |   2 +-
+ softmmu/vl.c                                       |   2 +-
+ ui/vnc-auth-sasl.c                                 |  20 ++
+ ui/vnc-auth-sasl.h                                 |   1 +
+ ui/vnc.c                                           |  10 +-
+ util/mmap-alloc.c                                  | 212 +++++++++++++++------
+ util/oslib-posix.c                                 |   7 +-
+ util/oslib-win32.c                                 |  13 +-
+ util/qemu-config.c                                 |  17 +-
+ 34 files changed, 549 insertions(+), 266 deletions(-)
+-- 
+2.31.1
 
 
