@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126733A88AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 20:33:41 +0200 (CEST)
-Received: from localhost ([::1]:35142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6CC3A88CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 20:48:28 +0200 (CEST)
+Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltDsZ-0000lp-Gp
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 14:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59078)
+	id 1ltE6s-0004zq-S7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 14:48:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltDq0-00085k-3W
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:31:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltDpx-0000v4-LN
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:30:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1ltDps-0000o6-U7
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:30:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B05AD2E8189
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:30:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ltE4G-0003z6-GA; Tue, 15 Jun 2021 14:45:44 -0400
+Received: from [201.28.113.2] (port=20971 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ltE4E-0001ST-OG; Tue, 15 Jun 2021 14:45:44 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 15 Jun 2021 15:44:34 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id D4CFC800144;
+ Tue, 15 Jun 2021 15:44:33 -0300 (-03)
+Subject: Re: [PATCH v2 2/3] target/ppc: divided mmu_helper.c in 2 files
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
+ <20210610164648.83878-3-lucas.araujo@eldorado.org.br>
+ <YMg9qx4ddgDchtgS@yekko>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+Message-ID: <13694281-b11c-4617-4a43-507395d8076f@eldorado.org.br>
+Date: Tue, 15 Jun 2021 15:44:33 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Jun 2021 18:24:13 -0000
-From: Thomas Huth <1888606@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr kraxel-redhat th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159548011952.31456.8249433335836304327.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162378145353.14016.4877780646310906946.malone@wampee.canonical.com>
-Subject: [Bug 1888606] Re: Heap-use-after-free in virtio_gpu_ctrl_response
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 0d333b2f95957e2322863d765ead132dc7fc09df
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YMg9qx4ddgDchtgS@yekko>
+Content-Type: multipart/alternative;
+ boundary="------------A829851DA8C7EEBC62B9F825"
+Content-Language: en-US
+X-OriginalArrivalTime: 15 Jun 2021 18:44:34.0269 (UTC)
+ FILETIME=[7C2AA0D0:01D76216]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.095, PDS_HP_HELO_NORDNS=0.308, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,220 +60,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888606 <1888606@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks for checking, so let's mark this as fixed.
+This is a multi-part message in MIME format.
+--------------A829851DA8C7EEBC62B9F825
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
 
--- =
+On 15/06/2021 02:42, David Gibson wrote:
+> On Thu, Jun 10, 2021 at 01:46:47PM -0300, Lucas Mateus Castro (alqotel) wrote:
+>> Moved functions in mmu_helper.c that should be compiled in build to
+> "should be compiled in build" is not very clear to me.  What's the
+> distinction between both the files.
+Looking back now the description is really confusing, so let me rephrase 
+that: mmu_helper.c is being split in 2 files, mmu_helper.c (which 
+contains TCG-only code) and mmu_common.c (which contains code needed in 
+!TCG)
+>> mmu_common.c, moved declaration of functions that both files use to
+>> cpu.h and moved struct declarations and inline functions needed by
+>> both to target/ppc/internal.h. Updated meson.build to compile the
+>> new file. ppc6xx_tlb_getnum is not an inline function anymore.
+> Overall this looks reasonable.  I think there's quite a lot you put
+> into mmu_common.c that can TCG-only, but it's reasonable to delay the
+> cleanups that will allow that to happen until further down the track.
+For this patch I've put the helpers and static functions only called by 
+them in mmu_helper.c and other functions in mmu_common.c, but looking 
+now there's some more code motion I could add to this patch series, so 
+I'll add them to the end of the patch series to not interfere with the 
+previews patches.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888606
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Estagiario
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
-Title:
-  Heap-use-after-free in virtio_gpu_ctrl_response
+--------------A829851DA8C7EEBC62B9F825
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Status in QEMU:
-  Fix Released
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 15/06/2021 02:42, David Gibson
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:YMg9qx4ddgDchtgS@yekko">
+      <pre class="moz-quote-pre" wrap="">On Thu, Jun 10, 2021 at 01:46:47PM -0300, Lucas Mateus Castro (alqotel) wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Moved functions in mmu_helper.c that should be compiled in build to
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+"should be compiled in build" is not very clear to me.  What's the
+distinction between both the files.
+</pre>
+    </blockquote>
+    Looking back now the description is really confusing, so let me
+    rephrase that: mmu_helper.c is being split in 2 files, mmu_helper.c
+    (which contains TCG-only code) and mmu_common.c (which contains code
+    needed in !TCG)<br>
+    <blockquote type="cite" cite="mid:YMg9qx4ddgDchtgS@yekko">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">mmu_common.c, moved declaration of functions that both files use to
+cpu.h and moved struct declarations and inline functions needed by
+both to target/ppc/internal.h. Updated meson.build to compile the
+new file. ppc6xx_tlb_getnum is not an inline function anymore.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Overall this looks reasonable.  I think there's quite a lot you put
+into mmu_common.c that can TCG-only, but it's reasonable to delay the
+cleanups that will allow that to happen until further down the track.
+</pre>
+    </blockquote>
+    For this patch I've put the helpers and static functions only called
+    by them in mmu_helper.c and other functions in mmu_common.c, but
+    looking now there's some more code motion I could add to this patch
+    series, so I'll add them to the end of the patch series to not
+    interfere with the previews patches.<br>
+    <br>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Estagiario<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
-Bug description:
-  Hello,
-  Here is a reproducer (build with --enable-sanitizers):
-  cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic -M pc -nodefaults=
- -m 512M -device virtio-vga -qtest stdio
-  outl 0xcf8 0x80001018
-  outl 0xcfc 0xe0800000
-  outl 0xcf8 0x80001020
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  writeq 0xe0801024 0x10646c00776c6cff
-  writeq 0xe080102d 0xe0801000320000
-  writeq 0xe0801015 0x12b2901ba000000
-  write 0x10646c02 0x1 0x2c
-  write 0x999 0x1 0x25
-  write 0x8 0x1 0x78
-  write 0x2c7 0x1 0x32
-  write 0x2cb 0x1 0xff
-  write 0x2cc 0x1 0x7e
-  writeq 0xe0803000 0xf2b8f0540ff83
-  EOF
-
-  The ASAN trace:
-  =3D=3D29798=3D=3DERROR: AddressSanitizer: heap-use-after-free on address =
-0x60d0000050e8 at pc 0x560629814761 bp 0x7ffe916eb1e0 sp 0x7ffe916eb1d8
-  READ of size 8 at 0x60d0000050e8 thread T0
-      #0 0x560629814760 in virtio_gpu_ctrl_response /home/alxndr/Developmen=
-t/qemu/hw/display/virtio-gpu.c:181:42
-      #1 0x56062981adc8 in virtio_gpu_ctrl_response_nodata /home/alxndr/Dev=
-elopment/qemu/hw/display/virtio-gpu.c:193:5
-      #2 0x56062981adc8 in virtio_gpu_simple_process_cmd /home/alxndr/Devel=
-opment/qemu/hw/display/virtio-gpu.c:791:9
-      #3 0x5606298175f8 in virtio_gpu_process_cmdq /home/alxndr/Development=
-/qemu/hw/display/virtio-gpu.c:820:9
-      #4 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/a=
-sync.c:164:13
-      #5 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util/=
-aio-posix.c:380:5
-      #6 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
-til/async.c:306:5
-      #7 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
-nu/libglib-2.0.so.0+0x4e9ed)
-      #8 0x56062a919571 in glib_pollfds_poll /home/alxndr/Development/qemu/=
-util/main-loop.c:217:9
-      #9 0x56062a919571 in os_host_main_loop_wait /home/alxndr/Development/=
-qemu/util/main-loop.c:240:5
-      #10 0x56062a919571 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:516:11
-      #11 0x560629094a64 in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1676:9
-      #12 0x56062a749ab5 in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #13 0x7f0d5cd55e0a in __libc_start_main (/lib/x86_64-linux-gnu/libc.s=
-o.6+0x26e0a)
-      #14 0x5606288ba889 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0x24d0889)
-
-  0x60d0000050e8 is located 56 bytes inside of 136-byte region [0x60d000005=
-0b0,0x60d000005138)
-  freed by thread T0 here:
-      #0 0x56062893250d in free (/home/alxndr/Development/qemu/build/i386-s=
-oftmmu/qemu-system-i386+0x254850d)
-      #1 0x560629827730 in virtio_gpu_reset /home/alxndr/Development/qemu/h=
-w/display/virtio-gpu.c:1160:9
-      #2 0x560628e81d34 in virtio_reset /home/alxndr/Development/qemu/hw/vi=
-rtio/virtio.c:1999:9
-      #3 0x560629f08773 in virtio_pci_reset /home/alxndr/Development/qemu/h=
-w/virtio/virtio-pci.c:1841:5
-      #4 0x560629043ab6 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/softmmu/memory.c:483:5
-      #5 0x560629043473 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/softmmu/memory.c:544:18
-      #6 0x560629042c99 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/softmmu/memory.c
-      #7 0x560628990a37 in flatview_write_continue /home/alxndr/Development=
-/qemu/exec.c:3176:23
-      #8 0x56062899041a in address_space_write_cached_slow /home/alxndr/Dev=
-elopment/qemu/exec.c:3789:12
-      #9 0x560628e6f9bb in vring_used_write /home/alxndr/Development/qemu/h=
-w/virtio/virtio.c:347:5
-      #10 0x560628e6f9bb in virtqueue_split_fill /home/alxndr/Development/q=
-emu/hw/virtio/virtio.c:788:5
-      #11 0x560628e6f9bb in virtqueue_fill /home/alxndr/Development/qemu/hw=
-/virtio/virtio.c:852:9
-      #12 0x560628e7205e in virtqueue_push /home/alxndr/Development/qemu/hw=
-/virtio/virtio.c:917:5
-      #13 0x560629814246 in virtio_gpu_ctrl_response /home/alxndr/Developme=
-nt/qemu/hw/display/virtio-gpu.c:180:5
-      #14 0x56062981adc8 in virtio_gpu_ctrl_response_nodata /home/alxndr/De=
-velopment/qemu/hw/display/virtio-gpu.c:193:5
-      #15 0x56062981adc8 in virtio_gpu_simple_process_cmd /home/alxndr/Deve=
-lopment/qemu/hw/display/virtio-gpu.c:791:9
-      #16 0x5606298175f8 in virtio_gpu_process_cmdq /home/alxndr/Developmen=
-t/qemu/hw/display/virtio-gpu.c:820:9
-      #17 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/=
-async.c:164:13
-      #18 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util=
-/aio-posix.c:380:5
-      #19 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/=
-util/async.c:306:5
-      #20 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e9ed)
-
-  previously allocated by thread T0 here:
-      #0 0x56062893278d in malloc (/home/alxndr/Development/qemu/build/i386=
--softmmu/qemu-system-i386+0x254878d)
-      #1 0x7f0d5e1d5500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x54500)
-      #2 0x560628e7844b in virtqueue_split_pop /home/alxndr/Development/qem=
-u/hw/virtio/virtio.c:1524:12
-      #3 0x560628e7844b in virtqueue_pop /home/alxndr/Development/qemu/hw/v=
-irtio/virtio.c:1693:16
-      #4 0x560629829633 in virtio_gpu_handle_ctrl /home/alxndr/Development/=
-qemu/hw/display/virtio-gpu.c:878:15
-      #5 0x560629829633 in virtio_gpu_ctrl_bh /home/alxndr/Development/qemu=
-/hw/display/virtio-gpu.c:893:5
-      #6 0x56062a8f1c96 in aio_bh_poll /home/alxndr/Development/qemu/util/a=
-sync.c:164:13
-      #7 0x56062a887b9d in aio_dispatch /home/alxndr/Development/qemu/util/=
-aio-posix.c:380:5
-      #8 0x56062a8f6b1c in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
-til/async.c:306:5
-      #9 0x7f0d5e1cf9ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
-nu/libglib-2.0.so.0+0x4e9ed)
-
-  =
-
-  With -trace virtio\* -trace pci\* :
-  [I 1595480025.666147] OPENED
-  31900@1595480025.706962:virtio_set_status vdev 0x633000019640 val 0
-  31900@1595480025.710297:virtio_set_status vdev 0x633000019640 val 0
-  [R +0.046276] outl 0xcf8 0x80001018
-  OK
-  [S +0.046313] OK
-  [R +0.046332] outl 0xcfc 0xe0800000
-  31900@1595480025.712490:pci_cfg_write virtio-vga 02:0 @0x18 <- 0xe0800000
-  OK
-  [S +0.046356] OK
-  [R +0.046365] outl 0xcf8 0x80001020
-  OK
-  [S +0.046370] OK
-  [R +0.046379] outl 0xcf8 0x80001004
-  OK
-  [S +0.046383] OK
-  [R +0.046391] outw 0xcfc 0x7
-  31900@1595480025.712544:pci_cfg_write virtio-vga 02:0 @0x4 <- 0x7
-  31900@1595480025.712551:pci_update_mappings_add d=3D0x633000000800 00:02.=
-0 2,0xe0800000+0x4000
-  OK
-  [S +0.047572] OK
-  [R +0.047597] writeq 0xe0801024 0x10646c00776c6cff
-  OK
-  [S +0.047610] OK
-  [R +0.047619] writeq 0xe080102d 0xe0801000320000
-  OK
-  [S +0.047627] OK
-  [R +0.047636] writeq 0xe0801015 0x12b2901ba000000
-  OK
-  [S +0.047650] OK
-  [R +0.047660] write 0x10646c02 0x1 0x2c
-  OK
-  [S +0.047769] OK
-  [R +0.047782] write 0x999 0x1 0x25
-  OK
-  [S +0.047907] OK
-  [R +0.047920] write 0x8 0x1 0x78
-  OK
-  [S +0.047927] OK
-  [R +0.047935] write 0x2c7 0x1 0x32
-  OK
-  [S +0.047941] OK
-  [R +0.047949] write 0x2cb 0x1 0xff
-  OK
-  [S +0.047954] OK
-  [R +0.047962] write 0x2cc 0x1 0x7e
-  OK
-  [S +0.047967] OK
-  [R +0.047975] writeq 0xe0803000 0xf2b8f0540ff83
-  31900@1595480025.714133:virtio_queue_notify vdev 0x633000019640 n 0 vq 0x=
-7fe20b13d800
-  OK
-  [S +0.047996] OK
-  31900@1595480025.714386:virtio_notify vdev 0x633000019640 vq 0x7fe20b13d8=
-00
-  31900@1595480025.714406:virtio_gpu_features virgl 0
-  31900@1595480025.714413:virtio_notify vdev 0x633000019640 vq 0x7fe20b13d8=
-00
-  31900@1595480025.714421:virtio_set_status vdev 0x633000019640 val 0
-  *CRASH*
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888606/+subscriptions
+--------------A829851DA8C7EEBC62B9F825--
 
