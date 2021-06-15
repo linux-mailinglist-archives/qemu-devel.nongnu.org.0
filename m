@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4123A7686
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 07:34:10 +0200 (CEST)
-Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F2E3A7685
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 07:33:04 +0200 (CEST)
+Received: from localhost ([::1]:37022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt1iD-0008Nr-Vr
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 01:34:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
+	id 1lt1h9-0006o5-A7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 01:33:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lt1hI-0007NF-2B; Tue, 15 Jun 2021 01:33:12 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45333 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lt1gD-00067I-Ar
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 01:32:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lt1hF-0008Ji-6V; Tue, 15 Jun 2021 01:33:11 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4G3xmc4wpqz9sW7; Tue, 15 Jun 2021 15:33:04 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1623735184;
- bh=vYpAW2pqTeeu8dyg+P+DxnOfjolNlO5IVLUWnMvMUHs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jvJ7Uo49Ca0QvmVvMxsCV2lQjUx3GUP/mCF2ljz/0NxhMXHJxzvqeu8TnUjXDeSn8
- iGYedetxmJwmJK8TM8hKAMQg8hOeIO9BabX9vxfIa+wQp3G4+XKkl394HAZz3RRVFu
- 7hmbyEwflXY74dYiO07sP9QpphFPihCb33m7S4CA=
-Date: Tue, 15 Jun 2021 14:02:04 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [RFC PATCH 3/8] spapr_numa.c: wait for CAS before writing rtas DT
-Message-ID: <YMgmPDrr7oJFGME1@yekko>
-References: <20210615013309.2833323-1-danielhb413@gmail.com>
- <20210615013309.2833323-4-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lt1g8-0007V7-CU
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 01:32:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623735119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TSibzthVDv4zGuqqdzLaNVw7QnUeADeIJ1XnA9toPrk=;
+ b=IygzXnR2FPJqpyCONIeOXSD+zJG1KRoat0xODox1O3WWqV996fEo9kGhRCWWITMgNO74ep
+ rm/Jng0DrTfglP7PbIb3UYplWsgOKgW8XK0PIOb0SX38gUf2+uJ9fJPaHTog/DIpqUAfbg
+ RGr3K2t/o073vPndSAl3wgqTHUGiPaQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-g1_a1dJzMtiFHY8OhQElNg-1; Tue, 15 Jun 2021 01:31:54 -0400
+X-MC-Unique: g1_a1dJzMtiFHY8OhQElNg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C39E5107ACF6;
+ Tue, 15 Jun 2021 05:31:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 729735D9CA;
+ Tue, 15 Jun 2021 05:31:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B7B4B18000B2; Tue, 15 Jun 2021 07:31:51 +0200 (CEST)
+Date: Tue, 15 Jun 2021 07:31:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v2 2/8] ui/egl: Add egl helpers to help with
+ synchronization
+Message-ID: <20210615053151.ucxtisr5ujlsnv2g@sirius.home.kraxel.org>
+References: <20210610224837.670192-1-vivek.kasireddy@intel.com>
+ <20210610224837.670192-3-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TDOjTuplJMm+tFcH"
+In-Reply-To: <20210610224837.670192-3-vivek.kasireddy@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210615013309.2833323-4-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,90 +80,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
---TDOjTuplJMm+tFcH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 14, 2021 at 10:33:04PM -0300, Daniel Henrique Barboza wrote:
-> spapr_numa_write_rtas_dt() is called from spapr_dt_rtas(), which in
-> turned is called by spapr_build_fdt(). spapr_build_fdt() is called in
-> two places: spapr_machine_reset() and do_client_architecture_support().
-> When called in machine_reset() we're writing RTAS nodes with NUMA
-> artifacts without going through CAS first.
->=20
-> This is not an issue because we always write the same thing in DT, since
-> we support just FORM1 NUMA affinity. With the upcoming FORM2 support,
-> we're now reliant on guest choice to decide what to write.
->=20
-> Instead of taking a guess (e.g. default to FORM1, switch to FORM2 if
-> guest chooses it), postpone the writing of
-> ibm,associativity-reference-points and ibm,max-associativity-domains
-> until we're sure what was negotiated with the guest.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-I think it makes sense to fold this in with 1/8 moving the calculation
-itself until after CAS.
-
-This does make a (theoretical) functional change - it means that NUMA
-information is not available before CAS, which it was before.  I think
-that's very unlikely to break anything, but I wonder if we should make
-it dependent on the machine version just to be safe.
-
-> ---
->  hw/ppc/spapr_numa.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 04a86f9b5b..e1a7f80076 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -379,6 +379,10 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMach=
-ineState *spapr,
->   */
->  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas)
->  {
-> +    if (spapr_ovec_empty(spapr->ov5_cas)) {
-> +        return;
+> +void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf)
+> +{
+> +    if (dmabuf->sync) {
+> +        dmabuf->fence_fd = eglDupNativeFenceFDANDROID(qemu_egl_display,
+> +                                                      dmabuf->sync);
+> +        eglDestroySyncKHR(qemu_egl_display, dmabuf->sync);
+> +        dmabuf->sync = NULL;
 > +    }
-> +
->      spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
->  }
-> =20
+> +}
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+> +void egl_dmabuf_wait_sync(QemuDmaBuf *dmabuf)
+> +{
 
---TDOjTuplJMm+tFcH
-Content-Type: application/pgp-signature; name="signature.asc"
+Hmm, still the blocking wait.  Can't you do something like
+"qemu_set_fd_handler(dmabuf->fence_fd, ...)" to avoid the
+eglClientWaitSyncKHR() completely?
 
------BEGIN PGP SIGNATURE-----
+take care,
+  Gerd
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDIJjwACgkQbDjKyiDZ
-s5J3vBAAsvZ1DXK1ItRbi5M8PmuqKivqRBkcLGxc+5JPGg7t8r19xgkZwlARqI1w
-05KPQaHV10XcEFDhmin3+Qu5nUMsdD1NPIqNluNp63zLtjgdLbgCOwY+jLq93d/N
-2iwWqTVm6M6JqQWefcy3SujkRBbb6LB3V8iNCTueJjt7LnTzpJCa98rXhf4u0Fb+
-yoTEPDAlaAcj2Bk42eoNFCBP7RoL4HgA5oj2szW4SWnJ5dnHx9kR+NxMST436XvB
-XXOkiv7ETJg8DKtRh2A1ZlBB2p4RuR/39VBqM6nkjcpU9a9ALZ00jTM/uVjDKgig
-jPXQf4lDPGIa8n9uUGDzYx2+1uY+ZsDo6pWF8Udyk7t0keqEnCH16Uy0CedkduAE
-qifyXnGClEZ8ola1Ftdpcpym5Y7GUHAgauAPtBhkjwsu2t92VvIVWhgoSIUZGNdj
-lc+dtoFQzhWCfbfy3oluFCXZ8Hw1y6ZxDkbDoU2sfnyh7TDb3f9jjvXf86DE/22p
-EvI73tclUcxiS5nd9nnJ3tIhWcyBINyfljlZrRx/4Z4KgdG/4FRZuYuXRqOib2Yd
-V8tFAbjLqRPtCElUAfHY4mYH6B0zUT2hNIxvBt5avV3siDJx05u/x6ftCjn7PIz+
-OMMUk+GqvsTMH9kdk3zWFIjtjwMjpNFoenBQcVs4pHDSlteWBf4=
-=di0A
------END PGP SIGNATURE-----
-
---TDOjTuplJMm+tFcH--
 
