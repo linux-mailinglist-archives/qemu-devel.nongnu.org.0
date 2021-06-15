@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0D93A8802
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:47:45 +0200 (CEST)
-Received: from localhost ([::1]:47184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13AA3A8806
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:49:20 +0200 (CEST)
+Received: from localhost ([::1]:51648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltDA8-00019I-Mq
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46444)
+	id 1ltDBf-0004BA-U0
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:49:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3f-00008N-91
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:41:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48232)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3h-0000Ch-6s
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:41:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3Z-0003XH-PM
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:41:03 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltD3e-0003ZG-Ln
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:41:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623778857;
+ s=mimecast20190719; t=1623778860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ixzbqTGrnkDdaDRNlYbW9vE+R1y9kfRoe1BEyGd7dwI=;
- b=SWk9sZnUoiBzYNmnZ2GrIygk4bIKyBfW62Yoip1iqxn1fDSM8pVWkscz5Ak17YzV9Dluy9
- CQNNX+KV0Jux0stKIySrFsAOeV7e9oEJtKvMe1cFXYbq/2SgGhCrq4yuBwXT+e5Ug2UMiC
- 9N5Ws8+NnYwZSpl5qvbvOn28fUa4X7c=
+ bh=iV4BAQ+klh6qramPeT9npbbKerAjx5rq2qDIbQIR4U8=;
+ b=bWRE+SLDatnzpg2pXq6qRricV2BMWndqk4q8TWyqzQWF/MSOqs1sM2KJRSTcKozY1mNNfO
+ nYfx/mX+OGXx+U3cRY1WJHVZsQmJsg+q8o2gKKIFNd+4B+10MO/Ah860AWvIJJG+2YjTjz
+ 0e1k6h+lsZIvkEYnIy9Fyv5etGBjEMo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-5mV3HLlUN5iXMNmS8vxSRw-1; Tue, 15 Jun 2021 13:40:55 -0400
-X-MC-Unique: 5mV3HLlUN5iXMNmS8vxSRw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-353-i5h_1kiuNCq9YkfOZ_O_TQ-1; Tue, 15 Jun 2021 13:40:59 -0400
+X-MC-Unique: i5h_1kiuNCq9YkfOZ_O_TQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77DEE1084F4A;
- Tue, 15 Jun 2021 17:40:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77B70100B3AB;
+ Tue, 15 Jun 2021 17:40:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 287CB1962D;
- Tue, 15 Jun 2021 17:40:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99C4B5C22A;
+ Tue, 15 Jun 2021 17:40:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E5FBB18003B6; Tue, 15 Jun 2021 19:40:25 +0200 (CEST)
+ id F1361180060E; Tue, 15 Jun 2021 19:40:25 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] vhost-user-gpu: reorder free calls.
-Date: Tue, 15 Jun 2021 19:40:24 +0200
-Message-Id: <20210615174025.3409518-3-kraxel@redhat.com>
+Subject: [PULL 3/3] virtio-gpu: move scanout_id sanity check
+Date: Tue, 15 Jun 2021 19:40:25 +0200
+Message-Id: <20210615174025.3409518-4-kraxel@redhat.com>
 In-Reply-To: <20210615174025.3409518-1-kraxel@redhat.com>
 References: <20210615174025.3409518-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -79,39 +79,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Free in correct order to avoid use-after-free.
+Checking scanout_id in virtio_gpu_do_set_scanout() is too late, for the
+"resource_id == 0" case (aka disable scanout) the scanout_id is used
+unchecked.  Move the check into the callers to fix that.
 
-Resolves: CID 1453812
+Fixes: e64d4b6a9bc3 ("virtio-gpu: Refactor virtio_gpu_set_scanout")
+Fixes: 32db3c63ae11 ("virtio-gpu: Add virtio_gpu_set_scanout_blob")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/383
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210604103714.1237414-1-kraxel@redhat.com>
+Message-Id: <20210604075029.1201478-1-kraxel@redhat.com>
 ---
- contrib/vhost-user-gpu/vhost-user-gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/virtio-gpu.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user-gpu/vhost-user-gpu.c
-index 6dc6a44f4e26..611360e6b475 100644
---- a/contrib/vhost-user-gpu/vhost-user-gpu.c
-+++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-@@ -350,8 +350,8 @@ vg_resource_create_2d(VuGpu *g,
-     if (!res->image) {
-         g_critical("%s: resource creation failed %d %d %d",
-                    __func__, c2d.resource_id, c2d.width, c2d.height);
--        g_free(res);
-         vugbm_buffer_destroy(&res->buffer);
-+        g_free(res);
-         cmd->error = VIRTIO_GPU_RESP_ERR_OUT_OF_MEMORY;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 4d549377cbc1..e183f4ecdaa5 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -610,12 +610,6 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
+     struct virtio_gpu_scanout *scanout;
+     uint8_t *data;
+ 
+-    if (scanout_id >= g->parent_obj.conf.max_outputs) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified %d",
+-                      __func__, scanout_id);
+-        *error = VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
+-        return;
+-    }
+     scanout = &g->parent_obj.scanout[scanout_id];
+ 
+     if (r->x > fb->width ||
+@@ -694,6 +688,13 @@ static void virtio_gpu_set_scanout(VirtIOGPU *g,
+     trace_virtio_gpu_cmd_set_scanout(ss.scanout_id, ss.resource_id,
+                                      ss.r.width, ss.r.height, ss.r.x, ss.r.y);
+ 
++    if (ss.scanout_id >= g->parent_obj.conf.max_outputs) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified %d",
++                      __func__, ss.scanout_id);
++        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
++        return;
++    }
++
+     if (ss.resource_id == 0) {
+         virtio_gpu_disable_scanout(g, ss.scanout_id);
          return;
-     }
+@@ -730,6 +731,13 @@ static void virtio_gpu_set_scanout_blob(VirtIOGPU *g,
+                                           ss.r.width, ss.r.height, ss.r.x,
+                                           ss.r.y);
+ 
++    if (ss.scanout_id >= g->parent_obj.conf.max_outputs) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: illegal scanout id specified %d",
++                      __func__, ss.scanout_id);
++        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_SCANOUT_ID;
++        return;
++    }
++
+     if (ss.resource_id == 0) {
+         virtio_gpu_disable_scanout(g, ss.scanout_id);
+         return;
 -- 
 2.31.1
 
