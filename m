@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCC83A85BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:57:18 +0200 (CEST)
-Received: from localhost ([::1]:48166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC673A8575
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:54:02 +0200 (CEST)
+Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBRF-0004PK-Cd
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42954)
+	id 1ltBO5-00041N-84
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBFB-0006Dx-7C
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:49 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50721)
+ id 1ltBF9-00066v-G7
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:47 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBEi-0000yI-6w
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:48 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id d184so14438759wmd.0
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:16 -0700 (PDT)
+ id 1ltBEh-0000yP-Vs
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:47 -0400
+Received: by mail-wr1-x436.google.com with SMTP id v9so2581637wrx.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Ye94kK+c9X5Qdb3oLfHimMsgJSBTnBwqNDEcye+BmeI=;
- b=zUDKzUg96lKBS+ea+oADsB4zFQev42TOYH+3dADxqndLJ7Rf4CdvGIxA8Is4/GftuI
- xFVRGHNXs+m3M3D/2bUtx+c1112aBeQMdO0DYmfUaOvhkE+qO8k/695TTFAebTSLQUSi
- IM6GX+bEu5kt6UTJVo+b1n4mBsKU/S4uDDmUn56XFUSGmra0CyTrNBDrQ+zLN9XpAPhq
- /Y5ePIwzzzi6hSYxom/fbkjzfGoEq7QREzFoRuuJlTWqDtZtn16DGXkCFyqGOeIdbMJN
- Gw+SIWfdU+R5MDWxggBz8DfnEcTdCaJvRd5v6JpfEkDUxYFztJF5ADkyuKs+4zlhZXLx
- 2tBQ==
+ bh=j0k9xnVMNuLNWBt5G9Ow8Dce+nq2YR61kkHpX3kHo9I=;
+ b=vaiow/XCcqTTv4j3798VFKKrpiQb2ABddryKZ+FBEksSgBu/uL4y2awaCzaNqMWx5s
+ WR3ez0D22npV6LfHEohA2BxU1j4BqFqjguFW36HLQ3jKWtbB6WJupCLhaqj9IcUgGvJ5
+ YAQOdPICdwqdAgdzYshCkiHiUjRPW2TyHAyoqRGHHxmzORCk5L3vymJFwe8lu5Y1peSs
+ NkHo5BKMB0oi0qlYQcI+k40w+G6SDzXVLx7ZuYi8bLe0peOWu4p751RNHKrAIubBGHNV
+ 0pu2Wi/cjC1eLdh8OFcXv+5KN0QOCsU+Unrpk0Pm0wo54WSWKSaLyJxxaZDcfR7ltvFY
+ aiXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ye94kK+c9X5Qdb3oLfHimMsgJSBTnBwqNDEcye+BmeI=;
- b=h2luqmh84McoYyt5h3yTuTPNtmav4wJGV7FR6Q97tLs7a6c2L6zA2V/CJc0ZkiBUw5
- sxncJaDXaW/hWCpaZ7r9qmH1qw15waKPrY0ASfVTKtLVXMypnxSXMiPUmAVgHqO0fFcB
- W/M4nO0onY5TS5DmX4tr6icbzTzPwjcFCCEOEjpEQE8PR8jdf/WGr8wPE2x0C1Ff6aVO
- Sp5/tRJu7PjUFjqnNvwCQUL/il4wQeJ2QpeBeYMP7oETxlgwV8rN0ZpB4psTDSCJHNp+
- 22lKdb/AokP4Wogy9uPglbf9k/9XKQY5YlDJjCRaUXcS80mCQsydf45FJSPqikDUoz2Y
- m9rA==
-X-Gm-Message-State: AOAM532jgytpf0h0uH9OEbOygDvg1iazmgSlmhC0C/X5OHVSuJHyJ2nB
- R3ppXVfYo4OV0WHb2wPjB0mfMXoaqMSHHw==
-X-Google-Smtp-Source: ABdhPJws+trw+0vA78ec/xTdEX7WApxcph8AUN3eizGIguDtypMceNG4ns9YUSAbiUaj5Rrez/TUVg==
-X-Received: by 2002:a7b:cde1:: with SMTP id p1mr5846719wmj.13.1623771856066;
+ bh=j0k9xnVMNuLNWBt5G9Ow8Dce+nq2YR61kkHpX3kHo9I=;
+ b=RfCKLRr9RK4ebawcwhjPc5xwot4lN3QIpzO4NOTBBcNJrJBtS1cHTSHMP876FdTCVz
+ iEG5e2Unk6FSMcUxVuRjdk+OD6xm06Ck8N8r145fQiIbXnrkYxQeZQMddJ4vf3oIye+E
+ zdY++SwyC9go74yinZKOLxureS3+lSf1TdKoVF140RyDfe7ADuui2JmDHG7FZDUY5uXe
+ Vq9UQuK/OFEPgkw3YKFFfq6AYTfxfIa6RjkHlP51sJJxMgJJf9qAEiDpicrtMiPs63Hb
+ JDSTB0c+2vohNVg+yOjkmxT4xdDYw1LW6SfV3xebap6mxuLWtRbAvDdmI9za7GE2Fbgz
+ 0fdA==
+X-Gm-Message-State: AOAM533N1IMDiWbLs2X+DE75FtRkVh1uflUq3z1PGDb8vH+lUh7xP+7y
+ zfLg6wg1NjcQ93oFJg4ZVbRtxkdkgAeh8Q==
+X-Google-Smtp-Source: ABdhPJzgyAlNqF+Ow3LNK1HKgcnDzAn5a/5ACSGYlhN5Ixl7RYEVmyYNiNsTSWAOicBekNnooSerVg==
+X-Received: by 2002:a5d:4401:: with SMTP id z1mr26399333wrq.149.1623771856693; 
  Tue, 15 Jun 2021 08:44:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.15
+ by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 08:44:15 -0700 (PDT)
+ Tue, 15 Jun 2021 08:44:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/28] target/arm: Use acpi_ghes_present() to see if we report
- ACPI memory errors
-Date: Tue, 15 Jun 2021 16:43:48 +0100
-Message-Id: <20210615154405.21399-12-peter.maydell@linaro.org>
+Subject: [PULL 12/28] target/arm: Fix mte page crossing test
+Date: Tue, 15 Jun 2021 16:43:49 +0100
+Message-Id: <20210615154405.21399-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210615154405.21399-1-peter.maydell@linaro.org>
 References: <20210615154405.21399-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,44 +86,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virt_is_acpi_enabled() function is specific to the virt board, as
-is the check for its 'ras' property.  Use the new acpi_ghes_present()
-function to check whether we should report memory errors via
-acpi_ghes_record_errors().
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This avoids a link error if QEMU was built without support for the
-virt board, and provides a mechanism that can be used by any future
-board models that want to add ACPI memory error reporting support
-(they only need to call acpi_ghes_add_fw_cfg()).
+The test was off-by-one, because tag_last points to the
+last byte of the tag to check, thus tag_last - prev_page
+will equal TARGET_PAGE_SIZE when we use the first byte
+of the next page.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/403
+Reported-by: Peter Collingbourne <pcc@google.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210612195707.840217-1-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Dongjiu Geng <gengdongjiu1@gmail.com>
-Message-id: 20210603171259.27962-4-peter.maydell@linaro.org
 ---
- target/arm/kvm64.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/arm/mte_helper.c           |  2 +-
+ tests/tcg/aarch64/mte-7.c         | 31 +++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  2 +-
+ 3 files changed, 33 insertions(+), 2 deletions(-)
+ create mode 100644 tests/tcg/aarch64/mte-7.c
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 37ceadd9a9d..59982d470d3 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -1410,14 +1410,10 @@ void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
- {
-     ram_addr_t ram_addr;
-     hwaddr paddr;
--    Object *obj = qdev_get_machine();
--    VirtMachineState *vms = VIRT_MACHINE(obj);
--    bool acpi_enabled = virt_is_acpi_enabled(vms);
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 166b9d260f8..9e615cc513c 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -730,7 +730,7 @@ static int mte_probe_int(CPUARMState *env, uint32_t desc, uint64_t ptr,
+     prev_page = ptr & TARGET_PAGE_MASK;
+     next_page = prev_page + TARGET_PAGE_SIZE;
  
-     assert(code == BUS_MCEERR_AR || code == BUS_MCEERR_AO);
+-    if (likely(tag_last - prev_page <= TARGET_PAGE_SIZE)) {
++    if (likely(tag_last - prev_page < TARGET_PAGE_SIZE)) {
+         /* Memory access stays on one page. */
+         tag_size = ((tag_byte_last - tag_byte_first) / (2 * TAG_GRANULE)) + 1;
+         mem1 = allocation_tag_mem(env, mmu_idx, ptr, type, sizem1 + 1,
+diff --git a/tests/tcg/aarch64/mte-7.c b/tests/tcg/aarch64/mte-7.c
+new file mode 100644
+index 00000000000..a981de62d4a
+--- /dev/null
++++ b/tests/tcg/aarch64/mte-7.c
+@@ -0,0 +1,31 @@
++/*
++ * Memory tagging, unaligned access crossing pages.
++ * https://gitlab.com/qemu-project/qemu/-/issues/403
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "mte.h"
++
++int main(int ac, char **av)
++{
++    void *p;
++
++    enable_mte(PR_MTE_TCF_SYNC);
++    p = alloc_mte_mem(2 * 0x1000);
++
++    /* Tag the pointer. */
++    p = (void *)((unsigned long)p | (1ul << 56));
++
++    /* Store tag in sequential granules. */
++    asm("stg %0, [%0]" : : "r"(p + 0x0ff0));
++    asm("stg %0, [%0]" : : "r"(p + 0x1000));
++
++    /*
++     * Perform an unaligned store with tag 1 crossing the pages.
++     * Failure dies with SIGSEGV.
++     */
++    asm("str %0, [%0]" : : "r"(p + 0x0ffc));
++    return 0;
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 928357b10a9..2c05c90d170 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -37,7 +37,7 @@ AARCH64_TESTS += bti-2
  
--    if (acpi_enabled && addr &&
--            object_property_get_bool(obj, "ras", NULL)) {
-+    if (acpi_ghes_present() && addr) {
-         ram_addr = qemu_ram_addr_from_host(addr);
-         if (ram_addr != RAM_ADDR_INVALID &&
-             kvm_physical_memory_addr_from_host(c->kvm_state, addr, &paddr)) {
+ # MTE Tests
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
+-AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4 mte-5 mte-6
++AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4 mte-5 mte-6 mte-7
+ mte-%: CFLAGS += -march=armv8.5-a+memtag
+ endif
+ 
 -- 
 2.20.1
 
