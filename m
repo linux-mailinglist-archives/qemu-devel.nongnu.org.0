@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D80B43A7C93
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:59:35 +0200 (CEST)
-Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E443A7C94
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:59:38 +0200 (CEST)
+Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt6n8-000298-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44020)
+	id 1lt6nB-0002HF-5P
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lt6ku-0000Fu-Tq
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:57:16 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:46892)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt6l6-0000N3-Nt
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:57:30 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:56303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lt6ks-0000fo-HB
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:57:16 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id he7so21630719ejc.13
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 03:57:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt6l4-0000ka-G5
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:57:28 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id c84so1130570wme.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 03:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/DZ5P/GbtwwSKTp1kawFHerPro8RELr7JTJWd5taZyk=;
- b=yF2qyfW4n2BwTN6l58I9H+NwolHFf+TgxgjkxqafulvJXPp9hp3HX/oUykpHGIJwUK
- tEk+fyVsj6EMJyayL83MF508f+wOymByaSgsfLCq+JhlXB+Csv4ZHeb3rqrX69pQ7zwX
- PPMe0anDvT42u/Rnnr0BBUUc8q0kqAJYkHszVrqNoRMLKgHCQbLX1rPVNivQI2qhwp+g
- nSz6JwDTz/KmP/JjCFAf2EIajJ1iarV+NydI2fVbZUauEkzhXxAdtNqaggqfCo3qAKr9
- +yNe13aEloft+VPAogMB+lrQzV7QDt2ZOgeC7uRqNlmIrgHX6oeZMzwIa+4EOO81azss
- 92Jw==
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=5vE6p0YV4Ifc5vQM6ee0zloXavM5yoBorEnM4xGPGj0=;
+ b=Ya/wTtBJWP22a7bTEUBliY3trUV/N1Mv4oNMeOUNkmbf/UeE9el/A6pri4wTORWDpn
+ j4TFPmuSKJ1XGCa2F5XYmSYh4lcBSvgJJMD3fCFqtjnRZJ4FMmuAfT0Yne71rJCqwKq/
+ 5F+49PDseCyNXzDWG2iOmDmO77Xtslm7e5eERv1U7VlUBR98ukMkzgNQC2RPzqsfKz2Y
+ sNaH/wHqu+mGH5eIcz/dJ2GqUwsYZjB3yQ/erGK6GJtUDWtWez5YMgjMzrdKYf1lSIVC
+ rdXMlWg5v5PUZ9IlB/33Y3rUH0i0DWf3KdvfOW9TE2nLyR/Z0xhrtR5IijO52bdCkzPu
+ EF5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/DZ5P/GbtwwSKTp1kawFHerPro8RELr7JTJWd5taZyk=;
- b=l+wKoQUx89p6/O5r/p5Xr6dJhWNYJPkjVl7HQSMdux9SHdKhlzGtTL3vJlzbZP8KYE
- q1H45z+v8NK61/0RX45sx0O045AsCMS20Ubm8z4C2H0H/kpGRw1ffqTLb4ZyIHjOS7tv
- hYitRmKC8xVfNA67VhSKO4+wWzHbA2pKGG6cpVR5UK98+ubkj5fSGMuTRW7T8pnZ17Qq
- z7yY1GR4h5eaJIpHvUcGJ7uSzeNdLE5y5xIVV8ofpia+f5LqFq7oOLuqfakBfNr+Unxh
- 1DtY7gwVXCqLxbY3AM+kAGlN9+lbE/pd3umi0USsCq5Gq4gxd/uNy2tcWyW1j7Bl1I50
- 44KQ==
-X-Gm-Message-State: AOAM531McBWFk08g7JWQ3ucN4C075g8syh4yI5vzi7jcrfSduB6lnew0
- mA7U2Yx1iEGD7Oec6JocIVAYFDbgFV61tRE0ywvmAQ==
-X-Google-Smtp-Source: ABdhPJzyNTocXTEHVZGbDdNMoXpI5M2yjeXf8KbK9AEEMpkDGe+5bMe5PTRNHaILOmoXBmVxWQj/AZ4kQ6vK9ko2IjQ=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr19927315ejy.407.1623754632728; 
- Tue, 15 Jun 2021 03:57:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=5vE6p0YV4Ifc5vQM6ee0zloXavM5yoBorEnM4xGPGj0=;
+ b=EGn9kZd+e/MbD0kW6PDuX3f/Y+PvCIBEOF5jzu7jBTwGMY99BgeuJahtnoUntM4obC
+ 5NtizWEmiaObmovAWLk/q1Ns5e4wC6Mf6w5kmgsSt0Rn3Mp1NCVB1/W66ZhNt8gftVi4
+ eL06JgZjVbvq8GIKJTH0lxnCi1L95rl0e2ghmUbCeC6EmxmWQe2X4W64kU08TpmQtFiq
+ zLKhIhUzlmXaIJGhSm1qfreRc/hTECYHGLXv/SmFz+PkJr1zN5oXH3O/ipCn/K8IvUG5
+ A5EWX1zxyXBZe3eVMJUEtgtqIZvP5Vz/+M1cJ4mcHqbofkDK2lGhX8S3BuaSMKYgH/bZ
+ jQGA==
+X-Gm-Message-State: AOAM532onQs8polWpqWq353Qahg3/uk6UYAqJRLFQeetYKduo6pjoJNu
+ LKiZB+DDZBUSwkLBcIJUBN+uvA==
+X-Google-Smtp-Source: ABdhPJysumDtUhnFzR9fnzjpFnGpmnOLZTuKdJz6azM+V/diBExGg6gp64QCAzizXa2umj+McLMuQw==
+X-Received: by 2002:a7b:c453:: with SMTP id l19mr4591798wmi.154.1623754643375; 
+ Tue, 15 Jun 2021 03:57:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v7sm20634409wrf.82.2021.06.15.03.57.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 03:57:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C7F231FF7E;
+ Tue, 15 Jun 2021 11:57:21 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 5/8] util: Use unique type for QemuRecMutex in
+ thread-posix.h
+References: <20210614233143.1221879-1-richard.henderson@linaro.org>
+ <20210614233143.1221879-6-richard.henderson@linaro.org>
+Date: Tue, 15 Jun 2021 11:57:21 +0100
+In-Reply-To: <20210614233143.1221879-6-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Mon, 14 Jun 2021 16:31:40 -0700")
+Message-ID: <87y2bbgzu6.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-16-agraf@csgraf.de>
-In-Reply-To: <20210519202253.76782-16-agraf@csgraf.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Jun 2021 11:56:37 +0100
-Message-ID: <CAFEAcA9S619pfhfEXUxGQkjBBKahOYm14jpxEam2CQTtC1dRTQ@mail.gmail.com>
-Subject: Re: [PATCH v8 15/19] hvf: arm: Implement -cpu host
-To: Alexander Graf <agraf@csgraf.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,116 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> We will shortly convert lockable.h to _Generic, and we cannot
+> have two compatible types in the same expansion.  Wrap QemuMutex
+> in a struct, and unwrap in qemu-thread-posix.c.
 >
-> Now that we have working system register sync, we push more target CPU
-> properties into the virtual machine. That might be useful in some
-> situations, but is not the typical case that users want.
->
-> So let's add a -cpu host option that allows them to explicitly pass all
-> CPU capabilities of their host CPU into the guest.
->
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
->
-> ---
->
-> v6 -> v7:
->
->   - Move function define to own header
->   - Do not propagate SVE features for HVF
->   - Remove stray whitespace change
->   - Verify that EL0 and EL1 do not allow AArch32 mode
->   - Only probe host CPU features once
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +static void hvf_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-> +{
-> +    ARMISARegisters host_isar;
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Can you zero-initialize this (with "= { }"), please? That way we
-know we have zeroes in the aarch32 ID fields rather than random junk later...
-
-> +    const struct isar_regs {
-> +        int reg;
-> +        uint64_t *val;
-> +    } regs[] = {
-> +        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
-> +        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
-> +        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
-> +        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
-> +        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
-> +        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
-> +        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
-> +        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
-> +        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
-> +    };
-> +    hv_vcpu_t fd;
-> +    hv_vcpu_exit_t *exit;
-> +    int i;
-> +
-> +    ahcf->dtb_compatible = "arm,arm-v8";
-> +    ahcf->features = (1ULL << ARM_FEATURE_V8) |
-> +                     (1ULL << ARM_FEATURE_NEON) |
-> +                     (1ULL << ARM_FEATURE_AARCH64) |
-> +                     (1ULL << ARM_FEATURE_PMU) |
-> +                     (1ULL << ARM_FEATURE_GENERIC_TIMER);
-> +
-> +    /* We set up a small vcpu to extract host registers */
-> +
-> +    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
-> +    for (i = 0; i < ARRAY_SIZE(regs); i++) {
-> +        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
-> +    }
-> +    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &ahcf->midr));
-> +    assert_hvf_ok(hv_vcpu_destroy(fd));
-> +
-> +    ahcf->isar = host_isar;
-> +    ahcf->reset_sctlr = 0x00c50078;
-
-Why this value in particular? Could we just ask the scratch HVF CPU
-for the value of SCTLR_EL1 rather than hardcoding something?
-
-> +
-> +    /* Make sure we don't advertise AArch32 support for EL0/EL1 */
-> +    g_assert((host_isar.id_aa64pfr0 & 0xff) == 0x11);
-
-This shouldn't really be an assert, I think. error_report() something
-and return false, and then arm_cpu_realizefn() will fail, which should
-cause us to exit.
-
-> +}
-> +
-> +void hvf_arm_set_cpu_features_from_host(ARMCPU *cpu)
-> +{
-> +    if (!arm_host_cpu_features.dtb_compatible) {
-> +        if (!hvf_enabled()) {
-> +            cpu->host_cpu_probe_failed = true;
-> +            return;
-> +        }
-> +        hvf_arm_get_host_cpu_features(&arm_host_cpu_features);
-> +    }
-> +
-> +    cpu->dtb_compatible = arm_host_cpu_features.dtb_compatible;
-> +    cpu->isar = arm_host_cpu_features.isar;
-> +    cpu->env.features = arm_host_cpu_features.features;
-> +    cpu->midr = arm_host_cpu_features.midr;
-> +    cpu->reset_sctlr = arm_host_cpu_features.reset_sctlr;
-> +}
-> +
->  void hvf_arch_vcpu_destroy(CPUState *cpu)
->  {
->  }
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
