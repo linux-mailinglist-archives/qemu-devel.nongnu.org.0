@@ -2,94 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5203A8669
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:26:08 +0200 (CEST)
-Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3503A8670
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:26:53 +0200 (CEST)
+Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBt8-0006zW-TE
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52722)
+	id 1ltBts-0007hb-5U
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltBnq-0007jf-Lr
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:20:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltBnp-0001R8-0f
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:20:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623774036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D6K3IslK89EScYEyqboYPe62DLjwzr2sE1PoiY5H1Yg=;
- b=BOxiqkS+PB0zaR8dR/jbNAdTqPD9UVhxT+m6sQH8EEs1jNDzLEXcYPOjfIO00gzahTmPQH
- HicpJ8lVeoyqBR6Ba3dcIDiBLauVa5qOkv5nguIcKzL+D2Cl/7HA3F8YLkzydJYJNnfS1q
- GfEGoWo2J0pULW6GX7fPIkikkWMMLUI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-5NIU2YV-NNGEp5poufLDnQ-1; Tue, 15 Jun 2021 12:20:34 -0400
-X-MC-Unique: 5NIU2YV-NNGEp5poufLDnQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- z6-20020a17090665c6b02903700252d1ccso4760997ejn.10
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:20:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=D6K3IslK89EScYEyqboYPe62DLjwzr2sE1PoiY5H1Yg=;
- b=qJLd4dsetU5RD9/5RqyzamV1wVdDuGXNXHukXQm72zhWP8lcY3pNdU9uG8YcV4GIS8
- eYXYyttupV3OcjhR8y6aTU1tZKuutWPC3SrnrQxN92K4+tyDVp5QqZrVnQoJaqG2achk
- 0Jv0p37XHsH8oIZr+7bTA2eXXTn4yzqSWY0Ga4t44YyRSYwAotkz7KNabjAB6bYMT1CC
- 2fBCOZmNuifayUldkmcx7m1ZvPR83BUo83BlhOptAr/mZWLeuiXRyaCvZZ2LTiQjg4ge
- 6wgNwpqAV9OHT5Ytvdo5LVxg9yuTIPOx98+7cmz95sfDzoAyayL/07iB5yT1pdbdYzcy
- /oEA==
-X-Gm-Message-State: AOAM5334ocd9WJ2O43VdH4lM8X/bsqnsVPno+slt6JP/o/ohNwlMww2y
- fVb+IxCG2IN1doPWvPa6Dy/zTG4DoCA8UYRcwTVSCaoLVmmHavLkSX++JALZGvTWbtQqILDFFpG
- OhDIqZBRhZFVaZmo=
-X-Received: by 2002:a17:906:8688:: with SMTP id
- g8mr346948ejx.470.1623774033385; 
- Tue, 15 Jun 2021 09:20:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzLP8te89rvdlAQamdrdxzGGMOsC3lH/tualIXDnVoGWjs/NW6xMmh+tFDWgWak6A4k7DnsqQ==
-X-Received: by 2002:a17:906:8688:: with SMTP id
- g8mr346936ejx.470.1623774033229; 
- Tue, 15 Jun 2021 09:20:33 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- a19sm10247758ejk.46.2021.06.15.09.20.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 09:20:32 -0700 (PDT)
-Subject: Re: [PATCH v3 2/7] scsi-generic: pass max_segments via max_iov field
- in BlockLimits
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210603133722.218465-1-pbonzini@redhat.com>
- <20210603133722.218465-3-pbonzini@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <77e6386a-8070-dede-1598-bd397464ef78@redhat.com>
-Date: Tue, 15 Jun 2021 18:20:32 +0200
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ltBrv-0005Fo-1N; Tue, 15 Jun 2021 12:24:51 -0400
+Received: from [201.28.113.2] (port=32976 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1ltBrs-0004HP-Pu; Tue, 15 Jun 2021 12:24:50 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 15 Jun 2021 13:24:44 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id DCB43800144;
+ Tue, 15 Jun 2021 13:24:43 -0300 (-03)
+Subject: Re: [PATCH v2 1/3] target/ppc: Turn ppc_tlb_invalid_all in a noop
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
+ <20210610164648.83878-2-lucas.araujo@eldorado.org.br>
+ <YMg815tpe++WuRuR@yekko>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+Message-ID: <9cdab6f0-b1dc-8bd6-45d3-62422239621f@eldorado.org.br>
+Date: Tue, 15 Jun 2021 13:24:43 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210603133722.218465-3-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YMg815tpe++WuRuR@yekko>
+Content-Type: multipart/alternative;
+ boundary="------------95F68D8E357FC59F802F60A9"
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 15 Jun 2021 16:24:44.0278 (UTC)
+ FILETIME=[F3579960:01D76202]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: 5
+X-Spam_score: 0.5
+X-Spam_bar: /
+X-Spam_report: (0.5 / 5.0 requ) BAYES_05=-0.5, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.095, PDS_HP_HELO_NORDNS=0.308, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,63 +60,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.06.21 15:37, Paolo Bonzini wrote:
-> I/O to a disk via read/write is not limited by the number of segments allowed
-> by the host adapter; the kernel can split requests if needed, and the limit
-> imposed by the host adapter can be very low (256k or so) to avoid that SG_IO
-> returns EINVAL if memory is heavily fragmented.
->
-> Since this value is only interesting for SG_IO-based I/O, do not include
-> it in the max_transfer and only take it into account when patching the
-> block limits VPD page in the scsi-generic device.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   block/file-posix.c     | 3 +--
->   hw/scsi/scsi-generic.c | 6 ++++--
->   2 files changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 58db526cc2..e3241a0dd3 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1239,8 +1239,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
->   
->           ret = sg_get_max_segments(s->fd);
->           if (ret > 0) {
-> -            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
-> -                                      ret * qemu_real_host_page_size);
-> +            bs->bl.max_iov = ret;
->           }
->       }
->   
-> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-> index 98c30c5d5c..82e1e2ee79 100644
-> --- a/hw/scsi/scsi-generic.c
-> +++ b/hw/scsi/scsi-generic.c
-> @@ -179,10 +179,12 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
->           (r->req.cmd.buf[1] & 0x01)) {
->           page = r->req.cmd.buf[2];
->           if (page == 0xb0) {
-> -            uint32_t max_transfer =
-> -                blk_get_max_transfer(s->conf.blk) / s->blocksize;
-> +            uint32_t max_transfer = blk_get_max_transfer(s->conf.blk);
-> +            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
->   
->               assert(max_transfer);
-> +            max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
-> +                / s->blocksize;
+This is a multi-part message in MIME format.
+--------------95F68D8E357FC59F802F60A9
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Now that I ran checkpatch for patch 3, I saw that it complains about 
-this line being longer than 80 characters. I think it could be split so 
-it doesnâ€™t exceed that limit. It looks a bit like you intentionally 
-exceeded the warning limit, but didnâ€™t exceed the error limit (of 90). 
-Is that so?
 
-Max
+On 15/06/2021 02:38, David Gibson wrote:
+> On Thu, Jun 10, 2021 at 01:46:46PM -0300, Lucas Mateus Castro (alqotel) wrote:
+>> The function ppc_tlb_invalid_all is now a no op when compiling without TCG.
+>>
+>> Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+>
+> Hm, I think I suggested making ppc_tlb_invalidate_all() a stub, rather
+> than removing the call from !TCG code.  But looking at this again, I
+> think that was a mistake.  I think it makes more sense to suppress
+> this on the caller side, and make this a TCG only function.
+Ok, I'll add the if in ppc_cpu_reset that calls ppc_tlb_invalidate_all 
+to an #ifdef CONFIG_TCG block, as Fabiano suggested last patch.
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Estagiario
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
+--------------95F68D8E357FC59F802F60A9
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 15/06/2021 02:38, David Gibson
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:YMg815tpe++WuRuR@yekko">
+      <pre class="moz-quote-pre" wrap="">On Thu, Jun 10, 2021 at 01:46:46PM -0300, Lucas Mateus Castro (alqotel) wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">The function ppc_tlb_invalid_all is now a no op when compiling without TCG.
+
+Signed-off-by: Lucas Mateus Castro (alqotel) <a class="moz-txt-link-rfc2396E" href="mailto:lucas.araujo@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+
+Hm, I think I suggested making ppc_tlb_invalidate_all() a stub, rather
+than removing the call from !TCG code.  But looking at this again, I
+think that was a mistake.  I think it makes more sense to suppress
+this on the caller side, and make this a TCG only function.</pre>
+    </blockquote>
+    Ok, I'll add the if in ppc_cpu_reset that calls
+    ppc_tlb_invalidate_all to an #ifdef CONFIG_TCG block, as Fabiano
+    suggested last patch.<br>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Estagiario<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------95F68D8E357FC59F802F60A9--
 
