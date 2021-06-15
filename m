@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1435D3A82FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:34:54 +0200 (CEST)
-Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9277E3A82FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:34:44 +0200 (CEST)
+Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltA9V-0002eF-4d
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
+	id 1lt9rg-00032L-6H
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lt9gc-0000pb-3h
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:05:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28310)
+ id 1lt9hj-0002Dt-MA
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:06:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lt9gU-000181-7P
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:04:59 -0400
+ id 1lt9hd-0001fw-Fu
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:06:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623765892;
+ s=mimecast20190719; t=1623765964;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oWGRC/r1mxRnKVn9jdcjndUeckEhh1W+yKECL+FLOQ=;
- b=VmTP9sMqZvFPag6dlelgAWs8aWtqpQc9fmf1ntR5j5tkJ8sh+50iGWh22/fnDGAgfgQpUz
- UBHR8ZF1VzHso7ghiHvB5mc9uByy2gLLLmhI1xG4O1h+SF7kCqTc7rmrp61ZIARMs02D88
- 7gyu3DyTkm5z8YQvuga2p7HqkHcf4/M=
+ bh=QURkV8lSm8CSqllwmWffYzObRGBXqsFfB+rwW2kSPYA=;
+ b=bvvUxXvQ1JFu3vYjhbPyJ2pAixEuWwOAF14jS+aTQTwYBXLGEzxneBEywzJNGNKagl4NuN
+ 4jxdJtR40sVGJZuaP/C9W4nFvraEmeGCi0YNYTAihrWr0bbgssBYn+PmsF0PnFpST+h6ED
+ fpwlNVL+VS2iKIUsg62s7tMIrTAjUuc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-ruMCtf8bMeWmTi_yvUUR9w-1; Tue, 15 Jun 2021 10:04:48 -0400
-X-MC-Unique: ruMCtf8bMeWmTi_yvUUR9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-294-xDbwjaktP5a9NfgWPRVaew-1; Tue, 15 Jun 2021 10:06:00 -0400
+X-MC-Unique: xDbwjaktP5a9NfgWPRVaew-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C50A9027E6
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 14:04:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 134E886ABD0
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 14:06:00 +0000 (UTC)
 Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 920A0100164C;
- Tue, 15 Jun 2021 14:04:45 +0000 (UTC)
-Date: Tue, 15 Jun 2021 15:04:42 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5381F5D6AD;
+ Tue, 15 Jun 2021 14:05:59 +0000 (UTC)
+Date: Tue, 15 Jun 2021 15:05:56 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 04/26] configure, meson: convert libtasn1 detection to
- meson
-Message-ID: <YMizevf8d8gsLsxl@redhat.com>
+Subject: Re: [PATCH 05/26] configure, meson: convert pam detection to meson
+Message-ID: <YMizxNw1jZ3MNFfq@redhat.com>
 References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-5-pbonzini@redhat.com>
+ <20210608112301.402434-6-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210608112301.402434-5-pbonzini@redhat.com>
+In-Reply-To: <20210608112301.402434-6-pbonzini@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,7 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -88,16 +87,15 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 01:22:39PM +0200, Paolo Bonzini wrote:
-> Make it depend on gnutls too, since it is only used as part of gnutls
-> tests.
-> 
+On Tue, Jun 08, 2021 at 01:22:40PM +0200, Paolo Bonzini wrote:
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  configure              | 19 -------------------
->  meson.build            |  9 +++++----
+>  authz/meson.build      |  2 +-
+>  configure              | 38 ++++----------------------------------
+>  meson.build            | 30 +++++++++++++++++++++++++-----
+>  meson_options.txt      |  2 ++
 >  tests/unit/meson.build |  2 +-
->  3 files changed, 6 insertions(+), 24 deletions(-)
+>  5 files changed, 33 insertions(+), 41 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
