@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335733A8795
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:32:36 +0200 (CEST)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9933A87A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:34:58 +0200 (CEST)
+Received: from localhost ([::1]:55368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltCvT-0005Rk-6c
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:32:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
+	id 1ltCxl-0003CQ-Hn
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCsc-0001s6-RR
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:29:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCsZ-0004kh-Ax
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:29:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623778174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rKuHlR37MTxbbn0wbSqQTUMCv4TwJPRODCv1C2NJeDA=;
- b=gW4ulDI7Q58m0ZP/iqujlYrYoZzoumCsXpLHEsRrmlDjKvVmWjiKg9Y+9EGh3g+0vfXZAo
- 4N4sBi/HSa3Wezo/0bxuq8F+R0JG3k2GbCA6MCpLvpdwp9OAGObCGoNOHjfSWvy8bhhg9a
- +A5JJFJeWrwxvYcBv2jwrsLhJwmCg0I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-q1zgE95aNXCe9ySjZjRUWA-1; Tue, 15 Jun 2021 13:29:33 -0400
-X-MC-Unique: q1zgE95aNXCe9ySjZjRUWA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q15-20020adfc50f0000b0290111f48b865cso8915028wrf.4
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:29:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltCwT-0001OX-Nf
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:33:37 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltCwS-0007Jf-8e
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:33:37 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k5-20020a05600c1c85b02901affeec3ef8so2347576wms.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=flZ/YMMs+93ZpkUzXJkXdGqKXbGy5i9COH+JVfBWs4A=;
+ b=BwCq91w5uKb86cd0gyibH8ichR6tedBbU2vSGZ7JeriIzPStNX/VFOmi58At3lvWd/
+ les/dQDz8Wgdyxw1Zk6Xfj4bSZzRkWatU+rzpOsYqGGL1YmBjjiHGCto/y4qA8FJGzbK
+ 8IVsZx1H7s0I8lh9OuVjS457/L4PXdcrf7FJU/BvRAjCqiNkxCeFWMhjKrato+k3Yc30
+ BBCzi4wQXuvWhUfR2Fl683TLY2Rj3f+1SiGYLlXAv6NINUaCNr6p5xQJJpQ/KT3t4F94
+ pYKg/tzifBSyK6YzEc+5l+kNUKpI1Qe3vrCn44aEslY+n8+3exj4B3wgOacI8nL6YIIl
+ B9RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rKuHlR37MTxbbn0wbSqQTUMCv4TwJPRODCv1C2NJeDA=;
- b=DmrXX5kF/bXK62SBmCzXeA6kyMSEEA72FD+BAK1N7Z4dOPWOoPw9yQVbzQj9y7sdIH
- BUMZohtLjRWcb8K92W4rFRKlg/B7dIUrrlc8oUosgMXZQyaefrWUuL+tIKF7dMaqUasn
- 6Lu2gV83W1/27rptfX35KK0VUarU5K453HuelELviWipBZ7A6C+Rj3OuQoXRosoCOQqe
- attxpPe+1Z8olWPkbjE465t6TTBWLAlkafHkBgKzbsBc6x0oHoUoy9LC8y/qccO4OVcu
- 0kQmylej4vf2z48MPnt3k7zODjXtD4psw7YJ9Iywjoc4/WLqQQkFh6vcRXVI3nvrosBd
- 9UMw==
-X-Gm-Message-State: AOAM532ZSYlfe3/z/YltOq2HfbFVV3WyFHBwT3dlBXJosWJpb/ptchJU
- BtU2SOj2Pi6VSMOSVgz7f9c3YJeokWvalGm8EhLX5R7tmdrR2GqIJGZuBiFYhPugcHKI4y5LTGA
- JXmclmqkOFtq1O8w=
-X-Received: by 2002:a05:600c:4ba1:: with SMTP id
- e33mr6613507wmp.39.1623778172125; 
- Tue, 15 Jun 2021 10:29:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLlrvG483iv3GMMhWgffGzVnNCHnuHABYzqpwpn3gfYWXu1GDOkECmOth3Jm6aN6rxg9KBQg==
-X-Received: by 2002:a05:600c:4ba1:: with SMTP id
- e33mr6613481wmp.39.1623778171884; 
- Tue, 15 Jun 2021 10:29:31 -0700 (PDT)
+ bh=flZ/YMMs+93ZpkUzXJkXdGqKXbGy5i9COH+JVfBWs4A=;
+ b=CPxi1SiEJe5RSZZyW6Uf4dYaICUJmPR9n1+vRjEtUkN/jVUwtHTpogZqZA58LU9Jm9
+ vtStyYR0JBi/QTSirclG3Jpwn9VT5HzeDj1jt2tRUzk+vixr0SeDwwsde1+xg2ykzePw
+ 9BJA0zr8MBNZvEHE4i3bub3u+VRGVbxHDpSvPvnXHBjayrYwTNzwOO0LVcEXzuIKEWmC
+ 6/kc5/sYhrwaxZ8XajnPXhCGEPA/Xn8Ydgd2NxL3explQJOfiJ50BFyVRlMvF7+gZ28Y
+ 9+Jwkp+Gi5x5vwFT5xY4EX3uqGAPYbZ1ulxBKjI1LEic3dlHmqO5HQU8h97XKbtLfsk4
+ 6hOQ==
+X-Gm-Message-State: AOAM531Kf1bpQg7pZkVMCiPg/vD7o4K2orEf+r6ziXhDXpRlZxjP/Uv0
+ vX+VKuUHQyQQPcMgmdXMwd4=
+X-Google-Smtp-Source: ABdhPJzS9fc0rG6BBVeenGHP7MZ28c0tYzSNxOBNCB31sKH132nOw++ZZPvcW5HwwTOWGFcwZPP4uQ==
+X-Received: by 2002:a05:600c:4f4d:: with SMTP id
+ m13mr6684543wmq.14.1623778414676; 
+ Tue, 15 Jun 2021 10:33:34 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id k11sm2745518wmj.1.2021.06.15.10.29.31
+ by smtp.gmail.com with ESMTPSA id 89sm20155691wrq.14.2021.06.15.10.33.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 10:29:31 -0700 (PDT)
-Subject: Re: [PATCH v3 7/7] crypto: Make QCryptoTLSCreds* structures private
-To: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210615172746.2212998-1-philmd@redhat.com>
- <20210615172746.2212998-8-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <481d9c73-972f-9b63-f880-4de6ec211520@redhat.com>
-Date: Tue, 15 Jun 2021 19:29:30 +0200
+ Tue, 15 Jun 2021 10:33:33 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: fix emulation of nanoMIPS BPOSGE32
+ instruction
+To: Aleksandar Rikalo <Aleksandar.Rikalo@syrmia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <VI1PR0302MB34869449EE56F226FC3C21129C309@VI1PR0302MB3486.eurprd03.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3d567171-0b2f-85b9-be70-ad8df4508a32@amsat.org>
+Date: Tue, 15 Jun 2021 19:33:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210615172746.2212998-8-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <VI1PR0302MB34869449EE56F226FC3C21129C309@VI1PR0302MB3486.eurprd03.prod.outlook.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.095,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,105 +92,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-block@nongnu.org,
- Leonardo Bras <leobras.c@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Petar Jovanovic <petar.jovanovic@syrmia.com>,
+ Filip Vidojevic <Filip.Vidojevic@Syrmia.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/21 7:27 PM, Philippe Mathieu-Daud√© wrote:
-> Code consuming the "crypto/tlscreds*.h" APIs doesn't need
-> to access its internals. Move the structure definitions to
-> the "tlscredspriv.h" private header (only accessible by
-> implementations). The public headers (in include/) still
-> forward-declare the structures typedef.
-> 
-> This solves a bug introduced by commit 7de2e856533 which made
-> migration/qemu-file-channel.c include "io/channel-tls.h",
-> itself sometime depends on GNUTLS, leading to build failure
-> on OSX:
-> 
->   [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
->   FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
->   cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
->   In file included from ../migration/qemu-file-channel.c:29:
->   In file included from include/io/channel-tls.h:26:
->   In file included from include/crypto/tlssession.h:24:
->   include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
->   #include <gnutls/gnutls.h>
->            ^~~~~~~~~~~~~~~~~
->   1 error generated.
-> 
-> Reported-by: Stefan Weil <sw@weilnetz.de>
-> Suggested-by: Daniel P. Berrang√© <berrange@redhat.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
-> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
-> Signed-off-by: Philippe Mathieu-Daud√© <philmd@redhat.com>
+On 6/15/21 7:22 PM, Aleksandar Rikalo wrote:
+> Per the "MIPSÆ Architecture Extension: nanoMIPS32 DSP Technical
+> Reference Manual ó Revision 0.04" p. 88 "BPOSGE32C", offset argument (imm)
+> should be left-shifted first.
+> This change was tested against test_dsp_r1_bposge32.c DSP test.
+
+Thank you! Could you add a job to run these tests on the mainstream CI?
+You simply need to open a GitLab account, add your job (probably in
+.gitlab-ci.d/buildtest.yml) and push your branch to test it.
+
+> Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> Signed-off-by: Filip Vidojevic <filip.vidojevic@syrmia.com>
+
+Reviewed-by: Philippe Mathieu-DaudÈ <f4bug@amsat.org>
+
 > ---
->  crypto/tlscredspriv.h              | 45 ++++++++++++++++++++++++++++++
->  include/crypto/tls-cipher-suites.h |  6 ----
->  include/crypto/tlscreds.h          | 16 -----------
->  include/crypto/tlscredsanon.h      | 12 --------
->  include/crypto/tlscredspsk.h       | 12 --------
->  include/crypto/tlscredsx509.h      | 10 -------
->  crypto/tls-cipher-suites.c         |  7 +++++
->  crypto/tlscredsanon.c              |  3 +-
->  crypto/tlscredspsk.c               |  3 +-
->  crypto/tlscredsx509.c              |  4 +--
->  crypto/tlssession.c                |  1 +
->  11 files changed, 58 insertions(+), 61 deletions(-)
-
-> index bea5f76c55d..2675b1af8f8 100644
-> --- a/crypto/tlscredsanon.c
-> +++ b/crypto/tlscredsanon.c
-> @@ -26,9 +26,10 @@
->  #include "qom/object_interfaces.h"
->  #include "trace.h"
->  
-> -
-
-Involuntary line removal :/ Can restore if v4 required.
-
->  #ifdef CONFIG_GNUTLS
->  
-> +#include <gnutls/gnutls.h>
-> +
->  
->  static int
->  qcrypto_tls_creds_anon_load(QCryptoTLSCredsAnon *creds,
-> diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-> index f5a31108d15..820719c5e84 100644
-> --- a/crypto/tlscredspsk.c
-> +++ b/crypto/tlscredspsk.c
-> @@ -26,9 +26,10 @@
->  #include "qom/object_interfaces.h"
->  #include "trace.h"
->  
-> -
->  #ifdef CONFIG_GNUTLS
->  
-> +#include <gnutls/gnutls.h>
-> +
->  static int
->  lookup_key(const char *pskfile, const char *username, gnutls_datum_t *key,
->             Error **errp)
-> diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-> index d9d6f4421e5..44dbe0dc819 100644
-> --- a/crypto/tlscredsx509.c
-> +++ b/crypto/tlscredsx509.c
-> @@ -27,12 +27,10 @@
->  #include "qom/object_interfaces.h"
->  #include "trace.h"
->  
-> -
->  #ifdef CONFIG_GNUTLS
-> -
-> +#include <gnutls/gnutls.h>
->  #include <gnutls/x509.h>
->  
-> -
->  static int
->  qcrypto_tls_creds_check_cert_times(gnutls_x509_crt_t cert,
->                                     const char *certFile,
-
+> †target/mips/tcg/translate.c | 2 +-
+> †1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+> index 797eba4434..2d0a723061 100644
+> --- a/target/mips/tcg/translate.c
+> +++ b/target/mips/tcg/translate.c
+> @@ -21137,7 +21137,7 @@ static int
+> decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+> † † † † † † † † † † † † † † † † † † † †extract32(ctx->opcode, 0, 1) << 13;
+> †
+> † † † † † † † † † † † † †gen_compute_branch_nm(ctx, OPC_BPOSGE32, 4, -1, -2,
+> - † † † † † † † † † † † † † † † † † † † † † † †imm);
+> + † † † † † † † † † † † † † † † † † † † † † † †imm << 1);
+> † † † † † † † † † † †}
+> † † † † † † † † † † †break;
+> † † † † † † † † †default:
+> -- 
+> 2.25.1
 
