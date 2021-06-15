@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBC53A8A07
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:15:02 +0200 (CEST)
-Received: from localhost ([::1]:57380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEDD3A8A23
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:27:54 +0200 (CEST)
+Received: from localhost ([::1]:35834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltFSe-0001BX-V2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50460)
+	id 1ltFf6-0006dm-GP
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltFRN-00008V-BY; Tue, 15 Jun 2021 16:13:41 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:34306)
+ id 1ltFds-0005ly-9r; Tue, 15 Jun 2021 16:26:36 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:46863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltFRL-00050X-Nu; Tue, 15 Jun 2021 16:13:41 -0400
-Received: by mail-qt1-x830.google.com with SMTP id u20so55300qtx.1;
- Tue, 15 Jun 2021 13:13:39 -0700 (PDT)
+ id 1ltFdq-00043u-D0; Tue, 15 Jun 2021 16:26:35 -0400
+Received: by mail-qt1-x832.google.com with SMTP id a15so22834qtx.13;
+ Tue, 15 Jun 2021 13:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LyABgyzOhw3zNYJfMkMvbfD+Pdifsq6x8oVeQgQE7ek=;
- b=Dq0gz4LWpJvMVWbJmmMRxOWxeX8YkYjbVfpPxZJbWbbbhDbxfZjpOFN7nst2LdQzpj
- rqgcOlkmcn/qAPOMstSCSFE3kFWGij1nTH6uZoAro8kW0ZUpgtz9Qwp87ZSuB16XVepa
- /bYMFu6zZKVKprIrWG8ixgK9e79IVzPpbVrUGHjh8xsPyNLmcmVd+ySUEwAcoA3ssW4b
- HzNAXXppFYOSUtTTyyjKihcNyFAQfuTD1q6pzULZJzTTma73PmLfUBSbk3PJvf2y5llC
- 0Xp6RLxgFaTFJf3byGNtglx6jerL/2dQnntdwVQ7/ylsKVkGMBaZD6uO7iC7iWgMn8Uo
- LDgA==
+ bh=AUEwGlkuov5lGX/cLB7G8HplOlAImoEl/RkyBJKzsRw=;
+ b=CDMBvuI/b0mGgaArBhfxJpvdCCjwH7uD+1Q44h7dZz/hcql11lomSKIyIk7xEsy1Re
+ 4B/YseSDI0SNw+KJd5y0jAmbOJlKvw/pSuLswXaYa2+G41qAxs/3BsWu0ltcWQheGzIZ
+ +zLx28kzfC2o4DfUXjeCXpFb3lqV/WKD2O5zClsEUxo2URNbEkEYKHTnxuRqxJ3q3rlK
+ vy24C2qfJfg7bj2mbquJjxmjwB+bCN9aSKs4uxBu3ybVMUuVOA7FZHNNhNPAuO3ddkn/
+ /vi5n42yQHNSXXePnjc553Yfk3Co3u/j1wFGSrIExE1UlpsBoMIoF+UOmvpM7Mz89F2i
+ 7ClA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LyABgyzOhw3zNYJfMkMvbfD+Pdifsq6x8oVeQgQE7ek=;
- b=PEpnjYR/vaylajRarYQUr0cr/FoUzPD9lTnHxfd8F2T4/qxpEHX4vw0QIWKNczu/Is
- ZTZKbrXAoTwlUTiZpTjSAYkRqeRRFxjsLn4+ljF4jMg2FFFB/XCJIfy7QHnsZra8dV7e
- 9kvaTLo77itORZRGNvegeW7P7HmSBDIO2kcXP9wYulqk+sZCQE91fD36LBt9CqRxL4/I
- Iz7HZx90h5uItLjAGD07KwZgqq8GRspf87OHD/u2vPCLqxyNoaIYigcRpXqpo9eIMVwY
- RP0XNLz7SMyvEo2rHlgPB9EyDrBYqVHber3D6qVtluQfW2wm7GqqHktZuV2pmFHhUiAi
- J3+A==
-X-Gm-Message-State: AOAM530/c5o5cEb/fJ0FE+pWH6KjREbELhi+xVJCoMkJIwNSIN9+eMv7
- SEF6AwP2Wyx+7ZODtuZnRJE=
-X-Google-Smtp-Source: ABdhPJzibeOZrnMOOAtk/DAkybQZ76ZqpRWCAIyvXd87sGlWCs5oDK+Ye4d/PY9uA8wH5hyoRzvjKw==
-X-Received: by 2002:ac8:5a93:: with SMTP id c19mr1459461qtc.152.1623788017972; 
- Tue, 15 Jun 2021 13:13:37 -0700 (PDT)
+ bh=AUEwGlkuov5lGX/cLB7G8HplOlAImoEl/RkyBJKzsRw=;
+ b=Aru3bixuYNlWO3+/iA2/vGRrH2GWChkVRNFNPcI4vmTMmaOk0J6VRPKF0h8FrBR7fB
+ RGAKBLWyRTJd79mvNoLeycIOnj0J9kTxnxROvn71d0f92WN6r/PDfOmGY6p2xf0IsdkX
+ T97CjN+6775C6ukzDFyCxaGfJfKU1W2KYRiVHYIhdj8w/qMPXZAKXzy5jLSR41t954s5
+ r3SBWZC8Fi0hammv3kaaEevdfR6vkjl89cmDmtvzX3zs9AHEohShqPjgmoy0Se6MZkOW
+ L+z8trMpJ6kYnjfI1+7GdnLpBVuPKejooW6mF9y08Y6668POWv4lfNDcu2sSj9blR5hg
+ kf6Q==
+X-Gm-Message-State: AOAM530RiH54XVysjtkbe0F+YTrLfNZVC1P6w6ctjwFwF2A4FpqkZVXA
+ ddjlP6qMvalTjKF3HkLbKT8=
+X-Google-Smtp-Source: ABdhPJzkmAyecefa8SEPTIdBYm1NRjYZLgPYUc/AwVdkr4eYedxwv6xdnY9y6b/rx67JpzVrCIRUyw==
+X-Received: by 2002:ac8:709a:: with SMTP id y26mr1413377qto.315.1623788792647; 
+ Tue, 15 Jun 2021 13:26:32 -0700 (PDT)
 Received: from ?IPv6:2804:431:c7c6:4d9a:784f:a7de:c020:5f1e?
  ([2804:431:c7c6:4d9a:784f:a7de:c020:5f1e])
- by smtp.gmail.com with ESMTPSA id f193sm80590qke.43.2021.06.15.13.13.35
+ by smtp.gmail.com with ESMTPSA id o66sm108937qkd.60.2021.06.15.13.26.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 13:13:37 -0700 (PDT)
-Subject: Re: [RFC PATCH 6/8] nvdimm: add PPC64 'device-node' property
-To: "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, qemu-devel@nongnu.org
+ Tue, 15 Jun 2021 13:26:32 -0700 (PDT)
+Subject: Re: [RFC PATCH 3/8] spapr_numa.c: wait for CAS before writing rtas DT
+To: David Gibson <david@gibson.dropbear.id.au>
 References: <20210615013309.2833323-1-danielhb413@gmail.com>
- <20210615013309.2833323-7-danielhb413@gmail.com>
- <874kdzo4kh.fsf@linux.ibm.com>
+ <20210615013309.2833323-4-danielhb413@gmail.com> <YMgmPDrr7oJFGME1@yekko>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <f8bc0a7f-c243-7f23-cb20-06191185ec86@gmail.com>
-Date: Tue, 15 Jun 2021 17:13:31 -0300
+Message-ID: <65a744dc-3edd-a0e8-4e32-dab7ad1d64d5@gmail.com>
+Date: Tue, 15 Jun 2021 17:26:29 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <874kdzo4kh.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YMgmPDrr7oJFGME1@yekko>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,39 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org, groug@kaod.org,
- Shivaprasad G Bhat <sbhat@linux.ibm.com>, david@gibson.dropbear.id.au
+Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 6/15/21 6:33 AM, Aneesh Kumar K.V wrote:
-> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
-> 
->> The spapr-nvdimm driver is able to operate in two ways. The first
->> one is as a regular memory in which the NUMA node of the parent
->> pc-dimm class is used. The second mode, as persistent memory, allows for
->> a different NUMA node to be used based on the locality of the device.
+On 6/15/21 1:02 AM, David Gibson wrote:
+> On Mon, Jun 14, 2021 at 10:33:04PM -0300, Daniel Henrique Barboza wrote:
+>> spapr_numa_write_rtas_dt() is called from spapr_dt_rtas(), which in
+>> turned is called by spapr_build_fdt(). spapr_build_fdt() is called in
+>> two places: spapr_machine_reset() and do_client_architecture_support().
+>> When called in machine_reset() we're writing RTAS nodes with NUMA
+>> artifacts without going through CAS first.
 >>
->> At this moment we don't have a way to express this second NUMA node for
->> the persistent memory mode. This patch introduces a new 'device-node'
->> property that will be used by the PPC64 spapr-nvdimm driver to set a
->> second NUMA node for the nvdimm.
+>> This is not an issue because we always write the same thing in DT, since
+>> we support just FORM1 NUMA affinity. With the upcoming FORM2 support,
+>> we're now reliant on guest choice to decide what to write.
+>>
+>> Instead of taking a guess (e.g. default to FORM1, switch to FORM2 if
+>> guest chooses it), postpone the writing of
+>> ibm,associativity-reference-points and ibm,max-associativity-domains
+>> until we're sure what was negotiated with the guest.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > 
-> if device-node is not specified on the commandline, we should default to
-> the same value of node= attribute? Right now I am finding this default
-> to 0.
+> I think it makes sense to fold this in with 1/8 moving the calculation
+> itself until after CAS.
+
+Ok.
+
+> 
+> This does make a (theoretical) functional change - it means that NUMA
+> information is not available before CAS, which it was before.  I think
+> that's very unlikely to break anything, but I wonder if we should make
+> it dependent on the machine version just to be safe.
+
+I don't mind making it dependent on the default machine. I'll wrap this
+CAS change (and as result, all FORM2 support) to be available only for
+the default machine type.
 
 
-I agree. I fixed it in the next version to default to the 'node'
-value when 'device-node' is omitted.
-
+Thanks,
 
 
 Daniel
 
 > 
-> -aneesh
+>> ---
+>>   hw/ppc/spapr_numa.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+>> index 04a86f9b5b..e1a7f80076 100644
+>> --- a/hw/ppc/spapr_numa.c
+>> +++ b/hw/ppc/spapr_numa.c
+>> @@ -379,6 +379,10 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
+>>    */
+>>   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+>>   {
+>> +    if (spapr_ovec_empty(spapr->ov5_cas)) {
+>> +        return;
+>> +    }
+>> +
+>>       spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
+>>   }
+>>   
 > 
 
