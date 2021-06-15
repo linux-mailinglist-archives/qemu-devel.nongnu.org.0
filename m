@@ -2,62 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014C83A81E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:09:29 +0200 (CEST)
-Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582943A82C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:26:47 +0200 (CEST)
+Received: from localhost ([::1]:52652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9ku-00077X-1d
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35164)
+	id 1ltA1e-0002Gb-6Q
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:26:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lt9Zq-0004TM-7R; Tue, 15 Jun 2021 09:58:02 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:35679)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lt9a3-00054w-T7
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:58:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lt9Zm-0005WV-WD; Tue, 15 Jun 2021 09:58:01 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0AF7CAD7E3C3;
- Tue, 15 Jun 2021 15:57:54 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Tue, 15 Jun
- 2021 15:57:53 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001fd13d847-675e-4f13-851e-ecce938e0f31,
- C0A23537F2FFB9D7AAC434AAD4F3C11B0BA66CE8) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 1/2] target/ppc: fix address translation bug for radix
- mmus
-To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>,
- <qemu-devel@nongnu.org>
-References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <8805c9ed-8ca1-540a-5fcb-81f146c76afb@kaod.org>
-Date: Tue, 15 Jun 2021 15:57:53 +0200
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lt9a2-0005gg-21
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:58:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623765493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=obwO+MtwkPg0nGh/vTFW7gFiYtri8bglGdRNRTuW0eY=;
+ b=WktxdhL6w2sKe5p2E1EjCu0kh05Y82CpUb2gduxpKN31/jNUWpZKo7ZtBfMGPE5jyfX1b7
+ oSYZUew10WoYqqxSkCQOLDW+eiBSJVPQJ0ugQUPzjkukXqKqiA0OTEczxuJeBY8q9jIJcv
+ O+ynksyJZU45jHN6476ArYkWtuMk1Qw=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-cncWXpHXO8yTT0bJ8ctkFQ-1; Tue, 15 Jun 2021 09:58:09 -0400
+X-MC-Unique: cncWXpHXO8yTT0bJ8ctkFQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ jy19-20020a1709077633b02903eb7acdb38cso4552716ejc.14
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:58:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=obwO+MtwkPg0nGh/vTFW7gFiYtri8bglGdRNRTuW0eY=;
+ b=KpfHlerKk+2iL5HntqUyyeZ6afj9kgEeJV/cbXVtmFKiah4byKsP7fO9zl+AIoL8Gz
+ BltryhwwAPCmnLO3QUldzSAbmLjXdswK8doyXXdHoTVzwmmHymwauHpW0il2ewZUg6Fh
+ SykBt6M43gm98zJo237nV3KQJPYK3o+QJy3o868OGzhrvhsZ8WXX3bS9S+iLMUiJoVB3
+ J8UhAHEAJ5jJ5FEWuPg8A9IKjSa/6R4+mFAMMDetNKQNG5RjZDH5AEP57/hb0vExvI7P
+ SR3W7bwySY9OOjXASfDjvX2y0HcreHh/wMJJpSPJHToUHrajJQXxevwOHBXf0LnmMa04
+ r+2Q==
+X-Gm-Message-State: AOAM532H8uQUddl3Oyp+EMdK7/a/B0Gr1V7Vub3mEbepYg+ZOTEhMxd8
+ ft3b5lNgkSA31sbR7fkZLEY/C0ZK/s2xGB2OPCf9Dl4SdVl40Ub2RkykIPqTsuk/+CZPevo+O6M
+ N/Pwr1ecnrWfeRAuqbl/rbi+E/BmPcP5R5vKQFbfJv/AZAAhymuiIfdZ6pt6T18Dbluo=
+X-Received: by 2002:a17:906:eca7:: with SMTP id
+ qh7mr21484129ejb.143.1623765487907; 
+ Tue, 15 Jun 2021 06:58:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJykYJV7eLJ79YiLrJbCDQod8stEDCuDBwke3rKvHoCqUDAIw4WB6xE06xYA0zrDlyDwU3SDoA==
+X-Received: by 2002:a17:906:eca7:: with SMTP id
+ qh7mr21484110ejb.143.1623765487721; 
+ Tue, 15 Jun 2021 06:58:07 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id q5sm7492457ejc.117.2021.06.15.06.58.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 06:58:06 -0700 (PDT)
+Subject: Re: [PATCH 05/26] configure, meson: convert pam detection to meson
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210608112301.402434-1-pbonzini@redhat.com>
+ <20210608112301.402434-6-pbonzini@redhat.com>
+ <08135c0f-ce6b-53ad-be57-eba428fbfbf5@linaro.org>
+ <YL/RJUcRTCzlLq2y@redhat.com>
+ <c5386a2c-a3b4-0354-5cde-dcbecc587ca9@linaro.org>
+ <YMDkOv/bkV5cWLp2@redhat.com>
+ <54a2f6fd-64af-77f9-7e70-bbb335bdfdb9@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f29570b0-2bd0-fa3b-97ef-b6a952193687@redhat.com>
+Date: Tue, 15 Jun 2021 15:58:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <54a2f6fd-64af-77f9-7e70-bbb335bdfdb9@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b625b0d1-3a48-4419-b448-286c1c56f455
-X-Ovh-Tracer-Id: 12817807490869398517
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedvjedgjeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfelueegveegtdegffehffdtgeevudefffelueekteehfffhudfhudejfeehvedunecuffhomhgrihhnpehnohhnghhnuhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.095,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,260 +109,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 9:16 PM, Bruno Larsen (billionai) wrote:
-> Based-on: <20210518201146.794854-1-richard.henderson@linaro.org>
+On 09/06/21 18:47, Richard Henderson wrote:
 > 
-> This commit attempts to fix the first bug mentioned by Richard Henderson in
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06247.html
+>> feature==disabled does not map to required: false
+>>
+>> https://mesonbuild.com/Build-options.html#features
+>>
+>> [quote]
+>>      enabled is the same as passing required : true.
+>>      auto is the same as passing required : false.
+>>      disabled do not look for the dependency and always return 
+>> 'not-found'.
+>> [/quote]
 > 
-> To sumarize the bug here, when radix-style mmus are translating an
-> address, they might need to call a second level of translation, with
-> hypvervisor priviledges. However, the way it was being done up until
-> this point meant that the second level translation had the same
-> priviledges as the first level. This would only happen when a TCG guest
-> was emulating KVM, which is why it hasn't been discovered yet.
+> Ah, thanks.  Documentation is all over the place with meson.  Anyway, I 
+> would very much prefer the "if have_system" test above.
+> 
 
-What do you mean ? The QEMU PowerNV machine emulates baremetal and 
-can run KVM pseries guests. 
+The more complicated one was done to cover two cases:
 
-It has some issues under load but not related to memory translation. 
-This patch is certainly improving the model and it is worth testing 
-but this version does not apply on ppc-6.1.
+* "not get_option('xyz').auto() makes --enable-xyz fail even if the 
+library is otherwise unused.  This matches what configure does and I 
+think it makes sense.
 
-Thanks,
+* have_system makes --disable-user without any --enable-* option not 
+warn if a library is only used by system emulation and only has a shared 
+library version available.  Here, configure used not to warn even though 
+the configuration is bad, while meson does.
 
-C.
+With Meson 0.59 there will be another way to write all of this:
 
+   pam = cc.find_library('pam', has_headers: ['security/pam_appl.h'],
+       required: get_option('auth_pam').disable_auto_if(not have_system),
+       kwargs: static_kwargs)
 
-> This patch attempts to correct that by making radix64_*_xlate functions
-> receive the mmu_idx, and passing one with the correct permission for the
-> second level translation.
-> 
-> The mmuidx macros added by this patch are only correct for non-bookE
-> mmus, because BookE style set the IS and DS bits inverted and there
-> might be other subtle differences. However, there doesn't seem to be
-> BookE cpus that have radix-style mmus, so we left a comment there to
-> document the issue, in case a machine does have that and was missed.
-> 
-> As part of this cleanup, we now need to send the correct mmmu_idx
-> when calling get_phys_page_debug, otherwise we might not be able to see the
-> memory that the CPU could
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
-> ---
->  target/ppc/internal.h    | 12 ++++++++++++
->  target/ppc/mmu-radix64.c | 38 ++++++++++++++++++++++----------------
->  target/ppc/mmu-radix64.h |  2 +-
->  target/ppc/mmu_helper.c  |  8 +++++---
->  4 files changed, 40 insertions(+), 20 deletions(-)
-> 
-> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> index f1fd3c8d04..003df7e8a9 100644
-> --- a/target/ppc/internal.h
-> +++ b/target/ppc/internal.h
-> @@ -245,4 +245,16 @@ static inline int prot_for_access_type(MMUAccessType access_type)
->      g_assert_not_reached();
->  }
->  
-> +/*
-> + * These correspond to the mmu_idx values computed in
-> + * hreg_compute_hflags_value. See the tables therein
-> + */
-> +static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
-> +/*
-> + * If we want to use these macros for hash-style MMUs, we need to
-> + * add an if or another macro here.
-> + */
-> +static inline bool mmuidx_real(int idx) { return idx & 2; }
-> +static inline bool mmuidx_hv(int idx) { return idx & 4; }
-> +
->  #endif /* PPC_INTERNAL_H */
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index cbd404bfa4..0ae8f6b572 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -155,7 +155,7 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, MMUAccessType access_type,
->  
->  static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
->                                     uint64_t pte, int *fault_cause, int *prot,
-> -                                   bool partition_scoped)
-> +                                   int mmu_idx, bool partition_scoped)
->  {
->      CPUPPCState *env = &cpu->env;
->      int need_prot;
-> @@ -173,7 +173,8 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
->      /* Determine permissions allowed by Encoded Access Authority */
->      if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
->          *prot = 0;
-> -    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
-> +    } else if (mmuidx_pr(mmu_idx) || (pte & R_PTE_EAA_PRIV) ||
-> +               partition_scoped) {
->          *prot = ppc_radix64_get_prot_eaa(pte);
->      } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped */
->          *prot = ppc_radix64_get_prot_eaa(pte);
-> @@ -299,7 +300,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
->                                                ppc_v3_pate_t pate,
->                                                hwaddr *h_raddr, int *h_prot,
->                                                int *h_page_size, bool pde_addr,
-> -                                              bool guest_visible)
-> +                                              int mmu_idx, bool guest_visible)
->  {
->      int fault_cause = 0;
->      hwaddr pte_addr;
-> @@ -310,7 +311,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
->      if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_RPDB,
->                                pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_size,
->                                &pte, &fault_cause, &pte_addr) ||
-> -        ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, h_prot, true)) {
-> +        ppc_radix64_check_prot(cpu, access_type, pte,
-> +                               &fault_cause, h_prot, mmu_idx, true)
-> +        ) {
->          if (pde_addr) { /* address being translated was that of a guest pde */
->              fault_cause |= DSISR_PRTABLE_FAULT;
->          }
-> @@ -332,7 +335,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->                                              vaddr eaddr, uint64_t pid,
->                                              ppc_v3_pate_t pate, hwaddr *g_raddr,
->                                              int *g_prot, int *g_page_size,
-> -                                            bool guest_visible)
-> +                                            int mmu_idx, bool guest_visible)
->  {
->      CPUState *cs = CPU(cpu);
->      CPUPPCState *env = &cpu->env;
-> @@ -367,7 +370,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->          ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_addr,
->                                                   pate, &h_raddr, &h_prot,
->                                                   &h_page_size, true,
-> -                                                 guest_visible);
-> +            /* mmu_idx is 5 because we're translating from hypervisor scope */
-> +                                                 5, guest_visible);
->          if (ret) {
->              return ret;
->          }
-> @@ -407,7 +411,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->              ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pte_addr,
->                                                       pate, &h_raddr, &h_prot,
->                                                       &h_page_size, true,
-> -                                                     guest_visible);
-> +            /* mmu_idx is 5 because we're translating from hypervisor scope */
-> +                                                     5, guest_visible);
->              if (ret) {
->                  return ret;
->              }
-> @@ -431,7 +436,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->          *g_raddr = (rpn & ~mask) | (eaddr & mask);
->      }
->  
-> -    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, g_prot, false)) {
-> +    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause,
-> +                               g_prot, mmu_idx, false)) {
->          /* Access denied due to protection */
->          if (guest_visible) {
->              ppc_radix64_raise_si(cpu, access_type, eaddr, fault_cause);
-> @@ -464,7 +470,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
->   *              +-------------+----------------+---------------+
->   */
->  bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-> -                       hwaddr *raddr, int *psizep, int *protp,
-> +                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
->                         bool guest_visible)
->  {
->      CPUPPCState *env = &cpu->env;
-> @@ -474,17 +480,17 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
->      hwaddr g_raddr;
->      bool relocation;
->  
-> -    assert(!(msr_hv && cpu->vhyp));
-> +    assert(!(mmuidx_hv(mmu_idx) && cpu->vhyp));
->  
-> -    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
-> +    relocation = !mmuidx_real(mmu_idx);
->  
->      /* HV or virtual hypervisor Real Mode Access */
-> -    if (!relocation && (msr_hv || cpu->vhyp)) {
-> +    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
->          /* In real mode top 4 effective addr bits (mostly) ignored */
->          *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
->  
->          /* In HV mode, add HRMOR if top EA bit is clear */
-> -        if (msr_hv || !env->has_hv_mode) {
-> +        if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
->              if (!(eaddr >> 63)) {
->                  *raddr |= env->spr[SPR_HRMOR];
->             }
-> @@ -546,7 +552,7 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
->      if (relocation) {
->          int ret = ppc_radix64_process_scoped_xlate(cpu, access_type, eaddr, pid,
->                                                     pate, &g_raddr, &prot,
-> -                                                   &psize, guest_visible);
-> +                                                   &psize, mmu_idx, guest_visible);
->          if (ret) {
->              return false;
->          }
-> @@ -564,13 +570,13 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
->           * quadrants 1 or 2. Translates a guest real address to a host
->           * real address.
->           */
-> -        if (lpid || !msr_hv) {
-> +        if (lpid || !mmuidx_hv(mmu_idx)) {
->              int ret;
->  
->              ret = ppc_radix64_partition_scoped_xlate(cpu, access_type, eaddr,
->                                                       g_raddr, pate, raddr,
->                                                       &prot, &psize, false,
-> -                                                     guest_visible);
-> +                                                     mmu_idx, guest_visible);
->              if (ret) {
->                  return false;
->              }
-> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-> index 6b13b89b64..b70357cf34 100644
-> --- a/target/ppc/mmu-radix64.h
-> +++ b/target/ppc/mmu-radix64.h
-> @@ -45,7 +45,7 @@
->  #ifdef TARGET_PPC64
->  
->  bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-> -                       hwaddr *raddr, int *psizep, int *protp,
-> +                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
->                         bool guest_visible);
->  
->  static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index ba1952c77d..9dcdf88597 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -2908,7 +2908,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
->      case POWERPC_MMU_3_00:
->          if (ppc64_v3_radix(cpu)) {
->              return ppc_radix64_xlate(cpu, eaddr, access_type,
-> -                                     raddrp, psizep, protp, guest_visible);
-> +                                     raddrp, psizep, protp, mmu_idx, guest_visible);
->          }
->          /* fall through */
->      case POWERPC_MMU_64B:
-> @@ -2941,8 +2941,10 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
->       * try an MMU_DATA_LOAD, we may not be able to read instructions
->       * mapped by code TLBs, so we also try a MMU_INST_FETCH.
->       */
-> -    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
-> -        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-> +    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p,
-> +                  cpu_mmu_index(&cpu->env, false), false) ||
-> +        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p,
-> +                  cpu_mmu_index(&cpu->env, true), false)) {
->          return raddr & TARGET_PAGE_MASK;
->      }
->      return -1;
-> 
+Also, for something like
+
+   if targetos != 'linux' and get_option('mpath').enabled()
+     error('Multipath is supported only on Linux')
+   endif
+
+It will be possible to write
+
+   get_option('mpath').require(targetos == 'linux',
+       error_message: 'Multipath is supported only on Linux')
+
+However, that's a few months away in QEMU.
+
+Paolo
 
 
