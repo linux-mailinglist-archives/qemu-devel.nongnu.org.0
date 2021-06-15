@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5615B3A816F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:53:00 +0200 (CEST)
-Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6B63A816D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:52:52 +0200 (CEST)
+Received: from localhost ([::1]:45630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9Ux-0006q4-Am
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
+	id 1lt9Up-0006II-Nf
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9Hc-0005hE-Hu
+ id 1lt9Hc-0005iQ-SI
  for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:12 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42761)
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:42766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9Ha-0002iR-RI
+ id 1lt9Ha-0002iU-Rt
  for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:12 -0400
-Received: by mail-ej1-x630.google.com with SMTP id k25so22660065eja.9
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:39:09 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id k25so22660138eja.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jAqjWDErtnLGwFchY0uK4XqmiFgGys4roy5kdJRxfio=;
- b=gxOX45+k4t428q89lRvRZoGga2QWxZ+yY7hxk+rVGRDCThlmnE0wc7uH36YAadc9VH
- tsBaga6GmZ2hM6y/PonpEAkSNXL6ENLTCQAGqCbaIMGKKhrCmY6tQSUp9Ov0xNW8yyk0
- si7vdP0g8ZvEpGytN2VubFWtcPYYsdafrldQIzkYKVDSbj8pWHgV9blDlFfuuPCf9Q3K
- tquegGVmDiE3DuTNDTI/ExEnu56wP3AMpJLljpmETZ/XlZv0DXFhiW3v2i9wFAJBw3ZE
- YWRVocgJycHKGWj0dq5wGKoLyq2bLJv0zKj1In0b7Rry12V2EgAGP0A6TAZy4SapSs81
- 9ymg==
+ bh=s80JSWWhXUaW8VPewNLASzQ/RLf7bfO/1fOwopy2TkA=;
+ b=AT4IJEwq2pBvMu3BDB/7nTesnDnGgnZ/ZVIu07NoSDvf3jHPsFijrEG/0lJSV8zvmy
+ lAQ002Sdvv3X9Jubznet01Eopqr0Mdx41OY6jukloCj7i0/V+kZQlrokwmLm1H7ScUr8
+ Rbam2W2TZ+O5IxYrf7YbmwQtO0u3BPo3IUtaFEpa7OuG2X4gsFSEhnzeHkUyNkkdMKKF
+ ltGOFuwwq3O2K8ni1YanfVMDJfz6j77eMQPhyOZv52zHMkbVxqapqQUyvj0eEVFT8lyy
+ Do8CzpfqWvnHpI+0i4NXH6ML9s6w3nDrtM5R3CDq7cIxvr5wV/nGx+NT+Ex2MzKc0/7C
+ PPUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jAqjWDErtnLGwFchY0uK4XqmiFgGys4roy5kdJRxfio=;
- b=NzTWx1/AA3qnDa/WRLjRzeTfHp6NTT6DSw++wv9Mv8LEQ5iNTrkqA8By3IM1mo2bAl
- o3Q3pnQ9eDG9Jsz9qrC/7yTjDS0JAX9x74OyFINFeNi80xZIy6LKkQNBVwEhSmJ64Hab
- ji2dQAQDcOMqWMRvP37DQcGeeSzZfOFD2GScWyhuqkZT7MFrP7X+Qzmwgjq0GkB6Y3iB
- qEX1L50co5n7x3L8nRZENZg617verkVXVt3EuhlCk/AW3HU/VjYG9pu43/1vDgZapuy1
- bGnJxKgLDgFuaZM45Uw5uN4i7fH34o2pq9R0Yi6Dr/10H43LrH5W5ad9bV+IMeAtU8Xw
- /6fw==
-X-Gm-Message-State: AOAM532oo54HhBXyvVCqpWY3J2HKt2rYylur4rGxgAzdSCzzWlK13aPX
- NW/CxG60Q4C5vkrKDhE2isgTbzczOGM=
-X-Google-Smtp-Source: ABdhPJyxLAQNHXgTNoUiF74HzQWABrlYZqJvVCbk/KUMwQhXCPaZrvJ4H7J9jTG+GP4xXd5yaSso2A==
-X-Received: by 2002:a17:907:1b22:: with SMTP id
- mp34mr2743996ejc.408.1623764344769; 
- Tue, 15 Jun 2021 06:39:04 -0700 (PDT)
+ bh=s80JSWWhXUaW8VPewNLASzQ/RLf7bfO/1fOwopy2TkA=;
+ b=f3rFUQX7tM8ggg4gD2apdcgJvZ6wy0W5S2UHoFP9NwLBfoy1UVmJhvjDRnRCrpP/hG
+ lay2jfOpzdmlaZ6xbBcvzI+Moa8XoVkA4eiZL5WsX86gXfjBvLk6lkDT0LUt8klmqlCk
+ t4bgmqt1E3mcHcjk1jxk/tfZy4y+TzIW3+D+tlKM+wTih0RbJCBcnqIOvQFm5mZAgNP5
+ 2Cy4oEB2iFSbSADDjtRRN3J065U19UTe+w1/Altld4lMt4vSESkqJY8vMW8CkyF0mEOT
+ 7AiykanUrLLR+GCAkIOjYuf5YYEF/doplgyQnUBoWKZTQAaaL5D5zygALEpsMOIDsol4
+ 1Gbw==
+X-Gm-Message-State: AOAM532/vb1P+kIWe09ILWjbTZLdBEO+jQXLZIOzRu6UXDRWbtYkW1tN
+ V700pRORz1qSZBdDgoPaEGWw1iVxCh4=
+X-Google-Smtp-Source: ABdhPJzG9uy64aee2FmKytG925AdWVCxXRDPP4bTXEQd//g3cwMUDdVSQA8/zvOOXOjkV7rCsgr2GQ==
+X-Received: by 2002:a17:906:26db:: with SMTP id
+ u27mr21028839ejc.532.1623764349334; 
+ Tue, 15 Jun 2021 06:39:09 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.39.04
+ by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.39.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 06:39:04 -0700 (PDT)
+ Tue, 15 Jun 2021 06:39:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/33] esp: ensure PDMA write transfers are flushed from the
- FIFO to the target immediately
-Date: Tue, 15 Jun 2021 15:38:32 +0200
-Message-Id: <20210615133855.775687-11-pbonzini@redhat.com>
+Subject: [PULL 11/33] esp: revert 75ef849696 "esp: correctly fill bus id with
+ requested lun"
+Date: Tue, 15 Jun 2021 15:38:33 +0200
+Message-Id: <20210615133855.775687-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615133855.775687-1-pbonzini@redhat.com>
 References: <20210615133855.775687-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,96 +91,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-After each PDMA write transfer the MacOS CDROM driver waits until the FIFO is empty
-(i.e. its contents have been written out to the SCSI bus) by polling the FIFO count
-register until it reads 0. This doesn't work with the current PDMA write
-implementation which waits until either the FIFO is full or the transfer is complete
-before invoking the PDMA callback to process the FIFO contents.
+This commit from nearly 10 years ago is now broken due to the improvements
+in esp emulation (or perhaps was never correct).  It shows up as a bug
+in detecting the CDROM drive under MacOS. The error is caused by the
+MacOS CDROM driver sending this CDB with an "S without ATN" command and
+without DMA:
 
-Change the PDMA write transfer logic so that the PDMA callback is invoked after each
-PDMA write to transfer the FIFO contents to the target buffer immediately, and hence
-avoid getting stuck in the FIFO count register polling loop.
+    0x12 0x00 0x00 0x00 0x05 0x00 (INQUIRY)
+
+This is a valid INQUIRY command, however with this logic present the 3rd
+byte (0x0) is copied over the 1st byte (0x12) which silently converts the
+INQUIRY command to a TEST UNIT READY command before passing it to the
+QEMU SCSI layer.  Since the TEST UNIT READY command has a zero length
+response the MacOS CDROM driver never receives a response and assumes
+the CDROM is not present.
+
+The logic was to ignore the IDENTIFY byte and copy the LUN over from
+the CDB, which did store the LUN in bits 5-7 of the second byte in
+olden times.  This however is all obsolete, so just drop the code.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20210519100803.10293-4-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210519100803.10293-5-mark.cave-ayland@ilande.co.uk>
+[Tweaked commit message. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/esp.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ hw/scsi/esp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index a0dab319f2..8e314ef156 100644
+index 8e314ef156..16e4b7ead6 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -338,9 +338,9 @@ static void do_cmd(ESPState *s)
- 
- static void satn_pdma_cb(ESPState *s)
- {
--    s->do_cmd = 0;
--    if (!fifo8_is_empty(&s->cmdfifo)) {
-+    if (!esp_get_tc(s) && !fifo8_is_empty(&s->cmdfifo)) {
-         s->cmdfifo_cdb_offset = 1;
-+        s->do_cmd = 0;
-         do_cmd(s);
+@@ -260,9 +260,6 @@ static uint32_t get_cmd(ESPState *s, uint32_t maxlen)
+             return 0;
+         }
+         n = esp_fifo_pop_buf(&s->fifo, buf, dmalen);
+-        if (n >= 3) {
+-            buf[0] = buf[2] >> 5;
+-        }
+         n = MIN(fifo8_num_free(&s->cmdfifo), n);
+         fifo8_push_all(&s->cmdfifo, buf, n);
      }
- }
-@@ -369,12 +369,9 @@ static void handle_satn(ESPState *s)
- 
- static void s_without_satn_pdma_cb(ESPState *s)
- {
--    uint32_t len;
--
--    s->do_cmd = 0;
--    len = fifo8_num_used(&s->cmdfifo);
--    if (len) {
-+    if (!esp_get_tc(s) && !fifo8_is_empty(&s->cmdfifo)) {
-         s->cmdfifo_cdb_offset = 0;
-+        s->do_cmd = 0;
-         do_busid_cmd(s, 0);
-     }
- }
-@@ -403,8 +400,7 @@ static void handle_s_without_atn(ESPState *s)
- 
- static void satn_stop_pdma_cb(ESPState *s)
- {
--    s->do_cmd = 0;
--    if (!fifo8_is_empty(&s->cmdfifo)) {
-+    if (!esp_get_tc(s) && !fifo8_is_empty(&s->cmdfifo)) {
-         trace_esp_handle_satn_stop(fifo8_num_used(&s->cmdfifo));
-         s->do_cmd = 1;
-         s->cmdfifo_cdb_offset = 1;
-@@ -493,6 +489,11 @@ static void do_dma_pdma_cb(ESPState *s)
-     uint32_t n;
- 
-     if (s->do_cmd) {
-+        /* Ensure we have received complete command after SATN and stop */
-+        if (esp_get_tc(s) || fifo8_is_empty(&s->cmdfifo)) {
-+            return;
-+        }
-+
-         s->ti_size = 0;
-         s->do_cmd = 0;
-         do_cmd(s);
-@@ -1220,7 +1221,6 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
- {
-     SysBusESPState *sysbus = opaque;
-     ESPState *s = ESP(&sysbus->esp);
--    uint32_t dmalen;
- 
-     trace_esp_pdma_write(size);
- 
-@@ -1233,10 +1233,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
-         esp_pdma_write(s, val);
-         break;
-     }
--    dmalen = esp_get_tc(s);
--    if (dmalen == 0 || fifo8_num_free(&s->fifo) < 2) {
--        s->pdma_cb(s);
--    }
-+    s->pdma_cb(s);
- }
- 
- static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
 -- 
 2.31.1
 
