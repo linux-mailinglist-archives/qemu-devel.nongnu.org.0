@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87BF3A89EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:02:20 +0200 (CEST)
-Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D01F3A89FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:10:48 +0200 (CEST)
+Received: from localhost ([::1]:54584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltFGN-0004Af-AS
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
+	id 1ltFOY-0007Lk-51
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltFEK-000358-6J
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:00:12 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35402)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltFN8-0006fT-Ph
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:09:18 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltFEH-0004UZ-He
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:00:11 -0400
-Received: by mail-pf1-x429.google.com with SMTP id h12so317103pfe.2
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 13:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltFN7-000216-3v
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:09:18 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id a20so30757wrc.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 13:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qZvEs1DZ8CNNaq5SuPmQQKuLYBra2OwDPNwkc5Jc+M0=;
- b=EPC116RXTvWnRPVyqXItWugN2rohNjBf7YVfxlsvpVZXwFz34eUjog7qNnC7bv6ERC
- 6WDUnwxcvlMbm2jLW4/GQaGiiDjGsCar/dg2Ku/ehlCGD3ZSOI++wpiqL0TUo8cfhbMy
- 2wdJMZc3QusLIcVGtN2O7u+TWhFm7oSsGAGorJpdBfwMxxOTchdUpHGwvD88mAs9or6T
- 5+nYVS+WPJvpplaX5aPxyeEYyxlfh80c6pVYOpaPSn+tIjVZc4HhV+YA282ndfjoZwxz
- IvjwhBSXzoT6N0jjKVcQs+C90WYPH2G/3pLfWLdselxW/z6uKe6otZPU9SN4QuFdcAG5
- 6GCg==
+ bh=a4ewMdENPxS8c2Ydk8IdnyAGjdz91LTqBTid5AxQKN0=;
+ b=SCSuaS4jwXC28pe9uUu8rseoNlK/3NIzPXGOJI1DcuZrrcWc9CAV17qCIEiARhLeN9
+ drGLC1vclelzqBSaSPhm/jw2R98zBi1U6uszVBlJ2fVLOri+991RxICmb6XvvFo/tMrZ
+ N8/I3Qw6UFl+3nK++JRcb//HmATWEfjoJSP720UBcrXfsvhSDdNpcVuFdqrnWvcwKnY6
+ dGR+NgFiwNJ7914T/l/AL0eCvSSBupsjfEeJMXfOGuB0ZfY4fCI1p2NZqOaymmLU90zw
+ r7AARxquxhfRv4ib0Bpq06ycN0hMk7WzpC++oXhTQRownrFJtMh75RQiuWbWY/8gzUUA
+ CeoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qZvEs1DZ8CNNaq5SuPmQQKuLYBra2OwDPNwkc5Jc+M0=;
- b=FU5T48fSHXYhqmxxAX62hmZ4/atN+rhFqbWlf8NddFEU2/ZSu+/O1CKZnuHl03MPyh
- PhJvd19FaG4vJ7jqSSGG0sg7TmWk7U461L6j2s1/WKY5Y707tzkoSQfQ6r99DTb+v3jw
- x9TnCrXpxJkz1AVuMDRIXnJUy9Xj+Xbd60XauwiXcU4wM07HqZpXGLKxY96jmKPBMBM5
- IMpADflYuAKqfqG06MS9z4dI4IdMfo3u8YkKf6+aTEcXB86AOzEv9ElMt5RkztjbRntR
- K3qxRSgCQ9SQHEkLPAZLAeU8xLEHJv1SOJZKIDnorFvNcsQ3LzJBtDnA1hD0s3B6BBa7
- Y0Ug==
-X-Gm-Message-State: AOAM533vVL5wAB+8aTyPWIj3R0A/pb5E3h/9W9kvGycoD2nwvvJ4Wg0K
- /aClM47GNUZTb5CmUxLScHBP2w==
-X-Google-Smtp-Source: ABdhPJxfgyOKuMnPcEYknovJ4iEOUfub8mc1GKHrZ5rgDUTiFcIlRWFCugKIt5GJeG3Co8epLHcXRA==
-X-Received: by 2002:a63:9552:: with SMTP id t18mr1203867pgn.206.1623787208026; 
- Tue, 15 Jun 2021 13:00:08 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id
- z5sm11056pfb.114.2021.06.15.13.00.07
+ bh=a4ewMdENPxS8c2Ydk8IdnyAGjdz91LTqBTid5AxQKN0=;
+ b=pgPhdNU6hI75x9BkJccXvsVufwsbcoE4RzggiRvxNVIz0NHlBvPdVSldNLFrr/jihm
+ 0dfzW+Y/iS0bE5ZRq0WrPvvR9ycG+Uzd9fcjY0g4hK76T+q/U+7L0iX49Q6D18Y28slN
+ n85Ov2RzMMjud9Hn1mSY9Ma2HaEv2WOJR+PofWs/1IaPlELekc3SmWYmwAz9WHBD5bb4
+ jw0EZK5BvUptu74F4M1TzU5A8l4OSKF5syOQ5ipPW/skio2HailcsVZiwGqQS0WIybcI
+ UFPqRfedomfmwMAmSMAspTP5SGKAsvHPShCGmEfsvHAiCaZx7Ys1yuhVJ+ZthTj22pei
+ l52w==
+X-Gm-Message-State: AOAM533jJjd6inGtCZn6vE8PtKCbka7QQxxmKEocOIcUOuhFjFmzNqUy
+ jcmJS3dGtQV7HEXk/950vuE=
+X-Google-Smtp-Source: ABdhPJypFdBB6MhaXgNlcqtLXpB6rUkwxuu45Fazabh/9BSc+70umzvKC2x8M1zpnb81G1PMitDAww==
+X-Received: by 2002:adf:a489:: with SMTP id g9mr954686wrb.103.1623787753854;
+ Tue, 15 Jun 2021 13:09:13 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id j18sm19533776wrw.30.2021.06.15.13.09.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 13:00:07 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
- priviledged addresses
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
-References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
- <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
- <c2ffffa6-2868-f7ab-78c6-1f29eaafc4e5@linaro.org>
- <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7ce3cd57-0abf-f0d9-11ec-6fdc42b89b62@linaro.org>
-Date: Tue, 15 Jun 2021 13:00:05 -0700
+ Tue, 15 Jun 2021 13:09:13 -0700 (PDT)
+Subject: Re: [RFC] GitLab issue tracker labeling process: arch/target, os, and
+ accel labels
+To: John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+References: <0a19af15-2f34-4934-c6c9-113e49f5f1f2@redhat.com>
+ <YMgLha7YL8XYrShS@yekko> <05a484e7-bbd3-ca9f-5642-ef98d92ad4b3@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a411581b-5916-999c-dbc5-c48b055f65c8@amsat.org>
+Date: Tue, 15 Jun 2021 22:09:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <05a484e7-bbd3-ca9f-5642-ef98d92ad4b3@redhat.com>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.095,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,59 +90,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
- Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/21 4:32 AM, Bruno Piazera Larsen wrote:
-> On 14/06/2021 19:37, Richard Henderson wrote:
->> On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
->>> This patch changes ppc_cpu_get_phys_page_debug so that it is now
->>> able to translate both, priviledged and real mode addresses
->>> independently of whether the CPU executing it has those permissions
->>>
->>> This was mentioned by Fabiano as something that would be very useful to
->>> help with debugging, but could possibly constitute a security issue if
->>> that debug function can be called in some way by prodution code. the
->>> solution was implemented such that it would be trivial to wrap it around
->>> ifdefs for building only with --enable-debug, for instance, but we are
->>> not sure this is the best approach, hence why it is an RFC.
->>>
->>> Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
->>> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
->>> ---
->>>   target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
->>>   1 file changed, 23 insertions(+)
->>
->> I think the first part is unnecessary.  Either the cpu is in supervisor mode or it 
->> isn't, and gdb should use the correct address space.  If you really want to force 
->> supervisor lookup from a guest that is paused in usermode, I suppose you could force 
->> MSR.PR=1 while you're performing the access and set it back afterward.
-> I don't see why GDB should not be able to see supervisor level addresses just because the 
-> CPU can't.
-
-Because then when you are debugging, you then don't know whether the address is actually 
-accessible in the current cpu context.
-
->> I think the second part is actively wrong -- real-mode address lookup will (for the most 
->> part) always succeed.  Moreover, the gdb user will have no idea that you've silently 
->> changed addressing methods.
+On 6/15/21 9:27 PM, John Snow wrote:
+> On 6/14/21 10:08 PM, David Gibson wrote:
+>> On Mon, Jun 14, 2021 at 01:32:11PM -0400, John Snow wrote:
+>>> Hi, I'd like to work out our collective preferences for how we triage
+>>> issues
+>>> that concern the execution environment; namely the arch (now
+>>> "target", os,
+>>> and accel labels.
 > 
-> I disagree. Real-mode address will mostly fail, since during the boot process Linux 
-> kernels set the MMU to use only virtual addresses, so real mode addresses only work when 
-> debugging the firmware or the early setup of the kernel. After that, GDB can basically 
-> only see virtual addresses.
+> [...]
+> 
+>> In general, what's the convention when a bug is independent of (say)
+>> the accel: does it get none of the accel tags, or all of them?
+>> Likewise with OS and the other categories.
+> 
+> So far, I have been labeling bugs reported against a specific
+> accel/guest/host combination with those bugs. It doesn't necessarily
+> mean they are bugs *in* those components. They might be, they might not be.
+> 
+> Generally I have been treating these labels as descriptors of the
+> problem environment and not necessarily descriptors of the root cause.
+> At a glance I often have no clue what the root cause might be. In just a
+> few minutes, translating some of the details of the environment into
+> labels in the hopes that it floats by someone with more knowledge in one
+> or more of those areas is the best I can do.
+> 
+> This *does* mean that for TCG developers, there's a high ambiguity here
+> because "accel: TCG" && "target: i386" applies to a pretty broad
+> category of reports, not all of them necessarily bugs primarily
+> suspected to be *about* TCG. Maybe, maybe not.
+> 
+> Phil sometimes removes these labels once it becomes apparent to him that
+> the bug doesn't actually involve the system mentioned. Maybe it was
+> filed under i386 but impacts all architectures, so we'd remove that label.
 
-Exactly.  But you changed that so that any unmapped address will re-try with real-mode, 
-which (outside of hv) simply maps real->physical and returns the input.
+I was doing this hoping it would help the triage, so further updates
+won't trigger notification to the maintainers subscribed to the labels
+that became irrelevant.
 
-One should have to perform some special action to see addresses in a different cpu 
-context.  I don't think that gdb supports such a special action at the moment.  If you 
-want that feature though, that's where you should start.
+But now I understood other maintainers use the labels to sort bugs, so
+I think we should first agree on what we expect from gitlab labels and
+how to use them, before discussing on what labels to use.
 
-
-r~
+Personally I see labels like a tree of IRQ lines :)
+We want to always reach someone, starting broad to eventually get to
+the right person able to help. The sooner we disable an IRQ where it
+is not required the better, because we release uninterested maintainers
+from noise, so they can attending other issues.
 
