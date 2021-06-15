@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234733A8149
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:48:01 +0200 (CEST)
-Received: from localhost ([::1]:56600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F01A3A814A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:48:02 +0200 (CEST)
+Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9Q7-0003BG-A3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:48:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
+	id 1lt9Q9-0003DR-IU
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9HV-0005a3-Vg; Tue, 15 Jun 2021 09:39:06 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:41612)
+ id 1lt9HV-0005a1-Uk; Tue, 15 Jun 2021 09:39:05 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9HR-0002dt-Fy; Tue, 15 Jun 2021 09:39:04 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id g18so49204251edq.8;
- Tue, 15 Jun 2021 06:38:59 -0700 (PDT)
+ id 1lt9HR-0002eM-Fy; Tue, 15 Jun 2021 09:39:03 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id t7so5973316edd.5;
+ Tue, 15 Jun 2021 06:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R0+AwUXW3F+3xw6jgijJ3i774wGZg+ICftnnBWgQ9fA=;
- b=WfsFJRmf3+VuyUzEpDSJarWNd1b0V/URlXFjxVRA7tT/WdN2Nbtp7tQ2phAHTYT22r
- 8o5SI3lDAWSoffhzKsFQhUm0qtbopbVrVbyjKare5hwOd3wjRSlDQ+1uUf7By8mvrDig
- p/lINyyL4mniYGFvHimTQjU1YcN0cgtoHBdgpK2xDLXxzlFIOpe3AIRY5S5DqMn/APWQ
- BF99r6ZhAb5J4BO780isMdhfUfFD4pVKFkBOEHXLLLzuyMuODhtT5CKjLuOC6Dw3PUqD
- smDBW+bPePwnjJNmcMQmIxxHe2gqMsrZMYd5f305UBx1YBWsp5ofKeoiyQsaU1F6AnrD
- 70mw==
+ bh=DClC4N0hOztFtxZU3fiXh86K8OwDPTmIEleNDEV+GRg=;
+ b=O7S119gFZP+sEGMdLHbhWlgfVY2hwOWxXzFWBywBqPuy/zTs++791AwysbVa+vJzfM
+ QOqDjZdBSwDFXkCZxas/Osj/KLJnHxsUgO+mJzU2ZWuoczwUMDk2Kk1XLQXbjfx6msh4
+ 4eNrTkwu/Q+57JYzLa0EA/8jGxqsVOPV648iJgPSV8foIV0gwGDmBjNYC+DSO5a9q542
+ T+z8xwsfkXQ+6sX9mmntVWceinqSon6ILl7bCCJh+uw6jIFcxgRM3c/+91Taue9By7sQ
+ CEg/+wG8Ktbu1NixsUlGsSbST1Zy4HPkllQdsr9OtVyQ37sDg52AlXR1jt7PXjagscbu
+ xZgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=R0+AwUXW3F+3xw6jgijJ3i774wGZg+ICftnnBWgQ9fA=;
- b=fGm8pPP8TGNSGYU+DVmcPalgskHlE09o9YwNrBFFNMdq+NBhqRS1Nc/dWou/bF50Hp
- a6z9z/ssv2QqWSTykLPAUr26KFeTHi8xKU+eDpGIbIrKDR0p1t290NKzXZ1Nq/Rd3IG7
- cAj0SUtPrUHfYak6aS/MbEux8zLZHclI0uO1AB4E+Zdvg9b6YYFT0To9qlzbFFSyOvlA
- nryMDSmsAsziGAaw4+WKpy967oifT8fDlyvbWBwkgRJ5Msw5KEOT16cDm0mdBvL4QR/X
- wUTGpWeJ+xwxZRCuTGI7It7VIUb+tF7uDs6t06d5ctOa4d9CAQyBI+BprZp/BXldwD8a
- E6sA==
-X-Gm-Message-State: AOAM532je/FJrq28AUBMU8t9IMk9Wp12xIGG9GTu0H0jcmqbBBjKC4gO
- bwOtusuyaHecyZxs3O059knM6CO/nKI=
-X-Google-Smtp-Source: ABdhPJxq3YtMfBfhv27m8tuqzhEw130RrQg6heHCS0nzfEXvPnjxKOJfYa2iochWEdyiyhXJqhHv3w==
-X-Received: by 2002:a05:6402:358d:: with SMTP id
- y13mr3311174edc.264.1623764339009; 
+ bh=DClC4N0hOztFtxZU3fiXh86K8OwDPTmIEleNDEV+GRg=;
+ b=nq9u37JrULasaieChwnUg5xmh/9B+PQHSggEcZooS704wHluKTPTQiG+2TitVbWGZB
+ lZPGpZDQbB5bLr3DVpy0FmkjhAiZ0tKFDscxva1eMkj+53v3WqD+BoVJYc9xyPYcI2QN
+ MemTdb15URIN+xXea9BlMrhyOnVyItLI3AAr71TqbU4KrfhshcJyCBkPhy8v6tlwOXoW
+ usxDqs0qpjw9pG0bW1zENe+MNr2M8iL2D65J1m3Lv7x0tMPEb4b5JLIL7b/TCzwI4mrE
+ A577fqOGoaNvz5SphMBU96YVWpJjFhI1Xem3EWpv/uw+PXUWqvFWKC6lxYgn8IfK+zMK
+ pOHQ==
+X-Gm-Message-State: AOAM530wBgqF9WxqaUm6gUQhznXzd/FWeupVsl+NwxmyHU13oIOD9pjd
+ 5ToFny9FbQQ+1W7PILTRdANqpaj/f7o=
+X-Google-Smtp-Source: ABdhPJyvA0nmNKc9omsMfJPpuLvnEY4UL3eibVU9NtBrqMYfmjlAYIxjz3i8sopn0+kabrJStHttVw==
+X-Received: by 2002:a05:6402:b17:: with SMTP id
+ bm23mr23148668edb.236.1623764339803; 
  Tue, 15 Jun 2021 06:38:59 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.38.58
+ by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.38.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 06:38:58 -0700 (PDT)
+ Tue, 15 Jun 2021 06:38:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/33] vl: Fix an assert failure in error path
-Date: Tue, 15 Jun 2021 15:38:24 +0200
-Message-Id: <20210615133855.775687-3-pbonzini@redhat.com>
+Subject: [PULL 03/33] qemu-config: use qemu_opts_from_qdict
+Date: Tue, 15 Jun 2021 15:38:25 +0200
+Message-Id: <20210615133855.775687-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615133855.775687-1-pbonzini@redhat.com>
 References: <20210615133855.775687-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,46 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-stable@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Using qemu_opts_absorb_qdict, and then checking for any leftover options,
+is redundant because there is already a function that does the same,
+qemu_opts_from_qdict.  qemu_opts_from_qdict consumes the whole dictionary
+and therefore can just return an error message if an option fails to validate.
 
-Based on the description of error_setg(), the local variable err in
-qemu_maybe_daemonize() should be initialized to NULL.
+This also fixes a bug, because the "id" entry was retrieved in
+qemu_config_do_parse and then left there by qemu_opts_absorb_qdict.
+As a result, it was reported as an unrecognized option.
 
-Without fix, the uninitialized *errp triggers assert failure which
-doesn't show much valuable information.
-
-Before the fix:
-qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
-
-After fix:
-qemu-system-x86_64: cannot create PID file: Cannot open pid file: Permission denied
-
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Message-Id: <20210610084741.456260-1-zhenzhong.duan@intel.com>
+Reported-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Fixes: 3770141139 ("qemu-config: parse configuration files to a QDict")
 Cc: qemu-stable@nongnu.org
-Fixes: 0546c0609c ("vl: split various early command line options to a separate function", 2020-12-10)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/qemu-config.c | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 326c1e9080..feb4d201f3 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2522,7 +2522,7 @@ static void qemu_process_help_options(void)
- 
- static void qemu_maybe_daemonize(const char *pid_file)
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index 374f3bc460..84ee6dc4ea 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -429,29 +429,14 @@ out:
+ void qemu_config_do_parse(const char *group, QDict *qdict, void *opaque, Error **errp)
  {
--    Error *err;
-+    Error *err = NULL;
+     QemuOptsList **lists = opaque;
+-    const char *id = qdict_get_try_str(qdict, "id");
+     QemuOptsList *list;
+-    QemuOpts *opts;
+-    const QDictEntry *unrecognized;
  
-     os_daemonize();
-     rcu_disable_atfork();
+     list = find_list(lists, group, errp);
+     if (!list) {
+         return;
+     }
+ 
+-    opts = qemu_opts_create(list, id, 1, errp);
+-    if (!opts) {
+-        return;
+-    }
+-    if (!qemu_opts_absorb_qdict(opts, qdict, errp)) {
+-        qemu_opts_del(opts);
+-        return;
+-    }
+-    unrecognized = qdict_first(qdict);
+-    if (unrecognized) {
+-        error_setg(errp, QERR_INVALID_PARAMETER, unrecognized->key);
+-        qemu_opts_del(opts);
+-    }
++    qemu_opts_from_qdict(list, qdict, errp);
+ }
+ 
+ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp)
 -- 
 2.31.1
 
