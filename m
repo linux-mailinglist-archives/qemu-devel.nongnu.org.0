@@ -2,52 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6CC3A88CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 20:48:28 +0200 (CEST)
-Received: from localhost ([::1]:39448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF37A3A88D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 20:50:07 +0200 (CEST)
+Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltE6s-0004zq-S7
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 14:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34012)
+	id 1ltE8P-0006nT-GU
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 14:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ltE4G-0003z6-GA; Tue, 15 Jun 2021 14:45:44 -0400
-Received: from [201.28.113.2] (port=20971 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1ltE4E-0001ST-OG; Tue, 15 Jun 2021 14:45:44 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 15 Jun 2021 15:44:34 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id D4CFC800144;
- Tue, 15 Jun 2021 15:44:33 -0300 (-03)
-Subject: Re: [PATCH v2 2/3] target/ppc: divided mmu_helper.c in 2 files
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210610164648.83878-1-lucas.araujo@eldorado.org.br>
- <20210610164648.83878-3-lucas.araujo@eldorado.org.br>
- <YMg9qx4ddgDchtgS@yekko>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-Message-ID: <13694281-b11c-4617-4a43-507395d8076f@eldorado.org.br>
-Date: Tue, 15 Jun 2021 15:44:33 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltE4j-0004JP-W3
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:46:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41857)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltE4e-0001kB-Kp
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:46:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623782766;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OKdI1ZmdBopMMuSknMv9tN7qmJDQs8g1g8GkxpFqfcA=;
+ b=Jf7da2fESMvd4Jh6j42Ti03dMqeptOwS/QVGiO8FJgbsatK2aA4JZCCMhb7rbytKs+coE9
+ 31gXKx+MskoVSbxLQUoWVBxJqWTNG4JT2zpzohdqLncXFWy6LNht6vQW624qNXb+08ovtn
+ qyrp/fMf2bKZ8vKT6PlElNiq1MYI8Z4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-RfUFhPp8N_SRJAI3Hq_Wlg-1; Tue, 15 Jun 2021 14:46:05 -0400
+X-MC-Unique: RfUFhPp8N_SRJAI3Hq_Wlg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ e11-20020a170906080bb02903f9c27ad9f5so4989951ejd.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 11:46:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OKdI1ZmdBopMMuSknMv9tN7qmJDQs8g1g8GkxpFqfcA=;
+ b=H9L4sgyFuIlc0Jxa/FMP9NZnKquptIN9WYrWhgjeFHmHouaUvqSn80Pc3BOd4HH46K
+ q2K8yXvQU+Quazp4pUFc5NK+JvGDQ0WxXKE0DhhIb7upc+WgZaUvasI85kjmW3MUFNWA
+ WvDdXItR7HeUcuH3mrPo0i92JSHCgzuU8mmIDix5qx8frsLKzGdD1IJ0ZtJoJ0z1BqUu
+ 1w5DEqq7+UwwQBzW8d9uWyYbfRGjyQhmW7KOpaRibN5ozoh8hi8I89gAjyeXyFz6ZKvM
+ VLozEIP69EH9Ij/ga5UCJpGqSiHu0BhfoWAKg2Md44QFBRk6nSyJOloBNVPkwM2zy8lv
+ Rwdw==
+X-Gm-Message-State: AOAM530aUmCbGBXmJSOM24UDhXw0zVcg8s9Rmx7esBq1i3/jChA/fnjr
+ bvHMGYKcXBC/bpjkmRvgYJQlATqRPJPXcNT5gTjaPjJgYA8IsLJxT/YrpqR+rUdCjG7wyc3OgnX
+ W3ayERzduC7C+B2Q=
+X-Received: by 2002:a17:907:1c9e:: with SMTP id
+ nb30mr1111683ejc.0.1623782764439; 
+ Tue, 15 Jun 2021 11:46:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzK09/KIndMuEBexWGewMvMiyeU/V8Nz35A93W6tIMNKNMmyCuE2k3M1PvIu6psYdZruSHguA==
+X-Received: by 2002:a17:907:1c9e:: with SMTP id
+ nb30mr1111654ejc.0.1623782764220; 
+ Tue, 15 Jun 2021 11:46:04 -0700 (PDT)
+Received: from redhat.com ([77.126.22.11])
+ by smtp.gmail.com with ESMTPSA id q15sm103216edr.84.2021.06.15.11.46.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 11:46:03 -0700 (PDT)
+Date: Tue, 15 Jun 2021 14:46:00 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Chris Browy <cbrowy@avery-design.com>
+Subject: Re: [PATCH v6 cxl2.0-v6-doe 1/6] standard-headers/linux/pci_regs:
+ PCI header from Linux kernel
+Message-ID: <20210615144524-mutt-send-email-mst@kernel.org>
+References: <1623329999-15662-1-git-send-email-cbrowy@avery-design.com>
+ <1623330943-18290-1-git-send-email-cbrowy@avery-design.com>
 MIME-Version: 1.0
-In-Reply-To: <YMg9qx4ddgDchtgS@yekko>
-Content-Type: multipart/alternative;
- boundary="------------A829851DA8C7EEBC62B9F825"
-Content-Language: en-US
-X-OriginalArrivalTime: 15 Jun 2021 18:44:34.0269 (UTC)
- FILETIME=[7C2AA0D0:01D76216]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.095, PDS_HP_HELO_NORDNS=0.308, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <1623330943-18290-1-git-send-email-cbrowy@avery-design.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,112 +95,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, luis.pires@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br
+Cc: ben.widawsky@intel.com, david@redhat.com, qemu-devel@nongnu.org,
+ vishal.l.verma@intel.com, jgroves@micron.com, armbru@redhat.com,
+ f4bug@amsat.org, hchkuo@avery-design.com.tw, tyshao@avery-design.com.tw,
+ jonathan.cameron@huawei.com, imammedo@redhat.com, dan.j.williams@intel.com,
+ ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------A829851DA8C7EEBC62B9F825
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+On Thu, Jun 10, 2021 at 09:15:43AM -0400, Chris Browy wrote:
+> From: hchkuo <hchkuo@avery-design.com.tw>
+> 
+> Linux standard header for the registers of PCI Data Object Exchange
+> (DOE). This header might be generated via script. The DOE feature
+> should be added in the future Linux release so this patch can be
+> removed then.
+> 
+> Signed-off-by: hchkuo <hchkuo@avery-design.com.tw>
+> Signed-off-by: Chris Browy <cbrowy@avery-design.com>
+> ---
+>  include/standard-headers/linux/pci_regs.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/standard-headers/linux/pci_regs.h b/include/standard-headers/linux/pci_regs.h
+> index e709ae8235..2a8df63e11 100644
+> --- a/include/standard-headers/linux/pci_regs.h
+> +++ b/include/standard-headers/linux/pci_regs.h
+> @@ -730,7 +730,8 @@
+>  #define PCI_EXT_CAP_ID_DVSEC	0x23	/* Designated Vendor-Specific */
+>  #define PCI_EXT_CAP_ID_DLF	0x25	/* Data Link Feature */
+>  #define PCI_EXT_CAP_ID_PL_16GT	0x26	/* Physical Layer 16.0 GT/s */
+> -#define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_PL_16GT
+> +#define PCI_EXT_CAP_ID_DOE	0x2E	/* Data Object Exchange */
+> +#define PCI_EXT_CAP_ID_MAX	PCI_EXT_CAP_ID_DOE
+>  
+>  #define PCI_EXT_CAP_DSN_SIZEOF	12
+>  #define PCI_EXT_CAP_MCAST_ENDPOINT_SIZEOF 40
 
+these headers are imported from linux pls don't edit them
+directly - get a patch into linux first.
 
-On 15/06/2021 02:42, David Gibson wrote:
-> On Thu, Jun 10, 2021 at 01:46:47PM -0300, Lucas Mateus Castro (alqotel) wrote:
->> Moved functions in mmu_helper.c that should be compiled in build to
-> "should be compiled in build" is not very clear to me.  What's the
-> distinction between both the files.
-Looking back now the description is really confusing, so let me rephrase 
-that: mmu_helper.c is being split in 2 files, mmu_helper.c (which 
-contains TCG-only code) and mmu_common.c (which contains code needed in 
-!TCG)
->> mmu_common.c, moved declaration of functions that both files use to
->> cpu.h and moved struct declarations and inline functions needed by
->> both to target/ppc/internal.h. Updated meson.build to compile the
->> new file. ppc6xx_tlb_getnum is not an inline function anymore.
-> Overall this looks reasonable.  I think there's quite a lot you put
-> into mmu_common.c that can TCG-only, but it's reasonable to delay the
-> cleanups that will allow that to happen until further down the track.
-For this patch I've put the helpers and static functions only called by 
-them in mmu_helper.c and other functions in mmu_common.c, but looking 
-now there's some more code motion I could add to this patch series, so 
-I'll add them to the end of the patch series to not interfere with the 
-previews patches.
+For now you can add the defines to where they are used.
 
--- 
-Lucas Mateus M. Araujo e Castro
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Estagiario
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> -- 
+> 2.17.1
 
---------------A829851DA8C7EEBC62B9F825
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 15/06/2021 02:42, David Gibson
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:YMg9qx4ddgDchtgS@yekko">
-      <pre class="moz-quote-pre" wrap="">On Thu, Jun 10, 2021 at 01:46:47PM -0300, Lucas Mateus Castro (alqotel) wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Moved functions in mmu_helper.c that should be compiled in build to
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-"should be compiled in build" is not very clear to me.  What's the
-distinction between both the files.
-</pre>
-    </blockquote>
-    Looking back now the description is really confusing, so let me
-    rephrase that: mmu_helper.c is being split in 2 files, mmu_helper.c
-    (which contains TCG-only code) and mmu_common.c (which contains code
-    needed in !TCG)<br>
-    <blockquote type="cite" cite="mid:YMg9qx4ddgDchtgS@yekko">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">mmu_common.c, moved declaration of functions that both files use to
-cpu.h and moved struct declarations and inline functions needed by
-both to target/ppc/internal.h. Updated meson.build to compile the
-new file. ppc6xx_tlb_getnum is not an inline function anymore.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Overall this looks reasonable.  I think there's quite a lot you put
-into mmu_common.c that can TCG-only, but it's reasonable to delay the
-cleanups that will allow that to happen until further down the track.
-</pre>
-    </blockquote>
-    For this patch I've put the helpers and static functions only called
-    by them in mmu_helper.c and other functions in mmu_common.c, but
-    looking now there's some more code motion I could add to this patch
-    series, so I'll add them to the end of the patch series to not
-    interfere with the previews patches.<br>
-    <br>
-    <div class="moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Estagiario<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------A829851DA8C7EEBC62B9F825--
 
