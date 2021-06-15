@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624FA3A7B33
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:52:48 +0200 (CEST)
-Received: from localhost ([::1]:47484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E2A3A7B8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:13:05 +0200 (CEST)
+Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt5kV-000536-FJ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60064)
+	id 1lt648-0003KV-Hb
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt5jL-0004Ke-Kj
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:51:36 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36552)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lt62U-0001HP-Ta
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:11:22 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34262)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt5jJ-0000SS-Ey
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:51:35 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- h11-20020a05600c350bb02901b59c28e8b4so1329486wmq.1
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 02:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=/RqQPCu0kGjmymcHgU7jycPs9m8ounwPPEBmtSN+Bo0=;
- b=npgHWbI+sFMVDN5OorPm5t6gqqEdEGTKGk7A2T2K2HEsUSg9RU+uMLjjko1uL4hsch
- BqMfRJWWxZnypYWdHSFlYYqIqH5qb8ZTUWKTFv1yEKVFNzzyCOHRhiqOmFnBvU4FtI6U
- J9r0ipZZd65NRmdUX/M8LyaYuHEEsU85SS9WfzUik/YcIEn/Ys1rXW3HKpfyjrE6pMNY
- /IVvs4pkuL6xA66HM5RLytG92d310PJPNtGraNEhSPuHn1brbC4y6928q9PaOjaHwOlx
- 9dCsl0uTNWTj4IqTHbWBRl12AV+h0W8Nv39AepsOehgSjkPDHMzrZGCyHbRAS/erxqpO
- b/FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=/RqQPCu0kGjmymcHgU7jycPs9m8ounwPPEBmtSN+Bo0=;
- b=nfRwKLlxjth9rvJmA66kqczm3RYSRAaLy6nPkvPW7RpJw176p/i+0Z2W3wNsFMGuN7
- ZxW3mOQNd/t/tIouBwtrYnhsbsbSeHRZpsZIGjB0H04mRD9TcmeycgONRFYh3v9Ofzty
- qT0Gg46Kt01oSSwNXm7rl0+Zgt+KYYKQrLSE2pj6ZV9a+yWvL5rlL1e+BnWgY9iZm/jh
- Cls0YoM6LnKwKUNj8iPfWh8Mdqjs/7lKljpJ7PvCyeH3CwNYfXmMJlTkudyRR/CopeUk
- NkB1alFx0lRqbGj2cfqkOw4fzjQIKnTjsbQTJCfDe48VH0hexyVIiVZnTbbif68XWyqE
- Yvhg==
-X-Gm-Message-State: AOAM531EK0AFLpYuZpe/lMJUwA2i3vhbqag+ZQb9OtAJKRg3r+pE71Vh
- fo20VLWMNKwQBemsXkOs99c/xQ==
-X-Google-Smtp-Source: ABdhPJw+6kNqPT1vGvtrdCEpWTpuDs3ywPfNFT4Kpn3YrJOfE0VJVV6DkWJh9Gr+1OANqtu1NdePCA==
-X-Received: by 2002:a05:600c:6d2:: with SMTP id
- b18mr21970193wmn.132.1623750691053; 
- Tue, 15 Jun 2021 02:51:31 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y20sm898702wma.45.2021.06.15.02.51.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 02:51:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7D82A1FF7E;
- Tue, 15 Jun 2021 10:51:28 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/5] linux-user/s390x: Fix psw.mask handling in signals
-References: <20210615030744.1252385-1-richard.henderson@linaro.org>
- <87sg1jiiku.fsf@linaro.org>
-Date: Tue, 15 Jun 2021 10:51:28 +0100
-In-Reply-To: <87sg1jiiku.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
- message of "Tue, 15 Jun 2021 10:27:13 +0100")
-Message-ID: <87o8c7ihgf.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lt62R-0004dz-AU
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:11:22 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1lt62O-0005vJ-Kj
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:11:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 927732E8085
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:11:16 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Tue, 15 Jun 2021 09:56:02 -0000
+From: Thomas Huth <1878323@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158933876258.19393.11272084108763872012.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162375096252.14561.13391074009522526905.malone@wampee.canonical.com>
+Subject: [Bug 1878323] Re: Assertion-failure in usb_detach
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
+X-Launchpad-Hash: 8d3472c2be433aec0b47e70aaee3cd1d3fe68cc6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,156 +70,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruixin.bao@ibm.com, jonathan.albrecht@linux.vnet.ibm.com, david@redhat.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Reply-To: Bug 1878323 <1878323@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Ok, thanks, then let's close this ticket now.
 
-> Richard Henderson <richard.henderson@linaro.org> writes:
->
->> The PSW_MASK_CC component of psw.mask was not handled properly
->> in the creation or restoration of signal frames.
->
-> Still seeing issues running on s390x machine:
->
->   05:00:29 [ajb@qemu01:~/l/q/b/debug] s390x/signal-fixes|=E2=80=A6 38 + r=
-etry.py -n 100 -c -- ./qemu-s390x ./tests/tcg/s390x-linux-user/signals
->   ...
->   ...
->   Results summary:
->   0: 62 times (62.00%), avg time 2.253 (0.00 varience/0.00 deviation)
->   -11: 38 times (38.00%), avg time 0.251 (0.00 varience/0.00 deviation)
->   Ran command 100 times, 62 passes
->
-> I don't get much from the backtrace, maybe the atomic triggered the seg?
->
->   #0  0x0000000001016244 in vfprintf ()
->   [Current thread is 1 (Thread 0x4001001910 (LWP 27308))]
->   (gdb) bt
->   #0  0x0000000001016244 in vfprintf ()
->   #1  0x000000000101d484 in printf ()
->   #2  0x0000000001000b2e in background_thread_func (arg=3D0x10a3620) at /=
-home/ajb/lsrc/qemu.git/tests/tcg/multiarch/signals.c:65
->   #3  0x0000000001003150 in start_thread (arg=3D0x4001001910) at pthread_=
-create.c:463
->   #4  0x0000000001035b40 in thread_start ()
->   (gdb) frame 2
->   #2  0x0000000001000b2e in background_thread_func (arg=3D0x10a3620) at /=
-home/ajb/lsrc/qemu.git/tests/tcg/multiarch/signals.c:65
->   65          printf("thread%d: started\n", job->number);
->   (gdb) info locals
->   job =3D 0x10a3620
->   (gdb) p job
->   $1 =3D (ThreadJob *) 0x10a3620
->   (gdb) p job->number
->   $2 =3D 0
->   (gdb) frame 0
->   #0  0x0000000001016244 in vfprintf ()
->   (gdb) x/5i $pc
->   =3D> 0x1016244 <vfprintf+1316>:   asi     224(%r11),1
->      0x101624a <vfprintf+1322>:   cgijne  %r1,0,0x1017570 <vfprintf+6224>
->      0x1016250 <vfprintf+1328>:   lg      %r1,336(%r11)
->      0x1016256 <vfprintf+1334>:   lghi    %r3,37
->      0x101625a <vfprintf+1338>:   aghik   %r6,%r1,1
->   (gdb) p/x $r11
->   $3 =3D 0x4001000708
->   (gdb) p/x $r11 + 224
->   $4 =3D 0x40010007e8
->   (gdb) x/1g $4
->   0x40010007e8:   0x0000000000000000
->   (gdb)
->
-> However running on x86 backend everything seems to be fine.
->
->   Results summary:
->   0: 200 times (100.00%), avg time 2.255 (0.00 varience/0.00 deviation)
->   Ran command 200 times, 200 passes
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-It's hard to desegregate the SEGVs we get during normal runs but a pass
-followed by a fail shows:
+-- =
 
-  qemu: SIGSEGV pc=3D0x3fff473bb1e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff473bb1e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff473bb1e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff473bb1e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  shutting down after: 2000 signals
-  qemu: SIGSEGV pc=3D0x3fff484bd1e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff4848f1a address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff47477f2 address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  [Thread 0x3fffdff1780 (LWP 32928) exited]
-  [Inferior 1 (process 32928) exited normally]
-  (gdb) r
-  Starting program: /home/ajb/lsrc/qemu.git/builds/debug/qemu-s390x ./tests=
-/tcg/s390x-linux-user/signals
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/s390x-linux-gnu/libthread_db.so.1".
-  [New Thread 0x3fffceff910 (LWP 32964)]
-  qemu: SIGSEGV pc=3D0x3fff4752f2a address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff471fa1e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff475c49c address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  [New Thread 0x3fffdff0910 (LWP 32965)]
-  qemu: SIGSEGV pc=3D0x3fff4703b18 address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fffd812efe address=3D4001000000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff471081e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff4715ee6 address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff471a02a address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff472491e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff4725d1e address=3D4001000000 w=3D1 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff4730536 address=3D4001000000 w=3D0 oldset=3D0x00=
-000000
-  qemu: SIGSEGV pc=3D0x3fff473171e address=3D40007ff000 w=3D1 oldset=3D0x00=
-000000
-  [Thread 0x3fffdff0910 (LWP 32965) exited]
-  [Thread 0x3fffceff910 (LWP 32964) exited]
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878323
 
-  Program terminated with signal SIGSEGV, Segmentation fault.
-  The program no longer exists.
-  (gdb)
+Title:
+  Assertion-failure in usb_detach
 
-So something is going astray to 4001000000 which otherwise doesn't.
+Status in QEMU:
+  Fix Released
 
->
->>
->>
->> r~
->>
->>
->> Richard Henderson (5):
->>   target/s390x: Expose load_psw and get_psw_mask to cpu.h
->>   target/s390x: Do not modify cpu state in s390_cpu_get_psw_mask
->>   target/s390x: Improve s390_cpu_dump_state vs cc_op
->>   target/s390x: Use s390_cpu_{set_psw,get_psw_mask} in gdbstub
->>   linux-user/s390x: Save and restore psw.mask properly
->>
->>  target/s390x/cpu.h         |   3 ++
->>  target/s390x/internal.h    |   5 --
->>  linux-user/s390x/signal.c  |  37 ++++++++++++--
->>  target/s390x/cc_helper.c   |   2 +-
->>  target/s390x/excp_helper.c |  28 +++++-----
->>  target/s390x/gdbstub.c     |  15 +-----
->>  target/s390x/helper.c      | 101 ++++++++++++++++++++-----------------
->>  target/s390x/sigp.c        |   3 +-
->>  8 files changed, 110 insertions(+), 84 deletions(-)
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an assertion-failure in usb=
+_detach
 
---=20
-Alex Benn=C3=A9e
+  /home/alxndr/Development/qemu/hw/usb/core.c:69: void usb_detach(USBPort *=
+): Assertion `dev->state !=3D USB_STATE_NOTATTACHED' failed.
+  #3  0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x555557fd2040 =
+<str> "dev->state !=3D USB_STATE_NOTATTACHED", file=3D0x555557fd1ec0 <str> =
+"/home/alxndr/Development/qemu/hw/usb/core.c", line=3D0x45, function=3D0x55=
+5557fd2000 <__PRETTY_FUNCTION__.usb_detach> "void usb_detach(USBPort *)") a=
+t assert.c:101
+  #4  0x000055555723f0ce in usb_detach (port=3D0x62100002df30) at /home/alx=
+ndr/Development/qemu/hw/usb/core.c:69
+  #5  0x00005555572a05a4 in ehci_reset (opaque=3D0x62100002d9f0) at /home/a=
+lxndr/Development/qemu/hw/usb/hcd-ehci.c:863
+  #6  0x00005555572bf941 in ehci_opreg_write (ptr=3D0x62100002d9f0, addr=3D=
+0x0, val=3D0xbebebebe, size=3D0x4) at /home/alxndr/Development/qemu/hw/usb/=
+hcd-ehci.c:1032
+  #7  0x00005555564938b5 in memory_region_write_accessor (mr=3D0x62100002dc=
+b0, addr=3D0x0, value=3D0x7fffffffaad0, size=3D0x4, shift=3D0x0, mask=3D0xf=
+fffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
+  #8  0x000055555649328a in access_with_adjusted_size (addr=3D0x0, value=3D=
+0x7fffffffaad0, size=3D0x4, access_size_min=3D0x1, access_size_max=3D0x4, a=
+ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x62100002dc=
+b0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #9  0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x62100002dc=
+b0, addr=3D0x0, data=3D0xbebebebe, op=3DMO_32, attrs=3D...) at /home/alxndr=
+/Development/qemu/memory.c:1476
+  #10 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x60600003e600, a=
+ddr=3D0xe0000020, attrs=3D..., ptr=3D0x625000260000, len=3D0xfe0, addr1=3D0=
+x0, l=3D0x4, mr=3D0x62100002dcb0) at /home/alxndr/Development/qemu/exec.c:3=
+137
+  #11 0x00005555562bbad9 in flatview_write (fv=3D0x60600003e600, addr=3D0xe=
+0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/alxndr/D=
+evelopment/qemu/exec.c:3177
+  #12 0x00005555562bb609 in address_space_write (as=3D0x62100002d328, addr=
+=3D0xe0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/al=
+xndr/Development/qemu/exec.c:3268
+  #13 0x00005555562c06a6 in address_space_unmap (as=3D0x62100002d328, buffe=
+r=3D0x625000260000, len=3D0x1000, is_write=3D0x1, access_len=3D0x1000) at /=
+home/alxndr/Development/qemu/exec.c:3592
+  #14 0x0000555557257d73 in dma_memory_unmap (as=3D0x62100002d328, buffer=
+=3D0x625000260000, len=3D0x1000, dir=3DDMA_DIRECTION_FROM_DEVICE, access_le=
+n=3D0x1000) at /home/alxndr/Development/qemu/include/sysemu/dma.h:145
+  #15 0x0000555557257c57 in usb_packet_unmap (p=3D0x6110000484c0, sgl=3D0x6=
+11000048548) at /home/alxndr/Development/qemu/hw/usb/libhw.c:65
+  #16 0x00005555572a5953 in ehci_free_packet (p=3D0x611000048480) at /home/=
+alxndr/Development/qemu/hw/usb/hcd-ehci.c:536
+  #17 0x00005555572a4ed4 in ehci_cancel_queue (q=3D0x60d000004f10) at /home=
+/alxndr/Development/qemu/hw/usb/hcd-ehci.c:584
+  #18 0x00005555572a49ab in ehci_free_queue (q=3D0x60d000004f10, warn=3D0x0=
+) at /home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:611
+  #19 0x00005555572b102d in ehci_queues_rip_device (ehci=3D0x62100002d9f0, =
+dev=3D0x623000001d00, async=3D0x1) at /home/alxndr/Development/qemu/hw/usb/=
+hcd-ehci.c:674
+  #20 0x00005555572af7a3 in ehci_detach (port=3D0x62100002df78) at /home/al=
+xndr/Development/qemu/hw/usb/hcd-ehci.c:733
+  #21 0x000055555723f15c in usb_detach (port=3D0x62100002df78) at /home/alx=
+ndr/Development/qemu/hw/usb/core.c:70
+  #22 0x00005555572a05a4 in ehci_reset (opaque=3D0x62100002d9f0) at /home/a=
+lxndr/Development/qemu/hw/usb/hcd-ehci.c:863
+  #23 0x00005555572bf941 in ehci_opreg_write (ptr=3D0x62100002d9f0, addr=3D=
+0x0, val=3D0xbebebebe, size=3D0x4) at /home/alxndr/Development/qemu/hw/usb/=
+hcd-ehci.c:1032
+  #24 0x00005555564938b5 in memory_region_write_accessor (mr=3D0x62100002dc=
+b0, addr=3D0x0, value=3D0x7fffffffc410, size=3D0x4, shift=3D0x0, mask=3D0xf=
+fffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
+  #25 0x000055555649328a in access_with_adjusted_size (addr=3D0x0, value=3D=
+0x7fffffffc410, size=3D0x4, access_size_min=3D0x1, access_size_max=3D0x4, a=
+ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x62100002dc=
+b0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #26 0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x62100002dc=
+b0, addr=3D0x0, data=3D0xbebebebe, op=3DMO_32, attrs=3D...) at /home/alxndr=
+/Development/qemu/memory.c:1476
+  #27 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x60600003e600, a=
+ddr=3D0xe0000020, attrs=3D..., ptr=3D0x625000260000, len=3D0xfe0, addr1=3D0=
+x0, l=3D0x4, mr=3D0x62100002dcb0) at /home/alxndr/Development/qemu/exec.c:3=
+137
+  #28 0x00005555562bbad9 in flatview_write (fv=3D0x60600003e600, addr=3D0xe=
+0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/alxndr/D=
+evelopment/qemu/exec.c:3177
+  #29 0x00005555562bb609 in address_space_write (as=3D0x62100002d328, addr=
+=3D0xe0000000, attrs=3D..., buf=3D0x625000260000, len=3D0x1000) at /home/al=
+xndr/Development/qemu/exec.c:3268
+  #30 0x00005555562c06a6 in address_space_unmap (as=3D0x62100002d328, buffe=
+r=3D0x625000260000, len=3D0x1000, is_write=3D0x1, access_len=3D0x1000) at /=
+home/alxndr/Development/qemu/exec.c:3592
+  #31 0x0000555557257d73 in dma_memory_unmap (as=3D0x62100002d328, buffer=
+=3D0x625000260000, len=3D0x1000, dir=3DDMA_DIRECTION_FROM_DEVICE, access_le=
+n=3D0x1000) at /home/alxndr/Development/qemu/include/sysemu/dma.h:145
+  #32 0x0000555557257c57 in usb_packet_unmap (p=3D0x6110000484c0, sgl=3D0x6=
+11000048548) at /home/alxndr/Development/qemu/hw/usb/libhw.c:65
+  #33 0x00005555572aa87e in ehci_execute_complete (q=3D0x60d000004f10) at /=
+home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:1324
+  #34 0x00005555572a7b8c in ehci_state_executing (q=3D0x60d000004f10) at /h=
+ome/alxndr/Development/qemu/hw/usb/hcd-ehci.c:1973
+  #35 0x00005555572b3685 in ehci_advance_state (ehci=3D0x62100002d9f0, asyn=
+c=3D0x1) at /home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:2094
+  #36 0x00005555572b2db9 in ehci_advance_async_state (ehci=3D0x62100002d9f0=
+) at /home/alxndr/Development/qemu/hw/usb/hcd-ehci.c:2152
+  #37 0x00005555572a29c3 in ehci_work_bh (opaque=3D0x62100002d9f0) at /home=
+/alxndr/Development/qemu/hw/usb/hcd-ehci.c:2320
+  #38 0x0000555557bfba60 in aio_bh_call (bh=3D0x60400001cd90) at /home/alxn=
+dr/Development/qemu/util/async.c:136
+
+  =
+
+  I can reproduce it in qemu 5.0 using the commands in the attachment:
+
+  qemu-system-i386 \
+  -qtest stdio -nographic -monitor none -serial none \
+  -M pc-q35-5.0 -machine q35 \
+  -device ich9-usb-ehci1,bus=3Dpcie.0,addr=3D1d.7,multifunction=3Don,id=3Di=
+ch9-ehci-1 \
+  -device ich9-usb-uhci1,bus=3Dpcie.0,addr=3D1d.0,multifunction=3Don,master=
+bus=3Dich9-ehci-1.0,firstport=3D0 \
+  -device ich9-usb-uhci2,bus=3Dpcie.0,addr=3D1d.1,multifunction=3Don,master=
+bus=3Dich9-ehci-1.0,firstport=3D2 \
+  -device ich9-usb-uhci3,bus=3Dpcie.0,addr=3D1d.2,multifunction=3Don,master=
+bus=3Dich9-ehci-1.0,firstport=3D4 \
+  -drive if=3Dnone,id=3Dusbcdrom,media=3Dcdrom \
+  -device usb-tablet,bus=3Dich9-ehci-1.0,port=3D1,usb_version=3D1 \
+  -device usb-storage,bus=3Dich9-ehci-1.0,port=3D2,drive=3Dusbcdrom \
+  -display none -nodefaults -nographic < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878323/+subscriptions
 
