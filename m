@@ -2,100 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F463A79C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:04:10 +0200 (CEST)
-Received: from localhost ([::1]:60342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CB93A79D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:06:37 +0200 (CEST)
+Received: from localhost ([::1]:35026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt4zR-00078s-HB
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
+	id 1lt51o-0000q7-Px
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lt4xl-0005ht-Lh; Tue, 15 Jun 2021 05:02:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19894)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt50B-0008PE-Fr
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:04:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1lt4xZ-0004W1-EV; Tue, 15 Jun 2021 05:02:23 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15F8j2Dt172009; Tue, 15 Jun 2021 05:02:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=wfQiVLbBnbU1l/H+dgZ0GOVRxt1Go4fSqa3k6Fn36EQ=;
- b=n7i2HMuvIrtq19Qei0LcRbdh93eUWYXIgOLFnS9TgXZCNZ3LZ9uqv2kfadGuW7BeuW3k
- ipxhvRqoElP33OdskXx8xhBNgUf7zfLc4m9VBOxY3B43Sq/W1ZMI1L68ytx+9qfdmh/J
- Bz7wBnMTjw0Z2BSBA+bymW+lMOxuqCpDBBYzVaj8WTwxCKs6F//m+RYvMQjvtmJFZeLy
- toRui0iN8yrONF1wSjc0yaajbrrmBXPXRcXWfjdMlGsA3wsTHm51dEy9o4Gm4CII8bXe
- Nkbx2FgfoF+UGM8WOiKMuilvMBm3s57H28HBVbRCJzpn6gYHYRDTAnmnIbdeedxVCGsu MA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396ryc8g7f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 05:02:09 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15F8jsdA174608;
- Tue, 15 Jun 2021 05:02:09 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396ryc8g6v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 05:02:09 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15F8wKQJ025389;
- Tue, 15 Jun 2021 09:02:07 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma01fra.de.ibm.com with ESMTP id 395c3t8h5k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 09:02:07 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15F9252Y14221736
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Jun 2021 09:02:05 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0491E52054;
- Tue, 15 Jun 2021 09:02:05 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.85.205])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 9691E52051;
- Tue, 15 Jun 2021 09:02:04 +0000 (GMT)
-Subject: Re: [PATCH 0/5] linux-user/s390x: Fix psw.mask handling in signals
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210615030744.1252385-1-richard.henderson@linaro.org>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <e49eb5cc-de35-5792-261e-83fdcecde04f@de.ibm.com>
-Date: Tue, 15 Jun 2021 11:02:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt509-0006Me-2M
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:04:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623747891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RL+50h9vmSdQ6ek3VVt9x2BYruTizZHc35L/871QydI=;
+ b=J+MB1rEVJWaKx8T39YJx9E4Y6yAK7m7LWAh/NALj+UwCoFXKUBaFkcO4w350fYVU5RIOMc
+ zIUQQbJ7tNmPWFsfbaFG6RM9p9d7fmdNG3gZwRjvmk63zBQP/9WfKho7AjcImiaYh6hLfi
+ Z8f+AAAvpjoWVyRaNnFy+/5miElcJMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-Yrr2UIyjPiOhGjahkTU2cw-1; Tue, 15 Jun 2021 05:04:50 -0400
+X-MC-Unique: Yrr2UIyjPiOhGjahkTU2cw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85B441850605
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:04:49 +0000 (UTC)
+Received: from thuth.com (ovpn-114-110.ams2.redhat.com [10.36.114.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAF4D19D9B;
+ Tue, 15 Jun 2021 09:04:41 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2] ui: Make the DisplayType enum entries conditional
+Date: Tue, 15 Jun 2021 11:04:39 +0200
+Message-Id: <20210615090439.70926-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210615030744.1252385-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: n_FAh4HnenoUQlAcWkkshQLJnV14nw3w
-X-Proofpoint-ORIG-GUID: FKKCh9iUJHzoanjqKk-dKmYTk4uxB8zC
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-15_04:2021-06-14,
- 2021-06-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0
- priorityscore=1501 mlxlogscore=999 suspectscore=0 spamscore=0 mlxscore=0
- phishscore=0 adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106150051
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,38 +74,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruixin.bao@ibm.com, jonathan.albrecht@linux.vnet.ibm.com, cohuck@redhat.com,
- qemu-s390x@nongnu.org, david@redhat.com
+Cc: libvir-list@redhat.com, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Libvirt's "domcapabilities" command has a way to state whether certain
+graphic frontends are available in QEMU or not. Originally, libvirt
+looked at the "--help" output of the QEMU binary to determine whether
+SDL was available or not (by looking for the "-sdl" parameter in the
+help text), but since libvirt stopped doing this analysis of the help
+text, the detection of SDL is currently broken, see:
 
+ https://bugzilla.redhat.com/show_bug.cgi?id=1790902
 
-On 15.06.21 05:07, Richard Henderson wrote:
-> The PSW_MASK_CC component of psw.mask was not handled properly
-> in the creation or restoration of signal frames.
-> 
+QEMU should provide a way via the QMP interface instead. A simple way,
+without introducing additional commands, is to make the DisplayType
+enum entries conditional, so that the enum only contains the entries if
+the corresponding CONFIG_xxx switches have been set. This of course
+only gives an indication which possibilities have been enabled during
+compile-time of QEMU (and does not take into account whether modules
+are later available or not for example - for this we'd need a separate
+command), but anyway, this should already be good enough for the above
+bug ticket, and it's a good idea anyway to make the QMP interface
+conditional here, so let's simply do it.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2: Make gtk, curses and egl also conditional
 
-Maybe add a Reported-by: jonathan.albrecht@linux.vnet.ibm.com
-in the right patches?
+ qapi/ui.json | 23 +++++++++++++++++------
+ softmmu/vl.c | 20 +++++++++++++++++---
+ ui/console.c |  8 +++++++-
+ 3 files changed, 41 insertions(+), 10 deletions(-)
 
-  
-> Richard Henderson (5):
->    target/s390x: Expose load_psw and get_psw_mask to cpu.h
->    target/s390x: Do not modify cpu state in s390_cpu_get_psw_mask
->    target/s390x: Improve s390_cpu_dump_state vs cc_op
->    target/s390x: Use s390_cpu_{set_psw,get_psw_mask} in gdbstub
->    linux-user/s390x: Save and restore psw.mask properly
-> 
->   target/s390x/cpu.h         |   3 ++
->   target/s390x/internal.h    |   5 --
->   linux-user/s390x/signal.c  |  37 ++++++++++++--
->   target/s390x/cc_helper.c   |   2 +-
->   target/s390x/excp_helper.c |  28 +++++-----
->   target/s390x/gdbstub.c     |  15 +-----
->   target/s390x/helper.c      | 101 ++++++++++++++++++++-----------------
->   target/s390x/sigp.c        |   3 +-
->   8 files changed, 110 insertions(+), 84 deletions(-)
-> 
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 1052ca9c38..6a667a0abf 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1126,9 +1126,16 @@
+ #
+ ##
+ { 'enum'    : 'DisplayType',
+-  'data'    : [ 'default', 'none', 'gtk', 'sdl',
+-                'egl-headless', 'curses', 'cocoa',
+-                'spice-app'] }
++  'data'    : [
++    { 'name': 'default' },
++    { 'name': 'none' },
++    { 'name': 'gtk', 'if': 'defined(CONFIG_GTK)' },
++    { 'name': 'sdl', 'if': 'defined(CONFIG_SDL)' },
++    { 'name': 'egl-headless',
++              'if': 'defined(CONFIG_OPENGL) && defined(CONFIG_GBM)' },
++    { 'name': 'curses', 'if': 'defined(CONFIG_CURSES)' },
++    { 'name': 'cocoa', 'if': 'defined(CONFIG_COCOA)' },
++    { 'name': 'spice-app', 'if': 'defined(CONFIG_SPICE)'} ] }
+ 
+ ##
+ # @DisplayOptions:
+@@ -1152,9 +1159,13 @@
+                 '*show-cursor'   : 'bool',
+                 '*gl'            : 'DisplayGLMode' },
+   'discriminator' : 'type',
+-  'data'    : { 'gtk'            : 'DisplayGTK',
+-                'curses'         : 'DisplayCurses',
+-                'egl-headless'   : 'DisplayEGLHeadless'} }
++  'data'    : {
++      'gtk': { 'type': 'DisplayGTK', 'if': 'defined(CONFIG_GTK)' },
++      'curses': { 'type': 'DisplayCurses', 'if': 'defined(CONFIG_CURSES)' },
++      'egl-headless': { 'type': 'DisplayEGLHeadless',
++                        'if': 'defined(CONFIG_OPENGL) && defined(CONFIG_GBM)' }
++  }
++}
+ 
+ ##
+ # @query-display-options:
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 326c1e9080..fc103c2cb2 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1068,6 +1068,7 @@ static void parse_display(const char *p)
+          *     Not clear yet what happens to them long-term.  Should
+          *     replaced by something better or deprecated and dropped.
+          */
++#if defined(CONFIG_SDL)
+         dpy.type = DISPLAY_TYPE_SDL;
+         while (*opts) {
+             const char *nextopt;
+@@ -1131,6 +1132,10 @@ static void parse_display(const char *p)
+             }
+             opts = nextopt;
+         }
++#else
++        error_report("SDL display supported is not available in this binary");
++        exit(1);
++#endif
+     } else if (strstart(p, "vnc", &opts)) {
+         /*
+          * vnc isn't a (local) DisplayType but a protocol for remote
+@@ -1867,13 +1872,22 @@ static void qemu_apply_machine_options(void)
+ static void qemu_create_early_backends(void)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
++#if defined(CONFIG_SDL)
++    const bool use_sdl = (dpy.type == DISPLAY_TYPE_SDL);
++#else
++    const bool use_sdl = false;
++#endif
++#if defined(CONFIG_GTK)
++    const bool use_gtk = (dpy.type == DISPLAY_TYPE_GTK);
++#else
++    const bool use_gtk = false;
++#endif
+ 
+-    if ((alt_grab || ctrl_grab) && dpy.type != DISPLAY_TYPE_SDL) {
++    if ((alt_grab || ctrl_grab) && !use_sdl) {
+         error_report("-alt-grab and -ctrl-grab are only valid "
+                      "for SDL, ignoring option");
+     }
+-    if (dpy.has_window_close &&
+-        (dpy.type != DISPLAY_TYPE_GTK && dpy.type != DISPLAY_TYPE_SDL)) {
++    if (dpy.has_window_close && !use_gtk && !use_sdl) {
+         error_report("-no-quit is only valid for GTK and SDL, "
+                      "ignoring option");
+     }
+diff --git a/ui/console.c b/ui/console.c
+index 2de5f4105b..1103b65314 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2370,13 +2370,19 @@ void qemu_display_register(QemuDisplay *ui)
+ bool qemu_display_find_default(DisplayOptions *opts)
+ {
+     static DisplayType prio[] = {
++#if defined(CONFIG_GTK)
+         DISPLAY_TYPE_GTK,
++#endif
++#if defined(CONFIG_SDL)
+         DISPLAY_TYPE_SDL,
++#endif
++#if defined(CONFIG_COCOA)
+         DISPLAY_TYPE_COCOA
++#endif
+     };
+     int i;
+ 
+-    for (i = 0; i < ARRAY_SIZE(prio); i++) {
++    for (i = 0; i < (int)ARRAY_SIZE(prio); i++) {
+         if (dpys[prio[i]] == NULL) {
+             ui_module_load_one(DisplayType_str(prio[i]));
+         }
+-- 
+2.27.0
+
 
