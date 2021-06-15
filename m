@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81F03A7599
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 06:08:54 +0200 (CEST)
-Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F5B3A75B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 06:18:53 +0200 (CEST)
+Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt0Nh-0003RZ-Ku
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 00:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56896)
+	id 1lt0XM-0005k6-Mx
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 00:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lt0Mw-0002lu-Lh
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:08:06 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34412)
+ id 1lt0WT-000513-7k
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:17:57 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lt0Mv-000664-1x
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:08:06 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id h1so7771361plt.1
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 21:08:04 -0700 (PDT)
+ id 1lt0WQ-0005rM-81
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:17:56 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id h1so7781683plt.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 21:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=R9N+7EzUuarv3sT4H47eFfTqDqiONWkGOqgZ9igHwj8=;
- b=hpcP+D59EhoEY3B3IX0IYBTE2ue4+ynfwQKk2xUuzTtvvPEtaKlS5fFJGwIzRyQ+IC
- PHEose5rYdKgKIrULppjngAP49R0iYDTj5b97tEbWcPi9f9Y4FpClAjIfskJJeV66/ns
- o+TxOg1VELlwM6R/Kj1+LOtE9dz2mmfp6rSHby7yoA3aeZqb8oy6H+XLi8EqZwwomNS3
- fhzsJB21TrejIry1iRLyyCh7rLn7ipzFi+VVSl4mBr5orvWW5HF8DjAkYyfTy9zlQRsX
- OnLpSYxoz9gP6ubAzBbLGUjrhuC8iset6avMnDOxHf7UwfdJWVexIWjbm8gw6PNzGood
- xjzg==
+ bh=6kjNefm+09bwWjgtLFGq1d03bIJCqYB11aL2bOSrCnY=;
+ b=clX5ahL/V9e9rRkCBZKnBaLF0+uCwxCcZ1SkZls97VQ0QVd27O8uX5sNib7RZ18SG4
+ 41BrGgRc23xhor3TiA2krjfGpCtcT/pGTmS1sY6xBeJADKc3Dptx7GH/8e07FJBLoyis
+ VVCzr9/En+UdVGvTsGq0ozyzsfHmkqSrn8eZmNhPdgfH4qLBlHu59HTOp72WTdO/rLuO
+ YCN7U0PfrjWiGY8fKYap7RYW8xgpeOtxNZ26V9HRQD7fuVJ2Fp4YFEGulywNHoKV6HDC
+ OH710mwM+0PtT5B7dtdS4DSxKFD9e8Zwi514JORpg3oJeoVPbg6bha4GU5eU6Ru5hqgu
+ mh0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=R9N+7EzUuarv3sT4H47eFfTqDqiONWkGOqgZ9igHwj8=;
- b=BaWv53L0lp3AjIHoEbMSr2LIORoMBHeDU03gkS44H9U17+SHRCtnl1XggAA15zvM5F
- Q57uX+SHGFXVOf5WAALYnqvRqS7JTCSnnghLZ1M06fRYVZC3LqESD8oWEpC2YYxO8b1V
- AIZ5xsSQ8HnyZVwxhfK7zjUrKFExdEx6vIdg04ggslYjf9jSAT6ZCIDyVs8tqyuk2lmc
- RWMMwTP1NWQZTSO8nD+MN680ZhUfPE0LWBfO9/8qezXZxzB7ON78J4sFB+9t5CJ94nGY
- txMJzn7m/jKmSp//zIcClwdjqiXI5JhXp6gnkbyD42VjfAzEGEndA7EDhJAVE8sFb4u2
- 6TuA==
-X-Gm-Message-State: AOAM532XdwB9orLhmtoT4dj90gYYGYrGDX/MpHsS3xACl+ZSmFHdQj+S
- 9i4KP/qVJ3oGjkBcl/XvxUD4aiQqdOUXHA==
-X-Google-Smtp-Source: ABdhPJzIoPXf6Pe/smI2YvWmNdUqjTTzkOhgh8oy1SkicWbwUXz4KB/EqtP1hyfIap4Ak+pa8O9hJA==
-X-Received: by 2002:a17:90a:24a:: with SMTP id
- t10mr23108007pje.178.1623730083434; 
- Mon, 14 Jun 2021 21:08:03 -0700 (PDT)
+ bh=6kjNefm+09bwWjgtLFGq1d03bIJCqYB11aL2bOSrCnY=;
+ b=QvBPSWlR3nXJKaZdt2tHKJX+q8z9Lj46ICguyvYaiTVsqOI4vICoZn0UsyRoNWfr1O
+ BGvtJQ3qh0ALcqUWkHK7++3A0Ha0sVPTTU04fR/BzggaARvurgJ14Ybmm0uUvnY0soD6
+ 2BrNztVNwBHCBlmYlONp7z3KKNUdCxbaQwNZsl/QnwOuZWcSkelCqgRcJ1rEJoq6OfQ7
+ c5SVAcb8iIccd9XGcKH3+sSZBMQ9sZNehk3wV8xy4wee9U3q1fU7LmG52sJcH+n28whE
+ R7efktX1DEQ6uFur4l1rE7umuuVb1S5zHPc67TH3I7zxkuLtbnjylgLas4D5/ZHOy6ep
+ /xZA==
+X-Gm-Message-State: AOAM533nbejmYox/jlbVtICj7tA4SZL/uVwF0JDeialHZDGRlzshOjf3
+ AfvEKC/4cTAJrsK6JVipSPE1xA==
+X-Google-Smtp-Source: ABdhPJzAjjMsoN1URlAFao0X50l/3Az89uz2k3xxoBp7WgGrqSldZnQqNzrEMWoDUdf6CijQ/OSzbQ==
+X-Received: by 2002:a17:90a:a00f:: with SMTP id
+ q15mr2861788pjp.193.1623730672449; 
+ Mon, 14 Jun 2021 21:17:52 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- y34sm13616565pfa.181.2021.06.14.21.08.03
+ d3sm887207pjk.16.2021.06.14.21.17.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 21:08:03 -0700 (PDT)
-Subject: Re: [PATCH 4/4] alpha: Provide console information to the PALcode at
- start-up.
-To: Jason Thorpe <thorpej@me.com>, qemu-devel@nongnu.org
+ Mon, 14 Jun 2021 21:17:52 -0700 (PDT)
+Subject: Re: [PATCH 1/4] mc146818rtc: Make PF independent of PIE
+To: Jason Thorpe <thorpej@me.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 References: <20210613211549.18094-1-thorpej@me.com>
- <20210613211549.18094-5-thorpej@me.com>
+ <20210613211549.18094-2-thorpej@me.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2e27a687-f605-3f5a-ef0a-c96b693f3c93@linaro.org>
-Date: Mon, 14 Jun 2021 21:08:01 -0700
+Message-ID: <5c2ae675-f734-174d-6640-baebc817f3ba@linaro.org>
+Date: Mon, 14 Jun 2021 21:17:50 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210613211549.18094-5-thorpej@me.com>
+In-Reply-To: <20210613211549.18094-2-thorpej@me.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -93,40 +94,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc: paolo and mst
+
 On 6/13/21 2:15 PM, Jason Thorpe wrote:
-> Redefine the a2 register passed by Qemu at start-up to also include
-> some configuration flags, in addition to the CPU count, and define
-> a flag to mirror the "-nographics" option.
+> Make the PF flag behave like real hardware by always running the
+> periodic timer without regard to the setting of the PIE bit, so
+> that the PF will be set when the period expires even if an interrupt
+> will not be raised.  This behavior is documented on page 16 of the
+> MC146818A advance information datasheet.
 > 
 > Signed-off-by: Jason Thorpe <thorpej@me.com>
 > ---
->   hw/alpha/dp264.c | 11 +++++++++++
->   1 file changed, 11 insertions(+)
+>   hw/rtc/mc146818rtc.c | 4 ----
+>   1 file changed, 4 deletions(-)
 > 
-> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-> index ac97104464..d86dcb1d81 100644
-> --- a/hw/alpha/dp264.c
-> +++ b/hw/alpha/dp264.c
-> @@ -72,9 +72,20 @@ static void clipper_init(MachineState *machine)
->           cpus[i] = ALPHA_CPU(cpu_create(machine->cpu_type));
->       }
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index 4fbafddb22..366b8f13de 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -155,10 +155,6 @@ static uint32_t rtc_periodic_clock_ticks(RTCState *s)
+>   {
+>       int period_code;
 >   
-> +    /* arg0 -> memory size
-> +       arg1 -> kernel entry point
-> +       arg2 -> config word
-> +
-> +       Config word: bits 0-5 -> ncpus
-> +                    bit  6   -> nographics option (for HWRPB CTB)
-> +
-> +       See init_hwrpb() in the PALcode.  */
-> +
->       cpus[0]->env.trap_arg0 = ram_size;
->       cpus[0]->env.trap_arg1 = 0;
->       cpus[0]->env.trap_arg2 = smp_cpus;
-> +    if (!machine->enable_graphics)
-> +      cpus[0]->env.trap_arg2 |= (1 << 6);
+> -    if (!(s->cmos_data[RTC_REG_B] & REG_B_PIE)) {
+> -        return 0;
+> -     }
 
-Thanks, I have fixed up the style problems and queued.
+This looks correct, but I don't know enough about this device.
 
 
 r~
