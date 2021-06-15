@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291623A8A9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 23:07:53 +0200 (CEST)
-Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048CD3A8AF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 23:19:09 +0200 (CEST)
+Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltGHo-0003ny-7B
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 17:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58516)
+	id 1ltGSh-0000cx-QT
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 17:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFzF-000398-FF
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22168)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFzH-0003Gb-Re
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFz8-0001F1-Cm
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:41 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFz8-0001FF-MI
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623790112;
+ s=mimecast20190719; t=1623790114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l3EM11ha9LMzyhSqakhs5aR6dObYOuLyVzRNH2DR1oE=;
- b=TgrGOmHLgB04TUZGcFlnth78ZLzp/uFfhEpFPA9O3cJdiI1Sc+9Yt1psWUhkVSH8RJAelo
- eiEsa2sPCmjVY0XaaIUWdqlwhvwEet2tx++Oef+9aMCVMCpFxJGJKK0bCzLIVkgqxctEer
- bjEPCxKb+Zr9r+ZaxSYSayRmyM2MoR4=
+ bh=fb8CRE5Sp++9H3ScBiFAJgZbGVVw56PvVfWYcQsn8DM=;
+ b=cImgh4zFdpXDXfH6tPCf0RKwgtGb8JTEKBbKhiyQ0KgxSQW1Cv9fMK1vrfpqqwOHlHqc/U
+ 5oi5peeI4aPSSJbNIabqkyGwkt4Kt+iF+1WbWsSHxUIjujJ02hcIaxBw/bmg89tvTNWTd8
+ +SO5JuJUS/LpXR9B06vWAaurCV+qUqI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-wsJghhfuPCmxHy1ZkUYKkw-1; Tue, 15 Jun 2021 16:48:31 -0400
-X-MC-Unique: wsJghhfuPCmxHy1ZkUYKkw-1
+ us-mta-278-JmOwEe74Nj-z4kYdi9hSOA-1; Tue, 15 Jun 2021 16:48:31 -0400
+X-MC-Unique: JmOwEe74Nj-z4kYdi9hSOA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1370C80ED8B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACAF5107ACF6;
  Tue, 15 Jun 2021 20:48:30 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-191.phx2.redhat.com [10.3.114.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C4685D9CA;
- Tue, 15 Jun 2021 20:48:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 41D8A5D9CA;
+ Tue, 15 Jun 2021 20:48:30 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/34] nbd/client-connection: return only one io channel
-Date: Tue, 15 Jun 2021 15:47:50 -0500
-Message-Id: <20210615204756.281505-29-eblake@redhat.com>
+Subject: [PULL 29/34] block-coroutine-wrapper: allow non bdrv_ prefix
+Date: Tue, 15 Jun 2021 15:47:51 -0500
+Message-Id: <20210615204756.281505-30-eblake@redhat.com>
 In-Reply-To: <20210615204756.281505-1-eblake@redhat.com>
 References: <20210615204756.281505-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -76,147 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-block/nbd doesn't need underlying sioc channel anymore. So, we can
-update nbd/client-connection interface to return only one top-most io
-channel, which is more straight forward.
+We are going to reuse the script to generate a nbd_ function in
+further commit. Prepare the script now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210610100802.5888-27-vsementsov@virtuozzo.com>
+Message-Id: <20210610100802.5888-28-vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/nbd.h     |  4 ++--
- block/nbd.c             | 13 ++-----------
- nbd/client-connection.c | 33 +++++++++++++++++++++++++--------
- 3 files changed, 29 insertions(+), 21 deletions(-)
+ scripts/block-coroutine-wrapper.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 5bb54d831c8a..10c8a0bcca80 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -418,9 +418,9 @@ NBDClientConnection *nbd_client_connection_new(const SocketAddress *saddr,
-                                                QCryptoTLSCreds *tlscreds);
- void nbd_client_connection_release(NBDClientConnection *conn);
+diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+index 0461fd1c459c..85dbeb9ecf9c 100644
+--- a/scripts/block-coroutine-wrapper.py
++++ b/scripts/block-coroutine-wrapper.py
+@@ -98,12 +98,13 @@ def snake_to_camel(func_name: str) -> str:
 
--QIOChannelSocket *coroutine_fn
-+QIOChannel *coroutine_fn
- nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
--                            QIOChannel **ioc, Error **errp);
-+                            Error **errp);
 
- void coroutine_fn nbd_co_establish_connection_cancel(NBDClientConnection *conn);
+ def gen_wrapper(func: FuncDecl) -> str:
+-    assert func.name.startswith('bdrv_')
+-    assert not func.name.startswith('bdrv_co_')
++    assert not '_co_' in func.name
+     assert func.return_type == 'int'
+     assert func.args[0].type in ['BlockDriverState *', 'BdrvChild *']
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 9f193d130bcd..411435c1559e 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -360,7 +360,6 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
- {
-     int ret;
-     AioContext *aio_context = bdrv_get_aio_context(s->bs);
--    QIOChannelSocket *sioc;
-
-     if (!nbd_client_connecting(s)) {
-         return;
-@@ -399,20 +398,12 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-         s->ioc = NULL;
-     }
-
--    sioc = nbd_co_establish_connection(s->conn, &s->info, &s->ioc, NULL);
--    if (!sioc) {
-+    s->ioc = nbd_co_establish_connection(s->conn, &s->info, NULL);
-+    if (!s->ioc) {
-         ret = -ECONNREFUSED;
-         goto out;
-     }
-
--    if (s->ioc) {
--        /* sioc is referenced by s->ioc */
--        object_unref(OBJECT(sioc));
--    } else {
--        s->ioc = QIO_CHANNEL(sioc);
--    }
--    sioc = NULL;
--
-     qio_channel_set_blocking(QIO_CHANNEL(s->ioc), false, NULL);
-     qio_channel_attach_aio_context(QIO_CHANNEL(s->ioc), aio_context);
-
-diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 883f9cf158cb..72138a5ff74a 100644
---- a/nbd/client-connection.c
-+++ b/nbd/client-connection.c
-@@ -272,15 +272,15 @@ void nbd_client_connection_release(NBDClientConnection *conn)
-  * nbd_receive_export_list() would be zero (see description of NBDExportInfo in
-  * include/block/nbd.h).
-  */
--QIOChannelSocket *coroutine_fn
-+QIOChannel *coroutine_fn
- nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
--                            QIOChannel **ioc, Error **errp)
-+                            Error **errp)
- {
-+    QIOChannel *ioc;
-     QemuThread thread;
-
-     if (conn->do_negotiation) {
-         assert(info);
--        assert(ioc);
-     }
-
-     WITH_QEMU_LOCK_GUARD(&conn->mutex) {
-@@ -294,10 +294,17 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
-             if (conn->sioc) {
-                 /* Previous attempt finally succeeded in background */
-                 if (conn->do_negotiation) {
--                    *ioc = g_steal_pointer(&conn->ioc);
-+                    ioc = g_steal_pointer(&conn->ioc);
-                     memcpy(info, &conn->updated_info, sizeof(*info));
-                 }
--                return g_steal_pointer(&conn->sioc);
-+                if (ioc) {
-+                    /* TLS channel now has own reference to parent */
-+                    object_unref(OBJECT(conn->sioc));
-+                } else {
-+                    ioc = QIO_CHANNEL(conn->sioc);
-+                }
-+                conn->sioc = NULL;
-+                return ioc;
-             }
-
-             conn->running = true;
-@@ -329,11 +336,21 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
-         } else {
-             error_propagate(errp, conn->err);
-             conn->err = NULL;
--            if (conn->sioc && conn->do_negotiation) {
--                *ioc = g_steal_pointer(&conn->ioc);
-+            if (!conn->sioc) {
-+                return NULL;
-+            }
-+            if (conn->do_negotiation) {
-+                ioc = g_steal_pointer(&conn->ioc);
-                 memcpy(info, &conn->updated_info, sizeof(*info));
-             }
--            return g_steal_pointer(&conn->sioc);
-+            if (ioc) {
-+                /* TLS channel now has own reference to parent */
-+                object_unref(OBJECT(conn->sioc));
-+            } else {
-+                ioc = QIO_CHANNEL(conn->sioc);
-+            }
-+            conn->sioc = NULL;
-+            return ioc;
-         }
-     }
+-    name = 'bdrv_co_' + func.name[5:]
++    subsystem, subname = func.name.split('_', 1)
++
++    name = f'{subsystem}_co_{subname}'
+     bs = 'bs' if func.args[0].type == 'BlockDriverState *' else 'child->bs'
+     struct_name = snake_to_camel(name)
 
 -- 
 2.31.1
