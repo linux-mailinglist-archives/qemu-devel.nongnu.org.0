@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04B923A8891
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 20:28:36 +0200 (CEST)
-Received: from localhost ([::1]:59940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 999F93A888F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 20:27:12 +0200 (CEST)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltDnf-0006Vy-30
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 14:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57846)
+	id 1ltDmJ-0004Cc-Lt
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 14:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltDky-0002se-80
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:25:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52160)
+ id 1ltDkw-0002rv-Vn
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:25:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltDku-00062E-Hf
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:25:48 -0400
+ id 1ltDku-00061S-EI
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 14:25:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1ltDks-000080-AN
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:25:42 +0000
+ id 1ltDkr-0008DF-D3
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:25:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 463382E8087
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5460F2E80AD
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:25:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Jun 2021 18:16:17 -0000
-From: Thomas Huth <1879227@bugs.launchpad.net>
+Date: Tue, 15 Jun 2021 18:17:45 -0000
+From: Thomas Huth <1880355@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Commenters: a1xndr mark-cave-ayland philmd pmaydell th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158977225414.22954.4052129310698259599.malonedeb@gac.canonical.com>
-Message-Id: <162378097754.17985.13323252553153445091.malone@gac.canonical.com>
-Subject: [Bug 1879227] Re: Assertion failure in e1000e_write_lgcy_rx_descr
+References: <159029353528.907.11982786579949073896.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162378106605.14289.15892854993567335771.malone@wampee.canonical.com>
+Subject: [Bug 1880355] Re: Length restrictions for fw_cfg_dma_transfer?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: cd266a4ca2e4f59bd808a5c74fde7d34a061778f
+X-Launchpad-Hash: ca18eae969abec83782b052898ecd8c518014b72
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,16 +70,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1879227 <1879227@bugs.launchpad.net>
+Reply-To: Bug 1880355 <1880355@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to some automatic bisecting, it seems like this was fixed by
-this commit here:
-
- commit c2cb511634012344e3d0fe49a037a33b12d8a98a
- hw/net/e1000e: advance desc_offset in case of null descriptor
-
+Ok, thanks for checking! Closing now.
 
 ** Changed in: qemu
        Status: Incomplete =3D> Fix Released
@@ -88,141 +83,72 @@ this commit here:
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1879227
+https://bugs.launchpad.net/bugs/1880355
 
 Title:
-  Assertion failure in e1000e_write_lgcy_rx_descr
+  Length restrictions for fw_cfg_dma_transfer?
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hello,
-  While fuzzing, I found an input which triggers an assertion failure in
-  e1000e_write_lgcy_rx_descr:
+  For me, this takes close to 3 minutes at 100% CPU:
+  echo "outl 0x518 0x9596ffff" | ./i386-softmmu/qemu-system-i386 -M q35 -m =
+32 -nographic -accel qtest -monitor none -serial none -qtest stdio
 
-  qemu-system-i386: /home/alxndr/Development/qemu/hw/net/e1000e_core.c:1283=
-: void e1000e_write_lgcy_rx_descr(E1000ECore *, uint8_t *, struct NetRxPkt =
-*, const E1000E_RSSInfo *, uint16_t): Assertion `!rss_info->enabled' failed.
-  Aborted
-  #3  0x00007ffff684d092 in __GI___assert_fail (assertion=3D0x5555583704c0 =
-<str> "!rss_info->enabled", file=3D0x555558361080 <str> "/home/alxndr/Devel=
-opment/qemu/hw/net/e1000e_core.c", line=3D0x503, function=3D0x555558370500 =
-<__PRETTY_FUNCTION__.e1000e_write_lgcy_rx_descr> "void e1000e_write_lgcy_rx=
-_descr(E1000ECore *, uint8_t *, struct NetRxPkt *, const E1000E_RSSInfo *, =
-uint16_t)") at assert.c:101
-  #4  0x0000555557209937 in e1000e_write_lgcy_rx_descr (core=3D0x7fffee0dd4=
-e0, desc=3D0x7fffffff8720 "}}}}}}\253?", pkt=3D0x61100004b900, rss_info=3D0=
-x7fffffff8c50, length=3D0xcb) at /home/alxndr/Development/qemu/hw/net/e1000=
-e_core.c:1283
-  #5  0x0000555557206b0b in e1000e_write_rx_descr (core=3D0x7fffee0dd4e0, d=
-esc=3D0x7fffffff8720 "}}}}}}\253?", pkt=3D0x61100004b900, rss_info=3D0x7fff=
-ffff8c50, ps_hdr_len=3D0x0, written=3D0x7fffffff87c0) at /home/alxndr/Devel=
-opment/qemu/hw/net/e1000e_core.c:1360
-  #6  0x00005555571f8507 in e1000e_write_packet_to_guest (core=3D0x7fffee0d=
-d4e0, pkt=3D0x61100004b900, rxr=3D0x7fffffff8c30, rss_info=3D0x7fffffff8c50=
-) at /home/alxndr/Development/qemu/hw/net/e1000e_core.c:1607
-  #7  0x00005555571f5670 in e1000e_receive_iov (core=3D0x7fffee0dd4e0, iov=
-=3D0x61900004e780, iovcnt=3D0x4) at /home/alxndr/Development/qemu/hw/net/e1=
-000e_core.c:1709
-  #8  0x00005555571f1afc in e1000e_nc_receive_iov (nc=3D0x614000007460, iov=
-=3D0x61900004e780, iovcnt=3D0x4) at /home/alxndr/Development/qemu/hw/net/e1=
-000e.c:213
-  #9  0x00005555571d5977 in net_tx_pkt_sendv (pkt=3D0x631000028800, nc=3D0x=
-614000007460, iov=3D0x61900004e780, iov_cnt=3D0x4) at /home/alxndr/Developm=
-ent/qemu/hw/net/net_tx_pkt.c:544
-  #10 0x00005555571d50e4 in net_tx_pkt_send (pkt=3D0x631000028800, nc=3D0x6=
-14000007460) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:620
-  #11 0x00005555571d638f in net_tx_pkt_send_loopback (pkt=3D0x631000028800,=
- nc=3D0x614000007460) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:=
-633
-  #12 0x000055555722b600 in e1000e_tx_pkt_send (core=3D0x7fffee0dd4e0, tx=
-=3D0x7fffee0fd748, queue_index=3D0x0) at /home/alxndr/Development/qemu/hw/n=
-et/e1000e_core.c:664
-  #13 0x0000555557229ca6 in e1000e_process_tx_desc (core=3D0x7fffee0dd4e0, =
-tx=3D0x7fffee0fd748, dp=3D0x7fffffff9440, queue_index=3D0x0) at /home/alxnd=
-r/Development/qemu/hw/net/e1000e_core.c:743
-  #14 0x0000555557228ea5 in e1000e_start_xmit (core=3D0x7fffee0dd4e0, txr=
-=3D0x7fffffff9640) at /home/alxndr/Development/qemu/hw/net/e1000e_core.c:934
-  #15 0x000055555721c70f in e1000e_set_tdt (core=3D0x7fffee0dd4e0, index=3D=
-0xe06, val=3D0xcb) at /home/alxndr/Development/qemu/hw/net/e1000e_core.c:24=
-51
-  #16 0x00005555571fa436 in e1000e_core_write (core=3D0x7fffee0dd4e0, addr=
-=3D0x438, val=3D0xcb, size=3D0x4) at /home/alxndr/Development/qemu/hw/net/e=
-1000e_core.c:3261
-  #17 0x00005555571ed11c in e1000e_mmio_write (opaque=3D0x7fffee0da800, add=
-r=3D0x438, val=3D0xcb, size=3D0x4) at /home/alxndr/Development/qemu/hw/net/=
-e1000e.c:109
-  #18 0x00005555565e78b2 in memory_region_write_accessor (mr=3D0x7fffee0dd1=
-10, addr=3D0x438, value=3D0x7fffffff9cb0, size=3D0x4, shift=3D0x0, mask=3D0=
-xffffffff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
-  #19 0x00005555565e7212 in access_with_adjusted_size (addr=3D0x438, value=
-=3D0x7fffffff9cb0, size=3D0x1, access_size_min=3D0x4, access_size_max=3D0x4=
-, access_fn=3D0x5555565e72e0 <memory_region_write_accessor>, mr=3D0x7fffee0=
-dd110, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
-  #20 0x00005555565e5c31 in memory_region_dispatch_write (mr=3D0x7fffee0dd1=
-10, addr=3D0x438, data=3D0xcb, op=3DMO_8, attrs=3D...) at /home/alxndr/Deve=
-lopment/qemu/memory.c:1476
-  #21 0x00005555563f04b9 in flatview_write_continue (fv=3D0x606000037880, a=
-ddr=3D0xe1020438, attrs=3D..., ptr=3D0x61900009ba80, len=3D0x1, addr1=3D0x4=
-38, l=3D0x1, mr=3D0x7fffee0dd110) at /home/alxndr/Development/qemu/exec.c:3=
-137
-  #22 0x00005555563df2dd in flatview_write (fv=3D0x606000037880, addr=3D0xe=
-10200a8, attrs=3D..., buf=3D0x61900009ba80, len=3D0x391) at /home/alxndr/De=
-velopment/qemu/exec.c:3177
+  #0  phys_page_find (d=3D0x606000035d80, addr=3D136728041144404) at /exec.=
+c:338
+  #1  address_space_lookup_region (d=3D0x606000035d80, addr=3D1367280411444=
+04, resolve_subpage=3Dtrue) at /exec.c:363
+  #2  address_space_translate_internal (d=3D0x606000035d80, addr=3D13672804=
+1144404, xlat=3D0x7fff1fc0d070, plen=3D0x7fff1fc0d090, resolve_subpage=3Dtr=
+ue) at /exec.c:382
+  #3  flatview_do_translate (fv=3D0x606000035d20, addr=3D136728041144404, x=
+lat=3D0x7fff1fc0d070, plen_out=3D0x7fff1fc0d090, page_mask_out=3D0x0, is_wr=
+ite=3Dtrue, is_mmio=3Dtrue, target_as=3D0x7fff1fc0ce10, attrs=3D...)
+      pment/qemu/exec.c:520
+  #4  flatview_translate (fv=3D0x606000035d20, addr=3D136728041144404, xlat=
+=3D0x7fff1fc0d070, plen=3D0x7fff1fc0d090, is_write=3Dtrue, attrs=3D...) at =
+/exec.c:586
+  #5  flatview_write_continue (fv=3D0x606000035d20, addr=3D136728041144404,=
+ attrs=3D..., ptr=3D0x7fff1fc0d660, len=3D172, addr1=3D136728041144400, l=
+=3D172, mr=3D0x557fd54e77e0 <io_mem_unassigned>)
+      pment/qemu/exec.c:3160
+  #6  flatview_write (fv=3D0x606000035d20, addr=3D136728041144064, attrs=3D=
+..., buf=3D0x7fff1fc0d660, len=3D512) at /exec.c:3177
+  #7  address_space_write (as=3D0x557fd54e7a00 <address_space_memory>, addr=
+=3D136728041144064, attrs=3D..., buf=3D0x7fff1fc0d660, len=3D512) at /exec.=
+c:3271
+  #8  dma_memory_set (as=3D0x557fd54e7a00 <address_space_memory>, addr=3D13=
+6728041144064, c=3D0 '\000', len=3D1378422272) at /dma-helpers.c:31
+  #9  fw_cfg_dma_transfer (s=3D0x61a000001e80) at /hw/nvram/fw_cfg.c:400
+  #10 fw_cfg_dma_mem_write (opaque=3D0x61a000001e80, addr=3D4, value=3D4294=
+940309, size=3D4) at /hw/nvram/fw_cfg.c:467
+  #11 memory_region_write_accessor (mr=3D0x61a000002200, addr=3D4, value=3D=
+0x7fff1fc0e3d0, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D...) at /me=
+mory.c:483
+  #12 access_with_adjusted_size (addr=3D4, value=3D0x7fff1fc0e3d0, size=3D4=
+, access_size_min=3D1, access_size_max=3D8, access_fn=3D0x557fd2288c80 <mem=
+ory_region_write_accessor>, mr=3D0x61a000002200, attrs=3D...)
+      pment/qemu/memory.c:539
+  #13 memory_region_dispatch_write (mr=3D0x61a000002200, addr=3D4, data=3D4=
+294940309, op=3DMO_32, attrs=3D...) at /memory.c:1476
+  #14 flatview_write_continue (fv=3D0x606000035f00, addr=3D1304, attrs=3D..=
+., ptr=3D0x7fff1fc0ec40, len=3D4, addr1=3D4, l=3D4, mr=3D0x61a000002200) at=
+ /exec.c:3137
+  #15 flatview_write (fv=3D0x606000035f00, addr=3D1304, attrs=3D..., buf=3D=
+0x7fff1fc0ec40, len=3D4) at /exec.c:3177
+  #16 address_space_write (as=3D0x557fd54e7bc0 <address_space_io>, addr=3D1=
+304, attrs=3D..., buf=3D0x7fff1fc0ec40, len=3D4) at /exec.c:3271
 
   =
 
-  I can reproduce this in qemu 5.0  using these qtest commands:
-
-  cat << EOF | ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0
-  outl 0xcf8 0x80001010
-  outl 0xcfc 0xe1020000
-  outl 0xcf8 0x80001014
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  outl 0xcf8 0x800010a2
-  write 0xe1025008 0x4 0xfbffa3fa
-  write 0xed040c 0x3 0x080047
-  write 0xe1020077 0x3c2 0xce0004ed0000000000cb008405120002e100000000ff0008=
-01ffff02ce0004ed0000000000cb008405120002e100000000ff000a01ffff02ce0004ed000=
-0000000cb008405120002e100000000ff000c01ffff02ce0004ed0000000000cb0084051200=
-02e100000000ff000e01ffff02ce0004ed0000000000cb008405120002e100000000ff00100=
-1ffff02ce0004ed0000000000cb008405120002e100000000ff001201ffff02ce0004ed0000=
-000000cb008405120002e100000000ff001401ffff02ce0004ed0000000000cb00840512000=
-2e100000000ff001601ffff02ce0004ed0000000000cb008405120002e100000000ff001801=
-ffff02ce0004ed0000000000cb008405120002e100000000ff001a01ffff02ce0004ed00000=
-00000cb008405120002e100000000ff001c01ffff02ce0004ed0000000000cb008405120002=
-e100000000ff001e01ffff02ce0004ed0000000000cb008405120002e100000000ff002001f=
-fff02ce0004ed0000000000cb008405120002e100000000ff002201ffff02ce0004ed000000=
-0000cb008405120002e100000000ff002401ffff02ce0004ed0000000000cb008405120002e=
-100000000ff002601ffff02ce0004ed0000000000cb008405120002e100000000ff002801ff=
-ff02ce0004ed0000000000cb008405120002e100000000ff002a01ffff02ce0004ed0000000=
-000cb008405120002e100000000ff002c01ffff02ce0004ed0000000000cb008405120002e1=
-00000000ff002e01ffff02ce0004ed0000000000cb008405120002e100000000ff003001fff=
-f02ce0004ed0000000000cb008405120002e100000000ff003201ffff02ce0004ed00000000=
-00cb008405120002e100000000ff003401ffff02ce0004ed0000000000cb008405120002e10=
-0000000ff003601ffff02ce0004ed0000000000cb008405120002e100000000ff003801ffff=
-02ce0004ed0000000000cb008405120002e100000000ff003a01ffff02ce0004ed000000000=
-0cb008405120002e100000000ff003c01ffff02ce0004ed0000000000cb008405120002e100=
-000000ff003e01ffff02ce0004ed0000000000cb008405120002e100000000ff004001ffff0=
-2ce0004ed0000000000cb008405120002e100000000ff004201ffff02ce0004ed0000000000=
-cb008405120002e100000000ff004401ffff02ce0004ed0000000000cb008405120002e1000=
-00000ff004601ffff02ce0004ed0000000000cb008405120002e100000000ff004801ffff02=
-ce0004ed0000000000cb008405120002e100000000ff004a01ffff02ce0004ed0000000000cb
-  EOF
-
-  Also attaching them to this report, in case they are formatted incorrectl=
-y:
-  ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0 < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
+  It looks like fw_cfg_dma_transfer gets the address(136728041144064) and l=
+ength(1378422272) for the read from the value provided as input 4294940309 =
+(0xFFFF9695) which lands in pcbios. Should there be any limits on the lengt=
+h of guest-memory that fw_cfg should populate?
+  Found by libfuzzer
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1879227/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1880355/+subscriptions
 
