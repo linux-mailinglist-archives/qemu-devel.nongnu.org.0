@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6CD3A7C2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:39:35 +0200 (CEST)
-Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FC23A7C38
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:42:09 +0200 (CEST)
+Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt6Tm-0007gV-HF
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:39:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
+	id 1lt6WG-0001NB-HM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lt6Sz-0006mt-Fe
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:38:45 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44005)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lt6VK-0000Vc-Ta; Tue, 15 Jun 2021 06:41:10 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:39780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lt6Sx-000513-JA
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:38:45 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id nb6so1586284ejc.10
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 03:38:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lt6VF-0006h4-Ht; Tue, 15 Jun 2021 06:41:10 -0400
+Received: by mail-io1-xd34.google.com with SMTP id f10so28343480iok.6;
+ Tue, 15 Jun 2021 03:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Vv/CT0fKvaPeFR3Ti4jdnOBGVsF+9TG7IqZ4f54M//k=;
- b=VScNS8XHIdufHOveytkWiJmhYLwwk6Gi1w7lvdx3b2OBCbSQLgpReXBKpEUXiUfNeH
- 1CY7xQlcSdsY0YIT/IybF1W0ni6MeWUdPlLg50xm4OVgkJMj8Yb/lL1+pFz3dDbvHWrU
- PWLJnsT7G6P4TNQOQuVTxvJuQRdLZdanJclOXNdFyz2ngN9zQApwZS1ltdZXwQd4SsvF
- sJHldvtEFcDOW26yfizY1XIRRt0MulKYywcDcH0zfqcRGv6rxxGine93xMGRPvXZhh4a
- i6D2m8q+xf4YPmBg9lLp7DbWGIU9r+dOAeG0I9k4RtsM8oAOJtnGxwrzTGO5fjFL0TTV
- do5g==
+ :cc; bh=ky3cimQWhOYafWrZiZYmtahXi2f272EJQV3NdOgm49g=;
+ b=Ea3+nE8wRN5Lw8lOiHuBT4RESeSqU4G7Foz8UcANlfuoYkDHj4HlRGwaff2aGNE30a
+ zHrKEnyS1w/z2j3fGOnm7B822hVMs5NBeOwIZEw6zsuLXG+4TKQ8+GV/OOesv2RqZ3rj
+ 2H6IxX0cicwefr0QOQTD0654zRUPtWm/EDI5TGKmE9SII3SZI6F4ETOgWmxJLbAmr5+M
+ +JYd7+edb4N9AGiIf0UKdAifXI7uG+PSQLoaFj+7JvYYxs4nYlLgdyEd8QaBT3gfLrLy
+ xqaIex2MT+WHLDlttBAsIdI84CzPIrtnMHj5dbp3YbdMUSzPQrdesjUIyzrvaWAJ+lpu
+ aX6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Vv/CT0fKvaPeFR3Ti4jdnOBGVsF+9TG7IqZ4f54M//k=;
- b=WXZAe9Zwzn+SBns8rHrKg0eE53R9xoCjctwgxUQC1NmsIv/o5B9RXhxNEokThCQWmn
- toRg8oOviWPCaSkQwIMmksWLAHkWZ0QE3y480oummTHpvl0zM+VYP2/PC50GrE7VJ2g+
- tADtuqtmLKGh7dHmYMHoD2ojOdQOADeoPpAIPbxDaO3DyGaMTo05ARf2uNFCrH/J9/7t
- dezy/KAu16toa1AebzVhCgaPAHt9aLgF9Tqh27vAEr+KCFKKhxxlNkofKFW4VzyqaOi8
- UOKGch5rYNdW/LOzWHViSQ3mFSbdoWEYI1CPU/8ry8PtLOhsZ0ECcrjg+3RiEI7w0nxd
- xeLQ==
-X-Gm-Message-State: AOAM533Kioado/Fn1uMYfrYHFwuluKLjKMQ1ifIfjTMswgHr4tUvp1JC
- VawWAO0XwEfHtgU5UZPaZEJPqdG3XFQ2FWN+2e6r8g==
-X-Google-Smtp-Source: ABdhPJzpWmzkNWLeNpL7LrRnrYHIWKTHqmR0dR4hlXZcbuByIGG3djyoUkmVbLc3b/7K/tISxhGls5Gh/Rn5u9JASj0=
-X-Received: by 2002:a17:906:b294:: with SMTP id
- q20mr19719725ejz.382.1623753521874; 
- Tue, 15 Jun 2021 03:38:41 -0700 (PDT)
+ bh=ky3cimQWhOYafWrZiZYmtahXi2f272EJQV3NdOgm49g=;
+ b=IXUgJpd1dOtRa/y2I0oRbmg11Ilu7IALLi8wQ3syXevuNtGFLywvUUWfg1nNvpHk4U
+ q5t3D5xNZC0Bms1JtGnZ5SiBfo3dAD1C6KYHQExH2h2YgI8CkxTu7tZdrBP4fZYtenEj
+ l0qTNINIFX9eFNtKPLTIifxkTLcrjK/aGrjRn/i38O1l79+ZuAHljYuKj60dJBsQGMbE
+ txRT7hmJtLUN8PHcV3u/weeNJ3xsGFl6h9BDXMl/DlY8C/Fl9uCrljB7BAGILJxDcOrq
+ 91r7MeGgAnyIDQQZSRagMgFN7S0a8NHmlPola1w1Jh8lSlntVPe5+pYQVSOxYJEeS+kM
+ lgCg==
+X-Gm-Message-State: AOAM5312sE/ZVb8S9eOEQsB2RDZromonxPWIbjhRIMbTSpBLNrGzkShf
+ 5aXDRYuOpUIzg/4c7+jSzbXrnrPADZtblet3+ws=
+X-Google-Smtp-Source: ABdhPJxlk/jciqBoAQUUI0Gylh7Gj1KebNT/nB44ZtJiWrutko9vKK9z2AFpC3USmlNC47oNlXBq8JjKPKl4c4RHdYM=
+X-Received: by 2002:a02:8816:: with SMTP id r22mr20997182jai.135.1623753663869; 
+ Tue, 15 Jun 2021 03:41:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-15-agraf@csgraf.de>
-In-Reply-To: <20210519202253.76782-15-agraf@csgraf.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Jun 2021 11:38:07 +0100
-Message-ID: <CAFEAcA9ATvn2yp=_VPitFRnWzZacGy7aodQGNTPMnwsUoFr0xA@mail.gmail.com>
-Subject: Re: [PATCH v8 14/19] arm/hvf: Add a WFI handler
-To: Alexander Graf <agraf@csgraf.de>
+References: <20210608161028.4159582-1-erdnaxe@crans.org>
+ <20210608161028.4159582-2-erdnaxe@crans.org>
+ <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
+ <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
+ <CAKmqyKMETmc0sJbG8FdUokg9Ke_hg5ohZ2YnLzyQO1xwzpXMRA@mail.gmail.com>
+ <7e8a01c5-0130-1003-8396-af8d4b45d2c0@crans.org>
+In-Reply-To: <7e8a01c5-0130-1003-8396-af8d4b45d2c0@crans.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 15 Jun 2021 20:40:37 +1000
+Message-ID: <CAKmqyKNtzSyX7paN8jfKWWNzBpVx61_o05E3uCQMCTxGHhwEAg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
+To: Alexandre IOOSS <erdnaxe@crans.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,101 +80,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:STM32F100" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
+On Tue, Jun 15, 2021 at 7:15 PM Alexandre IOOSS <erdnaxe@crans.org> wrote:
 >
-> From: Peter Collingbourne <pcc@google.com>
 >
-> Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-> up on IPI.
 >
-> In this implementation IPI is blocked on the CPU thread at startup and
-> pselect() is used to atomically unblock the signal and begin sleeping.
-> The signal is sent unconditionally so there's no need to worry about
-> races between actually sleeping and the "we think we're sleeping"
-> state. It may lead to an extra wakeup but that's better than missing
-> it entirely.
+> On 6/15/21 10:04 AM, Alistair Francis wrote:
+> > On Tue, Jun 15, 2021 at 5:50 PM Alexandre IOOSS <erdnaxe@crans.org> wrote:
+> >>
+> >> On 6/15/21 9:41 AM, Alistair Francis wrote:
+> >>> Aren't you missing some timers, like timer[5] 0x4000_0C00?
+> >>>
+> >>> Alistair
+> >>
+> >> I double-checked using the reference manual and the datasheet and there
+> >> is not timer[5]:
+> >> - page 36 of
+> >> https://www.st.com/resource/en/reference_manual/cd00246267-stm32f100xx-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+> >
+> > Strange, https://www.st.com/resource/en/datasheet/stm32f100rc.pdf
+> > describes Timer 5 and page 282 of the document you linked talks about
+> > timer 5 as well.
+> >
+> > Alistair
+> >
+> >> - page 30 of https://www.st.com/resource/en/datasheet/stm32f100cb.pdf
+> >>
+> >> I believe ST is skipping numbers to guarantee that timer[n] will have a
+> >> consistent address on different STM32 SoC.
+> >>
+> >> Thanks,
+> >> -- Alexandre
+> >>
 >
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> [agraf: Remove unused 'set' variable, always advance PC on WFX trap]
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>  From what I understand from other STM32F100xx reference manuals:
+> I am implementing all peripherals in the STM32F100xx reference manual
+> which match with what is actually in the STM32F100RB SoC (used in the
+> STM32VLDISCOVERY).
+
+Ah, my mistake. The STM numbering always confuses me.
+
 >
-> ---
+> STM32F100RC SoC implements more peripherals (more USART, more
+> timers...). Adding these peripherals in stm32f100.c means that the
+> STM32VLDISCOVERY machine would have peripherals that does not exist on
+> the real target. Do we want to avoid that?
 
-> +static void hvf_wfi(CPUState *cpu)
-> +{
-> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
-> +    hv_return_t r;
-> +    uint64_t ctl;
-> +
-> +    if (cpu->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ)) {
-> +        /* Interrupt pending, no need to wait */
-> +        return;
-> +    }
-> +
-> +    r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
-> +                            &ctl);
-> +    assert_hvf_ok(r);
-> +
-> +    if (!(ctl & 1) || (ctl & 2)) {
-> +        /* Timer disabled or masked, just wait for an IPI. */
-> +        hvf_wait_for_ipi(cpu, NULL);
-> +        return;
-> +    }
-> +
-> +    uint64_t cval;
-> +    r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
-> +                            &cval);
-> +    assert_hvf_ok(r);
-> +
-> +    int64_t ticks_to_sleep = cval - mach_absolute_time();
+Yep, this is fine as is.
 
-This looks odd. The CNTV_CVAL is the compare value against
-the CNTVCT (virtual count), which should start at 0 when the
-VM starts, pause when the VM is paused, and so on. But here
-we are comparing it against what looks like a host absolute
-timecount...
+>
+> Should we keep stm32f100.c with the common subset of peripherals and
+> extend it when a machine is using a variant with more peripherals?
+>
+> I believe this issue is also linked with what Philippe proposed: we
+> could abstract STM32 SoC in the same way ATMEGA is abstracted. This
+> would make a lot of sense since the STM32 family has a lot of
+> similarities and we don't want to bloat QEMU with N times the same code.
 
-> +    if (ticks_to_sleep < 0) {
-> +        return;
-> +    }
-> +
-> +    uint64_t seconds = ticks_to_sleep / arm_cpu->gt_cntfrq_hz;
-> +    uint64_t nanos =
-> +        (ticks_to_sleep - arm_cpu->gt_cntfrq_hz * seconds) *
-> +        1000000000 / arm_cpu->gt_cntfrq_hz;
+I agree. That's the best way forward and I think it's a good goal. We
+don't have to block this series on that though. If you would like to
+work on a shared abstraction that would be great :)
 
-Should this be calling gt_cntfrq_period_ns() ?
-(If not, please use the NANOSECONDS_PER_SECOND constant instead of
-a raw 1000000000.)
+Once the IRQs are fixed:
 
-> +
-> +    /*
-> +     * Don't sleep for less than the time a context switch would take,
-> +     * so that we can satisfy fast timer requests on the same CPU.
-> +     * Measurements on M1 show the sweet spot to be ~2ms.
-> +     */
-> +    if (!seconds && nanos < 2000000) {
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-"2 * SCALE_MS" is a bit easier to read I think.
+Alistair
 
-> +        return;
-> +    }
-> +
-> +    struct timespec ts = { seconds, nanos };
-> +    hvf_wait_for_ipi(cpu, &ts);
-> +}
-
-thanks
--- PMM
+>
+> Thanks,
+> -- Alexandre
+>
 
