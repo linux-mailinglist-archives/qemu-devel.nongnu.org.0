@@ -2,94 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755933A83DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:23:58 +0200 (CEST)
-Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271B03A83EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:26:03 +0200 (CEST)
+Received: from localhost ([::1]:36416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltAuz-0003DE-I0
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:23:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55126)
+	id 1ltAx0-00076H-7n
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:26:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ltAtR-0001BF-Po
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:22:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48046)
+ id 1ltAtT-0001FI-EH
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:22:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ltAtN-0006Ls-KX
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:22:21 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1ltAtR-0006OM-Ae
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:22:23 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15FFDFHQ183419; Tue, 15 Jun 2021 11:22:13 -0400
+ 15FF5QQZ123555; Tue, 15 Jun 2021 11:22:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=F6I1aJEtu5u8E20fWQMo8CpGcUJV6NjFxJ78Y8UJS8M=;
- b=br3hiZNKoNCF5jXeEmztvvKCte3dwQgrDzZRy6G68EwbrTYGqeGqAYqymWK86HJL6RwQ
- Nehl/AhPclOr2DB3A1W3HISZ+b1RxT5FFRwqRCZOff9WSqU4YNay9w9+sVcUYvLBEgHZ
- pGaUw/Emhi1k5iClHx6J1Rh4UFh2ft7nK6a1jm+EMoiHnkUqlvlcoOEKLyPcgR9tWC4C
- k7hm3wqbLnygE4dcVIL13FmyXCzJFYHLxxdm0ycobkKhb90MaZrGslDLR5bw11TfVdKF
- FtzaTYv36U1jn6erqYNFnVl22GF/A+pp6wBvtLrN1RVAAA2O73unaeeGhvVJ2BBSjc6V JQ== 
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396xbx8sr7-1
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=1oNHrl934cpjAyZR9sOh8+kRN3xyCGRqJUlqfaWwNb4=;
+ b=UkOyQqpKCkHJD3xv5nRDHcVdcRVPcjPAmex+s7wvuklrIi/AAdQjjQnENn0gYEYljJHa
+ BNjyeXn91CZEeaw+QW84Q45inJQcobOJZQ4g9GS99Jl6XpZ01gboqGQ3IKy1Px59PP4E
+ zQu568vHji+fzfbgUNTQDEtlSm8BAP7WHNcrDA1ZIqFTYsxI4Utvm/MUfPexh1rYGyiB
+ DkeE/U63/YK3TffXBLP9CWhlUXXjrTqSYA+GvlXMUq3pKmL/yWrRBsrl17BqWL4uEgId
+ 11PaaorXZFiesdgh/auyl5WYSj86gmLBnIBItqe1T6HoC9yEbkIWVpOBmo+8qTbcglSe kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 396xbyh3rw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 11:22:13 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15FFBwQ2024157;
- Tue, 15 Jun 2021 15:22:12 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03wdc.us.ibm.com with ESMTP id 394mj9gxre-1
+ Tue, 15 Jun 2021 11:22:19 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15FF5SaI123832;
+ Tue, 15 Jun 2021 11:22:19 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 396xbyh3rg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 15:22:12 +0000
+ Tue, 15 Jun 2021 11:22:19 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15FFBrvA021102;
+ Tue, 15 Jun 2021 15:22:18 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 394mja74gg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Jun 2021 15:22:18 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15FFMBBb32571764
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15FFMGYb11731218
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Jun 2021 15:22:11 GMT
+ Tue, 15 Jun 2021 15:22:17 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 49B777805E;
+ by IMSVA (Postfix) with ESMTP id DE5B378064;
+ Tue, 15 Jun 2021 15:22:16 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7C0487805E;
  Tue, 15 Jun 2021 15:22:11 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 082327805C;
- Tue, 15 Jun 2021 15:22:10 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 15 Jun 2021 15:22:10 +0000 (GMT)
+ Tue, 15 Jun 2021 15:22:11 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 0/5] Merge tpm 2021/06/15 v1
-Date: Tue, 15 Jun 2021 11:21:47 -0400
-Message-Id: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 1/5] i386: Eliminate all TPM related code if CONFIG_TPM is
+ not set
+Date: Tue, 15 Jun 2021 11:21:48 -0400
+Message-Id: <20210615152152.2496772-2-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bLgH5EvBQGwrIIyoHBHdcoYyR8EZDobg
-X-Proofpoint-GUID: bLgH5EvBQGwrIIyoHBHdcoYyR8EZDobg
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
+References: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: m0qfX8vMPDdquZpokzHgKDLAfflk2jVJ
+X-Proofpoint-ORIG-GUID: RYBH8uQXh1WPBSr2aQaEDkFje5rpGw1G
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-06-15_07:2021-06-14,
  2021-06-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  lowpriorityscore=0
- clxscore=1011 malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0
- phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0
- mlxlogscore=874 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2106150095
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+ mlxlogscore=999 bulkscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106150095
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,57 +111,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: peter.maydell@linaro.org, Igor Mammedov <imammedo@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello!
+From: Stefan Berger <stefanb@linux.ibm.com>
 
-The patches in this PR eliminate all TPM related code if CONFIG_TPM is
-not set, thus reducing code size.
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210614191335.1968807-2-stefanb@linux.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/i386/acpi-build.c | 20 ++++++++++++++++++++
+ stubs/tpm.c          |  4 ----
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-Regards,
-   Stefan
-
-The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
-
-  Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2021-06-15-1
-
-for you to fetch changes up to caff255a546d12530cf7c28e60690cd0e65851fd:
-
-  tpm: Return QMP error when TPM is disabled in build (2021-06-15 10:59:02 -0400)
-
-----------------------------------------------------------------
-
-Philippe Mathieu-Daudé (1):
-  tpm: Return QMP error when TPM is disabled in build
-
-Stefan Berger (4):
-  i386: Eliminate all TPM related code if CONFIG_TPM is not set
-  arm: Eliminate all TPM related code if CONFIG_TPM is not set
-  acpi: Eliminate all TPM related code if CONFIG_TPM is not set
-  sysemu: Make TPM structures inaccessible if CONFIG_TPM is not defined
-
- MAINTAINERS                  |  1 -
- hw/acpi/aml-build.c          |  2 ++
- hw/arm/sysbus-fdt.c          |  4 ++++
- hw/arm/virt-acpi-build.c     |  6 ++++++
- hw/arm/virt.c                |  2 ++
- hw/i386/acpi-build.c         | 20 ++++++++++++++++++
- include/hw/acpi/tpm.h        |  4 ++++
- include/sysemu/tpm.h         |  9 +++++++++
- include/sysemu/tpm_backend.h |  6 +++++-
- monitor/hmp-cmds.c           |  4 ++++
- qapi/tpm.json                | 28 +++++++++++++++++---------
- stubs/meson.build            |  1 -
- stubs/tpm.c                  | 39 ------------------------------------
- 13 files changed, 75 insertions(+), 51 deletions(-)
- delete mode 100644 stubs/tpm.c
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 80bee00da6..796ffc6f5c 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -107,7 +107,9 @@ typedef struct AcpiPmInfo {
+ typedef struct AcpiMiscInfo {
+     bool is_piix4;
+     bool has_hpet;
++#ifdef CONFIG_TPM
+     TPMVersion tpm_version;
++#endif
+     const unsigned char *dsdt_code;
+     unsigned dsdt_size;
+     uint16_t pvpanic_port;
+@@ -286,7 +288,9 @@ static void acpi_get_misc_info(AcpiMiscInfo *info)
+     }
+ 
+     info->has_hpet = hpet_find();
++#ifdef CONFIG_TPM
+     info->tpm_version = tpm_get_version(tpm_find());
++#endif
+     info->pvpanic_port = pvpanic_port();
+     info->applesmc_io_base = applesmc_port();
+ }
+@@ -1371,7 +1375,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     uint32_t nr_mem = machine->ram_slots;
+     int root_bus_limit = 0xFF;
+     PCIBus *bus = NULL;
++#ifdef CONFIG_TPM
+     TPMIf *tpm = tpm_find();
++#endif
+     int i;
+     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
+ 
+@@ -1604,10 +1610,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
+     }
+ 
++#ifdef CONFIG_TPM
+     if (TPM_IS_TIS_ISA(tpm_find())) {
+         aml_append(crs, aml_memory32_fixed(TPM_TIS_ADDR_BASE,
+                    TPM_TIS_ADDR_SIZE, AML_READ_WRITE));
+     }
++#endif
+     aml_append(scope, aml_name_decl("_CRS", crs));
+ 
+     /* reserve GPE0 block resources */
+@@ -1753,6 +1761,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             /* Scan all PCI buses. Generate tables to support hotplug. */
+             build_append_pci_bus_devices(scope, bus, pm->pcihp_bridge_en);
+ 
++#ifdef CONFIG_TPM
+             if (TPM_IS_TIS_ISA(tpm)) {
+                 if (misc->tpm_version == TPM_VERSION_2_0) {
+                     dev = aml_device("TPM");
+@@ -1780,11 +1789,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+ 
+                 aml_append(scope, dev);
+             }
++#endif
+ 
+             aml_append(sb_scope, scope);
+         }
+     }
+ 
++#ifdef CONFIG_TPM
+     if (TPM_IS_CRB(tpm)) {
+         dev = aml_device("TPM");
+         aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+@@ -1799,6 +1810,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+ 
+         aml_append(sb_scope, dev);
+     }
++#endif
+ 
+     aml_append(dsdt, sb_scope);
+ 
+@@ -1828,6 +1840,7 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+                  "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
+ }
+ 
++#ifdef CONFIG_TPM
+ static void
+ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+                const char *oem_id, const char *oem_table_id)
+@@ -1854,6 +1867,7 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+                  (void *)(table_data->data + tcpa_start),
+                  "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
+ }
++#endif
+ 
+ #define HOLE_640K_START  (640 * KiB)
+ #define HOLE_640K_END   (1 * MiB)
+@@ -2403,6 +2417,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+         build_hpet(tables_blob, tables->linker, x86ms->oem_id,
+                    x86ms->oem_table_id);
+     }
++#ifdef CONFIG_TPM
+     if (misc.tpm_version != TPM_VERSION_UNSPEC) {
+         if (misc.tpm_version == TPM_VERSION_1_2) {
+             acpi_add_table(table_offsets, tables_blob);
+@@ -2414,6 +2429,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+                        x86ms->oem_id, x86ms->oem_table_id);
+         }
+     }
++#endif
+     if (pcms->numa_nodes) {
+         acpi_add_table(table_offsets, tables_blob);
+         build_srat(tables_blob, tables->linker, machine);
+@@ -2605,8 +2621,10 @@ void acpi_setup(void)
+     AcpiBuildTables tables;
+     AcpiBuildState *build_state;
+     Object *vmgenid_dev;
++#ifdef CONFIG_TPM
+     TPMIf *tpm;
+     static FwCfgTPMConfig tpm_config;
++#endif
+ 
+     if (!x86ms->fw_cfg) {
+         ACPI_BUILD_DPRINTF("No fw cfg. Bailing out.\n");
+@@ -2638,6 +2656,7 @@ void acpi_setup(void)
+         acpi_add_rom_blob(acpi_build_update, build_state,
+                           tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE);
+ 
++#ifdef CONFIG_TPM
+     fw_cfg_add_file(x86ms->fw_cfg, ACPI_BUILD_TPMLOG_FILE,
+                     tables.tcpalog->data, acpi_data_len(tables.tcpalog));
+ 
+@@ -2651,6 +2670,7 @@ void acpi_setup(void)
+         fw_cfg_add_file(x86ms->fw_cfg, "etc/tpm/config",
+                         &tpm_config, sizeof tpm_config);
+     }
++#endif
+ 
+     vmgenid_dev = find_vmgenid_dev();
+     if (vmgenid_dev) {
+diff --git a/stubs/tpm.c b/stubs/tpm.c
+index 9bded191d9..22014595a0 100644
+--- a/stubs/tpm.c
++++ b/stubs/tpm.c
+@@ -33,7 +33,3 @@ TpmModelList *qmp_query_tpm_models(Error **errp)
+ {
+     return NULL;
+ }
+-
+-void tpm_build_ppi_acpi(TPMIf *tpm, Aml *dev)
+-{
+-}
 -- 
 2.31.1
 
