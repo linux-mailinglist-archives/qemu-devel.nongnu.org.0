@@ -2,76 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153163A8772
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:22:48 +0200 (CEST)
-Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406483A877F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:29:00 +0200 (CEST)
+Received: from localhost ([::1]:34224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltCly-00020N-3q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41048)
+	id 1ltCry-0005eb-Sp
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:28:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ltCl4-0001C0-0m
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:21:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34318)
+ (Exim 4.90_1) (envelope-from <Aleksandar.Rikalo@syrmia.com>)
+ id 1ltCql-0003mi-Bh
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:27:43 -0400
+Received: from mail-he1eur01on0721.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1e::721]:43428
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ltCl1-0007oQ-CC
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:21:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623777706;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6bINDTnj1wL+zALOOng+g29hNC05+h5ZHJsVFCN9R/0=;
- b=dh6jL+Z0upLw0T9p2UZnnyWUO400xFUtle8orTLo+G40dylLXCrZKJwbU4Ncr9TDpEJuXT
- myKmkAqnxGSqMe4D5jw0Be2p0LOkusRalSg3pdmGfGQW5400tjoJai6dsjICAGsuaGGpQO
- JBWN4JSXfXK2LW9WSxCyi9gH99lmfxc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-4xbKmbFVMpWV5bOTK-XGFg-1; Tue, 15 Jun 2021 13:21:45 -0400
-X-MC-Unique: 4xbKmbFVMpWV5bOTK-XGFg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD019801B1A;
- Tue, 15 Jun 2021 17:21:43 +0000 (UTC)
-Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 84D7B1971B;
- Tue, 15 Jun 2021 17:21:38 +0000 (UTC)
-Date: Tue, 15 Jun 2021 18:21:35 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 7/7] crypto: Make QCryptoTLSCreds* structures private
-Message-ID: <YMjhny52SrKrOkE8@redhat.com>
-References: <20210615164751.2192807-1-philmd@redhat.com>
- <20210615164751.2192807-8-philmd@redhat.com>
- <YMja0SjeV06aUA7F@redhat.com>
- <33a34588-a878-74c4-6d84-833ceeb45c52@redhat.com>
+ (Exim 4.90_1) (envelope-from <Aleksandar.Rikalo@syrmia.com>)
+ id 1ltCqj-0003Vn-1p
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:27:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EMQriPwXf5N4bFqr3QTrEVhMfhDW9aLhPFR3a2TzAxcOfAgFjRs/J9knxYowdxt/pw4XBBkzSPahCpF06H0THFAxBBhBDuWNF+6Ty3La/p1yGpUxiwmVPRadOuxWpgxuaCAuFctJndyxEpBF0Md3mJBa0f9YdIaSzOcGdOirQ3Lc1B+UnQudB/K3WbwXromsI2Du3QUs/VQgpIlcTFQ0jpehTuggBlS/6/H9K0RWbo8pwtS4RcvT2FEsPwrgmR0kV9dKEYGN8v/eNJCGEb+zenos5EtB8KHaacy4TZkRK7GaxvEgw5sldLotGuIkn7mbpwdmN2wIbBbENWpley9qaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SvZ5NVhaoxwETCw0iWn/C8EozcTiLQnhc7IAKCqZt4E=;
+ b=N7LMsF4W+2QvE0HFDHpwQWfXbMPN9kmb0Kr/SiO2wZll24pgW/19/UepkZ+EH6U1+z5zXNd1HXFnbnz4/oG51ZbhGH0wR1f/R/irUPLPcCQ2BPytKiHGEVqlrh8Xv/Q3USgZMvR14nnYtNSqcvbHE2VMpXOgKDuVZc8ilxZfEv6obRMT0rWstLMZFI1mCNPKmzGwDD63ue1GZkyZTNAS7o1fEe676xs9Gth8QYvRH27T9hGIRcacOdJYoeQh1XAfefXeG4djTOfUHZxGPPZE8WhbBxbc6Oe53q7bVlGqOSe2sK0J30GzcAKm88T+tWOiCNTXxrugxLqyyp64f9c/6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=syrmia.com; dmarc=pass action=none header.from=syrmia.com;
+ dkim=pass header.d=syrmia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syrmia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SvZ5NVhaoxwETCw0iWn/C8EozcTiLQnhc7IAKCqZt4E=;
+ b=n7rXujdqOn5517Gt2bpmB7hx5CuRvCshVyLDeGmUgJSZJzPqSoVn+j/0xgm8yvW6JbHt1deeZ/KUemTFdqVoZJt8WgkZBEonr/BK9uMBSAAKZOEM2+W/43ZncedhFC7ikumuJqTqeVGuaw9SifoELjpuha7OzrDd5F2NAXB6oAA=
+Received: from VI1PR0302MB3486.eurprd03.prod.outlook.com
+ (2603:10a6:803:1e::32) by AM0PR03MB3667.eurprd03.prod.outlook.com
+ (2603:10a6:208:4d::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Tue, 15 Jun
+ 2021 17:22:35 +0000
+Received: from VI1PR0302MB3486.eurprd03.prod.outlook.com
+ ([fe80::11a1:b50a:4f39:48e0]) by VI1PR0302MB3486.eurprd03.prod.outlook.com
+ ([fe80::11a1:b50a:4f39:48e0%7]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
+ 17:22:35 +0000
+From: Aleksandar Rikalo <Aleksandar.Rikalo@syrmia.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: [PATCH] target/mips: fix emulation of nanoMIPS BPOSGE32 instruction
+Thread-Topic: [PATCH] target/mips: fix emulation of nanoMIPS BPOSGE32
+ instruction
+Thread-Index: AQHXYgnvIKewTCFUIUuoPkxQC9/zOQ==
+Date: Tue, 15 Jun 2021 17:22:35 +0000
+Message-ID: <VI1PR0302MB34869449EE56F226FC3C21129C309@VI1PR0302MB3486.eurprd03.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=syrmia.com;
+x-originating-ip: [213.198.255.183]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d48be043-d5d8-4716-fe34-08d930222aa1
+x-ms-traffictypediagnostic: AM0PR03MB3667:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM0PR03MB366715ED3D85D94A11B55B549C309@AM0PR03MB3667.eurprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:949;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ptMaPCLvoQHRSU3QfMv8f5QHakJyPfvEkXF+T8q/I3P28vkJNQbOuEyHvcRVOlsAYt8/CYMWcBiqBqzgnXxWL/WaxRR3Pwhk5e6PmUlfnQSSzJ9L6aeYLVpwpkqu/y2MPT1KbKvcVzGIxGMALT1k2ZsSZmA4PSa6UcbxhyNReFS/mvv/SRXAiGAdjGyaeIzhrg8z7LpFE09DLMzjmOfzDmHppqUBd6QgLYEg98HrTMgOEQQIH3lQJLyKuqWHf+nIVJI8zQOA9XX97Rcw8dY75BVsYuBgJF3u4PUgzecPmwt1bgeh275d1LX0HuECtym+PtthGGNYFRX7GqZjT62q+en99Ix7vaG52zWzqwQQMVrInHZ4YyJmM+1GkBECxHwLBy98vgigzhSFnfNHH/M9h2Tl+O7oMabDU7e/IjwkPXip2d7GnnUcadYR/3e69hWiELsfpqdP/0ah2FPkhVDZdd/9tWN7Uc+4vM12vgx6xccP06/ugV/tBFiS+c2b+7C18gnH8SllmKNZC7Qac4eP4yajMw9h/5X5k+0RghTofcrB2hzwda2CdHDlgxzlAeW74i6919EsZaItWs1RIOeO1VpA3KBBd9VqG+5wE93ZmY4=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0302MB3486.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(376002)(39830400003)(346002)(366004)(66556008)(66476007)(122000001)(52536014)(64756008)(19627405001)(66446008)(5660300002)(4326008)(38100700002)(186003)(6506007)(7696005)(66946007)(26005)(71200400001)(86362001)(33656002)(2906002)(6916009)(4744005)(478600001)(54906003)(8676002)(55016002)(8936002)(9686003)(316002)(83380400001)(76116006)(107886003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?uXnu3vlFuEsR+QCAaOw+bBD/YNR5gkFloHFgGwd839VqakjDlvBBMOXZ?=
+ =?Windows-1252?Q?t1hP5YbVQVsuOZLQsTGVqN9D28zNFroKZDFseijxsnc+9DCZKX0v5RPD?=
+ =?Windows-1252?Q?NF5G9hyJMu2Jsfgwr2Gv7n3Li3OD4vSqBNyqVDycE7c9elqSawdYIkeY?=
+ =?Windows-1252?Q?pUm/qEP6vCh96akF34BPd0J/PNDLxWDB1jLySNL+R5G6+fxYjEQZvORm?=
+ =?Windows-1252?Q?5P/LW+V2dGfMOGCr/j9AVZAOXccQRxkWg0LM8Dgm/8VyQebTvNHGRua4?=
+ =?Windows-1252?Q?dG5C4QNLeccvMD9zNV9uQVyz+tmnZbKv5u8YauvPZKpG3otZPEqhkZFW?=
+ =?Windows-1252?Q?lLobD9XDGoeMkXRLKxZIth39yCsHJs3ZslKMcaarUti3fnV5HWcr/bEl?=
+ =?Windows-1252?Q?tNvR+tuFTpz1KyjxGOMoULOQ8phIxILI+tk4NK7f2dwI9/YRXaBtKc4E?=
+ =?Windows-1252?Q?+XxqWrv1L/zMBy6SimkxGtXbFDAFePeiDACyBkKuOWM5FK4wnHRyDYkN?=
+ =?Windows-1252?Q?+UL+BAJGF2T1+uCaA6Vdutq/AR0ww47GcjJI5POKwAIAJgSYgZkStCSP?=
+ =?Windows-1252?Q?BNR2tgMN7Ifbkx1zCfq6XQa8mTQvDQw1mF080jr+sSrrRmOCToFL7y30?=
+ =?Windows-1252?Q?Y7QYeFZa8BchRnt+zQUOaVoYhYlKjyh38XCYmZsgIunMU2dZTXy1fdq0?=
+ =?Windows-1252?Q?hhlqo1qih3ha/U0hjFYMojwuIwsytq0zzI/9Z3xaZ2J5DQkDibpeKQPa?=
+ =?Windows-1252?Q?P4/wxRU5g4wJv6dSHfQKTqx29Xgze24EBJVx5NisbO9Kg3a2v2QlGCKZ?=
+ =?Windows-1252?Q?5sBhJlP8+lPsRYJtuZM6qxB4CUKwQjfRQk+mVweGi/HJXUGJtpg/OLRl?=
+ =?Windows-1252?Q?mEzud4jSTtPJa7vP4S/JKodWvz66Va7jQsxy17hV+Bp9uqAbHfQPs1Qh?=
+ =?Windows-1252?Q?YWxxhINJiCGSif1477vJu8MJ0UJyA7nVk4i9Zdb5QNEJuKShPGjAggxx?=
+ =?Windows-1252?Q?q+/+ks55KJsmBH5O+TKO7ghdoQnkTowaGrXES8H6kZTdHcKD1tDE0mvP?=
+ =?Windows-1252?Q?n0Ri2oQZI88/aS+5atyqM6f1X3TMUNHJjhxqyRtXpuyh1x42BbmD+gP7?=
+ =?Windows-1252?Q?uweyeqQE4+vqjFZejsvzzp6nFUY6w5QU/1RSnfRMpU4Bufb5Dci4maJ6?=
+ =?Windows-1252?Q?YVgDTEnQN2iB1CUZGMktfUSXBVjIWGQLwOQp6XhN01xQC2WvogQG5Swv?=
+ =?Windows-1252?Q?3SxetvVD9ql8NRY3atvIAu6AsB21i7ShiMw9Siyyt0+yG9nwq7oTnRHv?=
+ =?Windows-1252?Q?NcN8eCmnu690S903wDfT4MJUeKeg/cf8HlGPl/ncw3NItOzalAOehcfs?=
+ =?Windows-1252?Q?oEW7h3Gh5iccxtMlqdSNl+RjpJWiyFOEwmU=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_VI1PR0302MB34869449EE56F226FC3C21129C309VI1PR0302MB3486_"
 MIME-Version: 1.0
-In-Reply-To: <33a34588-a878-74c4-6d84-833ceeb45c52@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-OriginatorOrg: syrmia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0302MB3486.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d48be043-d5d8-4716-fe34-08d930222aa1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2021 17:22:35.1157 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 19214a73-c1ab-4e19-8f59-14bdcb09a66e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 956w0vp6FP2rRCTjCsLCSaA7CoMog3cYosUQlFz8RL8foLFW+H0wEhjlgBnl3ctangYbDYtn+Vh5Lt0ByBZwyNXy9QoZ93lCda4QwYdq+n0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB3667
+Received-SPF: pass client-ip=2a01:111:f400:fe1e::721;
+ envelope-from=Aleksandar.Rikalo@syrmia.com;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,89 +133,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Leonardo Bras <leobras.c@gmail.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Aleksandar Rikalo <Aleksandar.Rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?Windows-1252?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Petar Jovanovic <petar.jovanovic@syrmia.com>,
+ Filip Vidojevic <Filip.Vidojevic@Syrmia.com>,
+ =?Windows-1252?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 07:16:17PM +0200, Philippe Mathieu-Daudé wrote:
-> On 6/15/21 6:52 PM, Daniel P. Berrangé wrote:
-> > On Tue, Jun 15, 2021 at 06:47:51PM +0200, Philippe Mathieu-Daudé wrote:
-> >> Code consuming the "crypto/tlscreds*.h" APIs doesn't need
-> >> to access its internals. Move the structure definitions to
-> >> the implementations in crypto/. The headers still forward
-> >> declare the structures typedef.
-> >>
-> >> This solves a bug introduced by commit 7de2e856533 which made
-> >> migration/qemu-file-channel.c include "io/channel-tls.h",
-> >> itself sometime depends on GNUTLS, leading to build failure
-> >> on OSX:
-> >>
-> >>   [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
-> >>   FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
-> >>   cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
-> >>   In file included from ../migration/qemu-file-channel.c:29:
-> >>   In file included from include/io/channel-tls.h:26:
-> >>   In file included from include/crypto/tlssession.h:24:
-> >>   include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
-> >>   #include <gnutls/gnutls.h>
-> >>            ^~~~~~~~~~~~~~~~~
-> >>   1 error generated.
-> >>
-> >> Reported-by: Stefan Weil <sw@weilnetz.de>
-> >> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
-> >> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
-> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> >> ---
-> >>  crypto/tlscredspriv.h         | 15 +++++++++++++++
-> >>  include/crypto/tlscreds.h     | 16 ----------------
-> >>  include/crypto/tlscredsanon.h | 12 ------------
-> >>  include/crypto/tlscredspsk.h  | 12 ------------
-> >>  include/crypto/tlscredsx509.h | 10 ----------
-> >>  crypto/tlscredsanon.c         | 13 +++++++++++++
-> >>  crypto/tlscredspsk.c          | 14 ++++++++++++++
-> >>  crypto/tlscredsx509.c         | 16 +++++++++++++---
-> >>  8 files changed, 55 insertions(+), 53 deletions(-)
-> > 
-> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> Thanks, however I missed something:
-> 
-> crypto/tlssession.c: In function ‘qcrypto_tls_session_new’:
-> crypto/tlssession.c:163:48: error: invalid use of incomplete typedef
-> ‘QCryptoTLSCredsAnon’
->   163 |                                          acreds->data.server);
->       |                                                ^~
-> crypto/tlssession.c:167:48: error: invalid use of incomplete typedef
-> ‘QCryptoTLSCredsAnon’
->   167 |                                          acreds->data.client);
->       |                                                ^~
-> crypto/tlssession.c:201:48: error: invalid use of incomplete typedef
-> ‘QCryptoTLSCredsPSK’
->   201 |                                          pcreds->data.server);
->       |                                                ^~
-> crypto/tlssession.c:205:48: error: invalid use of incomplete typedef
-> ‘QCryptoTLSCredsPSK’
->   205 |                                          pcreds->data.client);
->       |                                                ^~
-> crypto/tlssession.c:228:44: error: invalid use of incomplete typedef
-> ‘QCryptoTLSCredsX509’
->   228 |                                      tcreds->data);
->       |                                            ^~
+--_000_VI1PR0302MB34869449EE56F226FC3C21129C309VI1PR0302MB3486_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-Ah, yes, the tls session code needs to peer at the tlscred data.
+Per the "MIPS=AE Architecture Extension: nanoMIPS32 DSP Technical
+Reference Manual =97 Revision 0.04" p. 88 "BPOSGE32C", offset argument (imm=
+)
+should be left-shifted first.
+This change was tested against test_dsp_r1_bposge32.c DSP test.
 
-We could have a 'crypto/tlscredspriv.h' header that declares
-some accessors for getting this data from tls session.
+Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Signed-off-by: Filip Vidojevic <filip.vidojevic@syrmia.com>
+---
+ target/mips/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 797eba4434..2d0a723061 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -21137,7 +21137,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *=
+env, DisasContext *ctx)
+                                       extract32(ctx->opcode, 0, 1) << 13;
 
+                         gen_compute_branch_nm(ctx, OPC_BPOSGE32, 4, -1, -2=
+,
+-                                              imm);
++                                              imm << 1);
+                     }
+                     break;
+                 default:
+--
+2.25.1
+
+--_000_VI1PR0302MB34869449EE56F226FC3C21129C309VI1PR0302MB3486_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Per the &quot;MIPS=AE Architecture Extension: nanoMIPS32 DSP Technical</div=
+>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<div>Reference Manual =97 Revision 0.04&quot; p. 88 &quot;BPOSGE32C&quot;, =
+offset argument (imm)</div>
+<div>should be left-shifted first.</div>
+<div>This change was tested against test_dsp_r1_bposge32.c DSP test.</div>
+<div><br>
+</div>
+<div>Reviewed-by: Aleksandar Rikalo &lt;aleksandar.rikalo@syrmia.com&gt;<br=
+>
+</div>
+<div>Signed-off-by: Filip Vidojevic &lt;filip.vidojevic@syrmia.com&gt;</div=
+>
+<div></div>
+<div>---</div>
+<div>&nbsp;target/mips/tcg/translate.c | 2 +-</div>
+<div>&nbsp;1 file changed, 1 insertion(+), 1 deletion(-)</div>
+<div><br>
+</div>
+<div>diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c=
+</div>
+<div>index 797eba4434..2d0a723061 100644</div>
+<div>--- a/target/mips/tcg/translate.c</div>
+<div>+++ b/target/mips/tcg/translate.c</div>
+<div>@@ -21137,7 +21137,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSSt=
+ate *env, DisasContext *ctx)</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;extrac=
+t32(ctx-&gt;opcode, 0, 1) &lt;&lt; 13;</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp;gen_compute_branch_nm(ctx, OPC_BPOSGE32, 4, -1, -2,</di=
+v>
+<div>- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp;imm);</div>
+<div>+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp;imm &lt;&lt; 1);</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;}</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;break;</div>
+<div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;default:=
+</div>
+<div>-- </div>
+2.25.1<br>
+</div>
+</body>
+</html>
+
+--_000_VI1PR0302MB34869449EE56F226FC3C21129C309VI1PR0302MB3486_--
 
