@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156A63A7C4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:44:19 +0200 (CEST)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37AAC3A7C8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:56:04 +0200 (CEST)
+Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt6YM-0004XP-5T
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:44:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
+	id 1lt6jj-0006i1-1I
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt6XF-0003Mc-BU; Tue, 15 Jun 2021 06:43:09 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:44619)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt6iU-00063C-UV
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:54:46 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt6XD-0008Eq-LP; Tue, 15 Jun 2021 06:43:09 -0400
-Received: by mail-io1-xd33.google.com with SMTP id q3so19644338iop.11;
- Tue, 15 Jun 2021 03:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QBt8utu2whH+v8ynW6WDTGNBJgczEeqDYRsD5x/AQuQ=;
- b=lkIuRIddrGvle5lgT+u3yn+HOq0ryppEI4mpSIxOxAaeQ9SF1pSFQvM5e5XkEXc582
- 8ZdZ1PxbjdQYH5e+QFCMOxHZKD7pCvqMFBq48f2T2m1rCmsklg2HJ2y+Jb3gP85bU52l
- lnViU4KC4gFMEnADrxmrN1J/2qE4XLo6BBItfZC4JzTh8xtjXHTcv2m7myvc5InixxBz
- ntBr0Urf4xASEWVu12cTeZX/NiVL+dSw8xaffn+O0Nxc6xX6CBf5hR8UOltX0z3bBzT8
- JkN4idNijqxoLb0aXFY+QIia/7Hoa14C8bv74hfpfGSzgzwH5rBwQjj0gBySqgMeuDXd
- OHgg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt6iT-0007Sl-5z
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:54:46 -0400
+Received: by mail-wr1-x432.google.com with SMTP id y7so17796354wrh.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 03:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=CWPDeaP4WyAxAace2sZNGqE4nn3tJAOWMZzDltI4F2w=;
+ b=OozMnNtXwoTo2/Knn93KxYSYMiwmCLVeF5CDVoMzHO4JmP6xe2+rpQJoE/1vLZnJgc
+ EBr/oVivFmKblicwR9Uq/SS1xcPYJdvWFb6klCTrq9kHu0ga5i7o7WR1F0ZQ6oLTqhuz
+ WQI31I8s0IGWbWkQDJzVZy+zju8RZ7I1LwM7G9y6v7qv7ucUMs+JBtjhTtD0DQhVEQUL
+ PemsGOIqa+hlR7ZeZxy97W5DyCyBXqYFBk/vdkX39DI3R/lvRPbAoEnl6CZtSD5K+4+R
+ CqMJnxJ/uc0yjNPo6YMiRITFJDi48QXzCEv4FIUWunGSDlq7JJCrIDGnba5R4zRCvi58
+ KQjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QBt8utu2whH+v8ynW6WDTGNBJgczEeqDYRsD5x/AQuQ=;
- b=omBMmhpFQOOCfCOkFoKGuceH9xW96S/Z0bHspxV0oF0jwZLA707MgyoKYlBSepPinJ
- m7n8FCkne1Q5CvsFwYs1oez04E8Q1mxl3i2FySi+IxzBXPxI+gQHqY22Plq94MjfmQCF
- 3D2YOu6+0MsixLTEuQnB+E1FLEhJmP2co5uSDtvvQzmFXm4ex7NAP0tVBBPRx0I1yjTx
- SzN9uP0gRcUC7InoHtX8i9POpHJawX979bDgD/C5r59ExlcoxgsmWsndzIRg2ZgpnZj5
- LGldqKXRN5lANOmqpv5J63vTJacZhx5X4fDGamJBGUK1ANRL3+n1gWXWIKk0zV6Tm7a6
- OzHg==
-X-Gm-Message-State: AOAM530aODajHbLbPGEN9bl/oRw6AgiWyG2nxOxzimsPxf3KLegWGCek
- i0M34YuvrvP0yEsvhqmpIRk38AX80ce8cpcj+23i30Rskg9A4g==
-X-Google-Smtp-Source: ABdhPJxYNhryV8BIpt3/ca/x6AOjZpPN4A5Gb11YZeYMCBhcQJEeCab+/tVr/5d7xSAGwJSfeEq6wDfrhM7gbYrZ6BY=
-X-Received: by 2002:a05:6638:2b7:: with SMTP id
- d23mr1236501jaq.8.1623753786130; 
- Tue, 15 Jun 2021 03:43:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=CWPDeaP4WyAxAace2sZNGqE4nn3tJAOWMZzDltI4F2w=;
+ b=sFo4uJolNn79ybjtrfcnX5W8IZjqtg9JAjHX39puwAzfXa23hNLdAtVNbt8Ktw5j5r
+ PJKNyvQ1VqVZq7nG7GCQhEyhEQ5YGF45vVW39uJM7L/sJ9G6KSGkTVbECj7KEO/1PWPX
+ 4x1HXf0kYwWgxrDGIZ1zlSGdfoPqBbr3Ptj/Cz8ZlIbsfVPn7W2RIyV0YrJ0tj4QviLl
+ 6/sbD08jWrAaMKUPvz2cg/Fu/UJkU2uRT0ASOJuiAxN6ncOAI/LrMZlfZNygZr+WzL/Q
+ dmGe/YopMrYJBVkE9hM/4AJQIjHGt3QImZblW0ICSa/qwPLqeGN5xu0K9cPrjIvOlIRo
+ LYYw==
+X-Gm-Message-State: AOAM531w6rFTjK29yY1fdwNn6aFotUHxo+jlQubwBfnUYEU/+g00rG7g
+ EWt3EZtOp5rbGh6TiOKnSz4fhw==
+X-Google-Smtp-Source: ABdhPJxPq5acWgH7WMhDoeW8HHBiIdv/NFo+hI0lEzPQ5TSZUnaoiKJGheRsOyHzj1HaJojpRUD6Sw==
+X-Received: by 2002:a5d:648a:: with SMTP id o10mr24148534wri.274.1623754483515; 
+ Tue, 15 Jun 2021 03:54:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a9sm10464114wrv.37.2021.06.15.03.54.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 03:54:42 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 594031FF7E;
+ Tue, 15 Jun 2021 11:54:41 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 3/8] util: Use real functions for thread-posix
+ QemuRecMutex
+References: <20210614233143.1221879-1-richard.henderson@linaro.org>
+ <20210614233143.1221879-4-richard.henderson@linaro.org>
+Date: Tue, 15 Jun 2021 11:54:41 +0100
+In-Reply-To: <20210614233143.1221879-4-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Mon, 14 Jun 2021 16:31:38 -0700")
+Message-ID: <877diviej2.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-References: <20210331021825.537484-1-bmeng.cn@gmail.com>
- <20210331021825.537484-2-bmeng.cn@gmail.com>
- <CAKmqyKMCTFVs9dhFza+GnTM-EqRngPmTEfWbuX=BaVMGAEpbCg@mail.gmail.com>
- <CAEUhbmWmAU=eEKDSGR4fSp0-9b3GbVkfisgbOgT-A9wV9f=3cQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmWmAU=eEKDSGR4fSp0-9b3GbVkfisgbOgT-A9wV9f=3cQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 15 Jun 2021 20:42:40 +1000
-Message-ID: <CAKmqyKOzuk+0P+bBtrbenVa3mdKcPuc0jqAN9gniRTVh3dP3dw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: csr: Remove redundant check in fp csr
- read/write routines
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,41 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 7:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Alistair,
->
-> On Wed, Mar 31, 2021 at 11:53 PM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Tue, Mar 30, 2021 at 10:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > The following check:
-> > >
-> > >     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> > >         return -RISCV_EXCP_ILLEGAL_INST;
-> > >     }
-> > >
-> > > is redundant in fflags/frm/fcsr read/write routines, as the check was
-> > > already done in fs().
-> > >
-> > > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> >
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> >
->
-> It looks like this patch was not applied anywhere?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Nope, it doesn't appear to have been. Do you mind re-sending it?
-
-Alistair
-
+> Move the declarations from thread-win32.h into thread.h
+> and remove the macro redirection from thread-posix.h.
+> This will be required by following cleanups.
 >
-> Regards,
-> Bin
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
