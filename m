@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1C03A7847
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:48:29 +0200 (CEST)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA553A7878
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:50:42 +0200 (CEST)
+Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt3oC-0005LV-Od
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:48:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34644)
+	id 1lt3qL-0007px-9X
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3il-0006as-2q
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:42:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37800)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3jT-00085c-JT
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:43:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3ig-0002yQ-5J
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:42:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3jR-0003ac-RP
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:43:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623742963;
+ s=mimecast20190719; t=1623743013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8L7FliM0fejNgo45lQzOCyiq+ObfoEuecCvZxxVBGgo=;
- b=eMw0rNsb4PQuRVJRkz2QeM8X3xXch58b4d3iQmOL4sNQ2Nn9GODko+ekKTMorvINCHl2bR
- tPWozaYYgxaV89y6xzetjBssO1NWT2mIFCPiAM7+9drvdmvNTin/HASejIofV8UV9T/ad9
- OHVTPTuLsrCsftohv85L/HirIFvkrCs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-nkuvCHmMPwiqJer2XpqEnQ-1; Tue, 15 Jun 2021 03:42:40 -0400
-X-MC-Unique: nkuvCHmMPwiqJer2XpqEnQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x9-20020adfffc90000b02901178add5f60so8262898wrs.5
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:42:40 -0700 (PDT)
+ bh=lp4OB0ApSyhkmfuqGMMufzxkTwbEB8IslRcyke6yFr8=;
+ b=dNiSTR7J7hgMde18uVso/Kis2HgUd0SEeVK+JL4BR50BQGo6k7UAxmae13Kopfs3Rt4T3r
+ c3HbUQbqlP4ipOK52qxMcZy6SOUu0Ar6oxORQaE4mq0PxK9AOyO4m2RBnuH99HP+Nx0obd
+ jbbBapOY5dGvhxC8icw5b1F1Y+eufLE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-xJc6YvQRNjG-8XqE-jmoNQ-1; Tue, 15 Jun 2021 03:43:32 -0400
+X-MC-Unique: xJc6YvQRNjG-8XqE-jmoNQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y12-20020adffa4c0000b0290119c11bd29eso5571854wrr.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:43:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8L7FliM0fejNgo45lQzOCyiq+ObfoEuecCvZxxVBGgo=;
- b=fGwj0B3CDM6F6IjmNgaaojDnVi3lqbDwehDDHdN9cuT+oYwTnenyQofoKezUmdk8kx
- jJAksGYjn8vde+JxWyPlokmPBX9WzC6er07t1J529JnQs+Zr+VLUHT7bFaSJ7ZMNnARk
- TGmMC+n22Ghiyr0LGJfgRCJtAqYL612BLohO6nfAuEIvQqC97losFePyggY10OQ+cWuB
- nBY44gC1gCu+1OGHuZTgJAWGBWUqkKC8Bgcl6/Sq/tyg+Vv5QkLzCtNaTIQdgencVzr8
- qrY++8yjmON1sI4FUvbRwADcI5ZCk9LL0L0QkSJe4OYmn+Do5oSqK0xdW+l03WzvVNW9
- HnzA==
-X-Gm-Message-State: AOAM533rQRGYeS/e/nzD63Dq0TI+/G1fAuiaRUWN1xpVWg/V+j4aG5LJ
- otVI8Mb5ovXHiVboLDIJnvHunEdL1YxZIq8gcAWly0zCdTfsZNSv4qP6fZLTqMcXH14DB6UWaK0
- WBiYYE81CPhXL62E=
-X-Received: by 2002:a05:600c:a4c:: with SMTP id
- c12mr3576944wmq.38.1623742959575; 
- Tue, 15 Jun 2021 00:42:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxCh/JtTB0CMlWuY8p+hKbz8g/XZVdYbdfpfsNq3dc6PTaK7rPC/4PhyYx3pzc7ySxYOb2Lg==
-X-Received: by 2002:a05:600c:a4c:: with SMTP id
- c12mr3576927wmq.38.1623742959350; 
- Tue, 15 Jun 2021 00:42:39 -0700 (PDT)
+ bh=lp4OB0ApSyhkmfuqGMMufzxkTwbEB8IslRcyke6yFr8=;
+ b=p3Of62mlZF+hccIXu0Xrf+DgnKGcSn50DqcM7VUMcF7qh4AWzhMuNrvoKz13BuEBoN
+ I7yp1jwwCeRCyEmh/KjFrV0gl7iQvLEpWfyYC03ZjK4ZAO8xVpMoZX64Z3UIdAJLJu6C
+ 5sR3vcmNE1Foqu5zEPBGH8iB9RGrFxIwpo5hdaW9wNKnqRqv9IGIdlXM8fVSGPBNN9pn
+ 5URq4k1EGmsLmAMH5EEiiJsrRhmYqTezuELGun3sbdr3Oa1fvPsVCBDy3uWGh2qNMqti
+ p7CPsNcZwN3mHn2WypiPoJLInrj4W+s71cJfNFvPq5GSrQvhmIP58GCQ1JFNAn5RcJrQ
+ DzAw==
+X-Gm-Message-State: AOAM532J+1+fGSXTOcvd04ZDKE3lNRC9dds70/dagK9o54IBKTECok1P
+ pM66bjKsu7ilfXaLDXyJ93dNG6X/7Y70KdLY2CQ85SiXJeQu85ezgM0Aq2eKq+VOiO1JBknxXJZ
+ 8cWQyor6V6MtFACk=
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr23294261wrt.281.1623743011055; 
+ Tue, 15 Jun 2021 00:43:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAXaV9XgTdr4/NRuq388Zb5+cXsO5RMQ0AJUlHC3MGWCTPmtdVIwo54bepuG46iyXk3vYs8g==
+X-Received: by 2002:a5d:50c6:: with SMTP id f6mr23294241wrt.281.1623743010828; 
+ Tue, 15 Jun 2021 00:43:30 -0700 (PDT)
 Received: from thuth.remote.csb (pd9e831d2.dip0.t-ipconnect.de.
  [217.232.49.210])
- by smtp.gmail.com with ESMTPSA id c12sm20830413wrr.90.2021.06.15.00.42.37
+ by smtp.gmail.com with ESMTPSA id k11sm1462138wmj.1.2021.06.15.00.43.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 00:42:38 -0700 (PDT)
-Subject: Re: [PATCH 1/8] configure: Use -std=gnu11
+ Tue, 15 Jun 2021 00:43:30 -0700 (PDT)
+Subject: Re: [PATCH v2 1/8] configure: Use -std=gnu11
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210611233347.653129-1-richard.henderson@linaro.org>
- <20210611233347.653129-2-richard.henderson@linaro.org>
+References: <20210614233143.1221879-1-richard.henderson@linaro.org>
+ <20210614233143.1221879-2-richard.henderson@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c98336cf-45ef-836a-cef3-57eabed1bee7@redhat.com>
-Date: Tue, 15 Jun 2021 09:42:35 +0200
+Message-ID: <a12d75e7-c8d8-8c9e-6949-38cf89c3f23a@redhat.com>
+Date: Tue, 15 Jun 2021 09:43:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210611233347.653129-2-richard.henderson@linaro.org>
+In-Reply-To: <20210614233143.1221879-2-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,19 +99,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, "Daniel P. Berrange" <berrange@redhat.com>,
- ehabkost@redhat.com, Richard Henderson <richard.henderson@liaro.org>
+Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/06/2021 01.33, Richard Henderson wrote:
-> From: Richard Henderson <richard.henderson@liaro.org>
-> 
+On 15/06/2021 01.31, Richard Henderson wrote:
 > Now that the minimum gcc version is 7.5, we can use C11.
 > This will allow lots of cleanups to the code, currently
 > hidden behind macros in include/qemu/compiler.h.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@liaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
 >   configure   | 4 ++--
 >   meson.build | 2 +-
@@ -142,7 +137,7 @@ On 12/06/2021 01.33, Richard Henderson wrote:
 >   
 >   
 > diff --git a/meson.build b/meson.build
-> index d2a9ce91f5..c070cb6aa7 100644
+> index a2311eda6e..d8a92666fb 100644
 > --- a/meson.build
 > +++ b/meson.build
 > @@ -1,5 +1,5 @@
