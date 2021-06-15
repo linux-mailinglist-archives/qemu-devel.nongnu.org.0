@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CB93A79D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:06:37 +0200 (CEST)
-Received: from localhost ([::1]:35026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B7A3A79D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:08:57 +0200 (CEST)
+Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt51o-0000q7-Px
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49506)
+	id 1lt544-0002pL-5n
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt50B-0008PE-Fr
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt509-0006Me-2M
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:04:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623747891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RL+50h9vmSdQ6ek3VVt9x2BYruTizZHc35L/871QydI=;
- b=J+MB1rEVJWaKx8T39YJx9E4Y6yAK7m7LWAh/NALj+UwCoFXKUBaFkcO4w350fYVU5RIOMc
- zIUQQbJ7tNmPWFsfbaFG6RM9p9d7fmdNG3gZwRjvmk63zBQP/9WfKho7AjcImiaYh6hLfi
- Z8f+AAAvpjoWVyRaNnFy+/5miElcJMc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-Yrr2UIyjPiOhGjahkTU2cw-1; Tue, 15 Jun 2021 05:04:50 -0400
-X-MC-Unique: Yrr2UIyjPiOhGjahkTU2cw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85B441850605
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:04:49 +0000 (UTC)
-Received: from thuth.com (ovpn-114-110.ams2.redhat.com [10.36.114.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAF4D19D9B;
- Tue, 15 Jun 2021 09:04:41 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2] ui: Make the DisplayType enum entries conditional
-Date: Tue, 15 Jun 2021 11:04:39 +0200
-Message-Id: <20210615090439.70926-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lt52m-0001mB-0g; Tue, 15 Jun 2021 05:07:36 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:43726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lt52k-000085-8W; Tue, 15 Jun 2021 05:07:35 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id b9so19455374ybg.10;
+ Tue, 15 Jun 2021 02:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gXZsMiMZ4AGwJCJIGNMks2yY6Z8ZtVYbxqpvn5EK1wg=;
+ b=cwVxBSBx4U25q22JeABAiym3ucvQIuG2P/rim0xaeq7ul1hjx3HsTUO5EO3v1S6G41
+ VlOzhDpnffkaiyTcSqPoNnFMpBp1BYzIYNjwSfi1l0XJ5gMpNgPRniRJakJckXkz3tAe
+ eR0TV89eFUX1kbgBFeiJrlnibUioNSgvkvKy/Z9nztMwzBAEis9p6h+tCt+osnghl3CD
+ FDVan7V2K0twEM1DD4ozsoVXylTUGgR0X9POwtiC9iwENYJCoWNe2y7jIpNyDcAkcXgE
+ hMky8YATNID05KMpHc6rJyhLJK5CmpGPnlaa9THbNpicNmNUUT1qaHJ8Qbt7hsrJ3ZYi
+ pWsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gXZsMiMZ4AGwJCJIGNMks2yY6Z8ZtVYbxqpvn5EK1wg=;
+ b=LtU0oEN1SEQk6P9Qgvx5V8FplDFPxRy4OZad3SydcxS2DpE05AGIRxbPN5D/+4bp8H
+ Cjhhx2GU8pO94Dih+RobLBp1s/U9+xP63tyqfWsrmw0lJYuaucM1Ob6i7qqr5aqcchp/
+ ate876mKWVFehR6DA/fIiT9Ky5Pbhtgn0XoM8Cj5SL4vGWpARmkTynoa4v6zwoCHChbU
+ PpvRhgB2nQSrFO5speP6Qps38YhUguMtWM+O+kIkSyQ7dMqb/LDO8XB9Sw/wy1DXQwof
+ DIq224roW9pPIQG+7+pHtCIsrC2Le1Z+w1XGHyx15Qr6kTAOV3pUimGHeWN75HUlPWRs
+ Vvug==
+X-Gm-Message-State: AOAM533oP7EPyA5bPB9KYhe6MaGVnzYFncZK/zlKP5JQX4tSxOKxPdZ2
+ FSFTqNAGVnic/yr6HRkq16AwFttgv7KZHMBSOlg=
+X-Google-Smtp-Source: ABdhPJxsXtb9JZSbQYmNXVbrNfm1PaI+pww3e06b2SR5lkpjxBniW+vnaRMHEJIz8gVS29BKXHcacw1cMSmAB9p84YY=
+X-Received: by 2002:a25:be09:: with SMTP id h9mr31871121ybk.239.1623748053023; 
+ Tue, 15 Jun 2021 02:07:33 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210331021825.537484-1-bmeng.cn@gmail.com>
+ <20210331021825.537484-2-bmeng.cn@gmail.com>
+ <CAKmqyKMCTFVs9dhFza+GnTM-EqRngPmTEfWbuX=BaVMGAEpbCg@mail.gmail.com>
+In-Reply-To: <CAKmqyKMCTFVs9dhFza+GnTM-EqRngPmTEfWbuX=BaVMGAEpbCg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 15 Jun 2021 17:07:20 +0800
+Message-ID: <CAEUhbmWmAU=eEKDSGR4fSp0-9b3GbVkfisgbOgT-A9wV9f=3cQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: csr: Remove redundant check in fp csr
+ read/write routines
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,156 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Libvirt's "domcapabilities" command has a way to state whether certain
-graphic frontends are available in QEMU or not. Originally, libvirt
-looked at the "--help" output of the QEMU binary to determine whether
-SDL was available or not (by looking for the "-sdl" parameter in the
-help text), but since libvirt stopped doing this analysis of the help
-text, the detection of SDL is currently broken, see:
+Hi Alistair,
 
- https://bugzilla.redhat.com/show_bug.cgi?id=1790902
+On Wed, Mar 31, 2021 at 11:53 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Tue, Mar 30, 2021 at 10:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > The following check:
+> >
+> >     if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+> >         return -RISCV_EXCP_ILLEGAL_INST;
+> >     }
+> >
+> > is redundant in fflags/frm/fcsr read/write routines, as the check was
+> > already done in fs().
+> >
+> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
 
-QEMU should provide a way via the QMP interface instead. A simple way,
-without introducing additional commands, is to make the DisplayType
-enum entries conditional, so that the enum only contains the entries if
-the corresponding CONFIG_xxx switches have been set. This of course
-only gives an indication which possibilities have been enabled during
-compile-time of QEMU (and does not take into account whether modules
-are later available or not for example - for this we'd need a separate
-command), but anyway, this should already be good enough for the above
-bug ticket, and it's a good idea anyway to make the QMP interface
-conditional here, so let's simply do it.
+It looks like this patch was not applied anywhere?
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Make gtk, curses and egl also conditional
-
- qapi/ui.json | 23 +++++++++++++++++------
- softmmu/vl.c | 20 +++++++++++++++++---
- ui/console.c |  8 +++++++-
- 3 files changed, 41 insertions(+), 10 deletions(-)
-
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 1052ca9c38..6a667a0abf 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1126,9 +1126,16 @@
- #
- ##
- { 'enum'    : 'DisplayType',
--  'data'    : [ 'default', 'none', 'gtk', 'sdl',
--                'egl-headless', 'curses', 'cocoa',
--                'spice-app'] }
-+  'data'    : [
-+    { 'name': 'default' },
-+    { 'name': 'none' },
-+    { 'name': 'gtk', 'if': 'defined(CONFIG_GTK)' },
-+    { 'name': 'sdl', 'if': 'defined(CONFIG_SDL)' },
-+    { 'name': 'egl-headless',
-+              'if': 'defined(CONFIG_OPENGL) && defined(CONFIG_GBM)' },
-+    { 'name': 'curses', 'if': 'defined(CONFIG_CURSES)' },
-+    { 'name': 'cocoa', 'if': 'defined(CONFIG_COCOA)' },
-+    { 'name': 'spice-app', 'if': 'defined(CONFIG_SPICE)'} ] }
- 
- ##
- # @DisplayOptions:
-@@ -1152,9 +1159,13 @@
-                 '*show-cursor'   : 'bool',
-                 '*gl'            : 'DisplayGLMode' },
-   'discriminator' : 'type',
--  'data'    : { 'gtk'            : 'DisplayGTK',
--                'curses'         : 'DisplayCurses',
--                'egl-headless'   : 'DisplayEGLHeadless'} }
-+  'data'    : {
-+      'gtk': { 'type': 'DisplayGTK', 'if': 'defined(CONFIG_GTK)' },
-+      'curses': { 'type': 'DisplayCurses', 'if': 'defined(CONFIG_CURSES)' },
-+      'egl-headless': { 'type': 'DisplayEGLHeadless',
-+                        'if': 'defined(CONFIG_OPENGL) && defined(CONFIG_GBM)' }
-+  }
-+}
- 
- ##
- # @query-display-options:
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 326c1e9080..fc103c2cb2 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1068,6 +1068,7 @@ static void parse_display(const char *p)
-          *     Not clear yet what happens to them long-term.  Should
-          *     replaced by something better or deprecated and dropped.
-          */
-+#if defined(CONFIG_SDL)
-         dpy.type = DISPLAY_TYPE_SDL;
-         while (*opts) {
-             const char *nextopt;
-@@ -1131,6 +1132,10 @@ static void parse_display(const char *p)
-             }
-             opts = nextopt;
-         }
-+#else
-+        error_report("SDL display supported is not available in this binary");
-+        exit(1);
-+#endif
-     } else if (strstart(p, "vnc", &opts)) {
-         /*
-          * vnc isn't a (local) DisplayType but a protocol for remote
-@@ -1867,13 +1872,22 @@ static void qemu_apply_machine_options(void)
- static void qemu_create_early_backends(void)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
-+#if defined(CONFIG_SDL)
-+    const bool use_sdl = (dpy.type == DISPLAY_TYPE_SDL);
-+#else
-+    const bool use_sdl = false;
-+#endif
-+#if defined(CONFIG_GTK)
-+    const bool use_gtk = (dpy.type == DISPLAY_TYPE_GTK);
-+#else
-+    const bool use_gtk = false;
-+#endif
- 
--    if ((alt_grab || ctrl_grab) && dpy.type != DISPLAY_TYPE_SDL) {
-+    if ((alt_grab || ctrl_grab) && !use_sdl) {
-         error_report("-alt-grab and -ctrl-grab are only valid "
-                      "for SDL, ignoring option");
-     }
--    if (dpy.has_window_close &&
--        (dpy.type != DISPLAY_TYPE_GTK && dpy.type != DISPLAY_TYPE_SDL)) {
-+    if (dpy.has_window_close && !use_gtk && !use_sdl) {
-         error_report("-no-quit is only valid for GTK and SDL, "
-                      "ignoring option");
-     }
-diff --git a/ui/console.c b/ui/console.c
-index 2de5f4105b..1103b65314 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -2370,13 +2370,19 @@ void qemu_display_register(QemuDisplay *ui)
- bool qemu_display_find_default(DisplayOptions *opts)
- {
-     static DisplayType prio[] = {
-+#if defined(CONFIG_GTK)
-         DISPLAY_TYPE_GTK,
-+#endif
-+#if defined(CONFIG_SDL)
-         DISPLAY_TYPE_SDL,
-+#endif
-+#if defined(CONFIG_COCOA)
-         DISPLAY_TYPE_COCOA
-+#endif
-     };
-     int i;
- 
--    for (i = 0; i < ARRAY_SIZE(prio); i++) {
-+    for (i = 0; i < (int)ARRAY_SIZE(prio); i++) {
-         if (dpys[prio[i]] == NULL) {
-             ui_module_load_one(DisplayType_str(prio[i]));
-         }
--- 
-2.27.0
-
+Regards,
+Bin
 
