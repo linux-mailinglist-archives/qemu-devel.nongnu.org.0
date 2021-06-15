@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AEDD3A8A23
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:27:54 +0200 (CEST)
-Received: from localhost ([::1]:35834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A113A8A71
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:50:25 +0200 (CEST)
+Received: from localhost ([::1]:42246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltFf6-0006dm-GP
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
+	id 1ltG0t-0004UW-UO
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltFds-0005ly-9r; Tue, 15 Jun 2021 16:26:36 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:46863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltFdq-00043u-D0; Tue, 15 Jun 2021 16:26:35 -0400
-Received: by mail-qt1-x832.google.com with SMTP id a15so22834qtx.13;
- Tue, 15 Jun 2021 13:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AUEwGlkuov5lGX/cLB7G8HplOlAImoEl/RkyBJKzsRw=;
- b=CDMBvuI/b0mGgaArBhfxJpvdCCjwH7uD+1Q44h7dZz/hcql11lomSKIyIk7xEsy1Re
- 4B/YseSDI0SNw+KJd5y0jAmbOJlKvw/pSuLswXaYa2+G41qAxs/3BsWu0ltcWQheGzIZ
- +zLx28kzfC2o4DfUXjeCXpFb3lqV/WKD2O5zClsEUxo2URNbEkEYKHTnxuRqxJ3q3rlK
- vy24C2qfJfg7bj2mbquJjxmjwB+bCN9aSKs4uxBu3ybVMUuVOA7FZHNNhNPAuO3ddkn/
- /vi5n42yQHNSXXePnjc553Yfk3Co3u/j1wFGSrIExE1UlpsBoMIoF+UOmvpM7Mz89F2i
- 7ClA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AUEwGlkuov5lGX/cLB7G8HplOlAImoEl/RkyBJKzsRw=;
- b=Aru3bixuYNlWO3+/iA2/vGRrH2GWChkVRNFNPcI4vmTMmaOk0J6VRPKF0h8FrBR7fB
- RGAKBLWyRTJd79mvNoLeycIOnj0J9kTxnxROvn71d0f92WN6r/PDfOmGY6p2xf0IsdkX
- T97CjN+6775C6ukzDFyCxaGfJfKU1W2KYRiVHYIhdj8w/qMPXZAKXzy5jLSR41t954s5
- r3SBWZC8Fi0hammv3kaaEevdfR6vkjl89cmDmtvzX3zs9AHEohShqPjgmoy0Se6MZkOW
- L+z8trMpJ6kYnjfI1+7GdnLpBVuPKejooW6mF9y08Y6668POWv4lfNDcu2sSj9blR5hg
- kf6Q==
-X-Gm-Message-State: AOAM530RiH54XVysjtkbe0F+YTrLfNZVC1P6w6ctjwFwF2A4FpqkZVXA
- ddjlP6qMvalTjKF3HkLbKT8=
-X-Google-Smtp-Source: ABdhPJzkmAyecefa8SEPTIdBYm1NRjYZLgPYUc/AwVdkr4eYedxwv6xdnY9y6b/rx67JpzVrCIRUyw==
-X-Received: by 2002:ac8:709a:: with SMTP id y26mr1413377qto.315.1623788792647; 
- Tue, 15 Jun 2021 13:26:32 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c6:4d9a:784f:a7de:c020:5f1e?
- ([2804:431:c7c6:4d9a:784f:a7de:c020:5f1e])
- by smtp.gmail.com with ESMTPSA id o66sm108937qkd.60.2021.06.15.13.26.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 13:26:32 -0700 (PDT)
-Subject: Re: [RFC PATCH 3/8] spapr_numa.c: wait for CAS before writing rtas DT
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210615013309.2833323-1-danielhb413@gmail.com>
- <20210615013309.2833323-4-danielhb413@gmail.com> <YMgmPDrr7oJFGME1@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <65a744dc-3edd-a0e8-4e32-dab7ad1d64d5@gmail.com>
-Date: Tue, 15 Jun 2021 17:26:29 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFyi-0001YV-TP
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFye-0000th-M9
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623790083;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1MHbMwjazd+eHJmPfqmvSFPQIs79b6kGuB3PDLWO/5I=;
+ b=HMCygqRV66OyIZx42chNavIRHQ4Uq8QbRbOLVMZRBZzGr03zfr9i1LVHhST0eb/AIZ3FwV
+ MxVgta3P21//AAOvGToPqeQanBVcWvExAdyuY7SGf7efklF/DzicAT4DxtKqBPQdd7bh49
+ XSxq7Ag+VuIEM/goLm9enB7Jqbhf8FM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-JGxBf9pgOzCD15ZIHYX7lA-1; Tue, 15 Jun 2021 16:47:59 -0400
+X-MC-Unique: JGxBf9pgOzCD15ZIHYX7lA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61A74100C619
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 20:47:58 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-114-191.phx2.redhat.com [10.3.114.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DE825D9E2
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 20:47:58 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/34] NBD patches for 2021-06-15
+Date: Tue, 15 Jun 2021 15:47:22 -0500
+Message-Id: <20210615204756.281505-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YMgmPDrr7oJFGME1@yekko>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x832.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.095,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,72 +73,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
 
+  Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
 
-On 6/15/21 1:02 AM, David Gibson wrote:
-> On Mon, Jun 14, 2021 at 10:33:04PM -0300, Daniel Henrique Barboza wrote:
->> spapr_numa_write_rtas_dt() is called from spapr_dt_rtas(), which in
->> turned is called by spapr_build_fdt(). spapr_build_fdt() is called in
->> two places: spapr_machine_reset() and do_client_architecture_support().
->> When called in machine_reset() we're writing RTAS nodes with NUMA
->> artifacts without going through CAS first.
->>
->> This is not an issue because we always write the same thing in DT, since
->> we support just FORM1 NUMA affinity. With the upcoming FORM2 support,
->> we're now reliant on guest choice to decide what to write.
->>
->> Instead of taking a guess (e.g. default to FORM1, switch to FORM2 if
->> guest chooses it), postpone the writing of
->> ibm,associativity-reference-points and ibm,max-associativity-domains
->> until we're sure what was negotiated with the guest.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> 
-> I think it makes sense to fold this in with 1/8 moving the calculation
-> itself until after CAS.
+are available in the Git repository at:
 
-Ok.
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-06-15
 
-> 
-> This does make a (theoretical) functional change - it means that NUMA
-> information is not available before CAS, which it was before.  I think
-> that's very unlikely to break anything, but I wonder if we should make
-> it dependent on the machine version just to be safe.
+for you to fetch changes up to 788b68b57dea4ddd0038f73b96c147eb406c386d:
 
-I don't mind making it dependent on the default machine. I'll wrap this
-CAS change (and as result, all FORM2 support) to be available only for
-the default machine type.
+  block/nbd: safer transition to receiving request (2021-06-15 15:42:33 -0500)
 
+----------------------------------------------------------------
+nbd patches for 2021-06-15
 
-Thanks,
+- bug fixes in coroutine aio context handling
+- rework NBD client connection logic to perform more work in coroutine
+rather than blocking main loop
 
+----------------------------------------------------------------
+Paolo Bonzini (2):
+      async: the main AioContext is only "current" if under the BQL
+      tests: cover aio_co_enter from a worker thread without BQL taken
 
-Daniel
+Roman Kagan (2):
+      block/nbd: fix channel object leak
+      block/nbd: ensure ->connection_thread is always valid
 
-> 
->> ---
->>   hw/ppc/spapr_numa.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
->> index 04a86f9b5b..e1a7f80076 100644
->> --- a/hw/ppc/spapr_numa.c
->> +++ b/hw/ppc/spapr_numa.c
->> @@ -379,6 +379,10 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
->>    */
->>   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
->>   {
->> +    if (spapr_ovec_empty(spapr->ov5_cas)) {
->> +        return;
->> +    }
->> +
->>       spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
->>   }
->>   
-> 
+Vladimir Sementsov-Ogievskiy (30):
+      co-queue: drop extra coroutine_fn marks
+      block/nbd: fix how state is cleared on nbd_open() failure paths
+      block/nbd: connect_thread_func(): do qio_channel_set_delay(false)
+      qemu-sockets: introduce socket_address_parse_named_fd()
+      block/nbd: call socket_address_parse_named_fd() in advance
+      block/nbd: nbd_client_handshake(): fix leak of s->ioc
+      block/nbd: BDRVNBDState: drop unused connect_err and connect_status
+      block/nbd: simplify waking of nbd_co_establish_connection()
+      block/nbd: drop thr->state
+      block/nbd: bs-independent interface for nbd_co_establish_connection()
+      block/nbd: make nbd_co_establish_connection_cancel() bs-independent
+      block/nbd: rename NBDConnectThread to NBDClientConnection
+      block/nbd: introduce nbd_client_connection_new()
+      block/nbd: introduce nbd_client_connection_release()
+      nbd: move connection code from block/nbd to nbd/client-connection
+      nbd/client-connection: use QEMU_LOCK_GUARD
+      nbd/client-connection: add possibility of negotiation
+      nbd/client-connection: implement connection retry
+      nbd/client-connection: shutdown connection on release
+      block/nbd: split nbd_handle_updated_info out of nbd_client_handshake()
+      block/nbd: use negotiation of NBDClientConnection
+      block/nbd: don't touch s->sioc in nbd_teardown_connection()
+      block/nbd: drop BDRVNBDState::sioc
+      nbd/client-connection: return only one io channel
+      block-coroutine-wrapper: allow non bdrv_ prefix
+      block/nbd: split nbd_co_do_establish_connection out of nbd_reconnect_attempt
+      nbd/client-connection: add option for non-blocking connection attempt
+      block/nbd: reuse nbd_co_do_establish_connection() in nbd_open()
+      block/nbd: add nbd_client_connected() helper
+      block/nbd: safer transition to receiving request
+
+ scripts/block-coroutine-wrapper.py |   7 +-
+ block/coroutines.h                 |   6 +
+ include/block/aio.h                |   5 +-
+ include/block/nbd.h                |  18 ++
+ include/qemu/coroutine.h           |   6 +-
+ include/qemu/sockets.h             |  11 +
+ block/nbd.c                        | 585 ++++++++-----------------------------
+ iothread.c                         |   9 +-
+ nbd/client-connection.c            | 385 ++++++++++++++++++++++++
+ stubs/iothread-lock.c              |   2 +-
+ stubs/iothread.c                   |   8 -
+ tests/unit/iothread.c              |   9 +-
+ tests/unit/test-aio.c              |  37 +++
+ util/async.c                       |  20 ++
+ util/main-loop.c                   |   1 +
+ util/qemu-sockets.c                |  19 ++
+ nbd/meson.build                    |   1 +
+ stubs/meson.build                  |   1 -
+ 18 files changed, 639 insertions(+), 491 deletions(-)
+ create mode 100644 nbd/client-connection.c
+ delete mode 100644 stubs/iothread.c
+
+-- 
+2.31.1
+
 
