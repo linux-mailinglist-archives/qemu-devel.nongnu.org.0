@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8033A863C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:18:37 +0200 (CEST)
-Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198193A8647
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:20:27 +0200 (CEST)
+Received: from localhost ([::1]:55016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBls-00031R-4X
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:18:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49832)
+	id 1ltBne-0006I6-2K
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:20:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBac-0008Pq-Q6
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:06:58 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:43674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBaa-0003AX-HB
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:06:58 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 3-20020a05600c0243b029019f2f9b2b8aso2348389wmj.2
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:06:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2CCiDIA1bv19FdbuEIb2lIEJRpe5hweacNsGvcaUa+I=;
- b=blPsRm/uCi9kxpvsPo/5DBFE8oYdtB/fgdxohz7KaTYy5KjVLtXogr54UU34QPtL1n
- IWOLiwvcWcOIq1q1vw3CE6+MCN0iJ35KpKoFL6h7qvc2GI7QJZqNBnVypqkBcbfZH8ne
- o7ElJGyBZA6a8zJ1EFvMeavh5eBD6TUDSvX1o9urNtGXx9j9o2FsTbaqrEhZoZTk96aj
- wmh7L2VIGPCtD+E7hSAID2tuR3xMmhVROIV1EEse5fT+SjEp5DjmxihAzH5b0Jf62XBJ
- OnoBZyskCBDGQkEHrIGMLK/5k6NgwIypcowUFTSoAgpJbOYRqjR+CfYdf1F7TFuU7YcV
- aHgw==
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltBlc-0003fW-9y
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:18:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltBlZ-0008Qa-M6
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:18:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623773896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j3Sk9+2hGtN+P0EK1OSvv7VrDHKrNq2qW8fpppllQxA=;
+ b=VOQT4D6XxHJLK8nVkTPaFcTtEMZst3jkUCjSxrOz2tzQDpxYWJjmX1GuJxYTgmuGxWT0IL
+ 7GE5eEgcIqGkeISFzGkavKKFHjO5kUmvZbGx7t9S7zgYSI56ALKQM8XHqw7WMS7hhnNdc9
+ d8Bl8jddRUplgAl4mgSdk8SEb5/OSak=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-lDaD7BxPNa2ergRai4Ieug-1; Tue, 15 Jun 2021 12:18:15 -0400
+X-MC-Unique: lDaD7BxPNa2ergRai4Ieug-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ q7-20020a1709063607b02903f57f85ac45so4763477ejb.15
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:18:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2CCiDIA1bv19FdbuEIb2lIEJRpe5hweacNsGvcaUa+I=;
- b=F7PMMRfG/wHIPeknHWGqGtGuLHl/Bp5FCf9yYJS/5bCbbZO+9qelAvjKvdvdeHDBzj
- 4yyXmUc+qk+pqq9Fq238mtjIZt/HJYY2gyd80DSC4Z1M0H/sr6EEEmz2Cpj/uYb5+Afv
- Th2SGyFrnhhPGgKzBGXIpJBbRlIqD58EQwk912qnDgbkZXU/M5sqk4MGIgEtygSGWnYE
- WIuMd+5ILAkFrzwtJrWwxn8yhVSv29beh69901vkD+8YCOm23vtU9lsr31sfxA3uGpgr
- iz/e0/0kF7pjN2xshQeWTFxbEZEIy/g55Ye6CQyyXpG4tIrBXPAvCT3qK9+NAIfE4LTG
- Jvtw==
-X-Gm-Message-State: AOAM531re1vrWIX2DCsuikSrkYVsEQB+O0dhXkwa++iVP/FpIEqxWJTN
- 3+DOoIzu5UXL2nCoz+Nj5J3hPA==
-X-Google-Smtp-Source: ABdhPJxoYO4ocTRlT4oGYFNCsX0qyBiycpzNVN7PyzNFIylRj2eOGLM1a8YA9QfcZlC28W7bpOEM/g==
-X-Received: by 2002:a7b:c210:: with SMTP id x16mr782wmi.105.1623773214011;
- Tue, 15 Jun 2021 09:06:54 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id z5sm696316wrp.92.2021.06.15.09.06.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 09:06:53 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] docs/system/arm: Document which architecture extensions we
- emulate
-Date: Tue, 15 Jun 2021 17:06:52 +0100
-Message-Id: <20210615160652.29485-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=j3Sk9+2hGtN+P0EK1OSvv7VrDHKrNq2qW8fpppllQxA=;
+ b=n/P/Qcl/EWNEa0k73zIgsJ/dEBwf3K1I8iBxffZEwZ/pIofG3or6TxTsP2ch3/Txbg
+ m63EOAtMUFJckmXUKCWbbOoswK1oAm1dZApHPeOBDnsb394dp4r4eKMIHolvWrvHnexV
+ j5+ZSrvKDlM3j3eJEQn724zRFA5cI3yjtPMJYBFYfaB8AcwqcOaPgjDtNAstVFAVSQQ9
+ 23R9as3UMBBVF3nJTpFk92mluR9SFuBwnn/zq6tFmLVB5zN63eRkHB4w8Gjk4pXpgWVs
+ cVBouAhIY/LQVNyejRedllh5f/mW4nUzxKjwodmz7ramkAQLUfASKrlOvZVrhCOwoKWZ
+ nLAw==
+X-Gm-Message-State: AOAM530FTQ3zA8AhxBAswuJt6W95C7pCSBsQQyjsU6dVB5QV64P340Ar
+ Cj9CrCn7kms2JWkrmKenMvF3Jkn3V2SOEvGis6jBZQJR2PwmBm9V1/3rjrnkADYnCpQ0Y2JBbo8
+ iqVDTXEEVGb9SYX0=
+X-Received: by 2002:a05:6402:b76:: with SMTP id
+ cb22mr313678edb.112.1623773893930; 
+ Tue, 15 Jun 2021 09:18:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDd7fHBp/MS5FPmFkJf9R5MC80a8GEQ24r3Alp1/tA7pWPhX35Rw6H2LKcZZ3BWEb1lsc2Jw==
+X-Received: by 2002:a05:6402:b76:: with SMTP id
+ cb22mr313657edb.112.1623773893763; 
+ Tue, 15 Jun 2021 09:18:13 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ a24sm12295202edt.96.2021.06.15.09.18.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 09:18:13 -0700 (PDT)
+Subject: Re: [PATCH v3 3/7] block: add max_hw_transfer to BlockLimits
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210603133722.218465-1-pbonzini@redhat.com>
+ <20210603133722.218465-4-pbonzini@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <cb030dc0-ee6f-4c0b-723d-4197c51f8a61@redhat.com>
+Date: Tue, 15 Jun 2021 18:18:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210603133722.218465-4-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,148 +101,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These days the Arm architecture has a wide range of fine-grained
-optional extra architectural features. We implement quite a lot
-of these but by no means all of them. Document what we do implement,
-so that users can find out without having to dig through back-issues
-of our Changelog on the wiki.
+On 03.06.21 15:37, Paolo Bonzini wrote:
+> For block host devices, I/O can happen through either the kernel file
+> descriptor I/O system calls (preadv/pwritev, io_submit, io_uring)
+> or the SCSI passthrough ioctl SG_IO.
+>
+> In the latter case, the size of each transfer can be limited by the
+> HBA, while for file descriptor I/O the kernel is able to split and
+> merge I/O in smaller pieces as needed.  Applying the HBA limits to
+> file descriptor I/O results in more system calls and suboptimal
+> performance, so this patch splits the max_transfer limit in two:
+> max_transfer remains valid and is used in general, while max_hw_transfer
+> is limited to the maximum hardware size.  max_hw_transfer can then be
+> included by the scsi-generic driver in the block limits page, to ensure
+> that the stricter hardware limit is used.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   block/block-backend.c          | 12 ++++++++++++
+>   block/file-posix.c             |  2 +-
+>   block/io.c                     |  1 +
+>   hw/scsi/scsi-generic.c         |  2 +-
+>   include/block/block_int.h      |  7 +++++++
+>   include/sysemu/block-backend.h |  1 +
+>   6 files changed, 23 insertions(+), 2 deletions(-)
+>
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 15f1ea4288..2ea1412a54 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1953,6 +1953,18 @@ uint32_t blk_get_request_alignment(BlockBackend *blk)
+>       return bs ? bs->bl.request_alignment : BDRV_SECTOR_SIZE;
+>   }
+>   
+> +/* Returns the maximum hardware transfer length, in bytes; guaranteed nonzero */
+> +uint64_t blk_get_max_hw_transfer(BlockBackend *blk)
+> +{
+> +    BlockDriverState *bs = blk_bs(blk);
+> +    uint64_t max = INT_MAX;
+> +
+> +    if (bs) {
+> +        max = MIN_NON_ZERO(bs->bl.max_hw_transfer, bs->bl.max_transfer);
+> +    }
+> +    return max;
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-The FEAT_ lists are in the order the features are listed in
-the Arm ARM; alternatively we could alphabetize them?
-(For M-profile the Arm ARM is using alpha order.)
----
- docs/system/arm/emulation.rst | 98 +++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst    |  6 +++
- 2 files changed, 104 insertions(+)
- create mode 100644 docs/system/arm/emulation.rst
+Both `max_hw_transfer` and `max_transfer` can be 0, so this could return 
+0, contrary to what the comment above promises.
 
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-new file mode 100644
-index 00000000000..6c3d7170714
---- /dev/null
-+++ b/docs/system/arm/emulation.rst
-@@ -0,0 +1,98 @@
-+A-profile CPU architecture support
-+==================================
-+
-+QEMU's TCG emulation includes support for the Armv5, Armv6, Armv7 and
-+Armv8 versions of the A-profile architecture. It also has support for
-+the following architecture extensions:
-+
-+- The Armv8 Cryptographic Extension
-+- The Scalable Vector Extension (SVE)
-+- FEAT_SB (Speculation Barrier)
-+- FEAT_SSBS (Speculative Store Bypass Safe)
-+- FEAT_SPECRES (Speculation restriction instructions)
-+- FEAT_SHA512 (Advanced SIMD SHA512 instructions)
-+- FEAT_SHA3 (Advanced SIMD SHA3 instructions)
-+- FEAT_SM3 (Advanced SIMD SM3 instructions)
-+- FEAT_SM4 (Advanced SIMD SM4 instructions)
-+- FEAT_LSE (Large System Extensions)
-+- FEAT_RDM (Advanced SIMD rounding double multiply accumulate instructions)
-+- FEAT_LOR (Limited ordering regions)
-+- FEAT_HPDS (Hierarchical permission disables)
-+- FEAT_PAN (Privileged access never)
-+- FEAT_VMID16 (16-bit VMID)
-+- FEAT_VHE (Virtualization Host Extensions)
-+- FEAT_PMUv3p1 (PMU Extensions v3.1)
-+- FEAT_PAN2 (AT S1E1R and AT S1E1W instruction variants affected by PSTATE.PAN)
-+- FEAT_FP16 (Half-precision floating-point data processing)
-+- FEAT_DotProd (Advanced SIMD dot product instructions)
-+- FEAT_FHM (Floating-point half-precision multiplication instructions)
-+- FEAT_UAO (Unprivileged Access Override control)
-+- FEAT_DPB (DC CVAP instruction)
-+- FEAT_AA32HPD (AArch32 hierarchical permission disables)
-+- FEAT_TTCNP (Translation table Common not private translations)
-+- FEAT_XNX (Translation table stage 2 Unprivileged Execute-never)
-+- FEAT_BF16 (AArch64 BFloat16 instructions)
-+- FEAT_AA32BF16 (AArch32 BFloat16 instructions)
-+- FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
-+- FEAT_AA32I8MM (AArch32 Int8 matrix multiplication instructions)
-+- FEAT_FCMA (Floating-point complex number instructions)
-+- FEAT_JSCVT (JavaScript conversion instructions)
-+- FEAT_LRCPC (Load-acquire RCpc instructions)
-+- FEAT_PAuth (Pointer authentication)
-+- FEAT_DIT (Data Independent Timing instructions)
-+- FEAT_FlagM (Flag manipulation instructions v2)
-+- FEAT_LRCPC2 (Load-acquire RCpc instructions v2)
-+- FEAT_TLBIOS (TLB invalidate instructions in Outer Shareable domain)
-+- FEAT_TLBIRANGE (TLB invalidate range instructions)
-+- FEAT_TTST (Small translation tables)
-+- FEAT_SEL2 (Secure EL2)
-+- FEAT_PMUv3p4 (PMU Extensions v3.4)
-+- FEAT_FlagM2 (Enhancements to flag manipulation instructions)
-+- FEAT_FRINTTS (Floating-point to integer instructions)
-+- FEAT_BTI (Branch Target Identification)
-+- FEAT_RNG (Random number generator)
-+- FEAT_MTE (Memory Tagging Extension)
-+- FEAT_MTE2 (Memory Tagging Extension)
-+
-+For information on the specifics of these extensions, please refer
-+to the `Armv8-A Arm Architecture Reference Manual
-+<https://developer.arm.com/documentation/ddi0487/latest>`_.
-+
-+When a specific named CPU is being emulated, only those features which
-+are present in hardware for that CPU are emulated. (If a feature is
-+not in the list above then it is not supported, even if the real
-+hardware should have it.) The ``max`` CPU enables all features.
-+
-+R-profile CPU architecture support
-+==================================
-+
-+QEMU's TCG emulation support for R-profile CPUs is currently limited.
-+We emulate only the Cortex-R5 and Cortex-R5F CPUs.
-+
-+M-profile CPU architecture support
-+==================================
-+
-+QEMU's TCG emulation includes support for Armv6-M, Armv7-M, Armv8-M, and
-+Armv8.1-M versions of the M-profile architucture.  It also has support
-+for the following architecture extensions:
-+
-+- FP (Floating-point Extension)
-+- FPCXT (FPCXT access instructions)
-+- HP (Half-precision floating-point instructions)
-+- LOB (Low Overhead loops and Branch future)
-+- M (Main Extension)
-+- MPU (Memory Protection Unit Extension)
-+- PXN (Privileged Execute Never)
-+- RAS (Reliability, Serviceability and Availability): "minimum RAS Extension" only
-+- S (Security Extension)
-+- ST (System Timer Extension)
-+
-+For information on the specifics of these extensions, please refer
-+to the `Armv8-M Arm Architecture Reference Manual
-+<https://developer.arm.com/documentation/ddi0553/latest>`_.
-+
-+When a specific named CPU is being emulated, only those features which
-+are present in hardware for that CPU are emulated. (If a feature is
-+not in the list above then it is not supported, even if the real
-+hardware should have it.) There is no equivalent of the ``max`` CPU for
-+M-profile.
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index edd013c7bbd..8b8547f9a9e 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -99,6 +99,12 @@ undocumented; you can get a complete list by running
-    arm/virt
-    arm/xlnx-versal-virt
- 
-+Emulated CPU architecture support
-+=================================
-+
-+.. toctree::
-+   arm/emulation
-+
- Arm CPU features
- ================
- 
--- 
-2.20.1
+Should `max` be initialized to 0 with a `MIN_NON_ZERO(max, INT_MAX)` 
+here (like `blk_get_max_transfer()` does it)?
+
+(As for the rest, I think aligning to the request alignment makes sense, 
+but then again we don’t do that for max_transfer either, so... this at 
+least wouldn’t be a new bug.
+
+Regarding the comment, checkpatch complains about it, so it should be 
+fixed so that /* is on its own line.
+
+Speaking of checkpatch, now that I ran it, it also complains about the 
+new line in bdrv_merge_limits() exceeding 80 characters, so that should 
+be fixed, too.)
+
+Max
 
 
