@@ -2,71 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA813A7611
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 06:44:01 +0200 (CEST)
-Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA213A7612
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 06:45:40 +0200 (CEST)
+Received: from localhost ([::1]:37160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt0vg-0008Dx-9W
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 00:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33326)
+	id 1lt0xH-0001RS-5U
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 00:45:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lt0t4-0005bW-Hn; Tue, 15 Jun 2021 00:41:18 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:46764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1lt0t2-0008MV-T7; Tue, 15 Jun 2021 00:41:18 -0400
-Received: by mail-pf1-x429.google.com with SMTP id x16so8101375pfa.13;
- Mon, 14 Jun 2021 21:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vydPdIutGORcNNReapEn+93jf/JX4O9ma43RT6TvW30=;
- b=Vxd3i0PvlTyK0DMUavNoJoo4yFX5I89KXHV3y1ZpGsJ10PDAr3paGUQYWhyoY+ap+V
- bUAirmrwch8kSwQdD3O3T7qzzkuQqWifV/YXtXziJnd++chbW77kQ//gtnx04qcpzPMK
- fSWR+ELT+4eVVtM5iY89EORy0ch1BQYNlyXjeofAru0c8zvfAEo+1dIW+7CQ3d6QxGUh
- 1nrq5rNHaITkMjBYE9GlVQx9DFpOjxDRzVXEb5s8Dap+NohRqwQgSAXxGhD6nSmEv9Bv
- TgiTWGHG+eT8UzHJ7/8sFix8yXXSVCpJEyNtspfZXcIk4VUNFc4FaCc3KOrLSKiFahPd
- p2BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vydPdIutGORcNNReapEn+93jf/JX4O9ma43RT6TvW30=;
- b=hOjMDuDiozwFb1JuY32JgdU4dE4NaYFqCBTteVONbU0NFp/7uGwzeJcYbgpURI2kGg
- THz/RP1gR3ZTBeK2xGxqPcX0HtmH/12Xumgn2ZcX4pcxtBtpOtqzNbqiLQ8Z8lwRj3ph
- SiktmZfay/EiwxpTeUiEczD2dKR4cSfUR6ORhSMkXbqTwfMlK0fInt7Z53PPOSONxn0F
- bR9WXiNc6fBN0zwdHGYbq5KraKkRJ1SOXtvazzp1prLaGXUl1EB0t8X1VFZheWDRbTOj
- h4qPANQjIGnqH391W21UCw5GoWkyeEZrQcI+PR3ftCs4DkNFkXMMVMmNqluvgB2RacX4
- eWUw==
-X-Gm-Message-State: AOAM531uuV73DECm2/mmplIhR71yWsSYye8LNvMFJRtvG7V8kZoSUimP
- ZHSsaoC8oZTjmIp4NhXLjcrXGdlpgOE=
-X-Google-Smtp-Source: ABdhPJwQn14leByXcc+8tqNkmGqOTQjGStrhoVDx/ZIdyLfS5vFFqRgYYJt66fVb+8j1dNyvko4hig==
-X-Received: by 2002:a63:464b:: with SMTP id v11mr20291747pgk.156.1623732075163; 
- Mon, 14 Jun 2021 21:41:15 -0700 (PDT)
-Received: from bobo.ibm.com (60-242-147-73.tpgi.com.au. [60.242.147.73])
- by smtp.gmail.com with ESMTPSA id cq24sm985867pjb.18.2021.06.14.21.41.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jun 2021 21:41:14 -0700 (PDT)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH] target/ppc/spapr: Update H_GET_CPU_CHARACTERISTICS L1D cache
- flush bits
-Date: Tue, 15 Jun 2021 14:41:07 +1000
-Message-Id: <20210615044107.1481608-1-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lt0vy-0000eU-Hg
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:44:18 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:56780)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1lt0vw-0002Iw-5j
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:44:18 -0400
+Received: from [192.168.0.92] (unknown [62.118.138.151])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 910E140D4004;
+ Tue, 15 Jun 2021 04:44:08 +0000 (UTC)
+Subject: Re: [PATCH] virtio: disable ioeventfd for record/replay
+To: qemu-devel@nongnu.org
+References: <162125678869.1252810.4317416444097392406.stgit@pasha-ThinkPad-X280>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <2bc04210-3b4e-4a03-2429-f3a229b3f764@ispras.ru>
+Date: Tue, 15 Jun 2021 07:44:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <162125678869.1252810.4317416444097392406.stgit@pasha-ThinkPad-X280>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.489,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +54,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are several new L1D cache flush bits added to the hcall which reflect
-hardware security features for speculative cache access issues.
+ping
 
-These behaviours are now being specified as negative in order to simplify
-patched kernel compatibility with older firmware (a new problem found in
-existing systems would automatically be vulnerable).
-
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
- hw/ppc/spapr_hcall.c   | 2 ++
- include/hw/ppc/spapr.h | 3 +++
- 2 files changed, 5 insertions(+)
-
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index f25014afda..dfd9df469d 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1299,6 +1299,8 @@ static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
-         behaviour |= H_CPU_BEHAV_L1D_FLUSH_PR;
-         break;
-     case SPAPR_CAP_FIXED:
-+        behaviour |= H_CPU_BEHAV_NO_L1D_FLUSH_ENTRY;
-+        behaviour |= H_CPU_BEHAV_NO_L1D_FLUSH_UACCESS;
-         break;
-     default: /* broken */
-         assert(safe_cache == SPAPR_CAP_BROKEN);
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index f05219f75e..0f25d081a8 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -398,10 +398,13 @@ struct SpaprMachineState {
- #define H_CPU_CHAR_THR_RECONF_TRIG              PPC_BIT(6)
- #define H_CPU_CHAR_CACHE_COUNT_DIS              PPC_BIT(7)
- #define H_CPU_CHAR_BCCTR_FLUSH_ASSIST           PPC_BIT(9)
-+
- #define H_CPU_BEHAV_FAVOUR_SECURITY             PPC_BIT(0)
- #define H_CPU_BEHAV_L1D_FLUSH_PR                PPC_BIT(1)
- #define H_CPU_BEHAV_BNDS_CHK_SPEC_BAR           PPC_BIT(2)
- #define H_CPU_BEHAV_FLUSH_COUNT_CACHE           PPC_BIT(5)
-+#define H_CPU_BEHAV_NO_L1D_FLUSH_ENTRY          PPC_BIT(7)
-+#define H_CPU_BEHAV_NO_L1D_FLUSH_UACCESS        PPC_BIT(8)
- 
- /* Each control block has to be on a 4K boundary */
- #define H_CB_ALIGNMENT     4096
--- 
-2.23.0
+On 17.05.2021 16:06, Pavel Dovgalyuk wrote:
+> virtio devices support separate iothreads waiting for
+> events from file descriptors. These are asynchronous
+> events that can't be recorded and replayed, therefore
+> this patch disables ioeventfd for all devices when
+> record or replay is enabled.
+> 
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>   hw/s390x/virtio-ccw.c   |    6 ++++++
+>   hw/virtio/virtio-mmio.c |    6 ++++++
+>   hw/virtio/virtio-pci.c  |    6 ++++++
+>   3 files changed, 18 insertions(+)
+> 
+> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> index 92b950e09a..bd8b9c5755 100644
+> --- a/hw/s390x/virtio-ccw.c
+> +++ b/hw/s390x/virtio-ccw.c
+> @@ -31,6 +31,7 @@
+>   #include "trace.h"
+>   #include "hw/s390x/css-bridge.h"
+>   #include "hw/s390x/s390-virtio-ccw.h"
+> +#include "sysemu/replay.h"
+>   
+>   #define NR_CLASSIC_INDICATOR_BITS 64
+>   
+> @@ -769,6 +770,11 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *dev, Error **errp)
+>           dev->flags &= ~VIRTIO_CCW_FLAG_USE_IOEVENTFD;
+>       }
+>   
+> +    /* fd-based ioevents can't be synchronized in record/replay */
+> +    if (replay_mode != REPLAY_MODE_NONE) {
+> +        dev->flags &= ~VIRTIO_CCW_FLAG_USE_IOEVENTFD;
+> +    }
+> +
+>       if (k->realize) {
+>           k->realize(dev, &err);
+>           if (err) {
+> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+> index 5952471b38..1af48a1b04 100644
+> --- a/hw/virtio/virtio-mmio.c
+> +++ b/hw/virtio/virtio-mmio.c
+> @@ -29,6 +29,7 @@
+>   #include "qemu/host-utils.h"
+>   #include "qemu/module.h"
+>   #include "sysemu/kvm.h"
+> +#include "sysemu/replay.h"
+>   #include "hw/virtio/virtio-mmio.h"
+>   #include "qemu/error-report.h"
+>   #include "qemu/log.h"
+> @@ -740,6 +741,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
+>           proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
+>       }
+>   
+> +    /* fd-based ioevents can't be synchronized in record/replay */
+> +    if (replay_mode != REPLAY_MODE_NONE) {
+> +        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
+> +    }
+> +
+>       if (proxy->legacy) {
+>           memory_region_init_io(&proxy->iomem, OBJECT(d),
+>                                 &virtio_legacy_mem_ops, proxy,
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index b321604d9b..f1e105fa52 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -37,6 +37,7 @@
+>   #include "qemu/range.h"
+>   #include "hw/virtio/virtio-bus.h"
+>   #include "qapi/visitor.h"
+> +#include "sysemu/replay.h"
+>   
+>   #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
+>   
+> @@ -1760,6 +1761,11 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+>           proxy->flags &= ~VIRTIO_PCI_FLAG_USE_IOEVENTFD;
+>       }
+>   
+> +    /* fd-based ioevents can't be synchronized in record/replay */
+> +    if (replay_mode != REPLAY_MODE_NONE) {
+> +        proxy->flags &= ~VIRTIO_PCI_FLAG_USE_IOEVENTFD;
+> +    }
+> +
+>       /*
+>        * virtio pci bar layout used by default.
+>        * subclasses can re-arrange things if needed.
+> 
 
 
