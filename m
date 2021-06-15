@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390B83A81DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:09:11 +0200 (CEST)
-Received: from localhost ([::1]:39224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB8D3A82A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:22:54 +0200 (CEST)
+Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9kc-0006DH-1V
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
+	id 1lt9xt-0004wQ-2G
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lt9Xs-0007Gd-DF
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:56:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31691)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lt9Ym-0001y5-G5
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:56:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lt9Xp-0004EH-G3
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:56:00 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lt9Yh-0004rI-U3
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:56:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623765356;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1623765411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pAJ4e0toInnDe7TMhUUMS/neHuWMRvtwsb9QB+FVVOU=;
- b=KC/QoUVHnmqeDDwwPY8fiDnUYiNZeUVPVJwQdvc9bF3TF1tAoRvme+63ImB1C0+uELBsDg
- 3vE+klvSglF3Tu5FTzQE+g1XNe4nLoYNpiQixVg8suJ/1OOZTYeAuLoeeRfJnCrks4NcLO
- GqrrrONVHOhD1pMHH88kreQ2h9bq0kw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-_vjkfdKNPim_Z20G3Rne3w-1; Tue, 15 Jun 2021 09:55:55 -0400
-X-MC-Unique: _vjkfdKNPim_Z20G3Rne3w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FE811927804
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 13:55:54 +0000 (UTC)
-Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A753D620DE;
- Tue, 15 Jun 2021 13:55:53 +0000 (UTC)
-Date: Tue, 15 Jun 2021 14:55:50 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 02/26] configure: drop unused variables for xts
-Message-ID: <YMixZuMzIpAAeFDm@redhat.com>
-References: <20210608112301.402434-1-pbonzini@redhat.com>
- <20210608112301.402434-3-pbonzini@redhat.com>
+ bh=lZw25nC33y6wLsb1Hesy8UZt2QCbZvlpabZ/ioufbhQ=;
+ b=A9bxf0A49e54GqlfozRAJW/te7RRzNIokQaydt84GS1popCUsSyUpokVZxGjTjhiwOZ9Rp
+ ECXeodIqWCymXIXIBisFLSbHnqKws93kiUlV6EHtnu5qoR9ANLQwiMDEW/+zsFjKK1Jmnv
+ CiBKTCIE6cuITI4Eh6t9yVn3C4RfPw0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-PxtG5RdRPim3OAlYRTvrew-1; Tue, 15 Jun 2021 09:56:50 -0400
+X-MC-Unique: PxtG5RdRPim3OAlYRTvrew-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ z4-20020adfe5440000b0290114f89c9931so8621668wrm.17
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:56:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lZw25nC33y6wLsb1Hesy8UZt2QCbZvlpabZ/ioufbhQ=;
+ b=CdBvsLPOuUlZSZRjIq+76RjzdXL8pLGnWeV++w02DiH7eZNSUK06RV8UGjLbYb+I5H
+ hxbZR5160FM5hB4lEM5AYsOG/kyHaHag7MsiwNSqwmMVqBG6ou33MuIWzM6OOAvYPfPY
+ XFsDou9UB7NskNhADYQxdJnd9smxGHaKyi/bvv81IBhfuZgicRirLod+Ir2974LVLUMy
+ vbuRfvtzFa1JuDFxsx/CCzgyjWfoFm0LJSfPba4tPPkzU6Lyu/KcHrdaLS76X7wTkftx
+ FypnxpskOm6bG5Acu3D9kBlU64VWwbCcyLHYnlD+HuEbf6/b+T9d9MWpWKBbt7JgQ6PV
+ SNFw==
+X-Gm-Message-State: AOAM532X5dtQc/5pXyDB/LNqtNSRjXuFfVMUfeaWGD/Qk/zPifA8gFVb
+ N+2GQFGf9+auyA2vCgXulSqS6jDaSzWx5UjIi4JCSPT29CQ+TxlLpQFBcx+KNjUmKHcb6pLY4GY
+ Wb6Wxyi3WzlFn33M=
+X-Received: by 2002:adf:efc3:: with SMTP id i3mr25354919wrp.356.1623765409081; 
+ Tue, 15 Jun 2021 06:56:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwezGeonm4dQkhrug36xJVi7tQcpGRKp/bWNM+RELp5PHKQli6WnJfdeQrUtm4ihMsjD59Ecg==
+X-Received: by 2002:adf:efc3:: with SMTP id i3mr25354879wrp.356.1623765408894; 
+ Tue, 15 Jun 2021 06:56:48 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id y26sm15669181wma.33.2021.06.15.06.56.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 06:56:48 -0700 (PDT)
+Subject: Re: [RFC] GitLab issue tracker labeling process: arch/target, os, and
+ accel labels
+To: David Gibson <david@gibson.dropbear.id.au>, John Snow <jsnow@redhat.com>
+References: <0a19af15-2f34-4934-c6c9-113e49f5f1f2@redhat.com>
+ <YMgLha7YL8XYrShS@yekko>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <88526829-d341-6e72-2bde-7694835599b7@redhat.com>
+Date: Tue, 15 Jun 2021 15:56:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210608112301.402434-3-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <YMgLha7YL8XYrShS@yekko>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,29 +100,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 08, 2021 at 01:22:37PM +0200, Paolo Bonzini wrote:
-> All XTS configuration uses qemu_private_xts.  Drop other variables as
-> they have only ever been used to generate the summary (which has since
-> been moved to meson.build).
+On 6/15/21 4:08 AM, David Gibson wrote:
+> On Mon, Jun 14, 2021 at 01:32:11PM -0400, John Snow wrote:
+> In general, what's the convention when a bug is independent of (say)
+> the accel: does it get none of the accel tags, or all of them?
+> Likewise with OS and the other categories.
+
+None: remove the label. Otherwise you'll notify everybody subscribed
+to specific labels.
+
+>> We probably want to keep a set of labels that apply to the host
+>> architecture. These are useful for build failures, environment setup issues,
+>> or just documenting the exact environment on which an issue was observed.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure | 4 ----
->  1 file changed, 4 deletions(-)
+> Ah.. that's another general question.  Are the labels supposed to
+> document where the problem has been definitely observed, or a best
+> estimate at where it will appear.  It would be very common for a bug
+> to be observed initially on only one, but quickly turn out to be
+> independent of host and/or target arch.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
+Similar. If the problem is generic, remove the specific labels.
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+Phil.
 
 
