@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0BF3A819B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:59:36 +0200 (CEST)
-Received: from localhost ([::1]:43066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84723A817F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:55:38 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9bL-0006ce-4u
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59452)
+	id 1lt9XV-0004Ay-Rs
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:55:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9Hj-00061f-UQ
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:20 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:36545)
+ id 1lt9Ho-00063t-No
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:25 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:42767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9Hi-0002nX-3q
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:19 -0400
-Received: by mail-ed1-x530.google.com with SMTP id w21so51111463edv.3
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:39:17 -0700 (PDT)
+ id 1lt9Hi-0002oa-VN
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:20 -0400
+Received: by mail-ej1-x633.google.com with SMTP id k25so22660852eja.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EUJcgMbiy+TJhdc0JIxQcF5/rLoJrViqR3WCrNaqHgA=;
- b=nv3Lk7Tti3H2EvstXvD8N5bmVk4YQk801eJQHHH4YLr74Remx+b0i8I8xcL5ixQWG6
- gjOGn0nwwdHlyoYVQnJJq21Ni2UaRnzBy6ok4n2MQ7KxKQMFGFZcAgtlUhygB+Hi4thY
- 4UuJshzWNvqThZhqQf978RWy96ABsP8NCmlriwbxq/BcOMdrvcl/RQQOCW46OoMOv/79
- 5NetO6QFOBGrsl2ei3nGH1j3bWgxqfHvc9cZ5iWGPEwyZD36eP5+9bemRnIuBTngJbs1
- xlOXbq59gNEFFxOYhfFL6GzC/95liVzV2E9WznY9OWmiosV40upB5iVaWnT+5KHjIAWG
- IQKQ==
+ bh=PwhijkT5BerkG5mca/UyRrOW6T6V8fgDmI9azbvgpVw=;
+ b=aHQ1pvkQlOcqhAScFruZngpmU9CkBX3aq0vcf3HFQNZjF6ZUoPF0O/d8+YtlErcjjh
+ LrOCHLrcMgwL2gebD5h6JFD6GBiQxioR9Xi0uxrm2yZYjZ8HxKhKYXLCIUSpiZM+LKGe
+ IL0l8oP0z1HvDdK3sEeQeYbNYeCFGs15AhfPZIILhKd6DMN2zkLZ4MCnGcHjqvBqLTOP
+ kRHfKJ96IhcrX4FOE/aWjA1WjyjexJBhjbhjyOvUvM8oU4b4bIHRYCbRkb769srL+nxz
+ xzrD0dCWeTMfnwi6nH+OjOaYhiQSb7HOeR9fMkObbeMw5X6y/zdWo/TKMCGmMErV0ZcJ
+ UZwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EUJcgMbiy+TJhdc0JIxQcF5/rLoJrViqR3WCrNaqHgA=;
- b=UJkG2pLhieW9kjK4t9eNRiAgIU3zxoCCAtb+Cd7gVKe+Wa1WjjxPXpoE9TweerehBO
- N4aSj5Bz2iVytCERHepChy/3dR1jA0NrsG5jc2MINB5vIJS7ze8jsU/5rOF0+6OiHfJ+
- me/s6+CRnCtqrMyl8nxwZ4xxdseGcFtG689ZN5Beg4W8K0a8Owj3xw0OzresR4JiYaGz
- XmjNJ0FD8mrVQ0yw97e04y4023iKGu9VEBJSPcxdx6XX85UsneRUoOwRzGpEFDpwyccv
- 5zK/vPO8imnh5evFJnou4iiJJLF9UwWgLroytivHs/8FIOR31Ab0/VQX2X4nZa5kWyFq
- IdxQ==
-X-Gm-Message-State: AOAM532H43ELco36LjmXxMab5TIormaJVtCf0xUf+V396UhiKOZqYz0V
- mKqVqE0ZAgG9aZ3R0IrGfX/K+eKp2KY=
-X-Google-Smtp-Source: ABdhPJyCoXxKzGXYb9CG8NlkpusC9dM1rv0DCesdVvkwzIJ93I5Yq/7h91GCfsM8qbVuFPyuIvGZJA==
-X-Received: by 2002:aa7:cd9a:: with SMTP id x26mr23261241edv.185.1623764356819; 
- Tue, 15 Jun 2021 06:39:16 -0700 (PDT)
+ bh=PwhijkT5BerkG5mca/UyRrOW6T6V8fgDmI9azbvgpVw=;
+ b=PkempuWx/iAHDBTdpUTnFnm+LnKK0f3zKuLb19mvLz8DTa6CEbtjocdrYAEqt+nlLa
+ 7SOgaAybaUwcOF1e0/5KM5ZJqwn+DBkifyohcH19SnfKyEYIgXUJTfDnfoLVX8UkEnWt
+ BbZAnNq8Pkww592vMhref4Eh7jCs87OVVt6tCLoFRamVbyEHbNKv3kAR8N88pO5gTd8u
+ A3mCmhHoAmNiGu8KMBm3RMbltIjpwXfv1nXVor4jhs0fhDtLSIPkhdukAwSXaCpzsZEZ
+ N4iYcMZsDyky6mvuJiJsefFwsFcgJbyDoRKr/Ez4nktZa06PTYCShRTvXFn/I8ZmyXs8
+ Uxdw==
+X-Gm-Message-State: AOAM532FX0HvgLazQK+Spu5AMAm5evRg2CgjFmXveKts8aJ7rxoaIhXI
+ zCfpJ2uP6Od137Sr7picd6M9EmxgBlM=
+X-Google-Smtp-Source: ABdhPJyy5+QjFFJVPhuCCtiUH2boMrQ1Lw3DARMFDS5Dt+4r/LrqQiHAuTVMSvvrxgbxGSeKli/g/w==
+X-Received: by 2002:a17:907:7b9d:: with SMTP id
+ ne29mr21514392ejc.167.1623764357579; 
+ Tue, 15 Jun 2021 06:39:17 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.39.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 06:39:16 -0700 (PDT)
+ Tue, 15 Jun 2021 06:39:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/33] util/mmap-alloc: Factor out activating of memory to
- mmap_activate()
-Date: Tue, 15 Jun 2021 15:38:42 +0200
-Message-Id: <20210615133855.775687-21-pbonzini@redhat.com>
+Subject: [PULL 21/33] softmmu/memory: Pass ram_flags to
+ qemu_ram_alloc_from_fd()
+Date: Tue, 15 Jun 2021 15:38:43 +0200
+Message-Id: <20210615133855.775687-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615133855.775687-1-pbonzini@redhat.com>
 References: <20210615133855.775687-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,8 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
  David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -93,141 +94,144 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We want to activate memory within a reserved memory region, to make it
-accessible. Let's factor that out.
+Let's pass in ram flags just like we do with qemu_ram_alloc_from_file(),
+to clean up and prepare for more flags.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Simplify the documentation of passed ram flags: Looking at our
+documentation of RAM_SHARED and RAM_PMEM is sufficient, no need to be
+repetitive.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210510114328.21835-4-david@redhat.com>
+Message-Id: <20210510114328.21835-5-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/mmap-alloc.c | 94 +++++++++++++++++++++++++----------------------
- 1 file changed, 50 insertions(+), 44 deletions(-)
+ backends/hostmem-memfd.c | 7 ++++---
+ hw/misc/ivshmem.c        | 5 ++---
+ include/exec/memory.h    | 9 +++------
+ include/exec/ram_addr.h  | 6 +-----
+ softmmu/memory.c         | 7 +++----
+ 5 files changed, 13 insertions(+), 21 deletions(-)
 
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 223d66219c..0e2bd7bc0e 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -114,6 +114,52 @@ static void *mmap_reserve(size_t size, int fd)
-     return mmap(0, size, PROT_NONE, flags, fd, 0);
+diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+index da75e27057..3076da146d 100644
+--- a/backends/hostmem-memfd.c
++++ b/backends/hostmem-memfd.c
+@@ -35,6 +35,7 @@ static void
+ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+ {
+     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(backend);
++    uint32_t ram_flags;
+     char *name;
+     int fd;
+ 
+@@ -52,9 +53,9 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     }
+ 
+     name = host_memory_backend_get_name(backend);
+-    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
+-                                   name, backend->size,
+-                                   backend->share, fd, 0, errp);
++    ram_flags = backend->share ? RAM_SHARED : 0;
++    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend), name,
++                                   backend->size, ram_flags, fd, 0, errp);
+     g_free(name);
  }
  
-+/*
-+ * Activate memory in a reserved region from the given fd (if any), to make
-+ * it accessible.
-+ */
-+static void *mmap_activate(void *ptr, size_t size, int fd, bool readonly,
-+                           bool shared, bool is_pmem, off_t map_offset)
-+{
-+    const int prot = PROT_READ | (readonly ? 0 : PROT_WRITE);
-+    int map_sync_flags = 0;
-+    int flags = MAP_FIXED;
-+    void *activated_ptr;
-+
-+    flags |= fd == -1 ? MAP_ANONYMOUS : 0;
-+    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
-+    if (shared && is_pmem) {
-+        map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
-+    }
-+
-+    activated_ptr = mmap(ptr, size, prot, flags | map_sync_flags, fd,
-+                         map_offset);
-+    if (activated_ptr == MAP_FAILED && map_sync_flags) {
-+        if (errno == ENOTSUP) {
-+            char *proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
-+            char *file_name = g_malloc0(PATH_MAX);
-+            int len = readlink(proc_link, file_name, PATH_MAX - 1);
-+
-+            if (len < 0) {
-+                len = 0;
-+            }
-+            file_name[len] = '\0';
-+            fprintf(stderr, "Warning: requesting persistence across crashes "
-+                    "for backend file %s failed. Proceeding without "
-+                    "persistence, data might become corrupted in case of host "
-+                    "crash.\n", file_name);
-+            g_free(proc_link);
-+            g_free(file_name);
-+        }
-+        /*
-+         * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC, we will try
-+         * again without these flags to handle backwards compatibility.
-+         */
-+        activated_ptr = mmap(ptr, size, prot, flags, fd, map_offset);
-+    }
-+    return activated_ptr;
-+}
-+
- static inline size_t mmap_guard_pagesize(int fd)
- {
- #if defined(__powerpc64__) && defined(__linux__)
-@@ -133,13 +179,8 @@ void *qemu_ram_mmap(int fd,
-                     off_t map_offset)
- {
-     const size_t guard_pagesize = mmap_guard_pagesize(fd);
--    int prot;
--    int flags;
--    int map_sync_flags = 0;
--    size_t offset;
--    size_t total;
--    void *guardptr;
--    void *ptr;
-+    size_t offset, total;
-+    void *ptr, *guardptr;
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index a1fa4878be..1ba4a98377 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -493,9 +493,8 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
+     size = buf.st_size;
  
-     /*
-      * Note: this always allocates at least one extra page of virtual address
-@@ -156,45 +197,10 @@ void *qemu_ram_mmap(int fd,
-     /* Always align to host page size */
-     assert(align >= guard_pagesize);
- 
--    flags = MAP_FIXED;
--    flags |= fd == -1 ? MAP_ANONYMOUS : 0;
--    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
--    if (shared && is_pmem) {
--        map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
--    }
--
-     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
- 
--    prot = PROT_READ | (readonly ? 0 : PROT_WRITE);
--
--    ptr = mmap(guardptr + offset, size, prot,
--               flags | map_sync_flags, fd, map_offset);
--
--    if (ptr == MAP_FAILED && map_sync_flags) {
--        if (errno == ENOTSUP) {
--            char *proc_link, *file_name;
--            int len;
--            proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
--            file_name = g_malloc0(PATH_MAX);
--            len = readlink(proc_link, file_name, PATH_MAX - 1);
--            if (len < 0) {
--                len = 0;
--            }
--            file_name[len] = '\0';
--            fprintf(stderr, "Warning: requesting persistence across crashes "
--                    "for backend file %s failed. Proceeding without "
--                    "persistence, data might become corrupted in case of host "
--                    "crash.\n", file_name);
--            g_free(proc_link);
--            g_free(file_name);
--        }
--        /*
--         * if map failed with MAP_SHARED_VALIDATE | MAP_SYNC,
--         * we will remove these flags to handle compatibility.
--         */
--        ptr = mmap(guardptr + offset, size, prot, flags, fd, map_offset);
--    }
--
-+    ptr = mmap_activate(guardptr + offset, size, fd, readonly, shared, is_pmem,
-+                        map_offset);
-     if (ptr == MAP_FAILED) {
-         munmap(guardptr, total);
-         return MAP_FAILED;
+     /* mmap the region and map into the BAR2 */
+-    memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
+-                                   "ivshmem.bar2", size, true, fd, 0,
+-                                   &local_err);
++    memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s), "ivshmem.bar2",
++                                   size, RAM_SHARED, fd, 0, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index b114f5454b..8aa69a10d7 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1005,10 +1005,7 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
+  * @size: size of the region.
+  * @align: alignment of the region base address; if 0, the default alignment
+  *         (getpagesize()) will be used.
+- * @ram_flags: Memory region features:
+- *             - RAM_SHARED: memory must be mmaped with the MAP_SHARED flag
+- *             - RAM_PMEM: the memory is persistent memory
+- *             Other bits are ignored now.
++ * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM.
+  * @path: the path in which to allocate the RAM.
+  * @readonly: true to open @path for reading, false for read/write.
+  * @errp: pointer to Error*, to store an error if it happens.
+@@ -1034,7 +1031,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+  * @owner: the object that tracks the region's reference count
+  * @name: the name of the region.
+  * @size: size of the region.
+- * @share: %true if memory must be mmaped with the MAP_SHARED flag
++ * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM.
+  * @fd: the fd to mmap.
+  * @offset: offset within the file referenced by fd
+  * @errp: pointer to Error*, to store an error if it happens.
+@@ -1046,7 +1043,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+                                     Object *owner,
+                                     const char *name,
+                                     uint64_t size,
+-                                    bool share,
++                                    uint32_t ram_flags,
+                                     int fd,
+                                     ram_addr_t offset,
+                                     Error **errp);
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 3cb9791df3..a7e3378340 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -104,11 +104,7 @@ long qemu_maxrampagesize(void);
+  * Parameters:
+  *  @size: the size in bytes of the ram block
+  *  @mr: the memory region where the ram block is
+- *  @ram_flags: specify the properties of the ram block, which can be one
+- *              or bit-or of following values
+- *              - RAM_SHARED: mmap the backing file or device with MAP_SHARED
+- *              - RAM_PMEM: the backend @mem_path or @fd is persistent memory
+- *              Other bits are ignored.
++ *  @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM.
+  *  @mem_path or @fd: specify the backing file or device
+  *  @readonly: true to open @path for reading, false for read/write.
+  *  @errp: pointer to Error*, to store an error if it happens
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index c19b0be6b1..f777504ac5 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1609,7 +1609,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+                                     Object *owner,
+                                     const char *name,
+                                     uint64_t size,
+-                                    bool share,
++                                    uint32_t ram_flags,
+                                     int fd,
+                                     ram_addr_t offset,
+                                     Error **errp)
+@@ -1619,9 +1619,8 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+     mr->ram = true;
+     mr->terminates = true;
+     mr->destructor = memory_region_destructor_ram;
+-    mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+-                                           share ? RAM_SHARED : 0,
+-                                           fd, offset, false, &err);
++    mr->ram_block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, offset,
++                                           false, &err);
+     if (err) {
+         mr->size = int128_zero();
+         object_unparent(OBJECT(mr));
 -- 
 2.31.1
 
