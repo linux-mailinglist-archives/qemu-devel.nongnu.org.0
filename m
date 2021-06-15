@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F093A881B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:53:01 +0200 (CEST)
-Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5067A3A882C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:59:00 +0200 (CEST)
+Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltDFD-0000A2-Rn
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48762)
+	id 1ltDKz-0006IZ-KM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:58:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1ltDDs-0007Ik-0P
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:51:36 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:36588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1ltDDp-0001fq-OO
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:51:35 -0400
-Received: by mail-qk1-x729.google.com with SMTP id i68so39295512qke.3
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=el11CozE8yeNVNCbwDjL1qnzArid1d8P695r3nmjEas=;
- b=OjFOjkxk87hwxQQwc3FAIcAuKCJHU3BsJDg3hB/wKmO3KXzJ8tPrLEVFKhJinEdspJ
- 6AwgiWiaOq5wtRfXu6FytD3owplD9BvHuhHgwp/xPDsrQfcnSzxoLe+e3VryGmZspU2K
- TemUyYiz5uecuBomJWdj4Mraz5bT2r/jfpw7BNLxeshyfbtxF4U3uJoTY17NiCk1I/Ph
- P+wcanh7XHOcZ2giLsC4PbaPXlPDw2eFcr5cVlrd0jj2kHExGoIXIGH6KSm8JSjyufMN
- z1UQ6WtDbunWYEyeVp2gEWfUQhmjhSsG5DGQkkSDNaStuy+UjHTfssIWGI48aHlkgNxg
- D7WQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltDHk-0001xY-AE
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:55:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltDHe-0004F8-5F
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:55:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623779729;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S4AEE5qOVbSCUlvNUCYkh7HwGQmu70V0gAgDaxqW4NI=;
+ b=HKMERQeY6uVd1A0mMeNeN3cPq47d5jxivw+/dkWd2wje+OxnYEi/NaCh7JhS7lz5OKRUli
+ HAJXJ5vfRWrc2cfEE9cIKigpfz1wLJqXplN86oFtDfGq2BwBKUqS05qT6vbNNuM7cGdjhJ
+ RCFcKA8CIfmXApog57bre1eI7imSCK8=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-ufuL2hNhNGm7GsvA3Yasgw-1; Tue, 15 Jun 2021 13:55:26 -0400
+X-MC-Unique: ufuL2hNhNGm7GsvA3Yasgw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ d12-20020ac8668c0000b0290246e35b30f8so9834998qtp.21
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:55:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=el11CozE8yeNVNCbwDjL1qnzArid1d8P695r3nmjEas=;
- b=MRUPa2mldQhar5l/Zw/eHAe2ozR53RquCsR0pcimbL7bUl07XwuUgrX0aI3pF1v5p1
- L7E1psAXbeasstfhCoqvps/yaOucodyBomt7caUWt9IfL7d/9TbCO0scPbaTD+z8ZUO7
- NxpJvek3r+fayFYmPWDpWBJEjDY+dvGxeNs1qpOn2vRRBp80Z6GsnViLgJgqBm6iK59J
- wdyCR3R/RR2DFsqUgQb+YQZ4Mq6Eyph0VSEp0I5x3W+acr+VgpMBVIJPfgYAbYaQKexs
- IRGRRvtsoUL2rztkxKI2A7gUHF1tfrNPOiMthpZNQxbze70/GG6LnlAcw4zFlZHDfEtA
- Qz3Q==
-X-Gm-Message-State: AOAM533zDMpI+NQPIL1CjbOViN2H4guXHD5LAf1Vx239ZRTQVIq2R7BL
- 1yn6xeUdY8eL8IIeIPFeNYtCp9Q9JwqK+A0+SpNgSQ==
-X-Google-Smtp-Source: ABdhPJxqVd0wIzIPzQ3bvKLqpsC+ZuuIyoIUePngnpOSq2lGkG+4vAYb6jdHRgU4aGlj/qL2l4geJ++ALmE8wVklLDA=
-X-Received: by 2002:a05:620a:2058:: with SMTP id
- d24mr875162qka.472.1623779489963; 
- Tue, 15 Jun 2021 10:51:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9F8B9pi2FHIS0B3jaBUG9w8AZV5SIpn+1v6oQQ2hZF4=;
+ b=Gp79ulH7UxdRcJ2wJcJWre59cPIHiHURsGRCn8FCmc9pjrrYZ9Omxi29YQv4bYxi/G
+ A0L7YIhS+RAec+ZqpOZNG8k1HmtSkuDP8S+QnJ7eR+0ANIIR9MnHW7cqtTdcw27yXJje
+ NeQ7sxZ0suF4BMTkUnFZSIwijOVBlIdygRoE9vL6o/X2SqAiOoRptRcK6k+7AWaDtdu9
+ udl6nvlDzB/t3YVXOwL3eaadJJAEwLGm0dJvEuo3OPismNEFTyxtuTPT3xJhwRmdvho4
+ MGBchieAHQL2TTaph0AW8X+cwY0HTEO72TTvrlGi9eudAEdD1XL8LsuO9xi1Iz9Zinwm
+ z3Fw==
+X-Gm-Message-State: AOAM531vuON9+Qh6Q2kNzmamldbFQooyY1sJvY2/vsxbPBQtBV0P1urn
+ AkbKA/w8tXqT1GGWB1sqSSBwpMZJCGdEZJ0z0/VXy+VfP6FiyUvmHMZOz2R5hGNVmCNLgBZRFjH
+ RNb1A/UsfROKISYlhUAWVdcJxfZHAGYaMbsEcAVFsf5X16jGLk0EnW0M5Yxo5dJ31
+X-Received: by 2002:ac8:57d1:: with SMTP id w17mr819431qta.149.1623779725147; 
+ Tue, 15 Jun 2021 10:55:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLJ1KQffWz+qgVxnw+8ocer5FSP0Q89z/uETDMZcHNZRGIJLPJcZaTNOU/Jj95JM6eemhZ5g==
+X-Received: by 2002:ac8:57d1:: with SMTP id w17mr819401qta.149.1623779724857; 
+ Tue, 15 Jun 2021 10:55:24 -0700 (PDT)
+Received: from t490s.redhat.com
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id d81sm12908578qke.32.2021.06.15.10.55.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 10:55:24 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] tests: migration-test: Fix agressive test skip,
+ add dirty ring test
+Date: Tue, 15 Jun 2021 13:55:21 -0400
+Message-Id: <20210615175523.439830-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210608193605.2611114-1-venture@google.com>
- <CAFEAcA_gbkwwZw36UuA5VC3dTn345bxcHGBiJrnunytrphq7Jg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_gbkwwZw36UuA5VC3dTn345bxcHGBiJrnunytrphq7Jg@mail.gmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Tue, 15 Jun 2021 10:51:18 -0700
-Message-ID: <CAO=notxMQVaDykBrcseHQyZfC-m9NTkfdYLPdXZi8mpruJ-eZA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Adds quanta-gbs-bmc machine to nuvoton boards.
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Havard Skinnemoen <hskinnemoen@google.com>,
- CS20 KFTing <kfting@nuvoton.com>, 
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=venture@google.com; helo=mail-qk1-x729.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,31 +92,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 8:46 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 8 Jun 2021 at 20:36, Patrick Venture <venture@google.com> wrote:
-> >
-> > This is a board supported by OpenBmc.
-> >
-> > v2:
-> > - Fixed missing hyphen in Cortex name and dropped TODO on hardware
-> > strap value.
-> >
-> > Patrick Venture (2):
-> >   hw/arm: add quanta-gbs-bmc machine
-> >   hw/arm: quanta-gbs-bmc add i2c comments
->
-> Forgot to ask for this earlier, but could you send a followup
-> patch that adds documentation for this new machine to
-> docs/system/arm/nuvoton.rst please ?
+Based-on: <20210609014355.217110-1-peterx@redhat.com>=0D
+=0D
+v2:=0D
+- patch 2: detect dirty ring only for __linux__ [Dave]=0D
+- Add r-b for Dave on both patches=0D
+=0D
+Patch 1 is a fix for migration test not really running on new kernels.  The=
+=0D
+problem is uffd check now will constantly fail after upstream commit=0D
+37cd0575b8510159 - that means any host kernel newer than 5.11.=0D
+=0D
+Patch 1 makes it slightly better by only skipping the two postcopy tests th=
+at=0D
+needs uffd on these kernels.  When we want to run the full test, we can do:=
+=0D
+=0D
+  $ sudo QTEST_QEMU_BINARY=3D./qemu-system-x86_64 ./tests/qtest/migration-t=
+est=0D
+=0D
+Then the uffd check will pass, and postcopy tests will be run.=0D
+=0D
+Patch 2 of this series adds the dirty ring test that just got merged into q=
+emu.=0D
+It needs the other patch "[PATCH] KVM: Fix dirty ring mmap incorrect size d=
+ue=0D
+to renaming accident", and that's majorly why we need the "Based-on" tag.=
+=0D
+=0D
+Not sure what's the easiest way for the series as it'll depend on the other=
+ kvm=0D
+patch.  Perhaps if I can try to get ack from Dave so Paolo could queue it t=
+oo=0D
+along with the kvm fix (for either the whole series or patch 2 only)?  I'll=
+=0D
+leave that to maintainers to decide..=0D
+=0D
+Please review, thanks.=0D
+=0D
+Peter Xu (2):=0D
+  tests: migration-test: Still run the rest even if uffd missing=0D
+  tests: migration-test: Add dirty ring test=0D
+=0D
+ tests/qtest/migration-test.c | 69 +++++++++++++++++++++++++++++++-----=0D
+ 1 file changed, 60 insertions(+), 9 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Yeah, I'll try to get that this week.
-Patrick
-
->
-> thanks
-> -- PMM
 
