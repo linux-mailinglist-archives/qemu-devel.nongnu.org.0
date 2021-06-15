@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C2F3A851F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:51:42 +0200 (CEST)
-Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2BB3A85AE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:56:18 +0200 (CEST)
+Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBLp-0006Oz-Ed
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42842)
+	id 1ltBQH-0001R7-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBEx-0005pi-Sz
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:36 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43957)
+ id 1ltBF3-0005ug-4K
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:41 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBEb-0000vo-HR
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:35 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r9so18878380wrz.10
+ id 1ltBEc-0000wQ-6h
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:40 -0400
+Received: by mail-wm1-x334.google.com with SMTP id c84so1675411wme.5
  for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cipqIlsmLSO9u7dovDg0ywdZ2LzSLNBpLmnZFygx3Mg=;
- b=Odoo+RKdpvPGv1g6puYC3vqZB0y7yToaNrcK+Bzq2iUKOMrd9qHUGi9qP/eS2o6cvu
- v3GnkIYo7NmcxjdnbtF4WUeGHT/0AlAnTmsahAWHRzUrVe7ct+fNTN5qxm5HHowCUAWD
- dw9/XyPRVLTFU7XQJyb1DriEm8LcEC0Z/6DlgWilpiYvsDnU3IISYjCkC43tEJxD2SR5
- Aq8SRwMmRzZ0k58zk4mBgivO/2pXS0qr6BbtdgSWQC9r1NFYdbGcriALk+RgEnELhMOD
- gakz0NRHldKYxaFo+GWkriwuRAvaIJJJd0XQHP+WH1wq7c5UsLwVSzW0ra9FRtQ1vQsG
- fTyQ==
+ bh=F40gxiYinenW+cm6aOgZ/x5eq1Jz1axR8fmmjJ+gQyk=;
+ b=L8Wwf3cWrYhKP2AOguzxjcP7vHVtUzFtdjVvCmaQHIQDKkyfpjQZulox4Hlv2RMyfK
+ Jxi5oP9YdXuXxEiUNBsKiuNNWYmgrNpxEp0DeGRT2ZHsgTZ/5HkGH9srgyWC6n3Uj3Jp
+ emseU5B1senj8jZR3bOdowlMtkU9EMx/yXhJkbFKk/K/4SBngiv3PheLRVjQSF9N6x6f
+ JvtuSoIweKcP5/k2N20p0tHXSjWjlIB9SBFoVYwqf1op+6BnVOOjYzL8iDeSzYzKuHxl
+ +kBVTHHTOBxhrHl8X8J0UlGwa7LrYVoHWdIWtDLaaLpkDsTf1Uysybimm+iXrNsyRf2G
+ gUjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cipqIlsmLSO9u7dovDg0ywdZ2LzSLNBpLmnZFygx3Mg=;
- b=mofYYM+hKlngmMCGL0dN0y+2luJR26inTYcLJvtsBb2GbncH/uEYEb+MDkVwv2UBFF
- 7N4gGSDQ6SgStKPZ/QJGQhPDeZxkYJtHlLQTzPiuoQmrrLdhtmq1/bgtzegh7VfOMEDU
- J86jvpGMC+fBdyKSTZZFY2HMBI9l8UFQ+xF4lWv2rl7bGMJn4Qqvp3Eh6aMc9AYsm/XU
- oC4RtbQvzUFBRJCKeqjYLz3jqDbrIF9Orx5vO9Ts1H44OZ9omxO35YW+v6YL+532fb1H
- i25/Ny/YIWXMA6Nq3DyB3GDWJFmOexbzfscc4SbuFJ2iPDoGq9UAhban3sEs8aK3hWe+
- /D+Q==
-X-Gm-Message-State: AOAM531HE50JkrMl8xqcu9o1S9ZayPRY1ogX42ZhpiiarAg/oHlYzHpn
- suORfRYZFRGxmrwB6sq8C6Vu90WKWxnSbQ==
-X-Google-Smtp-Source: ABdhPJwffP+GRLAdKaCM1lXZ3t7Pp2UtsKH8fSrhdHJTPtMJERm6+XQldzrA8nqs95mwLp/P/6cJqA==
-X-Received: by 2002:adf:b34a:: with SMTP id k10mr26182416wrd.333.1623771852287; 
+ bh=F40gxiYinenW+cm6aOgZ/x5eq1Jz1axR8fmmjJ+gQyk=;
+ b=lMJnl+vktRV1CDBoG4XY9TLcKLBGYql/bJwFF1ztrF3sj2ju5q/wxn+BFpgaxzgPt6
+ g/mJ2XI8FZ2dTLjs/WAjEybWPGuULU67ixpFdywHjXdY7g/0vsr8cNjd78ZOnIFtden7
+ O892mV0I/50ZW+EWkahXRV86LhuHo+QHKD0FLmDpqzf2CNyMdKeBAS5LmF4ysxmoA5Mo
+ 1Jfb/aDhDa+soX8wP+IR4wlD2cLsA9Df0k6sVqg4csO+TfPZd1kRfdHLIH0r/EtHBpCA
+ rJWErFiDsClZzA4IFSMRaspYuhWw3MtYu57Y1B7fgtAWWgJY9Z43H6foHrL0ZCPKX13I
+ vYGA==
+X-Gm-Message-State: AOAM533S4QzMVfur34o1WJxejznVe5Aq+Is+mZu0eI19DzZ3IdFoZcOM
+ 7Ls8qt5cb2xDOaRFVgiKwW4hajN4mWpSsA==
+X-Google-Smtp-Source: ABdhPJyJnf6c8scSpRDpA49Ie6pck46YCx1Nwlp7+PKOk1axpUr1Yr46a2cb99sTLix36Q8VpaoHeA==
+X-Received: by 2002:a1c:1dd3:: with SMTP id d202mr23362508wmd.78.1623771852862; 
  Tue, 15 Jun 2021 08:44:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.11
+ by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 08:44:11 -0700 (PDT)
+ Tue, 15 Jun 2021 08:44:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/28] hw: virt: consider hw_compat_6_0
-Date: Tue, 15 Jun 2021 16:43:42 +0100
-Message-Id: <20210615154405.21399-6-peter.maydell@linaro.org>
+Subject: [PULL 06/28] hw/arm: add quanta-gbs-bmc machine
+Date: Tue, 15 Jun 2021 16:43:43 +0100
+Message-Id: <20210615154405.21399-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210615154405.21399-1-peter.maydell@linaro.org>
 References: <20210615154405.21399-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,31 +86,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Heinrich Schuchardt <xypron.glpk@gmx.de>
+From: Patrick Venture <venture@google.com>
 
-virt-6.0 must consider hw_compat_6_0.
+Adds initial quanta-gbs-bmc machine support.
 
-Fixes: da7e13c00b59 ("hw: add compat machines for 6.1")
-Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-id: 20210610183500.54207-1-xypron.glpk@gmx.de
+Tested: Boots to userspace.
+Signed-off-by: Patrick Venture <venture@google.com>
+Reviewed-by: Brandon Kim <brandonkim@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Message-id: 20210608193605.2611114-2-venture@google.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/arm/npcm7xx_boards.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 840758666d4..8bc3b408fe7 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2764,6 +2764,8 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index 698be46d303..29026f0847b 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -29,6 +29,7 @@
  
- static void virt_machine_6_0_options(MachineClass *mc)
- {
-+    virt_machine_6_1_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
+ #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+ #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
++#define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
+ 
+ static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
+ 
+@@ -268,6 +269,22 @@ static void quanta_gsj_init(MachineState *machine)
+     npcm7xx_load_kernel(machine, soc);
  }
- DEFINE_VIRT_MACHINE(6, 0)
+ 
++static void quanta_gbs_init(MachineState *machine)
++{
++    NPCM7xxState *soc;
++
++    soc = npcm7xx_create_soc(machine, QUANTA_GBS_POWER_ON_STRAPS);
++    npcm7xx_connect_dram(soc, machine->ram);
++    qdev_realize(DEVICE(soc), NULL, &error_fatal);
++
++    npcm7xx_load_bootrom(machine, soc);
++
++    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx66u51235f",
++                          drive_get(IF_MTD, 0, 0));
++
++    npcm7xx_load_kernel(machine, soc);
++}
++
+ static void npcm7xx_set_soc_type(NPCM7xxMachineClass *nmc, const char *type)
+ {
+     NPCM7xxClass *sc = NPCM7XX_CLASS(object_class_by_name(type));
+@@ -316,6 +333,18 @@ static void gsj_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 512 * MiB;
+ };
+ 
++static void gbs_bmc_machine_class_init(ObjectClass *oc, void *data)
++{
++    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
++
++    mc->desc = "Quanta GBS (Cortex-A9)";
++    mc->init = quanta_gbs_init;
++    mc->default_ram_size = 1 * GiB;
++}
++
+ static const TypeInfo npcm7xx_machine_types[] = {
+     {
+         .name           = TYPE_NPCM7XX_MACHINE,
+@@ -332,6 +361,10 @@ static const TypeInfo npcm7xx_machine_types[] = {
+         .name           = MACHINE_TYPE_NAME("quanta-gsj"),
+         .parent         = TYPE_NPCM7XX_MACHINE,
+         .class_init     = gsj_machine_class_init,
++    }, {
++        .name           = MACHINE_TYPE_NAME("quanta-gbs-bmc"),
++        .parent         = TYPE_NPCM7XX_MACHINE,
++        .class_init     = gbs_bmc_machine_class_init,
+     },
+ };
  
 -- 
 2.20.1
