@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3AA3A782D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:43:46 +0200 (CEST)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155B53A7834
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:44:21 +0200 (CEST)
+Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt3jc-0007SU-V7
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
+	id 1lt3kC-0007us-4O
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lt3iM-0005zG-8z
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:42:26 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43794
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lt3iL-0005zE-Tq; Tue, 15 Jun 2021 03:42:26 -0400
+Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:51373
+ helo=mx.kernkonzept.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lt3iH-0002hZ-Pf
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:42:26 -0400
-Received: from host86-132-109-72.range86-132.btcentralplus.com
- ([86.132.109.72] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lt3i1-000CI2-0Q; Tue, 15 Jun 2021 08:42:09 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- pbonzini@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu,
- hpoussin@reactos.org
-References: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
- <75bf9945-9953-ba75-048a-a1570c6746ac@amsat.org>
- <0940b4dd-563e-6c9b-fd66-91f5bc664ef3@ilande.co.uk>
- <347be692-0e6a-f684-ddbb-b2b2acd7ae04@amsat.org>
- <958e9fea-17c5-a818-14d4-a21c54399395@ilande.co.uk>
- <3fb788e4-e1eb-0ff6-5209-53e2e1da76db@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <a85eb792-c93b-35e8-f304-81f5dea7e3f0@ilande.co.uk>
-Date: Tue, 15 Jun 2021 08:42:10 +0100
+ (Exim 4.90_1) (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lt3iI-0002hr-So; Tue, 15 Jun 2021 03:42:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=kernkonzept.com; s=mx1; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=pq/OGSZNZr44GnBeT+UNeCgrlbUPu4iTaCuDRs22Lbs=; b=hosc4ULRQs7ChOmTM4Qtb09/np
+ pLfC2BaXGGpjHAjiOFJo72AnwujYzjcEw1CMt2FaWYnfbWmESdCyQrZJkdK7W1Rmd8Z7lxCEvKbeO
+ v5OQAZr1Yjo4qNvmHqoQ8UKjbu7WrBDVmY58P5Yhu28jw5tJ0gQL8B2xOAL5Lv/gPxlO1Y8PBjNF4
+ Ml/JPdKkixjwhogCywU7EH3GgrHygLuJzeYuFxWhDJUdBEylTcShauNuzuVh35jFnHlQoIsK4WmDy
+ OxzEDuaeovFYnpsRA1ONtsNxwZmYuy5XPwUGolrlL9qRcBn+HZkzc/4ptJMTeZiLbX66zWeWUhBBU
+ CyyIlpkw==;
+Received: from 93-153-64-87.customers.tmcz.cz ([93.153.64.87]
+ helo=[192.168.0.108])
+ by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) id 1lt3iF-0007yY-BH; Tue, 15 Jun 2021 09:42:19 +0200
+Subject: Re: [PATCH v2] hw/nvme: be more careful when deasserting IRQs
+To: Klaus Jensen <its@irrelevant.dk>
+References: <20210614135429.56475-1-jakub.jermar@kernkonzept.com>
+ <YMedu0Ry1YKJ/2SV@apples.localdomain>
+From: =?UTF-8?B?SmFrdWIgSmVybcOhxZk=?= <jakub.jermar@kernkonzept.com>
+Message-ID: <ca7fc845-47e9-e122-e4c5-128761a0f2aa@kernkonzept.com>
+Date: Tue, 15 Jun 2021 09:42:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <3fb788e4-e1eb-0ff6-5209-53e2e1da76db@amsat.org>
+In-Reply-To: <YMedu0Ry1YKJ/2SV@apples.localdomain>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.109.72
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] esp: fix migration version check in esp_is_version_5()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=2a01:4f8:1c1c:b490::2;
+ envelope-from=jakub.jermar@kernkonzept.com; helo=mx.kernkonzept.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.489,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,84 +68,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kbusch@kernel.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/06/2021 14:47, Philippe Mathieu-Daudé wrote:
-
-> On 6/14/21 1:59 PM, Mark Cave-Ayland wrote:
->> On 14/06/2021 10:01, Philippe Mathieu-Daudé wrote:
+On 6/14/21 8:19 PM, Klaus Jensen wrote:
+> On Jun 14 15:54, Jakub Jermář wrote:
+>> An IRQ vector used by a completion queue cannot be deasserted without
+>> first checking if the same vector does not need to stay asserted for
+>> some other completion queue. To this end the controller structure is
+>> extended by a counter of asserted completion queues.
 >>
->>> On 6/14/21 9:44 AM, Mark Cave-Ayland wrote:
->>>> On 14/06/2021 06:42, Philippe Mathieu-Daudé wrote:
->>>>
->>>>> On 6/13/21 12:26 PM, Mark Cave-Ayland wrote:
->>>>>> Commit 4e78f3bf35 "esp: defer command completion interrupt on
->>>>>> incoming data
->>>>>> transfers" added a version check for use with VMSTATE_*_TEST macros
->>>>>> to allow
->>>>>> migration from older QEMU versions. Unfortunately the version check
->>>>>> fails to
->>>>>> work in its current form since if the VMStateDescription version_id is
->>>>>> incremented, the test returns false and so the fields are not
->>>>>> included in the
->>>>>> outgoing migration stream.
->>>>>>
->>>>>> Change the version check to use >= rather == to ensure that migration
->>>>>> works
->>>>>> correctly when the ESPState VMStateDescription has version_id > 5.
->>>>>>
->>>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>>>> Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on
->>>>>> incoming data transfers")
->>>>>> ---
->>>>> Well, it is not buggy yet :)
->>>>
->>>> :)
->>>>
->>>>>>     hw/scsi/esp.c | 2 +-
->>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->>>>>> index bfdb94292b..39756ddd99 100644
->>>>>> --- a/hw/scsi/esp.c
->>>>>> +++ b/hw/scsi/esp.c
->>>>>> @@ -1120,7 +1120,7 @@ static bool esp_is_version_5(void *opaque, int
->>>>>> version_id)
->>>>>
->>>>> Can you rename esp_is_at_least_version_5()?
->>>>
->>>> Sure, I can rename it if you like but it will of course make the diff
->>>> noisier. esp_is_at_least_version_5() seems quite a mouthful though, what
->>>> about esp_min_version_5() instead?
->>>
->>> I was looking at esp_is_before_version_5(). Following that logic it
->>> should be named esp_is_after_version_4()? Or esp_min_version_5() and
->>> rename esp_is_before_version_5() -> esp_max_version_4(). All options
->>> seem confuse...
->>>
->>> Maybe _V macros suggested by Paolo make all clearer?
+>> To prevent incrementing the counter for completion queues that are
+>> asserted repeatedly, each completion queue is extended by a flag which
+>> tells whether the queue is currently asserted.
 >>
->> Unfortunately the _V macros don't work correctly here (see my previous
->> reply to Paolo) which is why these functions exist in the first place.
->>
->> If all the proposed options seem equally confusing, is it worth just
->> sticking with what was in the original patch? Otherwise we end up with a
->> whole series renaming functions in a way we're still not happy with,
->> compared with the original patch which is effectively a diff of 1
->> character.
 > 
-> Fine, you are likely the next one going to modify these functions,
-> so I don't mind.
+> I wasn't clear on this on my last review, but the misunderstanding here 
+> is that the completion queue vector somehow matters for pin-based 
+> interrupts - it does not. There is only *one* interrupt vector and if 
+> the controller is not using MSI-X, then the Interrupt Vector (IV) field 
+> of the Create I/O Completion Queue command *must* be zero.
+> 
+> In other words, all that matters is if there are one or more CQEs posted 
+> (in any queue).
 
-Thanks. I had another think about this over the yesterday evening to see if I could 
-come up with anything better, but didn't manage to find any ideas that were an 
-improvement in all areas. So let's stick with this for now.
+Ah, my bad. I got confused by the assert(vector < 32).
 
-Paolo - I'm happy for you to queue this along with the other ESP patches.
+> Would this (untested) patch do the trick?
 
+It works for my testcase, but I am not sure this will work when deassert 
+is called when the IRQ is not necessarily asserted, such as in nvme_del_cq.
 
-ATB,
+Jakub
 
-Mark.
+> diff --git i/hw/nvme/nvme.h w/hw/nvme/nvme.h
+> index 93a7e0e5380e..60250b579464 100644
+> --- i/hw/nvme/nvme.h
+> +++ w/hw/nvme/nvme.h
+> @@ -405,6 +405,7 @@ typedef struct NvmeCtrl {
+>       uint32_t    max_q_ents;
+>       uint8_t     outstanding_aers;
+>       uint32_t    irq_status;
+> +    int         cq_pending;
+>       uint64_t    host_timestamp;                 /* Timestamp sent by 
+> the host */
+>       uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+>       uint64_t    starttime_ms;
+> diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+> index 7dea64b72e6a..4de4b3177463 100644
+> --- i/hw/nvme/ctrl.c
+> +++ w/hw/nvme/ctrl.c
+> @@ -473,6 +473,10 @@ static void nvme_irq_deassert(NvmeCtrl *n, 
+> NvmeCQueue *cq)
+>               return;
+>           } else {
+>               assert(cq->vector < 32);
+> +            if (--(n->cq_pending)) {
+> +                return;
+> +            }
+> +
+>               n->irq_status &= ~(1 << cq->vector);
+>               nvme_irq_check(n);
+>           }
+> @@ -1258,6 +1262,7 @@ static void nvme_post_cqes(void *opaque)
+>       NvmeCQueue *cq = opaque;
+>       NvmeCtrl *n = cq->ctrl;
+>       NvmeRequest *req, *next;
+> +    bool empty = cq->head == cq->tail;
+>       int ret;
+> 
+>       QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+> @@ -1287,6 +1292,10 @@ static void nvme_post_cqes(void *opaque)
+>           QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+>       }
+>       if (cq->tail != cq->head) {
+> +        if (empty) {
+> +            n->cq_pending++;
+> +        }
+> +
+>           nvme_irq_assert(n, cq);
+>       }
+>   }
+> 
+> 
+>> Signed-off-by: Jakub Jermar <jakub.jermar@kernkonzept.com>
+>> ---
+>> hw/nvme/ctrl.c | 22 ++++++++++++++++------
+>> hw/nvme/nvme.h |  2 ++
+>> 2 files changed, 18 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> index 0bcaf7192f..97a5d768ee 100644
+>> --- a/hw/nvme/ctrl.c
+>> +++ b/hw/nvme/ctrl.c
+>> @@ -451,9 +451,13 @@ static void nvme_irq_assert(NvmeCtrl *n, 
+>> NvmeCQueue *cq)
+>>             msix_notify(&(n->parent_obj), cq->vector);
+>>         } else {
+>>             trace_pci_nvme_irq_pin();
+>> -            assert(cq->vector < 32);
+>> -            n->irq_status |= 1 << cq->vector;
+>> -            nvme_irq_check(n);
+>> +            if (!cq->irq_asserted) {
+>> +                cq->irq_asserted = true;
+>> +                assert(cq->vector < 32);
+>> +                n->irq_asserted_cnt[cq->vector]++;
+>> +                n->irq_status |= 1 << cq->vector;
+>> +                nvme_irq_check(n);
+>> +            }
+>>         }
+>>     } else {
+>>         trace_pci_nvme_irq_masked();
+>> @@ -466,9 +470,15 @@ static void nvme_irq_deassert(NvmeCtrl *n, 
+>> NvmeCQueue *cq)
+>>         if (msix_enabled(&(n->parent_obj))) {
+>>             return;
+>>         } else {
+>> -            assert(cq->vector < 32);
+>> -            n->irq_status &= ~(1 << cq->vector);
+>> -            nvme_irq_check(n);
+>> +            if (cq->irq_asserted) {
+>> +                cq->irq_asserted = false;
+>> +                assert(cq->vector < 32);
+>> +                assert(n->irq_asserted_cnt[cq->vector]);
+>> +                if (n->irq_asserted_cnt[cq->vector]-- == 1) {
+>> +                    n->irq_status &= ~(1 << cq->vector);
+>> +                }
+>> +                nvme_irq_check(n);
+>> +            }
+>>         }
+>>     }
+>> }
+>> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>> index 81a35cda14..753bf7a923 100644
+>> --- a/hw/nvme/nvme.h
+>> +++ b/hw/nvme/nvme.h
+>> @@ -352,6 +352,7 @@ typedef struct NvmeCQueue {
+>>     uint32_t    head;
+>>     uint32_t    tail;
+>>     uint32_t    vector;
+>> +    bool        irq_asserted;
+>>     uint32_t    size;
+>>     uint64_t    dma_addr;
+>>     QEMUTimer   *timer;
+>> @@ -404,6 +405,7 @@ typedef struct NvmeCtrl {
+>>     uint32_t    max_q_ents;
+>>     uint8_t     outstanding_aers;
+>>     uint32_t    irq_status;
+>> +    uint16_t    irq_asserted_cnt[32];
+>>     uint64_t    host_timestamp;                 /* Timestamp sent by 
+>> the host */
+>>     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+>>     uint64_t    starttime_ms;
+>> -- 
+>> 2.31.1
+>>
+>>
+> 
+
 
