@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70C93A78FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:24:11 +0200 (CEST)
-Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9213A7904
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:28:13 +0200 (CEST)
+Received: from localhost ([::1]:60232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt4Mk-0006rs-G7
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
+	id 1lt4Qe-0003Ka-NM
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt4Lg-00059q-Ml
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:23:04 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt4Ld-0007tT-4U
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:23:04 -0400
-Received: by mail-wr1-x433.google.com with SMTP id v9so1018312wrx.6
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 01:23:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=NzBguQNmKu9jWojJgoeSNNjLoQi19+cARFIjoD9uEpg=;
- b=PuLpISDLzEhL8LMM90wcUr3Puj0wyqgTz5RQr75r7j1XTsq2x6X0c7yty/xPHxdwFm
- qMRW+hSjX6gv6WQPb7VgS4tFoo5Km4t/MgIcGqiu5LiWZXBIEIUDAew76jF08t48GRoe
- bSZ4QEEmiZSgRwbCPwaXQm2KuY7EfvRpUKdTGAvszcno19ui0kEmpem7N8HXe2wyo/X2
- Gbv4ZaCw8Ggkluhz5zlbAmoqqCYaWW4MFAJxbRmeCO6ZmIsSEMVcFSpCrho33qDZhz2p
- 8FMWcDGT40KCbrKDkIHhGsy3qqL2SqGJIeFqLko3LvE65l8TQePt8pk+lGa8PG25zAzo
- S4Bw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt4PV-0002cy-JN
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:27:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt4PS-0002jp-52
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:27:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623745616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CNiv0Xo44YAspZTHcxuXa1cKtlbq68ZhvQaTaPZsbJs=;
+ b=GKTwZvrbPI1eeaiiL+14OvkE/+SQet0wEMn/MdUGJ494rB8MPfAu10zQ/C6Yx6abO3SVQP
+ HERaQG1fEhDvDgMxFdVY+T9zPQ1SaR1ryXrru4YQejkqOYiEhKkFeMjTUESkSkgHB01aQv
+ sAGWumL5LMB5j9Ymi8Z2fsXZaBdNiHY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-ehnkah_5N6CscGPz6QYkcw-1; Tue, 15 Jun 2021 04:26:53 -0400
+X-MC-Unique: ehnkah_5N6CscGPz6QYkcw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 18-20020a05600c0252b029019a0ce35d36so234899wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 01:26:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=NzBguQNmKu9jWojJgoeSNNjLoQi19+cARFIjoD9uEpg=;
- b=XsnR2/jUikhiipiTvnMtZmXzV9k+393ShtHWlpkrCDaqSTPJwKLDXzO9zIpsVm7kW+
- geH+DSPv0dyym29SjbgZjxGtIcXSdqPOY0SOswfn+iHhGllwvrnNQdjyRqw1ASynmZcS
- uGN3P9aI64omXhLQJNS4bDow4CTI+DD6CEjrJov45++rl4tmiesWbNDBNoOg94IOh2f5
- Bq1YhP25efIcqaH6mUpSZRV3ZrF8RPPBvcRqVOG5zo1RoyKENqucmeCzLEinoBm07Bhy
- AhhSEb+zUDUE6UdZv3jquDNqWSgUHDnQdzU67ygFCzMkO0oko/rNm234kzIgenEQ8RdA
- 3Emw==
-X-Gm-Message-State: AOAM533aLZ68gnRCKJRoZDWJusyAHcUSiMXZ8SRoGXUZ2SBR/yGfmwaW
- 6LGpXl7jldiotg6WwrwX9M+PtQ==
-X-Google-Smtp-Source: ABdhPJxGH/jI1b/q6RU/l/PLAx7LXX1Xl9aBuTbHE+gan0v5oTpj0a1y87bXqe0URTgotuqPfqsDFw==
-X-Received: by 2002:adf:c790:: with SMTP id l16mr23991773wrg.121.1623745379130; 
- Tue, 15 Jun 2021 01:22:59 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h11sm14842392wmq.34.2021.06.15.01.22.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 01:22:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 131851FF7E;
- Tue, 15 Jun 2021 09:22:56 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH] contrib/plugins: add execlog to log instruction
- execution and memory access
-References: <20210614090116.816833-1-erdnaxe@crans.org>
- <d2d0e9c1-872b-158d-fe74-42ef699c60a9@gmail.com>
-Date: Tue, 15 Jun 2021 09:22:56 +0100
-In-Reply-To: <d2d0e9c1-872b-158d-fe74-42ef699c60a9@gmail.com> (Mahmoud
- Mandour's message of "Mon, 14 Jun 2021 19:04:37 +0200")
-Message-ID: <871r93k04f.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CNiv0Xo44YAspZTHcxuXa1cKtlbq68ZhvQaTaPZsbJs=;
+ b=DNv/0IVjxGRE5yqKu+F1yPRp0cjw/w8Sw2SQmzTmo47qezY38rXhgx2LQjelYmlbce
+ MTJuM9U+ArC8/kIIjUdmngNqt1hNy9oogJP3eftr75HtwKP6lPrtAUlclQXQ34CeX0Uj
+ Z3DgWU/HR61jnZGOvlvwKXgB8I6TY6PLkATY2w04zkKVjD28KtVRynQJqUY2a1eKy4Kw
+ GbkeniuuboaUJTi07lCpdC3ezNFmdCofRPDSWHmuh0rdzcmKWYFoAlZogBO/D2hPsu5l
+ Kvb+FPYrysBOOApNMP1iTJ15Atv/vnge2JRYqJWgrnvlfKrpsTzgU0onL1jjGTOWlPPA
+ sWTQ==
+X-Gm-Message-State: AOAM532xKvMUMSNvvz8YVV+khtVryJluQoLRXxEYVrPoh61MiW+gHpOK
+ J97wjKCFD4/dLk8L662fERXwdEfGUXGcyc1bwdXRxV59EorMSAY6asoqY/+c1b6XsmgpqyK32BW
+ L3I9aPK4i0s6a2EE=
+X-Received: by 2002:adf:e944:: with SMTP id m4mr24955165wrn.244.1623745612753; 
+ Tue, 15 Jun 2021 01:26:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJya33kzj3RWS3942LtRSbzNPN7pTQVDUb9wT/dGmCyXkXIF8sz8LQzBsVqr7FIaRlLQCKHkKQ==
+X-Received: by 2002:adf:e944:: with SMTP id m4mr24955144wrn.244.1623745612582; 
+ Tue, 15 Jun 2021 01:26:52 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e831d2.dip0.t-ipconnect.de.
+ [217.232.49.210])
+ by smtp.gmail.com with ESMTPSA id i9sm22182877wrn.54.2021.06.15.01.26.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 01:26:52 -0700 (PDT)
+Subject: Re: [PATCH v4 0/2] Gitlab: Add issue templates
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210607153155.1760158-1-jsnow@redhat.com>
+ <a6195b4c-b40d-ebbd-bc03-b8a347c9230f@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <8e156869-f17f-a2f5-b3e0-bb188a50c919@redhat.com>
+Date: Tue, 15 Jun 2021 10:26:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <a6195b4c-b40d-ebbd-bc03-b8a347c9230f@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,249 +99,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
-
-> On 14/06/2021 11:01, Alexandre Iooss wrote:
->> Log instruction execution and memory access to a file.
->> This plugin can be used for reverse engineering or for side-channel anal=
-ysis
->> using QEMU.
+On 15/06/2021 02.03, John Snow wrote:
+> On 6/7/21 11:31 AM, John Snow wrote:
+>> Add "Bug" and "Feature Request" templates to the Gitlab interface to
+>> help improve the quality of newly reported issues.
 >>
->> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
->> ---
->>   MAINTAINERS               |   1 +
->>   contrib/plugins/Makefile  |   1 +
->>   contrib/plugins/execlog.c | 112 ++++++++++++++++++++++++++++++++++++++
->>   3 files changed, 114 insertions(+)
->>   create mode 100644 contrib/plugins/execlog.c
+>> To see what this looks like, I've temporarily allowed my Gitlab fork to
+>> diverge with these files merged.  See my fork's "new issue" page to see
+>> it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue
 >>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7d9cd29042..65942d5802 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -2974,6 +2974,7 @@ F: include/tcg/
->>     TCG Plugins
->>   M: Alex Benn=C3=83=C2=A9e <alex.bennee@linaro.org>
->> +R: Alexandre Iooss <erdnaxe@crans.org>
->>   S: Maintained
->>   F: docs/devel/tcg-plugins.rst
->>   F: plugins/
->> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
->> index b9d7935e5e..51093acd17 100644
->> --- a/contrib/plugins/Makefile
->> +++ b/contrib/plugins/Makefile
->> @@ -13,6 +13,7 @@ include $(BUILD_DIR)/config-host.mak
->>   VPATH +=3D $(SRC_PATH)/contrib/plugins
->>     NAMES :=3D
->> +NAMES +=3D execlog
->>   NAMES +=3D hotblocks
->>   NAMES +=3D hotpages
->>   NAMES +=3D howvec
->> diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
->> new file mode 100644
->> index 0000000000..80716e8eed
->> --- /dev/null
->> +++ b/contrib/plugins/execlog.c
->> @@ -0,0 +1,112 @@
->> +/*
->> + * Copyright (C) 2021, Alexandre Iooss <erdnaxe@crans.org>
->> + *
->> + * Log instruction execution and memory access to a file.
->> + * You may pass the output filename as argument.
->> + *
->> + * License: GNU GPL, version 2 or later.
->> + *   See the COPYING file in the top-level directory.
->> + */
->> +#include <glib.h>
->> +#include <inttypes.h>
->> +#include <stdio.h>
->> +#include <stdlib.h>
->> +#include <string.h>
->> +#include <unistd.h>
->> +
->> +#include <qemu-plugin.h>
->> +
->> +QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
->> +
->> +/* Execution trace buffer */
->> +FILE *output;
->
-> Is there a reason for using a regular FILE * instead of using
-> `qemu_plugin_outs()`?
->
-> I don't see a benefit and since there's an API for logging I guess
-> it's better to use it instead
+>> (It's outdated a bit for V4, but you get the idea.)
+>>
+>> These patches do not add a "default" template, the user still has to
+>> select one from the list. I recommend that someone with permissions
+>> updates the default template:
+>>
+>> 1. https://gitlab.com/qemu-project/qemu/edit
+>> 2. ctrl+f "Default description template for issues"
+>> 3. Update the default to the (suggested) below:
+>>
+>> ```
+>> <!-- Select "Type: Issue" and choose one of the Description templates 
+>> above. -->
+>> ```
+>>
+>> We can use this cover letter to discuss/review the wording on that
+>> default template which exists outside of repository data.
+>>
+>> V4:
+>>   - Change the "build on master" to be more of a nudge than a mandate,
+>>     with improved instructions (stefanha, danpb)
+>>
+>> V3:
+>>   - Add pointer to https://www.qemu.org/download/#source
+>>   - Add pointer to https://www.qemu.org/contribute/security-process/
+>>   - Remove blurb covering tracing instructions.
+>>
+>> V2:
+>> - Updated both templates based on feedback from Peter, Daniel, and
+>>    Thomas.
+>>
+>> John Snow (2):
+>>    GitLab: Add "Bug" issue reporting template
+>>    GitLab: Add "Feature Request" issue template.
+>>
+>>   .gitlab/issue_templates/bug.md             | 64 ++++++++++++++++++++++
+>>   .gitlab/issue_templates/feature_request.md | 32 +++++++++++
+>>   2 files changed, 96 insertions(+)
+>>   create mode 100644 .gitlab/issue_templates/bug.md
+>>   create mode 100644 .gitlab/issue_templates/feature_request.md
+>>
+> 
+> Gentle ping. I do not know whose jurisdiction this falls under.
 
-I would prefer using qemu_plugin_outs unless there is a reason to have
-multiple streams.
+I assume this should be merged by someone who has maintainer rights in the 
+qemu-project on gitlab (for also updating the default template)?
 
->
->> +
->> +/**
->> + * Log memory read or write
->> + */
->> +static void vcpu_mem(unsigned int vcpu_index, qemu_plugin_meminfo_t inf=
-o,
->> +                     uint64_t vaddr, void *udata)
->> +{
->> +    struct qemu_plugin_hwaddr *hwaddr =3D qemu_plugin_get_hwaddr(info, =
-vaddr);
->> +    if (!hwaddr) {
->> +        return;
->> +    }
->
-> So you just reject all memory accesses in user mode? I think that it
-> equally useful
->
-> to log only the virtual address of a memory access in user-mode
-> emulation? However, we better
->
-> wait for Alex's opinion on all this since he had remarks about
-> introducing a new ad-hoc
->
-> tracing format...
+  Thomas
 
-It would be nice to integrate with the QEMU tracing support but
-following Stefan's comments I think it will be fairly involved to work
-out a way to do it. In the meantime using plain text logging will have
-to do.
-
->> +
->> +    /* Add data to execution log */
->> +    const char *name =3D qemu_plugin_hwaddr_device_name(hwaddr);
->> +    uint64_t addr =3D qemu_plugin_hwaddr_phys_addr(hwaddr);
->> +    if (qemu_plugin_mem_is_store(info)) {
->> +        fprintf(output, "mem: %s store at 0x%08lx\n", name, addr);
->> +    } else {
->> +        fprintf(output, "mem: %s load at 0x%08lx\n", name, addr);
->> +    }
-
-I would consider a comma separated output to make the file easily
-digestible by other tools. Maybe:
-
-  memory, 0x%08lx, load|store
-
->> +}
->> +
->> +/**
->> + * Log instruction execution
->> + */
->> +static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
->> +{
->> +    char *insn_disas =3D (char *)udata;
->> +
->> +    /* Add data to execution log */
->> +    fprintf(output, "insn: %s\n", insn_disas);
-
-  insn, 0x%08lx, disas
-
-Currently however on a multi-threaded execution you will potentially
-loose any synchronisation between the insn_exec and any memory operation
-associated with it. If you really just care about what's tickling
-hardware you could just drop the insn_exec callback and pass the
-instruction information via udata to the vcpu_mem callback. You could
-then dump everything in one line:
-
-  0xPC, ld [x1], x2, 0xADDR, load|store
-
-you wouldn't dump other instructions leading up to that though.
-
->> +}
->> +
->> +/**
->> + * On translation block new translation
->> + *
->> + * QEMU convert code by translation block (TB). By hooking here we can =
-then hook
->> + * a callback on each instruction and memory access.
->> + */
->> +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *t=
-b)
->> +{
->> +    size_t n =3D qemu_plugin_tb_n_insns(tb);
->> +    for (size_t i =3D 0; i < n; i++) {
->> +        /* insn is shared between translations in QEMU, copy needed dat=
-a here */
->> +        struct qemu_plugin_insn *insn =3D qemu_plugin_tb_get_insn(tb,
->> i);
-
-If you had some knowledge of the guest architecture you could attempt a
-partial decode of the op and work out if it was a load/store and then
-conditionally register the mem or exec callback.
-
->> +        char *insn_disas =3D qemu_plugin_insn_disas(insn);
->> +
->> +        /* Register callback on memory read or write */
->> +        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
->> +                                         QEMU_PLUGIN_CB_NO_REGS,
->> +                                         QEMU_PLUGIN_MEM_RW, NULL);
->> +
->> +        /* Register callback on instruction */
->> +        qemu_plugin_register_vcpu_insn_exec_cb(
->> +            insn, vcpu_insn_exec, QEMU_PLUGIN_CB_R_REGS, insn_disas);
->> +    }
->> +}
->> +
->> +/**
->> + * On plugin exit, close output file
->> + */
->> +static void plugin_exit(qemu_plugin_id_t id, void *p)
->> +{
->> +    fclose(output);
->> +}
->> +
->> +/**
->> + * Install the plugin
->> + */
->> +QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
->> +                                           const qemu_info_t *info, int=
- argc,
->> +                                           char **argv)
->> +{
->> +    /* Parse arguments to get output name and open for writing */
->> +    char *filename =3D "execution.log";
->> +    if (argc > 0) {
->> +        filename =3D argv[0];
->> +    }
->> +    output =3D fopen(filename, "w");
->> +    if (output =3D=3D NULL) {
->> +        qemu_plugin_outs("Cannot open output file for writing.\n");
->
-> Here, I think that it's more logical to output error messages to
-> stderr since
->
-> logging can be redirected to a file so QEMU will error but the error mess=
-age
->
-> would be written to the log file.
-
-Yes please, report errors directly to stderr as the execution is going
-to trigger and exit at this point and the user needs direct feeback.
-
->
->> +        return -1;
->> +    }
->> +
->> +    /* Register translation block and exit callbacks */
->> +    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
->> +    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
->> +
->> +    return 0;
->> +}
->
->
-> Thanks,
->
-> Mahmoud
->
->
->
-
---=20
-Alex Benn=C3=A9e
 
