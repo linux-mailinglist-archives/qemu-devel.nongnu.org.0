@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D68F3A8763
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:17:23 +0200 (CEST)
-Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEC53A8770
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:20:52 +0200 (CEST)
+Received: from localhost ([::1]:55158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltCgj-0006lh-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39566)
+	id 1ltCk7-00006e-4e
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCfp-0005vk-3l
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:16:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57276)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ltCiz-0007qm-SW
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:19:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCfl-00046z-Vs
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:16:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ltCix-0006LZ-UM
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 13:19:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623777381;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623777579;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZTwio8F9M7Ls9KwQ6uCkhT38NlOrzNaNWlQ5byeei3c=;
- b=cv28HwtuAUawZi90BQi97h1tmvEEEDFSPBasN7YVFI/YDbcTEDDZoEmQ1mB0VO0UZiAWd3
- RF8LcsbMi49erpJXYUqn471UnoKK2lPX+rBiaKHSPkBktEBeY2H71bw8vzgctNtvKR2Ije
- fQKFuxKhFfdxN9WJgazj2jeArXhm9k8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-ycFlOWwkMbKlG97xymOJzQ-1; Tue, 15 Jun 2021 13:16:20 -0400
-X-MC-Unique: ycFlOWwkMbKlG97xymOJzQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- w186-20020a1cdfc30000b02901ced88b501dso716104wmg.2
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 10:16:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZTwio8F9M7Ls9KwQ6uCkhT38NlOrzNaNWlQ5byeei3c=;
- b=Mu9GCFmU1528qpW1+3oZcos3guf89qtqK2X7OPyBcI3eKj6+zMw9HWbn1+578yG8iQ
- 3/KVs95VJYmg5JpjkzPqUv1aAarqPbZKwhdKXPcQwR0ae6ZihwXbsWwFogOZulLmJwS+
- XQHmnYV2NxGZ2U3TCuzXMuOkp1SmfEvB8aOFHhTPseXO5W/ffHPWj/ALnAIv4SRq0mgn
- M9Visj/KHhDh46WuItco8L8eJM85fDLRWVrfpPv8tvljMPRmh7NXNhQLWdoFOyjmZFZ5
- 4MErhXzWSqYG9n48WniCgay1n3+fxG32r9cKdL5VBQ41/Mn9MYFLeinSclYr1raBa6da
- HeAg==
-X-Gm-Message-State: AOAM530tNeTUYCDVKjnGzHs1mWrMOWG7EabZoCfgfnu0TPYlezD/1ZDA
- MMy46WOVa766YgVfHnqe8RWGRygpeZW/LcOg/6ICL7OpNyiQtXSi/CVzg+H+L0kOxhrbU4MwJ/1
- pjXKGMfbDLzWwC6A=
-X-Received: by 2002:a1c:f70b:: with SMTP id v11mr364936wmh.186.1623777378858; 
- Tue, 15 Jun 2021 10:16:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+4WfDEbIThno7IfyS4col72roTlk9gHm/VUbYID+8XiGTq5euWGum2CCpMbI65yezeNJNpA==
-X-Received: by 2002:a1c:f70b:: with SMTP id v11mr364918wmh.186.1623777378680; 
- Tue, 15 Jun 2021 10:16:18 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n42sm2678256wms.29.2021.06.15.10.16.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 10:16:18 -0700 (PDT)
-Subject: Re: [PATCH v2 7/7] crypto: Make QCryptoTLSCreds* structures private
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210615164751.2192807-1-philmd@redhat.com>
- <20210615164751.2192807-8-philmd@redhat.com> <YMja0SjeV06aUA7F@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <33a34588-a878-74c4-6d84-833ceeb45c52@redhat.com>
-Date: Tue, 15 Jun 2021 19:16:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=B0ItSlJSqGMaHhlA3cGwQrzTdy9hC29982y1hrJxYms=;
+ b=cjPpoaBOR4dYEpMVDB/QvF9spLyEB7FHXgmvrAQXSqHqwp5UDJMZeo9PafoJYtc4hK2opk
+ cYmGLfkOJY9hgdNPQop2HRbwIA4kyeUH7VzeyxiiKTVQhAS6jgl7qJJZgrzmehT8P/jfC2
+ ywP6mkHkskboC9kR/lmqqt4U5wMxlfs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-TKBi_LhnNtaILEgFfNdqrA-1; Tue, 15 Jun 2021 13:19:34 -0400
+X-MC-Unique: TKBi_LhnNtaILEgFfNdqrA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B48219F92E;
+ Tue, 15 Jun 2021 17:19:32 +0000 (UTC)
+Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD12B60853;
+ Tue, 15 Jun 2021 17:19:20 +0000 (UTC)
+Date: Tue, 15 Jun 2021 18:19:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Willian Rampazzo <willianr@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
+Subject: Re: [PATCH] tests/vm/freebsd: Increase code coverage
+Message-ID: <YMjhFXKFi2H+Zkme@redhat.com>
+References: <20210531100348.1655156-1-f4bug@amsat.org>
+ <ccb9dd6f-e41a-1be6-b193-0ecad89b5732@redhat.com>
+ <YMjdCjNOyUnprhd8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YMja0SjeV06aUA7F@redhat.com>
+In-Reply-To: <YMjdCjNOyUnprhd8@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,75 +89,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras.c@gmail.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/21 6:52 PM, Daniel P. Berrangé wrote:
-> On Tue, Jun 15, 2021 at 06:47:51PM +0200, Philippe Mathieu-Daudé wrote:
->> Code consuming the "crypto/tlscreds*.h" APIs doesn't need
->> to access its internals. Move the structure definitions to
->> the implementations in crypto/. The headers still forward
->> declare the structures typedef.
->>
->> This solves a bug introduced by commit 7de2e856533 which made
->> migration/qemu-file-channel.c include "io/channel-tls.h",
->> itself sometime depends on GNUTLS, leading to build failure
->> on OSX:
->>
->>   [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
->>   FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
->>   cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
->>   In file included from ../migration/qemu-file-channel.c:29:
->>   In file included from include/io/channel-tls.h:26:
->>   In file included from include/crypto/tlssession.h:24:
->>   include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
->>   #include <gnutls/gnutls.h>
->>            ^~~~~~~~~~~~~~~~~
->>   1 error generated.
->>
->> Reported-by: Stefan Weil <sw@weilnetz.de>
->> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
->> Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  crypto/tlscredspriv.h         | 15 +++++++++++++++
->>  include/crypto/tlscreds.h     | 16 ----------------
->>  include/crypto/tlscredsanon.h | 12 ------------
->>  include/crypto/tlscredspsk.h  | 12 ------------
->>  include/crypto/tlscredsx509.h | 10 ----------
->>  crypto/tlscredsanon.c         | 13 +++++++++++++
->>  crypto/tlscredspsk.c          | 14 ++++++++++++++
->>  crypto/tlscredsx509.c         | 16 +++++++++++++---
->>  8 files changed, 55 insertions(+), 53 deletions(-)
+On Tue, Jun 15, 2021 at 06:02:02PM +0100, Daniel P. Berrangé wrote:
+> On Mon, May 31, 2021 at 05:53:25PM -0300, Wainer dos Santos Moschetta wrote:
+> > Hi,
+> > 
+> > On 5/31/21 7:03 AM, Philippe Mathieu-Daudé wrote:
+> > > Install more dependencies to increase code coverage.
+> > > 
+> > > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > > ---
+> > >   tests/vm/freebsd | 5 +++++
+> > >   1 file changed, 5 insertions(+)
+> > 
+> > With or without this patch I got an error when `make vm-build-freebsd`. It
+> > fails to install packages.
+> > 
+> > For example, with this patch I got:
+> > 
+> > < Output omitted>
+> > 
+> > ### Installing packages ...
+> > Failed to prepare guest environment
+> > Traceback (most recent call last):
+> >   File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 634, in main
+> >     return vm.build_image(args.image)
+> >   File "/home/wmoschet/src/qemu/tests/vm/freebsd", line 206, in build_image
+> >     self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
+> >   File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 255, in
+> > ssh_root_check
+> >     self._ssh_do(self._config["root_user"], cmd, True)
+> >   File "/home/wmoschet/src/qemu/tests/vm/basevm.py", line 242, in _ssh_do
+> >     raise Exception("SSH command failed: %s" % cmd)
+> > Exception: SSH command failed: pkg install -y git pkgconf bzip2 python37
+> > ninja bash gmake gsed gettext cyrus-sasl gnutls nettle jpeg-turbo png sdl2
+> > gtk3 libxkbcommon pixman libepoxy mesa-libs zstd usbredir
+> > 
+> > Is it a known issue?
 > 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Hard to actually tell what the error really is. This message is
+> only giving the command that was invoked, but seems to have thrown
+> away stdout/stderr which would have the messages telling us what
+> went wrong.  This lack of error reporting in basevm.py so badly
+> needs to be fixed, otherwise we're working blind when debugging
+> failures.
 
-Thanks, however I missed something:
+Hmm, when I try the same command, it *does* print all the output
+so you can see what's going on, but it doesn't actually fail for
+me either (without this patch).
 
-crypto/tlssession.c: In function ‘qcrypto_tls_session_new’:
-crypto/tlssession.c:163:48: error: invalid use of incomplete typedef
-‘QCryptoTLSCredsAnon’
-  163 |                                          acreds->data.server);
-      |                                                ^~
-crypto/tlssession.c:167:48: error: invalid use of incomplete typedef
-‘QCryptoTLSCredsAnon’
-  167 |                                          acreds->data.client);
-      |                                                ^~
-crypto/tlssession.c:201:48: error: invalid use of incomplete typedef
-‘QCryptoTLSCredsPSK’
-  201 |                                          pcreds->data.server);
-      |                                                ^~
-crypto/tlssession.c:205:48: error: invalid use of incomplete typedef
-‘QCryptoTLSCredsPSK’
-  205 |                                          pcreds->data.client);
-      |                                                ^~
-crypto/tlssession.c:228:44: error: invalid use of incomplete typedef
-‘QCryptoTLSCredsX509’
-  228 |                                      tcreds->data);
-      |                                            ^~
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
