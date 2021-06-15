@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27933A8148
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:47:03 +0200 (CEST)
-Received: from localhost ([::1]:53474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AF43A8147
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 15:46:27 +0200 (CEST)
+Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt9PC-0000yv-Mp
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
+	id 1lt9Ob-0000I9-41
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 09:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9Hd-0005ix-1i
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:13 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46970)
+ id 1lt9Hd-0005kj-Kl
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:14 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lt9Hb-0002ia-CN
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:12 -0400
-Received: by mail-ej1-x634.google.com with SMTP id he7so22428951ejc.13
+ id 1lt9Hb-0002jA-Uq
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 09:39:13 -0400
+Received: by mail-ej1-x629.google.com with SMTP id my49so22667312ejc.7
  for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 06:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=40tvBB6URa68U82HNrc5Kt1uj3mSzO0kOZWEskGJLok=;
- b=nu/h5zXrh6+a5aQB/FFKfvgsh/2qbAX+c1t1VM6XlWc9nbLi9rHA/xxWWhQlG+Wzgy
- fSiPobIIYL1FrEGewE2bf4qh+g8bN9ooJlF54c/U3o2I+JViziLqgQtqNR1+DWCznGvf
- gieqqyh40o0myxzSRiIc8o4FNc6lGaLo/q2iALOO9WIkqCXq0VzkAJc5AxePHvJpO9bl
- k/CFiOMz8A4b3I4YLxSZueVoyb1dumBK6qu0QFjuiaybsfM8RhRZmBHxWfSm7vX9Fc4w
- t1z5wemHN3fokEZeSFRXj1Sp5ea/rPBSWaMjEdnXONn55ctOxN12e+/62YggCYKjNMGb
- 6b6w==
+ bh=O8yAiDOeaxKnyfPeM12ZDJuul1W643A7dHP5nn5YjE8=;
+ b=vV6UiTi0RwHsWL9cNKIhG1JRLJoeLBU6PnxrWABwCQoosiq/jBJt5ZjZXXD3jyFk6f
+ oPx1YLjfzYDV3ucSBkWj/NwOoo/bEgyicJiUWJO5ugcZWqWIR2bnn0K4sjufMb1ABI/b
+ 03NEZd6XEUrj6ng5pSAbOHRjXkDgHNAciiFd1A7SdjapSuHEocGECZNZfT7KxvbHGhVv
+ AB+hoHBvEu1dn3Hs/dsZ00VZdtFKoQZm6OjFPz0M0p6dpShl/F7oBN7JgTnkK/dVTykl
+ idz5Ucp56DDZybWw7ItTBRlvynnUdPZPJapD7VLqCUG3edM3SetmyxaNDVRYhD8CgmRm
+ QuNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=40tvBB6URa68U82HNrc5Kt1uj3mSzO0kOZWEskGJLok=;
- b=F9rt6znl7jN4l0fcvh6t1+UFV7XOmovJEzvVrrAjGa4PxDrFDBfxaHcDbtbtcThl5O
- 3GD8TGPGJ817KkED+88lyOrR4uVenwUNrQz58vAjwZUxIWjBa64KvAyOZGcZRlGSGBDa
- l7ZTDZGk92DvFYsD1a8HVd7aMQG+mXM+yN+hGIGvK5whzCJ5OB1P0XhoMKYIicTSxqJN
- WV2EmAq7KZIVF1hfC8gRhIlFbYQvcPvEv/tc+0coknOXg4pu130gCRtjjcCh9IaV4+61
- CSXl9l3lWA9mJE8AFVkoF6DXf+kvPMIb/wweOVgPgz/vdwlCSGkxln8k2beRVey/gHV5
- ZpSA==
-X-Gm-Message-State: AOAM530G1lgkQqKETnEVoDaZ32Hv6OqAvJ9HAAKmtvGPBcMlTBYgcZtH
- ZrNmlUPLAzowqoywZj/NmVTdOXH746c=
-X-Google-Smtp-Source: ABdhPJwSVLyKLJkRLw2dbMsrTPFQAddsFrT61qmdwjxzvidKkjEOE5d8p/KrlL2OFTUGeRsVSSyycg==
-X-Received: by 2002:a17:907:7b91:: with SMTP id
- ne17mr21564553ejc.58.1623764349996; 
- Tue, 15 Jun 2021 06:39:09 -0700 (PDT)
+ bh=O8yAiDOeaxKnyfPeM12ZDJuul1W643A7dHP5nn5YjE8=;
+ b=lDA4eiWtxuedpbkpGdJyBCbnVftnLAEbtiw7P6I+NDCZng0LPXDVxDEEOkaq2GEUcn
+ Xv/7jvN2B5XMp2ykGKt3rvw0na0S5ABrLURxkkrxGhllY/BSeJTLycI4hKtcyi/rSuXj
+ GQa6PWrQDlfOneTsLw8G6kJ9DSG5NEA2bf4NluXRm5LhdPmuhLGvbzMzpN4HNHPfQQ6J
+ vDgD34W7PRouryxZ0cCLQRSzlBPHoEUMBqjeFe9Li6XT58StDfZNFtjcKTPGVaZaJojw
+ LIULJUWNLIHD3qJKE1xy1UtV7t2XSj7CBCY+glRn1G9XJ/Lfcv5Ks7zfbvGdIeWXJRJG
+ /NBA==
+X-Gm-Message-State: AOAM530VHJuVr23t3kT5XeCBi51lsT5JJDWVW+F+r6EoLcrIwzSAnitm
+ wqIu01xUubltafRvZZP6AxQgeymYi70=
+X-Google-Smtp-Source: ABdhPJxZP5W7D0UUtOMw9j3WtO3OHXKxXA9webSPnkzPWQ+xZdgMGGyBpHPgy0aTEqtz8TeA72ub3Q==
+X-Received: by 2002:a17:907:a9c:: with SMTP id
+ by28mr486442ejc.308.1623764350768; 
+ Tue, 15 Jun 2021 06:39:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.39.09
+ by smtp.gmail.com with ESMTPSA id r17sm11843769edt.33.2021.06.15.06.39.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 06:39:09 -0700 (PDT)
+ Tue, 15 Jun 2021 06:39:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/33] esp: correctly accumulate extended messages for PDMA
-Date: Tue, 15 Jun 2021 15:38:34 +0200
-Message-Id: <20210615133855.775687-13-pbonzini@redhat.com>
+Subject: [PULL 13/33] esp: fix migration version check in esp_is_version_5()
+Date: Tue, 15 Jun 2021 15:38:35 +0200
+Message-Id: <20210615133855.775687-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615133855.775687-1-pbonzini@redhat.com>
 References: <20210615133855.775687-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,56 +90,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Commit 799d90d818 "esp: transition to message out phase after SATN and stop
-command" added logic to correctly handle extended messages for DMA requests
-but not for PDMA requests.
+Commit 4e78f3bf35 "esp: defer command completion interrupt on incoming data
+transfers" added a version check for use with VMSTATE_*_TEST macros to allow
+migration from older QEMU versions. Unfortunately the version check fails to
+work in its current form since if the VMStateDescription version_id is
+incremented, the test returns false and so the fields are not included in the
+outgoing migration stream.
 
-Apply the same logic in esp_do_dma() to do_dma_pdma_cb() so that extended
-messages terminated with a PDMA request are accumulated correctly. This allows
-the ESP device to respond correctly to the SDTR negotiation initiated by the
-NetBSD ESP driver without causing errors and timeouts on boot.
+Change the version check to use >= rather == to ensure that migration works
+correctly when the ESPState VMStateDescription has version_id > 5.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20210519100803.10293-6-mark.cave-ayland@ilande.co.uk>
+Fixes: 4e78f3bf35 ("esp: defer command completion interrupt on incoming data transfers")
+Message-Id: <20210613102614.5438-1-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/esp.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ hw/scsi/esp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 16e4b7ead6..3e6f4094fc 100644
+index 3e6f4094fc..8fad87be9d 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -492,9 +492,26 @@ static void do_dma_pdma_cb(ESPState *s)
-         }
+@@ -1128,7 +1128,7 @@ static bool esp_is_version_5(void *opaque, int version_id)
+     ESPState *s = ESP(opaque);
  
-         s->ti_size = 0;
--        s->do_cmd = 0;
--        do_cmd(s);
--        esp_lower_drq(s);
-+        if ((s->rregs[ESP_RSTAT] & 7) == STAT_CD) {
-+            /* No command received */
-+            if (s->cmdfifo_cdb_offset == fifo8_num_used(&s->cmdfifo)) {
-+                return;
-+            }
-+
-+            /* Command has been received */
-+            s->do_cmd = 0;
-+            do_cmd(s);
-+        } else {
-+            /*
-+             * Extra message out bytes received: update cmdfifo_cdb_offset
-+             * and then switch to commmand phase
-+             */
-+            s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
-+            s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-+            s->rregs[ESP_RSEQ] = SEQ_CD;
-+            s->rregs[ESP_RINTR] |= INTR_BS;
-+            esp_raise_irq(s);
-+        }
-         return;
-     }
+     version_id = MIN(version_id, s->mig_version_id);
+-    return version_id == 5;
++    return version_id >= 5;
+ }
  
+ int esp_pre_save(void *opaque)
 -- 
 2.31.1
 
