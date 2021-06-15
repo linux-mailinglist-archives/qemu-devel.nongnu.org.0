@@ -2,140 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE0D3A78A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:03:02 +0200 (CEST)
-Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE283A78A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:02:48 +0200 (CEST)
+Received: from localhost ([::1]:37012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt42H-0006VD-Bz
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37600)
+	id 1lt423-0005ns-SJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lt3xM-0006n9-5y; Tue, 15 Jun 2021 03:57:56 -0400
-Received: from mail-he1eur02on072a.outbound.protection.outlook.com
- ([2a01:111:f400:fe05::72a]:1967
- helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lt3zM-0003G7-Gq
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:00:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lt3xI-0005eW-Oz; Tue, 15 Jun 2021 03:57:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IbzgZ5o/DY2xz5EZOuV9aWlayrwvQvbS0oCq+kiJDIVunyvWR9OQddFIzzRlSkna37Ed6cAXGFQIl5Mfd9WZLwyiEYmYlldwH6to8vGgL9x9L/7ullIpQB8kjWxhuT+nR9t15CDmQ4Eln0fpPmhTzWcGA1jTqxWgYZiYWmPCCuuJio2VKPCQUcBaxKaGdFpjTvfhunI9Ybq/7Pg8daZjiq9i18bMmYx4SZcPAaHl8UhEeOhRv+wX+wyqZPBBBgMvQ/4MPR54ec/qXS5OKuvi53Yj/JVXSVc8U5G9q7vZT3KW5eGW8/MH80xa81A7Ge0F4MXTdc4ACq7F7SLFfZkUqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rvlks0HVAOpziQY4Fv0ESobG1oxXNih5GgJ4Hnzzpa4=;
- b=iUZX1DeXM0wm5WAktXbuuq917VIgrafFTyR6QE1SEQaxoaTR1YHtfMXnsKiFlstzlVmA08Rvy264OEiLrvX5aO1+jHrpu12t/X/XH2VMmCgSzTiuHIdB+u+o+z2MIobjFzIALfjMAKc+V5cquX3gRVZWdXTdHL6tfa+G3nON4LE+7R7OPJ1tGiRgtxIQoygbqGsGljEX/tdbZm/cjIeOPGL9HlFHxlik0eit2+Y+5WrlDf5EWN+LYbQsf2zfNpWlfEl2ywZyGaVMBh4tEg7REE1ewhUTylWo0ZKL9poNs/LGrlIfdRJSTdAAEU3Z/tUGaBxrq1w+vd5T4tTdcaSZCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rvlks0HVAOpziQY4Fv0ESobG1oxXNih5GgJ4Hnzzpa4=;
- b=oPkldiH/ITVaPyUOGCbrOcPcVXHIqiiZPuJ4QMnL5mVkhcWPuRYOl1JaBAyKcEX/USzSwhXSw9PdMZWTULnr/5GxLX5aYGBsUQi9qiyN3ANtmX/yiBTxQNosPpUhxg+BS8tPRjg1umktJHUDDUgIZqMWRIztVgYgauE+OisKyxQ=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6376.eurprd08.prod.outlook.com (2603:10a6:20b:33e::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.21; Tue, 15 Jun
- 2021 07:57:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
- 07:57:48 +0000
-Subject: Re: [PATCH v5 06/16] qemu-iotests: delay QMP socket timers
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210604091723.13419-1-eesposit@redhat.com>
- <20210604091723.13419-7-eesposit@redhat.com>
- <879584c2-48cb-c81e-ef9c-141db1c5a67f@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <f68fa8d3-a70a-7f30-9fd1-913730e2b024@virtuozzo.com>
-Date: Tue, 15 Jun 2021 10:57:46 +0300
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lt3zJ-000797-Hu
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:00:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623743996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6K8YWcj81NY2YbfyLjIJuyA2u50NTcwcn5pBmqeGw5s=;
+ b=FKs2JRsaIgnBisjXC13f0gQQpKhcsuAbujJR3YpRgf2ulEBmzsFkd5F0+CVdwblyhArx2p
+ ddsuRPajUt5m2aOhTkmI6yGjsxE8+lGFpF+T8pfnkUvH0vzHUXnTsF6EcA6JX0jC+NCDD4
+ He8sOJz8KTxvKhIj3kefC6bIWuIsZgA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-sDwJrdgjNv-Wx2K5b_xWoQ-1; Tue, 15 Jun 2021 03:59:54 -0400
+X-MC-Unique: sDwJrdgjNv-Wx2K5b_xWoQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j2-20020a05600c1c02b02901cecbe55d49so129003wms.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:59:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=6K8YWcj81NY2YbfyLjIJuyA2u50NTcwcn5pBmqeGw5s=;
+ b=f5uBXt7+98s5wyy6Nj+3Fo3zBo3Hhso+56EHCSHbvqwW1/u7CVtTPUA0fXhXGuQmc4
+ NBp1bQvp1M2T78XYimxCV0FLSc/d/RBwgbgAGAuY/TzZn0wLzsP3/oos7zVIvaWmkImc
+ 7Fq/bSacp2TdB8EO0kDgXrd4zyojCIcxC74mj7ZfI5m9UwfzbNHllNfJKoYOrUIwo6lg
+ dEULZV768QrFWZyhiS2TUM9UoOCDE81TzWOZhBmu26Q6U6MpJiuSuwCNgy6de3683wOS
+ 0/vzj2p4FKMoD5Gr1lJEj/RgQN+Z/Rgmh7hXbq6BdhdTbUW4SLnNbAdHNFHfSZnr7z7a
+ Kt+A==
+X-Gm-Message-State: AOAM530EBPEHzasje2iVJAHxBmia7kerwmYTgZi+j6IcjTOBbvzHOQna
+ G4dBXUL9uf5SfswQxt+SAIUx4fFRSKcv1GfzMUr/H448xMyyMRFQj8+tqAS00XaBfrDFei9cXOY
+ oDBpZs/G69oQEj0M=
+X-Received: by 2002:a05:600c:4f4e:: with SMTP id
+ m14mr3667990wmq.157.1623743993728; 
+ Tue, 15 Jun 2021 00:59:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwA23PHbdC7RpkFT4T62+kNFgRl7Tm2hUYoLNom6fkQJjbsjAiQH/2XCbEVGV775KYL6qg8oA==
+X-Received: by 2002:a05:600c:4f4e:: with SMTP id
+ m14mr3667963wmq.157.1623743993504; 
+ Tue, 15 Jun 2021 00:59:53 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6136.dip0.t-ipconnect.de. [91.12.97.54])
+ by smtp.gmail.com with ESMTPSA id
+ n13sm20358888wrg.75.2021.06.15.00.59.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 00:59:53 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210615030744.1252385-1-richard.henderson@linaro.org>
+ <20210615030744.1252385-6-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH 5/5] linux-user/s390x: Save and restore psw.mask properly
+Message-ID: <6acc61df-f2e0-8f59-3a87-9bdc89afee32@redhat.com>
+Date: Tue, 15 Jun 2021 09:59:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <879584c2-48cb-c81e-ef9c-141db1c5a67f@redhat.com>
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210615030744.1252385-6-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.224]
-X-ClientProxiedBy: PR2P264CA0016.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::28)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.224) by
- PR2P264CA0016.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.21 via Frontend Transport; Tue, 15 Jun 2021 07:57:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7093e05e-e2c4-4f23-3e1b-08d92fd34488
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6376:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6376DD7D4C9ECC287C807FCAC1309@AS8PR08MB6376.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t9cPdh0r8dad+WksFw/uV0HLtj/OeeKZMmReKEpYZDQYpq7JAbqCjLo67QvC9ka8LICiDKab5T39/aR91i8/5cWnVTxXUSnBT2qlVkPATofUpkNXxCS8bqFpgU3OVK/fmMl7GcOQUUlmIP9aMRkEtmfK7nCxavceT8RZzdYEpjyqvnfBy8SW5KY6bhrEUMv7bDpCSFD98YVrlSDINGDJAymGyGF8nPI6FbxdUgpcSt1KFeIqp423WfYlt2gvZ0acB79GRgSau40F+QLowfcUwxU4I3nBF7tAuWT8VRoFfj8tRnz3gx/0GtfrGdigGa6qSDUakfhIC20XpDIhI7JG4WLOA4j1NLirW35t843CSPrMMSxARkJngiu1oS5RzNpWd6ZkpfaBeQQFsouzhmJd5GlDPazpsMjsaRiBHxOamhDvsBuOrnBzygm9Z2xBT6STs2vyQAsaji9CE0fJV3lk9w2U3xNj2+B+sHfLReXsfaxAhyp4PIPliRXsdvWuA0/eN104kYWQCyvXAYLNkjeucigNtZ2WrBtYKJmrz9ku11cnzU0bp3D590b7ZBD5IRmFM3BnuQbT8rL3lu7Y4UatszpcJ/I7aIASD1XmY+6eLHFTa5LskfLsblYZV2yLcOboi1c96pVv2kipGVXillCUlZfs3JDuUtNFKTCgvPtrKU8Os1DjRKtv/ZWTXj7BElUODnjXgVGqh8n2Mqz+pWncqA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(396003)(136003)(366004)(39840400004)(316002)(16576012)(36756003)(66556008)(4326008)(31696002)(478600001)(66476007)(5660300002)(66946007)(83380400001)(186003)(26005)(6486002)(16526019)(8676002)(52116002)(53546011)(86362001)(54906003)(8936002)(956004)(38350700002)(2906002)(2616005)(31686004)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmF4N01DWmFDRVRiejhIOVgvUFhNWmx0Qkh3bzZzc0tFaGxrYkQ5NzhDOC85?=
- =?utf-8?B?M0lvNS9IRXVaSW9tcnl6L2ZLT2lJM0RIZDRkT1pUb3MxczJGR3luMnNybkFO?=
- =?utf-8?B?NVNpQ1F1Z0VUUDV4UWtqNkRwLy9yTURzYUdrQitkTUlkUG1PVHI2ZzdXTGEx?=
- =?utf-8?B?dVhrSWNvZmlOTUZvMWJjVnZmbTI1K2tJc2s4dk80bHpxTExNQnhJdDRlY1J0?=
- =?utf-8?B?MGhTbkJOeFNhUldHV2tpWjRYMmNpbWZSN1VFUE0xZWpURE5FOGtvY1lWbnp0?=
- =?utf-8?B?bWdRRW1yNitzczB3ZkRvLzc4NWJoSXpCU0Mrc3NLc0J3NUpYV3R5WnVFMHBZ?=
- =?utf-8?B?dzRCam1aeVp3MzgwVlRmU2dycjB4eVVVbGdQdzRXSCtSQ2trUmFkSEh3Sm9R?=
- =?utf-8?B?dVBBOGNJbEJBd2wzZElKSU5GYVBpK2FJSVNhcmVWNSt0ckpuc3VRclcrYzMz?=
- =?utf-8?B?MlVKYWlVdDdBc0cxMEZVYVJ1bzY5V1pOWlVNSHVIeENqR0FqVGVybTBtTlpt?=
- =?utf-8?B?NlhYMVlsWlBrVkFUdWtuMHNNVCs0UHZacVpxcW9BVDNRTWVnZUtweHpaY2Fo?=
- =?utf-8?B?bWFzMmtESnNVNCtNTUgyYWw4Y1JBRDZEV2JxZG5lZlB1UXpyQUFianl3aUgw?=
- =?utf-8?B?NDV2WUd6NnN1OVhrcFV0THlQZXFzTENZM2hNY0xlWDZWZG5EdFRtL05Eam1B?=
- =?utf-8?B?TDNKRkxDelZnRVZieUdwRG5TOWZkWkNNVmpoc1YzMEQrSVZtOWVOenZYRjEv?=
- =?utf-8?B?eFA5S2xRU0VXbnZWNVBFUWNQNDdQd0ZSUlNEZG1tU0kyZ3lOaHZaRTZKSWxv?=
- =?utf-8?B?MHc1YmVJR21YcjB5SzNYMlhObmlURDBFRlAydldRVlZhQ011WHlyaDdXN0d6?=
- =?utf-8?B?QWcxbGx6TUl3Sy9iL2NPVWRDNFRrR0lralNIRkFkWHBxSVZHdWNTUlJiMmc1?=
- =?utf-8?B?c3VZU3lZb3JkVHI5SEhTdWE5T2IwN2J2akNyOHJBb21ZS1lLZGl3RWVWRDVZ?=
- =?utf-8?B?QnJpbGp0a3lOTUpVa0Z5Z3RzVy9raXRva2RqWmZoQmZsTmR3U0lRdC9UN0dp?=
- =?utf-8?B?b1pFZHJ0bjh3WTBXMmZXSkxCY3VlZ25GSzB6QnlVR0Z3MlBiY3hpUW5ScjJ0?=
- =?utf-8?B?TWpRd0VDODFHOFJ2WXdHZ0Q1bGlOZ0NQYmVuVzBkWlFuM0MyUzFvOGVMVnNq?=
- =?utf-8?B?UndzZkxHeTd3YmxpWUxTb2MyQkpXSUs3bTZPSzM3OGhiQTdjT3V3YlpiYXpD?=
- =?utf-8?B?ckNYWHRXZnVLV296ekVVZEZWc05uY2xLNEE1S3RldWV5NjhuRXJiM3lRM1FZ?=
- =?utf-8?B?ZnFjUkFCVStPSiswYkhwZzZPQXlUZWFDUXV1QTRNWTFqWnhZalBlNkZhWVF6?=
- =?utf-8?B?eEI0d1VGUlo5MVQ3K0xFRThkSm11UHdiWG9kR3hKRWRoTUJzSHhoOUk5OHYv?=
- =?utf-8?B?R2lvbTNCV0RwNG9sYzFhaWcrWktKZkZmTWNMVzBWZG9SZjlCKy9BTGovNE5H?=
- =?utf-8?B?azlINVBteDRQaEVObGFzTVhWZExueExnaWpNY21YemE4VGx5TEFNZDRYOVda?=
- =?utf-8?B?ZDlraWhDKzNOa0ZhcWJyMURMRHZrRHk0dGRYMzNzUExJUlRJakFwaklmR2Vw?=
- =?utf-8?B?WWN6L1U5bU0zVm9YZE9kdEpLaUZJWDFoQUt4RkU3Qk1JMU40RzhUSlY4ZGRi?=
- =?utf-8?B?YXlCenlWa05vdUM0QzBpTTRhVUV0RHFBbDdQU09Yczh2dWJWY2NIMldaaWZk?=
- =?utf-8?Q?ULvtoAJDFI+0fqWBxIqkL12RkOPjC34gdBuZtls?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7093e05e-e2c4-4f23-3e1b-08d92fd34488
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2021 07:57:48.5304 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bxdEbzTNkXzNBhYPL8MitM/DmUSl6zn3KKBk1FsifVrZeeZfL39pTjE+mwxRjTo8eyBn57OICttYs8AZ/hECzR9ot4OoGIW5KBrIZIrZN1I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6376
-Received-SPF: pass client-ip=2a01:111:f400:fe05::72a;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.489, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -148,79 +102,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: ruixin.bao@ibm.com, jonathan.albrecht@linux.vnet.ibm.com, cohuck@redhat.com,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.06.2021 13:36, Emanuele Giuseppe Esposito wrote:
+On 15.06.21 05:07, Richard Henderson wrote:
+> At present, we're referencing env->psw.mask directly, which
+> fails to ensure that env->cc_op is incorporated or updated.
+> Use s390_cpu_{set_psw,get_psw_mask} to fix this.
 > 
-> 
-> On 04/06/2021 11:17, Emanuele Giuseppe Esposito wrote:
->> Attaching gdbserver implies that the qmp socket
->> should wait indefinitely for an answer from QEMU.
->>
->> For Timeout class, create a @contextmanager that
->> switches Timeout with NoTimeout (empty context manager)
->> so that if --gdb is set, no timeout will be triggered.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/iotests.py | 9 ++++++++-
->>   1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
->> index c86f239d81..d4bfd8f1d6 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
->> @@ -486,6 +486,13 @@ def __exit__(self, exc_type, value, traceback):
->>       def timeout(self, signum, frame):
->>           raise Exception(self.errmsg)
->> +@contextmanager
->> +def NoTimeout():
->> +    yield
->> +
->> +if qemu_gdb:
->> +    Timeout = NoTimeout
->> +
-> 
-> @Vladimir or anyone expert enough in python:
-> This fix above works, but I just noticed that makes pylint (test 297) fail. My bad, I should have tried it before.
+> Mirror the kernel's cleaning of the psw.mask in save_sigregs
+> and restore_sigregs.  Ignore PSW_MASK_RI for now, as qemu does
+> not support that.
 
-I think, just make mypy ignore it, like:
+s/qemu/qemu\/tcg/ ? because qemu/kvm supports it .
 
-    Timeout = NoTimeout # type: ignore
-
+Maybe reference the bug reports this fixes?
 
 > 
-> The reason for that is
->>> +    Timeout = NoTimeout
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/s390x/signal.c | 37 ++++++++++++++++++++++++++++++++-----
+>   1 file changed, 32 insertions(+), 5 deletions(-)
 > 
-> They obviously have different types.
-> 
->> +iotests.py:507: error: Cannot assign to a type
->> +iotests.py:507: error: Incompatible types in assignment (expression has type "Callable[[], _GeneratorContextManager[Any]]", variable has type "Type[Timeout]")
->> +Found 2 errors in 1 file (checked 1 source file)
-> 
-> Any ideas on how to fix this? Otherwise I will get rid of it.
-> 
-> Thank you,
-> Emanuele
-> 
->>   def file_pattern(name):
->>       return "{0}-{1}".format(os.getpid(), name)
->> @@ -575,7 +582,7 @@ class VM(qtest.QEMUQtestMachine):
->>       def __init__(self, path_suffix=''):
->>           name = "qemu%s-%d" % (path_suffix, os.getpid())
->> -        timer = 15.0
->> +        timer = 15.0 if not qemu_gdb else None
->>           super().__init__(qemu_prog, qemu_opts, name=name,
->>                            base_temp_dir=test_dir,
->>                            socket_scm_helper=socket_scm_helper,
->>
+> diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+> index ef136dae33..bf8a8fbfe9 100644
+> --- a/linux-user/s390x/signal.c
+> +++ b/linux-user/s390x/signal.c
+> @@ -112,15 +112,23 @@ get_sigframe(struct target_sigaction *ka, CPUS390XState *env, size_t frame_size)
+>       return (sp - frame_size) & -8ul;
+>   }
+>   
+> +#define PSW_USER_BITS   (PSW_MASK_DAT | PSW_MASK_IO | PSW_MASK_EXT | \
+> +                         PSW_MASK_MCHECK | PSW_MASK_PSTATE | PSW_ASC_PRIMARY)
+> +#define PSW_MASK_USER   (PSW_MASK_ASC | PSW_MASK_CC | PSW_MASK_PM | \
+> +                         PSW_MASK_64 | PSW_MASK_32)
+> +
+>   static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
+>   {
+> +    uint64_t psw_mask = s390_cpu_get_psw_mask(env);
+>       int i;
+>   
+>       /*
+>        * Copy a 'clean' PSW mask to the user to avoid leaking
+>        * information about whether PER is currently on.
+> +     * TODO: qemu does not support PSW_MASK_RI; it will never be set.
+>        */
+> -    __put_user(env->psw.mask, &sregs->regs.psw.mask);
+> +    psw_mask = PSW_USER_BITS | (psw_mask & PSW_MASK_USER);
+> +    __put_user(psw_mask, &sregs->regs.psw.mask);
+>       __put_user(env->psw.addr, &sregs->regs.psw.addr);
+>   
+>       for (i = 0; i < 16; i++) {
+> @@ -289,7 +297,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+>   
+>   static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+>   {
+> -    target_ulong prev_addr;
+> +    uint64_t prev_addr, prev_mask, mask, addr;
+>       int i;
+>   
+>       for (i = 0; i < 16; i++) {
+> @@ -297,9 +305,28 @@ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
+>       }
+>   
+>       prev_addr = env->psw.addr;
+> -    __get_user(env->psw.mask, &sc->regs.psw.mask);
+> -    __get_user(env->psw.addr, &sc->regs.psw.addr);
+> -    trace_user_s390x_restore_sigregs(env, env->psw.addr, prev_addr);
+> +    __get_user(mask, &sc->regs.psw.mask);
+> +    __get_user(addr, &sc->regs.psw.addr);
+> +    trace_user_s390x_restore_sigregs(env, addr, prev_addr);
+> +
+> +    /*
+> +     * Use current psw.mask to preserve PER bit.
+> +     * TODO:
+> +     *  if (!is_ri_task(current) && (user_sregs.regs.psw.mask & PSW_MASK_RI))
+> +     *          return -EINVAL;
+> +     * Simply do not allow it to be set in mask.
+> +     */
+> +    prev_mask = s390_cpu_get_psw_mask(env);
+> +    mask = (prev_mask & ~PSW_MASK_USER) | (mask & PSW_MASK_USER);
+> +    /* Check for invalid user address space control. */
+> +    if ((mask & PSW_MASK_ASC) == PSW_ASC_HOME) {
+> +        mask = (mask & ~PSW_MASK_ASC) | PSW_ASC_PRIMARY;
+> +    }
+> +    /* Check for invalid amode. */
+> +    if (mask & PSW_MASK_64) {
+> +        mask |= PSW_MASK_32;
+> +    }
+> +    s390_cpu_set_psw(env, mask, addr);
+>   
+>       for (i = 0; i < 16; i++) {
+>           __get_user(env->aregs[i], &sc->regs.acrs[i]);
 > 
 
+LGTM
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
-Best regards,
-Vladimir
+Thanks,
+
+David / dhildenb
+
 
