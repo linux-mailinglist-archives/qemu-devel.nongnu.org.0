@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F6F3A8988
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 21:32:32 +0200 (CEST)
-Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0520D3A89D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 21:54:09 +0200 (CEST)
+Received: from localhost ([::1]:45582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltEnX-00085W-Su
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 15:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1ltF8R-0008Tz-HY
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 15:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3f__IYAcKCq4jSbhifSUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--venture.bounces.google.com>)
- id 1ltEkE-00038e-Ej
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 15:29:06 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:35529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3f__IYAcKCq4jSbhifSUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--venture.bounces.google.com>)
- id 1ltEkC-0003NO-Te
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 15:29:06 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- u48-20020a25ab330000b029053982019c2dso21338848ybi.2
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 12:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=jvJ1zmax6UoNYSGCjdqDE/V2WMvx/8URVYLNZNLwIJs=;
- b=hKM/JzoCGUYVUzLCCQnZ87uVknQenRkounJ40+q3+zusq8ke85HLUqI+Sv+7bzLiI0
- K/GPBNrVTwPaOrsu6RilfZlniHz6IgJp2yUL1R/vKg8bLQ8Q7ekLrNpYdhm9w690RrQi
- WIue5iibvwPeEO+/esgxVjM+Yrhzjk24FNgfljl7gHW9MRXJYUATqHXpqEBdqStQqpus
- 5UqV0UHsCJ9Afv1XDn2aTErvVaQNC8tAd0c0vPCww00F7nTZ2BWrBcR+JMtYhuDnHXLf
- yh0tFh/irSeXUr2vVDfiD7ajMBRcNQBI03FdKk5yvoXMh0xOorlq7H+ri9I8Y4vCaKYl
- gxDA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltF7Y-0007mx-8v
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 15:53:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltF7T-00007y-Dl
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 15:53:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623786785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ofEOSt/bhJx2RqehuLT5/g7fYy5e7SGdr+rCepXvpBM=;
+ b=M89JNP+P2alOhP0ZoWxA0BYg6+ummGBYY0gqbNtNVxVyzxOmUz3NoNoEK5/eoCTcyAmzOm
+ wONU91IQ37P5/OxZnpqv/mGc7bNk9ALrgwtP7SalA3apmyVTofzySbGj3boBYQeBKJyNpi
+ jSD4QHg50R0+qBn/iPxxWLX9i/R/ucY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-5vSdcC4YOgiCqdjV44CsPQ-1; Tue, 15 Jun 2021 15:53:04 -0400
+X-MC-Unique: 5vSdcC4YOgiCqdjV44CsPQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ x9-20020a5d49090000b0290118d8746e06so9130291wrq.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 12:53:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=jvJ1zmax6UoNYSGCjdqDE/V2WMvx/8URVYLNZNLwIJs=;
- b=Z3zREuVe8pNz/XnctytBk4qdN2/kyVeXBwllKl/Kclt6YDFbp2KuushealKkGvZwzO
- iJW3gTYiqeQ683zQttrqFuKMSFQ+J+npTPdq7s9GSZGMuFb/+q8zdI7aXmNQYh8uJ2HA
- kSGS+VbV5f664NFsGWvveI/79lXQeWfchms6Ez1fSBN/l3FgCw2L9JeaOWy9goPBgLL3
- sZIt4O+q9Tl5TCu2wYpRuEJCcA9MPgpHpiwsfhn8TSmFXJzS7zfH2gxOHiJj0KS7F/Rp
- ZDR2useDDGG0+w+kHt44YJbeFJrJr817rUeInr0gkzaGU7bgvJyhUtzq9cnJ9OcLoJjn
- w7IQ==
-X-Gm-Message-State: AOAM532wCuvadwdHTeCKGZEJgY99chc72tyU8QuxQ8TLqaVseEhkW57p
- S+3QdXE2mXtPo8Gxj37iFRReh4pMG1Zi
-X-Google-Smtp-Source: ABdhPJzvqA/15Ix6R0rKF0JcHkmQcoFSF20jFaK/qBvSzekHpv8P/xDeQNS6wQCpW/u6ISeVqpHPPMXA3vfg
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:abe8:110a:b827:ef39])
- (user=venture job=sendgmr) by 2002:a25:b199:: with SMTP id
- h25mr1162383ybj.58.1623785343325; Tue, 15 Jun 2021 12:29:03 -0700 (PDT)
-Date: Tue, 15 Jun 2021 12:28:48 -0700
-In-Reply-To: <20210615192848.1065297-1-venture@google.com>
-Message-Id: <20210615192848.1065297-3-venture@google.com>
-Mime-Version: 1.0
-References: <20210615192848.1065297-1-venture@google.com>
-X-Mailer: git-send-email 2.32.0.272.g935e593368-goog
-Subject: [PATCH 2/2] docs/system/arm: Add quanta-gbs-bmc reference
-From: Patrick Venture <venture@google.com>
-To: hskinnemoen@google.com, kfting@nuvoton.com, peter.maydell@linaro.org, 
- clg@kaod.org, andrew@aj.id.au, joel@jms.id.au
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Patrick Venture <venture@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3f__IYAcKCq4jSbhifSUccUZS.QcaeSai-RSjSZbcbUbi.cfU@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ofEOSt/bhJx2RqehuLT5/g7fYy5e7SGdr+rCepXvpBM=;
+ b=WojYniJvTFwPj/2t9l3QZ8pXI604jI78MfIF50eDc9MrWuwX/h3l7InXbRkXq6NG7b
+ 8sQEfpfQPSzJ7eRY7KEWRut6xw3sX9K1rPveQ8zjxr2QmyaBI64aCQFbrGV0OwX95Rdr
+ Ecd+HIMNWT0e8TQgqOw/be9efIjlU4nnxeUvcEArBbjBTV+Y4hONX59vTkCvUf12rk/p
+ wtz7CMCShmU6jSAZLhCQ7YWUVpZAbANVHsqQAP/dqHrBgsFyCberAo2bEBd+Zz+UsOpK
+ MXWbnBIng/Ez6WFJilpvFDRbwNtGi4O3YhjAtIIqFOXtxgFuJAlIYOITtFMNXDDj7tKe
+ WYxQ==
+X-Gm-Message-State: AOAM530rmtwAHNNIulf/iAVAmvVaLufeW2sR5mb8cveFSfpmg6tZd+F/
+ qMGoASYOQ7E2WNH1YbJ8K9lU8+CnkAomgoF5I+Cl0ktJPf04Ad4qudjNjYr6JEV+nUo2lCJSKnF
+ ltjakAW0O65GI3YI=
+X-Received: by 2002:adf:e0c7:: with SMTP id m7mr895261wri.409.1623786783125;
+ Tue, 15 Jun 2021 12:53:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxUs7ImKIteypgAFdywHRNi3+7jflRQ26se2H5Dqx9Yab78JTFTbEomuVrhE7IXHNYiC9mRg==
+X-Received: by 2002:adf:e0c7:: with SMTP id m7mr895231wri.409.1623786782922;
+ Tue, 15 Jun 2021 12:53:02 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id x7sm2430217wrn.3.2021.06.15.12.53.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 12:53:02 -0700 (PDT)
+Subject: Re: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
+To: Dov Murik <dovmurik@linux.ibm.com>, James Bottomley <jejb@linux.ibm.com>, 
+ Connor Kuehl <ckuehl@redhat.com>
+References: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
+ <20210615152033.czhsaz44yxtc5ext@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1cff8347-ee38-a0a8-f089-36b28a40b828@redhat.com>
+Date: Tue, 15 Jun 2021 21:53:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210615152033.czhsaz44yxtc5ext@habkost.net>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,35 +100,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, qemu-devel@nongnu.org,
+ Hubertus Franke <frankeh@us.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add line item reference to quanta-gbs-bmc machine.
+Hi Dov, James,
 
-Signed-off-by: Patrick Venture <venture@google.com>
----
- docs/system/arm/nuvoton.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
++Connor who asked to be reviewer.
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index ca011bd479..197d149f66 100644
---- a/docs/system/arm/nuvoton.rst
-+++ b/docs/system/arm/nuvoton.rst
-@@ -1,4 +1,4 @@
--Nuvoton iBMC boards (``npcm750-evb``, ``quanta-gsj``)
-+Nuvoton iBMC boards (``*-bmc``, ``npcm750-evb``, ``quanta-gsj``)
- =====================================================
- 
- The `Nuvoton iBMC`_ chips (NPCM7xx) are a family of ARM-based SoCs that are
-@@ -18,6 +18,7 @@ segment. The following machines are based on this chip :
- The NPCM730 SoC has two Cortex-A9 cores and is targeted for Data Center and
- Hyperscale applications. The following machines are based on this chip :
- 
-+- ``quanta-gbs-bmc``    Quanta GBS server BMC
- - ``quanta-gsj``        Quanta GSJ server BMC
- 
- There are also two more SoCs, NPCM710 and NPCM705, which are single-core
--- 
-2.32.0.272.g935e593368-goog
+On 6/15/21 5:20 PM, Eduardo Habkost wrote:
+> On Tue, May 25, 2021 at 06:59:31AM +0000, Dov Murik wrote:
+>> From: James Bottomley <jejb@linux.ibm.com>
+>>
+>> If the VM is using memory encryption and also specifies a kernel/initrd
+>> or appended command line, calculate the hashes and add them to the
+>> encrypted data.  For this to work, OVMF must support an encrypted area
+>> to place the data which is advertised via a special GUID in the OVMF
+>> reset table (if the GUID doesn't exist, the user isn't allowed to pass
+>> in the kernel/initrd/cmdline via the fw_cfg interface).
+>>
+>> The hashes of each of the files is calculated (or the string in the case
+>> of the cmdline with trailing '\0' included).  Each entry in the hashes
+>> table is GUID identified and since they're passed through the memcrypt
+>> interface, the hash of the encrypted data will be accumulated by the
+>> PSP.
+>>
+>> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>> [dovmurik@linux.ibm.com: use machine->cgs, remove parsing of GUID
+>> strings, remove GCC pragma, fix checkpatch errors]
+>> ---
+>>
+>> OVMF support for handling the table of hashes (verifying that the
+>> kernel/initrd/cmdline passed via the fw_cfg interface indeed correspond
+>> to the measured hashes in the table) will be posted soon to edk2-devel.
+>>
+>> ---
+>>  hw/i386/x86.c | 120 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 119 insertions(+), 1 deletion(-)
+>>
+> 
+> This is not an objection to the patch itself, but: can we do
+> something to move all sev-related code to sev.c?  It would make
+> the process of assigning a maintainer and reviewing/merging
+> future patches much simpler.
+> 
+> I am not familiar with SEV internals, so my only question is
+> about configurations where SEV is disabled:
+> 
+> [...]
+>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>> @@ -778,6 +818,11 @@ void x86_load_linux(X86MachineState *x86ms,
+>>      const char *initrd_filename = machine->initrd_filename;
+>>      const char *dtb_filename = machine->dtb;
+>>      const char *kernel_cmdline = machine->kernel_cmdline;
+>> +    uint8_t buf[HASH_SIZE];
+>> +    uint8_t *hash = buf;
+>> +    size_t hash_len = sizeof(buf);
+>> +    struct sev_hash_table *sev_ht = NULL;
+>> +    int sev_ht_index = 0;
+
+Can you move all these variable into a structure, and use it as a
+SEV loader context?
+
+Then each block of code you added can be moved to its own function,
+self-described, working with the previous context.
+
+The functions can be declared in sev_i386.h and defined in sev.c as
+Eduardo suggested.
+
+>>  
+>>      /* Align to 16 bytes as a paranoia measure */
+>>      cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+>> @@ -799,6 +844,22 @@ void x86_load_linux(X86MachineState *x86ms,
+>>          exit(1);
+>>      }
+>>  
+>> +    if (machine->cgs && machine->cgs->ready) {
+> 
+> machine->cgs doesn't seem to be a SEV-specific field.
+> What if machine->cgs->ready is set but SEV is disabled?
+> 
+>> +        uint8_t *data;
+>> +        struct sev_hash_table_descriptor *area;
+>> +
+>> +        if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+>> +            fprintf(stderr, "qemu: kernel command line specified but OVMF has "
+>> +                    "no hash table guid\n");
+>> +            exit(1);
+>> +        }
+>> +        area = (struct sev_hash_table_descriptor *)data;
+>> +
+>> +        sev_ht = qemu_map_ram_ptr(NULL, area->base);
+>> +        memcpy(sev_ht->guid, sev_hash_table_header_guid, sizeof(sev_ht->guid));
+>> +        sev_ht->len = sizeof(*sev_ht);
+>> +    }
+>> +
+>>      /* kernel protocol version */
+>>      if (ldl_p(header + 0x202) == 0x53726448) {
+>>          protocol = lduw_p(header + 0x206);
+> [...]
+> 
 
 
