@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E143A78D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:13:06 +0200 (CEST)
-Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0C93A78EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:19:23 +0200 (CEST)
+Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt4C0-0001S1-Mq
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40080)
+	id 1lt4I5-0004Hi-Uw
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt4An-0005ib-8r; Tue, 15 Jun 2021 04:11:49 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:35615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt4Ak-0007bm-DF; Tue, 15 Jun 2021 04:11:49 -0400
-Received: by mail-il1-x12f.google.com with SMTP id b9so14584248ilr.2;
- Tue, 15 Jun 2021 01:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DqHmY/V7cz9+ORqZsz7TqCM6eDhlT6E9EA/UbGTZ14Q=;
- b=eMtTUejUL+IxmZ5nnX1E6xTFeIZ2a5gemgA7xOn8XbbO/G/ZuQealNA5Md/oL0KQ0U
- HHSKGY7N/znDw9wUcFFmGh4MLlfogLmQRdNR/pmMW2LNAmriN2mq6xGb0Mx04FhWVJ1x
- 5iocK18Zci2pPi297Za1kXn4mgaPPruBT8pSXVv8oN6O2Y2yqd123/fseDWrjQEjE0Tq
- qRBzZ+cVX9wHlbnjxGg4NlgEnEpGdwb7oZQ0+C8vPIQbLtxcganT54fE/4v5liCl+lxl
- v5nAsOH9gG+ct88PGl6K9nMSJbtO8RL67JlDcKuZUBUD5yOCl+7LPVfqilpIjKI8gVSs
- wFLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DqHmY/V7cz9+ORqZsz7TqCM6eDhlT6E9EA/UbGTZ14Q=;
- b=uQUzcBgQD5g6fY0u6XYyDZHaDjvTCrIZp5WtJAIKtoJvjoPDAmWK87ogEZZaeAN1/h
- nXdvn18wmajvkp+RLmrExdJHPJ5mZ79E+SITS7sub8vQOcQuo8t0SCz8mrpSaYkYESuw
- iuG4AcC7I0OPbR3INYHjRv0d+MMtSBK2JV5f5IeB7WrUpvoxgOUbKMLA5MwQ0jn0WZXI
- YsVgZT/Pg26BY01OuJLxQbOLcNT4yKVCScuItTzyH/kbQG0nuvb9pcUOStHYj3hMvWp0
- 8fWmx20B2K4ovjSUoT4VmeTEYqXja+ooNtyMtC+T5+sXVUzBbj+z6cHWDk/0+icpNahD
- Aeig==
-X-Gm-Message-State: AOAM5337UlpJ8YoTdWWSYuDlg7a16vQZlE2zhT34r/AtaP7jgl7jPnJ1
- Bibopxp3a7mfV7eR26bIntE5Mtwju5lYLtAZHtI=
-X-Google-Smtp-Source: ABdhPJzsjl2kkyuuNsxTy8f/BddVv4h6vx0hOa7S29TaJB7ivL2D8ukavVN7kQvQnrv5Y6rgpy0QFUYD0XkU4HkD6OY=
-X-Received: by 2002:a92:c56d:: with SMTP id b13mr17089829ilj.267.1623744704927; 
- Tue, 15 Jun 2021 01:11:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lt4Bw-0002fc-Mh; Tue, 15 Jun 2021 04:13:00 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:33023)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lt4Bt-0000HF-PK; Tue, 15 Jun 2021 04:13:00 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id DF88D5C009A;
+ Tue, 15 Jun 2021 04:12:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 15 Jun 2021 04:12:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=1Wf3oiT2gaX6RBdT3s5CJkleMhT
+ SisdUP7a70F1Co1Q=; b=YwmAsnDpOXsI4n+fJKrOmwkwhr+KQpoKHJJcU1HG352
+ BVL6gnyW3GNvJvszMMZZoogP+ciEhQQb1JNtwtUGOFD/j5g1KQUjiqP3y6GXEWu2
+ O5UE1zr7rLyYndoC7+m+aX2D4CU5iiLQL4/WDlHxBBhmUcOkmX7KmuelL+CE+Zik
+ Z1cAETN/Egi8Xnt+c4DsTNgHafjMjlAWq/UO75cbsPDvYcA0vVqUdJSTn0kzbkHw
+ zBRDOrfCQZ7QE13ZUBiG/OLqqpdZiG/kkpAQGdjsrPtW3M1DtvEdN4d6ILn/lqtM
+ glnNp0hPVp4WG/T/aDPCE/d1BH9MyoO7+KAkKY1KVzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1Wf3oi
+ T2gaX6RBdT3s5CJkleMhTSisdUP7a70F1Co1Q=; b=HGPnWqgQYIKpYOR6fHeE6V
+ ipq0DAPBKmPoBo8+eHxyAY2TfLqmrmvZjylhsVsC2+Bo5nrT60GFDte1w9aLiq3y
+ eHxq6MwiIsaTXIq0ePyEWtiIZgrP1GUnlb0sGtcX+/9j1RfXESrwXdsKNhnKrKl8
+ HZqTAZvlatPoLlZpYMvZWZKO0RlTM4Y0eliw/tb3RuyVFNuDp1g9B6IDx2EQZcH7
+ Vx9xx4ZcfrTKFJIzlW6XZbHIfIda24usdWfosXvVOv/qzk7ICqrX1ldIYDYE2DES
+ aHYsMM17aBJAWgr8avAZdvjHkRVoqgXWnAVLAjeNMHg1ZRGRfT/f+MrktE7IbMsA
+ ==
+X-ME-Sender: <xms:BmHIYLQP8GtOrTD5RyRH4xxMN-KlIG57xtFDGU-OCrAxH5wtoMEyOw>
+ <xme:BmHIYMyDOH3mKizLoQuLt_mmoS6bTrCiK0yfbe89gH3_8X0bzqttA6WmnyVfMAnzZ
+ nbA9KjRdRKTzhfzgXM>
+X-ME-Received: <xmr:BmHIYA2-6XY34Wu3TGv5MNUnKe972_jJhb49YPIMKFyWoS5QJraY9X-_9kQrZMUtqOoJaUBeMXA4HB6lIPoWL2ZPnoheeYz2xXBU1HtAQjgKPRpQ3w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedviedgudefudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepheevffekffevuddugfdvudfhjeffveefgedvhfejvdevheetheffveetgfel
+ uddtnecuffhomhgrihhnpegtthhrlhdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:BmHIYLAFJWFxGS6NlR94X-7gb2IfDOGdGxKTO_01LcK1irU15DIZEQ>
+ <xmx:BmHIYEhQY7pIlepGexYyRWq8Sw8_UV8m0yxHrGTbh8nf53HNIwiRww>
+ <xmx:BmHIYPp6sIlvhorExE9ythfs_WKPlHYMjIekkPpWxXD68fJBd55bBA>
+ <xmx:B2HIYNuF6020FHF07Jzkk3hGUgsmltWSOjRvfJyFOq_RTmBHOv_TVg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 15 Jun 2021 04:12:54 -0400 (EDT)
+Date: Tue, 15 Jun 2021 10:12:51 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jakub =?utf-8?B?SmVybcOhxZk=?= <jakub.jermar@kernkonzept.com>
+Subject: Re: [PATCH v2] hw/nvme: be more careful when deasserting IRQs
+Message-ID: <YMhhA7Vc1cl+XTI1@apples.localdomain>
+References: <20210614135429.56475-1-jakub.jermar@kernkonzept.com>
+ <YMedu0Ry1YKJ/2SV@apples.localdomain>
+ <ca7fc845-47e9-e122-e4c5-128761a0f2aa@kernkonzept.com>
 MIME-Version: 1.0
-References: <20210514143242.377645-1-anup.patel@wdc.com>
- <20210514143242.377645-4-anup.patel@wdc.com>
- <CAKmqyKOcsF32oLtfyh511JCcrwgONK1qvjwK-dMYdPPZABYOOg@mail.gmail.com>
- <CAAhSdy1eWW6bw55O1pLHvopRVvM6DVb-kzvhTAjAoyvB0qt5bQ@mail.gmail.com>
- <CAKmqyKO_hEpGUNkH99rk2XNERHFN_iQTJEuHzGDsNerHXqna0Q@mail.gmail.com>
- <CAAhSdy0ifGW6QJC+esbx9+V7huOrAFigJsh5LsCHh7MofT721A@mail.gmail.com>
-In-Reply-To: <CAAhSdy0ifGW6QJC+esbx9+V7huOrAFigJsh5LsCHh7MofT721A@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 15 Jun 2021 18:11:18 +1000
-Message-ID: <CAKmqyKM12-P-2Hg+Ynopj_i6BX4s1xAj9SJ6JvUrSsTn_LPcag@mail.gmail.com>
-Subject: Re: [PATCH 3/4] target/riscv: Implement AIA local interrupt CSRs
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pPITjm7JR/4nCjz5"
+Content-Disposition: inline
+In-Reply-To: <ca7fc845-47e9-e122-e4c5-128761a0f2aa@kernkonzept.com>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,157 +94,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: kbusch@kernel.org, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 12, 2021 at 12:04 AM Anup Patel <anup@brainfault.org> wrote:
->
-> On Fri, Jun 11, 2021 at 2:16 PM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Fri, Jun 11, 2021 at 3:04 PM Anup Patel <anup@brainfault.org> wrote:
-> > >
-> > > On Fri, Jun 11, 2021 at 4:49 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > >
-> > > > On Sat, May 15, 2021 at 12:34 AM Anup Patel <anup.patel@wdc.com> wrote:
-> > > > >
-> > > > > We implement various AIA local interrupt CSRs for M-mode, HS-mode,
-> > > > > and VS-mode.
-> > > > >
-> > > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > > > > ---
-> > > > >  target/riscv/cpu.c        |   27 +-
-> > > > >  target/riscv/cpu.h        |   52 +-
-> > > > >  target/riscv/cpu_helper.c |  245 ++++++++-
-> > > > >  target/riscv/csr.c        | 1059 +++++++++++++++++++++++++++++++++++--
-> > > > >  target/riscv/machine.c    |   26 +-
-> > > > >  5 files changed, 1309 insertions(+), 100 deletions(-)
-> > > >
-> > > > I feel this patch could be split up more :)
-> > >
-> > > This is patch is large because I did not want to break functionality.
-> > >
-> > > I try again to break this patch. At the moment, the best I can do is
-> > > to break in to two parts.
-> > > 1) AIA local interrupt CSRs without IMSIC
-> > > 2) Extend AIA local interrupt CSRs to support IMSIC register access
-> >
-> > As the patch is being added while AIA isn't enabled you are able to
-> > add the AIA in breaking stages. That is the AIA isn't fully
-> > functional, you still have to make sure not to break existing users.
-> >
-> > >
-> > > >
-> > > > >
-> > > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > > > > index f3702111ae..795162834b 100644
-> > > > > --- a/target/riscv/cpu.c
-> > > > > +++ b/target/riscv/cpu.c
-> > > > > @@ -256,11 +256,11 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> > > > >          qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus ",
-> > > > >                       (target_ulong)env->vsstatus);
-> > > > >      }
-> > > > > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
-> > > > > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
-> > > > > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
-> > > > > +    qemu_fprintf(f, " %s %016" PRIx64 "\n", "mip     ", env->mip);
-> > > > > +    qemu_fprintf(f, " %s %016" PRIx64 "\n", "mie     ", env->mie);
-> > > > > +    qemu_fprintf(f, " %s %016" PRIx64 "\n", "mideleg ", env->mideleg);
-> > > > >      if (riscv_has_ext(env, RVH)) {
-> > > > > -        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hideleg ", env->hideleg);
-> > > > > +        qemu_fprintf(f, " %s %016" PRIx64 "\n", "hideleg ", env->hideleg);
-> > > > >      }
-> > > > >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
-> > > > >      if (riscv_has_ext(env, RVH)) {
-> > > > > @@ -345,6 +345,8 @@ void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
-> > > > >
-> > > > >  static void riscv_cpu_reset(DeviceState *dev)
-> > > > >  {
-> > > > > +    uint8_t iprio;
-> > > > > +    int i, irq, rdzero;
-> > > > >      CPUState *cs = CPU(dev);
-> > > > >      RISCVCPU *cpu = RISCV_CPU(cs);
-> > > > >      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
-> > > > > @@ -357,6 +359,23 @@ static void riscv_cpu_reset(DeviceState *dev)
-> > > > >      env->mcause = 0;
-> > > > >      env->pc = env->resetvec;
-> > > > >      env->two_stage_lookup = false;
-> > > > > +
-> > > > > +    /* Initialized default priorities of local interrupts. */
-> > > > > +    for (i = 0; i < ARRAY_SIZE(env->miprio); i++) {
-> > > > > +        iprio = riscv_cpu_default_priority(i);
-> > > > > +        env->miprio[i] = iprio;
-> > > > > +        env->siprio[i] = iprio;
-> > > > > +        env->hviprio[i] = IPRIO_DEFAULT_MMAXIPRIO;
-> > > > > +    }
-> > > > > +    i = 0;
-> > > > > +    while (!riscv_cpu_hviprio_index2irq(i, &irq, &rdzero)) {
-> > > > > +        if (rdzero) {
-> > > > > +            env->hviprio[irq] = 0;
-> > > > > +        } else {
-> > > > > +            env->hviprio[irq] = env->miprio[irq];
-> > > > > +        }
-> > > > > +        i++;
-> > > > > +    }
-> > > > >  #endif
-> > > > >      cs->exception_index = EXCP_NONE;
-> > > > >      env->load_res = -1;
-> > > > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > > > > index f00c60c840..780d3f9058 100644
-> > > > > --- a/target/riscv/cpu.h
-> > > > > +++ b/target/riscv/cpu.h
-> > > > > @@ -157,12 +157,12 @@ struct CPURISCVState {
-> > > > >       */
-> > > > >      uint64_t mstatus;
-> > > > >
-> > > > > -    target_ulong mip;
-> > > > > +    uint64_t mip;
-> > > >
-> > > > This isn't right. MIP is a MXLEN-1 CSR. I didn't check but I assume
-> > > > all the other existing target_ulong CSRs are the same.
-> > >
-> > > When AIA is available the number of local interrupts are 64 for
-> > > both RV32 and RV64.
-> >
-> > Is that going to be reflected in the priv spec?
->
-> The AIA spec is going to be separate from priv spec since
-> it is totally optional.
->
-> This AIA local interrupt CSRs will be part of AIA spec and should
-> only be implemented if a RISC-V implementations wants to use
-> AIA.
->
-> We have four types of changes as far as CSRs go:
-> 1) RV32 CSRs to support 64 local interrupts on RV32
 
-Hmmm... This isn't ideal. So implementations without AIA will have a
-Xlen MIP while implementations with AIA will have a 64-bit MIP?
+--pPITjm7JR/4nCjz5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I guess we just don't expose all of MIP, so it isn't that bad. Still
-that change should be it's own patch with good justification as why we
-aren't following the priv spec.
-
-> 2) Indirect CSRs to access local interrupt priorities
-> 3) Interrupt filtering CSRs
-> 4) IMSIC support CSRs
-
-New AIA CSRs are fine, it's just core changes that are more of a worry.
-
-Alistair
-
+On Jun 15 09:42, Jakub Jerm=C3=A1=C5=99 wrote:
+>On 6/14/21 8:19 PM, Klaus Jensen wrote:
+>>On Jun 14 15:54, Jakub Jerm=C3=A1=C5=99 wrote:
+>>>An IRQ vector used by a completion queue cannot be deasserted without
+>>>first checking if the same vector does not need to stay asserted for
+>>>some other completion queue. To this end the controller structure is
+>>>extended by a counter of asserted completion queues.
+>>>
+>>>To prevent incrementing the counter for completion queues that are
+>>>asserted repeatedly, each completion queue is extended by a flag which
+>>>tells whether the queue is currently asserted.
+>>>
+>>
+>>I wasn't clear on this on my last review, but the misunderstanding=20
+>>here is that the completion queue vector somehow matters for=20
+>>pin-based interrupts - it does not. There is only *one* interrupt=20
+>>vector and if the controller is not using MSI-X, then the Interrupt=20
+>>Vector (IV) field of the Create I/O Completion Queue command *must*=20
+>>be zero.
+>>
+>>In other words, all that matters is if there are one or more CQEs=20
+>>posted (in any queue).
 >
-> From above #3 is totally optional and not implemented by this
-> patch whereas #4 is only required when platform has RISC-V IMSIC.
+>Ah, my bad. I got confused by the assert(vector < 32).
 >
-> A platform can skip all four changes mentioned above, if the
-> platform only wants AIA APLIC to manage wired interrupts.
+>>Would this (untested) patch do the trick?
 >
-> Regards,
-> Anup
+>It works for my testcase, but I am not sure this will work when=20
+>deassert is called when the IRQ is not necessarily asserted, such as=20
+>in nvme_del_cq.
+>
+
+You are right, I think it needs a check on cq->tail !=3D cq->head before=20
+decrementing cq_pending.
+
+>Jakub
+>
+>>diff --git i/hw/nvme/nvme.h w/hw/nvme/nvme.h
+>>index 93a7e0e5380e..60250b579464 100644
+>>--- i/hw/nvme/nvme.h
+>>+++ w/hw/nvme/nvme.h
+>>@@ -405,6 +405,7 @@ typedef struct NvmeCtrl {
+>> =C2=A0=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 max_q_ents;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 uint8_t=C2=A0=C2=A0=C2=A0=C2=A0 outstanding_aer=
+s;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 irq_status;
+>>+=C2=A0=C2=A0=C2=A0 int=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 c=
+q_pending;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 host_timestamp;=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 /* Timestamp sent=20
+>>by the host */
+>> =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 timestamp_set_qemu_c=
+lock_ms;=C2=A0=C2=A0=C2=A0 /* QEMU clock time */
+>> =C2=A0=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 starttime_ms;
+>>diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+>>index 7dea64b72e6a..4de4b3177463 100644
+>>--- i/hw/nvme/ctrl.c
+>>+++ w/hw/nvme/ctrl.c
+>>@@ -473,6 +473,10 @@ static void nvme_irq_deassert(NvmeCtrl *n,=20
+>>NvmeCQueue *cq)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ return;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ assert(cq->vector < 32);
+>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (-=
+-(n->cq_pending)) {
+>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 return;
+>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>+
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ n->irq_status &=3D ~(1 << cq->vector);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ nvme_irq_check(n);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>@@ -1258,6 +1262,7 @@ static void nvme_post_cqes(void *opaque)
+>> =C2=A0=C2=A0=C2=A0=C2=A0 NvmeCQueue *cq =3D opaque;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 NvmeCtrl *n =3D cq->ctrl;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 NvmeRequest *req, *next;
+>>+=C2=A0=C2=A0=C2=A0 bool empty =3D cq->head =3D=3D cq->tail;
+>> =C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0 QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, =
+next) {
+>>@@ -1287,6 +1292,10 @@ static void nvme_post_cqes(void *opaque)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 QTAILQ_INSERT_TAIL(&sq-=
+>req_list, req, entry);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0 if (cq->tail !=3D cq->head) {
+>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (empty) {
+>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n->cq=
+_pending++;
+>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>+
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme_irq_assert(n, cq);
+>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0}
+>>
+>>
+>>>Signed-off-by: Jakub Jermar <jakub.jermar@kernkonzept.com>
+>>>---
+>>>hw/nvme/ctrl.c | 22 ++++++++++++++++------
+>>>hw/nvme/nvme.h |=C2=A0 2 ++
+>>>2 files changed, 18 insertions(+), 6 deletions(-)
+>>>
+>>>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>>>index 0bcaf7192f..97a5d768ee 100644
+>>>--- a/hw/nvme/ctrl.c
+>>>+++ b/hw/nvme/ctrl.c
+>>>@@ -451,9 +451,13 @@ static void nvme_irq_assert(NvmeCtrl *n,=20
+>>>NvmeCQueue *cq)
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 msix_=
+notify(&(n->parent_obj), cq->vector);
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace=
+_pci_nvme_irq_pin();
+>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asse=
+rt(cq->vector < 32);
+>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n->i=
+rq_status |=3D 1 << cq->vector;
+>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme=
+_irq_check(n);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
+!cq->irq_asserted) {
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 cq->irq_asserted =3D true;
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 assert(cq->vector < 32);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 n->irq_asserted_cnt[cq->vector]++;
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 n->irq_status |=3D 1 << cq->vector;
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 nvme_irq_check(n);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>=C2=A0=C2=A0=C2=A0 } else {
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_pci_nvme_irq_masked();
+>>>@@ -466,9 +470,15 @@ static void nvme_irq_deassert(NvmeCtrl *n,=20
+>>>NvmeCQueue *cq)
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (msix_enabled(&(n->parent_=
+obj))) {
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n;
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asse=
+rt(cq->vector < 32);
+>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n->i=
+rq_status &=3D ~(1 << cq->vector);
+>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme=
+_irq_check(n);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (=
+cq->irq_asserted) {
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 cq->irq_asserted =3D false;
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 assert(cq->vector < 32);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 assert(n->irq_asserted_cnt[cq->vector]);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 if (n->irq_asserted_cnt[cq->vector]-- =3D=3D 1) {
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n->irq_status &=3D ~(1 << cq-=
+>vector);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 }
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 nvme_irq_check(n);
+>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>=C2=A0=C2=A0=C2=A0 }
+>>>}
+>>>diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>>>index 81a35cda14..753bf7a923 100644
+>>>--- a/hw/nvme/nvme.h
+>>>+++ b/hw/nvme/nvme.h
+>>>@@ -352,6 +352,7 @@ typedef struct NvmeCQueue {
+>>>=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 head;
+>>>=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 tail;
+>>>=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 vector;
+>>>+=C2=A0=C2=A0=C2=A0 bool=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 irq_a=
+sserted;
+>>>=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 size;
+>>>=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 dma_addr;
+>>>=C2=A0=C2=A0=C2=A0 QEMUTimer=C2=A0=C2=A0 *timer;
+>>>@@ -404,6 +405,7 @@ typedef struct NvmeCtrl {
+>>>=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 max_q_ents;
+>>>=C2=A0=C2=A0=C2=A0 uint8_t=C2=A0=C2=A0=C2=A0=C2=A0 outstanding_aers;
+>>>=C2=A0=C2=A0=C2=A0 uint32_t=C2=A0=C2=A0=C2=A0 irq_status;
+>>>+=C2=A0=C2=A0=C2=A0 uint16_t=C2=A0=C2=A0=C2=A0 irq_asserted_cnt[32];
+>>>=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 host_timestamp;=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 /* Timestamp sent=20
+>>>by the host */
+>>>=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 timestamp_set_qemu_clock_m=
+s;=C2=A0=C2=A0=C2=A0 /* QEMU clock time */
+>>>=C2=A0=C2=A0=C2=A0 uint64_t=C2=A0=C2=A0=C2=A0 starttime_ms;
+>>>--=20
+>>>2.31.1
+>>>
+>>>
+>>
+>
+>
+
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--pPITjm7JR/4nCjz5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDIYP8ACgkQTeGvMW1P
+DemQHgf9EgncnG1m4JnLEkxvkZ0N2Po1KKsGJnluOoMlY9X26yGB3VzWdEO1k1xN
+vyfTgfiSMswDdXRp9C0hVp1j/LFsyedrrLlUZU9A3WlZ3r1nyyC5eUh/4NHwh322
+vtCm1r72DrjMmUXvrs7Bix6Ff/5D9ENh6XvStySsaVvkP1C3pXOVaG2NIwwqunaF
+o9XS51c5NOs2lWSkgRKMYoWvz4JAhymEsM1DJUzj6UeJZf0B2snxcbDDB2/7wuh8
+nKLKUYQfW2SX+2rHcqQofu8rYQDZqj1bLjWAGxii0D3jlkKtJImPKgmU9oe8j9aq
+uAi5zD1nPUV4H5E4X6gdTZcAtn52Qg==
+=YsHZ
+-----END PGP SIGNATURE-----
+
+--pPITjm7JR/4nCjz5--
 
