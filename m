@@ -2,94 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0861D3A7E2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 14:26:55 +0200 (CEST)
-Received: from localhost ([::1]:46158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CB83A7E30
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 14:29:06 +0200 (CEST)
+Received: from localhost ([::1]:48474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt89d-0004N8-HW
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 08:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42770)
+	id 1lt8Bl-0005x5-Se
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 08:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lt87x-0002jA-W7
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 08:25:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lt87o-0007DD-Jv
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 08:25:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623759898;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fWtDcmSA0PdYR5EFACd5pgg5mScCFzkym3tMUXQJBy0=;
- b=hGsS+giOUO/lYtQsCxLHekvx6LE8aFgwu1i2uwkXvJ6eAX8XQCSwv3Un3KidQqRLiWgC0A
- e12dOK0oWVQeIWZxTV9CWj4It5ZRh/OGulTTor+vgXHbXxzggqMFTNiqtIZRSl6Q97+VSN
- YiFxfEiB0fZUJm0RC8owayT3FcopT2g=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-ucepnGAOOaep3Tn1ymdvIg-1; Tue, 15 Jun 2021 08:24:57 -0400
-X-MC-Unique: ucepnGAOOaep3Tn1ymdvIg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- jy19-20020a1709077633b02903eb7acdb38cso4440012ejc.14
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 05:24:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fWtDcmSA0PdYR5EFACd5pgg5mScCFzkym3tMUXQJBy0=;
- b=DaxP3MtVvkO+5vbzsbKy7UULNFmQ4fbiQvz5dLvgY7zBDovOcpfrOao6jdqoyTFCVN
- 3dOReDHvSk/CJ0UHDsj0SZSkRIx4+2KLTdrM+pic9oPA5cWSlrYXBk/hWbUtMg86ym8/
- jLUS8PBusURmJ2038FRxUX62iQVnLwlGkwEszTs2FO8My2Mqn534kwPSdWcNrEFeUYtP
- kxQY/TTb57ACTJHDzi2lUIIvihmv2RmtO6Rh+VTqA2Fn8XiB5Yi5nOw16JjbiD1LyLuk
- Rd7oppVm7cf1Yd4GFEh2x9G+mOwHtrKyxqMxsLwNvHdOUxzmIFrhsKYBSqNUdo5ETL3R
- TpOQ==
-X-Gm-Message-State: AOAM5311KwUcubSyumflynC+dgLyydKeJBjum9o7xPOeqMEwBg/XYGg0
- 02s4P5PmpqBq8tGHz7AgIDVXmNZi4CXM+LutbJXZ34PiZn2P+/6hZ2OADTL9G/pJqig3EMOKxBh
- shbu7Jy06uWC6TJOpCTe8BrHsvmDwv+Lar5P1EGxB6tzHL9VVQaA7dNhjvhAD+EVvxcg=
-X-Received: by 2002:aa7:dc4c:: with SMTP id g12mr23558186edu.258.1623759895667; 
- Tue, 15 Jun 2021 05:24:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJTMExUNqeF/DcTwU6pYO0vQL+GI1OyEJRseoubi6vNSpJpvBEZ0EqrTdM3lPd2LeTNygWSg==
-X-Received: by 2002:aa7:dc4c:: with SMTP id g12mr23558146edu.258.1623759895392; 
- Tue, 15 Jun 2021 05:24:55 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n2sm11908025edi.32.2021.06.15.05.24.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 05:24:54 -0700 (PDT)
-Subject: Re: [PATCH 1/3] target/i386: Added consistency checks for VMRUN
- intercept and ASID
-To: Lara Lazier <laramglazier@gmail.com>, qemu-devel@nongnu.org
-References: <20210614100902.15860-1-laramglazier@gmail.com>
- <20210614100902.15860-2-laramglazier@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d0eea515-af7e-9529-7f8c-101d1e888f9f@redhat.com>
-Date: Tue, 15 Jun 2021 14:24:53 +0200
+ (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lt881-0002mW-2J; Tue, 15 Jun 2021 08:25:13 -0400
+Received: from [201.28.113.2] (port=26024 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <bruno.larsen@eldorado.org.br>)
+ id 1lt87y-0007IN-Qz; Tue, 15 Jun 2021 08:25:12 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 15 Jun 2021 09:25:07 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 0B32D800144;
+ Tue, 15 Jun 2021 09:25:07 -0300 (-03)
+Subject: Re: [PATCH v2 1/2] target/ppc: fix address translation bug for radix
+ mmus
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+ <YMgFO37SzY1KkwQc@yekko> <61359cca-19fc-8f2f-0cf6-ee520fc356c2@linaro.org>
+From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
+Message-ID: <0b052edd-99fe-fd68-fb19-6d295c4119e9@eldorado.org.br>
+Date: Tue, 15 Jun 2021 09:25:06 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210614100902.15860-2-laramglazier@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <61359cca-19fc-8f2f-0cf6-ee520fc356c2@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------94E4C78DC20339011F7B3E9A"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 15 Jun 2021 12:25:07.0399 (UTC)
+ FILETIME=[7A0DF570:01D761E1]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.095, PDS_HP_HELO_NORDNS=0.308, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,47 +61,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: farosas@linux.ibm.com, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/06/21 12:09, Lara Lazier wrote:
-> +#define SVM_VMRUN_INTERCEPT (1ULL << 32)
-> +
->   struct QEMU_PACKED vmcb_control_area {
->   	uint16_t intercept_cr_read;
->   	uint16_t intercept_cr_write;
+This is a multi-part message in MIME format.
+--------------94E4C78DC20339011F7B3E9A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-...
 
-> +    if (!(env->intercept & SVM_VMRUN_INTERCEPT)) {
-> +        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
-> +    }
+On 15/06/2021 00:20, Richard Henderson wrote:
+> On 6/14/21 6:41 PM, David Gibson wrote:
+>> I think move these to mmu-book3s-v3.h, since they're correct for both
+>> the radix and hash sides of the modern book3s mmu.
+>
+> They're also correct for all non-booke mmus, e.g. hash32 and 6xx, 
+> which is why I recommended internal.h (or some new mmu-internal.h).
+>
+> While neither hash32 nor 6xx have HV, and thus there is no second tlb 
+> bug, it would still be More Correct to use mmu_idx instead of direct 
+> references to msr_pr et al.
+yeah, I agree that I should change the documentation. Before I send a 
+new version with everything corrected, I wanna make sure if I should 
+leave them in internal and use it for hash32 and 6xx MMUs, or do I put 
+them in mmu-book3s-v3.h, since only radix64 has that the bug?
+>
+>
+> r~
+-- 
+Bruno Piazera Larsen
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Analista de Software Trainee
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
-Hi Lara,
+--------------94E4C78DC20339011F7B3E9A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-as discussed in our weekly meeting, the only issue with these patch is a 
-matter of aesthetics and maintainability more than functionality; 
-namely, the duplication between SVM_VMRUN_INTERCEPT and SVM_EXIT_VMRUN, 
-and likewise in patch 3 between INTERCEPT_SELECTIVE_CR0 and 
-SVM_EXIT_CR0_SEL_WRITE.  Showing them side by side also makes it 
-apparent that the names are not consistent, but it's even better to 
-avoid the duplication altogether if possible.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 15/06/2021 00:20, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:61359cca-19fc-8f2f-0cf6-ee520fc356c2@linaro.org">On
+      6/14/21 6:41 PM, David Gibson wrote:
+      <br>
+      <blockquote type="cite">I think move these to mmu-book3s-v3.h,
+        since they're correct for both
+        <br>
+        the radix and hash sides of the modern book3s mmu.
+        <br>
+      </blockquote>
+      <br>
+      They're also correct for all non-booke mmus, e.g. hash32 and 6xx,
+      which is why I recommended internal.h (or some new
+      mmu-internal.h).
+      <br>
+      <br>
+      While neither hash32 nor 6xx have HV, and thus there is no second
+      tlb bug, it would still be More Correct to use mmu_idx instead of
+      direct references to msr_pr et al.
+      <br>
+    </blockquote>
+    yeah, I agree that I should change the documentation. Before I send
+    a new version with everything corrected, I wanna make sure if I
+    should leave them in internal and use it for hash32 and 6xx MMUs, or
+    do I put them in mmu-book3s-v3.h, since only radix64 has that the
+    bug?<br>
+    <blockquote type="cite"
+      cite="mid:61359cca-19fc-8f2f-0cf6-ee520fc356c2@linaro.org">
+      <br>
+      <br>
+      r~
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Bruno Piazera Larsen<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
 
-In particular, one way to do so is to extract the intercept checks to a 
-function that you can call like
-
-     cpu_svm_has_intercept(env, SVM_EXIT_VMRUN)
-
-so that the function computes the right bit of the bitmap based on the 
-second argument.  Most of the code to do this is already in 
-svm_helper.c's cpu_svm_check_intercept_param, which you're already 
-familiar with.  cpu_svm_check_intercept_param can also be modified to 
-call the new cpu_svm_has_intercept.
-
-When your second version of the patches are ready, you can add the "-v2" 
-argument to git format-patch and it will automatically start the 
-subjects with "[PATCH v2 ...]" instead of just "[PATCH ...]".
-
-Paolo
-
+--------------94E4C78DC20339011F7B3E9A--
 
