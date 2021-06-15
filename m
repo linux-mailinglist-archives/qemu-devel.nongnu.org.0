@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F1D3A82D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:29:25 +0200 (CEST)
-Received: from localhost ([::1]:59808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A8C3A82E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 16:31:20 +0200 (CEST)
+Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltA4B-0007PY-TE
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
+	id 1ltA63-0002Cx-CA
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 10:31:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lt9wp-0004eH-Rn
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:21:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40453)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lt9ze-0001d0-A1
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:24:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lt9wm-00028E-DI
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:21:47 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lt9zb-00034O-7Q
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 10:24:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623766903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1623767078;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hIM4nZ+edtMSEGqYdtBltxWEdrhiKauaGSD/ANl7HE=;
- b=iR7q52YRZsRPHr9IaNSfLDlD/ImXqlS3GnS0/UMmD6+3J09Dl2nHjax58jl8KOSKbiHXzq
- MXnB3pCAQP3/eBQjh/TwEZJ/638NrYNtLHxE/QeV9n/6GEJ5ddljDqY/7+Kc4QBr9cvjbw
- M6OztAdyljdVWAhFpy4XHjwNy/itiog=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-_U9iI0d8Pc6mx_CRdxaGfw-1; Tue, 15 Jun 2021 10:21:42 -0400
-X-MC-Unique: _U9iI0d8Pc6mx_CRdxaGfw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x9-20020adfffc90000b02901178add5f60so8730756wrs.5
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 07:21:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3hIM4nZ+edtMSEGqYdtBltxWEdrhiKauaGSD/ANl7HE=;
- b=NhPQ100wKzWKQhH8sgKvdQYMS7fnirVeb7bLhXj3vdmWpPn/MTlXYDhv+7yT/LPh+C
- Vukkiv/CwMsh7u6OvZpu9+ZACKJ8zx9o8qA8dkqvXmpW7CcyEpfCgKW4YwVEf/ZSUKSU
- ggPJBQIKFW9uxc8oYJ2b9SwWDqAMZXZmb3eaDNlysUihvzCoTteulOuf3n6BCWtbsxNn
- hvQ3gOYiUq1Y/i8pjZu/+32fsH/SeG7MGfwAboRoLxdUSImECn+tNdIc6+TKzmeCBjp+
- ZGg4qTtLFOlKB1zEUKbuGm5KiJfrgwDfloACmSS1PkxSYf4XNNB3qZLP2+EKtT3UwYu1
- 0s2w==
-X-Gm-Message-State: AOAM531L0agBL8VhfWGVNPBZtpltHXf6yUBnR4ru1pNM/l4ovOsDi2RF
- d6QCyjKfPR7/lZ6JqhBAirjHcKmwbHZ2BggY2Bnoku46Zng8UIBGLjKsDSfPWEYMkB7sZVV++Du
- MAhDX4uv8h9vT74J2s0LdF3PSEiTJ18RqskQFzBLHir95baWuBCl9FamxdQOr1VW7
-X-Received: by 2002:a05:600c:4e8e:: with SMTP id
- f14mr5473881wmq.172.1623766901567; 
- Tue, 15 Jun 2021 07:21:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2ac6UxeiY2dO0jq/DtQflEHm9UTpF6R/VHeyAVvmD2jdUs//SV3xreYd+mdAfdlwDOz90Hg==
-X-Received: by 2002:a05:600c:4e8e:: with SMTP id
- f14mr5473863wmq.172.1623766901357; 
- Tue, 15 Jun 2021 07:21:41 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id t1sm18620831wrx.28.2021.06.15.07.21.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 07:21:40 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/5] sysemu: Make TPM structures inaccessible if CONFIG_TPM
- is not defined
-Date: Tue, 15 Jun 2021 16:21:20 +0200
-Message-Id: <20210615142121.2127692-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210615142121.2127692-1-philmd@redhat.com>
-References: <20210615142121.2127692-1-philmd@redhat.com>
+ bh=Tj7+mzLT5YF5GqBnwgOkgjsZMe9Vwf4qGeR994dE3cg=;
+ b=S+z9Ie+pe7hjSQYT85Gk/VL9OnDCWD58zvwEr9ADz6v2y3y6fmC508PUoXKw7s7SSGMrHZ
+ neTAXgV8hjuWZXLSYyvU/uhZ9c4p0u3bOZ7glZ+KLpqEje7RIMTywfpQ66EYkcYqEoYa30
+ Zibv4ERHen2VeoMrKzzVYl1peEhayb8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-RPvzn38SOA-t5O3YbwZcuQ-1; Tue, 15 Jun 2021 10:24:35 -0400
+X-MC-Unique: RPvzn38SOA-t5O3YbwZcuQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EE21800D62
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 14:24:34 +0000 (UTC)
+Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FAF117BB2;
+ Tue, 15 Jun 2021 14:24:33 +0000 (UTC)
+Date: Tue, 15 Jun 2021 15:24:30 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 09/26] configure, meson: convert vte detection to meson
+Message-ID: <YMi4HunPKXQF0j79@redhat.com>
+References: <20210608112301.402434-1-pbonzini@redhat.com>
+ <20210608112301.402434-10-pbonzini@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210608112301.402434-10-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -96,96 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Berger <stefanb@linux.ibm.com>
+On Tue, Jun 08, 2021 at 01:22:44PM +0200, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure         | 35 ++++-------------------------------
+>  meson.build       | 22 ++++++++++++++++------
+>  meson_options.txt |  2 ++
+>  3 files changed, 22 insertions(+), 37 deletions(-)
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210614191335.1968807-5-stefanb@linux.ibm.com>
-[PMD: Remove tpm_init() / tpm_cleanup() stubs]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/sysemu/tpm.h         |  9 +++++++++
- include/sysemu/tpm_backend.h |  6 +++++-
- stubs/tpm.c                  | 10 ----------
- 3 files changed, 14 insertions(+), 11 deletions(-)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
-index 1a85564e479..68b2206463c 100644
---- a/include/sysemu/tpm.h
-+++ b/include/sysemu/tpm.h
-@@ -15,6 +15,8 @@
- #include "qapi/qapi-types-tpm.h"
- #include "qom/object.h"
- 
-+#ifdef CONFIG_TPM
-+
- int tpm_config_parse(QemuOptsList *opts_list, const char *optarg);
- int tpm_init(void);
- void tpm_cleanup(void);
-@@ -73,4 +75,11 @@ static inline TPMVersion tpm_get_version(TPMIf *ti)
-     return TPM_IF_GET_CLASS(ti)->get_version(ti);
- }
- 
-+#else /* CONFIG_TPM */
-+
-+#define tpm_init()  (0)
-+#define tpm_cleanup()
-+
-+#endif /* CONFIG_TPM */
-+
- #endif /* QEMU_TPM_H */
-diff --git a/include/sysemu/tpm_backend.h b/include/sysemu/tpm_backend.h
-index 6f078f5f482..8fd3269c117 100644
---- a/include/sysemu/tpm_backend.h
-+++ b/include/sysemu/tpm_backend.h
-@@ -18,6 +18,8 @@
- #include "sysemu/tpm.h"
- #include "qapi/error.h"
- 
-+#ifdef CONFIG_TPM
-+
- #define TYPE_TPM_BACKEND "tpm-backend"
- OBJECT_DECLARE_TYPE(TPMBackend, TPMBackendClass,
-                     TPM_BACKEND)
-@@ -209,4 +211,6 @@ TPMInfo *tpm_backend_query_tpm(TPMBackend *s);
- 
- TPMBackend *qemu_find_tpm_be(const char *id);
- 
--#endif
-+#endif /* CONFIG_TPM */
-+
-+#endif /* TPM_BACKEND_H */
-diff --git a/stubs/tpm.c b/stubs/tpm.c
-index 22014595a06..e79bd2a6c2d 100644
---- a/stubs/tpm.c
-+++ b/stubs/tpm.c
-@@ -7,18 +7,8 @@
- 
- #include "qemu/osdep.h"
- #include "qapi/qapi-commands-tpm.h"
--#include "sysemu/tpm.h"
- #include "hw/acpi/tpm.h"
- 
--int tpm_init(void)
--{
--    return 0;
--}
--
--void tpm_cleanup(void)
--{
--}
--
- TPMInfoList *qmp_query_tpm(Error **errp)
- {
-     return NULL;
+> @@ -871,14 +872,22 @@ if not get_option('gtk').auto() or (have_system and not cocoa.found())
+>                          required: false,
+>                          kwargs: static_kwargs)
+>      gtk = declare_dependency(dependencies: [gtk, gtkx11])
+> +
+> +    if not get_option('vte').auto() or have_system
+> +      vte = dependency('vte-2.91', version: '>=0.32.0',
+> +                       method: 'pkg-config',
+> +                       required: get_option('vte'),
+> +                       kwargs: static_kwargs)
+> +      if not vte.found()
+> +        vte = dependency('vte-2.90', version: '>=0.32.0',
+> +                         method: 'pkg-config',
+> +                         required: get_option('vte'),
+> +                         kwargs: static_kwargs)
+> +      endif
+
+The old configure checks didn't have a version number How did you
+decide on 0.32 ?  This version number doesn't make a whole lot of
+sense to me in the way it is used.
+
+vte changes from ABI 2.90 to 2.91 in release 0.37, so you'll never
+get a version less than that with vte-2.91 IIUC.
+
+Meanwhile all our supported distros ship 2.91 API now AFAICT, so we
+don't need the 2.90 code at all.
+
+I'd suggest dropping vte-2.90 in the configure script first, and then
+doing a simpler meson conversion.
+
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
