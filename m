@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C565D3A86E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:53:41 +0200 (CEST)
-Received: from localhost ([::1]:44820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944EF3A86EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 18:54:15 +0200 (CEST)
+Received: from localhost ([::1]:48058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltCJo-0005sU-QX
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59542)
+	id 1ltCKM-00084I-He
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 12:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCEn-0005BZ-1P
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:48:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57244)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltCHJ-0003rC-MI
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:51:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltCEk-0003aT-Rm
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:48:28 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltCHF-0005JI-PF
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:51:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623775706;
+ s=mimecast20190719; t=1623775861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M472Jsj64cJ+peUQ7tuUXko4J1v5rGFmgGdmduX8ilQ=;
- b=BPKId9A4S5UwNFXMe4sVnRLggKg7u0EHF5gRiLolpzBstchn0JmzptLyJDO8N5q/RvDU8O
- In3hUyL05z+fvsNxopLFvgZTQCsv+SmUqLgjcoFh3xGrUH320TFdQ/qCR7ejpIvk88/d/s
- 0axifDkD/NnJ7gcfMRMx0HMDKsUOa5M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-pQJrDKCTOQu13R9Mv9PPBA-1; Tue, 15 Jun 2021 12:48:24 -0400
-X-MC-Unique: pQJrDKCTOQu13R9Mv9PPBA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s8-20020adff8080000b0290114e1eeb8c6so8853371wrp.23
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:48:24 -0700 (PDT)
+ bh=ldhPxWpdj7o/dgm8ty3KLRF1gl7tteaUFT7wE+FEoOw=;
+ b=bnr9CmOuupefmwHFp9n20OTYwsWiWrR7SAC8W9Y9cyqFVopQgGBqI+FXBGpEiRDu7LxYSn
+ JcSMtR7VCXWO8c7/LI6QvbPAzOXGarbIWopBXi/EYIKF0O+fa+iTwm2uSsSjAxfzHYKsoQ
+ fw4M87Ef7RVt8BI0rF3/xjNpkn+LC/k=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-291-wdR3-7zDMFOSl1bqYPGaBw-1; Tue, 15 Jun 2021 12:51:00 -0400
+X-MC-Unique: wdR3-7zDMFOSl1bqYPGaBw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ ch5-20020a0564021bc5b029039389929f28so14818077edb.16
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:50:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=M472Jsj64cJ+peUQ7tuUXko4J1v5rGFmgGdmduX8ilQ=;
- b=AlB+ltep9dcG3now27m9/30MgUo86lhXXUBtkbUjlL2jLcPcWLiQoxAmqAqRGwdtTJ
- tebpjomS4kpJxVLLJkZSQ2wAZpZUgnf/Fi+gxJqywaWGWkpR3AwZxnql3kP2vKfepY8d
- FWeYFq+HDw5Kv/lZ+N+zl71gV8L53lKfe8Okz5PaQ7EKMkxhsQX+f+UsQZQX5IlaMzeY
- VX+yuy7WmCG6NM8f1wQAYabvMoUlJfA8Cfu/MutN8ZbFzKn8qS2b1qUOea+oN3sui+Nn
- gnCJEa/vu2K9wf4zcxqFmKM7cc+db2irCBV0l3gpKmcm2xPbq3+W5AvgDsicnyZyGb9d
- fTYQ==
-X-Gm-Message-State: AOAM531C22xRhVZ6f17ikjCLc3ntIDAaZZVsG9Utd7cFHkp1Rhw0rPLq
- NRHsaGNNLnei4AUZlS7Eu8mmnfI3ioejCULgjqGrhyrbKm/6dLOV5aTuIGw+NQTvCt2VmGGcD52
- GQxAQ4JAMgZBxlf5ni1m1QZV0skcu8z8WC8ub3CGb1nEpjyDENGlHF7rWCIjOlLX3
-X-Received: by 2002:a1c:7912:: with SMTP id l18mr196259wme.135.1623775703079; 
- Tue, 15 Jun 2021 09:48:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXai/Xjg7czV5SnWXKUoJ38Vq0i010qKWAo9xa3pu9gu46VGbniZHK0zxIHvvWDI+FvUs5Tw==
-X-Received: by 2002:a1c:7912:: with SMTP id l18mr196231wme.135.1623775702833; 
- Tue, 15 Jun 2021 09:48:22 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id g83sm1979864wma.10.2021.06.15.09.48.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 09:48:22 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] crypto: Make QCryptoTLSCreds* structures private
-Date: Tue, 15 Jun 2021 18:47:51 +0200
-Message-Id: <20210615164751.2192807-8-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210615164751.2192807-1-philmd@redhat.com>
-References: <20210615164751.2192807-1-philmd@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=ldhPxWpdj7o/dgm8ty3KLRF1gl7tteaUFT7wE+FEoOw=;
+ b=p4zTdZeCdgWuZxhrvPmT6AAWIUoHJZD9QzFaEuyN0AGYi/NIIeihPs2U6uHce4/8xt
+ f9cHL0zECX7B3e/ZcqbyOwM1mOi+gi1EI/tmT9cJfAIoTQ2PQxVVn305cUO7rnMYatwW
+ vjQBGz2shgO5Nd/yMVThE/kDZc6G+P0JbBIUhQ9xEq0OOUGOpzuuzbZ9y2pw1OlxK8h6
+ RYABIVTFNyNNAKGsyiVMruICeAfxRf/C9U9leJj+8i7RGGZDmgdCcY9224s14LvuGyip
+ /iE0PjB+sx566QwTyyR6Y98YnTWErKs98XiNKSZUxB+AU5m9qXZGirjluj7oiTL23WK9
+ 0WIg==
+X-Gm-Message-State: AOAM533Lcrz3ntLRvgqQYmu5+QuT1JTPn0/Lu3O3sGpvfa2qaLxmjnkc
+ 7Q8aqSi8plQlRPIIrdH1Zqa4GHAf041AE8MOlmnx/wPWIqV2sh7rlfNpqpcOSNR6qTQG3SYVIQi
+ nuhby4uZEg01uzvk=
+X-Received: by 2002:a17:906:5049:: with SMTP id e9mr545749ejk.30.1623775858830; 
+ Tue, 15 Jun 2021 09:50:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSPbygabGOJKOxrCHsH77+azFrfyZQiL/MAqXSkOyIutKuo1hZKSQsyfFQ4+hfHq2xCO/qGQ==
+X-Received: by 2002:a17:906:5049:: with SMTP id e9mr545708ejk.30.1623775858551; 
+ Tue, 15 Jun 2021 09:50:58 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ jo13sm10191167ejb.91.2021.06.15.09.50.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 09:50:58 -0700 (PDT)
+Subject: Re: [PATCH v3 7/7] block: detect DKIOCGETBLOCKCOUNT/SIZE before use
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210603133722.218465-1-pbonzini@redhat.com>
+ <20210603133722.218465-8-pbonzini@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <f3a13026-8542-ef8f-c95d-c01698ce86d7@redhat.com>
+Date: Tue, 15 Jun 2021 18:50:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210603133722.218465-8-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,258 +99,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras.c@gmail.com>, Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Joelle van Dyne <j@getutm.app>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code consuming the "crypto/tlscreds*.h" APIs doesn't need
-to access its internals. Move the structure definitions to
-the implementations in crypto/. The headers still forward
-declare the structures typedef.
+On 03.06.21 15:37, Paolo Bonzini wrote:
+> From: Joelle van Dyne <j@getutm.app>
+>
+> iOS hosts do not have these defined so we fallback to the
+> default behaviour.
+>
+> Co-authored-by: Warner Losh <imp@bsdimp.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
+> Message-Id: <20210315180341.31638-4-j@getutm.app>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   block/file-posix.c | 21 +++++++++------------
+>   1 file changed, 9 insertions(+), 12 deletions(-)
+>
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 5821e1afed..4e2f7cf508 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -2322,8 +2322,11 @@ static int64_t raw_getlength(BlockDriverState *bs)
+>   again:
+>   #endif
+>       if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
+> +        size = 0;
+>   #ifdef DIOCGMEDIASIZE
+> -        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
+> +        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size)) {
 
-This solves a bug introduced by commit 7de2e856533 which made
-migration/qemu-file-channel.c include "io/channel-tls.h",
-itself sometime depends on GNUTLS, leading to build failure
-on OSX:
+Pre-existing, but I feel compelled to express my unease about this cast.
 
-  [2/35] Compiling C object libmigration.fa.p/migration_qemu-file-channel.c.o
-  FAILED: libmigration.fa.p/migration_qemu-file-channel.c.o
-  cc -Ilibmigration.fa.p -I. -I.. -Iqapi [ ... ] -o libmigration.fa.p/migration_qemu-file-channel.c.o -c ../migration/qemu-file-channel.c
-  In file included from ../migration/qemu-file-channel.c:29:
-  In file included from include/io/channel-tls.h:26:
-  In file included from include/crypto/tlssession.h:24:
-  include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnutls.h' file not found
-  #include <gnutls/gnutls.h>
-           ^~~~~~~~~~~~~~~~~
-  1 error generated.
+> +            size = 0;
+> +        }
+>   #elif defined(DIOCGPART)
+>           {
+>                   struct partinfo pi;
+> @@ -2332,9 +2335,7 @@ again:
+>                   else
+>                           size = 0;
+>           }
+> -        if (size == 0)
+> -#endif
+> -#if defined(__APPLE__) && defined(__MACH__)
+> +#elif defined(DKIOCGETBLOCKCOUNT) && defined(DKIOCGETBLOCKSIZE)
 
-Reported-by: Stefan Weil <sw@weilnetz.de>
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/407
-Fixes: 7de2e856533 ("yank: Unregister function when using TLS migration")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- crypto/tlscredspriv.h         | 15 +++++++++++++++
- include/crypto/tlscreds.h     | 16 ----------------
- include/crypto/tlscredsanon.h | 12 ------------
- include/crypto/tlscredspsk.h  | 12 ------------
- include/crypto/tlscredsx509.h | 10 ----------
- crypto/tlscredsanon.c         | 13 +++++++++++++
- crypto/tlscredspsk.c          | 14 ++++++++++++++
- crypto/tlscredsx509.c         | 16 +++++++++++++---
- 8 files changed, 55 insertions(+), 53 deletions(-)
+As far a I can tell, before this patch, if the DIOCGMEDIASIZE ioctl 
+failed, we fell back to this DKIOCGETBLOCKCOUNT/SIZE block (if compiled 
+in). Now this is an #elif and so will not be used if DIOCGMEDIASIZE was 
+defined. Is that intentional?
 
-diff --git a/crypto/tlscredspriv.h b/crypto/tlscredspriv.h
-index 39f1a91c413..67e76c24539 100644
---- a/crypto/tlscredspriv.h
-+++ b/crypto/tlscredspriv.h
-@@ -23,6 +23,21 @@
- 
- #include "crypto/tlscreds.h"
- 
-+#ifdef CONFIG_GNUTLS
-+#include <gnutls/gnutls.h>
-+#endif
-+
-+struct QCryptoTLSCreds {
-+    Object parent_obj;
-+    char *dir;
-+    QCryptoTLSCredsEndpoint endpoint;
-+#ifdef CONFIG_GNUTLS
-+    gnutls_dh_params_t dh_params;
-+#endif
-+    bool verifyPeer;
-+    char *priority;
-+};
-+
- #ifdef CONFIG_GNUTLS
- 
- int qcrypto_tls_creds_get_path(QCryptoTLSCreds *creds,
-diff --git a/include/crypto/tlscreds.h b/include/crypto/tlscreds.h
-index eb9d5e75a84..bb3f2e4f303 100644
---- a/include/crypto/tlscreds.h
-+++ b/include/crypto/tlscreds.h
-@@ -24,10 +24,6 @@
- #include "qapi/qapi-types-crypto.h"
- #include "qom/object.h"
- 
--#ifdef CONFIG_GNUTLS
--#include <gnutls/gnutls.h>
--#endif
--
- #define TYPE_QCRYPTO_TLS_CREDS "tls-creds"
- typedef struct QCryptoTLSCreds QCryptoTLSCreds;
- typedef struct QCryptoTLSCredsClass QCryptoTLSCredsClass;
-@@ -48,18 +44,6 @@ typedef bool (*CryptoTLSCredsReload)(QCryptoTLSCreds *, Error **);
-  * certificate credentials.
-  */
- 
--struct QCryptoTLSCreds {
--    Object parent_obj;
--    char *dir;
--    QCryptoTLSCredsEndpoint endpoint;
--#ifdef CONFIG_GNUTLS
--    gnutls_dh_params_t dh_params;
--#endif
--    bool verifyPeer;
--    char *priority;
--};
--
--
- struct QCryptoTLSCredsClass {
-     ObjectClass parent_class;
-     CryptoTLSCredsReload reload;
-diff --git a/include/crypto/tlscredsanon.h b/include/crypto/tlscredsanon.h
-index 3f464a38095..bd3023f9ea7 100644
---- a/include/crypto/tlscredsanon.h
-+++ b/include/crypto/tlscredsanon.h
-@@ -92,18 +92,6 @@ typedef struct QCryptoTLSCredsAnonClass QCryptoTLSCredsAnonClass;
-  *
-  */
- 
--
--struct QCryptoTLSCredsAnon {
--    QCryptoTLSCreds parent_obj;
--#ifdef CONFIG_GNUTLS
--    union {
--        gnutls_anon_server_credentials_t server;
--        gnutls_anon_client_credentials_t client;
--    } data;
--#endif
--};
--
--
- struct QCryptoTLSCredsAnonClass {
-     QCryptoTLSCredsClass parent_class;
- };
-diff --git a/include/crypto/tlscredspsk.h b/include/crypto/tlscredspsk.h
-index d7e6bdb5edf..bcd07dc4f62 100644
---- a/include/crypto/tlscredspsk.h
-+++ b/include/crypto/tlscredspsk.h
-@@ -87,18 +87,6 @@ typedef struct QCryptoTLSCredsPSKClass QCryptoTLSCredsPSKClass;
-  * The PSK file can be created and managed using psktool.
-  */
- 
--struct QCryptoTLSCredsPSK {
--    QCryptoTLSCreds parent_obj;
--    char *username;
--#ifdef CONFIG_GNUTLS
--    union {
--        gnutls_psk_server_credentials_t server;
--        gnutls_psk_client_credentials_t client;
--    } data;
--#endif
--};
--
--
- struct QCryptoTLSCredsPSKClass {
-     QCryptoTLSCredsClass parent_class;
- };
-diff --git a/include/crypto/tlscredsx509.h b/include/crypto/tlscredsx509.h
-index c6d89b78819..c4daba21a6b 100644
---- a/include/crypto/tlscredsx509.h
-+++ b/include/crypto/tlscredsx509.h
-@@ -96,16 +96,6 @@ typedef struct QCryptoTLSCredsX509Class QCryptoTLSCredsX509Class;
-  *
-  */
- 
--struct QCryptoTLSCredsX509 {
--    QCryptoTLSCreds parent_obj;
--#ifdef CONFIG_GNUTLS
--    gnutls_certificate_credentials_t data;
--#endif
--    bool sanityCheck;
--    char *passwordid;
--};
--
--
- struct QCryptoTLSCredsX509Class {
-     QCryptoTLSCredsClass parent_class;
- };
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index bea5f76c55d..e7f74061ae2 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -26,6 +26,19 @@
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-+#ifdef CONFIG_GNUTLS
-+#include <gnutls/gnutls.h>
-+#endif
-+
-+struct QCryptoTLSCredsAnon {
-+    QCryptoTLSCreds parent_obj;
-+#ifdef CONFIG_GNUTLS
-+    union {
-+        gnutls_anon_server_credentials_t server;
-+        gnutls_anon_client_credentials_t client;
-+    } data;
-+#endif
-+};
- 
- #ifdef CONFIG_GNUTLS
- 
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index f5a31108d15..b4053741b3b 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -26,6 +26,20 @@
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-+#ifdef CONFIG_GNUTLS
-+#include <gnutls/gnutls.h>
-+#endif
-+
-+struct QCryptoTLSCredsPSK {
-+    QCryptoTLSCreds parent_obj;
-+    char *username;
-+#ifdef CONFIG_GNUTLS
-+    union {
-+        gnutls_psk_server_credentials_t server;
-+        gnutls_psk_client_credentials_t client;
-+    } data;
-+#endif
-+};
- 
- #ifdef CONFIG_GNUTLS
- 
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index d9d6f4421e5..0a8284f930b 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -27,12 +27,22 @@
- #include "qom/object_interfaces.h"
- #include "trace.h"
- 
-+#ifdef CONFIG_GNUTLS
-+#include <gnutls/gnutls.h>
-+#include <gnutls/x509.h>
-+#endif
-+
-+struct QCryptoTLSCredsX509 {
-+    QCryptoTLSCreds parent_obj;
-+#ifdef CONFIG_GNUTLS
-+    gnutls_certificate_credentials_t data;
-+#endif
-+    bool sanityCheck;
-+    char *passwordid;
-+};
- 
- #ifdef CONFIG_GNUTLS
- 
--#include <gnutls/x509.h>
--
--
- static int
- qcrypto_tls_creds_check_cert_times(gnutls_x509_crt_t cert,
-                                    const char *certFile,
--- 
-2.31.1
+This may be fine, and apart from that, this patch looks good to me, but 
+this change in behavior wasn’t mentioned in the commit message, hence me 
+asking.
+
+>           {
+>               uint64_t sectors = 0;
+>               uint32_t sector_size = 0;
+> @@ -2342,19 +2343,15 @@ again:
+>               if (ioctl(fd, DKIOCGETBLOCKCOUNT, &sectors) == 0
+>                  && ioctl(fd, DKIOCGETBLOCKSIZE, &sector_size) == 0) {
+>                   size = sectors * sector_size;
+> -            } else {
+> -                size = lseek(fd, 0LL, SEEK_END);
+> -                if (size < 0) {
+> -                    return -errno;
+> -                }
+>               }
+>           }
+> -#else
+> -        size = lseek(fd, 0LL, SEEK_END);
+> +#endif
+> +        if (size == 0) {
+> +            size = lseek(fd, 0LL, SEEK_END);
+> +        }
+>           if (size < 0) {
+>               return -errno;
+>           }
+> -#endif
+>   #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+>           switch(s->type) {
+>           case FTYPE_CD:
 
 
