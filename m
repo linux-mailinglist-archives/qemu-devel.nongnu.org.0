@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C039D3A8CA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 01:36:28 +0200 (CEST)
-Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC743A8CD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 01:44:34 +0200 (CEST)
+Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltIbb-0003PV-DS
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 19:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
+	id 1ltIjQ-0005lt-RY
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 19:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ltIaI-0002ct-Vb
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 19:35:06 -0400
-Received: from mga03.intel.com ([134.134.136.65]:10501)
+ (Exim 4.90_1) (envelope-from <max7255@yandex-team.ru>)
+ id 1ltIht-00051L-Fc
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 19:42:57 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:40202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1ltIaE-0008IY-Si
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 19:35:06 -0400
-IronPort-SDR: v2N9UbHsFxwEjZSwx0rP8bqzMSWzqXspqUyyy9STk9X0ZSqDk0aGcUtxbNulREFkFWlrjHb7wq
- mtAJ6YLx7v/A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="206122475"
-X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; d="scan'208";a="206122475"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 16:34:51 -0700
-IronPort-SDR: OX0m688SOy8hM0QALSfRE0SNkPLuuXfyTXTInhqPi7jqfeZ49u4y4UkaSwYLaOw22W9F9F2DpE
- ru2Nb1uYT9ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; d="scan'208";a="404377392"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga003.jf.intel.com with ESMTP; 15 Jun 2021 16:34:51 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 15 Jun 2021 16:34:51 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Tue, 15 Jun 2021 16:34:50 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.008;
- Tue, 15 Jun 2021 16:34:50 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: RE: [PATCH v2 8/8] virtio-gpu: Add gl_flushed callback
-Thread-Topic: [PATCH v2 8/8] virtio-gpu: Add gl_flushed callback
-Thread-Index: AQHXXkyAAcqafR1P/UuqlBGOsdKVjKsVDW0AgACtc0A=
-Date: Tue, 15 Jun 2021 23:34:50 +0000
-Message-ID: <2439020937f0488abc7b56a22945c1b3@intel.com>
-References: <20210610224837.670192-1-vivek.kasireddy@intel.com>
- <20210610224837.670192-9-vivek.kasireddy@intel.com>
- <20210615055026.m5az4qqmvh72iwbc@sirius.home.kraxel.org>
-In-Reply-To: <20210615055026.m5az4qqmvh72iwbc@sirius.home.kraxel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <max7255@yandex-team.ru>)
+ id 1ltIho-0004q6-TT
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 19:42:55 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7C29D2E15E0;
+ Wed, 16 Jun 2021 02:42:44 +0300 (MSK)
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net [2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ P5ffPjbVTm-ghxqVtpT; Wed, 16 Jun 2021 02:42:44 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1623800564; bh=fvw9gsTfCtdCVqq3M4JAUWEvbZX1NgnD1aon8pUUxVY=;
+ h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
+ b=i2AidvIyPVLTmKHoR/8IiYWT+icrGclcY8Lx1rzCB6SacHiv764bj8HCN1OtmL0Qs
+ D6fUGDfhr9R9V8HnoCZdB4OasQE6eURDWgk+rzcpi4+slieL9M6ke/8TM9PjDcRNOv
+ Vhtr9JU8Pzax5ZnVyV10Gl42bB7yeGnPjaKQerbc=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:8919::1:d])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ LcQmhj5XUR-gh3auqve; Wed, 16 Jun 2021 02:42:43 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v7 0/4] Add support for ipv6 host forwarding
+To: Doug Evans <dje@google.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <20210528235331.3727583-1-dje@google.com>
+ <CADPb22SrzgN=YqkXCn-LYuEVcLhP78_BZv=KiD9pwDG+h=icTg@mail.gmail.com>
+ <CADPb22R6sHYeXAJCB_OH9T6Bv0XxOApt=51f7fAKAu+UqxXqwA@mail.gmail.com>
+From: max7255 <max7255@yandex-team.ru>
+Message-ID: <f77c23f7-d9f7-98f0-2d32-9e1e1e02257e@yandex-team.ru>
+Date: Wed, 16 Jun 2021 02:42:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=vivek.kasireddy@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CADPb22R6sHYeXAJCB_OH9T6Bv0XxOApt=51f7fAKAu+UqxXqwA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=max7255@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,69 +78,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+Hi!
 
->=20
-> > -    if (!cmd->finished) {
-> > +    if (!cmd->finished && !(cmd->cmd_hdr.flags & VIRTIO_GPU_FLAG_FENCE=
-)) {
-> >          virtio_gpu_ctrl_response_nodata(g, cmd, cmd->error ? cmd->erro=
-r :
-> >                                          VIRTIO_GPU_RESP_OK_NODATA);
-> >      }
->=20
-> My idea would be more along the lines of ...
->=20
-> if (!cmd->finished) {
->     if (renderer_blocked) {
->        g->pending_completion =3D cmd;
->     } else {
->        virtio_gpu_ctrl_response_nodata(...)
->     }
-> }
->=20
-> Then, when resuming processing after unblock check pending_completion
-> and call virtio_gpu_ctrl_response_nodata if needed.
->=20
-> Workflow:
->=20
-> virtio_gpu_simple_process_cmd()
->  -> virtio_gpu_resource_flush()
->    -> dpy_gfx_update()
->      -> gd_gl_area_update()
->         call graphic_hw_gl_block(true), create fence.
-[Kasireddy, Vivek] So, with blobs, as you know we call dpy_gl_update() and =
-this call
-just "queues" the render/redraw. And, GTK then later calls the render signa=
-l callback=20
-which in this case would be gd_gl_area_draw() which is where the actual Bli=
-t happens
-and also glFlush; only after which we can create a fence.
+Looking good for me.
 
-> virtio_gpu_simple_process_cmd()
->   -> will see renderer_blocked and delays RESOURCE_FLUSH completion.
->=20
-> Then, when the fence is ready, gtk will:
->  - call graphic_hw_gl_block(false)
->  - call graphic_hw_gl_flush()
->    -> virtio-gpu resumes processing the cmd queue.
-[Kasireddy, Vivek] Yeah, I think this can be done.
+Thanks for finishing this!
+The whole patchset also looks simpler now.
 
->=20
-> When you use the existing block/unblock functionality the fence can be a
-> gtk internal detail, virtio-gpu doesn't need to know that gtk uses a
-> fence to wait for the moment when it can unblock virtio queue processing
-> (the egl fence helpers still make sense).
-[Kasireddy, Vivek] Ok, I'll try to include your suggestions in v3.
-
-Thanks,
-Vivek
->=20
-> take care,
->   Gerd
-
+On 6/15/21 2:24 PM, Doug Evans wrote:
+> Ping.
+> 
+> On Wed, Jun 9, 2021 at 9:41 PM Doug Evans <dje@google.com 
+> <mailto:dje@google.com>> wrote:
+> 
+>     Ping.
+> 
+>     On Fri, May 28, 2021 at 4:53 PM Doug Evans <dje@google.com
+>     <mailto:dje@google.com>> wrote:
+> 
+>         This patchset takes the original patch from Maxim,
+>         https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
+>         and updates it.
+> 
+>         Option hostfwd is extended to support ipv6 addresses.
+>         Commands hostfwd_add, hostfwd_remove are extended as well.
+> 
+>         Changes from v6:
+> 
+>         1/4: Update to use libslirp v4.5.0 tag
+> 
+>         The libslirp parts of the patch have been committed to the
+>         libslirp repo,
+>         and are now in QEMU's copy of the libslirp repo.
+>         Advancing QEMU to use Libslirp v4.5.0 is being done separately.
+>         Discussion of patch 1/4 is left to that thread:
+>         https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06010.html
+> 
+>         2/4: No change
+> 
+>         3/4: Add support for --enable-slirp=system
+>         Tested with system libslirp 4.4.0.
+> 
+>         4/4: No change
+> 
+>         Changes from v5:
+> 
+>         1/4 slirp: Advance libslirp submodule to current master
+>         NOTE TO REVIEWERS: It may be a better use of everyone's time if a
+>         maintainer takes on advancing QEMU's libslirp to libslirp's master.
+>         Beyond that, I really don't know what to do except submit this
+>         patch as
+>         is currently provided.
+> 
+>         2/4: util/qemu-sockets.c: Split host:port parsing out of inet_parse
+> 
+>         Also split out parsing of ipv4=on|off, ipv6=on|off
+> 
+>         3/4: net/slirp.c: Refactor address parsing
+> 
+>         Use InetSocketAddress and getaddrinfo().
+>         Use new libslirp calls: slirp_remove_hostxfwd, slirp_add_hostxfwd.
+> 
+>         4/4: net: Extend host forwarding to support IPv6
+> 
+>         Recognize ipv4=,ipv6= options.
+> 
+>         Note: v5's 3/5 "Recognize []:port (empty ipv6 address)" has been
+>         deleted:
+>         the churn on this patch series needs to be reduced.
+>         This change is not required, and can easily be done in a later
+>         patch.
+> 
+>         Changes from v4:
+> 
+>         1/5 slirp: Advance libslirp submodule to add ipv6 host-forward
+>         support
+>         NOTE TO REVIEWERS: I need some hand-holding to know what The Right
+>         way to submit this particular patch is.
+> 
+>         - no change
+> 
+>         2/5 util/qemu-sockets.c: Split host:port parsing out of inet_parse
+> 
+>         - move recognition of "[]:port" to separate patch
+>         - allow passing NULL for ip_v6
+>         - fix some formatting issues
+> 
+>         3/5 inet_parse_host_and_addr: Recognize []:port (empty ipv6 address)
+> 
+>         - new in this patchset revision
+> 
+>         4/5 net/slirp.c: Refactor address parsing
+> 
+>         - was 3/4 in v4
+>         - fix some formatting issues
+> 
+>         5/5 net: Extend host forwarding to support IPv6
+> 
+>         - was 4/4 in v4
+>         - fix some formatting issues
+> 
+>         Changes from v3:
+> 
+>         1/4 slirp: Advance libslirp submodule to add ipv6 host-forward
+>         support
+> 
+>         - pick up latest libslirp patch to reject ipv6 addr-any for
+>         guest address
+>            - libslirp currently only provides a stateless DHCPv6 server,
+>         which means
+>              it can't know in advance what the guest's IP address is,
+>         and thus
+>              cannot do the "addr-any -> guest ip address" translation
+>         that is done
+>              for ipv4
+> 
+>         2/4 util/qemu-sockets.c: Split host:port parsing out of inet_parse
+> 
+>         - this patch is new in v4
+>            - provides new utility: inet_parse_host_and_port, updates
+>         inet_parse
+>              to use it
+> 
+>         3/4 net/slirp.c: Refactor address parsing
+> 
+>         - this patch renamed from 2/3 to 3/4
+>         - call inet_parse_host_and_port from util/qemu-sockets.c
+>         - added tests/acceptance/hostfwd.py
+> 
+>         4/4 net: Extend host forwarding to support IPv6
+> 
+>         - this patch renamed from 3/3 to 4/4
+>         - ipv6 support added to existing hostfwd option, commands
+>            - instead of creating new ipv6 option, commands
+>         - added tests to tests/acceptance/hostfwd.py
+> 
+>         Changes from v2:
+>         - split out libslirp commit
+>         - clarify spelling of ipv6 addresses in docs
+>         - tighten parsing of ipv6 addresses
+> 
+>         Change from v1:
+>         - libslirp part is now upstream
+>         - net/slirp.c changes split into two pieces (refactor, add ipv6)
+>         - added docs
+> 
+>         Doug Evans (4):
+>            slirp: Advance libslirp submodule to 4.5 release
+>            util/qemu-sockets.c: Split host:port parsing out of inet_parse
+>            net/slirp.c: Refactor address parsing
+>            net: Extend host forwarding to support IPv6
+> 
+>           hmp-commands.hx             |  18 ++-
+>           include/qemu/sockets.h      |   5 +
+>           net/slirp.c                 | 272
+>         ++++++++++++++++++++++++++++--------
+>           slirp                       |   2 +-
+>           tests/acceptance/hostfwd.py | 185 ++++++++++++++++++++++++
+>           util/qemu-sockets.c         |  82 +++++++----
+>           6 files changed, 473 insertions(+), 91 deletions(-)
+>           create mode 100644 tests/acceptance/hostfwd.py
+> 
+>         -- 
+>         2.32.0.rc0.204.g9fa02ecfa5-goog
+> 
 
