@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104DC3A7986
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:53:18 +0200 (CEST)
-Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A98A3A79A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:56:50 +0200 (CEST)
+Received: from localhost ([::1]:50872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt4ou-0004dB-L1
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46996)
+	id 1lt4sL-0000ZW-B2
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lt4n2-0002wz-8O; Tue, 15 Jun 2021 04:51:20 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:40683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lt4mz-0005OI-3B; Tue, 15 Jun 2021 04:51:19 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id t3so50064573edc.7;
- Tue, 15 Jun 2021 01:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gaBpsTdKFZFfUwHu9bb16LiUxdAaTiYwcr5Fg3tN33w=;
- b=Ays64WZ+Fgbo8xIpp/Rn4IFAqoKOJuYNndMw5i/KkMW6lSxu0G0WdRxpLKr9dlDRJY
- qvoZU+O2Vd5MQkmv+lIgcZbr7gMgjJB0kjEhTgP0WU7Ev4Nflgp90F/WVT41z7ck96Ej
- QM7QdHPI/V+f4xH0d7/nTobrim18tTgqOEUTZPNAIQi7pVC7EMWts4nTvKvSGSPPmDMB
- 0g8D59plFhEuyCg78qAm9MxZlZxh+MoXBngADhpry5smb/rzg4RsnYFRjVRuepoFrl27
- /+yC6/Nz/+J3Agb4Q9B4SFkS/NSOXwaoKUSMYW5irBHGnlE7SBCDW4XVCbk4S+7IM/Y6
- 9VMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gaBpsTdKFZFfUwHu9bb16LiUxdAaTiYwcr5Fg3tN33w=;
- b=Xmk00Sgrr8ugjMHIs26kyRMW3xFb/OotBsbI8NwETGGQtuaVYnCKbPyn5sPJW34NOY
- NQcY66pWX/uJtUeyp4mHWpsxelTEfn/qa8zQ9D1coSzAOwU15NAUNSf+JMRaK25trs/D
- tzCMvlNwBFYGgrjvv5vR5NwV8B/7ZmoEXvPVd571lExQ5DJPCklLPhFRL/6w5MW4cMTm
- QCsGpN0WFh9sUwojJRlhXcTHVNuEDlr7zaMLdgLJzJYZR9zorjFx8vRQblUCKA01ACBx
- OwutnFXaS9H3JCSxF8BR6FcPn7n/jl58AZpp86FMaRR0wFYPwU/kLs+LybIWVElSYKdm
- Hrdw==
-X-Gm-Message-State: AOAM533HMJHwEElAFGP+Ym9POcojmHLB/dFd/WoaPn4V54/A8KrvWKLD
- dPzPjj71pu1gA7dJ8LpUliA=
-X-Google-Smtp-Source: ABdhPJzb+umS9o7LugGNCwZDKuK0HR+wNuVefKDfskCnK5pUOFhItC80XLuFZo0rx6XiH2Pg4vAsxw==
-X-Received: by 2002:a50:8fc3:: with SMTP id y61mr21193574edy.107.1623747075153; 
- Tue, 15 Jun 2021 01:51:15 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id h2sm11609318edr.50.2021.06.15.01.51.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 01:51:14 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH] target/riscv: gdbstub: Fix dynamic CSR XML generation
-Date: Tue, 15 Jun 2021 16:51:33 +0800
-Message-Id: <20210615085133.389887-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lt4oF-0004y0-Go
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:52:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lt4oD-0006IK-B4
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:52:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623747152;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G2YZsqeukdC46/bN+Dw2UWlCqyuoccTROdQIu/iwPow=;
+ b=FvoJkNy8nxxMt4OgyKu2TKoGFErzgoYmE583q0wR0qgRWnYceLzLKWXfVaOAhOap3lKyvB
+ TDEcq83oGtFEapHDkzawPx/30KG8rdIjGqU57Lfc8gaVFnrrg0YYbi4m8g6jfVu/P/6+lT
+ wmZdkhRx1PZgius+2DXlgV0wV22E8jY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-y4wrMDlyPVGQneb5Cu8RyA-1; Tue, 15 Jun 2021 04:52:31 -0400
+X-MC-Unique: y4wrMDlyPVGQneb5Cu8RyA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33F6380293F;
+ Tue, 15 Jun 2021 08:52:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B9ED60877;
+ Tue, 15 Jun 2021 08:52:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C02DA113865F; Tue, 15 Jun 2021 10:52:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [PATCH v3 5/5] tpm: Return QMP error when TPM is disabled in build
+References: <20210614200940.2056770-1-philmd@redhat.com>
+ <20210614200940.2056770-6-philmd@redhat.com>
+ <270e0d89-f074-0713-6871-6e4a21791494@redhat.com>
+ <2745685d-c988-4838-24c3-829295aec2fb@linux.ibm.com>
+Date: Tue, 15 Jun 2021 10:52:20 +0200
+In-Reply-To: <2745685d-c988-4838-24c3-829295aec2fb@linux.ibm.com> (Stefan
+ Berger's message of "Mon, 14 Jun 2021 17:57:29 -0400")
+Message-ID: <87pmwnse63.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,41 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?Q?Marc-Andr?= =?utf-8?Q?=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Stefan Berger <stefanb@linux.ibm.com> writes:
 
-Since commit 605def6eeee5 ("target/riscv: Use the RISCVException enum for CSR operations")
-the CSR predicate() function was changed to return RISCV_EXCP_NONE
-instead of 0 for a valid CSR, but it forgot to update the dynamic
-CSR XML generation codes in gdbstub.
+> On 6/14/21 4:12 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>
+>> Grrrr I forgot to commit:
+>>
+>> -- >8 --
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 7d9cd290426..636bf2f5365 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2707,7 +2707,6 @@ TPM
+>>   M: Stefan Berger <stefanb@linux.ibm.com>
+>>   S: Maintained
+>>   F: tpm.c
+>> -F: stubs/tpm.c
+>>   F: hw/tpm/*
+>>   F: include/hw/acpi/tpm.h
+>>   F: include/sysemu/tpm*
+>> ---
+>>
+> Who is going to upstream the series? I could add this part ...
 
-Fixes: 605def6eeee5 ("target/riscv: Use the RISCVException enum for CSR operations")
-Reported-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
----
+Please do.
 
- target/riscv/gdbstub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index ca78682cf4..a7a9c0b1fe 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -170,7 +170,7 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
- 
-     for (i = 0; i < CSR_TABLE_SIZE; i++) {
-         predicate = csr_ops[i].predicate;
--        if (predicate && !predicate(env, i)) {
-+        if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
-             if (csr_ops[i].name) {
-                 g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
-             } else {
--- 
-2.25.1
+Thank you!
 
 
