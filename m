@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB99B3A89E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 21:58:46 +0200 (CEST)
-Received: from localhost ([::1]:48144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87BF3A89EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 22:02:20 +0200 (CEST)
+Received: from localhost ([::1]:50826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltFCv-00028h-CB
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 15:58:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47188)
+	id 1ltFGN-0004Af-AS
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 16:02:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltFC3-0001Sx-Ii
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 15:57:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltFC0-00035A-Sh
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 15:57:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623787067;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pbovfBVSYDBhSRvNIYdu9kia6NCI+4ZAoVlEG/134Eo=;
- b=IfBEshs/UGd72N2QeUUf6ZkkYB4lPbAJIlauV+Jin1kigpx4EpbZxlbe95FiPxi2FhzaO+
- EJD15SCVXI2FWX/Jvp2EVin8EjgkSmN2g5HHQR1c+7i/bB1CvmefcMuXui1JJ/wKAEq1AB
- Oxhe6M8/x7Wu8LI9K8HcEiQap+D/jhw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-ywz9TwSKOTuOP2Do0PtZmA-1; Tue, 15 Jun 2021 15:57:45 -0400
-X-MC-Unique: ywz9TwSKOTuOP2Do0PtZmA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFB618042A8
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 19:57:44 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-170.rdu2.redhat.com [10.10.115.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5722D60853;
- Tue, 15 Jun 2021 19:57:41 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id C4883220BCF; Tue, 15 Jun 2021 15:57:40 -0400 (EDT)
-Date: Tue, 15 Jun 2021 15:57:40 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] docs: describe the security considerations
- with virtiofsd xattr mapping
-Message-ID: <20210615195740.GC965196@redhat.com>
-References: <20210611120427.49736-1-berrange@redhat.com>
- <20210611154222.GA761698@redhat.com> <YMjLZUqZ5nhihJ1X@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltFEK-000358-6J
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:00:12 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:35402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltFEH-0004UZ-He
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:00:11 -0400
+Received: by mail-pf1-x429.google.com with SMTP id h12so317103pfe.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 13:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qZvEs1DZ8CNNaq5SuPmQQKuLYBra2OwDPNwkc5Jc+M0=;
+ b=EPC116RXTvWnRPVyqXItWugN2rohNjBf7YVfxlsvpVZXwFz34eUjog7qNnC7bv6ERC
+ 6WDUnwxcvlMbm2jLW4/GQaGiiDjGsCar/dg2Ku/ehlCGD3ZSOI++wpiqL0TUo8cfhbMy
+ 2wdJMZc3QusLIcVGtN2O7u+TWhFm7oSsGAGorJpdBfwMxxOTchdUpHGwvD88mAs9or6T
+ 5+nYVS+WPJvpplaX5aPxyeEYyxlfh80c6pVYOpaPSn+tIjVZc4HhV+YA282ndfjoZwxz
+ IvjwhBSXzoT6N0jjKVcQs+C90WYPH2G/3pLfWLdselxW/z6uKe6otZPU9SN4QuFdcAG5
+ 6GCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qZvEs1DZ8CNNaq5SuPmQQKuLYBra2OwDPNwkc5Jc+M0=;
+ b=FU5T48fSHXYhqmxxAX62hmZ4/atN+rhFqbWlf8NddFEU2/ZSu+/O1CKZnuHl03MPyh
+ PhJvd19FaG4vJ7jqSSGG0sg7TmWk7U461L6j2s1/WKY5Y707tzkoSQfQ6r99DTb+v3jw
+ x9TnCrXpxJkz1AVuMDRIXnJUy9Xj+Xbd60XauwiXcU4wM07HqZpXGLKxY96jmKPBMBM5
+ IMpADflYuAKqfqG06MS9z4dI4IdMfo3u8YkKf6+aTEcXB86AOzEv9ElMt5RkztjbRntR
+ K3qxRSgCQ9SQHEkLPAZLAeU8xLEHJv1SOJZKIDnorFvNcsQ3LzJBtDnA1hD0s3B6BBa7
+ Y0Ug==
+X-Gm-Message-State: AOAM533vVL5wAB+8aTyPWIj3R0A/pb5E3h/9W9kvGycoD2nwvvJ4Wg0K
+ /aClM47GNUZTb5CmUxLScHBP2w==
+X-Google-Smtp-Source: ABdhPJxfgyOKuMnPcEYknovJ4iEOUfub8mc1GKHrZ5rgDUTiFcIlRWFCugKIt5GJeG3Co8epLHcXRA==
+X-Received: by 2002:a63:9552:: with SMTP id t18mr1203867pgn.206.1623787208026; 
+ Tue, 15 Jun 2021 13:00:08 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ z5sm11056pfb.114.2021.06.15.13.00.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 13:00:07 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
+ priviledged addresses
+To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+ <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+ <c2ffffa6-2868-f7ab-78c6-1f29eaafc4e5@linaro.org>
+ <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7ce3cd57-0abf-f0d9-11ec-6fdc42b89b62@linaro.org>
+Date: Tue, 15 Jun 2021 13:00:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YMjLZUqZ5nhihJ1X@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.095,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,148 +91,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
- Daniel J Walsh <dwalsh@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: farosas@linux.ibm.com, luis.pires@eldorado.org.br,
+ Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
+ fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 04:46:45PM +0100, Daniel P. Berrangé wrote:
-> On Fri, Jun 11, 2021 at 11:42:22AM -0400, Vivek Goyal wrote:
-> > On Fri, Jun 11, 2021 at 01:04:27PM +0100, Daniel P. Berrangé wrote:
-> > > Different guest xattr prefixes have distinct access control rules applied
-> > > by the guest. When remapping a guest xattr care must be taken that the
-> > > remapping does not allow the a guest user to bypass guest kernel access
-> > > control rules.
-> > > 
-> > > For example if 'trusted.*' which requires CAP_SYS_ADMIN is remapped
-> > > to 'user.virtiofs.trusted.*', an unprivileged guest user which can
-> > > write to 'user.*' can bypass the CAP_SYS_ADMIN control. Thus the
-> > > target of any remapping must be explicitly blocked from read/writes
-> > > by the guest, to prevent access control bypass.
-> > > 
-> > > The examples shown in the virtiofsd man page already do the right
-> > > thing and ensure safety, but the security implications of getting
-> > > this wrong were not made explicit. This could lead to host admins
-> > > and apps unwittingly creating insecure configurations.
-> > > 
-> > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > > ---
-> > >  docs/tools/virtiofsd.rst | 55 ++++++++++++++++++++++++++++++++++++----
-> > >  1 file changed, 50 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> > > index 00554c75bd..6370ab927c 100644
-> > > --- a/docs/tools/virtiofsd.rst
-> > > +++ b/docs/tools/virtiofsd.rst
-> > > @@ -127,8 +127,8 @@ Options
-> > >    timeout.  ``always`` sets a long cache lifetime at the expense of coherency.
-> > >    The default is ``auto``.
-> > >  
-> > > -xattr-mapping
-> > > --------------
-> > > +Extended attribute (xattr) mapping
-> > > +----------------------------------
-> > >  
-> > >  By default the name of xattr's used by the client are passed through to the server
-> > >  file system.  This can be a problem where either those xattr names are used
-> > > @@ -136,6 +136,9 @@ by something on the server (e.g. selinux client/server confusion) or if the
-> > >  virtiofsd is running in a container with restricted privileges where it cannot
-> > >  access some attributes.
-> > >  
-> > > +Mapping syntax
-> > > +~~~~~~~~~~~~~~
-> > > +
-> > >  A mapping of xattr names can be made using -o xattrmap=mapping where the ``mapping``
-> > >  string consists of a series of rules.
-> > >  
-> > > @@ -232,8 +235,48 @@ Note: When the 'security.capability' xattr is remapped, the daemon has to do
-> > >  extra work to remove it during many operations, which the host kernel normally
-> > >  does itself.
-> > >  
-> > > -xattr-mapping Examples
-> > > -----------------------
-> > > +Security considerations
-> > > +~~~~~~~~~~~~~~~~~~~~~~~
-> > > +
-> > > +Operating systems typically partition the xattr namespace using
-> > > +well defined name prefixes. Each partition may have different
-> > > +access controls applied. For example, on Linux there are multiple
-> > > +partitions
-> > > +
-> > > + * ``system.*`` - access varies depending on attribute & filesystem
-> > > + * ``security.*`` - only processes with CAP_SYS_ADMIN
-> > > + * ``trusted.*`` - only processes with CAP_SYS_ADMIN
-> > > + * ``user.*`` - any process granted by file permissions / ownership
-> > > +
-> > > +While other OS such as FreeBSD have different name prefixes
-> > > +and access control rules.
-> > > +
-> > > +When remapping attributes on the host, it is important to
-> > > +ensure that the remapping does not allow a guest user to
-> > > +evade the guest access control rules.
-> > > +
-> > > +Consider if ``trusted.*`` from the guest was remapped to
-> > > +``user.virtiofs.trusted*`` in the host. An unprivileged
-> > > +user in a Linux guest has the ability to write to xattrs
-> > > +under ``user.*``. Thus the user can evade the access
-> > > +control restriction on ``trusted.*`` by instead writing
-> > > +to ``user.virtiofs.trusted.*``.
-> > > +
-> > > +As noted above, the partitions used and access controls
-> > > +applied, will vary across guest OS, so it is not wise to
-> > > +try to predict what the guest OS will use.
-> > > +
-> > > +The simplest way to avoid an insecure configuration is
-> > > +to remap all xattrs at once, to a given fixed prefix.
-> > 
-> > Remapping all xattrs seem to make sense. It probably will lead
-> > to less confusion. Nested guests add another level of redirection.
-> > 
-> > BTW, remapping xattr has limitation that it does not work on
-> > symlinks. So "user.*" can't be set on symlink. And that means
-> > selinux relabeling of symlinks fails with remapped xattrs.
-> > 
-> > Not sure how to address this limitation. Host kernel imposes
-> > this limit. (man xattr).
-> 
-> Oh fun, I had not noticed this limitation before :-(
-> 
-> Here are some ideas I had, none especially nice
-> 
->  - Use 'trusted.*' namespace for remapping instead of 'user.'
->  
->    virtiofsd needs to have CAP_SYS_ADMIN though which is
->    quite horrible if your goal is to confine its privileges
->    in any meaningful way
-> 
->  - Store a symlinks' xattr on the target of the symlink
-> 
->    if the symlink has dev:inode  54:224, and points to
->    a file 'foo', then on 'foo' create an xattr
->    "user.virtiofs.link:54:224.<original xattrpath>"
-> 
->    This gets quite horrendous when you have symlinks
->    pointing to symlinks pointing to symlinks. Does
->    not work too well if the 'st_dev' value is
->    not stable across reboots either.
-> 
->  - Don't use xattrs at all for remapping, instead use
->    hidden files.
-> 
->    eg for a file 'foo', if an xattr is set then create
->    a file '.foo.xattr' in the same directory and store
->    the xattrs in that file in some format. Need to hide
->    this lookaside files from the guest of course.
+On 6/15/21 4:32 AM, Bruno Piazera Larsen wrote:
+> On 14/06/2021 19:37, Richard Henderson wrote:
+>> On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
+>>> This patch changes ppc_cpu_get_phys_page_debug so that it is now
+>>> able to translate both, priviledged and real mode addresses
+>>> independently of whether the CPU executing it has those permissions
+>>>
+>>> This was mentioned by Fabiano as something that would be very useful to
+>>> help with debugging, but could possibly constitute a security issue if
+>>> that debug function can be called in some way by prodution code. the
+>>> solution was implemented such that it would be trivial to wrap it around
+>>> ifdefs for building only with --enable-debug, for instance, but we are
+>>> not sure this is the best approach, hence why it is an RFC.
+>>>
+>>> Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
+>>> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+>>> ---
+>>> Â  target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
+>>> Â  1 file changed, 23 insertions(+)
+>>
+>> I think the first part is unnecessary.Â  Either the cpu is in supervisor mode or it 
+>> isn't, and gdb should use the correct address space.Â  If you really want to force 
+>> supervisor lookup from a guest that is paused in usermode, I suppose you could force 
+>> MSR.PR=1 while you're performing the access and set it back afterward.
+> I don't see why GDB should not be able to see supervisor level addresses just because the 
+> CPU can't.
 
-I kind of like this idea of creating a regular file, say
-.user.virtiofs.foo.xattr. So any file prefixed by ".user.virtiofs" will
-be hidden from guest.
+Because then when you are debugging, you then don't know whether the address is actually 
+accessible in the current cpu context.
 
-And probably same can be done for selinux labels for special files (device
-nodes, pipes, sockets etc). 
+>> I think the second part is actively wrong -- real-mode address lookup will (for the most 
+>> part) always succeed.Â  Moreover, the gdb user will have no idea that you've silently 
+>> changed addressing methods.
+> 
+> I disagree. Real-mode address will mostly fail, since during the boot process Linux 
+> kernels set the MMU to use only virtual addresses, so real mode addresses only work when 
+> debugging the firmware or the early setup of the kernel. After that, GDB can basically 
+> only see virtual addresses.
 
-Thanks
-Vivek
+Exactly.  But you changed that so that any unmapped address will re-try with real-mode, 
+which (outside of hv) simply maps real->physical and returns the input.
 
+One should have to perform some special action to see addresses in a different cpu 
+context.  I don't think that gdb supports such a special action at the moment.  If you 
+want that feature though, that's where you should start.
+
+
+r~
 
