@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BEE3A72D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 02:12:49 +0200 (CEST)
-Received: from localhost ([::1]:50728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55C53A72C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 02:04:22 +0200 (CEST)
+Received: from localhost ([::1]:47546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lswhE-0001xZ-4w
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 20:12:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57268)
+	id 1lswZ3-0007fW-R4
+	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 20:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lswfH-00016a-4w
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 20:10:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lswfE-0006Ea-Vi
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 20:10:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1lswfB-0002BR-UR
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:10:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D82202E8047
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:10:41 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Jun 2021 00:02:57 -0000
-From: Alexander Bulekov <1911216@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lswXz-0006nC-6N
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 20:03:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lswXu-0001HU-7O
+ for qemu-devel@nongnu.org; Mon, 14 Jun 2021 20:03:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623715388;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9tiOKoAE5oYCFw+VvK9dJ8j/Fd0e1KZWjY/UYECeWBs=;
+ b=a44M/DTWvutlYX9I84Au1BtKCtRnLOSTpASq5JJSCKdrkNiF/TL0Q5WfbzehunG/znG5X/
+ H8t8mPN0jqChR1w1dqBpUR7vEB0qv2lhGelyWYVa6rCs2zlMyKYHHk30xhS9g5/WCKO+wx
+ M/Fx7Mx6hRZaptrdE23d5MnCP065Exs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-VB4ZZGSoOri11zMA29eijg-1; Mon, 14 Jun 2021 20:03:05 -0400
+X-MC-Unique: VB4ZZGSoOri11zMA29eijg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3CA1800D55;
+ Tue, 15 Jun 2021 00:03:04 +0000 (UTC)
+Received: from [10.10.113.126] (ovpn-113-126.rdu2.redhat.com [10.10.113.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D45D60FC2;
+ Tue, 15 Jun 2021 00:03:01 +0000 (UTC)
+Subject: Re: [PATCH v4 0/2] Gitlab: Add issue templates
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr hades0506 th-huth
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162371537817.11595.7646571696021779816.malone@soybean.canonical.com>
-Subject: [Bug 1911216] Re: abort issue locates in
- hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: ebd5ab1947ebd11a6a34b4bbb2136a34028138f3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210607153155.1760158-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <a6195b4c-b40d-ebbd-bc03-b8a347c9230f@redhat.com>
+Date: Mon, 14 Jun 2021 20:03:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210607153155.1760158-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,72 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OSS-Fuzz still has a functioning reproducer. I'll copy this one over to
-gitlab
+On 6/7/21 11:31 AM, John Snow wrote:
+> Add "Bug" and "Feature Request" templates to the Gitlab interface to
+> help improve the quality of newly reported issues.
+> 
+> To see what this looks like, I've temporarily allowed my Gitlab fork to
+> diverge with these files merged.  See my fork's "new issue" page to see
+> it in action: https://gitlab.com/jsnow/qemu/-/issues/new?issue
+> 
+> (It's outdated a bit for V4, but you get the idea.)
+> 
+> These patches do not add a "default" template, the user still has to
+> select one from the list. I recommend that someone with permissions
+> updates the default template:
+> 
+> 1. https://gitlab.com/qemu-project/qemu/edit
+> 2. ctrl+f "Default description template for issues"
+> 3. Update the default to the (suggested) below:
+> 
+> ```
+> <!-- Select "Type: Issue" and choose one of the Description templates above. -->
+> ```
+> 
+> We can use this cover letter to discuss/review the wording on that
+> default template which exists outside of repository data.
+> 
+> V4:
+>   - Change the "build on master" to be more of a nudge than a mandate,
+>     with improved instructions (stefanha, danpb)
+> 
+> V3:
+>   - Add pointer to https://www.qemu.org/download/#source
+>   - Add pointer to https://www.qemu.org/contribute/security-process/
+>   - Remove blurb covering tracing instructions.
+> 
+> V2:
+> - Updated both templates based on feedback from Peter, Daniel, and
+>    Thomas.
+> 
+> John Snow (2):
+>    GitLab: Add "Bug" issue reporting template
+>    GitLab: Add "Feature Request" issue template.
+> 
+>   .gitlab/issue_templates/bug.md             | 64 ++++++++++++++++++++++
+>   .gitlab/issue_templates/feature_request.md | 32 +++++++++++
+>   2 files changed, 96 insertions(+)
+>   create mode 100644 .gitlab/issue_templates/bug.md
+>   create mode 100644 .gitlab/issue_templates/feature_request.md
+> 
 
--- =
+Gentle ping. I do not know whose jurisdiction this falls under.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911216
+--js
 
-Title:
-  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-
-  I found an assertion failure in hw/usb/hcd-ohci.c:1297
-
-  This was found in latest version 5.2.0.
-
-  my reproduced environment is as follows:
-      Host: ubuntu 18.04
-      Guest: ubuntu 18.04
-
-  QEMU boot command line:
-  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
-=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
-ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
-
-  =
-
-  backtrace is as follows =
-
-  pwndbg> bt
-  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:54
-  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
-  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
-t hw/usb/hcd-ohci.c:1297
-  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
-c0) at util/qemu-timer.c:572
-  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at util/qemu-timer.c:586
-  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
-.c:672
-  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:523
-  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
-r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
-  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
-x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
-u-5.1.0/softmmu/main.c:49
-  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
-, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
-d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
-libc-start.c:291
-  #10 0x000055c6120a4349 in _start ()
-
-  The poc is attached.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
 
