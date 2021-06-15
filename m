@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BED33A7D1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 13:27:15 +0200 (CEST)
-Received: from localhost ([::1]:46574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7EF3A7D1F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 13:27:52 +0200 (CEST)
+Received: from localhost ([::1]:48438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt7Du-0005hq-3g
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 07:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
+	id 1lt7EV-0006x8-J3
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 07:27:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt7Ce-0004KG-2Y
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 07:25:56 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33694)
+ id 1lt7D8-0005Zm-MP
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 07:26:26 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:43620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt7Cc-0002Tq-6v
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 07:25:55 -0400
-Received: by mail-wr1-x430.google.com with SMTP id a20so17953863wrc.0
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 04:25:53 -0700 (PDT)
+ id 1lt7D7-0002ne-5i
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 07:26:26 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 3-20020a05600c0243b029019f2f9b2b8aso1800331wmj.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 04:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:references:date:in-reply-to:message-id
  :user-agent:mime-version:content-transfer-encoding;
- bh=ng4HCA9o1AYMx8GINwx4NZT3s1PEHxsHWdo8g51EPlQ=;
- b=NnbV88k8VXpVZ7J1LQBsRwHPuA/8uS6VgXQIRV21iI1TUV2DtxpPpEPdxWsb/778/H
- JXzlQwza4aFiufgxrfIWYN8PpXS03EVU0DlMY6czqE0WIWp4fdqS5b2ROHnvCDnm2yOq
- h/nqyUrVLT1Uos+b7u+I+SlB7z7mN8CuuxGcC1JHYZ9ccBQBx0cDlXITTCmU4A85XyNU
- H7djQ6J2ii6b/fdHqdS92nMcp+P6kXukNMmp9f+0mTRjBWL3svZLmF0eSzrrkYtg0765
- Z6Sjx8IrfTy2Czpwck1XTZzbu3Ud6zFIXpzVkMMhD6lSGIzVqzMMj1fP52g5OdzR6Ny0
- aS6g==
+ bh=YG5HRdIqAZmPLMDMkR3RsakIYEoOHo6EFab523euymM=;
+ b=hjCkZ7K/8fwqDXHTR+6iohq9BRg885B4GLI9MW2uWsKCX18pYoE0p6w03luS2FffUW
+ dgd87kfU1R6OpFmTNTo0x/fkiD0QhH1hzrLMXghcdK7zkUbHRiGAXfWxvDEMMNVcohdW
+ Ojz9bd4aHYT6TMkRhxVXNjvfpcCS0kUlW4epA9Bs4UE92UeSl6QhNpCj84abbx0dfjt9
+ SZiwagv/Q/TqQ7Qt7BRAW1rC47mJ9RDQGl0ghmczJ+7dWwxiU2n1N6b3N0YNa9Gie9MZ
+ LZksVszpq82zE+lHAteKagvemqtwMBQYnseJzkaG/ZyTcBf5UWAHmS3gB/nfBG5hoH36
+ G0TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
  :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=ng4HCA9o1AYMx8GINwx4NZT3s1PEHxsHWdo8g51EPlQ=;
- b=KheECR49sdPq+Lg7G27gDgEqxxYqQiBtjR85yUHIPU2g32SST1Qy9jIhQYPdglJh85
- rLGDAtYmcZ96Afb50EDbV/xd7eU6auK9zGMPs7pi4efiFWdM3Kwc+Z6EztDMaeTKj4kv
- qABSsJvpN+eDpJIfIf1GscYy99eJ6RXABAk9ERxt0//7jSUVLoXTq+xxujrplvAcO7sZ
- HytPPBVkKUKSJWU/edfTcv0lkjCikQtlt05OGlnm0EXIK0a3qn2T55W2nE59ngFjz7Uk
- kfx223hQWInn20qHFO44f0oZZ8Om+IksjUaCLYZ9+nQTTQOfBXrVkKT/a8BvXjhQfklw
- VYag==
-X-Gm-Message-State: AOAM533Ae1C+eNcDbBIdELklcIkVvqkrlhlsi4U1fl098twiZNKm5XgP
- xmjZcEPTCPSN2hDo1spgN42Vwg==
-X-Google-Smtp-Source: ABdhPJxOiru90w8wNXyJaZ/ObGNZR6SfbggoZexFFJdtuKzioVspyWmaN4bFGWnoaS91tgp1JJrvMw==
-X-Received: by 2002:a5d:6747:: with SMTP id l7mr24135633wrw.220.1623756352459; 
- Tue, 15 Jun 2021 04:25:52 -0700 (PDT)
+ bh=YG5HRdIqAZmPLMDMkR3RsakIYEoOHo6EFab523euymM=;
+ b=nV+Ub6q5ljQ7+HWkNA8JIdf2p5ZDAUbP7XLG2yZ74/3YhzI9i+H0roNs1d4aKNSACU
+ /ZsuFC2LTj20/z0//6x8HnEy6KfNwQ4E8dSIGm9w/tWXRgzGZPyrxQJpBtjMf4BqvcNZ
+ 8/jnVC+2DwWAprPDLjuwJNvEL2lngPG89y9liOIxYVf3gYB7Mmo9Lub0uuaV9T2pbo2n
+ g92CHPYD8/arzma8TnJ5B/wWNj+Bk+6vB26a7tyZ/M76Aagqiv7wU8gRORzZ2AARmKwg
+ S313cmsf+WSJ7JYFQgzQIE5QXGocrYOC1IG4F1a6sirTAI8tBbCWOmzMJ5FgVNWi6UK0
+ rEPw==
+X-Gm-Message-State: AOAM532zNyskl2Hwiv/cUmqQU3+GmofVwH+n4N0O7YqlmrhlaVvwAtqT
+ 6zroha7VX7L8XPJ8e5iVU7mD7A==
+X-Google-Smtp-Source: ABdhPJxWvlhXLc0cXUvFaR7LSo+RXX6gi1QwZUy4BUpv8/bl2/0prf/rA4vGVAD36pbvi2qElpgGKQ==
+X-Received: by 2002:a1c:f70b:: with SMTP id v11mr22373563wmh.186.1623756383691; 
+ Tue, 15 Jun 2021 04:26:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l9sm15339996wme.21.2021.06.15.04.25.51
+ by smtp.gmail.com with ESMTPSA id 73sm19618518wrk.17.2021.06.15.04.26.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 04:25:51 -0700 (PDT)
+ Tue, 15 Jun 2021 04:26:22 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B47591FF7E;
- Tue, 15 Jun 2021 12:25:50 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 01AEC1FF7E;
+ Tue, 15 Jun 2021 12:26:22 +0100 (BST)
 From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 6/8] include/qemu/lockable: Use _Generic instead of
- QEMU_GENERIC
+Subject: Re: [PATCH v2 7/8] qemu/compiler: Remove QEMU_GENERIC
 References: <20210614233143.1221879-1-richard.henderson@linaro.org>
- <20210614233143.1221879-7-richard.henderson@linaro.org>
-Date: Tue, 15 Jun 2021 12:25:50 +0100
-In-Reply-To: <20210614233143.1221879-7-richard.henderson@linaro.org> (Richard
- Henderson's message of "Mon, 14 Jun 2021 16:31:41 -0700")
-Message-ID: <87tulzgyip.fsf@linaro.org>
+ <20210614233143.1221879-8-richard.henderson@linaro.org>
+Date: Tue, 15 Jun 2021 12:26:21 +0100
+In-Reply-To: <20210614233143.1221879-8-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Mon, 14 Jun 2021 16:31:42 -0700")
+Message-ID: <87pmwngyhu.fsf@linaro.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,21 +96,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> This is both more and less complicated than our expansion
-> using __builtin_choose_expr and __builtin_types_compatible_p.
->
-> The expansion through QEMU_MAKE_LOCKABLE_ doesn't work because
-> we're not emumerating all of the types within the same _Generic,
-> which results in errors about unhandled cases.  We must also
-> handle void* explicitly, so that the NULL constant can be used.
+> All previous users now use C11 _Generic.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-and I checked that sync-profile was still working so:
-
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
