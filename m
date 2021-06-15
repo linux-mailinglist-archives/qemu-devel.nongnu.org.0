@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005E73A8A8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 23:01:45 +0200 (CEST)
-Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E6F3A8A90
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 23:04:13 +0200 (CEST)
+Received: from localhost ([::1]:50508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltGBs-0007E6-Up
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 17:01:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58020)
+	id 1ltGEG-0004lq-1z
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 17:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFyt-000211-4B
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29300)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFyx-0002Hu-6R
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFyq-000134-NL
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:18 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltFyu-00015Z-Pl
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 16:48:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623790096;
+ s=mimecast20190719; t=1623790100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eXN+I56T0G8Jc3hHgU/ilIz1SEkkY/e6sb5QI1haj94=;
- b=PHAKoldZroYUEEJlDgMtgo0Yye51dn1QPa76YzCOCdXbAdCJO7iDcYymLBROYovDOic6rO
- P+Sq7g4W8Vky9ScDal8f3qCtugM2JF19r2nGbDAzdSSL08oLeAou78HTcouaux2H6+7y8u
- 8o3lTwI46v+FjJShAnBlyrJt1S72WtE=
+ bh=OnoAj/nEtKG/XNToof+6cgt1XTN3w6Q5uG8xvQhE1oc=;
+ b=Q90VOlZazypSumAdmT4B9oNH/WmD/XUvaW+UhpTm+IGcj+t5317tiRG5q/LQVOL0hGFz7A
+ TWMCuIOGL0xh6AHTPHOeAZWAVzy6vKc6VZOJwBmePt6hFoaEA563uVcj//22Vpj9cxoO8g
+ sE6kkEntAvE0hXELCHVVxiTzwiwOv0I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-ElTSs5LiN7auVzl56l8nhw-1; Tue, 15 Jun 2021 16:48:14 -0400
-X-MC-Unique: ElTSs5LiN7auVzl56l8nhw-1
+ us-mta-499-JeO1yeX4M-etTCMyCbJq4Q-1; Tue, 15 Jun 2021 16:48:18 -0400
+X-MC-Unique: JeO1yeX4M-etTCMyCbJq4Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51A02195D560;
- Tue, 15 Jun 2021 20:48:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 847F280ED91;
+ Tue, 15 Jun 2021 20:48:17 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-191.phx2.redhat.com [10.3.114.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8F585D9CA;
- Tue, 15 Jun 2021 20:48:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21CFE5D9CA;
+ Tue, 15 Jun 2021 20:48:14 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/34] block/nbd: BDRVNBDState: drop unused connect_err and
- connect_status
-Date: Tue, 15 Jun 2021 15:47:33 -0500
-Message-Id: <20210615204756.281505-12-eblake@redhat.com>
+Subject: [PULL 13/34] block/nbd: drop thr->state
+Date: Tue, 15 Jun 2021 15:47:35 -0500
+Message-Id: <20210615204756.281505-14-eblake@redhat.com>
 In-Reply-To: <20210615204756.281505-1-eblake@redhat.com>
 References: <20210615204756.281505-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -77,7 +76,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rvkagan@yandex-team.ru>, Kevin Wolf <kwolf@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "open list:Network Block Dev..." <qemu-block@nongnu.org>,
  Max Reitz <mreitz@redhat.com>
@@ -86,67 +85,269 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-These fields are write-only. Drop them.
+We don't need all these states. The code refactored to use two boolean
+variables looks simpler.
+
+While moving the comment in nbd_co_establish_connection() rework it to
+give better information. Also, we are going to move the connection code
+to separate file and mentioning drained section would be confusing.
+
+Improve also the comment in NBDConnectThread, while dropping removed
+state names from it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Roman Kagan <rvkagan@yandex-team.ru>
+Message-Id: <20210610100802.5888-12-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210610100802.5888-10-vsementsov@virtuozzo.com>
+[eblake: comment tweak]
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/nbd.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ block/nbd.c | 148 +++++++++++++++++-----------------------------------
+ 1 file changed, 49 insertions(+), 99 deletions(-)
 
 diff --git a/block/nbd.c b/block/nbd.c
-index 77b85ca47189..fdfb1ff7a158 100644
+index 653af629408d..f2d5b47026a3 100644
 --- a/block/nbd.c
 +++ b/block/nbd.c
-@@ -121,8 +121,6 @@ typedef struct BDRVNBDState {
-     bool wait_drained_end;
-     int in_flight;
-     NBDClientState state;
--    int connect_status;
--    Error *connect_err;
-     bool wait_in_flight;
+@@ -66,38 +66,25 @@ typedef enum NBDClientState {
+     NBD_CLIENT_QUIT
+ } NBDClientState;
 
-     QEMUTimer *reconnect_delay_timer;
-@@ -578,7 +576,6 @@ static void nbd_co_establish_connection_cancel(BlockDriverState *bs)
- static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
- {
-     int ret;
--    Error *local_err = NULL;
-
-     if (!nbd_client_connecting(s)) {
-         return;
-@@ -619,14 +616,14 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-         s->ioc = NULL;
-     }
-
--    if (nbd_co_establish_connection(s->bs, &local_err) < 0) {
-+    if (nbd_co_establish_connection(s->bs, NULL) < 0) {
-         ret = -ECONNREFUSED;
-         goto out;
-     }
-
-     bdrv_dec_in_flight(s->bs);
-
--    ret = nbd_client_handshake(s->bs, &local_err);
-+    ret = nbd_client_handshake(s->bs, NULL);
-
-     if (s->drained) {
-         s->wait_drained_end = true;
-@@ -641,11 +638,6 @@ static coroutine_fn void nbd_reconnect_attempt(BDRVNBDState *s)
-     bdrv_inc_in_flight(s->bs);
-
- out:
--    s->connect_status = ret;
--    error_free(s->connect_err);
--    s->connect_err = NULL;
--    error_propagate(&s->connect_err, local_err);
+-typedef enum NBDConnectThreadState {
+-    /* No thread, no pending results */
+-    CONNECT_THREAD_NONE,
 -
-     if (ret >= 0) {
-         /* successfully connected */
-         s->state = NBD_CLIENT_CONNECTED;
+-    /* Thread is running, no results for now */
+-    CONNECT_THREAD_RUNNING,
+-
+-    /*
+-     * Thread is running, but requestor exited. Thread should close
+-     * the new socket and free the connect state on exit.
+-     */
+-    CONNECT_THREAD_RUNNING_DETACHED,
+-
+-    /* Thread finished, results are stored in a state */
+-    CONNECT_THREAD_FAIL,
+-    CONNECT_THREAD_SUCCESS
+-} NBDConnectThreadState;
+-
+ typedef struct NBDConnectThread {
+     /* Initialization constants */
+     SocketAddress *saddr; /* address to connect to */
+
+-    /*
+-     * Result of last attempt. Valid in FAIL and SUCCESS states.
+-     * If you want to steal error, don't forget to set pointer to NULL.
+-     */
+-    QIOChannelSocket *sioc;
+-    Error *err;
+-
+     QemuMutex mutex;
+-    /* All further fields are protected by mutex */
+-    NBDConnectThreadState state; /* current state of the thread */
++
++    /*
++     * @sioc and @err represent a connection attempt.  While running
++     * is true, they are only used by the connection thread, and mutex
++     * locking is not needed.  Once the thread finishes,
++     * nbd_co_establish_connection then steals these pointers while
++     * under the mutex.
++     */
++    QIOChannelSocket *sioc;
++    Error *err;
++
++    /* All further fields are accessed only under mutex */
++    bool running; /* thread is running now */
++    bool detached; /* thread is detached and should cleanup the state */
+
+     /*
+      * wait_co: if non-NULL, which coroutine to wake in
+@@ -152,17 +139,19 @@ static void nbd_clear_bdrvstate(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+     NBDConnectThread *thr = s->connect_thread;
+-    bool thr_running;
++    bool do_free = false;
+
+     qemu_mutex_lock(&thr->mutex);
+-    thr_running = thr->state == CONNECT_THREAD_RUNNING;
+-    if (thr_running) {
+-        thr->state = CONNECT_THREAD_RUNNING_DETACHED;
++    assert(!thr->detached);
++    if (thr->running) {
++        thr->detached = true;
++    } else {
++        do_free = true;
+     }
+     qemu_mutex_unlock(&thr->mutex);
+
+     /* the runaway thread will clean up itself */
+-    if (!thr_running) {
++    if (do_free) {
+         nbd_free_connect_thread(thr);
+     }
+
+@@ -374,7 +363,6 @@ static void nbd_init_connect_thread(BDRVNBDState *s)
+
+     *s->connect_thread = (NBDConnectThread) {
+         .saddr = QAPI_CLONE(SocketAddress, s->saddr),
+-        .state = CONNECT_THREAD_NONE,
+     };
+
+     qemu_mutex_init(&s->connect_thread->mutex);
+@@ -395,7 +383,7 @@ static void *connect_thread_func(void *opaque)
+ {
+     NBDConnectThread *thr = opaque;
+     int ret;
+-    bool do_free = false;
++    bool do_free;
+
+     thr->sioc = qio_channel_socket_new();
+
+@@ -411,20 +399,13 @@ static void *connect_thread_func(void *opaque)
+
+     qemu_mutex_lock(&thr->mutex);
+
+-    switch (thr->state) {
+-    case CONNECT_THREAD_RUNNING:
+-        thr->state = ret < 0 ? CONNECT_THREAD_FAIL : CONNECT_THREAD_SUCCESS;
+-        if (thr->wait_co) {
+-            aio_co_wake(thr->wait_co);
+-            thr->wait_co = NULL;
+-        }
+-        break;
+-    case CONNECT_THREAD_RUNNING_DETACHED:
+-        do_free = true;
+-        break;
+-    default:
+-        abort();
++    assert(thr->running);
++    thr->running = false;
++    if (thr->wait_co) {
++        aio_co_wake(thr->wait_co);
++        thr->wait_co = NULL;
+     }
++    do_free = thr->detached;
+
+     qemu_mutex_unlock(&thr->mutex);
+
+@@ -438,36 +419,24 @@ static void *connect_thread_func(void *opaque)
+ static int coroutine_fn
+ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
+ {
+-    int ret;
+     QemuThread thread;
+     BDRVNBDState *s = bs->opaque;
+     NBDConnectThread *thr = s->connect_thread;
+
++    assert(!s->sioc);
++
+     qemu_mutex_lock(&thr->mutex);
+
+-    switch (thr->state) {
+-    case CONNECT_THREAD_FAIL:
+-    case CONNECT_THREAD_NONE:
++    if (!thr->running) {
++        if (thr->sioc) {
++            /* Previous attempt finally succeeded in background */
++            goto out;
++        }
++        thr->running = true;
+         error_free(thr->err);
+         thr->err = NULL;
+-        thr->state = CONNECT_THREAD_RUNNING;
+         qemu_thread_create(&thread, "nbd-connect",
+                            connect_thread_func, thr, QEMU_THREAD_DETACHED);
+-        break;
+-    case CONNECT_THREAD_SUCCESS:
+-        /* Previous attempt finally succeeded in background */
+-        thr->state = CONNECT_THREAD_NONE;
+-        s->sioc = thr->sioc;
+-        thr->sioc = NULL;
+-        yank_register_function(BLOCKDEV_YANK_INSTANCE(bs->node_name),
+-                               nbd_yank, bs);
+-        qemu_mutex_unlock(&thr->mutex);
+-        return 0;
+-    case CONNECT_THREAD_RUNNING:
+-        /* Already running, will wait */
+-        break;
+-    default:
+-        abort();
+     }
+
+     thr->wait_co = qemu_coroutine_self();
+@@ -482,10 +451,16 @@ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
+
+     qemu_mutex_lock(&thr->mutex);
+
+-    switch (thr->state) {
+-    case CONNECT_THREAD_SUCCESS:
+-    case CONNECT_THREAD_FAIL:
+-        thr->state = CONNECT_THREAD_NONE;
++out:
++    if (thr->running) {
++        /*
++         * The connection attempt was canceled and the coroutine resumed
++         * before the connection thread finished its job.  Report the
++         * attempt as failed, but leave the connection thread running,
++         * to reuse it for the next connection attempt.
++         */
++        error_setg(errp, "Connection attempt cancelled by other operation");
++    } else {
+         error_propagate(errp, thr->err);
+         thr->err = NULL;
+         s->sioc = thr->sioc;
+@@ -494,33 +469,11 @@ nbd_co_establish_connection(BlockDriverState *bs, Error **errp)
+             yank_register_function(BLOCKDEV_YANK_INSTANCE(bs->node_name),
+                                    nbd_yank, bs);
+         }
+-        ret = (s->sioc ? 0 : -1);
+-        break;
+-    case CONNECT_THREAD_RUNNING:
+-    case CONNECT_THREAD_RUNNING_DETACHED:
+-        /*
+-         * Obviously, drained section wants to start. Report the attempt as
+-         * failed. Still connect thread is executing in background, and its
+-         * result may be used for next connection attempt.
+-         */
+-        ret = -1;
+-        error_setg(errp, "Connection attempt cancelled by other operation");
+-        break;
+-
+-    case CONNECT_THREAD_NONE:
+-        /*
+-         * Impossible. We've seen this thread running. So it should be
+-         * running or at least give some results.
+-         */
+-        abort();
+-
+-    default:
+-        abort();
+     }
+
+     qemu_mutex_unlock(&thr->mutex);
+
+-    return ret;
++    return s->sioc ? 0 : -1;
+ }
+
+ /*
+@@ -532,14 +485,11 @@ static void nbd_co_establish_connection_cancel(BlockDriverState *bs)
+ {
+     BDRVNBDState *s = bs->opaque;
+     NBDConnectThread *thr = s->connect_thread;
+-    Coroutine *wait_co = NULL;
++    Coroutine *wait_co;
+
+     qemu_mutex_lock(&thr->mutex);
+
+-    if (thr->state == CONNECT_THREAD_RUNNING) {
+-        /* We can cancel only in running state, when bh is not yet scheduled */
+-        wait_co = g_steal_pointer(&thr->wait_co);
+-    }
++    wait_co = g_steal_pointer(&thr->wait_co);
+
+     qemu_mutex_unlock(&thr->mutex);
+
 -- 
 2.31.1
 
