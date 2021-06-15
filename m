@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEF63A7A83
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:28:52 +0200 (CEST)
-Received: from localhost ([::1]:57590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3EB3A7A81
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 11:28:50 +0200 (CEST)
+Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt5NL-0000G5-BL
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
+	id 1lt5NI-00009T-JV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 05:28:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lt5Lz-0007FL-Ql
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:27:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lt5Ls-00075K-7i
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:27:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623749238;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=PRaxum1YAqwoHuPyrBZJx3ze0UeluAGvtxQaIw4/05Y=;
- b=GvMLWSJKWutL2Fzi9NYxb7DEjnNVZdTndTCLGLKFeBp7TD/NPJfZ4bYOHNSVM06Fg5psl4
- 2NDEIfsAlVq6uHyMBo+ndCYX5C2OY97biW8NJAkGCnlHlBkqmrOLD5KGodNHU12rHWU55o
- 2UXFBYo6YZGaK5UQfdI1NAHTrEebVMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-pqeAin8jN3OgC9k0nPmDkw-1; Tue, 15 Jun 2021 05:27:14 -0400
-X-MC-Unique: pqeAin8jN3OgC9k0nPmDkw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54C0C801B20
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:27:13 +0000 (UTC)
-Received: from redhat.com (ovpn-114-213.ams2.redhat.com [10.36.114.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BC82100760F;
- Tue, 15 Jun 2021 09:27:05 +0000 (UTC)
-Date: Tue, 15 Jun 2021 10:27:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
-Message-ID: <YMhyZtO/JMBQDKHK@redhat.com>
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-4-kraxel@redhat.com>
- <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
- <YMIP/cKc570Ozvdh@redhat.com>
- <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
- <20210614150159.6ilpce4dqxi7rju4@sirius.home.kraxel.org>
- <YMdw/RlJuGmrFeQj@redhat.com>
- <20210615045441.2rgea2hxalb3pb5z@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt5Lt-0007ES-8Y
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:27:21 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt5Lq-00075B-JK
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 05:27:21 -0400
+Received: by mail-wr1-x429.google.com with SMTP id z8so17524982wrp.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 02:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=8GgksroWPLtfjyt1Tw6J+k6EsKJ2FLOlt8bsIPRpHgQ=;
+ b=cQmrums1hHSP2821EdkWU45YIo4KTNATFx0uaKbnWwk4i5qCWLOpBIPxjYqHN6tfbq
+ iBxMXSiIP0bPMA09fqXfnAoElxplEVS8+YdFYhzoM0oI6L/rCkIqCHJizqXgF92mu7SL
+ s3WUg06RlHuE4ob7luENFPu1nBuzU8vMnuDf30u24W+pZhgJto6ippPp4g+2aWPxXamv
+ mwEJJjUsZuWvPcKfJU0eKv+IStJ0lTS0j91qXo6+Tw49/tOns4FAmJ/KYecQ7e21SU+D
+ 7JnTnO9zXJsmQKF8z2Ar/x1YVSKVxmkeU8N4sjQEra2xadmZVcoMl48EdWwdBJjMLLx+
+ JNrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=8GgksroWPLtfjyt1Tw6J+k6EsKJ2FLOlt8bsIPRpHgQ=;
+ b=fQzuo+izy6dO0LtfORWFjovaGXbKC8MXuPkY11J4k3G1TQVm3OjLeINva6EiYrq5Y/
+ sIHfTkRBpCLxsO6UamLgmG3eFaaL+zq7a+yCOiAVWMbkIMDwh2TBwTupZF4PTR1v+Y5O
+ jm/Yvj8REhSSeHjnPPfUFHLVP9O8XY9oZbY3VRPz8BHrPqBtA+xraUNLwLYAwleanlH1
+ 4nDTSC5W9XnLpckEoNq32lcDRbo2Pdo7eV1qZP8CFQb8d5ZEYf1RcoaVDnY4kycd132z
+ gbRsAtYlsdBAeRJfHL+GL99fj+62hLtx300Q1JX+WppYJ2it6HW6TK1eBIxVrS8wEdQi
+ e3hQ==
+X-Gm-Message-State: AOAM532gYC5qse0ADyDpoVLlLGrRCzrHuwQHJRJCt8BD2kmK1rN1ZHSK
+ fl9jxE3psiOED4VeXuyqards5Q==
+X-Google-Smtp-Source: ABdhPJx0rIHssUxSI+JzOB11/XOkYsvmTWNxffTOZl7v9svxsbjYroyV5IQukU9FMbZEfYYscgOxeg==
+X-Received: by 2002:adf:fc11:: with SMTP id i17mr23695833wrr.374.1623749236150; 
+ Tue, 15 Jun 2021 02:27:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u12sm18806467wrr.40.2021.06.15.02.27.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 02:27:14 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 63C091FF7E;
+ Tue, 15 Jun 2021 10:27:13 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/5] linux-user/s390x: Fix psw.mask handling in signals
+References: <20210615030744.1252385-1-richard.henderson@linaro.org>
+Date: Tue, 15 Jun 2021 10:27:13 +0100
+In-Reply-To: <20210615030744.1252385-1-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Mon, 14 Jun 2021 20:07:39 -0700")
+Message-ID: <87sg1jiiku.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210615045441.2rgea2hxalb3pb5z@sirius.home.kraxel.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,114 +87,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: ruixin.bao@ibm.com, jonathan.albrecht@linux.vnet.ibm.com, david@redhat.com,
+ cohuck@redhat.com, qemu-devel@nongnu.org, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 06:54:41AM +0200, Gerd Hoffmann wrote:
-> > > Problem with that approach is that it doesn't work for module
-> > > dependencies ...
-> > > 
-> > > Comments on the idea?  Suggestions for the module dependency problem?
-> > > Could maybe libbfd be used to find module (symbol) dependencies
-> > > automatically without writing a full dynamic linker?
-> > 
-> > Is there any value in exploring use of libclang ?  It gives us a real
-> > C parser that we can use to extract information from the C source. In
-> > libvirt we have experimental patches (not yet merged) using libclang to
-> > auto-generate XML parser helpers from struct annotations. It is quite
-> > nice compared to any other hacks for extracting information from C
-> > source files without using a proper parser.  libclang can be accessed
-> > from Python3 via its bindings and IIUC should be usable on all our
-> > build platforms
-> 
-> Could you do something along the lines of ...
-> 
->   (1) find constructors
->   (2) find type_register() calls in the constructor and the
->       TypeInfo structs passed to those calls.
->   (3) inspect the TypeInfo structs to figure the QOM type names.
-> 
-> ... with libclang?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-In theory that should all be doable. I'm not very familiar myself with
-libclang, but IIUC you basically get given the abstract syntax tree
-and have to traverse it to find the info you want. This is kind of
-low level but the info should all be there if you know how to find
-it.
+> The PSW_MASK_CC component of psw.mask was not handled properly
+> in the creation or restoration of signal frames.
 
-As an answer to (1) and part of (2), the following code I hacked up
-quickly, finds all constructors that contain "type_register" calls.
-Would need to find the arg to the calls and match that up to the
-static structs too.
+Still seeing issues running on s390x machine:
 
+  05:00:29 [ajb@qemu01:~/l/q/b/debug] s390x/signal-fixes|=E2=80=A6 38 + ret=
+ry.py -n 100 -c -- ./qemu-s390x ./tests/tcg/s390x-linux-user/signals
+  ...
+  ...
+  Results summary:
+  0: 62 times (62.00%), avg time 2.253 (0.00 varience/0.00 deviation)
+  -11: 38 times (38.00%), avg time 0.251 (0.00 varience/0.00 deviation)
+  Ran command 100 times, 62 passes
 
-from clang.cindex import Index, CursorKind
+I don't get much from the backtrace, maybe the atomic triggered the seg?
 
-def is_constructor(cursor):
-    for bit in cursor.get_children():
-        if bit.kind == CursorKind.UNEXPOSED_ATTR:
-            for tok in bit.get_tokens():
-                if tok.spelling == "constructor":
-                    return True
-    return False
+  #0  0x0000000001016244 in vfprintf ()
+  [Current thread is 1 (Thread 0x4001001910 (LWP 27308))]
+  (gdb) bt
+  #0  0x0000000001016244 in vfprintf ()
+  #1  0x000000000101d484 in printf ()
+  #2  0x0000000001000b2e in background_thread_func (arg=3D0x10a3620) at /ho=
+me/ajb/lsrc/qemu.git/tests/tcg/multiarch/signals.c:65
+  #3  0x0000000001003150 in start_thread (arg=3D0x4001001910) at pthread_cr=
+eate.c:463
+  #4  0x0000000001035b40 in thread_start ()
+  (gdb) frame 2
+  #2  0x0000000001000b2e in background_thread_func (arg=3D0x10a3620) at /ho=
+me/ajb/lsrc/qemu.git/tests/tcg/multiarch/signals.c:65
+  65          printf("thread%d: started\n", job->number);
+  (gdb) info locals
+  job =3D 0x10a3620
+  (gdb) p job
+  $1 =3D (ThreadJob *) 0x10a3620
+  (gdb) p job->number
+  $2 =3D 0
+  (gdb) frame 0
+  #0  0x0000000001016244 in vfprintf ()
+  (gdb) x/5i $pc
+  =3D> 0x1016244 <vfprintf+1316>:   asi     224(%r11),1
+     0x101624a <vfprintf+1322>:   cgijne  %r1,0,0x1017570 <vfprintf+6224>
+     0x1016250 <vfprintf+1328>:   lg      %r1,336(%r11)
+     0x1016256 <vfprintf+1334>:   lghi    %r3,37
+     0x101625a <vfprintf+1338>:   aghik   %r6,%r1,1
+  (gdb) p/x $r11
+  $3 =3D 0x4001000708
+  (gdb) p/x $r11 + 224
+  $4 =3D 0x40010007e8
+  (gdb) x/1g $4
+  0x40010007e8:   0x0000000000000000
+  (gdb)
 
-def find_constructors(cursor):
-    for cursor in cursor.get_children():
-        if cursor.kind == CursorKind.FUNCTION_DECL:
-            if is_constructor(cursor):
-                yield cursor
+However running on x86 backend everything seems to be fine.
 
-def has_type_register(cursor):
-    for cursor in constructor.get_children():
-        if cursor.kind == CursorKind.COMPOUND_STMT:
-            for c in cursor.get_children():
-                if c.kind == CursorKind.CALL_EXPR:
-                    if c.displayname == "type_register":
-                        return True
-    return False
-                
-index = Index.create()
-tu = index.parse("demo.c")
-for constructor in find_constructors(tu.cursor):
-    has_reg = has_type_register(constructor)
-    if has_reg:
-        print("Constructor with type_register: " + constructor.displayname)
+  Results summary:
+  0: 200 times (100.00%), avg time 2.255 (0.00 varience/0.00 deviation)
+  Ran command 200 times, 200 passes
 
+>
+>
+> r~
+>
+>
+> Richard Henderson (5):
+>   target/s390x: Expose load_psw and get_psw_mask to cpu.h
+>   target/s390x: Do not modify cpu state in s390_cpu_get_psw_mask
+>   target/s390x: Improve s390_cpu_dump_state vs cc_op
+>   target/s390x: Use s390_cpu_{set_psw,get_psw_mask} in gdbstub
+>   linux-user/s390x: Save and restore psw.mask properly
+>
+>  target/s390x/cpu.h         |   3 ++
+>  target/s390x/internal.h    |   5 --
+>  linux-user/s390x/signal.c  |  37 ++++++++++++--
+>  target/s390x/cc_helper.c   |   2 +-
+>  target/s390x/excp_helper.c |  28 +++++-----
+>  target/s390x/gdbstub.c     |  15 +-----
+>  target/s390x/helper.c      | 101 ++++++++++++++++++++-----------------
+>  target/s390x/sigp.c        |   3 +-
+>  8 files changed, 110 insertions(+), 84 deletions(-)
 
-I tested with a short example
-
-#include <stdio.h>
-
-struct Foo {
-  int bar;
-};
-
-static void type_register(struct Foo *foo) {
-  printf("%d\n", foo->bar);
-}
-  
-__attribute__((constructor)) static void startit(void) 
-{
-  static struct Foo foo = { 42 };
-  type_register(&foo);
-}
-
-int main(int argc, char **argv) {
-  printf("Running main\n");
-}
-
-
-$ python demo.py
-Constructor with type register: startit()
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
