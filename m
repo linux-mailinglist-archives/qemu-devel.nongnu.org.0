@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C438F3A78A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:00:04 +0200 (CEST)
-Received: from localhost ([::1]:59388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBFC3A78A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:59:01 +0200 (CEST)
+Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt3zP-0001iL-NL
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37452)
+	id 1lt3yO-0006qA-E1
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1lt3wB-0004Ei-FN; Tue, 15 Jun 2021 03:56:43 -0400
-Received: from redisdead.crans.org ([2a0c:700:2::ff:fe01:2402]:49664)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lt3wN-0004jk-3E
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:56:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>)
- id 1lt3w9-0004g3-El; Tue, 15 Jun 2021 03:56:43 -0400
-Received: from [IPv6:2a02:8428:4db:b001:f255:832d:4007:dcd0]
- (2a02-8428-04db-b001-f255-832d-4007-dcd0.rev.sfr.net
- [IPv6:2a02:8428:4db:b001:f255:832d:4007:dcd0])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lt3wJ-0004tV-W5
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:56:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623743811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zQmItMFXeTytuhx7BQwjwPM0J6xYyGQbwIGr/94vqs0=;
+ b=V71mc+N43sKTuPE66T3NeFulPcnb/jdX3CRKY/yZbqKg8eeUGtQ8JX1RTNiXhiK0Iw+nH5
+ YM7RkRPlpnzBVsfF9dUziZoUdCzL15lRAJGU4CAh9MsbtY5JIaBHk6NMLAwwMpTz0BniVg
+ WHPyYbO0LdCj/RdF7FoDDwhC8mg8b6s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-517-WT7cduaVOcWNRHCCnQuKIA-1; Tue, 15 Jun 2021 03:56:49 -0400
+X-MC-Unique: WT7cduaVOcWNRHCCnQuKIA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by redisdead.crans.org (Postfix) with ESMTPSA id C81BE231;
- Tue, 15 Jun 2021 09:56:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
- t=1623743798; bh=aPr35zq6g2HVM5+6YnqVHGM5qZkAZDO79eK9po2AvjE=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=RAFl1dce3RVTYEWgvDQSyc0ciAaQGS189rVLkz3l/5Cff/9WcBQjqBTUBDBYYSknI
- BwC6jJGJFrEH6sO8/E4n1E+cObDp/hJMhofCbjSapNnoVFsK7UJSsz2W8Wzifaa/sB
- BPvWZy1zdjrLvj1K21yzMJD+kKr61eLdxfKfa3RgmSKsRPz9RLsq0n0ZL+ZnPk0yPD
- OhpEaRzzAd8RcUsHhtHQsdC4EVOG+qkLOJBbJu5AQxIL77EdkawYu6kBY58cfv4YUW
- 9/nSAe1MWjGx5toST1OG5gtzDv2qkT88OR9C6DiHO/7JMaEcIQv2QVkqfq1D4y6u2v
- eqseUaAbGVwUxLEiwNL5MP6KVZ+HtfrdkOVUF2OeLRBS+Cq8nshiLN2vmPIDXvVk3W
- S3CO/F5ySn7BTQWZedVAE4yvkpsd5sIMf/tp4nBv6Xk/ziqxf55YaFMnPpVwAwp6Nj
- SvtiRm5CQQlWsMWp7pAAKu+lzdEXjCtiNlBUaFeG6LMIsm00COv2qAvmD3DQN+PY6d
- y3YV1Vhao43V7WNA3P4DHTAygTW5/irxyhO9u1ZbI5mQnK84iuPFhe9ewyJGPOaH8n
- NQSfSO+UI5XVEqVzktQxnOaS1WH17L6pK2Oz2lkcJknSFvGUZu1M3C7ii9QDh32lSw
- eDRAuyYkYT8ls4PQH34uMnHo=
-Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
- <20210608161028.4159582-2-erdnaxe@crans.org>
- <CAFEAcA_YkqObpY6E8QiL-_+bLn_3xigv=djtRCdPDNvF4VT4kw@mail.gmail.com>
-From: Alexandre IOOSS <erdnaxe@crans.org>
-Organization: Crans
-Message-ID: <3549092b-5ad0-71f1-a13d-1f84e4cc5c5c@crans.org>
-Date: Tue, 15 Jun 2021 09:56:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16680800D55
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 07:56:48 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA2C05D9DC;
+ Tue, 15 Jun 2021 07:56:47 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2E00018000B2; Tue, 15 Jun 2021 09:56:46 +0200 (CEST)
+Date: Tue, 15 Jun 2021 09:56:46 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
+Message-ID: <20210615075646.vcv3bhbrffs5exez@sirius.home.kraxel.org>
+References: <20210610055755.538119-1-kraxel@redhat.com>
+ <20210610055755.538119-4-kraxel@redhat.com>
+ <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
+ <YMIP/cKc570Ozvdh@redhat.com>
+ <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
+ <8b860457-7c51-f4cb-1e80-02848ad92648@redhat.com>
+ <20210615044915.agzl7vsjewpatyhp@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_YkqObpY6E8QiL-_+bLn_3xigv=djtRCdPDNvF4VT4kw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="rdV7YpyJxnwTCSzsxcc8xJ8Kqp16VZmZw"
-Received-SPF: pass client-ip=2a0c:700:2::ff:fe01:2402;
- envelope-from=erdnaxe@crans.org; helo=redisdead.crans.org
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.489,
+In-Reply-To: <20210615044915.agzl7vsjewpatyhp@sirius.home.kraxel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,68 +84,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:STM32F100" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rdV7YpyJxnwTCSzsxcc8xJ8Kqp16VZmZw
-Content-Type: multipart/mixed; boundary="3vdBxn0mTbEKsn2KuIlaX22T6254EaWaf";
- protected-headers="v1"
-From: Alexandre IOOSS <erdnaxe@crans.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:STM32F100" <qemu-arm@nongnu.org>
-Message-ID: <3549092b-5ad0-71f1-a13d-1f84e4cc5c5c@crans.org>
-Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
- <20210608161028.4159582-2-erdnaxe@crans.org>
- <CAFEAcA_YkqObpY6E8QiL-_+bLn_3xigv=djtRCdPDNvF4VT4kw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_YkqObpY6E8QiL-_+bLn_3xigv=djtRCdPDNvF4VT4kw@mail.gmail.com>
+On Tue, Jun 15, 2021 at 06:49:15AM +0200, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > Another possibility to eschew .o parsing is to add something like this to
+> > the sources
+> > 
+> > #ifdef QEMU_MODINFO
+> > #define MODULE_METADATA(key, value) \
+> >    =<>= MODINFO key value
+> > #else
+> > #define MODULE_METADATA(key, value)
+> > #endif
+> > 
+> > MODULE_METADATA("opts", "spice")
+> > 
+> > A Python script could parse compile_commands.json, add -E -DQEMU_MODINFO to
+> > the command-line option, and look in the output for the metadata.
+> 
+> Hmm, worth trying, although I guess it would be easier to code this up
+> straight in meson.build and pull the information you need out of the
+> source set, especially as you'll know then which source files are
+> compiled into which module.
 
---3vdBxn0mTbEKsn2KuIlaX22T6254EaWaf
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Hmm, looks like I actually need both.  Seems there is no easy way to get
+the cflags out of a source_set to construct a cpp command line.  Pulling
+this out of compile_commands.json with jq works though.
 
-On 6/14/21 6:04 PM, Peter Maydell wrote:
-> Is this definitely right? The STM32F00 datasheet I found
-> thinks it only has 61 external interrupts.
+With the patch below I get nice ${module}.modinfo files with the
+metadata, now I only need a (probably python) script to collect
+them and create a modinfo.c which we can link into qemu.
 
-Yes you are right, I don't really known what I have done here. I will=20
-fix this in next patchset version.
+take care,
+  Gerd
 
-To double-check, it is described page 131 of=20
-https://www.st.com/resource/en/reference_manual/cd00246267-stm32f100xx-ad=
-vanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+From 3edc033935d2dd4ec607ac6395548a327151ad06 Mon Sep 17 00:00:00 2001
+From: Gerd Hoffmann <kraxel@redhat.com>
+Date: Tue, 15 Jun 2021 09:23:52 +0200
+Subject: [PATCH] try -DQEMU_MODINFO
 
-Thanks,
--- Alexandre
+---
+ include/qemu/module.h | 22 ++++++----------------
+ meson.build           |  7 +++++++
+ scripts/modinfo.sh    |  8 ++++++++
+ 3 files changed, 21 insertions(+), 16 deletions(-)
+ create mode 100644 scripts/modinfo.sh
 
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 7825f6d8c847..5acfa423dc4f 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -74,22 +74,12 @@ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
+ void module_allow_arch(const char *arch);
+ 
+-/*
+- * macros to store module metadata in a .modinfo section.
+- * qemu-modinfo utility will collect the metadata.
+- *
+- * Use "objdump -t -s -j .modinfo ${module}.so" to inspect.
+- */
+-
+-#define ___PASTE(a, b) a##b
+-#define __PASTE(a, b) ___PASTE(a, b)
+-
+-#define modinfo(kind, value)                             \
+-    static const char __PASTE(kind, __LINE__)[]          \
+-        __attribute__((__used__))                        \
+-        __attribute__((section(".modinfo")))             \
+-        __attribute__((aligned(1)))                      \
+-        = stringify(kind) "=" value
++#ifdef QEMU_MODINFO
++# define modinfo(kind, value) \
++    MODINFO_START kind value MODINFO_END
++#else
++# define modinfo(kind, value)
++#endif
+ 
+ #define module_obj(name) modinfo(obj, name)
+ #define module_dep(name) modinfo(dep, name)
+diff --git a/meson.build b/meson.build
+index 46ebc07dbb67..d8661755adf9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2050,12 +2050,19 @@ target_modules += { 'accel' : { 'qtest': qtest_module_ss,
+ 
+ block_mods = []
+ softmmu_mods = []
++modinfo = find_program('scripts/modinfo.sh')
+ foreach d, list : modules
+   foreach m, module_ss : list
+     if enable_modules and targetos != 'windows'
+       module_ss = module_ss.apply(config_all, strict: false)
+       sl = static_library(d + '-' + m, [genh, module_ss.sources()],
+                           dependencies: [modulecommon, module_ss.dependencies()], pic: true)
++      custom_target(d + '-' + m + '.modinfo',
++                    output: d + '-' + m + '.modinfo',
++                    input: module_ss.sources(),
++                    build_by_default: true, # to be removed when added to a target
++                    capture: true,
++                    command: [modinfo, '@INPUT@'])
+       if d == 'block'
+         block_mods += sl
+       else
+diff --git a/scripts/modinfo.sh b/scripts/modinfo.sh
+new file mode 100644
+index 000000000000..8f4495d4523d
+--- /dev/null
++++ b/scripts/modinfo.sh
+@@ -0,0 +1,8 @@
++#!/bin/sh
++for input in "$@"; do
++    command=$(jq  -r ".[] | select(.file == \"$input\") | .command " compile_commands.json)
++    command="${command%% -M*}"
++    command="$command -DQEMU_MODINFO -E $input"
++    $command
++done | grep MODINFO
++exit 0
+-- 
+2.31.1
 
---3vdBxn0mTbEKsn2KuIlaX22T6254EaWaf--
-
---rdV7YpyJxnwTCSzsxcc8xJ8Kqp16VZmZw
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmDIXTYFAwAAAAAACgkQbHknjz/NzAI+
-YhAAp6gTflbtvw89avZ4qgmrCvUeUP1u4pIMbhay9TgUlfTi9EZAE+TzVL0H7RNiOHoOYSMeMxdw
-mFNc1U6T4zxRk7mfPeGusWT+e83HiNU+qBVK6Asy35q97ZSf5ts8Q0Z90vY1Nnp9z2u+y2dGpzcb
-ltVQ2m2DKeAgMaeQ9izXZHPD5X/qtL1fipxQwX0ZgB+g54DLzF5jIUdlGkFdRdh752R/0ABU54+b
-G+0uo2e8jMj6El6wV7VOizMnInk7UR8V5eAocb6FKycbXfuIrvgltfWs2inHQdVNdu6wEoy+wjUD
-b5rUnQ2MdYMMzexbhkcoP4D2kcM2dV2Ukg4LcbskHxXCO4yAYpTidtZyarIvY4k2ZEjkyRHRRw7v
-DWJG+beF9AwmE3iyie2rLgUZoHhAA5qypUxpI/Tw4In95DTN/cjhbzTsWZKgzgDKE/ph+/o0mUSZ
-271lbriHPuI/ec5lHQ75HrI6n47GBm7y6brpU0dueBMFOInmM3kKy4ZgnaIXLiEg0DG0dW/84+QV
-/k1MJRYNaeOa4pB3re8YRmWlulCV2rDtOhhYgvtCQSbP+X76MO+cW3KCtv3l2hFSiBXyzwX4CSar
-8nw3ZuIyYOpI31jKe/RdVK+TtArTp0wyPawWAMwMjPnuJUKWKzMMvzfv5yti2gSrlhibQYBIi6yl
-X1Y=
-=Pjd3
------END PGP SIGNATURE-----
-
---rdV7YpyJxnwTCSzsxcc8xJ8Kqp16VZmZw--
 
