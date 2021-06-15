@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF0A3A83DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:24:08 +0200 (CEST)
-Received: from localhost ([::1]:59452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A983A83FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:30:18 +0200 (CEST)
+Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltAv9-0003UW-N9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55192)
+	id 1ltB17-0005P2-EB
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ltAtW-0001M6-Kg
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:22:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37168)
+ id 1ltAyT-0002RW-HN
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:27:33 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50064
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1ltAtS-0006Og-3C
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:22:26 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15FF3qrV045955; Tue, 15 Jun 2021 11:22:20 -0400
+ id 1ltAyP-0000XN-LX
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:27:33 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15FF4KTM028243; Tue, 15 Jun 2021 11:27:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=pp1;
- bh=cDW+v0140pijcT53TpR/bxVhKV0wpHipd5e2UonGcIE=;
- b=MC6Mm4VEfFk+i+TJPOz0l4pSo2INcj/qg7sIqP12SVwmAxN6OSIaB/3g0H1l/cKmRIgW
- 04/EZB3pfk4tk2XuKVODmckROwCXYf2OdmHpRzGeXC2imhBJ98QZdHamcJVkQPhk5KQ6
- cmpZyV10oVOQoFF+thLBgRYqdFCtie+4wXdMtMNeLYSKLx9GK6NRZpZrKUwC692ul/Bo
- RZ8lJ1TBwxZfkPOcnIJaV4nnbLAeMIVJt/PUxi3xlYHgk5LMKKrwl2q6XpgE5QM4o2bN
- 7eYzHEjFxHp6q3DEHzhrZXdV5uYVX6L/BDZ9CriiYq6wQ6IRN6UXyMTJa6B3NGcy9pWZ Uw== 
+ bh=pm2GZHPTSetfhkrn/yYYCDVVMDeA502sznfYJXZrur8=;
+ b=fwCHS4bH8mN/PKqL6+BTN8Sk9Hyu8yfizC8AssFy2PFy4URTvYhu8Gd7cWL+xZIuOr37
+ k/3J5HqiZXincnjG/BcHzL2rfEIjvjNZ9G/LoaCH+ik+gg+gRbRxPMQ2XVI0VLgXH1VN
+ 52QIpL0i3ULF3bU7g1Jshnvj9e6YLLLPEVeLSi1oQSZMwrW9xtD70fbkW4K6jGQzuIoM
+ /ax6JZXi7Iuy13MrrP7oCG3XocCVevgf5XaO2Vg0QhrgiAkOmoxN+c+loP2baO32v7gZ
+ B2ta6OW4fDBfTb/ouioMaGxpSaQS7yNWlmrT4Ez47Be77Zdu7G6FDu2+F0vsUios7E9t 2w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396x7w1k28-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 396wyujafn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 11:22:19 -0400
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15FF4GOG048004;
- Tue, 15 Jun 2021 11:22:19 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 396x7w1k1k-1
+ Tue, 15 Jun 2021 11:27:27 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15FF4dux030217;
+ Tue, 15 Jun 2021 11:27:27 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 396wyujafe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 11:22:19 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15FFDPHl012481;
- Tue, 15 Jun 2021 15:22:18 GMT
+ Tue, 15 Jun 2021 11:27:27 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15FFCCE7013488;
+ Tue, 15 Jun 2021 15:22:19 GMT
 Received: from b03cxnp08028.gho.boulder.ibm.com
  (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma01wdc.us.ibm.com with ESMTP id 394mj9902t-1
+ by ppma04dal.us.ibm.com with ESMTP id 3965ytmfpm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Jun 2021 15:22:18 +0000
+ Tue, 15 Jun 2021 15:22:19 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
  by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15FFMHsP29295000
+ 15FFMHw735520888
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Jun 2021 15:22:17 GMT
+ Tue, 15 Jun 2021 15:22:18 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 593CC7805C;
+ by IMSVA (Postfix) with ESMTP id D159C78066;
  Tue, 15 Jun 2021 15:22:17 +0000 (GMT)
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D41B78064;
- Tue, 15 Jun 2021 15:22:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 702507805E;
+ Tue, 15 Jun 2021 15:22:17 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 15 Jun 2021 15:22:16 +0000 (GMT)
+ Tue, 15 Jun 2021 15:22:17 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 2/5] arm: Eliminate all TPM related code if CONFIG_TPM is
+Subject: [PULL v1 3/5] acpi: Eliminate all TPM related code if CONFIG_TPM is
  not set
-Date: Tue, 15 Jun 2021 11:21:49 -0400
-Message-Id: <20210615152152.2496772-3-stefanb@linux.vnet.ibm.com>
+Date: Tue, 15 Jun 2021 11:21:50 -0400
+Message-Id: <20210615152152.2496772-4-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
 References: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
@@ -80,26 +81,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: oKyrigJx1SdfRAlG0xJw067x1PtAHI3z
-X-Proofpoint-ORIG-GUID: RjDbrlh0cEx-d-fL32J-dNhpDsDufG7a
+X-Proofpoint-ORIG-GUID: 1N21GD9GJl18NaSg3ZEAh77KAiUYmfsP
+X-Proofpoint-GUID: 6AkQXHIdFngS9jMRsjYftWRgbm3u2i2p
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-06-15_07:2021-06-14,
  2021-06-15 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- malwarescore=0 adultscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- mlxscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ clxscore=1015 suspectscore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 phishscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2106150095
-Received-SPF: none client-ip=148.163.156.1;
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,7 +112,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
+Cc: peter.maydell@linaro.org, Igor Mammedov <imammedo@redhat.com>,
+ "M : Michael S . Tsirkin" <mst@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -120,107 +121,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Berger <stefanb@linux.ibm.com>
 
-Peter Maydell <peter.maydell@linaro.org>
-
+Cc: M: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210614191335.1968807-3-stefanb@linux.ibm.com>
+Message-Id: <20210614191335.1968807-4-stefanb@linux.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/sysbus-fdt.c      | 4 ++++
- hw/arm/virt-acpi-build.c | 6 ++++++
- hw/arm/virt.c            | 2 ++
- 3 files changed, 12 insertions(+)
+ hw/acpi/aml-build.c   | 2 ++
+ include/hw/acpi/tpm.h | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/arm/sysbus-fdt.c b/hw/arm/sysbus-fdt.c
-index 6b6906f4cf..48c5fe9bf1 100644
---- a/hw/arm/sysbus-fdt.c
-+++ b/hw/arm/sysbus-fdt.c
-@@ -437,6 +437,7 @@ static bool vfio_platform_match(SysBusDevice *sbdev,
- 
- #endif /* CONFIG_LINUX */
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index f0035d2b4a..d5103e6d7b 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2044,6 +2044,7 @@ build_hdr:
+                  "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
+ }
  
 +#ifdef CONFIG_TPM
  /*
-  * add_tpm_tis_fdt_node: Create a DT node for TPM TIS
-  *
-@@ -467,6 +468,7 @@ static int add_tpm_tis_fdt_node(SysBusDevice *sbdev, void *opaque)
-     g_free(nodename);
-     return 0;
+  * build_tpm2 - Build the TPM2 table as specified in
+  * table 7: TCG Hardware Interface Description Table Format for TPM 2.0
+@@ -2101,6 +2102,7 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+                  (void *)(table_data->data + tpm2_start),
+                  "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
  }
 +#endif
  
- static int no_fdt_node(SysBusDevice *sbdev, void *opaque)
- {
-@@ -488,7 +490,9 @@ static const BindingEntry bindings[] = {
-     TYPE_BINDING(TYPE_VFIO_AMD_XGBE, add_amd_xgbe_fdt_node),
-     VFIO_PLATFORM_BINDING("amd,xgbe-seattle-v1a", add_amd_xgbe_fdt_node),
- #endif
-+#ifdef CONFIG_TPM
-     TYPE_BINDING(TYPE_TPM_TIS_SYSBUS, add_tpm_tis_fdt_node),
-+#endif
-     TYPE_BINDING(TYPE_RAMFB_DEVICE, no_fdt_node),
-     TYPE_BINDING("", NULL), /* last element */
- };
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 60fe2e65a7..f1024843dd 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -205,6 +205,7 @@ static void acpi_dsdt_add_gpio(Aml *scope, const MemMapEntry *gpio_memmap,
-     aml_append(scope, dev);
- }
+ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
+                uint32_t mmio32_offset, uint64_t mmio64_offset,
+diff --git a/include/hw/acpi/tpm.h b/include/hw/acpi/tpm.h
+index 1a2a57a21f..559ba6906c 100644
+--- a/include/hw/acpi/tpm.h
++++ b/include/hw/acpi/tpm.h
+@@ -21,6 +21,8 @@
+ #include "hw/acpi/aml-build.h"
+ #include "sysemu/tpm.h"
  
 +#ifdef CONFIG_TPM
- static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
- {
-     PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
-@@ -236,6 +237,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
-     aml_append(dev, aml_name_decl("_CRS", crs));
-     aml_append(scope, dev);
- }
-+#endif
++
+ #define TPM_TIS_ADDR_BASE           0xFED40000
+ #define TPM_TIS_ADDR_SIZE           0x5000
  
- static void
- build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-@@ -642,7 +644,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     }
+@@ -209,4 +211,6 @@ REG32(CRB_DATA_BUFFER, 0x80)
  
-     acpi_dsdt_add_power_button(scope);
-+#ifdef CONFIG_TPM
-     acpi_dsdt_add_tpm(scope, vms);
-+#endif
+ void tpm_build_ppi_acpi(TPMIf *tpm, Aml *dev);
  
-     aml_append(dsdt, scope);
- 
-@@ -745,11 +749,13 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-         build_iort(tables_blob, tables->linker, vms);
-     }
- 
-+#ifdef CONFIG_TPM
-     if (tpm_get_version(tpm_find()) == TPM_VERSION_2_0) {
-         acpi_add_table(table_offsets, tables_blob);
-         build_tpm2(tables_blob, tables->linker, tables->tcpalog, vms->oem_id,
-                    vms->oem_table_id);
-     }
-+#endif
- 
-     /* XSDT is pointed to by RSDP */
-     xsdt = tables_blob->len;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 840758666d..9122e22ee0 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2599,7 +2599,9 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_AMD_XGBE);
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_PLATFORM);
-+#ifdef CONFIG_TPM
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
-+#endif
-     mc->block_default_type = IF_VIRTIO;
-     mc->no_cdrom = 1;
-     mc->pci_allow_0_address = true;
++#endif /* CONFIG_TPM */
++
+ #endif /* HW_ACPI_TPM_H */
 -- 
 2.31.1
 
