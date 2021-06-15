@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399573A8521
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:51:43 +0200 (CEST)
-Received: from localhost ([::1]:54340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107943A85B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 17:56:27 +0200 (CEST)
+Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltBLq-0006Rz-8R
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
+	id 1ltBQQ-0001Yu-0i
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 11:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBFC-0006JJ-MT
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:50 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43956)
+ id 1ltBFD-0006Mr-HH
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:51 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltBEh-0000yV-Vb
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:50 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id r9so18878688wrz.10
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:18 -0700 (PDT)
+ id 1ltBEi-0000yb-8H
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 11:44:51 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id c5so18843008wrq.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 08:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CEA7FSbLGi5A6kATzg2rxoWerCKV1VDUeDfHJ0mPSiY=;
- b=aISUVBwpi2rod3map28H3xJjU9CVW0IN0FturDGPMEVJLhU2UaIqog1xrJdnMyzntz
- eGLkVGEeYXvWeug0hqvaDCYNg9Glw3F9MXcj/pzf7FKj6bKK3b6Pu9oyTkdzHEArcRfB
- SCeUk87ANSrg3RJfJMy5bQ6nEIoIostpBsC3i6Cb/vqsr5GTx2txHsvq4TuF5LCVoNzJ
- JgN5GyNwQVPzV6PkaBqIgs9EWJVlrG5G0OtUa8yrPiekpkk24KluULG+itGuCyrtXaal
- WyfZ7n2sf3w+5+bUWfGzf30ImhbMgrn5q/Bm1R3tqzzjEQXpC08HtIwYuvuESIKqyvx/
- 4Ohg==
+ bh=cx+nRZZDSzyxnSLiyezkFu0ca/l+cSVer7KxgYODaMI=;
+ b=PHN4hTSTRgjsDJRvTwtF5HStTK607jbZ811W1OxZULPaFcjYg1j6Ajhne7sMsyeAtg
+ Gjw9NODez5vSGDOGY0ij1enN08apGgdAoRGyyeCLdGJcrojavSvk2Ea0gvGZy4a2wkK6
+ rXeyIXacYgsNUMVCXIiZ+7qZor2eCjytzAN5pa9Av4qJuJAc+1/HObmaWYZM918luY1C
+ yvUnIiUNs8GCZlGvhfAO9YWqbl2bE/tPS+dQGKsO8Uht2oB4x+cyDuK0c8vGIpsGeB1L
+ bhK9CVUCxDVv4i8pomkGK/m9jrgM5WOGucSm5T5kp5e9tL0fUa+m5aYzHaZqOHDX474m
+ 1x5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CEA7FSbLGi5A6kATzg2rxoWerCKV1VDUeDfHJ0mPSiY=;
- b=VCYaNbkuIXmzAAWwCD/qDW/AG8pzElV5G3PXQy1v2QbpjQZaK86+D/+e2AZCXWb0oj
- /7cBl4feZlnOrNa2lwWlP3etnEQG79/5Bbw7YymwILyaxLq5lbHLKIsSXBVi1Dx1KpQx
- XTyXcAzUgIGte4qIJ43K2yEzkhZ1jWunRf39/kQ/Nwu4BgKaaK2H7BRgUnjrtqRG9akZ
- Uq5eQjEEpWyqnk9W6wvquFqSRyd880/qzrD5TwqoPtldZMOLS2r5twoPsvefVJaJAosN
- MufTzLVZccpx8saZHkFywH52ZqM+AZrqWNC3FRTojtEiXEIWpWckRGX8AbjfaW2233gO
- aNUg==
-X-Gm-Message-State: AOAM530o/Wcnte4iyEHk4rEav7bW1JxE5KV0FNCnUZmVMISd6VJU3SZI
- LPCx9DHEWFcbdoxN2nc7QvHwQbF5yCGM7Q==
-X-Google-Smtp-Source: ABdhPJz2N5dJg6JLz68hhAkdcBY2QtkYitUBnmmY8u1aYDH+bkiCMXMwJuCaVyaRYcWtFze+sq6Q5g==
-X-Received: by 2002:adf:dd8a:: with SMTP id x10mr26271115wrl.225.1623771857902; 
- Tue, 15 Jun 2021 08:44:17 -0700 (PDT)
+ bh=cx+nRZZDSzyxnSLiyezkFu0ca/l+cSVer7KxgYODaMI=;
+ b=fnTjRBvly2agG00wRYXCwbW70K37NFrlUflSREKXOIHQc0Jg98VsAeFFk4XT1X4yhn
+ g5+LCthjdfjf2q4aZJ+h6/DgssKMwBOND/pdGmCm159ZEm5D5/VJFq408wJCgn/aOEHg
+ G2v0tLooYLH4dJLG/JA7dwiyPcGzQcClrIrHOVGjYOKY2NWYVVprW/xMgMMRrVL4A9E0
+ na6zM2iv8OKLbOjkuMwJiN1z78arDNBCCBv5NPLkE1XMoP2fYk/iF6xgOFH3d9nr/wtI
+ CBDPQryYTBSPBkykX8McFanF1ZTcJx0vN4vAKsH3inQoBS8SXOFXaQBm0wqH6F20avMT
+ djpQ==
+X-Gm-Message-State: AOAM532fzb3cokMC5BuS/LR2XUCKX/qrNSqWB2pZEYVQ/rFdViAmVSPD
+ pFG/WDjgab2Fg9TEr5zYsClkK0lpm/WMqg==
+X-Google-Smtp-Source: ABdhPJwhR5hBD3uqrYwKNLmWyCzjGl//OeRWHIkgOOguI7TlFS73wffQN95ntKtaOAaC6nsZrtWYSg==
+X-Received: by 2002:a5d:4589:: with SMTP id p9mr845634wrq.30.1623771858522;
+ Tue, 15 Jun 2021 08:44:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d15sm18985662wri.58.2021.06.15.08.44.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 08:44:17 -0700 (PDT)
+ Tue, 15 Jun 2021 08:44:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/28] hw/arm: gsj add pca9548
-Date: Tue, 15 Jun 2021 16:43:51 +0100
-Message-Id: <20210615154405.21399-15-peter.maydell@linaro.org>
+Subject: [PULL 15/28] hw/arm: quanta-q71l add pca954x muxes
+Date: Tue, 15 Jun 2021 16:43:52 +0100
+Message-Id: <20210615154405.21399-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210615154405.21399-1-peter.maydell@linaro.org>
 References: <20210615154405.21399-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,76 +89,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Patrick Venture <venture@google.com>
 
-Tested: Quanta-gsj firmware booted.
+Adds the pca954x muxes expected.
 
-i2c /dev entries driver
-I2C init bus 1 freq 100000
-I2C init bus 2 freq 100000
-I2C init bus 3 freq 100000
-I2C init bus 4 freq 100000
-I2C init bus 8 freq 100000
-I2C init bus 9 freq 100000
-at24 9-0055: 8192 byte 24c64 EEPROM, writable, 1 bytes/write
-I2C init bus 10 freq 100000
-at24 10-0055: 8192 byte 24c64 EEPROM, writable, 1 bytes/write
-I2C init bus 12 freq 100000
-I2C init bus 15 freq 100000
-i2c i2c-15: Added multiplexed i2c bus 16
-i2c i2c-15: Added multiplexed i2c bus 17
-i2c i2c-15: Added multiplexed i2c bus 18
-i2c i2c-15: Added multiplexed i2c bus 19
-i2c i2c-15: Added multiplexed i2c bus 20
-i2c i2c-15: Added multiplexed i2c bus 21
-i2c i2c-15: Added multiplexed i2c bus 22
-i2c i2c-15: Added multiplexed i2c bus 23
-pca954x 15-0075: registered 8 multiplexed busses for I2C switch pca9548
-
+Tested: Booted quanta-q71l image to userspace.
 Signed-off-by: Patrick Venture <venture@google.com>
 Reviewed-by: Hao Wu <wuhaotsh@google.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20210608202522.2677850-3-venture@google.com
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20210608202522.2677850-4-venture@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/npcm7xx_boards.c | 6 ++----
- hw/arm/Kconfig          | 1 +
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ hw/arm/aspeed.c | 11 ++++++++---
+ hw/arm/Kconfig  |  1 +
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index eed0da71b8a..e5a32439954 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -18,6 +18,7 @@
- 
- #include "hw/arm/npcm7xx.h"
- #include "hw/core/cpu.h"
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 0eafc791540..1301e8fdffb 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -14,6 +14,7 @@
+ #include "hw/arm/boot.h"
+ #include "hw/arm/aspeed.h"
+ #include "hw/arm/aspeed_soc.h"
 +#include "hw/i2c/i2c_mux_pca954x.h"
  #include "hw/i2c/smbus_eeprom.h"
- #include "hw/loader.h"
- #include "hw/qdev-core.h"
-@@ -232,10 +233,7 @@ static void quanta_gsj_i2c_init(NPCM7xxState *soc)
-      * - ucd90160@6b
-      */
+ #include "hw/misc/pca9552.h"
+ #include "hw/misc/tmp105.h"
+@@ -461,14 +462,18 @@ static void quanta_q71l_bmc_i2c_init(AspeedMachineState *bmc)
+     /* TODO: i2c-1: Add Frontpanel FRU eeprom@57 24c64 */
+     /* TODO: Add Memory Riser i2c mux and eeproms. */
  
--    /*
--     * i2c-15:
--     * - pca9548@75
--     */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 15), "pca9548", 0x75);
+-    /* TODO: i2c-2: pca9546@74 */
+-    /* TODO: i2c-2: pca9548@77 */
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "pca9546", 0x74);
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), "pca9548", 0x77);
++
+     /* TODO: i2c-3: Add BIOS FRU eeprom@56 24c64 */
+-    /* TODO: i2c-7: Add pca9546@70 */
++
++    /* i2c-7 */
++    i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 7), "pca9546", 0x70);
+     /*        - i2c@0: pmbus@59 */
+     /*        - i2c@1: pmbus@58 */
+     /*        - i2c@2: pmbus@58 */
+     /*        - i2c@3: pmbus@59 */
++
+     /* TODO: i2c-7: Add PDB FRU eeprom@52 */
+     /* TODO: i2c-8: Add BMC FRU eeprom@50 */
  }
- 
- static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 67723d9ea6a..8e7c9d22a45 100644
+index 8e7c9d22a45..647b5c8b43a 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -378,6 +378,7 @@ config NPCM7XX
+@@ -414,6 +414,7 @@ config ASPEED_SOC
+     select PCA9552
      select SERIAL
-     select SSI
-     select UNIMP
+     select SMBUS_EEPROM
 +    select PCA954X
- 
- config FSL_IMX25
-     bool
+     select SSI
+     select SSI_M25P80
+     select TMP105
 -- 
 2.20.1
 
