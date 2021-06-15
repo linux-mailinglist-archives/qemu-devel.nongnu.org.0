@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031703A7D9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 13:52:12 +0200 (CEST)
-Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E259E3A7D71
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 13:44:40 +0200 (CEST)
+Received: from localhost ([::1]:60072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt7c3-0001ZU-2s
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 07:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57290)
+	id 1lt7Ul-0007MU-Fr
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 07:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lt7V3-0008O9-JJ
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 07:44:58 -0400
-Received: from mga14.intel.com ([192.55.52.115]:19469)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lt7Ta-0006TT-Tm; Tue, 15 Jun 2021 07:43:27 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1lt7Uz-0006IJ-Ky
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 07:44:56 -0400
-IronPort-SDR: lTqnX8W6l/VyoTd0pOOLOrzF3HjLDMD5hB0EWfR+gegWBpt+Afp2Iub/rkFQeW6hIS+Ou5efQ3
- OYrXQcWwftIw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205790962"
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="205790962"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 04:44:50 -0700
-IronPort-SDR: jWMcQH2eGprGKHUDloli264mave9K0F6oblBlmYp6mB/F2VgjczOgFwd2SwRVlWmqJfejL9wGA
- inqU2MQORdYA==
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; d="scan'208";a="450224188"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2021 04:44:47 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: [PATCH V8 6/6] net/net.c: Add handler for COLO passthrough connection
-Date: Tue, 15 Jun 2021 19:37:40 +0800
-Message-Id: <20210615113740.2278015-7-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210615113740.2278015-1-chen.zhang@intel.com>
-References: <20210615113740.2278015-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lt7TY-00059w-3L; Tue, 15 Jun 2021 07:43:26 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G45wH6RXqzZg1m;
+ Tue, 15 Jun 2021 19:40:15 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Tue, 15 Jun 2021 19:43:10 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Tue, 15 Jun 2021 19:43:10 +0800
+Subject: Re: [PATCH] vfio: Fix unregister SaveVMHandler in
+ vfio_migration_finalize
+To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <20210527123101.289-1-jiangkunkun@huawei.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <acc05cde-9305-6cf7-991f-78824a4817d6@huawei.com>
+Date: Tue, 15 Jun 2021 19:42:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=chen.zhang@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+In-Reply-To: <20210527123101.289-1-jiangkunkun@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.095,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,206 +69,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>,
- Zhang Chen <zhangckid@gmail.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-stable@nongnu.org,
+ ganqixin@huawei.com, Zenghui
+ Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use connection protocol,src port,dst port,src ip,dst ip as the key
-to bypass certain network traffic in COLO compare.
+Kindly ping,
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/net.c | 162 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 160 insertions(+), 2 deletions(-)
+Hi everyone,
 
-diff --git a/net/net.c b/net/net.c
-index f913e97983..3a84ce7fa0 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -55,6 +55,8 @@
- #include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "net/colo-compare.h"
-+#include "qom/object_interfaces.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -1195,14 +1197,170 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
- }
- 
-+static CompareState *colo_passthrough_check(IPFlowSpec *spec, Error **errp)
-+{
-+    Object *container;
-+    Object *obj;
-+    CompareState *s;
-+
-+    if (!spec->object_name) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "object-name",
-+                   "Need input colo-compare object name");
-+        return NULL;
-+    }
-+
-+    container = object_get_objects_root();
-+    obj = object_resolve_path_component(container, spec->object_name);
-+    if (!obj) {
-+        error_setg(errp, "colo-compare '%s' not found", spec->object_name);
-+        return NULL;
-+    }
-+
-+    s = COLO_COMPARE(obj);
-+
-+    if (!getprotobyname(spec->protocol)) {
-+        error_setg(errp, "COLO pass through get wrong protocol");
-+        return NULL;
-+    }
-+
-+    if ((spec->source->host && !qemu_isdigit(spec->source->host[0])) ||
-+        (spec->destination->host &&
-+        !qemu_isdigit(spec->destination->host[0]))) {
-+        error_setg(errp, "COLO pass through get wrong IP");
-+        return NULL;
-+    }
-+
-+    if (atoi(spec->source->port) > 65536 || atoi(spec->source->port) < 0 ||
-+        atoi(spec->destination->port) > 65536 ||
-+        atoi(spec->destination->port) < 0) {
-+        error_setg(errp, "COLO pass through get wrong port");
-+        return NULL;
-+    }
-+
-+    return s;
-+}
-+
-+static COLOPassthroughEntry *compare_passthrough_find(CompareState *s,
-+                                                      COLOPassthroughEntry *ent)
-+{
-+    COLOPassthroughEntry *next = NULL, *origin = NULL;
-+
-+    if (!QLIST_EMPTY(&s->passthroughlist)) {
-+        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-+            if ((ent->l4_protocol->p_proto == origin->l4_protocol->p_proto) &&
-+                (ent->src_port == origin->src_port) &&
-+                (ent->dst_port == origin->dst_port) &&
-+                (ent->src_ip.s_addr == origin->src_ip.s_addr) &&
-+                (ent->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-+                return origin;
-+            }
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static void compare_passthrough_add(CompareState *s,
-+                                    IPFlowSpec *spec,
-+                                    Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    pass->l4_protocol = getprotobyname(spec->protocol);
-+    pass->src_port = atoi(spec->source->port);
-+    pass->dst_port = atoi(spec->destination->port);
-+
-+    if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+        pass->src_ip.s_addr = 0;
-+    }
-+
-+    if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+        pass->dst_ip.s_addr = 0;
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+    if (compare_passthrough_find(s, pass)) {
-+        error_setg(errp, "The pass through connection already exists");
-+        g_free(pass);
-+        qemu_mutex_unlock(&s->passthroughlist_mutex);
-+        return;
-+    }
-+
-+    QLIST_INSERT_HEAD(&s->passthroughlist, pass, node);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+static void compare_passthrough_del(CompareState *s,
-+                                    IPFlowSpec *spec,
-+                                    Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL, *result = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    pass->l4_protocol = getprotobyname(spec->protocol);
-+    pass->src_port = atoi(spec->source->port);
-+    pass->dst_port = atoi(spec->destination->port);
-+
-+    if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+        pass->src_ip.s_addr = 0;
-+    }
-+
-+    if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+        pass->dst_ip.s_addr = 0;
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+
-+    result = compare_passthrough_find(s, pass);
-+    if (result) {
-+        QLIST_REMOVE(result, node);
-+        g_free(result);
-+    } else {
-+        error_setg(errp, "Can't find the IP flow Spec");
-+    }
-+
-+    g_free(pass);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+
- void qmp_colo_passthrough_add(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement setup passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = colo_passthrough_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    compare_passthrough_add(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- void qmp_colo_passthrough_del(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement delete passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = colo_passthrough_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    compare_passthrough_del(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
--- 
-2.25.1
+Will this patch be picked up soon, or is there any other work for me to do?
+
+Best Regards,
+Kunkun Jiang
+
+On 2021/5/27 20:31, Kunkun Jiang wrote:
+> In the vfio_migration_init(), the SaveVMHandler is registered for
+> VFIO device. But it lacks the operation of 'unregister'. It will
+> lead to 'Segmentation fault (core dumped)' in
+> qemu_savevm_state_setup(), if performing live migration after a
+> VFIO device is hot deleted.
+>
+> Fixes: 7c2f5f75f94 (vfio: Register SaveVMHandlers for VFIO device)
+> Reported-by: Qixin Gan <ganqixin@huawei.com>
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> ---
+>   hw/vfio/migration.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 201642d75e..ef397ebe6c 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -892,6 +892,7 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>   
+>           remove_migration_state_change_notifier(&migration->migration_state);
+>           qemu_del_vm_change_state_handler(migration->vm_state);
+> +        unregister_savevm(VMSTATE_IF(vbasedev->dev), "vfio", vbasedev);
+>           vfio_migration_exit(vbasedev);
+>       }
+>   
+
 
 
