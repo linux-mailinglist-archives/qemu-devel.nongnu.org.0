@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1123A8702
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:00:47 +0200 (CEST)
-Received: from localhost ([::1]:37602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACBA3A8707
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 19:01:18 +0200 (CEST)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltCQe-0003X8-SO
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:00:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
+	id 1ltCRB-00046B-2V
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 13:01:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ltCO1-0000jw-AV
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:58:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ltCNy-00010b-UR
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:58:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623776277;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DA9iMZKKxhlAwe+2lYHJFfGwU94ISlk5DdpCjgDFOT8=;
- b=B5Zw3bBAJP3dwFgs/tAKqlb99uYxr7D59F4V7/fCvpohgJQaVNiz9083J9HGGm+OeWP2E3
- FkywmKGY+D0p3sB/2mTdYoKayJWVUvzXx1fSoHlTmErQZ9qFQROtFuACu+19+N/7BRRzdj
- fwmXOQ+fs3qx3csLACDZ6DBR9bPGUek=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-hD7EMNV7MAqAknZGqOSNvQ-1; Tue, 15 Jun 2021 12:57:55 -0400
-X-MC-Unique: hD7EMNV7MAqAknZGqOSNvQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 901321054F92;
- Tue, 15 Jun 2021 16:57:54 +0000 (UTC)
-Received: from redhat.com (ovpn-115-226.ams2.redhat.com [10.36.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1291A5C1C2;
- Tue, 15 Jun 2021 16:57:51 +0000 (UTC)
-Date: Tue, 15 Jun 2021 17:57:49 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v3 7/7] block: detect DKIOCGETBLOCKCOUNT/SIZE before use
-Message-ID: <YMjcDS5wWclfrQTx@redhat.com>
-References: <20210603133722.218465-1-pbonzini@redhat.com>
- <20210603133722.218465-8-pbonzini@redhat.com>
- <f3a13026-8542-ef8f-c95d-c01698ce86d7@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltCOA-00012N-JK
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:58:10 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltCO8-000169-Gl
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 12:58:10 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ l7-20020a05600c1d07b02901b0e2ebd6deso24447wms.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 09:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sGa6vECs+n4MFunaX33qznn0819BFDMLBnsgyGX5SyY=;
+ b=AHmIuI75QUeVwk45SFwdkpk3d7NH8BoUB55fl1Nm4msNfu8nBuNKEiQMNRMH7yL5p0
+ 3awMfV3VCidU2IqrLScyGlWVr5neYAxdSSYZIKLI/WuKNl5vlSpgCK7MC3II0snmotAF
+ D7mjSfvdid/mfEc45Q9a6mwcT9OmDzAI50CAX67U7sXri2GCpysD59Ia9784ExTb71LY
+ 6sVxGX9tQmxJFKET2BBG53RHzXy3H65mstnMshmadkOKEBg/+bCmzMZy32MWlkLSTaTq
+ VXq0v+Ckr9peSPwOpPz2R9+vD5hgeNx20SFr50Nku7QlxBCJJ/sglcYJNmubgd1aDvRQ
+ yBUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sGa6vECs+n4MFunaX33qznn0819BFDMLBnsgyGX5SyY=;
+ b=tUfddypk+qTMtLgoUvWN9upzo7bU3qekEaesTVl5JZxERnkpeWAxT1dxOrkbgW1313
+ iia1j8UHeyqTIii6MY2z4IJ46Wyh6yBD5jt5gqBtzZiJzRTWWEG4pXkGLwBGaYeJfmko
+ 3KW/JIfIXfOXHVb7ENCQo0lXe/cCtoW2ZTAXWkr9/U0H72dJE0UzrSrRBsHj4awIlgQs
+ 8YcUfaC17QHA2rD+5gwHthklaLU1xYBW7EndyidWcn6wAkhqucJpxHYiKMa71I22YQgx
+ Xwa6J3FhaAAegPYJmhgQ9uB/z9oKf2MA/+BPQzRtc4qAfGzK6p+DUzSVWcjtLmTvgjDX
+ 5+vQ==
+X-Gm-Message-State: AOAM532GMMJjMH1GqeCuVZSBUUIlQCLh3QnnMZCZ2l2suDFIjHwnwzCV
+ 3LHfRt8CkG45NZ9BGt+0DUItx0r8yL893Q==
+X-Google-Smtp-Source: ABdhPJwMDVrnTiGutMY43T9Npf00mkG9IDGAlTN4JBVxFii1tzJ+VAS+NtVxEms0OjaxBNxaRNOhxQ==
+X-Received: by 2002:a1c:e907:: with SMTP id q7mr6449591wmc.1.1623776283946;
+ Tue, 15 Jun 2021 09:58:03 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q5sm20162320wrm.15.2021.06.15.09.58.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 09:58:02 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BB38B1FF8C;
+ Tue, 15 Jun 2021 17:58:00 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 2/2] tests/tcg: port SYS_HEAPINFO to a system test
+Date: Tue, 15 Jun 2021 17:58:00 +0100
+Message-Id: <20210615165800.23265-3-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210615165800.23265-1-alex.bennee@linaro.org>
+References: <20210615165800.23265-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f3a13026-8542-ef8f-c95d-c01698ce86d7@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,112 +87,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Joelle van Dyne <j@getutm.app>,
- Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 06:50:57PM +0200, Max Reitz wrote:
-> On 03.06.21 15:37, Paolo Bonzini wrote:
-> > From: Joelle van Dyne <j@getutm.app>
-> > 
-> > iOS hosts do not have these defined so we fallback to the
-> > default behaviour.
-> > 
-> > Co-authored-by: Warner Losh <imp@bsdimp.com>
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > Message-Id: <20210315180341.31638-4-j@getutm.app>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >   block/file-posix.c | 21 +++++++++------------
-> >   1 file changed, 9 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/block/file-posix.c b/block/file-posix.c
-> > index 5821e1afed..4e2f7cf508 100644
-> > --- a/block/file-posix.c
-> > +++ b/block/file-posix.c
-> > @@ -2322,8 +2322,11 @@ static int64_t raw_getlength(BlockDriverState *bs)
-> >   again:
-> >   #endif
-> >       if (!fstat(fd, &sb) && (S_IFCHR & sb.st_mode)) {
-> > +        size = 0;
-> >   #ifdef DIOCGMEDIASIZE
-> > -        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size))
-> > +        if (ioctl(fd, DIOCGMEDIASIZE, (off_t *)&size)) {
-> 
-> Pre-existing, but I feel compelled to express my unease about this cast.
+This allows us to check our new SYS_HEAPINFO implementation generates
+sane values.
 
-We set -D_FILE_OFFSET_BITS=64, so IIUC,  off_t should be 64-bits
-on both 32 and 64 bit build hosts. IIUC, it is defined to be a
-signed integer.  So while off_t may not have the same typedef
-as int64_t, it should be the same size and signedness. I expect
-we have other code with this same assumption about off-t/int64_t
-interchangeability.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/tcg/aarch64/system/semiheap.c | 74 +++++++++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 tests/tcg/aarch64/system/semiheap.c
 
-We could assert sizeof(int64_t) == sizeof(off_t) in a header
-somewhere if we want to be super paranoid.
-
-> 
-> > +            size = 0;
-> > +        }
-> >   #elif defined(DIOCGPART)
-> >           {
-> >                   struct partinfo pi;
-> > @@ -2332,9 +2335,7 @@ again:
-> >                   else
-> >                           size = 0;
-> >           }
-> > -        if (size == 0)
-> > -#endif
-> > -#if defined(__APPLE__) && defined(__MACH__)
-> > +#elif defined(DKIOCGETBLOCKCOUNT) && defined(DKIOCGETBLOCKSIZE)
-> 
-> As far a I can tell, before this patch, if the DIOCGMEDIASIZE ioctl failed,
-> we fell back to this DKIOCGETBLOCKCOUNT/SIZE block (if compiled in). Now
-> this is an #elif and so will not be used if DIOCGMEDIASIZE was defined. Is
-> that intentional?
-> 
-> This may be fine, and apart from that, this patch looks good to me, but this
-> change in behavior wasn’t mentioned in the commit message, hence me asking.
-> 
-> >           {
-> >               uint64_t sectors = 0;
-> >               uint32_t sector_size = 0;
-> > @@ -2342,19 +2343,15 @@ again:
-> >               if (ioctl(fd, DKIOCGETBLOCKCOUNT, &sectors) == 0
-> >                  && ioctl(fd, DKIOCGETBLOCKSIZE, &sector_size) == 0) {
-> >                   size = sectors * sector_size;
-> > -            } else {
-> > -                size = lseek(fd, 0LL, SEEK_END);
-> > -                if (size < 0) {
-> > -                    return -errno;
-> > -                }
-> >               }
-> >           }
-> > -#else
-> > -        size = lseek(fd, 0LL, SEEK_END);
-> > +#endif
-> > +        if (size == 0) {
-> > +            size = lseek(fd, 0LL, SEEK_END);
-> > +        }
-> >           if (size < 0) {
-> >               return -errno;
-> >           }
-> > -#endif
-> >   #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-> >           switch(s->type) {
-> >           case FTYPE_CD:
-> 
-> 
-
-Regards,
-Daniel
+diff --git a/tests/tcg/aarch64/system/semiheap.c b/tests/tcg/aarch64/system/semiheap.c
+new file mode 100644
+index 0000000000..d5613dca59
+--- /dev/null
++++ b/tests/tcg/aarch64/system/semiheap.c
+@@ -0,0 +1,74 @@
++/*
++ * Semihosting System HEAPINFO Test
++ *
++ * Copyright (c) 2021 Linaro Ltd
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include <inttypes.h>
++#include <stddef.h>
++#include <minilib.h>
++
++#define SYS_HEAPINFO    0x16
++
++uintptr_t __semi_call(uintptr_t type, uintptr_t arg0)
++{
++    register uintptr_t t asm("x0") = type;
++    register uintptr_t a0 asm("x1") = arg0;
++    asm("hlt 0xf000"
++        : "=r" (t)
++        : "r" (t), "r" (a0));
++
++    return t;
++}
++
++int main(int argc, char *argv[argc])
++{
++    struct {
++        void *heap_base;
++        void *heap_limit;
++        void *stack_base;
++        void *stack_limit;
++    } info;
++    void *ptr_to_info = (void *) &info;
++
++    ml_printf("Semihosting Heap Info Test\n");
++
++    /* memset(&info, 0, sizeof(info)); */
++    __semi_call(SYS_HEAPINFO, (uintptr_t) &ptr_to_info);
++
++    if (info.heap_base == NULL || info.heap_limit == NULL) {
++        ml_printf("null heap: %p -> %p\n", info.heap_base, info.heap_limit);
++        return -1;
++    }
++
++    /* Error if heap base is above limit */
++    if ((uintptr_t) info.heap_base >= (uintptr_t) info.heap_limit) {
++        ml_printf("heap base %p >= heap_limit %p\n",
++               info.heap_base, info.heap_limit);
++        return -2;
++    }
++
++    if (info.stack_base == NULL) {
++        ml_printf("null stack: %p -> %p\n", info.stack_base, info.stack_limit);
++        return -3;
++    }
++
++    /*
++     * We don't check our local variables are inside the reported
++     * stack because the runtime may select a different stack area (as
++     * our boot.S code does). However we can check we don't clash with
++     * the heap.
++     */
++    if (ptr_to_info > info.heap_base && ptr_to_info < info.heap_limit) {
++        ml_printf("info appears to be inside the heap: %p in %p:%p\n",
++               ptr_to_info, info.heap_base, info.heap_limit);
++        return -4;
++    }
++
++    ml_printf("heap: %p -> %p\n", info.heap_base, info.heap_limit);
++    ml_printf("stack: %p <- %p\n", info.stack_limit, info.stack_base);
++    ml_printf("Passed HeapInfo checks\n");
++    return 0;
++}
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
