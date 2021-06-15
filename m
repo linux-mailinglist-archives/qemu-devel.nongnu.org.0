@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17F13A756C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 05:52:07 +0200 (CEST)
-Received: from localhost ([::1]:38220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903D93A758E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 06:04:11 +0200 (CEST)
+Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt07S-0005rx-72
-	for lists+qemu-devel@lfdr.de; Mon, 14 Jun 2021 23:52:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55150)
+	id 1lt0J8-0001hH-IO
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 00:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lt06f-0005CP-TA
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 23:51:17 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:52179)
+ id 1lt0IN-00010l-01
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:03:23 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:38904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lt06e-0001Mb-06
- for qemu-devel@nongnu.org; Mon, 14 Jun 2021 23:51:17 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id k5so10992488pjj.1
- for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 20:51:15 -0700 (PDT)
+ id 1lt0IL-0002JT-1O
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 00:03:22 -0400
+Received: by mail-pl1-x636.google.com with SMTP id 69so7754817plc.5
+ for <qemu-devel@nongnu.org>; Mon, 14 Jun 2021 21:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=GbgwRSpqJh3ztrke/k2zS/I+NoyuV1BVtjdgoKkt7Lo=;
- b=Uhkyv5+Fgpw44bX9K0Dx+SieU8k+LxceOo0NwpvG3gOerFCcp1zOtCLq5NmCtO4Ejj
- QS9vD0FzP1Yo/dsMP91wK4wH2CyxXJfEeAP67aK3QBi8Huv/V+0GopSO3H6V6sDfBY4k
- pru7+Y/LbExQYXnHjxBsDd0iinKJbDujw7ccBBx4/GXNX5Iyem0ecKeUgwvb1WKm3Mcb
- mDZITQsfTGqlarA+zKRNfb3dupKOJZd7JIuWlh5yJx5ZjjmMuQ5GlIKxTJ7eyS7KIaQU
- bRGPS25HamWNVU7kCsNgUorDBigxuSl34NXMSYJpET2r5lykWSBYD4UlFwNXtGw0UmG7
- U7Vg==
+ bh=NSBP3qB6ssHycoXv2zcW4k97cGYtIDmDejlKYro04nk=;
+ b=DB2eQFOAzgjPac6/7k3iLwX0DhFjey3NlPY1O73bmyNWzmutKypHhMvZ0OHApQcq6+
+ aaks1nU7ANBlRpnJpE3VyKlDlDxEY9OMbx5hRkSBFhw0IOsYEkGMr4tgZxMuz0Pj22fq
+ suzKNrftmVEvtwLRB/eddjlPqxnHHN9fIfbpwWoDh4VZLYTxGOT6QGMfV4cj3HUdCRIq
+ GcCwmosPVBm+6ieM0e1lz8YWEow9/EOsyA1M5emjjElZiupJrtBnxIEY8c+YlKHSPfrp
+ oHxVIJ2JFOybvwCGJmNeDtLSljgVb2kQy9ZoHhcx5HErglIDE6EqsIct73Zc2GgILqqM
+ BMGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GbgwRSpqJh3ztrke/k2zS/I+NoyuV1BVtjdgoKkt7Lo=;
- b=WMA+FXvLCWereF6/5cgBBEyI8CPjsBQjLolQaEawCRHyIOKIc8XkKpdKSotfoIJSaM
- Z2XAf8Xmw2I78YGrk5W+jlKAtr2mQDBZco2Pe39+71kKQIV92Jrhpu40a7UhT9l1BMt0
- wQEiuQ3dV7RI+AfKp1/VfCqj9XYwMbBvIhlCMNOYICpZwpL83eMg2ZEyF7uvGMVrqXBd
- F+CzHb+tSuCe+g9aCLnpBUa8FKba1SG1UzIcCMYMBjq+ztrevehocsP+Siep2i8eJBGT
- QxcLh1ctSJZdLFfoc1c34j7T3H0as7EJsknjsdn+dMKyG+UBY052MWmDV4H5danH02y8
- POOg==
-X-Gm-Message-State: AOAM531uNH93VwnptcPoHy/QVc1lMcN+mQshHN1XMIk/oi/Z007/QC2p
- tXdctoLjZ5zyDrkEqI65GkvwmVVUf27bYA==
-X-Google-Smtp-Source: ABdhPJxU3VbxP6DKDqxnlADdr7Dma86fwzvT4tseQC4/aam5RiRpJ35xC1HtTGXL4mDhwBr1N3Jc7Q==
-X-Received: by 2002:a17:902:8309:b029:115:c2f3:2aed with SMTP id
- bd9-20020a1709028309b0290115c2f32aedmr2408634plb.57.1623729074239; 
- Mon, 14 Jun 2021 20:51:14 -0700 (PDT)
+ bh=NSBP3qB6ssHycoXv2zcW4k97cGYtIDmDejlKYro04nk=;
+ b=ELCOgE/8iWnTBWwGbwN+VgZncAWqB4jptmEPCpvhfknL3hoXLbj7NEqFE6eo4GaMyc
+ rX1HAIthWv43mM6PVf4bgAcsluR+e63RcCfk7bcog2IZUpdYjXrMc/rxBnna8T3tGaeJ
+ ypYrCf4ogTOjedcz3oOmY7X7twi2jBiJsmmgHm5RxYwkgcoRHLTLyvA5utQ56DPjJAFX
+ p5wKVqaOxPcSO7oZXo+EYnwdlDxVSN4I2nS5CeOUm+QTWWwYF2g1OH5n8xhZQw5I1jUA
+ u8OWpKPWDj5ZRLpX0iufmdM0dwiSRVkNsgtzuB9ZKFZio+bsSnAYhoJrRIpMMfmooO0t
+ Hl1A==
+X-Gm-Message-State: AOAM5332mj4cpN8xkXXL6P/fhMtWbKYG+hmii7eFpq8UNLlQJYkg6xgk
+ AWtnNwmvMKL2Pns+F6VgTRaXhCp0JjxVUw==
+X-Google-Smtp-Source: ABdhPJwshxAblcGfNzSc8geOrDr+Mu9nZCO3dGea9/Dm/zCUjQH5LDRcRoBeQMxQZpHlbpKbXbU4rg==
+X-Received: by 2002:a17:90b:3144:: with SMTP id
+ ip4mr2778374pjb.2.1623729798445; 
+ Mon, 14 Jun 2021 21:03:18 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- gl13sm826372pjb.5.2021.06.14.20.51.13
+ q91sm14256800pja.50.2021.06.14.21.03.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 20:51:13 -0700 (PDT)
-Subject: Re: [PATCH v2 0/1] PALcode fixes for guest OS console initialization
+ Mon, 14 Jun 2021 21:03:18 -0700 (PDT)
+Subject: Re: [PATCH 2/4] alpha: Set minimum PCI device ID to 1 to match
+ Clipper IRQ mappings.
 To: Jason Thorpe <thorpej@me.com>, qemu-devel@nongnu.org
-References: <20210613210934.21143-1-thorpej@me.com>
- <0431974F-C568-4617-962E-7EA66E048595@me.com>
+References: <20210613211549.18094-1-thorpej@me.com>
+ <20210613211549.18094-3-thorpej@me.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <24a2eecf-89f7-f0cd-1bff-bc5a0c8a6cf1@linaro.org>
-Date: Mon, 14 Jun 2021 20:51:12 -0700
+Message-ID: <a0917dea-c115-44f0-4322-636d24acfbd2@linaro.org>
+Date: Mon, 14 Jun 2021 21:03:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <0431974F-C568-4617-962E-7EA66E048595@me.com>
+In-Reply-To: <20210613211549.18094-3-thorpej@me.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -92,21 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 5:29 PM, Jason Thorpe wrote:
+On 6/13/21 2:15 PM, Jason Thorpe wrote:
+> Since we are emulating a Clipper device topology, we need to set the
+> minimum PCI device ID to 1, as there is no IRQ mapping for a device
+> at ID 0 (see sys_dp264.c:clipper_map_irq()).
 > 
+> - Add a 'devfn_min' argument to typhoon_init().  Pass that argument
+>    along to pci_register_root_bus().
+> - In clipper_init(), pass PCI_DEVFN(1, 0) as the minimum PCI device
+>    ID/function.
 > 
->> On Jun 13, 2021, at 2:09 PM, Jason Thorpe <thorpej@me.com> wrote:
->>
->> but there is still some research going on about how
->> real DEC SRM initializes a particular field in various circumstances;
->> this is my best guess based on available documentation and observed
->> behavior of real machines, and is sufficient for the BSD operating systems.
-> 
-> FWIW, I have since confirmed my hypothesis about how genuine DEC SRM fills in the "type" and "term_type" fields on 2 different generations of PCI-based Alpha systems (i.e. it matches the patch submitted here).
+> Signed-off-by: Jason Thorpe<thorpej@me.com>
+> ---
+>   hw/alpha/alpha_sys.h | 2 +-
+>   hw/alpha/dp264.c     | 5 +++--
+>   hw/alpha/typhoon.c   | 5 +++--
+>   3 files changed, 7 insertions(+), 5 deletions(-)
 
-Excellent, thanks.  Queued.
-
+Thanks, queued.
 
 r~
-
 
