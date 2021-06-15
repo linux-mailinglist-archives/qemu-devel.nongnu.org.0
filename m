@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F283A7B8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:12:44 +0200 (CEST)
-Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07653A7BA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 12:19:40 +0200 (CEST)
+Received: from localhost ([::1]:60342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt63n-0002XC-50
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35346)
+	id 1lt6AV-0006Or-MJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 06:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt620-0000go-6i
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:10:52 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38667)
+ id 1lt691-0005i5-3Z
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:18:07 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lt61y-0004K2-Jm
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:10:51 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- t4-20020a1c77040000b029019d22d84ebdso1349309wmi.3
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 03:10:49 -0700 (PDT)
+ id 1lt68z-0000Qh-EN
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 06:18:06 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id m3so8573185wms.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 03:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:references:date:in-reply-to:message-id
  :user-agent:mime-version:content-transfer-encoding;
- bh=hcehG5WwmyGoes5NHR/mxyY5mIxKIKFaQbZcza/e9XE=;
- b=l7AjN1HQPV0V85QCZnXTLsCpR/lwHRHMln+iGPePOr4dGnYZ+9uqLAYVZ/U43du+PT
- stdchMrUwESe83BKD39srVe6rDdIMTwFhyoZY3k4ALoD2WwG3DLqYBbRdCKKPm99n/33
- FdfIHq+wMUjChYtOyUNOpR6mtBRXSJFqPatqQpPt90xC1lMhOsXAPJ+X5fh7qLvRh7Qz
- wQdxpJ5Qd8tB0RU5D17S5Mc5oMb1BrMerlxK632wmYrnMlWxKlTsUA9Qjt2TBncTECHZ
- ZlH0acfx6AV5VEvRrvpKrJIG9CdmjBZ8eKfWWEnkS5YqDOdD/+HkCFgVBgQMMOSHNwli
- hvug==
+ bh=QFJiO4uxzVOrTHFhfJNbbqatVyDDbfviip677XJzc3g=;
+ b=UVV60Wrr66Q27NN1fWlU3nJBiMTtQ1A09QvPLGgD7R44Xqh1Vz/iSEHrKfOwnQrALe
+ AJbk1gZ26Md+z0jNgRUsFeqPj+bLhCxixlfH870v9iiZeQ/2wmpp8ECZ4T7Aro9xvobE
+ eBqATFC21ZqiUeID/Z7dmZcCPx5K9wtiYlYkRzXcDHTQLADtQC0G/ZqC8syRT4dQLQEv
+ 8VmQq63Oi7uuhYd4OThEXjHhPxmNNnPmtBt6a2XLzdY38snb+ZgwwQ82pEEXTs9QJ8Bn
+ Rd/Accnxbk2pg879JSA+qHNFDXUNy17/P5kc+G/GfgmTbvr2qI2PaM62IZYpO3Es/7PZ
+ LldA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
  :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=hcehG5WwmyGoes5NHR/mxyY5mIxKIKFaQbZcza/e9XE=;
- b=Yg8oaeWlrNA5Kg/P111oMxZoiM0AO7sCO9uU5eHcaNiXlf69O3nVI0YGqdRqdlbEYD
- gRkUr9iPtnMDjT7QUw/eFkOvfI797uZ15/woOdo0haKD1bgqnTi8Cs9UGFB45RD0OngG
- RQCxB0F10BeRaQ32TRGVja8FU6hzFLQwOpBHFDPyHyRa79G1rbrKSbkcUD0owpdk4K3N
- 9l+ebCo2S79EB+If8xXUvKkojkaKDv4W+chfghv7S0Z+cSpV8aNwQaRy6t6RF4ceqVEK
- oWyjbUEFp4r84h+4k7vUkz3VHFTS1FDos7PcZF4gXBkkUi4D1gP/q4y+C/q+a0diXMNA
- 6+FA==
-X-Gm-Message-State: AOAM5328BT222NuPIDQG5RaHjfexvTewRk/IbX6vDdn8rQ3ZmdMA5NPc
- IPOSsRTvdP2T4t4YwTmx+kGIhQ==
-X-Google-Smtp-Source: ABdhPJz0l4lsGiGup96rF9Z12P03VZJ4grNtNTHUf4JXumcq6arB5pgA+CgquTIvZ8x/KDiV+EHSAw==
-X-Received: by 2002:a7b:c749:: with SMTP id w9mr4315243wmk.3.1623751848705;
- Tue, 15 Jun 2021 03:10:48 -0700 (PDT)
+ bh=QFJiO4uxzVOrTHFhfJNbbqatVyDDbfviip677XJzc3g=;
+ b=ZwVzKCnlVBEaX2n4/HwrTBfZJLNkDzIetNVKF0ep/nP/B/SLnbHr11eMNLG4ZD6QMX
+ g9c+EsPO8Qu5fryGwu976w8F3ztC6M7RGlErFZcntlspqfDI2zp9pwS6KB/q7Tu9RLLR
+ s4ybe+iUBffyUd81As6QAHEnfxPdaafAjWCn6cpQ2Jkm8HtddT6A+dOS6bufhtkpniqN
+ YODzk5vB4003Mt3+7+ujF9b2Nm4Pz59syeOQzke4YxDtFnAYLoqhfvqxFUD8FlERotFd
+ J2pzi3xTbd+mhAluXfJRdqa2jdjxaMcHFtNUEYBtCFFNc7umLaE6Piz7fFHhU4E/oybr
+ rspA==
+X-Gm-Message-State: AOAM531Fc9gpy5f79Xo3S8soQngAgCDi9SuvXs1sFZgN0tVYlMedVidh
+ uBbtWo/ghE1GfsjQ9pGJEz2+ig==
+X-Google-Smtp-Source: ABdhPJxrI52a92FqJVwwtk+wXibm6irerr7cS9RTa8XptyvtCOLvaKFbQtrqcjoEAmHiYT25godiVQ==
+X-Received: by 2002:a1c:a382:: with SMTP id m124mr21336124wme.40.1623752283488; 
+ Tue, 15 Jun 2021 03:18:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m126sm1809687wmm.17.2021.06.15.03.10.46
+ by smtp.gmail.com with ESMTPSA id k25sm2085565wmi.36.2021.06.15.03.18.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 03:10:47 -0700 (PDT)
+ Tue, 15 Jun 2021 03:18:02 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 74DA81FF7E;
- Tue, 15 Jun 2021 11:10:46 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 7BD351FF7E;
+ Tue, 15 Jun 2021 11:18:01 +0100 (BST)
 From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 1/8] configure: Use -std=gnu11
+Subject: Re: [PATCH v2 2/8] softfloat: Use _Generic instead of QEMU_GENERIC
 References: <20210614233143.1221879-1-richard.henderson@linaro.org>
- <20210614233143.1221879-2-richard.henderson@linaro.org>
-Date: Tue, 15 Jun 2021 11:10:46 +0100
-In-Reply-To: <20210614233143.1221879-2-richard.henderson@linaro.org> (Richard
- Henderson's message of "Mon, 14 Jun 2021 16:31:36 -0700")
-Message-ID: <87k0mvigk9.fsf@linaro.org>
+ <20210614233143.1221879-3-richard.henderson@linaro.org>
+Date: Tue, 15 Jun 2021 11:18:01 +0100
+In-Reply-To: <20210614233143.1221879-3-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Mon, 14 Jun 2021 16:31:37 -0700")
+Message-ID: <87fsxjig86.fsf@linaro.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -96,10 +95,6 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Now that the minimum gcc version is 7.5, we can use C11.
-> This will allow lots of cleanups to the code, currently
-> hidden behind macros in include/qemu/compiler.h.
->
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
