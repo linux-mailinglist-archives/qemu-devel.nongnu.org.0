@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A3C3A78EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:18:41 +0200 (CEST)
-Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70C93A78FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:24:11 +0200 (CEST)
+Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt4HQ-0008VY-2l
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
+	id 1lt4Mk-0006rs-G7
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt4Ft-0004xH-7H; Tue, 15 Jun 2021 04:17:05 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:34517)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt4Lg-00059q-Ml
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:23:04 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt4Fi-00037U-7x; Tue, 15 Jun 2021 04:17:04 -0400
-Received: by mail-io1-xd35.google.com with SMTP id 5so42463839ioe.1;
- Tue, 15 Jun 2021 01:16:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GMHkQJVjQS1RqJt1sQDu3ctdA0qqnoMDIgTHeRoQYnU=;
- b=YD2NXT3j5bFlF/5wJtUGBNRvuXJ8DbLufbNV7rt0IgS7/m/Agvmo5l69AlGOa74c4T
- QSGvRmimversIuJQmXr7XesSnMFIY/svLwu5PikXCAXNI2SBSn4+8J5XBpU1SFU+Q/OQ
- b6fQtG6gDOeeU4b5yvPS2fxQZ/Q4frTJPR1z8WsPYLtnHowtM9u4Owy6LXP6s3zEpsSB
- J2laANbuFYjM4mZ1+DUOlr3zoxbDlKI4nudMcB0taR+vnLzdH7kmSBQp/5wiThQyQJIU
- O10dFrZY3P1KAoC6aCPeXEsnHihVhNXc2LUY5iNpISlpYt1APhmgaNa2Ul9HjnXIyw0y
- 9hPg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lt4Ld-0007tT-4U
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 04:23:04 -0400
+Received: by mail-wr1-x433.google.com with SMTP id v9so1018312wrx.6
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 01:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=NzBguQNmKu9jWojJgoeSNNjLoQi19+cARFIjoD9uEpg=;
+ b=PuLpISDLzEhL8LMM90wcUr3Puj0wyqgTz5RQr75r7j1XTsq2x6X0c7yty/xPHxdwFm
+ qMRW+hSjX6gv6WQPb7VgS4tFoo5Km4t/MgIcGqiu5LiWZXBIEIUDAew76jF08t48GRoe
+ bSZ4QEEmiZSgRwbCPwaXQm2KuY7EfvRpUKdTGAvszcno19ui0kEmpem7N8HXe2wyo/X2
+ Gbv4ZaCw8Ggkluhz5zlbAmoqqCYaWW4MFAJxbRmeCO6ZmIsSEMVcFSpCrho33qDZhz2p
+ 8FMWcDGT40KCbrKDkIHhGsy3qqL2SqGJIeFqLko3LvE65l8TQePt8pk+lGa8PG25zAzo
+ S4Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GMHkQJVjQS1RqJt1sQDu3ctdA0qqnoMDIgTHeRoQYnU=;
- b=Fx01RR2AuI9Zf/h1w+5pgiFJGxgXN0N/hF6rZkLKjvTYSAyI5q2Wn15KZXRnEN9xJ3
- o8m8BTEAbYmjpdUnxp0d/PN7Pqg6JlEUISgiq7EkXKmM7D8Kg64x8vYo16usCK1L0tsU
- ZNBWRftFz8uCcut5tS/jjUp+UAbHTai71BIr5fucjetKdQCIcIw+2MUe6ePDV0cLKJlS
- ivGip0Hb1FXgzRUQqOp5W5m041+GXkOpw2U7l2m9AjspMgZHc27YTiIiREftI/nOhNfV
- anlFx/rg4ULNsU9qCKaxcb233HAIVXSp8hz/8VZNkLXbx3Fl91RQ1oUan7D5uosj/s4A
- aUoA==
-X-Gm-Message-State: AOAM531GptWLIBwuxBMHvjUmji5VoJPi6Eo3HQphuO94kqb0Ar24mFPf
- FZRx1JX4h1GsgHXy/fSwZKxmRvxFrG3aR0qo1HY=
-X-Google-Smtp-Source: ABdhPJzU0eE4kVql77PtX+tc/ON055R9xMXC0b/QriCXY5Wjlx00fayck8TzOdQqTvFyUqqaiw7o8CcwX4e2HhXpLvs=
-X-Received: by 2002:a05:6638:1355:: with SMTP id
- u21mr2126414jad.106.1623745012306; 
- Tue, 15 Jun 2021 01:16:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=NzBguQNmKu9jWojJgoeSNNjLoQi19+cARFIjoD9uEpg=;
+ b=XsnR2/jUikhiipiTvnMtZmXzV9k+393ShtHWlpkrCDaqSTPJwKLDXzO9zIpsVm7kW+
+ geH+DSPv0dyym29SjbgZjxGtIcXSdqPOY0SOswfn+iHhGllwvrnNQdjyRqw1ASynmZcS
+ uGN3P9aI64omXhLQJNS4bDow4CTI+DD6CEjrJov45++rl4tmiesWbNDBNoOg94IOh2f5
+ Bq1YhP25efIcqaH6mUpSZRV3ZrF8RPPBvcRqVOG5zo1RoyKENqucmeCzLEinoBm07Bhy
+ AhhSEb+zUDUE6UdZv3jquDNqWSgUHDnQdzU67ygFCzMkO0oko/rNm234kzIgenEQ8RdA
+ 3Emw==
+X-Gm-Message-State: AOAM533aLZ68gnRCKJRoZDWJusyAHcUSiMXZ8SRoGXUZ2SBR/yGfmwaW
+ 6LGpXl7jldiotg6WwrwX9M+PtQ==
+X-Google-Smtp-Source: ABdhPJxGH/jI1b/q6RU/l/PLAx7LXX1Xl9aBuTbHE+gan0v5oTpj0a1y87bXqe0URTgotuqPfqsDFw==
+X-Received: by 2002:adf:c790:: with SMTP id l16mr23991773wrg.121.1623745379130; 
+ Tue, 15 Jun 2021 01:22:59 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h11sm14842392wmq.34.2021.06.15.01.22.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 01:22:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 131851FF7E;
+ Tue, 15 Jun 2021 09:22:56 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH] contrib/plugins: add execlog to log instruction
+ execution and memory access
+References: <20210614090116.816833-1-erdnaxe@crans.org>
+ <d2d0e9c1-872b-158d-fe74-42ef699c60a9@gmail.com>
+Date: Tue, 15 Jun 2021 09:22:56 +0100
+In-Reply-To: <d2d0e9c1-872b-158d-fe74-42ef699c60a9@gmail.com> (Mahmoud
+ Mandour's message of "Mon, 14 Jun 2021 19:04:37 +0200")
+Message-ID: <871r93k04f.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-References: <20210613141222.548357-1-lukas.juenger@greensocs.com>
- <20210613141222.548357-3-lukas.juenger@greensocs.com>
-In-Reply-To: <20210613141222.548357-3-lukas.juenger@greensocs.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 15 Jun 2021 18:16:26 +1000
-Message-ID: <CAKmqyKMLh0Ekgs__nUKisuFK0guRog32mjhim3-xgF7X31PAtQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] hw/char: sifive_uart
-To: =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas.juenger@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,222 +89,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- Mark Burton <mark.burton@greensocs.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 14, 2021 at 12:20 AM Lukas J=C3=BCnger
-<lukas.juenger@greensocs.com> wrote:
->
-> QOMify sifive_uart model
->
-> Signed-off-by: Lukas J=C3=BCnger <lukas.juenger@greensocs.com>
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-Can you update the titles as requested by Bin?
+> On 14/06/2021 11:01, Alexandre Iooss wrote:
+>> Log instruction execution and memory access to a file.
+>> This plugin can be used for reverse engineering or for side-channel anal=
+ysis
+>> using QEMU.
+>>
+>> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
+>> ---
+>>   MAINTAINERS               |   1 +
+>>   contrib/plugins/Makefile  |   1 +
+>>   contrib/plugins/execlog.c | 112 ++++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 114 insertions(+)
+>>   create mode 100644 contrib/plugins/execlog.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 7d9cd29042..65942d5802 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2974,6 +2974,7 @@ F: include/tcg/
+>>     TCG Plugins
+>>   M: Alex Benn=C3=83=C2=A9e <alex.bennee@linaro.org>
+>> +R: Alexandre Iooss <erdnaxe@crans.org>
+>>   S: Maintained
+>>   F: docs/devel/tcg-plugins.rst
+>>   F: plugins/
+>> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+>> index b9d7935e5e..51093acd17 100644
+>> --- a/contrib/plugins/Makefile
+>> +++ b/contrib/plugins/Makefile
+>> @@ -13,6 +13,7 @@ include $(BUILD_DIR)/config-host.mak
+>>   VPATH +=3D $(SRC_PATH)/contrib/plugins
+>>     NAMES :=3D
+>> +NAMES +=3D execlog
+>>   NAMES +=3D hotblocks
+>>   NAMES +=3D hotpages
+>>   NAMES +=3D howvec
+>> diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+>> new file mode 100644
+>> index 0000000000..80716e8eed
+>> --- /dev/null
+>> +++ b/contrib/plugins/execlog.c
+>> @@ -0,0 +1,112 @@
+>> +/*
+>> + * Copyright (C) 2021, Alexandre Iooss <erdnaxe@crans.org>
+>> + *
+>> + * Log instruction execution and memory access to a file.
+>> + * You may pass the output filename as argument.
+>> + *
+>> + * License: GNU GPL, version 2 or later.
+>> + *   See the COPYING file in the top-level directory.
+>> + */
+>> +#include <glib.h>
+>> +#include <inttypes.h>
+>> +#include <stdio.h>
+>> +#include <stdlib.h>
+>> +#include <string.h>
+>> +#include <unistd.h>
+>> +
+>> +#include <qemu-plugin.h>
+>> +
+>> +QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+>> +
+>> +/* Execution trace buffer */
+>> +FILE *output;
+>
+> Is there a reason for using a regular FILE * instead of using
+> `qemu_plugin_outs()`?
+>
+> I don't see a benefit and since there's an API for logging I guess
+> it's better to use it instead
 
-After that:
+I would prefer using qemu_plugin_outs unless there is a reason to have
+multiple streams.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+>> +
+>> +/**
+>> + * Log memory read or write
+>> + */
+>> +static void vcpu_mem(unsigned int vcpu_index, qemu_plugin_meminfo_t inf=
+o,
+>> +                     uint64_t vaddr, void *udata)
+>> +{
+>> +    struct qemu_plugin_hwaddr *hwaddr =3D qemu_plugin_get_hwaddr(info, =
+vaddr);
+>> +    if (!hwaddr) {
+>> +        return;
+>> +    }
+>
+> So you just reject all memory accesses in user mode? I think that it
+> equally useful
+>
+> to log only the virtual address of a memory access in user-mode
+> emulation? However, we better
+>
+> wait for Alex's opinion on all this since he had remarks about
+> introducing a new ad-hoc
+>
+> tracing format...
 
-Alistair
+It would be nice to integrate with the QEMU tracing support but
+following Stefan's comments I think it will be fairly involved to work
+out a way to do it. In the meantime using plain text logging will have
+to do.
 
-> ---
->  include/hw/char/sifive_uart.h |  11 ++--
->  hw/char/sifive_uart.c         | 114 +++++++++++++++++++++++++++++++---
->  2 files changed, 109 insertions(+), 16 deletions(-)
+>> +
+>> +    /* Add data to execution log */
+>> +    const char *name =3D qemu_plugin_hwaddr_device_name(hwaddr);
+>> +    uint64_t addr =3D qemu_plugin_hwaddr_phys_addr(hwaddr);
+>> +    if (qemu_plugin_mem_is_store(info)) {
+>> +        fprintf(output, "mem: %s store at 0x%08lx\n", name, addr);
+>> +    } else {
+>> +        fprintf(output, "mem: %s load at 0x%08lx\n", name, addr);
+>> +    }
+
+I would consider a comma separated output to make the file easily
+digestible by other tools. Maybe:
+
+  memory, 0x%08lx, load|store
+
+>> +}
+>> +
+>> +/**
+>> + * Log instruction execution
+>> + */
+>> +static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
+>> +{
+>> +    char *insn_disas =3D (char *)udata;
+>> +
+>> +    /* Add data to execution log */
+>> +    fprintf(output, "insn: %s\n", insn_disas);
+
+  insn, 0x%08lx, disas
+
+Currently however on a multi-threaded execution you will potentially
+loose any synchronisation between the insn_exec and any memory operation
+associated with it. If you really just care about what's tickling
+hardware you could just drop the insn_exec callback and pass the
+instruction information via udata to the vcpu_mem callback. You could
+then dump everything in one line:
+
+  0xPC, ld [x1], x2, 0xADDR, load|store
+
+you wouldn't dump other instructions leading up to that though.
+
+>> +}
+>> +
+>> +/**
+>> + * On translation block new translation
+>> + *
+>> + * QEMU convert code by translation block (TB). By hooking here we can =
+then hook
+>> + * a callback on each instruction and memory access.
+>> + */
+>> +static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *t=
+b)
+>> +{
+>> +    size_t n =3D qemu_plugin_tb_n_insns(tb);
+>> +    for (size_t i =3D 0; i < n; i++) {
+>> +        /* insn is shared between translations in QEMU, copy needed dat=
+a here */
+>> +        struct qemu_plugin_insn *insn =3D qemu_plugin_tb_get_insn(tb,
+>> i);
+
+If you had some knowledge of the guest architecture you could attempt a
+partial decode of the op and work out if it was a load/store and then
+conditionally register the mem or exec callback.
+
+>> +        char *insn_disas =3D qemu_plugin_insn_disas(insn);
+>> +
+>> +        /* Register callback on memory read or write */
+>> +        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
+>> +                                         QEMU_PLUGIN_CB_NO_REGS,
+>> +                                         QEMU_PLUGIN_MEM_RW, NULL);
+>> +
+>> +        /* Register callback on instruction */
+>> +        qemu_plugin_register_vcpu_insn_exec_cb(
+>> +            insn, vcpu_insn_exec, QEMU_PLUGIN_CB_R_REGS, insn_disas);
+>> +    }
+>> +}
+>> +
+>> +/**
+>> + * On plugin exit, close output file
+>> + */
+>> +static void plugin_exit(qemu_plugin_id_t id, void *p)
+>> +{
+>> +    fclose(output);
+>> +}
+>> +
+>> +/**
+>> + * Install the plugin
+>> + */
+>> +QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+>> +                                           const qemu_info_t *info, int=
+ argc,
+>> +                                           char **argv)
+>> +{
+>> +    /* Parse arguments to get output name and open for writing */
+>> +    char *filename =3D "execution.log";
+>> +    if (argc > 0) {
+>> +        filename =3D argv[0];
+>> +    }
+>> +    output =3D fopen(filename, "w");
+>> +    if (output =3D=3D NULL) {
+>> +        qemu_plugin_outs("Cannot open output file for writing.\n");
 >
-> diff --git a/include/hw/char/sifive_uart.h b/include/hw/char/sifive_uart.=
-h
-> index 3e962be659..7f6c79f8bd 100644
-> --- a/include/hw/char/sifive_uart.h
-> +++ b/include/hw/char/sifive_uart.h
-> @@ -21,6 +21,7 @@
->  #define HW_SIFIVE_UART_H
+> Here, I think that it's more logical to output error messages to
+> stderr since
 >
->  #include "chardev/char-fe.h"
-> +#include "hw/qdev-properties.h"
->  #include "hw/sysbus.h"
->  #include "qom/object.h"
+> logging can be redirected to a file so QEMU will error but the error mess=
+age
 >
-> @@ -49,12 +50,10 @@ enum {
+> would be written to the log file.
+
+Yes please, report errors directly to stderr as the execution is going
+to trigger and exit at this point and the user needs direct feeback.
+
 >
->  #define SIFIVE_UART_GET_TXCNT(txctrl)   ((txctrl >> 16) & 0x7)
->  #define SIFIVE_UART_GET_RXCNT(rxctrl)   ((rxctrl >> 16) & 0x7)
-> +#define SIFIVE_UART_RX_FIFO_SIZE 8
->
->  #define TYPE_SIFIVE_UART "riscv.sifive.uart"
-> -
-> -typedef struct SiFiveUARTState SiFiveUARTState;
-> -DECLARE_INSTANCE_CHECKER(SiFiveUARTState, SIFIVE_UART,
-> -                         TYPE_SIFIVE_UART)
-> +OBJECT_DECLARE_SIMPLE_TYPE(SiFiveUARTState, SIFIVE_UART)
->
->  struct SiFiveUARTState {
->      /*< private >*/
-> @@ -64,8 +63,8 @@ struct SiFiveUARTState {
->      qemu_irq irq;
->      MemoryRegion mmio;
->      CharBackend chr;
-> -    uint8_t rx_fifo[8];
-> -    unsigned int rx_fifo_len;
-> +    uint8_t rx_fifo[SIFIVE_UART_RX_FIFO_SIZE];
-> +    uint8_t rx_fifo_len;
->      uint32_t ie;
->      uint32_t ip;
->      uint32_t txctrl;
-> diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
-> index 5df8212961..278e21c434 100644
-> --- a/hw/char/sifive_uart.c
-> +++ b/hw/char/sifive_uart.c
-> @@ -19,10 +19,12 @@
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
->  #include "qemu/log.h"
-> +#include "migration/vmstate.h"
->  #include "chardev/char.h"
->  #include "chardev/char-fe.h"
->  #include "hw/irq.h"
->  #include "hw/char/sifive_uart.h"
-> +#include "hw/qdev-properties-system.h"
->
->  /*
->   * Not yet implemented:
-> @@ -175,20 +177,112 @@ static int sifive_uart_be_change(void *opaque)
->      return 0;
->  }
->
-> +static Property sifive_uart_properties[] =3D {
-> +    DEFINE_PROP_CHR("chardev", SiFiveUARTState, chr),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void sifive_uart_init(Object *obj)
-> +{
-> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-> +    SiFiveUARTState *s =3D SIFIVE_UART(obj);
-> +
-> +    memory_region_init_io(&s->mmio, OBJECT(s), &sifive_uart_ops, s,
-> +                          TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
-> +    sysbus_init_mmio(sbd, &s->mmio);
-> +    sysbus_init_irq(sbd, &s->irq);
-> +}
-> +
-> +static void sifive_uart_realize(DeviceState *dev, Error **errp)
-> +{
-> +    SiFiveUARTState *s =3D SIFIVE_UART(dev);
-> +
-> +    qemu_chr_fe_set_handlers(&s->chr, sifive_uart_can_rx, sifive_uart_rx=
-,
-> +                             sifive_uart_event, sifive_uart_be_change, s=
-,
-> +                             NULL, true);
-> +
-> +}
-> +
-> +static void sifive_uart_reset_enter(Object *obj, ResetType type)
-> +{
-> +    SiFiveUARTState *s =3D SIFIVE_UART(obj);
-> +    s->ie =3D 0;
-> +    s->ip =3D 0;
-> +    s->txctrl =3D 0;
-> +    s->rxctrl =3D 0;
-> +    s->div =3D 0;
-> +    s->rx_fifo_len =3D 0;
-> +}
-> +
-> +static void sifive_uart_reset_hold(Object *obj)
-> +{
-> +    SiFiveUARTState *s =3D SIFIVE_UART(obj);
-> +    qemu_irq_lower(s->irq);
-> +}
-> +
-> +static const VMStateDescription vmstate_sifive_uart =3D {
-> +    .name =3D TYPE_SIFIVE_UART,
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 1,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_UINT8_ARRAY(rx_fifo, SiFiveUARTState,
-> +                            SIFIVE_UART_RX_FIFO_SIZE),
-> +        VMSTATE_UINT8(rx_fifo_len, SiFiveUARTState),
-> +        VMSTATE_UINT32(ie, SiFiveUARTState),
-> +        VMSTATE_UINT32(ip, SiFiveUARTState),
-> +        VMSTATE_UINT32(txctrl, SiFiveUARTState),
-> +        VMSTATE_UINT32(rxctrl, SiFiveUARTState),
-> +        VMSTATE_UINT32(div, SiFiveUARTState),
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
-> +
-> +static void sifive_uart_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
-> +    ResettableClass *rc =3D RESETTABLE_CLASS(oc);
-> +
-> +    dc->realize =3D sifive_uart_realize;
-> +    dc->vmsd =3D &vmstate_sifive_uart;
-> +    rc->phases.enter =3D sifive_uart_reset_enter;
-> +    rc->phases.hold  =3D sifive_uart_reset_hold;
-> +    device_class_set_props(dc, sifive_uart_properties);
-> +}
-> +
-> +static const TypeInfo sifive_uart_info =3D {
-> +    .name          =3D TYPE_SIFIVE_UART,
-> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
-> +    .instance_size =3D sizeof(SiFiveUARTState),
-> +    .instance_init =3D sifive_uart_init,
-> +    .class_init    =3D sifive_uart_class_init,
-> +};
-> +
-> +static void sifive_uart_register_types(void)
-> +{
-> +    type_register_static(&sifive_uart_info);
-> +}
-> +
-> +type_init(sifive_uart_register_types)
-> +
->  /*
->   * Create UART device.
->   */
->  SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr =
-base,
->      Chardev *chr, qemu_irq irq)
->  {
-> -    SiFiveUARTState *s =3D g_malloc0(sizeof(SiFiveUARTState));
-> -    s->irq =3D irq;
-> -    qemu_chr_fe_init(&s->chr, chr, &error_abort);
-> -    qemu_chr_fe_set_handlers(&s->chr, sifive_uart_can_rx, sifive_uart_rx=
-,
-> -                             sifive_uart_event, sifive_uart_be_change, s=
-,
-> -                             NULL, true);
-> -    memory_region_init_io(&s->mmio, NULL, &sifive_uart_ops, s,
-> -                          TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
-> -    memory_region_add_subregion(address_space, base, &s->mmio);
-> -    return s;
-> +    DeviceState *dev;
-> +    SysBusDevice *s;
-> +    SiFiveUARTState *r;
-> +
-> +    dev =3D qdev_new("riscv.sifive.uart");
-> +    s =3D SYS_BUS_DEVICE(dev);
-> +    qdev_prop_set_chr(dev, "chardev", chr);
-> +    sysbus_realize_and_unref(s, &error_fatal);
-> +    memory_region_add_subregion(address_space, base,
-> +                                sysbus_mmio_get_region(s, 0));
-> +    sysbus_connect_irq(s, 0, irq);
-> +
-> +    r =3D SIFIVE_UART(dev);
-> +    return r;
->  }
-> --
-> 2.31.1
+>> +        return -1;
+>> +    }
+>> +
+>> +    /* Register translation block and exit callbacks */
+>> +    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+>> +    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
+>> +
+>> +    return 0;
+>> +}
 >
 >
+> Thanks,
+>
+> Mahmoud
+>
+>
+>
+
+--=20
+Alex Benn=C3=A9e
 
