@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D143A78C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:07:48 +0200 (CEST)
-Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E143A78D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:13:06 +0200 (CEST)
+Received: from localhost ([::1]:48286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt46t-0003Bi-KV
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:07:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39264)
+	id 1lt4C0-0001S1-Mq
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt44Q-0001bJ-OF; Tue, 15 Jun 2021 04:05:17 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:42663)
+ id 1lt4An-0005ib-8r; Tue, 15 Jun 2021 04:11:49 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:35615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1lt44O-0002XP-15; Tue, 15 Jun 2021 04:05:14 -0400
-Received: by mail-io1-xd36.google.com with SMTP id s26so13318800ioe.9;
- Tue, 15 Jun 2021 01:05:11 -0700 (PDT)
+ id 1lt4Ak-0007bm-DF; Tue, 15 Jun 2021 04:11:49 -0400
+Received: by mail-il1-x12f.google.com with SMTP id b9so14584248ilr.2;
+ Tue, 15 Jun 2021 01:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DDxycEP+amo/2i66FxzZSk5sT33AMu/ZG42ZpU8J0Bs=;
- b=bhRNpDsTExs3EAVGYlYRIPxNzj6QPVvBjtJ3wV4D/taut6jP0LnUjRtSF3PAN+LIM2
- T2tB+w/Bu60RjaeSQZx17IL5r/99BNuVcWfswYUqey5V17NEJik+p5ui/D9cl3LTYbOz
- yOrPyMsLj4NYRtVyErGVc30E8mqz2u4ADXQLIkAAlO3NPNri2oJcrW5ESJYcQRDNh65r
- aLuA8pKcXrmj9OJFg4xE+y9BiB979DN8emq98TiyDtNac9WtTgWGTgNKnbj1fqtXgwET
- Hm7i7mX2eFikFs/A5xRIux4O3PhY39aRGklEb8Mawt4FvTsYZbDPuMEjSNhwkEG2H58E
- bGVw==
+ :cc; bh=DqHmY/V7cz9+ORqZsz7TqCM6eDhlT6E9EA/UbGTZ14Q=;
+ b=eMtTUejUL+IxmZ5nnX1E6xTFeIZ2a5gemgA7xOn8XbbO/G/ZuQealNA5Md/oL0KQ0U
+ HHSKGY7N/znDw9wUcFFmGh4MLlfogLmQRdNR/pmMW2LNAmriN2mq6xGb0Mx04FhWVJ1x
+ 5iocK18Zci2pPi297Za1kXn4mgaPPruBT8pSXVv8oN6O2Y2yqd123/fseDWrjQEjE0Tq
+ qRBzZ+cVX9wHlbnjxGg4NlgEnEpGdwb7oZQ0+C8vPIQbLtxcganT54fE/4v5liCl+lxl
+ v5nAsOH9gG+ct88PGl6K9nMSJbtO8RL67JlDcKuZUBUD5yOCl+7LPVfqilpIjKI8gVSs
+ wFLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DDxycEP+amo/2i66FxzZSk5sT33AMu/ZG42ZpU8J0Bs=;
- b=CKNpyqa5ymY33XoWXvMI+1FfX2lcbtnNDbJvyfy1BDywwqp/XulvarP8XV0+wc0KI8
- KVcHTsI6PBYLiEoPx9TZD0BItXMfW9rXR6++N0deZ5fz2vpaFm+HWqDB6QUxVTIZp11M
- JTwo1Qb81f9vS7pREXWNnKqnQXlICvS1PwN4p6ipVDoE8dpni8jk1P50SgGEPxoh5a7C
- 4+PgRSERDVOu8rZWry9t8fMgkvBU3lehPt5Nwi2Cq19ukvI2ox0QZ4aXQF9NGTvT4nsh
- CJvo4GUadsThPmaNRbXVvdOSPkhYSvcFru5AgB8fphap5n4VEx17+SwbgOEAt3wvyCnj
- n4Rw==
-X-Gm-Message-State: AOAM53230mPzWaOtj8axoxmiagRotatqgUjfDJ2nNcTh/7vFkFx26qtS
- 5JwpT12/+rtCicizI3cMhBjaGAwq6ZinrHxfmWg=
-X-Google-Smtp-Source: ABdhPJyoC6L+ZsO8WHJRWaVtAQsq3Kt6MlqGDd9W1FFWo/ae4zl15uzzlVEHDiFvSHab/ryy8se42zLwTJXowZpgtm4=
-X-Received: by 2002:a05:6602:722:: with SMTP id
- g2mr12041011iox.118.1623744310485; 
- Tue, 15 Jun 2021 01:05:10 -0700 (PDT)
+ bh=DqHmY/V7cz9+ORqZsz7TqCM6eDhlT6E9EA/UbGTZ14Q=;
+ b=uQUzcBgQD5g6fY0u6XYyDZHaDjvTCrIZp5WtJAIKtoJvjoPDAmWK87ogEZZaeAN1/h
+ nXdvn18wmajvkp+RLmrExdJHPJ5mZ79E+SITS7sub8vQOcQuo8t0SCz8mrpSaYkYESuw
+ iuG4AcC7I0OPbR3INYHjRv0d+MMtSBK2JV5f5IeB7WrUpvoxgOUbKMLA5MwQ0jn0WZXI
+ YsVgZT/Pg26BY01OuJLxQbOLcNT4yKVCScuItTzyH/kbQG0nuvb9pcUOStHYj3hMvWp0
+ 8fWmx20B2K4ovjSUoT4VmeTEYqXja+ooNtyMtC+T5+sXVUzBbj+z6cHWDk/0+icpNahD
+ Aeig==
+X-Gm-Message-State: AOAM5337UlpJ8YoTdWWSYuDlg7a16vQZlE2zhT34r/AtaP7jgl7jPnJ1
+ Bibopxp3a7mfV7eR26bIntE5Mtwju5lYLtAZHtI=
+X-Google-Smtp-Source: ABdhPJzsjl2kkyuuNsxTy8f/BddVv4h6vx0hOa7S29TaJB7ivL2D8ukavVN7kQvQnrv5Y6rgpy0QFUYD0XkU4HkD6OY=
+X-Received: by 2002:a92:c56d:: with SMTP id b13mr17089829ilj.267.1623744704927; 
+ Tue, 15 Jun 2021 01:11:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210608161028.4159582-1-erdnaxe@crans.org>
- <20210608161028.4159582-2-erdnaxe@crans.org>
- <CAKmqyKMs4Sr9oXR8k3jeXo=Umy3F6k-CfQW4Fz3zB++uFKkmDg@mail.gmail.com>
- <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
-In-Reply-To: <6bcf8d1b-7caf-ded5-937a-4c1bf96e2d85@crans.org>
+References: <20210514143242.377645-1-anup.patel@wdc.com>
+ <20210514143242.377645-4-anup.patel@wdc.com>
+ <CAKmqyKOcsF32oLtfyh511JCcrwgONK1qvjwK-dMYdPPZABYOOg@mail.gmail.com>
+ <CAAhSdy1eWW6bw55O1pLHvopRVvM6DVb-kzvhTAjAoyvB0qt5bQ@mail.gmail.com>
+ <CAKmqyKO_hEpGUNkH99rk2XNERHFN_iQTJEuHzGDsNerHXqna0Q@mail.gmail.com>
+ <CAAhSdy0ifGW6QJC+esbx9+V7huOrAFigJsh5LsCHh7MofT721A@mail.gmail.com>
+In-Reply-To: <CAAhSdy0ifGW6QJC+esbx9+V7huOrAFigJsh5LsCHh7MofT721A@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 15 Jun 2021 18:04:44 +1000
-Message-ID: <CAKmqyKMETmc0sJbG8FdUokg9Ke_hg5ohZ2YnLzyQO1xwzpXMRA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] stm32f100: Add the stm32f100 SoC
-To: Alexandre IOOSS <erdnaxe@crans.org>
+Date: Tue, 15 Jun 2021 18:11:18 +1000
+Message-ID: <CAKmqyKM12-P-2Hg+Ynopj_i6BX4s1xAj9SJ6JvUrSsTn_LPcag@mail.gmail.com>
+Subject: Re: [PATCH 3/4] target/riscv: Implement AIA local interrupt CSRs
+To: Anup Patel <anup@brainfault.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -80,35 +81,156 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:STM32F100" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 5:50 PM Alexandre IOOSS <erdnaxe@crans.org> wrote:
+On Sat, Jun 12, 2021 at 12:04 AM Anup Patel <anup@brainfault.org> wrote:
 >
-> On 6/15/21 9:41 AM, Alistair Francis wrote:
-> > Aren't you missing some timers, like timer[5] 0x4000_0C00?
+> On Fri, Jun 11, 2021 at 2:16 PM Alistair Francis <alistair23@gmail.com> wrote:
 > >
-> > Alistair
+> > On Fri, Jun 11, 2021 at 3:04 PM Anup Patel <anup@brainfault.org> wrote:
+> > >
+> > > On Fri, Jun 11, 2021 at 4:49 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > > >
+> > > > On Sat, May 15, 2021 at 12:34 AM Anup Patel <anup.patel@wdc.com> wrote:
+> > > > >
+> > > > > We implement various AIA local interrupt CSRs for M-mode, HS-mode,
+> > > > > and VS-mode.
+> > > > >
+> > > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > > > > ---
+> > > > >  target/riscv/cpu.c        |   27 +-
+> > > > >  target/riscv/cpu.h        |   52 +-
+> > > > >  target/riscv/cpu_helper.c |  245 ++++++++-
+> > > > >  target/riscv/csr.c        | 1059 +++++++++++++++++++++++++++++++++++--
+> > > > >  target/riscv/machine.c    |   26 +-
+> > > > >  5 files changed, 1309 insertions(+), 100 deletions(-)
+> > > >
+> > > > I feel this patch could be split up more :)
+> > >
+> > > This is patch is large because I did not want to break functionality.
+> > >
+> > > I try again to break this patch. At the moment, the best I can do is
+> > > to break in to two parts.
+> > > 1) AIA local interrupt CSRs without IMSIC
+> > > 2) Extend AIA local interrupt CSRs to support IMSIC register access
+> >
+> > As the patch is being added while AIA isn't enabled you are able to
+> > add the AIA in breaking stages. That is the AIA isn't fully
+> > functional, you still have to make sure not to break existing users.
+> >
+> > >
+> > > >
+> > > > >
+> > > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > > > index f3702111ae..795162834b 100644
+> > > > > --- a/target/riscv/cpu.c
+> > > > > +++ b/target/riscv/cpu.c
+> > > > > @@ -256,11 +256,11 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> > > > >          qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus ",
+> > > > >                       (target_ulong)env->vsstatus);
+> > > > >      }
+> > > > > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
+> > > > > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
+> > > > > -    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mideleg ", env->mideleg);
+> > > > > +    qemu_fprintf(f, " %s %016" PRIx64 "\n", "mip     ", env->mip);
+> > > > > +    qemu_fprintf(f, " %s %016" PRIx64 "\n", "mie     ", env->mie);
+> > > > > +    qemu_fprintf(f, " %s %016" PRIx64 "\n", "mideleg ", env->mideleg);
+> > > > >      if (riscv_has_ext(env, RVH)) {
+> > > > > -        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hideleg ", env->hideleg);
+> > > > > +        qemu_fprintf(f, " %s %016" PRIx64 "\n", "hideleg ", env->hideleg);
+> > > > >      }
+> > > > >      qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "medeleg ", env->medeleg);
+> > > > >      if (riscv_has_ext(env, RVH)) {
+> > > > > @@ -345,6 +345,8 @@ void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
+> > > > >
+> > > > >  static void riscv_cpu_reset(DeviceState *dev)
+> > > > >  {
+> > > > > +    uint8_t iprio;
+> > > > > +    int i, irq, rdzero;
+> > > > >      CPUState *cs = CPU(dev);
+> > > > >      RISCVCPU *cpu = RISCV_CPU(cs);
+> > > > >      RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(cpu);
+> > > > > @@ -357,6 +359,23 @@ static void riscv_cpu_reset(DeviceState *dev)
+> > > > >      env->mcause = 0;
+> > > > >      env->pc = env->resetvec;
+> > > > >      env->two_stage_lookup = false;
+> > > > > +
+> > > > > +    /* Initialized default priorities of local interrupts. */
+> > > > > +    for (i = 0; i < ARRAY_SIZE(env->miprio); i++) {
+> > > > > +        iprio = riscv_cpu_default_priority(i);
+> > > > > +        env->miprio[i] = iprio;
+> > > > > +        env->siprio[i] = iprio;
+> > > > > +        env->hviprio[i] = IPRIO_DEFAULT_MMAXIPRIO;
+> > > > > +    }
+> > > > > +    i = 0;
+> > > > > +    while (!riscv_cpu_hviprio_index2irq(i, &irq, &rdzero)) {
+> > > > > +        if (rdzero) {
+> > > > > +            env->hviprio[irq] = 0;
+> > > > > +        } else {
+> > > > > +            env->hviprio[irq] = env->miprio[irq];
+> > > > > +        }
+> > > > > +        i++;
+> > > > > +    }
+> > > > >  #endif
+> > > > >      cs->exception_index = EXCP_NONE;
+> > > > >      env->load_res = -1;
+> > > > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > > > > index f00c60c840..780d3f9058 100644
+> > > > > --- a/target/riscv/cpu.h
+> > > > > +++ b/target/riscv/cpu.h
+> > > > > @@ -157,12 +157,12 @@ struct CPURISCVState {
+> > > > >       */
+> > > > >      uint64_t mstatus;
+> > > > >
+> > > > > -    target_ulong mip;
+> > > > > +    uint64_t mip;
+> > > >
+> > > > This isn't right. MIP is a MXLEN-1 CSR. I didn't check but I assume
+> > > > all the other existing target_ulong CSRs are the same.
+> > >
+> > > When AIA is available the number of local interrupts are 64 for
+> > > both RV32 and RV64.
+> >
+> > Is that going to be reflected in the priv spec?
 >
-> I double-checked using the reference manual and the datasheet and there
-> is not timer[5]:
-> - page 36 of
-> https://www.st.com/resource/en/reference_manual/cd00246267-stm32f100xx-advanced-arm-based-32-bit-mcus-stmicroelectronics.pdf
+> The AIA spec is going to be separate from priv spec since
+> it is totally optional.
+>
+> This AIA local interrupt CSRs will be part of AIA spec and should
+> only be implemented if a RISC-V implementations wants to use
+> AIA.
+>
+> We have four types of changes as far as CSRs go:
+> 1) RV32 CSRs to support 64 local interrupts on RV32
 
-Strange, https://www.st.com/resource/en/datasheet/stm32f100rc.pdf
-describes Timer 5 and page 282 of the document you linked talks about
-timer 5 as well.
+Hmmm... This isn't ideal. So implementations without AIA will have a
+Xlen MIP while implementations with AIA will have a 64-bit MIP?
+
+I guess we just don't expose all of MIP, so it isn't that bad. Still
+that change should be it's own patch with good justification as why we
+aren't following the priv spec.
+
+> 2) Indirect CSRs to access local interrupt priorities
+> 3) Interrupt filtering CSRs
+> 4) IMSIC support CSRs
+
+New AIA CSRs are fine, it's just core changes that are more of a worry.
 
 Alistair
 
-> - page 30 of https://www.st.com/resource/en/datasheet/stm32f100cb.pdf
 >
-> I believe ST is skipping numbers to guarantee that timer[n] will have a
-> consistent address on different STM32 SoC.
+> From above #3 is totally optional and not implemented by this
+> patch whereas #4 is only required when platform has RISC-V IMSIC.
 >
-> Thanks,
-> -- Alexandre
+> A platform can skip all four changes mentioned above, if the
+> platform only wants AIA APLIC to manage wired interrupts.
 >
+> Regards,
+> Anup
 
