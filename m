@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBFC3A78A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 09:59:01 +0200 (CEST)
-Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF043A78A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 10:00:23 +0200 (CEST)
+Received: from localhost ([::1]:60010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lt3yO-0006qA-E1
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 03:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37490)
+	id 1lt3zi-00027v-P9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 04:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lt3wN-0004jk-3E
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:56:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58266)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3y7-00086T-Tu
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:58:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lt3wJ-0004tV-W5
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:56:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lt3y4-0006FE-4e
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 03:58:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623743811;
+ s=mimecast20190719; t=1623743919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zQmItMFXeTytuhx7BQwjwPM0J6xYyGQbwIGr/94vqs0=;
- b=V71mc+N43sKTuPE66T3NeFulPcnb/jdX3CRKY/yZbqKg8eeUGtQ8JX1RTNiXhiK0Iw+nH5
- YM7RkRPlpnzBVsfF9dUziZoUdCzL15lRAJGU4CAh9MsbtY5JIaBHk6NMLAwwMpTz0BniVg
- WHPyYbO0LdCj/RdF7FoDDwhC8mg8b6s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-WT7cduaVOcWNRHCCnQuKIA-1; Tue, 15 Jun 2021 03:56:49 -0400
-X-MC-Unique: WT7cduaVOcWNRHCCnQuKIA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16680800D55
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 07:56:48 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
- [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA2C05D9DC;
- Tue, 15 Jun 2021 07:56:47 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2E00018000B2; Tue, 15 Jun 2021 09:56:46 +0200 (CEST)
-Date: Tue, 15 Jun 2021 09:56:46 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
-Message-ID: <20210615075646.vcv3bhbrffs5exez@sirius.home.kraxel.org>
-References: <20210610055755.538119-1-kraxel@redhat.com>
- <20210610055755.538119-4-kraxel@redhat.com>
- <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
- <YMIP/cKc570Ozvdh@redhat.com>
- <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
- <8b860457-7c51-f4cb-1e80-02848ad92648@redhat.com>
- <20210615044915.agzl7vsjewpatyhp@sirius.home.kraxel.org>
+ bh=h/ARokOz73QriOjzNHgx550iPVoNYqdxkBwJ43Nj8bs=;
+ b=O5qSGXh4oXh/CA+XgVjStO67zP2uJhb2eIftzmPVGCd0oNIOP7BTk19W/WWi1AITSl3k6a
+ ZOCjZ4g5dSk9t7RObI96LzJu0eVX7pb21d8m2UjUwx95fNBLmbK3uOCdyv+ElUHe87BPiQ
+ 63V3fuxlNbLsqojr2NpuyN30Jn/nKf0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-G05809CVPB-DHaPpx8F8Dw-1; Tue, 15 Jun 2021 03:58:38 -0400
+X-MC-Unique: G05809CVPB-DHaPpx8F8Dw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k25-20020a5d52590000b0290114dee5b660so8253872wrc.16
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 00:58:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h/ARokOz73QriOjzNHgx550iPVoNYqdxkBwJ43Nj8bs=;
+ b=kWJS6VW/uA4sT7TSloG2MTCjP2v/5JPogCnWtXMNr5ccnm5/I4Q2sIuffKjxn4MsoL
+ pp+8/mRkf54ktOLlxaSrWifZpVo++tLWjeKIeGU3SEuDlbfZ/7W2P3qnDxpDJN4YYh25
+ MgI9q2y802z94cgB2oBdzPpwnvJkhLt7WLZLKC7QG7MMNWNuqVeyFhja9oa/G7frwUjc
+ bNxnTu76S5tDI9T312G52UO9zETRBXoq4TZce4LqbW4hpUZhd/JhvqS8Laimx2PQGgXa
+ ZdnJ+Yi4ipkjfQWhdnumPaSVSgrDHs6O40Rujh1NXxGV2d9nJXBKCZezwqPYJnk/okTe
+ xCCw==
+X-Gm-Message-State: AOAM533dwPV9iXkGueKzS191upzqznZXwoaxZt/FAH4hPzFMeCVKCukp
+ cKH/obkXlOjdm6yn5FFToa8SQzoKnf8qdYVyeXajJ6u2ZnAJHwjhEztwL7QS73nYo78xeIazn69
+ vQjtSndCS1oD1g6Y=
+X-Received: by 2002:a1c:8083:: with SMTP id b125mr2850213wmd.176.1623743915821; 
+ Tue, 15 Jun 2021 00:58:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXCrD0vXXD4b6xxUL3ROd/N4DrWs8fqH4cv008iNJJOiqSm2YEOPaznh+zsOf77EoKftwaWw==
+X-Received: by 2002:a1c:8083:: with SMTP id b125mr2850197wmd.176.1623743915651; 
+ Tue, 15 Jun 2021 00:58:35 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e831d2.dip0.t-ipconnect.de.
+ [217.232.49.210])
+ by smtp.gmail.com with ESMTPSA id w13sm19686150wrc.31.2021.06.15.00.58.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Jun 2021 00:58:35 -0700 (PDT)
+Subject: Re: [PATCH v2 8/8] configure: Remove probe for _Static_assert
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210614233143.1221879-1-richard.henderson@linaro.org>
+ <20210614233143.1221879-9-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <102db642-5006-9362-f400-e138402f27eb@redhat.com>
+Date: Tue, 15 Jun 2021 09:58:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210615044915.agzl7vsjewpatyhp@sirius.home.kraxel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210614233143.1221879-9-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.2,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.489, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,129 +99,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 15, 2021 at 06:49:15AM +0200, Gerd Hoffmann wrote:
->   Hi,
+On 15/06/2021 01.31, Richard Henderson wrote:
+> _Static_assert is part of C11, which is now required.
 > 
-> > Another possibility to eschew .o parsing is to add something like this to
-> > the sources
-> > 
-> > #ifdef QEMU_MODINFO
-> > #define MODULE_METADATA(key, value) \
-> >    =<>= MODINFO key value
-> > #else
-> > #define MODULE_METADATA(key, value)
-> > #endif
-> > 
-> > MODULE_METADATA("opts", "spice")
-> > 
-> > A Python script could parse compile_commands.json, add -E -DQEMU_MODINFO to
-> > the command-line option, and look in the output for the metadata.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   configure               | 18 ------------------
+>   include/qemu/compiler.h | 11 -----------
+>   2 files changed, 29 deletions(-)
 > 
-> Hmm, worth trying, although I guess it would be easier to code this up
-> straight in meson.build and pull the information you need out of the
-> source set, especially as you'll know then which source files are
-> compiled into which module.
+> diff --git a/configure b/configure
+> index 0489864667..debd50c085 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5090,20 +5090,6 @@ if compile_prog "" "" ; then
+>       have_sysmacros=yes
+>   fi
+>   
+> -##########################################
+> -# check for _Static_assert()
+> -
+> -have_static_assert=no
+> -cat > $TMPC << EOF
+> -_Static_assert(1, "success");
+> -int main(void) {
+> -    return 0;
+> -}
+> -EOF
+> -if compile_prog "" "" ; then
+> -    have_static_assert=yes
+> -fi
+> -
+>   ##########################################
+>   # check for utmpx.h, it is missing e.g. on OpenBSD
+>   
+> @@ -6035,10 +6021,6 @@ if test "$have_sysmacros" = "yes" ; then
+>     echo "CONFIG_SYSMACROS=y" >> $config_host_mak
+>   fi
+>   
+> -if test "$have_static_assert" = "yes" ; then
+> -  echo "CONFIG_STATIC_ASSERT=y" >> $config_host_mak
+> -fi
+> -
+>   if test "$have_utmpx" = "yes" ; then
+>     echo "HAVE_UTMPX=y" >> $config_host_mak
+>   fi
+> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+> index 5766d61589..3baa5e3790 100644
+> --- a/include/qemu/compiler.h
+> +++ b/include/qemu/compiler.h
+> @@ -72,18 +72,7 @@
+>           int:(x) ? -1 : 1; \
+>       }
+>   
+> -/* QEMU_BUILD_BUG_MSG() emits the message given if _Static_assert is
+> - * supported; otherwise, it will be omitted from the compiler error
+> - * message (but as it remains present in the source code, it can still
+> - * be useful when debugging). */
+> -#if defined(CONFIG_STATIC_ASSERT)
+>   #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
+> -#elif defined(__COUNTER__)
+> -#define QEMU_BUILD_BUG_MSG(x, msg) typedef QEMU_BUILD_BUG_ON_STRUCT(x) \
+> -    glue(qemu_build_bug_on__, __COUNTER__) __attribute__((unused))
+> -#else
+> -#define QEMU_BUILD_BUG_MSG(x, msg)
+> -#endif
+>   
+>   #define QEMU_BUILD_BUG_ON(x) QEMU_BUILD_BUG_MSG(x, "not expecting: " #x)
 
-Hmm, looks like I actually need both.  Seems there is no easy way to get
-the cflags out of a source_set to construct a cpp command line.  Pulling
-this out of compile_commands.json with jq works though.
-
-With the patch below I get nice ${module}.modinfo files with the
-metadata, now I only need a (probably python) script to collect
-them and create a modinfo.c which we can link into qemu.
-
-take care,
-  Gerd
-
-From 3edc033935d2dd4ec607ac6395548a327151ad06 Mon Sep 17 00:00:00 2001
-From: Gerd Hoffmann <kraxel@redhat.com>
-Date: Tue, 15 Jun 2021 09:23:52 +0200
-Subject: [PATCH] try -DQEMU_MODINFO
-
----
- include/qemu/module.h | 22 ++++++----------------
- meson.build           |  7 +++++++
- scripts/modinfo.sh    |  8 ++++++++
- 3 files changed, 21 insertions(+), 16 deletions(-)
- create mode 100644 scripts/modinfo.sh
-
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 7825f6d8c847..5acfa423dc4f 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -74,22 +74,12 @@ void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
- void module_allow_arch(const char *arch);
- 
--/*
-- * macros to store module metadata in a .modinfo section.
-- * qemu-modinfo utility will collect the metadata.
-- *
-- * Use "objdump -t -s -j .modinfo ${module}.so" to inspect.
-- */
--
--#define ___PASTE(a, b) a##b
--#define __PASTE(a, b) ___PASTE(a, b)
--
--#define modinfo(kind, value)                             \
--    static const char __PASTE(kind, __LINE__)[]          \
--        __attribute__((__used__))                        \
--        __attribute__((section(".modinfo")))             \
--        __attribute__((aligned(1)))                      \
--        = stringify(kind) "=" value
-+#ifdef QEMU_MODINFO
-+# define modinfo(kind, value) \
-+    MODINFO_START kind value MODINFO_END
-+#else
-+# define modinfo(kind, value)
-+#endif
- 
- #define module_obj(name) modinfo(obj, name)
- #define module_dep(name) modinfo(dep, name)
-diff --git a/meson.build b/meson.build
-index 46ebc07dbb67..d8661755adf9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2050,12 +2050,19 @@ target_modules += { 'accel' : { 'qtest': qtest_module_ss,
- 
- block_mods = []
- softmmu_mods = []
-+modinfo = find_program('scripts/modinfo.sh')
- foreach d, list : modules
-   foreach m, module_ss : list
-     if enable_modules and targetos != 'windows'
-       module_ss = module_ss.apply(config_all, strict: false)
-       sl = static_library(d + '-' + m, [genh, module_ss.sources()],
-                           dependencies: [modulecommon, module_ss.dependencies()], pic: true)
-+      custom_target(d + '-' + m + '.modinfo',
-+                    output: d + '-' + m + '.modinfo',
-+                    input: module_ss.sources(),
-+                    build_by_default: true, # to be removed when added to a target
-+                    capture: true,
-+                    command: [modinfo, '@INPUT@'])
-       if d == 'block'
-         block_mods += sl
-       else
-diff --git a/scripts/modinfo.sh b/scripts/modinfo.sh
-new file mode 100644
-index 000000000000..8f4495d4523d
---- /dev/null
-+++ b/scripts/modinfo.sh
-@@ -0,0 +1,8 @@
-+#!/bin/sh
-+for input in "$@"; do
-+    command=$(jq  -r ".[] | select(.file == \"$input\") | .command " compile_commands.json)
-+    command="${command%% -M*}"
-+    command="$command -DQEMU_MODINFO -E $input"
-+    $command
-+done | grep MODINFO
-+exit 0
--- 
-2.31.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
