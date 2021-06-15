@@ -2,69 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E583A8B10
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 23:26:29 +0200 (CEST)
-Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AB43A8B3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Jun 2021 23:39:06 +0200 (CEST)
+Received: from localhost ([::1]:55220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltGZo-0002F5-J9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 17:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36182)
+	id 1ltGm0-0005kx-J9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 17:39:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ltGYH-0000gY-UJ; Tue, 15 Jun 2021 17:24:53 -0400
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:45583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ltGYE-0004qq-TR; Tue, 15 Jun 2021 17:24:53 -0400
-Received: by mail-il1-x12f.google.com with SMTP id b5so390397ilc.12;
- Tue, 15 Jun 2021 14:24:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+FCcwW3K2vfQjUUn3Zh+/VrgTDEPwB8VCvO8eYvxtqI=;
- b=Q4qzlntoBRTl4ZC5RVEeHm/o7nupOb51v+3xqD6c7v0vWrRtC1KkhUIhIXkkF1KwhX
- HY3UHD6EAfWJKrz3dun7GC2y8lKgJCz10/Hkzg50bLUhXZ8uFEzfC9xyX3NNt5g1IQHe
- KNK+uqbwcIMC9EFlQVHb/Qogqu//nkMImsvm7taOUIPiVuS4qEOP4LP7ls1x3HSN48tz
- +JYOcg2tqzh9Ws6xhIL31DTWflmh16AH9dPhuYFpP89oJozcov2fzT45Yh/osOuVFUVl
- 32CZqQWHmyM6GqWgWE8HtjoNju6RQ2lQupzKvY93prwjACIb4KgHU0bNY3rlKzRJaphr
- woog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+FCcwW3K2vfQjUUn3Zh+/VrgTDEPwB8VCvO8eYvxtqI=;
- b=j4sMKhie23hVgH3ey79y6n3KSSW+hbMsBn1L5BsUSArc6n0PjEQ9pSHnsu+o61mVRQ
- AUGKxa9U8ofOeyTeM2MUCUMw3V+EI7dI14szxAPSpaEHM53X3HIogpyFZS1DZyVr6E/r
- akBTzUlA/ZtSiuq68JYSgjcHhhYn91mBtddh5Kk5tMqwWsUW8NhpukN3RkEvmNPnZtRO
- 3+uVMDUR0itgNSpiUEEUNMnh0sKlGDYPA5YgHINL9ZrXXBbbcAsqBYsT1tov9syuyPv8
- vZTP86uUjE2Z0ntBhFg00QV/ku5qO/Qo3dP8Hl7ILxpAz820X6MYyAAVLHsIHdgZqJ/e
- CR3A==
-X-Gm-Message-State: AOAM530cKcWiBz3hkzTKRBnlvjCHdQF6NcRZ3UGSSq9XKUGTXoLzIywX
- 64clu5TRJLENPtxQKQ67b8pXCospHCDVXKMeIV0=
-X-Google-Smtp-Source: ABdhPJyjHYEyMzux7CrK7C9oBXJyQnW1LDWltfqXq6oFEhczcDsLLAnc7LiqqnSX2f/N0S3/65pPBx4vKWJieHGk2S4=
-X-Received: by 2002:a05:6e02:b25:: with SMTP id
- e5mr1009692ilu.131.1623792289150; 
- Tue, 15 Jun 2021 14:24:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ltGkd-0004yf-JX; Tue, 15 Jun 2021 17:37:40 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38942
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1ltGkb-0004fC-Fa; Tue, 15 Jun 2021 17:37:39 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15FLXw4C143726; Tue, 15 Jun 2021 17:37:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UpvoYxItfnJEGZhX9hH8TWbZYoLUbOq4a1hVDxMDfE8=;
+ b=TdEVwCOj9cjzStW1O9gyKF8JD3QBcxmRQRsYjL5p4pb3fTuwAXsg8BGNV5WKF57fWnnT
+ w4nsKPCh3h9bq984aiyiAi7E+MmBlX6aAWaAKkEO43/IErRXeNsJv1y1fRV+BIxGy0bl
+ NzTigMplPchAqI0MyvWUiD0+BGHLsXx2ks00mbtqURIM+u4c72i/SFRnCGyt9FQSrqzG
+ eJQ5u/e28/pspgqTO+47ZdWws5l45eJpTFsiWJg6HjssVQBJTBAr8onh0ykKPFsGY/OV
+ 4y6hCUdmYqRUVNAWbSgq6C89OejS4hwjf4wETzN963f7OopsAR7WCLnd/bS2PyRwzZjE 3w== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39736w1r12-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Jun 2021 17:37:24 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15FLSAXT008401;
+ Tue, 15 Jun 2021 21:37:23 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02dal.us.ibm.com with ESMTP id 394mj9t0r1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Jun 2021 21:37:23 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15FLbMla27853110
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 15 Jun 2021 21:37:22 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 65B557806E;
+ Tue, 15 Jun 2021 21:37:22 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A8E6F7807F;
+ Tue, 15 Jun 2021 21:37:21 +0000 (GMT)
+Received: from localhost (unknown [9.211.38.153])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue, 15 Jun 2021 21:37:21 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Bruno Piazera Larsen
+ <bruno.larsen@eldorado.org.br>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
+ priviledged addresses
+In-Reply-To: <7ce3cd57-0abf-f0d9-11ec-6fdc42b89b62@linaro.org>
+References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
+ <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+ <c2ffffa6-2868-f7ab-78c6-1f29eaafc4e5@linaro.org>
+ <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
+ <7ce3cd57-0abf-f0d9-11ec-6fdc42b89b62@linaro.org>
+Date: Tue, 15 Jun 2021 18:37:19 -0300
+Message-ID: <877diuq06o.fsf@linux.ibm.com>
 MIME-Version: 1.0
-References: <20210615153440.1307729-1-erdnaxe@crans.org>
- <20210615153440.1307729-3-erdnaxe@crans.org>
-In-Reply-To: <20210615153440.1307729-3-erdnaxe@crans.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 16 Jun 2021 07:24:23 +1000
-Message-ID: <CAKmqyKNGc1FKm=dJJ5h6TnGXS1Ta06GZ4SCD7nbKWKg-9X+ZKw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] stm32vldiscovery: Add the STM32VLDISCOVERY Machine
-To: Alexandre Iooss <erdnaxe@crans.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Bv8lAKr3ccvb1tSVMLCRveH_fzezZWvk
+X-Proofpoint-GUID: Bv8lAKr3ccvb1tSVMLCRveH_fzezZWvk
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-15_07:2021-06-15,
+ 2021-06-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
+ mlxscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106150132
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,162 +107,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:STM32VLDISCOVERY" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 1:35 AM Alexandre Iooss <erdnaxe@crans.org> wrote:
->
-> This is a Cortex-M3 based machine. Information can be found at:
-> https://www.st.com/en/evaluation-tools/stm32vldiscovery.html
->
-> Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> On 6/15/21 4:32 AM, Bruno Piazera Larsen wrote:
+>> On 14/06/2021 19:37, Richard Henderson wrote:
+>>> On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
+>>>> This patch changes ppc_cpu_get_phys_page_debug so that it is now
+>>>> able to translate both, priviledged and real mode addresses
+>>>> independently of whether the CPU executing it has those permissions
+>>>>
+>>>> This was mentioned by Fabiano as something that would be very useful to
+>>>> help with debugging, but could possibly constitute a security issue if
+>>>> that debug function can be called in some way by prodution code. the
+>>>> solution was implemented such that it would be trivial to wrap it arou=
+nd
+>>>> ifdefs for building only with --enable-debug, for instance, but we are
+>>>> not sure this is the best approach, hence why it is an RFC.
+>>>>
+>>>> Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
+>>>> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+>>>> ---
+>>>> =C2=A0 target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
+>>>> =C2=A0 1 file changed, 23 insertions(+)
+>>>
+>>> I think the first part is unnecessary.=C2=A0 Either the cpu is in super=
+visor mode or it=20
+>>> isn't, and gdb should use the correct address space.=C2=A0 If you reall=
+y want to force=20
+>>> supervisor lookup from a guest that is paused in usermode, I suppose yo=
+u could force=20
+>>> MSR.PR=3D1 while you're performing the access and set it back afterward.
+>> I don't see why GDB should not be able to see supervisor level addresses=
+ just because the=20
+>> CPU can't.
+>
+> Because then when you are debugging, you then don't know whether the addr=
+ess is actually=20
+> accessible in the current cpu context.
+>
 
-Alistair
+@Bruno, so this is what I referred to somewhere else on the thread,
+people expect GDB to have the same access level of the currently
+executing code. So implementing my suggestion would break their
+workflow.
 
-> ---
->  MAINTAINERS                             |  6 +++
->  default-configs/devices/arm-softmmu.mak |  1 +
->  hw/arm/Kconfig                          |  4 ++
->  hw/arm/meson.build                      |  1 +
->  hw/arm/stm32vldiscovery.c               | 66 +++++++++++++++++++++++++
->  5 files changed, 78 insertions(+)
->  create mode 100644 hw/arm/stm32vldiscovery.c
+>>> I think the second part is actively wrong -- real-mode address lookup w=
+ill (for the most=20
+>>> part) always succeed.=C2=A0 Moreover, the gdb user will have no idea th=
+at you've silently=20
+>>> changed addressing methods.
+>>=20
+>> I disagree. Real-mode address will mostly fail, since during the boot pr=
+ocess Linux=20
+>> kernels set the MMU to use only virtual addresses, so real mode addresse=
+s only work when=20
+>> debugging the firmware or the early setup of the kernel. After that, GDB=
+ can basically=20
+>> only see virtual addresses.
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 62dfa31800..0aa8016936 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -891,6 +891,12 @@ F: hw/*/stellaris*
->  F: include/hw/input/gamepad.h
->  F: docs/system/arm/stellaris.rst
+> Exactly.  But you changed that so that any unmapped address will re-try w=
+ith real-mode,=20
+> which (outside of hv) simply maps real->physical and returns the input.
 >
-> +STM32VLDISCOVERY
-> +M: Alexandre Iooss <erdnaxe@crans.org>
-> +L: qemu-arm@nongnu.org
-> +S: Maintained
-> +F: hw/arm/stm32vldiscovery.c
-> +
->  Versatile Express
->  M: Peter Maydell <peter.maydell@linaro.org>
->  L: qemu-arm@nongnu.org
-> diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-> index 0500156a0c..cdc0e97f9d 100644
-> --- a/default-configs/devices/arm-softmmu.mak
-> +++ b/default-configs/devices/arm-softmmu.mak
-> @@ -18,6 +18,7 @@ CONFIG_CHEETAH=y
->  CONFIG_SX1=y
->  CONFIG_NSERIES=y
->  CONFIG_STELLARIS=y
-> +CONFIG_STM32VLDISCOVERY=y
->  CONFIG_REALVIEW=y
->  CONFIG_VERSATILE=y
->  CONFIG_VEXPRESS=y
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 0bc3ee3e91..dc4e47b721 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -239,6 +239,10 @@ config STELLARIS
->      select STELLARIS_ENET # ethernet
->      select UNIMP
+> One should have to perform some special action to see addresses in a diff=
+erent cpu=20
+> context.  I don't think that gdb supports such a special action at the mo=
+ment.  If you=20
+> want that feature though, that's where you should start.
+
+I think we can just drop this patch. The scenarios where debugging
+across MMU contexts happen are quite limited.
+
+My use case was a while back when implementing single-step for KVM
+guests; there were some situations where GDB would have issues setting
+breakpoints around kernel code that altered MSR_IR/DR. But that is
+mostly anecdotal at this point. If I ever run into that again, now I
+know where to look.
+
 >
-> +config STM32VLDISCOVERY
-> +    bool
-> +    select STM32F100_SOC
-> +
->  config STRONGARM
->      bool
->      select PXA2XX
-> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-> index 0e637e6a9e..721a8eb8be 100644
-> --- a/hw/arm/meson.build
-> +++ b/hw/arm/meson.build
-> @@ -24,6 +24,7 @@ arm_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
->  arm_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview.c'))
->  arm_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa-ref.c'))
->  arm_ss.add(when: 'CONFIG_STELLARIS', if_true: files('stellaris.c'))
-> +arm_ss.add(when: 'CONFIG_STM32VLDISCOVERY', if_true: files('stm32vldiscovery.c'))
->  arm_ss.add(when: 'CONFIG_COLLIE', if_true: files('collie.c'))
->  arm_ss.add(when: 'CONFIG_VERSATILE', if_true: files('versatilepb.c'))
->  arm_ss.add(when: 'CONFIG_VEXPRESS', if_true: files('vexpress.c'))
-> diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
-> new file mode 100644
-> index 0000000000..7e8191ebf5
-> --- /dev/null
-> +++ b/hw/arm/stm32vldiscovery.c
-> @@ -0,0 +1,66 @@
-> +/*
-> + * ST STM32VLDISCOVERY machine
-> + *
-> + * Copyright (c) 2021 Alexandre Iooss <erdnaxe@crans.org>
-> + * Copyright (c) 2014 Alistair Francis <alistair@alistair23.me>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "hw/boards.h"
-> +#include "hw/qdev-properties.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/arm/stm32f100_soc.h"
-> +#include "hw/arm/boot.h"
-> +
-> +/* stm32vldiscovery implementation is derived from netduinoplus2 */
-> +
-> +/* Main SYSCLK frequency in Hz (24MHz) */
-> +#define SYSCLK_FRQ 24000000ULL
-> +
-> +static void stm32vldiscovery_init(MachineState *machine)
-> +{
-> +    DeviceState *dev;
-> +
-> +    /*
-> +     * TODO: ideally we would model the SoC RCC and let it handle
-> +     * system_clock_scale, including its ability to define different
-> +     * possible SYSCLK sources.
-> +     */
-> +    system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
-> +
-> +    dev = qdev_new(TYPE_STM32F100_SOC);
-> +    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +
-> +    armv7m_load_kernel(ARM_CPU(first_cpu),
-> +                       machine->kernel_filename,
-> +                       FLASH_SIZE);
-> +}
-> +
-> +static void stm32vldiscovery_machine_init(MachineClass *mc)
-> +{
-> +    mc->desc = "ST STM32VLDISCOVERY (Cortex-M3)";
-> +    mc->init = stm32vldiscovery_init;
-> +}
-> +
-> +DEFINE_MACHINE("stm32vldiscovery", stm32vldiscovery_machine_init)
-> +
-> --
-> 2.25.1
 >
+> r~
 
