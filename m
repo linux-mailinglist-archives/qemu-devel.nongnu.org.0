@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16683A98C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 13:07:15 +0200 (CEST)
-Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856FD3A98E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 13:09:22 +0200 (CEST)
+Received: from localhost ([::1]:36438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltTO6-0004xL-8j
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 07:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
+	id 1ltTQ9-0008AK-Ic
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 07:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1ltTN3-0004Bd-B6
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 07:06:09 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46057)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1ltTN1-0007iE-L7
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 07:06:09 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id k7so3173508ejv.12
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 04:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=2pQj1kUHkGHfOc3rNl36Ref2TMdp97r9NtHSK0jUZq0=;
- b=MYd+sMiQsKLIpCvC+NkCbpSpPQ+bKtVT03i9kthNGrSZYyUwhOpAKllFR3KjC4fCDR
- fLjZX/sDj0ewQzlhf4C8/cD5gkJiyOLF3oa0/reGw7I6KmYeMglxknR+JWUefq5/XZr0
- mdtr3f/KtZcjl7V2dutz3MDbaG6ecJ+E5jmy4/zJoDVTJF8kx4PUUuEiPoAotJ7qVdb0
- 6X/08A93XF96mPsx+hjpFLMOVBVLeo5bovgGYtJhascxYloG3CcV6Q3+QrI7qsR2A/rF
- EuZx5SMYL+Mw3UXo+73mIZWJUZXZQ6+FkJx62hJMuq87aP1Xf/HUTgrFVqaDdkD8k7PC
- ogmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=2pQj1kUHkGHfOc3rNl36Ref2TMdp97r9NtHSK0jUZq0=;
- b=aT6g4O5zjKhtKkGC7IRQqvSak1xXRlBSJLRGl5/2MyXU1bwNO3oxIUeogqmDxS7XOA
- 8Nn43ylkGrbuNqCrrLDRxjh0y0+4BYDM0bIbjh3EQPQGJREiyDH0VlACOWNBaGs8H2lg
- pYugURqtI8chfuj385jP7oNZZ1hob/jeXIVzVojTid7UcQiLTzRjzFUkfUcqXUQTxXfV
- lwIsWnoUNmi+cIo8S5vWEuUHvI+xT1dQz981spEcXLWyowyNeN7TkqL2A6iWhq2mpSR2
- zPGYoAgteuSt8uGt5EX3anzNYT9f5gWBHwQpmFJAeCGzLtNx6hoFiO6J2HFEefPTMiQp
- Y65w==
-X-Gm-Message-State: AOAM531rqmcFb3p3VhxL6pXKshPFpGQsxH9uhobvksfEcQvjDMEEUEgI
- RHWXFdyofNS1gOOLqkBDwy64WHna9eQ=
-X-Google-Smtp-Source: ABdhPJywLK2H7imI7Vwlp+v2TXnsTUhCoX0xaEw+rlmJ4pZ0JQ/iGYRYijgW82aWMiTYuKTdDShKPQ==
-X-Received: by 2002:a17:906:eb88:: with SMTP id
- mh8mr4631561ejb.540.1623841563794; 
- Wed, 16 Jun 2021 04:06:03 -0700 (PDT)
-Received: from localhost.localdomain ([5.29.27.44])
- by smtp.gmail.com with ESMTPSA id s5sm1513261edi.93.2021.06.16.04.06.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 16 Jun 2021 04:06:03 -0700 (PDT)
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/rdma: Fix possible mremap overflow in the pvrdma device
- (CVE-2021-3582)
-Date: Wed, 16 Jun 2021 14:06:00 +0300
-Message-Id: <20210616110600.20889-1-marcel.apfelbaum@gmail.com>
-X-Mailer: git-send-email 2.17.2
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ltTOZ-0005u2-Tv
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 07:07:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ltTOY-0000KK-8N
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 07:07:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623841661;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=30iIOlHVFD6QzDUtIgi2y4PzIKf1th2ixs4m4OFAK68=;
+ b=VPUB+45D13R9AQb9ZV64v6tK1HpcjI0U0qnimkGXJuQbEgxS/jUjVjrRPJhyOmU2QqsiNo
+ 5p87ci1qJvpBJPJy6OWw5I3Pa3zC33diQLAsvnSm6yOdQlANb4jjpBDwbAcwd35OxZl7A9
+ alQOGzE4dzCCFw/t9swKvQcIpxtTWYM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-29-iCtpdbIWPOmCVdKlNn1QCQ-1; Wed, 16 Jun 2021 07:07:29 -0400
+X-MC-Unique: iCtpdbIWPOmCVdKlNn1QCQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BBC1EC1A3
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 11:07:28 +0000 (UTC)
+Received: from thuth.com (ovpn-114-83.ams2.redhat.com [10.36.114.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFD0560853;
+ Wed, 16 Jun 2021 11:07:23 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [qemu-web PATCH 0/4] Improve the download information on the website
+Date: Wed, 16 Jun 2021 13:07:16 +0200
+Message-Id: <20210616110720.880586-1-thuth@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +74,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcascell@redhat.com, pjp@fedoraproject.org, mst@redhat.com,
- yuval.shaia.ml@gmail.com, vv474172261@gmail.com
+Cc: berrange@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marcel Apfelbaum <marcel@redhat.com>
+Make it more clear that QEMU only supports the latest versions,
+improve the color of a button, and put the emphasis on the 
+source code tarballs.
 
-Ensure mremap boundaries not trusting the guest kernel to
-pass the correct buffer length.
+Thomas Huth (4):
+  Show only the latest three releases on the website
+  css: Improve the hover effect of the buttons
+  State that there is no official support for older releases
+  Present the source code on the first tab of the download page
 
-Fixes: CVE-2021-3582
-Reported-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-Tested-by: VictorV (Kunlun Lab) <vv474172261@gmail.com>
-Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
----
- hw/rdma/vmw/pvrdma_cmd.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ _includes/releases.html |  2 +-
+ assets/css/style.css    |  6 ++++--
+ download.html           | 15 ++++++++-------
+ support.md              |  3 ++-
+ 4 files changed, 15 insertions(+), 11 deletions(-)
 
-diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-index f59879e257..dadab4966b 100644
---- a/hw/rdma/vmw/pvrdma_cmd.c
-+++ b/hw/rdma/vmw/pvrdma_cmd.c
-@@ -38,6 +38,12 @@ static void *pvrdma_map_to_pdir(PCIDevice *pdev, uint64_t pdir_dma,
-         return NULL;
-     }
- 
-+    length = ROUND_UP(length, TARGET_PAGE_SIZE);
-+    if (nchunks * TARGET_PAGE_SIZE != length) {
-+        rdma_error_report("Invalid nchunks/length (%u, %lu)", nchunks, length);
-+        return NULL;
-+    }
-+
-     dir = rdma_pci_dma_map(pdev, pdir_dma, TARGET_PAGE_SIZE);
-     if (!dir) {
-         rdma_error_report("Failed to map to page directory");
 -- 
-2.17.2
+2.27.0
 
 
