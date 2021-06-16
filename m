@@ -2,101 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263983A9B7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:06:46 +0200 (CEST)
-Received: from localhost ([::1]:51926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930D13A9BA2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:07:52 +0200 (CEST)
+Received: from localhost ([::1]:56666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltVFl-0008UC-5H
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
+	id 1ltVGp-0003Nn-LT
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:07:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1ltVD7-0005pG-FX; Wed, 16 Jun 2021 09:04:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56804)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ltVDy-0007Ps-Or
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:04:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1ltVD1-0000iy-M0; Wed, 16 Jun 2021 09:04:01 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15GD3ETv002707; Wed, 16 Jun 2021 09:03:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=264909Vq3yckYuBP8jYyUV4cpCJJ3MW+7zacam8XwOE=;
- b=pqD/ycWIu7BdX43Khs2r2JiSn8jngBQkF2zmUC4NTJgNpnc/lzRfWJVKZfpgGAXsDE79
- 87wGGWp2JZfxVYCjzUbxmZl52I+rxliSaqF8umJaI6GxKUw0xvPidBbBniIOESf7NQR3
- hEoHz/a4zpwBQfrML4Rq6mfa7OMpaH3chBNCCRvsNjHC/GzLt5LAMcri2r+Wu35trAww
- KOFq3+LLdSz0KxB+cCzykN1LnVKYZrRr0cozDAhfhCOJG/0HySbNlGB5+AjFTNOukf5F
- U6ILKNpkH6Fbg1kmu5x+bLbadq0O50TvS5tK9yJfvRjNQRVuqLpANS0xzeDFssoAeatH /g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 397g87karu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Jun 2021 09:03:52 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15GD3MiO006396;
- Wed, 16 Jun 2021 09:03:52 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 397g87kaqw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Jun 2021 09:03:52 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15GD25Ip017198;
- Wed, 16 Jun 2021 13:03:51 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma03wdc.us.ibm.com with ESMTP id 394mj9rcdh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Jun 2021 13:03:50 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15GD3nZx17891610
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Jun 2021 13:03:49 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 926AF6E056;
- Wed, 16 Jun 2021 13:03:49 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5EFE86E04C;
- Wed, 16 Jun 2021 13:03:48 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.160.30.100])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 16 Jun 2021 13:03:48 +0000 (GMT)
-Message-ID: <c9fac1cb32c16ea583367ea2320845eb78074f9c.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 4/4] s390x/css: Add passthrough IRB
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Date: Wed, 16 Jun 2021 09:03:47 -0400
-In-Reply-To: <87o8c6w2n4.fsf@redhat.com>
-References: <20210616014749.2460133-1-farman@linux.ibm.com>
- <20210616014749.2460133-5-farman@linux.ibm.com> <87o8c6w2n4.fsf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ltVDs-00014b-6B
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:04:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623848686;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i5X7Mz2mpP2DNAABUhBSNYWUp6JApZwYa0f6E/NyCwg=;
+ b=RxUeBHy14uCi7p0ca3foOglUHdMhrmETMxxEgxsYqUfPyd3+RI7x68SNLhKx36B3YQ0CP+
+ 1eMfgcURnJzXObJnLxaiGx99o1u8b8qKUk9Z03nhcPcIk7qdrLOfYrEZqmNilRcJM8RgE6
+ PcnqOeGKaE2ofyZWImi2ActjhMTM5u4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-ODF8_0VTM46nAK_85Dxweg-1; Wed, 16 Jun 2021 09:04:43 -0400
+X-MC-Unique: ODF8_0VTM46nAK_85Dxweg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x8-20020aa7d3880000b029038fe468f5f4so971370edq.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 06:04:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i5X7Mz2mpP2DNAABUhBSNYWUp6JApZwYa0f6E/NyCwg=;
+ b=HtNdt7zxLbrxVB/vVEKwIw/tJfPgNAKyrECZfuCNONpvXnP8qiaOSIAaOhqBLZHM7Y
+ /ahI0p56cMu9mX/vmYS5jaby2RumN4oWjrSThj4XbIAvgHtcNh85dIbrKJeNmzjGyvDC
+ KOUgzCH5/FNAa4ALNptSr5ILyGjxufPt5Wi2TsAp2f9bURrq6utwto/cs/Hcfk5FEIiG
+ /DWh2pz8Al7FZUwNHmC4dG/Kv8lBRP9Pr2s1H3sXAb609stEVpNZ7F/eObfT26y+TNsl
+ HP14hpb4grPM/FJwbQJvtKpEPi7j80B22wZK+qkDAezkF97zr0tzcwyeG0DB3PL1Z4rH
+ V8TA==
+X-Gm-Message-State: AOAM533e3VoGqhaAq9Pqpq5YkxXV4+V6+w9FFefNGVG1/DtMVGkEp1kc
+ zChXR0t4vFQ/O9aWutwlUkhHJuxgEmnjCJzHc1xaWBTSoqaYWtrK3kBEIQg8e/RnzSv97HqcxQx
+ BIHW/72pq15FYug4=
+X-Received: by 2002:a17:906:d297:: with SMTP id
+ ay23mr5195301ejb.418.1623848682457; 
+ Wed, 16 Jun 2021 06:04:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWyCzrum335izJuMMdRcCgAD6t7FPWr+StKwn7VLVjDJOA4yizZpyNGNAhYPEnspNafrhvXQ==
+X-Received: by 2002:a17:906:d297:: with SMTP id
+ ay23mr5195289ejb.418.1623848682292; 
+ Wed, 16 Jun 2021 06:04:42 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id gz12sm1151625ejc.36.2021.06.16.06.04.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 06:04:41 -0700 (PDT)
+Subject: Re: [PATCH v2 0/8] configure: Change to -std=gnu11
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210614233143.1221879-1-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a6f2f7e2-f0fc-4a14-4718-849d1d54b4a8@redhat.com>
+Date: Wed, 16 Jun 2021 15:04:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <20210614233143.1221879-1-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xkJtmwCJo2WwTEQbksYnlrgwf8btX9kH
-X-Proofpoint-GUID: EzTiEDjUoLK6gHI91XT7b2k-2LUfEIVP
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-16_07:2021-06-15,
- 2021-06-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0
- suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2106160076
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.17, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -111,62 +102,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: thuth@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2021-06-16 at 11:59 +0200, Cornelia Huck wrote:
-> On Wed, Jun 16 2021, Eric Farman <farman@linux.ibm.com> wrote:
+On 15/06/21 01:31, Richard Henderson wrote:
+> Now that we assume gcc 7.5 as a minimum, we have the option of
+> changing to a newer C standard.  The two major new features that
+> I think apply are _Generic and _Static_assert.
 > 
-> > Wire in the subchannel callback for building the IRB
-> > ESW and ECW space for passthrough devices, and copy
-> > the hardware's ESW into the IRB we are building.
-> > 
-> > If the hardware presented concurrent sense, then copy
-> > that sense data into the IRB's ECW space.
-> > 
-> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> > ---
-> >  hw/s390x/css.c         | 13 ++++++++++++-
-> >  hw/s390x/s390-ccw.c    |  1 +
-> >  hw/vfio/ccw.c          |  4 ++++
-> >  include/hw/s390x/css.h |  3 +++
-> >  4 files changed, 20 insertions(+), 1 deletion(-)
-> > 
+> While Paolo created a remarkably functional replacement for _Generic
+> using builtins, the error messages that you get out of the keyword
+> are *vastly* more intelligable, and the syntax is easier to read.
 > 
-> (...)
+> While I'd like to prefer _Static_assert over QEMU_BUILD_BUG_ON
+> going forward, and would like to convert existing uses, that is
+> a much bigger job.  Especially since the test condition is inverted.
+> In the meantime, can drop the configure detection.
 > 
-> > +void build_irb_passthrough(SubchDev *sch, IRB *irb)
-> > +{
-> > +    /* Copy ESW from hardware */
-> > +    irb->esw = sch->esw;
-> > +
-> > +    if (irb->esw.erw & ESW_ERW_SENSE) {
-> > +        /* Copy ECW from hardware */
-> > +        build_irb_sense_data(sch, irb);
-> > +    }
+> Changes for v2:
+>    * Remove QEMU_LOCK_FUNC and QEMU_UNLOCK_FUNC as unused.
 > 
-> I'm wondering whether we should also copy "Model-dependent
-> information"
-> (scsw 5 + 14 set, erw 7 unset). Seems more correct, and IIUC the
-> guest
-> was tripped by the presence of erw 7 without valid sense data.
+> 
+> r~
+> 
+> 
+> Richard Henderson (8):
+>    configure: Use -std=gnu11
+>    softfloat: Use _Generic instead of QEMU_GENERIC
+>    util: Use real functions for thread-posix QemuRecMutex
+>    util: Pass file+line to qemu_rec_mutex_unlock_impl
+>    util: Use unique type for QemuRecMutex in thread-posix.h
+>    include/qemu/lockable: Use _Generic instead of QEMU_GENERIC
+>    qemu/compiler: Remove QEMU_GENERIC
+>    configure: Remove probe for _Static_assert
+> 
+>   configure                   | 22 +--------
+>   meson.build                 |  2 +-
+>   include/qemu/compiler.h     | 51 ---------------------
+>   include/qemu/lockable.h     | 90 +++++++++++++++++--------------------
+>   include/qemu/thread-posix.h | 14 +++---
+>   include/qemu/thread-win32.h |  6 ---
+>   include/qemu/thread.h       | 15 ++++++-
+>   fpu/softfloat.c             | 16 ++++---
+>   util/qemu-thread-posix.c    | 24 +++++++++-
+>   util/qemu-thread-win32.c    |  2 +-
+>   10 files changed, 98 insertions(+), 144 deletions(-)
 > 
 
-This is true, but that's because the existing code in
-css_do_tsch_get_irb() set ERW 7 to go with the zeros it copied into the
-ECW. Since we're now copying the ESW.ERW from the passthrough device,
-that bit wouldn't be set in the first place.
+Queued, thanks.
 
-But, to be more correct with the possibility of model-dependent
-information, I can unconditionally copy this data over too.
-
-> > +}
-> > +
+Paolo
 
 
