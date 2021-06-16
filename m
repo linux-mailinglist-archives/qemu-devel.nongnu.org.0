@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC79A3A9C51
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:42:43 +0200 (CEST)
-Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61ADC3A9C7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:48:01 +0200 (CEST)
+Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltVoZ-0002Cv-1y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
+	id 1ltVtg-00051c-GD
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltVna-0001Sy-Bt
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:41:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57471)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltVnY-0002vD-Pg
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:41:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623850899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8D1v+X/cCUOku5NcuoPLTH9+625M4TuWue4VYK/Lzo4=;
- b=GV+d3/eTQweRMANLLS+q5qh3IpxhguqGn7CBk/m1NUQboV9mpAX6sCJiVlMxrY44ECxe23
- Xgd35PimdA37K9jbBlxRNBruzJdcMbVc75WYLMH+et5bmR6aIgrdKOKF00KBoP5OLPUJA9
- TvaKDWlbuB9Ao2aIX/xEsm7K3FvziIQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-RKfUdZuXOM2VzRFjwq753w-1; Wed, 16 Jun 2021 09:41:38 -0400
-X-MC-Unique: RKfUdZuXOM2VzRFjwq753w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- df3-20020a05640230a3b029039179c0f290so1048085edb.13
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 06:41:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltVs2-0003K7-N5
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:46:18 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltVs0-0005CH-Rz
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:46:18 -0400
+Received: by mail-wr1-x434.google.com with SMTP id v9so2771907wrx.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 06:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=iYgnYyl9KS4i5S8PvG9+f6a/qYA1mLD5Ch9oDmLOYoQ=;
+ b=KheB8dvvfBG80ZIrnbwelSrri7S0Usn9czIuLsxhgEKqA4FIglm89jyXvmbftT1D7/
+ x6mTML2aNmwUxMl7TBccug5KLzPSkrYqtlVfKxEPZTXyumcnQ8VkPccdrX8KAdIpcbJe
+ /nNRt6wKEd6h+hgGSyR5ffTMseCBpQmEhQT2wK7kmYBrSfBy8Cv0cZBJtoI4fcb8TeB0
+ Ba/GZH8DFPepCif29lNAgPZzgN4M0vG1Pi9WlBU47TJtOPsZoNgqarueCZmT90LvIROY
+ knQPOS95fOZjythn0S5RkncDZJQiQlmLNIKI3AfN9qZrpoH+z7EZ1rlG98xabm2BZQS2
+ NxBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=8D1v+X/cCUOku5NcuoPLTH9+625M4TuWue4VYK/Lzo4=;
- b=AXZaCF7hzF5bfe0Y6dBS3oi7uccpHQq60eygzO76FSTr3W3Qdw+eeVm+7Kdln++Oyw
- YNAIAubST7tfrlCC6HrIceaMY9hJYmqiq24iUwbKZ0CvPMYmDzUqdxPH3HEY3GONkGge
- 6I7dsvtKMLFyWV1LwGDdMRlD3El617SfCfRydkRqpcBrZ9DM9P1BXbap8v3ARnQsj8b/
- BRzLNfvG5FOhL3X58eO0P3EZI9j+cU4wcVyD+GIX4Ps+zKYOOAjYhqZvV23txxAJX8Kr
- sWm4nhiJZ0MxbvumHiKlvF3wMhFTYcx/OrpxV00HXvwCp+8wiDSpVxKBoUh1OJxzCrT5
- sMYQ==
-X-Gm-Message-State: AOAM532ncuXXv/z6SFQe46AuZA7nG4yMwDHiV+/SFCFKMgCmp41ZWCoc
- O4a9ZLrDs9vbl6h4ND0Xmc0MHPoCfp7/pSgJyfAntg5ETjvexGwX/A0+GKle58FIqFjG9iC2uYN
- /nRHDaZEyG409TiI=
-X-Received: by 2002:aa7:ca50:: with SMTP id j16mr4283846edt.158.1623850897276; 
- Wed, 16 Jun 2021 06:41:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCHqWSw90UxenKgbXRGlxLt9tvDzG/TLj5RL7fC0oWt3detRycEW9HsjbfDJ4Dk5YC68w00A==
-X-Received: by 2002:aa7:ca50:: with SMTP id j16mr4283819edt.158.1623850897074; 
- Wed, 16 Jun 2021 06:41:37 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- kf3sm1749651ejc.8.2021.06.16.06.41.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 06:41:36 -0700 (PDT)
-Subject: Re: [PATCH v2 0/9] virtiofsd: Allow using file handles instead of
- O_PATH FDs
-To: Vivek Goyal <vgoyal@redhat.com>
-References: <20210609155551.44437-1-mreitz@redhat.com>
- <20210611191925.GA767764@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <ddc46d6a-70c0-5d5e-c704-514be7a3c014@redhat.com>
-Date: Wed, 16 Jun 2021 15:41:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=iYgnYyl9KS4i5S8PvG9+f6a/qYA1mLD5Ch9oDmLOYoQ=;
+ b=khjX/G+KG8MqsVmeuIDKVf8xkWq80tLQkB6WfAfkd5e8WMFCBac9gcAGypw+Mhoh1B
+ 0Ix4Q4pqQ16O+rZuO2JlomJMV0JH9atmQYGUI5uVmBY44ZIMRkENGNVolqCQqWscNgdY
+ 1/8ycv40soLcQMoQm8XQRckgqBo+uzBm8JS78dLgn0gIkqHEXFebca12p1uqgogQHdIJ
+ VhG9tN5T+4q3Oj+G6xt0do2MZVK0jrYQJZevvKfyA0629fQwmwo3/l4bE+UjEQjV5bu+
+ 7/Znc7Hwnz11Uhvzgmdu5vYVvGpMdtSZl7Lm9jIK8KkoNoo1og1ISccBEbSvZ/ODBjlm
+ dYnw==
+X-Gm-Message-State: AOAM5319+EHzQ1PwK6jWBszFUU3RjfP8GAy2A1cZqY+2nrIoYg/uXJzQ
+ 7lAeJqio7YMq+bDiZaQ4WkCldw==
+X-Google-Smtp-Source: ABdhPJzw4xHkl8q8R9kj8K0sdyW1BiWMvAs1KC8ivHUp5W8iCT44KG00GKdoo+go5082cgny2vCI/A==
+X-Received: by 2002:adf:9031:: with SMTP id h46mr5624794wrh.125.1623851174653; 
+ Wed, 16 Jun 2021 06:46:14 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i21sm4886971wmq.12.2021.06.16.06.46.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Jun 2021 06:46:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C04E41FF7E;
+ Wed, 16 Jun 2021 14:46:12 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 04/21] linux-user/arm: Implement setup_sigtramp
+References: <20210616011209.1446045-1-richard.henderson@linaro.org>
+ <20210616011209.1446045-5-richard.henderson@linaro.org>
+Date: Wed, 16 Jun 2021 14:46:12 +0100
+In-Reply-To: <20210616011209.1446045-5-richard.henderson@linaro.org> (Richard
+ Henderson's message of "Tue, 15 Jun 2021 18:11:52 -0700")
+Message-ID: <87y2b9gbx7.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210611191925.GA767764@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.17, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,34 +88,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.06.21 21:19, Vivek Goyal wrote:
-> On Wed, Jun 09, 2021 at 05:55:42PM +0200, Max Reitz wrote:
->> Hi,
->>
->> v1 cover letter for an overview:
->> https://listman.redhat.com/archives/virtio-fs/2021-June/msg00033.html
-> Hi Max,
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> ARM is more complicated than the others, in that we also
+> have trampolines for using SA_RESTORER with FDPIC, and
+> we need to create trampolines for both ARM and Thumb modes.
 >
-> What's the impact of these patches on performance? Just trying to
-> get some idea what to expect. Performance remains more or less
-> same or we expect a hit.
-I definitely expect a hit if you just benchmark the right way. Having to 
-open FDs all the time (for metadata operations) will have an impact 
-(when you do lookups all the time, or open files and close them 
-immediately). How much of an impact, that’s completely up to the 
-filesystem’s open_by_handle_at() implementation, I presume.
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/arm/target_signal.h |   2 +
+>  linux-user/arm/signal.c        | 170 +++++++++++++++++++--------------
+>  2 files changed, 100 insertions(+), 72 deletions(-)
+>
+> +
+> +    /* ARM sigframe */
+> +    _Static_assert(SIGFRAME_FDPIC_OFS <=3D 0xfff);
+> +    __put_user(0xe59d9000 | SIGFRAME_FDPIC_OFS, &tramp[i++]);
+> +    __put_user(0xe8998200, &tramp[i++]);
 
-I don’t expect it to be significant for real-world use cases, though. 
-When really doing I/O, there should be absolutely no difference, because 
-then we’re operating with these FUSE handles that have actual (non-path) 
-FDs attached to them.
+Erm is this based on your c11 series?
 
-Max
+> +
+> +    /* Thumb sigframe */
+> +    _Static_assert(SIGFRAME_FDPIC_OFS <=3D 0xff << 2);
+> +    _Static_assert((SIGFRAME_FDPIC_OFS & 3) =3D=3D 0);
+> +    __put_user(0x9a00e9dd | (SIGFRAME_FDPIC_OFS << 14), &tramp[i++]);
+> +    __put_user(0x46c04750, &tramp[i++]);
+> +
+> +    /* ARM rt_sigframe */
+> +    _Static_assert(RT_SIGFRAME_FDPIC_OFS <=3D 0xfff);
+> +    __put_user(0xe59d9000 | RT_SIGFRAME_FDPIC_OFS, &tramp[i++]);
+> +    __put_user(0xe8998200, &tramp[i++]);
+> +
+> +    /* Thumb rt_sigframe */
+> +    _Static_assert(RT_SIGFRAME_FDPIC_OFS <=3D 0xff << 2);
+> +    _Static_assert((RT_SIGFRAME_FDPIC_OFS & 3) =3D=3D 0);
+> +    __put_user(0x9a00e9dd | (RT_SIGFRAME_FDPIC_OFS << 14), &tramp[i++]);
+> +    __put_user(0x46c04750, &tramp[i++]);
+> +
+> +    unlock_user(tramp, sigtramp_page, total_size);
+> +}
 
+--=20
+Alex Benn=C3=A9e
 
