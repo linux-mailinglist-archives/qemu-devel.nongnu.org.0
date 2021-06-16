@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12F43AA64B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 23:48:40 +0200 (CEST)
-Received: from localhost ([::1]:51274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A303AA650
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 23:51:24 +0200 (CEST)
+Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltdOp-0001pe-VM
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 17:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49010)
+	id 1ltdRT-0008Fj-67
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 17:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltdJq-0001Be-GL; Wed, 16 Jun 2021 17:43:30 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41538)
+ id 1ltdJt-0001ML-Ub; Wed, 16 Jun 2021 17:43:34 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltdJm-0006MY-Om; Wed, 16 Jun 2021 17:43:30 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- y13-20020a1c4b0d0000b02901c20173e165so2489724wma.0; 
- Wed, 16 Jun 2021 14:43:25 -0700 (PDT)
+ id 1ltdJs-0006Rr-Bf; Wed, 16 Jun 2021 17:43:33 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id k42so179820wms.0;
+ Wed, 16 Jun 2021 14:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+jgVQlH2ZLclahkepwe/jy0S2FD3dNErrT3z+1Ksb0M=;
- b=kGzSERqh+8wBxiJCuZax69b35h3ezUK0XWigjo4qNm3l/5MYGNdOHFhNYAq+qNwNJk
- 5YcH4FdjrTrP0w4CA5xdInQP3jwZS+ZlMcd5FvN3uAiNwv5G4VNgAFaxLZrmYLfSXfAn
- +JjYTuUyo8SvVxI8jhKsT/XnfwTEdcBqBlcFCDlt37BdTJipV7fG4NTOCBcGBfSNj9o6
- It+Pz2Jhqguz0hggdTIj7M8TFWA9Oig+nFZ6h/qtR09D49wbEJaqxwr2FdOBZfTlkCzX
- oMsNghWh08w+8GDexu5kYihYcPFckGtX/q8QxfOVWRKyvw/VM27h4BY+kSPoyki6K87r
- XP4w==
+ bh=WmyHaJHcvUKLEVm6aSpmTart9qZchQ/2Um+oWz7mMdA=;
+ b=gSI59bBqHbKcJKwzyvgmBKRH5hvXTSABasX41TFH0De/0Ui4pY4hIG+zBJDeqUbSnC
+ AU9C0rAUllPQMS1RoWs8fBMLcNvLJZ0TpfB6Py1dX3YMzI6Z1P6vYxfOhdqbOwqQtMI0
+ 1jb9RSyzBw+QTY3cbEjP1dWgJm1qFfjjQ33uMbnPvrjFqt8yUmlyDXDx9r6kFglH27AO
+ 67bXjcDjEIcWlX2B3qfEvr+5RAhNehJ06q2u5sCD78bjhGHs5uIp8+5ZhCRz3bBOr15n
+ 8WwoonqxtHQJDib8Lez0oT7RO75UtBh+xQppFshNYBZg/tClz9hWJsJj6o7YGia7pbae
+ jFGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+jgVQlH2ZLclahkepwe/jy0S2FD3dNErrT3z+1Ksb0M=;
- b=TVxB6LIzqGBqbHRY9XcEgqx+997nz2yncrmNjqc9y35WXDiOhTCYR8t/d9GJ/HzZlC
- DpwxWWM93dfEZCI3UNaWmz3+nU5nrl3xWXEWit1L8TlpQwBdsnyWiMpMDMpIIgcn7CtL
- SGLbyId04VsLvcH51fubUADSZvMf6Cw0fuqeo6xy6Aw8fZlV6Pz/jvk9eH2SKTVpknAI
- XlEWq5APnIQYUlmfvHj9IeqLLvHZ+acodnb6H2BLgY4HoNmeICmlG+6ov09Eh5C9Dzue
- PPoKCYKe94+Up+/5/wYXlAaKTLRjnvdXyZ3LBALedUO/1wjzV77dv4Z3QeP6lnxNDWjw
- JSFA==
-X-Gm-Message-State: AOAM531+AQRSFFmTNeIahP4zQ5CBy/FAAwLDSXQB0yZvswhZr4ajfaGd
- ijIOXIYZ1bw3uxrsnED1NAD3QDY6DRhiLA==
-X-Google-Smtp-Source: ABdhPJyKCwyfFF7V0tlQyJx7sNkEw2Tvt9Ymyf0BG/IOIggzM/3tTVdeosh3rA30n7fJii+IiyYwrg==
-X-Received: by 2002:a7b:c10b:: with SMTP id w11mr1117395wmi.186.1623879804348; 
- Wed, 16 Jun 2021 14:43:24 -0700 (PDT)
+ bh=WmyHaJHcvUKLEVm6aSpmTart9qZchQ/2Um+oWz7mMdA=;
+ b=WEOAd6PSZgPSb8oGihtimP5u9EpBbxecwqawj/PJXQyrOGjh7iiBxxqStsZ99c4Mtr
+ FD7U0ZHhznOWw/P/QZWCNzuIotgg6jSE+7XS4LTOIDyMdbjBRlhIsNAhJpCv1xj5LB42
+ sGJVaIRL7SGGRBJ0ryntKN131mLYKyn1DOslRy+F8WDJoIY9udr1I2LcQhMzpKHNTQ7H
+ hY3eHlri9gIy5AjueBJxsi+WS/ws6SYSxyVmuHmLZ2KwRMJjwonNk2TEZ9OCPLhmYIIn
+ ohl71aTXEp0YLu1qXa0Ot1F4/L3Nu/U6tX3Wgokrnnj6QWmFMX82u94lvO/wO5u/3xfZ
+ OCRg==
+X-Gm-Message-State: AOAM533JRswyYZIdVP/Nnpf0i5Yv9Q8x/SwQAxKEU7S+ekZGNBw36W1i
+ 21oKGPsRXpAbJ2O9AJczTt/SJoT0QV+r+g==
+X-Google-Smtp-Source: ABdhPJzyOnHL/3rjKttzyhAZVqXsPCbeOclDkPiCFEC4/znyX8cGpgc3MpnVNXBnjimOhHz5PakZ0w==
+X-Received: by 2002:a05:600c:1ca6:: with SMTP id
+ k38mr1147060wms.49.1623879810085; 
+ Wed, 16 Jun 2021 14:43:30 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id p11sm3284037wrx.85.2021.06.16.14.43.22
+ by smtp.gmail.com with ESMTPSA id m65sm2796646wmm.19.2021.06.16.14.43.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 14:43:23 -0700 (PDT)
+ Wed, 16 Jun 2021 14:43:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/15] hw/i2c/ppc4xx_i2c: Add reference to datasheet
-Date: Wed, 16 Jun 2021 23:42:44 +0200
-Message-Id: <20210616214254.2647796-6-f4bug@amsat.org>
+Subject: [PATCH v4 06/15] hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by
+ i2c_recv() & i2c_send()
+Date: Wed, 16 Jun 2021 23:42:45 +0200
+Message-Id: <20210616214254.2647796-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616214254.2647796-1-f4bug@amsat.org>
 References: <20210616214254.2647796-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,29 +92,40 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It took me a while to find this model datasheet, since it is
-an OCR scan. Add a reference to save other developers time.
+Instead of using the confuse i2c_send_recv(), rewrite to directly
+call i2c_recv() & i2c_send(), resulting in code easier to review.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Acked-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i2c/ppc4xx_i2c.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/i2c/ppc4xx_i2c.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
-index c0a8e045670..f4c5bc12d36 100644
+index f4c5bc12d36..75d50f15158 100644
 --- a/hw/i2c/ppc4xx_i2c.c
 +++ b/hw/i2c/ppc4xx_i2c.c
-@@ -1,6 +1,8 @@
- /*
-  * PPC4xx I2C controller emulation
-  *
-+ * Documentation: PPC405GP User's Manual, Chapter 22. IIC Bus Interface
-+ *
-  * Copyright (c) 2007 Jocelyn Mayer
-  * Copyright (c) 2012 François Revol
-  * Copyright (c) 2016-2018 BALATON Zoltan
+@@ -240,11 +240,14 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
+                         i2c->sts &= ~IIC_STS_ERR;
+                     }
+                 }
+-                if (!(i2c->sts & IIC_STS_ERR) &&
+-                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
+-                    i2c->sts |= IIC_STS_ERR;
+-                    i2c->extsts |= IIC_EXTSTS_XFRA;
+-                    break;
++                if (!(i2c->sts & IIC_STS_ERR)) {
++                    if (recv) {
++                        i2c->mdata[i] = i2c_recv(i2c->bus);
++                    } else if (i2c_send(i2c->bus, i2c->mdata[i]) < 0) {
++                        i2c->sts |= IIC_STS_ERR;
++                        i2c->extsts |= IIC_EXTSTS_XFRA;
++                        break;
++                    }
+                 }
+                 if (value & IIC_CNTL_RPST || !(value & IIC_CNTL_CHT)) {
+                     i2c_end_transfer(i2c->bus);
 -- 
 2.31.1
 
