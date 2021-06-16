@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583FA3AA148
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:28:27 +0200 (CEST)
-Received: from localhost ([::1]:35106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C203AA160
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:33:22 +0200 (CEST)
+Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYOw-0004oK-By
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38222)
+	id 1ltYTh-0005hd-Ht
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYJc-0001EE-MA
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:22:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22101)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYJS-0000qn-T1
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:22:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYJa-0002I9-MK
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:22:56 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYJP-0002BK-V5
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:22:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623860570;
+ s=mimecast20190719; t=1623860562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IQ+2M3Z1Th/Ec7i/HdYyIDKbmYICi5tPJM7BdnimDks=;
- b=Xbh8ypVzRM+IGY40VC8PDvbQ7CFwJYGHdHyXVog/ycKpWzS18xUK27KCfb0Vwjb2KH/I//
- fMZGQnI70L9gydLWETbbsJkR0Elx6bLN6YV6pCFvsYBmsweO2ZaF46/Jtku7zrii8NxFpO
- fwYzlETcp91dCNONwSL/RwpIRZ8Y80o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-ofVKBjj6PLWVPxcCWlCc9Q-1; Wed, 16 Jun 2021 12:22:49 -0400
-X-MC-Unique: ofVKBjj6PLWVPxcCWlCc9Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so1434654wmh.9
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:22:49 -0700 (PDT)
+ bh=WUQdFiF4I9usEoqcWuw9jovz2j6QkV4ypfDpy+yQNBk=;
+ b=RmsGY+/pBsau6FlogKjoYzJxKLQ5T6w4s4XkXhstsVQMDJEjrLApLx1GVrYhKapZ+3ECCT
+ eour5VWLHCgbL8PYShbmy3OuEYO26nwYqYJzhOovuJLfE8LjpBXjcgzGDBposvLOi/OC3c
+ 10HpSRr7gjWWEZKSGtpYxO8/fV0yD0c=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-alCKvH-DMSKkO4aV832LYA-1; Wed, 16 Jun 2021 12:22:36 -0400
+X-MC-Unique: alCKvH-DMSKkO4aV832LYA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j2-20020a5d61820000b029011a6a8149b5so1064383wru.14
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:22:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IQ+2M3Z1Th/Ec7i/HdYyIDKbmYICi5tPJM7BdnimDks=;
- b=IIupdnZFCrlMKI36ngiDAZ7RDSjyMLBi+b1cqYbC92eW7bTUig2OJg568R0hDG33OZ
- YeCBVQoT+t79sIX9EYpZbDVejrYRH+xUow4EW/CmfX85E3I4dlwpU2B1z9st2mah5Mzo
- adGi5kS8WVroNBYkyzekzQtaIYrDCsApl1tStucYNderXincqIlUNzKvjwz+IPeXc459
- SPQ9IxHh6TgqurHV/5rIJNw0wRGM8+ucPbWJw2rGLqMs9uyUciUMXa+GJcpwebvF4Ff6
- MdHawN+qmGw0hl4aVdyVm0A0/09kfK4ohqdM8ZiUvCWrCJA7DSD7Pplve383OeZ5l6vK
- mztw==
-X-Gm-Message-State: AOAM5317InxO9wYtec+fQnRCrfLfDn6zi3H0xT+5MAIyf5whJx9v05gb
- mUtcND3LkVzTpHupiBk/6fOLngj3hblpeAQKi/XgHkB6YKMF3DS5wbf6EcNujuJqsC/+mweAVgh
- aFz5gklD+kc1u7EAzxbUujjMO/IYFtMdCrS/thw7wzofYykRGGHaE3e87CWbtl6VF
-X-Received: by 2002:a1c:7210:: with SMTP id n16mr11912088wmc.75.1623860568052; 
- Wed, 16 Jun 2021 09:22:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMaZiq/ObnBOCKWpuK/AJV8Y1V+dp7UYZKVzWUM5D9TQdZXCVM/nmylcAX4JIhWohomBRgtA==
-X-Received: by 2002:a1c:7210:: with SMTP id n16mr11912068wmc.75.1623860567839; 
- Wed, 16 Jun 2021 09:22:47 -0700 (PDT)
+ bh=WUQdFiF4I9usEoqcWuw9jovz2j6QkV4ypfDpy+yQNBk=;
+ b=T021SwoA064eHrIzelfPyjkslfv1sS51yOEQaigm2pSgMd2Ftuibc0nTNCaxTrlmQ2
+ bppn6uA0UBFOsqMbxAP7qJf0s0GQrzAaZ0LdIZ02J22c8J1xvzmEO/xe38LXQef9rKdD
+ 5cwy70bpRfJb5FGTv4biOdWks8WRSz6qXU6QtCjArADStQ1oDPZZ8JP9KDXK2F1qfocQ
+ NDcWQ2eVYq5rYbmPlPZ8WKFsq7V1wybe/gfriLGGEb6M4vTvvLrzFgAaWV8ENJLWouMe
+ RQpKkazPRXv9CBg3jme2o5RYNC+R4KQKbkXCGtF1nLRaeOnDrpqhw0+RGcxldtPtHHOC
+ 38gg==
+X-Gm-Message-State: AOAM533fyGeP0f1jrAbBoiBuAkxVZFqjCUrKty6zBn6sxh/5WNEd8rR5
+ in2EpOwfc66KdQdTh9kDXDOxHLWWJO+RWslDFB85p7fJTZ/YwCHCOEYg8s3g0LNvC4cbft3abTi
+ YFdi/P1GArOKwc7ifFmrEJFwy/Wn6nnaYkz8FKfRNMilWfw4LQi9NmoVBWLJ/6JfF
+X-Received: by 2002:adf:a284:: with SMTP id s4mr225641wra.397.1623860555433;
+ Wed, 16 Jun 2021 09:22:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzerqdDFU+hrqhimAnDSgDiDsfgbQps0VofL3pbs+7SiCYB6M5sh6Z0xAMETkiwiKp9ceV3bA==
+X-Received: by 2002:adf:a284:: with SMTP id s4mr225615wra.397.1623860555199;
+ Wed, 16 Jun 2021 09:22:35 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id w8sm2829292wre.70.2021.06.16.09.22.47
+ by smtp.gmail.com with ESMTPSA id p11sm2597966wrx.85.2021.06.16.09.22.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 09:22:47 -0700 (PDT)
+ Wed, 16 Jun 2021 09:22:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/7] crypto/tlssession: Introduce
- qcrypto_tls_creds_check_endpoint() helper
-Date: Wed, 16 Jun 2021 18:22:23 +0200
-Message-Id: <20210616162225.2517463-6-philmd@redhat.com>
+Subject: [PATCH v4 2/7] block/nbd: Use qcrypto_tls_creds_check_endpoint()
+Date: Wed, 16 Jun 2021 18:22:20 +0200
+Message-Id: <20210616162225.2517463-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616162225.2517463-1-philmd@redhat.com>
 References: <20210616162225.2517463-1-philmd@redhat.com>
@@ -99,57 +98,49 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the qcrypto_tls_creds_check_endpoint() helper
-to avoid accessing QCryptoTLSCreds internal 'endpoint' field
-directly.
+Avoid accessing QCryptoTLSCreds internals by using
+the qcrypto_tls_creds_check_endpoint() helper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/crypto/tlssession.h | 15 +++++++++++++++
- crypto/tlssession.c         |  7 +++++++
- 2 files changed, 22 insertions(+)
+ block/nbd.c    | 6 +++---
+ blockdev-nbd.c | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/crypto/tlssession.h b/include/crypto/tlssession.h
-index 15b9cef086c..2fb0bb02d9f 100644
---- a/include/crypto/tlssession.h
-+++ b/include/crypto/tlssession.h
-@@ -162,6 +162,21 @@ void qcrypto_tls_session_free(QCryptoTLSSession *sess);
+diff --git a/block/nbd.c b/block/nbd.c
+index 616f9ae6c4d..b13a33c3d21 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -2159,9 +2159,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
+         return NULL;
+     }
  
- G_DEFINE_AUTOPTR_CLEANUP_FUNC(QCryptoTLSSession, qcrypto_tls_session_free)
+-    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
+-        error_setg(errp,
+-                   "Expecting TLS credentials with a client endpoint");
++    if (!qcrypto_tls_creds_check_endpoint(creds,
++                                          QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT,
++                                          errp)) {
+         return NULL;
+     }
+     object_ref(obj);
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index b264620b98d..bdfa7ed3a5a 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -108,9 +108,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
+         return NULL;
+     }
  
-+/**
-+ * qcrypto_tls_session_check_role:
-+ * @creds: pointer to a TLS credentials object
-+ * @endpoint: role of the TLS session, client or server
-+ * @errp: pointer to a NULL-initialized error object
-+ *
-+ * Check whether the session object operates according to
-+ * the role of the @endpoint argument.
-+ *
-+ * Returns true if the session is setup for the endpoint role, false otherwise
-+ */
-+bool qcrypto_tls_session_check_role(QCryptoTLSCreds *creds,
-+                                    QCryptoTLSCredsEndpoint endpoint,
-+                                    Error **errp);
-+
- /**
-  * qcrypto_tls_session_check_credentials:
-  * @sess: the TLS session object
-diff --git a/crypto/tlssession.c b/crypto/tlssession.c
-index 33203e8ca71..4e614b73a28 100644
---- a/crypto/tlssession.c
-+++ b/crypto/tlssession.c
-@@ -640,3 +640,10 @@ qcrypto_tls_session_get_peer_name(QCryptoTLSSession *sess)
- }
- 
- #endif
-+
-+bool qcrypto_tls_session_check_role(QCryptoTLSCreds *creds,
-+                                    QCryptoTLSCredsEndpoint endpoint,
-+                                    Error **errp)
-+{
-+    return qcrypto_tls_creds_check_endpoint(creds, endpoint, errp);
-+}
+-    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
+-        error_setg(errp,
+-                   "Expecting TLS credentials with a server endpoint");
++    if (!qcrypto_tls_creds_check_endpoint(creds,
++                                          QCRYPTO_TLS_CREDS_ENDPOINT_SERVER,
++                                          errp)) {
+         return NULL;
+     }
+     object_ref(obj);
 -- 
 2.31.1
 
