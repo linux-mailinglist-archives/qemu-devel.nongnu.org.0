@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FE33A9D70
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:20:50 +0200 (CEST)
-Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB263A9D79
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:22:48 +0200 (CEST)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltWPR-0007ZT-Pj
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59990)
+	id 1ltWRH-0001Jp-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:22:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1ltWNz-00068m-9O
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:19:19 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52188)
+ id 1ltWOj-0007wc-Tu
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:20:06 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1ltWNx-0005N2-G1
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:19:18 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id k5so1818234pjj.1
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 07:19:17 -0700 (PDT)
+ id 1ltWOi-0005mk-2N
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:20:05 -0400
+Received: by mail-pg1-x534.google.com with SMTP id i34so2074416pgl.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 07:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=4YOmtdOOk0UtmPB31IPlcnuaHgpZeBkFh3/IQ9OvMjY=;
- b=h8vjiip75HTLZG2L22cSAA1GRIRV9LogZ90ADfM+LKhx+agTBLVkOHXW5U4znOE6b+
- ev3LSdg/Yogad9X2+MBWFgklMFU09QGMk+JX4gjIzQP/M+8qVzBeVcByscAjMDHAd3Sx
- wekVYgFtaXAPBKdes8BH9JWRao0syXF+n/huwiuZ3Tag5zGG4TYDNZPiaHTjsJBqk9ug
- 1UTdfaTDxDwQIwRLEBLP3QK3hSyAWP22vkZPO3ybEj070KDrJrHtXFa96NKHW0tgiOiT
- r5ykb5YHPasQ57q6CisujczQl2Gj8r4Lh05hAaRExU6dgOB4vSSjnmsgRWat6xXfojqj
- fMEw==
+ bh=CLgoTQjTEu9r2Va39XZDmzzV8ekTpjJ8uOAVSoIFiyI=;
+ b=V2/9GJlPTxVLT3XnZNWcH9NCULcwauzTGMChEWJVFUxVk+/KAWRpxsAkQwF2uX+bFe
+ D5MfCi+sAaSzVc2TvV0kT3RqhBw8DA30d7QcbbScS/jIAeCX0Qb4Y0KS3V6KE9SGwLhc
+ wUvFS1l0cL6/OImIi6yPPdaXdNCFd8HCGr+9+45bc9frW9w0WQu/jNRXtkYYJlmdTRKG
+ K3KJuK+9tCX0xCHX3tXHQW1B86HGSQ4eE3iG8cxzlRBZ/erey0WBXEEAuUC9x9rVVXG0
+ YGKbmNxYsd/9m58PiPzVSTUd9CFMrXkFJv4NMWRtMDJDn9hfLBVBgsMZgBucoOfenQCs
+ 9JFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=4YOmtdOOk0UtmPB31IPlcnuaHgpZeBkFh3/IQ9OvMjY=;
- b=Hu04xMPXwwfyEqWCoxbQukfJAEDSF5omDG+POcq95KTWFRGn88UnARb54DFXhQGe4h
- YiXSJgOuv0K8myRi2fR9wiPcVtVM5xGs9XoBiIW5g5HUezXvKXrEBUj7/xTWWbIH6EMd
- S7nesnXVNrNE9fBr/t0SLrPOFx0ijBwyl0ZzXKdJoA2K0HgS52UlActRh/W9fhfLPw9p
- G+ec19qpNbcYpxLDBaOhm9uXjparwVDzeu7COF8hJT1mral1tyvqjbEFwD4DnXk6Ah/P
- KMw5vBQUxFdRiDGMC0HyNV9aAfhF00YLqFoi/YoS1dLNVXEJsnRK1WK82hBsonCDl1gS
- Iqdg==
-X-Gm-Message-State: AOAM531/sZfMeRTpVXBp1QFc9GNZS7qgxKS6aedbaOVYNsbQBksmeuYc
- L/tFyW9bIP9d3awZmdAw88alKyyVPj8d0Q==
-X-Google-Smtp-Source: ABdhPJwidHCg5pU2du3WrlVqkztdWm/Wh6wMY/8uHAg+7yqg/GoH/yoOigdmdIioSkOjrjFsL2ynwA==
-X-Received: by 2002:a17:902:ced1:b029:115:3e22:1eb4 with SMTP id
- d17-20020a170902ced1b02901153e221eb4mr9050765plg.19.1623853155807; 
- Wed, 16 Jun 2021 07:19:15 -0700 (PDT)
+ bh=CLgoTQjTEu9r2Va39XZDmzzV8ekTpjJ8uOAVSoIFiyI=;
+ b=eh4ANtCuenCjY3+Yh9BZg6nAkWMJOtvEXL1Qpq9Zv3gos3T33KLYdt9JE4YDk/VAwR
+ yDDHNQWDXOF94F1Ax+uqqRlO6vAlJpN4g7lrtszXN3LNXhktrVrS67QY7IuTMMB07/QF
+ oYbqXMTC72sENnhnA/Z9G1wRqpaGwsXZimIloLzRDmUI8CaHQM1l7SFKjsxkOhB8ox+a
+ mEZBMa5vqKz+5sYyqAk4YcKCODSQgmzx3JEpZRGUDyN0ocap6s2rOc0/fd6b6nLYBpV7
+ PZKJ9LGQL0Aa1kdk0BCEtVwVyKAWInx/LI4/sH/h4CSp3eAuymu1aKlEr/f7i4IUOC39
+ dA8Q==
+X-Gm-Message-State: AOAM533OY5K07kyyS1t6zKEUdnNJxNMB8qNbad0yVCYDutb1AHPn5SSG
+ ieEDf+fJK5cVyvS1q4HJmHVPs1U7RlK/QQ==
+X-Google-Smtp-Source: ABdhPJw6QLZvhWOiPzUa/2qcm946UBogQzj8gufSLaOAGkJI0qBgFCYSEXgnPe3/LidmuOGSUS47Ow==
+X-Received: by 2002:a05:6a00:228c:b029:2f9:e608:e110 with SMTP id
+ f12-20020a056a00228cb02902f9e608e110mr9807985pfe.23.1623853202517; 
+ Wed, 16 Jun 2021 07:20:02 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:40bd:72ed:2c81:7963])
- by smtp.gmail.com with ESMTPSA id v14sm2667899pgo.89.2021.06.16.07.19.14
+ by smtp.gmail.com with ESMTPSA id v21sm2508295pfu.77.2021.06.16.07.19.59
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 16 Jun 2021 07:19:15 -0700 (PDT)
+ Wed, 16 Jun 2021 07:20:02 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH] ui/cocoa: Set UI information
-Date: Wed, 16 Jun 2021 23:19:10 +0900
-Message-Id: <20210616141910.54188-1-akihiko.odaki@gmail.com>
+Subject: [PATCH] ui/cocoa: Add clipboard support
+Date: Wed, 16 Jun 2021 23:19:54 +0900
+Message-Id: <20210616141954.54291-1-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,83 +89,192 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- ui/cocoa.m | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ include/ui/clipboard.h |   2 +-
+ ui/clipboard.c         |   2 +-
+ ui/cocoa.m             | 109 +++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 111 insertions(+), 2 deletions(-)
 
+diff --git a/include/ui/clipboard.h b/include/ui/clipboard.h
+index e5bcb365ed6..b45b984c9fe 100644
+--- a/include/ui/clipboard.h
++++ b/include/ui/clipboard.h
+@@ -187,7 +187,7 @@ void qemu_clipboard_set_data(QemuClipboardPeer *peer,
+                              QemuClipboardInfo *info,
+                              QemuClipboardType type,
+                              uint32_t size,
+-                             void *data,
++                             const void *data,
+                              bool update);
+ 
+ #endif /* QEMU_CLIPBOARD_H */
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+index abf2b98f1f8..3525b30178b 100644
+--- a/ui/clipboard.c
++++ b/ui/clipboard.c
+@@ -73,7 +73,7 @@ void qemu_clipboard_set_data(QemuClipboardPeer *peer,
+                              QemuClipboardInfo *info,
+                              QemuClipboardType type,
+                              uint32_t size,
+-                             void *data,
++                             const void *data,
+                              bool update)
+ {
+     if (!info ||
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 995301502be..8b83f91723a 100644
+index 995301502be..1efd70ea789 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -540,6 +540,43 @@ - (void) setContentDimensions
-     }
+@@ -28,6 +28,7 @@
+ #include <crt_externs.h>
+ 
+ #include "qemu-common.h"
++#include "ui/clipboard.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+ #include "ui/kbd-state.h"
+@@ -106,6 +107,10 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ static QemuSemaphore app_started_sem;
+ static bool allow_events;
+ 
++static NSInteger cbchangecount = -1;
++static QemuClipboardInfo *cbinfo;
++static QemuEvent cbevent;
++
+ // Utility functions to run specified code block with iothread lock held
+ typedef void (^CodeBlock)(void);
+ typedef bool (^BoolCodeBlock)(void);
+@@ -1811,6 +1816,93 @@ static void addRemovableDevicesMenuItems(void)
+     qapi_free_BlockInfoList(pointerToFree);
  }
  
-+- (void) updateUIInfo
-+{
-+    NSSize frameSize;
-+    QemuUIInfo info;
++@interface QemuCocoaPasteboardTypeOwner : NSObject<NSPasteboardTypeOwner>
++@end
 +
-+    if (!qemu_console_is_graphic(dcl.con)) {
++@implementation QemuCocoaPasteboardTypeOwner
++
++- (void)pasteboard:(NSPasteboard *)sender provideDataForType:(NSPasteboardType)type
++{
++    if (type != NSPasteboardTypeString) {
 +        return;
 +    }
 +
-+    if ([self window]) {
-+        NSDictionary *description = [[[self window] screen] deviceDescription];
-+        CGDirectDisplayID display = [[description objectForKey:@"NSScreenNumber"] unsignedIntValue];
-+        NSSize screenSize = [[[self window] screen] frame].size;
-+        CGSize screenPhysicalSize = CGDisplayScreenSize(display);
++    with_iothread_lock(^{
++        QemuClipboardInfo *info = qemu_clipboard_info_ref(cbinfo);
++        qemu_event_reset(&cbevent);
++        qemu_clipboard_request(info, QEMU_CLIPBOARD_TYPE_TEXT);
 +
-+        frameSize = isFullscreen ? screenSize : [self frame].size;
-+        info.width_mm = frameSize.width / screenSize.width * screenPhysicalSize.width;
-+        info.height_mm = frameSize.height / screenSize.height * screenPhysicalSize.height;
-+    } else {
-+        frameSize = [self frame].size;
-+        info.width_mm = 0;
-+        info.height_mm = 0;
++        while (info == cbinfo &&
++               info->types[QEMU_CLIPBOARD_TYPE_TEXT].available &&
++               info->types[QEMU_CLIPBOARD_TYPE_TEXT].data == NULL) {
++            qemu_mutex_unlock_iothread();
++            qemu_event_wait(&cbevent);
++            qemu_mutex_lock_iothread();
++        }
++
++        if (info == cbinfo) {
++            NSData *data = [[NSData alloc] initWithBytes:info->types[QEMU_CLIPBOARD_TYPE_TEXT].data
++                                           length:info->types[QEMU_CLIPBOARD_TYPE_TEXT].size];
++            [sender setData:data forType:NSPasteboardTypeString];
++            [data release];
++        }
++
++        qemu_clipboard_info_unref(info);
++    });
++}
++
++@end
++
++static QemuCocoaPasteboardTypeOwner *cbowner;
++
++static void cocoa_clipboard_notify(Notifier *notifier, void *data);
++static void cocoa_clipboard_request(QemuClipboardInfo *info,
++                                    QemuClipboardType type);
++
++static QemuClipboardPeer cbpeer = {
++    .name = "cocoa",
++    .update = { .notify = cocoa_clipboard_notify },
++    .request = cocoa_clipboard_request
++};
++
++static void cocoa_clipboard_notify(Notifier *notifier, void *data)
++{
++    QemuClipboardInfo *info = data;
++
++    if (info->owner == &cbpeer || info->selection != QEMU_CLIPBOARD_SELECTION_CLIPBOARD) {
++        return;
 +    }
 +
-+    info.xoff = 0;
-+    info.yoff = 0;
-+    info.width = frameSize.width;
-+    info.height = frameSize.height;
++    if (info != cbinfo) {
++        NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
++        qemu_clipboard_info_unref(cbinfo);
++        cbinfo = qemu_clipboard_info_ref(info);
++        cbchangecount = [[NSPasteboard generalPasteboard] declareTypes:@[NSPasteboardTypeString] owner:cbowner];
++        [pool release];
++    }
 +
-+    dpy_set_ui_info(dcl.con, &info);
++    qemu_event_set(&cbevent);
 +}
 +
-+- (void)viewDidMoveToWindow
++static void cocoa_clipboard_request(QemuClipboardInfo *info,
++                                    QemuClipboardType type)
 +{
-+    [self updateUIInfo];
++    NSData *text;
++
++    switch (type) {
++    case QEMU_CLIPBOARD_TYPE_TEXT:
++        text = [[NSPasteboard generalPasteboard] dataForType:NSPasteboardTypeString];
++        if (text) {
++            qemu_clipboard_set_data(&cbpeer, info, type,
++                                    [text length], [text bytes], true);
++            [text release];
++        }
++        break;
++    default:
++        break;
++    }
 +}
 +
- - (void) switchSurface:(pixman_image_t *)image
- {
-     COCOA_DEBUG("QemuCocoaView: switchSurface\n");
-@@ -1258,6 +1295,16 @@ - (NSApplicationTerminateReply)applicationShouldTerminate:
-     return [self verifyQuit];
+ /*
+  * The startup process for the OSX/Cocoa UI is complicated, because
+  * OSX insists that the UI runs on the initial main thread, and so we
+@@ -1845,6 +1937,7 @@ static void addRemovableDevicesMenuItems(void)
+     COCOA_DEBUG("Second thread: calling qemu_main()\n");
+     status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
+     COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
++    [cbowner release];
+     exit(status);
  }
  
-+- (void)windowDidChangeScreen:(NSNotification *)notification
-+{
-+    [cocoaView updateUIInfo];
-+}
+@@ -1965,6 +2058,18 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+             [cocoaView setAbsoluteEnabled:YES];
+         });
+     }
 +
-+- (void)windowDidResize:(NSNotification *)notification
-+{
-+    [cocoaView updateUIInfo];
-+}
++    if (cbchangecount != [[NSPasteboard generalPasteboard] changeCount]) {
++        qemu_clipboard_info_unref(cbinfo);
++        cbinfo = qemu_clipboard_info_new(&cbpeer, QEMU_CLIPBOARD_SELECTION_CLIPBOARD);
++        if ([[NSPasteboard generalPasteboard] availableTypeFromArray:@[NSPasteboardTypeString]]) {
++            cbinfo->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
++        }
++        qemu_clipboard_update(cbinfo);
++        cbchangecount = [[NSPasteboard generalPasteboard] changeCount];
++        qemu_event_set(&cbevent);
++    }
 +
- /* Called when the user clicks on a window's close button */
- - (BOOL)windowShouldClose:(id)sender
- {
-@@ -1936,6 +1983,8 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+     [pool release];
+ }
  
-     COCOA_DEBUG("qemu_cocoa: cocoa_switch\n");
+@@ -2001,6 +2106,10 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
  
-+    [cocoaView updateUIInfo];
+     // register vga output callbacks
+     register_displaychangelistener(&dcl);
 +
-     // The DisplaySurface will be freed as soon as this callback returns.
-     // We take a reference to the underlying pixman image here so it does
-     // not disappear from under our feet; the switchSurface method will
++    qemu_event_init(&cbevent, false);
++    cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
++    qemu_clipboard_peer_register(&cbpeer);
+ }
+ 
+ static QemuDisplay qemu_display_cocoa = {
 -- 
 2.30.1 (Apple Git-130)
 
