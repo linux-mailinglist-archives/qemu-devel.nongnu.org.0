@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F003A9EA3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:11:08 +0200 (CEST)
-Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCF23A9EA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:11:21 +0200 (CEST)
+Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXC7-0005CR-Nu
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46678)
+	id 1ltXCK-0005hk-Sg
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:11:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltXAO-00042Q-Qt; Wed, 16 Jun 2021 11:09:20 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40777)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltXAe-0004Hj-3E
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:09:36 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:46063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltXAN-0005LZ-8T; Wed, 16 Jun 2021 11:09:20 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id y7so3067585wrh.7;
- Wed, 16 Jun 2021 08:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltXAZ-0005Ud-In
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:09:35 -0400
+Received: by mail-pf1-x433.google.com with SMTP id k6so2429670pfk.12
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:09:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=D2sumaqdX8PgE+1dXFec4vQ63OsQWdc5Y6EH/uDxWCA=;
- b=rsxrkQVVlI8ch5VlsIs345vIV/fRUk1xUVGOyAdSRiTXzjvS5+dNwI/NpNaDGZEiA3
- HQJ4JoPBHVUS0fbmG+RI6lgDZpye7HVsXcjk7VoY9qdDKxvQH9Bk3cPLSmNbO8K04Jdl
- P5oz5w9atP8sqyjlLYyHqNNru85I77qwlZUgZAuUEQicmKKA9H4ZLrElJ4GsW/Y85Qyb
- KW0RQjXBVIhdMDJZL/AjO3Q5LOF47ZwamERe2Cr+jPRetTfxjKR82pOmTBbYADfbaEWu
- ho2YdrFISHCR9xB8sdRwbKM6OLMHqJuTDTlbNcCSe4fDBa0PuDFechro2aE2lL8JtoE1
- +j7Q==
+ bh=HLYfgZ1fr3PqhKtLKBPwwl4PBSGlt+6gcU0zuQLW3Jk=;
+ b=S2/qFcsCuerr0oUN7zzw/AmCkE8iSn8EnW4k7zXL+U3i7TSrNqJfi2ETLXDVAmQarp
+ Xmtx+67Bp/+6A10XWunFV33uiuxDLxbG7VxcfB/VJyx30UBjpT2Rf8G1/d9DWxOLpLX5
+ dlTZY3xcVNNFbDh2z7XjRXm2b5j51I37voRdHGSQaCBIypzBOURzK2f4GalfEkZp6oxF
+ WErPhCCB5glDD94oH7Cu/Alh1lrfSW+ju0zfqlFkg0LIRgKUtuDvuR3JN3iuKqRehMzF
+ Uy3EMQH7guPWSbIXdpAY4N9xYoP/TQEvGIuPxKs0U+jzPs/d6lB1sWk4TKBRf/hACj5j
+ YSXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D2sumaqdX8PgE+1dXFec4vQ63OsQWdc5Y6EH/uDxWCA=;
- b=XRB3mtchvHGd9KeR+L21FIBhKYAaT0j88DCRTsZ5XRLeb/p0tmwr3QFQCfN73JyVwd
- /2jIwpxXsrr7Nw8iL6VnxvOl4yxR3skOkBqLE1hWeEUKQdqwCyCrSqw0gce0jApzzRz+
- ALFuyrgJABaDjoXlXl3FPft1cGKagcZZHsjwg4Zw5fPIPH1WEU9RowYrg9vl9K33zxwT
- XOykFau51vO21ZpIWVDo0KBFl8TbDS6a4EaRQmexu5Lc84vWnTEOesmBKsmUaiK8+74L
- AjZslRmMGw+IJxWaktKbn+Qd+X28NXKz98mRuygs4pKJWKuyetv93a82uTX6xX7K0XIt
- GALA==
-X-Gm-Message-State: AOAM531TXa+3WyVqzWHEd0V2+6ASudo4FSjpSdzIcu6JlJfsvY9bIJru
- pD9r+uWFSmd4sqOq4dN6CubYszkT19vB/w==
-X-Google-Smtp-Source: ABdhPJxs3g/+aIpUJlgasn2LjrP/maDJZGUOcajIWZID1lea0G5VSmUz4x9g4lupheKaaUgv+oLQfQ==
-X-Received: by 2002:a5d:5151:: with SMTP id u17mr6134906wrt.302.1623856155861; 
- Wed, 16 Jun 2021 08:09:15 -0700 (PDT)
-Received: from [192.168.50.31] (static-180-27-86-188.ipcom.comunitel.net.
- [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id 61sm2702874wrp.4.2021.06.16.08.09.14
+ bh=HLYfgZ1fr3PqhKtLKBPwwl4PBSGlt+6gcU0zuQLW3Jk=;
+ b=bhfzoJUKNy/mPbKs9BVXnruDGVgCCJWSlorzTazXON3CjHuak81zzEvfQfjkXpTTGI
+ aAlyfeq7V5FcYRmpIX33l1O6v+3oPIy5qOya/goVnWHMtxzDTtgkagASjuMcIY6Asxbn
+ uPCtlBuUrMTOUd0/YwoygEi1XBLMJeeChU0e90EN48ygDV95M+rsWWegeoc89QNx5IAp
+ CqoFTE7h0LzzFzf59d8nPbZ2IMSMjZQegw0p42GsgdYBJca+kDk86YBKZw6ec6RA+wN8
+ z+enuXK+Ku7cn4fAo7vf1hVoPw5Ton2vHpq92Rb/Mx8HDdZud5UOE5Yl714OpGdpil3L
+ 4rbw==
+X-Gm-Message-State: AOAM531hp7OvRnKbTW9/zCVDS38ks46h5JjeegeJx1nyx63Lq1B1l85O
+ hbOrXaiRBnTPEi46UlWFTWNu4Q==
+X-Google-Smtp-Source: ABdhPJwaLsPSAJROYQiJbK44hLuZUt57rB57hZPtSxOCkRbaWEx+W0LbDl/MFqRThnhyTshXHwBtQQ==
+X-Received: by 2002:a62:dd83:0:b029:2e8:e511:c32f with SMTP id
+ w125-20020a62dd830000b02902e8e511c32fmr204283pff.49.1623856170087; 
+ Wed, 16 Jun 2021 08:09:30 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ k1sm2483920pfa.30.2021.06.16.08.09.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 08:09:15 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] i2c: Match parameters of i2c_start_transfer and
- i2c_send_recv
-To: minyard@acm.org
-References: <20200623063123.20776-1-f4bug@amsat.org>
- <46692025-50b-2734-e394-513b2761b979@eik.bme.hu>
- <8230aaa5-73b4-4bf6-6567-38bb5cde3883@amsat.org>
- <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
- <df15b240-af9b-49d3-178a-d0fb8de63aa3@amsat.org>
- <20210614193423.GE2921206@minyard.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <15c7c1ed-dcd9-da20-5d61-e5abf5ca6c60@amsat.org>
-Date: Wed, 16 Jun 2021 17:09:14 +0200
+ Wed, 16 Jun 2021 08:09:29 -0700 (PDT)
+Subject: Re: [PATCH 00/21] linux-user: Move signal trampolines to new page
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210616011209.1446045-1-richard.henderson@linaro.org>
+ <87pmwlg88j.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <55b09291-bcd1-3336-3bb7-9ca3c14b7f80@linaro.org>
+Date: Wed, 16 Jun 2021 08:09:28 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210614193423.GE2921206@minyard.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87pmwlg88j.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.17,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,64 +89,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/21 9:34 PM, Corey Minyard wrote:
-> On Mon, Jun 14, 2021 at 06:48:05PM +0200, Philippe Mathieu-Daudé wrote:
->> On 6/14/21 12:02 PM, BALATON Zoltan wrote:
->>> On Mon, 14 Jun 2021, Philippe Mathieu-Daudé wrote:
->>>> On 6/12/21 9:33 PM, BALATON Zoltan wrote:
->>>>> Hello,
->>>>>
->>>>> On Tue, 23 Jun 2020, Philippe Mathieu-Daudé wrote:
->>>>>> This is v2 of Zoltan's patch:
->>>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
->>>>>>
->>>>>> - rebased
->>>>>> - added docstring
->>>>>> - include hw/misc/auxbus.c fix
->>>>>>
->>>>>> Supersedes: <20200621145235.9E241745712@zero.eik.bme.hu>
->>>>>
->>>>> What happened to this series? I did not find it in patchew, only my
->>>>> original patch:
->>>>>
->>>>> https://patchew.org/QEMU/20200621145235.9E241745712@zero.eik.bme.hu/
->>>>>
->>>>> I still have this in one of my branches so I think it was not merged at
->>>>> the end. Could this be resurrected or should I forget about it and live
->>>>> with the inconsistency in parameters instead?
->>>>
->>>> I suppose it was not queued because you asked to remove the
->>>> "Reported-by" tag :/ I agree with you it would be nice to get this in
->>>> the tree
->>>
->>> I think I said only Reported-by is enough no need for Suggested-by as
->>> well but I don't see this as a reason to drop these patches. So maybe
->>> just nobody cared enough.
->>
->> Ah OK now got it.
->>
->>>> for good. However 1 year passed, so it might need adjustment.
->>>
->>> Should I try to rebase it or will you do it eventually?
->>
->> Found the branch and clean rebase, so no change needed.
->>
->> Corey, if you are busy, I could send a pull request if you provide
->> and Acked-by tag.
-> 
-> I'm somewhat worried about the silent semantic change.  I would much
-> prefer the functions to be renamed, as you mentioned in an email a while
-> ago.  I think that you mentioned this in an email in the chain listed
-> above, and I think I pulled it for that reason.
+On 6/16/21 8:05 AM, Alex Bennée wrote:
+> However qemu-hppa (on x86_64 host) still has the stuborn 1% failure rate...
 
-OK, maybe the comment was sent after this series or I missed it.
+Have a squizzle at patch 8.  I wasn't able to do anything with hppa yet.
 
-Thanks for the reminder.
 
-Phil.
+r~
 
