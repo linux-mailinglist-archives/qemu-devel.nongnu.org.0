@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBA63A963F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:34:48 +0200 (CEST)
-Received: from localhost ([::1]:58698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211E23A963D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:33:19 +0200 (CEST)
+Received: from localhost ([::1]:58324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltRwd-0001pM-LT
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:34:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
+	id 1ltRvC-0001Z6-71
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukas.juenger@greensocs.com>)
- id 1ltRlw-0000kV-7z; Wed, 16 Jun 2021 05:23:44 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:33666)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ltRrM-0007Ab-S4
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 05:29:20 -0400
+Resent-Date: Wed, 16 Jun 2021 05:29:20 -0400
+Resent-Message-Id: <E1ltRrM-0007Ab-S4@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukas.juenger@greensocs.com>)
- id 1ltRlp-0001oV-RO; Wed, 16 Jun 2021 05:23:44 -0400
-Received: from fornax.fritz.box (b2b-109-90-5-113.unitymedia.biz
- [109.90.5.113])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A435421C39;
- Wed, 16 Jun 2021 09:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1623835415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dumAtD2jQ33cfjV7tNOTMaJOWUwYua1Ch5E+iqbW2gk=;
- b=YWnM2Zlo8ZXzL/EFQ1MRLFuyygH6mdVMaKOZd/XI9fdu7XdLvXZ312nwL3sznVi3cjFExe
- 2GpM3bhYsl1t9o3Lv8Vqs6ALrUOZ0zD/+VgeISN2qWjGkZni6RSKNgUyJODmTLlOCoF4o6
- ysYuQ+6Y6ah6innYGmD4hnoNdlnMLtc=
-From: =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.juenger@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/2] hw/char: QOMify sifive_uart
-Date: Wed, 16 Jun 2021 11:23:26 +0200
-Message-Id: <20210616092326.59639-3-lukas.juenger@greensocs.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210616092326.59639-1-lukas.juenger@greensocs.com>
-References: <20210616092326.59639-1-lukas.juenger@greensocs.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ltRrK-0005Rm-CE
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 05:29:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1623835749; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ehm9PyRJGLhZFHo4lGBDcDowa4q3MXWFXlWsS11fGKl/G9cAxFZPBfJpbEJ8P6OL2JSxzMRGR2Ni7xJWBxMiHuw8p4K/SiUJ4Z8j4zBg3uZa6RauF+BBcOMmfhgHXNbzk4Fi0ZHwOoJ4WzLPR8czLNEhwcULHNCrEDt2hq+Jm6o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1623835749;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=+ZqFwCwTKzAFGbtx/0D3T//Hw97aXvE79AHu2Z3R7ho=; 
+ b=aBTR+3CXIYvhU8gsH5LKRcaU3YVcUe8F+QrxMPTc5EudsmLnNthDy2ixJEdKnWQxWh12UvinoxanciCGWCXIIRBGMLcvMQkiMVepwJlJcmBeoaipLr7yFMyc+75gUxopeWtB3IkePgPK8F5G8LJ7kxJMlc/iZYCn6IB5YrB053o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1623835667138770.4159927021797;
+ Wed, 16 Jun 2021 02:27:47 -0700 (PDT)
+In-Reply-To: <20210616091244.33049-1-ysato@users.sourceforge.jp>
+Subject: Re: [PATCH 0/3] renesas_sci update
+Message-ID: <162383566568.24068.1742047011105037489@7c66fb7bc3ab>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=lukas.juenger@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Wed, 16 Jun 2021 02:27:47 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,203 +66,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, bin.meng@windriver.com, mark.burton@greensocs.com,
- marcandre.lureau@redhat.com, palmer@dabbelt.com, pbonzini@redhat.com,
- alistair.francis@wdc.com, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.juenger@greensocs.com>,
- luc.michel@greensocs.com
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This QOMifies the SiFive UART model. Migration and reset have been
-implemented.
-
-Signed-off-by: Lukas Jünger <lukas.juenger@greensocs.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- include/hw/char/sifive_uart.h |  11 ++--
- hw/char/sifive_uart.c         | 114 +++++++++++++++++++++++++++++++---
- 2 files changed, 109 insertions(+), 16 deletions(-)
-
-diff --git a/include/hw/char/sifive_uart.h b/include/hw/char/sifive_uart.h
-index 3e962be659..7f6c79f8bd 100644
---- a/include/hw/char/sifive_uart.h
-+++ b/include/hw/char/sifive_uart.h
-@@ -21,6 +21,7 @@
- #define HW_SIFIVE_UART_H
- 
- #include "chardev/char-fe.h"
-+#include "hw/qdev-properties.h"
- #include "hw/sysbus.h"
- #include "qom/object.h"
- 
-@@ -49,12 +50,10 @@ enum {
- 
- #define SIFIVE_UART_GET_TXCNT(txctrl)   ((txctrl >> 16) & 0x7)
- #define SIFIVE_UART_GET_RXCNT(rxctrl)   ((rxctrl >> 16) & 0x7)
-+#define SIFIVE_UART_RX_FIFO_SIZE 8
- 
- #define TYPE_SIFIVE_UART "riscv.sifive.uart"
--
--typedef struct SiFiveUARTState SiFiveUARTState;
--DECLARE_INSTANCE_CHECKER(SiFiveUARTState, SIFIVE_UART,
--                         TYPE_SIFIVE_UART)
-+OBJECT_DECLARE_SIMPLE_TYPE(SiFiveUARTState, SIFIVE_UART)
- 
- struct SiFiveUARTState {
-     /*< private >*/
-@@ -64,8 +63,8 @@ struct SiFiveUARTState {
-     qemu_irq irq;
-     MemoryRegion mmio;
-     CharBackend chr;
--    uint8_t rx_fifo[8];
--    unsigned int rx_fifo_len;
-+    uint8_t rx_fifo[SIFIVE_UART_RX_FIFO_SIZE];
-+    uint8_t rx_fifo_len;
-     uint32_t ie;
-     uint32_t ip;
-     uint32_t txctrl;
-diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
-index 5df8212961..278e21c434 100644
---- a/hw/char/sifive_uart.c
-+++ b/hw/char/sifive_uart.c
-@@ -19,10 +19,12 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/log.h"
-+#include "migration/vmstate.h"
- #include "chardev/char.h"
- #include "chardev/char-fe.h"
- #include "hw/irq.h"
- #include "hw/char/sifive_uart.h"
-+#include "hw/qdev-properties-system.h"
- 
- /*
-  * Not yet implemented:
-@@ -175,20 +177,112 @@ static int sifive_uart_be_change(void *opaque)
-     return 0;
- }
- 
-+static Property sifive_uart_properties[] = {
-+    DEFINE_PROP_CHR("chardev", SiFiveUARTState, chr),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void sifive_uart_init(Object *obj)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    SiFiveUARTState *s = SIFIVE_UART(obj);
-+
-+    memory_region_init_io(&s->mmio, OBJECT(s), &sifive_uart_ops, s,
-+                          TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
-+    sysbus_init_mmio(sbd, &s->mmio);
-+    sysbus_init_irq(sbd, &s->irq);
-+}
-+
-+static void sifive_uart_realize(DeviceState *dev, Error **errp)
-+{
-+    SiFiveUARTState *s = SIFIVE_UART(dev);
-+
-+    qemu_chr_fe_set_handlers(&s->chr, sifive_uart_can_rx, sifive_uart_rx,
-+                             sifive_uart_event, sifive_uart_be_change, s,
-+                             NULL, true);
-+
-+}
-+
-+static void sifive_uart_reset_enter(Object *obj, ResetType type)
-+{
-+    SiFiveUARTState *s = SIFIVE_UART(obj);
-+    s->ie = 0;
-+    s->ip = 0;
-+    s->txctrl = 0;
-+    s->rxctrl = 0;
-+    s->div = 0;
-+    s->rx_fifo_len = 0;
-+}
-+
-+static void sifive_uart_reset_hold(Object *obj)
-+{
-+    SiFiveUARTState *s = SIFIVE_UART(obj);
-+    qemu_irq_lower(s->irq);
-+}
-+
-+static const VMStateDescription vmstate_sifive_uart = {
-+    .name = TYPE_SIFIVE_UART,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8_ARRAY(rx_fifo, SiFiveUARTState,
-+                            SIFIVE_UART_RX_FIFO_SIZE),
-+        VMSTATE_UINT8(rx_fifo_len, SiFiveUARTState),
-+        VMSTATE_UINT32(ie, SiFiveUARTState),
-+        VMSTATE_UINT32(ip, SiFiveUARTState),
-+        VMSTATE_UINT32(txctrl, SiFiveUARTState),
-+        VMSTATE_UINT32(rxctrl, SiFiveUARTState),
-+        VMSTATE_UINT32(div, SiFiveUARTState),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
-+
-+static void sifive_uart_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    ResettableClass *rc = RESETTABLE_CLASS(oc);
-+
-+    dc->realize = sifive_uart_realize;
-+    dc->vmsd = &vmstate_sifive_uart;
-+    rc->phases.enter = sifive_uart_reset_enter;
-+    rc->phases.hold  = sifive_uart_reset_hold;
-+    device_class_set_props(dc, sifive_uart_properties);
-+}
-+
-+static const TypeInfo sifive_uart_info = {
-+    .name          = TYPE_SIFIVE_UART,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(SiFiveUARTState),
-+    .instance_init = sifive_uart_init,
-+    .class_init    = sifive_uart_class_init,
-+};
-+
-+static void sifive_uart_register_types(void)
-+{
-+    type_register_static(&sifive_uart_info);
-+}
-+
-+type_init(sifive_uart_register_types)
-+
- /*
-  * Create UART device.
-  */
- SiFiveUARTState *sifive_uart_create(MemoryRegion *address_space, hwaddr base,
-     Chardev *chr, qemu_irq irq)
- {
--    SiFiveUARTState *s = g_malloc0(sizeof(SiFiveUARTState));
--    s->irq = irq;
--    qemu_chr_fe_init(&s->chr, chr, &error_abort);
--    qemu_chr_fe_set_handlers(&s->chr, sifive_uart_can_rx, sifive_uart_rx,
--                             sifive_uart_event, sifive_uart_be_change, s,
--                             NULL, true);
--    memory_region_init_io(&s->mmio, NULL, &sifive_uart_ops, s,
--                          TYPE_SIFIVE_UART, SIFIVE_UART_MAX);
--    memory_region_add_subregion(address_space, base, &s->mmio);
--    return s;
-+    DeviceState *dev;
-+    SysBusDevice *s;
-+    SiFiveUARTState *r;
-+
-+    dev = qdev_new("riscv.sifive.uart");
-+    s = SYS_BUS_DEVICE(dev);
-+    qdev_prop_set_chr(dev, "chardev", chr);
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    memory_region_add_subregion(address_space, base,
-+                                sysbus_mmio_get_region(s, 0));
-+    sysbus_connect_irq(s, 0, irq);
-+
-+    r = SIFIVE_UART(dev);
-+    return r;
- }
--- 
-2.31.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxNjA5MTI0NC4zMzA0
+OS0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
+IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
+Cm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA2MTYwOTEy
+NDQuMzMwNDktMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcApTdWJqZWN0OiBbUEFUQ0ggMC8z
+XSByZW5lc2FzX3NjaSB1cGRhdGUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
+c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
+VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
+cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
+CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
+aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAg
+ICAgIHBhdGNoZXcvMjAyMTA2MTAxMzM1MzguNjA4MzkwLTEtcGJvbnppbmlAcmVkaGF0LmNvbSAt
+PiBwYXRjaGV3LzIwMjEwNjEwMTMzNTM4LjYwODM5MC0xLXBib256aW5pQHJlZGhhdC5jb20KIC0g
+W3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDYxNTE5Mjg0OC4xMDY1Mjk3LTEtdmVudHVy
+ZUBnb29nbGUuY29tIC0+IHBhdGNoZXcvMjAyMTA2MTUxOTI4NDguMTA2NTI5Ny0xLXZlbnR1cmVA
+Z29vZ2xlLmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwNjE2MDY0MzM0LjUz
+Mzk4LTEtbHVrYXMuanVlbmdlckBncmVlbnNvY3MuY29tIC0+IHBhdGNoZXcvMjAyMTA2MTYwNjQz
+MzQuNTMzOTgtMS1sdWthcy5qdWVuZ2VyQGdyZWVuc29jcy5jb20KIC0gW3RhZyB1cGRhdGVdICAg
+ICAgcGF0Y2hldy8yMDIxMDYxNjA3MzM1OC43NTA0NzItMS1qb2VsQGptcy5pZC5hdSAtPiBwYXRj
+aGV3LzIwMjEwNjE2MDczMzU4Ljc1MDQ3Mi0xLWpvZWxAam1zLmlkLmF1CiAqIFtuZXcgdGFnXSAg
+ICAgICAgIHBhdGNoZXcvMjAyMTA2MTYwOTEyNDQuMzMwNDktMS15c2F0b0B1c2Vycy5zb3VyY2Vm
+b3JnZS5qcCAtPiBwYXRjaGV3LzIwMjEwNjE2MDkxMjQ0LjMzMDQ5LTEteXNhdG9AdXNlcnMuc291
+cmNlZm9yZ2UuanAKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyYWVlMDBmIGh3L3No
+NDogc2g3NzUwIHVzaW5nIHJlbmVzYXNfc2NpLgoxNjNiMTdmIGh3L2NoYXI6IHJlbmVzYXNfc2Np
+IEFkZCBTQ0kgYW5kIFNDSUYgc3VwcG9ydC4KM2EzNzY1MCBody9jaGFyOiByZW5lc2FzX3NjaTog
+UmVmYWN0b3IgZm9yIG1lcmdlIGFsbCBTQ0kgdmFyaWFudC4uCgo9PT0gT1VUUFVUIEJFR0lOID09
+PQoxLzMgQ2hlY2tpbmcgY29tbWl0IDNhMzc2NTAyOWQ3YyAoaHcvY2hhcjogcmVuZXNhc19zY2k6
+IFJlZmFjdG9yIGZvciBtZXJnZSBhbGwgU0NJIHZhcmlhbnQuLikKMi8zIENoZWNraW5nIGNvbW1p
+dCAxNjNiMTdmMmU3OGUgKGh3L2NoYXI6IHJlbmVzYXNfc2NpIEFkZCBTQ0kgYW5kIFNDSUYgc3Vw
+cG9ydC4pCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzonIChjdHg6VnhXKQoj
+MjQ6IEZJTEU6IGh3L2NoYXIvcmVuZXNhc19zY2kuYzo2OgorICogICAgICAgIEFuZCBTSDc3NTEg
+R3JvdXAsIFNINzc1MVIgR3JvdXAgVXNlcidzIE1hbnVhbDogSGFyZHdhcmUKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
+Y2UgcHJvaGliaXRlZCBhZnRlciB0aGF0ICcqJyAoY3R4OkV4VykKIzI1OiBGSUxFOiBody9jaGFy
+L3JlbmVzYXNfc2NpLmM6NzoKKyAqICAgICAgICAgICAgKFJldi40LjAxIFIwMVVIMDQ1N0VKMDQw
+MSkKICBeCgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDcxNSBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCAyLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMyBDaGVja2luZyBjb21taXQg
+MmFlZTAwZmZjODMwIChody9zaDQ6IHNoNzc1MCB1c2luZyByZW5lc2FzX3NjaS4pCkVSUk9SOiBz
+cGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygnCiM2MzogRklMRTog
+aHcvc2g0L3NoNzc1MC5jOjc3MDoKKyAgICBzd2l0Y2goZmVhdCkgewoKRVJST1I6IGJyYWNlcyB7
+fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojNzk6IEZJTEU6
+IGh3L3NoNC9zaDc3NTAuYzo3ODY6CisgICAgaWYgKHRlaV9zb3VyY2UpClsuLi5dCgpFUlJPUjog
+YnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM4
+MTogRklMRTogaHcvc2g0L3NoNzc1MC5jOjc4ODoKKyAgICBpZiAoYnJpX3NvdXJjZSkKWy4uLl0K
+CnRvdGFsOiAzIGVycm9ycywgMCB3YXJuaW5ncywgNzkgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8z
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
+bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
+dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDYxNjA5MTI0NC4zMzA0OS0xLXlzYXRvQHVzZXJz
+LnNvdXJjZWZvcmdlLmpwL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
+aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
+Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
+bQ==
 
