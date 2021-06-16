@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF1A3A9F2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:34:22 +0200 (CEST)
-Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6283AA06A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:51:11 +0200 (CEST)
+Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXYb-0007RE-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:34:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
+	id 1ltXos-0007d6-0s
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:51:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXXF-0004h3-GU
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:32:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXXD-000454-U7
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:32:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623857575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GSfA3LIEYO9BRCcMabtBjOyLOXb6hhrJLbP1tPEzWs8=;
- b=SLeVgF+1eBnvJpScpBKwlOzsDIkI3OP9yLDtHUMpeMrVJmoE3xhG+DTXpA0PwGRX0daMxz
- UPGivx+8rm1A0bGcsz2iZpzuuHEvirNALmgiJ13QR2THE3Hzr03U65NI9uXXyJUqbRxlEO
- HagaNLdId4WLVPrki+wYRKPsiSZJxHo=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-4mizqzQ8PZ6K8jLwyINC2g-1; Wed, 16 Jun 2021 11:32:49 -0400
-X-MC-Unique: 4mizqzQ8PZ6K8jLwyINC2g-1
-Received: by mail-qt1-f200.google.com with SMTP id
- 62-20020aed30440000b029024cabef375cso1892367qte.17
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:32:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1ltXmh-0005nY-Lo
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:48:55 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:41680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1ltXmf-0006H4-Oj
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:48:55 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id p66so3514600iod.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=MKecy4krVgYPtiKN//SwtR6H/Y3bYdimls2q+4h80Yc=;
+ b=m48WDNkYZnC0RZrxXYZjSfNcaejkeXSsyIDjIVoYpJk8ahPlMpMNty0j9/SPvYkCEh
+ 40dhXZE2JsRmMZYQM1d0iwsr5lNfWUMYAa+gsZdPjKSEkzdgyOXrExj5z7BeCvAbGBIa
+ fvC/VRuv+yYA9gUJd/1rEF9bPqLqytz80UKL+Hcha2NmL5YirClcPoRYZ7PDnIYOjuqn
+ qSUxnumd/gilQg84KUnwzZPkqno+b/I/zaeqd0Zi2osMODaHTjau0TnfxV2PpywlMal8
+ 0KXg72gXlVQlJGJ1m6XGXpcEzMNW01O/hJPgKZ6Rlo6hmbdgFGQsVCBgHLPhAlV4Mt5M
+ CWFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GSfA3LIEYO9BRCcMabtBjOyLOXb6hhrJLbP1tPEzWs8=;
- b=YOClLrk7G0mKLuFug40B3S8ubNAHV9Y+rV2H5444yAqTRPOTCT/us6o6HxeQlmqEo6
- +YKJvNAlZ61g5eUy43jIl3Wd4/ptvykDamOxdIgu3/Li70Yf1jZWWbZdE6WLctc5/H1d
- HhBL1L35i+m+VHKJPfaHHqX3WvP1vvjOj5SXknd9lLJvoIAG0rTJ7GytViNywtKaIXx0
- bXRPCGKaBDkauDq569r7pY1KlTLJBH57Qi9cCCkcuEjVXYXurD+TDVSAGhjhAf92VjBJ
- lG/+X+HCVOuHklSo12SPElzqG4O/5sSIipAJkhZ0HML1ktc1cYjK+X3Ov3yeikyKcN/k
- Diwg==
-X-Gm-Message-State: AOAM5302mQDhs1wzfS8SHTX0qbJkbwQPxnyIJdOR8sSOS3hoiwXACpVF
- bl3wA55j1XAI+Di8WYuOTAHxLu41Go8I3s/dm7YRpAFdCVWHs8iBPFXGcw6DKUt3gwcoiejzSPJ
- IAIL4xlBY9xFj73I=
-X-Received: by 2002:ac8:5657:: with SMTP id 23mr464931qtt.98.1623857568779;
- Wed, 16 Jun 2021 08:32:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwBKeH6DpdUPvvjE2bq/mbR7cIDcemSNRcSGYFRJuYJdpQuV7eUznFTz6yJ3sKb0Mfzj1NBg==
-X-Received: by 2002:ac8:5657:: with SMTP id 23mr464913qtt.98.1623857568607;
- Wed, 16 Jun 2021 08:32:48 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id t139sm1717341qka.85.2021.06.16.08.32.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 08:32:48 -0700 (PDT)
-Date: Wed, 16 Jun 2021 11:32:47 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v4 4/6] migration/dirtyrate: adjust order of registering
- thread
-Message-ID: <YMoZn360HXTAUUk3@t490s>
-References: <cover.1623804189.git.huangy81@chinatelecom.cn>
- <5df3137cdd9661186e1df0ca0e2bb049e3c30308.1623804189.git.huangy81@chinatelecom.cn>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=MKecy4krVgYPtiKN//SwtR6H/Y3bYdimls2q+4h80Yc=;
+ b=QvIRP5fzMhgD4aBpdcVFTPNuAWF/sgpXENfNeJHpbQswf+7HTfwPv99KyKJq1laRmF
+ 697nlyrzJ0esjaGxW1cQucSCUbn14QVyatxEkl6TLGfz1NkQmNMBGa41G7QcDhwAFSEl
+ tX27MhpjuKSoNxjH3hB7kQ3+HRjG8sREJWDrzf4d+PSSyhgLL/Zlu5yA23mC/gyDcBsD
+ TRPXIdGb1dKcKQVHovTN1+JrpxygBGMD5twfJ9QZTX/JuH6DFLMYr7upIKXv/lfaRSlj
+ jd87jaDRxVVXBj2xEHUH3Mhsw9zbpMUmQH6i+Cj9Ps6IaQinIJHQDP8quRxgJ9V+xaHW
+ z3Dg==
+X-Gm-Message-State: AOAM532abw67UpJJzedLwwJLQmHH3rfSdimRIXkOT7rkt1V3FsLKeTQ8
+ jbwHNJemoFETKnbF6AteBJd5btcZ+le1K5EQ2Io=
+X-Google-Smtp-Source: ABdhPJzvw0wF+d9zNcSdDLdujwrb8gKqD4T9mKn2QDEIjqhIyNohcpbHIqZt4kTCmKYSCEjzRQCGmptvh8s2bKJjlwU=
+X-Received: by 2002:a05:6602:807:: with SMTP id z7mr84803iow.128.1623858531955; 
+ Wed, 16 Jun 2021 08:48:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5df3137cdd9661186e1df0ca0e2bb049e3c30308.1623804189.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Wed, 16 Jun 2021 21:18:26 +0530
+Message-ID: <CAN6ztm8D4VMf7p-trHNHoOA+1kAXXufTTaHpbyNXZ5qO2_uuPg@mail.gmail.com>
+Subject: RFC: Implementation of QMP documentation retrieval command
+To: John Snow <jsnow@redhat.com>, armbru@redhat.com, 
+ Stefan Hajnoczi <stefanha@redhat.com>, kwolf@redhat.com, ehabkost@redhat.com, 
+ wainersm@redhat.com, qemu-devel@nongnu.org, vsementsov@virtuozzo.com
+Content-Type: multipart/alternative; boundary="000000000000f6791a05c4e406ac"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,23 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 09:12:30AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> registering get_dirtyrate thread in advance so that both
-> page-sampling and dirty-ring mode can be covered.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+--000000000000f6791a05c4e406ac
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Hello,
 
--- 
-Peter Xu
+We now have a reasonably working prototype that is capable of
+sending/receiving
+commands/responses, syntax highlighting, and a simple notification system.
+The
+prototype can be found here
+https://gitlab.com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype
+Working on this prototype gives us a lot of hints on things to worry about
+and other
+ideas that were worth implementing. Our next goal is to start working on
+the real TUI
+based on this prototype.
 
+One requested feature of the TUI was to show documentation for the commands
+typed.
+To achieve this, a QMP command that lets us query the documentation from
+QEMU has
+to be implemented and some discussion has already been done on it in a
+previous thread.
+I request all continue that discussion here and suggest ideas regarding
+implementation.
+The goal is to come up with something small and simple which can also be
+improved upon
+after the summer.
+
+I have a simple implementation of the command that returns dummy
+documentation here
+https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb2840b9f3484c6fd5672e6fceb73acaef
+
+Thanks,
+Niteesh.
+
+--000000000000f6791a05c4e406ac
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hel=
+lo,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
+div class=3D"gmail_default" style=3D"font-size:small">We now have a reasona=
+bly working prototype that is capable of sending/receiving</div><div class=
+=3D"gmail_default" style=3D"font-size:small">commands/responses, syntax hig=
+hlighting, and a simple notification system. The</div><div class=3D"gmail_d=
+efault" style=3D"font-size:small">prototype can be found here <a href=3D"ht=
+tps://gitlab.com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype">https://gitlab.=
+com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype</a></div><div class=3D"gmail_=
+default" style=3D"font-size:small">Working on this prototype gives us a lot=
+ of hints on things to worry about and other</div><div class=3D"gmail_defau=
+lt" style=3D"font-size:small">ideas that were worth implementing. Our next =
+goal is to start working on the real TUI</div><div class=3D"gmail_default" =
+style=3D"font-size:small">based on this prototype.</div><div class=3D"gmail=
+_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default" =
+style=3D"font-size:small">One requested feature of the TUI was to show docu=
+mentation for the commands typed.</div><div class=3D"gmail_default" style=
+=3D"font-size:small">To achieve this, a QMP command that lets us query the =
+documentation from QEMU has</div><div class=3D"gmail_default" style=3D"font=
+-size:small">to be implemented and some discussion has already been done on=
+ it in a previous thread.</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">I request=C2=A0all continue that discussion here and suggest ide=
+as regarding implementation.</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small">The goal is to come up with something small and simple which =
+can also be improved upon</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">after the summer.</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">I have a simple implementation of the command that returns dummy docume=
+ntation here</div><div class=3D"gmail_default" style=3D"font-size:small"><a=
+ href=3D"https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb2840b9f3484c6f=
+d5672e6fceb73acaef">https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb284=
+0b9f3484c6fd5672e6fceb73acaef</a></div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">Thanks,</div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">Niteesh.</div></div>
+
+--000000000000f6791a05c4e406ac--
 
