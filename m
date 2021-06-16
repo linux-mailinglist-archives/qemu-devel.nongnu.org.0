@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2416E3A952D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 10:39:33 +0200 (CEST)
-Received: from localhost ([::1]:55338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675D73A9578
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:01:51 +0200 (CEST)
+Received: from localhost ([::1]:35646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltR59-0001fR-KP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 04:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33642)
+	id 1ltRQj-0008L2-Tl
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:01:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltR3x-0000FZ-Ob
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 04:38:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33506)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ltROK-0007eI-BU
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 04:59:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46036
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltR3u-0007Lu-GP
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 04:38:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623832692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CWTgNVx9SHl2uMYi0iVrn2uJQY1zGDbbSpJBOvZiKFg=;
- b=X2jt6CmLaW3ZU5n69uGNtLNOaA9174ZZHyxR/6kNGE8cvnOnz+moeQyYQ0vlAtfScmSfsZ
- Z8ucC76x+Wz7lbE5HpsxipimxYabModFvEIZ90H8yVS9X2cdJPxp1r+5Ms8JZsIzFEshJ2
- JRED+Rvqe8AQ7h0i+j586dr4nPApXCk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-L-lfp65yO8S5BwBqqOGUuQ-1; Wed, 16 Jun 2021 04:38:11 -0400
-X-MC-Unique: L-lfp65yO8S5BwBqqOGUuQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F69F801106
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:38:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB05F5D9E2;
- Wed, 16 Jun 2021 08:38:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4EFF2113865F; Wed, 16 Jun 2021 10:38:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 02/11] keyval: introduce keyval_merge
-References: <20210610133538.608390-1-pbonzini@redhat.com>
- <20210610133538.608390-3-pbonzini@redhat.com>
-Date: Wed, 16 Jun 2021 10:38:08 +0200
-In-Reply-To: <20210610133538.608390-3-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Thu, 10 Jun 2021 15:35:29 +0200")
-Message-ID: <87a6nqkxvz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ltROH-0004B6-MM
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 04:59:20 -0400
+Received: from host86-132-109-72.range86-132.btcentralplus.com
+ ([86.132.109.72] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ltRO5-000AwH-7C; Wed, 16 Jun 2021 09:59:05 +0100
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <BCB8773B-FC54-4C25-9B60-92C263165D38@gmail.com>
+ <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
+ <1ee4b7cf-d445-6497-705f-510009fc74f8@ilande.co.uk>
+ <874ke4iqf8.fsf@linaro.org> <3D29C466-BB81-4BCA-96E9-A46721B1ED59@gmail.com>
+ <d9109542-dd68-3e8b-4f53-a09576e16b1f@redhat.com> <87sg1ogsvj.fsf@linaro.org>
+ <f81315ce-6cf5-c0c4-5b48-9188e3dcd71a@ilande.co.uk>
+ <878s3cjyvl.fsf@linaro.org> <4006E151-B420-4925-A6C9-CD036EE559F2@gmail.com>
+ <9d0b277d-415f-0f4e-3f09-03445f89848f@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <e809eeed-c635-c48c-c6b6-9c2d5718b60d@ilande.co.uk>
+Date: Wed, 16 Jun 2021 09:59:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <9d0b277d-415f-0f4e-3f09-03445f89848f@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.132.109.72
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: tb_flush() calls causing long Windows XP boot times
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.095,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,277 +72,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org
+Cc: QEMU devel list <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ incoming+qemu-project-qemu-11167699-3xhw7c0pviow7og92yv73e0tr-issue-404@incoming.gitlab.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 16/06/2021 02:58, Richard Henderson wrote:
 
-> This patch introduces a function that merges two keyval-produced
-> (or keyval-like) QDicts.  It can be used to emulate the behavior of
-> .merge_lists = true QemuOpts groups, merging -readconfig sections and
-> command-line options in a single QDict, and also to implement -set.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qemu/option.h    |  1 +
->  tests/unit/test-keyval.c | 56 ++++++++++++++++++++++++++++++++++++++++
->  util/keyval.c            | 47 +++++++++++++++++++++++++++++++++
->  3 files changed, 104 insertions(+)
->
-> diff --git a/include/qemu/option.h b/include/qemu/option.h
-> index f73e0dc7d9..d89c66145a 100644
-> --- a/include/qemu/option.h
-> +++ b/include/qemu/option.h
-> @@ -149,5 +149,6 @@ QemuOptsList *qemu_opts_append(QemuOptsList *dst, QemuOptsList *list);
->  
->  QDict *keyval_parse(const char *params, const char *implied_key,
->                      bool *help, Error **errp);
-> +void keyval_merge(QDict *old, const QDict *new, Error **errp);
->  
->  #endif
-> diff --git a/tests/unit/test-keyval.c b/tests/unit/test-keyval.c
-> index e20c07cf3e..254b51e98c 100644
-> --- a/tests/unit/test-keyval.c
-> +++ b/tests/unit/test-keyval.c
-> @@ -747,6 +747,59 @@ static void test_keyval_visit_any(void)
->      visit_free(v);
->  }
->  
-> +static void test_keyval_merge_success(void)
-> +{
-> +    QDict *old = keyval_parse("opt1=abc,opt2.sub1=def,opt2.sub2=ghi,opt3=xyz",
-> +                              NULL, NULL, &error_abort);
-> +    QDict *new = keyval_parse("opt1=ABC,opt2.sub2=GHI,opt2.sub3=JKL",
-> +                              NULL, NULL, &error_abort);
-> +    QDict *combined = keyval_parse("opt1=ABC,opt2.sub1=def,opt2.sub2=GHI,opt2.sub3=JKL,opt3=xyz",
-> +                                   NULL, NULL, &error_abort);
-> +    Error *err = NULL;
-> +
-> +    keyval_merge(old, new, &err);
-> +    g_assert(!err);
-> +    g_assert(qobject_is_equal(QOBJECT(combined), QOBJECT(old)));
-> +    qobject_unref(old);
-> +    qobject_unref(new);
-> +    qobject_unref(combined);
-> +}
-> +
-> +static void test_keyval_merge_list(void)
-> +{
-> +    QDict *old = keyval_parse("opt1.0=abc,opt2.0=xyz",
-> +                              NULL, NULL, &error_abort);
-> +    QDict *new = keyval_parse("opt1.0=def",
-> +                              NULL, NULL, &error_abort);
-> +    QDict *combined = keyval_parse("opt1.0=abc,opt1.1=def,opt2.0=xyz",
-> +                                   NULL, NULL, &error_abort);
-> +    Error *err = NULL;
-> +
-> +    keyval_merge(old, new, &err);
-> +    g_assert(!err);
-> +    g_assert(qobject_is_equal(QOBJECT(combined), QOBJECT(old)));
-> +    qobject_unref(old);
-> +    qobject_unref(new);
-> +    qobject_unref(combined);
-> +}
+> On 6/15/21 6:58 AM, Programmingkid wrote:
+>>> Ahh I misread - so those are the addresses of the routines and not where
+>>> it's sticking the breakpoint?
+>>>
+>>> I notice from a bit of googling that there is a boot debugger. I wonder
+>>> if /nodebug in boot.ini stops this behaviour?
+>>>
+>>>   
+>>> https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/switch-options-for-boot-files 
+>>>
+>>>
+>>> -- 
+>>> Alex Bennée
+>>
+>> Hi Alex,
+>>
+>> I tried your suggestion of using /nodebug. It did not stop the tb_flush() function 
+>> from being called.
+> 
+> We are not expecting zero calls to tb_flush (it is used for other things, including 
+> buffer full), but we are hoping that it reduces the frequency of the calls.
+> 
+> I'm guessing you didn't immediately see the slowdown vanish, and so there was no 
+> change to the frequency of the calls.
+> 
+> FWIW, if you switch to the qemu console, you can see how many flushes have occurred 
+> with "info jit".
 
-This is a success, too.  Suggest to name the two positive tests
-_merge_dict() and _merge_list().
+Looking at the diff of b55f54bc96 which first introduced the regression, presumably 
+the difference is now that everything is being flushed rather than a specific address 
+space when WinXP twiddles with the DB7 register:
 
-> +
-> +static void test_keyval_merge_conflict(void)
-> +{
-> +    QDict *old = keyval_parse("opt2.sub1=def,opt2.sub2=ghi",
-> +                              NULL, NULL, &error_abort);
-> +    QDict *new = keyval_parse("opt2=ABC",
-> +                              NULL, NULL, &error_abort);
-> +    Error *err = NULL;
-> +
-> +    keyval_merge(new, old, &err);
 
-Naming the variables @new and @old us confusing: you pass variable @new
-to parameter @old, and @old to @new.
+diff --git a/exec.c b/exec.c
+index 67e520d18e..7f4074f95e 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1019,14 +1019,13 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, 
+MemTxAttrs attrs)
 
-> +    error_free_or_abort(&err);
-> +    keyval_merge(old, new, &err);
-> +    error_free_or_abort(&err);
+  static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
+  {
+-    MemTxAttrs attrs;
+-    hwaddr phys = cpu_get_phys_page_attrs_debug(cpu, pc, &attrs);
+-    int asidx = cpu_asidx_from_attrs(cpu, attrs);
+-    if (phys != -1) {
+-        /* Locks grabbed by tb_invalidate_phys_addr */
+-        tb_invalidate_phys_addr(cpu->cpu_ases[asidx].as,
+-                                phys | (pc & ~TARGET_PAGE_MASK), attrs);
+-    }
++    /*
++     * There may not be a virtual to physical translation for the pc
++     * right now, but there may exist cached TB for this pc.
++     * Flush the whole TB cache to force re-translation of such TBs.
++     * This is heavyweight, but we're debugging anyway.
++     */
++    tb_flush(cpu);
+  }
+  #endif
 
-Reusing @new is slightly iffy, because keyval_merge() may change its
-first argument.
 
-> +
-> +    qobject_unref(old);
-> +    qobject_unref(new);
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->      g_test_init(&argc, &argv, NULL);
-> @@ -760,6 +813,9 @@ int main(int argc, char *argv[])
->      g_test_add_func("/keyval/visit/optional", test_keyval_visit_optional);
->      g_test_add_func("/keyval/visit/alternate", test_keyval_visit_alternate);
->      g_test_add_func("/keyval/visit/any", test_keyval_visit_any);
-> +    g_test_add_func("/keyval/merge/success", test_keyval_merge_success);
-> +    g_test_add_func("/keyval/merge/list", test_keyval_merge_list);
-> +    g_test_add_func("/keyval/merge/conflict", test_keyval_merge_conflict);
->      g_test_run();
->      return 0;
->  }
-> diff --git a/util/keyval.c b/util/keyval.c
-> index be34928813..0797f36e1d 100644
-> --- a/util/keyval.c
-> +++ b/util/keyval.c
-> @@ -310,6 +310,53 @@ static char *reassemble_key(GSList *key)
->      return g_string_free(s, FALSE);
->  }
->  
-> +/* Merge two dictionaries.  */
+Unfortunately my x86-fu isn't really enough to understand what the solution should be 
+in this case.
 
-Okay, but where's the result?  Clue: there's no return value, and one of
-the dictionaries is const, so the other one must be updated in place.
 
-Also, what's @str for?
+ATB,
 
-> +static void keyval_do_merge(QDict *old, const QDict *new, GString *str, Error **errp)
-> +{
-> +    size_t save_len = str->len;
-> +    const QDictEntry *ent;
-> +    QObject *old_value;
-> +
-> +    for (ent = qdict_first(new); ent; ent = qdict_next(new, ent)) {
-> +        old_value = qdict_get(old, ent->key);
-> +        if (old_value) {
-
-The two dicts share ent->key, ...
-
-> +            if (qobject_type(old_value) != qobject_type(ent->value)) {
-> +                error_setg(errp, "Parameter '%s%s' used inconsistently", str->str, ent->key);
-> +                return;
-
-... but the two values cannot be merged.  Hmm.  See case "overwrite"
-below.
-
-> +            } else if (qobject_type(ent->value) == QTYPE_QDICT) {
-> +                /* Merge sub-dictionaries.  */
-> +                g_string_append(str, ent->key);
-> +                g_string_append_c(str, '.');
-> +                keyval_do_merge(qobject_to(QDict, old_value),
-> +                                qobject_to(QDict, ent->value),
-> +                                str, errp);
-> +                g_string_truncate(str, save_len);
-> +                continue;
-
-... and both values are dicts: merge them recursively.  Good.
-
-> +            } else if (qobject_type(ent->value) == QTYPE_QLIST) {
-> +                /* Append to old list.  */
-> +                QList *old = qobject_to(QList, old_value);
-> +                QList *new = qobject_to(QList, ent->value);
-> +                const QListEntry *item;
-> +                QLIST_FOREACH_ENTRY(new, item) {
-> +                    qobject_ref(item->value);
-> +                    qlist_append_obj(old, item->value);
-> +                }
-> +                continue;
-
-... and both values are lists: concatenate.  Good.
-
-> +            }
-
-> +        }
-> +
-
-... and both values are the same other QType (QTYPE_QNULL, QTYPE_QNUM,
-QTYPE_QSTRING, QTYPE_QBOOL): overwrite.
-
-Why is overwrite restricted to same QType?  Is there no need for
-overwriting say a string with a number?  Hmm, I guess it's okay, because
-keyval_parse() only ever produces QTYPE_QSTRING scalars.  May be worth a
-comment, preferably in a function contract.
-
-See also the discussion at the end of this message.
-
-> +        qobject_ref(ent->value);
-> +        qdict_put_obj(old, ent->key, ent->value);
-> +    }
-> +}
-> +
-
-This function needs a contract.  It should spell out the purpose like
-the commit message does, because it's rather peculiar.
-
-With a contract in place, simply deleting the helper's function comment
-would work for me.
-
-> +void keyval_merge(QDict *old, const QDict *new, Error **errp)
-> +{
-> +    GString *str = g_string_new("");
-
-Humor me: blank line between declarations and statements, please.
-
-> +    keyval_do_merge(old, new, str, errp);
-> +    g_string_free(str, TRUE);
-> +}
-> +
->  /*
->   * Listify @cur recursively.
->   * Replace QDicts whose keys are all valid list indexes by QLists.
-
-Now let's go back to the stated purpose: emulate the behavior of
-.merge_lists = true QemuOpts groups, merging -readconfig sections and
-command-line options in a single QDict, and also to implement -set.
-
-Easy as long as keys are all distinct.  Your code does what I'd expect
-it to do.
-
-Not so easy when we have multiple mentions of the same key.
-
-QemuOpts fundamentally stores lists of (key, value) pairs.
-
-Most users only ever look at the last such pair added.  This provides
-"last one wins" semantics.
-
-Example 1: repeated option key overwrites
-
-    $ qemu-system-x86_64 -S -display none -monitor stdio -name guest=one,guest=two
-    QEMU 6.0.50 monitor - type 'help' for more information
-    (qemu) info name
-    two
-
-Example 2: even when spread over multiple merge_lists options
-
-    $ qemu-system-x86_64 -S -display none -monitor stdio -name guest=one -name guest=two
-    QEMU 6.0.50 monitor - type 'help' for more information
-    (qemu) info name
-    two
-
-Example 3: -set overwrites
-
-    $ qemu-system-x86_64 -S -display none -monitor stdio -device ide-cd,id=cd0,serial=one -set device.cd0.serial=two
-    QEMU 6.0.50 monitor - type 'help' for more information
-    (qemu) info qtree
-    bus: main-system-bus
-    [...]
-              dev: ide-cd, id "cd0"
-                [...]
-                serial = "two"
-                [...]
-
-However, some users look at *all* pairs.  This provides "repeated keys
-build up a list" semantics.
-
-Example 4: repeated option key builds a list
-
-    $ qemu-system-x86_64 -S -spice tls-port=12345,tls-channel=main,tls-channel=display
-
-This fails for me because I don't have Spice set up (and know basically
-nothing about it), but a working variation of it should configure *two*
-channels, not one: the second tls-channel= does *not* overwrite the
-first one, it configures another channel.
-
-Since -spice is a merge_lists option, this should be the case for
-multiple -spice, too.  Merging the two options with keyval_merge() would
-not preserve that behavior, I'm afraid.
-
-QemuOpts is... complicated.
-
+Mark.
 
