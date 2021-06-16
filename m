@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B203A9800
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:45:08 +0200 (CEST)
-Received: from localhost ([::1]:40650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61ED73A9806
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:46:05 +0200 (CEST)
+Received: from localhost ([::1]:42206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltT2h-0007A3-A9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60688)
+	id 1ltT3c-0008Ci-Co
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltT1b-0006Fx-5J
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:43:59 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39777)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ltT1t-0006i1-Af
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:44:17 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltT1V-0001YU-2u
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:43:58 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v9so2116807wrx.6
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 03:43:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ltT1r-0001rT-D3
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:44:17 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id t7so2040026edd.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 03:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UAVfUJHulbrUfT86pvPmOWYnBxX7mZ7NTqcwWBwD568=;
- b=fok5f+Ybxuoy5wnMQlLZms3MQ17u8uqT0bgtIih19uAcoDxKex9mwRQNKsvP1bhSlU
- V59Wl3mswi1YP6soc/K4hqPluRlH1qJ4eYYlr7wgwnyTqgLFQxXmLZnqz2jblu/oSbye
- HbXMvSZ+9I8Q7C99R4mbBHR8mWcSOHSLA5jzm112rVfnx5seSmQo3yZ8grMupCp2ANZd
- T+TTgEWLlmXoy27C1q5mMgydXDXtXDYVij7D76PIR8IyMfVAzzUbQKh9jQPTdS3MLgUs
- rNx1tTID1cC2L8iqFoPg7zvLI4tkW6u01b+GED5+mBS6iM6NLIHFpncO4UQy6VZXPKP2
- JyMA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S7K440GnYxuQ/iaMhdf0d1bja+XfV53meHBWKMTNLl0=;
+ b=T27lCSgTtX1lfXrbLPGTwOkkbghBB9kM/YbojEoALCrZaRXFEbKzCo3KfdkEa3RbqA
+ zP1eAavf5tWgMBZ8X74HWtwDfTX0lvAp+t1IkRNE3RZnmUpqXHx/m9EIq5fIHz1b5wa1
+ pK7BgGoTjtO2pdGaIBNaoPfx5JC55BjK0LInooFLtF75IusYcyTAI0uiYBhM12xlBFtM
+ cjXt9To+OE8wrZPQDuQCVBhyGW6cZ5+NRj/YUmRXclFGliPGDnaCs1R1Q6zR7A5npP9H
+ 3VACFXLeMKd/ODaqLzD33EB67H0HmxqwdDqbrwquze4+Im/FzlGnkqOx6I+uqtSvSkIL
+ 5h+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=UAVfUJHulbrUfT86pvPmOWYnBxX7mZ7NTqcwWBwD568=;
- b=NfkBPDpKpkH4iN2R3Cov6p2c9iwpZpaSoWLEJRglZWrAK6Ykg77ZL26X0frUWkB6nR
- pEUHcgBsZXneFAb5p01QZ+NsEbWkJ23BEItLba1BP5L2d4HISWkB0uuTqMjzg8OhIpUP
- wWLq2IOOr5RY/cOudjEoqDX81g+yIzKTUCnC8Y79/ngIUD338VNhN/n4uJfhowbN54Dy
- 1hGK524SabIer3v4CV1vzBaPecuIl9RFW/kYm/g0J0wUYiVIAv0M7SlJjtVbNQ8pKLSG
- Hn5BzIojK+bYICKxEOJqHISZ24Sf19ey5GKNxiZgVuW3hsFvEtxVOieD1Qp98+ywUiAp
- yvKg==
-X-Gm-Message-State: AOAM533asbkOKvzlBwR2OeFEggbVn1LBq66ZIhd5x48X/uvoFkdSpW6J
- PH7qAuCeTT6OxWO3cTjjxO055rAGS40KJA==
-X-Google-Smtp-Source: ABdhPJwnRvjd25RKKb1IY0mH6xLlBY8U0g0qKVeGKHKVo7MBQa8zsygDrtFe0NzMk8t1zLigo+To0g==
-X-Received: by 2002:adf:e112:: with SMTP id t18mr4548706wrz.46.1623840231453; 
- Wed, 16 Jun 2021 03:43:51 -0700 (PDT)
-Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id k5sm1645655wmk.11.2021.06.16.03.43.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 03:43:51 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/audio/sb16: Avoid assertion by restricting I/O sampling
- rate range
-Date: Wed, 16 Jun 2021 12:43:49 +0200
-Message-Id: <20210616104349.2398060-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S7K440GnYxuQ/iaMhdf0d1bja+XfV53meHBWKMTNLl0=;
+ b=olMgMupmWwH5edKnvd7WHxuNR9YmJ8s3RuX92cOfU7VEFPjt+I/wN2Y5I0opWEWvnG
+ Yq2IMlx4sNIBwcX6LQh1raafnZOCyzhQA6PuUJnuLK4EAvVN7wMEtMOXkiCyxLlQ5MdL
+ IGKjfpHrUWhRH9Hh9FGvGWAUkIsl2XtVmOymnej6oAmQxCOgDNpL0VAW44H6yvpAQNX5
+ pWiTggBCh5sCKsFr55F6lVh5lNoPvPvpjT2j/Af9aX/w+PjqXw08+YAXnMHu4w1qVUp0
+ udHqD7KMDXKQ/KIYIMYK94z6FhQ2p3xgZPFh9qSrh9gIdoyJRDcTVoPOgNkA3LuRR/FO
+ /KSg==
+X-Gm-Message-State: AOAM530koR5njJNjpjqSfphEm1+uRrplbUmvdI+u1UZEhcNobEAeoeHS
+ EhFY8xe9acojH8o0nTDtMEXdiptptsqbsiuUXGiqjy5R
+X-Google-Smtp-Source: ABdhPJw7B1NFm5+Zd5CWVsiPyvblB/SMF+hD85auFIw60c69/3tRbKY5yIk57mXE4q1XwlofdbOOzEerwaeKbeUepAg=
+X-Received: by 2002:aa7:cfd4:: with SMTP id r20mr3285732edy.237.1623840254175; 
+ Wed, 16 Jun 2021 03:44:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
+ <20210608120723.2268181-4-marcandre.lureau@redhat.com>
+ <87zgvszkas.fsf@dusky.pond.sub.org>
+In-Reply-To: <87zgvszkas.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 16 Jun 2021 14:44:02 +0400
+Message-ID: <CAJ+F1CLtxBzK1WOqgepQC2iBWqfujaH4F5XM4rRzAuS5xWOnNg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/9] qapi: make gen_if/gen_endif take a simple string
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000085ad6e05c4dfc5cc"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,184 +78,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qiang Liu <cyruscyliu@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the SB16 seems to work up to 48000 Hz, the "Sound Blaster Series
-Hardware Programming Guide" limit the sampling range from 4000 Hz to
-44100 Hz (Section 3-9, 3-10: Digitized Sound I/O Programming, tables
-3-2 and 3-3).
+--00000000000085ad6e05c4dfc5cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Later, section 6-15 (DSP Commands) is more specific regarding the 41h /
-42h registers (Set digitized sound output sampling rate):
+Hi
 
-  Valid sampling rates range from 5000 to 45000 Hz inclusive.
+On Mon, Jun 14, 2021 at 4:48 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
 
-There is no comment regarding error handling if the register is filled
-with an out-of-range value.  (See also section 3-28 "8-bit or 16-bit
-Auto-initialize Transfer"). Assume limits are enforced in hardware.
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Instead of building prepocessor conditions from a list of string, use
+> > the result generated from QAPISchemaIfCond.cgen().
+>
+> I understand why you're doing this, but only because I know where you're
+> headed.  By itself, it is not an improvement: you move C generation out
+> of common.py into schema.py.  You need to explain why that's useful.
+>
+>
+What about?
 
-This fixes triggering an assertion in audio_calloc():
+In the following commits, QAPISchemaIfCond is going to hold an internal
+tree structure. Moving cgen() there allows to abstract away the condition
+representation.
 
-  #1 abort
-  #2 audio_bug audio/audio.c:119:9
-  #3 audio_calloc audio/audio.c:154:9
-  #4 audio_pcm_sw_alloc_resources_out audio/audio_template.h:116:15
-  #5 audio_pcm_sw_init_out audio/audio_template.h:175:11
-  #6 audio_pcm_create_voice_pair_out audio/audio_template.h:410:9
-  #7 AUD_open_out audio/audio_template.h:503:14
-  #8 continue_dma8 hw/audio/sb16.c:216:20
-  #9 dma_cmd8 hw/audio/sb16.c:276:5
-  #10 command hw/audio/sb16.c:0
-  #11 dsp_write hw/audio/sb16.c:949:13
-  #12 portio_write softmmu/ioport.c:205:13
-  #13 memory_region_write_accessor softmmu/memory.c:491:5
-  #14 access_with_adjusted_size softmmu/memory.c:552:18
-  #15 memory_region_dispatch_write softmmu/memory.c:0:13
-  #16 flatview_write_continue softmmu/physmem.c:2759:23
-  #17 flatview_write softmmu/physmem.c:2799:14
-  #18 address_space_write softmmu/physmem.c:2891:18
-  #19 cpu_outw softmmu/ioport.c:70:5
 
-[*] http://www.baudline.com/solutions/full_duplex/sb16_pci/index.html
 
-Fixes: 85571bc7415 ("audio merge (malc)")
-Buglink: https://bugs.launchpad.net/bugs/1910603
-OSS-Fuzz Report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29174
-Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-Reviewed-by: Qiang Liu <cyruscyliu@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2: Added Qiang Liu's T-b/R-b tags ¯\_(ツ)_/¯
----
- hw/audio/sb16.c              | 14 ++++++++++
- tests/qtest/fuzz-sb16-test.c | 52 ++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  1 +
- tests/qtest/meson.build      |  1 +
- 4 files changed, 68 insertions(+)
- create mode 100644 tests/qtest/fuzz-sb16-test.c
+> > diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> > index bc357ebbfa..aa4715c519 100644
+> > --- a/scripts/qapi/schema.py
+> > +++ b/scripts/qapi/schema.py
+> > @@ -29,6 +29,9 @@ class QAPISchemaIfCond:
+> >      def __init__(self, ifcond=3DNone):
+> >          self.ifcond =3D ifcond or []
+> >
+> > +    def cgen(self):
+> > +        return ' && '.join(self.ifcond)
+>
+> Fragile.  Better:
+>
+>            return '(' + ') && ('.join(self.ifcond) + ')'
+>
+>
+This is an intermediary step, but ok.
 
-diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
-index 8b207004102..5cf121fe363 100644
---- a/hw/audio/sb16.c
-+++ b/hw/audio/sb16.c
-@@ -115,6 +115,9 @@ struct SB16State {
-     PortioList portio_list;
- };
- 
-+#define SAMPLE_RATE_MIN 5000
-+#define SAMPLE_RATE_MAX 45000
-+
- static void SB_audio_callback (void *opaque, int free);
- 
- static int magic_of_irq (int irq)
-@@ -241,6 +244,17 @@ static void dma_cmd8 (SB16State *s, int mask, int dma_len)
-         int tmp = (256 - s->time_const);
-         s->freq = (1000000 + (tmp / 2)) / tmp;
-     }
-+    if (s->freq < SAMPLE_RATE_MIN) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "sampling range too low: %d, increasing to %u\n",
-+                      s->freq, SAMPLE_RATE_MIN);
-+        s->freq = SAMPLE_RATE_MIN;
-+    } else if (s->freq > SAMPLE_RATE_MAX) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "sampling range too high: %d, decreasing to %u\n",
-+                      s->freq, SAMPLE_RATE_MAX);
-+        s->freq = SAMPLE_RATE_MAX;
-+    }
- 
-     if (dma_len != -1) {
-         s->block_size = dma_len << s->fmt_stereo;
-diff --git a/tests/qtest/fuzz-sb16-test.c b/tests/qtest/fuzz-sb16-test.c
-new file mode 100644
-index 00000000000..51030cd7dc4
---- /dev/null
-+++ b/tests/qtest/fuzz-sb16-test.c
-@@ -0,0 +1,52 @@
-+/*
-+ * QTest fuzzer-generated testcase for sb16 audio device
-+ *
-+ * Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqos/libqtest.h"
-+
-+/*
-+ * This used to trigger the assert in audio_calloc
-+ * https://bugs.launchpad.net/qemu/+bug/1910603
-+ */
-+static void test_fuzz_sb16_0x1c(void)
-+{
-+    QTestState *s = qtest_init("-M q35 -display none "
-+                               "-device sb16,audiodev=snd0 "
-+                               "-audiodev none,id=snd0");
-+    qtest_outw(s, 0x22c, 0x41);
-+    qtest_outb(s, 0x22c, 0x00);
-+    qtest_outw(s, 0x22c, 0x1004);
-+    qtest_outw(s, 0x22c, 0x001c);
-+    qtest_quit(s);
-+}
-+
-+static void test_fuzz_sb16_0x91(void)
-+{
-+    QTestState *s = qtest_init("-M pc -display none "
-+                               "-device sb16,audiodev=none "
-+                               "-audiodev id=none,driver=none");
-+    qtest_outw(s, 0x22c, 0xf141);
-+    qtest_outb(s, 0x22c, 0x00);
-+    qtest_outb(s, 0x22c, 0x24);
-+    qtest_outb(s, 0x22c, 0x91);
-+    qtest_quit(s);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+   if (strcmp(arch, "i386") == 0) {
-+        qtest_add_func("fuzz/test_fuzz_sb16/1c", test_fuzz_sb16_0x1c);
-+        qtest_add_func("fuzz/test_fuzz_sb16/91", test_fuzz_sb16_0x91);
-+   }
-+
-+   return g_test_run();
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7d9cd290426..d619ea8fcd1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2221,6 +2221,7 @@ F: qapi/audio.json
- F: tests/qtest/ac97-test.c
- F: tests/qtest/es1370-test.c
- F: tests/qtest/intel-hda-test.c
-+F: tests/qtest/fuzz-sb16-test.c
- 
- Block layer core
- M: Kevin Wolf <kwolf@redhat.com>
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c3a223a83d6..b03e8541700 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -20,6 +20,7 @@
- qtests_generic = \
-   (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi-test'] : []) + \
-+  (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) + \
-   [
-   'cdrom-test',
-   'device-introspect-test',
--- 
-2.31.1
+If we want to keep C generation details out of schema.py, we need a
+> helper mapping self.ifcond: Sequence[str] to C code, similar to how
+> QAPISchemaEntity.c_name() works with helper c_name().
+>
 
+Leaving a FIXME.
+
+
+> > +
+> >      # Returns true if the condition is not void
+> >      def __bool__(self):
+> >          return bool(self.ifcond)
+> > diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+> > index 3673cf0f49..db9ff95bd1 100644
+> > --- a/scripts/qapi/types.py
+> > +++ b/scripts/qapi/types.py
+> > @@ -51,13 +51,13 @@ def gen_enum_lookup(name: str,
+> >  ''',
+> >                  c_name=3Dc_name(name))
+> >      for memb in members:
+> > -        ret +=3D gen_if(memb.ifcond.ifcond)
+> > +        ret +=3D gen_if(memb.ifcond.cgen())
+> >          index =3D c_enum_const(name, memb.name, prefix)
+> >          ret +=3D mcgen('''
+> >          [%(index)s] =3D "%(name)s",
+> >  ''',
+> >                       index=3Dindex, name=3Dmemb.name)
+> > -        ret +=3D gen_endif(memb.ifcond.ifcond)
+> > +        ret +=3D gen_endif(memb.ifcond.cgen())
+> >
+> >      ret +=3D mcgen('''
+> >      },
+> [More of the same snipped...]
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000085ad6e05c4dfc5cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 14, 2021 at 4:48 PM Mar=
+kus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a=
+ href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lu=
+reau@redhat.com</a> writes:<br>
+<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Instead of building prepocessor conditions from a list of string, use<=
+br>
+&gt; the result generated from QAPISchemaIfCond.cgen().<br>
+<br>
+I understand why you&#39;re doing this, but only because I know where you&#=
+39;re<br>
+headed.=C2=A0 By itself, it is not an improvement: you move C generation ou=
+t<br>
+of common.py into schema.py.=C2=A0 You need to explain why that&#39;s usefu=
+l.<br>
+<br></blockquote><div><br></div><div>What about?</div><div><br></div><div>I=
+n the following commits, QAPISchemaIfCond is going to hold an internal tree=
+ structure. Moving cgen() there allows to abstract away the condition repre=
+sentation.<br></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
+&gt; diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py<br>
+&gt; index bc357ebbfa..aa4715c519 100644<br>
+&gt; --- a/scripts/qapi/schema.py<br>
+&gt; +++ b/scripts/qapi/schema.py<br>
+&gt; @@ -29,6 +29,9 @@ class QAPISchemaIfCond:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def __init__(self, ifcond=3DNone):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ifcond =3D ifcond or []<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 =C2=A0 def cgen(self):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39; &amp;&amp; &#39;.join(self.i=
+fcond)<br>
+<br>
+Fragile.=C2=A0 Better:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;(&#39; + &#39;) &amp;&=
+amp; (&#39;.join(self.ifcond) + &#39;)&#39;<br>
+<br></blockquote><div><br></div><div>This is an intermediary step, but ok.<=
+/div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+If we want to keep C generation details out of schema.py, we need a<br>
+helper mapping self.ifcond: Sequence[str] to C code, similar to how<br>
+QAPISchemaEntity.c_name() works with helper c_name().<br></blockquote><div>=
+<br></div><div>Leaving a FIXME.<br></div><div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # Returns true if the condition is not void<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def __bool__(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return bool(self.ifcond)<br>
+&gt; diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py<br>
+&gt; index 3673cf0f49..db9ff95bd1 100644<br>
+&gt; --- a/scripts/qapi/types.py<br>
+&gt; +++ b/scripts/qapi/types.py<br>
+&gt; @@ -51,13 +51,13 @@ def gen_enum_lookup(name: str,<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c_name=
+=3Dc_name(name))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for memb in members:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond.cgen())<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 index =3D c_enum_const(name, <a href=
+=3D"http://memb.name" rel=3D"noreferrer" target=3D"_blank">memb.name</a>, p=
+refix)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [%(index)s] =3D &quot;%(name)s&quot;=
+,<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0index=3Dindex, name=3D<a href=3D"http://memb.name" rel=3D"nore=
+ferrer" target=3D"_blank">memb.name</a>)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond.ifcond)<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond.cgen())<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 },<br>
+[More of the same snipped...]<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000085ad6e05c4dfc5cc--
 
