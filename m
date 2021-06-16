@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6283AA06A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:51:11 +0200 (CEST)
-Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1C03AA06C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:52:07 +0200 (CEST)
+Received: from localhost ([::1]:52770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXos-0007d6-0s
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:51:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56834)
+	id 1ltXpm-0000h7-Ax
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1ltXmh-0005nY-Lo
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:48:55 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:41680)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltXoQ-0007n3-Op
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:50:42 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:44567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1ltXmf-0006H4-Oj
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:48:55 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id p66so3514600iod.8
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=MKecy4krVgYPtiKN//SwtR6H/Y3bYdimls2q+4h80Yc=;
- b=m48WDNkYZnC0RZrxXYZjSfNcaejkeXSsyIDjIVoYpJk8ahPlMpMNty0j9/SPvYkCEh
- 40dhXZE2JsRmMZYQM1d0iwsr5lNfWUMYAa+gsZdPjKSEkzdgyOXrExj5z7BeCvAbGBIa
- fvC/VRuv+yYA9gUJd/1rEF9bPqLqytz80UKL+Hcha2NmL5YirClcPoRYZ7PDnIYOjuqn
- qSUxnumd/gilQg84KUnwzZPkqno+b/I/zaeqd0Zi2osMODaHTjau0TnfxV2PpywlMal8
- 0KXg72gXlVQlJGJ1m6XGXpcEzMNW01O/hJPgKZ6Rlo6hmbdgFGQsVCBgHLPhAlV4Mt5M
- CWFg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltXoI-0007kl-6S
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:50:42 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id t13so2299900pgu.11
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QDf1Mva/qJx/8fUB8ZWKeF1crLI5Pd7qzcbCACHnG7Y=;
+ b=b0CRda4G1pmXYMlmlVtBOQ6ynxjY8G+H0QoDqssGUYZnw+yD7lqnfJtPiQiT4UQiW9
+ biuWyoRMtE9MedVkQavdeJ34OtSVZUu0YpVoNtwY2SrJnK80pc+Zm30dw6/rlr1CVFjH
+ lUwTupEhO7u7hOnpQhM6bl1Do8SA1qqK3PpmnCEm6pKNxNOO39fE+wxB4QEbd585o6on
+ 9WCb4EAy/LiLASzKzCr/sCLZEzP8F134cynSRXKC0Kf3Arnf8/QgMyZPbV1KMOltXx20
+ +wNBH/L7gdUcnqwCFLQpLkOhEuT+997gny3m6jKCfZcLX00odPQwC9tz7cL2LlqpKE1J
+ RPQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=MKecy4krVgYPtiKN//SwtR6H/Y3bYdimls2q+4h80Yc=;
- b=QvIRP5fzMhgD4aBpdcVFTPNuAWF/sgpXENfNeJHpbQswf+7HTfwPv99KyKJq1laRmF
- 697nlyrzJ0esjaGxW1cQucSCUbn14QVyatxEkl6TLGfz1NkQmNMBGa41G7QcDhwAFSEl
- tX27MhpjuKSoNxjH3hB7kQ3+HRjG8sREJWDrzf4d+PSSyhgLL/Zlu5yA23mC/gyDcBsD
- TRPXIdGb1dKcKQVHovTN1+JrpxygBGMD5twfJ9QZTX/JuH6DFLMYr7upIKXv/lfaRSlj
- jd87jaDRxVVXBj2xEHUH3Mhsw9zbpMUmQH6i+Cj9Ps6IaQinIJHQDP8quRxgJ9V+xaHW
- z3Dg==
-X-Gm-Message-State: AOAM532abw67UpJJzedLwwJLQmHH3rfSdimRIXkOT7rkt1V3FsLKeTQ8
- jbwHNJemoFETKnbF6AteBJd5btcZ+le1K5EQ2Io=
-X-Google-Smtp-Source: ABdhPJzvw0wF+d9zNcSdDLdujwrb8gKqD4T9mKn2QDEIjqhIyNohcpbHIqZt4kTCmKYSCEjzRQCGmptvh8s2bKJjlwU=
-X-Received: by 2002:a05:6602:807:: with SMTP id z7mr84803iow.128.1623858531955; 
- Wed, 16 Jun 2021 08:48:51 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QDf1Mva/qJx/8fUB8ZWKeF1crLI5Pd7qzcbCACHnG7Y=;
+ b=Bx2ySEzhIW3XcCYfXp/NuUrBy8UVWPkIkZoGQ3fbRIIDYFenDjCFa4/CpZ4Ta0qAzA
+ D2Plg7oYlhpfYKKcCCoE7PeB8LdNHZuOhvCYNZNDqrzTcIXRwZyUTdNLHgkpl4Anu6vH
+ m0LFq109yIJinAATOD3giFDa4IZkiJNrLUP6HqSG4ygAEwpUJis4ciw4/6JuwY/6GNfd
+ gFT6V4f4JFEZ30BWSS40rfb5KxdD6FlOp1M1S3gXNeaEsqKNc88WK9mUs9L+Hm+TaV/b
+ M5Oh3ZnO55xUPJE/2i7GHzb2bam2j4SoufSDw0XWydta1zM/jJuoRH53pqFxTuvvduux
+ fo9Q==
+X-Gm-Message-State: AOAM531bt9V3kkWVoEHA6TSRQX/3eAPnc+3toS4l0zdkaMrjgZZc1aFu
+ BsG4HOi2SEqNrCn//JF8o5j5vQ==
+X-Google-Smtp-Source: ABdhPJz9mhFPl63ObelirwN1uErBbZXSyKWN1unTrCCfv1IWDPMA3xrnAzFkkRVteDuuiavp3HtiNA==
+X-Received: by 2002:a62:1b88:0:b029:1fb:d3d0:343a with SMTP id
+ b130-20020a621b880000b02901fbd3d0343amr361469pfb.76.1623858632069; 
+ Wed, 16 Jun 2021 08:50:32 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ a15sm2692387pfl.100.2021.06.16.08.50.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 08:50:31 -0700 (PDT)
+Subject: Re: [PATCH 07/21] linux-user/hexagon: Implement setup_sigtramp
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20210616011209.1446045-1-richard.henderson@linaro.org>
+ <20210616011209.1446045-8-richard.henderson@linaro.org>
+ <BYAPR02MB488698AB4CECA0A05F1B3AB7DE0F9@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <43f61832-1d76-31dc-4ba4-e35007b16fe7@linaro.org>
+Message-ID: <94c4e258-e1c3-9d58-f53e-72c4249ea93a@linaro.org>
+Date: Wed, 16 Jun 2021 08:50:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Wed, 16 Jun 2021 21:18:26 +0530
-Message-ID: <CAN6ztm8D4VMf7p-trHNHoOA+1kAXXufTTaHpbyNXZ5qO2_uuPg@mail.gmail.com>
-Subject: RFC: Implementation of QMP documentation retrieval command
-To: John Snow <jsnow@redhat.com>, armbru@redhat.com, 
- Stefan Hajnoczi <stefanha@redhat.com>, kwolf@redhat.com, ehabkost@redhat.com, 
- wainersm@redhat.com, qemu-devel@nongnu.org, vsementsov@virtuozzo.com
-Content-Type: multipart/alternative; boundary="000000000000f6791a05c4e406ac"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <43f61832-1d76-31dc-4ba4-e35007b16fe7@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,84 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f6791a05c4e406ac
-Content-Type: text/plain; charset="UTF-8"
+On 6/16/21 8:05 AM, Richard Henderson wrote:
+> On 6/16/21 1:07 AM, Taylor Simpson wrote:
+>>> +    /*
+>>> +     * The on-stack signal trampoline is no longer executed;
+>>> +     * however, the libgcc signal frame unwinding code checks
+>>> +     * for the presence of these two numeric magic values.
+>>> +     */
+>>
+>> Hexagon uses musl, not libgcc.  So, I'm not sure if this is needed.  The signals.c test 
+>> passes for me without this change.  Are you seeing it fail?
+> 
+> I copied the comment from the kernel source.
 
-Hello,
+Also, I think you're confusing libc and libgcc.
 
-We now have a reasonably working prototype that is capable of
-sending/receiving
-commands/responses, syntax highlighting, and a simple notification system.
-The
-prototype can be found here
-https://gitlab.com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype
-Working on this prototype gives us a lot of hints on things to worry about
-and other
-ideas that were worth implementing. Our next goal is to start working on
-the real TUI
-based on this prototype.
 
-One requested feature of the TUI was to show documentation for the commands
-typed.
-To achieve this, a QMP command that lets us query the documentation from
-QEMU has
-to be implemented and some discussion has already been done on it in a
-previous thread.
-I request all continue that discussion here and suggest ideas regarding
-implementation.
-The goal is to come up with something small and simple which can also be
-improved upon
-after the summer.
-
-I have a simple implementation of the command that returns dummy
-documentation here
-https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb2840b9f3484c6fd5672e6fceb73acaef
-
-Thanks,
-Niteesh.
-
---000000000000f6791a05c4e406ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hel=
-lo,</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
-div class=3D"gmail_default" style=3D"font-size:small">We now have a reasona=
-bly working prototype that is capable of sending/receiving</div><div class=
-=3D"gmail_default" style=3D"font-size:small">commands/responses, syntax hig=
-hlighting, and a simple notification system. The</div><div class=3D"gmail_d=
-efault" style=3D"font-size:small">prototype can be found here <a href=3D"ht=
-tps://gitlab.com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype">https://gitlab.=
-com/niteesh.gs/qemu/-/tree/aqmp-tui-prototype</a></div><div class=3D"gmail_=
-default" style=3D"font-size:small">Working on this prototype gives us a lot=
- of hints on things to worry about and other</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">ideas that were worth implementing. Our next =
-goal is to start working on the real TUI</div><div class=3D"gmail_default" =
-style=3D"font-size:small">based on this prototype.</div><div class=3D"gmail=
-_default" style=3D"font-size:small"><br></div><div class=3D"gmail_default" =
-style=3D"font-size:small">One requested feature of the TUI was to show docu=
-mentation for the commands typed.</div><div class=3D"gmail_default" style=
-=3D"font-size:small">To achieve this, a QMP command that lets us query the =
-documentation from QEMU has</div><div class=3D"gmail_default" style=3D"font=
--size:small">to be implemented and some discussion has already been done on=
- it in a previous thread.</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">I request=C2=A0all continue that discussion here and suggest ide=
-as regarding implementation.</div><div class=3D"gmail_default" style=3D"fon=
-t-size:small">The goal is to come up with something small and simple which =
-can also be improved upon</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">after the summer.</div><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">I have a simple implementation of the command that returns dummy docume=
-ntation here</div><div class=3D"gmail_default" style=3D"font-size:small"><a=
- href=3D"https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb2840b9f3484c6f=
-d5672e6fceb73acaef">https://gitlab.com/niteesh.gs/qemu/-/commit/796a41fb284=
-0b9f3484c6fd5672e6fceb73acaef</a></div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">Thanks,</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll">Niteesh.</div></div>
-
---000000000000f6791a05c4e406ac--
+r~
 
