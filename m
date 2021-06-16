@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F3B3A8E72
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:35:59 +0200 (CEST)
-Received: from localhost ([::1]:49746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4803A8E73
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:37:59 +0200 (CEST)
+Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKTG-0004im-NJ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1ltKVC-0001Ym-4K
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltKE8-0003rC-KV; Tue, 15 Jun 2021 21:20:21 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:46950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltKE5-0004PC-7o; Tue, 15 Jun 2021 21:20:20 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id a15so581987qtx.13;
- Tue, 15 Jun 2021 18:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Otc4Xxg9oKPK1ZYhzXJX913Wp5VnSfIZ1yBwKpJgpy0=;
- b=s3zK5HrrEYVeMkUvVhsNJOtZ1jS7aYXgb4HuwjQZDTU//6yRrBwlyVFtJizqgdmLif
- 2VCOMSXF03rTiDMYT2vAIX+D5l5H+OYyzpCR7VrRKMiZ09C7MHVrHRrC2wjuqNmueZBS
- NqrhZQj85gpZEDBTjWz31Wy5iuJFbNxtsS/MJbTR5cdZrskKUZNZd4nuwEiqEbpn2knH
- +pSlzcWxaRwY7V4iVX3kQyvheEy9cLvsvRX41RLK15Z+R8gP7nRM1FLz3lkLARVhJ3NF
- ajanLOSRPkaypW8Mdna6mXW4SsdHWP3S4MyHvO7srFsx+C7n2DHonzB/r9xiNHXqLIFj
- +2mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Otc4Xxg9oKPK1ZYhzXJX913Wp5VnSfIZ1yBwKpJgpy0=;
- b=q26I8QLJbCgK1xV2fBOvDwYwfnhWPWOMWkGkbjLPpe9iC9pZcm+5clRwkIfhYn2SDu
- fuYcl89gyCSSA9YCLlR5dNOZOt6mANwneKrWjCH5ISeil8klGlEOsq998JmvojUNMDv+
- 5/oMRsv9MsnPd/0gpM0ZdS7l09AH5MNmkQusH46Pj7Oo97XgmohiZ/Nqe/6qnwI+q19w
- HzAa4MTFWckqM5Z4DVK8UasUN4LHvze7HJV+FVuoeOyJNCME/KPNu0Pt0ehuQ6rR+9Aa
- ZT+6Au4LgR1/sQUcKQu6gw4h5Fell9l0IQq07gOH4L+9xLD09iU20/grOdcMHlx2ekvP
- NJjw==
-X-Gm-Message-State: AOAM530TgrRfIRtag0OagoXYsX3Nq4C1JG0y67shMj8Gwg+eV8ZmekYj
- MKK5lXO28hZjuvi6si66RYG8ZxXOX4w=
-X-Google-Smtp-Source: ABdhPJxB2iPSmW907mRDfirlcC4YiSmsjr5/S87H6HVFnJYOdKBX0nyU2Qu1p3Pe0vlyGKQCHhzjCA==
-X-Received: by 2002:ac8:670f:: with SMTP id e15mr2504979qtp.291.1623806415741; 
- Tue, 15 Jun 2021 18:20:15 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7c6:4d9a:784f:a7de:c020:5f1e])
- by smtp.gmail.com with ESMTPSA id f19sm627994qkg.70.2021.06.15.18.20.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 18:20:15 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 7/7] spapr: move memory/cpu less check to
- spapr_numa_FORM1_affinity_init()
-Date: Tue, 15 Jun 2021 22:19:44 -0300
-Message-Id: <20210616011944.2996399-8-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210616011944.2996399-1-danielhb413@gmail.com>
-References: <20210616011944.2996399-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ltKEd-00058Y-5m
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:20:51 -0400
+Received: from mga18.intel.com ([134.134.136.126]:38943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ltKEZ-0004iS-OO
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:20:50 -0400
+IronPort-SDR: JfA/dc8MTHMY3xUW2/I3old1ww2XEa+Z6kbeA7K87QFhMSatkDJp1WYzE4/PWX1cI/NCE2ecN4
+ i/G9sBj+itvw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="193406749"
+X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; d="scan'208";a="193406749"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2021 18:20:41 -0700
+IronPort-SDR: 0zRWnpryrEeOeQn0BQCM8C2bNWPyGyx58CD7zTHAGDZxqS/r3ChmveBy167HLUlX0f66xcUUCd
+ VbxVA1iE5ncQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; d="scan'208";a="487974853"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2021 18:20:41 -0700
+Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Tue, 15 Jun 2021 18:20:40 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Wed, 16 Jun 2021 09:20:38 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.2242.008;
+ Wed, 16 Jun 2021 09:20:38 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: RE: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command for COLO
+ passthrough
+Thread-Topic: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command for COLO
+ passthrough
+Thread-Index: AQHXYdvRnAFVnsFtTkm0a8aMTFNiOqsUpOYAgAEySYA=
+Date: Wed, 16 Jun 2021 01:20:38 +0000
+Message-ID: <7ca6cb5007db4b9fa11564fed20c4996@intel.com>
+References: <20210615113740.2278015-1-chen.zhang@intel.com>
+ <20210615113740.2278015-2-chen.zhang@intel.com>
+ <20210615170148.707b092e@gecko.fritz.box>
+In-Reply-To: <20210615170148.707b092e@gecko.fritz.box>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,113 +86,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Zhang Chen <zhangckid@gmail.com>, Eric
+ Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FORM2 NUMA affinity is prepared to deal with memory/cpu less
-NUMA nodes. This is used by the DAX KMEM driver to locate a
-PAPR SCM device that has a different latency than the original
-NUMA node from the regular memory.
 
-Move this verification to FORM1 affinity code.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c      | 33 ---------------------------------
- hw/ppc/spapr_numa.c | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 33 deletions(-)
+> -----Original Message-----
+> From: Lukas Straub <lukasstraub2@web.de>
+> Sent: Tuesday, June 15, 2021 11:02 PM
+> To: Zhang, Chen <chen.zhang@intel.com>
+> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
+> Gilbert <dgilbert@redhat.com>; Markus Armbruster <armbru@redhat.com>;
+> Daniel P. Berrang=E9 <berrange@redhat.com>; Gerd Hoffmann
+> <kraxel@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>; Zhang Chen
+> <zhangckid@gmail.com>
+> Subject: Re: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command
+> for COLO passthrough
+>=20
+> On Tue, 15 Jun 2021 19:37:35 +0800
+> Zhang Chen <chen.zhang@intel.com> wrote:
+>=20
+> > Since the real user scenario does not need COLO to monitor all traffic.
+> > Add colo-passthrough-add and colo-passthrough-del to maintain a COLO
+> > network passthrough list. Add IPFlowSpec struct for all QMP commands.
+> > All the fields of IPFlowSpec are optional.
+> >
+> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > ---
+> >  net/net.c     | 10 +++++++
+> >  qapi/net.json | 74
+> > +++++++++++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 84 insertions(+)
+> >
+> > diff --git a/net/net.c b/net/net.c
+> > index 76bbb7c31b..f913e97983 100644
+> > --- a/net/net.c
+> > +++ b/net/net.c
+> > @@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error
+> **errp)
+> >      }
+> >  }
+> >
+> > +void qmp_colo_passthrough_add(IPFlowSpec *spec, Error **errp) {
+> > +    /* TODO implement setup passthrough rule */ }
+> > +
+> > +void qmp_colo_passthrough_del(IPFlowSpec *spec, Error **errp) {
+> > +    /* TODO implement delete passthrough rule */ }
+> > +
+> >  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)  {
+> >      char *str;
+> > diff --git a/qapi/net.json b/qapi/net.json index
+> > 7fab2e7cd8..91f2e1495a 100644
+> > --- a/qapi/net.json
+> > +++ b/qapi/net.json
+> > @@ -7,6 +7,7 @@
+> >  ##
+> >
+> >  { 'include': 'common.json' }
+> > +{ 'include': 'sockets.json' }
+> >
+> >  ##
+> >  # @set_link:
+> > @@ -696,3 +697,76 @@
+> >  ##
+> >  { 'event': 'FAILOVER_NEGOTIATED',
+> >    'data': {'device-id': 'str'} }
+> > +
+> > +##
+> > +# @IPFlowSpec:
+> > +#
+> > +# IP flow specification.
+> > +#
+> > +# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol =
+is
+> the
+> > +#            string instead of enum, because it can be passed to
+> getprotobyname(3)
+> > +#            and avoid duplication with /etc/protocols.
+> > +#
+> > +# @object-name: The @object-name means packet handler in Qemu.
+> Because not
+> > +#               all the network packet must pass the colo-compare modu=
+le,
+> > +#               the net-filters are same situation. There modules atta=
+ch to
+> > +#               netdev or chardev to work, VM can run multiple modules
+> > +#               at the same time. So it needs the object-name to set
+> > +#               the effective module.
+>=20
+> Again: "@object-name: The id of the colo-compare object to add the filter
+> to."
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index b6b822a065..2216693e21 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2776,39 +2776,6 @@ static void spapr_machine_init(MachineState *machine)
-     /* init CPUs */
-     spapr_init_cpus(spapr);
- 
--    /*
--     * check we don't have a memory-less/cpu-less NUMA node
--     * Firmware relies on the existing memory/cpu topology to provide the
--     * NUMA topology to the kernel.
--     * And the linux kernel needs to know the NUMA topology at start
--     * to be able to hotplug CPUs later.
--     */
--    if (machine->numa_state->num_nodes) {
--        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
--            /* check for memory-less node */
--            if (machine->numa_state->nodes[i].node_mem == 0) {
--                CPUState *cs;
--                int found = 0;
--                /* check for cpu-less node */
--                CPU_FOREACH(cs) {
--                    PowerPCCPU *cpu = POWERPC_CPU(cs);
--                    if (cpu->node_id == i) {
--                        found = 1;
--                        break;
--                    }
--                }
--                /* memory-less and cpu-less node */
--                if (!found) {
--                    error_report(
--                       "Memory-less/cpu-less nodes are not supported (node %d)",
--                                 i);
--                    exit(1);
--                }
--            }
--        }
--
--    }
--
-     spapr->gpu_numa_id = spapr_numa_initial_nvgpu_numa_id(machine);
- 
-     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index e7d455d304..6a2eafcae1 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -162,6 +162,39 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-                                            MachineState *machine)
- {
-     bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
-+    int i;
-+
-+    /*
-+     * check we don't have a memory-less/cpu-less NUMA node
-+     * Firmware relies on the existing memory/cpu topology to provide the
-+     * NUMA topology to the kernel.
-+     * And the linux kernel needs to know the NUMA topology at start
-+     * to be able to hotplug CPUs later.
-+     */
-+    if (machine->numa_state->num_nodes) {
-+        for (i = 0; i < machine->numa_state->num_nodes; ++i) {
-+            /* check for memory-less node */
-+            if (machine->numa_state->nodes[i].node_mem == 0) {
-+                CPUState *cs;
-+                int found = 0;
-+                /* check for cpu-less node */
-+                CPU_FOREACH(cs) {
-+                    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+                    if (cpu->node_id == i) {
-+                        found = 1;
-+                        break;
-+                    }
-+                }
-+                /* memory-less and cpu-less node */
-+                if (!found) {
-+                    error_report(
-+                       "Memory-less/cpu-less nodes are not supported (node %d)",
-+                                 i);
-+                    exit(1);
-+                }
-+            }
-+        }
-+    }
- 
-     /*
-      * Legacy NUMA guests (pseries-5.1 and older, or guests with only
--- 
-2.31.1
+According to the previous discussion,
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg01088.html
+
+In order to avoid misunderstanding looks use "@object-name: The name of the=
+ colo-compare object to add the filter " is better?
+
+Thanks
+Chen
+
+
+>=20
+> > +# @source: Source address and port.
+> > +#
+> > +# @destination: Destination address and port.
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'IPFlowSpec',
+> > +  'data': { '*protocol': 'str', '*object-name': 'str',
+> > +    '*source': 'InetSocketAddressBase',
+> > +    '*destination': 'InetSocketAddressBase' } }
+> > +
+> > +##
+> > +# @colo-passthrough-add:
+> > +#
+> > +# Add passthrough entry IPFlowSpec to the COLO-compare instance.
+> > +# The protocol and source/destination IP/ports are optional. if the
+> > +user # only inputs part of the information, this will match all traffi=
+c.
+> > +#
+> > +# Returns: Nothing on success
+> > +#
+> > +# Since: 6.1
+> > +#
+> > +# Example:
+> > +#
+> > +# -> { "execute": "colo-passthrough-add",
+> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
+> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+> > +# <- { "return": {} }
+> > +#
+> > +##
+> > +{ 'command': 'colo-passthrough-add', 'boxed': true,
+> > +     'data': 'IPFlowSpec' }
+> > +
+> > +##
+> > +# @colo-passthrough-del:
+> > +#
+> > +# Delete passthrough entry IPFlowSpec to the COLO-compare instance.
+> > +# The protocol and source/destination IP/ports are optional. if the
+> > +user # only inputs part of the information, this will match all traffi=
+c.
+> > +#
+> > +# Returns: Nothing on success
+> > +#
+> > +# Since: 6.1
+> > +#
+> > +# Example:
+> > +#
+> > +# -> { "execute": "colo-passthrough-del",
+> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
+> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+> > +# <- { "return": {} }
+> > +#
+> > +##
+> > +{ 'command': 'colo-passthrough-del', 'boxed': true,
+> > +     'data': 'IPFlowSpec' }
+>=20
+>=20
+>=20
+> --
 
 
