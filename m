@@ -2,88 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5813A9F1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:32:51 +0200 (CEST)
-Received: from localhost ([::1]:60876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53FC3A9F28
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:34:05 +0200 (CEST)
+Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXX8-0002gO-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
+	id 1ltXYK-0006jG-Nh
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:34:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXVH-0000Hj-Vy
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:30:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48039)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ltXVX-0000Xp-HP
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:31:13 -0400
+Resent-Date: Wed, 16 Jun 2021 11:31:11 -0400
+Resent-Message-Id: <E1ltXVX-0000Xp-HP@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXVD-0002sy-OR
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:30:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623857451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9qmo9reFkLvWiUkJIXUwaOinMVWCC4BBnXGR12xeCIM=;
- b=Sqtc8SMlRGpGu3Kp27AUIFiAdBCyNsaAaQeK+aDQh7W+3I8bMZh2SJgp17MpNT2rpvdzvl
- rABSobSHgMEGARV9PXxBEl6e4yq0lLFV2CPpPvhsO2wyiZ9JyIzjYEmu5TOPd605glxbkc
- qb4Jz9/ZowF2AWUOK/GBDSLQaxqgnFk=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-z9IYVva_NxSv6ja6DqEq1Q-1; Wed, 16 Jun 2021 11:30:49 -0400
-X-MC-Unique: z9IYVva_NxSv6ja6DqEq1Q-1
-Received: by mail-qv1-f71.google.com with SMTP id
- r8-20020a0562140c88b0290242bf8596feso2311476qvr.8
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9qmo9reFkLvWiUkJIXUwaOinMVWCC4BBnXGR12xeCIM=;
- b=mrNqHgaUs5GkXO83zOOnrAbIn86dYm4wiSsAinJ3z3mk25ob7ApBFLSG+4Vcm0uKU+
- +BFoOR+YESnzgSkinj02w8a98dT13oDkuSrzaYOFq0qaOCvveGEV58YKEeML5sJiLso4
- fXChVX3ewCozlcjm5T6u4FTffZ8SLjTksjbmVCnKg6VvrkOKp1vohgiKIpYdkQDHNgZ4
- Qcys3reWc5sa6s72GEPfJo3oYGOq8cprLPwW4rrSVQGmbV957+qL7lSD3NJCN2IEa30S
- z9FQhFd5NijtvVXKts4XXNgSaRbpn8+vkKCx03/BpsderC2eauNbchMXXbbFyT0CDR58
- pDyQ==
-X-Gm-Message-State: AOAM530WzncJJ2xTPbQ8wXGzBNnNp5H2Sppe5aO2ReLvAmrPgRBpJlZ4
- yFX0+XFY6UQ8THSSw37k4XGSyhkrSQTVcpZ79Su0c/gDDGe9uxzkAes1YLWMD8j8V5epp6HUlxC
- fISJo1IJomVYK2RY=
-X-Received: by 2002:a05:6214:162a:: with SMTP id
- e10mr568196qvw.49.1623857449467; 
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ltXVP-00032N-Sm
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:31:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1623857451; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hNcl9eyCNLCZG4/1PCor9ApwIUFe+p1VqOhwoJMDK6GjyBAoWPp8hoMwcUKrw2ikNPUBS/BDsBEkdQTliInlpT+DYAuRmd5uzFA/B8BC7yLoBHjdCt8uSuKTOFThaepdliwkLrivCMuLVz4q9o9a/Ip2t07/2iQ1qSfVdRYKibU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1623857451;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=U8ql0W1KwkLPzVOqaUWNRA0xkYwXfsbpr7kKegGASoQ=; 
+ b=XPc6W4cav7K/VhD57hK4MbVilujZNhLVYihu2/Ni+jbc0ev1q9gJQZ59anlM6O9+DKFou8Ys1z2g6sHwOumE7XwkWAoM1aX3GjRGCPALqdABELXjPdS3zqk2WLZ0foG9a8wfr/R6R67FkdVAY5JZ9SzulDQvdE2cMF3jlEFMu/M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1623857449892670.2357330635022;
  Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxB+aze9/qJITEpU8HV1zVbXZAwyp1QrjsBwiz+nlbLky4XCCEAIcuSWpQxCypXWvPX6TpEw==
-X-Received: by 2002:a05:6214:162a:: with SMTP id
- e10mr568170qvw.49.1623857449254; 
- Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id h12sm1760999qkj.52.2021.06.16.08.30.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 08:30:48 -0700 (PDT)
-Date: Wed, 16 Jun 2021 11:30:47 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v4 3/6] migration/dirtyrate: introduce struct and adjust
- DirtyRateStat
-Message-ID: <YMoZJ/0+flzvK2om@t490s>
-References: <cover.1623804189.git.huangy81@chinatelecom.cn>
- <5b9aeb59a3bda83a374608ba44f92e5d242ee6da.1623804189.git.huangy81@chinatelecom.cn>
+In-Reply-To: <20210616152455.1270264-1-imammedo@redhat.com>
+Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
+Message-ID: <162385744868.32204.5844305171880767120@7c66fb7bc3ab>
 MIME-Version: 1.0
-In-Reply-To: <5b9aeb59a3bda83a374608ba44f92e5d242ee6da.1623804189.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: imammedo@redhat.com
+Date: Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,49 +66,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 09:12:29AM +0800, huangy81@chinatelecom.cn wrote:
-> -static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
-> -                                uint64_t sample_pages)
-> +static void init_dirtyrate_stat(int64_t start_time,
-> +                                struct DirtyRateConfig config)
->  {
-> -    DirtyStat.total_dirty_samples = 0;
-> -    DirtyStat.total_sample_count = 0;
-> -    DirtyStat.total_block_mem_MB = 0;
->      DirtyStat.dirty_rate = -1;
->      DirtyStat.start_time = start_time;
-> -    DirtyStat.calc_time = calc_time;
-> -    DirtyStat.sample_pages = sample_pages;
-> +    DirtyStat.calc_time = config.sample_period_seconds;
-> +    DirtyStat.sample_pages = config.sample_pages_per_gigabytes;
-> +
-> +    switch (config.mode) {
-> +    case DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING:
-> +        DirtyStat.page_sampling.total_dirty_samples = 0;
-> +        DirtyStat.page_sampling.total_sample_count = 0;
-> +        DirtyStat.page_sampling.total_block_mem_MB = 0;
-> +        break;
-> +    case DIRTY_RATE_MEASURE_MODE_DIRTY_RING:
-> +        DirtyStat.dirty_ring.nvcpu = -1;
-> +        DirtyStat.dirty_ring.rates = NULL;
-
-Missing "break"?
-
-> +    default:
-
-Assert here instead?
-
-> +        break;
-> +    }
->  }
-
--- 
-Peter Xu
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxNjE1MjQ1NS4xMjcw
+MjY0LTEtaW1hbW1lZG9AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwNjE2MTUyNDU1LjEy
+NzAyNjQtMS1pbWFtbWVkb0ByZWRoYXQuY29tClN1YmplY3Q6IFtSRkMgMC8zXSBxdGVzdDogcGlj
+ayB0ZXN0cyB0aGF0IHJlcXVpcmUgS1ZNIGF0IHJ1bnRpbWUKCj09PSBURVNUIFNDUklQVCBCRUdJ
+TiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQg
+MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlz
+dG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNU
+IFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJk
+ODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAt
+IFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTA2MTYwMTEyMDkuMTQ0NjA0NS0xLXJpY2hh
+cmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDYxNjAxMTIwOS4xNDQ2MDQ1
+LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwogKiBbbmV3IHRhZ10gICAgICAgICBwYXRj
+aGV3LzIwMjEwNjE2MTUyNDU1LjEyNzAyNjQtMS1pbWFtbWVkb0ByZWRoYXQuY29tIC0+IHBhdGNo
+ZXcvMjAyMTA2MTYxNTI0NTUuMTI3MDI2NC0xLWltYW1tZWRvQHJlZGhhdC5jb20KU3dpdGNoZWQg
+dG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo5OWI2MjJmIHRlc3RzOiBhY3BpOiB1cGRhdGUgZXhwZWN0
+ZWQgdGFibGVzIGJsb2JzCjhhYWQxMWQgdGVzdHM6IGFjcGk6IHEzNTogdGVzdCBmb3IgeDJBUElD
+IGVudHJpZXMgaW4gU1JBVAo1YmFiNDVlIHRlc3RzOiBxdGVzdDogYWRkIHF0ZXN0X2hhc19rdm0o
+KSB0byBjaGVjayBpZiB0ZXN0ZWQgYmluYXJ5IHN1cHBvcnRzIEtWTQoKPT09IE9VVFBVVCBCRUdJ
+TiA9PT0KMS8zIENoZWNraW5nIGNvbW1pdCA1YmFiNDVlZWIyMGEgKHRlc3RzOiBxdGVzdDogYWRk
+IHF0ZXN0X2hhc19rdm0oKSB0byBjaGVjayBpZiB0ZXN0ZWQgYmluYXJ5IHN1cHBvcnRzIEtWTSkK
+Mi8zIENoZWNraW5nIGNvbW1pdCA4YWFkMTFkNzYzNGQgKHRlc3RzOiBhY3BpOiBxMzU6IHRlc3Qg
+Zm9yIHgyQVBJQyBlbnRyaWVzIGluIFNSQVQpCkVSUk9SOiBEbyBub3QgYWRkIGV4cGVjdGVkIGZp
+bGVzIHRvZ2V0aGVyIHdpdGggdGVzdHMsIGZvbGxvdyBpbnN0cnVjdGlvbnMgaW4gdGVzdHMvcXRl
+c3QvYmlvcy10YWJsZXMtdGVzdC5jOiBib3RoIHRlc3RzL2RhdGEvYWNwaS9xMzUvRkFDUC5udW1h
+bWVtIGFuZCB0ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LmMgZm91bmQKCkVSUk9SOiBEbyBu
+b3QgYWRkIGV4cGVjdGVkIGZpbGVzIHRvZ2V0aGVyIHdpdGggdGVzdHMsIGZvbGxvdyBpbnN0cnVj
+dGlvbnMgaW4gdGVzdHMvcXRlc3QvYmlvcy10YWJsZXMtdGVzdC5jOiBib3RoIHRlc3RzL2RhdGEv
+YWNwaS9xMzUvRkFDUC5udW1hbWVtIGFuZCB0ZXN0cy9xdGVzdC9iaW9zLXRhYmxlcy10ZXN0LmMg
+Zm91bmQKCnRvdGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgMzkgbGluZXMgY2hlY2tlZAoKUGF0
+Y2ggMi8zIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
+ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
+ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgozLzMgQ2hlY2tpbmcgY29tbWl0IDk5
+YjYyMmZhMTEwZiAodGVzdHM6IGFjcGk6IHVwZGF0ZSBleHBlY3RlZCB0YWJsZXMgYmxvYnMpCj09
+PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwNjE2
+MTUyNDU1LjEyNzAyNjQtMS1pbWFtbWVkb0ByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
+dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
+dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
+dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
