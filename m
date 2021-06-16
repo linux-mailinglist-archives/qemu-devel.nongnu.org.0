@@ -2,43 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EAB3A9B7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:06:43 +0200 (CEST)
-Received: from localhost ([::1]:49582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D9D3A9BCF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:19:43 +0200 (CEST)
+Received: from localhost ([::1]:38464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltVFi-0006jr-IP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
+	id 1ltVSI-0002MY-ES
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:19:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ltVB1-0003dQ-HK; Wed, 16 Jun 2021 09:01:53 -0400
-Received: from [201.28.113.2] (port=30360 helo=outlook.eldorado.org.br)
+ (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
+ id 1ltVQx-0001Kx-Fr
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:18:19 -0400
+Received: from mail.kingsoft.com ([114.255.44.145]:45882)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ltVAz-0008FY-4R; Wed, 16 Jun 2021 09:01:51 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 16 Jun 2021 10:01:44 -0300
-Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id A7F8D80148D;
- Wed, 16 Jun 2021 10:01:44 -0300 (-03)
-From: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] target/ppc: fix address translation bug for radix mmus
-Date: Wed, 16 Jun 2021 10:01:30 -0300
-Message-Id: <20210616130130.87058-1-bruno.larsen@eldorado.org.br>
-X-Mailer: git-send-email 2.17.1
-X-OriginalArrivalTime: 16 Jun 2021 13:01:44.0803 (UTC)
- FILETIME=[C238F330:01D762AF]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.318,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1ltVQt-0008FJ-UX
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:18:19 -0400
+X-AuditID: 0a580155-3e9ff7000005011f-36-60c9f65d5e1e
+Received: from mail.kingsoft.com (localhost [10.88.1.79])
+ (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client did not present a certificate)
+ by mail.kingsoft.com (SMG-2-NODE-85) with SMTP id AC.42.00287.D56F9C06;
+ Wed, 16 Jun 2021 21:02:21 +0800 (HKT)
+Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL4.kingsoft.cn
+ (10.88.1.79) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 16 Jun
+ 2021 21:02:21 +0800
+Received: from KSbjmail3.kingsoft.cn ([fe80::a5d4:d2ab:3048:62ec]) by
+ KSBJMAIL3.kingsoft.cn ([fe80::a5d4:d2ab:3048:62ec%10]) with mapi id
+ 15.01.2176.014; Wed, 16 Jun 2021 21:02:21 +0800
+From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "quintela@redhat.com"
+ <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "berrange@redhat.com" <berrange@redhat.com>
+Subject: Re: [PATCH v2] migration/rdma: Use huge page register VM memory
+Thread-Topic: [PATCH v2] migration/rdma: Use huge page register VM memory
+Thread-Index: Addir2tBZhxETW1ITFKRk09wEt30rA==
+Date: Wed, 16 Jun 2021 13:02:20 +0000
+Message-ID: <145b82f8ce5b4db2a605e2ee1480a909@kingsoft.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.88.1.106]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDLMWRmVeSWpSXmKPExsXCFcHorxv77WSCwcI+aYs3b9YwWfRuu8du
+ cbx3B4vFnS19TA4sHk+ubWbyeL/vKlsAUxSXTUpqTmZZapG+XQJXxsk161gLthhUbN6wgKmB
+ cYp+FyMHh4SAicSy2ZZdjJwcQgLTmSQ+fo7rYuQCsl8wStw+2MMI4exllHj15QYLSBWbgKfE
+ p1Vn2EASIgL7GCXaLxwCSzALuEt8+DiTGcQWFvCQ6Fv/mBHEFgFqWLxjIzuErSfRuWIHWA2L
+ gKrE4R9rwGxeAWuJ5U+mgdUzCshKTHt0nwliprjE3GmzWEFsCQEBiSV7zjND2KISLx//Y4X4
+ QF5i9UdhiHItiXkNv6FaFSWmdD9khxgvKHFy5hOWCYwis5BMnYWkZRaSlllIWhYwsqxiZCnO
+ TTfaxAiJgNAdjDOaPuodYmTiYDzEKMHBrCTCq1t8IkGINyWxsiq1KD++qDQntfgQozQHi5I4
+ r1DUyQQhgfTEktTs1NSC1CKYLBMHp1QD056XwrcZjgivV2uLyD74qar9h35N/bODHs6BvXfV
+ 9+x0nRTjrmZnHHrX9qGhoHrZsnSzjTwnv/YmJO7/oaBiIcAtl/z4h71XwbRvNuKeCtd+Pl0b
+ 6W7e+q7+7oMHL6/8mi74b2Xn6kdai/kZq2LYmmWXPHnB0GDGwhxY/mn71K6+aa2i7amsIS5f
+ OB+IhhTP31eukPIskDf+78b9T0PfPpsX2Dfv0nvZ2wzzdz5INdNk+upyQO+JcMJ7q5roSR+v
+ rkxPm3IuqZQvIPRHF9s9zus5iSk/OzdzeSbW+m763yyW9L3mPdMmK2W5ylLR6TLPIlbN1O6q
+ aQpqFyjb/GN+SZPqnAA+pRUTFrWHlM5SYinOSDTUYi4qTgQA1savPe8CAAA=
+Received-SPF: pass client-ip=114.255.44.145;
+ envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,246 +80,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org,
- luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20210518201146.794854-1-richard.henderson@linaro.org>
-
-This commit attempts to fix the first bug mentioned by Richard Henderson in
-https://lists.nongnu.org/archive/html/qemu-devel/2021-05/msg06247.html
-
-To sumarize the bug here, when radix-style mmus are translating an
-address, they might need to call a second level of translation, with
-hypervisor privileges. However, the way it was being done up until
-this point meant that the second level translation had the same
-privileges as the first level. This would only happen when a TCG guest
-was emulating KVM, which is why it hasn't been discovered yet.
-
-This patch attempts to correct that by making radix64_*_xlate functions
-receive the mmu_idx, and passing one with the correct permission for the
-second level translation.
-
-The mmuidx macros added by this patch are only correct for non-bookE
-mmus, because BookE style set the IS and DS bits inverted and there
-might be other subtle differences. However, there doesn't seem to be
-BookE cpus that have radix-style mmus, so we left a comment there to
-document the issue, in case a machine does have that and was missed.
-
-As part of this cleanup, we now need to send the correct mmmu_idx
-when calling get_phys_page_debug, otherwise we might not be able to see the
-memory that the CPU could
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
----
- target/ppc/mmu-book3s-v3.h |  8 ++++++++
- target/ppc/mmu-radix64.c   | 38 ++++++++++++++++++++++----------------
- target/ppc/mmu-radix64.h   |  2 +-
- target/ppc/mmu_helper.c    |  8 +++++---
- 4 files changed, 36 insertions(+), 20 deletions(-)
-
-diff --git a/target/ppc/mmu-book3s-v3.h b/target/ppc/mmu-book3s-v3.h
-index a1326df969..035c369c06 100644
---- a/target/ppc/mmu-book3s-v3.h
-+++ b/target/ppc/mmu-book3s-v3.h
-@@ -22,6 +22,14 @@
- 
- #include "mmu-hash64.h"
- 
-+/*
-+ * These correspond to the mmu_idx values computed in
-+ * hreg_compute_hflags_value. See the tables therein
-+ */
-+static inline bool mmuidx_pr(int idx) { return !(idx & 1); }
-+static inline bool mmuidx_real(int idx) { return idx & 2; }
-+static inline bool mmuidx_hv(int idx) { return idx & 4; }
-+
- #ifndef CONFIG_USER_ONLY
- 
- /*
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index cbd404bfa4..346239daaa 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -155,7 +155,7 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, MMUAccessType access_type,
- 
- static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
-                                    uint64_t pte, int *fault_cause, int *prot,
--                                   bool partition_scoped)
-+                                   int mmu_idx, bool partition_scoped)
- {
-     CPUPPCState *env = &cpu->env;
-     int need_prot;
-@@ -173,7 +173,8 @@ static bool ppc_radix64_check_prot(PowerPCCPU *cpu, MMUAccessType access_type,
-     /* Determine permissions allowed by Encoded Access Authority */
-     if (!partition_scoped && (pte & R_PTE_EAA_PRIV) && msr_pr) {
-         *prot = 0;
--    } else if (msr_pr || (pte & R_PTE_EAA_PRIV) || partition_scoped) {
-+    } else if (mmuidx_pr(mmu_idx) || (pte & R_PTE_EAA_PRIV) ||
-+               partition_scoped) {
-         *prot = ppc_radix64_get_prot_eaa(pte);
-     } else { /* !msr_pr && !(pte & R_PTE_EAA_PRIV) && !partition_scoped */
-         *prot = ppc_radix64_get_prot_eaa(pte);
-@@ -299,7 +300,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
-                                               ppc_v3_pate_t pate,
-                                               hwaddr *h_raddr, int *h_prot,
-                                               int *h_page_size, bool pde_addr,
--                                              bool guest_visible)
-+                                              int mmu_idx, bool guest_visible)
- {
-     int fault_cause = 0;
-     hwaddr pte_addr;
-@@ -310,7 +311,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
-     if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_RPDB,
-                               pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_size,
-                               &pte, &fault_cause, &pte_addr) ||
--        ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, h_prot, true)) {
-+        ppc_radix64_check_prot(cpu, access_type, pte,
-+                               &fault_cause, h_prot, mmu_idx, true)
-+        ) {
-         if (pde_addr) { /* address being translated was that of a guest pde */
-             fault_cause |= DSISR_PRTABLE_FAULT;
-         }
-@@ -332,7 +335,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-                                             vaddr eaddr, uint64_t pid,
-                                             ppc_v3_pate_t pate, hwaddr *g_raddr,
-                                             int *g_prot, int *g_page_size,
--                                            bool guest_visible)
-+                                            int mmu_idx, bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -367,7 +370,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-         ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_addr,
-                                                  pate, &h_raddr, &h_prot,
-                                                  &h_page_size, true,
--                                                 guest_visible);
-+            /* mmu_idx is 5 because we're translating from hypervisor scope */
-+                                                 5, guest_visible);
-         if (ret) {
-             return ret;
-         }
-@@ -407,7 +411,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-             ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pte_addr,
-                                                      pate, &h_raddr, &h_prot,
-                                                      &h_page_size, true,
--                                                     guest_visible);
-+            /* mmu_idx is 5 because we're translating from hypervisor scope */
-+                                                     5, guest_visible);
-             if (ret) {
-                 return ret;
-             }
-@@ -431,7 +436,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-         *g_raddr = (rpn & ~mask) | (eaddr & mask);
-     }
- 
--    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause, g_prot, false)) {
-+    if (ppc_radix64_check_prot(cpu, access_type, pte, &fault_cause,
-+                               g_prot, mmu_idx, false)) {
-         /* Access denied due to protection */
-         if (guest_visible) {
-             ppc_radix64_raise_si(cpu, access_type, eaddr, fault_cause);
-@@ -464,7 +470,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-  *              +-------------+----------------+---------------+
-  */
- bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
--                       hwaddr *raddr, int *psizep, int *protp,
-+                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
-                        bool guest_visible)
- {
-     CPUPPCState *env = &cpu->env;
-@@ -474,17 +480,17 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     hwaddr g_raddr;
-     bool relocation;
- 
--    assert(!(msr_hv && cpu->vhyp));
-+    assert(!(mmuidx_hv(mmu_idx) && cpu->vhyp));
- 
--    relocation = (access_type == MMU_INST_FETCH ? msr_ir : msr_dr);
-+    relocation = !mmuidx_real(mmu_idx);
- 
-     /* HV or virtual hypervisor Real Mode Access */
--    if (!relocation && (msr_hv || cpu->vhyp)) {
-+    if (!relocation && (mmuidx_hv(mmu_idx) || cpu->vhyp)) {
-         /* In real mode top 4 effective addr bits (mostly) ignored */
-         *raddr = eaddr & 0x0FFFFFFFFFFFFFFFULL;
- 
-         /* In HV mode, add HRMOR if top EA bit is clear */
--        if (msr_hv || !env->has_hv_mode) {
-+        if (mmuidx_hv(mmu_idx) || !env->has_hv_mode) {
-             if (!(eaddr >> 63)) {
-                 *raddr |= env->spr[SPR_HRMOR];
-            }
-@@ -546,7 +552,7 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     if (relocation) {
-         int ret = ppc_radix64_process_scoped_xlate(cpu, access_type, eaddr, pid,
-                                                    pate, &g_raddr, &prot,
--                                                   &psize, guest_visible);
-+                                                   &psize, mmu_idx, guest_visible);
-         if (ret) {
-             return false;
-         }
-@@ -564,13 +570,13 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-          * quadrants 1 or 2. Translates a guest real address to a host
-          * real address.
-          */
--        if (lpid || !msr_hv) {
-+        if (lpid || !mmuidx_hv(mmu_idx)) {
-             int ret;
- 
-             ret = ppc_radix64_partition_scoped_xlate(cpu, access_type, eaddr,
-                                                      g_raddr, pate, raddr,
-                                                      &prot, &psize, false,
--                                                     guest_visible);
-+                                                     mmu_idx, guest_visible);
-             if (ret) {
-                 return false;
-             }
-diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-index 6b13b89b64..b70357cf34 100644
---- a/target/ppc/mmu-radix64.h
-+++ b/target/ppc/mmu-radix64.h
-@@ -45,7 +45,7 @@
- #ifdef TARGET_PPC64
- 
- bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
--                       hwaddr *raddr, int *psizep, int *protp,
-+                       hwaddr *raddr, int *psizep, int *protp, int mmu_idx,
-                        bool guest_visible);
- 
- static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index ba1952c77d..9dcdf88597 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2908,7 +2908,7 @@ static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-     case POWERPC_MMU_3_00:
-         if (ppc64_v3_radix(cpu)) {
-             return ppc_radix64_xlate(cpu, eaddr, access_type,
--                                     raddrp, psizep, protp, guest_visible);
-+                                     raddrp, psizep, protp, mmu_idx, guest_visible);
-         }
-         /* fall through */
-     case POWERPC_MMU_64B:
-@@ -2941,8 +2941,10 @@ hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-      * try an MMU_DATA_LOAD, we may not be able to read instructions
-      * mapped by code TLBs, so we also try a MMU_INST_FETCH.
-      */
--    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
--        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-+    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p,
-+                  cpu_mmu_index(&cpu->env, false), false) ||
-+        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p,
-+                  cpu_mmu_index(&cpu->env, true), false)) {
-         return raddr & TARGET_PAGE_MASK;
-     }
-     return -1;
--- 
-2.17.1
-
+PiBXaGVuIHVzaW5nIGxpYnZpcnQgZm9yIFJETUEgbGl2ZSBtaWdyYXRpb24sIGlmIHRoZSBWTSBt
+ZW1vcnkgaXMgdG9vIGxhcmdlLCANCj4gaXQgd2lsbCB0YWtlIGEgbG90IG9mIHRpbWUgdG8gZGVy
+ZWdpc3RlciB0aGUgVk0gYXQgdGhlIHNvdXJjZSBzaWRlLCByZXN1bHRpbmcgDQo+IGluIGEgbG9u
+ZyBkb3dudGltZSAoVk0gNjRHLCBkZXJlZ2lzdGVyIHZtIHRpbWUgaXMgYWJvdXQgNDAwbXMpLg0K
+PiANCj4gQWx0aG91Z2ggdGhlIFZNJ3MgbWVtb3J5IHVzZXMgMk0gaHVnZSBwYWdlcywgdGhlIE1M
+TlggZHJpdmVyIHN0aWxsIHVzZXMgNEsgDQo+IHBhZ2VzIGZvciBwaW4gbWVtb3J5LCBhcyB3ZWxs
+IGFzIGZvciB1bnBpbi4NCj4gU28gd2UgdXNlIGh1Z2UgcGFnZXMgdG8gc2tpcCB0aGUgcHJvY2Vz
+cyBvZiBwaW4gbWVtb3J5IGFuZCB1bnBpbiBtZW1vcnkgdG8gcmVkdWNlIGRvd250aW1lLg0KPiAN
+Cg0KVGhlIHRlc3QgZW52aXJvbm1lbnQ6DQprZXJuZWw6IGxpbnV4LTUuMTINCk1MTlg6IENvbm5l
+Y3RYLTQgTFgNCmxpYnZpcnQgY29tbWFuZDoNCnZpcnNoIG1pZ3JhdGUgLS1saXZlIC0tcDJwIC0t
+cGVyc2lzdGVudCAtLWNvcHktc3RvcmFnZS1pbmMgLS1saXN0ZW4tYWRkcmVzcyBcDQowLjAuMC4w
+IC0tcmRtYS1waW4tYWxsIC0tbWlncmF0ZXVyaSByZG1hOi8vMTkyLjE2OC4wLjIgW1ZNXSBxZW11
+K3RjcDovLzE5Mi4xNjguMC4yL3N5c3RlbQ0KDQo+IC0tLQ0KPiB2Mg0KPiAtIEFkZCBwYWdlX3Np
+emUgaW4gc3RydWN0IFJETUFMb2NhbEJsb2NrDQo+IC0gVXNlIHBhZ2Vfc2l6ZSB0byBkZXRlcm1p
+bmUgd2hldGhlciBWTSB1c2VzIGh1Z2UgcGFnZQ0KPiAtLS0NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
+IGxpemhhb3hpbiA8bGl6aGFveGluMUBraW5nc29mdC5jb20+DQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+bWlncmF0aW9uL3JkbWEuYyBiL21pZ3JhdGlvbi9yZG1hLmMgaW5kZXggMWNkYjQ1NjFmMy4uNzAz
+ODE2ZWJjNyAxMDA2NDQNCj4gLS0tIGEvbWlncmF0aW9uL3JkbWEuYw0KPiArKysgYi9taWdyYXRp
+b24vcmRtYS5jDQo+IEBAIC0yMTUsNiArMjE1LDcgQEAgdHlwZWRlZiBzdHJ1Y3QgUkRNQUxvY2Fs
+QmxvY2sgew0KPiAgICAgIHVpbnQ2NF90ICAgICAgIHJlbW90ZV9ob3N0X2FkZHI7IC8qIHJlbW90
+ZSB2aXJ0dWFsIGFkZHJlc3MgKi8NCj4gICAgICB1aW50NjRfdCAgICAgICBvZmZzZXQ7DQo+ICAg
+ICAgdWludDY0X3QgICAgICAgbGVuZ3RoOw0KPiArICAgIHVpbnQ2NF90ICAgICAgIHBhZ2Vfc2l6
+ZTsNCj4gICAgICBzdHJ1Y3QgICAgICAgICBpYnZfbXIgKipwbXI7ICAgIC8qIE1ScyBmb3IgY2h1
+bmstbGV2ZWwgcmVnaXN0cmF0aW9uICovDQo+ICAgICAgc3RydWN0ICAgICAgICAgaWJ2X21yICpt
+cjsgICAgICAvKiBNUiBmb3Igbm9uLWNodW5rLWxldmVsIHJlZ2lzdHJhdGlvbiAqLw0KPiAgICAg
+IHVpbnQzMl90ICAgICAgKnJlbW90ZV9rZXlzOyAgICAgLyogcmtleXMgZm9yIGNodW5rLWxldmVs
+IHJlZ2lzdHJhdGlvbiAqLw0KPiBAQCAtNTY1LDcgKzU2Niw4IEBAIHN0YXRpYyBpbmxpbmUgdWlu
+dDhfdCAqcmFtX2NodW5rX2VuZChjb25zdCBSRE1BTG9jYWxCbG9jayAqcmRtYV9yYW1fYmxvY2ss
+DQo+IA0KPiAgc3RhdGljIGludCByZG1hX2FkZF9ibG9jayhSRE1BQ29udGV4dCAqcmRtYSwgY29u
+c3QgY2hhciAqYmxvY2tfbmFtZSwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpo
+b3N0X2FkZHIsDQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgcmFtX2FkZHJfdCBibG9ja19v
+ZmZzZXQsIHVpbnQ2NF90IGxlbmd0aCkNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICByYW1f
+YWRkcl90IGJsb2NrX29mZnNldCwgdWludDY0X3QgbGVuZ3RoLA0KPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgIHVpbnQ2NF90IHBhZ2Vfc2l6ZSkNCj4gIHsNCj4gICAgICBSRE1BTG9jYWxCbG9j
+a3MgKmxvY2FsID0gJnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+ICAgICAgUkRNQUxvY2FsQmxv
+Y2sgKmJsb2NrOw0KPiBAQCAtNTk1LDYgKzU5Nyw3IEBAIHN0YXRpYyBpbnQgcmRtYV9hZGRfYmxv
+Y2soUkRNQUNvbnRleHQgKnJkbWEsIGNvbnN0IGNoYXIgKmJsb2NrX25hbWUsDQo+ICAgICAgYmxv
+Y2stPmxvY2FsX2hvc3RfYWRkciA9IGhvc3RfYWRkcjsNCj4gICAgICBibG9jay0+b2Zmc2V0ID0g
+YmxvY2tfb2Zmc2V0Ow0KPiAgICAgIGJsb2NrLT5sZW5ndGggPSBsZW5ndGg7DQo+ICsgICAgYmxv
+Y2stPnBhZ2Vfc2l6ZSA9IHBhZ2Vfc2l6ZTsNCj4gICAgICBibG9jay0+aW5kZXggPSBsb2NhbC0+
+bmJfYmxvY2tzOw0KPiAgICAgIGJsb2NrLT5zcmNfaW5kZXggPSB+MFU7IC8qIEZpbGxlZCBpbiBi
+eSB0aGUgcmVjZWlwdCBvZiB0aGUgYmxvY2sgbGlzdCAqLw0KPiAgICAgIGJsb2NrLT5uYl9jaHVu
+a3MgPSByYW1fY2h1bmtfaW5kZXgoaG9zdF9hZGRyLCBob3N0X2FkZHIgKyBsZW5ndGgpICsgMVVM
+OyBAQCAtNjM0LDcgKzYzNyw4IEBAIHN0YXRpYyBpbnQgcWVtdV9yZG1hX2luaXRfb25lX2Jsb2Nr
+KFJBTUJsb2NrICpyYiwgdm9pZCAqb3BhcXVlKQ0KPiAgICAgIHZvaWQgKmhvc3RfYWRkciA9IHFl
+bXVfcmFtX2dldF9ob3N0X2FkZHIocmIpOw0KPiAgICAgIHJhbV9hZGRyX3QgYmxvY2tfb2Zmc2V0
+ID0gcWVtdV9yYW1fZ2V0X29mZnNldChyYik7DQo+ICAgICAgcmFtX2FkZHJfdCBsZW5ndGggPSBx
+ZW11X3JhbV9nZXRfdXNlZF9sZW5ndGgocmIpOw0KPiAtICAgIHJldHVybiByZG1hX2FkZF9ibG9j
+ayhvcGFxdWUsIGJsb2NrX25hbWUsIGhvc3RfYWRkciwgYmxvY2tfb2Zmc2V0LCBsZW5ndGgpOw0K
+PiArICAgIHJhbV9hZGRyX3QgcGFnZV9zaXplID0gcWVtdV9yYW1fcGFnZXNpemUocmIpOw0KPiAr
+ICAgIHJldHVybiByZG1hX2FkZF9ibG9jayhvcGFxdWUsIGJsb2NrX25hbWUsIGhvc3RfYWRkciwg
+YmxvY2tfb2Zmc2V0LA0KPiArIGxlbmd0aCwgcGFnZV9zaXplKTsNCj4gIH0NCj4gDQo+ICAvKg0K
+PiBAQCAtMTEyMywxMyArMTEyNywyNSBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9yZWdfd2hvbGVf
+cmFtX2Jsb2NrcyhSRE1BQ29udGV4dCAqcmRtYSkNCj4gICAgICBSRE1BTG9jYWxCbG9ja3MgKmxv
+Y2FsID0gJnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+IA0KPiAgICAgIGZvciAoaSA9IDA7IGkg
+PCBsb2NhbC0+bmJfYmxvY2tzOyBpKyspIHsNCj4gLSAgICAgICAgbG9jYWwtPmJsb2NrW2ldLm1y
+ID0NCj4gLSAgICAgICAgICAgIGlidl9yZWdfbXIocmRtYS0+cGQsDQo+IC0gICAgICAgICAgICAg
+ICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sb2NhbF9ob3N0X2FkZHIsDQo+IC0gICAgICAgICAgICAg
+ICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sZW5ndGgsDQo+IC0gICAgICAgICAgICAgICAgICAgIElC
+Vl9BQ0NFU1NfTE9DQUxfV1JJVEUgfA0KPiAtICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNT
+X1JFTU9URV9XUklURQ0KPiAtICAgICAgICAgICAgICAgICAgICApOw0KPiArICAgICAgICBpZiAo
+bG9jYWwtPmJsb2NrW2ldLnBhZ2Vfc2l6ZSAhPSBxZW11X3JlYWxfaG9zdF9wYWdlX3NpemUpIHsN
+Cj4gKyAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQo+ICsgICAgICAgICAgICAgICAg
+aWJ2X3JlZ19tcihyZG1hLT5wZCwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5i
+bG9ja1tpXS5sb2NhbF9ob3N0X2FkZHIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBsb2Nh
+bC0+YmxvY2tbaV0ubGVuZ3RoLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VT
+U19MT0NBTF9XUklURSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX1JF
+TU9URV9XUklURSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX09OX0RF
+TUFORCB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0hVR0VUTEINCj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICk7DQo+ICsgICAgICAgIH0gZWxzZSB7DQo+ICsgICAg
+ICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubXIgPQ0KPiArICAgICAgICAgICAgICAgIGlidl9yZWdf
+bXIocmRtYS0+cGQsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0u
+bG9jYWxfaG9zdF9hZGRyLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2Nr
+W2ldLmxlbmd0aCwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfTE9DQUxf
+V1JJVEUgfA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19SRU1PVEVfV1JJ
+VEUNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICk7DQo+ICsgICAgICAgIH0NCj4gICAgICAg
+ICAgaWYgKCFsb2NhbC0+YmxvY2tbaV0ubXIpIHsNCj4gICAgICAgICAgICAgIHBlcnJvcigiRmFp
+bGVkIHRvIHJlZ2lzdGVyIGxvY2FsIGRlc3QgcmFtIGJsb2NrIVxuIik7DQo+ICAgICAgICAgICAg
+ICBicmVhazsNCg0KSGVsbG8gZXZlcnlvbmUsIHBsZWFzZSBnaXZlIG1lIHNvbWUgYWR2aWNlLg0K
+DQpUaGFua3MuDQpsaXpoYW94aW4xDQo=
 
