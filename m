@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726C63AA1DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:54:51 +0200 (CEST)
-Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D693AA1DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:54:45 +0200 (CEST)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYoU-0001VW-Gg
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43800)
+	id 1ltYoO-0001Lr-Sd
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYkA-0004v9-6q; Wed, 16 Jun 2021 12:50:22 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34656)
+ id 1ltYmQ-0007v5-TJ; Wed, 16 Jun 2021 12:52:42 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYk7-0003MT-Ks; Wed, 16 Jun 2021 12:50:21 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso3532080wmc.1; 
- Wed, 16 Jun 2021 09:50:17 -0700 (PDT)
+ id 1ltYmO-00050n-TU; Wed, 16 Jun 2021 12:52:42 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id c9so3457966wrt.5;
+ Wed, 16 Jun 2021 09:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DvH+cXjA3m55CQLql8Rhm8nZdzWIDbYaIwl2Wc0exj0=;
- b=nZK0oWrD5D4ZgZdCwddd5KNb9On/GRtXulffxDQe42L7mfD+8kOHwTj0fjrGtfXKWb
- O1/mGqtCnftQHiPy5cS4p8AHdqlmQNjhs9XigvNDTsnN6TtFuMB/KLZhzNb1qKkdSxMB
- q9bwapRdWOlw4BoHOLOV0anCnSRs+V5goi2LCnWfzZxnb52JMLQFR+DXIoka3AKHVYdQ
- I3dQX6WjS9xk0QdG0Aqzhr6tDG1EqepjrnI6oLXhptG0xAjBP/8NIjhy751bpBtQqt2h
- Hu6kD2cayWtqwHgRB9M8b6sqbeV5E8GeGDJMsICpDW5o8kI7b4UxlMju+YjkMEKKL/yH
- Orsg==
+ bh=4zP8LM6Rcs34w258eINQcx93/kkyoFdgqTHw246VKiA=;
+ b=VFNRbll+fZrHN+1YhBSTP1V6C+MxARlhmAx9BjTqjAj/qrSHEhvtndjh9GIFg6N/7j
+ YO5j3ch0v2vkMQ+R52q6Uc5qmCJtBfLhp+8Nt1yq7PQu4rVnzjDtQ+VOgjYwUSrmP1qv
+ 2BibOML6kRuiqc7nq1lVJ7uDkRtiM+aiXhtBoRRZetEUq2qDXbYyDVgCDu8ASBarMxYe
+ kLJFr5zSxQNyn+3QdrsNsAnjBC9I4VZRMj+PLdT52UFgZI+5g5p1iaj42EOGISMxk4Sk
+ Bl1BtXWRxfaYPqNkU1OTou++KLFEZPptAEgHk9uS0UkZ/LhVC0gALc7Tf4g/AIhI0U7+
+ 1gvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DvH+cXjA3m55CQLql8Rhm8nZdzWIDbYaIwl2Wc0exj0=;
- b=FE2WruKMmbNHIBTOK9j2Kr6DP9pYRiKPtmd7Ejvcfcf2ieRD3bxGXludHhV5dU+BZs
- eCux8Pzg/KZTstgffFbq7auUw3v50E28jcXU9bUF6LMt8mUTuyXibRrhSrETIzHq9Va3
- hwipeea5+QYaawNzHiTyHxAdBwn+Xy3mF0VuiP8E2Xj86tzluua+BpRdFw1F87v+MU7R
- tOc4HZCMMJin4/B4NFCh1oTF3sO4Q5jLsvnwDw+zE9KZm0XrcIAfwG8h0WuYCrE6ta47
- EdkDiOvaOgINfuVFBcyMjpyi7L1LqAwnGAgCof5pypMZFiWq/9+5ZKRAJJzpEutE0Pp5
- 0Vcw==
-X-Gm-Message-State: AOAM533tYYPnrMVwgqnqaZmg6gF9glJgLS+9+nsimymmjqkcP94nvoCA
- gKcDhQz2tI4UHyFV5SCerjM=
-X-Google-Smtp-Source: ABdhPJz8UTBk5pBrc/eoji3NEUOKtCEir/aXQMDcqYE0ZLXhFHBA7PVOQATU/O26eKZDj04jISSY7g==
-X-Received: by 2002:a1c:f70b:: with SMTP id v11mr910021wmh.186.1623862217088; 
- Wed, 16 Jun 2021 09:50:17 -0700 (PDT)
+ bh=4zP8LM6Rcs34w258eINQcx93/kkyoFdgqTHw246VKiA=;
+ b=Ek25aTQpt2AxEG8JbQRikfV+D7B2jX29ENWFaJ3SV7MQLcGoGmPzllQrDp3F2Oa/l1
+ t/CZptpWcKHxsSiWQxT6+vyH3QZ1M78Fu0yE/CEzhUg7JFHWddUurDBhuQUUxRGcGU7r
+ XyAAjTnKbcSOHx/hMtcYnRLDzFIQu7MuikNYBnFec1ICjyq23eFMbwi12SeXmsPsyIu1
+ S0L5PJZ1VjnxkG4Z2Kuw8a/qGAyHSIkBoPMNVQZXXMpxFHH8PRgWfyyOjioEoISfIF4j
+ P+cwR+atoRHjoK/Ev4P981daq3Ysmdene89+qK8wFWdar2V9v6xyjqaOqbW7Oo+n/eF0
+ j+/w==
+X-Gm-Message-State: AOAM5329rgSfn551drurLjGiD95FjKpZ01rjUNFpbTBQthR/eKOGBjLh
+ 5qeY6hytfR9UPAybEs8wYWlvZLTJJF+QYA==
+X-Google-Smtp-Source: ABdhPJz7RifmqyBf0M78F0Eg5C6DOW703afMlSek1HnGAA1HEpI/4UchoJXB/Jv4EgPNnENooY9j9A==
+X-Received: by 2002:a05:6000:1203:: with SMTP id
+ e3mr411162wrx.107.1623862359405; 
+ Wed, 16 Jun 2021 09:52:39 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n42sm5441469wms.29.2021.06.16.09.50.15
+ by smtp.gmail.com with ESMTPSA id i9sm3192889wrn.54.2021.06.16.09.52.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 09:50:16 -0700 (PDT)
-Subject: Re: [PATCH 16/21] linux-user/riscv: Implement setup_sigtramp
+ Wed, 16 Jun 2021 09:52:38 -0700 (PDT)
+Subject: Re: [PATCH 17/21] linux-user/s390x: Implement setup_sigtramp
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210616011209.1446045-1-richard.henderson@linaro.org>
- <20210616011209.1446045-17-richard.henderson@linaro.org>
+ <20210616011209.1446045-18-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9d712d66-ad8d-e08c-e793-dbb06264e19a@amsat.org>
-Date: Wed, 16 Jun 2021 18:50:14 +0200
+Message-ID: <a70a28a2-74a0-2bee-926e-c2d940b40400@amsat.org>
+Date: Wed, 16 Jun 2021 18:52:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210616011209.1446045-17-richard.henderson@linaro.org>
+In-Reply-To: <20210616011209.1446045-18-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -88,25 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-riscv@nongnu.org, laurent@vivier.eu
+Cc: qemu-s390x@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/16/21 3:12 AM, Richard Henderson wrote:
-> Create and record the rt signal trampoline.
+> Create and record the two signal trampolines.
+> Use them when the guest does not use SA_RESTORER.
 > 
-> This fixes a bug wrt libgcc fallback unwinding.  It expects
-> the stack pointer to point to the siginfo_t, whereas we had
-> inexplicably placed our private signal trampoline at the start
-> of the signal frame instead of the end.  Now moot because we
-> have removed it from the stack frame entirely.
-> 
-> Cc: qemu-riscv@nongnu.org
+> Cc: qemu-s390x@nongnu.org
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/riscv/target_signal.h |  2 ++
->  linux-user/riscv/signal.c        | 22 +++++++++++++---------
->  2 files changed, 15 insertions(+), 9 deletions(-)
+>  linux-user/s390x/target_signal.h |  2 ++
+>  linux-user/s390x/signal.c        | 24 ++++++++++++++++--------
+>  2 files changed, 18 insertions(+), 8 deletions(-)
 
+> +void setup_sigtramp(abi_ulong sigtramp_page)
+> +{
+> +    uint16_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 4, 0);
+
+4 -> 2 + 2 seems clearer (applies to some other targets in this series).
+
+> +    assert(tramp != NULL);
+> +
+> +    default_sigreturn = sigtramp_page;
+> +    __put_user(S390_SYSCALL_OPCODE | TARGET_NR_sigreturn, &tramp[0]);
+> +
+> +    default_rt_sigreturn = sigtramp_page + 2;
+> +    __put_user(S390_SYSCALL_OPCODE | TARGET_NR_rt_sigreturn, &tramp[1]);
+> +
+> +    unlock_user(tramp, sigtramp_page, 4);
+
+Ditto, otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> +}
+> 
+
 
