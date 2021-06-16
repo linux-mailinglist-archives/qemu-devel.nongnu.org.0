@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E943B3A9199
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 08:05:55 +0200 (CEST)
-Received: from localhost ([::1]:54438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B773A91B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 08:12:24 +0200 (CEST)
+Received: from localhost ([::1]:57494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltOgV-0003p8-1j
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 02:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60454)
+	id 1ltOml-00068p-9S
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 02:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltOfO-0002ZL-DQ
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 02:04:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22165)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ltOld-0005BB-Oa
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 02:11:13 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:45824
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltOfK-0005UA-KE
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 02:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623823480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QLol6sc+mNd4LOi5HeVAvmKTPLdhhHlDmqQi93yjajE=;
- b=EqmFzF//AyrAQB05yuU0U+3YxyhyxTFXhCP07RKKBi+bhM4XCITKwx21IeHgoSfOd41eMM
- OwLZrAjK6lW2cxaIDA5Y7QjZ/2n1qEzufBVebfP8t9SaC85vudk4+UVT4UEpoy9tTylGuD
- kxenHpQuuLEqhbQu0zM/QZGFi3Od660=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-JxR7tWYNNriZfkyKiUY2pw-1; Wed, 16 Jun 2021 02:04:37 -0400
-X-MC-Unique: JxR7tWYNNriZfkyKiUY2pw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8A618018A7;
- Wed, 16 Jun 2021 06:04:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D8236090F;
- Wed, 16 Jun 2021 06:04:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BC22C113865F; Wed, 16 Jun 2021 08:04:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Zhang, Chen" <chen.zhang@intel.com>
-Subject: Re: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command for
- COLO passthrough
-References: <20210615113740.2278015-1-chen.zhang@intel.com>
- <20210615113740.2278015-2-chen.zhang@intel.com>
- <87zgvrnq7w.fsf@dusky.pond.sub.org>
- <8f58a8dcb58849dd917deaea2a728358@intel.com>
-Date: Wed, 16 Jun 2021 08:04:27 +0200
-In-Reply-To: <8f58a8dcb58849dd917deaea2a728358@intel.com> (Chen Zhang's
- message of "Wed, 16 Jun 2021 02:12:33 +0000")
-Message-ID: <874kdymjkk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ltOlb-0000xD-8z
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 02:11:13 -0400
+Received: from host86-132-109-72.range86-132.btcentralplus.com
+ ([86.132.109.72] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ltOl6-0009kP-VA; Wed, 16 Jun 2021 07:10:45 +0100
+To: Finn Thain <fthain@fastmail.com.au>
+References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
+ <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
+ <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
+ <17f0917-de30-6771-26d0-7a10214221ca@nippy.intranet>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <38512250-86bb-7cbd-caca-9bc0378e54e8@ilande.co.uk>
+Date: Wed, 16 Jun 2021 07:10:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <17f0917-de30-6771-26d0-7a10214221ca@nippy.intranet>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.132.109.72
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.095,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,292 +66,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- Daniel =?utf-8?Q?P=2EBerrang?= =?utf-8?Q?=C3=A9?= <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, Jason Wang <jasowang@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Zhang Chen <zhangckid@gmail.com>, Eric Blake <eblake@redhat.com>
+Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, hpoussin@reactos.org, aurelien@aurel32.net,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Zhang, Chen" <chen.zhang@intel.com> writes:
+On 16/06/2021 04:09, Finn Thain wrote:
 
->> -----Original Message-----
->> From: Markus Armbruster <armbru@redhat.com>
->> Sent: Tuesday, June 15, 2021 10:43 PM
->> To: Zhang, Chen <chen.zhang@intel.com>
->> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
->> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
->> Gilbert <dgilbert@redhat.com>; Daniel P.Berrang=C3=A9 <berrange@redhat.c=
-om>;
->> Gerd Hoffmann <kraxel@redhat.com>; Li Zhijian <lizhijian@cn.fujitsu.com>=
-;
->> Lukas Straub <lukasstraub2@web.de>; Zhang Chen <zhangckid@gmail.com>
->> Subject: Re: [PATCH V8 1/6] qapi/net: Add IPFlowSpec and QMP command
->> for COLO passthrough
->>=20
->> Zhang Chen <chen.zhang@intel.com> writes:
->>=20
->> > Since the real user scenario does not need COLO to monitor all traffic=
-.
->> > Add colo-passthrough-add and colo-passthrough-del to maintain a COLO
->> > network passthrough list. Add IPFlowSpec struct for all QMP commands.
->> > All the fields of IPFlowSpec are optional.
->> >
->> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
->> > ---
->>=20
->> The QAPI schema looks good to me, but the interface documentation is sti=
-ll
->> not quite clear enough.  To make progress, I'm going to make concrete
->> suggestions wherever I can despite being quite clueless about the subjec=
-t
->> matter.  Risks me writing something that's clearer, but wrong.  Keep tha=
-t in
->> mind, please.
->>=20
->> >  net/net.c     | 10 +++++++
->> >  qapi/net.json | 74
->> > +++++++++++++++++++++++++++++++++++++++++++++++++++
->> >  2 files changed, 84 insertions(+)
->> >
->> > diff --git a/net/net.c b/net/net.c
->> > index 76bbb7c31b..f913e97983 100644
->> > --- a/net/net.c
->> > +++ b/net/net.c
->> > @@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error **err=
-p)
->> >      }
->> >  }
->> >
->> > +void qmp_colo_passthrough_add(IPFlowSpec *spec, Error **errp) {
->> > +    /* TODO implement setup passthrough rule */ }
->> > +
->> > +void qmp_colo_passthrough_del(IPFlowSpec *spec, Error **errp) {
->> > +    /* TODO implement delete passthrough rule */ }
->> > +
->> >  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)  {
->> >      char *str;
->> > diff --git a/qapi/net.json b/qapi/net.json index
->> > 7fab2e7cd8..91f2e1495a 100644
->> > --- a/qapi/net.json
->> > +++ b/qapi/net.json
->> > @@ -7,6 +7,7 @@
->> >  ##
->> >
->> >  { 'include': 'common.json' }
->> > +{ 'include': 'sockets.json' }
->> >
->> >  ##
->> >  # @set_link:
->> > @@ -696,3 +697,76 @@
->> >  ##
->> >  { 'event': 'FAILOVER_NEGOTIATED',
->> >    'data': {'device-id': 'str'} }
->> > +
->> > +##
->> > +# @IPFlowSpec:
->> > +#
->> > +# IP flow specification.
->> > +#
->> > +# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol=
- is the
->> > +#            string instead of enum, because it can be passed to getp=
-rotobyname(3)
->> > +#            and avoid duplication with /etc/protocols.
->>=20
->> The rationale is good, but it doesn't really belong into the interface
->> documentation.  Suggest:
->>=20
->>    # @protocol: Transport layer protocol like TCP/UDP, etc.  This will b=
-e
->>    #            passed to getprotobyname(3).
->>=20
->
-> OK.
->
->>=20
->> > +#
->> > +# @object-name: The @object-name means packet handler in Qemu. Becaus=
-e not
->> > +#               all the network packet must pass the colo-compare mod=
-ule,
->> > +#               the net-filters are same situation. There modules att=
-ach to
->> > +#               netdev or chardev to work, VM can run multiple module=
-s
->> > +#               at the same time. So it needs the object-name to set
->> > +#               the effective module.
->>=20
->> I still don't understand this, and I'm too ignorant of COLO and networki=
-ng to
->> suggest improvements.
->
-> Let me use qemu boot parameter to clear it.
-> For colo-compare, it needs chardev as the source to handle network packet=
-.
-> -object colo-compare,id=3Dcomp0,primary_in=3Dchardev-input0,secondary_in=
-=3Dchardev-input1,outdev=3Dchardev-output0,iothread=3Diothread0.
->
-> For net filters, it needs attached on netdev.
-> -object filter-redirector,id=3Dred0,netdev=3Dhn0,queue=3Drx,outdev=3Dchar=
-dev-output1
-> -object filter-mirror,id=3Dmirror0,netdev=3Dhn0,queue=3Drx,outdev=3Dchard=
-ev-output2
->
-> And we can use -chardev socket combine the filter and the colo-compare.
->
-> Back to the @object-name, One guest maybe have multi colo-compare as the =
-same time, with different object name from different source.
-> So we need assign the IPFlowSpec to one object as the handler. Same as th=
-e net-filters.
-> Each object instance has its own passthrough list.
+> On Mon, 14 Jun 2021, Mark Cave-Ayland wrote:
+> 
+>> On 14/06/2021 06:36, Philippe Mathieu-Daudé wrote:
+>>
+>>> Cc'ing Finn & Laurent.
+>>>
+>>> On 6/13/21 6:37 PM, Mark Cave-Ayland wrote:
+>>>> Here is the next set of patches from my attempts to boot MacOS under
+>>>> QEMU's Q800 machine related to the Sonic network adapter.
+>>>>
+>>>> Patches 1 and 2 sort out checkpatch and convert from DPRINTF macros
+>>>> to trace-events.
+>>>>
+>>>> Patch 3 fixes the PROM checksum and MAC address storage format as
+>>>> found by stepping through the MacOS toolbox.
+>>>>
+>>>> Patch 4 ensures that the CPU loads/stores are correctly converted to
+>>>> 16-bit accesses for the network card and patch 5 fixes a bug when
+>>>> selecting the index specified for CAM entries.
+>>>>
+>>>> NOTE TO MIPS MAINTAINERS:
+>>>>
+>>>> - The Sonic network adapter is used as part of the MIPS jazz machine, however
+>>>>     I don't have a working kernel and system to test it with. Any
+>>>>     pointers to test images would be appreciated.
+>>>>
+>>>> - The changes to the PROM checksum in patch 3 were determined by stepping
+>>>>     through the MacOS toolbox, and is different from the existing
+>>>>     algorithm. Has the current PROM checksum algorithm been validated
+>>>>     on a MIPS guest or was it just a guess? It might be that 2
+>>>>     different algorithms are needed for the Q800 vs. Jazz machine.
+>>>>
+>>>> - My current guess is the jazzsonic driver is broken since the last set of
+>>>>     dp8393x changes as the MIPS jazz machine does not set the "big_endian"
+>>>>     property on the dp8393x device. I'd expect that the following diff would
+>>>>     be needed, but I can't confirm this without a suitable test image.
+>>>>
+>>>> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+>>>> index 1e1cf8154e..1df67035aa 100644
+>>>> --- a/hw/mips/jazz.c
+>>>> +++ b/hw/mips/jazz.c
+>>>> @@ -280,6 +280,7 @@ static void mips_jazz_init(MachineState *machine,
+>>>>                dev = qdev_new("dp8393x");
+>>>>                qdev_set_nic_properties(dev, nd);
+>>>>                qdev_prop_set_uint8(dev, "it_shift", 2);
+>>>> +             qdev_prop_set_bit(dev, "big_endian", true);
+>>>>                object_property_set_link(OBJECT(dev), "dma_mr",
+>>>>                                         OBJECT(rc4030_dma_mr), &error_abort);
+>>>>                sysbus = SYS_BUS_DEVICE(dev);
+>>>>
+>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>>
+>>>> [q800-macos-upstream patchset series: 3]
+>>>>
+>>>> Mark Cave-Ayland (5):
+>>>>     dp8393x: checkpatch fixes
+>>>>     dp8393x: convert to trace-events
+>>>>     dp8393x: fix PROM checksum and MAC address storage
+>>>>     dp8393x: don't force 32-bit register access
+>>>>     dp8393x: fix CAM descriptor entry index
+>>>>
+>>>>    hw/net/dp8393x.c    | 332 ++++++++++++++++++++++++--------------------
+>>>>    hw/net/trace-events |  17 +++
+>>>>    2 files changed, 198 insertions(+), 151 deletions(-)
+>>
+>> Just to add that I've done a large amount of testing on the q800 machine
+>> with Linux/MacOS so I'm happy that these patches do the right thing
+>> there.
+>>
+>> The part I'm struggling with is testing against MIPS jazz since I don't
+>> have a Linux test image to hand, and there is no documentation in the
+>> original commit message as to where the existing PROM checksum algorithm
+>> came from.
+>>
+>> Hervé, can you provide some more information on this? It looks like it
+>> was introduced in one of your commits:
+>>
+>> commit 89ae0ff9b73ee74c9ba707a09a07ad77b9fdccb4
+>> Author: Hervé Poussineau <hpoussin@reactos.org>
+>> Date:   Wed Jun 3 22:45:46 2015 +0200
+>>
+>>      net/dp8393x: add PROM to store MAC address
+>>
+>>      Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>      Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+>>      Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
+>>      Signed-off-by: Leon Alrae <leon.alrae@imgtec.com>
+>>
+> 
+> With "qemu-system-mips -M magnum ..." I was able to boot both Linux and
+> NetBSD. That was after commit 89ae0ff9b7 ("net/dp8393x: add PROM to store
+> MAC address"). But that's not to say that the MAC address was decoded
+> correctly.
+> 
+> Please see,
+> https://lore.kernel.org/qemu-devel/alpine.LNX.2.21.1.1912241504560.11@nippy.intranet/
+> 
+> The Linux/mips (jazzsonic) testing that I did back in 2019 used a custom
+> busybox initramfs. The NetBSD/mips testing used the official CD ISO image.
+> I will look into reviving those test harnesses because I think patch 4/5
+> and the proposed big-endian flag will need some regression testing.
 
-So the @object-name here references one of the "packet handler objects"
-(colo-compare, filter-redirector, filter-mirror) by @id.  Correct?
+Thanks for the reference - I've just discovered from the link above something I 
+hadn't realised which is that -M magnum is present on both qemu-system-mips64 *AND* 
+qemu-system-mips64el indicating that the endian needs to be set accordingly. 
+Fortunately it should be possible to use a similar solution as to that used for the 
+malta machine i.e.:
 
-In other words, @object-name is the ID of a QOM object, and the QOM
-object must be of a certain kind (i.e. provide certain functionality).
-Correct?
 
-What exactly makes a QOM object a "packet handler object?"
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 1e1cf8154e..16b32d2b2c 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -124,7 +124,7 @@ static void mips_jazz_init(MachineState *machine,
+  {
+      MemoryRegion *address_space = get_system_memory();
+      char *filename;
+-    int bios_size, n;
++    int bios_size, n, big_endian;
+      Clock *cpuclk;
+      MIPSCPU *cpu;
+      MIPSCPUClass *mcc;
+@@ -155,6 +155,12 @@ static void mips_jazz_init(MachineState *machine,
+          [JAZZ_PICA61] = {33333333, 4},
+      };
 
-Right now, the packet handler object types are colo-compare,
-filter-redirector, filter-mirror, and that's all.  Correct?
++#ifdef TARGET_WORDS_BIGENDIAN
++    big_endian = 1;
++#else
++    big_endian = 0;
++#endif
++
+      if (machine->ram_size > 256 * MiB) {
+          error_report("RAM size more than 256Mb is not supported");
+          exit(EXIT_FAILURE);
+@@ -280,6 +286,7 @@ static void mips_jazz_init(MachineState *machine,
+              dev = qdev_new("dp8393x");
+              qdev_set_nic_properties(dev, nd);
+              qdev_prop_set_uint8(dev, "it_shift", 2);
++            qdev_prop_set_bit(dev, "big_endian", big_endian);
+              object_property_set_link(OBJECT(dev), "dma_mr",
+                                       OBJECT(rc4030_dma_mr), &error_abort);
+              sysbus = SYS_BUS_DEVICE(dev);
 
-Another question the doc comment needs to answer: what happens when
-@object-name is absent?
 
->> Jason or David, perhaps?
->>=20
->> > +#
->> > +# @source: Source address and port.
->> > +#
->> > +# @destination: Destination address and port.
->> > +#
->> > +# Since: 6.1
->> > +##
->> > +{ 'struct': 'IPFlowSpec',
->> > +  'data': { '*protocol': 'str', '*object-name': 'str',
->> > +    '*source': 'InetSocketAddressBase',
->> > +    '*destination': 'InetSocketAddressBase' } }
->> > +
->> > +##
->> > +# @colo-passthrough-add:
->> > +#
->> > +# Add passthrough entry IPFlowSpec to the COLO-compare instance.
->> > +# The protocol and source/destination IP/ports are optional. if the
->> > +user # only inputs part of the information, this will match all traff=
-ic.
->>=20
->> Actually, all arguments are optional.
->>=20
->> Suggest:
->>=20
->>    # Add an entry to the COLO network passthrough list.
->>    # Absent protocol, host addresses and ports match anything.
->>=20
->> If there is more than one such list, then "to a COLO network passthrough=
- list"
->> instead.
->
-> Yes, more than one list.
->
->>=20
->> Still missing then: meaning of absent @object-name.  Does it select the =
-COLO
->> network passthrough list, perhaps?
->
-> Yes, Please see the explanation above. Each object instance has its own p=
-assthrough list.
+If you have bootable images available for -M magnum under qemu-system-mips64 and 
+qemu-system-mips64el, is it possible to make them available to others for testing?
 
-Got it now.
 
->> > +#
->> > +# Returns: Nothing on success
->> > +#
->> > +# Since: 6.1
->> > +#
->> > +# Example:
->> > +#
->> > +# -> { "execute": "colo-passthrough-add",
->> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
->> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
->> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
->> > +# <- { "return": {} }
->> > +#
->> > +##
->> > +{ 'command': 'colo-passthrough-add', 'boxed': true,
->> > +     'data': 'IPFlowSpec' }
->> > +
->> > +##
->> > +# @colo-passthrough-del:
->> > +#
->> > +# Delete passthrough entry IPFlowSpec to the COLO-compare instance.
->> > +# The protocol and source/destination IP/ports are optional. if the
->> > +user # only inputs part of the information, this will match all traff=
-ic.
->>=20
->> I suspect this command doesn't actually match traffic, it matches entrie=
-s
->> added with colo-passthrough-add.
->
-> Yes.
->
->>=20
->> Can it delete more than one such entry?
->>=20
->
-> Currently no, but it easy to match one more entry to delete.
+ATB,
 
-If the passthrough list entries had some unique ID, we could refer to
-one entry by its ID.  It's how things commonly work.
-
-Without an ID, we need to match by value, like you do.  I can see three
-possible behaviors:
-
-1. Select first entry that matches.
-
-2. Select all entries that match.
-
-3. If exactly one entry matches, select it.
-
-The second design choice is behavior when nothing gets selected:
-
-a. Silently do nothing
-
-b. Error
-
-Which one did you implement?  My guess based on your answers is 1a.
-
->> Suggest:
->>=20
->>    # Delete an entry from the COLO network passthrough list.
->>=20
->> and then explain how the command arguments select entries.
->
-> Search the object's passthrough list, if find same entry,  delete it.
->
-> Thanks
-> Chen
->
->>=20
->> > +#
->> > +# Returns: Nothing on success
->> > +#
->> > +# Since: 6.1
->> > +#
->> > +# Example:
->> > +#
->> > +# -> { "execute": "colo-passthrough-del",
->> > +#      "arguments": { "protocol": "tcp", "object-name": "object0",
->> > +#      "source": {"host": "192.168.1.1", "port": "1234"},
->> > +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
->> > +# <- { "return": {} }
->> > +#
->> > +##
->> > +{ 'command': 'colo-passthrough-del', 'boxed': true,
->> > +     'data': 'IPFlowSpec' }
-
+Mark.
 
