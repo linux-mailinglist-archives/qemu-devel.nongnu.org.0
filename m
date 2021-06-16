@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209E63A9DC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:40:27 +0200 (CEST)
-Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54C73A9E06
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:47:54 +0200 (CEST)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltWiP-0001di-OB
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:40:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38550)
+	id 1ltWpd-0005Mn-9a
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltWh9-0000eU-O0
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:39:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltWh6-0002Zp-BO
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:39:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623854342;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f8CS5MfRuAKFtEt/G3KW7BuW6zYqPnqRAmYHYkBsUQI=;
- b=Kp4PnC0QBLCD/ExJmVZataVSqd+Axg7I4vQpFtimMYrPEfzKZ0mT2TD2c92+v3IfbPT0iT
- 33iPdwq4/KH4Kqfew0aHNgOEOb+Ypt/qRt3O7ndLje406inJBMaaBNlGIFz1W9kFlmxLDH
- ZYgSbTWYFDSTCl3ssqQJVP/loF8JroA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-yaGDrYfMNvm1_q1p6Bui-A-1; Wed, 16 Jun 2021 10:39:01 -0400
-X-MC-Unique: yaGDrYfMNvm1_q1p6Bui-A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k3-20020a5d62830000b029011a69a4d069so1129162wru.21
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 07:39:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1ltWnh-0003sR-NY
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:45:53 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:34329)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1ltWnQ-0006sD-Em
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:45:47 -0400
+Received: by mail-pg1-x535.google.com with SMTP id g22so2172114pgk.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 07:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ab+kPipAmJUe6xuHGWQn78LPj0JVzqgRPd3pTtBtL+k=;
+ b=lF98dDecFe1MQrZpaZtDVAUgMfFBrr4Q7IRAWlFQrQrI5QkYy35zivpsTxlrKV2mC/
+ 3iZhnnXTOigYmR+bROsHhTI4ZPQcRCDsFWmNK4CXOPNVlph0u5Pd4gRsHdJW/FkHjnSf
+ qXyssxfppga0/tqEUaFmmnp9SG+MZdc3R5WX+HpT832dHPQQ5EaPTIajEx9CAoSyw4CR
+ goRn/u1k1TFZetGX61EOcB9NXa/kS+Peeklb6yeObqawC+a+KtiQVrMHrTMfPUi5CeCS
+ 5YUAjt6fUcHRg55EAmKot2UVZlx/esRKUKLqY0tU6cbV/OEC3uW2e+hy9FjjgDqEGhlt
+ OA0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=f8CS5MfRuAKFtEt/G3KW7BuW6zYqPnqRAmYHYkBsUQI=;
- b=j3S5aUkfNf2S5faPw+FA6hZVoaKDoxw1UtY8Qq2ioYhTCSH0HYt2iiztLQXxqeBA9H
- 3eH/jtVYQre/HDfcuQZ9b7NfnwKVqkJpnkDv7uLtCuBnzS3MNrfvyv47hP7TH6BFxhCw
- PeZI1WyqXEC74XLnfzOg2znOw46Z6w2a7IkgeIuwf78YEPVVetKxVnL8OokA7BGpHylO
- uGnFIC4AVYQWoipUjyg8nRan34dkAJmi/vSc+W9qQJqTHV+S9qZMdst0W+yjgI6hMAoh
- wEYsz8DRj2DIIWV8PI7BZgqlNkxzhVH9J2Lc6tZcCumlbkaVZ4CjOYOtV8ZExWeGNnfd
- QAyA==
-X-Gm-Message-State: AOAM533IUJgWqWPK48UY1vzH/bUYRh96qjv75C54tUIuwTR63mne4rd7
- K1mYsKlNDUWYLVWjgNzy6/MloUbl+5woFpGJeep+bxGVVP9VUEFPcabuBkCn54cGSHQTYj9V85V
- LXtzSBmFdffh1VX8=
-X-Received: by 2002:a5d:47a6:: with SMTP id 6mr5814633wrb.203.1623854340100;
- Wed, 16 Jun 2021 07:39:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCGtT2ECSeiIeeEZ6LZ5N+dt1C/bEaFpJ/6hqaHlBxdarrHaTMB7YfI0EIhLGhL4r29nvk4A==
-X-Received: by 2002:a5d:47a6:: with SMTP id 6mr5814617wrb.203.1623854339946;
- Wed, 16 Jun 2021 07:38:59 -0700 (PDT)
-Received: from [192.168.50.31] (static-180-27-86-188.ipcom.comunitel.net.
- [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id g10sm2396939wrq.12.2021.06.16.07.38.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 07:38:59 -0700 (PDT)
-Subject: Re: [PULL v1 0/5] Merge tpm 2021/06/15 v1
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <84e73f5d-df78-fa4b-4469-09f859ffe4bf@redhat.com>
-Date: Wed, 16 Jun 2021 16:38:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=ab+kPipAmJUe6xuHGWQn78LPj0JVzqgRPd3pTtBtL+k=;
+ b=TEx0f/bsdZrtUUO7yi0oS0ms0W521qFt8CBssyPF16U0/NcNwOPsO0fyTmfgzGsXF0
+ TpCUtaprzZxPQYNIprJ8ae9R9MlyZ1O+LqbcADLbT/0rl5ETtuN8Trz9DPaHuwv/XRF+
+ SGKb/Du9kkcbPwFtBi6W27m9/PtBbXI8n2QJOSXm65z1B/YkR/DtE/RS3yxmnMr4Ke7W
+ 8rc/O9Z5P2VEpLUx+3f9l+LSzLWNMqpTya9AuUNJXLSBRh/XCzsMHzV6IsmTfMA/R/Cc
+ k30iQHYYwk9ol1OvnQoyERBAiEDRY2oDQUPJHzfd5dIcXTBPxHPs3n5UmONjxrLkDSs8
+ ce0A==
+X-Gm-Message-State: AOAM533VVN0UPAhRiRMBg0IRpCzMPdJX8Csi+Cg33d6xGCauOIzxt95K
+ 9jZFLk45M+IbHr01us9T2Fiwjc90bZWTKQ==
+X-Google-Smtp-Source: ABdhPJymmSTOJoNcYaKqYxgs79NDyz1pTj2s0r+G5iMDpHGlunjyUxqaXjsZsYQeMZ7lHsT8rXeoWA==
+X-Received: by 2002:a63:eb4f:: with SMTP id b15mr5482843pgk.2.1623854734014;
+ Wed, 16 Jun 2021 07:45:34 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:40bd:72ed:2c81:7963])
+ by smtp.gmail.com with ESMTPSA id c207sm2443027pfb.86.2021.06.16.07.45.32
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 16 Jun 2021 07:45:33 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH 0/1] input: Add lang1 and lang2 to QKeyCode
+Date: Wed, 16 Jun 2021 23:45:21 +0900
+Message-Id: <20210616144522.55643-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-In-Reply-To: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.17, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,21 +81,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/15/21 5:21 PM, Stefan Berger wrote:
-> Hello!
-> 
-> The patches in this PR eliminate all TPM related code if CONFIG_TPM is
-> not set, thus reducing code size.
-> 
-> Regards,
->    Stefan
+This patch adds two QKeyCodes. The corresponding path for ui/keycodemapdb
+titled "Add QEMU QKeyCode 'lang1' and 'lang2'" will shortly be submitted.
+This patch should be applied *before* applying the patch for
+ui/keycodemapdb, or it causes build failures.
 
-Thank you Stefan for this quick pull request :)
+Akihiko Odaki (1):
+  input: Add lang1 and lang2 to QKeyCode
 
-Phil.
+ qapi/ui.json | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+-- 
+2.30.1 (Apple Git-130)
 
 
