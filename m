@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AF13A9808
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:46:37 +0200 (CEST)
-Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22F23A980B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:47:14 +0200 (CEST)
+Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltT48-0001Ba-D7
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:46:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60922)
+	id 1ltT4i-0002sN-UE
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:47:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ltT2K-0007lT-Lp
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:44:44 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ltT2H-00025I-H0
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:44:44 -0400
-Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4G4hQR5cTdz6K6BD;
- Wed, 16 Jun 2021 18:34:55 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 16 Jun 2021 12:44:36 +0200
-Received: from localhost (10.52.123.249) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Wed, 16 Jun
- 2021 11:44:35 +0100
-Date: Wed, 16 Jun 2021 11:44:28 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Chris Browy <cbrowy@avery-design.com>
-Subject: Re: [PATCH v6 cxl2.0-v6-doe 6/6] test/cdat: CXL CDAT test data
-Message-ID: <20210616114428.00005a72@Huawei.com>
-In-Reply-To: <1623331004-18651-1-git-send-email-cbrowy@avery-design.com>
-References: <1623329999-15662-1-git-send-email-cbrowy@avery-design.com>
- <1623331004-18651-1-git-send-email-cbrowy@avery-design.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltT3j-0001LS-Ls
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:46:11 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltT3g-00037Z-FS
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:46:11 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ c18-20020a05600c0ad2b02901cee262e45fso1417054wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 03:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UrgS/7XRbWCASapl7Etq61NSDBB3VibTEv7/VPg2rsE=;
+ b=ZFQR7VzWveb+nLVdmcvE9eHb/DgvhNrnWbzzNH9+p10SyYoLy4/+akBGtawPCWi2IB
+ bdUHjcCB1dAtVqU3wzKseHxg5hwMA7l35j9XZJqLi/FxCkBB0vs1MihxSjUF3oJzWYPK
+ wbJcLdmUwwdTvfXLThj9mJyb+WgTHy1huIk+IIkdp7UltzKBFDcLkgBdaG+TnIwqgYFJ
+ amFB138EpKedg7RRQA2irzuOSDohzzaWLrN84bgCBt8yPWYE5nYReemFd6UClo53zBJh
+ 1OdfL7GyNzvQ62sossIwFdbRSRVLZplUcP8aJz3Ra63fuLKSvprUEwzVmJAe7/eSV6K4
+ DE2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UrgS/7XRbWCASapl7Etq61NSDBB3VibTEv7/VPg2rsE=;
+ b=Xva655VnG4kyZYJX5hryVXfVyR+Oce6fo/lQhP1ulbfk6Za4UNpGOCsuJ+nsIFjLuW
+ fH80io9uTilqCZPy8YF0obVZdG8asXfYmxXU6yM0rdO0fSifUje1pFkZKmHkr197Jg8S
+ 3zfPZTjCJuNf2rR8rHSV2IBr7um1TgE/gUN6EMOM0OKKV/Esx3ZIebNyT3fuWqRRCXdd
+ ZBkt07OgM6RMMCM8ZGJ2aKba6shOIlz49GoyaAWf1z1Gk14A5n2UOPYKnQ+5D5k146q+
+ lOi5jmGQyDHmw/rXnyQeG9cey3N7okIe2M35RHCjJcXX/dVs7RsDTGPDfR7sV9aXNRPN
+ qZew==
+X-Gm-Message-State: AOAM530Co2Ouh9a90VWSXWK45tLpDoJTi0utM9q0/ypGMtB6kQqF8WhR
+ YkKutT00CgAlkGeLYby11rI=
+X-Google-Smtp-Source: ABdhPJyIWTZ7hH49is3yhXeSkYqYM3Il5vlgKknHTafhaabdamgB87qw2Txx0w4RC61MSnWi7qaa+g==
+X-Received: by 2002:a7b:c446:: with SMTP id l6mr4621463wmi.64.1623840366790;
+ Wed, 16 Jun 2021 03:46:06 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id r6sm1679105wrz.91.2021.06.16.03.46.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 03:46:06 -0700 (PDT)
+Subject: Re: [PATCH 08/21] linux-user/hppa: Document non-use of setup_sigtramp
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210616011209.1446045-1-richard.henderson@linaro.org>
+ <20210616011209.1446045-9-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3d14a44c-69ef-4970-e375-f8aa97891f8e@amsat.org>
+Date: Wed, 16 Jun 2021 12:46:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.123.249]
-X-ClientProxiedBy: lhreml750-chm.china.huawei.com (10.201.108.200) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210616011209.1446045-9-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,43 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ben.widawsky@intel.com, jgroves@micron.com, david@redhat.com,
- qemu-devel@nongnu.org, vishal.l.verma@intel.com, mst@redhat.com,
- armbru@redhat.com, f4bug@amsat.org, hchkuo@avery-design.com.tw,
- tyshao@avery-design.com.tw, imammedo@redhat.com, dan.j.williams@intel.com,
- ira.weiny@intel.com
+Cc: Helge Deller <deller@gmx.de>, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Jun 2021 09:16:44 -0400
-Chris Browy <cbrowy@avery-design.com> wrote:
++Helge
 
-> From: hchkuo <hchkuo@avery-design.com.tw>
+On 6/16/21 3:11 AM, Richard Henderson wrote:
+> We cannot use a raw sigtramp page for hppa,
+> but must wait for full vdso support.
 > 
-> Pre-built CDAT table for testing, contains one CDAT header and six
-> CDAT entries: DSMAS, DSLBIS, DSMSCIS, DSIS, DSEMTS, and SSLBIS
-> respectively.
-> 
-> Signed-off-by: hchkuo <hchkuo@avery-design.com.tw>
-> Signed-off-by: Chris Browy <cbrowy@avery-design.com>
-
-I can't apply this. I haven't looked into why as
-reviewing a binary file isn't my idea of fun anyway :)
-
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tests/data/cdat/cdat.dat | Bin 0 -> 148 bytes
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  create mode 100644 tests/data/cdat/cdat.dat
+>  linux-user/hppa/target_signal.h | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/tests/data/cdat/cdat.dat b/tests/data/cdat/cdat.dat
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b66c5d5836bcce7490e698f9ab5071c623425c48
-> GIT binary patch
-> literal 148
-> ycmbQjz`($`14zJu1e^tBD1c~21`KhqG!ugem_{a;892aP794t585EF}W3U1CI069x
-> 
-> literal 0
-> HcmV?d00001
+> diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+> index 7f525362e9..d558119ee7 100644
+> --- a/linux-user/hppa/target_signal.h
+> +++ b/linux-user/hppa/target_signal.h
+> @@ -71,4 +71,18 @@ typedef struct target_sigaltstack {
+>  /* mask for all SS_xxx flags */
+>  #define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
+>  
+> +/*
+> + * We cannot use a bare sigtramp page for hppa-linux.
+> + *
+> + * Unlike other guests where we use the instructions at PC to validate
+> + * an offset from SP, the hppa libgcc signal frame fallback unwinding uses
+> + * the PC address itself to find the frame.  This is due to the fact that
+> + * the hppa grows the stack upward, and the frame is of unknown size.
+> + *
+> + * TODO: We should be able to use a VDSO to address this, by providing
+> + * proper unwind info for the sigtramp code, at which point the fallback
+> + * unwinder will not be used.
+> + */
+> +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
+> +
+>  #endif /* HPPA_TARGET_SIGNAL_H */
 > 
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
