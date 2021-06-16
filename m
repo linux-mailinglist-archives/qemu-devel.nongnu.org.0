@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C463A8E7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:45:01 +0200 (CEST)
-Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AD13A8E8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:47:44 +0200 (CEST)
+Received: from localhost ([::1]:47252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKc0-0000Ku-TT
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:45:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55508)
+	id 1ltKeb-0005qF-Tz
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:47:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltKTs-0008RT-DR
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:36 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:33440)
+ id 1ltKTw-0000Ej-Hu
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:40 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:47007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltKTq-0005c9-KU
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:36 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- k22-20020a17090aef16b0290163512accedso2775284pjz.0
+ id 1ltKTr-0005cq-18
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:40 -0400
+Received: by mail-pg1-x532.google.com with SMTP id n12so593528pgs.13
  for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cCqC17CoPwFaX7KxGxIz9kq2bVuynqUQa02RlRXcupY=;
- b=xAJbAXqKg7S+v++P0gxg5u5wPPlL+G3Tz4FCHy5B7XauHJoClw9Iwxr0FUMECUpIis
- h+Qqao07B+iYTNRLgg21dA2Vr1MKqzDz/epmA2Zn6mpRRLXzJlDHkCn+s/KdhmQtmAxf
- PzSvTE67b6U55avin/xa9AyPmAhm1wfrSMYRe5vWCr0kgUOvqsriPKqhDEPNNNwQhyqg
- vsv3R0adxyeUxkgNIjA03dvags8ahi0oBl3jWBFX0TeE3z05Rdl3VrUv2FqOK4FAfuho
- hwFN05fbVyrMjxw5K3Z6i0x0P4CgyW+mqOj4Zmq/EI3/ZBlA1Xhl5Px+EyBRpficbdle
- YxaA==
+ bh=g/EtpcVEQvR+xKHuSj5BLnH+yGHBoGGI8vPUI0hS6/Q=;
+ b=DDO4tPut9QtIhmX3hAF9slNPBHWt1we64LOXJYHf5he2Y38yLADZ2OQg10/nbWEf0b
+ WgPMYiitpli78lKj0rm4TV6rkqcpOelZd6YFAQWu4sDezik2rhe3oMe+VzLhoM83qVBw
+ oYD65XLFkmWwamYx2jJPTzN3dG9fj+M3B9i2s3VVhKcm3JWZz9Dpf5FNuW/AN2/tjlPT
+ 5HJeX7vbHyq8eiOxIKXVW39jQ8oo4Q2L/kyw+LJrozl1M8o0w6HUf65qKkZOVMaBy5Pg
+ urO0G6RKZgK6mOyPUtUCBKx5SKuGz+5LHvTLhYMov27wSNeFp4Fil+m+WQ0OaKHXfCd1
+ Va3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cCqC17CoPwFaX7KxGxIz9kq2bVuynqUQa02RlRXcupY=;
- b=jKrRi86ztziaT3tUdXbS9XOUEL/C+I1VQHsSankodniCIFkRoPnmZO/5mslgt0bVo/
- acv5REd/ibW/8gVWSw373lBMHiuYKgrqGfDMD4q7in+dfyeB94AwH1eeviHleKSflHy0
- NMi1LFr0UimCz9ttPYBp4bkFY2Bbf4fHFW7nSWdZvUb29e4Dpy8KflLGYLIaIA7XaK1X
- RVF2WeyCP5y5jNETizczFciAS74lPiuuRLVQ9VErt47/hxLVBaHji+52MnI/LbkcLk6p
- 8ljcaZIAY118aqyKKFpFvPyro2GdGBI40LpjckqGWLPboyBtCOuuAbVXMyJgau8jLIq1
- O+Tw==
-X-Gm-Message-State: AOAM533uQEUVx91SVyiohmfbiaI7qBHjsgonwRjeu2CEYToLvWqdo5Ip
- xEdwHQ2oguKYeWoeIeUXNQA7RKZcTUQI0w==
-X-Google-Smtp-Source: ABdhPJyxOjOe+leImQ7Y1CQghWVP7xX4IkTQ5VPmrzSP6tKP0J4m2Hy5KQ5tAYqPLnkgkz1WaQ463Q==
-X-Received: by 2002:a17:903:2308:b029:110:41c3:70b0 with SMTP id
- d8-20020a1709032308b029011041c370b0mr6874646plh.32.1623807393149; 
+ bh=g/EtpcVEQvR+xKHuSj5BLnH+yGHBoGGI8vPUI0hS6/Q=;
+ b=i9TES2PB1KSIxjOxrOow5zMA/wwZWkU6YYOhFMce29nL1j0nsaPkx3j/EsUv+s19Jp
+ L13Zv6VpIlXaI6SKR8oNwC3p2pgoW5ympVVqFooDxOZDYSe46OTi7TjJyM6Pk18Gu2Kt
+ XK+4IDgW7KoXTMRAEsSRkLP8W276iMZmUZyD4vEik/5Dr1FZKC9gTwxmG5BHuaBGpRin
+ WAjdANcggNcboqaV9wGS8MR0ySXrVRE3GA7jviItLm5wyhTIuFqqzTadlyYv3zt/jxjh
+ PJrOGQnPDu0GIhOINfozsIN6g0EeQlCNL34Qyq0FMiS/4RRSrJFTZCijIv7guLENiJLx
+ C8Jw==
+X-Gm-Message-State: AOAM531hZB77ut4Z8wgoLNWdaUDzXhq9isUv2i5GN34ttTnBIjNUjY90
+ LnadIH9KA0bPnEljweJdz6faL5t+csZjfQ==
+X-Google-Smtp-Source: ABdhPJwEhiH+XEh0Hnl7RKuUpJhMZpxbqN/48dEFYSZIPVgn2Be01A+I4WbHjfH1szgDvybTuJt35Q==
+X-Received: by 2002:a05:6a00:248a:b029:2f7:218b:3845 with SMTP id
+ c10-20020a056a00248ab02902f7218b3845mr6781964pfv.12.1623807393750; 
  Tue, 15 Jun 2021 18:36:33 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id o1sm321595pjf.56.2021.06.15.18.36.32
+ by smtp.gmail.com with ESMTPSA id o1sm321595pjf.56.2021.06.15.18.36.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 18:36:32 -0700 (PDT)
+ Tue, 15 Jun 2021 18:36:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] util: Pass file+line to qemu_rec_mutex_unlock_impl
-Date: Tue, 15 Jun 2021 18:36:25 -0700
-Message-Id: <20210616013629.1458790-5-richard.henderson@linaro.org>
+Subject: [PULL 5/8] util: Use unique type for QemuRecMutex in thread-posix.h
+Date: Tue, 15 Jun 2021 18:36:26 -0700
+Message-Id: <20210616013629.1458790-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210616013629.1458790-1-richard.henderson@linaro.org>
 References: <20210616013629.1458790-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,89 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create macros for file+line expansion in qemu_rec_mutex_unlock
-like we have for qemu_mutex_unlock.
+We will shortly convert lockable.h to _Generic, and we cannot
+have two compatible types in the same expansion.  Wrap QemuMutex
+in a struct, and unwrap in qemu-thread-posix.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210614233143.1221879-5-richard.henderson@linaro.org>
+Message-Id: <20210614233143.1221879-6-richard.henderson@linaro.org>
 ---
- include/qemu/thread.h    | 10 +++++++++-
- util/qemu-thread-posix.c |  4 ++--
- util/qemu-thread-win32.c |  2 +-
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ include/qemu/thread-posix.h | 10 ++++++++--
+ util/qemu-thread-posix.c    | 12 ++++++------
+ 2 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index 2c0d85f3bc..460568d67d 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -32,7 +32,7 @@ void qemu_rec_mutex_init(QemuRecMutex *mutex);
- void qemu_rec_mutex_destroy(QemuRecMutex *mutex);
- void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line);
- int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line);
--void qemu_rec_mutex_unlock(QemuRecMutex *mutex);
-+void qemu_rec_mutex_unlock_impl(QemuRecMutex *mutex, const char *file, int line);
+diff --git a/include/qemu/thread-posix.h b/include/qemu/thread-posix.h
+index cf8bc90468..b792e6ef37 100644
+--- a/include/qemu/thread-posix.h
++++ b/include/qemu/thread-posix.h
+@@ -4,8 +4,6 @@
+ #include <pthread.h>
+ #include <semaphore.h>
  
- typedef void (*QemuMutexLockFunc)(QemuMutex *m, const char *f, int l);
- typedef int (*QemuMutexTrylockFunc)(QemuMutex *m, const char *f, int l);
-@@ -110,6 +110,9 @@ extern QemuCondTimedWaitFunc qemu_cond_timedwait_func;
- #define qemu_mutex_unlock(mutex) \
-         qemu_mutex_unlock_impl(mutex, __FILE__, __LINE__)
+-typedef QemuMutex QemuRecMutex;
+-
+ struct QemuMutex {
+     pthread_mutex_t lock;
+ #ifdef CONFIG_DEBUG_MUTEX
+@@ -15,6 +13,14 @@ struct QemuMutex {
+     bool initialized;
+ };
  
-+#define qemu_rec_mutex_unlock(mutex) \
-+        qemu_rec_mutex_unlock_impl(mutex, __FILE__, __LINE__)
++/*
++ * QemuRecMutex cannot be a typedef of QemuMutex lest we have two
++ * compatible cases in _Generic.  See qemu/lockable.h.
++ */
++typedef struct QemuRecMutex {
++    QemuMutex m;
++} QemuRecMutex;
 +
- static inline void (qemu_mutex_lock)(QemuMutex *mutex)
- {
-     qemu_mutex_lock(mutex);
-@@ -135,6 +138,11 @@ static inline int (qemu_rec_mutex_trylock)(QemuRecMutex *mutex)
-     return qemu_rec_mutex_trylock(mutex);
- }
- 
-+static inline void (qemu_rec_mutex_unlock)(QemuRecMutex *mutex)
-+{
-+    qemu_rec_mutex_unlock(mutex);
-+}
-+
- void qemu_cond_init(QemuCond *cond);
- void qemu_cond_destroy(QemuCond *cond);
- 
+ struct QemuCond {
+     pthread_cond_t cond;
+     bool initialized;
 diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index 8e2b6653f5..d990826ed8 100644
+index d990826ed8..fd9d714038 100644
 --- a/util/qemu-thread-posix.c
 +++ b/util/qemu-thread-posix.c
-@@ -139,9 +139,9 @@ int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line)
-     return qemu_mutex_trylock_impl(mutex, file, line);
+@@ -116,32 +116,32 @@ void qemu_rec_mutex_init(QemuRecMutex *mutex)
+ 
+     pthread_mutexattr_init(&attr);
+     pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+-    err = pthread_mutex_init(&mutex->lock, &attr);
++    err = pthread_mutex_init(&mutex->m.lock, &attr);
+     pthread_mutexattr_destroy(&attr);
+     if (err) {
+         error_exit(err, __func__);
+     }
+-    mutex->initialized = true;
++    mutex->m.initialized = true;
  }
  
--void qemu_rec_mutex_unlock(QemuRecMutex *mutex)
-+void qemu_rec_mutex_unlock_impl(QemuRecMutex *mutex, const char *file, int line)
+ void qemu_rec_mutex_destroy(QemuRecMutex *mutex)
  {
--    qemu_mutex_unlock(mutex);
-+    qemu_mutex_unlock_impl(mutex, file, line);
+-    qemu_mutex_destroy(mutex);
++    qemu_mutex_destroy(&mutex->m);
+ }
+ 
+ void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line)
+ {
+-    qemu_mutex_lock_impl(mutex, file, line);
++    qemu_mutex_lock_impl(&mutex->m, file, line);
+ }
+ 
+ int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line)
+ {
+-    return qemu_mutex_trylock_impl(mutex, file, line);
++    return qemu_mutex_trylock_impl(&mutex->m, file, line);
+ }
+ 
+ void qemu_rec_mutex_unlock_impl(QemuRecMutex *mutex, const char *file, int line)
+ {
+-    qemu_mutex_unlock_impl(mutex, file, line);
++    qemu_mutex_unlock_impl(&mutex->m, file, line);
  }
  
  void qemu_cond_init(QemuCond *cond)
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index cb5aa2018c..52eb19f351 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -105,7 +105,7 @@ int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line)
-     return !TryEnterCriticalSection(&mutex->lock);
- }
- 
--void qemu_rec_mutex_unlock(QemuRecMutex *mutex)
-+void qemu_rec_mutex_unlock_impl(QemuRecMutex *mutex, const char *file, int line)
- {
-     assert(mutex->initialized);
-     LeaveCriticalSection(&mutex->lock);
 -- 
 2.25.1
 
