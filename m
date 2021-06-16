@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0293AA649
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 23:47:16 +0200 (CEST)
-Received: from localhost ([::1]:45786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982943AA64E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 23:49:39 +0200 (CEST)
+Received: from localhost ([::1]:55422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltdNU-0006Zx-00
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 17:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49156)
+	id 1ltdPm-0004ax-Km
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 17:49:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltdKE-0001yD-Kf; Wed, 16 Jun 2021 17:43:54 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40589)
+ id 1ltdKK-0002Eg-Co; Wed, 16 Jun 2021 17:44:00 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltdKD-0006fV-6W; Wed, 16 Jun 2021 17:43:54 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id y7so4231104wrh.7;
- Wed, 16 Jun 2021 14:43:52 -0700 (PDT)
+ id 1ltdKI-0006jL-Ng; Wed, 16 Jun 2021 17:44:00 -0400
+Received: by mail-wr1-x431.google.com with SMTP id f2so4230946wri.11;
+ Wed, 16 Jun 2021 14:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lMrFIFZX4VBJPQraxvDxEyJhOku4B5f9uSq095+uB5I=;
- b=ROhKU7Wv2GyicVLuhMGoTxFgsEj2O4goVxWO7/ymmFTnyWm6R9IfEF2+GfVWa8Ni97
- JTuwnqrkiZWg36fIYxXq2dd37lKX1QIrodDhOz2QSKAdNxCUm7CY8W2ocZu4z4EYCma5
- BBIagxNwBNpgWigIuzE7TcjalGQOJgBc2tcbq7LaVROwUVBKxarY3v75RDCMJAnxtqIk
- PKxlGTKDJd7pYbEBTItjJjKCGGev/YvcG+qSzavGXGrz4AdE8DrivP8+1jTE7VCxnAft
- avRtnWiOPR5Kok6y2mMYhWOghx1wjpN08lpVEuT6UmwUmCQtOSPrOm8ecR3ZohIzm4f2
- SHeg==
+ bh=Xaw3RJNkpGriYz8vt+BCpgugibw18q+MPp6XakrxTs4=;
+ b=b1kEKiK4zGbDqxWxgK1H0qAR4HxX9/cswfC4wJTbHEyLL62akF47X2U/cCX/ic5RFG
+ s4ooq6qdq28WM0hqoN0iVjfyNAb3SPuj5zPEESzHuH1dIL7Dw0uk03o9qT7/i4jREwNG
+ SSCQJ1H7j1HVqrnY1sywr5NlkJMbL3Yu+YX2C41eOv21xNPDDHZKgJidKdTRy4UKXDSQ
+ qoMEmibVGloS0wQz29w6c/KnnAN0Pwolp5SIKUa5ZM3JJpy0COZaY24jmTv44JV8psRl
+ Eo9k6qaLmCdI0oxRIp5n9z9E8Kh2YcBIH65nDsDIKaphOxxAZlPX/K7bYEOYUdgsaK1e
+ NhSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lMrFIFZX4VBJPQraxvDxEyJhOku4B5f9uSq095+uB5I=;
- b=qnvUucZhr3UvpcW/xWQqhvwJDKsKSL5/c547H0XHiPycDKrIYLwEk3AKidQl/Q5UCA
- OE8bFmEHNtC32gTqwxJ2yPQco+nV8m+TEquOdnfb9lfsVtl/XHgBRas6oSZsycE8Hi1l
- paidQ5fxuZNBD/OPCIgqm2YtoU/03eQ8KAU5QTCHenRegWDbOwX3/Okc5meZbMEyvVQo
- f3dUvUjVAjPmML4CK7VTqIZVFgUEXUHV7vAqUlhIGqgtMAIXogq1yF/D9otfxnfJMmBT
- drk2XeCPljGhw+NzeCJDMHqEgfBOXZdzQcuXv3NUxDVaNSeBfa4S90Z5G56zrNaFRL9G
- o9Ag==
-X-Gm-Message-State: AOAM531lXBh3NeHP+k/LlJTrS3KT5/Ihz02S+u6FGORkwEFdwA5Id3UF
- GyYPUNHhIJ9JPG0RTRIExPqq7hjRqMxlrQ==
-X-Google-Smtp-Source: ABdhPJx1sca0UXmy/lGQ9mieLhWuE+h/r4JlJOMlOMsurTYpapJiZGbCP6y+wLOoCg7bdOQxW0ZuoA==
-X-Received: by 2002:a5d:64c2:: with SMTP id f2mr1418652wri.291.1623879831081; 
- Wed, 16 Jun 2021 14:43:51 -0700 (PDT)
+ bh=Xaw3RJNkpGriYz8vt+BCpgugibw18q+MPp6XakrxTs4=;
+ b=SNve24Y69K8Ccpd5TXaTvKYrWVgXxMLyUqGf43SLKef2JNNDyXvKAvlZPs/+N/D55h
+ MGOsURqWN+0mt3YUycSQORai4PvGXzi26FfWMdfoH1gdjRmoHtphHvvyrWROcM0/M7Bq
+ Pn6fD3IN6Vij5bmfJTFJYexWgMBo120iYn8k3SO16TPrs8xkcozYweHGq3ieT/rV9Puj
+ skT30wKf4BdOvgrZ6OAEckX7nSoJqoOzwKtMH8gbBpxnBpaJRE/YsG6TlOYnM1AyWMoc
+ KhNABb0cj+OjhnIdHZO7KNOQzD/iuIwwaPkXDRAwi3qhkpeJ4oDf62y3xq6KQYy+MCOr
+ nK/g==
+X-Gm-Message-State: AOAM530xI1EbMldO1cFB0y4YpU3Smhk4IwcHuyj1icJPGAisAJppsvw5
+ g9nNeMl8G/TWq5v7Z8+xkLK5/rg+sqwMNg==
+X-Google-Smtp-Source: ABdhPJxo1CtcK6hh0B6GMM1gy3iCaIw/QjFj5zp+lWaS+xNSNFMrgKuwKcp8kv02gGi4d7zqk4apjQ==
+X-Received: by 2002:a5d:5986:: with SMTP id n6mr1460631wri.60.1623879836653;
+ Wed, 16 Jun 2021 14:43:56 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id f5sm3882154wrf.22.2021.06.16.14.43.49
+ by smtp.gmail.com with ESMTPSA id f12sm3947441wru.81.2021.06.16.14.43.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 14:43:50 -0700 (PDT)
+ Wed, 16 Jun 2021 14:43:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/15] hw/misc/auxbus: Replace i2c_send_recv() by
- i2c_recv() & i2c_send()
-Date: Wed, 16 Jun 2021 23:42:49 +0200
-Message-Id: <20210616214254.2647796-11-f4bug@amsat.org>
+Subject: [PATCH v4 11/15] hw/i2c: Remove confusing i2c_send_recv()
+Date: Wed, 16 Jun 2021 23:42:50 +0200
+Message-Id: <20210616214254.2647796-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616214254.2647796-1-f4bug@amsat.org>
 References: <20210616214254.2647796-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,93 +90,105 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using the confuse i2c_send_recv(), replace
-  i2c_send_recv(send = true) by i2c_send() and
-  i2c_send_recv(send = false) by i2c_recv().
-During the replacement we also change a while() statement by for().
-The resulting code is easier to review.
+We replaced all the i2c_send_recv() calls by the clearer i2c_recv()
+and i2c_send(), so we can remove this confusing API.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Acked-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/auxbus.c | 35 +++++++++++------------------------
- 1 file changed, 11 insertions(+), 24 deletions(-)
+ include/hw/i2c/i2c.h |  1 -
+ hw/i2c/core.c        | 50 +++++++++++++++++++-------------------------
+ 2 files changed, 21 insertions(+), 30 deletions(-)
 
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index d96219aef88..44aa9730bc9 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -141,12 +141,8 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-         }
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 850815e707c..99635b837a5 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -84,7 +84,6 @@ int i2c_bus_busy(I2CBus *bus);
+ int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
+ void i2c_end_transfer(I2CBus *bus);
+ void i2c_nack(I2CBus *bus);
+-int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send);
+ int i2c_send(I2CBus *bus, uint8_t data);
+ uint8_t i2c_recv(I2CBus *bus);
+ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index 3a7bae311df..27a66df7f34 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -188,50 +188,42 @@ void i2c_end_transfer(I2CBus *bus)
+     bus->broadcast = false;
+ }
  
-         ret = AUX_I2C_ACK;
--        while (len > 0) {
--            if (i2c_send_recv(i2c_bus, data++, false) < 0) {
--                ret = AUX_I2C_NACK;
--                break;
+-int i2c_send_recv(I2CBus *bus, uint8_t *data, bool send)
++int i2c_send(I2CBus *bus, uint8_t data)
+ {
+     I2CSlaveClass *sc;
+     I2CSlave *s;
+     I2CNode *node;
+     int ret = 0;
+ 
+-    if (send) {
+-        QLIST_FOREACH(node, &bus->current_devs, next) {
+-            s = node->elt;
+-            sc = I2C_SLAVE_GET_CLASS(s);
+-            if (sc->send) {
+-                trace_i2c_send(s->address, *data);
+-                ret = ret || sc->send(s, *data);
+-            } else {
+-                ret = -1;
 -            }
--            len--;
-+        for (i = 0; i < len; i++) {
-+            data[i] = i2c_recv(i2c_bus);
++    QLIST_FOREACH(node, &bus->current_devs, next) {
++        s = node->elt;
++        sc = I2C_SLAVE_GET_CLASS(s);
++        if (sc->send) {
++            trace_i2c_send(s->address, data);
++            ret = ret || sc->send(s, data);
++        } else {
++            ret = -1;
          }
-         i2c_end_transfer(i2c_bus);
-         break;
-@@ -161,12 +157,11 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-         }
- 
-         ret = AUX_I2C_ACK;
--        while (len > 0) {
--            if (i2c_send_recv(i2c_bus, data++, true) < 0) {
-+        for (i = 0; i < len; i++) {
-+            if (i2c_send(i2c_bus, data[i]) < 0) {
-                 ret = AUX_I2C_NACK;
-                 break;
-             }
--            len--;
-         }
-         i2c_end_transfer(i2c_bus);
-         break;
-@@ -200,15 +195,13 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
- 
-         bus->last_transaction = cmd;
-         bus->last_i2c_address = address;
--        while (len > 0) {
--            if (i2c_send_recv(i2c_bus, data++, true) < 0) {
-+        ret = AUX_I2C_ACK;
-+        for (i = 0; i < len; i++) {
-+            if (i2c_send(i2c_bus, data[i]) < 0) {
-                 i2c_end_transfer(i2c_bus);
-+                ret = AUX_I2C_NACK;
-                 break;
-             }
--            len--;
--        }
--        if (len == 0) {
--            ret = AUX_I2C_ACK;
-         }
-         break;
-     case READ_I2C_MOT:
-@@ -233,16 +226,10 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
- 
-         bus->last_transaction = cmd;
-         bus->last_i2c_address = address;
--        while (len > 0) {
--            if (i2c_send_recv(i2c_bus, data++, false) < 0) {
--                i2c_end_transfer(i2c_bus);
--                break;
+-        return ret ? -1 : 0;
+-    } else {
+-        ret = 0xff;
+-        if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
+-            sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
+-            if (sc->recv) {
+-                s = QLIST_FIRST(&bus->current_devs)->elt;
+-                ret = sc->recv(s);
+-                trace_i2c_recv(s->address, ret);
 -            }
--            len--;
 -        }
--        if (len == 0) {
--            ret = AUX_I2C_ACK;
-+        for (i = 0; i < len; i++) {
-+            data[i] = i2c_recv(i2c_bus);
-         }
-+        ret = AUX_I2C_ACK;
-         break;
-     default:
-         qemu_log_mask(LOG_UNIMP, "AUX cmd=%u not implemented\n", cmd);
+-        *data = ret;
+-        return 0;
+     }
+-}
+ 
+-int i2c_send(I2CBus *bus, uint8_t data)
+-{
+-    return i2c_send_recv(bus, &data, true);
++    return ret ? -1 : 0;
+ }
+ 
+ uint8_t i2c_recv(I2CBus *bus)
+ {
+     uint8_t data = 0xff;
++    I2CSlaveClass *sc;
++    I2CSlave *s;
++
++    if (!QLIST_EMPTY(&bus->current_devs) && !bus->broadcast) {
++        sc = I2C_SLAVE_GET_CLASS(QLIST_FIRST(&bus->current_devs)->elt);
++        if (sc->recv) {
++            s = QLIST_FIRST(&bus->current_devs)->elt;
++            data = sc->recv(s);
++            trace_i2c_recv(s->address, data);
++        }
++    }
+ 
+-    i2c_send_recv(bus, &data, false);
+     return data;
+ }
+ 
 -- 
 2.31.1
 
