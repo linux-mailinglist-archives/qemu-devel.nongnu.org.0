@@ -2,72 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D9D3A9BCF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:19:43 +0200 (CEST)
-Received: from localhost ([::1]:38464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263983A9B7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:06:46 +0200 (CEST)
+Received: from localhost ([::1]:51926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltVSI-0002MY-ES
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:19:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
+	id 1ltVFl-0008UC-5H
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <LIZHAOXIN1@kingsoft.com>)
- id 1ltVQx-0001Kx-Fr
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:18:19 -0400
-Received: from mail.kingsoft.com ([114.255.44.145]:45882)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <LIZHAOXIN1@kingsoft.com>) id 1ltVQt-0008FJ-UX
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:18:19 -0400
-X-AuditID: 0a580155-3e9ff7000005011f-36-60c9f65d5e1e
-Received: from mail.kingsoft.com (localhost [10.88.1.79])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mail.kingsoft.com (SMG-2-NODE-85) with SMTP id AC.42.00287.D56F9C06;
- Wed, 16 Jun 2021 21:02:21 +0800 (HKT)
-Received: from KSbjmail3.kingsoft.cn (10.88.1.78) by KSBJMAIL4.kingsoft.cn
- (10.88.1.79) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 16 Jun
- 2021 21:02:21 +0800
-Received: from KSbjmail3.kingsoft.cn ([fe80::a5d4:d2ab:3048:62ec]) by
- KSBJMAIL3.kingsoft.cn ([fe80::a5d4:d2ab:3048:62ec%10]) with mapi id
- 15.01.2176.014; Wed, 16 Jun 2021 21:02:21 +0800
-From: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "quintela@redhat.com"
- <quintela@redhat.com>, "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "berrange@redhat.com" <berrange@redhat.com>
-Subject: Re: [PATCH v2] migration/rdma: Use huge page register VM memory
-Thread-Topic: [PATCH v2] migration/rdma: Use huge page register VM memory
-Thread-Index: Addir2tBZhxETW1ITFKRk09wEt30rA==
-Date: Wed, 16 Jun 2021 13:02:20 +0000
-Message-ID: <145b82f8ce5b4db2a605e2ee1480a909@kingsoft.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.88.1.106]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDLMWRmVeSWpSXmKPExsXCFcHorxv77WSCwcI+aYs3b9YwWfRuu8du
- cbx3B4vFnS19TA4sHk+ubWbyeL/vKlsAUxSXTUpqTmZZapG+XQJXxsk161gLthhUbN6wgKmB
- cYp+FyMHh4SAicSy2ZZdjJwcQgLTmSQ+fo7rYuQCsl8wStw+2MMI4exllHj15QYLSBWbgKfE
- p1Vn2EASIgL7GCXaLxwCSzALuEt8+DiTGcQWFvCQ6Fv/mBHEFgFqWLxjIzuErSfRuWIHWA2L
- gKrE4R9rwGxeAWuJ5U+mgdUzCshKTHt0nwliprjE3GmzWEFsCQEBiSV7zjND2KISLx//Y4X4
- QF5i9UdhiHItiXkNv6FaFSWmdD9khxgvKHFy5hOWCYwis5BMnYWkZRaSlllIWhYwsqxiZCnO
- TTfaxAiJgNAdjDOaPuodYmTiYDzEKMHBrCTCq1t8IkGINyWxsiq1KD++qDQntfgQozQHi5I4
- r1DUyQQhgfTEktTs1NSC1CKYLBMHp1QD056XwrcZjgivV2uLyD74qar9h35N/bODHs6BvXfV
- 9+x0nRTjrmZnHHrX9qGhoHrZsnSzjTwnv/YmJO7/oaBiIcAtl/z4h71XwbRvNuKeCtd+Pl0b
- 6W7e+q7+7oMHL6/8mi74b2Xn6kdai/kZq2LYmmWXPHnB0GDGwhxY/mn71K6+aa2i7amsIS5f
- OB+IhhTP31eukPIskDf+78b9T0PfPpsX2Dfv0nvZ2wzzdz5INdNk+upyQO+JcMJ7q5roSR+v
- rkxPm3IuqZQvIPRHF9s9zus5iSk/OzdzeSbW+m763yyW9L3mPdMmK2W5ylLR6TLPIlbN1O6q
- aQpqFyjb/GN+SZPqnAA+pRUTFrWHlM5SYinOSDTUYi4qTgQA1savPe8CAAA=
-Received-SPF: pass client-ip=114.255.44.145;
- envelope-from=LIZHAOXIN1@kingsoft.com; helo=mail.kingsoft.com
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1ltVD7-0005pG-FX; Wed, 16 Jun 2021 09:04:01 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1ltVD1-0000iy-M0; Wed, 16 Jun 2021 09:04:01 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15GD3ETv002707; Wed, 16 Jun 2021 09:03:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=264909Vq3yckYuBP8jYyUV4cpCJJ3MW+7zacam8XwOE=;
+ b=pqD/ycWIu7BdX43Khs2r2JiSn8jngBQkF2zmUC4NTJgNpnc/lzRfWJVKZfpgGAXsDE79
+ 87wGGWp2JZfxVYCjzUbxmZl52I+rxliSaqF8umJaI6GxKUw0xvPidBbBniIOESf7NQR3
+ hEoHz/a4zpwBQfrML4Rq6mfa7OMpaH3chBNCCRvsNjHC/GzLt5LAMcri2r+Wu35trAww
+ KOFq3+LLdSz0KxB+cCzykN1LnVKYZrRr0cozDAhfhCOJG/0HySbNlGB5+AjFTNOukf5F
+ U6ILKNpkH6Fbg1kmu5x+bLbadq0O50TvS5tK9yJfvRjNQRVuqLpANS0xzeDFssoAeatH /g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 397g87karu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jun 2021 09:03:52 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15GD3MiO006396;
+ Wed, 16 Jun 2021 09:03:52 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 397g87kaqw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jun 2021 09:03:52 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15GD25Ip017198;
+ Wed, 16 Jun 2021 13:03:51 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03wdc.us.ibm.com with ESMTP id 394mj9rcdh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jun 2021 13:03:50 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15GD3nZx17891610
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Jun 2021 13:03:49 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 926AF6E056;
+ Wed, 16 Jun 2021 13:03:49 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5EFE86E04C;
+ Wed, 16 Jun 2021 13:03:48 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.160.30.100])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 16 Jun 2021 13:03:48 +0000 (GMT)
+Message-ID: <c9fac1cb32c16ea583367ea2320845eb78074f9c.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 4/4] s390x/css: Add passthrough IRB
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Date: Wed, 16 Jun 2021 09:03:47 -0400
+In-Reply-To: <87o8c6w2n4.fsf@redhat.com>
+References: <20210616014749.2460133-1-farman@linux.ibm.com>
+ <20210616014749.2460133-5-farman@linux.ibm.com> <87o8c6w2n4.fsf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: xkJtmwCJo2WwTEQbksYnlrgwf8btX9kH
+X-Proofpoint-GUID: EzTiEDjUoLK6gHI91XT7b2k-2LUfEIVP
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-16_07:2021-06-15,
+ 2021-06-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2106160076
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,88 +111,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?gb2312?B?TElaSEFPWElOMSBbwO7V1fbOXQ==?= <LIZHAOXIN1@kingsoft.com>
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBXaGVuIHVzaW5nIGxpYnZpcnQgZm9yIFJETUEgbGl2ZSBtaWdyYXRpb24sIGlmIHRoZSBWTSBt
-ZW1vcnkgaXMgdG9vIGxhcmdlLCANCj4gaXQgd2lsbCB0YWtlIGEgbG90IG9mIHRpbWUgdG8gZGVy
-ZWdpc3RlciB0aGUgVk0gYXQgdGhlIHNvdXJjZSBzaWRlLCByZXN1bHRpbmcgDQo+IGluIGEgbG9u
-ZyBkb3dudGltZSAoVk0gNjRHLCBkZXJlZ2lzdGVyIHZtIHRpbWUgaXMgYWJvdXQgNDAwbXMpLg0K
-PiANCj4gQWx0aG91Z2ggdGhlIFZNJ3MgbWVtb3J5IHVzZXMgMk0gaHVnZSBwYWdlcywgdGhlIE1M
-TlggZHJpdmVyIHN0aWxsIHVzZXMgNEsgDQo+IHBhZ2VzIGZvciBwaW4gbWVtb3J5LCBhcyB3ZWxs
-IGFzIGZvciB1bnBpbi4NCj4gU28gd2UgdXNlIGh1Z2UgcGFnZXMgdG8gc2tpcCB0aGUgcHJvY2Vz
-cyBvZiBwaW4gbWVtb3J5IGFuZCB1bnBpbiBtZW1vcnkgdG8gcmVkdWNlIGRvd250aW1lLg0KPiAN
-Cg0KVGhlIHRlc3QgZW52aXJvbm1lbnQ6DQprZXJuZWw6IGxpbnV4LTUuMTINCk1MTlg6IENvbm5l
-Y3RYLTQgTFgNCmxpYnZpcnQgY29tbWFuZDoNCnZpcnNoIG1pZ3JhdGUgLS1saXZlIC0tcDJwIC0t
-cGVyc2lzdGVudCAtLWNvcHktc3RvcmFnZS1pbmMgLS1saXN0ZW4tYWRkcmVzcyBcDQowLjAuMC4w
-IC0tcmRtYS1waW4tYWxsIC0tbWlncmF0ZXVyaSByZG1hOi8vMTkyLjE2OC4wLjIgW1ZNXSBxZW11
-K3RjcDovLzE5Mi4xNjguMC4yL3N5c3RlbQ0KDQo+IC0tLQ0KPiB2Mg0KPiAtIEFkZCBwYWdlX3Np
-emUgaW4gc3RydWN0IFJETUFMb2NhbEJsb2NrDQo+IC0gVXNlIHBhZ2Vfc2l6ZSB0byBkZXRlcm1p
-bmUgd2hldGhlciBWTSB1c2VzIGh1Z2UgcGFnZQ0KPiAtLS0NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
-IGxpemhhb3hpbiA8bGl6aGFveGluMUBraW5nc29mdC5jb20+DQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-bWlncmF0aW9uL3JkbWEuYyBiL21pZ3JhdGlvbi9yZG1hLmMgaW5kZXggMWNkYjQ1NjFmMy4uNzAz
-ODE2ZWJjNyAxMDA2NDQNCj4gLS0tIGEvbWlncmF0aW9uL3JkbWEuYw0KPiArKysgYi9taWdyYXRp
-b24vcmRtYS5jDQo+IEBAIC0yMTUsNiArMjE1LDcgQEAgdHlwZWRlZiBzdHJ1Y3QgUkRNQUxvY2Fs
-QmxvY2sgew0KPiAgICAgIHVpbnQ2NF90ICAgICAgIHJlbW90ZV9ob3N0X2FkZHI7IC8qIHJlbW90
-ZSB2aXJ0dWFsIGFkZHJlc3MgKi8NCj4gICAgICB1aW50NjRfdCAgICAgICBvZmZzZXQ7DQo+ICAg
-ICAgdWludDY0X3QgICAgICAgbGVuZ3RoOw0KPiArICAgIHVpbnQ2NF90ICAgICAgIHBhZ2Vfc2l6
-ZTsNCj4gICAgICBzdHJ1Y3QgICAgICAgICBpYnZfbXIgKipwbXI7ICAgIC8qIE1ScyBmb3IgY2h1
-bmstbGV2ZWwgcmVnaXN0cmF0aW9uICovDQo+ICAgICAgc3RydWN0ICAgICAgICAgaWJ2X21yICpt
-cjsgICAgICAvKiBNUiBmb3Igbm9uLWNodW5rLWxldmVsIHJlZ2lzdHJhdGlvbiAqLw0KPiAgICAg
-IHVpbnQzMl90ICAgICAgKnJlbW90ZV9rZXlzOyAgICAgLyogcmtleXMgZm9yIGNodW5rLWxldmVs
-IHJlZ2lzdHJhdGlvbiAqLw0KPiBAQCAtNTY1LDcgKzU2Niw4IEBAIHN0YXRpYyBpbmxpbmUgdWlu
-dDhfdCAqcmFtX2NodW5rX2VuZChjb25zdCBSRE1BTG9jYWxCbG9jayAqcmRtYV9yYW1fYmxvY2ss
-DQo+IA0KPiAgc3RhdGljIGludCByZG1hX2FkZF9ibG9jayhSRE1BQ29udGV4dCAqcmRtYSwgY29u
-c3QgY2hhciAqYmxvY2tfbmFtZSwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICB2b2lkICpo
-b3N0X2FkZHIsDQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgcmFtX2FkZHJfdCBibG9ja19v
-ZmZzZXQsIHVpbnQ2NF90IGxlbmd0aCkNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICByYW1f
-YWRkcl90IGJsb2NrX29mZnNldCwgdWludDY0X3QgbGVuZ3RoLA0KPiArICAgICAgICAgICAgICAg
-ICAgICAgICAgIHVpbnQ2NF90IHBhZ2Vfc2l6ZSkNCj4gIHsNCj4gICAgICBSRE1BTG9jYWxCbG9j
-a3MgKmxvY2FsID0gJnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+ICAgICAgUkRNQUxvY2FsQmxv
-Y2sgKmJsb2NrOw0KPiBAQCAtNTk1LDYgKzU5Nyw3IEBAIHN0YXRpYyBpbnQgcmRtYV9hZGRfYmxv
-Y2soUkRNQUNvbnRleHQgKnJkbWEsIGNvbnN0IGNoYXIgKmJsb2NrX25hbWUsDQo+ICAgICAgYmxv
-Y2stPmxvY2FsX2hvc3RfYWRkciA9IGhvc3RfYWRkcjsNCj4gICAgICBibG9jay0+b2Zmc2V0ID0g
-YmxvY2tfb2Zmc2V0Ow0KPiAgICAgIGJsb2NrLT5sZW5ndGggPSBsZW5ndGg7DQo+ICsgICAgYmxv
-Y2stPnBhZ2Vfc2l6ZSA9IHBhZ2Vfc2l6ZTsNCj4gICAgICBibG9jay0+aW5kZXggPSBsb2NhbC0+
-bmJfYmxvY2tzOw0KPiAgICAgIGJsb2NrLT5zcmNfaW5kZXggPSB+MFU7IC8qIEZpbGxlZCBpbiBi
-eSB0aGUgcmVjZWlwdCBvZiB0aGUgYmxvY2sgbGlzdCAqLw0KPiAgICAgIGJsb2NrLT5uYl9jaHVu
-a3MgPSByYW1fY2h1bmtfaW5kZXgoaG9zdF9hZGRyLCBob3N0X2FkZHIgKyBsZW5ndGgpICsgMVVM
-OyBAQCAtNjM0LDcgKzYzNyw4IEBAIHN0YXRpYyBpbnQgcWVtdV9yZG1hX2luaXRfb25lX2Jsb2Nr
-KFJBTUJsb2NrICpyYiwgdm9pZCAqb3BhcXVlKQ0KPiAgICAgIHZvaWQgKmhvc3RfYWRkciA9IHFl
-bXVfcmFtX2dldF9ob3N0X2FkZHIocmIpOw0KPiAgICAgIHJhbV9hZGRyX3QgYmxvY2tfb2Zmc2V0
-ID0gcWVtdV9yYW1fZ2V0X29mZnNldChyYik7DQo+ICAgICAgcmFtX2FkZHJfdCBsZW5ndGggPSBx
-ZW11X3JhbV9nZXRfdXNlZF9sZW5ndGgocmIpOw0KPiAtICAgIHJldHVybiByZG1hX2FkZF9ibG9j
-ayhvcGFxdWUsIGJsb2NrX25hbWUsIGhvc3RfYWRkciwgYmxvY2tfb2Zmc2V0LCBsZW5ndGgpOw0K
-PiArICAgIHJhbV9hZGRyX3QgcGFnZV9zaXplID0gcWVtdV9yYW1fcGFnZXNpemUocmIpOw0KPiAr
-ICAgIHJldHVybiByZG1hX2FkZF9ibG9jayhvcGFxdWUsIGJsb2NrX25hbWUsIGhvc3RfYWRkciwg
-YmxvY2tfb2Zmc2V0LA0KPiArIGxlbmd0aCwgcGFnZV9zaXplKTsNCj4gIH0NCj4gDQo+ICAvKg0K
-PiBAQCAtMTEyMywxMyArMTEyNywyNSBAQCBzdGF0aWMgaW50IHFlbXVfcmRtYV9yZWdfd2hvbGVf
-cmFtX2Jsb2NrcyhSRE1BQ29udGV4dCAqcmRtYSkNCj4gICAgICBSRE1BTG9jYWxCbG9ja3MgKmxv
-Y2FsID0gJnJkbWEtPmxvY2FsX3JhbV9ibG9ja3M7DQo+IA0KPiAgICAgIGZvciAoaSA9IDA7IGkg
-PCBsb2NhbC0+bmJfYmxvY2tzOyBpKyspIHsNCj4gLSAgICAgICAgbG9jYWwtPmJsb2NrW2ldLm1y
-ID0NCj4gLSAgICAgICAgICAgIGlidl9yZWdfbXIocmRtYS0+cGQsDQo+IC0gICAgICAgICAgICAg
-ICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sb2NhbF9ob3N0X2FkZHIsDQo+IC0gICAgICAgICAgICAg
-ICAgICAgIGxvY2FsLT5ibG9ja1tpXS5sZW5ndGgsDQo+IC0gICAgICAgICAgICAgICAgICAgIElC
-Vl9BQ0NFU1NfTE9DQUxfV1JJVEUgfA0KPiAtICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNT
-X1JFTU9URV9XUklURQ0KPiAtICAgICAgICAgICAgICAgICAgICApOw0KPiArICAgICAgICBpZiAo
-bG9jYWwtPmJsb2NrW2ldLnBhZ2Vfc2l6ZSAhPSBxZW11X3JlYWxfaG9zdF9wYWdlX3NpemUpIHsN
-Cj4gKyAgICAgICAgICAgIGxvY2FsLT5ibG9ja1tpXS5tciA9DQo+ICsgICAgICAgICAgICAgICAg
-aWJ2X3JlZ19tcihyZG1hLT5wZCwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsLT5i
-bG9ja1tpXS5sb2NhbF9ob3N0X2FkZHIsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBsb2Nh
-bC0+YmxvY2tbaV0ubGVuZ3RoLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VT
-U19MT0NBTF9XUklURSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX1JF
-TU9URV9XUklURSB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX09OX0RF
-TUFORCB8DQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBJQlZfQUNDRVNTX0hVR0VUTEINCj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICk7DQo+ICsgICAgICAgIH0gZWxzZSB7DQo+ICsgICAg
-ICAgICAgICBsb2NhbC0+YmxvY2tbaV0ubXIgPQ0KPiArICAgICAgICAgICAgICAgIGlidl9yZWdf
-bXIocmRtYS0+cGQsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbC0+YmxvY2tbaV0u
-bG9jYWxfaG9zdF9hZGRyLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwtPmJsb2Nr
-W2ldLmxlbmd0aCwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgIElCVl9BQ0NFU1NfTE9DQUxf
-V1JJVEUgfA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgSUJWX0FDQ0VTU19SRU1PVEVfV1JJ
-VEUNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICk7DQo+ICsgICAgICAgIH0NCj4gICAgICAg
-ICAgaWYgKCFsb2NhbC0+YmxvY2tbaV0ubXIpIHsNCj4gICAgICAgICAgICAgIHBlcnJvcigiRmFp
-bGVkIHRvIHJlZ2lzdGVyIGxvY2FsIGRlc3QgcmFtIGJsb2NrIVxuIik7DQo+ICAgICAgICAgICAg
-ICBicmVhazsNCg0KSGVsbG8gZXZlcnlvbmUsIHBsZWFzZSBnaXZlIG1lIHNvbWUgYWR2aWNlLg0K
-DQpUaGFua3MuDQpsaXpoYW94aW4xDQo=
+On Wed, 2021-06-16 at 11:59 +0200, Cornelia Huck wrote:
+> On Wed, Jun 16 2021, Eric Farman <farman@linux.ibm.com> wrote:
+> 
+> > Wire in the subchannel callback for building the IRB
+> > ESW and ECW space for passthrough devices, and copy
+> > the hardware's ESW into the IRB we are building.
+> > 
+> > If the hardware presented concurrent sense, then copy
+> > that sense data into the IRB's ECW space.
+> > 
+> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> > ---
+> >  hw/s390x/css.c         | 13 ++++++++++++-
+> >  hw/s390x/s390-ccw.c    |  1 +
+> >  hw/vfio/ccw.c          |  4 ++++
+> >  include/hw/s390x/css.h |  3 +++
+> >  4 files changed, 20 insertions(+), 1 deletion(-)
+> > 
+> 
+> (...)
+> 
+> > +void build_irb_passthrough(SubchDev *sch, IRB *irb)
+> > +{
+> > +    /* Copy ESW from hardware */
+> > +    irb->esw = sch->esw;
+> > +
+> > +    if (irb->esw.erw & ESW_ERW_SENSE) {
+> > +        /* Copy ECW from hardware */
+> > +        build_irb_sense_data(sch, irb);
+> > +    }
+> 
+> I'm wondering whether we should also copy "Model-dependent
+> information"
+> (scsw 5 + 14 set, erw 7 unset). Seems more correct, and IIUC the
+> guest
+> was tripped by the presence of erw 7 without valid sense data.
+> 
+
+This is true, but that's because the existing code in
+css_do_tsch_get_irb() set ERW 7 to go with the zeros it copied into the
+ECW. Since we're now copying the ESW.ERW from the passthrough device,
+that bit wouldn't be set in the first place.
+
+But, to be more correct with the possibility of model-dependent
+information, I can unconditionally copy this data over too.
+
+> > +}
+> > +
+
 
