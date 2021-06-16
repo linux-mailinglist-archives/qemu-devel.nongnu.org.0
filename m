@@ -2,83 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9D63A90F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 07:01:42 +0200 (CEST)
-Received: from localhost ([::1]:34642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6681B3A918F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 08:01:30 +0200 (CEST)
+Received: from localhost ([::1]:51370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltNgL-0004H7-NT
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 01:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52264)
+	id 1ltOcD-0001cE-0X
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 02:01:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ltNdh-0001cQ-KS
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 00:58:57 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:38832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ltNde-0004T1-1q
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 00:58:57 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id t17so974781pga.5
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 21:58:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=gOUHlZ3v1UQZWhzlrZqNgPlubTLIjGUSP+dYGJrlyYc=;
- b=f+zGxl3nE+ZXm8K7ENtDF12eqEKBW82g3NsBN7MU1DOu+WvS4SFDkFJSn6Vih4dicU
- cvHYIl8z/m176K9MfLXBsr9qaWVuKglHzlPWw8sOB5+WceqxHs867NOVNvsUZqDGmPSg
- B3LkVdSQ4hya4hr1tD13CDOPx6dMBbmO8YBnBSxhWjmXGdA2tmuzPXqRXXagHCiM01jh
- 8ycj9fOEDyr5vCuzGlIi1ALgWzbLixS7v2dLhDkvDj60UYZhU1K7Cxh3cWDkCZRW9ipr
- SQNqhDIQhcCZVQ9WrAgKXktgdmpiNRSfj8GpWA/gY/KKA2ftVwYsAIfEf98y4eKsQdJZ
- lRuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=gOUHlZ3v1UQZWhzlrZqNgPlubTLIjGUSP+dYGJrlyYc=;
- b=ZIomB5yuEt+E9Yu66HXmOLEkyGu7ynK39pYJ+YHe/xjnlJ367A5CFRqxf95nQdRNbz
- Ot+fcsWFJMRBgijV34rueyl+vvgdYSBVmaVnL9sJC/CmPy1gaBuw5xKhzOlju9joikNy
- Jz364BhNaWvqmEk7ezbq2S9v+LDpor5rtph5ImB0vDcF9K7aRy3Tg7A6nZB/fUJBynRL
- QzRpqDg4+MhybqjfDBnsddMYEQJChuh8SYrYOMCh1XFkbYN3iPaoODLCID5W1VkiQbBN
- HqHsFl0+3wNMi0O3NoQtjGobjuFWsBq4Uzqu6+SzjtLJHIJRySCy40NtqvcL7ZU/dqG6
- gF6g==
-X-Gm-Message-State: AOAM53376lH0CpAYDYhk+g3cZrAABFziaWvBFy2GBmrTrA9Ocqle/raL
- luBKGRbHI581fvLckC3hKOaaczHKp7SQ+Q==
-X-Google-Smtp-Source: ABdhPJwQxbM46XrbeKb0L6uNq5fpoNvxqH0Ti6c9WlHY6eN8aGQjfJ03GjhKC4tk7obmgQHfFLSurQ==
-X-Received: by 2002:a05:6a00:1a41:b029:2ef:9721:879e with SMTP id
- h1-20020a056a001a41b02902ef9721879emr7789070pfv.74.1623819531280; 
- Tue, 15 Jun 2021 21:58:51 -0700 (PDT)
-Received: from localhost (110-175-254-242.static.tpgi.com.au.
- [110.175.254.242])
- by smtp.gmail.com with UTF8SMTPSA id o1sm726270pjf.56.2021.06.15.21.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Jun 2021 21:58:50 -0700 (PDT)
-Message-ID: <e8ecfff0-424f-7548-113f-56cd0377731e@ozlabs.ru>
-Date: Wed, 16 Jun 2021 14:58:46 +1000
+ (Exim 4.90_1) (envelope-from <fthain@fastmail.com.au>)
+ id 1ltLwI-0000Pt-CS
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 23:10:02 -0400
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:58442)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fthain@fastmail.com.au>) id 1ltLwG-0006tz-EU
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 23:10:02 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by kvm5.telegraphics.com.au (Postfix) with ESMTP id BBBDB2BB06;
+ Tue, 15 Jun 2021 23:09:53 -0400 (EDT)
+Date: Wed, 16 Jun 2021 13:09:52 +1000 (AEST)
+From: Finn Thain <fthain@fastmail.com.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 0/5] dp8393x: fixes for MacOS toolbox ROM
+In-Reply-To: <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
+Message-ID: <17f0917-de30-6771-26d0-7a10214221ca@nippy.intranet>
+References: <20210613163738.2141-1-mark.cave-ayland@ilande.co.uk>
+ <20a706c7-9b44-13cc-b294-1ee0f3cff6bb@amsat.org>
+ <2a2fff87-6e6f-3362-24e3-760f1aea4573@ilande.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101
- Thunderbird/88.0
-Subject: Re: [RFC PATCH 4/5] ppc/pegasos2: Use Virtual Open Firmware as
- firmware replacement
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1622994395.git.balaton@eik.bme.hu>
- <53e3f069ab536bc2d0c6b3e39418bc85357631ad.1622994395.git.balaton@eik.bme.hu>
- <55582a05-160a-ac1d-75ac-7e636fa2fd7d@ozlabs.ru>
- <2bd3b42-6556-e47c-c590-bb52e22b2577@eik.bme.hu>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <2bd3b42-6556-e47c-c590-bb52e22b2577@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=aik@ozlabs.ru; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.095, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed; boundary="-1463811774-1492748151-1623812992=:6"
+Received-SPF: neutral client-ip=98.124.60.144;
+ envelope-from=fthain@fastmail.com.au; helo=kvm5.telegraphics.com.au
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 16 Jun 2021 02:00:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,125 +52,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: aleksandar.rikalo@syrmia.com, jasowang@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, hpoussin@reactos.org, aurelien@aurel32.net,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+---1463811774-1492748151-1623812992=:6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On 6/15/21 19:44, BALATON Zoltan wrote:
-> On Tue, 15 Jun 2021, Alexey Kardashevskiy wrote:
->> On 6/7/21 01:46, BALATON Zoltan wrote:
->>> The pegasos2 board comes with an Open Firmware compliant ROM based on
->>> SmartFirmware but it has some changes that are not open source
->>> therefore the ROM binary cannot be included in QEMU. Guests running on
->>> the board however depend on services provided by the firmware. The
->>> Virtual Open Firmware recently added to QEMU imlements a minimal set
->>> of these services to allow some guests to boot without the original
->>> firmware. This patch adds VOF as the default firmware for pegasos2
->>> which allows booting Linux and MorphOS via -kernel option while a ROM
->>> image can still be used with -bios for guests that don't run with VOF.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>>   hw/ppc/Kconfig    |   1 +
->>>   hw/ppc/pegasos2.c | 622 +++++++++++++++++++++++++++++++++++++++++++++-
->>>   2 files changed, 621 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>> index b895720b28..0eb48128fe 100644
->>> --- a/hw/ppc/Kconfig
->>> +++ b/hw/ppc/Kconfig
->>> @@ -75,6 +75,7 @@ config PEGASOS2
->>>       select VT82C686
->>>       select IDE_VIA
->>>       select SMBUS_EEPROM
->>> +    select VOF
->>>   # This should come with VT82C686
->>>       select ACPI_X86
->>>   diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
->>> index 07971175c9..91e5fa8fbe 100644
->>> --- a/hw/ppc/pegasos2.c
->>> +++ b/hw/ppc/pegasos2.c
-> [...]
->>> +static void add_pci_device(PCIBus *bus, PCIDevice *d, void *opaque)
->>> +{
->>> +    FDTInfo *fi = opaque;
->>> +    GString *node = g_string_new(NULL);
->>> +    uint32_t cells[(PCI_NUM_REGIONS + 1) * 5];
->>> +    int i, j;
->>> +    const char *name = NULL;
->>> +    g_autofree const gchar *pn = g_strdup_printf("pci%x,%x",
->>> + pci_get_word(&d->config[PCI_VENDOR_ID]),
->>> + pci_get_word(&d->config[PCI_DEVICE_ID]));
->>> +
->>> +    for (i = 0; device_map[i].id; i++) {
->>> +        if (!strcmp(pn, device_map[i].id)) {
->>> +            name = device_map[i].name;
->>> +            break;
->>> +        }
->>> +    }
->>> +    g_string_printf(node, "%s/%s@%x", fi->path, (name ?: pn),
->>> +                    PCI_SLOT(d->devfn));
->>> +    if (PCI_FUNC(d->devfn)) {
->>> +        g_string_append_printf(node, ",%x", PCI_FUNC(d->devfn));
->>> +    }
->>> +
->>> +    qemu_fdt_add_subnode(fi->fdt, node->str);
->>> +    if (device_map[i].dtf) {
->>> +        FDTInfo cfi = { fi->fdt, node->str };
->>> +        device_map[i].dtf(bus, d, &cfi);
->>> +    }
->>> +    cells[0] = cpu_to_be32(d->devfn << 8);
->>> +    cells[1] = 0;
->>> +    cells[2] = 0;
->>> +    cells[3] = 0;
->>> +    cells[4] = 0;
->>> +    j = 5;
->>> +    for (i = 0; i < PCI_NUM_REGIONS; i++) {
->>> +        if (!d->io_regions[i].size) {
->>> +            continue;
->>> +        }
->>> +        cells[j] = cpu_to_be32(d->devfn << 8 | (PCI_BASE_ADDRESS_0 + 
->>> i * 4));
->>> +        if (d->io_regions[i].type & PCI_BASE_ADDRESS_SPACE_IO) {
->>> +            cells[j] |= cpu_to_be32(1 << 24);
->>> +        } else {
->>> +            cells[j] |= cpu_to_be32(2 << 24);
->>> +            if (d->io_regions[i].type & 
->>> PCI_BASE_ADDRESS_MEM_PREFETCH) {
->>> +                cells[j] |= cpu_to_be32(4 << 28);
->>> +            }
->>> +        }
->>> +        cells[j + 1] = 0;
->>> +        cells[j + 2] = 0;
->>> +        cells[j + 3] = cpu_to_be32(d->io_regions[i].size >> 32);
->>> +        cells[j + 4] = cpu_to_be32(d->io_regions[i].size);
->>> +        j += 5;
->>> +    }
->>
->>
->> btw I was wondering if Linux on pegasos2 could assign resources when 
->> /chosen/linux,pci-probe-only is in the FDT, could not it? Or the 
->> serial device does not probe and Linux does not boot?
-> 
-> Linux probes PCI devices by itself but MorphOS relies on the device tree 
-> entries so I need at least the reg properties for that then it will map 
-> the BARs but I think it won't scan the bus otherwise. You still seem to 
-> add PCI devices in spapr too, at least I think I've got the idea for 
-> this function above from there.
+On Mon, 14 Jun 2021, Mark Cave-Ayland wrote:
 
+> On 14/06/2021 06:36, Philippe Mathieu-Daud=C3=A9 wrote:
+>=20
+> > Cc'ing Finn & Laurent.
+> >=20
+> > On 6/13/21 6:37 PM, Mark Cave-Ayland wrote:
+> > > Here is the next set of patches from my attempts to boot MacOS under=
+=20
+> > > QEMU's Q800 machine related to the Sonic network adapter.
+> > >=20
+> > > Patches 1 and 2 sort out checkpatch and convert from DPRINTF macros=
+=20
+> > > to trace-events.
+> > >=20
+> > > Patch 3 fixes the PROM checksum and MAC address storage format as=20
+> > > found by stepping through the MacOS toolbox.
+> > >=20
+> > > Patch 4 ensures that the CPU loads/stores are correctly converted to=
+=20
+> > > 16-bit accesses for the network card and patch 5 fixes a bug when=20
+> > > selecting the index specified for CAM entries.
+> > >=20
+> > > NOTE TO MIPS MAINTAINERS:
+> > >=20
+> > > - The Sonic network adapter is used as part of the MIPS jazz machine,=
+ however
+> > >    I don't have a working kernel and system to test it with. Any=20
+> > >    pointers to test images would be appreciated.
+> > >=20
+> > > - The changes to the PROM checksum in patch 3 were determined by step=
+ping
+> > >    through the MacOS toolbox, and is different from the existing=20
+> > >    algorithm. Has the current PROM checksum algorithm been validated=
+=20
+> > >    on a MIPS guest or was it just a guess? It might be that 2=20
+> > >    different algorithms are needed for the Q800 vs. Jazz machine.
+> > >=20
+> > > - My current guess is the jazzsonic driver is broken since the last s=
+et of
+> > >    dp8393x changes as the MIPS jazz machine does not set the "big_end=
+ian"
+> > >    property on the dp8393x device. I'd expect that the following diff=
+ would
+> > >    be needed, but I can't confirm this without a suitable test image.
+> > >=20
+> > > diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+> > > index 1e1cf8154e..1df67035aa 100644
+> > > --- a/hw/mips/jazz.c
+> > > +++ b/hw/mips/jazz.c
+> > > @@ -280,6 +280,7 @@ static void mips_jazz_init(MachineState *machine,
+> > >               dev =3D qdev_new("dp8393x");
+> > >               qdev_set_nic_properties(dev, nd);
+> > >               qdev_prop_set_uint8(dev, "it_shift", 2);
+> > > +             qdev_prop_set_bit(dev, "big_endian", true);
+> > >               object_property_set_link(OBJECT(dev), "dma_mr",
+> > >                                        OBJECT(rc4030_dma_mr), &error_=
+abort);
+> > >               sysbus =3D SYS_BUS_DEVICE(dev);
+> > >=20
+> > > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > >=20
+> > > [q800-macos-upstream patchset series: 3]
+> > >=20
+> > > Mark Cave-Ayland (5):
+> > >    dp8393x: checkpatch fixes
+> > >    dp8393x: convert to trace-events
+> > >    dp8393x: fix PROM checksum and MAC address storage
+> > >    dp8393x: don't force 32-bit register access
+> > >    dp8393x: fix CAM descriptor entry index
+> > >=20
+> > >   hw/net/dp8393x.c    | 332 ++++++++++++++++++++++++-----------------=
+---
+> > >   hw/net/trace-events |  17 +++
+> > >   2 files changed, 198 insertions(+), 151 deletions(-)
+>=20
+> Just to add that I've done a large amount of testing on the q800 machine=
+=20
+> with Linux/MacOS so I'm happy that these patches do the right thing=20
+> there.
+>=20
+> The part I'm struggling with is testing against MIPS jazz since I don't=
+=20
+> have a Linux test image to hand, and there is no documentation in the=20
+> original commit message as to where the existing PROM checksum algorithm=
+=20
+> came from.
+>=20
+> Herv=C3=A9, can you provide some more information on this? It looks like =
+it=20
+> was introduced in one of your commits:
+>=20
+> commit 89ae0ff9b73ee74c9ba707a09a07ad77b9fdccb4
+> Author: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> Date:   Wed Jun 3 22:45:46 2015 +0200
+>=20
+>     net/dp8393x: add PROM to store MAC address
+>=20
+>     Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>     Signed-off-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+>     Reviewed-by: Aurelien Jarno <aurelien@aurel32.net>
+>     Signed-off-by: Leon Alrae <leon.alrae@imgtec.com>
+>=20
 
-Linux does not scan, this is why we are adding devices in the FDT for 
-pseries (and likely so should you) but Linux does reassign resources if 
-something is wrong.
+With "qemu-system-mips -M magnum ..." I was able to boot both Linux and=20
+NetBSD. That was after commit 89ae0ff9b7 ("net/dp8393x: add PROM to store=
+=20
+MAC address"). But that's not to say that the MAC address was decoded=20
+correctly.
 
-Does MorphOS boot with this patchset? If it does not, and Linux 
-reassigns resources, we are probably better off with a minimalist 
-approach and skip resource assignment.
+Please see,=20
+https://lore.kernel.org/qemu-devel/alpine.LNX.2.21.1.1912241504560.11@nippy=
+=2Eintranet/
 
-
--- 
-Alexey
+The Linux/mips (jazzsonic) testing that I did back in 2019 used a custom=20
+busybox initramfs. The NetBSD/mips testing used the official CD ISO image.=
+=20
+I will look into reviving those test harnesses because I think patch 4/5=20
+and the proposed big-endian flag will need some regression testing.
+---1463811774-1492748151-1623812992=:6--
 
