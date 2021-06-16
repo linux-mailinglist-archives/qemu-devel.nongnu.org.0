@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E193AA2E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 20:08:23 +0200 (CEST)
-Received: from localhost ([::1]:59652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88EBB3AA342
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 20:37:28 +0200 (CEST)
+Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltZxd-0001mM-OS
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 14:08:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33586)
+	id 1ltaPn-0005CN-7q
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 14:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ltZv1-0000CE-Cq
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 14:05:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37973)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ltaOH-0003lw-It
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 14:35:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ltZuy-00034q-9n
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 14:05:38 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ltaOE-00088D-Qi
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 14:35:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623866735;
+ s=mimecast20190719; t=1623868549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6+cSUoYd9O5GQQKS+K6HKZPIBNSNKwMcDimwZAm9ZRo=;
- b=SAyoa0RgCIMnk0STUVKVhq2GKqmOuJr4jdo7sYviVVK4IwTiJv6YVDUtIBP8yc/g9b4G1M
- UW8Fk8M3GC9K6cSUEdXYxxHXcxU6CHpBvlmmIIpnteTFvJAEfz3Nyr3SLwMWqhi1KMXtju
- 72Y3Zoxcq5do55CKB6hmR43TcKNnNFk=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-fgsms5oTP-G8b43_g5aD4w-1; Wed, 16 Jun 2021 14:05:33 -0400
-X-MC-Unique: fgsms5oTP-G8b43_g5aD4w-1
-Received: by mail-pl1-f198.google.com with SMTP id
- x22-20020a1709028216b0290112042155c8so833755pln.14
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 11:05:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6+cSUoYd9O5GQQKS+K6HKZPIBNSNKwMcDimwZAm9ZRo=;
- b=AMBb3TEns6UtMipFxirf51M9N5e72DZ/LfpD72uY90jyd4kaYJbVRv9GfME9XYhLwx
- 9C8f2i06lHUwdKtm+SoMqqhmW5gqImMgXO7DPNwBCIFZEq93/gQx5PZCN2VPnLo2zFGO
- 1SqSaWuJYBKBYisi+oOWfEcluq+NvT/9CgLc/chc2ABbRbBpB3kwZRXJdLfSE2bhYnc9
- NVlwUak/6m0f+xHl5TEwD9Y+LsHhD3DdhER30BXjWbJuVOPN1bGRGS2Kj/JqC3mob+lc
- 1v7DeeRIr3gsb5c4+YpKCIehk6IN0tnXw6nVxrSv7QRdhTsEUpsg4ZK04P2AgDEIDYvq
- 3KKA==
-X-Gm-Message-State: AOAM530dQ1+Gp0jZK0D4dnBb7KTtB4d442RB21vWLN+IXDhLICYRv7TO
- vF0sbyUaS9+YOCJiSQttdR3Ej2NLAP0eUMdX9DMhnGqoNl5ywUX9SqU4yI3KPmkb2m3A3X7JErV
- viMplvgShl5x81izU1rN8b2hBgQS8ZwY=
-X-Received: by 2002:a17:90b:33c6:: with SMTP id
- lk6mr12304473pjb.6.1623866732619; 
- Wed, 16 Jun 2021 11:05:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwFNCLEOUEz0lY70oAvN28erEqupdgjrv9U/Jn7YsrqXkAIUOt6seP79mRTFzDVTmyzwV7ybcTk4aTblpY6YY=
-X-Received: by 2002:a17:90b:33c6:: with SMTP id
- lk6mr12304443pjb.6.1623866732361; 
- Wed, 16 Jun 2021 11:05:32 -0700 (PDT)
+ bh=SoNyLmrdCvPG+i0ScXdVn3sSf6fN+3mF6O8CHFmjLkY=;
+ b=F2Dgy0Cu45q0xTn4FT0FdvgOYZ3exv1E9P/Kl+NjIhky947z/SuKA6kD0U5SWWED+xrqnX
+ WsdqYxkeyZkDdraDsltPiqmHsPq/zAOrbuD6uGKtCiYVpCzwlnQ5Hi0oTyn0OS2LGnD4bb
+ jm7MqImFufkbSuTorTaqIu6vyZnADxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-2B66SC0RO7SR30x4haXhIA-1; Wed, 16 Jun 2021 14:35:39 -0400
+X-MC-Unique: 2B66SC0RO7SR30x4haXhIA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AE58100C67D;
+ Wed, 16 Jun 2021 18:35:38 +0000 (UTC)
+Received: from work-vm (ovpn-115-42.ams2.redhat.com [10.36.115.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15FE460622;
+ Wed, 16 Jun 2021 18:35:29 +0000 (UTC)
+Date: Wed, 16 Jun 2021 19:35:26 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 26/26] virtiofsd: Ask qemu to drop CAP_FSETID if
+ client asked for it
+Message-ID: <YMpEbqEhCz9kMM8G@work-vm>
+References: <YJQNIPaFCJlG7ZKc@stefanha-x1.localdomain>
+ <20210506160223.GA277745@redhat.com>
+ <YJj3RSxXKZHxmiKu@stefanha-x1.localdomain>
+ <20210510152324.GB150402@horse>
+ <YJlSHZ0vzNtCAjkJ@stefanha-x1.localdomain>
+ <YK/uUUZI3zy9k8Vk@work-vm> <YMIv5odJWdkbJzWL@work-vm>
+ <YMI8fS6m8CjtUtmE@stefanha-x1.localdomain>
+ <YMnwOs9bxKLB8wSL@work-vm>
+ <YMoY27s0zoFzE5wg@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20210610133538.608390-1-pbonzini@redhat.com>
- <20210610133538.608390-4-pbonzini@redhat.com>
- <87zgvpaoky.fsf@dusky.pond.sub.org>
-In-Reply-To: <87zgvpaoky.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 16 Jun 2021 20:05:19 +0200
-Message-ID: <CABgObfa7N+WtrHuHomHigJoGkQiJnY=hmo4LdcTfkjm-O01Jbg@mail.gmail.com>
-Subject: Re: [PATCH 03/11] keyval: introduce keyval_parse_into
-To: Markus Armbruster <armbru@redhat.com>
+In-Reply-To: <YMoY27s0zoFzE5wg@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000bed6f405c4e5ef6e"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,78 +87,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "P. Berrange, Daniel" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Vivek Goyal <vgoyal@redhat.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bed6f405c4e5ef6e
-Content-Type: text/plain; charset="UTF-8"
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Wed, Jun 16, 2021 at 01:36:10PM +0100, Dr. David Alan Gilbert wrote:
+> > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > > On Thu, Jun 10, 2021 at 04:29:42PM +0100, Dr. David Alan Gilbert wrote:
+> > > > * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> > > > > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > > > +    uint64_t addr; /* In the bus address of the device */
+> > > 
+> > > Please check the spec for preferred terminology. "bus address" isn't
+> > > used in the spec, so there's probably another term for it.
+> > 
+> > I'm not seeing anything useful in the virtio spec; it mostly talks about
+> > guest physical addresses; it does say 'bus addresses' in the definition
+> > of 'VIRTIO_F_ACCESS_PLATFORM' .
+> 
+> I meant the docs/interop/vhost-user.rst spec.
 
-Il mer 16 giu 2021, 16:09 Markus Armbruster <armbru@redhat.com> ha scritto:
+I think they use the phrase 'guest address' so I've changed that to:
 
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->
-> > Allow parsing multiple keyval sequences into the same dictionary.
-> > This will be used to simplify the parsing of the -M command line
-> > option, which is currently a .merge_lists = true QemuOpts group.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> Straightforward.  Thanks for adjusting the contract for
-> keyval_parse_into().
->
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->
-> It's too hot & humid for me to figure out why you need both
-> keyval_merge() and keyval_parse_into().
->
+    uint64_t guest_addr; 
 
-I don't need both, but I do need keyval_merge() which is the complex one;
-and keyval_parse_into() is straightforward enough to be worth the simpler
-code in vl.c.
-
-Paolo
+   Elsewhere in the vhost-user.rst it says:
+   
+   When the ``VIRTIO_F_IOMMU_PLATFORM`` feature has not been negotiated:
+    
+   * Guest addresses map to the vhost memory region containing that guest
+     address.
+    
+   When the ``VIRTIO_F_IOMMU_PLATFORM`` feature has been negotiated:
+    
+   * Guest addresses are also called I/O virtual addresses (IOVAs).  They are
+     translated to user addresses via the IOTLB.
+   
+> Stefan
 
 
->
-
---000000000000bed6f405c4e5ef6e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mer 16 giu 2021, 16:09 Markus Armbruster &lt;<a hre=
-f=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; ha scritto:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">Paolo Bonzini &lt;<a href=3D"mailto:pbonz=
-ini@redhat.com" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a=
->&gt; writes:<br>
-<br>
-&gt; Allow parsing multiple keyval sequences into the same dictionary.<br>
-&gt; This will be used to simplify the parsing of the -M command line<br>
-&gt; option, which is currently a .merge_lists =3D true QemuOpts group.<br>
-&gt;<br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-<br>
-Straightforward.=C2=A0 Thanks for adjusting the contract for<br>
-keyval_parse_into().<br>
-<br>
-Reviewed-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" tar=
-get=3D"_blank" rel=3D"noreferrer">armbru@redhat.com</a>&gt;<br>
-<br>
-It&#39;s too hot &amp; humid for me to figure out why you need both<br>
-keyval_merge() and keyval_parse_into().<br></blockquote></div></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">I don&#39;t need both, but I do need=
- keyval_merge() which is the complex one; and keyval_parse_into() is straig=
-htforward enough to be worth the simpler code in vl.c.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-</blockquote></div></div></div>
-
---000000000000bed6f405c4e5ef6e--
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
