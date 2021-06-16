@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63313AA110
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:17:13 +0200 (CEST)
-Received: from localhost ([::1]:53246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F2E3AA111
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:17:16 +0200 (CEST)
+Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYE4-0004MO-RZ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
+	id 1ltYE7-0004cm-UX
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYBU-0001MR-7H; Wed, 16 Jun 2021 12:14:32 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37809)
+ id 1ltYBW-0001Te-Bi; Wed, 16 Jun 2021 12:14:34 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYBR-0005j8-OP; Wed, 16 Jun 2021 12:14:31 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- f16-20020a05600c1550b02901b00c1be4abso4503782wmg.2; 
- Wed, 16 Jun 2021 09:14:27 -0700 (PDT)
+ id 1ltYBU-0005lK-PP; Wed, 16 Jun 2021 12:14:34 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id d184so1630394wmd.0;
+ Wed, 16 Jun 2021 09:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OOAVeK2SUtssiX9xFTv7fMh9dyXYyrlGAXubT3GclZM=;
- b=SWmjggn2NyLwpquDy1iEpnAmE2g5E6r0fOmHQCxK36nA1RPN3OqXidgHI9Ao+gmJo8
- vYvdAdzRk2jWx6IdySEUKGu0vBUA7zlSBRha9qpd9NG2TcwZN0+pB1I+VcznvCddc11r
- LpmiYogpa13/+Y9espSPAJN0869eJSKSEX2eg3+SFYyinAcnwXqx223xMXEh95SXLV8d
- VnmvalnaDAbK1f1ygPDVUpYpIz4d1Oo71uFxhwRassA3Y3o+znu+FVZiSP21jc4LrLQ1
- DGVo5ArztM6kAhmzq0n5fy5MdClvpKyXwzGpwkZrvMvIB9nolHaLda9CfYAwk/wLKfw5
- 5CIA==
+ bh=IvGkr+tAwO3hA7gPKRu0L0jtWmnGl7wWoZ3Svb2df8U=;
+ b=ZvKCo2dAikIbcP6OHT6j7qhfU5BsQbaVIg6LppsGv/jSuRjDTp0MCmexoLQiaHitGW
+ 0Y9+EHu28KPMeNSdyYRAlcDkgzRQgg/q9FvMAtGCgXBihFNwfRsuVNwGTqA7nyYJPY4Q
+ ESU+kMfECHkplCG0oF26VR3eRPBTRn4tkl5fGkjQgHMI9wchqJ5h3EG1zckLGzZHQYNx
+ jf1iH1J41wSlRPLNRP8Nw/W9lmDrW++hf2TNzMS5ru6Va/+Yvh8eJfHgWf9avarGYWth
+ boLsOMzdSP/cGt307oq2V2webdS5fjFVESFHGxvnQwxVF6FNM8/ow+yerQhIpR5msZuC
+ Vleg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OOAVeK2SUtssiX9xFTv7fMh9dyXYyrlGAXubT3GclZM=;
- b=kgRRSUVxwnbrEqD8ILMMCzjaOZjmC6BkYGAkV+JUbgah4J6SeWeMj7vRY8KrEjyj7v
- yu6R6Ldd1puX+Cg7eM+yJUeZ6Cfl7G6AsU8ROiKQMoBi+6/dVgf9vEMe8XtOsl99btRB
- MpW4ZX5wxkFeEuP3K7tQrPsVi0gPN7LMH8nITX1Lsw0ukdUWfOp3dT5chSob3MWzualf
- g0OrIa/fYu86NB6utHm50xOekDAo+FsIALpVOnXIAbR/ZabMkChP5QhU/58KZMZ8NKSM
- q9sqEV2YO5v6ndtau17+OBj/lCiZKPLnYlJTtS4Qu2j/c51E8t7hLE58BTZekiiDMfLK
- d+Kg==
-X-Gm-Message-State: AOAM531L6e5FQ1A+3pL/67Fbhao7OsUg9/Y5mesupK05b901TuskpDso
- MEVGIFzXT3AZnBXmCftFig8ShsdZX364NA==
-X-Google-Smtp-Source: ABdhPJwXKzGkv0ExusMUkcsfSf8wrPl8eyeFqYSsq1OwAEbNoJuhmhAUV/W79gF0OdN6hx+1YIMBZg==
-X-Received: by 2002:a1c:59c9:: with SMTP id n192mr710160wmb.81.1623860065556; 
- Wed, 16 Jun 2021 09:14:25 -0700 (PDT)
+ bh=IvGkr+tAwO3hA7gPKRu0L0jtWmnGl7wWoZ3Svb2df8U=;
+ b=Hw2SrAHes2xUaE7g4hTud44d6xxlnFfH073R97w9qejk02y4HtjeAJKsA+Ue1vTz00
+ WSXsk2DFFhG93otyMOZxUNeG75gfqNaDleZw6unpSuvh/zSrpbt9EfuN4zDw0qoVzB/j
+ MhXpjdoxpU2kv6NBYOR8Hv4qnxOTls0hG5vaiBIjyP+SkXs9OpWgenEnRbOsl3o47ei4
+ y3FBDpO48Jdu82sZ+Ky2HtfrhRhphD45v2jnplwoICXOO147XwH0k4mdNIYwOunG6ijz
+ a5tEl4vJaetdmBRNiimUnxEU+bxNtx58vqY8aJbeVprvcHnCgjZtFrHiIXeCfRY0zyPA
+ s6Kg==
+X-Gm-Message-State: AOAM531FjfCmEiUQ4/OvmExTtm7iPrMSobiHhtuCEHSgJtYiyz5B7ko4
+ 0mYHU1tfVH91rHuKrTwmKA0N8SjYm9sK3g==
+X-Google-Smtp-Source: ABdhPJxEc8ldTp+yjEQ/3Y2sDRh0EOvg82W9MjkIrC+iw02cniW5UK4+Jv3hOdCGSEWoAOSyGwlVRQ==
+X-Received: by 2002:a1c:a382:: with SMTP id m124mr749789wme.40.1623860070429; 
+ Wed, 16 Jun 2021 09:14:30 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id z5sm2567231wrp.92.2021.06.16.09.14.24
+ by smtp.gmail.com with ESMTPSA id f12sm3089781wru.81.2021.06.16.09.14.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 09:14:25 -0700 (PDT)
+ Wed, 16 Jun 2021 09:14:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/13] hw/input/lm832x: Move lm832x_key_event() declaration
- to "lm832x.h"
-Date: Wed, 16 Jun 2021 18:14:06 +0200
-Message-Id: <20210616161418.2514095-2-f4bug@amsat.org>
+Subject: [PATCH v3 02/13] hw/input/lm832x: Define TYPE_LM8323 in public header
+Date: Wed, 16 Jun 2021 18:14:07 +0200
+Message-Id: <20210616161418.2514095-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616161418.2514095-1-f4bug@amsat.org>
 References: <20210616161418.2514095-1-f4bug@amsat.org>
@@ -91,101 +89,56 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-lm832x_key_event() is specific go LM832x devices, not to the
-I2C bus API. Move it out of "i2c.h" to a new header.
+Define TYPE_LM8323 in the public "hw/input/lm832x.h"
+header and use it in hw/arm/nseries.c.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/i2c/i2c.h      |  3 ---
- include/hw/input/lm832x.h | 26 ++++++++++++++++++++++++++
- hw/arm/nseries.c          |  1 +
- hw/input/lm832x.c         |  1 +
- MAINTAINERS               |  1 +
- 5 files changed, 29 insertions(+), 3 deletions(-)
- create mode 100644 include/hw/input/lm832x.h
+ include/hw/input/lm832x.h | 4 +++-
+ hw/arm/nseries.c          | 2 +-
+ hw/input/lm832x.c         | 1 -
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index ff4129ea704..850815e707c 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -142,9 +142,6 @@ I2CSlave *i2c_slave_create_simple(I2CBus *bus, const char *name, uint8_t addr);
-  */
- bool i2c_slave_realize_and_unref(I2CSlave *dev, I2CBus *bus, Error **errp);
- 
--/* lm832x.c */
--void lm832x_key_event(DeviceState *dev, int key, int state);
--
- extern const VMStateDescription vmstate_i2c_slave;
- 
- #define VMSTATE_I2C_SLAVE(_field, _state) {                          \
 diff --git a/include/hw/input/lm832x.h b/include/hw/input/lm832x.h
-new file mode 100644
-index 00000000000..8e21fb76452
---- /dev/null
+index 8e21fb76452..2a58ccf8916 100644
+--- a/include/hw/input/lm832x.h
 +++ b/include/hw/input/lm832x.h
-@@ -0,0 +1,26 @@
-+/*
-+ * National Semiconductor LM8322/8323 GPIO keyboard & PWM chips.
-+ *
-+ * Copyright (C) 2008 Nokia Corporation
-+ * Written by Andrzej Zaborowski <andrew@openedhand.com>
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License as
-+ * published by the Free Software Foundation; either version 2 or
-+ * (at your option) version 3 of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along
-+ * with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -19,7 +19,9 @@
+  */
+ 
+ #ifndef HW_INPUT_LM832X
+-#define HW_INPUT_L
++#define HW_INPUT_LM832X
 +
-+#ifndef HW_INPUT_LM832X
-+#define HW_INPUT_L
-+
-+void lm832x_key_event(DeviceState *dev, int key, int state);
-+
-+#endif
++#define TYPE_LM8323 "lm8323"
+ 
+ void lm832x_key_event(DeviceState *dev, int key, int state);
+ 
 diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index 0aefa5d0f3e..7b82b8682e8 100644
+index 7b82b8682e8..3a51264e3cf 100644
 --- a/hw/arm/nseries.c
 +++ b/hw/arm/nseries.c
-@@ -34,6 +34,7 @@
- #include "hw/boards.h"
- #include "hw/i2c/i2c.h"
- #include "hw/display/blizzard.h"
-+#include "hw/input/lm832x.h"
- #include "hw/input/tsc2xxx.h"
- #include "hw/misc/cbus.h"
- #include "hw/misc/tmp105.h"
+@@ -417,7 +417,7 @@ static void n810_kbd_setup(struct n800_s *s)
+     /* Attach the LM8322 keyboard to the I2C bus,
+      * should happen in n8x0_i2c_setup and s->kbd be initialised here.  */
+     s->kbd = DEVICE(i2c_slave_create_simple(omap_i2c_bus(s->mpu->i2c[0]),
+-                                            "lm8323", N810_LM8323_ADDR));
++                                            TYPE_LM8323, N810_LM8323_ADDR));
+     qdev_connect_gpio_out(s->kbd, 0, kbd_irq);
+ }
+ 
 diff --git a/hw/input/lm832x.c b/hw/input/lm832x.c
-index 4cb1e9de01f..d2b92b457e3 100644
+index d2b92b457e3..19a646d9bb4 100644
 --- a/hw/input/lm832x.c
 +++ b/hw/input/lm832x.c
-@@ -19,6 +19,7 @@
-  */
+@@ -28,7 +28,6 @@
+ #include "ui/console.h"
+ #include "qom/object.h"
  
- #include "qemu/osdep.h"
-+#include "hw/input/lm832x.h"
- #include "hw/i2c/i2c.h"
- #include "hw/irq.h"
- #include "migration/vmstate.h"
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 636bf2f5365..c56bc112ccf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -792,6 +792,7 @@ F: hw/input/tsc2005.c
- F: hw/misc/cbus.c
- F: hw/rtc/twl92230.c
- F: include/hw/display/blizzard.h
-+F: include/hw/input/lm832x.h
- F: include/hw/input/tsc2xxx.h
- F: include/hw/misc/cbus.h
- F: tests/acceptance/machine_arm_n8x0.py
+-#define TYPE_LM8323 "lm8323"
+ OBJECT_DECLARE_SIMPLE_TYPE(LM823KbdState, LM8323)
+ 
+ struct LM823KbdState {
 -- 
 2.31.1
 
