@@ -2,48 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0393A974D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:29:53 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DE53A975A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:32:02 +0200 (CEST)
+Received: from localhost ([::1]:56140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltSnw-0004gU-U7
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:29:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57268)
+	id 1ltSq1-0006bd-Ab
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:32:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ltSl5-0001kW-4K; Wed, 16 Jun 2021 06:26:55 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:65231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ltSkw-0007em-Uq; Wed, 16 Jun 2021 06:26:54 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D21B674570E;
- Wed, 16 Jun 2021 12:26:40 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 60B827456E3; Wed, 16 Jun 2021 12:26:40 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 5D7BB7456B4;
- Wed, 16 Jun 2021 12:26:40 +0200 (CEST)
-Date: Wed, 16 Jun 2021 12:26:40 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v21] spapr: Implement Open Firmware client interface
-In-Reply-To: <119e934c-4921-37b2-591f-d5508fbaf57c@ozlabs.ru>
-Message-ID: <2c9921b-c06d-28c9-b75-196dff1f57f4@eik.bme.hu>
-References: <20210615070612.22679-1-aik@ozlabs.ru>
- <91505219-14f9-dd28-833-943c216ee4a@eik.bme.hu>
- <119e934c-4921-37b2-591f-d5508fbaf57c@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ltSn8-0004PS-NN
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:29:03 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ltSn2-0000iA-KR
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:29:02 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id t3so1973851edc.7
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 03:28:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KZwmOY7AO7t27mei+23yAQKkc3mgZdpGaAEX0YS28OQ=;
+ b=tNEEhCZi8z2ISFEvSGzmJFxv6pz2suLzodmDpgaHLd3JVxY8nQE01T7YkqP0iY+s0/
+ zWRSLakJOssg8gwmM7qB2btj/x6iWTW8ZBSkicOXYhRNKZ/3T2B0tRh0FdP2KnFvRhtK
+ u12uSDDbdqNU7BQ+axPPoFrunGWAL9S0OW+3DjDy1pDgVlzxldCgh2wBfrzOAdLXK/FW
+ j59BHdFA54YOrvvh8CT2Vq+TsUhXeducBPnQjw/QRBVJj1kxrrdPciyFcY4Tje1LCx6x
+ UWU0tZAIzdCcNh0yOwvmBRWIZHBFSTDy6hKwhEW8N9rXHuzk6XUU5yvpzmXBICoySDsJ
+ nxew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KZwmOY7AO7t27mei+23yAQKkc3mgZdpGaAEX0YS28OQ=;
+ b=NQ8DsNzF8DArDJSuU4xMovzofPm6hb/tYRQYbXNivNjHO+oUAnepqD+uDbXmG400yH
+ vShQ/XGh24aNEjdzyrIbDWHiTYCyzbPKjd2Sc4tODdOLol9K3zsjp6Z1JqRn4HOy8t7g
+ xYshwVpJw9BzQDggJ3mzITPCHkm6QvSDlOYNjyhXx3WHnIaTIDMoudxctxdRex1d1epZ
+ emsWQl0yV3rteSUhKBwNx3XF+yRaJupHK7QGJfRSTc1NTkCFuvvA+tul4W8ubYJ7bFwv
+ qRcBBi4f7CRwFq7MepxuZ004XOA7PugzKCnyCy7zgiOkoJtmlwE0BdoILbHbQVdH4SsK
+ NPpg==
+X-Gm-Message-State: AOAM533sj+7rM3A308de5DfsuXPoZU3cWHsiTggdWlgo0NiRfCeh0L0Y
+ clYgr2Qrh8Vn5LVgWE/FqMMZgQT52+P4HbGH+SE=
+X-Google-Smtp-Source: ABdhPJx90tx7RV0To1YtsZejryrM6+909iWUoXhUAry1asYIEiBKUi9xgOGmrVJuYawO+b7BMZWJ/9k9h9QFFcOigfs=
+X-Received: by 2002:a05:6402:cb5:: with SMTP id
+ cn21mr3221564edb.164.1623839334443; 
+ Wed, 16 Jun 2021 03:28:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1115876624-1623839200=:81030"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20210608120723.2268181-1-marcandre.lureau@redhat.com>
+ <20210608120723.2268181-3-marcandre.lureau@redhat.com>
+ <87im2g1vug.fsf@dusky.pond.sub.org>
+In-Reply-To: <87im2g1vug.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 16 Jun 2021 14:28:41 +0400
+Message-ID: <CAJ+F1CKiO9TMbdu1dFShv-iEED0nXwnDD7UbrK92by9T_aLdXg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/9] qapi: replace List[str] by QAPISchemaIfCond
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000b3ac6f05c4df8e2e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,1972 +79,2204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Eric Blake <eblake@redhat.com>, John Snow <jsnow@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+--000000000000b3ac6f05c4df8e2e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---3866299591-1115876624-1623839200=:81030
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Hi
 
-On Wed, 16 Jun 2021, Alexey Kardashevskiy wrote:
-> On 6/16/21 07:09, BALATON Zoltan wrote:
->> On Tue, 15 Jun 2021, Alexey Kardashevskiy wrote:
->>> The PAPR platform describes an OS environment that's presented by
->>> a combination of a hypervisor and firmware. The features it specifies
->>> require collaboration between the firmware and the hypervisor.
->>> 
->>> Since the beginning, the runtime component of the firmware (RTAS) has
->>> been implemented as a 20 byte shim which simply forwards it to
->>> a hypercall implemented in qemu. The boot time firmware component is
->>> SLOF - but a build that's specific to qemu, and has always needed to be
->>> updated in sync with it. Even though we've managed to limit the amount
->>> of runtime communication we need between qemu and SLOF, there's some,
->>> and it has become increasingly awkward to handle as we've implemented
->>> new features.
->>> 
->>> This implements a boot time OF client interface (CI) which is
->>> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
->>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->>> which implements Open Firmware Client Interface (OF CI). This allows
->>> using a smaller stateless firmware which does not have to manage
->>> the device tree.
->>> 
->>> The new "vof.bin" firmware image is included with source code under
->>> pc-bios/. It also includes RTAS blob.
->>> 
->>> This implements a handful of CI methods just to get -kernel/-initrd
->>> working. In particular, this implements the device tree fetching and
->>> simple memory allocator - "claim" (an OF CI memory allocator) and updates
->>> "/memory@0/available" to report the client about available memory.
->>> 
->>> This implements changing some device tree properties which we know how
->>> to deal with, the rest is ignored. To allow changes, this skips
->>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->>> appending.
->>> 
->>> In absence of SLOF, this assigns phandles to device tree nodes to make
->>> device tree traversing work.
->>> 
->>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>> 
->>> This adds basic instances support which are managed by a hash map
->>> ihandle -> [phandle].
->>> 
->>> Before the guest started, the used memory is:
->>> 0..e60 - the initial firmware
->>> 8000..10000 - stack
->>> 400000.. - kernel
->>> 3ea0000.. - initramdisk
->>> 
->>> This OF CI does not implement "interpret".
->>> 
->>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>> includes a disk image with pre-formatted nvram.
->>> 
->>> With this basic support, this can only boot into kernel directly.
->>> However this is just enough for the petitboot kernel and initradmdisk to
->>> boot from any possible source. Note this requires reasonably recent guest
->>> kernel with:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>> 
->>> The immediate benefit is much faster booting time which especially
->>> crucial with fully emulated early CPU bring up environments. Also this
->>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>> 
->>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->>> other POWERPC boards which do not support pSeries.
->>> 
->>> This make VOF optional, it is disabled by default, add --enable-vof
->>> to ./configure to enable it.
->>> 
->>> This assumes potential support for booting from QEMU backends
->>> such as blockdev or netdev without devices/drivers used.
->>> 
->>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>> ---
->>> 
->>> The example command line is:
->>> 
->>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>> -nodefaults \
->>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>> -nographic \
->>> -vga none \
->>> -enable-kvm \
->>> -m 8G \
->>> -machine 
->>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>> \
->>> -kernel pbuild/kernel-le-guest/vmlinux \
->>> -initrd pb/rootfs.cpio.xz \
->>> -drive 
->>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>> \
->>> -global spapr-nvram.drive=DRIVE0 \
->>> -snapshot \
->>> -smp 8,threads=8 \
->>> -L /home/aik/t/qemu-ppc64-bios/ \
->>> -trace events=qemu_trace_events \
->>> -d guest_errors \
->>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>> -mon chardev=SOCKET0,mode=control
->>> 
->>> ---
->>> Changes:
->>> v21:
->>> * s/ld/ldz/ in entry.S
->>> * moved CONFIG_VOF from default-configs/devices/ppc64-softmmu.mak to 
->>> Kconfig
->>> * made CONFIG_VOF optional
->>> * s/l.lds/vof.lds/
->>> * force 32 BE in spapr_machine_reset() instead of the firmware
->>> * added checks for non-null methods of VofMachineIfClass
->>> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a better comment
->>> * added  path_offset wrapper for handling mixed case for addresses
->>> after "@" in node names
->>> * changed getprop() to check for actual "name" property in the fdt
->>> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as (unlike similar
->>> rtas_ld/ldl_be_*) they return error codes
->>> * VOF_MEM_READ uses now address_space_read (it was address_space_read_full
->>> before, not sure why)
->>> 
->>> v20:
->>> * compile vof.bin with -mcpu=power4 for better compatibility
->>> * s/std/stw/ in entry.S to make it work on ppc32
->>> * fixed dt_available property to support both 32 and 64bit
->>> * shuffled prom_args handling code
->>> * do not enforce 32bit in MSR (again, to support 32bit platforms)
->>> 
->>> v19:
->>> * put bootargs in the FDT
->>> * moved setting properties to a VOF machine hook
->>> * moved fw_size and claim for it to vof_init()
->>> * added CROSS to the VOF's makefile
->>> * simplified phandles assigning
->>> * pass MachineState to all machine hooks instead of calling
->>> qdev_get_machine (following QOM)
->>> * bunch of smaller changes and added comments
->>> * added simple test to attempt to start with x-vof=on
->>> 
->>> v18:
->>> * fixed top addr (max address for "claim") on radix - it equals to 
->>> ram_size
->>> and vof->top_addr was uint32_t
->>> * fixed "available" property which got broken in v14 but it is only 
->>> visible
->>> to clients which care (== grub)
->>> * reshuffled vof_dt_memory_available() calls, added vof_init() to allow
->>> vof_claim() before rendering the FDT
->>> 
->>> v17:
->>> * mv hw/ppc/vof.h include/hw/ppc/vof.h
->>> * VofMachineIfClass -> VofMachineClass; it is not VofMachineInterface as
->>> nobody used this scheme, usually "Interface" is dropped, a couple of times
->>> it is "xxxInterfaceClass" or "xxxIfClass", as used the latter as it is
->>> used by include/hw/vmstate-if.h
->>> * added SPDX
->>> * other fixes from v16 review
->>> 
->>> v16:
->>> * rebased on dwg/ppc-for-6.1
->>> * s/SpaprVofInterface/VofMachineInterface/
->>> 
->>> v15:
->>> * bugfix: claimed memory for the VOF itself
->>> * ditched OF_STACK_ADDR and allocate one instead, now it starts from 
->>> 0x8000
->>> because it is aligned to its size (no particular reason though)
->>> * coding style
->>> * moved nvram.bin up one level
->>> * ditched bool in the firmware
->>> * made debugging code conditional using trace_event_get_state() + 
->>> qemu_loglevel_mask()
->>> * renamed the CAS interface to SpaprVofInterface
->>> * added "write" which for now dumps the message and ihandle via
->>> trace point for early debug assistance
->>> * commented on when we allocate of_instances in vof_build_dt()
->>> * store fw_size is SpaprMachine to let spapr_vof_reset() claim it
->>> * many small fixes from v14's review
->>> 
->>> v14:
->>> * check for truncates in readstr()
->>> * ditched a separate vof_reset()
->>> * spapr->vof is a pointer now, dropped the "on" field
->>> * removed rtas_base from vof and updated comment why we allow setting it
->>> * added myself to maintainers
->>> * updated commit log about blockdev and other possible platforms
->>> * added a note why new hcall is 0x5
->>> * no in place endianness convertion in spapr_h_vof_client
->>> * converted all cpu_physical_memory_read/write to address_space_rw
->>> * git mv hw/ppc/spapr_vof_client.c hw/ppc/spapr_vof.c
->>> 
->>> v13:
->>> * rebase on latest ppc-for-6.0
->>> * shuffled code around to touch spapr.c less
->>> 
->>> v12:
->>> * split VOF and SPAPR
->>> 
->>> v11:
->>> * added g_autofree
->>> * fixed gcc warnings
->>> * fixed few leaks
->>> * added nvram image to make "nvram --print-config" not crash;
->>> Note that contrary to  MIN_NVRAM_SIZE (8 * KiB), the actual minimum size
->>> is 16K, or it just does not work (empty output from "nvram")
->>> 
->>> v10:
->>> * now rebased to compile with meson
->>> 
->>> v9:
->>> * remove special handling of /rtas/rtas-size as now we always add it in 
->>> QEMU
->>> * removed leftovers from scsi/grub/stdout/stdin/...
->>> 
->>> v8:
->>> * no read/write/seek
->>> * no @dev in instances
->>> * the machine flag is "x-vof" for now
->>> 
->>> v7:
->>> * now we have a small firmware which loads at 0 as SLOF and starts from
->>> 0x100 as SLOF
->>> * no MBR/ELF/GRUB business in QEMU anymore
->>> * blockdev is a separate patch
->>> * networking is a separate patch
->>> 
->>> v6:
->>> * borrowed a big chunk of commit log introduction from David
->>> * fixed initial stack pointer (points to the highest address of stack)
->>> * traces for "interpret" and others
->>> * disabled  translate_kernel_address() hack so grub can load (work in
->>> progress)
->>> * added "milliseconds" for grub
->>> * fixed "claim" allocator again
->>> * moved FDT_MAX_SIZE to spapr.h as spapr_of_client.c wants it too for CAS
->>> * moved the most code possible from spapr.c to spapr_of_client.c, such as
->>> RTAS, prom entry and FDT build/finalize
->>> * separated blobs
->>> * GRUB now proceeds to its console prompt (there are still other issues)
->>> * parse MBR/GPT to find PReP and load GRUB
->>> 
->>> v5:
->>> * made instances keep device and chardev pointers
->>> * removed VIO dependencies
->>> * print error if RTAS memory is not claimed as it should have been
->>> * pack FDT as "quiesce"
->>> 
->>> v4:
->>> * fixed open
->>> * validate ihandles in "call-method"
->>> 
->>> v3:
->>> * fixed phandles allocation
->>> * s/__be32/uint32_t/ as we do not normally have __be32 type in qemu
->>> * fixed size of /chosen/stdout
->>> * bunch of renames
->>> * do not create rtas properties at all, let the client deal with it;
->>> instead setprop allows changing these in the FDT
->>> * no more packing FDT when bios=off - nobody needs it and getprop does not
->>> work otherwise
->>> * allow updating initramdisk device tree properties (for zImage)
->>> * added instances
->>> * fixed stdout on OF's "write"
->>> * removed special handling for stdout in OF client, spapr-vty handles it
->>> instead
->>> 
->>> v2:
->>> * fixed claim()
->>> * added "setprop"
->>> * cleaner client interface and RTAS blobs management
->>> * boots to petitboot and further to the target system
->>> * more trace points
->>> 
->>> v20
->>> 
->>> v20!
->>> ---
->>> configure               |    9 +
->>> pc-bios/vof/Makefile    |   23 +
->>> include/hw/ppc/spapr.h  |   25 +-
->>> include/hw/ppc/vof.h    |   55 ++
->>> pc-bios/vof/vof.h       |   43 ++
->>> hw/ppc/spapr.c          |   87 +++-
->>> hw/ppc/spapr_hcall.c    |   29 +-
->>> hw/ppc/spapr_vof.c      |  153 ++++++
->>> hw/ppc/vof.c            | 1052 +++++++++++++++++++++++++++++++++++++++
->>> pc-bios/vof/bootmem.c   |   14 +
->>> pc-bios/vof/ci.c        |   91 ++++
->>> pc-bios/vof/libc.c      |   92 ++++
->>> pc-bios/vof/main.c      |   21 +
->>> tests/qtest/rtas-test.c |   17 +-
->>> MAINTAINERS             |   12 +
->>> hw/ppc/Kconfig          |    3 +
->>> hw/ppc/meson.build      |    3 +
->>> hw/ppc/trace-events     |   24 +
->>> meson.build             |    1 +
->>> pc-bios/README          |    2 +
->>> pc-bios/vof-nvram.bin   |  Bin 0 -> 16384 bytes
->>> pc-bios/vof.bin         |  Bin 0 -> 3784 bytes
->>> pc-bios/vof/entry.S     |   49 ++
->>> pc-bios/vof/vof.lds     |   48 ++
->>> 24 files changed, 1840 insertions(+), 13 deletions(-)
->>> create mode 100644 pc-bios/vof/Makefile
->>> create mode 100644 include/hw/ppc/vof.h
->>> create mode 100644 pc-bios/vof/vof.h
->>> create mode 100644 hw/ppc/spapr_vof.c
->>> create mode 100644 hw/ppc/vof.c
->>> create mode 100644 pc-bios/vof/bootmem.c
->>> create mode 100644 pc-bios/vof/ci.c
->>> create mode 100644 pc-bios/vof/libc.c
->>> create mode 100644 pc-bios/vof/main.c
->>> create mode 100644 pc-bios/vof-nvram.bin
->>> create mode 100755 pc-bios/vof.bin
->>> create mode 100644 pc-bios/vof/entry.S
->>> create mode 100644 pc-bios/vof/vof.lds
->>> 
->>> diff --git a/configure b/configure
->>> index 8dcb9965b24e..00dc29c027fa 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -445,6 +445,7 @@ fuse="auto"
->>> fuse_lseek="auto"
->>> multiprocess="auto"
->>> slirp_smbd="$default_feature"
->>> +vof="no"
->>> 
->>> malloc_trim="auto"
->>> gio="$default_feature"
->>> @@ -1561,6 +1562,10 @@ for opt do
->>>   ;;
->>>   --disable-slirp-smbd) slirp_smbd=no
->>>   ;;
->>> +  --enable-vof) vof=yes
->>> +  ;;
->>> +  --disable-vof) vof=no
->>> +  ;;
->>>   *)
->>>       echo "ERROR: unknown option $opt"
->>>       echo "Try '$0 --help' for more information"
->>> @@ -1940,6 +1945,7 @@ disabled with --disable-FEATURE, default is enabled 
->>> if available
->>>   multiprocess    Out of process device emulation support
->>>   gio             libgio support
->>>   slirp-smbd      use smbd (at path --smbd=*) in slirp networking
->>> +  vof             Virtual Open Firmware support (powerpc/pseries, 
->>> experimental)
->>> 
->>> NOTE: The object files are built at the place where configure is launched
->>> EOF
->>> @@ -5555,6 +5561,9 @@ if test "$slirp_smbd" = "yes" ; then
->>>   echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
->>>   echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
->>> fi
->>> +if test "$vof" = "yes" ; then
->>> +  echo "CONFIG_VOF=y" >> $config_host_mak
->>> +fi
->>> if test "$vde" = "yes" ; then
->>>   echo "CONFIG_VDE=y" >> $config_host_mak
->>>   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
->> 
->> In case I could not explain it clearly in my previous message I think the 
->> solution we want here is to drop these configure changes and let Kconfig 
->> configure this. The CONFIG_VOF option decides if vof itself is built (adds 
->> vof.c) and pegasos2 will select this so it will usually be yes by default. 
->> Your problem is that you're trying to use this variable in spapr to make it 
->> off by default but that does not work. You need to add another option for 
->> that (e.g. CONFIG_VOF_SPAPR or CONFIG_SPAPR_VOF whichever makes more sense) 
->> then you can set that to no despite CONFIG_VOF is yes and use that variable 
->> in spapr files and to add spapr_vof.c. Then no configure option is needed 
->> which does not even work for me: I get compile errors saying 'poisoning 
->> existing macro "CONFIG_VOF"' if I try with --enable-vof or spapr fails to 
->> build if I try without --enable-vof but select CONFIG_VOF from pegasos2. I 
->> hope this makes sense now.
+On Mon, Jun 14, 2021 at 4:20 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Wrap the 'if' condition in a higher-level object. Not only does this
+>
+> I can see "wrap in an object".  I'm afraid don't get what makes it
+> "higher-level".
+>
+
+ok
+
+
+> > provide more type safety but it also enables further refactoring withou=
+t
+> > too much churn.
+>
+> I figure by "more type safety" you mean "can't accidentally confuse some
+> other list of strings with a conditional", which is true, but isn't
+> really about *type* safety.
+>
+> Maybe:
+>
+>   Wrap the 'if' condition in an object.  Not only is this a bit safer,
+>   it also enables further refactoring without too much churn.
 >
 >
-> My problem is that I do not understand when we want VOF to be compiled in by 
-> default and when we do not. For a moment I thought we do not want it in by 
-> default but now it sounds like we do. If that is so, then CONFIG_VOF + 
-> selecting it from PSERIES and PEGASOS should do. Or I am missing the point 
-> again?
+ok
 
-I don't know what spapr wants, for pegasos2 VOF will be the default 
-firmware and I want pegasos2 to be enabled by default (like other boards) 
-so this means CONFIG_VOF will also be enabled by default via select VOF in 
-CONFIG_PEGASOS2. So if the x-vof option in spapr is not enough and you 
-want to be able to configure it off for spapr then you need another 
-CONFIG_something option for that and cannot rely on CONFIG_VOF for it 
-because CONFIG_VOF is on if any board that uses VOF is compiled. If you're 
-OK with compiling it in but disabled by x-vof by default then no need to 
-have another option. In both cases you'll have to select VOF somewhere for 
-your board, either in CONFIG_PSERIES or in the new option that decides if 
-VOF is built for spapr. At least that's how I understand Kconfig.
-
->>> diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
->>> new file mode 100644
->>> index 000000000000..aa1678c4d889
->>> --- /dev/null
->>> +++ b/pc-bios/vof/Makefile
->>> @@ -0,0 +1,23 @@
->>> +all: build-all
->>> +
->>> +build-all: vof.bin
->>> +
->>> +CROSS ?=
->>> +CC = $(CROSS)gcc
->>> +LD = $(CROSS)ld
->>> +OBJCOPY = $(CROSS)objcopy
->>> +
->>> +%.o: %.S
->>> +    $(CC) -m32 -mbig-endian -mcpu=power4 -c -o $@ $<
->>> +
->>> +%.o: %.c
->>> +    $(CC) -m32 -mbig-endian -mcpu=power4 -c -fno-stack-protector -o $@ $<
->>> +
->>> +vof.elf: entry.o main.o ci.o bootmem.o libc.o
->>> +    $(LD) -nostdlib -e_start -Tvof.lds -EB -o $@ $^
->>> +
->>> +%.bin: %.elf
->>> +    $(OBJCOPY) -O binary -j .text -j .data -j .toc -j .got2 $^ $@
->>> +
->>> +clean:
->>> +    rm -f *.o vof.bin vof.elf *~
->>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->>> index f05219f75ef6..39b5581ae650 100644
->>> --- a/include/hw/ppc/spapr.h
->>> +++ b/include/hw/ppc/spapr.h
->>> @@ -12,6 +12,9 @@
->>> #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
->>> #include "hw/ppc/xics.h"        /* For ICSState */
->>> #include "hw/ppc/spapr_tpm_proxy.h"
->>> +#ifdef CONFIG_VOF
->>> +#include "hw/ppc/vof.h"
->>> +#endif
->>> 
->>> struct SpaprVioBus;
->>> struct SpaprPhbState;
->>> @@ -180,6 +183,9 @@ struct SpaprMachineState {
->>>     uint64_t kernel_addr;
->>>     uint32_t initrd_base;
->>>     long initrd_size;
->>> +#ifdef CONFIG_VOF
->> 
->> So this can't be CONFIG_VOF here if you want to be able to set it to no 
->> despite pegasos2 pulling in VOF so you need another SPAPR specific 
+> The following patches will change the syntax of the schema 'if'
+> > conditions to be predicate expressions, and will generate code for
+> > different target languages (C, and Rust in another series).
 >
-> If VOF is compiled it, why would I want it to be still disabled for PSERIES? 
-> The code is in, let it work.
-
-That's something to decide for spapr maintainers, I just want to be able 
-to use CONFIG_VOF from CONFIG_PEGASOS2 and be it on by default.
-
->> option for that in spapr specific parts with CONFIG_VOF selecting if vof 
->> itself is built it any board uses it. So CONFIG_PEGASOS2 has to select 
->> CONFIG_VOF and your SPAPR_VOF option should too if it's enabled that way 
->> vof.c will be added if either board is built but for SPAPR only if its VOF 
->> option is on.
->> 
->>> +    Vof *vof;
->>> +#endif
->>>     uint64_t rtc_offset; /* Now used only during incoming migration */
->>>     struct PPCTimebase tb;
->>>     bool has_graphics;
->>> @@ -558,7 +564,9 @@ struct SpaprMachineState {
->>> /* Client Architecture support */
->>> #define KVMPPC_H_CAS            (KVMPPC_HCALL_BASE + 0x2)
->>> #define KVMPPC_H_UPDATE_DT      (KVMPPC_HCALL_BASE + 0x3)
->>> -#define KVMPPC_HCALL_MAX        KVMPPC_H_UPDATE_DT
->>> +/* 0x4 was used for KVMPPC_H_UPDATE_PHANDLE in SLOF */
->>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
->>> +#define KVMPPC_HCALL_MAX        KVMPPC_H_VOF_CLIENT
->>> 
->>> /*
->>>  * The hcall range 0xEF00 to 0xEF80 is reserved for use in facilitating
->>> @@ -956,4 +964,19 @@ bool spapr_check_pagesize(SpaprMachineState *spapr, 
->>> hwaddr pagesize,
->>> void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
->>> hwaddr spapr_get_rtas_addr(void);
->>> bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr);
->>> +
->>> +#ifdef CONFIG_VOF
->>> +void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
->>> +                     target_ulong *stack_ptr, Error **errp);
->>> +void spapr_vof_quiesce(MachineState *ms);
->>> +bool spapr_vof_setprop(MachineState *ms, const char *path, const char 
->>> *propname,
->>> +                       void *val, int vallen);
->>> +target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState 
->>> *spapr,
->>> +                                target_ulong opcode, target_ulong *args);
->>> +target_ulong spapr_vof_client_architecture_support(MachineState *ms,
->>> +                                                   CPUState *cs,
->>> +                                                   target_ulong 
->>> ovec_addr);
->>> +void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt);
->>> +#endif
->>> +
->>> #endif /* HW_SPAPR_H */
->>> diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
->>> new file mode 100644
->>> index 000000000000..65ca2fed0d41
->>> --- /dev/null
->>> +++ b/include/hw/ppc/vof.h
->>> @@ -0,0 +1,55 @@
->>> +/*
->>> + * Virtual Open Firmware
->>> + *
->>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>> + */
->>> +#ifndef HW_VOF_H
->>> +#define HW_VOF_H
->>> +
->>> +typedef struct Vof {
->>> +    uint64_t top_addr; /* copied from rma_size */
->>> +    GArray *claimed; /* array of SpaprOfClaimed */
->>> +    uint64_t claimed_base;
->>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
->>> +    uint32_t of_instance_last;
->>> +    char *bootargs;
->>> +    long fw_size;
->>> +} Vof;
->>> +
->>> +int vof_client_call(MachineState *ms, Vof *vof, void *fdt,
->>> +                    target_ulong args_real);
->>> +uint64_t vof_claim(Vof *vof, uint64_t virt, uint64_t size, uint64_t 
->>> align);
->>> +void vof_init(Vof *vof, uint64_t top_addr, Error **errp);
->>> +void vof_cleanup(Vof *vof);
->>> +void vof_build_dt(void *fdt, Vof *vof);
->>> +uint32_t vof_client_open_store(void *fdt, Vof *vof, const char *nodename,
->>> +                               const char *prop, const char *path);
->>> +
->>> +#define TYPE_VOF_MACHINE_IF "vof-machine-if"
->>> +
->>> +typedef struct VofMachineIfClass VofMachineIfClass;
->>> +DECLARE_CLASS_CHECKERS(VofMachineIfClass, VOF_MACHINE, 
->>> TYPE_VOF_MACHINE_IF)
->>> +
->>> +struct VofMachineIfClass {
->>> +    InterfaceClass parent;
->>> +    target_ulong (*client_architecture_support)(MachineState *ms, 
->>> CPUState *cs,
->>> +                                                target_ulong vec);
->>> +    void (*quiesce)(MachineState *ms);
->>> +    bool (*setprop)(MachineState *ms, const char *path, const char 
->>> *propname,
->>> +                    void *val, int vallen);
->>> +};
->>> +
->>> +/*
->>> + * Initial stack size is from
->>> + * 
->>> https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html 
->> 
->> I wonder if it's better to quote the section number and the title of the 
->> doc in case the URL here goes away in the future.
+> Since different target languages aren't actually generated in this
+> series, I'd say "and will enable generating code for different target
+> languages, such as Rust."
 >
+
+ok
+
+
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Tested-by: John Snow <jsnow@redhat.com>
+> > ---
+> >  docs/sphinx/qapidoc.py         |  2 +-
+> >  scripts/qapi/commands.py       |  4 +-
+> >  scripts/qapi/events.py         |  5 ++-
+> >  scripts/qapi/gen.py            | 14 +++----
+> >  scripts/qapi/introspect.py     | 26 ++++++------
+> >  scripts/qapi/schema.py         | 74 +++++++++++++++++++++++-----------
+> >  scripts/qapi/types.py          | 33 +++++++--------
+> >  scripts/qapi/visit.py          | 23 ++++++-----
+> >  tests/qapi-schema/test-qapi.py |  2 +-
+> >  9 files changed, 106 insertions(+), 77 deletions(-)
+> >
+> > diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
+> > index 87c67ab23f..b737949007 100644
+> > --- a/docs/sphinx/qapidoc.py
+> > +++ b/docs/sphinx/qapidoc.py
+> > @@ -116,7 +116,7 @@ def _nodes_for_ifcond(self, ifcond, with_if=3DTrue)=
+:
+> >          the conditions are in literal-text and the commas are not.
+> >          If with_if is False, we don't return the "(If: " and ")".
+> >          """
+> > -        condlist =3D intersperse([nodes.literal('', c) for c in ifcond=
+],
+> > +        condlist =3D intersperse([nodes.literal('', c) for c in
+> ifcond.ifcond],
+> >                                 nodes.Text(', '))
+> >          if not with_if:
+> >              return condlist
 >
-> The binding (the URL clearly suggests it is a "binding") says 32K is the 
-> minimum, what else is here to quote? The doc does not explain why anyway.
-
-I thought maybe saying "section x.x of OpenFirmware PPC binding says 
-minimum stack size is 32K" which can also be understood if the link points 
-to nowhere in the future. You can still add a link if you want but just 
-have the relevant info in the comment so one does not need to read the 
-whole doc to find it.
-
+> Note for later: many hunks replace ifcond (the unwrapped Sequence[str])
+> by ifcond.ifcond (the wrapped one, with the wrapper peeled off).
+> Mechanical.
 >
->>> + */
->>> +#define VOF_STACK_SIZE       0x8000
->>> +
->>> +#define VOF_MEM_READ(pa, buf, size) \
->>> +    address_space_read(&address_space_memory, \
->>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
->>> +#define VOF_MEM_WRITE(pa, buf, size) \
->>> +    address_space_write(&address_space_memory, \
->>> +    (pa), MEMTXATTRS_UNSPECIFIED, (buf), (size))
->>> +
->>> +#endif /* HW_VOF_H */
->>> diff --git a/pc-bios/vof/vof.h b/pc-bios/vof/vof.h
->>> new file mode 100644
->>> index 000000000000..2d8958076907
->>> --- /dev/null
->>> +++ b/pc-bios/vof/vof.h
->>> @@ -0,0 +1,43 @@
->>> +/*
->>> + * Virtual Open Firmware
->>> + *
->>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>> + */
->>> +#include <stdarg.h>
->>> +
->>> +typedef unsigned char uint8_t;
->>> +typedef unsigned short uint16_t;
->>> +typedef unsigned long uint32_t;
->>> +typedef unsigned long long uint64_t;
->>> +#define NULL (0)
->>> +#define PROM_ERROR (-1u)
->>> +typedef unsigned long ihandle;
->>> +typedef unsigned long phandle;
->>> +typedef int size_t;
->>> +typedef void client(void);
->>> +
->>> +/* globals */
->>> +extern void _prom_entry(void); /* OF CI entry point (i.e. this firmware) 
->>> */
->>> +
->>> +void do_boot(unsigned long addr, unsigned long r3, unsigned long r4);
->>> +
->>> +/* libc */
->>> +int strlen(const char *s);
->>> +int strcmp(const char *s1, const char *s2);
->>> +void *memcpy(void *dest, const void *src, size_t n);
->>> +int memcmp(const void *ptr1, const void *ptr2, size_t n);
->>> +void *memmove(void *dest, const void *src, size_t n);
->>> +void *memset(void *dest, int c, size_t size);
->>> +
->>> +/* CI wrappers */
->>> +void ci_panic(const char *str);
->>> +phandle ci_finddevice(const char *path);
->>> +uint32_t ci_getprop(phandle ph, const char *propname, void *prop, int 
->>> len);
->>> +
->>> +/* booting from -kernel */
->>> +void boot_from_memory(uint64_t initrd, uint64_t initrdsize);
->>> +
->>> +/* Entry points for CI and RTAS */
->>> +extern uint32_t ci_entry(uint32_t params);
->>> +extern unsigned long hv_rtas(unsigned long params);
->>> +extern unsigned int hv_rtas_size;
->>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>> index 4dd90b75cc52..6d747d72c614 100644
->>> --- a/hw/ppc/spapr.c
->>> +++ b/hw/ppc/spapr.c
->>> @@ -101,6 +101,7 @@
->>> #define FDT_MAX_ADDR            0x80000000 /* FDT must stay below that */
->>> #define FW_MAX_SIZE             0x400000
->>> #define FW_FILE_NAME            "slof.bin"
->>> +#define FW_FILE_NAME_VOF        "vof.bin"
->>> #define FW_OVERHEAD             0x2800000
->>> #define KERNEL_LOAD_ADDR        FW_MAX_SIZE
->>> 
->>> @@ -1639,22 +1640,40 @@ static void spapr_machine_reset(MachineState 
->>> *machine)
->>>     fdt_addr = MIN(spapr->rma_size, FDT_MAX_ADDR) - FDT_MAX_SIZE;
->>> 
->>>     fdt = spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
->>> +#ifdef CONFIG_VOF
->>> +    if (spapr->vof) {
->>> +        target_ulong stack_ptr = 0;
->>> 
->>> -    rc = fdt_pack(fdt);
->>> +        spapr_vof_reset(spapr, fdt, &stack_ptr, &error_fatal);
->>> 
->>> -    /* Should only fail if we've built a corrupted tree */
->>> -    assert(rc == 0);
->>> +        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
->>> +                                  stack_ptr, spapr->initrd_base,
->>> +                                  spapr->initrd_size);
->>> +        /* VOF is 32bit BE so enforce MSR here */
->>> +        first_ppc_cpu->env.msr &= ~((1ULL << MSR_SF) | (1ULL << MSR_LE));
->>> +        /*
->>> +         * Do not pack the FDT as the client may change properties.
->>> +         * VOF client does not expect the FDT so we do not load it to the 
->>> VM.
->>> +         */
->>> +    } else
->>> +#endif
->>> +    {
->>> +        rc = fdt_pack(fdt);
->>> +        /* Should only fail if we've built a corrupted tree */
->>> +        assert(rc == 0);
->>> 
->>> -    /* Load the fdt */
->>> +        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
->>> +                                  0, fdt_addr, 0);
->>> +        cpu_physical_memory_write(fdt_addr, fdt, fdt_totalsize(fdt));
->>> +    }
->>>     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
->>> -    cpu_physical_memory_write(fdt_addr, fdt, fdt_totalsize(fdt));
->>> +
->>>     g_free(spapr->fdt_blob);
->>>     spapr->fdt_size = fdt_totalsize(fdt);
->>>     spapr->fdt_initial_size = spapr->fdt_size;
->>>     spapr->fdt_blob = fdt;
->>> 
->>>     /* Set up the entry state */
->>> -    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, 0, 
->>> fdt_addr, 0);
->>>     first_ppc_cpu->env.gpr[5] = 0;
->>> 
->>>     spapr->fwnmi_system_reset_addr = -1;
->>> @@ -2657,7 +2676,12 @@ static void spapr_machine_init(MachineState 
->>> *machine)
->>>     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
->>>     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
->>>     MachineClass *mc = MACHINE_GET_CLASS(machine);
->>> -    const char *bios_name = machine->firmware ?: FW_FILE_NAME;
->>> +    const char *bios_default =
->>> +#ifdef CONFIG_VOF
->>> +        !!spapr->vof ? FW_FILE_NAME_VOF :
->> 
->> Does !! make sense here? I think testing for non-0 does not need it so you 
->> could just write spapr->vof without !!.
+> > diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+> > index 0e13d51054..3654825968 100644
+> > --- a/scripts/qapi/commands.py
+> > +++ b/scripts/qapi/commands.py
+> > @@ -17,7 +17,6 @@
+> >      Dict,
+> >      List,
+> >      Optional,
+> > -    Sequence,
+> >      Set,
+> >  )
+> >
+> > @@ -31,6 +30,7 @@
+> >  from .schema import (
+> >      QAPISchema,
+> >      QAPISchemaFeature,
+> > +    QAPISchemaIfCond,
+> >      QAPISchemaObjectType,
+> >      QAPISchemaType,
+> >  )
+> > @@ -301,7 +301,7 @@ def visit_end(self) -> None:
+> >      def visit_command(self,
+> >                        name: str,
+> >                        info: Optional[QAPISourceInfo],
+> > -                      ifcond: Sequence[str],
+> > +                      ifcond: QAPISchemaIfCond,
+> >                        features: List[QAPISchemaFeature],
+> >                        arg_type: Optional[QAPISchemaObjectType],
+> >                        ret_type: Optional[QAPISchemaType],
 >
+> Note for later: many hunks replace ifcond: Sequence[str] or
+> Iterable[str] by ifcond: QAPISchemaIfCond.  Mechanical.
 >
-> I find c operator precedence confusing at times. Unary operators like "!" are 
-> easy to read though.
-
-OK but it's not needed here at all. With or without !! you should get the 
-same result, !! is only needed if you need to make sure value is bool and 
-not some number which is not needed here, you just test if spapr->vof is 0 
-or not. So writing just that is simpler and people not familiar with !! 
-won't be confused. (I had somebedy ask about !! before in one of my 
-patches so I think this should only be used where necessary.) Also less 
-operators in an expression means less precedence to care for ;-)
-
+> > diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+> > index fee8c671e7..82475e84ec 100644
+> > --- a/scripts/qapi/events.py
+> > +++ b/scripts/qapi/events.py
+> > @@ -12,7 +12,7 @@
+> >  See the COPYING file in the top-level directory.
+> >  """
+> >
+> > -from typing import List, Optional, Sequence
+> > +from typing import List, Optional
+> >
+> >  from .common import c_enum_const, c_name, mcgen
+> >  from .gen import QAPISchemaModularCVisitor, build_params, ifcontext
+> > @@ -20,6 +20,7 @@
+> >      QAPISchema,
+> >      QAPISchemaEnumMember,
+> >      QAPISchemaFeature,
+> > +    QAPISchemaIfCond,
+> >      QAPISchemaObjectType,
+> >  )
+> >  from .source import QAPISourceInfo
+> > @@ -227,7 +228,7 @@ def visit_end(self) -> None:
+> >      def visit_event(self,
+> >                      name: str,
+> >                      info: Optional[QAPISourceInfo],
+> > -                    ifcond: Sequence[str],
+> > +                    ifcond: QAPISchemaIfCond,
+> >                      features: List[QAPISchemaFeature],
+> >                      arg_type: Optional[QAPISchemaObjectType],
+> >                      boxed: bool) -> None:
+> > diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> > index 1fa503bdbd..1c5b190276 100644
+> > --- a/scripts/qapi/gen.py
+> > +++ b/scripts/qapi/gen.py
+> > @@ -18,7 +18,6 @@
+> >      Dict,
+> >      Iterator,
+> >      Optional,
+> > -    Sequence,
+> >      Tuple,
+> >  )
+> >
+> > @@ -32,6 +31,7 @@
+> >      mcgen,
+> >  )
+> >  from .schema import (
+> > +    QAPISchemaIfCond,
+> >      QAPISchemaModule,
+> >      QAPISchemaObjectType,
+> >      QAPISchemaVisitor,
+> > @@ -85,7 +85,7 @@ def write(self, output_dir: str) -> None:
+> >                  fp.write(text)
+> >
+> >
+> > -def _wrap_ifcond(ifcond: Sequence[str], before: str, after: str) -> st=
+r:
+> > +def _wrap_ifcond(ifcond: QAPISchemaIfCond, before: str, after: str) ->
+> str:
+> >      if before =3D=3D after:
+> >          return after   # suppress empty #if ... #endif
+> >
+> > @@ -95,9 +95,9 @@ def _wrap_ifcond(ifcond: Sequence[str], before: str,
+> after: str) -> str:
+> >      if added[0] =3D=3D '\n':
+> >          out +=3D '\n'
+> >          added =3D added[1:]
+> > -    out +=3D gen_if(ifcond)
+> > +    out +=3D gen_if(ifcond.ifcond)
+> >      out +=3D added
+> > -    out +=3D gen_endif(ifcond)
+> > +    out +=3D gen_endif(ifcond.ifcond)
+> >      return out
+> >
+> >
+> > @@ -127,9 +127,9 @@ def build_params(arg_type:
+> Optional[QAPISchemaObjectType],
+> >  class QAPIGenCCode(QAPIGen):
+> >      def __init__(self, fname: str):
+> >          super().__init__(fname)
+> > -        self._start_if: Optional[Tuple[Sequence[str], str, str]] =3D N=
+one
+> > +        self._start_if: Optional[Tuple[QAPISchemaIfCond, str, str]] =
+=3D
+> None
+> >
+> > -    def start_if(self, ifcond: Sequence[str]) -> None:
+> > +    def start_if(self, ifcond: QAPISchemaIfCond) -> None:
+> >          assert self._start_if is None
+> >          self._start_if =3D (ifcond, self._body, self._preamble)
+> >
+> > @@ -187,7 +187,7 @@ def _bottom(self) -> str:
+> >
+> >
+> >  @contextmanager
+> > -def ifcontext(ifcond: Sequence[str], *args: QAPIGenCCode) ->
+> Iterator[None]:
+> > +def ifcontext(ifcond: QAPISchemaIfCond, *args: QAPIGenCCode) ->
+> Iterator[None]:
+> >      """
+> >      A with-statement context manager that wraps with `start_if()` /
+> `end_if()`.
+> >
+> > diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> > index 9a348ca2e5..77a8c33ad4 100644
+> > --- a/scripts/qapi/introspect.py
+> > +++ b/scripts/qapi/introspect.py
+> > @@ -15,11 +15,9 @@
+> >      Any,
+> >      Dict,
+> >      Generic,
+> > -    Iterable,
+> >      List,
+> >      Optional,
+> >      Sequence,
+> > -    Tuple,
+> >      TypeVar,
+> >      Union,
+> >  )
+> > @@ -38,6 +36,7 @@
+> >      QAPISchemaEntity,
+> >      QAPISchemaEnumMember,
+> >      QAPISchemaFeature,
+> > +    QAPISchemaIfCond,
+> >      QAPISchemaObjectType,
+> >      QAPISchemaObjectTypeMember,
+> >      QAPISchemaType,
+> > @@ -91,11 +90,11 @@ class Annotated(Generic[_ValueT]):
+> >      """
+> >      # TODO: Remove after Python 3.7 adds @dataclass:
+> >      # pylint: disable=3Dtoo-few-public-methods
+> > -    def __init__(self, value: _ValueT, ifcond: Iterable[str],
+> > +    def __init__(self, value: _ValueT, ifcond: QAPISchemaIfCond,
+> >                   comment: Optional[str] =3D None):
+> >          self.value =3D value
+> >          self.comment: Optional[str] =3D comment
+> > -        self.ifcond: Tuple[str, ...] =3D tuple(ifcond)
+> > +        self.ifcond =3D ifcond
+> >
+> >
+> >  def _tree_to_qlit(obj: JSONValue,
+> > @@ -125,10 +124,10 @@ def indent(level: int) -> str:
+> >          if obj.comment:
+> >              ret +=3D indent(level) + f"/* {obj.comment} */\n"
+> >          if obj.ifcond:
+> > -            ret +=3D gen_if(obj.ifcond)
+> > +            ret +=3D gen_if(obj.ifcond.ifcond)
+> >          ret +=3D _tree_to_qlit(obj.value, level)
+> >          if obj.ifcond:
+> > -            ret +=3D '\n' + gen_endif(obj.ifcond)
+> > +            ret +=3D '\n' + gen_endif(obj.ifcond.ifcond)
+> >          return ret
+> >
+> >      ret =3D ''
+> > @@ -254,7 +253,7 @@ def _gen_features(features:
+> Sequence[QAPISchemaFeature]
+> >          return [Annotated(f.name, f.ifcond) for f in features]
+> >
+> >      def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+> > -                  ifcond: Sequence[str] =3D (),
+> > +                  ifcond: QAPISchemaIfCond =3D QAPISchemaIfCond(),
 >
->> 
->>> +#endif
->>> +        FW_FILE_NAME;
->>> +    const char *bios_name = machine->firmware ?: bios_default;
->>>     const char *kernel_filename = machine->kernel_filename;
->>>     const char *initrd_filename = machine->initrd_filename;
->>>     PCIHostState *phb;
->>> @@ -3014,6 +3038,12 @@ static void spapr_machine_init(MachineState 
->>> *machine)
->>>     }
->>> 
->>>     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
->>> +#ifdef CONFIG_VOF
->>> +    if (spapr->vof) {
->>> +        spapr->vof->fw_size = fw_size; /* for claim() on itself */
->>> +        spapr_register_hypercall(KVMPPC_H_VOF_CLIENT, 
->>> spapr_h_vof_client);
->>> +    }
->>> +#endif
->>> }
->>> 
->>> #define DEFAULT_KVM_TYPE "auto"
->>> @@ -3204,6 +3234,30 @@ static void spapr_set_resize_hpt(Object *obj, const 
->>> char *value, Error **errp)
->>>     }
->>> }
->>> 
->>> +#ifdef CONFIG_VOF
->>> +static bool spapr_get_vof(Object *obj, Error **errp)
->>> +{
->>> +    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
->>> +
->>> +    return spapr->vof != NULL;
->>> +}
->>> +
->>> +static void spapr_set_vof(Object *obj, bool value, Error **errp)
->>> +{
->>> +    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
->>> +
->>> +    if (spapr->vof) {
->>> +        vof_cleanup(spapr->vof);
->>> +        g_free(spapr->vof);
->>> +        spapr->vof = NULL;
->>> +    }
->>> +    if (!value) {
->>> +        return;
->>> +    }
->>> +    spapr->vof = g_malloc0(sizeof(*spapr->vof));
->>> +}
->>> +#endif
->>> +
->>> static char *spapr_get_ic_mode(Object *obj, Error **errp)
->>> {
->>>     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
->>> @@ -3329,6 +3383,12 @@ static void spapr_instance_init(Object *obj)
->>>                                     stringify(KERNEL_LOAD_ADDR)
->>>                                     " for -kernel is the default");
->>>     spapr->kernel_addr = KERNEL_LOAD_ADDR;
->>> +#ifdef CONFIG_VOF
->>> +    object_property_add_bool(obj, "x-vof", spapr_get_vof, spapr_set_vof);
->>> +    object_property_set_description(obj, "x-vof",
->>> +                                    "Enable Virtual Open Firmware 
->>> (experimental)");
->>> +#endif
->>> +
->>>     /* The machine class defines the default interrupt controller mode */
->>>     spapr->irq = smc->irq;
->>>     object_property_add_str(obj, "ic-mode", spapr_get_ic_mode,
->>> @@ -4580,6 +4640,16 @@ static void spapr_machine_class_init(ObjectClass 
->>> *oc, void *data)
->>>     smc->smp_threads_vsmt = true;
->>>     smc->nr_xirqs = SPAPR_NR_XIRQS;
->>>     xfc->match_nvt = spapr_match_nvt;
->>> +
->>> +#ifdef CONFIG_VOF
->>> +    {
->>> +        VofMachineIfClass *vmc = VOF_MACHINE_CLASS(oc);
->>> +        vmc->client_architecture_support =
->>> +            spapr_vof_client_architecture_support;
->>> +        vmc->quiesce = spapr_vof_quiesce;
->>> +        vmc->setprop = spapr_vof_setprop;
->>> +    }
->>> +#endif
->>> }
->>> 
->>> static const TypeInfo spapr_machine_info = {
->>> @@ -4599,6 +4669,9 @@ static const TypeInfo spapr_machine_info = {
->>>         { TYPE_XICS_FABRIC },
->>>         { TYPE_INTERRUPT_STATS_PROVIDER },
->>>         { TYPE_XIVE_FABRIC },
->>> +#ifdef CONFIG_VOF
->>> +        { TYPE_VOF_MACHINE_IF },
->>> +#endif
->>>         { }
->>>     },
->>> };
->>> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->>> index f25014afda40..986a4de34128 100644
->>> --- a/hw/ppc/spapr_hcall.c
->>> +++ b/hw/ppc/spapr_hcall.c
->>> @@ -1080,7 +1080,7 @@ target_ulong 
->>> do_client_architecture_support(PowerPCCPU *cpu,
->>>     SpaprOptionVector *ov1_guest, *ov5_guest;
->>>     bool guest_radix;
->>>     bool raw_mode_supported = false;
->>> -    bool guest_xive;
->>> +    bool guest_xive, reset_fdt = false;
->>>     CPUState *cs;
->>>     void *fdt;
->>>     uint32_t max_compat = spapr->max_compat_pvr;
->>> @@ -1233,8 +1233,10 @@ target_ulong 
->>> do_client_architecture_support(PowerPCCPU *cpu,
->>>         spapr_setup_hpt(spapr);
->>>     }
->>> 
->>> -    fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
->>> -
->>> +#ifdef CONFIG_VOF
->>> +    reset_fdt = spapr->vof != NULL;
->> 
->> (Here when storing to a bool !! could make sense but what you have is 
->> better as it's clearer so I'm not suggesting to use !! here either.
+> The same QAPISchemaIfCond object gets reused every time we don't pass an
+> @ifcond argument.  Looks a bit scary, but works, because we don't ever
+> mutate it.
 >
-> I prefer this way
+> Elsewhere, we None as default, though: QAPISchemaEntity.__init__(),
+> QAPISchemaMember.__init__().
+>
 
-I agree that this way writing with explicit != NULL is clear so I prefer 
-that here too. I just mentioned that here !! might make more sense here 
-than above.
+A mechanical change, isn't it?
 
-> and I would rather do this that "!!" but again precedence 
-> confuses me some times so up there I'd need braces for the condition and then 
-> folks start asking "why you need braces" :)
 
-For precedence "man operator" has a quick table to help, it's hard to 
-remember. In my opinion !! is only useful if you need to convert something 
-like a flag to a bool like bool = !!(reg & BIT(x)) otherwise it's probably 
-clearer to do without it as it may confuse those not familiar with it.
+> >                    features: Sequence[QAPISchemaFeature] =3D ()) -> Non=
+e:
+> >          """
+> >          Build and append a SchemaInfo object to self._trees.
+> > @@ -305,7 +304,7 @@ def visit_builtin_type(self, name: str, info:
+> Optional[QAPISourceInfo],
+> >          self._gen_tree(name, 'builtin', {'json-type': json_type})
+> >
+> >      def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo=
+],
+> > -                        ifcond: Sequence[str],
+> > +                        ifcond: QAPISchemaIfCond,
+> >                          features: List[QAPISchemaFeature],
+> >                          members: List[QAPISchemaEnumMember],
+> >                          prefix: Optional[str]) -> None:
+> > @@ -316,14 +315,14 @@ def visit_enum_type(self, name: str, info:
+> Optional[QAPISourceInfo],
+> >          )
+> >
+> >      def visit_array_type(self, name: str, info:
+> Optional[QAPISourceInfo],
+> > -                         ifcond: Sequence[str],
+> > +                         ifcond: QAPISchemaIfCond,
+> >                           element_type: QAPISchemaType) -> None:
+> >          element =3D self._use_type(element_type)
+> >          self._gen_tree('[' + element + ']', 'array', {'element-type':
+> element},
+> >                         ifcond)
+> >
+> >      def visit_object_type_flat(self, name: str, info:
+> Optional[QAPISourceInfo],
+> > -                               ifcond: Sequence[str],
+> > +                               ifcond: QAPISchemaIfCond,
+> >                                 features: List[QAPISchemaFeature],
+> >                                 members:
+> List[QAPISchemaObjectTypeMember],
+> >                                 variants: Optional[QAPISchemaVariants])
+> -> None:
+> > @@ -336,7 +335,7 @@ def visit_object_type_flat(self, name: str, info:
+> Optional[QAPISourceInfo],
+> >          self._gen_tree(name, 'object', obj, ifcond, features)
+> >
+> >      def visit_alternate_type(self, name: str, info:
+> Optional[QAPISourceInfo],
+> > -                             ifcond: Sequence[str],
+> > +                             ifcond: QAPISchemaIfCond,
+> >                               features: List[QAPISchemaFeature],
+> >                               variants: QAPISchemaVariants) -> None:
+> >          self._gen_tree(
+> > @@ -348,7 +347,7 @@ def visit_alternate_type(self, name: str, info:
+> Optional[QAPISourceInfo],
+> >          )
+> >
+> >      def visit_command(self, name: str, info: Optional[QAPISourceInfo],
+> > -                      ifcond: Sequence[str],
+> > +                      ifcond: QAPISchemaIfCond,
+> >                        features: List[QAPISchemaFeature],
+> >                        arg_type: Optional[QAPISchemaObjectType],
+> >                        ret_type: Optional[QAPISchemaType], gen: bool,
+> > @@ -367,7 +366,8 @@ def visit_command(self, name: str, info:
+> Optional[QAPISourceInfo],
+> >          self._gen_tree(name, 'command', obj, ifcond, features)
+> >
+> >      def visit_event(self, name: str, info: Optional[QAPISourceInfo],
+> > -                    ifcond: Sequence[str], features:
+> List[QAPISchemaFeature],
+> > +                    ifcond: QAPISchemaIfCond,
+> > +                    features: List[QAPISchemaFeature],
+> >                      arg_type: Optional[QAPISchemaObjectType],
+> >                      boxed: bool) -> None:
+> >          assert self._schema is not None
+> > diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> > index d1d27ff7ee..bc357ebbfa 100644
+> > --- a/scripts/qapi/schema.py
+> > +++ b/scripts/qapi/schema.py
+> > @@ -25,6 +25,20 @@
+> >  from .parser import QAPISchemaParser
+> >
+> >
+> > +class QAPISchemaIfCond:
+> > +    def __init__(self, ifcond=3DNone):
+> > +        self.ifcond =3D ifcond or []
+> > +
+> > +    # Returns true if the condition is not void
+> > +    def __bool__(self):
+> > +        return bool(self.ifcond)
+>
+> I'm not sure I like this one.
+>
+> In the two places where we default parameter icond=3DNone, we use
+>
+>     ifcond or QAPISchemaIfCond()
+>
+> to flip to the default value we actually want.  Works as intended for
+> None and for non-empty QAPISchemaIfCond.  For empty QAPISchemaIfCond, it
+> throws away the value and creates a new, equivalent one.  Works, but
+> kind of by accident.
+>
+> This is an instance of a more general problem: when I see an
+> Optional[ObjectType], I expect it to be falsy if and only if it's None.
+> Perhaps I shouldn't.  Doesn't mean we should press __bool__() into
+> service for checking "is there a condition".  A boring non-dunder method
+> might be clearer.
+>
+> I understand what you mean by "condition is void", but it sounds a bit
+> odd to me.  How do you like "Is a condition present?"
+>
 
-> I do not need braces here as "=" has the priority (although the fact that it 
-> returns a value is just bizzarre).
+The current code uses falsy values for ifcond (whether it is [], (), None
+whatever). Implementing __bool__() allowed to keep the existing condition
+code (ie: if ifcond).
 
-Everything in C has practical reasons. I think assignment returning a 
-value is so you could write a = b = 0; although this is discouraged 
-usually. Also you can do while ((c = getc())) so this is sometimes useful 
-to have = return a value.
+After the wrapping object is introduced, we have "if ifcond.ifcond", which
+is quite ugly.
 
->> It's rarely useful, maybe only if you need a bool but does not have space 
->> to write the condition or it would be more confusing that way.)
+If you think "if ifcond" isn't clear enough (with __bool__()), we can have
+"if ifcond.is_present()". I don't have a preference.
+
+
+> > +
+> > +    def __eq__(self, other):
+> > +        if not isinstance(other, QAPISchemaIfCond):
+> > +            return NotImplemented
+> > +        return self.ifcond =3D=3D other.ifcond
+>
+> Stupid question: why do we need to override __eq__()?
+>
+> Hmm, probably for _make_implicit_object_type().
 >
 >
->
->> 
->>> +#endif
->>> +    fdt = spapr_build_fdt(spapr, reset_fdt, fdt_bufsize);
->>>     g_free(spapr->fdt_blob);
->>>     spapr->fdt_size = fdt_totalsize(fdt);
->>>     spapr->fdt_initial_size = spapr->fdt_size;
->>> @@ -1277,6 +1279,27 @@ static target_ulong 
->>> h_client_architecture_support(PowerPCCPU *cpu,
->>>     return ret;
->>> }
->>> 
->>> +#ifdef CONFIG_VOF
->>> +target_ulong spapr_vof_client_architecture_support(MachineState *ms,
->>> +                                                   CPUState *cs,
->>> +                                                   target_ulong 
->>> ovec_addr)
->>> +{
->>> +    SpaprMachineState *spapr = SPAPR_MACHINE(ms);
->>> +
->>> +    target_ulong ret = do_client_architecture_support(POWERPC_CPU(cs), 
->>> spapr,
->>> +                                                      ovec_addr, 
->>> FDT_MAX_SIZE);
->>> +
->>> +    /*
->>> +     * This adds stdout and generates phandles for boottime and CAS FDTs.
->>> +     * It is alright to update the FDT here as 
->>> do_client_architecture_support()
->>> +     * does not pack it.
->>> +     */
->>> +    spapr_vof_client_dt_finalize(spapr, spapr->fdt_blob);
->>> +
->>> +    return ret;
->>> +}
->>> +#endif
->>> +
->>> static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
->>>                                               SpaprMachineState *spapr,
->>>                                               target_ulong opcode,
->>> diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
->>> new file mode 100644
->>> index 000000000000..653d376f38aa
->>> --- /dev/null
->>> +++ b/hw/ppc/spapr_vof.c
->>> @@ -0,0 +1,153 @@
->>> +/*
->>> + * SPAPR machine hooks to Virtual Open Firmware,
->>> + *
->>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>> + */
->>> +#include "qemu/osdep.h"
->>> +#include "qemu-common.h"
->>> +#include <sys/ioctl.h>
->>> +#include "qapi/error.h"
->>> +#include "hw/ppc/spapr.h"
->>> +#include "hw/ppc/spapr_vio.h"
->>> +#include "hw/ppc/fdt.h"
->>> +#include "sysemu/sysemu.h"
->>> +#include "qom/qom-qobject.h"
->>> +#include "trace.h"
->>> +
->>> +target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState 
->>> *spapr,
->>> +                                target_ulong opcode, target_ulong *_args)
->>> +{
->>> +    int ret = vof_client_call(MACHINE(spapr), spapr->vof, 
->>> spapr->fdt_blob,
->>> +                              ppc64_phys_to_real(_args[0]));
->>> +
->>> +    if (ret) {
->>> +        return H_PARAMETER;
->>> +    }
->>> +    return H_SUCCESS;
->>> +}
->>> +
->>> +void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt)
->>> +{
->>> +    char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
->>> +    int chosen;
->>> +
->>> +    vof_build_dt(fdt, spapr->vof);
->>> +
->>> +    _FDT(chosen = fdt_path_offset(fdt, "/chosen"));
->>> +    _FDT(fdt_setprop_string(fdt, chosen, "bootargs",
->>> +                            spapr->vof->bootargs ? : ""));
->>> +
->>> +    /*
->>> +     * SLOF-less setup requires an open instance of stdout for early
->>> +     * kernel printk. By now all phandles are settled so we can open
->>> +     * the default serial console.
->>> +     */
->>> +    if (stdout_path) {
->>> +        _FDT(vof_client_open_store(fdt, spapr->vof, "/chosen", "stdout",
->>> +                                   stdout_path));
->>> +    }
->>> +}
->>> +
->>> +void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
->>> +                     target_ulong *stack_ptr, Error **errp)
->>> +{
->>> +    Vof *vof = spapr->vof;
->>> +
->>> +    vof_init(vof, spapr->rma_size, errp);
->>> +
->>> +    *stack_ptr = vof_claim(vof, 0, VOF_STACK_SIZE, VOF_STACK_SIZE);
->>> +    if (*stack_ptr == -1) {
->>> +        error_setg(errp, "Memory allocation for stack failed");
->>> +        return;
->>> +    }
->>> +    /* Stack grows downwards plus reserve space for the minimum stack 
->>> frame */
->>> +    *stack_ptr += VOF_STACK_SIZE - 0x20;
->>> +
->>> +    if (spapr->kernel_size &&
->>> +        vof_claim(vof, spapr->kernel_addr, spapr->kernel_size, 0) == -1) 
->>> {
->>> +        error_setg(errp, "Memory for kernel is in use");
->>> +        return;
->>> +    }
->>> +
->>> +    if (spapr->initrd_size &&
->>> +        vof_claim(vof, spapr->initrd_base, spapr->initrd_size, 0) == -1) 
->>> {
->>> +        error_setg(errp, "Memory for initramdisk is in use");
->>> +        return;
->>> +    }
->>> +
->>> +    spapr_vof_client_dt_finalize(spapr, fdt);
->>> +
->>> +    /*
->>> +     * At this point the expected allocation map is:
->>> +     *
->>> +     * 0..c38 - the initial firmware
->>> +     * 8000..10000 - stack
->>> +     * 400000.. - kernel
->>> +     * 3ea0000.. - initramdisk
->>> +     *
->>> +     * We skip writing FDT as nothing expects it; OF client interface is
->>> +     * going to be used for reading the device tree.
->>> +     */
->>> +}
->>> +
->>> +void spapr_vof_quiesce(MachineState *ms)
->>> +{
->>> +    SpaprMachineState *spapr = SPAPR_MACHINE(ms);
->>> +
->>> +    spapr->fdt_size = fdt_totalsize(spapr->fdt_blob);
->>> +    spapr->fdt_initial_size = spapr->fdt_size;
->>> +}
->>> +
->>> +bool spapr_vof_setprop(MachineState *ms, const char *path, const char 
->>> *propname,
->>> +                       void *val, int vallen)
->>> +{
->>> +    SpaprMachineState *spapr = SPAPR_MACHINE(ms);
->>> +
->>> +    /*
->>> +     * We only allow changing properties which we know how to update in 
->>> QEMU
->>> +     * OR
->>> +     * the ones which we know that they need to survive during "quiesce".
->>> +     */
->>> +
->>> +    if (strcmp(path, "/rtas") == 0) {
->>> +        if (strcmp(propname, "linux,rtas-base") == 0 ||
->>> +            strcmp(propname, "linux,rtas-entry") == 0) {
->>> +            /* These need to survive quiesce so let them store in the FDT 
->>> */
->>> +            return true;
->>> +        }
->>> +    }
->>> +
->>> +    if (strcmp(path, "/chosen") == 0) {
->>> +        if (strcmp(propname, "bootargs") == 0) {
->>> +            Vof *vof = spapr->vof;
->>> +
->>> +            g_free(vof->bootargs);
->>> +            vof->bootargs = g_strndup(val, vallen);
->>> +            return true;
->>> +        }
->>> +        if (strcmp(propname, "linux,initrd-start") == 0) {
->>> +            if (vallen == sizeof(uint32_t)) {
->>> +                spapr->initrd_base = ldl_be_p(val);
->>> +                return true;
->>> +            }
->>> +            if (vallen == sizeof(uint64_t)) {
->>> +                spapr->initrd_base = ldq_be_p(val);
->>> +                return true;
->>> +            }
->>> +            return false;
->>> +        }
->>> +        if (strcmp(propname, "linux,initrd-end") == 0) {
->>> +            if (vallen == sizeof(uint32_t)) {
->>> +                spapr->initrd_size = ldl_be_p(val) - spapr->initrd_base;
->>> +                return true;
->>> +            }
->>> +            if (vallen == sizeof(uint64_t)) {
->>> +                spapr->initrd_size = ldq_be_p(val) - spapr->initrd_base;
->>> +                return true;
->>> +            }
->>> +            return false;
->>> +        }
->>> +    }
->>> +
->>> +    return true;
->>> +}
->>> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
->>> new file mode 100644
->>> index 000000000000..1068a1e58388
->>> --- /dev/null
->>> +++ b/hw/ppc/vof.c
->>> @@ -0,0 +1,1052 @@
->>> +/*
->>> + * QEMU PowerPC Virtual Open Firmware.
->>> + *
->>> + * This implements client interface from OpenFirmware IEEE1275 on the 
->>> QEMU
->>> + * side to leave only a very basic firmware in the VM.
->>> + *
->>> + * Copyright (c) 2021 IBM Corporation.
->>> + *
->>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>> + */
->>> +
->>> +#include "qemu/osdep.h"
->>> +#include "qemu-common.h"
->>> +#include "qemu/timer.h"
->>> +#include "qemu/range.h"
->>> +#include "qemu/units.h"
->>> +#include "qapi/error.h"
->>> +#include <sys/ioctl.h>
->>> +#include "exec/ram_addr.h"
->>> +#include "exec/address-spaces.h"
->>> +#include "hw/ppc/vof.h"
->>> +#include "hw/ppc/fdt.h"
->>> +#include "sysemu/runstate.h"
->>> +#include "qom/qom-qobject.h"
->>> +#include "trace.h"
->>> +
->>> +#include <libfdt.h>
->>> +
->>> +/*
->>> + * OF 1275 "nextprop" description suggests is it 32 bytes max but
->>> + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 chars 
->>> long.
->>> + */
->>> +#define OF_PROPNAME_LEN_MAX 64
->>> +
->>> +#define VOF_MAX_PATH        256
->>> +#define VOF_MAX_SETPROPLEN  2048
->>> +#define VOF_MAX_METHODLEN   256
->>> +#define VOF_MAX_FORTHCODE   256
->>> +#define VOF_VTY_BUF_SIZE    256
->>> +
->>> +typedef struct {
->>> +    uint64_t start;
->>> +    uint64_t size;
->>> +} OfClaimed;
->>> +
->>> +typedef struct {
->>> +    char *path; /* the path used to open the instance */
->>> +    uint32_t phandle;
->>> +} OfInstance;
->>> +
->>> +static int readstr(hwaddr pa, char *buf, int size)
->>> +{
->>> +    if (VOF_MEM_READ(pa, buf, size) != MEMTX_OK) {
->>> +        return -1;
->>> +    }
->>> +    if (strnlen(buf, size) == size) {
->>> +        buf[size - 1] = '\0';
->>> +        trace_vof_error_str_truncated(buf, size);
->>> +        return -1;
->>> +    }
->>> +    return 0;
->>> +}
->>> +
->>> +static bool cmpservice(const char *s, unsigned nargs, unsigned nret,
->>> +                       const char *s1, unsigned nargscheck, unsigned 
->>> nretcheck)
->>> +{
->>> +    if (strcmp(s, s1)) {
->>> +        return false;
->>> +    }
->>> +    if ((nargscheck && (nargs != nargscheck)) ||
->>> +        (nretcheck && (nret != nretcheck))) {
->>> +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
->>> +        return false;
->>> +    }
->>> +
->>> +    return true;
->>> +}
->>> +
->>> +static void prop_format(char *tval, int tlen, const void *prop, int len)
->>> +{
->>> +    int i;
->>> +    const unsigned char *c;
->>> +    char *t;
->>> +    const char bin[] = "...";
->>> +
->>> +    for (i = 0, c = prop; i < len; ++i, ++c) {
->>> +        if (*c == '\0' && i == len - 1) {
->>> +            strncpy(tval, prop, tlen - 1);
->>> +            return;
->>> +        }
->>> +        if (*c < 0x20 || *c >= 0x80) {
->>> +            break;
->>> +        }
->>> +    }
->>> +
->>> +    for (i = 0, c = prop, t = tval; i < len; ++i, ++c) {
->>> +        if (t >= tval + tlen - sizeof(bin) - 1 - 2 - 1) {
->>> +            strcpy(t, bin);
->>> +            return;
->>> +        }
->>> +        if (i && i % 4 == 0 && i != len - 1) {
->>> +            strcat(t, " ");
->>> +            ++t;
->>> +        }
->>> +        t += sprintf(t, "%02X", *c & 0xFF);
->>> +    }
->>> +}
->>> +
->>> +static int get_path(const void *fdt, int offset, char *buf, int len)
->>> +{
->>> +    int ret;
->>> +
->>> +    ret = fdt_get_path(fdt, offset, buf, len - 1);
->>> +    if (ret < 0) {
->>> +        return ret;
->>> +    }
->>> +
->>> +    buf[len - 1] = '\0';
->>> +
->>> +    return strlen(buf) + 1;
->>> +}
->>> +
->>> +static int phandle_to_path(const void *fdt, uint32_t ph, char *buf, int 
->>> len)
->>> +{
->>> +    int ret;
->>> +
->>> +    ret = fdt_node_offset_by_phandle(fdt, ph);
->>> +    if (ret < 0) {
->>> +        return ret;
->>> +    }
->>> +
->>> +    return get_path(fdt, ret, buf, len);
->>> +}
->>> +
->>> +static int path_offset(const void *fdt, const char *path)
->>> +{
->>> +    g_autofree char *p = NULL;
->>> +    char *at;
->>> +
->>> +    /*
->>> +     * The addresses in node names are expected to in the lower case as 
->>> per
->> 
->> There's some grammar problem with this sentence. I think it should be "are 
->> expected to be in lower case" but ask a native speaker.
->
-> Definitely missed "be". Thanks for spotting.
->
->
->> 
->>> +     * 
->>> https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html 
->>> +     */
->>> +    at = strchr(path, '@');
->>> +    if (!at) {
->>> +        return fdt_path_offset(fdt, path);
->>> +    }
->>> +
->>> +    p = g_strdup(path);
->>> +    for (at = at - path + p + 1; *at; ++at) {
->>> +        *at = tolower(*at);
->>> +    }
->>> +    return fdt_path_offset(fdt, p);
->>> +}
->>> +
->>> +static uint32_t vof_finddevice(const void *fdt, uint32_t nodeaddr)
->>> +{
->>> +    char fullnode[VOF_MAX_PATH];
->>> +    uint32_t ret = -1;
->>> +    int offset;
->>> +
->>> +    if (readstr(nodeaddr, fullnode, sizeof(fullnode))) {
->>> +        return (uint32_t) ret;
->>> +    }
->>> +
->>> +    offset = path_offset(fdt, fullnode);
->>> +    if (offset >= 0) {
->>> +        ret = fdt_get_phandle(fdt, offset);
->>> +    }
->>> +    trace_vof_finddevice(fullnode, ret);
->>> +    return (uint32_t) ret;
->>> +}
->>> +
->>> +static const void *getprop(const void *fdt, int nodeoff, const char 
->>> *propname,
->>> +                           int *proplen, bool *write0)
->>> +{
->>> +    const char *unit, *prop;
->>> +    const void *ret = fdt_getprop(fdt, nodeoff, propname, proplen);
->>> +
->>> +    if (ret) {
->>> +        if (write0) {
->>> +            *write0 = false;
->>> +        }
->>> +        return ret;
->>> +    }
->>> +
->>> +    /*
->>> +     * The "name" property is not actually expected as a property in the 
->>> FDT
->>> +     * (although some platform may create those in "/" so we try getprop 
->>> first),
->> 
->> Not only in "/" but anywhere. MorphOS walks the tree with nextprop and 
->> expects to get a name property for most nodes without ever explicitely 
->> querying "name". I've tested this with both the board firmware and VOF and 
->> with the board firmware a name property appears in most nodes but not all 
->> so I think at least SmartFirmware does the same and explicitely sets name 
->> on some nodes and otherwise returns the name from path if such property 
->> does not existbut queried. With this in VOF I can do the same and get same 
->> results so the change should be OK but the comment may be misleading now. 
->> Better to just say we return a value for "name" from path if queried but 
->> property does not exist which seems to be what OF does too.
->
->
-> Fair point, after checking with o1275 and devicetree-specification-v0.2.pdf, 
-> I'll do what you said.
+Yes, the code works with schema objects and ifcond. I'll special case the
+assertion for now, and remove that method.
 
-Just to avoid misunderstandings: only change the comment not the code, it 
-works this way just the comment could be adjusted to describe it better.
 
+> Why raise on type mismatch?  Feels rather un-pythonic to me.
 >
->>> +     * we emulate it by returning a pointer to the node's name and adjust
->>> +     * proplen to include only the name but not the unit.
->>> +     */
->>> +    if (strcmp(propname, "name")) {
->>> +        return NULL;
->>> +    }
->>> +    prop = fdt_get_name(fdt, nodeoff, proplen);
->>> +    if (!prop) {
->>> +        *proplen = 0;
->>> +        return NULL;
->>> +    }
->>> +
->>> +    unit = memchr(prop, '@', *proplen);
->>> +    if (unit) {
->>> +        *proplen = unit - prop;
->>> +    }
->>> +    *proplen += 1;
->>> +
->>> +    /*
->>> +     * Since it might be cut at "@" and there will be no trailing zero
->>> +     * in the prop buffer, tell the caller to write zero at the end.
->>> +     */
->>> +    if (write0) {
->>> +        *write0 = true;
->>> +    }
->>> +    return prop;
->>> +}
->>> +
->>> +static uint32_t vof_getprop(const void *fdt, uint32_t nodeph, uint32_t 
->>> pname,
->>> +                            uint32_t valaddr, uint32_t vallen)
->>> +{
->>> +    char propname[OF_PROPNAME_LEN_MAX + 1];
->>> +    uint32_t ret = 0;
->>> +    int proplen = 0;
->>> +    const void *prop;
->>> +    char trval[64] = "";
->>> +    int nodeoff = fdt_node_offset_by_phandle(fdt, nodeph);
->>> +    bool write0;
->>> +
->>> +    if (nodeoff < 0) {
->>> +        return -1;
->>> +    }
->>> +    if (readstr(pname, propname, sizeof(propname))) {
->>> +        return -1;
->>> +    }
->>> +    prop = getprop(fdt, nodeoff, propname, &proplen, &write0);
->>> +    if (prop) {
->>> +        const char zero = 0;
->>> +        int cb = MIN(proplen, vallen);
->>> +
->>> +        if (VOF_MEM_WRITE(valaddr, prop, cb) != MEMTX_OK ||
->>> +            /* if that was "name" with a unit address, overwrite '@' with 
->>> '0' */
->>> +            (write0 &&
->>> +             cb == proplen &&
->>> +             VOF_MEM_WRITE(valaddr + cb - 1, &zero, 1) != MEMTX_OK)) {
->>> +            ret = -1;
->>> +        } else {
->>> +            /*
->>> +             * OF1275 says:
->>> +             * "Size is either the actual size of the property, or -1 if 
->>> name
->>> +             * does not exist", hence returning proplen instead of cb.
->>> +             */
->>> +            ret = proplen;
->>> +            /* Do not format a value if tracepoint is silent, for 
->>> performance */
->>> +            if (trace_event_get_state(TRACE_VOF_GETPROP) &&
->>> +                qemu_loglevel_mask(LOG_TRACE)) {
->>> +                prop_format(trval, sizeof(trval), prop, ret);
->>> +            }
->>> +        }
->>> +    } else {
->>> +        ret = -1;
->>> +    }
->>> +    trace_vof_getprop(nodeph, propname, ret, trval);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_getproplen(const void *fdt, uint32_t nodeph, uint32_t 
->>> pname)
->>> +{
->>> +    char propname[OF_PROPNAME_LEN_MAX + 1];
->>> +    uint32_t ret = 0;
->>> +    int proplen = 0;
->>> +    const void *prop;
->>> +    int nodeoff = fdt_node_offset_by_phandle(fdt, nodeph);
->>> +
->>> +    if (nodeoff < 0) {
->>> +        return -1;
->>> +    }
->>> +    if (readstr(pname, propname, sizeof(propname))) {
->>> +        return -1;
->>> +    }
->>> +    prop = getprop(fdt, nodeoff, propname, &proplen, NULL);
->>> +    if (prop) {
->>> +        ret = proplen;
->>> +    } else {
->>> +        ret = -1;
->>> +    }
->>> +    trace_vof_getproplen(nodeph, propname, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
->>> +                            uint32_t nodeph, uint32_t pname,
->>> +                            uint32_t valaddr, uint32_t vallen)
->>> +{
->>> +    char propname[OF_PROPNAME_LEN_MAX + 1];
->>> +    uint32_t ret = -1;
->>> +    int offset;
->>> +    char trval[64] = "";
->>> +    char nodepath[VOF_MAX_PATH] = "";
->>> +    Object *vmo = object_dynamic_cast(OBJECT(ms), TYPE_VOF_MACHINE_IF);
->>> +    g_autofree char *val = NULL;
->>> +
->>> +    if (vallen > VOF_MAX_SETPROPLEN) {
->>> +        goto trace_exit;
->>> +    }
->>> +    if (readstr(pname, propname, sizeof(propname))) {
->>> +        goto trace_exit;
->>> +    }
->>> +    offset = fdt_node_offset_by_phandle(fdt, nodeph);
->>> +    if (offset < 0) {
->>> +        goto trace_exit;
->>> +    }
->>> +    ret = get_path(fdt, offset, nodepath, sizeof(nodepath));
->>> +    if (ret <= 0) {
->>> +        goto trace_exit;
->>> +    }
->>> +
->>> +    val = g_malloc0(vallen);
->>> +    if (VOF_MEM_READ(valaddr, val, vallen) != MEMTX_OK) {
->>> +        goto trace_exit;
->>> +    }
->>> +
->>> +    if (vmo) {
->>> +        VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
->>> +
->>> +        if (vmc->setprop &&
->>> +            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
->>> +            goto trace_exit;
->>> +        }
->>> +    }
->>> +
->>> +    ret = fdt_setprop(fdt, offset, propname, val, vallen);
->>> +    if (ret) {
->>> +        goto trace_exit;
->>> +    }
->>> +
->>> +    if (trace_event_get_state(TRACE_VOF_SETPROP) &&
->>> +        qemu_loglevel_mask(LOG_TRACE)) {
->>> +        prop_format(trval, sizeof(trval), val, vallen);
->>> +    }
->>> +    ret = vallen;
->>> +
->>> +trace_exit:
->>> +    trace_vof_setprop(nodeph, propname, trval, vallen, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_nextprop(const void *fdt, uint32_t phandle,
->>> +                             uint32_t prevaddr, uint32_t nameaddr)
->>> +{
->>> +    int offset, nodeoff = fdt_node_offset_by_phandle(fdt, phandle);
->>> +    char prev[OF_PROPNAME_LEN_MAX + 1];
->>> +    const char *tmp;
->>> +
->>> +    if (readstr(prevaddr, prev, sizeof(prev))) {
->>> +        return -1;
->>> +    }
->>> +
->>> +    fdt_for_each_property_offset(offset, fdt, nodeoff) {
->>> +        if (!fdt_getprop_by_offset(fdt, offset, &tmp, NULL)) {
->>> +            return 0;
->>> +        }
->>> +        if (prev[0] == '\0' || strcmp(prev, tmp) == 0) {
->>> +            if (prev[0] != '\0') {
->>> +                offset = fdt_next_property_offset(fdt, offset);
->>> +                if (offset < 0) {
->>> +                    return 0;
->>> +                }
->>> +            }
->>> +            if (!fdt_getprop_by_offset(fdt, offset, &tmp, NULL)) {
->>> +                return 0;
->>> +            }
->>> +
->>> +            if (VOF_MEM_WRITE(nameaddr, tmp, strlen(tmp) + 1) != 
->>> MEMTX_OK) {
->>> +                return -1;
->>> +            }
->>> +            return 1;
->>> +        }
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static uint32_t vof_peer(const void *fdt, uint32_t phandle)
->>> +{
->>> +    int ret;
->>> +
->>> +    if (phandle == 0) {
->>> +        ret = fdt_path_offset(fdt, "/");
->>> +    } else {
->>> +        ret = fdt_next_subnode(fdt, fdt_node_offset_by_phandle(fdt, 
->>> phandle));
->>> +    }
->>> +
->>> +    if (ret < 0) {
->>> +        ret = 0;
->>> +    } else {
->>> +        ret = fdt_get_phandle(fdt, ret);
->>> +    }
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_child(const void *fdt, uint32_t phandle)
->>> +{
->>> +    int ret = fdt_first_subnode(fdt, fdt_node_offset_by_phandle(fdt, 
->>> phandle));
->>> +
->>> +    if (ret < 0) {
->>> +        ret = 0;
->>> +    } else {
->>> +        ret = fdt_get_phandle(fdt, ret);
->>> +    }
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_parent(const void *fdt, uint32_t phandle)
->>> +{
->>> +    int ret = fdt_parent_offset(fdt, fdt_node_offset_by_phandle(fdt, 
->>> phandle));
->>> +
->>> +    if (ret < 0) {
->>> +        ret = 0;
->>> +    } else {
->>> +        ret = fdt_get_phandle(fdt, ret);
->>> +    }
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_do_open(void *fdt, Vof *vof, int offset, const char 
->>> *path)
->>> +{
->>> +    uint32_t ret = -1;
->>> +    OfInstance *inst = NULL;
->>> +
->>> +    if (vof->of_instance_last == 0xFFFFFFFF) {
->>> +        /* We do not recycle ihandles yet */
->>> +        goto trace_exit;
->>> +    }
->>> +
->>> +    inst = g_new0(OfInstance, 1);
->>> +    inst->phandle = fdt_get_phandle(fdt, offset);
->>> +    g_assert(inst->phandle);
->>> +    ++vof->of_instance_last;
->>> +
->>> +    inst->path = g_strdup(path);
->>> +    g_hash_table_insert(vof->of_instances,
->>> +                        GINT_TO_POINTER(vof->of_instance_last),
->>> +                        inst);
->>> +    ret = vof->of_instance_last;
->>> +
->>> +trace_exit:
->>> +    trace_vof_open(path, inst ? inst->phandle : 0, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +uint32_t vof_client_open_store(void *fdt, Vof *vof, const char *nodename,
->>> +                               const char *prop, const char *path)
->>> +{
->>> +    int node = fdt_path_offset(fdt, nodename);
->>> +    int inst, offset;
->>> +
->>> +    offset = fdt_path_offset(fdt, path);
->>> +    if (offset < 0) {
->>> +        trace_vof_error_unknown_path(path);
->>> +        return offset;
->>> +    }
->>> +
->>> +    inst = vof_do_open(fdt, vof, offset, path);
->>> +
->>> +    return fdt_setprop_cell(fdt, node, prop, inst);
->>> +}
->>> +
->>> +static uint32_t vof_open(void *fdt, Vof *vof, uint32_t pathaddr)
->>> +{
->>> +    char path[VOF_MAX_PATH];
->>> +    int offset;
->>> +
->>> +    if (readstr(pathaddr, path, sizeof(path))) {
->>> +        return -1;
->>> +    }
->>> +
->>> +    offset = path_offset(fdt, path);
->>> +    if (offset < 0) {
->>> +        trace_vof_error_unknown_path(path);
->>> +        return offset;
->>> +    }
->>> +
->>> +    return vof_do_open(fdt, vof, offset, path);
->>> +}
->>> +
->>> +static void vof_close(Vof *vof, uint32_t ihandle)
->>> +{
->>> +    if (!g_hash_table_remove(vof->of_instances, 
->>> GINT_TO_POINTER(ihandle))) {
->>> +        trace_vof_error_unknown_ihandle_close(ihandle);
->>> +    }
->>> +}
->>> +
->>> +static uint32_t vof_instance_to_package(Vof *vof, uint32_t ihandle)
->>> +{
->>> +    gpointer instp = g_hash_table_lookup(vof->of_instances,
->>> +                                         GINT_TO_POINTER(ihandle));
->>> +    uint32_t ret = -1;
->>> +
->>> +    if (instp) {
->>> +        ret = ((OfInstance *)instp)->phandle;
->>> +    }
->>> +    trace_vof_instance_to_package(ihandle, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_package_to_path(const void *fdt, uint32_t phandle,
->>> +                                    uint32_t buf, uint32_t len)
->>> +{
->>> +    uint32_t ret = -1;
->>> +    char tmp[VOF_MAX_PATH] = "";
->>> +
->>> +    ret = phandle_to_path(fdt, phandle, tmp, sizeof(tmp));
->>> +    if (ret > 0) {
->>> +        if (VOF_MEM_WRITE(buf, tmp, ret) != MEMTX_OK) {
->>> +            ret = -1;
->>> +        }
->>> +    }
->>> +
->>> +    trace_vof_package_to_path(phandle, tmp, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_instance_to_path(void *fdt, Vof *vof, uint32_t 
->>> ihandle,
->>> +                                     uint32_t buf, uint32_t len)
->>> +{
->>> +    uint32_t ret = -1;
->>> +    uint32_t phandle = vof_instance_to_package(vof, ihandle);
->>> +    char tmp[VOF_MAX_PATH] = "";
->>> +
->>> +    if (phandle != -1) {
->>> +        ret = phandle_to_path(fdt, phandle, tmp, sizeof(tmp));
->>> +        if (ret > 0) {
->>> +            if (VOF_MEM_WRITE(buf, tmp, ret) != MEMTX_OK) {
->>> +                ret = -1;
->>> +            }
->>> +        }
->>> +    }
->>> +    trace_vof_instance_to_path(ihandle, phandle, tmp, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_write(Vof *vof, uint32_t ihandle, uint32_t buf,
->>> +                          uint32_t len)
->>> +{
->>> +    char tmp[VOF_VTY_BUF_SIZE];
->>> +    unsigned cb;
->>> +    OfInstance *inst = (OfInstance *)
->>> +        g_hash_table_lookup(vof->of_instances, GINT_TO_POINTER(ihandle));
->>> +
->>> +    if (!inst) {
->>> +        trace_vof_error_write(ihandle);
->>> +        return -1;
->>> +    }
->>> +
->>> +    for ( ; len > 0; len -= cb) {
->>> +        cb = MIN(len, sizeof(tmp) - 1);
->>> +        if (VOF_MEM_READ(buf, tmp, cb) != MEMTX_OK) {
->>> +            return -1;
->>> +        }
->>> +
->>> +        /* FIXME: there is no backend(s) yet so just call a trace */
->>> +        if (trace_event_get_state(TRACE_VOF_WRITE) &&
->>> +            qemu_loglevel_mask(LOG_TRACE)) {
->>> +            tmp[cb] = '\0';
->>> +            trace_vof_write(ihandle, cb, tmp);
->>> +        }
->>> +    }
->>> +
->>> +    return len;
->>> +}
->>> +
->>> +static void vof_claimed_dump(GArray *claimed)
->>> +{
->>> +    int i;
->>> +    OfClaimed c;
->>> +
->>> +    if (trace_event_get_state(TRACE_VOF_CLAIMED) &&
->>> +        qemu_loglevel_mask(LOG_TRACE)) {
->>> +
->>> +        for (i = 0; i < claimed->len; ++i) {
->>> +            c = g_array_index(claimed, OfClaimed, i);
->>> +            trace_vof_claimed(c.start, c.start + c.size, c.size);
->>> +        }
->>> +    }
->>> +}
->>> +
->>> +static bool vof_claim_avail(GArray *claimed, uint64_t virt, uint64_t 
->>> size)
->>> +{
->>> +    int i;
->>> +    OfClaimed c;
->>> +
->>> +    for (i = 0; i < claimed->len; ++i) {
->>> +        c = g_array_index(claimed, OfClaimed, i);
->>> +        if (ranges_overlap(c.start, c.size, virt, size)) {
->>> +            return false;
->>> +        }
->>> +    }
->>> +
->>> +    return true;
->>> +}
->>> +
->>> +static void vof_claim_add(GArray *claimed, uint64_t virt, uint64_t size)
->>> +{
->>> +    OfClaimed newclaim;
->>> +
->>> +    newclaim.start = virt;
->>> +    newclaim.size = size;
->>> +    g_array_append_val(claimed, newclaim);
->>> +}
->>> +
->>> +static gint of_claimed_compare_func(gconstpointer a, gconstpointer b)
->>> +{
->>> +    return ((OfClaimed *)a)->start - ((OfClaimed *)b)->start;
->>> +}
->>> +
->>> +static void vof_dt_memory_available(void *fdt, GArray *claimed, uint64_t 
->>> base)
->>> +{
->>> +    int i, n, offset, proplen = 0, sc, ac;
->>> +    target_ulong mem0_end;
->>> +    const uint8_t *mem0_reg;
->>> +    g_autofree uint8_t *avail = NULL;
->>> +    uint8_t *availcur;
->>> +
->>> +    if (!fdt || !claimed) {
->>> +        return;
->>> +    }
->>> +
->>> +    offset = fdt_path_offset(fdt, "/");
->>> +    _FDT(offset);
->>> +    ac = fdt_address_cells(fdt, offset);
->>> +    g_assert(ac == 1 || ac == 2);
->>> +    sc = fdt_size_cells(fdt, offset);
->>> +    g_assert(sc == 1 || sc == 2);
->>> +
->>> +    offset = fdt_path_offset(fdt, "/memory@0");
->>> +    _FDT(offset);
->>> +
->>> +    mem0_reg = fdt_getprop(fdt, offset, "reg", &proplen);
->>> +    g_assert(mem0_reg && proplen == sizeof(uint32_t) * (ac + sc));
->>> +    if (sc == 2) {
->>> +        mem0_end = be64_to_cpu(*(uint64_t *)(mem0_reg + sizeof(uint32_t) 
->>> * ac));
->>> +    } else {
->>> +        mem0_end = be32_to_cpu(*(uint32_t *)(mem0_reg + sizeof(uint32_t) 
->>> * ac));
->>> +    }
->>> +
->>> +    g_array_sort(claimed, of_claimed_compare_func);
->>> +    vof_claimed_dump(claimed);
->>> +
->>> +    /*
->>> +     * VOF resides in the first page so we do not need to check if there 
->>> is
->>> +     * available memory before the first claimed block
->>> +     */
->>> +    g_assert(claimed->len && (g_array_index(claimed, OfClaimed, 0).start 
->>> == 0));
->>> +
->>> +    avail = g_malloc0(sizeof(uint32_t) * (ac + sc) * claimed->len);
->>> +    for (i = 0, n = 0, availcur = avail; i < claimed->len; ++i) {
->>> +        OfClaimed c = g_array_index(claimed, OfClaimed, i);
->>> +        uint64_t start, size;
->>> +
->>> +        start = c.start + c.size;
->>> +        if (i < claimed->len - 1) {
->>> +            OfClaimed cn = g_array_index(claimed, OfClaimed, i + 1);
->>> +
->>> +            size = cn.start - start;
->>> +        } else {
->>> +            size = mem0_end - start;
->>> +        }
->>> +
->>> +        if (ac == 2) {
->>> +            *(uint64_t *) availcur = cpu_to_be64(start);
->>> +        } else {
->>> +            *(uint32_t *) availcur = cpu_to_be32(start);
->>> +        }
->>> +        availcur += sizeof(uint32_t) * ac;
->>> +        if (sc == 2) {
->>> +            *(uint64_t *) availcur = cpu_to_be64(size);
->>> +        } else {
->>> +            *(uint32_t *) availcur = cpu_to_be32(size);
->>> +        }
->>> +        availcur += sizeof(uint32_t) * sc;
->>> +
->>> +        if (size) {
->>> +            trace_vof_avail(c.start + c.size, c.start + c.size + size, 
->>> size);
->>> +            ++n;
->>> +        }
->>> +    }
->>> +    _FDT((fdt_setprop(fdt, offset, "available", avail, availcur - 
->>> avail)));
->>> +}
->>> +
->>> +/*
->>> + * OF1275:
->>> + * "Allocates size bytes of memory. If align is zero, the allocated range
->>> + * begins at the virtual address virt. Otherwise, an aligned address is
->>> + * automatically chosen and the input argument virt is ignored".
->>> + *
->>> + * In other words, exactly one of @virt and @align is non-zero.
->>> + */
->>> +uint64_t vof_claim(Vof *vof, uint64_t virt, uint64_t size,
->>> +                   uint64_t align)
->>> +{
->>> +    uint64_t ret;
->>> +
->>> +    if (size == 0) {
->>> +        ret = -1;
->>> +    } else if (align == 0) {
->>> +        if (!vof_claim_avail(vof->claimed, virt, size)) {
->>> +            ret = -1;
->>> +        } else {
->>> +            ret = virt;
->>> +        }
->>> +    } else {
->>> +        vof->claimed_base = QEMU_ALIGN_UP(vof->claimed_base, align);
->>> +        while (1) {
->>> +            if (vof->claimed_base >= vof->top_addr) {
->>> +                error_report("Out of RMA memory for the OF client");
->>> +                return -1;
->>> +            }
->>> +            if (vof_claim_avail(vof->claimed, vof->claimed_base, size)) {
->>> +                break;
->>> +            }
->>> +            vof->claimed_base += size;
->>> +        }
->>> +        ret = vof->claimed_base;
->>> +    }
->>> +
->>> +    if (ret != -1) {
->>> +        vof->claimed_base = MAX(vof->claimed_base, ret + size);
->>> +        vof_claim_add(vof->claimed, ret, size);
->>> +    }
->>> +    trace_vof_claim(virt, size, align, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static uint32_t vof_release(Vof *vof, uint64_t virt, uint64_t size)
->>> +{
->>> +    uint32_t ret = -1;
->>> +    int i;
->>> +    GArray *claimed = vof->claimed;
->>> +    OfClaimed c;
->>> +
->>> +    for (i = 0; i < claimed->len; ++i) {
->>> +        c = g_array_index(claimed, OfClaimed, i);
->>> +        if (c.start == virt && c.size == size) {
->>> +            g_array_remove_index(claimed, i);
->>> +            ret = 0;
->>> +            break;
->>> +        }
->>> +    }
->>> +
->>> +    trace_vof_release(virt, size, ret);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static void vof_instantiate_rtas(Error **errp)
->>> +{
->>> +    error_setg(errp, "The firmware should have instantiated RTAS");
->>> +}
->>> +
->>> +static uint32_t vof_call_method(MachineState *ms, Vof *vof, uint32_t 
->>> methodaddr,
->>> +                                uint32_t ihandle, uint32_t param1,
->>> +                                uint32_t param2, uint32_t param3,
->>> +                                uint32_t param4, uint32_t *ret2)
->>> +{
->>> +    uint32_t ret = -1;
->>> +    char method[VOF_MAX_METHODLEN] = "";
->>> +    OfInstance *inst;
->>> +
->>> +    if (!ihandle) {
->>> +        goto trace_exit;
->>> +    }
->>> +
->>> +    inst = (OfInstance *) g_hash_table_lookup(vof->of_instances,
->>> +                                              GINT_TO_POINTER(ihandle));
->> 
->> I think you should not have space in type casts but checkpatch does not 
->> seem to mind. You have this at several places.
+
+What else should it do? Could probably be removed for now.
+
+
+> > +
+> > +
+> >  class QAPISchemaEntity:
+> >      meta: Optional[str] =3D None
+> >
+> > @@ -42,7 +56,7 @@ def __init__(self, name: str, info, doc, ifcond=3DNon=
+e,
+> features=3DNone):
+> >          # such place).
+> >          self.info =3D info
+> >          self.doc =3D doc
+> > -        self._ifcond =3D ifcond or []
+> > +        self._ifcond =3D ifcond or QAPISchemaIfCond()
+> >          self.features =3D features or []
+> >          self._checked =3D False
+> >
+> > @@ -77,7 +91,7 @@ def set_module(self, schema):
+> >
+> >      @property
+> >      def ifcond(self):
+> > -        assert self._checked
+> > +        assert self._checked and isinstance(self._ifcond,
+> QAPISchemaIfCond)
+> >          return self._ifcond
+> >
+> >      def is_implicit(self):
+> > @@ -601,7 +615,7 @@ def check(self, schema, seen):
+> >          else:                   # simple union
+> >              assert isinstance(self.tag_member.type, QAPISchemaEnumType=
+)
+> >              assert not self.tag_member.optional
+> > -            assert self.tag_member.ifcond =3D=3D []
+> > +            assert not self.tag_member.ifcond
+> >          if self._tag_name:    # flat union
+> >              # branches that are not explicitly covered get an empty ty=
+pe
+> >              cases =3D {v.name for v in self.variants}
+> > @@ -646,7 +660,7 @@ def __init__(self, name, info, ifcond=3DNone):
+> >          assert isinstance(name, str)
+> >          self.name =3D name
+> >          self.info =3D info
+> > -        self.ifcond =3D ifcond or []
+> > +        self.ifcond =3D ifcond or QAPISchemaIfCond()
+> >          self.defined_in =3D None
+> >
+> >      def set_defined_in(self, name):
+> > @@ -968,11 +982,13 @@ def _def_predefineds(self):
+> >      def _make_features(self, features, info):
+> >          if features is None:
+> >              return []
+> > -        return [QAPISchemaFeature(f['name'], info, f.get('if'))
+> > +        return [QAPISchemaFeature(f['name'], info,
+> > +                                  QAPISchemaIfCond(f.get('if')))
+> >                  for f in features]
+> >
+> >      def _make_enum_members(self, values, info):
+> > -        return [QAPISchemaEnumMember(v['name'], info, v.get('if'))
+> > +        return [QAPISchemaEnumMember(v['name'], info,
+> > +                                     QAPISchemaIfCond(v.get('if')))
+> >                  for v in values]
+> >
+>
+> Note for later: several hunks wrap condition expressions in an object
+> like this.  Mechanical.
+>
+> >      def _make_implicit_enum_type(self, name, info, ifcond, values):
+> > @@ -1008,7 +1024,7 @@ def _make_implicit_object_type(self, name, info,
+> ifcond, role, members):
+> >              # TODO kill simple unions or implement the disjunction
+> >
+> >              # pylint: disable=3Dprotected-access
+> > -            assert (ifcond or []) =3D=3D typ._ifcond
+> > +            assert ifcond =3D=3D typ._ifcond
+>
+> I'm not sure I understand this part.  Leaving for later.
+>
+> >          else:
+> >              self._def_entity(QAPISchemaObjectType(
+> >                  name, info, None, ifcond, None, None, members, None))
+> > @@ -1018,7 +1034,7 @@ def _def_enum_type(self, expr, info, doc):
+> >          name =3D expr['enum']
+> >          data =3D expr['data']
+> >          prefix =3D expr.get('prefix')
+> > -        ifcond =3D expr.get('if')
+> > +        ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> >          features =3D self._make_features(expr.get('features'), info)
+> >          self._def_entity(QAPISchemaEnumType(
+> >              name, info, doc, ifcond, features,
+> > @@ -1036,7 +1052,8 @@ def _make_member(self, name, typ, ifcond,
+> features, info):
+> >                                            self._make_features(features=
+,
+> info))
+> >
+> >      def _make_members(self, data, info):
+> > -        return [self._make_member(key, value['type'], value.get('if'),
+> > +        return [self._make_member(key, value['type'],
+> > +                                  QAPISchemaIfCond(value.get('if')),
+> >                                    value.get('features'), info)
+> >                  for (key, value) in data.items()]
+> >
+> > @@ -1044,7 +1061,7 @@ def _def_struct_type(self, expr, info, doc):
+> >          name =3D expr['struct']
+> >          base =3D expr.get('base')
+> >          data =3D expr['data']
+> > -        ifcond =3D expr.get('if')
+> > +        ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> >          features =3D self._make_features(expr.get('features'), info)
+> >          self._def_entity(QAPISchemaObjectType(
+> >              name, info, doc, ifcond, features, base,
+> > @@ -1067,7 +1084,7 @@ def _def_union_type(self, expr, info, doc):
+> >          name =3D expr['union']
+> >          data =3D expr['data']
+> >          base =3D expr.get('base')
+> > -        ifcond =3D expr.get('if')
+> > +        ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> >          features =3D self._make_features(expr.get('features'), info)
+> >          tag_name =3D expr.get('discriminator')
+> >          tag_member =3D None
+> > @@ -1076,15 +1093,21 @@ def _def_union_type(self, expr, info, doc):
+> >                  name, info, ifcond,
+> >                  'base', self._make_members(base, info))
+> >          if tag_name:
+> > -            variants =3D [self._make_variant(key, value['type'],
+> > -                                           value.get('if'), info)
+> > -                        for (key, value) in data.items()]
+> > +            variants =3D [
+> > +                self._make_variant(key, value['type'],
+> > +                                   QAPISchemaIfCond(value.get('if')),
+> > +                                   info)
+> > +                for (key, value) in data.items()
+> > +            ]
+>
+> I think we more usually put the closing parenthesis like this:
+>
+>                variants =3D [
+>                   ...
+>                   for (key, value) in data.items()]
+>
+> More of the same below.
+>
+
+Works for me.
+
+
+> >              members =3D []
+> >          else:
+> > -            variants =3D [self._make_simple_variant(key, value['type']=
+,
+> > -                                                  value.get('if'), inf=
+o)
+> > -                        for (key, value) in data.items()]
+> > -            enum =3D [{'name': v.name, 'if': v.ifcond} for v in varian=
+ts]
+> > +            variants =3D [
+> > +                self._make_simple_variant(key, value['type'],
+> > +
+> QAPISchemaIfCond(value.get('if')),
+> > +                                          info)
+> > +                for (key, value) in data.items()
+> > +            ]
+> > +            enum =3D [{'name': v.name, 'if': v.ifcond.ifcond} for v in
+> variants]
+> >              typ =3D self._make_implicit_enum_type(name, info, ifcond,
+> enum)
+> >              tag_member =3D QAPISchemaObjectTypeMember('type', info, ty=
+p,
+> False)
+> >              members =3D [tag_member]
+> > @@ -1097,11 +1120,14 @@ def _def_union_type(self, expr, info, doc):
+> >      def _def_alternate_type(self, expr, info, doc):
+> >          name =3D expr['alternate']
+> >          data =3D expr['data']
+> > -        ifcond =3D expr.get('if')
+> > +        ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> >          features =3D self._make_features(expr.get('features'), info)
+> > -        variants =3D [self._make_variant(key, value['type'],
+> value.get('if'),
+> > -                                       info)
+> > -                    for (key, value) in data.items()]
+> > +        variants =3D [
+> > +            self._make_variant(key, value['type'],
+> > +                               QAPISchemaIfCond(value.get('if')),
+> > +                               info)
+> > +            for (key, value) in data.items()
+> > +        ]
+> >          tag_member =3D QAPISchemaObjectTypeMember('type', info, 'QType=
+',
+> False)
+> >          self._def_entity(
+> >              QAPISchemaAlternateType(name, info, doc, ifcond, features,
+> > @@ -1118,7 +1144,7 @@ def _def_command(self, expr, info, doc):
+> >          allow_oob =3D expr.get('allow-oob', False)
+> >          allow_preconfig =3D expr.get('allow-preconfig', False)
+> >          coroutine =3D expr.get('coroutine', False)
+> > -        ifcond =3D expr.get('if')
+> > +        ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> >          features =3D self._make_features(expr.get('features'), info)
+> >          if isinstance(data, OrderedDict):
+> >              data =3D self._make_implicit_object_type(
+> > @@ -1137,7 +1163,7 @@ def _def_event(self, expr, info, doc):
+> >          name =3D expr['event']
+> >          data =3D expr.get('data')
+> >          boxed =3D expr.get('boxed', False)
+> > -        ifcond =3D expr.get('if')
+> > +        ifcond =3D QAPISchemaIfCond(expr.get('if'))
+> >          features =3D self._make_features(expr.get('features'), info)
+> >          if isinstance(data, OrderedDict):
+> >              data =3D self._make_implicit_object_type(
+> > diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+> > index 20d572a23a..3673cf0f49 100644
+> > --- a/scripts/qapi/types.py
+> > +++ b/scripts/qapi/types.py
+> > @@ -13,7 +13,7 @@
+> >  # See the COPYING file in the top-level directory.
+> >  """
+> >
+> > -from typing import List, Optional, Sequence
+> > +from typing import List, Optional
+> >
+> >  from .common import (
+> >      c_enum_const,
+> > @@ -27,6 +27,7 @@
+> >      QAPISchema,
+> >      QAPISchemaEnumMember,
+> >      QAPISchemaFeature,
+> > +    QAPISchemaIfCond,
+> >      QAPISchemaObjectType,
+> >      QAPISchemaObjectTypeMember,
+> >      QAPISchemaType,
+> > @@ -50,13 +51,13 @@ def gen_enum_lookup(name: str,
+> >  ''',
+> >                  c_name=3Dc_name(name))
+> >      for memb in members:
+> > -        ret +=3D gen_if(memb.ifcond)
+> > +        ret +=3D gen_if(memb.ifcond.ifcond)
+> >          index =3D c_enum_const(name, memb.name, prefix)
+> >          ret +=3D mcgen('''
+> >          [%(index)s] =3D "%(name)s",
+> >  ''',
+> >                       index=3Dindex, name=3Dmemb.name)
+> > -        ret +=3D gen_endif(memb.ifcond)
+> > +        ret +=3D gen_endif(memb.ifcond.ifcond)
+> >
+> >      ret +=3D mcgen('''
+> >      },
+> > @@ -80,12 +81,12 @@ def gen_enum(name: str,
+> >                  c_name=3Dc_name(name))
+> >
+> >      for memb in enum_members:
+> > -        ret +=3D gen_if(memb.ifcond)
+> > +        ret +=3D gen_if(memb.ifcond.ifcond)
+> >          ret +=3D mcgen('''
+> >      %(c_enum)s,
+> >  ''',
+> >                       c_enum=3Dc_enum_const(name, memb.name, prefix))
+> > -        ret +=3D gen_endif(memb.ifcond)
+> > +        ret +=3D gen_endif(memb.ifcond.ifcond)
+> >
+> >      ret +=3D mcgen('''
+> >  } %(c_name)s;
+> > @@ -125,7 +126,7 @@ def gen_array(name: str, element_type:
+> QAPISchemaType) -> str:
+> >  def gen_struct_members(members: List[QAPISchemaObjectTypeMember]) ->
+> str:
+> >      ret =3D ''
+> >      for memb in members:
+> > -        ret +=3D gen_if(memb.ifcond)
+> > +        ret +=3D gen_if(memb.ifcond.ifcond)
+> >          if memb.optional:
+> >              ret +=3D mcgen('''
+> >      bool has_%(c_name)s;
+> > @@ -135,11 +136,11 @@ def gen_struct_members(members:
+> List[QAPISchemaObjectTypeMember]) -> str:
+> >      %(c_type)s %(c_name)s;
+> >  ''',
+> >                       c_type=3Dmemb.type.c_type(), c_name=3Dc_name(memb=
+.name
+> ))
+> > -        ret +=3D gen_endif(memb.ifcond)
+> > +        ret +=3D gen_endif(memb.ifcond.ifcond)
+> >      return ret
+> >
+> >
+> > -def gen_object(name: str, ifcond: Sequence[str],
+> > +def gen_object(name: str, ifcond: QAPISchemaIfCond,
+> >                 base: Optional[QAPISchemaObjectType],
+> >                 members: List[QAPISchemaObjectTypeMember],
+> >                 variants: Optional[QAPISchemaVariants]) -> str:
+> > @@ -158,7 +159,7 @@ def gen_object(name: str, ifcond: Sequence[str],
+> >      ret +=3D mcgen('''
+> >
+> >  ''')
+> > -    ret +=3D gen_if(ifcond)
+> > +    ret +=3D gen_if(ifcond.ifcond)
+> >      ret +=3D mcgen('''
+> >  struct %(c_name)s {
+> >  ''',
+> > @@ -192,7 +193,7 @@ def gen_object(name: str, ifcond: Sequence[str],
+> >      ret +=3D mcgen('''
+> >  };
+> >  ''')
+> > -    ret +=3D gen_endif(ifcond)
+> > +    ret +=3D gen_endif(ifcond.ifcond)
+> >
+> >      return ret
+> >
+> > @@ -219,13 +220,13 @@ def gen_variants(variants: QAPISchemaVariants) ->
+> str:
+> >      for var in variants.variants:
+> >          if var.type.name =3D=3D 'q_empty':
+> >              continue
+> > -        ret +=3D gen_if(var.ifcond)
+> > +        ret +=3D gen_if(var.ifcond.ifcond)
+> >          ret +=3D mcgen('''
+> >          %(c_type)s %(c_name)s;
+> >  ''',
+> >                       c_type=3Dvar.type.c_unboxed_type(),
+> >                       c_name=3Dc_name(var.name))
+> > -        ret +=3D gen_endif(var.ifcond)
+> > +        ret +=3D gen_endif(var.ifcond.ifcond)
+> >
+> >      ret +=3D mcgen('''
+> >      } u;
+> > @@ -307,7 +308,7 @@ def _gen_type_cleanup(self, name: str) -> None:
+> >      def visit_enum_type(self,
+> >                          name: str,
+> >                          info: Optional[QAPISourceInfo],
+> > -                        ifcond: Sequence[str],
+> > +                        ifcond: QAPISchemaIfCond,
+> >                          features: List[QAPISchemaFeature],
+> >                          members: List[QAPISchemaEnumMember],
+> >                          prefix: Optional[str]) -> None:
+> > @@ -318,7 +319,7 @@ def visit_enum_type(self,
+> >      def visit_array_type(self,
+> >                           name: str,
+> >                           info: Optional[QAPISourceInfo],
+> > -                         ifcond: Sequence[str],
+> > +                         ifcond: QAPISchemaIfCond,
+> >                           element_type: QAPISchemaType) -> None:
+> >          with ifcontext(ifcond, self._genh, self._genc):
+> >              self._genh.preamble_add(gen_fwd_object_or_array(name))
+> > @@ -328,7 +329,7 @@ def visit_array_type(self,
+> >      def visit_object_type(self,
+> >                            name: str,
+> >                            info: Optional[QAPISourceInfo],
+> > -                          ifcond: Sequence[str],
+> > +                          ifcond: QAPISchemaIfCond,
+> >                            features: List[QAPISchemaFeature],
+> >                            base: Optional[QAPISchemaObjectType],
+> >                            members: List[QAPISchemaObjectTypeMember],
+> > @@ -351,7 +352,7 @@ def visit_object_type(self,
+> >      def visit_alternate_type(self,
+> >                               name: str,
+> >                               info: Optional[QAPISourceInfo],
+> > -                             ifcond: Sequence[str],
+> > +                             ifcond: QAPISchemaIfCond,
+> >                               features: List[QAPISchemaFeature],
+> >                               variants: QAPISchemaVariants) -> None:
+> >          with ifcontext(ifcond, self._genh):
+> > diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> > index 9e96f3c566..67721b2470 100644
+> > --- a/scripts/qapi/visit.py
+> > +++ b/scripts/qapi/visit.py
+> > @@ -13,7 +13,7 @@
+> >  See the COPYING file in the top-level directory.
+> >  """
+> >
+> > -from typing import List, Optional, Sequence
+> > +from typing import List, Optional
+> >
+> >  from .common import (
+> >      c_enum_const,
+> > @@ -29,6 +29,7 @@
+> >      QAPISchemaEnumMember,
+> >      QAPISchemaEnumType,
+> >      QAPISchemaFeature,
+> > +    QAPISchemaIfCond,
+> >      QAPISchemaObjectType,
+> >      QAPISchemaObjectTypeMember,
+> >      QAPISchemaType,
+> > @@ -78,7 +79,7 @@ def gen_visit_object_members(name: str,
+> >
+> >      for memb in members:
+> >          deprecated =3D 'deprecated' in [f.name for f in memb.features]
+> > -        ret +=3D gen_if(memb.ifcond)
+> > +        ret +=3D gen_if(memb.ifcond.ifcond)
+> >          if memb.optional:
+> >              ret +=3D mcgen('''
+> >      if (visit_optional(v, "%(name)s", &obj->has_%(c_name)s)) {
+> > @@ -111,7 +112,7 @@ def gen_visit_object_members(name: str,
+> >              ret +=3D mcgen('''
+> >      }
+> >  ''')
+> > -        ret +=3D gen_endif(memb.ifcond)
+> > +        ret +=3D gen_endif(memb.ifcond.ifcond)
+> >
+> >      if variants:
+> >          tag_member =3D variants.tag_member
+> > @@ -125,7 +126,7 @@ def gen_visit_object_members(name: str,
+> >          for var in variants.variants:
+> >              case_str =3D c_enum_const(tag_member.type.name, var.name,
+> >                                      tag_member.type.prefix)
+> > -            ret +=3D gen_if(var.ifcond)
+> > +            ret +=3D gen_if(var.ifcond.ifcond)
+> >              if var.type.name =3D=3D 'q_empty':
+> >                  # valid variant and nothing to do
+> >                  ret +=3D mcgen('''
+> > @@ -141,7 +142,7 @@ def gen_visit_object_members(name: str,
+> >                               case=3Dcase_str,
+> >                               c_type=3Dvar.type.c_name(), c_name=3Dc_na=
+me(
+> var.name))
+> >
+> > -            ret +=3D gen_endif(var.ifcond)
+> > +            ret +=3D gen_endif(var.ifcond.ifcond)
+> >          ret +=3D mcgen('''
+> >      default:
+> >          abort();
+> > @@ -227,7 +228,7 @@ def gen_visit_alternate(name: str, variants:
+> QAPISchemaVariants) -> str:
+> >                  c_name=3Dc_name(name))
+> >
+> >      for var in variants.variants:
+> > -        ret +=3D gen_if(var.ifcond)
+> > +        ret +=3D gen_if(var.ifcond.ifcond)
+> >          ret +=3D mcgen('''
+> >      case %(case)s:
+> >  ''',
+> > @@ -253,7 +254,7 @@ def gen_visit_alternate(name: str, variants:
+> QAPISchemaVariants) -> str:
+> >          ret +=3D mcgen('''
+> >          break;
+> >  ''')
+> > -        ret +=3D gen_endif(var.ifcond)
+> > +        ret +=3D gen_endif(var.ifcond.ifcond)
+> >
+> >      ret +=3D mcgen('''
+> >      case QTYPE_NONE:
+> > @@ -352,7 +353,7 @@ def _begin_user_module(self, name: str) -> None:
+> >      def visit_enum_type(self,
+> >                          name: str,
+> >                          info: Optional[QAPISourceInfo],
+> > -                        ifcond: Sequence[str],
+> > +                        ifcond: QAPISchemaIfCond,
+> >                          features: List[QAPISchemaFeature],
+> >                          members: List[QAPISchemaEnumMember],
+> >                          prefix: Optional[str]) -> None:
+> > @@ -363,7 +364,7 @@ def visit_enum_type(self,
+> >      def visit_array_type(self,
+> >                           name: str,
+> >                           info: Optional[QAPISourceInfo],
+> > -                         ifcond: Sequence[str],
+> > +                         ifcond: QAPISchemaIfCond,
+> >                           element_type: QAPISchemaType) -> None:
+> >          with ifcontext(ifcond, self._genh, self._genc):
+> >              self._genh.add(gen_visit_decl(name))
+> > @@ -372,7 +373,7 @@ def visit_array_type(self,
+> >      def visit_object_type(self,
+> >                            name: str,
+> >                            info: Optional[QAPISourceInfo],
+> > -                          ifcond: Sequence[str],
+> > +                          ifcond: QAPISchemaIfCond,
+> >                            features: List[QAPISchemaFeature],
+> >                            base: Optional[QAPISchemaObjectType],
+> >                            members: List[QAPISchemaObjectTypeMember],
+> > @@ -394,7 +395,7 @@ def visit_object_type(self,
+> >      def visit_alternate_type(self,
+> >                               name: str,
+> >                               info: Optional[QAPISourceInfo],
+> > -                             ifcond: Sequence[str],
+> > +                             ifcond: QAPISchemaIfCond,
+> >                               features: List[QAPISchemaFeature],
+> >                               variants: QAPISchemaVariants) -> None:
+> >          with ifcontext(ifcond, self._genh, self._genc):
+> > diff --git a/tests/qapi-schema/test-qapi.py
+> b/tests/qapi-schema/test-qapi.py
+> > index f1c4deb9a5..2ec328b22e 100755
+> > --- a/tests/qapi-schema/test-qapi.py
+> > +++ b/tests/qapi-schema/test-qapi.py
+> > @@ -95,7 +95,7 @@ def _print_variants(variants):
+> >      @staticmethod
+> >      def _print_if(ifcond, indent=3D4):
+> >          if ifcond:
+> > -            print('%sif %s' % (' ' * indent, ifcond))
+> > +            print('%sif %s' % (' ' * indent, ifcond.ifcond))
+> >
+> >      @classmethod
+> >      def _print_features(cls, features, indent=3D4):
+>
+> If feel this is a bit harder to review than necessary, because you take
+> two steps at once:
+>
+> 1. Wrap Sequence[str] in an object
+>
+> 2. Add methods to the object to clean up the resulting mess some
+>
+> Step 1. by itself should be pretty much mechanical: adjust the type
+> hints, create the wrapper object on write, peel it off on read.  The
+> result will be slightly ugly in places.
+>
+> I'd expect step 2 to be much smaller, and easier to understand.  It
+> could perhaps be split into one patch per method, but I hope it's
+> reviewable just fine even without.
 >
 >
-> checkpatch does mind because it is truly ugly. I tried:
 >
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000b3ac6f05c4df8e2e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jun 14, 2021 at 4:20 PM Mar=
+kus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_blank">a=
+rmbru@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex"><a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_b=
+lank">marcandre.lureau@redhat.com</a> writes:<br>
+<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Wrap the &#39;if&#39; condition in a higher-level object. Not only doe=
+s this<br>
+<br>
+I can see &quot;wrap in an object&quot;.=C2=A0 I&#39;m afraid don&#39;t get=
+ what makes it<br>
+&quot;higher-level&quot;.<br></blockquote><div><br></div><div>ok</div><div>=
+ <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; provide more type safety but it also enables further refactoring witho=
+ut<br>
+&gt; too much churn.<br>
+<br>
+I figure by &quot;more type safety&quot; you mean &quot;can&#39;t accidenta=
+lly confuse some<br>
+other list of strings with a conditional&quot;, which is true, but isn&#39;=
+t<br>
+really about *type* safety.<br>
+<br>
+Maybe:<br>
+<br>
+=C2=A0 Wrap the &#39;if&#39; condition in an object.=C2=A0 Not only is this=
+ a bit safer,<br>
+=C2=A0 it also enables further refactoring without too much churn.<br>
+<br></blockquote><div><br></div><div>ok</div><div> <br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+&gt; The following patches will change the syntax of the schema &#39;if&#39=
+;<br>
+&gt; conditions to be predicate expressions, and will generate code for<br>
+&gt; different target languages (C, and Rust in another series).<br>
+<br>
+Since different target languages aren&#39;t actually generated in this<br>
+series, I&#39;d say &quot;and will enable generating code for different tar=
+get<br>
+languages, such as Rust.&quot;<br></blockquote><div><br></div><div>ok</div>=
+<div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
 >
-> ERROR: "(foo*)" should be "(foo *)"
-> #2029: FILE: pc-bios/vof/ci.c:46:
-> +    if (prom_handle((void*)(unsigned long) args)) {
+&gt; Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com=
+" target=3D"_blank">stefanha@redhat.com</a>&gt;<br>
+&gt; Tested-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D=
+"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/sphinx/qapidoc.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+2 +-<br>
+&gt;=C2=A0 scripts/qapi/commands.py=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +-<=
+br>
+&gt;=C2=A0 scripts/qapi/events.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+5 ++-<br>
+&gt;=C2=A0 scripts/qapi/gen.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1=
+4 +++----<br>
+&gt;=C2=A0 scripts/qapi/introspect.py=C2=A0 =C2=A0 =C2=A0| 26 ++++++------<=
+br>
+&gt;=C2=A0 scripts/qapi/schema.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 74 +++=
+++++++++++++++++++++-----------<br>
+&gt;=C2=A0 scripts/qapi/types.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 33 +++=
+++++--------<br>
+&gt;=C2=A0 scripts/qapi/visit.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 23 +++=
++++-----<br>
+&gt;=C2=A0 tests/qapi-schema/test-qapi.py |=C2=A0 2 +-<br>
+&gt;=C2=A0 9 files changed, 106 insertions(+), 77 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py<br>
+&gt; index 87c67ab23f..b737949007 100644<br>
+&gt; --- a/docs/sphinx/qapidoc.py<br>
+&gt; +++ b/docs/sphinx/qapidoc.py<br>
+&gt; @@ -116,7 +116,7 @@ def _nodes_for_ifcond(self, ifcond, with_if=3DTrue=
+):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the conditions are in literal-text a=
+nd the commas are not.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 If with_if is False, we don&#39;t re=
+turn the &quot;(If: &quot; and &quot;)&quot;.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 condlist =3D intersperse([nodes.literal(&=
+#39;&#39;, c) for c in ifcond],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 condlist =3D intersperse([nodes.literal(&=
+#39;&#39;, c) for c in ifcond.ifcond],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nodes.Text(&#39;, &#39;))<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not with_if:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return condlist<br>
+<br>
+Note for later: many hunks replace ifcond (the unwrapped Sequence[str])<br>
+by ifcond.ifcond (the wrapped one, with the wrapper peeled off).<br>
+Mechanical.<br>
+<br>
+&gt; diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py<br>
+&gt; index 0e13d51054..3654825968 100644<br>
+&gt; --- a/scripts/qapi/commands.py<br>
+&gt; +++ b/scripts/qapi/commands.py<br>
+&gt; @@ -17,7 +17,6 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Dict,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 List,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Optional,<br>
+&gt; -=C2=A0 =C2=A0 Sequence,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Set,<br>
+&gt;=C2=A0 )<br>
+&gt;=C2=A0 <br>
+&gt; @@ -31,6 +30,7 @@<br>
+&gt;=C2=A0 from .schema import (<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchema,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaFeature,<br>
+&gt; +=C2=A0 =C2=A0 QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectType,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaType,<br>
+&gt;=C2=A0 )<br>
+&gt; @@ -301,7 +301,7 @@ def visit_end(self) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_command(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 arg_type: Optional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 ret_type: Optional[QAPISchemaType],<br>
+<br>
+Note for later: many hunks replace ifcond: Sequence[str] or<br>
+Iterable[str] by ifcond: QAPISchemaIfCond.=C2=A0 Mechanical.<br>
+<br>
+&gt; diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py<br>
+&gt; index fee8c671e7..82475e84ec 100644<br>
+&gt; --- a/scripts/qapi/events.py<br>
+&gt; +++ b/scripts/qapi/events.py<br>
+&gt; @@ -12,7 +12,7 @@<br>
+&gt;=C2=A0 See the COPYING file in the top-level directory.<br>
+&gt;=C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -from typing import List, Optional, Sequence<br>
+&gt; +from typing import List, Optional<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 from .common import c_enum_const, c_name, mcgen<br>
+&gt;=C2=A0 from .gen import QAPISchemaModularCVisitor, build_params, ifcont=
+ext<br>
+&gt; @@ -20,6 +20,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchema,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaEnumMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaFeature,<br>
+&gt; +=C2=A0 =C2=A0 QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectType,<br>
+&gt;=C2=A0 )<br>
+&gt;=C2=A0 from .source import QAPISourceInfo<br>
+&gt; @@ -227,7 +228,7 @@ def visit_end(self) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_event(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 arg_type: Optional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 boxed: bool) -&gt; None:<br>
+&gt; diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py<br>
+&gt; index 1fa503bdbd..1c5b190276 100644<br>
+&gt; --- a/scripts/qapi/gen.py<br>
+&gt; +++ b/scripts/qapi/gen.py<br>
+&gt; @@ -18,7 +18,6 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Dict,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Iterator,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Optional,<br>
+&gt; -=C2=A0 =C2=A0 Sequence,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Tuple,<br>
+&gt;=C2=A0 )<br>
+&gt;=C2=A0 <br>
+&gt; @@ -32,6 +31,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 mcgen,<br>
+&gt;=C2=A0 )<br>
+&gt;=C2=A0 from .schema import (<br>
+&gt; +=C2=A0 =C2=A0 QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaModule,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectType,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaVisitor,<br>
+&gt; @@ -85,7 +85,7 @@ def write(self, output_dir: str) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fp.write=
+(text)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; -def _wrap_ifcond(ifcond: Sequence[str], before: str, after: str) -&gt=
+; str:<br>
+&gt; +def _wrap_ifcond(ifcond: QAPISchemaIfCond, before: str, after: str) -=
+&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if before =3D=3D after:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return after=C2=A0 =C2=A0# suppress =
+empty #if ... #endif<br>
+&gt;=C2=A0 <br>
+&gt; @@ -95,9 +95,9 @@ def _wrap_ifcond(ifcond: Sequence[str], before: str,=
+ after: str) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if added[0] =3D=3D &#39;\n&#39;:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out +=3D &#39;\n&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 added =3D added[1:]<br>
+&gt; -=C2=A0 =C2=A0 out +=3D gen_if(ifcond)<br>
+&gt; +=C2=A0 =C2=A0 out +=3D gen_if(ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 out +=3D added<br>
+&gt; -=C2=A0 =C2=A0 out +=3D gen_endif(ifcond)<br>
+&gt; +=C2=A0 =C2=A0 out +=3D gen_endif(ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return out<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; @@ -127,9 +127,9 @@ def build_params(arg_type: Optional[QAPISchemaObje=
+ctType],<br>
+&gt;=C2=A0 class QAPIGenCCode(QAPIGen):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def __init__(self, fname: str):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(fname)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._start_if: Optional[Tuple[Sequence[s=
+tr], str, str]] =3D None<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._start_if: Optional[Tuple[QAPISchema=
+IfCond, str, str]] =3D None<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 def start_if(self, ifcond: Sequence[str]) -&gt; None:<b=
+r>
+&gt; +=C2=A0 =C2=A0 def start_if(self, ifcond: QAPISchemaIfCond) -&gt; None=
+:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert self._start_if is None<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._start_if =3D (ifcond, self._bo=
+dy, self._preamble)<br>
+&gt;=C2=A0 <br>
+&gt; @@ -187,7 +187,7 @@ def _bottom(self) -&gt; str:<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 @contextmanager<br>
+&gt; -def ifcontext(ifcond: Sequence[str], *args: QAPIGenCCode) -&gt; Itera=
+tor[None]:<br>
+&gt; +def ifcontext(ifcond: QAPISchemaIfCond, *args: QAPIGenCCode) -&gt; It=
+erator[None]:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 A with-statement context manager that wraps with `=
+start_if()` / `end_if()`.<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py<b=
+r>
+&gt; index 9a348ca2e5..77a8c33ad4 100644<br>
+&gt; --- a/scripts/qapi/introspect.py<br>
+&gt; +++ b/scripts/qapi/introspect.py<br>
+&gt; @@ -15,11 +15,9 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Any,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Dict,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Generic,<br>
+&gt; -=C2=A0 =C2=A0 Iterable,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 List,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Optional,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Sequence,<br>
+&gt; -=C2=A0 =C2=A0 Tuple,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 TypeVar,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 Union,<br>
+&gt;=C2=A0 )<br>
+&gt; @@ -38,6 +36,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaEntity,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaEnumMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaFeature,<br>
+&gt; +=C2=A0 =C2=A0 QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectType,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectTypeMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaType,<br>
+&gt; @@ -91,11 +90,11 @@ class Annotated(Generic[_ValueT]):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 # TODO: Remove after Python 3.7 adds @dataclass:<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 # pylint: disable=3Dtoo-few-public-methods<br>
+&gt; -=C2=A0 =C2=A0 def __init__(self, value: _ValueT, ifcond: Iterable[str=
+],<br>
+&gt; +=C2=A0 =C2=A0 def __init__(self, value: _ValueT, ifcond: QAPISchemaIf=
+Cond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0co=
+mment: Optional[str] =3D None):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.value =3D value<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.comment: Optional[str] =3D comm=
+ent<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ifcond: Tuple[str, ...] =3D tuple(if=
+cond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ifcond =3D ifcond<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 def _tree_to_qlit(obj: JSONValue,<br>
+&gt; @@ -125,10 +124,10 @@ def indent(level: int) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if obj.comment:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D indent(level)=
+ + f&quot;/* {obj.comment} */\n&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if obj.ifcond:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(obj.ifcond)=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(obj.ifcond.=
+ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D _tree_to_qlit(obj.value, le=
+vel)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if obj.ifcond:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D &#39;\n&#39; + gen=
+_endif(obj.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D &#39;\n&#39; + gen=
+_endif(obj.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ret<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret =3D &#39;&#39;<br>
+&gt; @@ -254,7 +253,7 @@ def _gen_features(features: Sequence[QAPISchemaFea=
+ture]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return [Annotated(<a href=3D"http://=
+f.name" rel=3D"noreferrer" target=3D"_blank">f.name</a>, f.ifcond) for f in=
+ features]<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _gen_tree(self, name: str, mtype: str, obj: Di=
+ct[str, object],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond=
+: Sequence[str] =3D (),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond=
+: QAPISchemaIfCond =3D QAPISchemaIfCond(),<br>
+<br>
+The same QAPISchemaIfCond object gets reused every time we don&#39;t pass a=
+n<br>
+@ifcond argument.=C2=A0 Looks a bit scary, but works, because we don&#39;t =
+ever<br>
+mutate it.<br>
+<br>
+Elsewhere, we None as default, though: QAPISchemaEntity.__init__(),<br>
+QAPISchemaMember.__init__().<br></blockquote><div><br></div><div>A mechanic=
+al change, isn&#39;t it?</div><div><br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f=
+eatures: Sequence[QAPISchemaFeature] =3D ()) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Build and append a SchemaInfo object=
+ to self._trees.<br>
+&gt; @@ -305,7 +304,7 @@ def visit_builtin_type(self, name: str, info: Opti=
+onal[QAPISourceInfo],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._gen_tree(name, &#39;builtin&#3=
+9;, {&#39;json-type&#39;: json_type})<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_enum_type(self, name: str, info: Optiona=
+l[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 members: List[QAPISchemaEnumMember],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 prefix: Optional[str]) -&gt; None:<br>
+&gt; @@ -316,14 +315,14 @@ def visit_enum_type(self, name: str, info: Optio=
+nal[QAPISourceInfo],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_array_type(self, name: str, info: Option=
+al[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0element_type: QAPISchemaType) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 element =3D self._use_type(element_t=
+ype)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._gen_tree(&#39;[&#39; + element=
+ + &#39;]&#39;, &#39;array&#39;, {&#39;element-type&#39;: element},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0ifcond)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_object_type_flat(self, name: str, info: =
+Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0features: List[QAPISchemaFe=
+ature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0members: List[QAPISchemaObj=
+ectTypeMember],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variants: Optional[QAPISche=
+maVariants]) -&gt; None:<br>
+&gt; @@ -336,7 +335,7 @@ def visit_object_type_flat(self, name: str, info: =
+Optional[QAPISourceInfo],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._gen_tree(name, &#39;object&#39=
+;, obj, ifcond, features)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_alternate_type(self, name: str, info: Op=
+tional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0features: List[QAPISchemaFeature],=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variants: QAPISchemaVariants) -&gt=
+; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._gen_tree(<br>
+&gt; @@ -348,7 +347,7 @@ def visit_alternate_type(self, name: str, info: Op=
+tional[QAPISourceInfo],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_command(self, name: str, info: Optional[=
+QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 arg_type: Optional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 ret_type: Optional[QAPISchemaType], gen: bool,<br>
+&gt; @@ -367,7 +366,8 @@ def visit_command(self, name: str, info: Optional[=
+QAPISourceInfo],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._gen_tree(name, &#39;command&#3=
+9;, obj, ifcond, features)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_event(self, name: str, info: Optional[QA=
+PISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ ifcond: Sequence[str], features: List[QAPISchemaFeature],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ ifcond: QAPISchemaIfCond,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 arg_type: Optional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 boxed: bool) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert self._schema is not None<br>
+&gt; diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py<br>
+&gt; index d1d27ff7ee..bc357ebbfa 100644<br>
+&gt; --- a/scripts/qapi/schema.py<br>
+&gt; +++ b/scripts/qapi/schema.py<br>
+&gt; @@ -25,6 +25,20 @@<br>
+&gt;=C2=A0 from .parser import QAPISchemaParser<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; +class QAPISchemaIfCond:<br>
+&gt; +=C2=A0 =C2=A0 def __init__(self, ifcond=3DNone):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ifcond =3D ifcond or []<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 # Returns true if the condition is not void<br>
+&gt; +=C2=A0 =C2=A0 def __bool__(self):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return bool(self.ifcond)<br>
+<br>
+I&#39;m not sure I like this one.<br>
+<br>
+In the two places where we default parameter icond=3DNone, we use<br>
+<br>
+=C2=A0 =C2=A0 ifcond or QAPISchemaIfCond()<br>
+<br>
+to flip to the default value we actually want.=C2=A0 Works as intended for<=
+br>
+None and for non-empty QAPISchemaIfCond.=C2=A0 For empty QAPISchemaIfCond, =
+it<br>
+throws away the value and creates a new, equivalent one.=C2=A0 Works, but<b=
+r>
+kind of by accident.<br>
+<br>
+This is an instance of a more general problem: when I see an<br>
+Optional[ObjectType], I expect it to be falsy if and only if it&#39;s None.=
+<br>
+Perhaps I shouldn&#39;t.=C2=A0 Doesn&#39;t mean we should press __bool__() =
+into<br>
+service for checking &quot;is there a condition&quot;.=C2=A0 A boring non-d=
+under method<br>
+might be clearer.<br>
+<br>
+I understand what you mean by &quot;condition is void&quot;, but it sounds =
+a bit<br>
+odd to me.=C2=A0 How do you like &quot;Is a condition present?&quot;<br></b=
+lockquote><div><br></div><div>The current code uses falsy values for ifcond=
+ (whether it is [], (), None whatever). Implementing __bool__() allowed to =
+keep the existing condition code (ie: if ifcond).</div><div><br></div><div>=
+After the wrapping object is introduced, we have &quot;if ifcond.ifcond&quo=
+t;, which is quite ugly.</div><div><br></div><div>If you think &quot;if ifc=
+ond&quot; isn&#39;t clear enough (with __bool__()), we can have &quot;if if=
+cond.is_present()&quot;. I don&#39;t have a preference.<br></div><div><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 def __eq__(self, other):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not isinstance(other, QAPISchemaIfCond=
+):<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NotImplemented<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return self.ifcond =3D=3D other.ifcond<br=
 >
-> total: 1 errors, 0 warnings, 2030 lines checked
+<br>
+Stupid question: why do we need to override __eq__()?<br>
+<br>
+Hmm, probably for _make_implicit_object_type().<br>
+<br></blockquote><div><br></div><div>Yes, the code works with schema object=
+s and ifcond. I&#39;ll special case the assertion for now, and remove that =
+method.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+Why raise on type mismatch?=C2=A0 Feels rather un-pythonic to me.<br></bloc=
+kquote><div><br></div><div>What else should it do? Could probably be remove=
+d for now.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
+<br>
+&gt; +<br>
+&gt; +<br>
+&gt;=C2=A0 class QAPISchemaEntity:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 meta: Optional[str] =3D None<br>
+&gt;=C2=A0 <br>
+&gt; @@ -42,7 +56,7 @@ def __init__(self, name: str, info, doc, ifcond=3DNo=
+ne, features=3DNone):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # such place).<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://self.info" rel=3D"=
+noreferrer" target=3D"_blank">self.info</a> =3D info<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.doc =3D doc<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._ifcond =3D ifcond or []<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._ifcond =3D ifcond or QAPISchemaIfCo=
+nd()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.features =3D features or []<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._checked =3D False<br>
+&gt;=C2=A0 <br>
+&gt; @@ -77,7 +91,7 @@ def set_module(self, schema):<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 @property<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def ifcond(self):<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert self._checked<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert self._checked and isinstance(self.=
+_ifcond, QAPISchemaIfCond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._ifcond<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def is_implicit(self):<br>
+&gt; @@ -601,7 +615,7 @@ def check(self, schema, seen):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# simple union<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert isinstance(self=
+.tag_member.type, QAPISchemaEnumType)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert not self.tag_me=
+mber.optional<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert self.tag_member.ifco=
+nd =3D=3D []<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert not self.tag_member.=
+ifcond<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self._tag_name:=C2=A0 =C2=A0 # fl=
+at union<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # branches that are no=
+t explicitly covered get an empty type<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cases =3D {<a href=3D"=
+http://v.name" rel=3D"noreferrer" target=3D"_blank">v.name</a> for v in sel=
+f.variants}<br>
+&gt; @@ -646,7 +660,7 @@ def __init__(self, name, info, ifcond=3DNone):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert isinstance(name, str)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://self.name" rel=3D"=
+noreferrer" target=3D"_blank">self.name</a> =3D name<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://self.info" rel=3D"=
+noreferrer" target=3D"_blank">self.info</a> =3D info<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ifcond =3D ifcond or []<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ifcond =3D ifcond or QAPISchemaIfCon=
+d()<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.defined_in =3D None<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def set_defined_in(self, name):<br>
+&gt; @@ -968,11 +982,13 @@ def _def_predefineds(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _make_features(self, features, info):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if features is None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return []<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [QAPISchemaFeature(f[&#39;name&#39=
+;], info, f.get(&#39;if&#39;))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [QAPISchemaFeature(f[&#39;name&#39=
+;], info,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPISchemaIfCond(f.get(&#=
+39;if&#39;)))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for f in=
+ features]<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _make_enum_members(self, values, info):<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [QAPISchemaEnumMember(v[&#39;name&=
+#39;], info, v.get(&#39;if&#39;))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [QAPISchemaEnumMember(v[&#39;name&=
+#39;], info,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QAPISchemaIf=
+Cond(v.get(&#39;if&#39;)))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for v in=
+ values]<br>
+&gt;=C2=A0 <br>
+<br>
+Note for later: several hunks wrap condition expressions in an object<br>
+like this.=C2=A0 Mechanical.<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _make_implicit_enum_type(self, name, info, ifc=
+ond, values):<br>
+&gt; @@ -1008,7 +1024,7 @@ def _make_implicit_object_type(self, name, info,=
+ ifcond, role, members):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO kill simple uni=
+ons or implement the disjunction<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # pylint: disable=3Dpr=
+otected-access<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert (ifcond or []) =3D=
+=3D typ._ifcond<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert ifcond =3D=3D typ._i=
+fcond<br>
+<br>
+I&#39;m not sure I understand this part.=C2=A0 Leaving for later.<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._def_entity(QAPIS=
+chemaObjectType(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name, in=
+fo, None, ifcond, None, None, members, None))<br>
+&gt; @@ -1018,7 +1034,7 @@ def _def_enum_type(self, expr, info, doc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D expr[&#39;enum&#39;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D expr[&#39;data&#39;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prefix =3D expr.get(&#39;prefix&#39;=
+)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D expr.get(&#39;if&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D QAPISchemaIfCond(expr.get(&#39=
+;if&#39;))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D self._make_features(exp=
+r.get(&#39;features&#39;), info)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._def_entity(QAPISchemaEnumType(=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name, info, doc, ifcon=
+d, features,<br>
+&gt; @@ -1036,7 +1052,8 @@ def _make_member(self, name, typ, ifcond, featur=
+es, info):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 self._make_features(features, info))<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _make_members(self, data, info):<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [self._make_member(key, value[&#39=
+;type&#39;], value.get(&#39;if&#39;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return [self._make_member(key, value[&#39=
+;type&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPISchemaIfCond(value.ge=
+t(&#39;if&#39;)),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value.get(&#39;feat=
+ures&#39;), info)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (key=
+, value) in data.items()]<br>
+&gt;=C2=A0 <br>
+&gt; @@ -1044,7 +1061,7 @@ def _def_struct_type(self, expr, info, doc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D expr[&#39;struct&#39;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base =3D expr.get(&#39;base&#39;)<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D expr[&#39;data&#39;]<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D expr.get(&#39;if&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D QAPISchemaIfCond(expr.get(&#39=
+;if&#39;))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D self._make_features(exp=
+r.get(&#39;features&#39;), info)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._def_entity(QAPISchemaObjectTyp=
+e(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name, info, doc, ifcon=
+d, features, base,<br>
+&gt; @@ -1067,7 +1084,7 @@ def _def_union_type(self, expr, info, doc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D expr[&#39;union&#39;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D expr[&#39;data&#39;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 base =3D expr.get(&#39;base&#39;)<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D expr.get(&#39;if&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D QAPISchemaIfCond(expr.get(&#39=
+;if&#39;))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D self._make_features(exp=
+r.get(&#39;features&#39;), info)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_name =3D expr.get(&#39;discrimin=
+ator&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_member =3D None<br>
+&gt; @@ -1076,15 +1093,21 @@ def _def_union_type(self, expr, info, doc):<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name, in=
+fo, ifcond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;bas=
+e&#39;, self._make_members(base, info))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if tag_name:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 variants =3D [self._make_va=
+riant(key, value[&#39;type&#39;],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0value.get(&#39;if&#39;), info)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 for (key, value) in data.items()]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 variants =3D [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._make_va=
+riant(key, value[&#39;type&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QAPISchemaIfCond(va=
+lue.get(&#39;if&#39;)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (key, val=
+ue) in data.items()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ]<br>
+<br>
+I think we more usually put the closing parenthesis like this:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variants =3D [<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ...<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (key, va=
+lue) in data.items()]<br>
+<br>
+More of the same below.<br></blockquote><div><br></div><div>Works for me.</=
+div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 members =3D []<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 variants =3D [self._make_si=
+mple_variant(key, value[&#39;type&#39;],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 value.get(&#39;if&#39;), info)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 for (key, value) in data.items()]<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 enum =3D [{&#39;name&#39;: =
+<a href=3D"http://v.name" rel=3D"noreferrer" target=3D"_blank">v.name</a>, =
+&#39;if&#39;: v.ifcond} for v in variants]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 variants =3D [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._make_si=
+mple_variant(key, value[&#39;type&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 QAPISchemaIfCond(value.get(&#39;if&#39;)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 info)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (key, val=
+ue) in data.items()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 enum =3D [{&#39;name&#39;: =
+<a href=3D"http://v.name" rel=3D"noreferrer" target=3D"_blank">v.name</a>, =
+&#39;if&#39;: v.ifcond.ifcond} for v in variants]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 typ =3D self._make_imp=
+licit_enum_type(name, info, ifcond, enum)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_member =3D QAPISch=
+emaObjectTypeMember(&#39;type&#39;, info, typ, False)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 members =3D [tag_membe=
+r]<br>
+&gt; @@ -1097,11 +1120,14 @@ def _def_union_type(self, expr, info, doc):<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _def_alternate_type(self, expr, info, doc):<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D expr[&#39;alternate&#39;]<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D expr[&#39;data&#39;]<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D expr.get(&#39;if&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D QAPISchemaIfCond(expr.get(&#39=
+;if&#39;))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D self._make_features(exp=
+r.get(&#39;features&#39;), info)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 variants =3D [self._make_variant(key, val=
+ue[&#39;type&#39;], value.get(&#39;if&#39;),<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info)=
+<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ for (key, value) in data.items()]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 variants =3D [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._make_variant(key, val=
+ue[&#39;type&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QAPISchemaIfCond(value.get(&#39;i=
+f&#39;)),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (key, value) in data.it=
+ems()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_member =3D QAPISchemaObjectTypeM=
+ember(&#39;type&#39;, info, &#39;QType&#39;, False)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._def_entity(<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QAPISchemaAlternateTyp=
+e(name, info, doc, ifcond, features,<br>
+&gt; @@ -1118,7 +1144,7 @@ def _def_command(self, expr, info, doc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allow_oob =3D expr.get(&#39;allow-oo=
+b&#39;, False)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allow_preconfig =3D expr.get(&#39;al=
+low-preconfig&#39;, False)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 coroutine =3D expr.get(&#39;coroutin=
+e&#39;, False)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D expr.get(&#39;if&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D QAPISchemaIfCond(expr.get(&#39=
+;if&#39;))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D self._make_features(exp=
+r.get(&#39;features&#39;), info)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if isinstance(data, OrderedDict):<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D self._make_im=
+plicit_object_type(<br>
+&gt; @@ -1137,7 +1163,7 @@ def _def_event(self, expr, info, doc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D expr[&#39;event&#39;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D expr.get(&#39;data&#39;)<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 boxed =3D expr.get(&#39;boxed&#39;, =
+False)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D expr.get(&#39;if&#39;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ifcond =3D QAPISchemaIfCond(expr.get(&#39=
+;if&#39;))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 features =3D self._make_features(exp=
+r.get(&#39;features&#39;), info)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if isinstance(data, OrderedDict):<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D self._make_im=
+plicit_object_type(<br>
+&gt; diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py<br>
+&gt; index 20d572a23a..3673cf0f49 100644<br>
+&gt; --- a/scripts/qapi/types.py<br>
+&gt; +++ b/scripts/qapi/types.py<br>
+&gt; @@ -13,7 +13,7 @@<br>
+&gt;=C2=A0 # See the COPYING file in the top-level directory.<br>
+&gt;=C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -from typing import List, Optional, Sequence<br>
+&gt; +from typing import List, Optional<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 from .common import (<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 c_enum_const,<br>
+&gt; @@ -27,6 +27,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchema,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaEnumMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaFeature,<br>
+&gt; +=C2=A0 =C2=A0 QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectType,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectTypeMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaType,<br>
+&gt; @@ -50,13 +51,13 @@ def gen_enum_lookup(name: str,<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c_name=
+=3Dc_name(name))<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for memb in members:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 index =3D c_enum_const(name, <a href=
+=3D"http://memb.name" rel=3D"noreferrer" target=3D"_blank">memb.name</a>, p=
+refix)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [%(index)s] =3D &quot;%(name)s&quot;=
+,<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0index=3Dindex, name=3D<a href=3D"http://memb.name" rel=3D"nore=
+ferrer" target=3D"_blank">memb.name</a>)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond.ifcond)<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 },<br>
+&gt; @@ -80,12 +81,12 @@ def gen_enum(name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c_name=
+=3Dc_name(name))<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for memb in enum_members:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 %(c_enum)s,<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0c_enum=3Dc_enum_const(name, <a href=3D"http://memb.name" rel=
+=3D"noreferrer" target=3D"_blank">memb.name</a>, prefix))<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond.ifcond)<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 } %(c_name)s;<br>
+&gt; @@ -125,7 +126,7 @@ def gen_array(name: str, element_type: QAPISchemaT=
+ype) -&gt; str:<br>
+&gt;=C2=A0 def gen_struct_members(members: List[QAPISchemaObjectTypeMember]=
+) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret =3D &#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for memb in members:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if memb.optional:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#=
+39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool has_%(c_name)s;<br>
+&gt; @@ -135,11 +136,11 @@ def gen_struct_members(members: List[QAPISchemaO=
+bjectTypeMember]) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 %(c_type)s %(c_name)s;<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0c_type=3Dmemb.type.c_type(), c_name=3Dc_name(<a href=3D"http:/=
+/memb.name" rel=3D"noreferrer" target=3D"_blank">memb.name</a>))<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond.ifcond)<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 return ret<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; -def gen_object(name: str, ifcond: Sequence[str],<br>
+&gt; +def gen_object(name: str, ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base: Opt=
+ional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0members: =
+List[QAPISchemaObjectTypeMember],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variants:=
+ Optional[QAPISchemaVariants]) -&gt; str:<br>
+&gt; @@ -158,7 +159,7 @@ def gen_object(name: str, ifcond: Sequence[str],<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 &#39;&#39;&#39;)<br>
+&gt; -=C2=A0 =C2=A0 ret +=3D gen_if(ifcond)<br>
+&gt; +=C2=A0 =C2=A0 ret +=3D gen_if(ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 struct %(c_name)s {<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt; @@ -192,7 +193,7 @@ def gen_object(name: str, ifcond: Sequence[str],<b=
+r>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 &#39;&#39;&#39;)<br>
+&gt; -=C2=A0 =C2=A0 ret +=3D gen_endif(ifcond)<br>
+&gt; +=C2=A0 =C2=A0 ret +=3D gen_endif(ifcond.ifcond)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 return ret<br>
+&gt;=C2=A0 <br>
+&gt; @@ -219,13 +220,13 @@ def gen_variants(variants: QAPISchemaVariants) -=
+&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for var in variants.variants:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://var.type.name" =
+rel=3D"noreferrer" target=3D"_blank">var.type.name</a> =3D=3D &#39;q_empty&=
+#39;:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(var.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(var.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 %(c_type)s %(c_name)s;<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0c_type=3Dvar.type.c_unboxed_type(),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0c_name=3Dc_name(<a href=3D"http://var.name" rel=3D"noreferrer"=
+ target=3D"_blank">var.name</a>))<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(var.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(var.ifcond.ifcond)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 } u;<br>
+&gt; @@ -307,7 +308,7 @@ def _gen_type_cleanup(self, name: str) -&gt; None:=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_enum_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 members: List[QAPISchemaEnumMember],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 prefix: Optional[str]) -&gt; None:<br>
+&gt; @@ -318,7 +319,7 @@ def visit_enum_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_array_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0element_type: QAPISchemaType) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with ifcontext(ifcond, self._genh, s=
+elf._genc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._genh.preamble_ad=
+d(gen_fwd_object_or_array(name))<br>
+&gt; @@ -328,7 +329,7 @@ def visit_array_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_object_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 base: Optional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 members: List[QAPISchemaObjectTypeMember],<br>
+&gt; @@ -351,7 +352,7 @@ def visit_object_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_alternate_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info: Optional[QAPISourceInfo],<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0features: List[QAPISchemaFeature],=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variants: QAPISchemaVariants) -&gt=
+; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with ifcontext(ifcond, self._genh):<=
+br>
+&gt; diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py<br>
+&gt; index 9e96f3c566..67721b2470 100644<br>
+&gt; --- a/scripts/qapi/visit.py<br>
+&gt; +++ b/scripts/qapi/visit.py<br>
+&gt; @@ -13,7 +13,7 @@<br>
+&gt;=C2=A0 See the COPYING file in the top-level directory.<br>
+&gt;=C2=A0 &quot;&quot;&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -from typing import List, Optional, Sequence<br>
+&gt; +from typing import List, Optional<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 from .common import (<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 c_enum_const,<br>
+&gt; @@ -29,6 +29,7 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaEnumMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaEnumType,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaFeature,<br>
+&gt; +=C2=A0 =C2=A0 QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectType,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaObjectTypeMember,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 QAPISchemaType,<br>
+&gt; @@ -78,7 +79,7 @@ def gen_visit_object_members(name: str,<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for memb in members:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 deprecated =3D &#39;deprecated&#39; =
+in [<a href=3D"http://f.name" rel=3D"noreferrer" target=3D"_blank">f.name</=
+a> for f in memb.features]<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(memb.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if memb.optional:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#=
+39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (visit_optional(v, &quot;%(name)s&quot;, &amp;o=
+bj-&gt;has_%(c_name)s)) {<br>
+&gt; @@ -111,7 +112,7 @@ def gen_visit_object_members(name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#=
+39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 &#39;&#39;&#39;)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(memb.ifcond.ifcond)<br=
+>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if variants:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_member =3D variants.tag_member<b=
+r>
+&gt; @@ -125,7 +126,7 @@ def gen_visit_object_members(name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for var in variants.variants:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case_str =3D c_enum_co=
+nst(<a href=3D"http://tag_member.type.name" rel=3D"noreferrer" target=3D"_b=
+lank">tag_member.type.name</a>, <a href=3D"http://var.name" rel=3D"noreferr=
+er" target=3D"_blank">var.name</a>,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tag_member.t=
+ype.prefix)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(var.ifcond)=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(var.ifcond.=
+ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://v=
+ar.type.name" rel=3D"noreferrer" target=3D"_blank">var.type.name</a> =3D=3D=
+ &#39;q_empty&#39;:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # valid =
+variant and nothing to do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D=
+ mcgen(&#39;&#39;&#39;<br>
+&gt; @@ -141,7 +142,7 @@ def gen_visit_object_members(name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case=3Dcase_str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0c_type=3Dvar.type.c_name(), c_name=
+=3Dc_name(<a href=3D"http://var.name" rel=3D"noreferrer" target=3D"_blank">=
+var.name</a>))<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(var.ifco=
+nd)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(var.ifco=
+nd.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 default:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 abort();<br>
+&gt; @@ -227,7 +228,7 @@ def gen_visit_alternate(name: str, variants: QAPIS=
+chemaVariants) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c_name=
+=3Dc_name(name))<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for var in variants.variants:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(var.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_if(var.ifcond.ifcond)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 case %(case)s:<br>
+&gt;=C2=A0 &#39;&#39;&#39;,<br>
+&gt; @@ -253,7 +254,7 @@ def gen_visit_alternate(name: str, variants: QAPIS=
+chemaVariants) -&gt; str:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt;=C2=A0 &#39;&#39;&#39;)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(var.ifcond)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D gen_endif(var.ifcond.ifcond)<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ret +=3D mcgen(&#39;&#39;&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 case QTYPE_NONE:<br>
+&gt; @@ -352,7 +353,7 @@ def _begin_user_module(self, name: str) -&gt; None=
+:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_enum_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 members: List[QAPISchemaEnumMember],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 prefix: Optional[str]) -&gt; None:<br>
+&gt; @@ -363,7 +364,7 @@ def visit_enum_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_array_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0element_type: QAPISchemaType) -&gt; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with ifcontext(ifcond, self._genh, s=
+elf._genc):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._genh.add(gen_vis=
+it_decl(name))<br>
+&gt; @@ -372,7 +373,7 @@ def visit_array_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_object_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 info: Optional[QAPISourceInfo],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 features: List[QAPISchemaFeature],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 base: Optional[QAPISchemaObjectType],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 members: List[QAPISchemaObjectTypeMember],<br>
+&gt; @@ -394,7 +395,7 @@ def visit_object_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def visit_alternate_type(self,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name: str,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info: Optional[QAPISourceInfo],<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: Sequence[str],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ifcond: QAPISchemaIfCond,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0features: List[QAPISchemaFeature],=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variants: QAPISchemaVariants) -&gt=
+; None:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with ifcontext(ifcond, self._genh, s=
+elf._genc):<br>
+&gt; diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-q=
+api.py<br>
+&gt; index f1c4deb9a5..2ec328b22e 100755<br>
+&gt; --- a/tests/qapi-schema/test-qapi.py<br>
+&gt; +++ b/tests/qapi-schema/test-qapi.py<br>
+&gt; @@ -95,7 +95,7 @@ def _print_variants(variants):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 @staticmethod<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _print_if(ifcond, indent=3D4):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ifcond:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&#39;%sif %s&#39; % (=
+&#39; &#39; * indent, ifcond))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&#39;%sif %s&#39; % (=
+&#39; &#39; * indent, ifcond.ifcond))<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 @classmethod<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 def _print_features(cls, features, indent=3D4):<br=
+>
+<br>
+If feel this is a bit harder to review than necessary, because you take<br>
+two steps at once:<br>
+<br>
+1. Wrap Sequence[str] in an object<br>
+<br>
+2. Add methods to the object to clean up the resulting mess some<br>
+<br>
+Step 1. by itself should be pretty much mechanical: adjust the type<br>
+hints, create the wrapper object on write, peel it off on read.=C2=A0 The<b=
+r>
+result will be slightly ugly in places.<br>
+<br>
+I&#39;d expect step 2 to be much smaller, and easier to understand.=C2=A0 I=
+t<br>
+could perhaps be split into one patch per method, but I hope it&#39;s<br>
+reviewable just fine even without.<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
 
-That one yes, but I've meant writing
-
-(OfInstance *)g_hash_table_lookup
-
-instead of
-
-(OfInstance *) g_hash_table_lookup
-
-which checkpatch doesn't seem to mind and I did not find anything about 
-this in coding style doc so maybe both are OK? I prefer casts without a 
-space so it's clear what is being cast but if there's no style for that 
-and checkpatch accepts it then use what you like.
-
-Regards,
-BALATON Zoltan
---3866299591-1115876624-1623839200=:81030--
+--000000000000b3ac6f05c4df8e2e--
 
