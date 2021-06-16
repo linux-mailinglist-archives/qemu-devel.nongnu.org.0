@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C203AA160
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:33:22 +0200 (CEST)
-Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BBA3AA176
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:37:03 +0200 (CEST)
+Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYTh-0005hd-Ht
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:33:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1ltYXG-0003vu-3f
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:37:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYJS-0000qn-T1
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:22:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29925)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYK8-00024p-KR
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:23:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYJP-0002BK-V5
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:22:46 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltYK6-0002gw-7J
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:23:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623860562;
+ s=mimecast20190719; t=1623860605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WUQdFiF4I9usEoqcWuw9jovz2j6QkV4ypfDpy+yQNBk=;
- b=RmsGY+/pBsau6FlogKjoYzJxKLQ5T6w4s4XkXhstsVQMDJEjrLApLx1GVrYhKapZ+3ECCT
- eour5VWLHCgbL8PYShbmy3OuEYO26nwYqYJzhOovuJLfE8LjpBXjcgzGDBposvLOi/OC3c
- 10HpSRr7gjWWEZKSGtpYxO8/fV0yD0c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-alCKvH-DMSKkO4aV832LYA-1; Wed, 16 Jun 2021 12:22:36 -0400
-X-MC-Unique: alCKvH-DMSKkO4aV832LYA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- j2-20020a5d61820000b029011a6a8149b5so1064383wru.14
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:22:36 -0700 (PDT)
+ bh=4C/sIPJIJ9x04mkRkFeW0rAiiCZBP7NEySvc0zgDkpg=;
+ b=F22BaJortXzpapze8NoX9kZ/x3h9fExXipAbTfsR2GqElS0HFIPuS9TuYrTIO7PEQX0TMi
+ OVCJDxRtu6syLHgSvkGwgGTHbz/8Zhx4VI92KBD94b06CcFoGIuL0rbLPr2t5hL3xDjRY4
+ aUdUaBlq8KC1twIvVOuNkQl/LedvhlU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-BlT3Ez_cNoeUvgN4Nzp8Qw-1; Wed, 16 Jun 2021 12:22:53 -0400
+X-MC-Unique: BlT3Ez_cNoeUvgN4Nzp8Qw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ w186-20020a1cdfc30000b02901ced88b501dso1498548wmg.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:22:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WUQdFiF4I9usEoqcWuw9jovz2j6QkV4ypfDpy+yQNBk=;
- b=T021SwoA064eHrIzelfPyjkslfv1sS51yOEQaigm2pSgMd2Ftuibc0nTNCaxTrlmQ2
- bppn6uA0UBFOsqMbxAP7qJf0s0GQrzAaZ0LdIZ02J22c8J1xvzmEO/xe38LXQef9rKdD
- 5cwy70bpRfJb5FGTv4biOdWks8WRSz6qXU6QtCjArADStQ1oDPZZ8JP9KDXK2F1qfocQ
- NDcWQ2eVYq5rYbmPlPZ8WKFsq7V1wybe/gfriLGGEb6M4vTvvLrzFgAaWV8ENJLWouMe
- RQpKkazPRXv9CBg3jme2o5RYNC+R4KQKbkXCGtF1nLRaeOnDrpqhw0+RGcxldtPtHHOC
- 38gg==
-X-Gm-Message-State: AOAM533fyGeP0f1jrAbBoiBuAkxVZFqjCUrKty6zBn6sxh/5WNEd8rR5
- in2EpOwfc66KdQdTh9kDXDOxHLWWJO+RWslDFB85p7fJTZ/YwCHCOEYg8s3g0LNvC4cbft3abTi
- YFdi/P1GArOKwc7ifFmrEJFwy/Wn6nnaYkz8FKfRNMilWfw4LQi9NmoVBWLJ/6JfF
-X-Received: by 2002:adf:a284:: with SMTP id s4mr225641wra.397.1623860555433;
- Wed, 16 Jun 2021 09:22:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzerqdDFU+hrqhimAnDSgDiDsfgbQps0VofL3pbs+7SiCYB6M5sh6Z0xAMETkiwiKp9ceV3bA==
-X-Received: by 2002:adf:a284:: with SMTP id s4mr225615wra.397.1623860555199;
- Wed, 16 Jun 2021 09:22:35 -0700 (PDT)
+ bh=4C/sIPJIJ9x04mkRkFeW0rAiiCZBP7NEySvc0zgDkpg=;
+ b=BBMdCeQTAXzNMORSTo9sMQ90H0F0/OZMJ559Zx8o5oMGQvwPaQsV0UjduIA+C5C4bT
+ /GhFtkbOPiD3zJylQQEbuzYYcdU1GVFI7tZ0pyfF2upm/G2BHDn+dog45xlp1Ynb2kPN
+ 9ch/mMoFyIOuZ7KKWfG8WgwcJ3ratKwG4TMRB9aDLO9aWa2SjWc3yvbWMpLaL0s6vRj6
+ ZvCq8AQZF8PThooWnnXDPRPXd9ZBoHAg32UvNvQKlYsRqxzaHUedySq+MXpcHe4ddAs6
+ GLUtTwqAwpQBHkMyKfS77gtK84iw7sIV4LXwHL78Z6O+Na3ycs/MCA6E9yBpEqrCVjX5
+ /IUA==
+X-Gm-Message-State: AOAM533Y3Ppx13LWxnuA7ZO0Tai16ltxUzvcsmvNG7YUhivltbqPdMix
+ 4KvXfAc6HoLGnqgXO7pc+5gR7LaVcb2oYd8UE9JW/UE8hcR/cxcXtdk8Y4LcXnoZRvwVa3FnAGH
+ tKPRd05HXeTZRf0EU00RV0mp757ZHwcVKBhGbAcrgrX7ulW/Txps8bAZNmmnVLu6c
+X-Received: by 2002:a5d:4291:: with SMTP id k17mr318617wrq.40.1623860572401;
+ Wed, 16 Jun 2021 09:22:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAamDTN9kWttapdnDQOX34c8MVdT1YlKYD3s8JWP5qlCI7qF1YLTNBTzWLSCps8TQNrMir4A==
+X-Received: by 2002:a5d:4291:: with SMTP id k17mr318596wrq.40.1623860572254;
+ Wed, 16 Jun 2021 09:22:52 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id p11sm2597966wrx.85.2021.06.16.09.22.34
+ by smtp.gmail.com with ESMTPSA id s7sm2487468wru.67.2021.06.16.09.22.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 09:22:34 -0700 (PDT)
+ Wed, 16 Jun 2021 09:22:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/7] block/nbd: Use qcrypto_tls_creds_check_endpoint()
-Date: Wed, 16 Jun 2021 18:22:20 +0200
-Message-Id: <20210616162225.2517463-3-philmd@redhat.com>
+Subject: [PATCH v4 6/7] ui/vnc: Use qcrypto_tls_session_check_role()
+Date: Wed, 16 Jun 2021 18:22:24 +0200
+Message-Id: <20210616162225.2517463-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616162225.2517463-1-philmd@redhat.com>
 References: <20210616162225.2517463-1-philmd@redhat.com>
@@ -99,48 +99,30 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Avoid accessing QCryptoTLSCreds internals by using
-the qcrypto_tls_creds_check_endpoint() helper.
+the qcrypto_tls_session_check_role() helper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nbd.c    | 6 +++---
- blockdev-nbd.c | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ ui/vnc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 616f9ae6c4d..b13a33c3d21 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2159,9 +2159,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
-         return NULL;
-     }
+diff --git a/ui/vnc.c b/ui/vnc.c
+index b3d4d7b9a5f..c7c8454b873 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -4080,9 +4080,9 @@ void vnc_display_open(const char *id, Error **errp)
+         }
+         object_ref(OBJECT(vd->tlscreds));
  
--    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
--        error_setg(errp,
--                   "Expecting TLS credentials with a client endpoint");
-+    if (!qcrypto_tls_creds_check_endpoint(creds,
-+                                          QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT,
-+                                          errp)) {
-         return NULL;
+-        if (vd->tlscreds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
+-            error_setg(errp,
+-                       "Expecting TLS credentials with a server endpoint");
++        if (!qcrypto_tls_session_check_role(vd->tlscreds,
++                                            QCRYPTO_TLS_CREDS_ENDPOINT_SERVER,
++                                            errp)) {
+             goto fail;
+         }
      }
-     object_ref(obj);
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index b264620b98d..bdfa7ed3a5a 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -108,9 +108,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
-         return NULL;
-     }
- 
--    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
--        error_setg(errp,
--                   "Expecting TLS credentials with a server endpoint");
-+    if (!qcrypto_tls_creds_check_endpoint(creds,
-+                                          QCRYPTO_TLS_CREDS_ENDPOINT_SERVER,
-+                                          errp)) {
-         return NULL;
-     }
-     object_ref(obj);
 -- 
 2.31.1
 
