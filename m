@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D0F3AA1E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:56:22 +0200 (CEST)
-Received: from localhost ([::1]:38132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB853AA1EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:59:46 +0200 (CEST)
+Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYpx-00042p-DA
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44576)
+	id 1ltYtF-0008UH-QR
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYnR-0001Dz-UI
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:53:45 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40746)
+ id 1ltYoI-0003LD-R0
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:54:39 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYnQ-0005fn-Ed
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:53:45 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- n35-20020a05600c3ba3b02901cdecb6bda8so4551242wms.5
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:53:44 -0700 (PDT)
+ id 1ltYoH-0006A1-DO
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:54:38 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id m18so3471194wrv.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Mi634bVNjIPTAQmTu/ygr8ag30YZcrzVpPbG3YPbEL0=;
- b=t8cvyqTT+JwC3pxyHkhLyeCnXbRamX7j6XXDr8xEzmNgP5WDoHUQBtlmsS6qNDOBNJ
- 9QMXFfoywLFYCEGe8pCbSMmwczeNlKiWhIdkYFGhgoracYkdNQ6lfQsSl3md+S1cQP8z
- 4CHhPXojHZLH4QOWaTUG5upfZTvV9v7o5OMUSZbOqYaYApc+ibSpShR+hMmOt5IXoelr
- GzLb84qg966z4CPgAAB7QO46qVLSlpNpBz5wk9gaTnlYAD8B5pslfPP0E4wEYwp48T4y
- Q+vLdkec+/AvkoUNln0rKk+2n+AkLaw1TTw8YU3O2qF8rtXOg709RhB0DJ5A7mCHSD6+
- Vdgg==
+ bh=I0OzBnk9flNtBu1mTTIUr1S/HpHElbaghBu5NTRxEyU=;
+ b=YY42ffDktbpGtf9AVupWVwOVdjR2UKz9s5jxup/bS9PXzDN7X/0fZRSQtTqltkuUYQ
+ bo9oTUU7wWQUNwGE2cKHO4oz4kTzafak7YUF1KwLISFpsoU7Acsk3VIfRtE8KVDSm2Fe
+ +NDG7jIOYtodhfenaxPyuFai3mn5r2xfcJKyQRRx0Wj2JCIkZCygf/e+3C6BqJYUy7wV
+ yuCkekEvW1lSsHrNpt7hEEFEJjfem13j5hrHZ0cYXZ5j+CURwQNek9QYb44sR3EKe7rB
+ kIRzux7Aso3TWGrUbYB0hNO3f8tEMRRU4DIT0r4EceIvIbWmMVmo+yoviGDe6oyAR4B6
+ 0+Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Mi634bVNjIPTAQmTu/ygr8ag30YZcrzVpPbG3YPbEL0=;
- b=ajO9/GpL8/2vpwUwgIzt/Ip4+76b3oKpODxFiF72L8ecOxH/1Ac723uzUagzUai/gI
- Mr/fbDLsso7ZuRM2PFbdERGQXLDOYFfn7Gp5SitdJQlsyWzTWzVnPL6SyQKt94VAArQI
- ghITn3jsJWZTzrJMv7kra2TxsmzHx7ZP3yLIqpSIt/rxqbD5QOHvZHMV3oOD4C62rStY
- 0IIS+uTIfPAuIe/Hi1l2nowbZJZt+tNcBWLtnUV2FR45Ewh2oJO/cwsOjV0aYzorGNrr
- xQRFf6O+zuftetJ6HVxa8amnNGjeuO9H9hcPHUE/mT2xdLF6h4quna2iZ00nN0ulcHMy
- kBVw==
-X-Gm-Message-State: AOAM532HkJ5F4oDGmcICATp+u1dNqgaWutHJymK0TRLUmQD8YuLSdEay
- J+ZAmclqcv/g26IJSQ/PGKU=
-X-Google-Smtp-Source: ABdhPJwirmM9csJjE1z1uJD7wlQbIvCjN4UWI5ua0fl8dhdkf19vVTKLVbXjSiAkT6eeAQZbD/xaUw==
-X-Received: by 2002:a05:600c:ada:: with SMTP id
- c26mr12539536wmr.189.1623862423072; 
- Wed, 16 Jun 2021 09:53:43 -0700 (PDT)
+ bh=I0OzBnk9flNtBu1mTTIUr1S/HpHElbaghBu5NTRxEyU=;
+ b=SwDYK82cp9+qcO1Ci6zz+BpESBWjIJ6VN7GrXhuIwp4JjH6NNLTs9medaorbAL1l9A
+ uOBb4lR3g//Krv+v/YVVDnRTJljmqju4tluWu/LCDv3zoGx922ymdYCHWB+bL1+AVWm6
+ Vbjx2mm7HJ4vWuAtmdXvFm7humwLCtNNNjVDKOJ60CknMY6Cw/BnJAuQTxncfuIL/N0O
+ 2j9ySJfo5sYnvZ5TSXnzUCiZwk2boElA3FP1Q/95a5MCDAiOTlGIBia1jipa/AqO5cAo
+ kmHZ15032eqHgMIfGqnnpkS27t5jzOMRftg1Ruzc1ocdBlRo85djAoHi2hlncyKByB4M
+ NrQg==
+X-Gm-Message-State: AOAM5336LwaX9KERn5CBpVH3cWoh/nPEx1uWBNhRvblmH4hpJ4weJReI
+ 4Qj+0j5t0eVyOETWZQlcHOY=
+X-Google-Smtp-Source: ABdhPJyOrNqCEQ9B9bO/qBWCoRLGjA3+vgFfL8bMuY8h1J1KBFfD5fPplA4izcl5NLo0KxZaNvKzHQ==
+X-Received: by 2002:a05:6000:511:: with SMTP id
+ a17mr409949wrf.351.1623862475458; 
+ Wed, 16 Jun 2021 09:54:35 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n42sm5448284wms.29.2021.06.16.09.53.42
+ by smtp.gmail.com with ESMTPSA id x14sm2000127wrq.78.2021.06.16.09.54.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 09:53:42 -0700 (PDT)
-Subject: Re: [PATCH 18/21] linux-user/sh4: Implement setup_sigtramp
+ Wed, 16 Jun 2021 09:54:34 -0700 (PDT)
+Subject: Re: [PATCH 21/21] linux-user: Remove default for
+ TARGET_ARCH_HAS_SIGTRAMP_PAGE
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210616011209.1446045-1-richard.henderson@linaro.org>
- <20210616011209.1446045-19-richard.henderson@linaro.org>
+ <20210616011209.1446045-22-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a97be843-c361-2233-ce01-c43362a181b5@amsat.org>
-Date: Wed, 16 Jun 2021 18:53:41 +0200
+Message-ID: <a133c81c-6558-8406-c7c9-2e882d0b65af@amsat.org>
+Date: Wed, 16 Jun 2021 18:54:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210616011209.1446045-19-richard.henderson@linaro.org>
+In-Reply-To: <20210616011209.1446045-22-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -91,21 +91,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/16/21 3:12 AM, Richard Henderson wrote:
-> Create and record the two signal trampolines.
-> Use them when the guest does not use SA_RESTORER.
+> All targets now define TARGET_ARCH_HAS_SIGTRAMP_PAGE.
 > 
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/sh4/target_signal.h |  2 ++
->  linux-user/sh4/signal.c        | 40 +++++++++++++++++++---------------
->  2 files changed, 24 insertions(+), 18 deletions(-)
+>  linux-user/elfload.c | 4 ----
+>  1 file changed, 4 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
