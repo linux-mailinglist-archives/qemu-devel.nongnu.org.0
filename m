@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C093A99F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 14:10:28 +0200 (CEST)
-Received: from localhost ([::1]:46246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036483A9A02
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 14:14:10 +0200 (CEST)
+Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltUNH-0004gV-13
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 08:10:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1ltUQr-0006rR-1s
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 08:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ltUKy-0003S1-QT; Wed, 16 Jun 2021 08:08:04 -0400
-Received: from [201.28.113.2] (port=59175 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bruno.larsen@eldorado.org.br>)
- id 1ltUKt-0005qa-PJ; Wed, 16 Jun 2021 08:08:01 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 16 Jun 2021 09:07:55 -0300
-Received: from [127.0.0.1] (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTPS id 444D580148D;
- Wed, 16 Jun 2021 09:07:55 -0300 (-03)
-Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
- priviledged addresses
-To: Fabiano Rosas <farosas@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
- <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
- <c2ffffa6-2868-f7ab-78c6-1f29eaafc4e5@linaro.org>
- <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
- <7ce3cd57-0abf-f0d9-11ec-6fdc42b89b62@linaro.org>
- <877diuq06o.fsf@linux.ibm.com>
-From: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Message-ID: <161880df-9f94-fb36-6be9-eee54ab8b8e5@eldorado.org.br>
-Date: Wed, 16 Jun 2021 09:07:54 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <877diuq06o.fsf@linux.ibm.com>
-Content-Type: multipart/alternative;
- boundary="------------2FB4D7B0E681F9E1ED8C2BD6"
-Content-Language: en-US
-X-OriginalArrivalTime: 16 Jun 2021 12:07:55.0674 (UTC)
- FILETIME=[3D82F7A0:01D762A8]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=bruno.larsen@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.17, PDS_HP_HELO_NORDNS=0.318, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1ltUP8-00062n-BQ
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 08:12:22 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:38831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1ltUP4-0000Gg-2I
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 08:12:22 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id c138so2289236qkg.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 05:12:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=AFBKQMTWChP9uxAj6/oVIw5e5q34X3Ft7JeojWOoDKk=;
+ b=SoJ5o1l3d1L6raroIIdyyoDOhnvG+Hsqm0XPvZ/I38mydbwxI2em0iQng5d2LKvnGb
+ BUxGucvSEvy7vQCv/bdPZu1elaJBfLwR7x1RpsT+Bz1Nfjv1p+Rb7w9RT8dReqfxxvfQ
+ fuYyDlJGYM7BR8LZexkn854A+o0PAN3UErHH4/j0h/anroxm2ttTf1oZ3Ht0RrnO2tHv
+ eURSqwMOo0it7KcKVSfk3ih61yWzqY1qpSEY14cjPxW/VBD1/F3XggWNJZNxyqpGZpQF
+ IDcn/0S+kS8Sdre1Hd7O9EkPhU88nlUkqtZ/5PNwIWDNfQEYSiz/0xztXZv0fE6nXKQi
+ F/Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=AFBKQMTWChP9uxAj6/oVIw5e5q34X3Ft7JeojWOoDKk=;
+ b=gR0GlTvBBvalCbI2X7I3XD6QHPZqo+lEMA27huIgOSLKSbUZSAEoLlTMEwalqs/CBt
+ L7+VG0AfH7DKhCLCKNjxuBzZNimfEFCJCTj/e6qdwU5/aDXvBZDIiWKur7y4MRu3uCuo
+ R7hSLh7OoQcCgkLVVsu9vy2+mdG+2x7U/fbyfxoEwbPv908IU8ziSrB7di6EyH83hzAO
+ TadYUK2Bq9xK5FnmlRqRPP0v2i+oXobVJcUT7d5eA676OGJSnF5oJIEi7s0Ofdk6F41V
+ wCVuY23pqyS2PvcgX8j27aOt1dpNzcl3ZAflvkg9S8A1nT1pm7eePIz8l9oFKombc1vy
+ 1XAg==
+X-Gm-Message-State: AOAM5304kaYOFzEzDLI7XZbafjGguZT6B3SpFnlo9nxEqOYNsC5ES5+0
+ otQ+KfX+M2SNXvnNGqj55bE=
+X-Google-Smtp-Source: ABdhPJxJBy8Yl1b5l6DPh4tSrd3CXA5piRMZ74hVA/PKKRqrS4j3iGX4oyNHoISwXLiN6cx9gvMxdA==
+X-Received: by 2002:a05:620a:29d4:: with SMTP id
+ s20mr4917841qkp.287.1623845536877; 
+ Wed, 16 Jun 2021 05:12:16 -0700 (PDT)
+Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
+ [67.149.105.175])
+ by smtp.gmail.com with ESMTPSA id g2sm1118010qtb.63.2021.06.16.05.12.15
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 16 Jun 2021 05:12:16 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: tb_flush() calls causing long Windows XP boot times
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <9d0b277d-415f-0f4e-3f09-03445f89848f@linaro.org>
+Date: Wed, 16 Jun 2021 08:12:15 -0400
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CB323D41-288A-47DD-9AEC-35B1BA7C580F@gmail.com>
+References: <BCB8773B-FC54-4C25-9B60-92C263165D38@gmail.com>
+ <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
+ <1ee4b7cf-d445-6497-705f-510009fc74f8@ilande.co.uk>
+ <874ke4iqf8.fsf@linaro.org> <3D29C466-BB81-4BCA-96E9-A46721B1ED59@gmail.com>
+ <d9109542-dd68-3e8b-4f53-a09576e16b1f@redhat.com> <87sg1ogsvj.fsf@linaro.org>
+ <f81315ce-6cf5-c0c4-5b48-9188e3dcd71a@ilande.co.uk>
+ <878s3cjyvl.fsf@linaro.org> <4006E151-B420-4925-A6C9-CD036EE559F2@gmail.com>
+ <9d0b277d-415f-0f4e-3f09-03445f89848f@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x72d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,222 +93,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luis.pires@eldorado.org.br, Greg Kurz <groug@kaod.org>,
- lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
- qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ incoming+qemu-project-qemu-11167699-3xhw7c0pviow7og92yv73e0tr-issue-404@incoming.gitlab.com,
+ QEMU devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------2FB4D7B0E681F9E1ED8C2BD6
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
 
-On 15/06/2021 18:37, Fabiano Rosas wrote:
-> Richard Henderson <richard.henderson@linaro.org> writes:
->
->> On 6/15/21 4:32 AM, Bruno Piazera Larsen wrote:
->>> On 14/06/2021 19:37, Richard Henderson wrote:
->>>> On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
->>>>> This patch changes ppc_cpu_get_phys_page_debug so that it is now
->>>>> able to translate both, priviledged and real mode addresses
->>>>> independently of whether the CPU executing it has those permissions
->>>>>
->>>>> This was mentioned by Fabiano as something that would be very useful to
->>>>> help with debugging, but could possibly constitute a security issue if
->>>>> that debug function can be called in some way by prodution code. the
->>>>> solution was implemented such that it would be trivial to wrap it around
->>>>> ifdefs for building only with --enable-debug, for instance, but we are
->>>>> not sure this is the best approach, hence why it is an RFC.
->>>>>
->>>>> Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
->>>>> Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
->>>>> ---
->>>>>    target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
->>>>>    1 file changed, 23 insertions(+)
->>>> I think the first part is unnecessary.  Either the cpu is in supervisor mode or it
->>>> isn't, and gdb should use the correct address space.  If you really want to force
->>>> supervisor lookup from a guest that is paused in usermode, I suppose you could force
->>>> MSR.PR=1 while you're performing the access and set it back afterward.
->>> I don't see why GDB should not be able to see supervisor level addresses just because the
->>> CPU can't.
->> Because then when you are debugging, you then don't know whether the address is actually
->> accessible in the current cpu context.
->>
-> @Bruno, so this is what I referred to somewhere else on the thread,
-> people expect GDB to have the same access level of the currently
-> executing code. So implementing my suggestion would break their
-> workflow.
-Ok, that makes sense. I'll drop this patch, then
->
->>>> I think the second part is actively wrong -- real-mode address lookup will (for the most
->>>> part) always succeed.  Moreover, the gdb user will have no idea that you've silently
->>>> changed addressing methods.
->>> I disagree. Real-mode address will mostly fail, since during the boot process Linux
->>> kernels set the MMU to use only virtual addresses, so real mode addresses only work when
->>> debugging the firmware or the early setup of the kernel. After that, GDB can basically
->>> only see virtual addresses.
->> Exactly.  But you changed that so that any unmapped address will re-try with real-mode,
->> which (outside of hv) simply maps real->physical and returns the input.
->>
->> One should have to perform some special action to see addresses in a different cpu
->> context.  I don't think that gdb supports such a special action at the moment.  If you
->> want that feature though, that's where you should start.
-> I think we can just drop this patch. The scenarios where debugging
-> across MMU contexts happen are quite limited.
->
-> My use case was a while back when implementing single-step for KVM
-> guests; there were some situations where GDB would have issues setting
-> breakpoints around kernel code that altered MSR_IR/DR. But that is
-> mostly anecdotal at this point. If I ever run into that again, now I
-> know where to look.
-At least now it's documented how to make it work, if someone else ever 
-needs it as well :)
->
->>
->> r~
--- 
-Bruno Piazera Larsen
-Instituto de Pesquisas ELDORADO 
-<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
-Departamento Computação Embarcada
-Analista de Software Trainee
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> On Jun 15, 2021, at 9:58 PM, Richard Henderson =
+<richard.henderson@linaro.org> wrote:
+>=20
+> On 6/15/21 6:58 AM, Programmingkid wrote:
+>>> Ahh I misread - so those are the addresses of the routines and not =
+where
+>>> it's sticking the breakpoint?
+>>>=20
+>>> I notice from a bit of googling that there is a boot debugger. I =
+wonder
+>>> if /nodebug in boot.ini stops this behaviour?
+>>>=20
+>>>  =
+https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/s=
+witch-options-for-boot-files
+>>>=20
+>>> --=20
+>>> Alex Benn=C3=A9e
+>> Hi Alex,
+>> I tried your suggestion of using /nodebug. It did not stop the =
+tb_flush() function from being called.
+>=20
+> We are not expecting zero calls to tb_flush (it is used for other =
+things, including buffer full), but we are hoping that it reduces the =
+frequency of the calls.
 
---------------2FB4D7B0E681F9E1ED8C2BD6
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Agreed.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 15/06/2021 18:37, Fabiano Rosas
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:877diuq06o.fsf@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">Richard Henderson <a class="moz-txt-link-rfc2396E" href="mailto:richard.henderson@linaro.org">&lt;richard.henderson@linaro.org&gt;</a> writes:
+> I'm guessing you didn't immediately see the slowdown vanish, and so =
+there was no change to the frequency of the calls.
 
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On 6/15/21 4:32 AM, Bruno Piazera Larsen wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On 14/06/2021 19:37, Richard Henderson wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
-</pre>
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">This patch changes ppc_cpu_get_phys_page_debug so that it is now
-able to translate both, priviledged and real mode addresses
-independently of whether the CPU executing it has those permissions
+Correct.
 
-This was mentioned by Fabiano as something that would be very useful to
-help with debugging, but could possibly constitute a security issue if
-that debug function can be called in some way by prodution code. the
-solution was implemented such that it would be trivial to wrap it around
-ifdefs for building only with --enable-debug, for instance, but we are
-not sure this is the best approach, hence why it is an RFC.
+> FWIW, if you switch to the qemu console, you can see how many flushes =
+have occurred with "info jit".
 
-Suggested-by: Fabiano Rosas<a class="moz-txt-link-rfc2396E" href="mailto:farosas@linux.ibm.com">&lt;farosas@linux.ibm.com&gt;</a>
-Signed-off-by: Bruno Larsen (billionai)<a class="moz-txt-link-rfc2396E" href="mailto:bruno.larsen@eldorado.org.br">&lt;bruno.larsen@eldorado.org.br&gt;</a>
----
-  target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
-  1 file changed, 23 insertions(+)
-</pre>
-            </blockquote>
-            <pre class="moz-quote-pre" wrap="">
-I think the first part is unnecessary.  Either the cpu is in supervisor mode or it 
-isn't, and gdb should use the correct address space.  If you really want to force 
-supervisor lookup from a guest that is paused in usermode, I suppose you could force 
-MSR.PR=1 while you're performing the access and set it back afterward.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">I don't see why GDB should not be able to see supervisor level addresses just because the 
-CPU can't.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Because then when you are debugging, you then don't know whether the address is actually 
-accessible in the current cpu context.
+Thank you very much for this information.
 
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-@Bruno, so this is what I referred to somewhere else on the thread,
-people expect GDB to have the same access level of the currently
-executing code. So implementing my suggestion would break their
-workflow.</pre>
-    </blockquote>
-    Ok, that makes sense. I'll drop this patch, then<br>
-    <blockquote type="cite" cite="mid:877diuq06o.fsf@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">
+I'm currently learning about the x86's debug registers D0 to D7. There =
+are a lot of rules associated with them. So my guess is one or more =
+rules may not be implemented in QEMU. I will try to test them out in =
+FreeDOS and compare notes with a real x86 CPU.
 
-</pre>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">I think the second part is actively wrong -- real-mode address lookup will (for the most 
-part) always succeed.  Moreover, the gdb user will have no idea that you've silently 
-changed addressing methods.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">
-I disagree. Real-mode address will mostly fail, since during the boot process Linux 
-kernels set the MMU to use only virtual addresses, so real mode addresses only work when 
-debugging the firmware or the early setup of the kernel. After that, GDB can basically 
-only see virtual addresses.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Exactly.  But you changed that so that any unmapped address will re-try with real-mode, 
-which (outside of hv) simply maps real-&gt;physical and returns the input.
+A possible workaround might be to implement a command line option that =
+allows the user to specify how often the tb_flush() call is made. When I =
+eliminated the call I could not find any problems with my VM's. I =
+understand if this is not possible.=20
 
-One should have to perform some special action to see addresses in a different cpu 
-context.  I don't think that gdb supports such a special action at the moment.  If you 
-want that feature though, that's where you should start.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I think we can just drop this patch. The scenarios where debugging
-across MMU contexts happen are quite limited.
 
-My use case was a while back when implementing single-step for KVM
-guests; there were some situations where GDB would have issues setting
-breakpoints around kernel code that altered MSR_IR/DR. But that is
-mostly anecdotal at this point. If I ever run into that again, now I
-know where to look.</pre>
-    </blockquote>
-    At least now it's documented how to make it work, if someone else
-    ever needs it as well :)<br>
-    <blockquote type="cite" cite="mid:877diuq06o.fsf@linux.ibm.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-r~
-</pre>
-      </blockquote>
-    </blockquote>
-    <div class="moz-signature">-- <br>
-      Bruno Piazera Larsen<br>
-      <a
-href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computação Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------2FB4D7B0E681F9E1ED8C2BD6--
 
