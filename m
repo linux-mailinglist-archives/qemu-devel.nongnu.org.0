@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A713A8E6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:35:49 +0200 (CEST)
-Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8933A8E65
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:31:37 +0200 (CEST)
+Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKT6-0004WS-Gq
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52348)
+	id 1ltKP2-0003e5-F1
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:31:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltK6n-0005lK-W4
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:46 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36854)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ltKDu-0003Mj-4j; Tue, 15 Jun 2021 21:20:06 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:42518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltK6T-0008VZ-7s
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:42 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- s17-20020a17090a8811b029016e89654f93so2964350pjn.1
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:12:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ltKDs-0004GE-1a; Tue, 15 Jun 2021 21:20:05 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id v6so603854qta.9;
+ Tue, 15 Jun 2021 18:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=C5fvMl6g5lyKr/RZPA4w0LgiP0MNwve4euP98chYQf4=;
- b=Wv5QKd4YmUcJS/CcEKS8WAVXMZuaiyqUG9GJix5FcqCbHVQOwW9BRgBRoIeAyc/A8E
- eafhse2ZymP9V3UVXDpIHXa5PLa2hQj70hLdPZ1VbJvMd4o9h3BgS7cJOz3286Q3H5Ow
- fGBYh/1kjz3kXcawF2I69E3f4NGrrMFGTk1HiuezR3GJEZbg1/AL4KyVHq4LDFlMUc3o
- jXklID1gf9FSqbBwRjxO+tExWuIAeikM6wEW+yl9/nlU+3cMq1xlLhkTkTxtomKkp35/
- E0memNhEkxAchdZHjfkdjPkjH4ZqcoBewBcbq/35Bwgsa/EwnvcG0TKBIWiAlgaWvvPI
- 9fqA==
+ bh=3xyanZGLhmsSqK7jaC1yFAjCkmQEu0N/Cuc+eCkqoiA=;
+ b=CdvjTcl6kA01zuZfab+UXuf408zXsmh0dVBb+i3p5ndWhzJDI8e1C1qQk1gqk47h74
+ XI5BWTHweARe3BacyMAsuW55YrCj2egAISScvDtDjvi7lFL2AyU4z7ZXzuH3TYdZp9AA
+ 7fMGg6YpqfWT5vsEeTpQ+1kJ+wO+leBEtdVnF/WzPgYJiiALoiLsgPofHYmaBeq++H6q
+ vkmu8wOEBgHMzOQrpjtOXWLNOfEWOTRG/XVyYc/ppIkIRTxOzmxSR5FjYu2Qc/AxZUJL
+ wGpB0PgqjPird0/+8uoLsxPCRvC6rZDki6jDvkq+RlLH8IxRJAMuKCWPoqW7DkEvkzfL
+ Bkhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=C5fvMl6g5lyKr/RZPA4w0LgiP0MNwve4euP98chYQf4=;
- b=l8+PoYwUWbH4xhGh1+CMvMvZIJNXKqPG66weR/jC+CH32tKxrtGO/i5mRrZI64Jgav
- gHH57Hm1hyrvLnchFxquJ7QBVOEnez7OI9FENRvnLVpG9Y698ZZHXk1lqYj+1TScDyeD
- fiUwMUFFvIzSmsSXUbkc0JQOauJItN09UzJTeFDZDZXdWi+/6tdz0iOriK6R5b/ZrI2/
- zPfjQffKoml4QsmBESQsxOYxRvl5w4KtqPqqWRYot1nSSp/h989l3qY68uurZ3eYcpmN
- SXrYoaUhLTI61K3ujenGEHt93JNhcvRChDUs2kG6WBtvnxX2ZP+SopjkueX9jLWz/m9v
- 0Iag==
-X-Gm-Message-State: AOAM531sqaolcrhsdWK7qWBn5oNTE1cUlU93EN1ToRoExMdnuCO3E4yE
- PJ2DGyxnBJ358QVFujqomVIi3BaW+cGjGQ==
-X-Google-Smtp-Source: ABdhPJzgGen4kdWcCwZ4BIoCtOhhxEfTG2c1R2J2Hge40COIymDoRMcrwubVRXP5SQ78Muy7mEi3Gg==
-X-Received: by 2002:a17:902:9b87:b029:11b:e66e:a1b3 with SMTP id
- y7-20020a1709029b87b029011be66ea1b3mr6824171plp.33.1623805943944; 
- Tue, 15 Jun 2021 18:12:23 -0700 (PDT)
-Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
- [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id y18sm305297pgk.53.2021.06.15.18.12.23
+ bh=3xyanZGLhmsSqK7jaC1yFAjCkmQEu0N/Cuc+eCkqoiA=;
+ b=LIuJr2S7seYFZTz0GEqKIfyU+NCAf62QxQsXXdde8rC8Nrm4EXLR9gwLfWwK03qFx1
+ bE/W8FeF6/zGX0n+cHTNqBTq9c87SzJH+pjx3ZCmnCzbcbhYnnXM2sZh/jI8OQYBS2dN
+ fslCHG+hIjXVTPg3dVTaE8JfCKfW/Ff6vpfV0FjErUVnxq3guVA4OU2cw68ooXAAm43h
+ eyAc0XwgnAN8W6+YfaHEHxkH882UR5ImoD0yRIlayNQfYX+EOkv6avFBtbZXGJ3TPaPf
+ mHj0CjXhjmFLTJ0NXkMS3jX5XcRioOjdjhgH9uyLlz1BnxDNFxaPXa0eOhoAfQ5VKJ+e
+ XJ0Q==
+X-Gm-Message-State: AOAM531lOW6y8WtizFSoAkD7eJ2a42ffU5oTlT+Qqk8rDXOVYdEXsxV0
+ F+mzR9oBK3OvVuD6RDtya+DDlnyN1Ok=
+X-Google-Smtp-Source: ABdhPJzv14fnlyLwADBZf2sjRljNUNwQmXR+/2b/9BroOyDKT7Ez41NS+H9He6GqMbBdNwfTJh6dNA==
+X-Received: by 2002:ac8:5c48:: with SMTP id j8mr2580918qtj.154.1623806402291; 
+ Tue, 15 Jun 2021 18:20:02 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:c7c6:4d9a:784f:a7de:c020:5f1e])
+ by smtp.gmail.com with ESMTPSA id f19sm627994qkg.70.2021.06.15.18.20.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 18:12:23 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Tue, 15 Jun 2021 18:20:02 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/21] linux-user: Remove default for
- TARGET_ARCH_HAS_SIGTRAMP_PAGE
-Date: Tue, 15 Jun 2021 18:12:09 -0700
-Message-Id: <20210616011209.1446045-22-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210616011209.1446045-1-richard.henderson@linaro.org>
-References: <20210616011209.1446045-1-richard.henderson@linaro.org>
+Subject: [RFC PATCH v2 2/7] spapr: move NUMA data init to post-CAS
+Date: Tue, 15 Jun 2021 22:19:39 -0300
+Message-Id: <20210616011944.2996399-3-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210616011944.2996399-1-danielhb413@gmail.com>
+References: <20210616011944.2996399-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,33 +81,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: aneesh.kumar@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All targets now define TARGET_ARCH_HAS_SIGTRAMP_PAGE.
+The pSeries machine will support a new NUMA affinity form, FORM2.
+This new FORM will be negotiated via ibm,architecture-vec5 during
+CAS. All artifacts and assumptions that are currently on use for
+FORM1 affinity will be deprecated in a guest that chooses to use
+FORM2. This means that we're going to wait until CAS to determine
+whether we're going to use FORM1 and FORM2.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+This patch does that by moving all NUMA data init functions to post-CAS
+time. spapr_numa_associativity_init() is moved from spapr_machine_init()
+to do_client_architecture_support(). Straightforward change since the
+initialization of spapr->numa_assoc_array is transparent to the guest.
+
+spapr_numa_write_rtas_dt() is more complex. The function is called from
+spapr_dt_rtas(), which in turned is called by spapr_build_fdt().
+spapr_build_fdt() is called in two places: spapr_machine_reset() and
+do_client_architecture_support(). This means that we're writing RTAS
+nodes with NUMA artifacts without going through CAS first, and then
+writing it again post CAS. This is not an issue because, at this moment,
+we always write the same FORM1 NUMA affinity properties in the DT.
+With the upcoming FORM2 support, we're now reliant on guest choice to
+decide what to write.
+
+The proposed solution is to change spapr_numa_write_rtas_dt() to not
+write the DT until we're post-CAS. This is a benign guest visible change
+(a well behaved guest wouldn't bother to read NUMA properties before CAs),
+but to be on the safe side, let's wrap it with a machine class flag to skip
+this logic unless we're running with the latest machine type. This also
+means that FORM2 support will not be available for older machine types.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- linux-user/elfload.c | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/ppc/spapr.c         |  6 +++---
+ hw/ppc/spapr_hcall.c   |  4 ++++
+ hw/ppc/spapr_numa.c    | 11 +++++++++++
+ include/hw/ppc/spapr.h |  1 +
+ 4 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 7bc67ac9cb..c0236a0b09 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -26,10 +26,6 @@
- #undef ELF_ARCH
- #endif
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4dd90b75cc..8c8029e190 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2790,9 +2790,6 @@ static void spapr_machine_init(MachineState *machine)
  
--#ifndef TARGET_ARCH_HAS_SIGTRAMP_PAGE
--#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
--#endif
+     spapr->gpu_numa_id = spapr_numa_initial_nvgpu_numa_id(machine);
+ 
+-    /* Init numa_assoc_array */
+-    spapr_numa_associativity_init(spapr, machine);
 -
- #define ELF_OSABI   ELFOSABI_SYSV
+     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+         ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
+                               spapr->max_compat_pvr)) {
+@@ -4645,8 +4642,11 @@ DEFINE_SPAPR_MACHINE(6_1, "6.1", true);
+  */
+ static void spapr_machine_6_0_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
++
+     spapr_machine_6_1_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
++    smc->pre_6_1_numa_affinity = true;
+ }
  
- /* from personality.h */
+ DEFINE_SPAPR_MACHINE(6_0, "6.0", false);
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index f25014afda..6d6ffcc92b 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -11,6 +11,7 @@
+ #include "helper_regs.h"
+ #include "hw/ppc/spapr.h"
+ #include "hw/ppc/spapr_cpu_core.h"
++#include "hw/ppc/spapr_numa.h"
+ #include "mmu-hash64.h"
+ #include "cpu-models.h"
+ #include "trace.h"
+@@ -1197,6 +1198,9 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     spapr->cas_pre_isa3_guest = !spapr_ovec_test(ov1_guest, OV1_PPC_3_00);
+     spapr_ovec_cleanup(ov1_guest);
+ 
++    /* Init numa_assoc_array */
++    spapr_numa_associativity_init(spapr, MACHINE(spapr));
++
+     /*
+      * Ensure the guest asks for an interrupt mode we support;
+      * otherwise terminate the boot.
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index 04a86f9b5b..b0bd056546 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -379,6 +379,17 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
+  */
+ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+ {
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
++
++    /*
++     * pre-6.1 machine types were writing RTAS information before
++     * CAS. Check if that's case before changing their existing
++     * behavior.
++     */
++    if (spapr_ovec_empty(spapr->ov5_cas) && !smc->pre_6_1_numa_affinity) {
++        return;
++    }
++
+     spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
+ }
+ 
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index f05219f75e..aca6832d1c 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -142,6 +142,7 @@ struct SpaprMachineClass {
+     hwaddr rma_limit;          /* clamp the RMA to this size */
+     bool pre_5_1_assoc_refpoints;
+     bool pre_5_2_numa_associativity;
++    bool pre_6_1_numa_affinity;
+ 
+     bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio,
 -- 
-2.25.1
+2.31.1
 
 
