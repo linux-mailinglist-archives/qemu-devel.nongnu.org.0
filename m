@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA383A9CC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:56:22 +0200 (CEST)
-Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38633A9D08
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:10:28 +0200 (CEST)
+Received: from localhost ([::1]:45174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltW1l-0007Cq-NN
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:56:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52838)
+	id 1ltWFO-00060o-BF
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ltVzc-0004h2-8d
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:54:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24230)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltWER-0005JW-D5
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:09:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ltVza-0000rT-6q
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:54:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltWEN-0000D5-LV
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:09:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623851645;
+ s=mimecast20190719; t=1623852561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MQWELMBDalRa48PABSkJSjo9/7c/tjOmhtKKdzHtXrM=;
- b=PgtS51irVmYpTT803opIWC5SK1YODkmWc605S0nK+la4/POyHu0+1IV+HM8lAZJzGnhMnh
- EvH8zt9hdyGb/cagwahCzhirM6b5X1TIsjaPDjiUPA3J71V51tAiJKrA4pQnfAcnPkKEDR
- mU0STLpH3NH3EC3fbi/MPyx4I0MbZQo=
+ bh=gUnWNHPNp+IucsSaeFuYA6Aq+zBKPEVqqQS4MAe8SLM=;
+ b=amXCET1A7ZoeuoruNtIxge/N/Mog2Wz0jqJ2VHAGdoHcpFqJRcRHh+UQoSG0hiRZdZt8i2
+ Jj7liECxbFebXn3Y1p7uSWoinygnz0QT6zcgvO7YxEcfaFtX+Mn0z7cGsZ1Rgk4bwcJ9sd
+ f+xIzDMRnJ83gdFlTD7i/FLddmNA4MM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-EF0pO9Z_P72p05M8dO1KMg-1; Wed, 16 Jun 2021 09:54:01 -0400
-X-MC-Unique: EF0pO9Z_P72p05M8dO1KMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-564-WaQcj3ZNM-eSecrcPaMNMQ-1; Wed, 16 Jun 2021 10:09:20 -0400
+X-MC-Unique: WaQcj3ZNM-eSecrcPaMNMQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E38B21012581;
- Wed, 16 Jun 2021 13:53:59 +0000 (UTC)
-Received: from localhost (ovpn-113-141.ams2.redhat.com [10.36.113.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 195255D6AD;
- Wed, 16 Jun 2021 13:53:52 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH v3 4/4] s390x/css: Add passthrough IRB
-In-Reply-To: <c9fac1cb32c16ea583367ea2320845eb78074f9c.camel@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20210616014749.2460133-1-farman@linux.ibm.com>
- <20210616014749.2460133-5-farman@linux.ibm.com>
- <87o8c6w2n4.fsf@redhat.com>
- <c9fac1cb32c16ea583367ea2320845eb78074f9c.camel@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Wed, 16 Jun 2021 15:53:51 +0200
-Message-ID: <87fsxhx6ds.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2883818418
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 14:09:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D62B19726;
+ Wed, 16 Jun 2021 14:09:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B1D6D113865F; Wed, 16 Jun 2021 16:09:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 03/11] keyval: introduce keyval_parse_into
+References: <20210610133538.608390-1-pbonzini@redhat.com>
+ <20210610133538.608390-4-pbonzini@redhat.com>
+Date: Wed, 16 Jun 2021 16:09:17 +0200
+In-Reply-To: <20210610133538.608390-4-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Thu, 10 Jun 2021 15:35:30 +0200")
+Message-ID: <87zgvpaoky.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,71 +80,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16 2021, Eric Farman <farman@linux.ibm.com> wrote:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On Wed, 2021-06-16 at 11:59 +0200, Cornelia Huck wrote:
->> On Wed, Jun 16 2021, Eric Farman <farman@linux.ibm.com> wrote:
->> 
->> > Wire in the subchannel callback for building the IRB
->> > ESW and ECW space for passthrough devices, and copy
->> > the hardware's ESW into the IRB we are building.
->> > 
->> > If the hardware presented concurrent sense, then copy
->> > that sense data into the IRB's ECW space.
->> > 
->> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
->> > ---
->> >  hw/s390x/css.c         | 13 ++++++++++++-
->> >  hw/s390x/s390-ccw.c    |  1 +
->> >  hw/vfio/ccw.c          |  4 ++++
->> >  include/hw/s390x/css.h |  3 +++
->> >  4 files changed, 20 insertions(+), 1 deletion(-)
->> > 
->> 
->> (...)
->> 
->> > +void build_irb_passthrough(SubchDev *sch, IRB *irb)
->> > +{
->> > +    /* Copy ESW from hardware */
->> > +    irb->esw = sch->esw;
->> > +
->> > +    if (irb->esw.erw & ESW_ERW_SENSE) {
->> > +        /* Copy ECW from hardware */
->> > +        build_irb_sense_data(sch, irb);
->> > +    }
->> 
->> I'm wondering whether we should also copy "Model-dependent
->> information"
->> (scsw 5 + 14 set, erw 7 unset). Seems more correct, and IIUC the
->> guest
->> was tripped by the presence of erw 7 without valid sense data.
->> 
+> Allow parsing multiple keyval sequences into the same dictionary.
+> This will be used to simplify the parsing of the -M command line
+> option, which is currently a .merge_lists = true QemuOpts group.
 >
-> This is true, but that's because the existing code in
-> css_do_tsch_get_irb() set ERW 7 to go with the zeros it copied into the
-> ECW. Since we're now copying the ESW.ERW from the passthrough device,
-> that bit wouldn't be set in the first place.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-That's what I meant to say :)
+Straightforward.  Thanks for adjusting the contract for
+keyval_parse_into().
 
->
-> But, to be more correct with the possibility of model-dependent
-> information, I can unconditionally copy this data over too.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-Yep. Not that I have any idea what that "Model-dependent information2
-would be...
-
->
->> > +}
->> > +
+It's too hot & humid for me to figure out why you need both
+keyval_merge() and keyval_parse_into().
 
 
