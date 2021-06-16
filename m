@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5973A9716
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:18:25 +0200 (CEST)
-Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528843A974C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:29:29 +0200 (CEST)
+Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltScp-0005zQ-S3
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:18:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55092)
+	id 1ltSnX-0001j7-Le
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ltSbL-0004rM-6d
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:16:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49843)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ltShQ-0007mh-Cx; Wed, 16 Jun 2021 06:23:10 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ltSbG-0001Ou-AG
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:16:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623838604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ik4Vc8uu/LpuuV1ZHuyniYlXu5s/hB47MUL5RgttNjs=;
- b=aYsnCdwIXtmVVT3K2ORl89XRWIs+NCL5v4o7zYs2ByAEq36uk3yTpKi9/aIOv028Csmmk5
- rR4/ke+lsOc7yUWwiq8SupsrkdF13t2/vAcQl2zu8rIiMRhl7j+H1tNbnD2XtakuLGkUof
- 3DEY3P14/atvZeK4dchAFX//+ngZZgM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-8BjIpLWwO0KOlFAOhaNFzw-1; Wed, 16 Jun 2021 06:16:40 -0400
-X-MC-Unique: 8BjIpLWwO0KOlFAOhaNFzw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE12C9F94D
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 10:16:38 +0000 (UTC)
-Received: from work-vm (ovpn-115-42.ams2.redhat.com [10.36.115.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65EC816E4C;
- Wed, 16 Jun 2021 10:16:13 +0000 (UTC)
-Date: Wed, 16 Jun 2021 11:16:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] docs: describe the security considerations with
- virtiofsd xattr mapping
-Message-ID: <YMnPagK2lpcfCqMV@work-vm>
-References: <20210611120427.49736-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ltShL-0005Jp-AV; Wed, 16 Jun 2021 06:23:07 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 79ED25C01DE;
+ Wed, 16 Jun 2021 06:22:59 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 16 Jun 2021 06:22:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=hP4O9vc0IDLK+dFNIMbWCeHN+1d
+ tHvrWnl6lghuA9ik=; b=hbR7A97my45MX6f4wLR96VabEGv7acjJnJ3xtPWtaH4
+ 58FtfDHdlF3uNbDdkfsbKbuUWAqvhFPvnv5/pqvi3att9+DjhDDr6wxYnhkXRdLR
+ lOmAJFBT/4hIK+k649X/9NpWz7Qa+dzZywdzsK/b2l0VxuDhoF+S8U5FZrNpUiw3
+ bB/Yb2jcvjBxH0rTpMsUhUIcZu1wYv6gKiJAtNGmOJI4YNbvulEGjTDg3zuntAhD
+ N0VRO9rszBlSQktDn9TYIntdmAfhun8H+U25qI++MSb+hz+h/eqaTsoCOYCd8bJw
+ cW3YAZuxhRTQIdcvNSBdph4wHe43XDmwvZpSSK7KZRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hP4O9v
+ c0IDLK+dFNIMbWCeHN+1dtHvrWnl6lghuA9ik=; b=gzdOBHU5+wfibIx7egPNjT
+ yIxGIecaZAuszJfGY6nk4vJJNKcFybt9YKvTqrFdQoTjwVR6oO/9GguUZnE50zFf
+ HwP536R7fGdO45QVjJJxoxnUAJMO2gW60YnFvfznXLACKyqJm2UnpK4y/rwyxuXO
+ O9S35kbAqEwbN/OgpCcKVZQ5kmxwskw3yqAww1ygbnJK1kMIHN8D2D9YGJLNORSC
+ xLn4oFe9NkP7mAoC4Bb45rsUyQ/Rm4pgQejlGba2Q5H3H8GFOmBEOVO7eVIf6udt
+ XbvZviFlFaxnoDHsvT95xk5PkTsH+C/LpM1Zv7flc2k/6h0Sm2crV5vQGxFAdxYw
+ ==
+X-ME-Sender: <xms:AtHJYFIK_PjPeCNQRs1cUR6n2tW2qwT9YCspudurj4lZ3Q0LgJ422Q>
+ <xme:AtHJYBItJFx9XggIXYD5HpfzyL1UyNmJ36Vgg_V28oOmtEgjBNiEtvlBwNttPyf1L
+ Xio9MpMyp95ldj6oX8>
+X-ME-Received: <xmr:AtHJYNu03dv9762NFwMSddhZZxZe6_Jlemb3DaHY_0sHDDwYmA1sxpcMC9rgPhNORAh4Kqu6C_1DtdA8-NuYSUu4Zefv6Tpwewd37RqINZl7DlvesQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:AtHJYGYvqrYxMjnlwa-3Dxc_t0687Lk9EpAIVjSuRuBZjChODFrblw>
+ <xmx:AtHJYMaWVw-0ekcHReoJvt7qcSSkKglAsmfKCc9Cl8rLKuXCGDikNA>
+ <xmx:AtHJYKCyL22ymdraPP4FaxudAYc4c4Y3nEFsixbLludOa9jDXQ0oCQ>
+ <xmx:A9HJYLxj_eRdBf-s5oMjv8gPB758LTzl011h7kVc_jVyDNAxpKs81Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Jun 2021 06:22:57 -0400 (EDT)
+Date: Wed, 16 Jun 2021 12:22:54 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: Re: [PATCH v3 0/2] hw/nvme: namespace parameter for EUI-64
+Message-ID: <YMnQ/udIfw5mLFlr@apples.localdomain>
+References: <20210614201901.17871-1-xypron.glpk@gmx.de>
 MIME-Version: 1.0
-In-Reply-To: <20210611120427.49736-1-berrange@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MV2TmlXxZfg502i9"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210614201901.17871-1-xypron.glpk@gmx.de>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,133 +92,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> Different guest xattr prefixes have distinct access control rules applied
-> by the guest. When remapping a guest xattr care must be taken that the
-> remapping does not allow the a guest user to bypass guest kernel access
-> control rules.
-> 
-> For example if 'trusted.*' which requires CAP_SYS_ADMIN is remapped
-> to 'user.virtiofs.trusted.*', an unprivileged guest user which can
-> write to 'user.*' can bypass the CAP_SYS_ADMIN control. Thus the
-> target of any remapping must be explicitly blocked from read/writes
-> by the guest, to prevent access control bypass.
-> 
-> The examples shown in the virtiofsd man page already do the right
-> thing and ensure safety, but the security implications of getting
-> this wrong were not made explicit. This could lead to host admins
-> and apps unwittingly creating insecure configurations.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+--MV2TmlXxZfg502i9
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 
+On Jun 14 22:18, Heinrich Schuchardt wrote:
+>The EUI-64 field is the only identifier for NVMe namespaces in UEFI device
+>paths. Add a new namespace property "eui64", that provides the user the
+>option to specify the EUI-64.
+>
+>v3:
+>	use 52-54-00-00-00-00-00-00 as starting values for generating
+>	EUI-64s
+>
+>Heinrich Schuchardt (2):
+>  hw/nvme: namespace parameter for EUI-64
+>  hw/nvme: default for namespace EUI-64
+>
+> docs/system/nvme.rst |  6 +++++
+> hw/core/machine.c    |  1 +
+> hw/nvme/ctrl.c       | 58 ++++++++++++++++++++++++++------------------
+> hw/nvme/ns.c         | 11 +++++++++
+> hw/nvme/nvme.h       |  3 +++
+> 5 files changed, 56 insertions(+), 23 deletions(-)
+>
+>--
+>2.30.2
+>
 
-Vivek's point about symlinks is something we should add but that's kind
-of separate to the clarification you've explained here.
+LGTM.
 
-Dave
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
-> ---
->  docs/tools/virtiofsd.rst | 55 ++++++++++++++++++++++++++++++++++++----
->  1 file changed, 50 insertions(+), 5 deletions(-)
-> 
-> diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-> index 00554c75bd..6370ab927c 100644
-> --- a/docs/tools/virtiofsd.rst
-> +++ b/docs/tools/virtiofsd.rst
-> @@ -127,8 +127,8 @@ Options
->    timeout.  ``always`` sets a long cache lifetime at the expense of coherency.
->    The default is ``auto``.
->  
-> -xattr-mapping
-> --------------
-> +Extended attribute (xattr) mapping
-> +----------------------------------
->  
->  By default the name of xattr's used by the client are passed through to the server
->  file system.  This can be a problem where either those xattr names are used
-> @@ -136,6 +136,9 @@ by something on the server (e.g. selinux client/server confusion) or if the
->  virtiofsd is running in a container with restricted privileges where it cannot
->  access some attributes.
->  
-> +Mapping syntax
-> +~~~~~~~~~~~~~~
-> +
->  A mapping of xattr names can be made using -o xattrmap=mapping where the ``mapping``
->  string consists of a series of rules.
->  
-> @@ -232,8 +235,48 @@ Note: When the 'security.capability' xattr is remapped, the daemon has to do
->  extra work to remove it during many operations, which the host kernel normally
->  does itself.
->  
-> -xattr-mapping Examples
-> -----------------------
-> +Security considerations
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Operating systems typically partition the xattr namespace using
-> +well defined name prefixes. Each partition may have different
-> +access controls applied. For example, on Linux there are multiple
-> +partitions
-> +
-> + * ``system.*`` - access varies depending on attribute & filesystem
-> + * ``security.*`` - only processes with CAP_SYS_ADMIN
-> + * ``trusted.*`` - only processes with CAP_SYS_ADMIN
-> + * ``user.*`` - any process granted by file permissions / ownership
-> +
-> +While other OS such as FreeBSD have different name prefixes
-> +and access control rules.
-> +
-> +When remapping attributes on the host, it is important to
-> +ensure that the remapping does not allow a guest user to
-> +evade the guest access control rules.
-> +
-> +Consider if ``trusted.*`` from the guest was remapped to
-> +``user.virtiofs.trusted*`` in the host. An unprivileged
-> +user in a Linux guest has the ability to write to xattrs
-> +under ``user.*``. Thus the user can evade the access
-> +control restriction on ``trusted.*`` by instead writing
-> +to ``user.virtiofs.trusted.*``.
-> +
-> +As noted above, the partitions used and access controls
-> +applied, will vary across guest OS, so it is not wise to
-> +try to predict what the guest OS will use.
-> +
-> +The simplest way to avoid an insecure configuration is
-> +to remap all xattrs at once, to a given fixed prefix.
-> +This is shown in example (1) below.
-> +
-> +If selectively mapping only a subset of xattr prefixes,
-> +then rules must be added to explicitly block direct
-> +access to the target of the remapping. This is shown
-> +in example (2) below.
-> +
-> +Mapping examples
-> +~~~~~~~~~~~~~~~~
->  
->  1) Prefix all attributes with 'user.virtiofs.'
->  
-> @@ -270,7 +313,9 @@ stripping of 'user.virtiofs.'.
->  The second rule hides unprefixed 'trusted.' attributes
->  on the host.
->  The third rule stops a guest from explicitly setting
-> -the 'user.virtiofs.' path directly.
-> +the 'user.virtiofs.' path directly to prevent access
-> +control bypass on the target of the earlier prefix
-> +remapping.
->  Finally, the fourth rule lets all remaining attributes
->  through.
->  
-> -- 
-> 2.31.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--MV2TmlXxZfg502i9
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDJ0PsACgkQTeGvMW1P
+DekCuAgAuapW+P0auL47kBiccaZmdN5fnvQqkoPRA48tk3NKlLXreKW8wwAVupmt
+5u3kxY6WA62OiTTUzBjT7hbnZHEb6Zqc0FqB9J7JpQ32iwUMIYSu9OglVBoAiC0E
+EtXOS8V0GX+aRkdbJ6T43k8WQi3Kc35Jq2hyhUAU+lktE1e0O3bTK5x7cUguySYn
+o4SgBrV0rVaWK3VeDfJVW7HX5wblYX4O7c8NOIf/1dqUGs3dVw8q6Zw34gNSGQvv
+WrFJ89BgXbah3Tf8u8muub8uTHYaagWnveBqj73vzaCnwIcmtF6Vq1RbM6EWlBjW
+BRRmRLscNrydzUjIxiHuVeNQ/H0r/g==
+=jviH
+-----END PGP SIGNATURE-----
+
+--MV2TmlXxZfg502i9--
 
