@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9226E3AA444
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:25:28 +0200 (CEST)
-Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C31C13AA44F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:27:13 +0200 (CEST)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltbAF-0000mb-CB
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:25:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
+	id 1ltbBw-0003hy-NT
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltb8H-0006w1-PH; Wed, 16 Jun 2021 15:23:25 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52805)
+ id 1ltbAK-0001rF-Ph; Wed, 16 Jun 2021 15:25:32 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:33654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltb8G-0005mi-6y; Wed, 16 Jun 2021 15:23:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id n23so1899198wms.2;
- Wed, 16 Jun 2021 12:23:22 -0700 (PDT)
+ id 1ltbAJ-0007Bt-AL; Wed, 16 Jun 2021 15:25:32 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ t11-20020a1cc30b0000b02901cec841b6a0so3072420wmf.0; 
+ Wed, 16 Jun 2021 12:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=57QuwfNFQF45MeRmgEn2+QU+HZswI6iRsUmjkMXdpMQ=;
- b=fG+XMJLSb5qrpcLC2K/JRSzaXZl91VVQmuG6Y/NcNhOkfYwsqVrUiC057mYVrp02xt
- +Q011UdDDU7D/eEG4ygf1s3OosbdWFJj9CABvnMNZI5pSM3nlm8QaTCOC+Y07ED36xQH
- +Pn0oIrxQ6GF5zZfEUypN/NOzUqtlxWgj171KdTHdZsMy3+IU5rNrYKWlS5KK376y3vJ
- s4B6ogsuk7xiZqGCexqB0dEC8KyVp5miQe4MrQPS7L/q6hYNq/J1nBkfiZXTdnIWpqHz
- LKOr4MWra+ZXUNx/VF8GygOJgFbq3JJJhjtSxl+mXDaewYO5x6ojKL0/DUFBmZ4jkv0x
- 919Q==
+ bh=favxU3AOiVDhrGg4HQOSzVWjxQJCPBhLqJ2EuVl7dcg=;
+ b=JhAN/onrcRnnfwfaCI4wFxT+2gnCcw3w/9X8Cw0Z75i3T7353kzRrerR457dcWomtU
+ as7jKNqd7uUFXH1UeRI/6NQLO01D/40z6E4jhNTDbFlCV/PN4yAnjs79q8PvGKWr0uwL
+ ugbj3pBo2xtvwBw1gHvIMd8katWcVc4ZFT7IyWw2L6xWC4Czq0lNyvDN16OIP2QkVSCe
+ 277j8KKHX7GCUkO2dubj/wp36dEaje3XUcqRxGP0o+kiUnPGZfYhPZ+y6lQEpHalexsY
+ UqB4ufrma9M5rKZXMBSvv6bo13r3gS4aw2jrmoO1A1QIk0xy3xd4JEOpgTAn/uq1ktgb
+ OgQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=57QuwfNFQF45MeRmgEn2+QU+HZswI6iRsUmjkMXdpMQ=;
- b=gOzuCBxZ2y/dulmHmgEXM7NX8ET5TV8ffQW5U0xNvsFZzkVCmYdfrtozWWP+oF4R9y
- aISas4/B01M/LvjVIGLc4wRZUoCDUrshEdYEUTBWyIQTUvOLqlpbgqrCr5p5+mT5XvHN
- 6EBTa2Lgt9nfo1Mxvk84fumcdsUhn+Q/WqCqM1BTUIiQ06ut4x7bfvimXoEE4/bi+imS
- TcdQErG9ISkyGcpkFORWbbwGnbEu1+n4O164L6TbkhYWAIESFp5UC+yBgUxxiUlGmcpS
- BFAi8N12wDsAQlp5541vfhBaYOzd4rI8DZKHR+GQmtdbs2TTLZrtOlaUvJM+vw1X844y
- c/8w==
-X-Gm-Message-State: AOAM531bVL43pYGYa9GJrMIbmcrVUwBpWRPPK7oYX8NLHxhccRtI6jsw
- ECzqJQPGyGn3QIH29rRtFnc0XT4Nj9WDrw==
-X-Google-Smtp-Source: ABdhPJxD2UIJ3tTdAXgoUaBfYjXgvcuDXcfGQTeCzLVb7d7bSvLR+TLdG+HlHoc5rxpByTnC/kRlFA==
-X-Received: by 2002:a7b:c25a:: with SMTP id b26mr631483wmj.31.1623871400829;
- Wed, 16 Jun 2021 12:23:20 -0700 (PDT)
+ bh=favxU3AOiVDhrGg4HQOSzVWjxQJCPBhLqJ2EuVl7dcg=;
+ b=QUWDqBhV47t/ZZx3kF2Q660loEIu9MhIhhJYotfWCHgJvedyaxE1/ANVwLeXQAWz0x
+ urOah0WgrAZ+Ywmjbp/ezl6IwV6JJFOli3V0RawXpOuBQrrpuNIb7BtWa1OJb97Azwd0
+ epv3nR6g6uc+rT7a9ONPw/NYd0UDOoeMX1EH2cTeaagiNuZQLDqdyAs0bbwaX8L/Mcvq
+ WiO+cnrvP83r8dWx5fzSKnauT/DKI/vkDn0Ihba0zuuHdJIlvdtlrK0H4tlSZIipH1Aw
+ A9r5KA1w8rXDyT6Pc6hEun8O+02GanK4eo1SD8axPUYqOSSOgPxeUjbmIrOfNMt9gg74
+ bgoA==
+X-Gm-Message-State: AOAM530BMZmXhXruhuZLhnsEBqOZGEkmAuTwqlsu/YnXDNGbqCSEtVpw
+ DfFX8tgoU4LOh6stpjVgalg=
+X-Google-Smtp-Source: ABdhPJwnsNmgIXSDuqi3YZhLIY67+ItScdFiwAJJARRwXDTxoaVgcgkU+jse8nmx/tZAdkf0YHJ0xg==
+X-Received: by 2002:a05:600c:3b11:: with SMTP id
+ m17mr653375wms.150.1623871528525; 
+ Wed, 16 Jun 2021 12:25:28 -0700 (PDT)
 Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id p13sm1952080wrt.89.2021.06.16.12.23.19
+ by smtp.gmail.com with ESMTPSA id q19sm5540715wmc.44.2021.06.16.12.25.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 12:23:19 -0700 (PDT)
-Subject: Re: [PATCH v3 01/13] hw/input/lm832x: Move lm832x_key_event()
- declaration to "lm832x.h"
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+ Wed, 16 Jun 2021 12:25:28 -0700 (PDT)
+Subject: Re: [PATCH v3 06/13] hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by
+ i2c_recv() & i2c_send()
+To: cminyard@mvista.com
 References: <20210616161418.2514095-1-f4bug@amsat.org>
- <20210616161418.2514095-2-f4bug@amsat.org>
- <ac4302f3-9dad-45e0-50dc-3114509448d5@linaro.org>
+ <20210616161418.2514095-7-f4bug@amsat.org>
+ <20210616191637.GF11196@minyard.net>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <44e354a8-92fc-23a3-3f46-6b700f5eaf4e@amsat.org>
-Date: Wed, 16 Jun 2021 21:23:18 +0200
+Message-ID: <59fb23da-ddad-0436-6935-89712fbddf0f@amsat.org>
+Date: Wed, 16 Jun 2021 21:25:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <ac4302f3-9dad-45e0-50dc-3114509448d5@linaro.org>
+In-Reply-To: <20210616191637.GF11196@minyard.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -89,35 +91,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- "Signed-off-by : Frederic Konrad" <frederic.konrad@adacore.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+Cc: "Signed-off-by : Frederic Konrad" <frederic.konrad@adacore.com>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/21 8:38 PM, Richard Henderson wrote:
-> On 6/16/21 9:14 AM, Philippe Mathieu-Daudé wrote:
->> lm832x_key_event() is specific go LM832x devices, not to the
->> I2C bus API. Move it out of "i2c.h" to a new header.
+On 6/16/21 9:16 PM, Corey Minyard wrote:
+> On Wed, Jun 16, 2021 at 06:14:11PM +0200, Philippe Mathieu-Daudé wrote:
+>> Instead of using the confuse i2c_send_recv(), rewrite to directly
+>> call i2c_recv() & i2c_send(), resulting in code easire to review.
 >>
 >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >> ---
->>   include/hw/i2c/i2c.h      |  3 ---
->>   include/hw/input/lm832x.h | 26 ++++++++++++++++++++++++++
->>   hw/arm/nseries.c          |  1 +
->>   hw/input/lm832x.c         |  1 +
->>   MAINTAINERS               |  1 +
->>   5 files changed, 29 insertions(+), 3 deletions(-)
->>   create mode 100644 include/hw/input/lm832x.h
+>>  hw/i2c/ppc4xx_i2c.c | 13 ++++++++-----
+>>  1 file changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+>> index f4c5bc12d36..b3d3da56e38 100644
+>> --- a/hw/i2c/ppc4xx_i2c.c
+>> +++ b/hw/i2c/ppc4xx_i2c.c
+>> @@ -240,11 +240,14 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
+>>                          i2c->sts &= ~IIC_STS_ERR;
+>>                      }
+>>                  }
+>> -                if (!(i2c->sts & IIC_STS_ERR) &&
+>> -                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
+>> -                    i2c->sts |= IIC_STS_ERR;
+>> -                    i2c->extsts |= IIC_EXTSTS_XFRA;
+>> -                    break;
+>> +                if (!(i2c->sts & IIC_STS_ERR)) {
+>> +                    if (recv) {
+>> +                        i2c->mdata[i] = i2c_recv(i2c->bus);
+>> +                    } else if (i2c_send(i2c->bus, i2c->mdata[i])) {
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> 
->> +#ifndef HW_INPUT_LM832X
->> +#define HW_INPUT_L
-> 
-> You fix this error in the next patch, but better here.
+> In the previous patch you checked < 0, it would be nice to be
+> consistent.
 
-Oops! I didn't noticed... Something got wrong while re-ordering
-during rebase, thanks for telling me!
+I did that first but thought Zoltan wouldn't be happy, then went back :)
+
+I'll fix for the next iteration, thanks.
 
