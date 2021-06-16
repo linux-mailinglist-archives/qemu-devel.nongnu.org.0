@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968053A9E98
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:07:22 +0200 (CEST)
-Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F003A9EA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:11:08 +0200 (CEST)
+Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltX8T-0002JM-MW
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
+	id 1ltXC7-0005CR-Nu
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ltX75-0000qH-ML
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:05:55 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36686)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltXAO-00042Q-Qt; Wed, 16 Jun 2021 11:09:20 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ltX74-00030y-36
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:05:55 -0400
-Received: by mail-wr1-x432.google.com with SMTP id n7so3100368wri.3
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=x2EdqcA4tFgI/UympGUQVkraBAzm2A8DQM9XMiH0DUk=;
- b=bIkPNaTIDWv6srF0jthYpRSfruJ+h6b4gpJpu7LI+ULpB4dPKXDrTP9GX29SQIm9Di
- eAqEvuggIogoe7ws9D8sBVHoouMUZnSaSce2UgaRUuSbMz1i+ge+1Oj0TGy3jQPUypxI
- EVUgVmz7/3Kqn8XeS1DVVv0vNT/Mq3ohYgBu9TPCe/vUq6Z6iQKngDO9x3U1xLaoNJ7/
- GZWCCp7q/dQUtzPcJSfRBaSTpaOGIenSQN7SC8mBBiKurqemuLoR14IVBVM5FsGVzLBA
- k5QKxYP2dwdK8rA71p9jYhTHL/k21SWsM91LLMPOgo0nyhfaantljqeDnfIW/HdWjzWk
- mQAQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltXAN-0005LZ-8T; Wed, 16 Jun 2021 11:09:20 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id y7so3067585wrh.7;
+ Wed, 16 Jun 2021 08:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=D2sumaqdX8PgE+1dXFec4vQ63OsQWdc5Y6EH/uDxWCA=;
+ b=rsxrkQVVlI8ch5VlsIs345vIV/fRUk1xUVGOyAdSRiTXzjvS5+dNwI/NpNaDGZEiA3
+ HQJ4JoPBHVUS0fbmG+RI6lgDZpye7HVsXcjk7VoY9qdDKxvQH9Bk3cPLSmNbO8K04Jdl
+ P5oz5w9atP8sqyjlLYyHqNNru85I77qwlZUgZAuUEQicmKKA9H4ZLrElJ4GsW/Y85Qyb
+ KW0RQjXBVIhdMDJZL/AjO3Q5LOF47ZwamERe2Cr+jPRetTfxjKR82pOmTBbYADfbaEWu
+ ho2YdrFISHCR9xB8sdRwbKM6OLMHqJuTDTlbNcCSe4fDBa0PuDFechro2aE2lL8JtoE1
+ +j7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=x2EdqcA4tFgI/UympGUQVkraBAzm2A8DQM9XMiH0DUk=;
- b=A7pluTPbfRR2qtuU5q8uZP+eDPJn+/dSzRB1nd565ERgL3jTEXRb6vTsF3QrpmI7OH
- bai7gztc3hRgLXt/hGSrIyXw+AOe6qQCmgLYLMDRk7xGCTyn7Lo7kbG0T8qqKx2fhj20
- bqGqgetLbWLv0QZ8DvgSMkY397B2c+2gH3RZjPfUzemkIe+jewvQriXirc69rpqZV9CL
- je92Pj/xhTF4cpFQ1nhh2wqpBuW3IhnSoN+Zh/sQGC/CQh4X1SphJnuzm/iYnb//x+Ht
- T39ZLQ730BkcQLNxdHaqTwJrOx0ebg1KiiVXmJx5K9IhiUlu2sIPqt3ET5WhF5gC37dd
- 7E2w==
-X-Gm-Message-State: AOAM531UJBkw3RIjfDctU7DmFPb3vo9kEb+ZN2bWc/bmy4EUPUxVTy6q
- BG2Gb5WC+kK6O5KvQ25DAMRpkw==
-X-Google-Smtp-Source: ABdhPJyLntlTSxXUZzakk02Fm2gY5VoOxdRiJP+jkMwgW34k3RrLIkfPmHw5F0QG2KeOxeUTMqCdkQ==
-X-Received: by 2002:adf:ec43:: with SMTP id w3mr5854833wrn.270.1623855952401; 
- Wed, 16 Jun 2021 08:05:52 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s21sm3045736wmh.9.2021.06.16.08.05.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 08:05:49 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 733D91FF7E;
- Wed, 16 Jun 2021 16:05:48 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/21] linux-user: Move signal trampolines to new page
-References: <20210616011209.1446045-1-richard.henderson@linaro.org>
-Date: Wed, 16 Jun 2021 16:05:48 +0100
-In-Reply-To: <20210616011209.1446045-1-richard.henderson@linaro.org> (Richard
- Henderson's message of "Tue, 15 Jun 2021 18:11:48 -0700")
-Message-ID: <87pmwlg88j.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D2sumaqdX8PgE+1dXFec4vQ63OsQWdc5Y6EH/uDxWCA=;
+ b=XRB3mtchvHGd9KeR+L21FIBhKYAaT0j88DCRTsZ5XRLeb/p0tmwr3QFQCfN73JyVwd
+ /2jIwpxXsrr7Nw8iL6VnxvOl4yxR3skOkBqLE1hWeEUKQdqwCyCrSqw0gce0jApzzRz+
+ ALFuyrgJABaDjoXlXl3FPft1cGKagcZZHsjwg4Zw5fPIPH1WEU9RowYrg9vl9K33zxwT
+ XOykFau51vO21ZpIWVDo0KBFl8TbDS6a4EaRQmexu5Lc84vWnTEOesmBKsmUaiK8+74L
+ AjZslRmMGw+IJxWaktKbn+Qd+X28NXKz98mRuygs4pKJWKuyetv93a82uTX6xX7K0XIt
+ GALA==
+X-Gm-Message-State: AOAM531TXa+3WyVqzWHEd0V2+6ASudo4FSjpSdzIcu6JlJfsvY9bIJru
+ pD9r+uWFSmd4sqOq4dN6CubYszkT19vB/w==
+X-Google-Smtp-Source: ABdhPJxs3g/+aIpUJlgasn2LjrP/maDJZGUOcajIWZID1lea0G5VSmUz4x9g4lupheKaaUgv+oLQfQ==
+X-Received: by 2002:a5d:5151:: with SMTP id u17mr6134906wrt.302.1623856155861; 
+ Wed, 16 Jun 2021 08:09:15 -0700 (PDT)
+Received: from [192.168.50.31] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id 61sm2702874wrp.4.2021.06.16.08.09.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 08:09:15 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] i2c: Match parameters of i2c_start_transfer and
+ i2c_send_recv
+To: minyard@acm.org
+References: <20200623063123.20776-1-f4bug@amsat.org>
+ <46692025-50b-2734-e394-513b2761b979@eik.bme.hu>
+ <8230aaa5-73b4-4bf6-6567-38bb5cde3883@amsat.org>
+ <b5f020d9-53e6-602c-74f8-d2695462a5c@eik.bme.hu>
+ <df15b240-af9b-49d3-178a-d0fb8de63aa3@amsat.org>
+ <20210614193423.GE2921206@minyard.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <15c7c1ed-dcd9-da20-5d61-e5abf5ca6c60@amsat.org>
+Date: Wed, 16 Jun 2021 17:09:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210614193423.GE2921206@minyard.net>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.17,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,50 +92,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Corey Minyard <cminyard@mvista.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On 6/14/21 9:34 PM, Corey Minyard wrote:
+> On Mon, Jun 14, 2021 at 06:48:05PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 6/14/21 12:02 PM, BALATON Zoltan wrote:
+>>> On Mon, 14 Jun 2021, Philippe Mathieu-Daudé wrote:
+>>>> On 6/12/21 9:33 PM, BALATON Zoltan wrote:
+>>>>> Hello,
+>>>>>
+>>>>> On Tue, 23 Jun 2020, Philippe Mathieu-Daudé wrote:
+>>>>>> This is v2 of Zoltan's patch:
+>>>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
+>>>>>>
+>>>>>> - rebased
+>>>>>> - added docstring
+>>>>>> - include hw/misc/auxbus.c fix
+>>>>>>
+>>>>>> Supersedes: <20200621145235.9E241745712@zero.eik.bme.hu>
+>>>>>
+>>>>> What happened to this series? I did not find it in patchew, only my
+>>>>> original patch:
+>>>>>
+>>>>> https://patchew.org/QEMU/20200621145235.9E241745712@zero.eik.bme.hu/
+>>>>>
+>>>>> I still have this in one of my branches so I think it was not merged at
+>>>>> the end. Could this be resurrected or should I forget about it and live
+>>>>> with the inconsistency in parameters instead?
+>>>>
+>>>> I suppose it was not queued because you asked to remove the
+>>>> "Reported-by" tag :/ I agree with you it would be nice to get this in
+>>>> the tree
+>>>
+>>> I think I said only Reported-by is enough no need for Suggested-by as
+>>> well but I don't see this as a reason to drop these patches. So maybe
+>>> just nobody cared enough.
+>>
+>> Ah OK now got it.
+>>
+>>>> for good. However 1 year passed, so it might need adjustment.
+>>>
+>>> Should I try to rebase it or will you do it eventually?
+>>
+>> Found the branch and clean rebase, so no change needed.
+>>
+>> Corey, if you are busy, I could send a pull request if you provide
+>> and Acked-by tag.
+> 
+> I'm somewhat worried about the silent semantic change.  I would much
+> prefer the functions to be renamed, as you mentioned in an email a while
+> ago.  I think that you mentioned this in an email in the chain listed
+> above, and I think I pulled it for that reason.
 
-> It is my guess that the majority of the flakiness with the
-> linux-user signals.c test is due to a race condition between
-> translation and page writes.  I vaguely recall a bug report
-> about this, but I cannot find it now.
->
-> Since the vast majority of "self-modifying code" is due to
-> signal delivery, work around this by allocating a new page,
-> into which we write the signal handlers.
->
-> A better workaround would be to implement the vdso that is
-> required by many guests.  However, that is a much larger
-> problem, and some guests do not define a vdso in upstream
-> linux.  This serves as a decent fallback.
->
-> Neither bit of work, I will note, solves the posited race
-> condition described above.
+OK, maybe the comment was sent after this series or I missed it.
 
-Well this certainly solves the failures I was seeing with
-s390x-on-s390x:
+Thanks for the reminder.
 
-  retry.py -n 500 -c -- ./qemu-s390x ./tests/tcg/s390x-linux-user/signals
-  Results summary:
-  0: 500 times (100.00%), avg time 2.253 (0.00 varience/0.00 deviation)
-  Ran command 500 times, 500 passes
-
-However qemu-hppa (on x86_64 host) still has the stuborn 1% failure rate
-(-static build):
-
-  Results summary:
-  0: 198 times (99.00%), avg time 2.255 (0.00 varience/0.00 deviation)
-  -4: 2 times (1.00%), avg time 0.252 (0.00 varience/0.00 deviation)
-  Ran command 200 times, 198 passes
-
-So have a:
-
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-(for s390x at least)
-
---=20
-Alex Benn=C3=A9e
+Phil.
 
