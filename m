@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8423AA5B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 22:54:38 +0200 (CEST)
-Received: from localhost ([::1]:58442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CEF3AA5AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 22:52:32 +0200 (CEST)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltcYX-0005o9-3J
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 16:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
+	id 1ltcWV-00005R-1f
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 16:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcON-0001e3-W0
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37385)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOM-0001YF-Fj
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOL-0000gc-6K
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOK-0000gU-O0
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1623876244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y+XSms8lsmaWxWcSMyaabFLhR1SIAMwTYvlPcGQF/+0=;
- b=fuxmPK5qC5TDEp0P53krkpx0sYi+CJeCr114ZVm63mzqgNHv+hW650sjNXzwUx2SxTwiLw
- rOpJQImfAsAseAwQZ7CgI+mANJC1GjOy/P4i/IlacjwE7GCf0nmtJnXLwld3GzRgqrygRc
- ZQbC4R5l16qWb1PvOYisT6P7Nzuhj2g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-6ANMH-XCMMOksGMotS7Mjw-1; Wed, 16 Jun 2021 16:43:56 -0400
-X-MC-Unique: 6ANMH-XCMMOksGMotS7Mjw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n21-20020a7bcbd50000b02901a2ee0826aeso1732499wmi.7
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 13:43:56 -0700 (PDT)
+ bh=OS+iR2EbHbrCh3GIR2NY+qAi6yiZecwyyt8l9LOb9LA=;
+ b=awXbKzEO69RhIFeIdBNN31tuzizAvwCaMnnjgyHhk84ZMtE+dYUZWgBl3x3qDZhaBL+iQ6
+ sA9puemvJY/QrW3aHyQovwDvOXOFbQiou700bq9waQChpuapkOplJuXLK9HbXuKGYiwlX3
+ 1K5gEJa7gtKpRUIfRwW0pDYDR6iOT6s=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-lPGtveevPsewcXQpMOk1yQ-1; Wed, 16 Jun 2021 16:44:02 -0400
+X-MC-Unique: lPGtveevPsewcXQpMOk1yQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ z4-20020adfe5440000b0290114f89c9931so1841603wrm.17
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 13:44:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=y+XSms8lsmaWxWcSMyaabFLhR1SIAMwTYvlPcGQF/+0=;
- b=Qp+H2vsWpvvxGqozA7gDKz5HMrm8VtELd4YEfuglnRVCCEAd47UNumaYkVGNmwR/c6
- T3a8dPue5glSSrl5sCmJrF+EbD2F4jQrJr0pv3iMYfFao+nKL1+VTdEqAgUVcOdBltAS
- gGzUmPYVk4bQD5aqhRkFjVR3THd2HP69qTUlCCjXkkn2xnd6eME2xZDF279YbStwaNq8
- JTZU9ckF0s+vChmvLZQ1AOrviCrN8OwIsMVZOTld05LCchfc2/UdIkBwJI5s98yJ/pJe
- iBKWnwp7mt3VQBukU5qB3Pxili2FC/DV2PuL/fyZ04y/T13Zwi7gXHhCEKJpliriG5im
- 1/qg==
-X-Gm-Message-State: AOAM532zF3oAaYadioGPVODsranJ8XC4VNM6SYb66U5Kkvo6dlHcLKkI
- E3KCD3q0QUr9ksv7vHGJbyaFqsiL9X+Vu7d+wuyv1QvcBNU4YCzfoVxUHp8RyLwrD2esDKVDGJK
- 2Z/dveY7NiPDH4XVyvVVdm46qs2qiWNOIutP+3MyiDEiHJPZbHmCA9Nhlx2caKZdP
-X-Received: by 2002:adf:d227:: with SMTP id k7mr1128724wrh.271.1623876235263; 
- Wed, 16 Jun 2021 13:43:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCFjv4rL99lSTphSmutBg0e/eHY24V0R7vvtUv4PPiA85ngHRUEZlvcC1MGBknBDMOlyPo3A==
-X-Received: by 2002:adf:d227:: with SMTP id k7mr1128695wrh.271.1623876235124; 
- Wed, 16 Jun 2021 13:43:55 -0700 (PDT)
+ bh=OS+iR2EbHbrCh3GIR2NY+qAi6yiZecwyyt8l9LOb9LA=;
+ b=Wy79LEmjTVk+KJQ8XvIe3cdLnEk5C2AbmrnENFg6Ym9qd+8s10HBUFfmYmEVByMo1a
+ F2DnnYEWbB+XW8mS5b0cZVCkaw61+u3RXFAaZfUNxVJaqriGzZdcYjxBJ5CkeCNrV3qO
+ YAb+Hp0BQ2S2IY7Ssqeor7OJLsqiCN368Sq1pTKyV6fNvHZuumjaKnmJONuna9+oi3+l
+ Bzw7fG42t2XWPCSrbzUEKaf//Zx1EVA1BWw9qbj/JPLJNleCec3zkl+PTwWugjGr1gnS
+ NZaShbjyj4B8bZGsS4CVQYDOlVD0fcVnWCeyWqaXUJeoqdd3sb0h0aAV/j2uwqGaElDJ
+ mdFw==
+X-Gm-Message-State: AOAM532UvyGoE+6auod+9zxKTzVGXFAMfs5fRp71J5vlJX1y49tix9O/
+ iYuLjvig9QhrpPQBS9EZyY3p6Qf5L05Jq7iwaaftrBWfsjrNt4LZbDOciZAasjQhQMs2KRCVewp
+ XMn6qG33y/EWbTcx3qkw3KwEkfKvKDiCJxMZVg80UhPZLgDnLZATubSjx1lcg00XX
+X-Received: by 2002:a05:6000:180f:: with SMTP id
+ m15mr1194026wrh.102.1623876241556; 
+ Wed, 16 Jun 2021 13:44:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlypmYLZSy5nbOxxeZgwxAYN44cERdqWbJ2rG7fb91lYXzRYluBpjGFmb5vPNXvFIZlc6m5w==
+X-Received: by 2002:a05:6000:180f:: with SMTP id
+ m15mr1193995wrh.102.1623876241362; 
+ Wed, 16 Jun 2021 13:44:01 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id k11sm5887058wmj.1.2021.06.16.13.43.53
+ by smtp.gmail.com with ESMTPSA id w2sm368281wrp.14.2021.06.16.13.43.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 13:43:54 -0700 (PDT)
+ Wed, 16 Jun 2021 13:44:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/23] target/i386/monitor: Return QMP error when SEV is
- disabled in build
-Date: Wed, 16 Jun 2021 22:43:09 +0200
-Message-Id: <20210616204328.2611406-5-philmd@redhat.com>
+Subject: [PATCH v2 05/23] target/i386/cpu: Add missing 'qapi/error.h' header
+Date: Wed, 16 Jun 2021 22:43:10 +0200
+Message-Id: <20210616204328.2611406-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616204328.2611406-1-philmd@redhat.com>
 References: <20210616204328.2611406-1-philmd@redhat.com>
@@ -107,60 +108,28 @@ Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the management layer tries to inject a secret, it gets an empty
-response in case the binary built without SEV:
-
-  { "execute": "sev-inject-launch-secret",
-    "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
-  }
-  {
-      "return": {
-      }
-  }
-
-Make it clearer by returning an error, mentioning the feature is
-disabled:
-
-  { "execute": "sev-inject-launch-secret",
-    "arguments": { "packet-header": "mypkt", "secret": "mypass", "gpa": 4294959104 }
-  }
-  {
-      "error": {
-          "class": "GenericError",
-          "desc": "this feature or command is not currently supported"
-      }
-  }
+Commit 00b81053244 ("target-i386: Remove assert_no_error usage")
+forgot to add the "qapi/error.h" for &error_abort, add it now.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/i386/monitor.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/i386/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 119211f0b06..c83cca80dc2 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -28,6 +28,7 @@
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qerror.h"
- #include "sysemu/kvm.h"
- #include "sysemu/sev.h"
- #include "qapi/error.h"
-@@ -742,6 +743,10 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
-                                   bool has_gpa, uint64_t gpa,
-                                   Error **errp)
- {
-+    if (!sev_enabled()) {
-+        error_setg(errp, QERR_UNSUPPORTED);
-+        return;
-+    }
-     if (!has_gpa) {
-         uint8_t *data;
-         struct sev_secret_area *area;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index a9fe1662d39..694031e4aec 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -27,6 +27,7 @@
+ #include "sysemu/hvf.h"
+ #include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
++#include "qapi/error.h"
+ #include "qapi/qapi-visit-machine.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qapi-commands-machine-target.h"
 -- 
 2.31.1
 
