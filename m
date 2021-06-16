@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1EF3A8E79
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:38:58 +0200 (CEST)
-Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CAF3A8E89
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:47:22 +0200 (CEST)
+Received: from localhost ([::1]:46778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKW9-0002lm-H8
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55454)
+	id 1ltKeH-0005Y1-IA
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:47:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltKTq-0008MB-3L
+ id 1ltKTq-0008NU-FH
  for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:34 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44806)
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltKTo-0005af-60
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:33 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- i11-20020a17090a2acbb029016f0cce7c3fso564153pjg.3
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:36:31 -0700 (PDT)
+ id 1ltKTo-0005ak-KC
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:34 -0400
+Received: by mail-pl1-x629.google.com with SMTP id e7so284979plj.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HwZ5wE7deK7PB6NLOA37eFYUnzRARHJg+XRdrF2uLH4=;
- b=FAusCewHwdSvR+MglbxRzwsffzDuCSDNZGTWqpOR5kkylaAk5OLM0iXSaaScICY+ju
- E1WgzP9Vfhb69/hOgDS2LpNYwWPCtuAecKSljpmh5Vs3VwAHlcoiYP59a+uKZIBoVqc0
- dHVsfW7etBz87bvLrgFTRN7JHyDvcYCKg2SA6H1tSXTMuGqygcud1zA4nFS2Tk0isl1o
- kBknkPx0hMziTFMyuCQ3V3vGXglF32vOR0DsJ7eTS2zh+1Qvotvmo7lbAJWIOBZ48jTk
- NMu+FSDBippKBp2LE64i/kSpcfXTzlMkeBpqQ/FNJcwK4i0Taf6D8072/PNCnf8qZ2Qv
- 6q0g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=GCKAdANmH1Xtpoehzhc4V1D5rmsyIp28yEK3SJRUGT4=;
+ b=lIsbNkz/tbwdbAQAoD4l/RtJs/D5/pBwaQWAOHmAp44xMeNyC1MgNRfK+XToB64giW
+ gfmWSRdb9HULUZCc/r3WU+6eQdMAvBuxZ6DkMP2I4VmYbLxBkP+c7Mg75UShcju80f3z
+ QpZswWTuGH4Rp2qRnQrhz96O673+ZtosQYGFdJ2Ewmv/sNX1Sy6Z391W+PGaimE8zlHq
+ Jj6FRtNNhUijG5kEOhYrtjmxyEiayd7BakE/HOmYGti3UUpegE7Ec9C/2ULAKsp3EzJE
+ nEqlBQDGIVAi3C8RHuKbZrXY9FDLdFU44afeuKRcYJoCBJdVO9yb7GQIqlrNSbSS6Xo6
+ guLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HwZ5wE7deK7PB6NLOA37eFYUnzRARHJg+XRdrF2uLH4=;
- b=CXv6S24PN9WqywZ9RQxO+oNISi8GxQ1cBVLfaG3JcLxhgAXZUGlFdymaO6oI0pUOgm
- RqQwGESUWC4XmFtQN2K408J403Hqz2PhNVHipipZ2t5E+VJpMMnl/tSBw97gBR7wgdg1
- nWhUuF7ydRBok5CSJ6eGlUmDrGkr3onGNxXF0zKhxhiBAO8ZBZOnZ0b0dptdFd3n9G++
- 0e+F2IHbqJLyMkTfH47wwWkUCEo3WkGFn6hqzR3yk73sItg2VxFrCoiPTbVA3nQbT8M3
- Z83sZb613LSnxZSKwCa8OjHnIXfk79Ri9nPcCe49YbKNeEYvepRn20/UkyT0tBixJJwf
- 6vXA==
-X-Gm-Message-State: AOAM531tZQC1E3P8Pp/NVHRDF2zpcSvmPk0qcMvV/8yo0hqMFmeUS1Ui
- pwr5pcRGR5QEO3EyykkQ7AzUopyevm0l9Q==
-X-Google-Smtp-Source: ABdhPJwD85el9zWrg/mcdj13NtsJJhIV6Ghy47pd2ccdhFoVLwGxOCS7LKXb4oCg9yX+SI8BxY3JFg==
-X-Received: by 2002:a17:90b:109:: with SMTP id p9mr8046801pjz.11.1623807390695; 
- Tue, 15 Jun 2021 18:36:30 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GCKAdANmH1Xtpoehzhc4V1D5rmsyIp28yEK3SJRUGT4=;
+ b=HgTFpBIR5U2sflXi1nGIXobePNuTR/tkSto6dFBonq00YQcXDlowJEROazfophC/15
+ RDM+ECIWWneNKo8a+tA27kucGSMZGqg+N6ekPUf8zuPqq5HD6NEPT12FHXePUMJsopML
+ jZLRogiaK7Y84EVKcVnQMFHY19Q8v7B8yv6UsnUtFKPWqVofIf3CEErKe6ocOkJWL7Hs
+ 23ZyDiUvNU1ev4f13qxHZKHiEz9zEn+65EXeHrPQdr2tVMD94Te+0vm8WfJZ+xNi/ivA
+ 0uKpjVPYZQVRXlgZNJh9tbYIi5vG6txC94BbVwjuhvMI+/t6cBAritr5L1cNo1Cek78B
+ c8Ag==
+X-Gm-Message-State: AOAM531JsJV0sUzbUTCgaNpVupcBv49Hpb1DB/bvAB3VeAgQ8wTI6ggN
+ m6TCPhEZV6j2xe4z78svW0zpuGnCOgQGVg==
+X-Google-Smtp-Source: ABdhPJwqPVlQY6Nz3VOhEo9EMOcBpoF21UmOxe66xtkidfpP2r++dxnZLGziNoqBTbJj4vKCTYGlqQ==
+X-Received: by 2002:a17:903:2311:b029:115:29a9:a3ee with SMTP id
+ d17-20020a1709032311b029011529a9a3eemr6799238plh.46.1623807391361; 
+ Tue, 15 Jun 2021 18:36:31 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id o1sm321595pjf.56.2021.06.15.18.36.29
+ by smtp.gmail.com with ESMTPSA id o1sm321595pjf.56.2021.06.15.18.36.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 18:36:30 -0700 (PDT)
+ Tue, 15 Jun 2021 18:36:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] configure: Change to -std=gnu11
-Date: Tue, 15 Jun 2021 18:36:21 -0700
-Message-Id: <20210616013629.1458790-1-richard.henderson@linaro.org>
+Subject: [PULL 1/8] configure: Use -std=gnu11
+Date: Tue, 15 Jun 2021 18:36:22 -0700
+Message-Id: <20210616013629.1458790-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210616013629.1458790-1-richard.henderson@linaro.org>
+References: <20210616013629.1458790-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,47 +85,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
+Now that the minimum gcc version is 7.5, we can use C11.
+This will allow lots of cleanups to the code, currently
+hidden behind macros in include/qemu/compiler.h.
 
-  Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210614233143.1221879-2-richard.henderson@linaro.org>
+---
+ configure   | 4 ++--
+ meson.build | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
+diff --git a/configure b/configure
+index 8dcb9965b2..0489864667 100755
+--- a/configure
++++ b/configure
+@@ -159,7 +159,7 @@ update_cxxflags() {
+     # options which some versions of GCC's C++ compiler complain about
+     # because they only make sense for C programs.
+     QEMU_CXXFLAGS="$QEMU_CXXFLAGS -D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
+-    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu99/-std=gnu++11/)
++    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
+     for arg in $QEMU_CFLAGS; do
+         case $arg in
+             -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
+@@ -538,7 +538,7 @@ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+ 
+ # Flags that are needed during configure but later taken care of by Meson
+-CONFIGURE_CFLAGS="-std=gnu99 -Wall"
++CONFIGURE_CFLAGS="-std=gnu11 -Wall"
+ CONFIGURE_LDFLAGS=
+ 
+ 
+diff --git a/meson.build b/meson.build
+index a2311eda6e..d8a92666fb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,5 +1,5 @@
+ project('qemu', ['c'], meson_version: '>=0.55.0',
+-        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
++        default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto'] +
+                          (meson.version().version_compare('>=0.56.0') ? [ 'b_staticpic=false' ] : []),
+         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
+ 
+-- 
+2.25.1
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-c11-20210615
-
-for you to fetch changes up to c7a7cb5692690ad621b6eb2d1c7256907ff45d67:
-
-  configure: Remove probe for _Static_assert (2021-06-15 18:31:00 -0700)
-
-----------------------------------------------------------------
-Change to -std=gnu11.
-Replace QEMU_GENERIC with _Generic.
-Remove configure detect of _Static_assert.
-
-----------------------------------------------------------------
-Richard Henderson (8):
-      configure: Use -std=gnu11
-      softfloat: Use _Generic instead of QEMU_GENERIC
-      util: Use real functions for thread-posix QemuRecMutex
-      util: Pass file+line to qemu_rec_mutex_unlock_impl
-      util: Use unique type for QemuRecMutex in thread-posix.h
-      include/qemu/lockable: Use _Generic instead of QEMU_GENERIC
-      qemu/compiler: Remove QEMU_GENERIC
-      configure: Remove probe for _Static_assert
-
- configure                   | 22 +----------
- meson.build                 |  2 +-
- include/qemu/compiler.h     | 51 -------------------------
- include/qemu/lockable.h     | 90 +++++++++++++++++++++------------------------
- include/qemu/thread-posix.h | 14 ++++---
- include/qemu/thread-win32.h |  6 ---
- include/qemu/thread.h       | 15 +++++++-
- fpu/softfloat.c             | 16 +++++---
- util/qemu-thread-posix.c    | 24 +++++++++++-
- util/qemu-thread-win32.c    |  2 +-
- 10 files changed, 98 insertions(+), 144 deletions(-)
 
