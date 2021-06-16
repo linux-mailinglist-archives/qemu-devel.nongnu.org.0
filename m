@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE9B3AA414
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:13:06 +0200 (CEST)
-Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FD93AA404
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:11:20 +0200 (CEST)
+Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltayH-0001az-8u
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:13:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51242)
+	id 1ltawZ-0007uO-NU
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltauV-0005bC-GP
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:09:11 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:41707)
+ id 1ltauj-0005qU-Ck
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:09:25 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:36382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltauT-0004y0-3H
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:09:11 -0400
-Received: by mail-pf1-x434.google.com with SMTP id x73so2958724pfc.8
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:09:08 -0700 (PDT)
+ id 1ltauh-00056U-Mp
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:09:25 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id d62so996186pfd.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Lnmvf5DIME30DRHpOT2jqtHezB0zMpmGN1Y+BQNmOZY=;
- b=BcINbtVRW8noHCT+EgDNpUdEc0N6v7SQL2GgIM/cYfnGNuDrUxnDd/Qi5sc6XSg39v
- uVstyUmt2JcyWtfw+yYyvV4Hhwcgk/H/vvrNv0SmYoSFntrLlYvAtjwwdw48+bnZ5m6p
- VSh436XA4KqyWS2L+SEM7nbpfNFEQ6ODhVja+LJw7uHxEIecHv4te/0dVA2qmT8rrMh8
- wgDb83jnGI0Pq3jcDGgekTHpvPU61aL4RcB30Nd4nSAY+ipuxAGClMm9ite8hapCHvLW
- 3xnvheYTrnfp6gbQjoC7y2fwajhUNKr6TL5TvxqE0F8KdafkHZS648XzZ77l9HIKdND5
- +5QA==
+ bh=SuKl1aCq6tTITfSncjFFuOaxWpg+WCzkqJLP80DTpKQ=;
+ b=j8JjRow1rxOabBtDITY5oyfJHlLz0am4XucKwhYviGVxF74pY2YSxvClKNDAtGs2i6
+ USssYs+5iKBRI53jI6gNGrcgAYubP7OY7tAJ91O1iH7J2EglTS9C4OXiY3ebc7LDFxDb
+ VR5HDDpP/ES1NBaSqD/q4q5i0cz1QGLazAf+5oevcGog/7ypUa6rRi2pu7JC912YpVBu
+ w/X0tHNcVz2oXh/QWFJtc58d8O/gzpNRmig0bkPrz+zxZ7IdFbyGOSG3Z5aKUV2o3Bvr
+ NfA9iKA+R9trrts9OWoDmX+aLnAXirCVHF4541jlvbRXCSQd9PihQkJp2bbL222gO3ae
+ 5JtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Lnmvf5DIME30DRHpOT2jqtHezB0zMpmGN1Y+BQNmOZY=;
- b=pDyy01Sk5w1sQf2NbPL+EilcV83Y9zK+amomlchjm3jkJAWouku5VK0phwWZwvdBIH
- A98jpvaz0WN5Voba4PtN16NEKeNbi2YmwCpay/VQ0KmMI2gmSo9G6TEiEakeXZoJGNTH
- aOpm1SOfmEmLA7tPB8rL9DCsk9H4R1fM1mnRmIUH2k9vjWQhwXY4bNqQnXVHfnWdSQuw
- 43ZSRNazIBYrpJV3Ekt39KBQtx2nKHJsUo6o8ilgnaSo4V3LYWP6N/osGXZkb45t+0sc
- rYOJRvq/T5VgRdjoyiWSsNYDkXqfSds1p67uYN8nSN2/qiH6TCxhsqYIUIsr8WAnuaSm
- cKiA==
-X-Gm-Message-State: AOAM530e1/QJr9v2WrrjVdqQIuzA++O16Bg2RlNsoVgNvTTD1FKvO4bA
- 6Tz3aYeFgRWREALbuTFmtkY7bw==
-X-Google-Smtp-Source: ABdhPJzEiKImJfIFKkSoPErViXZ9PsxnNkw/IqrmYJapWu0dAKgpCyubUaTFdmrFSeOZ1gQaSzxNkg==
-X-Received: by 2002:a63:530a:: with SMTP id h10mr1147734pgb.98.1623870546945; 
- Wed, 16 Jun 2021 12:09:06 -0700 (PDT)
+ bh=SuKl1aCq6tTITfSncjFFuOaxWpg+WCzkqJLP80DTpKQ=;
+ b=mXGCbMXY1ePvXqGjhT4NcpJFppOHZSI8NHOPNM23vWaExc8P9jCORrvR3y0vENRr6d
+ fzLzBkM/4Dqh1sWjKdpbDDIVP2jKzY26IOJsQ2TvN0afBmEaPuqkD4NCGxk/e5eFnito
+ xJJnR98scVA41UVdlQS6qrBykuA+rAtcvzgKMtRBq4YWvFtHl+VBPPLvWdFbTEoru2He
+ XLZYZCu4KzSu7+FxPFH9xF0/djWP1JsKl6+8q9fni4Kxxhq+0+HsA3p3iEhAFnjzGqIs
+ 2EY3DHw5ulUQ8Yxu8snAk0cPFDUWkerWlr3gFyy5SYUhHTZyKpAAbfxdXsG3+I8MjWvO
+ vuJA==
+X-Gm-Message-State: AOAM533L0cQdkS9wZqKlKrb/XXfxZB0FDoa8fwXxLHysahNg7979WjPg
+ 3kSRzyFvR6ahxhjLhpNLl5w+6g==
+X-Google-Smtp-Source: ABdhPJwdRf7wCiPkOgEBXkbcexO1CdBflxfyuIVt+aGm11b+2WyFahop7RZuIOJbxIozuHrv82DKIg==
+X-Received: by 2002:aa7:978a:0:b029:2f6:c116:e5f5 with SMTP id
+ o10-20020aa7978a0000b02902f6c116e5f5mr1252844pfp.21.1623870561658; 
+ Wed, 16 Jun 2021 12:09:21 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- j4sm6079437pjv.7.2021.06.16.12.09.06
+ v8sm2831571pff.34.2021.06.16.12.09.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 12:09:06 -0700 (PDT)
-Subject: Re: [PATCH v4 3/7] chardev/socket: Use
+ Wed, 16 Jun 2021 12:09:21 -0700 (PDT)
+Subject: Re: [PATCH v4 4/7] migration/tls: Use
  qcrypto_tls_creds_check_endpoint()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210616162225.2517463-1-philmd@redhat.com>
- <20210616162225.2517463-4-philmd@redhat.com>
+ <20210616162225.2517463-5-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bb743365-55fe-6f96-507c-00635a36163e@linaro.org>
-Date: Wed, 16 Jun 2021 12:09:05 -0700
+Message-ID: <56e47a3f-04d6-1090-7e0a-f1f6463cfbaa@linaro.org>
+Date: Wed, 16 Jun 2021 12:09:19 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210616162225.2517463-4-philmd@redhat.com>
+In-Reply-To: <20210616162225.2517463-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -100,8 +101,8 @@ On 6/16/21 9:22 AM, Philippe Mathieu-Daudé wrote:
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 > ---
->   chardev/char-socket.c | 18 ++++++------------
->   1 file changed, 6 insertions(+), 12 deletions(-)
+>   migration/tls.c | 6 +-----
+>   1 file changed, 1 insertion(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
