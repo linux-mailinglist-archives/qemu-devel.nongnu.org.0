@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F233AA26F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 19:34:24 +0200 (CEST)
-Received: from localhost ([::1]:36110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FA63AA285
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 19:36:10 +0200 (CEST)
+Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltZQl-0000jI-Ez
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 13:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56000)
+	id 1ltZST-0002zv-FK
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 13:36:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltZPj-0007nL-NI
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 13:33:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53823)
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1ltZRF-0001mX-AY
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 13:34:53 -0400
+Received: from pv34p98im-ztdg02172101.me.com ([17.143.234.142]:44558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ltZPg-0007WW-BZ
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 13:33:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623864794;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0TZIxPeHed0JejS2oGZ4t+v6laN6CsKlCiMwrisaC78=;
- b=CYvrXeNbyjyKJzgH6JAShy+w0mCIBEZbd2/iW7arxqt82+w9MfZFxXR7/5APeiaItwq7kQ
- MYicJyqIlOkoFHQCGx5y6ucISA0smq6JxpZxpNwUWpcTzSj1Sg6QCg4oTXKn68UsUN5FEm
- dvfa0BB+RHh05gWjie8HR05Zzpsri7s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-TrEo4-Y0P5GP4yZlzPQp2g-1; Wed, 16 Jun 2021 13:33:02 -0400
-X-MC-Unique: TrEo4-Y0P5GP4yZlzPQp2g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C40E803622;
- Wed, 16 Jun 2021 17:33:01 +0000 (UTC)
-Received: from redhat.com (ovpn-114-191.phx2.redhat.com [10.3.114.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6923518B4B;
- Wed, 16 Jun 2021 17:32:57 +0000 (UTC)
-Date: Wed, 16 Jun 2021 12:32:55 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH 1/1] input: Add lang1 and lang2 to QKeyCode
-Message-ID: <20210616173255.gcrwwhssdtkbfi5w@redhat.com>
-References: <20210616144522.55643-1-akihiko.odaki@gmail.com>
- <20210616144522.55643-2-akihiko.odaki@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20210616144522.55643-2-akihiko.odaki@gmail.com>
-User-Agent: NeoMutt/20210205
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1ltZRD-0008U9-Le
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 13:34:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
+ t=1623864890; bh=4tffC8ViyuKYEOWeB2hxo7TOQLd2DBk83NjsElGiK84=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=SsC+W266UIXJuWYLA2pvyBESKnqU3Gmz7bHFgZKF1Da2UgmoQ4KarzOJtEs3TW3Kt
+ 0qs+62OjcJbroe5/J30YALCLrxDAAa2DaFBHOlVO86plnCtF4svREI7ZKY1o9A1PEh
+ dycdbTZwul16N71oU9uhRxCo8XM1rnQuaQK9F/11Uza/XyzTsQ1TLHXg9s5vZ7QHNA
+ GeYoJQGysNWMhB1XnRHeMFH1ZoFKDtgBE3+hRBZofujSSqFO86kdbQpZJHsSH02o69
+ sE73TMJUYSX7kJEmmHTucvV6YtDOc2b0VIA/gO1VZZGRNX6MQu4LZb3QwjqR5dL2fh
+ 75pYocNDk010Q==
+Received: from smtpclient.apple (unknown [17.11.167.120])
+ by pv34p98im-ztdg02172101.me.com (Postfix) with ESMTPSA id 12E4054000B;
+ Wed, 16 Jun 2021 17:34:48 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.43\))
+Subject: Re: [PATCH 1/4] mc146818rtc: Make PF independent of PIE
+From: Jason Thorpe <thorpej@me.com>
+In-Reply-To: <5c2ae675-f734-174d-6640-baebc817f3ba@linaro.org>
+Date: Wed, 16 Jun 2021 10:34:47 -0700
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <39CACE5E-7CCD-400C-A983-689474D42EC5@me.com>
+References: <20210613211549.18094-1-thorpej@me.com>
+ <20210613211549.18094-2-thorpej@me.com>
+ <5c2ae675-f734-174d-6640-baebc817f3ba@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-Mailer: Apple Mail (2.3654.80.0.2.43)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-16_11:2021-06-15,
+ 2021-06-16 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=980 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2009150000 definitions=main-2106160101
+Received-SPF: pass client-ip=17.143.234.142; envelope-from=thorpej@me.com;
+ helo=pv34p98im-ztdg02172101.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,45 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 11:45:22PM +0900, Akihiko Odaki wrote:
-> lang1 and lang2 represents the keys with the same names in the
-> keyboard/keypad usage page (0x07) included in the "HID Usage Tables for
-> Universal Serial Bus (USB)" version 1.22. Although the keys are
-> described as "Hangul/English toggle key" and "Hanja conversion key" in
-> the specification, the meaning depends on the variety of the keyboard,
-> and it will be used as the representations of Kana and Eisu keys on
-> Japanese Macs in qemu_input_map_osx_to_qcode, which is used by ui/gtk.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  qapi/ui.json | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index ee6fde46d59..3b16b2191cc 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -786,6 +786,9 @@
->  # @muhenkan: since 2.12
->  # @katakanahiragana: since 2.12
->  #
-> +# @lang1: since 6.0.50
-> +# @lang2: since 6.0.50
 
-since 6.1
+> On Jun 14, 2021, at 9:17 PM, Richard Henderson =
+<richard.henderson@linaro.org> wrote:
+>=20
+> Cc: paolo and mst
+>=20
+> On 6/13/21 2:15 PM, Jason Thorpe wrote:
+>> Make the PF flag behave like real hardware by always running the
+>> periodic timer without regard to the setting of the PIE bit, so
+>> that the PF will be set when the period expires even if an interrupt
+>> will not be raised.  This behavior is documented on page 16 of the
+>> MC146818A advance information datasheet.
+>> Signed-off-by: Jason Thorpe <thorpej@me.com>
+>> ---
+>>  hw/rtc/mc146818rtc.c | 4 ----
+>>  1 file changed, 4 deletions(-)
+>> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+>> index 4fbafddb22..366b8f13de 100644
+>> --- a/hw/rtc/mc146818rtc.c
+>> +++ b/hw/rtc/mc146818rtc.c
+>> @@ -155,10 +155,6 @@ static uint32_t =
+rtc_periodic_clock_ticks(RTCState *s)
+>>  {
+>>      int period_code;
+>>  -    if (!(s->cmos_data[RTC_REG_B] & REG_B_PIE)) {
+>> -        return 0;
+>> -     }
+>=20
+> This looks correct, but I don't know enough about this device.
 
-(6.0.50 is a convenience used during development, but does not point
-to any released build; for that matter, it doesn't even point to a
-constant commit over time the way 6.1 does).
+Quoting the data sheet here, for context:
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+<quote>
+PF - The periodic interrupt flag (PF) is a read-only bit which is set to =
+a "1" when a particular edge is detected on the selected tap of the =
+divider chain.  The RS3 to RS0 bits establish the periodic rate.  PF is =
+set to "1" independent of the state of the PIE bit.  PF initiates an =
+~IRQ signal and sets the IRQF bit when PIE is also a "1".  The PF bit is =
+cleared by a ~RESET or a software read of Register C.
+</quote>
+
+This is why my patch always runs the timer, and does not suppress it if =
+PF is already set; real hardware will always latch PF at regular =
+intervals irrespective of when software reads Register C.
+
+-- thorpej
 
 
