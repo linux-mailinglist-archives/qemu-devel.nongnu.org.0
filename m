@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B2F3AA3BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:03:50 +0200 (CEST)
-Received: from localhost ([::1]:34396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EAE3AA3FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:10:22 +0200 (CEST)
+Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltapI-0002lH-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
+	id 1ltavd-0005pU-0b
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:10:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltaoP-0001jU-3u
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:02:53 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:36671)
+ id 1ltatt-0004oJ-37
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:08:33 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:45664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltaoN-0000If-5h
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:02:52 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id e33so2778299pgm.3
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:02:50 -0700 (PDT)
+ id 1ltatr-0004aX-0i
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:08:32 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ z3-20020a17090a3983b029016bc232e40bso2330277pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s4TOvHX318f9h9ao1O6xP4xdg33Xz6ackDWY+LYz5uc=;
- b=sEPTjN5wbWpqvY7aOJ5Yd/R+MggeSokJ3BySK+2HOLGKBomqa5MEWjBvAz/GpZr3k5
- LOX+aQ8Fi6UvGIkFR5cMjSFQ8UWoCBivTydxGsy+CO/vZE2gE8rGU7VjN7AFcOqfBvgp
- X8FVTNzMWtF/qEWzTITQwp+ShUHq5xjSHXIfdpo8dinAchQgig4Lz5xzc9JbmA+T1CVe
- f5pGuJsBO8aaKNcFdvee2w9cFKBBZlu/+Ta3xedWIHOzjiIYR19J722UtaS2EpQd9L74
- yRrOcsYTV1I2VWeNbRpfr26w2GJFNGJlbw1jwPwcTju5uLb2fPmOXlMp9jokuN89ABRO
- MC2A==
+ bh=vYfnLa00UI0qukSRvparSJyuImMdHp72nxxOcjpifdY=;
+ b=L5Y1KC6OROQP/QLxDI2gugRBekAj4SoeCm+w0LfoIecRhXO+kHHHQ9VuT7iywv5I/V
+ 2Z6GCazB2jfwHLbtG8BSBZir31Upeeod+CJnNKFL1iuFeaEa1KHdaqFCba2vynGLcFmv
+ 6SSaYyVdNELKV6ZI4HIsmppPpcpDkF+7vBg86OGpORWBVL9urfcVL/NH0UW/8pzNlbUD
+ +AyjBXbu7lqZIzQ25DJeV75ohRiREK0lmmL+LcRUSC8WOAyddkn89IFDQaA8wefqlnY9
+ S3TSjOEssTgALDLBcaB7jq2c3NYX6fdgYVYl5XXn7YpOVSPgSrSdF7k5lbeuz+P83IOl
+ zZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=s4TOvHX318f9h9ao1O6xP4xdg33Xz6ackDWY+LYz5uc=;
- b=AIqUivyXtW6SuE/310coXJWAtBJ2MH+C3Meb1p4zs7Yd/J093GUFdB3CUDlotcV6Ls
- PVL8YES7BoClZ6rc24CdOCZXdNzLCtkBOG6cGq8En9H1q6bVrmADB83GrWC7jHdUZFsR
- vLbjRQfRnnNAOhyLVl7DB+Uo5Nqfn9qFwFghv6SZTjLMer19IzOYiTjN7T9PnIiJlUc1
- 9h4rAfTdKEffcDZCvvrPnbfKkZyqVf/NSz29gPcGfv/DEfb2SwYzEZm7bU32HwXHvOXg
- 7IRb3yXVqLZ/ILbh7oIacYAK0ptZwIcjU+BcyxFCC4DLRMKCHZOv1Qr+BDjipg8E85yt
- UKhA==
-X-Gm-Message-State: AOAM533brBabynpWkIwIBKLYCJRu2diT22VByjmWPU9I+23sELSeDhvc
- 4Nxtd6Rzb4OKuKHsLNNopkVsEA==
-X-Google-Smtp-Source: ABdhPJzQn1f18OKRfvma8kw6tNXwt0Te7Jw8OVKXSuE12AEggU67acQcL8j1vylm8+liSXr+WM/oAQ==
-X-Received: by 2002:a63:195b:: with SMTP id 27mr1096287pgz.450.1623870169455; 
- Wed, 16 Jun 2021 12:02:49 -0700 (PDT)
+ bh=vYfnLa00UI0qukSRvparSJyuImMdHp72nxxOcjpifdY=;
+ b=pApallKCPwSyy5yhBRmP9cd99aCmW0QwucYFzGzPFFQbw4ofXXGD6bUdBZXbROKIye
+ 8lHoBYBagwX1x+RyjTK9QA5w4Elcvc7Riyqzo7VzpU1VxdmhWLuIHAHc35ObWO0j1jFf
+ 1Qb5wLgfG4zDdOuUnRdIZASYNh7OLMZc11r30LVVoHzsfriik38adekcbYerle/esANb
+ g/kWupsuNoRZ/t9g0RnKfRGMQGmQUAp05rSuyF/hJusOKMfL4cbTV80xHkPit2/xZPvG
+ sNNlPT0qWqKIhJaeLHYmIP0wnn+P4T9q9GQcTi/XY9qfv4k6WS3jfsMfsseksXFpBbiD
+ S3sg==
+X-Gm-Message-State: AOAM5320OBX7t0hxsPkUiEO+j7ej+45cJOvBUzNxRFsBSUou5pJRSWMj
+ KoPlzZ3xy0Tmq9W5jcE6e55CiA==
+X-Google-Smtp-Source: ABdhPJyh+SocPESJzTneQLgq67NNSBIrnzNCRcumj50JIo5t8X9E+ORmpoK8aC5DsHZCWTRoPfnEfQ==
+X-Received: by 2002:a17:902:fe03:b029:104:12b5:954f with SMTP id
+ g3-20020a170902fe03b029010412b5954fmr994163plj.85.1623870508787; 
+ Wed, 16 Jun 2021 12:08:28 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- y15sm2870715pji.47.2021.06.16.12.02.48
+ ei10sm2800231pjb.8.2021.06.16.12.08.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 12:02:49 -0700 (PDT)
-Subject: Re: [PATCH v3 13/13] hw/i2c: Make i2c_start_transfer() direction
- argument a boolean
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wed, 16 Jun 2021 12:08:28 -0700 (PDT)
+Subject: Re: [PATCH v4 1/7] crypto/tlscreds: Introduce
+ qcrypto_tls_creds_check_endpoint() helper
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20210616161418.2514095-1-f4bug@amsat.org>
- <20210616161418.2514095-14-f4bug@amsat.org>
+References: <20210616162225.2517463-1-philmd@redhat.com>
+ <20210616162225.2517463-2-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <31490775-a16e-1e4e-a180-d3c473cc87be@linaro.org>
-Date: Wed, 16 Jun 2021 12:02:47 -0700
+Message-ID: <ea427ca6-97e8-8e93-d0bc-07e85c98a366@linaro.org>
+Date: Wed, 16 Jun 2021 12:08:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210616161418.2514095-14-f4bug@amsat.org>
+In-Reply-To: <20210616162225.2517463-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -90,79 +92,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- "Signed-off-by : Frederic Konrad" <frederic.konrad@adacore.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/21 9:14 AM, Philippe Mathieu-Daudé wrote:
-> From: BALATON Zoltan <balaton@eik.bme.hu>
+On 6/16/21 9:22 AM, Philippe Mathieu-Daudé wrote:
+> Introduce the qcrypto_tls_creds_check_endpoint() helper
+> to access QCryptoTLSCreds internal 'endpoint' field.
 > 
-> Make the argument representing the direction of the transfer a
-> boolean type.
-> Rename the boolean argument as 'is_recv' to match i2c_recv_send().
-> Document the function prototype.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Message-Id: <20200621145235.9E241745712@zero.eik.bme.hu>
-> [PMD: Split patch, added docstring]
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 > ---
->   include/hw/i2c/i2c.h | 11 ++++++++++-
->   hw/i2c/core.c        |  4 ++--
->   2 files changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-> index 2adf521b271..5fe94c62c00 100644
-> --- a/include/hw/i2c/i2c.h
-> +++ b/include/hw/i2c/i2c.h
-> @@ -80,7 +80,16 @@ struct I2CBus {
->   
->   I2CBus *i2c_init_bus(DeviceState *parent, const char *name);
->   int i2c_bus_busy(I2CBus *bus);
-> -int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv);
-> +/**
-> + * i2c_start_transfer: start a transfer on an I2C bus.
-> + *
-> + * @bus: #I2CBus to be used
-> + * @address: address of the slave
-> + * @is_recv: indicates the transfer direction
-> + *
-> + * Returns: 0 on success, -1 on error
-> + */
-> +int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv);
->   void i2c_end_transfer(I2CBus *bus);
->   void i2c_nack(I2CBus *bus);
->   int i2c_send(I2CBus *bus, uint8_t data);
-> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-> index 6af24c9e797..6639ca8c2e0 100644
-> --- a/hw/i2c/core.c
-> +++ b/hw/i2c/core.c
-> @@ -115,7 +115,7 @@ bool i2c_scan_bus(I2CBus *bus, uint8_t address, bool broadcast,
->    * without releasing the bus.  If that fails, the bus is still
->    * in a transaction.
->    */
-> -int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
-> +int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
->   {
->       I2CSlaveClass *sc;
->       I2CNode *node;
-> @@ -157,7 +157,7 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, int recv)
->   
->           if (sc->event) {
->               trace_i2c_event("start", s->address);
-> -            rv = sc->event(s, recv ? I2C_START_RECV : I2C_START_SEND);
-> +            rv = sc->event(s, is_recv ? I2C_START_RECV : I2C_START_SEND);
+>   include/crypto/tlscreds.h | 14 ++++++++++++++
+>   crypto/tlscreds.c         | 12 ++++++++++++
+>   2 files changed, 26 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-I did wonder about passing in the I2C_START_{RECV,SEND} enum directly, as that 
-auto-documents the sense of the argument.  But there are quite a few instances remaining 
-which would need updating.
-
-Perhaps one more patch would be nice: introduce i2c_start_{send,recv} as inline wrappers?
-
 
 r~
 
