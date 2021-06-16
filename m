@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FEF3AA188
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:39:42 +0200 (CEST)
-Received: from localhost ([::1]:37586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B0F3AA189
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:39:44 +0200 (CEST)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYZp-0000SX-D4
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40064)
+	id 1ltYZr-0000dg-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ltYRX-0003Iz-Tq
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:31:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ltYRW-0007k8-0m
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:31:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623861065;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oPYqdqPD2TvTVREQgGoOOrmUQTrpNKqcxKNfZqE08OE=;
- b=cmAdRLdUlFLGZzVf0gvuHU477b6fVqYrltGcUu23Ks2wt7kC4VkrhPxIdOoLpxZ9+frIMG
- IeoS0X2m+O11G8pQHmENrwpov0W2kgPXYHRKfq2MMnVM11VAA2nLNUGl79ix+cuH6PEaxZ
- 2J4NoBSsXEfcmn0Gbtc9Gj0HhC2ZrO8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-NSGd07aSO4GyS53pLaZ7Jw-1; Wed, 16 Jun 2021 12:31:04 -0400
-X-MC-Unique: NSGd07aSO4GyS53pLaZ7Jw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E9EB10068F3;
- Wed, 16 Jun 2021 16:31:03 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-100.ams2.redhat.com [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BF5A60CCB;
- Wed, 16 Jun 2021 16:30:53 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 6/6] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on background snapshots
-Date: Wed, 16 Jun 2021 18:29:40 +0200
-Message-Id: <20210616162940.28630-7-david@redhat.com>
-In-Reply-To: <20210616162940.28630-1-david@redhat.com>
-References: <20210616162940.28630-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltYYA-00070K-I8
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:37:58 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:46042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltYY8-0003ZF-Ff
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 12:37:57 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ c18-20020a05600c0ad2b02901cee262e45fso2054310wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 09:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TdB0c7UX8gjC3ajIMl5/SCOjjM+jlyQt0azNl89uspQ=;
+ b=ZkKr/seaKdvTjzW4wdmxQddQwL4GmYYIkcVkhVRCpSss5Snp2gz/TtnqBZazcfk+wm
+ tsR0uHZdJsn8xo96Pm9O54euX6aVCZqYEJQCzthSkLn++pafG++2ay9XZJargMeBGqeT
+ 4y26g74DWvvITZFF2EzjjH4afdIyyKbKg7DutB82c2hLwpIfhY826x96MNxKJ/Gca0m/
+ in+X7LYdtcAovwjLkiuYy602plmIYZDQ6qRFWT2zWGxDkOyigiEhg+1eqW82P4fclTHD
+ VekYbEZiwMrJNUMraka08EZuwkWFx5ldZoE/WSRlvRaVfY2HAe43e788sx1KturOW5+5
+ 8cvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TdB0c7UX8gjC3ajIMl5/SCOjjM+jlyQt0azNl89uspQ=;
+ b=FjWjgAd+a9JWylngkTdFp1ZdbgcYbtFIlbk0JtGaf8dvgiAJEDdavZ3EzSlywLQqXY
+ iGKrsPC4UXoghdFcLsmYfRi3kHRpDPpRna2w8rWxGHC0kRgqNQbRroktqkRpwm5X8WgR
+ zWOwQhoCgbxPWeExVlI0tWjCWOrXlb5NC35MngzIiyi2y3qEEqo40H9GGe96WVNhW2wR
+ MpKUe7m7op7uGsDRE81MucvQevFxgwykcG0MSz3obHbR7sduHDCOrZXF4qanTS09fpJc
+ vUbZArj1+O2I24TI2FDEaxOCYUmRQ/Q9nB3RUUfK4QEG+rYfSVr0oYNKLKfO2noD+cIL
+ 8c/w==
+X-Gm-Message-State: AOAM532eEKek1U00PoiA7s1C/TmGykc1/f+XGURL0X1fq99DALzRrb8c
+ 0Q09Qyb1vXRaPwo5IThoGi8=
+X-Google-Smtp-Source: ABdhPJwk2cfArfJn7a/8VxI5VrafU8Lj9IFOUnB/nP59Ee3E/DA+jja8oACLYSOV+kCWrtJhUw6IMQ==
+X-Received: by 2002:a1c:e915:: with SMTP id q21mr866445wmc.110.1623861474998; 
+ Wed, 16 Jun 2021 09:37:54 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id m6sm3241169wrw.9.2021.06.16.09.37.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 09:37:54 -0700 (PDT)
+Subject: Re: [PATCH 06/21] linux-user/cris: Implement setup_sigtramp
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210616011209.1446045-1-richard.henderson@linaro.org>
+ <20210616011209.1446045-7-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7d224227-6cbb-706b-a4b1-5f4832fc1dbb@amsat.org>
+Date: Wed, 16 Jun 2021 18:37:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210616011209.1446045-7-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,123 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already don't ever migrate memory that corresponds to discarded ranges
-as managed by a RamDiscardManager responsible for the mapped memory region
-of the RAMBlock.
+On 6/16/21 3:11 AM, Richard Henderson wrote:
+> Split out setup_sigreturn so that we can continue to
+> initialize the words on the stack, as documented.
+> However, use the off-stack trampoline.
+> 
+> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/cris/target_signal.h |  2 ++
+>  linux-user/cris/signal.c        | 29 +++++++++++++++++++++--------
+>  2 files changed, 23 insertions(+), 8 deletions(-)
 
-virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
-Right now, we still populate zeropages for the whole usable part of the
-RAMBlock, which is undesired because:
+> +void setup_sigtramp(abi_ulong sigtramp_page)
+> +{
+> +    uint16_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 4 * 2, 0);
 
-1. Even populating the shared zeropage will result in memory getting
-   consumed for page tables.
-2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
-   will populate an actual, fresh page, resulting in an unintended
-   memory consumption.
+3 * 2?
 
-Discarded ("logically unplugged") parts have to remain discarded. As
-these pages are never part of the migration stream, there is no need to
-track modifications via userfaultfd WP reliably for these parts.
+> +    assert(tramp != NULL);
+> +
+> +    default_sigreturn = sigtramp_page;
+> +    setup_sigreturn(tramp);
+> +
+> +    unlock_user(tramp, sigtramp_page, 4 * 2);
 
-Further, any writes to these ranges by the VM are invalid and the
-behavior is undefined.
+Ditto.
 
-Note that Linux only supports userfaultfd WP on private anonymous memory
-for now, which usually results in the shared zeropage getting populated.
-The issue will become more relevant once userfaultfd WP supports shmem
-and hugetlb.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- migration/ram.c | 53 +++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 45 insertions(+), 8 deletions(-)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index 54136cd76e..7236230950 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1614,6 +1614,28 @@ out:
-     return ret;
- }
- 
-+static inline void populate_range(RAMBlock *block, hwaddr offset, hwaddr size)
-+{
-+    char *ptr = (char *) block->host;
-+
-+    for (; offset < size; offset += qemu_real_host_page_size) {
-+        char tmp = *(ptr + offset);
-+
-+        /* Don't optimize the read out */
-+        asm volatile("" : "+r" (tmp));
-+    }
-+}
-+
-+static inline int populate_section(MemoryRegionSection *section, void *opaque)
-+{
-+    const hwaddr size = int128_get64(section->size);
-+    hwaddr offset = section->offset_within_region;
-+    RAMBlock *block = section->mr->ram_block;
-+
-+    populate_range(block, offset, size);
-+    return 0;
-+}
-+
- /*
-  * ram_block_populate_pages: populate memory in the RAM block by reading
-  *   an integer from the beginning of each page.
-@@ -1623,16 +1645,31 @@ out:
-  *
-  * @block: RAM block to populate
-  */
--static void ram_block_populate_pages(RAMBlock *block)
-+static void ram_block_populate_pages(RAMBlock *rb)
- {
--    char *ptr = (char *) block->host;
--
--    for (ram_addr_t offset = 0; offset < block->used_length;
--            offset += qemu_real_host_page_size) {
--        char tmp = *(ptr + offset);
-+    /*
-+     * Skip populating all pages that fall into a discarded range as managed by
-+     * a RamDiscardManager responsible for the mapped memory region of the
-+     * RAMBlock. Such discarded ("logically unplugged") parts of a RAMBlock
-+     * must not get populated automatically. We don't have to track
-+     * modifications via userfaultfd WP reliably, because these pages will
-+     * not be part of the migration stream either way -- see
-+     * ramblock_dirty_bitmap_exclude_discarded_pages().
-+     *
-+     * Note: The result is only stable while migration (precopy/postcopy).
-+     */
-+    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
-+        MemoryRegionSection section = {
-+            .mr = rb->mr,
-+            .offset_within_region = 0,
-+            .size = rb->mr->size,
-+        };
- 
--        /* Don't optimize the read out */
--        asm volatile("" : "+r" (tmp));
-+        ram_discard_manager_replay_populated(rdm, &section,
-+                                             populate_section, NULL);
-+    } else {
-+        populate_range(rb, 0, qemu_ram_get_used_length(rb));
-     }
- }
- 
--- 
-2.31.1
+> +}
+> 
 
 
