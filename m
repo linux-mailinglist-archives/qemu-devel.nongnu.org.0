@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D983A962B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:30:07 +0200 (CEST)
-Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612003A9624
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:29:35 +0200 (CEST)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltRs6-0005xv-KO
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:30:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
+	id 1ltRra-0006mW-CY
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1ltRoe-0003h5-7w; Wed, 16 Jun 2021 05:26:32 -0400
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:37886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1ltRob-0003aN-V4; Wed, 16 Jun 2021 05:26:31 -0400
-Received: by mail-qv1-xf35.google.com with SMTP id x6so1194525qvx.4;
- Wed, 16 Jun 2021 02:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8SyBj6xeWKxD1uaPyckWJZ0YfEp3/4EOsSfDw8mmagg=;
- b=XvinKsZLxYzw7kvUSRO1tGVmwqK5gffLyJNN5S6KSwS88Vf9XRsVT3lKi3liHANDGe
- anVf0RlGkg9h1wwkIKrd7pPxt6clh6zJEMDcbYUWrTXb47AIjeCoqbt2NsZ3pJKwz9wX
- jE00ktujJ0oIzDgWmETMLTStIvcnbvsb0LZtU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8SyBj6xeWKxD1uaPyckWJZ0YfEp3/4EOsSfDw8mmagg=;
- b=NSyh6XFYaCNRMHRGnHKH8MEMytJqc775jvtKI1o6og/19Z960dMkxlQ+gG5wvSLriR
- kRDx3RXrndoFK6ruiM3cCK4XVCxbnuC79rSox4GoC2QitAnd/PGy80wo83Hsn+ofeX/j
- 7FiM8b2lLpsFterYTAfjMW+NtPJb7jKvCFS8pB/8ThKiB/GhNQxOjy+MCRU4SH1VumtT
- rayCxiuCHH1B8tLQys1/616TqSaH6PpTbv75vCQZ9mzyChMHgrjhtpefyHEHV+B0IKAh
- pz9KA4upIq1hNMP8gs9TIf3BDiwMN7iUMOSuwOstqe+45RSsY8lPR5afH3/lVwd0Ktko
- 2WzA==
-X-Gm-Message-State: AOAM532M24pYcsI9SxKHMqyUvIYYjiT+oudUa6/IqX/36X64Nj6AbaSd
- QjcKQqVQhW2kds0Dz1C91kIJsoluSinIRFyjhfoJ8HVxCas=
-X-Google-Smtp-Source: ABdhPJxdvRqII13SFvyS8wMEC/PoCFt5m2O13e8IWH4kz2Q6CSDm1ZeE6DOi+oOCvsJICM+cPwGzOz1kfvjP+CnVaog=
-X-Received: by 2002:ad4:4513:: with SMTP id k19mr10123699qvu.10.1623835588369; 
- Wed, 16 Jun 2021 02:26:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltRqY-0005VN-3h
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 05:28:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltRqU-0004xk-C3
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 05:28:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623835705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ya2KLSTGvxBpsM2nHEX3qNyO/DwACaPlsw9GhUE6as8=;
+ b=ZOueZmzcV/2veQieIq5WfkiC+q723C25DNpyZvf3rI+xCB4wDstVHJdL2EjeupL5xMcSq4
+ XO0WRmxyBGfsjaqkGq/dplOLPZp+lkmRnMAAbOK4EZqCa9GFqlkneWgQknGqEvOonsKeUv
+ bvPqdcz65mIFZ8J5A7pazYsjzb8qIh0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-94-di74PAMOOcqGrMMstOOStw-1; Wed, 16 Jun 2021 05:28:21 -0400
+X-MC-Unique: di74PAMOOcqGrMMstOOStw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9E14100C611;
+ Wed, 16 Jun 2021 09:28:20 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 072AC1A866;
+ Wed, 16 Jun 2021 09:28:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8678818000B2; Wed, 16 Jun 2021 11:28:15 +0200 (CEST)
+Date: Wed, 16 Jun 2021 11:28:15 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?B?Sm9zw6k=?= Ricardo Ziviani <jose.ziviani@suse.com>
+Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
+Message-ID: <20210616092815.rjznyjnvgrrfojq6@sirius.home.kraxel.org>
+References: <20210610101553.943689-1-kraxel@redhat.com>
+ <5953598.eXybCX72BP@pizza>
+ <20210615050930.bmgup2axfr7sqvoa@sirius.home.kraxel.org>
+ <2963309.4TrVdrBa0x@pizza>
 MIME-Version: 1.0
-References: <20210616073358.750472-1-joel@jms.id.au>
- <20210616073358.750472-2-joel@jms.id.au>
- <5aadfb16-c563-9097-95c6-52f88be20468@kaod.org>
-In-Reply-To: <5aadfb16-c563-9097-95c6-52f88be20468@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 16 Jun 2021 09:26:15 +0000
-Message-ID: <CACPK8XdCAC7MQH_16UecQ4wPeOA1C4mG4x+FDyWgy5s0ojSSXg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] hw/misc: Add Infineon DPS310 sensor model
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf35.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <2963309.4TrVdrBa0x@pizza>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,27 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Jun 2021 at 09:09, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> On 6/16/21 9:33 AM, Joel Stanley wrote:
-> > +typedef struct DPS310State {
-> > +    /*< private >*/
-> > +    I2CSlave i2c;
-> > +
-> > +    /*< public >*/
-> > +    uint8_t regs[NUM_REGISTERS];
-> > +
-> > +    int16_t pressure, temperature;
->
->
-> We don't need those fields anymore. I will remove them if you are ok
-> with that.
+> > Hmm, what would be the use case?  Right now qemu has the all-or-nothing
+> > approach for modules, i.e. if modules are enabled everything we can
+> > build as module will be built as module, and I havn't seen any drawbacks
+> > so far.  So, why would one compile parts of qemu as module and other
+> > parts not?
+> 
+> From my point of view, as a QEMU package maintainer, the all-or-nothing module 
+> approach is great - specially for accelerators - because we can create a set 
+> of officially supported packages and another set of optional modules, that 
+> users may get them if they want to.
 
-Yes, go ahead.
+Same here ;)
 
-Thanks!
+> However, please correct me if I'm wrong, I understand that an accelerator as a 
+> module will add an overhead that some user won't be willing to pay. So, give 
+> them the option to have built-in accelerators seems a good idea.
+
+Modules add some overhead, yes, and there are surely use-cases where you
+don't want accel modules.  I would just expect people don't want the
+other modules either then, but maybe I'm wrong.
+
+take care,
+  Gerd
+
 
