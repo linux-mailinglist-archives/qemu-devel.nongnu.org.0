@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4698C3A8E5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:29:36 +0200 (CEST)
-Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C887C3A8E68
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:31:54 +0200 (CEST)
+Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKN5-0007nq-9L
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53280)
+	id 1ltKPJ-0004MO-Px
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltKDr-0003FN-Sn; Tue, 15 Jun 2021 21:20:03 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:34624)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltK6e-0005fu-4c
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:36 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:40949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ltKDq-0004Ev-1l; Tue, 15 Jun 2021 21:20:03 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id k11so994753qkk.1;
- Tue, 15 Jun 2021 18:20:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltK6R-0008UD-Hu
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:33 -0400
+Received: by mail-pl1-x636.google.com with SMTP id e7so259813plj.7
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AqJ/CANn+mLhqYcCkmI2qej991jLbuz2Di1qLnOGcV8=;
- b=YZtgJWh99NgYWFpDKsnPgduJMkYDAIof+Z6BzcWYf5ABL1LvjwFyLbPKZTHyJtsIM4
- OX5CZhvFGwiy0L8Mvbpc0btwAk8qT9jEhDqPQYcdb1rxeaJUWY7pqQRA1Gx+BOOnBqDv
- D07n+cj/R49TlEsEoYALB52wJjCPOU6ZpxyQElvBTBX1vTZHzoLhOtl0Pga/jINzFVaZ
- M7AJ7csAzxPm93bh8BcyfCNYXA/sMJDoPRpxY33RvIHV2njeSFb/CgEcdtxL2lWeiLVe
- s5NVPiA2iUj1yujDov89ku5tLDcHTmw60pG+w2jDSZiLaFo1icAydQoY0PQHPlM9L6qd
- awtA==
+ bh=gmXhcVzm0Mn9qra3UUrV4KJ0gXBFFg35s1ELoxfM9Zo=;
+ b=Bg5J7xyu7UhebMUdPbm+bab9HhIKGCcokiHNF4HgWZpVmus1tvnWxma6kUaIHATmlx
+ k3cRyTUG+ATTxla+uP7yT/ljqcuvjXArtEyq6ngwxboe1LH8wum7jrguUzmgMseBrqvb
+ 8wW4jGcLivVUOXTD5cLT9KYIDo5Uus/I1c9+wGWK5hKYgAvd/NGlQw7KJWHPLY2XAwWQ
+ oWXwGxoim91l16XAVoZcKUn1+LP0/b9S1rHiIQ3bo8pktFm4+k5M6+pVKYxiHomMtW9L
+ If8sqVPz/y0hHET11CeNVwQVjSeGuoY6LTYhnuwycqVlaDjAAoHBcwXso5h/a4gRzzkq
+ yjIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AqJ/CANn+mLhqYcCkmI2qej991jLbuz2Di1qLnOGcV8=;
- b=gyYaTIDC/XPdUCn1VaF2KjhS/+2ZHDN1MbTnRNo9Pot16SiHDSSZ9J27curfpp4p3U
- TxQlHoO0X0Rg3NnpFExXT+c6zJWpkjOAYFWQ1XD8KDe4nQCLPSUwRgwOQ332rBOuuv7U
- 6bG35Zko25ko2Ckjdh/9A9fOxM6IXLoara4oK/jFQsHlc8+wjO8idbAv1acwoEhBCjAa
- uRO3vXBbegbI4zpzK0WqbafxxL4dLwhEeghHxFTDh1hsQS5F7ObtgKRkifnSHWX/OfU2
- w51Na6CvUAFRMfcJcwJa3GK299gIrJG71q+VAeGMvTKwi8jEuJboZYTDxMxy7h85sch0
- cjmA==
-X-Gm-Message-State: AOAM530cxTXd0IUhV22UmCu5itCI/+9mM2wB0dBuj1SHmOpdw2b13vxX
- TCXJXpqlxuWIJHjSHS8wQofV2Rlx4uE=
-X-Google-Smtp-Source: ABdhPJzMTSkCr8et+f/QjsKhXhavnF1mCTf2JtvG9KPYzqroVzpP3w8sApX6sh0z9FPLsUkj94nesQ==
-X-Received: by 2002:a05:620a:1129:: with SMTP id
- p9mr2632100qkk.163.1623806399735; 
- Tue, 15 Jun 2021 18:19:59 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7c6:4d9a:784f:a7de:c020:5f1e])
- by smtp.gmail.com with ESMTPSA id f19sm627994qkg.70.2021.06.15.18.19.57
+ bh=gmXhcVzm0Mn9qra3UUrV4KJ0gXBFFg35s1ELoxfM9Zo=;
+ b=qMPy02IR+RbZI8vwq681g4quGqNEZPMlK8EQtpogCejJMMrbmtYsDbsemh3njAB3Gt
+ A4kO7FsQCoFTn3zSCBGBY3B8+eh8jhay0uhDxKmnjBlSNfT68OO31u3/1Po9+um56pNw
+ QNSloBqqtZ2+u1m7HRoA7/W5ByyY9/jbnshlz6yalQ5lgNS6yfQQVLVQxmH+AaqAI6jT
+ iKMpB/Yg9GvD7pqDu2U/S6vaCsGtPdNMKHmycSssFzpR+qU2AYWeLOqgxkGvhqI9kbfY
+ 9LXzanGUVNpwAXKTxFv2AuQdzAEbu6LEjq1g+GctlToE+tRVL0RrecxcMhWiOhaRjR1L
+ waYg==
+X-Gm-Message-State: AOAM531MCtv10/Bi9ScjzyufYq6s+b89V+F1AmVLhd+AuVole4fWUkfV
+ j8DSoV2bOVK+9tfqUFogzchQbpRT9VnC6A==
+X-Google-Smtp-Source: ABdhPJwzNksVnscLRsGWQ/sMLUnEmTNx+V6l5FYS6hu+9disQ40iHM+W9FkLu1/L2m0H/9/zCLmRtw==
+X-Received: by 2002:a17:902:8bca:b029:11d:b5c0:5677 with SMTP id
+ r10-20020a1709028bcab029011db5c05677mr4826490plo.11.1623805942138; 
+ Tue, 15 Jun 2021 18:12:22 -0700 (PDT)
+Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
+ [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id y18sm305297pgk.53.2021.06.15.18.12.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 18:19:59 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+ Tue, 15 Jun 2021 18:12:21 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 1/7] spapr_numa.c: split FORM1 code into helpers
-Date: Tue, 15 Jun 2021 22:19:38 -0300
-Message-Id: <20210616011944.2996399-2-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210616011944.2996399-1-danielhb413@gmail.com>
-References: <20210616011944.2996399-1-danielhb413@gmail.com>
+Subject: [PATCH 18/21] linux-user/sh4: Implement setup_sigtramp
+Date: Tue, 15 Jun 2021 18:12:06 -0700
+Message-Id: <20210616011209.1446045-19-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210616011209.1446045-1-richard.henderson@linaro.org>
+References: <20210616011209.1446045-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,121 +84,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aneesh.kumar@linux.ibm.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: alex.bennee@linaro.org, laurent@vivier.eu,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The upcoming FORM2 NUMA affinity will support asymmetric NUMA topologies
-and doesn't need be concerned with all the legacy support for older
-pseries FORM1 guests.
+Create and record the two signal trampolines.
+Use them when the guest does not use SA_RESTORER.
 
-We're also not going to calculate associativity domains based on numa
-distance (via spapr_numa_define_associativity_domains) since the
-distances will be written directly into new DT properties.
-
-Let's split FORM1 code into its own functions to allow for easier
-insertion of FORM2 logic later on.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/ppc/spapr_numa.c | 61 +++++++++++++++++++++++++++++----------------
- 1 file changed, 39 insertions(+), 22 deletions(-)
+ linux-user/sh4/target_signal.h |  2 ++
+ linux-user/sh4/signal.c        | 40 +++++++++++++++++++---------------
+ 2 files changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 779f18b994..04a86f9b5b 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -155,6 +155,32 @@ static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr)
+diff --git a/linux-user/sh4/target_signal.h b/linux-user/sh4/target_signal.h
+index d7309b7136..04069cba66 100644
+--- a/linux-user/sh4/target_signal.h
++++ b/linux-user/sh4/target_signal.h
+@@ -22,4 +22,6 @@ typedef struct target_sigaltstack {
+ #include "../generic/signal.h"
  
- }
- 
-+/*
-+ * Set NUMA machine state data based on FORM1 affinity semantics.
-+ */
-+static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-+                                           MachineState *machine)
-+{
-+    bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
+ #define TARGET_ARCH_HAS_SETUP_FRAME
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
 +
-+    /*
-+     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-+     * 1 NUMA node) will not benefit from anything we're going to do
-+     * after this point.
-+     */
-+    if (using_legacy_numa) {
-+        return;
-+    }
-+
-+    if (!spapr_numa_is_symmetrical(machine)) {
-+        error_report("Asymmetrical NUMA topologies aren't supported "
-+                     "in the pSeries machine");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    spapr_numa_define_associativity_domains(spapr);
-+}
-+
- void spapr_numa_associativity_init(SpaprMachineState *spapr,
-                                    MachineState *machine)
+ #endif /* SH4_TARGET_SIGNAL_H */
+diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
+index 0451e65806..5a5ae69785 100644
+--- a/linux-user/sh4/signal.c
++++ b/linux-user/sh4/signal.c
+@@ -51,7 +51,6 @@ struct target_sigframe
  {
-@@ -210,22 +236,7 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+     struct target_sigcontext sc;
+     target_ulong extramask[TARGET_NSIG_WORDS-1];
+-    uint16_t retcode[3];
+ };
+ 
+ 
+@@ -67,7 +66,6 @@ struct target_rt_sigframe
+ {
+     struct target_siginfo info;
+     struct target_ucontext uc;
+-    uint16_t retcode[3];
+ };
+ 
+ 
+@@ -189,15 +187,9 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+-        regs->pr = (unsigned long) ka->sa_restorer;
++        regs->pr = ka->sa_restorer;
+     } else {
+-        /* Generate return code (system call to sigreturn) */
+-        abi_ulong retcode_addr = frame_addr +
+-                                 offsetof(struct target_sigframe, retcode);
+-        __put_user(MOVW(2), &frame->retcode[0]);
+-        __put_user(TRAP_NOARG, &frame->retcode[1]);
+-        __put_user((TARGET_NR_sigreturn), &frame->retcode[2]);
+-        regs->pr = (unsigned long) retcode_addr;
++        regs->pr = default_sigreturn;
      }
  
--    /*
--     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
--     * 1 NUMA node) will not benefit from anything we're going to do
--     * after this point.
--     */
--    if (using_legacy_numa) {
--        return;
--    }
--
--    if (!spapr_numa_is_symmetrical(machine)) {
--        error_report("Asymmetrical NUMA topologies aren't supported "
--                     "in the pSeries machine");
--        exit(EXIT_FAILURE);
--    }
--
--    spapr_numa_define_associativity_domains(spapr);
-+    spapr_numa_FORM1_affinity_init(spapr, machine);
- }
+     /* Set up registers for signal handler */
+@@ -247,15 +239,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     /* Set up to return from userspace.  If provided, use a stub
+        already in userspace.  */
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+-        regs->pr = (unsigned long) ka->sa_restorer;
++        regs->pr = ka->sa_restorer;
+     } else {
+-        /* Generate return code (system call to sigreturn) */
+-        abi_ulong retcode_addr = frame_addr +
+-                                 offsetof(struct target_rt_sigframe, retcode);
+-        __put_user(MOVW(2), &frame->retcode[0]);
+-        __put_user(TRAP_NOARG, &frame->retcode[1]);
+-        __put_user((TARGET_NR_rt_sigreturn), &frame->retcode[2]);
+-        regs->pr = (unsigned long) retcode_addr;
++        regs->pr = default_rt_sigreturn;
+     }
  
- void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-@@ -302,12 +313,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-     return ret;
+     /* Set up registers for signal handler */
+@@ -333,3 +319,21 @@ badframe:
+     force_sig(TARGET_SIGSEGV);
+     return -TARGET_QEMU_ESIGRETURN;
  }
- 
--/*
-- * Helper that writes ibm,associativity-reference-points and
-- * max-associativity-domains in the RTAS pointed by @rtas
-- * in the DT @fdt.
-- */
--void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-+static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
-+                                           void *fdt, int rtas)
- {
-     MachineState *ms = MACHINE(spapr);
-     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-@@ -365,6 +372,16 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-                      maxdomains, sizeof(maxdomains)));
- }
- 
-+/*
-+ * Helper that writes ibm,associativity-reference-points and
-+ * max-associativity-domains in the RTAS pointed by @rtas
-+ * in the DT @fdt.
-+ */
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-+{
-+    spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
-+}
 +
- static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-                                               SpaprMachineState *spapr,
-                                               target_ulong opcode,
++void setup_sigtramp(abi_ulong sigtramp_page)
++{
++    uint16_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 6, 0);
++    assert(tramp != NULL);
++
++    default_sigreturn = sigtramp_page;
++    __put_user(MOVW(2), &tramp[0]);
++    __put_user(TRAP_NOARG, &tramp[1]);
++    __put_user(TARGET_NR_sigreturn, &tramp[2]);
++
++    default_rt_sigreturn = sigtramp_page + 6;
++    __put_user(MOVW(2), &tramp[3]);
++    __put_user(TRAP_NOARG, &tramp[4]);
++    __put_user(TARGET_NR_rt_sigreturn, &tramp[5]);
++
++    unlock_user(tramp, sigtramp_page, 2 * 6);
++}
 -- 
-2.31.1
+2.25.1
 
 
