@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBFA3AA5DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 23:02:22 +0200 (CEST)
-Received: from localhost ([::1]:55678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E241D3AA5E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 23:04:33 +0200 (CEST)
+Received: from localhost ([::1]:34332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltcg1-0006Cg-4g
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 17:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
+	id 1ltci8-0002S2-VS
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 17:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcPn-0003nq-PQ
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:45:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30971)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcPu-0003zp-K1
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:45:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcPj-0001Vp-QS
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:45:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcPs-0001Yd-2f
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:45:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623876330;
+ s=mimecast20190719; t=1623876339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kB/lnjMU7yko7yxzqp5L1QJkdTuRfvKiLBaXoDmFI74=;
- b=fY4BuIpaotiFHq83JGcJcsh1bAw4zVy5eOQpC/zJjJn576CSFiJ7+gdzRQ6TPaMTVy6ejw
- 96MaF36E8ye5pki68ugcd2z/j7RTkrBrIdeuxyNqOcXCw7alnSXCzKXwQkIYONHoU6VUTI
- PE2KCw+HrWDj3htL90jZEJ47Pdv3Scs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-fN2cl6ylM0iyItjP-mKRAQ-1; Wed, 16 Jun 2021 16:45:29 -0400
-X-MC-Unique: fN2cl6ylM0iyItjP-mKRAQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l2-20020adfe5820000b029011a64161d6aso1878198wrm.6
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 13:45:29 -0700 (PDT)
+ bh=0afWzhBhI6klZY1Mb1UVWAL8VD89TP6dUzvV5tmy8sQ=;
+ b=RfgX7MebQLau+1CmkDwzA6NDJ8b2QrK55VVGjotiBCealbUVSpzyzgGcxoS49jKKM19LzF
+ TYrjqwHrzrwo1x/o+T5nILqc+mti6Z06UrRFqERb6hE0C2hnJzBG6doKjCiFDeNz0xs3Pz
+ WA1B6kZnbedO+pIQX4Rw1tvNHRhqYhk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-IWkQOw7xPmOtl6zInDqWPA-1; Wed, 16 Jun 2021 16:45:38 -0400
+X-MC-Unique: IWkQOw7xPmOtl6zInDqWPA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ q15-20020adfc50f0000b0290111f48b865cso1868082wrf.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 13:45:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kB/lnjMU7yko7yxzqp5L1QJkdTuRfvKiLBaXoDmFI74=;
- b=QmXFlapurCCv+XZtuJI9rX/ppe4uEYThjUtZ3PKMt2mlABGwR7sUulj2/9EjMKjebT
- xZA/2HS+jNGUcYwbLF5ZR1Oul932ng7m7EPLRfVROACSpww0+ilBF8i0TUgSkjS4+8cP
- 6txpbQSKreOio+jN8EE6YPj0RMeRzlwB91UV26Mp3wzGP/ejEFN8fqfATGrGSwuFyg6+
- C+Jfk4v8/aYC5JRhIBIoWgCdOmDutW/ewJbIuyOfNqnBEzoo870XapK1fD4ejQwzkskB
- wEzBMJLARRL55/UjPiSccEQbI5tHejXP43CV+ZqwnOcOGtkNMmI5ejD4kXL5OqWolguC
- M9Eg==
-X-Gm-Message-State: AOAM533bxw+Kxh7YqgI8F+oZzsWGt1ZrOZjbe1ETUaERkIQXzOdfLNh5
- oUnrleJY1C8n5wWGGbSx6qDYJzqh7tvPPxOaB/j/RH5UvVBafzUw9RHF/f6VEsIFTuqP4vdk+mJ
- P/Yb/fIBVvQ/i7HwiL3mxr0LjLHyQ6ypoqr/wT58tA/7t/TuH1TENaL29Mj0kPLSr
-X-Received: by 2002:adf:cc8d:: with SMTP id p13mr1127412wrj.239.1623876325783; 
- Wed, 16 Jun 2021 13:45:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw53BQ1SMsPqvO4fURGSFllRvkC0CXmHJChOxJiIEabG7B6FsV35smhBRFBfOjNPyOy/OCoKw==
-X-Received: by 2002:adf:cc8d:: with SMTP id p13mr1127374wrj.239.1623876325579; 
- Wed, 16 Jun 2021 13:45:25 -0700 (PDT)
+ bh=0afWzhBhI6klZY1Mb1UVWAL8VD89TP6dUzvV5tmy8sQ=;
+ b=nzH0HE51li+hqw0LNn9pEiiim4uhgixJX1JAQxlaiHgkxIRjYMfhMFqnjKlNNxjPL7
+ 6iI373DLvimytojxSPQinpHhzlTcZIolMD89AhlXDLsV0X6vc+JZafbf02qq6zJJgEFR
+ I+WuPI97LlEiYWEG+J4LkYsSuVE6ZPo7QxJc14wyB/d/ToAyhQKYoZPZmX5e/phdh75L
+ RoQKS33IigLK3R0PseCCycFtPaiMntDK+R7XT+6D+AgjcIpIQi3wd8t4idPIJTPLrTK7
+ SRn2KuAigPGCWxELskqqilZXhB053b8BeB6iRxhk0ryCFmov6oxKl+fnuYlpqGFZlFNN
+ CInw==
+X-Gm-Message-State: AOAM530PCJGYSGwCy4u27GKEEl8etWgR3D7Vr8PH4VcPbnzw39QUAUqM
+ t43n5T7gEKd56vIFVUIMXtd2iKFQWpXDsKokMY8V7wZ26odZ/wgIYYI/fFNj6Jo/JCeNkUAPBaU
+ 9q869ofhbLrCPT1s5KDenz4wDPeJ5oWbKx+DmHHnqFLCng2K6ivj6e5Vok+muPz1A
+X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr1155106wrt.295.1623876336834; 
+ Wed, 16 Jun 2021 13:45:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUC/tZ8s6XNrVekxXp5jptFYsfWEF20aEVsOupWx3tUUgx67GngNVDdl2X1IRcoU7sqbFGCw==
+X-Received: by 2002:a5d:4cd1:: with SMTP id c17mr1155077wrt.295.1623876336679; 
+ Wed, 16 Jun 2021 13:45:36 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id x18sm3116234wrw.19.2021.06.16.13.45.24
+ by smtp.gmail.com with ESMTPSA id z17sm3218172wrt.60.2021.06.16.13.45.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 13:45:25 -0700 (PDT)
+ Wed, 16 Jun 2021 13:45:36 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/23] hw/acpi: Do not restrict ACPI core routines to x86
- architecture
-Date: Wed, 16 Jun 2021 22:43:25 +0200
-Message-Id: <20210616204328.2611406-21-philmd@redhat.com>
+Subject: [PATCH v2 22/23] hw/acpi/Kconfig: Add missing Kconfig dependencies
+ (build error)
+Date: Wed, 16 Jun 2021 22:43:27 +0200
+Message-Id: <20210616204328.2611406-23-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616204328.2611406-1-philmd@redhat.com>
 References: <20210616204328.2611406-1-philmd@redhat.com>
@@ -107,34 +107,62 @@ Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ACPI core routines (in core.c) are not really x86-specific.
+The 'microvm' machine misses various dependencies:
 
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_setup_microvm':
+  hw/i386/acpi-microvm.c:247: undefined reference to `acpi_build_tables_init'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_build_microvm':
+  hw/i386/acpi-microvm.c:192: undefined reference to `bios_linker_loader_alloc'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `build_dsdt_microvm':
+  hw/i386/acpi-microvm.c:121: undefined reference to `init_aml_allocator'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:124: undefined reference to `acpi_data_push'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:126: undefined reference to `aml_scope'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:129: undefined reference to `build_ged_aml'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:131: undefined reference to `acpi_dsdt_add_power_button'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_dsdt_add_virtio':
+  hw/i386/acpi-microvm.c:77: undefined reference to `aml_string'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `build_dsdt_microvm':
+  hw/i386/acpi-microvm.c:138: undefined reference to `aml_scope'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:149: undefined reference to `build_header'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:152: undefined reference to `free_aml_allocator'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_build_microvm':
+  hw/i386/acpi-microvm.c:202: undefined reference to `acpi_add_table'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:203: undefined reference to `build_fadt'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:206: undefined reference to `acpi_add_table'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:207: undefined reference to `acpi_build_madt'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:212: undefined reference to `build_xsdt'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:224: undefined reference to `build_rsdp'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_setup_microvm':
+  hw/i386/acpi-microvm.c:251: undefined reference to `acpi_add_rom_blob'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:253: undefined reference to `acpi_add_rom_blob'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:255: undefined reference to `acpi_add_rom_blob'
+  /usr/bin/ld: hw/i386/acpi-microvm.c:258: undefined reference to `acpi_build_tables_cleanup'
+  /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_dsdt_add_pci':
+  hw/i386/acpi-microvm.c:105: undefined reference to `acpi_dsdt_add_gpex'
+  collect2: error: ld returned 1 exit status
+  ninja: build stopped: subcommand failed.
+
+Update the ACPI_HW_REDUCED symbol to select ACPI_MEMORY_HOTPLUG /
+ACPI_NVDIMM / ACPI.
+
+Fixes: 8045df14bcc ("microvm/acpi: add minimal acpi support")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/acpi/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/acpi/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-index dd69577212a..c23c67f4283 100644
---- a/hw/acpi/meson.build
-+++ b/hw/acpi/meson.build
-@@ -3,6 +3,7 @@
-   'acpi_interface.c',
-   'aml-build.c',
-   'bios-linker-loader.c',
-+  'core.c',
-   'utils.c',
- ))
- acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
-@@ -14,7 +15,7 @@
- acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
--acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
- acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
- acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
- acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index 1932f66af8d..cfc4ede8d91 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -42,3 +42,7 @@ config ACPI_VMGENID
+     depends on PC
+ 
+ config ACPI_HW_REDUCED
++    bool
++    select ACPI
++    select ACPI_MEMORY_HOTPLUG
++    select ACPI_NVDIMM
 -- 
 2.31.1
 
