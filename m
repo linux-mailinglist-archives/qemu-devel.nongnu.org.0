@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D0F3A95B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:14:30 +0200 (CEST)
-Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CB23A95E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:17:58 +0200 (CEST)
+Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltRcz-00060g-MX
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
+	id 1ltRgL-0002Dn-RW
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
- id 1ltRbU-0004gi-Sm
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 05:12:57 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:57994)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1ltRbS-00048k-Nd
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 05:12:56 -0400
-Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
- [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 2624744A54;
- Wed, 16 Jun 2021 18:12:51 +0900 (JST)
-Received: from yo-satoh-debian.localdomain
- (z215167.dynamic.ppp.asahi-net.or.jp [110.4.215.167])
- by sakura.ysato.name (Postfix) with ESMTPSA id C41391C06F8;
- Wed, 16 Jun 2021 18:12:50 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/sh4: sh7750 using renesas_sci.
-Date: Wed, 16 Jun 2021 18:12:44 +0900
-Message-Id: <20210616091244.33049-4-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210616091244.33049-1-ysato@users.sourceforge.jp>
-References: <20210616091244.33049-1-ysato@users.sourceforge.jp>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ltReK-0008Sx-ND; Wed, 16 Jun 2021 05:15:53 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37384)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ltReD-0005ri-3Z; Wed, 16 Jun 2021 05:15:50 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id b13so2043982ybk.4;
+ Wed, 16 Jun 2021 02:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vXmhzDqLuz2y5ngXRfNBrk6SvB2qIjqGK3wrwOmZ1OA=;
+ b=AW6cBg8B/ln3xZbZvvbd8V7idmmG+z8DJ9ENAynSDstJLh2i5rTbed+wI+0yx2TDdP
+ i+Di7xLsZwVUmqVtMSFLa0HsFG1pWbioBLaECvICUn7EgBTBXHWrHiuRlG2xAWn2sLbi
+ uOSxPBy+rZV1ilRTPNHLSqATlOxaFD5cvcpkHNQxHLQGSL+5Rs/vj7Mb47uzDkDhqzpB
+ yQY9KNAJgLW5nGzPxQH732aU4ZVcRU+06MV4poY0QrxsN/nFFqmgMDNVRIP1ytaSVzCG
+ HtGw+cj+IpTlmFLK8mgxgyrZrSZRZ+Vtms+UwZO2St45NNq+wUM0dVFuMLISGqvxLXBm
+ 4wUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vXmhzDqLuz2y5ngXRfNBrk6SvB2qIjqGK3wrwOmZ1OA=;
+ b=UOXRueNjyPfe6LKvajtvnx/zNCJMHeerPQsnWeoJHfE4RTLbLgRmu5M1iaHpQ+WM/Q
+ nfkgg1GjAmKStzKNKrBvGJCAW1ys0BiIF1DF76OaNJIVk10wJDCYL6uhsDIFhv34f/fc
+ xShAeCjfVSF29o4TtANHDOoteNFqoyKEpWWfNYgyn3seGqcrAX6Xdx2zuqnK9nVjdcEX
+ Fs2PzGjduS0LLD+OhFWuL9exvXAMc2jiI5DRbyLOkpXsE70uQi+vTaYCBaf4fHuNmlvN
+ CSNeHZLHA5xB4IRxqTlyBBKYwfiQPp8Z2kIIl2nzXNyk+OPcbDaBtaeMNPSJkAd+FWrD
+ JSPQ==
+X-Gm-Message-State: AOAM531TOxbAfqg9QlMjEqTjAkzVcVkFMh4b0H2VpfaEVsLP/P2gAIYN
+ A82qhnnd4nGSLkX4CpgypO79TQyurhPVQ+mllaY=
+X-Google-Smtp-Source: ABdhPJz+PQqN9lpZZwP2LOmtC5ylsb8XM38lMTimpbKh4kl1rxwaIw2zcOusJ1dIU3Fbu5DC8/tVPJeFluLn46480O0=
+X-Received: by 2002:a25:6c04:: with SMTP id h4mr4875348ybc.122.1623834942370; 
+ Wed, 16 Jun 2021 02:15:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=202.224.55.14;
- envelope-from=ysato@users.sourceforge.jp; helo=mail02.asahi-net.or.jp
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_VALIDITY_RPBL=1.31, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+References: <20210616064334.53398-1-lukas.juenger@greensocs.com>
+ <20210616064334.53398-2-lukas.juenger@greensocs.com>
+In-Reply-To: <20210616064334.53398-2-lukas.juenger@greensocs.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 16 Jun 2021 17:15:31 +0800
+Message-ID: <CAEUhbmVhAUhQLgD+4eWBiDgfjAFed-=Tb6ejwWUywEq1wg7LWg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] hw/char: Consistent function names for sifive_uart
+To: =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas.juenger@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,114 +77,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ mark.burton@greensocs.com,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- include/hw/sh4/sh.h |  8 --------
- hw/sh4/sh7750.c     | 41 +++++++++++++++++++++++++++++++++++++++++
- hw/sh4/Kconfig      |  2 +-
- 3 files changed, 42 insertions(+), 9 deletions(-)
+On Wed, Jun 16, 2021 at 2:43 PM Lukas J=C3=BCnger
+<lukas.juenger@greensocs.com> wrote:
+>
+> This cleanes up function names in the SiFive UART model.
 
-diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
-index becb596979..74e1ba59a8 100644
---- a/include/hw/sh4/sh.h
-+++ b/include/hw/sh4/sh.h
-@@ -55,14 +55,6 @@ int sh7750_register_io_device(struct SH7750State *s,
- 
- /* sh_serial.c */
- #define SH_SERIAL_FEAT_SCIF (1 << 0)
--void sh_serial_init(MemoryRegion *sysmem,
--                    hwaddr base, int feat,
--                    uint32_t freq, Chardev *chr,
--		     qemu_irq eri_source,
--		     qemu_irq rxi_source,
--		     qemu_irq txi_source,
--		     qemu_irq tei_source,
--		     qemu_irq bri_source);
- 
- /* sh7750.c */
- qemu_irq sh7750_irl(struct SH7750State *s);
-diff --git a/hw/sh4/sh7750.c b/hw/sh4/sh7750.c
-index d53a436d8c..1ef8b73c65 100644
---- a/hw/sh4/sh7750.c
-+++ b/hw/sh4/sh7750.c
-@@ -24,6 +24,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
- #include "hw/irq.h"
- #include "hw/sh4/sh.h"
- #include "sysemu/sysemu.h"
-@@ -32,6 +33,8 @@
- #include "hw/sh4/sh_intc.h"
- #include "hw/timer/tmu012.h"
- #include "exec/exec-all.h"
-+#include "hw/char/renesas_sci.h"
-+#include "hw/qdev-properties.h"
- 
- #define NB_DEVICES 4
- 
-@@ -752,6 +755,44 @@ static const MemoryRegionOps sh7750_mmct_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
-+static void sh_serial_init(MemoryRegion *sysmem,
-+                           hwaddr base, int feat,
-+                           uint32_t freq, Chardev *chr,
-+                           qemu_irq eri_source,
-+                           qemu_irq rxi_source,
-+                           qemu_irq txi_source,
-+                           qemu_irq tei_source,
-+                           qemu_irq bri_source)
-+{
-+    RenesasSCIBaseState *sci;
-+    char ckname[16];
-+
-+    switch(feat) {
-+    case 0: /* SCI */
-+        sci = RENESAS_SCI_BASE(qdev_new(TYPE_RENESAS_SCI));
-+        snprintf(ckname, sizeof(ckname), "pck_sci");
-+        break;
-+    case SH_SERIAL_FEAT_SCIF:
-+        sci = RENESAS_SCI_BASE(qdev_new(TYPE_RENESAS_SCIF));
-+        snprintf(ckname, sizeof(ckname), "pck_scif");
-+        break;
-+    }
-+    qdev_prop_set_chr(DEVICE(sci), "chardev", chr);
-+    qdev_prop_set_uint32(DEVICE(sci), "register-size", SCI_REGWIDTH_32);
-+    qdev_prop_set_uint64(DEVICE(sci), "input-freq", freq);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 0, eri_source);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 1, rxi_source);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(sci), 2, txi_source);
-+    if (tei_source)
-+        sysbus_connect_irq(SYS_BUS_DEVICE(sci), 3, tei_source);
-+    if (bri_source)
-+        sysbus_connect_irq(SYS_BUS_DEVICE(sci), 3, bri_source);
-+    sysbus_realize(SYS_BUS_DEVICE(sci), &error_abort);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 0, base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 1, P4ADDR(base));
-+    sysbus_mmio_map(SYS_BUS_DEVICE(sci), 2, A7ADDR(base));
-+}
-+
- SH7750State *sh7750_init(SuperHCPU *cpu, MemoryRegion *sysmem)
- {
-     SH7750State *s;
-diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-index ab733a3f76..d23d5f5b1c 100644
---- a/hw/sh4/Kconfig
-+++ b/hw/sh4/Kconfig
-@@ -20,5 +20,5 @@ config SHIX
- config SH7750
-     bool
-     select SH_INTC
--    select SH_SCI
-+    select RENESAS_SCI
-     select SH_TIMER
--- 
-2.20.1
+typo: cleans
 
+>
+> Signed-off-by: Lukas J=C3=BCnger <lukas.juenger@greensocs.com>
+> ---
+>  hw/char/sifive_uart.c | 46 ++++++++++++++++++++++---------------------
+>  1 file changed, 24 insertions(+), 22 deletions(-)
+>
+
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
