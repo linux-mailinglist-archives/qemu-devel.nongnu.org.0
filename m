@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126C53A9CBE
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:54:37 +0200 (CEST)
-Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA383A9CC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 15:56:22 +0200 (CEST)
+Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltW04-0004u4-4d
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52548)
+	id 1ltW1l-0007Cq-NN
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 09:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1ltVzB-0003Vd-Cc
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:53:41 -0400
-Received: from pv34p98im-ztdg02172101.me.com ([17.143.234.142]:34101)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ltVzc-0004h2-8d
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:54:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thorpej@me.com>) id 1ltVz9-0000Zu-P6
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:53:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai;
- t=1623851617; bh=vPJPRFWDtQ0KyUdfk+1fU6co7DQD9IF/pfFNzudFuhE=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=CZqWe/y34LnYlD19gnD/Tm4mYWFgHnJoTQSUcDzckr5AQ73EwELG7eyZYtQdCN7rp
- ae/8uJIfJJC/2eaV5CJezYLqX0IZfRmYp0bOjQxo5+wpY+8Nd5PCRlG9JEKtX5y/v+
- SL30ZE8CDk6FLp08cnBJYV0mziC1fK16tEofiRL8kXlacq7KY7NO8T2IUCSm8yV4Po
- k4kJP+3AnJRr7A0mkbekA9hvd2QAZJkWbUZerXH21D1AzybXMLfZhDBs50XlEqZu2U
- zgkJf6GqaHN4qzENChO3DW/r3mxlTYLnWjt3m3EHEaspvk6WDzspJ4DqPEGGy4UEjW
- 9E0z+MGmOsTbA==
-Received: from smtpclient.apple (unknown [17.234.85.167])
- by pv34p98im-ztdg02172101.me.com (Postfix) with ESMTPSA id AC49054000B;
- Wed, 16 Jun 2021 13:53:36 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3679.0.2\))
-Subject: Re: [PATCH 3/4] alpha: Provide a PCI-ISA bridge device node for guest
- OS's that expect it
-From: Jason Thorpe <thorpej@me.com>
-In-Reply-To: <8DF0550D-3F5C-45E3-A246-D51A527B93DC@me.com>
-Date: Wed, 16 Jun 2021 06:53:35 -0700
-Cc: qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B552BE81-9A14-40A3-834B-BA9A8A1A1D7C@me.com>
-References: <20210613211549.18094-1-thorpej@me.com>
- <20210613211549.18094-4-thorpej@me.com>
- <8346c497-f432-0d75-bc60-0fcceed3420f@linaro.org>
- <8DF0550D-3F5C-45E3-A246-D51A527B93DC@me.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-X-Mailer: Apple Mail (2.3679.0.2)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-16_07:2021-06-15,
- 2021-06-16 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-2009150000 definitions=main-2106160081
-Received-SPF: pass client-ip=17.143.234.142; envelope-from=thorpej@me.com;
- helo=pv34p98im-ztdg02172101.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1ltVza-0000rT-6q
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 09:54:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623851645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MQWELMBDalRa48PABSkJSjo9/7c/tjOmhtKKdzHtXrM=;
+ b=PgtS51irVmYpTT803opIWC5SK1YODkmWc605S0nK+la4/POyHu0+1IV+HM8lAZJzGnhMnh
+ EvH8zt9hdyGb/cagwahCzhirM6b5X1TIsjaPDjiUPA3J71V51tAiJKrA4pQnfAcnPkKEDR
+ mU0STLpH3NH3EC3fbi/MPyx4I0MbZQo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-EF0pO9Z_P72p05M8dO1KMg-1; Wed, 16 Jun 2021 09:54:01 -0400
+X-MC-Unique: EF0pO9Z_P72p05M8dO1KMg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E38B21012581;
+ Wed, 16 Jun 2021 13:53:59 +0000 (UTC)
+Received: from localhost (ovpn-113-141.ams2.redhat.com [10.36.113.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 195255D6AD;
+ Wed, 16 Jun 2021 13:53:52 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Subject: Re: [PATCH v3 4/4] s390x/css: Add passthrough IRB
+In-Reply-To: <c9fac1cb32c16ea583367ea2320845eb78074f9c.camel@linux.ibm.com>
+Organization: Red Hat GmbH
+References: <20210616014749.2460133-1-farman@linux.ibm.com>
+ <20210616014749.2460133-5-farman@linux.ibm.com>
+ <87o8c6w2n4.fsf@redhat.com>
+ <c9fac1cb32c16ea583367ea2320845eb78074f9c.camel@linux.ibm.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Wed, 16 Jun 2021 15:53:51 +0200
+Message-ID: <87fsxhx6ds.fsf@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,28 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 16 2021, Eric Farman <farman@linux.ibm.com> wrote:
 
-> On Jun 14, 2021, at 9:24 PM, Jason Thorpe <thorpej@me.com> wrote:
+> On Wed, 2021-06-16 at 11:59 +0200, Cornelia Huck wrote:
+>> On Wed, Jun 16 2021, Eric Farman <farman@linux.ibm.com> wrote:
+>> 
+>> > Wire in the subchannel callback for building the IRB
+>> > ESW and ECW space for passthrough devices, and copy
+>> > the hardware's ESW into the IRB we are building.
+>> > 
+>> > If the hardware presented concurrent sense, then copy
+>> > that sense data into the IRB's ECW space.
+>> > 
+>> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
+>> > ---
+>> >  hw/s390x/css.c         | 13 ++++++++++++-
+>> >  hw/s390x/s390-ccw.c    |  1 +
+>> >  hw/vfio/ccw.c          |  4 ++++
+>> >  include/hw/s390x/css.h |  3 +++
+>> >  4 files changed, 20 insertions(+), 1 deletion(-)
+>> > 
+>> 
+>> (...)
+>> 
+>> > +void build_irb_passthrough(SubchDev *sch, IRB *irb)
+>> > +{
+>> > +    /* Copy ESW from hardware */
+>> > +    irb->esw = sch->esw;
+>> > +
+>> > +    if (irb->esw.erw & ESW_ERW_SENSE) {
+>> > +        /* Copy ECW from hardware */
+>> > +        build_irb_sense_data(sch, irb);
+>> > +    }
+>> 
+>> I'm wondering whether we should also copy "Model-dependent
+>> information"
+>> (scsw 5 + 14 set, erw 7 unset). Seems more correct, and IIUC the
+>> guest
+>> was tripped by the presence of erw 7 without valid sense data.
+>> 
+>
+> This is true, but that's because the existing code in
+> css_do_tsch_get_irb() set ERW 7 to go with the zeros it copied into the
+> ECW. Since we're now copying the ESW.ERW from the passthrough device,
+> that bit wouldn't be set in the first place.
 
->> Why can't we just use the existing device model?
->> Certainly duplicating code like this isn't the best way.
->=20
-> Yah, I=E2=80=99m not super happy with that, either, tbh.  When I first =
-started working on this several months ago, I it looked like it would be =
-invasive to wire it up in the way the Alpha platform expects, but I =
-can=E2=80=99t remember exactly what the issue was.
->=20
-> Anyways, I=E2=80=99ll look at it again.  Stay tuned.
+That's what I meant to say :)
 
-I spent some time on this last night and figured out the bit I was =
-missing before, and just booted NetBSD in the emulator using the =
-existing SIO model.  Since you=E2=80=99ve already queued up the others, =
-I=E2=80=99ll post a v2 of just that patch in a few minutes (hopefully =
-with the correct block comment styling this time :-).
+>
+> But, to be more correct with the possibility of model-dependent
+> information, I can unconditionally copy this data over too.
 
--- thorpej
+Yep. Not that I have any idea what that "Model-dependent information2
+would be...
+
+>
+>> > +}
+>> > +
 
 
