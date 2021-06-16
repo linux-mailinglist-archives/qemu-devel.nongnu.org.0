@@ -2,80 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C2D3A981D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:50:23 +0200 (CEST)
-Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168503A982E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 12:54:31 +0200 (CEST)
+Received: from localhost ([::1]:52066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltT7l-0004bY-Ga
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
+	id 1ltTBm-0006fI-6E
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 06:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ltT6t-0003va-Ir
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:49:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35284)
+ id 1ltTAY-0005dZ-8P
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:53:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ltT6p-0005B8-Lp
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:49:26 -0400
+ id 1ltTAW-0007eA-KO
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 06:53:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623840561;
+ s=mimecast20190719; t=1623840791;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PFaKbQBUa23qqK/mwxUnfo4wXQcA/YOHDYljZWz1rM4=;
- b=apE6FC7bgyN9QiFVZNP3KFcdo5tn7LavJTQbVHZOoI5O7HbB8XZxpy0pOM5T2PAtkdg7lM
- DzwoeHnOdwW1+SZLqXpMLAs5eZ8XRjxO8rZhwagtowo6PzXk3LSp0JSn8QcTT5yxtRPhsI
- gWJagtleTjA0CtQrqzjxhbbVwe9vEFY=
+ bh=UuUhwf2Dt6pE93TubdaHgW5dHWoUDeDvMeApDk7YfGo=;
+ b=CJadV48/ZklZPd0JpmLwgHKPsldfwGVvPVnRuLQKRLi1IzBw2/lN3FJ5366jnZ4sgF92df
+ h9QrhsrdjgU8M0QDxnhfp6v8WpehUuCoIlHHSaxRKe26sYIJ+be69LnyDf0pyU3ItDFOpx
+ fdzWZRTqTiyyugPpptiQ4EiZ6xXEot0=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-j9iRxy2ZN0qSkPTt3s58KQ-1; Wed, 16 Jun 2021 06:49:20 -0400
-X-MC-Unique: j9iRxy2ZN0qSkPTt3s58KQ-1
+ us-mta-141-GKXdKmcpMUuG1NfDsdR1Rw-1; Wed, 16 Jun 2021 06:53:10 -0400
+X-MC-Unique: GKXdKmcpMUuG1NfDsdR1Rw-1
 Received: by mail-ej1-f72.google.com with SMTP id
- nd10-20020a170907628ab02903a324b229bfso780599ejc.7
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 03:49:20 -0700 (PDT)
+ jy19-20020a1709077633b02903eb7acdb38cso766748ejc.14
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 03:53:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PFaKbQBUa23qqK/mwxUnfo4wXQcA/YOHDYljZWz1rM4=;
- b=nlgi1jTG3Bx70IQe2SdM0k1hsKcuG8dVV8FlxZjTPapwEYT8QK3b+drZgd0BqXJOTd
- rRHNVByrw4JsW95MtTFDv8m0hqqw3XYNqfRVrCvkxn5RNdnZJ1r6rXFbY+yQG0c7KCta
- JBl5KdL99TfoHJZU2NnMw8gZ+EhcM4t0iI8WteHqjFNALmEj4AmCRxf4VRemnFxzmpio
- aCRHcTC9K+FLRPOCBsr3smGJSajbX9loyWjbpa5XI9MAKlJpLoc/7brQP4jclm6z8Kis
- FTHWGKUodLb7DNdEY4mUjXxb09Xlco7Hl3N/RZq5E0q6zxW4WZDPvluDV1ebvlanAG4Y
- jJJw==
-X-Gm-Message-State: AOAM5322vYu1jClWFonvZBeCQljLMyXgUh2zMYuAvV8kk1W6yeIcwR/S
- 58gb1Cfcowy623ynfYf1r/e62g9t/Pbl5sqM0rziW/5bJLC5aNHE0R+3QubDvPA5O4tRVu7yjPm
- w+vZ2YPEZDqRYnZmlfL9Fww+26brMD7ugq/k/GZbWxaLjQuzh+1Ba8sA4QHGoG9I5/a0=
-X-Received: by 2002:a17:906:5657:: with SMTP id
- v23mr4687759ejr.90.1623840559461; 
- Wed, 16 Jun 2021 03:49:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQlp/FZEj4fOx5BTk1BTk2+XxLW8Ud2w9HgiUpZ3NOi+dYnYZQlpmQAYaCdPtO6fIekPyS9Q==
-X-Received: by 2002:a17:906:5657:: with SMTP id
- v23mr4687739ejr.90.1623840559196; 
- Wed, 16 Jun 2021 03:49:19 -0700 (PDT)
+ bh=UuUhwf2Dt6pE93TubdaHgW5dHWoUDeDvMeApDk7YfGo=;
+ b=ZMhHq0hjrQaxqYqhSZckiS37dpFZR6tkrl7Fsm5lo9+Xz1ukbBaB8Wd6po3bQlOeLK
+ aBWVdiXvZiI0Kj8ZZsUS7P+qyOpq2PfQz9iR2CmC5y3uCNxzApz4kziOR1crm5ZCvFd6
+ 9fJhJzgVfKwh3QY4zDOQB7EhH0JMQ25b4dlF57hZhvboZAbojrV2QUQMNYe78PB9CrBx
+ NoqtwMnhcWnkXo4+33ihko08URHQaawlG+I5EgLHVJeVhtGMQEpkg+P0sVJHpsSibTZE
+ QdKU03/k1112y4aw+b1lRfcFdi8TYofgAcIDrfU/X1b+ysNan3n5hef0l4GI5MXHwUQV
+ yBmA==
+X-Gm-Message-State: AOAM531ESWRrJ3BgOrD0VPHgJ9AkDWvkt01r4y2yA1HGN2/y2MjlUiDv
+ ksuCD3wthBgtXr0BIU3rewYcah3tAoJrug7fytP5zFnc48ipig1pxi3pjSNXpLz4MNFK1DzuZQQ
+ c6moj367ZEecJmJYVH2vJ2U529NEwL8NGNmv3Fjvr7ZKGG0GYVSO6odokHAvPV1ajvBE=
+X-Received: by 2002:a17:907:9d0:: with SMTP id
+ bx16mr3479102ejc.72.1623840789133; 
+ Wed, 16 Jun 2021 03:53:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzWl+r2LFwOEY/iY44jPEg1c284A8fKfwbj3WU1T4xcOomFSgfp2ADJsXkwyNcnr3cNHaaVAA==
+X-Received: by 2002:a17:907:9d0:: with SMTP id
+ bx16mr3479089ejc.72.1623840788926; 
+ Wed, 16 Jun 2021 03:53:08 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id lz24sm1284599ejb.33.2021.06.16.03.49.18
+ by smtp.gmail.com with ESMTPSA id h22sm1498230edv.0.2021.06.16.03.53.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 03:49:18 -0700 (PDT)
-Subject: Re: [PATCH 02/11] keyval: introduce keyval_merge
-To: Markus Armbruster <armbru@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <20210610133538.608390-1-pbonzini@redhat.com>
- <20210610133538.608390-3-pbonzini@redhat.com>
- <87a6nqkxvz.fsf@dusky.pond.sub.org>
+ Wed, 16 Jun 2021 03:53:08 -0700 (PDT)
+Subject: Re: [PATCH v2 03/18] modules: add qemu-modinfo utility
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210610055755.538119-1-kraxel@redhat.com>
+ <20210610055755.538119-4-kraxel@redhat.com>
+ <20210610130424.fj6fsufnunccmhmx@sirius.home.kraxel.org>
+ <YMIP/cKc570Ozvdh@redhat.com>
+ <1636b96e-9073-b145-3fcc-3370fa2d7506@redhat.com>
+ <8b860457-7c51-f4cb-1e80-02848ad92648@redhat.com>
+ <20210615044915.agzl7vsjewpatyhp@sirius.home.kraxel.org>
+ <20210615075646.vcv3bhbrffs5exez@sirius.home.kraxel.org>
+ <20210615130715.lye3spkpa24x3pyj@sirius.home.kraxel.org>
+ <279b97e2-d06d-b929-0265-d4bd41dc6ee2@redhat.com>
+ <20210616091604.teypyrrggxe7gooz@sirius.home.kraxel.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4e2ae7a5-0549-7851-88f2-124d8c324416@redhat.com>
-Date: Wed, 16 Jun 2021 12:49:17 +0200
+Message-ID: <e73d9cd1-5db6-9b27-c99d-177cc8f1741d@redhat.com>
+Date: Wed, 16 Jun 2021 12:53:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <87a6nqkxvz.fsf@dusky.pond.sub.org>
+In-Reply-To: <20210616091604.teypyrrggxe7gooz@sirius.home.kraxel.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,7 +90,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -105,46 +112,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/06/21 10:38, Markus Armbruster wrote:
-> 
-> ... and both values are the same other QType (QTYPE_QNULL, QTYPE_QNUM,
-> QTYPE_QSTRING, QTYPE_QBOOL): overwrite.
-> 
-> Why is overwrite restricted to same QType?  Is there no need for
-> overwriting say a string with a number?  Hmm, I guess it's okay, because
-> keyval_parse() only ever produces QTYPE_QSTRING scalars.  May be worth a
-> comment, preferably in a function contract.
+On 16/06/21 11:16, Gerd Hoffmann wrote:
+>> I was almost giving up... but it looks like the result of
+>> extract_all_objects(recursive: true) can be passed to custom_target(). Then
+>> you can match it after compile_commands.json's "output" key.
+>
+> Seems the custom_target commands do not land in compile_commands.json.
 
-Good point, I can add an assert that the only scalars are QTYPE_QSTRING.
+No, they don't.
 
-> However, some users look at*all*  pairs.  This provides "repeated keys
-> build up a list" semantics.
-> 
-> Example 4: repeated option key builds a list
-> 
->      $ qemu-system-x86_64 -S -spice tls-port=12345,tls-channel=main,tls-channel=display
-> 
-> This fails for me because I don't have Spice set up (and know basically
-> nothing about it), but a working variation of it should configure*two*
-> channels, not one: the second tls-channel= does*not*  overwrite the
-> first one, it configures another channel.
-> 
-> Since -spice is a merge_lists option, this should be the case for
-> multiple -spice, too.  Merging the two options with keyval_merge() would
-> not preserve that behavior, I'm afraid.
-> 
-> QemuOpts is... complicated.
-
-Right, QemuOpts is complicated and keyval a bit less so, which makes 
-keyval not applicable to every case: see -object where we had to resort 
-to the OptsVisitor.  For those cases where repeated keys build up a 
-list, it will not be possible to switch them to keyval.
-
-The other remarks are mostly cosmetic, so there's not much to say on them.
+The idea was expressed a bit too concisely. :)  I was thinking of using 
+extract_all_objects on the module static library, passing the result to 
+modinfo-collect, and looking up the names in compile_commands.json.
 
 Paolo
+
+> But I have figured meanwhile that looking for the target name in the
+> command line works reliable.  That will will match
+> -DCONFIG_TARGET="${target}-config-target.h".
+> 
+> Current WIP patch below, seems to work nicely.  Whole patch series needs
+> an overhaul now ...
 
 
