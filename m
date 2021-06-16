@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54853A92B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 08:34:53 +0200 (CEST)
-Received: from localhost ([::1]:35390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2C03A9311
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 08:49:29 +0200 (CEST)
+Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltP8X-0002u8-0U
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 02:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36632)
+	id 1ltPMc-0006xj-LT
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 02:49:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltP7i-00023A-Gn
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 02:34:02 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:37883
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltP7f-0006lH-IH
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 02:34:02 -0400
-HMM_SOURCE_IP: 172.18.0.48:53936.493117200
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-10.133.8.242?logid-1a0be69562734c21bda614a00f904064
- (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 4FC08280093;
- Wed, 16 Jun 2021 14:33:55 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 1a0be69562734c21bda614a00f904064 for
- dgilbert@redhat.com; Wed Jun 16 14:33:54 2021
-X-Transaction-ID: 1a0be69562734c21bda614a00f904064
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.48
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH 2/2] tests/migration: fix "downtime_limit" type when
- "migrate-set-parameters"
+ (Exim 4.90_1) (envelope-from <lukas.juenger@greensocs.com>)
+ id 1ltPHE-0004ZQ-CY; Wed, 16 Jun 2021 02:43:52 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:60596)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukas.juenger@greensocs.com>)
+ id 1ltPHC-0004KJ-0E; Wed, 16 Jun 2021 02:43:51 -0400
+Received: from fornax.fritz.box (b2b-109-90-5-113.unitymedia.biz
+ [109.90.5.113])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 9B75620787;
+ Wed, 16 Jun 2021 06:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1623825826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iP9tK8dO4mRbNr1fNZi4HGivr3n1eiDiZCD3l0YudKQ=;
+ b=T0C0BSDxhQKJq7gTxEmfzk72mMz40bJ4gl8CCs29ZeUNo3zk58feNkrSQkh2ysA89piVaD
+ pH3uYTWf6is7Q7q7TBJkuLw7OkreYND+is5jOn44KS8hX2CHYuSeWt0Uz5Er86fXaBj1G/
+ Clq23PdxVJqJHuFMxOwlPEHnA3XEkCc=
+From: =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.juenger@greensocs.com>
 To: qemu-devel@nongnu.org
-References: <584578c0a0dd781cee45f72ddf517f6e6a41c504.1622729934.git.huangy81@chinatelecom.cn>
- <31d82df24cc0c468dbe4d2d86730158ebf248071.1622729934.git.huangy81@chinatelecom.cn>
-From: Hyman Huang <huangy81@chinatelecom.cn>
-Message-ID: <813111fe-2cd8-4a84-bbcb-56730bf65ef6@chinatelecom.cn>
-Date: Wed, 16 Jun 2021 14:33:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Subject: [PATCH v4 0/2] QOMify Sifive UART Model
+Date: Wed, 16 Jun 2021 08:43:32 +0200
+Message-Id: <20210616064334.53398-1-lukas.juenger@greensocs.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <31d82df24cc0c468dbe4d2d86730158ebf248071.1622729934.git.huangy81@chinatelecom.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=lukas.juenger@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.095,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,51 +59,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-riscv@nongnu.org, bin.meng@windriver.com, mark.burton@greensocs.com,
+ marcandre.lureau@redhat.com, palmer@dabbelt.com, pbonzini@redhat.com,
+ alistair.francis@wdc.com,
+ =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.juenger@greensocs.com>,
+ luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
+I have updated the commit message as requested by Bin.
 
-在 2021/6/3 22:20, huangy81@chinatelecom.cn 写道:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> migrate-set-parameters parse "downtime_limit" as integer type when
-> execute "migrate-set-parameters" before migration, and, the unit
-> dowtime_limit is milliseconds, fix this two so that test can go
-> smoothly.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> ---
->   tests/migration/guestperf/engine.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-> index 9e16fa92d2..7c991c4407 100644
-> --- a/tests/migration/guestperf/engine.py
-> +++ b/tests/migration/guestperf/engine.py
-> @@ -153,7 +153,7 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
->                              max_bandwidth=scenario._bandwidth * 1024 * 1024)
->   
->           resp = src.command("migrate-set-parameters",
-> -                           downtime_limit=scenario._downtime / 1024.0)
-> +                           downtime_limit=scenario._downtime)
->   
->           if scenario._compression_mt:
->               resp = src.command("migrate-set-capabilities",
-> 
-- ping
+Best regards,
+Lukas
 
-this patch fix the downtime_limit setting when guestperf start 
-migration, qemu can not accept down_time parameter with float type. when 
-running guestperf to test migration, it'll report error.
-i think it's resonable for apply this patch
+Lukas Jünger (2):
+  hw/char: Consistent function names for sifive_uart
+  hw/char: QOMify sifive_uart
 
-please review，thanks, :) !
+ include/hw/char/sifive_uart.h |  11 ++-
+ hw/char/sifive_uart.c         | 152 +++++++++++++++++++++++++++-------
+ 2 files changed, 129 insertions(+), 34 deletions(-)
 
 -- 
-Best regard
+2.31.1
 
-Hyman Huang(黄勇)
 
