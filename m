@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8FD3A9E16
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:50:30 +0200 (CEST)
-Received: from localhost ([::1]:58662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2283A9E10
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 16:49:43 +0200 (CEST)
+Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltWs9-0002e6-AI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40748)
+	id 1ltWrO-0001ah-Cw
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 10:49:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ltWqG-00089X-Aw
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:48:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25066
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ltWqE-00005K-5D
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:48:31 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15GEXwDQ102509; Wed, 16 Jun 2021 10:48:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=CAbvqRdp89Y7jE9OKXaq1uKMkcHFitnOeJYRIM+wydA=;
- b=BaNx0EayLfK2RhLCoXb9B2vAR7rkboLK53gqMaL9GnL6c7kgdUESr6GarRr9HAtZG3ST
- ctQkG+ys280UFjVuIBG+zjjg4V8tiyPK+v21IeDam1ptoHP8YF+lhX1nMUccbhPLN32K
- lmdweQTiqLgssz8307gUrOXEkjOZpxdEEnDc9KOl6cwedfr3JW6RjAUSQIaKyxMvkx7M
- d7P0KFIlIPfVpxm4aWy1t+gYSmQJ+5yR9hTC2tZc9m1nyCAoDAnIQ0BV4aET4Nzqehna
- MTNVFf5Omes4NvgMUKl3sg6QdE2d6o09nBKD7uZFZtvYfQpN2filrct948LJ9AWctdj6 FQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 397jgdtghg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Jun 2021 10:48:27 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15GEYwbg109779;
- Wed, 16 Jun 2021 10:48:26 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 397jgdtghc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Jun 2021 10:48:26 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15GElMk2012572;
- Wed, 16 Jun 2021 14:48:26 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma05wdc.us.ibm.com with ESMTP id 3954gkchms-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Jun 2021 14:48:26 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15GEmPmY23331322
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Jun 2021 14:48:25 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8DBA22805A;
- Wed, 16 Jun 2021 14:48:25 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 802992805E;
- Wed, 16 Jun 2021 14:48:25 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 16 Jun 2021 14:48:25 +0000 (GMT)
-Subject: Re: [PULL v1 0/5] Merge tpm 2021/06/15 v1
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20210615152152.2496772-1-stefanb@linux.vnet.ibm.com>
- <84e73f5d-df78-fa4b-4469-09f859ffe4bf@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <0af69f79-18ec-d65a-b949-5331fc3793b2@linux.ibm.com>
-Date: Wed, 16 Jun 2021 10:48:25 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltWqJ-0008E1-Mb
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:48:36 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ltWqH-0000AU-F3
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 10:48:35 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id v13so1224403ple.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 07:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=32pqaTxgg3BxWMsnSFEhRoTzSscOmx7UfD5g4dKam6E=;
+ b=Rb+rM1Bc+pqmuSN6Vd3bxb+Ydei9PHA6VYRmSM8ctkd8Oeq/dki+Ro/gcFjzsKT3Ty
+ 1P3zu8gCAVRrA/AmnClcK5Ufnc9kab/xuOmTjldfYaZFby2m30bij2T82vyjBrUKJQG4
+ 4fCgPIkHOdddaPuPcocqkhDY1GmY2EbAjBs4djEQ0xy+x1pTpTATD6nMaDhAvphqCa1m
+ mNqUso9WOuqzlZypoUQzwonpqsdXKb0tB6TZKtjtfIKqwRziCc1aBQiC3kCnwUFs7L2p
+ Xona8YkcQK4tKIKk1CP7o+bG1gGXtcF2kvh/l8bG2Wg8UyX36DvmQ3LCMCNc8C2frBVD
+ PyyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=32pqaTxgg3BxWMsnSFEhRoTzSscOmx7UfD5g4dKam6E=;
+ b=dGuFeEvfhm+ZbYiho1g0bLQtzmcshhJP5IZdL8AQvaykzBTOnRUcY48mwTA7NKh2l0
+ Df/6Vf5YqrPEAHSnEaupio9QCI5g4mklQqa4wCsQp/CbfthkO30rnBYr79H/dQDfl1bs
+ 9F9a2n7VQwfN+nH739gh8SU73Haw0eiI+JsD/ageAx12CSzbNfVCDtb5GSmZ4W7r+iAu
+ 6ftgy70BNB/hnWmbcSyvxSwl0IMrKL5FD53sljjx62LtxukC9jZB91p3atJlAoq2EGxi
+ 9X6JmpczcNOrY8a4/X9YaU8JRkKlDxGf6lZVcYXGJrn8hYuvVA9Bshq6+eSmJkK7+e2s
+ 71aw==
+X-Gm-Message-State: AOAM532m3aYyXksCaTgtifu2FcYfPkr2bZJgtI3SkddBvIBBZp2hBCtN
+ 8pdGM2UkiUo2rpGoojAPhYLP3g==
+X-Google-Smtp-Source: ABdhPJzXDayqVHrdy2IIjqpdsDbhBXa3Wl/abZe/U4J9hEVS28DAKJRQC/4rHqvZRaiwNH8mmvsNHg==
+X-Received: by 2002:a17:902:d4c8:b029:102:715b:e3a5 with SMTP id
+ o8-20020a170902d4c8b0290102715be3a5mr9255434plg.83.1623854910983; 
+ Wed, 16 Jun 2021 07:48:30 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
+ by smtp.gmail.com with ESMTPSA id
+ k30sm2683783pgf.59.2021.06.16.07.48.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 07:48:30 -0700 (PDT)
+Subject: Re: [PATCH 0/5] linux-user/s390x: Fix psw.mask handling in signals
+To: Cornelia Huck <cohuck@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210615030744.1252385-1-richard.henderson@linaro.org>
+ <87sg1jiiku.fsf@linaro.org> <87lf7aw0un.fsf@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bdb3b491-600b-5f1f-52a4-20ca41d5f918@linaro.org>
+Date: Wed, 16 Jun 2021 07:48:29 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <84e73f5d-df78-fa4b-4469-09f859ffe4bf@redhat.com>
+In-Reply-To: <87lf7aw0un.fsf@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QOb2CPVdv2HWUvl7mMybItKdVmEhdKE3
-X-Proofpoint-ORIG-GUID: GdjZ3iM4N4ggOeVZx-m7zzFE1UbLf-cr
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-16_07:2021-06-15,
- 2021-06-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 spamscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106160084
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,27 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: ruixin.bao@ibm.com, qemu-s390x@nongnu.org,
+ jonathan.albrecht@linux.vnet.ibm.com, qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 6/16/21 10:38 AM, Philippe Mathieu-Daudé wrote:
-> On 6/15/21 5:21 PM, Stefan Berger wrote:
->> Hello!
+On 6/16/21 3:38 AM, Cornelia Huck wrote:
+> On Tue, Jun 15 2021, Alex Bennée <alex.bennee@linaro.org> wrote:
+> 
+>> Richard Henderson <richard.henderson@linaro.org> writes:
 >>
->> The patches in this PR eliminate all TPM related code if CONFIG_TPM is
->> not set, thus reducing code size.
+>>> The PSW_MASK_CC component of psw.mask was not handled properly
+>>> in the creation or restoration of signal frames.
 >>
->> Regards,
->>     Stefan
-> Thank you Stefan for this quick pull request :)
+>> Still seeing issues running on s390x machine:
+> 
+> (...)
+> 
+>> However running on x86 backend everything seems to be fine.
+> 
+> (...)
+> 
+> So, in summary, this improves things, although there are some remaining
+> problems?
+> 
+> Asking because I'm looking to queue this.
 
-Yes, thanks for your repost, which made things easier :-)
+Alex is seeing something that I believe is unrelated.
+And also, I have a patch set out for that as well.  :-)
 
-   Stefan
-
->
-> Phil.
->
+r~
 
