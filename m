@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1613A9F1C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:32:50 +0200 (CEST)
-Received: from localhost ([::1]:60680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5813A9F1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:32:51 +0200 (CEST)
+Received: from localhost ([::1]:60876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXX7-0002YV-CT
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:32:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52066)
+	id 1ltXX8-0002gO-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:32:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ltXVF-0000E6-Qq
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:30:53 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ltXVD-0002r9-Dp
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:30:53 -0400
-Received: by mail-wr1-x429.google.com with SMTP id m18so3186457wrv.2
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version:content-transfer-encoding;
- bh=NQccwFIO0OM1ujs8phjL0OjFBs1UaibMzCmL8EexEqg=;
- b=aLgA9GF7Cje2djxWQRbWcln2ulhtVZeK8E5IMoncW3TTYsLAfTzeHB4DtZyzFXMalY
- D8TeUAdnS4xWhBDjUAtc2DSLnUQiC4QQXiYoodSqHUo2KH/V5J6PfuDonp9g62nPwY01
- 2jskXHRiBhKgQSbOkPYjhE7dBxrwDlRTy29Btyf/TfSuEnnBNdL72Dw+B3DtVLw3TJSb
- eoA0ARWS7ntKV/ZkltwCz9sR4yAdaFGQQAmN2b+7iZrs52+BOZb/5WHQXsx9ex0x7sg9
- xOeiuGES+IomAC3VDQJpJ2McWixYLz+/RI7UFxCJG+CBvYf9sFI1/pypjY4/RZGMG4PY
- SLDw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXVH-0000Hj-Vy
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:30:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXVD-0002sy-OR
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:30:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623857451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9qmo9reFkLvWiUkJIXUwaOinMVWCC4BBnXGR12xeCIM=;
+ b=Sqtc8SMlRGpGu3Kp27AUIFiAdBCyNsaAaQeK+aDQh7W+3I8bMZh2SJgp17MpNT2rpvdzvl
+ rABSobSHgMEGARV9PXxBEl6e4yq0lLFV2CPpPvhsO2wyiZ9JyIzjYEmu5TOPd605glxbkc
+ qb4Jz9/ZowF2AWUOK/GBDSLQaxqgnFk=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-z9IYVva_NxSv6ja6DqEq1Q-1; Wed, 16 Jun 2021 11:30:49 -0400
+X-MC-Unique: z9IYVva_NxSv6ja6DqEq1Q-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ r8-20020a0562140c88b0290242bf8596feso2311476qvr.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version:content-transfer-encoding;
- bh=NQccwFIO0OM1ujs8phjL0OjFBs1UaibMzCmL8EexEqg=;
- b=HzNay33TZH8JSyERY+g+rOTQ7mzgEUTNZypsUqGEO5wVz1yfQwLkQyf1Ru8BPwyn7r
- kHjTroGctt0aaEWJX02owQrpTRV/rr8OkdhpR3/IazL7Nl/lpjEJHpx0mPnDv0ldLtQq
- LTCuQw4HkHShXyc5COEhzISbOOyIR7iSW47JYBKLbis7VwzudnriMTMmQg2pIbiJIAPl
- OmgfKcGybBwFoOuNXX2DXujMKy48rTiwbfoyLNoa9ybNH0dliyNv/SChkjfkdUWGRBGt
- ZnSKntpTrn3irQ9Bmfs+XKnmvsc8tNi5GQTpd5ejlpcxKtHwR21pzrytbkw9CzVuRZon
- gfGQ==
-X-Gm-Message-State: AOAM532VQ6cWjFxTrPZ6TM9gIgQhQKZ0iYVbfiwdO0EpPGcwTqfoQIlB
- 4OGRt5Y9QS9tg1a8LQAeL3fSvA==
-X-Google-Smtp-Source: ABdhPJzVCgTi0/OROTcf4XwjLk74g8iZx6yC7WJstWgyUqctqOCCkOoxwOOFRz99D4ivLT9jexPE/w==
-X-Received: by 2002:a5d:6082:: with SMTP id w2mr6121596wrt.209.1623857449481; 
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9qmo9reFkLvWiUkJIXUwaOinMVWCC4BBnXGR12xeCIM=;
+ b=mrNqHgaUs5GkXO83zOOnrAbIn86dYm4wiSsAinJ3z3mk25ob7ApBFLSG+4Vcm0uKU+
+ +BFoOR+YESnzgSkinj02w8a98dT13oDkuSrzaYOFq0qaOCvveGEV58YKEeML5sJiLso4
+ fXChVX3ewCozlcjm5T6u4FTffZ8SLjTksjbmVCnKg6VvrkOKp1vohgiKIpYdkQDHNgZ4
+ Qcys3reWc5sa6s72GEPfJo3oYGOq8cprLPwW4rrSVQGmbV957+qL7lSD3NJCN2IEa30S
+ z9FQhFd5NijtvVXKts4XXNgSaRbpn8+vkKCx03/BpsderC2eauNbchMXXbbFyT0CDR58
+ pDyQ==
+X-Gm-Message-State: AOAM530WzncJJ2xTPbQ8wXGzBNnNp5H2Sppe5aO2ReLvAmrPgRBpJlZ4
+ yFX0+XFY6UQ8THSSw37k4XGSyhkrSQTVcpZ79Su0c/gDDGe9uxzkAes1YLWMD8j8V5epp6HUlxC
+ fISJo1IJomVYK2RY=
+X-Received: by 2002:a05:6214:162a:: with SMTP id
+ e10mr568196qvw.49.1623857449467; 
  Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j34sm2073331wms.7.2021.06.16.08.30.48
+X-Google-Smtp-Source: ABdhPJyxB+aze9/qJITEpU8HV1zVbXZAwyp1QrjsBwiz+nlbLky4XCCEAIcuSWpQxCypXWvPX6TpEw==
+X-Received: by 2002:a05:6214:162a:: with SMTP id
+ e10mr568170qvw.49.1623857449254; 
+ Wed, 16 Jun 2021 08:30:49 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id h12sm1760999qkj.52.2021.06.16.08.30.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 16 Jun 2021 08:30:48 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 901561FF7E;
- Wed, 16 Jun 2021 16:30:47 +0100 (BST)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: tb_flush() calls causing long Windows XP boot times
-References: <BCB8773B-FC54-4C25-9B60-92C263165D38@gmail.com>
- <CAFEAcA-YuyZ9kyivh1dL_chxrtvBF=jOf3L59JuroL2U-e+Xsg@mail.gmail.com>
- <1ee4b7cf-d445-6497-705f-510009fc74f8@ilande.co.uk>
- <874ke4iqf8.fsf@linaro.org>
- <3D29C466-BB81-4BCA-96E9-A46721B1ED59@gmail.com>
- <d9109542-dd68-3e8b-4f53-a09576e16b1f@redhat.com>
- <87sg1ogsvj.fsf@linaro.org>
- <f81315ce-6cf5-c0c4-5b48-9188e3dcd71a@ilande.co.uk>
- <878s3cjyvl.fsf@linaro.org>
- <4006E151-B420-4925-A6C9-CD036EE559F2@gmail.com>
- <9d0b277d-415f-0f4e-3f09-03445f89848f@linaro.org>
- <e809eeed-c635-c48c-c6b6-9c2d5718b60d@ilande.co.uk>
- <874kdygedv.fsf@linaro.org>
- <CAFEAcA-PafgiZWOi3TvM1VRpfKVRn+L-7bu037nLocSsXNtEzQ@mail.gmail.com>
-Date: Wed, 16 Jun 2021 16:30:47 +0100
-In-Reply-To: <CAFEAcA-PafgiZWOi3TvM1VRpfKVRn+L-7bu037nLocSsXNtEzQ@mail.gmail.com>
- (Peter Maydell's message of "Wed, 16 Jun 2021 14:06:04 +0100")
-Message-ID: <87lf79g72w.fsf@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+Date: Wed, 16 Jun 2021 11:30:47 -0400
+From: Peter Xu <peterx@redhat.com>
+To: huangy81@chinatelecom.cn
+Subject: Re: [PATCH v4 3/6] migration/dirtyrate: introduce struct and adjust
+ DirtyRateStat
+Message-ID: <YMoZJ/0+flzvK2om@t490s>
+References: <cover.1623804189.git.huangy81@chinatelecom.cn>
+ <5b9aeb59a3bda83a374608ba44f92e5d242ee6da.1623804189.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
+In-Reply-To: <5b9aeb59a3bda83a374608ba44f92e5d242ee6da.1623804189.git.huangy81@chinatelecom.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.199,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,84 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: incoming+qemu-project-qemu-11167699-3xhw7c0pviow7og92yv73e0tr-issue-404@incoming.gitlab.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU devel list <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Wed, Jun 16, 2021 at 09:12:29AM +0800, huangy81@chinatelecom.cn wrote:
+> -static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
+> -                                uint64_t sample_pages)
+> +static void init_dirtyrate_stat(int64_t start_time,
+> +                                struct DirtyRateConfig config)
+>  {
+> -    DirtyStat.total_dirty_samples = 0;
+> -    DirtyStat.total_sample_count = 0;
+> -    DirtyStat.total_block_mem_MB = 0;
+>      DirtyStat.dirty_rate = -1;
+>      DirtyStat.start_time = start_time;
+> -    DirtyStat.calc_time = calc_time;
+> -    DirtyStat.sample_pages = sample_pages;
+> +    DirtyStat.calc_time = config.sample_period_seconds;
+> +    DirtyStat.sample_pages = config.sample_pages_per_gigabytes;
+> +
+> +    switch (config.mode) {
+> +    case DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING:
+> +        DirtyStat.page_sampling.total_dirty_samples = 0;
+> +        DirtyStat.page_sampling.total_sample_count = 0;
+> +        DirtyStat.page_sampling.total_block_mem_MB = 0;
+> +        break;
+> +    case DIRTY_RATE_MEASURE_MODE_DIRTY_RING:
+> +        DirtyStat.dirty_ring.nvcpu = -1;
+> +        DirtyStat.dirty_ring.rates = NULL;
 
-> On Wed, 16 Jun 2021 at 13:53, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
->> > diff --git a/exec.c b/exec.c
->> > index 67e520d18e..7f4074f95e 100644
->> > --- a/exec.c
->> > +++ b/exec.c
->> > @@ -1019,14 +1019,13 @@ void tb_invalidate_phys_addr(AddressSpace *as,
->> > hwaddr addr, MemTxAttrs attrs)
->> >
->> >  static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
->> >  {
->> > -    MemTxAttrs attrs;
->> > -    hwaddr phys =3D cpu_get_phys_page_attrs_debug(cpu, pc, &attrs);
->> > -    int asidx =3D cpu_asidx_from_attrs(cpu, attrs);
->> > -    if (phys !=3D -1) {
->> > -        /* Locks grabbed by tb_invalidate_phys_addr */
->> > -        tb_invalidate_phys_addr(cpu->cpu_ases[asidx].as,
->> > -                                phys | (pc & ~TARGET_PAGE_MASK), attr=
-s);
->> > -    }
->> > +    /*
->> > +     * There may not be a virtual to physical translation for the pc
->> > +     * right now, but there may exist cached TB for this pc.
->> > +     * Flush the whole TB cache to force re-translation of such TBs.
->> > +     * This is heavyweight, but we're debugging anyway.
->> > +     */
->> > +    tb_flush(cpu);
->> >  }
->> >  #endif
->> >
->> >
->> > Unfortunately my x86-fu isn't really enough to understand what the
->> > solution should be in this case.
->>
->> It's not really an x86 issue here but that we don't have any easy way of
->> finding the subset of TranslationBlock's that might be affected. We can
->> only query the QHT for a head address + flags. Meanwhile when there is
->> an active mapping we go through the page tables
->
-> Could we do something where we zap the TBs here where there is an active
-> virtual-to-physical mapping for this PC, and also make a record of affect=
-ed
-> PCs (or PC ranges) so that before we add a new entry to the
-> virtual-to-physical mapping we check the record to see if we actually need
-> to flush this TB? I think if you flush all the TLBs at this point then
-> you can do the "check before adding new entry" part in
-> tlb_set_page_with_attrs(),
-> but I'm not super familiar with the execution flow of TCG so that might be
-> wrong.
+Missing "break"?
 
-So in breakpoint_invalidate can we actually probe for the existence of
-an active mapping for a given virt<->phys entry? If there is we call the
-tb_invalidate_phys_addr as before, if not save the data which we check
-when updating the softmmu tlb.
+> +    default:
 
-> Also there needs to be a point where we can discard entries from
-> our "dump this TB for this PC" records so they don't just grow indefinite=
-ly,
-> and I'm not sure what that would be.
+Assert here instead?
 
-I wondered if there was a way to use a bloom filter for this? But there
-doesn't seem to be an easy way of removing entries once you've done the
-thing you wanted to do. I guess we could just reset when all breakpoints
-are cleared or we do a tb_flush() for other reasons.
+> +        break;
+> +    }
+>  }
 
---=20
-Alex Benn=C3=A9e
+-- 
+Peter Xu
+
 
