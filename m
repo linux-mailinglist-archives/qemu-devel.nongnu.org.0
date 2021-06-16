@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DD3A9EED
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:24:49 +0200 (CEST)
-Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BFC3A9F0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:26:59 +0200 (CEST)
+Received: from localhost ([::1]:50904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXPM-0008KL-6n
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49906)
+	id 1ltXRS-0003yE-PP
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:26:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXNx-0006x5-BA
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:23:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57915)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ltXPk-0001li-Qc
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:25:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXNv-0006Bb-Tj
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:23:21 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1ltXPh-0007Jv-Oh
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:25:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623856998;
+ s=mimecast20190719; t=1623857108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SHiTk8rwqLDSKrwpKSmUxTONMNDnxj19pyoMSxmU3kw=;
- b=REzOgoUI025cC3tKxr644v+CWkaHoVkq3zCYhICODKOe6dhGOhmrrv51yEnkO9p9iqVwJq
- 7ZI6wnuZ9Ar6/HvPYrAFuRMyYO04mnk1r6kxOopcbacTtTwHA3oDbowahygfDt6tGjYx3z
- P/iI5yJuTf9mElqq+eK7ZMkFLTJlrwQ=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-pOoSjE-bPOmmON0ktM_hLw-1; Wed, 16 Jun 2021 11:23:17 -0400
-X-MC-Unique: pOoSjE-bPOmmON0ktM_hLw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- z5-20020ac86c450000b029024e9a87714dso1832759qtu.2
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:23:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=SHiTk8rwqLDSKrwpKSmUxTONMNDnxj19pyoMSxmU3kw=;
- b=LdowmxPZggPky1c4gIhpWdkhA0RPxl/VbYLf8Fqh8H3ZLy/MteMxLbGhNI4A7uyzao
- vOcWwE6OQecjK6bvNsVPtCYpwi8+BAdUKzQp19p0stnxpl/PBV0gQIV0SPCixUhe4tcd
- L1cGs6O/dvL4wReHPQb7cH+fj6Ruwq0WuxY8P99Ct/7ny5PF9SpKoNsVHRNLSsGXPdKm
- QIOS2SUbb2B+6bNX8S7N/w6W56f2n1+Rf11JG5EV53DyQLh8kcp95sCfe9eSQhbzARPC
- 35aM477OkkAlY9O5wHe7PCTW/0ovbJWQY1sv/AIffop4C01nstS8YxaXqoiBtDPcGaCx
- fEaA==
-X-Gm-Message-State: AOAM531Xrkz+kzHgN5y+ZfdU/YimBvB5sdwUsasCGjHhCNBeVP4+ZbXo
- juUjao/jZP0JsHY3ecbOwlICxdwAPV6agWT3gB8ks71S6LSDXMCsfgWa+H0pxEAqBNOY9/EQLUx
- OzPfMAemsrtp64uc=
-X-Received: by 2002:ac8:684:: with SMTP id f4mr389151qth.79.1623856997184;
- Wed, 16 Jun 2021 08:23:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4WkeMN2MZ7SYPNUM4sPdQAfNNzb1nzv0vvgdEyLzX5VXEPkccwigtvtMutXbQa/cQfx3SXA==
-X-Received: by 2002:ac8:684:: with SMTP id f4mr389126qth.79.1623856997005;
- Wed, 16 Jun 2021 08:23:17 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id g15sm1716459qkl.53.2021.06.16.08.23.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 08:23:16 -0700 (PDT)
-Date: Wed, 16 Jun 2021 11:23:15 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v4 1/6] KVM: introduce dirty_pages and
- kvm_dirty_ring_enabled
-Message-ID: <YMoXY8/lu5VX0NM5@t490s>
-References: <cover.1623804189.git.huangy81@chinatelecom.cn>
- <32c3266ebfd75aaf3f2caaf6b5fad0fb6dd8a96a.1623804189.git.huangy81@chinatelecom.cn>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ox/T2kCNuvAEHUwqAjmOAFRkuRloPjM6t6ZJw9ALjyI=;
+ b=PVnbxmSNabq20jJsHCq5OtRnHg0ErMytQSMEcKO9BlzFTLT8F1bxQbp3wohnxG8zBM8E9D
+ YvqD5PuddP4RR+NgJc0/d5RwshtLp4Se5ijt2XVx9siwWbTUkhTdBjO1BaiwzaFWxh0sft
+ Ioa1VniY7NPbYQ4gK4/nmVqQBXO9+PI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-1ZhmvT12OQO8ylWken6bgA-1; Wed, 16 Jun 2021 11:25:06 -0400
+X-MC-Unique: 1ZhmvT12OQO8ylWken6bgA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 800F4818401
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 15:25:05 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABBAA5C1D0;
+ Wed, 16 Jun 2021 15:24:57 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/3] qtest: pick tests that require KVM at runtime
+Date: Wed, 16 Jun 2021 11:24:52 -0400
+Message-Id: <20210616152455.1270264-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <32c3266ebfd75aaf3f2caaf6b5fad0fb6dd8a96a.1623804189.git.huangy81@chinatelecom.cn>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,28 +76,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, philmd@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 09:12:27AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> dirty_pages is used to calculate dirtyrate via dirty ring, when
-> enabled, kvm-reaper will increase the dirty pages after gfns
-> being dirtied.
-> 
-> kvm_dirty_ring_enabled shows if kvm-reaper is working. dirtyrate
-> thread could use it to check if measurement can base on dirty
-> ring feature.
-> 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Sometimes it's necessary to execute a test that depends on KVM,
+however qtest is not aware if tested QEMU binary supports KVM
+on the host it the test is executed.
+
+For an example:
+ test q35 machine with intel_iommu
+ This test will run only is KVM is available and fail
+ to start QEMU if it fallsback to TCG, thus failing whole test.
+ So if test is executed in VM where nested KVM is not enabled
+ or on other than x86 host, it will break 'make check-qtest'
+
+Series adds a lightweight qtest_has_kvm() check, which abuses
+build system and should help to avoid running KVM only tests
+on hosts that do not support it.
+
+PS:
+there is an alternative 'query-accels' QMP command proposal
+https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
+which I think is more robust compared to qtest_has_kvm() and
+could be extended to take into account machine type.
+But it's more complex and what I dislike about it most,
+it requires execution of 'probing' QEMU instance to find
+execute 'query-accels' QMP command, which is rather resource
+consuming. So I'd use query-accels approach only when it's
+the only possible option to minimize load on CI systems.
+
+Igor Mammedov (2):
+  tests: acpi: q35: test for x2APIC entries in SRAT
+  tests: acpi: update expected tables blobs
+
+root (1):
+  tests: qtest: add qtest_has_kvm() to check if tested bynary supports
+    KVM
+
+ tests/qtest/libqos/libqtest.h    |   7 +++++++
+ meson.build                      |   1 +
+ tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
+ tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
+ tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
+ tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
+ tests/qtest/bios-tables-test.c   |  10 +++++++---
+ tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
+ 8 files changed, 35 insertions(+), 3 deletions(-)
+ create mode 100644 tests/data/acpi/q35/APIC.numamem
+ create mode 100644 tests/data/acpi/q35/FACP.numamem
 
 -- 
-Peter Xu
+2.27.0
 
 
