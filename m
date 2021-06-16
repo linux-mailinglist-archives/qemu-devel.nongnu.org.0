@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17CB3AA597
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 22:49:42 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C133AA5AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 22:52:25 +0200 (CEST)
+Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltcTl-0002Tn-TF
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 16:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49888)
+	id 1ltcWN-0008IV-LS
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 16:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOZ-00024z-42
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40755)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOg-0002Ag-Nv
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOX-0000op-DY
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltcOc-0000r2-75
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 16:44:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623876256;
+ s=mimecast20190719; t=1623876261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lyEuGJyDY/iwrGffQi3EPfdZgXrWvKYQavNdAaLhpEs=;
- b=Q/sZoWC8xEmu8EN5h2hnDHd+pF+AZnFsS4vY0l8T1UnVdMNF7gGu8DnujCM0JxFOlNBCw/
- VJeA94hUeyNiGd2XDnODze/ZlAg93FRgiahSIEd938z7Hin+LjF9ZAu8BFdqRvc6NrZeSE
- jKSK/rxx+tosdwtuFMW6gB1xsRelD4k=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-lmban89-PAug5ZElxNiMbA-1; Wed, 16 Jun 2021 16:44:15 -0400
-X-MC-Unique: lmban89-PAug5ZElxNiMbA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l2-20020adfe5820000b029011a64161d6aso1876505wrm.6
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 13:44:15 -0700 (PDT)
+ bh=KJdW6m0Ma56hwzjCy1teOEHrEH20tchf6AQogJnEfxU=;
+ b=fRo3bgKGTolBWeIEhc+TuMjbpq2dB2oNwzZjNj2tQIdiPcgOvB/sdc0SCi37Og/irRmAQL
+ 0PI/lYbNz+sxS7Jx5os1l0dd635qJcUjO5sS++x1P65EeBBH58zol8auupTPHHUS/+k5SO
+ xQFwx40YhAisLfEPOOwusjtnTVxv07U=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-FfnR7SPGMZ2UfQiPZvrDPg-1; Wed, 16 Jun 2021 16:44:20 -0400
+X-MC-Unique: FfnR7SPGMZ2UfQiPZvrDPg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ f22-20020a5d58f60000b029011634e39889so1857914wrd.7
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 13:44:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lyEuGJyDY/iwrGffQi3EPfdZgXrWvKYQavNdAaLhpEs=;
- b=n6tF/zbwXpfUHNy3tlQezaSBuDpNSna7zfGazJj7W8Grx91BYJ/zTwP60uMijUpMFi
- 1u6UT4DVJZQ501v63fIOBjwJqviI/Bg2GhYpZ1GBoWQGYMeJ2g3I7bgvwSlongmCLW9l
- IxsiYP4X4Y4XwFzQYfPu/KIQWgt6uAReGLa/mk3fiZfHq/B7Whc8QEsXVMKom6C7iIho
- +x+JU0q4l5Ce/YayVsycWbm05hN/U7Np12a3WYP1PBG/0taf7UDzBwa3isYgyofTLW/m
- GTNjiJl9IFyEHSBLGK5+WiEffe9dIMaAz54lD6X3vQbPc62H1eEdCZjTRPurmMD+fz+H
- oYpg==
-X-Gm-Message-State: AOAM532LA8HFQvo/0qLVlti8TI2HTCNDYk6ccS7VQXBjXZyB5E6Q/H5j
- ZKel6jJLqmoybE4blq0RFx8zd4n8lU4gBz2Vf7Jr6H0JM7BPGKBGuHNaeeskKncstNH7cUa1Rgt
- 8bF3vMh4XVcMdj6LHfCHjO0qJs3WZkjYCNOgKPX6V5LBK+oEVlw2UM/Tn4FOUl2Bs
-X-Received: by 2002:a05:6000:cb:: with SMTP id
- q11mr1224049wrx.72.1623876253989; 
- Wed, 16 Jun 2021 13:44:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxg/i1kUfPCSrh0kRNDAN6fwmslSTeKFy3ltDKkdCVocLvH+ZDAGrnTtDljT1hpxmWsb0QFBQ==
-X-Received: by 2002:a05:6000:cb:: with SMTP id
- q11mr1224022wrx.72.1623876253788; 
- Wed, 16 Jun 2021 13:44:13 -0700 (PDT)
+ bh=KJdW6m0Ma56hwzjCy1teOEHrEH20tchf6AQogJnEfxU=;
+ b=NEa5+lTeB0atFSusgaWzmTWIB/sNm1eFQwKWt55sYLwJvlwcoyWlo5UpsuHVoMjYYj
+ Id9ttXOakeAaXjuh70qWkiC7YTzhbklChgnxuEIc4207VbJ56JolmZ+01Sz/cc4NG9pO
+ QixAt5CYr7jjKtiAtOd/powNXUYGi3+G/hOt6D+HqeE3a0WRwvVOuja+U6aUO2ajBOzj
+ sB9ECzSS11iUZpxMhxhVItOOH51UdA3YLii6VRi0aitdjh/wVcmgsVJjARlAE1YYdWOw
+ Q4ZdY/CbhoUTfpkmxDfSCb3ifUMYVKJWvD6ZwBSmhkNDEBlDrcXpdub9ZbMyTXxfrWOi
+ yhNw==
+X-Gm-Message-State: AOAM530YPQQXTWVClMYw8xzindhUARflYqHY4ASOBIomiB6nyX7leBfy
+ cniPO6AZbPkhlwChxqEodmDxz5M0JiIh9YN4x5QtxvW8X5LbpaVYD4Iqq4LrWSaGseR4TAwwKXo
+ F6tr9fAtnOA5IoULXjtweZkAzwndHbv5zSPb6OoxeVP62aICi9PFrTJkTEF3L+UpR
+X-Received: by 2002:a5d:60c8:: with SMTP id x8mr1208711wrt.382.1623876259424; 
+ Wed, 16 Jun 2021 13:44:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyixwQR7l27UKVWaZuT5XHYcGzirQFtRhxb+W0+ewb+ZpkQ+NgluuvAJoiytEWi2zigltASA==
+X-Received: by 2002:a5d:60c8:: with SMTP id x8mr1208682wrt.382.1623876259297; 
+ Wed, 16 Jun 2021 13:44:19 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id r18sm3098709wro.62.2021.06.16.13.44.10
+ by smtp.gmail.com with ESMTPSA id b8sm6048742wmd.35.2021.06.16.13.44.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 13:44:13 -0700 (PDT)
+ Wed, 16 Jun 2021 13:44:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/23] target/i386/sev: Remove sev_get_me_mask()
-Date: Wed, 16 Jun 2021 22:43:12 +0200
-Message-Id: <20210616204328.2611406-8-philmd@redhat.com>
+Subject: [PATCH v2 08/23] target/i386/sev: Mark unreachable code with
+ g_assert_not_reached()
+Date: Wed, 16 Jun 2021 22:43:13 +0200
+Message-Id: <20210616204328.2611406-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616204328.2611406-1-philmd@redhat.com>
 References: <20210616204328.2611406-1-philmd@redhat.com>
@@ -74,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -108,79 +107,40 @@ Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unused dead code makes review harder, so remove it.
+The unique sev_encrypt_flash() invocation (in pc_system_flash_map)
+is protected by the "if (sev_enabled())" check, so is not
+reacheable.
+Replace the abort() call in sev_es_save_reset_vector() by
+g_assert_not_reached() which meaning is clearer.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/i386/sev_i386.h | 1 -
- target/i386/sev-stub.c | 5 -----
- target/i386/sev.c      | 9 ---------
- 3 files changed, 15 deletions(-)
+ target/i386/sev-stub.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-index f4223f1febf..afa19a0a161 100644
---- a/target/i386/sev_i386.h
-+++ b/target/i386/sev_i386.h
-@@ -25,7 +25,6 @@
- #define SEV_POLICY_SEV          0x20
- 
- extern bool sev_es_enabled(void);
--extern uint64_t sev_get_me_mask(void);
- extern SevInfo *sev_get_info(void);
- extern uint32_t sev_get_cbit_position(void);
- extern uint32_t sev_get_reduced_phys_bits(void);
 diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index d91c2ece784..eb0c89bf2be 100644
+index eb0c89bf2be..4668365fd3e 100644
 --- a/target/i386/sev-stub.c
 +++ b/target/i386/sev-stub.c
-@@ -25,11 +25,6 @@ bool sev_enabled(void)
-     return false;
+@@ -54,7 +54,7 @@ int sev_inject_launch_secret(const char *hdr, const char *secret,
+ 
+ int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
+ {
+-    return 0;
++    g_assert_not_reached();
  }
  
--uint64_t sev_get_me_mask(void)
--{
--    return ~0;
--}
--
- uint32_t sev_get_cbit_position(void)
+ bool sev_es_enabled(void)
+@@ -68,7 +68,7 @@ void sev_es_set_reset_vector(CPUState *cpu)
+ 
+ int sev_es_save_reset_vector(void *flash_ptr, uint64_t flash_size)
  {
-     return 0;
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 83df8c09f6a..0a36e81f66c 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -64,7 +64,6 @@ struct SevGuestState {
-     uint8_t api_major;
-     uint8_t api_minor;
-     uint8_t build_id;
--    uint64_t me_mask;
-     int sev_fd;
-     SevState state;
-     gchar *measurement;
-@@ -362,12 +361,6 @@ sev_es_enabled(void)
-     return sev_enabled() && (sev_guest->policy & SEV_POLICY_ES);
+-    abort();
++    g_assert_not_reached();
  }
  
--uint64_t
--sev_get_me_mask(void)
--{
--    return sev_guest ? sev_guest->me_mask : ~0;
--}
--
- uint32_t
- sev_get_cbit_position(void)
- {
-@@ -810,8 +803,6 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-         goto err;
-     }
- 
--    sev->me_mask = ~(1UL << sev->cbitpos);
--
-     devname = object_property_get_str(OBJECT(sev), "sev-device", NULL);
-     sev->sev_fd = open(devname, O_RDWR);
-     if (sev->sev_fd < 0) {
+ SevAttestationReport *
 -- 
 2.31.1
 
