@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8FD93AA404
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:11:20 +0200 (CEST)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91A33AA416
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:14:49 +0200 (CEST)
+Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltawZ-0007uO-NU
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:11:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51360)
+	id 1ltazw-0003Rt-Vb
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltauj-0005qU-Ck
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:09:25 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:36382)
+ id 1ltaxO-0001El-Dx
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:12:10 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltauh-00056U-Mp
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:09:25 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id d62so996186pfd.3
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:09:23 -0700 (PDT)
+ id 1ltaxM-0006rD-06
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:12:09 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id e20so2834476pgg.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SuKl1aCq6tTITfSncjFFuOaxWpg+WCzkqJLP80DTpKQ=;
- b=j8JjRow1rxOabBtDITY5oyfJHlLz0am4XucKwhYviGVxF74pY2YSxvClKNDAtGs2i6
- USssYs+5iKBRI53jI6gNGrcgAYubP7OY7tAJ91O1iH7J2EglTS9C4OXiY3ebc7LDFxDb
- VR5HDDpP/ES1NBaSqD/q4q5i0cz1QGLazAf+5oevcGog/7ypUa6rRi2pu7JC912YpVBu
- w/X0tHNcVz2oXh/QWFJtc58d8O/gzpNRmig0bkPrz+zxZ7IdFbyGOSG3Z5aKUV2o3Bvr
- NfA9iKA+R9trrts9OWoDmX+aLnAXirCVHF4541jlvbRXCSQd9PihQkJp2bbL222gO3ae
- 5JtA==
+ bh=A76pZePU9iOOe9OQIbfwWF+/MsmZGsNUJaYBetfiFjw=;
+ b=XKRUGKE5/xa4UEyM9RCOxK9JK+sEePqDBgKJhpndixlz1qi8o68agUDrbbiiS8x8go
+ ps4zJ5X9Y88SDjQNYWNvWheSO2APQmVJX9i8iFx1Pq8dv0IgpYcxX0wdJZDIXSWlBBQz
+ 90nXmrJB8Mdp+60Fd4T7tYoHHBm9lNcGw7S987JVzLyAsbBtu0Z9473NSvXsVKPpL6FV
+ 0Z6td7gVn+RJSmB7pTUUw4TX/xJFUMdbGF9Owk1vTJTdsmH87ns7ajB0dbPY0B1HZdtF
+ Fby5Oa6zwdFIkVM2kp/yyY3SN75XqFozj7PoJP/iT+amnZ8+z2LYtG5iFruG1xapDw6m
+ txJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SuKl1aCq6tTITfSncjFFuOaxWpg+WCzkqJLP80DTpKQ=;
- b=mXGCbMXY1ePvXqGjhT4NcpJFppOHZSI8NHOPNM23vWaExc8P9jCORrvR3y0vENRr6d
- fzLzBkM/4Dqh1sWjKdpbDDIVP2jKzY26IOJsQ2TvN0afBmEaPuqkD4NCGxk/e5eFnito
- xJJnR98scVA41UVdlQS6qrBykuA+rAtcvzgKMtRBq4YWvFtHl+VBPPLvWdFbTEoru2He
- XLZYZCu4KzSu7+FxPFH9xF0/djWP1JsKl6+8q9fni4Kxxhq+0+HsA3p3iEhAFnjzGqIs
- 2EY3DHw5ulUQ8Yxu8snAk0cPFDUWkerWlr3gFyy5SYUhHTZyKpAAbfxdXsG3+I8MjWvO
- vuJA==
-X-Gm-Message-State: AOAM533L0cQdkS9wZqKlKrb/XXfxZB0FDoa8fwXxLHysahNg7979WjPg
- 3kSRzyFvR6ahxhjLhpNLl5w+6g==
-X-Google-Smtp-Source: ABdhPJwdRf7wCiPkOgEBXkbcexO1CdBflxfyuIVt+aGm11b+2WyFahop7RZuIOJbxIozuHrv82DKIg==
-X-Received: by 2002:aa7:978a:0:b029:2f6:c116:e5f5 with SMTP id
- o10-20020aa7978a0000b02902f6c116e5f5mr1252844pfp.21.1623870561658; 
- Wed, 16 Jun 2021 12:09:21 -0700 (PDT)
+ bh=A76pZePU9iOOe9OQIbfwWF+/MsmZGsNUJaYBetfiFjw=;
+ b=SPTpLsMe2OWtws96mCiETpbFdOQ+R9TjvpRazW3UB0/QDZWc+LDu9uIVz9kTrY2E0R
+ D3Mb2SJAur3TmPHzX4NVP9OeWwxbxCf3yaakZ64UEWXKonNLj6Dnmpwj4j44xhPqwTms
+ +OwAQjjCbGE3OPXpLEyGnT/CS84nA6OMwdV3jhH/JFomUhukyV/YzutR+flDI9UnfQ46
+ oXewursgnVVidhdY8s1PmlWCwFZkfoKTq9+xh3XbWcdwnR9czPZMgu4PzfJHV/16+s0/
+ ZyL4pLEQaOiPrNccRKMclRSt6pSR9k2bJHFhdqeHiliCLOffh8rrlm9MZZKaiUvxOh/T
+ cO2Q==
+X-Gm-Message-State: AOAM5329rMZKym5qS93gp1UXQwB33hQxlJr++a2bApIibGZut6RFdhK1
+ PpqoQcZ5LWr7h+/whn2tmcO1Jw==
+X-Google-Smtp-Source: ABdhPJwOJacXF9nV50lxrrYXhbrBEXbya9p/5aEAZvirVx2RNQDpigaEN+HdBlVnP9cMH+7ySPjmrA==
+X-Received: by 2002:a63:6284:: with SMTP id w126mr1138265pgb.284.1623870726626; 
+ Wed, 16 Jun 2021 12:12:06 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-70-228.tukw.qwest.net. [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id
- v8sm2831571pff.34.2021.06.16.12.09.21
+ w15sm2677210pjg.32.2021.06.16.12.12.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jun 2021 12:09:21 -0700 (PDT)
-Subject: Re: [PATCH v4 4/7] migration/tls: Use
- qcrypto_tls_creds_check_endpoint()
+ Wed, 16 Jun 2021 12:12:06 -0700 (PDT)
+Subject: Re: [PATCH v4 5/7] crypto/tlssession: Introduce
+ qcrypto_tls_creds_check_endpoint() helper
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210616162225.2517463-1-philmd@redhat.com>
- <20210616162225.2517463-5-philmd@redhat.com>
+ <20210616162225.2517463-6-philmd@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <56e47a3f-04d6-1090-7e0a-f1f6463cfbaa@linaro.org>
-Date: Wed, 16 Jun 2021 12:09:19 -0700
+Message-ID: <55c03d12-3359-858e-8e71-7ba7a6fddad4@linaro.org>
+Date: Wed, 16 Jun 2021 12:12:04 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210616162225.2517463-5-philmd@redhat.com>
+In-Reply-To: <20210616162225.2517463-6-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -96,15 +95,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/16/21 9:22 AM, Philippe Mathieu-Daudé wrote:
-> Avoid accessing QCryptoTLSCreds internals by using
-> the qcrypto_tls_creds_check_endpoint() helper.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
-> ---
->   migration/tls.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
+> Introduce the qcrypto_tls_creds_check_endpoint() helper
+> to avoid accessing QCryptoTLSCreds internal 'endpoint' field
+> directly.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I don't understand this one.  Comment ...
+
+> +bool qcrypto_tls_session_check_role(QCryptoTLSCreds *creds,
+> +                                    QCryptoTLSCredsEndpoint endpoint,
+> +                                    Error **errp)
+> +{
+> +    return qcrypto_tls_creds_check_endpoint(creds, endpoint, errp);
+> +}
+
+... doesn't match the function.
+
+The new function is a pure forwarder, and begs the question of why the caller isn't using 
+qcrypto_tls_creds_check_endpoint directly.
+
 
 r~
+
 
