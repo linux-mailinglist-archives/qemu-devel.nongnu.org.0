@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACED43A8E81
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:45:19 +0200 (CEST)
-Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCB63A8E7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:45:03 +0200 (CEST)
+Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKcI-0000ld-On
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:45:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55540)
+	id 1ltKc2-0000KV-Ke
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltKTt-0008VZ-Qp
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:37 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43896)
+ id 1ltKTu-0008WP-1e
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:38 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:42913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltKTr-0005d4-MG
+ id 1ltKTs-0005dm-8w
  for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:36:37 -0400
-Received: by mail-pl1-x632.google.com with SMTP id v12so278804plo.10
+Received: by mail-pf1-x42e.google.com with SMTP id s14so857531pfd.9
  for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ubpKT84c0CDe5YC8xIT/jR9IicZ4W7L/Hmhh3sXO2Cc=;
- b=ILFtozxev9FMNR5wDAoFKHVkXjZRBp6i2Do8mXlIpcPmGX53Nbrdz8uH6RU7LZGU00
- FiXzViB36Wp0FrZ1cV4oxAjMa3mGFFZAOKPlcDl+S7LjKlNzqUJKTADL+DJ8m4ofJJlG
- Ugj/GqohX/8wSS+NeauEOggsZCyzt/nOWzawrrFmAO0t4hJMnvjbOaXJAUpHEh7Zpzdn
- 1ZujnVSqiQ2VCScqTDFhPOtDg1gTl0UFg7O5V97vglDNL8zrINLT8o574oH21VYYSVw8
- HnAIH8Kik/67PxOfF7BkQkMzs6WRNMOH7nM8d78TYV1NHJlXuvAEoau/Yv/5k8P13VPX
- 1spg==
+ bh=AQdvWRX1hZO0Z1j1TwBSyfUR2Ola+BhQ1+6mdvjTZu8=;
+ b=vPOQ4kblqHHKFJFGhsoJ+34RHM+LE0OI1Rc/YOuVIbBRlsWBS83oSnESr46+HWtDr9
+ QDCejuyic5MOZ76vzAR4IkIG585sOGmdXpQOsU7/F2e6r1CQS2gBoML9wiHPsSYgGmvO
+ kB8C++9oAHLZyw3BrebegUneTn0X33zzSB5U3RtGVVfEyfGdE9HXiRJvJ1b5OO8Ai2TC
+ NTm10oe4/cXW4dqIyvZpS/f4aEAGy0EE7UkJVRhxs+SImnPqUKXvQcK8gc0tIV0slMGr
+ hW7KXKwG3BIRpkRXcgw6Y7zMquqxg3ZBKMt42QnjzVUdG9RRQ06sfb3/0chSre4oQh+G
+ 9scg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ubpKT84c0CDe5YC8xIT/jR9IicZ4W7L/Hmhh3sXO2Cc=;
- b=CYZblGARvr257QWjjnmass2ZxxPOJNfk2384dIXT6cBdAgLmDVVuVAPPx0C00tvp/B
- Hisczx8xFF0V4EIfW09rEOpAbhkGbazyhRmvAtyMv6JUfRCGPrav5whRNOLaHZ1W5hJR
- TzYx8rrzJ7fA9umPXZhebo1mxtNbZH4r38KqqUfHKI/8rrLFMwNpPLQE71ypMjWmVlI1
- 2usbm39WIxQp3Ltb0KTkCbhg4AuIKWfC+hA23he6BboExWeTHG8LN/crfAu+n2PmCaj8
- Hty+sSlwk5HaOSDdyfVyaY5jV9gdPC8y+DHruZq6gX4AMcD01iJ3f5giSFST/nqfyZfc
- 7byw==
-X-Gm-Message-State: AOAM533+kbclZTwee1ua5avML9fe0x0LXXdquMNwvr2nbZBQeJhTQC+w
- 6o9fHlqT0KdElU8N9wkB1gC4S2TJaied5g==
-X-Google-Smtp-Source: ABdhPJwvwnMED2JB8nvuRskfK8TzlIb8QD2aZq6Q917MHrMbFpMawtb/7d4eBO7z9f8CvFRxAAiKTg==
-X-Received: by 2002:a17:902:a70c:b029:118:7b47:e5bf with SMTP id
- w12-20020a170902a70cb02901187b47e5bfmr6444952plq.9.1623807394346; 
+ bh=AQdvWRX1hZO0Z1j1TwBSyfUR2Ola+BhQ1+6mdvjTZu8=;
+ b=AT4yUyG4EPO+CG15R4lQSol5uuwhdwoZta8d62f+C6JuNcqQedXURkZ8DNfV3cgOnW
+ lt/KIXhRvs5Nf8yMdJ+4J23pjI8/WCFtMb1gnsdm+vYni5QkGR3nZ34L44BKvnaYVhF5
+ 0ZcewQ7VxdacC9r3oZO8pVLnv+pY/IrXB9ONbPR8seSUoR+jpK4GkL+wc5e34E8ZKj4Y
+ 7FfwgUQBeDWVm7xBpiddziXrjYwupJgDYLWNdQiv6LGT5Dfu95kGblSFbwm4FtKohM2n
+ f2gi6r31zUvfmYMwxzeDzYjNW+3dDEejKLUsk4r1HMcuhv0x6cmQE5HklTlbIGiQEx5q
+ BhTA==
+X-Gm-Message-State: AOAM532p2yoEuBGlctIMQYXl6MHmAYywxBMLI5XAON5yo+Mu4RcNJ9yJ
+ 8KAal6hOju29ZjtxSQMyAjZtkuUJ6T4mKQ==
+X-Google-Smtp-Source: ABdhPJw2j4H+CVHGwj6iy/rW7tCKE3h/DLz4eAgCr/DJ7tKJQVHpl8J8fLIWg9rxboKrWu6Rna7dSw==
+X-Received: by 2002:a05:6a00:1a41:b029:2ef:9721:879e with SMTP id
+ h1-20020a056a001a41b02902ef9721879emr7126393pfv.74.1623807394992; 
  Tue, 15 Jun 2021 18:36:34 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id o1sm321595pjf.56.2021.06.15.18.36.33
+ by smtp.gmail.com with ESMTPSA id o1sm321595pjf.56.2021.06.15.18.36.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Jun 2021 18:36:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/8] include/qemu/lockable: Use _Generic instead of QEMU_GENERIC
-Date: Tue, 15 Jun 2021 18:36:27 -0700
-Message-Id: <20210616013629.1458790-7-richard.henderson@linaro.org>
+Subject: [PULL 7/8] qemu/compiler: Remove QEMU_GENERIC
+Date: Tue, 15 Jun 2021 18:36:28 -0700
+Message-Id: <20210616013629.1458790-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210616013629.1458790-1-richard.henderson@linaro.org>
 References: <20210616013629.1458790-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,147 +90,66 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is both more and less complicated than our expansion
-using __builtin_choose_expr and __builtin_types_compatible_p.
-
-The expansion through QEMU_MAKE_LOCKABLE_ doesn't work because
-we're not emumerating all of the types within the same _Generic,
-which results in errors about unhandled cases.  We must also
-handle void* explicitly, so that the NULL constant can be used.
+All previous users now use C11 _Generic.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210614233143.1221879-7-richard.henderson@linaro.org>
+Message-Id: <20210614233143.1221879-8-richard.henderson@linaro.org>
 ---
- include/qemu/lockable.h | 90 +++++++++++++++++++----------------------
- 1 file changed, 41 insertions(+), 49 deletions(-)
+ include/qemu/compiler.h | 40 ----------------------------------------
+ 1 file changed, 40 deletions(-)
 
-diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
-index b620023141..86db7cb04c 100644
---- a/include/qemu/lockable.h
-+++ b/include/qemu/lockable.h
-@@ -24,79 +24,71 @@ struct QemuLockable {
-     QemuLockUnlockFunc *unlock;
- };
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 091c45248b..5766d61589 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -173,46 +173,6 @@
+ #define QEMU_ALWAYS_INLINE
+ #endif
  
--/* This function gives an error if an invalid, non-NULL pointer type is passed
-- * to QEMU_MAKE_LOCKABLE.  For optimized builds, we can rely on dead-code elimination
-- * from the compiler, and give the errors already at link time.
+-/* Implement C11 _Generic via GCC builtins.  Example:
+- *
+- *    QEMU_GENERIC(x, (float, sinf), (long double, sinl), sin) (x)
+- *
+- * The first argument is the discriminator.  The last is the default value.
+- * The middle ones are tuples in "(type, expansion)" format.
 - */
--#if defined(__OPTIMIZE__) && !defined(__SANITIZE_ADDRESS__)
--void unknown_lock_type(void *);
--#else
--static inline void unknown_lock_type(void *unused)
--{
--    abort();
--}
--#endif
 -
- static inline __attribute__((__always_inline__)) QemuLockable *
- qemu_make_lockable(void *x, QemuLockable *lockable)
- {
--    /* We cannot test this in a macro, otherwise we get compiler
-+    /*
-+     * We cannot test this in a macro, otherwise we get compiler
-      * warnings like "the address of 'm' will always evaluate as 'true'".
-      */
-     return x ? lockable : NULL;
- }
- 
--/* Auxiliary macros to simplify QEMU_MAKE_LOCABLE.  */
--#define QEMU_LOCK_FUNC(x) ((QemuLockUnlockFunc *)    \
--    QEMU_GENERIC(x,                                  \
--                 (QemuMutex *, qemu_mutex_lock),     \
--                 (QemuRecMutex *, qemu_rec_mutex_lock), \
--                 (CoMutex *, qemu_co_mutex_lock),    \
--                 (QemuSpin *, qemu_spin_lock),       \
--                 unknown_lock_type))
-+static inline __attribute__((__always_inline__)) QemuLockable *
-+qemu_null_lockable(void *x)
-+{
-+    if (x != NULL) {
-+        qemu_build_not_reached();
-+    }
-+    return NULL;
-+}
- 
--#define QEMU_UNLOCK_FUNC(x) ((QemuLockUnlockFunc *)  \
--    QEMU_GENERIC(x,                                  \
--                 (QemuMutex *, qemu_mutex_unlock),   \
--                 (QemuRecMutex *, qemu_rec_mutex_unlock), \
--                 (CoMutex *, qemu_co_mutex_unlock),  \
--                 (QemuSpin *, qemu_spin_unlock),     \
--                 unknown_lock_type))
+-/* First, find out the number of generic cases.  */
+-#define QEMU_GENERIC(x, ...) \
+-    QEMU_GENERIC_(typeof(x), __VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 -
--/* In C, compound literals have the lifetime of an automatic variable.
-+/*
-+ * In C, compound literals have the lifetime of an automatic variable.
-  * In C++ it would be different, but then C++ wouldn't need QemuLockable
-  * either...
-  */
--#define QEMU_MAKE_LOCKABLE_(x) (&(QemuLockable) {     \
--        .object = (x),                               \
--        .lock = QEMU_LOCK_FUNC(x),                   \
--        .unlock = QEMU_UNLOCK_FUNC(x),               \
-+#define QML_OBJ_(x, name) (&(QemuLockable) {                            \
-+        .object = (x),                                                  \
-+        .lock = (QemuLockUnlockFunc *) qemu_ ## name ## _lock,          \
-+        .unlock = (QemuLockUnlockFunc *) qemu_ ## name ## _unlock       \
-     })
- 
--/* QEMU_MAKE_LOCKABLE - Make a polymorphic QemuLockable
-+/**
-+ * QEMU_MAKE_LOCKABLE - Make a polymorphic QemuLockable
-  *
-- * @x: a lock object (currently one of QemuMutex, QemuRecMutex, CoMutex, QemuSpin).
-+ * @x: a lock object (currently one of QemuMutex, QemuRecMutex,
-+ *     CoMutex, QemuSpin).
-  *
-  * Returns a QemuLockable object that can be passed around
-  * to a function that can operate with locks of any kind, or
-  * NULL if @x is %NULL.
+-/* There will be extra arguments, but they are not used.  */
+-#define QEMU_GENERIC_(x, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, count, ...) \
+-    QEMU_GENERIC##count(x, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9)
+-
+-/* Two more helper macros, this time to extract items from a parenthesized
+- * list.
 - */
--#define QEMU_MAKE_LOCKABLE(x)                        \
--    QEMU_GENERIC(x,                                  \
--                 (QemuLockable *, (x)),              \
--                 qemu_make_lockable((x), QEMU_MAKE_LOCKABLE_(x)))
+-#define QEMU_FIRST_(a, b) a
+-#define QEMU_SECOND_(a, b) b
 -
--/* QEMU_MAKE_LOCKABLE_NONNULL - Make a polymorphic QemuLockable
+-/* ... and a final one for the common part of the "recursion".  */
+-#define QEMU_GENERIC_IF(x, type_then, else_)                                   \
+-    __builtin_choose_expr(__builtin_types_compatible_p(x,                      \
+-                                                       QEMU_FIRST_ type_then), \
+-                          QEMU_SECOND_ type_then, else_)
+-
+-/* CPP poor man's "recursion".  */
+-#define QEMU_GENERIC1(x, a0, ...) (a0)
+-#define QEMU_GENERIC2(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC1(x, __VA_ARGS__))
+-#define QEMU_GENERIC3(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC2(x, __VA_ARGS__))
+-#define QEMU_GENERIC4(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC3(x, __VA_ARGS__))
+-#define QEMU_GENERIC5(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC4(x, __VA_ARGS__))
+-#define QEMU_GENERIC6(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC5(x, __VA_ARGS__))
+-#define QEMU_GENERIC7(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC6(x, __VA_ARGS__))
+-#define QEMU_GENERIC8(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC7(x, __VA_ARGS__))
+-#define QEMU_GENERIC9(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC8(x, __VA_ARGS__))
+-#define QEMU_GENERIC10(x, a0, ...) QEMU_GENERIC_IF(x, a0, QEMU_GENERIC9(x, __VA_ARGS__))
+-
+ /**
+  * qemu_build_not_reached()
   *
-- * @x: a lock object (currently one of QemuMutex, QemuRecMutex, CoMutex, QemuSpin).
-+ * Note the special case for void *, so that we may pass "NULL".
-+ */
-+#define QEMU_MAKE_LOCKABLE(x)                                           \
-+    _Generic((x), QemuLockable *: (x),                                  \
-+             void *: qemu_null_lockable(x),                             \
-+             QemuMutex *: qemu_make_lockable(x, QML_OBJ_(x, mutex)),    \
-+             QemuRecMutex *: qemu_make_lockable(x, QML_OBJ_(x, rec_mutex)), \
-+             CoMutex *: qemu_make_lockable(x, QML_OBJ_(x, co_mutex)),   \
-+             QemuSpin *: qemu_make_lockable(x, QML_OBJ_(x, spin)))
-+
-+/**
-+ * QEMU_MAKE_LOCKABLE_NONNULL - Make a polymorphic QemuLockable
-+ *
-+ * @x: a lock object (currently one of QemuMutex, QemuRecMutex,
-+ *     CoMutex, QemuSpin).
-  *
-  * Returns a QemuLockable object that can be passed around
-  * to a function that can operate with locks of any kind.
-  */
--#define QEMU_MAKE_LOCKABLE_NONNULL(x)                \
--    QEMU_GENERIC(x,                                  \
--                 (QemuLockable *, (x)),              \
--                 QEMU_MAKE_LOCKABLE_(x))
-+#define QEMU_MAKE_LOCKABLE_NONNULL(x)                           \
-+    _Generic((x), QemuLockable *: (x),                          \
-+                  QemuMutex *: QML_OBJ_(x, mutex),              \
-+                  QemuRecMutex *: QML_OBJ_(x, rec_mutex),       \
-+                  CoMutex *: QML_OBJ_(x, co_mutex),             \
-+                  QemuSpin *: QML_OBJ_(x, spin))
- 
- static inline void qemu_lockable_lock(QemuLockable *x)
- {
 -- 
 2.25.1
 
