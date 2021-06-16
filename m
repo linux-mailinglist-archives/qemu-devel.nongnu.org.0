@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8993A9EEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:25:12 +0200 (CEST)
-Received: from localhost ([::1]:46602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3DD3A9EED
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:24:49 +0200 (CEST)
+Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXPj-0000vE-Lf
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49822)
+	id 1ltXPM-0008KL-6n
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXNY-0006Jw-4B
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:22:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42738)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXNx-0006x5-BA
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:23:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXNU-0005r3-Bc
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:22:55 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ltXNv-0006Bb-Tj
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:23:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623856969;
+ s=mimecast20190719; t=1623856998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PvZeaS13KCdaLy/oXrlCsZ7XbgFURbAIXDUt5bnINgk=;
- b=jNhxjFCPyAIQZsKydzfr46Coh0eQnLj5Cc+x3RvLpujezx3OamUZ49pdRH4JCFTz/AqgUY
- 8sib6sjqDcegAtI8fZJX8fA6P2/MOQiTmF+PI1Ma0H16O3OK/QCGNEjZagplJOcLqQoAeW
- ZsVYGw4fq4lIwdpnLFLWqScFKynBVg4=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-7eFrQVFNPrWQy84OYX8FTw-1; Wed, 16 Jun 2021 11:22:45 -0400
-X-MC-Unique: 7eFrQVFNPrWQy84OYX8FTw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- z5-20020ac86c450000b029024e9a87714dso1831877qtu.2
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:22:45 -0700 (PDT)
+ bh=SHiTk8rwqLDSKrwpKSmUxTONMNDnxj19pyoMSxmU3kw=;
+ b=REzOgoUI025cC3tKxr644v+CWkaHoVkq3zCYhICODKOe6dhGOhmrrv51yEnkO9p9iqVwJq
+ 7ZI6wnuZ9Ar6/HvPYrAFuRMyYO04mnk1r6kxOopcbacTtTwHA3oDbowahygfDt6tGjYx3z
+ P/iI5yJuTf9mElqq+eK7ZMkFLTJlrwQ=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-pOoSjE-bPOmmON0ktM_hLw-1; Wed, 16 Jun 2021 11:23:17 -0400
+X-MC-Unique: pOoSjE-bPOmmON0ktM_hLw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ z5-20020ac86c450000b029024e9a87714dso1832759qtu.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 08:23:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PvZeaS13KCdaLy/oXrlCsZ7XbgFURbAIXDUt5bnINgk=;
- b=BtkUuv0iQFKStcT7Com5OstFGhGUWg8IL/CweCqfSdSlmKqtyaiXjdsBNEIwUiBpla
- yV9xZkB3IsH3Kx74TAJPtJhHxuC2hp1UlSfBJFfPIW6fpvhjSx5gDPJFhU60NSWQOIVl
- nKrqUaq89YSRc1gVxcSOGmWmCRtckfhfBpqazDBxuiero3l4vJa/lwpN0lb5k6IB9n8N
- G79lzidEbqkV9O8gfk6QLG9430etQ3KM7VdygIDt2wZE8kpq3Nv6TBkqG/LAg1KgAqfQ
- NlBaEwx+vs/Ym075eQqwyE4swYIMHlLH/QkEsZyJqnXuXGy+UPm530H63DCmIEmK24PT
- nuoQ==
-X-Gm-Message-State: AOAM531I2xebFnyMa+qadkDwhYLdTgROJf6lfXvQuaWPfTNJfQm7Vwgw
- Rc/0a7kkPzhYRQW4VYdBG1VFYlfvo8Qd8Gmj2n42cNn/27EUjWBJGrRVlnGYGWTgZC/FFeNdyYa
- yAevxvdcBG9Kebu4=
-X-Received: by 2002:a0c:ef41:: with SMTP id t1mr512487qvs.2.1623856965435;
- Wed, 16 Jun 2021 08:22:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9WvmqZJy+ivFyakc1OInibwJOzNVw71yhK/D7TVzTUJgjpUhD+NzsSu6GVMsk7StN9tv6PA==
-X-Received: by 2002:a0c:ef41:: with SMTP id t1mr512460qvs.2.1623856965212;
- Wed, 16 Jun 2021 08:22:45 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=SHiTk8rwqLDSKrwpKSmUxTONMNDnxj19pyoMSxmU3kw=;
+ b=LdowmxPZggPky1c4gIhpWdkhA0RPxl/VbYLf8Fqh8H3ZLy/MteMxLbGhNI4A7uyzao
+ vOcWwE6OQecjK6bvNsVPtCYpwi8+BAdUKzQp19p0stnxpl/PBV0gQIV0SPCixUhe4tcd
+ L1cGs6O/dvL4wReHPQb7cH+fj6Ruwq0WuxY8P99Ct/7ny5PF9SpKoNsVHRNLSsGXPdKm
+ QIOS2SUbb2B+6bNX8S7N/w6W56f2n1+Rf11JG5EV53DyQLh8kcp95sCfe9eSQhbzARPC
+ 35aM477OkkAlY9O5wHe7PCTW/0ovbJWQY1sv/AIffop4C01nstS8YxaXqoiBtDPcGaCx
+ fEaA==
+X-Gm-Message-State: AOAM531Xrkz+kzHgN5y+ZfdU/YimBvB5sdwUsasCGjHhCNBeVP4+ZbXo
+ juUjao/jZP0JsHY3ecbOwlICxdwAPV6agWT3gB8ks71S6LSDXMCsfgWa+H0pxEAqBNOY9/EQLUx
+ OzPfMAemsrtp64uc=
+X-Received: by 2002:ac8:684:: with SMTP id f4mr389151qth.79.1623856997184;
+ Wed, 16 Jun 2021 08:23:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4WkeMN2MZ7SYPNUM4sPdQAfNNzb1nzv0vvgdEyLzX5VXEPkccwigtvtMutXbQa/cQfx3SXA==
+X-Received: by 2002:ac8:684:: with SMTP id f4mr389126qth.79.1623856997005;
+ Wed, 16 Jun 2021 08:23:17 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id l3sm1391271qth.87.2021.06.16.08.22.44
+ by smtp.gmail.com with ESMTPSA id g15sm1716459qkl.53.2021.06.16.08.23.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 08:22:44 -0700 (PDT)
-Date: Wed, 16 Jun 2021 11:22:43 -0400
+ Wed, 16 Jun 2021 08:23:16 -0700 (PDT)
+Date: Wed, 16 Jun 2021 11:23:15 -0400
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v4 2/6] memory: make global_dirty_log a bitmask
-Message-ID: <YMoXQxNW0EHGXCS8@t490s>
+Subject: Re: [PATCH v4 1/6] KVM: introduce dirty_pages and
+ kvm_dirty_ring_enabled
+Message-ID: <YMoXY8/lu5VX0NM5@t490s>
 References: <cover.1623804189.git.huangy81@chinatelecom.cn>
- <3848028c3029e2e870286c84c2b3e9a93967567e.1623804189.git.huangy81@chinatelecom.cn>
+ <32c3266ebfd75aaf3f2caaf6b5fad0fb6dd8a96a.1623804189.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <3848028c3029e2e870286c84c2b3e9a93967567e.1623804189.git.huangy81@chinatelecom.cn>
+In-Reply-To: <32c3266ebfd75aaf3f2caaf6b5fad0fb6dd8a96a.1623804189.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -99,95 +103,20 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 09:12:28AM +0800, huangy81@chinatelecom.cn wrote:
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index b114f54..e31eef2 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -55,7 +55,11 @@ static inline void fuzz_dma_read_cb(size_t addr,
->  }
->  #endif
->  
-> -extern bool global_dirty_log;
-> +/* what is the purpose of current dirty log, migration or dirty rate ? */
+On Wed, Jun 16, 2021 at 09:12:27AM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> dirty_pages is used to calculate dirtyrate via dirty ring, when
+> enabled, kvm-reaper will increase the dirty pages after gfns
+> being dirtied.
+> 
+> kvm_dirty_ring_enabled shows if kvm-reaper is working. dirtyrate
+> thread could use it to check if measurement can base on dirty
+> ring feature.
+> 
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Nitpick: I'll make it:
-
-  /* Possible bits for global_dirty_log */
-
-  /* Dirty tracking enabled because migration is running */
-  #define GLOBAL_DIRTY_MIGRATION  (1U << 0)
-
-  /* Dirty tracking enabled because measuring dirty rate */
-  #define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
-
-> +#define GLOBAL_DIRTY_MIGRATION  (1U << 0)
-> +#define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
-> +
-> +extern unsigned int global_dirty_log;
->  
->  typedef struct MemoryRegionOps MemoryRegionOps;
->  
-
-[...]
-
-> @@ -39,7 +39,7 @@
->  static unsigned memory_region_transaction_depth;
->  static bool memory_region_update_pending;
->  static bool ioeventfd_update_pending;
-> -bool global_dirty_log;
-> +unsigned int global_dirty_log;
-
-I'm wondering whether it's a good chance to rename it to global_dirty_tracking,
-because "logging" has a hint on the method while it's not the only one now.
-
->  
->  static QTAILQ_HEAD(, MemoryListener) memory_listeners
->      = QTAILQ_HEAD_INITIALIZER(memory_listeners);
-> @@ -2659,14 +2659,19 @@ void memory_global_after_dirty_log_sync(void)
->  
->  static VMChangeStateEntry *vmstate_change;
->  
-> -void memory_global_dirty_log_start(void)
-> +void memory_global_dirty_log_start(unsigned int flags)
->  {
->      if (vmstate_change) {
->          qemu_del_vm_change_state_handler(vmstate_change);
->          vmstate_change = NULL;
->      }
->  
-> -    global_dirty_log = true;
-> +#define  GLOBAL_DIRTY_MASK  (0x3)
-> +    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
-> +    assert(global_dirty_log ^ flags);
-
-Heh, this is probably my fault... I think what I wanted to suggest is actually:
-
-       assert(!(global_dirty_log & flags));
-
-Then for stop() below...
-
-> +    global_dirty_log |= flags;
-> +
-> +    trace_global_dirty_changed(global_dirty_log);
->  
->      MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
->  
-> @@ -2676,9 +2681,12 @@ void memory_global_dirty_log_start(void)
->      memory_region_transaction_commit();
->  }
->  
-> -static void memory_global_dirty_log_do_stop(void)
-> +static void memory_global_dirty_log_do_stop(unsigned int flags)
->  {
-> -    global_dirty_log = false;
-> +    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
-
-... it should probably be:
-
-       assert((global_dirty_log & flags) == flags);
-
-Sorry about the confusion.
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
