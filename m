@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA463AA45E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:31:25 +0200 (CEST)
-Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905683AA4D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 21:57:33 +0200 (CEST)
+Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltbG0-0007N7-AO
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:31:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
+	id 1ltbfI-0007rt-55
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 15:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1ltbDk-0005oO-IY
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:29:04 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:46728)
+ (Exim 4.90_1) (envelope-from
+ <3YFfKYAMKCkUwjjnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--pcc.bounces.google.com>)
+ id 1ltbeB-0007AV-Vv
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:56:24 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:37441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1ltbDh-0001Lc-Gu
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:29:03 -0400
-Received: by mail-oi1-x233.google.com with SMTP id c13so3646735oib.13
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=FCBYsswJDTcntYmgYIvvIu8QxEyHtHxZfSvcQUP0s8U=;
- b=hGliG2jrHcimXHHGfzQR7u9c2Y8C/KF5L8hOEX4hvs69oBit0AO+/Z21ur4gaDQs9J
- shqTlWW82C9ZsvVQAOHT5WNTZV0QSxgJ/g8rCHgSLWVyxYwp7d1JHBcID1O7JVLfgveJ
- FqQv8GOV5G9GECXIbzkEq3Dl1MvLIhrl1RSmxHJTU8z1+MSEGQhofBzeY/wlx0oYcJNn
- IkLAMjS3wjHFO8lHhh7s0FHGXl1NCLLx4riFky+/SpOduM8jA1vS7ib1TPjivfqYS0MW
- 41hXXJJIMkrkDukIbyvomdKVu22NuSZRKhsanrDHKgTgBHYb4bkV6/I5LhATMZHoxz63
- 1dVw==
+ (Exim 4.90_1) (envelope-from
+ <3YFfKYAMKCkUwjjnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--pcc.bounces.google.com>)
+ id 1ltbe6-0002iz-KF
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 15:56:23 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id
+ g9-20020a25ae490000b029052f9e5b7d3fso4806337ybe.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 12:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=Mnv+AEsi4m4GQKAH/056B6oPUUMVCrTjYP+DjyRCDNU=;
+ b=eSBL8+JWS4iY0IOrhIp9EYj6cP4jdhmieRgkD56J3P6nk0ldV+lahJiTRfLNX7izmx
+ ZqLJqm1RuSfTNNmS5Krzd3ifUJKQX5MQtLYQBhx+LUu0Vyu8YgU71jAopDpddbQ5TlLf
+ tkHnBKa336Av0p58sD+dR1D4xjJbNi8BWNJH+f/lIqSN7a3s6Bn/eOoIJEyZDUAPfzD0
+ omaMHrHpyd21LjzWq0v5oWDzN+fSsEyAWPnvp1zdSzbzCqMRg4hwQOMsc0+4R+D0WwEw
+ 987//EBtgZRpAM2W68ThV10uT6XndSJOOqNkeqxCyFRy1FAp3Ljgoc1/2BoJ4ETqMCWs
+ 6WzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=FCBYsswJDTcntYmgYIvvIu8QxEyHtHxZfSvcQUP0s8U=;
- b=YzXFvwMfGEYZ18cHUdODqyf3J7FJ/hbssatIp9wv1a1szLUo26RuJanNcukmLnzTOM
- PtgahU2aDbZQqOO2vYeao8EWcZTtdBzGcgS3ZrHzwttk9rgormRpRQWmzhcbyy7JmqCX
- fmpZ+0A+woSkryoMPRKNiajeWA7+ZcIqMLaE2g/ybn6j+rDaBKSU02Ebc4ZJ0Rae4Exo
- OFPj7ZHwis9tjA9FE8zHn9OEopq0dP41GNgXRAPiKLyfSdW+5yLrR2uso+XQrg4Qhaqm
- 4RT+ITjiM1zYwXFlXyj+I0D5pZyE3CW4GUTC6Tg+2mTzjCW5Qvd7U9UxQ//oz71Sqni2
- dqPw==
-X-Gm-Message-State: AOAM5316UrNmh/KRpIHTVcEAZNxqjb+F95ljWS+8PQ+u9iDVG9RJRAOj
- tVkgOfT8Ba4Lltd42ZpXipTPog==
-X-Google-Smtp-Source: ABdhPJysY3KoMSG1deGB7ECXzI9Cm5Z2DOkUWUMWliGIifYdGCm5Zes63wCAhCuvivD0CGTme0C1Zw==
-X-Received: by 2002:a05:6808:1148:: with SMTP id
- u8mr733841oiu.125.1623871739871; 
- Wed, 16 Jun 2021 12:28:59 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:ede8:ade8:da1:e1cc])
- by smtp.gmail.com with ESMTPSA id u1sm496917otg.17.2021.06.16.12.28.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 12:28:59 -0700 (PDT)
-Date: Wed, 16 Jun 2021 14:28:58 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 00/13] hw/i2c: Remove confusing i2c_send_recv() API
-Message-ID: <20210616192858.GG11196@minyard.net>
-References: <20210616161418.2514095-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210616161418.2514095-1-f4bug@amsat.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=cminyard@mvista.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=Mnv+AEsi4m4GQKAH/056B6oPUUMVCrTjYP+DjyRCDNU=;
+ b=NwS5DI7FXh7IutcVWAdFrs2gMB0rLQGpemX7FjZ0blowdLu/2IbZevh7N0SQLVrpTb
+ HLW5r79ajkent9CF6fxTcMR8FC3KPw1ltOdvtjKdx38LhTg0ULHHfHf5ORxG0QeMYIKD
+ F/ivFKg4ksrXvaM2iXtiJvqdUPYpguuGcJDokfifMmDc2dYUOMaCLHAaOI/qpw92DY5Z
+ 78uBg0AP2k+WHBU6nWeeOvbZJf15o6/sPb+g5Pkcp7DrlwjTP1juKgSDPfFer3YWEoq0
+ on9ch65+iVkxJGUlhfrJPa5xfAoAXYXZqCKWmuIU+LRsobToHKTQprnHJdPg+QDj+gUu
+ +jgQ==
+X-Gm-Message-State: AOAM533LKaEkOXX28se+is9YgnbT8BRAY2H/lg52+iY2HDCTVU9dr5yP
+ jkPg2+t1AWFBu2OKT93DP8ahI9I=
+X-Google-Smtp-Source: ABdhPJxAX43KpIJjLSgg+iUPMc3yM2OFAtzSLDx0lxje06Dwc5E/YGoMVosUz8sw8ePf5uK+T4vb9jg=
+X-Received: from pcc-desktop.svl.corp.google.com
+ ([2620:15c:2ce:200:1589:32f2:bd08:7fe0])
+ (user=pcc job=sendgmr) by 2002:a25:df82:: with SMTP id
+ w124mr949800ybg.425.1623873376835; 
+ Wed, 16 Jun 2021 12:56:16 -0700 (PDT)
+Date: Wed, 16 Jun 2021 12:56:14 -0700
+Message-Id: <20210616195614.11785-1-pcc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.32.0.272.g935e593368-goog
+Subject: [PATCH v2] target/arm: Implement MTE3
+From: Peter Collingbourne <pcc@google.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Collingbourne <pcc@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+ Evgenii Stepanov <eugenis@google.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3YFfKYAMKCkUwjjnvvnsl.jvtxlt1-kl2lsuvunu1.vyn@flex--pcc.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,70 +84,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: "Signed-off-by : Frederic Konrad" <frederic.konrad@adacore.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 06:14:05PM +0200, Philippe Mathieu-Daudé wrote:
-> This is a respin of Zoltan's patch:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg714711.html
-> 
-> Since v2, tried to address Corey's review comments resulting
-> in a i2c_send_recv() removal and code easier to review (to my
-> taste at least).
+MTE3 introduces an asymmetric tag checking mode, in which loads are
+checked synchronously and stores are checked asynchronously. Add
+support for it.
 
-Yes, this is much better.  I had a few minor comments, and Richard did,
-too, but with those fixed this is a big improvement over the existing
-code.
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v2:
+- remove unused argument
 
-I can give you an:
+ target/arm/cpu64.c      |  2 +-
+ target/arm/mte_helper.c | 82 +++++++++++++++++++++++++----------------
+ 2 files changed, 52 insertions(+), 32 deletions(-)
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 1c23187d1a..c7a1626bec 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -683,7 +683,7 @@ static void aarch64_max_initfn(Object *obj)
+          * during realize if the board provides no tag memory, much like
+          * we do for EL2 with the virtualization=on property.
+          */
+-        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 2);
++        t = FIELD_DP64(t, ID_AA64PFR1, MTE, 3);
+         cpu->isar.id_aa64pfr1 = t;
+ 
+         t = cpu->isar.id_aa64mmfr0;
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 9e615cc513..724175210b 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -538,13 +538,50 @@ void HELPER(stzgm_tags)(CPUARMState *env, uint64_t ptr, uint64_t val)
+     }
+ }
+ 
++static void mte_sync_check_fail(CPUARMState *env, uint32_t desc,
++                                uint64_t dirty_ptr, uintptr_t ra)
++{
++    int is_write, syn;
++
++    env->exception.vaddress = dirty_ptr;
++
++    is_write = FIELD_EX32(desc, MTEDESC, WRITE);
++    syn = syn_data_abort_no_iss(arm_current_el(env) != 0, 0, 0, 0, 0, is_write,
++                                0x11);
++    raise_exception_ra(env, EXCP_DATA_ABORT, syn, exception_target_el(env), ra);
++    g_assert_not_reached();
++}
++
++static void mte_async_check_fail(CPUARMState *env, uint64_t dirty_ptr,
++                                 uintptr_t ra, ARMMMUIdx arm_mmu_idx, int el)
++{
++    int select;
++
++    if (regime_has_2_ranges(arm_mmu_idx)) {
++        select = extract64(dirty_ptr, 55, 1);
++    } else {
++        select = 0;
++    }
++    env->cp15.tfsr_el[el] |= 1 << select;
++#ifdef CONFIG_USER_ONLY
++    /*
++     * Stand in for a timer irq, setting _TIF_MTE_ASYNC_FAULT,
++     * which then sends a SIGSEGV when the thread is next scheduled.
++     * This cpu will return to the main loop at the end of the TB,
++     * which is rather sooner than "normal".  But the alternative
++     * is waiting until the next syscall.
++     */
++    qemu_cpu_kick(env_cpu(env));
++#endif
++}
++
+ /* Record a tag check failure.  */
+ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+                            uint64_t dirty_ptr, uintptr_t ra)
+ {
+     int mmu_idx = FIELD_EX32(desc, MTEDESC, MIDX);
+     ARMMMUIdx arm_mmu_idx = core_to_aa64_mmu_idx(mmu_idx);
+-    int el, reg_el, tcf, select, is_write, syn;
++    int el, reg_el, tcf;
+     uint64_t sctlr;
+ 
+     reg_el = regime_el(env, arm_mmu_idx);
+@@ -564,14 +601,8 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+     switch (tcf) {
+     case 1:
+         /* Tag check fail causes a synchronous exception. */
+-        env->exception.vaddress = dirty_ptr;
+-
+-        is_write = FIELD_EX32(desc, MTEDESC, WRITE);
+-        syn = syn_data_abort_no_iss(arm_current_el(env) != 0, 0, 0, 0, 0,
+-                                    is_write, 0x11);
+-        raise_exception_ra(env, EXCP_DATA_ABORT, syn,
+-                           exception_target_el(env), ra);
+-        /* noreturn, but fall through to the assert anyway */
++        mte_sync_check_fail(env, desc, dirty_ptr, ra);
++        break;
+ 
+     case 0:
+         /*
+@@ -583,30 +614,19 @@ static void mte_check_fail(CPUARMState *env, uint32_t desc,
+ 
+     case 2:
+         /* Tag check fail causes asynchronous flag set.  */
+-        if (regime_has_2_ranges(arm_mmu_idx)) {
+-            select = extract64(dirty_ptr, 55, 1);
+-        } else {
+-            select = 0;
+-        }
+-        env->cp15.tfsr_el[el] |= 1 << select;
+-#ifdef CONFIG_USER_ONLY
+-        /*
+-         * Stand in for a timer irq, setting _TIF_MTE_ASYNC_FAULT,
+-         * which then sends a SIGSEGV when the thread is next scheduled.
+-         * This cpu will return to the main loop at the end of the TB,
+-         * which is rather sooner than "normal".  But the alternative
+-         * is waiting until the next syscall.
+-         */
+-        qemu_cpu_kick(env_cpu(env));
+-#endif
++        mte_async_check_fail(env, dirty_ptr, ra, arm_mmu_idx, el);
+         break;
+ 
+-    default:
+-        /* Case 3: Reserved. */
+-        qemu_log_mask(LOG_GUEST_ERROR,
+-                      "Tag check failure with SCTLR_EL%d.TCF%s "
+-                      "set to reserved value %d\n",
+-                      reg_el, el ? "" : "0", tcf);
++    case 3:
++        /*
++         * Tag check fail causes asynchronous flag set for stores, or
++         * a synchronous exception for loads.
++         */
++        if (FIELD_EX32(desc, MTEDESC, WRITE)) {
++            mte_async_check_fail(env, dirty_ptr, ra, arm_mmu_idx, el);
++        } else {
++            mte_sync_check_fail(env, desc, dirty_ptr, ra);
++        }
+         break;
+     }
+ }
+-- 
+2.32.0.272.g935e593368-goog
 
-for all of these, or I can take them into my tree.  I'm fine either way.
-
--corey
-
-> 
-> Supersedes: <20200623063123.20776-1-f4bug@amsat.org>
-> 
-> BALATON Zoltan (1):
->   hw/i2c: Make i2c_start_transfer() direction argument a boolean
-> 
-> Philippe Mathieu-Daudé (12):
->   hw/input/lm832x: Move lm832x_key_event() declaration to "lm832x.h"
->   hw/input/lm832x: Define TYPE_LM8323 in public header
->   hw/display/sm501: Simplify sm501_i2c_write() logic
->   hw/display/sm501: Replace i2c_send_recv() by i2c_recv() & i2c_send()
->   hw/i2c/ppc4xx_i2c: Add reference to datasheet
->   hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by i2c_recv() & i2c_send()
->   hw/misc/auxbus: Fix MOT/classic I2C mode
->   hw/misc/auxbus: Explode READ_I2C / WRITE_I2C_MOT cases
->   hw/misc/auxbus: Replace 'is_write' boolean by its value
->   hw/misc/auxbus: Replace i2c_send_recv() by i2c_recv() & i2c_send()
->   hw/i2c: Remove confusing i2c_send_recv()
->   hw/i2c: Rename i2c_set_slave_address() -> i2c_slave_set_address()
-> 
->  include/hw/i2c/i2c.h      | 21 +++++++++---
->  include/hw/input/lm832x.h | 28 ++++++++++++++++
->  hw/arm/nseries.c          |  3 +-
->  hw/arm/pxa2xx.c           |  2 +-
->  hw/arm/spitz.c            |  4 +--
->  hw/display/ati.c          |  2 +-
->  hw/display/sm501.c        | 16 +++++----
->  hw/display/xlnx_dp.c      |  2 +-
->  hw/i2c/core.c             | 56 ++++++++++++++-----------------
->  hw/i2c/imx_i2c.c          |  2 +-
->  hw/i2c/ppc4xx_i2c.c       | 15 ++++++---
->  hw/input/lm832x.c         |  2 +-
->  hw/misc/auxbus.c          | 69 +++++++++++++++++++++++++++++----------
->  MAINTAINERS               |  1 +
->  14 files changed, 149 insertions(+), 74 deletions(-)
->  create mode 100644 include/hw/input/lm832x.h
-> 
-> -- 
-> 2.31.1
-> 
 
