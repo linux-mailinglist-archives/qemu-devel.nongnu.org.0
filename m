@@ -2,72 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9005A3A99CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 14:00:37 +0200 (CEST)
-Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB103A99E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 14:07:06 +0200 (CEST)
+Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltUDj-0007No-0n
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 08:00:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50090)
+	id 1ltUK1-0002Zx-FR
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 08:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1ltUCP-0006hx-GU
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 07:59:14 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:44876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1ltUCL-0008OC-PH
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 07:59:13 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id
- q5-20020a9d66450000b02903f18d65089fso2174904otm.11
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 04:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RWwx/3wZkItehRlPhCi7yAPQqWDrTmWHAJ8kj+8//kI=;
- b=cKvnBkqMONEGOAVnL6v+VpmTyn6kV0d/tTxHCOMWeDm6l1j12UPlT8gC9oEMEvd1P4
- YUs2uLm48xZSEn2R0WCwG96tk61nndPc6J5H132TW2SedDq+SbpK+y9hYxdt9qhZ5S49
- /SvU6Ty/t4HP+30UFKCCZB3o90vuk5hOqUiuehDw8ILNEk+EBAHQDqqW+70lO+QGSwpP
- o7K3tl6FfcgklaBldB+/BdruetgwUAq1kfKt2ZlCGStj2nPe3IV1yTgREgOe6XFL7oub
- 7VSrBPxUbEtEQwIXAEIiim07goxYU18es8T9uuE3hlWK+nlVc1yjWz5ck3SI+B0Dza02
- 2e4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RWwx/3wZkItehRlPhCi7yAPQqWDrTmWHAJ8kj+8//kI=;
- b=ir0IJru4m7PQW+1CKXmYV3Loir2Q7OIKdHRbj5NNc4w2Flgd0U1N7vCuiUKUVa6m/j
- ev5aYfXDbrJZru24t5uD5gnbFqhFHAR1IY/H1A2rUlRttviHCn6hLsX3qNQU6lC3wbRv
- uBOvc0mZQLENoQejCeRbDnBZjyMBgsW3ZxfzESOv4kx+25n7IlWizvbb3ekZRo9+O158
- 0Rv1C1DwHkHUjH9P3ZYslCiWZlhmYMGk0sBqkYuY8JbDOC5J7PIRVT81Md+UxpqrIk68
- RQjqT1Vce1LoWxI9Hrg2mxKfZo4RoQ3wQLflr7JueXSXfV8kwARhk7TOBw25fFJcjLq+
- yG8A==
-X-Gm-Message-State: AOAM532KkSbSFXzwmhDk6QEWr+V7JWuiQ/lNVa8kPHPJPycBt3VAGeGZ
- 0t9u5Z7H//vGdw4C2l0sWOQ7EFogHL2NXH0PIH4=
-X-Google-Smtp-Source: ABdhPJxX5TbMtUTCgoDD1E9IByqDle/pryLKrRu2IPNUfu5gpCAnDqbM7oORjQLNxDX8FDoCnwDoSBIgtGsT+nMteqY=
-X-Received: by 2002:a05:6830:1d1:: with SMTP id
- r17mr3930359ota.5.1623844748433; 
- Wed, 16 Jun 2021 04:59:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ltUI4-0001TM-TT
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 08:05:04 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3828
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1ltUI1-00046Z-6M
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 08:05:04 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15GC4UqK049618; Wed, 16 Jun 2021 08:04:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=DY8MK7N626Iwov+oAVqFa0Oq218G+EmO1jaLe7mh+vg=;
+ b=RYaE1dE5crbqRdCK44btG0zAAl17fFKnCH+ZJgFBjzsypKQ3Uj4GOnhk9LrgRN36Q/EV
+ j3i4muqFcKKfWApf/u8ylsinbgUtWYSKQoR1uMm6XcQF6uN5brCfs/B5TfRIQ+Ihivsp
+ BKKAHcpEhRoL2twC8FIv45psABHPEOWzZUl8AWgyyCO0Ge8YusJBmCg+9v38Miqn74Td
+ 1tGxlQ012G2XghhwVT15hoDwKbdnyE+XVOZMmSJnGFh6Hc8xhtT0GqrNrVP3vckU53lb
+ dSGbbdDxBbqDCoCkZQc0h8TnKL4W4zS++bqufGw0tltx7iV1gOVvjSCh5iqUf5SOAFCP ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 397cv3fp1n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jun 2021 08:04:56 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15GC4WoK049847;
+ Wed, 16 Jun 2021 08:04:55 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 397cv3fnk6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jun 2021 08:04:55 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15GBx6j4017520;
+ Wed, 16 Jun 2021 12:04:32 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06fra.de.ibm.com with ESMTP id 394m6h94v7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jun 2021 12:04:32 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15GC4TI422938080
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Jun 2021 12:04:29 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 640DB11C058;
+ Wed, 16 Jun 2021 12:04:29 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4944111C05B;
+ Wed, 16 Jun 2021 12:04:25 +0000 (GMT)
+Received: from [9.160.80.73] (unknown [9.160.80.73])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 16 Jun 2021 12:04:25 +0000 (GMT)
+Subject: Re: [PATCH] x86: add SEV hashing to fw_cfg for kernel/initrd/cmdline
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20210525065931.1628554-1-dovmurik@linux.ibm.com>
+ <20210615152033.czhsaz44yxtc5ext@habkost.net>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <19ca38d7-7779-9707-b195-d608f3200951@linux.ibm.com>
+Date: Wed, 16 Jun 2021 15:04:24 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210616104349.2398060-1-f4bug@amsat.org>
-In-Reply-To: <20210616104349.2398060-1-f4bug@amsat.org>
-From: Qiang Liu <cyruscyliu@gmail.com>
-Date: Wed, 16 Jun 2021 19:58:56 +0800
-Message-ID: <CAAKa2j=au0tnqPg8iPB7e3SHNZVL+RO9xb7=u6aszUWRiSC0Ew@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/audio/sb16: Avoid assertion by restricting I/O
- sampling rate range
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=cyruscyliu@gmail.com; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210615152033.czhsaz44yxtc5ext@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: IA_kUzNdTjwWhSWdpp7dYNC-EhOZ_lPJ
+X-Proofpoint-GUID: reQadgFV0A64NE7HPGeaGTTEvbCFejo6
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-06-16_07:2021-06-15,
+ 2021-06-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106160070
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,195 +115,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Hubertus Franke <frankeh@us.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thx. I learned a lot about contributing to QEMU from this discussion!
+Hi Eduardo,
 
-Best,
-Qiang
+On 15/06/2021 18:20, Eduardo Habkost wrote:
+> On Tue, May 25, 2021 at 06:59:31AM +0000, Dov Murik wrote:
+>> From: James Bottomley <jejb@linux.ibm.com>
+>>
+>> If the VM is using memory encryption and also specifies a kernel/initrd
+>> or appended command line, calculate the hashes and add them to the
+>> encrypted data.  For this to work, OVMF must support an encrypted area
+>> to place the data which is advertised via a special GUID in the OVMF
+>> reset table (if the GUID doesn't exist, the user isn't allowed to pass
+>> in the kernel/initrd/cmdline via the fw_cfg interface).
+>>
+>> The hashes of each of the files is calculated (or the string in the case
+>> of the cmdline with trailing '\0' included).  Each entry in the hashes
+>> table is GUID identified and since they're passed through the memcrypt
+>> interface, the hash of the encrypted data will be accumulated by the
+>> PSP.
+>>
+>> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+>> [dovmurik@linux.ibm.com: use machine->cgs, remove parsing of GUID
+>> strings, remove GCC pragma, fix checkpatch errors]
+>> ---
+>>
+>> OVMF support for handling the table of hashes (verifying that the
+>> kernel/initrd/cmdline passed via the fw_cfg interface indeed correspond
+>> to the measured hashes in the table) will be posted soon to edk2-devel.
+>>
+>> ---
+>>  hw/i386/x86.c | 120 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 119 insertions(+), 1 deletion(-)
+>>
+> 
+> This is not an objection to the patch itself, but: can we do
+> something to move all sev-related code to sev.c?  It would make
+> the process of assigning a maintainer and reviewing/merging
+> future patches much simpler.
+> 
 
-On Wed, Jun 16, 2021 at 6:43 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> While the SB16 seems to work up to 48000 Hz, the "Sound Blaster Series
-> Hardware Programming Guide" limit the sampling range from 4000 Hz to
-> 44100 Hz (Section 3-9, 3-10: Digitized Sound I/O Programming, tables
-> 3-2 and 3-3).
->
-> Later, section 6-15 (DSP Commands) is more specific regarding the 41h /
-> 42h registers (Set digitized sound output sampling rate):
->
->   Valid sampling rates range from 5000 to 45000 Hz inclusive.
->
-> There is no comment regarding error handling if the register is filled
-> with an out-of-range value.  (See also section 3-28 "8-bit or 16-bit
-> Auto-initialize Transfer"). Assume limits are enforced in hardware.
->
-> This fixes triggering an assertion in audio_calloc():
->
->   #1 abort
->   #2 audio_bug audio/audio.c:119:9
->   #3 audio_calloc audio/audio.c:154:9
->   #4 audio_pcm_sw_alloc_resources_out audio/audio_template.h:116:15
->   #5 audio_pcm_sw_init_out audio/audio_template.h:175:11
->   #6 audio_pcm_create_voice_pair_out audio/audio_template.h:410:9
->   #7 AUD_open_out audio/audio_template.h:503:14
->   #8 continue_dma8 hw/audio/sb16.c:216:20
->   #9 dma_cmd8 hw/audio/sb16.c:276:5
->   #10 command hw/audio/sb16.c:0
->   #11 dsp_write hw/audio/sb16.c:949:13
->   #12 portio_write softmmu/ioport.c:205:13
->   #13 memory_region_write_accessor softmmu/memory.c:491:5
->   #14 access_with_adjusted_size softmmu/memory.c:552:18
->   #15 memory_region_dispatch_write softmmu/memory.c:0:13
->   #16 flatview_write_continue softmmu/physmem.c:2759:23
->   #17 flatview_write softmmu/physmem.c:2799:14
->   #18 address_space_write softmmu/physmem.c:2891:18
->   #19 cpu_outw softmmu/ioport.c:70:5
->
-> [*] http://www.baudline.com/solutions/full_duplex/sb16_pci/index.html
->
-> Fixes: 85571bc7415 ("audio merge (malc)")
-> Buglink: https://bugs.launchpad.net/bugs/1910603
-> OSS-Fuzz Report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D=
-29174
-> Tested-by: Qiang Liu <cyruscyliu@gmail.com>
-> Reviewed-by: Qiang Liu <cyruscyliu@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> v2: Added Qiang Liu's T-b/R-b tags =C2=AF\_(=E3=83=84)_/=C2=AF
-> ---
->  hw/audio/sb16.c              | 14 ++++++++++
->  tests/qtest/fuzz-sb16-test.c | 52 ++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                  |  1 +
->  tests/qtest/meson.build      |  1 +
->  4 files changed, 68 insertions(+)
->  create mode 100644 tests/qtest/fuzz-sb16-test.c
->
-> diff --git a/hw/audio/sb16.c b/hw/audio/sb16.c
-> index 8b207004102..5cf121fe363 100644
-> --- a/hw/audio/sb16.c
-> +++ b/hw/audio/sb16.c
-> @@ -115,6 +115,9 @@ struct SB16State {
->      PortioList portio_list;
->  };
->
-> +#define SAMPLE_RATE_MIN 5000
-> +#define SAMPLE_RATE_MAX 45000
-> +
->  static void SB_audio_callback (void *opaque, int free);
->
->  static int magic_of_irq (int irq)
-> @@ -241,6 +244,17 @@ static void dma_cmd8 (SB16State *s, int mask, int dm=
-a_len)
->          int tmp =3D (256 - s->time_const);
->          s->freq =3D (1000000 + (tmp / 2)) / tmp;
->      }
-> +    if (s->freq < SAMPLE_RATE_MIN) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "sampling range too low: %d, increasing to %u\n",
-> +                      s->freq, SAMPLE_RATE_MIN);
-> +        s->freq =3D SAMPLE_RATE_MIN;
-> +    } else if (s->freq > SAMPLE_RATE_MAX) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "sampling range too high: %d, decreasing to %u\n",
-> +                      s->freq, SAMPLE_RATE_MAX);
-> +        s->freq =3D SAMPLE_RATE_MAX;
-> +    }
->
->      if (dma_len !=3D -1) {
->          s->block_size =3D dma_len << s->fmt_stereo;
-> diff --git a/tests/qtest/fuzz-sb16-test.c b/tests/qtest/fuzz-sb16-test.c
-> new file mode 100644
-> index 00000000000..51030cd7dc4
-> --- /dev/null
-> +++ b/tests/qtest/fuzz-sb16-test.c
-> @@ -0,0 +1,52 @@
-> +/*
-> + * QTest fuzzer-generated testcase for sb16 audio device
-> + *
-> + * Copyright (c) 2021 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "libqos/libqtest.h"
-> +
-> +/*
-> + * This used to trigger the assert in audio_calloc
-> + * https://bugs.launchpad.net/qemu/+bug/1910603
-> + */
-> +static void test_fuzz_sb16_0x1c(void)
-> +{
-> +    QTestState *s =3D qtest_init("-M q35 -display none "
-> +                               "-device sb16,audiodev=3Dsnd0 "
-> +                               "-audiodev none,id=3Dsnd0");
-> +    qtest_outw(s, 0x22c, 0x41);
-> +    qtest_outb(s, 0x22c, 0x00);
-> +    qtest_outw(s, 0x22c, 0x1004);
-> +    qtest_outw(s, 0x22c, 0x001c);
-> +    qtest_quit(s);
-> +}
-> +
-> +static void test_fuzz_sb16_0x91(void)
-> +{
-> +    QTestState *s =3D qtest_init("-M pc -display none "
-> +                               "-device sb16,audiodev=3Dnone "
-> +                               "-audiodev id=3Dnone,driver=3Dnone");
-> +    qtest_outw(s, 0x22c, 0xf141);
-> +    qtest_outb(s, 0x22c, 0x00);
-> +    qtest_outb(s, 0x22c, 0x24);
-> +    qtest_outb(s, 0x22c, 0x91);
-> +    qtest_quit(s);
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    const char *arch =3D qtest_get_arch();
-> +
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +   if (strcmp(arch, "i386") =3D=3D 0) {
-> +        qtest_add_func("fuzz/test_fuzz_sb16/1c", test_fuzz_sb16_0x1c);
-> +        qtest_add_func("fuzz/test_fuzz_sb16/91", test_fuzz_sb16_0x91);
-> +   }
-> +
-> +   return g_test_run();
-> +}
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7d9cd290426..d619ea8fcd1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2221,6 +2221,7 @@ F: qapi/audio.json
->  F: tests/qtest/ac97-test.c
->  F: tests/qtest/es1370-test.c
->  F: tests/qtest/intel-hda-test.c
-> +F: tests/qtest/fuzz-sb16-test.c
->
->  Block layer core
->  M: Kevin Wolf <kwolf@redhat.com>
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index c3a223a83d6..b03e8541700 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -20,6 +20,7 @@
->  qtests_generic =3D \
->    (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasa=
-s-test'] : []) + \
->    (config_all_devices.has_key('CONFIG_VIRTIO_SCSI') ? ['fuzz-virtio-scsi=
--test'] : []) + \
-> +  (config_all_devices.has_key('CONFIG_SB16') ? ['fuzz-sb16-test'] : []) =
-+ \
->    [
->    'cdrom-test',
->    'device-introspect-test',
-> --
-> 2.31.1
->
+I'll look into this following Philippe's suggestions.
+
+> I am not familiar with SEV internals, so my only question is
+> about configurations where SEV is disabled:
+> 
+> [...]
+>> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+>> @@ -778,6 +818,11 @@ void x86_load_linux(X86MachineState *x86ms,
+>>      const char *initrd_filename = machine->initrd_filename;
+>>      const char *dtb_filename = machine->dtb;
+>>      const char *kernel_cmdline = machine->kernel_cmdline;
+>> +    uint8_t buf[HASH_SIZE];
+>> +    uint8_t *hash = buf;
+>> +    size_t hash_len = sizeof(buf);
+>> +    struct sev_hash_table *sev_ht = NULL;
+>> +    int sev_ht_index = 0;
+>>  
+>>      /* Align to 16 bytes as a paranoia measure */
+>>      cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+>> @@ -799,6 +844,22 @@ void x86_load_linux(X86MachineState *x86ms,
+>>          exit(1);
+>>      }
+>>  
+>> +    if (machine->cgs && machine->cgs->ready) {
+> 
+> machine->cgs doesn't seem to be a SEV-specific field.
+> What if machine->cgs->ready is set but SEV is disabled?
+> 
+
+You're right; I'll change this to sev_enabled() like in
+hw/i386/pc_sysfw.c .
+
+-Dov
+
+
+>> +        uint8_t *data;
+>> +        struct sev_hash_table_descriptor *area;
+>> +
+>> +        if (!pc_system_ovmf_table_find(SEV_HASH_TABLE_RV_GUID, &data, NULL)) {
+>> +            fprintf(stderr, "qemu: kernel command line specified but OVMF has "
+>> +                    "no hash table guid\n");
+>> +            exit(1);
+>> +        }
+>> +        area = (struct sev_hash_table_descriptor *)data;
+>> +
+>> +        sev_ht = qemu_map_ram_ptr(NULL, area->base);
+>> +        memcpy(sev_ht->guid, sev_hash_table_header_guid, sizeof(sev_ht->guid));
+>> +        sev_ht->len = sizeof(*sev_ht);
+>> +    }
+>> +
+>>      /* kernel protocol version */
+>>      if (ldl_p(header + 0x202) == 0x53726448) {
+>>          protocol = lduw_p(header + 0x206);
+> [...]
+> 
 
