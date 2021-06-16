@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AC23AA123
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:20:44 +0200 (CEST)
-Received: from localhost ([::1]:36104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEECD3AA11C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:18:50 +0200 (CEST)
+Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYHT-0003LS-4B
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36562)
+	id 1ltYFe-0007EP-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYBf-000257-Sj; Wed, 16 Jun 2021 12:14:43 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45860)
+ id 1ltYBk-0002MS-HK; Wed, 16 Jun 2021 12:14:48 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYBe-0005rL-BR; Wed, 16 Jun 2021 12:14:43 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id z8so3298183wrp.12;
- Wed, 16 Jun 2021 09:14:41 -0700 (PDT)
+ id 1ltYBj-0005uA-3l; Wed, 16 Jun 2021 12:14:48 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id v9so3328916wrx.6;
+ Wed, 16 Jun 2021 09:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=13TAtltxyz3HRLnsPYZNhrV/l1rMyq15Cuna6JS4ElM=;
- b=C+N4rBgUIQjK42/iEPG4IUufNCAfzXzl30XI1Dq3ehDFkcSLW5OWbkfL6nfgXltve/
- 8sl5hmL3Sod+KOj6fFgHqnJ6Z12XDdqqA6tqivZenWO9oFMrI75pHcIBVSs+m/pqFnO0
- /bCvsqU5073FJmregNgrbg3OPaDdGMISWXN6bjIqb9gwuftk+mQwOqWC6/6FPs07MtUc
- yqBj/GmGtKTU8dS6iEHUcWKaLl1agi3baf48xd6bWPtO9QJLTNf19dQw+KWn2t73yaT7
- UzTylIpICCB0+SGcwzQVk5dYIM++MbuyqXqpVDIgtT1nsijR5Zc/NeABezWaTUUO0ZGD
- ugCQ==
+ bh=EHdSfYa44ifrw4JLoefcZ8HjwoJfatHiQn3SHL7K7GQ=;
+ b=pieEz39UWLRSfoqL4M4mx3TucnoYuXmTueqD9OwUaEBfEUmLcGOx02iOBIgzb2zRbu
+ 1Fr3Zv+crAizuB6ZV3rZNNQIh/8Em/8AoT98Lry9dI34Epi3bIhXVdLpbfeYGl4p6sJP
+ dOUiLLHfTrHXBcytnC+rOJO8RGbicRjXXTAHDd/2ruug44spOozDkC4Z6PJQ69XpmsQg
+ MCRt3AZUstRcJUy5cxEO+w2897c22lecZp1LB+eCT2nZyilU1OI7vPwdI2GfatMRiaAG
+ 02cpck6lH+G6NghCETNxrbTGj3qt/HIcUM/yNUuxivctOjesGVaQKTOHCqkNAHLaUKxo
+ Dc0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=13TAtltxyz3HRLnsPYZNhrV/l1rMyq15Cuna6JS4ElM=;
- b=U5knwD/Wp1Wp+deSFF1lUXezfVt+J2fs6TUIWpXMPkX0tI64gpR5XBQAZOIgYLvqkS
- UYlGx9KoohgzGpm0uXy/UrJopNuDkHlDUgVjqmPPFREWo/N7XHS5Z8p0h3RP54XXjYVw
- jxhKEZqd4z4fE0eHjWi0uv38f7N77BZbPtfbMg0qTULC3YY5aLVTbQeB433Jqhne0k2u
- 9LpQdbxJmEEykaKQ5AHJGZrFL6lxze7fA3AgUbNXjthfX4a7imSWxvPD2xQQhaK72P9h
- C2xApHx1cwCI4JZNSuSRdirODXNIMIo7gMyqX8JwRjILN/PL1YApFUtwk+mchQHW45xK
- xZ3Q==
-X-Gm-Message-State: AOAM533ZdcA56pUBpSF+x0GmTgenKm05ccVzjemVGDJmnQ7vy46CR95u
- Loa7eMWKvXPWAGlvrgTP+6EUy7pt9A0agw==
-X-Google-Smtp-Source: ABdhPJwa0NRopmxNNvalRx5rUReJ8/RyWb4IBsiAqiqOvsE6mwG9BzWs9B5sjrgLepHKLQA1BqamXg==
-X-Received: by 2002:a05:6000:1a87:: with SMTP id
- f7mr245553wry.172.1623860079959; 
- Wed, 16 Jun 2021 09:14:39 -0700 (PDT)
+ bh=EHdSfYa44ifrw4JLoefcZ8HjwoJfatHiQn3SHL7K7GQ=;
+ b=MvVGeAsE0bBIiiJTAlVAgXgaz9z3kai+oCQifu/1akeALTbnqAAQrRqrChL877dJd/
+ TSsztcH9az0bKivtwttL8k/AVbxLAMbc3IqGemeRas344OfYpCElepJSH9iX+/hPcycJ
+ Y0852gL8Iu3xA6cdsR5wvhBp/gZr0OGTolWQpsyIUTV41hx6ILbFdA6dVjc0QH96MQ9p
+ GTD00lBg9arKLb5OWdpREFx+gLTYZEveyIya6EiZPDBb+8X6w2GUtxyKPhIiSWuEDjFO
+ VsEdfj2j275wGTBaFX97AzFlP/AlKh6QOQBjjBF8MF6vbaKGU90ZxvBVlTib8G4Tm3EF
+ YPYA==
+X-Gm-Message-State: AOAM532l/PBpao31lMRgM6AeGAHkMi2incBQb0xAfVn5X9Ase8dn+QcX
+ Lq72VQFONUyC54Ag48MNUysO1DrKONrJsQ==
+X-Google-Smtp-Source: ABdhPJzLPrMLXLR+8FiTaORTuN19s0yMmCURhmB64bLGiupczKpOlM1CmjjEzL2KS/YSZ0jaFen4ng==
+X-Received: by 2002:a5d:4f05:: with SMTP id c5mr186692wru.341.1623860084809;
+ Wed, 16 Jun 2021 09:14:44 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id 89sm2627574wrq.14.2021.06.16.09.14.38
+ by smtp.gmail.com with ESMTPSA id o26sm2179209wms.27.2021.06.16.09.14.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 09:14:39 -0700 (PDT)
+ Wed, 16 Jun 2021 09:14:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/13] hw/display/sm501: Replace i2c_send_recv() by
- i2c_recv() & i2c_send()
-Date: Wed, 16 Jun 2021 18:14:09 +0200
-Message-Id: <20210616161418.2514095-5-f4bug@amsat.org>
+Subject: [PATCH v3 05/13] hw/i2c/ppc4xx_i2c: Add reference to datasheet
+Date: Wed, 16 Jun 2021 18:14:10 +0200
+Message-Id: <20210616161418.2514095-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616161418.2514095-1-f4bug@amsat.org>
 References: <20210616161418.2514095-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,41 +89,27 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using the confuse i2c_send_recv(), rewrite to directly
-call i2c_recv() & i2c_send(), resulting in code easire to review.
+It took me a while to find this model datasheet, since it is
+an OCR scan. Add a reference to save other developers time.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/display/sm501.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/i2c/ppc4xx_i2c.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index f276276f7f1..569661a0746 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1033,17 +1033,18 @@ static void sm501_i2c_write(void *opaque, hwaddr addr, uint64_t value,
-     case SM501_I2C_CONTROL:
-         if (value & SM501_I2C_CONTROL_ENABLE) {
-             if (value & SM501_I2C_CONTROL_START) {
-+                bool is_recv = s->i2c_addr & 1;
-                 int res = i2c_start_transfer(s->i2c_bus,
-                                              s->i2c_addr >> 1,
--                                             s->i2c_addr & 1);
-+                                             is_recv);
-                 if (res) {
-                     s->i2c_status |= SM501_I2C_STATUS_ERROR;
-                 } else {
-                     int i;
-                     for (i = 0; i <= s->i2c_byte_count; i++) {
--                        res = i2c_send_recv(s->i2c_bus, &s->i2c_data[i],
--                                            !(s->i2c_addr & 1));
--                        if (res) {
-+                        if (is_recv) {
-+                            s->i2c_data[i] = i2c_recv(s->i2c_bus);
-+                        } else if (i2c_send(s->i2c_bus, s->i2c_data[i]) < 0) {
-                             s->i2c_status |= SM501_I2C_STATUS_ERROR;
-                             return;
-                         }
+diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+index c0a8e045670..f4c5bc12d36 100644
+--- a/hw/i2c/ppc4xx_i2c.c
++++ b/hw/i2c/ppc4xx_i2c.c
+@@ -1,6 +1,8 @@
+ /*
+  * PPC4xx I2C controller emulation
+  *
++ * Documentation: PPC405GP User's Manual, Chapter 22. IIC Bus Interface
++ *
+  * Copyright (c) 2007 Jocelyn Mayer
+  * Copyright (c) 2012 François Revol
+  * Copyright (c) 2016-2018 BALATON Zoltan
 -- 
 2.31.1
 
