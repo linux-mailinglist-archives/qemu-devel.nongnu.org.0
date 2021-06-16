@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CB23A95E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:17:58 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237453A95E3
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 11:18:41 +0200 (CEST)
+Received: from localhost ([::1]:36870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltRgL-0002Dn-RW
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41542)
+	id 1ltRh2-0003KD-6J
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 05:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ltReK-0008Sx-ND; Wed, 16 Jun 2021 05:15:53 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37384)
+ id 1ltRed-0000an-Sd; Wed, 16 Jun 2021 05:16:11 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:37396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ltReD-0005ri-3Z; Wed, 16 Jun 2021 05:15:50 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id b13so2043982ybk.4;
- Wed, 16 Jun 2021 02:15:43 -0700 (PDT)
+ id 1ltRea-00064t-Je; Wed, 16 Jun 2021 05:16:11 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id b13so2045539ybk.4;
+ Wed, 16 Jun 2021 02:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=vXmhzDqLuz2y5ngXRfNBrk6SvB2qIjqGK3wrwOmZ1OA=;
- b=AW6cBg8B/ln3xZbZvvbd8V7idmmG+z8DJ9ENAynSDstJLh2i5rTbed+wI+0yx2TDdP
- i+Di7xLsZwVUmqVtMSFLa0HsFG1pWbioBLaECvICUn7EgBTBXHWrHiuRlG2xAWn2sLbi
- uOSxPBy+rZV1ilRTPNHLSqATlOxaFD5cvcpkHNQxHLQGSL+5Rs/vj7Mb47uzDkDhqzpB
- yQY9KNAJgLW5nGzPxQH732aU4ZVcRU+06MV4poY0QrxsN/nFFqmgMDNVRIP1ytaSVzCG
- HtGw+cj+IpTlmFLK8mgxgyrZrSZRZ+Vtms+UwZO2St45NNq+wUM0dVFuMLISGqvxLXBm
- 4wUw==
+ bh=RKMxNqJlp/wL3Ci3OVZFZonSOCKW2U/aI92g/aE7M8E=;
+ b=labNN5+L4lKIxFE2641zp2JcsqMHhmq/8FYTuo92GXy/aJjcOra8tFQDqIYrZQUiPD
+ D4ee+jwQQdp5OsZoBUD04Kl8YsMECgWZjp5LQ2/CTAe1CTxUTxH8knrYuA1GIvwHotCT
+ v0aDgGHEmYEgcnmLpuc5kyMFN324pZZ1gNgoEmjuQxKP1tt848cG/xUFpGoW9gJKM4Gj
+ ZV05riwAgSnsvkWPeHH7Ge98ZaDxwdXhfTrEE9b/dfBr1H4dh2B3oUbIhohWhOFBHm84
+ GsFl0NRQlDiOlkZJWo00pyDJHYDdpQlJYzuuWNwUnzhT52e51eb/mW7fBu++ZXFjScwD
+ CZ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=vXmhzDqLuz2y5ngXRfNBrk6SvB2qIjqGK3wrwOmZ1OA=;
- b=UOXRueNjyPfe6LKvajtvnx/zNCJMHeerPQsnWeoJHfE4RTLbLgRmu5M1iaHpQ+WM/Q
- nfkgg1GjAmKStzKNKrBvGJCAW1ys0BiIF1DF76OaNJIVk10wJDCYL6uhsDIFhv34f/fc
- xShAeCjfVSF29o4TtANHDOoteNFqoyKEpWWfNYgyn3seGqcrAX6Xdx2zuqnK9nVjdcEX
- Fs2PzGjduS0LLD+OhFWuL9exvXAMc2jiI5DRbyLOkpXsE70uQi+vTaYCBaf4fHuNmlvN
- CSNeHZLHA5xB4IRxqTlyBBKYwfiQPp8Z2kIIl2nzXNyk+OPcbDaBtaeMNPSJkAd+FWrD
- JSPQ==
-X-Gm-Message-State: AOAM531TOxbAfqg9QlMjEqTjAkzVcVkFMh4b0H2VpfaEVsLP/P2gAIYN
- A82qhnnd4nGSLkX4CpgypO79TQyurhPVQ+mllaY=
-X-Google-Smtp-Source: ABdhPJz+PQqN9lpZZwP2LOmtC5ylsb8XM38lMTimpbKh4kl1rxwaIw2zcOusJ1dIU3Fbu5DC8/tVPJeFluLn46480O0=
-X-Received: by 2002:a25:6c04:: with SMTP id h4mr4875348ybc.122.1623834942370; 
- Wed, 16 Jun 2021 02:15:42 -0700 (PDT)
+ bh=RKMxNqJlp/wL3Ci3OVZFZonSOCKW2U/aI92g/aE7M8E=;
+ b=HndRFPdiz/krZTQqe+6x32FyeE14muc6WdNQwk4FdV8fPAP4ydGTxD1dSHaiB8SqvI
+ Af57dAAxbHr/P7rJlMIY93bd2a86TWz69L3/z+fP69XcoeEgtxUjMfSspcIYCm5aPuFy
+ YsW74Nw2sbGEzvvOdeVeFGQ+sHlGV2owvAYhfo/8td4lo+NHdMnWrRywxChDTr5yE426
+ zsIY1c5zWYxysFj4BbwdU0lpoIxb4kcUUrv3kVoEYCzUOfqpOfviEwQfg5p9zD0VHhBO
+ eTqWk5tUUGdGc0KNO3n5KXgxU1b/YBeQxtB0EoC7Np624EK5OBZrHgV6n9qS2CBvva4B
+ PC5g==
+X-Gm-Message-State: AOAM532kWnCFT1VVKmBmhWk/WBWUAdxcaX5hRoK/arHAmuiSFUnWB9TD
+ CgOwv8Fu3XIkKVj9ljyKTHJl6ddHOjR71MTjoXrqLGXQYKM=
+X-Google-Smtp-Source: ABdhPJzRj7OAAIsp1JIWtFxrawafQDYfbnnm+IMSOGj2TjvHrljS3wuYfRhaSFuRxRZrvxbEHlrJmiJHJwtA0DEg3bg=
+X-Received: by 2002:a25:2e43:: with SMTP id b3mr4855158ybn.152.1623834967340; 
+ Wed, 16 Jun 2021 02:16:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210616064334.53398-1-lukas.juenger@greensocs.com>
- <20210616064334.53398-2-lukas.juenger@greensocs.com>
-In-Reply-To: <20210616064334.53398-2-lukas.juenger@greensocs.com>
+ <20210616064334.53398-3-lukas.juenger@greensocs.com>
+In-Reply-To: <20210616064334.53398-3-lukas.juenger@greensocs.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 16 Jun 2021 17:15:31 +0800
-Message-ID: <CAEUhbmVhAUhQLgD+4eWBiDgfjAFed-=Tb6ejwWUywEq1wg7LWg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] hw/char: Consistent function names for sifive_uart
+Date: Wed, 16 Jun 2021 17:15:56 +0800
+Message-ID: <CAEUhbmVuDEv6fcAQRrQAB5rtxQFhLuC0Gi=+S9ok+hp-KJ=9MA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] hw/char: QOMify sifive_uart
 To: =?UTF-8?Q?Lukas_J=C3=BCnger?= <lukas.juenger@greensocs.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,18 +87,17 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 2:43 PM Lukas J=C3=BCnger
+On Wed, Jun 16, 2021 at 2:44 PM Lukas J=C3=BCnger
 <lukas.juenger@greensocs.com> wrote:
 >
-> This cleanes up function names in the SiFive UART model.
-
-typo: cleans
-
+> This QOMifies the SiFive UART model. Migration and reset have been
+> implemented.
 >
 > Signed-off-by: Lukas J=C3=BCnger <lukas.juenger@greensocs.com>
 > ---
->  hw/char/sifive_uart.c | 46 ++++++++++++++++++++++---------------------
->  1 file changed, 24 insertions(+), 22 deletions(-)
+>  include/hw/char/sifive_uart.h |  11 ++--
+>  hw/char/sifive_uart.c         | 114 +++++++++++++++++++++++++++++++---
+>  2 files changed, 109 insertions(+), 16 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
