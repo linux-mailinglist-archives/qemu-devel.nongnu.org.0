@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23C93A8E37
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:19:38 +0200 (CEST)
-Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC653A8E27
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:16:59 +0200 (CEST)
+Received: from localhost ([::1]:42338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKDS-0000U0-0p
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
+	id 1ltKAr-00031I-1i
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:16:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltK6L-0005FK-88
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:18 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43695)
+ id 1ltK6J-0005BF-Ms
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:15 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:46874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltK6H-0008Kj-4O
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:17 -0400
-Received: by mail-pf1-x435.google.com with SMTP id a127so811809pfa.10
+ id 1ltK6H-0008Kw-3p
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:15 -0400
+Received: by mail-pg1-x533.google.com with SMTP id n12so550380pgs.13
  for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Co+NBcn5XBK+DAK9xxSpgD2XDizycUSYP6OtApqx62Q=;
- b=Pw51J59mq5JRdg9bnCvPTQZYKrPezZDqcSHo1q1pQ8ScRJw3GaukrPvVgqcE+gsnF7
- LBUscSJc7VSox3lGwWQq9JLOBIyyoNId93K8FGt8VgERv2P+dOh8b57/TvIveQ83Jwxt
- CHlAzZtuBvsdDYv0ZbK0LqguZuuxjxUoIKRr9K79AGD2dxpDfT5IsxOKjjLELhmAq2z3
- txAE56yqjyeSfWX5uJVjtbiOt/8dHMAsRPrtzRNry31+Kqe6RFLeEaF3gShN3wwNO3nq
- zqqH9ZXu/9HEVNyhrK0NYsX7xANDqMs0HcYDpCrpEDTNTpuRlFL1tJK+O9aZfmwOjZYb
- CVcQ==
+ bh=pYIekZ7E/4IYX4eiK6xNe4M6uHE016F0haAs2Oq20xQ=;
+ b=Cop90s9pWYpPLPVIBKugKe96uw6O0INI6O5CcP/EL2iTFNKsBstuetvJG4dR1F73gu
+ P9vVyf47OGlWh35TZBk9/TRzOtmGCMFbw6wLsMUl50/hNRGCZZ5RdNWtkuz0S3MJxzPK
+ PeAfdwOsbrNJ6sDsk/3xiJA2wtVcmylFVQKSfxM3KHJz1jipMDMayX4qvad58ThzWYXR
+ poKRmOheb5gC3LdjCZq/nutiv6uGIeJjKdpWeSXT0NcFodWw5/6PWznK/3GLOek6CDRn
+ gzjAvtEFrL5u3zYzzAYw/3JDGVkCRGno4R0k96V/k/80fLI9tzU65I5gpgfZYW8s2zr2
+ sKdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Co+NBcn5XBK+DAK9xxSpgD2XDizycUSYP6OtApqx62Q=;
- b=XBFyNENFrMOoe2obsAObxnONmssMahGN08SQf4GBkd+B73axXj4udrOULVbsRYdCvG
- F4/uqcM288t8N56JrcarQNeiEtueERCxco4M8fpWfxtj8ByNtsATIEKyb3rnwRc/AZ4c
- 2fbfxl0AChNGJfr70ocHpKCduclecm20Cc/fGeo9DFxIm4Jm5rRDItCb7gcb04aL3xlV
- T1KkQUQEx6978nHUjjtYvNIr3Coi3gYphPwbzo4fhg1j+/EoNVa9gj2ga5ogTn645U7E
- udtBUG2QO1ndev8lpR7348zM8UR+qoLaiaDLe4Nm6vf2gRIEIZLjy5yz6IqAPMVTkSrx
- UAnQ==
-X-Gm-Message-State: AOAM532pF4AFNVvXKzTDdVK2mCgxeAbJyanjCtjId78VjER4C/lV9PJn
- Qm7FHJnuCTifjDy0vUNG3WqNyV24Xtd4Fw==
-X-Google-Smtp-Source: ABdhPJxygKWn4fmH79Y2Z1AZtQtVo/Aq1AhQO7YHw9/NANQQvZ/395ZJwTjp78AaddbrNta40FHSHA==
-X-Received: by 2002:a63:1163:: with SMTP id 35mr2394155pgr.400.1623805931284; 
+ bh=pYIekZ7E/4IYX4eiK6xNe4M6uHE016F0haAs2Oq20xQ=;
+ b=TL+/YN3uqopAVMv5GnYUBEmffIkY94aFXOrIMNfDxQ+HlTXDJw7zsY5/HH69OL7fbG
+ UGXYc/pGSpqv2ec3mixELQSaeJbzAxHuEgxXxJxZs4wvZgOWu44atly5lBjGxowqhllx
+ k7GaF6X95qiCwOQxIlEPLIYS0B9UJ45dLh1aQkT35HSGe7QkJn20lfM/FuU0W0P/YVRU
+ 7CRQud2UdHHYA7rXnQ9zfo+pu+2ncfoCQ/94JuLeDHd12oZA2cJ7uAFdWM+oPS3XXd1h
+ rUne0W1pCkj27MsVfCRpGVn4dGxhYt0zn9ybQ4zhDRL8uTnVbjHydFfCGx8wUuT2MlE/
+ Ri6w==
+X-Gm-Message-State: AOAM530FvSvhj2rPMTbTFmxvcX4JMSGhX1xsoC0N3lmakCQpAMdx3/sw
+ JVntDeraECF0tjNkPdThrbRIeOc6paB1fQ==
+X-Google-Smtp-Source: ABdhPJy7tc7mQXkXt2kWBh75KuMUvKYI2MbNJbjL0kctjIV6w4PfySfE+Hnb2qi2xUcvuQG1QLrNfg==
+X-Received: by 2002:a62:e307:0:b029:2f8:d49:7b65 with SMTP id
+ g7-20020a62e3070000b02902f80d497b65mr6998165pfh.48.1623805931806; 
  Tue, 15 Jun 2021 18:12:11 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
- by smtp.gmail.com with ESMTPSA id y18sm305297pgk.53.2021.06.15.18.12.10
+ by smtp.gmail.com with ESMTPSA id y18sm305297pgk.53.2021.06.15.18.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 15 Jun 2021 18:12:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/21] linux-user: Add infrastructure for a signal trampoline
- page
-Date: Tue, 15 Jun 2021 18:11:49 -0700
-Message-Id: <20210616011209.1446045-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/21] linux-user/aarch64: Implement setup_sigtramp
+Date: Tue, 15 Jun 2021 18:11:50 -0700
+Message-Id: <20210616011209.1446045-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210616011209.1446045-1-richard.henderson@linaro.org>
 References: <20210616011209.1446045-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,95 +84,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: qemu-arm@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allocate a page to hold the signal trampoline(s).
-Invoke a guest-specific hook to fill in the contents
-of the page before marking it read-execute again.
+Create and record the rt signal trampoline.
+Use it when the guest does not use SA_RESTORER.
 
+Cc: qemu-arm@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/qemu.h    |  7 +++++++
- linux-user/elfload.c | 17 +++++++++++++++++
- linux-user/signal.c  |  3 +++
- 3 files changed, 27 insertions(+)
+ linux-user/aarch64/target_signal.h |  2 ++
+ linux-user/aarch64/signal.c        | 28 ++++++++++++++++++----------
+ 2 files changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 3b0b6b75fe..9e5e2aa499 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -437,6 +437,13 @@ abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr,
- int do_sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
- abi_long do_swapcontext(CPUArchState *env, abi_ulong uold_ctx,
-                         abi_ulong unew_ctx, abi_long ctx_size);
-+
-+/* Fallback addresses into sigtramp page. */
-+extern abi_ulong default_sigreturn;
-+extern abi_ulong default_rt_sigreturn;
-+
-+void setup_sigtramp(abi_ulong tramp_page);
-+
- /**
-  * block_signals: block all signals while handling this guest syscall
-  *
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 17ab06f612..7bc67ac9cb 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -14,6 +14,7 @@
- #include "qemu/units.h"
- #include "qemu/selfmap.h"
- #include "qapi/error.h"
-+#include "target_signal.h"
+diff --git a/linux-user/aarch64/target_signal.h b/linux-user/aarch64/target_signal.h
+index 18013e1b23..7580d99403 100644
+--- a/linux-user/aarch64/target_signal.h
++++ b/linux-user/aarch64/target_signal.h
+@@ -25,4 +25,6 @@ typedef struct target_sigaltstack {
+ #define TARGET_SEGV_MTESERR  9  /* Synchronous ARM MTE exception */
  
- #ifdef _ARCH_PPC64
- #undef ARCH_DLINFO
-@@ -25,6 +26,10 @@
- #undef ELF_ARCH
- #endif
- 
-+#ifndef TARGET_ARCH_HAS_SIGTRAMP_PAGE
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
-+#endif
+ #define TARGET_ARCH_HAS_SETUP_FRAME
++#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
 +
- #define ELF_OSABI   ELFOSABI_SYSV
+ #endif /* AARCH64_TARGET_SIGNAL_H */
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index 662bcd1c4e..65b84eb04e 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -108,7 +108,6 @@ struct target_rt_sigframe {
+ struct target_rt_frame_record {
+     uint64_t fp;
+     uint64_t lr;
+-    uint32_t tramp[2];
+ };
  
- /* from personality.h */
-@@ -3232,6 +3237,18 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
- #endif
+ static void target_setup_general_frame(struct target_rt_sigframe *sf,
+@@ -495,15 +494,7 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         return_addr = ka->sa_restorer;
+     } else {
+-        /*
+-         * mov x8,#__NR_rt_sigreturn; svc #0
+-         * Since these are instructions they need to be put as little-endian
+-         * regardless of target default or current CPU endianness.
+-         */
+-        __put_user_e(0xd2801168, &fr->tramp[0], le);
+-        __put_user_e(0xd4000001, &fr->tramp[1], le);
+-        return_addr = frame_addr + fr_ofs
+-            + offsetof(struct target_rt_frame_record, tramp);
++        return_addr = default_rt_sigreturn;
      }
- 
-+    /*
-+     * TODO: load a vdso, which would also contain the signal trampolines.
-+     * Otherwise, allocate a private page to hold them.
-+     */
-+    if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
-+        abi_ulong tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
-+                                           PROT_READ | PROT_WRITE,
-+                                           MAP_PRIVATE | MAP_ANON, -1, 0);
-+        setup_sigtramp(tramp_page);
-+        target_mprotect(tramp_page, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
-+    }
+     env->xregs[0] = usig;
+     env->xregs[29] = frame_addr + fr_ofs;
+@@ -576,3 +567,20 @@ long do_sigreturn(CPUARMState *env)
+ {
+     return do_rt_sigreturn(env);
+ }
 +
-     bprm->p = create_elf_tables(bprm->p, bprm->argc, bprm->envc, &elf_ex,
-                                 info, (elf_interpreter ? &interp_info : NULL));
-     info->start_stack = bprm->p;
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 9016896dcd..2f19cc0bf6 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -30,6 +30,9 @@ static struct target_sigaction sigact_table[TARGET_NSIG];
- static void host_signal_handler(int host_signum, siginfo_t *info,
-                                 void *puc);
- 
-+/* Fallback addresses into sigtramp page. */
-+abi_ulong default_sigreturn;
-+abi_ulong default_rt_sigreturn;
- 
- /*
-  * System includes define _NSIG as SIGRTMAX + 1,
++void setup_sigtramp(abi_ulong sigtramp_page)
++{
++    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 8, 0);
++    assert(tramp != NULL);
++
++    /*
++     * mov x8,#__NR_rt_sigreturn; svc #0
++     * Since these are instructions they need to be put as little-endian
++     * regardless of target default or current CPU endianness.
++     */
++    __put_user_e(0xd2801168, &tramp[0], le);
++    __put_user_e(0xd4000001, &tramp[1], le);
++
++    default_rt_sigreturn = sigtramp_page;
++    unlock_user(tramp, sigtramp_page, 8);
++}
 -- 
 2.25.1
 
