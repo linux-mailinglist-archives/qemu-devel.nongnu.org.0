@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BFC3A9F0A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:26:59 +0200 (CEST)
-Received: from localhost ([::1]:50904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3B83A9F09
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 17:26:48 +0200 (CEST)
+Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltXRS-0003yE-PP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:26:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50474)
+	id 1ltXRH-0003JT-BH
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 11:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ltXPk-0001li-Qc
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:25:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45359)
+ id 1ltXPm-0001ml-1n
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:25:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1ltXPh-0007Jv-Oh
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:25:12 -0400
+ id 1ltXPi-0007Ju-1W
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 11:25:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1623857108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ox/T2kCNuvAEHUwqAjmOAFRkuRloPjM6t6ZJw9ALjyI=;
- b=PVnbxmSNabq20jJsHCq5OtRnHg0ErMytQSMEcKO9BlzFTLT8F1bxQbp3wohnxG8zBM8E9D
- YvqD5PuddP4RR+NgJc0/d5RwshtLp4Se5ijt2XVx9siwWbTUkhTdBjO1BaiwzaFWxh0sft
- Ioa1VniY7NPbYQ4gK4/nmVqQBXO9+PI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LhH5B52MVwOCmHtejO2KtUH2ci4nMxZ0QVw7G0xgmHk=;
+ b=ZsvFbJH17a20th1KuLnn/dCVzhLYpPXQjx0nNfK5/EHRLF9e1iz2KljuXON9gHG/SCB7U6
+ r2dMU8OLSVUhbEVZl+qT6C9WM6z1sayMRBcTizkgQgg3XtDsrUy2QTuSXbwc0i1EZVLNz1
+ +syHng/mc80rcToSxN43OS3elhxtFpE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-1ZhmvT12OQO8ylWken6bgA-1; Wed, 16 Jun 2021 11:25:06 -0400
-X-MC-Unique: 1ZhmvT12OQO8ylWken6bgA-1
+ us-mta-368-H8w5VH2COQ6vbUchR6PfDA-1; Wed, 16 Jun 2021 11:25:07 -0400
+X-MC-Unique: H8w5VH2COQ6vbUchR6PfDA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 800F4818401
- for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 15:25:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7ECD81840E
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 15:25:06 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABBAA5C1D0;
- Wed, 16 Jun 2021 15:24:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C76655C1D0;
+ Wed, 16 Jun 2021 15:25:05 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 0/3] qtest: pick tests that require KVM at runtime
-Date: Wed, 16 Jun 2021 11:24:52 -0400
-Message-Id: <20210616152455.1270264-1-imammedo@redhat.com>
+Subject: [RFC 1/3] tests: qtest: add qtest_has_kvm() to check if tested binary
+ supports KVM
+Date: Wed, 16 Jun 2021 11:24:53 -0400
+Message-Id: <20210616152455.1270264-2-imammedo@redhat.com>
+In-Reply-To: <20210616152455.1270264-1-imammedo@redhat.com>
+References: <20210616152455.1270264-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -80,53 +84,95 @@ Cc: lvivier@redhat.com, thuth@redhat.com, philmd@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: root <root@apm-mustang-ev3-29.khw2.lab.eng.bos.redhat.com>
 
-Sometimes it's necessary to execute a test that depends on KVM,
-however qtest is not aware if tested QEMU binary supports KVM
-on the host it the test is executed.
+Currently it not possible to create tests that have KVM as a hard
+requirement on a host that doesn't support KVM for tested target
+binary (modulo going through the trouble of compiling out
+the offending test case).
 
-For an example:
- test q35 machine with intel_iommu
- This test will run only is KVM is available and fail
- to start QEMU if it fallsback to TCG, thus failing whole test.
- So if test is executed in VM where nested KVM is not enabled
- or on other than x86 host, it will break 'make check-qtest'
+Following scenario makes test fail when it's run on non x86 host:
+  qemu-system-x86_64 -enable-kvm -M q35,kernel-irqchip=on -smp 1,maxcpus=288
 
-Series adds a lightweight qtest_has_kvm() check, which abuses
-build system and should help to avoid running KVM only tests
-on hosts that do not support it.
+This patch introduces qtest_has_kvm() to let users check if KVM is
+available in advance and skip registering non run-able test-cases.
 
+Signed-off-by: root <root@apm-mustang-ev3-29.khw2.lab.eng.bos.redhat.com>
+---
 PS:
-there is an alternative 'query-accels' QMP command proposal
-https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
-which I think is more robust compared to qtest_has_kvm() and
-could be extended to take into account machine type.
-But it's more complex and what I dislike about it most,
-it requires execution of 'probing' QEMU instance to find
-execute 'query-accels' QMP command, which is rather resource
-consuming. So I'd use query-accels approach only when it's
-the only possible option to minimize load on CI systems.
+It's simplistic and not as versatile/precise as earlier proposed
+'query-accels' series, but it get job done for simple cases.
 
-Igor Mammedov (2):
-  tests: acpi: q35: test for x2APIC entries in SRAT
-  tests: acpi: update expected tables blobs
+on upside it's much cheaper to execute than the 'query-accels' as
+it doesn't need to run QEMU for probing.
 
-root (1):
-  tests: qtest: add qtest_has_kvm() to check if tested bynary supports
-    KVM
 
- tests/qtest/libqos/libqtest.h    |   7 +++++++
- meson.build                      |   1 +
- tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
- tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
- tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
- tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
- tests/qtest/bios-tables-test.c   |  10 +++++++---
- tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
- 8 files changed, 35 insertions(+), 3 deletions(-)
- create mode 100644 tests/data/acpi/q35/APIC.numamem
- create mode 100644 tests/data/acpi/q35/FACP.numamem
+ tests/qtest/libqos/libqtest.h |  7 +++++++
+ meson.build                   |  1 +
+ tests/qtest/libqtest.c        | 20 ++++++++++++++++++++
+ 3 files changed, 28 insertions(+)
 
+diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+index a68dcd79d4..bab0047117 100644
+--- a/tests/qtest/libqos/libqtest.h
++++ b/tests/qtest/libqos/libqtest.h
+@@ -588,6 +588,13 @@ bool qtest_big_endian(QTestState *s);
+  */
+ const char *qtest_get_arch(void);
+ 
++/**
++ * qtest_has_kvm:
++ *
++ * Returns: True if the QEMU executable under test supports KVM
++ */
++bool qtest_has_kvm(void);
++
+ /**
+  * qtest_add_func:
+  * @str: Test case path.
+diff --git a/meson.build b/meson.build
+index d2a9ce91f5..dbd31f9f6c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -75,6 +75,7 @@ elif cpu in ['mips', 'mips64']
+ else
+   kvm_targets = []
+ endif
++config_host_data.set_quoted('CONFIG_KVM_TARGETS', ' ,'.join(kvm_targets))
+ 
+ accelerator_targets = { 'CONFIG_KVM': kvm_targets }
+ if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 825b13a44c..d019ac88c9 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -920,6 +920,26 @@ const char *qtest_get_arch(void)
+     return end + 1;
+ }
+ 
++bool qtest_has_kvm(void)
++{
++    int i;
++    bool ret = false;
++    const char *arch = qtest_get_arch();
++    const char *kvm_targets_str = CONFIG_KVM_TARGETS;
++    gchar **targets = g_strsplit(kvm_targets_str, " ", -1);
++
++    for (i = 0; targets[i]; i++) {
++        if (!strncmp(targets[i], arch, strlen(arch))) {
++            if (access("/dev/kvm", R_OK | W_OK)) {
++                ret = true;
++                break;
++            }
++        }
++    }
++    g_strfreev(targets);
++    return ret;
++}
++
+ bool qtest_get_irq(QTestState *s, int num)
+ {
+     /* dummy operation in order to make sure irq is up to date */
 -- 
 2.27.0
 
