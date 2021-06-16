@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEECD3AA11C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:18:50 +0200 (CEST)
-Received: from localhost ([::1]:57520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A493AA125
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 18:22:06 +0200 (CEST)
+Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltYFe-0007EP-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:18:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1ltYIn-0005EH-0H
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 12:22:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYBk-0002MS-HK; Wed, 16 Jun 2021 12:14:48 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39761)
+ id 1ltYBp-0002fZ-7J; Wed, 16 Jun 2021 12:14:53 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltYBj-0005uA-3l; Wed, 16 Jun 2021 12:14:48 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id v9so3328916wrx.6;
- Wed, 16 Jun 2021 09:14:46 -0700 (PDT)
+ id 1ltYBn-0005xR-OW; Wed, 16 Jun 2021 12:14:52 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m18so3341360wrv.2;
+ Wed, 16 Jun 2021 09:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EHdSfYa44ifrw4JLoefcZ8HjwoJfatHiQn3SHL7K7GQ=;
- b=pieEz39UWLRSfoqL4M4mx3TucnoYuXmTueqD9OwUaEBfEUmLcGOx02iOBIgzb2zRbu
- 1Fr3Zv+crAizuB6ZV3rZNNQIh/8Em/8AoT98Lry9dI34Epi3bIhXVdLpbfeYGl4p6sJP
- dOUiLLHfTrHXBcytnC+rOJO8RGbicRjXXTAHDd/2ruug44spOozDkC4Z6PJQ69XpmsQg
- MCRt3AZUstRcJUy5cxEO+w2897c22lecZp1LB+eCT2nZyilU1OI7vPwdI2GfatMRiaAG
- 02cpck6lH+G6NghCETNxrbTGj3qt/HIcUM/yNUuxivctOjesGVaQKTOHCqkNAHLaUKxo
- Dc0A==
+ bh=5aEVDqUseYYwXDUj9I4DDboAqkXF8aATk7ZG+d3YXVg=;
+ b=XsqtSV8oaLOyjIC8TMHCtq4LHDQUpXFOl34+XwRMsfSAeIpR7EZjhuGjhA9ID9XWOf
+ dRmC7Czh/ccm8obaYww7ul0vTXO1VhD6fZ+UDRZu638VNSyObx7335AQNKoFwUuzLYhu
+ I+mIMeGh1HYTHIQjCUG9+WDa4KdRE5swTXBJhXTp/H742xSO2fX6tIneQ2CJYh/y65th
+ A+QExky5feg8lgWDGLknuXWkNZoYFRJ0ieDh07noiDn41+cVQXxSvOOJ//qY01jvEsSu
+ sFe3gU95tUKSVwFXUgQZLvpXfoHttwGc4owC+YKfNSR569FgqgDLEF8A7t5GRgpdEHcw
+ gZNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EHdSfYa44ifrw4JLoefcZ8HjwoJfatHiQn3SHL7K7GQ=;
- b=MvVGeAsE0bBIiiJTAlVAgXgaz9z3kai+oCQifu/1akeALTbnqAAQrRqrChL877dJd/
- TSsztcH9az0bKivtwttL8k/AVbxLAMbc3IqGemeRas344OfYpCElepJSH9iX+/hPcycJ
- Y0852gL8Iu3xA6cdsR5wvhBp/gZr0OGTolWQpsyIUTV41hx6ILbFdA6dVjc0QH96MQ9p
- GTD00lBg9arKLb5OWdpREFx+gLTYZEveyIya6EiZPDBb+8X6w2GUtxyKPhIiSWuEDjFO
- VsEdfj2j275wGTBaFX97AzFlP/AlKh6QOQBjjBF8MF6vbaKGU90ZxvBVlTib8G4Tm3EF
- YPYA==
-X-Gm-Message-State: AOAM532l/PBpao31lMRgM6AeGAHkMi2incBQb0xAfVn5X9Ase8dn+QcX
- Lq72VQFONUyC54Ag48MNUysO1DrKONrJsQ==
-X-Google-Smtp-Source: ABdhPJzLPrMLXLR+8FiTaORTuN19s0yMmCURhmB64bLGiupczKpOlM1CmjjEzL2KS/YSZ0jaFen4ng==
-X-Received: by 2002:a5d:4f05:: with SMTP id c5mr186692wru.341.1623860084809;
- Wed, 16 Jun 2021 09:14:44 -0700 (PDT)
+ bh=5aEVDqUseYYwXDUj9I4DDboAqkXF8aATk7ZG+d3YXVg=;
+ b=JBzoy+pB+duvJ4chjiSq+ugG4eGOQYBiRStEvPJxa5Hqe+gr/1DvWdwsQ6eL/Som3g
+ W+uU+jrXwYr/k5n3ECsP/l9pxNWkXhONh3ZzCG1JMxpR2S8izw9KynSY0oor49N3qxqn
+ 1hdFkh4jvQOj7/iGA+IkzDH82uihj7qmAFmHfrVB3m4X4JlKttjoRzaNLoNGezBNsQqz
+ qQJVlcWYh8NqKdkuN8B/VKhWZxPM5NVINj243bQ6ViJPdiSv0kZQAyxIJcUdrTgB4wBZ
+ Is69I6zAnDX5T0/z6kRP9P0V1kjm7j9bMcE5w4neRzdFJyje3M6letzWR5xbBPBEY6RO
+ wRRw==
+X-Gm-Message-State: AOAM5304E6sfEJodWkLfLv3d2LhZo8XPoWxEjxde+az4issVSh87Ryc1
+ Y2Th7xr+FE+vT32okTBK19qPcny6mLBB+Q==
+X-Google-Smtp-Source: ABdhPJyp1RkSmkBwi9661Rqx6Wxxrg1MgMzwGc8R+iQZl/yb+VD6xhkvLqNvF4lWRON6k75i9FOrMw==
+X-Received: by 2002:a05:6000:154c:: with SMTP id
+ 12mr250756wry.126.1623860089435; 
+ Wed, 16 Jun 2021 09:14:49 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id o26sm2179209wms.27.2021.06.16.09.14.43
+ by smtp.gmail.com with ESMTPSA id m6sm3175364wrw.9.2021.06.16.09.14.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 09:14:44 -0700 (PDT)
+ Wed, 16 Jun 2021 09:14:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/13] hw/i2c/ppc4xx_i2c: Add reference to datasheet
-Date: Wed, 16 Jun 2021 18:14:10 +0200
-Message-Id: <20210616161418.2514095-6-f4bug@amsat.org>
+Subject: [PATCH v3 06/13] hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by
+ i2c_recv() & i2c_send()
+Date: Wed, 16 Jun 2021 18:14:11 +0200
+Message-Id: <20210616161418.2514095-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210616161418.2514095-1-f4bug@amsat.org>
 References: <20210616161418.2514095-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,27 +91,38 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It took me a while to find this model datasheet, since it is
-an OCR scan. Add a reference to save other developers time.
+Instead of using the confuse i2c_send_recv(), rewrite to directly
+call i2c_recv() & i2c_send(), resulting in code easire to review.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i2c/ppc4xx_i2c.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/i2c/ppc4xx_i2c.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
-index c0a8e045670..f4c5bc12d36 100644
+index f4c5bc12d36..b3d3da56e38 100644
 --- a/hw/i2c/ppc4xx_i2c.c
 +++ b/hw/i2c/ppc4xx_i2c.c
-@@ -1,6 +1,8 @@
- /*
-  * PPC4xx I2C controller emulation
-  *
-+ * Documentation: PPC405GP User's Manual, Chapter 22. IIC Bus Interface
-+ *
-  * Copyright (c) 2007 Jocelyn Mayer
-  * Copyright (c) 2012 François Revol
-  * Copyright (c) 2016-2018 BALATON Zoltan
+@@ -240,11 +240,14 @@ static void ppc4xx_i2c_writeb(void *opaque, hwaddr addr, uint64_t value,
+                         i2c->sts &= ~IIC_STS_ERR;
+                     }
+                 }
+-                if (!(i2c->sts & IIC_STS_ERR) &&
+-                    i2c_send_recv(i2c->bus, &i2c->mdata[i], !recv)) {
+-                    i2c->sts |= IIC_STS_ERR;
+-                    i2c->extsts |= IIC_EXTSTS_XFRA;
+-                    break;
++                if (!(i2c->sts & IIC_STS_ERR)) {
++                    if (recv) {
++                        i2c->mdata[i] = i2c_recv(i2c->bus);
++                    } else if (i2c_send(i2c->bus, i2c->mdata[i])) {
++                        i2c->sts |= IIC_STS_ERR;
++                        i2c->extsts |= IIC_EXTSTS_XFRA;
++                        break;
++                    }
+                 }
+                 if (value & IIC_CNTL_RPST || !(value & IIC_CNTL_CHT)) {
+                     i2c_end_transfer(i2c->bus);
 -- 
 2.31.1
 
