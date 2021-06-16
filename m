@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4993A8E3C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:21:52 +0200 (CEST)
-Received: from localhost ([::1]:57194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA803A8E5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 03:29:16 +0200 (CEST)
+Received: from localhost ([::1]:56824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltKFb-0004iC-Gn
-	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:21:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
+	id 1ltKMl-0006ok-Hm
+	for lists+qemu-devel@lfdr.de; Tue, 15 Jun 2021 21:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltK6U-0005ZD-DU
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:26 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:46874)
+ id 1ltK6V-0005cW-PK
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:28 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:37708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ltK6O-0008Ro-Ra
- for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:26 -0400
-Received: by mail-pg1-x532.google.com with SMTP id n12so550602pgs.13
- for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:12:20 -0700 (PDT)
+ id 1ltK6P-0008St-L7
+ for qemu-devel@nongnu.org; Tue, 15 Jun 2021 21:12:27 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id y15so842094pfl.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Jun 2021 18:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PxD3kImzZTzoHPM9GMiHPmLRd+HKsnHLojrn5hai3Qk=;
- b=aOQuwuQL8kpqTLCKNO0+VxCtz6OnYin3YdNyb6G+E3/wvXS9i93YEUrrw4VRyzticr
- cHhZDZptkyWgmWkvUnlw18SD9V+MIGIr5N6h8HGeXAnxP/frwfYT0e4f6QGU2qxhgOaF
- JxbekotCcrAFm8qb4QDsxMtgW7Xt5+hBdXk5DgSwyAd3J+eBxMv0o3APOwTQFOdBWSor
- JXrMbk6Kg3Nsd102S0OHiMfZNc46qcABOgDgXDrs5RIqzCqSCwvsyTTg7hr69BpHDfRO
- qU40/Jz3JwWU5rSsyC2a4p0bgyOwlkNdpCgwnGkDQu3VVW1FZ3gQMnyIy5QG39M/px/v
- guHg==
+ bh=Zh9h+PmWbwWPB35P4oSzNT2+LT+dobQgpXEUdOMWBj8=;
+ b=eYBq9tcap6+l+m0tmt9Bm3C2Y/mI+KJpi6p8YQaiDNu2xct70XEHwBU6ZFYf3cRxC/
+ DC4T+g/Gm3g5mebzeH8W/REhgxvSomXpV6U8MJ8268mbKR4Q/FWorsX5lU1BGkb+RVxF
+ clmtGctLgu9AloO0xjDxUu3b5tWDw2BmUtnMnZN6N1DFU7R+lEyjBHzdUz9r0nX53wrp
+ yTereT4wNKNOv5H+TM3YbIEFCp3XLbL74uh17yusw43sR2mVGIJ8LAG3DLCIoWoB3XwU
+ 8eBxCxiGmDhCby+9ZvW7Sld8kIxsxoYn7mcWmv7KV1upxKBuGdIBjeOeuSsFdvtABCAX
+ YQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PxD3kImzZTzoHPM9GMiHPmLRd+HKsnHLojrn5hai3Qk=;
- b=L8T3/s3NiHLkMOeNJqaOksswS/C8QysX9cicrwqQTl/CHWiK61dO2Xda+g/WejVAuC
- qHUy68ZVEx0c6CQXP8FISUo9dqbj69SLlep1JGb9vETqK9oGiSyR63M30hJ+M9pRgY3X
- 0uyEs/OvPMmcl4HRwdYp4wpf6TMLbobguWZRAaggqXgS+xpCEmskzlUgXCGsv1a77gaf
- Ss/1H5SdRZzynDjRmM9VTtUjjFe8whsFDxMUjesClo5IOIe+7erNvHG8HcIzRoAPfCJ5
- m3baPRr34Z/SQoZ9hne8Q2u8TPfEhQ81e5CE/Zfr/yh8ND8TlCsKAmXaLBU3z1KZFPeV
- P93g==
-X-Gm-Message-State: AOAM530JvCulX8oVInVDktQS+peA+TNxaR/gsv4oWeJPERLKmi3yBUVY
- VRq1CA2Rh6Jy2iiDJm5Vxe64qvkiRUwIhg==
-X-Google-Smtp-Source: ABdhPJyUfKFT5/Mdwdzadrj7wqUO/ace83jNk4fPOGkxNdJe9XvEBhcR3wEBa8GlauJv96mMYUE9uQ==
-X-Received: by 2002:a63:9515:: with SMTP id p21mr2321596pgd.333.1623805939666; 
- Tue, 15 Jun 2021 18:12:19 -0700 (PDT)
+ bh=Zh9h+PmWbwWPB35P4oSzNT2+LT+dobQgpXEUdOMWBj8=;
+ b=HEUajRwBBcWbODU/cTvyAN4nzM9Lf+XaVO+kRiFbIghdBdoLGXjdCz/VSxMiJhNcka
+ KH0xfwLWFCFMc0MXEQAgqAcw3TrwMcGC3q/xNzvIQFm7NoE1kDCvPXpg+F6aVaf0wnMa
+ pLb4P3Cfz497cFzwSEEKIB/k3tBpMraYFVPqlw+LZtaD4tSgyx8Ge1EK2i5tglMtnVgo
+ Y0+Ri79wAUqFGrxE9rpD70L1ceUzXbFKDvBctg6PzahiboYgXaODcoco7aRRS/QlCBHy
+ rGvjOb6ue8oH7xtTD+cstetowbBQvFoXbN3bppGQSRvMPiUZUFcPsW3xgDFXSlZiiyQs
+ Q7iw==
+X-Gm-Message-State: AOAM530wEqqedqqBfkbI6Vpx/MQHtrXnyicI8cTDKoZG6dBnGg8Kqpt/
+ ggJlU2fQcVM8pmL3QMtJsDhPtA+nf0GfSg==
+X-Google-Smtp-Source: ABdhPJw972UXBlYmLXevhjjg7z8sFwplb85uUkehPiVnKpWbHcOY3rWNaavtFoMYTqAWsd5/P3/tCA==
+X-Received: by 2002:a63:1324:: with SMTP id i36mr2384226pgl.44.1623805940255; 
+ Tue, 15 Jun 2021 18:12:20 -0700 (PDT)
 Received: from localhost.localdomain (174-21-70-228.tukw.qwest.net.
  [174.21.70.228])
  by smtp.gmail.com with ESMTPSA id y18sm305297pgk.53.2021.06.15.18.12.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jun 2021 18:12:19 -0700 (PDT)
+ Tue, 15 Jun 2021 18:12:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/21] linux-user/openrisc: Implement setup_sigtramp
-Date: Tue, 15 Jun 2021 18:12:02 -0700
-Message-Id: <20210616011209.1446045-15-richard.henderson@linaro.org>
+Subject: [PATCH 15/21] linux-user/ppc: Implement setup_sigtramp
+Date: Tue, 15 Jun 2021 18:12:03 -0700
+Message-Id: <20210616011209.1446045-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210616011209.1446045-1-richard.henderson@linaro.org>
 References: <20210616011209.1446045-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,77 +83,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>, alex.bennee@linaro.org,
- laurent@vivier.eu
+Cc: qemu-ppc@nongnu.org, alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create and record the rt signal trampoline.
+Create and record the two signal trampolines.
 
-Cc: Stafford Horne <shorne@gmail.com>
+Cc: qemu-ppc@nongnu.org
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/openrisc/target_signal.h |  2 ++
- linux-user/openrisc/signal.c        | 24 ++++++++++++++++--------
- 2 files changed, 18 insertions(+), 8 deletions(-)
+ linux-user/ppc/target_signal.h |  2 ++
+ linux-user/ppc/signal.c        | 34 ++++++++++++++++++----------------
+ 2 files changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/linux-user/openrisc/target_signal.h b/linux-user/openrisc/target_signal.h
-index 8283eaf544..077ec3d5e8 100644
---- a/linux-user/openrisc/target_signal.h
-+++ b/linux-user/openrisc/target_signal.h
-@@ -26,4 +26,6 @@ typedef struct target_sigaltstack {
- 
- #include "../generic/signal.h"
- 
+diff --git a/linux-user/ppc/target_signal.h b/linux-user/ppc/target_signal.h
+index 72fcdd9bfa..82184ab8f2 100644
+--- a/linux-user/ppc/target_signal.h
++++ b/linux-user/ppc/target_signal.h
+@@ -24,4 +24,6 @@ typedef struct target_sigaltstack {
+ #if !defined(TARGET_PPC64)
+ #define TARGET_ARCH_HAS_SETUP_FRAME
+ #endif
 +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
 +
- #endif /* OPENRISC_TARGET_SIGNAL_H */
-diff --git a/linux-user/openrisc/signal.c b/linux-user/openrisc/signal.c
-index 5c5640a284..b411b01864 100644
---- a/linux-user/openrisc/signal.c
-+++ b/linux-user/openrisc/signal.c
-@@ -37,7 +37,6 @@ typedef struct target_ucontext {
- typedef struct target_rt_sigframe {
-     struct target_siginfo info;
-     target_ucontext uc;
--    uint32_t retcode[4];  /* trampoline code */
- } target_rt_sigframe;
+ #endif /* PPC_TARGET_SIGNAL_H */
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index edfad28a37..4ae35aaf6d 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -202,9 +202,6 @@ struct target_func_ptr {
  
- static void restore_sigcontext(CPUOpenRISCState *env, target_sigcontext *sc)
-@@ -115,14 +114,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-         __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
-     }
+ #endif
  
--    /* This is l.ori r11,r0,__NR_sigreturn; l.sys 1; l.nop; l.nop */
--    __put_user(0xa9600000 | TARGET_NR_rt_sigreturn, frame->retcode + 0);
--    __put_user(0x20000001, frame->retcode + 1);
--    __put_user(0x15000000, frame->retcode + 2);
--    __put_user(0x15000000, frame->retcode + 3);
+-/* We use the mc_pad field for the signal return trampoline.  */
+-#define tramp mc_pad
 -
-     /* Set up registers for signal handler */
--    cpu_set_gpr(env, 9, frame_addr + offsetof(target_rt_sigframe, retcode));
-+    cpu_set_gpr(env, 9, default_rt_sigreturn);
-     cpu_set_gpr(env, 3, sig);
-     cpu_set_gpr(env, 4, frame_addr + offsetof(target_rt_sigframe, info));
-     cpu_set_gpr(env, 5, frame_addr + offsetof(target_rt_sigframe, uc));
-@@ -168,3 +161,18 @@ long do_rt_sigreturn(CPUOpenRISCState *env)
-     force_sig(TARGET_SIGSEGV);
+ /* See arch/powerpc/kernel/signal.c.  */
+ static target_ulong get_sigframe(struct target_sigaction *ka,
+                                  CPUPPCState *env,
+@@ -437,12 +434,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     /* Save user regs.  */
+     save_user_regs(env, &frame->mctx);
+ 
+-    /* Construct the trampoline code on the stack. */
+-    encode_trampoline(TARGET_NR_sigreturn, (uint32_t *)&frame->mctx.tramp);
+-
+-    /* The kernel checks for the presence of a VDSO here.  We don't
+-       emulate a vdso, so use a sigreturn system call.  */
+-    env->lr = (target_ulong) h2g(frame->mctx.tramp);
++    env->lr = default_sigreturn;
+ 
+     /* Turn off all fp exceptions.  */
+     env->fpscr = 0;
+@@ -478,7 +470,6 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+                     target_sigset_t *set, CPUPPCState *env)
+ {
+     struct target_rt_sigframe *rt_sf;
+-    uint32_t *trampptr = 0;
+     struct target_mcontext *mctx = 0;
+     target_ulong rt_sf_addr, newsp = 0;
+     int i, err = 0;
+@@ -508,22 +499,17 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+ 
+ #if defined(TARGET_PPC64)
+     mctx = &rt_sf->uc.tuc_sigcontext.mcontext;
+-    trampptr = &rt_sf->trampoline[0];
+ 
+     sc = &rt_sf->uc.tuc_sigcontext;
+     __put_user(h2g(mctx), &sc->regs);
+     __put_user(sig, &sc->signal);
+ #else
+     mctx = &rt_sf->uc.tuc_mcontext;
+-    trampptr = (uint32_t *)&rt_sf->uc.tuc_mcontext.tramp;
+ #endif
+ 
+     save_user_regs(env, mctx);
+-    encode_trampoline(TARGET_NR_rt_sigreturn, trampptr);
+ 
+-    /* The kernel checks for the presence of a VDSO here.  We don't
+-       emulate a vdso, so use a sigreturn system call.  */
+-    env->lr = (target_ulong) h2g(trampptr);
++    env->lr = default_rt_sigreturn;
+ 
+     /* Turn off all fp exceptions.  */
+     env->fpscr = 0;
+@@ -721,3 +707,19 @@ abi_long do_swapcontext(CPUArchState *env, abi_ulong uold_ctx,
+ 
      return 0;
  }
 +
 +void setup_sigtramp(abi_ulong sigtramp_page)
 +{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 4 * 4, 0);
++    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 2 * 8, 0);
 +    assert(tramp != NULL);
 +
-+    /* This is l.ori r11,r0,__NR_sigreturn; l.sys 1; l.nop; l.nop */
-+    __put_user(0xa9600000 | TARGET_NR_rt_sigreturn, tramp + 0);
-+    __put_user(0x20000001, tramp + 1);
-+    __put_user(0x15000000, tramp + 2);
-+    __put_user(0x15000000, tramp + 3);
++#ifdef TARGET_ARCH_HAS_SETUP_FRAME
++    default_sigreturn = sigtramp_page;
++    encode_trampoline(TARGET_NR_sigreturn, tramp + 0);
++#endif
 +
-+    default_rt_sigreturn = sigtramp_page;
-+    unlock_user(tramp, sigtramp_page, 4 * 4);
++    default_rt_sigreturn = sigtramp_page + 8;
++    encode_trampoline(TARGET_NR_rt_sigreturn, tramp + 2);
++
++    unlock_user(tramp, sigtramp_page, 2 * 8);
 +}
 -- 
 2.25.1
