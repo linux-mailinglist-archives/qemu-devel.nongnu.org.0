@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937F13A9334
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C08D3A9335
 	for <lists+qemu-devel@lfdr.de>; Wed, 16 Jun 2021 08:53:16 +0200 (CEST)
-Received: from localhost ([::1]:49208 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltPQJ-0004bw-K3
+	id 1ltPQJ-0004Yq-LC
 	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 02:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38100)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ltPHK-0004cz-ID; Wed, 16 Jun 2021 02:43:58 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52159)
+ id 1ltPHK-0004cg-Cr; Wed, 16 Jun 2021 02:43:58 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:37343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ltPHI-0004MH-1I; Wed, 16 Jun 2021 02:43:58 -0400
+ id 1ltPHI-0004MI-1U; Wed, 16 Jun 2021 02:43:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4G4bHm3lDMz9sXG; Wed, 16 Jun 2021 16:43:48 +1000 (AEST)
+ id 4G4bHm5BbDz9sWl; Wed, 16 Jun 2021 16:43:48 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1623825828;
- bh=wwyfql3qEzdf0SzEbZ+kKqzYJt51XbBehHrP6eArYpQ=;
+ bh=0DUu3lRXHR5DG1pEITL4goniGx2aulSUC1BfVV9JgjA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XWGdHSrEibuIOvT0KkZxnDEMqve4Nc5R3XH0yGSsIESlz2kru/5bi57TszIh2BQyG
- 6SLACn99FNauVTO/oM7Q2TlPwWlNEdjow08WzyWzKjTLY5y9p25hzMdJs54NA4CkS4
- u/Ekpzlf2Puemt+EkVjRWU+Riyki/HxQkq2RFlPQ=
-Date: Wed, 16 Jun 2021 16:16:45 +1000
+ b=jbxU1j+/RFjQmjbDIZbimBwBlipo5xpwvyWuBbjA8MAYuIS7pl9gKknejHD5kazmB
+ MUVT8A+jDbzmztt5uyi3zR8drgTiZyPx8PS2IaAgeVwh6vGdAoCMYVRI11amfBJXde
+ 6GJPcHGB07Otyld8YUvQ9i/3AEnRdn8S2VcdsgD0=
+Date: Wed, 16 Jun 2021 16:18:35 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v2 1/2] target/ppc: fix address translation bug for radix
- mmus
-Message-ID: <YMmXTRIGAJs6GRXi@yekko>
+Subject: Re: [RFC PATCH v2 2/2] target/ppc: make gdb able to translate
+ priviledged addresses
+Message-ID: <YMmXuwiH2bpDtzda@yekko>
 References: <20210614191630.101304-1-bruno.larsen@eldorado.org.br>
- <YMgFO37SzY1KkwQc@yekko>
- <61359cca-19fc-8f2f-0cf6-ee520fc356c2@linaro.org>
- <0b052edd-99fe-fd68-fb19-6d295c4119e9@eldorado.org.br>
+ <20210614191630.101304-2-bruno.larsen@eldorado.org.br>
+ <c2ffffa6-2868-f7ab-78c6-1f29eaafc4e5@linaro.org>
+ <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ze2ZXZtQqTKA6Iwf"
+ protocol="application/pgp-signature"; boundary="/3EEa2dC3thOhUKR"
 Content-Disposition: inline
-In-Reply-To: <0b052edd-99fe-fd68-fb19-6d295c4119e9@eldorado.org.br>
+In-Reply-To: <1c27c473-be10-41cf-d633-bcd838fed78e@eldorado.org.br>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -69,34 +69,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ze2ZXZtQqTKA6Iwf
-Content-Type: text/plain; charset=us-ascii
+--/3EEa2dC3thOhUKR
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 15, 2021 at 09:25:06AM -0300, Bruno Piazera Larsen wrote:
->=20
-> On 15/06/2021 00:20, Richard Henderson wrote:
-> > On 6/14/21 6:41 PM, David Gibson wrote:
-> > > I think move these to mmu-book3s-v3.h, since they're correct for both
-> > > the radix and hash sides of the modern book3s mmu.
+On Tue, Jun 15, 2021 at 08:32:32AM -0300, Bruno Piazera Larsen wrote:
+> On 14/06/2021 19:37, Richard Henderson wrote:
+> > On 6/14/21 12:16 PM, Bruno Larsen (billionai) wrote:
+> > > This patch changes ppc_cpu_get_phys_page_debug so that it is now
+> > > able to translate both, priviledged and real mode addresses
+> > > independently of whether the CPU executing it has those permissions
+> > >=20
+> > > This was mentioned by Fabiano as something that would be very useful =
+to
+> > > help with debugging, but could possibly constitute a security issue if
+> > > that debug function can be called in some way by prodution code. the
+> > > solution was implemented such that it would be trivial to wrap it aro=
+und
+> > > ifdefs for building only with --enable-debug, for instance, but we are
+> > > not sure this is the best approach, hence why it is an RFC.
+> > >=20
+> > > Suggested-by: Fabiano Rosas<farosas@linux.ibm.com>
+> > > Signed-off-by: Bruno Larsen (billionai)<bruno.larsen@eldorado.org.br>
+> > > ---
+> > > =A0 target/ppc/mmu_helper.c | 23 +++++++++++++++++++++++
+> > > =A0 1 file changed, 23 insertions(+)
 > >=20
-> > They're also correct for all non-booke mmus, e.g. hash32 and 6xx, which
-> > is why I recommended internal.h (or some new mmu-internal.h).
-> >=20
-> > While neither hash32 nor 6xx have HV, and thus there is no second tlb
-> > bug, it would still be More Correct to use mmu_idx instead of direct
-> > references to msr_pr et al.
-> yeah, I agree that I should change the documentation. Before I send a new
-> version with everything corrected, I wanna make sure if I should leave th=
-em
-> in internal and use it for hash32 and 6xx MMUs, or do I put them in
-> mmu-book3s-v3.h, since only radix64 has that the bug?
+> > I think the first part is unnecessary.=A0 Either the cpu is in supervis=
+or
+> > mode or it isn't, and gdb should use the correct address space.=A0 If y=
+ou
+> > really want to force supervisor lookup from a guest that is paused in
+> > usermode, I suppose you could force MSR.PR=3D1 while you're performing =
+the
+> > access and set it back afterward.
+> I don't see why GDB should not be able to see supervisor level addresses
+> just because the CPU can't. when debugging, we wanna see exactly what QEMU
+> sees, not what the guest sees, right?
 
-Put them in mmu-book3s-v3.h for the time being, we can move it later
-if it makes sense.  I want to move to a mode model-first approach to
-the softmmu code, so I think of these values as logically
-per-MMU-style, even if they are the same in practice for many of them.
+That kind of depends whether you mean gdb attached to the gdb socket
+provided by qemu - in which case I think you want it to see what the
+guest sees - or gdb debugging qemu itself, in which case it does want
+to see what qemu sees, but doesn't use this code path AFAIK.
+
+> Now, if this is changing more than
+> just privilege level, I agree there is a problem, but I wouldn't think it=
+ is
+> the case...
+
+> > I think the second part is actively wrong -- real-mode address lookup
+> > will (for the most part) always succeed.=A0 Moreover, the gdb user will
+> > have no idea that you've silently changed addressing methods.
+>=20
+> I disagree. Real-mode address will mostly fail, since during the boot
+> process Linux kernels set the MMU to use only virtual addresses, so real
+> mode addresses only work when debugging the firmware or the early setup of
+> the kernel. After that, GDB can basically only see virtual addresses.
+>=20
+> Maybe there is a better way to handle this by having GDB warn the user th=
+at
+> the CPU can not decode the address in it's current state, but I do think =
+it
+> is a good tool to have, as it would've made debugging the first RFC on th=
+is
+> topic a bit easier, and farosas was actively complaining that isn't a
+> feature yet.
+>=20
+> >=20
+> > r~
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -104,25 +145,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ze2ZXZtQqTKA6Iwf
+--/3EEa2dC3thOhUKR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDJl00ACgkQbDjKyiDZ
-s5KjCRAAo+Y07B30qvrK9ArNYq0TnoeRKfk1XPVWO9uriX2EPkX6K3fFsGINDTMB
-kzJ/c/oyc0LPYcIsGI9t8qF1zZgjvUU4GsWxyI0jLTizYWUuRG6PUTtFaqbqXz5L
-Q6dZRbLq6jqJ59T0R60ou2oCHm09qtogTYPVImHJSuo4sExbqYpAEdDhw72yXR0I
-RCDfzOiyS6r+D12Wr7yAvAJ2I1x3xdgXAdgwvp0cqzhyMmN1eVcMi1YuO9xKlagp
-HCbjXnaApel02U/G8drAW3bU2kTlsjDg2EGTAGQ9xPcRwvl0+i3IGZ5L+VrriUPY
-8tFrPv40Pp1nTD/0JTssPhtcnRzEaFpLa4gcqor9Sr2GzRpcLXxYbxwv6vWwMgij
-NPesueNTMN1TcxTII+b7DhjmPJa/IgH62m4PGjBgfZhm1P1KQyWHwwaI95eY0CQF
-QxHPzsMNePn1WxeJGSnlpYLgp5ms9DCTIIPLSL6rYL2xwmT7+S4KnH4mIFC9lQZK
-4sfmCiApk3b08HCNQ0owB7cvsJVmSfCVXM7lmCFRWDf2A3omc4frT+0Zn5EglVno
-b3XEOuLIdTDsZOd5dvQt+e2bbr29FLwV3hbV2hRNgeeqKii0AF7DA40fARBw3EuE
-dnY6nd673oR3F6WFKSKLMNT+nqHzCJGwc9jyDDNxYhnkFEt64R8=
-=9aEG
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDJl7sACgkQbDjKyiDZ
+s5KneQ/9FkpPbjxYEtoW5tWVU6ilwrdKk2afl4j02c4zHU0gnJrWr6nPGDq45TRA
+32mM0JX7WN+L0XaUGIjl/ajt0b93yPdllL5bFETQxVAmWemcgqgpA/N+kIO2f8Z1
+4N+FEIC7wDtKSgmIxTlFXp6tjNPt59ZGYTjFhEon2SuOx5jQqVWAmKssmpKnDCaY
+Kjfa5KZR2HHUQ0L/OSN2Igx4e5CMFUV8bZCOx5iNjHk7p+AL+42iWIGxa2B9Mty/
+9RLTBkoRnJiUaePvBK6rW4+sc3Soh8bQ8foN+dvvJKRaRFHj59NsYCJdFO3r6CbK
+UTshrEWxlV0oIqUncJBb1+2QB+8FFRcE/hompa3ZiNdc9nTg3hI75gppyKqSgJhU
+RA4f4iOZCXuxtxrYH3JQoGfKFCw2DJzlCAvXi8cLcy1AAjVMqHfcX4Uau90AmoYE
++s3osQgyTwfjkZQq34lwcr/7NvMYjkQs1jOS5x3ybi1XF6Mm1PcXvSmlr80N98F7
++g0Cq8JZ38T3RM7hFz052mvytLJ1POk65QqYI1WEfiw4ArQZoLdlIfWxnxKXGPTU
+58KuVLmpZz5WB4DeR2ZK1ZXoKG2LqBABIwgo5WRA4x5DGlTFgVHi9zgrdgtsKRrA
+goE/GNzf+Bc6WbHgN8gbDyHFKMju7m9Wn9IskzMazbFwClUS0GY=
+=rwXC
 -----END PGP SIGNATURE-----
 
---ze2ZXZtQqTKA6Iwf--
+--/3EEa2dC3thOhUKR--
 
