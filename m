@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2AF3AA933
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:55:40 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E183AA94F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 05:00:07 +0200 (CEST)
+Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltiBv-0005cr-GG
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37530)
+	id 1ltiGE-0006Co-7B
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 23:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAk-0003Zv-Tz
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAk-0003Yu-FA
  for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:26 -0400
-Received: from mga02.intel.com ([134.134.136.20]:12085)
+Received: from mga02.intel.com ([134.134.136.20]:12080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAY-0000Yo-On
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1ltiAc-0000WF-4O
  for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:54:26 -0400
-IronPort-SDR: +9Lprl/cebPdlpkzmcYtTaBIw8nJqyRTYX9xisL95y+dBf5h7DRhVIelfSD3g8MJhYfr+uwtoH
- 7+Jj7CjmzCLA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193414095"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="193414095"
+IronPort-SDR: snXQSQqCYLZBe/+boKdEPUW3n+AYBHxdjDEOASyhH+CsBcFUW4vAORZ/ctAUc8yT0sz3xk62m3
+ PbXKZBkHyJsw==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="193414098"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="193414098"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 19:54:13 -0700
-IronPort-SDR: rSJPXVuu+SCD/waiHj0I0/14nN3XuKv3e0jkbcR+tkHm+QLZZiBZZ8FO5rHMgkSxfwcXfibKmq
- 1j5MMu/5+CBg==
+ 16 Jun 2021 19:54:17 -0700
+IronPort-SDR: U2XXZSvjLVnOy5UnOL/Nkyrw1MawMgJpgjS79vxS1sY3QKpnTuuYf6a6Y5wJOD6/mXjgHBubtf
+ ABYGVhJFrJOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="485121991"
+X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="485122000"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.238.157.59])
- by orsmga001.jf.intel.com with ESMTP; 16 Jun 2021 19:54:11 -0700
+ by orsmga001.jf.intel.com with ESMTP; 16 Jun 2021 19:54:14 -0700
 From: Lei Rao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  zhang.zhanghailiang@huawei.com, quintela@redhat.com, dgilbert@redhat.com,
  lukasstraub2@web.de
-Subject: [PATCH 5/7] Removed the qemu_fclose() in colo_process_incoming_thread
-Date: Thu, 17 Jun 2021 10:47:13 +0800
-Message-Id: <1623898035-18533-6-git-send-email-lei.rao@intel.com>
+Subject: [PATCH 6/7] Changed the last-mode to none of first start COLO
+Date: Thu, 17 Jun 2021 10:47:14 +0800
+Message-Id: <1623898035-18533-7-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
 References: <1623898035-18533-1-git-send-email-lei.rao@intel.com>
@@ -68,31 +68,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-After the live migration, the related fd will be cleanup in
-migration_incoming_state_destroy(). So, the qemu_close()
-in colo_process_incoming_thread is not necessary.
+When we first stated the COLO, the last-mode is as follows:
+{ "execute": "query-colo-status" }
+{"return": {"last-mode": "primary", "mode": "primary", "reason": "none"}}
+
+The last-mode is unreasonable. After the patch, will be changed to the
+following:
+{ "execute": "query-colo-status" }
+{"return": {"last-mode": "none", "mode": "primary", "reason": "none"}}
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- migration/colo.c | 5 -----
- 1 file changed, 5 deletions(-)
+ migration/colo.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/migration/colo.c b/migration/colo.c
-index c25e488..e2ab349 100644
+index e2ab349..69a2501 100644
 --- a/migration/colo.c
 +++ b/migration/colo.c
-@@ -919,11 +919,6 @@ out:
-     /* Hope this not to be too long to loop here */
-     qemu_sem_wait(&mis->colo_incoming_sem);
-     qemu_sem_destroy(&mis->colo_incoming_sem);
--    /* Must be called after failover BH is completed */
--    if (mis->to_src_file) {
--        qemu_fclose(mis->to_src_file);
--        mis->to_src_file = NULL;
--    }
+@@ -206,7 +206,7 @@ void colo_do_failover(void)
+         vm_stop_force_state(RUN_STATE_COLO);
+     }
  
-     rcu_unregister_thread();
-     return NULL;
+-    switch (get_colo_mode()) {
++    switch (last_colo_mode = get_colo_mode()) {
+     case COLO_MODE_PRIMARY:
+         primary_vm_do_failover();
+         break;
+@@ -531,8 +531,7 @@ static void colo_process_checkpoint(MigrationState *s)
+     Error *local_err = NULL;
+     int ret;
+ 
+-    last_colo_mode = get_colo_mode();
+-    if (last_colo_mode != COLO_MODE_PRIMARY) {
++    if (get_colo_mode() != COLO_MODE_PRIMARY) {
+         error_report("COLO mode must be COLO_MODE_PRIMARY");
+         return;
+     }
+@@ -830,8 +829,7 @@ void *colo_process_incoming_thread(void *opaque)
+     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
+                       MIGRATION_STATUS_COLO);
+ 
+-    last_colo_mode = get_colo_mode();
+-    if (last_colo_mode != COLO_MODE_SECONDARY) {
++    if (get_colo_mode() != COLO_MODE_SECONDARY) {
+         error_report("COLO mode must be COLO_MODE_SECONDARY");
+         return NULL;
+     }
 -- 
 1.8.3.1
 
