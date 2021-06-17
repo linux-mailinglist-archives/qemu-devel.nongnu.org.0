@@ -2,101 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD383ABF62
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 01:29:25 +0200 (CEST)
-Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7962A3ABF5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Jun 2021 01:27:47 +0200 (CEST)
+Received: from localhost ([::1]:39182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lu1Rs-0007jl-Gw
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 19:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
+	id 1lu1QI-0003SY-DY
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 19:27:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lu1OQ-0000fy-N0; Thu, 17 Jun 2021 19:25:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40842
- helo=mx0a-001b2d01.pphosted.com)
+ id 1lu1OR-0000gz-Po; Thu, 17 Jun 2021 19:25:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1lu1ON-0007XD-OF; Thu, 17 Jun 2021 19:25:50 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15HNFX4h153449; Thu, 17 Jun 2021 19:25:44 -0400
+ id 1lu1ON-0007Y9-Sr; Thu, 17 Jun 2021 19:25:51 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15HN5EWZ057553; Thu, 17 Jun 2021 19:25:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=dcat5K6tJpvtVMmMJOYUfaWFCTrRmJayE7fwD2pgXYY=;
- b=BG0HzTZhKFE6tkWgOrE3s8Fv5iQzzr06JLbp2sgb9YrFHDzy1jTbbIVaGo/x3f3dGlaR
- xnN+VzagKS6d17KJNZMdZKChGzM/LqJ1kVNE8cvbyuMjXlpRFK9PjZRp/+5L/pU2nTgl
- Je2QKR+2ywp19L0HkHkFik87lgJXlIEH7pnPSLbL0dL9mL3pHSYpgeAIeTfqFcuiOjc1
- BS9UNbXn5c1VIr9ToSFEvnobNqJQLLfD00SEmXXDuSqkWe/3PJQdquZXLm5qO1UJMulq
- vl2NiBX6c3ICHXgFRAKSGSyadUBLdRmhaMnWyl/gVEycRjQ7zp4u+r3/t4y+BK+AqK3w og== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=+0LKsvzreriNF6VSQApyapBoiAeaZhO2a3iAHxi2Qew=;
+ b=Al/XU+uosLD6Z2T0eCCqE9SArUaSG2v14zKB8otOq4YxapBO1Ez7l44PFmMRlc3C//Z+
+ mJckzPivSSxSZFz/nKqR2PFL/KyoIiFNRJAUTZCUYg1+5Ho2YLtBJKCvw+EaZj1ctvq+
+ NzaFnNBnvbaiVamdrDT7VuRd0n6u0wJiGxJPWOC4ggtQiMpoKnZIms1N6DwDJDvAqWnO
+ nvRoIAGujs1tpz87zBYpnz77qNaiE7wyo5O7LNKzq5LOF4mkwt/U7i0GAW2ZlyzMjamW
+ SITg95OqywZnesSHRCmrpnRQ2bhZlRSYYz5ODlZ/4KGRmiJ8oCeHfXF61tHt23ljauvh Xw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 398fwag6w4-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 398fn98jyn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 17 Jun 2021 19:25:44 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15HNHJXF160692;
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15HN5dTX059520;
  Thu, 17 Jun 2021 19:25:43 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 398fwag6vp-1
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 398fn98jy6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 17 Jun 2021 19:25:43 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15HNPfh1005247;
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15HNEmhj004306;
  Thu, 17 Jun 2021 23:25:41 GMT
 Received: from b06cxnps4076.portsmouth.uk.ibm.com
  (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03fra.de.ibm.com with ESMTP id 394mj91nb5-1
+ by ppma06ams.nl.ibm.com with ESMTP id 394m6htyvc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 17 Jun 2021 23:25:41 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
  by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 15HNPcbd20906346
+ 15HNPcPZ28443024
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 17 Jun 2021 23:25:38 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 797AB4C044;
- Thu, 17 Jun 2021 23:25:38 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6613C4C040;
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7558352051;
  Thu, 17 Jun 2021 23:25:38 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 6191E5204F;
  Thu, 17 Jun 2021 23:25:38 +0000 (GMT)
 Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 2403BE0320; Fri, 18 Jun 2021 01:25:38 +0200 (CEST)
+ id 25A4BE033C; Fri, 18 Jun 2021 01:25:38 +0200 (CEST)
 From: Eric Farman <farman@linux.ibm.com>
 To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
  qemu-s390x@nongnu.org
-Subject: [PATCH v4 0/4] s390x: Fix IRB sense data
-Date: Fri, 18 Jun 2021 01:25:33 +0200
-Message-Id: <20210617232537.1337506-1-farman@linux.ibm.com>
+Subject: [PATCH v4 1/4] s390x/css: Introduce an ESW struct
+Date: Fri, 18 Jun 2021 01:25:34 +0200
+Message-Id: <20210617232537.1337506-2-farman@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: N4CI5Nl1eSqz_vdq1yBmjtKzLc7pXBZ5
-X-Proofpoint-GUID: 4WaLJmfQ48qxPRumBDOGrZJo9k3SZsw9
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20210617232537.1337506-1-farman@linux.ibm.com>
+References: <20210617232537.1337506-1-farman@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: LCP60CSJ-gNQNtGZX0zvxDDDhVmFkMwx
+X-Proofpoint-GUID: ZQer7c2rrDd2wQECEjp3UXuDYhZr6AAs
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-06-17_16:2021-06-15,
  2021-06-17 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 spamscore=0 impostorscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 adultscore=0
+ clxscore=1015 lowpriorityscore=0 mlxlogscore=999 suspectscore=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2106170140
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,58 +117,100 @@ Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Conny, et al,
+The Interrupt Response Block is comprised of several other
+structures concatenated together, but only the 12-byte
+Subchannel-Status Word (SCSW) is defined as a proper struct.
+Everything else is a simple array of 32-bit words.
 
-Here is a quick update to the series for fixing passthrough
-sense data in the irb, using a subchannel-specific callback.
+Let's define a proper struct for the 20-byte Extended-Status
+Word (ESW) so that we can make good decisions about the sense
+data that would go into the ECW area for virtual vs
+passthrough devices.
 
-As before, the first three patches are code refactoring.
-Since patch 3 doesn't implement the callback for vfio-ccw
-subchannels, it fixes the problem encountered with
-"dasdfmt -M quick" failing to run correctly in the guest.
-Since the callback isn't invoked for passthrough subchannels
-the SCSW and ERW bits don't get set indicating sense data
-is present, even though the sense data itself is still zero.
+Signed-off-by: Eric Farman <farman@linux.ibm.com>
+---
+ hw/s390x/css.c            | 19 +++++++++++++------
+ include/hw/s390x/ioinst.h | 12 +++++++++++-
+ 2 files changed, 24 insertions(+), 7 deletions(-)
 
-Patch 4 implements that for vfio-ccw.
-
-v3->v4:
- - [CH] Rename ESW.sublog to ESW.word0
- - [CH] Add comment that ESW.f_addr and .s_addr are only Fmt0 ESW
- - [CH] Always copy ECW data into IRB to include mysterious
-        "model-dependent information" that could exist there
- - [TH] Added r-b to patch 2 (thank you!!)
-
-v2->v3:
- - [EF] Drop Fixes tag
- - [CH] Implement a callback for the IRB sense data
- - [CH] Copy IRB.ESW from passthrough hardware
- - [CH] Only put sense in IRB.ECW if passthrough device did
-
-v1->v2:
- - [MR] Add Fixes: tags
- - [CH] Reinstate the memcpy(sch->sense_data, irb.ecw) in vfio_ccw
- - [CH] Look at IRB.SCSW.E before copying sense into guest IRB
-
-v3: https://lore.kernel.org/qemu-devel/20210616014749.2460133-1-farman@linux.ibm.com/
-v2: https://lore.kernel.org/qemu-devel/20210611202151.615410-1-farman@linux.ibm.com/
-v1: https://lore.kernel.org/qemu-devel/20210610202011.391029-1-farman@linux.ibm.com/
-
-Eric Farman (4):
-  s390x/css: Introduce an ESW struct
-  s390x/css: Split out the IRB sense data
-  s390x/css: Refactor IRB construction
-  s390x/css: Add passthrough IRB
-
- hw/s390x/3270-ccw.c       |  1 +
- hw/s390x/css.c            | 87 ++++++++++++++++++++++++++++-----------
- hw/s390x/s390-ccw.c       |  1 +
- hw/s390x/virtio-ccw.c     |  1 +
- hw/vfio/ccw.c             |  4 ++
- include/hw/s390x/css.h    |  5 +++
- include/hw/s390x/ioinst.h | 12 +++++-
- 7 files changed, 86 insertions(+), 25 deletions(-)
-
+diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+index bed46f5ec3..59d935570e 100644
+--- a/hw/s390x/css.c
++++ b/hw/s390x/css.c
+@@ -1335,6 +1335,14 @@ static void copy_schib_to_guest(SCHIB *dest, const SCHIB *src)
+     }
+ }
+ 
++static void copy_esw_to_guest(ESW *dest, const ESW *src)
++{
++    dest->word0 = cpu_to_be32(src->word0);
++    dest->erw = cpu_to_be32(src->erw);
++    dest->f_addr = cpu_to_be64(src->f_addr);
++    dest->s_addr = cpu_to_be32(src->s_addr);
++}
++
+ IOInstEnding css_do_stsch(SubchDev *sch, SCHIB *schib)
+ {
+     int ret;
+@@ -1604,9 +1612,8 @@ static void copy_irb_to_guest(IRB *dest, const IRB *src, const PMCW *pmcw,
+ 
+     copy_scsw_to_guest(&dest->scsw, &src->scsw);
+ 
+-    for (i = 0; i < ARRAY_SIZE(dest->esw); i++) {
+-        dest->esw[i] = cpu_to_be32(src->esw[i]);
+-    }
++    copy_esw_to_guest(&dest->esw, &src->esw);
++
+     for (i = 0; i < ARRAY_SIZE(dest->ecw); i++) {
+         dest->ecw[i] = cpu_to_be32(src->ecw[i]);
+     }
+@@ -1655,9 +1662,9 @@ int css_do_tsch_get_irb(SubchDev *sch, IRB *target_irb, int *irb_len)
+                         SCSW_CSTAT_CHN_CTRL_CHK |
+                         SCSW_CSTAT_INTF_CTRL_CHK)) {
+             irb.scsw.flags |= SCSW_FLAGS_MASK_ESWF;
+-            irb.esw[0] = 0x04804000;
++            irb.esw.word0 = 0x04804000;
+         } else {
+-            irb.esw[0] = 0x00800000;
++            irb.esw.word0 = 0x00800000;
+         }
+         /* If a unit check is pending, copy sense data. */
+         if ((schib->scsw.dstat & SCSW_DSTAT_UNIT_CHECK) &&
+@@ -1670,7 +1677,7 @@ int css_do_tsch_get_irb(SubchDev *sch, IRB *target_irb, int *irb_len)
+             for (i = 0; i < ARRAY_SIZE(irb.ecw); i++) {
+                 irb.ecw[i] = be32_to_cpu(irb.ecw[i]);
+             }
+-            irb.esw[1] = 0x01000000 | (sizeof(sch->sense_data) << 8);
++            irb.esw.erw = ESW_ERW_SENSE | (sizeof(sch->sense_data) << 8);
+         }
+     }
+     /* Store the irb to the guest. */
+diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
+index c6737a30d4..e7ab401781 100644
+--- a/include/hw/s390x/ioinst.h
++++ b/include/hw/s390x/ioinst.h
+@@ -123,10 +123,20 @@ typedef struct SCHIB {
+     uint8_t mda[4];
+ } QEMU_PACKED SCHIB;
+ 
++/* format-0 extended-status word */
++typedef struct ESW {
++   uint32_t word0;
++   uint32_t erw;
++   uint64_t f_addr;     /* Zeros for other ESW formats */
++   uint32_t s_addr;     /* Zeros for other ESW formats */
++} QEMU_PACKED ESW;
++
++#define ESW_ERW_SENSE 0x01000000
++
+ /* interruption response block */
+ typedef struct IRB {
+     SCSW scsw;
+-    uint32_t esw[5];
++    ESW esw;
+     uint32_t ecw[8];
+     uint32_t emw[8];
+ } IRB;
 -- 
 2.25.1
 
