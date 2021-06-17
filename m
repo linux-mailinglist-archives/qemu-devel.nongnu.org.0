@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC083ABAD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 19:46:26 +0200 (CEST)
-Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7B963ABAD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 19:46:50 +0200 (CEST)
+Received: from localhost ([::1]:36298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltw5x-0000C4-2T
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 13:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38620)
+	id 1ltw6L-0001Sr-O2
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 13:46:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltw3G-00061k-7T
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:43:38 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54148)
+ id 1ltw3K-0006Fd-QX
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:43:42 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltw3E-00019c-L0
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:43:37 -0400
-Received: by mail-wm1-x335.google.com with SMTP id j18so3795759wms.3
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 10:43:36 -0700 (PDT)
+ id 1ltw3J-0001Cf-7C
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:43:42 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c5so7692033wrq.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 10:43:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rsoKZ7f8yxgrxqEHzFjGR/VAfd9jTxkbFGEdSqiHzIk=;
- b=cCI14Zw7Vkp/t5WEyU9NeRfTz0cNxvPdweVwtmJbWf1ZIkMA6+cmpn8pmyohTmspKD
- 77NXEP+CnzBpaneZim0VeQjJDzWFUyXi81C8HUxT1e8oCmcq3bRMWOyzIHqgVGSop+QX
- 9OqGfqaCeX0P3RNh49Fzj5xuoVgMhQoFCokTev7SnZZ+aA9wSxRT4M1RFvHXBQZCrFFA
- J6AkROKMyCtiobx3csOlrH6ejY7V/po4QI018/6CX56e3en1KBYuWAmXHhGBK0V8OwjC
- mqXmsrWZeikkIGThmi70uenCgDZU7ITLLMu+V7iGGGxeJt6HqXmPK7nCXvVuBbcri89t
- mMXA==
+ bh=Jc2qmXWDFJ8kQFMS9jZlt3xShTo6ocA1K1RvWad+d5Q=;
+ b=VitH2s/DdnCniSQ76YAFM4o/8gtg3cCOAWqh/9xGsCITQ+I0457wQgyJ46DR6abKDF
+ CyKtSjnX743LibFyOQ3qkUVLJ2MJ7a3iMB4r4Gi7Yb5JmKxXH4+znCcdSwLixsyf4kwb
+ wXqqep0HnC0FuZvxY3FWBTm6LPkj9MEw13bEvd2zT6UcPKUKu1vGAhNtwKGT5fNFKclG
+ roJdQ4n3UBgtGlmJQWSw970mhvrb8uGPzMbAjAzmXUfT/qLvlRkZytINHtik4uAIG6o8
+ Vrj20+j0KFQ3LrZDcG0+fRbhhZM7EOyBlVRtBvFUO4jRVtT+Ij8Veaa+GBaGoCw0pzZg
+ WPcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rsoKZ7f8yxgrxqEHzFjGR/VAfd9jTxkbFGEdSqiHzIk=;
- b=lBunwj//jF23bnx6RIa8RTd8X1741hBNnMC7a5gDa3qkluaSLrutW8TfNGUeBsCJ/X
- KWOC/D7cIXWf6TQ1lB7S9QjY3z8/HCkVFm/2UVbNDP+SY1RizE7jluhgNjgXZCZQDaqw
- vBS24yxplBo8Fw/F7b7IHVYuj0E9XZy+h4suOHOsNIeY4L9xyTxlXsnud94iB2YjMSYE
- Wq+JEH2gBYFiI/SnUKYjYajDqeoaI3GTi/PV8Au+16KOGE0jItyakFuEhPvs2/Y3DFmL
- 5g02S6Gr3N4Tp+DPG0xbmMUv2LJmCWhmE440Ml09yaXOVkLNcpqzzmC34yM4mr+/m0S8
- yirQ==
-X-Gm-Message-State: AOAM531ovHInqEMgbAGOP03+6E26HIPNeYtRj/AA9GdM0Z9jd+fhoM1D
- EOgWolsiou10qgBS1hB6nNzd6Au3y5/1QQ==
-X-Google-Smtp-Source: ABdhPJzna0qcZF/xSrh1BtMaigLhorUoxNbeDAFr+vk9FeWQZB1kfnzQOC+NHuFJarOHWlgMlVeKvA==
-X-Received: by 2002:a7b:c405:: with SMTP id k5mr6571013wmi.34.1623951815005;
- Thu, 17 Jun 2021 10:43:35 -0700 (PDT)
+ bh=Jc2qmXWDFJ8kQFMS9jZlt3xShTo6ocA1K1RvWad+d5Q=;
+ b=Oy26spBM4Edl/txoIGavdvYlsd+KFfXxdCO0lS+RCDCmrRHtRlVSNl8qECLUer28Hz
+ lA/YjqXhr6hIYH0FsJ7gW6NLQx/oX1b4fL8YewIpemtKyNhr6DzyuwIwp+XQICs74UMY
+ 5QQD5xbb30u++YiXWsVkr6YMLVm2lfNoVikL8jplLFRCs4nvUbm/TvlueMKOrn3sjPa4
+ 9CwiCx40PLjLxE1kkdcsZRyD0ZChIpyO1Ty8UcqB3WdWbaKZSohTTtr42H+WIjJlW8CJ
+ fMkk39UUyn9worUfpIGRIvE4tZOYXhO9mWkW0w7V/NWwnHVvG5Q3WJ0sB8hubgxyZ/dW
+ by2Q==
+X-Gm-Message-State: AOAM533rBkpKUVLVEbK5pyqqgErgBrXH/iEiGbDONq9rS4sBS4gpZtS6
+ 3uYtxkweR80BG43P8CIxghITp3bnNYs9Wg==
+X-Google-Smtp-Source: ABdhPJyRkX1gdvgaCjd7VXPlW3Pb6qCcMip+lEhVkj2gvhrm6zGYaJVLBnb3HpKXnwc4JtYUBFJC4Q==
+X-Received: by 2002:adf:9ccf:: with SMTP id h15mr7133290wre.217.1623951819647; 
+ Thu, 17 Jun 2021 10:43:39 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id o26sm5466004wms.27.2021.06.17.10.43.33
+ by smtp.gmail.com with ESMTPSA id f14sm8342507wmq.10.2021.06.17.10.43.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 10:43:34 -0700 (PDT)
+ Thu, 17 Jun 2021 10:43:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] target/mips: Fix more TCG temporary leaks in
- gen_pool32a5_nanomips_insn
-Date: Thu, 17 Jun 2021 19:43:16 +0200
-Message-Id: <20210617174323.2900831-3-f4bug@amsat.org>
+Subject: [PATCH 3/9] target/mips: Move TCG trace events to tcg/ sub directory
+Date: Thu, 17 Jun 2021 19:43:17 +0200
+Message-Id: <20210617174323.2900831-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617174323.2900831-1-f4bug@amsat.org>
 References: <20210617174323.2900831-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,29 +91,47 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix multiple TCG temporary leaks in gen_pool32a5_nanomips_insn().
+Commit a2b0a27d33e ("target/mips: Move TCG source files under
+tcg/ sub directory") forgot to move the trace-event file.
+As it only contains TCG events, move it for consistency.
 
-Fixes: 3285a3e4445 ("target/mips: Add emulation of DSP ASE for nanoMIPS - part 1")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ meson.build                        | 2 +-
+ target/mips/tcg/translate.c        | 1 +
+ target/mips/{ => tcg}/trace-events | 0
+ 3 files changed, 2 insertions(+), 1 deletion(-)
+ rename target/mips/{ => tcg}/trace-events (100%)
 
+diff --git a/meson.build b/meson.build
+index a2311eda6ec..196adef6f8d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1882,7 +1882,7 @@
+     'target/hppa',
+     'target/i386',
+     'target/i386/kvm',
+-    'target/mips',
++    'target/mips/tcg',
+     'target/ppc',
+     'target/riscv',
+     'target/s390x',
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index b92a473f870..4b7229a868a 100644
+index 4b7229a868a..a4cab66d338 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -20298,6 +20298,10 @@ static void gen_pool32a5_nanomips_insn(DisasContext *ctx, int opc,
-         gen_reserved_instruction(ctx);
-         break;
-     }
-+
-+    tcg_temp_free(v2_t);
-+    tcg_temp_free(v1_t);
-+    tcg_temp_free(t0);
- }
+@@ -33,6 +33,7 @@
  
- static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+ #include "target/mips/trace.h"
+ #include "trace-tcg.h"
++#include "trace.h"
+ #include "exec/translator.h"
+ #include "exec/log.h"
+ #include "qemu/qemu-print.h"
+diff --git a/target/mips/trace-events b/target/mips/tcg/trace-events
+similarity index 100%
+rename from target/mips/trace-events
+rename to target/mips/tcg/trace-events
 -- 
 2.31.1
 
