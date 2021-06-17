@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4043AAFFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:43:08 +0200 (CEST)
-Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6943AB023
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:48:52 +0200 (CEST)
+Received: from localhost ([::1]:33124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoYF-0001VH-Qt
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:43:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55094)
+	id 1ltodn-0006G5-I9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNO-0002nx-WF
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:55 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46739)
+ id 1ltoNR-0002rJ-35
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:58 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNK-0006AH-7E
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:51 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id s15so3015466edt.13
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:49 -0700 (PDT)
+ id 1ltoNM-0006Ar-OW
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:56 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id r7so3016122edv.12
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hiu7ziiW42i1lxDyJDOcGawcWvmvcODGC75HldQeDRk=;
- b=Y/dRO7uHPmJWmEZDzAC0CdLggjBnok+5WFoctspVAzsJi854u56VYoqcKJdYCtg/iD
- J2Ogco2yXKzDKmmsDYP6CrG3CBh5j8FLpk+wspLtkBNrs750AJEttJglLARGod2Sk6Xi
- oiJpG/NWZDzhyX6wqJYt73/CXJL8UFcmZfMbTnoH2fTIBdaoFs3QLIOnXW6I3U7BXWVZ
- ExUGqDK7aXofVHofnT1q4qPbMwoG2MHjMzHcw83qf81wJevWGH48agWzRL/hqMjus+18
- lVjuM6qUdIlAR2ppEBfUJXw7lL/gp+eJ1pMetg750oNXCve4+NhIvIHsRUEBOc44sCd1
- 4poQ==
+ bh=EUJcgMbiy+TJhdc0JIxQcF5/rLoJrViqR3WCrNaqHgA=;
+ b=a4gAdIymstt98imS5Cx+cdFYsrLWt8PxrffQqIficYfqF5Qrz7a1UyaKQlMmyjkg6a
+ v2jGgmgrxGdPrtcZsXpDF+8+KPtB7UsX+pJpYY+WxWvuBavGuvt3HoFQKzoTGFbHsvHa
+ kTJoiasmwIJ324m0GvbrSVTj54vqSPqN2hQ95IDC0+lGo7zBS3PR9U/m7Am1llXw6NBf
+ tMfcBAsv7ytag1elSPq8S1AhUj/sayiRajeCSeywBSbI1ZRJ+rKYnQ4H+1dgW8PVqPT4
+ vyWnslcEbFexahTKqwTK1GeNw33O228S7Ldz4USZys+3xUtXP1bpt5rEDbU9BfuwAFdn
+ lxsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hiu7ziiW42i1lxDyJDOcGawcWvmvcODGC75HldQeDRk=;
- b=SpgsoQ0Rw8oaNCIuvNHd94YDBK2wHIAquyUkAFArJcz9qEGKiA93kFfalgT32u/Bx+
- Vb9kt4irv6TA1LVudamRFZSsey/OFmhrndh8M8DQyAsH7jZVuFR7Cp3PwEbrX/CHHu1E
- JYuWt7tSemJOuRdocwbFQJyjaHsQLpzzT753EV6pN0kmKtQlDkm1llKXLcHunwJemBNr
- b3HUUtfUCuVJiFU0vhjb1X5YcJYdqa2xYOycjPdl5E2rvd/WL+jwciNPQDogXFE6+iiv
- Z4CcRz2cXWshMGHYexGCXoEf0Kp3mU8omKsIpJYq1xqGOZf+piI0tXLQ6JkVVEw0CioU
- WdNw==
-X-Gm-Message-State: AOAM530NL7spnUcRwdD5bXN2YBKF+J/03l7nuTs4ElLaaigcAJ4cohEF
- k8g6bWiYDo2TQ3N2nnvk5SFd7DOCO2g=
-X-Google-Smtp-Source: ABdhPJxATh9QgtTRzDuKplu6nWWC1cuZP17ekTi3OUAM6ggfzersLOpdIaYh4LP3vqt7fCuymnr5mA==
-X-Received: by 2002:a05:6402:35cc:: with SMTP id
- z12mr5297671edc.45.1623922308975; 
- Thu, 17 Jun 2021 02:31:48 -0700 (PDT)
+ bh=EUJcgMbiy+TJhdc0JIxQcF5/rLoJrViqR3WCrNaqHgA=;
+ b=bUL2/6heFSvmw9JkqpIC5n2rhFTZH99An5nUk6D5UWD5PR3SiDHvFQncIkrHPnI4TV
+ 6o9/9q2GK4dfBfS/+7EtU1hOMfrwkdUPFIAikNPuP1S9Bb9oaDGBbXUfNRLevMX8A/+v
+ Nph9nRtaT6CVD+mKS+44M2/qbk+beVFoQs3t79Ic4fzhafk3B3VHQb+GP239WOqSK4jF
+ 4NC0DT5ASjt3kEQmT4Uv83Qg9cpVSwY3oF0A7uFcppcXO+r0mT1IVe+eB/fR+B7FaoYr
+ wdldir3xC1LahRTDd8iXt8u1L5inRVmgnqmHSDAAT6NFpraKBIEWz/yRy+0vmA11PvXM
+ mD2A==
+X-Gm-Message-State: AOAM532+/JQOjx6oXylrpyf1oLaQTeH7k4VndE/LEBn7YIqe5Cel+irw
+ 07DQz4ThUYQ3J/GVo4/+zcr4l/+l0N4=
+X-Google-Smtp-Source: ABdhPJycg246I3U4KrjDnTQVkCFR/hjMU5kdXQGJ7E6vYXiT/HR80lRp1E5Kh1Oe31leAsqQ7Ngkxg==
+X-Received: by 2002:aa7:d892:: with SMTP id u18mr5366258edq.196.1623922309751; 
+ Thu, 17 Jun 2021 02:31:49 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.48
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:48 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/45] util/mmap-alloc: Factor out reserving of a memory region
- to mmap_reserve()
-Date: Thu, 17 Jun 2021 11:31:08 +0200
-Message-Id: <20210617093134.900014-20-pbonzini@redhat.com>
+Subject: [PULL 20/45] util/mmap-alloc: Factor out activating of memory to
+ mmap_activate()
+Date: Thu, 17 Jun 2021 11:31:09 +0200
+Message-Id: <20210617093134.900014-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,113 +84,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We want to reserve a memory region without actually populating memory.
-Let's factor that out.
+We want to activate memory within a reserved memory region, to make it
+accessible. Let's factor that out.
 
-Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
-Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210510114328.21835-3-david@redhat.com>
+Message-Id: <20210510114328.21835-4-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/mmap-alloc.c | 58 +++++++++++++++++++++++++++--------------------
- 1 file changed, 33 insertions(+), 25 deletions(-)
+ util/mmap-alloc.c | 94 +++++++++++++++++++++++++----------------------
+ 1 file changed, 50 insertions(+), 44 deletions(-)
 
 diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 24854064b4..223d66219c 100644
+index 223d66219c..0e2bd7bc0e 100644
 --- a/util/mmap-alloc.c
 +++ b/util/mmap-alloc.c
-@@ -82,6 +82,38 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
-     return qemu_real_host_page_size;
+@@ -114,6 +114,52 @@ static void *mmap_reserve(size_t size, int fd)
+     return mmap(0, size, PROT_NONE, flags, fd, 0);
  }
  
 +/*
-+ * Reserve a new memory region of the requested size to be used for mapping
-+ * from the given fd (if any).
++ * Activate memory in a reserved region from the given fd (if any), to make
++ * it accessible.
 + */
-+static void *mmap_reserve(size_t size, int fd)
++static void *mmap_activate(void *ptr, size_t size, int fd, bool readonly,
++                           bool shared, bool is_pmem, off_t map_offset)
 +{
-+    int flags = MAP_PRIVATE;
++    const int prot = PROT_READ | (readonly ? 0 : PROT_WRITE);
++    int map_sync_flags = 0;
++    int flags = MAP_FIXED;
++    void *activated_ptr;
 +
-+#if defined(__powerpc64__) && defined(__linux__)
-+    /*
-+     * On ppc64 mappings in the same segment (aka slice) must share the same
-+     * page size. Since we will be re-allocating part of this segment
-+     * from the supplied fd, we should make sure to use the same page size, to
-+     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE to
-+     * avoid allocating backing store memory.
-+     * We do this unless we are using the system page size, in which case
-+     * anonymous memory is OK.
-+     */
-+    if (fd == -1 || qemu_fd_getpagesize(fd) == qemu_real_host_page_size) {
-+        fd = -1;
-+        flags |= MAP_ANONYMOUS;
-+    } else {
-+        flags |= MAP_NORESERVE;
++    flags |= fd == -1 ? MAP_ANONYMOUS : 0;
++    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
++    if (shared && is_pmem) {
++        map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
 +    }
-+#else
-+    fd = -1;
-+    flags |= MAP_ANONYMOUS;
-+#endif
 +
-+    return mmap(0, size, PROT_NONE, flags, fd, 0);
++    activated_ptr = mmap(ptr, size, prot, flags | map_sync_flags, fd,
++                         map_offset);
++    if (activated_ptr == MAP_FAILED && map_sync_flags) {
++        if (errno == ENOTSUP) {
++            char *proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
++            char *file_name = g_malloc0(PATH_MAX);
++            int len = readlink(proc_link, file_name, PATH_MAX - 1);
++
++            if (len < 0) {
++                len = 0;
++            }
++            file_name[len] = '\0';
++            fprintf(stderr, "Warning: requesting persistence across crashes "
++                    "for backend file %s failed. Proceeding without "
++                    "persistence, data might become corrupted in case of host "
++                    "crash.\n", file_name);
++            g_free(proc_link);
++            g_free(file_name);
++        }
++        /*
++         * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC, we will try
++         * again without these flags to handle backwards compatibility.
++         */
++        activated_ptr = mmap(ptr, size, prot, flags, fd, map_offset);
++    }
++    return activated_ptr;
 +}
 +
  static inline size_t mmap_guard_pagesize(int fd)
  {
  #if defined(__powerpc64__) && defined(__linux__)
-@@ -104,7 +136,6 @@ void *qemu_ram_mmap(int fd,
-     int prot;
-     int flags;
-     int map_sync_flags = 0;
--    int guardfd;
-     size_t offset;
-     size_t total;
-     void *guardptr;
-@@ -116,30 +147,7 @@ void *qemu_ram_mmap(int fd,
-      */
-     total = size + align;
+@@ -133,13 +179,8 @@ void *qemu_ram_mmap(int fd,
+                     off_t map_offset)
+ {
+     const size_t guard_pagesize = mmap_guard_pagesize(fd);
+-    int prot;
+-    int flags;
+-    int map_sync_flags = 0;
+-    size_t offset;
+-    size_t total;
+-    void *guardptr;
+-    void *ptr;
++    size_t offset, total;
++    void *ptr, *guardptr;
  
--#if defined(__powerpc64__) && defined(__linux__)
--    /* On ppc64 mappings in the same segment (aka slice) must share the same
--     * page size. Since we will be re-allocating part of this segment
--     * from the supplied fd, we should make sure to use the same page size, to
--     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE to
--     * avoid allocating backing store memory.
--     * We do this unless we are using the system page size, in which case
--     * anonymous memory is OK.
--     */
--    flags = MAP_PRIVATE;
--    if (fd == -1 || guard_pagesize == qemu_real_host_page_size) {
--        guardfd = -1;
--        flags |= MAP_ANONYMOUS;
--    } else {
--        guardfd = fd;
--        flags |= MAP_NORESERVE;
+     /*
+      * Note: this always allocates at least one extra page of virtual address
+@@ -156,45 +197,10 @@ void *qemu_ram_mmap(int fd,
+     /* Always align to host page size */
+     assert(align >= guard_pagesize);
+ 
+-    flags = MAP_FIXED;
+-    flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+-    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+-    if (shared && is_pmem) {
+-        map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
 -    }
--#else
--    guardfd = -1;
--    flags = MAP_PRIVATE | MAP_ANONYMOUS;
--#endif
 -
--    guardptr = mmap(0, total, PROT_NONE, flags, guardfd, 0);
+     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+ 
+-    prot = PROT_READ | (readonly ? 0 : PROT_WRITE);
 -
-+    guardptr = mmap_reserve(total, fd);
-     if (guardptr == MAP_FAILED) {
+-    ptr = mmap(guardptr + offset, size, prot,
+-               flags | map_sync_flags, fd, map_offset);
+-
+-    if (ptr == MAP_FAILED && map_sync_flags) {
+-        if (errno == ENOTSUP) {
+-            char *proc_link, *file_name;
+-            int len;
+-            proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
+-            file_name = g_malloc0(PATH_MAX);
+-            len = readlink(proc_link, file_name, PATH_MAX - 1);
+-            if (len < 0) {
+-                len = 0;
+-            }
+-            file_name[len] = '\0';
+-            fprintf(stderr, "Warning: requesting persistence across crashes "
+-                    "for backend file %s failed. Proceeding without "
+-                    "persistence, data might become corrupted in case of host "
+-                    "crash.\n", file_name);
+-            g_free(proc_link);
+-            g_free(file_name);
+-        }
+-        /*
+-         * if map failed with MAP_SHARED_VALIDATE | MAP_SYNC,
+-         * we will remove these flags to handle compatibility.
+-         */
+-        ptr = mmap(guardptr + offset, size, prot, flags, fd, map_offset);
+-    }
+-
++    ptr = mmap_activate(guardptr + offset, size, fd, readonly, shared, is_pmem,
++                        map_offset);
+     if (ptr == MAP_FAILED) {
+         munmap(guardptr, total);
          return MAP_FAILED;
-     }
 -- 
 2.31.1
 
