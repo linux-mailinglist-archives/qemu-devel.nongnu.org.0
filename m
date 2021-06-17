@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEEAB3AB45E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:11:32 +0200 (CEST)
-Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2177C3AB459
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:10:58 +0200 (CEST)
+Received: from localhost ([::1]:49634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrnv-0004bd-Om
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41822)
+	id 1ltrnM-0002UM-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:10:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltraG-00048M-C4
+ id 1ltraG-0004Ai-UN
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:57:24 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:47975
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:47978
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltraC-00057Y-Br
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ltraC-00057i-Qk
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:57:24 -0400
 HMM_SOURCE_IP: 172.18.0.218:49202.1515610665
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-202.80.192.39?logid-ac66d9f6950e4d63a4038c372b328dd9
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 543932800DD;
- Thu, 17 Jun 2021 20:57:05 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 08AFE2800E8;
+ Thu, 17 Jun 2021 20:57:11 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id ac66d9f6950e4d63a4038c372b328dd9 for
- qemu-devel@nongnu.org; Thu Jun 17 20:57:06 2021
-X-Transaction-ID: ac66d9f6950e4d63a4038c372b328dd9
+ by app0025 with ESMTP id e1cf2a8e009948bda93c4aaff09ffe4a for
+ qemu-devel@nongnu.org; Thu Jun 17 20:57:12 2021
+X-Transaction-ID: e1cf2a8e009948bda93c4aaff09ffe4a
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/6] support dirtyrate at the granualrity of vcpu 
-Date: Thu, 17 Jun 2021 21:01:15 +0800
-Message-Id: <cover.1623934182.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v5 1/6] memory: rename global_dirty_log to
+ global_dirty_tracking
+Date: Thu, 17 Jun 2021 21:01:16 +0800
+Message-Id: <3cf8b84e41bb27d863f4e4d4148aee52a112bb3d.1623934182.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1623934182.git.huangy81@chinatelecom.cn>
+References: <cover.1623934182.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1623934182.git.huangy81@chinatelecom.cn>
+References: <cover.1623934182.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,129 +76,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-v5:
-- rename global_dirty_log to global_dirty_tracking on Peter's advice
+since dirty ring has been introduced, there are two methods
+to track dirty pages of vm. it seems that "logging" has
+a hint on the method, so rename the global_dirty_log to
+global_dirty_tracking would make description more accurate.
 
-- make global_dirty_tracking a bitmask:
-  1. add assert statement to ensure starting dirty tracking repeatly
-     not allowed.
-  2. add assert statement to ensure dirty tracking cannot be stopped
-     without having been started.
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ include/exec/memory.h   |  2 +-
+ include/exec/ram_addr.h |  4 ++--
+ softmmu/memory.c        | 10 +++++-----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-- protecting dirty rate stat info:
-  1. drop the mutext for protecting dirty rate introduced in version 4
-  2. change the code block in query_dirty_rate_info so that requirements
-     of "safe racing" to the dirty rate stat can be meet
-
-- make the helper function "record_dirtypages" inline and change
-  the global var dirty_pages  to local var
-
-- free DirtyRateVcpuList in case of memory leak
-
-please review, thanks a lot.
-
-v4:
-- make global_dirty_log a bitmask:
-  1. add comments about dirty log bitmask
-  2. use assert statement to check validity of flags
-  3. add trace to log bitmask changes
-
-- introduce mode option to show what method calculation should be used,
-  also, export mode option in the as last commmit
-
-- split cleanup and init of dirty rate stat and move it in the main
-  thread
-
-- change the fields of DirtyPageRecord to uint64_t type so that we
-  can calculation the increased dirty pages with the formula
-  as Peter's advice: dirty pages = end_pages - start_pages
-
-- introduce mutex to protect dirty rate stat info
-
-- adjust order of registering thread
-
-- drop the memory free callback
-
-this version modify some code on Peter's advice, reference to:
-https://lore.kernel.org/qemu-devel/YL5nNYXmrqMlXF3v@t490s/
-
-thanks again.
-
-v3:
-- pick up "migration/dirtyrate: make sample page count configurable" to
-  make patchset apply master correctly
-
-v2:
-- rebase to "migration/dirtyrate: make sample page count configurable"
-
-- rename "vcpu" to "per_vcpu" to show the per-vcpu method
-
-- squash patch 5/6 into a single one, squash patch 1/2 also
-
-- pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
-
-- make global_dirty_log a bitmask to make sure both migration and dirty
-  could not intefer with each other
-
-- add memory free callback to prevent memory leaking
-
-the most different of v2 fron v1 is that we make the global_dirty_log a
-bitmask. the reason is dirty rate measurement may start or stop dirty
-logging during calculation. this conflict with migration because stop
-dirty log make migration leave dirty pages out then that'll be a
-problem.
-
-make global_dirty_log a bitmask can let both migration and dirty
-rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
-GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
-for, migration or dirty rate.
-
-all references to global_dirty_log should be untouched because any bit
-set there should justify that global dirty logging is enabled.
-
-Please review, thanks !
-
-v1:
-
-Since the Dirty Ring on QEMU part has been merged recently, how to use
-this feature is under consideration.
-
-In the scene of migration, it is valuable to provide a more accurante
-interface to track dirty memory than existing one, so that the upper
-layer application can make a wise decision, or whatever. More
-importantly,
-dirtyrate info at the granualrity of vcpu could provide a possibility to
-make migration convergent by imposing restriction on vcpu. With Dirty
-Ring, we can calculate dirtyrate efficiently and cheaply.
-
-The old interface implemented by sampling pages, it consumes cpu
-resource, and the larger guest memory size become, the more cpu resource
-it consumes, namely, hard to scale. New interface has no such drawback.
-
-Please review, thanks !
-
-Best Regards !
-
-Hyman Huang(黄勇) (6):
-  memory: rename global_dirty_log to global_dirty_tracking
-  memory: make global_dirty_tracking a bitmask
-  migration/dirtyrate: introduce struct and adjust DirtyRateStat
-  migration/dirtyrate: adjust order of registering thread
-  migration/dirtyrate: move init step of calculation to main thread
-  migration/dirtyrate: implement dirty-ring dirtyrate calculation
-
- hmp-commands.hx         |   7 +-
- include/exec/memory.h   |  18 +++-
- include/exec/ram_addr.h |   4 +-
- migration/dirtyrate.c   | 260 +++++++++++++++++++++++++++++++++++++++++-------
- migration/dirtyrate.h   |  19 +++-
- migration/ram.c         |   8 +-
- migration/trace-events  |   2 +
- qapi/migration.json     |  46 ++++++++-
- softmmu/memory.c        |  36 +++++--
- softmmu/trace-events    |   1 +
- 10 files changed, 339 insertions(+), 62 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index b114f54..cc0e549 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -55,7 +55,7 @@ static inline void fuzz_dma_read_cb(size_t addr,
+ }
+ #endif
+ 
+-extern bool global_dirty_log;
++extern bool global_dirty_tracking;
+ 
+ typedef struct MemoryRegionOps MemoryRegionOps;
+ 
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 3cb9791..a0bce11 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -372,7 +372,7 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+ 
+                     qatomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
+ 
+-                    if (global_dirty_log) {
++                    if (global_dirty_tracking) {
+                         qatomic_or(
+                                 &blocks[DIRTY_MEMORY_MIGRATION][idx][offset],
+                                 temp);
+@@ -395,7 +395,7 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+     } else {
+         uint8_t clients = tcg_enabled() ? DIRTY_CLIENTS_ALL : DIRTY_CLIENTS_NOCODE;
+ 
+-        if (!global_dirty_log) {
++        if (!global_dirty_tracking) {
+             clients &= ~(1 << DIRTY_MEMORY_MIGRATION);
+         }
+ 
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index c19b0be..5682053 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -39,7 +39,7 @@
+ static unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+-bool global_dirty_log;
++bool global_dirty_tracking;
+ 
+ static QTAILQ_HEAD(, MemoryListener) memory_listeners
+     = QTAILQ_HEAD_INITIALIZER(memory_listeners);
+@@ -1813,7 +1813,7 @@ uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+     uint8_t mask = mr->dirty_log_mask;
+     RAMBlock *rb = mr->ram_block;
+ 
+-    if (global_dirty_log && ((rb && qemu_ram_is_migratable(rb)) ||
++    if (global_dirty_tracking && ((rb && qemu_ram_is_migratable(rb)) ||
+                              memory_region_is_iommu(mr))) {
+         mask |= (1 << DIRTY_MEMORY_MIGRATION);
+     }
+@@ -2666,7 +2666,7 @@ void memory_global_dirty_log_start(void)
+         vmstate_change = NULL;
+     }
+ 
+-    global_dirty_log = true;
++    global_dirty_tracking = true;
+ 
+     MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
+ 
+@@ -2678,7 +2678,7 @@ void memory_global_dirty_log_start(void)
+ 
+ static void memory_global_dirty_log_do_stop(void)
+ {
+-    global_dirty_log = false;
++    global_dirty_tracking = false;
+ 
+     /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
+     memory_region_transaction_begin();
+@@ -2724,7 +2724,7 @@ static void listener_add_address_space(MemoryListener *listener,
+     if (listener->begin) {
+         listener->begin(listener);
+     }
+-    if (global_dirty_log) {
++    if (global_dirty_tracking) {
+         if (listener->log_global_start) {
+             listener->log_global_start(listener);
+         }
 -- 
 1.8.3.1
 
