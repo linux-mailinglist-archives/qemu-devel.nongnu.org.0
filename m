@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7813AAB03
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 07:22:54 +0200 (CEST)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC3F3AAB04
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 07:22:55 +0200 (CEST)
+Received: from localhost ([::1]:46524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltkUP-0007MW-DY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 01:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59880)
+	id 1ltkUQ-0007QF-Pl
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 01:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkSg-00063y-DG
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:21:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25328)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkSi-00064n-SV
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:21:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkSc-0006VW-2v
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:21:04 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkSh-0006ba-7Q
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:21:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623907259;
+ s=mimecast20190719; t=1623907266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a61KIomvccHL2RW1G6d64FoYHEj26wWcGdUZgu6Qqnw=;
- b=iV1KdkQ4Y4m7HQrFFVp/yPwu/tjzCZlNovFZDMASe/2MATHGvpVxYn7dD9xFO+2AHmWiz2
- 7M/4XwqJ5zvYyPD1XE903TY+9Hxes0NVGvIAhkXYnBnz9tvPTAxRVxiKUM9k5GNjKHLrdh
- 7kNZUdp8OPs+MyVvwupl0AhKN2z+7hE=
+ bh=F5yTWpvidz6vB/Xybhrne4ihufyWc6LcbM9fZNsYT2A=;
+ b=LJ+qBzPWErBpbwXIBD1zu+q2LN6nlku11Um3RuzJHf7ZIGuPKcl1k+uj5HMRveTTnQoVvS
+ EtzwN1kWqkJ8uCVNKHFk4lOl0lMDJANudPnKwkVn8QMirXbfLs4yRuN1Aq39DAWK8RoIGL
+ vccSdMVCIS7tjcv8j39fOep+4pXATs4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-YAEfjlkcOlSApIQ_yO87UA-1; Thu, 17 Jun 2021 01:20:55 -0400
-X-MC-Unique: YAEfjlkcOlSApIQ_yO87UA-1
+ us-mta-179-0BXa-khRN5SZL0NPokthnA-1; Thu, 17 Jun 2021 01:21:03 -0400
+X-MC-Unique: 0BXa-khRN5SZL0NPokthnA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30923801ADF;
- Thu, 17 Jun 2021 05:20:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2411846101;
+ Thu, 17 Jun 2021 05:21:02 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5842C19704;
- Thu, 17 Jun 2021 05:20:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F046E1A866;
+ Thu, 17 Jun 2021 05:21:01 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9D43118000B2; Thu, 17 Jun 2021 07:20:44 +0200 (CEST)
-Date: Thu, 17 Jun 2021 07:20:44 +0200
+ id 5CBC318000B2; Thu, 17 Jun 2021 07:21:00 +0200 (CEST)
+Date: Thu, 17 Jun 2021 07:21:00 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 22/23] hw/acpi/Kconfig: Add missing Kconfig
- dependencies (build error)
-Message-ID: <20210617052044.37m3rayifbx5c35s@sirius.home.kraxel.org>
+Subject: Re: [PATCH v2 23/23] hw/i386/Kconfig: Add missing Kconfig dependency
+ (runtime error)
+Message-ID: <20210617052100.pnpxugkkzqeywxih@sirius.home.kraxel.org>
 References: <20210616204328.2611406-1-philmd@redhat.com>
- <20210616204328.2611406-23-philmd@redhat.com>
+ <20210616204328.2611406-24-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210616204328.2611406-23-philmd@redhat.com>
+In-Reply-To: <20210616204328.2611406-24-philmd@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
@@ -93,46 +93,31 @@ Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 10:43:27PM +0200, Philippe Mathieu-Daudé wrote:
-> The 'microvm' machine misses various dependencies:
+On Wed, Jun 16, 2021 at 10:43:28PM +0200, Philippe Mathieu-Daudé wrote:
+> When building the 'microvm' machine stand-alone we get:
 > 
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_setup_microvm':
->   hw/i386/acpi-microvm.c:247: undefined reference to `acpi_build_tables_init'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_build_microvm':
->   hw/i386/acpi-microvm.c:192: undefined reference to `bios_linker_loader_alloc'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `build_dsdt_microvm':
->   hw/i386/acpi-microvm.c:121: undefined reference to `init_aml_allocator'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:124: undefined reference to `acpi_data_push'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:126: undefined reference to `aml_scope'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:129: undefined reference to `build_ged_aml'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:131: undefined reference to `acpi_dsdt_add_power_button'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_dsdt_add_virtio':
->   hw/i386/acpi-microvm.c:77: undefined reference to `aml_string'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `build_dsdt_microvm':
->   hw/i386/acpi-microvm.c:138: undefined reference to `aml_scope'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:149: undefined reference to `build_header'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:152: undefined reference to `free_aml_allocator'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_build_microvm':
->   hw/i386/acpi-microvm.c:202: undefined reference to `acpi_add_table'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:203: undefined reference to `build_fadt'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:206: undefined reference to `acpi_add_table'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:207: undefined reference to `acpi_build_madt'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:212: undefined reference to `build_xsdt'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:224: undefined reference to `build_rsdp'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_setup_microvm':
->   hw/i386/acpi-microvm.c:251: undefined reference to `acpi_add_rom_blob'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:253: undefined reference to `acpi_add_rom_blob'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:255: undefined reference to `acpi_add_rom_blob'
->   /usr/bin/ld: hw/i386/acpi-microvm.c:258: undefined reference to `acpi_build_tables_cleanup'
->   /usr/bin/ld: libqemu-i386-softmmu.fa.p/hw_i386_acpi-microvm.c.o: in function `acpi_dsdt_add_pci':
->   hw/i386/acpi-microvm.c:105: undefined reference to `acpi_dsdt_add_gpex'
->   collect2: error: ld returned 1 exit status
->   ninja: build stopped: subcommand failed.
+>   $ qemu-system-x86_64 -M microvm
+>   **
+>   ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
+>   Bail out! ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
+>   Aborted (core dumped)
 > 
-> Update the ACPI_HW_REDUCED symbol to select ACPI_MEMORY_HOTPLUG /
-> ACPI_NVDIMM / ACPI.
+> Looking at the backtrace:
 > 
-> Fixes: 8045df14bcc ("microvm/acpi: add minimal acpi support")
+>   (gdb) bt
+>   #3  0x00007ff2330492ff in g_assertion_message_expr () at /lib64/libglib-2.0.so.0
+>   #4  0x000055a878c18341 in object_new_with_type (type=<optimized out>) at qom/object.c:714
+>   #5  0x000055a878c18399 in object_new (typename=typename@entry=0x55a878dec36a "isa-pit") at qom/object.c:747
+>   #6  0x000055a878cc8146 in qdev_new (name=name@entry=0x55a878dec36a "isa-pit") at hw/core/qdev.c:153
+>   #7  0x000055a878a8b439 in isa_new (name=name@entry=0x55a878dec36a "isa-pit") at hw/isa/isa-bus.c:160
+>   #8  0x000055a878adb782 in i8254_pit_init (base=64, isa_irq=0, alt_irq=0x0, bus=0x55a87ab38760) at include/hw/timer/i8254.h:54
+>   #9  microvm_devices_init (mms=0x55a87ac36800) at hw/i386/microvm.c:263
+>   #10 microvm_machine_state_init (machine=<optimized out>) at hw/i386/microvm.c:471
+>   #11 0x000055a878a944ab in machine_run_board_init (machine=machine@entry=0x55a87ac36800) at hw/core/machine.c:1239
+> 
+> The "isa-pit" type (TYPE_I8254) is missing. Add it.
+> 
+> Fixes: 0ebf007ddac ("hw/i386: Introduce the microvm machine type")
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
