@@ -2,97 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C78A3AB815
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 18:00:47 +0200 (CEST)
-Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88BC3AB817
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 18:02:41 +0200 (CEST)
+Received: from localhost ([::1]:53750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltuRf-0003yR-73
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 12:00:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43962)
+	id 1ltuTY-0006VP-UW
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 12:02:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltuKR-0006eU-Ug
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:15 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:54322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltuKP-0001Rd-Jl
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:15 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltuKE-0005ik-Br
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59988)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1ltuKC-0001In-1F
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 11:53:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623945179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WDX7I1KjPi61ZunKAVKvnIGh+NM6+5nggCp5R/S3BF4=;
+ b=Oh9iQdmHBo9qr0LaMCnQ1Ja6ZotrTqvs8V0mcktniaPpnnZxcJR9rbXIdWp9VGVBte+mg0
+ nkX/lvSaXSBt5rglHs2NstEp7rdwbNd9/BeUbWIskAUXSOpc+9hxjTcQT29CHRc9PGJYhZ
+ cx2GwGGIQZY2Ma2Wy3Cjt5tGznUcj1I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-EWSKyhnUNWqO6HThwL_-7Q-1; Thu, 17 Jun 2021 11:52:58 -0400
+X-MC-Unique: EWSKyhnUNWqO6HThwL_-7Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 06BC91FD7D;
- Thu, 17 Jun 2021 15:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623945192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ruX4fi2ifgkWNs4skOvM6TBKlu05fQ6TCdKDNmE57zM=;
- b=YdeJkERcPZiS0AXoBC4HGNusCCR+/gPR1ZVC1/hQNJVUbHjT8HwZy+Ha2lWeigrdqQwmUA
- 3oK8O39XHlyE2uzja6Lrj2MUqg8rLiCUywiJ0haczLf7pejU9e/818pS4MIVBz3SgrQ1+K
- 4lc5vxfvFhpboO7pOmdQ1DhhG2IR14g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623945192;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ruX4fi2ifgkWNs4skOvM6TBKlu05fQ6TCdKDNmE57zM=;
- b=4n6FTMznDCaugWVb6Cn0zF1zjMpqa8aUJdOLPqxNg/8O0VUiPXn3yPt53roHMTWXP6JXGd
- 4ab/m0ghDgf2aoAw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 87FC6118DD;
- Thu, 17 Jun 2021 15:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623945191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ruX4fi2ifgkWNs4skOvM6TBKlu05fQ6TCdKDNmE57zM=;
- b=Eujx27+Jfn6V1sP/76KzbSbuYbSyqz1Tyvnman4PxCD2wwWfMl9kr+g6L7PmnUxpR3OgMa
- LwxnDJQaPeUf9h6h5Z7CkYe8e5I1K/BdlHO9nFJ8BBCLYjpe+kkk+Vnp/+UjcsAYQYeaKb
- 5SuLyZlMd9LqAmY1mGyKKwdJ56Ayrbg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623945191;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ruX4fi2ifgkWNs4skOvM6TBKlu05fQ6TCdKDNmE57zM=;
- b=s/MzHNF8Vy8W3kM/By4ln4PDTedpss/wFdrQpGQ6mKvxlQzQa8FNvIXJ773YVvetOS0+bi
- iKfxyeah4leZcHDQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id 53m/Hudvy2ALFQAALh3uQQ
- (envelope-from <cfontana@suse.de>); Thu, 17 Jun 2021 15:53:11 +0000
-Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
- <87im2d6p5v.fsf@dusky.pond.sub.org>
- <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
- <87a6no3fzf.fsf@dusky.pond.sub.org>
- <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
- <877dis1sue.fsf@dusky.pond.sub.org>
- <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
-Date: Thu, 17 Jun 2021 17:53:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51C2A8797F6;
+ Thu, 17 Jun 2021 15:52:57 +0000 (UTC)
+Received: from localhost (ovpn-114-231.ams2.redhat.com [10.36.114.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED6695D9C6;
+ Thu, 17 Jun 2021 15:52:56 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 4/6] block/gluster: Do not force-cap *pnum
+Date: Thu, 17 Jun 2021 17:52:45 +0200
+Message-Id: <20210617155247.442150-5-mreitz@redhat.com>
+In-Reply-To: <20210617155247.442150-1-mreitz@redhat.com>
+References: <20210617155247.442150-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.254,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,101 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Denis Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 5:39 PM, Valeriy Vdovin wrote:
-> On Thu, Jun 17, 2021 at 04:14:17PM +0200, Markus Armbruster wrote:
->> Claudio Fontana <cfontana@suse.de> writes:
->>
->>> On 6/17/21 1:09 PM, Markus Armbruster wrote:
->>>> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
->>>>
->>>>> On Thu, Jun 17, 2021 at 07:22:36AM +0200, Markus Armbruster wrote:
->>>>>> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
->>>>>>
->>>>>>> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
->>>>>>
->>>>>> It's actually a QMP command.  There are no "qapi methods".
->>>>>>
->>>>>>> get virtualized cpu model info generated by QEMU during VM initialization in
->>>>>>> the form of cpuid representation.
->>>>>>>
->>>>>>> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
->>>>>>
->>>>>> virtual CPU
->>>>>>
->>>>>>> command line option. From there it takes the name of the model as the basis for
->>>>>>> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
->>>>>>> that state if additional cpu features should be present on the virtual cpu or
->>>>>>> excluded from it (tokens '+'/'-' or '=on'/'=off').
->>>>>>> After that QEMU checks if the host's cpu can actually support the derived
->>>>>>> feature set and applies host limitations to it.
->>>>>>> After this initialization procedure, virtual cpu has it's model and
->>>>>>> vendor names, and a working feature set and is ready for identification
->>>>>>> instructions such as CPUID.
->>>>>>>
->>>>>>> Currently full output for this method is only supported for x86 cpus.
->>>>>>
->>>>>> Not sure about "currently": the interface looks quite x86-specific to me.
->>>>>>
->>>>> Yes, at some point I was thinking this interface could become generic,
->>>>> but does not seem possible, so I'll remove this note.
->>>>>
->>>>>> The commit message doesn't mention KVM except in the command name.  The
->>>>>> schema provides the command only if defined(CONFIG_KVM).
->>>>>>
->>>>>> Can you explain why you need the restriction to CONFIG_KVM?
->>>>>>
->>>>> This CONFIG_KVM is used as a solution to a broken build if --disable-kvm
->>>>> flag is set. I was choosing between this and writing empty implementation into
->>>>> kvm-stub.c
->>>>
->>>> If the command only makes sense for KVM, then it's named correctly, but
->>>> the commit message lacks a (brief!) explanation why it only makes for
->>>> KVM.
->>>
->>>
->>> Is it meaningful for HVF?
->>
->> I can't see why it couldn't be.
-> Should I also make some note about that in the commit message?
->>
->> Different tack: if KVM is compiled out entirely, the command isn't
->> there, and trying to use it fails like
->>
->>     {"error": {"class": "CommandNotFound", "desc": "The command query-kvm-cpuid has not been found"}}
->>
->> If KVM is compiled in, but disabled, e.g. with -machine accel=tcg, then
->> the command fails like
->>
->>     {"error": {"class": "GenericError", "desc": "VCPU was not initialized yet"}}
->>
->> This is misleading.  The VCPU is actually running, it's just the wrong
->> kind of VCPU.
->>
->>>> If it just isn't implemented for anything but KVM, then putting "kvm"
->>>> into the command name is a bad idea.  Also, the commit message should
->>>> briefly note the restriction to KVM.
->>
->> Perhaps this one is closer to reality.
->>
-> I agree.
-> What command name do you suggest?
+bdrv_co_block_status() does it for us, we do not need to do it here.
 
-query-exposed-cpuid?
+The advantage of not capping *pnum is that bdrv_co_block_status() can
+cache larger data regions than requested by its caller.
 
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/gluster.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
->>>> Pick one :)
->>>>
->>>> [...]
->>
+diff --git a/block/gluster.c b/block/gluster.c
+index e8ee14c8e9..8ef7bb18d5 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -1461,7 +1461,8 @@ exit:
+  * the specified offset) that are known to be in the same
+  * allocated/unallocated state.
+  *
+- * 'bytes' is the max value 'pnum' should be set to.
++ * 'bytes' is a soft cap for 'pnum'.  If the information is free, 'pnum' may
++ * well exceed it.
+  *
+  * (Based on raw_co_block_status() from file-posix.c.)
+  */
+@@ -1500,12 +1501,12 @@ static int coroutine_fn qemu_gluster_co_block_status(BlockDriverState *bs,
+     } else if (data == offset) {
+         /* On a data extent, compute bytes to the end of the extent,
+          * possibly including a partial sector at EOF. */
+-        *pnum = MIN(bytes, hole - offset);
++        *pnum = hole - offset;
+         ret = BDRV_BLOCK_DATA;
+     } else {
+         /* On a hole, compute bytes to the beginning of the next extent.  */
+         assert(hole == offset);
+-        *pnum = MIN(bytes, data - offset);
++        *pnum = data - offset;
+         ret = BDRV_BLOCK_ZERO;
+     }
+ 
+-- 
+2.31.1
 
 
