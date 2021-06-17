@@ -2,72 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FBF3ABCCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:32:16 +0200 (CEST)
-Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4388A3ABD2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:54:06 +0200 (CEST)
+Received: from localhost ([::1]:45684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltxkN-0006sK-Pq
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60382)
+	id 1lty5T-0005oJ-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltxbT-0001Dp-G4
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:23:03 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltxbP-0003TI-EG
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:23:03 -0400
-Received: by mail-ej1-x636.google.com with SMTP id ji1so5717107ejc.4
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 12:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zrG7L2FV1w06vgFqT2/2igabM5UFxRrsRY1/b1/itlw=;
- b=Z02Li6Sj1Xfx6Rj76S1+fPAE2dtulmmZRlNko4G5rFdTffugDnHDBNERNrNj7ml4mN
- fy8eRtN5XYpJXuzlN7qzLyBNyu6xtSW4KS5LrKJEc7/qVgbrpIAAHBA0pfzGuShkSopY
- VzLdh1zWJA8eVY9p/jWsqTcbhOmqtpV4uTnvy9HqwMEZmLo97U1Xnay1sfpXhXjGVtLI
- Bi+sX4mIVVSb7D7Fu1E5vPyGZLqgXfjJVjU2BbJPwNh+LU8CwCds9k/lWI3QxiJDyzXW
- QNsaeWlONJNt0wwXgQfpCT2dBg1s8bc+X35+JK3RPVoYSMl9N05xNx3weX+9CPHePnn+
- JHnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zrG7L2FV1w06vgFqT2/2igabM5UFxRrsRY1/b1/itlw=;
- b=fo3nkK5+l2FOx9Ad36s5AwH44mxbY4iZWuDLurNiAdM+E907UJBkru0A45hx7MejDF
- kbSUQpJay5LZO5SnsAxEGv/UH3pTg5GeEt+Rl3uJJP2inzD+Z2uarVmFkMMOqIOXd9Mc
- D8Ko1H7nkaHVrnV2yqS9B3+4Fj7y5atmvBP22JHcidXOGEsKcEp0YprZwsWtEbsNB8o4
- 2MSIDYBlnaa+27VKc2nbBsVFhEIbddkiSU79R8uCmXJjLwm4DtJctFFJEO39SWQmaRYT
- KZ0DL3cGkCz1L6O2JHIdG1qZUZ2zq5bqNkPODTsA0K2V81PlsxfMvEdVHeh8XAbzbCDI
- bvww==
-X-Gm-Message-State: AOAM533t6kF/uYRDhHojm3gEj4aAmAgwuFfB7Z7NocKz6sWtPO8m4lbq
- 15p658RHR3mcx+UVo2tjG+QGDczHt1i3FR84ZxjP8Q==
-X-Google-Smtp-Source: ABdhPJxuN4fra0d/FWB8RmAe30NkrF/588AqN6xC4XJ5ryWBG4+CIcUsNZr/NhRx1Gz2QBPcBCcfgWshjvThaqX9K7M=
-X-Received: by 2002:a17:907:98eb:: with SMTP id
- ke11mr5259049ejc.85.1623957776114; 
- Thu, 17 Jun 2021 12:22:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lty3K-0003fe-Ou; Thu, 17 Jun 2021 15:51:52 -0400
+Received: from mail-vi1eur05on2119.outbound.protection.outlook.com
+ ([40.107.21.119]:42273 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lty3H-0004JQ-8l; Thu, 17 Jun 2021 15:51:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ctV66zA4KkTkxJJjy4ZbDTL4fZbMABFqcwtLCG8kjYRaIGazqJIcKrU/yS+2IDp7Le1K90fMvG321r4zHRsupzOwFZFBG2ar7REV/sIchfE0hGwqhD5ouqAtJ+ayW7yXRgcr5eeyy61tkk9IR1BswHXhmjLBD4be5u+7BzC7ZE8tpgInGJ1r6Ug3KaaiiVQjbXsCm3AcQaVGtMwkhXEUGv2VjLfI6JntR/8cTXvfMQ/j0NbD3O/4J34asragJ+V02pNEWaOuThaS0nPUsQmi5NQD6/ZNmNNKMe6xRqzpSLWh4HOm9p5Nf9QAUTo+KboXmzs2u0zyvlnCwAQ9YXCJWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LfWfzRi+WfUx0nrSavGOHb6+cn69+TzM4Mvbl7b4h5E=;
+ b=FlhGEf09CQjy0dOW/OpS0a83wP0t5UCs3qwSNtI98OLxjeTvXTYY2s22sFk/pojlAZ/qj+ATRIQemZ3yw5dBP4BJKN+iOkAk7S3KYn+QZZU56+Vaf/3e8dhkSrDfX7yPwsyjpgA2RUyAJrfTS4vxvlPMsxaX8hODqiBYl8WCIY/FW/nHVLi25K28zuFw0nvpdO3YcvhNoOjbIeghBrEQJAWsWsUsrHYT4jRwW47bDLbok0Hbunqi7zg/rEK2MGNzX5TkS2oG+XNUbUQdf/rq2lglyMTKH0/8KSZP5mKsV8l1hjYwwIFRRHORrDXtS3Nmlcir1Xp7U0zyuP88mBPCjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LfWfzRi+WfUx0nrSavGOHb6+cn69+TzM4Mvbl7b4h5E=;
+ b=ombXO+wyXSUkRGgYU584uubJhADZbsv+pnwMXQ0o0KMRgwmDkW3TsO0b1skpanL13jnEs4m1tFhEz7zG/R2mSEeX5dUtvkmTeR9zi9WTvOpp7hqYUMjIZmdzlpiF3MPPA0ZhUf6e8clBPLzdNIU1E5zG5pZwU8HaXhx80k/S0g4=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4600.eurprd08.prod.outlook.com (2603:10a6:20b:84::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Thu, 17 Jun
+ 2021 19:51:44 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.021; Thu, 17 Jun 2021
+ 19:51:44 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
+ vsementsov@virtuozzo.com
+Subject: [PATCH RFC] meson: add option to use zstd for qcow2 compression by
+ default
+Date: Thu, 17 Jun 2021 22:51:28 +0300
+Message-Id: <20210617195128.66675-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.221]
+X-ClientProxiedBy: HE1P189CA0005.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::18)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210615165800.23265-1-alex.bennee@linaro.org>
- <20210615165800.23265-2-alex.bennee@linaro.org>
-In-Reply-To: <20210615165800.23265-2-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Jun 2021 20:22:20 +0100
-Message-ID: <CAFEAcA8t8q8pJNOOYK-zkDtME7hOWfXVUj3+HLVMRkFzY6Ei1g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] semihosting/arm-compat: replace heuristic for
- softmmu SYS_HEAPINFO
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.221) by
+ HE1P189CA0005.EURP189.PROD.OUTLOOK.COM (2603:10a6:7:53::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.16 via Frontend Transport; Thu, 17 Jun 2021 19:51:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e8adad54-6f2f-4c17-20c3-08d931c95539
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4600:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB46007FCB2808E07C3765D6CEC10E9@AM6PR08MB4600.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0Q79IriqaICqRxuo1kNXao644K0/t0LAO5FWLsUshd7oUIUrfzynSTqEjnoZVWPr1abedljtBkYzimt7qdqa7+C8GaOoutBTkv9Wo2Xbw8BW3eRBAZ+SHIOSVF6FuJ9x68n1/ixV7a7sFEER6WWFFx5OsKMH7ZFwHxVF3/uX6YpAbeIm3tASO8g6RmpfEKI5kVVHNqrtTTuux06xuA3fBsa2xL4JXNXzurPlsfIsd94esZVqRaNszvEDXR8TyGalvxpZ0gnSLQQRY0D00B5EsCP45ewWC2stXRm02YDpAuOFAGdmchjmO7UhYIIZh/gSquh1rCW87TCABxonUA6Cl9sdOebH1G01rvoPh4nYbCZFLOMROVpZ4E5hal7Kjnfa1MHEaAHSTR27tHkyLt2l74s6hTBQyOuRAy3b8J01/KbR7EsUeWHcHNzZ/DPdjv03hQa6MUB4Ovuwx3iL84utjypaBWuIX+GrBb3fOaZgsx2wpofNCZdtl5Dyym71+4CJVbgf/HJ7OxaWaDH/T+8+Mv/NUNEdX6pW6GY5VZlwQAV4h7DOJLLNkkhXHdGoV/6ZvTDBmprjogAjRCRN/UarVwa45Rq4U0yPRw+sMhxU4caAng0gl31zFL69hMTpc4nqT05SC+Js9HV/2fW5fION1l8AikXoVZajOaTb7DMlTDF087+SZVHFR/BN3QmDk3Vg
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39850400004)(366004)(376002)(346002)(8936002)(1076003)(186003)(36756003)(956004)(2616005)(6512007)(83380400001)(8676002)(6916009)(5660300002)(316002)(2906002)(478600001)(66946007)(52116002)(66476007)(4326008)(6506007)(66556008)(26005)(38350700002)(6486002)(16526019)(86362001)(38100700002)(6666004)(107886003)(69590400013);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RgKf2AbGrFiC8RoBqCh6e8Gc6eZTT7GpaGc2ifxa9i+HudZL1NvtDA5l850E?=
+ =?us-ascii?Q?wVPjVwoDVyChNbd6igGVUpgsKHCgjtezW+ewh3yg+6r4zePovbM0wRUc9wOq?=
+ =?us-ascii?Q?bOLxn0K/0+unli0dGPi938x23CzMj5DTOqLtx1s2Hh2pDFmOiX5hmWoAV6MI?=
+ =?us-ascii?Q?rEcbnTWw9PpeVtSHfT8FpI+WaqCOJw/hMGcdDWGk/IdblwRgWCacjS7Js+vR?=
+ =?us-ascii?Q?3io/dlyAcnOi0RsBE41P1GRuLSTOv9id2CrAAJjoUWTX6nMxyP4U6ezEO3/9?=
+ =?us-ascii?Q?+As98x9YXWGlWAzbqigq2UWQl1bk0v9TlEL4JEKoLgYDz1c9g7ydg0u4ponw?=
+ =?us-ascii?Q?5KItCyD2Vijr4XyZPEO/6+V0l4GnKAIRw2p3CeaboLAAm10uj6JVgCZ+bU0v?=
+ =?us-ascii?Q?ObDEmVin/S8qH9Kba6zdWGoUF6r2EPs12iEd6Pm0u3e3OuTPLYB5VlGo/TaB?=
+ =?us-ascii?Q?9zq1oeWd8ASJWDehZk2WbRKnrTcvv7sUDmLwPVZhuUhd6fzmV4hDaOSWO9Ju?=
+ =?us-ascii?Q?aQw5wnuue1tbf4Q3v0l1NNPG10aLkyoMClDnBhb/7pv0iW16nZBCgd6Y/Djz?=
+ =?us-ascii?Q?8TUbJXsjsN077XnqdIuAgpXIChXb9nPvr8Ex0UMaGqRcqmNeUSBBHGjoWdMF?=
+ =?us-ascii?Q?5vblsWm1mBSDZMclt9VycIaZlIvS2K5ShLoD8267qA3JBXFemLqo33SwwiJJ?=
+ =?us-ascii?Q?zVGEgKU+czZwI3DxPcKMTlNadp6Dmcp0dkRHR2783eSMT+qfOogPEFqkeV8t?=
+ =?us-ascii?Q?QVZ8/2fni/F1fp3pTx+GusPT2BkOUWolVCsN5SxTJ2HAt13MycHHNE9ObOeG?=
+ =?us-ascii?Q?/oTy2LsfeiX3Gic+8iHtr3GqGY48EPPF257CCnqMk05LM+T5d12AG/IwXhkM?=
+ =?us-ascii?Q?uGo4OpLkyTLozasXKOd66vMfYhxR0Y4iK/fSO4ysesB76BEcvyAkO9WckTU8?=
+ =?us-ascii?Q?YahLkKkt/YJtjDBUBOhMoi7yp45z1EOWxXryjRbAmqSKBiV4eG9kFoYlgw2g?=
+ =?us-ascii?Q?h10pfaYJOrgm96ukl8tdLEvdasZmvr5Pucxb5g0uHBQvGbgf+xN7287iLXW8?=
+ =?us-ascii?Q?hngXn1yoK0phfEN+oGWHS1UNiWoj5Jz1O9cbQfDRJrJhI/cQSAxJaufcgC6W?=
+ =?us-ascii?Q?vwuZLzalu6lVxMAhbU2S2XcDlfda7K5mxXLNCpgqlPENvFfcTYgFxsEQ4XoD?=
+ =?us-ascii?Q?1B/DIkeyltgOwaqlx2mIFmFADyCoTBSkGjotjM3X4Xn5VCV8f8nP5MesvdA1?=
+ =?us-ascii?Q?Sbrytj6EJcL5inNJph2yZhGIZvI9LIaHcJUrGzLf5WVdlk+8aoH+LDRZ4oL8?=
+ =?us-ascii?Q?73ASCB6aLwDi/RHQFeSQnMGS?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8adad54-6f2f-4c17-20c3-08d931c95539
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 19:51:43.9472 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bU7GNjB5gVLZ4bvD1phwU52ajJfZW8pdRXdQ0FZZptCqDHSiu7sifPIiCC/FZc/x9jqY3IWpXj3gK92J5pou5EHR/UkDegs+2qFb+b82lOg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4600
+Received-SPF: pass client-ip=40.107.21.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,358 +135,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Strauss <astrauss11@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Jun 2021 at 18:01, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The previous numbers were a guess at best and rather arbitrary without
-> taking into account anything that might be loaded. Instead of using
-> guesses based on the state of registers implement a new function that
-> scans MemoryRegions for the RAM of the current address space and then
-> looks for the lowest address above any ROM blobs (which include
-> -kernel loaded code).
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Andrew Strauss <astrauss11@gmail.com>
-> Message-Id: <20210601090715.22330-1-alex.bennee@linaro.org>
->
-> ---
-> v2
->   - report some known information (limits)
->   - reword the commit message
-> v3
->   - rework to use the ROM blob scanning suggested by Peter
->   - drop arch specific wrappers
->   - dropped rb/tb tags as it's a rework
-> ---
->  include/hw/loader.h           |  10 +++
->  hw/core/loader.c              |  19 +++++
->  semihosting/arm-compat-semi.c | 131 ++++++++++++++++++----------------
->  3 files changed, 99 insertions(+), 61 deletions(-)
->
-> diff --git a/include/hw/loader.h b/include/hw/loader.h
-> index cbfc184873..037828e94d 100644
-> --- a/include/hw/loader.h
-> +++ b/include/hw/loader.h
-> @@ -349,4 +349,14 @@ int rom_add_option(const char *file, int32_t bootind=
-ex);
->   * overflow on real hardware too. */
->  #define UBOOT_MAX_GUNZIP_BYTES (64 << 20)
->
-> +/**
-> + * rom_find_highest_addr: return highest address of ROM in region
-> + *
-> + * This function is used to find the highest ROM address (or loaded
-> + * blob) so we can advise where true heap memory may be.
-> + *
-> + * Returns: highest found address in region
-> + */
-> +hwaddr rom_find_highest_addr(hwaddr base, size_t size);
-> +
->  #endif
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 5b34869a54..05003556ee 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -1310,6 +1310,25 @@ static Rom *find_rom(hwaddr addr, size_t size)
->      return NULL;
->  }
->
-> +hwaddr rom_find_highest_addr(hwaddr base, size_t size)
-> +{
-> +    Rom *rom;
-> +    hwaddr lowest =3D base;
-> +
-> +    QTAILQ_FOREACH(rom, &roms, next) {
+Recently we added support of zstd to qcow2 format, as zstd seems to be
+better than zlib in general, and which is important (as qcow2
+compression used mostly for backups) compressed writes are faster with
+zstd.
 
-You should ignore roms with rom->mr non-NULL (which are rom blobs
-that have been set up to be loaded into a specific MR), and ones with
-fw_file non NULL (which are rom blobs that have been set up to be
-loaded into the fw_cfg device).
+Let's add a build option to use zstd by default.
 
-> +        if (rom->addr < base) {
-> +            continue;
-> +        }
-> +        if (rom->addr + rom->romsize > base + size) {
-> +            continue;
-> +        }
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
 
-This will incorrectly ignore ROM blobs that start below
-'base' but end partway through it, as well as blobs that
-start within the region but end after it.
+Hi all! We want to use zstd as a default compression type for newly
+created qcow2 images in upcoming Virtuozzo 8.
 
-> +        if (rom->addr + rom->romsize > lowest) {
-> +            lowest =3D rom->addr + rom->romsize;
-> +        }
-> +    }
+I am not sure, how much the community interested in such option,
+probably I should just keep a downstream-only patch changing the
+default.
 
-There's a cute algorithm (suggested by a friend) which you could
-use to find the largest unoccupied chunk of (base, size) rather than
-merely looking for the unoccupied part at the top of it:
+But if you like it, I'd be happy to only set new config option in our
+qemu build instead of maintaining extra downstream-only patch :)
 
-(1) iterate through the rom list, constructing a list of tuples
-(hwaddr addr, int count). For every relevant rom, add two entries
-to the tuple list: (rom->addr, 1) and (rom->addr + rom->romsize, -1)
-(2) Sort the tuple list by addr; break ties by sorting (x,1) before (x,-1)
-(3) Set gapstart to 0.
-(4) iterate through the sorted tuple list, keeping a running count
-(increment the count for each (x, 1) tuple, decrement for (x, -1) tuples).
-If the count goes from 0 to 1, you've just left an empty section of
-the range, and there was a gap from gapstart to x-1 (so if that's the
-largest gap you've seen so far, remember it). If the count goes from
-1 to 0, that's the beginning of a new gap, so set gapstart to x.
-(5) Return whatever is the largest gap we saw.
+So, it's an RFC. I also can split the patch so that refactoring of 
+qcow2_co_create() go in a separate preparation patch.
 
-Exercises for the reader:
- (a) locate any off-by-one errors in the above sketch
- (b) account for the fact that gaps outside our (base,size)
-     are of no use to us and should be ignored, and gaps that
-     overlap with our range need to be clipped
- (c) decide whether you think this is worth doing :-)
+Another RFC question, shouldn't we move to zstd by default in upstream
+too?
 
-> +    return lowest;
-> +}
-> +
->  /*
->   * Copies memory from registered ROMs to dest. Any memory that is contai=
-ned in
->   * a ROM between addr and addr + size is copied. Note that this can invo=
-lve
-> diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.=
-c
-> index 1c29146dcf..a276161181 100644
-> --- a/semihosting/arm-compat-semi.c
-> +++ b/semihosting/arm-compat-semi.c
-> @@ -44,6 +44,7 @@
->  #else
->  #include "exec/gdbstub.h"
->  #include "qemu/cutils.h"
-> +#include "hw/loader.h"
->  #ifdef TARGET_ARM
->  #include "hw/arm/boot.h"
->  #endif
-> @@ -144,33 +145,71 @@ typedef struct GuestFD {
->  static GArray *guestfd_array;
->
->  #ifndef CONFIG_USER_ONLY
-> -#include "exec/address-spaces.h"
-> -/*
-> - * Find the base of a RAM region containing the specified address
-> +
-> +/**
-> + * common_semi_find_bases: find information about ram and heap base
-> + *
-> + * This function attempts to provide meaningful numbers for RAM and
-> + * HEAP base addresses. The rambase is simply the lowest addressable
-> + * RAM position. For the heapbase we scan though the address space and
-> + * return the first available address above any ROM regions created by
-> + * the loaders.
-> + *
-> + * Returns: a structure with the numbers we need.
->   */
-> -static inline hwaddr
-> -common_semi_find_region_base(hwaddr addr)
-> +
-> +typedef struct LayoutInfo {
-> +    target_ulong rambase;
-> +    size_t ramsize;
-> +    target_ulong heapbase;
-> +    target_ulong heaplimit;
-> +    target_ulong stackbase;
-> +    target_ulong stacklimit;
+ configure         | 10 +++++++++-
+ meson.build       |  4 ++++
+ block/qcow2.c     | 32 +++++++++++++++++++++++++-------
+ meson_options.txt |  2 ++
+ 4 files changed, 40 insertions(+), 8 deletions(-)
 
-You should work in 'hwaddr's at least while you're working with
-addresses from the memory subsystem; convert to target_ulong only
-at the end (and it would probably be a good idea to catch the
-improbable case of "turns out the RAM we found for the heap is
-beyond the range of a target_ulong"...)
+diff --git a/configure b/configure
+index debd50c085..b19af43525 100755
+--- a/configure
++++ b/configure
+@@ -385,6 +385,7 @@ snappy="auto"
+ bzip2="auto"
+ lzfse="auto"
+ zstd="auto"
++qcow2_zstd_default="no"
+ guest_agent="$default_feature"
+ guest_agent_with_vss="no"
+ guest_agent_ntddscsi="no"
+@@ -1318,6 +1319,10 @@ for opt do
+   ;;
+   --enable-zstd) zstd="enabled"
+   ;;
++  --disable-qcow2-zstd-default) qcow2_zstd_default="disabled"
++  ;;
++  --enable-qcow2-zstd-default) qcow2_zstd_default="enabled"
++  ;;
+   --enable-guest-agent) guest_agent="yes"
+   ;;
+   --disable-guest-agent) guest_agent="no"
+@@ -1903,6 +1908,8 @@ disabled with --disable-FEATURE, default is enabled if available
+                   (for reading lzfse-compressed dmg images)
+   zstd            support for zstd compression library
+                   (for migration compression and qcow2 cluster compression)
++  qcow2-zstd-default  Use zstd by default for qcow2 image creation
++                  (requires zstd enabled)
+   seccomp         seccomp support
+   coroutine-pool  coroutine freelist (better performance)
+   glusterfs       GlusterFS backend
+@@ -6424,7 +6431,8 @@ if test "$skip_meson" = no; then
+         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
+         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
+-        -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
++        -Dzstd=$zstd -Dqcow2_zstd_default=$qcow2_zstd_default \
++        -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
+         -Dattr=$attr -Ddefault_devices=$default_devices \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+diff --git a/meson.build b/meson.build
+index d8a92666fb..3d65b6c46b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -484,6 +484,9 @@ if not get_option('zstd').auto() or have_block
+                     required: get_option('zstd'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+ endif
++if not zstd.found() and get_option('qcow2_zstd_default').enabled()
++  error('--enable-qcow2-zstd-default: Cannot use zstd by default without enabling zstd')
++endif
+ gbm = not_found
+ if 'CONFIG_GBM' in config_host
+   gbm = declare_dependency(compile_args: config_host['GBM_CFLAGS'].split(),
+@@ -1168,6 +1171,7 @@ config_host_data.set('CONFIG_GETTID', has_gettid)
+ config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
+ config_host_data.set('CONFIG_STATX', has_statx)
+ config_host_data.set('CONFIG_ZSTD', zstd.found())
++config_host_data.set('CONFIG_QCOW2_ZSTD_DEFAULT', get_option('qcow2_zstd_default').enabled())
+ config_host_data.set('CONFIG_FUSE', fuse.found())
+ config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
+ config_host_data.set('CONFIG_X11', x11.found())
+diff --git a/block/qcow2.c b/block/qcow2.c
+index ee4530cdbd..06bfbbf7b8 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3540,17 +3540,36 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+         }
+     }
+ 
+-    if (qcow2_opts->has_compression_type &&
+-        qcow2_opts->compression_type != QCOW2_COMPRESSION_TYPE_ZLIB) {
+-
+-        ret = -EINVAL;
+-
+-        if (version < 3) {
++    if (version < 3) {
++        if (qcow2_opts->has_compression_type &&
++            qcow2_opts->compression_type != QCOW2_COMPRESSION_TYPE_ZLIB)
++        {
++            ret = -EINVAL;
+             error_setg(errp, "Non-zlib compression type is only supported with "
+                        "compatibility level 1.1 and above (use version=v3 or "
+                        "greater)");
+             goto out;
+         }
++    } else {
++        if (qcow2_opts->has_compression_type) {
++            compression_type = qcow2_opts->compression_type;
++#ifdef CONFIG_QCOW2_ZSTD_DEFAULT
++        } else {
++            compression_type = QCOW2_COMPRESSION_TYPE_ZSTD;
++#endif
++        }
++
++#ifndef CONFIG_ZSTD
++        assert(compression_type == QCOW2_COMPRESSION_TYPE_ZLIB);
++#endif
++    }
++
++    if (qcow2_opts->has_compression_type &&
++        qcow2_opts->compression_type != QCOW2_COMPRESSION_TYPE_ZLIB) {
++
++        ret = -EINVAL;
++
++        compression_type = qcow2_opts->compression_type;
+ 
+         switch (qcow2_opts->compression_type) {
+ #ifdef CONFIG_ZSTD
+@@ -3562,7 +3581,6 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+             goto out;
+         }
+ 
+-        compression_type = qcow2_opts->compression_type;
+     }
+ 
+     /* Create BlockBackend to write to the image */
+diff --git a/meson_options.txt b/meson_options.txt
+index 3d304cac96..8af9bb97f5 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -108,6 +108,8 @@ option('xkbcommon', type : 'feature', value : 'auto',
+        description: 'xkbcommon support')
+ option('zstd', type : 'feature', value : 'auto',
+        description: 'zstd compression support')
++option('qcow2_zstd_default', type : 'feature', value : 'disabled',
++       description: 'Use zstd compression type for qcow2 image creation by default')
+ option('fuse', type: 'feature', value: 'auto',
+        description: 'FUSE block device export')
+ option('fuse_lseek', type : 'feature', value : 'auto',
+-- 
+2.29.2
 
-> +} LayoutInfo;
-> +
-> +static bool find_ram_cb(Int128 start, Int128 len, const MemoryRegion *mr=
-,
-> +                        hwaddr offset_in_region, void *opaque)
->  {
-> -    MemoryRegion *subregion;
-> +    LayoutInfo *info =3D (LayoutInfo *) opaque;
-> +
-> +    if (!mr->ram || mr->readonly) {
-> +        return false;
-> +    }
-> +
-> +    info->rambase =3D mr->addr;
-> +    info->ramsize =3D int128_get64(len);
-> +
-> +    return true;
-
-This will pick the first MR it finds that happens to be RAM (which
-could be some tiny thing). You don't want that, you want specifically
-whatever the board decided was the system RAM, which is the MemoryRegion
-MachineState::ram.
-
-mr->addr is also not the address of the MR in the flatview, it's
-the address of the MR in its container, which might not start at the
-base of the address space.
-
-In this case what we want is the address within the flatrange
-of the first visible bit of that MR, which is just 'start'.
-
-> +}
-> +
-> +static LayoutInfo common_semi_find_bases(CPUState *cs)
-> +{
-> +    FlatView *fv;
-> +    LayoutInfo info =3D { 0, 0, 0, 0, 0, 0 };
-> +
-> +    RCU_READ_LOCK_GUARD();
-> +
-> +    fv =3D address_space_to_flatview(cs->as);
-> +    flatview_for_each_range(fv, find_ram_cb, &info);
->
->      /*
-> -     * Find the chunk of R/W memory containing the address.  This is
-> -     * used for the SYS_HEAPINFO semihosting call, which should
-> -     * probably be using information from the loaded application.
-> +     * If we have found the RAM lets iterate through the ROM blobs to
-> +     * workout the best place for the remainder of RAM and split it
-> +     * equally between stack and heap.
->       */
-> -    QTAILQ_FOREACH(subregion, &get_system_memory()->subregions,
-> -                   subregions_link) {
-> -        if (subregion->ram && !subregion->readonly) {
-> -            Int128 top128 =3D int128_add(int128_make64(subregion->addr),
-> -                                       subregion->size);
-> -            Int128 addr128 =3D int128_make64(addr);
-> -            if (subregion->addr <=3D addr && int128_lt(addr128, top128))=
- {
-> -                return subregion->addr;
-> -            }
-> -        }
-> +    if (info.rambase && info.ramsize) {
-> +        hwaddr limit =3D info.rambase + info.ramsize;
-> +        size_t space;
-> +        info.heapbase =3D rom_find_highest_addr(info.rambase, info.ramsi=
-ze);
-> +        space =3D QEMU_ALIGN_DOWN((limit - info.heapbase) / 2, TARGET_PA=
-GE_SIZE);
-> +        info.heaplimit =3D info.heapbase + space;
-> +        info.stackbase =3D info.rambase + info.ramsize;
-> +        info.stacklimit =3D info.stackbase - space;
-
-I don't think we need to divide the memory into separate stack
-and heap like this -- guests can probably handle the heaplimit
-being the same as the stackbase and the stacklimit being the
-same as the heapbase, which is what we've been giving them so far.
-
->      }
-> -    return 0;
-> +
-> +    return info;
-
-This will recalculate it for every call, but I don't suppose the
-guest is going to call it more than once so that's fine.
-
->  }
-> +
->  #endif
->
->  #ifdef TARGET_ARM
-> @@ -204,28 +243,6 @@ common_semi_sys_exit_extended(CPUState *cs, int nr)
->      return (nr =3D=3D TARGET_SYS_EXIT_EXTENDED || is_a64(cs->env_ptr));
->  }
->
-> -#ifndef CONFIG_USER_ONLY
-> -#include "hw/arm/boot.h"
-> -static inline target_ulong
-> -common_semi_rambase(CPUState *cs)
-> -{
-> -    CPUArchState *env =3D cs->env_ptr;
-> -    const struct arm_boot_info *info =3D env->boot_info;
-> -    target_ulong sp;
-> -
-> -    if (info) {
-> -        return info->loader_start;
-> -    }
-> -
-> -    if (is_a64(env)) {
-> -        sp =3D env->xregs[31];
-> -    } else {
-> -        sp =3D env->regs[13];
-> -    }
-> -    return common_semi_find_region_base(sp);
-> -}
-> -#endif
-> -
->  #endif /* TARGET_ARM */
->
->  #ifdef TARGET_RISCV
-> @@ -251,17 +268,6 @@ common_semi_sys_exit_extended(CPUState *cs, int nr)
->      return (nr =3D=3D TARGET_SYS_EXIT_EXTENDED || sizeof(target_ulong) =
-=3D=3D 8);
->  }
->
-> -#ifndef CONFIG_USER_ONLY
-> -
-> -static inline target_ulong
-> -common_semi_rambase(CPUState *cs)
-> -{
-> -    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> -    CPURISCVState *env =3D &cpu->env;
-> -    return common_semi_find_region_base(env->gpr[xSP]);
-> -}
-> -#endif
-> -
->  #endif
->
->  /*
-> @@ -1165,12 +1171,12 @@ target_ulong do_common_semihosting(CPUState *cs)
->      case TARGET_SYS_HEAPINFO:
->          {
->              target_ulong retvals[4];
-> -            target_ulong limit;
->              int i;
->  #ifdef CONFIG_USER_ONLY
->              TaskState *ts =3D cs->opaque;
-> +            target_ulong limit;
->  #else
-> -            target_ulong rambase =3D common_semi_rambase(cs);
-> +            LayoutInfo info =3D common_semi_find_bases(cs);
->  #endif
->
->              GET_ARG(0);
-> @@ -1201,12 +1207,15 @@ target_ulong do_common_semihosting(CPUState *cs)
->              retvals[2] =3D ts->stack_base;
->              retvals[3] =3D 0; /* Stack limit.  */
->  #else
-> -            limit =3D current_machine->ram_size;
-> -            /* TODO: Make this use the limit of the loaded application. =
- */
-> -            retvals[0] =3D rambase + limit / 2;
-> -            retvals[1] =3D rambase + limit;
-> -            retvals[2] =3D rambase + limit; /* Stack base */
-> -            retvals[3] =3D rambase; /* Stack limit.  */
-> +            /*
-> +             * Reporting 0 indicates we couldn't calculate the real
-> +             * values which should force most software to fall back to
-> +             * using information it has.
-> +             */
-
-AIUI this is true for the specific case of "zero heapbase" but
-probably not for zero anything else. (That bit of Arm compiler
-docs that had a note not in the semihosting spec is apparently
-accidentally over-optimistic about what the Arm compiler libc
-implementation can handle.) Still, if we have no idea I guess
-returning all-zeroes is the best we can do.
-
-> +            retvals[0] =3D info.heapbase; /* Heap Base */
-> +            retvals[1] =3D info.heaplimit; /* Heap Limit */
-> +            retvals[2] =3D info.stackbase; /* Stack base */
-> +            retvals[3] =3D info.stacklimit; /* Stack limit.  */
->  #endif
-
--- PMM
 
