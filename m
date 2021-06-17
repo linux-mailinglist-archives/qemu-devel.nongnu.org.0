@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665803AB0F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:08:56 +0200 (CEST)
-Received: from localhost ([::1]:35096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19083AB10D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:12:12 +0200 (CEST)
+Received: from localhost ([::1]:43678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoxD-0003hP-3H
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:08:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55304)
+	id 1ltp0N-00016H-RO
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNX-00030D-57
+ id 1ltoNX-00030F-CD
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:03 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45597)
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNU-0006Ij-2t
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:02 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id r7so3016724edv.12
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:59 -0700 (PDT)
+ id 1ltoNV-0006Kl-Iu
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:03 -0400
+Received: by mail-ed1-x534.google.com with SMTP id b11so3068120edy.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Mwlb91Bq0n0L0KzBlNI9L4RP30x6/A2tSce+bkWzLWw=;
- b=C/53WgfxlzItSEcnj3GNqbaLfqsfYV2eLvE5bz0hrBUbpp0w7j6I592TDUF7y71QOl
- 7zMGZGLNxb8F1uxYBsbAGhBscEAkILiz8pUxCfreqMUHa8mPMZyfRkeU0atsguz2VurC
- Xn9CW6JnZ257WnnXgKpCvVXVYrB+Zklq+j5Z5EctgtfKWmoCiPmTAy8jUwGgeMy+nZE4
- vQK8IlVsIA53qD9b0RWrgVnPzXf46F8pqaBTrl2oTCPG9tEv2KnpymZQ2pXRueoLOgP6
- AfVE5QsJJdCVXaq99HROyLtjrErwS2sdnZmlGlXMp4zQ/XlgdXvueyaXkKicXHmLism+
- MnkQ==
+ bh=xuAPUpX6Hhq84IfvJMkUkq8FBAkzzJSj3GQD8rT6J7c=;
+ b=O9QWht0Qxwq5SOK0LHLj5OP4Jn7vMReMCf+l0yuMZcpHOTofOEFAZ7NKYfhWFleobL
+ /cqZSpv486qzqeasuJ6OCvAFnXDqDdxJVoaRn7iJkhM/OQkA82QB8TkJG0bygMgTvXOz
+ jPDJEa+5i6W85M9VHgarMEc1KZe8hZ318PopDW/nhRFCyLPb9gP4uBcGMtP1VVMPM0iF
+ mT9QLAvMGORj27ywzK4yIcJSUM7IZhEoEdXhsPTZO9p3+tcgFsczDeuv3k7aM6Z4Y/G6
+ F/3NDNQUCtuug7hFwsYoBELUSIA6KSgeEEZedKAm4xXLguZ4CXFLR8pchF0ieXnMGhBt
+ yBuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Mwlb91Bq0n0L0KzBlNI9L4RP30x6/A2tSce+bkWzLWw=;
- b=LW+v32ZzVC5HtC3G6D2YvAY5EIFJxdqAgbfdUXQZNE9dQllDvQ6krJBjtsv2K5yXXA
- Ou3ZBzHakbKxvnjdUvMgtqICRz5rF8G3rl3Xq6i37xyaYDypckOmRued72qhL5X/Zs8O
- RTeQaY35r/C9bjRxsPMpXn/VEb+yy/FdRArtwnSx1/QtS00Ws1OlM4VhMoGpnoFEJH+e
- /oCzh6ZPmsFSgG29hEj3MyMzJRmymN/6Fb6MO/OV1aO+uTe0B4cLAq055bsG1vWrFKzp
- KIoVVwaKOU2N0MJ3pdB9wBiN2WZpi75qNswBDU/mw+/x6fSu4BPXIN22hA342QxEEona
- H4Mg==
-X-Gm-Message-State: AOAM532Cjs3AA1aA5p+Pen4NDbpqPmli4mavKqWRH9IAedvQSsFjyyh7
- vA19WdIwbjdNe/T+AhVazd2Mv60Bbw0=
-X-Google-Smtp-Source: ABdhPJzRUbG4geaLvEW/+rRaCL246mEi8XdczSCOoDMf41UHpMjvehpI60T4/IVUKxOHfwm3MFYhKQ==
-X-Received: by 2002:a05:6402:28a:: with SMTP id
- l10mr5179951edv.365.1623922318859; 
- Thu, 17 Jun 2021 02:31:58 -0700 (PDT)
+ bh=xuAPUpX6Hhq84IfvJMkUkq8FBAkzzJSj3GQD8rT6J7c=;
+ b=pDisY4yw3fDIFJxoB/lKJ6cYrsERGFvjl7EmBtWBhwMSzieQrVlNDr5kyISInbtr30
+ vo8nWJ6g+pOkhCv9CIyGZXgs3UeIRYlDwojft2xsDwNpSOdcHyrC3wLz9JzFSb5LHzKm
+ BrJaaeEjpWWWivj6JQqmyGDm3BxfGY4RyFl8GWAJHm26jmeHl4kxjIMXUMFde9EJLFI8
+ AEUa5G85wd8GKYzL1QSYwME+e2UG3jNkqJAo/fxXTPtVYUvewNDQIgwmZ6LveN9pj5Ln
+ jx/ItgM1fUKyhoUetsYxcS/c3DZs/6EyOv5s+1vTmetZRHs3v3unYa0n7VIR9zNnmMNW
+ LaZQ==
+X-Gm-Message-State: AOAM532JSWxd/SeILaSErSfpqPFddX5z9mbQoL1q/gcTkz+jTr0D2MJo
+ wkJczx/QM/ApAPFSmb86mQcnOwbQaVs=
+X-Google-Smtp-Source: ABdhPJyZYNcS22iDlW+KchgDwaXEiOQmgqrTnTbdJd1Q5SI4iNWFWkMm1eFK87/6WMd2A2/Aj+E5RQ==
+X-Received: by 2002:aa7:d388:: with SMTP id x8mr5146214edq.338.1623922320324; 
+ Thu, 17 Jun 2021 02:32:00 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.58
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:58 -0700 (PDT)
+ Thu, 17 Jun 2021 02:32:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/45] qmp: Include "reserve" property of memory backends
-Date: Thu, 17 Jun 2021 11:31:20 +0200
-Message-Id: <20210617093134.900014-32-pbonzini@redhat.com>
+Subject: [PULL 33/45] configure: map x32 to cpu_family x86_64 for meson
+Date: Thu, 17 Jun 2021 11:31:22 +0200
+Message-Id: <20210617093134.900014-34-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,84 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: David Michael <fedora.dm0@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: David Michael <fedora.dm0@gmail.com>
 
-Let's include the new property. Instead of relying on CONFIG_LINUX,
-let's try to unconditionally grab the property and treat errors as
-"does not exist".
+The meson.build file defines supported_cpus which does not contain
+x32, and x32 is not one of meson's stable built-in values:
+https://mesonbuild.com/Reference-tables.html#cpu-families
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210510114328.21835-15-david@redhat.com>
+Signed-off-by: David Michael <fedora.dm0@gmail.com>
+Message-Id: <878s3jrzm0.fsf@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine-qmp-cmds.c | 7 +++++++
- qapi/machine.json          | 7 +++++++
- 2 files changed, 14 insertions(+)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index a36ceaf4f3..216fdfaf3a 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -157,6 +157,7 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
- 
- static int query_memdev(Object *obj, void *opaque)
- {
-+    Error *err = NULL;
-     MemdevList **list = opaque;
-     Memdev *m;
-     QObject *host_nodes;
-@@ -173,6 +174,12 @@ static int query_memdev(Object *obj, void *opaque)
-         m->dump = object_property_get_bool(obj, "dump", &error_abort);
-         m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
-         m->share = object_property_get_bool(obj, "share", &error_abort);
-+        m->reserve = object_property_get_bool(obj, "reserve", &err);
-+        if (err) {
-+            error_free_or_abort(&err);
-+        } else {
-+            m->has_reserve = true;
-+        }
-         m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
-                                              &error_abort);
-         host_nodes = object_property_get_qobject(obj,
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 1395742a4a..e4d0f9b24f 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -798,6 +798,12 @@
- #
- # @share: whether memory is private to QEMU or shared (since 6.1)
- #
-+# @reserve: whether swap space (or huge pages) was reserved if applicable.
-+#           This corresponds to the user configuration and not the actual
-+#           behavior implemented in the OS to perform the reservation.
-+#           For example, Linux will never reserve swap space for shared
-+#           file mappings. (since 6.1)
-+#
- # @host-nodes: host nodes for its memory policy
- #
- # @policy: memory policy of memory backend
-@@ -812,6 +818,7 @@
-     'dump':       'bool',
-     'prealloc':   'bool',
-     'share':      'bool',
-+    '*reserve':    'bool',
-     'host-nodes': ['uint16'],
-     'policy':     'HostMemPolicy' }}
- 
+diff --git a/configure b/configure
+index 8dcb9965b2..4478f3889a 100755
+--- a/configure
++++ b/configure
+@@ -6384,7 +6384,7 @@ if test "$skip_meson" = no; then
+         i386)
+             echo "cpu_family = 'x86'" >> $cross
+             ;;
+-        x86_64)
++        x86_64|x32)
+             echo "cpu_family = 'x86_64'" >> $cross
+             ;;
+         ppc64le)
 -- 
 2.31.1
 
