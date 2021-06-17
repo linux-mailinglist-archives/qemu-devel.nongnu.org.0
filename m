@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A503ABCAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:26:28 +0200 (CEST)
-Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF4E3ABC71
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:13:57 +0200 (CEST)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltxek-000453-Vs
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:26:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56300)
+	id 1ltxSe-0006Bd-0X
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxM4-0002PW-KI; Thu, 17 Jun 2021 15:07:08 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:48431)
+ id 1ltxM6-0002T4-I2; Thu, 17 Jun 2021 15:07:10 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxM2-0002wX-46; Thu, 17 Jun 2021 15:07:08 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 61D495C0163;
- Thu, 17 Jun 2021 15:07:05 -0400 (EDT)
+ id 1ltxM4-0002yH-Dm; Thu, 17 Jun 2021 15:07:10 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6B7115C012C;
+ Thu, 17 Jun 2021 15:07:07 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 17 Jun 2021 15:07:05 -0400
+ by compute3.internal (MEProxy); Thu, 17 Jun 2021 15:07:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=+FNOeI7fQoDKI
- wskRsFqxijv/G4Fvdc/vDZEjum4WgA=; b=Z6JWwnvC/Jb1Qzp2hK4eVepivor3/
- uvqYX1Ys1Y6BT3mF4/vTYSVxuH8waFqSnXCrA6Gjo0MhBV9XLg8OsiwvZ74e4cOs
- 2pFpBOkG+nbjzoNBLgk4xYGw7+apcdAeAqwYJ9mUnFM2yCOMch75b8M3KEXBqobx
- Ql2FKWmkAvOo+uwwtjRdxQ/01D13EGzmxXqTw9hhaQg8PVETBZ3gd2aAD/T0LldI
- a7Bf9d5FqcPWDUYxrdKR2zbMM8tQE3EXGOBoBWFb82/oOTZxIwk9RsgGVD512E7R
- bz9ckCj64l+MYzDpbaM8TmlRRtNshUgnCtWoRfvDYrxTvujng3ighIo9Q==
+ :mime-version:content-transfer-encoding; s=fm3; bh=y23M1K/vEcpTY
+ tesj5qY5iTXz3ROlf8z0rNDeMEOuFo=; b=YJbWLpehy3zzncYDdyXfek2JWt5ra
+ bd1H88GV0lnPnYo/9BIGfiF2u+YQaFqpKhXUg0CRZOEajGTiRurmhNBn0vC6eTtH
+ Facf3p2EkZD9pXuko35y9G7O5RCTGxYQQi/Q4T3UuMB0qvJ0jS/4WQih6dzo+zHn
+ 9SRTgp9A6VV6fJFyR3ba4f/yF9R9WJvg3EookXxBwjRZPjdlRq3iPGrjkFAaLYDF
+ ROsvjdccRB4nlq4Amd52etBbJiZel9otlch/BMYdd3YkJQBvAQ5n24wZaHJ45zvK
+ v8eFf6pCiL4tPahkvi4bcahjum5fjERxscb2EnOBoI5bnhq76gpTzVhEw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=+FNOeI7fQoDKIwskRsFqxijv/G4Fvdc/vDZEjum4WgA=; b=VXPlBbjT
- pEdVEYI7gDhaD5TR80k6D1Dmemca8oVbpBgkZR5SgBN3pHu69R1E5GbOMZj4Nx+d
- /hnUfyMM90GiFP1pH37+iroVr4zgmqS9IKBRRH7Q1zbHpWYwlB7xreuxMv/Z1/Lj
- xc0/pvi+aCS5Onah7uF5xqlAgw1L/rzeS+12md9YVAdkqTni3BzcAC4SXL9PPGHK
- MK068yrXQUPRNVJX8SqBU0XycuD1Auc+rCA8QWWmhjX833hoAhUSIDB13HZwiol0
- Ovw7gaFx8k3X5Q7DQvCe9DaLTNPcRlgFPWEx+RhH23HLoH56s5dr2m2hG/YtCKgh
- vlDQ8tqSdlAkEw==
-X-ME-Sender: <xms:WJ3LYJmGDjZ-YbfsqfbWai9Wggj-wXtZD7_inWUjN3SndpaSHrt38g>
- <xme:WJ3LYE3hHhyJszaxAes581LNitUlbKAiyJCgPWH7J9EI_kGKlUNtQTRh07R72zAT7
- uInAw_HF8gAYHZ8QA0>
-X-ME-Received: <xmr:WJ3LYPpz7SfhBxyccRSfMrLiTsfVkPB14146Hej4_j9jA0szL5nhKYLTTcwFso-oruKRRn_rMslwzlNdqgtXXDRnjuLnw5AAhKsjB67opA>
+ fm3; bh=y23M1K/vEcpTYtesj5qY5iTXz3ROlf8z0rNDeMEOuFo=; b=XKvFpbpZ
+ 4IR7MLkzWDTBRDWcxSE2ub/TYxgyt7eClwmrM+oQi8FBYUXI82qkezxTynhNg7gs
+ JLQ1V/2I/ESlXXYGsvrxu3dT9ogNUlXIJQtM17PMJMJZKVnwsXSzjJLAXgf9DUoS
+ 8PB+dMpRNxFDPrlYS5TI78IM17IYaVLqkWHws6GB6uHtXV16uJAyOyeonGqugiOY
+ mQY5tQ6PD7RJXYEjQChi+1/xpMOFUGBOpAkdVAj258Enkx45OD1Hq7IZx9x2aeJh
+ c4YUAhgzUngI8uqTEky4aBzZIeUdxKLG/PSQd2SzS0KZCc5mb3LfI/U4n9rEiDmt
+ ydC9FpVLzPBOYw==
+X-ME-Sender: <xms:Wp3LYNQJxSZmtIKK-NVxTDSx-BiRz_MgQaM49Z0hZ9OVRBvBRcsxbQ>
+ <xme:Wp3LYGzDH7gR2qfhsdZ-mTB-6OrlLMDeMvTAmsrByj6CUdS-27NB2xxhJbkp-ZWVZ
+ MSP1mupkMCqNUpSnGc>
+X-ME-Received: <xmr:Wp3LYC2VCbbGkmESzgAQyXTr1XsrepJpr6iQC7--3nLAT9jZ54NtegCQaSBx3R8tt5jnZhOEkNjtDnaiqn70LFMIgMvu9naHEq-ZqRIjSQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgudefudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -54,17 +54,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgudefudcutefuodetgg
  htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
  gfeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:WZ3LYJlpqFHXJFyOUVtozmXS05RIeuGZbu6FFiDzrvyctJUram6LLQ>
- <xmx:WZ3LYH0w5Fa0DwBhFr-6gfnIzotM6sjfHgY7QEWOpUffC7siDbXMYw>
- <xmx:WZ3LYIuP25zRDoyxm9gth9dtZyr-cPikn6eKtAXykoNWbeLuMKwhBg>
- <xmx:WZ3LYAJPKYPIKon3psDywtEY28gR4IhD97ECGh5ytO7KjW2dDv7H0w>
+X-ME-Proxy: <xmx:Wp3LYFBeeu7k0Z4zhfd5OZwgN3i3ZBeE0c3uWi6yqFLfxqKsIK5_uw>
+ <xmx:Wp3LYGjM2QgrKDbN8svVpgb5N-TNU8msyBXlnHaBUz8eo3crg8B-xg>
+ <xmx:Wp3LYJoUKJNRNPA4dFaly7hj4qC8-5cUgjzDoessSlYiW0RlDinDDg>
+ <xmx:W53LYPUirPt__gpgCnxjAm0rjU9oRBesQASzCOR8so-Ur90QJVzhqA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Jun 2021 15:07:03 -0400 (EDT)
+ 17 Jun 2021 15:07:05 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/11] hw/nvme: add nvme_block_status_all helper
-Date: Thu, 17 Jun 2021 21:06:48 +0200
-Message-Id: <20210617190657.110823-3-its@irrelevant.dk>
+Subject: [PATCH v2 03/11] hw/nvme: reimplement dsm to allow cancellation
+Date: Thu, 17 Jun 2021 21:06:49 +0200
+Message-Id: <20210617190657.110823-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210617190657.110823-1-its@irrelevant.dk>
 References: <20210617190657.110823-1-its@irrelevant.dk>
@@ -101,89 +101,303 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Pull the gist of nvme_check_dulbe() into a helper function. This is in
-preparation for dsm refactoring.
+Prior to this patch, a loop was used to issue multiple "fire and forget"
+aios for each range in the command. Without a reference to the aiocb
+returned from the blk_aio_pdiscard calls, the aios cannot be canceled.
+
+Fix this by processing the ranges one after another.
+
+As a bonus, this fixes how metadata is cleared (i.e. we only zero it out
+if the data was succesfully discarded).
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 41 ++++++++++++++++++++++++++++-------------
- 1 file changed, 28 insertions(+), 13 deletions(-)
+ hw/nvme/ctrl.c       | 233 +++++++++++++++++++++++++++++--------------
+ hw/nvme/trace-events |   4 +-
+ 2 files changed, 162 insertions(+), 75 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 9f81ab99d484..2e36349ced28 100644
+index 2e36349ced28..1626ed29c76b 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -1438,18 +1438,15 @@ static inline uint16_t nvme_check_bounds(NvmeNamespace *ns, uint64_t slba,
-     return NVME_SUCCESS;
+@@ -2015,26 +2015,6 @@ out:
+     nvme_verify_cb(ctx, ret);
  }
  
--static uint16_t nvme_check_dulbe(NvmeNamespace *ns, uint64_t slba,
--                                 uint32_t nlb)
-+static int nvme_block_status_all(NvmeNamespace *ns, uint64_t slba,
-+                                 uint32_t nlb, int flags)
- {
-     BlockDriverState *bs = blk_bs(ns->blkconf.blk);
- 
-     int64_t pnum = 0, bytes = nvme_l2b(ns, nlb);
-     int64_t offset = nvme_l2b(ns, slba);
--    bool zeroed;
-     int ret;
- 
--    Error *local_err = NULL;
+-static void nvme_aio_discard_cb(void *opaque, int ret)
+-{
+-    NvmeRequest *req = opaque;
+-    uintptr_t *discards = (uintptr_t *)&req->opaque;
 -
-     /*
-      * `pnum` holds the number of bytes after offset that shares the same
-      * allocation status as the byte at offset. If `pnum` is different from
-@@ -1461,23 +1458,41 @@ static uint16_t nvme_check_dulbe(NvmeNamespace *ns, uint64_t slba,
- 
-         ret = bdrv_block_status(bs, offset, bytes, &pnum, NULL, NULL);
-         if (ret < 0) {
--            error_setg_errno(&local_err, -ret, "unable to get block status");
--            error_report_err(local_err);
+-    trace_pci_nvme_aio_discard_cb(nvme_cid(req));
 -
--            return NVME_INTERNAL_DEV_ERROR;
-+            return ret;
-         }
+-    if (ret) {
+-        nvme_aio_err(req, ret);
+-    }
+-
+-    (*discards)--;
+-
+-    if (*discards) {
+-        return;
+-    }
+-
+-    nvme_enqueue_req_completion(nvme_cq(req), req);
+-}
+-
+ struct nvme_zone_reset_ctx {
+     NvmeRequest *req;
+     NvmeZone    *zone;
+@@ -2495,75 +2475,182 @@ out:
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+ }
  
--        zeroed = !!(ret & BDRV_BLOCK_ZERO);
- 
--        trace_pci_nvme_block_status(offset, bytes, pnum, ret, zeroed);
-+        trace_pci_nvme_block_status(offset, bytes, pnum, ret,
-+                                    !!(ret & BDRV_BLOCK_ZERO));
- 
--        if (zeroed) {
--            return NVME_DULB;
-+        if (!(ret & flags)) {
-+            return 1;
-         }
- 
-         offset += pnum;
-     } while (pnum != bytes);
- 
-+    return 0;
++typedef struct NvmeDSMAIOCB {
++    BlockAIOCB common;
++    BlockAIOCB *aiocb;
++    NvmeRequest *req;
++    QEMUBH *bh;
++    int ret;
++
++    NvmeDsmRange *range;
++    unsigned int nr;
++    unsigned int idx;
++} NvmeDSMAIOCB;
++
++static void nvme_dsm_cancel(BlockAIOCB *aiocb)
++{
++    NvmeDSMAIOCB *iocb = container_of(aiocb, NvmeDSMAIOCB, common);
++
++    /* break nvme_dsm_cb loop */
++    iocb->idx = iocb->nr;
++    iocb->ret = -ECANCELED;
++
++    if (iocb->aiocb) {
++        blk_aio_cancel_async(iocb->aiocb);
++        iocb->aiocb = NULL;
++    } else {
++        /*
++         * We only reach this if nvme_dsm_cancel() has already been called or
++         * the command ran to completion and nvme_dsm_bh is scheduled to run.
++         */
++        assert(iocb->idx == iocb->nr);
++    }
 +}
 +
-+static uint16_t nvme_check_dulbe(NvmeNamespace *ns, uint64_t slba,
-+                                 uint32_t nlb)
++static const AIOCBInfo nvme_dsm_aiocb_info = {
++    .aiocb_size   = sizeof(NvmeDSMAIOCB),
++    .cancel_async = nvme_dsm_cancel,
++};
++
++static void nvme_dsm_bh(void *opaque)
 +{
-+    int ret;
-+    Error *err = NULL;
++    NvmeDSMAIOCB *iocb = opaque;
 +
-+    ret = nvme_block_status_all(ns, slba, nlb, BDRV_BLOCK_DATA);
-+    if (ret) {
-+        if (ret < 0) {
-+            error_setg_errno(&err, -ret, "unable to get block status");
-+            error_report_err(err);
++    iocb->common.cb(iocb->common.opaque, iocb->ret);
 +
-+            return NVME_INTERNAL_DEV_ERROR;
-+        }
++    qemu_bh_delete(iocb->bh);
++    iocb->bh = NULL;
++    qemu_aio_unref(iocb);
++}
 +
-+        return NVME_DULB;
++static void nvme_dsm_cb(void *opaque, int ret);
++
++static void nvme_dsm_md_cb(void *opaque, int ret)
++{
++    NvmeDSMAIOCB *iocb = opaque;
++    NvmeRequest *req = iocb->req;
++    NvmeNamespace *ns = req->ns;
++    NvmeDsmRange *range;
++    uint64_t slba;
++    uint32_t nlb;
++
++    if (ret < 0) {
++        iocb->ret = ret;
++        goto done;
 +    }
 +
-     return NVME_SUCCESS;
- }
++    if (!ns->lbaf.ms) {
++        nvme_dsm_cb(iocb, 0);
++        return;
++    }
++
++    range = &iocb->range[iocb->idx - 1];
++    slba = le64_to_cpu(range->slba);
++    nlb = le32_to_cpu(range->nlb);
++
++    /*
++     * Check that all block were discarded (zeroed); otherwise we do not zero
++     * the metadata.
++     */
++
++    ret = nvme_block_status_all(ns, slba, nlb, BDRV_BLOCK_ZERO);
++    if (ret) {
++        if (ret < 0) {
++            iocb->ret = ret;
++            goto done;
++        }
++
++        nvme_dsm_cb(iocb, 0);
++    }
++
++    iocb->aiocb = blk_aio_pwrite_zeroes(ns->blkconf.blk, nvme_moff(ns, slba),
++                                        nvme_m2b(ns, nlb), BDRV_REQ_MAY_UNMAP,
++                                        nvme_dsm_cb, iocb);
++    return;
++
++done:
++    iocb->aiocb = NULL;
++    qemu_bh_schedule(iocb->bh);
++}
++
++static void nvme_dsm_cb(void *opaque, int ret)
++{
++    NvmeDSMAIOCB *iocb = opaque;
++    NvmeRequest *req = iocb->req;
++    NvmeCtrl *n = nvme_ctrl(req);
++    NvmeNamespace *ns = req->ns;
++    NvmeDsmRange *range;
++    uint64_t slba;
++    uint32_t nlb;
++
++    if (ret < 0) {
++        iocb->ret = ret;
++        goto done;
++    }
++
++next:
++    if (iocb->idx == iocb->nr) {
++        goto done;
++    }
++
++    range = &iocb->range[iocb->idx++];
++    slba = le64_to_cpu(range->slba);
++    nlb = le32_to_cpu(range->nlb);
++
++    trace_pci_nvme_dsm_deallocate(slba, nlb);
++
++    if (nlb > n->dmrsl) {
++        trace_pci_nvme_dsm_single_range_limit_exceeded(nlb, n->dmrsl);
++        goto next;
++    }
++
++    if (nvme_check_bounds(ns, slba, nlb)) {
++        trace_pci_nvme_err_invalid_lba_range(slba, nlb,
++                                             ns->id_ns.nsze);
++        goto next;
++    }
++
++    iocb->aiocb = blk_aio_pdiscard(ns->blkconf.blk, nvme_l2b(ns, slba),
++                                   nvme_l2b(ns, nlb),
++                                   nvme_dsm_md_cb, iocb);
++    return;
++
++done:
++    iocb->aiocb = NULL;
++    qemu_bh_schedule(iocb->bh);
++}
++
+ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeNamespace *ns = req->ns;
+     NvmeDsmCmd *dsm = (NvmeDsmCmd *) &req->cmd;
+-
+     uint32_t attr = le32_to_cpu(dsm->attributes);
+     uint32_t nr = (le32_to_cpu(dsm->nr) & 0xff) + 1;
+-
+     uint16_t status = NVME_SUCCESS;
  
+-    trace_pci_nvme_dsm(nvme_cid(req), nvme_nsid(ns), nr, attr);
++    trace_pci_nvme_dsm(nr, attr);
+ 
+     if (attr & NVME_DSMGMT_AD) {
+-        int64_t offset;
+-        size_t len;
+-        NvmeDsmRange range[nr];
+-        uintptr_t *discards = (uintptr_t *)&req->opaque;
++        NvmeDSMAIOCB *iocb = blk_aio_get(&nvme_dsm_aiocb_info, ns->blkconf.blk,
++                                         nvme_misc_cb, req);
+ 
+-        status = nvme_h2c(n, (uint8_t *)range, sizeof(range), req);
++        iocb->req = req;
++        iocb->bh = qemu_bh_new(nvme_dsm_bh, iocb);
++        iocb->ret = 0;
++        iocb->range = g_new(NvmeDsmRange, nr);
++        iocb->nr = nr;
++        iocb->idx = 0;
++
++        status = nvme_h2c(n, (uint8_t *)iocb->range, sizeof(NvmeDsmRange) * nr,
++                          req);
+         if (status) {
+             return status;
+         }
+ 
+-        /*
+-         * AIO callbacks may be called immediately, so initialize discards to 1
+-         * to make sure the the callback does not complete the request before
+-         * all discards have been issued.
+-         */
+-        *discards = 1;
++        req->aiocb = &iocb->common;
++        nvme_dsm_cb(iocb, 0);
+ 
+-        for (int i = 0; i < nr; i++) {
+-            uint64_t slba = le64_to_cpu(range[i].slba);
+-            uint32_t nlb = le32_to_cpu(range[i].nlb);
+-
+-            if (nvme_check_bounds(ns, slba, nlb)) {
+-                continue;
+-            }
+-
+-            trace_pci_nvme_dsm_deallocate(nvme_cid(req), nvme_nsid(ns), slba,
+-                                          nlb);
+-
+-            if (nlb > n->dmrsl) {
+-                trace_pci_nvme_dsm_single_range_limit_exceeded(nlb, n->dmrsl);
+-            }
+-
+-            offset = nvme_l2b(ns, slba);
+-            len = nvme_l2b(ns, nlb);
+-
+-            while (len) {
+-                size_t bytes = MIN(BDRV_REQUEST_MAX_BYTES, len);
+-
+-                (*discards)++;
+-
+-                blk_aio_pdiscard(ns->blkconf.blk, offset, bytes,
+-                                 nvme_aio_discard_cb, req);
+-
+-                offset += bytes;
+-                len -= bytes;
+-            }
+-        }
+-
+-        /* account for the 1-initialization */
+-        (*discards)--;
+-
+-        if (*discards) {
+-            status = NVME_NO_COMPLETE;
+-        } else {
+-            status = req->status;
+-        }
++        return NVME_NO_COMPLETE;
+     }
+ 
+     return status;
+diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+index ce6b6ffe9604..eea4e31e46c4 100644
+--- a/hw/nvme/trace-events
++++ b/hw/nvme/trace-events
+@@ -37,8 +37,8 @@ pci_nvme_verify_mdata_in_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" bl
+ pci_nvme_verify_cb(uint16_t cid, uint8_t prinfo, uint16_t apptag, uint16_t appmask, uint32_t reftag) "cid %"PRIu16" prinfo 0x%"PRIx8" apptag 0x%"PRIx16" appmask 0x%"PRIx16" reftag 0x%"PRIx32""
+ pci_nvme_rw_complete_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
+-pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
+-pci_nvme_dsm_deallocate(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
++pci_nvme_dsm(uint32_t nr, uint32_t attr) "nr %"PRIu32" attr 0x%"PRIx32""
++pci_nvme_dsm_deallocate(uint64_t slba, uint32_t nlb) "slba %"PRIu64" nlb %"PRIu32""
+ pci_nvme_dsm_single_range_limit_exceeded(uint32_t nlb, uint32_t dmrsl) "nlb %"PRIu32" dmrsl %"PRIu32""
+ pci_nvme_compare(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba 0x%"PRIx64" nlb %"PRIu32""
+ pci_nvme_compare_data_cb(uint16_t cid) "cid %"PRIu16""
 -- 
 2.32.0
 
