@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62AE3AAD4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:21:51 +0200 (CEST)
-Received: from localhost ([::1]:59348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8793AAE3F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:58:47 +0200 (CEST)
+Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltmLW-0006bx-Uz
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57888)
+	id 1ltmvG-00067r-Fa
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltmKR-0005uW-C5
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:20:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37750)
+ id 1ltmsU-0002ml-3w
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:55:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltmKP-0007MA-Eb
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:20:43 -0400
+ id 1ltmsQ-0000QM-R9
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:55:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1ltmKN-0005iR-Ms
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:20:39 +0000
+ id 1ltmsM-0004DQ-LC
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:55:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AB9B02E8074
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:20:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 813172E81B3
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:55:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Jun 2021 07:12:15 -0000
-From: Thomas Huth <1893003@bugs.launchpad.net>
+Date: Thu, 17 Jun 2021 07:38:28 -0000
+From: Thomas Huth <676934@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user ppc s390x
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mike.dld th-huth
-X-Launchpad-Bug-Reporter: Mike Gelfand (mike.dld)
+X-Launchpad-Bug-Commenters: ajbennee berrange developers-tefnet th-huth
+X-Launchpad-Bug-Reporter: Tefnet Developers (developers-tefnet)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159842808665.2865.2216413646645324343.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162391393586.10386.9244697881090959541.malone@soybean.canonical.com>
-Subject: [Bug 1893003] Re: qemu linux-user doesn't translate host/target data
- for iovec I/O
+X-Launchpad-Bug-Duplicate: 1903470
+References: <20101118110340.18016.73281.malonedeb@palladium.canonical.com>
+Message-Id: <162391550829.13571.1865475702478122249.malone@wampee.canonical.com>
+Subject: [Bug 676934] Re: Ability to use -net socket with unix sockets
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 37ca88bfd1d2a3dc7aebc7719cd0245efbb189c5
+X-Launchpad-Hash: 194788a5e76ef9d8ca84db74e0e10b00317064f3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,87 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893003 <1893003@bugs.launchpad.net>
+Reply-To: Bug 676934 <676934@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+*** This bug is a duplicate of bug 1903470 ***
+    https://bugs.launchpad.net/bugs/1903470
 
- https://gitlab.com/qemu-project/qemu/-/issues/426
+
+This is an automated cleanup. This bug report got closed because it
+is a duplicate.
 
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Expired
+   Importance: Wishlist =3D> Undecided
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #426
-   https://gitlab.com/qemu-project/qemu/-/issues/426
+** Changed in: qemu
+       Status: New =3D> Expired
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893003
+https://bugs.launchpad.net/bugs/676934
 
 Title:
-  qemu linux-user doesn't translate host/target data for iovec I/O
+  Ability to use -net socket with unix sockets
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When using iovec I/O functions (like `readv`), no data translation
-  happens. I'm hitting this issue with libevent upon constructing a
-  bufferevent over an inotify descriptor, and then building for either
-  ppc64 or s390x (both big-endian) on x86_64 (little-endian) and running
-  resulting code with qemu-ppc64 or qemu-s390x on Gentoo using latest
-  QEMU version available (5.0.0-r2).
+  It would be a nice feature (simplifying access control for example) to
+  be able to do something like:
 
-  The code in question is in
-  https://github.com/transmission/transmission/blob/master/libtransmission
-  /watchdir-inotify.c (`tr_watchdir_inotify_new`,
-  `tr_watchdir_inotify_on_event`).
+  qemu -net socket,listen=3Dunix:/tmp/qemunet
+  qemu -net socket,connect=3Dunix:/tmp/qemunet
 
-  While `read` syscall is handled properly, `readv` (which libevent is
-  using in my case) doesn't have any logic to call
-  `host_to_target_data_inotify` or any other translation function,
-  leaving inotify data unchanged (with values in little-endian), which
-  then leads to unit test failures. Quoting `do_syscall1` implementation
-  bits for the reference:
-
-  ---8<---begin---
-      case TARGET_NR_read:
-          if (arg2 =3D=3D 0 && arg3 =3D=3D 0) {
-              return get_errno(safe_read(arg1, 0, 0));
-          } else {
-              if (!(p =3D lock_user(VERIFY_WRITE, arg2, arg3, 0)))
-                  return -TARGET_EFAULT;
-              ret =3D get_errno(safe_read(arg1, p, arg3));
-              if (ret >=3D 0 &&
-                  fd_trans_host_to_target_data(arg1)) {
-                  ret =3D fd_trans_host_to_target_data(arg1)(p, ret);
-              }
-              unlock_user(p, arg2, ret);
-          }
-          return ret;
-  ...
-      case TARGET_NR_readv:
-          {
-              struct iovec *vec =3D lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
-              if (vec !=3D NULL) {
-                  ret =3D get_errno(safe_readv(arg1, vec, arg3));
-                  unlock_iovec(vec, arg2, arg3, 1);
-              } else {
-                  ret =3D -host_to_target_errno(errno);
-              }
-          }
-          return ret;
-  ---8<---end---
-
-  To reiterate, the issue is not only with `readv` but with other iovec
-  functions as well.
+  For now one has to use TCP connections even for guests running on the
+  same host, which involves setting up iptables to restrict access.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893003/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/676934/+subscriptions
 
