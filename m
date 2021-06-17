@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A81E3AAB06
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 07:24:48 +0200 (CEST)
-Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF003AAB28
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 07:40:36 +0200 (CEST)
+Received: from localhost ([::1]:54006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltkWF-0001C8-I1
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 01:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60058)
+	id 1ltklX-0004hv-6J
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 01:40:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltkUG-0008CY-89
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:22:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44144)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkjE-00040f-Q8
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:38:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltkUE-0007aM-2O
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:22:43 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkjC-0002oY-3V
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:38:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623907361;
+ s=mimecast20190719; t=1623908288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZyyHSrmDn9lggOnRJXhd5UV4zz1gTs3y67TMBTj2nvg=;
- b=ZE9ya2Na8p1j4gbTMsNbA8c3/YDKX9+u0sCx/sz7z31khnId999yGy08trVC5UiSMXq8br
- gbUIbm5Se5JtvLV58OgVj1TM/rPXRsq6BEoCC4kVZmwYrwx+7KObTHzRpJop4xOtHi9aWE
- G+ovWqg6sxxOo51p/8YIdx2a1I4iT1o=
+ bh=x1hae8vB/MHA1B3VFPw/n5jJXyHK2ThG/RvaTvTFlx8=;
+ b=FpZfQx9U1eu/A0NW2j4Ty79tJry1Fg0iDEyVeNSFZT0wqHIUzqrnrfo1whjm+bt08sZ7vS
+ PfytqDZU1Ma5J9WbSIKY7I8nnSYgGUiFfoFavQQXhTnMu3hGS6mmwh/2VBxoE+jnGXyY4g
+ 8RvqFdW9fPql87JY7HYjVa2oZj1LmZw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-_IZ2WPTAMJCW1bde_Kb3lA-1; Thu, 17 Jun 2021 01:22:40 -0400
-X-MC-Unique: _IZ2WPTAMJCW1bde_Kb3lA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-425-fxFkRhOeMVu1hvYy-zWUnA-1; Thu, 17 Jun 2021 01:38:07 -0400
+X-MC-Unique: fxFkRhOeMVu1hvYy-zWUnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59AEE801B15;
- Thu, 17 Jun 2021 05:22:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96E265C1C5;
- Thu, 17 Jun 2021 05:22:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2C266113865F; Thu, 17 Jun 2021 07:22:36 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
-References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
-Date: Thu, 17 Jun 2021 07:22:36 +0200
-In-Reply-To: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com> (Valeriy
- Vdovin's message of "Thu, 3 Jun 2021 12:07:53 +0300")
-Message-ID: <87im2d6p5v.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9205DDF8A3;
+ Thu, 17 Jun 2021 05:38:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
+ [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DA596090F;
+ Thu, 17 Jun 2021 05:38:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0D21F18000B2; Thu, 17 Jun 2021 07:37:59 +0200 (CEST)
+Date: Thu, 17 Jun 2021 07:37:59 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
+Message-ID: <20210617053759.uibvdpu2wtq3fqwv@sirius.home.kraxel.org>
+References: <20210610101553.943689-1-kraxel@redhat.com>
+ <5953598.eXybCX72BP@pizza>
+ <20210615050930.bmgup2axfr7sqvoa@sirius.home.kraxel.org>
+ <2963309.4TrVdrBa0x@pizza>
+ <20210616092815.rjznyjnvgrrfojq6@sirius.home.kraxel.org>
+ <bdf9b356-87ee-0749-c977-f48989fa8e26@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+In-Reply-To: <bdf9b356-87ee-0749-c977-f48989fa8e26@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -75,209 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Denis Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?utf-8?B?Sm9zw6k=?= Ricardo Ziviani <jose.ziviani@suse.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
+  Hi,
 
-> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+> >> However, please correct me if I'm wrong, I understand that an accelerator as a 
+> >> module will add an overhead that some user won't be willing to pay. So, give 
+> >> them the option to have built-in accelerators seems a good idea.
+> > 
+> > Modules add some overhead, yes, and there are surely use-cases where you
+> 
+> Where do we expect the overhead to be, and of which nature?
 
-It's actually a QMP command.  There are no "qapi methods".
+The dynamic linking needed then when loading the module adds a bit of
+overhead (compared to static linked code).  Increases qemu start time
+a bit.
 
-> get virtualized cpu model info generated by QEMU during VM initialization in
-> the form of cpuid representation.
->
-> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+On the other hand the start overhead can be reduced by modules,
+specifically for the case that a module depends on shared libraries and
+is *not* needed.  With for example gtk being modular the gtk shared
+libraries (plus indirect dependencies like pango, cairo etc) are only
+loaded when you actually use gtk, whereas a non-modular build would load
+them no matter what.
 
-virtual CPU
+The code reorganization needed for modularization can add some overhead
+too, when using function pointers instead of direct calls for example
+(see QemuSpiceOps).  That overhead doesn't go away when you do a
+non-modular build though ...
 
-> command line option. From there it takes the name of the model as the basis for
-> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
-> that state if additional cpu features should be present on the virtual cpu or
-> excluded from it (tokens '+'/'-' or '=on'/'=off').
-> After that QEMU checks if the host's cpu can actually support the derived
-> feature set and applies host limitations to it.
-> After this initialization procedure, virtual cpu has it's model and
-> vendor names, and a working feature set and is ready for identification
-> instructions such as CPUID.
->
-> Currently full output for this method is only supported for x86 cpus.
-
-Not sure about "currently": the interface looks quite x86-specific to me.
-
-The commit message doesn't mention KVM except in the command name.  The
-schema provides the command only if defined(CONFIG_KVM).
-
-Can you explain why you need the restriction to CONFIG_KVM?
-
-> To learn exactly how virtual cpu is presented to the guest machine via CPUID
-> instruction, new qapi method can be used. By calling 'query-kvm-cpuid'
-
-QMP command again.
-
-> method, one can get a full listing of all CPUID leafs with subleafs which are
-> supported by the initialized virtual cpu.
->
-> Other than debug, the method is useful in cases when we would like to
-> utilize QEMU's virtual cpu initialization routines and put the retrieved
-> values into kernel CPUID overriding mechanics for more precise control
-> over how various processes perceive its underlying hardware with
-> container processes as a good example.
->
-> Output format:
-> The output is a plain list of leaf/subleaf agrument combinations, that
-
-Typo: argument
-
-> return 4 words in registers EAX, EBX, ECX, EDX.
->
-> Use example:
-> qmp_request: {
->   "execute": "query-kvm-cpuid"
-> }
->
-> qmp_response: {
->   "return": [
->     {
->       "eax": 1073741825,
->       "edx": 77,
->       "in-eax": 1073741824,
->       "ecx": 1447775574,
->       "ebx": 1263359563
->     },
->     {
->       "eax": 16777339,
->       "edx": 0,
->       "in-eax": 1073741825,
->       "ecx": 0,
->       "ebx": 0
->     },
->     {
->       "eax": 13,
->       "edx": 1231384169,
->       "in-eax": 0,
->       "ecx": 1818588270,
->       "ebx": 1970169159
->     },
->     {
->       "eax": 198354,
->       "edx": 126614527,
->       "in-eax": 1,
->       "ecx": 2176328193,
->       "ebx": 2048
->     },
->     ....
->     {
->       "eax": 12328,
->       "edx": 0,
->       "in-eax": 2147483656,
->       "ecx": 0,
->       "ebx": 0
->     }
->   ]
-> }
->
-> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-> ---
-> v2: - Removed leaf/subleaf iterators.
->     - Modified cpu_x86_cpuid to return false in cases when count is
->       greater than supported subleaves.
-> v3: - Fixed structure name coding style.
->     - Added more comments
->     - Ensured buildability for non-x86 targets.
-> v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
->     - Fixed comments.
->     - Removed target check in qmp_query_cpu_model_cpuid.
-> v5: - Added error handling code in qmp_query_cpu_model_cpuid
-> v6: - Fixed error handling code. Added method to query_error_class
-> v7: - Changed implementation in favor of cached cpuid_data for
->       KVM_SET_CPUID2
-> v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
->     - Modified documentation to qmp method
->     - Removed helper struct declaration
-> v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
->     - Pasted more complete response to commit message.
->
->  qapi/machine-target.json   | 43 ++++++++++++++++++++++++++++++++++++++
->  target/i386/kvm/kvm.c      | 37 ++++++++++++++++++++++++++++++++
->  tests/qtest/qmp-cmd-test.c |  1 +
->  3 files changed, 81 insertions(+)
->
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index e7811654b7..1e591ba481 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -329,3 +329,46 @@
->  ##
->  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
->    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-> +
-> +##
-> +# @CpuidEntry:
-> +#
-> +# A single entry of a CPUID response.
-> +#
-> +# One entry holds full set of information (leaf) returned to the guest in response
-> +# to it calling a CPUID instruction with eax, ecx used as the agruments to that
-
-Typi: agruments
-
-> +# instruction. ecx is an optional argument as not all of the leaves support it.
-
-Please wrap doc comment lines around column 70.
-
-> +#
-> +# @in-eax: CPUID argument in eax
-> +# @in-ecx: CPUID argument in ecx
-> +# @eax: eax
-> +# @ebx: ebx
-> +# @ecx: ecx
-> +# @edx: edx
-
-Suggest
-
-   # @eax: CPUID result in eax
-
-and so forth.
-
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'CpuidEntry',
-> +  'data': { 'in-eax' : 'uint32',
-> +            '*in-ecx' : 'uint32',
-> +            'eax' : 'uint32',
-> +            'ebx' : 'uint32',
-> +            'ecx' : 'uint32',
-> +            'edx' : 'uint32'
-> +          },
-> +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
-> +
-> +##
-> +# @query-kvm-cpuid:
-> +#
-> +# Returns raw data from the KVM CPUID table for the first VCPU.
-> +# The KVM CPUID table defines the response to the CPUID
-> +# instruction when executed by the guest operating system.
-> +#
-> +# Returns: a list of CpuidEntry
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'command': 'query-kvm-cpuid',
-> +  'returns': ['CpuidEntry'],
-> +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
-
-Is this intended to be a stable interface?  Interfaces intended just for
-debugging usually aren't.
-
-[...]
+take care,
+  Gerd
 
 
