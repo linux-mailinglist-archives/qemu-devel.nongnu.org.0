@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5A63ABD1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:50:07 +0200 (CEST)
-Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A703ABD22
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:52:20 +0200 (CEST)
+Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lty1e-0001iw-4I
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:50:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
+	id 1lty3n-0003LS-6M
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:52:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxMJ-0002lx-JX; Thu, 17 Jun 2021 15:07:23 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36135)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNP-0004IS-AA
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxMH-00037Q-BB; Thu, 17 Jun 2021 15:07:23 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 9BB035C0068;
- Thu, 17 Jun 2021 15:07:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 17 Jun 2021 15:07:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=vBQePKlQL2ui/
- j2YDU6QcePdqwp4M+k+mmdb0VstpZo=; b=c9ko9RJ6eZ00VHic384j1tydOIXjX
- Nv5GFXWxEY1jRHxTMZPjA1zUzRsD0sKk+2GbAV+HzUvNs6BEWOYn2DtNYeC9iG8a
- OJxOkT+f7nWnoWvr5snpo4QaV5BNv2FlwR/hBUF5UOQmyf4f3JhQTR89z4GjF5eo
- UoCAA79ldaBrczG2H5ih/GWv8Le7I6AJmjcGRILY9DZc5ZZd7yeFFQ3INi2v6o2R
- BF1xD5rbh/wlDKRhzgwHkmYPjG3Dpw06/6Gf6VsYmZIDd7QysuDcv7TFF0DouGyw
- LQMCtF/teCasr1u0GxikG7RL9n7X5lPfXw12pZMrjxq3nCbhR/ZcwCYmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=vBQePKlQL2ui/j2YDU6QcePdqwp4M+k+mmdb0VstpZo=; b=S7ahrXWl
- u1xBD1lY3Itmy4BUFMa0TOaimqozAQf+KXu5O2t3VHlgXdjMmZROGGmqLDta3ctz
- zT/HTVqxFQbP12es2qC7mvUuCRkpjoaZ+XvFwY6LP9IBeJVv6ufQ3H9AxSP2bsfE
- cbjvAp7ouWo39kwbO9//vzl5knB9am20Xlfvb3DEFgt4xlSlnOmB5R7++KMUSODI
- cSzS5WxOxqe+hE2j/8A3LmWqLnfk+kzPZ43AX6yLoRxu+v+ml1EePAJ+F3C6Srco
- /hev3eBvJ7KyMH7fpUwUWhO9BcQ22h0NHLhCvOzIuoxqxixU1XARBTg7EtShzkQa
- HCeCeIvTVvi+Mg==
-X-ME-Sender: <xms:aJ3LYF4Dydk_P78n8Ig27tsTy-jTT4zgPZWMuGlwjaQWWmwfxvUwOw>
- <xme:aJ3LYC7_Ojq9FeXhukjumVRm5slEOiCgsqddCYRD-0GZVOxCSPFLOUnQE5drFpy7U
- CGTnqX900VNZVfOu4U>
-X-ME-Received: <xmr:aJ3LYMdSKubjSkvoZ_Pq9ckxREc_d-LYMoAHcFduNUSZ8TxT1t1wsu35JCYWai3MQwr1yQ3Qrgx8SQdYt7UzwagCAl_EbFXj8YkdjabczQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgudefudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:aJ3LYOJ0uyxdYAY0duQVqquei6HGuc4OTmowOis-lUDD3boiU8T6jg>
- <xmx:aJ3LYJKUb28BQ7sMehSzquKCzkCNJYeno49h8_fxbb6TWPeWcMq0IA>
- <xmx:aJ3LYHwKfMWbS2QiUJRIP4OPkophSTg-BdoQD4Z-mnDyNDXhOsla7w>
- <xmx:aJ3LYA97Px8b4eZM7H92RQn5ZD6YN6t4dY8pKlywWF52QjJ_ybZI-g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Jun 2021 15:07:19 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNN-0003kE-78
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623956907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B55cBXE+ux0+YbE9ny/6n3ibWjgugrLt6QuyB8yGlMo=;
+ b=V+KNQ39RZxnxiNyhymemkzCZSn5/RdJrl298mz6Uz+wdfd1pxUzXL0qb9Ki/kvgVOUgbIE
+ S6wVwol2ZZ6c6xA/UTAhWDTOQgHql242GeIpDc/h0Jw3ET2Pye9imMiSXA+0uiQ/3ikeJq
+ dWW78/UHiWGwtFMhzmo60F992MMefIk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-nvvUBZDuORWwMbjqRlly_Q-1; Thu, 17 Jun 2021 15:08:24 -0400
+X-MC-Unique: nvvUBZDuORWwMbjqRlly_Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A7DAC73A1;
+ Thu, 17 Jun 2021 19:08:23 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.43.2.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 824E35D735;
+ Thu, 17 Jun 2021 19:08:09 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/11] hw/nvme: reimplement format nvm to allow cancellation
-Date: Thu, 17 Jun 2021 21:06:56 +0200
-Message-Id: <20210617190657.110823-11-its@irrelevant.dk>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210617190657.110823-1-its@irrelevant.dk>
-References: <20210617190657.110823-1-its@irrelevant.dk>
+Subject: [PATCH v5 2/7] hw/i386/acpi-build: Add ACPI PCI hot-plug methods to
+ Q35
+Date: Thu, 17 Jun 2021 21:07:34 +0200
+Message-Id: <20210617190739.3673064-3-jusual@redhat.com>
+In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
+References: <20210617190739.3673064-1-jusual@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,385 +77,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+Implement notifications and gpe to support q35 ACPI PCI hot-plug.
+Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
 
-Prior to this patch, the aios associated with broadcast format are
-submitted anonymously (no aiocb reference saved from the blk_aio call).
-
-Fix this by formatting the namespaces one after another, saving a
-reference to the aiocb for each.
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/nvme/ctrl.c       | 289 +++++++++++++++++++++++--------------------
- hw/nvme/trace-events |   4 +-
- 2 files changed, 156 insertions(+), 137 deletions(-)
+ hw/i386/acpi-build.h    |  4 ++++
+ include/hw/acpi/ich9.h  |  2 ++
+ include/hw/acpi/pcihp.h |  3 ++-
+ hw/acpi/pcihp.c         |  6 +++---
+ hw/acpi/piix4.c         |  4 +++-
+ hw/i386/acpi-build.c    | 30 +++++++++++++++++++-----------
+ 6 files changed, 33 insertions(+), 16 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 6a8c1ff2271d..ec8ddb76cd39 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1924,42 +1924,6 @@ out:
-     nvme_rw_complete_cb(req, ret);
- }
+diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
+index 74df5fc612..487ec7710f 100644
+--- a/hw/i386/acpi-build.h
++++ b/hw/i386/acpi-build.h
+@@ -5,6 +5,10 @@
  
--struct nvme_aio_format_ctx {
--    NvmeRequest   *req;
--    NvmeNamespace *ns;
--
--    /* number of outstanding write zeroes for this namespace */
--    int *count;
--};
--
--static void nvme_aio_format_cb(void *opaque, int ret)
--{
--    struct nvme_aio_format_ctx *ctx = opaque;
--    NvmeRequest *req = ctx->req;
--    NvmeNamespace *ns = ctx->ns;
--    uintptr_t *num_formats = (uintptr_t *)&req->opaque;
--    int *count = ctx->count;
--
--    g_free(ctx);
--
--    if (ret) {
--        nvme_aio_err(req, ret);
--    }
--
--    if (--(*count)) {
--        return;
--    }
--
--    g_free(count);
--    ns->status = 0x0;
--
--    if (--(*num_formats)) {
--        return;
--    }
--
--    nvme_enqueue_req_completion(nvme_cq(req), req);
--}
--
- static void nvme_verify_cb(void *opaque, int ret)
+ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
+ 
++/* PCI Hot-plug registers bases. See docs/spec/acpi_pci_hotplug.txt */
++#define ACPI_PCIHP_SEJ_BASE 0x8
++#define ACPI_PCIHP_BNMR_BASE 0x10
++
+ void acpi_setup(void);
+ 
+ #endif
+diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+index df519e40b5..596120d97f 100644
+--- a/include/hw/acpi/ich9.h
++++ b/include/hw/acpi/ich9.h
+@@ -28,6 +28,8 @@
+ #include "hw/acpi/acpi_dev_interface.h"
+ #include "hw/acpi/tco.h"
+ 
++#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
++
+ typedef struct ICH9LPCPMRegs {
+     /*
+      * In ich9 spec says that pm1_cnt register is 32bit width and
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index 2dd90aea30..af1a169fc3 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -55,7 +55,8 @@ typedef struct AcpiPciHpState {
+ } AcpiPciHpState;
+ 
+ void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
+-                     MemoryRegion *address_space_io, bool bridges_enabled);
++                     MemoryRegion *address_space_io, bool bridges_enabled,
++                     uint16_t io_base);
+ 
+ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                    DeviceState *dev, Error **errp);
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 09f531e941..a55992ed9f 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -37,7 +37,6 @@
+ #include "qom/qom-qobject.h"
+ #include "trace.h"
+ 
+-#define ACPI_PCIHP_ADDR 0xae00
+ #define ACPI_PCIHP_SIZE 0x0018
+ #define PCI_UP_BASE 0x0000
+ #define PCI_DOWN_BASE 0x0004
+@@ -489,10 +488,11 @@ static const MemoryRegionOps acpi_pcihp_io_ops = {
+ };
+ 
+ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+-                     MemoryRegion *address_space_io, bool bridges_enabled)
++                     MemoryRegion *address_space_io, bool bridges_enabled,
++                     uint16_t io_base)
  {
-     NvmeBounceContext *ctx = opaque;
-@@ -5260,30 +5224,98 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_SUCCESS;
+     s->io_len = ACPI_PCIHP_SIZE;
+-    s->io_base = ACPI_PCIHP_ADDR;
++    s->io_base = io_base;
+ 
+     s->root = root_bus;
+     s->legacy_piix = !bridges_enabled;
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 0bd23d74e2..48f7a1edbc 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -49,6 +49,8 @@
+ #define GPE_BASE 0xafe0
+ #define GPE_LEN 4
+ 
++#define ACPI_PCIHP_ADDR_PIIX4 0xae00
++
+ struct pci_status {
+     uint32_t up; /* deprecated, maintained for migration compatibility */
+     uint32_t down;
+@@ -607,7 +609,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+ 
+     if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+         acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+-                        s->use_acpi_hotplug_bridge);
++                        s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
+     }
+ 
+     s->cpu_hotplug_legacy = true;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 796ffc6f5c..67753638e4 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -219,10 +219,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
+         pm->fadt.rev = 1;
+         pm->cpu_hp_io_base = PIIX4_CPU_HOTPLUG_IO_BASE;
+-        pm->pcihp_io_base =
+-            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
+-        pm->pcihp_io_len =
+-            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+     }
+     if (lpc) {
+         uint64_t smi_features = object_property_get_uint(lpc,
+@@ -238,6 +234,10 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+         pm->smi_on_cpu_unplug =
+             !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
+     }
++    pm->pcihp_io_base =
++        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
++    pm->pcihp_io_len =
++        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+ 
+     /* The above need not be conditional on machine type because the reset port
+      * happens to be the same on PIIX (pc) and ICH9 (q35). */
+@@ -392,6 +392,9 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+ 
+         if (!pdev) {
+             if (bsel) { /* add hotplug slots for non present devices */
++                if (pci_bus_is_express(bus) && slot > 0) {
++                    break;
++                }
+                 dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
+                 aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+                 aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
+@@ -516,7 +519,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             QLIST_FOREACH(sec, &bus->child, sibling) {
+                 int32_t devfn = sec->parent_dev->devfn;
+ 
+-                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
++                if (pci_bus_is_root(sec)) {
+                     continue;
+                 }
+ 
+@@ -1246,7 +1249,7 @@ static void build_piix4_isa_bridge(Aml *table)
+     aml_append(table, scope);
  }
  
--static uint16_t nvme_format_ns(NvmeCtrl *n, NvmeNamespace *ns, uint8_t lbaf,
--                               uint8_t mset, uint8_t pi, uint8_t pil,
--                               NvmeRequest *req)
--{
--    int64_t len, offset;
--    struct nvme_aio_format_ctx *ctx;
--    BlockBackend *blk = ns->blkconf.blk;
--    uint16_t ms;
--    uintptr_t *num_formats = (uintptr_t *)&req->opaque;
--    int *count;
-+typedef struct NvmeFormatAIOCB {
-+    BlockAIOCB common;
-+    BlockAIOCB *aiocb;
-+    QEMUBH *bh;
-+    NvmeRequest *req;
-+    int ret;
- 
-+    NvmeNamespace *ns;
-+    uint32_t nsid;
-+    bool broadcast;
-+    int64_t offset;
-+} NvmeFormatAIOCB;
-+
-+static void nvme_format_bh(void *opaque);
-+
-+static void nvme_format_cancel(BlockAIOCB *aiocb)
-+{
-+    NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
-+
-+    if (iocb->aiocb) {
-+        blk_aio_cancel_async(iocb->aiocb);
-+    }
-+}
-+
-+static const AIOCBInfo nvme_format_aiocb_info = {
-+    .aiocb_size = sizeof(NvmeFormatAIOCB),
-+    .cancel_async = nvme_format_cancel,
-+    .get_aio_context = nvme_get_aio_context,
-+};
-+
-+static void nvme_format_set(NvmeNamespace *ns, NvmeCmd *cmd)
-+{
-+    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-+    uint8_t lbaf = dw10 & 0xf;
-+    uint8_t pi = (dw10 >> 5) & 0x7;
-+    uint8_t mset = (dw10 >> 4) & 0x1;
-+    uint8_t pil = (dw10 >> 8) & 0x1;
-+
-+    trace_pci_nvme_format_set(ns->params.nsid, lbaf, mset, pi, pil);
-+
-+    ns->id_ns.dps = (pil << 3) | pi;
-+    ns->id_ns.flbas = lbaf | (mset << 4);
-+
-+    nvme_ns_init_format(ns);
-+}
-+
-+static void nvme_format_ns_cb(void *opaque, int ret)
-+{
-+    NvmeFormatAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeNamespace *ns = iocb->ns;
-+    int bytes;
-+
-+    if (ret < 0) {
-+        iocb->ret = ret;
-+        goto done;
-+    }
-+
-+    assert(ns);
-+
-+    if (iocb->offset < ns->size) {
-+        bytes = MIN(BDRV_REQUEST_MAX_BYTES, ns->size - iocb->offset);
-+
-+        iocb->aiocb = blk_aio_pwrite_zeroes(ns->blkconf.blk, iocb->offset,
-+                                            bytes, BDRV_REQ_MAY_UNMAP,
-+                                            nvme_format_ns_cb, iocb);
-+
-+        iocb->offset += bytes;
-+        return;
-+    }
-+
-+    nvme_format_set(ns, &req->cmd);
-+    ns->status = 0x0;
-+    iocb->ns = NULL;
-+    iocb->offset = 0;
-+
-+done:
-+    iocb->aiocb = NULL;
-+    qemu_bh_schedule(iocb->bh);
-+}
-+
-+static uint16_t nvme_format_check(NvmeNamespace *ns, uint8_t lbaf, uint8_t pi)
-+{
-     if (ns->params.zoned) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
--    trace_pci_nvme_format_ns(nvme_cid(req), nvme_nsid(ns), lbaf, mset, pi, pil);
--
-     if (lbaf > ns->id_ns.nlbaf) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
--    ms = ns->id_ns.lbaf[lbaf].ms;
--
--    if (pi && (ms < sizeof(NvmeDifTuple))) {
-+    if (pi && (ns->id_ns.lbaf[lbaf].ms < sizeof(NvmeDifTuple))) {
-         return NVME_INVALID_FORMAT | NVME_DNR;
-     }
- 
-@@ -5291,107 +5323,96 @@ static uint16_t nvme_format_ns(NvmeCtrl *n, NvmeNamespace *ns, uint8_t lbaf,
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
- 
--    nvme_ns_drain(ns);
--    nvme_ns_shutdown(ns);
--    nvme_ns_cleanup(ns);
--
--    ns->id_ns.dps = (pil << 3) | pi;
--    ns->id_ns.flbas = lbaf | (mset << 4);
--
--    nvme_ns_init_format(ns);
--
--    ns->status = NVME_FORMAT_IN_PROGRESS;
--
--    len = ns->size;
--    offset = 0;
--
--    count = g_new(int, 1);
--    *count = 1;
--
--    (*num_formats)++;
--
--    while (len) {
--        ctx = g_new(struct nvme_aio_format_ctx, 1);
--        ctx->req = req;
--        ctx->ns = ns;
--        ctx->count = count;
--
--        size_t bytes = MIN(BDRV_REQUEST_MAX_BYTES, len);
--
--        (*count)++;
--
--        blk_aio_pwrite_zeroes(blk, offset, bytes, BDRV_REQ_MAY_UNMAP,
--                              nvme_aio_format_cb, ctx);
--
--        offset += bytes;
--        len -= bytes;
--
--    }
--
--    if (--(*count)) {
--        return NVME_NO_COMPLETE;
--    }
--
--    g_free(count);
--    ns->status = 0x0;
--    (*num_formats)--;
--
-     return NVME_SUCCESS;
- }
- 
--static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-+static void nvme_format_bh(void *opaque)
+-static void build_piix4_pci_hotplug(Aml *table)
++static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
  {
--    NvmeNamespace *ns;
-+    NvmeFormatAIOCB *iocb = opaque;
-+    NvmeRequest *req = iocb->req;
-+    NvmeCtrl *n = nvme_ctrl(req);
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
--    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-     uint8_t lbaf = dw10 & 0xf;
--    uint8_t mset = (dw10 >> 4) & 0x1;
-     uint8_t pi = (dw10 >> 5) & 0x7;
--    uint8_t pil = (dw10 >> 8) & 0x1;
--    uintptr_t *num_formats = (uintptr_t *)&req->opaque;
-     uint16_t status;
-     int i;
+     Aml *scope;
+     Aml *field;
+@@ -1255,20 +1258,22 @@ static void build_piix4_pci_hotplug(Aml *table)
+     scope =  aml_scope("_SB.PCI0");
  
--    trace_pci_nvme_format(nvme_cid(req), nsid, lbaf, mset, pi, pil);
-+    if (iocb->ret < 0) {
-+        goto done;
-+    }
+     aml_append(scope,
+-        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x08));
++        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr), 0x08));
+     field = aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("PCIU", 32));
+     aml_append(field, aml_named_field("PCID", 32));
+     aml_append(scope, field);
  
--    /* 1-initialize; see the comment in nvme_dsm */
--    *num_formats = 1;
--
--    if (nsid != NVME_NSID_BROADCAST) {
--        if (!nvme_nsid_valid(n, nsid)) {
--            return NVME_INVALID_NSID | NVME_DNR;
--        }
--
--        ns = nvme_ns(n, nsid);
--        if (!ns) {
--            return NVME_INVALID_FIELD | NVME_DNR;
--        }
--
--        status = nvme_format_ns(n, ns, lbaf, mset, pi, pil, req);
--        if (status && status != NVME_NO_COMPLETE) {
--            req->status = status;
--        }
--    } else {
--        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
--            ns = nvme_ns(n, i);
--            if (!ns) {
--                continue;
--            }
--
--            status = nvme_format_ns(n, ns, lbaf, mset, pi, pil, req);
--            if (status && status != NVME_NO_COMPLETE) {
--                req->status = status;
-+    if (iocb->broadcast) {
-+        for (i = iocb->nsid + 1; i <= NVME_MAX_NAMESPACES; i++) {
-+            iocb->ns = nvme_ns(n, i);
-+            if (iocb->ns) {
-+                iocb->nsid = i;
-                 break;
-             }
+     aml_append(scope,
+-        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04));
++        aml_operation_region("SEJ", AML_SYSTEM_IO,
++                             aml_int(pcihp_addr + ACPI_PCIHP_SEJ_BASE), 0x04));
+     field = aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("B0EJ", 32));
+     aml_append(scope, field);
+ 
+     aml_append(scope,
+-        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x08));
++        aml_operation_region("BNMR", AML_SYSTEM_IO,
++                             aml_int(pcihp_addr + ACPI_PCIHP_BNMR_BASE), 0x08));
+     field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("BNUM", 32));
+     aml_append(field, aml_named_field("PIDX", 32));
+@@ -1402,7 +1407,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         build_piix4_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+-            build_piix4_pci_hotplug(dsdt);
++            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
          }
-     }
- 
--    /* account for the 1-initialization */
--    if (--(*num_formats)) {
--        return NVME_NO_COMPLETE;
-+    if (!iocb->ns) {
-+        goto done;
-     }
- 
--    return req->status;
-+    status = nvme_format_check(iocb->ns, lbaf, pi);
-+    if (status) {
-+        req->status = status;
-+        goto done;
-+    }
-+
-+    iocb->ns->status = NVME_FORMAT_IN_PROGRESS;
-+    nvme_format_ns_cb(iocb, 0);
-+    return;
-+
-+done:
-+    qemu_bh_delete(iocb->bh);
-+    iocb->bh = NULL;
-+
-+    iocb->common.cb(iocb->common.opaque, iocb->ret);
-+
-+    qemu_aio_unref(iocb);
-+}
-+
-+static uint16_t nvme_format(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeFormatAIOCB *iocb;
-+    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-+    uint16_t status;
-+
-+    iocb = qemu_aio_get(&nvme_format_aiocb_info, NULL, nvme_misc_cb, req);
-+
-+    iocb->req = req;
-+    iocb->bh = qemu_bh_new(nvme_format_bh, iocb);
-+    iocb->ret = 0;
-+    iocb->ns = NULL;
-+    iocb->nsid = 0;
-+    iocb->broadcast = (nsid == NVME_NSID_BROADCAST);
-+    iocb->offset = 0;
-+
-+    if (!iocb->broadcast) {
-+        if (!nvme_nsid_valid(n, nsid)) {
-+            status = NVME_INVALID_NSID | NVME_DNR;
-+            goto out;
+         build_piix4_pci0_int(dsdt);
+     } else {
+@@ -1450,6 +1455,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
+         build_q35_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
++        if (pm->pcihp_bridge_en) {
++            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
 +        }
-+
-+        iocb->ns = nvme_ns(n, nsid);
-+        if (!iocb->ns) {
-+            status = NVME_INVALID_FIELD | NVME_DNR;
-+            goto out;
-+        }
-+    }
-+
-+    req->aiocb = &iocb->common;
-+    qemu_bh_schedule(iocb->bh);
-+
-+    return NVME_NO_COMPLETE;
-+
-+out:
-+    qemu_bh_delete(iocb->bh);
-+    iocb->bh = NULL;
-+    qemu_aio_unref(iocb);
-+    return status;
- }
+         build_q35_pci0_int(dsdt);
+         if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
+             build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
+@@ -1484,7 +1492,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     {
+         aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
  
- static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index dc00c2860db7..48d10c36e85b 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -10,9 +10,7 @@ pci_nvme_map_sgl(uint8_t typ, uint64_t len) "type 0x%"PRIx8" len %"PRIu64""
- pci_nvme_io_cmd(uint16_t cid, uint32_t nsid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" nsid 0x%"PRIx32" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
- pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opname) "cid %"PRIu16" sqid %"PRIu16" opc 0x%"PRIx8" opname '%s'"
- pci_nvme_flush_ns(uint32_t nsid) "nsid 0x%"PRIx32""
--pci_nvme_format(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
--pci_nvme_format_ns(uint16_t cid, uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "cid %"PRIu16" nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
--pci_nvme_format_cb(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
-+pci_nvme_format_set(uint32_t nsid, uint8_t lbaf, uint8_t mset, uint8_t pi, uint8_t pil) "nsid %"PRIu32" lbaf %"PRIu8" mset %"PRIu8" pi %"PRIu8" pil %"PRIu8""
- pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+-        if (misc->is_piix4 && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
++        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+             aml_append(method,
+                 aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
 -- 
-2.32.0
+2.30.2
 
 
