@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F9E3AAFE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:37:47 +0200 (CEST)
-Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9E93AAFE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:36:59 +0200 (CEST)
+Received: from localhost ([::1]:47248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoT4-0005Ed-4u
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
+	id 1ltoSI-000391-L0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:36:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoND-0002g0-Br
+ id 1ltoND-0002g6-Sg
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:44 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41658)
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNB-00063X-KI
+ id 1ltoNC-000645-8j
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:43 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id ho18so8719984ejc.8
+Received: by mail-ej1-x634.google.com with SMTP id gb32so550044ejc.2
  for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=f14dpNn0/J+5dS2KxNQSZZBoi/TEgJbxNaHvHTAG8hM=;
- b=iRxUQ5U1f9NzMLxIfLn8j4AwpPzk3U0oTHl1DniHkbf+eEWE+KeIP2CL1gdcZVtD/U
- zwYZtDHRE7NtTNjTx9/45K5zXPIAAEPxY17CAUuA/aYwDRF1iA8EWozH+ZmvBDkJjqW0
- yOvoepgz6JCDWy5TFGpqGx0QgPYNOlCEA34NZaN7oZ7yqWkTlCD/3QGRShTbPpvlQiWd
- awjqi9Sz6cFsiOOed3OFOmMlWm5sXmW3fOtqO8TdJhOFPhMQL7dYdwyoVMjk6Gx8vJKd
- UXg6duk8Ak9Bn7BDSFXQr4vPwRQ+uYYQ7G3qS4Xo0Jn6p81ZnehmI97ik/ViSJuLBt4L
- HF1Q==
+ bh=IKk9+G0JEQnt6nXX/qpy3huhzLZsQaa35Rc3qQcIYb0=;
+ b=mfrHPX/zQ1fB8sTEhv3f5bKq0jV1M4temQXv6WSi7Zdr5fe6pJAVoB5di/lwYBS4Nf
+ sBfqFNejRTs3npUxTPlpnFL6gOHFP4Be5f5be7JrHBtXPvZjR+K5kwD04d2y7p79KFxA
+ /9Zosr3/YZicm5npk78P5tedqEqU0IvBs8VD0AquvaLYx+KjRSDciwZGkzBK02cNyQPL
+ IiERUCkmpd0PNjiNnyAnbDXGkccsR0bjJZ6virvdjbux+D8UlqzGcl8teNiN0RJb+c6a
+ peee4FoLXTVAo5M69fpDbSARMGRYI/CN4/FNDL6hvxBWIzGK9k0Ig9EcUoYhz2ma1SDk
+ EXWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=f14dpNn0/J+5dS2KxNQSZZBoi/TEgJbxNaHvHTAG8hM=;
- b=Ub+XjU0lS2K2Cn1f/1qt7UK5O4HHZDoZk14BtrC4a34Be+51YZ0mBTJsFzFub/YHvn
- klcm1V8K+3AYlV4sC/lW+I+lj7/m/okQ32OsE9xXU1koBFrWfHnrtBLRPTsuI8Fp7STB
- UavgSLJQflX4dwMq5PnnB47y3ugxlvVY/rD09yaEwNO8uNfWiQoOto/W73s/V5Nd9QEn
- YTUDJnWeOZPIlDKN/b6uEwJJ6HCD401Lh4etM6tW/3Lmx+A5/QKq8SttS6WhdmIpgNEn
- +qwU0uVAniWyjbbDuFnJ9Nj2PWI+5n1DGP/9YQeJ9xSKPSOlEiDrLE8+SDcuEmS815uT
- tzUQ==
-X-Gm-Message-State: AOAM530SPtNtsb6ch0q8rHYKI1cbYtZ77y9oSbwgaAO5k8+BYUJe431V
- djQMMqi2hMIWJ596Us6Od1eMYJn/ECc=
-X-Google-Smtp-Source: ABdhPJziQgDifU19btvAhZmE010mxD4axOyVJlnkk8+q1iP5YCsOwDcddka14xIIKxIglzDr8DXjnw==
-X-Received: by 2002:a17:906:110b:: with SMTP id
- h11mr2101942eja.356.1623922300182; 
+ bh=IKk9+G0JEQnt6nXX/qpy3huhzLZsQaa35Rc3qQcIYb0=;
+ b=CxYXoYkFTrpjuy8BNXQavX6QCbUX+qML4AaRPoRI9ddRLcAiIJJ/H8fM5c3LKCXfxd
+ bBwBXrxvaq5vJ39akM3K2U9tlOrfIXtiTWIA3bNzLxwWU8jOMl48VbHTa4e5ul6m5Z4c
+ ymVhC1wJhRk59LTYy6gifXPUNEfEyxhB6QGUJpaapEGRUUL8SUGs+86v95XK+1OAyZk/
+ lkNJqSoojUVP2ZF9Yv0XPs1w++HdDkOmGRB+0eC+hMxq0q5woS4rsGpxZTx3cPX3S5NP
+ 4/OHgcNh+mAHQs9ccjM7/yTyYGEuhvVcLpXGO6Z+3kD25vfJvDpcstCpGEOiQ97E9FTf
+ jCKA==
+X-Gm-Message-State: AOAM530+l2rcJZpNvnw9bN8ca9XceI9+8bxHGXnKTS9/3pLD0cU84WZ/
+ pXwzS3ETifpGQggoVQrCZ4uytnwJAYo=
+X-Google-Smtp-Source: ABdhPJzvaKV494t5IgoTlxyFui5va+vY1r+yiOIkDyurobHForR0K8fJ5eHunRbACVBhQeusPiUUGg==
+X-Received: by 2002:a17:907:1c13:: with SMTP id
+ nc19mr4330808ejc.168.1623922300844; 
  Thu, 17 Jun 2021 02:31:40 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.39
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:39 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/45] esp: only set ESP_RSEQ at the start of the select
- sequence
-Date: Thu, 17 Jun 2021 11:30:56 +0200
-Message-Id: <20210617093134.900014-8-pbonzini@redhat.com>
+Subject: [PULL 08/45] esp: allow non-DMA callback in esp_transfer_data()
+ initial transfer
+Date: Thu, 17 Jun 2021 11:30:57 +0200
+Message-Id: <20210617093134.900014-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,66 +91,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-When processing a command to select a target and send a CDB, the ESP device
-maintains a sequence step register so that if an error occurs the host can
-determine which part of the selection/CDB submission sequence failed.
+The current implementation only resumes DMA transfers when incoming data is
+received from the target device, but this is also required for non-DMA transfers
+with the next set of non-DMA changes.
 
-The old Linux 2.6 driver is really pedantic here: it checks the sequence step
-register even if a command succeeds and complains loudly on the console if the
-sequence step register doesn't match the expected bus phase and interrupt flags.
-
-This reason this mismatch occurs is because the ESP emulation currently doesn't
-update the bus phase until the next TI (Transfer Information) command and so the
-cleared sequence step register is considered invalid for the stale bus phase.
-
-Normally this isn't an issue as the host only checks the sequence step register
-if an error occurs but the old Linux 2.6 driver does this in several places
-causing a large stream of "esp0: STEP_ASEL for tgt 0" messages to appear on the
-console during the boot process.
-
-Fix this by not clearing the sequence step register when reading the interrupt
-register and clearing the DMA status, so the guest sees a valid sequence step
-and bus phase combination at the end of the command phase. No other change is
-required since the sequence step register is correctly updated throughout the
-selection/CDB submission sequence once one of the select commands is issued.
+Rather than duplicate the DMA/non-DMA dispatch logic in the initial transfer
+section, update the code so that the initial transfer section can just
+fallthrough to the main DMA/non-DMA dispatch logic.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 1b9e48a5bd ("esp: implement non-DMA transfers in PDMA mode")
-Message-Id: <20210518212511.21688-3-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210519100803.10293-2-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/esp.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/scsi/esp.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 000e45a624..18d4d56392 100644
+index 18d4d56392..50757e9264 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -481,7 +481,6 @@ static void esp_dma_done(ESPState *s)
- {
-     s->rregs[ESP_RSTAT] |= STAT_TC;
-     s->rregs[ESP_RINTR] |= INTR_BS;
--    s->rregs[ESP_RSEQ] = 0;
-     s->rregs[ESP_RFLAGS] = 0;
-     esp_set_tc(s, 0);
-     esp_raise_irq(s);
-@@ -917,7 +916,15 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
-         val = s->rregs[ESP_RINTR];
-         s->rregs[ESP_RINTR] = 0;
-         s->rregs[ESP_RSTAT] &= ~STAT_TC;
--        s->rregs[ESP_RSEQ] = SEQ_0;
-+        /*
-+         * According to the datasheet ESP_RSEQ should be cleared, but as the
-+         * emulation currently defers information transfers to the next TI
-+         * command leave it for now so that pedantic guests such as the old
-+         * Linux 2.6 driver see the correct flags before the next SCSI phase
-+         * transition.
-+         *
-+         * s->rregs[ESP_RSEQ] = SEQ_0;
-+         */
-         esp_lower_irq(s);
-         break;
-     case ESP_TCHI:
+@@ -803,16 +803,6 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+         s->rregs[ESP_RSTAT] |= STAT_TC;
+         s->rregs[ESP_RINTR] |= INTR_BS;
+         esp_raise_irq(s);
+-
+-        /*
+-         * If data is ready to transfer and the TI command has already
+-         * been executed, start DMA immediately. Otherwise DMA will start
+-         * when host sends the TI command
+-         */
+-        if (s->ti_size && (s->rregs[ESP_CMD] == (CMD_TI | CMD_DMA))) {
+-            esp_do_dma(s);
+-        }
+-        return;
+     }
+ 
+     if (s->ti_cmd == 0) {
+@@ -826,7 +816,7 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+         return;
+     }
+ 
+-    if (s->ti_cmd & CMD_DMA) {
++    if (s->ti_cmd == (CMD_TI | CMD_DMA)) {
+         if (dmalen) {
+             esp_do_dma(s);
+         } else if (s->ti_size <= 0) {
+@@ -837,7 +827,7 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+             esp_dma_done(s);
+             esp_lower_drq(s);
+         }
+-    } else {
++    } else if (s->ti_cmd == CMD_TI) {
+         esp_do_nodma(s);
+     }
+ }
 -- 
 2.31.1
 
