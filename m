@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7A53AB059
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:52:55 +0200 (CEST)
-Received: from localhost ([::1]:45444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96113AB069
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:55:20 +0200 (CEST)
+Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltohi-0006On-TB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55246)
+	id 1ltok3-0002df-NS
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:55:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNV-0002x7-DY
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:01 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:46747)
+ id 1ltoNW-0002xy-0i
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:02 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:33464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNS-0006H7-QI
+ id 1ltoNS-0006Hg-Rr
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:01 -0400
-Received: by mail-ed1-x534.google.com with SMTP id s15so3015854edt.13
+Received: by mail-ed1-x52c.google.com with SMTP id d7so3137018edx.0
  for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p85ZwP5+cUhD9A/9yct5lXRRYxAcgJOgoRto1Cj2xZA=;
- b=A1DTawweAGq6t/PFv/dFx3APT0MuoWPBaROZTAF+k9C//g/6ntqC+fMk816A7UUaVb
- DqR2i4Qh3ZGlBnxPujHA6b13KxkDY9lxV6jPZgOlNUt2s9uH4pkrEe0Ooi3k08NHT2Zl
- I+kdd2KkCeFkU1seuILee6wrvbt5AoEQDf1XFAwjPJdHlPZbJpQFpJt7n2KJJbA2sAfq
- ag+b6aoaCDy5/ugCja97AkPeMQ0wYWYgF2BLoiaaWJfMjOzCTRA36iuMErBQysoz440H
- g3aYwRV8B0JttNTmZ08kROdVPLN3YCVXwf/5qd7BkKPNTZJD6DcHyj8onMNvl8FR3F+z
- 9/Qw==
+ bh=Xr8JhkOLb64+1jwZzCOyibuOvNn/q3bYsD1RfjM0chQ=;
+ b=ue1hY4y+EDL3w6JhNV13IGzjilZW1cqp5lXOL6RNQfpUPgh6FDLYPto5ol0BIXzNvh
+ EfTTpR858+/TnG6fc8klQywmQIzLNoV0NETI3gok2ZMDEbL/OeapQ6n44UFi+xPJAe3W
+ 4ZmB/H/XNZnKys8t3N6Vxe4YSETsjdTOY570kPJBQceYpM/tbfmdsfUEnCHNp2MgdbyY
+ 3Ts5dxmLhRduVQJKzhsn08sX4Ee9LVinIP27qb8Q64uQ6xQUbGZJtJQYweHkLB6cL0Ob
+ PDycMAtSaBwvoYG6OL5NxAo+vzy2FXTFqIMs0CI/m8B0henhHKFNiLsbGgH1ypMIbtST
+ lDbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p85ZwP5+cUhD9A/9yct5lXRRYxAcgJOgoRto1Cj2xZA=;
- b=DgZ/hiA5o66y82Kv2a9940z0n5B4umqaplDYov62/qDPrqw5BUhRUsYcuJOHWtw4Sh
- e0u7st9JX7Y92Gnr65kCbY84GE+UKRq0VZ5x4xC+6BixNn4QUxjgrrDNFui6dalcsSX5
- 6+15FlZxXg+jXSpMrbD3EV4hiEIFeFxJhEb9cZEqHkoNhfJTK8rbCD/IkpStWQsOBqua
- dMhHTePI+hO0xQdeAy/GOSOTHfLNvN2wRpZcXKqKut8ZqZWp/ZDxobKcFaxUnsNxkxO0
- sq8cT2I2zBFd4XnQOt4l7s2Zu8j8qxr3z4sYlnhPlCmHggsmSFaTdMbkhWc7WtlXddXi
- USkg==
-X-Gm-Message-State: AOAM532p8F9K+fWeVKAjRqSecugR0ZUrNs5k41YgVrpKXaH/V9YLRtL0
- PYB21ZU+Jmlv9DZMxvd5cniVwVFT1ds=
-X-Google-Smtp-Source: ABdhPJxbEqVglmN9Az45fYz+BGrG2FWEIt0S9KHcCq6hS/A1XSmAhC8KQJ/o2awwJqJxsQ6vlyZPOg==
-X-Received: by 2002:aa7:db49:: with SMTP id n9mr5131157edt.361.1623922316303; 
- Thu, 17 Jun 2021 02:31:56 -0700 (PDT)
+ bh=Xr8JhkOLb64+1jwZzCOyibuOvNn/q3bYsD1RfjM0chQ=;
+ b=qmDXCHJBXkNTdxmvap645EXwzkL0ff1nyK9Q/HIwBbRsOTC2qlJXlaKG13uT1wztoZ
+ 57oMFMR201R4tIq6galsuKriH2WyKXCPXjK6zyrQHE/yHojv4F1XQglfGiZ5AuwAj99G
+ VDkhMcIsH1hJf1MX5oJb93JUvgqAbXsWWikLawQ7KCzhLcraVPuyjpsEgqxjcpwW2Wqb
+ 4k0UOJ8ZV1feV3uImJ0wUEVufwE+dJHPrDhIM4EOqL/GgZyA/Kv2xBDg7NMo8inUg1z5
+ TJ5Sp93LRguYpAmn5pwpIaTU4g3ay3pgbVMin7Fea6f3cmjXCgTy8xOFs/aSBeuv/8B4
+ Z3qQ==
+X-Gm-Message-State: AOAM5328QrpcvDONYamUdZCvWiJEFumCwR7CE1zx8a8tStxFwLXURyW0
+ 4Fxxh5A7L8b4wXNF72n6KoQJk0LbCi8=
+X-Google-Smtp-Source: ABdhPJyuxW3XdfTxpmX0aUTK2P4/UiGHTiQivd1ntNHUPf4PaLjq2GL2xu+Eib8N+43JSFA5fDL84Q==
+X-Received: by 2002:a05:6402:4248:: with SMTP id
+ g8mr3896682edb.368.1623922317058; 
+ Thu, 17 Jun 2021 02:31:57 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.55
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:55 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/45] qmp: Clarify memory backend properties returned via
- query-memdev
-Date: Thu, 17 Jun 2021 11:31:17 +0200
-Message-Id: <20210617093134.900014-29-pbonzini@redhat.com>
+Subject: [PULL 29/45] qmp: Include "share" property of memory backends
+Date: Thu, 17 Jun 2021 11:31:18 +0200
+Message-Id: <20210617093134.900014-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,44 +94,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We return information on the currently configured memory backends and
-don't configure them, so decribe what the currently set properties
-express.
+Let's include the property, which can be helpful when debugging,
+for example, to spot misuse of MAP_PRIVATE which can result in some ugly
+corner cases (e.g., double-memory consumption on shmem).
+
+Use the same description we also use for describing the property.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Suggested-by: Markus Armbruster <armbru@redhat.com>
 Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
 Cc: Eric Blake <eblake@redhat.com>
 Cc: Markus Armbruster <armbru@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210510114328.21835-12-david@redhat.com>
+Message-Id: <20210510114328.21835-13-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/machine.json | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/core/machine-qmp-cmds.c | 1 +
+ qapi/machine.json          | 3 +++
+ 2 files changed, 4 insertions(+)
 
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index a36c96608f..a36ceaf4f3 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -172,6 +172,7 @@ static int query_memdev(Object *obj, void *opaque)
+         m->merge = object_property_get_bool(obj, "merge", &error_abort);
+         m->dump = object_property_get_bool(obj, "dump", &error_abort);
+         m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
++        m->share = object_property_get_bool(obj, "share", &error_abort);
+         m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
+                                              &error_abort);
+         host_nodes = object_property_get_qobject(obj,
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 58a9c86b36..eb14364819 100644
+index eb14364819..1395742a4a 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -790,11 +790,11 @@
+@@ -796,6 +796,8 @@
  #
- # @size: memory backend size
+ # @prealloc: whether memory was preallocated
  #
--# @merge: enables or disables memory merge support
-+# @merge: whether memory merge support is enabled
- #
--# @dump: includes memory backend's memory in a core dump or not
-+# @dump: whether memory backend's memory is included in a core dump
- #
--# @prealloc: enables or disables memory preallocation
-+# @prealloc: whether memory was preallocated
- #
++# @share: whether memory is private to QEMU or shared (since 6.1)
++#
  # @host-nodes: host nodes for its memory policy
  #
+ # @policy: memory policy of memory backend
+@@ -809,6 +811,7 @@
+     'merge':      'bool',
+     'dump':       'bool',
+     'prealloc':   'bool',
++    'share':      'bool',
+     'host-nodes': ['uint16'],
+     'policy':     'HostMemPolicy' }}
+ 
 -- 
 2.31.1
 
