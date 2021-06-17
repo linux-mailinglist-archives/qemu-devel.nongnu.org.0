@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529E03AAFE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:36:36 +0200 (CEST)
-Received: from localhost ([::1]:45642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FB03AAFE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:38:36 +0200 (CEST)
+Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoRv-000248-CP
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54820)
+	id 1ltoTr-0007uV-ID
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoN9-0002XZ-Lh
+ id 1ltoN9-0002Yb-U4
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:39 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:33461)
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoN7-00060K-Do
+ id 1ltoN7-00060O-Mo
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:39 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id d7so3135554edx.0
+Received: by mail-ed1-x532.google.com with SMTP id d7so3135589edx.0
  for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NcjDYoL3W80mCDRR6VL1iJbKZtYxw1lZNebyHgcUn2M=;
- b=SMUvQFEPtdaeh8AaKPxMjusM9vOpBQOzo6/j4Y4+OyJUMeTWvCCm4zFNvb2B8JRtxQ
- LBxk0JlwiNFVcQmIB/xLGOaLaGO17jIMKjXfMsqZfgcDOXJQDNDzSXPsNl3H58wLqYsV
- FafVLZ21WFfdPgQes5PWeesYbnvkGev1nFt1SIWVPYOFtbYCNuKuK+QRbMQo5KKPt3vN
- iUbp6yLITia3rf85V3j/M2m5kZTYfFqWBcPVBzoiyxeMmITsOMC8vUFEYN4CAbrizwib
- ysApy/a7xvL3q865vBLJUW40PZbzxyj5AoCWxRZ4EanGItA7SlIW8OebkTX2bzpLThaN
- Vwkw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YO7OJP33y0qDOR62cV7LoVmTb5HsjkNb5ft4fsaXMPw=;
+ b=F0UOVti7/OyLA900wkR+I1Op/504hfGDIy8qDFTiso/oEQLCybThkCQ7wBRGnado7m
+ BstKvo/ATmuygauuLKit6Rt8mym+7Se8U2aOQQvnwbYaTZ4YcaimKJz6ypKSn/T5ey4L
+ VMIWZKK9cOxdpM8IpmIaloeEdYEh9kediEGtqOfMhsS6Ji8FSUr0ukJqh2DLHlW0JgVW
+ peCBirZJOU49A/E60giANvxBMJL+BNlthK1f6BZWjf+pQfox6faS0GGsJS+XG5noYBAf
+ zBgv/0tOQSHuTfJ2o9Nli10loemfOflBvCFzVbZKSKZgz24BAWCWtPA/CDWf+1mkLyR1
+ LZhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=NcjDYoL3W80mCDRR6VL1iJbKZtYxw1lZNebyHgcUn2M=;
- b=KU2FifrEpP5ywh4EKG7+yy8wvuMfdz27ak3ZVO6q6cp6anzlW4vBjVQBSIP7UKz71B
- 0Z5rrLXRr/mBWqDl49d8hIx8vsOWzicqNWL8DlNPCScXEsUp8vCBPWATZVEdWGF5M/Nv
- eclTRCaHhTfe84ucVga4ckdWPZ7ZfoUG/JJFYx/ctOLzUS0VA5K+ra08QTaG3RutJucT
- kv2acBUfe9vg4cf+UzQc0/5oJ9QAqpcPUOsLm5/82d7AK6lU25TMbdEEkaQkPzDxpEQe
- j/uyN1YE2mB3PzgKG+zb1uvVYsVZzUdDhf+OIbvugD0NJq9/p+FUfSLtuRKet5z0gmB+
- mfaA==
-X-Gm-Message-State: AOAM532oZVrl3HXN7+L2ezvVDYs5meAXZsw645kdkq3C34c3Y7pSUMY3
- RGEW+XiZWxnmdOByarWo496RvTtbuX8=
-X-Google-Smtp-Source: ABdhPJzJdaScNZiMlHDFqz8FmqJ5iK//cSERwd/LUA7hoUqUPkumdVTbyUKsIwegQyiFNj3DxF2lwQ==
-X-Received: by 2002:a05:6402:c03:: with SMTP id
- co3mr4348777edb.21.1623922295263; 
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=YO7OJP33y0qDOR62cV7LoVmTb5HsjkNb5ft4fsaXMPw=;
+ b=dcynj3WWum/dPy00L+qoqnwTAD87nUXafWva/Ts+ptEmQ01w0zJ+c9kmGcTJAol8T4
+ 5SgOd8wzsUCZltw9YtvFT00f1gZ4jvsy4AF3TUqLV3Yeg2ejDol9GrEPJ9qyLeNNW5iy
+ IEsiDShqHKaiJ3TQwhnIPUQ1UccRkYw7scS+uVRlOFkJJYfS6/CVy+M7LJr96LoTcgQb
+ eNuhcHdh9Bu9IxAE33ON2NYY5rbWSG8KhQIQSs4/6RHgy4JgV4UROKg5zvhbbxxluPrq
+ k1XlbByipp5V4x0CJccjkVtayRsWljKxMS7/5HO4eqf/LgQOlB0ZOrxxRBnTOpmec39w
+ 6lrA==
+X-Gm-Message-State: AOAM5326skrZg+hXM7qIf8PvHxwNbl6IIbI3XTWDczELEwAoe4+iBUjl
+ xTEpNbuA73ZFu6m36nIpYvvfAmIBdGs=
+X-Google-Smtp-Source: ABdhPJxykuXtOa5EHH++moTjMroPgkHu+jGNgnpmaWaK1wgPwgeuOaq8LfuccHS39b+C4rvZ89l5Og==
+X-Received: by 2002:aa7:db49:: with SMTP id n9mr5129529edt.361.1623922295955; 
  Thu, 17 Jun 2021 02:31:35 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.34
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:34 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:35 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/45] Memory, i386, compilation, bugfix changes for 2021-06-17
-Date: Thu, 17 Jun 2021 11:30:49 +0200
-Message-Id: <20210617093134.900014-1-pbonzini@redhat.com>
+Subject: [PULL 01/45] vnc: avoid deprecation warnings for SASL on OS X
+Date: Thu, 17 Jun 2021 11:30:50 +0200
+Message-Id: <20210617093134.900014-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
+References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,141 +87,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
+Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
+all files that use SASL API need to disable -Wdeprecated-declarations.
+Remove the only use that is outside vnc-auth-sasl.c and add the
+relevant #pragma GCC diagnostic there.
 
-  Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20210604120915.286195-1-pbonzini@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ ui/vnc-auth-sasl.c | 20 ++++++++++++++++++++
+ ui/vnc-auth-sasl.h |  1 +
+ ui/vnc.c           | 10 ++--------
+ 3 files changed, 23 insertions(+), 8 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to f51f8e3591393f7f274e1435ac22188e2dafdfe8:
-
-  configure: Remove probe for _Static_assert (2021-06-16 15:03:26 +0200)
-
-----------------------------------------------------------------
-* avoid deprecation warnings for SASL on macOS 10.11 or newer
-* fix -readconfig when config blocks have an id (like [chardev "qmp"])
-* Error* initialization fixes
-* Improvements to ESP emulation (Mark)
-* Allow creating noreserve memory backends (David)
-* Improvements to query-memdev (David)
-* Bump compiler to C11 (Richard)
-* First round of SVM fixes from GSoC project (Lara)
-
-----------------------------------------------------------------
-David Hildenbrand (18):
-      softmmu/physmem: Mark shared anonymous memory RAM_SHARED
-      softmmu/physmem: Fix ram_block_discard_range() to handle shared anonymous memory
-      softmmu/physmem: Fix qemu_ram_remap() to handle shared anonymous memory
-      util/mmap-alloc: Factor out calculation of the pagesize for the guard page
-      util/mmap-alloc: Factor out reserving of a memory region to mmap_reserve()
-      util/mmap-alloc: Factor out activating of memory to mmap_activate()
-      softmmu/memory: Pass ram_flags to qemu_ram_alloc_from_fd()
-      softmmu/memory: Pass ram_flags to memory_region_init_ram_shared_nomigrate()
-      softmmu/memory: Pass ram_flags to qemu_ram_alloc() and qemu_ram_alloc_internal()
-      util/mmap-alloc: Pass flags instead of separate bools to qemu_ram_mmap()
-      memory: Introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()
-      util/mmap-alloc: Support RAM_NORESERVE via MAP_NORESERVE under Linux
-      hostmem: Wire up RAM_NORESERVE via "reserve" property
-      qmp: Clarify memory backend properties returned via query-memdev
-      qmp: Include "share" property of memory backends
-      hmp: Print "share" property of memory backends with "info memdev"
-      qmp: Include "reserve" property of memory backends
-      hmp: Print "reserve" property of memory backends with "info memdev"
-
-David Michael (1):
-      configure: map x32 to cpu_family x86_64 for meson
-
-Lara Lazier (4):
-      target/i386: Refactored intercept checks into cpu_svm_has_intercept
-      target/i386: Added consistency checks for VMRUN intercept and ASID
-      target/i386: Added consistency checks for CR0
-      target/i386: Added Intercept CR0 writes check
-
-Mark Cave-Ayland (8):
-      esp: only assert INTR_DC interrupt flag if selection fails
-      esp: only set ESP_RSEQ at the start of the select sequence
-      esp: allow non-DMA callback in esp_transfer_data() initial transfer
-      esp: handle non-DMA transfers from the target one byte at a time
-      esp: ensure PDMA write transfers are flushed from the FIFO to the target immediately
-      esp: revert 75ef849696 "esp: correctly fill bus id with requested lun"
-      esp: correctly accumulate extended messages for PDMA
-      esp: fix migration version check in esp_is_version_5()
-
-Maxim Levitsky (1):
-      block/scsi: correctly emulate the VPD block limits page
-
-Paolo Bonzini (3):
-      vnc: avoid deprecation warnings for SASL on OS X
-      qemu-config: use qemu_opts_from_qdict
-      esp: store lun coming from the MESSAGE OUT phase
-
-Peng Liang (1):
-      runstate: Initialize Error * to NULL
-
-Richard Henderson (8):
-      configure: Use -std=gnu11
-      softfloat: Use _Generic instead of QEMU_GENERIC
-      util: Use real functions for thread-posix QemuRecMutex
-      util: Pass file+line to qemu_rec_mutex_unlock_impl
-      util: Use unique type for QemuRecMutex in thread-posix.h
-      include/qemu/lockable: Use _Generic instead of QEMU_GENERIC
-      qemu/compiler: Remove QEMU_GENERIC
-      configure: Remove probe for _Static_assert
-
-Zhenzhong Duan (1):
-      vl: Fix an assert failure in error path
-
- backends/hostmem-file.c                            |  11 +-
- backends/hostmem-memfd.c                           |   8 +-
- backends/hostmem-ram.c                             |   7 +-
- backends/hostmem.c                                 |  36 ++++
- configure                                          |  24 +--
- fpu/softfloat.c                                    |  16 +-
- hw/core/machine-hmp-cmds.c                         |   6 +
- hw/core/machine-qmp-cmds.c                         |   8 +
- hw/m68k/next-cube.c                                |   4 +-
- hw/misc/ivshmem.c                                  |   5 +-
- hw/scsi/esp.c                                      | 199 ++++++++++++-------
- hw/scsi/scsi-generic.c                             |   9 +-
- hw/scsi/trace-events                               |   3 +-
- include/exec/cpu-common.h                          |   1 +
- include/exec/memory.h                              |  42 ++--
- include/exec/ram_addr.h                            |   9 +-
- include/hw/scsi/esp.h                              |   1 +
- include/qemu/compiler.h                            |  51 -----
- include/qemu/lockable.h                            |  90 ++++-----
- include/qemu/mmap-alloc.h                          |  16 +-
- include/qemu/osdep.h                               |  34 +++-
- include/qemu/thread-posix.h                        |  14 +-
- include/qemu/thread-win32.h                        |   6 -
- include/qemu/thread.h                              |  15 +-
- include/sysemu/hostmem.h                           |   2 +-
- meson.build                                        |   2 +-
- migration/ram.c                                    |   3 +-
- qapi/machine.json                                  |  16 +-
- qapi/qom.json                                      |  10 +
- .../coccinelle/memory-region-housekeeping.cocci    |   8 +-
- softmmu/memory.c                                   |  27 ++-
- softmmu/physmem.c                                  |  68 ++++---
- softmmu/runstate.c                                 |   2 +-
- softmmu/vl.c                                       |   2 +-
- target/i386/cpu.h                                  |   6 +
- target/i386/svm.h                                  |   2 +
- target/i386/tcg/sysemu/misc_helper.c               |   9 +
- target/i386/tcg/sysemu/svm_helper.c                | 155 ++++++++-------
- ui/vnc-auth-sasl.c                                 |  20 ++
- ui/vnc-auth-sasl.h                                 |   1 +
- ui/vnc.c                                           |  10 +-
- util/mmap-alloc.c                                  | 212 +++++++++++++++------
- util/oslib-posix.c                                 |   7 +-
- util/oslib-win32.c                                 |  13 +-
- util/qemu-config.c                                 |  17 +-
- util/qemu-thread-posix.c                           |  24 ++-
- util/qemu-thread-win32.c                           |   2 +-
- 47 files changed, 757 insertions(+), 476 deletions(-)
+diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
+index df7dc08e9f..47fdae5b21 100644
+--- a/ui/vnc-auth-sasl.c
++++ b/ui/vnc-auth-sasl.c
+@@ -28,10 +28,30 @@
+ #include "vnc.h"
+ #include "trace.h"
+ 
++/*
++ * Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
++ * files that use SASL API need to disable -Wdeprecated-declarations.
++ */
++#ifdef CONFIG_DARWIN
++#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
++#endif
++
+ /* Max amount of data we send/recv for SASL steps to prevent DOS */
+ #define SASL_DATA_MAX_LEN (1024 * 1024)
+ 
+ 
++bool vnc_sasl_server_init(Error **errp)
++{
++    int saslErr = sasl_server_init(NULL, "qemu");
++
++    if (saslErr != SASL_OK) {
++        error_setg(errp, "Failed to initialize SASL auth: %s",
++                   sasl_errstring(saslErr, NULL, NULL));
++        return false;
++    }
++    return true;
++}
++
+ void vnc_sasl_client_cleanup(VncState *vs)
+ {
+     if (vs->sasl.conn) {
+diff --git a/ui/vnc-auth-sasl.h b/ui/vnc-auth-sasl.h
+index 1bfb86c6f5..367b8672cc 100644
+--- a/ui/vnc-auth-sasl.h
++++ b/ui/vnc-auth-sasl.h
+@@ -63,6 +63,7 @@ struct VncDisplaySASL {
+     char *authzid;
+ };
+ 
++bool vnc_sasl_server_init(Error **errp);
+ void vnc_sasl_client_cleanup(VncState *vs);
+ 
+ size_t vnc_client_read_sasl(VncState *vs);
+diff --git a/ui/vnc.c b/ui/vnc.c
+index b3d4d7b9a5..f0a1550d58 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -4154,14 +4154,8 @@ void vnc_display_open(const char *id, Error **errp)
+     trace_vnc_auth_init(vd, 1, vd->ws_auth, vd->ws_subauth);
+ 
+ #ifdef CONFIG_VNC_SASL
+-    if (sasl) {
+-        int saslErr = sasl_server_init(NULL, "qemu");
+-
+-        if (saslErr != SASL_OK) {
+-            error_setg(errp, "Failed to initialize SASL auth: %s",
+-                       sasl_errstring(saslErr, NULL, NULL));
+-            goto fail;
+-        }
++    if (sasl && !vnc_sasl_server_init(errp)) {
++        goto fail;
+     }
+ #endif
+     vd->lock_key_sync = lock_key_sync;
 -- 
 2.31.1
+
 
 
