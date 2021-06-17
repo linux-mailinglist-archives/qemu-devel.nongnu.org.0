@@ -2,138 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6BD3ABBEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 20:36:46 +0200 (CEST)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAEC3ABC27
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 20:50:03 +0200 (CEST)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltwsf-0001nn-Iw
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 14:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48406)
+	id 1ltx5V-00051N-Os
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 14:50:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ltwrS-00011Q-Np
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:35:30 -0400
-Received: from mail-eopbgr40116.outbound.protection.outlook.com
- ([40.107.4.116]:11171 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <k.jensen@samsung.com>)
+ id 1ltx4K-0004CK-RI
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:48:48 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:51333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ltwrP-00081P-V8
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:35:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZjX0O8QtaSknD57s9XdreTOoW5aN21/6iU8dkvjlKYQuPkTeLmCXgETDCvt+UboodYCGJxg1dJXf4GqFs8L8MwoO+kDctckuKPqYzGPynarMj6+PXBHnYYPC3eJ/NoiPxQGkoYujCuxK71/5MqY8RqvlF10i+g14N1pjqXw3pE58nHc4oOcjDRqqc/aeHllWiXAgeLOUrSSxcdrOhEMiaF6+nahr5DaWn1+BCxb66WHmymipTKI76twMUzLAgWYqg1usvQPhCFAaEu/Yoj4Cl6QpV+JYwavZaASURxzLWDdGsKD1VlrO/paiRhGjLtNtEa/xuZ+ENALSVxtxbAyeCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4bmfMKTKEK8LFutQmUCChUcrmPp9fF8qFLPQJGoRB4c=;
- b=h7LnhoRjViJvuWBDFd/X8q4UDat9FTrMcahQr//cLlsoetdHqUO8Wpuq97sHNdnkqtvaTyibEIo7T6Xzs+v0gSOKjln/2G3ZbCOJWXsT/8ZZ1UNggbB/07Zv7NHgveRpUFksujN/VcFMiWaSUOc1qulkY6VMeeQSTZZaSvPftC7XyxA5d8sSgNWIBsoq0hQ+h/K1QKSRSQB8ZCLmqcUvMOfkOsW0CHzCFTAZWMnkebYw+RdRq6Q+/+xl/Ck2qGPZaxhJisiqKDtA62ZOEQQZ58Sl5QDeigoQ/6/r7SCbXxIzmYB+NEWcXbX4jPsUS3FG8luRSJT5vtxfhsWnlLEgBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4bmfMKTKEK8LFutQmUCChUcrmPp9fF8qFLPQJGoRB4c=;
- b=Cd0vORVE6dB28C/DA6xiZ7TARw5Ipcj8YWQAYEPAaDjDrU6C/vBuv1R5AFhGm+l8EZLFYm1wo/mNKnQbQIplWdJyziwBM+lnm8nML5TxxUDYbYHqga5/jwAXXGZpPuDhx0tXLlVgQUbd8ZtQHZaSVPLahtgssHy1G1uFP8fKF5c=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3029.eurprd08.prod.outlook.com (2603:10a6:209:48::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.22; Thu, 17 Jun
- 2021 18:35:24 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4242.021; Thu, 17 Jun 2021
- 18:35:24 +0000
-Subject: Re: [PULL 00/34] NBD patches for 2021-06-15
-To: Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-References: <20210615204756.281505-1-eblake@redhat.com>
- <CAFEAcA8an=yP87_nRCz-scDoJ7ut3zi8hKCfiai1_N8ETSjzkg@mail.gmail.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <61d673cf-889e-9163-81ea-27e55a6af73d@virtuozzo.com>
-Date: Thu, 17 Jun 2021 21:35:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <CAFEAcA8an=yP87_nRCz-scDoJ7ut3zi8hKCfiai1_N8ETSjzkg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.221]
-X-ClientProxiedBy: AM8P251CA0026.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:21b::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <k.jensen@samsung.com>)
+ id 1ltx4H-0007p3-LT
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:48:48 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210617184834euoutp024e9c798b7ab4d1606b007932a4f7c71e~Jcx5LAQ4X3035430354euoutp02K
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 18:48:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20210617184834euoutp024e9c798b7ab4d1606b007932a4f7c71e~Jcx5LAQ4X3035430354euoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1623955714;
+ bh=9z2crXDDPc9g95c6/WYPc1pCU2C1o8fEjAgAn9JEbZM=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=ArIOH/1rDbxKtG9VEsNT9xBjOgwOdpiJiP7iGhLogHFKioAGKAdrACG+pfFIKBi5E
+ sKslU1rdK0dl/zvGSU6ia39M8fFgwKEmcsZchDoh81vZe6raf8zGYEUehmHZcQoIpo
+ olDzXzT/4d5QA2wBgZfUnn+GqwVjFokqHW4LpzYc=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210617184834eucas1p2bd16bd7aa5a00b236b17794333f2b07b~Jcx4vjVdb2953529535eucas1p2B;
+ Thu, 17 Jun 2021 18:48:34 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 25.93.09439.1099BC06; Thu, 17
+ Jun 2021 19:48:34 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210617184833eucas1p26b99c9f46a3bbd12dde470a918ec16e5~Jcx36hp8h2953529535eucas1p2A;
+ Thu, 17 Jun 2021 18:48:33 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210617184833eusmtrp2b9ea19f72ab6947e0005c2ced545abe1~Jcx354EZb1740917409eusmtrp2u;
+ Thu, 17 Jun 2021 18:48:33 +0000 (GMT)
+X-AuditID: cbfec7f5-c1bff700000024df-f0-60cb99014265
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 9B.86.08705.1099BC06; Thu, 17
+ Jun 2021 19:48:33 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210617184833eusmtip2dcdbc5385b7898850ec6457f1320a6ad~Jcx3wVFh_1597515975eusmtip22;
+ Thu, 17 Jun 2021 18:48:33 +0000 (GMT)
+Received: from apples.localdomain (106.210.248.97) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 17 Jun 2021 19:48:32 +0100
+Date: Thu, 17 Jun 2021 20:48:30 +0200
+From: Klaus Jensen <k.jensen@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH] hw/nvme: fix pin-based interrupt behavior (again)
+Message-ID: <YMuY/k0exA4onXCI@apples.localdomain>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.221) by
- AM8P251CA0026.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:21b::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4242.18 via Frontend Transport; Thu, 17 Jun 2021 18:35:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 38e5876a-680c-4dea-46cf-08d931beab6f
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3029:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB30299B57422CF6BEF1080879C10E9@AM6PR08MB3029.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EcWRSnC/1xQLWVivayH8DQDonC8KCYfrkLKAYWKPdWe/FI9AJ8O+Pw4/BGl21nX4AORPfr/m6xBqHVccNeukCt5SYpl3szM6CKhGsnVz66XFx48WVvlYJ29OegRJi155iH7pTyBIlBAoVWwM1AA2+TjW6+RwlflZFKyJFlrSWIso9Yb8kngjseT/jMN6BFIqoQapMP8fgyy7H1p+CmNFena69tja9MFuIVApRNUOpcIYmWCK+1yIsvOqA5Qnh0iTWwGQY0qFiRlYs2aU553UAD6L9Neyp4jW11SHMP+CDnmgu7yhctwlyVXK7WPsLLQVkgtYhg6ff7ksirORCUlgNW5LkFNSGyEzzr3Mpo1cRuVVvhXZk/k6HtoxSlAMxK+g2HrsPPCyU1nO2b+0fVNFqhnPNnX6ha1j/ql5qRb4tH5/H/TOm7fMfUZbdhiM1ZcQvrekhHm8yLwx5Vklrmq3z1szraSwFIxMvPnd2IzukiiSyXAQfWQDBBswW3LDI9PmKMMFE8wTBd1gAYtuH85iu7YDIAc46XlZf6rvGX0vsvfx5OXOAzcSKBSyyFPmhXvmQz2BJCZ7Ds8WQrn/Dpz+foDs+G9vd1TnLbnA7Cbz8ddT67mxRG8hb4iLj5TwkcSfuT/JQWlxsKMvpwpxTv80/Sm+hplAViBmxwUhkAXAS63ajEHD9eUkgZ5T73ZXxDbtCt0pCh+IgHub4cJrittvsEw454DfnIvlFgzEDEdCWO0hHYJSP/eLd7WFznzm7aDjKZW9Cj/lAKAjUjGlNeLtONbERrgtWfuH45w9r7mTs5FHsr+aLPvYSoBpQo+q3TUo7Y+L9BtC+JdEi/wIsFmieg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(376002)(366004)(346002)(39840400004)(2906002)(966005)(5660300002)(16526019)(52116002)(956004)(186003)(31696002)(38350700002)(4326008)(31686004)(26005)(36756003)(83380400001)(8936002)(38100700002)(316002)(66556008)(6486002)(66476007)(8676002)(66946007)(86362001)(16576012)(110136005)(478600001)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0lsbFhyOEVMRlErRG0vVWxld3Z2bmRSd0RWa1FCRHdnV0Jma0doK3ljRUxE?=
- =?utf-8?B?ZDFVQXViNnQxS2JsVjVNWmFVaVhndGUwMTd2K1JZajdmL1NoTTlqc2R4ejFp?=
- =?utf-8?B?em5YaWdEVWozem9lMUJPVDU0aUp4b3djTzA5NjNpQ2FyeW92WWN2WGphOVpu?=
- =?utf-8?B?dGlFUDl1enBNTG1aaXpIZG1uTE4xNzhNRTdFZFAvWnBWN0s0Q0VYN3pNWHRK?=
- =?utf-8?B?RGdlYjhab0NOaitKMVovWFlQT1lWS0d4eXBrdWljdXRjOTExcUJJOTBRS1da?=
- =?utf-8?B?K1Y5bmozOXlXdWYyWXZZMHFYY2lnY3VTZWl1cWp2dW9yVkFMd2h4dktoZUNC?=
- =?utf-8?B?R25MSlJjQm1DRzdGNVhEdHo2OWp6M0lBa01SekhMUlZwdkd5NDNPY0NoQUNV?=
- =?utf-8?B?UU8zZ0s2UlBwVWRHbldQelFiWGM4czB3M292d0JLRnZUdUg1bTUzS2MyVXM2?=
- =?utf-8?B?MHMrMEpYN09TL2pMaGJZVWxmSzFBK2F0bmZQV1pBYXdLMmJaNi9SZ2xERnRR?=
- =?utf-8?B?QUdwemJCWmZFVFdSdFcrQ2xtZ1YwdGNVVTZpRUNtVXB3K1FMcXZDM0pscmlt?=
- =?utf-8?B?MEZEWUNFR0svRE5vTW8vbTk5TXU4aEIzNlJLeHV3TUphcnVkN2FkNU5wdzI3?=
- =?utf-8?B?R3JrNElLK0VocjdTWTU0Lzc3S0JVUVNKK2trTDEwZ1RUc2tuMXdPYUEvcTg1?=
- =?utf-8?B?c0ZiTTBTdmt6ZjA4NW00dmVPZzBFL3VqenYxbWpmbDJsOHNTdDFHVUwvZkFF?=
- =?utf-8?B?ZThtNXA3YzZSaXdDdFhNanVLYW9Pb1lDUFg5WCtXcmlUUzJtT281MWVTcWtW?=
- =?utf-8?B?c2JYbEVidlJLbG83cTk3UEt2UzFzamZpRkpwc3dKQlEzb2g1a1kwTUtrYTR5?=
- =?utf-8?B?SGxSZS9DZzI4VkVWRjVGS3BxRUkwTTBmZUZsbHlRaXl3STJ2a3BhQXE2ZXZp?=
- =?utf-8?B?a1pvby9uNDVWbmlWRXhNa05pVzUzSTFIalFpYkZBbEJQV2FlcVh6MTdFMmJJ?=
- =?utf-8?B?bkdxZWdOVFNHY0d5bkZEOU8rUnFLTFFEaFJuWUs3ejJaWEhhR2RBNmtZYVA2?=
- =?utf-8?B?Y2orM0ltaFlwVXNJSG5zOFhsVGJoMGhJN2FmaDN4Y25icDloZnV1WjJ4Mkp3?=
- =?utf-8?B?YityWGF4MExDekpyTDRYaW9xYVBpWURYOHdDRlgrZzVETE9pMnAxa2h2bExB?=
- =?utf-8?B?cmg4RGtLQWpXNHBXNW9Sem9xd3phQlFFeDQxSWJjVjZnOGFTYTJMUWxaZlVm?=
- =?utf-8?B?RmlPWGZCbGtSbFNoNWtmanJHand5OXZOSVJRcU1FVVdUaFJ5eVZBbTlVNzBE?=
- =?utf-8?B?OFpRMjBDM1FDK1VaNHM0d2ZPUXROQS8vSDVrTzNSL1hBL29lL3lqNkhWZkhI?=
- =?utf-8?B?alNVMUhaSlh1YW5BUnRXVER0NFdlcVkvVGpKTGYxZ2NmWkY2ZjdSK201dXVE?=
- =?utf-8?B?RGNmNlVPSmtGT0hUOS9tMTdWYVV4OWYzQW5KdTdjbGpRays5UUNwWXBpYVRR?=
- =?utf-8?B?a1lCYlRzdXZUQy9IR3ErTXlDUSt1YzFkWHV0TEpDMlVld1JkRTVpWCtuOUgx?=
- =?utf-8?B?V1dKTzQ1M1AyN2YrT21YcG5DTDZsZ3N4YzlNODNqUHFOQk1IeW9XTkp2ZUVj?=
- =?utf-8?B?Y3ZXOTFmTFMyWEpnbTdnYmd4SDJnWnozcEhXMDM3V3BVczhtZHNqa2Y4d2sw?=
- =?utf-8?B?bGVIeTU2Q2I2OUpjT1dIV3c0emtoUGY2ZEhNRDg1Qy9ueVU1aFVzOVpORVpL?=
- =?utf-8?Q?FBgorLHE3IT0jJo0V3F2fVRLr9joXWb7hoT4PLh?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38e5876a-680c-4dea-46cf-08d931beab6f
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 18:35:24.0793 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2z+QUrcOvNWD0iPmwe8h0qIkQGyaF+YB5vMA5GuibJSlYULewV75vCn8JrCnXJiP99XpgN70arqK6lEGDNXrtHjDnxj0I1yZszxz5DdyUQg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3029
-Received-SPF: pass client-ip=40.107.4.116;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.254, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+In-Reply-To: <20210617145019.GB1133213@dhcp-10-100-145-180.wdc.com>
+X-Originating-IP: [106.210.248.97]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmleLIzCtJLcpLzFFi42LZduzneV2mmacTDLY9YLLYf/Abq0XHrfcs
+ FpMOXWO0mPWunc3ieO8OFgdWj3M7zrN7bFrVyeYxf/UqFo8n1zYzBbBEcdmkpOZklqUW6dsl
+ cGXc3LeXqaCbueLH75dMDYxLmLoYOTkkBEwkFsxZA2RzcQgJrGCUuDd9PjtIQkjgC6PEpz2m
+ EInPjBKTp39ihuk4d/8PVMdyRommvwuY4Ko2f5rDCuHsZZR4+m0vG0gLi4CqxIVdu1lAbDYB
+ TYntf/6D2SICyhJ3588Ea2AWmMko8WbOf6DlHBzCAm4SpxYrgpi8AoYSc1YlgpTzCghKnJz5
+ BKyVWcBKovNDEytICbOAtMTyfxwgYU4BZ4kzF2dAHaoksf02yHQQu1bi1JZbYHdKCNzgkJjS
+ 9YgdIuEicW/PPShbWOLV8S1QtozE/53zoRq6GSX6PnxlhnBmMEpMX/adDWSzhIC1RN+ZHIgG
+ R4nVzQ1MEGE+iRtvBSHu5JOYtG06M0SYV6KjTQiiWk1iR9NWxgmMyrOQfDYLyWezED5bwMi8
+ ilE8tbQ4Nz212DgvtVyvODG3uDQvXS85P3cTIzCdnP53/OsOxhWvPuodYmTiYDzEKMHBrCTC
+ q1t8IkGINyWxsiq1KD++qDQntfgQozQHi5I4766ta+KFBNITS1KzU1MLUotgskwcnFINTELn
+ fp178VlxTvCP5xVcqTkPvlcb/232OBq2K+L9tCebt4VOujgxkPUp/+T1ZwX7o6QWXby686H0
+ j0+Ljd7M/dbS4Vua16u+66ib1S8/I2Zrl4uSFwPduVzn3Nn63FX2oPSkHtMDF+PrKqa92LWS
+ 8+rSLX1hzHFFTW0m+o2H2G7rNYpqzhQLepqa8n7dtw7xgltzbn9WDKv+fd//dmdPqfseC4uf
+ s87sO2Wr0eGXtZJjj7Ld5et3XV7HT0syOWxUHCKw4cP8a0a6ul9PzeC3YdBtsPL4I/xRZ1uw
+ xIOZe/hvhjEWnmu/cnb3nK3r69ItJE/vVl2wXm76dXPxG1M26885+2DttBK/yyHGkz2uVqxT
+ YinOSDTUYi4qTgQAV/tvC5YDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRmVeSWpSXmKPExsVy+t/xe7qMM08nGDyawGmx/+A3VouOW+9Z
+ LCYdusZoMetdO5vF8d4dLA6sHud2nGf32LSqk81j/upVLB5Prm1mCmCJ0rMpyi8tSVXIyC8u
+ sVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0Mu4uW8vU0E3c8WP3y+ZGhiX
+ MHUxcnJICJhInLv/B8jm4hASWMoo0XangQUiISPx6cpHdghbWOLPtS42iKKPjBI9qz4wQjh7
+ GSWeTu9nBKliEVCVuLBrN1g3m4CmxPY//8FsEQFlibvzZ7KCNDALzGSUeDPnP9BYDg5hATeJ
+ U4sVQUxeAUOJOasSIWYeZpR4/+UcM0gvr4CgxMmZT8DmMAtYSMycf54RpJ5ZQFpi+T8OkDCn
+ gLPEmYszmCEOVZLYfhtkFYhdK/H57zPGCYzCs5BMmoVk0iyESQsYmVcxiqSWFuem5xYb6hUn
+ 5haX5qXrJefnbmIExtW2Yz8372Cc9+qj3iFGJg7GQ4wSHMxKIry6xScShHhTEiurUovy44tK
+ c1KLDzGaAkNiIrOUaHI+MLLzSuINzQxMDU3MLA1MLc2MlcR5t85dEy8kkJ5YkpqdmlqQWgTT
+ x8TBKdXAJGX9f39igqvxY+dHivf83uq57VA+8nZJzavl1zYKMasyP9fh3Pvs4sw6B3Hu7R/f
+ WnLGZvxQc9u/KOVpx/2orEVW15e7+Yd/Z73wbmn0Nm4dXtbzEuwVN76EnZmopTtP4JDhp+Ox
+ Loype+TXLHj69w7rxKmmB35yTrc4/Dg5Wkll0j2DfQJfV5a+vppw6M+1J/szFmre2P4r8qx9
+ jXSSsIPRn4V3Kz7u7fwX7BhgfS722v5fU7/NWHZu37yHW2UniTqLcTxjT4puWnScx8xp0vGq
+ W93Ktcz7rGNvBd7aoJbf/6e0MSrQ1uzOLY/vC1Wb3xSc3PjOovCxUMPivSqKx23FeV2UYrdN
+ OTQvTNrgUJYSS3FGoqEWc1FxIgB2UqaCNAMAAA==
+X-CMS-MailID: 20210617184833eucas1p26b99c9f46a3bbd12dde470a918ec16e5
+X-Msg-Generator: CA
+X-RootMTR: 20210617145026eucas1p1094d0357600ca3112e0af2f42cc2b364
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210617145026eucas1p1094d0357600ca3112e0af2f42cc2b364
+References: <20210617100820.75510-1-its@irrelevant.dk>
+ <CGME20210617145026eucas1p1094d0357600ca3112e0af2f42cc2b364@eucas1p1.samsung.com>
+ <20210617145019.GB1133213@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=210.118.77.12; envelope-from=k.jensen@samsung.com;
+ helo=mailout2.w1.samsung.com
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,70 +131,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Klaus Jensen <its@irrelevant.dk>,
+ Jakub =?utf-8?B?SmVybcOhxZk=?= <jakub.jermar@kernkonzept.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.06.2021 12:42, Peter Maydell wrote:
-> On Tue, 15 Jun 2021 at 21:50, Eric Blake <eblake@redhat.com> wrote:
->>
->> The following changes since commit 1ea06abceec61b6f3ab33dadb0510b6e09fb61e2:
->>
->>    Merge remote-tracking branch 'remotes/berrange-gitlab/tags/misc-fixes-pull-request' into staging (2021-06-14 15:59:13 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-06-15
->>
->> for you to fetch changes up to 788b68b57dea4ddd0038f73b96c147eb406c386d:
->>
->>    block/nbd: safer transition to receiving request (2021-06-15 15:42:33 -0500)
->>
->> ----------------------------------------------------------------
->> nbd patches for 2021-06-15
->>
->> - bug fixes in coroutine aio context handling
->> - rework NBD client connection logic to perform more work in coroutine
->> rather than blocking main loop
-> 
-> Fails to compile, all hosts:
-> 
-> ../../nbd/client-connection.c: In function ‘nbd_co_establish_connection’:
-> ../../nbd/client-connection.c:352:16: error: ‘ioc’ may be used uninitialized in
-> this function [-Werror=maybe-uninitialized]
->    352 |             if (ioc) {
->        |                ^
-> 
-> 
-> clang is more specific:
-> 
-> 
-> ../../nbd/client-connection.c:298:21: error: variable 'ioc' is used
-> uninitialized whenever 'if' condition is false
-> [-Werror,-Wsometimes-uninitialized]
->                  if (conn->do_negotiation) {
->                      ^~~~~~~~~~~~~~~~~~~~
-> ../../nbd/client-connection.c:302:21: note: uninitialized use occurs here
->                  if (ioc) {
->                      ^~~
-> ../../nbd/client-connection.c:298:17: note: remove the 'if' if its
-> condition is always true
->                  if (conn->do_negotiation) {
->                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> ../../nbd/client-connection.c:281:20: note: initialize the variable
-> 'ioc' to silence this warning
->      QIOChannel *ioc;
->                     ^
->                      = NULL
-> 1 error generated.
-> 
+On Jun 17 07:50, Keith Busch wrote:
+>On Thu, Jun 17, 2021 at 12:08:20PM +0200, Klaus Jensen wrote:
+>>      if (cq->tail != cq->head) {
+>> +        if (!pending) {
+>> +            n->cq_pending++;
+>> +        }
+>
+>You should check cq->irq_enabled before incrementing cq_pending. You
+>don't want to leave the irq asserted when polled queues have outsanding
+>CQEs.
 
-
-Sorry for this :(
-
-Only one patch needs fixing: 28. I posted a squash-in. Eric, could you please take a look and make a v2 of pull request?
-
-
--- 
-Best regards,
-Vladimir
+Good catch. Thanks!
 
