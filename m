@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C43E3AB165
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:32:43 +0200 (CEST)
-Received: from localhost ([::1]:52996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3757D3AB174
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:35:27 +0200 (CEST)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltpKE-0002Db-Bc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
+	id 1ltpMr-000427-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ltpA8-0008Mc-JQ
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:22:16 -0400
-Resent-Date: Thu, 17 Jun 2021 06:22:16 -0400
-Resent-Message-Id: <E1ltpA8-0008Mc-JQ@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1ltpA3-0000QE-6r
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:22:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1623925318; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=E8Znlq16N+Cmlrtrc8dkTwxQwzk0KTNd+ET3MXQBt1AYiS0VZcW401Ta8DNZiQsvmRAIkbjqycXfgFPg8xrLVB1zsx5nY4k0dbxfqvijtGIT80/8Oz60FcIA1FL5MRu66F2ZHD32Yk1D00JykCNA5ZRqZlfwww050yKUKM73Zuk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623925318;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=v/eIKApv70ZYOIbkPR64ncbCgQqF1qKLjB1JKUEsAnc=; 
- b=hfdtxX/qUwQg76cOWRxQ+JM1xu/gqSKBrYETD1OFopKM67lOTXJZ0ON9xJaR+oV1aMBu2uFv4/Ry8cUvzDskfBrfWGRk6pMLdLkCTOXp/YfV2GCk40VyGJi0luXh3ge/u++ZSKQ4zHo6HpuvIK8zJzu0JrobITOg3J4uj5St/cc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1623925317082253.9648271685943;
- Thu, 17 Jun 2021 03:21:57 -0700 (PDT)
-In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
-Subject: Re: [PULL 00/45] Memory, i386, compilation,
- bugfix changes for 2021-06-17
-Message-ID: <162392531579.25370.10964576702261249523@7c66fb7bc3ab>
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ltpHF-000887-9o
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:29:37 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ltpHC-0005Zg-1J
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:29:37 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id e20so4645998pgg.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 03:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=He8Xz/gtbX6ecVTSbWcaS63uQQW32tixqIOUbE7JHjA=;
+ b=gYF/YX0NAoq2bs3LCAs/t6OWIFGybPgoHJzOhynqEUWrxljfPc9USBlr7MIDds7tgQ
+ HO6i/j8fbBTqWtyZBZGMdrujaX5xNsX11jP8ob7qdVJXzWy4+ZkbQz70/WJs1oF31Imz
+ X1IDYXSpE0/lSx1EzYkDOe3RoXrduVy9arBsaaFhpaHVUAZtbJTY9/3xXOMgxlHCWwLU
+ AV5WpMKjEuIr47J1jGt/VV2/uue9PTBQwdNpJT/nwz9zYWq6kb7SosLurkwvL15zgiSy
+ 8JHjZErsGz6AUhM6dePSvAeVhm+caE1qyn2VQVGCIS52HEecNb8xLZ88uaCWGfLeKDgT
+ T0tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=He8Xz/gtbX6ecVTSbWcaS63uQQW32tixqIOUbE7JHjA=;
+ b=miQT4mYcAYkWUmfaqxWS8s68ew+8uScLUXc4yyNDRAuB9LSjQ3NJyhIOFCqs7PYtI7
+ +lLTiMrsh+zEFmhQMNuFGu0Q6qxYExMj5GX9M6IlWFrViyQlwcGyRV+R+IJ8U1cr4PA7
+ p15vZfh+QYPkAFS8qX28q6bfZMBrFS9tkK/MjZ4eMUo3ScEIyP60HjOeu8OyY6zPSLsj
+ mEhQIVcksNIWHDl/Jm4xaGaeJs6Uv3vik6hlRMdAi6y4oU6SqNuz2IPVfFIfSaZcPWWw
+ +bIq9+Nj8+cKtVcS774h1OslDOJKfpavUPFgK7ChLxPHk2GP5GDnP8DdgeDFsMZ7k/qW
+ 5QFw==
+X-Gm-Message-State: AOAM531BMcd54i8iFLvDIREujX0hE7BqNXxN/fbO0AJZgtI2mUOioL1z
+ WpC2kOzlBNvS3Q1rrACuDrEQ1g==
+X-Google-Smtp-Source: ABdhPJzy2o8uU9XuwjUIJpvmO1XrWRnlqRyIZiv8jjYWFoHlphZcog8NJt6zlK4QZF1dONrPdgmRdg==
+X-Received: by 2002:a63:d908:: with SMTP id r8mr4351989pgg.414.1623925771362; 
+ Thu, 17 Jun 2021 03:29:31 -0700 (PDT)
+Received: from localhost (219-90-184-65.ip.adam.com.au. [219.90.184.65])
+ by smtp.gmail.com with UTF8SMTPSA id a15sm4975439pfl.100.2021.06.17.03.29.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Jun 2021 03:29:30 -0700 (PDT)
+Message-ID: <c680d69c-7dfc-fec5-031c-403a19e7050c@ozlabs.ru>
+Date: Thu, 17 Jun 2021 20:28:54 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 17 Jun 2021 03:21:57 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101
+ Thunderbird/88.0
+Subject: Re: [PATCH qemu v21] spapr: Implement Open Firmware client interface
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210615070612.22679-1-aik@ozlabs.ru>
+ <8987bd7c-dfe1-cb73-e388-ae26ed5a69@eik.bme.hu>
+ <1200c803-a397-78cf-2180-5b21dc0839f1@ozlabs.ru>
+ <7c7b75a1-d849-ca66-75d3-f9919366b95d@eik.bme.hu>
+ <274ae416-3af0-65f3-c30c-0681ad9716a1@ozlabs.ru>
+ <33b662dc-6a97-6e61-c17-c21a4a44d8fb@eik.bme.hu>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <33b662dc-6a97-6e61-c17-c21a4a44d8fb@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=aik@ozlabs.ru; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NICE_REPLY_A=-0.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,335 +90,320 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDYxNzA5MzEzNC45MDAw
-MTQtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTA2MTcwOTMxMzQuOTAw
-MDE0LTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwMC80NV0gTWVtb3J5LCBp
-Mzg2LCBjb21waWxhdGlvbiwgYnVnZml4IGNoYW5nZXMgZm9yIDIwMjEtMDYtMTcKCj09PSBURVNU
-IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
-dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
-bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
-ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2
-NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJv
-amVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTA2MTcwOTMxMzQuOTAw
-MDE0LTEtcGJvbnppbmlAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwNjE3MDkzMTM0LjkwMDAx
-NC0xLXBib256aW5pQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo3
-NmMxZDFjIGNvbmZpZ3VyZTogUmVtb3ZlIHByb2JlIGZvciBfU3RhdGljX2Fzc2VydApiYjdiNzEx
-IHFlbXUvY29tcGlsZXI6IFJlbW92ZSBRRU1VX0dFTkVSSUMKYmI1YjkzNyBpbmNsdWRlL3FlbXUv
-bG9ja2FibGU6IFVzZSBfR2VuZXJpYyBpbnN0ZWFkIG9mIFFFTVVfR0VORVJJQwpmMTI1OTBkIHV0
-aWw6IFVzZSB1bmlxdWUgdHlwZSBmb3IgUWVtdVJlY011dGV4IGluIHRocmVhZC1wb3NpeC5oCmJh
-ZDFiZmEgdXRpbDogUGFzcyBmaWxlK2xpbmUgdG8gcWVtdV9yZWNfbXV0ZXhfdW5sb2NrX2ltcGwK
-Y2NlNGM1ZCB1dGlsOiBVc2UgcmVhbCBmdW5jdGlvbnMgZm9yIHRocmVhZC1wb3NpeCBRZW11UmVj
-TXV0ZXgKYmMwNWFhMyBzb2Z0ZmxvYXQ6IFVzZSBfR2VuZXJpYyBpbnN0ZWFkIG9mIFFFTVVfR0VO
-RVJJQwpmMDllMWI4IGNvbmZpZ3VyZTogVXNlIC1zdGQ9Z251MTEKZTNkZGRmMiB0YXJnZXQvaTM4
-NjogQWRkZWQgSW50ZXJjZXB0IENSMCB3cml0ZXMgY2hlY2sKMGQ4NDllOCB0YXJnZXQvaTM4Njog
-QWRkZWQgY29uc2lzdGVuY3kgY2hlY2tzIGZvciBDUjAKNzZkY2Q0MyB0YXJnZXQvaTM4NjogQWRk
-ZWQgY29uc2lzdGVuY3kgY2hlY2tzIGZvciBWTVJVTiBpbnRlcmNlcHQgYW5kIEFTSUQKNTY3NDU5
-YiB0YXJnZXQvaTM4NjogUmVmYWN0b3JlZCBpbnRlcmNlcHQgY2hlY2tzIGludG8gY3B1X3N2bV9o
-YXNfaW50ZXJjZXB0CmI0ZTUyN2UgY29uZmlndXJlOiBtYXAgeDMyIHRvIGNwdV9mYW1pbHkgeDg2
-XzY0IGZvciBtZXNvbgo4MTYzODEzIGhtcDogUHJpbnQgInJlc2VydmUiIHByb3BlcnR5IG9mIG1l
-bW9yeSBiYWNrZW5kcyB3aXRoICJpbmZvIG1lbWRldiIKNTY3NzcwZiBxbXA6IEluY2x1ZGUgInJl
-c2VydmUiIHByb3BlcnR5IG9mIG1lbW9yeSBiYWNrZW5kcwowNTEyYzQ2IGhtcDogUHJpbnQgInNo
-YXJlIiBwcm9wZXJ0eSBvZiBtZW1vcnkgYmFja2VuZHMgd2l0aCAiaW5mbyBtZW1kZXYiCjExZjZh
-YWYgcW1wOiBJbmNsdWRlICJzaGFyZSIgcHJvcGVydHkgb2YgbWVtb3J5IGJhY2tlbmRzCmYyYmYy
-Y2UgcW1wOiBDbGFyaWZ5IG1lbW9yeSBiYWNrZW5kIHByb3BlcnRpZXMgcmV0dXJuZWQgdmlhIHF1
-ZXJ5LW1lbWRldgpmNGExNzc2IGhvc3RtZW06IFdpcmUgdXAgUkFNX05PUkVTRVJWRSB2aWEgInJl
-c2VydmUiIHByb3BlcnR5CjE2Y2VlNzggdXRpbC9tbWFwLWFsbG9jOiBTdXBwb3J0IFJBTV9OT1JF
-U0VSVkUgdmlhIE1BUF9OT1JFU0VSVkUgdW5kZXIgTGludXgKYWRmOWE5MyBtZW1vcnk6IEludHJv
-ZHVjZSBSQU1fTk9SRVNFUlZFIGFuZCB3aXJlIGl0IHVwIGluIHFlbXVfcmFtX21tYXAoKQoxYjY5
-YmZkIHV0aWwvbW1hcC1hbGxvYzogUGFzcyBmbGFncyBpbnN0ZWFkIG9mIHNlcGFyYXRlIGJvb2xz
-IHRvIHFlbXVfcmFtX21tYXAoKQphNTI3Njk4IHNvZnRtbXUvbWVtb3J5OiBQYXNzIHJhbV9mbGFn
-cyB0byBxZW11X3JhbV9hbGxvYygpIGFuZCBxZW11X3JhbV9hbGxvY19pbnRlcm5hbCgpCjRmMDA3
-OTAgc29mdG1tdS9tZW1vcnk6IFBhc3MgcmFtX2ZsYWdzIHRvIG1lbW9yeV9yZWdpb25faW5pdF9y
-YW1fc2hhcmVkX25vbWlncmF0ZSgpCjUyODkxNTUgc29mdG1tdS9tZW1vcnk6IFBhc3MgcmFtX2Zs
-YWdzIHRvIHFlbXVfcmFtX2FsbG9jX2Zyb21fZmQoKQo4ZWRmNTdkIHV0aWwvbW1hcC1hbGxvYzog
-RmFjdG9yIG91dCBhY3RpdmF0aW5nIG9mIG1lbW9yeSB0byBtbWFwX2FjdGl2YXRlKCkKOTkxOTI2
-YiB1dGlsL21tYXAtYWxsb2M6IEZhY3RvciBvdXQgcmVzZXJ2aW5nIG9mIGEgbWVtb3J5IHJlZ2lv
-biB0byBtbWFwX3Jlc2VydmUoKQpjMzgxOWZjIHV0aWwvbW1hcC1hbGxvYzogRmFjdG9yIG91dCBj
-YWxjdWxhdGlvbiBvZiB0aGUgcGFnZXNpemUgZm9yIHRoZSBndWFyZCBwYWdlCjkxN2QxNDkgc29m
-dG1tdS9waHlzbWVtOiBGaXggcWVtdV9yYW1fcmVtYXAoKSB0byBoYW5kbGUgc2hhcmVkIGFub255
-bW91cyBtZW1vcnkKOWU2YTcwNCBzb2Z0bW11L3BoeXNtZW06IEZpeCByYW1fYmxvY2tfZGlzY2Fy
-ZF9yYW5nZSgpIHRvIGhhbmRsZSBzaGFyZWQgYW5vbnltb3VzIG1lbW9yeQoyYTFhNWJhIHNvZnRt
-bXUvcGh5c21lbTogTWFyayBzaGFyZWQgYW5vbnltb3VzIG1lbW9yeSBSQU1fU0hBUkVECmYwYzhl
-ZjggZXNwOiBzdG9yZSBsdW4gY29taW5nIGZyb20gdGhlIE1FU1NBR0UgT1VUIHBoYXNlCjY4OWY3
-MDggZXNwOiBmaXggbWlncmF0aW9uIHZlcnNpb24gY2hlY2sgaW4gZXNwX2lzX3ZlcnNpb25fNSgp
-CmQyYWRmMjAgZXNwOiBjb3JyZWN0bHkgYWNjdW11bGF0ZSBleHRlbmRlZCBtZXNzYWdlcyBmb3Ig
-UERNQQoyNmExZDA4IGVzcDogcmV2ZXJ0IDc1ZWY4NDk2OTYgImVzcDogY29ycmVjdGx5IGZpbGwg
-YnVzIGlkIHdpdGggcmVxdWVzdGVkIGx1biIKZDQ4Mjg2YiBlc3A6IGVuc3VyZSBQRE1BIHdyaXRl
-IHRyYW5zZmVycyBhcmUgZmx1c2hlZCBmcm9tIHRoZSBGSUZPIHRvIHRoZSB0YXJnZXQgaW1tZWRp
-YXRlbHkKMTk1Y2FkYiBlc3A6IGhhbmRsZSBub24tRE1BIHRyYW5zZmVycyBmcm9tIHRoZSB0YXJn
-ZXQgb25lIGJ5dGUgYXQgYSB0aW1lCmNiZDBkZWEgZXNwOiBhbGxvdyBub24tRE1BIGNhbGxiYWNr
-IGluIGVzcF90cmFuc2Zlcl9kYXRhKCkgaW5pdGlhbCB0cmFuc2Zlcgo2YzU0ZDI0IGVzcDogb25s
-eSBzZXQgRVNQX1JTRVEgYXQgdGhlIHN0YXJ0IG9mIHRoZSBzZWxlY3Qgc2VxdWVuY2UKMTU2N2Y5
-OCBlc3A6IG9ubHkgYXNzZXJ0IElOVFJfREMgaW50ZXJydXB0IGZsYWcgaWYgc2VsZWN0aW9uIGZh
-aWxzCjJiZWRmMGEgcnVuc3RhdGU6IEluaXRpYWxpemUgRXJyb3IgKiB0byBOVUxMCjUxYWRmYTIg
-YmxvY2svc2NzaTogY29ycmVjdGx5IGVtdWxhdGUgdGhlIFZQRCBibG9jayBsaW1pdHMgcGFnZQo3
-MmE2MTEwIHFlbXUtY29uZmlnOiB1c2UgcWVtdV9vcHRzX2Zyb21fcWRpY3QKMGMwMDc2YSB2bDog
-Rml4IGFuIGFzc2VydCBmYWlsdXJlIGluIGVycm9yIHBhdGgKZjQyNzYwOSB2bmM6IGF2b2lkIGRl
-cHJlY2F0aW9uIHdhcm5pbmdzIGZvciBTQVNMIG9uIE9TIFgKCj09PSBPVVRQVVQgQkVHSU4gPT09
-CjEvNDUgQ2hlY2tpbmcgY29tbWl0IGY0Mjc2MDk2MWM2ZCAodm5jOiBhdm9pZCBkZXByZWNhdGlv
-biB3YXJuaW5ncyBmb3IgU0FTTCBvbiBPUyBYKQoyLzQ1IENoZWNraW5nIGNvbW1pdCAwYzAwNzZh
-NDkzNWUgKHZsOiBGaXggYW4gYXNzZXJ0IGZhaWx1cmUgaW4gZXJyb3IgcGF0aCkKMy80NSBDaGVj
-a2luZyBjb21taXQgNzJhNjExMGE0MWMyIChxZW11LWNvbmZpZzogdXNlIHFlbXVfb3B0c19mcm9t
-X3FkaWN0KQo0LzQ1IENoZWNraW5nIGNvbW1pdCA1MWFkZmEyZmIxZGUgKGJsb2NrL3Njc2k6IGNv
-cnJlY3RseSBlbXVsYXRlIHRoZSBWUEQgYmxvY2sgbGltaXRzIHBhZ2UpCjUvNDUgQ2hlY2tpbmcg
-Y29tbWl0IDJiZWRmMGEwMDRmZCAocnVuc3RhdGU6IEluaXRpYWxpemUgRXJyb3IgKiB0byBOVUxM
-KQo2LzQ1IENoZWNraW5nIGNvbW1pdCAxNTY3Zjk4Yjg2NmMgKGVzcDogb25seSBhc3NlcnQgSU5U
-Ul9EQyBpbnRlcnJ1cHQgZmxhZyBpZiBzZWxlY3Rpb24gZmFpbHMpCjcvNDUgQ2hlY2tpbmcgY29t
-bWl0IDZjNTRkMjQ5MzMwNCAoZXNwOiBvbmx5IHNldCBFU1BfUlNFUSBhdCB0aGUgc3RhcnQgb2Yg
-dGhlIHNlbGVjdCBzZXF1ZW5jZSkKOC80NSBDaGVja2luZyBjb21taXQgY2JkMGRlYWU4Y2ZmIChl
-c3A6IGFsbG93IG5vbi1ETUEgY2FsbGJhY2sgaW4gZXNwX3RyYW5zZmVyX2RhdGEoKSBpbml0aWFs
-IHRyYW5zZmVyKQo5LzQ1IENoZWNraW5nIGNvbW1pdCAxOTVjYWRiYWI2NWUgKGVzcDogaGFuZGxl
-IG5vbi1ETUEgdHJhbnNmZXJzIGZyb20gdGhlIHRhcmdldCBvbmUgYnl0ZSBhdCBhIHRpbWUpCjEw
-LzQ1IENoZWNraW5nIGNvbW1pdCBkNDgyODZiZDA1MzQgKGVzcDogZW5zdXJlIFBETUEgd3JpdGUg
-dHJhbnNmZXJzIGFyZSBmbHVzaGVkIGZyb20gdGhlIEZJRk8gdG8gdGhlIHRhcmdldCBpbW1lZGlh
-dGVseSkKMTEvNDUgQ2hlY2tpbmcgY29tbWl0IDI2YTFkMDhkOTMzZiAoZXNwOiByZXZlcnQgNzVl
-Zjg0OTY5NiAiZXNwOiBjb3JyZWN0bHkgZmlsbCBidXMgaWQgd2l0aCByZXF1ZXN0ZWQgbHVuIikK
-MTIvNDUgQ2hlY2tpbmcgY29tbWl0IGQyYWRmMjBiMDY2OCAoZXNwOiBjb3JyZWN0bHkgYWNjdW11
-bGF0ZSBleHRlbmRlZCBtZXNzYWdlcyBmb3IgUERNQSkKMTMvNDUgQ2hlY2tpbmcgY29tbWl0IDY4
-OWY3MDg4ODMxNSAoZXNwOiBmaXggbWlncmF0aW9uIHZlcnNpb24gY2hlY2sgaW4gZXNwX2lzX3Zl
-cnNpb25fNSgpKQoxNC80NSBDaGVja2luZyBjb21taXQgZjBjOGVmODVkOGMzIChlc3A6IHN0b3Jl
-IGx1biBjb21pbmcgZnJvbSB0aGUgTUVTU0FHRSBPVVQgcGhhc2UpCjE1LzQ1IENoZWNraW5nIGNv
-bW1pdCAyYTFhNWJhNmE5MjkgKHNvZnRtbXUvcGh5c21lbTogTWFyayBzaGFyZWQgYW5vbnltb3Vz
-IG1lbW9yeSBSQU1fU0hBUkVEKQoxNi80NSBDaGVja2luZyBjb21taXQgOWU2YTcwNDEyZGE4IChz
-b2Z0bW11L3BoeXNtZW06IEZpeCByYW1fYmxvY2tfZGlzY2FyZF9yYW5nZSgpIHRvIGhhbmRsZSBz
-aGFyZWQgYW5vbnltb3VzIG1lbW9yeSkKMTcvNDUgQ2hlY2tpbmcgY29tbWl0IDkxN2QxNDkyYjM3
-YyAoc29mdG1tdS9waHlzbWVtOiBGaXggcWVtdV9yYW1fcmVtYXAoKSB0byBoYW5kbGUgc2hhcmVk
-IGFub255bW91cyBtZW1vcnkpCjE4LzQ1IENoZWNraW5nIGNvbW1pdCBjMzgxOWZjNThhNzUgKHV0
-aWwvbW1hcC1hbGxvYzogRmFjdG9yIG91dCBjYWxjdWxhdGlvbiBvZiB0aGUgcGFnZXNpemUgZm9y
-IHRoZSBndWFyZCBwYWdlKQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBz
-aG91bGQgYmUgYXZvaWRlZAojMzM6IEZJTEU6IHV0aWwvbW1hcC1hbGxvYy5jOjg3OgorI2lmIGRl
-ZmluZWQoX19wb3dlcnBjNjRfXykgJiYgZGVmaW5lZChfX2xpbnV4X18pCgp0b3RhbDogMCBlcnJv
-cnMsIDEgd2FybmluZ3MsIDc5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE4LzQ1IGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCjE5LzQ1IENoZWNraW5nIGNvbW1pdCA5OTE5MjZiY2EwODkgKHV0aWwv
-bW1hcC1hbGxvYzogRmFjdG9yIG91dCByZXNlcnZpbmcgb2YgYSBtZW1vcnkgcmVnaW9uIHRvIG1t
-YXBfcmVzZXJ2ZSgpKQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91
-bGQgYmUgYXZvaWRlZAojMzk6IEZJTEU6IHV0aWwvbW1hcC1hbGxvYy5jOjkzOgorI2lmIGRlZmlu
-ZWQoX19wb3dlcnBjNjRfXykgJiYgZGVmaW5lZChfX2xpbnV4X18pCgp0b3RhbDogMCBlcnJvcnMs
-IDEgd2FybmluZ3MsIDc2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE5LzQ1IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjIwLzQ1IENoZWNraW5nIGNvbW1pdCA4ZWRmNTdkODgzYjUgKHV0aWwvbW1h
-cC1hbGxvYzogRmFjdG9yIG91dCBhY3RpdmF0aW5nIG9mIG1lbW9yeSB0byBtbWFwX2FjdGl2YXRl
-KCkpCjIxLzQ1IENoZWNraW5nIGNvbW1pdCA1Mjg5MTU1YTg4ODIgKHNvZnRtbXUvbWVtb3J5OiBQ
-YXNzIHJhbV9mbGFncyB0byBxZW11X3JhbV9hbGxvY19mcm9tX2ZkKCkpCjIyLzQ1IENoZWNraW5n
-IGNvbW1pdCA0ZjAwNzkwMTRiM2QgKHNvZnRtbXUvbWVtb3J5OiBQYXNzIHJhbV9mbGFncyB0byBt
-ZW1vcnlfcmVnaW9uX2luaXRfcmFtX3NoYXJlZF9ub21pZ3JhdGUoKSkKMjMvNDUgQ2hlY2tpbmcg
-Y29tbWl0IGE1Mjc2OTg5OGIzZSAoc29mdG1tdS9tZW1vcnk6IFBhc3MgcmFtX2ZsYWdzIHRvIHFl
-bXVfcmFtX2FsbG9jKCkgYW5kIHFlbXVfcmFtX2FsbG9jX2ludGVybmFsKCkpCjI0LzQ1IENoZWNr
-aW5nIGNvbW1pdCAxYjY5YmZkNzFhMzEgKHV0aWwvbW1hcC1hbGxvYzogUGFzcyBmbGFncyBpbnN0
-ZWFkIG9mIHNlcGFyYXRlIGJvb2xzIHRvIHFlbXVfcmFtX21tYXAoKSkKMjUvNDUgQ2hlY2tpbmcg
-Y29tbWl0IGFkZjlhOTMyOTgxMSAobWVtb3J5OiBJbnRyb2R1Y2UgUkFNX05PUkVTRVJWRSBhbmQg
-d2lyZSBpdCB1cCBpbiBxZW11X3JhbV9tbWFwKCkpCjI2LzQ1IENoZWNraW5nIGNvbW1pdCAxNmNl
-ZTc4OTMzN2MgKHV0aWwvbW1hcC1hbGxvYzogU3VwcG9ydCBSQU1fTk9SRVNFUlZFIHZpYSBNQVBf
-Tk9SRVNFUlZFIHVuZGVyIExpbnV4KQpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVm
-aW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMTEzOiBGSUxFOiB1dGlsL21tYXAtYWxsb2MuYzo5MDoK
-KyNpZiBkZWZpbmVkKF9fbGludXhfXykKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTA4
-IGxpbmVzIGNoZWNrZWQKClBhdGNoIDI2LzQ1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
-dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
-dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjI3
-LzQ1IENoZWNraW5nIGNvbW1pdCBmNGExNzc2YmY1MTIgKGhvc3RtZW06IFdpcmUgdXAgUkFNX05P
-UkVTRVJWRSB2aWEgInJlc2VydmUiIHByb3BlcnR5KQoyOC80NSBDaGVja2luZyBjb21taXQgZjJi
-ZjJjZWMxZWNhIChxbXA6IENsYXJpZnkgbWVtb3J5IGJhY2tlbmQgcHJvcGVydGllcyByZXR1cm5l
-ZCB2aWEgcXVlcnktbWVtZGV2KQoyOS80NSBDaGVja2luZyBjb21taXQgMTFmNmFhZjhmYTk2IChx
-bXA6IEluY2x1ZGUgInNoYXJlIiBwcm9wZXJ0eSBvZiBtZW1vcnkgYmFja2VuZHMpCjMwLzQ1IENo
-ZWNraW5nIGNvbW1pdCAwNTEyYzQ2NjcyOTMgKGhtcDogUHJpbnQgInNoYXJlIiBwcm9wZXJ0eSBv
-ZiBtZW1vcnkgYmFja2VuZHMgd2l0aCAiaW5mbyBtZW1kZXYiKQozMS80NSBDaGVja2luZyBjb21t
-aXQgNTY3NzcwZjU4MzRmIChxbXA6IEluY2x1ZGUgInJlc2VydmUiIHByb3BlcnR5IG9mIG1lbW9y
-eSBiYWNrZW5kcykKMzIvNDUgQ2hlY2tpbmcgY29tbWl0IDgxNjM4MTNhM2VlOSAoaG1wOiBQcmlu
-dCAicmVzZXJ2ZSIgcHJvcGVydHkgb2YgbWVtb3J5IGJhY2tlbmRzIHdpdGggImluZm8gbWVtZGV2
-IikKMzMvNDUgQ2hlY2tpbmcgY29tbWl0IGI0ZTUyN2VhMDI0NiAoY29uZmlndXJlOiBtYXAgeDMy
-IHRvIGNwdV9mYW1pbHkgeDg2XzY0IGZvciBtZXNvbikKMzQvNDUgQ2hlY2tpbmcgY29tbWl0IDU2
-NzQ1OWJiMDg3ZCAodGFyZ2V0L2kzODY6IFJlZmFjdG9yZWQgaW50ZXJjZXB0IGNoZWNrcyBpbnRv
-IGNwdV9zdm1faGFzX2ludGVyY2VwdCkKMzUvNDUgQ2hlY2tpbmcgY29tbWl0IDc2ZGNkNDNjMjUy
-YyAodGFyZ2V0L2kzODY6IEFkZGVkIGNvbnNpc3RlbmN5IGNoZWNrcyBmb3IgVk1SVU4gaW50ZXJj
-ZXB0IGFuZCBBU0lEKQozNi80NSBDaGVja2luZyBjb21taXQgMGQ4NDllOGIzNmNlICh0YXJnZXQv
-aTM4NjogQWRkZWQgY29uc2lzdGVuY3kgY2hlY2tzIGZvciBDUjApCjM3LzQ1IENoZWNraW5nIGNv
-bW1pdCBlM2RkZGYyY2M4MWIgKHRhcmdldC9pMzg2OiBBZGRlZCBJbnRlcmNlcHQgQ1IwIHdyaXRl
-cyBjaGVjaykKV0FSTklORzogQmxvY2sgY29tbWVudHMgc2hvdWxkIGFsaWduIHRoZSAqIG9uIGVh
-Y2ggbGluZQojMjc6IEZJTEU6IHRhcmdldC9pMzg2L3RjZy9zeXNlbXUvbWlzY19oZWxwZXIuYzo4
-ODoKKyAgICAgICAgLyoKKyAgICAgICAgKiBJZiB3ZSByZWFjaCB0aGlzIHBvaW50LCB0aGUgQ1Iw
-IHdyaXRlIGludGVyY2VwdCBpcyBkaXNhYmxlZC4KCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5n
-cywgMTUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMzcvNDUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KMzgvNDUgQ2hlY2tpbmcgY29tbWl0IGYwOWUxYjg2YmMwOCAoY29uZmlndXJlOiBVc2UgLXN0
-ZD1nbnUxMSkKMzkvNDUgQ2hlY2tpbmcgY29tbWl0IGJjMDVhYTM2ODNmMiAoc29mdGZsb2F0OiBV
-c2UgX0dlbmVyaWMgaW5zdGVhZCBvZiBRRU1VX0dFTkVSSUMpCkVSUk9SOiBzcGFjZXMgcmVxdWly
-ZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMjY6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2
-ODk6CisgICAgX0dlbmVyaWMoKFApLCBGbG9hdFBhcnRzNjQgKjogcGFydHM2NF8jI05BTUUsIFwK
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVk
-IGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzI2OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Njg5
-OgorICAgIF9HZW5lcmljKChQKSwgRmxvYXRQYXJ0czY0ICo6IHBhcnRzNjRfIyNOQU1FLCBcCiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQg
-YXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMjc6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2OTA6
-CisgICAgICAgICAgICAgICAgICBGbG9hdFBhcnRzMTI4ICo6IHBhcnRzMTI4XyMjTkFNRSkKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiMyNzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY5MDoK
-KyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogcGFydHMxMjhfIyNOQU1FKQogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMzMjogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY5MzoK
-KyAgICBfR2VuZXJpYygoUCksIEZsb2F0UGFydHM2NCAqOiBwYXJ0czY0XyMjTkFNRSwgXAogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJv
-dW5kIHRoYXQgJzonIChjdHg6T3hXKQojMzI6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2OTM6Cisg
-ICAgX0dlbmVyaWMoKFApLCBGbG9hdFBhcnRzNjQgKjogcGFydHM2NF8jI05BTUUsIFwKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91
-bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMzMzogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY5NDoKKyAg
-ICAgICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogcGFydHMxMjhfIyNOQU1FLCBcCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJv
-dW5kIHRoYXQgJzonIChjdHg6T3hXKQojMzM6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo2OTQ6Cisg
-ICAgICAgICAgICAgICAgICBGbG9hdFBhcnRzMTI4ICo6IHBhcnRzMTI4XyMjTkFNRSwgXAogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMzNDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjY5NToK
-KyAgICAgICAgICAgICAgICAgIEZsb2F0UGFydHMyNTYgKjogcGFydHMyNTZfIyNOQU1FKQogICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFy
-b3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzM0OiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6Njk1Ogor
-ICAgICAgICAgICAgICAgICAgRmxvYXRQYXJ0czI1NiAqOiBwYXJ0czI1Nl8jI05BTUUpCiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFy
-b3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzQzOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6ODk3Ogor
-ICAgIF9HZW5lcmljKChQKSwgRmxvYXRQYXJ0czY0ICo6IGZyYWM2NF8jI05BTUUsIFwKICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3Vu
-ZCB0aGF0ICc6JyAoY3R4Ok94VykKIzQzOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6ODk3OgorICAg
-IF9HZW5lcmljKChQKSwgRmxvYXRQYXJ0czY0ICo6IGZyYWM2NF8jI05BTUUsIFwKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQg
-dGhhdCAnKicgKGN0eDpXeE8pCiM0NDogRklMRTogZnB1L3NvZnRmbG9hdC5jOjg5ODoKKyAgICAg
-ICAgICAgICAgICAgIEZsb2F0UGFydHMxMjggKjogZnJhYzEyOF8jI05BTUUpCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
-YXQgJzonIChjdHg6T3hXKQojNDQ6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo4OTg6CisgICAgICAg
-ICAgICAgICAgICBGbG9hdFBhcnRzMTI4ICo6IGZyYWMxMjhfIyNOQU1FKQogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhh
-dCAnKicgKGN0eDpXeE8pCiM0OTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjkwMToKKyAgICBfR2Vu
-ZXJpYygoUCksIEZsb2F0UGFydHM2NCAqOiBmcmFjNjRfIyNOQU1FLCBcCiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAn
-OicgKGN0eDpPeFcpCiM0OTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjkwMToKKyAgICBfR2VuZXJp
-YygoUCksIEZsb2F0UGFydHM2NCAqOiBmcmFjNjRfIyNOQU1FLCBcCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyon
-IChjdHg6V3hPKQojNTA6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo5MDI6CisgICAgICAgICAgICAg
-ICAgICBGbG9hdFBhcnRzMTI4ICo6IGZyYWMxMjhfIyNOQU1FLCBcCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzon
-IChjdHg6T3hXKQojNTA6IEZJTEU6IGZwdS9zb2Z0ZmxvYXQuYzo5MDI6CisgICAgICAgICAgICAg
-ICAgICBGbG9hdFBhcnRzMTI4ICo6IGZyYWMxMjhfIyNOQU1FLCBcCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcq
-JyAoY3R4Old4TykKIzUxOiBGSUxFOiBmcHUvc29mdGZsb2F0LmM6OTAzOgorICAgICAgICAgICAg
-ICAgICAgRmxvYXRQYXJ0czI1NiAqOiBmcmFjMjU2XyMjTkFNRSkKICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicg
-KGN0eDpPeFcpCiM1MTogRklMRTogZnB1L3NvZnRmbG9hdC5jOjkwMzoKKyAgICAgICAgICAgICAg
-ICAgIEZsb2F0UGFydHMyNTYgKjogZnJhYzI1Nl8jI05BTUUpCiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBeCgp0b3RhbDogMjAgZXJyb3JzLCAwIHdhcm5pbmdzLCAzMiBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAzOS80NSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNDAvNDUgQ2hl
-Y2tpbmcgY29tbWl0IGNjZTRjNWQwMDk5MSAodXRpbDogVXNlIHJlYWwgZnVuY3Rpb25zIGZvciB0
-aHJlYWQtcG9zaXggUWVtdVJlY011dGV4KQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
-cwojNjc6IEZJTEU6IGluY2x1ZGUvcWVtdS90aHJlYWQuaDozNDoKK2ludCBxZW11X3JlY19tdXRl
-eF90cnlsb2NrX2ltcGwoUWVtdVJlY011dGV4ICptdXRleCwgY29uc3QgY2hhciAqZmlsZSwgaW50
-IGxpbmUpOwoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2OSBsaW5lcyBjaGVja2VkCgpQ
-YXRjaCA0MC80NSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo0MS80NSBDaGVja2luZyBjb21t
-aXQgYmFkMWJmYTg3OTc0ICh1dGlsOiBQYXNzIGZpbGUrbGluZSB0byBxZW11X3JlY19tdXRleF91
-bmxvY2tfaW1wbCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMxOiBGSUxFOiBp
-bmNsdWRlL3FlbXUvdGhyZWFkLmg6MzU6Cit2b2lkIHFlbXVfcmVjX211dGV4X3VubG9ja19pbXBs
-KFFlbXVSZWNNdXRleCAqbXV0ZXgsIGNvbnN0IGNoYXIgKmZpbGUsIGludCBsaW5lKTsKCnRvdGFs
-OiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNDEvNDUgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNDIvNDUgQ2hlY2tpbmcgY29tbWl0IGYxMjU5MGQ1YTVl
-MSAodXRpbDogVXNlIHVuaXF1ZSB0eXBlIGZvciBRZW11UmVjTXV0ZXggaW4gdGhyZWFkLXBvc2l4
-LmgpCjQzLzQ1IENoZWNraW5nIGNvbW1pdCBiYjViOTM3MWJmZTAgKGluY2x1ZGUvcWVtdS9sb2Nr
-YWJsZTogVXNlIF9HZW5lcmljIGluc3RlYWQgb2YgUUVNVV9HRU5FUklDKQpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzEyMTogRklMRTogaW5jbHVkZS9x
-ZW11L2xvY2thYmxlLmg6NzA6CisgICAgX0dlbmVyaWMoKHgpLCBRZW11TG9ja2FibGUgKjogKHgp
-LCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0
-eDpPeFcpCiMxMjE6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjcwOgorICAgIF9HZW5l
-cmljKCh4KSwgUWVtdUxvY2thYmxlICo6ICh4KSwgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzEyMjogRklMRTogaW5jbHVkZS9x
-ZW11L2xvY2thYmxlLmg6NzE6CisgICAgICAgICAgICAgdm9pZCAqOiBxZW11X251bGxfbG9ja2Fi
-bGUoeCksICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICBe
-CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzEyMjog
-RklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6NzE6CisgICAgICAgICAgICAgdm9pZCAqOiBx
-ZW11X251bGxfbG9ja2FibGUoeCksICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCiAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicg
-KGN0eDpXeE8pCiMxMjM6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjcyOgorICAgICAg
-ICAgICAgIFFlbXVNdXRleCAqOiBxZW11X21ha2VfbG9ja2FibGUoeCwgUU1MX09CSl8oeCwgbXV0
-ZXgpKSwgICAgXAogICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVp
-cmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzEyMzogRklMRTogaW5jbHVkZS9xZW11L2xv
-Y2thYmxlLmg6NzI6CisgICAgICAgICAgICAgUWVtdU11dGV4ICo6IHFlbXVfbWFrZV9sb2NrYWJs
-ZSh4LCBRTUxfT0JKXyh4LCBtdXRleCkpLCAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICBe
-CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzEyNDog
-RklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6NzM6CisgICAgICAgICAgICAgUWVtdVJlY011
-dGV4ICo6IHFlbXVfbWFrZV9sb2NrYWJsZSh4LCBRTUxfT0JKXyh4LCByZWNfbXV0ZXgpKSwgXAog
-ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3Vu
-ZCB0aGF0ICc6JyAoY3R4Ok94VykKIzEyNDogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6
-NzM6CisgICAgICAgICAgICAgUWVtdVJlY011dGV4ICo6IHFlbXVfbWFrZV9sb2NrYWJsZSh4LCBR
-TUxfT0JKXyh4LCByZWNfbXV0ZXgpKSwgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMxMjU6IEZJ
-TEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjc0OgorICAgICAgICAgICAgIENvTXV0ZXggKjog
-cWVtdV9tYWtlX2xvY2thYmxlKHgsIFFNTF9PQkpfKHgsIGNvX211dGV4KSksICAgXAogICAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicg
-KGN0eDpPeFcpCiMxMjU6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjc0OgorICAgICAg
-ICAgICAgIENvTXV0ZXggKjogcWVtdV9tYWtlX2xvY2thYmxlKHgsIFFNTF9PQkpfKHgsIGNvX211
-dGV4KSksICAgXAogICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWly
-ZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMTI2OiBGSUxFOiBpbmNsdWRlL3FlbXUvbG9j
-a2FibGUuaDo3NToKKyAgICAgICAgICAgICBRZW11U3BpbiAqOiBxZW11X21ha2VfbG9ja2FibGUo
-eCwgUU1MX09CSl8oeCwgc3BpbikpKQogICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBz
-cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJzonIChjdHg6T3hXKQojMTI2OiBGSUxFOiBpbmNs
-dWRlL3FlbXUvbG9ja2FibGUuaDo3NToKKyAgICAgICAgICAgICBRZW11U3BpbiAqOiBxZW11X21h
-a2VfbG9ja2FibGUoeCwgUU1MX09CSl8oeCwgc3BpbikpKQogICAgICAgICAgICAgICAgICAgICAg
-ICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykKIzE0
-MjogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6ODc6CisgICAgX0dlbmVyaWMoKHgpLCBR
-ZW11TG9ja2FibGUgKjogKHgpLCAgICAgICAgICAgICAgICAgICAgICAgICAgXAogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRo
-YXQgJzonIChjdHg6T3hXKQojMTQyOiBGSUxFOiBpbmNsdWRlL3FlbXUvbG9ja2FibGUuaDo4NzoK
-KyAgICBfR2VuZXJpYygoeCksIFFlbXVMb2NrYWJsZSAqOiAoeCksICAgICAgICAgICAgICAgICAg
-ICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hPKQojMTQzOiBGSUxFOiBpbmNsdWRl
-L3FlbXUvbG9ja2FibGUuaDo4ODoKKyAgICAgICAgICAgICAgICAgIFFlbXVNdXRleCAqOiBRTUxf
-T0JKXyh4LCBtdXRleCksICAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnOicgKGN0eDpPeFcpCiMx
-NDM6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjg4OgorICAgICAgICAgICAgICAgICAg
-UWVtdU11dGV4ICo6IFFNTF9PQkpfKHgsIG11dGV4KSwgICAgICAgICAgICAgIFwKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhh
-dCAnKicgKGN0eDpXeE8pCiMxNDQ6IEZJTEU6IGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oOjg5Ogor
-ICAgICAgICAgICAgICAgICAgUWVtdVJlY011dGV4ICo6IFFNTF9PQkpfKHgsIHJlY19tdXRleCks
-ICAgICAgIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzE0NDogRklMRTogaW5jbHVkZS9x
-ZW11L2xvY2thYmxlLmg6ODk6CisgICAgICAgICAgICAgICAgICBRZW11UmVjTXV0ZXggKjogUU1M
-X09CSl8oeCwgcmVjX211dGV4KSwgICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4Old4TykK
-IzE0NTogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6OTA6CisgICAgICAgICAgICAgICAg
-ICBDb011dGV4ICo6IFFNTF9PQkpfKHgsIGNvX211dGV4KSwgICAgICAgICAgICAgXAogICAgICAg
-ICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0
-ICc6JyAoY3R4Ok94VykKIzE0NTogRklMRTogaW5jbHVkZS9xZW11L2xvY2thYmxlLmg6OTA6Cisg
-ICAgICAgICAgICAgICAgICBDb011dGV4ICo6IFFNTF9PQkpfKHgsIGNvX211dGV4KSwgICAgICAg
-ICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1
-aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpXeE8pCiMxNDY6IEZJTEU6IGluY2x1ZGUvcWVtdS9s
-b2NrYWJsZS5oOjkxOgorICAgICAgICAgICAgICAgICAgUWVtdVNwaW4gKjogUU1MX09CSl8oeCwg
-c3BpbikpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVp
-cmVkIGFyb3VuZCB0aGF0ICc6JyAoY3R4Ok94VykKIzE0NjogRklMRTogaW5jbHVkZS9xZW11L2xv
-Y2thYmxlLmg6OTE6CisgICAgICAgICAgICAgICAgICBRZW11U3BpbiAqOiBRTUxfT0JKXyh4LCBz
-cGluKSkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogMjIgZXJyb3JzLCAw
-IHdhcm5pbmdzLCAxMjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNDMvNDUgaGFzIHN0eWxlIHByb2Js
-ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
-aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
-QUlOVEFJTkVSUy4KCjQ0LzQ1IENoZWNraW5nIGNvbW1pdCBiYjdiNzExMDY5YjggKHFlbXUvY29t
-cGlsZXI6IFJlbW92ZSBRRU1VX0dFTkVSSUMpCjQ1LzQ1IENoZWNraW5nIGNvbW1pdCA3NmMxZDFj
-MjM1ZTggKGNvbmZpZ3VyZTogUmVtb3ZlIHByb2JlIGZvciBfU3RhdGljX2Fzc2VydCkKPT09IE9V
-VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTA2MTcwOTMx
-MzQuOTAwMDE0LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+
+
+On 17/06/2021 19:16, BALATON Zoltan wrote:
+> On Thu, 17 Jun 2021, Alexey Kardashevskiy wrote:
+>> On 16/06/2021 20:34, BALATON Zoltan wrote:
+>>> On Wed, 16 Jun 2021, Alexey Kardashevskiy wrote:
+>>>> On 6/15/21 20:29, BALATON Zoltan wrote:
+>>>>> On Tue, 15 Jun 2021, Alexey Kardashevskiy wrote:
+>>>>>> The PAPR platform describes an OS environment that's presented by
+>>>>>> a combination of a hypervisor and firmware. The features it specifies
+>>>>>> require collaboration between the firmware and the hypervisor.
+>>>>>>
+>>>>>> Since the beginning, the runtime component of the firmware (RTAS) has
+>>>>>> been implemented as a 20 byte shim which simply forwards it to
+>>>>>> a hypercall implemented in qemu. The boot time firmware component is
+>>>>>> SLOF - but a build that's specific to qemu, and has always needed 
+>>>>>> to be
+>>>>>> updated in sync with it. Even though we've managed to limit the 
+>>>>>> amount
+>>>>>> of runtime communication we need between qemu and SLOF, there's some,
+>>>>>> and it has become increasingly awkward to handle as we've implemented
+>>>>>> new features.
+>>>>>>
+>>>>>> This implements a boot time OF client interface (CI) which is
+>>>>>> enabled by a new "x-vof" pseries machine option (stands for 
+>>>>>> "Virtual Open
+>>>>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+>>>>>> which implements Open Firmware Client Interface (OF CI). This allows
+>>>>>> using a smaller stateless firmware which does not have to manage
+>>>>>> the device tree.
+>>>>>>
+>>>>>> The new "vof.bin" firmware image is included with source code under
+>>>>>> pc-bios/. It also includes RTAS blob.
+>>>>>>
+>>>>>> This implements a handful of CI methods just to get -kernel/-initrd
+>>>>>> working. In particular, this implements the device tree fetching and
+>>>>>> simple memory allocator - "claim" (an OF CI memory allocator) and 
+>>>>>> updates
+>>>>>> "/memory@0/available" to report the client about available memory.
+>>>>>>
+>>>>>> This implements changing some device tree properties which we know 
+>>>>>> how
+>>>>>> to deal with, the rest is ignored. To allow changes, this skips
+>>>>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
+>>>>>> appending.
+>>>>>>
+>>>>>> In absence of SLOF, this assigns phandles to device tree nodes to 
+>>>>>> make
+>>>>>> device tree traversing work.
+>>>>>>
+>>>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
+>>>>>>
+>>>>>> This adds basic instances support which are managed by a hash map
+>>>>>> ihandle -> [phandle].
+>>>>>>
+>>>>>> Before the guest started, the used memory is:
+>>>>>> 0..e60 - the initial firmware
+>>>>>> 8000..10000 - stack
+>>>>>> 400000.. - kernel
+>>>>>> 3ea0000.. - initramdisk
+>>>>>>
+>>>>>> This OF CI does not implement "interpret".
+>>>>>>
+>>>>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
+>>>>>> includes a disk image with pre-formatted nvram.
+>>>>>>
+>>>>>> With this basic support, this can only boot into kernel directly.
+>>>>>> However this is just enough for the petitboot kernel and 
+>>>>>> initradmdisk to
+>>>>>> boot from any possible source. Note this requires reasonably 
+>>>>>> recent guest
+>>>>>> kernel with:
+>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
+>>>>>> The immediate benefit is much faster booting time which especially
+>>>>>> crucial with fully emulated early CPU bring up environments. Also 
+>>>>>> this
+>>>>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
+>>>>>>
+>>>>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
+>>>>>> other POWERPC boards which do not support pSeries.
+>>>>>>
+>>>>>> This make VOF optional, it is disabled by default, add --enable-vof
+>>>>>> to ./configure to enable it.
+>>>>>>
+>>>>>> This assumes potential support for booting from QEMU backends
+>>>>>> such as blockdev or netdev without devices/drivers used.
+>>>>>>
+>>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>>>>> ---
+>>>>>>
+>>>>>> The example command line is:
+>>>>>>
+>>>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
+>>>>>> -nodefaults \
+>>>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
+>>>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
+>>>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
+>>>>>> -nographic \
+>>>>>> -vga none \
+>>>>>> -enable-kvm \
+>>>>>> -m 8G \
+>>>>>> -machine 
+>>>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
+>>>>>> \
+>>>>>> -kernel pbuild/kernel-le-guest/vmlinux \
+>>>>>> -initrd pb/rootfs.cpio.xz \
+>>>>>> -drive 
+>>>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
+>>>>>> \
+>>>>>> -global spapr-nvram.drive=DRIVE0 \
+>>>>>> -snapshot \
+>>>>>> -smp 8,threads=8 \
+>>>>>> -L /home/aik/t/qemu-ppc64-bios/ \
+>>>>>> -trace events=qemu_trace_events \
+>>>>>> -d guest_errors \
+>>>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
+>>>>>> -mon chardev=SOCKET0,mode=control
+>>>>>
+>>>>> I haven't looked at it in detail yet, just some quick comments I 
+>>>>> have on first skim through.
+>>>>>
+>>>>>> ---
+>>>>>> Changes:
+>>>>>> v21:
+>>>>>> * s/ld/ldz/ in entry.S
+>>>>>
+>>>>> Typo? Has this become lwz?
+>>>>
+>>>> Yup, lwz.
+>>>>
+>>>>>
+>>>>>> * moved CONFIG_VOF from default-configs/devices/ppc64-softmmu.mak 
+>>>>>> to Kconfig
+>>>>>> * made CONFIG_VOF optional
+>>>>>
+>>>>> This won't work for pegasos2, see below.
+>>>>>
+>>>>>> * s/l.lds/vof.lds/
+>>>>>> * force 32 BE in spapr_machine_reset() instead of the firmware
+>>>>>> * added checks for non-null methods of VofMachineIfClass
+>>>>>> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a better 
+>>>>>> comment
+>>>>>> * added  path_offset wrapper for handling mixed case for addresses
+>>>>>> after "@" in node names
+>>>>>> * changed getprop() to check for actual "name" property in the fdt
+>>>>>> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as (unlike 
+>>>>>> similar
+>>>>>> rtas_ld/ldl_be_*) they return error codes
+>>>>>> * VOF_MEM_READ uses now address_space_read (it was 
+>>>>>> address_space_read_full
+>>>>>> before, not sure why)
+>>>>> [...]
+>>>>>> ---
+>>>>>> configure               |    9 +
+>>>>>> pc-bios/vof/Makefile    |   23 +
+>>>>>> include/hw/ppc/spapr.h  |   25 +-
+>>>>>> include/hw/ppc/vof.h    |   55 ++
+>>>>>> pc-bios/vof/vof.h       |   43 ++
+>>>>>> hw/ppc/spapr.c          |   87 +++-
+>>>>>> hw/ppc/spapr_hcall.c    |   29 +-
+>>>>>> hw/ppc/spapr_vof.c      |  153 ++++++
+>>>>>> hw/ppc/vof.c            | 1052 
+>>>>>> +++++++++++++++++++++++++++++++++++++++
+>>>>>> pc-bios/vof/bootmem.c   |   14 +
+>>>>>> pc-bios/vof/ci.c        |   91 ++++
+>>>>>> pc-bios/vof/libc.c      |   92 ++++
+>>>>>> pc-bios/vof/main.c      |   21 +
+>>>>>> tests/qtest/rtas-test.c |   17 +-
+>>>>>> MAINTAINERS             |   12 +
+>>>>>> hw/ppc/Kconfig          |    3 +
+>>>>>> hw/ppc/meson.build      |    3 +
+>>>>>> hw/ppc/trace-events     |   24 +
+>>>>>> meson.build             |    1 +
+>>>>>> pc-bios/README          |    2 +
+>>>>>> pc-bios/vof-nvram.bin   |  Bin 0 -> 16384 bytes
+>>>>>> pc-bios/vof.bin         |  Bin 0 -> 3784 bytes
+>>>>>> pc-bios/vof/entry.S     |   49 ++
+>>>>>> pc-bios/vof/vof.lds     |   48 ++
+>>>>>> 24 files changed, 1840 insertions(+), 13 deletions(-)
+>>>>>> create mode 100644 pc-bios/vof/Makefile
+>>>>>> create mode 100644 include/hw/ppc/vof.h
+>>>>>> create mode 100644 pc-bios/vof/vof.h
+>>>>>> create mode 100644 hw/ppc/spapr_vof.c
+>>>>>> create mode 100644 hw/ppc/vof.c
+>>>>>> create mode 100644 pc-bios/vof/bootmem.c
+>>>>>> create mode 100644 pc-bios/vof/ci.c
+>>>>>> create mode 100644 pc-bios/vof/libc.c
+>>>>>> create mode 100644 pc-bios/vof/main.c
+>>>>>> create mode 100644 pc-bios/vof-nvram.bin
+>>>>>> create mode 100755 pc-bios/vof.bin
+>>>>>> create mode 100644 pc-bios/vof/entry.S
+>>>>>> create mode 100644 pc-bios/vof/vof.lds
+>>>>>>
+> [...]
+>>>>>> diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..65ca2fed0d41
+>>>>>> --- /dev/null
+>>>>>> +++ b/include/hw/ppc/vof.h
+>>>>>> @@ -0,0 +1,55 @@
+>>>>>> +/*
+>>>>>> + * Virtual Open Firmware
+>>>>>> + *
+>>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>>>>>> + */
+>>>>>> +#ifndef HW_VOF_H
+>>>>>> +#define HW_VOF_H
+>>>>>> +
+>>>>>> +typedef struct Vof {
+>>>>>> +    uint64_t top_addr; /* copied from rma_size */
+>>>>>> +    GArray *claimed; /* array of SpaprOfClaimed */
+>>>>>> +    uint64_t claimed_base;
+>>>>>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
+>>>>>> +    uint32_t of_instance_last;
+>>>>>> +    char *bootargs;
+>>>>>> +    long fw_size;
+>>>>>> +} Vof;
+>>>>>> +
+>>>>>> +int vof_client_call(MachineState *ms, Vof *vof, void *fdt,
+>>>>>> +                    target_ulong args_real);
+>>>>>> +uint64_t vof_claim(Vof *vof, uint64_t virt, uint64_t size, 
+>>>>>> uint64_t align);
+>>>>>> +void vof_init(Vof *vof, uint64_t top_addr, Error **errp);
+>>>>>> +void vof_cleanup(Vof *vof);
+>>>>>> +void vof_build_dt(void *fdt, Vof *vof);
+>>>>>> +uint32_t vof_client_open_store(void *fdt, Vof *vof, const char 
+>>>>>> *nodename,
+>>>>>> +                               const char *prop, const char *path);
+>>>>>> +
+>>>>>> +#define TYPE_VOF_MACHINE_IF "vof-machine-if"
+>>>>>> +
+>>>>>> +typedef struct VofMachineIfClass VofMachineIfClass;
+>>>>>> +DECLARE_CLASS_CHECKERS(VofMachineIfClass, VOF_MACHINE, 
+>>>>>> TYPE_VOF_MACHINE_IF)
+>>>>>> +
+>>>>>> +struct VofMachineIfClass {
+>>>>>> +    InterfaceClass parent;
+>>>>>> +    target_ulong (*client_architecture_support)(MachineState *ms, 
+>>>>>> CPUState *cs,
+>>>>>> +                                                target_ulong vec);
+>>>>>> +    void (*quiesce)(MachineState *ms);
+>>>>>> +    bool (*setprop)(MachineState *ms, const char *path, const 
+>>>>>> char *propname,
+>>>>>> +                    void *val, int vallen);
+>>>>>> +};
+>>>>>> +
+>>>>>> +/*
+>>>>>> + * Initial stack size is from
+>>>>>> + * 
+>>>>>> https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html 
+>>>>>> + */
+>>>>>> +#define VOF_STACK_SIZE       0x8000
+>>>>>
+>>>>> Maybe also add a define for RTAS_SIZE here? We'll need to put that 
+>>>>> in the device tree but it depends on the rtas shim size that's part 
+>>>>> of VOF so it should be defined here instead of hardcoding it in 
+>>>>> boards that use VOF so it can be updated later at one place if needed.
+>>>>
+>>>> This is rtas-size for pseries:
+>>>>
+>>>> _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+>>>>          ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+>>>>
+>>>> => depends on cpus => depends on the command line.
+>>>>
+>>>>
+>>>> RTAS_SIZE is not used by anything in pseries anymore, I'll send a 
+>>>> patch to ditch it.
+>>>
+>>> I mean you need to have at least the size of code in 
+>>> pc-bios/vof/entry.S hv_rtas where also hv_rtas_size is defined but 
+>>> that value is not available in QEMU where one needs to add it to the 
+>>> device tree. So a define for that should be here in vof.h. Currently 
+>>> I've counted instructions and have
+>>>
+>>>      qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-size", 20);
+>>>
+>>> in pegasos2.c but that 20 should be some VOF_RTAS_SIZE instead that 
+>>> you define corresponding to hv_rtas_size. You'll probably need the 
+>>> same even after changing above rtas size calculation in spapr because 
+>>> client has to allocate memory for instantiate-rtas.
+>>
+>>
+>> Ah fair point. I do not like "20" here and I think the right thing 
+>> will be adding whatever number of bytes to rtas-size in the firmware 
+>> itself and update it in QEMU via "setprop" as we do for 
+>> "linux,rtas-base". And then do the same in SLOF.
+> 
+> This is not the base address but the size of the shim with the hypercall 
+> that instantiate-rtas copies. Why does it need to be updated?
+
+The vm kernel allocates the space for it.
+
+> And why 
+> does it need to be more bytes than necessary?
+
+What is necessary? It is definitely way more than 20 bytes.
+
+> I don't know what you do 
+> for spapr and why do you need larger rtas-size than this but for 
+> pegasos2 this /rtas/rtas-size property is only used by guests to 
+> allocate memory for rtas so all I need is how many bytes are needed for 
+> hv_rtas in pc-bios/vof/entry.S which is what should be #defined in 
+> vof.h. I've found 20 is just enough so you could add that to vof.h.
+
+I am thinking now that may be the property should be created by vof.bin 
+and not QEMU, QEMU just has to tell how many bytes on top it needs.
+
+
+-- 
+Alexey
 
