@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53253AB588
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 16:09:40 +0200 (CEST)
-Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 544F23AB592
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 16:11:56 +0200 (CEST)
+Received: from localhost ([::1]:40224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltsiB-0003OE-Op
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 10:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59604)
+	id 1ltskN-0000rl-C0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 10:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltsgl-0000cO-20
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:11 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:51732
+ id 1ltsgr-00013H-Ui
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:17 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:51741
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltsgi-0002gr-Fc
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:10 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ltsgo-0002jF-MI
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:17 -0400
 HMM_SOURCE_IP: 172.18.0.48:48630.1962201350
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-202.80.192.38?logid-05d08ad9f51a4d9e834e1f4ae90155af
  (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 32637280079;
- Thu, 17 Jun 2021 22:08:06 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id AB248280079;
+ Thu, 17 Jun 2021 22:08:12 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 61aa58c08d80468aaad60fe9e4e01d4b for
- qemu-devel@nongnu.org; Thu Jun 17 22:08:07 2021
-X-Transaction-ID: 61aa58c08d80468aaad60fe9e4e01d4b
+ by app0024 with ESMTP id 9580b63ac2e84ed3bd9585a423007ab6 for
+ qemu-devel@nongnu.org; Thu Jun 17 22:08:12 2021
+X-Transaction-ID: 9580b63ac2e84ed3bd9585a423007ab6
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 3/7] memory: make global_dirty_tracking a bitmask
-Date: Thu, 17 Jun 2021 22:12:04 +0800
-Message-Id: <84315f2dc01b4a2b50e280686043b7649abb98bf.1623938622.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v7 4/7] migration/dirtyrate: introduce struct and adjust
+ DirtyRateStat
+Date: Thu, 17 Jun 2021 22:12:05 +0800
+Message-Id: <d91f66916a28327105f62919092224a403a0067f.1623938622.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1623938622.git.huangy81@chinatelecom.cn>
 References: <cover.1623938622.git.huangy81@chinatelecom.cn>
@@ -75,205 +76,212 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-dirty rate measurement may start or stop dirty tracking during
-calculation. this conflict with migration because stop dirty
-tracking make migration leave dirty pages out then that'll be
-a problem.
+introduce "DirtyRateMeasureMode" to specify what method should be
+used to calculate dirty rate, introduce "DirtyRateVcpu" to store
+dirty rate fore each vcpu.
 
-make global_dirty_tracking a bitmask can let both migration and
-dirty rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION
-and GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty
-tracking aims for, migration or dirty rate.
+use union to store stat data of specific mode
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- include/exec/memory.h | 18 +++++++++++++++---
- migration/ram.c       |  8 ++++----
- softmmu/memory.c      | 32 +++++++++++++++++++++++---------
- softmmu/trace-events  |  1 +
- 4 files changed, 43 insertions(+), 16 deletions(-)
+ migration/dirtyrate.c | 48 ++++++++++++++++++++++++++++--------------------
+ migration/dirtyrate.h | 19 ++++++++++++++++---
+ qapi/migration.json   | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 74 insertions(+), 23 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index cc0e549..63694dc 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -55,7 +55,15 @@ static inline void fuzz_dma_read_cb(size_t addr,
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 320c56b..e0a27a9 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -88,33 +88,44 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+     return info;
  }
- #endif
  
--extern bool global_dirty_tracking;
-+/* Possible bits for global_dirty_log */
+-static void init_dirtyrate_stat(int64_t start_time, int64_t calc_time,
+-                                uint64_t sample_pages)
++static void init_dirtyrate_stat(int64_t start_time,
++                                struct DirtyRateConfig config)
+ {
+-    DirtyStat.total_dirty_samples = 0;
+-    DirtyStat.total_sample_count = 0;
+-    DirtyStat.total_block_mem_MB = 0;
+     DirtyStat.dirty_rate = -1;
+     DirtyStat.start_time = start_time;
+-    DirtyStat.calc_time = calc_time;
+-    DirtyStat.sample_pages = sample_pages;
++    DirtyStat.calc_time = config.sample_period_seconds;
++    DirtyStat.sample_pages = config.sample_pages_per_gigabytes;
 +
-+/* Dirty tracking enabled because migration is running */
-+#define GLOBAL_DIRTY_MIGRATION  (1U << 0)
++    switch (config.mode) {
++    case DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING:
++        DirtyStat.page_sampling.total_dirty_samples = 0;
++        DirtyStat.page_sampling.total_sample_count = 0;
++        DirtyStat.page_sampling.total_block_mem_MB = 0;
++        break;
++    case DIRTY_RATE_MEASURE_MODE_DIRTY_RING:
++        DirtyStat.dirty_ring.nvcpu = -1;
++        DirtyStat.dirty_ring.rates = NULL;
++        break;
++    default:
++        break;
++    }
+ }
+ 
+ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+ {
+-    DirtyStat.total_dirty_samples += info->sample_dirty_count;
+-    DirtyStat.total_sample_count += info->sample_pages_count;
++    DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
++    DirtyStat.page_sampling.total_sample_count += info->sample_pages_count;
+     /* size of total pages in MB */
+-    DirtyStat.total_block_mem_MB += (info->ramblock_pages *
+-                                     TARGET_PAGE_SIZE) >> 20;
++    DirtyStat.page_sampling.total_block_mem_MB += (info->ramblock_pages *
++                                                   TARGET_PAGE_SIZE) >> 20;
+ }
+ 
+ static void update_dirtyrate(uint64_t msec)
+ {
+     uint64_t dirtyrate;
+-    uint64_t total_dirty_samples = DirtyStat.total_dirty_samples;
+-    uint64_t total_sample_count = DirtyStat.total_sample_count;
+-    uint64_t total_block_mem_MB = DirtyStat.total_block_mem_MB;
++    uint64_t total_dirty_samples = DirtyStat.page_sampling.total_dirty_samples;
++    uint64_t total_sample_count = DirtyStat.page_sampling.total_sample_count;
++    uint64_t total_block_mem_MB = DirtyStat.page_sampling.total_block_mem_MB;
+ 
+     dirtyrate = total_dirty_samples * total_block_mem_MB *
+                 1000 / (total_sample_count * msec);
+@@ -327,7 +338,7 @@ static bool compare_page_hash_info(struct RamblockDirtyInfo *info,
+         update_dirtyrate_stat(block_dinfo);
+     }
+ 
+-    if (DirtyStat.total_sample_count == 0) {
++    if (DirtyStat.page_sampling.total_sample_count == 0) {
+         return false;
+     }
+ 
+@@ -372,8 +383,6 @@ void *get_dirtyrate_thread(void *arg)
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
+     int ret;
+     int64_t start_time;
+-    int64_t calc_time;
+-    uint64_t sample_pages;
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -383,9 +392,7 @@ void *get_dirtyrate_thread(void *arg)
+     }
+ 
+     start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+-    calc_time = config.sample_period_seconds;
+-    sample_pages = config.sample_pages_per_gigabytes;
+-    init_dirtyrate_stat(start_time, calc_time, sample_pages);
++    init_dirtyrate_stat(start_time, config);
+ 
+     calculate_dirtyrate(config);
+ 
+@@ -442,6 +449,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+ 
+     config.sample_period_seconds = calc_time;
+     config.sample_pages_per_gigabytes = sample_pages;
++    config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
+     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+                        (void *)&config, QEMU_THREAD_DETACHED);
+ }
+diff --git a/migration/dirtyrate.h b/migration/dirtyrate.h
+index e1fd290..69d4c5b 100644
+--- a/migration/dirtyrate.h
++++ b/migration/dirtyrate.h
+@@ -43,6 +43,7 @@
+ struct DirtyRateConfig {
+     uint64_t sample_pages_per_gigabytes; /* sample pages per GB */
+     int64_t sample_period_seconds; /* time duration between two sampling */
++    DirtyRateMeasureMode mode; /* mode of dirtyrate measurement */
+ };
+ 
+ /*
+@@ -58,17 +59,29 @@ struct RamblockDirtyInfo {
+     uint32_t *hash_result; /* array of hash result for sampled pages */
+ };
+ 
++typedef struct SampleVMStat {
++    uint64_t total_dirty_samples; /* total dirty sampled page */
++    uint64_t total_sample_count; /* total sampled pages */
++    uint64_t total_block_mem_MB; /* size of total sampled pages in MB */
++} SampleVMStat;
 +
-+/* Dirty tracking enabled because measuring dirty rate */
-+#define GLOBAL_DIRTY_DIRTY_RATE (1U << 1)
++typedef struct VcpuStat {
++    int nvcpu; /* number of vcpu */
++    DirtyRateVcpu *rates; /* array of dirty rate for each vcpu */
++} VcpuStat;
 +
-+extern unsigned int global_dirty_tracking;
- 
- typedef struct MemoryRegionOps MemoryRegionOps;
- 
-@@ -2099,13 +2107,17 @@ void memory_listener_unregister(MemoryListener *listener);
- 
- /**
-  * memory_global_dirty_log_start: begin dirty logging for all regions
-+ *
-+ * @flags: purpose of starting dirty log, migration or dirty rate
+ /*
+  * Store calculation statistics for each measure.
   */
--void memory_global_dirty_log_start(void);
-+void memory_global_dirty_log_start(unsigned int flags);
+ struct DirtyRateStat {
+-    uint64_t total_dirty_samples; /* total dirty sampled page */
+-    uint64_t total_sample_count; /* total sampled pages */
+-    uint64_t total_block_mem_MB; /* size of total sampled pages in MB */
+     int64_t dirty_rate; /* dirty rate in MB/s */
+     int64_t start_time; /* calculation start time in units of second */
+     int64_t calc_time; /* time duration of two sampling in units of second */
+     uint64_t sample_pages; /* sample pages per GB */
++    union {
++        SampleVMStat page_sampling;
++        VcpuStat dirty_ring;
++    };
+ };
  
- /**
-  * memory_global_dirty_log_stop: end dirty logging for all regions
-+ *
-+ * @flags: purpose of stopping dirty log, migration or dirty rate
-  */
--void memory_global_dirty_log_stop(void);
-+void memory_global_dirty_log_stop(unsigned int flags);
+ void *get_dirtyrate_thread(void *arg);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 1124a2d..7395305 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1709,6 +1709,21 @@
+   'data': { 'device-id': 'str' } }
  
- void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled);
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 60ea913..9ce31af 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2190,7 +2190,7 @@ static void ram_save_cleanup(void *opaque)
-         /* caller have hold iothread lock or is in a bh, so there is
-          * no writing race against the migration bitmap
-          */
--        memory_global_dirty_log_stop();
-+        memory_global_dirty_log_stop(GLOBAL_DIRTY_MIGRATION);
-     }
- 
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-@@ -2652,7 +2652,7 @@ static void ram_init_bitmaps(RAMState *rs)
-         ram_list_init_bitmaps();
-         /* We don't use dirty log with background snapshots */
-         if (!migrate_background_snapshot()) {
--            memory_global_dirty_log_start();
-+            memory_global_dirty_log_start(GLOBAL_DIRTY_MIGRATION);
-             migration_bitmap_sync_precopy(rs);
-         }
-     }
-@@ -3393,7 +3393,7 @@ void colo_incoming_start_dirty_log(void)
-             /* Discard this dirty bitmap record */
-             bitmap_zero(block->bmap, block->max_length >> TARGET_PAGE_BITS);
-         }
--        memory_global_dirty_log_start();
-+        memory_global_dirty_log_start(GLOBAL_DIRTY_MIGRATION);
-     }
-     ram_state->migration_dirty_pages = 0;
-     qemu_mutex_unlock_ramlist();
-@@ -3405,7 +3405,7 @@ void colo_release_ram_cache(void)
- {
-     RAMBlock *block;
- 
--    memory_global_dirty_log_stop();
-+    memory_global_dirty_log_stop(GLOBAL_DIRTY_MIGRATION);
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         g_free(block->bmap);
-         block->bmap = NULL;
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 5682053..432cec8 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -39,7 +39,7 @@
- static unsigned memory_region_transaction_depth;
- static bool memory_region_update_pending;
- static bool ioeventfd_update_pending;
--bool global_dirty_tracking;
-+unsigned int global_dirty_tracking;
- 
- static QTAILQ_HEAD(, MemoryListener) memory_listeners
-     = QTAILQ_HEAD_INITIALIZER(memory_listeners);
-@@ -2659,14 +2659,19 @@ void memory_global_after_dirty_log_sync(void)
- 
- static VMChangeStateEntry *vmstate_change;
- 
--void memory_global_dirty_log_start(void)
-+void memory_global_dirty_log_start(unsigned int flags)
- {
-     if (vmstate_change) {
-         qemu_del_vm_change_state_handler(vmstate_change);
-         vmstate_change = NULL;
-     }
- 
--    global_dirty_tracking = true;
-+#define  GLOBAL_DIRTY_MASK  (0x3)
-+    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
-+    assert(!(global_dirty_tracking & flags));
-+    global_dirty_tracking |= flags;
+ ##
++# @DirtyRateVcpu:
++#
++# Dirty rate of vcpu.
++#
++# @id: vcpu index.
++#
++# @dirty-rate: dirty rate.
++#
++# Since: 6.1
++#
++##
++{ 'struct': 'DirtyRateVcpu',
++  'data': { 'id': 'int', 'dirty-rate': 'int64' } }
 +
-+    trace_global_dirty_changed(global_dirty_tracking);
++##
+ # @DirtyRateStatus:
+ #
+ # An enumeration of dirtyrate status.
+@@ -1726,6 +1741,21 @@
+   'data': [ 'unstarted', 'measuring', 'measured'] }
  
-     MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
- 
-@@ -2676,9 +2681,13 @@ void memory_global_dirty_log_start(void)
-     memory_region_transaction_commit();
- }
- 
--static void memory_global_dirty_log_do_stop(void)
-+static void memory_global_dirty_log_do_stop(unsigned int flags)
- {
--    global_dirty_tracking = false;
-+    assert(flags && !(flags & (~GLOBAL_DIRTY_MASK)));
-+    assert((global_dirty_tracking & flags) == flags);
-+    global_dirty_tracking &= ~flags;
+ ##
++# @DirtyRateMeasureMode:
++#
++# An enumeration of mode of measuring dirtyrate.
++#
++# @page-sampling: calculate dirtyrate by sampling pages.
++#
++# @dirty-ring: calculate dirtyrate by via dirty ring.
++#
++# Since: 6.1
++#
++##
++{ 'enum': 'DirtyRateMeasureMode',
++  'data': [ 'none', 'page-sampling', 'dirty-ring'] }
 +
-+    trace_global_dirty_changed(global_dirty_tracking);
- 
-     /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
-     memory_region_transaction_begin();
-@@ -2691,8 +2700,10 @@ static void memory_global_dirty_log_do_stop(void)
- static void memory_vm_change_state_handler(void *opaque, bool running,
-                                            RunState state)
- {
-+    unsigned int *flags = opaque;
-     if (running) {
--        memory_global_dirty_log_do_stop();
-+        memory_global_dirty_log_do_stop(*flags);
-+        g_free(opaque);
- 
-         if (vmstate_change) {
-             qemu_del_vm_change_state_handler(vmstate_change);
-@@ -2701,18 +2712,21 @@ static void memory_vm_change_state_handler(void *opaque, bool running,
-     }
- }
- 
--void memory_global_dirty_log_stop(void)
-+void memory_global_dirty_log_stop(unsigned int flags)
- {
-+    unsigned int *opaque = NULL;
-     if (!runstate_is_running()) {
-         if (vmstate_change) {
-             return;
-         }
-+        opaque = g_malloc0(sizeof(opaque));
-+        *opaque = flags;
-         vmstate_change = qemu_add_vm_change_state_handler(
--                                memory_vm_change_state_handler, NULL);
-+                         memory_vm_change_state_handler, opaque);
-         return;
-     }
- 
--    memory_global_dirty_log_do_stop();
-+    memory_global_dirty_log_do_stop(flags);
- }
- 
- static void listener_add_address_space(MemoryListener *listener,
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 5262828..4431f7f 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -18,6 +18,7 @@ memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t
- flatview_new(void *view, void *root) "%p (root %p)"
- flatview_destroy(void *view, void *root) "%p (root %p)"
- flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
-+global_dirty_changed(unsigned int bitmask) "bitmask 0x%"PRIx32
- 
- # vl.c
- vm_state_notify(int running, int reason, const char *reason_str) "running %d reason %d (%s)"
++##
+ # @DirtyRateInfo:
+ #
+ # Information about current dirty page rate of vm.
 -- 
 1.8.3.1
 
