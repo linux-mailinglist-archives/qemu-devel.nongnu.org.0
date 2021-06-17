@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715613AB022
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:48:46 +0200 (CEST)
-Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309283AB07C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:57:31 +0200 (CEST)
+Received: from localhost ([::1]:59658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltodh-0005sy-H5
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:48:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
+	id 1ltomA-0007bM-7l
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNa-0003AO-R3
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:07 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36836)
+ id 1ltoNY-000339-MP
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:04 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNV-0006KR-4V
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:06 -0400
-Received: by mail-ej1-x634.google.com with SMTP id nd37so8770463ejc.3
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:00 -0700 (PDT)
+ id 1ltoNW-0006LY-V2
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:04 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id gt18so8689641ejc.11
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Us6ggabPs2Iu/tknvpN9PEYNzI6F+zr6OhgzB6XQ6h8=;
- b=nfdpN6o/siNbFJvX+C6aXLhNZJM1XMRDqjzQnFh1rCLzOqfxSTasr6WhBrZp2pn/eB
- PvO7LBTP7di2I0lN4FVJ7gDyNqjEnfW/5xdEhhC+I7IO9coA7q6WrVcxeDLoXFLrj2TD
- rvsVCXAPpAwM9dP7w/vWbh1wIbaUA5owNMyKuNfRtCZAwlGGH1Dr72FH0NFMHzGyeN8v
- vMSEl7ogIn2fI7a7gjc8g/s5JwG19PldrRxu0WRVM6YvF5GZ6lA0q5Wszq3uyCoYBXjT
- f1w2kv9/EJaa1Ork8DOvtgXll0vzpoDWzUhqQ9jVjRR1g7dCgAY4PWMfNuq730ZQPIra
- M1gg==
+ bh=zu0RUwB1p19Fagtd8xyL4/0jgFufKWq1IEEH4S5GC2c=;
+ b=ZVTrQj9EgxNG/+/9+oq9y8opSvQAdCTmJleSeiSDMvWXhSa98q+8t8/wSRgEVWrKAC
+ nBW0nvjwC6UH8jgqLZJm3WPQlnp0vnYvj/0MvTjpdKBS3EQsctn7GIxYtxymtoEsh25P
+ 7QDwoF4wHBaT1nepVgw0VrnsUtfYznK2QVqIgsQmLJ1yz0cR/PKAWMxcCZtA4/s3B+i+
+ 4IrmhGA5j0bH8mMMkOcDkmeb8xFywyfx4+wvITUYyez0P49tZV4hNN/yxPJrX1iKPVBC
+ Hb7fKW2PkrCZYXU6d5n6nhz7DeHBv1mcZI7B5fqoS5KjnWtjCbMlXu91FZ6M5fq91tCU
+ xLIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Us6ggabPs2Iu/tknvpN9PEYNzI6F+zr6OhgzB6XQ6h8=;
- b=rJmnte0IIUrdSTtQ/7/nIJDzxGKfGw17IJQCVrAQnYws08mGjTuiynyzX4smDiuBHp
- kLx0ZWQ8+C/MfTkq7eDXKnthCQAiNYn3jeegDWuf56NyKUsaMHb4RSdPqkfhE9rp0TzK
- VEbsg1DKhKimANdYpAIocLiBivndAWyzJOhzXaSPyFbrsF82fqhWsPJ4Vm+mfhmVubVo
- 2OYyTg8EVXf07+X7hR3RAXaPB5D+VYEw1Ih30HzA0vq1th0UujOAr60r5OXeY6NBwGSv
- ThToar0sO3d8CeRuxF5s2eThxmYK17BMxlwRBwsxsAWzzGL57mLO0jI8xm3ZhoYPg7qg
- 85kw==
-X-Gm-Message-State: AOAM530LC8NlUw1KNer3udFQrj4lwq5A41PHyvdxkDcW3rC2kEawXi+U
- tgcXzfMnSEjxW1SEmQNhPFgedHVTDww=
-X-Google-Smtp-Source: ABdhPJyCdHT3qVHQK8DW0x3aBNAcck9vCyfn8nTZ7SwBypVat8z7VSo5dpDiYhADqD5AkQW2gC9tig==
-X-Received: by 2002:a17:907:2636:: with SMTP id
- aq22mr4307111ejc.48.1623922319654; 
- Thu, 17 Jun 2021 02:31:59 -0700 (PDT)
+ bh=zu0RUwB1p19Fagtd8xyL4/0jgFufKWq1IEEH4S5GC2c=;
+ b=EdXLr3ku8dGc2hARRFwUBz9fiIACZAegWicFJDRP9XfBYj0WWgC3jFYWFttLu4fdbv
+ QMpaMFnKYp2vnBvX1h7SMjRIW4rCh+O25/6ZJvyMeplcjU8iwfOVGP4lQ+OiN5uMVeT+
+ gVspgxD9By9Y5FIqG2Iz9xnOpgV+tCTxAZlkmHdDd6g0njImyhNaR2Dx2/mVUctH89rH
+ PzNFadZ/3nCYbhNrouPuKdM0jTgCh90OJUuX0TIa8M4YgGVBqllzuXq/YOGj8DhTrwFr
+ dhuDaZkVInr5u8n+PrLJB2xrpjqF/88PKqQDLXPqtznav/djHTIKVmAawwJJI0oowLMr
+ cxyA==
+X-Gm-Message-State: AOAM533b72YAZ+erGP1G8W9PYsSj0gxNzqwQQa/wKyw83sIaQvTdLVEn
+ 2dJMfLgbkg4lO6P+5mvTOiT3NLTTMh4=
+X-Google-Smtp-Source: ABdhPJwHeQ9QE8QWeugkKfGIR07QYL3HZKi6YqdNL2eHQYpfr+KkJ+RxrvaOwFMTjwlEOfI5AddcpQ==
+X-Received: by 2002:a17:906:528b:: with SMTP id
+ c11mr2984079ejm.156.1623922321540; 
+ Thu, 17 Jun 2021 02:32:01 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.58
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:59 -0700 (PDT)
+ Thu, 17 Jun 2021 02:32:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/45] hmp: Print "reserve" property of memory backends with
- "info memdev"
-Date: Thu, 17 Jun 2021 11:31:21 +0200
-Message-Id: <20210617093134.900014-33-pbonzini@redhat.com>
+Subject: [PULL 35/45] target/i386: Added consistency checks for VMRUN
+ intercept and ASID
+Date: Thu, 17 Jun 2021 11:31:24 +0200
+Message-Id: <20210617093134.900014-36-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,48 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Lara Lazier <laramglazier@gmail.com>
 
-Let's print the new property.
+Zero VMRUN intercept and ASID should cause an immediate VMEXIT
+during the consistency checks performed by VMRUN.
+(AMD64 Architecture Programmer's Manual, V2, 15.5)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210510114328.21835-16-david@redhat.com>
+Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+Message-Id: <20210616123907.17765-3-laramglazier@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine-hmp-cmds.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/i386/tcg/sysemu/svm_helper.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-index 004a92b3d6..76b22b00d6 100644
---- a/hw/core/machine-hmp-cmds.c
-+++ b/hw/core/machine-hmp-cmds.c
-@@ -112,6 +112,10 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict)
-                        m->value->prealloc ? "true" : "false");
-         monitor_printf(mon, "  share: %s\n",
-                        m->value->share ? "true" : "false");
-+        if (m->value->has_reserve) {
-+            monitor_printf(mon, "  reserve: %s\n",
-+                           m->value->reserve ? "true" : "false");
-+        }
-         monitor_printf(mon, "  policy: %s\n",
-                        HostMemPolicy_str(m->value->policy));
-         visit_complete(v, &str);
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 2f7606bebf..902bf03fc3 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -72,6 +72,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+     uint64_t nested_ctl;
+     uint32_t event_inj;
+     uint32_t int_ctl;
++    uint32_t asid;
+ 
+     cpu_svm_check_intercept_param(env, SVM_EXIT_VMRUN, 0, GETPC());
+ 
+@@ -154,9 +155,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+ 
+     nested_ctl = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+                                                           control.nested_ctl));
++    asid = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
++                                                          control.asid));
+ 
+     env->nested_pg_mode = 0;
+ 
++    if (!cpu_svm_has_intercept(env, SVM_EXIT_VMRUN)) {
++        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
++    }
++    if (asid == 0) {
++        cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
++    }
++
+     if (nested_ctl & SVM_NPT_ENABLED) {
+         env->nested_cr3 = x86_ldq_phys(cs,
+                                 env->vm_vmcb + offsetof(struct vmcb,
 -- 
 2.31.1
 
