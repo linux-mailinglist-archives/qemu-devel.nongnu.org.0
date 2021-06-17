@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B6E3AB2EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 13:47:20 +0200 (CEST)
-Received: from localhost ([::1]:52434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204573AB302
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 13:49:01 +0200 (CEST)
+Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltqUQ-0000vY-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 07:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52376)
+	id 1ltqW4-0002aC-4t
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 07:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ltqSo-00081d-1A
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:45:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ltqSf-0000S0-W6
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:45:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623930328;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KgECZGlktNvO6iTzzziGuQVff7msNCbyA4rFcT40gkc=;
- b=A5HvKU89p535FcXO5FqsAd9EE5v8r7Cy1MKFzjeN6ZL9zURKGUIphsZDRdalNcvmH8LSPF
- MVWPyTuK3HzPsA0lk6iraGgw154Xd5WFy9QxqLrZkJ3LTVqxBWuJQ0uilEHe5fIIeCGUIs
- w1GQqIorjRuQJPY6GUXofRUoMgWg6hQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-BPzKhSY5PXKyGncmhcfK2A-1; Thu, 17 Jun 2021 07:45:26 -0400
-X-MC-Unique: BPzKhSY5PXKyGncmhcfK2A-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i82-20020a1c22550000b02901d64e84b3c9so482372wmi.5
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 04:45:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltqUd-0001iW-Lz
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:47:31 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:41840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltqUb-0001lX-V6
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:47:31 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ y13-20020a1c4b0d0000b02901c20173e165so3541279wma.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 04:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=97nQg0jygz82rW1L13AA0TgpnBBGpn+/RmGZCsrffS8=;
+ b=Ogsgwd4sWwYm+9SxvkVZd9q+dBZUEnao5SMn3TXVcdi7K/RomLeKKtjoekwWrnVj0F
+ i6vRTqwpVj0x7dqtMv5lx7pVHpCR3dXLl+C1Ifidf8pjftcs2IAwJLS3lhPzxWK4ggoI
+ EOqRJ5t0idNhVwfmfg/+mtViuBGsBbM3aD/+/L6j7RShDuRQYOB9wjtLrICymTpBQv2J
+ DKK3Ytgg++9wDtrb7ODFBoE8ZQZ6HJtyjK6sH2w4TPZ1qkBPaTNgMiTSMTEaYodHc7ky
+ bKFrVawQ+aAmw8hXHKHkR5cKyQ4gw3u5bLUa2j4g+C9ImiipTRiaBct2+PYrSvjmRt8U
+ DhYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KgECZGlktNvO6iTzzziGuQVff7msNCbyA4rFcT40gkc=;
- b=dE5XPGyn3nUY9TmFdAOhdhvpbhQcxU/F/85fdo5pTy6lDOzbWZK6HDnmRpxyvx9E29
- LEjbHuT2eWzbKMi7lT1hFvzfsMhDVNm6AXFs+ZDkEsKfev1o7O3MsJugx97qUJUIM+TV
- D1mdNZt469mEgg4DjeSPVoC/BYwHlnW1oFU70GJWtiuBCf77oOp1J+v/Q6mlm+MwGJkb
- LXJ5piXICMryBTqCN2Yt7zlFmBSOyOiK7QAKVbUGWPu+GZokbIfWXqEGt2bES2vl/OVz
- yEfrZMnBY2qWterbNkmCM6kUmnk5dbk3KHMRMnmABv7Qc/lB2857/q3LnT+DEl1zuFYQ
- oBsg==
-X-Gm-Message-State: AOAM531QRtZTI7SlcVDhg4DC6r+27TU7AKAN5Zp9aK2nMujcRqkeLOrp
- ltL5kFsdc4064lnKYWlyvdmjVXXVW/wz0WEjpI0X5G+sj6l9qkYpxQS1dprEmtU/Y23u3fQ2doh
- 4YCCZKWIWEEZzJZw=
-X-Received: by 2002:a7b:c098:: with SMTP id r24mr4451961wmh.35.1623930325690; 
- Thu, 17 Jun 2021 04:45:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0yPA/DPMlxN/0MrDWWl/9PHrzi6n8gXIwJv86Ijz8qyLUjgu2L5UzuyD7/rp9ox7YEuNa1w==
-X-Received: by 2002:a7b:c098:: with SMTP id r24mr4451939wmh.35.1623930325477; 
- Thu, 17 Jun 2021 04:45:25 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575d16.dip0.t-ipconnect.de. [217.87.93.22])
- by smtp.gmail.com with ESMTPSA id a1sm6841441wra.63.2021.06.17.04.45.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jun 2021 04:45:25 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210525152924.4171401-1-f4bug@amsat.org>
- <877disg3z7.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci: Add jobs to build standalone machines
-Message-ID: <81aca179-4320-f00b-d9dc-7eca449ebce7@redhat.com>
-Date: Thu, 17 Jun 2021 13:45:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=97nQg0jygz82rW1L13AA0TgpnBBGpn+/RmGZCsrffS8=;
+ b=C9//TA/Nhkjf145PHNwBNJfDyQwBXb5gf93ptecG6keXJEFjcDUHZ7R2h81vvI1Za7
+ XmitEWFbdIQ1aAMa/1Wg7b/UO4z5nZi1ebnsT3+fVA8Zvusw1dD70h5p85tvM8YI4foD
+ YxbMXDqtO4Q3k2gI19aPh98zcQfgMkAtiRTa+9PWhpgE+9XBeDolAc19vSGgM5Tl9hQ6
+ iGl1qKcZCQSYtqzLnvo7XxfhRAJ/+FE3A3/hKwDw0pSP7JU+E3+7FT6b9j5ZLej8Y04r
+ oPMXv/3ZEOuYRKTlYBiz/lgRmmZd/6GolgXJztzIdhzj8o2q/TdxWkvJ72qAhbs0jss4
+ kHsA==
+X-Gm-Message-State: AOAM533HNZUDLldB47P7QkRj2HI9MVscQ4PPZW+zM118whDZHhSKl3uQ
+ chUz+1RxtG6mX2rBqudIBIE8lxMPu1ajmg==
+X-Google-Smtp-Source: ABdhPJxOTR8UVKbRUhpmf8MP5Ela5EuWFfWSLIwNYyTC68bKKHpbAoVVKhdagxqRY+IfmAk3FV32OQ==
+X-Received: by 2002:a05:600c:218a:: with SMTP id
+ e10mr3769436wme.183.1623930447867; 
+ Thu, 17 Jun 2021 04:47:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k36sm4303022wms.30.2021.06.17.04.47.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jun 2021 04:47:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2DD621FF7E;
+ Thu, 17 Jun 2021 12:47:26 +0100 (BST)
+References: <20210614144245.17660-1-alex.bennee@linaro.org>
+ <17fb7318-14ba-bd77-aeaf-ad9ec33118f8@vivier.eu>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v2] linux-user/trace-events: fix minor typo in format
+ string
+Date: Thu, 17 Jun 2021 12:47:11 +0100
+In-reply-to: <17fb7318-14ba-bd77-aeaf-ad9ec33118f8@vivier.eu>
+Message-ID: <874kdwg1bl.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <877disg3z7.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.254, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,72 +90,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/06/2021 12.42, Alex Bennée wrote:
-> 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> The --without-default-devices configure option removes the
->> 'default=y' from Kconfig files. It is useful to test missing
->> Kconfig dependencies for users wanting to have QEMU (system)
->> binaries with a particular subset of machines builtin.
->>
->> If a machine can be built standalone, it can certainly be
->> built as part of a set. So the best way to test for regressions
->> is to test each machine individually.
->>
->> As this is painful to test manually, add CI jobs to do it [*].
->> Since all jobs follow the same template, to ease maintenance
->> we generate the jobs using the jsonnet tool, which emit a YAML
->> file filled with all our jobs.
->>
->> Since there is no "--enable-my-config" option, we have to write
->> the standalone config manually, overwritting each target .mak
->> file in default-configs/devices/.
 
-I'd appreciate if we could get such a --enable-config option first - that 
-would also be very helpful for downstream RHEL where we also modify the 
-default-configs with downstream-only patches.
+Laurent Vivier <laurent@vivier.eu> writes:
 
->> +
->> +{
->> +  include: { "local": "/.gitlab-ci.d/standalone-jobs-template.yml" },
->> +
->> +    "alpha dp264": param_job("alpha-softmmu", "CONFIG_DP264=y"),
->> +    "avr arduino": param_job("avr-softmmu", "CONFIG_ARDUINO=y"),
->> +    "hppa dino": param_job("hppa-softmmu", "CONFIG_DINO=y"),
->> +    "nios2 10m50": param_job("nios2-softmmu", "CONFIG_NIOS2_10M50=y"),
->> +    "nios2 nommu": param_job("nios2-softmmu", "CONFIG_NIOS2_GENERIC_NOMMU=y"),
->> +    "or1k sim": param_job("or1k-softmmu", "CONFIG_OR1K_SIM=y"),
->> +    "rx gdbsim": param_job("rx-softmmu", "CONFIG_RX_GDBSIM=y", "-bios /dev/null"),
->> +    "triboard": param_job("tricore-softmmu", "CONFIG_TRIBOARD=y"),
->> +    "xtensa sim": param_job("xtensaeb-softmmu", "CONFIG_XTENSA_SIM=y CONFIG_SEMIHOSTING=y"),
->> +    "xtensa virt": param_job("xtensa-softmmu", "CONFIG_XTENSA_VIRT=y CONFIG_SEMIHOSTING=y"),
-> 
-> Do we really have a plethora of users running trimmed down custom
-> configurations that we need to defend each of these exotic build
-> combinations in the CI?
+> Le 14/06/2021 =C3=A0 16:42, Alex Benn=C3=A9e a =C3=A9crit=C2=A0:
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>=20
+>> ---
+>> v2
+>>   - fix typo in summary :-O
+>> ---
+>>  linux-user/trace-events | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/linux-user/trace-events b/linux-user/trace-events
+>> index 1ec0d11ee3..e7d2f54e94 100644
+>> --- a/linux-user/trace-events
+>> +++ b/linux-user/trace-events
+>> @@ -11,7 +11,7 @@ user_do_rt_sigreturn(void *env, uint64_t frame_addr) "=
+env=3D%p frame_addr=3D0x%"PRIx
+>>  user_do_sigreturn(void *env, uint64_t frame_addr) "env=3D%p frame_addr=
+=3D0x%"PRIx64
+>>  user_force_sig(void *env, int target_sig, int host_sig) "env=3D%p signa=
+l %d (host %d)"
+>>  user_handle_signal(void *env, int target_sig) "env=3D%p signal %d"
+>> -user_host_signal(void *env, int host_sig, int target_sig) "env=3D%p sig=
+nal %d (target %d("
+>> +user_host_signal(void *env, int host_sig, int target_sig) "env=3D%p sig=
+nal %d (target %d)"
+>>  user_queue_signal(void *env, int target_sig) "env=3D%p signal %d"
+>>  user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t en=
+v_psw_addr) "env=3D%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx=
+64
+>>=20=20
+>>=20
+>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-I think I agree with Alex - in our CI, we should test what users really 
-need, and not each and every distantly possible combination.
+Are you going to queue or shall I add it to my pile of "misc"?
 
-So what I'd really would like to see:
 
-1) Introduce a "--with-build-configs" switch (feel free to bikeshed on the 
-name) to the configure script that allows us to use a folder with a 
-different set of config files.
-
-2) rename default-configs/ to configs/default/
-
-3) Introduce some useful alternate config sets, e.g. configs/rhel or 
-configs/lean-kvm or whatever people want to use, and change some of the CI 
-jobs to work with those configs.
-
-  Thomas
-
+--=20
+Alex Benn=C3=A9e
 
