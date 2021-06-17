@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AA73AAFDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:34:50 +0200 (CEST)
-Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F9E3AAFE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:37:47 +0200 (CEST)
+Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoQD-000792-HO
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
+	id 1ltoT4-0005Ed-4u
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoND-0002ek-0M
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:43 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43666)
+ id 1ltoND-0002g0-Br
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:44 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNA-000636-Tp
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:42 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id nb6so8664803ejc.10
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:40 -0700 (PDT)
+ id 1ltoNB-00063X-KI
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:43 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id ho18so8719984ejc.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ufg9KAAVUpb6SdQp+JrhzTkawAhYImLq6kgNA9vSLME=;
- b=V4EqL6KdnAMEqYs4oc2N4c0U15Gh3z4G1USFyrAiHguNrPe0PK4dk42RongvWyQ0CG
- i9n8FQI6Swk3MkmIIa+EA3QCyoLfY84tR9hOSz+Udw8TEbjaChQY9ZNAB6vlodvLEk5Y
- 2j28bKGX/VcDHx5UlwJuTPr7UWXAsFjLR5YMeKyLaW5iW6yOzsS2crEG8QZtRZiwrkc9
- TFJod6Z3LDAqsC7jLf8UyRAkGuDAVL/h5Zip3SEqAow8d3U5efR3dhRS058zE98aS4+G
- ieKwdmO+E9baseY4sPTtlNjw00ut1x31gtT/A8XdxFiD7Xx5x4wG4GtukDSYqVZ0a77g
- o58w==
+ bh=f14dpNn0/J+5dS2KxNQSZZBoi/TEgJbxNaHvHTAG8hM=;
+ b=iRxUQ5U1f9NzMLxIfLn8j4AwpPzk3U0oTHl1DniHkbf+eEWE+KeIP2CL1gdcZVtD/U
+ zwYZtDHRE7NtTNjTx9/45K5zXPIAAEPxY17CAUuA/aYwDRF1iA8EWozH+ZmvBDkJjqW0
+ yOvoepgz6JCDWy5TFGpqGx0QgPYNOlCEA34NZaN7oZ7yqWkTlCD/3QGRShTbPpvlQiWd
+ awjqi9Sz6cFsiOOed3OFOmMlWm5sXmW3fOtqO8TdJhOFPhMQL7dYdwyoVMjk6Gx8vJKd
+ UXg6duk8Ak9Bn7BDSFXQr4vPwRQ+uYYQ7G3qS4Xo0Jn6p81ZnehmI97ik/ViSJuLBt4L
+ HF1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ufg9KAAVUpb6SdQp+JrhzTkawAhYImLq6kgNA9vSLME=;
- b=W0WdeuyyucguOr7Aab8VkHgJ9xv+Sk4S3cG5hSfXSIhknUWX58cXjAIkA7gJIsqV1E
- QE2qPFf8DVrsAb0fyyeO187padOtaleWPSq7JjwU/phAFTuSguxEWPgCNWwezsQkLE4+
- +Yv2q232F8ZQlN4Y1ohcY1oj6+Ohb1+LMN7haSrc4Y4kTnig3wlqUsn4bYjZBRXk+Jqg
- 7VFA9xoAFXl39bPjVawiNcUgxFdNpmeprggmkVBjG/jdzpDsOQDdAtd4R/X+MWqkxgVn
- asqrjlp4H/J7/aqOpE7KlLrEh9Ck7qqu7mSfG1VTT5CZbcxsXNRHCa2UnpXL2/eA6VJ2
- KHKg==
-X-Gm-Message-State: AOAM5322S33KmNnLllwF1z4dgBlMDSa9TYHBtmzQQ6/6taeUF/QcDhPr
- EVlUtWmbE0q0tYydLumVpn43ccxhPFY=
-X-Google-Smtp-Source: ABdhPJzjZPo+GKIZ5AoIO9bMuaZcI4aGjwv0arSm1BTcs9PjLzvLd0Jk+NTDEFtvtrSGIa4D5rsM8A==
-X-Received: by 2002:a17:906:27d3:: with SMTP id
- k19mr4116169ejc.368.1623922299482; 
- Thu, 17 Jun 2021 02:31:39 -0700 (PDT)
+ bh=f14dpNn0/J+5dS2KxNQSZZBoi/TEgJbxNaHvHTAG8hM=;
+ b=Ub+XjU0lS2K2Cn1f/1qt7UK5O4HHZDoZk14BtrC4a34Be+51YZ0mBTJsFzFub/YHvn
+ klcm1V8K+3AYlV4sC/lW+I+lj7/m/okQ32OsE9xXU1koBFrWfHnrtBLRPTsuI8Fp7STB
+ UavgSLJQflX4dwMq5PnnB47y3ugxlvVY/rD09yaEwNO8uNfWiQoOto/W73s/V5Nd9QEn
+ YTUDJnWeOZPIlDKN/b6uEwJJ6HCD401Lh4etM6tW/3Lmx+A5/QKq8SttS6WhdmIpgNEn
+ +qwU0uVAniWyjbbDuFnJ9Nj2PWI+5n1DGP/9YQeJ9xSKPSOlEiDrLE8+SDcuEmS815uT
+ tzUQ==
+X-Gm-Message-State: AOAM530SPtNtsb6ch0q8rHYKI1cbYtZ77y9oSbwgaAO5k8+BYUJe431V
+ djQMMqi2hMIWJ596Us6Od1eMYJn/ECc=
+X-Google-Smtp-Source: ABdhPJziQgDifU19btvAhZmE010mxD4axOyVJlnkk8+q1iP5YCsOwDcddka14xIIKxIglzDr8DXjnw==
+X-Received: by 2002:a17:906:110b:: with SMTP id
+ h11mr2101942eja.356.1623922300182; 
+ Thu, 17 Jun 2021 02:31:40 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.38
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Jun 2021 02:31:39 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/45] esp: only assert INTR_DC interrupt flag if selection
- fails
-Date: Thu, 17 Jun 2021 11:30:55 +0200
-Message-Id: <20210617093134.900014-7-pbonzini@redhat.com>
+Subject: [PULL 07/45] esp: only set ESP_RSEQ at the start of the select
+ sequence
+Date: Thu, 17 Jun 2021 11:30:56 +0200
+Message-Id: <20210617093134.900014-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
@@ -91,30 +91,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The datasheet sequence tables confirm that when a target selection fails, only
-the INTR_DC interrupt flag should be asserted.
+When processing a command to select a target and send a CDB, the ESP device
+maintains a sequence step register so that if an error occurs the host can
+determine which part of the selection/CDB submission sequence failed.
+
+The old Linux 2.6 driver is really pedantic here: it checks the sequence step
+register even if a command succeeds and complains loudly on the console if the
+sequence step register doesn't match the expected bus phase and interrupt flags.
+
+This reason this mismatch occurs is because the ESP emulation currently doesn't
+update the bus phase until the next TI (Transfer Information) command and so the
+cleared sequence step register is considered invalid for the stale bus phase.
+
+Normally this isn't an issue as the host only checks the sequence step register
+if an error occurs but the old Linux 2.6 driver does this in several places
+causing a large stream of "esp0: STEP_ASEL for tgt 0" messages to appear on the
+console during the boot process.
+
+Fix this by not clearing the sequence step register when reading the interrupt
+register and clearing the DMA status, so the guest sees a valid sequence step
+and bus phase combination at the end of the command phase. No other change is
+required since the sequence step register is correctly updated throughout the
+selection/CDB submission sequence once one of the select commands is issued.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: cf47a41e05 ("esp: latch individual bits in ESP_RINTR register")
-Message-Id: <20210518212511.21688-2-mark.cave-ayland@ilande.co.uk>
+Fixes: 1b9e48a5bd ("esp: implement non-DMA transfers in PDMA mode")
+Message-Id: <20210518212511.21688-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/esp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/esp.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index b668acef82..000e45a624 100644
+index 000e45a624..18d4d56392 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -213,7 +213,7 @@ static int esp_select(ESPState *s)
-     if (!s->current_dev) {
-         /* No such drive */
-         s->rregs[ESP_RSTAT] = 0;
--        s->rregs[ESP_RINTR] |= INTR_DC;
-+        s->rregs[ESP_RINTR] = INTR_DC;
-         s->rregs[ESP_RSEQ] = SEQ_0;
-         esp_raise_irq(s);
-         return -1;
+@@ -481,7 +481,6 @@ static void esp_dma_done(ESPState *s)
+ {
+     s->rregs[ESP_RSTAT] |= STAT_TC;
+     s->rregs[ESP_RINTR] |= INTR_BS;
+-    s->rregs[ESP_RSEQ] = 0;
+     s->rregs[ESP_RFLAGS] = 0;
+     esp_set_tc(s, 0);
+     esp_raise_irq(s);
+@@ -917,7 +916,15 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+         val = s->rregs[ESP_RINTR];
+         s->rregs[ESP_RINTR] = 0;
+         s->rregs[ESP_RSTAT] &= ~STAT_TC;
+-        s->rregs[ESP_RSEQ] = SEQ_0;
++        /*
++         * According to the datasheet ESP_RSEQ should be cleared, but as the
++         * emulation currently defers information transfers to the next TI
++         * command leave it for now so that pedantic guests such as the old
++         * Linux 2.6 driver see the correct flags before the next SCSI phase
++         * transition.
++         *
++         * s->rregs[ESP_RSEQ] = SEQ_0;
++         */
+         esp_lower_irq(s);
+         break;
+     case ESP_TCHI:
 -- 
 2.31.1
 
