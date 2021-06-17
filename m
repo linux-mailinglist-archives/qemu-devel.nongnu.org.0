@@ -2,49 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96613AB4BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:28:10 +0200 (CEST)
-Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18B73AB4D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:33:24 +0200 (CEST)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lts41-0000LS-PU
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:28:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
+	id 1lts95-0002DT-SC
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1lts0Y-0001Ah-M5
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:24:35 -0400
-Received: from foss.arm.com ([217.140.110.172]:46220)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1lts0V-0006pa-AR
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:24:33 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0412F106F;
- Thu, 17 Jun 2021 06:24:29 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57AE23F719;
- Thu, 17 Jun 2021 06:24:26 -0700 (PDT)
-Subject: Re: [PATCH v15 0/7] MTE support for KVM guest
-To: Marc Zyngier <maz@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>
-References: <20210614090525.4338-1-steven.price@arm.com>
- <20210617121322.GC6314@arm.com> <87im2cd443.wl-maz@kernel.org>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <db4cf3c1-d5eb-f8cf-23ff-d52e3b6ae9b1@arm.com>
-Date: Thu, 17 Jun 2021 14:24:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ltroS-0007uj-Rp
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:05 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:42619
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ltroM-0001fn-TN
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:04 -0400
+HMM_SOURCE_IP: 172.18.0.218:48906.1413600847
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.39?logid-7be0abd77ce94142b7bfe1792c57913a
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 7B3C9280029;
+ Thu, 17 Jun 2021 21:11:58 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 62214b9dc3c04bd7ab0ded0cc64b776c for
+ qemu-devel@nongnu.org; Thu Jun 17 21:11:57 2021
+X-Transaction-ID: 62214b9dc3c04bd7ab0ded0cc64b776c
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 5/7] migration/dirtyrate: adjust order of registering thread
+Date: Thu, 17 Jun 2021 21:15:42 +0800
+Message-Id: <24a3d6e1546e6620ede9b6225b6c5cb605f67fc1.1623935540.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1623935540.git.huangy81@chinatelecom.cn>
+References: <cover.1623935540.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1623935540.git.huangy81@chinatelecom.cn>
+References: <cover.1623935540.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <87im2cd443.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.254,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,97 +66,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/06/2021 14:15, Marc Zyngier wrote:
-> On Thu, 17 Jun 2021 13:13:22 +0100,
-> Catalin Marinas <catalin.marinas@arm.com> wrote:
->>
->> On Mon, Jun 14, 2021 at 10:05:18AM +0100, Steven Price wrote:
->>> I realise there are still open questions[1] around the performance of
->>> this series (the 'big lock', tag_sync_lock, introduced in the first
->>> patch). But there should be no impact on non-MTE workloads and until we
->>> get real MTE-enabled hardware it's hard to know whether there is a need
->>> for something more sophisticated or not. Peter Collingbourne's patch[3]
->>> to clear the tags at page allocation time should hide more of the impact
->>> for non-VM cases. So the remaining concern is around VM startup which
->>> could be effectively serialised through the lock.
->> [...]
->>> [1]: https://lore.kernel.org/r/874ke7z3ng.wl-maz%40kernel.org
->>
->> Start-up, VM resume, migration could be affected by this lock, basically
->> any time you fault a page into the guest. As you said, for now it should
->> be fine as long as the hardware doesn't support MTE or qemu doesn't
->> enable MTE in guests. But the problem won't go away.
-> 
-> Indeed. And I find it odd to say "it's not a problem, we don't have
-> any HW available". By this token, why should we merge this work the
-> first place, or any of the MTE work that has gone into the kernel over
-> the past years?
-> 
->> We have a partial solution with an array of locks to mitigate against
->> this but there's still the question of whether we should actually bother
->> for something that's unlikely to happen in practice: MAP_SHARED memory
->> in guests (ignoring the stage 1 case for now).
->>
->> If MAP_SHARED in guests is not a realistic use-case, we have the vma in
->> user_mem_abort() and if the VM_SHARED flag is set together with MTE
->> enabled for guests, we can reject the mapping.
-> 
-> That's a reasonable approach. I wonder whether we could do that right
-> at the point where the memslot is associated with the VM, like this:
-> 
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index a36a2e3082d8..ebd3b3224386 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -1376,6 +1376,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
->  		if (!vma)
->  			break;
->  
-> +		if (kvm_has_mte(kvm) && vma->vm_flags & VM_SHARED)
-> +			return -EINVAL;
-> +
->  		/*
->  		 * Take the intersection of this VMA with the memory region
->  		 */
-> 
-> which takes the problem out of the fault path altogether? We document
-> the restriction and move on. With that, we can use a non-locking
-> version of mte_sync_page_tags().
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Does this deal with the case where the VMAs are changed after the
-memslot is created? While we can do the check here to give the VMM a
-heads-up if it gets it wrong, I think we also need it in
-user_mem_abort() to deal with a VMM which mmap()s over the VA of the
-memslot. Or am I missing something?
+registering get_dirtyrate thread in advance so that both
+page-sampling and dirty-ring mode can be covered.
 
-But if everyone is happy with the restriction (just for KVM) of not
-allowing MTE+VM_SHARED then that sounds like a good way forward.
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ migration/dirtyrate.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Thanks,
-
-Steve
-
->> We can discuss the stage 1 case separately from this series.
-> 
-> Works for me.
-> 
-> Thanks,
-> 
-> 	M.
-> 
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index e0a27a9..a9bdd60 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -352,7 +352,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+     int64_t msec = 0;
+     int64_t initial_time;
+ 
+-    rcu_register_thread();
+     rcu_read_lock();
+     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
+@@ -375,7 +374,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ out:
+     rcu_read_unlock();
+     free_ramblock_dirty_info(block_dinfo, block_count);
+-    rcu_unregister_thread();
+ }
+ 
+ void *get_dirtyrate_thread(void *arg)
+@@ -383,6 +381,7 @@ void *get_dirtyrate_thread(void *arg)
+     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
+     int ret;
+     int64_t start_time;
++    rcu_register_thread();
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
+                               DIRTY_RATE_STATUS_MEASURING);
+@@ -401,6 +400,8 @@ void *get_dirtyrate_thread(void *arg)
+     if (ret == -1) {
+         error_report("change dirtyrate state failed.");
+     }
++
++    rcu_unregister_thread();
+     return NULL;
+ }
+ 
+-- 
+1.8.3.1
 
 
