@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12013AB44E
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:08:40 +0200 (CEST)
-Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA00B3AB489
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:20:50 +0200 (CEST)
+Received: from localhost ([::1]:54772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrl9-00079n-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38422)
+	id 1ltrwv-00008o-Tg
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:20:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltrKp-0008AJ-0C
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:41:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32747)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltrL1-0000VU-60
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:41:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltrKn-0007qB-7G
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:41:26 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltrKz-0007ts-HE
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:41:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623933684;
+ s=mimecast20190719; t=1623933697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ZKzF45+727kt8OSP71o2D3f16M6AIfBGgonwO7kikk=;
- b=Iai97Wxm0AyFw/JNTnvwa/F5+tO2zOJff6RMFnN1aLbvTYLLUGlip167LcPA6idyrhWMzA
- M7SfEb+1hE7cxB67ZVNa6mIRzcYCOxoFFVfIJTBedZc7wevHaJ6Q8COHt9A6fPjd4S7elg
- H6lfUx+wGe2Hin24utGqGND6aj9+8N4=
+ bh=nLeWiMuKzRo+ge2zkxXdPM72eO+GkkXG3FVYYNgCrE4=;
+ b=Ibayga+ijSSVJo1yZ3FzgyZE9cb37Gy4IO3yUYC4E+20/9wNasgY2sMyGajsA0dZ3u0Ryi
+ h6oUBAGlpNJQg2I1/3RN72nzVqGR4PyQ5+s6SiKsWS7t2Wqi+yfOx/v4y6G9oRjQ401lEs
+ i3jekrEyYt+ZGlnsUgMZNRgzIyfynVg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-QqMco7j1MvCPxe0zK_ChkA-1; Thu, 17 Jun 2021 08:41:23 -0400
-X-MC-Unique: QqMco7j1MvCPxe0zK_ChkA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-316-7ioJmNfJOr65nVHzGLdk_Q-1; Thu, 17 Jun 2021 08:41:35 -0400
+X-MC-Unique: 7ioJmNfJOr65nVHzGLdk_Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1903F80ED9B;
- Thu, 17 Jun 2021 12:41:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 718AB9F92B;
+ Thu, 17 Jun 2021 12:41:34 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
  [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADDAC5C22A;
- Thu, 17 Jun 2021 12:41:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 784AA5D9C6;
+ Thu, 17 Jun 2021 12:41:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C033E18017C9; Thu, 17 Jun 2021 14:41:07 +0200 (CEST)
+ id D968A18017CB; Thu, 17 Jun 2021 14:41:07 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/7] paaudio: remove unused stream flags
-Date: Thu, 17 Jun 2021 14:41:02 +0200
-Message-Id: <20210617124107.2386073-3-kraxel@redhat.com>
+Subject: [PULL 4/7] jackaudio: avoid that the client name contains the word
+ (NULL)
+Date: Thu, 17 Jun 2021 14:41:04 +0200
+Message-Id: <20210617124107.2386073-5-kraxel@redhat.com>
 In-Reply-To: <20210617124107.2386073-1-kraxel@redhat.com>
 References: <20210617124107.2386073-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,36 +90,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-In current code there are no calls to pa_stream_get_latency()
-or pa_stream_get_time() to receive latency or time information.
-
-Remove the flags PA_STREAM_INTERPOLATE_TIMING and
-PA_STREAM_AUTO_TIMING_UPDATE which instruct PulseAudio to
-calculate this information in regular intervals.
+Currently with jackaudio client name and qemu guest name unset,
+the JACK client names are out-(NULL) and in-(NULL). These names
+are user visible in the patch bay. Replace the function call to
+qemu_get_vm_name() with a call to audio_application_name() which
+replaces NULL with "qemu" to have more descriptive names.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-Message-Id: <20210517194604.2545-2-vr_qemu@t-online.de>
+Message-Id: <20210517194604.2545-4-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ audio/jackaudio.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index c97b22e970d8..14b4269c5500 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -463,10 +463,7 @@ static pa_stream *qpa_simple_new (
+diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+index 3031c4e29bd4..e7de6d5433e9 100644
+--- a/audio/jackaudio.c
++++ b/audio/jackaudio.c
+@@ -26,7 +26,6 @@
+ #include "qemu/module.h"
+ #include "qemu/atomic.h"
+ #include "qemu/main-loop.h"
+-#include "qemu-common.h"
+ #include "audio.h"
  
-     pa_stream_set_state_callback(stream, stream_state_cb, c);
+ #define AUDIO_CAP "jack"
+@@ -412,7 +411,7 @@ static int qjack_client_init(QJackClient *c)
  
--    flags =
--        PA_STREAM_INTERPOLATE_TIMING
--        | PA_STREAM_AUTO_TIMING_UPDATE
--        | PA_STREAM_EARLY_REQUESTS;
-+    flags = PA_STREAM_EARLY_REQUESTS;
+     snprintf(client_name, sizeof(client_name), "%s-%s",
+         c->out ? "out" : "in",
+-        c->opt->client_name ? c->opt->client_name : qemu_get_vm_name());
++        c->opt->client_name ? c->opt->client_name : audio_application_name());
  
-     if (dev) {
-         /* don't move the stream if the user specified a sink/source */
+     if (c->opt->exact_name) {
+         options |= JackUseExactName;
 -- 
 2.31.1
 
