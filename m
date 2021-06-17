@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0583AB458
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:10:28 +0200 (CEST)
-Received: from localhost ([::1]:48002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F185B3AB462
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:12:45 +0200 (CEST)
+Received: from localhost ([::1]:56472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrmt-0001PR-Kr
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:10:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1ltrp7-0007G9-1W
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqyt-0005Wy-SL
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:18:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36086)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1ltr0p-0001Ri-5q; Thu, 17 Jun 2021 08:20:47 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:46623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqyq-00087l-2x
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:18:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623932323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MJbc/G5LNsyD5V8LmC6w86fKEuSJG2YZCbtV6MI1WEQ=;
- b=E0tAjncx/7wN6mklfatyfYEIKiv5clyjb6lLXsJzie/x+y4PYKCOIXNFSYF2n2XFeXKV3p
- 6fkhIaGEJCmTTnaJSyejFjwUvFB/JzkIi4H3FbqHR3cgcWSTTqa+nOX6GiMLI21tThe803
- ueoQWYW7GQMgB0b5VLPRcPHQp7oNTwQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-x8vXWOIRObix159CVkrLhw-1; Thu, 17 Jun 2021 08:18:42 -0400
-X-MC-Unique: x8vXWOIRObix159CVkrLhw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m6-20020a7bce060000b02901d2a0c361bfso1102542wmc.4
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:18:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=MJbc/G5LNsyD5V8LmC6w86fKEuSJG2YZCbtV6MI1WEQ=;
- b=Bs41rAqmxqjtrBcUzvd1DvOrViLkpo6TrrHVrGkPEl5BqUeeU4vhYDL1ofneK5YFRM
- aImOBCzYa/+7+v2AYHlRKgrT2Jzp036ZTLoYgOwrIvs0sUXIy5wO5lUxJB39dQRmpAoi
- dDBm1ptSpJwetXbYfVUCcvgHXc374Pa9VYoZTIERt0MxhYqa8ECoyyOXqfW5M1Xkf7Jc
- mteuZPW0Z/hHzhrTZqh1k4fAclSs6r86+bnIF6SXZbffdwFnGEomw3VI1Gpg3DaPfs4b
- kkaxWtc/YF/TbsK/5j8U/7faq+a65JwX27wsaFQltZncsmEIYb//P9ZBj+vVrEPNc/u5
- RNEw==
-X-Gm-Message-State: AOAM531EKcxD6rq2Ai3Nn7uvM1AVJup11gQ4iUMkP8aYUw9prN0PJcIz
- aff12IvN0fxLXXGnNROdSEHweuSwJV7KrVQ9JyIYLsqE1xvnRguNpL6WiDNabIt8+zFb2Ikbjc1
- S8Rqc/8/ABvnRb+iWhsXyfiype0McDdBtV/mL4eXsj0RNngUHUtNI0BiGKPY4ElKz
-X-Received: by 2002:a1c:ed14:: with SMTP id l20mr4727202wmh.20.1623932320826; 
- Thu, 17 Jun 2021 05:18:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuw4KHdgGgrgglIX/lfQd4zE+qGZ71URc9xaY5fYZuHR8g8lq/MdVVtrg8fek+u/8IGxDj8g==
-X-Received: by 2002:a1c:ed14:: with SMTP id l20mr4727189wmh.20.1623932320692; 
- Thu, 17 Jun 2021 05:18:40 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id a24sm4251890wmj.30.2021.06.17.05.18.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 05:18:40 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/6] block/nbd: Use qcrypto_tls_creds_check_endpoint()
-Date: Thu, 17 Jun 2021 14:18:26 +0200
-Message-Id: <20210617121830.2776182-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210617121830.2776182-1-philmd@redhat.com>
-References: <20210617121830.2776182-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1ltr0h-0000gh-Ki; Thu, 17 Jun 2021 08:20:46 -0400
+Received: from [192.168.100.1] ([82.142.19.46]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MILnm-1m865u39LI-00ENIb; Thu, 17 Jun 2021 14:20:34 +0200
+Subject: Re: [PATCH v2] linux-user/trace-events: fix minor typo in format
+ string
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210614144245.17660-1-alex.bennee@linaro.org>
+ <17fb7318-14ba-bd77-aeaf-ad9ec33118f8@vivier.eu> <874kdwg1bl.fsf@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <104b4a05-fe6f-cb58-b803-70dc8c5e50d8@vivier.eu>
+Date: Thu, 17 Jun 2021 14:20:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <874kdwg1bl.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:axM9+n0f/e2zgnEAgUTrDztp5v/pbLRVtICUUMmJnoa+oVLWPlz
+ EIrJH3mNSdqn9bzHiMntvljSgD2JSqYwznzHQVfk/BOy+luuNTXptBfoVpz4ZQm1TV6Jbur
+ ztXpi/nX8Fawxbs1qkOZJy1FGRoMY4Sjd7E7KuERpfQ7I6W3+bMMoYGQxj9dj8z7GhfqVFe
+ 4D68yIPKH0usB38Rl/ctA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MV6MPGq2JEk=:D1TSljZFMitG+VfLHPeCsH
+ A8K+2AeuMpivbnyihgtEiQxrq+j9pu3K9b1iUnpU+Q0hnqYhByTmhDF295J9FKvz6pFeSb9fy
+ 4kM44x34vJ1LM0fUtYFzDW3Ab8dhdsZKiwc34Nn1F00qrpFwXxhGAR+N54tQ4xM5dhniEewH4
+ xyZHwQT3a1SZlRoUbYwd06RFSLBZdG53Id49JNpQwpulIQ+wcgCIW9yuBBq1TrOIVi5YH4Lz8
+ gPeWCqfhYvYc2YExRjwVfFgBsdiZDex8IhNwfjVEIaZbbYo1N0JWoM8uEZj85PMzJ+BhpxnSa
+ MkX0aR0KaECHwIH+T2aH7zS/86WjjYApWXsiPSiJgRyUNMuPWuUvPkOuxahW1HgNZrf1UE7Ss
+ rQOFsHg4V1pEh30Smk/KJ3iOdmQ8C2y9hFV2UUq0p35vPT0hdFuPntKJvHRQVEZQ801eq+o8l
+ kLUeDTlA0a39x3AGvFSqdjjfCf2gMqtRUDroO6xBYZt9D7YLvgGueeKMtUgJrJF1Pt3an9OLc
+ 6Zvyq26+sWfuKdNfOO9bEg=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.254,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,58 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid accessing QCryptoTLSCreds internals by using
-the qcrypto_tls_creds_check_endpoint() helper.
+Le 17/06/2021 à 13:47, Alex Bennée a écrit :
+> 
+> Laurent Vivier <laurent@vivier.eu> writes:
+> 
+>> Le 14/06/2021 à 16:42, Alex Bennée a écrit :
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>
+>>> ---
+>>> v2
+>>>   - fix typo in summary :-O
+>>> ---
+>>>  linux-user/trace-events | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/linux-user/trace-events b/linux-user/trace-events
+>>> index 1ec0d11ee3..e7d2f54e94 100644
+>>> --- a/linux-user/trace-events
+>>> +++ b/linux-user/trace-events
+>>> @@ -11,7 +11,7 @@ user_do_rt_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx
+>>>  user_do_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
+>>>  user_force_sig(void *env, int target_sig, int host_sig) "env=%p signal %d (host %d)"
+>>>  user_handle_signal(void *env, int target_sig) "env=%p signal %d"
+>>> -user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
+>>> +user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d)"
+>>>  user_queue_signal(void *env, int target_sig) "env=%p signal %d"
+>>>  user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
+>>>  
+>>>
+>>
+>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> 
+> Are you going to queue or shall I add it to my pile of "misc"?
+> 
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- block/nbd.c    | 6 +++---
- blockdev-nbd.c | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+You can put it in your pile if you think you're going to do a pull request soon.
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 616f9ae6c4d..b13a33c3d21 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -2159,9 +2159,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
-         return NULL;
-     }
- 
--    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT) {
--        error_setg(errp,
--                   "Expecting TLS credentials with a client endpoint");
-+    if (!qcrypto_tls_creds_check_endpoint(creds,
-+                                          QCRYPTO_TLS_CREDS_ENDPOINT_CLIENT,
-+                                          errp)) {
-         return NULL;
-     }
-     object_ref(obj);
-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-index b264620b98d..bdfa7ed3a5a 100644
---- a/blockdev-nbd.c
-+++ b/blockdev-nbd.c
-@@ -108,9 +108,9 @@ static QCryptoTLSCreds *nbd_get_tls_creds(const char *id, Error **errp)
-         return NULL;
-     }
- 
--    if (creds->endpoint != QCRYPTO_TLS_CREDS_ENDPOINT_SERVER) {
--        error_setg(errp,
--                   "Expecting TLS credentials with a server endpoint");
-+    if (!qcrypto_tls_creds_check_endpoint(creds,
-+                                          QCRYPTO_TLS_CREDS_ENDPOINT_SERVER,
-+                                          errp)) {
-         return NULL;
-     }
-     object_ref(obj);
--- 
-2.31.1
+I don't plan to do a trivial branch pull request before next week.
 
+Thanks,
+Laurent
 
