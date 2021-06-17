@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2B03AB591
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 16:11:55 +0200 (CEST)
-Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62683AB590
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 16:11:44 +0200 (CEST)
+Received: from localhost ([::1]:39174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltskM-0000pk-9r
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 10:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59674)
+	id 1ltskB-0008UZ-MI
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 10:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltsgw-0001BQ-1R
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:22 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:51748
+ id 1ltshK-000240-0I
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:46 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:51755
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltsgs-0002lO-OV
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:21 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ltsgx-0002mu-Nb
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:45 -0400
 HMM_SOURCE_IP: 172.18.0.48:48630.1962201350
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-202.80.192.38?logid-05d08ad9f51a4d9e834e1f4ae90155af
  (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 71F5B280029;
- Thu, 17 Jun 2021 22:08:18 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 435BC280029;
+ Thu, 17 Jun 2021 22:08:22 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id e6a9d3b608ec43adb2d29b53d93591ea for
- qemu-devel@nongnu.org; Thu Jun 17 22:08:17 2021
-X-Transaction-ID: e6a9d3b608ec43adb2d29b53d93591ea
+ by app0024 with ESMTP id 6860a97fe95140df963feb0ecd6ef8d3 for
+ qemu-devel@nongnu.org; Thu Jun 17 22:08:22 2021
+X-Transaction-ID: 6860a97fe95140df963feb0ecd6ef8d3
 X-filter-score: filter<0>
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 5/7] migration/dirtyrate: adjust order of registering thread
-Date: Thu, 17 Jun 2021 22:12:06 +0800
-Message-Id: <24a3d6e1546e6620ede9b6225b6c5cb605f67fc1.1623938622.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v7 6/7] migration/dirtyrate: move init step of calculation to
+ main thread
+Date: Thu, 17 Jun 2021 22:12:07 +0800
+Message-Id: <deba8e91c23a20254f86e7cc1c0f24d19d64f98c.1623938622.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1623938622.git.huangy81@chinatelecom.cn>
 References: <cover.1623938622.git.huangy81@chinatelecom.cn>
@@ -75,51 +76,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-registering get_dirtyrate thread in advance so that both
-page-sampling and dirty-ring mode can be covered.
+since main thread may "query dirty rate" at any time, it's better
+to move init step into main thead so that synchronization overhead
+between "main" and "get_dirtyrate" can be reduced.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- migration/dirtyrate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ migration/dirtyrate.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index e0a27a9..a9bdd60 100644
+index a9bdd60..8a9dcf7 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -352,7 +352,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
-     int64_t msec = 0;
-     int64_t initial_time;
+@@ -26,6 +26,7 @@
  
--    rcu_register_thread();
-     rcu_read_lock();
-     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
-@@ -375,7 +374,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
- out:
-     rcu_read_unlock();
-     free_ramblock_dirty_info(block_dinfo, block_count);
--    rcu_unregister_thread();
+ static int CalculatingState = DIRTY_RATE_STATUS_UNSTARTED;
+ static struct DirtyRateStat DirtyStat;
++static DirtyRateMeasureMode dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_NONE;
+ 
+ static int64_t set_sample_page_period(int64_t msec, int64_t initial_time)
+ {
+@@ -111,6 +112,11 @@ static void init_dirtyrate_stat(int64_t start_time,
+     }
  }
  
- void *get_dirtyrate_thread(void *arg)
-@@ -383,6 +381,7 @@ void *get_dirtyrate_thread(void *arg)
++static void cleanup_dirtyrate_stat(struct DirtyRateConfig config)
++{
++    /* TODO */
++}
++
+ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
+ {
+     DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
+@@ -380,7 +386,6 @@ void *get_dirtyrate_thread(void *arg)
+ {
      struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
      int ret;
-     int64_t start_time;
-+    rcu_register_thread();
+-    int64_t start_time;
+     rcu_register_thread();
  
      ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-@@ -401,6 +400,8 @@ void *get_dirtyrate_thread(void *arg)
-     if (ret == -1) {
-         error_report("change dirtyrate state failed.");
+@@ -390,9 +395,6 @@ void *get_dirtyrate_thread(void *arg)
+         return NULL;
      }
-+
-+    rcu_unregister_thread();
-     return NULL;
- }
  
+-    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
+-    init_dirtyrate_stat(start_time, config);
+-
+     calculate_dirtyrate(config);
+ 
+     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_MEASURING,
+@@ -411,6 +413,7 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+     static struct DirtyRateConfig config;
+     QemuThread thread;
+     int ret;
++    int64_t start_time;
+ 
+     /*
+      * If the dirty rate is already being measured, don't attempt to start.
+@@ -451,6 +454,18 @@ void qmp_calc_dirty_rate(int64_t calc_time, bool has_sample_pages,
+     config.sample_period_seconds = calc_time;
+     config.sample_pages_per_gigabytes = sample_pages;
+     config.mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
++
++    cleanup_dirtyrate_stat(config);
++
++    /*
++     * update dirty rate mode so that we can figure out what mode has
++     * been used in last calculation
++     **/
++    dirtyrate_mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
++
++    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) / 1000;
++    init_dirtyrate_stat(start_time, config);
++
+     qemu_thread_create(&thread, "get_dirtyrate", get_dirtyrate_thread,
+                        (void *)&config, QEMU_THREAD_DETACHED);
+ }
 -- 
 1.8.3.1
 
