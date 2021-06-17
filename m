@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFF43AB0A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:58:37 +0200 (CEST)
-Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A633AB011
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:45:48 +0200 (CEST)
+Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltonE-00014J-EX
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55062)
+	id 1ltoap-0000RR-8o
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNK-0002l6-58
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:50 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:38477)
+ id 1ltoNO-0002no-UF
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:54 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:44746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNI-00069Z-Lq
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:49 -0400
-Received: by mail-ej1-x635.google.com with SMTP id og14so8737600ejc.5
+ id 1ltoNJ-00069g-MO
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:51 -0400
+Received: by mail-ed1-x532.google.com with SMTP id u24so3018428edy.11
  for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o3h69v9GOdvNM0T/T0af/wQPPZJrIt2ocjfiNDFl060=;
- b=vFU9nKaebZGli3ris1n12ltnavzH/Rsq74xQmb9eHfiNc5wWv/eWU3Pt0Dj69XkRA3
- PkNALsuT9bs8yISAMxOPcXunY2A3lW5ZHhVWl8NMKyofyTSoxqzinZwyP6PM1itoIdGe
- lwugy+2zS8lA015T6R6h7MUCGQZjJCD7ipz2VwYbB9o1Y71x55PAu0+RUaAeYTXhG5sb
- /P8kxAKNGpHtD3++76Efp/ljgIHjmIGZSQFRtINGgpUqo+1QIZ/0Q6jPSGZ38TS0+opI
- cyOicTHCYcFY7sA3SsYSexjRjU3XPi0ORgEN6eJCRrXAwHNF14lmbxkcIBZuKmYgV/eE
- ZjCQ==
+ bh=HvPqNCF2sjL2JYw07xiEgb3yfgqupeU2JQK8pZnMZEs=;
+ b=oEdOZ5K70QUWMpD6FIbQ9SgeKensv7aJzBbtlEVVVx/BXdZCpCjSZH4E/9XRfEifXw
+ xJXPqHketGalVX0oAvS4XrFjNvcSeePG1W0Lu5dTgxyJO152XYsZha4JYc2UbsyOtRqw
+ AADNS6tRs9+y/tMJO4Fa3jS+p8BHp64W7fRW2MYHkF6KG+UtFW7hiLGnie78Bp18ZOFF
+ kdfabReygcTAzjdscWLotyC3x3CXI5uU9Az6xiJPNcLpN6A60xX4CbTHze4kCMbATEF9
+ uyutJeaK6IHO/hfJEceIiBI1FdnI2PRlPrU1dduNRAcLnqGDhvA8ogsTWLdBjMZzso/l
+ ch4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=o3h69v9GOdvNM0T/T0af/wQPPZJrIt2ocjfiNDFl060=;
- b=aKVcN9//p4Y139ondSYx/bthDqEZUmVp+vUwVMc6Kr1NPxpUibUAmrJfsPSbDXFNQC
- ZZ9N54EVWyK8t7CdqYBsWvVwLegQ40VUv8YW7p+g7qgJ4IRrtw4bg1zKg4MlKMZ7hVZB
- PsgWnf+0oAqAjrK953+FmCp9KmNaPzyos51FJu9FQSi5YjRpnOoGKeea0y2O85CqdBB9
- JDgq6BJ0zijNZeEC0apwGyR270vCbU/ftjhR+WwKniNGD97mHBHw8AYuNf5joXuIRGt/
- sSKmteUBSCYAFoh/8f2JCM4XiCb5jULvMSbzj0Du+LPE32NalZtiCoe65Z4rBkbp4jBs
- 2+hA==
-X-Gm-Message-State: AOAM533by8nFrBUhwIgmoTxnyHvXHhrOIkcGE4MI1bkO4zGA6yXOfDOv
- 7X3E5wo5f+1+tC6Vt52S6Tp7gRGG5sU=
-X-Google-Smtp-Source: ABdhPJzpRnb2OTaS1bNGFlbicDL2J1qM4KcbHsQxbaBky6V7LbqUj86pk5RqdtqJ8NAxUh/eZmrI2w==
-X-Received: by 2002:a17:907:9fd:: with SMTP id
- ce29mr4145823ejc.62.1623922307340; 
- Thu, 17 Jun 2021 02:31:47 -0700 (PDT)
+ bh=HvPqNCF2sjL2JYw07xiEgb3yfgqupeU2JQK8pZnMZEs=;
+ b=fEoEKoExK1K14oZkq3eiho75bsIB+dQ7kp+GW9B7jM4HXcE6Q4LCwJ85abHzjEpvK6
+ E1P4quB9slEhZTdxWR70r2ruoINWMX4Pk9MkIb7tGfSiUhng39cMliBsS7S6lLQlaM+I
+ RUz3aDs8p2HB88393SgfZsMrGoyPB/aC9JC9Rz71+gKZRGVlSdpQWa2aK4di/CHf/8hr
+ 66SIYs6+KUmEHQWpIDhQ8mO50Pxf+JdfB15We9/c/Lm0r+2jYD2jHE5kTscnYv300+xb
+ 5LKp8qz5x5vKbhx8CDZlIE3E64veq7Ukz/hnYKw8/rg+rjy53Qmy3Ld6nX9gREfIzqG+
+ 4yJg==
+X-Gm-Message-State: AOAM532jjz0hyqEAUXQ0B7G0OPuIDXVV2m0NVa3mR37xROq5LSTIl15d
+ gC7t+Hk8m07p9xhp6DFzrTJq2FeX3oU=
+X-Google-Smtp-Source: ABdhPJyRaYuHjon4hq3BotWgWAeb+8aS5EMJmJSpAe64y1y2qlELS+U4S+eS0cRFi0h4hKZNStCg9g==
+X-Received: by 2002:a50:fc9a:: with SMTP id f26mr5148835edq.216.1623922308118; 
+ Thu, 17 Jun 2021 02:31:48 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.46
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Jun 2021 02:31:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/45] softmmu/physmem: Fix qemu_ram_remap() to handle shared
- anonymous memory
-Date: Thu, 17 Jun 2021 11:31:06 +0200
-Message-Id: <20210617093134.900014-18-pbonzini@redhat.com>
+Subject: [PULL 18/45] util/mmap-alloc: Factor out calculation of the pagesize
+ for the guard page
+Date: Thu, 17 Jun 2021 11:31:07 +0200
+Message-Id: <20210617093134.900014-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,45 +84,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
+ Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-RAM_SHARED now also properly indicates shared anonymous memory. Let's check
-that flag for anonymous memory as well, to restore the proper mapping.
+Let's factor out calculating the size of the guard page and rename the
+variable to make it clearer that this pagesize only applies to the
+guard page.
 
-Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
 Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Acked-by: Eduardo Habkost <ehabkost@redhat.com> for memory backend and machine core
+Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210406080126.24010-4-david@redhat.com>
+Message-Id: <20210510114328.21835-2-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/physmem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ util/mmap-alloc.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index c0a3c47167..b75d205e8a 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2243,13 +2243,13 @@ void qemu_ram_remap(ram_addr_t addr, ram_addr_t length)
-                 abort();
-             } else {
-                 flags = MAP_FIXED;
-+                flags |= block->flags & RAM_SHARED ?
-+                         MAP_SHARED : MAP_PRIVATE;
-                 if (block->fd >= 0) {
--                    flags |= (block->flags & RAM_SHARED ?
--                              MAP_SHARED : MAP_PRIVATE);
-                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
-                                 flags, block->fd, offset);
-                 } else {
--                    flags |= MAP_PRIVATE | MAP_ANONYMOUS;
-+                    flags |= MAP_ANONYMOUS;
-                     area = mmap(vaddr, length, PROT_READ | PROT_WRITE,
-                                 flags, -1, 0);
-                 }
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index e6fa8b598b..24854064b4 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -82,6 +82,16 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
+     return qemu_real_host_page_size;
+ }
+ 
++static inline size_t mmap_guard_pagesize(int fd)
++{
++#if defined(__powerpc64__) && defined(__linux__)
++    /* Mappings in the same segment must share the same page size */
++    return qemu_fd_getpagesize(fd);
++#else
++    return qemu_real_host_page_size;
++#endif
++}
++
+ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+@@ -90,12 +100,12 @@ void *qemu_ram_mmap(int fd,
+                     bool is_pmem,
+                     off_t map_offset)
+ {
++    const size_t guard_pagesize = mmap_guard_pagesize(fd);
+     int prot;
+     int flags;
+     int map_sync_flags = 0;
+     int guardfd;
+     size_t offset;
+-    size_t pagesize;
+     size_t total;
+     void *guardptr;
+     void *ptr;
+@@ -116,8 +126,7 @@ void *qemu_ram_mmap(int fd,
+      * anonymous memory is OK.
+      */
+     flags = MAP_PRIVATE;
+-    pagesize = qemu_fd_getpagesize(fd);
+-    if (fd == -1 || pagesize == qemu_real_host_page_size) {
++    if (fd == -1 || guard_pagesize == qemu_real_host_page_size) {
+         guardfd = -1;
+         flags |= MAP_ANONYMOUS;
+     } else {
+@@ -126,7 +135,6 @@ void *qemu_ram_mmap(int fd,
+     }
+ #else
+     guardfd = -1;
+-    pagesize = qemu_real_host_page_size;
+     flags = MAP_PRIVATE | MAP_ANONYMOUS;
+ #endif
+ 
+@@ -138,7 +146,7 @@ void *qemu_ram_mmap(int fd,
+ 
+     assert(is_power_of_2(align));
+     /* Always align to host page size */
+-    assert(align >= pagesize);
++    assert(align >= guard_pagesize);
+ 
+     flags = MAP_FIXED;
+     flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+@@ -193,8 +201,8 @@ void *qemu_ram_mmap(int fd,
+      * a guard page guarding against potential buffer overflows.
+      */
+     total -= offset;
+-    if (total > size + pagesize) {
+-        munmap(ptr + size + pagesize, total - size - pagesize);
++    if (total > size + guard_pagesize) {
++        munmap(ptr + size + guard_pagesize, total - size - guard_pagesize);
+     }
+ 
+     return ptr;
+@@ -202,15 +210,8 @@ void *qemu_ram_mmap(int fd,
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size)
+ {
+-    size_t pagesize;
+-
+     if (ptr) {
+         /* Unmap both the RAM block and the guard page */
+-#if defined(__powerpc64__) && defined(__linux__)
+-        pagesize = qemu_fd_getpagesize(fd);
+-#else
+-        pagesize = qemu_real_host_page_size;
+-#endif
+-        munmap(ptr, size + pagesize);
++        munmap(ptr, size + mmap_guard_pagesize(fd));
+     }
+ }
 -- 
 2.31.1
 
