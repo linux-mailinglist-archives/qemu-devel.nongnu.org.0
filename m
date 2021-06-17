@@ -2,95 +2,152 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543BA3AADF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:49:28 +0200 (CEST)
-Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981A53AAE31
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:56:54 +0200 (CEST)
+Received: from localhost ([::1]:48026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltmmE-0003p9-Sq
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36258)
+	id 1ltmtR-0002w3-9O
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltmkz-00039D-P3
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:48:09 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:43252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltmkx-0002uu-Vm
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:48:09 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1E2C821A8D;
- Thu, 17 Jun 2021 07:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623916086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+YVmug4syP3xTHyc0sLMa9UDTcltYTTEIKZr1mQTnZg=;
- b=hgclR3MyyOlgLRPopgNb0Heiv247IJ09Ju5w1E3PHzHId4ZecWvn4wGz9B2dJoUH7NmTst
- 0w6jv7mvuuV0YNJ8rgU4I2Ur1Aq9S8hC+iKWy7FqNcI5H24zgZEksfp9zpVJvUaa7hSGci
- xXtC6UUr1nkXsO3a4bfK/0DP4TOlOFs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623916086;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+YVmug4syP3xTHyc0sLMa9UDTcltYTTEIKZr1mQTnZg=;
- b=1uedUIODcP+SiP7jn9NGBD9GNMZRfHiZcj8H0yvDuBpiN4eDlSrpjeDBdXv/sOid+48XsV
- 32vEQgeH0SBn/5Dg==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id CEC1D118DD;
- Thu, 17 Jun 2021 07:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623916086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+YVmug4syP3xTHyc0sLMa9UDTcltYTTEIKZr1mQTnZg=;
- b=hgclR3MyyOlgLRPopgNb0Heiv247IJ09Ju5w1E3PHzHId4ZecWvn4wGz9B2dJoUH7NmTst
- 0w6jv7mvuuV0YNJ8rgU4I2Ur1Aq9S8hC+iKWy7FqNcI5H24zgZEksfp9zpVJvUaa7hSGci
- xXtC6UUr1nkXsO3a4bfK/0DP4TOlOFs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623916086;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+YVmug4syP3xTHyc0sLMa9UDTcltYTTEIKZr1mQTnZg=;
- b=1uedUIODcP+SiP7jn9NGBD9GNMZRfHiZcj8H0yvDuBpiN4eDlSrpjeDBdXv/sOid+48XsV
- 32vEQgeH0SBn/5Dg==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id NvzWMDX+ymAlEQAALh3uQQ
- (envelope-from <cfontana@suse.de>); Thu, 17 Jun 2021 07:48:05 +0000
-Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210610101553.943689-1-kraxel@redhat.com>
- <5953598.eXybCX72BP@pizza>
- <20210615050930.bmgup2axfr7sqvoa@sirius.home.kraxel.org>
- <2963309.4TrVdrBa0x@pizza>
- <20210616092815.rjznyjnvgrrfojq6@sirius.home.kraxel.org>
- <bdf9b356-87ee-0749-c977-f48989fa8e26@suse.de>
- <20210617053759.uibvdpu2wtq3fqwv@sirius.home.kraxel.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <2be72be7-5c3f-e25d-fb84-cf58b573bf27@suse.de>
-Date: Thu, 17 Jun 2021 09:48:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
+ id 1ltmrM-0001Mw-QF
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:54:44 -0400
+Received: from mail-he1eur04hn032c.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0d::32c]:17626
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Valeriy.Vdovin@virtuozzo.com>)
+ id 1ltmrJ-0007wJ-AX
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:54:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JOWm3dJjTuOcG2sW2J1BdVsP9oO4q7YgpCHJo0wau+zl5/zLYx70QMYuJICEAU30peRpXvNNMpzezs90gQmZKdficofs8ZeppLIE84FBJ+IY05iEdIaHZTE57HM4cMr/z/FEi8Rk5CWXGT3WTWdkqEuiHqdEhOnJdWkCLoPu+7y2hIKdyVytL0fPdlSmkjw35k39NHM8HsewBwXZzO2Qaar+pirqoiDVuAhLUwtuLMM9AenSA+rtf3gubkVQQufhFWiqAV9eu7r9OhpX5+TdozlVZKVTxxcEO5vrqBCUVh6nXlYG8pYXsPFhv3lHutTCAqTeDA9oeNI7OOOppyWUNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RksO1VTnWWb28KEbjvELqvJpPrBR6db1ENSSFU84O0w=;
+ b=CkIYkV6zJ01kO9BoJiHTjIxCE+JllNIIhgIKRzFzrc1paW9m/T9lhqPzIhbCKrYPiMszsPH56I4KprOmkNBEezz9qktnsyLNlGwDV8HW25HDR8Xu4v6TAjkFcUA0fMzChrQldgCD24ELucYSmw41+HJhB/e8D+EwkPgd7wfW8FnpfX4Vh0eQc15Nf8PhfP3hatQyOV1u/tv02z91F+3BRphQqH2jeVOD4cGzRCjd2wmLFy7yZbj2GDag0DyCgVlE3g99DiHhzpLNb0OhKJTnw7TziHs3VNmF2ilPeguPdKmCOkXIPy46r02FyO2GUq0+ul6/Ec8yPCkxuTG8oiToYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RksO1VTnWWb28KEbjvELqvJpPrBR6db1ENSSFU84O0w=;
+ b=qAcrX7Eg6KAOlNDL1awGmIE2MaPOH7K8hNhTodhxgWw4x/TShFBEGaKOBozAEEHg1/vQhvKbT374vtUxREhfsXOgjwqMtVKGyLCbMZBjZ4za9GDdX7KcjwghAGH3nPa1QtTTS8ELX939IEOb+wwL5Sh+KjyNQgouvfQrfOzn0uQ=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB5988.eurprd08.prod.outlook.com (2603:10a6:20b:283::19)
+ by AM9PR08MB6129.eurprd08.prod.outlook.com (2603:10a6:20b:284::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.19; Thu, 17 Jun
+ 2021 07:49:26 +0000
+Received: from AM9PR08MB5988.eurprd08.prod.outlook.com
+ ([fe80::c6c:281b:77e6:81b6]) by AM9PR08MB5988.eurprd08.prod.outlook.com
+ ([fe80::c6c:281b:77e6:81b6%6]) with mapi id 15.20.4242.019; Thu, 17 Jun 2021
+ 07:49:26 +0000
+Date: Thu, 17 Jun 2021 10:49:19 +0300
+From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ kvm@vger.kernel.org, Denis Lunev <den@openvz.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+Message-ID: <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
+ <87im2d6p5v.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87im2d6p5v.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: [185.231.240.5]
+X-ClientProxiedBy: AM0PR04CA0037.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::14) To AM9PR08MB5988.eurprd08.prod.outlook.com
+ (2603:10a6:20b:283::19)
 MIME-Version: 1.0
-In-Reply-To: <20210617053759.uibvdpu2wtq3fqwv@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from dhcp-172-16-24-191.sw.ru (185.231.240.5) by
+ AM0PR04CA0037.eurprd04.prod.outlook.com (2603:10a6:208:1::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4242.15 via Frontend Transport; Thu, 17 Jun 2021 07:49:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a7618f60-a5b9-4140-b129-08d931646dee
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6129:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM9PR08MB6129EDA1137BD2246F55C64F870E9@AM9PR08MB6129.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
+ IPV:NLI; SFV:SPM; H:AM9PR08MB5988.eurprd08.prod.outlook.com; PTR:; CAT:OSPM;
+ SFS:(4636009)(376002)(39840400004)(366004)(396003)(346002)(136003)(1076003)(55016002)(7696005)(66476007)(8676002)(9686003)(7416002)(5660300002)(33656002)(66946007)(44832011)(6916009)(2906002)(956004)(66556008)(26005)(16526019)(8936002)(6666004)(38350700002)(38100700002)(83380400001)(478600001)(36756003)(86362001)(107886003)(54906003)(6506007)(316002)(4326008)(52116002)(186003)(30126003);
+ DIR:OUT; SFP:1501; 
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ckkJAQi7yEKHVYBxP+ZwUkJV+bXrUOPf9M/xRcWf2ShtA75H1rWmW0ieuMl7?=
+ =?us-ascii?Q?d4t5ZEag0g4RltbxbNDkZ/5wTgz/Cn4mEUL9AqAUg/P51rjE2SojGgisIgYe?=
+ =?us-ascii?Q?UEQodkrcLklwsum9Dfyu8t8DoFAHOyVVue0ziQ6rObGyQmjSrR9LEkwK4Yw1?=
+ =?us-ascii?Q?1iD1UiBeL/zmMtXYQDb7FaoRPjtl/bFw1R7hV+pbMCHp0JD6PjLHdjw0Kjxn?=
+ =?us-ascii?Q?dor1dDvMTXWjvT/XY4t7AvmbdWLG+zDbYOO2oiX75AeToEhOQmcwv+f5SNRV?=
+ =?us-ascii?Q?ywBKfUroCnwz44vskxIqrXKG+TsW4tcx50M3LbsCn0u/wDxuOTKeukh3QJgc?=
+ =?us-ascii?Q?zj+dJB+YvjJzlIV3lGRsHlzETPb5Fd85n/NDcHahkEvCDKjDMkapf+wouGti?=
+ =?us-ascii?Q?ZygFutRZRoGkhdiag9B/VfjFRknzmaacjPpHbom6TREM7zenV/kPgirrEZV0?=
+ =?us-ascii?Q?/MFfd0pbsU7d+QgZxZVXZ8aHxIcoNaG8oZ8FS+8Xj4+F8TQfk1piaIlrNqvp?=
+ =?us-ascii?Q?VIERIouBfNDHHTctrJ4esGb7MxX7xzScrzFydZs/Br/CyfbXFhRT/4bhx/cO?=
+ =?us-ascii?Q?cbGw7tMPmtSVQS1XaABoMLBUrLcEYw3HPqpodY6TTX5f7bu4N8OqsdsrhfVK?=
+ =?us-ascii?Q?rRahjJy5xGsWOQ64EPJfu720dfVc418qLDN0eCofrJe98RWpKv/uVx0CR0xU?=
+ =?us-ascii?Q?6ciu3NhoewNMF3HD3QrEgbUbWfDVGNgIK+lSbCwPXcxHo9ti/g0PYClYdPzq?=
+ =?us-ascii?Q?7qNRjrgpIWU2p5NwrEyLf7USKdUyuPpVL1y/H81AJRmVoQFQMJAEnRea1Fld?=
+ =?us-ascii?Q?hFrqxqNnWLBxeGsXVuobqGhx97IQfa5sTggoAqAEl9fvP8DzGbLLPSjR9SGM?=
+ =?us-ascii?Q?ariSBP+liGDN5KFOE5U9Um3L9EHrpVedUZ1jx8TsnB6Xm6zso+sqRAhm7vPk?=
+ =?us-ascii?Q?RKMx4hypIQSx35/mI5AQU325nv7VA1hxR8NBBblH4Gc=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i+RZAnGENEYUivMernUmgvq/5Erj8kFAC0OJf8ot1HPZwSmfrZA7qObjnQaf?=
+ =?us-ascii?Q?JRqG0YNxhgzTXX854+Xjr1envyyUkSkJ/6pCyT4zvniY9tCWTufjl+1a+AwG?=
+ =?us-ascii?Q?L3H416GgQ2aBFUUakJqlXchJ2TFITJ2cuTOvUcLj7ZX2GbNcnrQAjmm8UmlM?=
+ =?us-ascii?Q?Ub33h+uKoZg+b846HmY3HAKZs8p9jUM581pW84YtIiVGVOqJ24ozjqCnUIQv?=
+ =?us-ascii?Q?zxH0CTnCZyEWZUVWg/CZP03yYyd1pzxBGvvKqR6fzjFwXuB0u99eKljUYKtC?=
+ =?us-ascii?Q?OogfGI+d0Tm4yy32uNZbjhIaxBwdwpce25785uurPL9yuxst6sWqusukQwzg?=
+ =?us-ascii?Q?HAkd2gKroy09VEK+FHcFjcZb/ejgKYoiRDxq2liY4g3XsNY/KJU8YsJ2KEDH?=
+ =?us-ascii?Q?8TXNCR7fI2yyUM2bP5a6Q+Y72T+lFI/Irswf54T7aGR6MgPeEbZm1ldeN0WE?=
+ =?us-ascii?Q?vDLSqFAc6dQITiUBb7rVvqliWs27DISJwg7ItM8BAxFBSpqf9cRoz6kS/n9h?=
+ =?us-ascii?Q?CkvQAJgD0ABAYzxLNzU0PgMTU+ETcdUXYXzhRr3BR2Xn3AFbfnZg/cAeRD6P?=
+ =?us-ascii?Q?oS+4XIs+tgorgGb9Sdk8Sk3TIPXvT2j5oeVfoeED8aEkkcZADV6UCKHZCp3G?=
+ =?us-ascii?Q?Z/gkRLLWdSX5imXCX3XwynN6fvq9Ony0lvsOxazwvFpwXE3i9HNck8rwijEI?=
+ =?us-ascii?Q?2qdBXvJPrftGyCZTEZgko1RvnBeZaz3EuwDBExPF+R4Z2nX7KLTXJBGwy3TU?=
+ =?us-ascii?Q?699KCy+JDxgJbua1L/K1ZMb4/8zWup0G+nFx/n9UuJWQhq2qrmFdOoeucuvk?=
+ =?us-ascii?Q?KYjh3niv7w2jhh8WglMrwr5+63l9mqGmPnFiQj8p9Tk7oW7j/B6Ln2c2OsBH?=
+ =?us-ascii?Q?SYREUYo5qg+8++dVzW1ZmygvuESuw1LNCY6EKKknh4AZPBxggjXgxgi2ldsx?=
+ =?us-ascii?Q?pVQCs4sODfo96Kf06ucyzcYuP/Db6RsKQj3EoujRFW/r2lb7An4IR10FsG7f?=
+ =?us-ascii?Q?zKjnPJo87vlCaAKJdCegzcdzEU5+k9fLvf7ikYMoTMwUYRwuf/ahhvZK8rOs?=
+ =?us-ascii?Q?e85HKhbGsRAsnWiWFt+smUzXswTs2SQKCQgWPQQYRSu8crvZDuV4u1DHDwvk?=
+ =?us-ascii?Q?kRkXBnlvTmGO2luMPNeTlV0Uj9FgyiGeoKshYkuAA6NMZsopsYPzL8a2IbUT?=
+ =?us-ascii?Q?ztrnebD7hnCpnIuoMcXuMtIdsHPTyKr7XKysd+kV0dZBvN6dmClM+wItAeV4?=
+ =?us-ascii?Q?MRVDILicyppSLJknc+IaMicW3/1XRAicOxriBorlVzI6ub1s9cjZuEjkLYZ5?=
+ =?us-ascii?Q?Maw1YftQ4BCkpxbYvc1bhOCQ?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7618f60-a5b9-4140-b129-08d931646dee
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB5988.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2021 07:49:26.2546 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vFXbCasATEWyep0+sPQcnb0s+aCbPnGpAQu5p83kDf0ReTjGdOCJU8QpyDrgVe7sgEYnBwBw0WLjvVt2iri4EOF1MxMyh7BYrStNaGguoFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6129
+Received-SPF: pass client-ip=2a01:111:f400:fe0d::32c;
+ envelope-from=Valeriy.Vdovin@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,52 +161,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Jos=c3=a9_Ricardo_Ziviani?= <jose.ziviani@suse.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 7:37 AM, Gerd Hoffmann wrote:
->   Hi,
+On Thu, Jun 17, 2021 at 07:22:36AM +0200, Markus Armbruster wrote:
+> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
 > 
->>>> However, please correct me if I'm wrong, I understand that an accelerator as a 
->>>> module will add an overhead that some user won't be willing to pay. So, give 
->>>> them the option to have built-in accelerators seems a good idea.
->>>
->>> Modules add some overhead, yes, and there are surely use-cases where you
->>
->> Where do we expect the overhead to be, and of which nature?
+> > Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
 > 
-> The dynamic linking needed then when loading the module adds a bit of
-> overhead (compared to static linked code).  Increases qemu start time
-> a bit.
+> It's actually a QMP command.  There are no "qapi methods".
 > 
-> On the other hand the start overhead can be reduced by modules,
-> specifically for the case that a module depends on shared libraries and
-> is *not* needed.  With for example gtk being modular the gtk shared
-> libraries (plus indirect dependencies like pango, cairo etc) are only
-> loaded when you actually use gtk, whereas a non-modular build would load
-> them no matter what.
+> > get virtualized cpu model info generated by QEMU during VM initialization in
+> > the form of cpuid representation.
+> >
+> > Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+> 
+> virtual CPU
+> 
+> > command line option. From there it takes the name of the model as the basis for
+> > feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
+> > that state if additional cpu features should be present on the virtual cpu or
+> > excluded from it (tokens '+'/'-' or '=on'/'=off').
+> > After that QEMU checks if the host's cpu can actually support the derived
+> > feature set and applies host limitations to it.
+> > After this initialization procedure, virtual cpu has it's model and
+> > vendor names, and a working feature set and is ready for identification
+> > instructions such as CPUID.
+> >
+> > Currently full output for this method is only supported for x86 cpus.
+> 
+> Not sure about "currently": the interface looks quite x86-specific to me.
+> 
+Yes, at some point I was thinking this interface could become generic,
+but does not seem possible, so I'll remove this note.
 
-Interesting observation.
-
+> The commit message doesn't mention KVM except in the command name.  The
+> schema provides the command only if defined(CONFIG_KVM).
 > 
-> The code reorganization needed for modularization can add some overhead
-> too, when using function pointers instead of direct calls for example
-> (see QemuSpiceOps).  That overhead doesn't go away when you do a
-> non-modular build though ...
+> Can you explain why you need the restriction to CONFIG_KVM?
 > 
-> take care,
->   Gerd
+This CONFIG_KVM is used as a solution to a broken build if --disable-kvm
+flag is set. I was choosing between this and writing empty implementation into
+kvm-stub.c
+> > To learn exactly how virtual cpu is presented to the guest machine via CPUID
+> > instruction, new qapi method can be used. By calling 'query-kvm-cpuid'
 > 
-
-Do we need to be able to unload modules that we previously loaded? Or is this not a realistic requirement?
-
-Thanks,
-
-Claudio
+> QMP command again.
+> 
+> > method, one can get a full listing of all CPUID leafs with subleafs which are
+> > supported by the initialized virtual cpu.
+> >
+> > Other than debug, the method is useful in cases when we would like to
+> > utilize QEMU's virtual cpu initialization routines and put the retrieved
+> > values into kernel CPUID overriding mechanics for more precise control
+> > over how various processes perceive its underlying hardware with
+> > container processes as a good example.
+> >
+> > Output format:
+> > The output is a plain list of leaf/subleaf agrument combinations, that
+> 
+> Typo: argument
+> 
+> > return 4 words in registers EAX, EBX, ECX, EDX.
+> >
+> > Use example:
+> > qmp_request: {
+> >   "execute": "query-kvm-cpuid"
+> > }
+> >
+> > qmp_response: {
+> >   "return": [
+> >     {
+> >       "eax": 1073741825,
+> >       "edx": 77,
+> >       "in-eax": 1073741824,
+> >       "ecx": 1447775574,
+> >       "ebx": 1263359563
+> >     },
+> >     {
+> >       "eax": 16777339,
+> >       "edx": 0,
+> >       "in-eax": 1073741825,
+> >       "ecx": 0,
+> >       "ebx": 0
+> >     },
+> >     {
+> >       "eax": 13,
+> >       "edx": 1231384169,
+> >       "in-eax": 0,
+> >       "ecx": 1818588270,
+> >       "ebx": 1970169159
+> >     },
+> >     {
+> >       "eax": 198354,
+> >       "edx": 126614527,
+> >       "in-eax": 1,
+> >       "ecx": 2176328193,
+> >       "ebx": 2048
+> >     },
+> >     ....
+> >     {
+> >       "eax": 12328,
+> >       "edx": 0,
+> >       "in-eax": 2147483656,
+> >       "ecx": 0,
+> >       "ebx": 0
+> >     }
+> >   ]
+> > }
+> >
+> > Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> > ---
+> > v2: - Removed leaf/subleaf iterators.
+> >     - Modified cpu_x86_cpuid to return false in cases when count is
+> >       greater than supported subleaves.
+> > v3: - Fixed structure name coding style.
+> >     - Added more comments
+> >     - Ensured buildability for non-x86 targets.
+> > v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
+> >     - Fixed comments.
+> >     - Removed target check in qmp_query_cpu_model_cpuid.
+> > v5: - Added error handling code in qmp_query_cpu_model_cpuid
+> > v6: - Fixed error handling code. Added method to query_error_class
+> > v7: - Changed implementation in favor of cached cpuid_data for
+> >       KVM_SET_CPUID2
+> > v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
+> >     - Modified documentation to qmp method
+> >     - Removed helper struct declaration
+> > v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
+> >     - Pasted more complete response to commit message.
+> >
+> >  qapi/machine-target.json   | 43 ++++++++++++++++++++++++++++++++++++++
+> >  target/i386/kvm/kvm.c      | 37 ++++++++++++++++++++++++++++++++
+> >  tests/qtest/qmp-cmd-test.c |  1 +
+> >  3 files changed, 81 insertions(+)
+> >
+> > diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> > index e7811654b7..1e591ba481 100644
+> > --- a/qapi/machine-target.json
+> > +++ b/qapi/machine-target.json
+> > @@ -329,3 +329,46 @@
+> >  ##
+> >  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+> >    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> > +
+> > +##
+> > +# @CpuidEntry:
+> > +#
+> > +# A single entry of a CPUID response.
+> > +#
+> > +# One entry holds full set of information (leaf) returned to the guest in response
+> > +# to it calling a CPUID instruction with eax, ecx used as the agruments to that
+> 
+> Typi: agruments
+> 
+> > +# instruction. ecx is an optional argument as not all of the leaves support it.
+> 
+> Please wrap doc comment lines around column 70.
+> 
+> > +#
+> > +# @in-eax: CPUID argument in eax
+> > +# @in-ecx: CPUID argument in ecx
+> > +# @eax: eax
+> > +# @ebx: ebx
+> > +# @ecx: ecx
+> > +# @edx: edx
+> 
+> Suggest
+> 
+>    # @eax: CPUID result in eax
+> 
+> and so forth.
+> 
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'CpuidEntry',
+> > +  'data': { 'in-eax' : 'uint32',
+> > +            '*in-ecx' : 'uint32',
+> > +            'eax' : 'uint32',
+> > +            'ebx' : 'uint32',
+> > +            'ecx' : 'uint32',
+> > +            'edx' : 'uint32'
+> > +          },
+> > +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> > +
+> > +##
+> > +# @query-kvm-cpuid:
+> > +#
+> > +# Returns raw data from the KVM CPUID table for the first VCPU.
+> > +# The KVM CPUID table defines the response to the CPUID
+> > +# instruction when executed by the guest operating system.
+> > +#
+> > +# Returns: a list of CpuidEntry
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'command': 'query-kvm-cpuid',
+> > +  'returns': ['CpuidEntry'],
+> > +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> 
+> Is this intended to be a stable interface?  Interfaces intended just for
+> debugging usually aren't.
+> 
+It is intented to be used as a stable interface.
+> [...]
+> 
 
