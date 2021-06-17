@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531A53AB05A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:53:12 +0200 (CEST)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642763AB068
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:55:18 +0200 (CEST)
+Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltohz-0007J0-Dj
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
+	id 1ltok1-0007B8-6y
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:55:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNg-0003IB-Md
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:12 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:44941)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNe-0006S6-Mo
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:12 -0400
-Received: by mail-ej1-x633.google.com with SMTP id gt18so8690176ejc.11
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ih1xddWmyW9WnFhSZ9eRiE6DF/hMjeq/MCb4afEYuBY=;
- b=IK2Zaum/1R3bz4w0YCSAYB1xPl3BAL3bv/jzV/qr8GZ3e4GgqE1zFA+fsl10B1hWGL
- tyomFaEfRxoL/69R0kBFbX2cZ7w0PMGJh7fp2Z54hiEqnsofE/ME1xDnrXrxzHkDJ8qc
- BcENH/nGv4RYXmLwM83vA9sGKvAi/J+/6SV96uvDT/lpnwV65rGqOlypkIrqm7oAxgG9
- GNpJhDJirvH5H+mz8oR8DgqaTftGMDMzgx1d0ej4DHyUB7Puq1fTJgUYNQnAunOuHFw6
- smwogOsW+8O1V6LKX/cxO21w/LdCXuYfLchIOP9noJE/3Am/um9jug/JK95boZwuklTt
- elpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ih1xddWmyW9WnFhSZ9eRiE6DF/hMjeq/MCb4afEYuBY=;
- b=nROjfuTyg6q29o7epfxzUqqAJqnGGCynl0sSjHsx+6DUFnHPf4e0fabib72/UN0Nm5
- YLuPlrQSmujwVYXN9a5ljm2vlsKLKv2Y85eiWvZawKSx2xwNWe7yDecZUSBZf1mgylkM
- XaQpJtJ1KxfjvGUvjTH/AcAjpN8VtuzY0QvnDtOuINBElI9qx8TEDE19a5scp7MIWDJ7
- kNl/KUPC6alxhs34AkL/zkEy2WS+uPNQTK+qgh9ljlSnnnTs2dfxw/nYM5a3KJtgs+Go
- fCghkGgK5l1wIlHB7nIK4hjiwWtYDUuNlfGmbU8OyDcb4SN4yVFejcc4FS+GdjW4T6w5
- soiw==
-X-Gm-Message-State: AOAM531DqT3YDViZw3pjl36+rOCA0L0JKCwPErK1S0vdzGLjg8r2gqRV
- wNyX/4y8T4RsMK4df9ctqx1Ov2ky25U=
-X-Google-Smtp-Source: ABdhPJwZU2hxN+vBE8WItKOUpqhAHst8eyd5aYr8s7qLE9dXiiubltDGg+AMwXt5nf2/K6k+rrRTLg==
-X-Received: by 2002:a17:906:670c:: with SMTP id
- a12mr4118558ejp.249.1623922328333; 
- Thu, 17 Jun 2021 02:32:08 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:32:08 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 45/45] configure: Remove probe for _Static_assert
-Date: Thu, 17 Jun 2021 11:31:34 +0200
-Message-Id: <20210617093134.900014-46-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
-References: <20210617093134.900014-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ltoNH-0002im-EG; Thu, 17 Jun 2021 05:31:48 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:33681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ltoNF-000666-5q; Thu, 17 Jun 2021 05:31:46 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 102965C00E4;
+ Thu, 17 Jun 2021 05:31:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 17 Jun 2021 05:31:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=p5zQhiBV33GZuq3+MAo9fnziSt1
+ bYCeg4WJykhUrgAI=; b=cS2jrwnj9EOLTbl2Ht/Gvn1MnxXGzjn6uS89He3BvxE
+ RePw67mJ/csdXgmtrSfQpz7IJHnSK8lLFbs5MlHhfNsPxadezVtc5pJHcs2eRtn2
+ Y/Oe4NC4kCdFw6btzKpvKuHGLEdNPjPMclDt4Je6oKAme7CRCWtviooAkvYwyGWZ
+ 9yqSlL+WY2IQc4sN1iFR22LYQYHdG0zD7f3fuY8UahyUPI9kWa0YqPQ0Er6c7zfr
+ BVluVxEXGXBJhjqoZDDyEpEMtseRKD0z2L0cteAOZjpF73Xg52YY5GRh8HlE/WE1
+ io+AUtqTQY0bwVhTej/hYhNOZIlWpNakuaxZk7412ng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=p5zQhi
+ BV33GZuq3+MAo9fnziSt1bYCeg4WJykhUrgAI=; b=BEi0lOUOG5SeMe7enhimwA
+ /ohUh+ykQIKdV9ny7JxBpKv/+CBzsBL/+NJAlSxOHb6dKcHsx+ZpT3J4J2wlcrJa
+ yIjbnXLZMQn2Zpxks/iVbeyeBaHAOPhPkjoex8sw4aDrfUZnV4n2unFK8Im6tJzb
+ T9DmRFyV9wJ2D/HUbcE4Rnk91t9U4dR93u+V+Pn0sCXmvw/yiKbd5eD/OIxJJKji
+ kxvL4qdjhSfcnYf9TjKnLMKiz944iHpN4uN/6auEZlXnib2pPGDxJ0XdQNKVeqEN
+ MfS3lWFfA+Nu7ZSn/yrpGR1XN3q3pI14HsdTSnFi2C1LloWgpRzYyvrR7wSW6vAw
+ ==
+X-ME-Sender: <xms:fRbLYAKhZ9S3JpAoxw2GB5a-94RrbgHX7VGMBPdIjrKBzCT8b16JQQ>
+ <xme:fRbLYAJ2lfyeEe8yBO1OJuaK1lPyk_HxT2X-SEE6rJRA_rcVhROztfoG_6LXUAdST
+ 8n3k97x86kh6Bnxc_4>
+X-ME-Received: <xmr:fRbLYAtj4VANMAL2ot0eGRyFx-y8FxtQ2RD5RrNWdtQfau6VJ0-nmBt5Qm3RVR4bk8iqUgVsQyRUB5XLsOf1dc7art-r7XHw3NEcOTUoDeZLRFzyUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
+ ertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgvlhgv
+ vhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjeegudffueeiteekieelkedvueelte
+ evjeduieeludfffeejgeffhfduvdduffeknecuvehluhhsthgvrhfuihiivgeptdenucfr
+ rghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:fRbLYNZ5-gtNNSwTumBOtnQKqDoMGF_MwrpyuQkMgmxWqL9hJwDzeg>
+ <xmx:fRbLYHbop0QZ3_CJTNhReaa7MUmM8Ej4E1PPJIsMzfMs8uB9NNX4kg>
+ <xmx:fRbLYJCaBjjAei8vATsjIIV62DI2M5b8VuZFMUIf0_2yGCKEOfpYeQ>
+ <xmx:fxbLYL6EMHgwwc0w2G0A4kUh1dDLzLCSyD93a_giFyA6gsHmiv8PlQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 17 Jun 2021 05:31:40 -0400 (EDT)
+Date: Thu, 17 Jun 2021 11:31:38 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH v3 1/2] hw/nvme: fix endianess conversion and add
+ controller list
+Message-ID: <YMsWehNz6ncQPeVV@apples.localdomain>
+References: <CGME20210614163337epcas5p2b9518d7f78fc59bc61361bab99f40f70@epcas5p2.samsung.com>
+ <20210614162927.10515-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+OehKm9dq2dGhjTz"
+Content-Disposition: inline
+In-Reply-To: <20210614162927.10515-1-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,86 +93,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
 
-_Static_assert is part of C11, which is now required.
+--+OehKm9dq2dGhjTz
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210614233143.1221879-9-richard.henderson@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure               | 18 ------------------
- include/qemu/compiler.h | 11 -----------
- 2 files changed, 29 deletions(-)
+On Jun 14 21:59, Gollu Appalanaidu wrote:
+>Add the controller identifiers list CNS 0x13, available list of ctrls
+>in NVM Subsystem that may or may not be attached to namespaces.
+>
+>In Identify Ctrl List of the CNS 0x12 and 0x13 no endian conversion
+>for the nsid field.
+>
+>These two CNS values shows affect when there exists a Subsystem.
+>Added condition if there is no Subsystem return invalid field in
+>command.
+>
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>
+>-v3:
+> Added condition if there is no Subsystem return invalid field in
+> command
+>
+>-v2:
+> Fix the review comments from Klaus and squashed 2nd commit into
+> 1st commit
+>---
+> hw/nvme/ctrl.c       | 26 ++++++++++++++++++--------
+> hw/nvme/trace-events |  2 +-
+> include/block/nvme.h |  1 +
+> 3 files changed, 20 insertions(+), 9 deletions(-)
+>
 
-diff --git a/configure b/configure
-index ebc016111a..262ab71802 100755
---- a/configure
-+++ b/configure
-@@ -5090,20 +5090,6 @@ if compile_prog "" "" ; then
-     have_sysmacros=yes
- fi
- 
--##########################################
--# check for _Static_assert()
--
--have_static_assert=no
--cat > $TMPC << EOF
--_Static_assert(1, "success");
--int main(void) {
--    return 0;
--}
--EOF
--if compile_prog "" "" ; then
--    have_static_assert=yes
--fi
--
- ##########################################
- # check for utmpx.h, it is missing e.g. on OpenBSD
- 
-@@ -6035,10 +6021,6 @@ if test "$have_sysmacros" = "yes" ; then
-   echo "CONFIG_SYSMACROS=y" >> $config_host_mak
- fi
- 
--if test "$have_static_assert" = "yes" ; then
--  echo "CONFIG_STATIC_ASSERT=y" >> $config_host_mak
--fi
--
- if test "$have_utmpx" = "yes" ; then
-   echo "HAVE_UTMPX=y" >> $config_host_mak
- fi
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 5766d61589..3baa5e3790 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -72,18 +72,7 @@
-         int:(x) ? -1 : 1; \
-     }
- 
--/* QEMU_BUILD_BUG_MSG() emits the message given if _Static_assert is
-- * supported; otherwise, it will be omitted from the compiler error
-- * message (but as it remains present in the source code, it can still
-- * be useful when debugging). */
--#if defined(CONFIG_STATIC_ASSERT)
- #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
--#elif defined(__COUNTER__)
--#define QEMU_BUILD_BUG_MSG(x, msg) typedef QEMU_BUILD_BUG_ON_STRUCT(x) \
--    glue(qemu_build_bug_on__, __COUNTER__) __attribute__((unused))
--#else
--#define QEMU_BUILD_BUG_MSG(x, msg)
--#endif
- 
- #define QEMU_BUILD_BUG_ON(x) QEMU_BUILD_BUG_MSG(x, "not expecting: " #x)
- 
--- 
-2.31.1
+Series LGTM.
 
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--+OehKm9dq2dGhjTz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDLFnYACgkQTeGvMW1P
+DeluxQf9GRSBiQI18bhQ+begbWyKpSvAuxqgL60QJxuY93Pw5arOCc7EISZlenB1
+scvIwpu/jgyPIcDh8CxCRTGsK2El1C8NTLkbO6ca+AmmWnmmYKZyzR8kQK55OBxl
+aDcYRMSDqtHnEUeZRr7fiW8zQLos7Lk5+Dbjv4zg2ZXjMkTG5omschlwkZsT25Xn
+oMzOJzQtNGzjsoTh9pOgZT/99qf70O5GBjZ1oeM99wTp6wcDZYFkt9C2FkcyA3S1
+OChlwtDXMChrAp+nJpGG0Qb70YIsq1GrLtGjd0Pvtv8bBWHV/CY6ODbdlz8HXSXa
++mxp6NAE61A27PUTwaSalX8aq/dCkw==
+=nAuv
+-----END PGP SIGNATURE-----
+
+--+OehKm9dq2dGhjTz--
 
