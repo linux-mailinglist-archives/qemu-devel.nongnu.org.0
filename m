@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18B73AB4D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:33:24 +0200 (CEST)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68223AB4DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:36:23 +0200 (CEST)
+Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lts95-0002DT-SC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:33:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45072)
+	id 1ltsBy-0007uB-Ot
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1ltroS-0007uj-Rp
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:05 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:42619
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1ltroM-0001fn-TN
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:12:04 -0400
-HMM_SOURCE_IP: 172.18.0.218:48906.1413600847
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.39?logid-7be0abd77ce94142b7bfe1792c57913a
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 7B3C9280029;
- Thu, 17 Jun 2021 21:11:58 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 62214b9dc3c04bd7ab0ded0cc64b776c for
- qemu-devel@nongnu.org; Thu Jun 17 21:11:57 2021
-X-Transaction-ID: 62214b9dc3c04bd7ab0ded0cc64b776c
-X-filter-score: filter<0>
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/7] migration/dirtyrate: adjust order of registering thread
-Date: Thu, 17 Jun 2021 21:15:42 +0800
-Message-Id: <24a3d6e1546e6620ede9b6225b6c5cb605f67fc1.1623935540.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1623935540.git.huangy81@chinatelecom.cn>
-References: <cover.1623935540.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1623935540.git.huangy81@chinatelecom.cn>
-References: <cover.1623935540.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lts0M-0000q7-P0; Thu, 17 Jun 2021 09:24:22 -0400
+Received: from serv1.kernkonzept.com ([2a01:4f8:1c1c:b490::2]:33315
+ helo=mx.kernkonzept.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jakub.jermar@kernkonzept.com>)
+ id 1lts0J-0006k6-1k; Thu, 17 Jun 2021 09:24:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=kernkonzept.com; s=mx1; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Xg/CpoPf6Ga/DsUIGt+X9hD1AX4DsvTzSlRVZM36Wl4=; b=NmXEd/vrIu9MJPuhk4k5SmSLGU
+ vKLFw60okIQjO6GlTELPfYE/TeE5RT9YlbVDaxnVrSd+QU4v8HearamYnOpUEWF9hod6nZAt7tI/p
+ A2D19VyNc92sFlmb1xDOurt8K7H6awTT1UxKwLwQZEE/DAaqqPW8p4sVPFvFkD9MtTBYIHaS6nsZI
+ rwmCdWZ+8VSKt3ZfPcOmQHFefEtDhoA92KvAboe1Mq2FShvDGoK1K6WmUBHfuG7Y81rlhL1ndACVH
+ 3EpRgOQd2CR3WtCq7BaEHrrKM2EjzZIR/N5sD7W34rEXqRcCwMt9+1BzCN19kQEPAQfIkqk4eQSRf
+ ogAfj7qA==;
+Received: from 93-153-64-87.customers.tmcz.cz ([93.153.64.87]
+ helo=[192.168.0.108])
+ by mx.kernkonzept.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) id 1lts0D-0003Bq-F6; Thu, 17 Jun 2021 15:24:13 +0200
+Subject: Re: [PATCH] hw/nvme: fix pin-based interrupt behavior (again)
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20210617100820.75510-1-its@irrelevant.dk>
+ <YMsfXG+SeYuMvHlt@apples.localdomain>
+From: =?UTF-8?B?SmFrdWIgSmVybcOhxZk=?= <jakub.jermar@kernkonzept.com>
+Message-ID: <7408fc95-6d6b-b3ce-698e-41cb268b8d03@kernkonzept.com>
+Date: Thu, 17 Jun 2021 15:24:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YMsfXG+SeYuMvHlt@apples.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.220;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a01:4f8:1c1c:b490::2;
+ envelope-from=jakub.jermar@kernkonzept.com; helo=mx.kernkonzept.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.254,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,61 +68,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On 6/17/21 12:09 PM, Klaus Jensen wrote:
+> On Jun 17 12:08, Klaus Jensen wrote:
+>> From: Klaus Jensen <k.jensen@samsung.com>
+>>
+>> Jakub noticed[1] that, when using pin-based interrupts, the device will
+>> unconditionally deasssert when any CQEs are acknowledged. However, the
+>> pin should not be deasserted if other completion queues still holds
+>> unacknowledged CQEs.
+>>
+>> The bug is an artifact of commit ca247d35098d ("hw/block/nvme: fix
+>> pin-based interrupt behavior") which fixed one bug but introduced
+>> another. This is the third time someone tries to fix pin-based
+>> interrupts (see commit 5e9aa92eb1a5 ("hw/block: Fix pin-based interrupt
+>> behaviour of NVMe"))...
+>>
+>> Third time's the charm, so fix it, again, by keeping track of how many
+>> CQs have unacknowledged CQEs and only deassert when all are cleared.
+>>
+>>  [1]: <20210610114624.304681-1-jakub.jermar@kernkonzept.com>
+>>
+>> Fixes: ca247d35098d ("hw/block/nvme: fix pin-based interrupt behavior")
+>> Reported-by: Jakub Jermář <jakub.jermar@kernkonzept.com>
+>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>> ---
+>> hw/nvme/nvme.h |  1 +
+>> hw/nvme/ctrl.c | 15 ++++++++++++++-
+>> 2 files changed, 15 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>> index 93a7e0e5380e..60250b579464 100644
+>> --- a/hw/nvme/nvme.h
+>> +++ b/hw/nvme/nvme.h
+>> @@ -405,6 +405,7 @@ typedef struct NvmeCtrl {
+>>     uint32_t    max_q_ents;
+>>     uint8_t     outstanding_aers;
+>>     uint32_t    irq_status;
+>> +    int         cq_pending;
+>>     uint64_t    host_timestamp;                 /* Timestamp sent by 
+>> the host */
+>>     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+>>     uint64_t    starttime_ms;
+>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> index 7dea64b72e6a..9419f67c4e88 100644
+>> --- a/hw/nvme/ctrl.c
+>> +++ b/hw/nvme/ctrl.c
+>> @@ -473,7 +473,9 @@ static void nvme_irq_deassert(NvmeCtrl *n, 
+>> NvmeCQueue *cq)
+>>             return;
+>>         } else {
+>>             assert(cq->vector < 32);
+>> -            n->irq_status &= ~(1 << cq->vector);
+>> +            if (!n->cq_pending) {
+>> +                n->irq_status &= ~(1 << cq->vector);
+>> +            }
+>>             nvme_irq_check(n);
+>>         }
+>>     }
+>> @@ -1258,6 +1260,7 @@ static void nvme_post_cqes(void *opaque)
+>>     NvmeCQueue *cq = opaque;
+>>     NvmeCtrl *n = cq->ctrl;
+>>     NvmeRequest *req, *next;
+>> +    bool pending = cq->head != cq->tail;
+>>     int ret;
+>>
+>>     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+>> @@ -1287,6 +1290,10 @@ static void nvme_post_cqes(void *opaque)
+>>         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+>>     }
+>>     if (cq->tail != cq->head) {
+>> +        if (!pending) {
+>> +            n->cq_pending++;
+>> +        }
+>> +
+>>         nvme_irq_assert(n, cq);
+>>     }
+>> }
+>> @@ -4099,6 +4106,11 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, 
+>> NvmeRequest *req)
+>>         trace_pci_nvme_err_invalid_del_cq_notempty(qid);
+>>         return NVME_INVALID_QUEUE_DEL;
+>>     }
+>> +
+>> +    if (cq->tail != cq->head) {
+>> +        n->cq_pending--;
+>> +    }
+>> +
+>>     nvme_irq_deassert(n, cq);
+>>     trace_pci_nvme_del_cq(qid);
+>>     nvme_free_cq(cq, n);
+>> @@ -5758,6 +5770,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr 
+>> addr, int val)
+>>         }
+>>
+>>         if (cq->tail == cq->head) {
+>> +            n->cq_pending--;
+>>             nvme_irq_deassert(n, cq);
+>>         }
+>>     } else {
+>> -- 
+>> 2.32.0
+>>
+> 
+> Jakub, can you test this in your environment?
 
-registering get_dirtyrate thread in advance so that both
-page-sampling and dirty-ring mode can be covered.
+Yep, still tests fine.
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- migration/dirtyrate.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index e0a27a9..a9bdd60 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -352,7 +352,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
-     int64_t msec = 0;
-     int64_t initial_time;
- 
--    rcu_register_thread();
-     rcu_read_lock();
-     initial_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-     if (!record_ramblock_hash_info(&block_dinfo, config, &block_count)) {
-@@ -375,7 +374,6 @@ static void calculate_dirtyrate(struct DirtyRateConfig config)
- out:
-     rcu_read_unlock();
-     free_ramblock_dirty_info(block_dinfo, block_count);
--    rcu_unregister_thread();
- }
- 
- void *get_dirtyrate_thread(void *arg)
-@@ -383,6 +381,7 @@ void *get_dirtyrate_thread(void *arg)
-     struct DirtyRateConfig config = *(struct DirtyRateConfig *)arg;
-     int ret;
-     int64_t start_time;
-+    rcu_register_thread();
- 
-     ret = dirtyrate_set_state(&CalculatingState, DIRTY_RATE_STATUS_UNSTARTED,
-                               DIRTY_RATE_STATUS_MEASURING);
-@@ -401,6 +400,8 @@ void *get_dirtyrate_thread(void *arg)
-     if (ret == -1) {
-         error_report("change dirtyrate state failed.");
-     }
-+
-+    rcu_unregister_thread();
-     return NULL;
- }
- 
--- 
-1.8.3.1
-
+Jakub
 
