@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE7B3AB596
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 16:13:56 +0200 (CEST)
-Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66843AB593
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 16:12:10 +0200 (CEST)
+Received: from localhost ([::1]:41510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltsmJ-0005sl-1T
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 10:13:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
+	id 1ltskb-0001mX-VN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 10:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ltsiL-00065w-Dv; Thu, 17 Jun 2021 10:09:49 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:58209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1ltsiJ-0003KE-Kh; Thu, 17 Jun 2021 10:09:49 -0400
-Received: from [192.168.100.1] ([82.142.19.46]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mg6uW-1lNYVN11RO-00heYn; Thu, 17 Jun 2021 16:09:43 +0200
-Subject: Re: [PATCH v2] linux-user/trace-events: fix minor typo in format
- string
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210614144245.17660-1-alex.bennee@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <c4d3c46f-5777-745e-948b-344c67a83cc6@vivier.eu>
-Date: Thu, 17 Jun 2021 16:09:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ltsge-0000F7-3w
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:04 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:51711
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ltsga-0002YE-VR
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 10:08:03 -0400
+HMM_SOURCE_IP: 172.18.0.48:48630.1962201350
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.38?logid-05d08ad9f51a4d9e834e1f4ae90155af
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 17705280094;
+ Thu, 17 Jun 2021 22:07:50 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 05d08ad9f51a4d9e834e1f4ae90155af for
+ qemu-devel@nongnu.org; Thu Jun 17 22:07:52 2021
+X-Transaction-ID: 05d08ad9f51a4d9e834e1f4ae90155af
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/7] support dirtyrate at the granualrity of vcpu 
+Date: Thu, 17 Jun 2021 22:12:01 +0800
+Message-Id: <cover.1623938622.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20210614144245.17660-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WjPM8tSEuRmkTFGuk4IRyyiN2JnlVgosOM0jwxEC6jSQ8+Xc6J3
- 3P1+S305nC+Pxppy2mUsqGybyyKGmO30XXwvVg6cGSeLLsuidQeu2IltOvvanL2g41ej4yq
- myb+PagR6oPr1qWUTqG+W19PPXHzoxV6XxKkwiyT455w5P+Y3cP+6jcps8eBBReaZZyllKY
- oUMQyQIboAjWCk8IU0+Qw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5gPDSagS8uk=:i0PIRXmhUqZvJxEtI+kCyn
- ic9zc1XHLzbfBUjYRU4Y1s/LQQ3Zq1RODWc4Zh69Ngbl7Is8KbatSQm6jw+w+/Zt0F3JCAx+v
- PIBqcBe6EnpqGnon9payHbHbZRled1eUq+wPwLtMDOlKm5dQEgplsSAfkcc5lTxxxly1kqnmM
- qTU1LVeaNuTeANZjCepDzsYAjjriCvu7/5uY2eIbsTdJjSEaDzff/OMA0OJ03Opq0488pj7dt
- ABd0Ib+TWmTiBCCqLgx5PY5CxSY6P3loDJ+RK07pHPo4hX+IFYUZYRYuMgdT3ionjowB3R9Zr
- LAZ0zWzDFXCvvitleCHKimneu31+kqW7054wAlm7lkpGBQckFULD3OtJWr38ifmxj+/wIItyM
- Vdb10hTCVuFjm+nhhxF+7wYFx6d0qJfiAj78l5OrK+pPwvEizcfs+1aasYICh9pPQ1GHhIhNi
- s4QvcJZS0h+UMhUEYJFeU/fDNZUqXjESvmEKlQDo0697QtFcGtXcR6SgMdkyti8vyts3t00JZ
- hKb6C6bDKdG8JrQvIjPR6E=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.254,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,37 +62,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 14/06/2021 à 16:42, Alex Bennée a écrit :
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v2
->   - fix typo in summary :-O
-> ---
->  linux-user/trace-events | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/trace-events b/linux-user/trace-events
-> index 1ec0d11ee3..e7d2f54e94 100644
-> --- a/linux-user/trace-events
-> +++ b/linux-user/trace-events
-> @@ -11,7 +11,7 @@ user_do_rt_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx
->  user_do_sigreturn(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
->  user_force_sig(void *env, int target_sig, int host_sig) "env=%p signal %d (host %d)"
->  user_handle_signal(void *env, int target_sig) "env=%p signal %d"
-> -user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d("
-> +user_host_signal(void *env, int host_sig, int target_sig) "env=%p signal %d (target %d)"
->  user_queue_signal(void *env, int target_sig) "env=%p signal %d"
->  user_s390x_restore_sigregs(void *env, uint64_t sc_psw_addr, uint64_t env_psw_addr) "env=%p frame psw.addr 0x%"PRIx64 " current psw.addr 0x%"PRIx64
->  
-> 
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Applied to my linux-user-for-6.1 branch.
+v7
+- fix the code style problem, sorry about that
 
-Thanks,
-Laurent
+v6:
+- pick up commit "KVM: introduce dirty_pages and kvm_dirty_ring_enabled"
+  which has been dropped in verison 5
+
+v5:
+- rename global_dirty_log to global_dirty_tracking on Peter's advice
+
+- make global_dirty_tracking a bitmask:
+  1. add assert statement to ensure starting dirty tracking repeatly
+     not allowed.
+  2. add assert statement to ensure dirty tracking cannot be stopped
+     without having been started.
+
+- protecting dirty rate stat info:
+  1. drop the mutext for protecting dirty rate introduced in version 4
+  2. change the code block in query_dirty_rate_info so that requirements
+     of "safe racing" to the dirty rate stat can be meet
+
+- make the helper function "record_dirtypages" inline and change
+  the global var dirty_pages  to local var
+
+- free DirtyRateVcpuList in case of memory leak
+
+please review, thanks a lot.
+
+v4:
+- make global_dirty_log a bitmask:
+  1. add comments about dirty log bitmask
+  2. use assert statement to check validity of flags
+  3. add trace to log bitmask changes
+
+- introduce mode option to show what method calculation should be used,
+  also, export mode option in the as last commmit
+
+- split cleanup and init of dirty rate stat and move it in the main
+  thread
+
+- change the fields of DirtyPageRecord to uint64_t type so that we
+  can calculation the increased dirty pages with the formula
+  as Peter's advice: dirty pages = end_pages - start_pages
+
+- introduce mutex to protect dirty rate stat info
+
+- adjust order of registering thread
+
+- drop the memory free callback
+
+this version modify some code on Peter's advice, reference to:
+https://lore.kernel.org/qemu-devel/YL5nNYXmrqMlXF3v@t490s/
+
+thanks again.
+
+v3:
+- pick up "migration/dirtyrate: make sample page count configurable" to
+  make patchset apply master correctly
+
+v2:
+- rebase to "migration/dirtyrate: make sample page count configurable"
+
+- rename "vcpu" to "per_vcpu" to show the per-vcpu method
+
+- squash patch 5/6 into a single one, squash patch 1/2 also
+
+- pick up "hmp: Add "calc_dirty_rate" and "info dirty_rate" cmds"
+
+- make global_dirty_log a bitmask to make sure both migration and dirty
+  could not intefer with each other
+
+- add memory free callback to prevent memory leaking
+
+the most different of v2 fron v1 is that we make the global_dirty_log a
+bitmask. the reason is dirty rate measurement may start or stop dirty
+logging during calculation. this conflict with migration because stop
+dirty log make migration leave dirty pages out then that'll be a
+problem.
+
+make global_dirty_log a bitmask can let both migration and dirty
+rate measurement work fine. introduce GLOBAL_DIRTY_MIGRATION and
+GLOBAL_DIRTY_DIRTY_RATE to distinguish what current dirty log aims
+for, migration or dirty rate.
+
+all references to global_dirty_log should be untouched because any bit
+set there should justify that global dirty logging is enabled.
+
+Please review, thanks !
+
+v1:
+
+Since the Dirty Ring on QEMU part has been merged recently, how to use
+this feature is under consideration.
+
+In the scene of migration, it is valuable to provide a more accurante
+interface to track dirty memory than existing one, so that the upper
+layer application can make a wise decision, or whatever. More
+importantly,
+dirtyrate info at the granualrity of vcpu could provide a possibility to
+make migration convergent by imposing restriction on vcpu. With Dirty
+Ring, we can calculate dirtyrate efficiently and cheaply.
+
+The old interface implemented by sampling pages, it consumes cpu
+resource, and the larger guest memory size become, the more cpu resource
+it consumes, namely, hard to scale. New interface has no such drawback.
+
+Please review, thanks !
+
+Best Regards !
+
+Hyman Huang(黄勇) (7):
+  KVM: introduce dirty_pages and kvm_dirty_ring_enabled
+  memory: rename global_dirty_log to global_dirty_tracking
+  memory: make global_dirty_tracking a bitmask
+  migration/dirtyrate: introduce struct and adjust DirtyRateStat
+  migration/dirtyrate: adjust order of registering thread
+  migration/dirtyrate: move init step of calculation to main thread
+  migration/dirtyrate: implement dirty-ring dirtyrate calculation
+
+ accel/kvm/kvm-all.c     |   7 ++
+ hmp-commands.hx         |   7 +-
+ include/exec/memory.h   |  18 +++-
+ include/exec/ram_addr.h |   4 +-
+ include/hw/core/cpu.h   |   1 +
+ include/sysemu/kvm.h    |   1 +
+ migration/dirtyrate.c   | 267 ++++++++++++++++++++++++++++++++++++++++++------
+ migration/dirtyrate.h   |  19 +++-
+ migration/ram.c         |   8 +-
+ migration/trace-events  |   2 +
+ qapi/migration.json     |  46 ++++++++-
+ softmmu/memory.c        |  36 +++++--
+ softmmu/trace-events    |   1 +
+ 13 files changed, 355 insertions(+), 62 deletions(-)
+
+-- 
+1.8.3.1
+
 
