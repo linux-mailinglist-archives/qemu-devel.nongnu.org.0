@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D273AB430
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:00:04 +0200 (CEST)
-Received: from localhost ([::1]:50132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754B83AB41E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:57:40 +0200 (CEST)
+Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltrcp-0000df-5p
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
+	id 1ltraT-0002ex-Pc
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltqxS-0002pC-Ta
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:17:18 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38727)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltqxG-0007KY-D3
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:17:18 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id c9so6548777wrt.5
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:17:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mMEJsBk4lEhMG67jewa4wYDJSBP82VjfAeSFKbg3cxg=;
- b=SCIBvc916gKYqqmpX7aehromJFInptJhgDIuoTiF+dPtmulR2O1LkIImVJjtbHfCi7
- 4NTAvfoRG3zFts1cxQu9p7yAasxDLlBSx+k0xIN2OziTewWw3hFRz3bA5SRFas9Hai+r
- TbPW4lHMBt+Hixc5Rv/OUiSaqsg0s4mFTmVOzAISJrkeM6vwywmnNMIWm6alhNnxIC+y
- KjkopulRC36UEJp0jlqd0mlwWOhYQ+eD5POuwgWihSU8q8/P8cdoD1ygYE1W+sIugbSL
- 1d7Agp/fOM8mqFVTfSG3R4aYpPB/2CiheVne+4VgUoMck2nzvee7jEVz9BLNXNDOLzPq
- B7oQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqyn-00057x-4E
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:18:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltqyh-00083h-KE
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 08:18:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623932314;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZqQfyEYmo5Acarc124e10AAtRC2hvdFm0iOLTOwWE50=;
+ b=Aykg2iimN3xykBokOwqg3ldLCM1LC5C5s5CS0q+O305YAeLX02x1iPWkV/WqqfRtZ1ROj2
+ uy5Q6ZtR/5XMS2rsyns1+f/C0i8GVfN9mxXOo9EzhXEiQmBSAbQXCBTJk2uBmrUAzmrCSi
+ dZJfjANvFzNUkS/LxyZs0045suWW1Iw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-ZsY6qSVYMnWtEgMiIXay6w-1; Thu, 17 Jun 2021 08:18:33 -0400
+X-MC-Unique: ZsY6qSVYMnWtEgMiIXay6w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ x9-20020adfffc90000b02901178add5f60so2857493wrs.5
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 05:18:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mMEJsBk4lEhMG67jewa4wYDJSBP82VjfAeSFKbg3cxg=;
- b=jDi5o/Z+IUkRazaf68ZLYdhxcy8K4bRDqT/pTw863uE5RZJEn3jpijUrH4BmSVZm86
- J29D3d+SH1qt4qejpyrIaqNQ3lUclBZGdPQjjNu1/3wRJWq1Z1zbyovGRyf9CrmHJOIg
- eOgAVgSi+5LSj8xp91GECXTNjB+laMZv2UpUqqx1GkVHbiUbzCz99nLpn7TgVCUJWCa8
- JktOU9HODLAHycOhclLL39giowObRLCmfUAE+imm0EDH+QddCbvFh9hMW08G0iUoLBxw
- 9jMQDXt8ZUu1Tm0FS+TqGmb7TWmcenAMrc8+16PS1tD26qRsXS9embUMoM9TU82KpktK
- kj1w==
-X-Gm-Message-State: AOAM530+N048zHWbAhTHIKW08LW/KFKfPEHZ2fdUtjB/Sy+OgbnDoQiO
- B/2wumXEvkgQvUnIFU6n7SLTIdckcwcBMg==
-X-Google-Smtp-Source: ABdhPJzSX7WeLB8sW6umiFLj4880Z9HQnGvTh2/preFrxyl9WGY6pDebDpdZ9i8XZ01346sfBvfkkQ==
-X-Received: by 2002:a5d:6584:: with SMTP id q4mr5310870wru.230.1623932225192; 
- Thu, 17 Jun 2021 05:17:05 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a1sm6961970wra.63.2021.06.17.05.17.04
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cDIMJSoHJMTeOKUC+RuK1vA3jkMiNmL8tZUiD7bs0PU=;
+ b=YTqdX8pPXY9SFELBwyQyZSy9Dt14IBkaYEDICSFzxG/23DPm4qGLgDlfyK4PE4ozZW
+ RJ1uGdCfg91+MG9L6DjI0R/isYacjcoUbM7YtoyOq2HStmZvibZ5CZjU+mSeMHFLz+11
+ lBoAv7mSpJDmeqrnYegPX/1ukpFhcIk7dtgBV9uqhtg5c0u59xqtHxj1Nkwy4Tr/5AQw
+ 4CRj0NCbURhQV85rPV1MEBU9QGsTCNlP+wf42Pdb46BV6vlpOH8YEXSTfDw8cduHmoyZ
+ BHN2E2ba/5BIQ/pxFk+P8Vga7qI/JvalCkaHJUtZB0ccqnhokqCOUkwCSM7DnL8F9CtB
+ SgyQ==
+X-Gm-Message-State: AOAM533ID5lOFLCTZA2sZCeN1DvegViFnhLUlwrKVSe5hZUnLhtYBSQk
+ OqUm+0XKobFc9xo6huHkIruPhYHXnF0OnkSJV+ykiqitgsjSZoDFWx2eUJEUNa+5vziG1JJsV3x
+ 0AjGz7U0qGC4QznN5r92XozJWCEtSbPmebJt2c/88E4MYbHHe9gfTEz/q+EkmTeX1
+X-Received: by 2002:a1c:f60f:: with SMTP id w15mr4766689wmc.5.1623932312192;
+ Thu, 17 Jun 2021 05:18:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1jCxqkUBdZHavocfZRt5rmpzdX2mFXf5EeMZEC9QtFNLLdIN+EARa1AQDMiEEA6nmRikjVQ==
+X-Received: by 2002:a1c:f60f:: with SMTP id w15mr4766671wmc.5.1623932312047;
+ Thu, 17 Jun 2021 05:18:32 -0700 (PDT)
+Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id p13sm4232739wrt.89.2021.06.17.05.18.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 05:17:04 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 44/44] target/arm: Make VMOV scalar <-> gpreg beatwise for
- MVE
-Date: Thu, 17 Jun 2021 13:16:28 +0100
-Message-Id: <20210617121628.20116-45-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210617121628.20116-1-peter.maydell@linaro.org>
-References: <20210617121628.20116-1-peter.maydell@linaro.org>
+ Thu, 17 Jun 2021 05:18:31 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] crypto: Make QCryptoTLSCreds* structures private
+Date: Thu, 17 Jun 2021 14:18:24 +0200
+Message-Id: <20210617121830.2776182-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,181 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In a CPU with MVE, the VMOV (vector lane to general-purpose register)
-and VMOV (general-purpose register to vector lane) insns are not
-predicated, but they are subject to beatwise execution if they
-are not in an IT block.
-
-Since our implementation always executes all 4 beats in one tick,
-this means only that we need to handle PSR.ECI:
- * we must do the usual check for bad ECI state
- * we must advance ECI state if the insn succeeds
- * if ECI says we should not be executing the beat corresponding
-   to the lane of the vector register being accessed then we
-   should skip performing the move
-
-Note that if PSR.ECI is non-zero then we cannot be in an IT block.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-a32.h |  2 +
- target/arm/translate-mve.c |  4 +-
- target/arm/translate-vfp.c | 77 +++++++++++++++++++++++++++++++++++---
- 3 files changed, 75 insertions(+), 8 deletions(-)
-
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 0a0053949f5..e160c7d42f0 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -46,6 +46,8 @@ long neon_full_reg_offset(unsigned reg);
- long neon_element_offset(int reg, int element, MemOp memop);
- void gen_rev16(TCGv_i32 dest, TCGv_i32 var);
- void clear_eci_state(DisasContext *s);
-+bool mve_eci_check(DisasContext *s);
-+void mve_update_and_store_eci(DisasContext *s);
- 
- static inline TCGv_i32 load_cpu_offset(int offset)
- {
-diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 04d84e88461..67462bdf27d 100644
---- a/target/arm/translate-mve.c
-+++ b/target/arm/translate-mve.c
-@@ -57,7 +57,7 @@ static bool mve_check_qreg_bank(DisasContext *s, int qmask)
-     return qmask < 8;
- }
- 
--static bool mve_eci_check(DisasContext *s)
-+bool mve_eci_check(DisasContext *s)
- {
-     /*
-      * This is a beatwise insn: check that ECI is valid (not a
-@@ -91,7 +91,7 @@ static void mve_update_eci(DisasContext *s)
-     }
- }
- 
--static void mve_update_and_store_eci(DisasContext *s)
-+void mve_update_and_store_eci(DisasContext *s)
- {
-     /*
-      * For insns which don't call a helper function that will call
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index 01e26a246d6..0bdacba394c 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -553,6 +553,48 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
-     return true;
- }
- 
-+static bool mve_skip_vmov(DisasContext *s, int vn, int index, int size)
-+{
-+    /*
-+     * In a CPU with MVE, the VMOV (vector lane to general-purpose register)
-+     * and VMOV (general-purpose register to vector lane) insns are not
-+     * predicated, but they are subject to beatwise execution if they are
-+     * not in an IT block.
-+     *
-+     * Since our implementation always executes all 4 beats in one tick,
-+     * this means only that if PSR.ECI says we should not be executing
-+     * the beat corresponding to the lane of the vector register being
-+     * accessed then we should skip performing the move, and that we need
-+     * to do the usual check for bad ECI state and advance of ECI state.
-+     *
-+     * Note that if PSR.ECI is non-zero then we cannot be in an IT block.
-+     *
-+     * Return true if this VMOV scalar <-> gpreg should be skipped because
-+     * the MVE PSR.ECI state says we skip the beat where the store happens.
-+     */
-+
-+    /* Calculate the byte offset into Qn which we're going to access */
-+    int ofs = (index << size) + ((vn & 1) * 8);
-+
-+    if (!dc_isar_feature(aa32_mve, s)) {
-+        return false;
-+    }
-+
-+    switch (s->eci) {
-+    case ECI_NONE:
-+        return false;
-+    case ECI_A0:
-+        return ofs < 4;
-+    case ECI_A0A1:
-+        return ofs < 8;
-+    case ECI_A0A1A2:
-+    case ECI_A0A1A2B0:
-+        return ofs < 12;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
- {
-     /* VMOV scalar to general purpose register */
-@@ -575,14 +617,26 @@ static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
-         return false;
-     }
- 
-+    if (dc_isar_feature(aa32_mve, s)) {
-+        if (!mve_eci_check(s)) {
-+            return true;
-+        }
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
- 
--    tmp = tcg_temp_new_i32();
--    read_neon_element32(tmp, a->vn, a->index, a->size | (a->u ? 0 : MO_SIGN));
--    store_reg(s, a->rt, tmp);
-+    if (!mve_skip_vmov(s, a->vn, a->index, a->size)) {
-+        tmp = tcg_temp_new_i32();
-+        read_neon_element32(tmp, a->vn, a->index,
-+                            a->size | (a->u ? 0 : MO_SIGN));
-+        store_reg(s, a->rt, tmp);
-+    }
- 
-+    if (dc_isar_feature(aa32_mve, s)) {
-+        mve_update_and_store_eci(s);
-+    }
-     return true;
- }
- 
-@@ -608,14 +662,25 @@ static bool trans_VMOV_from_gp(DisasContext *s, arg_VMOV_from_gp *a)
-         return false;
-     }
- 
-+    if (dc_isar_feature(aa32_mve, s)) {
-+        if (!mve_eci_check(s)) {
-+            return true;
-+        }
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
- 
--    tmp = load_reg(s, a->rt);
--    write_neon_element32(tmp, a->vn, a->index, a->size);
--    tcg_temp_free_i32(tmp);
-+    if (!mve_skip_vmov(s, a->vn, a->index, a->size)) {
-+        tmp = load_reg(s, a->rt);
-+        write_neon_element32(tmp, a->vn, a->index, a->size);
-+        tcg_temp_free_i32(tmp);
-+    }
- 
-+    if (dc_isar_feature(aa32_mve, s)) {
-+        mve_update_and_store_eci(s);
-+    }
-     return true;
- }
- 
--- 
-2.20.1
+Missing review: 5 & 6=0D
+=0D
+Follow Daniel suggestion to simplify qcrypto TLS implementations,=0D
+aiming to solve the OSX build failure.=0D
+=0D
+Since v4:=0D
+- Do not introduce qcrypto_tls_session_check_role (Richard, Daniel)=0D
+- Added R-b tags=0D
+=0D
+Since v3:=0D
+- Added missing @errp docstring description=0D
+=0D
+Since v2:=0D
+- Add Error* argument (Daniel)=0D
+- Move structure definitions to "tlscredspriv.h"=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  crypto/tlscreds: Introduce qcrypto_tls_creds_check_endpoint() helper=0D
+  block/nbd: Use qcrypto_tls_creds_check_endpoint()=0D
+  chardev/socket: Use qcrypto_tls_creds_check_endpoint()=0D
+  migration/tls: Use qcrypto_tls_creds_check_endpoint()=0D
+  ui/vnc: Use qcrypto_tls_creds_check_endpoint()=0D
+  crypto: Make QCryptoTLSCreds* structures private=0D
+=0D
+ crypto/tlscredspriv.h              | 45 ++++++++++++++++++++++++++++++=0D
+ include/crypto/tls-cipher-suites.h |  6 ----=0D
+ include/crypto/tlscreds.h          | 30 ++++++++++----------=0D
+ include/crypto/tlscredsanon.h      | 12 --------=0D
+ include/crypto/tlscredspsk.h       | 12 --------=0D
+ include/crypto/tlscredsx509.h      | 10 -------=0D
+ block/nbd.c                        |  6 ++--=0D
+ blockdev-nbd.c                     |  6 ++--=0D
+ chardev/char-socket.c              | 18 ++++--------=0D
+ crypto/tls-cipher-suites.c         |  7 +++++=0D
+ crypto/tlscreds.c                  | 12 ++++++++=0D
+ crypto/tlscredsanon.c              |  2 ++=0D
+ crypto/tlscredspsk.c               |  2 ++=0D
+ crypto/tlscredsx509.c              |  1 +=0D
+ crypto/tlssession.c                |  1 +=0D
+ migration/tls.c                    |  6 +---=0D
+ ui/vnc.c                           |  7 +++--=0D
+ 17 files changed, 101 insertions(+), 82 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
