@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A2F3ABB43
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 20:17:13 +0200 (CEST)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AF43ABB35
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 20:14:52 +0200 (CEST)
+Received: from localhost ([::1]:55896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltwZk-0004yN-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 14:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43866)
+	id 1ltwXT-0000Pm-H1
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 14:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltwVQ-0006Wx-OE
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:12:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38221)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltwVN-0006S1-Kg
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:12:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltwVO-0001wd-PH
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:12:44 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltwVK-0001se-GR
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:12:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623953562;
+ s=mimecast20190719; t=1623953557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rPdNJjFQn15kYPmocvzdFnjbHw3s3ZcwFz2E0IlzhiU=;
- b=ZTnBt/7F6hL63KvqSUS/NFQlwFO9c/dZOEMEsIrcoBHHzfQjDQan6qszKi++L2gHDMqKjd
- emTecpMOCdPFDgrJ/mgSOEDPRA/E/K1zXpUnUav5JesJR9dqCisnLNsTe62zy0Z7Viwadk
- nqfPYdKDRI+pvE8i7aCu/DgkcN5+8lw=
+ bh=GGdvOhSNDicXLvJrMGTRNEVzUKdNa6Ma/yBWr+dxs5E=;
+ b=DhUybLVH2e/9/LoZbThgZ0mN1eUQem+CbS5BTqlL2RnclXrkK56+9zVlU+NbfHNOUezcUw
+ bMo2ANVrq9MkhnXr4muAcZR91WJ5klMr+Lighbpyj6RnmT2TXRrloikdlfiRjaU+F36prE
+ noUZaiGGPqLMxP31yd2hbJ1GZ38SXLY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-yvB4KOsgM4qH0HEyLJMVWg-1; Thu, 17 Jun 2021 14:12:40 -0400
-X-MC-Unique: yvB4KOsgM4qH0HEyLJMVWg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-236-llWqDosJPpewK5-SWs0LOg-1; Thu, 17 Jun 2021 14:12:36 -0400
+X-MC-Unique: llWqDosJPpewK5-SWs0LOg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EF521084F40;
- Thu, 17 Jun 2021 18:12:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6845EC73A1;
+ Thu, 17 Jun 2021 18:12:35 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-162.rdu2.redhat.com [10.10.116.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 604881002F12;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 338EE5D6D7;
  Thu, 17 Jun 2021 18:12:35 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 10AF4225FD2; Thu, 17 Jun 2021 14:12:31 -0400 (EDT)
+ id 1492C225FD3; Thu, 17 Jun 2021 14:12:31 -0400 (EDT)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 6/8] virtiofsd: Add capability to change/restore umask
-Date: Thu, 17 Jun 2021 14:12:11 -0400
-Message-Id: <20210617181213.1177835-7-vgoyal@redhat.com>
+Subject: [PATCH v6 7/8] virtiofsd: Switch creds,
+ drop FSETID for system.posix_acl_access xattr
+Date: Thu, 17 Jun 2021 14:12:12 -0400
+Message-Id: <20210617181213.1177835-8-vgoyal@redhat.com>
 In-Reply-To: <20210617181213.1177835-1-vgoyal@redhat.com>
 References: <20210617181213.1177835-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,134 +84,160 @@ Cc: virtio-fs@redhat.com, lhenriques@suse.de, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When parent directory has default acl and a file is created in that
-directory, then umask is ignored and final file permissions are
-determined using default acl instead. (man 2 umask).
+When posix access acls are set on a file, it can lead to adjusting file
+permissions (mode) as well. If caller does not have CAP_FSETID and it
+also does not have membership of owner group, this will lead to clearing
+SGID bit in mode.
 
-Currently, fuse applies the umask and sends modified mode in create
-request accordingly. fuse server can set FUSE_DONT_MASK and tell
-fuse client to not apply umask and fuse server will take care of
-it as needed.
+Current fuse code is written in such a way that it expects file server
+to take care of chaning file mode (permission), if there is a need.
+Right now, host kernel does not clear SGID bit because virtiofsd is
+running as root and has CAP_FSETID. For host kernel to clear SGID,
+virtiofsd need to switch to gid of caller in guest and also drop
+CAP_FSETID (if caller did not have it to begin with).
 
-With posix acls enabled, requirement will be that we want umask
-to determine final file mode if parent directory does not have
-default acl.
+If SGID needs to be cleared, client will set the flag
+FUSE_SETXATTR_ACL_KILL_SGID in setxattr request. In that case server
+should kill sgid.
 
-So if posix acls are enabled, opt in for FUSE_DONT_MASK. virtiofsd
-will set umask of the thread doing file creation. And host kernel
-should use that umask if parent directory does not have default
-acls, otherwise umask does not take affect.
+Currently just switch to uid/gid of the caller and drop CAP_FSETID
+and that should do it.
 
-Miklos mentioned that we already call unshare(CLONE_FS) for
-every thread. That means umask has now become property of per
-thread and it should be ok to manipulate it in file creation path.
+This should fix the xfstest generic/375 test case.
 
-This patch only adds capability to change umask and restore it. It
-does not enable it yet. Next few patches will add capability to enable it
-based on if user enabled posix_acl or not.
+We don't have to switch uid for this to work. That could be one optimization
+that pass a parameter to lo_change_cred() to only switch gid and not uid.
 
-This should fix fstest generic/099.
+Also this will not work whenever (if ever) we support idmapped mounts. In
+that case it is possible that uid/gid in request are 0/0 but still we
+need to clear SGID. So we will have to pick a non-root sgid and switch
+to that instead. That's an TODO item for future when idmapped mount
+support is introduced.
+
+This patch only adds the capability to switch creds and drop FSETID
+when acl xattr is set. This does not take affect yet. It can take
+affect when next patch adds the capability to enable posix_acl.
 
 Reported-by: Luis Henriques <lhenriques@suse.de>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 75 ++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 9f5cd98fb5..0c9084ea15 100644
+index 0c9084ea15..cf7c39b9e4 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -122,6 +122,7 @@ struct lo_inode {
- struct lo_cred {
-     uid_t euid;
-     gid_t egid;
-+    mode_t umask;
- };
- 
- enum {
-@@ -172,6 +173,8 @@ struct lo_data {
-     /* An O_PATH file descriptor to /proc/self/fd/ */
-     int proc_self_fd;
+@@ -175,6 +175,7 @@ struct lo_data {
      int user_killpriv_v2, killpriv_v2;
-+    /* If set, virtiofsd is responsible for setting umask during creation */
-+    bool change_umask;
+     /* If set, virtiofsd is responsible for setting umask during creation */
+     bool change_umask;
++    int posix_acl;
  };
  
  static const struct fuse_opt lo_opts[] = {
-@@ -1134,7 +1137,8 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-  * ownership of caller.
-  * TODO: What about selinux context?
-  */
--static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
-+static int lo_change_cred(fuse_req_t req, struct lo_cred *old,
-+                          bool change_umask)
- {
-     int res;
- 
-@@ -1154,11 +1158,14 @@ static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
-         return errno_save;
-     }
- 
-+    if (change_umask) {
-+        old->umask = umask(req->ctx.umask);
-+    }
-     return 0;
+@@ -1185,6 +1186,51 @@ static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
+         umask(old->umask);
  }
  
- /* Regain Privileges */
--static void lo_restore_cred(struct lo_cred *old)
-+static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
- {
-     int res;
- 
-@@ -1173,6 +1180,9 @@ static void lo_restore_cred(struct lo_cred *old)
-         fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
-         exit(1);
-     }
++/*
++ * A helper to change cred and drop capability. Returns 0 on success and
++ * errno on error
++ */
++static int lo_drop_cap_change_cred(fuse_req_t req, struct lo_cred *old,
++                                   bool change_umask, const char *cap_name,
++                                   bool *cap_dropped)
++{
++    int ret;
++    bool __cap_dropped;
 +
-+    if (restore_umask)
-+        umask(old->umask);
- }
- 
++    assert(cap_name);
++
++    ret = drop_effective_cap(cap_name, &__cap_dropped);
++    if (ret) {
++        return ret;
++    }
++
++    ret = lo_change_cred(req, old, change_umask);
++    if (ret) {
++       if (__cap_dropped) {
++          if (gain_effective_cap(cap_name)) {
++              fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_%s\n", cap_name);
++          }
++       }
++    }
++
++    if (cap_dropped)
++        *cap_dropped = __cap_dropped;
++
++    return ret;
++}
++
++static void lo_restore_cred_gain_cap(struct lo_cred *old, bool restore_umask,
++                                     const char *cap_name)
++{
++    assert(cap_name);
++
++    lo_restore_cred(old, restore_umask);
++
++    if (gain_effective_cap(cap_name)) {
++        fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_%s\n", cap_name);
++    }
++}
++
  static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-@@ -1202,7 +1212,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-         return;
+                              const char *name, mode_t mode, dev_t rdev,
+                              const char *link)
+@@ -2976,6 +3022,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+     ssize_t ret;
+     int saverr;
+     int fd = -1;
++    bool switched_creds = false;
++    bool cap_fsetid_dropped = false;
++    struct lo_cred old = {};
+ 
+     mapped_name = NULL;
+     name = in_name;
+@@ -3006,6 +3055,26 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+              ", name=%s value=%s size=%zd)\n", ino, name, value, size);
+ 
+     sprintf(procname, "%i", inode->fd);
++    /*
++     * If we are setting posix access acl and if SGID needs to be
++     * cleared, then switch to caller's gid and drop CAP_FSETID
++     * and that should make sure host kernel clears SGID.
++     *
++     * This probably will not work when we support idmapped mounts.
++     * In that case we will need to find a non-root gid and switch
++     * to it. (Instead of gid in request). Fix it when we support
++     * idmapped mounts.
++     */
++    if (lo->posix_acl && !strcmp(name, "system.posix_acl_access")
++        && (extra_flags & FUSE_SETXATTR_ACL_KILL_SGID)) {
++        ret = lo_drop_cap_change_cred(req, &old, false, "FSETID",
++                                      &cap_fsetid_dropped);
++        if (ret) {
++            saverr = ret;
++            goto out;
++        }
++        switched_creds = true;
++    }
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+         fd = openat(lo->proc_self_fd, procname, O_RDONLY);
+         if (fd < 0) {
+@@ -3021,6 +3090,12 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         saverr = ret == -1 ? errno : 0;
+         FCHDIR_NOFAIL(lo->root.fd);
      }
++    if (switched_creds) {
++        if (cap_fsetid_dropped)
++            lo_restore_cred_gain_cap(&old, false, "FSETID");
++        else
++            lo_restore_cred(&old, false);
++    }
  
--    saverr = lo_change_cred(req, &old);
-+    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
-     if (saverr) {
-         goto out;
-     }
-@@ -1211,7 +1221,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
- 
-     saverr = errno;
- 
--    lo_restore_cred(&old);
-+    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
- 
-     if (res == -1) {
-         goto out;
-@@ -1917,7 +1927,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-         return;
-     }
- 
--    err = lo_change_cred(req, &old);
-+    err = lo_change_cred(req, &old, lo->change_umask);
-     if (err) {
-         goto out;
-     }
-@@ -1928,7 +1938,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-     fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
-     err = fd == -1 ? errno : 0;
- 
--    lo_restore_cred(&old);
-+    lo_restore_cred(&old, lo->change_umask);
- 
-     /* Ignore the error if file exists and O_EXCL was not given */
-     if (err && (err != EEXIST || (fi->flags & O_EXCL))) {
+ out:
+     if (fd >= 0) {
 -- 
 2.25.4
 
