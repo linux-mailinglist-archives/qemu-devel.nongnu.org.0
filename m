@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B5F3ABC91
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:20:46 +0200 (CEST)
-Received: from localhost ([::1]:51468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BD83ABCA1
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:24:09 +0200 (CEST)
+Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltxZF-0004BT-RB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:20:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56568)
+	id 1ltxcW-0002CW-Ob
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxMe-0003Fh-L3; Thu, 17 Jun 2021 15:07:44 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:34143)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxN1-0003gW-V5
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxMd-00038D-1K; Thu, 17 Jun 2021 15:07:44 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 44C205C01C9;
- Thu, 17 Jun 2021 15:07:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 17 Jun 2021 15:07:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=3mSDNuRqjjILD
- ecg4FdYMuDAbsIqEkKgQQYi4orBLYU=; b=U7OIfigpCRKuJiibAaoRiH7KCKP+G
- T9ddn9/42tMQNMWI9Q+p9hF7jO6Wi5RDbGLS7H9LbZJIe1JcVY96eSG+T4giCcRf
- GWCnpAjVuM8vQQOy6b5u6H+iOawc3z3pW1gv3aQvK44Y3q3uk35QAmqSs3U0SPb4
- 0+PP3gwaR30bekTDDda4n+xCYdfYz3HaQY7sjpopLaV41B0FZpeOp74snTAqhjEs
- q5J1YhNtu4tJl3ne9lg2NscUB77LKGhK/D0BLFdG7RROmhFkl9GmCMimpnbpdemA
- Lhn8Lj3E/bzmhK9PrTL2ABhlRzC8VGy6oJZkI8tt2r/eGW3NstkaxJnKg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=3mSDNuRqjjILDecg4FdYMuDAbsIqEkKgQQYi4orBLYU=; b=No1DF8cS
- NhJ0zTX/iyusO28GMOhDIxLhRyLI8qQFx82vF/GVDPp9etjCQG54ibXwjNrMAUJs
- ze8+Un94enHYwN9oGiF9bW1rdCwjBi7geOqjMUUJC1sq8qAWd2hj6zb9gRZIK2Sf
- Unw4mPO3cPd7WcGJVR/805i8NzgDfUaQ+910M8n2n/JtgrmWN17VNQI5vScI6Hq3
- qd7iKEZYjuDPjURSrfvPYYq+0h1qJVnTXyLpakx8v7ECBPAdkcHNLeS0pf7/NtL5
- I4uhda21DAC+qphEfUKaTrnh0bfB8Utke8/uT1bzsiacglAyYkQSFkRpJ9XKOKGf
- QVOrJNAvo+cEkQ==
-X-ME-Sender: <xms:ap3LYPifcz8L8yOUEshuvTipABM9GCEd4hXF5bpcxJBAtMAJaWXMQg>
- <xme:ap3LYMAIirZaOIcB9bBKuhaqNwP0Kb-RvSiEwW_YEq3Jd32lRhNq2XuiDIru4HkkC
- 8UsZ8nF7QiKxlPzaRE>
-X-ME-Received: <xmr:ap3LYPGRAkVYx-yzeyrPE4Dn2vbdmLT9o2tsf3iqzZF0oxCMfjRuX7rugv4o4H9Q7l1FbJXJEOHBHbNcECmss1uZs8627d6xQs0DzxXKtA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgudefudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
- gfeknecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ap3LYMQVRn7JpC-t_ztD9i7A3FF-yX-wpuD7sUcDS43Pu0_yyzqSdw>
- <xmx:ap3LYMwgWQCMGorbv9dra4thGVuGGuVp6wm6zoz9iLUPFTbeXYlvow>
- <xmx:ap3LYC7bYN6fJPRaPT5J3LnsQBwnsWRAT8c2pamzYUsu0pG44xnw9g>
- <xmx:ap3LYLnYrUPymNXoKin5Bq-XLwsqvD7ZhtSJt_FZDmhY9-1lFbjKoA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Jun 2021 15:07:20 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxMz-0003Uy-1a
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623956883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ndUcLwkcIYLwBdw3taxzDnK43je9ZPBrHzoWvkwpljQ=;
+ b=IILFGC3NX6kOU6+ViWUu5qIa4FFR73PEhtKdAEQ7JaWeQbuZpdIElcTlA5VUmDKdBFl07C
+ 1N3LyFSWNhqCuDxejK3O1uhAGfyyuDTYmflfKv3yr3B8Fvvbqvt1QjotjO4bkR+wvVyfMF
+ 6Q1L5q7yPPNLxZEcA3m7clkMT0/8lBU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-EOq_l_SbMTuvPDkXR8XZ6Q-1; Thu, 17 Jun 2021 15:07:56 -0400
+X-MC-Unique: EOq_l_SbMTuvPDkXR8XZ6Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 818E9108AD26;
+ Thu, 17 Jun 2021 19:07:55 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.43.2.201])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13C125D723;
+ Thu, 17 Jun 2021 19:07:44 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/11] Partially revert "hw/block/nvme: drain namespaces on
- sq deletion"
-Date: Thu, 17 Jun 2021 21:06:57 +0200
-Message-Id: <20210617190657.110823-12-its@irrelevant.dk>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210617190657.110823-1-its@irrelevant.dk>
-References: <20210617190657.110823-1-its@irrelevant.dk>
+Subject: [PATCH v5 0/7] Use ACPI PCI hot-plug for Q35
+Date: Thu, 17 Jun 2021 21:07:32 +0200
+Message-Id: <20210617190739.3673064-1-jusual@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,68 +73,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+The patch set consists of two parts:
+patches 1-4: introduce new feature
+             'acpi-pci-hotplug-with-bridge-support' on Q35
+patches 5-7: make the feature default along with changes in ACPI tables
 
-This partially reverts commit 98f84f5a4eca5c03e32fff20f246d9b4b96d6422.
+With the feature disabled Q35 falls back to the native hot-plug.
 
-Since all "multi aio" commands are now reimplemented to properly track
-the nested aiocbs, we can revert the "hack" that was introduced to make
-sure all requests we're properly drained upon sq deletion.
+Pros
+    * no racy behavior during boot (see 110c477c2ed)
+    * eject is possible - according to PCIe spec, attention button
+      press should lead to power off, and then the adapter should be
+      removed manually. As there is no power down state exists in QEMU,
+      we cannot distinguish between an eject and a power down
+      request.
+    * no delay during deleting - after the actual power off software
+      must wait at least 1 second before indicating about it. This case
+      is quite important for users, it even has its own bug:
+          https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+    * no timer-based behavior - in addition to the previous example,
+      the attention button has a 5-second waiting period, during which
+      the operation can be canceled with a second press. While this
+      looks fine for manual button control, automation will result in
+      the need to queue or drop events, and the software receiving
+      events in all sort of unspecified combinations of attention/power
+      indicator states, which is racy and uppredictable.
+    * fixes or reduces the likelihood of the bugs:
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
 
-The revert is partial since we keep the assert that no outstanding
-requests remain on the submission queue after the explicit cancellation.
+Cons:
+    * no access to possible features presented in slot capabilities
+      (this is only surprise removal AFAIK)
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+v5:
+    * make sugar property on TYPE_PCIE_SLOT
+      instead of old TYPE_MACHINE property [Igor]
+    * minor style changes
+v4:
+    * regain per-port control over hot-plug
+    * rebased over acpi-index changes
+    * set property on machine type to
+      make pci code more generic [Igor, Michael]
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index ec8ddb76cd39..5a1d25265a9d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -3918,7 +3918,6 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
-     NvmeSQueue *sq;
-     NvmeCQueue *cq;
-     uint16_t qid = le16_to_cpu(c->qid);
--    uint32_t nsid;
- 
-     if (unlikely(!qid || nvme_check_sqid(n, qid))) {
-         trace_pci_nvme_err_invalid_del_sq(qid);
-@@ -3930,22 +3929,8 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeRequest *req)
-     sq = n->sq[qid];
-     while (!QTAILQ_EMPTY(&sq->out_req_list)) {
-         r = QTAILQ_FIRST(&sq->out_req_list);
--        if (r->aiocb) {
--            blk_aio_cancel(r->aiocb);
--        }
--    }
--
--    /*
--     * Drain all namespaces if there are still outstanding requests that we
--     * could not cancel explicitly.
--     */
--    if (!QTAILQ_EMPTY(&sq->out_req_list)) {
--        for (nsid = 1; nsid <= NVME_MAX_NAMESPACES; nsid++) {
--            NvmeNamespace *ns = nvme_ns(n, nsid);
--            if (ns) {
--                nvme_ns_drain(ns);
--            }
--        }
-+        assert(r->aiocb);
-+        blk_aio_cancel(r->aiocb);
-     }
- 
-     assert(QTAILQ_EMPTY(&sq->out_req_list));
+v3:
+    * drop change of _OSC to allow SHPC on hotplugged bridges
+    * use 'acpi-root-pci-hotplug'
+    * add migration states [Igor]
+    * minor style changes
+
+v2:
+    * new ioport range for acpiphp [Gerd]
+    * drop find_pci_host() [Igor]
+    * explain magic numbers in _OSC [Igor]
+    * drop build_q35_pci_hotplug() wrapper [Igor]
+
+Julia Suvorova (7):
+  hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
+  hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
+  hw/acpi/ich9: Enable ACPI PCI hot-plug
+  hw/pci/pcie: Do not set HPC flag if acpihp is used
+  bios-tables-test: Allow changes in DSDT ACPI tables
+  hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
+  bios-tables-test: Update golden binaries
+
+ hw/i386/acpi-build.h              |   5 +++
+ include/hw/acpi/ich9.h            |   5 +++
+ include/hw/acpi/pcihp.h           |   3 +-
+ include/hw/pci/pcie_port.h        |   5 ++-
+ hw/acpi/ich9.c                    |  67 ++++++++++++++++++++++++++++++
+ hw/acpi/pcihp.c                   |  22 +++++++---
+ hw/acpi/piix4.c                   |   4 +-
+ hw/core/machine.c                 |   1 -
+ hw/i386/acpi-build.c              |  32 ++++++++------
+ hw/i386/pc.c                      |   1 +
+ hw/i386/pc_q35.c                  |  11 +++++
+ hw/pci/pcie.c                     |   8 +++-
+ hw/pci/pcie_port.c                |   1 +
+ tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
+ tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
+ tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
+ 24 files changed, 143 insertions(+), 22 deletions(-)
+
 -- 
-2.32.0
+2.30.2
 
 
