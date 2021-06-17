@@ -2,123 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAEC3ABC27
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 20:50:03 +0200 (CEST)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC423ABC2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 20:56:51 +0200 (CEST)
+Received: from localhost ([::1]:60670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltx5V-00051N-Os
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 14:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
+	id 1ltxC6-0007KQ-5n
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 14:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <k.jensen@samsung.com>)
- id 1ltx4K-0004CK-RI
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:48:48 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:51333)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
+ id 1ltxAf-0006Jy-Fe; Thu, 17 Jun 2021 14:55:21 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <k.jensen@samsung.com>)
- id 1ltx4H-0007p3-LT
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 14:48:48 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210617184834euoutp024e9c798b7ab4d1606b007932a4f7c71e~Jcx5LAQ4X3035430354euoutp02K
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 18:48:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210617184834euoutp024e9c798b7ab4d1606b007932a4f7c71e~Jcx5LAQ4X3035430354euoutp02K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1623955714;
- bh=9z2crXDDPc9g95c6/WYPc1pCU2C1o8fEjAgAn9JEbZM=;
- h=Date:From:To:CC:Subject:In-Reply-To:References:From;
- b=ArIOH/1rDbxKtG9VEsNT9xBjOgwOdpiJiP7iGhLogHFKioAGKAdrACG+pfFIKBi5E
- sKslU1rdK0dl/zvGSU6ia39M8fFgwKEmcsZchDoh81vZe6raf8zGYEUehmHZcQoIpo
- olDzXzT/4d5QA2wBgZfUnn+GqwVjFokqHW4LpzYc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210617184834eucas1p2bd16bd7aa5a00b236b17794333f2b07b~Jcx4vjVdb2953529535eucas1p2B;
- Thu, 17 Jun 2021 18:48:34 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 25.93.09439.1099BC06; Thu, 17
- Jun 2021 19:48:34 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210617184833eucas1p26b99c9f46a3bbd12dde470a918ec16e5~Jcx36hp8h2953529535eucas1p2A;
- Thu, 17 Jun 2021 18:48:33 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210617184833eusmtrp2b9ea19f72ab6947e0005c2ced545abe1~Jcx354EZb1740917409eusmtrp2u;
- Thu, 17 Jun 2021 18:48:33 +0000 (GMT)
-X-AuditID: cbfec7f5-c1bff700000024df-f0-60cb99014265
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 9B.86.08705.1099BC06; Thu, 17
- Jun 2021 19:48:33 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210617184833eusmtip2dcdbc5385b7898850ec6457f1320a6ad~Jcx3wVFh_1597515975eusmtip22;
- Thu, 17 Jun 2021 18:48:33 +0000 (GMT)
-Received: from apples.localdomain (106.210.248.97) by CAMSVWEXC02.scsc.local
- (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 17 Jun 2021 19:48:32 +0100
-Date: Thu, 17 Jun 2021 20:48:30 +0200
-From: Klaus Jensen <k.jensen@samsung.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] hw/nvme: fix pin-based interrupt behavior (again)
-Message-ID: <YMuY/k0exA4onXCI@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@huawei.com>)
+ id 1ltxAZ-0003Vc-Pn; Thu, 17 Jun 2021 14:55:21 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G5WPV1X0zz6yrn;
+ Fri, 18 Jun 2021 02:51:58 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 18 Jun 2021 02:55:09 +0800
+Received: from dggpemm500011.china.huawei.com (7.185.36.110) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 18 Jun 2021 02:55:08 +0800
+Received: from dggpemm500011.china.huawei.com ([7.185.36.110]) by
+ dggpemm500011.china.huawei.com ([7.185.36.110]) with mapi id 15.01.2176.012;
+ Fri, 18 Jun 2021 02:55:08 +0800
+From: Andrey Shinkevich <andrey.shinkevich@huawei.com>
+To: "shashi.mallela@linaro.org" <shashi.mallela@linaro.org>
+Subject: Re: GICv3 for MTTCG
+Thread-Topic: GICv3 for MTTCG
+Thread-Index: AQHXRo49QQoDTg/5kkqOfm/tGkugzg==
+Date: Thu, 17 Jun 2021 18:55:08 +0000
+Message-ID: <962a136475b749949a49311daf8f5fbc@huawei.com>
+References: <7f8496377da246c38452d95bbbfc0ca7@huawei.com>
+ <41839E15-50DF-4EFB-AF54-6CDB089859BD@getmailspring.com>
+ <d8acff2435364e019931b8d13296ad69@huawei.com>
+ <e0acc7f58dea1847c2838ffb0b06e8ec10358db8.camel@linaro.org>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.227.155.55]
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-In-Reply-To: <20210617145019.GB1133213@dhcp-10-100-145-180.wdc.com>
-X-Originating-IP: [106.210.248.97]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
- CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmleLIzCtJLcpLzFFi42LZduzneV2mmacTDLY9YLLYf/Abq0XHrfcs
- FpMOXWO0mPWunc3ieO8OFgdWj3M7zrN7bFrVyeYxf/UqFo8n1zYzBbBEcdmkpOZklqUW6dsl
- cGXc3LeXqaCbueLH75dMDYxLmLoYOTkkBEwkFsxZA2RzcQgJrGCUuDd9PjtIQkjgC6PEpz2m
- EInPjBKTp39ihuk4d/8PVMdyRommvwuY4Ko2f5rDCuHsZZR4+m0vG0gLi4CqxIVdu1lAbDYB
- TYntf/6D2SICyhJ3588Ea2AWmMko8WbOf6DlHBzCAm4SpxYrgpi8AoYSc1YlgpTzCghKnJz5
- BKyVWcBKovNDEytICbOAtMTyfxwgYU4BZ4kzF2dAHaoksf02yHQQu1bi1JZbYHdKCNzgkJjS
- 9YgdIuEicW/PPShbWOLV8S1QtozE/53zoRq6GSX6PnxlhnBmMEpMX/adDWSzhIC1RN+ZHIgG
- R4nVzQ1MEGE+iRtvBSHu5JOYtG06M0SYV6KjTQiiWk1iR9NWxgmMyrOQfDYLyWezED5bwMi8
- ilE8tbQ4Nz212DgvtVyvODG3uDQvXS85P3cTIzCdnP53/OsOxhWvPuodYmTiYDzEKMHBrCTC
- q1t8IkGINyWxsiq1KD++qDQntfgQozQHi5I4766ta+KFBNITS1KzU1MLUotgskwcnFINTELn
- fp178VlxTvCP5xVcqTkPvlcb/232OBq2K+L9tCebt4VOujgxkPUp/+T1ZwX7o6QWXby686H0
- j0+Ljd7M/dbS4Vua16u+66ib1S8/I2Zrl4uSFwPduVzn3Nn63FX2oPSkHtMDF+PrKqa92LWS
- 8+rSLX1hzHFFTW0m+o2H2G7rNYpqzhQLepqa8n7dtw7xgltzbn9WDKv+fd//dmdPqfseC4uf
- s87sO2Wr0eGXtZJjj7Ld5et3XV7HT0syOWxUHCKw4cP8a0a6ul9PzeC3YdBtsPL4I/xRZ1uw
- xIOZe/hvhjEWnmu/cnb3nK3r69ItJE/vVl2wXm76dXPxG1M26885+2DttBK/yyHGkz2uVqxT
- YinOSDTUYi4qTgQAV/tvC5YDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRmVeSWpSXmKPExsVy+t/xe7qMM08nGDyawGmx/+A3VouOW+9Z
- LCYdusZoMetdO5vF8d4dLA6sHud2nGf32LSqk81j/upVLB5Prm1mCmCJ0rMpyi8tSVXIyC8u
- sVWKNrQw0jO0tNAzMrHUMzQ2j7UyMlXSt7NJSc3JLEst0rdL0Mu4uW8vU0E3c8WP3y+ZGhiX
- MHUxcnJICJhInLv/B8jm4hASWMoo0XangQUiISPx6cpHdghbWOLPtS42iKKPjBI9qz4wQjh7
- GSWeTu9nBKliEVCVuLBrN1g3m4CmxPY//8FsEQFlibvzZ7KCNDALzGSUeDPnP9BYDg5hATeJ
- U4sVQUxeAUOJOasSIWYeZpR4/+UcM0gvr4CgxMmZT8DmMAtYSMycf54RpJ5ZQFpi+T8OkDCn
- gLPEmYszmCEOVZLYfhtkFYhdK/H57zPGCYzCs5BMmoVk0iyESQsYmVcxiqSWFuem5xYb6hUn
- 5haX5qXrJefnbmIExtW2Yz8372Cc9+qj3iFGJg7GQ4wSHMxKIry6xScShHhTEiurUovy44tK
- c1KLDzGaAkNiIrOUaHI+MLLzSuINzQxMDU3MLA1MLc2MlcR5t85dEy8kkJ5YkpqdmlqQWgTT
- x8TBKdXAJGX9f39igqvxY+dHivf83uq57VA+8nZJzavl1zYKMasyP9fh3Pvs4sw6B3Hu7R/f
- WnLGZvxQc9u/KOVpx/2orEVW15e7+Yd/Z73wbmn0Nm4dXtbzEuwVN76EnZmopTtP4JDhp+Ox
- Loype+TXLHj69w7rxKmmB35yTrc4/Dg5Wkll0j2DfQJfV5a+vppw6M+1J/szFmre2P4r8qx9
- jXSSsIPRn4V3Kz7u7fwX7BhgfS722v5fU7/NWHZu37yHW2UniTqLcTxjT4puWnScx8xp0vGq
- W93Ktcz7rGNvBd7aoJbf/6e0MSrQ1uzOLY/vC1Wb3xSc3PjOovCxUMPivSqKx23FeV2UYrdN
- OTQvTNrgUJYSS3FGoqEWc1FxIgB2UqaCNAMAAA==
-X-CMS-MailID: 20210617184833eucas1p26b99c9f46a3bbd12dde470a918ec16e5
-X-Msg-Generator: CA
-X-RootMTR: 20210617145026eucas1p1094d0357600ca3112e0af2f42cc2b364
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210617145026eucas1p1094d0357600ca3112e0af2f42cc2b364
-References: <20210617100820.75510-1-its@irrelevant.dk>
- <CGME20210617145026eucas1p1094d0357600ca3112e0af2f42cc2b364@eucas1p1.samsung.com>
- <20210617145019.GB1133213@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=210.118.77.12; envelope-from=k.jensen@samsung.com;
- helo=mailout2.w1.samsung.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=andrey.shinkevich@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -131,22 +71,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <its@irrelevant.dk>,
- Jakub =?utf-8?B?SmVybcOhxZk=?= <jakub.jermar@kernkonzept.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "drjones@redhat.com" <drjones@redhat.com>, "Cota@braap.org" <Cota@braap.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Chengen \(William,
+ FixNet\)" <chengen@huawei.com>, yuzenghui <yuzenghui@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ =?Windows-1252?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 17 07:50, Keith Busch wrote:
->On Thu, Jun 17, 2021 at 12:08:20PM +0200, Klaus Jensen wrote:
->>      if (cq->tail != cq->head) {
->> +        if (!pending) {
->> +            n->cq_pending++;
->> +        }
->
->You should check cq->irq_enabled before incrementing cq_pending. You
->don't want to leave the irq asserted when polled queues have outsanding
->CQEs.
-
-Good catch. Thanks!
+On 6/17/21 8:44 PM, shashi.mallela@linaro.org wrote:=0A=
+> Hi Andrey,=0A=
+> =0A=
+> The issue doesnt seem related to ITS patchset as the implementation has=
+=0A=
+> no changes around MTTCG or vCPU configurations.=0A=
+> =0A=
+> if this patchset were not applied(with only commit 3e9f48b),do you=0A=
+> still see the hang issue?=0A=
+=0A=
+No, I don't. Even with the patchset applied, the 'gic-version=3D2' turns =
+=0A=
+the guest to normal running.=0A=
+With the 'gic-version=3D3' and '-smp 3' (1,2 or 3 vCPUs), the guest starts =
+=0A=
+and runs OK as well.=0A=
+=0A=
+Andrey=0A=
+=0A=
+> =0A=
+> Thanks=0A=
+> Shashi=0A=
+> =0A=
+> =0A=
+> On Thu, 2021-06-17 at 16:43 +0000, Andrey Shinkevich wrote:=0A=
+>> Dear Shashi,=0A=
+>>=0A=
+>> I have applied the version 4 of the series "GICv3 LPI and ITS=0A=
+>> feature=0A=
+>> implementation" right after the commit 3e9f48b as before (because=0A=
+>> the=0A=
+>> GCCv7.5 is unavailable in the YUM repository for CentOS-7.9).=0A=
+>>=0A=
+>> The guest OS still hangs at its start when QEMU is configured with 4=0A=
+>> or=0A=
+>> more vCPUs (with 1 to 3 vCPUs the guest starts and runs OK and the=0A=
+>> MTTCG=0A=
+>> works properly):=0A=
+>>=0A=
+>> Welcome to EulerOS 2.0 ... (Initramfs)!=0A=
+>>=0A=
+>> =85=0A=
+>>=0A=
+>> [  OK  ] Mounted Kernel Configuration File System.=0A=
+>>=0A=
+>> [  OK  ] Started udev Coldplug all Devices.=0A=
+>>=0A=
+>> [  OK  ] Reached target System Initialization.=0A=
+>>=0A=
+>> [  OK  ] Reached target Basic System.=0A=
+>>=0A=
+>>=0A=
+>>=0A=
+>> IT HANGS HERE=0A=
+>>    (with 4 or more vCPUs)!!!=0A=
+>>=0A=
+>>=0A=
+>> [  OK  ] Found device /dev/mapper/euleros-root.=0A=
+>>=0A=
+>> [  OK  ] Reached target Initrd Root Device.=0A=
+>>=0A=
+>> [  OK  ] Started dracut initqueue hook.=0A=
+>>=0A=
+>>            Starting File System Check on /dev/mapper/euleros-root...=0A=
+>>=0A=
+>> [  OK  ] Reached target Remote File Systems (Pre).=0A=
+>>=0A=
+>> [  OK  ] Reached target Remote File Systems.=0A=
+>>=0A=
+>> [  OK  ] Started File System Check on /dev/mapper/euleros-root.=0A=
+>>=0A=
+>>            Mounting /sysroot...=0A=
+>>=0A=
+>> [  OK  ] Mounted /sysroot.=0A=
+>>=0A=
+>> =85=0A=
+>>=0A=
+>>=0A=
+>> The back trace of threads in QEMU looks like a dead lock in MTTCG,=0A=
+>> doesn't it?=0A=
+>>=0A=
+>> Thread 7 (Thread 0x7f476e489700 (LWP 24967)):=0A=
+>>=0A=
+...=0A=
+>>=0A=
+>> Thread 5 (Thread 0x7f461f9ff700 (LWP 24971)):=0A=
+>>=0A=
+...=0A=
+>>=0A=
+>> Thread 4 (Thread 0x7f461f1fe700 (LWP 24972)):=0A=
+>>=0A=
+...=0A=
+>>=0A=
+>> Thread 3 (Thread 0x7f461e9fd700 (LWP 24973)...=0A=
+>>=0A=
+>> Thread 2 (Thread 0x7f461e1fc700 (LWP 24974)):=0A=
+>>=0A=
+>> #0  0x00007f477c59ca35 in pthread_cond_wait@@GLIBC_2.3.2 () at=0A=
+>> /lib64/libpthread.so.0=0A=
+>>=0A=
+>> ---Type <return> to continue, or q <return> to quit---=0A=
+>>=0A=
+>> #1  0x000055747d419b1d in qemu_cond_wait_impl (cond=3D0x55747fa626c0,=0A=
+>> mutex=3D0x55747e04dc00 <qemu_global_mutex>, file=3D0x55747d5dbe5c=0A=
+>> "../softmmu/cpus.c", line=3D417) at ../util/qemu-thread-posix.c:174=0A=
+>>=0A=
+>> #2  0x000055747d20ae36 in qemu_wait_io_event=0A=
+>> (cpu=3Dcpu@entry=3D0x55747f9fcf00) at ../softmmu/cpus.c:417=0A=
+>>=0A=
+>> #3  0x000055747d18d6a1 in mttcg_cpu_thread_fn=0A=
+>> (arg=3Darg@entry=3D0x55747f9fcf00) at ../accel/tcg/tcg-accel-ops-=0A=
+>> mttcg.c:98=0A=
+>>=0A=
+>> #4  0x000055747d419406 in qemu_thread_start (args=3D<optimized out>)=0A=
+>> at=0A=
+>> ../util/qemu-thread-posix.c:521=0A=
+>>=0A=
+>> #5  0x00007f477c598ea5 in start_thread () at /lib64/libpthread.so.0=0A=
+>>=0A=
+>> #6  0x00007f477c2c19fd in clone () at /lib64/libc.so.6=0A=
+>>=0A=
+>>=0A=
+>> Thread 1 (Thread 0x7f4781db4d00 (LWP 24957)):=0A=
+>>=0A=
+...=0A=
+>>=0A=
+>> (gdb)=0A=
+>>=0A=
+>>=0A=
+>> I run QEMU with virt-manager as this:=0A=
+>>=0A=
+>> qemu      7311     1 70 19:15 ?        00:00:05=0A=
+>> /usr/local/bin/qemu-system-aarch64 -name=0A=
+>> guest=3DEulerOS-2.8-Rich,debug-threads=3Don -S -object=0A=
+>> secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-=
+95-=0A=
+>> EulerOS-2.8-Rich/master-key.aes=0A=
+>> -machine virt-6.1,accel=3Dtcg,usb=3Doff,dump-guest-core=3Doff,gic-=0A=
+>> version=3D3=0A=
+>> -cpu max -drive=0A=
+>> file=3D/usr/share/AAVMF/AAVMF_CODE.fd,if=3Dpflash,format=3Draw,unit=3D0,=
+reado=0A=
+>> nly=3Don=0A=
+>> -drive=0A=
+>> file=3D/var/lib/libvirt/qemu/nvram/EulerOS-2.8-=0A=
+>> Rich_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1=0A=
+>> -m 4096 -smp 4,sockets=3D4,cores=3D1,threads=3D1=0A=
+...=0A=
+>>=0A=
+>> The issue is reproducible and persists.=0A=
+>> 1. Do you think that applying the series results in the dead lock in=0A=
+>> MTTCG? Or it may be other reason?=0A=
+>> 2. Which piece of QEMU source code should I investigate to locate the=0A=
+>> issue?=0A=
+>>=0A=
+>> Best regards,=0A=
+>> Andrey Shinkevich=0A=
+>>=0A=
+...=0A=
+> =0A=
+> =0A=
+=0A=
 
