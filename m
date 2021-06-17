@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8793AAE3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:58:47 +0200 (CEST)
-Received: from localhost ([::1]:52810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63E83AAE34
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:57:23 +0200 (CEST)
+Received: from localhost ([::1]:50230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltmvG-00067r-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38028)
+	id 1ltmtu-0004QG-Uo
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:57:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltmsU-0002ml-3w
+ id 1ltmsU-0002n3-Hh
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:55:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45836)
+Received: from indium.canonical.com ([91.189.90.7]:45814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltmsQ-0000QM-R9
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:55:53 -0400
+ id 1ltmsR-0000QB-24
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:55:54 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1ltmsM-0004DQ-LC
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:55:47 +0000
+ id 1ltmsL-0004EJ-Rt
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:55:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 813172E81B3
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:55:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 451DB2E81A3
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:55:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Jun 2021 07:38:28 -0000
-From: Thomas Huth <676934@bugs.launchpad.net>
+Date: Thu, 17 Jun 2021 07:41:04 -0000
+From: Thomas Huth <1054558@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug: distribution=debian; sourcepackage=None; component=None;
+ status=Confirmed; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: display resolution vga
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee berrange developers-tefnet th-huth
-X-Launchpad-Bug-Reporter: Tefnet Developers (developers-tefnet)
+X-Launchpad-Bug-Commenters: bozhan-abv javibarroso m13253 th-huth
+X-Launchpad-Bug-Reporter: StarBrilliant (m13253)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-X-Launchpad-Bug-Duplicate: 1903470
-References: <20101118110340.18016.73281.malonedeb@palladium.canonical.com>
-Message-Id: <162391550829.13571.1865475702478122249.malone@wampee.canonical.com>
-Subject: [Bug 676934] Re: Ability to use -net socket with unix sockets
+X-Launchpad-Bug-Duplicate: 1022023
+References: <20120922120346.32541.66809.malonedeb@wampee.canonical.com>
+Message-Id: <162391566488.17261.14607309488114899348.malone@gac.canonical.com>
+Subject: [Bug 1054558] Re: 1366x768 resolution missing
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 194788a5e76ef9d8ca84db74e0e10b00317064f3
+X-Launchpad-Hash: 16bde756a4fa145b66a600d86a7652d27bc439d5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,12 +74,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 676934 <676934@bugs.launchpad.net>
+Reply-To: Bug 1054558 <1054558@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1903470 ***
-    https://bugs.launchpad.net/bugs/1903470
+*** This bug is a duplicate of bug 1022023 ***
+    https://bugs.launchpad.net/bugs/1022023
 
 
 This is an automated cleanup. This bug report got closed because it
@@ -93,24 +96,25 @@ is a duplicate.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/676934
+https://bugs.launchpad.net/bugs/1054558
 
 Title:
-  Ability to use -net socket with unix sockets
+  1366x768 resolution missing
 
 Status in QEMU:
   Expired
+Status in Debian:
+  Confirmed
 
 Bug description:
-  It would be a nice feature (simplifying access control for example) to
-  be able to do something like:
-
-  qemu -net socket,listen=3Dunix:/tmp/qemunet
-  qemu -net socket,connect=3Dunix:/tmp/qemunet
-
-  For now one has to use TCP connections even for guests running on the
-  same host, which involves setting up iptables to restrict access.
+  I use ArchLinux with QEMU 1.2.0.
+  I found that 1366x768 resolution is missing, even if I use -vga std or -v=
+ga vmware.
+  I think that it is necessary to patch it into the source.
+  Also, why not add a command-line option to specify custom resolutions wit=
+hout patching the source? (I know that VirtualBox has a hidden option to ad=
+d any resolution.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/676934/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1054558/+subscriptions
 
