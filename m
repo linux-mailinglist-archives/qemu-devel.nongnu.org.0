@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FB03AAFE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:38:36 +0200 (CEST)
-Received: from localhost ([::1]:54302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722B43AAFDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:34:19 +0200 (CEST)
+Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoTr-0007uV-ID
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:38:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
+	id 1ltoPi-0005j1-F1
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoN9-0002Yb-U4
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:39 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33465)
+ id 1ltoNB-0002a1-0h; Thu, 17 Jun 2021 05:31:41 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoN7-00060O-Mo
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:39 -0400
-Received: by mail-ed1-x532.google.com with SMTP id d7so3135589edx.0
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:36 -0700 (PDT)
+ id 1ltoN8-00060W-Vg; Thu, 17 Jun 2021 05:31:40 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id u24so3017693edy.11;
+ Thu, 17 Jun 2021 02:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YO7OJP33y0qDOR62cV7LoVmTb5HsjkNb5ft4fsaXMPw=;
- b=F0UOVti7/OyLA900wkR+I1Op/504hfGDIy8qDFTiso/oEQLCybThkCQ7wBRGnado7m
- BstKvo/ATmuygauuLKit6Rt8mym+7Se8U2aOQQvnwbYaTZ4YcaimKJz6ypKSn/T5ey4L
- VMIWZKK9cOxdpM8IpmIaloeEdYEh9kediEGtqOfMhsS6Ji8FSUr0ukJqh2DLHlW0JgVW
- peCBirZJOU49A/E60giANvxBMJL+BNlthK1f6BZWjf+pQfox6faS0GGsJS+XG5noYBAf
- zBgv/0tOQSHuTfJ2o9Nli10loemfOflBvCFzVbZKSKZgz24BAWCWtPA/CDWf+1mkLyR1
- LZhw==
+ bh=R0+AwUXW3F+3xw6jgijJ3i774wGZg+ICftnnBWgQ9fA=;
+ b=Sp/voqCK4St+zItPkwDM9X8sXGTpdFyHS5ZFLpz1DD1rZQbtHo1+0MqzwPO/2JlYFj
+ jBPUaRrXIGr1klCt3yYEdgD905fKOFABPTaUFminHXdvJfiR+3xvpQJwRIrYG5tVIuKC
+ EyW0gcphH2epeYuigNw5c8fyyptrEl3S7IuZdJO4qsQULe+y2XhHGaSlrZg0DDBxswsi
+ FiT/WSf+L1dxBZi+5tmh2giBdAaKlyt8g2p0rkOfNXAUfrpvq4NFxKflq3kAG4nxytsa
+ VAKNy7pB2dkHrtC0q2vIbq6Il6d12gunb41Jy7lJoZaAQVyj2zVfx193zOWtW/BqWhCq
+ WTDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YO7OJP33y0qDOR62cV7LoVmTb5HsjkNb5ft4fsaXMPw=;
- b=dcynj3WWum/dPy00L+qoqnwTAD87nUXafWva/Ts+ptEmQ01w0zJ+c9kmGcTJAol8T4
- 5SgOd8wzsUCZltw9YtvFT00f1gZ4jvsy4AF3TUqLV3Yeg2ejDol9GrEPJ9qyLeNNW5iy
- IEsiDShqHKaiJ3TQwhnIPUQ1UccRkYw7scS+uVRlOFkJJYfS6/CVy+M7LJr96LoTcgQb
- eNuhcHdh9Bu9IxAE33ON2NYY5rbWSG8KhQIQSs4/6RHgy4JgV4UROKg5zvhbbxxluPrq
- k1XlbByipp5V4x0CJccjkVtayRsWljKxMS7/5HO4eqf/LgQOlB0ZOrxxRBnTOpmec39w
- 6lrA==
-X-Gm-Message-State: AOAM5326skrZg+hXM7qIf8PvHxwNbl6IIbI3XTWDczELEwAoe4+iBUjl
- xTEpNbuA73ZFu6m36nIpYvvfAmIBdGs=
-X-Google-Smtp-Source: ABdhPJxykuXtOa5EHH++moTjMroPgkHu+jGNgnpmaWaK1wgPwgeuOaq8LfuccHS39b+C4rvZ89l5Og==
-X-Received: by 2002:aa7:db49:: with SMTP id n9mr5129529edt.361.1623922295955; 
- Thu, 17 Jun 2021 02:31:35 -0700 (PDT)
+ bh=R0+AwUXW3F+3xw6jgijJ3i774wGZg+ICftnnBWgQ9fA=;
+ b=ph+3jEECuY6/o3n2ORGEVYL62tal0knjo72Gmu5TDbDDj9Nza99tWzGYjxtwTBP5Yw
+ GAtjWHHh8optSIrG+rclrYk6TE63JUeYph2ZpyvYGbv1N1oBpZz8nkTZSpgxTLq6U39b
+ LtAmCSvWeb8xzbVMDH37TnNq/l5SLhz30sT0KQDNOAnVxlIcKD7W/J2FgZcuB/G51fnv
+ M3dVRddUEKlDcvYRkxwYBAgDzUNdj9D8ErZbZ5eNlykLHUCmgy1vajMppus1eszzdvkH
+ 8DplKJ/wWWuqdHhtpyzn1qkylxKWR0nIcasgvrduo/04lVg6gGO9frh+zU+TacIqcmRa
+ YLwQ==
+X-Gm-Message-State: AOAM530vt8b9gZtpWL/gQ7RRyVfe3AH21+MCfVeXIMt6u73LVVah4s8G
+ nL5o7lQGHL7ZETi44P4q9LwCgqkLQSY=
+X-Google-Smtp-Source: ABdhPJwhuEaCHDhjlb9MuZOn+u978Ean1I1gAx4fJnQEnJUXXdwdBpoVeanSymqgmrhJwn6CuSq18g==
+X-Received: by 2002:a05:6402:28a:: with SMTP id
+ l10mr5178173edv.365.1623922296680; 
+ Thu, 17 Jun 2021 02:31:36 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.35
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:35 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:36 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/45] vnc: avoid deprecation warnings for SASL on OS X
-Date: Thu, 17 Jun 2021 11:30:50 +0200
-Message-Id: <20210617093134.900014-2-pbonzini@redhat.com>
+Subject: [PULL 02/45] vl: Fix an assert failure in error path
+Date: Thu, 17 Jun 2021 11:30:51 +0200
+Message-Id: <20210617093134.900014-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,91 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-all files that use SASL API need to disable -Wdeprecated-declarations.
-Remove the only use that is outside vnc-auth-sasl.c and add the
-relevant #pragma GCC diagnostic there.
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210604120915.286195-1-pbonzini@redhat.com>
+Based on the description of error_setg(), the local variable err in
+qemu_maybe_daemonize() should be initialized to NULL.
+
+Without fix, the uninitialized *errp triggers assert failure which
+doesn't show much valuable information.
+
+Before the fix:
+qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
+
+After fix:
+qemu-system-x86_64: cannot create PID file: Cannot open pid file: Permission denied
+
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Message-Id: <20210610084741.456260-1-zhenzhong.duan@intel.com>
+Cc: qemu-stable@nongnu.org
+Fixes: 0546c0609c ("vl: split various early command line options to a separate function", 2020-12-10)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/vnc-auth-sasl.c | 20 ++++++++++++++++++++
- ui/vnc-auth-sasl.h |  1 +
- ui/vnc.c           | 10 ++--------
- 3 files changed, 23 insertions(+), 8 deletions(-)
+ softmmu/vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ui/vnc-auth-sasl.c b/ui/vnc-auth-sasl.c
-index df7dc08e9f..47fdae5b21 100644
---- a/ui/vnc-auth-sasl.c
-+++ b/ui/vnc-auth-sasl.c
-@@ -28,10 +28,30 @@
- #include "vnc.h"
- #include "trace.h"
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 326c1e9080..feb4d201f3 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2522,7 +2522,7 @@ static void qemu_process_help_options(void)
  
-+/*
-+ * Apple has deprecated sasl.h functions in OS X 10.11.  Therefore,
-+ * files that use SASL API need to disable -Wdeprecated-declarations.
-+ */
-+#ifdef CONFIG_DARWIN
-+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-+#endif
-+
- /* Max amount of data we send/recv for SASL steps to prevent DOS */
- #define SASL_DATA_MAX_LEN (1024 * 1024)
- 
- 
-+bool vnc_sasl_server_init(Error **errp)
-+{
-+    int saslErr = sasl_server_init(NULL, "qemu");
-+
-+    if (saslErr != SASL_OK) {
-+        error_setg(errp, "Failed to initialize SASL auth: %s",
-+                   sasl_errstring(saslErr, NULL, NULL));
-+        return false;
-+    }
-+    return true;
-+}
-+
- void vnc_sasl_client_cleanup(VncState *vs)
+ static void qemu_maybe_daemonize(const char *pid_file)
  {
-     if (vs->sasl.conn) {
-diff --git a/ui/vnc-auth-sasl.h b/ui/vnc-auth-sasl.h
-index 1bfb86c6f5..367b8672cc 100644
---- a/ui/vnc-auth-sasl.h
-+++ b/ui/vnc-auth-sasl.h
-@@ -63,6 +63,7 @@ struct VncDisplaySASL {
-     char *authzid;
- };
+-    Error *err;
++    Error *err = NULL;
  
-+bool vnc_sasl_server_init(Error **errp);
- void vnc_sasl_client_cleanup(VncState *vs);
- 
- size_t vnc_client_read_sasl(VncState *vs);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index b3d4d7b9a5..f0a1550d58 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -4154,14 +4154,8 @@ void vnc_display_open(const char *id, Error **errp)
-     trace_vnc_auth_init(vd, 1, vd->ws_auth, vd->ws_subauth);
- 
- #ifdef CONFIG_VNC_SASL
--    if (sasl) {
--        int saslErr = sasl_server_init(NULL, "qemu");
--
--        if (saslErr != SASL_OK) {
--            error_setg(errp, "Failed to initialize SASL auth: %s",
--                       sasl_errstring(saslErr, NULL, NULL));
--            goto fail;
--        }
-+    if (sasl && !vnc_sasl_server_init(errp)) {
-+        goto fail;
-     }
- #endif
-     vd->lock_key_sync = lock_key_sync;
+     os_daemonize();
+     rcu_disable_atfork();
 -- 
 2.31.1
 
