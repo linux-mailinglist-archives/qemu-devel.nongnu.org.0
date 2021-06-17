@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3066E3ABABD
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 19:41:49 +0200 (CEST)
-Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F66B3ABAD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 19:46:14 +0200 (CEST)
+Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltw1T-0004gA-IV
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 13:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37828)
+	id 1ltw5l-0008S7-IN
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 13:46:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltvzW-0003tM-Ev
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:39:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ltvzT-0007NM-LY
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:39:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623951583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zTMP1LPA3v2tQ9cvEQLeYruWIbI3VhtpzTcaFuUPjE0=;
- b=KwDDIT8KwwNBOo2STcadpyoiu/yQnKI33LSmATDidESla+eRSb3latmoHmvLlNj3zVGrDg
- lz5y54pZB3iLrxjaHi69EWr+Dr7gQdxYVwmOWC1sXH8SRNq2ObcT4+HpEzlsR7wwQO/W1o
- +8sacPNXR7kQSEBSe8LPNNr/X4AGNg0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-gQAYlf3qMcumWkNB3yYoKA-1; Thu, 17 Jun 2021 13:39:39 -0400
-X-MC-Unique: gQAYlf3qMcumWkNB3yYoKA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- q15-20020adfc50f0000b0290111f48b865cso3256994wrf.4
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 10:39:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltw37-0005vJ-TL
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:43:29 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:41751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ltw36-00014h-0k
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:43:29 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ y13-20020a1c4b0d0000b02901c20173e165so4201282wma.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 10:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=A+k2XucepkmkG8e9GV6FQjhl+P5PNeZGTt2Pw8efagM=;
+ b=M6T6UfjZZf2CPxzAY3E2S8B8nvHKd6ieHZdmazQsIR3o9383+hgQFnn+EUds1VHCZC
+ RbtLQSUXN9NxybM0AnKpyOyRh4mi8JGpgxtPny+c2lmzapCm1gdiIe7OG40JIwU88e8Y
+ ahC4a3ap1bzcJ0o0+5M0/BBf8OJfKg/hB4YAIGEjDkgd1n1WSm0Q97dNq7IYPCSUTNjn
+ l5pKNfniujLocHQ8ZF9H/xa/79yTcig7JjAnjlwZVDPh3ZVazjAZ0ZijQS3ieh/yHKdk
+ 1KowyvBMI8hdAR4ZMa2qNK57o56vhN8pUfVB2P/X5d7pMnMe2ganb/k+oril5uu8VDc4
+ ZbKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zTMP1LPA3v2tQ9cvEQLeYruWIbI3VhtpzTcaFuUPjE0=;
- b=ILMG/7h9quFeqlL7JG/vTM93tun/cYwaOTeq6Pz6H57IY43etmW49V2KJXhGSySPtA
- n7g2otJtZfYvbXXtkUe06op7BBELLXYoGD63/BF2CXZWHe3LJbHqiZP0mtoeN+NfVz0m
- 44dnj+/HcrKj0vXqkmyugXUB9HfLvwHjKqBnNLYd/T0JHHJwP9uYXrVO4a0b0jqMFAeB
- QrDF7u8LuThKO5Cn1mjfNDkJaGFa4emg6AX1mgmsmtN+rF8sXw5ASqp1YxhAECVEkIR3
- kwdAJ1Vlu2irYcruYIjI2WMR3pkHDKbD7Znv0eevu7MUHgKwrbGsT3qHqZAoOaqW4hQP
- TfTg==
-X-Gm-Message-State: AOAM533BNjcneWxvbi3SI+WiX3A1CH6byfos9xov10gnCIj+2aodE6LO
- oZUGuNwo3ExI07ApgTrVPBAfzsvJlVUQGziXLBlYX9uQe9m0glx2A6QjoSXmfS/5De6ZzECGmPX
- Qsh1EJ5CDl4pF1Mw=
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr6488379wmb.113.1623951578366; 
- Thu, 17 Jun 2021 10:39:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBAiQ990TRz0SEjMMwSZTQMpolXkt5tdaneh1vvOdCyTbYD3qMdOQ9rZCUVKENGvadYXDmZQ==
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr6488367wmb.113.1623951578216; 
- Thu, 17 Jun 2021 10:39:38 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id b15sm7311382wrr.27.2021.06.17.10.39.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jun 2021 10:39:37 -0700 (PDT)
-Subject: Re: [PATCH v2] meson: Add gnutls as a dependency to libmigration
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20210617171958.34606-1-akihiko.odaki@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e8aa2d4c-520a-543f-f12f-b4cf702ab6e3@redhat.com>
-Date: Thu, 17 Jun 2021 19:39:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=A+k2XucepkmkG8e9GV6FQjhl+P5PNeZGTt2Pw8efagM=;
+ b=ZNjbEqx28clP62o2gnR6snxDv+ur7maNbWDMgWG2Mw/cBA3dLaAmi0qZcIGvu3Ogjn
+ JJcQYsKug/85Hkx91Kqgaf78Q6EDsY7/lSxCCmd8u/JuPYYI+SbLR9mc8wPIAtA0r4k3
+ 7zmufoNccHWsMrqsorP5QQ5c3HR05EEYP625Z9ZvV5rlmCuw+QB02lvW0lP1EXd01k61
+ WEIj7Q3l8ujShiQf3b9Izde3KrQrWn6/BcV1izSUeZozko6/RnZsc+PYlYBs4hKwsB1Q
+ E/xa2myjnqS/BoDgGmYhB/fQXvN98TdKE00uEjTHaVDwdUipcrdFSfP8nuBU70PNV4w+
+ Hbkg==
+X-Gm-Message-State: AOAM533ZUPZ08hXpOrqadDMXqFPZENRbC7bu0KlbOHj4kah4zHXmBeFd
+ qXWbNgRaPrvnlFvxmCJQP9hBL3r15YaklQ==
+X-Google-Smtp-Source: ABdhPJzfi6P/ueB+haBdJm+SXYpxScnjgr9utrqgGHfrp/BWxfU/vONkjPjgLUwPICR2F3Gmhcn4Rg==
+X-Received: by 2002:a1c:4e12:: with SMTP id g18mr6443999wmh.101.1623951805042; 
+ Thu, 17 Jun 2021 10:43:25 -0700 (PDT)
+Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id l22sm3785293wrz.54.2021.06.17.10.43.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jun 2021 10:43:24 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] target/mips: Various fixes & cleanups
+Date: Thu, 17 Jun 2021 19:43:14 +0200
+Message-Id: <20210617174323.2900831-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210617171958.34606-1-akihiko.odaki@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.254, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,34 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 7:19 PM, Akihiko Odaki wrote:
-> qemu-file-channel.c may depend on GnuTLS.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
->  meson.build | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meson.build b/meson.build
-> index a2311eda6ec..29d854699ca 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2090,6 +2090,7 @@ libio = static_library('io', io_ss.sources() + genh,
->  io = declare_dependency(link_whole: libio, dependencies: [crypto, qom])
->  
->  libmigration = static_library('migration', sources: migration_files + genh,
-> +                              dependencies: [gnutls],
->                                name_suffix: 'fa',
->                                build_by_default: false)
->  migration = declare_dependency(link_with: libmigration,
-
-Please see:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg816565.html
-
+Fixes and cleanup accumulated during the last month.=0D
+Nothing particularly exciting :/=0D
+=0D
+Please review,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (9):=0D
+  target/mips: Do not abort on invalid instruction=0D
+  target/mips: Fix more TCG temporary leaks in=0D
+    gen_pool32a5_nanomips_insn=0D
+  target/mips: Move TCG trace events to tcg/ sub directory=0D
+  target/mips: Move translate.h to tcg/ sub directory=0D
+  target/mips: Restrict some system specific declarations to sysemu=0D
+  target/mips: Remove SmartMIPS / MDMX unuseful comments=0D
+  target/mips: Remove microMIPS BPOSGE32 / BPOSGE64 unuseful cases=0D
+  target/mips: Constify host_to_mips_errno[]=0D
+  target/mips: Optimize regnames[] arrays=0D
+=0D
+ meson.build                            |  2 +-=0D
+ target/mips/cpu.h                      | 10 ++++++---=0D
+ target/mips/internal.h                 |  2 +-=0D
+ target/mips/tcg/tcg-internal.h         |  6 +++---=0D
+ target/mips/{ =3D> tcg}/translate.h      |  0=0D
+ target/mips/cpu.c                      |  2 +-=0D
+ target/mips/tcg/msa_translate.c        |  4 ++--=0D
+ target/mips/tcg/mxu_translate.c        |  6 +++---=0D
+ target/mips/tcg/rel6_translate.c       |  2 +-=0D
+ target/mips/tcg/sysemu/mips-semi.c     |  2 +-=0D
+ target/mips/tcg/translate.c            | 29 +++++++++-----------------=0D
+ target/mips/tcg/translate_addr_const.c |  2 +-=0D
+ target/mips/tcg/tx79_translate.c       |  2 +-=0D
+ target/mips/tcg/txx9_translate.c       |  2 +-=0D
+ target/mips/{ =3D> tcg}/trace-events     |  0=0D
+ 15 files changed, 33 insertions(+), 38 deletions(-)=0D
+ rename target/mips/{ =3D> tcg}/translate.h (100%)=0D
+ rename target/mips/{ =3D> tcg}/trace-events (100%)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
