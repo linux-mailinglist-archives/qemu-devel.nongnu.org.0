@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3757D3AB174
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:35:27 +0200 (CEST)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AC13AB1A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:51:42 +0200 (CEST)
+Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltpMr-000427-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38812)
+	id 1ltpcb-0007RZ-GT
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ltpHF-000887-9o
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:29:37 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33489)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltpbB-0006lO-BQ
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:50:14 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ltpHC-0005Zg-1J
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:29:37 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id e20so4645998pgg.0
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 03:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=He8Xz/gtbX6ecVTSbWcaS63uQQW32tixqIOUbE7JHjA=;
- b=gYF/YX0NAoq2bs3LCAs/t6OWIFGybPgoHJzOhynqEUWrxljfPc9USBlr7MIDds7tgQ
- HO6i/j8fbBTqWtyZBZGMdrujaX5xNsX11jP8ob7qdVJXzWy4+ZkbQz70/WJs1oF31Imz
- X1IDYXSpE0/lSx1EzYkDOe3RoXrduVy9arBsaaFhpaHVUAZtbJTY9/3xXOMgxlHCWwLU
- AV5WpMKjEuIr47J1jGt/VV2/uue9PTBQwdNpJT/nwz9zYWq6kb7SosLurkwvL15zgiSy
- 8JHjZErsGz6AUhM6dePSvAeVhm+caE1qyn2VQVGCIS52HEecNb8xLZ88uaCWGfLeKDgT
- T0tA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ltpb6-0004Cy-7y
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:50:13 -0400
+Received: by mail-wr1-x435.google.com with SMTP id m18so6238878wrv.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 03:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HN3yoMfoaG1x5goUOqwcJ9nj+WFGI1sSzdrYNWG6YOU=;
+ b=soMT0S3Xs3L/C31uZEyR3kJkJaJua0mUmwO21eEwVGkIP2D326F7Paz9eAbGzsPbDU
+ 3XiM/dbq0msH30hGyf0K5EKEmZIKmKhCzC3UQQ7Yei5KglNp9sy29r835yLr8IUVhl8D
+ KF4Flm6P8j2IoVLZmTw6sLrfN8GH/gSgLdIjP1kvH230vvPROCm6y007r8eFAhBFSAMu
+ V1f3BqXo+hYyhKnT2jbIi1JoJfztXqKMnxmMK1xy+DJUUKR0wbsBbtnHyq8vbF1hiCd/
+ KVJOCBYWopGcRt9GDbduj9euvP710aEJvk9cVCRcTVCuP0ZRSCmcbLw70deyRCREJO5T
+ YpFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=He8Xz/gtbX6ecVTSbWcaS63uQQW32tixqIOUbE7JHjA=;
- b=miQT4mYcAYkWUmfaqxWS8s68ew+8uScLUXc4yyNDRAuB9LSjQ3NJyhIOFCqs7PYtI7
- +lLTiMrsh+zEFmhQMNuFGu0Q6qxYExMj5GX9M6IlWFrViyQlwcGyRV+R+IJ8U1cr4PA7
- p15vZfh+QYPkAFS8qX28q6bfZMBrFS9tkK/MjZ4eMUo3ScEIyP60HjOeu8OyY6zPSLsj
- mEhQIVcksNIWHDl/Jm4xaGaeJs6Uv3vik6hlRMdAi6y4oU6SqNuz2IPVfFIfSaZcPWWw
- +bIq9+Nj8+cKtVcS774h1OslDOJKfpavUPFgK7ChLxPHk2GP5GDnP8DdgeDFsMZ7k/qW
- 5QFw==
-X-Gm-Message-State: AOAM531BMcd54i8iFLvDIREujX0hE7BqNXxN/fbO0AJZgtI2mUOioL1z
- WpC2kOzlBNvS3Q1rrACuDrEQ1g==
-X-Google-Smtp-Source: ABdhPJzy2o8uU9XuwjUIJpvmO1XrWRnlqRyIZiv8jjYWFoHlphZcog8NJt6zlK4QZF1dONrPdgmRdg==
-X-Received: by 2002:a63:d908:: with SMTP id r8mr4351989pgg.414.1623925771362; 
- Thu, 17 Jun 2021 03:29:31 -0700 (PDT)
-Received: from localhost (219-90-184-65.ip.adam.com.au. [219.90.184.65])
- by smtp.gmail.com with UTF8SMTPSA id a15sm4975439pfl.100.2021.06.17.03.29.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jun 2021 03:29:30 -0700 (PDT)
-Message-ID: <c680d69c-7dfc-fec5-031c-403a19e7050c@ozlabs.ru>
-Date: Thu, 17 Jun 2021 20:28:54 +1000
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=HN3yoMfoaG1x5goUOqwcJ9nj+WFGI1sSzdrYNWG6YOU=;
+ b=IesFirUI9ycXanFns8IKeiJ0VFHRqquc/D4wNAAP3nuRoWtTPMobIWqkY/KAn6L2uV
+ 1HY7qlfRdqnR11BHMVPO1mjV0RJYVv0nAFak6yT4BKubT+bXuvIFXMBqZWkkwR6nt28u
+ uK8a+akES2BorkRzhhdCRyOf32oypFDxXvsoLbXheGhn6EuPybAceuQBUWUIAPc5B/RR
+ hRwNzZp61TXR+DsHZe41tk5Fvc618vOrXlMAPuESgL6/oyRshxMX3HVZldTPMVPiqdwU
+ 0CYFH8ZMJ1lTS8gzfJsIeAAwS0cza4GYJWTQqh0vhhm3MRBPs406uNsRF/L0krkcSShx
+ DgwA==
+X-Gm-Message-State: AOAM532EN/QCKR9ayirhytTu4vvgR3SQIn/FTIAvyAtqG3TRiGpzJnGU
+ d5HhTIBv13mukh3DjQzLGG9/+w==
+X-Google-Smtp-Source: ABdhPJxivdo7IE7wA2REOwpqsZqw4M/qr2IBS21Nhilzebs6k9nabivmwR6nLA8OuKOla7ltT6nQvg==
+X-Received: by 2002:a5d:4f05:: with SMTP id c5mr4858985wru.341.1623927006384; 
+ Thu, 17 Jun 2021 03:50:06 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y16sm1582670wrp.51.2021.06.17.03.50.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jun 2021 03:50:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6CD911FF7E;
+ Thu, 17 Jun 2021 11:50:04 +0100 (BST)
+References: <20210525152924.4171401-1-f4bug@amsat.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] gitlab-ci: Add jobs to build standalone machines
+Date: Thu, 17 Jun 2021 11:42:39 +0100
+In-reply-to: <20210525152924.4171401-1-f4bug@amsat.org>
+Message-ID: <877disg3z7.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101
- Thunderbird/88.0
-Subject: Re: [PATCH qemu v21] spapr: Implement Open Firmware client interface
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210615070612.22679-1-aik@ozlabs.ru>
- <8987bd7c-dfe1-cb73-e388-ae26ed5a69@eik.bme.hu>
- <1200c803-a397-78cf-2180-5b21dc0839f1@ozlabs.ru>
- <7c7b75a1-d849-ca66-75d3-f9919366b95d@eik.bme.hu>
- <274ae416-3af0-65f3-c30c-0681ad9716a1@ozlabs.ru>
- <33b662dc-6a97-6e61-c17-c21a4a44d8fb@eik.bme.hu>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <33b662dc-6a97-6e61-c17-c21a4a44d8fb@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=aik@ozlabs.ru; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.999,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NICE_REPLY_A=-0.17,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,320 +86,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berran?= =?utf-8?Q?g=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-On 17/06/2021 19:16, BALATON Zoltan wrote:
-> On Thu, 17 Jun 2021, Alexey Kardashevskiy wrote:
->> On 16/06/2021 20:34, BALATON Zoltan wrote:
->>> On Wed, 16 Jun 2021, Alexey Kardashevskiy wrote:
->>>> On 6/15/21 20:29, BALATON Zoltan wrote:
->>>>> On Tue, 15 Jun 2021, Alexey Kardashevskiy wrote:
->>>>>> The PAPR platform describes an OS environment that's presented by
->>>>>> a combination of a hypervisor and firmware. The features it specifies
->>>>>> require collaboration between the firmware and the hypervisor.
->>>>>>
->>>>>> Since the beginning, the runtime component of the firmware (RTAS) has
->>>>>> been implemented as a 20 byte shim which simply forwards it to
->>>>>> a hypercall implemented in qemu. The boot time firmware component is
->>>>>> SLOF - but a build that's specific to qemu, and has always needed 
->>>>>> to be
->>>>>> updated in sync with it. Even though we've managed to limit the 
->>>>>> amount
->>>>>> of runtime communication we need between qemu and SLOF, there's some,
->>>>>> and it has become increasingly awkward to handle as we've implemented
->>>>>> new features.
->>>>>>
->>>>>> This implements a boot time OF client interface (CI) which is
->>>>>> enabled by a new "x-vof" pseries machine option (stands for 
->>>>>> "Virtual Open
->>>>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->>>>>> which implements Open Firmware Client Interface (OF CI). This allows
->>>>>> using a smaller stateless firmware which does not have to manage
->>>>>> the device tree.
->>>>>>
->>>>>> The new "vof.bin" firmware image is included with source code under
->>>>>> pc-bios/. It also includes RTAS blob.
->>>>>>
->>>>>> This implements a handful of CI methods just to get -kernel/-initrd
->>>>>> working. In particular, this implements the device tree fetching and
->>>>>> simple memory allocator - "claim" (an OF CI memory allocator) and 
->>>>>> updates
->>>>>> "/memory@0/available" to report the client about available memory.
->>>>>>
->>>>>> This implements changing some device tree properties which we know 
->>>>>> how
->>>>>> to deal with, the rest is ignored. To allow changes, this skips
->>>>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->>>>>> appending.
->>>>>>
->>>>>> In absence of SLOF, this assigns phandles to device tree nodes to 
->>>>>> make
->>>>>> device tree traversing work.
->>>>>>
->>>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>>>>>
->>>>>> This adds basic instances support which are managed by a hash map
->>>>>> ihandle -> [phandle].
->>>>>>
->>>>>> Before the guest started, the used memory is:
->>>>>> 0..e60 - the initial firmware
->>>>>> 8000..10000 - stack
->>>>>> 400000.. - kernel
->>>>>> 3ea0000.. - initramdisk
->>>>>>
->>>>>> This OF CI does not implement "interpret".
->>>>>>
->>>>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->>>>>> includes a disk image with pre-formatted nvram.
->>>>>>
->>>>>> With this basic support, this can only boot into kernel directly.
->>>>>> However this is just enough for the petitboot kernel and 
->>>>>> initradmdisk to
->>>>>> boot from any possible source. Note this requires reasonably 
->>>>>> recent guest
->>>>>> kernel with:
->>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
->>>>>> The immediate benefit is much faster booting time which especially
->>>>>> crucial with fully emulated early CPU bring up environments. Also 
->>>>>> this
->>>>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>>>>>
->>>>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->>>>>> other POWERPC boards which do not support pSeries.
->>>>>>
->>>>>> This make VOF optional, it is disabled by default, add --enable-vof
->>>>>> to ./configure to enable it.
->>>>>>
->>>>>> This assumes potential support for booting from QEMU backends
->>>>>> such as blockdev or netdev without devices/drivers used.
->>>>>>
->>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>>>> ---
->>>>>>
->>>>>> The example command line is:
->>>>>>
->>>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
->>>>>> -nodefaults \
->>>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
->>>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
->>>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
->>>>>> -nographic \
->>>>>> -vga none \
->>>>>> -enable-kvm \
->>>>>> -m 8G \
->>>>>> -machine 
->>>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
->>>>>> \
->>>>>> -kernel pbuild/kernel-le-guest/vmlinux \
->>>>>> -initrd pb/rootfs.cpio.xz \
->>>>>> -drive 
->>>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
->>>>>> \
->>>>>> -global spapr-nvram.drive=DRIVE0 \
->>>>>> -snapshot \
->>>>>> -smp 8,threads=8 \
->>>>>> -L /home/aik/t/qemu-ppc64-bios/ \
->>>>>> -trace events=qemu_trace_events \
->>>>>> -d guest_errors \
->>>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
->>>>>> -mon chardev=SOCKET0,mode=control
->>>>>
->>>>> I haven't looked at it in detail yet, just some quick comments I 
->>>>> have on first skim through.
->>>>>
->>>>>> ---
->>>>>> Changes:
->>>>>> v21:
->>>>>> * s/ld/ldz/ in entry.S
->>>>>
->>>>> Typo? Has this become lwz?
->>>>
->>>> Yup, lwz.
->>>>
->>>>>
->>>>>> * moved CONFIG_VOF from default-configs/devices/ppc64-softmmu.mak 
->>>>>> to Kconfig
->>>>>> * made CONFIG_VOF optional
->>>>>
->>>>> This won't work for pegasos2, see below.
->>>>>
->>>>>> * s/l.lds/vof.lds/
->>>>>> * force 32 BE in spapr_machine_reset() instead of the firmware
->>>>>> * added checks for non-null methods of VofMachineIfClass
->>>>>> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a better 
->>>>>> comment
->>>>>> * added  path_offset wrapper for handling mixed case for addresses
->>>>>> after "@" in node names
->>>>>> * changed getprop() to check for actual "name" property in the fdt
->>>>>> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as (unlike 
->>>>>> similar
->>>>>> rtas_ld/ldl_be_*) they return error codes
->>>>>> * VOF_MEM_READ uses now address_space_read (it was 
->>>>>> address_space_read_full
->>>>>> before, not sure why)
->>>>> [...]
->>>>>> ---
->>>>>> configure               |    9 +
->>>>>> pc-bios/vof/Makefile    |   23 +
->>>>>> include/hw/ppc/spapr.h  |   25 +-
->>>>>> include/hw/ppc/vof.h    |   55 ++
->>>>>> pc-bios/vof/vof.h       |   43 ++
->>>>>> hw/ppc/spapr.c          |   87 +++-
->>>>>> hw/ppc/spapr_hcall.c    |   29 +-
->>>>>> hw/ppc/spapr_vof.c      |  153 ++++++
->>>>>> hw/ppc/vof.c            | 1052 
->>>>>> +++++++++++++++++++++++++++++++++++++++
->>>>>> pc-bios/vof/bootmem.c   |   14 +
->>>>>> pc-bios/vof/ci.c        |   91 ++++
->>>>>> pc-bios/vof/libc.c      |   92 ++++
->>>>>> pc-bios/vof/main.c      |   21 +
->>>>>> tests/qtest/rtas-test.c |   17 +-
->>>>>> MAINTAINERS             |   12 +
->>>>>> hw/ppc/Kconfig          |    3 +
->>>>>> hw/ppc/meson.build      |    3 +
->>>>>> hw/ppc/trace-events     |   24 +
->>>>>> meson.build             |    1 +
->>>>>> pc-bios/README          |    2 +
->>>>>> pc-bios/vof-nvram.bin   |  Bin 0 -> 16384 bytes
->>>>>> pc-bios/vof.bin         |  Bin 0 -> 3784 bytes
->>>>>> pc-bios/vof/entry.S     |   49 ++
->>>>>> pc-bios/vof/vof.lds     |   48 ++
->>>>>> 24 files changed, 1840 insertions(+), 13 deletions(-)
->>>>>> create mode 100644 pc-bios/vof/Makefile
->>>>>> create mode 100644 include/hw/ppc/vof.h
->>>>>> create mode 100644 pc-bios/vof/vof.h
->>>>>> create mode 100644 hw/ppc/spapr_vof.c
->>>>>> create mode 100644 hw/ppc/vof.c
->>>>>> create mode 100644 pc-bios/vof/bootmem.c
->>>>>> create mode 100644 pc-bios/vof/ci.c
->>>>>> create mode 100644 pc-bios/vof/libc.c
->>>>>> create mode 100644 pc-bios/vof/main.c
->>>>>> create mode 100644 pc-bios/vof-nvram.bin
->>>>>> create mode 100755 pc-bios/vof.bin
->>>>>> create mode 100644 pc-bios/vof/entry.S
->>>>>> create mode 100644 pc-bios/vof/vof.lds
->>>>>>
-> [...]
->>>>>> diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
->>>>>> new file mode 100644
->>>>>> index 000000000000..65ca2fed0d41
->>>>>> --- /dev/null
->>>>>> +++ b/include/hw/ppc/vof.h
->>>>>> @@ -0,0 +1,55 @@
->>>>>> +/*
->>>>>> + * Virtual Open Firmware
->>>>>> + *
->>>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
->>>>>> + */
->>>>>> +#ifndef HW_VOF_H
->>>>>> +#define HW_VOF_H
->>>>>> +
->>>>>> +typedef struct Vof {
->>>>>> +    uint64_t top_addr; /* copied from rma_size */
->>>>>> +    GArray *claimed; /* array of SpaprOfClaimed */
->>>>>> +    uint64_t claimed_base;
->>>>>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
->>>>>> +    uint32_t of_instance_last;
->>>>>> +    char *bootargs;
->>>>>> +    long fw_size;
->>>>>> +} Vof;
->>>>>> +
->>>>>> +int vof_client_call(MachineState *ms, Vof *vof, void *fdt,
->>>>>> +                    target_ulong args_real);
->>>>>> +uint64_t vof_claim(Vof *vof, uint64_t virt, uint64_t size, 
->>>>>> uint64_t align);
->>>>>> +void vof_init(Vof *vof, uint64_t top_addr, Error **errp);
->>>>>> +void vof_cleanup(Vof *vof);
->>>>>> +void vof_build_dt(void *fdt, Vof *vof);
->>>>>> +uint32_t vof_client_open_store(void *fdt, Vof *vof, const char 
->>>>>> *nodename,
->>>>>> +                               const char *prop, const char *path);
->>>>>> +
->>>>>> +#define TYPE_VOF_MACHINE_IF "vof-machine-if"
->>>>>> +
->>>>>> +typedef struct VofMachineIfClass VofMachineIfClass;
->>>>>> +DECLARE_CLASS_CHECKERS(VofMachineIfClass, VOF_MACHINE, 
->>>>>> TYPE_VOF_MACHINE_IF)
->>>>>> +
->>>>>> +struct VofMachineIfClass {
->>>>>> +    InterfaceClass parent;
->>>>>> +    target_ulong (*client_architecture_support)(MachineState *ms, 
->>>>>> CPUState *cs,
->>>>>> +                                                target_ulong vec);
->>>>>> +    void (*quiesce)(MachineState *ms);
->>>>>> +    bool (*setprop)(MachineState *ms, const char *path, const 
->>>>>> char *propname,
->>>>>> +                    void *val, int vallen);
->>>>>> +};
->>>>>> +
->>>>>> +/*
->>>>>> + * Initial stack size is from
->>>>>> + * 
->>>>>> https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html 
->>>>>> + */
->>>>>> +#define VOF_STACK_SIZE       0x8000
->>>>>
->>>>> Maybe also add a define for RTAS_SIZE here? We'll need to put that 
->>>>> in the device tree but it depends on the rtas shim size that's part 
->>>>> of VOF so it should be defined here instead of hardcoding it in 
->>>>> boards that use VOF so it can be updated later at one place if needed.
->>>>
->>>> This is rtas-size for pseries:
->>>>
->>>> _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
->>>>          ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
->>>>
->>>> => depends on cpus => depends on the command line.
->>>>
->>>>
->>>> RTAS_SIZE is not used by anything in pseries anymore, I'll send a 
->>>> patch to ditch it.
->>>
->>> I mean you need to have at least the size of code in 
->>> pc-bios/vof/entry.S hv_rtas where also hv_rtas_size is defined but 
->>> that value is not available in QEMU where one needs to add it to the 
->>> device tree. So a define for that should be here in vof.h. Currently 
->>> I've counted instructions and have
->>>
->>>      qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-size", 20);
->>>
->>> in pegasos2.c but that 20 should be some VOF_RTAS_SIZE instead that 
->>> you define corresponding to hv_rtas_size. You'll probably need the 
->>> same even after changing above rtas size calculation in spapr because 
->>> client has to allocate memory for instantiate-rtas.
->>
->>
->> Ah fair point. I do not like "20" here and I think the right thing 
->> will be adding whatever number of bytes to rtas-size in the firmware 
->> itself and update it in QEMU via "setprop" as we do for 
->> "linux,rtas-base". And then do the same in SLOF.
-> 
-> This is not the base address but the size of the shim with the hypercall 
-> that instantiate-rtas copies. Why does it need to be updated?
+> The --without-default-devices configure option removes the
+> 'default=3Dy' from Kconfig files. It is useful to test missing
+> Kconfig dependencies for users wanting to have QEMU (system)
+> binaries with a particular subset of machines builtin.
+>
+> If a machine can be built standalone, it can certainly be
+> built as part of a set. So the best way to test for regressions
+> is to test each machine individually.
+>
+> As this is painful to test manually, add CI jobs to do it [*].
+> Since all jobs follow the same template, to ease maintenance
+> we generate the jobs using the jsonnet tool, which emit a YAML
+> file filled with all our jobs.
+>
+> Since there is no "--enable-my-config" option, we have to write
+> the standalone config manually, overwritting each target .mak
+> file in default-configs/devices/.
 
-The vm kernel allocates the space for it.
+Yet....
 
-> And why 
-> does it need to be more bytes than necessary?
+> The job is set to manual (there is no change in the current
+> set of jobs), but can be started automatically by setting the
+> QEMU_CI_STANDALONE_MACHINE_TESTING variable.
 
-What is necessary? It is definitely way more than 20 bytes.
+I'm wary of tests that don't get run automatically because it generally
+means they won't be. However it also explodes the matrix with even more
+builds so I can see the desire to avoid that.
 
-> I don't know what you do 
-> for spapr and why do you need larger rtas-size than this but for 
-> pegasos2 this /rtas/rtas-size property is only used by guests to 
-> allocate memory for rtas so all I need is how many bytes are needed for 
-> hv_rtas in pc-bios/vof/entry.S which is what should be #defined in 
-> vof.h. I've found 20 is just enough so you could add that to vof.h.
+>
+> [*] https://docs.gitlab.com/ee/ci/yaml/#trigger-child-pipeline-with-gener=
+ated-configuration-file
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Example: https://gitlab.com/philmd/qemu/-/pipelines/309272883
+>
+> Based-on: <20210525082556.4011380-1-f4bug@amsat.org>
+> ---
+>  .gitlab-ci.d/qemu-project.yml             |  1 +
+>  .gitlab-ci.d/standalone-jobs-template.yml | 32 ++++++++++
+>  .gitlab-ci.d/standalone-jobs.jsonnet      | 74 +++++++++++++++++++++++
+>  .gitlab-ci.d/standalone-jobs.yml          | 27 +++++++++
+>  .gitlab-ci.yml                            |  3 +
+>  5 files changed, 137 insertions(+)
+>  create mode 100644 .gitlab-ci.d/standalone-jobs-template.yml
+>  create mode 100644 .gitlab-ci.d/standalone-jobs.jsonnet
+>  create mode 100644 .gitlab-ci.d/standalone-jobs.yml
+>
+> diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
+> index 64cb2ba1da5..4018c48761c 100644
+> --- a/.gitlab-ci.d/qemu-project.yml
+> +++ b/.gitlab-ci.d/qemu-project.yml
+> @@ -9,3 +9,4 @@ include:
+>    - local: '/.gitlab-ci.d/crossbuilds.yml'
+>    - local: '/.gitlab-ci.d/buildtest.yml'
+>    - local: '/.gitlab-ci.d/static_checks.yml'
+> +  - local: '/.gitlab-ci.d/standalone-jobs.yml'
+> diff --git a/.gitlab-ci.d/standalone-jobs-template.yml b/.gitlab-ci.d/sta=
+ndalone-jobs-template.yml
+> new file mode 100644
+> index 00000000000..23e60cb4069
+> --- /dev/null
+> +++ b/.gitlab-ci.d/standalone-jobs-template.yml
+> @@ -0,0 +1,32 @@
+> +.native_build_standalone_job_template:
+> +  stage: build
+> +  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+> +  variables:
+> +    IMAGE: fedora
+> +    CONFIGURE_ARGS:
+> +      --without-default-devices
+> +      --disable-user
+> +      --disable-tools
+> +      --disable-docs
+> +  before_script:
+> +    - JOBS=3D$(expr $(nproc) + 1)
+> +  script:
+> +    - for target in $TARGETS ; do
+> +        echo > default-configs/devices/${target}-softmmu.mak ;
+> +        for line in $DEVICE_CONFIGS ; do
+> +          echo "$line"
+> +          echo "$line" > default-configs/devices/${target}-softmmu.mak ;
+> +        done ;
+> +      done
+> +    - mkdir build
+> +    - cd build
+> +    - ../configure --enable-werror $CONFIGURE_ARGS --target-list=3D"$TAR=
+GETS"
+> +      || { cat config.log meson-logs/meson-log.txt && exit 1; }
+> +    - QEMU_BINS=3D$(echo $(for target in $TARGETS; do echo qemu-system-$=
+{target//-softmmu/}; done))
+> +    - make -j"$JOBS" $QEMU_BINS
+> +    - for binary in $QEMU_BINS ; do
+> +        for machine in $(./$binary -M help | egrep -v "^(Supported|none)=
+" | awk '{print $1}') ; do
+> +            echo "=3D=3D=3D testing $machine with $binary =3D=3D=3D" ;
+> +            echo q | ./$binary -M $machine -nodefaults -display none $TE=
+STING_ARGS -monitor stdio -S || exit 1 ;
+> +        done ;
+> +      done
+> diff --git a/.gitlab-ci.d/standalone-jobs.jsonnet b/.gitlab-ci.d/standalo=
+ne-jobs.jsonnet
+> new file mode 100644
+> index 00000000000..6f403a51091
+> --- /dev/null
+> +++ b/.gitlab-ci.d/standalone-jobs.jsonnet
+> @@ -0,0 +1,74 @@
+> +local param_job(targets, configs, cmdline=3D"") =3D
+> +  {
+> +    extends: ".native_build_standalone_job_template",
+> +
+> +    variables: {
+> +      TARGETS: targets,
+> +      DEVICE_CONFIGS: configs,
+> +      TESTING_ARGS: cmdline,
+> +    }
+> +  };
 
-I am thinking now that may be the property should be created by vof.bin 
-and not QEMU, QEMU just has to tell how many bytes on top it needs.
+I'm reluctant to have a parallel configuration architecture here. If we
+are going to test these then let's get the configure support in first.
 
+> +
+> +{
+> +  include: { "local": "/.gitlab-ci.d/standalone-jobs-template.yml" },
+> +
+> +    "alpha dp264": param_job("alpha-softmmu", "CONFIG_DP264=3Dy"),
+> +    "avr arduino": param_job("avr-softmmu", "CONFIG_ARDUINO=3Dy"),
+> +    "hppa dino": param_job("hppa-softmmu", "CONFIG_DINO=3Dy"),
+> +    "nios2 10m50": param_job("nios2-softmmu", "CONFIG_NIOS2_10M50=3Dy"),
+> +    "nios2 nommu": param_job("nios2-softmmu", "CONFIG_NIOS2_GENERIC_NOMM=
+U=3Dy"),
+> +    "or1k sim": param_job("or1k-softmmu", "CONFIG_OR1K_SIM=3Dy"),
+> +    "rx gdbsim": param_job("rx-softmmu", "CONFIG_RX_GDBSIM=3Dy", "-bios =
+/dev/null"),
+> +    "triboard": param_job("tricore-softmmu", "CONFIG_TRIBOARD=3Dy"),
+> +    "xtensa sim": param_job("xtensaeb-softmmu", "CONFIG_XTENSA_SIM=3Dy C=
+ONFIG_SEMIHOSTING=3Dy"),
+> +    "xtensa virt": param_job("xtensa-softmmu", "CONFIG_XTENSA_VIRT=3Dy C=
+ONFIG_SEMIHOSTING=3Dy"),
 
--- 
-Alexey
+Do we really have a plethora of users running trimmed down custom
+configurations that we need to defend each of these exotic build
+combinations in the CI?
+
+> +
+> +  // i386
+> +    "x86 isapc": param_job("i386-softmmu", "CONFIG_ISAPC=3Dy"),
+> +    "x86 microvm": param_job("x86_64-softmmu", "CONFIG_MICROVM=3Dy"),
+
+> +  // s390x
+> +    "s390 ccw": param_job("s390x-softmmu", "CONFIG_S390_CCW_VIRTIO=3Dy"),
+
+I think is possibly a valid use case.=20
+
+<snip>
+> +  // microblaze
+> +    "mb zynqmp-pmu": param_job("microblaze-softmmu", "CONFIG_XLNX_ZYNQMP=
+_PMU=3Dy"),
+> +    "mb ml605": param_job("microblaze-softmmu", "CONFIG_PETALOGIX_ML605=
+=3Dy"),
+> +    "mb s3adsp1800": param_job("microblaze-softmmu", "CONFIG_PETALOGIX_S=
+3ADSP1800=3Dy"),
+> +
+> +  // mips
+> +    "mips jazz": param_job("mips64-softmmu", "CONFIG_FULOONG=3Dy"),
+> +    "mips loongson3v": param_job("mips64-softmmu", "CONFIG_LOONGSON3V=3D=
+y"),
+> +    "mips malta": param_job("mips-softmmu mipsel-softmmu", "CONFIG_MALTA=
+=3Dy", "-bios /dev/null"),
+> +
+> +  // riscv
+> +    "riscv opentitan": param_job("riscv32-softmmu", "CONFIG_OPENTITAN=3D=
+y"),
+
+Again I'm not sure how many emulation targets really want to cut down to
+a minimal configuration.
+
+--=20
+Alex Benn=C3=A9e
 
