@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC053AB03F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:51:20 +0200 (CEST)
-Received: from localhost ([::1]:39924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531A53AB05A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:53:12 +0200 (CEST)
+Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltogB-0002WR-CY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55424)
+	id 1ltohz-0007J0-Dj
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNd-0003EJ-3w
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:10 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:40605)
+ id 1ltoNg-0003IB-Md
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:12 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:44941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNb-0006Q3-Ec
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:08 -0400
-Received: by mail-ej1-x630.google.com with SMTP id my49so8697533ejc.7
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:07 -0700 (PDT)
+ id 1ltoNe-0006S6-Mo
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:12 -0400
+Received: by mail-ej1-x633.google.com with SMTP id gt18so8690176ejc.11
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JNJr/AA+BlXc1zPZLzRJ8Y7azIDxrXiDPF6G2uWQRjc=;
- b=hEkuoq0tnrqsRmZtsbEJNE6inmjPOnQS34lWm2RdrqkF9aBR9NUjW/aDSmhPhitmkW
- jXttsQa0lUVesQIuhDoQzLdId64d0Z3Evexpzh7KKGp9Dsg6s9uqv4UHNQzVwTSamVFP
- DpvEvzUQkSWHa98fZxxIlRRZOK+MwKs6k5gqzv9QlPltrayKTWN82gUscBcorll8Ck9N
- ukWx4lMtHZ9PdyiPUjFLkf2OWrm4L5zTa13xWK3T1XHEtCpfcsW3s0XUiL1Jn8CLD1/x
- vViEP2jYwkP6eHQzv6vbYEe5nYW2ia/cDXY55+qvQnRuHMye1o0D9fAb5hcgjRT4zX3q
- VDMA==
+ bh=Ih1xddWmyW9WnFhSZ9eRiE6DF/hMjeq/MCb4afEYuBY=;
+ b=IK2Zaum/1R3bz4w0YCSAYB1xPl3BAL3bv/jzV/qr8GZ3e4GgqE1zFA+fsl10B1hWGL
+ tyomFaEfRxoL/69R0kBFbX2cZ7w0PMGJh7fp2Z54hiEqnsofE/ME1xDnrXrxzHkDJ8qc
+ BcENH/nGv4RYXmLwM83vA9sGKvAi/J+/6SV96uvDT/lpnwV65rGqOlypkIrqm7oAxgG9
+ GNpJhDJirvH5H+mz8oR8DgqaTftGMDMzgx1d0ej4DHyUB7Puq1fTJgUYNQnAunOuHFw6
+ smwogOsW+8O1V6LKX/cxO21w/LdCXuYfLchIOP9noJE/3Am/um9jug/JK95boZwuklTt
+ elpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JNJr/AA+BlXc1zPZLzRJ8Y7azIDxrXiDPF6G2uWQRjc=;
- b=fK5ZvBIy7QCy5En+/O9SxxZNdxFXpe8iIgCOG50sOXrpJnStk0zaBMuiWuzk6rdQvA
- Qr8WfUXOYe4xpQ7NQEwtoNSvfWcF74Q5fy5AttcFNy3Iyv0HAYdJiMb4N0bcMu0Bv1cy
- 7JXBpizDTwiTTsk6USvhLF9Sh76uXVHCwmt3bZ+LRA5IW8YqDpA4n7zA6M2UFnoDa998
- +sXB3OwACjGNkB8EsvRqLgD8nBXuimtxMYL8rslm7Pv7zJ+Txyf0l7m5E6WWncS94A1S
- dYRSfeHbibYdYHumCV12IORf7enBQiFEHUC7bSkCRildTwUeqZuqKq+MrB8xK4PSjtz0
- LTFg==
-X-Gm-Message-State: AOAM532KSBMUOHRlEgte5orFyrNJW1EWApbRj/p2Jb0FuGkwp3St9iTD
- bMwtLvdQkJSw9hVIxetKvZdP7W+Pmp8=
-X-Google-Smtp-Source: ABdhPJw2dIbB3J71bfR6dDDM6kgu2vqEHyCyOxKLR8BAp1pCeMJT/uYV4wEmBpjlIQYmoHXyu9DMng==
-X-Received: by 2002:a17:907:1c9e:: with SMTP id
- nb30mr4278702ejc.0.1623922326208; 
- Thu, 17 Jun 2021 02:32:06 -0700 (PDT)
+ bh=Ih1xddWmyW9WnFhSZ9eRiE6DF/hMjeq/MCb4afEYuBY=;
+ b=nROjfuTyg6q29o7epfxzUqqAJqnGGCynl0sSjHsx+6DUFnHPf4e0fabib72/UN0Nm5
+ YLuPlrQSmujwVYXN9a5ljm2vlsKLKv2Y85eiWvZawKSx2xwNWe7yDecZUSBZf1mgylkM
+ XaQpJtJ1KxfjvGUvjTH/AcAjpN8VtuzY0QvnDtOuINBElI9qx8TEDE19a5scp7MIWDJ7
+ kNl/KUPC6alxhs34AkL/zkEy2WS+uPNQTK+qgh9ljlSnnnTs2dfxw/nYM5a3KJtgs+Go
+ fCghkGgK5l1wIlHB7nIK4hjiwWtYDUuNlfGmbU8OyDcb4SN4yVFejcc4FS+GdjW4T6w5
+ soiw==
+X-Gm-Message-State: AOAM531DqT3YDViZw3pjl36+rOCA0L0JKCwPErK1S0vdzGLjg8r2gqRV
+ wNyX/4y8T4RsMK4df9ctqx1Ov2ky25U=
+X-Google-Smtp-Source: ABdhPJwZU2hxN+vBE8WItKOUpqhAHst8eyd5aYr8s7qLE9dXiiubltDGg+AMwXt5nf2/K6k+rrRTLg==
+X-Received: by 2002:a17:906:670c:: with SMTP id
+ a12mr4118558ejp.249.1623922328333; 
+ Thu, 17 Jun 2021 02:32:08 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.05
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.32.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:32:05 -0700 (PDT)
+ Thu, 17 Jun 2021 02:32:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/45] util: Use unique type for QemuRecMutex in thread-posix.h
-Date: Thu, 17 Jun 2021 11:31:31 +0200
-Message-Id: <20210617093134.900014-43-pbonzini@redhat.com>
+Subject: [PULL 45/45] configure: Remove probe for _Static_assert
+Date: Thu, 17 Jun 2021 11:31:34 +0200
+Message-Id: <20210617093134.900014-46-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,93 +93,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We will shortly convert lockable.h to _Generic, and we cannot
-have two compatible types in the same expansion.  Wrap QemuMutex
-in a struct, and unwrap in qemu-thread-posix.c.
+_Static_assert is part of C11, which is now required.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210614233143.1221879-6-richard.henderson@linaro.org>
+Message-Id: <20210614233143.1221879-9-richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/thread-posix.h | 10 ++++++++--
- util/qemu-thread-posix.c    | 12 ++++++------
- 2 files changed, 14 insertions(+), 8 deletions(-)
+ configure               | 18 ------------------
+ include/qemu/compiler.h | 11 -----------
+ 2 files changed, 29 deletions(-)
 
-diff --git a/include/qemu/thread-posix.h b/include/qemu/thread-posix.h
-index cf8bc90468..b792e6ef37 100644
---- a/include/qemu/thread-posix.h
-+++ b/include/qemu/thread-posix.h
-@@ -4,8 +4,6 @@
- #include <pthread.h>
- #include <semaphore.h>
+diff --git a/configure b/configure
+index ebc016111a..262ab71802 100755
+--- a/configure
++++ b/configure
+@@ -5090,20 +5090,6 @@ if compile_prog "" "" ; then
+     have_sysmacros=yes
+ fi
  
--typedef QemuMutex QemuRecMutex;
+-##########################################
+-# check for _Static_assert()
 -
- struct QemuMutex {
-     pthread_mutex_t lock;
- #ifdef CONFIG_DEBUG_MUTEX
-@@ -15,6 +13,14 @@ struct QemuMutex {
-     bool initialized;
- };
+-have_static_assert=no
+-cat > $TMPC << EOF
+-_Static_assert(1, "success");
+-int main(void) {
+-    return 0;
+-}
+-EOF
+-if compile_prog "" "" ; then
+-    have_static_assert=yes
+-fi
+-
+ ##########################################
+ # check for utmpx.h, it is missing e.g. on OpenBSD
  
-+/*
-+ * QemuRecMutex cannot be a typedef of QemuMutex lest we have two
-+ * compatible cases in _Generic.  See qemu/lockable.h.
-+ */
-+typedef struct QemuRecMutex {
-+    QemuMutex m;
-+} QemuRecMutex;
-+
- struct QemuCond {
-     pthread_cond_t cond;
-     bool initialized;
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index d990826ed8..fd9d714038 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -116,32 +116,32 @@ void qemu_rec_mutex_init(QemuRecMutex *mutex)
+@@ -6035,10 +6021,6 @@ if test "$have_sysmacros" = "yes" ; then
+   echo "CONFIG_SYSMACROS=y" >> $config_host_mak
+ fi
  
-     pthread_mutexattr_init(&attr);
-     pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
--    err = pthread_mutex_init(&mutex->lock, &attr);
-+    err = pthread_mutex_init(&mutex->m.lock, &attr);
-     pthread_mutexattr_destroy(&attr);
-     if (err) {
-         error_exit(err, __func__);
+-if test "$have_static_assert" = "yes" ; then
+-  echo "CONFIG_STATIC_ASSERT=y" >> $config_host_mak
+-fi
+-
+ if test "$have_utmpx" = "yes" ; then
+   echo "HAVE_UTMPX=y" >> $config_host_mak
+ fi
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 5766d61589..3baa5e3790 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -72,18 +72,7 @@
+         int:(x) ? -1 : 1; \
      }
--    mutex->initialized = true;
-+    mutex->m.initialized = true;
- }
  
- void qemu_rec_mutex_destroy(QemuRecMutex *mutex)
- {
--    qemu_mutex_destroy(mutex);
-+    qemu_mutex_destroy(&mutex->m);
- }
+-/* QEMU_BUILD_BUG_MSG() emits the message given if _Static_assert is
+- * supported; otherwise, it will be omitted from the compiler error
+- * message (but as it remains present in the source code, it can still
+- * be useful when debugging). */
+-#if defined(CONFIG_STATIC_ASSERT)
+ #define QEMU_BUILD_BUG_MSG(x, msg) _Static_assert(!(x), msg)
+-#elif defined(__COUNTER__)
+-#define QEMU_BUILD_BUG_MSG(x, msg) typedef QEMU_BUILD_BUG_ON_STRUCT(x) \
+-    glue(qemu_build_bug_on__, __COUNTER__) __attribute__((unused))
+-#else
+-#define QEMU_BUILD_BUG_MSG(x, msg)
+-#endif
  
- void qemu_rec_mutex_lock_impl(QemuRecMutex *mutex, const char *file, int line)
- {
--    qemu_mutex_lock_impl(mutex, file, line);
-+    qemu_mutex_lock_impl(&mutex->m, file, line);
- }
+ #define QEMU_BUILD_BUG_ON(x) QEMU_BUILD_BUG_MSG(x, "not expecting: " #x)
  
- int qemu_rec_mutex_trylock_impl(QemuRecMutex *mutex, const char *file, int line)
- {
--    return qemu_mutex_trylock_impl(mutex, file, line);
-+    return qemu_mutex_trylock_impl(&mutex->m, file, line);
- }
- 
- void qemu_rec_mutex_unlock_impl(QemuRecMutex *mutex, const char *file, int line)
- {
--    qemu_mutex_unlock_impl(mutex, file, line);
-+    qemu_mutex_unlock_impl(&mutex->m, file, line);
- }
- 
- void qemu_cond_init(QemuCond *cond)
 -- 
 2.31.1
-
 
 
