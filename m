@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A703ABD22
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:52:20 +0200 (CEST)
-Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685A53ABD2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:54:48 +0200 (CEST)
+Received: from localhost ([::1]:48042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lty3n-0003LS-6M
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56760)
+	id 1lty6B-0007TQ-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNP-0004IS-AA
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55067)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNR-0004OG-VJ
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNN-0003kE-78
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:31 -0400
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1ltxNP-0003m0-0o
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 15:08:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623956907;
+ s=mimecast20190719; t=1623956910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B55cBXE+ux0+YbE9ny/6n3ibWjgugrLt6QuyB8yGlMo=;
- b=V+KNQ39RZxnxiNyhymemkzCZSn5/RdJrl298mz6Uz+wdfd1pxUzXL0qb9Ki/kvgVOUgbIE
- S6wVwol2ZZ6c6xA/UTAhWDTOQgHql242GeIpDc/h0Jw3ET2Pye9imMiSXA+0uiQ/3ikeJq
- dWW78/UHiWGwtFMhzmo60F992MMefIk=
+ bh=LSJUoMEyrOMmaMK58wND4HlnZ2ObOnR2e8U3z1KriJU=;
+ b=XZZ6MMJQH8Gfw8XLwp35CBN01mP+FL0TUzIZX9/HkSKFWCvu8a2LGwRdabEHZ0lTfRDtV6
+ Mx3qHkIg9q/Wqpkgwxgkh0I0crcg1FXTDT/9hXCiFuz9YeuvpHpE0/zr7T6nxNf6AmUZAM
+ zKRlziP+Gn5WzyQ1dI2XzBtoA6vP4pE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-nvvUBZDuORWwMbjqRlly_Q-1; Thu, 17 Jun 2021 15:08:24 -0400
-X-MC-Unique: nvvUBZDuORWwMbjqRlly_Q-1
+ us-mta-75-zY-h0k-9NQCWK9VWsBVWLA-1; Thu, 17 Jun 2021 15:08:29 -0400
+X-MC-Unique: zY-h0k-9NQCWK9VWsBVWLA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A7DAC73A1;
- Thu, 17 Jun 2021 19:08:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FB6F801AEE;
+ Thu, 17 Jun 2021 19:08:28 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.43.2.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 824E35D735;
- Thu, 17 Jun 2021 19:08:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 074715D6D7;
+ Thu, 17 Jun 2021 19:08:26 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/7] hw/i386/acpi-build: Add ACPI PCI hot-plug methods to
- Q35
-Date: Thu, 17 Jun 2021 21:07:34 +0200
-Message-Id: <20210617190739.3673064-3-jusual@redhat.com>
+Subject: [PATCH v5 4/7] hw/pci/pcie: Do not set HPC flag if acpihp is used
+Date: Thu, 17 Jun 2021 21:07:36 +0200
+Message-Id: <20210617190739.3673064-5-jusual@redhat.com>
 In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
 References: <20210617190739.3673064-1-jusual@redhat.com>
 MIME-Version: 1.0
@@ -82,218 +81,146 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement notifications and gpe to support q35 ACPI PCI hot-plug.
-Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
+Instead of changing the hot-plug type in _OSC register, do not
+set the 'Hot-Plug Capable' flag. This way guest will choose ACPI
+hot-plug if it is preferred and leave the option to use SHPC with
+pcie-pci-bridge.
+
+The ability to control hot-plug for each downstream port is retained,
+while 'hotplug=off' on the port means all hot-plug types are disabled.
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.h    |  4 ++++
- include/hw/acpi/ich9.h  |  2 ++
- include/hw/acpi/pcihp.h |  3 ++-
- hw/acpi/pcihp.c         |  6 +++---
- hw/acpi/piix4.c         |  4 +++-
- hw/i386/acpi-build.c    | 30 +++++++++++++++++++-----------
- 6 files changed, 33 insertions(+), 16 deletions(-)
+ include/hw/pci/pcie_port.h |  5 ++++-
+ hw/acpi/pcihp.c            |  8 ++++++++
+ hw/core/machine.c          |  1 -
+ hw/i386/pc_q35.c           | 11 +++++++++++
+ hw/pci/pcie.c              |  8 +++++++-
+ hw/pci/pcie_port.c         |  1 +
+ 6 files changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
-index 74df5fc612..487ec7710f 100644
---- a/hw/i386/acpi-build.h
-+++ b/hw/i386/acpi-build.h
-@@ -5,6 +5,10 @@
+diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+index bea8ecad0f..e25b289ce8 100644
+--- a/include/hw/pci/pcie_port.h
++++ b/include/hw/pci/pcie_port.h
+@@ -57,8 +57,11 @@ struct PCIESlot {
+     /* Disable ACS (really for a pcie_root_port) */
+     bool        disable_acs;
  
- extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
- 
-+/* PCI Hot-plug registers bases. See docs/spec/acpi_pci_hotplug.txt */
-+#define ACPI_PCIHP_SEJ_BASE 0x8
-+#define ACPI_PCIHP_BNMR_BASE 0x10
+-    /* Indicates whether hot-plug is enabled on the slot */
++    /* Indicates whether any type of hot-plug is allowed on the slot */
+     bool        hotplug;
 +
- void acpi_setup(void);
- 
- #endif
-diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-index df519e40b5..596120d97f 100644
---- a/include/hw/acpi/ich9.h
-+++ b/include/hw/acpi/ich9.h
-@@ -28,6 +28,8 @@
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/acpi/tco.h"
- 
-+#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
++    bool        native_hotplug;
 +
- typedef struct ICH9LPCPMRegs {
-     /*
-      * In ich9 spec says that pm1_cnt register is 32bit width and
-diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-index 2dd90aea30..af1a169fc3 100644
---- a/include/hw/acpi/pcihp.h
-+++ b/include/hw/acpi/pcihp.h
-@@ -55,7 +55,8 @@ typedef struct AcpiPciHpState {
- } AcpiPciHpState;
- 
- void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
--                     MemoryRegion *address_space_io, bool bridges_enabled);
-+                     MemoryRegion *address_space_io, bool bridges_enabled,
-+                     uint16_t io_base);
- 
- void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                    DeviceState *dev, Error **errp);
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 09f531e941..a55992ed9f 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -37,7 +37,6 @@
- #include "qom/qom-qobject.h"
- #include "trace.h"
- 
--#define ACPI_PCIHP_ADDR 0xae00
- #define ACPI_PCIHP_SIZE 0x0018
- #define PCI_UP_BASE 0x0000
- #define PCI_DOWN_BASE 0x0004
-@@ -489,10 +488,11 @@ static const MemoryRegionOps acpi_pcihp_io_ops = {
+     QLIST_ENTRY(PCIESlot) next;
  };
  
- void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
--                     MemoryRegion *address_space_io, bool bridges_enabled)
-+                     MemoryRegion *address_space_io, bool bridges_enabled,
-+                     uint16_t io_base)
- {
-     s->io_len = ACPI_PCIHP_SIZE;
--    s->io_base = ACPI_PCIHP_ADDR;
-+    s->io_base = io_base;
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 5355618608..7a6bc1b31e 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -31,6 +31,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/pci/pci_host.h"
++#include "hw/pci/pcie_port.h"
+ #include "hw/i386/acpi-build.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/pci/pci_bus.h"
+@@ -332,6 +333,13 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+             object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
+             PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
  
-     s->root = root_bus;
-     s->legacy_piix = !bridges_enabled;
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 0bd23d74e2..48f7a1edbc 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -49,6 +49,8 @@
- #define GPE_BASE 0xafe0
- #define GPE_LEN 4
- 
-+#define ACPI_PCIHP_ADDR_PIIX4 0xae00
++            /* Remove all hot-plug handlers if hot-plug is disabled on slot */
++            if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT) &&
++                !PCIE_SLOT(pdev)->hotplug) {
++                qbus_set_hotplug_handler(BUS(sec), NULL);
++                return;
++            }
 +
- struct pci_status {
-     uint32_t up; /* deprecated, maintained for migration compatibility */
-     uint32_t down;
-@@ -607,7 +609,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
- 
-     if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-         acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
--                        s->use_acpi_hotplug_bridge);
-+                        s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
-     }
- 
-     s->cpu_hotplug_legacy = true;
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 796ffc6f5c..67753638e4 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -219,10 +219,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
-         pm->fadt.rev = 1;
-         pm->cpu_hp_io_base = PIIX4_CPU_HOTPLUG_IO_BASE;
--        pm->pcihp_io_base =
--            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
--        pm->pcihp_io_len =
--            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
-     }
-     if (lpc) {
-         uint64_t smi_features = object_property_get_uint(lpc,
-@@ -238,6 +234,10 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-         pm->smi_on_cpu_unplug =
-             !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
-     }
-+    pm->pcihp_io_base =
-+        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
-+    pm->pcihp_io_len =
-+        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
- 
-     /* The above need not be conditional on machine type because the reset port
-      * happens to be the same on PIIX (pc) and ICH9 (q35). */
-@@ -392,6 +392,9 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
- 
-         if (!pdev) {
-             if (bsel) { /* add hotplug slots for non present devices */
-+                if (pci_bus_is_express(bus) && slot > 0) {
-+                    break;
-+                }
-                 dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
-                 aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-                 aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
-@@ -516,7 +519,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             QLIST_FOREACH(sec, &bus->child, sibling) {
-                 int32_t devfn = sec->parent_dev->devfn;
- 
--                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-+                if (pci_bus_is_root(sec)) {
-                     continue;
-                 }
- 
-@@ -1246,7 +1249,7 @@ static void build_piix4_isa_bridge(Aml *table)
-     aml_append(table, scope);
+             qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
+             /* We don't have to overwrite any other hotplug handler yet */
+             assert(QLIST_EMPTY(&sec->child));
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 55b9bc7817..6ed0575d81 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -582,7 +582,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
+     ms->ram_memdev_id = g_strdup(value);
  }
  
--static void build_piix4_pci_hotplug(Aml *table)
-+static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+-
+ static void machine_init_notify(Notifier *notifier, void *data)
  {
-     Aml *scope;
-     Aml *field;
-@@ -1255,20 +1258,22 @@ static void build_piix4_pci_hotplug(Aml *table)
-     scope =  aml_scope("_SB.PCI0");
+     MachineState *machine = MACHINE(qdev_get_machine());
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 46a0f196f4..a0ec7964cc 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -37,6 +37,7 @@
+ #include "sysemu/kvm.h"
+ #include "hw/kvm/clock.h"
+ #include "hw/pci-host/q35.h"
++#include "hw/pci/pcie_port.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/i386/x86.h"
+ #include "hw/i386/pc.h"
+@@ -136,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
+     ram_addr_t lowmem;
+     DriveInfo *hd[MAX_SATA_PORTS];
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
++    bool acpi_pcihp;
  
-     aml_append(scope,
--        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x08));
-+        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr), 0x08));
-     field = aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
-     aml_append(field, aml_named_field("PCIU", 32));
-     aml_append(field, aml_named_field("PCID", 32));
-     aml_append(scope, field);
+     /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
+      * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
+@@ -236,6 +238,15 @@ static void pc_q35_init(MachineState *machine)
+     object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
+                              OBJECT(lpc), &error_abort);
  
-     aml_append(scope,
--        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04));
-+        aml_operation_region("SEJ", AML_SYSTEM_IO,
-+                             aml_int(pcihp_addr + ACPI_PCIHP_SEJ_BASE), 0x04));
-     field = aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
-     aml_append(field, aml_named_field("B0EJ", 32));
-     aml_append(scope, field);
++    acpi_pcihp = object_property_get_bool(OBJECT(lpc),
++                                          "acpi-pci-hotplug-with-bridge-support",
++                                          NULL);
++
++    if (acpi_pcihp) {
++        object_register_sugar_prop(TYPE_PCIE_SLOT, "enable-native-hotplug",
++                                  "false", true);
++    }
++
+     /* irq lines */
+     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
  
-     aml_append(scope,
--        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x08));
-+        aml_operation_region("BNMR", AML_SYSTEM_IO,
-+                             aml_int(pcihp_addr + ACPI_PCIHP_BNMR_BASE), 0x08));
-     field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
-     aml_append(field, aml_named_field("BNUM", 32));
-     aml_append(field, aml_named_field("PIDX", 32));
-@@ -1402,7 +1407,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         build_piix4_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
--            build_piix4_pci_hotplug(dsdt);
-+            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
-         }
-         build_piix4_pci0_int(dsdt);
-     } else {
-@@ -1450,6 +1455,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         }
-         build_q35_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-+        if (pm->pcihp_bridge_en) {
-+            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
-+        }
-         build_q35_pci0_int(dsdt);
-         if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
-             build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
-@@ -1484,7 +1492,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     {
-         aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index fd0fa157e8..6e95d82903 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -529,7 +529,13 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+                                PCI_EXP_SLTCAP_PIP |
+                                PCI_EXP_SLTCAP_AIP |
+                                PCI_EXP_SLTCAP_ABP);
+-    if (s->hotplug) {
++
++    /*
++     * Enable native hot-plug on all hot-plugged bridges unless
++     * hot-plug is disabled on the slot.
++     */
++    if (s->hotplug &&
++        (s->native_hotplug || DEVICE(dev)->hotplugged)) {
+         pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
+                                    PCI_EXP_SLTCAP_HPS |
+                                    PCI_EXP_SLTCAP_HPC);
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index eb563ad435..a410111825 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -148,6 +148,7 @@ static Property pcie_slot_props[] = {
+     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
+     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
+     DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
++    DEFINE_PROP_BOOL("enable-native-hotplug", PCIESlot, native_hotplug, true),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
--        if (misc->is_piix4 && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
-+        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
-             aml_append(method,
-                 aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
 -- 
 2.30.2
 
