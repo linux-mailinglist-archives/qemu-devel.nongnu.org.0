@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F173AB341
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:07:05 +0200 (CEST)
-Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2093AB32A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 14:02:02 +0200 (CEST)
+Received: from localhost ([::1]:53340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltqnY-0005t2-2U
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:07:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
+	id 1ltqie-000407-W7
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 08:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltqbj-0000xk-27
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:54:51 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:34417)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltqdP-0004TS-AJ
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:56:35 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:56290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltqbf-0005dQ-R2
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:54:50 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso4761300wmc.1
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 04:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cTmXbAZuVSJ/iAUXGS3uU1Sg/xrnfGmybw7wWkCyin8=;
- b=n5mOzI+QEg/h8yQEy2G7Yx79vFljUN7KfsGw5Tvirhh5YwQtSXCnyBCh5Au4JdnoQL
- 2djrqIc8ZUi5zryKsjF7RzLZfjGM8kM4iaGhiDGf4d2rz6dsTtMul/42sJPripR9xxQY
- XBnVZBXNGo4rP6GRz8tVO4IB+vjty1PKHHDO2d7yNZxqfL2QpqcoxGlbgPsqPoEE1ZMT
- 1V3btKBRJTN2DFoZrxdFGvHJGGExxJDGb9iMNYPNuGDYC+tTsH/eaME71E5A/itpir+j
- Vs1R+bEmej850VIfmuuvJRPo3BQ7qm49t5lx/y1Shj5TJzCZZuyoxH9Wh+AqyxbQeN0f
- 6LKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cTmXbAZuVSJ/iAUXGS3uU1Sg/xrnfGmybw7wWkCyin8=;
- b=sdAzUG+X7c9Er8KpIxVpJ4egA4cr8HmszaLbIy+6lLqkPVFVvVELGTDmDWLSSmuvM9
- rfR724P6tXfLYf8n8rSZYCy2XKwtGDa+WJ/CNXAFsLvRz95zFj+uFT+YdF/imwfjvaJs
- 4unx76B/g8B243BHwg6Ml0FPkohhv0ChTGj+OJ3FW4TuRzchop7WE3HOCsXwMjk0OGgF
- Lx3F/0iq0J7oPZcdxil7fW/y9NghksNfzVNiqqeH8fEmY20gTBOF9714dkE47E/Wskib
- 71q0bzWH+HnqVbpd84jGt8yi0qMTSHLFYf3jsr+SczEITrRwzWkveXyVUZdgK+ltJlFG
- P7tQ==
-X-Gm-Message-State: AOAM532364i+YF7iV1eyad9B6dou2R64wD/7YSq+468ij6WsSqX3s8qB
- WqMD+gxhWGQwiJmskiv6Pm13jHAfTIq8Bg==
-X-Google-Smtp-Source: ABdhPJwwVeom4mbpOdacLMHniBDEf1Nw94Zd+2Qdz7LwchYqJZMcafxa8FAPgPfNmXxz0c5FweCbHQ==
-X-Received: by 2002:a05:600c:22cf:: with SMTP id
- 15mr4704358wmg.144.1623930886202; 
- Thu, 17 Jun 2021 04:54:46 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id j1sm4415717wmi.44.2021.06.17.04.54.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 04:54:45 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/15] hw/i2c: Introduce i2c_start_recv() and
- i2c_start_send()
-Date: Thu, 17 Jun 2021 13:53:34 +0200
-Message-Id: <20210617115334.2761573-16-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210617115334.2761573-1-f4bug@amsat.org>
-References: <20210617115334.2761573-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltqdN-0006OK-Dg
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 07:56:35 -0400
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E4A0F21A95;
+ Thu, 17 Jun 2021 11:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623930991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DmCOhhtzltFG5CHRXZ3zBITQgsJ1hWHdtissxEUw9nU=;
+ b=jU+Yyf178D4p9fXbFM02dw/9Khko2QU+jogiEmYhW4neTp2N0r0uzHbVuBI4r/Dua6p/lh
+ aJZfq8NYaYhfP3C41L3JUXP/UgKPbjwJ2YlyCCP6nJ7ZAf2MjVO9CE40uZKu6ND597ZjRY
+ X8BD3C0Se935SuQ9q+uvdiRxtmGdnDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623930991;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DmCOhhtzltFG5CHRXZ3zBITQgsJ1hWHdtissxEUw9nU=;
+ b=ZxkYmsGJuJT027sM49gD/izXUi1aVDQ/e16bzXtevVDSQ7PkMM4iSf8MLS6EQqJg2lS6e4
+ eEtBArrqOrDeRgCw==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+ by imap.suse.de (Postfix) with ESMTP id 7D58C118DD;
+ Thu, 17 Jun 2021 11:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1623930991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DmCOhhtzltFG5CHRXZ3zBITQgsJ1hWHdtissxEUw9nU=;
+ b=jU+Yyf178D4p9fXbFM02dw/9Khko2QU+jogiEmYhW4neTp2N0r0uzHbVuBI4r/Dua6p/lh
+ aJZfq8NYaYhfP3C41L3JUXP/UgKPbjwJ2YlyCCP6nJ7ZAf2MjVO9CE40uZKu6ND597ZjRY
+ X8BD3C0Se935SuQ9q+uvdiRxtmGdnDg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1623930991;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DmCOhhtzltFG5CHRXZ3zBITQgsJ1hWHdtissxEUw9nU=;
+ b=ZxkYmsGJuJT027sM49gD/izXUi1aVDQ/e16bzXtevVDSQ7PkMM4iSf8MLS6EQqJg2lS6e4
+ eEtBArrqOrDeRgCw==
+Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
+ id nGCYHG84y2CwEwAALh3uQQ
+ (envelope-from <cfontana@suse.de>); Thu, 17 Jun 2021 11:56:31 +0000
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+To: Markus Armbruster <armbru@redhat.com>,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
+ <87im2d6p5v.fsf@dusky.pond.sub.org>
+ <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
+ <87a6no3fzf.fsf@dusky.pond.sub.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
+Date: Thu, 17 Jun 2021 13:56:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87a6no3fzf.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.254,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,260 +102,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Denis Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To ease reviewing code using the I2C bus API, introduce the
-i2c_start_recv() and i2c_start_send() helpers which don't
-take the confusing 'is_recv' boolean argument.
+On 6/17/21 1:09 PM, Markus Armbruster wrote:
+> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
+> 
+>> On Thu, Jun 17, 2021 at 07:22:36AM +0200, Markus Armbruster wrote:
+>>> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
+>>>
+>>>> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+>>>
+>>> It's actually a QMP command.  There are no "qapi methods".
+>>>
+>>>> get virtualized cpu model info generated by QEMU during VM initialization in
+>>>> the form of cpuid representation.
+>>>>
+>>>> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+>>>
+>>> virtual CPU
+>>>
+>>>> command line option. From there it takes the name of the model as the basis for
+>>>> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
+>>>> that state if additional cpu features should be present on the virtual cpu or
+>>>> excluded from it (tokens '+'/'-' or '=on'/'=off').
+>>>> After that QEMU checks if the host's cpu can actually support the derived
+>>>> feature set and applies host limitations to it.
+>>>> After this initialization procedure, virtual cpu has it's model and
+>>>> vendor names, and a working feature set and is ready for identification
+>>>> instructions such as CPUID.
+>>>>
+>>>> Currently full output for this method is only supported for x86 cpus.
+>>>
+>>> Not sure about "currently": the interface looks quite x86-specific to me.
+>>>
+>> Yes, at some point I was thinking this interface could become generic,
+>> but does not seem possible, so I'll remove this note.
+>>
+>>> The commit message doesn't mention KVM except in the command name.  The
+>>> schema provides the command only if defined(CONFIG_KVM).
+>>>
+>>> Can you explain why you need the restriction to CONFIG_KVM?
+>>>
+>> This CONFIG_KVM is used as a solution to a broken build if --disable-kvm
+>> flag is set. I was choosing between this and writing empty implementation into
+>> kvm-stub.c
+> 
+> If the command only makes sense for KVM, then it's named correctly, but
+> the commit message lacks a (brief!) explanation why it only makes for
+> KVM.
 
-Use these new helpers in the SMBus / AUX bus models.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/i2c/i2c.h  | 24 ++++++++++++++++++++++++
- hw/i2c/core.c         | 10 ++++++++++
- hw/i2c/pm_smbus.c     |  4 ++--
- hw/i2c/smbus_master.c | 22 +++++++++++-----------
- hw/misc/auxbus.c      | 12 ++++++------
- 5 files changed, 53 insertions(+), 19 deletions(-)
+Is it meaningful for HVF?
 
-diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-index 21f2dba1bf7..5ca3b708c0b 100644
---- a/include/hw/i2c/i2c.h
-+++ b/include/hw/i2c/i2c.h
-@@ -88,9 +88,33 @@ int i2c_bus_busy(I2CBus *bus);
-  * @address: address of the slave
-  * @is_recv: indicates the transfer direction
-  *
-+ * When @is_recv is a known boolean constant, use the
-+ * i2c_start_recv() or i2c_start_send() helper instead.
-+ *
-  * Returns: 0 on success, -1 on error
-  */
- int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv);
-+
-+/**
-+ * i2c_start_recv: start a 'receive' transfer on an I2C bus.
-+ *
-+ * @bus: #I2CBus to be used
-+ * @address: address of the slave
-+ *
-+ * Returns: 0 on success, -1 on error
-+ */
-+int i2c_start_recv(I2CBus *bus, uint8_t address);
-+
-+/**
-+ * i2c_start_send: start a 'send' transfer on an I2C bus.
-+ *
-+ * @bus: #I2CBus to be used
-+ * @address: address of the slave
-+ *
-+ * Returns: 0 on success, -1 on error
-+ */
-+int i2c_start_send(I2CBus *bus, uint8_t address);
-+
- void i2c_end_transfer(I2CBus *bus);
- void i2c_nack(I2CBus *bus);
- int i2c_send(I2CBus *bus, uint8_t data);
-diff --git a/hw/i2c/core.c b/hw/i2c/core.c
-index 5483bf95a3e..416372ad00c 100644
---- a/hw/i2c/core.c
-+++ b/hw/i2c/core.c
-@@ -180,6 +180,16 @@ int i2c_start_transfer(I2CBus *bus, uint8_t address, bool is_recv)
-                                                : I2C_START_SEND);
- }
- 
-+int i2c_start_recv(I2CBus *bus, uint8_t address)
-+{
-+    return i2c_do_start_transfer(bus, address, I2C_START_RECV);
-+}
-+
-+int i2c_start_send(I2CBus *bus, uint8_t address)
-+{
-+    return i2c_do_start_transfer(bus, address, I2C_START_SEND);
-+}
-+
- void i2c_end_transfer(I2CBus *bus)
- {
-     I2CSlaveClass *sc;
-diff --git a/hw/i2c/pm_smbus.c b/hw/i2c/pm_smbus.c
-index 06e1e5321b9..d7eae548cbc 100644
---- a/hw/i2c/pm_smbus.c
-+++ b/hw/i2c/pm_smbus.c
-@@ -128,14 +128,14 @@ static void smb_transaction(PMSMBus *s)
-          * So at least Linux may or may not set the read bit here.
-          * So just ignore the read bit for this command.
-          */
--        if (i2c_start_transfer(bus, addr, 0)) {
-+        if (i2c_start_send(bus, addr)) {
-             goto error;
-         }
-         ret = i2c_send(bus, s->smb_data1);
-         if (ret) {
-             goto error;
-         }
--        if (i2c_start_transfer(bus, addr, 1)) {
-+        if (i2c_start_recv(bus, addr)) {
-             goto error;
-         }
-         s->in_i2c_block_read = true;
-diff --git a/hw/i2c/smbus_master.c b/hw/i2c/smbus_master.c
-index dc43b8637d1..6a53c34e70b 100644
---- a/hw/i2c/smbus_master.c
-+++ b/hw/i2c/smbus_master.c
-@@ -29,7 +29,7 @@ int smbus_receive_byte(I2CBus *bus, uint8_t addr)
- {
-     uint8_t data;
- 
--    if (i2c_start_transfer(bus, addr, 1)) {
-+    if (i2c_start_recv(bus, addr)) {
-         return -1;
-     }
-     data = i2c_recv(bus);
-@@ -40,7 +40,7 @@ int smbus_receive_byte(I2CBus *bus, uint8_t addr)
- 
- int smbus_send_byte(I2CBus *bus, uint8_t addr, uint8_t data)
- {
--    if (i2c_start_transfer(bus, addr, 0)) {
-+    if (i2c_start_send(bus, addr)) {
-         return -1;
-     }
-     i2c_send(bus, data);
-@@ -51,11 +51,11 @@ int smbus_send_byte(I2CBus *bus, uint8_t addr, uint8_t data)
- int smbus_read_byte(I2CBus *bus, uint8_t addr, uint8_t command)
- {
-     uint8_t data;
--    if (i2c_start_transfer(bus, addr, 0)) {
-+    if (i2c_start_send(bus, addr)) {
-         return -1;
-     }
-     i2c_send(bus, command);
--    if (i2c_start_transfer(bus, addr, 1)) {
-+    if (i2c_start_recv(bus, addr)) {
-         i2c_end_transfer(bus);
-         return -1;
-     }
-@@ -67,7 +67,7 @@ int smbus_read_byte(I2CBus *bus, uint8_t addr, uint8_t command)
- 
- int smbus_write_byte(I2CBus *bus, uint8_t addr, uint8_t command, uint8_t data)
- {
--    if (i2c_start_transfer(bus, addr, 0)) {
-+    if (i2c_start_send(bus, addr)) {
-         return -1;
-     }
-     i2c_send(bus, command);
-@@ -79,11 +79,11 @@ int smbus_write_byte(I2CBus *bus, uint8_t addr, uint8_t command, uint8_t data)
- int smbus_read_word(I2CBus *bus, uint8_t addr, uint8_t command)
- {
-     uint16_t data;
--    if (i2c_start_transfer(bus, addr, 0)) {
-+    if (i2c_start_send(bus, addr)) {
-         return -1;
-     }
-     i2c_send(bus, command);
--    if (i2c_start_transfer(bus, addr, 1)) {
-+    if (i2c_start_recv(bus, addr)) {
-         i2c_end_transfer(bus);
-         return -1;
-     }
-@@ -96,7 +96,7 @@ int smbus_read_word(I2CBus *bus, uint8_t addr, uint8_t command)
- 
- int smbus_write_word(I2CBus *bus, uint8_t addr, uint8_t command, uint16_t data)
- {
--    if (i2c_start_transfer(bus, addr, 0)) {
-+    if (i2c_start_send(bus, addr)) {
-         return -1;
-     }
-     i2c_send(bus, command);
-@@ -113,12 +113,12 @@ int smbus_read_block(I2CBus *bus, uint8_t addr, uint8_t command, uint8_t *data,
-     int i;
- 
-     if (send_cmd) {
--        if (i2c_start_transfer(bus, addr, 0)) {
-+        if (i2c_start_send(bus, addr)) {
-             return -1;
-         }
-         i2c_send(bus, command);
-     }
--    if (i2c_start_transfer(bus, addr, 1)) {
-+    if (i2c_start_recv(bus, addr)) {
-         if (send_cmd) {
-             i2c_end_transfer(bus);
-         }
-@@ -149,7 +149,7 @@ int smbus_write_block(I2CBus *bus, uint8_t addr, uint8_t command, uint8_t *data,
-         len = 32;
-     }
- 
--    if (i2c_start_transfer(bus, addr, 0)) {
-+    if (i2c_start_send(bus, addr)) {
-         return -1;
-     }
-     i2c_send(bus, command);
-diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
-index 44aa9730bc9..434ff8d910d 100644
---- a/hw/misc/auxbus.c
-+++ b/hw/misc/auxbus.c
-@@ -135,7 +135,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-             i2c_end_transfer(i2c_bus);
-         }
- 
--        if (i2c_start_transfer(i2c_bus, address, true)) {
-+        if (i2c_start_recv(i2c_bus, address)) {
-             ret = AUX_I2C_NACK;
-             break;
-         }
-@@ -151,7 +151,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-             i2c_end_transfer(i2c_bus);
-         }
- 
--        if (i2c_start_transfer(i2c_bus, address, false)) {
-+        if (i2c_start_send(i2c_bus, address)) {
-             ret = AUX_I2C_NACK;
-             break;
-         }
-@@ -179,7 +179,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-             /*
-              * No transactions started..
-              */
--            if (i2c_start_transfer(i2c_bus, address, false)) {
-+            if (i2c_start_send(i2c_bus, address)) {
-                 break;
-             }
-         } else if ((address != bus->last_i2c_address) ||
-@@ -188,7 +188,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-              * Transaction started but we need to restart..
-              */
-             i2c_end_transfer(i2c_bus);
--            if (i2c_start_transfer(i2c_bus, address, false)) {
-+            if (i2c_start_send(i2c_bus, address)) {
-                 break;
-             }
-         }
-@@ -210,7 +210,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-             /*
-              * No transactions started..
-              */
--            if (i2c_start_transfer(i2c_bus, address, true)) {
-+            if (i2c_start_recv(i2c_bus, address)) {
-                 break;
-             }
-         } else if ((address != bus->last_i2c_address) ||
-@@ -219,7 +219,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
-              * Transaction started but we need to restart..
-              */
-             i2c_end_transfer(i2c_bus);
--            if (i2c_start_transfer(i2c_bus, address, true)) {
-+            if (i2c_start_recv(i2c_bus, address)) {
-                 break;
-             }
-         }
--- 
-2.31.1
+
+> 
+> If it just isn't implemented for anything but KVM, then putting "kvm"
+> into the command name is a bad idea.  Also, the commit message should
+> briefly note the restriction to KVM.
+> 
+> Pick one :)
+> 
+> [...]
+> 
+> 
 
 
