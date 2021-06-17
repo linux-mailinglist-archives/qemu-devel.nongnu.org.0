@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC3F3AAB04
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 07:22:55 +0200 (CEST)
-Received: from localhost ([::1]:46524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A81E3AAB06
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 07:24:48 +0200 (CEST)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltkUQ-0007QF-Pl
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 01:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1ltkWF-0001C8-I1
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 01:24:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkSi-00064n-SV
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:21:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58272)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltkUG-0008CY-89
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:22:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ltkSh-0006ba-7Q
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:21:08 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ltkUE-0007aM-2O
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 01:22:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623907266;
+ s=mimecast20190719; t=1623907361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F5yTWpvidz6vB/Xybhrne4ihufyWc6LcbM9fZNsYT2A=;
- b=LJ+qBzPWErBpbwXIBD1zu+q2LN6nlku11Um3RuzJHf7ZIGuPKcl1k+uj5HMRveTTnQoVvS
- EtzwN1kWqkJ8uCVNKHFk4lOl0lMDJANudPnKwkVn8QMirXbfLs4yRuN1Aq39DAWK8RoIGL
- vccSdMVCIS7tjcv8j39fOep+4pXATs4=
+ bh=ZyyHSrmDn9lggOnRJXhd5UV4zz1gTs3y67TMBTj2nvg=;
+ b=ZE9ya2Na8p1j4gbTMsNbA8c3/YDKX9+u0sCx/sz7z31khnId999yGy08trVC5UiSMXq8br
+ gbUIbm5Se5JtvLV58OgVj1TM/rPXRsq6BEoCC4kVZmwYrwx+7KObTHzRpJop4xOtHi9aWE
+ G+ovWqg6sxxOo51p/8YIdx2a1I4iT1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-0BXa-khRN5SZL0NPokthnA-1; Thu, 17 Jun 2021 01:21:03 -0400
-X-MC-Unique: 0BXa-khRN5SZL0NPokthnA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-343-_IZ2WPTAMJCW1bde_Kb3lA-1; Thu, 17 Jun 2021 01:22:40 -0400
+X-MC-Unique: _IZ2WPTAMJCW1bde_Kb3lA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2411846101;
- Thu, 17 Jun 2021 05:21:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-38.ams2.redhat.com
- [10.36.112.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F046E1A866;
- Thu, 17 Jun 2021 05:21:01 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5CBC318000B2; Thu, 17 Jun 2021 07:21:00 +0200 (CEST)
-Date: Thu, 17 Jun 2021 07:21:00 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 23/23] hw/i386/Kconfig: Add missing Kconfig dependency
- (runtime error)
-Message-ID: <20210617052100.pnpxugkkzqeywxih@sirius.home.kraxel.org>
-References: <20210616204328.2611406-1-philmd@redhat.com>
- <20210616204328.2611406-24-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59AEE801B15;
+ Thu, 17 Jun 2021 05:22:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96E265C1C5;
+ Thu, 17 Jun 2021 05:22:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2C266113865F; Thu, 17 Jun 2021 07:22:36 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
+Date: Thu, 17 Jun 2021 07:22:36 +0200
+In-Reply-To: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com> (Valeriy
+ Vdovin's message of "Thu, 3 Jun 2021 12:07:53 +0300")
+Message-ID: <87im2d6p5v.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210616204328.2611406-24-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,44 +75,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+ Denis Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 10:43:28PM +0200, Philippe Mathieu-Daudé wrote:
-> When building the 'microvm' machine stand-alone we get:
-> 
->   $ qemu-system-x86_64 -M microvm
->   **
->   ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
->   Bail out! ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
->   Aborted (core dumped)
-> 
-> Looking at the backtrace:
-> 
->   (gdb) bt
->   #3  0x00007ff2330492ff in g_assertion_message_expr () at /lib64/libglib-2.0.so.0
->   #4  0x000055a878c18341 in object_new_with_type (type=<optimized out>) at qom/object.c:714
->   #5  0x000055a878c18399 in object_new (typename=typename@entry=0x55a878dec36a "isa-pit") at qom/object.c:747
->   #6  0x000055a878cc8146 in qdev_new (name=name@entry=0x55a878dec36a "isa-pit") at hw/core/qdev.c:153
->   #7  0x000055a878a8b439 in isa_new (name=name@entry=0x55a878dec36a "isa-pit") at hw/isa/isa-bus.c:160
->   #8  0x000055a878adb782 in i8254_pit_init (base=64, isa_irq=0, alt_irq=0x0, bus=0x55a87ab38760) at include/hw/timer/i8254.h:54
->   #9  microvm_devices_init (mms=0x55a87ac36800) at hw/i386/microvm.c:263
->   #10 microvm_machine_state_init (machine=<optimized out>) at hw/i386/microvm.c:471
->   #11 0x000055a878a944ab in machine_run_board_init (machine=machine@entry=0x55a87ac36800) at hw/core/machine.c:1239
-> 
-> The "isa-pit" type (TYPE_I8254) is missing. Add it.
-> 
-> Fixes: 0ebf007ddac ("hw/i386: Introduce the microvm machine type")
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+
+It's actually a QMP command.  There are no "qapi methods".
+
+> get virtualized cpu model info generated by QEMU during VM initialization in
+> the form of cpuid representation.
+>
+> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+
+virtual CPU
+
+> command line option. From there it takes the name of the model as the basis for
+> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
+> that state if additional cpu features should be present on the virtual cpu or
+> excluded from it (tokens '+'/'-' or '=on'/'=off').
+> After that QEMU checks if the host's cpu can actually support the derived
+> feature set and applies host limitations to it.
+> After this initialization procedure, virtual cpu has it's model and
+> vendor names, and a working feature set and is ready for identification
+> instructions such as CPUID.
+>
+> Currently full output for this method is only supported for x86 cpus.
+
+Not sure about "currently": the interface looks quite x86-specific to me.
+
+The commit message doesn't mention KVM except in the command name.  The
+schema provides the command only if defined(CONFIG_KVM).
+
+Can you explain why you need the restriction to CONFIG_KVM?
+
+> To learn exactly how virtual cpu is presented to the guest machine via CPUID
+> instruction, new qapi method can be used. By calling 'query-kvm-cpuid'
+
+QMP command again.
+
+> method, one can get a full listing of all CPUID leafs with subleafs which are
+> supported by the initialized virtual cpu.
+>
+> Other than debug, the method is useful in cases when we would like to
+> utilize QEMU's virtual cpu initialization routines and put the retrieved
+> values into kernel CPUID overriding mechanics for more precise control
+> over how various processes perceive its underlying hardware with
+> container processes as a good example.
+>
+> Output format:
+> The output is a plain list of leaf/subleaf agrument combinations, that
+
+Typo: argument
+
+> return 4 words in registers EAX, EBX, ECX, EDX.
+>
+> Use example:
+> qmp_request: {
+>   "execute": "query-kvm-cpuid"
+> }
+>
+> qmp_response: {
+>   "return": [
+>     {
+>       "eax": 1073741825,
+>       "edx": 77,
+>       "in-eax": 1073741824,
+>       "ecx": 1447775574,
+>       "ebx": 1263359563
+>     },
+>     {
+>       "eax": 16777339,
+>       "edx": 0,
+>       "in-eax": 1073741825,
+>       "ecx": 0,
+>       "ebx": 0
+>     },
+>     {
+>       "eax": 13,
+>       "edx": 1231384169,
+>       "in-eax": 0,
+>       "ecx": 1818588270,
+>       "ebx": 1970169159
+>     },
+>     {
+>       "eax": 198354,
+>       "edx": 126614527,
+>       "in-eax": 1,
+>       "ecx": 2176328193,
+>       "ebx": 2048
+>     },
+>     ....
+>     {
+>       "eax": 12328,
+>       "edx": 0,
+>       "in-eax": 2147483656,
+>       "ecx": 0,
+>       "ebx": 0
+>     }
+>   ]
+> }
+>
+> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> ---
+> v2: - Removed leaf/subleaf iterators.
+>     - Modified cpu_x86_cpuid to return false in cases when count is
+>       greater than supported subleaves.
+> v3: - Fixed structure name coding style.
+>     - Added more comments
+>     - Ensured buildability for non-x86 targets.
+> v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
+>     - Fixed comments.
+>     - Removed target check in qmp_query_cpu_model_cpuid.
+> v5: - Added error handling code in qmp_query_cpu_model_cpuid
+> v6: - Fixed error handling code. Added method to query_error_class
+> v7: - Changed implementation in favor of cached cpuid_data for
+>       KVM_SET_CPUID2
+> v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
+>     - Modified documentation to qmp method
+>     - Removed helper struct declaration
+> v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
+>     - Pasted more complete response to commit message.
+>
+>  qapi/machine-target.json   | 43 ++++++++++++++++++++++++++++++++++++++
+>  target/i386/kvm/kvm.c      | 37 ++++++++++++++++++++++++++++++++
+>  tests/qtest/qmp-cmd-test.c |  1 +
+>  3 files changed, 81 insertions(+)
+>
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index e7811654b7..1e591ba481 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -329,3 +329,46 @@
+>  ##
+>  { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+>    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> +
+> +##
+> +# @CpuidEntry:
+> +#
+> +# A single entry of a CPUID response.
+> +#
+> +# One entry holds full set of information (leaf) returned to the guest in response
+> +# to it calling a CPUID instruction with eax, ecx used as the agruments to that
+
+Typi: agruments
+
+> +# instruction. ecx is an optional argument as not all of the leaves support it.
+
+Please wrap doc comment lines around column 70.
+
+> +#
+> +# @in-eax: CPUID argument in eax
+> +# @in-ecx: CPUID argument in ecx
+> +# @eax: eax
+> +# @ebx: ebx
+> +# @ecx: ecx
+> +# @edx: edx
+
+Suggest
+
+   # @eax: CPUID result in eax
+
+and so forth.
+
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'CpuidEntry',
+> +  'data': { 'in-eax' : 'uint32',
+> +            '*in-ecx' : 'uint32',
+> +            'eax' : 'uint32',
+> +            'ebx' : 'uint32',
+> +            'ecx' : 'uint32',
+> +            'edx' : 'uint32'
+> +          },
+> +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+> +
+> +##
+> +# @query-kvm-cpuid:
+> +#
+> +# Returns raw data from the KVM CPUID table for the first VCPU.
+> +# The KVM CPUID table defines the response to the CPUID
+> +# instruction when executed by the guest operating system.
+> +#
+> +# Returns: a list of CpuidEntry
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'command': 'query-kvm-cpuid',
+> +  'returns': ['CpuidEntry'],
+> +  'if': 'defined(TARGET_I386) && defined(CONFIG_KVM)' }
+
+Is this intended to be a stable interface?  Interfaces intended just for
+debugging usually aren't.
+
+[...]
 
 
