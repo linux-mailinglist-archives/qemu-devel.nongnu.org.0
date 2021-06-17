@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D413AB9E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 18:50:58 +0200 (CEST)
-Received: from localhost ([::1]:38968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8092C3AB9F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 18:52:29 +0200 (CEST)
+Received: from localhost ([::1]:41098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltvEH-0004xG-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 12:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55630)
+	id 1ltvFk-0006Wd-J5
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 12:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltvCk-0004FS-H9
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 12:49:22 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:59428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltvCi-0000iS-I0
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 12:49:22 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1ltvEf-0005m3-1O
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 12:51:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1ltvEa-0001sn-Oh
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 12:51:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1623948675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1vvX86S3j3zAQfNkZGYm1clMo3KBpNRUn/OAQTL0xeo=;
+ b=f9CNqfowxS1pn1vKAkXvbwqj5roCbqQedScFMuffS3nwJdSPS8b8XpwXXhfYXx5CDTL37a
+ Qsy8zFZ7JYO9g4jQ080qEKmgxOxGkeH1XruWmuq6k11ByirsxwLFgYIv3WKDnVa+Ae5Y1P
+ nYfcirqEf/Xv1+nxqxqDfgjKUn/OXw4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-s8peKZMRP6aYCu5WyfhHTA-1; Thu, 17 Jun 2021 12:51:14 -0400
+X-MC-Unique: s8peKZMRP6aYCu5WyfhHTA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9B59D1FDDE;
- Thu, 17 Jun 2021 16:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623948558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tjCV1LG1jLTOJkmmfThnxG6onxP/O8SHJnwW5R9frso=;
- b=katS4CvS4t8vkCuTOH4fiUm7NNzAxkDt7Ueda3bQzFPh/MflslI6yxFtjiHxxO4+fLqv1k
- MHvTip4Y4NbisJPB79IZWTbfXuuXrYP7bwFWvx9cplWsaRBMu9uqt8AOEBvgM/Iw+S6lru
- 0zkfMYOwWCkYcJhJY3zMLPbDt/QmziM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623948558;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tjCV1LG1jLTOJkmmfThnxG6onxP/O8SHJnwW5R9frso=;
- b=3zygt9zHNrVSnW76C7FafAR2l36pkMIbQl/y/Vgt4ZYkZkRdoUT6Tbi7E7OqT1B3TOWvug
- xbXqeNoM5jSlLYCw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 410DA118DD;
- Thu, 17 Jun 2021 16:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623948558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tjCV1LG1jLTOJkmmfThnxG6onxP/O8SHJnwW5R9frso=;
- b=katS4CvS4t8vkCuTOH4fiUm7NNzAxkDt7Ueda3bQzFPh/MflslI6yxFtjiHxxO4+fLqv1k
- MHvTip4Y4NbisJPB79IZWTbfXuuXrYP7bwFWvx9cplWsaRBMu9uqt8AOEBvgM/Iw+S6lru
- 0zkfMYOwWCkYcJhJY3zMLPbDt/QmziM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623948558;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tjCV1LG1jLTOJkmmfThnxG6onxP/O8SHJnwW5R9frso=;
- b=3zygt9zHNrVSnW76C7FafAR2l36pkMIbQl/y/Vgt4ZYkZkRdoUT6Tbi7E7OqT1B3TOWvug
- xbXqeNoM5jSlLYCw==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id 0w6uDQ59y2DuLwAALh3uQQ
- (envelope-from <cfontana@suse.de>); Thu, 17 Jun 2021 16:49:18 +0000
-Subject: Re: [RFC 0/3] qtest: pick tests that require KVM at runtime
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20210616152455.1270264-1-imammedo@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <d10ba45f-c71c-f472-fac7-9f8e5770c735@suse.de>
-Date: Thu, 17 Jun 2021 18:49:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C57E7101F7A1;
+ Thu, 17 Jun 2021 16:51:12 +0000 (UTC)
+Received: from localhost (unknown [10.22.9.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63B7160875;
+ Thu, 17 Jun 2021 16:51:12 +0000 (UTC)
+Date: Thu, 17 Jun 2021 12:51:11 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v9] qapi: introduce 'query-kvm-cpuid' action
+Message-ID: <20210617165111.eu3x2pvinpoedsqj@habkost.net>
+References: <20210603090753.11688-1-valeriy.vdovin@virtuozzo.com>
+ <87im2d6p5v.fsf@dusky.pond.sub.org>
+ <20210617074919.GA998232@dhcp-172-16-24-191.sw.ru>
+ <87a6no3fzf.fsf@dusky.pond.sub.org>
+ <790d22e1-5de9-ba20-6c03-415b62223d7d@suse.de>
+ <877dis1sue.fsf@dusky.pond.sub.org>
+ <20210617153949.GA357@dhcp-172-16-24-191.sw.ru>
+ <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210616152455.1270264-1-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.254,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+In-Reply-To: <e69ea2b4-21cc-8203-ad2d-10a0f4ffe34a@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.197,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,74 +80,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- mst@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, kvm@vger.kernel.org,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>, Denis Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/16/21 5:24 PM, Igor Mammedov wrote:
+On Thu, Jun 17, 2021 at 05:53:11PM +0200, Claudio Fontana wrote:
+> On 6/17/21 5:39 PM, Valeriy Vdovin wrote:
+> > On Thu, Jun 17, 2021 at 04:14:17PM +0200, Markus Armbruster wrote:
+> >> Claudio Fontana <cfontana@suse.de> writes:
+> >>
+> >>> On 6/17/21 1:09 PM, Markus Armbruster wrote:
+> >>>> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
+> >>>>
+> >>>>> On Thu, Jun 17, 2021 at 07:22:36AM +0200, Markus Armbruster wrote:
+> >>>>>> Valeriy Vdovin <valeriy.vdovin@virtuozzo.com> writes:
+> >>>>>>
+> >>>>>>> Introducing new qapi method 'query-kvm-cpuid'. This method can be used to
+> >>>>>>
+> >>>>>> It's actually a QMP command.  There are no "qapi methods".
+> >>>>>>
+> >>>>>>> get virtualized cpu model info generated by QEMU during VM initialization in
+> >>>>>>> the form of cpuid representation.
+> >>>>>>>
+> >>>>>>> Diving into more details about virtual cpu generation: QEMU first parses '-cpu'
+> >>>>>>
+> >>>>>> virtual CPU
+> >>>>>>
+> >>>>>>> command line option. From there it takes the name of the model as the basis for
+> >>>>>>> feature set of the new virtual cpu. After that it uses trailing '-cpu' options,
+> >>>>>>> that state if additional cpu features should be present on the virtual cpu or
+> >>>>>>> excluded from it (tokens '+'/'-' or '=on'/'=off').
+> >>>>>>> After that QEMU checks if the host's cpu can actually support the derived
+> >>>>>>> feature set and applies host limitations to it.
+> >>>>>>> After this initialization procedure, virtual cpu has it's model and
+> >>>>>>> vendor names, and a working feature set and is ready for identification
+> >>>>>>> instructions such as CPUID.
+> >>>>>>>
+> >>>>>>> Currently full output for this method is only supported for x86 cpus.
+> >>>>>>
+> >>>>>> Not sure about "currently": the interface looks quite x86-specific to me.
+> >>>>>>
+> >>>>> Yes, at some point I was thinking this interface could become generic,
+> >>>>> but does not seem possible, so I'll remove this note.
+> >>>>>
+> >>>>>> The commit message doesn't mention KVM except in the command name.  The
+> >>>>>> schema provides the command only if defined(CONFIG_KVM).
+> >>>>>>
+> >>>>>> Can you explain why you need the restriction to CONFIG_KVM?
+> >>>>>>
+> >>>>> This CONFIG_KVM is used as a solution to a broken build if --disable-kvm
+> >>>>> flag is set. I was choosing between this and writing empty implementation into
+> >>>>> kvm-stub.c
+> >>>>
+> >>>> If the command only makes sense for KVM, then it's named correctly, but
+> >>>> the commit message lacks a (brief!) explanation why it only makes for
+> >>>> KVM.
+> >>>
+> >>>
+> >>> Is it meaningful for HVF?
+> >>
+> >> I can't see why it couldn't be.
+> > Should I also make some note about that in the commit message?
+> >>
+> >> Different tack: if KVM is compiled out entirely, the command isn't
+> >> there, and trying to use it fails like
+> >>
+> >>     {"error": {"class": "CommandNotFound", "desc": "The command query-kvm-cpuid has not been found"}}
+> >>
+> >> If KVM is compiled in, but disabled, e.g. with -machine accel=tcg, then
+> >> the command fails like
+> >>
+> >>     {"error": {"class": "GenericError", "desc": "VCPU was not initialized yet"}}
+> >>
+> >> This is misleading.  The VCPU is actually running, it's just the wrong
+> >> kind of VCPU.
+> >>
+> >>>> If it just isn't implemented for anything but KVM, then putting "kvm"
+> >>>> into the command name is a bad idea.  Also, the commit message should
+> >>>> briefly note the restriction to KVM.
+> >>
+> >> Perhaps this one is closer to reality.
+> >>
+> > I agree.
+> > What command name do you suggest?
 > 
-> Sometimes it's necessary to execute a test that depends on KVM,
-> however qtest is not aware if tested QEMU binary supports KVM
-> on the host it the test is executed.
+> query-exposed-cpuid?
 
-Hello,
+Pasting the reply I sent at [1]:
 
-It seems to me that we are constantly re-implementing the same feature with slight variations?
+  I don't really mind how the command is called, but I would prefer
+  to add a more complex abstraction only if maintainers of other
+  accelerators are interested and volunteer to provide similar
+  functionality.  I don't want to introduce complexity for use
+  cases that may not even exist.
 
-Didn't we have a generic series to introduce qtest_has_accel() from Philippe before?
+I'm expecting this to be just a debugging mechanism, not a stable
+API to be maintained and supported for decades.  (Maybe a "x-"
+prefix should be added to indicate that?)
 
-Does this series work with --disable-kvm builds? (TCG-only builds?)
+[1] https://lore.kernel.org/qemu-devel/20210602204604.crsxvqixkkll4ef4@habkost.net
 
-Thanks,
-
-CLaudio
-
-
-> 
-> For an example:
->  test q35 machine with intel_iommu
->  This test will run only is KVM is available and fail
->  to start QEMU if it fallsback to TCG, thus failing whole test.
->  So if test is executed in VM where nested KVM is not enabled
->  or on other than x86 host, it will break 'make check-qtest'
-> 
-> Series adds a lightweight qtest_has_kvm() check, which abuses
-> build system and should help to avoid running KVM only tests
-> on hosts that do not support it.
-> 
-> PS:
-> there is an alternative 'query-accels' QMP command proposal
-> https://patchwork.kernel.org/project/qemu-devel/patch/20210503211020.894589-3-philmd@redhat.com/
-> which I think is more robust compared to qtest_has_kvm() and
-> could be extended to take into account machine type.
-> But it's more complex and what I dislike about it most,
-> it requires execution of 'probing' QEMU instance to find
-> execute 'query-accels' QMP command, which is rather resource
-> consuming. So I'd use query-accels approach only when it's
-> the only possible option to minimize load on CI systems.
-> 
-> Igor Mammedov (2):
->   tests: acpi: q35: test for x2APIC entries in SRAT
->   tests: acpi: update expected tables blobs
-> 
-> root (1):
->   tests: qtest: add qtest_has_kvm() to check if tested bynary supports
->     KVM
-> 
->  tests/qtest/libqos/libqtest.h    |   7 +++++++
->  meson.build                      |   1 +
->  tests/data/acpi/q35/APIC.numamem | Bin 0 -> 2686 bytes
->  tests/data/acpi/q35/DSDT.numamem | Bin 7865 -> 35222 bytes
->  tests/data/acpi/q35/FACP.numamem | Bin 0 -> 244 bytes
->  tests/data/acpi/q35/SRAT.numamem | Bin 224 -> 5080 bytes
->  tests/qtest/bios-tables-test.c   |  10 +++++++---
->  tests/qtest/libqtest.c           |  20 ++++++++++++++++++++
->  8 files changed, 35 insertions(+), 3 deletions(-)
->  create mode 100644 tests/data/acpi/q35/APIC.numamem
->  create mode 100644 tests/data/acpi/q35/FACP.numamem
-> 
+-- 
+Eduardo
 
 
