@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8579B3ABDC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 23:04:34 +0200 (CEST)
-Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F1153ABDEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 23:22:44 +0200 (CEST)
+Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltzBh-0006Dh-L9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 17:04:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53320)
+	id 1ltzTH-0006nf-7n
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 17:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltzAK-0004iU-B3
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:03:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20907)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltzSV-00064N-Tl
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:21:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltzAI-0006zw-7h
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:03:08 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1ltzSR-0003DT-GF
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:21:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623963785;
+ s=mimecast20190719; t=1623964910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=agYyY3tXKVXMUmz+0Xcim1r8TzucgAc5WWuTolY0GS4=;
- b=W24ETMdZ/Y4CPXrAlPAMZEO+8rXoBQ3Tzcf2Z/IFQ484IhWx6Uv5zKMrPGWEgy+TbjmXM9
- nxktO6T2iChaDzioXMEbMuCbRd+FawPF3TjL5xYBAl5iXnPapLzKW2XjWTf9z6tU+pvUy5
- /6U/4yR1mpcPfG/T/6y65Yj6Y2EejXU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-3xIxAXF-OL65O883-GyA8g-1; Thu, 17 Jun 2021 17:03:04 -0400
-X-MC-Unique: 3xIxAXF-OL65O883-GyA8g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v20-20020a05600c2154b029019a6368bfe4so2731620wml.2
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 14:03:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=agYyY3tXKVXMUmz+0Xcim1r8TzucgAc5WWuTolY0GS4=;
- b=FkWYZVVgw9546fVC7AwjKk5mGVJnn30S1nBkZ/LVfV71H6ZrgLRs3Xy8cpmbNPIiuL
- 5z2p8b33iWa4C6NygZG1sJ0i7B04Rwcfa+WNE6+byvYUdwNxMk7iTBJcKRP18s0zDMFS
- I+Um4FysxnBQ6WMisxiqxj+fTrThqj04EurA6UFIVcn5XTdWY6ffP7Y7q4S/cJYTiaHm
- 15BMzL9aRnJGrbQmyvVifcAUOu/sThUUP96MovGw/3ti6lMrtuK+LBW6sseC5Kdife6P
- n0/I3PteppdfUFV18WVSUKeTVewi9FvKi0RPMjiQ4btM08UcugbJ+8n3fFdssPZcii26
- tAqQ==
-X-Gm-Message-State: AOAM533rukpoyx8+a9+YEtD8Ic2S1FEC1SEJdBJCfn1h2A61LGIy7cwE
- aueC1lYmbN+QXK305Bo7zx7Tt0UfXP389FHHOZzit9msPHDcs6ahv4J3pBuk8AizyL9rCbqpp0N
- au0z3ILeeYNTD0p0=
-X-Received: by 2002:a1c:1d05:: with SMTP id d5mr7508043wmd.132.1623963783120; 
- Thu, 17 Jun 2021 14:03:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2Txgt/NZ+EywzxigcgLGttDVQFwwdH96Spm7huFlf2nMa3M7t/Dcd4yNFGwexCBdM91NcPA==
-X-Received: by 2002:a1c:1d05:: with SMTP id d5mr7508030wmd.132.1623963782936; 
- Thu, 17 Jun 2021 14:03:02 -0700 (PDT)
-Received: from redhat.com ([77.126.22.11])
- by smtp.gmail.com with ESMTPSA id w8sm6094916wmi.45.2021.06.17.14.03.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 14:03:02 -0700 (PDT)
-Date: Thu, 17 Jun 2021 17:02:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v5 0/7] Use ACPI PCI hot-plug for Q35
-Message-ID: <20210617165654-mutt-send-email-mst@kernel.org>
-References: <20210617190739.3673064-1-jusual@redhat.com>
+ bh=/Fwed8QhH1rJYLI+AJ/G81zB24A+VAyCchcgoB0NfrA=;
+ b=MmvEMtQVHYAUGJn2zH6PQQ69ROUvbDgWGrVfekBwKvVSDNm83nO+nWjqGq7Lz2oMCxxHfV
+ zu9vGInt16lKHlkyJGYNeLeo5ozyNMkNtE/DV2g2ER6rfTC7SNdBX/2ukNhgG12YQRDodX
+ 7x2Hnd8SXqbrQ2S02y8W8teQFVARCVU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-Exhd7UfyMo6XYYEy9NDAIA-1; Thu, 17 Jun 2021 17:21:48 -0400
+X-MC-Unique: Exhd7UfyMo6XYYEy9NDAIA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1A3D1858F16
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 21:21:47 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-162.rdu2.redhat.com [10.10.116.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CF1460864;
+ Thu, 17 Jun 2021 21:21:44 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id D3346220BCF; Thu, 17 Jun 2021 17:21:43 -0400 (EDT)
+Date: Thu, 17 Jun 2021 17:21:43 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH v2 7/9] virtiofsd: Add inodes_by_handle hash
+ table
+Message-ID: <20210617212143.GD1142820@redhat.com>
+References: <20210609155551.44437-1-mreitz@redhat.com>
+ <20210609155551.44437-8-mreitz@redhat.com>
+ <20210611200459.GB767764@redhat.com>
+ <9cea5642-e5ea-961f-d816-0998e52aad9f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
+In-Reply-To: <9cea5642-e5ea-961f-d816-0998e52aad9f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -91,109 +83,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 09:07:32PM +0200, Julia Suvorova wrote:
-> The patch set consists of two parts:
-> patches 1-4: introduce new feature
->              'acpi-pci-hotplug-with-bridge-support' on Q35
-> patches 5-7: make the feature default along with changes in ACPI tables
+On Wed, Jun 16, 2021 at 03:38:13PM +0200, Max Reitz wrote:
+> On 11.06.21 22:04, Vivek Goyal wrote:
+> > On Wed, Jun 09, 2021 at 05:55:49PM +0200, Max Reitz wrote:
+> > > Currently, lo_inode.fhandle is always NULL and so always keep an O_PATH
+> > > FD in lo_inode.fd.  Therefore, when the respective inode is unlinked,
+> > > its inode ID will remain in use until we drop our lo_inode (and
+> > > lo_inode_put() thus closes the FD).  Therefore, lo_find() can safely use
+> > > the inode ID as an lo_inode key, because any inode with an inode ID we
+> > > find in lo_data.inodes (on the same filesystem) must be the exact same
+> > > file.
+> > > 
+> > > This will change when we start setting lo_inode.fhandle so we do not
+> > > have to keep an O_PATH FD open.  Then, unlinking such an inode will
+> > > immediately remove it, so its ID can then be reused by newly created
+> > > files, even while the lo_inode object is still there[1].
+> > > 
+> > > So creating a new file can then reuse the old file's inode ID, and
+> > > looking up the new file would lead to us finding the old file's
+> > > lo_inode, which is not ideal.
+> > > 
+> > > Luckily, just as file handles cause this problem, they also solve it:  A
+> > > file handle contains a generation ID, which changes when an inode ID is
+> > > reused, so the new file can be distinguished from the old one.  So all
+> > > we need to do is to add a second map besides lo_data.inodes that maps
+> > > file handles to lo_inodes, namely lo_data.inodes_by_handle.  For
+> > > clarity, lo_data.inodes is renamed to lo_data.inodes_by_ids.
+> > > 
+> > > Unfortunately, we cannot rely on being able to generate file handles
+> > > every time.
+> > Hi Max,
+> > 
+> > What are the cases where we can not rely being able to generate file
+> > handles?
 > 
-> With the feature disabled Q35 falls back to the native hot-plug.
-> 
-> Pros
->     * no racy behavior during boot (see 110c477c2ed)
->     * eject is possible - according to PCIe spec, attention button
->       press should lead to power off, and then the adapter should be
->       removed manually. As there is no power down state exists in QEMU,
->       we cannot distinguish between an eject and a power down
->       request.
->     * no delay during deleting - after the actual power off software
->       must wait at least 1 second before indicating about it. This case
->       is quite important for users, it even has its own bug:
->           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
->     * no timer-based behavior - in addition to the previous example,
->       the attention button has a 5-second waiting period, during which
->       the operation can be canceled with a second press. While this
->       looks fine for manual button control, automation will result in
->       the need to queue or drop events, and the software receiving
->       events in all sort of unspecified combinations of attention/power
->       indicator states, which is racy and uppredictable.
->     * fixes or reduces the likelihood of the bugs:
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
->         * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
-> 
-> Cons:
->     * no access to possible features presented in slot capabilities
->       (this is only surprise removal AFAIK)
+> I have no idea, but it’s much easier to claim we can’t than to prove that we
+> can. I’d rather be resilient.
 
+Assuming that we can not genererate file handles all the time and hence
+mainitaing another inode cache seems little problematic to me.
 
-This all looks quite nice to me.
-Let's give people a bit of time for review, then I'll merge.
+I would rather start with that we can generate file handles and have
+a single inode cache.
 
-> v5:
->     * make sugar property on TYPE_PCIE_SLOT
->       instead of old TYPE_MACHINE property [Igor]
->     * minor style changes
-> v4:
->     * regain per-port control over hot-plug
->     * rebased over acpi-index changes
->     * set property on machine type to
->       make pci code more generic [Igor, Michael]
 > 
-> v3:
->     * drop change of _OSC to allow SHPC on hotplugged bridges
->     * use 'acpi-root-pci-hotplug'
->     * add migration states [Igor]
->     * minor style changes
+> > > Therefore, we still enter every lo_inode object into
+> > > inodes_by_ids, but having an entry in inodes_by_handle is optional.  A
+> > > potential inodes_by_handle entry then has precedence, the inodes_by_ids
+> > > entry is just a fallback.
+> > If we have to keep inodes_by_ids around, then can we just add fhandle
+> > to the lo_key. That way we can manage with single hash table and still
+> > be able to detect if inode ID has been reused.
 > 
-> v2:
->     * new ioport range for acpiphp [Gerd]
->     * drop find_pci_host() [Igor]
->     * explain magic numbers in _OSC [Igor]
->     * drop build_q35_pci_hotplug() wrapper [Igor]
+> We cannot, because I assume we cannot rely on name_to_handle_at() working
+> every time.
+
+I guess either we need concrete information that we can't generate
+file handle every time or we should assume we can until we are proven
+wrong. And then fix it accordingly, IMHO.
+
+> Therefore, maybe at one point we can generate a file handle, and
+> at another, we cannot – we should still be able to look up the inode
+> regardless.
 > 
-> Julia Suvorova (7):
->   hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
->   hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
->   hw/acpi/ich9: Enable ACPI PCI hot-plug
->   hw/pci/pcie: Do not set HPC flag if acpihp is used
->   bios-tables-test: Allow changes in DSDT ACPI tables
->   hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
->   bios-tables-test: Update golden binaries
+> If the file handle were part of inodes_by_ids, then we can look up inodes
+> only if we can generate a file handle either every time (for a given inode)
+> or never.
+
+Right. And is there a reason to belive that for the same file we can
+sometimes generate file handles and other times not. 
+
+Thanks
+Vivek
+
+> Or, well, I suppose we could always create two entries, one with
+> the file handles zeroed out, and one with the file handle specified, but I
+> wouldn’t find that very beautiful.
 > 
->  hw/i386/acpi-build.h              |   5 +++
->  include/hw/acpi/ich9.h            |   5 +++
->  include/hw/acpi/pcihp.h           |   3 +-
->  include/hw/pci/pcie_port.h        |   5 ++-
->  hw/acpi/ich9.c                    |  67 ++++++++++++++++++++++++++++++
->  hw/acpi/pcihp.c                   |  22 +++++++---
->  hw/acpi/piix4.c                   |   4 +-
->  hw/core/machine.c                 |   1 -
->  hw/i386/acpi-build.c              |  32 ++++++++------
->  hw/i386/pc.c                      |   1 +
->  hw/i386/pc_q35.c                  |  11 +++++
->  hw/pci/pcie.c                     |   8 +++-
->  hw/pci/pcie_port.c                |   1 +
->  tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
->  tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
->  tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
->  tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
->  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
->  tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
->  tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
->  tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
->  tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
->  tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
->  24 files changed, 143 insertions(+), 22 deletions(-)
+> Max
 > 
-> -- 
-> 2.30.2
+> > > Note that we do not generate lo_fhandle objects yet, and so we also do
+> > > not enter anything into the inodes_by_handle map yet.  Also, all lookups
+> > > skip that map.  We might manually create file handles with some code
+> > > that is immediately removed by the next patch again, but that would
+> > > break the assumption in lo_find() that every lo_inode with a non-NULL
+> > > .fhandle must have an entry in inodes_by_handle and vice versa.  So we
+> > > leave actually using the inodes_by_handle map for the next patch.
+> > > 
+> > > [1] If some application in the guest still has the file open, there is
+> > > going to be a corresponding FD mapping in lo_data.fd_map.  In such a
+> > > case, the inode will only go away once every application in the guest
+> > > has closed it.  The problem described only applies to cases where the
+> > > guest does not have the file open, and it is just in the dentry cache,
+> > > basically.
+> > > 
+> > > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> > > Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+> > > ---
+> > >   tools/virtiofsd/passthrough_ll.c | 80 +++++++++++++++++++++++++-------
+> > >   1 file changed, 64 insertions(+), 16 deletions(-)
+> > > 
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > > index e665575401..793d2c333e 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -179,7 +179,8 @@ struct lo_data {
+> > >       int announce_submounts;
+> > >       bool use_statx;
+> > >       struct lo_inode root;
+> > > -    GHashTable *inodes; /* protected by lo->mutex */
+> > > +    GHashTable *inodes_by_ids; /* protected by lo->mutex */
+> > > +    GHashTable *inodes_by_handle; /* protected by lo->mutex */
+> > >       struct lo_map ino_map; /* protected by lo->mutex */
+> > >       struct lo_map dirp_map; /* protected by lo->mutex */
+> > >       struct lo_map fd_map; /* protected by lo->mutex */
+> > > @@ -257,8 +258,9 @@ static struct {
+> > >   /* That we loaded cap-ng in the current thread from the saved */
+> > >   static __thread bool cap_loaded = 0;
+> > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+> > > -                                uint64_t mnt_id);
+> > > +static struct lo_inode *lo_find(struct lo_data *lo,
+> > > +                                const struct lo_fhandle *fhandle,
+> > > +                                struct stat *st, uint64_t mnt_id);
+> > >   static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+> > >                               char **out_name);
+> > > @@ -1032,18 +1034,39 @@ out_err:
+> > >       fuse_reply_err(req, saverr);
+> > >   }
+> > > -static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st,
+> > > -                                uint64_t mnt_id)
+> > > +static struct lo_inode *lo_find(struct lo_data *lo,
+> > > +                                const struct lo_fhandle *fhandle,
+> > > +                                struct stat *st, uint64_t mnt_id)
+> > >   {
+> > > -    struct lo_inode *p;
+> > > -    struct lo_key key = {
+> > > +    struct lo_inode *p = NULL;
+> > > +    struct lo_key ids_key = {
+> > >           .ino = st->st_ino,
+> > >           .dev = st->st_dev,
+> > >           .mnt_id = mnt_id,
+> > >       };
+> > >       pthread_mutex_lock(&lo->mutex);
+> > > -    p = g_hash_table_lookup(lo->inodes, &key);
+> > > +    if (fhandle) {
+> > > +        p = g_hash_table_lookup(lo->inodes_by_handle, fhandle);
+> > > +    }
+> > > +    if (!p) {
+> > > +        p = g_hash_table_lookup(lo->inodes_by_ids, &ids_key);
+> > > +        /*
+> > > +         * When we had to fall back to looking up an inode by its IDs,
+> > > +         * ensure that we hit an entry that does not have a file
+> > > +         * handle.  Entries with file handles must also have a handle
+> > > +         * alt key, so if we have not found it by that handle alt key,
+> > > +         * we must have found an entry with a mismatching handle; i.e.
+> > > +         * an entry for a different file, even though it has the same
+> > > +         * inode ID.
+> > > +         * (This can happen when we look up a new file that has reused
+> > > +         * the inode ID of some previously unlinked inode for which we
+> > > +         * still have an lo_inode object.)
+> > > +         */
+> > > +        if (p && fhandle != NULL && p->fhandle != NULL) {
+> > > +            p = NULL;
+> > > +        }
+> > > +    }
+> > >       if (p) {
+> > >           assert(p->nlookup > 0);
+> > >           p->nlookup++;
+> > > @@ -1183,7 +1206,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > >           e->attr_flags |= FUSE_ATTR_SUBMOUNT;
+> > >       }
+> > > -    inode = lo_find(lo, &e->attr, mnt_id);
+> > > +    inode = lo_find(lo, NULL, &e->attr, mnt_id);
+> > >       if (inode) {
+> > >           close(newfd);
+> > >       } else {
+> > > @@ -1213,7 +1236,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+> > >           }
+> > >           pthread_mutex_lock(&lo->mutex);
+> > >           inode->fuse_ino = lo_add_inode_mapping(req, inode);
+> > > -        g_hash_table_insert(lo->inodes, &inode->key, inode);
+> > > +        g_hash_table_insert(lo->inodes_by_ids, &inode->key, inode);
+> > >           pthread_mutex_unlock(&lo->mutex);
+> > >       }
+> > >       e->ino = inode->fuse_ino;
+> > > @@ -1525,7 +1548,7 @@ static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
+> > >           return NULL;
+> > >       }
+> > > -    return lo_find(lo, &attr, mnt_id);
+> > > +    return lo_find(lo, NULL, &attr, mnt_id);
+> > >   }
+> > >   static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
+> > > @@ -1688,7 +1711,7 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
+> > >       inode->nlookup -= n;
+> > >       if (!inode->nlookup) {
+> > >           lo_map_remove(&lo->ino_map, inode->fuse_ino);
+> > > -        g_hash_table_remove(lo->inodes, &inode->key);
+> > > +        g_hash_table_remove(lo->inodes_by_ids, &inode->key);
+> > >           if (lo->posix_lock) {
+> > >               if (g_hash_table_size(inode->posix_locks)) {
+> > >                   fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
+> > > @@ -3388,7 +3411,7 @@ static void lo_destroy(void *userdata)
+> > >           GHashTableIter iter;
+> > >           gpointer key, value;
+> > > -        g_hash_table_iter_init(&iter, lo->inodes);
+> > > +        g_hash_table_iter_init(&iter, lo->inodes_by_ids);
+> > >           if (!g_hash_table_iter_next(&iter, &key, &value)) {
+> > >               break;
+> > >           }
+> > > @@ -3931,10 +3954,34 @@ static gboolean lo_key_equal(gconstpointer a, gconstpointer b)
+> > >       return la->ino == lb->ino && la->dev == lb->dev && la->mnt_id == lb->mnt_id;
+> > >   }
+> > > +static guint lo_fhandle_hash(gconstpointer key)
+> > > +{
+> > > +    const struct lo_fhandle *fh = key;
+> > > +    guint hash;
+> > > +    size_t i;
+> > > +
+> > > +    /* Basically g_str_hash() */
+> > > +    hash = 5381;
+> > > +    for (i = 0; i < sizeof(fh->padding); i++) {
+> > > +        hash += hash * 33 + (unsigned char)fh->padding[i];
+> > > +    }
+> > > +    hash += hash * 33 + fh->mount_id;
+> > > +
+> > > +    return hash;
+> > > +}
+> > > +
+> > > +static gboolean lo_fhandle_equal(gconstpointer a, gconstpointer b)
+> > > +{
+> > > +    return !memcmp(a, b, sizeof(struct lo_fhandle));
+> > > +}
+> > > +
+> > >   static void fuse_lo_data_cleanup(struct lo_data *lo)
+> > >   {
+> > > -    if (lo->inodes) {
+> > > -        g_hash_table_destroy(lo->inodes);
+> > > +    if (lo->inodes_by_ids) {
+> > > +        g_hash_table_destroy(lo->inodes_by_ids);
+> > > +    }
+> > > +    if (lo->inodes_by_ids) {
+> > > +        g_hash_table_destroy(lo->inodes_by_handle);
+> > >       }
+> > >       if (lo->root.posix_locks) {
+> > > @@ -3990,7 +4037,8 @@ int main(int argc, char *argv[])
+> > >       qemu_init_exec_dir(argv[0]);
+> > >       pthread_mutex_init(&lo.mutex, NULL);
+> > > -    lo.inodes = g_hash_table_new(lo_key_hash, lo_key_equal);
+> > > +    lo.inodes_by_ids = g_hash_table_new(lo_key_hash, lo_key_equal);
+> > > +    lo.inodes_by_handle = g_hash_table_new(lo_fhandle_hash, lo_fhandle_equal);
+> > >       lo.root.fd = -1;
+> > >       lo.root.fuse_ino = FUSE_ROOT_ID;
+> > >       lo.cache = CACHE_AUTO;
+> > > -- 
+> > > 2.31.1
+> > > 
+> > > _______________________________________________
+> > > Virtio-fs mailing list
+> > > Virtio-fs@redhat.com
+> > > https://listman.redhat.com/mailman/listinfo/virtio-fs
+> > > 
+> 
 
 
