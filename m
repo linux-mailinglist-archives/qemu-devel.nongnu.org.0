@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C53E3ABC39
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:01:09 +0200 (CEST)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327B93ABC6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 21:13:41 +0200 (CEST)
+Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltxGF-0000bA-UC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53120)
+	id 1ltxSO-00061D-3p
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 15:13:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxBE-0006fl-Lt; Thu, 17 Jun 2021 14:55:56 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57761)
+ id 1ltxM0-0002NH-VN; Thu, 17 Jun 2021 15:07:04 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:59981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ltxBC-0003t6-1z; Thu, 17 Jun 2021 14:55:56 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id D92115C01B3;
- Thu, 17 Jun 2021 14:55:47 -0400 (EDT)
+ id 1ltxLy-0002sj-TU; Thu, 17 Jun 2021 15:07:04 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id D051A5C0106;
+ Thu, 17 Jun 2021 15:07:00 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 17 Jun 2021 14:55:47 -0400
+ by compute5.internal (MEProxy); Thu, 17 Jun 2021 15:07:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm3; bh=riD9Mt5YY8L2hU5Ss5xPAKV54D
- T0/V1ne08m7zDToqM=; b=ZmbNf7E6duo5tyTyNcEsRbbrALDvBPkkDXIbOzFfNn
- EjuQbFmwcCOJ2sytpoanJRC3IDRXLScqflRnXbzZSb3QlgT1BEJN8RLYh5Sw9l0H
- CPVKeJ5/eeuHfBpxHqj8qT1tYtsGgvzpKE4SoGntsDPAkQtGpISfpdual87wCdy4
- bZJaOjGWNM+P6OAPSgYxRVdXYeVEOGQKRUfg9is2E7y4nVmWht8jytmbtDGyf2T5
- wdXKr83UE0YmbEV89+nJppUEG8T/e6qa0lawvn/fp39fB2TJhW08utFuZfaUs1fw
- RRVfkM8dC6JDKDv3XsC4QNeGX4nOzd/NbFYxOffBe1fQ==
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=x6jKfFPi8R6Rni6Gp6+YUawa8M
+ uY0GzKy4cL/XsTPjo=; b=UNrG/x9dKV19m27ue32ZZnozjinGEbPhVtfCGW1lDS
+ hsEm3p/FZZkZMv8+dZzIEd/xsa9YubJ995kYbdDXSOexg50FjZefV+nci3NgsDQR
+ UH1AZCK4QRPNa9vx+m3mDSMGsEFsPsnvkMRHOZjTLUaGOix0aQZBU2xEq6ZM1syI
+ QLKz8iVdcry+dbpZIRC+b2vEKnrJ1r/M4vRM6gaSOAdC4rqGI084imYpW6q2srx6
+ mkkrcxFrtEqGb6av5pyNIYodcrNc4VEYa9ns+sf1YYg7fGtfa+TCsT1mFNpL915g
+ 7MI/LOHXGHjdkPN8eUGScu5TztaI0uP24cwr55U/2Fng==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=riD9Mt
- 5YY8L2hU5Ss5xPAKV54DT0/V1ne08m7zDToqM=; b=uL5PwisKdBHNecoTV1nn1I
- S5Dg5NDcWynpfcRcp933/A1L15gXKB6NFCP6494X/0gTH4NFLw6H/9fAEy+i5gCx
- NNgVNkugVbFIcvfC0OYU3aHCCIR4wVtSm4Fe+RPpAK0LX5lY5wY42dKWXjUSfxPc
- 9kTuBB7eC9AKE4YCU8e0wryljwowxnQC0NF7vi8fdonnFy6QtrYiXFjRt0otLXLK
- iDwRJF722KZk65T6hR0grOksvUzi6G33YwU6uXP9v4aGg+TZvCKOGokBWUxueSfY
- 2k9kqcBmSfmKQrtWIhls/NMhhoMSb2Lk6/3ILoUFRYe1p9a7sgpQDxTqEbmoM/tA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=x6jKfF
+ Pi8R6Rni6Gp6+YUawa8MuY0GzKy4cL/XsTPjo=; b=S3lbNIcl52UEZG7UnUkgli
+ 5vsa61dBLIfDBVMpJL4wIXoK53DwE341v7QwLHb90SDrrgfUce3Rv+7p9u8Xdj4h
+ HR+HH5znuYi/+M0c10bJwW1Zg3G+USVa14MRtj4ROAFoKNkuf/FJ3hilBU25GVOt
+ Y27VrKxzfx6O9/so4gFga58GYzrrLloo+8zCyxe1CJoebgHZ9ZlbLIdCvrUV+K79
+ Ij/AULFGk7Ojh/6w83uVRBvOETqiZXpKVXRtN7+Cg9Th1f5w0PRhvxGip7P6nHf3
+ bpS6LAeasFXDAJAnryyJxwTmGSUg/7pqMQbWZA5uLSkx/fyDtx6CUx8coH8bHg+w
  ==
-X-ME-Sender: <xms:sprLYGgdbxrx0f_uWL2JTzRLl4tfmm2Tbn9yzZB8Y7WzmjYk1g5AjA>
- <xme:sprLYHARkan28EEBvqHJfolNmAIe_ctx3Iusgsce6KW_VD0mjcDLnjVpgUV0OtzuW
- d3au3-41BiAf91u-AI>
-X-ME-Received: <xmr:sprLYOFkD7P4bcbcu3xSb8MJf_RjWkE2ktcusFlO-csFAxIFHjF2PrQadGy4pcP-EHk3pK3ZiZ6rg9u5tiJXQqhf2W19UXdmESnxSeGPTQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddguddvlecutefuodetggdotefrod
+X-ME-Sender: <xms:U53LYKN0mxaiu5sQFEi81jQvJ8MbaZCZwnvEJhTpIlN04EU2BicOaQ>
+ <xme:U53LYI83NXOnsoXahkXeKZLgL2m2DbC973FJ9HYYsqJYr4AscT93l3dnhXdi3DGXm
+ _2EANyHu-91u0AItoo>
+X-ME-Received: <xmr:U53LYBR6xw4ynMouE-bWYmWJ2RXcPZPZKwOPSjzx22WDrpI36-_td9meDLBAWklyjMcC4hMTa-0Thwu7jfQ6_jxcItAv2-ATZpSIZMdE_Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgudefudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefhgfdvtdetgffffefgveetgfeifefhvdejhfdvtdegffdvudfgledtudelueel
+ gvrhhnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeg
  hfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:sprLYPSFf3SVVh4duKptS94iwl1BvhZMLQh2MAuq7f4zKzvbe_Rk5g>
- <xmx:sprLYDwF2X10IfwWWgZCnlkqb4s_CkHzghmQ0bjhY9kwsNYGlmbuXA>
- <xmx:sprLYN6-UexyDt7y4nhi6-7Z-3qJ_E1GNINiNI6FMdZc_dD_WsHYPw>
- <xmx:s5rLYFuOI-nobxO3hzt8AGC0pt6Vft9A43MvZ4I16ufwR6siC0p-Pg>
+X-ME-Proxy: <xmx:U53LYKte8KmL4sJ-DOBgrIIuRUmk5vYneGuGWd4jpVCrLTUChNVWxg>
+ <xmx:U53LYCe1TRybL7bRVHOjY63C_YwVUsK_M2LwFBTzEYMJxcT2gMIDrg>
+ <xmx:U53LYO3HsTBSFsnS7Zn1CmMvFgtDcbVVIIgibrEp3nwMZjF0R0mT1w>
+ <xmx:VJ3LYJwPWVgUXuCA6yq4Majx5GkvirOcfDx8coYefTc4rvsC_eK1SQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Jun 2021 14:55:45 -0400 (EDT)
+ 17 Jun 2021 15:06:58 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/nvme: fix pin-based interrupt behavior (again)
-Date: Thu, 17 Jun 2021 20:55:42 +0200
-Message-Id: <20210617185542.106252-1-its@irrelevant.dk>
+Subject: [PATCH v2 00/11] hw/nvme: reimplement all multi-aio commands with
+ custom aiocbs
+Date: Thu, 17 Jun 2021 21:06:46 +0200
+Message-Id: <20210617190657.110823-1-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
  helo=out1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -90,112 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Jakub noticed[1] that, when using pin-based interrupts, the device will
-unconditionally deasssert when any CQEs are acknowledged. However, the
-pin should not be deasserted if other completion queues still holds
-unacknowledged CQEs.
-
-The bug is an artifact of commit ca247d35098d ("hw/block/nvme: fix
-pin-based interrupt behavior") which fixed one bug but introduced
-another. This is the third time someone tries to fix pin-based
-interrupts (see commit 5e9aa92eb1a5 ("hw/block: Fix pin-based interrupt
-behaviour of NVMe"))...
-
-Third time's the charm, so fix it, again, by keeping track of how many
-CQs have unacknowledged CQEs and only deassert when all are cleared.
-
-  [1]: <20210610114624.304681-1-jakub.jermar@kernkonzept.com>
-
-Fixes: ca247d35098d ("hw/block/nvme: fix pin-based interrupt behavior")
-Reported-by: Jakub Jermář <jakub.jermar@kernkonzept.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
-
-v2:
-  - only refcount for CQs with interrupts enabled (Keith)
-
- hw/nvme/nvme.h |  1 +
- hw/nvme/ctrl.c | 18 +++++++++++++++++-
- 2 files changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 93a7e0e5380e..60250b579464 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -405,6 +405,7 @@ typedef struct NvmeCtrl {
-     uint32_t    max_q_ents;
-     uint8_t     outstanding_aers;
-     uint32_t    irq_status;
-+    int         cq_pending;
-     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-     uint64_t    starttime_ms;
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 7dea64b72e6a..b8d4f9ce8532 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -473,7 +473,9 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
-             return;
-         } else {
-             assert(cq->vector < 32);
--            n->irq_status &= ~(1 << cq->vector);
-+            if (!n->cq_pending) {
-+                n->irq_status &= ~(1 << cq->vector);
-+            }
-             nvme_irq_check(n);
-         }
-     }
-@@ -1258,6 +1260,7 @@ static void nvme_post_cqes(void *opaque)
-     NvmeCQueue *cq = opaque;
-     NvmeCtrl *n = cq->ctrl;
-     NvmeRequest *req, *next;
-+    bool pending = cq->head != cq->tail;
-     int ret;
- 
-     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
-@@ -1287,6 +1290,10 @@ static void nvme_post_cqes(void *opaque)
-         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
-     }
-     if (cq->tail != cq->head) {
-+        if (cq->irq_enabled && !pending) {
-+            n->cq_pending++;
-+        }
-+
-         nvme_irq_assert(n, cq);
-     }
- }
-@@ -4099,6 +4106,11 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeRequest *req)
-         trace_pci_nvme_err_invalid_del_cq_notempty(qid);
-         return NVME_INVALID_QUEUE_DEL;
-     }
-+
-+    if (cq->irq_enabled && cq->tail != cq->head) {
-+        n->cq_pending--;
-+    }
-+
-     nvme_irq_deassert(n, cq);
-     trace_pci_nvme_del_cq(qid);
-     nvme_free_cq(cq, n);
-@@ -5758,6 +5770,10 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-         }
- 
-         if (cq->tail == cq->head) {
-+            if (cq->irq_enabled) {
-+                n->cq_pending--;
-+            }
-+
-             nvme_irq_deassert(n, cq);
-         }
-     } else {
--- 
-2.32.0
-
+This series reimplements flush, dsm, copy, zone reset and format nvm to=0D
+allow cancellation. I posted an RFC back in March ("hw/block/nvme:=0D
+convert ad-hoc aio tracking to aiocb") and I've applied some feedback=0D
+from Stefan and reimplemented the remaining commands.=0D
+=0D
+The basic idea is to define custom AIOCBs for these commands. The custom=0D
+AIOCB takes care of issuing all the "nested" AIOs one by one instead of=0D
+blindly sending them off simultaneously without tracking the returned=0D
+aiocbs.=0D
+=0D
+v2:=0D
+  - dropped RFC=0D
+  - fixed flush cancel from being unintentially a noop (Vladimir)=0D
+=0D
+Klaus Jensen (11):=0D
+  hw/nvme: reimplement flush to allow cancellation=0D
+  hw/nvme: add nvme_block_status_all helper=0D
+  hw/nvme: reimplement dsm to allow cancellation=0D
+  hw/nvme: save reftag when generating pi=0D
+  hw/nvme: remove assert from nvme_get_zone_by_slba=0D
+  hw/nvme: use prinfo directly in nvme_check_prinfo and nvme_dif_check=0D
+  hw/nvme: add dw0/1 to the req completion trace event=0D
+  hw/nvme: reimplement the copy command to allow aio cancellation=0D
+  hw/nvme: reimplement zone reset to allow cancellation=0D
+  hw/nvme: reimplement format nvm to allow cancellation=0D
+  Partially revert "hw/block/nvme: drain namespaces on sq deletion"=0D
+=0D
+ hw/nvme/nvme.h       |   10 +-=0D
+ include/block/nvme.h |    8 +=0D
+ hw/nvme/ctrl.c       | 1883 ++++++++++++++++++++++++------------------=0D
+ hw/nvme/dif.c        |   64 +-=0D
+ hw/nvme/trace-events |   21 +-=0D
+ 5 files changed, 1124 insertions(+), 862 deletions(-)=0D
+=0D
+-- =0D
+2.32.0=0D
+=0D
 
