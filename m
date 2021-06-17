@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D02D3AB05B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:53:33 +0200 (CEST)
-Received: from localhost ([::1]:47472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715613AB022
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:48:46 +0200 (CEST)
+Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoiK-0007jw-K3
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
+	id 1ltodh-0005sy-H5
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNW-0002xw-1p
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:02 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43673)
+ id 1ltoNa-0003AO-R3
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:07 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNT-0006IC-DZ
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:01 -0400
-Received: by mail-ej1-x630.google.com with SMTP id nb6so8666206ejc.10
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:58 -0700 (PDT)
+ id 1ltoNV-0006KR-4V
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:32:06 -0400
+Received: by mail-ej1-x634.google.com with SMTP id nd37so8770463ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:32:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+EFladb3eqe0vt+VFB7TILa1exqZV921bqMeigXL0sY=;
- b=QAc99yJDdTfSI8gRcaBYAjM9QSt9La9SjTvwjU5W/AvCRPWunV5Q1L08hfsN5C+1SW
- Y9pZpxj6XSmxUQI8pz1e7yOc2SNCG+aafbqYqBGvyAUavBA9Bh7e5wT7tHMs6ghfDxWd
- aveUi5tXT1oTPrKYUd7Pd97KXA2YEjtmyjIs4oE8eg26StatO15eIVygh6rU6B+iKoQc
- 9/yBSJwkkcn/ifnndacOWonjjj/4Oa3MR2yWAPQkVGGGlLzofWLTEllDeXw6NxxhkTcW
- EKpB7TvgMHvrxlGZ3rj7AvUyKBx0rEIo+tJAziJIt40kM2vttnoR3SqeP8PhFUiXGhJD
- d5wg==
+ bh=Us6ggabPs2Iu/tknvpN9PEYNzI6F+zr6OhgzB6XQ6h8=;
+ b=nfdpN6o/siNbFJvX+C6aXLhNZJM1XMRDqjzQnFh1rCLzOqfxSTasr6WhBrZp2pn/eB
+ PvO7LBTP7di2I0lN4FVJ7gDyNqjEnfW/5xdEhhC+I7IO9coA7q6WrVcxeDLoXFLrj2TD
+ rvsVCXAPpAwM9dP7w/vWbh1wIbaUA5owNMyKuNfRtCZAwlGGH1Dr72FH0NFMHzGyeN8v
+ vMSEl7ogIn2fI7a7gjc8g/s5JwG19PldrRxu0WRVM6YvF5GZ6lA0q5Wszq3uyCoYBXjT
+ f1w2kv9/EJaa1Ork8DOvtgXll0vzpoDWzUhqQ9jVjRR1g7dCgAY4PWMfNuq730ZQPIra
+ M1gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+EFladb3eqe0vt+VFB7TILa1exqZV921bqMeigXL0sY=;
- b=QnzovNac9fStRfCzH9wwfKhNma4pzMtqXPy7TQcSYMZSeALY/SbS+/OkdhS05TqHVf
- ZMDAZ194vrmpSWFDmFMAYT/oRVcPHewTmhxURj/ZnuRjay7HT7ZxL9OtKkJX7VZ4u4+A
- U7R37L1wUJgfipXzjDCMCoIUAx0lboWvFB2nrLzWfrJKrZ9rjCbT43w5+SdNBFhxT3cS
- dQl/T2pKqcALS5N5WVqtYHcLYTg+zk0yuygff4g94sreqxRyJqGh6sfWgR7A3LjeVA6E
- N7g2DRN3ptwbXpK04DkZKnrJOhB/8MuWKxBXuA1RlGacYJjv3r2uH8vGCcfuFupS+sEl
- Pn7Q==
-X-Gm-Message-State: AOAM533lpi36e8b1k5Vh5JX8CUoeK5n7Z+MP96p5dUOPN47BBtvOX2kF
- M7Lc3+CjYusUUeTLI0Ow6eVkAKGuMYQ=
-X-Google-Smtp-Source: ABdhPJyHlLAQkIwRnQwfyLhl+PrZc6ZePkeSh3pkhPSLy/H6BofESCZ6c45rfTWdRpA9pq464PFbow==
-X-Received: by 2002:a17:907:1c13:: with SMTP id
- nc19mr4331932ejc.168.1623922317880; 
- Thu, 17 Jun 2021 02:31:57 -0700 (PDT)
+ bh=Us6ggabPs2Iu/tknvpN9PEYNzI6F+zr6OhgzB6XQ6h8=;
+ b=rJmnte0IIUrdSTtQ/7/nIJDzxGKfGw17IJQCVrAQnYws08mGjTuiynyzX4smDiuBHp
+ kLx0ZWQ8+C/MfTkq7eDXKnthCQAiNYn3jeegDWuf56NyKUsaMHb4RSdPqkfhE9rp0TzK
+ VEbsg1DKhKimANdYpAIocLiBivndAWyzJOhzXaSPyFbrsF82fqhWsPJ4Vm+mfhmVubVo
+ 2OYyTg8EVXf07+X7hR3RAXaPB5D+VYEw1Ih30HzA0vq1th0UujOAr60r5OXeY6NBwGSv
+ ThToar0sO3d8CeRuxF5s2eThxmYK17BMxlwRBwsxsAWzzGL57mLO0jI8xm3ZhoYPg7qg
+ 85kw==
+X-Gm-Message-State: AOAM530LC8NlUw1KNer3udFQrj4lwq5A41PHyvdxkDcW3rC2kEawXi+U
+ tgcXzfMnSEjxW1SEmQNhPFgedHVTDww=
+X-Google-Smtp-Source: ABdhPJyCdHT3qVHQK8DW0x3aBNAcck9vCyfn8nTZ7SwBypVat8z7VSo5dpDiYhADqD5AkQW2gC9tig==
+X-Received: by 2002:a17:907:2636:: with SMTP id
+ aq22mr4307111ejc.48.1623922319654; 
+ Thu, 17 Jun 2021 02:31:59 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.57
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:57 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/45] hmp: Print "share" property of memory backends with
+Subject: [PULL 32/45] hmp: Print "reserve" property of memory backends with
  "info memdev"
-Date: Thu, 17 Jun 2021 11:31:19 +0200
-Message-Id: <20210617093134.900014-31-pbonzini@redhat.com>
+Date: Thu, 17 Jun 2021 11:31:21 +0200
+Message-Id: <20210617093134.900014-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,7 +96,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's print the property.
+Let's print the new property.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
@@ -107,22 +107,24 @@ Cc: Markus Armbruster <armbru@redhat.com>
 Cc: Eric Blake <eblake@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210510114328.21835-14-david@redhat.com>
+Message-Id: <20210510114328.21835-16-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine-hmp-cmds.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/core/machine-hmp-cmds.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-index 58248cffa3..004a92b3d6 100644
+index 004a92b3d6..76b22b00d6 100644
 --- a/hw/core/machine-hmp-cmds.c
 +++ b/hw/core/machine-hmp-cmds.c
-@@ -110,6 +110,8 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict)
-                        m->value->dump ? "true" : "false");
-         monitor_printf(mon, "  prealloc: %s\n",
+@@ -112,6 +112,10 @@ void hmp_info_memdev(Monitor *mon, const QDict *qdict)
                         m->value->prealloc ? "true" : "false");
-+        monitor_printf(mon, "  share: %s\n",
-+                       m->value->share ? "true" : "false");
+         monitor_printf(mon, "  share: %s\n",
+                        m->value->share ? "true" : "false");
++        if (m->value->has_reserve) {
++            monitor_printf(mon, "  reserve: %s\n",
++                           m->value->reserve ? "true" : "false");
++        }
          monitor_printf(mon, "  policy: %s\n",
                         HostMemPolicy_str(m->value->policy));
          visit_complete(v, &str);
