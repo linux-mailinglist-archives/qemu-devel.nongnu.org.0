@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AF93AB52F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:50:35 +0200 (CEST)
-Received: from localhost ([::1]:44340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56B23AB53C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 15:54:34 +0200 (CEST)
+Received: from localhost ([::1]:46902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltsPi-0000c4-Kr
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54916)
+	id 1ltsTZ-0002Ux-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 09:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltsNE-0005Sj-DR
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:48:00 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:38662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ltsNC-000124-NB
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:48:00 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id t7so4098257edd.5
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 06:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pg/2E0TUjGXLACtewWDG7dJgOojq+eLznTHhtoCT9Rc=;
- b=q32JsHCO6KJGfShO655DMzSfGuLc10HjA4UUBeogM/TeJxfiyagvGXyEvakQHRdQQQ
- djdzpoIaJKbQ4qFibk1lMiThwXhGUCuuJojuo76UQYToCoJBsGmPqwrSu8lf5wjqDC/D
- zaslXloihF3aWoQtF3RJlLHAzCFTyHQIuEDWT/pthX8r4mHti87vcclQEzgvvPmsWm8k
- IdIv0BrvhMGSvFipHn1HBke+uyztF4IK9+wlQJVZ7TxYXpBeVPsVv3c8mSLaaOWLnqYo
- 94//6DmRHbf18lsWJekgqHY3LO+ioNpgFqXPTbXJ76HGg1w/pnRNsrvo8Jnpy4I2ZEfI
- QiMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pg/2E0TUjGXLACtewWDG7dJgOojq+eLznTHhtoCT9Rc=;
- b=GsivaEN1RiZRWIU0FswPeGoLudPRBRfQPSftZeTJ3F/4pLysQcxeARj/ALtkueR+yU
- osLkAw0GwpiQvaB1Y5KwQrcW8Nn7NXzlFT8Gk6g2dfyCeMX7Gy8RwFxNFjmFwAut+Ntc
- Aktqjdo4WproadKv2h499YF5LSbZATMYeTMeAuQ8ks+HNiV8LTnyugnMjZTEj5aiU8Rs
- 8dkh8CnOiS7L3wtP1//NhiHF/1jjcuuGPQgVxFRDzxp9aRdum8m4/vPQ+CbCfZ1WcOEq
- rPHnF1xzoAgUShRtqJSoUHp+iDxEDKV7Beda6bqW9mEjl/YMiP86deSlpSPiFQsIcnXW
- QjDQ==
-X-Gm-Message-State: AOAM532gu2+Xb/ycypnqmsSoZYOsky5Quxkujnc948uDdMCeNueRhOzp
- /lfi05ZAz0mZW4cS4MiFNPbspeng/CDmDwuVJtpkgQ==
-X-Google-Smtp-Source: ABdhPJxxwmpXLccpL4ypNSSFXwyHdpe/xRDLHWKZ98XZuCq4xcqU2p7vOhrQ3On0KB0W1s1Jvs4xF1f/uCIAJiFxqGE=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr6541051edt.100.1623937676555; 
- Thu, 17 Jun 2021 06:47:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210617121628.20116-1-peter.maydell@linaro.org>
- <20210617121628.20116-2-peter.maydell@linaro.org>
- <8918d342-4e17-e5f0-e18b-ae39b17cffac@suse.de>
-In-Reply-To: <8918d342-4e17-e5f0-e18b-ae39b17cffac@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 17 Jun 2021 14:47:21 +0100
-Message-ID: <CAFEAcA_V_=-q1bjVEu4mX-NGBgH=Bq3GdDAcBxEFQ8gJHW9dLA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/44] target/arm: Implement MVE VLDR/VSTR
- (non-widening forms)
-To: Claudio Fontana <cfontana@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ltsSp-0001or-89
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:53:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1ltsSl-00041v-Jg
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 09:53:46 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 11EFD611CE;
+ Thu, 17 Jun 2021 13:53:42 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1ltsSi-008BoA-28; Thu, 17 Jun 2021 14:53:40 +0100
+Date: Thu, 17 Jun 2021 14:53:39 +0100
+Message-ID: <87fsxgd2cc.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v15 0/7] MTE support for KVM guest
+In-Reply-To: <db4cf3c1-d5eb-f8cf-23ff-d52e3b6ae9b1@arm.com>
+References: <20210614090525.4338-1-steven.price@arm.com>
+ <20210617121322.GC6314@arm.com> <87im2cd443.wl-maz@kernel.org>
+ <db4cf3c1-d5eb-f8cf-23ff-d52e3b6ae9b1@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
+ will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
+ suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
+ qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
+ drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,55 +73,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liang Yan <lyan@suse.com>, Alex Bennee <alex.bennee@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Jun 2021 at 14:30, Claudio Fontana <cfontana@suse.de> wrote:
->
-> On 6/17/21 2:15 PM, Peter Maydell wrote:
-> > Implement the forms of the MVE VLDR and VSTR insns which perform
-> > non-widening loads of bytes, halfwords or words from memory into
-> > vector elements of the same width (encodings T5, T6, T7).
->
-> This is if I understand correctly, M-Profile only, and thus TCG-only right?
-
-Yes.
-
-> >
-> > (At the moment we know for MVE and M-profile in general that
-> > vfp_access_check() can never return false, but we include the
-> > conventional return-true-on-failure check for consistency
-> > with non-M-profile translation code.)
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > +/* Values for M-profile PSR.ECI for MVE insns */
-> > +enum MVEECIState {
-> > +    ECI_NONE = 0, /* No completed beats */
-> > +    ECI_A0 = 1, /* Completed: A0 */
-> > +    ECI_A0A1 = 2, /* Completed: A0, A1 */
-> > +    /* 3 is reserved */
-> > +    ECI_A0A1A2 = 4, /* Completed: A0, A1, A2 */
-> > +    ECI_A0A1A2B0 = 5, /* Completed: A0, A1, A2, B0 */
-> > +    /* All other values reserved */
-> > +};
+On Thu, 17 Jun 2021 14:24:25 +0100,
+Steven Price <steven.price@arm.com> wrote:
+> 
+> On 17/06/2021 14:15, Marc Zyngier wrote:
+> > On Thu, 17 Jun 2021 13:13:22 +0100,
+> > Catalin Marinas <catalin.marinas@arm.com> wrote:
+> >>
+> >> On Mon, Jun 14, 2021 at 10:05:18AM +0100, Steven Price wrote:
+> >>> I realise there are still open questions[1] around the performance of
+> >>> this series (the 'big lock', tag_sync_lock, introduced in the first
+> >>> patch). But there should be no impact on non-MTE workloads and until we
+> >>> get real MTE-enabled hardware it's hard to know whether there is a need
+> >>> for something more sophisticated or not. Peter Collingbourne's patch[3]
+> >>> to clear the tags at page allocation time should hide more of the impact
+> >>> for non-VM cases. So the remaining concern is around VM startup which
+> >>> could be effectively serialised through the lock.
+> >> [...]
+> >>> [1]: https://lore.kernel.org/r/874ke7z3ng.wl-maz%40kernel.org
+> >>
+> >> Start-up, VM resume, migration could be affected by this lock, basically
+> >> any time you fault a page into the guest. As you said, for now it should
+> >> be fine as long as the hardware doesn't support MTE or qemu doesn't
+> >> enable MTE in guests. But the problem won't go away.
+> > 
+> > Indeed. And I find it odd to say "it's not a problem, we don't have
+> > any HW available". By this token, why should we merge this work the
+> > first place, or any of the MTE work that has gone into the kernel over
+> > the past years?
+> > 
+> >> We have a partial solution with an array of locks to mitigate against
+> >> this but there's still the question of whether we should actually bother
+> >> for something that's unlikely to happen in practice: MAP_SHARED memory
+> >> in guests (ignoring the stage 1 case for now).
+> >>
+> >> If MAP_SHARED in guests is not a realistic use-case, we have the vma in
+> >> user_mem_abort() and if the VM_SHARED flag is set together with MTE
+> >> enabled for guests, we can reject the mapping.
+> > 
+> > That's a reasonable approach. I wonder whether we could do that right
+> > at the point where the memslot is associated with the VM, like this:
+> > 
+> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > index a36a2e3082d8..ebd3b3224386 100644
+> > --- a/arch/arm64/kvm/mmu.c
+> > +++ b/arch/arm64/kvm/mmu.c
+> > @@ -1376,6 +1376,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
+> >  		if (!vma)
+> >  			break;
+> >  
+> > +		if (kvm_has_mte(kvm) && vma->vm_flags & VM_SHARED)
+> > +			return -EINVAL;
 > > +
->
-> I wonder if this should be in a MVE-specific header,
+> >  		/*
+> >  		 * Take the intersection of this VMA with the memory region
+> >  		 */
+> > 
+> > which takes the problem out of the fault path altogether? We document
+> > the restriction and move on. With that, we can use a non-locking
+> > version of mte_sync_page_tags().
+> 
+> Does this deal with the case where the VMAs are changed after the
+> memslot is created? While we can do the check here to give the VMM a
+> heads-up if it gets it wrong, I think we also need it in
+> user_mem_abort() to deal with a VMM which mmap()s over the VA of the
+> memslot. Or am I missing something?
 
-For an enum definition, it doesn't seem worthwhile. internals.h
-is generally for "stuff target/arm wants that other parts of the
-system don't need".
+No, you're right. I wish the memslot API wasn't so lax... Anyway, even
+a VMA flag check in user_mem_abort() will be cheaper than this new BKL.
 
-> and I also wonder, when looking at code using things like ECI_A0,
->
-> what about MVE_ECI_NONE , MVE_ECI_A0, ... - would help the reader connect code containing these enums with the MVE feature?
+> But if everyone is happy with the restriction (just for KVM) of not
+> allowing MTE+VM_SHARED then that sounds like a good way forward.
 
-You'll only see them if you're looking at MVE code in the first place...
+Definitely works for me.
 
-thanks
--- PMM
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
