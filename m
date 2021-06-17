@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D32E3AB002
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:43:40 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F63AAFF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:40:53 +0200 (CEST)
+Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoYl-000377-5g
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:43:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
+	id 1ltoW4-0003Xc-LA
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNI-0002jj-Vc
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:48 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44929)
+ id 1ltoNJ-0002l5-Uk
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:50 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNH-000681-4R
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:48 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id gt18so8688321ejc.11
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:46 -0700 (PDT)
+ id 1ltoNH-00068r-Us
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:49 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id z12so3098688edc.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NdoHLlFzwD8m2yrMeCWWQ4lmLVIsMmdxAXvwoIv9UDs=;
- b=n7nffUNP3ajfEokW8OxvbBSdFmM6TZVEbVEjMCosEdIczjzRuPhqnULgFXzrAqelM7
- IV1xCNjWLvHL7Zfh9TXvYGTfImCo2xYfmgrmkLebaIr2h9DfNz05ssfIKuzifuluFv0+
- pDQ9ozGRp/KwzNMmZ0bSu1nfqZ/OvBWfM+GuBLJY6XNg8rjHaMV3MI/tWOlkJSj3/JIv
- YfPGBvc5FPiobtVqL/WDCQB1MPem/MomRaAumnC3KGrtY8mSkcn350AUlr4auaNbnKFt
- 9C7WRVRJRYpvoNjaCn4Bybl1xunl6aNd0s9hMXf0iaKxim7IgQ41TAcgD0GyZycjsx9Y
- VHVw==
+ bh=jempworfNSeLBXZqL1QYZwHbPUXKSHYksUwRgxPhDCk=;
+ b=UVyDblc76pFLLHP8PKq/IlzZfb3OjNLnD+JghWeNTYcKEtofH7xQTZCsmRAM/ajYCo
+ hhuj0YCS7Sdza1Wmot6NYkAez7TPo5nKbd7BH8X/BESe91VXPFlyJFu1rblvLlgd8riJ
+ VV4Re1xtzTc7To58AFVKZb+DfP9avSh66luYw5HVnz9xY8DNMXUaIn8PNYXuDDlhwVDd
+ 9KImxQCGoeN6UImeU/9MzeLA2EzxVICX5y1xEtkggU1GnpTEVqexjtQCX36xLGwKGgH1
+ //yVj+JHSKxARL9UCZURJPaLmoUgklXi25es/EYrv1QBxQohOQ/M3A685kWo1VR+Q9VP
+ sZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NdoHLlFzwD8m2yrMeCWWQ4lmLVIsMmdxAXvwoIv9UDs=;
- b=L8VgSEwk7hUTsFcYZ4tsqnE8f1rpZCRWzN8zCFYW++yhjEO7cuwomN0F2a9BmRJiKt
- Ora1I6w43xPpj6fN3+mRu1k7QQFykDiTZSjZTD5QjC2g0MSVFG4Q1aqJZai1kfnN+PFB
- FzkbjxU0BbD7Fk6zZj4o1ooWyHIfrjw46/bO7+rbOR3ffc5ggsk2gwfPf/grsZZRYTZc
- lbWFOW3qfpI+R481ip4wiDqvEpCaMydIHoNBgL5ERCNperFk3cMeskNJYG5gripNAd+1
- fqZafhv6oFnGIR4cwTCHhxkNdDmWsyckdyc2vUotjtytfKN+r4Y1g7YE5GTzG5mpZMI0
- 4pxg==
-X-Gm-Message-State: AOAM532Nn38cYe+3hQXuQemgWWYvg7sZtu+v7WztlqwggYSg+KWZfg81
- 8TNE4Nm+klceJSqnElrBE1cFgPPxBcc=
-X-Google-Smtp-Source: ABdhPJzRdSjXv4LbmOw4eV46oKXprUMeSKUuv2SItO74mCmEQJFDyIt3+maR6ckEe2AnHmrC8JrKaQ==
-X-Received: by 2002:a17:906:128e:: with SMTP id
- k14mr4192249ejb.485.1623922305949; 
- Thu, 17 Jun 2021 02:31:45 -0700 (PDT)
+ bh=jempworfNSeLBXZqL1QYZwHbPUXKSHYksUwRgxPhDCk=;
+ b=kNPLl/b3QEXJPPpACJ8bLFiL+uq5DbI48lGaNv5OIItdP7DpAtIrB8DZ6fY3XrJYl2
+ 3AwYxRacDFN0UyYmRHq5PlExkac2m1+kiG8jdwClfE9OJr4+DF+xl6/fyJmL7sjPo3Td
+ ENBJKMkxlZ0GbwqcqbP4nGiGJ0wVQDTf4biIY3wG5RIdpV9U+Bh67wejIcmQjevO8osN
+ eJF0j5t+OS0PqhRXgLp+nbY7o7/7Vh3xedIwDut4aigQetsg1BMi9SZvOrKWF/UgpuT+
+ U7QZNvG5SWzQtqlemYdcUSs3VmXQO/SYU0sjZvpDTAkevIFLbKBS4HloMqg594+cDrex
+ SLcg==
+X-Gm-Message-State: AOAM531LRWy3JoK25Lb8CFRzVRu7nmXgdmPAmNZtELUCjGCX6LC0RZQy
+ 9Iv86Rr2gt3rfcsBmeyqX7ONARPiJKE=
+X-Google-Smtp-Source: ABdhPJwoGruPBrAr9fbGCx9R+ZDpXiAejhyS2VRoudjYU8zSJBmYAbGdKJeozwBICVOi6yX7WPW2vg==
+X-Received: by 2002:aa7:cc19:: with SMTP id q25mr5233922edt.56.1623922306630; 
+ Thu, 17 Jun 2021 02:31:46 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.45
+ by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:45 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/45] softmmu/physmem: Mark shared anonymous memory RAM_SHARED
-Date: Thu, 17 Jun 2021 11:31:04 +0200
-Message-Id: <20210617093134.900014-16-pbonzini@redhat.com>
+Subject: [PULL 16/45] softmmu/physmem: Fix ram_block_discard_range() to handle
+ shared anonymous memory
+Date: Thu, 17 Jun 2021 11:31:05 +0200
+Message-Id: <20210617093134.900014-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,71 +84,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>,
- Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's drop the "shared" parameter from ram_block_add() and properly
-store it in the flags of the ram block instead, such that
-qemu_ram_is_shared() properly succeeds on all ram blocks that were mapped
-MAP_SHARED.
+We can create shared anonymous memory via
+    "-object memory-backend-ram,share=on,..."
+which is, for example, required by PVRDMA for mremap() to work.
 
-We'll use this information next to fix some cases with shared anonymous
-memory.
+Shared anonymous memory is weird, though. Instead of MADV_DONTNEED, we
+have to use MADV_REMOVE: MADV_DONTNEED will only remove / zap all
+relevant page table entries of the current process, the backend storage
+will not get removed, resulting in no reduced memory consumption and
+a repopulation of previous content on next access.
 
-Reviewed-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Shared anonymous memory is internally really just shmem, but without a
+fd exposed. As we cannot use fallocate() without the fd to discard the
+backing storage, MADV_REMOVE gets the same job done without a fd as
+documented in "man 2 madvise". Removing backing storage implicitly
+invalidates all page table entries with relevant mappings - an additional
+MADV_DONTNEED is not required.
+
+Fixes: 06329ccecfa0 ("mem: add share parameter to memory-backend-ram")
 Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210406080126.24010-2-david@redhat.com>
+Message-Id: <20210406080126.24010-3-david@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/physmem.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ include/qemu/osdep.h | 4 ++--
+ softmmu/physmem.c    | 7 ++++++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 236a045671..18a9e3fb4c 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -410,7 +410,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #ifdef MADV_REMOVE
+ #define QEMU_MADV_REMOVE MADV_REMOVE
+ #else
+-#define QEMU_MADV_REMOVE QEMU_MADV_INVALID
++#define QEMU_MADV_REMOVE QEMU_MADV_DONTNEED
+ #endif
+ 
+ #elif defined(CONFIG_POSIX_MADVISE)
+@@ -424,7 +424,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
+ #define QEMU_MADV_DONTDUMP QEMU_MADV_INVALID
+ #define QEMU_MADV_HUGEPAGE  QEMU_MADV_INVALID
+ #define QEMU_MADV_NOHUGEPAGE  QEMU_MADV_INVALID
+-#define QEMU_MADV_REMOVE QEMU_MADV_INVALID
++#define QEMU_MADV_REMOVE QEMU_MADV_DONTNEED
+ 
+ #else /* no-op */
+ 
 diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 1c8717684a..b78b30e7ba 100644
+index b78b30e7ba..c0a3c47167 100644
 --- a/softmmu/physmem.c
 +++ b/softmmu/physmem.c
-@@ -1946,8 +1946,9 @@ static void dirty_memory_extend(ram_addr_t old_ram_size,
-     }
- }
- 
--static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
-+static void ram_block_add(RAMBlock *new_block, Error **errp)
- {
-+    const bool shared = qemu_ram_is_shared(new_block);
-     RAMBlock *block;
-     RAMBlock *last_block = NULL;
-     ram_addr_t old_ram_size, new_ram_size;
-@@ -2084,7 +2085,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-         return NULL;
-     }
- 
--    ram_block_add(new_block, &local_err, ram_flags & RAM_SHARED);
-+    ram_block_add(new_block, &local_err);
-     if (local_err) {
-         g_free(new_block);
-         error_propagate(errp, local_err);
-@@ -2147,10 +2148,13 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
-     if (host) {
-         new_block->flags |= RAM_PREALLOC;
-     }
-+    if (share) {
-+        new_block->flags |= RAM_SHARED;
-+    }
-     if (resizeable) {
-         new_block->flags |= RAM_RESIZEABLE;
-     }
--    ram_block_add(new_block, &local_err, share);
-+    ram_block_add(new_block, &local_err);
-     if (local_err) {
-         g_free(new_block);
-         error_propagate(errp, local_err);
+@@ -3527,6 +3527,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+         /* The logic here is messy;
+          *    madvise DONTNEED fails for hugepages
+          *    fallocate works on hugepages and shmem
++         *    shared anonymous memory requires madvise REMOVE
+          */
+         need_madvise = (rb->page_size == qemu_host_page_size);
+         need_fallocate = rb->fd != -1;
+@@ -3560,7 +3561,11 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length)
+              * fallocate'd away).
+              */
+ #if defined(CONFIG_MADVISE)
+-            ret =  madvise(host_startaddr, length, MADV_DONTNEED);
++            if (qemu_ram_is_shared(rb) && rb->fd < 0) {
++                ret = madvise(host_startaddr, length, QEMU_MADV_REMOVE);
++            } else {
++                ret = madvise(host_startaddr, length, QEMU_MADV_DONTNEED);
++            }
+             if (ret) {
+                 ret = -errno;
+                 error_report("ram_block_discard_range: Failed to discard range "
 -- 
 2.31.1
 
