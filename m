@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8F53AAFFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:43:23 +0200 (CEST)
-Received: from localhost ([::1]:42628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AA73AAFDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 11:34:50 +0200 (CEST)
+Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltoYU-00025p-Il
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54922)
+	id 1ltoQD-000792-HO
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 05:34:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNC-0002dy-Ow; Thu, 17 Jun 2021 05:31:42 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36827)
+ id 1ltoND-0002ek-0M
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:43 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ltoNA-00062F-KP; Thu, 17 Jun 2021 05:31:42 -0400
-Received: by mail-ej1-x630.google.com with SMTP id nd37so8768672ejc.3;
- Thu, 17 Jun 2021 02:31:39 -0700 (PDT)
+ id 1ltoNA-000636-Tp
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 05:31:42 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id nb6so8664803ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 02:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=heHCUXk2lYlY4womrST8MVwquaQIh6Pc6yFu//DhDE0=;
- b=ojzGIj/GQau9eqlf5tRBHGG7yTtNRVewdjWdVPydm0y60V6CYXcjUwL+TFaDZjLf6t
- dUO1pT5cVTDL+KkUsMEVsROsVU4O7rbbM4SLkFHlTy/bttKf7ah/us9iyeufU2HOpsAz
- vrKJsLmw9IJ2VpLo+SL9qfkgnyH+bJCTom8BYJvKc8GThyHlBS8lbBUp+jQNj0KFJUyj
- ijW8Bjn00OgXpL/UlmgHVLcoWgZK4x8kqxG3126oTnorAqgkTzXZuPN+QdoMhrjgeREw
- WbUUvMQ7a5MrglcdBHK526W3DNHuT0nhN23XI3AohSGZXpwOG29+zO/xZUpC3jGztUgq
- AX2Q==
+ bh=ufg9KAAVUpb6SdQp+JrhzTkawAhYImLq6kgNA9vSLME=;
+ b=V4EqL6KdnAMEqYs4oc2N4c0U15Gh3z4G1USFyrAiHguNrPe0PK4dk42RongvWyQ0CG
+ i9n8FQI6Swk3MkmIIa+EA3QCyoLfY84tR9hOSz+Udw8TEbjaChQY9ZNAB6vlodvLEk5Y
+ 2j28bKGX/VcDHx5UlwJuTPr7UWXAsFjLR5YMeKyLaW5iW6yOzsS2crEG8QZtRZiwrkc9
+ TFJod6Z3LDAqsC7jLf8UyRAkGuDAVL/h5Zip3SEqAow8d3U5efR3dhRS058zE98aS4+G
+ ieKwdmO+E9baseY4sPTtlNjw00ut1x31gtT/A8XdxFiD7Xx5x4wG4GtukDSYqVZ0a77g
+ o58w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=heHCUXk2lYlY4womrST8MVwquaQIh6Pc6yFu//DhDE0=;
- b=ZMjiTrWOFZge/6bBnL5XjzIAz/NBmQpVdQWrEdOq+XLz2lGz/AU4LtJlRcSltghW6X
- Ay0BAQaF3sJMtkq3aSt0c9a2A4uNyUEEWm01wx/i0+MaQTGbYlSS8iXU365CguULLLuK
- VMh8rFVZcSfHbeXZukqa2NKAehraiGOVIFC6nr+JXAOlaDy5mOYyYcGQX9Iq1jWXNMEy
- 5v2nutpvqfNK3wPM13LvNpf/ZDFJrAz8gqmJ5sDJPnk6yjWoh/l8iGH/MvS5+faoGcks
- 5xtcq8hXK1sQesumVxc1mTXLEEfpfoUuKSdMS5a6nJ/h9+viejvPKF3nkX+qFqWdmEgX
- ybnw==
-X-Gm-Message-State: AOAM532P36wUVs80aOuHdjgNVcmr3SkR1Qgy1M+OkThnxoclJGevG3iP
- hcaaUXUubcMgzNOn+JRbTKfFyzFQTKA=
-X-Google-Smtp-Source: ABdhPJwAkRxOMfJ3QW3jFscuW4qbiWE+Fvnog20y6oLsH5xessQxVXnvNCGnAw3KOzfDSC2GKfgS8g==
-X-Received: by 2002:a17:906:488f:: with SMTP id
- v15mr4167034ejq.428.1623922298809; 
- Thu, 17 Jun 2021 02:31:38 -0700 (PDT)
+ bh=ufg9KAAVUpb6SdQp+JrhzTkawAhYImLq6kgNA9vSLME=;
+ b=W0WdeuyyucguOr7Aab8VkHgJ9xv+Sk4S3cG5hSfXSIhknUWX58cXjAIkA7gJIsqV1E
+ QE2qPFf8DVrsAb0fyyeO187padOtaleWPSq7JjwU/phAFTuSguxEWPgCNWwezsQkLE4+
+ +Yv2q232F8ZQlN4Y1ohcY1oj6+Ohb1+LMN7haSrc4Y4kTnig3wlqUsn4bYjZBRXk+Jqg
+ 7VFA9xoAFXl39bPjVawiNcUgxFdNpmeprggmkVBjG/jdzpDsOQDdAtd4R/X+MWqkxgVn
+ asqrjlp4H/J7/aqOpE7KlLrEh9Ck7qqu7mSfG1VTT5CZbcxsXNRHCa2UnpXL2/eA6VJ2
+ KHKg==
+X-Gm-Message-State: AOAM5322S33KmNnLllwF1z4dgBlMDSa9TYHBtmzQQ6/6taeUF/QcDhPr
+ EVlUtWmbE0q0tYydLumVpn43ccxhPFY=
+X-Google-Smtp-Source: ABdhPJzjZPo+GKIZ5AoIO9bMuaZcI4aGjwv0arSm1BTcs9PjLzvLd0Jk+NTDEFtvtrSGIa4D5rsM8A==
+X-Received: by 2002:a17:906:27d3:: with SMTP id
+ k19mr4116169ejc.368.1623922299482; 
+ Thu, 17 Jun 2021 02:31:39 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id m18sm3328140ejx.56.2021.06.17.02.31.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 02:31:38 -0700 (PDT)
+ Thu, 17 Jun 2021 02:31:39 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/45] runstate: Initialize Error * to NULL
-Date: Thu, 17 Jun 2021 11:30:54 +0200
-Message-Id: <20210617093134.900014-6-pbonzini@redhat.com>
+Subject: [PULL 06/45] esp: only assert INTR_DC interrupt flag if selection
+ fails
+Date: Thu, 17 Jun 2021 11:30:55 +0200
+Message-Id: <20210617093134.900014-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617093134.900014-1-pbonzini@redhat.com>
 References: <20210617093134.900014-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,40 +85,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peng Liang <liangpeng10@huawei.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-stable@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peng Liang <liangpeng10@huawei.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Based on the description of error_setg(), the local variable err in
-qemu_init_subsystems() should be initialized to NULL.
+The datasheet sequence tables confirm that when a target selection fails, only
+the INTR_DC interrupt flag should be asserted.
 
-Fixes: efd7ab22fb ("vl: extract qemu_init_subsystems")
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-Message-Id: <20210610131729.3906565-1-liangpeng10@huawei.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Fixes: cf47a41e05 ("esp: latch individual bits in ESP_RINTR register")
+Message-Id: <20210518212511.21688-2-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/runstate.c | 2 +-
+ hw/scsi/esp.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 15640572c0..10d9b7365a 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -747,7 +747,7 @@ static void qemu_run_exit_notifiers(void)
- 
- void qemu_init_subsystems(void)
- {
--    Error *err;
-+    Error *err = NULL;
- 
-     os_set_line_buffering();
- 
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index b668acef82..000e45a624 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -213,7 +213,7 @@ static int esp_select(ESPState *s)
+     if (!s->current_dev) {
+         /* No such drive */
+         s->rregs[ESP_RSTAT] = 0;
+-        s->rregs[ESP_RINTR] |= INTR_DC;
++        s->rregs[ESP_RINTR] = INTR_DC;
+         s->rregs[ESP_RSEQ] = SEQ_0;
+         esp_raise_irq(s);
+         return -1;
 -- 
 2.31.1
 
