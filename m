@@ -2,98 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B6B3AB150
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:27:50 +0200 (CEST)
-Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8033AB138
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 12:19:40 +0200 (CEST)
+Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltpFV-0004YJ-7o
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33424)
+	id 1ltp7b-0003CM-3z
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 06:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltovT-0002Wq-O6
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:07:07 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:36826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ltovR-0006Ra-Vi
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 06:07:07 -0400
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
- (using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A758421B02;
- Thu, 17 Jun 2021 10:07:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623924424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+H9wrLTUYTZ9Zi5MQJfgaVHmVgh36zckt4yHu09ni7Y=;
- b=eJLWzGh7+UewQruB8pEY6SGCCtZ4UsnKcMKFpramXVjVkxLOzgmlgpx8UBVPGmu8wPzmVj
- 0Gbzq9e1IfQ6fx1A9Aq6bXyD5+KDxt2IItyUIziQEYfQoaA87hZhZWHA2zDxlc/YxQS0f6
- Pxrs/zD8L7rkqRyq9QiRWMNTcq6RXrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623924424;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+H9wrLTUYTZ9Zi5MQJfgaVHmVgh36zckt4yHu09ni7Y=;
- b=u0F9zRdAnsHoRPl/2rZxyNJhB7NK7Ou4WqBghwJ+nD/wF8dFI5wTeFMLaNtpofN7W5UNJh
- 3BLV0uufdf2kTgDQ==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
- by imap.suse.de (Postfix) with ESMTP id 5B0FF118DD;
- Thu, 17 Jun 2021 10:07:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1623924424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+H9wrLTUYTZ9Zi5MQJfgaVHmVgh36zckt4yHu09ni7Y=;
- b=eJLWzGh7+UewQruB8pEY6SGCCtZ4UsnKcMKFpramXVjVkxLOzgmlgpx8UBVPGmu8wPzmVj
- 0Gbzq9e1IfQ6fx1A9Aq6bXyD5+KDxt2IItyUIziQEYfQoaA87hZhZWHA2zDxlc/YxQS0f6
- Pxrs/zD8L7rkqRyq9QiRWMNTcq6RXrw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1623924424;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+H9wrLTUYTZ9Zi5MQJfgaVHmVgh36zckt4yHu09ni7Y=;
- b=u0F9zRdAnsHoRPl/2rZxyNJhB7NK7Ou4WqBghwJ+nD/wF8dFI5wTeFMLaNtpofN7W5UNJh
- 3BLV0uufdf2kTgDQ==
-Received: from director2.suse.de ([192.168.254.72]) by imap3-int with ESMTPSA
- id Bx4MFMgey2CuWQAALh3uQQ
- (envelope-from <cfontana@suse.de>); Thu, 17 Jun 2021 10:07:04 +0000
-Subject: Re: [PATCH 0/4] modules: add support for target-specific modules.
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20210610101553.943689-1-kraxel@redhat.com>
- <5953598.eXybCX72BP@pizza>
- <20210615050930.bmgup2axfr7sqvoa@sirius.home.kraxel.org>
- <2963309.4TrVdrBa0x@pizza>
- <20210616092815.rjznyjnvgrrfojq6@sirius.home.kraxel.org>
- <bdf9b356-87ee-0749-c977-f48989fa8e26@suse.de>
- <20210617053759.uibvdpu2wtq3fqwv@sirius.home.kraxel.org>
- <2be72be7-5c3f-e25d-fb84-cf58b573bf27@suse.de>
- <20210617094811.gatatv7vla2rxqgc@sirius.home.kraxel.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <bd58cce3-d1c9-e22a-6653-34022a382796@suse.de>
-Date: Thu, 17 Jun 2021 12:07:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ltowm-0005Ra-35; Thu, 17 Jun 2021 06:08:28 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:36871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ltowj-0007PD-7Y; Thu, 17 Jun 2021 06:08:27 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 86B5A5C0060;
+ Thu, 17 Jun 2021 06:08:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 17 Jun 2021 06:08:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm3; bh=s/fDCfdL04kp7Lw+29+pCG1GKE
+ /Kfa9r0bVlLHmB8QI=; b=JaoVln4nL9iv+O9YwD7y9J5poyAG/dmq0ojWDNLfBR
+ qQ2TqFY+TyHdBIoFtpEll86lHfNvLKQNy6xHVdXCoL2RjfBGpeUQjM9c/hCgOa+s
+ o3WmyZoYQD4w23T1Fqm4fV2XL7OR515uw1aWvVAAx2mRFlugRpekhwLxgmSDQ6Po
+ amAY5Wm4I4R/PFMQ3LrvRBzG82+XP+dS2p55cN/X1LM/FaF4E45tJgo8c67xWrSx
+ 4eXEWDAwnWKe2z5RSCxJOf/LoYoPg2VWFyo/8zrXZ9aJNtUo8jZZS2/F/gAi5MSb
+ 2xrzQS7UHDJiFyE/0XjyvGx0Mw5ixvQdnE85q1e+EnYg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=s/fDCf
+ dL04kp7Lw+29+pCG1GKE/Kfa9r0bVlLHmB8QI=; b=t9y3C591zzuZ4XUeDSIA0L
+ n5lHOq2Sw8hbdNNAUm5LEoFql7BcgpZAgxHVkKxohZudynPoJS6Cj2pjXGA3MPw7
+ 4BHhRxyGEQmsapoKv2LOw48xaXptM+RthAX9yhaLCSQAXvEVAgVvQxtQwZ7V2wpr
+ 6KGwnGNWl5xU7D66avTitSovR77KkzDIXHwTgBT0Eotuln1dHePCyesAJDgWWo2f
+ oDr6qcrEgaIfGIXq21R/ZMEWJOjm7gXC6dnv2OGVDQUt9tFSbFNN0/nihqlr6qSr
+ /01A5G2uhB0ZaPb/zS5k2MUzzr3GjgU9FLUcx92rKCmqYUVGzOy0k/C3v0KW+brA
+ ==
+X-ME-Sender: <xms:Fh_LYCDnt9QVUuRhgZBZp4H7T_w5pC_mrj-JbdlXj8w0elELjh5Ndg>
+ <xme:Fh_LYMhEauVujPtVyZ05T-nwonTRbFsoJfTGOffpm9_-sTReZV_7Jg8MbCL_Yy2Qg
+ Ny0jS27eoN09O1GKVs>
+X-ME-Received: <xmr:Fh_LYFlRy_euLQ-UXKjl18Y8Jjez2P2dChnyCamRFuO_yahJh41uBm0bqM6rZJMtMfZEuj5lkwHYL6TJUxlx3ZKch4q5JPifsnXLXakKEA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefuddgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhephffgvddttefgffefgfevtefgieefhfdvjefhvddtgeffvddugfeltdduleeulefh
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:Fh_LYAwFl51KlnWeAm6okOQGOIngPCdp8Hd285h2HwEVVi6tyKx-_w>
+ <xmx:Fh_LYHSyKRN4Wu8v6REK9CP9KUBNFOISBaqYcz_IvOOb40VMJA5yng>
+ <xmx:Fh_LYLbP6zrfucgvsJ5uMN3anpH8Lw2lafyTJK3Mhfd_sPpOy5ZdPw>
+ <xmx:Fx_LYFNRfbsMayBj6K3opsGJOx2jAwIV1X8Z5_OSuvSv9ow8zlrmEg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 17 Jun 2021 06:08:21 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/nvme: fix pin-based interrupt behavior (again)
+Date: Thu, 17 Jun 2021 12:08:20 +0200
+Message-Id: <20210617100820.75510-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210617094811.gatatv7vla2rxqgc@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.17,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,42 +90,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Jos=c3=a9_Ricardo_Ziviani?= <jose.ziviani@suse.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 11:48 AM, Gerd Hoffmann wrote:
->   Hi,
-> 
->> Do we need to be able to unload modules that we previously loaded? Or is this not a realistic requirement?
-> 
-> Surely doable, but it's work and needs infrastructure we don't have
-> right now.  We must be able to unregister everything modules can
-> register, which is only partly the case today.  We need usage counters
-> so we can figure whenever a module is in use or not.  Maybe more.
-> 
-> I don't see a use case justifying that work.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-If unloading a QEMU module is indeed not a requirement for QEMU itself, or frameworks which use it,
-do we see optimization opportunities as a consequence?
+Jakub noticed[1] that, when using pin-based interrupts, the device will
+unconditionally deasssert when any CQEs are acknowledged. However, the
+pin should not be deasserted if other completion queues still holds
+unacknowledged CQEs.
 
-> 
-> The linux kernel can unload modules (when enabled at build time), and
-> pretty much the only reason I've ever used that is device driver
-> development: test new driver version without reboot (as long as you
-> don't make a mistake which Oopses the kernel ...).
-> 
-> take care,
->   Gerd
-> 
+The bug is an artifact of commit ca247d35098d ("hw/block/nvme: fix
+pin-based interrupt behavior") which fixed one bug but introduced
+another. This is the third time someone tries to fix pin-based
+interrupts (see commit 5e9aa92eb1a5 ("hw/block: Fix pin-based interrupt
+behaviour of NVMe"))...
 
-Ciao,
+Third time's the charm, so fix it, again, by keeping track of how many
+CQs have unacknowledged CQEs and only deassert when all are cleared.
 
-Claudio
+  [1]: <20210610114624.304681-1-jakub.jermar@kernkonzept.com>
+
+Fixes: ca247d35098d ("hw/block/nvme: fix pin-based interrupt behavior")
+Reported-by: Jakub Jermář <jakub.jermar@kernkonzept.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/nvme.h |  1 +
+ hw/nvme/ctrl.c | 15 ++++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 93a7e0e5380e..60250b579464 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -405,6 +405,7 @@ typedef struct NvmeCtrl {
+     uint32_t    max_q_ents;
+     uint8_t     outstanding_aers;
+     uint32_t    irq_status;
++    int         cq_pending;
+     uint64_t    host_timestamp;                 /* Timestamp sent by the host */
+     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+     uint64_t    starttime_ms;
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 7dea64b72e6a..9419f67c4e88 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -473,7 +473,9 @@ static void nvme_irq_deassert(NvmeCtrl *n, NvmeCQueue *cq)
+             return;
+         } else {
+             assert(cq->vector < 32);
+-            n->irq_status &= ~(1 << cq->vector);
++            if (!n->cq_pending) {
++                n->irq_status &= ~(1 << cq->vector);
++            }
+             nvme_irq_check(n);
+         }
+     }
+@@ -1258,6 +1260,7 @@ static void nvme_post_cqes(void *opaque)
+     NvmeCQueue *cq = opaque;
+     NvmeCtrl *n = cq->ctrl;
+     NvmeRequest *req, *next;
++    bool pending = cq->head != cq->tail;
+     int ret;
+ 
+     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+@@ -1287,6 +1290,10 @@ static void nvme_post_cqes(void *opaque)
+         QTAILQ_INSERT_TAIL(&sq->req_list, req, entry);
+     }
+     if (cq->tail != cq->head) {
++        if (!pending) {
++            n->cq_pending++;
++        }
++
+         nvme_irq_assert(n, cq);
+     }
+ }
+@@ -4099,6 +4106,11 @@ static uint16_t nvme_del_cq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_del_cq_notempty(qid);
+         return NVME_INVALID_QUEUE_DEL;
+     }
++
++    if (cq->tail != cq->head) {
++        n->cq_pending--;
++    }
++
+     nvme_irq_deassert(n, cq);
+     trace_pci_nvme_del_cq(qid);
+     nvme_free_cq(cq, n);
+@@ -5758,6 +5770,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
+         }
+ 
+         if (cq->tail == cq->head) {
++            n->cq_pending--;
+             nvme_irq_deassert(n, cq);
+         }
+     } else {
+-- 
+2.32.0
+
 
