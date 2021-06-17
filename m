@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B4F3AACF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:06:35 +0200 (CEST)
-Received: from localhost ([::1]:47850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5613AAD2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 09:17:33 +0200 (CEST)
+Received: from localhost ([::1]:55492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltm6j-0006kV-Rc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55240)
+	id 1ltmHM-0003w1-W5
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 03:17:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltm5K-00064b-Qa
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:05:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36694)
+ id 1ltmFf-000215-5p
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:15:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ltm5I-0003AD-Op
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:05:06 -0400
+ id 1ltmFc-0003T6-IE
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 03:15:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1ltm5F-00049G-4E
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:05:01 +0000
+ id 1ltmFa-0004lU-HH
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:15:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1906F2E80AD
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:05:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 81C6E2E8088
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 07:15:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Jun 2021 06:55:27 -0000
-From: Thomas Huth <1452742@bugs.launchpad.net>
+Date: Thu, 17 Jun 2021 07:07:04 -0000
+From: Thomas Huth <1835839@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: patch
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hramrach th-huth
-X-Launchpad-Bug-Reporter: Michal Suchanek (hramrach)
+X-Launchpad-Bug-Commenters: glaubitz laurent-vivier pmaydell th-huth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20150507141247.29425.7775.malonedeb@soybean.canonical.com>
-Message-Id: <162391292721.11028.12986477358513036020.malone@soybean.canonical.com>
-Subject: [Bug 1452742] Re: the option for vdagent communication needed for qxl
- scren resizing is not documented
+References: <156262578461.2222.11301272429426949561.malonedeb@wampee.canonical.com>
+Message-Id: <162391362449.16865.7957764889319255243.malone@gac.canonical.com>
+Subject: [Bug 1835839] Re: qemu-user: $0 incorrectly always reports absolute
+ path
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="ed184eb8c3e03c8a0c3f47e69a5c546619a1af7c"; Instance="production"
-X-Launchpad-Hash: 1a294fda77e2cf0308950c312ad2b7f083494ad4
+X-Launchpad-Hash: 378bb95d60e63aa155d287a0ddb24455899f5f1c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,47 +71,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1452742 <1452742@bugs.launchpad.net>
+Reply-To: Bug 1835839 <1835839@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
-
- https://gitlab.com/qemu-project/qemu/-/issues/424
-
+Laurent's patch has been included here:
+https://gitlab.com/qemu-project/qemu/-/commit/6e1c0d7b951e19c53b8467e8bc4b7=
+1ee73a394ea
+So I assume we can mark this as fixed now.
 
 ** Changed in: qemu
-       Status: Incomplete =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #424
-   https://gitlab.com/qemu-project/qemu/-/issues/424
+       Status: Incomplete =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1452742
+https://bugs.launchpad.net/bugs/1835839
 
 Title:
-  the option for vdagent communication needed for qxl scren resizing is
-  not documented
+  qemu-user: $0 incorrectly always reports absolute path
 
 Status in QEMU:
-  Expired
+  Fix Released
 
 Bug description:
-  Hello,
+  We just ran into an issue with the Perl package on Debian/m68k when
+  being built with qemu-user [1].
 
-  I tried running a guest with vdagent which is supposed to resize the
-  guest screen to match client window size.
+  The problem can be boiled down to qemu-user always reporting absolute
+  paths for the shell variable $0 no matter on how the command was
+  invoked.
 
-  However, a special serial port needs to be created for the vdagent to
-  communicate with the client.
+  A simple reproducer is this:
 
-  This patch adds a short note to the vga qxl option.
+  On normal system (no emulation):
+
+  root@nofan:~> sh -c 'echo $0'
+  sh
+  root@nofan:~>
+
+  On qemu-user:
+
+  (sid-m68k-sbuild)root@nofan:/# sh -c 'echo $0'
+  /bin/sh
+  (sid-m68k-sbuild)root@nofan:/#
+
+  > [1] https://lists.debian.org/debian-68k/2019/07/msg00007.html
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1452742/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1835839/+subscriptions
 
