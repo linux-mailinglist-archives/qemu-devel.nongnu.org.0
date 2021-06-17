@@ -2,52 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FB93AA8F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:29:11 +0200 (CEST)
-Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B526F3AA8F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 04:25:02 +0200 (CEST)
+Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lthmI-00022W-2J
-	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:29:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1lthiH-0008Jr-68
+	for lists+qemu-devel@lfdr.de; Wed, 16 Jun 2021 22:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <swee.aun.khor@intel.com>)
- id 1lthlG-0001MK-8O
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:28:06 -0400
-Received: from mga07.intel.com ([134.134.136.100]:21534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <swee.aun.khor@intel.com>)
- id 1lthlD-0007Ro-OD
- for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:28:05 -0400
-IronPort-SDR: QUPSqHkmQVihud7DXTV+8u8YbQx3MM2cM65DT80z+LDe6H9UexoAgxAduJuz8Rn/07txwPlSn/
- dkE+aSnnZY2A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="270139496"
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="270139496"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2021 19:27:57 -0700
-IronPort-SDR: W4s6TU8pVHkj1cw7b4M+5oOnjWwMqGisCVpHJ8dXlJDC2jWwwzCqFdCFlcYZnrYi7RPd5qm4Tr
- gGYMxxpy9KjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,278,1616482800"; d="scan'208";a="637692011"
-Received: from pedgms.png.intel.com ([10.221.121.158])
- by fmsmga006.fm.intel.com with ESMTP; 16 Jun 2021 19:27:55 -0700
-From: sweeaun <swee.aun.khor@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] ui/gtk: Allow user to select monitor number to display
- qemu in full screen through new gtk display option
-Date: Thu, 17 Jun 2021 10:06:09 +0800
-Message-Id: <20210617020609.18089-1-swee.aun.khor@intel.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lthh3-00070N-HQ
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:23:45 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1lthgz-0004QI-Pw
+ for qemu-devel@nongnu.org; Wed, 16 Jun 2021 22:23:44 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ m13-20020a17090b068db02901656cc93a75so5179693pjz.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Jun 2021 19:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=+S9OJeWbbFAupOhk1HxvVGGJTAFuWFIFzJjdqgz0oFU=;
+ b=YlmyJQ2xuf2ugS8+iogEG5OcmcGOwlTd+tSiaMeqQ8IBUIQWVZs++0zxbNg7R76Ytn
+ R9li2bUGLnnCP6ibM3OGftY8aYpJfvJj/OWM+CVcHMJ9MzfsuU+XAdSrEkYLBrz/AitI
+ +9Qzy51Q9b51EFY5Bs0blPp5HOU8E+N5k/qNR1KPgDV6BRmGKyhX43OsrfXaLKqD8B1u
+ QAv+K7DZissJhmL8k2uxQj05/fBnrGDUmIlmJ5GV3pIlCX8t/3GSu34U3JGBFZgSc8hG
+ 3amj6J9orIGFQGwIFcbGw1RYo3XT+sP056JJ5lVofspu9erSSYzkp49mZ7BHmy+b5IX+
+ JH+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+S9OJeWbbFAupOhk1HxvVGGJTAFuWFIFzJjdqgz0oFU=;
+ b=nQnZCF7kVbcaFYfL/zkZV3ywMpE/PIG3DzzJ+6EJ1+P97MuAbwFxTjzCWVpHg8imU5
+ cZ7ZXELuY9Pj9PTGMVKugc3sMoRGXZeRO9RGUkGZfjVPIrUIlzRn0VKQf/gikUecwqmv
+ naYaT+2lY5TO3fQjlxT/q1UzLjlcjdUbKMzP+EQyb0Ic1Gue7gCF5cDGQd+AYInAw8gX
+ m2bm+afXA38m6YTEkmKBAVmq/m73VEjvnam4hnhXXpO3nCOau+pneylfEaLsE2f6bKJG
+ qMI1tHgaFK9BSBjeSCpkHwh8hwC6LMdnoP9NWnHEZqfBv/pEq4+qKfksIZpDrdksj2RA
+ B7aQ==
+X-Gm-Message-State: AOAM53175L1RJdO7a2Fe2uh/VRKgWp3WZZSGAN9XBIxHCzaeQvNLwKkb
+ ErzIGevoUSezqVhz8W5pEGR1Ww==
+X-Google-Smtp-Source: ABdhPJzT/aoPzHDXx1N5cLELvoobzty8eQAR8C40I8FQLf4IwPECVBFNnSsEA/oKRVxPHr3igA4sQw==
+X-Received: by 2002:a17:902:728e:b029:101:c3b7:a47f with SMTP id
+ d14-20020a170902728eb0290101c3b7a47fmr2355051pll.21.1623896617132; 
+ Wed, 16 Jun 2021 19:23:37 -0700 (PDT)
+Received: from [192.168.10.23] (219-90-184-65.ip.adam.com.au. [219.90.184.65])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 18sm6663945pje.22.2021.06.16.19.23.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Jun 2021 19:23:36 -0700 (PDT)
+Message-ID: <274ae416-3af0-65f3-c30c-0681ad9716a1@ozlabs.ru>
+Date: Thu, 17 Jun 2021 12:23:31 +1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=swee.aun.khor@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101
+ Thunderbird/89.0
+Subject: Re: [PATCH qemu v21] spapr: Implement Open Firmware client interface
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210615070612.22679-1-aik@ozlabs.ru>
+ <8987bd7c-dfe1-cb73-e388-ae26ed5a69@eik.bme.hu>
+ <1200c803-a397-78cf-2180-5b21dc0839f1@ozlabs.ru>
+ <7c7b75a1-d849-ca66-75d3-f9919366b95d@eik.bme.hu>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <7c7b75a1-d849-ca66-75d3-f9919366b95d@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=aik@ozlabs.ru; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) AC_FROM_MANY_DOTS=2.996, BAYES_00=-1.9,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.999,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, NICE_REPLY_A=-0.17,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,81 +91,449 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: swee.aun.khor@intel.com, khairul.anuar.romli@intel.com, eblake@redhat.com,
- vivek.kasireddy@intel.com, armbru@redhat.com
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- -display gtk,monitor=<value>
 
-Signed-off-by: sweeaun <swee.aun.khor@intel.com>
----
- qapi/ui.json    |  4 +++-
- qemu-options.hx |  2 +-
- ui/gtk.c        | 15 +++++++++++++++
- 3 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 1052ca9c38..1616f3ffbd 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1035,13 +1035,15 @@
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
- #               Since 3.1
-+# @monitor: Monitor number to display qemu in full screen.
- #
- # Since: 2.12
- #
- ##
- { 'struct'  : 'DisplayGTK',
-   'data'    : { '*grab-on-hover' : 'bool',
--                '*zoom-to-fit'   : 'bool'  } }
-+                '*zoom-to-fit'   : 'bool',
-+                '*monitor' : 'int' } }
- 
- ##
- # @DisplayEGLHeadless:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 14258784b3..e4b89b6a72 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1787,7 +1787,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
-     "            [,window_close=on|off][,gl=on|core|es|off]\n"
- #endif
- #if defined(CONFIG_GTK)
--    "-display gtk[,grab_on_hover=on|off][,gl=on|off]|\n"
-+    "-display gtk[,grab_on_hover=on|off][,gl=on|off][,monitor=<value>]\n"
- #endif
- #if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 98046f577b..84da126611 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2268,6 +2268,21 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
-     }
-     gd_clipboard_init(s);
-+
-+    if (opts->u.gtk.has_monitor) {
-+        int n_monitor;
-+        n_monitor = gdk_display_get_n_monitors(window_display);
-+
-+        if ((opts->u.gtk.monitor <= n_monitor) &&
-+            (opts->u.gtk.monitor > 0)) {
-+            GdkScreen *gdk_screen;
-+            gdk_screen = gdk_display_get_default_screen(window_display);
-+            gtk_window_fullscreen_on_monitor(GTK_WINDOW(s->window), gdk_screen,
-+                                             (opts->u.gtk.monitor - 1));
-+        } else {
-+            fprintf(stderr, "Invalid GTK monitor argument\n");
-+        }
-+    }
- }
- 
- static void early_gtk_display_init(DisplayOptions *opts)
+On 16/06/2021 20:34, BALATON Zoltan wrote:
+> On Wed, 16 Jun 2021, Alexey Kardashevskiy wrote:
+>> On 6/15/21 20:29, BALATON Zoltan wrote:
+>>> On Tue, 15 Jun 2021, Alexey Kardashevskiy wrote:
+>>>> The PAPR platform describes an OS environment that's presented by
+>>>> a combination of a hypervisor and firmware. The features it specifies
+>>>> require collaboration between the firmware and the hypervisor.
+>>>>
+>>>> Since the beginning, the runtime component of the firmware (RTAS) has
+>>>> been implemented as a 20 byte shim which simply forwards it to
+>>>> a hypercall implemented in qemu. The boot time firmware component is
+>>>> SLOF - but a build that's specific to qemu, and has always needed to be
+>>>> updated in sync with it. Even though we've managed to limit the amount
+>>>> of runtime communication we need between qemu and SLOF, there's some,
+>>>> and it has become increasingly awkward to handle as we've implemented
+>>>> new features.
+>>>>
+>>>> This implements a boot time OF client interface (CI) which is
+>>>> enabled by a new "x-vof" pseries machine option (stands for "Virtual 
+>>>> Open
+>>>> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+>>>> which implements Open Firmware Client Interface (OF CI). This allows
+>>>> using a smaller stateless firmware which does not have to manage
+>>>> the device tree.
+>>>>
+>>>> The new "vof.bin" firmware image is included with source code under
+>>>> pc-bios/. It also includes RTAS blob.
+>>>>
+>>>> This implements a handful of CI methods just to get -kernel/-initrd
+>>>> working. In particular, this implements the device tree fetching and
+>>>> simple memory allocator - "claim" (an OF CI memory allocator) and 
+>>>> updates
+>>>> "/memory@0/available" to report the client about available memory.
+>>>>
+>>>> This implements changing some device tree properties which we know how
+>>>> to deal with, the rest is ignored. To allow changes, this skips
+>>>> fdt_pack() when x-vof=on as not packing the blob leaves some room for
+>>>> appending.
+>>>>
+>>>> In absence of SLOF, this assigns phandles to device tree nodes to make
+>>>> device tree traversing work.
+>>>>
+>>>> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
+>>>>
+>>>> This adds basic instances support which are managed by a hash map
+>>>> ihandle -> [phandle].
+>>>>
+>>>> Before the guest started, the used memory is:
+>>>> 0..e60 - the initial firmware
+>>>> 8000..10000 - stack
+>>>> 400000.. - kernel
+>>>> 3ea0000.. - initramdisk
+>>>>
+>>>> This OF CI does not implement "interpret".
+>>>>
+>>>> Unlike SLOF, this does not format uninitialized nvram. Instead, this
+>>>> includes a disk image with pre-formatted nvram.
+>>>>
+>>>> With this basic support, this can only boot into kernel directly.
+>>>> However this is just enough for the petitboot kernel and 
+>>>> initradmdisk to
+>>>> boot from any possible source. Note this requires reasonably recent 
+>>>> guest
+>>>> kernel with:
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735 
+>>>>
+>>>> The immediate benefit is much faster booting time which especially
+>>>> crucial with fully emulated early CPU bring up environments. Also this
+>>>> may come handy when/if GRUB-in-the-userspace sees light of the day.
+>>>>
+>>>> This separates VOF and sPAPR in a hope that VOF bits may be reused by
+>>>> other POWERPC boards which do not support pSeries.
+>>>>
+>>>> This make VOF optional, it is disabled by default, add --enable-vof
+>>>> to ./configure to enable it.
+>>>>
+>>>> This assumes potential support for booting from QEMU backends
+>>>> such as blockdev or netdev without devices/drivers used.
+>>>>
+>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>>> ---
+>>>>
+>>>> The example command line is:
+>>>>
+>>>> /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
+>>>> -nodefaults \
+>>>> -chardev stdio,id=STDIO0,signal=off,mux=on \
+>>>> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
+>>>> -mon id=MON0,chardev=STDIO0,mode=readline \
+>>>> -nographic \
+>>>> -vga none \
+>>>> -enable-kvm \
+>>>> -m 8G \
+>>>> -machine 
+>>>> pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off 
+>>>> \
+>>>> -kernel pbuild/kernel-le-guest/vmlinux \
+>>>> -initrd pb/rootfs.cpio.xz \
+>>>> -drive 
+>>>> id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof-nvram.bin,format=raw 
+>>>> \
+>>>> -global spapr-nvram.drive=DRIVE0 \
+>>>> -snapshot \
+>>>> -smp 8,threads=8 \
+>>>> -L /home/aik/t/qemu-ppc64-bios/ \
+>>>> -trace events=qemu_trace_events \
+>>>> -d guest_errors \
+>>>> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
+>>>> -mon chardev=SOCKET0,mode=control
+>>>
+>>> I haven't looked at it in detail yet, just some quick comments I have 
+>>> on first skim through.
+>>>
+>>>> ---
+>>>> Changes:
+>>>> v21:
+>>>> * s/ld/ldz/ in entry.S
+>>>
+>>> Typo? Has this become lwz?
+>>
+>> Yup, lwz.
+>>
+>>>
+>>>> * moved CONFIG_VOF from default-configs/devices/ppc64-softmmu.mak to 
+>>>> Kconfig
+>>>> * made CONFIG_VOF optional
+>>>
+>>> This won't work for pegasos2, see below.
+>>>
+>>>> * s/l.lds/vof.lds/
+>>>> * force 32 BE in spapr_machine_reset() instead of the firmware
+>>>> * added checks for non-null methods of VofMachineIfClass
+>>>> * moved OF_STACK_SIZE to vof.h, renamed to VOF_..., added a better 
+>>>> comment
+>>>> * added  path_offset wrapper for handling mixed case for addresses
+>>>> after "@" in node names
+>>>> * changed getprop() to check for actual "name" property in the fdt
+>>>> * moved VOF_MEM_READ/VOF_MEM_WRITE to vof.h for sharing as (unlike 
+>>>> similar
+>>>> rtas_ld/ldl_be_*) they return error codes
+>>>> * VOF_MEM_READ uses now address_space_read (it was 
+>>>> address_space_read_full
+>>>> before, not sure why)
+>>> [...]
+>>>> ---
+>>>> configure               |    9 +
+>>>> pc-bios/vof/Makefile    |   23 +
+>>>> include/hw/ppc/spapr.h  |   25 +-
+>>>> include/hw/ppc/vof.h    |   55 ++
+>>>> pc-bios/vof/vof.h       |   43 ++
+>>>> hw/ppc/spapr.c          |   87 +++-
+>>>> hw/ppc/spapr_hcall.c    |   29 +-
+>>>> hw/ppc/spapr_vof.c      |  153 ++++++
+>>>> hw/ppc/vof.c            | 1052 +++++++++++++++++++++++++++++++++++++++
+>>>> pc-bios/vof/bootmem.c   |   14 +
+>>>> pc-bios/vof/ci.c        |   91 ++++
+>>>> pc-bios/vof/libc.c      |   92 ++++
+>>>> pc-bios/vof/main.c      |   21 +
+>>>> tests/qtest/rtas-test.c |   17 +-
+>>>> MAINTAINERS             |   12 +
+>>>> hw/ppc/Kconfig          |    3 +
+>>>> hw/ppc/meson.build      |    3 +
+>>>> hw/ppc/trace-events     |   24 +
+>>>> meson.build             |    1 +
+>>>> pc-bios/README          |    2 +
+>>>> pc-bios/vof-nvram.bin   |  Bin 0 -> 16384 bytes
+>>>> pc-bios/vof.bin         |  Bin 0 -> 3784 bytes
+>>>> pc-bios/vof/entry.S     |   49 ++
+>>>> pc-bios/vof/vof.lds     |   48 ++
+>>>> 24 files changed, 1840 insertions(+), 13 deletions(-)
+>>>> create mode 100644 pc-bios/vof/Makefile
+>>>> create mode 100644 include/hw/ppc/vof.h
+>>>> create mode 100644 pc-bios/vof/vof.h
+>>>> create mode 100644 hw/ppc/spapr_vof.c
+>>>> create mode 100644 hw/ppc/vof.c
+>>>> create mode 100644 pc-bios/vof/bootmem.c
+>>>> create mode 100644 pc-bios/vof/ci.c
+>>>> create mode 100644 pc-bios/vof/libc.c
+>>>> create mode 100644 pc-bios/vof/main.c
+>>>> create mode 100644 pc-bios/vof-nvram.bin
+>>>> create mode 100755 pc-bios/vof.bin
+>>>> create mode 100644 pc-bios/vof/entry.S
+>>>> create mode 100644 pc-bios/vof/vof.lds
+>>>>
+>>>> diff --git a/configure b/configure
+>>>> index 8dcb9965b24e..00dc29c027fa 100755
+>>>> --- a/configure
+>>>> +++ b/configure
+>>>> @@ -445,6 +445,7 @@ fuse="auto"
+>>>> fuse_lseek="auto"
+>>>> multiprocess="auto"
+>>>> slirp_smbd="$default_feature"
+>>>> +vof="no"
+>>>
+>>> Why is this disabled by default? I pretty much need VOF in pegasos2 
+>>> as there would be no other firmware otherwise. So it means I have to 
+>>> select VOF in pegasos2 config and then VOF itself cannot be optional 
+>>> any more. If you want it to be optional for spapr then you can't use 
+>>> CONFIG_VOF for that but need to add a separate CONFIG_VOF_SPAPR or 
+>>> CONFIG_SPAPR_VOF option that you can set to no by default even when 
+>>> CONFIG_VOF is yes and make VOF usage conditional on that variable 
+>>> within spapr files.
+>>>
+>>> Hope this make sense. But I don't really see why you need to do that 
+>>> when you already have this turned off by default for spapr unless the 
+>>> x-vof option is used. Isn't that enough to make this optional? If not 
+>>> then you need another spapr specific CONFIG_* variable because 
+>>> CONFIG_PEGASOS2 has to select CONFIG_VOF as it will be its default 
+>>> firmware. For the same reason you should not put it behind a config 
+>>> option especially one that needs to be explicitely enabled.
+>>
+>>
+>> Answered in the other mail.
+>>
+>>
+>>
+>>>> malloc_trim="auto"
+>>>> gio="$default_feature"
+>>>> @@ -1561,6 +1562,10 @@ for opt do
+>>>>   ;;
+>>>>   --disable-slirp-smbd) slirp_smbd=no
+>>>>   ;;
+>>>> +  --enable-vof) vof=yes
+>>>> +  ;;
+>>>> +  --disable-vof) vof=no
+>>>> +  ;;
+>>>>   *)
+>>>>       echo "ERROR: unknown option $opt"
+>>>>       echo "Try '$0 --help' for more information"
+>>>> @@ -1940,6 +1945,7 @@ disabled with --disable-FEATURE, default is 
+>>>> enabled if available
+>>>>   multiprocess    Out of process device emulation support
+>>>>   gio             libgio support
+>>>>   slirp-smbd      use smbd (at path --smbd=*) in slirp networking
+>>>> +  vof             Virtual Open Firmware support (powerpc/pseries, 
+>>>> experimental)
+>>>>
+>>>> NOTE: The object files are built at the place where configure is 
+>>>> launched
+>>>> EOF
+>>>> @@ -5555,6 +5561,9 @@ if test "$slirp_smbd" = "yes" ; then
+>>>>   echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
+>>>>   echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+>>>> fi
+>>>> +if test "$vof" = "yes" ; then
+>>>> +  echo "CONFIG_VOF=y" >> $config_host_mak
+>>>> +fi
+>>>> if test "$vde" = "yes" ; then
+>>>>   echo "CONFIG_VDE=y" >> $config_host_mak
+>>>>   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
+>>>> diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
+>>>> new file mode 100644
+>>>> index 000000000000..aa1678c4d889
+>>>> --- /dev/null
+>>>> +++ b/pc-bios/vof/Makefile
+>>>> @@ -0,0 +1,23 @@
+>>>> +all: build-all
+>>>> +
+>>>> +build-all: vof.bin
+>>>> +
+>>>> +CROSS ?=
+>>>> +CC = $(CROSS)gcc
+>>>> +LD = $(CROSS)ld
+>>>> +OBJCOPY = $(CROSS)objcopy
+>>>> +
+>>>> +%.o: %.S
+>>>> +    $(CC) -m32 -mbig-endian -mcpu=power4 -c -o $@ $<
+>>>> +
+>>>> +%.o: %.c
+>>>> +    $(CC) -m32 -mbig-endian -mcpu=power4 -c -fno-stack-protector -o 
+>>>> $@ $<
+>>>> +
+>>>> +vof.elf: entry.o main.o ci.o bootmem.o libc.o
+>>>> +    $(LD) -nostdlib -e_start -Tvof.lds -EB -o $@ $^
+>>>> +
+>>>> +%.bin: %.elf
+>>>> +    $(OBJCOPY) -O binary -j .text -j .data -j .toc -j .got2 $^ $@
+>>>> +
+>>>> +clean:
+>>>> +    rm -f *.o vof.bin vof.elf *~
+>>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>>>> index f05219f75ef6..39b5581ae650 100644
+>>>> --- a/include/hw/ppc/spapr.h
+>>>> +++ b/include/hw/ppc/spapr.h
+>>>> @@ -12,6 +12,9 @@
+>>>> #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
+>>>> #include "hw/ppc/xics.h"        /* For ICSState */
+>>>> #include "hw/ppc/spapr_tpm_proxy.h"
+>>>> +#ifdef CONFIG_VOF
+>>>> +#include "hw/ppc/vof.h"
+>>>> +#endif
+>>>>
+>>>> struct SpaprVioBus;
+>>>> struct SpaprPhbState;
+>>>> @@ -180,6 +183,9 @@ struct SpaprMachineState {
+>>>>     uint64_t kernel_addr;
+>>>>     uint32_t initrd_base;
+>>>>     long initrd_size;
+>>>> +#ifdef CONFIG_VOF
+>>>> +    Vof *vof;
+>>>> +#endif
+>>>>     uint64_t rtc_offset; /* Now used only during incoming migration */
+>>>>     struct PPCTimebase tb;
+>>>>     bool has_graphics;
+>>>> @@ -558,7 +564,9 @@ struct SpaprMachineState {
+>>>> /* Client Architecture support */
+>>>> #define KVMPPC_H_CAS            (KVMPPC_HCALL_BASE + 0x2)
+>>>> #define KVMPPC_H_UPDATE_DT      (KVMPPC_HCALL_BASE + 0x3)
+>>>> -#define KVMPPC_HCALL_MAX        KVMPPC_H_UPDATE_DT
+>>>> +/* 0x4 was used for KVMPPC_H_UPDATE_PHANDLE in SLOF */
+>>>> +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
+>>>> +#define KVMPPC_HCALL_MAX        KVMPPC_H_VOF_CLIENT
+>>>>
+>>>> /*
+>>>>  * The hcall range 0xEF00 to 0xEF80 is reserved for use in facilitating
+>>>> @@ -956,4 +964,19 @@ bool spapr_check_pagesize(SpaprMachineState 
+>>>> *spapr, hwaddr pagesize,
+>>>> void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+>>>> hwaddr spapr_get_rtas_addr(void);
+>>>> bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr);
+>>>> +
+>>>> +#ifdef CONFIG_VOF
+>>>> +void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
+>>>> +                     target_ulong *stack_ptr, Error **errp);
+>>>> +void spapr_vof_quiesce(MachineState *ms);
+>>>> +bool spapr_vof_setprop(MachineState *ms, const char *path, const 
+>>>> char *propname,
+>>>> +                       void *val, int vallen);
+>>>> +target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState 
+>>>> *spapr,
+>>>> +                                target_ulong opcode, target_ulong 
+>>>> *args);
+>>>> +target_ulong spapr_vof_client_architecture_support(MachineState *ms,
+>>>> +                                                   CPUState *cs,
+>>>> +                                                   target_ulong 
+>>>> ovec_addr);
+>>>> +void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void 
+>>>> *fdt);
+>>>> +#endif
+>>>> +
+>>>> #endif /* HW_SPAPR_H */
+>>>> diff --git a/include/hw/ppc/vof.h b/include/hw/ppc/vof.h
+>>>> new file mode 100644
+>>>> index 000000000000..65ca2fed0d41
+>>>> --- /dev/null
+>>>> +++ b/include/hw/ppc/vof.h
+>>>> @@ -0,0 +1,55 @@
+>>>> +/*
+>>>> + * Virtual Open Firmware
+>>>> + *
+>>>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>>>> + */
+>>>> +#ifndef HW_VOF_H
+>>>> +#define HW_VOF_H
+>>>> +
+>>>> +typedef struct Vof {
+>>>> +    uint64_t top_addr; /* copied from rma_size */
+>>>> +    GArray *claimed; /* array of SpaprOfClaimed */
+>>>> +    uint64_t claimed_base;
+>>>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
+>>>> +    uint32_t of_instance_last;
+>>>> +    char *bootargs;
+>>>> +    long fw_size;
+>>>> +} Vof;
+>>>> +
+>>>> +int vof_client_call(MachineState *ms, Vof *vof, void *fdt,
+>>>> +                    target_ulong args_real);
+>>>> +uint64_t vof_claim(Vof *vof, uint64_t virt, uint64_t size, uint64_t 
+>>>> align);
+>>>> +void vof_init(Vof *vof, uint64_t top_addr, Error **errp);
+>>>> +void vof_cleanup(Vof *vof);
+>>>> +void vof_build_dt(void *fdt, Vof *vof);
+>>>> +uint32_t vof_client_open_store(void *fdt, Vof *vof, const char 
+>>>> *nodename,
+>>>> +                               const char *prop, const char *path);
+>>>> +
+>>>> +#define TYPE_VOF_MACHINE_IF "vof-machine-if"
+>>>> +
+>>>> +typedef struct VofMachineIfClass VofMachineIfClass;
+>>>> +DECLARE_CLASS_CHECKERS(VofMachineIfClass, VOF_MACHINE, 
+>>>> TYPE_VOF_MACHINE_IF)
+>>>> +
+>>>> +struct VofMachineIfClass {
+>>>> +    InterfaceClass parent;
+>>>> +    target_ulong (*client_architecture_support)(MachineState *ms, 
+>>>> CPUState *cs,
+>>>> +                                                target_ulong vec);
+>>>> +    void (*quiesce)(MachineState *ms);
+>>>> +    bool (*setprop)(MachineState *ms, const char *path, const char 
+>>>> *propname,
+>>>> +                    void *val, int vallen);
+>>>> +};
+>>>> +
+>>>> +/*
+>>>> + * Initial stack size is from
+>>>> + * 
+>>>> https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html 
+>>>> + */
+>>>> +#define VOF_STACK_SIZE       0x8000
+>>>
+>>> Maybe also add a define for RTAS_SIZE here? We'll need to put that in 
+>>> the device tree but it depends on the rtas shim size that's part of 
+>>> VOF so it should be defined here instead of hardcoding it in boards 
+>>> that use VOF so it can be updated later at one place if needed.
+>>
+>> This is rtas-size for pseries:
+>>
+>> _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+>>          ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
+>>
+>> => depends on cpus => depends on the command line.
+>>
+>>
+>> RTAS_SIZE is not used by anything in pseries anymore, I'll send a 
+>> patch to ditch it.
+> 
+> I mean you need to have at least the size of code in pc-bios/vof/entry.S 
+> hv_rtas where also hv_rtas_size is defined but that value is not 
+> available in QEMU where one needs to add it to the device tree. So a 
+> define for that should be here in vof.h. Currently I've counted 
+> instructions and have
+> 
+>      qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-size", 20);
+> 
+> in pegasos2.c but that 20 should be some VOF_RTAS_SIZE instead that you 
+> define corresponding to hv_rtas_size. You'll probably need the same even 
+> after changing above rtas size calculation in spapr because client has 
+> to allocate memory for instantiate-rtas.
+
+
+Ah fair point. I do not like "20" here and I think the right thing will 
+be adding whatever number of bytes to rtas-size in the firmware itself 
+and update it in QEMU via "setprop" as we do for "linux,rtas-base". And 
+then do the same in SLOF.
+
+
 -- 
-2.24.3
-
+Alexey
 
