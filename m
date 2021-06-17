@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C913ABAD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 19:48:40 +0200 (CEST)
-Received: from localhost ([::1]:43010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614693ABAEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 19:54:39 +0200 (CEST)
+Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltw87-0005z5-Bh
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 13:48:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1ltwDu-0002vr-Fm
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 13:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltw3j-0006qp-3J
+ id 1ltw3j-0006rD-6l
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:44:07 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33308)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ltw3g-0001Mg-1V
+ id 1ltw3h-0001OY-HM
  for qemu-devel@nongnu.org; Thu, 17 Jun 2021 13:44:06 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d11so5335055wrm.0
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 10:43:59 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso5279897wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 10:44:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QQhnyJT7IqQiTtdyfsN9R/GF4TMQXLmBFDH1C75S2Y8=;
- b=OZ/74dMVEsOdFLewUxjSfBSqgE22ViKZop546vCdAhgg/ZsjTfZk4WhYuTEnbQyoMZ
- TqHzGUoGY8Hk+GAHpagGXddaFhFl0JMrSQGgiZZfwfqnkPqn8juQpLMkuJhZK+a9Zql1
- 9vS0VqAdv1qZGTZS5zuGxBFazwA+1fSolSmBj7vRrBo75bn3rqOwqECDoEGrNTsPz+eN
- rqJbyq5Esft2ZE1h1RM72od5iCSnpZVyPHoWz/O4eDzQ765k9LmhkIdWKjsMRjmktezb
- L8ERbmRxI11zO7WrNptBDIBJ3OqZIGUoMM/FzNCZpoQOA0TSpHlbXK8UM2ECgm0q90Ph
- BT4Q==
+ bh=z+tQ+79u0v5Hqcb6NxLeyIdCtff9V34lJUP0h2IdROs=;
+ b=W7aqm7R1Z2/GIxr9BhIHUWrmxcRVqb1INqfbf7Iavp6L3+WIKHUPd7B1rjn0cx+UW8
+ dAXjiV2Ueu0Hgnf4q3a7E17VnLujF1Gd+8j/nbCLO21C9oPUX8raDQUHxsWN7aJVoVSG
+ UcKiQ5+I133qHsxaQ0l2HDek9d3nUN+16vYbe85tjtmsVagKaAweVescnY/LXiC9kU47
+ rZRRgSJ1bnhs8fD1JkcO4IMF3JDA27ztL2Vsk12vVS1rmUD9FwXPML3G4ZRZt5pdRSrv
+ YhJKC1vkxW1vAnU0UYt3X/gCaxzp+H96DxDf6CQInhV+iQT5MSjEPmcZu2nfehgaeTdq
+ +mkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QQhnyJT7IqQiTtdyfsN9R/GF4TMQXLmBFDH1C75S2Y8=;
- b=jdVRQSiEAUOeRDQoqP3o1xZscKt/svrDPi0Zfsh7w2Jg0KX+uMT5gebj3si0wWg9h9
- eZ2IvA7GmsqAJpvZ7gPAoQ17CFe1WEFF14obAyjmznO+LSrxIjaJclWbVKaOAI8FoJY8
- MYB2egVGPS/SfSXYfculBOHQa48P/cyjSyKIhyumm0hQMKs8tJFwlry3mSySL7fWydhy
- N8L/yW85o4oQ3xT0z9kco9UOh196wMrLMOkz2OOqAyl5cSpzvpRTw5K5pfYz3uYYy99g
- /su5Od6AyZ8zp/F+aRKYsORla088TDHiDcFenFTmdDbJMMjBDgV/VrHPHGtH+luTLqGY
- N0OA==
-X-Gm-Message-State: AOAM532o4xzsG26guR+zzfEELG3hzsXs1aAnIqPSVCLNWAKpBba6PnGM
- LUL1XiDe/GEp9Wv+5cZkCWz/kQKCZ7Ef+A==
-X-Google-Smtp-Source: ABdhPJw0KDPjETB8KqTg2L7wX3/VrkmJgUcDiV6RRV1QCFlI7BClemxutP4dsuZMKRVnwdmyhlO+Iw==
-X-Received: by 2002:a5d:4752:: with SMTP id o18mr7152889wrs.323.1623951838775; 
- Thu, 17 Jun 2021 10:43:58 -0700 (PDT)
+ bh=z+tQ+79u0v5Hqcb6NxLeyIdCtff9V34lJUP0h2IdROs=;
+ b=aYrA6BAZxyoauQZLk/bf1Q9WrKJQC2KwJ+8vMU5s/WF22bVvOIk4Hp7z/BY89dGEIz
+ CLsvGOCjYGQ5TLIeb0DkEhU3wfISmIgDAuMs0l2E7afgBJa+E7WnBoUYXSRYB4g2d9Is
+ IUUixCPPt+/gfK85VBSvtMRCsoNjukOnNPk65OhNE1Mj74zpeEcB8Zq9atOudExdlbfg
+ Q0dak8qnsbthRC3cm0I4tHS4QTGRXT/JTg4d6gFc9vRlsCMYUCCoFnWTGoD7/vFOhxUJ
+ WEYHAtT/abJKqXWir85+npbmn+IYy2UEx2WUa+gHxZ8jEPuVz73HCsjdDDBKMVt28Hvc
+ spbw==
+X-Gm-Message-State: AOAM533LSm8cqsq9wV//YO4DQwhkWccRrX4JwcIq3ZJIfcYE9x4kN8Vk
+ RYMSyzFZ6x0wtoaSQRgRlmVL/CO0tSWn2Q==
+X-Google-Smtp-Source: ABdhPJxp9y2v3c9YVAeb1/osSH6nqfN8FCqznUXsM9loSLNi34jDVf185dZcUcwAJng0UxiQzDEqcw==
+X-Received: by 2002:a05:600c:4f90:: with SMTP id
+ n16mr6467326wmq.139.1623951843312; 
+ Thu, 17 Jun 2021 10:44:03 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id h9sm8469142wmm.33.2021.06.17.10.43.57
+ by smtp.gmail.com with ESMTPSA id c7sm6204017wrs.23.2021.06.17.10.44.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 10:43:58 -0700 (PDT)
+ Thu, 17 Jun 2021 10:44:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] target/mips: Remove microMIPS BPOSGE32 / BPOSGE64
- unuseful cases
-Date: Thu, 17 Jun 2021 19:43:21 +0200
-Message-Id: <20210617174323.2900831-8-f4bug@amsat.org>
+Subject: [PATCH 8/9] target/mips: Constify host_to_mips_errno[]
+Date: Thu, 17 Jun 2021 19:43:22 +0200
+Message-Id: <20210617174323.2900831-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210617174323.2900831-1-f4bug@amsat.org>
 References: <20210617174323.2900831-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,41 +93,26 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These switch cases for the microMIPS BPOSGE32 / BPOSGE64 opcodes have
-been added commit 3c824109da0 ("target-mips: microMIPS ASE support").
-More than 11 years later it is safe to assume there won't be added
-soon. The cases fall back to the default which generates a RESERVED
-INSTRUCTION, so it is safe to remove them.
+Keep host_to_mips_errno[] in .rodata by marking the array const.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/mips/tcg/sysemu/mips-semi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 47c7705f051..5d571d83c54 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -14077,8 +14077,6 @@ enum {
-     BGEZALS = 0x13,
-     BC2F = 0x14,
-     BC2T = 0x15,
--    BPOSGE64 = 0x1a,
--    BPOSGE32 = 0x1b,
-     /* These overlap and are distinguished by bit16 of the instruction */
-     BC1F = 0x1c,
-     BC1T = 0x1d,
-@@ -16122,10 +16120,6 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
-                 generate_exception_err(ctx, EXCP_CpU, 1);
-             }
-             break;
--        case BPOSGE64:
--        case BPOSGE32:
--            /* MIPS DSP: not implemented */
--            /* Fall through */
-         default:
-             MIPS_INVAL("pool32i");
-             gen_reserved_instruction(ctx);
+diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+index 6de60fa6dd7..77108b0b1a9 100644
+--- a/target/mips/tcg/sysemu/mips-semi.c
++++ b/target/mips/tcg/sysemu/mips-semi.c
+@@ -75,7 +75,7 @@ enum UHIOpenFlags {
+ };
+ 
+ /* Errno values taken from asm-mips/errno.h */
+-static uint16_t host_to_mips_errno[] = {
++static const uint16_t host_to_mips_errno[] = {
+     [ENAMETOOLONG] = 78,
+ #ifdef EOVERFLOW
+     [EOVERFLOW]    = 79,
 -- 
 2.31.1
 
