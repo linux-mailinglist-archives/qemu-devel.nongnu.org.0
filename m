@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD413ABDA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 22:42:15 +0200 (CEST)
-Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA573ABDA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 22:43:35 +0200 (CEST)
+Received: from localhost ([::1]:35734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltyq6-0003x2-E0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 16:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47384)
+	id 1ltyrO-0005Rz-FQ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 16:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyom-0003Ee-Ve
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35985)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyqP-0004lv-Uq
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:42:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyok-0000tk-FT
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:40:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltyqN-00025a-UN
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 16:42:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623962449;
+ s=mimecast20190719; t=1623962551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=py/TuJIvkr+EPQHm6jdymvcqD6p1C/EizhmVNLC/BZo=;
- b=gxrz3HQamPUWqpKwkmKQi+/nGUHavdPgXufGXiPnkjcVN3tAO7JeFAypVjVDlSml6C2SaF
- KYxyko53hH4I7eZu3NQcV7Mb1VCA0ezC04mtr4VCoccATCGe0MSuyL6O1VpvB6jbEG6SG5
- uOJcMVKrjFB0Qx1AJe0+hYFjJ30C92A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-WMv1Dtq9MYCrhglqBL06Aw-1; Thu, 17 Jun 2021 16:40:48 -0400
-X-MC-Unique: WMv1Dtq9MYCrhglqBL06Aw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h9-20020a05600c3509b02901b985251fdcso2674078wmq.9
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 13:40:48 -0700 (PDT)
+ bh=yd6n9QOtfu+3fv2eIocYlaLsOSw5WSqqnBztRGs5Mw4=;
+ b=MmaRN0ibQx9tf1QjkJghNAP2/kfnd/SD1y9YpUTx2pkqkehRsml0kJLxmXKtA2IQFDYFLH
+ s68BNr3uXNp7A2Ay3xwmYGZXKUos4Ru8SMMsKcuZByzQdPWdpHBaAvK97yh81Fn/kDD+V8
+ rTB+p/uR1ux8V097Syg8UOkG+pS+Rb8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-4i-U7qd2PXusyjKDtzTBQA-1; Thu, 17 Jun 2021 16:42:29 -0400
+X-MC-Unique: 4i-U7qd2PXusyjKDtzTBQA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g14-20020a05600c4eceb02901b609849650so2677912wmq.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 13:42:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=py/TuJIvkr+EPQHm6jdymvcqD6p1C/EizhmVNLC/BZo=;
- b=fjix8z6kRUoClK9SWB918BSlErTg8jLl6DErj2Er+4cbaaOhoJi6CUaWEDj+DeiR0X
- bMuCxqedtFbm2JWB1DEmxTLAB9/gvGl4LgELHKh0V4KCBjxIXGyk3qz/QKNJdcKBF4b2
- 65CKjGIVuFEWPN0NFayYA/xUrAWFUkWYnsLqt2EOMmYr78qLnPiWytKUMwLXKXKW1pVE
- OHGM2PhOE5vJxoSW59dxVKiuRXlz3etR9AHon6FaH9G8O0uPlRryW0SQf/q/bGYsdQjt
- 1Ha4RzrmQO1Dv8mbJdXBrOV/cgurWhhyp8TcE0xwjMDe/a8Yoh12zuLyFa/ss0LRCXuT
- BARw==
-X-Gm-Message-State: AOAM530KCEc3IsbMqEfQhBEHKp3qrZwoKfhmz57w4P8zEq8IkXiyYUR0
- XOawTxoQ1JlBIM2TQgryw8w8jf4qJd0Ftluqc55SC1BmHiTlzgEhJfY0sEZ0R1+mFN+zC5fqK7u
- BI+tO287j9aZ3xwo=
-X-Received: by 2002:adf:fac6:: with SMTP id a6mr8245988wrs.251.1623962446403; 
- Thu, 17 Jun 2021 13:40:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxPSCZMj8YBYPWFvzmg1gjWHokGDBu9hZSO8Zoh7zO5Qa6A+Di7koLoNau5L9ybmYpDDLSQIw==
-X-Received: by 2002:adf:fac6:: with SMTP id a6mr8245974wrs.251.1623962446214; 
- Thu, 17 Jun 2021 13:40:46 -0700 (PDT)
+ bh=yd6n9QOtfu+3fv2eIocYlaLsOSw5WSqqnBztRGs5Mw4=;
+ b=hqmqO2r43KfE9lOZaDleWienNLfuerA0cWZ4gBoEnUnChFDvKIIQQ8nQwOc1M9ZvUV
+ avEkKcmdsNOt35MMzJI+yHgexRKthz7xboBJ7WuGZAwwW4NkfXU7jfjcTFr8cUYnY24S
+ SC5oWfG8C+Os9iUPScN76FsDCdhAkNXpWm8pwy3j7rvbTiJGwShzz2tHduZyHs5CzdEV
+ zU0+cjMRVdC9fDOQY6SOYYVBlieov05A3ctHOXp2LRcqcZiU7DjUasKQ2NjvSEb0ZCHF
+ xtx/GwjQeYkxMpD7jcVBKYHhv8vTtmSSMPfNu798LdbsTizkDoheD1OjffzJX9QNxblF
+ qQzQ==
+X-Gm-Message-State: AOAM533hY6EqWX5NC9xWDUmHNFXbfXFmPnIXDTwxUraV+Url2/StxhUo
+ xPzZkd2npFKb3YnakKgd5JREyrEL+VEcoN2GZpqLgacPu3LYl3EZdmZKBX3Vs4z/GHTjSj4c/dd
+ blzq46MavUpad6MU=
+X-Received: by 2002:a5d:4408:: with SMTP id z8mr8240525wrq.336.1623962548503; 
+ Thu, 17 Jun 2021 13:42:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhv/fMOkZ+DQK+slh2qtoWjvKU1m+rR+BfDAbVJrSfdPfQ/Qqpfxfxw/QW13IrV54pABvH1g==
+X-Received: by 2002:a5d:4408:: with SMTP id z8mr8240505wrq.336.1623962548322; 
+ Thu, 17 Jun 2021 13:42:28 -0700 (PDT)
 Received: from redhat.com ([77.126.22.11])
- by smtp.gmail.com with ESMTPSA id y7sm2315427wma.22.2021.06.17.13.40.42
+ by smtp.gmail.com with ESMTPSA id o7sm6557018wro.76.2021.06.17.13.42.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 13:40:44 -0700 (PDT)
-Date: Thu, 17 Jun 2021 16:40:40 -0400
+ Thu, 17 Jun 2021 13:42:27 -0700 (PDT)
+Date: Thu, 17 Jun 2021 16:42:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 20/23] hw/acpi: Do not restrict ACPI core routines to
- x86 architecture
-Message-ID: <20210617164026-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v2 00/23] target/i386/sev: Housekeeping (OVMF +
+ SEV-disabled binaries)
+Message-ID: <20210617164114-mutt-send-email-mst@kernel.org>
 References: <20210616204328.2611406-1-philmd@redhat.com>
- <20210616204328.2611406-21-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210616204328.2611406-21-philmd@redhat.com>
+In-Reply-To: <20210616204328.2611406-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,40 +107,95 @@ Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 16, 2021 at 10:43:25PM +0200, Philippe Mathieu-Daudé wrote:
-> ACPI core routines (in core.c) are not really x86-specific.
+On Wed, Jun 16, 2021 at 10:43:05PM +0200, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  hw/acpi/meson.build | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> While testing James & Dov patch:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg810571.html
+> I wasted some time trying to figure out how OVMF was supposed to
+> behave until realizing the binary I was using was built without SEV
+> support... Then wrote this series to help other developers to not
+> hit the same problem.
 > 
-> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
-> index dd69577212a..c23c67f4283 100644
-> --- a/hw/acpi/meson.build
-> +++ b/hw/acpi/meson.build
-> @@ -3,6 +3,7 @@
->    'acpi_interface.c',
->    'aml-build.c',
->    'bios-linker-loader.c',
-> +  'core.c',
->    'utils.c',
->  ))
->  acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
-> @@ -14,7 +15,7 @@
->  acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
->  acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
->  acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
-> -acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
-> +acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
+> Some SEV patches I was following have been queued on Eduardo's
+> 'x86-next' tree, so I used his tree as base, and included David and
+> Connor patches to reduce merge conflicts.
+> 
+> Patches 1-16 are SEV related,
+> patches 17-23 are OVMF related.
+> 
+> Special comment for Laszlo: Please don't review this version,
+> wait for the respin (hoping the SEV cleanup patch get accepted,
+> the respin will be focused on OVMF).
+> 
+> Based-on: https://gitlab.com/ehabkost/qemu/-/commits/x86-next/
+> Supersedes: <20210610064556.1421620-1-philmd@redhat.com>
 
 
-So is acpi-stub.c still useful then?
+acpi things
 
->  acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
->  acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
->  acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+do you want to split acpi things out so I can merge?
+
+> Connor Kuehl (1):
+>   MAINTAINERS: Add Connor Kuehl as reviewer for AMD SEV
+> 
+> Dr. David Alan Gilbert (1):
+>   target/i386/sev: sev_get_attestation_report use g_autofree
+> 
+> Philippe Mathieu-Daudé (21):
+>   qapi/misc-target: Wrap long 'SEV Attestation Report' long lines
+>   qapi/misc-target: Group SEV QAPI definitions
+>   target/i386/monitor: Return QMP error when SEV is disabled in build
+>   target/i386/cpu: Add missing 'qapi/error.h' header
+>   target/i386/sev_i386.h: Remove unused headers
+>   target/i386/sev: Remove sev_get_me_mask()
+>   target/i386/sev: Mark unreachable code with g_assert_not_reached()
+>   target/i386/sev: Restrict SEV to system emulation
+>   target/i386/sev: Move qmp_query_sev_attestation_report() to sev.c
+>   target/i386/sev: Move qmp_sev_inject_launch_secret() to sev.c
+>   target/i386/sev: Move qmp_query_sev_capabilities() to sev.c
+>   target/i386/sev: Move qmp_query_sev_launch_measure() to sev.c
+>   target/i386/sev: Move qmp_query_sev() & hmp_info_sev() to sev.c
+>   monitor: Restrict 'info sev' to x86 targets
+>   hw/i386/acpi-common: Remove unused includes
+>   hw/i386: Rename acpi-build.c -> acpi-pc.c
+>   hw/i386: Move pc_madt_cpu_entry() to acpi-pc.c
+>   hw/acpi: Do not restrict ACPI core routines to x86 architecture
+>   hw/i386: Introduce X86_FW_OVMF Kconfig symbol
+>   hw/acpi/Kconfig: Add missing Kconfig dependencies (build error)
+>   hw/i386/Kconfig: Add missing Kconfig dependency (runtime error)
+> 
+>  qapi/misc-target.json               |  78 ++++++++--------
+>  include/hw/i386/pc.h                |   1 +
+>  include/monitor/hmp-target.h        |   1 +
+>  include/monitor/hmp.h               |   1 -
+>  target/i386/sev_i386.h              |  11 ---
+>  hw/i386/acpi-common.c               |  45 ----------
+>  hw/i386/{acpi-build.c => acpi-pc.c} |  39 ++++++++
+>  hw/i386/pc_sysfw.c                  | 107 ----------------------
+>  hw/i386/pc_sysfw_ovmf-stubs.c       |  26 ++++++
+>  hw/i386/pc_sysfw_ovmf.c             | 135 ++++++++++++++++++++++++++++
+>  target/i386/cpu.c                   |   1 +
+>  target/i386/monitor.c               |  91 -------------------
+>  target/i386/sev-stub.c              |  49 +---------
+>  target/i386/sev-sysemu-stub.c       |  69 ++++++++++++++
+>  target/i386/sev.c                   | 130 +++++++++++++++++++++------
+>  MAINTAINERS                         |   8 ++
+>  hw/acpi/Kconfig                     |   4 +
+>  hw/acpi/meson.build                 |   3 +-
+>  hw/i386/Kconfig                     |   5 ++
+>  hw/i386/meson.build                 |   4 +-
+>  target/i386/meson.build             |   4 +-
+>  21 files changed, 443 insertions(+), 369 deletions(-)
+>  rename hw/i386/{acpi-build.c => acpi-pc.c} (98%)
+>  create mode 100644 hw/i386/pc_sysfw_ovmf-stubs.c
+>  create mode 100644 hw/i386/pc_sysfw_ovmf.c
+>  create mode 100644 target/i386/sev-sysemu-stub.c
+> 
 > -- 
 > 2.31.1
+> 
 
 
