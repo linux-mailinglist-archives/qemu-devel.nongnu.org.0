@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829323ABDC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 23:03:56 +0200 (CEST)
-Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8579B3ABDC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Jun 2021 23:04:34 +0200 (CEST)
+Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ltzB5-0004YO-1X
-	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 17:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53098)
+	id 1ltzBh-0006Dh-L9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Jun 2021 17:04:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltz9n-0003sy-MU
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:02:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53369)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltzAK-0004iU-B3
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:03:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltz9j-0006d9-RV
- for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:02:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ltzAI-0006zw-7h
+ for qemu-devel@nongnu.org; Thu, 17 Jun 2021 17:03:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1623963749;
+ s=mimecast20190719; t=1623963785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=H/xLw6O9kzSkaE5sOdspKlNPwbv+Oe3sAk7LHZtmuQQ=;
- b=BzmikO68XILeyKIMLotCidKjYmA3tg0QJLGwLsuxlJ7jJSa02HmglBBoazsaM2HTLL/yh2
- ay8rdwOT86WUlS8JG7MW4Y/vrs/pmwNmT1HNwF3Hc9ZFgkVFKRl12+tn50YJKAS4j1p75U
- b2f9RJ/eDqplhvUxHlvvsrcavqKZ1as=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-UhNwKA9MNSGCX-9hIPHZSw-1; Thu, 17 Jun 2021 17:02:28 -0400
-X-MC-Unique: UhNwKA9MNSGCX-9hIPHZSw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d5-20020a0560001865b0290119bba6e1c7so3434038wri.20
- for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 14:02:28 -0700 (PDT)
+ bh=agYyY3tXKVXMUmz+0Xcim1r8TzucgAc5WWuTolY0GS4=;
+ b=W24ETMdZ/Y4CPXrAlPAMZEO+8rXoBQ3Tzcf2Z/IFQ484IhWx6Uv5zKMrPGWEgy+TbjmXM9
+ nxktO6T2iChaDzioXMEbMuCbRd+FawPF3TjL5xYBAl5iXnPapLzKW2XjWTf9z6tU+pvUy5
+ /6U/4yR1mpcPfG/T/6y65Yj6Y2EejXU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-3xIxAXF-OL65O883-GyA8g-1; Thu, 17 Jun 2021 17:03:04 -0400
+X-MC-Unique: 3xIxAXF-OL65O883-GyA8g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v20-20020a05600c2154b029019a6368bfe4so2731620wml.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Jun 2021 14:03:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=H/xLw6O9kzSkaE5sOdspKlNPwbv+Oe3sAk7LHZtmuQQ=;
- b=qXnbQnkzYKgBwPylAvL2s0XTL60ch33fulwCJWfwW97DMa8slPPD6LJMXWIQdGKl2Z
- lFo07giQeYWuvqMp1BfaXnjWjS5EDFaY484a+rJ1x7orFJBDtOyAtFzhgRd+oOh8QUWw
- 21Q/ULnoDrt7fqov27ZFAH9HYAxFb1J2C1pO+HAF1K9yCHXLzi7y8P/rB4Ya/p1lCreN
- j7Q66TvLi6mZe+gZvHLJ2g1RETZDfsdTJ0RDIjcCREiTPR7eBKkL8t96v2sbSegV7VEP
- 4+2time8z+d8DF8CE/oZZMRdGkoDE7TnqgBAqtdHQlb5+cU7FAFh338mJPV+gRK3+jgv
- yveQ==
-X-Gm-Message-State: AOAM533hbTbrAWjgmbjozR+SCL6TEoRtS3VXEqRJrODEeZDaL6bkS3O4
- LEqCWb/6DR78OyOjTWk+q1YlSTb5Sb+ER2CJCKAoKrIOoWkL6InjVCLzbSGx9hAzLIn9ZHQZlut
- +srmY8hgaGtPrqPk=
-X-Received: by 2002:a5d:528d:: with SMTP id c13mr8244833wrv.343.1623963746616; 
- Thu, 17 Jun 2021 14:02:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKeUbWBD6ndxzm3/NHMs+TR7Y8+qTqv/nXbw4k1ixEnf4y2vB6mPXfEHW7bqHLbrFOkPcRqg==
-X-Received: by 2002:a5d:528d:: with SMTP id c13mr8244815wrv.343.1623963746365; 
- Thu, 17 Jun 2021 14:02:26 -0700 (PDT)
+ bh=agYyY3tXKVXMUmz+0Xcim1r8TzucgAc5WWuTolY0GS4=;
+ b=FkWYZVVgw9546fVC7AwjKk5mGVJnn30S1nBkZ/LVfV71H6ZrgLRs3Xy8cpmbNPIiuL
+ 5z2p8b33iWa4C6NygZG1sJ0i7B04Rwcfa+WNE6+byvYUdwNxMk7iTBJcKRP18s0zDMFS
+ I+Um4FysxnBQ6WMisxiqxj+fTrThqj04EurA6UFIVcn5XTdWY6ffP7Y7q4S/cJYTiaHm
+ 15BMzL9aRnJGrbQmyvVifcAUOu/sThUUP96MovGw/3ti6lMrtuK+LBW6sseC5Kdife6P
+ n0/I3PteppdfUFV18WVSUKeTVewi9FvKi0RPMjiQ4btM08UcugbJ+8n3fFdssPZcii26
+ tAqQ==
+X-Gm-Message-State: AOAM533rukpoyx8+a9+YEtD8Ic2S1FEC1SEJdBJCfn1h2A61LGIy7cwE
+ aueC1lYmbN+QXK305Bo7zx7Tt0UfXP389FHHOZzit9msPHDcs6ahv4J3pBuk8AizyL9rCbqpp0N
+ au0z3ILeeYNTD0p0=
+X-Received: by 2002:a1c:1d05:: with SMTP id d5mr7508043wmd.132.1623963783120; 
+ Thu, 17 Jun 2021 14:03:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2Txgt/NZ+EywzxigcgLGttDVQFwwdH96Spm7huFlf2nMa3M7t/Dcd4yNFGwexCBdM91NcPA==
+X-Received: by 2002:a1c:1d05:: with SMTP id d5mr7508030wmd.132.1623963782936; 
+ Thu, 17 Jun 2021 14:03:02 -0700 (PDT)
 Received: from redhat.com ([77.126.22.11])
- by smtp.gmail.com with ESMTPSA id a12sm6305431wmj.36.2021.06.17.14.02.24
+ by smtp.gmail.com with ESMTPSA id w8sm6094916wmi.45.2021.06.17.14.03.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 14:02:25 -0700 (PDT)
-Date: Thu, 17 Jun 2021 17:02:22 -0400
+ Thu, 17 Jun 2021 14:03:02 -0700 (PDT)
+Date: Thu, 17 Jun 2021 17:02:58 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v5 4/7] hw/pci/pcie: Do not set HPC flag if acpihp is used
-Message-ID: <20210617170207-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v5 0/7] Use ACPI PCI hot-plug for Q35
+Message-ID: <20210617165654-mutt-send-email-mst@kernel.org>
 References: <20210617190739.3673064-1-jusual@redhat.com>
- <20210617190739.3673064-5-jusual@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210617190739.3673064-5-jusual@redhat.com>
+In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,150 +96,103 @@ Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 17, 2021 at 09:07:36PM +0200, Julia Suvorova wrote:
-> Instead of changing the hot-plug type in _OSC register, do not
-> set the 'Hot-Plug Capable' flag. This way guest will choose ACPI
-> hot-plug if it is preferred and leave the option to use SHPC with
-> pcie-pci-bridge.
+On Thu, Jun 17, 2021 at 09:07:32PM +0200, Julia Suvorova wrote:
+> The patch set consists of two parts:
+> patches 1-4: introduce new feature
+>              'acpi-pci-hotplug-with-bridge-support' on Q35
+> patches 5-7: make the feature default along with changes in ACPI tables
 > 
-> The ability to control hot-plug for each downstream port is retained,
-> while 'hotplug=off' on the port means all hot-plug types are disabled.
+> With the feature disabled Q35 falls back to the native hot-plug.
 > 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Pros
+>     * no racy behavior during boot (see 110c477c2ed)
+>     * eject is possible - according to PCIe spec, attention button
+>       press should lead to power off, and then the adapter should be
+>       removed manually. As there is no power down state exists in QEMU,
+>       we cannot distinguish between an eject and a power down
+>       request.
+>     * no delay during deleting - after the actual power off software
+>       must wait at least 1 second before indicating about it. This case
+>       is quite important for users, it even has its own bug:
+>           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+>     * no timer-based behavior - in addition to the previous example,
+>       the attention button has a 5-second waiting period, during which
+>       the operation can be canceled with a second press. While this
+>       looks fine for manual button control, automation will result in
+>       the need to queue or drop events, and the software receiving
+>       events in all sort of unspecified combinations of attention/power
+>       indicator states, which is racy and uppredictable.
+>     * fixes or reduces the likelihood of the bugs:
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1833187
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1657077
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1669931
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=1678290
+> 
+> Cons:
+>     * no access to possible features presented in slot capabilities
+>       (this is only surprise removal AFAIK)
 
-Marcel want to review this?
 
-> ---
->  include/hw/pci/pcie_port.h |  5 ++++-
->  hw/acpi/pcihp.c            |  8 ++++++++
->  hw/core/machine.c          |  1 -
->  hw/i386/pc_q35.c           | 11 +++++++++++
->  hw/pci/pcie.c              |  8 +++++++-
->  hw/pci/pcie_port.c         |  1 +
->  6 files changed, 31 insertions(+), 3 deletions(-)
+This all looks quite nice to me.
+Let's give people a bit of time for review, then I'll merge.
+
+> v5:
+>     * make sugar property on TYPE_PCIE_SLOT
+>       instead of old TYPE_MACHINE property [Igor]
+>     * minor style changes
+> v4:
+>     * regain per-port control over hot-plug
+>     * rebased over acpi-index changes
+>     * set property on machine type to
+>       make pci code more generic [Igor, Michael]
 > 
-> diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-> index bea8ecad0f..e25b289ce8 100644
-> --- a/include/hw/pci/pcie_port.h
-> +++ b/include/hw/pci/pcie_port.h
-> @@ -57,8 +57,11 @@ struct PCIESlot {
->      /* Disable ACS (really for a pcie_root_port) */
->      bool        disable_acs;
->  
-> -    /* Indicates whether hot-plug is enabled on the slot */
-> +    /* Indicates whether any type of hot-plug is allowed on the slot */
->      bool        hotplug;
-> +
-> +    bool        native_hotplug;
-> +
->      QLIST_ENTRY(PCIESlot) next;
->  };
->  
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index 5355618608..7a6bc1b31e 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -31,6 +31,7 @@
->  #include "hw/pci/pci.h"
->  #include "hw/pci/pci_bridge.h"
->  #include "hw/pci/pci_host.h"
-> +#include "hw/pci/pcie_port.h"
->  #include "hw/i386/acpi-build.h"
->  #include "hw/acpi/acpi.h"
->  #include "hw/pci/pci_bus.h"
-> @@ -332,6 +333,13 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
->              object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
->              PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
->  
-> +            /* Remove all hot-plug handlers if hot-plug is disabled on slot */
-> +            if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT) &&
-> +                !PCIE_SLOT(pdev)->hotplug) {
-> +                qbus_set_hotplug_handler(BUS(sec), NULL);
-> +                return;
-> +            }
-> +
->              qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
->              /* We don't have to overwrite any other hotplug handler yet */
->              assert(QLIST_EMPTY(&sec->child));
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 55b9bc7817..6ed0575d81 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -582,7 +582,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
->      ms->ram_memdev_id = g_strdup(value);
->  }
->  
-> -
->  static void machine_init_notify(Notifier *notifier, void *data)
->  {
->      MachineState *machine = MACHINE(qdev_get_machine());
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 46a0f196f4..a0ec7964cc 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -37,6 +37,7 @@
->  #include "sysemu/kvm.h"
->  #include "hw/kvm/clock.h"
->  #include "hw/pci-host/q35.h"
-> +#include "hw/pci/pcie_port.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/i386/x86.h"
->  #include "hw/i386/pc.h"
-> @@ -136,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
->      ram_addr_t lowmem;
->      DriveInfo *hd[MAX_SATA_PORTS];
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
-> +    bool acpi_pcihp;
->  
->      /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
->       * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-> @@ -236,6 +238,15 @@ static void pc_q35_init(MachineState *machine)
->      object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
->                               OBJECT(lpc), &error_abort);
->  
-> +    acpi_pcihp = object_property_get_bool(OBJECT(lpc),
-> +                                          "acpi-pci-hotplug-with-bridge-support",
-> +                                          NULL);
-> +
-> +    if (acpi_pcihp) {
-> +        object_register_sugar_prop(TYPE_PCIE_SLOT, "enable-native-hotplug",
-> +                                  "false", true);
-> +    }
-> +
->      /* irq lines */
->      gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
->  
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index fd0fa157e8..6e95d82903 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -529,7 +529,13 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
->                                 PCI_EXP_SLTCAP_PIP |
->                                 PCI_EXP_SLTCAP_AIP |
->                                 PCI_EXP_SLTCAP_ABP);
-> -    if (s->hotplug) {
-> +
-> +    /*
-> +     * Enable native hot-plug on all hot-plugged bridges unless
-> +     * hot-plug is disabled on the slot.
-> +     */
-> +    if (s->hotplug &&
-> +        (s->native_hotplug || DEVICE(dev)->hotplugged)) {
->          pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
->                                     PCI_EXP_SLTCAP_HPS |
->                                     PCI_EXP_SLTCAP_HPC);
-> diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-> index eb563ad435..a410111825 100644
-> --- a/hw/pci/pcie_port.c
-> +++ b/hw/pci/pcie_port.c
-> @@ -148,6 +148,7 @@ static Property pcie_slot_props[] = {
->      DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
->      DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
->      DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
-> +    DEFINE_PROP_BOOL("enable-native-hotplug", PCIESlot, native_hotplug, true),
->      DEFINE_PROP_END_OF_LIST()
->  };
->  
+> v3:
+>     * drop change of _OSC to allow SHPC on hotplugged bridges
+>     * use 'acpi-root-pci-hotplug'
+>     * add migration states [Igor]
+>     * minor style changes
+> 
+> v2:
+>     * new ioport range for acpiphp [Gerd]
+>     * drop find_pci_host() [Igor]
+>     * explain magic numbers in _OSC [Igor]
+>     * drop build_q35_pci_hotplug() wrapper [Igor]
+> 
+> Julia Suvorova (7):
+>   hw/acpi/pcihp: Enhance acpi_pcihp_disable_root_bus() to support Q35
+>   hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
+>   hw/acpi/ich9: Enable ACPI PCI hot-plug
+>   hw/pci/pcie: Do not set HPC flag if acpihp is used
+>   bios-tables-test: Allow changes in DSDT ACPI tables
+>   hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
+>   bios-tables-test: Update golden binaries
+> 
+>  hw/i386/acpi-build.h              |   5 +++
+>  include/hw/acpi/ich9.h            |   5 +++
+>  include/hw/acpi/pcihp.h           |   3 +-
+>  include/hw/pci/pcie_port.h        |   5 ++-
+>  hw/acpi/ich9.c                    |  67 ++++++++++++++++++++++++++++++
+>  hw/acpi/pcihp.c                   |  22 +++++++---
+>  hw/acpi/piix4.c                   |   4 +-
+>  hw/core/machine.c                 |   1 -
+>  hw/i386/acpi-build.c              |  32 ++++++++------
+>  hw/i386/pc.c                      |   1 +
+>  hw/i386/pc_q35.c                  |  11 +++++
+>  hw/pci/pcie.c                     |   8 +++-
+>  hw/pci/pcie_port.c                |   1 +
+>  tests/data/acpi/q35/DSDT          | Bin 7859 -> 8289 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat | Bin 9184 -> 9614 bytes
+>  tests/data/acpi/q35/DSDT.bridge   | Bin 7877 -> 11003 bytes
+>  tests/data/acpi/q35/DSDT.cphp     | Bin 8323 -> 8753 bytes
+>  tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9513 -> 9943 bytes
+>  tests/data/acpi/q35/DSDT.ipmibt   | Bin 7934 -> 8364 bytes
+>  tests/data/acpi/q35/DSDT.memhp    | Bin 9218 -> 9648 bytes
+>  tests/data/acpi/q35/DSDT.mmio64   | Bin 8990 -> 9419 bytes
+>  tests/data/acpi/q35/DSDT.nohpet   | Bin 7717 -> 8147 bytes
+>  tests/data/acpi/q35/DSDT.numamem  | Bin 7865 -> 8295 bytes
+>  tests/data/acpi/q35/DSDT.tis      | Bin 8465 -> 8894 bytes
+>  24 files changed, 143 insertions(+), 22 deletions(-)
+> 
 > -- 
 > 2.30.2
 
